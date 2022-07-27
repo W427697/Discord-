@@ -1,13 +1,13 @@
 import { action } from '@storybook/addon-actions';
-import { Meta, StoryFn } from '@storybook/angular';
-import { Button } from '../../angular-demo';
+import { Meta, Story } from '@storybook/angular';
+import { Button } from '@storybook/angular/demo';
 
 export default {
   component: Button,
   title: 'Addons/Actions',
 } as Meta;
 
-export const ComponentOutputWithEventEmitter: StoryFn = () => ({
+export const ComponentOutputWithEventEmitter: Story = () => ({
   props: {
     text: 'Button 🥁',
     onClick: action('On click'),
@@ -15,7 +15,7 @@ export const ComponentOutputWithEventEmitter: StoryFn = () => ({
 });
 ComponentOutputWithEventEmitter.storyName = 'Component Output with EventEmitter';
 
-export const UseActionInMethod: StoryFn = () => ({
+export const UseActionInMethod: Story = () => ({
   props: {
     text: 'Button 🥁',
     onClick: (e) => {
@@ -27,7 +27,7 @@ export const UseActionInMethod: StoryFn = () => ({
 });
 UseActionInMethod.storyName = 'Use action in method';
 
-export const StoryTemplate: StoryFn = () => ({
+export const StoryTemplate: Story = () => ({
   template: `<button (click)="onClick($event)" (mouseover)="onOver()">Button</button>`,
   props: {
     onClick: action('On click'),
@@ -36,7 +36,7 @@ export const StoryTemplate: StoryFn = () => ({
 });
 StoryTemplate.storyName = 'Story with template';
 
-export const ComponentOutputWithArgsTypes: StoryFn = (args) => ({
+export const ComponentOutputWithArgsTypes: Story = (args) => ({
   props: {
     text: 'Button 🥁',
     ...args,

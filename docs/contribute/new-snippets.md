@@ -47,6 +47,7 @@ Browse the documentation and look for the code snippets you're willing to contri
     'vue/your-component.2.js.mdx',
     'vue/your-component.3.js.mdx',
     'svelte/your-component.js.mdx',
+    'svelte/your-component.native-format.mdx',
     'web-components/your-component.js.mdx',
   ]}
 />
@@ -69,6 +70,7 @@ Create the file `ember/your-component.js.mdx`, similar to the other frameworks, 
     'vue/your-component.2.js.mdx',
     'vue/your-component.3.js.mdx',
     'svelte/your-component.js.mdx',
+    'svelte/your-component.native-format.mdx',
     'web-components/your-component.js.mdx',
     'ember/your-component.js.mdx', //👈🏼 The code snippet you created.
   ]}

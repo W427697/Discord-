@@ -7,14 +7,19 @@ import { YourComponent } from './YourComponent';
 
 <Meta title="YourComponent" component={YourComponent} />
 
+export const Template = (args) => ({
+  //👇 Your template goes here
+});
+
 <Story 
   name="Array Include"
   parameters={{ 
     controls: { 
       include: ['foo', 'bar'] 
     } 
-  }}
-  render={() => ({ // Your implementation here })} />
+  }}>
+  {Template.bind({})}
+</Story>
 
 <Story 
   name="Regex Include"
@@ -22,8 +27,9 @@ import { YourComponent } from './YourComponent';
     controls: { include: 
       /^hello*/ 
     } 
-  }}
-  render={() => ({ // Your implementation here })} />
+  }}>
+  {Template.bind({})}
+</Story>
 
 <Story 
   name="Array Exclude"
@@ -31,8 +37,9 @@ import { YourComponent } from './YourComponent';
     controls: { 
       exclude: ['foo', 'bar'] 
     } 
-  }}
-  render={() => ({ // Your implementation here })} />
+  }}>
+  {Template.bind({})}
+</Story>
 
 <Story 
   name="Regex Exclude"
@@ -40,6 +47,7 @@ import { YourComponent } from './YourComponent';
     controls: { 
       exclude: /^hello*/ 
     } 
-  }}
-  render={() => ({ // Your implementation here })} />
+  }}>
+  {Template.bind({})}
+</Story>
 ```

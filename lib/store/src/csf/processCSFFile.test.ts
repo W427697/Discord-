@@ -1,5 +1,3 @@
-import { expect } from '@jest/globals';
-
 import { processCSFFile } from './processCSFFile';
 
 describe('processCSFFile', () => {

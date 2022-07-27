@@ -2,16 +2,18 @@ import { UpdateNotifier, Package } from 'update-notifier';
 import chalk from 'chalk';
 import prompts from 'prompts';
 import { telemetry } from '@storybook/telemetry';
-import { installableProjectTypes, ProjectType } from './project_types';
+import { installableProjectTypes, ProjectType, Builder } from './project_types';
 import { detect, isStorybookInstalled, detectLanguage, detectBuilder } from './detect';
 import { commandLog, codeLog, paddedLog } from './helpers';
 import angularGenerator from './generators/ANGULAR';
 import aureliaGenerator from './generators/AURELIA';
 import emberGenerator from './generators/EMBER';
+import meteorGenerator from './generators/METEOR';
 import reactGenerator from './generators/REACT';
 import reactNativeGenerator from './generators/REACT_NATIVE';
 import reactScriptsGenerator from './generators/REACT_SCRIPTS';
 import sfcVueGenerator from './generators/SFC_VUE';
+import updateOrganisationsGenerator from './generators/UPDATE_PACKAGE_ORGANIZATIONS';
 import vueGenerator from './generators/VUE';
 import vue3Generator from './generators/VUE3';
 import webpackReactGenerator from './generators/WEBPACK_REACT';
@@ -28,9 +30,22 @@ import serverGenerator from './generators/SERVER';
 import { JsPackageManagerFactory, JsPackageManager } from './js-package-manager';
 import { NpmOptions } from './NpmOptions';
 import { automigrate } from './automigrate';
-import { CommandOptions } from './generators/types';
 
 const logger = console;
+
+type CommandOptions = {
+  useNpm?: boolean;
+  type?: any;
+  force?: any;
+  html?: boolean;
+  skipInstall?: boolean;
+  parser?: string;
+  yes?: boolean;
+  builder?: Builder;
+  linkable?: boolean;
+  commonJs?: boolean;
+  disableTelemetry?: boolean;
+};
 
 const installStorybook = (
   projectType: ProjectType,
@@ -49,10 +64,9 @@ const installStorybook = (
     builder: options.builder || detectBuilder(packageManager),
     linkable: !!options.linkable,
     commonJs: options.commonJs,
-    pnp: options.usePnp,
   };
 
-  const runGenerator: () => Promise<void> = async () => {
+  const runGenerator: () => Promise<void> = () => {
     switch (projectType) {
       case ProjectType.ALREADY_HAS_STORYBOOK:
         logger.log();
@@ -63,6 +77,11 @@ const installStorybook = (
         // Add a new line for the clear visibility.
         logger.log();
         return Promise.resolve();
+
+      case ProjectType.UPDATE_PACKAGE_ORGANIZATIONS:
+        return updateOrganisationsGenerator(packageManager, options.parser, npmOptions)
+          .then(() => null) // commandLog doesn't like to see output
+          .then(commandLog('Upgrading your project to the new Storybook packages.\n'));
 
       case ProjectType.REACT_SCRIPTS:
         return reactScriptsGenerator(packageManager, npmOptions, generatorOptions).then(
@@ -91,6 +110,11 @@ const installStorybook = (
           .then(({ server }) => reactNativeGenerator(packageManager, npmOptions, server))
           .then(commandLog('Adding Storybook support to your "React Native" app\n'));
       }
+
+      case ProjectType.METEOR:
+        return meteorGenerator(packageManager, npmOptions, generatorOptions).then(
+          commandLog('Adding Storybook support to your "Meteor" app\n')
+        );
 
       case ProjectType.WEBPACK_REACT:
         return webpackReactGenerator(packageManager, npmOptions, generatorOptions).then(
@@ -291,7 +315,7 @@ export async function initiate(options: CommandOptions, pkg: Package): Promise<v
   }
   done();
 
-  await installStorybook(projectType as ProjectType, packageManager, {
+  await installStorybook(projectType, packageManager, {
     ...options,
     ...(isEsm ? { commonJs: true } : undefined),
   });

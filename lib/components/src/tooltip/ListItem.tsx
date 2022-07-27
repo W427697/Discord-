@@ -1,10 +1,9 @@
-import React, { FC, ReactNode, ComponentProps } from 'react';
+import React, { FunctionComponent, ReactNode, ComponentProps } from 'react';
 import { styled } from '@storybook/theming';
 import memoize from 'memoizerific';
 import { transparentize } from 'polished';
 
 export interface TitleProps {
-  children?: ReactNode;
   active?: boolean;
   loading?: boolean;
   disabled?: boolean;
@@ -183,7 +182,7 @@ const getItemProps = memoize(100)((onClick, href, LinkWrapper) => {
   return result;
 });
 
-export type LinkWrapperType = FC<any>;
+export type LinkWrapperType = FunctionComponent<any>;
 
 export interface ListItemProps extends Omit<ComponentProps<typeof Item>, 'href' | 'title'> {
   loading?: boolean;
@@ -197,7 +196,7 @@ export interface ListItemProps extends Omit<ComponentProps<typeof Item>, 'href' 
   LinkWrapper?: LinkWrapperType;
 }
 
-const ListItem: FC<ListItemProps> = ({
+const ListItem: FunctionComponent<ListItemProps> = ({
   loading,
   left,
   title,

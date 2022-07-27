@@ -2,12 +2,8 @@ import React from 'react';
 import global from 'global';
 import { RenderContext } from '@storybook/store';
 import addons, { mockChannel as createMockChannel } from '@storybook/addons';
-import { DocsRenderer } from '@storybook/addon-docs';
-import { mocked } from 'ts-jest/utils';
-import { expect } from '@jest/globals';
 
 import { PreviewWeb } from './PreviewWeb';
-import { WebView } from './WebView';
 import {
   componentOneExports,
   importFn,
@@ -23,7 +19,7 @@ import {
 //   - ie. from`renderToDOM()` (stories) or`ReactDOM.render()` (docs) in.
 // This file lets them rip.
 
-jest.mock('@storybook/channel-postmessage', () => ({ createChannel: () => mockChannel }));
+jest.mock('@storybook/channel-postmessage', () => () => mockChannel);
 
 jest.mock('./WebView');
 
@@ -55,13 +51,9 @@ beforeEach(() => {
   projectAnnotations.renderToDOM.mockReset();
   projectAnnotations.render.mockClear();
   projectAnnotations.decorators[0].mockClear();
-  projectAnnotations.parameters.docs.renderer = () => new DocsRenderer() as any;
 
   addons.setChannel(mockChannel as any);
   addons.setServerChannel(createMockChannel());
-
-  mocked(WebView.prototype).prepareForDocs.mockReturnValue('docs-element' as any);
-  mocked(WebView.prototype).prepareForStory.mockReturnValue('story-element' as any);
 });
 
 describe('PreviewWeb', () => {
@@ -80,7 +72,7 @@ describe('PreviewWeb', () => {
     });
 
     it('renders docs mode through docs page', async () => {
-      document.location.search = '?id=component-one--docs&viewMode=docs';
+      document.location.search = '?id=component-one--a&viewMode=docs';
       const preview = new PreviewWeb();
 
       const docsRoot = window.document.createElement('div');

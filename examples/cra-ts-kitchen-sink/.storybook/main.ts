@@ -1,44 +1,38 @@
-import type { StorybookConfig } from '@storybook/react-webpack5';
+import type { Configuration } from 'webpack';
 
 const path = require('path');
 
-const mainConfig: StorybookConfig = {
+module.exports = {
   stories: ['../src/components', '../src/stories'],
   logLevel: 'debug',
   addons: [
     '@storybook/preset-create-react-app',
+    '@storybook/addon-ie11',
     '@storybook/addon-docs',
     '@storybook/addon-actions',
     '@storybook/addon-links',
     '@storybook/addon-a11y',
-    '@storybook/addon-highlight',
     './localAddon/manager.tsx',
     './localAddon/preset.ts',
   ],
-  // add monorepo root as a valid directory to import modules from
-  webpackFinal: (config) => {
-    const resolvePlugins = config.resolve?.plugins;
-    if (Array.isArray(resolvePlugins)) {
-      resolvePlugins.forEach((p) => {
+  webpackFinal: (config: Configuration) => {
+    // add monorepo root as a valid directory to import modules from
+    config.resolve.plugins.forEach((p) => {
+      // @ts-ignore
+      if (Array.isArray(p.appSrcs)) {
         // @ts-ignore
-        const appSrcs = p.appSrcs as unknown as string[];
-        if (Array.isArray(appSrcs)) {
-          appSrcs.push(path.join(__dirname, '..', '..', '..'));
-        }
-      });
-    }
+        p.appSrcs.push(path.join(__dirname, '..', '..', '..'));
+      }
+    });
     return config;
   },
   core: {
+    builder: 'webpack4',
     channelOptions: { allowFunction: false, maxDepth: 10 },
     disableTelemetry: true,
   },
   staticDirs: ['../public'],
   features: {
     buildStoriesJson: true,
-    breakingChangesV7: true,
   },
-  framework: '@storybook/react-webpack5',
 };
-
-module.exports = mainConfig;

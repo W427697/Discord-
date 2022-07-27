@@ -1,10 +1,10 @@
 import global from 'global';
 import { logger } from '@storybook/client-logger';
 import AnsiToHtml from 'ansi-to-html';
-import { dedent } from 'ts-dedent';
+import dedent from 'ts-dedent';
 import qs from 'qs';
 
-import type { Story } from '@storybook/store';
+import { Story } from '@storybook/store';
 
 const { document } = global;
 
@@ -41,7 +41,7 @@ export class WebView {
 
   testing = false;
 
-  preparingTimeout?: ReturnType<typeof setTimeout>;
+  preparingTimeout: ReturnType<typeof setTimeout> = null;
 
   constructor() {
     // Special code for testing situations

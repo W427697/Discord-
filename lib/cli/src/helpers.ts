@@ -6,7 +6,7 @@ import chalk from 'chalk';
 import { satisfies } from '@storybook/semver';
 import stripJsonComments from 'strip-json-comments';
 
-import { SupportedRenderers, SupportedLanguage } from './project_types';
+import { SupportedFrameworks, SupportedLanguage } from './project_types';
 import { JsPackageManager, PackageJson, PackageJsonWithDepsAndDevDeps } from './js-package-manager';
 
 const logger = console;
@@ -179,44 +179,42 @@ export function copyTemplate(templateRoot: string) {
   fse.copySync(templateDir, '.', { overwrite: true });
 }
 
-export async function copyComponents(framework: SupportedRenderers, language: SupportedLanguage) {
+export function copyComponents(framework: SupportedFrameworks, language: SupportedLanguage) {
   const languageFolderMapping: Record<SupportedLanguage, string> = {
     javascript: 'js',
     typescript: 'ts',
   };
-  const componentsPath = async () => {
+  const componentsPath = () => {
     const frameworkPath = `frameworks/${framework}`;
     const languageSpecific = path.resolve(
       __dirname,
       `${frameworkPath}/${languageFolderMapping[language]}`
     );
-    if (await fse.pathExists(languageSpecific)) {
+    if (fse.existsSync(languageSpecific)) {
       return languageSpecific;
     }
     const jsFallback = path.resolve(
       __dirname,
       `${frameworkPath}/${languageFolderMapping.javascript}`
     );
-    if (await fse.pathExists(jsFallback)) {
+    if (fse.existsSync(jsFallback)) {
       return jsFallback;
     }
     const frameworkRootPath = path.resolve(__dirname, frameworkPath);
-    if (await fse.pathExists(frameworkRootPath)) {
+    if (fse.existsSync(frameworkRootPath)) {
       return frameworkRootPath;
     }
     throw new Error(`Unsupported framework: ${framework}`);
   };
 
-  const targetPath = async () => {
-    if (await fse.pathExists('./src')) {
+  const targetPath = () => {
+    if (fse.existsSync('./src')) {
       return './src/stories';
     }
     return './stories';
   };
 
-  const destinationPath = await targetPath();
-  await fse.copy(await componentsPath(), destinationPath, { overwrite: true });
-  await fse.copy(path.resolve(__dirname, 'frameworks/common'), destinationPath, {
-    overwrite: true,
-  });
+  const destinationPath = targetPath();
+  fse.copySync(componentsPath(), destinationPath, { overwrite: true });
+  fse.copySync(path.resolve(__dirname, 'frameworks/common'), destinationPath, { overwrite: true });
 }

@@ -16,8 +16,6 @@ const levels: Record<LogLevel, number> = {
 const currentLogLevelString: LogLevel = LOGLEVEL as LogLevel;
 const currentLogLevelNumber: number = levels[currentLogLevelString] || levels.info;
 
-type LoggingFn = (message: any, ...args: any[]) => void;
-
 export const logger = {
   trace: (message: any, ...rest: any[]): void =>
     currentLogLevelNumber <= levels.trace && console.trace(message, ...rest),
@@ -52,8 +50,8 @@ once.log = once('log');
 
 export const pretty =
   (type: keyof typeof logger) =>
-  (...args: Parameters<LoggingFn>) => {
-    const argArray: Parameters<LoggingFn> = [] as any;
+  (...args: string[]) => {
+    const argArray = [];
 
     if (args.length) {
       const startTagRe = /<span\s+style=(['"])([^'"]*)\1\s*>/gi;

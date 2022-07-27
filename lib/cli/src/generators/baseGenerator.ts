@@ -1,13 +1,37 @@
 import fse from 'fs-extra';
-import { dedent } from 'ts-dedent';
+import dedent from 'ts-dedent';
+import { getStorybookBabelDependencies } from '@storybook/core-common';
 import { NpmOptions } from '../NpmOptions';
-import { SupportedRenderers, Builder, CoreBuilder } from '../project_types';
+import { SupportedLanguage, SupportedFrameworks, Builder, CoreBuilder } from '../project_types';
 import { getBabelDependencies, copyComponents } from '../helpers';
-import { configureMain, configurePreview } from './configure';
+import { configure } from './configure';
 import { getPackageDetails, JsPackageManager } from '../js-package-manager';
 import { generateStorybookBabelConfigInCWD } from '../babel-config';
-import packageVersions from '../versions';
-import { FrameworkOptions, GeneratorOptions } from './types';
+
+export type GeneratorOptions = {
+  language: SupportedLanguage;
+  builder: Builder;
+  linkable: boolean;
+};
+
+export interface FrameworkOptions {
+  extraPackages?: string[];
+  extraAddons?: string[];
+  staticDir?: string;
+  addScripts?: boolean;
+  addComponents?: boolean;
+  addBabel?: boolean;
+  addESLint?: boolean;
+  extraMain?: any;
+  extensions?: string[];
+  commonJs?: boolean;
+}
+
+export type Generator = (
+  packageManager: JsPackageManager,
+  npmOptions: NpmOptions,
+  options: GeneratorOptions
+) => Promise<void>;
 
 const defaultOptions: FrameworkOptions = {
   extraPackages: [],
@@ -18,96 +42,37 @@ const defaultOptions: FrameworkOptions = {
   addBabel: true,
   addESLint: false,
   extraMain: undefined,
-  framework: undefined,
   extensions: undefined,
   commonJs: false,
 };
 
-const getBuilderDetails = (builder: string) => {
-  const map = packageVersions as Record<string, string>;
-
-  if (map[builder]) {
-    return builder;
+const builderDependencies = (builder: Builder) => {
+  switch (builder) {
+    case CoreBuilder.Webpack4:
+      return ['@storybook/builder-webpack4', '@storybook/manager-webpack4'];
+    case CoreBuilder.Webpack5:
+      return ['@storybook/builder-webpack5', '@storybook/manager-webpack5'];
+    case CoreBuilder.Vite:
+      return ['@storybook/builder-vite'];
+    default:
+      return [builder];
   }
-
-  const builderPackage = `@storybook/${builder}`;
-  if (map[builderPackage]) {
-    return builderPackage;
-  }
-
-  return builder;
-};
-
-const wrapForPnp = (packageName: string) =>
-  `%%path.dirname(require.resolve(path.join('${packageName}', 'package.json')))%%`;
-
-const getFrameworkDetails = (
-  renderer: SupportedRenderers,
-  builder: Builder,
-  pnp: boolean
-): {
-  type: 'framework' | 'renderer';
-  packages: string[];
-  builder?: string;
-  framework?: string;
-  renderer?: string;
-} => {
-  const frameworkPackage = `@storybook/${renderer}-${builder}`;
-  const frameworkPackagePath = pnp ? wrapForPnp(frameworkPackage) : frameworkPackage;
-
-  const rendererPackage = `@storybook/${renderer}`;
-  const rendererPackagePath = pnp ? wrapForPnp(rendererPackage) : rendererPackage;
-
-  const builderPackage = getBuilderDetails(builder);
-  const builderPackagePath = pnp ? wrapForPnp(builderPackage) : builderPackage;
-
-  const isKnownFramework = !!(packageVersions as Record<string, string>)[frameworkPackage];
-  const isKnownRenderer = !!(packageVersions as Record<string, string>)[rendererPackage];
-
-  if (renderer === 'angular') {
-    return {
-      packages: [rendererPackage],
-      framework: rendererPackagePath,
-      type: 'framework',
-    };
-  }
-
-  if (isKnownFramework) {
-    return {
-      packages: [frameworkPackage],
-      framework: frameworkPackagePath,
-      type: 'framework',
-    };
-  }
-
-  if (isKnownRenderer) {
-    return {
-      packages: [rendererPackage, builderPackage],
-      builder: builderPackagePath,
-      renderer: rendererPackagePath,
-      type: 'renderer',
-    };
-  }
-
-  throw new Error(
-    `Could not find the framework (${frameworkPackage}) or renderer (${rendererPackage}) package`
-  );
 };
 
 const stripVersions = (addons: string[]) => addons.map((addon) => getPackageDetails(addon)[0]);
 
-const hasInteractiveStories = (framework: SupportedRenderers) =>
+const hasInteractiveStories = (framework: SupportedFrameworks) =>
   ['react', 'angular', 'preact', 'svelte', 'vue', 'vue3', 'html'].includes(framework);
 
 export async function baseGenerator(
   packageManager: JsPackageManager,
   npmOptions: NpmOptions,
-  { language, builder = CoreBuilder.Webpack5, pnp, commonJs }: GeneratorOptions,
-  renderer: SupportedRenderers,
+  { language, builder }: GeneratorOptions,
+  framework: SupportedFrameworks,
   options: FrameworkOptions = defaultOptions
 ) {
   const {
-    extraAddons: extraAddonPackages,
+    extraAddons,
     extraPackages,
     staticDir,
     addScripts,
@@ -122,91 +87,78 @@ export async function baseGenerator(
   };
 
   // added to main.js
-  const addons = [
-    '@storybook/addon-links',
-    '@storybook/addon-essentials',
-    ...stripVersions(extraAddonPackages),
-  ];
+  // make sure to update `canUsePrebuiltManager` in dev-server.js and build-manager-config/main.js when this list changes
+  const addons = ['@storybook/addon-links', '@storybook/addon-essentials'];
   // added to package.json
-  const addonPackages = [
-    '@storybook/addon-links',
-    '@storybook/addon-essentials',
-    ...extraAddonPackages,
-  ];
+  const addonPackages = [...addons, '@storybook/addon-actions'];
 
-  if (hasInteractiveStories(renderer)) {
+  if (hasInteractiveStories(framework)) {
     addons.push('@storybook/addon-interactions');
     addonPackages.push('@storybook/addon-interactions', '@storybook/testing-library');
   }
 
-  const yarn2ExtraPackages =
+  const yarn2Dependencies =
     packageManager.type === 'yarn2' ? ['@storybook/addon-docs', '@mdx-js/react@1.x.x'] : [];
 
   const files = await fse.readdir(process.cwd());
+  const isNewFolder = !files.some(
+    (fname) => fname.startsWith('.babel') || fname.startsWith('babel') || fname === 'package.json'
+  );
 
   const packageJson = packageManager.retrievePackageJson();
-  const installedDependencies = new Set(
-    Object.keys({ ...packageJson.dependencies, ...packageJson.devDependencies })
-  );
-  const {
-    packages: frameworkPackages,
-    type,
-    // @ts-ignore
-    renderer: rendererInclude, // deepscan-disable-line UNUSED_DECL
-    framework: frameworkInclude,
-    builder: builderInclude,
-  } = getFrameworkDetails(renderer, builder, pnp);
-
-  // TODO: We need to start supporting this at some point
-  if (type === 'renderer') {
-    throw new Error(
-      dedent`
-        Sorry, for now, you can not do this, please use a framework such as @storybook/react-webpack5
-
-        https://github.com/storybookjs/storybook/issues/18360
-      `
-    );
-  }
+  const installedDependencies = new Set(Object.keys(packageJson.dependencies));
+  const frameworkPackage = `@storybook/${framework}`;
 
   const packages = [
-    'storybook',
-    ...frameworkPackages,
+    frameworkPackage,
     ...addonPackages,
     ...extraPackages,
-    ...yarn2ExtraPackages,
+    ...extraAddons,
+    ...yarn2Dependencies,
+    ...builderDependencies(builder),
   ]
     .filter(Boolean)
     .filter(
       (packageToInstall) => !installedDependencies.has(getPackageDetails(packageToInstall)[0])
     );
 
-  const versionedPackages = await packageManager.getVersionedPackages(packages);
+  const versionedPackages = await packageManager.getVersionedPackages(...packages);
 
-  await fse.ensureDir('./.storybook');
-
-  await configureMain({
-    framework: { name: frameworkInclude, options: options.framework || {} },
-    addons: pnp ? addons.map(wrapForPnp) : addons,
-    extensions,
-    commonJs,
-    ...extraMain,
-    ...(type !== 'framework'
+  const coreBuilders = [CoreBuilder.Webpack4, CoreBuilder.Webpack5, CoreBuilder.Vite] as string[];
+  const expandedBuilder = coreBuilders.includes(builder)
+    ? `@storybook/builder-${builder}`
+    : builder;
+  const mainOptions =
+    builder !== CoreBuilder.Webpack4
       ? {
           core: {
-            builder: builderInclude,
+            builder: expandedBuilder,
           },
+          ...extraMain,
         }
-      : {}),
+      : extraMain;
+
+  // Default vite builder to storyStoreV7
+  if (expandedBuilder === '@storybook/builder-vite') {
+    mainOptions.features = {
+      ...mainOptions.features,
+      storyStoreV7: true,
+    };
+  }
+
+  configure(framework, {
+    framework: frameworkPackage,
+    addons: [...addons, ...stripVersions(extraAddons)],
+    extensions,
+    commonJs: options.commonJs,
+    ...mainOptions,
   });
-
-  await configurePreview(renderer, options.commonJs);
-
   if (addComponents) {
-    copyComponents(renderer, language);
+    copyComponents(framework, language);
   }
 
   // FIXME: temporary workaround for https://github.com/storybookjs/storybook/issues/17516
-  if (frameworkPackages.includes('@storybook/builder-vite')) {
+  if (expandedBuilder === '@storybook/builder-vite') {
     const previewHead = dedent`
       <script>
         window.global = window;
@@ -216,10 +168,8 @@ export async function baseGenerator(
   }
 
   const babelDependencies = addBabel ? await getBabelDependencies(packageManager, packageJson) : [];
-  const isNewFolder = !files.some(
-    (fname) => fname.startsWith('.babel') || fname.startsWith('babel') || fname === 'package.json'
-  );
   if (isNewFolder) {
+    babelDependencies.push(...getStorybookBabelDependencies());
     await generateStorybookBabelConfigInCWD();
   }
   packageManager.addDependencies({ ...npmOptions, packageJson }, [

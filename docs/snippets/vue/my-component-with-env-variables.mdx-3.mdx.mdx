@@ -7,24 +7,21 @@ import MyComponent from './MyComponent.vue';
 
 <Meta title="MyComponent" component={MyComponent}/>
 
-<!--
- 👇 Render functions are a framework specific feature to allow you control on how the component renders.
-  See https://storybook.js.org/docs/7.0/vue/api/csf
-  to learn how to use render functions.
--->
+export const Template = (args) => ({
+  components: { MyComponent },
+  setup() {
+    return { args };
+  },
+  template: '<MyComponent v-bind="args" />',
+});
 
 <Canvas>
   <Story
     name="ExampleStory"
     args={{
       propertyA: process.env.STORYBOOK_DATA_KEY,
-    }}
-    render={(args) => ({
-      components: { MyComponent },
-      setup() {
-        return { args };
-      },
-      template: '<MyComponent v-bind="args" />',
-    })} />
+    }}>
+    {Template.bind({})}
+  </Story>
 </Canvas>
 ```

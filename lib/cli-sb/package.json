@@ -1,6 +1,6 @@
 {
   "name": "sb",
-  "version": "7.0.0-alpha.13",
+  "version": "6.5.0-rc.1",
   "description": "Storybook CLI",
   "keywords": [
     "storybook"
@@ -21,17 +21,13 @@
   "license": "MIT",
   "bin": "./index.js",
   "scripts": {
-    "check": "tsc --noEmit",
     "prepare": "node ../../scripts/prepare.js"
   },
   "dependencies": {
-    "@storybook/cli": "7.0.0-alpha.13"
-  },
-  "devDependencies": {
-    "typescript": "~4.6.3"
+    "@storybook/cli": "6.5.0-rc.1"
   },
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "9ac4d2e0a05eb945713a0e6689abc3b12359e181"
+  "gitHead": "3f09d4e6b0c655a092dc812488ef2c7ed3808401"
 }

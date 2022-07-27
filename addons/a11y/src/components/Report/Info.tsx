@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FunctionComponent } from 'react';
 
 import { styled } from '@storybook/theming';
 import { Result } from 'axe-core';
@@ -21,7 +21,7 @@ interface InfoProps {
   item: Result;
 }
 
-export const Info: FC<InfoProps> = ({ item }) => {
+export const Info: FunctionComponent<InfoProps> = ({ item }) => {
   return (
     <Wrapper>
       <Description>{item.description}</Description>

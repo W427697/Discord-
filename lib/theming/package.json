@@ -1,6 +1,6 @@
 {
   "name": "@storybook/theming",
-  "version": "7.0.0-alpha.13",
+  "version": "6.5.0-rc.1",
   "description": "Core Storybook Components",
   "keywords": [
     "storybook"
@@ -20,17 +20,16 @@
   },
   "license": "MIT",
   "sideEffects": false,
-  "exports": {
-    ".": {
-      "require": "./dist/index.js",
-      "import": "./dist/index.mjs",
-      "types": "./dist/index.d.ts"
-    },
-    "./package.json": "./package.json"
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/ts3.9/index.d.ts",
+  "typesVersions": {
+    "<3.8": {
+      "dist/ts3.9/*": [
+        "dist/ts3.4/*"
+      ]
+    }
   },
-  "main": "dist/index.js",
-  "module": "dist/index.mjs",
-  "types": "dist/index.d.ts",
   "files": [
     "dist/**/*",
     "README.md",
@@ -38,16 +37,14 @@
     "*.d.ts"
   ],
   "scripts": {
-    "check": "tsc --noEmit",
-    "prepare": "esrun ../../scripts/prepare/bundle.ts"
+    "prepare": "ts-node ../../scripts/prebundle.ts"
   },
   "dependencies": {
-    "@storybook/client-logger": "7.0.0-alpha.13",
+    "@storybook/client-logger": "6.5.0-rc.1",
     "core-js": "^3.8.2",
-    "memoizerific": "^1.11.3"
+    "regenerator-runtime": "^0.13.7"
   },
   "devDependencies": {
-    "@digitak/esrun": "^3.2.2",
     "@emotion/cache": "^11.7.1",
     "@emotion/is-prop-valid": "^1.1.2",
     "@emotion/react": "^11.8.1",
@@ -55,10 +52,10 @@
     "@types/node": "^14.14.20 || ^16.0.0",
     "deep-object-diff": "^1.1.0",
     "global": "^4.4.0",
+    "memoizerific": "^1.11.3",
     "polished": "^4.2.2",
     "ts-dedent": "^2.0.0",
-    "ts-node": "^10.4.0",
-    "typescript": "~4.6.3"
+    "ts-node": "^10.4.0"
   },
   "peerDependencies": {
     "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
@@ -67,10 +64,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "bundler": {
-    "entries": [
-      "./src/index.ts"
-    ]
-  },
-  "gitHead": "9ac4d2e0a05eb945713a0e6689abc3b12359e181"
+  "bundlerEntrypoint": "./src/index.ts",
+  "gitHead": "3f09d4e6b0c655a092dc812488ef2c7ed3808401",
+  "sbmodern": "dist/modern/index.js"
 }

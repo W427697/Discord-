@@ -46,6 +46,7 @@ export const Default = () => (
         showTabs: true,
       }}
       panelCount={0}
+      docsOnly={false}
     />
   </ManagerProvider>
 );
@@ -73,6 +74,7 @@ export const LoadingState = () => (
         showTabs: true,
       }}
       panelCount={0}
+      docsOnly={false}
     />
   </ManagerProvider>
 );

@@ -3,9 +3,12 @@
 exports[`Storyshots Addons / Backgrounds Overridden 1`] = `
 <storybook-wrapper>
   <storybook-button-component
+    _nghost-a-c47=""
     ng-reflect-text="This one should have different"
   >
-    <button>
+    <button
+      _ngcontent-a-c47=""
+    >
       This one should have different backgrounds
     </button>
   </storybook-button-component>
@@ -15,9 +18,12 @@ exports[`Storyshots Addons / Backgrounds Overridden 1`] = `
 exports[`Storyshots Addons / Backgrounds With Component 1`] = `
 <storybook-wrapper>
   <storybook-button-component
+    _nghost-a-c47=""
     ng-reflect-text="Button"
   >
-    <button>
+    <button
+      _ngcontent-a-c47=""
+    >
       Button
     </button>
   </storybook-button-component>
@@ -27,9 +33,12 @@ exports[`Storyshots Addons / Backgrounds With Component 1`] = `
 exports[`Storyshots Addons / Backgrounds With Template 1`] = `
 <storybook-wrapper>
   <storybook-button-component
+    _nghost-a-c47=""
     ng-reflect-text="Button"
   >
-    <button>
+    <button
+      _ngcontent-a-c47=""
+    >
       Button
     </button>
   </storybook-button-component>

@@ -1,8 +1,10 @@
-import React, { FC } from 'react';
+import React, { FunctionComponent } from 'react';
 
-export const StorybookLogo: FC<{
+export interface StorybookLogoProps {
   alt: string;
-}> = ({ alt, ...props }) => (
+}
+
+export const StorybookLogo: FunctionComponent<StorybookLogoProps> = ({ alt, ...props }) => (
   <svg width="200px" height="40px" viewBox="0 0 200 40" {...props} role="img">
     {alt ? <title>{alt}</title> : null}
     <defs>

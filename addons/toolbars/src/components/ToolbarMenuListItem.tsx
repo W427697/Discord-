@@ -30,7 +30,7 @@ export const ToolbarMenuListItem = ({
   const hasContent = left || right || title;
 
   const Item: ListItem = {
-    id: value || currentValue,
+    id: value,
     active: currentValue === value,
     onClick,
   };

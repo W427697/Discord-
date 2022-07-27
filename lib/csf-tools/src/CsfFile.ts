@@ -1,6 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 import fs from 'fs-extra';
-import { dedent } from 'ts-dedent';
+import dedent from 'ts-dedent';
 import * as t from '@babel/types';
 import generate from '@babel/generator';
 import traverse from '@babel/traverse';
@@ -160,12 +160,9 @@ export class CsfFile {
 
   _namedExportsOrder?: string[];
 
-  imports: string[];
-
   constructor(ast: t.File, { fileName, makeTitle }: CsfOptions) {
     this._ast = ast;
     this._fileName = fileName;
-    this.imports = [];
     this._makeTitle = makeTitle;
   }
 
@@ -271,10 +268,6 @@ export class CsfFile {
                         __isArgsStory = isArgsStory(p.value as t.Expression, parent, self);
                       } else if (p.key.name === 'name' && t.isStringLiteral(p.value)) {
                         name = p.value.value;
-                      } else if (p.key.name === 'storyName' && t.isStringLiteral(p.value)) {
-                        logger.warn(
-                          `Unexpected usage of "storyName" in "${exportName}". Please use "name" instead.`
-                        );
                       }
                       self._storyAnnotations[exportName][p.key.name] = p.value;
                     }
@@ -300,30 +293,8 @@ export class CsfFile {
             node.specifiers.forEach((specifier) => {
               if (t.isExportSpecifier(specifier) && t.isIdentifier(specifier.exported)) {
                 const { name: exportName } = specifier.exported;
-                if (exportName === 'default') {
-                  let metaNode: t.ObjectExpression;
-                  const decl = t.isProgram(parent)
-                    ? findVarInitialization(specifier.local.name, parent)
-                    : specifier.local;
-
-                  if (t.isObjectExpression(decl)) {
-                    // export default { ... };
-                    metaNode = decl;
-                  } else if (
-                    // export default { ... } as Meta<...>
-                    t.isTSAsExpression(decl) &&
-                    t.isObjectExpression(decl.expression)
-                  ) {
-                    metaNode = decl.expression;
-                  }
-
-                  if (!self._meta && metaNode && t.isProgram(parent)) {
-                    self._parseMeta(metaNode, parent);
-                  }
-                } else {
-                  self._storyAnnotations[exportName] = {};
-                  self._stories[exportName] = { id: 'FIXME', name: exportName, parameters: {} };
-                }
+                self._storyAnnotations[exportName] = {};
+                self._stories[exportName] = { id: 'FIXME', name: exportName, parameters: {} };
               }
             });
           }
@@ -377,16 +348,6 @@ export class CsfFile {
 
               More info: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#story-store-v7
             `);
-          }
-        },
-      },
-      ImportDeclaration: {
-        enter({ node }) {
-          const { source } = node;
-          if (t.isStringLiteral(source)) {
-            self.imports.push(source.value);
-          } else {
-            throw new Error('CSF: unexpected import source');
           }
         },
       },

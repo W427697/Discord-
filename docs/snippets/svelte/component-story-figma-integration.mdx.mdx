@@ -13,11 +13,10 @@ import MyComponent from './MyComponent.svelte';
   decorators={[withDesign]}
 />
 
-<!--
- 👇 Render functions are a framework specific feature to allow you control on how the component renders.
-  See https://storybook.js.org/docs/7.0/svelte/api/csf
-  to learn how to use render functions.
--->
+export const Template = () => ({
+  props: {},
+  Component: MyComponent,
+});
 
 <Canvas>
   <Story
@@ -28,9 +27,8 @@ import MyComponent from './MyComponent.svelte';
         url: 'https://www.figma.com/file/Sample-File',
       },
     }}
-    render={() => ({
-      Component: MyComponent,
-      props: {}
-    })} />
+  >
+  {Template.bind({})}
+  </Story>
 </Canvas>
 ```

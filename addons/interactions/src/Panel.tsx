@@ -1,23 +1,42 @@
 import global from 'global';
 import * as React from 'react';
+import ReactDOM from 'react-dom';
 import { useChannel, useParameter, StoryId } from '@storybook/api';
-import {
-  FORCE_REMOUNT,
-  IGNORED_EXCEPTION,
-  STORY_RENDER_PHASE_CHANGED,
-  STORY_THREW_EXCEPTION,
-  PLAY_FUNCTION_THREW_EXCEPTION,
-} from '@storybook/core-events';
+import { STORY_RENDER_PHASE_CHANGED, FORCE_REMOUNT } from '@storybook/core-events';
+import { AddonPanel, Link, Placeholder } from '@storybook/components';
 import { EVENTS, Call, CallStates, ControlStates, LogItem } from '@storybook/instrumenter';
+import { styled } from '@storybook/theming';
 
-import { InteractionsPanel } from './components/InteractionsPanel';
-import { TabIcon, TabStatus } from './components/TabStatus';
+import { StatusIcon } from './components/StatusIcon/StatusIcon';
+import { Subnav } from './components/Subnav/Subnav';
+import { Interaction } from './components/Interaction/Interaction';
 
-interface Interaction extends Call {
-  status: Call['status'];
-  childCallIds: Call['id'][];
-  isCollapsed: boolean;
-  toggleCollapsed: () => void;
+export interface Controls {
+  start: (args: any) => void;
+  back: (args: any) => void;
+  goto: (args: any) => void;
+  next: (args: any) => void;
+  end: (args: any) => void;
+  rerun: (args: any) => void;
+}
+
+interface AddonPanelProps {
+  active: boolean;
+}
+
+interface InteractionsPanelProps {
+  active: boolean;
+  controls: Controls;
+  controlStates: ControlStates;
+  interactions: (Call & { status?: CallStates })[];
+  fileName?: string;
+  hasException?: boolean;
+  isPlaying?: boolean;
+  calls: Map<string, any>;
+  endRef?: React.Ref<HTMLDivElement>;
+  onScrollToEnd?: () => void;
+  isRerunAnimating: boolean;
+  setIsRerunAnimating: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const INITIAL_CONTROL_STATES = {
@@ -29,64 +48,84 @@ const INITIAL_CONTROL_STATES = {
   end: false,
 };
 
-export const getInteractions = ({
-  log,
-  calls,
-  collapsed,
-  setCollapsed,
-}: {
-  log: LogItem[];
-  calls: Map<Call['id'], Call>;
-  collapsed: Set<Call['id']>;
-  setCollapsed: React.Dispatch<React.SetStateAction<Set<string>>>;
-}) => {
-  const callsById = new Map<Call['id'], Call>();
-  const childCallMap = new Map<Call['id'], Call['id'][]>();
-  return log
-    .filter(({ callId, parentId }) => {
-      if (!parentId) return true;
-      childCallMap.set(parentId, (childCallMap.get(parentId) || []).concat(callId));
-      return !collapsed.has(parentId);
-    })
-    .map(({ callId, status }) => ({ ...calls.get(callId), status } as Call))
-    .map<Interaction>((call) => {
-      const status =
-        call.status === CallStates.ERROR &&
-        callsById.get(call.parentId)?.status === CallStates.ACTIVE
-          ? CallStates.ACTIVE
-          : call.status;
-      callsById.set(call.id, { ...call, status });
-      return {
-        ...call,
-        status,
-        childCallIds: childCallMap.get(call.id),
-        isCollapsed: collapsed.has(call.id),
-        toggleCollapsed: () =>
-          setCollapsed((ids) => {
-            if (ids.has(call.id)) ids.delete(call.id);
-            else ids.add(call.id);
-            return new Set(ids);
-          }),
-      };
-    });
+const TabIcon = styled(StatusIcon)({
+  marginLeft: 5,
+});
+
+const TabStatus = ({ children }: { children: React.ReactChild }) => {
+  const container = global.document.getElementById('tabbutton-interactions');
+  return container && ReactDOM.createPortal(children, container);
 };
 
-export const Panel: React.FC<{ active: boolean }> = (props) => {
+export const AddonPanelPure: React.FC<InteractionsPanelProps> = React.memo(
+  ({
+    calls,
+    controls,
+    controlStates,
+    interactions,
+    fileName,
+    hasException,
+    isPlaying,
+    onScrollToEnd,
+    endRef,
+    isRerunAnimating,
+    setIsRerunAnimating,
+    ...panelProps
+  }) => (
+    <AddonPanel {...panelProps}>
+      {controlStates.debugger && interactions.length > 0 && (
+        <Subnav
+          controls={controls}
+          controlStates={controlStates}
+          status={
+            // eslint-disable-next-line no-nested-ternary
+            isPlaying ? CallStates.ACTIVE : hasException ? CallStates.ERROR : CallStates.DONE
+          }
+          storyFileName={fileName}
+          onScrollToEnd={onScrollToEnd}
+          isRerunAnimating={isRerunAnimating}
+          setIsRerunAnimating={setIsRerunAnimating}
+        />
+      )}
+      {interactions.map((call) => (
+        <Interaction
+          key={call.id}
+          call={call}
+          callsById={calls}
+          controls={controls}
+          controlStates={controlStates}
+        />
+      ))}
+      <div ref={endRef} />
+      {!isPlaying && interactions.length === 0 && (
+        <Placeholder>
+          No interactions found
+          <Link
+            href="https://github.com/storybookjs/storybook/blob/next/addons/interactions/README.md"
+            target="_blank"
+            withArrow
+          >
+            Learn how to add interactions to your story
+          </Link>
+        </Placeholder>
+      )}
+    </AddonPanel>
+  )
+);
+
+export const Panel: React.FC<AddonPanelProps> = (props) => {
   const [storyId, setStoryId] = React.useState<StoryId>();
   const [controlStates, setControlStates] = React.useState<ControlStates>(INITIAL_CONTROL_STATES);
-  const [pausedAt, setPausedAt] = React.useState<Call['id']>();
-  const [isErrored, setErrored] = React.useState(false);
   const [isPlaying, setPlaying] = React.useState(false);
   const [isRerunAnimating, setIsRerunAnimating] = React.useState(false);
   const [scrollTarget, setScrollTarget] = React.useState<HTMLElement>();
-  const [collapsed, setCollapsed] = React.useState<Set<Call['id']>>(new Set());
-  const [caughtException, setCaughtException] = React.useState<Error>();
-  const [interactions, setInteractions] = React.useState<Interaction[]>([]);
-  const [interactionsCount, setInteractionsCount] = React.useState<number>();
 
   // Calls are tracked in a ref so we don't needlessly rerender.
   const calls = React.useRef<Map<Call['id'], Omit<Call, 'status'>>>(new Map());
   const setCall = ({ status, ...call }: Call) => calls.current.set(call.id, call);
+
+  const [log, setLog] = React.useState<LogItem[]>([]);
+  const interactions = log.map(({ callId, status }) => ({ ...calls.current.get(callId), status }));
 
   const endRef = React.useRef();
   React.useEffect(() => {
@@ -106,36 +145,15 @@ export const Panel: React.FC<{ active: boolean }> = (props) => {
       [EVENTS.CALL]: setCall,
       [EVENTS.SYNC]: (payload) => {
         setControlStates(payload.controlStates);
-        setPausedAt(payload.pausedAt);
-        setInteractions(
-          getInteractions({ log: payload.logItems, calls: calls.current, collapsed, setCollapsed })
-        );
+        setLog(payload.logItems);
       },
       [STORY_RENDER_PHASE_CHANGED]: (event) => {
         setStoryId(event.storyId);
         setPlaying(event.newPhase === 'playing');
-        setPausedAt(undefined);
-        if (event.newPhase === 'rendering') {
-          setErrored(false);
-          setCaughtException(undefined);
-        }
-      },
-      [STORY_THREW_EXCEPTION]: () => {
-        setErrored(true);
-      },
-      [PLAY_FUNCTION_THREW_EXCEPTION]: (e) => {
-        console.log('PLAY_FUNCTION_THREW_EXCEPTION');
-        if (e?.message !== IGNORED_EXCEPTION.message) setCaughtException(e);
-        else setCaughtException(undefined);
       },
     },
-    [collapsed]
+    []
   );
-
-  React.useEffect(() => {
-    if (isPlaying || isRerunAnimating) return;
-    setInteractionsCount(interactions.length);
-  }, [interactions, isPlaying, isRerunAnimating]);
 
   const controls = React.useMemo(
     () => ({
@@ -156,29 +174,23 @@ export const Panel: React.FC<{ active: boolean }> = (props) => {
   const [fileName] = storyFilePath.toString().split('/').slice(-1);
   const scrollToTarget = () => scrollTarget?.scrollIntoView({ behavior: 'smooth', block: 'end' });
 
-  const showStatus = interactionsCount > 0 || !!caughtException || isRerunAnimating;
-  const hasException = !!caughtException || interactions.some((v) => v.status === CallStates.ERROR);
-
-  if (isErrored) {
-    return <React.Fragment key="interactions" />;
-  }
+  const showStatus = log.length > 0 && !isPlaying;
+  const hasException = log.some((item) => item.status === CallStates.ERROR);
 
   return (
     <React.Fragment key="interactions">
       <TabStatus>
         {showStatus &&
-          (hasException ? <TabIcon status={CallStates.ERROR} /> : ` (${interactionsCount})`)}
+          (hasException ? <TabIcon status={CallStates.ERROR} /> : ` (${interactions.length})`)}
       </TabStatus>
-      <InteractionsPanel
+      <AddonPanelPure
         calls={calls.current}
         controls={controls}
         controlStates={controlStates}
         interactions={interactions}
         fileName={fileName}
         hasException={hasException}
-        caughtException={caughtException}
         isPlaying={isPlaying}
-        pausedAt={pausedAt}
         endRef={endRef}
         onScrollToEnd={scrollTarget && scrollToTarget}
         isRerunAnimating={isRerunAnimating}

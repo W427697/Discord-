@@ -1,7 +1,13 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "skipLibCheck": true
+    "rootDir": "./src",
+    "skipLibCheck": true,
+    "types": [
+      "webpack-env",
+      "jest",
+      "node"
+    ]
   },
   "include": [
     "src/**/*"

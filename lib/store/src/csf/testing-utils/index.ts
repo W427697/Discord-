@@ -8,7 +8,6 @@ import {
   Args,
   StoryContext,
   Parameters,
-  LegacyStoryAnnotationsOrFn,
 } from '@storybook/csf';
 
 import { composeConfigs } from '../composeConfigs';
@@ -51,7 +50,7 @@ export function composeStory<
   TFramework extends AnyFramework = AnyFramework,
   TArgs extends Args = Args
 >(
-  storyAnnotations: LegacyStoryAnnotationsOrFn<TFramework>,
+  storyAnnotations: AnnotatedStoryFn<TFramework, TArgs> | StoryAnnotations<TFramework, TArgs>,
   componentAnnotations: ComponentAnnotations<TFramework, TArgs>,
   projectAnnotations: ProjectAnnotations<TFramework> = GLOBAL_STORYBOOK_PROJECT_ANNOTATIONS,
   defaultConfig: ProjectAnnotations<TFramework> = {},
@@ -64,17 +63,15 @@ export function composeStory<
   // @TODO: Support auto title
   // eslint-disable-next-line no-param-reassign
   componentAnnotations.title = componentAnnotations.title ?? 'ComposedStory';
-  const normalizedComponentAnnotations =
-    normalizeComponentAnnotations<TFramework>(componentAnnotations);
+  const normalizedComponentAnnotations = normalizeComponentAnnotations(componentAnnotations);
 
   const storyName =
     exportsName ||
     storyAnnotations.storyName ||
     storyAnnotations.story?.name ||
-    storyAnnotations.name ||
-    'unknown';
+    storyAnnotations.name;
 
-  const normalizedStory = normalizeStory<TFramework>(
+  const normalizedStory = normalizeStory(
     storyName,
     storyAnnotations,
     normalizedComponentAnnotations
@@ -124,12 +121,7 @@ export function composeStories<TModule extends CSFExports>(
     }
 
     const result = Object.assign(storiesMap, {
-      [exportsName]: composeStoryFn(
-        story as LegacyStoryAnnotationsOrFn,
-        meta,
-        globalConfig,
-        exportsName
-      ),
+      [exportsName]: composeStoryFn(story, meta, globalConfig, exportsName),
     });
     return result;
   }, {});

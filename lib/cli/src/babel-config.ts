@@ -1,5 +1,6 @@
 import { writeFile, access } from 'fs-extra';
 import { logger } from '@storybook/node-logger';
+import { getStorybookBabelConfig } from '@storybook/core-common';
 import path from 'path';
 import prompts from 'prompts';
 
@@ -10,15 +11,8 @@ export const generateStorybookBabelConfigInCWD = async () => {
 export const generateStorybookBabelConfig = async ({ target }: { target: string }) => {
   logger.info(`Generating the storybook default babel config at ${target}`);
 
-  const contents = JSON.stringify(
-    {
-      sourceType: 'unambiguous',
-      presets: [],
-      plugins: [],
-    },
-    null,
-    2
-  );
+  const config = getStorybookBabelConfig({ local: true });
+  const contents = JSON.stringify(config, null, 2);
 
   const fileName = '.babelrc.json';
   const location = path.join(target, fileName);

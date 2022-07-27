@@ -1,7 +1,4 @@
-// eslint-disable-next-line @typescript-eslint/triple-slash-reference
-/// <reference path="../../test-typings.d.ts" />
-
-import { dedent } from 'ts-dedent';
+import dedent from 'ts-dedent';
 
 import { normalizeStoriesEntry } from '../normalize-stories';
 
@@ -230,7 +227,7 @@ describe('normalizeStoriesEntry', () => {
       {
         "titlePrefix": "",
         "directory": ".",
-        "files": "**/*.(stories|docs).@(mdx|tsx|ts|jsx|js)",
+        "files": "**/*.stories.@(mdx|tsx|ts|jsx|js)",
         "importPathMatcher": {}
       }
     `);
@@ -241,7 +238,7 @@ describe('normalizeStoriesEntry', () => {
     expect(specifier).toMatchInlineSnapshot(`
       {
         "titlePrefix": "",
-        "files": "**/*.(stories|docs).@(mdx|tsx|ts|jsx|js)",
+        "files": "**/*.stories.@(mdx|tsx|ts|jsx|js)",
         "directory": ".",
         "importPathMatcher": {}
       }
@@ -265,7 +262,7 @@ describe('normalizeStoriesEntry', () => {
     expect(specifier).toMatchInlineSnapshot(`
       {
         "titlePrefix": "atoms",
-        "files": "**/*.(stories|docs).@(mdx|tsx|ts|jsx|js)",
+        "files": "**/*.stories.@(mdx|tsx|ts|jsx|js)",
         "directory": ".",
         "importPathMatcher": {}
       }

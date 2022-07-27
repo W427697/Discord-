@@ -7,6 +7,10 @@ import { Button } from './Button';
 
 <Meta title="Button" component={Button} />
 
+export const Template = (args) =>({
+  // 👈 Your template goes here
+});
+
 <Story
   name="Primary"
   parameters={{
@@ -21,6 +25,7 @@ import { Button } from './Button';
   args={{
     primary: true,
     label: 'Button',
-  }}
-  render={() => ({ // Your implementation here })} />
+  }}>
+  {Template.bind({})}
+</Story>
 ```

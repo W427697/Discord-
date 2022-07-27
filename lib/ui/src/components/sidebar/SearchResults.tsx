@@ -1,7 +1,13 @@
 import { styled } from '@storybook/theming';
 import { Icons } from '@storybook/components';
 import global from 'global';
-import React, { FC, MouseEventHandler, ReactNode, useCallback, useEffect } from 'react';
+import React, {
+  FunctionComponent,
+  MouseEventHandler,
+  ReactNode,
+  useCallback,
+  useEffect,
+} from 'react';
 import { ControllerStateAndHelpers } from 'downshift';
 
 import { ComponentNode, DocumentNode, Path, RootNode, StoryNode } from './TreeNode';
@@ -16,7 +22,7 @@ import {
 import { getLink } from './utils';
 import { matchesKeyCode, matchesModifiers } from '../../keybinding';
 
-const { document } = global;
+const { document, DOCS_MODE } = global;
 
 const ResultsList = styled.ol({
   listStyle: 'none',
@@ -91,7 +97,7 @@ const ActionKey = styled.code(({ theme }) => ({
   pointerEvents: 'none',
 }));
 
-const Highlight: FC<{ match?: Match }> = React.memo(({ children, match }) => {
+const Highlight: FunctionComponent<{ match?: Match }> = React.memo(({ children, match }) => {
   if (!match) return <>{children}</>;
   const { value, indices } = match;
   const { nodes: result } = indices.reduce<{ cursor: number; nodes: ReactNode[] }>(
@@ -110,7 +116,7 @@ const Highlight: FC<{ match?: Match }> = React.memo(({ children, match }) => {
   return <>{result}</>;
 });
 
-const Result: FC<
+const Result: FunctionComponent<
   SearchResult & { icon: string; isHighlighted: boolean; onClick: MouseEventHandler }
 > = React.memo(({ item, matches, icon, onClick, ...props }) => {
   const click: MouseEventHandler = useCallback(
@@ -142,20 +148,27 @@ const Result: FC<
   );
   const title = `${item.path.join(' / ')} / ${item.name}`;
 
-  const nodeProps = { depth: 0, onClick: click, title, children: label };
-  let node;
-  if (item.type === 'component') {
-    node = <ComponentNode isExpanded={false} {...nodeProps} />;
-  } else if (item.type === 'story') {
-    node = <StoryNode href={getLink(item, item.refId)} {...nodeProps} />;
-  } else {
-    node = <DocumentNode href={getLink(item, item.refId)} {...nodeProps} />;
+  if (DOCS_MODE) {
+    return (
+      <ResultRow {...props}>
+        <DocumentNode depth={0} onClick={click} href={getLink(item.id, item.refId)} title={title}>
+          {label}
+        </DocumentNode>
+      </ResultRow>
+    );
   }
 
-  return <ResultRow {...props}>{node}</ResultRow>;
+  const TreeNode = item.isComponent ? ComponentNode : StoryNode;
+  return (
+    <ResultRow {...props}>
+      <TreeNode isExpanded={false} depth={0} onClick={onClick} title={title}>
+        {label}
+      </TreeNode>
+    </ResultRow>
+  );
 });
 
-export const SearchResults: FC<{
+export const SearchResults: FunctionComponent<{
   query: string;
   results: DownshiftItem[];
   closeMenu: (cb?: () => void) => void;

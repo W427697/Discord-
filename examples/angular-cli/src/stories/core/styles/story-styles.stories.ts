@@ -1,6 +1,6 @@
-import { Meta, moduleMetadata, StoryFn } from '@storybook/angular';
+import { Meta, moduleMetadata, Story } from '@storybook/angular';
 import { action } from '@storybook/addon-actions';
-import { Button } from '../../angular-demo';
+import { Button } from '@storybook/angular/demo';
 
 export default {
   title: 'Core / Story host styles',
@@ -11,7 +11,7 @@ export default {
   ],
 } as Meta;
 
-export const TemplateStory: StoryFn = () => ({
+export const TemplateStory: Story = () => ({
   template: `<storybook-button-component [text]="text" (onClick)="onClick($event)"></storybook-button-component>`,
   props: {
     text: 'Button with custom styles',
@@ -28,7 +28,7 @@ export const TemplateStory: StoryFn = () => ({
 });
 TemplateStory.storyName = 'With story template';
 
-export const WithArgsStory: StoryFn = (args) => ({
+export const WithArgsStory: Story = (args) => ({
   template: `<storybook-button-component [text]="text" (onClick)="onClick($event)"></storybook-button-component>`,
   props: args,
   styles: [

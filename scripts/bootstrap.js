@@ -2,6 +2,8 @@
 
 /* eslint-disable global-require */
 
+const { lstatSync, readdirSync } = require('fs');
+const { join } = require('path');
 const { maxConcurrentTasks } = require('./utils/concurrency');
 const { checkDependenciesAndRun, spawn } = require('./utils/cli-utils');
 
@@ -52,23 +54,13 @@ function run() {
   const tasks = {
     core: createTask({
       name: `Core & Examples ${chalk.gray('(core)')}`,
-      defaultValue: false,
+      defaultValue: true,
       option: '--core',
       command: () => {
         log.info(prefix, 'yarn workspace');
       },
-      pre: ['install', 'build'],
+      pre: ['install', 'build', 'manager'],
       order: 1,
-    }),
-    prep: createTask({
-      name: `Prep for development ${chalk.gray('(prep)')}`,
-      defaultValue: true,
-      option: '--prep',
-      command: () => {
-        log.info(prefix, 'prepare');
-        spawn(`nx run-many --target="prepare" --all --parallel -- --reset`);
-      },
-      order: 2,
     }),
     retry: createTask({
       name: `Core & Examples but only build previously failed ${chalk.gray('(core)')}`,
@@ -118,14 +110,23 @@ function run() {
       defaultValue: false,
       option: '--build',
       command: () => {
-        log.info(prefix, 'build');
+        log.info(prefix, 'prepare');
         spawn(
-          `nx run-many --target="prepare" --all --parallel=8 ${
+          `nx run-many --target="prepare" --all --parallel=2 ${
             process.env.CI ? `--max-parallel=${maxConcurrentTasks}` : ''
-          } -- --reset --optimized`
+          } -- --optimized`
         );
       },
       order: 2,
+    }),
+    manager: createTask({
+      name: `Generate prebuilt manager UI ${chalk.gray('(manager)')}`,
+      defaultValue: false,
+      option: '--manager',
+      command: () => {
+        spawn('yarn build-manager');
+      },
+      order: 3,
     }),
     registry: createTask({
       name: `Run local registry ${chalk.gray('(reg)')}`,
@@ -148,8 +149,8 @@ function run() {
   };
 
   const groups = {
-    main: ['prep', 'core'],
-    buildtasks: ['install', 'build'],
+    main: ['core'],
+    buildtasks: ['install', 'build', 'manager'],
     devtasks: ['dev', 'registry', 'cleanup', 'reset'],
   };
 

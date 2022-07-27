@@ -1,6 +1,6 @@
 {
   "name": "@storybook/core-client",
-  "version": "7.0.0-alpha.13",
+  "version": "6.5.0-rc.1",
   "description": "Storybook framework-agnostic API",
   "keywords": [
     "storybook"
@@ -21,7 +21,14 @@
   "license": "MIT",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
-  "types": "dist/types/index.d.ts",
+  "types": "dist/ts3.9/index.d.ts",
+  "typesVersions": {
+    "<3.8": {
+      "dist/ts3.9/*": [
+        "dist/ts3.4/*"
+      ]
+    }
+  },
   "files": [
     "dist/**/*",
     "dll/**/*",
@@ -30,20 +37,20 @@
     "*.d.ts"
   ],
   "scripts": {
-    "check": "tsc --noEmit",
     "prepare": "node ../../scripts/prepare.js"
   },
   "dependencies": {
-    "@storybook/addons": "7.0.0-alpha.13",
-    "@storybook/channel-postmessage": "7.0.0-alpha.13",
-    "@storybook/channel-websocket": "7.0.0-alpha.13",
-    "@storybook/client-api": "7.0.0-alpha.13",
-    "@storybook/client-logger": "7.0.0-alpha.13",
-    "@storybook/core-events": "7.0.0-alpha.13",
+    "@storybook/addons": "6.5.0-rc.1",
+    "@storybook/channel-postmessage": "6.5.0-rc.1",
+    "@storybook/channel-websocket": "6.5.0-rc.1",
+    "@storybook/client-api": "6.5.0-rc.1",
+    "@storybook/client-logger": "6.5.0-rc.1",
+    "@storybook/core-events": "6.5.0-rc.1",
     "@storybook/csf": "0.0.2--canary.4566f4d.1",
-    "@storybook/preview-web": "7.0.0-alpha.13",
-    "@storybook/store": "7.0.0-alpha.13",
-    "@storybook/ui": "7.0.0-alpha.13",
+    "@storybook/preview-web": "6.5.0-rc.1",
+    "@storybook/store": "6.5.0-rc.1",
+    "@storybook/ui": "6.5.0-rc.1",
+    "airbnb-js-shims": "^2.2.1",
     "ansi-to-html": "^0.6.11",
     "core-js": "^3.8.2",
     "global": "^4.4.0",
@@ -51,10 +58,13 @@
     "qs": "^6.10.0",
     "regenerator-runtime": "^0.13.7",
     "ts-dedent": "^2.0.0",
+    "unfetch": "^4.2.0",
     "util-deprecate": "^1.0.2"
   },
-  "devDependencies": {
-    "typescript": "~4.6.3"
+  "peerDependencies": {
+    "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
+    "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0",
+    "webpack": "*"
   },
   "peerDependenciesMeta": {
     "typescript": {
@@ -64,5 +74,6 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "9ac4d2e0a05eb945713a0e6689abc3b12359e181"
+  "gitHead": "3f09d4e6b0c655a092dc812488ef2c7ed3808401",
+  "sbmodern": "dist/modern/index.js"
 }

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import type { Meta, StoryFn } from '@storybook/angular/';
+import { Story, Meta } from '@storybook/angular/types-6-0';
 
 @Component({
   selector: 'storybook-with-ng-content',
@@ -14,13 +14,13 @@ export default {
   component: WithNgContentComponent,
 } as Meta;
 
-export const OnlyComponent: StoryFn = () => ({});
+export const OnlyComponent: Story = () => ({});
 
-export const Default: StoryFn = () => ({
+export const Default: Story = () => ({
   template: `<storybook-with-ng-content><h1>This is rendered in ng-content</h1></storybook-with-ng-content>`,
 });
 
-export const WithDynamicContentAndArgs: StoryFn = (args) => ({
+export const WithDynamicContentAndArgs: Story = (args) => ({
   template: `<storybook-with-ng-content><h1>${args.content}</h1></storybook-with-ng-content>`,
 });
 WithDynamicContentAndArgs.argTypes = {

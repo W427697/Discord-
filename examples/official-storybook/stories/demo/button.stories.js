@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { action } from '@storybook/addon-actions';
-import { Button } from '../../components/react-demo';
+import { Button } from '@storybook/react/demo';
 
 export default {
   title: 'Other/Demo/Button',

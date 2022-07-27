@@ -1,6 +1,4 @@
-/* eslint-disable camelcase */
 import global from 'global';
-// @ts-ignore
 import { set_current_component } from 'svelte/internal';
 
 const { document } = global;

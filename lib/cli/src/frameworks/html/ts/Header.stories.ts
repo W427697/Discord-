@@ -1,4 +1,4 @@
-import type { Meta, StoryFn } from '@storybook/html';
+import { Story, Meta } from '@storybook/html';
 import { createHeader, HeaderProps } from './Header';
 
 export default {
@@ -13,9 +13,9 @@ export default {
     onLogout: { action: 'onLogout' },
     onCreateAccount: { action: 'onCreateAccount' },
   },
-} as Meta<HeaderProps>;
+} as Meta;
 
-const Template: StoryFn<HeaderProps> = (args) => createHeader(args);
+const Template: Story<HeaderProps> = (args) => createHeader(args);
 
 export const LoggedIn = Template.bind({});
 LoggedIn.args = {

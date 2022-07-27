@@ -1,9 +1,15 @@
 import fs from 'fs';
+import { extensions } from 'interpret';
 
 export const boost = new Set(['.js', '.jsx', '.ts', '.tsx', '.cjs', '.mjs']);
 
 function sortExtensions() {
-  return [...Array.from(boost)];
+  return [
+    ...Array.from(boost),
+    ...Object.keys(extensions)
+      .filter((ext) => !boost.has(ext))
+      .sort((a, b) => a.length - b.length),
+  ];
 }
 
 const possibleExtensions = sortExtensions();

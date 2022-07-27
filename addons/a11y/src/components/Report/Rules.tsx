@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FunctionComponent } from 'react';
 import { styled } from '@storybook/theming';
 import { Badge } from '@storybook/components';
 import { CheckResult } from 'axe-core';
@@ -51,7 +51,7 @@ const formatSeverityText = (severity: string) => {
   return severity.charAt(0).toUpperCase().concat(severity.slice(1));
 };
 
-const Rule: FC<RuleProps> = ({ rule }) => {
+const Rule: FunctionComponent<RuleProps> = ({ rule }) => {
   let badgeType: any = null;
   switch (rule.impact) {
     case ImpactValue.CRITICAL:
@@ -85,7 +85,7 @@ interface RulesProps {
   rules: CheckResult[];
 }
 
-export const Rules: FC<RulesProps> = ({ rules }) => {
+export const Rules: FunctionComponent<RulesProps> = ({ rules }) => {
   return (
     <List>
       {rules.map((rule, index) => (

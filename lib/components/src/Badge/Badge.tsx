@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FunctionComponent } from 'react';
 import { styled } from '@storybook/theming';
 
 const BadgeWrapper = styled.div<BadgeProps>(
@@ -66,6 +66,6 @@ export interface BadgeProps {
   status: 'positive' | 'negative' | 'neutral' | 'warning' | 'critical';
 }
 
-export const Badge: FC<BadgeProps> = ({ ...props }) => {
+export const Badge: FunctionComponent<BadgeProps> = ({ ...props }) => {
   return <BadgeWrapper {...props} />;
 };

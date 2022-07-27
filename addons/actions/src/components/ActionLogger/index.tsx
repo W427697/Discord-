@@ -1,4 +1,4 @@
-import React, { FC, Fragment } from 'react';
+import React, { Fragment } from 'react';
 import { styled, withTheme } from '@storybook/theming';
 import type { Theme } from '@storybook/theming';
 
@@ -8,12 +8,11 @@ import { ActionBar, ScrollArea } from '@storybook/components';
 import { Action, InspectorContainer, Counter } from './style';
 import { ActionDisplay } from '../../models';
 
-const UnstyledWrapped: FC<{ className?: string }> = ({ children, className }) => (
+export const Wrapper = styled(({ children, className }) => (
   <ScrollArea horizontal vertical className={className}>
     {children}
   </ScrollArea>
-);
-export const Wrapper = styled(UnstyledWrapped)({
+))({
   margin: 0,
   padding: '10px 5px 20px',
 });
@@ -37,7 +36,7 @@ interface ActionLoggerProps {
 
 export const ActionLogger = ({ actions, onClear }: ActionLoggerProps) => (
   <Fragment>
-    <Wrapper>
+    <Wrapper title="actionslogger">
       {actions.map((action: ActionDisplay) => (
         <Action key={action.id}>
           {action.count > 1 && <Counter>{action.count}</Counter>}

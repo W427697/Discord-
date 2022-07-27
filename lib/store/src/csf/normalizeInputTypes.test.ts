@@ -1,5 +1,3 @@
-import { expect } from '@jest/globals';
-
 import { normalizeInputType, normalizeInputTypes } from './normalizeInputTypes';
 
 describe('normalizeInputType', () => {

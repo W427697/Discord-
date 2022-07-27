@@ -1,23 +1,22 @@
 import global from 'global';
 import pick from 'lodash/pick';
-import { dequal as deepEqual } from 'dequal';
-import { create } from '@storybook/theming';
-import { SET_CONFIG } from '@storybook/core-events';
+import deepEqual from 'fast-deep-equal';
+import { themes } from '@storybook/theming';
 import type { ThemeVars } from '@storybook/theming';
 import { once } from '@storybook/client-logger';
-import { dedent } from 'ts-dedent';
+import dedent from 'ts-dedent';
 
 import merge from '../lib/merge';
 import type { State, ModuleFn } from '../index';
 
-const { document } = global;
+const { DOCS_MODE, document } = global;
 
 export type PanelPositions = 'bottom' | 'right';
 export type ActiveTabsType = 'sidebar' | 'canvas' | 'addons';
 export const ActiveTabs = {
-  SIDEBAR: 'sidebar' as const,
-  CANVAS: 'canvas' as const,
-  ADDONS: 'addons' as const,
+  SIDEBAR: 'sidebar' as 'sidebar',
+  CANVAS: 'canvas' as 'canvas',
+  ADDONS: 'addons' as 'addons',
 };
 
 export interface Layout {
@@ -38,6 +37,7 @@ export interface UI {
   name?: string;
   url?: string;
   enableShortcuts: boolean;
+  docsMode: boolean;
 }
 
 export interface SubState {
@@ -72,10 +72,11 @@ export interface UIOptions {
 const defaultState: SubState = {
   ui: {
     enableShortcuts: true,
+    docsMode: false,
   },
   layout: {
     initialActive: ActiveTabs.CANVAS,
-    showToolbar: true,
+    showToolbar: !DOCS_MODE,
     isFullscreen: false,
     showPanel: true,
     showNav: true,
@@ -83,7 +84,7 @@ const defaultState: SubState = {
     showTabs: true,
   },
   selectedPanel: undefined,
-  theme: create(),
+  theme: themes.light,
 };
 
 export const focusableUIElements = {
@@ -92,7 +93,7 @@ export const focusableUIElements = {
   storyPanelRoot: 'storybook-panel-root',
 };
 
-export const init: ModuleFn = ({ store, provider, singleStory, fullAPI }) => {
+export const init: ModuleFn = ({ store, provider, singleStory }) => {
   const api = {
     toggleFullscreen(toggled?: boolean) {
       return store.setState(
@@ -225,7 +226,7 @@ export const init: ModuleFn = ({ store, provider, singleStory, fullAPI }) => {
     getInitialOptions() {
       const { theme, selectedPanel, ...options } = provider.getConfig();
 
-      if (options.layout?.isToolshown !== undefined) {
+      if (options?.layout?.isToolshown !== undefined) {
         once.warn(dedent`
           The "isToolshown" option is deprecated. Please use "showToolbar" instead.
 
@@ -294,14 +295,5 @@ export const init: ModuleFn = ({ store, provider, singleStory, fullAPI }) => {
 
   const persisted = pick(store.getState(), 'layout', 'ui', 'selectedPanel');
 
-  return {
-    api,
-    state: merge(api.getInitialOptions(), persisted),
-    init: () => {
-      api.setOptions(merge(api.getInitialOptions(), persisted));
-      fullAPI.on(SET_CONFIG, () => {
-        api.setOptions(merge(api.getInitialOptions(), persisted));
-      });
-    },
-  };
+  return { api, state: merge(api.getInitialOptions(), persisted) };
 };

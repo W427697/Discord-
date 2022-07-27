@@ -1,5 +1,5 @@
 import chalk from 'chalk';
-import { dedent } from 'ts-dedent';
+import dedent from 'ts-dedent';
 import semver from '@storybook/semver';
 import { ConfigFile } from '@storybook/csf-tools';
 import { Fix } from '../types';
@@ -35,15 +35,15 @@ export const angular12: Fix<Angular12RunOptions> = {
     return builderInfo ? { angularVersion, ...builderInfo } : null;
   },
 
-  prompt({ angularVersion }) {
+  prompt({ angularVersion, storybookVersion }) {
     const angularFormatted = chalk.cyan(`Angular ${angularVersion}`);
-
+    const sbFormatted = chalk.cyan(`Storybook ${storybookVersion}`);
     return dedent`
       We've detected you are running ${angularFormatted} which is powered by webpack5.
-      Your Storybook's main.js files specifies webpack4, which is incompatible.
+      ${sbFormatted} runs webpack4 by default, which is incompatible.
 
       In order to work with your version of Angular, we need to install Storybook's ${chalk.cyan(
-        '@storybook/builder-webpack5'
+        'webpack5 builder'
       )}.
 
       More info: ${chalk.yellow(

@@ -29,7 +29,7 @@ const HeaderBar = styled.div<{ status: string }>(({ theme, status }) => ({
   },
 }));
 
-const Icon = styled(Icons)(({ theme }) => ({
+const Icon = styled<any, any>(Icons)(({ theme }) => ({
   height: 10,
   width: 10,
   minWidth: 10,
@@ -66,7 +66,8 @@ export function Result(props: ResultProps) {
           {status === `failed` ? (
             <Icon
               icon="chevrondown"
-              color={convert(themes.light).color.mediumdark}
+              size={10}
+              color={convert(themes.normal).color.mediumdark}
               style={{
                 transform: `rotate(${isOpen ? 0 : -90}deg)`,
               }}

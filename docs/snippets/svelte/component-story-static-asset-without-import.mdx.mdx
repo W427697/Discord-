@@ -9,13 +9,15 @@ import MyComponent from './MyComponent.svelte0;
 
 <!-- Assume image.png is located in the "public" directory. -->
 
-<Story 
-  name="withAnImage"
-  render={() => ({
-    Component: MyComponent,
-    props: {
-      src: '/image.png',
-      alt: 'my image',
-    },
-  })} />
+<Story name="withAnImage">
+  {() => {
+    return {
+      Component: MyComponent,
+      props: {
+        src: '/image.png',
+        alt: 'my image',
+      },
+    };
+  }}
+</Story>
 ```

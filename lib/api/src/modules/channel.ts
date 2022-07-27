@@ -1,6 +1,5 @@
 import { STORIES_COLLAPSE_ALL, STORIES_EXPAND_ALL } from '@storybook/core-events';
-import { Channel } from '@storybook/channels';
-import type { Listener } from '@storybook/channels';
+import { Channel, Listener } from '@storybook/channels';
 
 import { ModuleFn } from '../index';
 
@@ -14,9 +13,7 @@ export interface SubAPI {
   expandAll: () => void;
 }
 
-export type SubState = Record<string, never>;
-
-export const init: ModuleFn<SubAPI, SubState> = ({ provider }) => {
+export const init: ModuleFn = ({ provider }) => {
   const api: SubAPI = {
     getChannel: () => provider.channel,
     on: (type, cb) => {
@@ -35,5 +32,5 @@ export const init: ModuleFn<SubAPI, SubState> = ({ provider }) => {
       api.emit(STORIES_EXPAND_ALL);
     },
   };
-  return { api, state: {} };
+  return { api };
 };

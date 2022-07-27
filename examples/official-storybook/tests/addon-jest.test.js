@@ -34,11 +34,11 @@ describe('A bunch of failing tests: ', () => {
 });
 
 describe('Skipped tests:', () => {
-  test('Would be true if not skipped', () => {
+  test.skip('Would be true if not skipped', () => {
     expect(true).toBe(true);
   });
 
-  test('Could fail, if not skipped', () => {
+  test.skip('Could fail, if not skipped', () => {
     expect(() => {}).toThrow();
   });
 

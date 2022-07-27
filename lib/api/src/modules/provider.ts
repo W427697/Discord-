@@ -2,14 +2,14 @@ import type { ReactNode } from 'react';
 import { Channel } from '@storybook/channels';
 import type { ThemeVars } from '@storybook/theming';
 
-import type { API, State, ModuleFn, HashEntry } from '../index';
-import type { StoryMapper } from './refs';
+import type { API, State, ModuleFn, Root, Group, Story } from '../index';
+import type { StoryMapper, Refs } from './refs';
 import type { UIOptions } from './layout';
 
 interface SidebarOptions {
   showRoots?: boolean;
   collapsedRoots?: string[];
-  renderLabel?: (item: HashEntry) => ReactNode;
+  renderLabel?: (item: Root | Group | Story) => ReactNode;
 }
 
 type IframeRenderer = (
@@ -29,6 +29,7 @@ export interface Provider {
   getConfig(): {
     sidebar?: SidebarOptions;
     theme?: ThemeVars;
+    refs?: Refs;
     StoryMapper?: StoryMapper;
     [k: string]: any;
   } & Partial<UIOptions>;
@@ -39,10 +40,9 @@ export interface SubAPI {
   renderPreview?: Provider['renderPreview'];
 }
 
-export const init: ModuleFn<SubAPI, {}, true> = ({ provider, fullAPI }) => {
+export const init: ModuleFn = ({ provider, fullAPI }) => {
   return {
     api: provider.renderPreview ? { renderPreview: provider.renderPreview } : {},
-    state: {},
     init: () => {
       provider.handleAPI(fullAPI);
     },

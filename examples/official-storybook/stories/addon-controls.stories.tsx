@@ -6,7 +6,7 @@ export default {
   component: Button,
   argTypes: {
     children: { control: 'text', name: 'Children', mapping: { basic: 'BASIC' } },
-    type: { name: 'Type', control: { type: 'text', maxLength: 32 } },
+    type: { control: 'text', name: 'Type' },
     json: { control: 'object', name: 'JSON' },
     imageUrls: { control: { type: 'file', accept: '.png' }, name: 'Image Urls' },
     label: {
@@ -71,10 +71,8 @@ export default {
 const DEFAULT_NESTED_OBJECT = { a: 4, b: { c: 'hello', d: [1, 2, 3] } };
 
 const Template = (args) => (
-  <div style={args.background ? { background: args.background } : undefined}>
-    <Button type={args.type}>
-      {args.label?.type === 'b' ? <b>{args.children}</b> : args.children}
-    </Button>
+  <div>
+    <Button type={args.type}>{args.label || args.children}</Button>
     {args.json && <pre>{JSON.stringify(args.json, null, 2)}</pre>}
   </div>
 );

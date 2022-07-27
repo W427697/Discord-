@@ -1,14 +1,14 @@
 ```ts
 // Button.stories.ts
 
-import type { Meta, Story } from '@storybook/angular';
+import { Meta, Story } from '@storybook/angular';
 
 import { Button } from './Button.component';
 
 export default {
   /* 👇 The title prop is optional.
-   * See https://storybook.js.org/docs/7.0/angular/configure/overview#configure-story-loading to learn how to generate automatic titles
-   */
+  * See https://storybook.js.org/docs/angular/configure/overview#configure-story-loading to learn how to generate automatic titles
+  */
   title: 'Accessibility testing',
   component: Button,
   argTypes: {
@@ -16,18 +16,19 @@ export default {
   },
 } as Meta;
 
-// This is an accessible story
-export const Accessible: Story = {
-  args: {
-    primary: false,
-    label: 'Button',
-  },
+const Template: Story = (args) => ({
+  props: args,
+});
+
+export const Accessible: Story = Template.bind({});
+Accessible.args = {
+  primary: false,
+  label: 'Button',
 };
-// This is not
-export const Inaccessible: Story = {
-  args: {
-    ...Accessible.args,
-    backgroundColor: 'red',
-  },
+
+export const Inaccessible: Story = Template.bind({});
+Inaccessible.args = {
+  ...Accessible.args,
+  backgroundColor: 'red',
 };
 ```

@@ -7,11 +7,7 @@ import { Checkbox } from './checkbox.component';
 
 <Meta title="MDX/Checkbox" component={Checkbox} />
 
-<!--
- 👇 Render functions are a framework specific feature to allow you control on how the component renders.
-  See https://storybook.js.org/docs/7.0/angular/api/csf
-  to learn how to use render functions.
--->
+export const Template = (args) => ({ props: args });
 
 # Checkbox
 
@@ -23,28 +19,27 @@ Markdown documentation.
     name="Unchecked"
     args={{ 
       label: 'Unchecked',
-    }}
-    render={(args) => ({
-      props: args,
-    })} />
+    }}>
+    {Template.bind({})}
+  </Story>
+
   <Story 
     name="Checked"
     args={{ 
       label: 'Unchecked',
       checked: true,
-    }}
-    render={(args) => ({
-      props: args,
-    })} />
+    }}>
+    {Template.bind({})}
+  </Story>
+
   <Story 
     name="Secondary"
     args={{
       label: 'Secondary',
       checked: true, 
       appearance: 'secondary',
-    }}
-    render={(args) => ({
-      props: args,
-    })} />
+    }}>
+    {Template.bind({})}
+  </Story>
 </Canvas>
 ```

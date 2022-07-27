@@ -16,11 +16,13 @@ import Button from './Button.vue';
     }
   }} />
 
-<!--
-  👇 Render functions are a framework specific feature to allow you control on how the component renders.
-  See https://storybook.js.org/docs/7.0/vue/api/csf
-  to learn how to use render functions.
--->
+export const Template = (args) => ({
+  components: { Button },
+  setup() {
+    return { args };
+  },
+  template: '<Button v-bind="args" />',
+});
 
 ## This is an accessible story
 
@@ -29,14 +31,9 @@ import Button from './Button.vue';
   args={{
     primary: false,
     label: 'Button'
-  }}
-  render={(args) => ({
-    components: { MyButton },
-    setup() {
-      return { args };
-    },
-    template: '<Button v-bind="args" />',
-  })} />
+  }}>
+  {Template.bind({})}
+</Story>
 
 ## This is not
 
@@ -46,12 +43,7 @@ import Button from './Button.vue';
     primary: false,
     label: 'Button',
     backgroundColor: 'red'
-  }}
-  render={(args) => ({
-    components: { MyButton },
-    setup() {
-      return { args };
-    },
-    template: '<Button v-bind="args" />',
-  })} />
+  }}>
+  {Template.bind({})}
+</Story>
 ```

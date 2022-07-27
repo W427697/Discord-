@@ -12,23 +12,20 @@ export const image = {
   alt: 'my image',
 };
 
-<!--
- 👇 Render functions are a framework specific feature to allow you control on how the component renders.
-  See https://storybook.js.org/docs/7.0/vue/api/csf
-  to learn how to use render functions.
--->
-
 <Story 
-  name="withAnImage"
-  render={() => ({
-    props: {
-      src: {
-        default: () => image.src,
+  name="WithAnImage">
+  {() => {
+    return {
+      props: {
+        src: {
+          default: () => image.src,
+        },
+        alt: {
+          default: () => image.alt,
+        },
       },
-      alt: {
-        default: () => image.alt,
-      },
-    },
-    template: `<img :src="src" :alt="alt"/>`,
-  })} />
+      template: `<img :src="src" :alt="alt"/>`,
+    };
+  }}
+</Story>
 ```

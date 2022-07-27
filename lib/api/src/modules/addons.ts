@@ -1,10 +1,11 @@
-import type { ReactElement } from 'react';
+import { ReactElement } from 'react';
 import type { RenderData } from '@storybook/router';
 import deprecate from 'util-deprecate';
-import { dedent } from 'ts-dedent';
+import dedent from 'ts-dedent';
 
 import { ModuleFn } from '../index';
 import { Options } from '../store';
+import { isStory } from '../lib/stories';
 
 const warnDisabledDeprecated = deprecate(
   () => {},
@@ -63,9 +64,10 @@ type Panels = Collection<Addon>;
 
 type StateMerger<S> = (input: S) => S;
 
-export interface SubState {
-  selectedPanel: string;
-  addons: Record<string, never>;
+interface StoryInput {
+  parameters: {
+    [parameterName: string]: any;
+  };
 }
 
 export interface SubAPI {
@@ -95,7 +97,7 @@ export function ensurePanel(panels: Panels, selectedPanel?: string, currentPanel
   return currentPanel;
 }
 
-export const init: ModuleFn<SubAPI, SubState> = ({ provider, store, fullAPI }) => {
+export const init: ModuleFn = ({ provider, store, fullAPI }) => {
   const api: SubAPI = {
     getElements: (type) => provider.getElements(type),
     getPanels: () => api.getElements(types.PANEL),
@@ -104,7 +106,7 @@ export const init: ModuleFn<SubAPI, SubState> = ({ provider, store, fullAPI }) =
       const { storyId } = store.getState();
       const story = fullAPI.getData(storyId);
 
-      if (!allPanels || !story || story.type !== 'story') {
+      if (!allPanels || !story || !isStory(story)) {
         return allPanels;
       }
 

@@ -19,6 +19,7 @@ const read = async (url: string) => {
   `);
   const data = JSON.parse(
     await page.evaluate(async () => {
+      // eslint-disable-next-line no-undef
       return JSON.stringify(window.__STORYBOOK_STORY_STORE__.getStoriesJsonData(), null, 2);
     })
   );

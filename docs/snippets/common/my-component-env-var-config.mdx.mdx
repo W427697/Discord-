@@ -7,11 +7,17 @@ import { MyComponent } from './MyComponent';
 
 <Meta title="MyComponent" component={MyComponent}/>
 
+export const Template = (args) => ({
+  //👇 Your template goes here
+});
+
 <Canvas>
   <Story
     name="ExampleStory"
     args={{
       exampleProp: process.env.EXAMPLE_VAR,
-    }} render={() => ({ // Your implementation here })} />
+    }}>
+    {Template.bind({})}
+  </Story>
 </Canvas>
 ```

@@ -1,9 +1,8 @@
-/* eslint-disable camelcase */
 import type { StorybookConfig } from '@storybook/core-common';
-import type { SupportedRenderers } from '../project_types';
+import type { SupportedFrameworks } from '../project_types';
 
 export interface Parameters {
-  renderer: SupportedRenderers;
+  framework: SupportedFrameworks;
   /** E2E configuration name */
   name: string;
   /** framework version */
@@ -44,7 +43,7 @@ const fromDeps = (...args: string[]): string =>
 
 // #region  React
 export const cra: Parameters = {
-  renderer: 'react',
+  framework: 'react',
   name: 'cra',
   version: 'latest',
   generator: [
@@ -57,7 +56,7 @@ export const cra: Parameters = {
 };
 
 export const cra_typescript: Parameters = {
-  renderer: 'react',
+  framework: 'react',
   name: 'cra_typescript',
   version: 'latest',
   generator: [
@@ -67,21 +66,19 @@ export const cra_typescript: Parameters = {
 };
 
 export const react: Parameters = {
-  renderer: 'react',
+  framework: 'react',
   name: 'react',
   version: 'latest',
-  generator: fromDeps('react', 'react-dom', '@babel/preset-react'),
+  generator: fromDeps('react', 'react-dom'),
   additionalDeps: ['prop-types'],
-  additionalFiles: [{ path: '.babelrc', contents: '{ "presets": ["@babel/preset-react"] }' }],
 };
 
 export const react_legacy_root_api: Parameters = {
-  renderer: 'react',
+  framework: 'react',
   name: 'react_legacy_root_api',
   version: 'latest',
   generator: fromDeps('react', 'react-dom'),
-  additionalDeps: ['prop-types', '@babel/preset-react'],
-  additionalFiles: [{ path: '.babelrc', contents: '{ "presets": ["@babel/preset-react"] }' }],
+  additionalDeps: ['prop-types'],
   mainOverrides: {
     reactOptions: {
       legacyRootApi: true,
@@ -90,29 +87,29 @@ export const react_legacy_root_api: Parameters = {
 };
 
 export const react_typescript: Parameters = {
-  renderer: 'react',
+  framework: 'react',
   name: 'react_typescript',
   version: 'latest',
   generator: fromDeps('react', 'react-dom'),
   typescript: true,
-  additionalDeps: ['@babel/preset-react', '@babel/preset-typescript'],
-  additionalFiles: [
-    {
-      path: '.babelrc',
-      contents: '{ "presets": ["@babel/preset-react", "@babel/preset-typescript"] }',
-    },
-  ],
 };
 
-// export const vite_react: Parameters = {
-//   renderer: 'react',
-//   name: 'vite_react',
-//   version: 'latest',
-//   generator: 'npx -p create-vite@{{version}} create-vite {{appName}} --template react-ts',
-// };
+export const webpack_react: Parameters = {
+  framework: 'react',
+  name: 'webpack_react',
+  version: 'latest',
+  generator: fromDeps('react', 'react-dom', 'webpack@webpack-4'),
+};
+
+export const vite_react: Parameters = {
+  framework: 'react',
+  name: 'vite_react',
+  version: 'latest',
+  generator: 'npx -p create-vite@{{version}} create-vite {{appName}} --template react-ts',
+};
 
 export const react_in_yarn_workspace: Parameters = {
-  renderer: 'react',
+  framework: 'react',
   name: 'react_in_yarn_workspace',
   version: 'latest',
   generator: [
@@ -128,10 +125,22 @@ export const react_in_yarn_workspace: Parameters = {
 
 // #region Angular
 const baseAngular: Parameters = {
-  renderer: 'angular',
+  framework: 'angular',
   name: 'angular',
   version: 'latest',
   generator: `npx -p @angular/cli@{{version}} ng new {{appName}} --routing=true --minimal=true --style=scss --skip-install=true --strict`,
+};
+
+export const angular10: Parameters = {
+  ...baseAngular,
+  name: 'angular10',
+  version: 'v10-lts',
+};
+
+export const angular11: Parameters = {
+  ...baseAngular,
+  name: 'angular11',
+  version: 'v11-lts',
 };
 
 export const angular12: Parameters = {
@@ -159,6 +168,7 @@ export const angular_modern_inline_rendering: Parameters = {
   mainOverrides: {
     features: {
       storyStoreV7: true,
+      modernInlineRender: true,
     },
   },
 };
@@ -168,7 +178,7 @@ export const angular: Parameters = baseAngular;
 
 // #region  web components
 export const web_components: Parameters = {
-  renderer: 'web-components',
+  framework: 'web-components',
   name: 'web_components',
   version: '2',
   generator: fromDeps('lit-element'),
@@ -178,13 +188,6 @@ export const web_components_typescript: Parameters = {
   ...web_components,
   name: 'web_components_typescript',
   typescript: true,
-  additionalDeps: ['@babel/preset-typescript'],
-  additionalFiles: [
-    {
-      path: '.babelrc',
-      contents: '{ "presets": ["@babel/preset-typescript"] }',
-    },
-  ],
 };
 
 export const web_components_lit2: Parameters = {
@@ -193,13 +196,6 @@ export const web_components_lit2: Parameters = {
   name: 'web_components_lit2',
   generator: fromDeps('lit'),
   typescript: true,
-  additionalDeps: ['@babel/preset-typescript'],
-  additionalFiles: [
-    {
-      path: '.babelrc',
-      contents: '{ "presets": ["@babel/preset-typescript"] }',
-    },
-  ],
 };
 
 // #endregion
@@ -207,7 +203,7 @@ export const web_components_lit2: Parameters = {
 // #region  vue
 
 export const vue: Parameters = {
-  renderer: 'vue',
+  framework: 'vue',
   name: 'vue',
   // Be careful here, the latest versions of vue cli are bootstrapping a vue 3  project
   version: '4',
@@ -218,7 +214,7 @@ export const vue: Parameters = {
 };
 
 export const vue3: Parameters = {
-  renderer: 'vue3',
+  framework: 'vue3',
   name: 'vue3',
   version: 'next',
   // Vue CLI v4 utilizes webpack 4, and the 5-alpha uses webpack 5 so we force ^4 here
@@ -231,7 +227,7 @@ export const vue3: Parameters = {
 // #endregion
 
 export const html: Parameters = {
-  renderer: 'html',
+  framework: 'html',
   name: 'html',
   version: 'latest',
   generator: fromDeps(),
@@ -239,7 +235,7 @@ export const html: Parameters = {
 };
 
 export const preact: Parameters = {
-  renderer: 'preact',
+  framework: 'preact',
   name: 'preact',
   version: 'latest',
   generator:
@@ -247,15 +243,20 @@ export const preact: Parameters = {
 };
 
 export const sfcVue: Parameters = {
-  renderer: 'vue',
+  framework: 'vue',
   name: 'sfcVue',
   version: 'latest',
   //
-  generator: fromDeps('vue@2.6', 'vue-loader@15.9', 'vue-template-compiler@2.6', 'webpack'),
+  generator: fromDeps(
+    'vue@2.6',
+    'vue-loader@15.9',
+    'vue-template-compiler@2.6',
+    'webpack@webpack-4'
+  ),
 };
 
 export const svelte: Parameters = {
-  renderer: 'svelte',
+  framework: 'svelte',
   name: 'svelte',
   version: 'latest',
   generator: 'npx degit sveltejs/template {{appName}}',

@@ -9,15 +9,14 @@ import MyComponent from './MyComponent.svelte';
 
 <Meta title="WithDelay" component={MyComponent} />
 
-<!--
- 👇 Render functions are a framework specific feature to allow you control on how the component renders.
-  See https://storybook.js.org/docs/7.0/svelte/api/csf
-  to learn how to use render functions.
--->
+export const Template = (args) => ({
+  Component: MyComponent,
+  props: args,
+});
 
 <Story
   name="DelayedStory"
-  play={ async () => {
+  play={async () => {
     const exampleElement= screen.getByLabelText('example-element');
 
     // The delay option set the amount of milliseconds between characters being typed
@@ -29,9 +28,7 @@ import MyComponent from './MyComponent.svelte';
     await userEvent.type(AnotherExampleElement, 'another random string', {
       delay: 100,
     });
-  }}
-  render={(args) => ({
-    Component: MyComponent,
-    props: args,
-  })} />
+  }}>
+  {Template.bind({})}
+</Story>
 ```

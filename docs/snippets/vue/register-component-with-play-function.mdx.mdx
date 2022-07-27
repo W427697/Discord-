@@ -9,15 +9,14 @@ import RegistrationForm from './RegistrationForm.vue';
 
 <Meta title="RegistrationForm" component={RegistrationForm} />
 
-<!--
- 👇 Render functions are a framework specific feature to allow you control on how the component renders.
-  See https://storybook.js.org/docs/7.0/vue/api/csf
-  to learn how to use render functions.
--->
+export const Template = (args) => ({
+  components: { RegistrationForm },
+  template: '<RegistrationForm />',
+});
 
 <Story
   name="FilledForm"
-  play={ async () => {
+  play={async () => {
     const emailInput = screen.getByLabelText('email', {
       selector: 'input',
     });
@@ -34,12 +33,10 @@ import RegistrationForm from './RegistrationForm.vue';
       delay: 100,
     });
     
-    // See https://storybook.js.org/docs/7.0/vue/essentials/actions#automatically-matching-args to learn how to setup logging in the Actions panel
+    // See https://storybook.js.org/docs/vue/essentials/actions#automatically-matching-args to learn how to setup logging in the Actions panel
     const Submit = screen.getByRole('button');
     await userEvent.click(Submit);
-  }}
-  render={() => ({
-    components: { RegistrationForm },
-    template: '<RegistrationForm />',
-  })} />
+  }}>
+  {Template.bind({})}
+</Story>
 ```

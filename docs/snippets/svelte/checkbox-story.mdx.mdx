@@ -7,49 +7,42 @@ import Checkbox from './Checkbox.svelte';
 
 <Meta title="MDX/Checkbox" component={Checkbox} />
 
-<!--
- 👇 Render functions are a framework specific feature to allow you control on how the component renders.
-  See https://storybook.js.org/docs/7.0/svelte/api/csf
-  to learn how to use render functions.
--->
-
 # Checkbox
 
 With `MDX`, we can define a story for `Checkbox` right in the middle of our
 Markdown documentation.
+
+export const Template = (args) => ({
+  Component: Button,
+  props: args,
+});
 
 <Canvas>
   <Story 
     name="Unchecked"
     args={{ 
       label: 'Unchecked',
-    }}
-    render={(args) => ({
-      Component: Checkbox,
-      props: args
-    })} />
+    }}>
+    {Template.bind({})}
+   </Story>
 
   <Story 
     name="Checked"
     args={{ 
       label: 'Unchecked', 
       checked: true,
-    }}
-    render={(args) => ({
-      Component: Checkbox,
-      props: args
-    })} />
-
+    }}>
+    {Template.bind({})}
+   </Story>
+  
   <Story 
     name="Secondary"
     args={{
       label: 'Secondary', 
       checked: true, 
       appearance: 'secondary',
-    }}
-    render={(args) => ({
-      Component: Checkbox,
-      props: args
-    })} />
+    }}>
+    {Template.bind({})}
+   </Story>
 </Canvas>
 ```

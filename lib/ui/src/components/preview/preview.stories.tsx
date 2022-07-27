@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { parsePath, createPath } from 'history';
-import type { Combo, StoryEntry } from '@storybook/api';
+import type { Combo } from '@storybook/api';
 import { Provider as ManagerProvider, Consumer } from '@storybook/api';
 import { Location, BaseLocationProvider } from '@storybook/router';
 
@@ -83,10 +83,7 @@ export const NoTabs = () => (
         <Preview
           {...previewProps}
           api={{ ...api, getElements: () => ({}) }}
-          entry={{
-            ...(previewProps.entry as StoryEntry),
-            parameters: { previewTabs: { canvas: { hidden: true } } },
-          }}
+          story={{ parameters: { previewTabs: { canvas: { hidden: true } } } }}
         />
       );
     }}
@@ -100,10 +97,7 @@ export const HideFullscreen = () => (
         <Preview
           {...previewProps}
           api={{ ...api, getElements: () => ({}) }}
-          entry={{
-            ...(previewProps.entry as StoryEntry),
-            parameters: { toolbar: { fullscreen: { hidden: true } } },
-          }}
+          story={{ parameters: { toolbar: { fullscreen: { hidden: true } } } }}
         />
       );
     }}
@@ -117,8 +111,7 @@ export const HideAllDefaultTools = () => (
         <Preview
           {...previewProps}
           api={{ ...api, getElements: () => ({}) }}
-          entry={{
-            ...(previewProps.entry as StoryEntry),
+          story={{
             parameters: {
               toolbar: {
                 title: { hidden: true },

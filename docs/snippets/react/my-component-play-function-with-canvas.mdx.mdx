@@ -7,9 +7,11 @@ import { MyComponent } from './MyComponent';
 
 <Meta title="WithCanvasElement" component={MyComponent}/>
 
+export const Template = (args) => <MyComponent {...args} />;
+
 <Story
   name="ExampleStory"
-  play={ async ({ canvasElement }) => {
+  play={async ({ canvasElement }) => {
     // Assigns canvas to the component root element
     const canvas = within(canvasElement);
 
@@ -17,6 +19,6 @@ import { MyComponent } from './MyComponent';
     await userEvent.type(canvas.getByTestId('example-element'), 'something');
     await userEvent.click(canvas.getByRole('another-element'));
   }}>
-  <MyComponent/>
+  {Template.bind({})}
 </Story>
 ```

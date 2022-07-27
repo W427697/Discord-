@@ -1,0 +1,19 @@
+{
+  "extends": "../../tsconfig.json",
+  "compileOnSave": false,
+  "compilerOptions": {
+    "outDir": "dist",
+    "types": [
+      "webpack-env",
+      "node"
+    ],
+    "rootDir": "./src",
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "allowJs": true
+  },
+  "include": [
+    "src/**/*",
+    "src/**/*.json"
+  ]
+}

@@ -1,5 +1,5 @@
 import { linkTo } from '@storybook/addon-links';
-import { Button } from '../../angular-demo';
+import { Button } from '@storybook/angular/demo';
 
 export default {
   component: Button,

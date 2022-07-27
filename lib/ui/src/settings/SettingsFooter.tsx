@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FunctionComponent } from 'react';
 
 import { styled } from '@storybook/theming';
 import { Link } from '@storybook/components';
@@ -14,7 +14,7 @@ const Footer = styled.div(({ theme }) => ({
     marginLeft: 20,
   },
 }));
-const SettingsFooter: FC<any> = (props) => (
+const SettingsFooter: FunctionComponent<any> = (props) => (
   <Footer {...props}>
     <Link secondary href="https://storybook.js.org" cancel={false} target="_blank">
       Docs

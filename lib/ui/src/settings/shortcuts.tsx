@@ -1,4 +1,4 @@
-import React, { Component, ComponentProps, FC } from 'react';
+import React, { Component } from 'react';
 import { styled, keyframes } from '@storybook/theming';
 
 import {
@@ -8,6 +8,8 @@ import {
 } from '@storybook/api/shortcut';
 import { Form, Icons } from '@storybook/components';
 import SettingsFooter from './SettingsFooter';
+
+const { Button, Input } = Form;
 
 const Header = styled.header(({ theme }) => ({
   marginBottom: 20,
@@ -55,24 +57,23 @@ export const Description = styled.div({
 
 export type ValidationStates = 'valid' | 'error' | 'warn';
 
-export const TextInput: FC<ComponentProps<typeof Form.Input> & { valid: ValidationStates }> =
-  styled(Form.Input)<{ valid: ValidationStates }>(
-    ({ valid, theme }) =>
-      valid === 'error'
-        ? {
-            animation: `${theme.animation.jiggle} 700ms ease-out`,
-          }
-        : {},
-    {
-      display: 'flex',
-      width: 80,
-      flexDirection: 'column',
-      justifySelf: 'flex-end',
-      paddingLeft: 4,
-      paddingRight: 4,
-      textAlign: 'center',
-    }
-  );
+export const TextInput = styled(Input)<{ valid: ValidationStates }>(
+  ({ valid, theme }) =>
+    valid === 'error'
+      ? {
+          animation: `${theme.animation.jiggle} 700ms ease-out`,
+        }
+      : {},
+  {
+    display: 'flex',
+    width: 80,
+    flexDirection: 'column',
+    justifySelf: 'flex-end',
+    paddingLeft: 4,
+    paddingRight: 4,
+    textAlign: 'center',
+  }
+);
 
 export const Fade = keyframes`
 0%,100% { opacity: 0; }
@@ -305,9 +306,9 @@ class ShortcutsScreen extends Component<ShortcutsScreenProps, ShortcutsScreenSta
         <Header>Keyboard shortcuts</Header>
 
         {layout}
-        <Form.Button tertiary small id="restoreDefaultsHotkeys" onClick={this.restoreDefaults}>
+        <Button tertiary small id="restoreDefaultsHotkeys" onClick={this.restoreDefaults}>
           Restore defaults
-        </Form.Button>
+        </Button>
 
         <SettingsFooter />
       </Container>

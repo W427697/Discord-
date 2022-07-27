@@ -1,6 +1,6 @@
 import fse from 'fs-extra';
-import { dedent } from 'ts-dedent';
-import { SupportedRenderers } from '../project_types';
+import dedent from 'ts-dedent';
+import { SupportedFrameworks } from '../project_types';
 
 interface ConfigureMainOptions {
   addons: string[];
@@ -18,13 +18,13 @@ interface ConfigureMainOptions {
   [key: string]: any;
 }
 
-export async function configureMain({
+function configureMain({
   addons,
   extensions = ['js', 'jsx', 'ts', 'tsx'],
   commonJs = false,
   ...custom
 }: ConfigureMainOptions) {
-  const prefix = (await fse.pathExists('./src')) ? '../src' : '../stories';
+  const prefix = fse.existsSync('./src') ? '../src' : '../stories';
 
   const config = {
     stories: [`${prefix}/**/*.stories.mdx`, `${prefix}/**/*.stories.@(${extensions.join('|')})`],
@@ -36,23 +36,15 @@ export async function configureMain({
   const stringified = `module.exports = ${JSON.stringify(config, null, 2)
     .replace(/\\"/g, '"')
     .replace(/['"]%%/g, '')
-    .replace(/%%['"]/g, '')
+    .replace(/%%['"]/, '')
     .replace(/\\n/g, '\r\n')}`;
-  // main.js isn't actually JSON, but we used JSON.stringify to convert the runtime-object into code.
-  // un-stringify the value for referencing packages by string
-  // .replaceAll(/"(path\.dirname\(require\.resolve\(path\.join\('.*\))"/g, (_, a) => a)}`;
-
-  await fse.writeFile(
-    `./.storybook/main.${commonJs ? 'cjs' : 'js'}`,
-    dedent`
-      const path = require('path');
-      ${stringified}
-    `,
-    { encoding: 'utf8' }
-  );
+  fse.ensureDirSync('./.storybook');
+  fse.writeFileSync(`./.storybook/main.${commonJs ? 'cjs' : 'js'}`, stringified, {
+    encoding: 'utf8',
+  });
 }
 
-const frameworkToPreviewParts: Partial<Record<SupportedRenderers, any>> = {
+const frameworkToPreviewParts: Partial<Record<SupportedFrameworks, any>> = {
   angular: {
     prefix: dedent`
       import { setCompodocJson } from "@storybook/addon-docs/angular";
@@ -64,12 +56,12 @@ const frameworkToPreviewParts: Partial<Record<SupportedRenderers, any>> = {
   },
 };
 
-export async function configurePreview(framework: SupportedRenderers, commonJs: boolean) {
+function configurePreview(framework: SupportedFrameworks, commonJs: boolean) {
   const { prefix = '', extraParameters = '' } = frameworkToPreviewParts[framework] || {};
   const previewPath = `./.storybook/preview.${commonJs ? 'cjs' : 'js'}`;
 
   // If the framework template included a preview then we have nothing to do
-  if (await fse.pathExists(previewPath)) {
+  if (fse.existsSync(previewPath)) {
     return;
   }
 
@@ -88,5 +80,12 @@ export async function configurePreview(framework: SupportedRenderers, commonJs: 
     .replace('  \n', '')
     .trim();
 
-  await fse.writeFile(previewPath, preview, { encoding: 'utf8' });
+  fse.writeFileSync(previewPath, preview, { encoding: 'utf8' });
+}
+
+export function configure(framework: SupportedFrameworks, mainOptions: ConfigureMainOptions) {
+  fse.ensureDirSync('./.storybook');
+
+  configureMain(mainOptions);
+  configurePreview(framework, mainOptions.commonJs);
 }

@@ -117,27 +117,27 @@ module.exports = {
         {
           name: 'Source',
           unsupported: [],
-          path: 'writing-docs/doc-block-source',
+          path: 'writing-docs/doc-blocks#source',
         },
         {
           name: 'Dynamic source',
           supported: ['react', 'vue', 'angular', 'svelte', 'web-components', 'html'],
-          path: 'writing-docs/doc-block-source',
+          path: 'writing-docs/doc-blocks#source',
         },
         {
           name: 'Args Table',
           supported: ['react', 'vue', 'angular', 'html', 'ember', 'web-components', 'svelte'],
-          path: 'writing-docs/doc-block-argstable',
+          path: 'writing-docs/doc-blocks#argstable',
         },
         {
           name: 'Description',
           supported: ['react', 'vue', 'angular', 'ember', 'web-components'],
-          path: 'writing-docs/doc-block-description',
+          path: 'writing-docs/doc-blocks#description',
         },
         {
           name: 'Inline stories',
           supported: ['react', 'vue', 'web-components', 'html', 'svelte', 'angular'],
-          path: 'writing-docs/docs-page#inline-stories-vs-iframe-stories',
+          path: 'writing-docs/doc-blocks#inline-rendering',
         },
       ],
     },

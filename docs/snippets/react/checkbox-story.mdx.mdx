@@ -19,22 +19,27 @@ Markdown documentation.
     name="Unchecked"
     args={{ 
       label: 'Unchecked',
-    }}
-    render={(args) => <Checkbox {...args} />} />
+    }}>
+    {Template.bind({})}
+   </Story>
+
   <Story 
     name="Checked"
     args={{ 
       label: 'Unchecked', 
       checked: true,
-    }}
-    render={(args) => <Checkbox {...args} />} />
+    }}>
+    {Template.bind({})}
+   </Story>
+  
   <Story 
-    name="Secondary" 
+    name="Secondary"
     args={{
       label: 'Secondary', 
       checked: true, 
       appearance: 'secondary',
-    }}
-    render={(args) => <Checkbox {...args} />} />
+    }}>
+    {Template.bind({})}
+   </Story>
 </Canvas>
 ```

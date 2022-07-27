@@ -1,4 +1,4 @@
-import type { Meta, StoryFn } from '@storybook/angular';
+import { Story, Meta } from '@storybook/angular';
 import {
   EnumsComponent,
   EnumNumeric,
@@ -11,7 +11,7 @@ export default {
   component: EnumsComponent,
 } as Meta;
 
-export const Basic: StoryFn = (args) => ({
+export const Basic: Story = (args) => ({
   props: args,
 });
 Basic.args = {

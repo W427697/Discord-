@@ -1,4 +1,4 @@
-import React, { Fragment, FC, useMemo, useEffect, useState } from 'react';
+import React, { Fragment, FunctionComponent, useMemo, useEffect, useState } from 'react';
 import type { Combo } from '@storybook/api';
 import { Consumer } from '@storybook/api';
 import { Button, getStoryHref } from '@storybook/components';
@@ -20,7 +20,6 @@ const SkipToSidebarLink = styled(Button)(({ theme }) => ({
   display: 'none',
   '@media (min-width: 600px)': {
     position: 'absolute',
-    display: 'block',
     top: 10,
     right: 15,
     padding: '10px 15px',
@@ -39,9 +38,9 @@ const whenSidebarIsVisible = ({ state }: Combo) => ({
   selectedStoryId: state.storyId,
 });
 
-export const FramesRenderer: FC<FramesRendererProps> = ({
+export const FramesRenderer: FunctionComponent<FramesRendererProps> = ({
   refs,
-  entry,
+  story,
   scale,
   viewMode = 'story',
   refId,
@@ -85,7 +84,7 @@ export const FramesRenderer: FC<FramesRendererProps> = ({
         if (r.type === 'auto-inject') {
           return true;
         }
-        if (entry && r.id === entry.refId) {
+        if (story && r.id === story.refId) {
           return true;
         }
 
@@ -99,7 +98,7 @@ export const FramesRenderer: FC<FramesRendererProps> = ({
       }, frames);
 
     setFrames(newFrames);
-  }, [storyId, entry, refs]);
+  }, [storyId, story, refs]);
 
   return (
     <Fragment>

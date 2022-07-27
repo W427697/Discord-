@@ -1,5 +1,5 @@
 import deprecate from 'util-deprecate';
-import { dedent } from 'ts-dedent';
+import dedent from 'ts-dedent';
 import type { Globals, GlobalTypes } from '@storybook/csf';
 
 import { deepDiff, DEEPLY_EQUAL } from './args';
@@ -14,22 +14,11 @@ const setUndeclaredWarning = deprecate(
 );
 
 export class GlobalsStore {
-  // We use ! here because TS doesn't analyse the .set() function to see if it actually get set
-  allowedGlobalNames!: Set<string>;
+  allowedGlobalNames: Set<string>;
 
-  initialGlobals!: Globals;
+  initialGlobals: Globals;
 
-  globals!: Globals;
-
-  constructor({
-    globals = {},
-    globalTypes = {},
-  }: {
-    globals?: Globals;
-    globalTypes?: GlobalTypes;
-  }) {
-    this.set({ globals, globalTypes });
-  }
+  globals: Globals = {};
 
   set({ globals = {}, globalTypes = {} }: { globals?: Globals; globalTypes?: GlobalTypes }) {
     const delta = this.initialGlobals && deepDiff(this.initialGlobals, this.globals);

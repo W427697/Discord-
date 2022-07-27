@@ -1,9 +1,9 @@
 import { once } from '@storybook/client-logger';
-import { dequal as deepEqual } from 'dequal';
+import deepEqual from 'fast-deep-equal';
 import isPlainObject from 'lodash/isPlainObject';
 import memoize from 'memoizerific';
 import qs, { IStringifyOptions } from 'qs';
-import { dedent } from 'ts-dedent';
+import dedent from 'ts-dedent';
 
 export interface StoryData {
   viewMode?: string;
@@ -148,19 +148,11 @@ type Match = { path: string };
 
 export const getMatch = memoize(1000)(
   (current: string, target: string, startsWith = true): Match | null => {
-    if (startsWith) {
-      const startsWithTarget = current && current.startsWith(target);
-      if (startsWithTarget) {
-        return { path: current };
-      }
-
-      return null;
-    }
-
+    const startsWithTarget = current && startsWith && current.startsWith(target);
     const currentIsTarget = typeof target === 'string' && current === target;
     const matchTarget = current && target && current.match(target);
 
-    if (currentIsTarget || matchTarget) {
+    if (startsWithTarget || currentIsTarget || matchTarget) {
       return { path: current };
     }
 

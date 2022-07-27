@@ -5,7 +5,7 @@ import findUp from 'find-up';
 import {
   ProjectType,
   supportedTemplates,
-  SUPPORTED_RENDERERS,
+  SUPPORTED_FRAMEWORKS,
   SupportedLanguage,
   TemplateConfiguration,
   TemplateMatcher,
@@ -13,18 +13,14 @@ import {
   CoreBuilder,
 } from './project_types';
 import { getBowerJson, paddedLog } from './helpers';
-import {
-  PackageJson,
-  readPackageJson,
-  JsPackageManager,
-  PackageJsonWithMaybeDeps,
-} from './js-package-manager';
+import { PackageJson, readPackageJson, JsPackageManager } from './js-package-manager';
+import { detectWebpack } from './detect-webpack';
 import { detectNextJS } from './detect-nextjs';
 
 const viteConfigFiles = ['vite.config.ts', 'vite.config.js', 'vite.config.mjs'];
 
 const hasDependency = (
-  packageJson: PackageJsonWithMaybeDeps,
+  packageJson: PackageJson,
   name: string,
   matcher?: (version: string) => boolean
 ) => {
@@ -36,7 +32,7 @@ const hasDependency = (
 };
 
 const hasPeerDependency = (
-  packageJson: PackageJsonWithMaybeDeps,
+  packageJson: PackageJson,
   name: string,
   matcher?: (version: string) => boolean
 ) => {
@@ -50,7 +46,7 @@ const hasPeerDependency = (
 type SearchTuple = [string, (version: string) => boolean | undefined];
 
 const getFrameworkPreset = (
-  packageJson: PackageJsonWithMaybeDeps,
+  packageJson: PackageJson,
   framework: TemplateConfiguration
 ): ProjectType | null => {
   const matcher: TemplateMatcher = {
@@ -96,9 +92,7 @@ const getFrameworkPreset = (
   return matcherFunction(matcher) ? preset : null;
 };
 
-export function detectFrameworkPreset(
-  packageJson = {} as PackageJsonWithMaybeDeps
-): ProjectType | null {
+export function detectFrameworkPreset(packageJson = {} as PackageJson) {
   const result = [...supportedTemplates, unsupportedTemplate].find((framework) => {
     return getFrameworkPreset(packageJson, framework) !== null;
   });
@@ -108,7 +102,7 @@ export function detectFrameworkPreset(
 
 /**
  * Attempts to detect which builder to use, by searching for a vite config file.  If one is found, the vite builder
- * will be used, otherwise, webpack5 is the default.
+ * will be used, otherwise, webpack4 is the default.
  *
  * @returns CoreBuilder
  */
@@ -127,27 +121,41 @@ export function detectBuilder(packageManager: JsPackageManager) {
     }
   }
 
-  // Fallback to webpack5
-  return CoreBuilder.Webpack5;
+  const webpackVersion = detectWebpack(packageManager);
+  if (webpackVersion) {
+    if (webpackVersion <= 4) {
+      return CoreBuilder.Webpack4;
+    }
+    if (webpackVersion >= 5) {
+      return CoreBuilder.Webpack5;
+    }
+  }
+
+  // Fallback to webpack4
+  return CoreBuilder.Webpack4;
 }
 
-export function isStorybookInstalled(
-  dependencies: Pick<PackageJson, 'devDependencies'> | false,
-  force?: boolean
-) {
+export function isStorybookInstalled(dependencies: PackageJson | false, force?: boolean) {
   if (!dependencies) {
     return false;
   }
 
   if (!force && dependencies.devDependencies) {
     if (
-      SUPPORTED_RENDERERS.reduce(
+      SUPPORTED_FRAMEWORKS.reduce(
         (storybookPresent, framework) =>
           storybookPresent || !!dependencies.devDependencies[`@storybook/${framework}`],
         false
       )
     ) {
       return ProjectType.ALREADY_HAS_STORYBOOK;
+    }
+
+    if (
+      dependencies.devDependencies['@kadira/storybook'] ||
+      dependencies.devDependencies['@kadira/react-native-storybook']
+    ) {
+      return ProjectType.UPDATE_PACKAGE_ORGANIZATIONS;
     }
   }
   return false;

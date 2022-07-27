@@ -2,11 +2,11 @@ import express, { Router } from 'express';
 import compression from 'compression';
 
 import {
+  Builder,
   CoreConfig,
-  DocsOptions,
+  normalizeStories,
   Options,
   StorybookConfig,
-  normalizeStories,
   logConfig,
 } from '@storybook/core-common';
 
@@ -20,7 +20,8 @@ import { useStorybookMetadata } from './utils/metadata';
 import { getServerChannel } from './utils/get-server-channel';
 
 import { openInBrowser } from './utils/open-in-browser';
-import { getBuilders } from './utils/get-builders';
+import { getPreviewBuilder } from './utils/get-preview-builder';
+import { getManagerBuilder } from './utils/get-manager-builder';
 import { StoryIndexGenerator } from './utils/StoryIndexGenerator';
 
 // @ts-ignore
@@ -49,13 +50,8 @@ export async function storybookDevServer(options: Options) {
         await options.presets.apply('stories'),
         directories
       );
-      const storyIndexers = await options.presets.apply('storyIndexers', []);
-      const docsOptions = await options.presets.apply<DocsOptions>('docs', {});
-
       const generator = new StoryIndexGenerator(normalizedStories, {
         ...directories,
-        storyIndexers,
-        docs: docsOptions,
         workingDir,
         storiesV2Compatibility: !features?.breakingChangesV7 && !features?.storyStoreV7,
         storyStoreV7: features?.storyStoreV7,
@@ -88,7 +84,7 @@ export async function storybookDevServer(options: Options) {
       const payload = storyIndex
         ? {
             storyIndex: {
-              storyCount: Object.keys(storyIndex.entries).length,
+              storyCount: Object.keys(storyIndex.stories).length,
               version: storyIndex.v,
             },
           }
@@ -141,10 +137,12 @@ export async function storybookDevServer(options: Options) {
     server.listen({ port, host }, (error: Error) => (error ? reject(error) : resolve()));
   });
 
-  const [previewBuilder, managerBuilder] = await getBuilders(options);
+  const previewBuilder: Builder<unknown, unknown> = await getPreviewBuilder(options.configDir);
+  const managerBuilder: Builder<unknown, unknown> = await getManagerBuilder(options.configDir);
 
   if (options.debugWebpack) {
     logConfig('Preview webpack config', await previewBuilder.getConfig(options));
+    logConfig('Manager webpack config', await managerBuilder.getConfig(options));
   }
 
   const preview = options.ignorePreview
@@ -165,7 +163,7 @@ export async function storybookDevServer(options: Options) {
 
   const [previewResult, managerResult] = await Promise.all([
     preview.catch(async (err) => {
-      await managerBuilder?.bail();
+      await managerBuilder.bail();
       throw err;
     }),
     manager
@@ -175,7 +173,7 @@ export async function storybookDevServer(options: Options) {
       //   return result;
       // })
       .catch(async (err) => {
-        await previewBuilder?.bail();
+        await previewBuilder.bail();
         throw err;
       }),
   ]);

@@ -1,30 +1,22 @@
-import { expect } from '@jest/globals';
-
 import { StoryIndexStore } from './StoryIndexStore';
 import { StoryIndex } from './types';
 
 jest.mock('@storybook/channel-websocket', () => () => ({ on: jest.fn() }));
 
 const storyIndex: StoryIndex = {
-  v: 4,
-  entries: {
+  v: 3,
+  stories: {
     'component-one--a': {
-      type: 'story',
-      id: 'component-one--a',
       title: 'Component One',
       name: 'A',
       importPath: './src/ComponentOne.stories.js',
     },
     'component-one--b': {
-      type: 'story',
-      id: 'component-one--b',
       title: 'Component One',
       name: 'B',
       importPath: './src/ComponentOne.stories.js',
     },
     'component-two--c': {
-      type: 'story',
-      id: 'component-two--c',
       title: 'Component Two',
       name: 'C',
       importPath: './src/ComponentTwo.stories.js',
@@ -34,37 +26,33 @@ const storyIndex: StoryIndex = {
 
 const makeStoryIndex = (titlesAndNames) => {
   return {
-    v: 4,
-    entries: Object.fromEntries(
-      titlesAndNames.map(([title, name]) => {
-        const id = `${title}--${name}`.replace('/', '-');
-        return [
-          id,
-          {
-            id,
-            title,
-            name,
-            importPath: `./src/${title}.stories.js`,
-          },
-        ];
-      })
+    v: 3,
+    stories: Object.fromEntries(
+      titlesAndNames.map(([title, name]) => [
+        `${title}--${name}`.replace('/', '-'), // poor man's sanitize
+        {
+          title,
+          name,
+          importPath: `./src/${title}.stories.js`,
+        },
+      ])
     ),
   };
 };
 
 describe('StoryIndexStore', () => {
-  describe('entryFromSpecifier', () => {
+  describe('storyIdFromSpecifier', () => {
     describe('if you use *', () => {
       it('selects the first story in the store', async () => {
         const store = new StoryIndexStore(storyIndex);
 
-        expect(store.entryFromSpecifier('*')).toEqual(store.entries['component-one--a']);
+        expect(store.storyIdFromSpecifier('*')).toEqual('component-one--a');
       });
 
       it('selects nothing if there are no stories', async () => {
         const store = new StoryIndexStore(makeStoryIndex([]));
 
-        expect(store.entryFromSpecifier('*')).toBeUndefined();
+        expect(store.storyIdFromSpecifier('*')).toBeUndefined();
       });
     });
 
@@ -72,9 +60,7 @@ describe('StoryIndexStore', () => {
       it('selects the first story for the component', async () => {
         const store = new StoryIndexStore(storyIndex);
 
-        expect(store.entryFromSpecifier('component-two')).toEqual(
-          store.entries['component-two--c']
-        );
+        expect(store.storyIdFromSpecifier('component-two')).toEqual('component-two--c');
       });
 
       it('selects the first story for the group', async () => {
@@ -86,7 +72,7 @@ describe('StoryIndexStore', () => {
           ])
         );
 
-        expect(store.entryFromSpecifier('g2')).toEqual(store.entries['g2-a--1']);
+        expect(store.storyIdFromSpecifier('g2')).toEqual('g2-a--1');
       });
 
       // Making sure the fix #11571 doesn't break this
@@ -98,28 +84,26 @@ describe('StoryIndexStore', () => {
           ])
         );
 
-        expect(store.entryFromSpecifier('a')).toEqual(store.entries['a--long-long-long']);
+        expect(store.storyIdFromSpecifier('a')).toEqual('a--long-long-long');
       });
 
       it('selects nothing if the component or group does not exist', async () => {
         const store = new StoryIndexStore(storyIndex);
 
-        expect(store.entryFromSpecifier('random')).toBeUndefined();
+        expect(store.storyIdFromSpecifier('random')).toBeUndefined();
       });
     });
     describe('if you use a storyId', () => {
       it('selects a specific story', async () => {
         const store = new StoryIndexStore(storyIndex);
 
-        expect(store.entryFromSpecifier('component-one--a')).toEqual(
-          store.entries['component-one--a']
-        );
+        expect(store.storyIdFromSpecifier('component-one--a')).toEqual('component-one--a');
       });
 
       it('selects nothing if you the story does not exist', async () => {
         const store = new StoryIndexStore(storyIndex);
 
-        expect(store.entryFromSpecifier('component-one--c')).toBeUndefined();
+        expect(store.storyIdFromSpecifier('component-one--c')).toBeUndefined();
       });
 
       // See #11571
@@ -131,44 +115,38 @@ describe('StoryIndexStore', () => {
           ])
         );
 
-        expect(store.entryFromSpecifier('a--3')).toEqual(store.entries['a--3']);
-      });
-    });
-
-    describe('storyIdToEntry', () => {
-      it('works when the story exists', async () => {
-        const store = new StoryIndexStore(storyIndex);
-
-        expect(store.storyIdToEntry('component-one--a')).toEqual(
-          storyIndex.entries['component-one--a']
-        );
-        expect(store.storyIdToEntry('component-one--b')).toEqual(
-          storyIndex.entries['component-one--b']
-        );
-        expect(store.storyIdToEntry('component-two--c')).toEqual(
-          storyIndex.entries['component-two--c']
-        );
-      });
-
-      it('throws when the story does not', async () => {
-        const store = new StoryIndexStore(storyIndex);
-
-        expect(() => store.storyIdToEntry('random')).toThrow(
-          /Couldn't find story matching 'random'/
-        );
+        expect(store.storyIdFromSpecifier('a--3')).toEqual('a--3');
       });
     });
   });
 
-  describe('importPathToEntry', () => {
-    it('works', () => {
+  describe('storyIdToEntry', () => {
+    it('works when the story exists', async () => {
       const store = new StoryIndexStore(storyIndex);
-      expect(store.importPathToEntry('./src/ComponentOne.stories.js')).toEqual(
-        storyIndex.entries['component-one--a']
-      );
-      expect(store.importPathToEntry('./src/ComponentTwo.stories.js')).toEqual(
-        storyIndex.entries['component-two--c']
-      );
+
+      expect(store.storyIdToEntry('component-one--a')).toEqual({
+        name: 'A',
+        title: 'Component One',
+        importPath: './src/ComponentOne.stories.js',
+      });
+
+      expect(store.storyIdToEntry('component-one--b')).toEqual({
+        name: 'B',
+        title: 'Component One',
+        importPath: './src/ComponentOne.stories.js',
+      });
+
+      expect(store.storyIdToEntry('component-two--c')).toEqual({
+        name: 'C',
+        title: 'Component Two',
+        importPath: './src/ComponentTwo.stories.js',
+      });
+    });
+
+    it('throws when the story does not', async () => {
+      const store = new StoryIndexStore(storyIndex);
+
+      expect(() => store.storyIdToEntry('random')).toThrow(/Couldn't find story matching 'random'/);
     });
   });
 });

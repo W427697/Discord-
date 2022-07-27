@@ -11,23 +11,21 @@ type ControlsMatchers = {
 
 const inferControl = (argType: StrictInputType, name: string, matchers: ControlsMatchers): any => {
   const { type, options } = argType;
-  if (!type) {
+  if (!type && !options) {
     return undefined;
   }
 
   // args that end with background or color e.g. iconColor
   if (matchers.color && matchers.color.test(name)) {
-    const controlType = type.name;
+    const controlType = argType.type.name;
 
     if (controlType === 'string') {
       return { control: { type: 'color' } };
     }
 
-    if (controlType !== 'enum') {
-      logger.warn(
-        `Addon controls: Control of type color only supports string, received "${controlType}" instead`
-      );
-    }
+    logger.warn(
+      `Addon controls: Control of type color only supports string, received "${controlType}" instead`
+    );
   }
 
   // args that end with date e.g. purchaseDate

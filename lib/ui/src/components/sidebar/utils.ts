@@ -1,18 +1,20 @@
 import memoize from 'memoizerific';
 import global from 'global';
 import { SyntheticEvent } from 'react';
-import type { HashEntry, StoriesHash } from '@storybook/api';
+import type { StoriesHash } from '@storybook/api';
+import { isRoot } from '@storybook/api';
 
-import { DEFAULT_REF_ID } from './Sidebar';
+import { DEFAULT_REF_ID } from './data';
 import { Item, RefType, Dataset, SearchItem } from './types';
 
-const { document, window: globalWindow } = global;
+const { document, window: globalWindow, DOCS_MODE } = global;
 
 export const createId = (itemId: string, refId?: string) =>
   !refId || refId === DEFAULT_REF_ID ? itemId : `${refId}_${itemId}`;
 
-export const getLink = (item: HashEntry, refId?: string) => {
-  return `${document.location.pathname}?path=/${item.type}/${createId(item.id, refId)}`;
+export const getLink = (itemId: string, refId?: string) => {
+  const type = DOCS_MODE ? 'docs' : 'story';
+  return `${document.location.pathname}?path=/${type}/${createId(itemId, refId)}`;
 };
 
 export const prevent = (e: SyntheticEvent) => {
@@ -23,7 +25,7 @@ export const prevent = (e: SyntheticEvent) => {
 export const get = memoize(1000)((id: string, dataset: Dataset) => dataset[id]);
 export const getParent = memoize(1000)((id: string, dataset: Dataset) => {
   const item = get(id, dataset);
-  return item && item.type !== 'root' ? get(item.parent, dataset) : undefined;
+  return item && !isRoot(item) ? get(item.parent, dataset) : undefined;
 });
 export const getParents = memoize(1000)((id: string, dataset: Dataset): Item[] => {
   const parent = getParent(id, dataset);
@@ -34,11 +36,9 @@ export const getAncestorIds = memoize(1000)((data: StoriesHash, id: string): str
 );
 export const getDescendantIds = memoize(1000)(
   (data: StoriesHash, id: string, skipLeafs: boolean): string[] => {
-    const entry = data[id];
-    const children = entry.type === 'story' || entry.type === 'docs' ? [] : entry.children;
+    const { children = [] } = data[id] || {};
     return children.reduce((acc, childId) => {
-      const child = data[childId];
-      if (!child || (skipLeafs && (child.type === 'story' || child.type === 'docs'))) return acc;
+      if (!data[childId] || (skipLeafs && data[childId].isLeaf)) return acc;
       acc.push(childId, ...getDescendantIds(data, childId, skipLeafs));
       return acc;
     }, []);
@@ -46,7 +46,7 @@ export const getDescendantIds = memoize(1000)(
 );
 
 export function getPath(item: Item, ref: RefType): string[] {
-  const parent = item.type !== 'root' && item.parent ? ref.stories[item.parent] : null;
+  const parent = !isRoot(item) && item.parent ? ref.stories[item.parent] : null;
   if (parent) return [...getPath(parent, ref), parent.name];
   return ref.id === DEFAULT_REF_ID ? [] : [ref.title || ref.id];
 }

@@ -4,18 +4,12 @@ import findUp from 'find-up';
 export const getProjectRoot = () => {
   let result;
   try {
-    const found = findUp.sync('.git', { type: 'directory' });
-    if (found) {
-      result = result || path.join(found, '..');
-    }
+    result = result || path.join(findUp.sync('.git', { type: 'directory' }), '..');
   } catch (e) {
     //
   }
   try {
-    const found = findUp.sync('.svn', { type: 'directory' });
-    if (found) {
-      result = result || path.join(found, '..');
-    }
+    result = result || path.join(findUp.sync('.svn', { type: 'directory' }), '..');
   } catch (e) {
     //
   }

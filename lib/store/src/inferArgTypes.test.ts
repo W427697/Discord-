@@ -1,5 +1,4 @@
 import { logger } from '@storybook/client-logger';
-import { expect } from '@jest/globals';
 
 import { inferArgTypes } from './inferArgTypes';
 

@@ -1,6 +1,5 @@
 import { writeFileAsJson, readFileAsJson, copyTemplate } from '../../helpers';
-import { baseGenerator } from '../baseGenerator';
-import { Generator } from '../types';
+import { baseGenerator, Generator } from '../baseGenerator';
 
 function addStorybookExcludeGlobToTsConfig() {
   const tsConfigJson = readFileAsJson('tsconfig.json', true);

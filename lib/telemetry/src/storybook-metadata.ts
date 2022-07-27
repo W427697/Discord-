@@ -12,6 +12,22 @@ import type { StorybookMetadata, Dependency, StorybookAddon } from './types';
 import { getActualPackageVersion, getActualPackageVersions } from './package-versions';
 import { getMonorepoType } from './get-monorepo-type';
 
+let cachedMetadata: StorybookMetadata;
+export const getStorybookMetadata = async (_configDir: string) => {
+  if (cachedMetadata) {
+    return cachedMetadata;
+  }
+
+  const packageJson = readPkgUp.sync({ cwd: process.cwd() }).packageJson as PackageJson;
+  const configDir =
+    (_configDir ||
+      (getStorybookConfiguration(packageJson.scripts.storybook, '-c', '--config-dir') as string)) ??
+    '.storybook';
+  const mainConfig = loadMainConfig({ configDir });
+  cachedMetadata = await computeStorybookMetadata({ mainConfig, packageJson });
+  return cachedMetadata;
+};
+
 export const metaFrameworks = {
   next: 'Next',
   'react-scripts': 'CRA',
@@ -58,7 +74,7 @@ export const computeStorybookMetadata = async ({
 }): Promise<StorybookMetadata> => {
   const metadata: Partial<StorybookMetadata> = {
     generatedAt: new Date().getTime(),
-    builder: { name: 'webpack5' },
+    builder: { name: 'webpack4' },
     hasCustomBabel: false,
     hasCustomWebpack: false,
     hasStaticDirs: false,
@@ -131,7 +147,7 @@ export const computeStorybookMetadata = async ({
       let result;
       let options;
       if (typeof addon === 'string') {
-        result = addon.replace('/register', '').replace('/preset', '');
+        result = addon.replace('/register', '');
       } else {
         options = addon.options;
         result = addon.name;
@@ -187,24 +203,4 @@ export const computeStorybookMetadata = async ({
     addons,
     hasStorybookEslint,
   };
-};
-
-let cachedMetadata: StorybookMetadata;
-export const getStorybookMetadata = async (_configDir?: string) => {
-  if (cachedMetadata) {
-    return cachedMetadata;
-  }
-
-  const { packageJson = {} as PackageJson } = readPkgUp.sync({ cwd: process.cwd() }) || {};
-  const configDir =
-    (_configDir ||
-      (getStorybookConfiguration(
-        packageJson?.scripts?.storybook || '',
-        '-c',
-        '--config-dir'
-      ) as string)) ??
-    '.storybook';
-  const mainConfig = loadMainConfig({ configDir });
-  cachedMetadata = await computeStorybookMetadata({ mainConfig, packageJson });
-  return cachedMetadata;
 };

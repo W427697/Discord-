@@ -1,4 +1,4 @@
-import type { Meta, StoryFn } from '@storybook/angular';
+import { Meta, Story } from '@storybook/angular/types-6-0';
 import { Component } from '@angular/core';
 
 @Component({
@@ -19,4 +19,4 @@ export default {
   component: ComponentWithWhitespace,
 } as Meta;
 
-export const WithPreserveWhitespaces: StoryFn = (_args) => ({});
+export const WithPreserveWhitespaces: Story = (_args) => ({});

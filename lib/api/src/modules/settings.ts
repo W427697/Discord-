@@ -1,4 +1,4 @@
-import type { ModuleFn } from '../index';
+import { ModuleFn } from '../index';
 
 export interface SubAPI {
   changeSettingsTab: (tab: string) => void;
@@ -15,7 +15,7 @@ export interface SubState {
   settings: Settings;
 }
 
-export const init: ModuleFn<SubAPI, SubState> = ({ store, navigate, fullAPI }) => {
+export const init: ModuleFn = ({ store, navigate, fullAPI }) => {
   const isSettingsScreenActive = () => {
     const { path } = fullAPI.getUrlState();
     return !!(path || '').match(/^\/settings/);
@@ -49,5 +49,9 @@ export const init: ModuleFn<SubAPI, SubState> = ({ store, navigate, fullAPI }) =
     },
   };
 
-  return { state: { settings: { lastTrackedStoryId: null } }, api };
+  const initModule = async () => {
+    await store.setState({ settings: { lastTrackedStoryId: null } });
+  };
+
+  return { init: initModule, api };
 };

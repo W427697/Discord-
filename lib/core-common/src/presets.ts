@@ -1,4 +1,5 @@
-import { dedent } from 'ts-dedent';
+import dedent from 'ts-dedent';
+import { resolve } from 'path';
 import { logger } from '@storybook/node-logger';
 import {
   CLIOptions,
@@ -9,8 +10,8 @@ import {
   BuilderOptions,
 } from './types';
 import { loadCustomPresets } from './utils/load-custom-presets';
+import { serverRequire } from './utils/interpret-require';
 import { safeResolve, safeResolveFrom } from './utils/safeResolve';
-import { interopRequireDefault } from './utils/interpret-require';
 
 const isObject = (val: unknown): val is Record<string, any> =>
   val != null && typeof val === 'object' && Array.isArray(val) === false;
@@ -26,13 +27,15 @@ export function filterPresetsConfig(presetsConfig: PresetConfig[]): PresetConfig
 function resolvePresetFunction<T = any>(
   input: T[] | Function,
   presetOptions: any,
+  framework: T,
   storybookOptions: InterPresetOptions
 ): T[] {
+  const prepend = [framework as unknown as T].filter(Boolean);
   if (isFunction(input)) {
-    return [...input({ ...storybookOptions, ...presetOptions })];
+    return [...prepend, ...input({ ...storybookOptions, ...presetOptions })];
   }
   if (Array.isArray(input)) {
-    return [...input];
+    return [...prepend, ...input];
   }
 
   return [];
@@ -70,33 +73,31 @@ export const resolveAddonName = (
   configDir: string,
   name: string,
   options: any
-): ResolvedAddonPreset | ResolvedAddonVirtual | undefined => {
+): ResolvedAddonPreset | ResolvedAddonVirtual => {
   const r = name.startsWith('/') ? safeResolve : safeResolveFrom.bind(null, configDir);
   const resolved = r(name);
 
-  if (resolved) {
-    if (name.match(/\/(manager|register(-panel)?)(\.(js|ts|tsx|jsx))?$/)) {
-      return {
-        type: 'virtual',
-        name,
-        managerEntries: [resolved],
-      };
-    }
-    if (name.match(/\/(preset)(\.(js|ts|tsx|jsx))?$/)) {
-      return {
-        type: 'presets',
-        name: resolved,
-      };
-    }
+  if (name.match(/\/(manager|register(-panel)?)(\.(js|ts|tsx|jsx))?$/)) {
+    return {
+      type: 'virtual',
+      name,
+      managerEntries: [resolved],
+    };
+  }
+  if (name.match(/\/(preset)(\.(js|ts|tsx|jsx))?$/)) {
+    return {
+      type: 'presets',
+      name: resolved,
+    };
   }
 
   const path = name;
 
   // when user provides full path, we don't need to do anything!
-  const managerFile = r(`${path}/manager`);
-  const registerFile = r(`${path}/register`) || r(`${path}/register-panel`);
-  const previewFile = r(`${path}/preview`);
-  const presetFile = r(`${path}/preset`);
+  const managerFile = safeResolve(`${path}/manager`);
+  const registerFile = safeResolve(`${path}/register`) || safeResolve(`${path}/register-panel`);
+  const previewFile = safeResolve(`${path}/preview`);
+  const presetFile = safeResolve(`${path}/preset`);
 
   if (!(managerFile || previewFile) && presetFile) {
     return {
@@ -125,14 +126,10 @@ export const resolveAddonName = (
     };
   }
 
-  if (resolved) {
-    return {
-      type: 'presets',
-      name: resolved,
-    };
-  }
-
-  return undefined;
+  return {
+    type: 'presets',
+    name: resolved,
+  };
 };
 
 const map =
@@ -154,7 +151,17 @@ const map =
     return undefined;
   };
 
-async function getContent(input: any) {
+function interopRequireDefault(filePath: string) {
+  // eslint-disable-next-line global-require,import/no-dynamic-require
+  const result = require(filePath);
+
+  const isES6DefaultExported =
+    typeof result === 'object' && result !== null && typeof result.default !== 'undefined';
+
+  return isES6DefaultExported ? result.default : result;
+}
+
+function getContent(input: any) {
   if (input.type === 'virtual') {
     const { type, name, ...rest } = input;
     return rest;
@@ -164,18 +171,18 @@ async function getContent(input: any) {
   return interopRequireDefault(name);
 }
 
-export async function loadPreset(
+export function loadPreset(
   input: PresetConfig,
   level: number,
   storybookOptions: InterPresetOptions
-): Promise<LoadedPreset[]> {
+): LoadedPreset[] {
   try {
     // @ts-ignores
     const name: string = input.name ? input.name : input;
     // @ts-ignore
     const presetOptions = input.options ? input.options : {};
 
-    let contents = await getContent(input);
+    let contents = getContent(input);
 
     if (typeof contents === 'function') {
       // allow the export of a preset to be a function, that gets storybookOptions
@@ -188,18 +195,28 @@ export async function loadPreset(
     }
 
     if (isObject(contents)) {
-      const { addons: addonsInput, presets: presetsInput, ...rest } = contents;
+      const { addons: addonsInput, presets: presetsInput, framework, ...rest } = contents;
 
-      const subPresets = resolvePresetFunction(presetsInput, presetOptions, storybookOptions);
-      const subAddons = resolvePresetFunction(addonsInput, presetOptions, storybookOptions);
+      const subPresets = resolvePresetFunction(
+        presetsInput,
+        presetOptions,
+        framework,
+        storybookOptions
+      );
+      const subAddons = resolvePresetFunction(
+        addonsInput,
+        presetOptions,
+        framework,
+        storybookOptions
+      );
 
       return [
-        ...(await loadPresets([...subPresets], level + 1, storybookOptions)),
-        ...(await loadPresets(
-          [...subAddons.map(map(storybookOptions))].filter(Boolean) as PresetConfig[],
+        ...loadPresets([...subPresets], level + 1, storybookOptions),
+        ...loadPresets(
+          [...subAddons.map(map(storybookOptions))].filter(Boolean),
           level + 1,
           storybookOptions
-        )),
+        ),
         {
           name,
           preset: rest,
@@ -211,7 +228,7 @@ export async function loadPreset(
     throw new Error(dedent`
       ${input} is not a valid preset
     `);
-  } catch (e: any) {
+  } catch (e) {
     const warning =
       level > 0
         ? `  Failed to load preset: ${JSON.stringify(input)} on level ${level}`
@@ -224,11 +241,11 @@ export async function loadPreset(
   }
 }
 
-async function loadPresets(
+function loadPresets(
   presets: PresetConfig[],
   level: number,
   storybookOptions: InterPresetOptions
-): Promise<LoadedPreset[]> {
+): LoadedPreset[] {
   if (!presets || !Array.isArray(presets) || !presets.length) {
     return [];
   }
@@ -237,9 +254,8 @@ async function loadPresets(
     logger.info('=> Loading presets');
   }
 
-  return (
-    await Promise.all(presets.map(async (preset) => loadPreset(preset, level, storybookOptions)))
-  ).reduce((acc, loaded) => {
+  return presets.reduce((acc, preset) => {
+    const loaded = loadPreset(preset, level, storybookOptions);
     return acc.concat(loaded);
   }, []);
 }
@@ -299,11 +315,8 @@ function applyPresets(
 
 type InterPresetOptions = Omit<CLIOptions & LoadOptions & BuilderOptions, 'frameworkPresets'>;
 
-export async function getPresets(
-  presets: PresetConfig[],
-  storybookOptions: InterPresetOptions
-): Promise<Presets> {
-  const loadedPresets: LoadedPreset[] = await loadPresets(presets, 0, storybookOptions);
+export function getPresets(presets: PresetConfig[], storybookOptions: InterPresetOptions): Presets {
+  const loadedPresets: LoadedPreset[] = loadPresets(presets, 0, storybookOptions);
 
   return {
     apply: async (extension: string, config: any, args = {}) =>
@@ -311,18 +324,42 @@ export async function getPresets(
   };
 }
 
-export async function loadAllPresets(
+/**
+ * Get the `framework` provided in main.js and also do error checking up front
+ */
+const getFrameworkPackage = (configDir: string) => {
+  const main = serverRequire(resolve(configDir, 'main'));
+  if (!main) return null;
+  const { framework: frameworkPackage, features = {} } = main;
+  if (features.breakingChangesV7 && !frameworkPackage) {
+    throw new Error(dedent`
+      Expected 'framework' in your main.js, didn't find one.
+
+      You can fix this automatically by running:
+
+      npx sb@next automigrate
+    
+      More info: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#mainjs-framework-field
+    `);
+  }
+  return frameworkPackage;
+};
+
+export function loadAllPresets(
   options: CLIOptions &
     LoadOptions &
     BuilderOptions & {
       corePresets: string[];
       overridePresets: string[];
+      frameworkPresets: string[];
     }
 ) {
-  const { corePresets = [], overridePresets = [], ...restOptions } = options;
+  const { corePresets = [], frameworkPresets = [], overridePresets = [], ...restOptions } = options;
 
+  const frameworkPackage = getFrameworkPackage(options.configDir);
   const presetsConfig: PresetConfig[] = [
     ...corePresets,
+    ...(frameworkPackage ? [] : frameworkPresets),
     ...loadCustomPresets(options),
     ...overridePresets,
   ];

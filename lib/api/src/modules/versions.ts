@@ -1,11 +1,10 @@
 import global from 'global';
-// @ts-ignore
 import semver from '@storybook/semver';
 import memoize from 'memoizerific';
 
 import { version as currentVersion } from '../version';
 
-import type { ModuleFn } from '../index';
+import { ModuleFn } from '../index';
 
 const { VERSIONCHECK } = global;
 

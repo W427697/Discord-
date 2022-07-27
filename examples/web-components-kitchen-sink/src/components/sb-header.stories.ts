@@ -1,4 +1,4 @@
-import type { Meta, Story } from '@storybook/web-components';
+import { Meta, Story } from '@storybook/web-components';
 import { html } from 'lit';
 
 import './sb-header';

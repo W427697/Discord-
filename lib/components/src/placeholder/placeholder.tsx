@@ -14,11 +14,7 @@ const Message = styled.div(({ theme }) => ({
   fontSize: theme.typography.size.s2 - 1,
 }));
 
-export interface PlaceholderProps {
-  children?: React.ReactNode;
-}
-
-export const Placeholder: FunctionComponent<PlaceholderProps> = ({ children, ...props }) => {
+export const Placeholder: FunctionComponent = ({ children, ...props }) => {
   const [title, desc] = Children.toArray(children);
   return (
     <Message {...props}>

@@ -41,25 +41,22 @@ Interactions relies on "instrumented" versions of Jest and Testing Library, that
 `@storybook/testing-library` instead of their original package. You can then use these libraries in your `play` function.
 
 ```js
-import { Button } from './Button';
 import { expect } from '@storybook/jest';
 import { within, userEvent } from '@storybook/testing-library';
 
 export default {
   title: 'Button',
-  component: Button,
   argTypes: {
     onClick: { action: true },
   },
 };
 
-const Template = (args) => <Button {...args} />;
-
-export const Demo = Template.bind({});
-Demo.play = async ({ args, canvasElement }) => {
-  const canvas = within(canvasElement);
-  await userEvent.click(canvas.getByRole('button'));
-  await expect(args.onClick).toHaveBeenCalled();
+export const Demo = {
+  play: async ({ args, canvasElement }) => {
+    const canvas = within(canvasElement);
+    await userEvent.click(canvas.getByRole('button'));
+    await expect(args.onClick).toHaveBeenCalled();
+  },
 };
 ```
 

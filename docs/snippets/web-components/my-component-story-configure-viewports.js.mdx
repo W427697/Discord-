@@ -1,15 +1,13 @@
 ```js
 // my-component.stories.js
 
-import { MyComponent } from'./my-component';
+import { html } from 'lit-html';
+
+import './my-component';
 
 import { INITIAL_VIEWPORTS } from '@storybook/addon-viewport';
 
 export default {
-  /* 👇 The title prop is optional.
-   * See https://storybook.js.org/docs/7.0/web-components/configure/overview#configure-story-loading
-   * to learn how to generate automatic titles
-   */
   title: 'MyComponent',
   parameters: {
     //👇 The viewports object from the Essentials addon
@@ -22,17 +20,10 @@ export default {
   };
 };
 
-/*
- *👇 Render functions are a framework specific feature to allow you control on how the component renders.
- * See https://storybook.js.org/docs/7.0/web-components/api/csf
- * to learn how to use render functions.
- */
-export const InitialButton = {
-  render: () => MyComponent(),
-  parameters: {
-    viewport: {
-      defaultViewport: 'iphonex'
-    },
+export const MyStory = () => html`<my-component></my-component>`;
+MyStory.parameters = {
+  viewport: {
+    defaultViewport: 'iphonex'
   },
 };
 ```

@@ -135,7 +135,7 @@ export abstract class JsPackageManager {
    *
    * @param packages
    */
-  public getVersionedPackages(packages: string[]): Promise<string[]> {
+  public getVersionedPackages(...packages: string[]): Promise<string[]> {
     return Promise.all(
       packages.map(async (pkg) => {
         const [packageName, packageVersion] = getPackageDetails(pkg);
@@ -151,11 +151,7 @@ export abstract class JsPackageManager {
    * @param packageNames
    */
   public getVersions(...packageNames: string[]): Promise<string[]> {
-    return Promise.all(
-      packageNames.map((packageName) => {
-        return this.getVersion(packageName);
-      })
-    );
+    return Promise.all(packageNames.map((packageName) => this.getVersion(packageName)));
   }
 
   /**
@@ -170,7 +166,7 @@ export abstract class JsPackageManager {
   public async getVersion(packageName: string, constraint?: string): Promise<string> {
     let current: string;
 
-    if (/(@storybook|^sb$|^storybook$)/.test(packageName)) {
+    if (/@storybook/.test(packageName)) {
       // @ts-ignore
       current = storybookPackagesVersions[packageName];
     }
@@ -220,12 +216,12 @@ export abstract class JsPackageManager {
   }) {
     const sbPort = options?.port ?? 6006;
     const storybookCmd = options?.staticFolder
-      ? `npx storybook dev -p ${sbPort} -s ${options.staticFolder}`
-      : `npx storybook dev -p ${sbPort}`;
+      ? `start-storybook -p ${sbPort} -s ${options.staticFolder}`
+      : `start-storybook -p ${sbPort}`;
 
     const buildStorybookCmd = options?.staticFolder
-      ? `npx storybook build -s ${options.staticFolder}`
-      : `npx storybook build`;
+      ? `build-storybook -s ${options.staticFolder}`
+      : `build-storybook`;
 
     const preCommand = options?.preCommand ? this.getRunCommand(options.preCommand) : undefined;
     this.addScripts({

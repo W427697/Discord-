@@ -1,23 +1,53 @@
+import type ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import type { Options as TelejsonOptions } from 'telejson';
+import type { PluginOptions } from '@storybook/react-docgen-typescript-plugin';
+import type { Configuration, Stats } from 'webpack';
 import type { TransformOptions } from '@babel/core';
 import { Router } from 'express';
 import { Server } from 'http';
-import type { Parameters } from '@storybook/csf';
-import type { FileSystemCache } from './utils/file-cache';
+import { FileSystemCache } from './utils/file-cache';
 
 /**
  * ⚠️ This file contains internal WIP types they MUST NOT be exported outside this package for now!
  */
 
-export type BuilderName = 'webpack5' | '@storybook/builder-webpack5' | string;
+export interface TypescriptConfig {
+  check: boolean;
+  reactDocgen: false | string;
+  reactDocgenTypescriptOptions: {
+    shouldExtractLiteralValuesFromEnum: boolean;
+    shouldRemoveUndefinedFromOptional: boolean;
+    propFilter: (prop: any) => boolean;
+  };
+}
+
+export type BuilderName = 'webpack4' | 'webpack5' | string;
+
+export type BuilderConfigObject = {
+  name: BuilderName;
+  options?: Record<string, any>;
+};
+
+export interface Webpack5BuilderConfig extends BuilderConfigObject {
+  name: 'webpack5';
+  options?: {
+    fsCache?: boolean;
+    lazyCompilation?: boolean;
+  };
+}
+
+export interface Webpack4BuilderConfig extends BuilderConfigObject {
+  name: 'webpack4';
+}
+
+export type BuilderConfig =
+  | BuilderName
+  | BuilderConfigObject
+  | Webpack4BuilderConfig
+  | Webpack5BuilderConfig;
 
 export interface CoreConfig {
-  builder?:
-    | BuilderName
-    | {
-        name: BuilderName;
-        options?: Record<string, any>;
-      };
+  builder: BuilderConfig;
   disableWebpackDefaults?: boolean;
   channelOptions?: Partial<TelejsonOptions>;
   /**
@@ -52,23 +82,38 @@ interface DirectoryMapping {
 export interface Presets {
   apply(
     extension: 'typescript',
-    config: TypescriptOptions,
+    config: TypescriptConfig,
     args?: Options
-  ): Promise<TypescriptOptions>;
-  apply(extension: 'framework', config?: {}, args?: any): Promise<Preset>;
-  apply(extension: 'babel', config?: {}, args?: any): Promise<TransformOptions>;
-  apply(extension: 'entries', config?: [], args?: any): Promise<unknown>;
-  apply(extension: 'stories', config?: [], args?: any): Promise<StoriesEntry[]>;
-  apply(extension: 'managerEntries', config: [], args?: any): Promise<string[]>;
-  apply(extension: 'refs', config?: [], args?: any): Promise<unknown>;
-  apply(extension: 'core', config?: {}, args?: any): Promise<CoreConfig>;
-  apply<T>(extension: string, config?: T, args?: unknown): Promise<T>;
+  ): Promise<TypescriptConfig>;
+  apply(extension: 'babel', config: {}, args: any): Promise<TransformOptions>;
+  apply(extension: 'entries', config: [], args: any): Promise<unknown>;
+  apply(extension: 'stories', config: [], args: any): Promise<StoriesEntry[]>;
+  apply(
+    extension: 'webpack',
+    config: {},
+    args: { babelOptions?: TransformOptions } & any
+  ): Promise<Configuration>;
+  apply(extension: 'managerEntries', config: [], args: any): Promise<string[]>;
+  apply(extension: 'refs', config: [], args: any): Promise<unknown>;
+  apply(extension: 'core', config: {}, args: any): Promise<CoreConfig>;
+  apply(
+    extension: 'managerWebpack',
+    config: {},
+    args: Options & { babelOptions?: TransformOptions } & ManagerWebpackOptions
+  ): Promise<Configuration>;
+  apply<T extends unknown>(extension: string, config?: T, args?: unknown): Promise<T>;
 }
 
 export interface LoadedPreset {
   name: string;
   preset: any;
   options: any;
+}
+
+export interface PresetsOptions {
+  corePresets: string[];
+  overridePresets: string[];
+  frameworkPresets: string[];
 }
 
 export type PresetConfig =
@@ -84,7 +129,6 @@ export interface Ref {
   title: string;
   version: string;
   type?: string;
-  disable?: boolean;
 }
 
 export interface VersionCheck {
@@ -100,13 +144,9 @@ export interface ReleaseNotesData {
   showOnFirstLaunch: boolean;
 }
 
-export interface Stats {
-  toJson: () => any;
-}
-
 export interface BuilderResult {
-  totalTime?: ReturnType<typeof process.hrtime>;
   stats?: Stats;
+  totalTime?: ReturnType<typeof process.hrtime>;
 }
 
 // TODO: this is a generic interface that we can share across multiple SB packages (like @storybook/cli)
@@ -126,10 +166,17 @@ export interface PackageJson {
 // like it's described in docs/api/new-frameworks.md
 export interface LoadOptions {
   packageJson: PackageJson;
+  framework: string;
+  frameworkPresets: string[];
   outputDir?: string;
   configDir?: string;
   ignorePreview?: boolean;
   extendServer?: (server: Server) => void;
+}
+
+export interface ManagerWebpackOptions {
+  entries: string[];
+  refs: Record<string, Ref>;
 }
 
 export interface CLIOptions {
@@ -164,6 +211,7 @@ export interface CLIOptions {
   debugWebpack?: boolean;
   webpackStatsJson?: string | boolean;
   outputDir?: string;
+  modern?: boolean;
 }
 
 export interface BuilderOptions {
@@ -186,7 +234,7 @@ export interface StorybookConfigOptions {
 
 export type Options = LoadOptions & StorybookConfigOptions & CLIOptions & BuilderOptions;
 
-export interface Builder<Config, BuilderStats extends Stats = Stats> {
+export interface Builder<Config, Stats> {
   getConfig: (options: Options) => Promise<Config>;
   start: (args: {
     options: Options;
@@ -194,37 +242,17 @@ export interface Builder<Config, BuilderStats extends Stats = Stats> {
     router: Router;
     server: Server;
   }) => Promise<void | {
-    stats?: BuilderStats;
+    stats: Stats;
     totalTime: ReturnType<typeof process.hrtime>;
     bail: (e?: Error) => Promise<void>;
   }>;
   build: (arg: {
     options: Options;
     startTime: ReturnType<typeof process.hrtime>;
-  }) => Promise<void | BuilderStats>;
+  }) => Promise<void | Stats>;
   bail: (e?: Error) => Promise<void>;
   corePresets?: string[];
   overridePresets?: string[];
-}
-
-export interface IndexerOptions {
-  makeTitle: (userTitle?: string) => string;
-}
-
-export interface IndexedStory {
-  id: string;
-  name: string;
-  parameters?: Parameters;
-}
-export interface StoryIndex {
-  meta: { title?: string };
-  stories: IndexedStory[];
-}
-
-export interface StoryIndexer {
-  test: RegExp;
-  indexer: (fileName: string, options: IndexerOptions) => Promise<StoryIndex>;
-  addDocsTemplate?: boolean;
 }
 
 /**
@@ -238,11 +266,22 @@ export interface TypescriptOptions {
    */
   check: boolean;
   /**
-   * Disable parsing typescript files through babel.
-   *
-   * @default `false`
+   * Configures `fork-ts-checker-webpack-plugin`
    */
-  skipBabel: boolean;
+  checkOptions?: ForkTsCheckerWebpackPlugin['options'];
+  /**
+   * Sets the type of Docgen when working with React and TypeScript
+   *
+   * @default `'react-docgen-typescript'`
+   */
+  reactDocgen: 'react-docgen-typescript' | 'react-docgen' | false;
+  /**
+   * Configures `react-docgen-typescript-plugin`
+   *
+   * @default
+   * @see https://github.com/storybookjs/storybook/blob/next/lib/builder-webpack5/src/config/defaults.js#L4-L6
+   */
+  reactDocgenTypescriptOptions: PluginOptions;
 }
 
 interface StoriesSpecifier {
@@ -287,21 +326,6 @@ export type Entry = string;
 
 type StorybookRefs = Record<string, { title: string; url: string } | { disable: boolean }>;
 
-export type DocsOptions = {
-  /**
-   * Should we generate docs entries at all under any circumstances? (i.e. can they be rendered)
-   */
-  enabled?: boolean;
-  /**
-   * What should we call the generated docs entries?
-   */
-  defaultName?: string;
-  /**
-   * Should we generate a docs entry per CSF file?
-   */
-  docsPage?: boolean;
-};
-
 /**
  * The interface for Storybook configuration in `main.ts` files.
  */
@@ -327,6 +351,11 @@ export interface StorybookConfig {
     postcss?: boolean;
 
     /**
+     * Allows to disable emotion webpack alias for emotion packages. (will be removed in 7.0)
+     */
+    emotionAlias?: boolean;
+
+    /**
      * Build stories.json automatically on start/build
      */
     buildStoriesJson?: boolean;
@@ -337,6 +366,11 @@ export interface StorybookConfig {
      * @deprecated This is always on now from 6.4 regardless of the setting
      */
     previewCsfV3?: boolean;
+
+    /**
+     * Activate modern inline rendering
+     */
+    modernInlineRender?: boolean;
 
     /**
      * Activate on demand story store
@@ -395,23 +429,15 @@ export interface StorybookConfig {
   /**
    * References external Storybooks
    */
-  refs?: StorybookRefs | ((config: any, options: Options) => StorybookRefs);
+  refs?: StorybookRefs | ((config: Configuration, options: Options) => StorybookRefs);
 
   /**
-   * Modify or return babel config.
+   * Modify or return a custom Webpack config.
    */
-  babel?: (
-    config: TransformOptions,
+  webpackFinal?: (
+    config: Configuration,
     options: Options
-  ) => TransformOptions | Promise<TransformOptions>;
-
-  /**
-   * Modify or return babel config.
-   */
-  babelDefault?: (
-    config: TransformOptions,
-    options: Options
-  ) => TransformOptions | Promise<TransformOptions>;
+  ) => Configuration | Promise<Configuration>;
 
   /**
    * Add additional scripts to run in the preview a la `.storybook/preview.js`
@@ -424,25 +450,4 @@ export interface StorybookConfig {
    * Add additional scripts to run in the preview a la `.storybook/preview.js`
    */
   previewAnnotations?: (entries: Entry[], options: Options) => Entry[];
-
-  /**
-   * Process CSF files for the story index.
-   */
-  storyIndexers?: (indexers: StoryIndexer[], options: Options) => StoryIndexer[];
-
-  /**
-   * Docs related features in index generation
-   */
-  docs?: DocsOptions;
 }
-
-export type PresetProperty<K, TStorybookConfig = StorybookConfig> =
-  | TStorybookConfig[K extends keyof TStorybookConfig ? K : never]
-  | PresetPropertyFn<K, TStorybookConfig>;
-
-export type PresetPropertyFn<K, TStorybookConfig = StorybookConfig, TOptions = {}> = (
-  config: TStorybookConfig[K extends keyof TStorybookConfig ? K : never],
-  options: Options & TOptions
-) =>
-  | TStorybookConfig[K extends keyof TStorybookConfig ? K : never]
-  | Promise<TStorybookConfig[K extends keyof TStorybookConfig ? K : never]>;

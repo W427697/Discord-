@@ -1,14 +1,14 @@
 import React from 'react';
 import { linkTo } from '@storybook/addon-links';
-import type { ComponentMeta, ComponentStoryFn } from '@storybook/react';
-import { Welcome } from './react-demo';
+import { Welcome } from '@storybook/react/demo';
+import type { ComponentMeta, ComponentStory } from '@storybook/react';
 
 export default {
   title: 'Welcome',
   component: Welcome,
 } as ComponentMeta<typeof Welcome>;
 
-export const ToStorybook: ComponentStoryFn<typeof Welcome> = () => (
+export const ToStorybook: ComponentStory<typeof Welcome> = () => (
   <Welcome showApp={linkTo('Button')} />
 );
 

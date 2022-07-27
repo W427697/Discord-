@@ -39,15 +39,7 @@ packages:
     access: $all
     publish: $all
     proxy: npmjs
-  '@storybook/preset-create-react-app':
-    access: $all
-    publish: $all
-    proxy: npmjs
-  '@storybook/preset-ie11':
-    access: $all
-    publish: $all
-    proxy: npmjs
-  '@storybook/preset-scss':
+  '@storybook/preset-*':
     access: $all
     publish: $all
     proxy: npmjs
@@ -92,10 +84,6 @@ packages:
     publish: $all
     proxy: npmjs
   '@storybook/jest':
-    access: $all
-    publish: $all
-    proxy: npmjs
-  '@storybook/docs-mdx':
     access: $all
     publish: $all
     proxy: npmjs

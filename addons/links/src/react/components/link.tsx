@@ -19,8 +19,8 @@ const cancelled = (e: MouseEvent<HTMLAnchorElement>, cb = (_e: any) => {}) => {
 };
 
 interface Props {
-  kind: string | null;
-  story: string | null;
+  kind: string;
+  story: string;
   children: ReactNode;
 }
 
@@ -53,17 +53,12 @@ export default class LinkTo extends PureComponent<Props, State> {
 
   updateHref = async () => {
     const { kind, story } = this.props;
-    if (kind && story) {
-      const href = await hrefTo(kind, story);
-      this.setState({ href });
-    }
+    const href = await hrefTo(kind, story);
+    this.setState({ href });
   };
 
   handleClick = () => {
-    const { kind, story } = this.props;
-    if (kind && story) {
-      navigate({ kind, story });
-    }
+    navigate(this.props);
   };
 
   render() {

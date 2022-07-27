@@ -9,6 +9,8 @@ import { MyComponent } from './MyComponent';
 
 <Meta title="FigmaExample" component={MyComponent} decorators={[withDesign]} />
 
+export const Template = () => <MyComponent />;
+
 <Canvas>
   <Story
     name="Example"
@@ -17,8 +19,9 @@ import { MyComponent } from './MyComponent';
         type: 'figma',
         url: 'https://www.figma.com/file/Sample-File',
       },
-    }}>
-    <MyComponent />
+    }}
+  >
+  {Template.bind({})}
   </Story>
 </Canvas>
 ```

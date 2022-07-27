@@ -28,7 +28,6 @@ const viewLayers: Record<string, string> = {
   '@storybook/svelte': 'svelte',
   '@storybook/preact': 'preact',
   '@storybook/rax': 'rax',
-  '@storybook/server': 'server',
 };
 
 const logger = console;
@@ -46,7 +45,7 @@ const getFrameworkInfo = (packageJson: PackageJson) => {
   // Pull the viewlayer from dependencies in package.json
   const [dep, devDep, peerDep] = findDependency(packageJson, ([key]) => viewLayers[key]);
   const [pkg, version] = dep || devDep || peerDep || [];
-  const framework = pkg ? viewLayers[pkg] : undefined;
+  const framework = viewLayers[pkg];
 
   if (dep && devDep && dep[0] === devDep[0]) {
     logger.warn(

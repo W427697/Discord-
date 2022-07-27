@@ -1,4 +1,4 @@
-import { dedent } from 'ts-dedent';
+import dedent from 'ts-dedent';
 import deprecate from 'util-deprecate';
 import global from 'global';
 
@@ -11,7 +11,6 @@ import type {
   StoryContext,
   AnyFramework,
   StrictArgTypes,
-  StoryContextForLoaders,
 } from '@storybook/csf';
 import { includeConditionalArg } from '@storybook/csf';
 
@@ -49,7 +48,7 @@ export function prepareStory<TFramework extends AnyFramework>(
   // anything at render time. The assumption is that as we don't load all the stories at once, this
   // will have a limited cost. If this proves misguided, we can refactor it.
 
-  const { moduleExport, id, name } = storyAnnotations;
+  const { id, name } = storyAnnotations;
   const { title } = componentAnnotations;
 
   const parameters: Parameters = combineParameters(
@@ -84,8 +83,6 @@ export function prepareStory<TFramework extends AnyFramework>(
     storyAnnotations.render ||
     componentAnnotations.render ||
     projectAnnotations.render;
-
-  if (!render) throw new Error(`No render function available for storyId '${id}'`);
 
   const passedArgTypes: StrictArgTypes = combineParameters(
     projectAnnotations.argTypes,
@@ -157,7 +154,7 @@ export function prepareStory<TFramework extends AnyFramework>(
     };
   }
 
-  const applyLoaders = async (context: StoryContextForLoaders<TFramework>) => {
+  const applyLoaders = async (context: StoryContext<TFramework>) => {
     const loadResults = await Promise.all(loaders.map((loader) => loader(context)));
     const loaded = Object.assign({}, ...loadResults);
     return { ...context, loaded };
@@ -186,7 +183,7 @@ export function prepareStory<TFramework extends AnyFramework>(
   const unboundStoryFn = (context: StoryContext<TFramework>) => {
     let finalContext: StoryContext<TFramework> = context;
     if (global.FEATURES?.argTypeTargetsV7) {
-      const argsByTarget = groupArgsByTarget(context);
+      const argsByTarget = groupArgsByTarget({ args: context.args, ...context });
       finalContext = {
         ...context,
         allArgs: context.args,
@@ -201,7 +198,6 @@ export function prepareStory<TFramework extends AnyFramework>(
 
   return Object.freeze({
     ...contextForEnhancers,
-    moduleExport,
     originalStoryFn: render,
     undecoratedStoryFn,
     unboundStoryFn,

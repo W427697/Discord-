@@ -1,4 +1,4 @@
-import React, { Children, ComponentProps, FC } from 'react';
+import React, { Children, FunctionComponent } from 'react';
 import { styled } from '@storybook/theming';
 
 import { ScrollArea } from '../ScrollArea/ScrollArea';
@@ -37,12 +37,11 @@ const Side = styled.div<SideProps>(
 );
 Side.displayName = 'Side';
 
-const UnstyledBar: FC<ComponentProps<typeof ScrollArea>> = ({ children, className }) => (
+export const Bar = styled(({ children, className }) => (
   <ScrollArea horizontal vertical={false} className={className}>
     {children}
   </ScrollArea>
-);
-export const Bar = styled(UnstyledBar)<{ border?: boolean }>(
+))(
   ({ theme }) => ({
     color: theme.barTextColor,
     width: '100%',
@@ -51,7 +50,7 @@ export const Bar = styled(UnstyledBar)<{ border?: boolean }>(
     overflow: 'auto',
     overflowY: 'hidden',
   }),
-  ({ theme, border = false }) =>
+  ({ theme, border }) =>
     border
       ? {
           boxShadow: `${theme.appBorderColor}  0 -1px 0 0 inset`,
@@ -77,7 +76,11 @@ export interface FlexBarProps {
   backgroundColor?: string;
 }
 
-export const FlexBar: FC<FlexBarProps> = ({ children, backgroundColor, ...rest }) => {
+export const FlexBar: FunctionComponent<FlexBarProps> = ({
+  children,
+  backgroundColor,
+  ...rest
+}) => {
   const [left, right] = Children.toArray(children);
   return (
     <Bar {...rest}>

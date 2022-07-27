@@ -1,7 +1,7 @@
 import { logger } from '@storybook/client-logger';
 
 import { getSourceType, ComposedRef } from '../modules/refs';
-import type { API } from '../index';
+import { API } from '../index';
 
 interface Meta {
   ref?: ComposedRef;

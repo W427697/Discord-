@@ -1,5 +1,5 @@
 /* eslint-disable no-underscore-dangle */
-import { dedent } from 'ts-dedent';
+import dedent from 'ts-dedent';
 import yaml from 'js-yaml';
 import { loadCsf } from './CsfFile';
 
@@ -202,11 +202,11 @@ describe('CsfFile', () => {
       expect(
         parse(
           dedent`
-          import type { Meta, StoryFn } from '@storybook/react';
+          import { Meta, Story } from '@storybook/react';
           type PropTypes = {};
           export default { title: 'foo/bar/baz' } as Meta<PropTypes>;
-          export const A: StoryFn<PropTypes> = () => <>A</>;
-          export const B: StoryFn<PropTypes> = () => <>B</>;
+          export const A: Story<PropTypes> = () => <>A</>;
+          export const B: Story<PropTypes> = () => <>B</>;
         `
         )
       ).toMatchInlineSnapshot(`
@@ -224,12 +224,12 @@ describe('CsfFile', () => {
       expect(
         parse(
           dedent`
-          import type { Meta, StoryFn } from '@storybook/react';
+          import { Meta, Story } from '@storybook/react';
           type PropTypes = {};
           const meta = { title: 'foo/bar/baz' } as Meta<PropTypes>;
           export default meta;
-          export const A: StoryFn<PropTypes> = () => <>A</>;
-          export const B: StoryFn<PropTypes> = () => <>B</>;
+          export const A: Story<PropTypes> = () => <>A</>;
+          export const B: Story<PropTypes> = () => <>B</>;
         `
         )
       ).toMatchInlineSnapshot(`
@@ -404,30 +404,6 @@ describe('CsfFile', () => {
             name: A
             parameters:
               __isArgsStory: false
-              __id: foo-bar--a
-      `);
-    });
-
-    it('as default export', () => {
-      expect(
-        parse(
-          dedent`
-          const meta = { title: 'foo/bar' };
-          export const A = () => {};
-          export {
-            meta as default,
-            A
-          };
-        `,
-          true
-        )
-      ).toMatchInlineSnapshot(`
-        meta:
-          title: foo/bar
-        stories:
-          - id: foo-bar--a
-            name: A
-            parameters:
               __id: foo-bar--a
       `);
     });
@@ -636,58 +612,6 @@ describe('CsfFile', () => {
               __isArgsStory: true
               __id: foo-bar--a
       `);
-    });
-
-    it('Object export with storyName', () => {
-      const consoleWarnMock = jest.spyOn(console, 'warn').mockImplementation();
-
-      parse(
-        dedent`
-        export default { title: 'foo/bar' };
-        export const A = {
-          storyName: 'Apple'
-        }
-      `,
-        true
-      );
-
-      expect(consoleWarnMock).toHaveBeenCalledWith(
-        'Unexpected usage of "storyName" in "A". Please use "name" instead.'
-      );
-      consoleWarnMock.mockRestore();
-    });
-  });
-
-  describe('import handling', () => {
-    it('imports', () => {
-      const input = dedent`
-        import Button from './Button';
-        import { Check } from './Check';
-        export default { title: 'foo/bar', x: 1, y: 2 };
-      `;
-      const csf = loadCsf(input, { makeTitle }).parse();
-      expect(csf.imports).toMatchInlineSnapshot(`
-        - ./Button
-        - ./Check
-      `);
-    });
-    // eslint-disable-next-line jest/no-disabled-tests
-    it.skip('dynamic imports', () => {
-      const input = dedent`
-        const Button = await import('./Button');
-        export default { title: 'foo/bar', x: 1, y: 2 };
-      `;
-      const csf = loadCsf(input, { makeTitle }).parse();
-      expect(csf.imports).toMatchInlineSnapshot();
-    });
-    // eslint-disable-next-line jest/no-disabled-tests
-    it.skip('requires', () => {
-      const input = dedent`
-        const Button = require('./Button');
-        export default { title: 'foo/bar', x: 1, y: 2 };
-      `;
-      const csf = loadCsf(input, { makeTitle }).parse();
-      expect(csf.imports).toMatchInlineSnapshot();
     });
   });
 });

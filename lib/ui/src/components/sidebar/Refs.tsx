@@ -1,4 +1,11 @@
-import React, { FC, useMemo, useState, useRef, useCallback, MutableRefObject } from 'react';
+import React, {
+  FunctionComponent,
+  useMemo,
+  useState,
+  useRef,
+  useCallback,
+  MutableRefObject,
+} from 'react';
 import { useStorybookApi } from '@storybook/api';
 import { styled } from '@storybook/theming';
 import { transparentize } from 'polished';
@@ -7,7 +14,7 @@ import { AuthBlock, ErrorBlock, LoaderBlock, EmptyBlock } from './RefBlocks';
 import { RefIndicator } from './RefIndicator';
 import { Tree } from './Tree';
 import { CollapseIcon } from './TreeNode';
-import { DEFAULT_REF_ID } from './Sidebar';
+import { DEFAULT_REF_ID } from './data';
 import { Highlight, RefType } from './types';
 import { getStateType } from './utils';
 
@@ -90,7 +97,7 @@ const CollapseButton = styled.button(({ theme }) => ({
   },
 }));
 
-export const Ref: FC<RefType & RefProps> = React.memo((props) => {
+export const Ref: FunctionComponent<RefType & RefProps> = React.memo((props) => {
   const api = useStorybookApi();
   const {
     stories,

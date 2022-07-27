@@ -7,7 +7,10 @@ import toReact from '@egoist/vue-to-react';
 
 export const parameters = {
   docs: {
-    // deprecated do not use
+    prepareForInline: (storyFn, { args }) => {
+      const Story = toReact(storyFn());
+      return <Story {...args} />;
+    },
   },
 };
 ```

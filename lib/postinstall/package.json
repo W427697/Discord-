@@ -1,6 +1,6 @@
 {
   "name": "@storybook/postinstall",
-  "version": "7.0.0-alpha.13",
+  "version": "6.5.0-rc.1",
   "description": "Storybook addons postinstall utilities",
   "keywords": [
     "api",
@@ -23,7 +23,14 @@
   "sideEffects": false,
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
-  "types": "dist/types/index.d.ts",
+  "types": "dist/ts3.9/index.d.ts",
+  "typesVersions": {
+    "<3.8": {
+      "dist/ts3.9/*": [
+        "dist/ts3.4/*"
+      ]
+    }
+  },
   "files": [
     "dist/**/*",
     "README.md",
@@ -31,7 +38,6 @@
     "*.d.ts"
   ],
   "scripts": {
-    "check": "tsc --noEmit",
     "prepare": "node ../../scripts/prepare.js"
   },
   "dependencies": {
@@ -40,11 +46,11 @@
   "devDependencies": {
     "jest": "^26.6.3",
     "jest-specific-snapshot": "^4.0.0",
-    "jscodeshift": "^0.13.1",
-    "typescript": "~4.6.3"
+    "jscodeshift": "^0.13.1"
   },
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "9ac4d2e0a05eb945713a0e6689abc3b12359e181"
+  "gitHead": "3f09d4e6b0c655a092dc812488ef2c7ed3808401",
+  "sbmodern": "dist/modern/index.js"
 }

@@ -40,6 +40,8 @@ export const Fullscreen = ({ props }: { props: MobileProps }) => (
   />
 );
 
+export const DocsOnly = ({ props }: { props: MobileProps }) => <Mobile {...props} docsOnly />;
+
 export const Page = ({ props }: { props: MobileProps }) => (
   <Mobile
     {...props}

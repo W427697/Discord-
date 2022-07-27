@@ -82,27 +82,18 @@ describe('await computeStorybookMetadata', () => {
         devDependencies: {
           '@storybook/react': 'x.y.z',
           '@storybook/addon-essentials': 'x.x.x',
-          '@storybook/addon-knobs': 'x.x.y',
-          'storybook-addon-deprecated': 'x.x.z',
+          'storybook-addon-deprecated': 'x.x.x',
         },
       },
       mainConfig: {
         ...mainJsMock,
-        addons: [
-          '@storybook/addon-essentials',
-          'storybook-addon-deprecated/register',
-          '@storybook/addon-knobs/preset',
-        ],
+        addons: ['@storybook/addon-essentials', 'storybook-addon-deprecated/register'],
       },
     });
 
     expect(result.addons).toMatchInlineSnapshot(`
       Object {
         "@storybook/addon-essentials": Object {
-          "options": undefined,
-          "version": "x.x.x",
-        },
-        "@storybook/addon-knobs": Object {
           "options": undefined,
           "version": "x.x.x",
         },

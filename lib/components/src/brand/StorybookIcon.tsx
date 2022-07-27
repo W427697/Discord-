@@ -1,6 +1,6 @@
-import React, { FC } from 'react';
+import React, { FunctionComponent } from 'react';
 
-export const StorybookIcon: FC = ({ ...props }) => (
+export const StorybookIcon: FunctionComponent<{}> = ({ ...props }) => (
   <svg viewBox="0 0 64 64" {...props}>
     <title>Storybook icon</title>
     <g id="Artboard" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">

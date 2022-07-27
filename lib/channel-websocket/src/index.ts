@@ -1,6 +1,5 @@
 import global from 'global';
-import { Channel } from '@storybook/channels';
-import type { ChannelHandler } from '@storybook/channels';
+import { Channel, ChannelHandler } from '@storybook/channels';
 import { logger } from '@storybook/client-logger';
 import { isJSON, parse, stringify } from 'telejson';
 
@@ -77,7 +76,7 @@ export class WebsocketTransport {
   }
 }
 
-export function createChannel({
+export default function createChannel({
   url,
   async = false,
   onError = (err) => logger.warn(err),

@@ -10,8 +10,8 @@ function eqMajor(versionRange: string, major: number) {
   return validRange(versionRange) && minVersion(versionRange).major === major;
 }
 
-// Should match @storybook/<renderer>
-export type SupportedRenderers =
+// Should match @storybook/<framework>
+export type SupportedFrameworks =
   | 'react'
   | 'react-native'
   | 'vue'
@@ -22,6 +22,7 @@ export type SupportedRenderers =
   | 'ember'
   | 'marionette'
   | 'marko'
+  | 'meteor'
   | 'preact'
   | 'svelte'
   | 'rax'
@@ -30,27 +31,11 @@ export type SupportedRenderers =
   | 'web-components'
   | 'server';
 
-export const SUPPORTED_RENDERERS: SupportedRenderers[] = [
-  'react',
-  'react-native',
-  'vue',
-  'vue3',
-  'angular',
-  'mithril',
-  'riot',
-  'ember',
-  'marionette',
-  'marko',
-  'preact',
-  'svelte',
-  'rax',
-  'aurelia',
-];
-
 export enum ProjectType {
   UNDETECTED = 'UNDETECTED',
   UNSUPPORTED = 'UNSUPPORTED',
   REACT_SCRIPTS = 'REACT_SCRIPTS',
+  METEOR = 'METEOR',
   REACT = 'REACT',
   REACT_NATIVE = 'REACT_NATIVE',
   REACT_PROJECT = 'REACT_PROJECT',
@@ -61,6 +46,7 @@ export enum ProjectType {
   ANGULAR = 'ANGULAR',
   EMBER = 'EMBER',
   ALREADY_HAS_STORYBOOK = 'ALREADY_HAS_STORYBOOK',
+  UPDATE_PACKAGE_ORGANIZATIONS = 'UPDATE_PACKAGE_ORGANIZATIONS',
   WEB_COMPONENTS = 'WEB_COMPONENTS',
   MITHRIL = 'MITHRIL',
   MARIONETTE = 'MARIONETTE',
@@ -74,7 +60,26 @@ export enum ProjectType {
   SERVER = 'SERVER',
 }
 
+export const SUPPORTED_FRAMEWORKS: SupportedFrameworks[] = [
+  'react',
+  'react-native',
+  'vue',
+  'vue3',
+  'angular',
+  'mithril',
+  'riot',
+  'ember',
+  'marionette',
+  'marko',
+  'meteor',
+  'preact',
+  'svelte',
+  'rax',
+  'aurelia',
+];
+
 export enum CoreBuilder {
+  Webpack4 = 'webpack4',
   Webpack5 = 'webpack5',
   Vite = 'vite',
 }
@@ -110,6 +115,13 @@ export type TemplateConfiguration = {
  * therefore WEBPACK_REACT has to come first, as it's more specific.
  */
 export const supportedTemplates: TemplateConfiguration[] = [
+  {
+    preset: ProjectType.METEOR,
+    files: ['.meteor'],
+    matcherFunction: ({ files }) => {
+      return files.every(Boolean);
+    },
+  },
   {
     preset: ProjectType.SFC_VUE,
     dependencies: {
@@ -276,6 +288,7 @@ const notInstallableProjectTypes: ProjectType[] = [
   ProjectType.UNDETECTED,
   ProjectType.UNSUPPORTED,
   ProjectType.ALREADY_HAS_STORYBOOK,
+  ProjectType.UPDATE_PACKAGE_ORGANIZATIONS,
 ];
 
 export const installableProjectTypes = Object.values(ProjectType)

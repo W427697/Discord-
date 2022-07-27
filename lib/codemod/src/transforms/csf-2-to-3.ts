@@ -123,9 +123,7 @@ function transform({ source }: { source: string }, api: any, options: { parser?:
       // const Template = (args) => <Cat {...args} />;
       // export const A = Template.bind({});
       let storyFn = template && csf._templates[template];
-      if (!storyFn) {
-        storyFn = init;
-      }
+      if (!storyFn) storyFn = init;
 
       const keyId = t.identifier(key);
       // @ts-ignore

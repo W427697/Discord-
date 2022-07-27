@@ -1,4 +1,4 @@
-import React, { Component, Children, ComponentType, FC, ReactNode } from 'react';
+import React, { Component, Children, ComponentType, FunctionComponent, ReactNode } from 'react';
 import { State, ActiveTabs } from '@storybook/api';
 import { styled } from '@storybook/theming';
 
@@ -92,7 +92,7 @@ const Panels = React.memo((({ children, active, isFullscreen }) => (
       </Pane>
     ))}
   </PanelsContainer>
-)) as FC<{ active: ActiveTabsType; children: ReactNode; isFullscreen: boolean }>);
+)) as FunctionComponent<{ active: ActiveTabsType; children: ReactNode; isFullscreen: boolean }>);
 Panels.displayName = 'Panels';
 
 const PanelsContainer = styled.div<{ isFullscreen: boolean }>(
@@ -128,8 +128,8 @@ const Bar = styled.nav(
 
 export interface Page {
   key: string;
-  route: FC;
-  render: FC;
+  route: FunctionComponent;
+  render: FunctionComponent;
 }
 
 export interface MobileProps {
@@ -144,6 +144,7 @@ export interface MobileProps {
   Notifications: ComponentType<any>;
   viewMode: State['viewMode'];
   pages: Page[];
+  docsOnly: boolean;
 }
 
 export interface MobileState {
@@ -161,7 +162,8 @@ class Mobile extends Component<MobileProps, MobileState> {
   }
 
   render() {
-    const { Sidebar, Preview, Panel, Notifications, pages, viewMode, options } = this.props;
+    const { Sidebar, Preview, Panel, Notifications, pages, viewMode, options, docsOnly } =
+      this.props;
 
     const { active } = this.state;
     return (
@@ -203,7 +205,7 @@ class Mobile extends Component<MobileProps, MobileState> {
                 <Route key={key}>{key}</Route>
               ))}
             </TabButton>
-            {viewMode ? (
+            {viewMode && !docsOnly ? (
               <TabButton
                 onClick={() => this.setState({ active: ADDONS })}
                 active={active === ADDONS}

@@ -22,8 +22,5 @@ export function jscodeshiftToPrettierParser(parser?: string) {
     tsx: 'typescript',
   };
 
-  if (!parser) {
-    return 'babel';
-  }
   return parserMap[parser] || 'babel';
 }

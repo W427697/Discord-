@@ -1,9 +1,8 @@
 import * as React from 'react';
 import { themes, convert } from '@storybook/theming';
 import { Result } from 'axe-core';
-import { useChannel, useAddonState, useStorybookApi } from '@storybook/api';
+import { useChannel, useStorybookState, useAddonState } from '@storybook/api';
 import { STORY_CHANGED, STORY_RENDERED } from '@storybook/core-events';
-import { HIGHLIGHT } from '@storybook/addon-highlight';
 import { ADDON_ID, EVENTS } from '../constants';
 
 export interface Results {
@@ -23,9 +22,9 @@ interface A11yContextStore {
 }
 
 const colorsByType = [
-  convert(themes.light).color.negative, // VIOLATION,
-  convert(themes.light).color.positive, // PASS,
-  convert(themes.light).color.warning, // INCOMPLETION,
+  convert(themes.normal).color.negative, // VIOLATION,
+  convert(themes.normal).color.positive, // PASS,
+  convert(themes.normal).color.warning, // INCOMPLETION,
 ];
 
 export const A11yContext = React.createContext<A11yContextStore>({
@@ -56,8 +55,7 @@ export const A11yContextProvider: React.FC<A11yContextProviderProps> = ({ active
   const [results, setResults] = useAddonState<Results>(ADDON_ID, defaultResult);
   const [tab, setTab] = React.useState(0);
   const [highlighted, setHighlighted] = React.useState<string[]>([]);
-  const api = useStorybookApi();
-  const storyEntry = api.getCurrentStoryData();
+  const { storyId } = useStorybookState();
 
   const handleToggleHighlight = React.useCallback((target: string[], highlight: boolean) => {
     setHighlighted((prevHighlighted) =>
@@ -78,7 +76,7 @@ export const A11yContextProvider: React.FC<A11yContextProviderProps> = ({ active
   const handleReset = React.useCallback(() => {
     setTab(0);
     setResults(defaultResult);
-    // Highlights is cleared by addon-highlight
+    // Highlights is cleared by a11yHighlights.ts
   }, []);
 
   const emit = useChannel({
@@ -87,16 +85,16 @@ export const A11yContextProvider: React.FC<A11yContextProviderProps> = ({ active
   });
 
   React.useEffect(() => {
-    emit(HIGHLIGHT, { elements: highlighted, color: colorsByType[tab] });
+    emit(EVENTS.HIGHLIGHT, { elements: highlighted, color: colorsByType[tab] });
   }, [highlighted, tab]);
 
   React.useEffect(() => {
-    if (active && storyEntry?.type === 'story') {
-      handleRun(storyEntry.id);
+    if (active) {
+      handleRun(storyId);
     } else {
       handleClearHighlights();
     }
-  }, [active, handleClearHighlights, emit, storyEntry]);
+  }, [active, handleClearHighlights, emit, storyId]);
 
   if (!active) return null;
 

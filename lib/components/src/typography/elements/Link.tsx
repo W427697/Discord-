@@ -1,6 +1,6 @@
-import React, { FC, AnchorHTMLAttributes } from 'react';
+import React, { FunctionComponent, AnchorHTMLAttributes } from 'react';
 
-export const Link: FC<AnchorHTMLAttributes<HTMLAnchorElement>> = ({
+export const Link: FunctionComponent<AnchorHTMLAttributes<HTMLAnchorElement>> = ({
   href: input,
   children,
   ...props

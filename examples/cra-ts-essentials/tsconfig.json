@@ -6,11 +6,11 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "jsx": "react",
-    "target": "ES2020",
-    "module": "CommonJS",
+    "module": "esnext",
     "skipLibCheck": true,
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
+    "target": "es5",
     "types": [
       "jest",
       "node"

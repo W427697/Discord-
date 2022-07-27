@@ -1,9 +1,9 @@
 import { transparentize } from 'polished';
-import React, { FC } from 'react';
+import React, { FunctionComponent } from 'react';
 import { Global } from '@storybook/theming';
 import { Highlight } from './types';
 
-export const HighlightStyles: FC<Highlight> = ({ refId, itemId }) => (
+export const HighlightStyles: FunctionComponent<Highlight> = ({ refId, itemId }) => (
   <Global
     styles={({ color }) => {
       const background = transparentize(0.85, color.secondary);

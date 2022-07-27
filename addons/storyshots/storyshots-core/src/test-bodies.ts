@@ -1,21 +1,15 @@
 import 'jest-specific-snapshot';
-import {
-  StoryshotsTestMethod,
-  TestMethodOptions,
-  StoryshotsOptions,
-} from './api/StoryshotsOptions';
+import { StoryshotsTestMethod, TestMethodOptions } from './api/StoryshotsOptions';
 
 const isFunction = (obj: any) => !!(obj && obj.constructor && obj.call && obj.apply);
 const optionsOrCallOptions = (opts: any, story: any) => (isFunction(opts) ? opts(story) : opts);
-
-type SnapshotsWithOptionsArgType = Pick<StoryshotsOptions, 'renderer' | 'serializer'> | Function;
 
 type SnapshotsWithOptionsReturnType = (
   options: Pick<TestMethodOptions, 'story' | 'context' | 'renderTree' | 'snapshotFileName'>
 ) => any;
 
 export function snapshotWithOptions(
-  options: SnapshotsWithOptionsArgType = {}
+  options: { renderer?: any; serializer?: any } | Function = {}
 ): SnapshotsWithOptionsReturnType {
   return ({ story, context, renderTree, snapshotFileName }) => {
     const result = renderTree(story, context, optionsOrCallOptions(options, story));
@@ -50,9 +44,7 @@ export function snapshotWithOptions(
   };
 }
 
-export function multiSnapshotWithOptions(
-  options: SnapshotsWithOptionsArgType = {}
-): StoryshotsTestMethod {
+export function multiSnapshotWithOptions(options = {}): StoryshotsTestMethod {
   return ({ story, context, renderTree, stories2snapsConverter }) => {
     const snapshotFileName = stories2snapsConverter.getSnapshotFileName(context);
     return snapshotWithOptions(options)({ story, context, renderTree, snapshotFileName });

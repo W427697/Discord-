@@ -66,7 +66,7 @@ We'll need to add the necessary dependencies and make some adjustments. Run the 
 Initialize a local Storybook instance to allow you to test your addon.
 
 ```shell
-npx storybook init
+npx sb init
 ```
 
 <div class="aside">
@@ -200,6 +200,7 @@ When Storybook was initialized, it provided a small set of example stories. Chan
     'vue/button-story-with-addon-example.js.mdx',
     'angular/button-story-with-addon-example.ts.mdx',
     'svelte/button-story-with-addon-example.js.mdx',
+    'svelte/button-story-with-addon-example.native-format.mdx',
   ]}
 />
 

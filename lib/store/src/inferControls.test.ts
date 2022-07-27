@@ -1,7 +1,5 @@
-import { expect } from '@jest/globals';
+import { StoryContextForEnhancers } from '@storybook/store';
 import { logger } from '@storybook/client-logger';
-import { StoryContextForEnhancers } from '@storybook/csf';
-
 import { argTypesEnhancers } from './inferControls';
 
 const getStoryContext = (overrides: any = {}): StoryContextForEnhancers => ({

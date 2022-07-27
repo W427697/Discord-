@@ -1,5 +1,4 @@
-import { baseGenerator } from '../baseGenerator';
-import { Generator } from '../types';
+import { baseGenerator, Generator } from '../baseGenerator';
 import { writePackageJson } from '../../js-package-manager';
 
 const generator: Generator = async (packageManager, npmOptions, options) => {

@@ -1,4 +1,4 @@
-import type { Meta, StoryFn } from '@storybook/vue';
+import { Meta, Story } from '@storybook/vue/types-6-0';
 import Button from './Button.vue';
 
 export default {
@@ -11,7 +11,7 @@ export default {
   },
 } as Meta;
 
-export const ButtonWithProps: StoryFn = (args, { argTypes }) => ({
+export const ButtonWithProps: Story = (args, { argTypes }) => ({
   components: { Button },
   template: '<Button :size="size">Button text</Button>',
   props: Object.keys(argTypes),

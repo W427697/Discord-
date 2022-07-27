@@ -18,9 +18,7 @@ const RoutedLink: React.FC<
   const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     if (isPlainLeftClick(e)) {
       e.preventDefault();
-      if (onClick) {
-        onClick(e);
-      }
+      onClick(e);
     }
   };
 

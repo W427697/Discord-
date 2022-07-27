@@ -51,9 +51,6 @@ const isObject = (val: Record<string, any>) =>
   val != null && typeof val === 'object' && Array.isArray(val) === false;
 
 const getFirstString = (v: ValueOf<qs.ParsedQs>): string | void => {
-  if (v === undefined) {
-    return undefined;
-  }
   if (typeof v === 'string') {
     return v;
   }
@@ -61,7 +58,8 @@ const getFirstString = (v: ValueOf<qs.ParsedQs>): string | void => {
     return getFirstString(v[0]);
   }
   if (isObject(v)) {
-    return getFirstString(Object.values(v).filter(Boolean) as string[]);
+    // @ts-ignore
+    return getFirstString(Object.values(v));
   }
   return undefined;
 };
@@ -73,7 +71,7 @@ Use \`id=$storyId\` instead.
 See https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#new-url-structure`
 );
 
-export const getSelectionSpecifierFromPath: () => SelectionSpecifier | null = () => {
+export const getSelectionSpecifierFromPath: () => SelectionSpecifier = () => {
   const query = qs.parse(document.location.search, { ignoreQueryPrefix: true });
   const args = typeof query.args === 'string' ? parseArgsParam(query.args) : undefined;
   const globals = typeof query.globals === 'string' ? parseArgsParam(query.globals) : undefined;
@@ -102,9 +100,9 @@ export const getSelectionSpecifierFromPath: () => SelectionSpecifier | null = ()
 };
 
 export class UrlStore {
-  selectionSpecifier: SelectionSpecifier | null;
+  selectionSpecifier: SelectionSpecifier;
 
-  selection?: Selection;
+  selection: Selection;
 
   constructor() {
     this.selectionSpecifier = getSelectionSpecifierFromPath();

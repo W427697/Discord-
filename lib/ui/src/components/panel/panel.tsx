@@ -63,7 +63,7 @@ const AddonPanel = React.memo<{
   }) => (
     <Tabs
       absolute={absolute}
-      {...(selectedPanel ? { selected: selectedPanel } : {})}
+      selected={selectedPanel}
       actions={actions}
       tools={
         <Fragment>

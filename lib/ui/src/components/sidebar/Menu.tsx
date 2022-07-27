@@ -1,9 +1,15 @@
-import React, { useMemo, ComponentProps, FC } from 'react';
+import React, { FunctionComponent, useMemo, ComponentProps } from 'react';
 
 import { styled } from '@storybook/theming';
 import { WithTooltip, TooltipLinkList, Button, Icons, IconButton } from '@storybook/components';
 
 export type MenuList = ComponentProps<typeof TooltipLinkList>['links'];
+
+export type MenuButtonProps = ComponentProps<typeof Button> &
+  // FIXME: Button should extends from the native <button>
+  ComponentProps<'button'> & {
+    highlighted: boolean;
+  };
 
 const sharedStyles = {
   height: 10,
@@ -35,13 +41,7 @@ export const MenuItemIcon = ({ icon, imgSrc }: ListItemIconProps) => {
   return <Placeholder />;
 };
 
-export const MenuButton: FC<ComponentProps<typeof Button> & { highlighted: boolean }> = styled(
-  Button
-)<
-  ComponentProps<typeof Button> & {
-    highlighted: boolean;
-  }
->(({ highlighted, theme }) => ({
+export const MenuButton = styled(Button)<MenuButtonProps>(({ highlighted, theme }) => ({
   position: 'relative',
   overflow: 'visible',
   padding: 7,
@@ -78,7 +78,7 @@ export const MenuButton: FC<ComponentProps<typeof Button> & { highlighted: boole
 
 type ClickHandler = ComponentProps<typeof TooltipLinkList>['links'][number]['onClick'];
 
-export const SidebarMenuList: FC<{
+export const SidebarMenuList: FunctionComponent<{
   menu: MenuList;
   onHide: () => void;
 }> = ({ menu, onHide }) => {
@@ -96,7 +96,7 @@ export const SidebarMenuList: FC<{
   return <TooltipLinkList links={links} />;
 };
 
-export const SidebarMenu: FC<{
+export const SidebarMenu: FunctionComponent<{
   menu: MenuList;
   isHighlighted: boolean;
 }> = ({ isHighlighted, menu }) => {
@@ -114,7 +114,7 @@ export const SidebarMenu: FC<{
   );
 };
 
-export const ToolbarMenu: FC<{
+export const ToolbarMenu: FunctionComponent<{
   menu: MenuList;
 }> = ({ menu }) => {
   return (

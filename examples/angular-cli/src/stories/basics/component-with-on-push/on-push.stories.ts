@@ -1,4 +1,4 @@
-import { Meta, StoryFn } from '@storybook/angular';
+import { Meta, Story } from '@storybook/angular';
 import { OnPushBoxComponent } from './on-push-box.component';
 
 export default {
@@ -14,7 +14,7 @@ export default {
   },
 } as Meta;
 
-export const ClassSpecifiedComponentWithOnPushAndArgs: StoryFn = (args) => ({
+export const ClassSpecifiedComponentWithOnPushAndArgs: Story = (args) => ({
   props: args,
 });
 ClassSpecifiedComponentWithOnPushAndArgs.storyName =

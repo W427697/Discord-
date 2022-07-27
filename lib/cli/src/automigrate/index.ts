@@ -22,12 +22,7 @@ export const automigrate = async ({ fixId, dryRun, yes }: FixOptions = {}) => {
 
   for (let i = 0; i < filtered.length; i += 1) {
     const f = fixes[i] as Fix;
-    let result;
-    try {
-      result = await f.check({ packageManager });
-    } catch (e) {
-      logger.info(`failed to check fix: ${f.id}`);
-    }
+    const result = await f.check({ packageManager });
     if (result) {
       logger.info(`🔎 found a '${chalk.cyan(f.id)}' migration:`);
       logger.info();

@@ -5,7 +5,7 @@ const execa = require('execa');
 
 function getCommand(watch, dir) {
   // Compile angular with tsc
-  if (process.cwd().includes(path.join('frameworks', 'angular'))) {
+  if (process.cwd().includes(path.join('app', 'angular'))) {
     return '';
   }
   if (process.cwd().includes(path.join('addons', 'storyshots'))) {
@@ -97,10 +97,16 @@ async function babelify(options = {}) {
     return;
   }
 
-  const runners = [
-    run({ watch, dir: './dist/cjs', silent, errorCallback }),
-    run({ watch, dir: './dist/esm', silent, errorCallback }),
-  ];
+  const runners = watch
+    ? [
+        run({ watch, dir: './dist/cjs', silent, errorCallback }),
+        run({ watch, dir: './dist/esm', silent, errorCallback }),
+      ]
+    : [
+        run({ dir: './dist/cjs', silent, errorCallback }),
+        run({ dir: './dist/esm', silent, errorCallback }),
+        run({ dir: './dist/modern', silent, errorCallback }),
+      ];
 
   await Promise.all(runners);
 }

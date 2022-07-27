@@ -9,11 +9,7 @@ import { MyComponent } from './MyComponent.component';
 
 <Meta title="FigmaExample" component={MyComponent} decorators={[withDesign]} />
 
-<!--
- 👇 Render functions are a framework specific feature to allow you control on how the component renders.
-  See https://storybook.js.org/docs/7.0/angular/api/csf
-  to learn how to use render functions.
--->
+export const Template = () => ({ props: {} });
 
 <Canvas>
   <Story
@@ -24,8 +20,8 @@ import { MyComponent } from './MyComponent.component';
         url: 'https://www.figma.com/file/Sample-File',
       },
     }}
-    render={(args) => ({
-      props: args,
-    })} />
+  >
+  {Template.bind({})}
+  </Story>
 </Canvas>
 ```

@@ -5,7 +5,7 @@ describe('Basic CLI', () => {
 
   describe('Welcome story (MDX)', () => {
     it('should load and display', () => {
-      cy.navigateToStory('example-introduction', 'docs');
+      cy.navigateToStory('example-introduction', 'page');
       cy.getDocsElement().should('contain.text', 'Welcome to Storybook');
     });
   });

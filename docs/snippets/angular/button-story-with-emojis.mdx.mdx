@@ -7,34 +7,30 @@ import { Button } from './button.component';
 
 <Meta title="Button" component={Button}/>
 
-<!--
- 👇 Render functions are a framework specific feature to allow you control on how the component renders.
-  See https://storybook.js.org/docs/7.0/angular/api/csf
-  to learn how to use render functions.
--->
-
-<Story 
-  name="Primary"
-  render={() => ({
+<Story name="Primary">
+  {{
     props: {
-      backgroundColor: '#ff0',
+      background: '#ff0',
       label: 'Button',
     },
-  })} />
-<Story 
-  name="Secondary"
-  render={() => ({
+  }}
+</Story>
+
+<Story name="Secondary">
+  {{
     props: {
-      backgroundColor: '#ff0',
+      background: '#ff0',
       label: '😄👍😍💯',
     },
-  })} />
-<Story 
-  name="Tertiary"
-  render={() => ({
+  }}
+</Story>
+
+<Story name="Tertiary">
+  {{
     props: {
-      backgroundColor: '#ff0',
+      background: '#ff0',
       label: '📚📕📈🤓',
     },
-  })} />
+  }}
+</Story>
 ```

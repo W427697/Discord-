@@ -1,6 +1,7 @@
 import path from 'path';
 import fs from 'fs-extra';
 
+import { testMetadata } from 'teamcity-service-messages';
 import { findSuitesAndTests } from 'mocha-list-tests';
 
 const testsDir = path.join(__dirname, 'integration');
@@ -65,6 +66,8 @@ async function report() {
       })
     );
   });
+
+  reports.forEach(testMetadata);
 }
 
 report();

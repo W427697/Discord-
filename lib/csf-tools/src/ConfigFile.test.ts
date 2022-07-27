@@ -1,4 +1,4 @@
-import { dedent } from 'ts-dedent';
+import dedent from 'ts-dedent';
 import { formatConfig, loadConfig } from './ConfigFile';
 
 expect.addSnapshotSerializer({
@@ -131,7 +131,7 @@ describe('ConfigFile', () => {
           getField(
             ['stories'],
             dedent`
-              import type { StorybookConfig } from '@storybook/react-webpack5';
+              import type { StorybookConfig } from '@storybook/react/types';
 
               const config: StorybookConfig = {
                 stories: [{ directory: '../src', titlePrefix: 'Demo' }],

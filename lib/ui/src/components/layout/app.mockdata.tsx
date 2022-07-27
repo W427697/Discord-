@@ -1,5 +1,5 @@
 import global from 'global';
-import React, { Component, FC } from 'react';
+import React, { Component, FunctionComponent } from 'react';
 import { styled } from '@storybook/theming';
 import { Collection } from '@storybook/addons';
 import { State } from '@storybook/api';
@@ -120,22 +120,22 @@ class PlaceholderClock extends Component<{ color: string }, { count: number }> {
   }
 }
 
-const MockSidebar: FC<any> = (props) => (
+const MockSidebar: FunctionComponent<any> = (props) => (
   <PlaceholderClock color="hotpink">
     <pre>{JSON.stringify(props, null, 2)}</pre>
   </PlaceholderClock>
 );
-const MockPreview: FC<any> = (props) => (
+const MockPreview: FunctionComponent<any> = (props) => (
   <PlaceholderClock color="deepskyblue">
     <pre>{JSON.stringify(props, null, 2)}</pre>
   </PlaceholderClock>
 );
-const MockPanel: FC<any> = (props) => (
+const MockPanel: FunctionComponent<any> = (props) => (
   <PlaceholderClock color="orangered">
     <pre>{JSON.stringify(props, null, 2)}</pre>
   </PlaceholderClock>
 );
-export const MockPage: FC<any> = (props) => (
+export const MockPage: FunctionComponent<any> = (props) => (
   <PlaceholderClock color="cyan">
     <pre>{JSON.stringify(props, null, 2)}</pre>
   </PlaceholderClock>
@@ -160,6 +160,7 @@ export const mockProps: DesktopProps = {
   panelCount: 2,
   width: 900,
   height: 600,
+  docsOnly: false,
 };
 
 export const realProps: DesktopProps = {
@@ -190,4 +191,5 @@ export const realProps: DesktopProps = {
   panelCount: 2,
   width: 900,
   height: 600,
+  docsOnly: false,
 };

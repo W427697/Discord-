@@ -1,5 +1,5 @@
 import global from 'global';
-import React, { FC, useState, useCallback, Fragment } from 'react';
+import React, { FunctionComponent, useState, useCallback, Fragment } from 'react';
 
 import { Icons, WithTooltip, Spaced, Button, Link } from '@storybook/components';
 import { logger } from '@storybook/client-logger';
@@ -56,7 +56,7 @@ const ErrorDetail = styled.em(({ theme }) => ({
 
 const firstLineRegex = /(Error): (.*)\n/;
 const linesRegex = /at (?:(.*) )?\(?(.+)\)?/;
-const ErrorFormatter: FC<{ error: Error }> = ({ error }) => {
+const ErrorFormatter: FunctionComponent<{ error: Error }> = ({ error }) => {
   if (!error) {
     return <Fragment>This error has no stack or message</Fragment>;
   }
@@ -106,7 +106,10 @@ const ErrorFormatter: FC<{ error: Error }> = ({ error }) => {
   );
 };
 
-export const AuthBlock: FC<{ loginUrl: string; id: string }> = ({ loginUrl, id }) => {
+export const AuthBlock: FunctionComponent<{ loginUrl: string; id: string }> = ({
+  loginUrl,
+  id,
+}) => {
   const [isAuthAttempted, setAuthAttempted] = useState(false);
 
   const refresh = useCallback(() => {
@@ -161,7 +164,7 @@ export const AuthBlock: FC<{ loginUrl: string; id: string }> = ({ loginUrl, id }
   );
 };
 
-export const ErrorBlock: FC<{ error: Error }> = ({ error }) => (
+export const ErrorBlock: FunctionComponent<{ error: Error }> = ({ error }) => (
   <Contained>
     <Spaced>
       <TextStyle>
@@ -196,7 +199,7 @@ const WideSpaced = styled(Spaced)({
   flex: 1,
 });
 
-export const EmptyBlock: FC<any> = ({ isMain }) => (
+export const EmptyBlock: FunctionComponent<any> = ({ isMain }) => (
   <Contained>
     <FlexSpaced col={1}>
       <WideSpaced>
@@ -220,7 +223,7 @@ export const EmptyBlock: FC<any> = ({ isMain }) => (
   </Contained>
 );
 
-export const LoaderBlock: FC<{ isMain: boolean }> = ({ isMain }) => (
+export const LoaderBlock: FunctionComponent<{ isMain: boolean }> = ({ isMain }) => (
   <Contained>
     <Loader size={isMain ? 17 : 5} />
   </Contained>

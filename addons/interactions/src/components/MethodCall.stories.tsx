@@ -27,6 +27,7 @@ export default {
   },
 };
 
+class FooBar {}
 export const Args = () => (
   <div style={{ display: 'inline-flex', flexDirection: 'column', gap: 10 }}>
     <Node value={null} />
@@ -55,49 +56,37 @@ export const Args = () => (
       }}
       showObjectInspector
     />
-    <Node value={{ __class__: { name: 'FooBar' } }} />
-    <Node value={{ __function__: { name: 'goFaster' } }} />
+    <Node value={new FooBar()} />
+    <Node value={function goFaster() {}} />
     <Node value={{ __element__: { localName: 'hr' } }} />
     <Node value={{ __element__: { localName: 'foo', prefix: 'x' } }} />
     <Node value={{ __element__: { localName: 'div', id: 'foo' } }} />
     <Node value={{ __element__: { localName: 'span', classNames: ['foo', 'bar'] } }} />
     <Node value={{ __element__: { localName: 'button', innerText: 'Click me' } }} />
+    <Node value={new Date(Date.UTC(2012, 11, 20, 0, 0, 0))} />
+    <Node value={new Date(1600000000000)} />
+    <Node value={new Date(1600000000123)} />
+    <Node value={new EvalError()} />
+    <Node value={new SyntaxError("Can't do that")} />
+    <Node value={new TypeError("Cannot read property 'foo' of undefined")} />
+    <Node value={new ReferenceError('Invalid left-hand side in assignment')} />
     <Node
-      value={{ __date__: { value: new Date(Date.UTC(2012, 11, 20, 0, 0, 0)).toISOString() } }}
+      value={
+        new Error(
+          "XMLHttpRequest cannot load https://example.com. No 'Access-Control-Allow-Origin' header is present on the requested resource."
+        )
+      }
     />
-    <Node value={{ __date__: { value: new Date(1600000000000).toISOString() } }} />
-    <Node value={{ __date__: { value: new Date(1600000000123).toISOString() } }} />
-    <Node value={{ __error__: { name: 'EvalError', message: '' } }} />
-    <Node value={{ __error__: { name: 'SyntaxError', message: "Can't do that" } }} />
-    <Node
-      value={{
-        __error__: { name: 'TypeError', message: "Cannot read property 'foo' of undefined" },
-      }}
-    />
-    <Node
-      value={{
-        __error__: { name: 'ReferenceError', message: 'Invalid left-hand side in assignment' },
-      }}
-    />
-    <Node
-      value={{
-        __error__: {
-          name: 'Error',
-          message:
-            "XMLHttpRequest cannot load https://example.com. No 'Access-Control-Allow-Origin' header is present on the requested resource.",
-        },
-      }}
-    />
-    <Node value={{ __regexp__: { flags: 'i', source: 'hello' } }} />
-    <Node value={{ __regexp__: { flags: '', source: 'src(.*)\\.js$' } }} />
-    <Node value={{ __symbol__: { description: '' } }} />
-    <Node value={{ __symbol__: { description: 'Hello world' } }} />
+    <Node value={/hello/i} />
+    <Node value={new RegExp(`src(.*)\\.js$`)} />
+    {/* eslint-disable-next-line symbol-description */}
+    <Node value={Symbol()} />
+    <Node value={Symbol('Hello world')} />
   </div>
 );
 
 const calls: Call[] = [
   {
-    cursor: 0,
     id: '1',
     path: ['screen'],
     method: 'getByText',
@@ -107,7 +96,6 @@ const calls: Call[] = [
     retain: false,
   },
   {
-    cursor: 1,
     id: '2',
     path: ['userEvent'],
     method: 'click',
@@ -117,7 +105,6 @@ const calls: Call[] = [
     retain: false,
   },
   {
-    cursor: 2,
     id: '3',
     path: [],
     method: 'expect',
@@ -127,7 +114,6 @@ const calls: Call[] = [
     retain: false,
   },
   {
-    cursor: 3,
     id: '4',
     path: [{ __callId__: '3' }, 'not'],
     method: 'toBe',
@@ -137,17 +123,15 @@ const calls: Call[] = [
     retain: false,
   },
   {
-    cursor: 4,
     id: '5',
     path: ['jest'],
     method: 'fn',
     storyId: 'kind--story',
-    args: [{ __function__: { name: 'actionHandler' } }],
+    args: [function actionHandler() {}],
     interceptable: false,
     retain: false,
   },
   {
-    cursor: 5,
     id: '6',
     path: [],
     method: 'expect',
@@ -157,28 +141,20 @@ const calls: Call[] = [
     retain: false,
   },
   {
-    cursor: 6,
     id: '7',
     path: ['expect'],
     method: 'stringMatching',
     storyId: 'kind--story',
-    args: [{ __regexp__: { flags: 'i', source: 'hello' } }],
+    args: [/hello/i],
     interceptable: false,
     retain: false,
   },
   {
-    cursor: 7,
     id: '8',
     path: [{ __callId__: '6' }, 'not'],
     method: 'toHaveBeenCalledWith',
     storyId: 'kind--story',
-    args: [
-      { __callId__: '7' },
-      [
-        { __error__: { name: 'Error', message: "Cannot read property 'foo' of undefined" } },
-        { __symbol__: { description: 'Hello world' } },
-      ],
-    ],
+    args: [{ __callId__: '7' }, new Error("Cannot read property 'foo' of undefined")],
     interceptable: false,
     retain: false,
   },

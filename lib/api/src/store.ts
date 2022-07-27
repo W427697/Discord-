@@ -1,7 +1,7 @@
 import store, { StoreAPI } from 'store2';
 import storeSetup from './lib/store-setup';
 
-import type { State } from './index';
+import { State } from './index';
 
 // setting up the store, overriding set and get to use telejson
 // @ts-ignore

@@ -1,5 +1,5 @@
 import { Component, Injector, Input, OnInit, Type } from '@angular/core';
-import { componentWrapperDecorator, moduleMetadata, StoryFn, Meta } from '@storybook/angular';
+import { componentWrapperDecorator, moduleMetadata, Story, Meta } from '@storybook/angular';
 import { WithoutSelectorComponent, WITHOUT_SELECTOR_DATA } from './without-selector.component';
 
 export default {
@@ -33,7 +33,9 @@ class NgComponentOutletWrapperComponent implements OnInit {
   componentInjector: Injector;
 
   componentContent = [
+    // eslint-disable-next-line no-undef
     [document.createTextNode('Ng-content : Inspired by ')],
+    // eslint-disable-next-line no-undef
     [document.createTextNode('https://angular.io/api/common/NgComponentOutlet')],
   ];
 
@@ -52,7 +54,7 @@ class NgComponentOutletWrapperComponent implements OnInit {
 
 // Live changing of args by controls does not work at the moment. When changing args storybook does not fully
 // reload and therefore does not take into account the change of provider.
-export const WithCustomNgComponentOutletWrapper: StoryFn = (args) => ({
+export const WithCustomNgComponentOutletWrapper: Story = (args) => ({
   props: args,
 });
 WithCustomNgComponentOutletWrapper.storyName = 'Custom wrapper *NgComponentOutlet';

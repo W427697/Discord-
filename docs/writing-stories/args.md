@@ -30,10 +30,9 @@ To define the args of a single story, use the `args` CSF story key:
     'angular/button-story-with-args.ts.mdx',
     'angular/button-story-with-args.mdx.mdx',
     'svelte/button-story-with-args.js.mdx',
+    'svelte/button-story-with-args.native-format.mdx',
     'svelte/button-story-with-args.mdx.mdx',
     'web-components/button-story-with-args.js.mdx',
-    'html/button-story-with-args.ts.mdx',
-    'html/button-story-with-args.js.mdx',
   ]}
 />
 
@@ -69,6 +68,7 @@ You can also define args at the component level; they will apply to all the comp
     'angular/button-story-component-args-primary.ts.mdx',
     'angular/button-story-component-args-primary.mdx.mdx',
     'svelte/button-story-component-args-primary.js.mdx',
+    'svelte/button-story-component-args-primary.native-format.mdx',
     'svelte/button-story-component-args-primary.mdx.mdx',
     'web-components/button-story-component-args-primary.js.mdx',
   ]}
@@ -144,6 +144,7 @@ You can use args in your stories to configure the component's appearance, simila
     'vue/page-story-slots.mdx-3.mdx.mdx',
     'angular/page-story-slots.ts.mdx',
     'angular/page-story-slots.mdx.mdx',
+    'svelte/page-story-slots.native-format.mdx',
   ]}
 />
 

@@ -9,11 +9,7 @@ import MyComponent from './MyComponent.svelte';
   title="Disable a11y addon" 
   component={MyComponent} />
 
-<!--
- 👇 Render functions are a framework specific feature to allow you control on how the component renders.
-  See https://storybook.js.org/docs/7.0/svelte/api/csf
-  to learn how to use render functions.
--->
+export const Template = () => ({ Component: MyComponent });
 
 <Story
   name="NonA11yStory"
@@ -22,9 +18,7 @@ import MyComponent from './MyComponent.svelte';
       // This option disables all a11y checks on this story
       disable: true,
     },
-  }}
-  render={() => ({
-    Component: MyComponent,
-    props: {},
-  })} />
+  }}>
+  {Template.bind({})}
+</Story>
 ```

@@ -1,15 +1,15 @@
 import global from 'global';
-import { dedent } from 'ts-dedent';
+import dedent from 'ts-dedent';
 import {
-  transformSetStoriesStoryDataToStoriesHash,
-  SetStoriesStory,
+  transformStoriesRawToStoriesHash,
+  StoriesRaw,
+  StoryInput,
   StoriesHash,
   transformStoryIndexToStoriesHash,
-  SetStoriesStoryData,
-  StoryIndex,
+  StoryIndexStory,
 } from '../lib/stories';
 
-import type { ModuleFn } from '../index';
+import { ModuleFn, StoryId } from '../index';
 
 const { location, fetch } = global;
 
@@ -20,9 +20,9 @@ export interface SubState {
 type Versions = Record<string, string>;
 
 export type SetRefData = Partial<
-  ComposedRef & {
-    setStoriesData: SetStoriesStoryData;
-    storyIndex: StoryIndex;
+  Omit<ComposedRef, 'stories'> & {
+    v: number;
+    stories?: StoriesRaw;
   }
 >;
 
@@ -36,7 +36,7 @@ export interface SubAPI {
   changeRefState: (id: string, ready: boolean) => void;
 }
 
-export type StoryMapper = (ref: ComposedRef, story: SetStoriesStory) => SetStoriesStory;
+export type StoryMapper = (ref: ComposedRef, story: StoryInput) => StoryInput;
 export interface ComposedRef {
   id: string;
   title?: string;
@@ -99,43 +99,30 @@ const addRefIds = (input: StoriesHash, ref: ComposedRef): StoriesHash => {
   }, {} as StoriesHash);
 };
 
-async function handleRequest(request: Response | false): Promise<SetRefData> {
-  if (!request) return {};
-
-  try {
-    const response = await request;
-    if (!response.ok) return {};
-
-    const json = await response.json();
-
-    if (json.entries || json.stories) {
-      return { storyIndex: json };
-    }
-
-    return json as SetRefData;
-  } catch (error) {
-    return { error };
+const handle = async (request: Response | false): Promise<SetRefData> => {
+  if (request) {
+    return Promise.resolve(request)
+      .then((response) => (response.ok ? response.json() : {}))
+      .catch((error) => ({ error }));
   }
-}
+  return {};
+};
 
 const map = (
-  input: SetStoriesStoryData,
+  input: StoriesRaw,
   ref: ComposedRef,
   options: { storyMapper?: StoryMapper }
-): SetStoriesStoryData => {
+): StoriesRaw => {
   const { storyMapper } = options;
   if (storyMapper) {
     return Object.entries(input).reduce((acc, [id, item]) => {
       return { ...acc, [id]: storyMapper(ref, item) };
-    }, {} as SetStoriesStoryData);
+    }, {} as StoriesRaw);
   }
   return input;
 };
 
-export const init: ModuleFn<SubAPI, SubState, void> = (
-  { store, provider, singleStory, docsMode },
-  { runCheck = true } = {}
-) => {
+export const init: ModuleFn = ({ store, provider, singleStory }, { runCheck = true } = {}) => {
   const api: SubAPI = {
     findRef: (source) => {
       const refs = api.getRefs();
@@ -177,34 +164,18 @@ export const init: ModuleFn<SubAPI, SubState, void> = (
       const query = version ? `?version=${version}` : '';
       const credentials = isPublic ? 'omit' : 'include';
 
-      const [indexFetch, storiesFetch] = await Promise.all(
-        ['index.json', 'stories.json'].map(async (file) =>
-          fetch(`${url}/${file}${query}`, {
-            headers: { Accept: 'application/json' },
-            credentials,
-          })
-        )
-      );
+      // In theory the `/iframe.html` could be private and the `stories.json` could not exist, but in practice
+      // the only private servers we know about (Chromatic) always include `stories.json`. So we can tell
+      // if the ref actually exists by simply checking `stories.json` w/ credentials.
 
-      if (indexFetch.ok || storiesFetch.ok) {
-        const [index, metadata] = await Promise.all([
-          indexFetch.ok ? handleRequest(indexFetch) : handleRequest(storiesFetch),
-          handleRequest(
-            fetch(`${url}/metadata.json${query}`, {
-              headers: {
-                Accept: 'application/json',
-              },
-              credentials,
-              cache: 'no-cache',
-            }).catch(() => false)
-          ),
-        ]);
+      const storiesFetch = await fetch(`${url}/stories.json${query}`, {
+        headers: {
+          Accept: 'application/json',
+        },
+        credentials,
+      });
 
-        Object.assign(loadedData, { ...index, ...metadata });
-      } else if (!isPublic) {
-        // In theory the `/iframe.html` could be private and the `stories.json` could not exist, but in practice
-        // the only private servers we know about (Chromatic) always include `stories.json`. So we can tell
-        // if the ref actually exists by simply checking `stories.json` w/ credentials.
+      if (!storiesFetch.ok && !isPublic) {
         loadedData.error = {
           message: dedent`
             Error: Loading of ref failed
@@ -218,6 +189,21 @@ export const init: ModuleFn<SubAPI, SubState, void> = (
             Please check your dev-tools network tab.
           `,
         } as Error;
+      } else if (storiesFetch.ok) {
+        const [stories, metadata] = await Promise.all([
+          handle(storiesFetch),
+          handle(
+            fetch(`${url}/metadata.json${query}`, {
+              headers: {
+                Accept: 'application/json',
+              },
+              credentials,
+              cache: 'no-cache',
+            }).catch(() => false)
+          ),
+        ]);
+
+        Object.assign(loadedData, { ...stories, ...metadata });
       }
 
       const versions =
@@ -228,7 +214,8 @@ export const init: ModuleFn<SubAPI, SubState, void> = (
         url,
         ...loadedData,
         ...(versions ? { versions } : {}),
-        type: !loadedData.storyIndex ? 'auto-inject' : 'lazy',
+        error: loadedData.error,
+        type: !loadedData.stories ? 'auto-inject' : 'lazy',
       });
     },
 
@@ -238,23 +225,26 @@ export const init: ModuleFn<SubAPI, SubState, void> = (
       return refs;
     },
 
-    setRef: (id, { storyIndex, setStoriesData, ...rest }, ready = false) => {
-      if (singleStory) {
-        return;
-      }
+    setRef: (id, { stories, v, ...rest }, ready = false) => {
+      if (singleStory) return;
       const { storyMapper = defaultStoryMapper } = provider.getConfig();
       const ref = api.getRefs()[id];
 
       let storiesHash: StoriesHash;
-      if (setStoriesData) {
-        storiesHash = transformSetStoriesStoryDataToStoriesHash(
-          map(setStoriesData, ref, { storyMapper }),
-          { provider, docsMode }
-        );
-      } else if (storyIndex) {
-        storiesHash = transformStoryIndexToStoriesHash(storyIndex, { provider, docsMode });
+
+      if (stories) {
+        if (v === 2) {
+          storiesHash = transformStoriesRawToStoriesHash(map(stories, ref, { storyMapper }), {
+            provider,
+          });
+        } else if (!v) {
+          throw new Error('Composition: Missing stories.json version');
+        } else {
+          const index = stories as unknown as Record<StoryId, StoryIndexStory>;
+          storiesHash = transformStoryIndexToStoriesHash({ v, stories: index }, { provider });
+        }
+        storiesHash = addRefIds(storiesHash, ref);
       }
-      if (storiesHash) storiesHash = addRefIds(storiesHash, ref);
 
       api.updateRef(id, { stories: storiesHash, ...rest, ready });
     },
@@ -277,13 +267,13 @@ export const init: ModuleFn<SubAPI, SubState, void> = (
     },
   };
 
-  const refs: Refs = (!singleStory && global.REFS) || {};
+  const refs = (!singleStory && provider.getConfig().refs) || {};
 
   const initialState: SubState['refs'] = refs;
 
   if (runCheck) {
-    Object.entries(refs).forEach(([id, ref]) => {
-      api.checkRef({ ...ref, stories: {} } as SetRefData);
+    Object.entries(refs).forEach(([k, v]) => {
+      api.checkRef(v as SetRefData);
     });
   }
 

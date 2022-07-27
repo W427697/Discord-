@@ -9,3 +9,4 @@ const extend = (babelConfig: any) => ({
 });
 
 export const babel = extend;
+export const managerBabel = extend;

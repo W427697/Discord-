@@ -1,4 +1,4 @@
-import React, { FC, forwardRef, HTMLProps, SelectHTMLAttributes } from 'react';
+import React, { FunctionComponent, forwardRef, HTMLProps, SelectHTMLAttributes } from 'react';
 import type { Theme, CSSObject } from '@storybook/theming';
 import { styled } from '@storybook/theming';
 
@@ -51,6 +51,13 @@ type Sizes = '100%' | 'flex' | 'auto';
 type Alignments = 'end' | 'center' | 'start';
 type ValidationStates = 'valid' | 'error' | 'warn';
 
+export interface InputStyleProps {
+  size?: Sizes;
+  align?: Alignments;
+  valid?: ValidationStates;
+  height?: number;
+}
+
 const sizes = ({ size }: { size?: Sizes }): CSSObject => {
   switch (size) {
     case '100%': {
@@ -65,14 +72,7 @@ const sizes = ({ size }: { size?: Sizes }): CSSObject => {
     }
   }
 };
-const alignment = ({
-  align,
-}: {
-  size?: Sizes;
-  align?: Alignments;
-  valid?: ValidationStates;
-  height?: number;
-}): CSSObject => {
+const alignment = ({ align }: InputStyleProps): CSSObject => {
   switch (align) {
     case 'end': {
       return { textAlign: 'right' };
@@ -107,31 +107,13 @@ const validation = ({ valid, theme }: { valid: ValidationStates; theme: Theme })
   }
 };
 
-type InputProps = Omit<
-  HTMLProps<HTMLInputElement>,
-  keyof {
-    size?: Sizes;
-    align?: Alignments;
-    valid?: ValidationStates;
-    height?: number;
-  }
-> & {
-  size?: Sizes;
-  align?: Alignments;
-  valid?: ValidationStates;
-  height?: number;
-};
+type InputProps = Omit<HTMLProps<HTMLInputElement>, keyof InputStyleProps> & InputStyleProps;
 export const Input = Object.assign(
   styled(
     forwardRef<any, InputProps>(({ size, valid, align, ...props }, ref) => (
       <input {...props} ref={ref} />
     ))
-  )<{
-    size?: Sizes;
-    align?: Alignments;
-    valid?: ValidationStates;
-    height?: number;
-  }>(styles, sizes, alignment, validation, {
+  )<InputStyleProps>(styles, sizes, alignment, validation, {
     minHeight: 32,
   }),
   {
@@ -139,20 +121,8 @@ export const Input = Object.assign(
   }
 );
 
-type SelectProps = Omit<
-  SelectHTMLAttributes<HTMLSelectElement>,
-  keyof {
-    size?: Sizes;
-    align?: Alignments;
-    valid?: ValidationStates;
-    height?: number;
-  }
-> & {
-  size?: Sizes;
-  align?: Alignments;
-  valid?: ValidationStates;
-  height?: number;
-};
+type SelectProps = Omit<SelectHTMLAttributes<HTMLSelectElement>, keyof InputStyleProps> &
+  InputStyleProps;
 export const Select = Object.assign(
   styled(
     forwardRef<any, SelectProps>(({ size, valid, align, ...props }, ref) => (
@@ -169,20 +139,7 @@ export const Select = Object.assign(
   }
 );
 
-type TextareaProps = Omit<
-  TextareaAutosizeProps,
-  keyof {
-    size?: Sizes;
-    align?: Alignments;
-    valid?: ValidationStates;
-    height?: number;
-  }
-> & {
-  size?: Sizes;
-  align?: Alignments;
-  valid?: ValidationStates;
-  height?: number;
-};
+type TextareaProps = Omit<TextareaAutosizeProps, keyof InputStyleProps> & InputStyleProps;
 export const Textarea = Object.assign(
   styled(
     forwardRef<any, TextareaProps>(({ size, valid, align, ...props }, ref) => (
@@ -198,21 +155,10 @@ export const Textarea = Object.assign(
 );
 
 const ButtonStyled = styled(
-  forwardRef<
-    any,
-    {
-      size?: Sizes;
-      align?: Alignments;
-      valid?: ValidationStates;
-      height?: number;
-    }
-  >(({ size, valid, align, ...props }, ref) => <StyledButton {...props} ref={ref} />)
-)<{
-  size?: Sizes;
-  align?: Alignments;
-  valid?: ValidationStates;
-  height?: number;
-}>(sizes, validation, {
+  forwardRef<any, InputStyleProps>(({ size, valid, align, ...props }, ref) => (
+    <StyledButton {...props} ref={ref} />
+  ))
+)<InputStyleProps>(sizes, validation, {
   // Custom styling for color widget nested in buttons
   userSelect: 'none',
   overflow: 'visible',
@@ -224,7 +170,7 @@ const ButtonStyled = styled(
   },
 });
 
-export const Button: FC<any> = Object.assign(
+export const Button: FunctionComponent<any> = Object.assign(
   forwardRef<{}, {}>((props, ref) => (
     <ButtonStyled {...props} {...{ tertiary: true, small: true, inForm: true }} ref={ref} />
   )),

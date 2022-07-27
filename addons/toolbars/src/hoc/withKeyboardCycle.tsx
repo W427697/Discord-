@@ -17,7 +17,7 @@ export const withKeyboardCycle = (Component: React.ComponentType<ToolbarMenuProp
 
     const api = useStorybookApi();
     const [globals, updateGlobals] = useGlobals();
-    const cycleValues = useRef<any[]>([]);
+    const cycleValues = useRef([]);
     const currentValue = globals[id];
 
     const reset = useCallback(() => {

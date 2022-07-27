@@ -1,7 +1,5 @@
-/// <reference types="webpack-env" />
-
 import deprecate from 'util-deprecate';
-import { dedent } from 'ts-dedent';
+import dedent from 'ts-dedent';
 import global from 'global';
 import { logger } from '@storybook/client-logger';
 import { toId, sanitize } from '@storybook/csf';
@@ -151,7 +149,6 @@ export class ClientApi<TFramework extends AnyFramework> {
 
     this.storyStore = storyStore;
 
-    // eslint-disable-next-line @typescript-eslint/no-this-alias
     singleton = this;
   }
 
@@ -357,13 +354,13 @@ export class ClientApi<TFramework extends AnyFramework> {
       };
       counter += 1;
 
-      this.facade.entries[storyId] = {
+      this.facade.stories[storyId] = {
         id: storyId,
         title: csfExports.default.title,
         name: storyName,
         importPath: fileName,
-        type: 'story',
       };
+
       return api;
     };
 
@@ -399,12 +396,10 @@ Read more here: https://github.com/storybookjs/storybook/blob/master/MIGRATION.m
   };
 
   getStorybook = (): GetStorybookKind<TFramework>[] => {
-    const { entries } = this.storyStore.storyIndex;
+    const { stories } = this.storyStore.storyIndex;
 
     const kinds: Record<ComponentTitle, GetStorybookKind<TFramework>> = {};
-    Object.entries(entries).forEach(([storyId, { title, name, importPath, type }]) => {
-      if (type && type !== 'story') return;
-
+    Object.entries(stories).forEach(([storyId, { title, name, importPath }]) => {
       if (!kinds[title]) {
         kinds[title] = { kind: title, fileName: importPath, stories: [] };
       }

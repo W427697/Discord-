@@ -46,12 +46,7 @@ export async function copyAllStaticFilesRelativeToMain(
 
     const targetPath = path.join(outputDir, to);
     const skipPaths = ['index.html', 'iframe.html'].map((f) => path.join(targetPath, f));
-    logger.info(
-      chalk`=> Copying static files: {cyan ${from.replace(
-        process.cwd(),
-        ''
-      )}} at {cyan ${targetPath.replace(process.cwd(), '')}}`
-    );
+    logger.info(chalk`=> Copying static files: {cyan ${from}} at {cyan ${targetPath}}`);
     await fs.copy(from, targetPath, {
       dereference: true,
       preserveTimestamps: true,

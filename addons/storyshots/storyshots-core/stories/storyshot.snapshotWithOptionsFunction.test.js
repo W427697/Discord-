@@ -1,5 +1,5 @@
 import path from 'path';
-import initStoryshots, { snapshotWithOptions } from '../dist/types';
+import initStoryshots, { snapshotWithOptions } from '../dist/ts3.9';
 
 initStoryshots({
   framework: 'react',

@@ -1,6 +1,5 @@
-/* eslint-disable no-underscore-dangle */
 import global from 'global';
-import { dedent } from 'ts-dedent';
+import dedent from 'ts-dedent';
 import { SynchronousPromise } from 'synchronous-promise';
 import { toId, isExportStory, storyNameFromExport } from '@storybook/csf';
 import type { StoryId, AnyFramework, Parameters, StoryFn } from '@storybook/csf';
@@ -12,10 +11,9 @@ import type {
   StoryIndex,
   ModuleExports,
   Story,
-  IndexEntry,
+  StoryIndexEntry,
 } from '@storybook/store';
 import { logger } from '@storybook/client-logger';
-import deprecate from 'util-deprecate';
 
 export interface GetStorybookStory<TFramework extends AnyFramework> {
   name: string;
@@ -28,13 +26,10 @@ export interface GetStorybookKind<TFramework extends AnyFramework> {
   stories: GetStorybookStory<TFramework>[];
 }
 
-const docs2Warning = deprecate(() => {},
-`You cannot use \`.mdx\` files without using \`storyStoreV7\`. Consider upgrading to the new store.`);
-
 export class StoryStoreFacade<TFramework extends AnyFramework> {
   projectAnnotations: NormalizedProjectAnnotations<TFramework>;
 
-  entries: StoryIndex['entries'];
+  stories: StoryIndex['stories'];
 
   csfExports: Record<Path, ModuleExports>;
 
@@ -49,7 +44,7 @@ export class StoryStoreFacade<TFramework extends AnyFramework> {
       argTypes: {},
     };
 
-    this.entries = {};
+    this.stories = {};
 
     this.csfExports = {};
   }
@@ -68,7 +63,7 @@ export class StoryStoreFacade<TFramework extends AnyFramework> {
     const fileNameOrder = Object.keys(this.csfExports);
     const storySortParameter = this.projectAnnotations.parameters?.options?.storySort;
 
-    const storyEntries = Object.entries(this.entries);
+    const storyEntries = Object.entries(this.stories);
     // Add the kind parameters and global parameters to each entry
     const sortableV6: [StoryId, Story<TFramework>, Parameters, Parameters][] = storyEntries.map(
       ([storyId, { importPath }]) => {
@@ -88,7 +83,7 @@ export class StoryStoreFacade<TFramework extends AnyFramework> {
     );
 
     // NOTE: the sortStoriesV6 version returns the v7 data format. confusing but more convenient!
-    let sortedV7: IndexEntry[];
+    let sortedV7: StoryIndexEntry[];
 
     try {
       sortedV7 = sortStoriesV6(sortableV6, storySortParameter, fileNameOrder);
@@ -106,16 +101,16 @@ export class StoryStoreFacade<TFramework extends AnyFramework> {
       }
       throw err;
     }
-    const entries = sortedV7.reduce((acc, s) => {
+    const stories = sortedV7.reduce((acc, s) => {
       // We use the original entry we stored in `this.stories` because it is possible that the CSF file itself
       // exports a `parameters.fileName` which can be different and mess up our `importFn`.
       // In fact, in Storyshots there is a Jest transformer that does exactly that.
       // NOTE: this doesn't actually change the story object, just the index.
-      acc[s.id] = this.entries[s.id];
+      acc[s.id] = this.stories[s.id];
       return acc;
-    }, {} as StoryIndex['entries']);
+    }, {} as StoryIndex['stories']);
 
-    return { v: 4, entries };
+    return { v: 3, stories };
   }
 
   clearFilenameExports(fileName: Path) {
@@ -124,9 +119,9 @@ export class StoryStoreFacade<TFramework extends AnyFramework> {
     }
 
     // Clear this module's stories from the storyList and existing exports
-    Object.entries(this.entries).forEach(([id, { importPath }]) => {
+    Object.entries(this.stories).forEach(([id, { importPath }]) => {
       if (importPath === fileName) {
-        delete this.entries[id];
+        delete this.stories[id];
       }
     });
 
@@ -136,11 +131,6 @@ export class StoryStoreFacade<TFramework extends AnyFramework> {
 
   // NOTE: we could potentially share some of this code with the stories.json generation
   addStoriesFromExports(fileName: Path, fileExports: ModuleExports) {
-    if (fileName.match(/\.mdx$/) && !fileName.match(/\.stories\.mdx$/)) {
-      docs2Warning();
-      return;
-    }
-
     // if the export haven't changed since last time we added them, this is a no-op
     if (this.csfExports[fileName] === fileExports) {
       return;
@@ -199,12 +189,11 @@ export class StoryStoreFacade<TFramework extends AnyFramework> {
           storyExport.story?.name ||
           exportName;
 
-        this.entries[id] = {
+        this.stories[id] = {
           id,
           name,
           title,
           importPath: fileName,
-          type: 'story',
         };
       });
   }

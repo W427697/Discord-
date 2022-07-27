@@ -1,4 +1,5 @@
 import global from 'global';
+import * as ReactDOM from 'react-dom';
 import merge from 'lodash/merge';
 import {
   CONFIG_ERROR,
@@ -20,7 +21,6 @@ import {
   STORY_RENDERED,
   STORY_SPECIFIED,
   STORY_THREW_EXCEPTION,
-  PLAY_FUNCTION_THREW_EXCEPTION,
   STORY_UNCHANGED,
   UPDATE_GLOBALS,
   UPDATE_STORY_ARGS,
@@ -29,8 +29,6 @@ import { logger } from '@storybook/client-logger';
 import { addons, mockChannel as createMockChannel } from '@storybook/addons';
 import type { AnyFramework } from '@storybook/csf';
 import type { ModuleImportFn, WebProjectAnnotations } from '@storybook/store';
-import { expect } from '@jest/globals';
-import { mocked } from 'ts-jest/utils';
 
 import { PreviewWeb } from './PreviewWeb';
 import {
@@ -46,12 +44,9 @@ import {
   waitForRender,
   waitForQuiescence,
   waitForRenderPhase,
-  docsRenderer,
-  standaloneDocsExports,
-  teardownRenderToDOM,
 } from './PreviewWeb.mockdata';
-import { WebView } from './WebView';
 
+jest.mock('./WebView');
 const { history, document } = global;
 
 const mockStoryIndex = jest.fn(() => storyIndex);
@@ -81,12 +76,6 @@ jest.mock('global', () => ({
 
 jest.mock('@storybook/client-logger');
 jest.mock('react-dom');
-jest.mock('./WebView');
-
-const serializeError = (error: Error) => {
-  const { name = 'Error', message = String(error), stack } = error;
-  return { name, message, stack };
-};
 
 const createGate = (): [Promise<any | undefined>, (_?: any) => void] => {
   let openGate = (_?: any) => {};
@@ -112,6 +101,9 @@ async function createAndRenderPreview({
   getProjectAnnotations?: () => WebProjectAnnotations<AnyFramework>;
 } = {}) {
   const preview = new PreviewWeb();
+  (
+    preview.view.prepareForDocs as jest.MockedFunction<typeof preview.view.prepareForDocs>
+  ).mockReturnValue('docs-element' as any);
   await preview.initialize({
     importFn: inputImportFn,
     getProjectAnnotations: inputGetProjectAnnotations,
@@ -126,21 +118,20 @@ beforeEach(() => {
   mockChannel.emit.mockClear();
   emitter.removeAllListeners();
   componentOneExports.default.loaders[0].mockReset().mockImplementation(async () => ({ l: 7 }));
+  componentOneExports.default.parameters.docs.container.mockClear();
   componentOneExports.a.play.mockReset();
-  teardownRenderToDOM.mockReset();
-  projectAnnotations.renderToDOM.mockReset().mockReturnValue(teardownRenderToDOM);
+  projectAnnotations.renderToDOM.mockReset();
   projectAnnotations.render.mockClear();
   projectAnnotations.decorators[0].mockClear();
-  docsRenderer.render.mockClear();
+  (ReactDOM.render as any as jest.Mock<typeof ReactDOM.render>)
+    .mockReset()
+    .mockImplementation((_: any, _2: any, cb: () => any) => cb());
   (logger.warn as jest.Mock<typeof logger.warn>).mockClear();
   mockStoryIndex.mockReset().mockReturnValue(storyIndex);
 
   addons.setChannel(mockChannel as any);
   addons.setServerChannel(createMockChannel());
   mockFetchResult = { status: 200, json: mockStoryIndex, text: () => 'error text' };
-
-  mocked(WebView.prototype).prepareForDocs.mockReturnValue('docs-element' as any);
-  mocked(WebView.prototype).prepareForStory.mockReturnValue('story-element' as any);
 });
 
 describe('PreviewWeb', () => {
@@ -179,7 +170,7 @@ describe('PreviewWeb', () => {
 
       const preview = await createAndRenderPreview();
 
-      expect(preview.storyStore.globals!.get()).toEqual({ a: 'c' });
+      expect(preview.storyStore.globals.get()).toEqual({ a: 'c' });
     });
 
     it('emits the SET_GLOBALS event', async () => {
@@ -240,7 +231,7 @@ describe('PreviewWeb', () => {
         },
       });
 
-      expect(preview.storyStore.globals!.get()).toEqual({ a: 'b' });
+      expect(preview.storyStore.globals.get()).toEqual({ a: 'b' });
     });
   });
 
@@ -283,18 +274,6 @@ describe('PreviewWeb', () => {
       });
     });
 
-    describe('when the first entry is a docs entry', () => {
-      it('emits the STORY_SPECIFIED event with viewMode=docs', async () => {
-        document.location.search = '?id=*';
-        await createAndRenderPreview();
-
-        expect(mockChannel.emit).toHaveBeenCalledWith(STORY_SPECIFIED, {
-          storyId: 'component-one--docs',
-          viewMode: 'docs',
-        });
-      });
-    });
-
     describe('if the story specified does not exist', () => {
       it('renders a loading error', async () => {
         document.location.search = '?id=random';
@@ -306,12 +285,12 @@ describe('PreviewWeb', () => {
       });
 
       it('tries again with a specifier if CSF file changes', async () => {
-        document.location.search = '?id=component-one--missing';
+        document.location.search = '?id=component-one--d';
 
         const preview = await createAndRenderPreview();
 
         expect(preview.view.showErrorDisplay).toHaveBeenCalled();
-        expect(mockChannel.emit).toHaveBeenCalledWith(STORY_MISSING, 'component-one--missing');
+        expect(mockChannel.emit).toHaveBeenCalledWith(STORY_MISSING, 'component-one--d');
 
         mockChannel.emit.mockClear();
         const newComponentOneExports = merge({}, componentOneExports, {
@@ -325,12 +304,11 @@ describe('PreviewWeb', () => {
         preview.onStoriesChanged({
           importFn: newImportFn,
           storyIndex: {
-            v: 4,
-            entries: {
-              ...storyIndex.entries,
-              'component-one--missing': {
-                type: 'story',
-                id: 'component-one--missing',
+            v: 3,
+            stories: {
+              ...storyIndex.stories,
+              'component-one--d': {
+                id: 'component-one--d',
                 title: 'Component One',
                 name: 'D',
                 importPath: './src/ComponentOne.stories.js',
@@ -341,7 +319,7 @@ describe('PreviewWeb', () => {
         await waitForRender();
 
         expect(mockChannel.emit).toHaveBeenCalledWith(STORY_SPECIFIED, {
-          storyId: 'component-one--missing',
+          storyId: 'component-one--d',
           viewMode: 'story',
         });
       });
@@ -351,12 +329,12 @@ describe('PreviewWeb', () => {
         afterEach(() => jest.useRealTimers());
 
         it('DOES NOT try again if CSF file changes', async () => {
-          document.location.search = '?id=component-one--missing';
+          document.location.search = '?id=component-one--d';
 
           const preview = await createAndRenderPreview();
 
           expect(preview.view.showErrorDisplay).toHaveBeenCalled();
-          expect(mockChannel.emit).toHaveBeenCalledWith(STORY_MISSING, 'component-one--missing');
+          expect(mockChannel.emit).toHaveBeenCalledWith(STORY_MISSING, 'component-one--d');
 
           emitter.emit(SET_CURRENT_STORY, {
             storyId: 'component-one--b',
@@ -376,12 +354,11 @@ describe('PreviewWeb', () => {
           preview.onStoriesChanged({
             importFn: newImportFn,
             storyIndex: {
-              v: 4,
-              entries: {
-                ...storyIndex.entries,
-                'component-one--missing': {
-                  type: 'story',
-                  id: 'component-one--missing',
+              v: 3,
+              stories: {
+                ...storyIndex.stories,
+                'component-one--d': {
+                  id: 'component-one--d',
                   title: 'Component One',
                   name: 'D',
                   importPath: './src/ComponentOne.stories.js',
@@ -390,7 +367,7 @@ describe('PreviewWeb', () => {
             },
           });
           expect(mockChannel.emit).not.toHaveBeenCalledWith(STORY_SPECIFIED, {
-            storyId: 'component-one--missing',
+            storyId: 'component-one--d',
             viewMode: 'story',
           });
         });
@@ -404,7 +381,7 @@ describe('PreviewWeb', () => {
       expect(mockChannel.emit).toHaveBeenCalledWith(STORY_MISSING);
     });
 
-    describe('story entries', () => {
+    describe('in story viewMode', () => {
       it('calls view.prepareForStory', async () => {
         document.location.search = '?id=component-one--a';
 
@@ -425,7 +402,7 @@ describe('PreviewWeb', () => {
           id: 'component-one--a',
           parameters: {
             __isArgsStory: false,
-            docs: expect.any(Object),
+            docs: { container: expect.any(Function) },
             fileName: './src/ComponentOne.stories.js',
           },
           initialArgs: { foo: 'a' },
@@ -443,7 +420,7 @@ describe('PreviewWeb', () => {
             id: 'component-one--a',
             parameters: {
               __isArgsStory: false,
-              docs: expect.any(Object),
+              docs: { container: expect.any(Function) },
               fileName: './src/ComponentOne.stories.js',
             },
             initialArgs: { foo: 'a' },
@@ -464,7 +441,7 @@ describe('PreviewWeb', () => {
               id: 'component-one--a',
               parameters: {
                 __isArgsStory: false,
-                docs: expect.any(Object),
+                docs: { container: expect.any(Function) },
                 fileName: './src/ComponentOne.stories.js',
               },
               globals: { a: 'b' },
@@ -474,7 +451,7 @@ describe('PreviewWeb', () => {
               loaded: { l: 7 },
             }),
           }),
-          'story-element'
+          undefined // this is coming from view.prepareForStory, not super important
         );
       });
 
@@ -487,48 +464,47 @@ describe('PreviewWeb', () => {
         document.location.search = '?id=component-one--a';
         const preview = await createAndRenderPreview();
 
-        expect(mockChannel.emit).toHaveBeenCalledWith(STORY_THREW_EXCEPTION, serializeError(error));
+        expect(mockChannel.emit).toHaveBeenCalledWith(STORY_THREW_EXCEPTION, error);
         expect(preview.view.showErrorDisplay).toHaveBeenCalledWith(error);
       });
 
       it('renders exception if renderToDOM throws', async () => {
         const error = new Error('error');
-        projectAnnotations.renderToDOM.mockImplementation(() => {
+        projectAnnotations.renderToDOM.mockImplementationOnce(() => {
           throw error;
         });
 
         document.location.search = '?id=component-one--a';
         const preview = await createAndRenderPreview();
 
-        expect(mockChannel.emit).toHaveBeenCalledWith(STORY_THREW_EXCEPTION, serializeError(error));
+        expect(mockChannel.emit).toHaveBeenCalledWith(STORY_THREW_EXCEPTION, error);
         expect(preview.view.showErrorDisplay).toHaveBeenCalledWith(error);
       });
 
       it('renders helpful message if renderToDOM is undefined', async () => {
-        document.location.search = '?id=component-one--a';
-        const preview = new PreviewWeb();
-        await expect(
-          preview.initialize({
-            importFn,
-            getProjectAnnotations: () => ({
-              ...getProjectAnnotations,
-              renderToDOM: undefined,
-            }),
-          })
-        ).rejects.toThrow();
+        const originalRenderToDOM = projectAnnotations.renderToDOM;
+        try {
+          projectAnnotations.renderToDOM = undefined;
 
-        expect(preview.view.showErrorDisplay).toHaveBeenCalled();
-        expect((preview.view.showErrorDisplay as jest.Mock).mock.calls[0][0])
-          .toMatchInlineSnapshot(`
-                          [Error: Expected your framework's preset to export a \`renderToDOM\` field.
+          document.location.search = '?id=component-one--a';
+          const preview = new PreviewWeb();
+          await expect(preview.initialize({ importFn, getProjectAnnotations })).rejects.toThrow();
 
-                          Perhaps it needs to be upgraded for Storybook 6.4?
+          expect(preview.view.showErrorDisplay).toHaveBeenCalled();
+          expect((preview.view.showErrorDisplay as jest.Mock).mock.calls[0][0])
+            .toMatchInlineSnapshot(`
+            [Error: Expected your framework's preset to export a \`renderToDOM\` field.
 
-                          More info: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#mainjs-framework-field          ]
-                      `);
+            Perhaps it needs to be upgraded for Storybook 6.4?
+
+            More info: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#mainjs-framework-field          ]
+          `);
+        } finally {
+          projectAnnotations.renderToDOM = originalRenderToDOM;
+        }
       });
 
-      it('emits but does not render exception if the play function throws', async () => {
+      it('renders exception if the play function throws', async () => {
         const error = new Error('error');
         componentOneExports.a.play.mockImplementationOnce(() => {
           throw error;
@@ -537,29 +513,15 @@ describe('PreviewWeb', () => {
         document.location.search = '?id=component-one--a';
         const preview = await createAndRenderPreview();
 
-        expect(mockChannel.emit).toHaveBeenCalledWith(
-          PLAY_FUNCTION_THREW_EXCEPTION,
-          serializeError(error)
-        );
-        expect(preview.view.showErrorDisplay).not.toHaveBeenCalled();
-      });
-
-      it('renders exception if the story calls showException', async () => {
-        const error = new Error('error');
-        projectAnnotations.renderToDOM.mockImplementation((context) =>
-          context.showException(error)
-        );
-
-        document.location.search = '?id=component-one--a';
-        const preview = await createAndRenderPreview();
-
-        expect(mockChannel.emit).toHaveBeenCalledWith(STORY_THREW_EXCEPTION, serializeError(error));
+        expect(mockChannel.emit).toHaveBeenCalledWith(STORY_THREW_EXCEPTION, error);
         expect(preview.view.showErrorDisplay).toHaveBeenCalledWith(error);
       });
 
       it('renders error if the story calls showError', async () => {
         const error = { title: 'title', description: 'description' };
-        projectAnnotations.renderToDOM.mockImplementation((context) => context.showError(error));
+        projectAnnotations.renderToDOM.mockImplementationOnce((context) =>
+          context.showError(error)
+        );
 
         document.location.search = '?id=component-one--a';
         const preview = await createAndRenderPreview();
@@ -569,6 +531,19 @@ describe('PreviewWeb', () => {
           message: error.title,
           stack: error.description,
         });
+      });
+
+      it('renders exception if the story calls showException', async () => {
+        const error = new Error('error');
+        projectAnnotations.renderToDOM.mockImplementationOnce((context) =>
+          context.showException(error)
+        );
+
+        document.location.search = '?id=component-one--a';
+        const preview = await createAndRenderPreview();
+
+        expect(mockChannel.emit).toHaveBeenCalledWith(STORY_THREW_EXCEPTION, error);
+        expect(preview.view.showErrorDisplay).toHaveBeenCalledWith(error);
       });
 
       it('executes playFunction', async () => {
@@ -587,7 +562,7 @@ describe('PreviewWeb', () => {
 
       it('does not show error display if the render function throws IGNORED_EXCEPTION', async () => {
         document.location.search = '?id=component-one--a';
-        projectAnnotations.renderToDOM.mockImplementation(() => {
+        projectAnnotations.renderToDOM.mockImplementationOnce(() => {
           throw IGNORED_EXCEPTION;
         });
 
@@ -596,116 +571,63 @@ describe('PreviewWeb', () => {
 
         await waitForRender();
 
-        expect(mockChannel.emit).toHaveBeenCalledWith(
-          STORY_THREW_EXCEPTION,
-          serializeError(IGNORED_EXCEPTION)
-        );
+        expect(mockChannel.emit).toHaveBeenCalledWith(STORY_THREW_EXCEPTION, IGNORED_EXCEPTION);
         expect(preview.view.showErrorDisplay).not.toHaveBeenCalled();
       });
     });
 
-    describe('template docs entries', () => {
-      it('always renders in docs viewMode', async () => {
-        document.location.search = '?id=component-one--docs';
-        await createAndRenderPreview();
-
-        expect(mockChannel.emit).toHaveBeenCalledWith(DOCS_RENDERED, 'component-one--docs');
-      });
-
+    describe('in docs viewMode', () => {
       it('calls view.prepareForDocs', async () => {
-        document.location.search = '?id=component-one--docs&viewMode=docs';
+        document.location.search = '?id=component-one--a&viewMode=docs';
         const preview = await createAndRenderPreview();
 
         expect(preview.view.prepareForDocs).toHaveBeenCalled();
       });
 
-      it('renders with docs parameters from the first story', async () => {
-        document.location.search = '?id=component-one--docs&viewMode=docs';
+      it('emits STORY_PREPARED', async () => {
+        document.location.search = '?id=component-one--a&viewMode=docs';
         await createAndRenderPreview();
 
-        expect(docsRenderer.render).toHaveBeenCalledWith(
-          expect.any(Object),
+        expect(mockChannel.emit).toHaveBeenCalledWith(STORY_PREPARED, {
+          id: 'component-one--a',
+          parameters: {
+            __isArgsStory: false,
+            docs: { container: expect.any(Function) },
+            fileName: './src/ComponentOne.stories.js',
+          },
+          initialArgs: { foo: 'a' },
+          argTypes: { foo: { name: 'foo', type: { name: 'string' } } },
+          args: { foo: 'a' },
+        });
+      });
+
+      it('render the docs container with the correct context', async () => {
+        document.location.search = '?id=component-one--a&viewMode=docs';
+
+        await createAndRenderPreview();
+
+        expect(ReactDOM.render).toHaveBeenCalledWith(
           expect.objectContaining({
-            page: componentOneExports.default.parameters.docs.page,
-            renderer: projectAnnotations.parameters.docs.renderer,
+            type: componentOneExports.default.parameters.docs.container,
+            props: expect.objectContaining({
+              context: expect.objectContaining({
+                id: 'component-one--a',
+                title: 'Component One',
+                name: 'A',
+              }),
+            }),
           }),
           'docs-element',
           expect.any(Function)
         );
       });
 
-      it('loads imports of the docs entry', async () => {
-        document.location.search = '?id=component-one--docs&viewMode=docs';
-        await createAndRenderPreview();
-
-        expect(importFn).toHaveBeenCalledWith('./src/ExtraComponentOne.stories.js');
-      });
-
-      it('renders with componentStories loaded from both story files', async () => {
-        document.location.search = '?id=component-one--docs&viewMode=docs';
-        await createAndRenderPreview();
-
-        const context = docsRenderer.render.mock.calls[0][0];
-
-        expect(context.componentStories().map((s) => s.id)).toEqual([
-          'component-one--a',
-          'component-one--b',
-          'component-one--e',
-        ]);
-      });
-
       it('emits DOCS_RENDERED', async () => {
-        document.location.search = '?id=component-one--docs&viewMode=docs';
+        document.location.search = '?id=component-one--a&viewMode=docs';
 
         await createAndRenderPreview();
 
-        expect(mockChannel.emit).toHaveBeenCalledWith(DOCS_RENDERED, 'component-one--docs');
-      });
-    });
-
-    describe('standalone docs entries', () => {
-      it('always renders in docs viewMode', async () => {
-        document.location.search = '?id=introduction--docs';
-        await createAndRenderPreview();
-
-        expect(mockChannel.emit).toHaveBeenCalledWith(DOCS_RENDERED, 'introduction--docs');
-      });
-
-      it('calls view.prepareForDocs', async () => {
-        document.location.search = '?id=component-one--docs&viewMode=docs';
-        const preview = await createAndRenderPreview();
-
-        expect(preview.view.prepareForDocs).toHaveBeenCalled();
-      });
-
-      it('renders with the generated docs parameters', async () => {
-        document.location.search = '?id=introduction--docs&viewMode=docs';
-        await createAndRenderPreview();
-
-        expect(docsRenderer.render).toHaveBeenCalledWith(
-          expect.any(Object),
-          expect.objectContaining({
-            page: standaloneDocsExports.default,
-            renderer: projectAnnotations.parameters.docs.renderer,
-          }),
-          'docs-element',
-          expect.any(Function)
-        );
-      });
-
-      it('loads imports of the docs entry', async () => {
-        document.location.search = '?id=introduction--docs';
-        await createAndRenderPreview();
-
-        expect(importFn).toHaveBeenCalledWith('./src/ComponentTwo.stories.js');
-      });
-
-      it('emits DOCS_RENDERED', async () => {
-        document.location.search = '?id=component-one--docs&viewMode=docs';
-
-        await createAndRenderPreview();
-
-        expect(mockChannel.emit).toHaveBeenCalledWith(DOCS_RENDERED, 'component-one--docs');
+        expect(mockChannel.emit).toHaveBeenCalledWith(DOCS_RENDERED, 'component-one--a');
       });
     });
   });
@@ -730,7 +652,7 @@ describe('PreviewWeb', () => {
 
       emitter.emit(UPDATE_GLOBALS, { globals: { foo: 'bar' } });
 
-      expect(preview.storyStore.globals!.get()).toEqual({ a: 'b', foo: 'bar' });
+      expect(preview.storyStore.globals.get()).toEqual({ a: 'b', foo: 'bar' });
     });
 
     it('passes new globals in context to renderToDOM', async () => {
@@ -749,7 +671,7 @@ describe('PreviewWeb', () => {
             globals: { a: 'b', foo: 'bar' },
           }),
         }),
-        'story-element'
+        undefined // this is coming from view.prepareForStory, not super important
       );
     });
 
@@ -766,16 +688,15 @@ describe('PreviewWeb', () => {
 
     describe('in docs mode', () => {
       it('re-renders the docs container', async () => {
-        document.location.search = '?id=component-one--docs&viewMode=docs';
+        document.location.search = '?id=component-one--a&viewMode=docs';
 
         await createAndRenderPreview();
 
         mockChannel.emit.mockClear();
-        docsRenderer.render.mockClear();
         emitter.emit(UPDATE_GLOBALS, { globals: { foo: 'bar' } });
-        await waitForEvents([GLOBALS_UPDATED]);
+        await waitForRender();
 
-        expect(docsRenderer.render).toHaveBeenCalled();
+        expect(ReactDOM.render).toHaveBeenCalledTimes(2);
       });
     });
   });
@@ -832,7 +753,7 @@ describe('PreviewWeb', () => {
             args: { foo: 'a', new: 'arg' },
           }),
         }),
-        'story-element'
+        undefined // this is coming from view.prepareForStory, not super important
       );
     });
 
@@ -889,7 +810,7 @@ describe('PreviewWeb', () => {
               args: { foo: 'a', new: 'arg' },
             }),
           }),
-          'story-element'
+          undefined // this is coming from view.prepareForStory, not super important
         );
 
         // Now let the first loader call resolve
@@ -908,7 +829,7 @@ describe('PreviewWeb', () => {
               args: { foo: 'a', new: 'arg' },
             }),
           }),
-          'story-element'
+          undefined // this is coming from view.prepareForStory, not super important
         );
       });
 
@@ -916,7 +837,7 @@ describe('PreviewWeb', () => {
         const [gate, openGate] = createGate();
 
         document.location.search = '?id=component-one--a';
-        projectAnnotations.renderToDOM.mockImplementation(async () => gate);
+        projectAnnotations.renderToDOM.mockImplementationOnce(async () => gate);
 
         await new PreviewWeb().initialize({ importFn, getProjectAnnotations });
         await waitForRenderPhase('rendering');
@@ -939,7 +860,7 @@ describe('PreviewWeb', () => {
               args: { foo: 'a' },
             }),
           }),
-          'story-element'
+          undefined // this is coming from view.prepareForStory, not super important
         );
         expect(projectAnnotations.renderToDOM).toHaveBeenCalledWith(
           expect.objectContaining({
@@ -949,13 +870,13 @@ describe('PreviewWeb', () => {
               args: { foo: 'a', new: 'arg' },
             }),
           }),
-          'story-element'
+          undefined // this is coming from view.prepareForStory, not super important
         );
       });
 
       it('works if it is called directly from inside non async renderToDOM', async () => {
         document.location.search = '?id=component-one--a';
-        projectAnnotations.renderToDOM.mockImplementation(() => {
+        projectAnnotations.renderToDOM.mockImplementationOnce(() => {
           emitter.emit(UPDATE_STORY_ARGS, {
             storyId: 'component-one--a',
             updatedArgs: { new: 'arg' },
@@ -972,7 +893,7 @@ describe('PreviewWeb', () => {
               args: { foo: 'a' },
             }),
           }),
-          'story-element'
+          undefined // this is coming from view.prepareForStory, not super important
         );
         expect(projectAnnotations.renderToDOM).toHaveBeenCalledWith(
           expect.objectContaining({
@@ -982,7 +903,7 @@ describe('PreviewWeb', () => {
               args: { foo: 'a', new: 'arg' },
             }),
           }),
-          'story-element'
+          undefined // this is coming from view.prepareForStory, not super important
         );
       });
 
@@ -991,7 +912,7 @@ describe('PreviewWeb', () => {
         componentOneExports.a.play.mockImplementationOnce(async () => gate);
 
         const renderToDOMCalled = new Promise((resolve) => {
-          projectAnnotations.renderToDOM.mockImplementation(() => {
+          projectAnnotations.renderToDOM.mockImplementationOnce(() => {
             resolve(null);
           });
         });
@@ -1010,7 +931,7 @@ describe('PreviewWeb', () => {
               args: { foo: 'a' },
             }),
           }),
-          'story-element'
+          undefined // this is coming from view.prepareForStory, not super important
         );
 
         emitter.emit(UPDATE_STORY_ARGS, {
@@ -1030,7 +951,7 @@ describe('PreviewWeb', () => {
               args: { foo: 'a', new: 'arg' },
             }),
           }),
-          'story-element'
+          undefined // this is coming from view.prepareForStory, not super important
         );
 
         // Now let the playFunction call resolve
@@ -1038,13 +959,37 @@ describe('PreviewWeb', () => {
       });
     });
 
-    describe('in docs mode', () => {
-      it('does not re-render the docs container', async () => {
-        document.location.search = '?id=component-one--docs&viewMode=docs';
+    describe('in docs mode, old inline render', () => {
+      it('re-renders the docs container', async () => {
+        document.location.search = '?id=component-one--a&viewMode=docs';
 
         await createAndRenderPreview();
 
-        docsRenderer.render.mockClear();
+        (ReactDOM.render as jest.MockedFunction<typeof ReactDOM.render>).mockClear();
+        mockChannel.emit.mockClear();
+        emitter.emit(UPDATE_STORY_ARGS, {
+          storyId: 'component-one--a',
+          updatedArgs: { new: 'arg' },
+        });
+        await waitForRender();
+
+        expect(ReactDOM.render).toHaveBeenCalledTimes(1);
+      });
+    });
+
+    describe('in docs mode, modern inline render', () => {
+      beforeEach(() => {
+        global.FEATURES.modernInlineRender = true;
+      });
+      afterEach(() => {
+        global.FEATURES.modernInlineRender = true;
+      });
+      it('does not re-render the docs container', async () => {
+        document.location.search = '?id=component-one--a&viewMode=docs';
+
+        await createAndRenderPreview();
+
+        (ReactDOM.render as jest.MockedFunction<typeof ReactDOM.render>).mockClear();
         mockChannel.emit.mockClear();
         emitter.emit(UPDATE_STORY_ARGS, {
           storyId: 'component-one--a',
@@ -1052,12 +997,12 @@ describe('PreviewWeb', () => {
         });
         await waitForEvents([STORY_ARGS_UPDATED]);
 
-        expect(docsRenderer.render).not.toHaveBeenCalled();
+        expect(ReactDOM.render).not.toHaveBeenCalled();
       });
 
       describe('when renderStoryToElement was called', () => {
         it('re-renders the story', async () => {
-          document.location.search = '?id=component-one--docs&viewMode=docs';
+          document.location.search = '?id=component-one--a&viewMode=docs';
 
           const preview = await createAndRenderPreview();
           await waitForRender();
@@ -1076,7 +1021,7 @@ describe('PreviewWeb', () => {
             'story-element'
           );
 
-          docsRenderer.render.mockClear();
+          (ReactDOM.render as jest.MockedFunction<typeof ReactDOM.render>).mockClear();
           mockChannel.emit.mockClear();
           emitter.emit(UPDATE_STORY_ARGS, {
             storyId: 'component-one--a',
@@ -1099,41 +1044,12 @@ describe('PreviewWeb', () => {
 
   describe('onPreloadStories', () => {
     it('loads stories', async () => {
-      document.location.search = '?id=component-one--docs&viewMode=docs';
+      document.location.search = '?id=component-one--a&viewMode=docs';
       const preview = await createAndRenderPreview();
       await waitForRender();
 
       importFn.mockClear();
       await preview.onPreloadStories(['component-two--c']);
-      expect(importFn).toHaveBeenCalledWith('./src/ComponentTwo.stories.js');
-    });
-
-    it('loads legacy docs entries', async () => {
-      document.location.search = '?id=component-one--docs&viewMode=docs';
-      const preview = await createAndRenderPreview();
-      await waitForRender();
-
-      importFn.mockClear();
-      await preview.onPreloadStories(['component-one--docs']);
-      expect(importFn).toHaveBeenCalledWith('./src/ComponentOne.stories.js');
-    });
-
-    it('loads modern docs entries', async () => {
-      document.location.search = '?id=component-one--docs&viewMode=docs';
-      const preview = await createAndRenderPreview();
-      await waitForRender();
-
-      importFn.mockClear();
-      await preview.onPreloadStories(['introduction--docs']);
-      expect(importFn).toHaveBeenCalledWith('./src/Introduction.mdx');
-    });
-    it('loads imports of modern docs entries', async () => {
-      document.location.search = '?id=component-one--docs&viewMode=docs';
-      const preview = await createAndRenderPreview();
-      await waitForRender();
-
-      importFn.mockClear();
-      await preview.onPreloadStories(['introduction--docs']);
       expect(importFn).toHaveBeenCalledWith('./src/ComponentTwo.stories.js');
     });
   });
@@ -1197,7 +1113,7 @@ describe('PreviewWeb', () => {
             args: { foo: 'a', new: 'value' },
           }),
         }),
-        'story-element'
+        undefined // this is coming from view.prepareForStory, not super important
       );
 
       await waitForEvents([STORY_ARGS_UPDATED]);
@@ -1238,7 +1154,7 @@ describe('PreviewWeb', () => {
             args: { foo: 'a' },
           }),
         }),
-        'story-element'
+        undefined // this is coming from view.prepareForStory, not super important
       );
 
       await waitForEvents([STORY_ARGS_UPDATED]);
@@ -1279,7 +1195,7 @@ describe('PreviewWeb', () => {
             args: { foo: 'a' },
           }),
         }),
-        'story-element'
+        undefined // this is coming from view.prepareForStory, not super important
       );
 
       await waitForEvents([STORY_ARGS_UPDATED]);
@@ -1320,7 +1236,7 @@ describe('PreviewWeb', () => {
             args: { foo: 'a' },
           }),
         }),
-        'story-element'
+        undefined // this is coming from view.prepareForStory, not super important
       );
 
       await waitForEvents([STORY_ARGS_UPDATED]);
@@ -1348,7 +1264,7 @@ describe('PreviewWeb', () => {
 
       expect(projectAnnotations.renderToDOM).toHaveBeenCalledWith(
         expect.objectContaining({ forceRemount: false }),
-        'story-element'
+        undefined // this is coming from view.prepareForStory, not super important
       );
     });
   });
@@ -1372,7 +1288,7 @@ describe('PreviewWeb', () => {
 
       expect(projectAnnotations.renderToDOM).toHaveBeenCalledWith(
         expect.objectContaining({ forceRemount: true }),
-        'story-element'
+        undefined // this is coming from view.prepareForStory, not super important
       );
     });
 
@@ -1380,7 +1296,7 @@ describe('PreviewWeb', () => {
       const [gate, openGate] = createGate();
 
       document.location.search = '?id=component-one--a';
-      projectAnnotations.renderToDOM.mockImplementation(async () => gate);
+      projectAnnotations.renderToDOM.mockImplementationOnce(async () => gate);
       await new PreviewWeb().initialize({ importFn, getProjectAnnotations });
       await waitForRenderPhase('rendering');
 
@@ -1392,7 +1308,7 @@ describe('PreviewWeb', () => {
             loaded: { l: 7 },
           }),
         }),
-        'story-element'
+        undefined // this is coming from view.prepareForStory, not super important
       );
 
       mockChannel.emit.mockClear();
@@ -1547,20 +1463,6 @@ describe('PreviewWeb', () => {
         expect(projectAnnotations.renderToDOM).not.toHaveBeenCalled();
       });
 
-      it('does NOT call renderToDOMs teardown', async () => {
-        document.location.search = '?id=component-one--a';
-        await createAndRenderPreview();
-
-        projectAnnotations.renderToDOM.mockClear();
-        emitter.emit(SET_CURRENT_STORY, {
-          storyId: 'component-one--a',
-          viewMode: 'story',
-        });
-        await waitForSetCurrentStory();
-
-        expect(teardownRenderToDOM).not.toHaveBeenCalled();
-      });
-
       // For https://github.com/storybookjs/storybook/issues/17214
       it('does NOT render a second time if preparing', async () => {
         document.location.search = '?id=component-one--a';
@@ -1608,20 +1510,6 @@ describe('PreviewWeb', () => {
     });
 
     describe('when changing story in story viewMode', () => {
-      it('calls renderToDOMs teardown', async () => {
-        document.location.search = '?id=component-one--a';
-        await createAndRenderPreview();
-
-        projectAnnotations.renderToDOM.mockClear();
-        emitter.emit(SET_CURRENT_STORY, {
-          storyId: 'component-one--b',
-          viewMode: 'story',
-        });
-        await waitForSetCurrentStory();
-
-        expect(teardownRenderToDOM).toHaveBeenCalled();
-      });
-
       it('updates URL', async () => {
         document.location.search = '?id=component-one--a';
         await createAndRenderPreview();
@@ -1683,7 +1571,7 @@ describe('PreviewWeb', () => {
           id: 'component-one--b',
           parameters: {
             __isArgsStory: false,
-            docs: expect.any(Object),
+            docs: { container: expect.any(Function) },
             fileName: './src/ComponentOne.stories.js',
           },
           initialArgs: { foo: 'b' },
@@ -1709,7 +1597,7 @@ describe('PreviewWeb', () => {
             id: 'component-one--b',
             parameters: {
               __isArgsStory: false,
-              docs: expect.any(Object),
+              docs: { container: expect.any(Function) },
               fileName: './src/ComponentOne.stories.js',
             },
             initialArgs: { foo: 'b' },
@@ -1738,7 +1626,7 @@ describe('PreviewWeb', () => {
               id: 'component-one--b',
               parameters: {
                 __isArgsStory: false,
-                docs: expect.any(Object),
+                docs: { container: expect.any(Function) },
                 fileName: './src/ComponentOne.stories.js',
               },
               globals: { a: 'b' },
@@ -1748,7 +1636,7 @@ describe('PreviewWeb', () => {
               loaded: { l: 7 },
             }),
           }),
-          'story-element'
+          undefined // this is coming from view.prepareForStory, not super important
         );
       });
 
@@ -1757,7 +1645,7 @@ describe('PreviewWeb', () => {
         const preview = await createAndRenderPreview();
 
         const error = new Error('error');
-        projectAnnotations.renderToDOM.mockImplementation(() => {
+        projectAnnotations.renderToDOM.mockImplementationOnce(() => {
           throw error;
         });
 
@@ -1769,7 +1657,7 @@ describe('PreviewWeb', () => {
         await waitForSetCurrentStory();
         await waitForRender();
 
-        expect(mockChannel.emit).toHaveBeenCalledWith(STORY_THREW_EXCEPTION, serializeError(error));
+        expect(mockChannel.emit).toHaveBeenCalledWith(STORY_THREW_EXCEPTION, error);
         expect(preview.view.showErrorDisplay).toHaveBeenCalledWith(error);
       });
 
@@ -1778,7 +1666,9 @@ describe('PreviewWeb', () => {
         const preview = await createAndRenderPreview();
 
         const error = { title: 'title', description: 'description' };
-        projectAnnotations.renderToDOM.mockImplementation((context) => context.showError(error));
+        projectAnnotations.renderToDOM.mockImplementationOnce((context) =>
+          context.showError(error)
+        );
 
         mockChannel.emit.mockClear();
         emitter.emit(SET_CURRENT_STORY, {
@@ -1800,7 +1690,7 @@ describe('PreviewWeb', () => {
         const preview = await createAndRenderPreview();
 
         const error = new Error('error');
-        projectAnnotations.renderToDOM.mockImplementation((context) =>
+        projectAnnotations.renderToDOM.mockImplementationOnce((context) =>
           context.showException(error)
         );
 
@@ -1812,7 +1702,7 @@ describe('PreviewWeb', () => {
         await waitForSetCurrentStory();
         await waitForRender();
 
-        expect(mockChannel.emit).toHaveBeenCalledWith(STORY_THREW_EXCEPTION, serializeError(error));
+        expect(mockChannel.emit).toHaveBeenCalledWith(STORY_THREW_EXCEPTION, error);
         expect(preview.view.showErrorDisplay).toHaveBeenCalledWith(error);
       });
 
@@ -1913,7 +1803,7 @@ describe('PreviewWeb', () => {
                 loaded: { l: 7 },
               }),
             }),
-            'story-element'
+            undefined // this is coming from view.prepareForStory, not super important
           );
         });
 
@@ -1921,7 +1811,7 @@ describe('PreviewWeb', () => {
           const [gate, openGate] = createGate();
 
           document.location.search = '?id=component-one--a';
-          projectAnnotations.renderToDOM.mockImplementation(async () => gate);
+          projectAnnotations.renderToDOM.mockImplementationOnce(async () => gate);
           await new PreviewWeb().initialize({ importFn, getProjectAnnotations });
           await waitForRenderPhase('rendering');
 
@@ -1967,7 +1857,7 @@ describe('PreviewWeb', () => {
                 loaded: { l: 7 },
               }),
             }),
-            'story-element'
+            undefined // this is coming from view.prepareForStory, not super important
           );
 
           mockChannel.emit.mockClear();
@@ -1992,7 +1882,7 @@ describe('PreviewWeb', () => {
                 loaded: { l: 7 },
               }),
             }),
-            'story-element'
+            undefined // this is coming from view.prepareForStory, not super important
           );
 
           await waitForRenderPhase('playing');
@@ -2020,7 +1910,7 @@ describe('PreviewWeb', () => {
                 loaded: { l: 7 },
               }),
             }),
-            'story-element'
+            undefined // this is coming from view.prepareForStory, not super important
           );
 
           mockChannel.emit.mockClear();
@@ -2047,25 +1937,12 @@ describe('PreviewWeb', () => {
     });
 
     describe('when changing from story viewMode to docs', () => {
-      it('calls renderToDOMs teardown', async () => {
-        document.location.search = '?id=component-one--a';
-        await createAndRenderPreview();
-
-        emitter.emit(SET_CURRENT_STORY, {
-          storyId: 'component-one--docs',
-          viewMode: 'docs',
-        });
-        await waitForSetCurrentStory();
-
-        expect(teardownRenderToDOM).toHaveBeenCalled();
-      });
-
       it('updates URL', async () => {
         document.location.search = '?id=component-one--a';
         await createAndRenderPreview();
 
         emitter.emit(SET_CURRENT_STORY, {
-          storyId: 'component-one--docs',
+          storyId: 'component-one--a',
           viewMode: 'docs',
         });
         await waitForSetCurrentStory();
@@ -2073,7 +1950,7 @@ describe('PreviewWeb', () => {
         expect(history.replaceState).toHaveBeenCalledWith(
           {},
           '',
-          'pathname?id=component-one--docs&viewMode=docs'
+          'pathname?id=component-one--a&viewMode=docs'
         );
       });
 
@@ -2082,7 +1959,7 @@ describe('PreviewWeb', () => {
         const preview = await createAndRenderPreview();
 
         emitter.emit(SET_CURRENT_STORY, {
-          storyId: 'component-one--docs',
+          storyId: 'component-one--a',
           viewMode: 'docs',
         });
         await waitForSetCurrentStory();
@@ -2096,13 +1973,13 @@ describe('PreviewWeb', () => {
 
         mockChannel.emit.mockClear();
         emitter.emit(SET_CURRENT_STORY, {
-          storyId: 'component-one--docs',
+          storyId: 'component-one--a',
           viewMode: 'docs',
         });
         await waitForSetCurrentStory();
 
         await waitForEvents([STORY_CHANGED]);
-        expect(mockChannel.emit).toHaveBeenCalledWith(STORY_CHANGED, 'component-one--docs');
+        expect(mockChannel.emit).toHaveBeenCalledWith(STORY_CHANGED, 'component-one--a');
       });
 
       it('calls view.prepareForDocs', async () => {
@@ -2111,7 +1988,7 @@ describe('PreviewWeb', () => {
 
         mockChannel.emit.mockClear();
         emitter.emit(SET_CURRENT_STORY, {
-          storyId: 'component-one--docs',
+          storyId: 'component-one--a',
           viewMode: 'docs',
         });
         await waitForSetCurrentStory();
@@ -2120,22 +1997,32 @@ describe('PreviewWeb', () => {
         expect(preview.view.prepareForDocs).toHaveBeenCalled();
       });
 
-      it('render the docs container with the correct context, template render', async () => {
+      it('render the docs container with the correct context', async () => {
         document.location.search = '?id=component-one--a';
         await createAndRenderPreview();
 
         mockChannel.emit.mockClear();
         emitter.emit(SET_CURRENT_STORY, {
-          storyId: 'component-one--docs',
+          storyId: 'component-one--a',
           viewMode: 'docs',
         });
         await waitForSetCurrentStory();
         await waitForRender();
 
-        expect(docsRenderer.render).toHaveBeenCalled();
-        expect(docsRenderer.render.mock.calls[0][0].storyById()).toMatchObject({
-          id: 'component-one--a',
-        });
+        expect(ReactDOM.render).toHaveBeenCalledWith(
+          expect.objectContaining({
+            type: componentOneExports.default.parameters.docs.container,
+            props: expect.objectContaining({
+              context: expect.objectContaining({
+                id: 'component-one--a',
+                title: 'Component One',
+                name: 'A',
+              }),
+            }),
+          }),
+          'docs-element',
+          expect.any(Function)
+        );
       });
 
       it('emits DOCS_RENDERED', async () => {
@@ -2144,19 +2031,19 @@ describe('PreviewWeb', () => {
 
         mockChannel.emit.mockClear();
         emitter.emit(SET_CURRENT_STORY, {
-          storyId: 'component-one--docs',
+          storyId: 'component-one--a',
           viewMode: 'docs',
         });
         await waitForSetCurrentStory();
         await waitForRender();
 
-        expect(mockChannel.emit).toHaveBeenCalledWith(DOCS_RENDERED, 'component-one--docs');
+        expect(mockChannel.emit).toHaveBeenCalledWith(DOCS_RENDERED, 'component-one--a');
       });
     });
 
     describe('when changing from docs viewMode to story', () => {
       it('updates URL', async () => {
-        document.location.search = '?id=component-one--docs&viewMode=docs';
+        document.location.search = '?id=component-one--a&viewMode=docs';
         await createAndRenderPreview();
 
         emitter.emit(SET_CURRENT_STORY, {
@@ -2173,7 +2060,7 @@ describe('PreviewWeb', () => {
       });
 
       it('unmounts docs', async () => {
-        document.location.search = '?id=component-one--docs&viewMode=docs';
+        document.location.search = '?id=component-one--a&viewMode=docs';
         await createAndRenderPreview();
 
         mockChannel.emit.mockClear();
@@ -2184,12 +2071,12 @@ describe('PreviewWeb', () => {
         await waitForSetCurrentStory();
         await waitForRender();
 
-        expect(docsRenderer.unmount).toHaveBeenCalled();
+        expect(ReactDOM.unmountComponentAtNode).toHaveBeenCalled();
       });
 
       // NOTE: I am not sure this entirely makes sense but this is the behaviour from 6.3
       it('emits STORY_CHANGED', async () => {
-        document.location.search = '?id=component-one--docs&viewMode=docs';
+        document.location.search = '?id=component-one--a&viewMode=docs';
         await createAndRenderPreview();
 
         mockChannel.emit.mockClear();
@@ -2204,7 +2091,7 @@ describe('PreviewWeb', () => {
       });
 
       it('calls view.prepareForStory', async () => {
-        document.location.search = '?id=component-one--docs&viewMode=docs';
+        document.location.search = '?id=component-one--a&viewMode=docs';
         const preview = await createAndRenderPreview();
 
         mockChannel.emit.mockClear();
@@ -2223,7 +2110,7 @@ describe('PreviewWeb', () => {
       });
 
       it('emits STORY_PREPARED', async () => {
-        document.location.search = '?id=component-one--docs&viewMode=docs';
+        document.location.search = '?id=component-one--a&viewMode=docs';
         await createAndRenderPreview();
 
         mockChannel.emit.mockClear();
@@ -2238,7 +2125,7 @@ describe('PreviewWeb', () => {
           id: 'component-one--a',
           parameters: {
             __isArgsStory: false,
-            docs: expect.any(Object),
+            docs: { container: expect.any(Function) },
             fileName: './src/ComponentOne.stories.js',
           },
           initialArgs: { foo: 'a' },
@@ -2248,7 +2135,7 @@ describe('PreviewWeb', () => {
       });
 
       it('applies loaders with story context', async () => {
-        document.location.search = '?id=component-one--docs&viewMode=docs';
+        document.location.search = '?id=component-one--a&viewMode=docs';
         await createAndRenderPreview();
 
         mockChannel.emit.mockClear();
@@ -2264,7 +2151,7 @@ describe('PreviewWeb', () => {
             id: 'component-one--a',
             parameters: {
               __isArgsStory: false,
-              docs: expect.any(Object),
+              docs: { container: expect.any(Function) },
               fileName: './src/ComponentOne.stories.js',
             },
             initialArgs: { foo: 'a' },
@@ -2275,7 +2162,7 @@ describe('PreviewWeb', () => {
       });
 
       it('passes loaded context to renderToDOM', async () => {
-        document.location.search = '?id=component-one--docs&viewMode=docs';
+        document.location.search = '?id=component-one--a&viewMode=docs';
         await createAndRenderPreview();
 
         mockChannel.emit.mockClear();
@@ -2293,7 +2180,7 @@ describe('PreviewWeb', () => {
               id: 'component-one--a',
               parameters: {
                 __isArgsStory: false,
-                docs: expect.any(Object),
+                docs: { container: expect.any(Function) },
                 fileName: './src/ComponentOne.stories.js',
               },
               globals: { a: 'b' },
@@ -2303,16 +2190,16 @@ describe('PreviewWeb', () => {
               loaded: { l: 7 },
             }),
           }),
-          'story-element'
+          undefined // this is coming from view.prepareForStory, not super important
         );
       });
 
       it('renders exception if renderToDOM throws', async () => {
-        document.location.search = '?id=component-one--docs&viewMode=docs';
+        document.location.search = '?id=component-one--a&viewMode=docs';
         const preview = await createAndRenderPreview();
 
         const error = new Error('error');
-        projectAnnotations.renderToDOM.mockImplementation(() => {
+        projectAnnotations.renderToDOM.mockImplementationOnce(() => {
           throw error;
         });
 
@@ -2324,15 +2211,17 @@ describe('PreviewWeb', () => {
         await waitForSetCurrentStory();
         await waitForRender();
 
-        expect(mockChannel.emit).toHaveBeenCalledWith(STORY_THREW_EXCEPTION, serializeError(error));
+        expect(mockChannel.emit).toHaveBeenCalledWith(STORY_THREW_EXCEPTION, error);
         expect(preview.view.showErrorDisplay).toHaveBeenCalledWith(error);
       });
 
       it('renders error if the story calls showError', async () => {
         const error = { title: 'title', description: 'description' };
-        projectAnnotations.renderToDOM.mockImplementation((context) => context.showError(error));
+        projectAnnotations.renderToDOM.mockImplementationOnce((context) =>
+          context.showError(error)
+        );
 
-        document.location.search = '?id=component-one--docs&viewMode=docs';
+        document.location.search = '?id=component-one--a&viewMode=docs';
         const preview = await createAndRenderPreview();
 
         mockChannel.emit.mockClear();
@@ -2352,11 +2241,11 @@ describe('PreviewWeb', () => {
 
       it('renders exception if the story calls showException', async () => {
         const error = new Error('error');
-        projectAnnotations.renderToDOM.mockImplementation((context) =>
+        projectAnnotations.renderToDOM.mockImplementationOnce((context) =>
           context.showException(error)
         );
 
-        document.location.search = '?id=component-one--docs&viewMode=docs';
+        document.location.search = '?id=component-one--a&viewMode=docs';
         const preview = await createAndRenderPreview();
 
         mockChannel.emit.mockClear();
@@ -2367,12 +2256,12 @@ describe('PreviewWeb', () => {
         await waitForSetCurrentStory();
         await waitForRender();
 
-        expect(mockChannel.emit).toHaveBeenCalledWith(STORY_THREW_EXCEPTION, serializeError(error));
+        expect(mockChannel.emit).toHaveBeenCalledWith(STORY_THREW_EXCEPTION, error);
         expect(preview.view.showErrorDisplay).toHaveBeenCalledWith(error);
       });
 
       it('executes playFunction', async () => {
-        document.location.search = '?id=component-one--docs&viewMode=docs';
+        document.location.search = '?id=component-one--a&viewMode=docs';
         await createAndRenderPreview();
 
         mockChannel.emit.mockClear();
@@ -2387,7 +2276,7 @@ describe('PreviewWeb', () => {
       });
 
       it('emits STORY_RENDERED', async () => {
-        document.location.search = '?id=component-one--docs&viewMode=docs';
+        document.location.search = '?id=component-one--a&viewMode=docs';
         await createAndRenderPreview();
 
         mockChannel.emit.mockClear();
@@ -2458,17 +2347,6 @@ describe('PreviewWeb', () => {
           : componentTwoExports;
       });
 
-      it('calls renderToDOMs teardown', async () => {
-        document.location.search = '?id=component-one--a';
-        const preview = await createAndRenderPreview();
-        mockChannel.emit.mockClear();
-
-        preview.onStoriesChanged({ importFn: newImportFn });
-        await waitForRender();
-
-        expect(teardownRenderToDOM).toHaveBeenCalled();
-      });
-
       it('does not emit STORY_UNCHANGED', async () => {
         document.location.search = '?id=component-one--a';
         const preview = await createAndRenderPreview();
@@ -2503,7 +2381,7 @@ describe('PreviewWeb', () => {
           id: 'component-one--a',
           parameters: {
             __isArgsStory: false,
-            docs: expect.any(Object),
+            docs: { container: expect.any(Function) },
             fileName: './src/ComponentOne.stories.js',
           },
           initialArgs: { foo: 'edited' },
@@ -2540,7 +2418,7 @@ describe('PreviewWeb', () => {
             id: 'component-one--a',
             parameters: {
               __isArgsStory: false,
-              docs: expect.any(Object),
+              docs: { container: expect.any(Function) },
               fileName: './src/ComponentOne.stories.js',
             },
             initialArgs: { foo: 'edited' },
@@ -2566,7 +2444,7 @@ describe('PreviewWeb', () => {
               id: 'component-one--a',
               parameters: {
                 __isArgsStory: false,
-                docs: expect.any(Object),
+                docs: { container: expect.any(Function) },
                 fileName: './src/ComponentOne.stories.js',
               },
               globals: { a: 'b' },
@@ -2576,7 +2454,7 @@ describe('PreviewWeb', () => {
               loaded: { l: 7 },
             }),
           }),
-          'story-element'
+          undefined // this is coming from view.prepareForStory, not super important
         );
       });
 
@@ -2604,7 +2482,7 @@ describe('PreviewWeb', () => {
               args: { foo: 'updated' },
             }),
           }),
-          'story-element'
+          undefined // this is coming from view.prepareForStory, not super important
         );
       });
 
@@ -2613,7 +2491,7 @@ describe('PreviewWeb', () => {
         const preview = await createAndRenderPreview();
 
         const error = new Error('error');
-        projectAnnotations.renderToDOM.mockImplementation(() => {
+        projectAnnotations.renderToDOM.mockImplementationOnce(() => {
           throw error;
         });
 
@@ -2621,7 +2499,7 @@ describe('PreviewWeb', () => {
         preview.onStoriesChanged({ importFn: newImportFn });
         await waitForRender();
 
-        expect(mockChannel.emit).toHaveBeenCalledWith(STORY_THREW_EXCEPTION, serializeError(error));
+        expect(mockChannel.emit).toHaveBeenCalledWith(STORY_THREW_EXCEPTION, error);
         expect(preview.view.showErrorDisplay).toHaveBeenCalledWith(error);
       });
 
@@ -2630,7 +2508,9 @@ describe('PreviewWeb', () => {
         const preview = await createAndRenderPreview();
 
         const error = { title: 'title', description: 'description' };
-        projectAnnotations.renderToDOM.mockImplementation((context) => context.showError(error));
+        projectAnnotations.renderToDOM.mockImplementationOnce((context) =>
+          context.showError(error)
+        );
 
         mockChannel.emit.mockClear();
         preview.onStoriesChanged({ importFn: newImportFn });
@@ -2648,7 +2528,7 @@ describe('PreviewWeb', () => {
         const preview = await createAndRenderPreview();
 
         const error = new Error('error');
-        projectAnnotations.renderToDOM.mockImplementation((context) =>
+        projectAnnotations.renderToDOM.mockImplementationOnce((context) =>
           context.showException(error)
         );
 
@@ -2656,7 +2536,7 @@ describe('PreviewWeb', () => {
         preview.onStoriesChanged({ importFn: newImportFn });
         await waitForRender();
 
-        expect(mockChannel.emit).toHaveBeenCalledWith(STORY_THREW_EXCEPTION, serializeError(error));
+        expect(mockChannel.emit).toHaveBeenCalledWith(STORY_THREW_EXCEPTION, error);
         expect(preview.view.showErrorDisplay).toHaveBeenCalledWith(error);
       });
 
@@ -2688,11 +2568,11 @@ describe('PreviewWeb', () => {
       const newImportFn = jest.fn(async (path) => ({ ...componentOneExports }));
 
       const newStoryIndex = {
-        v: 4,
-        entries: {
-          ...storyIndex.entries,
+        v: 3,
+        stories: {
+          ...storyIndex.stories,
           'component-one--a': {
-            ...storyIndex.entries['component-one--a'],
+            ...storyIndex.stories['component-one--a'],
             importPath: './src/ComponentOne-new.stories.js',
           },
         },
@@ -2747,17 +2627,6 @@ describe('PreviewWeb', () => {
         return path === './src/ComponentOne.stories.js'
           ? componentOneExports
           : newComponentTwoExports;
-      });
-
-      it('does NOT call renderToDOMs teardown', async () => {
-        document.location.search = '?id=component-one--a';
-        const preview = await createAndRenderPreview();
-
-        mockChannel.emit.mockClear();
-        preview.onStoriesChanged({ importFn: newImportFn });
-        await waitForEvents([STORY_UNCHANGED]);
-
-        expect(teardownRenderToDOM).not.toHaveBeenCalled();
       });
 
       it('emits STORY_UNCHANGED', async () => {
@@ -2865,7 +2734,7 @@ describe('PreviewWeb', () => {
               args: { foo: 'updated', bar: 'edited' },
             }),
           }),
-          'story-element'
+          undefined // this is coming from view.prepareForStory, not super important
         );
       });
     });
@@ -2879,22 +2748,11 @@ describe('PreviewWeb', () => {
       });
 
       const newStoryIndex = {
-        v: 4,
-        entries: {
-          'component-one--b': storyIndex.entries['component-one--b'],
+        v: 3,
+        stories: {
+          'component-one--b': storyIndex.stories['component-one--b'],
         },
       };
-
-      it('calls renderToDOMs teardown', async () => {
-        document.location.search = '?id=component-one--a';
-        const preview = await createAndRenderPreview();
-
-        mockChannel.emit.mockClear();
-        preview.onStoriesChanged({ importFn: newImportFn, storyIndex: newStoryIndex });
-        await waitForEvents([STORY_MISSING]);
-
-        expect(teardownRenderToDOM).toHaveBeenCalled();
-      });
 
       it('renders loading error', async () => {
         document.location.search = '?id=component-one--a';
@@ -2976,7 +2834,7 @@ describe('PreviewWeb', () => {
         preview.onGetProjectAnnotationsChanged({ getProjectAnnotations });
         await waitForRender();
 
-        expect(preview.storyStore.globals!.get()).toEqual({ a: 'c' });
+        expect(preview.storyStore.globals.get()).toEqual({ a: 'c' });
       });
     });
 
@@ -3016,7 +2874,7 @@ describe('PreviewWeb', () => {
       preview.onGetProjectAnnotationsChanged({ getProjectAnnotations: newGetProjectAnnotations });
       await waitForRender();
 
-      expect(preview.storyStore.globals!.get()).toEqual({ a: 'edited' });
+      expect(preview.storyStore.globals.get()).toEqual({ a: 'edited' });
     });
 
     it('emits SET_GLOBALS with new values', async () => {
@@ -3062,18 +2920,6 @@ describe('PreviewWeb', () => {
       });
     });
 
-    it('calls renderToDOMs teardown', async () => {
-      document.location.search = '?id=component-one--a';
-      const preview = await createAndRenderPreview();
-
-      projectAnnotations.renderToDOM.mockClear();
-      mockChannel.emit.mockClear();
-      preview.onGetProjectAnnotationsChanged({ getProjectAnnotations: newGetProjectAnnotations });
-      await waitForRender();
-
-      expect(teardownRenderToDOM).toHaveBeenCalled();
-    });
-
     it('rerenders the current story with new global meta-generated context', async () => {
       document.location.search = '?id=component-one--a';
       const preview = await createAndRenderPreview();
@@ -3090,14 +2936,14 @@ describe('PreviewWeb', () => {
             globals: { a: 'edited' },
           }),
         }),
-        'story-element'
+        undefined // this is coming from view.prepareForStory, not super important
       );
     });
   });
 
   describe('onKeydown', () => {
     it('emits PREVIEW_KEYDOWN for regular elements', async () => {
-      document.location.search = '?id=component-one--docs&viewMode=docs';
+      document.location.search = '?id=component-one--a&viewMode=docs';
       const preview = await createAndRenderPreview();
 
       preview.onKeydown({
@@ -3108,7 +2954,7 @@ describe('PreviewWeb', () => {
     });
 
     it('does not emit PREVIEW_KEYDOWN for input elements', async () => {
-      document.location.search = '?id=component-one--docs&viewMode=docs';
+      document.location.search = '?id=component-one--a&viewMode=docs';
       const preview = await createAndRenderPreview();
 
       preview.onKeydown({
@@ -3205,8 +3051,6 @@ describe('PreviewWeb', () => {
               "__isArgsStory": false,
               "docs": Object {
                 "container": [MockFunction],
-                "page": [MockFunction],
-                "renderer": [Function],
               },
               "fileName": "./src/ComponentOne.stories.js",
             },
@@ -3238,34 +3082,10 @@ describe('PreviewWeb', () => {
               "__isArgsStory": false,
               "docs": Object {
                 "container": [MockFunction],
-                "page": [MockFunction],
-                "renderer": [Function],
               },
               "fileName": "./src/ComponentOne.stories.js",
             },
             "story": "B",
-            "subcomponents": undefined,
-            "title": "Component One",
-          },
-          "component-one--e": Object {
-            "argTypes": Object {},
-            "args": Object {},
-            "component": undefined,
-            "componentId": "component-one",
-            "id": "component-one--e",
-            "initialArgs": Object {},
-            "kind": "Component One",
-            "name": "E",
-            "parameters": Object {
-              "__isArgsStory": false,
-              "docs": Object {
-                "page": [MockFunction],
-                "renderer": [Function],
-              },
-              "fileName": "./src/ExtraComponentOne.stories.js",
-            },
-            "playFunction": undefined,
-            "story": "E",
             "subcomponents": undefined,
             "title": "Component One",
           },
@@ -3291,9 +3111,6 @@ describe('PreviewWeb', () => {
             "name": "C",
             "parameters": Object {
               "__isArgsStory": false,
-              "docs": Object {
-                "renderer": [Function],
-              },
               "fileName": "./src/ComponentTwo.stories.js",
             },
             "playFunction": undefined,

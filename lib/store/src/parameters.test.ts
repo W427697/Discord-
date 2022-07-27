@@ -1,4 +1,3 @@
-import { expect } from '@jest/globals';
 import { combineParameters } from './parameters';
 
 describe('client-api.parameters', () => {

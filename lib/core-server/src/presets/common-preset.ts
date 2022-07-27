@@ -1,27 +1,27 @@
-import fs from 'fs-extra';
 import {
   getPreviewBodyTemplate,
   getPreviewHeadTemplate,
+  getManagerMainTemplate,
   getPreviewMainTemplate,
+  loadCustomBabelConfig,
+  getStorybookBabelConfig,
   loadEnvs,
-} from '@storybook/core-common';
-import type {
-  Options,
   CoreConfig,
   StorybookConfig,
-  StoryIndexer,
-  IndexerOptions,
 } from '@storybook/core-common';
-import { loadCsf } from '@storybook/csf-tools';
+import type { Options } from '@storybook/core-common';
 
 export const babel = async (_: unknown, options: Options) => {
-  const { presets } = options;
+  const { configDir, presets } = options;
+  if (options.features?.babelModeV7) {
+    return presets.apply('babelDefault', {}, options);
+  }
 
-  return presets.apply('babelDefault', {}, options);
+  return loadCustomBabelConfig(
+    configDir,
+    () => presets.apply('babelDefault', getStorybookBabelConfig(), options) as any
+  );
 };
-
-export const title = (previous: string, options: Options) =>
-  previous || options.packageJson.name || false;
 
 export const logLevel = (previous: any, options: Options) => previous || options.loglevel || 'info';
 
@@ -41,7 +41,11 @@ export const previewBody = async (base: any, { configDir, presets }: Options) =>
 
 export const previewMainTemplate = () => getPreviewMainTemplate();
 
-export const previewEntries = (entries: any[] = []) => {
+export const managerMainTemplate = () => getManagerMainTemplate();
+
+export const previewEntries = (entries: any[] = [], options: { modern?: boolean }) => {
+  if (!options.modern)
+    entries.push(require.resolve('@storybook/core-client/dist/esm/globals/polyfills'));
   entries.push(require.resolve('@storybook/core-client/dist/esm/globals/globals'));
   return entries;
 };
@@ -97,26 +101,14 @@ export const features = async (
 ): Promise<StorybookConfig['features']> => ({
   ...existing,
   postcss: true,
+  emotionAlias: false, // TODO remove in 7.0, this no longer does anything
   warnOnLegacyHierarchySeparator: true,
   buildStoriesJson: false,
-  storyStoreV7: true,
-  breakingChangesV7: true,
+  storyStoreV7: false,
+  modernInlineRender: false,
+  breakingChangesV7: false,
   interactionsDebugger: false,
-  babelModeV7: true,
-  argTypeTargetsV7: true,
+  babelModeV7: false,
+  argTypeTargetsV7: false,
   previewMdx2: false,
 });
-
-export const storyIndexers = async (indexers?: StoryIndexer[]) => {
-  const csfIndexer = async (fileName: string, opts: IndexerOptions) => {
-    const code = (await fs.readFile(fileName, 'utf-8')).toString();
-    return loadCsf(code, { ...opts, fileName }).parse();
-  };
-  return [
-    {
-      test: /(stories|story)\.[tj]sx?$/,
-      indexer: csfIndexer,
-    },
-    ...(indexers || []),
-  ];
-};

@@ -1,6 +1,1 @@
-export type KeyCollection = string[];
-
-export function shortcutToHumanString(shortcut: KeyCollection): string
-export function eventToShortcut(e: KeyboardEvent): KeyCollection | null
-export function shortcutMatchesShortcut(inputShortcut: KeyCollection,
-  shortcut: KeyCollection): boolean
+export * from './dist/ts3.9/lib/shortcut.d';

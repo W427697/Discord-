@@ -1,4 +1,4 @@
-import React, { FC, Fragment } from 'react';
+import React, { Fragment } from 'react';
 import { styled, themes, convert } from '@storybook/theming';
 import { ScrollArea, TabsState, Link, Placeholder } from '@storybook/components';
 import { SizeMe } from 'react-sizeme';
@@ -41,11 +41,7 @@ const SuiteHead = styled.div({
   marginTop: 15,
 });
 
-const UnstyledSuiteTotals: FC<{
-  result: Test['result'];
-  className?: string;
-  width: number;
-}> = ({ result, className, width }) => (
+const SuiteTotals = styled(({ result, className, width }) => (
   <div className={className}>
     <Fragment>
       {width > 325 && result.assertionResults ? (
@@ -61,8 +57,7 @@ const UnstyledSuiteTotals: FC<{
       ) : null}
     </Fragment>
   </div>
-);
-const SuiteTotals = styled(UnstyledSuiteTotals)(({ theme }) => ({
+))(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   color: theme.color.dark,
@@ -74,7 +69,7 @@ const SuiteTotals = styled(UnstyledSuiteTotals)(({ theme }) => ({
 }));
 
 const SuiteProgressPortion = styled.div<{ color: any; progressPercent: number }>(
-  ({ color, progressPercent }) => ({
+  ({ theme, color, progressPercent }) => ({
     height: 6,
     top: 3,
     width: `${progressPercent}%`,
@@ -104,13 +99,13 @@ const getColorByType = (type: string) => {
   // using switch to allow for new types to be added
   switch (type) {
     case StatusTypes.PASSED_TYPE:
-      return convert(themes.light).color.positive;
+      return convert(themes.normal).color.positive;
     case StatusTypes.FAILED_TYPE:
-      return convert(themes.light).color.negative;
+      return convert(themes.normal).color.negative;
     case StatusTypes.PENDING_TYPE:
-      return convert(themes.light).color.warning;
+      return convert(themes.normal).color.warning;
     case StatusTypes.TODO_TYPE:
-      return convert(themes.light).color.purple;
+      return convert(themes.normal).color.purple;
     default:
       return null;
   }
@@ -159,7 +154,7 @@ const Content = styled(({ tests, className }: ContentProps) => (
                 </SuiteHead>
                 <TabsState
                   initial="failing-tests"
-                  backgroundColor={convert(themes.light).background.hoverable}
+                  backgroundColor={convert(themes.normal).background.hoverable}
                 >
                   <div
                     id="failing-tests"

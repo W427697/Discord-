@@ -1,7 +1,10 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "strict": true
+    "rootDir": "./src",
+    "types": [
+      "node"
+    ]
   },
   "include": [
     "src/**/*"
@@ -13,5 +16,9 @@
     "src/**/*.stories.*",
     "src/**/*.mockdata.*",
     "src/**/__testfixtures__/**"
+  ],
+  "lib": [
+    "es2017",
+    "dom"
   ]
 }

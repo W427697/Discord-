@@ -1,4 +1,4 @@
-import { moduleMetadata, StoryFn, Meta } from '@storybook/angular';
+import { moduleMetadata, Story, Meta } from '@storybook/angular';
 import { TokenComponent, ITEMS, DEFAULT_NAME } from './angular-src/token.component';
 
 export default {
@@ -21,7 +21,7 @@ export default {
   ],
 } as Meta;
 
-export const Story1: StoryFn = () => ({
+export const Story1: Story = () => ({
   template: `<storybook-simple-token-component [name]="name"></storybook-simple-token-component>`,
   props: {
     name: 'Prop Name',
@@ -30,7 +30,7 @@ export const Story1: StoryFn = () => ({
 
 Story1.storyName = 'Story 1';
 
-export const Story2: StoryFn = () => ({
+export const Story2: Story = () => ({
   template: `<storybook-simple-token-component></storybook-simple-token-component>`,
 });
 

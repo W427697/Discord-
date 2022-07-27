@@ -11,22 +11,19 @@ import LoginForm from './LoginForm.vue';
 
 <Meta title="Form" component={LoginForm} />
 
-<!--
- 👇 Render functions are a framework specific feature to allow you control on how the component renders.
-  See https://storybook.js.org/docs/7.0/vue/api/csf
-  to learn how to use render functions.
--->
+export const Template = (args) => ({
+  components: { LoginForm },
+  setup() {
+    return { args };
+  },
+  template: '<LoginForm @onSubmit="onSubmit" v-bind="args" />',
+});
 
 <Canvas>
-  <Story 
-    name="Empty Form"
-    render={(args) => ({
-      components: { LoginForm },
-      setup() {
-        return { args };
-      },
-      template: '<LoginForm @onSubmit="onSubmit" v-bind="args" />',
-    })} />
+  <Story name="Empty Form">
+    {Template.bind({})}
+  </Story>
+
   <Story
     name="Filled Form"
     play={async ({ canvasElement }) => {
@@ -38,7 +35,7 @@ import LoginForm from './LoginForm.vue';
 
       await userEvent.type(canvas.getByTestId('password'), 'a-random-password');
 
-      // See https://storybook.js.org/docs/7.0/vue/essentials/actions#automatically-matching-args to learn how to setup logging in the Actions panel
+      // See https://storybook.js.org/docs/vue/essentials/actions#automatically-matching-args to learn how to setup logging in the Actions panel
       await userEvent.click(canvas.getByRole('button'));
 
       // 👇 Assert DOM structure
@@ -47,13 +44,8 @@ import LoginForm from './LoginForm.vue';
           'Everything is perfect. Your account is ready and we should probably get you started!'
         )
       ).toBeInTheDocument();
-    }}
-    render={(args) => ({
-      components: { LoginForm },
-      setup() {
-        return { args };
-      },
-      template: '<LoginForm @onSubmit="onSubmit" v-bind="args" />',
-    })} />
+    }}>
+    {Template.bind({})}
+  </Story>
 </Canvas>
 ```

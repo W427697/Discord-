@@ -1,4 +1,4 @@
-import { Button } from '../../../angular-demo';
+import { Button } from '@storybook/angular/demo';
 
 export default {
   title: 'Addons/Docs/Iframe',
