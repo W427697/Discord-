@@ -18,8 +18,6 @@ import { ArgsStoryFn } from '@storybook/csf';
 
 import type { ReactFramework, StoryContext } from './types';
 
-const { FRAMEWORK_OPTIONS } = global;
-
 // A map of all rendered React 18 nodes
 const nodes = new Map<Element, ReactRoot>();
 
@@ -69,13 +67,16 @@ const renderElement = async (node: ReactElement, el: Element) => {
 const canUseNewReactRootApi =
   reactDomVersion && (reactDomVersion.startsWith('18') || reactDomVersion.startsWith('0.0.0'));
 
-const shouldUseNewRootApi = FRAMEWORK_OPTIONS?.legacyRootApi !== true;
+// A function so we can adjust during tests
+const shouldUseNewRootApi = () => global.FRAMEWORK_OPTIONS?.legacyRootApi !== true;
 
-const isUsingNewReactRootApi = shouldUseNewRootApi && canUseNewReactRootApi;
+const isUsingNewReactRootApi = () => shouldUseNewRootApi() && canUseNewReactRootApi;
 
 const unmountElement = (el: Element) => {
   const root = nodes.get(el);
-  if (root && isUsingNewReactRootApi) {
+  console.log(root, isUsingNewReactRootApi(), shouldUseNewRootApi(), reactDomVersion);
+  if (root && isUsingNewReactRootApi()) {
+    console.log('unmount');
     root.unmount();
     nodes.delete(el);
   } else {
@@ -84,13 +85,12 @@ const unmountElement = (el: Element) => {
 };
 
 const getReactRoot = async (el: Element): Promise<ReactRoot | null> => {
-  if (!isUsingNewReactRootApi) {
+  if (!isUsingNewReactRootApi()) {
     return null;
   }
   let root = nodes.get(el);
 
   if (!root) {
-    // eslint-disable-next-line import/no-unresolved
     const reactDomClient = (await import('react-dom/client')).default;
     root = reactDomClient.createRoot(el);
 
@@ -132,7 +132,7 @@ class ErrorBoundary extends ReactComponent<{
   }
 }
 
-const Wrapper = FRAMEWORK_OPTIONS?.strictMode ? StrictMode : Fragment;
+const Wrapper = global.FRAMEWORK_OPTIONS?.strictMode ? StrictMode : Fragment;
 
 export async function renderToDOM(
   {
