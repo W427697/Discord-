@@ -3,7 +3,7 @@ import type { TransformOptions } from '@babel/core';
 import { Router } from 'express';
 import { Server } from 'http';
 import type { Parameters } from '@storybook/csf';
-import type { PackageJson } from 'read-pkg-up';
+import type { PackageJson } from 'type-fest';
 import type { FileSystemCache } from './utils/file-cache';
 
 /**
