@@ -7927,6 +7927,7 @@ __metadata:
     slash: ^3.0.0
     telejson: ^6.0.8
     ts-dedent: ^2.0.0
+    type-fest: ^2.17.0
     typescript: ~4.6.3
     util-deprecate: ^1.0.2
   peerDependencies:
@@ -43034,6 +43035,13 @@ __metadata:
   version: 1.4.0
   resolution: "type-fest@npm:1.4.0"
   checksum: a3c0f4ee28ff6ddf800d769eafafcdeab32efa38763c1a1b8daeae681920f6e345d7920bf277245235561d8117dab765cb5f829c76b713b4c9de0998a5397141
+  languageName: node
+  linkType: hard
+
+"type-fest@npm:^2.17.0":
+  version: 2.17.0
+  resolution: "type-fest@npm:2.17.0"
+  checksum: e7707e5c27213919483011d127f333432d82d06b697ca0577cc828b53d384372b4308d3294e849b0111a34fdc7adf5bdef58c5ffa80aa36d19e9851b2a8d9970
   languageName: node
   linkType: hard
 
