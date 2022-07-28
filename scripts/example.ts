@@ -33,23 +33,24 @@ async function getOptions() {
       description: 'Always delete an existing example, even if it has the same configuration?',
     },
     forceReuse: {
-      description: 'Always reusing an existing example, even if it has a different configuration?',
+      description: 'Always reuse an existing example, even if it has a different configuration?',
     },
-    verdaccio: {
-      description: 'Use verdaccio rather than yarn linking stories?',
+    link: {
+      description: 'Link the storybook to the local code?',
+      inverse: true,
     },
     start: {
-      description: 'Start the example app?',
+      description: 'Start the example Storybook?',
       inverse: true,
     },
     build: {
-      description: 'Build the example app?',
+      description: 'Build the example Storybook?',
     },
     watch: {
-      description: 'Start building used packages in watch mode as well as the example app?',
+      description: 'Start building used packages in watch mode as well as the example Storybook?',
     },
     dryRun: {
-      description: "Don't execute commands, just list them?",
+      description: "Don't execute commands, just list them (dry run)?",
     },
   });
 }
@@ -93,21 +94,22 @@ async function main() {
   const cwd = path.join(examplesDir, framework as string);
 
   const exists = await pathExists(cwd);
-  let shouldReuse = exists && forceReuse;
+  let shouldDelete = exists && !forceReuse;
   if (exists && !forceDelete && !forceReuse) {
-    ({ shouldReuse } = await prompts({
+    const relativePath = path.relative(process.cwd(), cwd);
+    ({ shouldDelete } = await prompts({
       type: 'toggle',
-      message: `${path.relative(process.cwd(), cwd)} already exists, should we reuse it?`,
-      name: 'shouldReuse',
-      initial: true,
+      message: `${relativePath} already exists, should delete it and create a new one?`,
+      name: 'shouldDelete',
+      initial: false,
       active: 'yes',
       inactive: 'no',
     }));
   }
 
-  if (exists && !shouldReuse) await remove(cwd);
+  if (exists && shouldDelete && !dryRun) await remove(cwd);
 
-  if (!shouldReuse) {
+  if (!exists || shouldDelete) {
     await executeCLIStep(steps.repro, {
       argument: cwd,
       optionValues: { template: framework },

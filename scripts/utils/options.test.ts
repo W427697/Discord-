@@ -30,11 +30,14 @@ const allOptions = {
 };
 
 // TS "tests"
+// deepscan-disable-next-line
 function test(mv: MaybeOptionValues<typeof allOptions>, v: OptionValues<typeof allOptions>) {
   console.log(mv.first, mv.second, mv.third, mv.fourth);
-  // console.log(mv.fifth); // not allowed
+  // @ts-expect-error as it's not allowed
+  console.log(mv.fifth);
   console.log(v.first, v.second, v.third, v.fourth);
-  // console.log(v.fifth); // not allowed
+  // @ts-expect-error as it's not allowed
+  console.log(v.fifth);
 }
 
 describe('getOptions', () => {
