@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 import { STORIES_COLLAPSE_ALL, STORIES_EXPAND_ALL } from '@storybook/core-events';
 import { Channel } from '@storybook/channels';
 import type { Listener } from '@storybook/channels';
@@ -28,11 +29,10 @@ export const init: ModuleFn<SubAPI, SubState> = ({ provider }) => {
     once: (type, cb) => provider.channel.once(type, cb),
     emit: (type, data, ...args) => {
       if (
-        data.options.target &&
+        data?.options?.target &&
         data.options.target !== 'storybook-preview-iframe' &&
         !data.options.target.startsWith('storybook-ref-')
       ) {
-        // eslint-disable-next-line no-param-reassign
         data.options.target =
           data.options.target !== 'storybook_internal'
             ? `storybook-ref-${data.options.target}`
