@@ -41,7 +41,6 @@
     "jest-image-snapshot": "^4.3.0"
   },
   "devDependencies": {
-    "@storybook/csf": "0.0.2--canary.0899bb7.0",
     "@types/puppeteer": "^5.4.0",
     "puppeteer": "^2.0.0 || ^3.0.0"
   },

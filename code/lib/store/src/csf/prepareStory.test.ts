@@ -638,6 +638,7 @@ describe('playFunction', () => {
   it('provides step via runStep', async () => {
     const stepPlay = jest.fn((context) => {
       expect(context).not.toBeUndefined();
+      expect(context.step).toEqual(expect.any(Function));
     });
     const play = jest.fn(async ({ step }) => {
       step('label', stepPlay);
