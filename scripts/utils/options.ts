@@ -2,7 +2,7 @@
  * Use commander and prompts to gather a list of options for a script
  */
 
-import prompts from 'prompts';
+import prompts, { Falsy, PrevCaller, PromptType } from 'prompts';
 import type { PromptObject } from 'prompts';
 import program from 'commander';
 import type { Command } from 'commander';
@@ -18,6 +18,10 @@ export type BaseOption = {
    *   e.g. `shortFlag: 'c'`
    */
   shortFlag?: string;
+  /**
+   * What type of prompt to use? (return false to skip, true for default)
+   */
+  promptType?: PromptType | Falsy | PrevCaller<string, PromptType | boolean>;
 };
 
 export type BooleanOption = BaseOption & {
@@ -28,12 +32,24 @@ export type BooleanOption = BaseOption & {
 };
 
 export type StringOption = BaseOption & {
+  /**
+   * What values are allowed for this option?
+   */
   values: string[];
+  /**
+   * Is a value required for this option?
+   */
   required?: boolean;
 };
 
 export type StringArrayOption = BaseOption & {
+  /**
+   * What values are allowed for this option?
+   */
   values: string[];
+  /**
+   * This must be set to true
+   */
   multiple: true;
 };
 
@@ -61,7 +77,7 @@ export type MaybeOptionValues<TOptions extends OptionSpecifier> = {
   [TKey in keyof TOptions]: MaybeOptionValue<TOptions[TKey]>;
 };
 
-export type OptionValues<TOptions extends OptionSpecifier> = {
+export type OptionValues<TOptions extends OptionSpecifier = OptionSpecifier> = {
   [TKey in keyof TOptions]: OptionValue<TOptions[TKey]>;
 };
 
@@ -154,10 +170,26 @@ export async function promptOptions<TOptions extends OptionSpecifier>(
   values: MaybeOptionValues<TOptions>
 ): Promise<OptionValues<TOptions>> {
   const questions = Object.entries(options).map(([key, option]): PromptObject => {
+    let defaultType: PromptType = 'toggle';
+    if (!isBooleanOption(option))
+      defaultType = isStringArrayOption(option) ? 'autocompleteMultiselect' : 'select';
+
+    const passedType = option.type;
+    let type: PromptObject['type'] = defaultType;
+    // Allow returning `undefined` from `type()` function to fallback to default
+    if (typeof passedType === 'function') {
+      type = (...args: Parameters<typeof passedType>) => {
+        const chosenType = passedType(...args);
+        return chosenType === true ? defaultType : chosenType;
+      };
+    } else if (passedType) {
+      type = passedType;
+    }
+
     if (!isBooleanOption(option)) {
       const currentValue = values[key];
       return {
-        type: isStringArrayOption(option) ? 'autocompleteMultiselect' : 'select',
+        type,
         message: option.description,
         name: key,
         // warn: ' ',
@@ -172,7 +204,7 @@ export async function promptOptions<TOptions extends OptionSpecifier>(
       };
     }
     return {
-      type: 'toggle',
+      type,
       message: option.description,
       name: key,
       initial: option.inverse,

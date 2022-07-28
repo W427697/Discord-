@@ -3,10 +3,9 @@ import { remove, pathExists } from 'fs-extra';
 import prompts from 'prompts';
 
 import { getOptionsOrPrompt } from './utils/options';
-import type { CLIStep } from './utils/cli-step';
 import { executeCLIStep } from './utils/cli-step';
 
-const frameworks = ['react'];
+const frameworks = ['react', 'angular'];
 const addons = ['a11y', 'storysource'];
 const examplesDir = path.resolve(__dirname, '../examples');
 
@@ -23,17 +22,19 @@ async function getOptions() {
       multiple: true,
     },
     includeStories: {
-      description:
-        "Include Storybook's own stories (only applies if a react-based framework is used)?",
+      description: "Include Storybook's own stories?",
+      promptType: (_, { framework }) => framework === 'react',
     },
     create: {
       description: 'Create the example from scratch (rather than degitting it)?',
     },
     forceDelete: {
       description: 'Always delete an existing example, even if it has the same configuration?',
+      promptType: false,
     },
     forceReuse: {
       description: 'Always reuse an existing example, even if it has a different configuration?',
+      promptType: false,
     },
     link: {
       description: 'Link the storybook to the local code?',
