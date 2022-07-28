@@ -4,6 +4,7 @@ import prompts from 'prompts';
 
 import { getOptionsOrPrompt } from './utils/options';
 import { executeCLIStep } from './utils/cli-step';
+import { exec } from '../code/lib/cli/src/repro-generators/scripts';
 
 const frameworks = ['react', 'angular'];
 const addons = ['a11y', 'storysource'];
@@ -135,7 +136,15 @@ async function main() {
 
   const { start } = optionValues;
   if (start) {
-    await executeCLIStep(steps.dev, { cwd, dryRun });
+    await exec(
+      'yarn storybook',
+      { cwd },
+      {
+        dryRun,
+        startMessage: `⬆️  Starting Storybook`,
+        errorMessage: `🚨 Starting Storybook failed`,
+      }
+    );
   } else {
     await executeCLIStep(steps.build, { cwd, dryRun });
     // TODO serve
