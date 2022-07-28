@@ -9,6 +9,7 @@ import { exec } from '../code/lib/cli/src/repro-generators/scripts';
 const frameworks = ['react', 'angular'];
 const addons = ['a11y', 'storysource'];
 const examplesDir = path.resolve(__dirname, '../examples');
+const codeDir = path.resolve(__dirname, '../code');
 
 async function getOptions() {
   return getOptionsOrPrompt('yarn example', {
@@ -75,6 +76,13 @@ const steps = {
     hasArgument: true,
     options: {},
   },
+  link: {
+    command: 'link',
+    description: 'Linking packages',
+    icon: '🔗',
+    hasArgument: true,
+    options: { local: {} },
+  },
   build: {
     command: 'build',
     description: 'Building example',
@@ -92,7 +100,7 @@ const steps = {
 async function main() {
   const optionValues = await getOptions();
 
-  const { framework, forceDelete, forceReuse, dryRun } = optionValues;
+  const { framework, forceDelete, forceReuse, link, dryRun } = optionValues;
   const cwd = path.join(examplesDir, framework as string);
 
   const exists = await pathExists(cwd);
@@ -132,6 +140,15 @@ async function main() {
     }
 
     // TODO copy stories
+
+    if (link) {
+      await executeCLIStep(steps.link, {
+        argument: cwd,
+        cwd: codeDir,
+        dryRun,
+        optionValues: { local: true },
+      });
+    }
   }
 
   const { start } = optionValues;
