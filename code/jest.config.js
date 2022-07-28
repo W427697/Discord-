@@ -40,6 +40,7 @@ module.exports = {
   ],
   roots: [
     '<rootDir>/addons',
+    '<rootDir>/renderers',
     '<rootDir>/frameworks',
     '<rootDir>/lib',
     '<rootDir>/examples/official-storybook',
