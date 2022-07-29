@@ -4,7 +4,8 @@ import { dirname, join } from 'path';
 import { existsSync } from 'fs';
 import { command } from 'execa';
 import { temporaryDirectory } from 'tempy';
-import { remove, copy } from 'fs-extra';
+import { render } from 'ejs';
+import { copy, writeFile } from 'fs-extra';
 import { fileURLToPath } from 'url';
 
 const logger = console;
@@ -44,7 +45,8 @@ const publish = async (options: PublishOptions) => {
   await command(`git checkout ${gitBranch}`, { cwd: tmpFolder });
 
   logger.log(`Moving template files into the repository`);
-  await copy(join(templatesFolderPath, gitBranch), tmpFolder, { overwrite: true });
+  await writeFile(join(tmpFolder, 'README.md'), render(join(templatesFolderPath, 'root.ejs'), { data: {} }));
+  // await copy(join(templatesFolderPath, gitBranch), tmpFolder, { overwrite: true });
 
   logger.log(`Moving all the repros into the repository`);
   await copy(join(REPROS_DIRECTORY), tmpFolder);
