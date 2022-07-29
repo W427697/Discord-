@@ -29,5 +29,5 @@ jobs:
         run: yarn next-repro
         working-directory: ./code
       - name: Publish repros to GitHub
-        run: yarn publish-repros --remote=https://storybook-bot:${{ secrets.PAT_STORYBOOK_BOT}}@github.com/storybookjs/repro-templates-temp.git --push --force-push
+        run: yarn publish-repros --remote=https://storybook-bot:${{ secrets.PAT_STORYBOOK_BOT}}@github.com/storybookjs/repro-templates-temp.git --push
         working-directory: ./code

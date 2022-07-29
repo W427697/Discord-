@@ -11,16 +11,7 @@ import { copy, emptyDir, ensureDir, readFile, rename } from 'fs-extra';
 import { maxConcurrentTasks } from '../utils/concurrency';
 
 import { localizeYarnConfigFiles, setupYarn } from './utils/yarn';
-
-type GeneratorConfig = {
-  name: string;
-  script: string;
-  // expected?: {
-  //   framework?: string;
-  //   renderer?: string;
-  //   builder?: string;
-  // };
-};
+import { GeneratorConfig } from './utils/types';
 
 type DataEntry = {
   script: string;

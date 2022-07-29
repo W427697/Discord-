@@ -169,7 +169,7 @@
     "shx": "^0.3.2",
     "slash": "^3.0.0",
     "sort-package-json": "^1.48.1",
-    "tempy": "^3.0.0",
+    "tempy": "^1.0.0",
     "trash": "^7.0.0",
     "ts-dedent": "^2.0.0",
     "ts-jest": "^26.4.4",
