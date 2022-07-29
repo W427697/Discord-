@@ -21,7 +21,7 @@ const AFTER_DIR_NAME = 'after-storybook';
 const addStorybook = async (baseDir: string) => {
   const beforeDir = join(baseDir, BEFORE_DIR_NAME);
   const afterDir = join(baseDir, AFTER_DIR_NAME);
-  const tmpDir = join(baseDir, '.tmp');
+  const tmpDir = join(baseDir, 'tmp');
 
   await ensureDir(tmpDir);
   await emptyDir(tmpDir);
