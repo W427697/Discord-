@@ -1,3 +1,4 @@
+<!-- THIS IS A GENERATED FILE. If you need to update this, go to the storybook monorepo instead: https://github.com/storybookjs/storybook -->
 # Storybook Reproduction Templates
 
 ![Storybook Latest Badge](https://img.shields.io/npm/v/@storybook/react/latest)

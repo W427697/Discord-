@@ -1,17 +1,17 @@
-import { $, cd } from 'zx';
-import { commitEverythingInDirectory, initRepo } from './git-helper.mjs';
-import { copy, createTmpDir } from './fs-helper.mjs';
+/* eslint-disable no-underscore-dangle */
 import program from 'commander';
 import { dirname, join } from 'path';
 import { existsSync } from 'fs';
+import { command } from 'execa';
+import { temporaryDirectory } from 'tempy';
+import { remove, copy } from 'fs-extra';
 import { fileURLToPath } from 'url';
-import { remove } from 'fs-extra';
+
+const logger = console;
 
 // @ts-ignore
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-
-const logger = console;
 
 const REPROS_DIRECTORY = join(__dirname, '..', '..', '..', 'repros');
 
@@ -31,20 +31,38 @@ const publish = async (options: PublishOptions) => {
 
   const { next: useNextVersion, remote, push, forcePush } = options;
 
-  tmpFolder = await createTmpDir();
+  tmpFolder = temporaryDirectory();
+
+  logger.log(`Created tmp folder: ${tmpFolder}`);
+
   const scriptPath = __dirname;
   const templatesFolderPath = join(scriptPath, 'templates');
   const gitBranch = useNextVersion ? 'next' : 'main';
 
-  cd(tmpFolder);
+  logger.log(`Cloning the repository ${remote} in branch ${gitBranch}`);
+  await command(`git clone ${remote} .`, { cwd: tmpFolder });
+  await command(`git checkout ${gitBranch}`, { cwd: tmpFolder });
 
-  await initRepo(gitBranch);
-  await copy(`${templatesFolderPath}/${gitBranch}/README.md`, tmpFolder);
+  logger.log(`Moving template files into the repository`);
+  await copy(join(templatesFolderPath, gitBranch), tmpFolder, { overwrite: true });
 
-  await $`cp -r ${REPROS_DIRECTORY}/* ${tmpFolder}`;
+  logger.log(`Moving all the repros into the repository`);
+  await copy(join(REPROS_DIRECTORY), tmpFolder);
 
-  const commitMessage = `Storybook Examples - ${new Date().toDateString()}`;
-  await commitEverythingInDirectory(commitMessage);
+  try {
+    logger.log(`Committing everything to the repository`);
+
+    await command('git add .', { cwd: tmpFolder });
+
+    const currentCommitSHA = command('git rev-parse HEAD');
+    await command(
+      `git commit -m Update Storybook Examples - ${new Date().toDateString()} - ${currentCommitSHA}`
+    );
+  } catch (e) {
+    logger.log(
+      `Git found no changes between previous versions so there is nothing to commit. Skipping publish!`
+    );
+  }
 
   logger.info(`
      All the examples were bootstrapped:
@@ -57,10 +75,12 @@ const publish = async (options: PublishOptions) => {
 
   try {
     if (remote) {
-      await $`git remote add origin ${remote}`;
+      await command(`git remote add origin ${remote}`, { cwd: tmpFolder });
 
       if (push) {
-        await $`git push --set-upstream origin ${gitBranch} ${forcePush ? '--force' : ''}`;
+        await command(`git push --set-upstream origin ${gitBranch} ${forcePush ? '--force' : ''}`, {
+          cwd: tmpFolder,
+        });
         const remoteRepoUrl = `${remote.replace('.git', '')}/tree/${gitBranch}`;
         logger.info(`🚀 Everything was pushed on ${remoteRepoUrl}`);
       } else {
@@ -93,11 +113,11 @@ program.parse(process.argv);
 const options = program.opts() as PublishOptions;
 
 publish(options).catch(async (e) => {
-  console.error(e);
+  logger.error(e);
 
   if (existsSync(tmpFolder)) {
-    console.log('removing the temporary folder..');
-    await remove(tmpFolder);
+    // logger.log('removing the temporary folder..');
+    // await remove(tmpFolder);
   }
   process.exit(1);
 });
