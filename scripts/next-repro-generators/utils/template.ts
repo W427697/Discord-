@@ -13,13 +13,13 @@ export async function renderTemplate(templatePath: string, templateData: Record<
   return output;
 }
 
+export const getStackblitzUrl = (path: string) => {
+  return `https://stackblitz.com/github/storybookjs/repro-templates-temp/tree/main/${path}/after-storybook?preset=node`;
+};
+
 export async function getTemplatesData(filePath: string) {
   const configContents = await readFile(filePath, 'utf8');
   const ymlData: Record<string, GeneratorConfig> = yml.load(configContents);
-
-  const getStackblitzUrl = (path: string) => {
-    return `https://stackblitz.com/github/storybookjs/repro-templates-temp/tree/main/${path}/after-storybook?preset=node`;
-  };
 
   type TemplatesData = Record<
     string,

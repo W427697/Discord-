@@ -6,16 +6,13 @@ import type { Options as ExecaOptions } from 'execa';
 import yaml from 'js-yaml';
 import pLimit from 'p-limit';
 import prettyTime from 'pretty-hrtime';
-import { copy, emptyDir, ensureDir, readFile, rename } from 'fs-extra';
+import { copy, emptyDir, ensureDir, readFile, rename, writeFile } from 'fs-extra';
 // @ts-ignore
 import { maxConcurrentTasks } from '../utils/concurrency';
 
 import { localizeYarnConfigFiles, setupYarn } from './utils/yarn';
 import { GeneratorConfig } from './utils/types';
-
-type DataEntry = {
-  script: string;
-};
+import { getStackblitzUrl, renderTemplate } from './utils/template';
 
 const OUTPUT_DIRECTORY = join(__dirname, '..', '..', 'repros');
 const BEFORE_DIR_NAME = 'before-storybook';
@@ -52,18 +49,36 @@ export const runCommand = async (script: string, options: ExecaOptions) => {
   return command(script, { stdout: shouldDebug ? 'inherit' : 'ignore', ...options });
 };
 
-const runGenerators = async (generators: GeneratorConfig[]) => {
+const addDocumentation = async (
+  baseDir: string,
+  { name, dirName }: { name: string; dirName: string }
+) => {
+  const afterDir = join(baseDir, AFTER_DIR_NAME);
+  const stackblitzConfigPath = join(__dirname, 'templates', '.stackblitzrc');
+  const readmePath = join(__dirname, 'templates', 'item.ejs');
+
+  await copy(stackblitzConfigPath, join(afterDir, '.stackblitzrc'));
+
+  const stackblitzUrl = getStackblitzUrl(dirName);
+  const contents = await renderTemplate(readmePath, {
+    name,
+    stackblitzUrl,
+  });
+  await writeFile(join(afterDir, 'README.md'), contents);
+};
+
+const runGenerators = async (generators: (GeneratorConfig & { dirName: string })[]) => {
   console.log(`🤹‍♂️ Generating repros with a concurrency of ${maxConcurrentTasks}`);
 
   const limit = pLimit(maxConcurrentTasks);
 
   return Promise.all(
-    generators.map(({ name, script }) =>
+    generators.map(({ dirName, name, script }) =>
       limit(async () => {
         const time = process.hrtime();
         console.log(`🧬 generating ${name}`);
 
-        const baseDir = join(OUTPUT_DIRECTORY, name);
+        const baseDir = join(OUTPUT_DIRECTORY, dirName);
         const beforeDir = join(baseDir, BEFORE_DIR_NAME);
 
         await emptyDir(baseDir);
@@ -77,10 +92,13 @@ const runGenerators = async (generators: GeneratorConfig[]) => {
 
         await addStorybook(baseDir);
 
+        await addDocumentation(baseDir, { name, dirName });
+
         console.log(
-          `✅ Created ${name} in ./${relative(process.cwd(), baseDir)} successfully in ${prettyTime(
-            process.hrtime(time)
-          )}`
+          `✅ Created ${dirName} in ./${relative(
+            process.cwd(),
+            baseDir
+          )} successfully in ${prettyTime(process.hrtime(time))}`
         );
       })
     )
@@ -89,12 +107,12 @@ const runGenerators = async (generators: GeneratorConfig[]) => {
 
 const generate = async ({ config }: { config: string }) => {
   const configContents = await readFile(config, 'utf8');
-  const data: Record<string, DataEntry> = yaml.load(configContents);
+  const data: Record<string, GeneratorConfig> = yaml.load(configContents);
 
   runGenerators(
-    Object.entries(data).map(([name, configuration]) => ({
-      name,
-      script: configuration.script,
+    Object.entries(data).map(([dirName, configuration]) => ({
+      dirName,
+      ...configuration,
     }))
   );
 };
