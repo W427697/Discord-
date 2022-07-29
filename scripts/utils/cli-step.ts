@@ -1,8 +1,6 @@
 import { getCommand, OptionSpecifier, OptionValues } from './options';
 import { exec } from '../../code/lib/cli/src/repro-generators/scripts';
 
-const logger = console;
-
 const cliExecutable = require.resolve('../../code/lib/cli/bin/index.js');
 
 export type CLIStep<TOptions extends OptionSpecifier> = {
