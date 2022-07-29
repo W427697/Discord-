@@ -1,4 +1,4 @@
-name: Generate And Push Repros
+name: Generate and push repros to the next branch
 
 on:
   schedule:
@@ -10,7 +10,7 @@ on:
       - yann/sb-509-create-github-action
 
 jobs:
-  update:
+  generate:
     runs-on: ubuntu-latest
     env:
       YARN_ENABLE_IMMUTABLE_INSTALLS: false
@@ -28,6 +28,6 @@ jobs:
       - name: Generate repros
         run: yarn next-repro
         working-directory: ./code
-      - name: Publish repros
+      - name: Publish repros to GitHub
         run: yarn publish-repros --remote=https://storybook-bot:${{ secrets.PAT_STORYBOOK_BOT}}@github.com/storybookjs/repro-templates-temp.git --push --force-push
         working-directory: ./code
