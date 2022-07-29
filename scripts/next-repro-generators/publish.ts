@@ -10,7 +10,7 @@ import { commitAllToGit } from './utils/git';
 
 export const logger = console;
 
-const REPROS_DIRECTORY = join(__dirname, '..', '..', '..', 'repros');
+const REPROS_DIRECTORY = join(__dirname, '..', '..', 'repros');
 
 interface PublishOptions {
   remote?: string;
@@ -19,16 +19,12 @@ interface PublishOptions {
 }
 
 const publish = async (options: PublishOptions & { tmpFolder: string }) => {
-  if (!existsSync(REPROS_DIRECTORY)) {
-    throw Error("Can't find repros directory. Did you forget to run generate-repros?");
-  }
-
   const { next: useNextVersion, remote, push, tmpFolder } = options;
 
   const scriptPath = __dirname;
   const gitBranch = useNextVersion ? 'next' : 'main';
 
-  const templatesData = await getTemplatesData(join(scriptPath, '..', 'repro-config.yml'));
+  const templatesData = await getTemplatesData(join(scriptPath, 'repro-config.yml'));
 
   logger.log(`👯‍♂️ Cloning the repository ${remote} in branch ${gitBranch}`);
   await command(`git clone ${remote} .`, { cwd: tmpFolder });
@@ -79,6 +75,11 @@ program
   .option('--force-push', 'Whether to force push the changes into the repros repository', false);
 
 program.parse(process.argv);
+
+if (!existsSync(REPROS_DIRECTORY)) {
+  throw Error("Can't find repros directory. Did you forget to run generate-repros?");
+}
+
 const tmpFolder = tempy.directory();
 logger.log(`⏱ Created tmp folder: ${tmpFolder}`);
 
