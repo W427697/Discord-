@@ -1,10 +1,14 @@
 import path from 'path';
-import { remove, pathExists } from 'fs-extra';
+import { remove, pathExists, readJSON, writeJSON } from 'fs-extra';
 import prompts from 'prompts';
 
 import { getOptionsOrPrompt } from './utils/options';
 import { executeCLIStep } from './utils/cli-step';
 import { exec } from '../code/lib/cli/src/repro-generators/scripts';
+import type { Parameters } from '../code/lib/cli/src/repro-generators/configs';
+import { getInterpretedFile } from '../code/lib/core-common';
+import { readConfig, writeConfig } from '../code/lib/csf-tools';
+import { babelParse } from '../code/lib/csf-tools/src/babelParse';
 
 const frameworks = ['react', 'angular'];
 const addons = ['a11y', 'storysource'];
@@ -16,12 +20,12 @@ async function getOptions() {
     framework: {
       description: 'Which framework would you like to use?',
       values: frameworks,
-      required: true,
+      required: true as const,
     },
     addon: {
       description: 'Which extra addons (beyond the CLI defaults) would you like installed?',
       values: addons,
-      multiple: true,
+      multiple: true as const,
     },
     includeStories: {
       description: "Include Storybook's own stories?",
@@ -81,7 +85,7 @@ const steps = {
     description: 'Linking packages',
     icon: '🔗',
     hasArgument: true,
-    options: { local: {} },
+    options: { local: {}, start: { inverse: true } },
   },
   build: {
     command: 'build',
@@ -95,6 +99,46 @@ const steps = {
     icon: '🖥 ',
     options: {},
   },
+};
+
+const logger = console;
+
+export const overrideMainConfig = async ({
+  cwd,
+  mainOverrides,
+}: {
+  cwd: string;
+  mainOverrides: Parameters['mainOverrides'];
+}) => {
+  logger.info(`📝 Overwriting main.js with the following configuration:`);
+  const configDir = path.join(cwd, '.storybook');
+  const mainConfigPath = getInterpretedFile(path.resolve(configDir, 'main'));
+  logger.debug(mainOverrides);
+  const mainConfig = await readConfig(mainConfigPath);
+
+  Object.keys(mainOverrides).forEach((field) => {
+    // NOTE: using setFieldNode and passing the output of babelParse()
+    mainConfig.setFieldNode([field], mainOverrides[field]);
+  });
+
+  await writeConfig(mainConfig);
+};
+
+const addPackageScripts = async ({
+  cwd,
+  scripts,
+}: {
+  cwd: string;
+  scripts: Record<string, string>;
+}) => {
+  logger.info(`🔢 Adding package resolutions:`);
+  const packageJsonPath = path.join(cwd, 'package.json');
+  const packageJson = await readJSON(packageJsonPath);
+  packageJson.scripts = {
+    ...packageJson.scripts,
+    ...scripts,
+  };
+  await writeJSON(packageJsonPath, packageJson, { spaces: 2 });
 };
 
 async function main() {
@@ -146,7 +190,25 @@ async function main() {
         argument: cwd,
         cwd: codeDir,
         dryRun,
-        optionValues: { local: true },
+        optionValues: { local: true, start: false },
+      });
+
+      // TODO -- work out exactly where this should happen
+      const code = '(c) => ({ ...c, resolve: { ...c.resolve, symlinks: false } })';
+      const mainOverrides = {
+        // @ts-ignore (not sure why TS complains here, it does exist)
+        webpackFinal: babelParse(code).program.body[0].expression,
+      };
+      await overrideMainConfig({ cwd, mainOverrides } as any);
+
+      await addPackageScripts({
+        cwd,
+        scripts: {
+          storybook:
+            'NODE_OPTIONS="--preserve-symlinks --preserve-symlinks-main" storybook dev -p 6006',
+          'build-storybook':
+            'NODE_OPTIONS="--preserve-symlinks --preserve-symlinks-main" storybook build',
+        },
       });
     }
   }
