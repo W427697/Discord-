@@ -150,8 +150,9 @@ program
   .command('link <repo-url-or-directory>')
   .description('Pull down a repro from a URL (or a local directory), link it, and run storybook')
   .option('--local', 'Link a local directory already in your file system')
-  .action((target, { local }) =>
-    link({ target, local }).catch((e) => {
+  .option('--no-start', 'Start the storybook', true)
+  .action((target, { local, start }) =>
+    link({ target, local, start }).catch((e) => {
       logger.error(e);
       process.exit(1);
     })
