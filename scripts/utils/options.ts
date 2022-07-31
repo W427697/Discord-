@@ -52,9 +52,7 @@ export type StringArrayOption = BaseOption & {
   multiple: true;
 };
 
-// StringArrayOption requires `multiple: true;` but unless you use `as const` an object with
-// { multiple: true } will be inferred as `multiple: boolean;`
-type StringArrayOptionMatch = Omit<StringArrayOption, 'multiple'> & { multiple: boolean };
+type StringArrayOptionMatch = Omit<StringArrayOption, 'multiple'> & { multiple: true };
 
 export type Option = BooleanOption | StringOption | StringArrayOption;
 export type MaybeOptionValue<TOption extends Option> = TOption extends StringArrayOptionMatch
@@ -65,9 +63,7 @@ export type MaybeOptionValue<TOption extends Option> = TOption extends StringArr
   ? boolean
   : never;
 
-// Note we use `required: boolean;` rather than `required: true` here for the same reason
-// as `StringArrayOptionMatch` above. In both cases, the field should only ever be set to true
-export type OptionValue<TOption extends Option> = TOption extends { required: boolean }
+export type OptionValue<TOption extends Option> = TOption extends { required: true }
   ? string
   : MaybeOptionValue<TOption>;
 

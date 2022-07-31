@@ -20,12 +20,12 @@ const allOptions = {
   third: {
     description: 'third',
     values: ['one', 'two', 'three'],
-    required: true,
+    required: true as const,
   },
   fourth: {
     description: 'fourth',
     values: ['a', 'b', 'c'],
-    multiple: true,
+    multiple: true as const,
   },
 };
 
