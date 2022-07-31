@@ -42,9 +42,7 @@ function test(mv: MaybeOptionValues<typeof allOptions>, v: OptionValues<typeof a
 
 describe('getOptions', () => {
   it('deals with boolean options', () => {
-    expect(
-      getOptions(createCommand() as any, allOptions, ['command', 'name', '--first'])
-    ).toMatchObject({
+    expect(getOptions(createCommand(), allOptions, ['command', 'name', '--first'])).toMatchObject({
       first: true,
       second: true,
     });
@@ -52,7 +50,7 @@ describe('getOptions', () => {
 
   it('deals with inverse boolean options', () => {
     expect(
-      getOptions(createCommand() as any, allOptions, ['command', 'name', '--no-second'])
+      getOptions(createCommand(), allOptions, ['command', 'name', '--no-second'])
     ).toMatchObject({
       first: false,
       second: false,
@@ -60,18 +58,16 @@ describe('getOptions', () => {
   });
 
   it('deals with short options', () => {
-    expect(
-      getOptions(createCommand() as any, allOptions, ['command', 'name', '-f', '-S'])
-    ).toMatchObject({
+    expect(getOptions(createCommand(), allOptions, ['command', 'name', '-f', '-S'])).toMatchObject({
       first: true,
       second: false,
     });
   });
 
   it('deals with string options', () => {
-    const r = getOptions(createCommand() as any, allOptions, ['command', 'name', '--third', 'one']);
+    const r = getOptions(createCommand(), allOptions, ['command', 'name', '--third', 'one']);
     expect(
-      getOptions(createCommand() as any, allOptions, ['command', 'name', '--third', 'one'])
+      getOptions(createCommand(), allOptions, ['command', 'name', '--third', 'one'])
     ).toMatchObject({
       third: 'one',
     });
@@ -79,26 +75,19 @@ describe('getOptions', () => {
 
   it('disallows invalid string options', () => {
     expect(() =>
-      getOptions(createCommand() as any, allOptions, ['command', 'name', '--third', 'random'])
+      getOptions(createCommand(), allOptions, ['command', 'name', '--third', 'random'])
     ).toThrow(/Unexpected value/);
   });
 
   it('deals with multiple string options', () => {
     expect(
-      getOptions(createCommand() as any, allOptions, ['command', 'name', '--fourth', 'a'])
+      getOptions(createCommand(), allOptions, ['command', 'name', '--fourth', 'a'])
     ).toMatchObject({
       fourth: ['a'],
     });
 
     expect(
-      getOptions(createCommand() as any, allOptions, [
-        'command',
-        'name',
-        '--fourth',
-        'a',
-        '--fourth',
-        'b',
-      ])
+      getOptions(createCommand(), allOptions, ['command', 'name', '--fourth', 'a', '--fourth', 'b'])
     ).toMatchObject({
       fourth: ['a', 'b'],
     });
@@ -106,7 +95,7 @@ describe('getOptions', () => {
 
   it('disallows invalid multiple string options', () => {
     expect(() =>
-      getOptions(createCommand() as any, allOptions, ['command', 'name', '--fourth', 'random'])
+      getOptions(createCommand(), allOptions, ['command', 'name', '--fourth', 'random'])
     ).toThrow(/Unexpected value/);
   });
 });

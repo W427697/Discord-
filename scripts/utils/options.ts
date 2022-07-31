@@ -5,7 +5,6 @@
 import prompts, { Falsy, PrevCaller, PromptType } from 'prompts';
 import type { PromptObject } from 'prompts';
 import program from 'commander';
-import type { Command } from 'commander';
 import kebabCase from 'lodash/kebabCase';
 
 // Option types
@@ -119,7 +118,7 @@ function optionFlags(key: OptionId, option: Option) {
 }
 
 export function getOptions<TOptions extends OptionSpecifier>(
-  command: Command,
+  command: program.Command,
   options: TOptions,
   argv: string[]
 ): MaybeOptionValues<TOptions> {
