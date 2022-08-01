@@ -377,6 +377,37 @@ jobs:
       - store_artifacts:
           path: /tmp/cypress-record
           destination: cypress
+  e2e-tests-examples-playwright:
+    docker:
+      - image: mcr.microsoft.com/playwright:v1.24.0-focal
+    steps:
+      - git-shallow-clone/checkout_advanced:
+          clone_options: '--depth 1 --verbose'
+      - attach_workspace:
+          at: .
+      - run:
+          name: running example
+          command: |
+            cd code
+            yarn serve-storybooks
+          background: true
+      - run:
+          name: await running examples
+          command: |
+            cd code
+            yarn await-serve-storybooks
+      - run:
+          name: playwright test
+          command: |
+            cd code
+            yarn test:e2e-examples-playwright --reporter=junit
+          environment:
+            PLAYWRIGHT_JUNIT_OUTPUT_NAME: test-results/playwright.xml
+      - store_test_results:
+          path: test-results
+      - store_artifacts: # this is where playwright puts more complex stuff
+          path: /playwright-results/
+          destination: playwright
   smoke-tests:
     executor:
       class: medium+
@@ -468,6 +499,9 @@ workflows:
           requires:
             - build
       - e2e-tests-examples:
+          requires:
+            - examples
+      - e2e-tests-examples-playwright:
           requires:
             - examples
       - smoke-tests:
