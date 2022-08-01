@@ -403,6 +403,7 @@ jobs:
             yarn test:e2e-examples-playwright --reporter=junit
           environment:
             PLAYWRIGHT_JUNIT_OUTPUT_NAME: test-results/playwright.xml
+            STORYBOOK_URL: 'http://localhost:8001/angular-cli'
       - store_test_results:
           path: code/test-results
       - store_artifacts: # this is where playwright puts more complex stuff
