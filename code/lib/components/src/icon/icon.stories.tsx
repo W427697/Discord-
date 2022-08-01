@@ -2,7 +2,7 @@ import React from 'react';
 import { styled, css } from '@storybook/theming';
 
 import { Icons } from './icon';
-import { icons } from './icons';
+import { icons, IconKey } from './icons';
 
 const Meta = styled.div`
   color: #666;
@@ -67,7 +67,7 @@ export const Labels = () => (
     <List>
       {Object.keys(icons).map((key) => (
         <Item key={key}>
-          <Icons icon={key as keyof typeof icons} aria-hidden />
+          <Icons icon={key as IconKey} aria-hidden />
           <Meta>{key}</Meta>
         </Item>
       ))}
@@ -81,7 +81,7 @@ export const NoLabels = () => (
     <List>
       {Object.keys(icons).map((key) => (
         <Item minimal key={key}>
-          <Icons icon={key as keyof typeof icons} aria-label={key} />
+          <Icons icon={key as IconKey} aria-label={key} />
         </Item>
       ))}
     </List>
