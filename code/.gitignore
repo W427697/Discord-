@@ -43,3 +43,6 @@ junit.xml
 !/**/.yarn/sdks
 !/**/.yarn/versions
 /**/.pnp.*
+/test-results/
+/playwright-report/
+/playwright/.cache/
