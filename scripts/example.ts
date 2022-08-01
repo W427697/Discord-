@@ -155,16 +155,47 @@ async function readMainConfig({ cwd }: { cwd: string }) {
   return readConfig(mainConfigPath);
 }
 
+// NOTE: the test here will apply whether the path is symlink-preserved or otherwise
+const webpackFinalCode = `
+  (config) => ({
+    ...config,
+    module: {
+      ...config.modules,
+      rules: [
+        {
+          test: [/\\/node_modules\\/@storybook\\/[^/]*\\/template\\/stories\\//],
+          loader: '../../code/node_modules/esbuild-loader',
+          options: {
+            loader: 'tsx',
+            target: 'es2015',
+          },
+        },
+        ...config.module.rules,
+      ],
+    },
+  })`;
+
+// paths are of the form 'node_modules/@storybook/react'
 async function addStories(paths: string[], { cwd }: { cwd: string }) {
   const mainConfig = await readMainConfig({ cwd });
 
   const stories = mainConfig.getFieldValue(['stories']) as string[];
-  const extraStories = paths.map((p) => path.resolve(p, './template/stories/*.stories.*'));
+  const extraStoryDirsAndExistence = await Promise.all(
+    paths
+      .map((p) => path.join(p, 'template', 'stories'))
+      .map(async (p) => [p, await pathExists(path.resolve(codeDir, p))] as const)
+  );
+
+  const extraStories = extraStoryDirsAndExistence
+    .filter(([, exists]) => exists)
+    .map(([p]) => path.join('..', p, '*.stories.@(js|jsx|ts|tsx)'));
   mainConfig.setFieldValue(['stories'], [...stories, ...extraStories]);
 
-  const code = '(c) => ({ ...c, rules: { ...c.rules, } })';
-  // @ts-ignore (not sure why TS complains here, it does exist)
-  mainConfig.setFieldNode(['webpackFinal'], babelParse(code).program.body[0].expression);
+  mainConfig.setFieldNode(
+    ['webpackFinal'],
+    // @ts-ignore (not sure why TS complains here, it does exist)
+    babelParse(webpackFinalCode).program.body[0].expression
+  );
 
   await writeConfig(mainConfig);
 }
@@ -201,10 +232,9 @@ async function main() {
 
     // TODO -- can we get the options type to return something more specific
     const renderer = renderersMap[framework as 'react' | 'angular'];
-    const isTS = isTSMap[framework as 'react' | 'angular'];
 
     const storiesToAdd = [] as string[];
-    storiesToAdd.push(path.join(codeDir, 'renderers', renderer));
+    storiesToAdd.push(path.join('node_modules', '@storybook', renderer));
 
     // TODO -- sb add <addon> doesn't actually work properly:
     //   - installs in `deps` not `devDeps`
@@ -217,9 +247,8 @@ async function main() {
     }
 
     for (const addon of [...defaultAddons, ...optionValues.addon]) {
-      storiesToAdd.push(path.join(codeDir, 'addons', addon));
+      storiesToAdd.push(path.join('node_modules', '@storybook', `addon-${addon}`));
     }
-
     await addStories(storiesToAdd, { cwd });
 
     if (link) {
