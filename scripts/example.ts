@@ -30,7 +30,6 @@ const codeDir = path.resolve(__dirname, '../code');
 
 // TODO -- how to encode this information
 const renderersMap = { react: 'react', angular: 'angular' };
-const isTSMap = { react: false, angular: true };
 
 async function getOptions() {
   return getOptionsOrPrompt('yarn example', {
