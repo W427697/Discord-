@@ -143,7 +143,8 @@ async function readMainConfig({ cwd }: { cwd: string }) {
   return readConfig(mainConfigPath);
 }
 
-// NOTE: the test here will apply whether the path is symlink-preserved or otherwise
+// NOTE: the test regexp here will apply whether the path is symlink-preserved or otherwise
+const loaderPath = require.resolve('../code/node_modules/esbuild-loader');
 const webpackFinalCode = `
   (config) => ({
     ...config,
@@ -152,7 +153,7 @@ const webpackFinalCode = `
       rules: [
         {
           test: [/\\/node_modules\\/@storybook\\/[^/]*\\/template\\/stories\\//],
-          loader: '../../code/node_modules/esbuild-loader',
+          loader: '${loaderPath}',
           options: {
             loader: 'tsx',
             target: 'es2015',
