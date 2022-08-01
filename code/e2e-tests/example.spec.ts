@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 import process from 'process';
 
-const storybookUrl = process.env.STORYBOOK_URL || 'http://localhost:4000';
+const storybookUrl = process.env.STORYBOOK_URL || 'http://localhost:8001';
 
 test('Basic story test', async ({ page }) => {
   await page.goto(storybookUrl);
