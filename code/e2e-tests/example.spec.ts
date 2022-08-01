@@ -1,0 +1,17 @@
+import { test, expect } from '@playwright/test';
+import process from 'process';
+
+const storybookUrl = process.env.STORYBOOK_URL || 'http://localhost:4000';
+
+test('Basic story test', async ({ page }) => {
+  await page.goto(storybookUrl);
+
+  const preview = page.frameLocator('#storybook-preview-iframe');
+  const root = preview.locator('#root:visible, #docs-root:visible');
+
+  // General check for any selected entry
+  await expect(root).not.toBeEmpty();
+
+  // Specific check for introduction story
+  await expect(root).toContainText('Welcome to Storybook');
+});
