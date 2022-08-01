@@ -149,14 +149,24 @@ const addPackageScripts = async ({
   await writeJSON(packageJsonPath, packageJson, { spaces: 2 });
 };
 
-async function copyStories(possibleFrom: string[], to: string) {
-  await Promise.all(
-    possibleFrom.map(async (from) => {
-      if (!(await pathExists(from))) return;
+async function readMainConfig({ cwd }: { cwd: string }) {
+  const configDir = path.join(cwd, '.storybook');
+  const mainConfigPath = getInterpretedFile(path.resolve(configDir, 'main'));
+  return readConfig(mainConfigPath);
+}
 
-      await ensureSymlink(from, to);
-    })
-  );
+async function addStories(paths: string[], { cwd }: { cwd: string }) {
+  const mainConfig = await readMainConfig({ cwd });
+
+  const stories = mainConfig.getFieldValue(['stories']) as string[];
+  const extraStories = paths.map((p) => path.resolve(p, './template/stories/*.stories.*'));
+  mainConfig.setFieldValue(['stories'], [...stories, ...extraStories]);
+
+  const code = '(c) => ({ ...c, rules: { ...c.rules, } })';
+  // @ts-ignore (not sure why TS complains here, it does exist)
+  mainConfig.setFieldNode(['webpackFinal'], babelParse(code).program.body[0].expression);
+
+  await writeConfig(mainConfig);
 }
 
 async function main() {
@@ -189,21 +199,12 @@ async function main() {
       dryRun,
     });
 
-    // TODO -- this seems like it might be framework specific. Should we search for a folder?
-    // or set it in the config somewhere?
-    const storiesDir = path.resolve(cwd, './stories');
-
     // TODO -- can we get the options type to return something more specific
     const renderer = renderersMap[framework as 'react' | 'angular'];
     const isTS = isTSMap[framework as 'react' | 'angular'];
-    const possiblePackageStoriesDir = isTS ? ['src/stories'] : ['dist/stories', 'dist/esm/stories'];
 
-    // Copy over renderer stories
-    const rendererDir = path.join(codeDir, 'renderers', renderer);
-    await copyStories(
-      possiblePackageStoriesDir.map((dir) => path.join(rendererDir, dir)),
-      path.join(storiesDir, renderer)
-    );
+    const storiesToAdd = [] as string[];
+    storiesToAdd.push(path.join(codeDir, 'renderers', renderer));
 
     // TODO -- sb add <addon> doesn't actually work properly:
     //   - installs in `deps` not `devDeps`
@@ -216,13 +217,10 @@ async function main() {
     }
 
     for (const addon of [...defaultAddons, ...optionValues.addon]) {
-      const addonStoriesDir = path.join(codeDir, 'addons', addon);
-
-      await copyStories(
-        possiblePackageStoriesDir.map((dir) => path.join(addonStoriesDir, dir)),
-        path.join(storiesDir, `addon-${addon}`)
-      );
+      storiesToAdd.push(path.join(codeDir, 'addons', addon));
     }
+
+    await addStories(storiesToAdd, { cwd });
 
     if (link) {
       await executeCLIStep(steps.link, {
