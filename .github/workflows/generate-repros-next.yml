@@ -3,11 +3,6 @@ name: Generate and push repros to the next branch
 on:
   schedule:
     - cron: '2 2 */1 * *'
-  workflow_dispatch:
-  # To remove when the branch will be merged
-  push:
-    branches:
-      - yann/sb-509-create-github-action
 
 jobs:
   generate:
