@@ -1,23 +1,11 @@
 /* eslint-disable no-restricted-syntax, no-await-in-loop */
 import path from 'path';
-import {
-  remove,
-  pathExists,
-  readJSON,
-  writeJSON,
-  ensureSymlink,
-  readFile,
-  writeFile,
-  mkdir,
-} from 'fs-extra';
+import { remove, pathExists, readJSON, writeJSON } from 'fs-extra';
 import prompts from 'prompts';
-import globby from 'globby';
-import { transform } from 'esbuild';
 
 import { getOptionsOrPrompt } from './utils/options';
 import { executeCLIStep } from './utils/cli-step';
 import { exec } from '../code/lib/cli/src/repro-generators/scripts';
-import type { Parameters } from '../code/lib/cli/src/repro-generators/configs';
 import { getInterpretedFile } from '../code/lib/core-common';
 import { readConfig, writeConfig } from '../code/lib/csf-tools';
 import { babelParse } from '../code/lib/csf-tools/src/babelParse';
