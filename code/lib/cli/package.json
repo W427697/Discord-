@@ -61,6 +61,7 @@
     "commander": "^6.2.1",
     "core-js": "^3.8.2",
     "cross-spawn": "^7.0.3",
+    "degit": "^2.8.4",
     "envinfo": "^7.7.3",
     "execa": "^5.0.0",
     "express": "^4.17.1",
@@ -83,6 +84,7 @@
   "devDependencies": {
     "@storybook/client-api": "7.0.0-alpha.17",
     "@types/cross-spawn": "^6.0.2",
+    "@types/degit": "^2.8.3",
     "@types/prompts": "^2.0.9",
     "@types/puppeteer-core": "^2.1.0",
     "@types/semver": "^7.3.4",
