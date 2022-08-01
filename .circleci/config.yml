@@ -404,9 +404,9 @@ jobs:
           environment:
             PLAYWRIGHT_JUNIT_OUTPUT_NAME: test-results/playwright.xml
       - store_test_results:
-          path: test-results
+          path: code/test-results
       - store_artifacts: # this is where playwright puts more complex stuff
-          path: /playwright-results/
+          path: code/playwright-results/
           destination: playwright
   smoke-tests:
     executor:
