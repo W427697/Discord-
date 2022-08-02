@@ -1,13 +1,13 @@
 /* eslint-disable no-restricted-syntax, no-await-in-loop */
 import path from 'path';
-import { remove, pathExists, readJSON, writeJSON } from 'fs-extra';
+import { remove, pathExists, readJSON, writeJSON, ensureSymlink } from 'fs-extra';
 import prompts from 'prompts';
 
 import { getOptionsOrPrompt } from './utils/options';
 import { executeCLIStep } from './utils/cli-step';
 import { exec } from '../code/lib/cli/src/repro-generators/scripts';
 import { getInterpretedFile } from '../code/lib/core-common';
-import { readConfig, writeConfig } from '../code/lib/csf-tools';
+import { ConfigFile, readConfig, writeConfig } from '../code/lib/csf-tools';
 import { babelParse } from '../code/lib/csf-tools/src/babelParse';
 
 const frameworks = ['react', 'angular'];
@@ -164,9 +164,10 @@ const webpackFinalCode = `
   })`;
 
 // paths are of the form 'node_modules/@storybook/react'
-async function addStories(paths: string[], { cwd }: { cwd: string }) {
-  const mainConfig = await readMainConfig({ cwd });
-
+async function addStories(
+  paths: string[],
+  { mainConfig, cwd }: { mainConfig: ConfigFile; cwd: string }
+) {
   const stories = mainConfig.getFieldValue(['stories']) as string[];
   const extraStoryDirsAndExistence = await Promise.all(
     paths
@@ -184,8 +185,6 @@ async function addStories(paths: string[], { cwd }: { cwd: string }) {
     // @ts-ignore (not sure why TS complains here, it does exist)
     babelParse(webpackFinalCode).program.body[0].expression
   );
-
-  await writeConfig(mainConfig);
 }
 
 async function main() {
@@ -218,11 +217,25 @@ async function main() {
       dryRun,
     });
 
+    const mainConfig = await readMainConfig({ cwd });
+
     // TODO -- can we get the options type to return something more specific
     const renderer = renderersMap[framework as 'react' | 'angular'];
+    const storiesPath = 'stories'; // This may differ in different projects
+
+    // Link in the template/components/index.js from the renderer
+    const rendererPath = path.join('node_modules', '@storybook', renderer);
+    await ensureSymlink(
+      path.join(codeDir, rendererPath, 'template', 'components'),
+      path.resolve(cwd, storiesPath, 'components')
+    );
+    mainConfig.setFieldValue(
+      ['previewEntries'],
+      [`.${path.sep}${path.join(storiesPath, 'components')}`]
+    );
 
     const storiesToAdd = [] as string[];
-    storiesToAdd.push(path.join('node_modules', '@storybook', renderer));
+    storiesToAdd.push(rendererPath);
 
     // TODO -- sb add <addon> doesn't actually work properly:
     //   - installs in `deps` not `devDeps`
@@ -237,7 +250,9 @@ async function main() {
     for (const addon of [...defaultAddons, ...optionValues.addon]) {
       storiesToAdd.push(path.join('node_modules', '@storybook', `addon-${addon}`));
     }
-    await addStories(storiesToAdd, { cwd });
+    await addStories(storiesToAdd, { mainConfig, cwd });
+
+    await writeConfig(mainConfig);
 
     if (link) {
       await executeCLIStep(steps.link, {
