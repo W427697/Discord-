@@ -120,13 +120,20 @@ const steps = {
 
 const logger = console;
 
-const addPackageScripts = async ({
+async function findFirstPath(paths: string[], { cwd }: { cwd: string }) {
+  for (const filePath of paths) {
+    if (await pathExists(path.join(cwd, filePath))) return filePath;
+  }
+  return null;
+}
+
+async function addPackageScripts({
   cwd,
   scripts,
 }: {
   cwd: string;
   scripts: Record<string, string>;
-}) => {
+}) {
   logger.info(`🔢 Adding package resolutions:`);
   const packageJsonPath = path.join(cwd, 'package.json');
   const packageJson = await readJSON(packageJsonPath);
@@ -135,7 +142,7 @@ const addPackageScripts = async ({
     ...scripts,
   };
   await writeJSON(packageJsonPath, packageJson, { spaces: 2 });
-};
+}
 
 async function readMainConfig({ cwd }: { cwd: string }) {
   const configDir = path.join(cwd, '.storybook');
@@ -165,10 +172,7 @@ const webpackFinalCode = `
   })`;
 
 // paths are of the form 'node_modules/@storybook/react'
-async function addStories(
-  paths: string[],
-  { mainConfig, cwd }: { mainConfig: ConfigFile; cwd: string }
-) {
+async function addStories(paths: string[], { mainConfig }: { mainConfig: ConfigFile }) {
   const stories = mainConfig.getFieldValue(['stories']) as string[];
   const extraStoryDirsAndExistence = await Promise.all(
     paths
@@ -192,7 +196,7 @@ async function main() {
   const optionValues = await getOptions();
 
   const { template, forceDelete, forceReuse, link, dryRun } = optionValues;
-  const cwd = path.join(sandboxDir, template);
+  const cwd = path.join(sandboxDir, template.replace('/', '-'));
 
   const exists = await pathExists(cwd);
   let shouldDelete = exists && !forceReuse;
@@ -221,7 +225,7 @@ async function main() {
     const mainConfig = await readMainConfig({ cwd });
 
     const templateConfig = TEMPLATES[template as Template];
-    const storiesPath = 'stories'; // This may differ in different projects
+    const storiesPath = await findFirstPath([path.join('src', 'stories'), 'stories'], { cwd });
 
     // Link in the template/components/index.js from the renderer
     const rendererPath = path.join('node_modules', templateConfig.expected.renderer);
@@ -250,7 +254,7 @@ async function main() {
     for (const addon of [...defaultAddons, ...optionValues.addon]) {
       storiesToAdd.push(path.join('node_modules', '@storybook', `addon-${addon}`));
     }
-    await addStories(storiesToAdd, { mainConfig, cwd });
+    await addStories(storiesToAdd, { mainConfig });
 
     await writeConfig(mainConfig);
 
