@@ -6406,7 +6406,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@pmmmwh/react-refresh-webpack-plugin@npm:^0.5.1, @pmmmwh/react-refresh-webpack-plugin@npm:^0.5.3, @pmmmwh/react-refresh-webpack-plugin@npm:^0.5.5":
+"@pmmmwh/react-refresh-webpack-plugin@npm:^0.5.3, @pmmmwh/react-refresh-webpack-plugin@npm:^0.5.5":
   version: 0.5.7
   resolution: "@pmmmwh/react-refresh-webpack-plugin@npm:0.5.7"
   dependencies:
@@ -8528,24 +8528,34 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/preset-create-react-app@npm:^4.1.0":
-  version: 4.1.2
-  resolution: "@storybook/preset-create-react-app@npm:4.1.2"
+"@storybook/preset-create-react-app@7.0.0-alpha.17, @storybook/preset-create-react-app@workspace:presets/create-react-app":
+  version: 0.0.0-use.local
+  resolution: "@storybook/preset-create-react-app@workspace:presets/create-react-app"
   dependencies:
-    "@pmmmwh/react-refresh-webpack-plugin": ^0.5.1
+    "@pmmmwh/react-refresh-webpack-plugin": ^0.5.5
+    "@storybook/core-common": 7.0.0-alpha.17
+    "@storybook/core-webpack": 7.0.0-alpha.17
+    "@storybook/node-logger": 7.0.0-alpha.17
     "@storybook/react-docgen-typescript-plugin": canary
-    "@types/babel__core": ^7.1.7
-    babel-plugin-react-docgen: ^4.1.0
+    "@types/babel__core": ^7.0.0
+    "@types/node": ^14.14.20 || ^16.0.0
+    "@types/semver": ^7.3.4
+    babel-plugin-react-docgen: ^4.2.1
     pnp-webpack-plugin: ^1.7.0
     semver: ^7.3.5
+    typescript: ~4.6.3
   peerDependencies:
     "@babel/core": "*"
     "@storybook/node-logger": "*"
     "@storybook/react": ">=5.2"
     react-scripts: ">=5.0.0"
-  checksum: d28d7c9c5ec6775f2818f831fee3b28c1e8f395bde18f43b665feb8e7f53e1dbaba4e6a783511702098f1bb45c3a7fa9cdbc0d9816aaefebfa4838a26a807406
-  languageName: node
-  linkType: hard
+  peerDependenciesMeta:
+    "@babel/core":
+      optional: true
+    typescript:
+      optional: true
+  languageName: unknown
+  linkType: soft
 
 "@storybook/preset-html-webpack@7.0.0-alpha.17, @storybook/preset-html-webpack@workspace:*, @storybook/preset-html-webpack@workspace:presets/html-webpack":
   version: 0.0.0-use.local
@@ -8593,7 +8603,7 @@ __metadata:
     "@storybook/docs-tools": 7.0.0-alpha.17
     "@storybook/node-logger": 7.0.0-alpha.17
     "@storybook/react": 7.0.0-alpha.17
-    "@storybook/react-docgen-typescript-plugin": 1.0.2-canary.6.9d540b91e815f8fc2f8829189deb00553559ff63.0
+    "@storybook/react-docgen-typescript-plugin": canary
     "@storybook/semver": ^7.3.2
     "@types/node": ^14.14.20 || ^16.0.0
     "@types/util-deprecate": ^1.0.0
@@ -8770,7 +8780,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/react-docgen-typescript-plugin@npm:1.0.2-canary.6.9d540b91e815f8fc2f8829189deb00553559ff63.0, @storybook/react-docgen-typescript-plugin@npm:canary":
+"@storybook/react-docgen-typescript-plugin@npm:canary":
   version: 1.0.2-canary.6.9d540b91e815f8fc2f8829189deb00553559ff63.0
   resolution: "@storybook/react-docgen-typescript-plugin@npm:1.0.2-canary.6.9d540b91e815f8fc2f8829189deb00553559ff63.0"
   dependencies:
@@ -13933,7 +13943,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"babel-plugin-react-docgen@npm:^4.1.0, babel-plugin-react-docgen@npm:^4.2.1":
+"babel-plugin-react-docgen@npm:^4.2.1":
   version: 4.2.1
   resolution: "babel-plugin-react-docgen@npm:4.2.1"
   dependencies:
@@ -17275,7 +17285,7 @@ __metadata:
     "@storybook/addon-storyshots": 7.0.0-alpha.17
     "@storybook/addons": 7.0.0-alpha.17
     "@storybook/client-logger": 7.0.0-alpha.17
-    "@storybook/preset-create-react-app": ^4.1.0
+    "@storybook/preset-create-react-app": 7.0.0-alpha.17
     "@storybook/react": 7.0.0-alpha.17
     "@storybook/react-webpack5": 7.0.0-alpha.17
     "@storybook/theming": 7.0.0-alpha.17
@@ -17297,7 +17307,7 @@ __metadata:
     "@storybook/addon-essentials": 7.0.0-alpha.17
     "@storybook/addons": 7.0.0-alpha.17
     "@storybook/components": 7.0.0-alpha.17
-    "@storybook/preset-create-react-app": ^4.1.0
+    "@storybook/preset-create-react-app": 7.0.0-alpha.17
     "@storybook/react": 7.0.0-alpha.17
     "@storybook/react-webpack5": 7.0.0-alpha.17
     "@storybook/testing-library": ^0.0.9
@@ -17328,7 +17338,7 @@ __metadata:
     "@storybook/addon-highlight": 7.0.0-alpha.17
     "@storybook/addon-links": 7.0.0-alpha.17
     "@storybook/addons": 7.0.0-alpha.17
-    "@storybook/preset-create-react-app": ^4.1.0
+    "@storybook/preset-create-react-app": 7.0.0-alpha.17
     "@storybook/react": 7.0.0-alpha.17
     "@storybook/react-webpack5": 7.0.0-alpha.17
     "@types/enzyme": ^3.10.8

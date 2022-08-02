@@ -71,6 +71,7 @@
     "@storybook/preset-html-webpack": { "implicitDependencies": [] },
     "@storybook/preset-preact-webpack": { "implicitDependencies": [] },
     "@storybook/preset-react-webpack": { "implicitDependencies": [] },
+    "@storybook/preset-create-react-app": { "implicitDependencies": [] },
     "@storybook/preset-server-webpack": { "implicitDependencies": [] },
     "@storybook/preset-svelte-webpack": { "implicitDependencies": [] },
     "@storybook/preset-vue-webpack": { "implicitDependencies": [] },

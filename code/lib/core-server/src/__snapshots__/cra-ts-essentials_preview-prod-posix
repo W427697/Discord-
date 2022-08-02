@@ -27,19 +27,6 @@ Object {
   "module": Object {
     "rules": Array [
       Object {
-        "sideEffects": true,
-        "test": "/\\\\.css$/",
-        "use": Array [
-          "NODE_MODULES/style-loader/dist/cjs.js",
-          Object {
-            "loader": "NODE_MODULES/css-loader/dist/cjs.js",
-            "options": Object {
-              "importLoaders": 1,
-            },
-          },
-        ],
-      },
-      Object {
         "generator": Object {
           "filename": "static/media/[name].[contenthash:8][ext]",
         },
@@ -428,6 +415,16 @@ Object {
         ],
       },
       Object {
+        "test": "/\\\\.m?js$/",
+        "type": "javascript/auto",
+      },
+      Object {
+        "resolve": Object {
+          "fullySpecified": false,
+        },
+        "test": "/\\\\.m?js$/",
+      },
+      Object {
         "test": "/(stories|story)\\\\.mdx$/",
         "use": Array [
           Object {
@@ -540,16 +537,6 @@ Object {
           "inspectLocalDependencies": true,
         },
         "test": "/\\\\.(stories|story)\\\\.[tj]sx?$/",
-      },
-      Object {
-        "test": "/\\\\.m?js$/",
-        "type": "javascript/auto",
-      },
-      Object {
-        "resolve": Object {
-          "fullySpecified": false,
-        },
-        "test": "/\\\\.m?js$/",
       },
     ],
   },
