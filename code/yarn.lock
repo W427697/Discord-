@@ -7377,7 +7377,6 @@ __metadata:
     "@nrwl/workspace": ^14.1.4
     "@storybook/addons": 7.0.0-alpha.17
     "@storybook/api": 7.0.0-alpha.17
-    "@storybook/builder-webpack5": 7.0.0-alpha.17
     "@storybook/client-logger": 7.0.0-alpha.17
     "@storybook/core-client": 7.0.0-alpha.17
     "@storybook/core-common": 7.0.0-alpha.17
@@ -17275,7 +17274,6 @@ __metadata:
     "@storybook/addon-links": 7.0.0-alpha.17
     "@storybook/addon-storyshots": 7.0.0-alpha.17
     "@storybook/addons": 7.0.0-alpha.17
-    "@storybook/builder-webpack5": 7.0.0-alpha.17
     "@storybook/client-logger": 7.0.0-alpha.17
     "@storybook/preset-create-react-app": ^4.1.0
     "@storybook/react": 7.0.0-alpha.17
@@ -17298,7 +17296,6 @@ __metadata:
   dependencies:
     "@storybook/addon-essentials": 7.0.0-alpha.17
     "@storybook/addons": 7.0.0-alpha.17
-    "@storybook/builder-webpack5": 7.0.0-alpha.17
     "@storybook/components": 7.0.0-alpha.17
     "@storybook/preset-create-react-app": ^4.1.0
     "@storybook/react": 7.0.0-alpha.17
@@ -17331,7 +17328,6 @@ __metadata:
     "@storybook/addon-highlight": 7.0.0-alpha.17
     "@storybook/addon-links": 7.0.0-alpha.17
     "@storybook/addons": 7.0.0-alpha.17
-    "@storybook/builder-webpack5": 7.0.0-alpha.17
     "@storybook/preset-create-react-app": ^4.1.0
     "@storybook/react": 7.0.0-alpha.17
     "@storybook/react-webpack5": 7.0.0-alpha.17

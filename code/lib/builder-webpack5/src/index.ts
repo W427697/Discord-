@@ -40,10 +40,21 @@ export const executor = {
 
 export const getConfig: WebpackBuilder['getConfig'] = async (options) => {
   const { presets } = options;
-  const base = await createWebpackConfig(options);
-  const intermediate = await presets.apply<Configuration>('webpack', base);
+  const babelOptions = presets.apply('babel', {});
+  const typescriptOptions = presets.apply('typescript');
 
-  return presets.apply<Configuration>('webpackFinal', intermediate);
+  const base = await createWebpackConfig(options);
+
+  const legacyExtendedOptions = {
+    ...options,
+    // TODO: remove this
+    typescriptOptions: await typescriptOptions,
+    babelOptions: await babelOptions,
+  };
+
+  const intermediate = await presets.apply<Configuration>('webpack', base, legacyExtendedOptions);
+
+  return presets.apply<Configuration>('webpackFinal', intermediate, legacyExtendedOptions);
 };
 
 let asyncIterator: ReturnType<StarterFunction> | ReturnType<BuilderFunction>;

@@ -3,6 +3,7 @@ import type { PresetProperty } from '@storybook/core-common';
 import type { StorybookConfig } from './types';
 
 export const addons: PresetProperty<'addons', StorybookConfig> = [
+  path.dirname(require.resolve(path.join('@storybook/builder-webpack5', 'package.json'))),
   path.dirname(require.resolve(path.join('@storybook/preset-html-webpack', 'package.json'))),
   path.dirname(require.resolve(path.join('@storybook/html', 'package.json'))),
 ];

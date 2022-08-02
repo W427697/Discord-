@@ -3,6 +3,7 @@
 exports[`html-kitchen-sink preview prod 1`] = `
 Object {
   "entry": Array [
+    "CWD/lib/core-client/dist/esm/globals/globals.js",
     "CWD/examples/html-kitchen-sink/.storybook/storybook-config-entry.js",
   ],
   "keys": Array [
@@ -78,6 +79,14 @@ Object {
             "loader": "NODE_MODULES/babel-loader/lib/index.js",
             "options": Object {
               "cacheDirectory": "NODE_MODULES/.cache/storybook/babel",
+              "overrides": Array [
+                Object {
+                  "plugins": Array [
+                    "NODE_MODULES/babel-plugin-named-exports-order/index.js",
+                  ],
+                  "test": "/\\\\.(story|stories).*$/",
+                },
+              ],
             },
           },
         ],
@@ -93,7 +102,16 @@ Object {
             "loader": "NODE_MODULES/babel-loader/lib/index.js",
             "options": Object {
               "babelrc": false,
+              "cacheDirectory": "NODE_MODULES/.cache/storybook/babel",
               "configFile": false,
+              "overrides": Array [
+                Object {
+                  "plugins": Array [
+                    "NODE_MODULES/babel-plugin-named-exports-order/index.js",
+                  ],
+                  "test": "/\\\\.(story|stories).*$/",
+                },
+              ],
               "plugins": Array [
                 Array [
                   "NODE_MODULES/@babel/plugin-transform-react-jsx/lib/index.js",
@@ -125,7 +143,16 @@ Object {
             "loader": "NODE_MODULES/babel-loader/lib/index.js",
             "options": Object {
               "babelrc": false,
+              "cacheDirectory": "NODE_MODULES/.cache/storybook/babel",
               "configFile": false,
+              "overrides": Array [
+                Object {
+                  "plugins": Array [
+                    "NODE_MODULES/babel-plugin-named-exports-order/index.js",
+                  ],
+                  "test": "/\\\\.(story|stories).*$/",
+                },
+              ],
               "plugins": Array [
                 Array [
                   "NODE_MODULES/@babel/plugin-transform-react-jsx/lib/index.js",

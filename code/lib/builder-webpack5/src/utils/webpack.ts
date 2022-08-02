@@ -56,8 +56,8 @@ export const createWebpackConfig = async (options: Options): Promise<Configurati
   const stories = presets.apply('stories', []);
 
   const babelOptions = presets.apply('babel', {});
+  const typescriptOptions = presets.apply<TypescriptOptions>('typescript');
   const builderOptions: BuilderOptions = typeof builder === 'string' ? {} : builder?.options || {};
-  const typescriptOptions = options.presets.apply<TypescriptOptions>('typescript');
 
   const configsFinal = [...(await configs), getPreviewFile(options)].filter(Boolean);
   const entriesFinal = await entriesP;

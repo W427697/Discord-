@@ -4,7 +4,7 @@ exports[`cra-ts-essentials preview prod 1`] = `
 Object {
   "entry": Array [
     "CWD/lib/core-client/dist/esm/globals/globals.js",
-    "CWD/storybook-config-entry.js",
+    "CWD/examples/cra-ts-essentials/.storybook/storybook-config-entry.js",
   ],
   "keys": Array [
     "name",
@@ -19,12 +19,45 @@ Object {
     "plugins",
     "module",
     "resolve",
+    "experiments",
     "optimization",
     "performance",
     "resolveLoader",
   ],
   "module": Object {
     "rules": Array [
+      Object {
+        "sideEffects": true,
+        "test": "/\\\\.css$/",
+        "use": Array [
+          "NODE_MODULES/style-loader/dist/cjs.js",
+          Object {
+            "loader": "NODE_MODULES/css-loader/dist/cjs.js",
+            "options": Object {
+              "importLoaders": 1,
+            },
+          },
+        ],
+      },
+      Object {
+        "generator": Object {
+          "filename": "static/media/[name].[contenthash:8][ext]",
+        },
+        "test": "/\\\\.(svg|ico|jpg|jpeg|png|apng|gif|eot|otf|webp|ttf|woff|woff2|cur|ani|pdf)(\\\\?.*)?$/",
+        "type": "asset/resource",
+      },
+      Object {
+        "generator": Object {
+          "filename": "static/media/[name].[contenthash:8][ext]",
+        },
+        "parser": Object {
+          "dataUrlCondition": Object {
+            "maxSize": 10000,
+          },
+        },
+        "test": "/\\\\.(mp4|webm|wav|mp3|m4a|aac|oga)(\\\\?.*)?$/",
+        "type": "asset",
+      },
       Object {
         "test": "/\\\\.md$/",
         "type": "asset/source",
