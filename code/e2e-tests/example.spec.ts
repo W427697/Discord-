@@ -13,5 +13,5 @@ test('Basic story test', async ({ page }) => {
   await expect(root).not.toBeEmpty();
 
   // Specific check for introduction story
-  await expect(root).toContainText('Welcome to Storybook');
+  await expect(root).toContainText('Welcome');
 });
