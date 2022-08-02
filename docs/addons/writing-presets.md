@@ -24,7 +24,7 @@ Each configuration has a similar signature, accepting a base configuration objec
 
 ### Babel
 
-The babel functions `babel`, `babelDefault`, and `managerBabel` all configure babel in different ways.
+The babel functions `babel` and `babelDefault` all configure babel in different ways.
 
 All functions take a [Babel configuration object](https://babeljs.io/docs/en/configuration) as their argument and can modify it or return a new object.
 
@@ -42,7 +42,6 @@ For example, Storybook's Mihtril support uses plugins internally and here's how 
 
 - `babel` is applied to the preview config, after it has been initialized by storybook
 - `babelDefault` is applied to the preview config before any user presets have been applied
-- `managerBabel` is applied to the manager.
 
 ### Webpack
 
@@ -77,7 +76,6 @@ As of Storybook 6.3, Storybook can run with either `webpack4` or `webpack5` buil
 />
 
 <!-- prettier-ignore-end -->
-
 
 ### Manager entries
 
@@ -122,7 +120,6 @@ For example, the Backgrounds preset contains the following code:
 />
 
 <!-- prettier-ignore-end -->
-
 
 Which in turn invokes:
 
@@ -210,7 +207,7 @@ For example, the following snippet adds a style tag to the preview head programm
 
 Similarly, the `managerHead` can be used to modify the surrounding "manager" UI, analogous to `manager-head.html`.
 
-Finally, the preview's main page _template_ can also be overridden using the `previewMainTemplate`, which should return a reference to a file containing an `.ejs` template that gets interpolated with some environment variables. For an example, see the [Storybook's default template](https://github.com/storybookjs/storybook/blob/next/lib/core-common/templates/index.ejs).
+Finally, the preview's main page _template_ can also be overridden using the `previewMainTemplate`, which should return a reference to a file containing an `.ejs` template that gets interpolated with some environment variables. For an example, see the [Storybook's default template](https://github.com/storybookjs/storybook/blob/next/code/lib/core-common/templates/preview.ejs).
 
 ## Sharing advanced configuration
 
