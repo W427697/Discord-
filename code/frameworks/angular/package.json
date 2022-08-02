@@ -128,5 +128,5 @@
     "access": "public"
   },
   "builders": "dist/types/builders/builders.json",
-  "gitHead": "7d44bfd3e759c6f17b75029ee2e067fab811f27b"
+  "gitHead": "bd59f1eef0f644175abdb0d9873ed0553f431f53"
 }
