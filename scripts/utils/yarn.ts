@@ -23,7 +23,12 @@ export const addPackageResolutions = async ({ cwd, dryRun }: YarnOptions) => {
 };
 
 export const installYarn2 = async ({ cwd, dryRun }: YarnOptions) => {
-  const command = [`yarn set version berry`, `yarn config set nodeLinker node-modules`];
+  const command = [
+    `yarn set version berry`,
+    // Use the global cache so we aren't re-caching dependencies each time
+    `yarn config set enableGlobalCache true`,
+    `yarn config set nodeLinker node-modules`,
+  ];
 
   await exec(
     command.join(' && '),
