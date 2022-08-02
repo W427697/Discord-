@@ -1,3 +1,81 @@
+## 7.0.0-alpha.17 (July 27, 2022)
+
+#### Features
+
+-   Addon-docs: Support DocsPage in v6 store [#18763](https://github.com/storybooks/storybook/pull/18763)
+
+#### Bug Fixes
+
+-   Preact: Typescript pragma fix [#15564](https://github.com/storybooks/storybook/pull/15564)
+-   Core: Clear addon cache directory before starting the manager [#18731](https://github.com/storybooks/storybook/pull/18731)
+-   UI: Pass full docs options to manager [#18762](https://github.com/storybooks/storybook/pull/18762)
+-   Preview: Fix standalone MDX files not HMR-ing [#18747](https://github.com/storybooks/storybook/pull/18747)
+
+#### Maintenance
+
+-   CLI: Add next-repro command [#18787](https://github.com/storybooks/storybook/pull/18787)
+-   Build: Remove old scripts that are no longer used [#18790](https://github.com/storybooks/storybook/pull/18790)
+-   Build: Addon-backgrounds with ts-up [#18784](https://github.com/storybooks/storybook/pull/18784)
+-   Build: Addon-controls with tsup [#18786](https://github.com/storybooks/storybook/pull/18786)
+-   Build: Use updated circleci node images [#18785](https://github.com/storybooks/storybook/pull/18785)
+-   Build: Move all code into a `code` directory [#18759](https://github.com/storybooks/storybook/pull/18759)
+-   Build: Lint css, html, json, md, mdx, yml files [#18735](https://github.com/storybooks/storybook/pull/18735)
+
+## 7.0.0-alpha.16 (July 25, 2022)
+
+#### Bug Fixes
+
+- Addon docs: Pass remarks plugins to mdx loader [#18740](https://github.com/storybooks/storybook/pull/18740)
+- Preview: Ensure docs container re-renders when globals change [#18711](https://github.com/storybooks/storybook/pull/18711)
+- Core: Set other manager-side constants in build [#18728](https://github.com/storybooks/storybook/pull/18728)
+- CLI: Fix detection of type: module when initializing storybook [#18714](https://github.com/storybooks/storybook/pull/18714)
+- UI: Include full URL in the "Copy Canvas Link" button [#17498](https://github.com/storybooks/storybook/pull/17498)
+- Toolbars: Fallback to name if title and icon are unspecified [#17430](https://github.com/storybooks/storybook/pull/17430)
+- CLI: Fix addons register in RN template [#18693](https://github.com/storybooks/storybook/pull/18693)
+- Index: Support `{ csfData as default }` CSF exports [#18588](https://github.com/storybooks/storybook/pull/18588)
+- Svelte: Always create main with cjs extension [#18648](https://github.com/storybooks/storybook/pull/18648)
+
+#### Maintenance
+
+- Build addons/a11y with ts-up [#18772](https://github.com/storybooks/storybook/pull/18772)
+- Typescript: Drop Emotion 10 types in lib/theming [#18598](https://github.com/storybooks/storybook/pull/18598)
+- Tests: Don't run the docs e2e in `react@18` [#18736](https://github.com/storybooks/storybook/pull/18736)
+- Addon-docs: Localize channel to docs context [#18730](https://github.com/storybooks/storybook/pull/18730)
+- Addon-docs: Move DocsRenderer back to addon-docs [#18708](https://github.com/storybooks/storybook/pull/18708)
+- Addon-docs: Remove `AddContext` from mdx packages [#18709](https://github.com/storybooks/storybook/pull/18709)
+- Preview: Simplify docsMode [#18729](https://github.com/storybooks/storybook/pull/18729)
+- Examples: Upgrade @storybook/jest in examples [#18582](https://github.com/storybooks/storybook/pull/18582)
+- Svelte: Make `svelte-loader` optional dependency [#18645](https://github.com/storybooks/storybook/pull/18645)
+- Build: Fix dts-localize script for windows [#18664](https://github.com/storybooks/storybook/pull/18664)
+
+#### Dependency Upgrades
+
+- Storyshots: Allow react-test-renderer 18 [#18296](https://github.com/storybooks/storybook/pull/18296)
+- Core: Remove unnecessary webpack dependency [#18651](https://github.com/storybooks/storybook/pull/18651)
+
+## 7.0.0-alpha.15 (July 25, 2022)
+
+Failed publish
+
+## 7.0.0-alpha.14 (July 25, 2022)
+
+Failed publish
+
+## 7.0.0-alpha.13 (July 11, 2022)
+
+### Features
+
+- UI: Remove docs tab ([#18677](https://github.com/storybookjs/storybook/pull/18677))
+
+### Bug Fixes
+
+- Index: Don't prepend `titlePrefix` to a docs entry that references a CSF file's title ([#18634](https://github.com/storybookjs/storybook/pull/18634))
+
+### Maintenance
+
+- Addon-dcos: Refactor DocsRender/Context ([#18635](https://github.com/storybookjs/storybook/pull/18635))
+- Instrumenter: `SyncPayload` type for `sync` event ([#18674](https://github.com/storybookjs/storybook/pull/18674))
+
 ## 7.0.0-alpha.12 (July 7, 2022)
 
 ### Features

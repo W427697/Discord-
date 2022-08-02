@@ -81,7 +81,7 @@ Cycling through both stories, you will see that the `Inaccessible` story contain
 
 ### Configure
 
-Out of the box, Storybook's accessibility addon includes a set of accessibility rules that cover most issues. You can also fine-tune the [addon configuration](https://github.com/storybookjs/storybook/tree/next/addons/a11y#parameters) or override [Axe's ruleset](https://github.com/storybookjs/storybook/tree/next/addons/a11y#handling-failing-rules) to best suit your needs.
+Out of the box, Storybook's accessibility addon includes a set of accessibility rules that cover most issues. You can also fine-tune the [addon configuration](https://github.com/storybookjs/storybook/tree/next/code/addons/a11y#parameters) or override [Axe's ruleset](https://github.com/storybookjs/storybook/tree/next/code/addons/a11y#handling-failing-rules) to best suit your needs.
 
 #### Global a11y configuration
 
@@ -164,7 +164,7 @@ These tools work by auditing the rendered DOM against heuristics based on [WCAG]
 
 ### Setup
 
-To enable accessibility testing with the test runner, you will need to take additional steps to set it up properly. Detailed below is our recommendation to configure and execute them.
+To enable accessibility testing with the test runner, you will need to take additional steps to set it up properly. We recommend you go through the [test runner documentation](./test-runner.md) before proceeding with the rest of the required configuration.
 
 Run the following command to install the required dependencies.
 
