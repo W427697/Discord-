@@ -175,19 +175,17 @@ export async function storybookDevServer(options: Options): Promise<{
         server,
       });
 
-  const manager = managerBuilder.start({
+  await managerBuilder.start({
     startTime,
     options,
     router,
     server,
   });
 
-  const [previewResult] = await Promise.all([
-    preview.catch(async (err) => {
-      await managerBuilder?.bail();
-      throw err;
-    }),
-  ]);
+  const previewResult = await preview.catch(async (err) => {
+    await managerBuilder?.bail();
+    throw err;
+  });
 
   // TODO #13083 Remove this when compiling the preview is fast enough
   if (!options.ci && !options.smokeTest && options.open) {
