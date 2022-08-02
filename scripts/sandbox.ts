@@ -9,8 +9,10 @@ import { exec } from '../code/lib/cli/src/repro-generators/scripts';
 import { getInterpretedFile } from '../code/lib/core-common';
 import { ConfigFile, readConfig, writeConfig } from '../code/lib/csf-tools';
 import { babelParse } from '../code/lib/csf-tools/src/babelParse';
+import TEMPLATES from '../code/lib/cli/src/repro-templates';
 
-const frameworks = ['react', 'angular'];
+type Template = keyof typeof TEMPLATES;
+const templates: Template[] = Object.keys(TEMPLATES) as any;
 const addons = ['a11y', 'storysource'];
 const defaultAddons = [
   'actions',
@@ -28,14 +30,11 @@ const defaultAddons = [
 const sandboxDir = path.resolve(__dirname, '../sandbox');
 const codeDir = path.resolve(__dirname, '../code');
 
-// TODO -- how to encode this information
-const renderersMap = { react: 'react', angular: 'angular' };
-
 async function getOptions() {
   return getOptionsOrPrompt('yarn sandbox', {
-    framework: {
-      description: 'Which framework would you like to use?',
-      values: frameworks,
+    template: {
+      description: 'Which template would you like to use?',
+      values: templates,
       required: true as const,
     },
     addon: {
@@ -80,13 +79,15 @@ async function getOptions() {
 
 const steps = {
   repro: {
-    command: 'repro',
+    command: 'repro-next',
     description: 'Bootstrapping Template',
     icon: '👷',
     hasArgument: true,
     options: {
-      template: { values: frameworks },
-      e2e: {},
+      // TODO allow string valued options without fixed values
+      output: { values: [] as string[] },
+      // TODO allow default values for strings
+      branch: { values: ['next'] },
     },
   },
   add: {
@@ -119,13 +120,20 @@ const steps = {
 
 const logger = console;
 
-const addPackageScripts = async ({
+async function findFirstPath(paths: string[], { cwd }: { cwd: string }) {
+  for (const filePath of paths) {
+    if (await pathExists(path.join(cwd, filePath))) return filePath;
+  }
+  return null;
+}
+
+async function addPackageScripts({
   cwd,
   scripts,
 }: {
   cwd: string;
   scripts: Record<string, string>;
-}) => {
+}) {
   logger.info(`🔢 Adding package resolutions:`);
   const packageJsonPath = path.join(cwd, 'package.json');
   const packageJson = await readJSON(packageJsonPath);
@@ -134,7 +142,7 @@ const addPackageScripts = async ({
     ...scripts,
   };
   await writeJSON(packageJsonPath, packageJson, { spaces: 2 });
-};
+}
 
 async function readMainConfig({ cwd }: { cwd: string }) {
   const configDir = path.join(cwd, '.storybook');
@@ -164,10 +172,7 @@ const webpackFinalCode = `
   })`;
 
 // paths are of the form 'node_modules/@storybook/react'
-async function addStories(
-  paths: string[],
-  { mainConfig, cwd }: { mainConfig: ConfigFile; cwd: string }
-) {
+async function addStories(paths: string[], { mainConfig }: { mainConfig: ConfigFile }) {
   const stories = mainConfig.getFieldValue(['stories']) as string[];
   const extraStoryDirsAndExistence = await Promise.all(
     paths
@@ -190,8 +195,8 @@ async function addStories(
 async function main() {
   const optionValues = await getOptions();
 
-  const { framework, forceDelete, forceReuse, link, dryRun } = optionValues;
-  const cwd = path.join(sandboxDir, framework);
+  const { template, forceDelete, forceReuse, link, dryRun } = optionValues;
+  const cwd = path.join(sandboxDir, template.replace('/', '-'));
 
   const exists = await pathExists(cwd);
   let shouldDelete = exists && !forceReuse;
@@ -211,20 +216,19 @@ async function main() {
 
   if (!exists || shouldDelete) {
     await executeCLIStep(steps.repro, {
-      argument: cwd,
-      optionValues: { template: framework },
+      argument: template,
+      optionValues: { output: cwd, branch: 'next' },
       cwd: sandboxDir,
       dryRun,
     });
 
     const mainConfig = await readMainConfig({ cwd });
 
-    // TODO -- can we get the options type to return something more specific
-    const renderer = renderersMap[framework as 'react' | 'angular'];
-    const storiesPath = 'stories'; // This may differ in different projects
+    const templateConfig = TEMPLATES[template as Template];
+    const storiesPath = await findFirstPath([path.join('src', 'stories'), 'stories'], { cwd });
 
     // Link in the template/components/index.js from the renderer
-    const rendererPath = path.join('node_modules', '@storybook', renderer);
+    const rendererPath = path.join('node_modules', templateConfig.expected.renderer);
     await ensureSymlink(
       path.join(codeDir, rendererPath, 'template', 'components'),
       path.resolve(cwd, storiesPath, 'components')
@@ -250,11 +254,15 @@ async function main() {
     for (const addon of [...defaultAddons, ...optionValues.addon]) {
       storiesToAdd.push(path.join('node_modules', '@storybook', `addon-${addon}`));
     }
-    await addStories(storiesToAdd, { mainConfig, cwd });
+    await addStories(storiesToAdd, { mainConfig });
 
     await writeConfig(mainConfig);
 
     if (link) {
+      await exec('yarn set version berry', { cwd }, { dryRun });
+      await exec('yarn config set enableGlobalCache true', { cwd }, { dryRun });
+      await exec('yarn config set nodeLinker node-modules', { cwd }, { dryRun });
+
       await executeCLIStep(steps.link, {
         argument: cwd,
         cwd: codeDir,
