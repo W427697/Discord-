@@ -1,7 +1,9 @@
+import globalThis from 'global';
+
 import { action } from '@storybook/addon-actions';
 
 export default {
-  component: 'Button',
+  component: globalThis.Components.Button,
   args: {
     children: 'Click Me!',
   },

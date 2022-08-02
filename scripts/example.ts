@@ -1,6 +1,6 @@
 /* eslint-disable no-restricted-syntax, no-await-in-loop */
 import path from 'path';
-import { remove, pathExists, readJSON, writeJSON } from 'fs-extra';
+import { remove, pathExists, readJSON, writeJSON, ensureSymlink } from 'fs-extra';
 import prompts from 'prompts';
 
 import { getOptionsOrPrompt } from './utils/options';
