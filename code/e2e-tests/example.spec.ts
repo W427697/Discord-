@@ -9,9 +9,6 @@ test('Basic story test', async ({ page }) => {
   const preview = page.frameLocator('#storybook-preview-iframe');
   const root = preview.locator('#root:visible, #docs-root:visible');
 
-  // General check for any selected entry
-  await expect(root).not.toBeEmpty();
-
   // Specific check for introduction story
   await expect(root).toContainText('Welcome');
 });
