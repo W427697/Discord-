@@ -1,3 +1,14 @@
+## 6.5.10-alpha.1 (August 2, 2022)
+
+#### Maintenance
+
+-   Interactions: Run conditionally based on query param [#18706](https://github.com/storybooks/storybook/pull/18706)
+
+#### Bug Fixes
+
+-   HTML: Fix missing ability to set `docs.extractArgTypes` [#18831](https://github.com/storybooks/storybook/pull/18831)
+-   CLI: Throw error on failure in sb init [#18816](https://github.com/storybooks/storybook/pull/18816)
+
 ## 6.5.10-alpha.0 (July 26, 2022)
 
 #### Bug Fixes
