@@ -4,7 +4,7 @@ exports[`vue-3-cli preview prod 1`] = `
 Object {
   "entry": Array [
     "CWD/lib/core-client/dist/esm/globals/globals.js",
-    "CWD/storybook-config-entry.js",
+    "CWD/examples/vue-3-cli/.storybook/storybook-config-entry.js",
   ],
   "keys": Array [
     "name",

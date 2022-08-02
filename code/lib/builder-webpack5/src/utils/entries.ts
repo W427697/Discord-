@@ -45,15 +45,14 @@ export async function getModernVirtualEntries({
   const entries = [...originalEntries];
   const mapping: Record<string, string> = {};
   const r = (p: string) => path.resolve(path.join(configDir, p));
-  const rc = (p: string) => path.resolve(path.join(process.cwd(), p));
 
   const storiesFileName = 'storybook-stories.js';
   const storiesPath = r(storiesFileName);
 
   const configEntryFilename = 'storybook-config-entry.js';
-  const configEntryPath = rc(configEntryFilename);
+  const configEntryPath = r(configEntryFilename);
   const data = {
-    storiesFilename: storiesFileName,
+    storiesFilename: storiesPath,
     configs,
   };
   const template = await readTemplate(
