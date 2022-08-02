@@ -25,14 +25,14 @@ const defaultAddons = [
   'toolbars',
   'viewport',
 ];
-const examplesDir = path.resolve(__dirname, '../examples');
+const sandboxDir = path.resolve(__dirname, '../sandbox');
 const codeDir = path.resolve(__dirname, '../code');
 
 // TODO -- how to encode this information
 const renderersMap = { react: 'react', angular: 'angular' };
 
 async function getOptions() {
-  return getOptionsOrPrompt('yarn example', {
+  return getOptionsOrPrompt('yarn sandbox', {
     framework: {
       description: 'Which framework would you like to use?',
       values: frameworks,
@@ -48,14 +48,14 @@ async function getOptions() {
       promptType: (_, { framework }) => framework === 'react',
     },
     create: {
-      description: 'Create the example from scratch (rather than degitting it)?',
+      description: 'Create the template from scratch (rather than degitting it)?',
     },
     forceDelete: {
-      description: 'Always delete an existing example, even if it has the same configuration?',
+      description: 'Always delete an existing sandbox, even if it has the same configuration?',
       promptType: false,
     },
     forceReuse: {
-      description: 'Always reuse an existing example, even if it has a different configuration?',
+      description: 'Always reuse an existing sandbox, even if it has a different configuration?',
       promptType: false,
     },
     link: {
@@ -63,14 +63,14 @@ async function getOptions() {
       inverse: true,
     },
     start: {
-      description: 'Start the example Storybook?',
+      description: 'Start the Storybook?',
       inverse: true,
     },
     build: {
-      description: 'Build the example Storybook?',
+      description: 'Build the Storybook?',
     },
     watch: {
-      description: 'Start building used packages in watch mode as well as the example Storybook?',
+      description: 'Start building used packages in watch mode as well as the Storybook?',
     },
     dryRun: {
       description: "Don't execute commands, just list them (dry run)?",
@@ -81,7 +81,7 @@ async function getOptions() {
 const steps = {
   repro: {
     command: 'repro',
-    description: 'Bootstrapping example',
+    description: 'Bootstrapping Template',
     icon: '👷',
     hasArgument: true,
     options: {
@@ -105,13 +105,13 @@ const steps = {
   },
   build: {
     command: 'build',
-    description: 'Building example',
+    description: 'Building Storybook',
     icon: '🔨',
     options: {},
   },
   dev: {
     command: 'dev',
-    description: 'Starting example',
+    description: 'Starting Storybook',
     icon: '🖥 ',
     options: {},
   },
@@ -191,7 +191,7 @@ async function main() {
   const optionValues = await getOptions();
 
   const { framework, forceDelete, forceReuse, link, dryRun } = optionValues;
-  const cwd = path.join(examplesDir, framework);
+  const cwd = path.join(sandboxDir, framework);
 
   const exists = await pathExists(cwd);
   let shouldDelete = exists && !forceReuse;
@@ -213,7 +213,7 @@ async function main() {
     await executeCLIStep(steps.repro, {
       argument: cwd,
       optionValues: { template: framework },
-      cwd: examplesDir,
+      cwd: sandboxDir,
       dryRun,
     });
 
