@@ -7115,16 +7115,16 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/addon-postcss@npm:^2.0.0":
-  version: 2.0.0
-  resolution: "@storybook/addon-postcss@npm:2.0.0"
+"@storybook/addon-postcss@npm:^3.0.0-alpha.1":
+  version: 3.0.0-alpha.1
+  resolution: "@storybook/addon-postcss@npm:3.0.0-alpha.1"
   dependencies:
     "@storybook/node-logger": ^6.1.14
     css-loader: ^3.6.0
     postcss: ^7.0.35
     postcss-loader: ^4.2.0
     style-loader: ^1.3.0
-  checksum: 48d77633cbe7da6542ba8c04dfda5999ed97919ff602d5b5686f1ec57c579bb89c2e103207bf29b5e60cc8121e803def3229b0584566928e4318b979bd5883be
+  checksum: 99409c5a982fa80ce4ce84f5e09004759f32323ef64cef6be6a8f845b275beb80952895ab27a8344be22a6bc22268c90b85ec0c7761461117e2b74cc689f3130
   languageName: node
   linkType: hard
 
@@ -7994,6 +7994,7 @@ __metadata:
     core-js: ^3.8.2
     detect-port: ^1.3.0
     express: ^4.17.1
+    find-up: ^5.0.0
     fs-extra: ^9.0.1
     global: ^4.4.0
     globby: ^11.0.2
@@ -24551,7 +24552,7 @@ __metadata:
     "@storybook/addon-highlight": 7.0.0-alpha.17
     "@storybook/addon-jest": 7.0.0-alpha.17
     "@storybook/addon-links": 7.0.0-alpha.17
-    "@storybook/addon-postcss": ^2.0.0
+    "@storybook/addon-postcss": ^3.0.0-alpha.1
     "@storybook/addon-storyshots": 7.0.0-alpha.17
     "@storybook/addon-storysource": 7.0.0-alpha.17
     "@storybook/addon-viewport": 7.0.0-alpha.17
@@ -24566,7 +24567,6 @@ __metadata:
     format-json: ^1.0.3
     global: ^4.4.0
     postcss: ^8.2.4
-    postcss-color-rebeccapurple: ^6.0.0
     storybook: 7.0.0-alpha.17
   languageName: unknown
   linkType: soft
@@ -25583,13 +25583,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ip-regex@npm:^4.1.0":
-  version: 4.3.0
-  resolution: "ip-regex@npm:4.3.0"
-  checksum: f9ef1f5d0df05b9133a882974e572ae525ccd205260cb103dae337f1fc7451ed783391acc6ad688e56dd2598f769e8e72ecbb650ec34763396af822a91768562
-  languageName: node
-  linkType: hard
-
 "ip@npm:1.1.5":
   version: 1.1.5
   resolution: "ip@npm:1.1.5"
@@ -26393,15 +26386,6 @@ __metadata:
   version: 0.1.0
   resolution: "is-unicode-supported@npm:0.1.0"
   checksum: 00cbe3455c3756be68d2542c416cab888aebd5012781d6819749fefb15162ff23e38501fe681b3d751c73e8ff561ac09a5293eba6f58fdf0178462ce6dcb3453
-  languageName: node
-  linkType: hard
-
-"is-url-superb@npm:^3.0.0":
-  version: 3.0.0
-  resolution: "is-url-superb@npm:3.0.0"
-  dependencies:
-    url-regex: ^5.0.0
-  checksum: d242520fc3d6b86d6e87283ba472c89d43dbcf0700da4631c328558e9524d25403b5da042a826efb468df16f61e361c4b405ddd2981cd28bf2c56a2c316ab898
   languageName: node
   linkType: hard
 
@@ -34608,16 +34592,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"postcss-color-rebeccapurple@npm:^6.0.0":
-  version: 6.0.0
-  resolution: "postcss-color-rebeccapurple@npm:6.0.0"
-  dependencies:
-    postcss: ^7.0.27
-    postcss-values-parser: ^3.2.0
-  checksum: 7893afa08e904c3409ccd97a5c73aede9e1d261e64a4a576b38351d82b74a77a9c94b8bb0312586f744947b9f28969e6c921e301e8d72aeaaf6d6cb5ff25ebbc
-  languageName: node
-  linkType: hard
-
 "postcss-color-rebeccapurple@npm:^7.0.2, postcss-color-rebeccapurple@npm:^7.1.0":
   version: 7.1.1
   resolution: "postcss-color-rebeccapurple@npm:7.1.1"
@@ -35516,19 +35490,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"postcss-values-parser@npm:^3.2.0":
-  version: 3.2.1
-  resolution: "postcss-values-parser@npm:3.2.1"
-  dependencies:
-    color-name: ^1.1.4
-    is-url-superb: ^3.0.0
-    postcss: ^7.0.5
-    url-regex: ^5.0.0
-  checksum: 5ff04dcf957fc9cc925b517ad946af547ba525a546578a6d37c8a57964aa93c660b2b96a48ee8388588b5895d93dabb24506704c0d523f5e9b1868d69526abc0
-  languageName: node
-  linkType: hard
-
-"postcss@npm:7.x.x, postcss@npm:^7.0.14, postcss@npm:^7.0.27, postcss@npm:^7.0.32, postcss@npm:^7.0.35, postcss@npm:^7.0.36, postcss@npm:^7.0.5, postcss@npm:^7.0.6":
+"postcss@npm:7.x.x, postcss@npm:^7.0.14, postcss@npm:^7.0.32, postcss@npm:^7.0.35, postcss@npm:^7.0.36, postcss@npm:^7.0.5, postcss@npm:^7.0.6":
   version: 7.0.39
   resolution: "postcss@npm:7.0.39"
   dependencies:
@@ -42289,15 +42251,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tlds@npm:^1.203.0":
-  version: 1.231.0
-  resolution: "tlds@npm:1.231.0"
-  bin:
-    tlds: bin.js
-  checksum: 0fece96f123c64ba4968dfee1cd3fc6ddb324824ee712cb323531b7f53e0af9be7521fe807bf71017e38c39480ec7a3e34b151701654d8b3d0f6f6405ebdfb40
-  languageName: node
-  linkType: hard
-
 "tmp@npm:0.0.28":
   version: 0.0.28
   resolution: "tmp@npm:0.0.28"
@@ -43794,16 +43747,6 @@ __metadata:
   dependencies:
     prepend-http: ^2.0.0
   checksum: 16f918634d41a4fab9e03c5f9702968c9930f7c29aa1a8c19a6dc01f97d02d9b700ab9f47f8da0b9ace6e0c0e99c27848994de1465b494bced6940c653481e55
-  languageName: node
-  linkType: hard
-
-"url-regex@npm:^5.0.0":
-  version: 5.0.0
-  resolution: "url-regex@npm:5.0.0"
-  dependencies:
-    ip-regex: ^4.1.0
-    tlds: ^1.203.0
-  checksum: 86d7bd8ecf5e8bd6152376292e6953d9a7cab668384d7967ea8201d87edf41799fbda5ff4110a3c16090c7c5b21787e46a6f2b2189a46deb3fd8e0aa9224a347
   languageName: node
   linkType: hard
 

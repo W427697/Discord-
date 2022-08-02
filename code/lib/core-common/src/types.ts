@@ -193,8 +193,6 @@ export interface Builder<Config, BuilderStats extends Stats = Stats> {
     startTime: ReturnType<typeof process.hrtime>;
   }) => Promise<void | BuilderStats>;
   bail: (e?: Error) => Promise<void>;
-  corePresets?: string[];
-  overridePresets?: string[];
 }
 
 export interface IndexerOptions {

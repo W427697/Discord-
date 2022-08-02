@@ -69,60 +69,27 @@ export async function webpack(
   // set `sourceLoaderOptions` to `null` to disable for manual configuration
   const sourceLoader = sourceLoaderOptions
     ? [
-        {
-          test: /\.(stories|story)\.[tj]sx?$/,
-          loader: require.resolve('@storybook/source-loader'),
-          options: { ...sourceLoaderOptions, inspectLocalDependencies: true },
-          enforce: 'pre',
-        },
+        Object.defineProperty(
+          {
+            test: /\.(stories|story)\.[tj]sx?$/,
+            loader: require.resolve('@storybook/source-loader'),
+            options: { ...sourceLoaderOptions, inspectLocalDependencies: true },
+            enforce: 'pre',
+          },
+          'custom_id',
+          { enumerable: false, value: 'storybook_source' }
+        ),
       ]
     : [];
 
   let rules = module.rules || [];
   if (transcludeMarkdown) {
     rules = [
+      // TODO: this should detect based on `custom_id`
       ...rules.filter((rule: any) => rule.test?.toString() !== '/\\.md$/'),
-      {
-        test: /\.md$/,
-        use: [
-          {
-            loader: resolvedBabelLoader,
-            options: createBabelOptions({ babelOptions, mdxBabelOptions, configureJSX }),
-          },
-          {
-            loader: mdxLoader,
-            options: mdxLoaderOptions,
-          },
-        ],
-      },
-    ];
-  }
-
-  const result = {
-    ...webpackConfig,
-    module: {
-      ...module,
-      rules: [
-        ...rules,
+      Object.defineProperty(
         {
-          test: /(stories|story)\.mdx$/,
-          use: [
-            {
-              loader: resolvedBabelLoader,
-              options: createBabelOptions({ babelOptions, mdxBabelOptions, configureJSX }),
-            },
-            {
-              loader: mdxLoader,
-              options: {
-                ...mdxLoaderOptions,
-                skipCsf: false,
-              },
-            },
-          ],
-        },
-        {
-          test: /\.mdx$/,
-          exclude: /(stories|story)\.mdx$/,
+          test: /\.md$/,
           use: [
             {
               loader: resolvedBabelLoader,
@@ -134,6 +101,56 @@ export async function webpack(
             },
           ],
         },
+        'custom_id',
+        { enumerable: false, value: 'storybook_md' }
+      ),
+    ];
+  }
+
+  const result = {
+    ...webpackConfig,
+    module: {
+      ...module,
+      rules: [
+        ...rules,
+        Object.defineProperty(
+          {
+            test: /(stories|story)\.mdx$/,
+            use: [
+              {
+                loader: resolvedBabelLoader,
+                options: createBabelOptions({ babelOptions, mdxBabelOptions, configureJSX }),
+              },
+              {
+                loader: mdxLoader,
+                options: {
+                  ...mdxLoaderOptions,
+                  skipCsf: false,
+                },
+              },
+            ],
+          },
+          'custom_id',
+          { enumerable: false, value: 'storybook_stories_mdx' }
+        ),
+        Object.defineProperty(
+          {
+            test: /\.mdx$/,
+            exclude: /(stories|story)\.mdx$/,
+            use: [
+              {
+                loader: resolvedBabelLoader,
+                options: createBabelOptions({ babelOptions, mdxBabelOptions, configureJSX }),
+              },
+              {
+                loader: mdxLoader,
+                options: mdxLoaderOptions,
+              },
+            ],
+          },
+          'custom_id',
+          { enumerable: false, value: 'storybook_mdx' }
+        ),
         ...sourceLoader,
       ],
     },
