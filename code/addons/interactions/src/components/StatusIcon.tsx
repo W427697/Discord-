@@ -9,6 +9,7 @@ import localTheme from '../theme';
 export interface StatusIconProps {
   status: Call['status'];
   useSymbol?: IconsProps['useSymbol'];
+  className?: string;
 }
 
 const {

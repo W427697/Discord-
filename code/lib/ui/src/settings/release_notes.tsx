@@ -45,6 +45,7 @@ const AlertIcon = styled(((props) => <Icons icon="alert" {...props} />) as FC<
 >)(({ theme }) => ({
   color: theme.color.mediumdark,
   width: 40,
+  height: 40,
   margin: '0 auto',
 }));
 

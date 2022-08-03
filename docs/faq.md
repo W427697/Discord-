@@ -1,5 +1,5 @@
 ---
-title: 'Frequently Asked Questions'
+title: "Frequently Asked Questions"
 ---
 
 Here are some answers to frequently asked questions. If you have a question, you can ask it by opening an issue on the [Storybook Repository](https://github.com/storybookjs/storybook/).
@@ -17,7 +17,7 @@ module.exports = {
     /* ... */
   ],
   framework: {
-    name: '@storybook/angular',
+    name: "@storybook/angular",
     options: {
       enableIvy: false,
     },
@@ -53,7 +53,7 @@ You can generally reuse webpack rules by placing them in a file that is `require
 ```js
 module.exports = {
   webpackFinal: async (baseConfig) => {
-    const nextConfig = require('/path/to/next.config.js');
+    const nextConfig = require("/path/to/next.config.js");
 
     // merge whatever from nextConfig into the webpack config storybook will use
     return { ...baseConfig, ...nextConfig };
@@ -77,7 +77,7 @@ FAST_REFRESH=true
 ```js
 module.exports = {
   framework: {
-    name: '@storybook/react-webpack5',
+    name: "@storybook/react-webpack5",
     options: {
       fastRefresh: true,
     },
@@ -98,7 +98,7 @@ You can opt-out from the new React Root API by setting the following property in
 ```js
 module.exports = {
   framework: {
-    name: '@storybook/react-webpack5',
+    name: "@storybook/react-webpack5",
     options: {
       legacyRootApi: true,
     },
@@ -113,7 +113,7 @@ A common error is that an addon tries to access the "channel", but the channel i
 1.  You're trying to access addon channel (e.g., by calling `setOptions`) in a non-browser environment like Jest. You may need to add a channel mock:
 
     ```js
-    import { addons, mockChannel } from '@storybook/addons';
+    import { addons, mockChannel } from "@storybook/addons";
 
     addons.setChannel(mockChannel());
     ```
@@ -128,7 +128,7 @@ If you're adding Storybook's dependencies manually, make sure you include the [`
 // .storybook/main.js
 
 module.exports = {
-  addons: ['@storybook/addon-controls'],
+  addons: ["@storybook/addon-controls"],
 };
 ```
 
@@ -235,7 +235,7 @@ Go through this [story](https://5a375b97f4b14f0020b0cda3-wbeulgbetj.chromatic.co
 | beaker         | bell             | bitbucket    | book         | bookmark      |
 | bookmarkhollow | bottombar        | box          | branch       | browser       |
 | button         | calendar         | camera       | category     | certificate   |
-| check          | chevrondown      | chromatic    | circle       | circlehollow  |
+| check          |                  | chromatic    | circle       | circlehollow  |
 | close          | closeAlt         | cog          | collapse     | comment       |
 | commit         | compass          | component    | contrast     | copy          |
 | cpu            | credit           | cross        | dashboard    | database      |
@@ -418,15 +418,15 @@ We're aware that the default Typescript story construct might seem outdated and 
 ```ts
 // Button.stories.ts | tsx
 
-import React from 'react';
-import type { ComponentStory, ComponentMeta } from '@storybook/react';
+import React from "react";
+import type { ComponentStory, ComponentMeta } from "@storybook/react";
 
 const StoryMeta: ComponentMeta<typeof Button> = {
   /* 👇 The title prop is optional.
    * See https://storybook.js.org/docs/react/configure/overview#configure-story-loading
    * to learn how to generate automatic titles
    */
-  title: 'Button',
+  title: "Button",
   component: Button,
 };
 
@@ -454,7 +454,7 @@ export default {
   component: MyComponent,
   args: {
     //👇 Defining the arg's value at the component level.
-    text: 'Something',
+    text: "Something",
   },
 };
 ```
@@ -469,7 +469,7 @@ export default {
   argTypes: {
     //👇 Defining the arg's display value in docs.
     text: {
-      table: { defaultValue: { summary: 'SomeType<T>' } },
+      table: { defaultValue: { summary: "SomeType<T>" } },
     },
   },
 };
