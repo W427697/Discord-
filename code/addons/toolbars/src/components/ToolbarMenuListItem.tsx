@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react';
-import { Icons, IconsProps } from '@storybook/components';
+import { Icons } from '@storybook/components';
 import { ToolbarItem } from '../types';
 
 interface ListItem {
