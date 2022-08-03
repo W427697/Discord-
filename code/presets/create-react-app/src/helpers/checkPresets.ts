@@ -12,7 +12,7 @@ export const checkPresets = (options: Options & PluginOptions): void => {
   if (!options.presetsList) {
     try {
       const configDir = resolve(options.configDir);
-      // eslint-disable-next-line global-require, import/no-dynamic-require, @typescript-eslint/no-var-requires
+      // eslint-disable-next-line global-require, import/no-dynamic-require
       presetsList = require(join(configDir, 'presets.js'));
     } catch (e) {
       // NOOP

@@ -20,7 +20,7 @@ export const getModulePath = (appDirectory: string): string[] => {
   }
 
   try {
-    // eslint-disable-next-line global-require, import/no-dynamic-require, @typescript-eslint/no-var-requires
+    // eslint-disable-next-line global-require, import/no-dynamic-require
     const { baseUrl } = (require(join(appDirectory, configName)) as PartialTSConfig)
       .compilerOptions;
     return (baseUrl ? [baseUrl] : []) as string[];

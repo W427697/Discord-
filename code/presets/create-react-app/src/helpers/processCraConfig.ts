@@ -38,7 +38,6 @@ export const processCraConfig = (
   const isStorybook530 = semver.gte(storybookVersion, '5.3.0');
 
   const craRules = (craWebpackConfig.module!.rules || []) as unknown as RuleSetRule[];
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   return craRules.reduce((rules, rule): RuleSetRule[] => {
     const { oneOf, include } = rule;
 
@@ -74,7 +73,6 @@ export const processCraConfig = (
                 const excludeRegex = new RegExp(`\\.(${excludes.join('|')})$`);
                 return {
                   ...oneOfRule,
-                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
                   exclude: [...(oneOfRule.exclude as RuleSetCondition[]), excludeRegex],
                 };
               }

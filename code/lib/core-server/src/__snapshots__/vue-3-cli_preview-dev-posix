@@ -5,7 +5,7 @@ Object {
   "entry": Array [
     "CWD/lib/core-client/dist/esm/globals/globals.js",
     "NODE_MODULES/webpack-hot-middleware/client.js?reload=true&quiet=false&noInfo=undefined",
-    "CWD/examples/vue-3-cli/.storybook/storybook-config-entry.js",
+    "CWD/storybook-config-entry.js",
   ],
   "keys": Array [
     "name",

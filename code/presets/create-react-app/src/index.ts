@@ -81,7 +81,7 @@ export const webpack: StorybookConfig['webpack'] = async (inputConfig = {}, inpu
 
   // Require the CRA config and set the appropriate mode.
   const craWebpackConfigPath = join(scriptsPath, 'config', 'webpack.config');
-  // eslint-disable-next-line global-require, import/no-dynamic-require, @typescript-eslint/no-var-requires, @typescript-eslint/no-unsafe-call
+  // eslint-disable-next-line global-require, import/no-dynamic-require
   const craWebpackConfig = require(craWebpackConfigPath)(webpackConfig.mode) as Configuration;
 
   // Select the relevant CRA rules and add the Storybook config directory.
