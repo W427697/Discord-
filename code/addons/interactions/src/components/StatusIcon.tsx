@@ -6,8 +6,9 @@ import { styled } from '@storybook/theming';
 import { transparentize } from 'polished';
 import localTheme from '../theme';
 
-export interface StatusIconProps extends IconsProps {
+export interface StatusIconProps {
   status: Call['status'];
+  useSymbol?: IconsProps['useSymbol'];
 }
 
 const {
