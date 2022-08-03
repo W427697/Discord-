@@ -1,3 +1,41 @@
+## 6.5.10-alpha.1 (August 2, 2022)
+
+#### Maintenance
+
+-   Interactions: Run conditionally based on query param [#18706](https://github.com/storybooks/storybook/pull/18706)
+
+#### Bug Fixes
+
+-   HTML: Fix missing ability to set `docs.extractArgTypes` [#18831](https://github.com/storybooks/storybook/pull/18831)
+-   CLI: Throw error on failure in sb init [#18816](https://github.com/storybooks/storybook/pull/18816)
+
+## 6.5.10-alpha.0 (July 26, 2022)
+
+#### Bug Fixes
+
+-   CLI: Hook up the npm7 migration [#18522](https://github.com/storybooks/storybook/pull/18522)
+-   Preview: Ensure docs container re-renders when globals change [#18711](https://github.com/storybooks/storybook/pull/18711)
+-   Toolbars: Fall back to name if both title and icon are not specified [#17430](https://github.com/storybooks/storybook/pull/17430)
+-   CLI: Fix addons register in RN template [#18693](https://github.com/storybooks/storybook/pull/18693)
+-   CLI: Fix detection of type: module when initializing storybook [#18714](https://github.com/storybooks/storybook/pull/18714)
+-   CLI/Svelte: Always create main with cjs extension [#18648](https://github.com/storybooks/storybook/pull/18648)
+-   Fix typo in CSS pseudo selector [#17708](https://github.com/storybooks/storybook/pull/17708)
+-   UI: Fix sidebar a11y by moving aria-expanded attribute to button [#18354](https://github.com/storybooks/storybook/pull/18354)
+-   CLI: Add npm7 migration for legacy peer deps [#18510](https://github.com/storybooks/storybook/pull/18510)
+-   UI: Fix display skip to sidebar button [#18479](https://github.com/storybooks/storybook/pull/18479)
+-   Core: Fix process is not defined when using components [#18469](https://github.com/storybooks/storybook/pull/18469)
+
+#### Maintenance
+
+-   Components: Re-bundle the syntax highlighter  [#18425](https://github.com/storybooks/storybook/pull/18425)
+-   Svelte: Make `svelte-loader` optional dependency [#18645](https://github.com/storybooks/storybook/pull/18645)
+-   Theming: Replace references to `themes.normal` with `themes.light` [#17034](https://github.com/storybooks/storybook/pull/17034)
+
+#### Dependency Upgrades
+
+-   Core: Fix process is not defined [#18367](https://github.com/storybooks/storybook/pull/18367)
+-   Core: fix PnP compatibility for @storybook/ui and @storybook/router packages [#18412](https://github.com/storybooks/storybook/pull/18412)
+
 ## 6.5.9 (June 14, 2022)
 
 ### Bug Fixes

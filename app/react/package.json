@@ -1,6 +1,6 @@
 {
   "name": "@storybook/react",
-  "version": "6.5.9",
+  "version": "6.5.10-alpha.1",
   "description": "Storybook for React: Develop React Component in isolation with Hot Reloading.",
   "keywords": [
     "storybook"
@@ -49,16 +49,16 @@
     "@babel/preset-flow": "^7.12.1",
     "@babel/preset-react": "^7.12.10",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.3",
-    "@storybook/addons": "6.5.9",
-    "@storybook/client-logger": "6.5.9",
-    "@storybook/core": "6.5.9",
-    "@storybook/core-common": "6.5.9",
+    "@storybook/addons": "6.5.10-alpha.1",
+    "@storybook/client-logger": "6.5.10-alpha.1",
+    "@storybook/core": "6.5.10-alpha.1",
+    "@storybook/core-common": "6.5.10-alpha.1",
     "@storybook/csf": "0.0.2--canary.4566f4d.1",
-    "@storybook/docs-tools": "6.5.9",
-    "@storybook/node-logger": "6.5.9",
+    "@storybook/docs-tools": "6.5.10-alpha.1",
+    "@storybook/node-logger": "6.5.10-alpha.1",
     "@storybook/react-docgen-typescript-plugin": "1.0.2-canary.6.9d540b91e815f8fc2f8829189deb00553559ff63.0",
     "@storybook/semver": "^7.3.2",
-    "@storybook/store": "6.5.9",
+    "@storybook/store": "6.5.10-alpha.1",
     "@types/estree": "^0.0.51",
     "@types/node": "^14.14.20 || ^16.0.0",
     "@types/webpack-env": "^1.16.0",
@@ -119,6 +119,6 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "e2673f765722cbb542ef1b5cf8d533c8e746a127",
+  "gitHead": "b02a0ef8866c6cf8c609a32a14b4c55f513aa569",
   "sbmodern": "dist/modern/client/index.js"
 }

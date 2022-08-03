@@ -38,7 +38,12 @@ program
   .option('-y --yes', 'Answer yes to all prompts')
   .option('-b --builder <builder>', 'Builder library')
   .option('-l --linkable', 'Prepare installation for link (contributor helper)')
-  .action((options) => initiate(options, pkg));
+  .action((options) =>
+    initiate(options, pkg).catch((err) => {
+      logger.error(err);
+      process.exit(1);
+    })
+  );
 
 program
   .command('add <addon>')
