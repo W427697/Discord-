@@ -48,3 +48,5 @@ const addActionsFromArgTypes: ArgsEnhancer<AnyFramework> = ({ id, initialArgs })
   addSpies(id, initialArgs);
 
 export const argsEnhancers = [addActionsFromArgTypes];
+
+export const runStep = [(label: string, callback: Function, context: Object) => callback(context)];

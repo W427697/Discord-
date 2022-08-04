@@ -1,4 +1,4 @@
-import type { AnyFramework } from '@storybook/csf';
+import type { AnyFramework, StepLabel, PlayFunction, PlayFunctionContext } from '@storybook/csf';
 
 import type { ModuleExports, WebProjectAnnotations } from '../types';
 import { combineParameters } from '../parameters';
@@ -36,6 +36,12 @@ export function composeConfigs<TFramework extends AnyFramework>(
   moduleExportList: ModuleExports[]
 ): WebProjectAnnotations<TFramework> {
   const allArgTypeEnhancers = getArrayField(moduleExportList, 'argTypesEnhancers');
+  const stepRunners = getArrayField(moduleExportList, 'runStep');
+  const runStep = (
+    label: StepLabel,
+    play: PlayFunction<TFramework>,
+    context: PlayFunctionContext<TFramework>
+  ) => play(context);
 
   return {
     parameters: combineParameters(...getField(moduleExportList, 'parameters')),
@@ -53,6 +59,6 @@ export function composeConfigs<TFramework extends AnyFramework>(
     render: getSingletonField(moduleExportList, 'render'),
     renderToDOM: getSingletonField(moduleExportList, 'renderToDOM'),
     applyDecorators: getSingletonField(moduleExportList, 'applyDecorators'),
-    runStep: composeStepRunners<TFramework>(getArrayField(moduleExportList, 'runStep')),
+    runStep: composeStepRunners<TFramework>([runStep, ...stepRunners]),
   };
 }
