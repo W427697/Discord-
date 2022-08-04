@@ -256,9 +256,9 @@ export class StoryRender<TFramework extends AnyFramework> implements Render<TFra
       if (forceRemount && playFunction && this.phase !== 'errored') {
         this.disableKeyListeners = true;
         try {
-          await this.runPhase(abortSignal, 'playing', async () =>
-            playFunction(renderContext.playContext)
-          );
+          await this.runPhase(abortSignal, 'playing', async () => {
+            await playFunction(renderContext.playContext);
+          });
           await this.runPhase(abortSignal, 'played');
         } catch (error) {
           logger.error(error);
