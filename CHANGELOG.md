@@ -1,3 +1,138 @@
+## 7.0.0-alpha.18 (August 2, 2022)
+
+#### Features
+
+-   CLI: Add temporary sb repro-next command that only degits repros [#18834](https://github.com/storybooks/storybook/pull/18834)
+-   Interactions: Add step function to play context [#18673](https://github.com/storybooks/storybook/pull/18673)
+-   UI: Add preloading to stories highlighted in the sidebar [#17964](https://github.com/storybooks/storybook/pull/17964)
+
+#### Bug Fixes
+
+-   UI: Fix refs with authentication being broken if the fetch for `iframe.html` succeeds (but with a request to authenticate) [#18160](https://github.com/storybooks/storybook/pull/18160)
+-   HTML: Fix missing ability to set `docs.extractArgTypes` [#18831](https://github.com/storybooks/storybook/pull/18831)
+-   React: Fix callback behavior in `react@18` [#18737](https://github.com/storybooks/storybook/pull/18737)
+-   CLI: Throw error on failure in sb init [#18816](https://github.com/storybooks/storybook/pull/18816)
+-   CLI: Fix package.json version detection [#18806](https://github.com/storybooks/storybook/pull/18806)
+
+#### Maintenance
+
+-   Build: Use ts-up to build `addon-outline` [#18842](https://github.com/storybooks/storybook/pull/18842)
+-   Core: Fix default framework options handling [#18676](https://github.com/storybooks/storybook/pull/18676)
+-   Build: Use tsup to build `addon-measure` and fix related imports in `examples/official-storybook` [#18837](https://github.com/storybooks/storybook/pull/18837)
+-   Build: Use tsup to build addon-jest [#18836](https://github.com/storybooks/storybook/pull/18836)
+-   Examples: Use `repro-next` in the example script! [#18839](https://github.com/storybooks/storybook/pull/18839)
+-   Examples: Rename `example` => `sandbox` [#18838](https://github.com/storybooks/storybook/pull/18838)
+-   Examples: Use a set of test components in addon stories [#18825](https://github.com/storybooks/storybook/pull/18825)
+-   Examples: Copy example stories over from renderer + addons [#18824](https://github.com/storybooks/storybook/pull/18824)
+-   Examples: Set `resolve.symlinks` based on node option [#18827](https://github.com/storybooks/storybook/pull/18827)
+-   Examples: Add command to publish repros + GH action [#18800](https://github.com/storybooks/storybook/pull/18800)
+-   Examples: Create a new `yarn example` command [#18781](https://github.com/storybooks/storybook/pull/18781)
+-   Build: Fix yarn build command [#18817](https://github.com/storybooks/storybook/pull/18817)
+-   Build: Use tsup to build core-event [#18798](https://github.com/storybooks/storybook/pull/18798)
+
+## 7.0.0-alpha.17 (July 27, 2022)
+
+#### Features
+
+-   Addon-docs: Support DocsPage in v6 store [#18763](https://github.com/storybooks/storybook/pull/18763)
+
+#### Bug Fixes
+
+-   Preact: Typescript pragma fix [#15564](https://github.com/storybooks/storybook/pull/15564)
+-   Core: Clear addon cache directory before starting the manager [#18731](https://github.com/storybooks/storybook/pull/18731)
+-   UI: Pass full docs options to manager [#18762](https://github.com/storybooks/storybook/pull/18762)
+-   Preview: Fix standalone MDX files not HMR-ing [#18747](https://github.com/storybooks/storybook/pull/18747)
+
+#### Maintenance
+
+-   CLI: Add next-repro command [#18787](https://github.com/storybooks/storybook/pull/18787)
+-   Build: Remove old scripts that are no longer used [#18790](https://github.com/storybooks/storybook/pull/18790)
+-   Build: Addon-backgrounds with ts-up [#18784](https://github.com/storybooks/storybook/pull/18784)
+-   Build: Addon-controls with tsup [#18786](https://github.com/storybooks/storybook/pull/18786)
+-   Build: Use updated circleci node images [#18785](https://github.com/storybooks/storybook/pull/18785)
+-   Build: Move all code into a `code` directory [#18759](https://github.com/storybooks/storybook/pull/18759)
+-   Build: Lint css, html, json, md, mdx, yml files [#18735](https://github.com/storybooks/storybook/pull/18735)
+
+## 7.0.0-alpha.16 (July 25, 2022)
+
+#### Bug Fixes
+
+- Addon docs: Pass remarks plugins to mdx loader [#18740](https://github.com/storybooks/storybook/pull/18740)
+- Preview: Ensure docs container re-renders when globals change [#18711](https://github.com/storybooks/storybook/pull/18711)
+- Core: Set other manager-side constants in build [#18728](https://github.com/storybooks/storybook/pull/18728)
+- CLI: Fix detection of type: module when initializing storybook [#18714](https://github.com/storybooks/storybook/pull/18714)
+- UI: Include full URL in the "Copy Canvas Link" button [#17498](https://github.com/storybooks/storybook/pull/17498)
+- Toolbars: Fallback to name if title and icon are unspecified [#17430](https://github.com/storybooks/storybook/pull/17430)
+- CLI: Fix addons register in RN template [#18693](https://github.com/storybooks/storybook/pull/18693)
+- Index: Support `{ csfData as default }` CSF exports [#18588](https://github.com/storybooks/storybook/pull/18588)
+- Svelte: Always create main with cjs extension [#18648](https://github.com/storybooks/storybook/pull/18648)
+
+#### Maintenance
+
+- Build addons/a11y with ts-up [#18772](https://github.com/storybooks/storybook/pull/18772)
+- Typescript: Drop Emotion 10 types in lib/theming [#18598](https://github.com/storybooks/storybook/pull/18598)
+- Tests: Don't run the docs e2e in `react@18` [#18736](https://github.com/storybooks/storybook/pull/18736)
+- Addon-docs: Localize channel to docs context [#18730](https://github.com/storybooks/storybook/pull/18730)
+- Addon-docs: Move DocsRenderer back to addon-docs [#18708](https://github.com/storybooks/storybook/pull/18708)
+- Addon-docs: Remove `AddContext` from mdx packages [#18709](https://github.com/storybooks/storybook/pull/18709)
+- Preview: Simplify docsMode [#18729](https://github.com/storybooks/storybook/pull/18729)
+- Examples: Upgrade @storybook/jest in examples [#18582](https://github.com/storybooks/storybook/pull/18582)
+- Svelte: Make `svelte-loader` optional dependency [#18645](https://github.com/storybooks/storybook/pull/18645)
+- Build: Fix dts-localize script for windows [#18664](https://github.com/storybooks/storybook/pull/18664)
+
+#### Dependency Upgrades
+
+- Storyshots: Allow react-test-renderer 18 [#18296](https://github.com/storybooks/storybook/pull/18296)
+- Core: Remove unnecessary webpack dependency [#18651](https://github.com/storybooks/storybook/pull/18651)
+
+## 7.0.0-alpha.15 (July 25, 2022)
+
+Failed publish
+
+## 7.0.0-alpha.14 (July 25, 2022)
+
+Failed publish
+
+## 7.0.0-alpha.13 (July 11, 2022)
+
+### Features
+
+- UI: Remove docs tab ([#18677](https://github.com/storybookjs/storybook/pull/18677))
+
+### Bug Fixes
+
+- Index: Don't prepend `titlePrefix` to a docs entry that references a CSF file's title ([#18634](https://github.com/storybookjs/storybook/pull/18634))
+
+### Maintenance
+
+- Addon-dcos: Refactor DocsRender/Context ([#18635](https://github.com/storybookjs/storybook/pull/18635))
+- Instrumenter: `SyncPayload` type for `sync` event ([#18674](https://github.com/storybookjs/storybook/pull/18674))
+
+## 7.0.0-alpha.12 (July 7, 2022)
+
+### Features
+
+- Addon-docs: Produce docs page entries in the index ([#18574](https://github.com/storybookjs/storybook/pull/18574))
+- Svelte: Supports action auto configuration ([#18174](https://github.com/storybookjs/storybook/pull/18174))
+- Addon-docs: Add docs index configuration via main.js ([#18573](https://github.com/storybookjs/storybook/pull/18573))
+- Preview: Handle new docs-page index entries ([#18595](https://github.com/storybookjs/storybook/pull/18595))
+
+### Bug Fixes
+
+- CLI: Remove addon-actions install from `sb init` ([#18255](https://github.com/storybookjs/storybook/pull/18255))
+- Angular: Fix compodoc with spaces in workspace root ([#18140](https://github.com/storybookjs/storybook/pull/18140))
+- Core: Add type guard for globalWindow ([#18251](https://github.com/storybookjs/storybook/pull/18251))
+- Core: Fix builder stats typings to be optional ([#18377](https://github.com/storybookjs/storybook/pull/18377))
+
+### Maintenance
+
+- Core: Async load presets, replace interpret with esbuild-register ([#18619](https://github.com/storybookjs/storybook/pull/18619))
+- Build: Improve linting a bit ([#18642](https://github.com/storybookjs/storybook/pull/18642))
+
+### Dependency Upgrades
+
+- Deps: Use `dequal` for equality checks ([#18608](https://github.com/storybookjs/storybook/pull/18608))
+
 ## 7.0.0-alpha.11 (July 6, 2022)
 
 ### Features
