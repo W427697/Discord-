@@ -74,7 +74,7 @@ const ButtonWrapper = styled.button<{
             display: 'block',
             margin: 0,
           },
-          ...(small ? { padding: 9 } : { padding: 12 }),
+          ...(small ? { padding: 10 } : { padding: 13 }),
         }
       : {},
   ({ theme, primary, secondary, gray }) => {
