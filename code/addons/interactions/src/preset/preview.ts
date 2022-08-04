@@ -1,6 +1,12 @@
 import { addons } from '@storybook/addons';
 import { FORCE_REMOUNT, STORY_RENDER_PHASE_CHANGED } from '@storybook/core-events';
-import type { AnyFramework, ArgsEnhancer } from '@storybook/csf';
+import type {
+  AnyFramework,
+  ArgsEnhancer,
+  PlayFunction,
+  PlayFunctionContext,
+  StepLabel,
+} from '@storybook/csf';
 import { instrument } from '@storybook/instrumenter';
 import { ModuleMocker } from 'jest-mock';
 
@@ -49,4 +55,6 @@ const addActionsFromArgTypes: ArgsEnhancer<AnyFramework> = ({ id, initialArgs })
 
 export const argsEnhancers = [addActionsFromArgTypes];
 
-export const runStep = [(label: string, callback: Function, context: Object) => callback(context)];
+export const runStep = [
+  (label: StepLabel, play: PlayFunction, context: PlayFunctionContext) => play(context),
+];
