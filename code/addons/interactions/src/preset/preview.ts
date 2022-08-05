@@ -55,6 +55,7 @@ const addActionsFromArgTypes: ArgsEnhancer<AnyFramework> = ({ id, initialArgs })
 
 export const argsEnhancers = [addActionsFromArgTypes];
 
-export const runStep = [
-  (label: StepLabel, play: PlayFunction, context: PlayFunctionContext) => play(context),
-];
+export const { step: runStep } = instrument(
+  { step: (label: StepLabel, play: PlayFunction, context: PlayFunctionContext) => play(context) },
+  { intercept: true }
+);
