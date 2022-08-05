@@ -43,6 +43,7 @@ const mainConfig: import('@storybook/angular').StorybookConfig = {
     buildStoriesJson: false,
     breakingChangesV7: false,
     storyStoreV7: false,
+    angularFilterNonInputControls: true,
   },
   framework: {
     name: '@storybook/angular',

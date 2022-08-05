@@ -1,6 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 /* global window */
 
+import global from 'global';
 import type { ArgType, ArgTypes } from '@storybook/api';
 import { logger } from '@storybook/client-logger';
 import type {
@@ -15,6 +16,8 @@ import type {
   Directive,
   JsDocTag,
 } from './types';
+
+const { FEATURES } = global;
 
 export const isMethod = (methodOrProp: Method | Property): methodOrProp is Method => {
   return (methodOrProp as Method).args !== undefined;
@@ -223,8 +226,11 @@ const resolveTypealias = (compodocType: string): string => {
 
 export const extractArgTypesFromData = (componentData: Class | Directive | Injectable | Pipe) => {
   const sectionToItems: Record<string, ArgType[]> = {};
+  const componentClasses = FEATURES.angularFilterNonInputControls
+    ? ['inputsClass']
+    : ['propertiesClass', 'methodsClass', 'inputsClass', 'outputsClass'];
   const compodocClasses = ['component', 'directive'].includes(componentData.type)
-    ? ['propertiesClass', 'methodsClass', 'inputsClass', 'outputsClass']
+    ? componentClasses
     : ['properties', 'methods'];
   type COMPODOC_CLASS =
     | 'properties'

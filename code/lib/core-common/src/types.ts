@@ -367,6 +367,11 @@ export interface StorybookConfig {
      * Preview MDX2 support, will become default in 7.0
      */
     previewMdx2?: boolean;
+
+    /**
+     * Only show input controls in Angular
+     */
+    angularFilterNonInputControls?: boolean;
   };
 
   /**
