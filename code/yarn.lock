@@ -8757,7 +8757,6 @@ __metadata:
     "@storybook/client-logger": 7.0.0-alpha.18
     "@storybook/core-events": 7.0.0-alpha.18
     "@storybook/csf": 0.0.2--canary.0899bb7.0
-    "@storybook/instrumenter": 7.0.0-alpha.18
     "@storybook/store": 7.0.0-alpha.18
     ansi-to-html: ^0.6.11
     core-js: ^3.8.2
@@ -17297,6 +17296,7 @@ __metadata:
   resolution: "cra-ts-essentials@workspace:examples/cra-ts-essentials"
   dependencies:
     "@storybook/addon-essentials": 7.0.0-alpha.18
+    "@storybook/addon-interactions": 7.0.0-alpha.18
     "@storybook/addons": 7.0.0-alpha.18
     "@storybook/builder-webpack5": 7.0.0-alpha.18
     "@storybook/components": 7.0.0-alpha.18
