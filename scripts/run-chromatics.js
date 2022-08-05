@@ -52,7 +52,7 @@ const handleExamples = async (deployables) => {
 
     const out = p(['built-storybooks', d]);
     const cwd = p([]);
-    const junitPath = p(['test-results', `chromatic-${d}.xml]);
+    const junitPath = p(['test-results', `chromatic-${d}.xml`]);
     const {
       storybook: {
         chromatic: { projectToken },
