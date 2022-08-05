@@ -47,7 +47,6 @@
     "@storybook/client-logger": "7.0.0-alpha.18",
     "@storybook/core-events": "7.0.0-alpha.18",
     "@storybook/csf": "0.0.2--canary.0899bb7.0",
-    "@storybook/instrumenter": "7.0.0-alpha.18",
     "@storybook/store": "7.0.0-alpha.18",
     "ansi-to-html": "^0.6.11",
     "core-js": "^3.8.2",

@@ -21,7 +21,6 @@ import {
   STORY_RENDERED,
   PLAY_FUNCTION_THREW_EXCEPTION,
 } from '@storybook/core-events';
-import { instrument } from '@storybook/instrumenter';
 import { Render, RenderType } from './Render';
 
 const { AbortController } = global;
@@ -48,20 +47,6 @@ function createController(): AbortController {
       this.signal.aborted = true;
     },
   } as AbortController;
-}
-
-function createStepFunction(context: PlayContext) {
-  const { step } = instrument(
-    { step: (name: string, play: (context: PlayContext) => MaybePromise<void>) => play(context) },
-    { intercept: true }
-  );
-  return step;
-}
-
-function createPlayContext(storyContext: StoryContext): PlayContext {
-  const playContext = { ...storyContext } as any;
-  playContext.step = createStepFunction(playContext);
-  return playContext;
 }
 
 function serializeError(error: any) {
@@ -239,7 +224,6 @@ export class StoryRender<TFramework extends AnyFramework> implements Render<TFra
           return this.callbacks.showException(error);
         },
         forceRemount: forceRemount || this.notYetRendered,
-        playContext: createPlayContext(renderStoryContext),
         storyContext: renderStoryContext,
         storyFn: () => unboundStoryFn(renderStoryContext),
         unboundStoryFn,
@@ -257,7 +241,7 @@ export class StoryRender<TFramework extends AnyFramework> implements Render<TFra
         this.disableKeyListeners = true;
         try {
           await this.runPhase(abortSignal, 'playing', async () => {
-            await playFunction(renderContext.playContext);
+            await playFunction(renderContext.storyContext);
           });
           await this.runPhase(abortSignal, 'played');
         } catch (error) {
