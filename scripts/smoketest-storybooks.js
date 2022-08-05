@@ -1,6 +1,6 @@
 import { promisify } from 'util';
 import { readdir as readdirRaw, readFileSync, existsSync } from 'fs';
-import path, { join } from 'path';
+import { join, resolve } from 'path';
 import program from 'commander';
 import prompts from 'prompts';
 import chalk from 'chalk';
@@ -136,7 +136,7 @@ const run = async () => {
         })),
       });
       await outputFile(junitPath, junitXml);
-      console.log(`Test results written to ${path.resolve(junitPath)}`);
+      console.log(`Test results written to ${resolve(junitPath)}`);
     }
 
     const failures = results.filter((r) => !r.ok);

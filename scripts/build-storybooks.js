@@ -1,13 +1,15 @@
-import { spawn } from 'child_process';
 import { promisify } from 'util';
 import { readdir as readdirRaw, writeFile as writeFileRaw, readFileSync, existsSync } from 'fs';
-import { join } from 'path';
+import { join, resolve } from 'path';
 import program from 'commander';
 import prompts from 'prompts';
 import chalk from 'chalk';
+import execa from 'execa';
+import { getJunitXml } from 'junit-xml';
 
 import { getDeployables } from './utils/list-examples';
 import { filterDataForCurrentCircleCINode } from './utils/concurrency';
+import { outputFile } from 'fs-extra';
 
 program
   .option(
@@ -16,38 +18,22 @@ program
     (value, previous) => previous.concat([value]),
     []
   )
+  .option('--junit <path>', `output junit.xml test results to <path>`)
   .option('--all', `run e2e tests for every example`, false);
 program.parse(process.argv);
 
-const { all: shouldRunAllExamples, args: exampleArgs, skip: examplesToSkip } = program;
+const {
+  all: shouldRunAllExamples,
+  args: exampleArgs,
+  skip: examplesToSkip,
+  junit: junitPath,
+} = program;
 
 const readdir = promisify(readdirRaw);
 const writeFile = promisify(writeFileRaw);
 
 const p = (l) => join(__dirname, '..', 'code', ...l);
 const logger = console;
-
-const exec = async (command, args = [], options = {}) =>
-  new Promise((resolve, reject) => {
-    const child = spawn(command, args, {
-      ...options,
-      stdio: 'inherit',
-      shell: true,
-    });
-
-    child
-      .on('close', (code) => {
-        if (code) {
-          reject();
-        } else {
-          resolve();
-        }
-      })
-      .on('error', (e) => {
-        logger.error(e);
-        reject();
-      });
-  });
 
 const hasBuildScript = (l) => {
   const text = readFileSync(l, 'utf8');
@@ -130,9 +116,9 @@ const createContent = (deployables) => {
   `;
 };
 
-const handleExamples = async (deployables) => {
-  await deployables.reduce(async (acc, d) => {
-    await acc;
+const handleExamples = async (deployables) =>
+  deployables.reduce(async (acc, d) => {
+    const results = await acc;
 
     logger.log('');
     logger.log(`-----------------${Array(d.length).fill('-').join('')}`);
@@ -142,26 +128,33 @@ const handleExamples = async (deployables) => {
     const cwd = p(['examples', d]);
 
     if (existsSync(join(cwd, 'yarn.lock'))) {
-      await exec(`yarn`, [`install`], { cwd });
+      await execa(`yarn`, [`install`], { cwd });
     }
 
-    await exec(`yarn`, [`build-storybook`, `--output-dir=${out}`, '--quiet'], {
-      cwd,
-    });
-
-    // If the example uses `storyStoreV7` or `buildStoriesJson`, stories.json already exists
-    // It can fail on local machines if puppeteer fails to install, that's not critical, it will work without it
-    if (!existsSync(`${out}/stories.json`)) {
-      await exec(`npx`, [`sb`, 'extract', out, `${out}/stories.json`], {
+    const start = new Date();
+    const result = { example: d, timestamp: start };
+    try {
+      const { all } = await execa(`yarn`, [`build-storybook`, `--output-dir=${out}`, '--quiet'], {
         cwd,
-      }).catch(() => {});
-    }
+      });
 
-    logger.log('-------');
-    logger.log(`✅ ${d} built`);
-    logger.log('-------');
-  }, Promise.resolve());
-};
+      // If the example uses `storyStoreV7` or `buildStoriesJson`, stories.json already exists
+      // It can fail on local machines if puppeteer fails to install, that's not critical, it will work without it
+      if (!existsSync(`${out}/stories.json`)) {
+        await execa(`npx`, [`sb`, 'extract', out, `${out}/stories.json`], {
+          cwd,
+        }).catch(() => {});
+      }
+
+      logger.log('-------');
+      logger.log(`✅ ${d} built`);
+      logger.log('-------');
+
+      return [...results, { ...result, time: (new Date() - start) / 1000, ok: true, output: all }];
+    } catch (err) {
+      return [...results, { ...result, time: (new Date() - start) / 1000, ok: false, err }];
+    }
+  }, Promise.resolve([]));
 
 const run = async () => {
   const allExamples = await readdir(p(['examples']));
@@ -202,7 +195,49 @@ const run = async () => {
 
   if (deployables.length) {
     logger.log(`🏗  Will build Storybook for: ${chalk.cyan(deployables.join(', '))}`);
-    await handleExamples(deployables);
+
+    const s = new Date();
+    const results = await handleExamples(deployables);
+
+    if (junitPath) {
+      const junitXml = getJunitXml({
+        time: (Date.now() - s) / 1000,
+        name: 'Build Storybooks',
+        suites: results.map(({ example, timestamp, time, ok, err, output }) => ({
+          name: example,
+          timestamp,
+          time,
+          testCases: [
+            {
+              name: `Build ${example}`,
+              assertions: 1,
+              time,
+              systemOut: output,
+              ...(!ok && {
+                errors: [err],
+              }),
+            },
+          ],
+        })),
+      });
+      await outputFile(junitPath, junitXml);
+      console.log(`Test results written to ${resolve(junitPath)}`);
+    }
+
+    const failures = results.filter((r) => !r.ok);
+    if (failures.length > 0) {
+      console.log(`BUILDING STORYBOOKS FAILED:`);
+
+      failures.forEach(({ example, err, output }) => {
+        console.log(`${example} failed:`);
+        console.log();
+        console.log(err.message);
+        console.log('==========================================');
+      });
+
+      process.exit(1);
+    }
+    console.log('All Storybooks built!');
   }
 
   if (
