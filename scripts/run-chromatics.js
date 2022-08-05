@@ -52,6 +52,7 @@ const handleExamples = async (deployables) => {
 
     const out = p(['built-storybooks', d]);
     const cwd = p([]);
+    const junitPath = p(['test-results', d]);
     const {
       storybook: {
         chromatic: { projectToken },
@@ -66,6 +67,7 @@ const handleExamples = async (deployables) => {
           `--storybook-build-dir="${out}"`,
           '--exit-zero-on-changes',
           `--project-token="${projectToken}"`,
+          `--junit-report="${junitPath}`,
         ],
         { cwd }
       );

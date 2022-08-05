@@ -134,6 +134,8 @@ jobs:
           command: |
             cd code
             yarn run-chromatics
+      - store_test_results:
+          path: code/test-results
   examples:
     executor:
       class: medium+
@@ -397,7 +399,7 @@ jobs:
             cd code
             yarn smoketest-storybooks --all --junit test-results/smoketest.xml
       - store_test_results:
-          path: code/test-results/smoketest.xml
+          path: code/test-results
   lint:
     executor:
       class: medium
