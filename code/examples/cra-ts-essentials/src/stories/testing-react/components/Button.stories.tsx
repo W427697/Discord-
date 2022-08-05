@@ -81,7 +81,7 @@ export const CSF3InputFieldFilled: CSF3Story = {
   },
   play: async ({ canvasElement, step }) => {
     const canvas = within(canvasElement);
-    await step('foo', async () => {
+    await step('Step label', async () => {
       await userEvent.type(canvas.getByTestId('input'), 'Hello world!');
     });
   },
