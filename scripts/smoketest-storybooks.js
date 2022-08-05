@@ -1,10 +1,12 @@
-import { spawn } from 'child_process';
 import { promisify } from 'util';
 import { readdir as readdirRaw, readFileSync, existsSync } from 'fs';
 import { join } from 'path';
 import program from 'commander';
 import prompts from 'prompts';
 import chalk from 'chalk';
+import { outputFile } from 'fs-extra';
+import execa from 'execa';
+import { getJunitXml } from 'junit-xml';
 
 import { getDeployables } from './utils/list-examples';
 import { filterDataForCurrentCircleCINode } from './utils/concurrency';
@@ -16,37 +18,21 @@ program
     (value, previous) => previous.concat([value]),
     []
   )
-  .option('--all', `run e2e tests for every example`, false);
+  .option('--all', `run e2e tests for every example`, false)
+  .option('--junit <path>', `output junit.xml test results to <path>`);
 program.parse(process.argv);
 
-const { all: shouldRunAllExamples, args: exampleArgs, skip: examplesToSkip } = program;
+const {
+  all: shouldRunAllExamples,
+  args: exampleArgs,
+  skip: examplesToSkip,
+  junit: junitPath,
+} = program;
 
 const readdir = promisify(readdirRaw);
 
 const p = (l) => join(__dirname, '..', 'code', ...l);
 const logger = console;
-
-const exec = async (command, args = [], options = {}) =>
-  new Promise((resolve, reject) => {
-    const child = spawn(command, args, {
-      ...options,
-      stdio: 'inherit',
-      shell: true,
-    });
-
-    child
-      .on('close', (code) => {
-        if (code) {
-          reject();
-        } else {
-          resolve();
-        }
-      })
-      .on('error', (e) => {
-        logger.error(e);
-        reject();
-      });
-  });
 
 // TODO think if this filter is what we want for smoke tests
 const hasBuildScript = (l) => {
@@ -56,28 +42,35 @@ const hasBuildScript = (l) => {
   return !!json.scripts['build-storybook'];
 };
 
-const handleExamples = async (deployables) => {
-  await deployables.reduce(async (acc, d) => {
-    await acc;
+const handleExamples = async (deployables) =>
+  deployables.reduce(async (acc, d) => {
+    const results = await acc;
 
     logger.log('');
-    logger.log(`-----------------${Array(d.length).fill('-').join('')}`);
+    logger.log(`------------------${Array(d.length).fill('-').join('')}`);
     logger.log(`▶️  smoke-testing: ${d}`);
-    logger.log(`-----------------${Array(d.length).fill('-').join('')}`);
+    logger.log(`------------------${Array(d.length).fill('-').join('')}`);
     const cwd = p(['examples', d]);
 
     // ensure web-components example works, because it's outside the yarn workspace
     if (existsSync(join(cwd, 'yarn.lock'))) {
-      await exec(`yarn`, [`install`], { cwd });
+      await execa(`yarn`, [`install`], { cwd });
     }
 
-    await exec(`yarn`, ['storybook', '--smoke-test', '--quiet'], { cwd });
+    const start = new Date();
+    const result = { example: d, timestamp: start };
+    try {
+      const { all } = await execa(`yarn`, ['storybook', '--smoke-test', '--quiet'], { cwd });
 
-    logger.log('-------');
-    logger.log(`✅ ${d} passed`);
-    logger.log('-------');
-  }, Promise.resolve());
-};
+      logger.log(`----------${Array(d.length).fill('-').join('')}`);
+      logger.log(`✅ ${d} passed`);
+      logger.log(`----------${Array(d.length).fill('-').join('')}`);
+
+      return [...results, { ...result, time: (new Date() - start) / 1000, ok: true, output: all }];
+    } catch (err) {
+      return [...results, { ...result, time: (new Date() - start) / 1000, ok: false, err }];
+    }
+  }, Promise.resolve([]));
 
 const run = async () => {
   const allExamples = await readdir(p(['examples']));
@@ -118,7 +111,47 @@ const run = async () => {
 
   if (deployables.length) {
     logger.log(`🏗  Will smoke test: ${chalk.cyan(deployables.join(', '))}`);
-    await handleExamples(deployables);
+    const s = new Date();
+    const results = await handleExamples(deployables);
+
+    if (junitPath) {
+      const junitXml = getJunitXml({
+        time: (Date.now() - s) / 1000,
+        name: 'Storybook Smoke Tests',
+        suites: results.map(({ example, timestamp, time, ok, err, output }) => ({
+          name: example,
+          timestamp,
+          time,
+          testCases: [
+            {
+              name: 'Start',
+              assertions: 1,
+              time,
+              systemOut: output,
+              ...(!ok && {
+                errors: [err],
+              }),
+            },
+          ],
+        })),
+      });
+      await outputFile(junitPath, junitXml);
+    }
+
+    const failures = results.filter((r) => !r.ok);
+    if (failures.length > 0) {
+      console.log(`SMOKE TESTS FAILED:`);
+
+      failures.forEach(({ example, err, output }) => {
+        console.log(`${example} failed:`);
+        console.log();
+        console.log(err.message);
+        console.log('==========================================');
+      });
+
+      process.exit(1);
+    }
+    console.log('All smoke tests succeeded!');
   }
 };
 

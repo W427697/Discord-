@@ -395,7 +395,9 @@ jobs:
           name: smoke tests
           command: |
             cd code
-            yarn smoketest-storybooks --all
+            yarn smoketest-storybooks --all --junit test-results/smoketest.xml
+      - store_test_results:
+          path: code/test-results/smoketest.xml
   lint:
     executor:
       class: medium
