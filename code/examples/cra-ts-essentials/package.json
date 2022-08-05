@@ -38,6 +38,7 @@
   },
   "devDependencies": {
     "@storybook/addon-essentials": "7.0.0-alpha.18",
+    "@storybook/addon-interactions": "7.0.0-alpha.18",
     "@storybook/addons": "7.0.0-alpha.18",
     "@storybook/builder-webpack5": "7.0.0-alpha.18",
     "@storybook/preset-create-react-app": "^4.1.0",
