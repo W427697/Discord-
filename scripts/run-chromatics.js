@@ -67,7 +67,7 @@ const handleExamples = async (deployables) => {
           `--storybook-build-dir="${out}"`,
           '--exit-zero-on-changes',
           `--project-token="${projectToken}"`,
-          `--junit-report="${junitPath}`,
+          `--junit-report="${junitPath}"`,
         ],
         { cwd }
       );
