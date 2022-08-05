@@ -32,7 +32,7 @@ export const exec = async (
   } catch (err) {
     logger.error(chalk.red(`An error occurred while executing: \`${command}\``));
     logger.log(errorMessage);
-    logger.log(err.message);
+    throw err;
   }
 
   return undefined;
