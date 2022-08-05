@@ -124,7 +124,7 @@ const run = async () => {
           time,
           testCases: [
             {
-              name: 'Start',
+              name: `Start ${example}`,
               assertions: 1,
               time,
               systemOut: output,
