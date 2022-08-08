@@ -39,9 +39,10 @@
   ],
   "scripts": {
     "check": "tsc --noEmit",
-    "prepare": "../../../scripts/prepare/bundle.ts"
+    "prepare": "esrun ../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
+    "@digitak/esrun": "^3.2.2",
     "@storybook/addons": "7.0.0-alpha.18",
     "@storybook/channel-postmessage": "7.0.0-alpha.18",
     "@storybook/channels": "7.0.0-alpha.18",
@@ -75,8 +76,7 @@
    "bundler": {
     "entries": [
       "./src/index.ts",
-    ],
-    "platform": "node"
+    ]
   },
   "gitHead": "bd59f1eef0f644175abdb0d9873ed0553f431f53"
 }
