@@ -155,3 +155,7 @@ All decorators relevant to a story will run in the following order once the stor
 - Global decorators, in the order they are defined
 - Component decorators, in the order they are defined
 - Story decorators, in the order they are defined
+
+## Multiple decorators
+
+You can define multiple decorators, but keep in mind that the last one in the list will wrap the story first, then the earlier ones will wrap those.
