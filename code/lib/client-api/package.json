@@ -18,7 +18,9 @@
     "type": "opencollective",
     "url": "https://opencollective.com/storybook"
   },
-    "exports": { 
+  "license": "MIT",
+  "sideEffects": false,
+  "exports": { 
     ".": { 
       "require": "./dist/index.js", 
       "import": "./dist/index.mjs", 
@@ -29,17 +31,6 @@
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
-  "files": [
-    "dist/**/*",
-    "templates/**/*",
-    "*.js",
-    "*.d.ts"
-  ],
-  "license": "MIT",
-  "sideEffects": false,
-  "main": "dist/cjs/index.js",
-  "module": "dist/esm/index.js",
-  "types": "dist/types/index.d.ts",
   "files": [
     "dist/**/*",
     "README.md",
