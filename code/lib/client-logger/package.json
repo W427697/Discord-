@@ -18,28 +18,19 @@
     "type": "opencollective",
     "url": "https://opencollective.com/storybook"
   },
-     "exports": { 
-    ".": { 
-      "require": "./dist/index.js", 
-      "import": "./dist/index.mjs", 
-      "types": "./dist/index.d.ts" 
+  "license": "MIT",
+  "sideEffects": false,
+    "exports": {
+    ".": {
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.ts"
     },
-    "./package.json": "./package.json" 
+    "./package.json": "./package.json"
   },
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
-  "files": [
-    "dist/**/*",
-    "templates/**/*",
-    "*.js",
-    "*.d.ts"
-  ],
-  "license": "MIT",
-  "sideEffects": false,
-  "main": "dist/cjs/index.js",
-  "module": "dist/esm/index.js",
-  "types": "dist/types/index.d.ts",
   "files": [
     "dist/**/*",
     "README.md",
@@ -63,7 +54,7 @@
     "bundler": {
     "entries": [
       "./src/index.ts",
-    ],
-    "platform": "node"
+    ]
+    },
   "gitHead": "bd59f1eef0f644175abdb0d9873ed0553f431f53"
 }
