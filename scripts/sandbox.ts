@@ -1,6 +1,14 @@
 /* eslint-disable no-restricted-syntax, no-await-in-loop */
 import path from 'path';
-import { remove, pathExists, readJSON, writeJSON, ensureSymlink, ensureDir } from 'fs-extra';
+import {
+  remove,
+  pathExists,
+  readJSON,
+  writeJSON,
+  ensureSymlink,
+  ensureDir,
+  existsSync,
+} from 'fs-extra';
 import prompts from 'prompts';
 
 import { getOptionsOrPrompt } from './utils/options';
@@ -151,7 +159,7 @@ async function addPackageScripts({
 
 async function readMainConfig({ cwd }: { cwd: string }) {
   const configDir = path.join(cwd, '.storybook');
-  if (!pathExists(configDir)) {
+  if (!existsSync(configDir)) {
     throw new Error(
       `Unable to find the Storybook folder in "${configDir}". Are you sure it exists? Or maybe this folder uses a custom Storybook config directory?`
     );
