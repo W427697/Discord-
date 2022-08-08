@@ -177,7 +177,7 @@ export const SyntaxHighlighter: FC<SyntaxHighlighterProps> = ({
         })
         .catch(logger.error);
     },
-    []
+    [highlightableCode]
   );
 
   return (
