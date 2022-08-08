@@ -23,18 +23,48 @@
     "sb": "./index.js",
     "storybook": "./index.js"
   },
+  "exports": { 
+   ".": { 
+     "require": "./dist/index.js", 
+     "import": "./dist/index.mjs", 
+     "types": "./dist/index.d.ts" 
+   }, 
+   "./dist/runtime": { 
+     "require": "./dist/runtime.js", 
+     "import": "./dist/runtime.mjs", 
+     "types": "./dist/runtime.d.ts" 
+   }, 
+   "./dist/globals": { 
+     "require": "./dist/globals.js", 
+     "import": "./dist/globals.mjs", 
+     "types": "./dist/globals.d.ts" 
+   }, 
+   "./paths": "./paths.js", 
+   "./package.json": "./package.json" 
+  },
+  "main": "dist/index.js", 
+  "module": "dist/index.mjs", 
+  "types": "dist/index.d.ts", 
   "scripts": {
     "check": "tsc --noEmit",
-    "prepare": "node ../../../scripts/prepare.js"
+    "prepare": "esrun ../../scripts/prepare/bundle.ts" 
   },
   "dependencies": {
-    "@storybook/cli": "7.0.0-alpha.18"
+    "@storybook/cli": "7.0.0-alpha.18",
+    "@digitak/esrun": "^3.2.2"
   },
   "devDependencies": {
     "typescript": "~4.6.3"
   },
   "publishConfig": {
     "access": "public"
+  },
+  "bundler": {
+    "entries": [
+      "./src/index.tsx",
+      "./src/globals.ts",
+      "./src/runtime.ts"
+    ]
   },
   "gitHead": "bd59f1eef0f644175abdb0d9873ed0553f431f53"
 }
