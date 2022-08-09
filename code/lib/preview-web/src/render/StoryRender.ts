@@ -9,7 +9,6 @@ import {
 import {
   Story,
   RenderContext,
-  PlayContext,
   StoryStore,
   RenderToDOM,
   TeardownRenderToDOM,
@@ -71,8 +70,6 @@ export class StoryRender<TFramework extends AnyFramework> implements Render<TFra
   public phase?: RenderPhase;
 
   private abortController?: AbortController;
-
-  private stepFunction?: PlayContext['step'];
 
   private canvasElement?: HTMLElement;
 

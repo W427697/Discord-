@@ -106,14 +106,6 @@ export type BoundStory<TFramework extends AnyFramework = AnyFramework> = Story<T
   storyFn: PartialStoryFn<TFramework>;
 };
 
-export declare type PlayContext<TFramework extends AnyFramework = AnyFramework> =
-  StoryContext<TFramework> & {
-    step: (
-      name: string,
-      play: (context: PlayContext<TFramework>) => MaybePromise<void>
-    ) => MaybePromise<void>;
-  };
-
 export declare type RenderContext<TFramework extends AnyFramework = AnyFramework> =
   StoryIdentifier & {
     showMain: () => void;
