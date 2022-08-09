@@ -26,6 +26,11 @@
       "import": "./dist/index.mjs",
       "types": "./dist/index.d.ts"
     },
+    "./create": {
+      "require": "./dist/create.js",
+      "import": "./dist/create.mjs",
+      "types": "./dist/create.d.ts"
+    },
     "./package.json": "./package.json"
   },
   "main": "dist/index.js",
@@ -68,7 +73,8 @@
   },
   "bundler": {
     "entries": [
-      "./src/index.ts"
+      "./src/index.ts",
+      "./src/create.ts"
     ]
   },
   "gitHead": "bd59f1eef0f644175abdb0d9873ed0553f431f53"
