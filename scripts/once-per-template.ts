@@ -3,13 +3,13 @@ import { Command } from 'commander';
 import execa from 'execa';
 import { resolve, join } from 'path';
 import { getJunitXml } from 'junit-xml';
+import { outputFile } from 'fs-extra';
 
 import { getOptions, getCommand, getOptionsOrPrompt, createOptions } from './utils/options';
 import type { OptionSpecifier } from './utils/options';
 import { filterDataForCurrentCircleCINode } from './utils/concurrency';
 
 import TEMPLATES from '../code/lib/cli/src/repro-templates';
-import { outputFile } from 'fs-extra';
 
 const sandboxDir = resolve(__dirname, '../sandbox');
 
@@ -114,6 +114,7 @@ async function runCommand(
     return { template, timestamp, time: (Date.now() - +timestamp) / 1000, ok: true, output: all };
   } catch (err) {
     console.log(`${step} ${template}: Failed.`);
+    console.log(err);
     return { template, timestamp, time: (Date.now() - +timestamp) / 1000, ok: false, err };
   }
 }
