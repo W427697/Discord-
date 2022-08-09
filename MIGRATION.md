@@ -3,6 +3,7 @@
 - [From version 6.5.x to 7.0.0](#from-version-65x-to-700)
   - [Alpha release notes](#alpha-release-notes)
   - [Breaking changes](#breaking-changes)
+    - [No more default export from `@storybook/addons`](#no-more-default-export-from-storybookaddons)
     - [Modern browser support](#modern-browser-support)
     - [No more configuration for manager](#no-more-configuration-for-manager)
     - [start-storybook / build-storybook binaries removed](#start-storybook--build-storybook-binaries-removed)
@@ -227,6 +228,14 @@ In the meantime, these migration notes are the best available documentation on t
 
 ### Breaking changes
 
+
+#### No more default export from `@storybook/addons`
+
+The default export from `@storybook/addons` has been removed. Please use the named exports instead:
+
+```js
+import { addons } from '@storybook/addons';
+```
 
 #### Modern browser support
 
