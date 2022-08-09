@@ -1,5 +1,5 @@
 import { getCommand, OptionSpecifier, OptionValues } from './options';
-import { exec } from '../../code/lib/cli/src/repro-generators/scripts';
+import { exec } from './exec';
 
 const cliExecutable = require.resolve('../../code/lib/cli/bin/index.js');
 
@@ -19,6 +19,7 @@ export async function executeCLIStep<TOptions extends OptionSpecifier>(
     optionValues?: Partial<OptionValues<TOptions>>;
     cwd: string;
     dryRun?: boolean;
+    debug: boolean;
   }
 ) {
   if (cliStep.hasArgument && !options.argument)
@@ -38,6 +39,7 @@ export async function executeCLIStep<TOptions extends OptionSpecifier>(
       startMessage: `${cliStep.icon} ${cliStep.description}`,
       errorMessage: `🚨 ${cliStep.description} failed`,
       dryRun: options.dryRun,
+      debug: options.debug,
     }
   );
 }
