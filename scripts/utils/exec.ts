@@ -1,3 +1,4 @@
+/* eslint-disable no-await-in-loop, no-restricted-syntax */
 import execa, { Options } from 'execa';
 import chalk from 'chalk';
 
@@ -11,7 +12,7 @@ type StepOptions = {
 };
 
 export const exec = async (
-  command: string,
+  command: string | string[],
   options: Options = {},
   { startMessage, errorMessage, dryRun, debug }: StepOptions = {}
 ): Promise<void> => {
@@ -23,12 +24,19 @@ export const exec = async (
     return undefined;
   }
 
-  logger.debug(command);
   const defaultOptions: Options = {
     stdout: debug ? 'inherit' : 'ignore',
   };
   try {
-    await execa.command(command, { ...defaultOptions, ...options });
+    if (typeof command === 'string') {
+      logger.debug(`> ${command}`);
+      await execa.command(command, { ...defaultOptions, ...options });
+    } else {
+      for (const subcommand of command) {
+        logger.debug(`> ${subcommand}`);
+        await execa.command(subcommand, { ...defaultOptions, ...options });
+      }
+    }
   } catch (err) {
     logger.error(chalk.red(`An error occurred while executing: \`${command}\``));
     logger.log(errorMessage);

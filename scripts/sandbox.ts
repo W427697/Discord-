@@ -283,7 +283,7 @@ async function main() {
 
     await writeConfig(mainConfig);
 
-    await installYarn2({ cwd, dryRun });
+    await installYarn2({ cwd, dryRun, debug });
     if (link) {
       await executeCLIStep(steps.link, {
         argument: cwd,
@@ -293,17 +293,17 @@ async function main() {
         debug,
       });
     } else {
-      await exec('yarn local-registry --publish', { cwd: codeDir }, { dryRun });
+      await exec('yarn local-registry --publish', { cwd: codeDir }, { dryRun, debug });
 
       // NOTE: this is a background task and will run forever (TODO: sort out logging/exiting)
-      exec('CI=true yarn local-registry --open', { cwd: codeDir }, { dryRun });
-      await exec('yarn wait-on http://localhost:6000', { cwd: codeDir }, { dryRun });
+      exec('CI=true yarn local-registry --open', { cwd: codeDir }, { dryRun, debug });
+      await exec('yarn wait-on http://localhost:6000', { cwd: codeDir }, { dryRun, debug });
 
       // We need to add package resolutions to ensure that we only ever install the latest version
       // of any storybook packages as verdaccio is not able to both proxy to npm and publish over
       // the top. In theory this could mask issues where different versions cause problems.
-      await addPackageResolutions({ cwd, dryRun });
-      await configureYarn2ForVerdaccio({ cwd, dryRun });
+      await addPackageResolutions({ cwd, dryRun, debug });
+      await configureYarn2ForVerdaccio({ cwd, dryRun, debug });
 
       await exec(
         'yarn install',
