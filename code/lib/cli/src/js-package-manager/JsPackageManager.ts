@@ -154,7 +154,7 @@ export abstract class JsPackageManager {
       const { packageJson } = options;
 
       dependencies.forEach((dep) => {
-        delete packageJson[dep];
+        delete packageJson.devDependencies[dep];
       }, {});
 
       writePackageJson(packageJson);
