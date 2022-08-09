@@ -194,6 +194,8 @@ async function run() {
   if (junitPath) {
     await writeJunitXml(step, start, results, junitPath);
   }
+
+  if (results.find((result) => !result.ok)) process.exit(1);
 }
 
 if (require.main === module) {
