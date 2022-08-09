@@ -111,12 +111,12 @@ const run = async () => {
 
   if (deployables.length) {
     logger.log(`🏗  Will smoke test: ${chalk.cyan(deployables.join(', '))}`);
-    const s = new Date();
+    const start = new Date();
     const results = await handleExamples(deployables);
 
     if (junitPath) {
       const junitXml = getJunitXml({
-        time: (Date.now() - s) / 1000,
+        time: (Date.now() - start) / 1000,
         name: 'Storybook Smoke Tests',
         suites: results.map(({ example, timestamp, time, ok, err, output }) => ({
           name: example,
@@ -136,23 +136,23 @@ const run = async () => {
         })),
       });
       await outputFile(junitPath, junitXml);
-      console.log(`Test results written to ${resolve(junitPath)}`);
+      logger.log(`Test results written to ${resolve(junitPath)}`);
     }
 
     const failures = results.filter((r) => !r.ok);
     if (failures.length > 0) {
-      console.log(`SMOKE TESTS FAILED:`);
+      logger.log(`SMOKE TESTS FAILED:`);
 
       failures.forEach(({ example, err, output }) => {
-        console.log(`${example} failed:`);
-        console.log();
-        console.log(err.message);
-        console.log('==========================================');
+        logger.log(`${example} failed:`);
+        logger.log();
+        logger.log(err.message);
+        logger.log('==========================================');
       });
 
       process.exit(1);
     }
-    console.log('All smoke tests succeeded!');
+    logger.log('All smoke tests succeeded!');
   }
 };
 
