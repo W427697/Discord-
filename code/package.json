@@ -61,6 +61,7 @@
     "check": "NODE_ENV=production node ../scripts/check-package.js",
     "clean:dist": "del **/dist",
     "coverage": "codecov",
+    "create-built-sandboxes-index": "ts-node ../scripts/create-built-sandboxes-index",
     "danger": "danger",
     "generate-repros": "zx ../scripts/repros-generator/index.mjs",
     "github-release": "github-release-from-changelog",
