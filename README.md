@@ -115,24 +115,24 @@ For additional help, join us in the [Storybook Discord](https://discord.gg/story
 ### Addons
 
 | Addons                                                                    |                                                                            |
-| ------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
-| [a11y](addons/a11y/)                                                      | Test components for user accessibility in Storybook                        |
-| [actions](addons/actions/)                                                | Log actions as users interact with components in the Storybook UI          |
-| [backgrounds](addons/backgrounds/)                                        | Let users choose backgrounds in the Storybook UI                           |
+|---------------------------------------------------------------------------|----------------------------------------------------------------------------|
+| [a11y](code/addons/a11y/)                                                 | Test components for user accessibility in Storybook                        |
+| [actions](code/addons/actions/)                                           | Log actions as users interact with components in the Storybook UI          |
+| [backgrounds](code/addons/backgrounds/)                                   | Let users choose backgrounds in the Storybook UI                           |
 | [cssresources](https://github.com/storybookjs/addon-cssresources)         | Dynamically add/remove css resources to the component iframe               |
 | [design assets](https://github.com/storybookjs/addon-design-assets)       | View images, videos, weblinks alongside your story                         |
-| [docs](addons/docs/)                                                      | Add high quality documentation to your components                          |
+| [docs](code/addons/docs/)                                                 | Add high quality documentation to your components                          |
 | [events](https://github.com/storybookjs/addon-events)                     | Interactively fire events to components that respond to EventEmitter       |
 | [google-analytics](https://github.com/storybookjs/addon-google-analytics) | Reports google analytics on stories                                        |
 | [graphql](https://github.com/storybookjs/addon-graphql)                   | Query a GraphQL server within Storybook stories                            |
-| [jest](addons/jest/)                                                      | View the results of components' unit tests in Storybook                    |
-| [links](addons/links/)                                                    | Create links between stories                                               |
+| [jest](code/addons/jest/)                                                 | View the results of components' unit tests in Storybook                    |
+| [links](code/addons/links/)                                               | Create links between stories                                               |
 | [query params](https://github.com/storybookjs/addon-queryparams)          | Mock query params                                                          |
-| [storyshots](addons/storyshots/)                                          | Snapshot testing for components in Storybook                               |
-| [storysource](addons/storysource/)                                        | View the code of your stories within the Storybook UI                      |
-| [viewport](addons/viewport/)                                              | Change display sizes and layouts for responsive components using Storybook |
-| [outline](addons/outline/)                                                | Visuallly debug the CSS layout and alignment within the Storybook UI       |
-| [measure](addons/measure/)                                                | Visually inspect the layout and box model within the Storybook UI          |
+| [storyshots](code/addons/storyshots/)                                     | Snapshot testing for components in Storybook                               |
+| [storysource](code/addons/storysource/)                                   | View the code of your stories within the Storybook UI                      |
+| [viewport](code/addons/viewport/)                                         | Change display sizes and layouts for responsive components using Storybook |
+| [outline](code/addons/outline/)                                           | Visuallly debug the CSS layout and alignment within the Storybook UI       |
+| [measure](code/addons/measure/)                                           | Visually inspect the layout and box model within the Storybook UI          |
 
 See [Addon / Framework Support Table](https://storybook.js.org/docs/react/api/frameworks-feature-support)
 
