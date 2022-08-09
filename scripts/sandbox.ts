@@ -1,6 +1,14 @@
 /* eslint-disable no-restricted-syntax, no-await-in-loop */
 import path from 'path';
-import { remove, pathExists, readJSON, writeJSON, ensureSymlink } from 'fs-extra';
+import {
+  remove,
+  pathExists,
+  readJSON,
+  writeJSON,
+  ensureSymlink,
+  ensureDir,
+  existsSync,
+} from 'fs-extra';
 import prompts from 'prompts';
 
 import { getOptionsOrPrompt } from './utils/options';
@@ -75,6 +83,10 @@ async function getOptions() {
     dryRun: {
       description: "Don't execute commands, just list them (dry run)?",
     },
+    debug: {
+      description: 'Print all the logs to the console',
+      promptType: false,
+    },
   });
 }
 
@@ -147,6 +159,12 @@ async function addPackageScripts({
 
 async function readMainConfig({ cwd }: { cwd: string }) {
   const configDir = path.join(cwd, '.storybook');
+  if (!existsSync(configDir)) {
+    throw new Error(
+      `Unable to find the Storybook folder in "${configDir}". Are you sure it exists? Or maybe this folder uses a custom Storybook config directory?`
+    );
+  }
+
   const mainConfigPath = getInterpretedFile(path.resolve(configDir, 'main'));
   return readConfig(mainConfigPath);
 }
@@ -197,7 +215,10 @@ async function addStories(paths: string[], { mainConfig }: { mainConfig: ConfigF
 async function main() {
   const optionValues = await getOptions();
 
-  const { template, forceDelete, forceReuse, link, dryRun } = optionValues;
+  const { template, forceDelete, forceReuse, link, dryRun, debug } = optionValues;
+
+  await ensureDir(sandboxDir);
+
   const cwd = path.join(sandboxDir, template.replace('/', '-'));
 
   const exists = await pathExists(cwd);
@@ -222,6 +243,7 @@ async function main() {
       optionValues: { output: cwd, branch: 'next' },
       cwd: sandboxDir,
       dryRun,
+      debug,
     });
 
     const mainConfig = await readMainConfig({ cwd });
@@ -251,7 +273,7 @@ async function main() {
 
     for (const addon of optionValues.addon) {
       const addonName = `@storybook/addon-${addon}`;
-      await executeCLIStep(steps.add, { argument: addonName, cwd, dryRun });
+      await executeCLIStep(steps.add, { argument: addonName, cwd, dryRun, debug });
     }
 
     for (const addon of [...defaultAddons, ...optionValues.addon]) {
@@ -268,6 +290,7 @@ async function main() {
         cwd: codeDir,
         dryRun,
         optionValues: { local: true, start: false },
+        debug,
       });
     } else {
       await exec('yarn local-registry --publish', { cwd: codeDir }, { dryRun });
@@ -313,10 +336,11 @@ async function main() {
         dryRun,
         startMessage: `⬆️  Starting Storybook`,
         errorMessage: `🚨 Starting Storybook failed`,
+        debug: true,
       }
     );
   } else {
-    await executeCLIStep(steps.build, { cwd, dryRun });
+    await executeCLIStep(steps.build, { cwd, dryRun, debug });
     // TODO serve
   }
 
