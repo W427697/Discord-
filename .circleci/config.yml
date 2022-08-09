@@ -559,7 +559,8 @@ jobs:
               --script "npx chromatic \
                 --project-token='\$CHROMATIC_TOKEN_#TEMPLATE_ENV' \
                 --storybook-build-dir='$BUILD_DIR/#TEMPLATE_DIR' \
-                --junit-report='test-results/chromatic.xml'"
+                --junit-report='test-results/chromatic.xml'
+                --exit-once-uploaded"
       - store_test_results:
           path: code/test-results
 
