@@ -102,6 +102,7 @@ export const options = createOptions({
     promptType: false,
   },
   debug: {
+    type: 'boolean',
     description: 'Print all the logs to the console',
     promptType: false,
   },
