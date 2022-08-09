@@ -107,14 +107,14 @@ export const WithSteps: Story = ({ onSubmit }) => (
   </button>
 );
 WithSteps.play = async ({ args, canvasElement, step }) => {
-  step('Click button', async () => {
+  await step('Click button', async () => {
     await userEvent.click(within(canvasElement).getByRole('button'));
 
-    step('Verify submit', async () => {
+    await step('Verify submit', async () => {
       await expect(args.onSubmit).toHaveBeenCalledWith(expect.stringMatching(/([A-Z])\w+/gi));
     });
 
-    step('Verify result', async () => {
+    await step('Verify result', async () => {
       await expect([{ name: 'John', age: 42 }]).toEqual(
         expect.arrayContaining([
           expect.objectContaining({ name: 'John' }),
