@@ -30,11 +30,11 @@ import type {
   WebProjectAnnotations,
 } from '@storybook/store';
 
-import { Preview } from './Preview';
+import { MaybePromise, Preview } from './Preview';
 
 import { UrlStore } from './UrlStore';
 import { WebView } from './WebView';
-import { MaybePromise, PREPARE_ABORTED, StoryRender } from './render/StoryRender';
+import { PREPARE_ABORTED, StoryRender } from './render/StoryRender';
 import { TemplateDocsRender } from './render/TemplateDocsRender';
 import { StandaloneDocsRender } from './render/StandaloneDocsRender';
 

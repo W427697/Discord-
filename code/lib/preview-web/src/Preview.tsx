@@ -26,13 +26,15 @@ import {
   RenderToDOM,
 } from '@storybook/store';
 
-import { MaybePromise, StoryRender } from './render/StoryRender';
+import { StoryRender } from './render/StoryRender';
 import { TemplateDocsRender } from './render/TemplateDocsRender';
 import { StandaloneDocsRender } from './render/StandaloneDocsRender';
 
 const { fetch } = global;
 
 const STORY_INDEX_PATH = './index.json';
+
+export type MaybePromise<T> = Promise<T> | T;
 
 export class Preview<TFramework extends AnyFramework> {
   serverChannel?: Channel;

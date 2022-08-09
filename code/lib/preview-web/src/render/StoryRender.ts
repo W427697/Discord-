@@ -25,8 +25,6 @@ import { Render, RenderType } from './Render';
 
 const { AbortController } = global;
 
-export type MaybePromise<T> = Promise<T> | T;
-
 export type RenderPhase =
   | 'preparing'
   | 'loading'
