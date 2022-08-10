@@ -179,7 +179,7 @@ async function run() {
     // Also substitute environment variables into command
     toRun = toRun.replace(/\$([A-Z_]+)/, (_, name) => process.env[name]);
 
-    const execaOptions = cd ? { cwd: join(sandboxDir, templateDir) } : {};
+    const execaOptions = cd ? { cwd: join(sandboxDir, templateDir), shell: true } : { shell: true };
     if (parallel) {
       toAwait.push(runCommand(toRun, execaOptions, { step, template }));
     } else {
