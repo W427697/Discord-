@@ -55,6 +55,7 @@
     "await-serve-storybooks": "wait-on http://localhost:8001",
     "bootstrap": "node ../scripts/bootstrap.js",
     "build": "NODE_ENV=production node ../scripts/build-package.js",
+    "build-sandboxes": "ts-node ../scripts/build-sandboxes.ts",
     "build-storybooks": "cross-env STORYBOOK_DISPLAY_WARNING=true DISPLAY_WARNING=true node -r esm ../scripts/build-storybooks.js",
     "changelog": "pr-log --sloppy --cherry-pick",
     "changelog:next": "pr-log --sloppy --since-prerelease",

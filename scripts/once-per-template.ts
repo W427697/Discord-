@@ -2,7 +2,13 @@
 import { Command } from 'commander';
 import execa from 'execa';
 
-import { getOptions, getCommand, getOptionsOrPrompt, createOptions } from './utils/options';
+import {
+  getOptions,
+  getCommand,
+  getOptionsOrPrompt,
+  createOptions,
+  OptionValues,
+} from './utils/options';
 import type { OptionSpecifier } from './utils/options';
 import { filterDataForCurrentCircleCINode } from './utils/concurrency';
 
@@ -65,13 +71,11 @@ export function filterTemplates(templates: Templates, cadence: Cadence, scriptNa
 }
 
 const logger = console;
-async function run() {
-  const {
-    cadence,
-    script: commandline,
-    parallel,
-  } = await getOptionsOrPrompt('yarn once-per-template', options);
-
+export async function oncePerTemplate({
+  cadence,
+  script: commandline,
+  parallel,
+}: OptionValues<typeof options>) {
   const command = await parseCommand(commandline);
   const templates = filterTemplates(TEMPLATES, cadence, command.scriptName);
 
@@ -98,6 +102,11 @@ async function run() {
   }
 
   await Promise.all(toAwait);
+}
+
+async function run() {
+  const optionValues = await getOptionsOrPrompt('yarn once-per-template', options);
+  return oncePerTemplate(optionValues);
 }
 
 if (require.main === module) {
