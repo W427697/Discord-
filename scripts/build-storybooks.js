@@ -126,24 +126,27 @@ const handleExamples = async (deployables) =>
     logger.log(`-----------------${Array(d.length).fill('-').join('')}`);
     const out = p(['built-storybooks', d]);
     const cwd = p(['examples', d]);
+    const execaOptions = { cwd, shell: true };
 
     if (existsSync(join(cwd, 'yarn.lock'))) {
-      await execa(`yarn`, [`install`], { cwd });
+      await execa(`yarn`, [`install`], execaOptions);
     }
 
     const start = new Date();
     const result = { example: d, timestamp: start };
     try {
-      const { all } = await execa(`yarn`, [`build-storybook`, `--output-dir=${out}`, '--quiet'], {
-        cwd,
-      });
+      const { all } = await execa(
+        `yarn`,
+        [`build-storybook`, `--output-dir=${out}`, '--quiet'],
+        execaOptions
+      );
 
       // If the example uses `storyStoreV7` or `buildStoriesJson`, stories.json already exists
       // It can fail on local machines if puppeteer fails to install, that's not critical, it will work without it
       if (!existsSync(`${out}/stories.json`)) {
-        await execa(`npx`, [`sb`, 'extract', out, `${out}/stories.json`], {
-          cwd,
-        }).catch(() => {});
+        await execa(`npx`, [`sb`, 'extract', out, `${out}/stories.json`], execaOptions).catch(
+          () => {}
+        );
       }
 
       logger.log('-------');

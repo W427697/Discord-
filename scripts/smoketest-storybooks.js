@@ -52,15 +52,17 @@ const handleExamples = async (deployables) =>
     logger.log(`------------------${Array(d.length).fill('-').join('')}`);
     const cwd = p(['examples', d]);
 
+    const execaOptions = { cwd, shell: true };
+
     // ensure web-components example works, because it's outside the yarn workspace
     if (existsSync(join(cwd, 'yarn.lock'))) {
-      await execa(`yarn`, [`install`], { cwd });
+      await execa(`yarn`, [`install`], execaOptions);
     }
 
     const start = new Date();
     const result = { example: d, timestamp: start };
     try {
-      const { all } = await execa(`yarn`, ['storybook', '--smoke-test', '--quiet'], { cwd });
+      const { all } = await execa(`yarn`, ['storybook', '--smoke-test', '--quiet'], execaOptions);
 
       logger.log(`----------${Array(d.length).fill('-').join('')}`);
       logger.log(`✅ ${d} passed`);
