@@ -502,9 +502,8 @@ export class Instrumenter {
           const res = arg(...args);
 
           // Reset cursor and ancestors to their original values before we entered the callback.
-          if (res instanceof Promise) res.then(restore, restore);
-          else restore();
-
+          if (res instanceof Promise) return res.then(restore, restore);
+          restore();
           return res;
         };
       });
