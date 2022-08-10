@@ -26,6 +26,11 @@
       "import": "./dist/index.mjs",
       "types": "./dist/index.d.ts"
     },
+    "./create": {
+      "require": "./dist/create.js",
+      "import": "./dist/create.mjs",
+      "types": "./dist/create.d.ts"
+    },
     "./package.json": "./package.json"
   },
   "main": "dist/index.js",
@@ -51,8 +56,10 @@
     "@emotion/is-prop-valid": "^1.1.2",
     "@emotion/react": "^11.8.1",
     "@emotion/styled": "^11.8.1",
+    "@types/fs-extra": "^9.0.6",
     "@types/node": "^14.14.20 || ^16.0.0",
     "deep-object-diff": "^1.1.0",
+    "fs-extra": "^9.0.1",
     "global": "^4.4.0",
     "polished": "^4.2.2",
     "ts-dedent": "^2.0.0",
@@ -68,8 +75,10 @@
   },
   "bundler": {
     "entries": [
-      "./src/index.ts"
-    ]
+      "./src/index.ts",
+      "./src/create.ts"
+    ],
+    "post": "./scripts/fix-theme-type-export.ts"
   },
   "gitHead": "bd59f1eef0f644175abdb0d9873ed0553f431f53"
 }
