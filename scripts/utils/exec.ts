@@ -25,6 +25,7 @@ export const exec = async (
   }
 
   const defaultOptions: Options = {
+    shell: true,
     stdout: debug ? 'inherit' : 'ignore',
   };
   try {
