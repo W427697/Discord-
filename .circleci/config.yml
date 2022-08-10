@@ -539,6 +539,15 @@ jobs:
       - attach_workspace:
           at: .
       - run:
+          name: Running local registry
+          command: yarn local-registry --port 6000 --open
+          background: true
+          working_directory: code
+      - run:
+          name: Wait for registry
+          command: yarn wait-on http://localhost:6000
+          working_directory: code
+      - run:
           name: Serve Sandboxes
           command: yarn http-server ../built-sandboxes -p 8001
           background: true
