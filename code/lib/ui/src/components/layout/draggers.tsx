@@ -4,7 +4,7 @@ import { styled } from '@storybook/theming';
 export type Axis = 'x' | 'y';
 
 const Handle = styled.div<{ isDragging: boolean; axis: Axis; reverse?: boolean }>(
-  ({ theme, isDragging }) => ({
+  ({ theme }) => ({
     zIndex: 10,
     position: 'absolute',
     top: 0,
@@ -13,19 +13,14 @@ const Handle = styled.div<{ isDragging: boolean; axis: Axis; reverse?: boolean }
     justifyContent: 'center',
     alignItems: 'center',
 
-    color: isDragging ? theme.color.secondary : theme.appBorderColor,
-
     overflow: 'hidden',
     transition:
       'color 0.2s linear, background-size 0.2s linear, background 0.2s linear, background-position 0s linear',
-    '&:hover': {
-      color: theme.color.secondary,
-    },
   }),
   ({ axis }) => ({
     cursor: axis === 'x' ? 'col-resize' : 'row-resize',
   }),
-  ({ theme, axis }) =>
+  ({ axis }) =>
     axis === 'x'
       ? {
           height: '100%',
@@ -35,9 +30,9 @@ const Handle = styled.div<{ isDragging: boolean; axis: Axis; reverse?: boolean }
       : {
           height: 10,
           width: '100%',
-          marginTop: 0,
+          marginTop: -10,
         },
-  ({ axis, isDragging, reverse = false }) => {
+  ({ axis, isDragging }) => {
     if (axis === 'y') {
       const style = {
         backgroundImage: `radial-gradient(at center center,rgba(0,0,0,0.2) 0%,transparent 70%,transparent 100%)`,
@@ -57,7 +52,7 @@ const Handle = styled.div<{ isDragging: boolean; axis: Axis; reverse?: boolean }
       const style = {
         backgroundImage: `radial-gradient(at center center,rgba(0,0,0,0.2) 0%,transparent 70%,transparent 100%)`,
         backgroundSize: '50px 100%',
-        backgroundPosition: reverse ? '100% 50%' : '0 50%',
+        backgroundPosition: '0 50%',
         backgroundRepeat: 'no-repeat',
       };
       return isDragging
