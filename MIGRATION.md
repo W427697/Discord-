@@ -468,7 +468,7 @@ You can configure Docs Page in `main.js`:
 ```js
 module.exports = {
   docs: {
-    docsPage: true, // set to default to disable docs page entirely
+    docsPage: true, // set to false to disable docs page entirely
     defaultTitle: 'Docs', // set to change the title of generated docs entries
   },
 };
@@ -503,9 +503,15 @@ If you want to override the MDX components supplied to your docs page, use the `
 ```js
 import { MDXProvider } from '@mdx-js/react';
 import { DocsContainer } from '@storybook/blocks';
+import * as DesignSystem from 'your-design-system';
 
-export MyDocsContainer = (props) => (
-  <MDXProvider components={yourComponents}>
+export const MyDocsContainer = (props) => (
+  <MDXProvider
+    components={{
+      h1: DesignSystem.H1,
+      h2: DesignSystem.H2,
+    }}
+  >
     <DocsContainer {...props} />
   </MDXProvider>
 );
