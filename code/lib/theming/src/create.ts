@@ -2,7 +2,7 @@
 import lightThemeVars from './themes/light';
 import darkThemeVars from './themes/dark';
 
-import type { ThemeVars, StorybookTheme } from './types';
+import type { ThemeVars } from './types';
 import { getPreferredColorScheme } from './utils';
 
 export const themes: { light: ThemeVars; dark: ThemeVars; normal: ThemeVars } = {
@@ -33,5 +33,3 @@ export const create = (
     ...{ barSelectedColor: vars.barSelectedColor || inherit.colorSecondary },
   };
 };
-
-export { StorybookTheme };
