@@ -29,7 +29,7 @@ async function run() {
     junit: undefined,
     scriptName: 'e2e',
     templateCommand: (template) => ({
-      command: 'yarn playwright',
+      command: 'yarn playwright test --reporter=junit',
       execaOptions: {
         env: {
           STORYBOOK_URL: `http://localhost:8001/${template.replace('/', '-')}/`,
