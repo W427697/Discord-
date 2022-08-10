@@ -651,6 +651,9 @@ workflows:
       - build-sandboxes:
           requires:
             - create-sandboxes
+      - test-runner-sandboxes:
+          requires:
+            - build-sandboxes
       - chromatic-sandboxes:
           requires:
             - build-sandboxes
