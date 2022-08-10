@@ -3,6 +3,7 @@ import { createOptions, getOptionsOrPrompt } from './utils/options';
 import { oncePerTemplate } from './once-per-template';
 
 const scriptName = basename(__filename, 'ts');
+const codeDir = resolve(__dirname, '../code');
 const builtDir = resolve(__dirname, '../built-sandboxes');
 const logger = console;
 
@@ -33,11 +34,14 @@ async function run() {
       command: [
         `npx chromatic`,
         `--storybook-build-dir=${join(builtDir, template.replace('/', '-'))}`,
-        `--junit-report=${junit.replace('.xml', `-${template.replace('/', '-')}.xml`)}`,
+        `--junit-report=${resolve(
+          codeDir,
+          junit.replace('.xml', `-${template.replace('/', '-')}.xml`)
+        )}`,
       ].join(' '),
       execaOptions: {
         env: {
-          PROJECT_TOKEN:
+          CHROMATIC_PROJECT_TOKEN:
             process.env[`CHROMATIC_TOKEN_${template.toUpperCase().replace(/\/|-/g, '_')}`],
         },
       },
