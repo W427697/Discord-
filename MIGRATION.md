@@ -268,6 +268,8 @@ module.exports = {
 }
 ```
 
+Here's an example PR to one of the storybook addons: https://github.com/storybookjs/addon-coverage/pull/3 doing just that.
+
 #### No more configuration for manager
 
 The storybook manager no longer uses webpack to be built, instead it's using esbuild now.
