@@ -75,7 +75,7 @@
   },
    "bundler": {
     "entries": [
-      "./src/index.ts",
+      "./src/index.ts"
     ]
   },
   "gitHead": "bd59f1eef0f644175abdb0d9873ed0553f431f53"
