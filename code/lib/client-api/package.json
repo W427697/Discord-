@@ -20,13 +20,13 @@
   },
   "license": "MIT",
   "sideEffects": false,
-  "exports": { 
-    ".": { 
-      "require": "./dist/index.js", 
-      "import": "./dist/index.mjs", 
-      "types": "./dist/index.d.ts" 
+   "exports": {
+    ".": {
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.ts"
     },
-    "./package.json": "./package.json" 
+    "./package.json": "./package.json"
   },
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -76,6 +76,6 @@
     "entries": [
       "./src/index.ts"
     ]
-  },
+    },
   "gitHead": "bd59f1eef0f644175abdb0d9873ed0553f431f53"
 }
