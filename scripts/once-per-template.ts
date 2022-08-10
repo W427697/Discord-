@@ -5,7 +5,13 @@ import { resolve, join } from 'path';
 import { getJunitXml } from 'junit-xml';
 import { outputFile } from 'fs-extra';
 
-import { getOptions, getCommand, getOptionsOrPrompt, createOptions } from './utils/options';
+import {
+  getOptions,
+  getCommand,
+  getOptionsOrPrompt,
+  createOptions,
+  OptionValues,
+} from './utils/options';
 import type { OptionSpecifier } from './utils/options';
 import { filterDataForCurrentCircleCINode } from './utils/concurrency';
 
@@ -97,7 +103,6 @@ type RunResult = {
   err?: Error;
 };
 
-const logger = console;
 async function runCommand(
   command: string,
   execaOptions: execa.Options,
@@ -105,16 +110,16 @@ async function runCommand(
 ): Promise<RunResult> {
   const timestamp = new Date();
   try {
-    logger.log(`${step} ${template}: Running ${command}`);
+    logger.log(`🏃  ${step} ${template}: Running ${command}`);
 
     const { all } = await execa.command(command, execaOptions);
 
-    console.log(`${step} ${template}: Done.`);
+    logger.log(`✅ ${step} ${template}: Done.`);
 
     return { template, timestamp, time: (Date.now() - +timestamp) / 1000, ok: true, output: all };
   } catch (err) {
-    console.log(`${step} ${template}: Failed.`);
-    console.log(err);
+    logger.log(`❌ ${step} ${template}: Failed.`);
+    logger.log(err);
     return { template, timestamp, time: (Date.now() - +timestamp) / 1000, ok: false, err };
   }
 }
@@ -141,19 +146,18 @@ async function writeJunitXml(step: string, start: Date, results: RunResult[], pa
     })),
   });
   await outputFile(path, junitXml);
-  console.log(`Test results written to ${resolve(path)}`);
+  logger.log(`Test results written to ${resolve(path)}`);
 }
 
-async function run() {
-  const {
-    step = 'Testing',
-    cadence,
-    script: commandline,
-    parallel,
-    cd,
-    junit: junitPath,
-  } = await getOptionsOrPrompt('yarn multiplex-templates', options);
-
+const logger = console;
+export async function oncePerTemplate({
+  step = 'Testing',
+  cadence,
+  script: commandline,
+  parallel,
+  cd,
+  junit: junitPath,
+}: OptionValues<typeof options>) {
   const command = await parseCommand(commandline);
   const templates = filterTemplates(TEMPLATES, cadence, command.scriptName);
 
@@ -196,13 +200,19 @@ async function run() {
     await writeJunitXml(step, start, results, junitPath);
   }
 
-  if (results.find((result) => !result.ok)) process.exit(1);
+  const failed = results.find((result) => !result.ok);
+  if (failed) throw failed.err;
+}
+
+async function run() {
+  const optionValues = await getOptionsOrPrompt('yarn once-per-template', options);
+  return oncePerTemplate(optionValues);
 }
 
 if (require.main === module) {
   run().catch((err) => {
-    console.error('Multiplexing failed');
-    console.error(err);
+    logger.error('🚨 An error occurred when executing "once-per-template":');
+    logger.error(err);
     process.exit(1);
   });
 }

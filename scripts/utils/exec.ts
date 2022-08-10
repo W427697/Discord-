@@ -25,6 +25,7 @@ export const exec = async (
   }
 
   const defaultOptions: Options = {
+    shell: true,
     stdout: debug ? 'inherit' : 'ignore',
   };
   try {
@@ -39,6 +40,7 @@ export const exec = async (
     }
   } catch (err) {
     logger.error(chalk.red(`An error occurred while executing: \`${command}\``));
+    logger.error(err);
     logger.log(errorMessage);
     throw err;
   }
