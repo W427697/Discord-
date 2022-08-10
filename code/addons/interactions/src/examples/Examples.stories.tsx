@@ -1,3 +1,4 @@
+/* eslint-disable jest/no-standalone-expect */
 import { Story, Meta } from '@storybook/react';
 import { expect } from '@storybook/jest';
 import { within, waitFor, userEvent, waitForElementToBeRemoved } from '@storybook/testing-library';
@@ -100,26 +101,26 @@ WithLoaders.play = async ({ args, canvasElement }) => {
   await expect(args.onSubmit).toHaveBeenCalledWith('delectus aut autem');
 };
 
-// export const WithSteps: Story = ({ onSubmit }) => (
-//   <button type="button" onClick={() => onSubmit('clicked')}>
-//     Click
-//   </button>
-// );
-// WithSteps.play = async ({ args, canvasElement, step }) => {
-//   await step('Click button', async () => {
-//     await userEvent.click(within(canvasElement).getByRole('button'));
+export const WithSteps: Story = ({ onSubmit }) => (
+  <button type="button" onClick={() => onSubmit('clicked')}>
+    Click
+  </button>
+);
+WithSteps.play = async ({ args, canvasElement, step }) => {
+  await step('Click button', async () => {
+    await userEvent.click(within(canvasElement).getByRole('button'));
 
-//     await step('Verify submit', async () => {
-//       await expect(args.onSubmit).toHaveBeenCalledWith(expect.stringMatching(/([A-Z])\w+/gi));
-//     });
+    await step('Verify submit', async () => {
+      await expect(args.onSubmit).toHaveBeenCalledWith(expect.stringMatching(/([A-Z])\w+/gi));
+    });
 
-//     await step('Verify result', async () => {
-//       await expect([{ name: 'John', age: 42 }]).toEqual(
-//         expect.arrayContaining([
-//           expect.objectContaining({ name: 'John' }),
-//           expect.objectContaining({ age: 42 }),
-//         ])
-//       );
-//     });
-//   });
-// };
+    await step('Verify result', async () => {
+      await expect([{ name: 'John', age: 42 }]).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({ name: 'John' }),
+          expect.objectContaining({ age: 42 }),
+        ])
+      );
+    });
+  });
+};
