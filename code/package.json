@@ -92,6 +92,7 @@
     "start": "yarn workspace official-storybook storybook --no-manager-cache",
     "test": "NODE_OPTIONS=--max_old_space_size=4096 jest --config ./jest.config.js",
     "test-puppeteer": "jest --projects examples/official-storybook/storyshots-puppeteer",
+    "test-runner-sandboxes": "ts-node ../scripts/test-runner-sandboxes.ts",
     "test:cli": "npm --prefix lib/cli run test",
     "test:e2e-examples": "cypress run",
     "test:e2e-examples-gui": "concurrently --success first --kill-others \"cypress open\" \"yarn serve-storybooks\"",

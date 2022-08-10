@@ -485,6 +485,8 @@ jobs:
           root: .
           paths:
             - sandbox
+      - store_test_results:
+          path: code/test-results
   smoke-test-sandboxes:
     executor:
       class: medium+
@@ -515,12 +517,42 @@ jobs:
           name: Building Sandboxes
           command: yarn build-sandboxes --cadence ci --junit test-results/build.xml
           working_directory: code
+      - run:
+          name: Build index.html
+          command: yarn create-built-sandboxes-index --cadence ci --output "../built-sandboxes"
+          background: true
+          working_directory: code
       - store_test_results:
           path: code/test-results
       - persist_to_workspace:
           root: .
           paths:
             - built-sandboxes
+  test-runner-sandboxes:
+    executor:
+      class: medium+
+      name: sb_node_14_browsers
+    parallelism: 2
+    steps:
+      - git-shallow-clone/checkout_advanced:
+          clone_options: '--depth 1 --verbose'
+      - attach_workspace:
+          at: .
+      - run:
+          name: Serve Sandboxes
+          command: yarn http-server ../built-sandboxes -p 8001
+          background: true
+          working_directory: code
+      - run:
+          name: Await Serving Sandboxes
+          command: yarn wait-on http://localhost:8001
+          working_directory: code
+      - run:
+          name: Running Test Runner
+          command: yarn test-runner-sandboxes --cadence ci --junit test-results/test-runner.xml
+          working_directory: code
+      - store_test_results:
+          path: code/test-results
   chromatic-sandboxes:
     executor:
       class: medium+
@@ -547,22 +579,14 @@ jobs:
       - attach_workspace:
           at: .
       - run:
-          name: Build index.html
-          command: |
-            cd code
-            yarn create-built-sandboxes-index --cadence ci --output "../built-sandboxes"
-          background: true
-      - run:
           name: Serve Sandboxes
-          command: |
-            cd code
-            yarn http-server ../built-sandboxes -p 8001
+          command: yarn http-server ../built-sandboxes -p 8001
           background: true
+          working_directory: code
       - run:
-          name: Await serving Sandboxes
-          command: |
-            cd code
-            yarn wait-on http://localhost:8001
+          name: Await Serving Sandboxes
+          command: yarn wait-on http://localhost:8001
+          working_directory: code
       - run:
           name: Running E2E Tests
           command: yarn e2e-sandboxes --cadence ci
@@ -571,7 +595,7 @@ jobs:
           path: code/test-results
       - store_artifacts: # this is where playwright puts more complex stuff
           path: code/playwright-results/
-          destination: playwright
+          destination: playwright=
 
 workflows:
   test:
