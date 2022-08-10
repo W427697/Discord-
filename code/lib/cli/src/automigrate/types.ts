@@ -8,6 +8,7 @@ export interface RunOptions<ResultType> {
   packageManager: JsPackageManager;
   result: ResultType;
   dryRun?: boolean;
+  prerelease?: boolean;
 }
 
 export interface Fix<ResultType = any> {

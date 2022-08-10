@@ -177,6 +177,7 @@ program
   .description('Check storybook for known problems or migrations and apply fixes')
   .option('-y --yes', 'Skip prompting the user')
   .option('-n --dry-run', 'Only check for fixes, do not actually run them')
+  .option('-p --prerelease', 'Use pre-release versions when migrating')
   .action((fixId, options) =>
     automigrate({ fixId, ...options }).catch((e) => {
       logger.error(e);
