@@ -479,7 +479,7 @@ jobs:
           working_directory: code
       - run:
           name: Preparing Sandboxes
-          command: yarn build-sandboxes
+          command: yarn build-sandboxes --cadence ci
           working_directory: code
       - persist_to_workspace:
           root: .
