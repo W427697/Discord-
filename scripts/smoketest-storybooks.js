@@ -52,7 +52,7 @@ const handleExamples = async (deployables) =>
     logger.log(`------------------${Array(d.length).fill('-').join('')}`);
     const cwd = p(['examples', d]);
 
-    const execaOptions = { cwd, shell: true };
+    const execaOptions = { cwd, shell: true, stdio: 'inherit' };
 
     // ensure web-components example works, because it's outside the yarn workspace
     if (existsSync(join(cwd, 'yarn.lock'))) {
