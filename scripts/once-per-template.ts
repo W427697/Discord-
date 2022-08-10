@@ -64,12 +64,13 @@ export function filterTemplates(templates: Templates, cadence: Cadence, scriptNa
   return Object.fromEntries(filterDataForCurrentCircleCINode(jobTemplates));
 }
 
+const logger = console;
 async function run() {
   const {
     cadence,
     script: commandline,
     parallel,
-  } = await getOptionsOrPrompt('yarn multiplex-templates', options);
+  } = await getOptionsOrPrompt('yarn once-per-template', options);
 
   const command = await parseCommand(commandline);
   const templates = filterTemplates(TEMPLATES, cadence, command.scriptName);
@@ -81,14 +82,14 @@ async function run() {
       template,
     });
 
-    console.log(`Running ${toRun}`);
+    logger.log(`🏃 Running ${toRun}`);
 
     if (parallel) {
       // Don't pipe stdio as it'll get interleaved
       toAwait.push(
         (async () => {
           await execa.command(toRun);
-          console.log(`Done with ${toRun}`);
+          logger.log(`✅ Done with ${toRun}`);
         })()
       );
     } else {
@@ -101,8 +102,8 @@ async function run() {
 
 if (require.main === module) {
   run().catch((err) => {
-    console.error('Multiplexing failed');
-    console.error(err);
+    logger.error('🚨 An error occurred when executing "once-per-template":');
+    logger.error(err);
     process.exit(1);
   });
 }
