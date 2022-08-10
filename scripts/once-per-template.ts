@@ -105,7 +105,7 @@ type RunResult = {
 };
 
 async function runCommand(
-  command: string,
+  command: string | string[],
   execaOptions: execa.Options,
   { step, template }: { step: string; template: string }
 ): Promise<RunResult> {
@@ -113,11 +113,28 @@ async function runCommand(
   try {
     logger.log(`🏃  ${step} ${template}: Running ${command}`);
 
-    const { all } = await execa.command(command, execaOptions);
+    const allOutput = [];
+    if (typeof command === 'string') {
+      logger.debug(`> ${command}`);
+      const { all } = await execa.command(command, execaOptions);
+      allOutput.push(all);
+    } else {
+      for (const subcommand of command) {
+        logger.debug(`> ${subcommand}`);
+        const { all } = await execa.command(subcommand, execaOptions);
+        allOutput.push(all);
+      }
+    }
 
     logger.log(`✅ ${step} ${template}: Done.`);
 
-    return { template, timestamp, time: (Date.now() - +timestamp) / 1000, ok: true, output: all };
+    return {
+      template,
+      timestamp,
+      time: (Date.now() - +timestamp) / 1000,
+      ok: true,
+      output: allOutput.join('\n'),
+    };
   } catch (err) {
     logger.log(`❌ ${step} ${template}: Failed.`);
     logger.log(err);
@@ -164,8 +181,9 @@ export async function oncePerTemplate({
   scriptName: string;
   templateCommand: (template: TemplateKey) =>
     | string
+    | string[]
     | {
-        command: string;
+        command: string | string[];
         execaOptions?: execa.Options;
       };
 }) {
@@ -177,7 +195,7 @@ export async function oncePerTemplate({
     const templateDir = template.replace('/', '-');
     const commandOrOptions = templateCommand(template);
     const { command, execaOptions: templateExecaOptions } =
-      typeof commandOrOptions === 'string'
+      typeof commandOrOptions === 'string' || Array.isArray(commandOrOptions)
         ? { command: commandOrOptions, execaOptions: null }
         : commandOrOptions;
 

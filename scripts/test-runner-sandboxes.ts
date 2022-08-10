@@ -1,8 +1,9 @@
-import { basename } from 'path';
+import { basename, resolve } from 'path';
 import { createOptions, getOptionsOrPrompt } from './utils/options';
 import { options as oncePerTemplateOptions, oncePerTemplate } from './once-per-template';
 
 const scriptName = basename(__filename, 'ts');
+const codeDir = resolve(__dirname, '../code');
 const logger = console;
 
 export const options = createOptions({
@@ -13,6 +14,22 @@ export const options = createOptions({
 async function run() {
   const { cadence, junit } = await getOptionsOrPrompt(`yarn ${scriptName}`, options);
 
+  function getReporters(template: string) {
+    const filename = resolve(codeDir, junit);
+    return `reporters: [ 'default', [ 'jest-junit', { outputDirectory: '${filename}', addFileAttribute: 'true', usePathForSuiteName: 'true',uniqueOutputName: 'true' }, ], ],`;
+  }
+
+  function jestConfig(template: string) {
+    return (
+      // eslint-disable-next-line prefer-template
+      `const { getJestConfig } = require('@storybook/test-runner'); ` +
+      `module.exports = { ` +
+      `...getJestConfig(),` +
+      getReporters(template) +
+      `}`
+    );
+  }
+
   await oncePerTemplate({
     step: 'Installing Test Runner',
     cd: true,
@@ -20,7 +37,10 @@ async function run() {
     parallel: true,
     junit: undefined,
     scriptName: 'test-storybook',
-    templateCommand: () => `yarn add --dev @storybook/test-runner`,
+    templateCommand: (template) => [
+      `yarn add --dev @storybook/test-runner jest-junit`,
+      `echo "${jestConfig(template)}" > test-runner-jest.config.js`,
+    ],
   });
 
   return oncePerTemplate({
