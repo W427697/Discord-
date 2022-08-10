@@ -589,13 +589,13 @@ jobs:
           working_directory: code
       - run:
           name: Running E2E Tests
-          command: yarn e2e-sandboxes --cadence ci
+          command: yarn e2e-sandboxes --cadence ci --junit test-results/e2e.xml
           working_directory: code
       - store_test_results:
           path: code/test-results
       - store_artifacts: # this is where playwright puts more complex stuff
           path: code/playwright-results/
-          destination: playwright=
+          destination: playwright
 
 workflows:
   test:

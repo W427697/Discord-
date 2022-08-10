@@ -33,7 +33,12 @@ async function run() {
       execaOptions: {
         env: {
           STORYBOOK_URL: `http://localhost:8001/${template.replace('/', '-')}/`,
-          PLAYWRIGHT_JUNIT_OUTPUT_NAME: junit.replace('.xml', `-${template.replace('/', '-')}.xml`),
+          ...(junit && {
+            PLAYWRIGHT_JUNIT_OUTPUT_NAME: junit.replace(
+              '.xml',
+              `-${template.replace('/', '-')}.xml`
+            ),
+          }),
         },
       },
     }),
