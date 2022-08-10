@@ -478,8 +478,8 @@ jobs:
           command: yarn wait-on http://localhost:6000
           working_directory: code
       - run:
-          name: Preparing Sandboxes
-          command: yarn build-sandboxes --cadence ci --junit test-results/build.xml
+          name: Creating Sandboxes
+          command: yarn create-sandboxes --cadence ci --junit test-results/create.xml
           working_directory: code
       - persist_to_workspace:
           root: .
@@ -497,13 +497,8 @@ jobs:
           at: .
       - run:
           name: Smoke Testing Sandboxes
-          command: |
-            cd code
-            yarn once-per-template \
-              --step "Smoke Testing" \
-              --cadence ci \
-              --junit test-results/smoketest.xml \
-              --script "yarn storybook --smoke-test --quiet"
+          command: yarn smoke-test-sandboxes --cadence ci --junit test-results/smoke-test.xml
+          working_directory: code
       - store_test_results:
           path: code/test-results
   build-sandboxes:
@@ -518,15 +513,8 @@ jobs:
           at: .
       - run:
           name: Building Sandboxes
-          command: |
-            BUILD_DIR="$PWD/built-sandboxes"
-            mkdir $BUILD_DIR
-            cd code
-            yarn once-per-template \
-              --step "Building" \
-              --cadence ci \
-              --junit test-results/build.xml \
-              --script "yarn build-storybook --quiet --output-dir=$BUILD_DIR/#TEMPLATE_DIR"
+          command: yarn build-sandboxes --cadence ci --junit test-results/build.xml
+          working_directory: code
       - store_test_results:
           path: code/test-results
       - persist_to_workspace:
@@ -544,18 +532,9 @@ jobs:
       - attach_workspace:
           at: .
       - run:
-          name: Chromatic (Sandboxes)
-          command: |
-            BUILD_DIR="$PWD/built-sandboxes"
-            cd code
-            yarn once-per-template \
-              --step "Running Chromatic" \
-              --cadence ci \
-              --script "npx chromatic \
-                --project-token='\$CHROMATIC_TOKEN_#TEMPLATE_ENV' \
-                --storybook-build-dir='$BUILD_DIR/#TEMPLATE_DIR' \
-                --junit-report='test-results/chromatic.xml'
-                --exit-once-uploaded"
+          name: Running Chromatic
+          command: yarn chromatic-sandboxes --cadence ci --junit test-results/chromatic.xml
+          working_directory: code
       - store_test_results:
           path: code/test-results
   e2e-sandboxes:
@@ -586,14 +565,8 @@ jobs:
             yarn wait-on http://localhost:8001
       - run:
           name: Running E2E Tests
-          command: |
-            cd code
-            yarn once-per-template --no-cd \
-              --step "Running E2E Tests" \
-              --cadence ci \
-              --script "STORYBOOK_URL=http://localhost:8080/#TEMPLATE_DIR/ yarn playwright test"
-          environment:
-            PLAYWRIGHT_JUNIT_OUTPUT_NAME: test-results/playwright.xml
+          command: yarn e2e-sandboxes --cadence ci
+          working_directory: code
       - store_test_results:
           path: code/test-results
       - store_artifacts: # this is where playwright puts more complex stuff

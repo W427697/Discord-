@@ -1,10 +1,8 @@
-import { ensureDir } from 'fs-extra';
-import { basename, join, resolve } from 'path';
+import { basename } from 'path';
 import { createOptions, getOptionsOrPrompt } from './utils/options';
 import { options as oncePerTemplateOptions, oncePerTemplate } from './once-per-template';
 
 const scriptName = basename(__filename, 'ts');
-const builtDir = resolve(__dirname, '../built-sandboxes');
 const logger = console;
 
 export const options = createOptions({
@@ -15,17 +13,14 @@ export const options = createOptions({
 async function run() {
   const { cadence, junit } = await getOptionsOrPrompt(`yarn ${scriptName}`, options);
 
-  await ensureDir(builtDir);
-
   return oncePerTemplate({
-    step: 'Building',
+    step: 'Smoke Testing',
     cd: true,
     cadence,
     parallel: false,
     junit,
-    scriptName: 'build-storybook',
-    templateCommand: (template) =>
-      `yarn build-storybook --quiet --output-dir=${join(builtDir, template.replace('/', '-'))}`,
+    scriptName: 'sandbox',
+    templateCommand: () => 'yarn storybook --smoke-test --quiet',
   });
 }
 
