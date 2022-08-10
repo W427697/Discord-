@@ -97,7 +97,7 @@
     "access": "public"
   },
   "bundler": {
-    "pre": "./../scripts/generate-exports-file.ts",
+    "pre": "./scripts/generate-exports-file.ts",
     "entries": [
       "./src/index.tsx",
       "./src/globals.ts",
