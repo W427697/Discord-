@@ -63,7 +63,7 @@ export const Expanded = () => {
 };
 Expanded.play = async ({ canvasElement }) => {
   const canvas = within(canvasElement);
-  const menuButton = await canvas.getByRole('button');
+  const menuButton = await canvas.findByRole('button');
   await userEvent.click(menuButton);
 };
 
