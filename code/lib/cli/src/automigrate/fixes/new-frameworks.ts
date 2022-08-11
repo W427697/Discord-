@@ -6,6 +6,7 @@ import { getStorybookInfo } from '@storybook/core-common';
 
 import type { Fix } from '../types';
 import type { PackageJsonWithDepsAndDevDeps } from '../../js-package-manager';
+import { getStorybookVersionSpecifier } from '../../helpers';
 
 const logger = console;
 
@@ -196,7 +197,9 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
 
     logger.info(`✅ Installing new dependencies: ${dependenciesToAdd.join(', ')}`);
     if (!dryRun) {
-      packageManager.addDependencies({ installAsDevDependencies: true }, dependenciesToAdd);
+      const versionToInstall = getStorybookVersionSpecifier(packageJson);
+      const depsToAdd = dependenciesToAdd.map((dep) => `${dep}@${versionToInstall}`);
+      packageManager.addDependencies({ installAsDevDependencies: true }, depsToAdd);
     }
 
     if (!dryRun) {
