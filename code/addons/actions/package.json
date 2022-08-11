@@ -32,7 +32,7 @@
       "import": "./dist/manager.mjs",
       "types": "./dist/manager.d.ts"
     },
-    "./register": {
+    "./register.js": {
       "require": "./dist/manager.js",
       "import": "./dist/manager.mjs",
       "types": "./dist/manager.d.ts"
