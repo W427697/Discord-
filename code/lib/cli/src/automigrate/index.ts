@@ -12,10 +12,9 @@ interface FixOptions {
   fixId?: string;
   yes?: boolean;
   dryRun?: boolean;
-  prerelease?: boolean;
 }
 
-export const automigrate = async ({ fixId, dryRun, yes, prerelease }: FixOptions = {}) => {
+export const automigrate = async ({ fixId, dryRun, yes }: FixOptions = {}) => {
   const packageManager = JsPackageManagerFactory.getPackageManager();
   const filtered = fixId ? fixes.filter((f) => f.id === fixId) : fixes;
 
@@ -54,7 +53,7 @@ export const automigrate = async ({ fixId, dryRun, yes, prerelease }: FixOptions
 
       if (runAnswer.fix) {
         try {
-          await f.run({ result, packageManager, dryRun, prerelease });
+          await f.run({ result, packageManager, dryRun });
           logger.info(`✅ ran ${chalk.cyan(f.id)} migration`);
         } catch (error) {
           logger.info(`❌ error when running ${chalk.cyan(f.id)} migration:`);

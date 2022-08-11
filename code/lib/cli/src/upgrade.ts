@@ -175,6 +175,6 @@ export const upgrade = async ({
 
   if (!skipCheck) {
     checkVersionConsistency();
-    await automigrate({ dryRun, yes, prerelease });
+    await automigrate({ dryRun, yes });
   }
 };
