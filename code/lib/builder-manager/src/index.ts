@@ -1,5 +1,5 @@
 import { dirname, join } from 'path';
-import { copy, writeFile, remove } from 'fs-extra';
+import { copy, writeFile, remove, write, ensureFile } from 'fs-extra';
 import express from 'express';
 
 import { logger } from '@storybook/node-logger';
@@ -19,7 +19,6 @@ import {
   ManagerBuilder,
   StarterFunction,
 } from './types';
-import { readDeep } from './utils/directory';
 import { getData } from './utils/data';
 import { safeResolve } from './utils/safeResolve';
 
@@ -38,6 +37,7 @@ export const getConfig: ManagerBuilder['getConfig'] = async (options) => {
       : addonsEntryPoints,
     outdir: join(options.outputDir || './', 'sb-addons'),
     format: 'esm',
+    write: false,
     outExtension: { '.js': '.mjs' },
     loader: {
       '.js': 'jsx',
@@ -118,15 +118,24 @@ const starter: StarterFunction = async function* starterGeneratorFn({
   router.use(`/sb-addons`, express.static(addonsDir));
   router.use(`/sb-manager`, express.static(coreDirOrigin));
 
-  const addonFiles = readDeep(addonsDir);
+  const files = await Promise.all(
+    compilation.outputFiles?.map(async (file) => {
+      await ensureFile(file.path).then(() => writeFile(file.path, file.contents));
+      return file.path.replace(addonsDir, './sb-addons');
+    }) || []
+  );
 
   yield;
+
+  const jsFiles = files.filter((file) => file.endsWith('.mjs'));
+  const cssFiles = files.filter((file) => file.endsWith('.css'));
 
   const html = await renderHTML(
     template,
     title,
     customHead,
-    addonFiles,
+    cssFiles,
+    jsFiles,
     features,
     refs,
     logLevel,
@@ -182,21 +191,30 @@ const builder: BuilderFunction = async function* builderGeneratorFn({ startTime,
   yield;
 
   const managerFiles = copy(coreDirOrigin, coreDirTarget);
-  const addonFiles = readDeep(addonsDir);
+  const files = await Promise.all(
+    compilation.outputFiles?.map(async (file) => {
+      await ensureFile(file.path).then(() => writeFile(file.path, file.contents));
+      return file.path.replace(addonsDir, './sb-addons');
+    }) || []
+  );
+
+  yield;
+
+  const jsFiles = files.filter((file) => file.endsWith('.mjs'));
+  const cssFiles = files.filter((file) => file.endsWith('.css'));
 
   const html = await renderHTML(
     template,
     title,
     customHead,
-    addonFiles,
+    cssFiles,
+    jsFiles,
     features,
     refs,
     logLevel,
     docsOptions,
     options
   );
-
-  yield;
 
   await Promise.all([
     //
