@@ -109,7 +109,7 @@ describe('Helpers', () => {
     ).rejects.toThrowError(expectedMessage);
   });
 
-  describe.only('getStorybookVersionSpecifier', () => {
+  describe('getStorybookVersionSpecifier', () => {
     it(`should return the specifier if storybook lib exists in package.json`, () => {
       expect(
         helpers.getStorybookVersionSpecifier({
