@@ -79,7 +79,7 @@ export const sbScripts: Fix<SbScriptsRunOptions> = {
         .replace('build-storybook', 'storybook build');
     });
 
-    return semver.gte(storybookCoerced, '6.0.0')
+    return semver.gte(storybookCoerced, '7.0.0')
       ? { packageJson, storybookScripts, storybookVersion }
       : null;
   },
