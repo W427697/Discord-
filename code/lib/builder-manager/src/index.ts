@@ -192,7 +192,7 @@ const builder: BuilderFunction = async function* builderGeneratorFn({ startTime,
 
   const managerFiles = copy(coreDirOrigin, coreDirTarget);
   const files = await Promise.all(
-    compilation.outputFiles?.map(async (file) => {
+    compilation?.outputFiles?.map(async (file) => {
       await ensureFile(file.path).then(() => writeFile(file.path, file.contents));
       return file.path.replace(addonsDir, './sb-addons');
     }) || []
