@@ -125,15 +125,58 @@ describe('new-frameworks fix', () => {
           })
         ).resolves.toEqual(
           expect.objectContaining({
-            frameworkPackage: '@storybook/react',
+            frameworkPackage: '@storybook/react-webpack5',
             dependenciesToAdd: ['@storybook/react-webpack5'],
             dependenciesToRemove: [
-              '@storybook/react',
               '@storybook/builder-webpack5',
               '@storybook/manager-webpack5',
+              '@storybook/react',
             ],
             frameworkOptions: {
               fastRefresh: true,
+            },
+            builderInfo: {
+              name: 'webpack5',
+              options: {
+                lazyCompilation: true,
+              },
+            },
+          })
+        );
+      });
+      it('should update only builders in @storybook/angular', async () => {
+        const packageJson = {
+          dependencies: {
+            '@storybook/angular': '^7.0.0-alpha.0',
+            '@storybook/builder-webpack5': '^6.5.9',
+            '@storybook/manager-webpack5': '^6.5.9',
+          },
+        };
+        await expect(
+          checkNewFrameworks({
+            packageJson,
+            main: {
+              framework: '@storybook/angular',
+              core: {
+                builder: {
+                  name: 'webpack5',
+                  options: {
+                    lazyCompilation: true,
+                  },
+                },
+              },
+              angularOptions: {
+                enableIvy: true,
+              },
+            },
+          })
+        ).resolves.toEqual(
+          expect.objectContaining({
+            frameworkPackage: '@storybook/angular',
+            dependenciesToAdd: [],
+            dependenciesToRemove: ['@storybook/builder-webpack5', '@storybook/manager-webpack5'],
+            frameworkOptions: {
+              enableIvy: true,
             },
             builderInfo: {
               name: 'webpack5',
