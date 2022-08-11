@@ -1,5 +1,5 @@
 import { dirname, join } from 'path';
-import { copy, writeFile, remove, write, ensureFile } from 'fs-extra';
+import { copy, writeFile, remove, ensureFile } from 'fs-extra';
 import express from 'express';
 
 import { logger } from '@storybook/node-logger';
