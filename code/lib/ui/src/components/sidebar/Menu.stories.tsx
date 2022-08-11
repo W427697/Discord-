@@ -2,7 +2,8 @@ import React, { Fragment, FunctionComponent } from 'react';
 
 import { WithTooltip, TooltipLinkList, Icons } from '@storybook/components';
 import { styled } from '@storybook/theming';
-import { MenuItemIcon, SidebarMenu, ToolbarMenu, MenuButton, SidebarMenuList } from './Menu';
+import { within, userEvent } from '@storybook/testing-library';
+import { MenuItemIcon, SidebarMenu, ToolbarMenu } from './Menu';
 import { useMenu } from '../../containers/menu';
 
 export default {
@@ -29,7 +30,7 @@ const fakemenu = [
 
 export const Items = () => <TooltipLinkList links={fakemenu} />;
 
-export const Real = () => <SidebarMenu menu={fakemenu} isHighlighted />;
+export const Real = () => <SidebarMenu menu={fakemenu} />;
 
 export const Toolbar = () => <ToolbarMenu menu={fakemenu} />;
 
@@ -38,22 +39,6 @@ const DoubleThemeRenderingHack = styled.div({
     textAlign: 'right',
   },
 });
-
-const ExpandedMenu: FunctionComponent<{ menu: any }> = ({ menu }) => (
-  <DoubleThemeRenderingHack>
-    <WithTooltip
-      placement="bottom"
-      trigger="click"
-      closeOnClick
-      startOpen
-      tooltip={({ onHide }) => <SidebarMenuList onHide={onHide} menu={menu} />}
-    >
-      <MenuButton outline small containsIcon highlighted={false} title="Shortcuts">
-        <Icons icon="ellipsis" />
-      </MenuButton>
-    </WithTooltip>
-  </DoubleThemeRenderingHack>
-);
 
 export const Expanded = () => {
   const menu = useMenu(
@@ -70,7 +55,12 @@ export const Expanded = () => {
     false,
     false
   );
-  return <ExpandedMenu menu={menu} />;
+  return <SidebarMenu menu={menu} />;
+};
+Expanded.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  const menuButton = await canvas.getByRole('button');
+  await userEvent.click(menuButton);
 };
 
 export const ExpandedWithoutReleaseNotes = () => {
@@ -88,5 +78,6 @@ export const ExpandedWithoutReleaseNotes = () => {
     false,
     false
   );
-  return <ExpandedMenu menu={menu} />;
+  return <SidebarMenu menu={menu} />;
 };
+ExpandedWithoutReleaseNotes.play = Expanded.play;

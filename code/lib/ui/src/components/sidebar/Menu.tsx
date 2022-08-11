@@ -1,4 +1,4 @@
-import React, { useMemo, ComponentProps, FC } from 'react';
+import React, { useMemo, useState, ComponentProps, FC } from 'react';
 
 import { styled } from '@storybook/theming';
 import { WithTooltip, TooltipLinkList, Button, Icons, IconButton } from '@storybook/components';
@@ -42,7 +42,7 @@ export const MenuItemIcon = ({ icon, imgSrc }: ListItemIconProps) => {
 
 type ClickHandler = ComponentProps<typeof TooltipLinkList>['links'][number]['onClick'];
 
-export const SidebarMenuList: FC<{
+const SidebarMenuList: FC<{
   menu: MenuList;
   onHide: () => void;
 }> = ({ menu, onHide }) => {
@@ -62,8 +62,7 @@ export const SidebarMenuList: FC<{
 
 export const SidebarMenu: FC<{
   menu: MenuList;
-  isHighlighted: boolean;
-}> = ({ isHighlighted, menu }) => {
+}> = ({ menu }) => {
   return (
     <WithTooltip
       placement="top"
@@ -71,8 +70,7 @@ export const SidebarMenu: FC<{
       closeOnClick
       tooltip={({ onHide }) => <SidebarMenuList onHide={onHide} menu={menu} />}
     >
-      {/* FIXME: when button is clicked, set "active" prop to true, isHighlighted doesn't work */}
-      <SidebarIconButton title="Shortcuts" aria-label="Shortcuts" active={isHighlighted}>
+      <SidebarIconButton title="Shortcuts" aria-label="Shortcuts">
         <Icons icon="cog" />
       </SidebarIconButton>
     </WithTooltip>
