@@ -22,7 +22,7 @@ const packagesMap = {
     webpack5: '@storybook/server-webpack5',
   },
   '@storybook/angular': {
-    webpack5: '@storybook/angular-webpack5',
+    webpack5: '@storybook/angular',
   },
   '@storybook/vue': {
     webpack5: '@storybook/vue-webpack5',
@@ -144,13 +144,18 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
     const frameworkOptions = getFrameworkOptions(framework, main);
 
     const dependenciesToRemove = [
-      frameworkPackage,
       '@storybook/builder-webpack5',
       '@storybook/manager-webpack5',
     ].filter((dep) => allDeps[dep]);
 
     const newFrameworkPackage = packagesMap[frameworkPackage][builderInfo.name];
-    const dependenciesToAdd = [newFrameworkPackage];
+    const dependenciesToAdd = [];
+
+    // some frameworks didn't change e.g. Angular, Ember
+    if (newFrameworkPackage !== frameworkPackage) {
+      dependenciesToRemove.push(frameworkPackage);
+      dependenciesToAdd.push(newFrameworkPackage);
+    }
 
     return {
       main,
@@ -192,14 +197,18 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
   }) {
     logger.info(`✅ Removing legacy dependencies: ${dependenciesToRemove.join(', ')}`);
     if (!dryRun) {
-      packageManager.removeDependencies({ skipInstall: true, packageJson }, dependenciesToRemove);
+      packageManager.removeDependencies(
+        { skipInstall: dependenciesToAdd.length > 0, packageJson },
+        dependenciesToRemove
+      );
     }
-
-    logger.info(`✅ Installing new dependencies: ${dependenciesToAdd.join(', ')}`);
-    if (!dryRun) {
-      const versionToInstall = getStorybookVersionSpecifier(packageJson);
-      const depsToAdd = dependenciesToAdd.map((dep) => `${dep}@${versionToInstall}`);
-      packageManager.addDependencies({ installAsDevDependencies: true }, depsToAdd);
+    if (dependenciesToAdd.length > 0) {
+      logger.info(`✅ Installing new dependencies: ${dependenciesToAdd.join(', ')}`);
+      if (!dryRun) {
+        const versionToInstall = getStorybookVersionSpecifier(packageJson);
+        const depsToAdd = dependenciesToAdd.map((dep) => `${dep}@${versionToInstall}`);
+        packageManager.addDependencies({ installAsDevDependencies: true }, depsToAdd);
+      }
     }
 
     if (!dryRun) {
@@ -208,7 +217,9 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
       main.setFieldValue(['framework', 'name'], frameworkPackage);
       main.setFieldValue(['framework', 'options'], frameworkOptions);
 
-      main.setFieldValue(['framework', 'options', 'builder'], builderInfo.options);
+      if (Object.keys(builderInfo.options).length > 0) {
+        main.setFieldValue(['framework', 'options', 'builder'], builderInfo.options);
+      }
 
       delete currentCore.builder;
       if (Object.keys(currentCore).length === 0) {
