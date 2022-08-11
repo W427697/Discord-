@@ -55,7 +55,11 @@ export const Expanded = () => {
     false,
     false
   );
-  return <SidebarMenu menu={menu} />;
+  return (
+    <DoubleThemeRenderingHack>
+      <SidebarMenu menu={menu} />
+    </DoubleThemeRenderingHack>
+  );
 };
 Expanded.play = async ({ canvasElement }) => {
   const canvas = within(canvasElement);
@@ -78,6 +82,10 @@ export const ExpandedWithoutReleaseNotes = () => {
     false,
     false
   );
-  return <SidebarMenu menu={menu} />;
+  return (
+    <DoubleThemeRenderingHack>
+      <SidebarMenu menu={menu} />
+    </DoubleThemeRenderingHack>
+  );
 };
 ExpandedWithoutReleaseNotes.play = Expanded.play;
