@@ -119,7 +119,7 @@ const starter: StarterFunction = async function* starterGeneratorFn({
   router.use(`/sb-manager`, express.static(coreDirOrigin));
 
   const files = await Promise.all(
-    compilation.outputFiles?.map(async (file) => {
+    compilation?.outputFiles?.map(async (file) => {
       await ensureFile(file.path).then(() => writeFile(file.path, file.contents));
       return file.path.replace(addonsDir, './sb-addons');
     }) || []
