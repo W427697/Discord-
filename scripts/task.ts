@@ -9,6 +9,7 @@ import { publish } from './tasks/publish';
 import { create } from './tasks/create';
 import { smokeTest } from './tasks/smoke-test';
 import { build } from './tasks/build';
+import { testRunner } from './tasks/test-runner';
 
 import TEMPLATES from '../code/lib/cli/src/repro-templates';
 
@@ -18,11 +19,14 @@ const junitDir = resolve(__dirname, '../code/test-results');
 export type TemplateKey = keyof typeof TEMPLATES;
 export type Template = typeof TEMPLATES[TemplateKey];
 export type Path = string;
-export type TemplateDetails = { template: Template; sandboxDir: Path };
+export type TemplateDetails = { template: Template; sandboxDir: Path; junitFilename: Path };
 
 type MaybePromise<T> = T | Promise<T>;
 
 export type Task = {
+  /**
+   * Which tasks run before this task
+   */
   before?: TaskKey[];
   /**
    * Is this task already "ready", and potentially not required?
@@ -32,6 +36,10 @@ export type Task = {
    * Run the task
    */
   run: (templateKey: TemplateKey, details: TemplateDetails) => MaybePromise<void>;
+  /**
+   * Does this task handle its own junit results?
+   */
+  junit?: boolean;
 };
 
 export const tasks = {
@@ -40,6 +48,7 @@ export const tasks = {
   create,
   'smoke-test': smokeTest,
   build,
+  'test-runner': testRunner,
 };
 
 type TaskKey = keyof typeof tasks;
@@ -74,13 +83,17 @@ export const options = createOptions({
 
 const logger = console;
 
+function getJunitFilename(taskKey: TaskKey) {
+  return join(junitDir, `${taskKey}.xml`);
+}
+
 async function writeJunitXml(taskKey: TaskKey, templateKey: TemplateKey, start: Date, err?: Error) {
   const name = `${taskKey} - ${templateKey}`;
   const time = (Date.now() - +start) / 1000;
   const testCase = { name, assertions: 1, time, ...(err && { errors: [err] }) };
   const suite = { name, timestamp: start, time, testCases: [testCase] };
   const junitXml = getJunitXml({ time, name, suites: [suite] });
-  const path = join(junitDir, `${taskKey}.xml`);
+  const path = getJunitFilename(taskKey);
   await outputFile(path, junitXml);
   logger.log(`Test results written to ${resolve(path)}`);
 }
@@ -98,7 +111,11 @@ async function runTask(
   const task = tasks[taskKey];
   const template = TEMPLATES[templateKey];
   const templateSandboxDir = join(sandboxDir, templateKey.replace('/', '-'));
-  const details = { template, sandboxDir: templateSandboxDir };
+  const details = {
+    template,
+    sandboxDir: templateSandboxDir,
+    junitFilename: junit && getJunitFilename(taskKey),
+  };
 
   if (await task.ready(templateKey, details)) {
     if (mustNotBeReady) throw new Error(`❌ ${taskKey} task has already run, this is unexpected!`);
@@ -124,11 +141,11 @@ async function runTask(
 
   const start = new Date();
   try {
-    await task.run(templateKey, { template, sandboxDir: templateSandboxDir });
+    await task.run(templateKey, details);
 
-    if (junit) await writeJunitXml(taskKey, templateKey, start);
+    if (junit && !task.junit) await writeJunitXml(taskKey, templateKey, start);
   } catch (err) {
-    if (junit) await writeJunitXml(taskKey, templateKey, start, err);
+    if (junit && !task.junit) await writeJunitXml(taskKey, templateKey, start, err);
 
     throw err;
   }

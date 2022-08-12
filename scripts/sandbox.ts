@@ -10,7 +10,7 @@ import {
   existsSync,
 } from 'fs-extra';
 import prompts from 'prompts';
-import { AbortController } from 'node-abort-controller';
+import type { AbortController } from 'node-abort-controller';
 
 import { createOptions, getOptionsOrPrompt, OptionValues } from './utils/options';
 import { executeCLIStep } from './utils/cli-step';
@@ -20,6 +20,7 @@ import { getInterpretedFile } from '../code/lib/core-common';
 import { ConfigFile, readConfig, writeConfig } from '../code/lib/csf-tools';
 import { babelParse } from '../code/lib/csf-tools/src/babelParse';
 import TEMPLATES from '../code/lib/cli/src/repro-templates';
+import { servePackages } from './utils/serve-packages';
 
 type Template = keyof typeof TEMPLATES;
 const templates: Template[] = Object.keys(TEMPLATES) as any;
@@ -333,16 +334,7 @@ export async function sandbox(optionValues: OptionValues<typeof options>) {
       }
 
       if (publish || startVerdaccio) {
-        publishController = new AbortController();
-        exec(
-          'CI=true yarn local-registry --open',
-          { cwd: codeDir },
-          { dryRun, debug, signal: publishController.signal as AbortSignal }
-        ).catch((err) => {
-          // If aborted, we want to make sure the rejection is handled.
-          if (!err.killed) throw err;
-        });
-        await exec('yarn wait-on http://localhost:6000', { cwd: codeDir }, { dryRun, debug });
+        publishController = await servePackages({ dryRun, debug });
       }
 
       // We need to add package resolutions to ensure that we only ever install the latest version

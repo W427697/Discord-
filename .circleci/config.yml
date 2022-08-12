@@ -525,26 +525,8 @@ jobs:
       - attach_workspace:
           at: .
       - run:
-          name: Running local registry
-          command: yarn local-registry --port 6000 --open
-          background: true
-          working_directory: code
-      - run:
-          name: Wait for registry
-          command: yarn wait-on http://localhost:6000
-          working_directory: code
-      - run:
-          name: Serve Sandboxes
-          command: yarn http-server ../built-sandboxes -p 8001
-          background: true
-          working_directory: code
-      - run:
-          name: Await Serving Sandboxes
-          command: yarn wait-on http://localhost:8001
-          working_directory: code
-      - run:
           name: Running Test Runner
-          command: yarn test-runner-sandboxes --cadence ci --junit test-results/test-runner.xml
+          command: yarn task --task test-runner --template $(yarn get-template ci) --force --no-before --junit
           working_directory: code
       - store_test_results:
           path: code/test-results
