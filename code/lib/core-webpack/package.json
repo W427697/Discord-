@@ -19,9 +19,19 @@
     "url": "https://opencollective.com/storybook"
   },
   "license": "MIT",
+   "exports": {
+    ".": {
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.ts"
+    },
+    "./paths": "./paths.js",
+    "./package.json": "./package.json"
+  },
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
   "types": "dist/types/index.d.ts",
+  
   "files": [
     "dist/**/*",
     "types/**/*",
@@ -31,7 +41,7 @@
   ],
   "scripts": {
     "check": "tsc --noEmit",
-    "prepare": "node ../../../scripts/prepare.js"
+    "prepare": "esrun ../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
     "@storybook/core-common": "7.0.0-alpha.18",
@@ -41,10 +51,18 @@
     "ts-dedent": "^2.0.0"
   },
   "devDependencies": {
-    "typescript": "~4.6.3"
+    "typescript": "~4.6.3",
+    "@digitak/esrun": "^3.2.2"
   },
   "publishConfig": {
     "access": "public"
   },
+  "bundler": {
+    "pre": "./scripts/generate-exports-file.ts",
+    "entries": [
+      "./src/index.tsx",
+    ]
+  },
+  
   "gitHead": "bd59f1eef0f644175abdb0d9873ed0553f431f53"
 }
