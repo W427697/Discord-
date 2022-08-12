@@ -542,7 +542,7 @@ jobs:
           at: .
       - run:
           name: Running Chromatic
-          command: yarn chromatic-sandboxes --cadence ci --junit test-results/chromatic.xml
+          command: yarn task --task chromatic --template $(yarn get-template ci) --force --no-before --junit
           working_directory: code
       - store_test_results:
           path: code/test-results

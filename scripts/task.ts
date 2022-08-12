@@ -10,6 +10,7 @@ import { create } from './tasks/create';
 import { smokeTest } from './tasks/smoke-test';
 import { build } from './tasks/build';
 import { testRunner } from './tasks/test-runner';
+import { chromatic } from './tasks/chromatic';
 
 import TEMPLATES from '../code/lib/cli/src/repro-templates';
 
@@ -19,7 +20,12 @@ const junitDir = resolve(__dirname, '../code/test-results');
 export type TemplateKey = keyof typeof TEMPLATES;
 export type Template = typeof TEMPLATES[TemplateKey];
 export type Path = string;
-export type TemplateDetails = { template: Template; sandboxDir: Path; junitFilename: Path };
+export type TemplateDetails = {
+  template: Template;
+  sandboxDir: Path;
+  builtSandboxDir: Path;
+  junitFilename: Path;
+};
 
 type MaybePromise<T> = T | Promise<T>;
 
@@ -49,6 +55,7 @@ export const tasks = {
   'smoke-test': smokeTest,
   build,
   'test-runner': testRunner,
+  chromatic,
 };
 
 type TaskKey = keyof typeof tasks;
@@ -114,6 +121,7 @@ async function runTask(
   const details = {
     template,
     sandboxDir: templateSandboxDir,
+    builtSandboxDir: join(templateSandboxDir, 'storybook-static'),
     junitFilename: junit && getJunitFilename(taskKey),
   };
 

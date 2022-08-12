@@ -12,7 +12,7 @@ export const testRunner: Task = {
   async ready() {
     return false;
   },
-  async run(_, { sandboxDir, junitFilename }) {
+  async run(_, { sandboxDir, builtSandboxDir, junitFilename }) {
     const execOptions = { cwd: sandboxDir };
 
     // We could split this out into a separate task if it became annoying
@@ -39,7 +39,7 @@ export const testRunner: Task = {
       await writeFile(testFilePathname, newTestFile);
     }
 
-    const storybookController = await serveSandbox(join(sandboxDir, 'storybook-static'), {});
+    const storybookController = await serveSandbox(builtSandboxDir, {});
 
     await new Promise((r) => setTimeout(r, 10000));
     await exec(`yarn test-storybook --url http://localhost:8001`, execOptions);

@@ -5,8 +5,8 @@ import { exec } from '../utils/exec';
 
 export const build: Task = {
   before: ['create'],
-  async ready(_, { sandboxDir }) {
-    return pathExists(join(sandboxDir, 'storybook-static'));
+  async ready(_, { builtSandboxDir }) {
+    return pathExists(builtSandboxDir);
   },
   async run(_, { sandboxDir }) {
     return exec(`yarn build-storybook --quiet`, { cwd: sandboxDir });
