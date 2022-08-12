@@ -25,7 +25,7 @@ export async function getTemplate(
   scriptName: string,
   { index, total }: { index: number; total: number }
 ) {
-  let potentialTemplateKeys: TemplateKey[];
+  let potentialTemplateKeys: TemplateKey[] = [];
   if (await pathExists(sandboxDir)) {
     const sandboxes = await getDirectories(sandboxDir);
     potentialTemplateKeys = sandboxes
