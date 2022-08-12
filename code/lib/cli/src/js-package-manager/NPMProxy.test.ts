@@ -1,4 +1,5 @@
 import { NPMProxy } from './NPMProxy';
+import * as PackageJsonHelper from './PackageJsonHelper';
 
 describe('NPM Proxy', () => {
   let npmProxy: NPMProxy;
@@ -71,6 +72,63 @@ describe('NPM Proxy', () => {
           ['install', '--legacy-peer-deps', '-D', '@storybook/addons'],
           expect.any(String)
         );
+      });
+    });
+  });
+
+  describe('removeDependencies', () => {
+    describe('npm6', () => {
+      it('with devDep it should run `npm uninstall @storybook/addons`', () => {
+        const executeCommandSpy = jest.spyOn(npmProxy, 'executeCommand').mockReturnValue('6.0.0');
+
+        npmProxy.removeDependencies({}, ['@storybook/addons']);
+
+        expect(executeCommandSpy).toHaveBeenLastCalledWith(
+          'npm',
+          ['uninstall', '@storybook/addons'],
+          expect.any(String)
+        );
+      });
+    });
+    describe('npm7', () => {
+      it('with devDep it should run `npm uninstall @storybook/addons`', () => {
+        const executeCommandSpy = jest.spyOn(npmProxy, 'executeCommand').mockReturnValue('7.0.0');
+
+        npmProxy.removeDependencies({}, ['@storybook/addons']);
+
+        expect(executeCommandSpy).toHaveBeenLastCalledWith(
+          'npm',
+          ['uninstall', '--legacy-peer-deps', '@storybook/addons'],
+          expect.any(String)
+        );
+      });
+    });
+    describe('skipInstall', () => {
+      it('should only change package.json without running install', () => {
+        const executeCommandSpy = jest.spyOn(npmProxy, 'executeCommand').mockReturnValue('7.0.0');
+        const writePackageSpy = jest
+          .spyOn(PackageJsonHelper, 'writePackageJson')
+          .mockImplementation(jest.fn);
+
+        npmProxy.removeDependencies(
+          {
+            skipInstall: true,
+            packageJson: {
+              devDependencies: {
+                '@storybook/manager-webpack5': 'x.x.x',
+                '@storybook/react': 'x.x.x',
+              },
+            },
+          },
+          ['@storybook/manager-webpack5']
+        );
+
+        expect(writePackageSpy).toHaveBeenCalledWith({
+          devDependencies: {
+            '@storybook/react': 'x.x.x',
+          },
+        });
+        expect(executeCommandSpy).not.toHaveBeenCalled();
       });
     });
   });

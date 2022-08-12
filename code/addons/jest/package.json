@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-jest",
-  "version": "7.0.0-alpha.17",
+  "version": "7.0.0-alpha.19",
   "description": "React storybook addon that show component jest report",
   "keywords": [
     "addon",
@@ -27,9 +27,27 @@
   },
   "license": "MIT",
   "author": "Renaud Tertrais <renaud.tertrais@gmail.com> (https://github.com/renaudtertrais)",
-  "main": "dist/cjs/index.js",
-  "module": "dist/esm/index.js",
-  "types": "dist/types/index.d.ts",
+  "exports": {
+    ".": {
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.ts"
+    },
+    "./manager": {
+      "require": "./dist/manager.js",
+      "import": "./dist/manager.mjs",
+      "types": "./dist/manager.d.ts"
+    },
+    "./register.js": {
+      "require": "./dist/manager.js",
+      "import": "./dist/manager.mjs",
+      "types": "./dist/manager.d.ts"
+    },
+    "./package.json": "./package.json"
+  },
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
   "files": [
     "dist/**/*",
     "README.md",
@@ -38,15 +56,15 @@
   ],
   "scripts": {
     "check": "tsc --noEmit",
-    "prepare": "node ../../../scripts/prepare.js"
+    "prepare": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/addons": "7.0.0-alpha.17",
-    "@storybook/api": "7.0.0-alpha.17",
-    "@storybook/client-logger": "7.0.0-alpha.17",
-    "@storybook/components": "7.0.0-alpha.17",
-    "@storybook/core-events": "7.0.0-alpha.17",
-    "@storybook/theming": "7.0.0-alpha.17",
+    "@storybook/addons": "7.0.0-alpha.19",
+    "@storybook/api": "7.0.0-alpha.19",
+    "@storybook/client-logger": "7.0.0-alpha.19",
+    "@storybook/components": "7.0.0-alpha.19",
+    "@storybook/core-events": "7.0.0-alpha.19",
+    "@storybook/theming": "7.0.0-alpha.19",
     "core-js": "^3.8.2",
     "global": "^4.4.0",
     "react-sizeme": "^3.0.1",
@@ -70,7 +88,14 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "7d44bfd3e759c6f17b75029ee2e067fab811f27b",
+  "bundler": {
+    "entries": [
+      "./src/index.ts",
+      "./src/manager.tsx"
+    ],
+    "platform": "browser"
+  },
+  "gitHead": "74bdb53f67dd59bae2661c668d2d5d4296113281",
   "storybook": {
     "displayName": "Jest",
     "icon": "https://pbs.twimg.com/profile_images/821713465245102080/mMtKIMax_400x400.jpg",

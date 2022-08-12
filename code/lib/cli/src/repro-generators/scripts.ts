@@ -51,11 +51,19 @@ export interface Options extends Parameters {
 export const exec = async (
   command: string,
   options: ExecOptions = {},
-  { startMessage, errorMessage }: { startMessage?: string; errorMessage?: string } = {}
+  {
+    startMessage,
+    errorMessage,
+    dryRun,
+  }: { startMessage?: string; errorMessage?: string; dryRun?: boolean } = {}
 ) => {
-  if (startMessage) {
-    logger.info(startMessage);
+  if (startMessage) logger.info(startMessage);
+
+  if (dryRun) {
+    logger.info(`\n> ${command}\n`);
+    return undefined;
   }
+
   logger.debug(command);
   return new Promise((resolve, reject) => {
     const defaultOptions: ExecOptions = {
@@ -69,7 +77,6 @@ export const exec = async (
     });
 
     child.stderr.pipe(process.stderr);
-    child.stdout.pipe(process.stdout);
 
     child.on('exit', (code) => {
       if (code === 0) {
