@@ -70,7 +70,7 @@ const Eject: FC<EjectProps> = ({ baseUrl, storyId }) => (
     target="_blank"
     title="Open canvas in new tab"
   >
-    <Icons icon="sharealt" />
+    <Icons icon="share" />
   </IconButton>
 );
 
