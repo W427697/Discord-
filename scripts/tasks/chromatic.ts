@@ -11,7 +11,9 @@ export const chromatic: Task = {
     const tokenEnvVarName = `CHROMATIC_TOKEN_${templateKey.toUpperCase().replace(/\/|-/g, '_')}`;
     const token = process.env[tokenEnvVarName];
     return exec(
-      `npx chromatic --storybook-build-dir=${builtSandboxDir} \
+      `npx chromatic \
+        --exit-once-uploaded
+        --storybook-build-dir=${builtSandboxDir} \
         --junit-report=${junitFilename} \
         --projectToken=${token}`,
       { cwd: sandboxDir }
