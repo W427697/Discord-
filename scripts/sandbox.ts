@@ -385,7 +385,7 @@ export async function sandbox(optionValues: OptionValues<typeof options>) {
   // TODO start dev
 
   // Cleanup
-  publishController.abort();
+  publishController?.abort();
 }
 
 async function main() {

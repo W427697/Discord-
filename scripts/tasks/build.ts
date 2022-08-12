@@ -1,5 +1,4 @@
 import { pathExists } from 'fs-extra';
-import { join } from 'path';
 import type { Task } from '../task';
 import { exec } from '../utils/exec';
 
