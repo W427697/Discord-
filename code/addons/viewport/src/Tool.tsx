@@ -235,7 +235,7 @@ export const ViewportTool: FC = memo(
             </ActiveViewportLabel>
             <IconButton
               key="viewport-rotate"
-              title="Rotate viewport"
+              title="Swap dimensions"
               onClick={() => {
                 setState({ ...state, isRotated: !isRotated });
               }}
