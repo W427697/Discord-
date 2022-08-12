@@ -490,7 +490,7 @@ jobs:
           at: .
       - run:
           name: Smoke Testing Sandboxes
-          command: yarn smoke-test-sandboxes --cadence ci --junit test-results/smoke-test.xml
+          command: yarn task --task smoke-test --template $(yarn get-template ci) --force --no-before --junit
           working_directory: code
       - store_test_results:
           path: code/test-results

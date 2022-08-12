@@ -4,9 +4,10 @@ import { outputFile } from 'fs-extra';
 import { join, resolve } from 'path';
 
 import { createOptions, getOptionsOrPrompt } from './utils/options';
-import { create } from './tasks/create';
-import { publish } from './tasks/publish';
 import { bootstrap } from './tasks/bootstrap';
+import { publish } from './tasks/publish';
+import { create } from './tasks/create';
+import { smokeTest } from './tasks/smoke-test';
 
 import TEMPLATES from '../code/lib/cli/src/repro-templates';
 
@@ -36,6 +37,7 @@ export const tasks = {
   bootstrap,
   publish,
   create,
+  'smoke-test': smokeTest,
 };
 
 type TaskKey = keyof typeof tasks;
