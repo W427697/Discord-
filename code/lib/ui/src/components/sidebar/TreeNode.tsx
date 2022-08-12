@@ -40,6 +40,7 @@ const TypeIcon = styled(Icons)<{ docsMode?: boolean }>(
   {
     width: 12,
     height: 12,
+    padding: 1,
     marginTop: 3,
     marginRight: 5,
     flex: '0 0 auto',
