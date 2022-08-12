@@ -385,7 +385,9 @@ export async function sandbox(optionValues: OptionValues<typeof options>) {
   // TODO start dev
 
   // Cleanup
+  console.log('aborting');
   publishController?.abort();
+  console.log('aborted');
 }
 
 async function main() {

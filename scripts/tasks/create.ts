@@ -10,7 +10,6 @@ export const create: Task = {
     return pathExists(sandboxDir);
   },
   async run(templateKey) {
-    return;
     return sandbox({
       ...getDefaults(options),
       template: templateKey,
