@@ -462,24 +462,15 @@ jobs:
     executor:
       class: medium+
       name: sb_node_14_browsers
-    # parallelism: 15
+    parallelism: 2
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: '--depth 1 --verbose'
       - attach_workspace:
           at: .
       - run:
-          name: Running local registry
-          command: yarn local-registry --port 6000 --open
-          background: true
-          working_directory: code
-      - run:
-          name: Wait for registry
-          command: yarn wait-on http://localhost:6000
-          working_directory: code
-      - run:
           name: Creating Sandboxes
-          command: yarn create-sandboxes --cadence ci --junit test-results/create.xml
+          command: yarn task --task create --template $(yarn get-template ci) --force --no-before --junit
           working_directory: code
       - persist_to_workspace:
           root: .

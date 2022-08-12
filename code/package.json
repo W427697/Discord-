@@ -68,6 +68,7 @@
     "danger": "danger",
     "e2e-sandboxes": "ts-node ../scripts/e2e-sandboxes.ts",
     "generate-repros": "zx ../scripts/repros-generator/index.mjs",
+    "get-template": "ts-node ../scripts/get-template.ts",
     "github-release": "github-release-from-changelog",
     "linear-export": "ts-node --project=../scripts/tsconfig.json ../scripts/linear-export.ts",
     "lint": "yarn lint:js && yarn lint:md",

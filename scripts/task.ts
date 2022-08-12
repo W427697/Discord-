@@ -1,4 +1,6 @@
 /* eslint-disable no-await-in-loop, no-restricted-syntax */
+import { getJunitXml } from 'junit-xml';
+import { outputFile } from 'fs-extra';
 import { join, resolve } from 'path';
 
 import { createOptions, getOptionsOrPrompt } from './utils/options';
@@ -9,6 +11,7 @@ import { bootstrap } from './tasks/bootstrap';
 import TEMPLATES from '../code/lib/cli/src/repro-templates';
 
 const sandboxDir = resolve(__dirname, '../sandbox');
+const junitDir = resolve(__dirname, '../code/test-results');
 
 export type TemplateKey = keyof typeof TEMPLATES;
 export type Template = typeof TEMPLATES[TemplateKey];
@@ -59,9 +62,24 @@ export const options = createOptions({
     description: 'Run any required dependencies of the task?',
     inverse: true,
   },
+  junit: {
+    type: 'boolean',
+    description: 'Store results in junit format?',
+  },
 });
 
 const logger = console;
+
+async function writeJunitXml(taskKey: TaskKey, templateKey: TemplateKey, start: Date, err?: Error) {
+  const name = `${taskKey} - ${templateKey}`;
+  const time = (Date.now() - +start) / 1000;
+  const testCase = { name, assertions: 1, time, ...(err && { errors: [err] }) };
+  const suite = { name, timestamp: start, time, testCases: [testCase] };
+  const junitXml = getJunitXml({ time, name, suites: [suite] });
+  const path = join(junitDir, `${taskKey}.xml`);
+  await outputFile(path, junitXml);
+  logger.log(`Test results written to ${resolve(path)}`);
+}
 
 async function runTask(
   taskKey: TaskKey,
@@ -70,7 +88,8 @@ async function runTask(
     mustNotBeReady,
     mustBeReady,
     before,
-  }: { mustNotBeReady: boolean; mustBeReady: boolean; before: boolean }
+    junit,
+  }: { mustNotBeReady: boolean; mustBeReady: boolean; before: boolean; junit: boolean }
 ) {
   const task = tasks[taskKey];
   const template = TEMPLATES[templateKey];
@@ -94,11 +113,21 @@ async function runTask(
         mustNotBeReady: false,
         mustBeReady: !before,
         before,
+        junit: false, // never store junit results for dependent tasks
       });
     }
   }
 
-  await task.run(templateKey, { template, sandboxDir: templateSandboxDir });
+  const start = new Date();
+  try {
+    await task.run(templateKey, { template, sandboxDir: templateSandboxDir });
+
+    if (junit) await writeJunitXml(taskKey, templateKey, start);
+  } catch (err) {
+    if (junit) await writeJunitXml(taskKey, templateKey, start, err);
+
+    throw err;
+  }
 }
 
 async function run() {
@@ -107,9 +136,15 @@ async function run() {
     template: templateKey,
     force,
     before,
+    junit,
   } = await getOptionsOrPrompt('yarn task', options);
 
-  return runTask(taskKey, templateKey, { mustBeReady: force, mustNotBeReady: false, before });
+  return runTask(taskKey, templateKey, {
+    mustBeReady: force,
+    mustNotBeReady: false,
+    before,
+    junit,
+  });
 }
 
 if (require.main === module) {
