@@ -78,6 +78,7 @@
       "./src/index.ts",
       "./src/create.ts"
     ],
+    "platform": "node",
     "post": "./scripts/fix-theme-type-export.ts"
   },
   "gitHead": "74bdb53f67dd59bae2661c668d2d5d4296113281"
