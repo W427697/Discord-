@@ -179,9 +179,11 @@ async function run() {
 }
 
 if (require.main === module) {
-  run().catch((err) => {
-    logger.error();
-    logger.error(err.message);
-    process.exit(1);
-  });
+  run()
+    .then(() => process.exit(0))
+    .catch((err) => {
+      logger.error();
+      logger.error(err.message);
+      process.exit(1);
+    });
 }
