@@ -104,29 +104,21 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
     }
 
     if (!semver.gte(storybookCoerced, '7.0.0')) {
-      console.log('lower than 7.0.0!');
       return null;
     }
 
     // If in the future the eslint plugin has a framework option, using main to extract the framework field will be very useful
     const main = await readConfig(mainConfig);
 
-    if (!main) {
-      console.log('no main');
-      return null;
-    }
-
     const frameworkPackage = main.getFieldValue(['framework']) as keyof typeof packagesMap;
     const builder = main.getFieldValue(['core', 'builder']);
 
     if (!frameworkPackage || !builder) {
-      console.log('no framework or no builder, skipping');
       return null;
     }
 
     const supportedPackages = Object.keys(packagesMap);
     if (!supportedPackages.includes(frameworkPackage)) {
-      console.log('no supported package, skipping');
       return null;
     }
 
