@@ -57,13 +57,15 @@ export type StringArrayOption = BaseOption & {
 export type Option = BooleanOption | StringOption | StringArrayOption;
 export type MaybeOptionValue<TOption extends Option> = TOption extends StringArrayOption
   ? TOption extends { values: infer TValues }
-    ? // @ts-ignore -- FIXME! Why are these ignores needed? (it still works)
-      TValues[number][]
+    ? TValues extends readonly string[]
+      ? TValues[number][]
+      : never // It isn't possible for values to not be a readonly string[], but TS can't work it out
     : string[]
   : TOption extends StringOption
   ? TOption extends { values: infer TValues }
-    ? // @ts-ignore
-      TValues[number] | undefined
+    ? TValues extends readonly string[]
+      ? TValues[number] | undefined
+      : never // It isn't possible for values to not be a readonly string[], but TS can't work it out
     : string | undefined
   : TOption extends BooleanOption
   ? boolean
@@ -153,6 +155,21 @@ export function getOptions<TOptions extends OptionSpecifier>(
   // Note the code above guarantees the types as they come in, so we cast here.
   // Not sure there is an easier way to do this
   return command.opts() as MaybeOptionValues<TOptions>;
+}
+
+// Boolean values will have a default, usually `false`, `true` if they are "inverse".
+// String arrays default to []
+// Currently it isn't possible to have a default for string
+export function getDefaults<TOptions extends OptionSpecifier>(options: TOptions) {
+  return Object.fromEntries(
+    Object.entries(options)
+      .filter(([, { type }]) => type === 'boolean' || type === 'string[]')
+      .map(([key, option]) => {
+        if (option.type === 'boolean') return [key, !!option.inverse];
+        if (option.type === 'string[]') return [key, []];
+        throw new Error('Not reachable');
+      })
+  );
 }
 
 export function areOptionsSatisfied<TOptions extends OptionSpecifier>(
@@ -273,6 +290,9 @@ export async function getOptionsOrPrompt<TOptions extends OptionSpecifier>(
     // areOptionsSatisfied could be a type predicate but I'm not quite sure how to do it
     return cliValues as OptionValues<TOptions>;
   }
+
+  if (process.env.CI)
+    throw new Error(`${commandPrefix} needed to prompt for options, this is not possible in CI!`);
 
   const finalValues = await promptOptions(options, cliValues);
 

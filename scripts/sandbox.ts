@@ -11,7 +11,7 @@ import {
 } from 'fs-extra';
 import prompts from 'prompts';
 
-import { createOptions, getOptionsOrPrompt } from './utils/options';
+import { createOptions, getOptionsOrPrompt, OptionValues } from './utils/options';
 import { executeCLIStep } from './utils/cli-step';
 import { installYarn2, configureYarn2ForVerdaccio, addPackageResolutions } from './utils/yarn';
 import { exec } from './utils/exec';
@@ -77,9 +77,15 @@ export const options = createOptions({
   },
   publish: {
     type: 'boolean',
-    description: 'Publish local code to verdaccio before installing?',
+    description: 'Publish local code to verdaccio and start before installing?',
     inverse: true,
     promptType: (_, { link }) => !link,
+  },
+  startVerdaccio: {
+    type: 'boolean',
+    description: 'Start Verdaccio before installing?',
+    inverse: true,
+    promptType: (_, { publish }) => !publish,
   },
   start: {
     type: 'boolean',
@@ -236,10 +242,8 @@ async function addStories(paths: string[], { mainConfig }: { mainConfig: ConfigF
   );
 }
 
-async function main() {
-  const optionValues = await getOptions();
-
-  const { template, forceDelete, forceReuse, link, publish, dryRun, debug } = optionValues;
+export async function sandbox(optionValues: OptionValues<typeof options>) {
+  const { template, forceDelete, forceReuse, dryRun, debug } = optionValues;
 
   await ensureDir(sandboxDir);
 
@@ -248,6 +252,9 @@ async function main() {
   const exists = await pathExists(cwd);
   let shouldDelete = exists && !forceReuse;
   if (exists && !forceDelete && !forceReuse) {
+    if (process.env.CI)
+      throw new Error(`yarn sandbox needed to prompt for options, this is not possible in CI!`);
+
     const relativePath = path.relative(process.cwd(), cwd);
     ({ shouldDelete } = await prompts({
       type: 'toggle',
@@ -308,6 +315,8 @@ async function main() {
     await writeConfig(mainConfig);
 
     await installYarn2({ cwd, dryRun, debug });
+
+    const { link, publish, startVerdaccio } = optionValues;
     if (link) {
       await executeCLIStep(steps.link, {
         argument: cwd,
@@ -319,7 +328,9 @@ async function main() {
     } else {
       if (publish) {
         await exec('yarn local-registry --publish', { cwd: codeDir }, { dryRun, debug });
+      }
 
+      if (publish || startVerdaccio) {
         // NOTE: this is a background task and will run forever (TODO: sort out logging/exiting)
         exec('CI=true yarn local-registry --open', { cwd: codeDir }, { dryRun, debug });
         await exec('yarn wait-on http://localhost:6000', { cwd: codeDir }, { dryRun, debug });
@@ -371,6 +382,11 @@ async function main() {
   }
 
   // TODO start dev
+}
+
+async function main() {
+  const optionValues = await getOptions();
+  return sandbox(optionValues);
 }
 
 if (require.main === module) {
