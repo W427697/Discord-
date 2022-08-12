@@ -246,7 +246,7 @@ We now transpile our code with a target of `chrome >= 100` and node code is tran
 This means code-features such as (but not limited to) `async/await`, arrow-functions, `const`,`let`, etc will exists in the code at runtime, and thus the runtime environment must support it.
 Not just the runtime needs to support it, but some legacy loaders for webpack or other transpilation tools might need to be updated as well. For example certain versions of webpack 4 had parsers that could not parse the new syntax (e.g. optional chaining).
 
-Some addons or libraries might have depended on this legacy browser support, and thus might break. You might get an error like:
+Some addons or libraries might depended on this legacy browser support, and thus might break. You might get an error like:
 ```
 regeneratorRuntime is not defined
 ```
@@ -276,7 +276,7 @@ Here's an example PR to one of the storybook addons: https://github.com/storyboo
 The storybook manager is no longer built with webpack. Now it's built with esbuild.
 Therefore, it's no longer possible to configure the manager. Esbuild comes preconfigured to handle importing CSS, and images.
 
-If you're currently loading files other then CSS or images into the manager, you'll need change this so the files get converted to JS before publishing your addon.
+If you're currently loading files other than CSS or images into the manager, you'll need to make changes so the files get converted to JS before publishing your addon.
 
 This means the preset value `managerWebpack` is no longer respected, and should be removed from presets and `main.js` files.
 
@@ -287,7 +287,7 @@ For this reason it's recommended to have these dependencies as `devDependencies`
 The full list of packages that Storybook's manager bundler makes available for addons is here: https://github.com/storybookjs/storybook/blob/next/code/lib/ui/src/globals/types.ts
 
 Addons in the manager will no longer be bundled together anymore, which means that if 1 fails, it doesn't break the whole manager.
-Each addons is imported into the manager as an ESM module that's bundled separately.
+Each addon is imported into the manager as an ESM module that's bundled separately.
 
 #### start-storybook / build-storybook binaries removed
 
