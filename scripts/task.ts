@@ -77,7 +77,7 @@ export const options = createOptions({
   },
   force: {
     type: 'boolean',
-    description: 'The task must run, it is an error if it is already ready?',
+    description: 'The task must run, it is an error if it is already ready.',
   },
   before: {
     type: 'boolean',

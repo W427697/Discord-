@@ -1,5 +1,5 @@
 import { join } from 'path';
-import { pathExistsSync, readFile, remove, removeSync, writeFile } from 'fs-extra';
+import { pathExistsSync, readFile, writeFile } from 'fs-extra';
 
 import { servePackages } from '../utils/serve-packages';
 import type { Task } from '../task';
