@@ -237,19 +237,20 @@ The default export from `@storybook/addons` has been removed. Please use the nam
 import { addons } from '@storybook/addons';
 ```
 
+The named export has been available since 6.0 or earlier, so your updated code will be backwards-compatible with older versions of Storybook.
 #### Modern browser support
 
 Starting in storybook 7.0, storybook will no longer support IE11, amongst other legacy browser versions.
 We now transpile our code with a target of `chrome >= 100` and node code is transpiled with a target of `node >= 14`.
 
 This means code-features such as (but not limited to) `async/await`, arrow-functions, `const`,`let`, etc will exists in the code at runtime, and thus the runtime environment must support it.
-Not just the runtime needs to support it, but some legacy loaders for webpack or other transpilation tools might need to be updated as well. For example certain version of webpack 4, had parsers that could not parse the new syntax.
+Not just the runtime needs to support it, but some legacy loaders for webpack or other transpilation tools might need to be updated as well. For example certain versions of webpack 4 had parsers that could not parse the new syntax (e.g. optional chaining).
 
 Some addons or libraries might have depended on this legacy browser support, and thus might break. You might get an error like:
 ```
 regeneratorRuntime is not defined
 ```
-To fix these error, the addon will have to be re-released with a newer browser-target for transpilation. This often looks something like this (but it's dependent on the build system the addon uses):
+To fix these errors, the addon will have to be re-released with a newer browser-target for transpilation. This often looks something like this (but it's dependent on the build system the addon uses):
 ```js
 // babel.config.js
 module.exports = {
@@ -272,16 +273,18 @@ Here's an example PR to one of the storybook addons: https://github.com/storyboo
 
 #### No more configuration for manager
 
-The storybook manager no longer uses webpack to be built, instead it's using esbuild now.
-It's no longer possible to configure the manager. Esbuild comes preconfigured to handle importing CSS, and images.
+The storybook manager is no longer built with webpack. Now it's built with esbuild.
+Therefore, it's no longer possible to configure the manager. Esbuild comes preconfigured to handle importing CSS, and images.
 
-If you're currently loading files other then CSS or images into the manager, you'll need change this so the files get converted to JS before publishing.
+If you're currently loading files other then CSS or images into the manager, you'll need change this so the files get converted to JS before publishing your addon.
 
 This means the preset value `managerWebpack` is no longer respected, and should be removed from presets and `main.js` files.
 
 Addons that run in the manager can depend on `react` and `@storybook/*` packages directly. They do not need to be peerDependencies.
-But very importantly the build system ensures there will only be 1 version of these packages at runtime. The version will come from the `@storybook/ui` package, and not from the addon.
-For this reason it's recommended to have these dependencies as `devDependencies` in your `package.json` of your addon.
+But very importantly, the build system ensures there will only be 1 version of these packages at runtime. The version will come from the `@storybook/ui` package, and not from the addon.
+For this reason it's recommended to have these dependencies as `devDependencies` in your addon's `package.json`.
+
+The full list of packages that Storybook's manager bundler makes available for addons is here: https://github.com/storybookjs/storybook/blob/next/code/lib/ui/src/globals/types.ts
 
 Addons in the manager will no longer be bundled together anymore, which means that if 1 fails, it doesn't break the whole manager.
 Each addons is imported into the manager as an ESM module that's bundled separately.
