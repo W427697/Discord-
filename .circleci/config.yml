@@ -556,15 +556,6 @@ jobs:
       - attach_workspace:
           at: .
       - run:
-          name: Serve Sandboxes
-          command: yarn http-server ../built-sandboxes -p 8001
-          background: true
-          working_directory: code
-      - run:
-          name: Await Serving Sandboxes
-          command: yarn wait-on http://localhost:8001
-          working_directory: code
-      - run:
           name: Running E2E Tests
           command: yarn e2e-sandboxes --cadence ci --junit test-results/e2e.xml
           working_directory: code
