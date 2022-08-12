@@ -19,11 +19,12 @@ import {
   ManagerBuilder,
   StarterFunction,
 } from './types';
-import { readDeep } from './utils/directory';
 import { getData } from './utils/data';
 import { safeResolve } from './utils/safeResolve';
+import { readOrderedFiles } from './utils/files';
 
-let compilation: Compilation;
+// eslint-disable-next-line import/no-mutable-exports
+export let compilation: Compilation;
 let asyncIterator: ReturnType<StarterFunction> | ReturnType<BuilderFunction>;
 
 export const getConfig: ManagerBuilder['getConfig'] = async (options) => {
@@ -38,8 +39,18 @@ export const getConfig: ManagerBuilder['getConfig'] = async (options) => {
       : addonsEntryPoints,
     outdir: join(options.outputDir || './', 'sb-addons'),
     format: 'esm',
+    write: false,
     outExtension: { '.js': '.mjs' },
-    loader: { '.js': 'jsx' },
+    loader: {
+      '.js': 'jsx',
+      '.png': 'dataurl',
+      '.gif': 'dataurl',
+      '.jpg': 'dataurl',
+      '.jpeg': 'dataurl',
+      '.svg': 'dataurl',
+      '.webp': 'dataurl',
+      '.webm': 'dataurl',
+    },
     target: ['chrome100'],
     platform: 'browser',
     bundle: true,
@@ -109,7 +120,7 @@ const starter: StarterFunction = async function* starterGeneratorFn({
   router.use(`/sb-addons`, express.static(addonsDir));
   router.use(`/sb-manager`, express.static(coreDirOrigin));
 
-  const addonFiles = readDeep(addonsDir);
+  const { cssFiles, jsFiles } = await readOrderedFiles(addonsDir);
 
   yield;
 
@@ -117,7 +128,8 @@ const starter: StarterFunction = async function* starterGeneratorFn({
     template,
     title,
     customHead,
-    addonFiles,
+    cssFiles,
+    jsFiles,
     features,
     refs,
     logLevel,
@@ -173,21 +185,22 @@ const builder: BuilderFunction = async function* builderGeneratorFn({ startTime,
   yield;
 
   const managerFiles = copy(coreDirOrigin, coreDirTarget);
-  const addonFiles = readDeep(addonsDir);
+  const { cssFiles, jsFiles } = await readOrderedFiles(addonsDir);
+
+  yield;
 
   const html = await renderHTML(
     template,
     title,
     customHead,
-    addonFiles,
+    cssFiles,
+    jsFiles,
     features,
     refs,
     logLevel,
     docsOptions,
     options
   );
-
-  yield;
 
   await Promise.all([
     //
