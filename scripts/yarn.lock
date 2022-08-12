@@ -3334,6 +3334,7 @@ __metadata:
     lint-staged: ^10.5.4
     lodash: ^4.17.21
     mocha-list-tests: ^1.0.5
+    node-abort-controller: ^3.0.1
     node-cleanup: ^2.1.2
     node-fetch: ^2.6.1
     node-gyp: ^8.4.0
@@ -14473,6 +14474,13 @@ __metadata:
   version: 1.0.5
   resolution: "nice-try@npm:1.0.5"
   checksum: 95568c1b73e1d0d4069a3e3061a2102d854513d37bcfda73300015b7ba4868d3b27c198d1dbbd8ebdef4112fc2ed9e895d4a0f2e1cce0bd334f2a1346dc9205f
+  languageName: node
+  linkType: hard
+
+"node-abort-controller@npm:^3.0.1":
+  version: 3.0.1
+  resolution: "node-abort-controller@npm:3.0.1"
+  checksum: 37f895533f7a18a2d83fa4853da1cc00fcae1e0a71553f9ffc94d3153f5fc886d6d4ef3a33bf60c38be161fab78c5b2275cbbf2359351fb12f5edad68d88d8ca
   languageName: node
   linkType: hard
 

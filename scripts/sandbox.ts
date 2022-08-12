@@ -10,6 +10,7 @@ import {
   existsSync,
 } from 'fs-extra';
 import prompts from 'prompts';
+import { AbortController } from 'node-abort-controller';
 
 import { createOptions, getOptionsOrPrompt, OptionValues } from './utils/options';
 import { executeCLIStep } from './utils/cli-step';
@@ -246,6 +247,7 @@ export async function sandbox(optionValues: OptionValues<typeof options>) {
   const { template, forceDelete, forceReuse, dryRun, debug } = optionValues;
 
   await ensureDir(sandboxDir);
+  let publishController: AbortController;
 
   const cwd = path.join(sandboxDir, template.replace('/', '-'));
 
@@ -331,8 +333,15 @@ export async function sandbox(optionValues: OptionValues<typeof options>) {
       }
 
       if (publish || startVerdaccio) {
-        // NOTE: this is a background task and will run forever (TODO: sort out logging/exiting)
-        exec('CI=true yarn local-registry --open', { cwd: codeDir }, { dryRun, debug });
+        publishController = new AbortController();
+        exec(
+          'CI=true yarn local-registry --open',
+          { cwd: codeDir },
+          { dryRun, debug, signal: publishController.signal as AbortSignal }
+        ).catch((err) => {
+          // If aborted, we want to make sure the rejection is handled.
+          if (!err.killed) throw err;
+        });
         await exec('yarn wait-on http://localhost:6000', { cwd: codeDir }, { dryRun, debug });
       }
 
@@ -382,6 +391,9 @@ export async function sandbox(optionValues: OptionValues<typeof options>) {
   }
 
   // TODO start dev
+
+  // Cleanup
+  publishController.abort();
 }
 
 async function main() {

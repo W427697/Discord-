@@ -40,34 +40,61 @@ type TaskKey = keyof typeof tasks;
 export const options = createOptions({
   task: {
     type: 'string',
-    values: Object.keys(tasks) as TaskKey[],
     description: 'What task are you performing (corresponds to CI job)?',
+    values: Object.keys(tasks) as TaskKey[],
     required: true,
   },
   template: {
     type: 'string',
-    values: Object.keys(TEMPLATES) as TemplateKey[],
     description: 'What template are you running against?',
+    values: Object.keys(TEMPLATES) as TemplateKey[],
     required: true,
+  },
+  force: {
+    type: 'boolean',
+    description: 'The task must run, it is an error if it is already ready?',
+  },
+  before: {
+    type: 'boolean',
+    description: 'Run any required dependencies of the task?',
+    inverse: true,
   },
 });
 
 const logger = console;
 
-async function runTask(taskKey: TaskKey, templateKey: TemplateKey) {
+async function runTask(
+  taskKey: TaskKey,
+  templateKey: TemplateKey,
+  {
+    mustNotBeReady,
+    mustBeReady,
+    before,
+  }: { mustNotBeReady: boolean; mustBeReady: boolean; before: boolean }
+) {
   const task = tasks[taskKey];
   const template = TEMPLATES[templateKey];
   const templateSandboxDir = join(sandboxDir, templateKey.replace('/', '-'));
   const details = { template, sandboxDir: templateSandboxDir };
 
   if (await task.ready(templateKey, details)) {
+    if (mustNotBeReady) throw new Error(`❌ ${taskKey} task has already run, this is unexpected!`);
+
     logger.debug(`✅ ${taskKey} task not required!`);
     return;
   }
 
+  if (mustBeReady) {
+    throw new Error(`❌ ${taskKey} task has not already run, this is unexpected!`);
+  }
+
   if (task.before?.length > 0) {
     for (const beforeKey of task.before) {
-      await runTask(beforeKey, templateKey);
+      await runTask(beforeKey, templateKey, {
+        mustNotBeReady: false,
+        mustBeReady: !before,
+        before,
+      });
     }
   }
 
@@ -75,15 +102,20 @@ async function runTask(taskKey: TaskKey, templateKey: TemplateKey) {
 }
 
 async function run() {
-  const { task: taskKey, template: templateKey } = await getOptionsOrPrompt('yarn task', options);
+  const {
+    task: taskKey,
+    template: templateKey,
+    force,
+    before,
+  } = await getOptionsOrPrompt('yarn task', options);
 
-  return runTask(taskKey, templateKey);
+  return runTask(taskKey, templateKey, { mustBeReady: force, mustNotBeReady: false, before });
 }
 
 if (require.main === module) {
   run().catch((err) => {
-    logger.error(`🚨 An error occurred when executing task:`);
-    logger.error(err);
+    logger.error();
+    logger.error(err.message);
     process.exit(1);
   });
 }
