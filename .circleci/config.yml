@@ -506,19 +506,14 @@ jobs:
           at: .
       - run:
           name: Building Sandboxes
-          command: yarn build-sandboxes --cadence ci --junit test-results/build.xml
-          working_directory: code
-      - run:
-          name: Build index.html
-          command: yarn create-built-sandboxes-index --cadence ci --output "../built-sandboxes"
-          background: true
+          command: yarn task --task build --template $(yarn get-template ci) --force --no-before --junit
           working_directory: code
       - store_test_results:
           path: code/test-results
       - persist_to_workspace:
           root: .
           paths:
-            - built-sandboxes
+            - sandbox
   test-runner-sandboxes:
     executor:
       class: medium+

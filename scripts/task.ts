@@ -8,6 +8,7 @@ import { bootstrap } from './tasks/bootstrap';
 import { publish } from './tasks/publish';
 import { create } from './tasks/create';
 import { smokeTest } from './tasks/smoke-test';
+import { build } from './tasks/build';
 
 import TEMPLATES from '../code/lib/cli/src/repro-templates';
 
@@ -38,6 +39,7 @@ export const tasks = {
   publish,
   create,
   'smoke-test': smokeTest,
+  build,
 };
 
 type TaskKey = keyof typeof tasks;

@@ -7,6 +7,6 @@ export const smokeTest: Task = {
     return false;
   },
   async run(_, { sandboxDir }) {
-    return exec(`'yarn storybook --smoke-test --quiet`, { cwd: sandboxDir });
+    return exec(`yarn storybook --smoke-test --quiet`, { cwd: sandboxDir });
   },
 };
