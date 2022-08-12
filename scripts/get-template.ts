@@ -43,7 +43,7 @@ export async function getTemplate(
       template.cadence.includes(cadence)
     );
     const jobTemplates = cadenceTemplates.filter(([, t]) => !t.skipScripts?.includes(scriptName));
-    potentialTemplateKeys = Object.keys(jobTemplates);
+    potentialTemplateKeys = jobTemplates.map(([k]) => k);
   }
 
   if (potentialTemplateKeys.length !== total) {
