@@ -12,7 +12,7 @@ export const chromatic: Task = {
     const token = process.env[tokenEnvVarName];
     return exec(
       `npx chromatic \
-        --exit-once-uploaded
+        --exit-once-uploaded \
         --storybook-build-dir=${builtSandboxDir} \
         --junit-report=${junitFilename} \
         --projectToken=${token}`,

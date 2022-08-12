@@ -557,7 +557,7 @@ jobs:
           at: .
       - run:
           name: Running E2E Tests
-          command: yarn e2e-sandboxes --cadence ci --junit test-results/e2e.xml
+          command: yarn task --task e2e-tests --template $(yarn get-template ci) --force --no-before --junit
           working_directory: code
       - store_test_results:
           path: code/test-results
