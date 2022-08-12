@@ -41,7 +41,6 @@ export const testRunner: Task = {
 
     const storybookController = await serveSandbox(builtSandboxDir, {});
 
-    await new Promise((r) => setTimeout(r, 10000));
     await exec(`yarn test-storybook --url http://localhost:8001`, execOptions);
 
     publishController.abort();
