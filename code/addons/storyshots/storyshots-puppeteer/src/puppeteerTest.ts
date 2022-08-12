@@ -84,7 +84,7 @@ export const puppeteerTest = (customConfig: Partial<PuppeteerTestConfig> = {}) =
           '--no-sandbox ',
           '--disable-setuid-sandbox',
           '--disable-dev-shm-usage',
-          ...browserLaunchOptions.args,
+          ...(browserLaunchOptions?.args || []),
         ],
         executablePath: chromeExecutablePath,
       });
