@@ -1,7 +1,7 @@
 import { writeFile, ensureFile } from 'fs-extra';
 import { compilation } from '../index';
 
-export async function readOrdererFiles(addonsDir: string) {
+export async function readOrderedFiles(addonsDir: string) {
   const files = await Promise.all(
     compilation?.outputFiles?.map(async (file) => {
       await ensureFile(file.path).then(() => writeFile(file.path, file.contents));
