@@ -32,6 +32,10 @@ export interface CommonConfig {
   getGotoOptions: (options: Options) => DirectNavigationOptions;
   customizePage: (page: Page) => Promise<void>;
   getCustomBrowser: () => Promise<Browser>;
+  /**
+   * Puppeteer browser launch options:
+   * {@link https://pptr.dev/api/puppeteer.puppeteernode.launch/ puppeteer.launch()}
+   */
   browserLaunchOptions: LaunchOptions;
   setupTimeout: number;
   testTimeout: number;
