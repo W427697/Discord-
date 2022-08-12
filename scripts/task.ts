@@ -171,8 +171,8 @@ async function run() {
   } = await getOptionsOrPrompt('yarn task', options);
 
   return runTask(taskKey, templateKey, {
-    mustBeReady: force,
-    mustNotBeReady: false,
+    mustBeReady: false,
+    mustNotBeReady: force,
     before,
     junit,
   });
