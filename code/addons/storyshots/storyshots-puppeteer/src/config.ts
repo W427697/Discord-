@@ -1,5 +1,5 @@
 import { MatchImageSnapshotOptions } from 'jest-image-snapshot';
-import { ScreenshotOptions, Browser, Page, ElementHandle } from 'puppeteer';
+import { ScreenshotOptions, Browser, Page, ElementHandle, LaunchOptions } from 'puppeteer';
 
 type PuppeteerLifeCycleEvent = 'load' | 'domcontentloaded' | 'networkidle0' | 'networkidle2';
 
@@ -32,6 +32,7 @@ export interface CommonConfig {
   getGotoOptions: (options: Options) => DirectNavigationOptions;
   customizePage: (page: Page) => Promise<void>;
   getCustomBrowser: () => Promise<Browser>;
+  browserLaunchOptions: LaunchOptions;
   setupTimeout: number;
   testTimeout: number;
 }
@@ -62,6 +63,7 @@ export const defaultCommonConfig: CommonConfig = {
   getGotoOptions: noop,
   customizePage: asyncNoop,
   getCustomBrowser: undefined,
+  browserLaunchOptions: {},
   setupTimeout: 15000,
   testTimeout: 15000,
 };
