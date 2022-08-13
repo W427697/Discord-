@@ -153,3 +153,18 @@ export const WithDefaultExpandedArgs = {
     initialExpandedArgs: true,
   },
 };
+
+export const HidingDefaultColumn = {
+  args: { ...Normal.args, inAddonPanel: true, hideColumns: ['default'] },
+  decorators: [(storyFn) => <AddonPanelLayout>{storyFn()}</AddonPanelLayout>],
+};
+
+export const HidingDescriptionColumn = {
+  args: { ...Normal.args, inAddonPanel: true, hideColumns: ['descr'] },
+  decorators: [(storyFn) => <AddonPanelLayout>{storyFn()}</AddonPanelLayout>],
+};
+
+export const HidingControlColumn = {
+  args: { ...Normal.args, inAddonPanel: true, hideColumns: ['control'] },
+  decorators: [(storyFn) => <AddonPanelLayout>{storyFn()}</AddonPanelLayout>],
+};

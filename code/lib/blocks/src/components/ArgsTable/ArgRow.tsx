@@ -3,7 +3,7 @@ import Markdown from 'markdown-to-jsx';
 import { transparentize } from 'polished';
 import { styled } from '@storybook/theming';
 import { codeCommon } from '@storybook/components';
-import { ArgType, Args, TableAnnotation } from './types';
+import { ArgType, Args, TableAnnotation, HidableColumn } from './types';
 import { ArgJsDoc } from './ArgJsDoc';
 import { ArgValue } from './ArgValue';
 import { ArgControl, ArgControlProps } from './ArgControl';
@@ -15,6 +15,7 @@ interface ArgRowProps {
   compact?: boolean;
   expandable?: boolean;
   initialExpandedArgs?: boolean;
+  hideColumns: HidableColumn[];
 }
 
 const Name = styled.span({ fontWeight: 'bold' });
@@ -73,7 +74,7 @@ const StyledTd = styled.td<{ expandable: boolean }>(({ theme, expandable }) => (
 }));
 
 export const ArgRow: FC<ArgRowProps> = (props) => {
-  const { row, updateArgs, compact, expandable, initialExpandedArgs } = props;
+  const { row, updateArgs, compact, expandable, initialExpandedArgs, hideColumns } = props;
   const { name, description } = row;
   const table = (row.table || {}) as TableAnnotation;
   const type = table.type || row.type;
@@ -87,7 +88,7 @@ export const ArgRow: FC<ArgRowProps> = (props) => {
         <Name>{name}</Name>
         {required ? <Required title="Required">*</Required> : null}
       </StyledTd>
-      {compact ? null : (
+      {compact || hideColumns?.includes('descrption') ? null : (
         <td>
           {hasDescription && (
             <Description>
@@ -108,12 +109,12 @@ export const ArgRow: FC<ArgRowProps> = (props) => {
           )}
         </td>
       )}
-      {compact ? null : (
+      {compact || hideColumns?.includes('default') ? null : (
         <td>
           <ArgValue value={defaultValue} initialExpandedArgs={initialExpandedArgs} />
         </td>
       )}
-      {updateArgs ? (
+      {updateArgs && !hideColumns?.includes('control') ? (
         <td>
           <ArgControl {...(props as ArgControlProps)} />
         </td>

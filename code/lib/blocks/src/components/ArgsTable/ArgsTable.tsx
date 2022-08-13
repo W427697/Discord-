@@ -7,7 +7,7 @@ import { once } from '@storybook/client-logger';
 import { Icons, Link, ResetWrapper } from '@storybook/components';
 import { ArgRow } from './ArgRow';
 import { SectionRow } from './SectionRow';
-import { ArgType, ArgTypes, Args, Globals } from './types';
+import { ArgType, ArgTypes, Args, Globals, HidableColumn } from './types';
 import { EmptyBlock } from '..';
 
 export const TableWrapper = styled.table<{
@@ -267,6 +267,7 @@ export interface ArgsTableOptionProps {
   initialExpandedArgs?: boolean;
   isLoading?: boolean;
   sort?: SortType;
+  hideColumns?: HidableColumn[];
 }
 export interface ArgsTableDataProps {
   rows: ArgTypes;
@@ -411,6 +412,7 @@ export const ArgsTable: FC<ArgsTableProps> = (props) => {
     inAddonPanel,
     initialExpandedArgs,
     sort = 'none',
+    hideColumns,
   } = props;
   const isLoading = 'isLoading' in props;
   const { rows, args, globals } = 'rows' in props ? props : argsTableLoadingData;
@@ -443,7 +445,7 @@ export const ArgsTable: FC<ArgsTableProps> = (props) => {
   if (!compact) colSpan += 2;
   const expandable = Object.keys(groups.sections).length > 0;
 
-  const common = { updateArgs, compact, inAddonPanel, initialExpandedArgs };
+  const common = { updateArgs, compact, inAddonPanel, initialExpandedArgs, hideColumns };
 
   return (
     <ResetWrapper>
@@ -457,17 +459,17 @@ export const ArgsTable: FC<ArgsTableProps> = (props) => {
             <th>
               <span>Name</span>
             </th>
-            {compact ? null : (
+            {compact || hideColumns?.includes('descrption') ? null : (
               <th>
                 <span>Description</span>
               </th>
             )}
-            {compact ? null : (
+            {compact || hideColumns?.includes('default') ? null : (
               <th>
                 <span>Default</span>
               </th>
             )}
-            {updateArgs ? (
+            {updateArgs && !hideColumns?.includes('control') ? (
               <th>
                 <ControlHeadingWrapper>
                   Control{' '}
