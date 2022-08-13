@@ -1,17 +1,22 @@
 {
   "name": "@storybook/builder-vite",
-  "version": "0.2.2",
+  "version": "7.0.0-alpha.19",
   "description": "A plugin to run and build Storybooks with Vite",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/types/index.d.ts",
   "author": "Eirik Sletteberg",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/storybookjs/builder-vite.git",
-    "directory": "packages/builder-vite"
+    "url": "https://github.com/storybookjs/storybook.git",
+    "directory": "code/lib/builder-vite"
   },
-  "homepage": "https://github.com/storybookjs/builder-vite/#readme",
+  "homepage": "https://github.com/storybookjs/storybook/tree/main/code/lib/builder-vite/#readme",
+  "scripts": {
+    "check": "tsc --noEmit",
+    "prepare": "node ../../../scripts/prepare.js"
+  },
   "dependencies": {
     "@joshwooding/vite-plugin-react-docgen-typescript": "0.0.5",
     "@storybook/addons": "7.0.0-alpha.19",
@@ -52,5 +57,6 @@
   },
   "publishConfig": {
     "access": "public"
-  }
+  },
+  "gitHead": "74bdb53f67dd59bae2661c668d2d5d4296113281"
 }
