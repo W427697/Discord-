@@ -17,7 +17,11 @@ import type { Importer } from 'react-docgen/dist/parse';
 // import type { Importer } from 'react-docgen/lib/parse';
 import type Documentation from 'react-docgen/lib/Documentation';
 
-export default function actualNameHandler(documentation: Documentation, path: NodePath, importer: Importer): void {
+export default function actualNameHandler(
+  documentation: Documentation,
+  path: NodePath,
+  importer: Importer
+): void {
   if (t.ClassDeclaration.check(path.node) || t.FunctionDeclaration.check(path.node)) {
     documentation.set('actualName', getNameOrValue(path.get('id')));
   } else if (
@@ -30,7 +34,9 @@ export default function actualNameHandler(documentation: Documentation, path: No
       if (t.VariableDeclarator.check(currentPath.parent.node)) {
         documentation.set('actualName', getNameOrValue(currentPath.parent.get('id')));
         return;
-      } else if (t.AssignmentExpression.check(currentPath.parent.node)) {
+      }
+
+      if (t.AssignmentExpression.check(currentPath.parent.node)) {
         const leftPath = currentPath.parent.get('left');
         if (t.Identifier.check(leftPath.node) || t.Literal.check(leftPath.node)) {
           documentation.set('actualName', getNameOrValue(leftPath));
@@ -42,5 +48,4 @@ export default function actualNameHandler(documentation: Documentation, path: No
     // Could not find an actual name
     documentation.set('actualName', '');
   }
-  return;
 }

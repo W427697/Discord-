@@ -2,21 +2,25 @@
 
 import * as fs from 'fs';
 import * as path from 'path';
-import { transformIframeHtml } from './transform-iframe-html';
-import { createViteServer } from './vite-server';
-import { build as viteBuild } from './build';
-
 import type { Builder, StorybookConfig, Options } from '@storybook/core-common';
 import type { RequestHandler, Request, Response } from 'express';
 import type { InlineConfig, UserConfig, ViteDevServer } from 'vite';
+import { transformIframeHtml } from './transform-iframe-html';
+import { createViteServer } from './vite-server';
+import { build as viteBuild } from './build';
 import type { ExtendedOptions } from './types';
 
 // Storybook's Stats are optional Webpack related property
-export type ViteStats = null;
+export type ViteStats = {
+  toJson: () => any;
+};
 
 export type ViteBuilder = Builder<UserConfig, ViteStats>;
 
-export type ViteFinal = (config: InlineConfig, options: Options) => InlineConfig | Promise<InlineConfig>;
+export type ViteFinal = (
+  config: InlineConfig,
+  options: Options
+) => InlineConfig | Promise<InlineConfig>;
 
 export type StorybookViteConfig = StorybookConfig & {
   viteFinal: ViteFinal;
@@ -36,7 +40,10 @@ function iframeMiddleware(options: ExtendedOptions, server: ViteDevServer): Requ
       return;
     }
 
-    const indexHtml = fs.readFileSync(path.resolve(__dirname, '..', 'input', 'iframe.html'), 'utf-8');
+    const indexHtml = fs.readFileSync(
+      path.resolve(__dirname, '..', 'input', 'iframe.html'),
+      'utf-8'
+    );
     const generated = await transformIframeHtml(indexHtml, options);
     const transformed = await server.transformIndexHtml('/iframe.html', generated);
     res.setHeader('Content-Type', 'text/html');
@@ -44,7 +51,12 @@ function iframeMiddleware(options: ExtendedOptions, server: ViteDevServer): Requ
   };
 }
 
-export const start: ViteBuilder['start'] = async ({ startTime, options, router, server: devServer }) => {
+export const start: ViteBuilder['start'] = async ({
+  startTime,
+  options,
+  router,
+  server: devServer,
+}) => {
   const server = await createViteServer(options as ExtendedOptions, devServer);
 
   // Just mock this endpoint (which is really Webpack-specific) so we don't get spammed with 404 in browser devtools
@@ -69,7 +81,7 @@ export const start: ViteBuilder['start'] = async ({ startTime, options, router, 
 
   return {
     bail,
-    stats: null,
+    stats: { toJson: () => null },
     totalTime: process.hrtime(startTime),
   };
 };

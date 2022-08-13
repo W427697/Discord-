@@ -36,12 +36,14 @@ export function reactDocgen({
     enforce: 'pre',
     async transform(src: string, id: string) {
       const relPath = path.relative(cwd, id);
-      if (!filter(relPath)) return;
+      if (!filter(relPath)) return undefined;
 
       try {
         // Since we're using `findAllExportedComponentDefinitions`, this will always be an array.
-        const docgenResults = parse(src, defaultResolver, handlers, { importer: defaultImporter, filename: id }) as
-          | DocObj[];
+        const docgenResults = parse(src, defaultResolver, handlers, {
+          importer: defaultImporter,
+          filename: id,
+        }) as DocObj[];
         const s = new MagicString(src);
 
         docgenResults.forEach((info) => {
@@ -60,6 +62,7 @@ export function reactDocgen({
         // Usually this is just an error from react-docgen that it couldn't find a component
         // Only uncomment for troubleshooting
         // console.error(e);
+        return undefined;
       }
     },
   };

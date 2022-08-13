@@ -1,9 +1,8 @@
+import type { Server } from 'http';
 import { createServer } from 'vite';
 import { stringifyProcessEnvs } from './envs';
 import { getOptimizeDeps } from './optimizeDeps';
 import { commonConfig } from './vite-config';
-
-import type { Server } from 'http';
 import type { EnvsRaw, ExtendedOptions } from './types';
 
 export async function createViteServer(options: ExtendedOptions, devServer: Server) {

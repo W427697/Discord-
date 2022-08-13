@@ -12,9 +12,7 @@ export function noFouc(): Plugin {
     name: 'no-fouc',
     enforce: 'post',
     async transformIndexHtml(html, ctx) {
-      if (ctx.path !== '/iframe.html') {
-        return;
-      }
+      if (ctx.path !== '/iframe.html') return undefined;
 
       return insertHeadStyles(html);
     },

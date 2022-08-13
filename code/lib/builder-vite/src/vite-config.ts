@@ -3,15 +3,13 @@ import fs from 'fs';
 import { Plugin } from 'vite';
 import { TypescriptConfig } from '@storybook/core-common';
 import viteReact from '@vitejs/plugin-react';
-
+import type { UserConfig } from 'vite';
 import { allowedEnvPrefix as envPrefix } from './envs';
 import { codeGeneratorPlugin } from './code-generator-plugin';
 import { injectExportOrderPlugin } from './inject-export-order-plugin';
 import { mdxPlugin } from './plugins/mdx-plugin';
 import { noFouc } from './plugins/no-fouc';
 import { sourceLoaderPlugin } from './source-loader-plugin';
-
-import type { UserConfig } from 'vite';
 import type { ExtendedOptions } from './types';
 
 export type PluginConfigType = 'build' | 'development';
@@ -64,7 +62,9 @@ export async function pluginConfig(options: ExtendedOptions, _type: PluginConfig
     // We need the react plugin here to support MDX.
     viteReact({
       // Do not treat story files as HMR boundaries, storybook itself needs to handle them.
-      exclude: [/\.stories\.([tj])sx?$/, /node_modules/].concat(framework === 'react' ? [] : [/\.([tj])sx?$/]),
+      exclude: [/\.stories\.([tj])sx?$/, /node_modules/].concat(
+        framework === 'react' ? [] : [/\.([tj])sx?$/]
+      ),
     }),
     {
       name: 'vite-plugin-storybook-allow',
@@ -82,6 +82,7 @@ export async function pluginConfig(options: ExtendedOptions, _type: PluginConfig
   ] as Plugin[];
   if (framework === 'vue' || framework === 'vue3') {
     try {
+      // eslint-disable-next-line import/no-extraneous-dependencies, global-require
       const vuePlugin = require('@vitejs/plugin-vue');
       plugins.push(vuePlugin());
       const { vueDocgen } = await import('./plugins/vue-docgen');
@@ -99,6 +100,7 @@ export async function pluginConfig(options: ExtendedOptions, _type: PluginConfig
   }
   if (framework === 'svelte') {
     try {
+      // eslint-disable-next-line import/no-extraneous-dependencies, global-require
       const sveltePlugin = require('@sveltejs/vite-plugin-svelte').svelte;
 
       // We need to create two separate svelte plugins, one for stories, and one for other svelte files
@@ -106,11 +108,13 @@ export async function pluginConfig(options: ExtendedOptions, _type: PluginConfig
       // Suggested in: https://github.com/sveltejs/vite-plugin-svelte/issues/321#issuecomment-1113205509
 
       // First, create an array containing user exclude patterns, to combine with ours.
-      const userExclude = Array.isArray(svelteOptions?.exclude)
-        ? svelteOptions?.exclude
-        : svelteOptions?.exclude
-        ? [svelteOptions?.exclude]
-        : [];
+
+      let userExclude = [];
+      if (Array.isArray(svelteOptions?.exclude)) {
+        userExclude = svelteOptions?.exclude;
+      } else if (svelteOptions?.exclude) {
+        userExclude = [svelteOptions?.exclude];
+      }
 
       // These are the svelte stories we need to exclude from HMR
       const storyPatterns = ['**/*.story.svelte', '**/*.stories.svelte'];
@@ -141,10 +145,12 @@ export async function pluginConfig(options: ExtendedOptions, _type: PluginConfig
       throw err;
     }
 
+    // eslint-disable-next-line import/no-extraneous-dependencies, global-require
     const { loadSvelteConfig } = require('@sveltejs/vite-plugin-svelte');
     const config = { ...loadSvelteConfig(), ...svelteOptions };
 
     try {
+      // eslint-disable-next-line import/no-extraneous-dependencies, global-require
       const csfPlugin = require('./svelte/csf-plugin').default;
       plugins.push(csfPlugin(config));
     } catch (err) {
@@ -160,6 +166,7 @@ export async function pluginConfig(options: ExtendedOptions, _type: PluginConfig
   }
 
   if (framework === 'preact') {
+    // eslint-disable-next-line import/no-extraneous-dependencies, global-require
     plugins.push(require('@preact/preset-vite').default());
   }
 
@@ -171,6 +178,7 @@ export async function pluginConfig(options: ExtendedOptions, _type: PluginConfig
 
     if (reactDocgenOption === 'react-docgen-typescript') {
       plugins.push(
+        // eslint-disable-next-line import/no-extraneous-dependencies, global-require
         require('@joshwooding/vite-plugin-react-docgen-typescript')({
           ...reactDocgenTypescriptOptions,
           // We *need* this set so that RDT returns default values in the same format as react-docgen
@@ -185,12 +193,15 @@ export async function pluginConfig(options: ExtendedOptions, _type: PluginConfig
       // Needs to run before the react plugin, so add to the front
       plugins.unshift(
         // If react-docgen is specified, use it for everything, otherwise only use it for non-typescript files
-        reactDocgen({ include: reactDocgenOption === 'react-docgen' ? /\.(mjs|tsx?|jsx?)$/ : /\.(mjs|jsx?)$/ })
+        reactDocgen({
+          include: reactDocgenOption === 'react-docgen' ? /\.(mjs|tsx?|jsx?)$/ : /\.(mjs|jsx?)$/,
+        })
       );
     }
   }
 
   if (framework === 'glimmerx') {
+    // eslint-disable-next-line import/no-extraneous-dependencies, global-require, import/extensions
     const plugin = require('vite-plugin-glimmerx/index.cjs');
     plugins.push(plugin.default());
   }

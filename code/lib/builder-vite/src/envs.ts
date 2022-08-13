@@ -1,7 +1,7 @@
 import { stringifyEnvs } from '@storybook/core-common';
 
-import type { EnvsRaw } from './types';
 import type { UserConfig } from 'vite';
+import type { EnvsRaw } from './types';
 
 // Allowed env variables on the client
 const allowedEnvVariables = [

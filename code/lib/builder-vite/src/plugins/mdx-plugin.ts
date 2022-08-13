@@ -1,5 +1,6 @@
 import type { Options } from '@storybook/core-common';
-import { Plugin } from 'vite';
+import type { Plugin } from 'vite';
+import { createFilter } from 'vite';
 
 const isStorybookMdx = (id: string) => id.endsWith('stories.mdx') || id.endsWith('story.mdx');
 
@@ -31,6 +32,8 @@ export function mdxPlugin(options: Options): Plugin {
   const { features } = options;
 
   let reactRefresh: Plugin | undefined;
+  const include = /\.mdx?$/;
+  const filter = createFilter(include);
 
   return {
     name: 'storybook-vite-mdx-plugin',
@@ -50,26 +53,30 @@ export function mdxPlugin(options: Options): Plugin {
       reactRefresh = reactRefreshPlugins.find((p) => p.transform);
     },
     async transform(src, id, options) {
-      if (id.match(/\.mdx?$/)) {
-        // @ts-ignore
-        const { compile } = features?.previewMdx2
-          ? await import('@storybook/mdx2-csf')
-          : await import('@storybook/mdx1-csf');
+      if (!filter(id)) return undefined;
 
-        const mdxCode = String(await compile(src, { skipCsf: !isStorybookMdx(id) }));
+      // @ts-expect-error typescript doesn't think compile exists, but it does.
+      const { compile } = features?.previewMdx2
+        ? await import('@storybook/mdx2-csf')
+        : await import('@storybook/mdx1-csf');
 
-        const modifiedCode = injectRenderer(mdxCode, Boolean(features?.previewMdx2));
+      const mdxCode = String(await compile(src, { skipCsf: !isStorybookMdx(id) }));
 
-        const result = await reactRefresh?.transform!.call(this, modifiedCode, `${id}.jsx`, options);
+      const modifiedCode = injectRenderer(mdxCode, Boolean(features?.previewMdx2));
 
-        if (!result) return modifiedCode;
+      const result = await reactRefresh?.transform!.call(this, modifiedCode, `${id}.jsx`, options);
 
-        if (typeof result === 'string') return result;
+      if (!result) return modifiedCode;
 
-        const { code, map: resultMap } = result;
+      if (typeof result === 'string') return result;
 
-        return { code, map: !resultMap || typeof resultMap === 'string' ? resultMap : { ...resultMap, sources: [id] } };
-      }
+      const { code, map: resultMap } = result;
+
+      return {
+        code,
+        map:
+          !resultMap || typeof resultMap === 'string' ? resultMap : { ...resultMap, sources: [id] },
+      };
     },
   };
 }

@@ -6,6 +6,7 @@ import svelteDoc from 'sveltedoc-parser';
 import type { SvelteParserOptions } from 'sveltedoc-parser';
 import { logger } from '@storybook/node-logger';
 import { preprocess } from 'svelte/compiler';
+import { createFilter } from 'vite';
 
 // Most of the code here should probably be exported by @storybook/svelte and reused here.
 // See: https://github.com/storybookjs/storybook/blob/next/app/svelte/src/server/svelte-docgen-loader.ts
@@ -18,10 +19,10 @@ function getNameFromFilename(filename: string) {
   const parts = filename.split(/[/\\]/).map(encodeURI);
 
   if (parts.length > 1) {
-    const index_match = parts[parts.length - 1].match(/^index(\.\w+)/);
-    if (index_match) {
+    const indexMatch = parts[parts.length - 1].match(/^index(\.\w+)/);
+    if (indexMatch) {
       parts.pop();
-      parts[parts.length - 1] += index_match[1];
+      parts[parts.length - 1] += indexMatch[1];
     }
   }
 
@@ -44,54 +45,58 @@ function getNameFromFilename(filename: string) {
 export function svelteDocgen(svelteOptions: Record<string, any>): Plugin {
   const cwd = process.cwd();
   const { preprocess: preprocessOptions, logDocgen = false } = svelteOptions;
+  const include = /\.(svelte)$/;
+  const filter = createFilter(include);
 
   return {
     name: 'svelte-docgen',
     async transform(src: string, id: string) {
-      if (/\.(svelte)$/.test(id)) {
-        const resource = path.relative(cwd, id);
+      if (!filter(id)) return undefined;
 
-        let docOptions;
-        if (preprocessOptions) {
-          const src = fs.readFileSync(resource).toString();
+      const resource = path.relative(cwd, id);
 
-          const { code: fileContent } = await preprocess(src, preprocessOptions, { filename: resource });
+      let docOptions;
+      if (preprocessOptions) {
+        const src = fs.readFileSync(resource).toString();
 
-          docOptions = {
-            fileContent,
-          };
-        } else {
-          docOptions = { filename: resource };
-        }
+        const { code: fileContent } = await preprocess(src, preprocessOptions, {
+          filename: resource,
+        });
 
-        // set SvelteDoc options
-        const options: SvelteParserOptions = {
-          ...docOptions,
-          version: 3,
+        docOptions = {
+          fileContent,
         };
-
-        const s = new MagicString(src);
-
-        try {
-          const componentDoc = await svelteDoc.parse(options);
-          // get filename for source content
-          const file = path.basename(resource);
-
-          componentDoc.name = path.basename(file);
-
-          const componentName = getNameFromFilename(resource);
-          s.append(`;${componentName}.__docgen = ${JSON.stringify(componentDoc)}`);
-        } catch (error: any) {
-          if (logDocgen) {
-            logger.error(error);
-          }
-        }
-
-        return {
-          code: s.toString(),
-          map: s.generateMap({ hires: true, source: id }),
-        };
+      } else {
+        docOptions = { filename: resource };
       }
+
+      // set SvelteDoc options
+      const options: SvelteParserOptions = {
+        ...docOptions,
+        version: 3,
+      };
+
+      const s = new MagicString(src);
+
+      try {
+        const componentDoc = await svelteDoc.parse(options);
+        // get filename for source content
+        const file = path.basename(resource);
+
+        componentDoc.name = path.basename(file);
+
+        const componentName = getNameFromFilename(resource);
+        s.append(`;${componentName}.__docgen = ${JSON.stringify(componentDoc)}`);
+      } catch (error: any) {
+        if (logDocgen) {
+          logger.error(error);
+        }
+      }
+
+      return {
+        code: s.toString(),
+        map: s.generateMap({ hires: true, source: id }),
+      };
     },
   };
 }
