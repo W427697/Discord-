@@ -226,7 +226,9 @@ With the release of version 5.3, we've updated how you can write your stories mo
 ### What icons are available for my toolbar or my addon?
 
 With the [`@storybook/components`](https://www.npmjs.com/package/@storybook/components) package, you get a set of icons that you can use to customize your UI. Use the table below as a reference while writing your addon or defining your Storybook global types.
-Go through this [story](https://5a375b97f4b14f0020b0cda3-wbeulgbetj.chromatic.com/?path=/story/basics-icon--labels) to see how the icons look.
+Go through this [story](https://main--5a375b97f4b14f0020b0cda3.chromatic.com/?path=/story/basics-icon--labels) to see how the icons look.
+
+<iframe src="https://main--5a375b97f4b14f0020b0cda3.chromatic.com/iframe.html?args=&id=basics-icon--labels&viewMode=story&shortcuts=false&singleStory=true" width="100%" height="600"></iframe>
 
 ### I see a "No Preview" error with a Storybook production build
 
