@@ -66,6 +66,7 @@
 
     "@storybook/addons": { "root": "lib/addons", "type": "library" },
     "@storybook/api": { "root": "lib/api", "type": "library" },
+    "@storybook/builder-vite": { "root": "lib/builder-vite", "type": "library" },
     "@storybook/builder-webpack5": { "root": "lib/builder-webpack5", "type": "library" },
     "@storybook/channel-postmessage": { "root": "lib/channel-postmessage", "type": "library" },
     "@storybook/channel-websocket": { "root": "lib/channel-websocket", "type": "library" },

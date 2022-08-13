@@ -87,6 +87,7 @@
     "@storybook/builder-manager": { "implicitDependencies": [] },
     "@storybook/addons": { "implicitDependencies": [] },
     "@storybook/api": { "implicitDependencies": [] },
+    "@storybook/builder-vite": { "implicitDependencies": [] },
     "@storybook/builder-webpack5": { "implicitDependencies": [] },
     "@storybook/channel-postmessage": { "implicitDependencies": [] },
     "@storybook/channel-websocket": { "implicitDependencies": [] },
