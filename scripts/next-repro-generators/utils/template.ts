@@ -1,6 +1,5 @@
 import { render } from 'ejs';
 import { readFile } from 'fs-extra';
-import yml from 'js-yaml';
 import { format } from 'prettier';
 import { GeneratorConfig } from './types';
 import reproTemplates from '../../../code/lib/cli/src/repro-templates';
