@@ -103,7 +103,7 @@ export function handleExportedName(storyName, originalNode, parent) {
 }
 
 export function handleADD(node, parent, storiesOfIdentifiers) {
-  if (!node.property || !node.property.name || node.property.name !== 'add') {
+  if (!node.property || !node.property.name) {
     return {};
   }
 
@@ -130,7 +130,7 @@ export function handleADD(node, parent, storiesOfIdentifiers) {
     return {};
   }
 
-  if (storyName.value) {
+  if (storyName.value && typeof storyName.value !== 'number') {
     const key = sanitize(storyName.value);
     let idToFramework;
     if (key && framework) {
