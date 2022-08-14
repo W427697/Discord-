@@ -1,5 +1,5 @@
 /* eslint-disable jest/no-standalone-expect */
-import { expect, Locator, Page } from '@playwright/test';
+import { expect, Page } from '@playwright/test';
 
 export class SbPage {
   readonly page: Page;
