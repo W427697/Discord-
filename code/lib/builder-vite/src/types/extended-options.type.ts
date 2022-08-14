@@ -4,6 +4,8 @@ import type { Options } from '@storybook/core-common';
 type IframeOptions = {
   frameworkPath: string;
   title: string;
+  // FIXME: Use @ndelangen's improved types
+  framework: string;
 };
 
 export type ExtendedOptions = Options & IframeOptions;

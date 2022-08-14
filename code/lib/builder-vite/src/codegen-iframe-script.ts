@@ -10,9 +10,12 @@ export async function generateIframeScriptCode(options: ExtendedOptions) {
   const configEntries = [...presetEntries].filter(Boolean);
 
   const absoluteFilesToImport = (files: string[], name: string) =>
-    files.map((el, i) => `import ${name ? `* as ${name}_${i} from ` : ''}'${transformAbsPath(el)}'`).join('\n');
+    files
+      .map((el, i) => `import ${name ? `* as ${name}_${i} from ` : ''}'${transformAbsPath(el)}'`)
+      .join('\n');
 
-  const importArray = (name: string, length: number) => new Array(length).fill(0).map((_, i) => `${name}_${i}`);
+  const importArray = (name: string, length: number) =>
+    new Array(length).fill(0).map((_, i) => `${name}_${i}`);
 
   // noinspection UnnecessaryLocalVariableJS
   /** @todo Inline variable and remove `noinspection` */
@@ -37,7 +40,9 @@ export async function generateIframeScriptCode(options: ExtendedOptions) {
       setGlobalRender,
     } = clientApi;
 
-    const configs = [${importArray('config', configEntries.length).concat('preview.default').join(',')}].filter(Boolean)
+    const configs = [${importArray('config', configEntries.length)
+      .concat('preview.default')
+      .join(',')}].filter(Boolean)
 
     configs.forEach(config => {
       Object.keys(config).forEach((key) => {

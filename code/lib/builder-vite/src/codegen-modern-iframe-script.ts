@@ -10,7 +10,7 @@ export async function generateModernIframeScriptCode(options: ExtendedOptions) {
   const presetEntries = await presets.apply('config', [], options);
   const configEntries = [...presetEntries, previewOrConfigFile]
     .filter(Boolean)
-    .map((configEntry) => transformAbsPath(configEntry));
+    .map((configEntry) => transformAbsPath(configEntry as string));
 
   const generateHMRHandler = (framework: string): string => {
     // Web components are not compatible with HMR, so disable HMR, reload page instead.
@@ -49,10 +49,14 @@ export async function generateModernIframeScriptCode(options: ExtendedOptions) {
     import '${virtualAddonSetupFile}';
     import { importFn } from '${virtualStoriesFile}';
 
-    const getProjectAnnotations = async () =>
-      composeConfigs(await Promise.all([${configEntries
+    const getProjectAnnotations = async () => {
+      console.log(${configEntries});
+      const configs = await Promise.all([${configEntries
         .map((configEntry) => `import('${configEntry}')`)
-        .join(',\n')}]));
+        .join(',\n')}])
+      console.log({ configs });
+      return composeConfigs(configs);
+    }
 
     const preview = new PreviewWeb();
 

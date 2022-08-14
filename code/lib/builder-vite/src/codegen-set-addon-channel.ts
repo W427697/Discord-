@@ -1,7 +1,7 @@
 export function generateAddonSetupCode() {
   return `
-    import createPostMessageChannel from '@storybook/channel-postmessage';
-    import createWebSocketChannel from '@storybook/channel-websocket';
+    import { createChannel as createPostMessageChannel } from '@storybook/channel-postmessage';
+    import { createChannel as createWebSocketChannel } from '@storybook/channel-websocket';
     import { addons } from '@storybook/addons';
 
     const channel = createPostMessageChannel({ page: 'preview' });
