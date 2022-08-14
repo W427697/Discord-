@@ -4,10 +4,10 @@ on:
   schedule:
     - cron: "2 2 */1 * *"
   workflow_dispatch:
-    # To remove when the branch will be merged
-    push:
-      branches:
-        - shilman/add-angular-repro-template
+  # To remove when the branch will be merged
+  push:
+    branches:
+      - shilman/add-angular-repro-template
 
 jobs:
   generate:
