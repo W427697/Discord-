@@ -15,7 +15,7 @@ export const Headings = () =>
 export const Button = () => {
   const btn = document.createElement('button');
   btn.innerHTML = 'Hello Button';
-  btn.addEventListener('click', action('Click'));
+  // btn.addEventListener('click', action('Click'));
   return btn;
 };
 
