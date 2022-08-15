@@ -60,7 +60,7 @@
   "dependencies": {
     "@joshwooding/vite-plugin-react-docgen-typescript": "0.0.4",
     "@rollup/pluginutils": "^4.2.0",
-    "@storybook/builder-vite": "^0.1.33",
+    "@storybook/builder-vite": "7.0.0-alpha.19",
     "@storybook/core-server": "7.0.0-alpha.19",
     "@storybook/core-vite": "7.0.0-alpha.19",
     "@storybook/react": "7.0.0-alpha.19",
