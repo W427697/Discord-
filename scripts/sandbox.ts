@@ -11,6 +11,7 @@ import {
 } from 'fs-extra';
 import prompts from 'prompts';
 import type { AbortController } from 'node-abort-controller';
+import command from 'execa';
 
 import { createOptions, getOptionsOrPrompt, OptionValues } from './utils/options';
 import { executeCLIStep } from './utils/cli-step';
@@ -286,8 +287,19 @@ export async function sandbox(optionValues: OptionValues<typeof options>) {
     const storiesPath = await findFirstPath([path.join('src', 'stories'), 'stories'], { cwd });
 
     // Link in the template/components/index.js from the renderer
-    const rendererName = templateConfig.expected.renderer.split('/')[1];
-    const rendererPath = path.join('renderers', rendererName);
+    const { stdout } = await command('yarn workspaces list --json', {
+      cwd: process.cwd(),
+      shell: true,
+    });
+    const workspaces = JSON.parse(`[${stdout.split('\n').join(',')}]`) as [
+      { name: string; location: string }
+    ];
+    const { renderer } = templateConfig.expected;
+    const rendererWorkspace = workspaces.find((workspace) => workspace.name === renderer);
+    if (!rendererWorkspace) {
+      throw new Error(`Unknown renderer '${renderer}', not in yarn workspace!`);
+    }
+    const rendererPath = rendererWorkspace.location;
     await ensureSymlink(
       path.join(codeDir, rendererPath, 'template', 'components'),
       path.resolve(cwd, storiesPath, 'components')
