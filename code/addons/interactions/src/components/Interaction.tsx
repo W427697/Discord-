@@ -165,11 +165,7 @@ export const Interaction = ({
           {childCallIds?.length > 0 && (
             <WithTooltip
               hasChrome={false}
-              tooltip={
-                <Note
-                  note={`${isCollapsed ? 'Show' : 'Hide'} interactions (${childCallIds.length})`}
-                />
-              }
+              tooltip={<Note note={`${isCollapsed ? 'Show' : 'Hide'} interactions`} />}
             >
               <StyledIconButton containsIcon onClick={toggleCollapsed}>
                 <Icons icon="listunordered" />
