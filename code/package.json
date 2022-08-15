@@ -1,6 +1,6 @@
 {
   "name": "@storybook/root",
-  "version": "7.0.0-alpha.18",
+  "version": "7.0.0-alpha.19",
   "private": true,
   "description": "Storybook is an open source tool for developing UI components in isolation for React, Vue and Angular. It makes building stunning UIs organized and efficient.",
   "keywords": [
@@ -64,6 +64,7 @@
     "create-built-sandboxes-index": "ts-node ../scripts/create-built-sandboxes-index",
     "danger": "danger",
     "generate-repros": "zx ../scripts/repros-generator/index.mjs",
+    "generate-repros-next": "ts-node ../scripts/next-repro-generators/generate-repros.ts",
     "get-template": "ts-node ../scripts/get-template.ts",
     "github-release": "github-release-from-changelog",
     "linear-export": "ts-node --project=../scripts/tsconfig.json ../scripts/linear-export.ts",
@@ -75,8 +76,6 @@
     "lint:other": "prettier --write '**/*.{css,html,json,md,yml}'",
     "lint:package": "sort-package-json",
     "local-registry": "ts-node --project=../scripts/tsconfig.json ../scripts/run-registry.ts --port 6000",
-    "next-repro": "ts-node ../scripts/next-repro-generators/generate.ts",
-    "once-per-template": "ts-node ../scripts/once-per-template.ts",
     "publish-repros": "ts-node ../scripts/next-repro-generators/publish.ts",
     "publish:debug": "npm run publish:latest -- --npm-tag=debug --no-push",
     "publish:latest": "lerna publish --exact --concurrency 1 --force-publish",
