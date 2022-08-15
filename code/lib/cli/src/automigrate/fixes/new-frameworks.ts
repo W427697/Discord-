@@ -62,7 +62,7 @@ export const getBuilder = (builder: string | { name: string }) => {
     return builder.includes('vite') ? 'vite' : 'webpack5';
   }
 
-  return builder.name.includes('vite') ? 'vite' : 'webpack5';
+  return builder?.name.includes('vite') ? 'vite' : 'webpack5';
 };
 
 export const getFrameworkOptions = (framework: string, main: ConfigFile) => {
@@ -113,7 +113,7 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
     const frameworkPackage = main.getFieldValue(['framework']) as keyof typeof packagesMap;
     const builder = main.getFieldValue(['core', 'builder']);
 
-    if (!frameworkPackage || !builder) {
+    if (!frameworkPackage) {
       return null;
     }
 
@@ -138,6 +138,8 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
     const dependenciesToRemove = [
       '@storybook/builder-webpack5',
       '@storybook/manager-webpack5',
+      '@storybook/builder-webpack4',
+      '@storybook/manager-webpack4',
     ].filter((dep) => allDeps[dep]);
 
     const newFrameworkPackage = packagesMap[frameworkPackage][builderInfo.name];
@@ -168,8 +170,19 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
 
       We can remove the dependencies that are no longer needed and install the new framework that already includes the builder.
 
-      More info: ${chalk.yellow(
+      To learn more about the framework field, see: ${chalk.yellow(
         'https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#framework-field-mandatory'
+      )}
+
+      ${chalk.underline(chalk.bold(chalk.cyan('Webpack4 users')))}
+
+      Unless you're using Storybook's Vite builder, this automigration will install a Webpack5-based framework.
+      
+      If you were using Storybook's Webpack4 builder (default in 6.x, discontinued in 7.0), this could be a breaking
+      change--especially if your project has a custom webpack configuration.
+      
+      To learn more about migrating from Webpack4, see: ${chalk.yellow(
+        'https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#webpack4-support-discontinued'
       )}
     `;
   },

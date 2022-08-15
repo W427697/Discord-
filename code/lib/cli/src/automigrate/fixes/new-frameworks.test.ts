@@ -60,7 +60,13 @@ describe('new-frameworks fix', () => {
             framework: '@storybook/vue',
           },
         })
-      ).resolves.toBeFalsy();
+      ).resolves.toEqual(
+        expect.objectContaining({
+          frameworkPackage: '@storybook/vue-webpack5',
+          dependenciesToAdd: ['@storybook/vue-webpack5'],
+          dependenciesToRemove: ['@storybook/vue'],
+        })
+      );
     });
 
     it('in sb 7 with unsupported package', async () => {
