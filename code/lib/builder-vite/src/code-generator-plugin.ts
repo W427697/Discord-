@@ -1,6 +1,9 @@
+/* eslint-disable no-param-reassign */
+
 import * as fs from 'fs';
 import * as path from 'path';
 import { mergeConfig } from 'vite';
+import type { Plugin } from 'vite';
 import { transformIframeHtml } from './transform-iframe-html';
 import { generateIframeScriptCode } from './codegen-iframe-script';
 import { generateModernIframeScriptCode } from './codegen-modern-iframe-script';
@@ -8,10 +11,14 @@ import { generateImportFnScriptCode } from './codegen-importfn-script';
 import { generateVirtualStoryEntryCode, generatePreviewEntryCode } from './codegen-entries';
 import { generateAddonSetupCode } from './codegen-set-addon-channel';
 
-import type { Plugin } from 'vite';
 import type { ExtendedOptions } from './types';
 
-import { virtualAddonSetupFile, virtualFileId, virtualPreviewFile, virtualStoriesFile } from './virtual-file-names';
+import {
+  virtualAddonSetupFile,
+  virtualFileId,
+  virtualPreviewFile,
+  virtualStoriesFile,
+} from './virtual-file-names';
 
 export function codeGeneratorPlugin(options: ExtendedOptions): Plugin {
   const iframePath = path.resolve(__dirname, '../..', 'input', 'iframe.html');
@@ -84,24 +91,28 @@ export function codeGeneratorPlugin(options: ExtendedOptions): Plugin {
     resolveId(source) {
       if (source === virtualFileId) {
         return virtualFileId;
-      } else if (source === iframePath) {
+      }
+      if (source === iframePath) {
         return iframeId;
-      } else if (source === virtualStoriesFile) {
+      }
+      if (source === virtualStoriesFile) {
         return virtualStoriesFile;
-      } else if (source === virtualPreviewFile) {
+      }
+      if (source === virtualPreviewFile) {
         return virtualPreviewFile;
-      } else if (source === virtualAddonSetupFile) {
+      }
+      if (source === virtualAddonSetupFile) {
         return virtualAddonSetupFile;
       }
+      return undefined;
     },
     async load(id) {
       const storyStoreV7 = options.features?.storyStoreV7;
       if (id === virtualStoriesFile) {
         if (storyStoreV7) {
           return generateImportFnScriptCode(options);
-        } else {
-          return generateVirtualStoryEntryCode(options);
         }
+        return generateVirtualStoryEntryCode(options);
       }
 
       if (id === virtualAddonSetupFile) {
@@ -115,18 +126,19 @@ export function codeGeneratorPlugin(options: ExtendedOptions): Plugin {
       if (id === virtualFileId) {
         if (storyStoreV7) {
           return generateModernIframeScriptCode(options);
-        } else {
-          return generateIframeScriptCode(options);
         }
+        return generateIframeScriptCode(options);
       }
 
       if (id === iframeId) {
         return fs.readFileSync(path.resolve(__dirname, '../..', 'input', 'iframe.html'), 'utf-8');
       }
+
+      return undefined;
     },
     async transformIndexHtml(html, ctx) {
       if (ctx.path !== '/iframe.html') {
-        return;
+        return undefined;
       }
       return transformIframeHtml(html, options);
     },

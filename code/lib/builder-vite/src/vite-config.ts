@@ -1,9 +1,9 @@
 import * as path from 'path';
 import fs from 'fs';
 import { Plugin } from 'vite';
-import { TypescriptConfig } from '@storybook/core-common';
 import viteReact from '@vitejs/plugin-react';
 import type { UserConfig } from 'vite';
+import type { TypescriptOptions } from '@storybook/core-vite';
 import { allowedEnvPrefix as envPrefix } from './envs';
 import { codeGeneratorPlugin } from './code-generator-plugin';
 import { injectExportOrderPlugin } from './inject-export-order-plugin';

@@ -50,11 +50,9 @@ export async function generateModernIframeScriptCode(options: ExtendedOptions) {
     import { importFn } from '${virtualStoriesFile}';
 
     const getProjectAnnotations = async () => {
-      console.log(${configEntries});
       const configs = await Promise.all([${configEntries
         .map((configEntry) => `import('${configEntry}')`)
         .join(',\n')}])
-      console.log({ configs });
       return composeConfigs(configs);
     }
 
