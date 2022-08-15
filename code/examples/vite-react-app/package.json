@@ -16,7 +16,7 @@
     "@mdx-js/preact": "^1.6.0",
     "@mdx-js/react": "^1.6.0",
     "@storybook/addon-essentials": "7.0.0-alpha.19",
-    "@storybook/builder-vite": "^0.1.33",
+    "@storybook/builder-vite": "7.0.0-alpha.19",
     "@storybook/react": "7.0.0-alpha.19",
     "@storybook/react-vite": "7.0.0-alpha.19",
     "@vitejs/plugin-react": "^1.0.7",
