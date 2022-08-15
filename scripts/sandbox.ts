@@ -308,6 +308,7 @@ export async function sandbox(optionValues: OptionValues<typeof options>) {
       ['previewEntries'],
       [`.${path.sep}${path.join(storiesPath, 'components')}`]
     );
+    mainConfig.setFieldValue(['core', 'disableTelemetry'], true);
 
     const storiesToAdd = [] as string[];
     storiesToAdd.push(rendererPath);
