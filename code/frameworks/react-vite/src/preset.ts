@@ -21,12 +21,6 @@ export function readPackageJson(): Record<string, any> | false {
 
 export const viteFinal: StorybookConfig['viteFinal'] = async (config, { presets }) => {
   const { plugins = [] } = config;
-  plugins.push(
-    require('@vitejs/plugin-react')({
-      // Do not treat story files as HMR boundaries, storybook itself needs to handle them.
-      exclude: [/\.stories\.([tj])sx?$/, /node_modules/],
-    })
-  );
 
   const { reactDocgen, reactDocgenTypescriptOptions } = await presets.apply<any>(
     'typescript',
