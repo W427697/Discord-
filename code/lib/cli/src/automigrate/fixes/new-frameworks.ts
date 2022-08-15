@@ -224,14 +224,16 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
 
       if (Object.keys(builderInfo.options).length > 0) {
         main.setFieldValue(['framework', 'options', 'builder'], builderInfo.options);
+        delete currentCore.builder;
       }
 
-      delete currentCore.builder;
-      if (Object.keys(currentCore).length === 0) {
-        // TODO: this should delete the field instead
-        main.setFieldValue(['core'], {});
-      } else {
-        main.setFieldValue(['core'], currentCore);
+      if (currentCore) {
+        if (Object.keys(currentCore).length === 0) {
+          // TODO: this should delete the field instead
+          main.setFieldValue(['core'], {});
+        } else {
+          main.setFieldValue(['core'], currentCore);
+        }
       }
 
       await writeConfig(main);
