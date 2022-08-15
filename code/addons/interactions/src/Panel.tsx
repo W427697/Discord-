@@ -87,7 +87,8 @@ export const Panel: React.FC<{ active: boolean }> = (props) => {
   const [interactions, setInteractions] = React.useState<Interaction[]>([]);
   const [interactionsCount, setInteractionsCount] = React.useState<number>();
 
-  // Calls are tracked in a ref so we don't needlessly rerender.
+  // Log and calls are tracked in a ref so we don't needlessly rerender.
+  const log = React.useRef<LogItem[]>([]);
   const calls = React.useRef<Map<Call['id'], Omit<Call, 'status'>>>(new Map());
   const setCall = ({ status, ...call }: Call) => calls.current.set(call.id, call);
 
@@ -113,6 +114,7 @@ export const Panel: React.FC<{ active: boolean }> = (props) => {
         setInteractions(
           getInteractions({ log: payload.logItems, calls: calls.current, collapsed, setCollapsed })
         );
+        log.current = payload.logItems;
       },
       [STORY_RENDER_PHASE_CHANGED]: (event) => {
         setStoryId(event.storyId);
@@ -134,6 +136,12 @@ export const Panel: React.FC<{ active: boolean }> = (props) => {
     },
     [collapsed]
   );
+
+  React.useEffect(() => {
+    setInteractions(
+      getInteractions({ log: log.current, calls: calls.current, collapsed, setCollapsed })
+    );
+  }, [collapsed]);
 
   React.useEffect(() => {
     if (isPlaying || isRerunAnimating) return;
