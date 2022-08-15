@@ -170,36 +170,6 @@ export async function pluginConfig(options: ExtendedOptions, _type: PluginConfig
     plugins.push(require('@preact/preset-vite').default());
   }
 
-  if (framework === 'react') {
-    const { reactDocgen: reactDocgenOption, reactDocgenTypescriptOptions } = await presets.apply(
-      'typescript',
-      {} as TypescriptConfig
-    );
-
-    if (reactDocgenOption === 'react-docgen-typescript') {
-      plugins.push(
-        // eslint-disable-next-line import/no-extraneous-dependencies, global-require
-        require('@joshwooding/vite-plugin-react-docgen-typescript')({
-          ...reactDocgenTypescriptOptions,
-          // We *need* this set so that RDT returns default values in the same format as react-docgen
-          savePropValueAsString: true,
-        })
-      );
-    }
-
-    // Add react-docgen so long as the option is not false
-    if (typeof reactDocgenOption === 'string') {
-      const { reactDocgen } = await import('./plugins/react-docgen');
-      // Needs to run before the react plugin, so add to the front
-      plugins.unshift(
-        // If react-docgen is specified, use it for everything, otherwise only use it for non-typescript files
-        reactDocgen({
-          include: reactDocgenOption === 'react-docgen' ? /\.(mjs|tsx?|jsx?)$/ : /\.(mjs|jsx?)$/,
-        })
-      );
-    }
-  }
-
   if (framework === 'glimmerx') {
     // eslint-disable-next-line import/no-extraneous-dependencies, global-require, import/extensions
     const plugin = require('vite-plugin-glimmerx/index.cjs');
