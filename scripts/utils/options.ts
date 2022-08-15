@@ -234,7 +234,12 @@ export async function promptOptions<TOptions extends OptionSpecifier>(
     };
   });
 
-  const selection = await prompts(questions);
+  const selection = await prompts(questions, {
+    onCancel: () => {
+      console.log('Command cancelled by the user. Exiting...');
+      process.exit(0);
+    },
+  });
   // Again the structure of the questions guarantees we get responses of the type we need
   return selection as OptionValues<TOptions>;
 }
