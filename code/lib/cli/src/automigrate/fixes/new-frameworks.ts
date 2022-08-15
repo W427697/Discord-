@@ -222,9 +222,12 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
       main.setFieldValue(['framework', 'name'], frameworkPackage);
       main.setFieldValue(['framework', 'options'], frameworkOptions);
 
+      if (currentCore?.builder) {
+        delete currentCore.builder;
+      }
+
       if (Object.keys(builderInfo.options).length > 0) {
         main.setFieldValue(['framework', 'options', 'builder'], builderInfo.options);
-        delete currentCore.builder;
       }
 
       if (currentCore) {
