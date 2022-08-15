@@ -137,7 +137,7 @@ export const Panel: React.FC<{ active: boolean }> = (props) => {
 
   React.useEffect(() => {
     if (isPlaying || isRerunAnimating) return;
-    setInteractionsCount(interactions.length);
+    setInteractionsCount(interactions.filter(({ method }) => method !== 'step').length);
   }, [interactions, isPlaying, isRerunAnimating]);
 
   const controls = React.useMemo(
