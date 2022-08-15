@@ -55,7 +55,7 @@ export async function pluginConfig(options: ExtendedOptions, _type: PluginConfig
 
   const plugins = [
     codeGeneratorPlugin(options),
-    sourceLoaderPlugin(options),
+    // sourceLoaderPlugin(options),
     mdxPlugin(options),
     noFouc(),
     injectExportOrderPlugin,
