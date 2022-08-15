@@ -42,7 +42,6 @@
   ],
   "scripts": {
     "check": "tsc --noEmit",
-    "preprepare": "node ./scripts/generate-repro-templates-list.js",
     "prepare": "node ../../../scripts/prepare.js",
     "test": "jest test/**/*.test.js"
   },
