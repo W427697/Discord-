@@ -6406,6 +6406,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@playwright/test@npm:^1.24.2":
+  version: 1.24.2
+  resolution: "@playwright/test@npm:1.24.2"
+  dependencies:
+    "@types/node": "*"
+    playwright-core: 1.24.2
+  bin:
+    playwright: cli.js
+  checksum: 87e943149510fd7ad1369b7e1c07b67a86f31f09c0a2ddf61c48b0e7f56f8f9542b8541d2aed9e8e08b7c3aa93459329f5af01337e00f8136202ecf93fb3ffd9
+  languageName: node
+  linkType: hard
+
 "@pmmmwh/react-refresh-webpack-plugin@npm:^0.5.1, @pmmmwh/react-refresh-webpack-plugin@npm:^0.5.3, @pmmmwh/react-refresh-webpack-plugin@npm:^0.5.5":
   version: 0.5.7
   resolution: "@pmmmwh/react-refresh-webpack-plugin@npm:0.5.7"
@@ -8880,6 +8892,7 @@ __metadata:
     "@nrwl/nx-cloud": 12.1.1
     "@nrwl/tao": 12.3.4
     "@nrwl/workspace": 12.3.4
+    "@playwright/test": ^1.24.2
     "@rollup/plugin-babel": ^5.3.1
     "@rollup/plugin-commonjs": ^21.0.1
     "@rollup/plugin-json": ^4.1.0
@@ -9044,6 +9057,7 @@ __metadata:
     node-gyp: ^8.4.0
     npmlog: ^5.0.1
     p-limit: ^3.1.0
+    playwright: ^1.24.2
     postcss-loader: ^6.2.1
     prettier: ">=2.2.1 <=2.3.0"
     prompts: ^2.4.0
@@ -34444,6 +34458,26 @@ __metadata:
   version: 0.4.1
   resolution: "pkginfo@npm:0.4.1"
   checksum: 487ace8df0dc7d5669cc2cb61af5c418cc4082bd246dc7fa4008b52d693dca4adc3563e427794c532ac70c9c287e6bb5fe5393465a0927765e6d85a12ddd6539
+  languageName: node
+  linkType: hard
+
+"playwright-core@npm:1.24.2":
+  version: 1.24.2
+  resolution: "playwright-core@npm:1.24.2"
+  bin:
+    playwright: cli.js
+  checksum: ecd60ece818f1d57bf34685dd812c56f3b8cf7d8ca8e14074e1743fac56387f16791121901b34cf519d3ef5f9360968656ab661c7b589e55500144eb2cf69448
+  languageName: node
+  linkType: hard
+
+"playwright@npm:^1.24.2":
+  version: 1.24.2
+  resolution: "playwright@npm:1.24.2"
+  dependencies:
+    playwright-core: 1.24.2
+  bin:
+    playwright: cli.js
+  checksum: c5e4cfd57f8030f15e019c101c867a5ce3f1d12c3a6d8a32a9fb34897746470faced7935d5cc920c85082c0aec0bcf5bb23174ba55f6eabf942d38707a40d1f0
   languageName: node
   linkType: hard
 
