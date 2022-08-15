@@ -49,7 +49,7 @@ interface NewFrameworkRunOptions {
   packageJson: PackageJsonWithDepsAndDevDeps;
   dependenciesToAdd: string[];
   dependenciesToRemove: string[];
-  frameworkPackage: keyof typeof packagesMap;
+  frameworkPackage: string;
   frameworkOptions: Record<string, any>;
   builderInfo: {
     name: string;
