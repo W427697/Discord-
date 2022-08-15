@@ -457,12 +457,12 @@ jobs:
             cd code
             yarn coverage
 
-## new workflow
+  ## new workflow
   create-sandboxes:
     executor:
       class: medium+
       name: sb_node_14_browsers
-    parallelism: 2
+    parallelism: 3
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: '--depth 1 --verbose'
@@ -609,7 +609,7 @@ workflows:
           requires:
             - publish
 
-## new workflow
+      ## new workflow
       - create-sandboxes:
           requires:
             - publish
@@ -628,4 +628,3 @@ workflows:
       - e2e-sandboxes:
           requires:
             - build-sandboxes
-      
