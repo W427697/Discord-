@@ -41,11 +41,6 @@
     "check": "tsc --noEmit",
     "prepare": "../../../scripts/prepare/bundle.ts"
   },
-  "bundler": {
-    "entries": [
-      "./src/index.ts"
-    ]
-  },
   "dependencies": {
     "core-js": "^3.8.2"
   },
@@ -54,6 +49,11 @@
   },
   "publishConfig": {
     "access": "public"
+  },
+  "bundler": {
+    "entries": [
+      "./src/index.ts"
+    ]
   },
   "gitHead": "74bdb53f67dd59bae2661c668d2d5d4296113281"
 }
