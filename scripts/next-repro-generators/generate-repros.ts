@@ -106,19 +106,24 @@ const runGenerators = async (generators: (GeneratorConfig & { dirName: string })
   );
 };
 
-const generate = async () => {
+const generate = async ([template]: any) => {
   runGenerators(
-    Object.entries(reproTemplates).map(([dirName, configuration]) => ({
-      dirName,
-      ...configuration,
-    }))
+    Object.entries(reproTemplates)
+      .filter(([dirName]) => {
+        if (!template) return true;
+        return dirName === template;
+      })
+      .map(([dirName, configuration]) => ({
+        dirName,
+        ...configuration,
+      }))
   );
 };
 
 program.description('Create a reproduction from a set of possible templates');
 program.parse(process.argv);
 
-generate().catch((e) => {
+generate(program.args).catch((e) => {
   console.trace(e);
   process.exit(1);
 });

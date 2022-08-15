@@ -8,6 +8,7 @@ import {
   ensureSymlink,
   ensureDir,
   existsSync,
+  copy,
 } from 'fs-extra';
 import prompts from 'prompts';
 import type { AbortController } from 'node-abort-controller';
@@ -246,7 +247,7 @@ async function addStories(paths: string[], { mainConfig }: { mainConfig: ConfigF
 }
 
 export async function sandbox(optionValues: OptionValues<typeof options>) {
-  const { template, forceDelete, forceReuse, dryRun, debug } = optionValues;
+  const { template, forceDelete, forceReuse, dryRun, debug, create } = optionValues;
 
   await ensureDir(sandboxDir);
   let publishController: AbortController;
@@ -273,13 +274,29 @@ export async function sandbox(optionValues: OptionValues<typeof options>) {
   if (exists && shouldDelete && !dryRun) await remove(cwd);
 
   if (!exists || shouldDelete) {
-    await executeCLIStep(steps.repro, {
-      argument: template,
-      optionValues: { output: cwd, branch: 'next' },
-      cwd: sandboxDir,
-      dryRun,
-      debug,
-    });
+    if (create) {
+      await exec(
+        `yarn generate-repros-next ${template}`,
+        { cwd, shell: true },
+        {
+          startMessage: `🎨 Generating template from scratch`,
+          errorMessage: `🚨 Template generation failed`,
+          debug,
+          dryRun,
+        }
+      );
+      const srcDir = path.join(cwd, '..', 'repros', template, 'after-storybook');
+      const destDir = path.join(sandboxDir, template);
+      await copy(srcDir, destDir);
+    } else {
+      await executeCLIStep(steps.repro, {
+        argument: template,
+        optionValues: { output: cwd, branch: 'next' },
+        cwd: sandboxDir,
+        dryRun,
+        debug,
+      });
+    }
 
     const mainConfig = await readMainConfig({ cwd });
 

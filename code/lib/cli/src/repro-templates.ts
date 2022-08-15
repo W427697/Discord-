@@ -19,6 +19,16 @@ export default {
       builder: '@storybook/builder-webpack5',
     },
   },
+  'react-vite/default-ts': {
+    name: 'Vite React (Typescript)',
+    script: 'npx create-vite-app . --template react-ts',
+    cadence: ['ci', 'daily', 'weekly'],
+    expected: {
+      framework: '@storybook/react-vite',
+      renderer: '@storybook/react',
+      builder: '@storybook/builder-vite',
+    },
+  },
   // FIXME: missing documentation.json
   // 'angular/latest': {
   //   name: 'Angular (latest)',
