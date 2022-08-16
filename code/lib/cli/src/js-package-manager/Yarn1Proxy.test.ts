@@ -21,6 +21,21 @@ describe('Yarn 1 Proxy', () => {
     });
   });
 
+  describe('setRegistryUrl', () => {
+    it('should run `yarn config set npmRegistryServer https://foo.bar`', () => {
+      const executeCommandSpy = jest.spyOn(yarn1Proxy, 'executeCommand').mockReturnValue('');
+
+      yarn1Proxy.setRegistryURL('https://foo.bar');
+
+      expect(executeCommandSpy).toHaveBeenCalledWith('yarn', [
+        'config',
+        'set',
+        'npmRegistryServer',
+        'https://foo.bar',
+      ]);
+    });
+  });
+
   describe('installDependencies', () => {
     it('should run `yarn`', () => {
       const executeCommandSpy = jest.spyOn(yarn1Proxy, 'executeCommand').mockReturnValue('');

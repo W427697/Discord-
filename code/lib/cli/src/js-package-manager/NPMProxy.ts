@@ -61,6 +61,11 @@ export class NPMProxy extends JsPackageManager {
     return this.uninstallArgs;
   }
 
+  setRegistryURL(url: string) {
+    const args = ['config', 'set', 'registry', url];
+    this.executeCommand('npm', args);
+  }
+
   protected getResolutions(packageJson: PackageJson, versions: Record<string, string>) {
     return {
       overrides: {

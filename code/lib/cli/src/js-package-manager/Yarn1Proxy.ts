@@ -16,6 +16,11 @@ export class Yarn1Proxy extends JsPackageManager {
     return `yarn ${command}`;
   }
 
+  setRegistryURL(url: string) {
+    const args = ['config', 'set', 'npmRegistryServer', url];
+    this.executeCommand('yarn', args);
+  }
+
   protected getResolutions(packageJson: PackageJson, versions: Record<string, string>) {
     return {
       resolutions: {

@@ -36,6 +36,8 @@ export abstract class JsPackageManager {
 
   public abstract getRunCommand(command: string): string;
 
+  public abstract setRegistryURL(url: string): void;
+
   /**
    * Install dependencies listed in `package.json`
    */

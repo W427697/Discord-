@@ -31,6 +31,21 @@ describe('Yarn 2 Proxy', () => {
     });
   });
 
+  describe('setRegistryUrl', () => {
+    it('should run `yarn config set npmRegistryServer https://foo.bar`', () => {
+      const executeCommandSpy = jest.spyOn(yarn2Proxy, 'executeCommand').mockReturnValue('');
+
+      yarn2Proxy.setRegistryURL('https://foo.bar');
+
+      expect(executeCommandSpy).toHaveBeenCalledWith('yarn', [
+        'config',
+        'set',
+        'npmRegistryServer',
+        'https://foo.bar',
+      ]);
+    });
+  });
+
   describe('addDependencies', () => {
     it('with devDep it should run `yarn install -D @storybook/addons`', () => {
       const executeCommandSpy = jest.spyOn(yarn2Proxy, 'executeCommand').mockReturnValue('');

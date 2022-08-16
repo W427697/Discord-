@@ -21,6 +21,21 @@ describe('NPM Proxy', () => {
     });
   });
 
+  describe('setRegistryUrl', () => {
+    it('should run `npm config set registry https://foo.bar`', () => {
+      const executeCommandSpy = jest.spyOn(npmProxy, 'executeCommand').mockReturnValue('');
+
+      npmProxy.setRegistryURL('https://foo.bar');
+
+      expect(executeCommandSpy).toHaveBeenCalledWith('npm', [
+        'config',
+        'set',
+        'registry',
+        'https://foo.bar',
+      ]);
+    });
+  });
+
   describe('installDependencies', () => {
     describe('npm6', () => {
       it('should run `npm install`', () => {
