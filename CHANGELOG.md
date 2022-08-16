@@ -1,3 +1,22 @@
+## 7.0.0-alpha.20 (August 16, 2022)
+
+#### Features
+
+-   CLI: Automigration for new frameworks [#18919](https://github.com/storybooks/storybook/pull/18919)
+
+#### Bug Fixes
+
+-   UI: Fix the order of addons appearing in prebuilt manager [#18918](https://github.com/storybooks/storybook/pull/18918)
+
+#### Maintenance
+
+-   Exit sandbox gracefully on cancel [#18936](https://github.com/storybooks/storybook/pull/18936)
+-   Disable telemetry in monorepo and CI [#18935](https://github.com/storybooks/storybook/pull/18935)
+-   Convert cypress e2e tests to playwright [#18932](https://github.com/storybooks/storybook/pull/18932)
+-   CI: Refactor to use tasks [#18922](https://github.com/storybooks/storybook/pull/18922)
+-   Angular: Add renderer components / stories [#18934](https://github.com/storybooks/storybook/pull/18934)
+-   Examples: Add angular repro template and refactor [#18931](https://github.com/storybooks/storybook/pull/18931)
+
 ## 7.0.0-alpha.19 (August 12, 2022)
 
 #### Features
