@@ -1,5 +1,4 @@
 import { NPMProxy } from './NPMProxy';
-import * as PackageJsonHelper from './PackageJsonHelper';
 
 describe('NPM Proxy', () => {
   let npmProxy: NPMProxy;
@@ -107,7 +106,7 @@ describe('NPM Proxy', () => {
       it('should only change package.json without running install', () => {
         const executeCommandSpy = jest.spyOn(npmProxy, 'executeCommand').mockReturnValue('7.0.0');
         const writePackageSpy = jest
-          .spyOn(PackageJsonHelper, 'writePackageJson')
+          .spyOn(npmProxy, 'writePackageJson')
           .mockImplementation(jest.fn);
 
         npmProxy.removeDependencies(

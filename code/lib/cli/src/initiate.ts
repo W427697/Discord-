@@ -42,7 +42,14 @@ const installStorybook = (
     skipInstall: options.skipInstall,
   };
 
-  const language = detectLanguage();
+  let packageJson;
+  try {
+    packageJson = packageManager.readPackageJson();
+  } catch (err) {
+    //
+  }
+
+  const language = detectLanguage(packageJson);
 
   const generatorOptions = {
     language,
@@ -283,7 +290,7 @@ export async function initiate(options: CommandOptions, pkg: Package): Promise<v
         process.exit(1);
       }
     } else {
-      projectType = detect(options);
+      projectType = detect(packageJson, options);
     }
   } catch (ex) {
     done(ex.message);

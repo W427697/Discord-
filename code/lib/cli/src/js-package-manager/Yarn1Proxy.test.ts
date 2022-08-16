@@ -1,5 +1,4 @@
 import { Yarn1Proxy } from './Yarn1Proxy';
-import * as PackageJsonHelper from './PackageJsonHelper';
 
 describe('Yarn 1 Proxy', () => {
   let yarn1Proxy: Yarn1Proxy;
@@ -62,7 +61,7 @@ describe('Yarn 1 Proxy', () => {
     it('skipInstall should only change package.json without running install', () => {
       const executeCommandSpy = jest.spyOn(yarn1Proxy, 'executeCommand').mockReturnValue('7.0.0');
       const writePackageSpy = jest
-        .spyOn(PackageJsonHelper, 'writePackageJson')
+        .spyOn(yarn1Proxy, 'writePackageJson')
         .mockImplementation(jest.fn);
 
       yarn1Proxy.removeDependencies(

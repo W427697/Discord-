@@ -1,9 +1,10 @@
 import chalk from 'chalk';
 import { gt, satisfies } from '@storybook/semver';
 import { sync as spawnSync } from 'cross-spawn';
+import path from 'path';
+import fs from 'fs';
 import { commandLog } from '../helpers';
 import { PackageJson, PackageJsonWithDepsAndDevDeps } from './PackageJson';
-import { readPackageJson, writePackageJson } from './PackageJsonHelper';
 import storybookPackagesVersions from '../versions';
 
 const logger = console;
@@ -55,6 +56,23 @@ export abstract class JsPackageManager {
     done();
   }
 
+  readPackageJson(): PackageJson {
+    const packageJsonPath = path.resolve('package.json');
+    if (!fs.existsSync(packageJsonPath)) {
+      throw new Error(`Could not read package.json file at ${packageJsonPath}`);
+    }
+
+    const jsonContent = fs.readFileSync(packageJsonPath, 'utf8');
+    return JSON.parse(jsonContent);
+  }
+
+  writePackageJson(packageJson: PackageJson) {
+    const content = `${JSON.stringify(packageJson, null, 2)}\n`;
+    const packageJsonPath = path.resolve('package.json');
+
+    fs.writeFileSync(packageJsonPath, content, 'utf8');
+  }
+
   /**
    * Read the `package.json` file available in the directory the command was call from
    * If there is no `package.json` it will create one.
@@ -62,10 +80,10 @@ export abstract class JsPackageManager {
   public retrievePackageJson(): PackageJsonWithDepsAndDevDeps {
     let packageJson;
     try {
-      packageJson = readPackageJson();
+      packageJson = this.readPackageJson();
     } catch (err) {
       this.initPackageJson();
-      packageJson = readPackageJson();
+      packageJson = this.readPackageJson();
     }
 
     return {
@@ -118,7 +136,7 @@ export abstract class JsPackageManager {
         };
       }
 
-      writePackageJson(packageJson);
+      this.writePackageJson(packageJson);
     } else {
       try {
         this.runAddDeps(dependencies, options.installAsDevDependencies);
@@ -162,7 +180,7 @@ export abstract class JsPackageManager {
         }
       });
 
-      writePackageJson(packageJson);
+      this.writePackageJson(packageJson);
     } else {
       try {
         this.runRemoveDeps(dependencies);
@@ -280,7 +298,7 @@ export abstract class JsPackageManager {
 
   public addESLintConfig() {
     const packageJson = this.retrievePackageJson();
-    writePackageJson({
+    this.writePackageJson({
       ...packageJson,
       eslintConfig: {
         ...packageJson.eslintConfig,
@@ -299,7 +317,7 @@ export abstract class JsPackageManager {
 
   public addScripts(scripts: Record<string, string>) {
     const packageJson = this.retrievePackageJson();
-    writePackageJson({
+    this.writePackageJson({
       ...packageJson,
       scripts: {
         ...packageJson.scripts,
