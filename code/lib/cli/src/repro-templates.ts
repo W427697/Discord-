@@ -19,6 +19,16 @@ export default {
       builder: '@storybook/builder-webpack5',
     },
   },
+  'react-vite/default-js': {
+    name: 'Vite React (JS)',
+    script: 'npm create vite@latest . --template react',
+    cadence: ['ci', 'daily', 'weekly'],
+    expected: {
+      framework: '@storybook/react-vite',
+      renderer: '@storybook/react',
+      builder: '@storybook/builder-vite',
+    },
+  },
   'react-vite/default-ts': {
     name: 'Vite React (Typescript)',
     script: 'npm create vite@latest . --template react-ts',

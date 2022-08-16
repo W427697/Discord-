@@ -1,6 +1,7 @@
 {
   "name": "@storybook/example-vite-react-app",
   "version": "7.0.0-alpha.19",
+  "private": true,
   "scripts": {
     "build": "vite build",
     "build-storybook": "STORYBOOK_DISPLAY_WARNING=true DISPLAY_WARNING=true sb build",
