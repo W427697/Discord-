@@ -22,9 +22,32 @@
     "url": "https://opencollective.com/storybook"
   },
   "license": "MIT",
-  "main": "dist/cjs/preview.js",
-  "module": "dist/esm/preview.js",
-  "types": "dist/types/preview.d.ts",
+  "exports": {
+    ".": {
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.ts"
+    },
+    "./manager": {
+      "require": "./dist/manager.js",
+      "import": "./dist/manager.mjs",
+      "types": "./dist/manager.d.ts"
+    },
+    "./preview": {
+      "require": "./dist/preview.ts",
+      "import": "./dist/preview.mjs",
+      "types": "./dist/preview.d.ts"
+    },
+    "./register.js": {
+      "require": "./dist/manager.js",
+      "import": "./dist/manager.mjs",
+      "types": "./dist/manager.d.ts"
+    },
+    "./package.json": "./package.json"
+  },
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
   "files": [
     "dist/**/*",
     "README.md",
@@ -33,7 +56,7 @@
   ],
   "scripts": {
     "check": "tsc --noEmit",
-    "prepare": "node ../../../scripts/prepare.js"
+    "prepare": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
     "@storybook/addons": "7.0.0-alpha.23",
@@ -64,6 +87,14 @@
   },
   "publishConfig": {
     "access": "public"
+  },
+  "bundler": {
+    "entries": [
+      "./src/index.ts",
+      "./src/models/index.ts",
+      "./src/manager.tsx",
+      "./src/preview.ts"
+    ]
   },
   "gitHead": "0900e20acfbc12551c6a3f788b8de5dd6af5f80a",
   "storybook": {
