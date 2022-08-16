@@ -1,12 +1,14 @@
 /* eslint-disable no-console */
 import { join, relative } from 'path';
-import program from 'commander';
 import { command } from 'execa';
 import type { Options as ExecaOptions } from 'execa';
 import pLimit from 'p-limit';
 import prettyTime from 'pretty-hrtime';
 import { copy, emptyDir, ensureDir, rename, writeFile } from 'fs-extra';
+import { program } from 'commander';
 import reproTemplates from '../../code/lib/cli/src/repro-templates';
+import storybookVersions from '../../code/lib/cli/src/versions';
+import { JsPackageManagerFactory } from '../../code/lib/cli/src/js-package-manager/JsPackageManagerFactory';
 
 // @ts-ignore
 import { maxConcurrentTasks } from '../utils/concurrency';
@@ -68,7 +70,10 @@ const addDocumentation = async (
   await writeFile(join(afterDir, 'README.md'), contents);
 };
 
-const runGenerators = async (generators: (GeneratorConfig & { dirName: string })[]) => {
+const runGenerators = async (
+  generators: (GeneratorConfig & { dirName: string })[],
+  localRegistry = true
+) => {
   console.log(`🤹‍♂️ Generating repros with a concurrency of ${maxConcurrentTasks}`);
 
   const limit = pLimit(maxConcurrentTasks);
@@ -87,9 +92,20 @@ const runGenerators = async (generators: (GeneratorConfig & { dirName: string })
 
         await setupYarn({ cwd: baseDir });
 
+        const packageManager = JsPackageManagerFactory.getPackageManager();
+
         await runCommand(script, { cwd: beforeDir });
 
         await localizeYarnConfigFiles(baseDir, beforeDir);
+
+        if (localRegistry) {
+          // TODO: find a good way to have all this run in the correct cwd (beforeDir)
+          console.log(`📦 Configuring local registry`);
+          packageManager.addPackageResolutions(storybookVersions);
+          packageManager.setRegistryURL('https://foo.bar');
+          // TODO: remove this after we make sure the cwd is correct
+          process.exit(0);
+        }
 
         await addStorybook(baseDir);
 
@@ -106,19 +122,37 @@ const runGenerators = async (generators: (GeneratorConfig & { dirName: string })
   );
 };
 
-const generate = async () => {
-  runGenerators(
-    Object.entries(reproTemplates).map(([dirName, configuration]) => ({
+const generate = async ({
+  template,
+  localRegistry,
+}: {
+  template?: string;
+  localRegistry?: boolean;
+}) => {
+  const generatorConfigs = Object.entries(reproTemplates)
+    .map(([dirName, configuration]) => ({
       dirName,
       ...configuration,
     }))
-  );
+    .filter(({ dirName }) => {
+      if (template) {
+        return dirName === template;
+      }
+
+      return true;
+    });
+
+  runGenerators(generatorConfigs, localRegistry);
 };
 
-program.description('Create a reproduction from a set of possible templates');
-program.parse(process.argv);
-
-generate().catch((e) => {
-  console.trace(e);
-  process.exit(1);
-});
+program
+  .description('Create a reproduction from a set of possible templates')
+  .option('--template <template>', 'Create a single template')
+  .option('--local-registry', 'Use local registry', false)
+  .action((options) => {
+    generate(options).catch((e) => {
+      console.trace(e);
+      process.exit(1);
+    });
+  })
+  .parse(process.argv);
