@@ -21,7 +21,7 @@ export default {
   },
   'react-vite/default-ts': {
     name: 'Vite React (Typescript)',
-    script: 'npx create-vite-app . --template react-ts',
+    script: 'npm create vite@latest . --template react-ts',
     cadence: ['ci', 'daily', 'weekly'],
     expected: {
       framework: '@storybook/react-vite',
