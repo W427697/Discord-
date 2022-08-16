@@ -129,7 +129,6 @@ export const Panel: React.FC<{ active: boolean }> = (props) => {
         setErrored(true);
       },
       [PLAY_FUNCTION_THREW_EXCEPTION]: (e) => {
-        console.log('PLAY_FUNCTION_THREW_EXCEPTION');
         if (e?.message !== IGNORED_EXCEPTION.message) setCaughtException(e);
         else setCaughtException(undefined);
       },
