@@ -131,4 +131,32 @@ describe('Yarn 2 Proxy', () => {
       await expect(yarn2Proxy.latestVersion('@storybook/addons')).rejects.toThrow();
     });
   });
+
+  describe('addPackageResolutions', () => {
+    it('adds resolutions to package.json and account for existing resolutions', () => {
+      const writePackageSpy = jest
+        .spyOn(yarn2Proxy, 'writePackageJson')
+        .mockImplementation(jest.fn);
+
+      jest.spyOn(yarn2Proxy, 'retrievePackageJson').mockImplementation(
+        jest.fn(() => ({
+          resolutions: {
+            bar: 'x.x.x',
+          },
+        }))
+      );
+
+      const versions = {
+        foo: 'x.x.x',
+      };
+      yarn2Proxy.addPackageResolutions(versions);
+
+      expect(writePackageSpy).toHaveBeenCalledWith({
+        resolutions: {
+          ...versions,
+          bar: 'x.x.x',
+        },
+      });
+    });
+  });
 });

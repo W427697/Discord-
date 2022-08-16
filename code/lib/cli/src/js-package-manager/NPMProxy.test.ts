@@ -204,4 +204,30 @@ describe('NPM Proxy', () => {
       expect(version).toEqual(`^${packageVersion}`);
     });
   });
+
+  describe('addPackageResolutions', () => {
+    it('adds resolutions to package.json and account for existing resolutions', () => {
+      const writePackageSpy = jest.spyOn(npmProxy, 'writePackageJson').mockImplementation(jest.fn);
+
+      jest.spyOn(npmProxy, 'retrievePackageJson').mockImplementation(
+        jest.fn(() => ({
+          overrides: {
+            bar: 'x.x.x',
+          },
+        }))
+      );
+
+      const versions = {
+        foo: 'x.x.x',
+      };
+      npmProxy.addPackageResolutions(versions);
+
+      expect(writePackageSpy).toHaveBeenCalledWith({
+        overrides: {
+          ...versions,
+          bar: 'x.x.x',
+        },
+      });
+    });
+  });
 });

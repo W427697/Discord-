@@ -326,11 +326,22 @@ export abstract class JsPackageManager {
     });
   }
 
+  public addPackageResolutions(versions: Record<string, string>) {
+    const packageJson = this.retrievePackageJson();
+    const resolutions = this.getResolutions(packageJson, versions);
+    this.writePackageJson({ ...packageJson, ...resolutions });
+  }
+
   protected abstract runInstall(): void;
 
   protected abstract runAddDeps(dependencies: string[], installAsDevDependencies: boolean): void;
 
   protected abstract runRemoveDeps(dependencies: string[]): void;
+
+  protected abstract getResolutions(
+    packageJson: PackageJson,
+    versions: Record<string, string>
+  ): Record<string, any>;
 
   /**
    * Get the latest or all versions of the input package available on npmjs.com
