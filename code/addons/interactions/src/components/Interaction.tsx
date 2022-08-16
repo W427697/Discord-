@@ -130,6 +130,7 @@ export const Interaction = ({
   controls,
   controlStates,
   childCallIds,
+  isVisible,
   isCollapsed,
   toggleCollapsed,
   pausedAt,
@@ -139,12 +140,15 @@ export const Interaction = ({
   controls: Controls;
   controlStates: ControlStates;
   childCallIds?: Call['id'][];
+  isVisible: boolean;
   isCollapsed: boolean;
   toggleCollapsed: () => void;
   pausedAt?: Call['id'];
 }) => {
   const [isHovered, setIsHovered] = React.useState(false);
   const isInteractive = !controlStates.goto || !call.interceptable || !!call.ancestors.length;
+
+  if (!isVisible) return null;
 
   return (
     <RowContainer call={call} pausedAt={pausedAt}>
