@@ -73,7 +73,7 @@ It allows you to browse a component library, view the different states of each c
 
 ## Getting Started
 
-Visit [Storybook's website](https://storybook.js.org) to learn more about Storybook, and to get started.
+Visit [Storybook's website](https://storybook.js.org) to learn more about Storybook and to get started.
 
 ### Documentation
 
