@@ -17,6 +17,11 @@ const Icon = styled(Icons)(sharedStyles, ({ theme }) => ({
   color: theme.color.secondary,
 }));
 
+const SidebarIconButton = styled(IconButton)(({ theme }) => ({
+  color: theme.color.mediumdark,
+  marginTop: 0,
+}));
+
 const Img = styled.img(sharedStyles);
 const Placeholder = styled.div(sharedStyles);
 
@@ -34,47 +39,6 @@ export const MenuItemIcon = ({ icon, imgSrc }: ListItemIconProps) => {
   }
   return <Placeholder />;
 };
-
-export const MenuButton: FC<ComponentProps<typeof Button> & { highlighted: boolean }> = styled(
-  Button
-)<
-  ComponentProps<typeof Button> & {
-    highlighted: boolean;
-  }
->(({ highlighted, theme }) => ({
-  position: 'relative',
-  overflow: 'visible',
-  padding: 8,
-  transition: 'none', // prevents button border from flashing when focused/blurred
-  '&:focus': {
-    background: theme.barBg,
-    boxShadow: 'none',
-  },
-  // creates a pseudo border that does not affect the box model, but is accessible in high contrast mode
-  '&:focus:before': {
-    content: '""',
-    position: 'absolute',
-    top: 0,
-    bottom: 0,
-    left: 0,
-    right: 0,
-    borderRadius: '100%',
-    border: `1px solid ${theme.color.secondary}`,
-  },
-
-  ...(highlighted && {
-    '&:after': {
-      content: '""',
-      position: 'absolute',
-      top: 0,
-      right: 0,
-      width: 8,
-      height: 8,
-      borderRadius: 8,
-      background: theme.color.positive,
-    },
-  }),
-}));
 
 type ClickHandler = ComponentProps<typeof TooltipLinkList>['links'][number]['onClick'];
 
@@ -107,9 +71,10 @@ export const SidebarMenu: FC<{
       closeOnClick
       tooltip={({ onHide }) => <SidebarMenuList onHide={onHide} menu={menu} />}
     >
-      <MenuButton outline small containsIcon highlighted={isHighlighted} title="Shortcuts">
-        <Icons icon="ellipsis" />
-      </MenuButton>
+      {/* FIXME: when button is clicked, set "active" prop to true, isHighlighted doesn't work */}
+      <SidebarIconButton title="Shortcuts" aria-label="Shortcuts" active={isHighlighted}>
+        <Icons icon="cog" />
+      </SidebarIconButton>
     </WithTooltip>
   );
 };
