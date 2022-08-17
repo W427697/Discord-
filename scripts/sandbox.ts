@@ -8,6 +8,7 @@ import {
   ensureSymlink,
   ensureDir,
   existsSync,
+  copy,
 } from 'fs-extra';
 import prompts from 'prompts';
 import type { AbortController } from 'node-abort-controller';
@@ -22,6 +23,7 @@ import { ConfigFile, readConfig, writeConfig } from '../code/lib/csf-tools';
 import { babelParse } from '../code/lib/csf-tools/src/babelParse';
 import TEMPLATES from '../code/lib/cli/src/repro-templates';
 import { servePackages } from './utils/serve-packages';
+import dedent from 'ts-dedent';
 
 type Template = keyof typeof TEMPLATES;
 const templates: Template[] = Object.keys(TEMPLATES) as any;
@@ -41,6 +43,7 @@ const defaultAddons = [
 ];
 const sandboxDir = path.resolve(__dirname, '../sandbox');
 const codeDir = path.resolve(__dirname, '../code');
+const reprosDir = path.resolve(__dirname, '../repros');
 
 export const options = createOptions({
   template: {
@@ -59,9 +62,9 @@ export const options = createOptions({
     description: "Include Storybook's own stories?",
     promptType: (_, { template }) => template === 'react',
   },
-  create: {
+  fromLocalRepro: {
     type: 'boolean',
-    description: 'Create the template from scratch (rather than degitting it)?',
+    description: 'Create the template from a local repro (rather than degitting it)?',
   },
   forceDelete: {
     type: 'boolean',
@@ -246,7 +249,7 @@ async function addStories(paths: string[], { mainConfig }: { mainConfig: ConfigF
 }
 
 export async function sandbox(optionValues: OptionValues<typeof options>) {
-  const { template, forceDelete, forceReuse, dryRun, debug } = optionValues;
+  const { template, forceDelete, forceReuse, dryRun, debug, fromLocalRepro } = optionValues;
 
   await ensureDir(sandboxDir);
   let publishController: AbortController;
@@ -273,13 +276,29 @@ export async function sandbox(optionValues: OptionValues<typeof options>) {
   if (exists && shouldDelete && !dryRun) await remove(cwd);
 
   if (!exists || shouldDelete) {
-    await executeCLIStep(steps.repro, {
-      argument: template,
-      optionValues: { output: cwd, branch: 'next' },
-      cwd: sandboxDir,
-      dryRun,
-      debug,
-    });
+    if (fromLocalRepro) {
+      const srcDir = path.join(reprosDir, template, 'after-storybook');
+      if (!existsSync(srcDir)) {
+        throw new Error(dedent`
+          Missing repro directory '${srcDir}'!
+
+          To run sandbox against a local repro, you must have already generated
+          the repro template in the /repros directory using:
+
+          yarn generate-repros-next --template ${template}
+        `);
+      }
+      const destDir = cwd;
+      await copy(srcDir, destDir);
+    } else {
+      await executeCLIStep(steps.repro, {
+        argument: template,
+        optionValues: { output: cwd, branch: 'next' },
+        cwd: sandboxDir,
+        dryRun,
+        debug,
+      });
+    }
 
     const mainConfig = await readMainConfig({ cwd });
 
