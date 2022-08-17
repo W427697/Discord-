@@ -41,6 +41,8 @@ export abstract class JsPackageManager {
 
   public abstract setRegistryURL(url: string): void;
 
+  public abstract getRegistryURL(): string;
+
   public readonly cwd?: string;
 
   constructor({ cwd }: JsPackageManagerOptions) {

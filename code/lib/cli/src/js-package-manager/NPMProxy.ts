@@ -62,8 +62,15 @@ export class NPMProxy extends JsPackageManager {
   }
 
   setRegistryURL(url: string) {
-    const args = ['config', 'set', 'registry', url];
-    this.executeCommand('npm', args);
+    if (url) {
+      this.executeCommand('npm', ['config', 'set', 'registry', url]);
+    } else {
+      this.executeCommand('npm', ['config', 'delete', 'registry']);
+    }
+  }
+
+  getRegistryURL() {
+    return this.executeCommand('npm', ['config', 'get', 'registry']).trim();
   }
 
   protected getResolutions(packageJson: PackageJson, versions: Record<string, string>) {

@@ -17,8 +17,16 @@ export class Yarn2Proxy extends JsPackageManager {
   }
 
   setRegistryURL(url: string) {
-    const args = ['config', 'set', 'npmRegistryServer', url];
-    this.executeCommand('yarn', args);
+    if (url) {
+      this.executeCommand('yarn', ['config', 'set', 'npmRegistryServer', url]);
+    } else {
+      this.executeCommand('yarn', ['config', 'delete', 'npmRegistryServer']);
+    }
+  }
+
+  getRegistryURL() {
+    const url = this.executeCommand('yarn', ['config', 'get', 'npmRegistryServer']).trim();
+    return url === 'undefined' ? undefined : url;
   }
 
   protected getResolutions(packageJson: PackageJson, versions: Record<string, string>) {
