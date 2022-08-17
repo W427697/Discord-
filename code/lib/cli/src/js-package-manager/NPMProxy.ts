@@ -70,7 +70,8 @@ export class NPMProxy extends JsPackageManager {
   }
 
   getRegistryURL() {
-    return this.executeCommand('npm', ['config', 'get', 'registry']).trim();
+    const url = this.executeCommand('npm', ['config', 'get', 'registry']).trim();
+    return url === 'undefined' ? undefined : url;
   }
 
   protected getResolutions(packageJson: PackageJson, versions: Record<string, string>) {
