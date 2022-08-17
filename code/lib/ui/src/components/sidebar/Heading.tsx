@@ -71,7 +71,7 @@ export const Heading: FC<HeadingProps & ComponentProps<typeof HeadingWrapper>> =
         <Brand />
       </BrandArea>
 
-      <SidebarMenu menu={menu} />
+      <SidebarMenu menu={menu} isHighlighted={menuHighlighted} />
     </HeadingWrapper>
   );
 };
