@@ -9,6 +9,7 @@ interface SetupYarnOptions {
 }
 
 export async function setupYarn({ cwd, pnp = false, version = 'classic' }: SetupYarnOptions) {
+  await runCommand(`touch yarn.lock`, { cwd });
   await runCommand(`yarn set version ${version}`, { cwd });
   if (version === 'berry' && !pnp) {
     await runCommand('yarn config set nodeLinker node-modules', { cwd });
