@@ -1,3 +1,9 @@
+## 7.0.0-alpha.21 (August 17, 2022)
+
+#### Maintenance
+
+-   UI: Update every icon for v7 design [#18809](https://github.com/storybooks/storybook/pull/18809)
+
 ## 7.0.0-alpha.20 (August 16, 2022)
 
 #### Features
