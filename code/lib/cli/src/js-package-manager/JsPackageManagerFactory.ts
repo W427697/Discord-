@@ -11,10 +11,10 @@ export class JsPackageManagerFactory {
       return new NPMProxy({ cwd });
     }
 
-    const yarnVersion = getYarnVersion();
+    const yarnVersion = getYarnVersion(cwd);
     const hasYarnLockFile = findUpSync('yarn.lock', { cwd });
 
-    const hasNPMCommand = hasNPM();
+    const hasNPMCommand = hasNPM(cwd);
 
     if (yarnVersion && (hasYarnLockFile || !hasNPMCommand)) {
       return yarnVersion === 1 ? new Yarn1Proxy({ cwd }) : new Yarn2Proxy({ cwd });
@@ -28,13 +28,13 @@ export class JsPackageManagerFactory {
   }
 }
 
-function hasNPM() {
-  const npmVersionCommand = spawnSync('npm', ['--version']);
+function hasNPM(cwd?: string) {
+  const npmVersionCommand = spawnSync('npm', ['--version'], { cwd });
   return npmVersionCommand.status === 0;
 }
 
-function getYarnVersion(): 1 | 2 | undefined {
-  const yarnVersionCommand = spawnSync('yarn', ['--version']);
+function getYarnVersion(cwd?: string): 1 | 2 | undefined {
+  const yarnVersionCommand = spawnSync('yarn', ['--version'], { cwd });
 
   if (yarnVersionCommand.status !== 0) {
     return undefined;
