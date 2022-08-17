@@ -27,6 +27,9 @@ export function getPackageDetails(pkg: string): [string, string?] {
   return [packageName, packageVersion];
 }
 
+interface JsPackageManagerOptions {
+  cwd?: string;
+}
 export abstract class JsPackageManager {
   public abstract readonly type: 'npm' | 'yarn1' | 'yarn2';
 
@@ -37,6 +40,12 @@ export abstract class JsPackageManager {
   public abstract getRunCommand(command: string): string;
 
   public abstract setRegistryURL(url: string): void;
+
+  public readonly cwd?: string;
+
+  constructor({ cwd }: JsPackageManagerOptions) {
+    this.cwd = cwd;
+  }
 
   /**
    * Install dependencies listed in `package.json`
@@ -58,8 +67,12 @@ export abstract class JsPackageManager {
     done();
   }
 
+  packageJsonPath(): string {
+    return this.cwd ? path.resolve(this.cwd, 'package.json') : path.resolve('package.json');
+  }
+
   readPackageJson(): PackageJson {
-    const packageJsonPath = path.resolve('package.json');
+    const packageJsonPath = this.packageJsonPath();
     if (!fs.existsSync(packageJsonPath)) {
       throw new Error(`Could not read package.json file at ${packageJsonPath}`);
     }
@@ -70,9 +83,7 @@ export abstract class JsPackageManager {
 
   writePackageJson(packageJson: PackageJson) {
     const content = `${JSON.stringify(packageJson, null, 2)}\n`;
-    const packageJsonPath = path.resolve('package.json');
-
-    fs.writeFileSync(packageJsonPath, content, 'utf8');
+    fs.writeFileSync(this.packageJsonPath(), content, 'utf8');
   }
 
   /**
@@ -359,6 +370,7 @@ export abstract class JsPackageManager {
 
   public executeCommand(command: string, args: string[], stdio?: 'pipe' | 'inherit'): string {
     const commandResult = spawnSync(command, args, {
+      cwd: this.cwd,
       stdio: stdio ?? 'pipe',
       encoding: 'utf-8',
     });
