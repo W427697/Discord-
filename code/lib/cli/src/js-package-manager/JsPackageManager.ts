@@ -45,8 +45,8 @@ export abstract class JsPackageManager {
 
   public readonly cwd?: string;
 
-  constructor({ cwd }: JsPackageManagerOptions) {
-    this.cwd = cwd;
+  constructor(options?: JsPackageManagerOptions) {
+    this.cwd = options?.cwd;
   }
 
   /**
