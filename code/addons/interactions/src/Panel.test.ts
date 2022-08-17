@@ -148,6 +148,7 @@ describe('Panel', () => {
           ...calls.get('story--id [4] findByText'),
           status: CallStates.DONE,
           childCallIds: undefined,
+          isHidden: false,
           isCollapsed: false,
           toggleCollapsed: expect.any(Function),
         },
@@ -155,6 +156,7 @@ describe('Panel', () => {
           ...calls.get('story--id [5] click'),
           status: CallStates.DONE,
           childCallIds: undefined,
+          isHidden: false,
           isCollapsed: false,
           toggleCollapsed: expect.any(Function),
         },
@@ -162,6 +164,7 @@ describe('Panel', () => {
           ...calls.get('story--id [6] waitFor'),
           status: CallStates.DONE,
           childCallIds: ['story--id [6] waitFor [2] toHaveBeenCalledWith'],
+          isHidden: false,
           isCollapsed: false,
           toggleCollapsed: expect.any(Function),
         },
@@ -169,13 +172,14 @@ describe('Panel', () => {
           ...calls.get('story--id [6] waitFor [2] toHaveBeenCalledWith'),
           status: CallStates.DONE,
           childCallIds: undefined,
+          isHidden: false,
           isCollapsed: false,
           toggleCollapsed: expect.any(Function),
         },
       ]);
     });
 
-    it('omits calls for which the parent is collapsed', () => {
+    it('hides calls for which the parent is collapsed', () => {
       const withCollapsed = new Set<Call['id']>(['story--id [6] waitFor']);
 
       expect(getInteractions({ log, calls, collapsed: withCollapsed, setCollapsed })).toEqual([
@@ -183,16 +187,25 @@ describe('Panel', () => {
           ...calls.get('story--id [4] findByText'),
           childCallIds: undefined,
           isCollapsed: false,
+          isHidden: false,
         }),
         expect.objectContaining({
           ...calls.get('story--id [5] click'),
           childCallIds: undefined,
           isCollapsed: false,
+          isHidden: false,
         }),
         expect.objectContaining({
           ...calls.get('story--id [6] waitFor'),
           childCallIds: ['story--id [6] waitFor [2] toHaveBeenCalledWith'],
           isCollapsed: true,
+          isHidden: false,
+        }),
+        expect.objectContaining({
+          ...calls.get('story--id [6] waitFor [2] toHaveBeenCalledWith'),
+          childCallIds: undefined,
+          isCollapsed: false,
+          isHidden: true,
         }),
       ]);
     });
