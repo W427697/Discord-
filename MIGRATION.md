@@ -17,6 +17,7 @@
     - [Babel mode v7 by default](#babel-mode-v7-by-default)
     - [7.0 feature flags removed](#70-feature-flags-removed)
     - [Removed docs.getContainer and getPage parameters](#removed-docsgetcontainer-and-getpage-parameters)
+    - [Icons API changed](#icons-api-changed)
   - [Docs Changes](#docs-changes)
     - [Standalone docs files](#standalone-docs-files)
     - [Referencing stories in docs files](#referencing-stories-in-docs-files)
@@ -234,7 +235,6 @@ In the meantime, these migration notes are the best available documentation on t
 
 ### Breaking changes
 
-
 #### No more default export from `@storybook/addons`
 
 The default export from `@storybook/addons` has been removed. Please use the named exports instead:
@@ -244,6 +244,7 @@ import { addons } from '@storybook/addons';
 ```
 
 The named export has been available since 6.0 or earlier, so your updated code will be backwards-compatible with older versions of Storybook.
+
 #### Modern browser support
 
 Starting in storybook 7.0, storybook will no longer support IE11, amongst other legacy browser versions.
@@ -253,10 +254,13 @@ This means code-features such as (but not limited to) `async/await`, arrow-funct
 Not just the runtime needs to support it, but some legacy loaders for webpack or other transpilation tools might need to be updated as well. For example certain versions of webpack 4 had parsers that could not parse the new syntax (e.g. optional chaining).
 
 Some addons or libraries might depended on this legacy browser support, and thus might break. You might get an error like:
+
 ```
 regeneratorRuntime is not defined
 ```
+
 To fix these errors, the addon will have to be re-released with a newer browser-target for transpilation. This often looks something like this (but it's dependent on the build system the addon uses):
+
 ```js
 // babel.config.js
 module.exports = {
@@ -272,7 +276,7 @@ module.exports = {
       },
     ],
   ],
-}
+};
 ```
 
 Here's an example PR to one of the storybook addons: https://github.com/storybookjs/addon-coverage/pull/3 doing just that.
@@ -468,6 +472,21 @@ In 7.0 we've removed the following feature flags:
 
 It is no longer possible to set `parameters.docs.getContainer()` and `getPage()`. Instead use `parameters.docs.container` or `parameters.docs.page` directly.
 
+#### Icons API changed
+
+For addon authors who use the `Icons` component, its API has been udpated in Storybook 7.
+
+```diff
+export interface IconsProps extends ComponentProps<typeof Svg> {
+-  icon?: IconKey;
+-  symbol?: IconKey;
++  icon: IconType;
++  useSymbol?: boolean;
+}
+```
+
+Full change here: https://github.com/storybookjs/storybook/pull/18809
+
 ### Docs Changes
 
 The information hierarchy of docs in Storybook has changed in 7.0. The main difference is that each docs is listed in the sidebar as a separate entry, rather than attached to individual stories.
@@ -597,7 +616,9 @@ import * as previewAnnotations from '../.storybook/preview';
 
 export default function App({ Component, pageProps }) {
   return (
-    <ExternalDocs projectAnnotationsList={[reactAnnotations, previewAnnotations]}>
+    <ExternalDocs
+      projectAnnotationsList={[reactAnnotations, previewAnnotations]}
+    >
       <Component {...pageProps} />
     </ExternalDocs>
   );
@@ -721,7 +742,8 @@ import startCase from 'lodash/startCase';
 
 addons.setConfig({
   sidebar: {
-    renderLabel: ({ name, type }) => (type === 'story' ? name : startCase(name)),
+    renderLabel: ({ name, type }) =>
+      type === 'story' ? name : startCase(name),
   },
 });
 ```
@@ -1148,7 +1170,11 @@ After:
 ```js
 // .storybook/main.js
 module.exports = {
-  staticDirs: ['../public', '../static', { from: '../foo/assets', to: '/assets' }],
+  staticDirs: [
+    '../public',
+    '../static',
+    { from: '../foo/assets', to: '/assets' },
+  ],
 };
 ```
 
@@ -1696,13 +1722,17 @@ This breaking change only affects you if your stories actually use the context, 
 Consider the following story that uses the context:
 
 ```js
-export const Dummy = ({ parameters }) => <div>{JSON.stringify(parameters)}</div>;
+export const Dummy = ({ parameters }) => (
+  <div>{JSON.stringify(parameters)}</div>
+);
 ```
 
 Here's an updated story for 6.0 that ignores the args object:
 
 ```js
-export const Dummy = (_args, { parameters }) => <div>{JSON.stringify(parameters)}</div>;
+export const Dummy = (_args, { parameters }) => (
+  <div>{JSON.stringify(parameters)}</div>
+);
 ```
 
 Alternatively, if you want to opt out of the new behavior, you can add the following to your `.storybook/preview.js` config:
@@ -2492,7 +2522,9 @@ For example, here's how to sort by story ID using `storySort`:
 addParameters({
   options: {
     storySort: (a, b) =>
-      a[1].kind === b[1].kind ? 0 : a[1].id.localeCompare(b[1].id, undefined, { numeric: true }),
+      a[1].kind === b[1].kind
+        ? 0
+        : a[1].id.localeCompare(b[1].id, undefined, { numeric: true }),
   },
 });
 ```
@@ -2538,7 +2570,9 @@ Storybook 5.1 relies on `core-js@^3.0.0` and therefore causes a conflict with An
 {
   "compilerOptions": {
     "paths": {
-      "core-js/es7/reflect": ["node_modules/core-js/proposals/reflect-metadata"],
+      "core-js/es7/reflect": [
+        "node_modules/core-js/proposals/reflect-metadata"
+      ],
       "core-js/es6/*": ["node_modules/core-js/es"]
     }
   }

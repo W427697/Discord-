@@ -44,7 +44,7 @@ export const MenuButton: FC<ComponentProps<typeof Button> & { highlighted: boole
 >(({ highlighted, theme }) => ({
   position: 'relative',
   overflow: 'visible',
-  padding: 7,
+  padding: 8,
   transition: 'none', // prevents button border from flashing when focused/blurred
   '&:focus': {
     background: theme.barBg,
