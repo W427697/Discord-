@@ -1,12 +1,13 @@
 /* eslint-disable no-console */
-import path, { join, relative } from 'path';
+import { join, relative } from 'path';
 import program from 'commander';
 import { command } from 'execa';
 import type { Options as ExecaOptions } from 'execa';
-import yaml from 'js-yaml';
 import pLimit from 'p-limit';
 import prettyTime from 'pretty-hrtime';
-import { copy, emptyDir, ensureDir, readFile, rename, writeFile } from 'fs-extra';
+import { copy, emptyDir, ensureDir, rename, writeFile } from 'fs-extra';
+import reproTemplates from '../../code/lib/cli/src/repro-templates';
+
 // @ts-ignore
 import { maxConcurrentTasks } from '../utils/concurrency';
 
@@ -105,31 +106,19 @@ const runGenerators = async (generators: (GeneratorConfig & { dirName: string })
   );
 };
 
-const generate = async ({ config }: { config: string }) => {
-  const configContents = await readFile(config, 'utf8');
-  const data: Record<string, GeneratorConfig> = yaml.load(configContents);
-
+const generate = async () => {
   runGenerators(
-    Object.entries(data).map(([dirName, configuration]) => ({
+    Object.entries(reproTemplates).map(([dirName, configuration]) => ({
       dirName,
       ...configuration,
     }))
   );
 };
 
-program
-  .description('Create a reproduction from a set of possible templates')
-  .option(
-    '-c --config <config>',
-    'Choose a custom configuration file (.yml format)',
-    path.join(__dirname, 'repro-config.yml')
-  );
-
+program.description('Create a reproduction from a set of possible templates');
 program.parse(process.argv);
 
-const options = program.opts() as { config: string };
-
-generate(options).catch((e) => {
+generate().catch((e) => {
   console.trace(e);
   process.exit(1);
 });
