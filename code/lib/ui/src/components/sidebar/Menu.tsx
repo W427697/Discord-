@@ -1,6 +1,7 @@
 import React, { useMemo, useState, ComponentProps, FC } from 'react';
 
 import { styled } from '@storybook/theming';
+import { transparentize } from 'polished';
 import { WithTooltip, TooltipLinkList, Button, Icons, IconButton } from '@storybook/components';
 
 export type MenuList = ComponentProps<typeof TooltipLinkList>['links'];
@@ -17,10 +18,43 @@ const Icon = styled(Icons)(sharedStyles, ({ theme }) => ({
   color: theme.color.secondary,
 }));
 
-const SidebarIconButton = styled(IconButton)(({ theme }) => ({
-  color: theme.color.mediumdark,
-  marginTop: 0,
-}));
+export const SidebarIconButton: FC<ComponentProps<typeof Button> & { highlighted: boolean }> =
+  styled(IconButton)<
+    ComponentProps<typeof Button> & {
+      highlighted: boolean;
+    }
+  >(({ highlighted, theme }) => ({
+    position: 'relative',
+    overflow: 'visible',
+    color: theme.color.mediumdark,
+    marginTop: 0,
+    zIndex: 1,
+
+    ...(highlighted && {
+      '&:before, &:after': {
+        content: '""',
+        position: 'absolute',
+        top: 6,
+        right: 6,
+        width: 5,
+        height: 5,
+        zIndex: 2,
+        borderRadius: '50%',
+        background: theme.background.app,
+        border: `1px solid ${theme.background.app}`,
+        boxShadow: `0 0 0 2px ${theme.background.app}`,
+      },
+      '&:after': {
+        background: theme.color.positive,
+        border: `1px solid rgba(0, 0, 0, 0.1)`,
+        boxShadow: `0 0 0 2px ${theme.background.app}`,
+      },
+
+      '&:hover:after, &:focus-visible:after': {
+        boxShadow: `0 0 0 2px ${transparentize(0.88, theme.color.secondary)}`,
+      },
+    }),
+  }));
 
 const Img = styled.img(sharedStyles);
 const Placeholder = styled.div(sharedStyles);
@@ -62,7 +96,8 @@ const SidebarMenuList: FC<{
 
 export const SidebarMenu: FC<{
   menu: MenuList;
-}> = ({ menu }) => {
+  isHighlighted?: boolean;
+}> = ({ menu, isHighlighted }) => {
   return (
     <WithTooltip
       placement="top"
@@ -70,7 +105,7 @@ export const SidebarMenu: FC<{
       closeOnClick
       tooltip={({ onHide }) => <SidebarMenuList onHide={onHide} menu={menu} />}
     >
-      <SidebarIconButton title="Shortcuts" aria-label="Shortcuts">
+      <SidebarIconButton title="Shortcuts" aria-label="Shortcuts" highlighted={isHighlighted}>
         <Icons icon="cog" />
       </SidebarIconButton>
     </WithTooltip>

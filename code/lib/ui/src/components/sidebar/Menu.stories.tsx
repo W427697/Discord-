@@ -30,7 +30,7 @@ const fakemenu = [
 
 export const Items = () => <TooltipLinkList links={fakemenu} />;
 
-export const Real = () => <SidebarMenu menu={fakemenu} />;
+export const Real = () => <SidebarMenu menu={fakemenu} isHighlighted />;
 
 export const Toolbar = () => <ToolbarMenu menu={fakemenu} />;
 
