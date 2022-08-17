@@ -16,7 +16,7 @@ import { TabIcon, TabStatus } from './components/TabStatus';
 interface Interaction extends Call {
   status: Call['status'];
   childCallIds: Call['id'][];
-  isVisible: boolean;
+  isHidden: boolean;
   isCollapsed: boolean;
   toggleCollapsed: () => void;
 }
@@ -44,13 +44,13 @@ export const getInteractions = ({
   const callsById = new Map<Call['id'], Call>();
   const childCallMap = new Map<Call['id'], Call['id'][]>();
   return log
-    .map<Call & { isVisible: boolean }>(({ callId, ancestors, status }) => {
-      let isVisible = true;
+    .map<Call & { isHidden: boolean }>(({ callId, ancestors, status }) => {
+      let isHidden = false;
       ancestors.forEach((ancestor) => {
-        if (collapsed.has(ancestor)) isVisible = false;
+        if (collapsed.has(ancestor)) isHidden = true;
         childCallMap.set(ancestor, (childCallMap.get(ancestor) || []).concat(callId));
       });
-      return { ...calls.get(callId), status, isVisible };
+      return { ...calls.get(callId), status, isHidden };
     })
     .map<Interaction>((call) => {
       const status =
