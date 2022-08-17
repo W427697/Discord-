@@ -42,6 +42,19 @@ executors:
         environment:
           NODE_OPTIONS: --max_old_space_size=3076
     resource_class: <<parameters.class>>
+  sb_playwright:
+    parameters:
+      class:
+        description: The Resource class
+        type: enum
+        enum: ['small', 'medium', 'medium+', 'large', 'xlarge']
+        default: 'medium'
+    working_directory: /tmp/storybook
+    docker:
+      - image: mcr.microsoft.com/playwright:v1.24.0-focal
+        environment:
+          NODE_OPTIONS: --max_old_space_size=3076
+    resource_class: <<parameters.class>>
 
 orbs:
   git-shallow-clone: guitarrapc/git-shallow-clone@2.0.3
@@ -277,18 +290,13 @@ jobs:
   cra-bench:
     executor:
       class: medium
-      name: sb_cypress_8_node_14
+      name: sb_playwright
     working_directory: /tmp/storybook
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: '--depth 1 --verbose'
       - attach_workspace:
           at: .
-      - run:
-          name: install playright
-          command: |
-            cd code
-            npx playwright install
       - run:
           name: Running local registry
           command: |
@@ -547,8 +555,9 @@ jobs:
       - store_test_results:
           path: code/test-results
   e2e-sandboxes:
-    docker:
-      - image: mcr.microsoft.com/playwright:v1.24.0-focal
+    executor:
+      class: medium+
+      name: sb_playwright
     parallelism: 2
     steps:
       - git-shallow-clone/checkout_advanced:
