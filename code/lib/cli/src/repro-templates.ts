@@ -1,4 +1,4 @@
-export default {
+const craTemplates = {
   'cra/default-js': {
     name: 'Create React App (Javascript)',
     script: 'npx create-react-app .',
@@ -19,9 +19,12 @@ export default {
       builder: '@storybook/builder-webpack5',
     },
   },
+};
+
+const reactViteTemplates = {
   'react-vite/default-js': {
-    name: 'Vite React (JS)',
-    script: 'npm create vite@latest . --template react',
+    name: 'React Vite (JS)',
+    script: 'yarn create vite . --template react',
     cadence: ['ci', 'daily', 'weekly'],
     expected: {
       framework: '@storybook/react-vite',
@@ -30,8 +33,8 @@ export default {
     },
   },
   'react-vite/default-ts': {
-    name: 'Vite React (Typescript)',
-    script: 'npm create vite@latest . --template react-ts',
+    name: 'React Vite (TS)',
+    script: 'yarn create vite . --template react-ts',
     cadence: ['ci', 'daily', 'weekly'],
     expected: {
       framework: '@storybook/react-vite',
@@ -39,6 +42,35 @@ export default {
       builder: '@storybook/builder-vite',
     },
   },
+};
+
+const vue3ViteTemplates = {
+  'vue3-vite/default-js': {
+    name: 'Vue3 Vite (JS)',
+    script: 'yarn create vite . --template vue',
+    cadence: ['ci', 'daily', 'weekly'],
+    expected: {
+      framework: '@storybook/vue3-vite',
+      renderer: '@storybook/vue3',
+      builder: '@storybook/builder-vite',
+    },
+  },
+  'vue3-vite/default-ts': {
+    name: 'Vue3 Vite (TS)',
+    script: 'yarn create vite . --template vue-ts',
+    cadence: ['ci', 'daily', 'weekly'],
+    expected: {
+      framework: '@storybook/vue3-vite',
+      renderer: '@storybook/vue3',
+      builder: '@storybook/builder-vite',
+    },
+  },
+};
+
+export default {
+  ...craTemplates,
+  ...reactViteTemplates,
+  ...vue3ViteTemplates,
   // FIXME: missing documentation.json
   // 'angular/latest': {
   //   name: 'Angular (latest)',
