@@ -110,7 +110,7 @@ export class Instrumenter {
     // Restore state from the parent window in case the iframe was reloaded.
     this.state = global.window.parent.__STORYBOOK_ADDON_INTERACTIONS_INSTRUMENTER_STATE__ || {};
 
-    // When called from `start`, isDebugging will be true
+    // When called from `start`, isDebugging will be true.
     const resetState = ({
       storyId,
       isPlaying = true,
@@ -130,9 +130,7 @@ export class Instrumenter {
         isPlaying,
         isDebugging,
       });
-
-      // Don't sync while debugging, as it'll cause flicker.
-      if (!isDebugging) this.sync(storyId);
+      this.sync(storyId);
     };
 
     // A forceRemount might be triggered for debugging (on `start`), or elsewhere in Storybook.
@@ -171,6 +169,8 @@ export class Instrumenter {
 
     const start = ({ storyId, playUntil }: { storyId: string; playUntil?: Call['id'] }) => {
       if (!this.getState(storyId).isDebugging) {
+        // Move everything into shadowCalls (a "carbon copy") and mark them as "waiting", so we keep
+        // a record of the original calls which haven't yet been executed while stepping through.
         this.setState(storyId, ({ calls }) => ({
           calls: [],
           shadowCalls: calls.map((call) => ({ ...call, status: CallStates.WAITING })),
@@ -180,14 +180,13 @@ export class Instrumenter {
 
       const log = this.getLog(storyId);
       this.setState(storyId, ({ shadowCalls }) => {
+        if (playUntil || !log.length) return { playUntil };
         const firstRowIndex = shadowCalls.findIndex((call) => call.id === log[0].callId);
         return {
-          playUntil:
-            playUntil ||
-            shadowCalls
-              .slice(0, firstRowIndex)
-              .filter((call) => call.interceptable && !call.ancestors.length)
-              .slice(-1)[0]?.id,
+          playUntil: shadowCalls
+            .slice(0, firstRowIndex)
+            .filter((call) => call.interceptable && !call.ancestors.length)
+            .slice(-1)[0]?.id,
         };
       });
 
@@ -539,10 +538,8 @@ export class Instrumenter {
     }
   }
 
-  // Sends the call info and log to the manager.
-  // Uses a 0ms debounce because this might get called many times in one tick.
+  // Sends the call info to the manager and synchronizes the log.
   update(call: Call) {
-    clearTimeout(this.getState(call.storyId).syncTimeout);
     this.channel.emit(EVENTS.CALL, call);
     this.setState(call.storyId, ({ calls }) => {
       // Omit earlier calls for the same ID, which may have been superceded by a later invocation.
@@ -555,39 +552,48 @@ export class Instrumenter {
         calls: Object.values(callsById).sort((a, b) =>
           a.id.localeCompare(b.id, undefined, { numeric: true })
         ),
-        syncTimeout: setTimeout(() => this.sync(call.storyId), 0),
       };
     });
+    this.sync(call.storyId);
   }
 
-  sync(storyId: StoryId) {
-    const { isLocked, isPlaying } = this.getState(storyId);
-    const logItems: LogItem[] = this.getLog(storyId);
-    const pausedAt = logItems
-      .filter(({ ancestors }) => !ancestors.length)
-      .find((item) => item.status === CallStates.WAITING)?.callId;
+  // Builds a log of interceptable calls and control states and sends it to the manager.
+  // Uses a 0ms debounce because this might get called many times in one tick.
+  sync(storyId: string) {
+    const synchronize = () => {
+      const { isLocked, isPlaying } = this.getState(storyId);
+      const logItems: LogItem[] = this.getLog(storyId);
+      const pausedAt = logItems
+        .filter(({ ancestors }) => !ancestors.length)
+        .find((item) => item.status === CallStates.WAITING)?.callId;
 
-    const hasActive = logItems.some((item) => item.status === CallStates.ACTIVE);
-    if (debuggerDisabled || isLocked || hasActive || logItems.length === 0) {
-      const payload: SyncPayload = { controlStates: controlsDisabled, logItems };
+      const hasActive = logItems.some((item) => item.status === CallStates.ACTIVE);
+      if (debuggerDisabled || isLocked || hasActive || logItems.length === 0) {
+        const payload: SyncPayload = { controlStates: controlsDisabled, logItems };
+        this.channel.emit(EVENTS.SYNC, payload);
+        return;
+      }
+
+      const hasPrevious = logItems.some((item) =>
+        [CallStates.DONE, CallStates.ERROR].includes(item.status)
+      );
+      const controlStates: ControlStates = {
+        debugger: true,
+        start: hasPrevious,
+        back: hasPrevious,
+        goto: true,
+        next: isPlaying,
+        end: isPlaying,
+      };
+
+      const payload: SyncPayload = { controlStates, logItems, pausedAt };
       this.channel.emit(EVENTS.SYNC, payload);
-      return;
-    }
-
-    const hasPrevious = logItems.some((item) =>
-      [CallStates.DONE, CallStates.ERROR].includes(item.status)
-    );
-    const controlStates: ControlStates = {
-      debugger: true,
-      start: hasPrevious,
-      back: hasPrevious,
-      goto: true,
-      next: isPlaying,
-      end: isPlaying,
     };
 
-    const payload: SyncPayload = { controlStates, logItems, pausedAt };
-    this.channel.emit(EVENTS.SYNC, payload);
+    this.setState(storyId, ({ syncTimeout }) => {
+      clearTimeout(syncTimeout);
+      return { syncTimeout: setTimeout(synchronize, 0) };
+    });
   }
 }
 
