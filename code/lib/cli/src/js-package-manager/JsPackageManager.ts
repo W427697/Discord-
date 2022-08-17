@@ -27,6 +27,9 @@ export function getPackageDetails(pkg: string): [string, string?] {
   return [packageName, packageVersion];
 }
 
+interface JsPackageManagerOptions {
+  cwd?: string;
+}
 export abstract class JsPackageManager {
   public abstract readonly type: 'npm' | 'yarn1' | 'yarn2';
 
@@ -35,6 +38,16 @@ export abstract class JsPackageManager {
   public abstract getRunStorybookCommand(): string;
 
   public abstract getRunCommand(command: string): string;
+
+  public abstract setRegistryURL(url: string): void;
+
+  public abstract getRegistryURL(): string;
+
+  public readonly cwd?: string;
+
+  constructor(options?: JsPackageManagerOptions) {
+    this.cwd = options?.cwd;
+  }
 
   /**
    * Install dependencies listed in `package.json`
@@ -56,8 +69,12 @@ export abstract class JsPackageManager {
     done();
   }
 
+  packageJsonPath(): string {
+    return this.cwd ? path.resolve(this.cwd, 'package.json') : path.resolve('package.json');
+  }
+
   readPackageJson(): PackageJson {
-    const packageJsonPath = path.resolve('package.json');
+    const packageJsonPath = this.packageJsonPath();
     if (!fs.existsSync(packageJsonPath)) {
       throw new Error(`Could not read package.json file at ${packageJsonPath}`);
     }
@@ -68,9 +85,7 @@ export abstract class JsPackageManager {
 
   writePackageJson(packageJson: PackageJson) {
     const content = `${JSON.stringify(packageJson, null, 2)}\n`;
-    const packageJsonPath = path.resolve('package.json');
-
-    fs.writeFileSync(packageJsonPath, content, 'utf8');
+    fs.writeFileSync(this.packageJsonPath(), content, 'utf8');
   }
 
   /**
@@ -326,11 +341,22 @@ export abstract class JsPackageManager {
     });
   }
 
+  public addPackageResolutions(versions: Record<string, string>) {
+    const packageJson = this.retrievePackageJson();
+    const resolutions = this.getResolutions(packageJson, versions);
+    this.writePackageJson({ ...packageJson, ...resolutions });
+  }
+
   protected abstract runInstall(): void;
 
   protected abstract runAddDeps(dependencies: string[], installAsDevDependencies: boolean): void;
 
   protected abstract runRemoveDeps(dependencies: string[]): void;
+
+  protected abstract getResolutions(
+    packageJson: PackageJson,
+    versions: Record<string, string>
+  ): Record<string, any>;
 
   /**
    * Get the latest or all versions of the input package available on npmjs.com
@@ -346,6 +372,7 @@ export abstract class JsPackageManager {
 
   public executeCommand(command: string, args: string[], stdio?: 'pipe' | 'inherit'): string {
     const commandResult = spawnSync(command, args, {
+      cwd: this.cwd,
       stdio: stdio ?? 'pipe',
       encoding: 'utf-8',
     });

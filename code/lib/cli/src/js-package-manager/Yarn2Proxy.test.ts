@@ -31,6 +31,21 @@ describe('Yarn 2 Proxy', () => {
     });
   });
 
+  describe('setRegistryUrl', () => {
+    it('should run `yarn config set npmRegistryServer https://foo.bar`', () => {
+      const executeCommandSpy = jest.spyOn(yarn2Proxy, 'executeCommand').mockReturnValue('');
+
+      yarn2Proxy.setRegistryURL('https://foo.bar');
+
+      expect(executeCommandSpy).toHaveBeenCalledWith('yarn', [
+        'config',
+        'set',
+        'npmRegistryServer',
+        'https://foo.bar',
+      ]);
+    });
+  });
+
   describe('addDependencies', () => {
     it('with devDep it should run `yarn install -D @storybook/addons`', () => {
       const executeCommandSpy = jest.spyOn(yarn2Proxy, 'executeCommand').mockReturnValue('');
@@ -129,6 +144,34 @@ describe('Yarn 2 Proxy', () => {
       jest.spyOn(yarn2Proxy, 'executeCommand').mockReturnValue('NOT A JSON');
 
       await expect(yarn2Proxy.latestVersion('@storybook/addons')).rejects.toThrow();
+    });
+  });
+
+  describe('addPackageResolutions', () => {
+    it('adds resolutions to package.json and account for existing resolutions', () => {
+      const writePackageSpy = jest
+        .spyOn(yarn2Proxy, 'writePackageJson')
+        .mockImplementation(jest.fn);
+
+      jest.spyOn(yarn2Proxy, 'retrievePackageJson').mockImplementation(
+        jest.fn(() => ({
+          resolutions: {
+            bar: 'x.x.x',
+          },
+        }))
+      );
+
+      const versions = {
+        foo: 'x.x.x',
+      };
+      yarn2Proxy.addPackageResolutions(versions);
+
+      expect(writePackageSpy).toHaveBeenCalledWith({
+        resolutions: {
+          ...versions,
+          bar: 'x.x.x',
+        },
+      });
     });
   });
 });

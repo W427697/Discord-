@@ -21,6 +21,21 @@ describe('NPM Proxy', () => {
     });
   });
 
+  describe('setRegistryUrl', () => {
+    it('should run `npm config set registry https://foo.bar`', () => {
+      const executeCommandSpy = jest.spyOn(npmProxy, 'executeCommand').mockReturnValue('');
+
+      npmProxy.setRegistryURL('https://foo.bar');
+
+      expect(executeCommandSpy).toHaveBeenCalledWith('npm', [
+        'config',
+        'set',
+        'registry',
+        'https://foo.bar',
+      ]);
+    });
+  });
+
   describe('installDependencies', () => {
     describe('npm6', () => {
       it('should run `npm install`', () => {
@@ -202,6 +217,32 @@ describe('NPM Proxy', () => {
         '--json',
       ]);
       expect(version).toEqual(`^${packageVersion}`);
+    });
+  });
+
+  describe('addPackageResolutions', () => {
+    it('adds resolutions to package.json and account for existing resolutions', () => {
+      const writePackageSpy = jest.spyOn(npmProxy, 'writePackageJson').mockImplementation(jest.fn);
+
+      jest.spyOn(npmProxy, 'retrievePackageJson').mockImplementation(
+        jest.fn(() => ({
+          overrides: {
+            bar: 'x.x.x',
+          },
+        }))
+      );
+
+      const versions = {
+        foo: 'x.x.x',
+      };
+      npmProxy.addPackageResolutions(versions);
+
+      expect(writePackageSpy).toHaveBeenCalledWith({
+        overrides: {
+          ...versions,
+          bar: 'x.x.x',
+        },
+      });
     });
   });
 });
