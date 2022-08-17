@@ -1,3 +1,12 @@
+## 6.5.11-alpha.0 (August 17, 2022)
+
+#### Bug Fixes
+
+-   React: Fix callback behavior in `react@18` [#18737](https://github.com/storybooks/storybook/pull/18737)
+-   Store: always call composeConfigs in setProjectAnnotations [#18916](https://github.com/storybooks/storybook/pull/18916)
+-   Telemetry: improve addon extraction logic [#18868](https://github.com/storybooks/storybook/pull/18868)
+-   Addon-docs: Check for undefined before reading property in extractArgTypes.ts [#18710](https://github.com/storybooks/storybook/pull/18710)
+
 ## 6.5.10 (August 3, 2022)
 
 #### Maintenance
