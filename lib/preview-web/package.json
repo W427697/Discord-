@@ -1,6 +1,6 @@
 {
   "name": "@storybook/preview-web",
-  "version": "6.5.10-alpha.1",
+  "version": "6.5.10",
   "description": "",
   "keywords": [
     "storybook"
@@ -40,12 +40,12 @@
     "prepare": "node ../../scripts/prepare.js"
   },
   "dependencies": {
-    "@storybook/addons": "6.5.10-alpha.1",
-    "@storybook/channel-postmessage": "6.5.10-alpha.1",
-    "@storybook/client-logger": "6.5.10-alpha.1",
-    "@storybook/core-events": "6.5.10-alpha.1",
+    "@storybook/addons": "6.5.10",
+    "@storybook/channel-postmessage": "6.5.10",
+    "@storybook/client-logger": "6.5.10",
+    "@storybook/core-events": "6.5.10",
     "@storybook/csf": "0.0.2--canary.4566f4d.1",
-    "@storybook/store": "6.5.10-alpha.1",
+    "@storybook/store": "6.5.10",
     "ansi-to-html": "^0.6.11",
     "core-js": "^3.8.2",
     "global": "^4.4.0",
@@ -64,6 +64,6 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "b02a0ef8866c6cf8c609a32a14b4c55f513aa569",
+  "gitHead": "893881ff6f87272c0ab0f21776ef8fef990d0c36",
   "sbmodern": "dist/modern/index.js"
 }
