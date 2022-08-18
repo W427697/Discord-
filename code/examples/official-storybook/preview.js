@@ -107,8 +107,8 @@ const ThemedSetRoot = () => {
 
 export const decorators = [
   (StoryFn, { globals, parameters, playFunction }) => {
-    const theme =
-      globals.theme || parameters.theme || (isChromatic() && !playFunction ? 'stacked' : 'light');
+    const defaultTheme = isChromatic() && !playFunction ? 'stacked' : 'light';
+    const theme = globals.theme || parameters.theme || defaultTheme;
 
     switch (theme) {
       case 'side-by-side': {
@@ -157,7 +157,7 @@ export const decorators = [
             <Symbols icons={['folder', 'component', 'document', 'bookmarkhollow']} />
             <Global styles={createReset} />
             <ThemedSetRoot />
-            {isChromatic() && playFunction && (
+            {!parameters.theme && isChromatic() && playFunction && (
               <PlayFnNotice>
                 <span>Detected play function.</span>
                 <span>Rendering in a single theme</span>
