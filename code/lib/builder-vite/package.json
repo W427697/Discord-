@@ -39,8 +39,7 @@
     "react-docgen": "^6.0.0-alpha.0",
     "slash": "^3.0.0",
     "sveltedoc-parser": "^4.2.1",
-    "vite": "3",
-    "vue-docgen-api": "^4.40.0"
+    "vite": "3"
   },
   "devDependencies": {
     "@storybook/mdx2-csf": "^0.0.3",

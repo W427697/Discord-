@@ -37,14 +37,6 @@ export async function commonConfig(
     cacheDir: 'node_modules/.vite-storybook',
     envPrefix,
     define: {},
-    resolve:
-      framework === 'vue3'
-        ? {
-            alias: {
-              vue: 'vue/dist/vue.esm-bundler.js',
-            },
-          }
-        : {},
     plugins: await pluginConfig(options, _type),
   };
 }
@@ -80,24 +72,6 @@ export async function pluginConfig(options: ExtendedOptions, _type: PluginConfig
       },
     },
   ] as Plugin[];
-  if (framework === 'vue' || framework === 'vue3') {
-    try {
-      // eslint-disable-next-line import/no-extraneous-dependencies, global-require
-      const vuePlugin = require('@vitejs/plugin-vue');
-      plugins.push(vuePlugin());
-      const { vueDocgen } = await import('./plugins/vue-docgen');
-      plugins.push(vueDocgen());
-    } catch (err) {
-      if ((err as NodeJS.ErrnoException).code === 'MODULE_NOT_FOUND') {
-        throw new Error(
-          '@storybook/builder-vite requires @vitejs/plugin-vue to be installed ' +
-            'when using @storybook/vue or @storybook/vue3.' +
-            '  Please install it and start storybook again.'
-        );
-      }
-      throw err;
-    }
-  }
   if (framework === 'svelte') {
     try {
       // eslint-disable-next-line import/no-extraneous-dependencies, global-require
@@ -150,7 +124,7 @@ export async function pluginConfig(options: ExtendedOptions, _type: PluginConfig
     const config = { ...loadSvelteConfig(), ...svelteOptions };
 
     try {
-      // eslint-disable-next-line import/no-extraneous-dependencies, global-require
+      // eslint-disable-next-line global-require
       const csfPlugin = require('./svelte/csf-plugin').default;
       plugins.push(csfPlugin(config));
     } catch (err) {
@@ -166,12 +140,12 @@ export async function pluginConfig(options: ExtendedOptions, _type: PluginConfig
   }
 
   if (framework === 'preact') {
-    // eslint-disable-next-line import/no-extraneous-dependencies, global-require
+    // eslint-disable-next-line global-require
     plugins.push(require('@preact/preset-vite').default());
   }
 
   if (framework === 'glimmerx') {
-    // eslint-disable-next-line import/no-extraneous-dependencies, global-require, import/extensions
+    // eslint-disable-next-line global-require, import/extensions
     const plugin = require('vite-plugin-glimmerx/index.cjs');
     plugins.push(plugin.default());
   }

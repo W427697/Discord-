@@ -7104,7 +7104,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/addon-essentials@7.0.0-alpha.21, @storybook/addon-essentials@^7.0.0-alpha.21, @storybook/addon-essentials@workspace:*, @storybook/addon-essentials@workspace:addons/essentials":
+"@storybook/addon-essentials@7.0.0-alpha.21, @storybook/addon-essentials@workspace:*, @storybook/addon-essentials@workspace:addons/essentials":
   version: 0.0.0-use.local
   resolution: "@storybook/addon-essentials@workspace:addons/essentials"
   dependencies:
@@ -7170,7 +7170,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/addon-interactions@7.0.0-alpha.21, @storybook/addon-interactions@^7.0.0-alpha.21, @storybook/addon-interactions@workspace:*, @storybook/addon-interactions@workspace:addons/interactions":
+"@storybook/addon-interactions@7.0.0-alpha.21, @storybook/addon-interactions@workspace:*, @storybook/addon-interactions@workspace:addons/interactions":
   version: 0.0.0-use.local
   resolution: "@storybook/addon-interactions@workspace:addons/interactions"
   dependencies:
@@ -7230,7 +7230,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/addon-links@7.0.0-alpha.21, @storybook/addon-links@^7.0.0-alpha.21, @storybook/addon-links@workspace:*, @storybook/addon-links@workspace:addons/links":
+"@storybook/addon-links@7.0.0-alpha.21, @storybook/addon-links@workspace:*, @storybook/addon-links@workspace:addons/links":
   version: 0.0.0-use.local
   resolution: "@storybook/addon-links@workspace:addons/links"
   dependencies:
@@ -7786,7 +7786,6 @@ __metadata:
     sveltedoc-parser: ^4.2.1
     typescript: ~4.6.3
     vite: 3
-    vue-docgen-api: ^4.40.0
   peerDependencies:
     "@storybook/mdx2-csf": ^0.0.3
     svelte: ^3.0.0
@@ -9052,7 +9051,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@storybook/react-vite@7.0.0-alpha.21, @storybook/react-vite@^7.0.0-alpha.21, @storybook/react-vite@workspace:*, @storybook/react-vite@workspace:frameworks/react-vite":
+"@storybook/react-vite@7.0.0-alpha.21, @storybook/react-vite@workspace:*, @storybook/react-vite@workspace:frameworks/react-vite":
   version: 0.0.0-use.local
   resolution: "@storybook/react-vite@workspace:frameworks/react-vite"
   dependencies:
@@ -9626,19 +9625,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@storybook/testing-library@npm:^0.0.13":
-  version: 0.0.13
-  resolution: "@storybook/testing-library@npm:0.0.13"
-  dependencies:
-    "@storybook/client-logger": ^6.4.0
-    "@storybook/instrumenter": ^6.4.0
-    "@testing-library/dom": ^8.3.0
-    "@testing-library/user-event": ^13.2.1
-    ts-dedent: ^2.2.0
-  checksum: d5d5953e825aed706491b44089b1b500dead328b3bf7c364ac911f33346f2890a9c205e701391733114f53a948de0d8490eea1ec13c70611643b1bf3d7636dff
-  languageName: node
-  linkType: hard
-
 "@storybook/testing-library@npm:^0.0.9":
   version: 0.0.9
   resolution: "@storybook/testing-library@npm:0.0.9"
@@ -9766,7 +9752,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/vue3-vite@^7.0.0-alpha.21, @storybook/vue3-vite@workspace:*, @storybook/vue3-vite@workspace:frameworks/vue3-vite":
+"@storybook/vue3-vite@workspace:*, @storybook/vue3-vite@workspace:frameworks/vue3-vite":
   version: 0.0.0-use.local
   resolution: "@storybook/vue3-vite@workspace:frameworks/vue3-vite"
   dependencies:
@@ -11136,15 +11122,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react-dom@npm:^18.0.6":
-  version: 18.0.6
-  resolution: "@types/react-dom@npm:18.0.6"
-  dependencies:
-    "@types/react": "*"
-  checksum: 8ea6e001b741cced20781b3e5e8704c2597815adf1dc22d6b4d24616f24db93364a7163543cb0690082201a351cbfcb6bb0f8ce44ee5ad76ccabacbfe0fb2dd3
-  languageName: node
-  linkType: hard
-
 "@types/react-syntax-highlighter@npm:11.0.5":
   version: 11.0.5
   resolution: "@types/react-syntax-highlighter@npm:11.0.5"
@@ -11173,17 +11150,6 @@ __metadata:
     "@types/scheduler": "*"
     csstype: ^3.0.2
   checksum: 110ebdc1bc5524e4698ed653b86084cb78b338df7d23042752d13253eb3ed5a291462a4f93d8bdceb1237330b4b0c7e9c65bf9ab39c341a54d7da3d703f76010
-  languageName: node
-  linkType: hard
-
-"@types/react@npm:^18.0.17":
-  version: 18.0.17
-  resolution: "@types/react@npm:18.0.17"
-  dependencies:
-    "@types/prop-types": "*"
-    "@types/scheduler": "*"
-    csstype: ^3.0.2
-  checksum: bd4900d1d8567c8b6c2ef6cbb1c83a28b725faf27dc82249958e5d09b15f82e3f28591a22ae5797bc6ee0292d2cf542061bf0faba076bd1ba61266803eb95710
   languageName: node
   linkType: hard
 
@@ -14653,30 +14619,6 @@ __metadata:
   checksum: 7457bfb8f40e8cbce943ea6e6531261925c6c8a451fea540762367a3e2e52b5979978963a7ec65f232a4f5b87310930bf152c9a055608c64ecee5115bad60b9a
   languageName: node
   linkType: hard
-
-"before-storybook@workspace:examples/react-vite-ts":
-  version: 0.0.0-use.local
-  resolution: "before-storybook@workspace:examples/react-vite-ts"
-  dependencies:
-    "@babel/core": ^7.18.10
-    "@storybook/addon-essentials": ^7.0.0-alpha.21
-    "@storybook/addon-interactions": ^7.0.0-alpha.21
-    "@storybook/addon-links": ^7.0.0-alpha.21
-    "@storybook/react-vite": ^7.0.0-alpha.21
-    "@storybook/testing-library": ^0.0.13
-    "@types/react": ^18.0.17
-    "@types/react-dom": ^18.0.6
-    "@vitejs/plugin-react": ^1.0.7
-    babel-loader: ^8.2.5
-    prop-types: ^15.8.1
-    react: ^18.2.0
-    react-dom: ^18.2.0
-    sb: 7.0.0-alpha.21
-    storybook: ^7.0.0-alpha.21
-    typescript: ^4.6.4
-    vite: ^2.9.0
-  languageName: unknown
-  linkType: soft
 
 "better-opn@npm:^2.1.1":
   version: 2.1.1
@@ -37402,18 +37344,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-dom@npm:^18.2.0":
-  version: 18.2.0
-  resolution: "react-dom@npm:18.2.0"
-  dependencies:
-    loose-envify: ^1.1.0
-    scheduler: ^0.23.0
-  peerDependencies:
-    react: ^18.2.0
-  checksum: 66dfc5f93e13d0674e78ef41f92ed21dfb80f9c4ac4ac25a4b51046d41d4d2186abc915b897f69d3d0ebbffe6184e7c5876f2af26bfa956f179225d921be713a
-  languageName: node
-  linkType: hard
-
 "react-draggable@npm:^4.4.3":
   version: 4.4.5
   resolution: "react-draggable@npm:4.4.5"
@@ -37827,15 +37757,6 @@ __metadata:
     loose-envify: ^1.1.0
     object-assign: ^4.1.1
   checksum: 07ae8959acf1596f0550685102fd6097d461a54a4fd46a50f88a0cd7daaa97fdd6415de1dcb4bfe0da6aa43221a6746ce380410fa848acc60f8ac41f6649c148
-  languageName: node
-  linkType: hard
-
-"react@npm:^18.2.0":
-  version: 18.2.0
-  resolution: "react@npm:18.2.0"
-  dependencies:
-    loose-envify: ^1.1.0
-  checksum: b562d9b569b0cb315e44b48099f7712283d93df36b19a39a67c254c6686479d3980b7f013dc931f4a5a3ae7645eae6386b4aa5eea933baa54ecd0f9acb0902b8
   languageName: node
   linkType: hard
 
@@ -39962,15 +39883,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"scheduler@npm:^0.23.0":
-  version: 0.23.0
-  resolution: "scheduler@npm:0.23.0"
-  dependencies:
-    loose-envify: ^1.1.0
-  checksum: b777f7ca0115e6d93e126ac490dbd82642d14983b3079f58f35519d992fa46260be7d6e6cede433a92db70306310c6f5f06e144f0e40c484199e09c1f7be53dd
-  languageName: node
-  linkType: hard
-
 "schema-utils@npm:2.7.0":
   version: 2.7.0
   resolution: "schema-utils@npm:2.7.0"
@@ -41347,7 +41259,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"storybook@7.0.0-alpha.21, storybook@^7.0.0-alpha.21, storybook@workspace:lib/cli-storybook":
+"storybook@7.0.0-alpha.21, storybook@workspace:lib/cli-storybook":
   version: 0.0.0-use.local
   resolution: "storybook@workspace:lib/cli-storybook"
   dependencies:
@@ -44907,7 +44819,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vite@npm:3, vite@npm:^3.0.7":
+"vite@npm:3":
   version: 3.0.7
   resolution: "vite@npm:3.0.7"
   dependencies:
@@ -45245,7 +45157,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vue-loader@npm:^16.0.0, vue-loader@npm:^16.8.3":
+"vue-loader@npm:^16.0.0":
   version: 16.8.3
   resolution: "vue-loader@npm:16.8.3"
   dependencies:
@@ -45317,25 +45229,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vue3-vite-js@workspace:examples/vue3-vite-js":
-  version: 0.0.0-use.local
-  resolution: "vue3-vite-js@workspace:examples/vue3-vite-js"
-  dependencies:
-    "@babel/core": ^7.18.10
-    "@storybook/addon-essentials": ^7.0.0-alpha.21
-    "@storybook/addon-interactions": ^7.0.0-alpha.21
-    "@storybook/addon-links": ^7.0.0-alpha.21
-    "@storybook/testing-library": ^0.0.13
-    "@storybook/vue3-vite": ^7.0.0-alpha.21
-    "@vitejs/plugin-vue": ^3.0.3
-    babel-loader: ^8.2.5
-    storybook: ^7.0.0-alpha.21
-    vite: ^3.0.7
-    vue: ^3.2.37
-    vue-loader: ^16.8.3
-  languageName: unknown
-  linkType: soft
-
 "vue@npm:3.0.0":
   version: 3.0.0
   resolution: "vue@npm:3.0.0"
@@ -45357,7 +45250,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vue@npm:^3.0.0, vue@npm:^3.2.33, vue@npm:^3.2.37":
+"vue@npm:^3.0.0, vue@npm:^3.2.33":
   version: 3.2.37
   resolution: "vue@npm:3.2.37"
   dependencies:
