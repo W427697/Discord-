@@ -49,7 +49,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "d8cdc5b21af68e69c6eefeaae0e1efadd06947ea",
+  "gitHead": "408cd2770da3f5cfb54843d74dfcf31b6c7e0d58",
   "sbmodern": "dist/modern/index.js",
   "storybook": {
     "displayName": "Highlight",
