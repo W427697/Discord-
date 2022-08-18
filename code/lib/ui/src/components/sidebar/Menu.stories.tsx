@@ -1,3 +1,4 @@
+import { expect } from '@storybook/jest';
 import React, { Fragment, FunctionComponent } from 'react';
 
 import { WithTooltip, TooltipLinkList, Icons } from '@storybook/components';
@@ -57,7 +58,7 @@ export const Expanded = () => {
   );
   return (
     <DoubleThemeRenderingHack>
-      <SidebarMenu menu={menu} />
+      <SidebarMenu menu={menu} isHighlighted />
     </DoubleThemeRenderingHack>
   );
 };
@@ -65,10 +66,8 @@ Expanded.play = async ({ canvasElement }) => {
   const canvas = within(canvasElement);
   const menuButton = await canvas.findByRole('button');
   await userEvent.click(menuButton);
-  // force wait for the menu to show
-  await screen.findByText(/About your Storybook/);
-  // sleep
-  await new Promise((resolve) => setTimeout(resolve, 100));
+  const aboutStorybookBtn = await screen.findByText(/About your Storybook/);
+  await expect(aboutStorybookBtn).toBeInTheDocument();
 };
 
 export const ExpandedWithoutReleaseNotes = () => {
@@ -86,10 +85,16 @@ export const ExpandedWithoutReleaseNotes = () => {
     false,
     false
   );
+
   return (
     <DoubleThemeRenderingHack>
       <SidebarMenu menu={menu} />
     </DoubleThemeRenderingHack>
   );
 };
-ExpandedWithoutReleaseNotes.play = Expanded.play;
+ExpandedWithoutReleaseNotes.play = async (context) => {
+  const canvas = within(context.canvasElement);
+  await Expanded.play(context);
+  const releaseNotes = await canvas.getByText(/Release notes/);
+  await expect(releaseNotes).not.toBeInTheDocument();
+};
