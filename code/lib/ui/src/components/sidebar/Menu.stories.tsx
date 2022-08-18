@@ -95,6 +95,6 @@ export const ExpandedWithoutReleaseNotes = () => {
 ExpandedWithoutReleaseNotes.play = async (context) => {
   const canvas = within(context.canvasElement);
   await Expanded.play(context);
-  const releaseNotes = await canvas.getByText(/Release notes/);
+  const releaseNotes = await canvas.queryByText(/Release notes/);
   await expect(releaseNotes).not.toBeInTheDocument();
 };
