@@ -2,7 +2,7 @@ import React, { Fragment, FunctionComponent } from 'react';
 
 import { WithTooltip, TooltipLinkList, Icons } from '@storybook/components';
 import { styled } from '@storybook/theming';
-import { within, userEvent, screen, waitFor } from '@storybook/testing-library';
+import { within, userEvent, screen } from '@storybook/testing-library';
 import { MenuItemIcon, SidebarMenu, ToolbarMenu } from './Menu';
 import { useMenu } from '../../containers/menu';
 
@@ -66,9 +66,9 @@ Expanded.play = async ({ canvasElement }) => {
   const menuButton = await canvas.findByRole('button');
   await userEvent.click(menuButton);
   // force wait for the menu to show
-  await waitFor(async () => {
-    await screen.findByText(/Release notes/);
-  })
+  await screen.findByText(/About your Storybook/);
+  // sleep
+  await new Promise((resolve) => setTimeout(resolve, 100));
 };
 
 export const ExpandedWithoutReleaseNotes = () => {
