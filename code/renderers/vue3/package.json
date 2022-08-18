@@ -23,7 +23,6 @@
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "files": [
-    "bin/**/*",
     "dist/**/*",
     "README.md",
     "*.js",
