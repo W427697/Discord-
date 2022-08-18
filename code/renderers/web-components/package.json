@@ -1,6 +1,6 @@
 {
   "name": "@storybook/web-components",
-  "version": "7.0.0-alpha.22",
+  "version": "7.0.0-alpha.23",
   "description": "Storybook web-components renderer",
   "keywords": [
     "lit-html",
@@ -52,14 +52,14 @@
     "prepare": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/addons": "7.0.0-alpha.22",
-    "@storybook/api": "7.0.0-alpha.22",
-    "@storybook/client-logger": "7.0.0-alpha.22",
-    "@storybook/core-client": "7.0.0-alpha.22",
+    "@storybook/addons": "7.0.0-alpha.23",
+    "@storybook/api": "7.0.0-alpha.23",
+    "@storybook/client-logger": "7.0.0-alpha.23",
+    "@storybook/core-client": "7.0.0-alpha.23",
     "@storybook/csf": "0.0.2--canary.0899bb7.0",
-    "@storybook/docs-tools": "7.0.0-alpha.22",
-    "@storybook/preview-web": "7.0.0-alpha.22",
-    "@storybook/store": "7.0.0-alpha.22",
+    "@storybook/docs-tools": "7.0.0-alpha.23",
+    "@storybook/preview-web": "7.0.0-alpha.23",
+    "@storybook/store": "7.0.0-alpha.23",
     "core-js": "^3.8.2",
     "global": "^4.4.0",
     "react": "16.14.0",
