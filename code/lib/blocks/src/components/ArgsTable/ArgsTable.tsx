@@ -1,14 +1,14 @@
-import React, { FC } from 'react';
-import pickBy from 'lodash/pickBy';
-import { styled } from '@storybook/theming';
-import { opacify, transparentize, darken, lighten } from 'polished';
-import { includeConditionalArg } from '@storybook/csf';
 import { once } from '@storybook/client-logger';
 import { Icons, Link, ResetWrapper } from '@storybook/components';
+import { includeConditionalArg } from '@storybook/csf';
+import { styled } from '@storybook/theming';
+import pickBy from 'lodash/pickBy';
+import { darken, lighten, opacify, transparentize } from 'polished';
+import React, { FC } from 'react';
+import { EmptyBlock } from '..';
 import { ArgRow } from './ArgRow';
 import { SectionRow } from './SectionRow';
-import { ArgType, ArgTypes, Args, Globals, HidableColumn } from './types';
-import { EmptyBlock } from '..';
+import { Args, ArgType, ArgTypes, Globals, HidableColumn } from './types';
 
 export const TableWrapper = styled.table<{
   compact?: boolean;
@@ -459,7 +459,7 @@ export const ArgsTable: FC<ArgsTableProps> = (props) => {
             <th>
               <span>Name</span>
             </th>
-            {compact || hideColumns?.includes('descrption') ? null : (
+            {compact || hideColumns?.includes('description') ? null : (
               <th>
                 <span>Description</span>
               </th>

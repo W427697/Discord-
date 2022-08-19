@@ -1,12 +1,12 @@
-import React, { FC } from 'react';
+import { codeCommon } from '@storybook/components';
+import { styled } from '@storybook/theming';
 import Markdown from 'markdown-to-jsx';
 import { transparentize } from 'polished';
-import { styled } from '@storybook/theming';
-import { codeCommon } from '@storybook/components';
-import { ArgType, Args, TableAnnotation, HidableColumn } from './types';
+import React, { FC } from 'react';
+import { ArgControl, ArgControlProps } from './ArgControl';
 import { ArgJsDoc } from './ArgJsDoc';
 import { ArgValue } from './ArgValue';
-import { ArgControl, ArgControlProps } from './ArgControl';
+import { Args, ArgType, HidableColumn, TableAnnotation } from './types';
 
 interface ArgRowProps {
   row: ArgType;
@@ -88,7 +88,7 @@ export const ArgRow: FC<ArgRowProps> = (props) => {
         <Name>{name}</Name>
         {required ? <Required title="Required">*</Required> : null}
       </StyledTd>
-      {compact || hideColumns?.includes('descrption') ? null : (
+      {compact || hideColumns?.includes('description') ? null : (
         <td>
           {hasDescription && (
             <Description>

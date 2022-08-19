@@ -48,11 +48,11 @@ To use the `ArgsTable` in [DocsPage](./docs-page.md#component-parameter), export
 
 If you need, you can also include the `ArgsTable` block in your MDX stories. Below is a condensed table of available options and examples:
 
-| Option        | Description                                                                                         |
-| -------       | --------------------------------------------------------------------------------------------------- |
-| `of`          | Infers the args table from the component. <br/> `<ArgsTable of={MyComponent} />`                    |
-| `story`       | Infers the args table based on a story. <br/> `<ArgsTable story="example-mycomponent--my-story" />` |
-| `hideColumns` | An array of columns to hide. Hidable Columns: `descrption`, `default`, `control`. <br/> `<ArgsTable of={MyComponent} hideColumns={['default', 'description']}` |
+| Option        | Description                                                                                                                                                       |
+| -------       | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `of`          | Infers the args table from the component. <br/> `<ArgsTable of={MyComponent} />`                                                                                  |
+| `story`       | Infers the args table based on a story. <br/> `<ArgsTable story="example-mycomponent--my-story" />`                                                               |
+| `hideColumns` | An array of columns to hide. Hidable Columns: `descrption`, `default`, `control`. <br/> `<ArgsTable of={MyComponent} hideColumns={['default', 'description']} />` |
 
 <!-- prettier-ignore-start -->
 
@@ -60,6 +60,7 @@ If you need, you can also include the `ArgsTable` block in your MDX stories. Bel
   paths={[
     'common/component-story-mdx-argstable-block-for-component.with-component.mdx.mdx',
     'common/component-story-mdx-argstable-block-for-story.with-story.mdx.mdx',
+    'common/component-story-mdx-argstable-hide-columns.with-story.mdx.mdx'
   ]}
 />
 

@@ -1,9 +1,9 @@
-import React from 'react';
 import { action } from '@storybook/addon-actions';
 import { styled } from '@storybook/theming';
+import React from 'react';
+import * as ArgRow from './ArgRow.stories';
 import { ArgsTable, ArgsTableError } from './ArgsTable';
 import { NoControlsWarning } from './NoControlsWarning';
-import * as ArgRow from './ArgRow.stories';
 
 export default {
   component: ArgsTable,
@@ -160,7 +160,7 @@ export const HidingDefaultColumn = {
 };
 
 export const HidingDescriptionColumn = {
-  args: { ...Normal.args, inAddonPanel: true, hideColumns: ['descr'] },
+  args: { ...Normal.args, inAddonPanel: true, hideColumns: ['description'] },
   decorators: [(storyFn) => <AddonPanelLayout>{storyFn()}</AddonPanelLayout>],
 };
 

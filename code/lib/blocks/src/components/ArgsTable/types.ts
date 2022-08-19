@@ -48,4 +48,4 @@ export interface Args {
 
 export type Globals = { [name: string]: any };
 
-export type HidableColumn = 'descrption' | 'default' | 'control';
+export type HidableColumn = 'description' | 'default' | 'control';
