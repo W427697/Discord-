@@ -307,7 +307,7 @@ export async function initiate(options: CommandOptions, pkg: Package): Promise<v
     packageManager.installDependencies();
   }
 
-  await automigrate({ yes: process.env.CI === 'true' });
+  await automigrate({ yes: options.yes || process.env.CI === 'true' });
 
   logger.log('\nTo run your Storybook, type:\n');
   codeLog([packageManager.getRunStorybookCommand()]);
