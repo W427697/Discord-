@@ -17311,6 +17311,7 @@ __metadata:
   resolution: "cra-ts-essentials@workspace:examples/cra-ts-essentials"
   dependencies:
     "@storybook/addon-essentials": 7.0.0-alpha.23
+    "@storybook/addon-interactions": 7.0.0-alpha.23
     "@storybook/addons": 7.0.0-alpha.23
     "@storybook/builder-webpack5": 7.0.0-alpha.23
     "@storybook/components": 7.0.0-alpha.23
