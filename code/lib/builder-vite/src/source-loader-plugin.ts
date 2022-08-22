@@ -1,13 +1,17 @@
 import type { Plugin } from 'vite';
 import sourceLoaderTransform from '@storybook/source-loader';
-import type { ExtendedOptions } from './types';
 import MagicString from 'magic-string';
+import type { ExtendedOptions } from './types';
 
 const storyPattern = /\.stories\.[jt]sx?$/;
 const storySourcePattern = /var __STORY__ = "(.*)"/;
 const storySourceReplacement = '--STORY_SOURCE_REPLACEMENT--';
 
-const mockClassLoader = (id: string) => ({ emitWarning: (message: string) => console.warn(message), resourcePath: id });
+const mockClassLoader = (id: string) => ({
+  // eslint-disable-next-line no-console
+  emitWarning: (message: string) => console.warn(message),
+  resourcePath: id,
+});
 
 // HACK: Until we can support only node 15+ and use string.prototype.replaceAll
 const replaceAll = (str: string, search: string, replacement: string) => {
@@ -31,6 +35,7 @@ export function sourceLoaderPlugin(config: ExtendedOptions): Plugin | Plugin[] {
             map: s.generateMap({ hires: true, source: id }),
           };
         }
+        return undefined;
       },
     };
   }
@@ -66,6 +71,7 @@ export function sourceLoaderPlugin(config: ExtendedOptions): Plugin | Plugin[] {
             map: s.generateMap(),
           };
         }
+        return undefined;
       },
     },
     {
@@ -90,6 +96,7 @@ export function sourceLoaderPlugin(config: ExtendedOptions): Plugin | Plugin[] {
             map: s.generateMap(),
           };
         }
+        return undefined;
       },
     },
   ];
