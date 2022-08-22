@@ -39,9 +39,20 @@ export abstract class JsPackageManager {
 
   public abstract getRunCommand(command: string): string;
 
-  public abstract setRegistryURL(url: string): void;
+  // NOTE: for some reason yarn prefers the npm registry in
+  // local development, so always use npm
+  setRegistryURL(url: string) {
+    if (url) {
+      this.executeCommand('npm', ['config', 'set', 'registry', url]);
+    } else {
+      this.executeCommand('npm', ['config', 'delete', 'registry']);
+    }
+  }
 
-  public abstract getRegistryURL(): string;
+  getRegistryURL() {
+    const url = this.executeCommand('npm', ['config', 'get', 'registry']).trim();
+    return url === 'undefined' ? undefined : url;
+  }
 
   public readonly cwd?: string;
 
