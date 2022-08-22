@@ -1,3 +1,20 @@
+## 7.0.0-alpha.23 (August 18, 2022)
+
+#### Features
+
+-   UI: Polish canvas and sidebar for 7.0 [#18894](https://github.com/storybooks/storybook/pull/18894)
+
+#### Maintenance
+
+-   Sandbox: Add ability to run from local repro [#18950](https://github.com/storybooks/storybook/pull/18950)
+-   Repros: Add ability to generate repros using local registry [#18948](https://github.com/storybooks/storybook/pull/18948)
+-   CLI: Move write/read package json into JsPackageManager [#18942](https://github.com/storybooks/storybook/pull/18942)
+
+
+## 7.0.0-alpha.22 (August 18, 2022)
+
+Failed publish to npm
+
 ## 7.0.0-alpha.21 (August 17, 2022)
 
 #### Maintenance
