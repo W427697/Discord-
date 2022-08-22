@@ -7,7 +7,7 @@ test('Basic story test', async ({ page }) => {
   await page.goto(storybookUrl);
 
   const preview = page.frameLocator('#storybook-preview-iframe');
-  const root = preview.locator('#root:visible, #docs-root:visible');
+  const root = preview.locator('#storybook-root:visible, #storybook-docs:visible');
 
   // Specific check for introduction story
   await expect(root).toContainText('Welcome');
