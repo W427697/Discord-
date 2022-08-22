@@ -1,3 +1,9 @@
+## 6.5.11-alpha.1 (August 23, 2022)
+
+#### Bug Fixes
+
+-   Vue: Fix enum check in extractArgTypes [#18959](https://github.com/storybooks/storybook/pull/18959)
+
 ## 6.5.11-alpha.0 (August 17, 2022)
 
 #### Bug Fixes
