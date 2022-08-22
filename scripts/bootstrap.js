@@ -74,9 +74,9 @@ function run() {
       defaultValue: true,
       option: '--prep',
       command: () => {
-        log.info(prefix, 'prepare');
+        log.info(prefix, 'prep');
         spawn(
-          `nx run-many --target="prepare" --all --parallel --exclude=@storybook/addon-storyshots,@storybook/addon-storyshots-puppeteer -- --reset`
+          `nx run-many --target="prep" --all --parallel --exclude=@storybook/addon-storyshots,@storybook/addon-storyshots-puppeteer -- --reset`
         );
       },
       order: 2,
@@ -86,23 +86,14 @@ function run() {
       defaultValue: true,
       option: '--retry',
       command: () => {
-        log.info(prefix, 'prepare');
+        log.info(prefix, 'core');
         spawn(
-          `nx run-many --target=prepare --all --parallel --only-failed ${
+          `nx run-many --target="prep" --all --parallel --only-failed ${
             process.env.CI ? `--max-parallel=${maxConcurrentTasks}` : ''
           }`
         );
       },
       order: 1,
-    }),
-    cleanup: createTask({
-      name: `Remove compiled dist directories ${chalk.gray('(cleanup)')}`,
-      defaultValue: false,
-      option: '--cleanup',
-      command: () => {
-        spawn('npm run clean:dist');
-      },
-      order: 0,
     }),
     reset: createTask({
       name: `Clean repository ${chalk.red('(reset)')}`,
@@ -131,7 +122,7 @@ function run() {
       command: () => {
         log.info(prefix, 'build');
         spawn(
-          `nx run-many --target="prepare" --all --parallel=8 ${
+          `nx run-many --target="prep" --all --parallel=8 ${
             process.env.CI ? `--max-parallel=${maxConcurrentTasks}` : ''
           } -- --reset --optimized`
         );
@@ -143,7 +134,7 @@ function run() {
       defaultValue: false,
       option: '--reg',
       command: () => {
-        spawn('yarn local-registry --publish --open --port 6000');
+        spawn('yarn local-registry --publish --open --port 6001');
       },
       order: 11,
     }),
@@ -161,7 +152,7 @@ function run() {
   const groups = {
     main: ['prep', 'core'],
     buildtasks: ['install', 'build'],
-    devtasks: ['dev', 'registry', 'cleanup', 'reset'],
+    devtasks: ['dev', 'registry', 'reset'],
   };
 
   Object.keys(tasks)
