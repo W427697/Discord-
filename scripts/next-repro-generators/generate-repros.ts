@@ -29,7 +29,7 @@ const sbInit = async (cwd: string) => {
   await runCommand(`${sbCliBinaryPath} init --yes`, { cwd, env });
 };
 
-const LOCAL_REGISTRY_URL = 'http://localhost:6000';
+const LOCAL_REGISTRY_URL = 'http://localhost:6001';
 const withLocalRegistry = async (packageManager: JsPackageManager, action: () => Promise<void>) => {
   const prevUrl = packageManager.getRegistryURL();
   try {

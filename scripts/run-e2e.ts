@@ -163,7 +163,7 @@ const runTests = async ({ name, ...rest }: Parameters) => {
       targetFolder,
       `--renderer ${options.renderer}`,
       `--template ${options.name}`,
-      `--registry http://localhost:6000`,
+      `--registry http://localhost:6001`,
       '--e2e',
     ];
 
