@@ -118,8 +118,8 @@ export async function buildDevStandalone(options: CLIOptions & LoadOptions & Bui
 
   if (options.smokeTest) {
     const warnings: Error[] = [];
-    warnings.push(...((managerStats && managerStats.toJson().warnings) || []));
-    warnings.push(...((previewStats && previewStats.toJson().warnings) || []));
+    warnings.push(...(managerStats?.toJson()?.warnings || []));
+    warnings.push(...(previewStats?.toJson()?.warnings || []));
 
     const problems = warnings
       .filter((warning) => !warning.message.includes(`export 'useInsertionEffect'`))
