@@ -1,4 +1,3 @@
-/* eslint-disable global-require */
 import path from 'path';
 import fs from 'fs';
 import type { StorybookConfig, TypescriptOptions } from '@storybook/core-vite';
@@ -23,7 +22,7 @@ export const viteFinal: StorybookConfig['viteFinal'] = async (config, { presets 
   const { plugins = [] } = config;
 
   try {
-    // eslint-disable-next-line import/no-extraneous-dependencies, global-require
+    // eslint-disable-next-line global-require
     const vuePlugin = require('@vitejs/plugin-vue');
     plugins.push(vuePlugin());
     const { vueDocgen } = await import('./plugins/vue-docgen');
@@ -42,9 +41,12 @@ export const viteFinal: StorybookConfig['viteFinal'] = async (config, { presets 
   const updated = {
     ...config,
     plugins,
-    alias: {
-      ...config.alias,
-      vue: 'vue/dist/vue.esm-bundler.js',
+    resolve: {
+      ...config?.resolve,
+      alias: {
+        ...config?.resolve?.alias,
+        vue: 'vue/dist/vue.esm-bundler.js',
+      },
     },
   };
   return updated;
