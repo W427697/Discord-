@@ -61,7 +61,7 @@
   "devDependencies": {
     "@angular/core": "^13.3.6",
     "@angular/platform-browser-dynamic": "^13.3.6",
-    "@emotion/jest": "^11.8.0",
+    "@emotion/jest": "^11.10.0",
     "@storybook/addon-docs": "7.0.0-alpha.23",
     "@storybook/angular": "7.0.0-alpha.23",
     "@storybook/react": "7.0.0-alpha.23",
