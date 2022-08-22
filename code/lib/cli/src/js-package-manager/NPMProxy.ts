@@ -1,10 +1,13 @@
 import semver from '@storybook/semver';
 import { JsPackageManager } from './JsPackageManager';
+import type { PackageJson } from './PackageJson';
 
 export class NPMProxy extends JsPackageManager {
   readonly type = 'npm';
 
   installArgs: string[] | undefined;
+
+  uninstallArgs: string[] | undefined;
 
   initPackageJson() {
     return this.executeCommand('npm', ['init', '-y']);
@@ -49,6 +52,37 @@ export class NPMProxy extends JsPackageManager {
     return this.installArgs;
   }
 
+  getUninstallArgs(): string[] {
+    if (!this.uninstallArgs) {
+      this.uninstallArgs = this.needsLegacyPeerDeps(this.getNpmVersion())
+        ? ['uninstall', '--legacy-peer-deps']
+        : ['uninstall'];
+    }
+    return this.uninstallArgs;
+  }
+
+  setRegistryURL(url: string) {
+    if (url) {
+      this.executeCommand('npm', ['config', 'set', 'registry', url]);
+    } else {
+      this.executeCommand('npm', ['config', 'delete', 'registry']);
+    }
+  }
+
+  getRegistryURL() {
+    const url = this.executeCommand('npm', ['config', 'get', 'registry']).trim();
+    return url === 'undefined' ? undefined : url;
+  }
+
+  protected getResolutions(packageJson: PackageJson, versions: Record<string, string>) {
+    return {
+      overrides: {
+        ...packageJson.overrides,
+        ...versions,
+      },
+    };
+  }
+
   protected runInstall(): void {
     this.executeCommand('npm', this.getInstallArgs(), 'inherit');
   }
@@ -61,6 +95,12 @@ export class NPMProxy extends JsPackageManager {
     }
 
     this.executeCommand('npm', [...this.getInstallArgs(), ...args], 'inherit');
+  }
+
+  protected runRemoveDeps(dependencies: string[]): void {
+    const args = [...dependencies];
+
+    this.executeCommand('npm', [...this.getUninstallArgs(), ...args], 'inherit');
   }
 
   protected runGetVersions<T extends boolean>(

@@ -1,3 +1,107 @@
+## 7.0.0-alpha.23 (August 18, 2022)
+
+#### Features
+
+-   UI: Polish canvas and sidebar for 7.0 [#18894](https://github.com/storybooks/storybook/pull/18894)
+
+#### Maintenance
+
+-   Sandbox: Add ability to run from local repro [#18950](https://github.com/storybooks/storybook/pull/18950)
+-   Repros: Add ability to generate repros using local registry [#18948](https://github.com/storybooks/storybook/pull/18948)
+-   CLI: Move write/read package json into JsPackageManager [#18942](https://github.com/storybooks/storybook/pull/18942)
+
+
+## 7.0.0-alpha.22 (August 18, 2022)
+
+Failed publish to npm
+
+## 7.0.0-alpha.21 (August 17, 2022)
+
+#### Maintenance
+
+-   UI: Update every icon for v7 design [#18809](https://github.com/storybooks/storybook/pull/18809)
+
+## 7.0.0-alpha.20 (August 16, 2022)
+
+#### Features
+
+-   CLI: Automigration for new frameworks [#18919](https://github.com/storybooks/storybook/pull/18919)
+
+#### Bug Fixes
+
+-   UI: Fix the order of addons appearing in prebuilt manager [#18918](https://github.com/storybooks/storybook/pull/18918)
+
+#### Maintenance
+
+-   Exit sandbox gracefully on cancel [#18936](https://github.com/storybooks/storybook/pull/18936)
+-   Disable telemetry in monorepo and CI [#18935](https://github.com/storybooks/storybook/pull/18935)
+-   Convert cypress e2e tests to playwright [#18932](https://github.com/storybooks/storybook/pull/18932)
+-   CI: Refactor to use tasks [#18922](https://github.com/storybooks/storybook/pull/18922)
+-   Angular: Add renderer components / stories [#18934](https://github.com/storybooks/storybook/pull/18934)
+-   Examples: Add angular repro template and refactor [#18931](https://github.com/storybooks/storybook/pull/18931)
+
+## 7.0.0-alpha.19 (August 12, 2022)
+
+#### Features
+
+-   CLI: add "storybook scripts 7.0" automigrate command [#18769](https://github.com/storybooks/storybook/pull/18769)
+-   Interactions: Run conditionally based on query param [#18706](https://github.com/storybooks/storybook/pull/18706)
+
+#### Bug Fixes
+
+-   API: Return defaultValue in useParameter if story is not prepared [#18887](https://github.com/storybooks/storybook/pull/18887)
+-   Store: always call composeConfigs in setProjectAnnotations [#18916](https://github.com/storybooks/storybook/pull/18916)
+-   CLI: install the same version as the user in sb-scripts automigration [#18917](https://github.com/storybooks/storybook/pull/18917)
+-   Theming: Add `create` export for lib/theming [#18906](https://github.com/storybooks/storybook/pull/18906)
+-   Telemetry: Improve addon extraction logic [#18868](https://github.com/storybooks/storybook/pull/18868)
+-   UI: Add image support to builder-manager [#18857](https://github.com/storybooks/storybook/pull/18857)
+-   ArgTypes: Fix check for undefined before [#18710](https://github.com/storybooks/storybook/pull/18710)
+
+#### Maintenance
+
+-   Build: use ts-up to build addon-toolbars [#18847](https://github.com/storybooks/storybook/pull/18847)
+-   Build: Use ts-up to build channels [#18882](https://github.com/storybooks/storybook/pull/18882)
+-   Build: Use ts-up to build addon-links [#18908](https://github.com/storybooks/storybook/pull/18908)
+-   CLI: Fix remove dependencies logic [#18905](https://github.com/storybooks/storybook/pull/18905)
+-   CLI: Add uninstall deps to jsPackageManager [#18900](https://github.com/storybooks/storybook/pull/18900)
+-   Examples: Improve sandbox command error handling and debugging [#18869](https://github.com/storybooks/storybook/pull/18869)
+-   Examples: Change to self-hosted placeholder images [#18878](https://github.com/storybooks/storybook/pull/18878)
+-   CLI: add --no-init to repro-next command [#18866](https://github.com/storybooks/storybook/pull/18866)
+-   Build: Got verdaccio working, borrowing heavily from the old repro command [#18844](https://github.com/storybooks/storybook/pull/18844)
+-   Core-server: Move webpack to be a devDependency [#18856](https://github.com/storybooks/storybook/pull/18856)
+
+## 7.0.0-alpha.18 (August 2, 2022)
+
+#### Features
+
+-   CLI: Add temporary sb repro-next command that only degits repros [#18834](https://github.com/storybooks/storybook/pull/18834)
+-   Interactions: Add step function to play context [#18673](https://github.com/storybooks/storybook/pull/18673)
+-   UI: Add preloading to stories highlighted in the sidebar [#17964](https://github.com/storybooks/storybook/pull/17964)
+
+#### Bug Fixes
+
+-   UI: Fix refs with authentication being broken if the fetch for `iframe.html` succeeds (but with a request to authenticate) [#18160](https://github.com/storybooks/storybook/pull/18160)
+-   HTML: Fix missing ability to set `docs.extractArgTypes` [#18831](https://github.com/storybooks/storybook/pull/18831)
+-   React: Fix callback behavior in `react@18` [#18737](https://github.com/storybooks/storybook/pull/18737)
+-   CLI: Throw error on failure in sb init [#18816](https://github.com/storybooks/storybook/pull/18816)
+-   CLI: Fix package.json version detection [#18806](https://github.com/storybooks/storybook/pull/18806)
+
+#### Maintenance
+
+-   Build: Use ts-up to build `addon-outline` [#18842](https://github.com/storybooks/storybook/pull/18842)
+-   Core: Fix default framework options handling [#18676](https://github.com/storybooks/storybook/pull/18676)
+-   Build: Use tsup to build `addon-measure` and fix related imports in `examples/official-storybook` [#18837](https://github.com/storybooks/storybook/pull/18837)
+-   Build: Use tsup to build addon-jest [#18836](https://github.com/storybooks/storybook/pull/18836)
+-   Examples: Use `repro-next` in the example script! [#18839](https://github.com/storybooks/storybook/pull/18839)
+-   Examples: Rename `example` => `sandbox` [#18838](https://github.com/storybooks/storybook/pull/18838)
+-   Examples: Use a set of test components in addon stories [#18825](https://github.com/storybooks/storybook/pull/18825)
+-   Examples: Copy example stories over from renderer + addons [#18824](https://github.com/storybooks/storybook/pull/18824)
+-   Examples: Set `resolve.symlinks` based on node option [#18827](https://github.com/storybooks/storybook/pull/18827)
+-   Examples: Add command to publish repros + GH action [#18800](https://github.com/storybooks/storybook/pull/18800)
+-   Examples: Create a new `yarn example` command [#18781](https://github.com/storybooks/storybook/pull/18781)
+-   Build: Fix yarn build command [#18817](https://github.com/storybooks/storybook/pull/18817)
+-   Build: Use tsup to build core-event [#18798](https://github.com/storybooks/storybook/pull/18798)
+
 ## 7.0.0-alpha.17 (July 27, 2022)
 
 #### Features
