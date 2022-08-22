@@ -43,7 +43,7 @@ const startVerdaccio = (port: number): Promise<any> => {
         });
       };
 
-      startVerdaccioServer(config, 6000, cache, '1.0.0', 'verdaccio', onReady);
+      startVerdaccioServer(config, 6001, cache, '1.0.0', 'verdaccio', onReady);
     }),
     new Promise((_, rej) => {
       setTimeout(() => {
