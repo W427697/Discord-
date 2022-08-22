@@ -32,7 +32,7 @@
   ],
   "scripts": {
     "check": "tsc --noEmit",
-    "prep": "node ../../../scripts/prepare.js"
+    "prepare": "node ../../../scripts/prepare.js"
   },
   "dependencies": {
     "core-js": "^3.8.2"
