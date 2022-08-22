@@ -43,6 +43,7 @@
 
     "@storybook/react-vite": { "root": "frameworks/react-vite", "type": "library" },
     "@storybook/vue3-vite": { "root": "frameworks/vue3-vite", "type": "library" },
+    "@storybook/svelte-vite": { "root": "frameworks/svelte-vite", "type": "library" },
 
     "@storybook/core-webpack": { "root": "lib/core-webpack", "type": "library" },
     "@storybook/core-vite": { "root": "lib/core-vite", "type": "library" },
