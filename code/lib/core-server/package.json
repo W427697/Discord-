@@ -30,7 +30,7 @@
   ],
   "scripts": {
     "check": "tsc --noEmit",
-    "prep": "node ../../../scripts/prepare.js"
+    "prepare": "node ../../../scripts/prepare.js"
   },
   "dependencies": {
     "@aw-web-design/x-default-browser": "1.4.88",
