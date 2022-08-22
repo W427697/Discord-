@@ -1,6 +1,6 @@
 {
   "name": "@storybook/csf-tools",
-  "version": "7.0.0-alpha.21",
+  "version": "7.0.0-alpha.23",
   "description": "",
   "keywords": [
     "storybook"
@@ -56,5 +56,5 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "d8cdc5b21af68e69c6eefeaae0e1efadd06947ea"
+  "gitHead": "0900e20acfbc12551c6a3f788b8de5dd6af5f80a"
 }

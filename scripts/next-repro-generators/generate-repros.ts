@@ -26,7 +26,7 @@ const sbInit = async (cwd: string) => {
   const sbCliBinaryPath = join(__dirname, `../../code/lib/cli/bin/index.js`);
   console.log(`🎁 Installing storybook`);
   const env = { STORYBOOK_DISABLE_TELEMETRY: 'true' };
-  await runCommand(`${sbCliBinaryPath} init`, { cwd, env });
+  await runCommand(`${sbCliBinaryPath} init --yes`, { cwd, env });
 };
 
 const LOCAL_REGISTRY_URL = 'http://localhost:6000';
