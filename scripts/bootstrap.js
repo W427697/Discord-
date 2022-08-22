@@ -143,7 +143,7 @@ function run() {
       defaultValue: false,
       option: '--reg',
       command: () => {
-        spawn('yarn local-registry --publish --open --port 6000');
+        spawn('yarn local-registry --publish --open --port 6001');
       },
       order: 11,
     }),
