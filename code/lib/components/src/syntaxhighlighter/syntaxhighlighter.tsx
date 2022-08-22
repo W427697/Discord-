@@ -35,7 +35,11 @@ import { createElement } from 'react-syntax-highlighter/dist/esm/index';
 import { ActionBar } from '../ActionBar/ActionBar';
 import { ScrollArea } from '../ScrollArea/ScrollArea';
 
-import type { SyntaxHighlighterProps } from './syntaxhighlighter-types';
+import type {
+  SyntaxHighlighterProps,
+  SyntaxHighlighterRenderer,
+  SyntaxHighlighterRendererProps,
+} from './syntaxhighlighter-types';
 
 const { navigator, document, window: globalWindow } = global;
 
@@ -143,43 +147,50 @@ const Code = styled.div(({ theme }) => ({
   opacity: 1,
 }));
 
+const processLineNumber = (row: any) => {
+  const children = [...row.children];
+  const lineNumberNode = children[0];
+  const lineNumber = lineNumberNode.children[0].value;
+  const processedLineNumberNode = {
+    ...lineNumberNode,
+    // empty the line-number element
+    children: [],
+    properties: {
+      ...lineNumberNode.properties,
+      // add a data-line-number attribute to line-number element, so we can access the line number with `content: attr(data-line-number)`
+      'data-line-number': lineNumber,
+      // remove the 'userSelect: none' style, which will produce extra empty lines when copy-pasting in firefox
+      style: { ...lineNumberNode.properties.style, userSelect: 'auto' },
+    },
+  };
+  children[0] = processedLineNumberNode;
+  return { ...row, children };
+};
+
 /**
- * A custom renderer used to process `span.linenumber` element in each line of code,
- * which should only be enabled if `showLineNumbers = true`
+ * A custom renderer for handling `span.linenumber` element in each line of code,
+ * which is enabled by default if no renderer is passed in from the parent component
  */
-const renderer = ({
-  rows,
-  stylesheet,
-  useInlineStyles,
-}: {
-  rows: any[];
-  stylesheet: any;
-  useInlineStyles: any;
-}) => {
+const defaultRenderer: SyntaxHighlighterRenderer = ({ rows, stylesheet, useInlineStyles }) => {
   return rows.map((node: any, i: number) => {
-    const children = [...node.children];
-    const lineNumberNode = children[0];
-    const lineNumber = lineNumberNode.children[0].value;
-    const processedLineNumberNode = {
-      ...lineNumberNode,
-      // empty the line-number element
-      children: [],
-      properties: {
-        ...lineNumberNode.properties,
-        // add a data-line-number attribute to line-number element, so we can access the line number with `content: attr(data-line-number)`
-        'data-line-number': lineNumber,
-        // remove the 'userSelect: none' style, which will produce extra empty lines when copy-pasting in firefox
-        style: { ...lineNumberNode.properties.style, userSelect: 'auto' },
-      },
-    };
-    children[0] = processedLineNumberNode;
     return createElement({
-      node: { ...node, children },
+      node: processLineNumber(node),
       stylesheet,
       useInlineStyles,
       key: `code-segement${i}`,
     });
   });
+};
+
+const wrapRenderer = (renderer: SyntaxHighlighterRenderer, showLineNumbers: boolean) => {
+  if (!showLineNumbers) {
+    return renderer;
+  }
+  if (renderer) {
+    return ({ rows, ...rest }: SyntaxHighlighterRendererProps) =>
+      renderer({ rows: rows.map((row) => processLineNumber(row)), ...rest });
+  }
+  return defaultRenderer;
 };
 
 export interface SyntaxHighlighterState {
@@ -216,6 +227,7 @@ export const SyntaxHighlighter: FC<SyntaxHighlighterProps> = ({
       })
       .catch(logger.error);
   }, []);
+  const renderer = wrapRenderer(rest.renderer, showLineNumbers);
 
   return (
     <Wrapper
@@ -233,9 +245,9 @@ export const SyntaxHighlighter: FC<SyntaxHighlighterProps> = ({
           useInlineStyles={false}
           PreTag={Pre}
           CodeTag={Code}
-          renderer={showLineNumbers ? renderer : undefined}
           lineNumberContainerStyle={{}}
           {...rest}
+          renderer={renderer}
         >
           {highlightableCode}
         </ReactSyntaxHighlighter>
