@@ -19,7 +19,6 @@ const mainConfig: import('@storybook/angular').StorybookConfig = {
     channelOptions: { allowFunction: false, maxDepth: 10 },
     disableTelemetry: true,
   },
-  // These are just here to test composition. They could be added to any storybook example project
   staticDirs: ['../src/assets'],
   features: {
     buildStoriesJson: false,
