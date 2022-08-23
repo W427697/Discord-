@@ -26,7 +26,7 @@ jobs:
         run: yarn bootstrap --prep
         working-directory: ./code
       - name: Generate repros
-        run: yarn generate-repros-next
+        run: yarn generate-repros-next --local-registry
         working-directory: ./code
       - name: Publish repros to GitHub
         run: yarn publish-repros --remote=https://storybook-bot:${{ secrets.PAT_STORYBOOK_BOT}}@github.com/storybookjs/repro-templates-temp.git --push
