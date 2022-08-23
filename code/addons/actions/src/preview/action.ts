@@ -4,7 +4,7 @@ import { EVENT_ID } from '../constants';
 import { ActionDisplay, ActionOptions, HandlerFunction } from '../models';
 import { config } from './configureActions';
 
-type SyntheticEvent = any; // import('react').SyntheticEvent;
+type SyntheticEvent = any; 
 const findProto = (obj: unknown, callback: (proto: any) => boolean): Function | null => {
   const proto = Object.getPrototypeOf(obj);
   if (!proto || callback(proto)) return proto;
