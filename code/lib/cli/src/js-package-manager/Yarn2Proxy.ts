@@ -1,4 +1,5 @@
 import { JsPackageManager } from './JsPackageManager';
+import type { PackageJson } from './PackageJson';
 
 export class Yarn2Proxy extends JsPackageManager {
   readonly type = 'yarn2';
@@ -13,6 +14,15 @@ export class Yarn2Proxy extends JsPackageManager {
 
   getRunCommand(command: string): string {
     return `yarn ${command}`;
+  }
+
+  protected getResolutions(packageJson: PackageJson, versions: Record<string, string>) {
+    return {
+      resolutions: {
+        ...packageJson.resolutions,
+        ...versions,
+      },
+    };
   }
 
   protected runInstall(): void {
