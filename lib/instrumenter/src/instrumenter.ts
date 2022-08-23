@@ -546,9 +546,9 @@ export function instrument<TObj extends Record<string, any>>(
     let forceInstrument = false;
     let skipInstrument = false;
 
-    if (global.window.location?.search?.includes('instrument=true')) {
+    if (global.window.location?.search?.indexOf('instrument=true') !== -1) {
       forceInstrument = true;
-    } else if (global.window.location?.search?.includes('instrument=false')) {
+    } else if (global.window.location?.search?.indexOf('instrument=false') !== -1) {
       skipInstrument = true;
     }
 
