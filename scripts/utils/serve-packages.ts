@@ -11,6 +11,7 @@ export async function servePackages({ dryRun, debug }: { dryRun?: boolean; debug
     { cwd: codeDir },
     { dryRun, debug, signal: controller.signal as AbortSignal }
   ).catch((err) => {
+    console.log('serve-packages', { err });
     // If aborted, we want to make sure the rejection is handled.
     if (!err.killed) throw err;
   });
