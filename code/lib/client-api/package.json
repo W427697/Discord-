@@ -1,6 +1,6 @@
 {
   "name": "@storybook/client-api",
-  "version": "7.0.0-alpha.18",
+  "version": "7.0.0-alpha.23",
   "description": "Storybook Client API",
   "keywords": [
     "storybook"
@@ -20,13 +20,13 @@
   },
   "license": "MIT",
   "sideEffects": false,
-  "exports": { 
-    ".": { 
-      "require": "./dist/index.js", 
-      "import": "./dist/index.mjs", 
-      "types": "./dist/index.d.ts" 
+  "exports": {
+    ".": {
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.ts"
     },
-    "./package.json": "./package.json" 
+    "./package.json": "./package.json"
   },
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -39,17 +39,16 @@
   ],
   "scripts": {
     "check": "tsc --noEmit",
-    "prepare": "esrun ../../scripts/prepare/bundle.ts"
+    "prepare": "../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@digitak/esrun": "^3.2.2",
-    "@storybook/addons": "7.0.0-alpha.18",
-    "@storybook/channel-postmessage": "7.0.0-alpha.18",
-    "@storybook/channels": "7.0.0-alpha.18",
-    "@storybook/client-logger": "7.0.0-alpha.18",
-    "@storybook/core-events": "7.0.0-alpha.18",
+    "@storybook/addons": "7.0.0-alpha.23",
+    "@storybook/channel-postmessage": "7.0.0-alpha.23",
+    "@storybook/channels": "7.0.0-alpha.23",
+    "@storybook/client-logger": "7.0.0-alpha.23",
+    "@storybook/core-events": "7.0.0-alpha.23",
     "@storybook/csf": "0.0.2--canary.0899bb7.0",
-    "@storybook/store": "7.0.0-alpha.18",
+    "@storybook/store": "7.0.0-alpha.23",
     "@types/qs": "^6.9.5",
     "@types/webpack-env": "^1.16.4",
     "core-js": "^3.8.2",
@@ -73,10 +72,10 @@
   "publishConfig": {
     "access": "public"
   },
-   "bundler": {
+  "bundler": {
     "entries": [
       "./src/index.ts"
     ]
   },
-  "gitHead": "bd59f1eef0f644175abdb0d9873ed0553f431f53"
+  "gitHead": "0900e20acfbc12551c6a3f788b8de5dd6af5f80a"
 }

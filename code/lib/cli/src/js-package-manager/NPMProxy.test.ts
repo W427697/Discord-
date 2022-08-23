@@ -21,6 +21,21 @@ describe('NPM Proxy', () => {
     });
   });
 
+  describe('setRegistryUrl', () => {
+    it('should run `npm config set registry https://foo.bar`', () => {
+      const executeCommandSpy = jest.spyOn(npmProxy, 'executeCommand').mockReturnValue('');
+
+      npmProxy.setRegistryURL('https://foo.bar');
+
+      expect(executeCommandSpy).toHaveBeenCalledWith('npm', [
+        'config',
+        'set',
+        'registry',
+        'https://foo.bar',
+      ]);
+    });
+  });
+
   describe('installDependencies', () => {
     describe('npm6', () => {
       it('should run `npm install`', () => {
@@ -71,6 +86,63 @@ describe('NPM Proxy', () => {
           ['install', '--legacy-peer-deps', '-D', '@storybook/addons'],
           expect.any(String)
         );
+      });
+    });
+  });
+
+  describe('removeDependencies', () => {
+    describe('npm6', () => {
+      it('with devDep it should run `npm uninstall @storybook/addons`', () => {
+        const executeCommandSpy = jest.spyOn(npmProxy, 'executeCommand').mockReturnValue('6.0.0');
+
+        npmProxy.removeDependencies({}, ['@storybook/addons']);
+
+        expect(executeCommandSpy).toHaveBeenLastCalledWith(
+          'npm',
+          ['uninstall', '@storybook/addons'],
+          expect.any(String)
+        );
+      });
+    });
+    describe('npm7', () => {
+      it('with devDep it should run `npm uninstall @storybook/addons`', () => {
+        const executeCommandSpy = jest.spyOn(npmProxy, 'executeCommand').mockReturnValue('7.0.0');
+
+        npmProxy.removeDependencies({}, ['@storybook/addons']);
+
+        expect(executeCommandSpy).toHaveBeenLastCalledWith(
+          'npm',
+          ['uninstall', '--legacy-peer-deps', '@storybook/addons'],
+          expect.any(String)
+        );
+      });
+    });
+    describe('skipInstall', () => {
+      it('should only change package.json without running install', () => {
+        const executeCommandSpy = jest.spyOn(npmProxy, 'executeCommand').mockReturnValue('7.0.0');
+        const writePackageSpy = jest
+          .spyOn(npmProxy, 'writePackageJson')
+          .mockImplementation(jest.fn);
+
+        npmProxy.removeDependencies(
+          {
+            skipInstall: true,
+            packageJson: {
+              devDependencies: {
+                '@storybook/manager-webpack5': 'x.x.x',
+                '@storybook/react': 'x.x.x',
+              },
+            },
+          },
+          ['@storybook/manager-webpack5']
+        );
+
+        expect(writePackageSpy).toHaveBeenCalledWith({
+          devDependencies: {
+            '@storybook/react': 'x.x.x',
+          },
+        });
+        expect(executeCommandSpy).not.toHaveBeenCalled();
       });
     });
   });
@@ -145,6 +217,32 @@ describe('NPM Proxy', () => {
         '--json',
       ]);
       expect(version).toEqual(`^${packageVersion}`);
+    });
+  });
+
+  describe('addPackageResolutions', () => {
+    it('adds resolutions to package.json and account for existing resolutions', () => {
+      const writePackageSpy = jest.spyOn(npmProxy, 'writePackageJson').mockImplementation(jest.fn);
+
+      jest.spyOn(npmProxy, 'retrievePackageJson').mockImplementation(
+        jest.fn(() => ({
+          overrides: {
+            bar: 'x.x.x',
+          },
+        }))
+      );
+
+      const versions = {
+        foo: 'x.x.x',
+      };
+      npmProxy.addPackageResolutions(versions);
+
+      expect(writePackageSpy).toHaveBeenCalledWith({
+        overrides: {
+          ...versions,
+          bar: 'x.x.x',
+        },
+      });
     });
   });
 });

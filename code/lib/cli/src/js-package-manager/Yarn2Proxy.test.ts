@@ -1,6 +1,6 @@
 import { Yarn2Proxy } from './Yarn2Proxy';
 
-describe('Yarn 1 Proxy', () => {
+describe('Yarn 2 Proxy', () => {
   let yarn2Proxy: Yarn2Proxy;
 
   beforeEach(() => {
@@ -31,6 +31,21 @@ describe('Yarn 1 Proxy', () => {
     });
   });
 
+  describe('setRegistryUrl', () => {
+    it('should run `yarn config set npmRegistryServer https://foo.bar`', () => {
+      const executeCommandSpy = jest.spyOn(yarn2Proxy, 'executeCommand').mockReturnValue('');
+
+      yarn2Proxy.setRegistryURL('https://foo.bar');
+
+      expect(executeCommandSpy).toHaveBeenCalledWith('npm', [
+        'config',
+        'set',
+        'registry',
+        'https://foo.bar',
+      ]);
+    });
+  });
+
   describe('addDependencies', () => {
     it('with devDep it should run `yarn install -D @storybook/addons`', () => {
       const executeCommandSpy = jest.spyOn(yarn2Proxy, 'executeCommand').mockReturnValue('');
@@ -42,6 +57,47 @@ describe('Yarn 1 Proxy', () => {
         ['add', '-D', '@storybook/addons'],
         expect.any(String)
       );
+    });
+  });
+
+  describe('removeDependencies', () => {
+    it('it should run `yarn remove @storybook/addons`', () => {
+      const executeCommandSpy = jest.spyOn(yarn2Proxy, 'executeCommand').mockReturnValue('');
+
+      yarn2Proxy.removeDependencies({}, ['@storybook/addons']);
+
+      expect(executeCommandSpy).toHaveBeenCalledWith(
+        'yarn',
+        ['remove', '@storybook/addons'],
+        expect.any(String)
+      );
+    });
+
+    it('skipInstall should only change package.json without running install', () => {
+      const executeCommandSpy = jest.spyOn(yarn2Proxy, 'executeCommand').mockReturnValue('7.0.0');
+      const writePackageSpy = jest
+        .spyOn(yarn2Proxy, 'writePackageJson')
+        .mockImplementation(jest.fn);
+
+      yarn2Proxy.removeDependencies(
+        {
+          skipInstall: true,
+          packageJson: {
+            devDependencies: {
+              '@storybook/manager-webpack5': 'x.x.x',
+              '@storybook/react': 'x.x.x',
+            },
+          },
+        },
+        ['@storybook/manager-webpack5']
+      );
+
+      expect(writePackageSpy).toHaveBeenCalledWith({
+        devDependencies: {
+          '@storybook/react': 'x.x.x',
+        },
+      });
+      expect(executeCommandSpy).not.toHaveBeenCalled();
     });
   });
 
@@ -88,6 +144,34 @@ describe('Yarn 1 Proxy', () => {
       jest.spyOn(yarn2Proxy, 'executeCommand').mockReturnValue('NOT A JSON');
 
       await expect(yarn2Proxy.latestVersion('@storybook/addons')).rejects.toThrow();
+    });
+  });
+
+  describe('addPackageResolutions', () => {
+    it('adds resolutions to package.json and account for existing resolutions', () => {
+      const writePackageSpy = jest
+        .spyOn(yarn2Proxy, 'writePackageJson')
+        .mockImplementation(jest.fn);
+
+      jest.spyOn(yarn2Proxy, 'retrievePackageJson').mockImplementation(
+        jest.fn(() => ({
+          resolutions: {
+            bar: 'x.x.x',
+          },
+        }))
+      );
+
+      const versions = {
+        foo: 'x.x.x',
+      };
+      yarn2Proxy.addPackageResolutions(versions);
+
+      expect(writePackageSpy).toHaveBeenCalledWith({
+        resolutions: {
+          ...versions,
+          bar: 'x.x.x',
+        },
+      });
     });
   });
 });
