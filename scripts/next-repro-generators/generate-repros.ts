@@ -107,6 +107,9 @@ const runGenerators = async (
 
   let controller: AbortController;
   if (localRegistry) {
+    console.log('node version');
+    await command('node -v', { stdout: 'inherit' });
+
     // @ts-ignore
     await publish.run();
     console.log(`⚙️ Starting local registry: ${LOCAL_REGISTRY_URL}`);

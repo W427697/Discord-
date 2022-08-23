@@ -21,7 +21,6 @@ jobs:
       - uses: actions/checkout@v2
       - name: Setup git user
         run: |
-          node -v
           git config --global user.name "Storybook Bot"
           git config --global user.email "bot@storybook.js.org"
       - name: Change directory
