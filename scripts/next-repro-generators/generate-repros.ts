@@ -150,6 +150,11 @@ const runGenerators = async (
     controller.abort();
     console.log(`✅ Stopped`);
   }
+
+  // FIXME: Kill dangling processes. For some reason in CI,
+  // the abort signal gets executed but the child process kill
+  // does not succeed?!?
+  process.exit(0);
 };
 
 const generate = async ({
