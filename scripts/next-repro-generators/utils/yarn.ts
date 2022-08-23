@@ -1,6 +1,6 @@
 import { join } from 'path';
 import { move, remove } from 'fs-extra';
-import { runCommand } from '../index';
+import { runCommand } from '../generate-repros';
 
 interface SetupYarnOptions {
   cwd: string;
@@ -9,6 +9,8 @@ interface SetupYarnOptions {
 }
 
 export async function setupYarn({ cwd, pnp = false, version = 'classic' }: SetupYarnOptions) {
+  // force yarn
+  await runCommand(`touch yarn.lock`, { cwd });
   await runCommand(`yarn set version ${version}`, { cwd });
   if (version === 'berry' && !pnp) {
     await runCommand('yarn config set nodeLinker node-modules', { cwd });

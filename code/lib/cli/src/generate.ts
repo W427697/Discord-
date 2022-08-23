@@ -13,6 +13,7 @@ import { migrate } from './migrate';
 import { extract } from './extract';
 import { upgrade } from './upgrade';
 import { repro } from './repro';
+import { reproNext } from './repro-next';
 import { link } from './link';
 import { automigrate } from './automigrate';
 import { generateStorybookBabelConfigInCWD } from './babel-config';
@@ -44,7 +45,12 @@ program
   .option('-y --yes', 'Answer yes to all prompts')
   .option('-b --builder <builder>', 'Builder library')
   .option('-l --linkable', 'Prepare installation for link (contributor helper)')
-  .action((options) => initiate(options, pkg));
+  .action((options) =>
+    initiate(options, pkg).catch((err) => {
+      logger.error(err);
+      process.exit(1);
+    })
+  );
 
 program
   .command('add <addon>')
@@ -142,11 +148,25 @@ program
   );
 
 program
+  .command('repro-next [filterValue]')
+  .description('Create a reproduction from a set of possible templates')
+  .option('-o --output <outDir>', 'Define an output directory')
+  .option('-b --branch <branch>', 'Define the branch to degit from', 'next')
+  .option('--no-init', 'Whether to download a template without an initialized Storybook', false)
+  .action((filterValue, options) =>
+    reproNext({ filterValue, ...options }).catch((e) => {
+      logger.error(e);
+      process.exit(1);
+    })
+  );
+
+program
   .command('link <repo-url-or-directory>')
   .description('Pull down a repro from a URL (or a local directory), link it, and run storybook')
   .option('--local', 'Link a local directory already in your file system')
-  .action((target, { local }) =>
-    link({ target, local }).catch((e) => {
+  .option('--no-start', 'Start the storybook', true)
+  .action((target, { local, start }) =>
+    link({ target, local, start }).catch((e) => {
       logger.error(e);
       process.exit(1);
     })

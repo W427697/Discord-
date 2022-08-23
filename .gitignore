@@ -8,6 +8,9 @@ dist
 .cache
 junit.xml
 /repros
+/sandbox
+/built-sandboxes
+.verdaccio-cache
 
 # Yarn stuff
 /**/.yarn/*

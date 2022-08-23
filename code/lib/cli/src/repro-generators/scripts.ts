@@ -51,11 +51,19 @@ export interface Options extends Parameters {
 export const exec = async (
   command: string,
   options: ExecOptions = {},
-  { startMessage, errorMessage }: { startMessage?: string; errorMessage?: string } = {}
+  {
+    startMessage,
+    errorMessage,
+    dryRun,
+  }: { startMessage?: string; errorMessage?: string; dryRun?: boolean } = {}
 ) => {
-  if (startMessage) {
-    logger.info(startMessage);
+  if (startMessage) logger.info(startMessage);
+
+  if (dryRun) {
+    logger.info(`\n> ${command}\n`);
+    return undefined;
   }
+
   logger.debug(command);
   return new Promise((resolve, reject) => {
     const defaultOptions: ExecOptions = {
@@ -69,7 +77,6 @@ export const exec = async (
     });
 
     child.stderr.pipe(process.stderr);
-    child.stdout.pipe(process.stdout);
 
     child.on('exit', (code) => {
       if (code === 0) {
@@ -137,7 +144,7 @@ const installYarn2 = async ({ cwd, pnp, name }: Options) => {
 const configureYarn2ForE2E = async ({ cwd }: Options) => {
   const command = [
     // ⚠️ Need to set registry because Yarn 2 is not using the conf of Yarn 1 (URL is hardcoded in CircleCI config.yml)
-    `yarn config set npmScopes --json '{ "storybook": { "npmRegistryServer": "http://localhost:6000/" } }'`,
+    `yarn config set npmScopes --json '{ "storybook": { "npmRegistryServer": "http://localhost:6001/" } }'`,
     // Some required magic to be able to fetch deps from local registry
     `yarn config set unsafeHttpWhitelist --json '["localhost"]'`,
     // Disable fallback mode to make sure everything is required correctly
