@@ -3,6 +3,7 @@
 - [From version 6.5.x to 7.0.0](#from-version-65x-to-700)
   - [Alpha release notes](#alpha-release-notes)
   - [Breaking changes](#breaking-changes)
+    - [Change of root html IDs](#change-of-root-html-ids)
     - [No more default export from `@storybook/addons`](#no-more-default-export-from-storybookaddons)
     - [Modern browser support](#modern-browser-support)
     - [No more configuration for manager](#no-more-configuration-for-manager)
@@ -234,6 +235,10 @@ Storybook 7.0 is in early alpha. During the alpha, we are making a large number 
 In the meantime, these migration notes are the best available documentation on things you should know upgrading to 7.0.
 
 ### Breaking changes
+
+#### Change of root html IDs
+
+The root ID unto which storybook renders stories is renamed from `root` to `#storybook-root` to avoid conflicts with user's code.
 
 #### No more default export from `@storybook/addons`
 
@@ -2152,7 +2157,7 @@ To configure a11y now, you have to specify configuration using story parameters,
 ```js
 export const parameters = {
   a11y: {
-    element: '#root',
+    element: "#storybook-root",
     config: {},
     options: {},
     manual: true,

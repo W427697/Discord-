@@ -38,7 +38,7 @@ export class SbPage {
 
   previewRoot() {
     const preview = this.previewIframe();
-    return preview.locator('#root:visible, #docs-root:visible');
+    return preview.locator('#storybook-root:visible, #storybook-docs:visible');
   }
 
   panelContent() {
