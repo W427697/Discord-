@@ -19,6 +19,7 @@ export async function executeCLIStep<TOptions extends OptionSpecifier>(
     optionValues?: Partial<OptionValues<TOptions>>;
     cwd: string;
     dryRun?: boolean;
+    debug: boolean;
   }
 ) {
   if (cliStep.hasArgument && !options.argument)
@@ -33,11 +34,17 @@ export async function executeCLIStep<TOptions extends OptionSpecifier>(
 
   await exec(
     command,
-    { cwd: options.cwd },
+    {
+      cwd: options.cwd,
+      env: {
+        STORYBOOK_DISABLE_TELEMETRY: 'true',
+      },
+    },
     {
       startMessage: `${cliStep.icon} ${cliStep.description}`,
       errorMessage: `🚨 ${cliStep.description} failed`,
       dryRun: options.dryRun,
+      debug: options.debug,
     }
   );
 }

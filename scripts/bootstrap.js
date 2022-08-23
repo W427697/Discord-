@@ -95,15 +95,6 @@ function run() {
       },
       order: 1,
     }),
-    cleanup: createTask({
-      name: `Remove compiled dist directories ${chalk.gray('(cleanup)')}`,
-      defaultValue: false,
-      option: '--cleanup',
-      command: () => {
-        spawn('npm run clean:dist');
-      },
-      order: 0,
-    }),
     reset: createTask({
       name: `Clean repository ${chalk.red('(reset)')}`,
       defaultValue: false,
@@ -143,7 +134,7 @@ function run() {
       defaultValue: false,
       option: '--reg',
       command: () => {
-        spawn('yarn local-registry --publish --open --port 6000');
+        spawn('yarn local-registry --publish --open --port 6001');
       },
       order: 11,
     }),
@@ -161,7 +152,7 @@ function run() {
   const groups = {
     main: ['prep', 'core'],
     buildtasks: ['install', 'build'],
-    devtasks: ['dev', 'registry', 'cleanup', 'reset'],
+    devtasks: ['dev', 'registry', 'reset'],
   };
 
   Object.keys(tasks)
