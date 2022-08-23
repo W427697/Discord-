@@ -36,7 +36,7 @@ export const Real = () => <SidebarMenu menu={fakemenu} isHighlighted />;
 export const Toolbar = () => <ToolbarMenu menu={fakemenu} />;
 
 const DoubleThemeRenderingHack = styled.div({
-  '#root > [data-side="left"] > &': {
+  '#storybook-root > [data-side="left"] > &': {
     textAlign: 'right',
   },
 });
