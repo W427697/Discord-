@@ -19,7 +19,7 @@
     "url": "https://opencollective.com/storybook"
   },
   "license": "MIT",
-   "exports": {
+  "exports": {
     ".": {
       "require": "./dist/index.js",
       "import": "./dist/index.mjs",
@@ -57,7 +57,8 @@
   "bundler": {
     "entries": [
       "./src/index.ts"
-    ]
+    ],
+    "platform": "node"
   },
   "gitHead": "0900e20acfbc12551c6a3f788b8de5dd6af5f80a"
 }
