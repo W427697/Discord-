@@ -195,13 +195,13 @@ jobs:
           name: running local registry
           command: |
             cd code
-            yarn local-registry --port 6000 --open
+            yarn local-registry --port 6001 --open
           background: true
       - run:
           name: Wait for registry
           command: |
             cd code
-            yarn wait-on http://localhost:6000
+            yarn wait-on http://localhost:6001
       - run:
           name: Run E2E (extended) tests
           command: |
@@ -225,13 +225,13 @@ jobs:
           name: Running local registry
           command: |
             cd code
-            yarn local-registry --port 6000 --open
+            yarn local-registry --port 6001 --open
           background: true
       - run:
           name: Wait for registry
           command: |
             cd code
-            yarn wait-on http://localhost:6000
+            yarn wait-on http://localhost:6001
       - run:
           name: Run E2E (core) tests
           # Do not test CRA here because it's done in PnP part
@@ -265,11 +265,11 @@ jobs:
   #         at: .
   #     - run:
   #         name: Running local registry
-  #         command: yarn local-registry --port 6000 --open
+  #         command: yarn local-registry --port 6001 --open
   #         background: true
   #     - run:
   #         name: Wait for registry
-  #         command: yarn wait-on http://localhost:6000
+  #         command: yarn wait-on http://localhost:6001
   #     - run:
   #         name: Run smoke tests
   #         command: yarn test:e2e-framework angular_modern_inline_rendering --test-runner --docs-mode
@@ -293,13 +293,13 @@ jobs:
           name: Running local registry
           command: |
             cd code
-            yarn local-registry --port 6000 --open
+            yarn local-registry --port 6001 --open
           background: true
       - run:
           name: Wait for registry
           command: |
             cd code
-            yarn wait-on http://localhost:6000
+            yarn wait-on http://localhost:6001
       - run:
           name: set up cra repro, skip tests
           command: |
@@ -324,13 +324,13 @@ jobs:
           name: Running local registry
           command: |
             cd code
-            yarn local-registry --port 6000 --open
+            yarn local-registry --port 6001 --open
           background: true
       - run:
           name: Wait for registry
           command: |
             cd code
-            yarn wait-on http://localhost:6000
+            yarn wait-on http://localhost:6001
       - run:
           name: run e2e tests cra
           command: |
