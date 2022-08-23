@@ -182,6 +182,7 @@
     "tsup": "^6.1.2",
     "typescript": "~4.6.3",
     "wait-on": "^5.2.1",
+    "why-is-node-running": "^2.2.2",
     "window-size": "^1.1.1",
     "zx": "^7.0.3"
   },

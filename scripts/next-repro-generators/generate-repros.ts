@@ -7,6 +7,7 @@ import prettyTime from 'pretty-hrtime';
 import { copy, emptyDir, ensureDir, rename, writeFile } from 'fs-extra';
 import { program } from 'commander';
 import { AbortController } from 'node-abort-controller';
+import whyIsNodeRunning from 'why-is-node-running';
 
 import reproTemplates from '../../code/lib/cli/src/repro-templates';
 import storybookVersions from '../../code/lib/cli/src/versions';
@@ -150,6 +151,9 @@ const runGenerators = async (
     controller.abort();
     console.log(`✅ Stopped`);
   }
+
+  whyIsNodeRunning();
+
   // Kill dangling processes?!
   process.exit(0);
 };
