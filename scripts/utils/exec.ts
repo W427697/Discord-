@@ -33,7 +33,10 @@ export const exec = async (
 
   // Newer versions of execa have explicit support for abort signals, but this works
   if (signal) {
-    signal.addEventListener('abort', () => currentChild.kill());
+    signal.addEventListener('abort', () => {
+      console.log('killing currentChild');
+      currentChild.kill();
+    });
   }
 
   try {
