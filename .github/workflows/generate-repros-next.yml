@@ -14,7 +14,6 @@ jobs:
     runs-on: ubuntu-latest
     env:
       YARN_ENABLE_IMMUTABLE_INSTALLS: false
-      DEBUG: true
     steps:
       - uses: actions/setup-node@v2
         with:

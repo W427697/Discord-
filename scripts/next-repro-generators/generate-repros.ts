@@ -152,8 +152,6 @@ const runGenerators = async (
     console.log(`✅ Stopped`);
   }
 
-  whyIsNodeRunning();
-
   // Kill dangling processes?!
   process.exit(0);
 };

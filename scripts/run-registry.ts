@@ -135,8 +135,12 @@ const run = async () => {
 
   logger.log(`🌿 verdaccio running on ${verdaccioUrl}`);
 
-  // first time running, you might need to enable this
-  await addUser(verdaccioUrl);
+  // in some environments you need to add a dummy user. always try to add & catch on failure
+  try {
+    await addUser(verdaccioUrl);
+  } catch (e) {
+    //
+  }
 
   logger.log(`📦 found ${packages.length} storybook packages at version ${chalk.blue(version)}`);
 
