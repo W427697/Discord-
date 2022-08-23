@@ -150,6 +150,8 @@ const runGenerators = async (
     controller.abort();
     console.log(`✅ Stopped`);
   }
+  // Kill dangling processes?!
+  process.exit(0);
 };
 
 const generate = async ({
