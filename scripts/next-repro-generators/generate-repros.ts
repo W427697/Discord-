@@ -36,21 +36,11 @@ const sbInit = async (cwd: string) => {
 const LOCAL_REGISTRY_URL = 'http://localhost:6001';
 const withLocalRegistry = async (packageManager: JsPackageManager, action: () => Promise<void>) => {
   const prevUrl = packageManager.getRegistryURL();
-  let controller: AbortController;
   try {
-    // @ts-ignore
-    await publish.run();
-    console.log(`⚙️ Starting local registry: ${LOCAL_REGISTRY_URL}`);
-    controller = await servePackages({});
-
     console.log(`📦 Configuring local registry: ${LOCAL_REGISTRY_URL}`);
     packageManager.setRegistryURL(LOCAL_REGISTRY_URL);
     await action();
   } finally {
-    if (controller) {
-      console.log(`🛑 Stopping local registry: ${LOCAL_REGISTRY_URL}`);
-      controller.abort();
-    }
     console.log(`📦 Restoring registry: ${prevUrl}`);
     packageManager.setRegistryURL(prevUrl);
   }
@@ -115,7 +105,15 @@ const runGenerators = async (
 
   const limit = pLimit(maxConcurrentTasks);
 
-  return Promise.all(
+  let controller: AbortController;
+  if (localRegistry) {
+    // @ts-ignore
+    await publish.run();
+    console.log(`⚙️ Starting local registry: ${LOCAL_REGISTRY_URL}`);
+    controller = await servePackages({ debug: true });
+  }
+
+  await Promise.all(
     generators.map(({ dirName, name, script }) =>
       limit(async () => {
         const time = process.hrtime();
@@ -146,6 +144,17 @@ const runGenerators = async (
       })
     )
   );
+
+  if (controller) {
+    console.log(`🛑 Stopping local registry: ${LOCAL_REGISTRY_URL}`);
+    controller.abort();
+    console.log(`✅ Stopped`);
+  }
+
+  // FIXME: Kill dangling processes. For some reason in CI,
+  // the abort signal gets executed but the child process kill
+  // does not succeed?!?
+  process.exit(0);
 };
 
 const generate = async ({
