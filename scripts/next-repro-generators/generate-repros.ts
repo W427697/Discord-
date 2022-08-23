@@ -110,7 +110,7 @@ const runGenerators = async (
     // @ts-ignore
     await publish.run();
     console.log(`⚙️ Starting local registry: ${LOCAL_REGISTRY_URL}`);
-    controller = await servePackages({});
+    controller = await servePackages({ debug: true });
   }
 
   await Promise.all(

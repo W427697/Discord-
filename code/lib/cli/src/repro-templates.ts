@@ -68,7 +68,7 @@ const vue3ViteTemplates = {
 };
 
 export default {
-  ...craTemplates,
+  // ...craTemplates,
   ...reactViteTemplates,
   // ...vue3ViteTemplates,
   // FIXME: missing documentation.json
