@@ -146,7 +146,7 @@ describe('renderJsx', () => {
       .toMatchInlineSnapshot(`
         <ProfilerComponent>
           I am Profiler
-        <ProfilerComponent>
+        </ProfilerComponent>
     `);
   });
 
