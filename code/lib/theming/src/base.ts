@@ -22,8 +22,8 @@ export const color = {
   mediumlight: '#ECF4F9', // toggle background
   medium: '#D9E8F2', // too blue for medium?
   mediumdark: '#73828C', // icons, tabs, labels, input placeholders, sidebar headings
-  dark: '#666666', // NEEDED?
-  darker: '#454E54', // keyboard shortcut text * controls table content/headings
+  dark: '#5C6870', // keyboard shortcut text
+  darker: '#454E54', // controls table content/headings
   darkest: '#2E3438', // default text
 
   // For borders

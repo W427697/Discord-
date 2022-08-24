@@ -122,7 +122,7 @@ const FocusKey = styled.code(({ theme }) => ({
   textAlign: 'center',
   fontSize: '11px',
   background: 'rgba(0,0,0,0.05)',
-  color: theme.color.darker,
+  color: theme.color.dark,
   borderRadius: 3,
   userSelect: 'none',
   pointerEvents: 'none',
