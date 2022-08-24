@@ -1,3 +1,35 @@
+## 7.0.0-alpha.24 (August 24, 2022)
+
+#### Breaking changes
+
+-   Preview: Rename Storybook DOM root IDs [#10638](https://github.com/storybooks/storybook/pull/10638)
+
+#### Features
+
+-   Interactions: Add `step` function and support multiple levels of nesting [#18555](https://github.com/storybooks/storybook/pull/18555)
+
+#### Bug Fixes
+
+-   Addon-docs: Fix canvas support expand code for non-story [#18808](https://github.com/storybooks/storybook/pull/18808)
+-   Components: Avoid including line numbers when copying the code [#18725](https://github.com/storybooks/storybook/pull/18725)
+-   Vue: Fix enum check in extractArgTypes [#18959](https://github.com/storybooks/storybook/pull/18959)
+-   Core: Fix frameworkOptions preset [#18979](https://github.com/storybooks/storybook/pull/18979)
+
+#### Maintenance
+
+-   Addon-a11y: Remove achromatomaly color filter [#18852](https://github.com/storybooks/storybook/pull/18852)
+-   Build: Use ts-up to build core-webpack [#18912](https://github.com/storybooks/storybook/pull/18912)
+-   Build: Use ts-up to build addon-viewport [#18943](https://github.com/storybooks/storybook/pull/18943)
+-   Build: Improve generate-repros-next [#19001](https://github.com/storybooks/storybook/pull/19001)
+-   Examples: Remove refs in angular example [#18986](https://github.com/storybooks/storybook/pull/18986)
+-   Build: Use ts-up to build client-logger [#18893](https://github.com/storybooks/storybook/pull/18893)
+-   Generate-repros: Run local registry on `--local-registry` option [#18997](https://github.com/storybooks/storybook/pull/18997)
+-   Build: Remove unused bootstrap --cleanup [#18981](https://github.com/storybooks/storybook/pull/18981)
+-   CLI: Fix local repro publishing [#18977](https://github.com/storybooks/storybook/pull/18977)
+-   Build: Run verdaccio on 6001 to enable web UI [#18983](https://github.com/storybooks/storybook/pull/18983)
+-   CLI: determine whether to add interactive stories from `renderer` rather than `framework` [#18968](https://github.com/storybooks/storybook/pull/18968)
+-   CLI: Auto-accept migrations when running `generate-repros-next` [#18969](https://github.com/storybooks/storybook/pull/18969)
+
 ## 7.0.0-alpha.23 (August 18, 2022)
 
 #### Features
