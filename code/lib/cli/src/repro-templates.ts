@@ -44,33 +44,9 @@ const reactViteTemplates = {
   },
 };
 
-const vue3ViteTemplates = {
-  'vue3-vite/default-js': {
-    name: 'Vue3 Vite (JS)',
-    script: 'yarn create vite . --template vue',
-    cadence: ['ci', 'daily', 'weekly'],
-    expected: {
-      framework: '@storybook/vue3-vite',
-      renderer: '@storybook/vue3',
-      builder: '@storybook/builder-vite',
-    },
-  },
-  'vue3-vite/default-ts': {
-    name: 'Vue3 Vite (TS)',
-    script: 'yarn create vite . --template vue-ts',
-    cadence: ['ci', 'daily', 'weekly'],
-    expected: {
-      framework: '@storybook/vue3-vite',
-      renderer: '@storybook/vue3',
-      builder: '@storybook/builder-vite',
-    },
-  },
-};
-
 export default {
   ...craTemplates,
   ...reactViteTemplates,
-  ...vue3ViteTemplates,
   // FIXME: missing documentation.json
   // 'angular/latest': {
   //   name: 'Angular (latest)',
