@@ -1,3 +1,4 @@
+import { isAbsolute, resolve } from 'path';
 import { loadPreviewOrConfigFile } from '@storybook/core-common';
 import { virtualStoriesFile, virtualAddonSetupFile } from './virtual-file-names';
 import { transformAbsPath } from './utils/transform-abs-path';
@@ -8,7 +9,11 @@ export async function generateModernIframeScriptCode(options: ExtendedOptions) {
 
   const previewOrConfigFile = loadPreviewOrConfigFile({ configDir });
   const presetEntries = await presets.apply('config', [], options);
-  const configEntries = [...presetEntries, previewOrConfigFile]
+  const previewEntries = await presets.apply('previewEntries', [], options);
+  const absolutePreviewEntries = previewEntries.map((entry) =>
+    isAbsolute(entry) ? entry : resolve(entry)
+  );
+  const configEntries = [...presetEntries, ...absolutePreviewEntries, previewOrConfigFile]
     .filter(Boolean)
     .map((configEntry) => transformAbsPath(configEntry as string));
 

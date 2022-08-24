@@ -1,3 +1,4 @@
+import { isAbsolute, resolve } from 'path';
 import { virtualPreviewFile, virtualStoriesFile } from './virtual-file-names';
 import { transformAbsPath } from './utils/transform-abs-path';
 import type { ExtendedOptions } from './types';
@@ -7,7 +8,11 @@ export async function generateIframeScriptCode(options: ExtendedOptions) {
   const frameworkImportPath = frameworkPath || `@storybook/${framework}`;
 
   const presetEntries = await presets.apply('config', [], options);
-  const configEntries = [...presetEntries].filter(Boolean);
+  const previewEntries = await presets.apply('previewEntries', [], options);
+  const absolutePreviewEntries = previewEntries.map((entry) =>
+    isAbsolute(entry) ? entry : resolve(entry)
+  );
+  const configEntries = [...presetEntries, ...absolutePreviewEntries].filter(Boolean);
 
   const absoluteFilesToImport = (files: string[], name: string) =>
     files
