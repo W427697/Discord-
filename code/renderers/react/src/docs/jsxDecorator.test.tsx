@@ -137,6 +137,19 @@ describe('renderJsx', () => {
     `);
   });
 
+  it('Profiler', () => {
+    const ProfilerComponent: FC = React.Profiler(function ProfilerComponent(props) {
+      return <div>{props.children}</div>;
+    });
+
+    expect(renderJsx(createElement(ProfilerComponent, {}, 'I am Profiler'), {}))
+      .toMatchInlineSnapshot(`
+        <PraofilerComponent>
+          I m Profiler
+        <ProfilerComponent>
+    `);
+  });
+
   it('should not add default props to string if the prop value has not changed', () => {
     const Container = ({ className, children }: { className: string; children: string }) => {
       return <div className={className}>{children}</div>;

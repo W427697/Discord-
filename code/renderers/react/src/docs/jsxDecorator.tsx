@@ -101,6 +101,7 @@ export const renderJsx = (code: React.ReactElement, options: JSXOptions) => {
           // To get exotic component names resolving properly
           displayName: (el: any): string =>
             el.type.displayName ||
+            (el.type === Symbol.for('react.profiler') ? 'Profiler' : null) ||
             getDocgenSection(el.type, 'displayName') ||
             (el.type.name !== '_default' ? el.type.name : null) ||
             (typeof el.type === 'function' ? 'No Display Name' : null) ||
