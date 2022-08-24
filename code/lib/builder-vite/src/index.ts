@@ -66,7 +66,7 @@ export const start: ViteBuilder['start'] = async ({
     res.header('Content-Type', 'text/event-stream');
   });
 
-  router.use(await iframeMiddleware(options as ExtendedOptions, server));
+  router.use(iframeMiddleware(options as ExtendedOptions, server));
   router.use(server.middlewares);
 
   async function bail(e?: Error): Promise<void> {
