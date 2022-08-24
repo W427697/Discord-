@@ -9823,7 +9823,7 @@ __metadata:
     react-dom: 16.14.0
     ts-dedent: ^2.0.0
     typescript: ~4.6.3
-    vue: 3.0.0
+    vue: ^3.0.0
   peerDependencies:
     "@babel/core": "*"
     babel-loader: ^7.0.0 || ^8.0.0
