@@ -42,8 +42,9 @@ const styles = ({ theme }: { theme: Theme }): CSSObject => ({
 
   '&:-webkit-autofill': { WebkitBoxShadow: `0 0 0 3em ${theme.color.lightest} inset` },
 
-  '::placeholder': {
+  '&::placeholder': {
     color: theme.color.mediumdark,
+    opacity: 1,
   },
 });
 
