@@ -1,5 +1,30 @@
 <h1>Migration</h1>
 
+- [From version 6.5.x to 7.0.0](#from-version-65x-to-700)
+  - [Alpha release notes](#alpha-release-notes)
+  - [Breaking changes](#breaking-changes)
+    - [Change of root html IDs](#change-of-root-html-ids)
+    - [No more default export from `@storybook/addons`](#no-more-default-export-from-storybookaddons)
+    - [Modern browser support](#modern-browser-support)
+    - [No more configuration for manager](#no-more-configuration-for-manager)
+    - [start-storybook / build-storybook binaries removed](#start-storybook--build-storybook-binaries-removed)
+    - [storyStoreV7 enabled by default](#storystorev7-enabled-by-default)
+    - [Webpack4 support discontinued](#webpack4-support-discontinued)
+    - [Modern ESM / IE11 support discontinued](#modern-esm--ie11-support-discontinued)
+    - [Framework field mandatory](#framework-field-mandatory)
+    - [frameworkOptions renamed](#frameworkoptions-renamed)
+    - [Framework standalone build moved](#framework-standalone-build-moved)
+    - [Docs modern inline rendering by default](#docs-modern-inline-rendering-by-default)
+    - [Babel mode v7 by default](#babel-mode-v7-by-default)
+    - [7.0 feature flags removed](#70-feature-flags-removed)
+    - [Removed docs.getContainer and getPage parameters](#removed-docsgetcontainer-and-getpage-parameters)
+    - [Icons API changed](#icons-api-changed)
+  - [Docs Changes](#docs-changes)
+    - [Standalone docs files](#standalone-docs-files)
+    - [Referencing stories in docs files](#referencing-stories-in-docs-files)
+    - [Docs Page](#docs-page)
+    - [Configuring the Docs Container](#configuring-the-docs-container)
+    - [External Docs](#external-docs)
 - [From version 6.4.x to 6.5.0](#from-version-64x-to-650)
   - [Vue 3 upgrade](#vue-3-upgrade)
   - [React18 new root API](#react18-new-root-api)
@@ -201,6 +226,410 @@
   - [Packages renaming](#packages-renaming)
   - [Deprecated embedded addons](#deprecated-embedded-addons)
 
+## From version 6.5.x to 7.0.0
+
+### Alpha release notes
+
+Storybook 7.0 is in early alpha. During the alpha, we are making a large number of breaking changes. We may also break the breaking changes based on what we learn during the development cycle. When 7.0 goes to beta, we will start stabilizing and adding various auto-migrations to help users upgrade more easily.
+
+In the meantime, these migration notes are the best available documentation on things you should know upgrading to 7.0.
+
+### Breaking changes
+
+#### Change of root html IDs
+
+The root ID unto which storybook renders stories is renamed from `root` to `#storybook-root` to avoid conflicts with user's code.
+
+#### No more default export from `@storybook/addons`
+
+The default export from `@storybook/addons` has been removed. Please use the named exports instead:
+
+```js
+import { addons } from '@storybook/addons';
+```
+
+The named export has been available since 6.0 or earlier, so your updated code will be backwards-compatible with older versions of Storybook.
+
+#### Modern browser support
+
+Starting in storybook 7.0, storybook will no longer support IE11, amongst other legacy browser versions.
+We now transpile our code with a target of `chrome >= 100` and node code is transpiled with a target of `node >= 14`.
+
+This means code-features such as (but not limited to) `async/await`, arrow-functions, `const`,`let`, etc will exists in the code at runtime, and thus the runtime environment must support it.
+Not just the runtime needs to support it, but some legacy loaders for webpack or other transpilation tools might need to be updated as well. For example certain versions of webpack 4 had parsers that could not parse the new syntax (e.g. optional chaining).
+
+Some addons or libraries might depended on this legacy browser support, and thus might break. You might get an error like:
+
+```
+regeneratorRuntime is not defined
+```
+
+To fix these errors, the addon will have to be re-released with a newer browser-target for transpilation. This often looks something like this (but it's dependent on the build system the addon uses):
+
+```js
+// babel.config.js
+module.exports = {
+  presets: [
+    [
+      '@babel/preset-env',
+      {
+        shippedProposals: true,
+        useBuiltIns: 'usage',
+        corejs: '3',
+        modules: false,
+        targets: { chrome: '100' },
+      },
+    ],
+  ],
+};
+```
+
+Here's an example PR to one of the storybook addons: https://github.com/storybookjs/addon-coverage/pull/3 doing just that.
+
+#### No more configuration for manager
+
+The storybook manager is no longer built with webpack. Now it's built with esbuild.
+Therefore, it's no longer possible to configure the manager. Esbuild comes preconfigured to handle importing CSS, and images.
+
+If you're currently loading files other than CSS or images into the manager, you'll need to make changes so the files get converted to JS before publishing your addon.
+
+This means the preset value `managerWebpack` is no longer respected, and should be removed from presets and `main.js` files.
+
+Addons that run in the manager can depend on `react` and `@storybook/*` packages directly. They do not need to be peerDependencies.
+But very importantly, the build system ensures there will only be 1 version of these packages at runtime. The version will come from the `@storybook/ui` package, and not from the addon.
+For this reason it's recommended to have these dependencies as `devDependencies` in your addon's `package.json`.
+
+The full list of packages that Storybook's manager bundler makes available for addons is here: https://github.com/storybookjs/storybook/blob/next/code/lib/ui/src/globals/types.ts
+
+Addons in the manager will no longer be bundled together anymore, which means that if 1 fails, it doesn't break the whole manager.
+Each addon is imported into the manager as an ESM module that's bundled separately.
+
+#### start-storybook / build-storybook binaries removed
+
+SB6.x framework packages shipped binaries called `start-storybook` and `build-storybook`.
+
+In SB7.0, we've removed these binaries and replaced them with new commands in Storybook's CLI: `sb dev` and `sb build`. These commands will look for the `framework` field in your `.storybook/main.js` config--[which is now required](#framework-field-mandatory)--and use that to determine how to start/build your storybook. The benefit of this change is that it is now possible to install multiple frameworks in a project without having to worry about hoisting issues.
+
+A typical storybook project includes two scripts in your projects `package.json`:
+
+```json
+{
+  "scripts": {
+    "storybook": "start-storybook <some flags>",
+    "build-storybook": "build-storybook <some flags>"
+  }
+}
+```
+
+To convert this project to 7.0:
+
+```json
+{
+  "scripts": {
+    "storybook": "storybook dev <some flags>",
+    "build-storybook": "storybook build <some flags>"
+  },
+  "devDependencies": {
+    "storybook": "future"
+  }
+}
+```
+
+The new CLI commands remove the following flags:
+
+| flag     | migration                                                                                     |
+| -------- | --------------------------------------------------------------------------------------------- |
+| --modern | No migration needed. [All ESM code is modern in SB7](#modern-esm--ie11-support-discontinued). |
+
+#### storyStoreV7 enabled by default
+
+SB6.4 introduced [Story Store V7](#story-store-v7), an optimization which allows code splitting for faster build and load times. This was an experimental, opt-in change and you can read more about it in [the migration notes below](#story-store-v7). TLDR: you can't use the legacy `storiesOf` API or dynamic titles in CSF.
+
+Now in 7.0, Story Store V7 is the default. You can opt-out of it by setting the feature flag in `.storybook/main.js`:
+
+```js
+module.exports = {
+  features: {
+    storyStoreV7: false,
+  },
+};
+```
+
+During the 7.0 dev cycle we will be preparing recommendations and utilities to make it easier for `storiesOf` users to upgrade.
+
+#### Webpack4 support discontinued
+
+SB7.0 no longer supports Webpack4.
+
+Depending on your project specifics, it might be possible to run your Storybook using the webpack5 builder without error.
+
+If you are running into errors, you can upgrade your project to Webpack5 or you can try debugging those errors.
+
+To upgrade:
+
+- If you're configuring webpack directly, see the Webpack5 [release announcement](https://webpack.js.org/blog/2020-10-10-webpack-5-release/) and [migration guide](https://webpack.js.org/migrate/5).
+- If you're using Create React App, see the [migration notes](https://github.com/facebook/create-react-app/blob/main/CHANGELOG.md#migrating-from-40x-to-500) to ugprade from V4 (Webpack4) to 5
+
+During the 7.0 dev cycle we will be updating this section with useful resources as we run across them.
+
+#### Modern ESM / IE11 support discontinued
+
+SB7.0 compiles to modern ESM, meaning that IE11 is no longer supported. Over the course of the 7.0 dev cycle we will create recommendations for users who still require IE support.
+
+#### Framework field mandatory
+
+In 6.4 we introduced a new `main.js` field called [`framework`](#mainjs-framework-field). Starting in 7.0, this field is mandatory.
+The value of the `framework` field has also changed.
+
+In 6.4, valid values included `@storybook/react`, `@storybook/vue`, etc.
+
+In 7.0, frameworks also specify the builder to be used. For example, The current list of frameworks include:
+
+- `@storybook/angular`
+- `@storybook/html-webpack5`
+- `@storybook/preact-webpack5`
+- `@storybook/react-webpack5`
+- `@storybook/server-webpack5`
+- `@storybook/svelte-webpack5`
+- `@storybook/vue-webpack5`
+- `@storybook/vue3-webpack5`
+- `@storybook/web-components-webpack5`
+
+We will be expanding this list over the course of the 7.0 development cycle. More info on the rationale here: [Frameworks RFC](https://www.notion.so/chromatic-ui/Frameworks-RFC-89f8aafe3f0941ceb4c24683859ed65c).
+
+#### frameworkOptions renamed
+
+In 7.0, the `main.js` fields `reactOptions` and `angularOptions` have been renamed. They are now options on the `framework` field:
+
+```js
+module.exports = {
+  framework: {
+    name: '@storybook/react-webpack5',
+    options: { fastRefresh: true };
+  }
+}
+```
+
+#### Framework standalone build moved
+
+In 7.0 the location of the standalone node API has moved to `@storybook/core-server`.
+
+If you used the React standalone API, for example, you might have written:
+
+```js
+const { buildStandalone } = require('@storybook/react/standalone');
+const options = {};
+buildStandalone(options).then(() => console.log('done'));
+```
+
+In 7.0, you would now use:
+
+```js
+const build = require('@storybook/core-server/standalone');
+const options = {};
+build(options).then(() => console.log('done'));
+```
+
+#### Docs modern inline rendering by default
+
+Storybook docs has a new rendering mode called "modern inline rendering" which unifies the way stories are rendered in Docs mode and in the canvas (aka story mode). It is still being stabilized in 7.0 dev cycle. If you run into trouble with inline rendering in docs, you can opt out of modern inline rendering in your `.storybook/main.js`:
+
+```js
+module.exports = {
+  features: {
+    modernInlineRender: false,
+  },
+};
+```
+
+#### Babel mode v7 by default
+
+Storybook now uses your project babel configuration differently as [described below in Babel Mode v7](#babel-mode-v7). This is now the default. To opt-out:
+
+```js
+module.exports = {
+  features: {
+    babelModeV7: false,
+  },
+};
+```
+
+#### 7.0 feature flags removed
+
+Storybook uses temporary feature flags to opt-in to future breaking changes or opt-in to legacy behaviors. For example:
+
+```js
+module.exports = {
+  features: {
+    emotionAlias: false,
+  },
+};
+```
+
+In 7.0 we've removed the following feature flags:
+
+| flag                | migration instructions                               |
+| ------------------- | ---------------------------------------------------- |
+| `emotionAlias`      | This flag is no longer needed and should be deleted. |
+| `breakingChangesV7` | This flag is no longer needed and should be deleted. |
+
+#### Removed docs.getContainer and getPage parameters
+
+It is no longer possible to set `parameters.docs.getContainer()` and `getPage()`. Instead use `parameters.docs.container` or `parameters.docs.page` directly.
+
+#### Icons API changed
+
+For addon authors who use the `Icons` component, its API has been udpated in Storybook 7.
+
+```diff
+export interface IconsProps extends ComponentProps<typeof Svg> {
+-  icon?: IconKey;
+-  symbol?: IconKey;
++  icon: IconType;
++  useSymbol?: boolean;
+}
+```
+
+Full change here: https://github.com/storybookjs/storybook/pull/18809
+
+### Docs Changes
+
+The information hierarchy of docs in Storybook has changed in 7.0. The main difference is that each docs is listed in the sidebar as a separate entry, rather than attached to individual stories.
+
+These changes are encapsulated in the following:
+
+#### Standalone docs files
+
+In Storybook 6.x, to create a standalone docs MDX file, you'd have to create a `.stories.mdx` file, and describe its location with the `Meta` doc block:
+
+```mdx
+import { Meta } from '@storybook/addon-docs';
+
+<Meta title="Introduction" />
+```
+
+In 7.0, things are a little simpler -- you should call the file `.mdx` (drop the `.stories`). This will mean behind the scenes there is no story attached to this entry. You may also drop the `title` and use autotitle (and leave the `Meta` component out entirely).
+
+Additionally, you can attach a standalone docs entry to a component, using the new `of={}` syntax on the `Meta` component:
+
+```mdx
+import { Meta } from '@storybook/blocks';
+import * as ComponentStories from './some-component.stories';
+
+<Meta of={ComponentStories} />
+```
+
+You can create as many docs entries as you like for a given component. Note that if you attach a docs entry to a component it will replace the automatically generated entry from `DocsPage` (See below).
+
+By default docs entries are listed first for the component. You can sort them using story sorting.
+
+#### Referencing stories in docs files
+
+To reference a story in a MDX file, you should reference it with `of`:
+
+```mdx
+import { Meta, Story } from '@storybook/blocks';
+import * as ComponentStories from './some-component.stories';
+
+<Meta of={ComponentStories} />
+
+<Story of={ComponentStories.standard} />
+```
+
+You can also reference a story from a different component:
+
+```mdx
+import { Meta, Story } from '@storybook/blocks';
+import * as ComponentStories from './some-component.stories';
+import * as SecondComponentStories from './second-component.stories';
+
+<Meta of={ComponentStories} />
+
+<Story of={SecondComponentStories.standard} meta={SecondComponentStories} />
+```
+
+#### Docs Page
+
+In 7.0, rather than rendering each story in "docs view mode", Docs Page operates by adding additional sidebar entries for each component. By default it uses the same template as was used in 6.x, and the entries are entitled `Docs`.
+
+You can configure Docs Page in `main.js`:
+
+```js
+module.exports = {
+  docs: {
+    docsPage: true, // set to false to disable docs page entirely
+    defaultTitle: 'Docs', // set to change the title of generated docs entries
+  },
+};
+```
+
+You can change the default template in the same way as in 6.x, using the `docs.page` parameter.
+
+#### Configuring the Docs Container
+
+As in 6.x, you can override the docs container to configure docs further. This the container that each docs entry is rendered inside:
+
+```js
+// in preview.js
+
+export const parameters = {
+  docs: {
+    container: // your container
+  }
+}
+```
+
+You likely want to use the `DocsContainer` component exported by `@storybook/blocks` and consider the following examples:
+
+**Overriding theme**:
+
+To override the theme, you can continue to use the `docs.theme` parameter.
+
+**Overriding MDX components**
+
+If you want to override the MDX components supplied to your docs page, use the `MDXProvider` from `@mdx-js/react`:
+
+```js
+import { MDXProvider } from '@mdx-js/react';
+import { DocsContainer } from '@storybook/blocks';
+import * as DesignSystem from 'your-design-system';
+
+export const MyDocsContainer = (props) => (
+  <MDXProvider
+    components={{
+      h1: DesignSystem.H1,
+      h2: DesignSystem.H2,
+    }}
+  >
+    <DocsContainer {...props} />
+  </MDXProvider>
+);
+```
+
+#### External Docs
+
+Storybook 7.0 can be used in the above way in externally created projects (i.e. custom docs sites). Your `.mdx` files defined as above should be portable to other contexts. You simply need to render them in an `ExternalDocs` component:
+
+```js
+// In your project somewhere:
+import { ExternalDocs } from '@storybook/blocks';
+
+// Import all the preview entries from addons that need to operate in your external docs,
+// at a minimum likely your project's and your renderer's.
+import * as reactAnnotations from '@storybook/react/preview';
+import * as previewAnnotations from '../.storybook/preview';
+
+export default function App({ Component, pageProps }) {
+  return (
+    <ExternalDocs
+      projectAnnotationsList={[reactAnnotations, previewAnnotations]}
+    >
+      <Component {...pageProps} />
+    </ExternalDocs>
+  );
+}
+```
+
 ## From version 6.4.x to 6.5.0
 
 ### Vue 3 upgrade
@@ -318,7 +747,8 @@ import startCase from 'lodash/startCase';
 
 addons.setConfig({
   sidebar: {
-    renderLabel: ({ name, type }) => (type === 'story' ? name : startCase(name)),
+    renderLabel: ({ name, type }) =>
+      type === 'story' ? name : startCase(name),
   },
 });
 ```
@@ -366,6 +796,7 @@ In 6.5, the final titles would be:
 - `Title.stories.js` => `Custom/Bar`
 
 <!-- markdown-link-check-disable -->
+
 ## From version 6.3.x to 6.4.0
 
 ### Automigrate
@@ -744,7 +1175,11 @@ After:
 ```js
 // .storybook/main.js
 module.exports = {
-  staticDirs: ['../public', '../static', { from: '../foo/assets', to: '/assets' }],
+  staticDirs: [
+    '../public',
+    '../static',
+    { from: '../foo/assets', to: '/assets' },
+  ],
 };
 ```
 
@@ -1292,13 +1727,17 @@ This breaking change only affects you if your stories actually use the context, 
 Consider the following story that uses the context:
 
 ```js
-export const Dummy = ({ parameters }) => <div>{JSON.stringify(parameters)}</div>;
+export const Dummy = ({ parameters }) => (
+  <div>{JSON.stringify(parameters)}</div>
+);
 ```
 
 Here's an updated story for 6.0 that ignores the args object:
 
 ```js
-export const Dummy = (_args, { parameters }) => <div>{JSON.stringify(parameters)}</div>;
+export const Dummy = (_args, { parameters }) => (
+  <div>{JSON.stringify(parameters)}</div>
+);
 ```
 
 Alternatively, if you want to opt out of the new behavior, you can add the following to your `.storybook/preview.js` config:
@@ -1718,7 +2157,7 @@ To configure a11y now, you have to specify configuration using story parameters,
 ```js
 export const parameters = {
   a11y: {
-    element: '#root',
+    element: "#storybook-root",
     config: {},
     options: {},
     manual: true,
@@ -2088,7 +2527,9 @@ For example, here's how to sort by story ID using `storySort`:
 addParameters({
   options: {
     storySort: (a, b) =>
-      a[1].kind === b[1].kind ? 0 : a[1].id.localeCompare(b[1].id, undefined, { numeric: true }),
+      a[1].kind === b[1].kind
+        ? 0
+        : a[1].id.localeCompare(b[1].id, undefined, { numeric: true }),
   },
 });
 ```
@@ -2134,7 +2575,9 @@ Storybook 5.1 relies on `core-js@^3.0.0` and therefore causes a conflict with An
 {
   "compilerOptions": {
     "paths": {
-      "core-js/es7/reflect": ["node_modules/core-js/proposals/reflect-metadata"],
+      "core-js/es7/reflect": [
+        "node_modules/core-js/proposals/reflect-metadata"
+      ],
       "core-js/es6/*": ["node_modules/core-js/es"]
     }
   }
@@ -2909,4 +3352,5 @@ If you **are** using these addons, it takes two steps to migrate:
   import { action } from '@storybook/addon-actions';
   import { linkTo } from '@storybook/addon-links';
   ```
-<!-- markdown-link-check-enable -->
+
+  <!-- markdown-link-check-enable -->
