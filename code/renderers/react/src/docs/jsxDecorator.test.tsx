@@ -145,7 +145,7 @@ describe('renderJsx', () => {
     expect(renderJsx(createElement(ProfilerComponent, {}, 'I am Profiler'), {}))
       .toMatchInlineSnapshot(`
         <ProfilerComponent>
-          I m Profiler
+          I am Profiler
         <ProfilerComponent>
     `);
   });
