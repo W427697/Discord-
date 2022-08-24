@@ -2,10 +2,10 @@ import { transparentize } from 'polished';
 
 export const color = {
   // Official color palette
-  primary: '#FF4785', // coral
-  secondary: '#1EA7FD', // ocean
-  tertiary: '#FAFBFC',
-  ancillary: '#22a699', // for code
+  primary: '#FF4785', // coral  // Is it time to remove primary and make ocan primary? Or should we make them 'pink', 'blue, etc'?
+  secondary: '#029CFD', // ocean // UPDATED
+  tertiary: '#FAFBFC', // Used in shortcuts, link, input?
+  ancillary: '#22a699', // used at all?
 
   // Complimentary
   orange: '#FC521F',
@@ -17,31 +17,31 @@ export const color = {
 
   // Monochrome
   lightest: '#FFFFFF',
-  lighter: '#F8F8F8',
-  light: '#F3F3F3',
-  mediumlight: '#EEEEEE',
-  medium: '#DDDDDD',
-  mediumdark: '#999999',
-  dark: '#666666',
-  darker: '#444444',
-  darkest: '#333333',
+  lighter: '#F7FAFC', // object select background
+  light: '#EEF3F6', // code background
+  mediumlight: '#ECF4F9', // toggle background
+  medium: '#D9E8F2', // too blue for medium?
+  mediumdark: '#73828C', // icons, tabs, labels, input placeholders, sidebar headings
+  dark: '#666666', // NEEDED?
+  darker: '#454E54', // keyboard shortcut text * controls table content/headings
+  darkest: '#2E3438', // default text
 
   // For borders
-  border: 'rgba(0,0,0,.1)',
+  border: 'hsla(203, 30%, 40%, 0.15)',
 
   // Status
-  positive: '#66BF3C',
-  negative: '#FF4400',
-  warning: '#E69D00',
+  positive: '#448028',
+  negative: '#D43900',
+  warning: '#A15C20',
   critical: '#FFFFFF',
 
-  defaultText: '#333333',
+  defaultText: '#2E3438',
   inverseText: '#FFFFFF',
 };
 
 export const background = {
-  app: '#F6F9FC',
-  bar: '#FFFFFF',
+  app: '#F5FBFF', // UPDATED
+  bar: color.lightest,
   content: color.lightest,
   gridCellSize: 10,
   hoverable: transparentize(0.93, color.secondary), // hover state for items in a list
