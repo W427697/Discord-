@@ -65,10 +65,8 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
       platform: platform || 'browser',
       esbuildPlugins: [
         aliasPlugin({
-          process: path.resolve(
-            '../node_modules/rollup-plugin-node-polyfills/polyfills/process-es6.js'
-          ),
-          util: path.resolve('../node_modules/rollup-plugin-node-polyfills/polyfills/util.js'),
+          process: path.resolve('../node_modules/process/browser.js'),
+          util: path.resolve('../node_modules/util/util.js'),
         }),
       ],
       external: [name, ...Object.keys(dependencies || {}), ...Object.keys(peerDependencies || {})],
