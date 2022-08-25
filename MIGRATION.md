@@ -266,7 +266,6 @@ export default {
   component: Button,
 };
 
-
 export const Primary: Story<ButtonProps> = {
   variant: 'primary',
 };
