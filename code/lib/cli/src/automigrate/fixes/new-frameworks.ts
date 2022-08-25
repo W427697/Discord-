@@ -30,6 +30,7 @@ const packagesMap = {
   },
   '@storybook/vue3': {
     webpack5: '@storybook/vue3-webpack5',
+    vite: '@storybook/vue3-vite',
   },
   '@storybook/svelte': {
     webpack5: '@storybook/svelte-webpack5',

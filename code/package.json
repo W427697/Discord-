@@ -233,6 +233,7 @@
     "@storybook/vue": "workspace:*",
     "@storybook/vue-webpack5": "workspace:*",
     "@storybook/vue3": "workspace:*",
+    "@storybook/vue3-vite": "workspace:*",
     "@storybook/vue3-webpack5": "workspace:*",
     "@storybook/web-components": "workspace:*",
     "@storybook/web-components-webpack5": "workspace:*",

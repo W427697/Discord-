@@ -121,7 +121,8 @@
     "@storybook/vue3-webpack5": { "implicitDependencies": [] },
     "@storybook/web-components-webpack5": { "implicitDependencies": [] },
 
-    "@storybook/react-vite": { "implicitDependencies": [] }
+    "@storybook/react-vite": { "implicitDependencies": [] },
+    "@storybook/vue3-vite": { "implicitDependencies": [] }
   },
   "affected": {
     "defaultBase": "next"

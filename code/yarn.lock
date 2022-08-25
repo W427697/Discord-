@@ -2397,7 +2397,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/types@npm:^7.18.10":
+"@babel/types@npm:^7.18.10, @babel/types@npm:^7.18.8":
   version: 7.18.10
   resolution: "@babel/types@npm:7.18.10"
   dependencies:
@@ -9226,6 +9226,7 @@ __metadata:
     "@storybook/vue": "workspace:*"
     "@storybook/vue-webpack5": "workspace:*"
     "@storybook/vue3": "workspace:*"
+    "@storybook/vue3-vite": "workspace:*"
     "@storybook/vue3-webpack5": "workspace:*"
     "@storybook/web-components": "workspace:*"
     "@storybook/web-components-webpack5": "workspace:*"
@@ -9720,6 +9721,38 @@ __metadata:
     vue: ^2.6.8
     vue-loader: ^15.7.0
     vue-template-compiler: ^2.6.8
+  languageName: unknown
+  linkType: soft
+
+"@storybook/vue3-vite@workspace:*, @storybook/vue3-vite@workspace:frameworks/vue3-vite":
+  version: 0.0.0-use.local
+  resolution: "@storybook/vue3-vite@workspace:frameworks/vue3-vite"
+  dependencies:
+    "@rollup/pluginutils": ^4.2.0
+    "@storybook/builder-vite": 7.0.0-alpha.24
+    "@storybook/core-server": 7.0.0-alpha.24
+    "@storybook/core-vite": 7.0.0-alpha.24
+    "@storybook/vue3": 7.0.0-alpha.24
+    "@types/node": ^14.14.20 || ^16.0.0
+    "@vitejs/plugin-vue": ^3.0.3
+    ast-types: ^0.14.2
+    core-js: ^3.8.2
+    jest-specific-snapshot: ^4.0.0
+    magic-string: ^0.26.1
+    react-docgen: 6.0.0-alpha.1
+    regenerator-runtime: ^0.13.7
+    typescript: ~4.6.3
+    vite: 3
+    vue-docgen-api: ^4.40.0
+  peerDependencies:
+    "@babel/core": ^7.11.5
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0
+    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
+  peerDependenciesMeta:
+    "@babel/core":
+      optional: true
+    typescript:
+      optional: true
   languageName: unknown
   linkType: soft
 
@@ -11745,6 +11778,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@vitejs/plugin-vue@npm:^3.0.3":
+  version: 3.0.3
+  resolution: "@vitejs/plugin-vue@npm:3.0.3"
+  peerDependencies:
+    vite: ^3.0.0
+    vue: ^3.2.25
+  checksum: 42ddb22e9b80df16f48826c5911d6aa5b2f81ba4210866c1519b1df181a34d2c231ba7c2d45c1b5aa32e1e88ef03d075b11c8026f2f4b96c4f5c987be0fecb0e
+  languageName: node
+  linkType: hard
+
 "@vue/babel-helper-vue-jsx-merge-props@npm:^1.2.1":
   version: 1.2.1
   resolution: "@vue/babel-helper-vue-jsx-merge-props@npm:1.2.1"
@@ -13682,6 +13725,15 @@ __metadata:
   dependencies:
     tslib: ^2.0.1
   checksum: 5d66d89b6c07fe092087454b6042dbaf81f2882b176db93861e2b986aafe0bce49e1f1ff59aac775d451c1426ad1e967d250e9e3548f5166ea8a3475e66c169d
+  languageName: node
+  linkType: hard
+
+"ast-types@npm:0.15.2":
+  version: 0.15.2
+  resolution: "ast-types@npm:0.15.2"
+  dependencies:
+    tslib: ^2.0.1
+  checksum: 5b26e3656e9e8d1db8c8d14971d0cb88ca0138aacce72171cb4cd4555fc8dc53c07e821c568e57fe147366931708fefd25cb9d7e880d42ce9cb569947844c962
   languageName: node
   linkType: hard
 
@@ -37883,6 +37935,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"recast@npm:0.21.1":
+  version: 0.21.1
+  resolution: "recast@npm:0.21.1"
+  dependencies:
+    ast-types: 0.15.2
+    esprima: ~4.0.0
+    source-map: ~0.6.1
+    tslib: ^2.0.1
+  checksum: f3e103a21594dc3ef1d481f81be327d349798e7d1b9a57cecfac5d4cadc59e3865b12a28f364f7191e158b16c9deaf6cb3341953d591fe63d22e4ad5b6a995dd
+  languageName: node
+  linkType: hard
+
 "recast@npm:^0.11.17":
   version: 0.11.23
   resolution: "recast@npm:0.11.23"
@@ -44767,6 +44831,25 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"vue-docgen-api@npm:^4.40.0":
+  version: 4.52.0
+  resolution: "vue-docgen-api@npm:4.52.0"
+  dependencies:
+    "@babel/parser": ^7.13.12
+    "@babel/types": ^7.18.8
+    "@vue/compiler-dom": ^3.2.0
+    "@vue/compiler-sfc": ^3.2.0
+    ast-types: 0.14.2
+    hash-sum: ^1.0.2
+    lru-cache: ^4.1.5
+    pug: ^3.0.2
+    recast: 0.21.1
+    ts-map: ^1.0.3
+    vue-inbrowser-compiler-independent-utils: ^4.52.0
+  checksum: 38e7d44205a6fc14fc28c98e77f89fee5167ef0ad59e9083fcf17f8b9fb9e7aa20941a107b6b67fa7f9bfbf5bf0159925ac750b4d99ee06154e01a2695bf58ad
+  languageName: node
+  linkType: hard
+
 "vue-docgen-api@npm:^4.44.23, vue-docgen-api@npm:^4.46.0":
   version: 4.47.0
   resolution: "vue-docgen-api@npm:4.47.0"
@@ -44853,6 +44936,15 @@ __metadata:
   peerDependencies:
     vue: ">=2"
   checksum: 11fb15d284570912cdd016f080418c6366625e6d901d87ba14a4bb1fb90176c1d1cb23b4e3496522a170441a4a15f14758457a3069203d42ba1e737a86e077f4
+  languageName: node
+  linkType: hard
+
+"vue-inbrowser-compiler-independent-utils@npm:^4.52.0":
+  version: 4.52.0
+  resolution: "vue-inbrowser-compiler-independent-utils@npm:4.52.0"
+  peerDependencies:
+    vue: ">=2"
+  checksum: 20d8577a94cd7e0a591ba1f0bea7ccbe87d51389b33523ad7b86bc1f6e13c78f3438b837ed78631b6e7cb4ef7a56b1d6d2a70a5f51b6f6fc100d644438ae28aa
   languageName: node
   linkType: hard
 
