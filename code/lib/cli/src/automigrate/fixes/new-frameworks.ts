@@ -10,7 +10,7 @@ import { getStorybookVersionSpecifier } from '../../helpers';
 
 const logger = console;
 
-const packagesMap = {
+const packagesMap: Record<string, { webpack5?: string; vite?: string }> = {
   '@storybook/react': {
     webpack5: '@storybook/react-webpack5',
     vite: '@storybook/react-vite',
@@ -26,7 +26,8 @@ const packagesMap = {
   },
   '@storybook/vue': {
     webpack5: '@storybook/vue-webpack5',
-    vite: '@storybook/vue-vite',
+    // TODO: bring this back if we ever want to support vue 2 + vite. Else delete this!
+    // vite: '@storybook/vue-vite',
   },
   '@storybook/vue3': {
     webpack5: '@storybook/vue3-webpack5',
@@ -34,7 +35,8 @@ const packagesMap = {
   },
   '@storybook/svelte': {
     webpack5: '@storybook/svelte-webpack5',
-    vite: '@storybook/svelte-vite',
+    // TODO: bring this back once we have the svelte-vite package
+    // vite: '@storybook/svelte-vite',
   },
   '@storybook/web-components': {
     webpack5: '@storybook/web-components-webpack5',
@@ -127,9 +129,10 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
       options: main.getFieldValue(['core', 'builder', 'options']) || {},
     } as const;
 
-    // TODO: once we have vite frameworks e.g. @storybook/react-vite, then we support it here
-    // and remove ['storybook-builder-vite', '@storybook/builder-vite'] from deps
-    if (builderInfo.name === 'vite') {
+    const newFrameworkPackage = packagesMap[frameworkPackage][builderInfo.name];
+
+    // not all frameworks support vite yet e.g. Svelte
+    if (!newFrameworkPackage) {
       return null;
     }
 
@@ -140,9 +143,10 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
       '@storybook/manager-webpack5',
       '@storybook/builder-webpack4',
       '@storybook/manager-webpack4',
+      '@storybook/builder-vite',
+      'storybook-builder-vite',
     ].filter((dep) => allDeps[dep]);
 
-    const newFrameworkPackage = packagesMap[frameworkPackage][builderInfo.name];
     const dependenciesToAdd = [];
 
     // some frameworks didn't change e.g. Angular, Ember
