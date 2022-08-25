@@ -29,6 +29,8 @@ const theme: ThemeVars = {
   barBg: color.lightest,
 
   // Form colors
+  buttonBg: background.app,
+  buttonBorder: color.medium,
   inputBg: color.lightest,
   inputBorder: color.border,
   inputTextColor: color.darkest,

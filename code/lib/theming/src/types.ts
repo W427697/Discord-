@@ -29,6 +29,8 @@ export interface ThemeVars {
   barBg?: string;
 
   // Form colors
+  buttonBg?: string;
+  buttonBorder?: string;
   inputBg?: string;
   inputBorder?: string;
   inputTextColor?: string;

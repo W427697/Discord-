@@ -87,6 +87,8 @@ export const convert = (inherit: ThemeVars = themes[getPreferredColorScheme()]):
     barTextColor,
     barSelectedColor,
     barBg,
+    buttonBg,
+    buttonBorder,
     inputBg,
     inputBorder,
     inputTextColor,
@@ -127,10 +129,15 @@ export const convert = (inherit: ThemeVars = themes[getPreferredColorScheme()]):
     easing,
 
     input: {
-      border: inputBorder,
       background: inputBg,
-      color: inputTextColor,
+      border: inputBorder,
       borderRadius: inputBorderRadius,
+      color: inputTextColor,
+    },
+
+    button: {
+      background: buttonBg || inputBg,
+      border: buttonBorder || inputBorder,
     },
 
     // UI
