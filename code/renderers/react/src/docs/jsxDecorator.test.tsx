@@ -137,8 +137,7 @@ describe('renderJsx', () => {
     `);
   });
 
-  it('Profiler', () => {
-    // TODO: add Profiler integrate
+  it.todo('Profiler', () => {
     function ProfilerComponent(props: any) {
       return <div>{props.children}</div>;
     }
