@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events */
-import React, { createElement, FC, PropsWithChildren } from 'react';
+import React, { createElement, FC, Profiler, PropsWithChildren } from 'react';
 import PropTypes from 'prop-types';
 import { addons, useEffect } from '@storybook/addons';
 import { SNIPPET_RENDERED } from '@storybook/docs-tools';
@@ -137,9 +137,13 @@ describe('renderJsx', () => {
     `);
   });
 
-  it.todo('Profiler', () => {
+  it('Profiler', () => {
     function ProfilerComponent(props: any) {
-      return <div>{props.children}</div>;
+      return (
+        <Profiler id="profiler-test" onRender={() => {}}>
+          <div>{props.children}</div>
+        </Profiler>
+      );
     }
 
     expect(renderJsx(createElement(ProfilerComponent, {}, 'I am Profiler'), {}))
