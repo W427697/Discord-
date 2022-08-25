@@ -256,7 +256,7 @@ import type { StoryFn } from '@storybook/react';
 export const MyStory: StoryFn = () => <div />;
 ```
 
-This change was done to improve the experience of writing CSF3 stories, which the recommended way of writing stories in 7.0.:
+This change was done to improve the experience of writing CSF3 stories, which is the recommended way of writing stories in 7.0:
 
 ```js
 import type { Story } from '@storybook/react';
