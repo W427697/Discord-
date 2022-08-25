@@ -271,7 +271,7 @@ export const Primary: Story<ButtonProps> = {
 };
 ```
 
-If want to be explicit, you can also import `StoryObj` instead of `Story`, they are the same type.
+If you want to be explicit, you can also import `StoryObj` instead of `Story`, they are the same type.
 
 You can read more about the CSF3 format here: https://storybook.js.org/blog/component-story-format-3-0/
 
