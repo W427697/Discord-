@@ -25,7 +25,7 @@ export function renderToDOM(
 ) {
   cleanUpPreviousStory();
 
-  const target = domElement || document.getElementById('root');
+  const target = domElement || document.getElementById('storybook-root');
 
   target.innerHTML = '';
 
