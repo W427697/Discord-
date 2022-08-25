@@ -14,7 +14,7 @@ const Label = styled.label(({ theme }) => ({
   display: 'inline-block',
   position: 'relative',
   whiteSpace: 'nowrap',
-  background: `${opacify(0.05, theme.appBorderColor)}`,
+  background: theme.color.mediumlight,
   borderRadius: '3em',
   padding: 1,
 
@@ -50,7 +50,7 @@ const Label = styled.label(({ theme }) => ({
     userSelect: 'none',
     borderRadius: '3em',
 
-    color: transparentize(0.4, theme.color.defaultText),
+    color: transparentize(0.5, theme.color.defaultText),
     background: 'transparent',
 
     '&:hover': {
@@ -71,7 +71,7 @@ const Label = styled.label(({ theme }) => ({
   },
 
   'input:checked ~ span:last-of-type, input:not(:checked) ~ span:first-of-type': {
-    background: theme.background.app,
+    background: theme.color.lightest,
     boxShadow: `${opacify(0.1, theme.appBorderColor)} 0 0 2px`,
     color: theme.color.defaultText,
     padding: '7px 15px',

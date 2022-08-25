@@ -45,7 +45,7 @@ export default {
       control: 'boolean',
     },
     margin: {
-      control: 'number',
+      control: { type: 'range', min: 0, max: 30, step: 2 },
       if: { arg: 'advanced' },
     },
     padding: {

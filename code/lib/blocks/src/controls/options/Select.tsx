@@ -63,28 +63,29 @@ const OptionsSelect = styled.select(({ theme }) => ({
   },
 }));
 
-const SelectWrapper = styled.span`
-  display: inline-block;
-  line-height: normal;
-  overflow: hidden;
-  position: relative;
-  vertical-align: top;
-  width: 100%;
+const SelectWrapper = styled.span(({ theme }) => ({
+  display: 'inline-block',
+  lineHeight: 'normal',
+  overflow: 'hidden',
+  position: 'relative',
+  verticalAlign: 'top',
+  width: '100%',
 
-  svg {
-    position: absolute;
-    z-index: 1;
-    pointer-events: none;
-    height: 12px;
-    margin-top: -6px;
-    right: 12px;
-    top: 50%;
+  svg: {
+    position: 'absolute',
+    zIndex: 1,
+    pointerEvents: 'none',
+    height: '12px',
+    marginTop: '-6px',
+    right: '12px',
+    top: '50%',
+    fill: theme.color.mediumdark,
 
-    path {
-      fill: currentColor;
-    }
-  }
-`;
+    path: {
+      fill: theme.color.mediumdark,
+    },
+  },
+}));
 
 type SelectConfig = NormalizedOptionsConfig & { isMulti: boolean };
 type SelectProps = ControlProps<OptionsSelection> & SelectConfig;

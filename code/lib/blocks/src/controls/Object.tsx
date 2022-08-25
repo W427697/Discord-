@@ -124,7 +124,7 @@ const Wrapper = styled.div(({ theme }) => ({
     color: theme.color.defaultText,
   },
   '.rejt-value-node:hover > .rejt-value': {
-    background: theme.background.app,
+    background: theme.color.lighter,
     borderColor: theme.color.border,
   },
 }));
