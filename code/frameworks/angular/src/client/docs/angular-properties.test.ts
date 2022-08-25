@@ -21,6 +21,7 @@ const runCompodoc = (inputPath: string) => {
   // (and screwed around with relative paths as well, but couldn't get it working)
   spawnSync('yarn', ['compodoc', '-p', `${testDir}/tsconfig.json`, '-e', 'json', '-d', tmpDir], {
     stdio: 'inherit',
+    shell: true,
   });
   const output = fs.readFileSync(`${tmpDir}/documentation.json`, 'utf8');
   try {

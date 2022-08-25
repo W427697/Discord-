@@ -386,6 +386,7 @@ export abstract class JsPackageManager {
       cwd: this.cwd,
       stdio: stdio ?? 'pipe',
       encoding: 'utf-8',
+      shell: true,
     });
 
     if (commandResult.status !== 0) {
