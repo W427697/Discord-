@@ -1,3 +1,77 @@
+## 7.0.0-alpha.24 (August 24, 2022)
+
+#### Breaking changes
+
+-   Preview: Rename Storybook DOM root IDs [#10638](https://github.com/storybooks/storybook/pull/10638)
+
+#### Features
+
+-   Interactions: Add `step` function and support multiple levels of nesting [#18555](https://github.com/storybooks/storybook/pull/18555)
+
+#### Bug Fixes
+
+-   Addon-docs: Fix canvas support expand code for non-story [#18808](https://github.com/storybooks/storybook/pull/18808)
+-   Components: Avoid including line numbers when copying the code [#18725](https://github.com/storybooks/storybook/pull/18725)
+-   Vue: Fix enum check in extractArgTypes [#18959](https://github.com/storybooks/storybook/pull/18959)
+-   Core: Fix frameworkOptions preset [#18979](https://github.com/storybooks/storybook/pull/18979)
+
+#### Maintenance
+
+-   Addon-a11y: Remove achromatomaly color filter [#18852](https://github.com/storybooks/storybook/pull/18852)
+-   Build: Use ts-up to build core-webpack [#18912](https://github.com/storybooks/storybook/pull/18912)
+-   Build: Use ts-up to build addon-viewport [#18943](https://github.com/storybooks/storybook/pull/18943)
+-   Build: Improve generate-repros-next [#19001](https://github.com/storybooks/storybook/pull/19001)
+-   Examples: Remove refs in angular example [#18986](https://github.com/storybooks/storybook/pull/18986)
+-   Build: Use ts-up to build client-logger [#18893](https://github.com/storybooks/storybook/pull/18893)
+-   Generate-repros: Run local registry on `--local-registry` option [#18997](https://github.com/storybooks/storybook/pull/18997)
+-   Build: Remove unused bootstrap --cleanup [#18981](https://github.com/storybooks/storybook/pull/18981)
+-   CLI: Fix local repro publishing [#18977](https://github.com/storybooks/storybook/pull/18977)
+-   Build: Run verdaccio on 6001 to enable web UI [#18983](https://github.com/storybooks/storybook/pull/18983)
+-   CLI: determine whether to add interactive stories from `renderer` rather than `framework` [#18968](https://github.com/storybooks/storybook/pull/18968)
+-   CLI: Auto-accept migrations when running `generate-repros-next` [#18969](https://github.com/storybooks/storybook/pull/18969)
+
+## 7.0.0-alpha.23 (August 18, 2022)
+
+#### Features
+
+-   UI: Polish canvas and sidebar for 7.0 [#18894](https://github.com/storybooks/storybook/pull/18894)
+
+#### Maintenance
+
+-   Sandbox: Add ability to run from local repro [#18950](https://github.com/storybooks/storybook/pull/18950)
+-   Repros: Add ability to generate repros using local registry [#18948](https://github.com/storybooks/storybook/pull/18948)
+-   CLI: Move write/read package json into JsPackageManager [#18942](https://github.com/storybooks/storybook/pull/18942)
+
+
+## 7.0.0-alpha.22 (August 18, 2022)
+
+Failed publish to npm
+
+## 7.0.0-alpha.21 (August 17, 2022)
+
+#### Maintenance
+
+-   UI: Update every icon for v7 design [#18809](https://github.com/storybooks/storybook/pull/18809)
+
+## 7.0.0-alpha.20 (August 16, 2022)
+
+#### Features
+
+-   CLI: Automigration for new frameworks [#18919](https://github.com/storybooks/storybook/pull/18919)
+
+#### Bug Fixes
+
+-   UI: Fix the order of addons appearing in prebuilt manager [#18918](https://github.com/storybooks/storybook/pull/18918)
+
+#### Maintenance
+
+-   Exit sandbox gracefully on cancel [#18936](https://github.com/storybooks/storybook/pull/18936)
+-   Disable telemetry in monorepo and CI [#18935](https://github.com/storybooks/storybook/pull/18935)
+-   Convert cypress e2e tests to playwright [#18932](https://github.com/storybooks/storybook/pull/18932)
+-   CI: Refactor to use tasks [#18922](https://github.com/storybooks/storybook/pull/18922)
+-   Angular: Add renderer components / stories [#18934](https://github.com/storybooks/storybook/pull/18934)
+-   Examples: Add angular repro template and refactor [#18931](https://github.com/storybooks/storybook/pull/18931)
+
 ## 7.0.0-alpha.19 (August 12, 2022)
 
 #### Features
