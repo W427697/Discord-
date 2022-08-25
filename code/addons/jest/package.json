@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-jest",
-  "version": "7.0.0-alpha.24",
+  "version": "7.0.0-alpha.25",
   "description": "React storybook addon that show component jest report",
   "keywords": [
     "addon",
@@ -33,7 +33,7 @@
       "import": "./dist/index.mjs",
       "types": "./dist/index.d.ts"
     },
-    "./manager": {
+    "./manager.js": {
       "require": "./dist/manager.js",
       "import": "./dist/manager.mjs",
       "types": "./dist/manager.d.ts"
@@ -59,12 +59,12 @@
     "prepare": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/addons": "7.0.0-alpha.24",
-    "@storybook/api": "7.0.0-alpha.24",
-    "@storybook/client-logger": "7.0.0-alpha.24",
-    "@storybook/components": "7.0.0-alpha.24",
-    "@storybook/core-events": "7.0.0-alpha.24",
-    "@storybook/theming": "7.0.0-alpha.24",
+    "@storybook/addons": "7.0.0-alpha.25",
+    "@storybook/api": "7.0.0-alpha.25",
+    "@storybook/client-logger": "7.0.0-alpha.25",
+    "@storybook/components": "7.0.0-alpha.25",
+    "@storybook/core-events": "7.0.0-alpha.25",
+    "@storybook/theming": "7.0.0-alpha.25",
     "core-js": "^3.8.2",
     "global": "^4.4.0",
     "react-sizeme": "^3.0.1",
@@ -95,7 +95,7 @@
     ],
     "platform": "browser"
   },
-  "gitHead": "e3232cb426b8381afa48f42e6baa45fd9af9bc3a",
+  "gitHead": "058af8bac4892d95fdfe755dedfd826cb4508fdc",
   "storybook": {
     "displayName": "Jest",
     "icon": "https://pbs.twimg.com/profile_images/821713465245102080/mMtKIMax_400x400.jpg",

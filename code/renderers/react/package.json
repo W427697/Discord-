@@ -1,6 +1,6 @@
 {
   "name": "@storybook/react",
-  "version": "7.0.0-alpha.24",
+  "version": "7.0.0-alpha.25",
   "description": "Storybook React renderer",
   "keywords": [
     "storybook"
@@ -19,23 +19,6 @@
     "url": "https://opencollective.com/storybook"
   },
   "license": "MIT",
-  "exports": {
-    ".": {
-      "require": "./dist/index.js",
-      "import": "./dist/index.mjs",
-      "types": "./dist/index.d.ts"
-    },
-    "./preview": {
-      "require": "./dist/config.js",
-      "import": "./dist/config.mjs",
-      "types": "./dist/config.d.ts"
-    },
-    "./package.json": {
-      "require": "./package.json",
-      "import": "./package.json",
-      "types": "./package.json"
-    }
-  },
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
@@ -51,12 +34,12 @@
     "prepare": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/addons": "7.0.0-alpha.24",
-    "@storybook/client-logger": "7.0.0-alpha.24",
-    "@storybook/core-client": "7.0.0-alpha.24",
+    "@storybook/addons": "7.0.0-alpha.25",
+    "@storybook/client-logger": "7.0.0-alpha.25",
+    "@storybook/core-client": "7.0.0-alpha.25",
     "@storybook/csf": "0.0.2--canary.0899bb7.0",
-    "@storybook/docs-tools": "7.0.0-alpha.24",
-    "@storybook/store": "7.0.0-alpha.24",
+    "@storybook/docs-tools": "7.0.0-alpha.25",
+    "@storybook/store": "7.0.0-alpha.25",
     "@types/estree": "^0.0.51",
     "@types/node": "^14.14.20 || ^16.0.0",
     "acorn": "^7.4.1",
@@ -101,5 +84,5 @@
     ],
     "platform": "browser"
   },
-  "gitHead": "e3232cb426b8381afa48f42e6baa45fd9af9bc3a"
+  "gitHead": "058af8bac4892d95fdfe755dedfd826cb4508fdc"
 }

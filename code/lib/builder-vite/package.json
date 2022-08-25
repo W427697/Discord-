@@ -1,0 +1,67 @@
+{
+  "name": "@storybook/builder-vite",
+  "version": "7.0.0-alpha.25",
+  "description": "A plugin to run and build Storybooks with Vite",
+  "homepage": "https://github.com/storybookjs/storybook/tree/main/code/lib/builder-vite/#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/storybookjs/storybook.git",
+    "directory": "code/lib/builder-vite"
+  },
+  "license": "MIT",
+  "author": "Eirik Sletteberg",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/types/index.d.ts",
+  "scripts": {
+    "check": "tsc --noEmit",
+    "prepare": "node ../../../scripts/prepare.js"
+  },
+  "dependencies": {
+    "@joshwooding/vite-plugin-react-docgen-typescript": "0.0.5",
+    "@storybook/addons": "7.0.0-alpha.25",
+    "@storybook/channel-postmessage": "7.0.0-alpha.25",
+    "@storybook/channel-websocket": "7.0.0-alpha.25",
+    "@storybook/client-api": "7.0.0-alpha.25",
+    "@storybook/client-logger": "7.0.0-alpha.25",
+    "@storybook/core-common": "7.0.0-alpha.25",
+    "@storybook/mdx1-csf": "0.0.5-canary.13.9ce928a.0",
+    "@storybook/node-logger": "7.0.0-alpha.25",
+    "@storybook/preview-web": "7.0.0-alpha.25",
+    "@storybook/source-loader": "7.0.0-alpha.25",
+    "@vitejs/plugin-react": "^2.0.0",
+    "ast-types": "^0.14.2",
+    "es-module-lexer": "^0.9.3",
+    "glob": "^7.2.0",
+    "glob-promise": "^4.2.0",
+    "magic-string": "^0.26.1",
+    "react-docgen": "^6.0.0-alpha.0",
+    "slash": "^3.0.0",
+    "sveltedoc-parser": "^4.2.1",
+    "vite": "3"
+  },
+  "devDependencies": {
+    "@storybook/mdx2-csf": "^0.0.3",
+    "@sveltejs/vite-plugin-svelte": "^1.0.0",
+    "@types/express": "^4.17.13",
+    "@types/node": "^17.0.23",
+    "svelte": "^3.49.0",
+    "typescript": "~4.6.3"
+  },
+  "peerDependencies": {
+    "@storybook/mdx2-csf": "^0.0.3",
+    "svelte": "^3.0.0"
+  },
+  "peerDependenciesMeta": {
+    "@storybook/mdx2-csf": {
+      "optional": true
+    },
+    "svelte": {
+      "optional": true
+    }
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "gitHead": "058af8bac4892d95fdfe755dedfd826cb4508fdc"
+}

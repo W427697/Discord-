@@ -32,6 +32,14 @@ export class SbPage {
     await expect(selected).toBe('true');
   }
 
+  async waitUntilLoaded() {
+    const root = this.previewRoot();
+    const docsLoadingPage = root.locator('.sb-preparing-docs');
+    const storyLoadingPage = root.locator('.sb-preparing-story');
+    await docsLoadingPage.waitFor({ state: 'hidden' });
+    await storyLoadingPage.waitFor({ state: 'hidden' });
+  }
+
   previewIframe() {
     return this.page.frameLocator('#storybook-preview-iframe');
   }

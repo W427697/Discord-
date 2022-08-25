@@ -1,3 +1,14 @@
+## 7.0.0-alpha.25 (August 25, 2022)
+
+#### Features
+
+-   Vite: Add builder-vite, react-vite, and vue3-vite [#19007](https://github.com/storybooks/storybook/pull/19007)
+
+#### Maintenance
+
+-   CI: use runner with playwright installed for cra_bench [#18951](https://github.com/storybooks/storybook/pull/18951)
+-   Replace rollup-plugin-node-polyfills to analogs [#18975](https://github.com/storybooks/storybook/pull/18975)
+
 ## 7.0.0-alpha.24 (August 24, 2022)
 
 #### Breaking changes

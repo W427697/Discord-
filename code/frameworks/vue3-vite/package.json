@@ -1,0 +1,99 @@
+{
+  "name": "@storybook/vue3-vite",
+  "version": "7.0.0-alpha.25",
+  "description": "Storybook for Vue3: Develop Vue3 Component in isolation with Hot Reloading.",
+  "keywords": [
+    "storybook"
+  ],
+  "homepage": "https://github.com/storybookjs/storybook/tree/main/frameworks/vue3-vite",
+  "bugs": {
+    "url": "https://github.com/storybookjs/storybook/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/storybookjs/storybook.git",
+    "directory": "frameworks/vue3-vite"
+  },
+  "funding": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/storybook"
+  },
+  "license": "MIT",
+  "exports": {
+    ".": {
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.ts"
+    },
+    "./preset": {
+      "require": "./dist/preset.js",
+      "import": "./dist/preset.mjs",
+      "types": "./dist/preset.d.ts"
+    },
+    "./package.json": {
+      "require": "./package.json",
+      "import": "./package.json",
+      "types": "./package.json"
+    }
+  },
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist/**/*",
+    "types/**/*",
+    "README.md",
+    "*.js",
+    "*.d.ts"
+  ],
+  "scripts": {
+    "check": "tsc --noEmit",
+    "prepare": "../../../scripts/prepare/bundle.ts"
+  },
+  "dependencies": {
+    "@rollup/pluginutils": "^4.2.0",
+    "@storybook/builder-vite": "7.0.0-alpha.25",
+    "@storybook/core-server": "7.0.0-alpha.25",
+    "@storybook/vue3": "7.0.0-alpha.25",
+    "@types/node": "^14.14.20 || ^16.0.0",
+    "@vitejs/plugin-vue": "^3.0.3",
+    "ast-types": "^0.14.2",
+    "core-js": "^3.8.2",
+    "magic-string": "^0.26.1",
+    "react-docgen": "6.0.0-alpha.1",
+    "regenerator-runtime": "^0.13.7",
+    "vite": "3",
+    "vue-docgen-api": "^4.40.0"
+  },
+  "devDependencies": {
+    "jest-specific-snapshot": "^4.0.0",
+    "typescript": "~4.6.3"
+  },
+  "peerDependencies": {
+    "@babel/core": "^7.11.5",
+    "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
+    "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0"
+  },
+  "peerDependenciesMeta": {
+    "@babel/core": {
+      "optional": true
+    },
+    "typescript": {
+      "optional": true
+    }
+  },
+  "engines": {
+    "node": ">=10.13.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "bundler": {
+    "entries": [
+      "./src/index.ts",
+      "./src/preset.ts"
+    ],
+    "platform": "node"
+  },
+  "gitHead": "058af8bac4892d95fdfe755dedfd826cb4508fdc"
+}
