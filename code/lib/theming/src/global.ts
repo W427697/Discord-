@@ -1,4 +1,5 @@
 import memoize from 'memoizerific';
+import { color } from './base';
 import { Color, Background, Typography } from './types';
 
 type Value = string | number;
@@ -11,6 +12,7 @@ interface Return {
 export const createReset = memoize(1)(
   ({ typography }: { typography: Typography }): Return => ({
     body: {
+      color: color.defaultText,
       fontFamily: typography.fonts.base,
       fontSize: typography.size.s3,
       margin: 0,
