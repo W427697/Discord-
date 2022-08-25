@@ -36,7 +36,6 @@ export default {
   '@storybook/core-common': '7.0.0-alpha.24',
   '@storybook/core-events': '7.0.0-alpha.24',
   '@storybook/core-server': '7.0.0-alpha.24',
-  '@storybook/core-vite': '7.0.0-alpha.24',
   '@storybook/core-webpack': '7.0.0-alpha.24',
   '@storybook/csf-tools': '7.0.0-alpha.24',
   '@storybook/docs-tools': '7.0.0-alpha.24',

@@ -25,7 +25,6 @@
     "@storybook/client-api": "7.0.0-alpha.24",
     "@storybook/client-logger": "7.0.0-alpha.24",
     "@storybook/core-common": "7.0.0-alpha.24",
-    "@storybook/core-vite": "7.0.0-alpha.24",
     "@storybook/mdx1-csf": "0.0.5-canary.13.9ce928a.0",
     "@storybook/node-logger": "7.0.0-alpha.24",
     "@storybook/preview-web": "7.0.0-alpha.24",

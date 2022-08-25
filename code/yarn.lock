@@ -7756,7 +7756,6 @@ __metadata:
     "@storybook/client-api": 7.0.0-alpha.24
     "@storybook/client-logger": 7.0.0-alpha.24
     "@storybook/core-common": 7.0.0-alpha.24
-    "@storybook/core-vite": 7.0.0-alpha.24
     "@storybook/mdx1-csf": 0.0.5-canary.13.9ce928a.0
     "@storybook/mdx2-csf": ^0.0.3
     "@storybook/node-logger": 7.0.0-alpha.24
@@ -8244,19 +8243,6 @@ __metadata:
       optional: true
     typescript:
       optional: true
-  languageName: unknown
-  linkType: soft
-
-"@storybook/core-vite@7.0.0-alpha.24, @storybook/core-vite@workspace:*, @storybook/core-vite@workspace:lib/core-vite":
-  version: 0.0.0-use.local
-  resolution: "@storybook/core-vite@workspace:lib/core-vite"
-  dependencies:
-    "@storybook/core-common": 7.0.0-alpha.24
-    "@storybook/node-logger": 7.0.0-alpha.24
-    "@types/node": ^14.0.10 || ^16.0.0
-    core-js: ^3.8.2
-    ts-dedent: ^2.0.0
-    typescript: ~4.6.3
   languageName: unknown
   linkType: soft
 
@@ -9031,7 +9017,6 @@ __metadata:
     "@rollup/pluginutils": ^4.2.0
     "@storybook/builder-vite": 7.0.0-alpha.24
     "@storybook/core-server": 7.0.0-alpha.24
-    "@storybook/core-vite": 7.0.0-alpha.24
     "@storybook/react": 7.0.0-alpha.24
     "@types/node": ^14.14.20 || ^16.0.0
     "@vitejs/plugin-react": ^1.0.8
@@ -9184,7 +9169,6 @@ __metadata:
     "@storybook/codemod": "workspace:*"
     "@storybook/components": "workspace:*"
     "@storybook/core-events": "workspace:*"
-    "@storybook/core-vite": "workspace:*"
     "@storybook/core-webpack": "workspace:*"
     "@storybook/csf-tools": "workspace:*"
     "@storybook/docs-tools": "workspace:*"
@@ -9731,7 +9715,6 @@ __metadata:
     "@rollup/pluginutils": ^4.2.0
     "@storybook/builder-vite": 7.0.0-alpha.24
     "@storybook/core-server": 7.0.0-alpha.24
-    "@storybook/core-vite": 7.0.0-alpha.24
     "@storybook/vue3": 7.0.0-alpha.24
     "@types/node": ^14.14.20 || ^16.0.0
     "@vitejs/plugin-vue": ^3.0.3

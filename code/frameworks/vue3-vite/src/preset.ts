@@ -1,6 +1,6 @@
 import path from 'path';
 import fs from 'fs';
-import type { StorybookConfig } from '@storybook/core-vite';
+import type { StorybookConfig } from '@storybook/builder-vite';
 
 export const addons: StorybookConfig['addons'] = ['@storybook/vue3'];
 
