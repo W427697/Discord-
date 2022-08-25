@@ -78,6 +78,7 @@
     "@storybook/preset-web-components-webpack": { "implicitDependencies": [] },
 
     "@storybook/core-webpack": { "implicitDependencies": [] },
+    "@storybook/core-vite": { "implicitDependencies": [] },
     "@storybook/core-client": { "implicitDependencies": [] },
     "@storybook/core-common": { "implicitDependencies": [] },
     "@storybook/core-events": { "implicitDependencies": [] },
@@ -87,6 +88,7 @@
     "@storybook/builder-manager": { "implicitDependencies": [] },
     "@storybook/addons": { "implicitDependencies": [] },
     "@storybook/api": { "implicitDependencies": [] },
+    "@storybook/builder-vite": { "implicitDependencies": [] },
     "@storybook/builder-webpack5": { "implicitDependencies": [] },
     "@storybook/channel-postmessage": { "implicitDependencies": [] },
     "@storybook/channel-websocket": { "implicitDependencies": [] },
@@ -117,7 +119,10 @@
     "@storybook/svelte-webpack5": { "implicitDependencies": [] },
     "@storybook/vue-webpack5": { "implicitDependencies": [] },
     "@storybook/vue3-webpack5": { "implicitDependencies": [] },
-    "@storybook/web-components-webpack5": { "implicitDependencies": [] }
+    "@storybook/web-components-webpack5": { "implicitDependencies": [] },
+
+    "@storybook/react-vite": { "implicitDependencies": [] },
+    "@storybook/vue3-vite": { "implicitDependencies": [] }
   },
   "affected": {
     "defaultBase": "next"

@@ -3368,7 +3368,7 @@ __metadata:
     ts-jest: ^26.4.4
     ts-loader: ^9.2.8
     ts-node: ^10.4.0
-    tsup: ^6.1.2
+    tsup: ^6.2.2
     typescript: ~4.6.3
     util: ^0.12.4
     verdaccio: ^4.10.0
@@ -19069,15 +19069,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tsup@npm:^6.1.2":
-  version: 6.1.3
-  resolution: "tsup@npm:6.1.3"
+"tsup@npm:^6.2.2":
+  version: 6.2.2
+  resolution: "tsup@npm:6.2.2"
   dependencies:
     bundle-require: ^3.0.2
     cac: ^6.7.12
     chokidar: ^3.5.1
     debug: ^4.3.1
-    esbuild: ^0.14.25
+    esbuild: ^0.15.1
     execa: ^5.0.0
     globby: ^11.0.3
     joycon: ^3.0.1
@@ -19101,7 +19101,7 @@ __metadata:
   bin:
     tsup: dist/cli-default.js
     tsup-node: dist/cli-node.js
-  checksum: d5f04c5610a39c34b125a12aeae4af259f1b5f219acfcd1787e735b60cf737ca52906fae538d8e41280558b5093f594d31654f0f2ea9a7d90b223404bc97d83b
+  checksum: f06c6b42b09f14271ea9a2a1e12a9d242822de4bfd56cafe5c6147b9027a4c967f26bafe59fa0be93c8e84990f42c9b936c8938d756546c71ed91843b971e040
   languageName: node
   linkType: hard
 

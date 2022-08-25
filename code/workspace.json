@@ -40,7 +40,12 @@
       "root": "frameworks/web-components-webpack5",
       "type": "library"
     },
+
+    "@storybook/react-vite": { "root": "frameworks/react-vite", "type": "library" },
+    "@storybook/vue3-vite": { "root": "frameworks/vue3-vite", "type": "library" },
+
     "@storybook/core-webpack": { "root": "lib/core-webpack", "type": "library" },
+    "@storybook/core-vite": { "root": "lib/core-vite", "type": "library" },
 
     "angular-cli": { "root": "examples/angular-cli", "type": "library" },
     "cra-kitchen-sink": { "root": "examples/cra-kitchen-sink", "type": "library" },
@@ -66,6 +71,7 @@
 
     "@storybook/addons": { "root": "lib/addons", "type": "library" },
     "@storybook/api": { "root": "lib/api", "type": "library" },
+    "@storybook/builder-vite": { "root": "lib/builder-vite", "type": "library" },
     "@storybook/builder-webpack5": { "root": "lib/builder-webpack5", "type": "library" },
     "@storybook/channel-postmessage": { "root": "lib/channel-postmessage", "type": "library" },
     "@storybook/channel-websocket": { "root": "lib/channel-websocket", "type": "library" },

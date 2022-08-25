@@ -212,7 +212,7 @@ export async function baseGenerator(
   }
 
   // FIXME: temporary workaround for https://github.com/storybookjs/storybook/issues/17516
-  if (frameworkPackages.includes('@storybook/builder-vite')) {
+  if (frameworkPackages.find((pkg) => pkg.match(/^@storybook\/.*-vite$/))) {
     const previewHead = dedent`
       <script>
         window.global = window;
