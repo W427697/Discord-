@@ -8129,7 +8129,6 @@ __metadata:
     "@types/node": ^14.0.10 || ^16.0.0
     "@types/picomatch": ^2.3.0
     "@types/pretty-hrtime": ^1.0.0
-    babel-loader: ^8.2.5
     babel-plugin-macros: ^3.0.1
     babel-plugin-polyfill-corejs3: ^0.1.0
     chalk: ^4.1.0
