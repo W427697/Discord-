@@ -136,6 +136,18 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
       return null;
     }
 
+    if (allDeps.vite && semver.lt(semver.coerce(allDeps.vite).version, '3.0.0')) {
+      logger.warn(dedent`
+        ❌ Detected Vite ${
+          allDeps.vite
+        }, which is unsupported in Storybook 7.0, so the ${chalk.cyan(
+        'newFrameworks'
+      )} fix will be skipped.
+      Please upgrade vite to 3.0.0 or higher and rerun this automigration with "npx storybook@future automigrate".
+      `);
+      return null;
+    }
+
     const frameworkOptions = getFrameworkOptions(framework, main);
 
     const dependenciesToRemove = [

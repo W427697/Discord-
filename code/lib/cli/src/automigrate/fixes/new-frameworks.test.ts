@@ -104,6 +104,27 @@ describe('new-frameworks fix', () => {
         })
       ).resolves.toBeFalsy();
     });
+
+    it('in sb 7 with vite < 3', async () => {
+      const packageJson = {
+        dependencies: {
+          '@storybook/react': '^7.0.0',
+          '@storybook/builder-vite': 'x.y.z',
+          vite: '^2.0.0',
+        },
+      };
+      await expect(
+        checkNewFrameworks({
+          packageJson,
+          main: {
+            framework: '@storybook/react',
+            core: {
+              builder: '@storybook/builder-vite',
+            },
+          },
+        })
+      ).resolves.toBeFalsy();
+    });
   });
 
   describe('sb >= 7', () => {
@@ -205,6 +226,7 @@ describe('new-frameworks fix', () => {
           dependencies: {
             '@storybook/react': '^7.0.0-alpha.0',
             '@storybook/builder-vite': '^0.0.2',
+            vite: '3.0.0',
           },
         };
         await expect(
