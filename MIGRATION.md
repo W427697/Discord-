@@ -273,6 +273,8 @@ export const Primary: Story<ButtonProps> = {
 
 If you want to be explicit, you can also import `StoryObj` instead of `Story`, they are the same type.
 
+For Storybook for react users: We also changed `ComponentStory` to refer to `ComponentStoryObj` instead of `ComponentStoryFn`, so if you were using `ComponentStory` you should now import/use `ComponentStoryFn` instead.
+
 You can read more about the CSF3 format here: https://storybook.js.org/blog/component-story-format-3-0/
 
 #### Change of root html IDs
