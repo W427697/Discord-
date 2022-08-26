@@ -112,10 +112,7 @@ const ButtonWrapper = styled.button<{
   ({ theme, tertiary, inForm, small }) =>
     tertiary
       ? {
-          background:
-            theme.base === 'light'
-              ? theme.button.background
-              : lighten(0.02, theme.input.background),
+          background: theme.button.background,
           color: theme.input.color,
           boxShadow: `${theme.button.border} 0 0 0 1px inset`,
           borderRadius: theme.input.borderRadius,
@@ -126,7 +123,7 @@ const ButtonWrapper = styled.button<{
             background:
               theme.base === 'light'
                 ? darken(0.02, theme.button.background)
-                : lighten(0.05, theme.input.background),
+                : lighten(0.03, theme.button.background),
             ...(inForm
               ? {}
               : {

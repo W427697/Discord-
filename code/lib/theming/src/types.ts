@@ -31,6 +31,8 @@ export interface ThemeVars {
   // Form colors
   buttonBg?: string;
   buttonBorder?: string;
+  booleanBg?: string;
+  booleanSelectedBg?: string;
   inputBg?: string;
   inputBorder?: string;
   inputTextColor?: string;

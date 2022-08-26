@@ -29,8 +29,12 @@ const theme: ThemeVars = {
   barBg: '#292C2E',
 
   // Form colors
-  inputBg: '#3f3f3f',
-  inputBorder: 'rgba(0,0,0,.3)',
+  buttonBg: '#222425',
+  buttonBorder: 'rgba(255,255,255,.1)',
+  booleanBg: '#222425',
+  booleanSelectedBg: '#2E3438',
+  inputBg: '#1B1C1D',
+  inputBorder: 'rgba(255,255,255,.1)',
   inputTextColor: color.lightest,
   inputBorderRadius: 4,
 };

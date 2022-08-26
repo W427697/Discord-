@@ -31,6 +31,8 @@ const theme: ThemeVars = {
   // Form colors
   buttonBg: background.app,
   buttonBorder: color.medium,
+  booleanBg: color.mediumlight,
+  booleanSelectedBg: color.lightest,
   inputBg: color.lightest,
   inputBorder: color.border,
   inputTextColor: color.darkest,

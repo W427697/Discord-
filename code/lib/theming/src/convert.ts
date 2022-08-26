@@ -92,6 +92,8 @@ export const convert = (inherit: ThemeVars = themes[getPreferredColorScheme()]):
     barBg,
     buttonBg,
     buttonBorder,
+    booleanBg,
+    booleanSelectedBg,
     inputBg,
     inputBorder,
     inputTextColor,
@@ -141,6 +143,11 @@ export const convert = (inherit: ThemeVars = themes[getPreferredColorScheme()]):
     button: {
       background: buttonBg || inputBg,
       border: buttonBorder || inputBorder,
+    },
+
+    boolean: {
+      background: booleanBg || inputBorder,
+      selectedBackground: booleanSelectedBg || inputBg,
     },
 
     // UI

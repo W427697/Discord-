@@ -14,7 +14,7 @@ const Label = styled.label(({ theme }) => ({
   display: 'inline-block',
   position: 'relative',
   whiteSpace: 'nowrap',
-  background: theme.color.mediumlight,
+  background: theme.boolean.background,
   borderRadius: '3em',
   padding: 1,
 
@@ -71,8 +71,11 @@ const Label = styled.label(({ theme }) => ({
   },
 
   'input:checked ~ span:last-of-type, input:not(:checked) ~ span:first-of-type': {
-    background: theme.color.lightest,
-    boxShadow: `${opacify(0.1, theme.appBorderColor)} 0 0 2px`,
+    background: theme.boolean.selectedBackground,
+    boxShadow:
+      theme.base === 'light'
+        ? `${opacify(0.1, theme.appBorderColor)} 0 0 2px`
+        : `${theme.appBorderColor} 0 0 0 1px`,
     color: theme.color.defaultText,
     padding: '7px 15px',
   },
