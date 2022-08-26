@@ -1,6 +1,3 @@
-import { join } from 'path';
-import { pathExistsSync, readFile, writeFile } from 'fs-extra';
-
 import { servePackages } from '../utils/serve-packages';
 import type { Task } from '../task';
 import { exec } from '../utils/exec';
@@ -17,12 +14,15 @@ export const testRunner: Task = {
 
     // We could split this out into a separate task if it became annoying
     const publishController = await servePackages({});
-    await exec(`yarn add --dev @storybook/test-runner@0.6.4--canary.179.c8f28d5.0`, execOptions);
+    await exec(`yarn add --dev @storybook/test-runner`, execOptions);
 
     const storybookController = await serveSandbox(builtSandboxDir, {});
 
-    await exec(`yarn test-storybook --url http://localhost:8001 --junit ${junitFilename}`, {
+    await exec(`yarn test-storybook --url http://localhost:8001 --junit`, {
       ...execOptions,
+      env: {
+        JEST_JUNIT_OUTPUT_FILE: junitFilename,
+      },
     });
 
     publishController.abort();
