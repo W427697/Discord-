@@ -11,7 +11,7 @@ export const CollapseIcon = styled.span<{ isExpanded: boolean }>(({ theme, isExp
   marginTop: 6,
   marginLeft: 8,
   marginRight: 5,
-  color: transparentize(0.4, theme.color.mediumdark),
+  color: transparentize(0.4, theme.textMutedColor),
   borderTop: '3px solid transparent',
   borderBottom: '3px solid transparent',
   borderLeft: `3px solid`,
@@ -140,7 +140,7 @@ export const RootNode = styled.div(({ theme }) => ({
   minHeight: 20,
   letterSpacing: '0.35em',
   textTransform: 'uppercase',
-  color: theme.color.mediumdark,
+  color: theme.textMutedColor,
 }));
 
 export const GroupNode: FunctionComponent<

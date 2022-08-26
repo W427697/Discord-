@@ -96,7 +96,7 @@ const ThemedSetRoot = () => {
 
   useEffect(() => {
     document.body.style.background = theme.background.content;
-    document.body.style.color = theme.defaultText;
+    document.body.style.color = theme.color.defaultText;
     return () => {
       //
     };

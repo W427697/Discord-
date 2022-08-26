@@ -76,7 +76,7 @@ const Input = styled.input(({ theme }) => ({
   height: 32,
   paddingLeft: 30,
   paddingRight: 32,
-  border: `1px solid ${theme.color.border}`,
+  border: `1px solid ${theme.appBorderColor}`,
   background: 'transparent',
   borderRadius: 32,
   fontSize: `${theme.typography.size.s1 + 1}px`,
@@ -89,7 +89,7 @@ const Input = styled.input(({ theme }) => ({
     background: theme.background.app,
   },
   '&::placeholder': {
-    color: theme.color.mediumdark,
+    color: theme.textMutedColor,
     opacity: 1,
   },
   '&:valid ~ code, &:focus ~ code': {

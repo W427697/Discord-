@@ -47,7 +47,7 @@ const OptionsSelect = styled.select(({ theme }) => ({
   },
 
   '::placeholder': {
-    color: theme.color.mediumdark,
+    color: theme.textMutedColor,
   },
 
   '&[multiple]': {
@@ -79,10 +79,10 @@ const SelectWrapper = styled.span(({ theme }) => ({
     marginTop: '-6px',
     right: '12px',
     top: '50%',
-    fill: theme.color.mediumdark,
+    fill: theme.textMutedColor,
 
     path: {
-      fill: theme.color.mediumdark,
+      fill: theme.textMutedColor,
     },
   },
 }));

@@ -68,7 +68,7 @@ const BackActionRow = styled(ActionRow)({
 
 const ActionLabel = styled.span(({ theme }) => ({
   flexGrow: 1,
-  color: theme.color.mediumdark,
+  color: theme.textMutedColor,
   fontSize: `${theme.typography.size.s1}px`,
 }));
 
@@ -77,7 +77,7 @@ const ActionIcon = styled(Icons)(({ theme }) => ({
   width: 10,
   height: 10,
   marginRight: 6,
-  color: theme.color.mediumdark,
+  color: theme.textMutedColor,
 }));
 
 const ActionKey = styled.code(({ theme }) => ({

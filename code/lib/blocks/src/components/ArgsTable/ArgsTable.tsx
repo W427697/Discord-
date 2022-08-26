@@ -215,15 +215,16 @@ const ResetButton = styled.button(({ theme }) => ({
   userSelect: 'none',
   margin: 0,
 
-  backgroundColor: theme.base === 'light' ? '#EAF3FC' : theme.color.border,
+  backgroundColor: theme.base === 'light' ? '#EAF3FC' : theme.appBorderColor,
   boxShadow:
     theme.base === 'light'
-      ? `${theme.color.border} 0 0 0 1px inset`
+      ? `${theme.appBorderColor} 0 0 0 1px inset`
       : `${theme.color.darker}  0 0 0 1px inset`,
   color: theme.color.secondary,
 
   '&:hover': {
-    background: theme.base === 'light' ? darken(0.03, '#EAF3FC') : opacify(0.1, theme.color.border),
+    background:
+      theme.base === 'light' ? darken(0.03, '#EAF3FC') : opacify(0.1, theme.appBorderColor),
   },
 
   '&:focus': {

@@ -104,7 +104,7 @@ const Wrapper = styled.div<WrapperProps>(
           background:
             theme.color[color] || color || theme.base === 'light'
               ? lighten(theme.background.app)
-              : darken(theme.background.app),
+              : theme.background.app,
           filter: `
             drop-shadow(0px 5px 5px rgba(0,0,0,0.05))
             drop-shadow(0 1px 3px rgba(0,0,0,0.1))

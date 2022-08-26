@@ -28,7 +28,7 @@ const Subheading = styled.span(({ theme }) => ({
   fontWeight: theme.typography.weight.black,
   fontSize: theme.typography.size.s2 - 1,
   lineHeight: '24px',
-  color: theme.color.mediumdark,
+  color: theme.textMutedColor,
 }));
 
 const SubheadingLink = styled(Link)(({ theme }) => ({

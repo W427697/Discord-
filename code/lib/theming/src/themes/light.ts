@@ -6,7 +6,7 @@ const theme: ThemeVars = {
 
   // Storybook-specific color palette
   colorPrimary: '#FF4785', // coral
-  colorSecondary: '#1EA7FD', // ocean
+  colorSecondary: '#029CFD', // ocean
 
   // UI
   appBg: background.app,
