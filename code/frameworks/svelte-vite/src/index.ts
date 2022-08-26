@@ -1,2 +1,2 @@
 export * from '@storybook/svelte';
-export * from './types';
+export type { StorybookConfig } from '@storybook/builder-vite';

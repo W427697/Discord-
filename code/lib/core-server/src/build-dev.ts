@@ -83,8 +83,8 @@ export async function buildDevStandalone(options: CLIOptions & LoadOptions & Bui
   presets = await loadAllPresets({
     corePresets: [
       require.resolve('./presets/common-preset'),
-      ...managerBuilder.corePresets,
-      ...previewBuilder.corePresets,
+      ...(managerBuilder.corePresets || []),
+      ...(previewBuilder.corePresets || []),
       ...corePresets,
       require.resolve('./presets/babel-cache-preset'),
     ],

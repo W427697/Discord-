@@ -1,7 +1,7 @@
 /* eslint-disable global-require */
 import path from 'path';
 import fs from 'fs';
-import type { StorybookConfig, TypescriptOptions } from '@storybook/core-vite';
+import type { StorybookConfig, TypescriptOptions } from '@storybook/builder-vite';
 
 export const addons: StorybookConfig['addons'] = ['@storybook/react'];
 

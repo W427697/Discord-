@@ -3,13 +3,11 @@ import fs from 'fs';
 import { Plugin } from 'vite';
 import viteReact from '@vitejs/plugin-react';
 import type { UserConfig } from 'vite';
-import type { TypescriptOptions } from '@storybook/core-vite';
 import { allowedEnvPrefix as envPrefix } from './envs';
 import { codeGeneratorPlugin } from './code-generator-plugin';
 import { injectExportOrderPlugin } from './inject-export-order-plugin';
 import { mdxPlugin } from './plugins/mdx-plugin';
 import { noFouc } from './plugins/no-fouc';
-import { sourceLoaderPlugin } from './source-loader-plugin';
 import type { ExtendedOptions } from './types';
 
 export type PluginConfigType = 'build' | 'development';
@@ -29,8 +27,6 @@ export async function commonConfig(
   options: ExtendedOptions,
   _type: PluginConfigType
 ): Promise<UserConfig & { configFile: false; root: string }> {
-  const { framework } = options;
-
   return {
     configFile: false,
     root: path.resolve(options.configDir, '..'),

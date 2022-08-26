@@ -3,6 +3,7 @@
 - [From version 6.5.x to 7.0.0](#from-version-65x-to-700)
   - [Alpha release notes](#alpha-release-notes)
   - [Breaking changes](#breaking-changes)
+    - [`Story` type change to `StoryFn`, and the new `Story` type now refers to `StoryObj`](#story-type-change-to-storyfn-and-the-new-story-type-now-refers-to-storyobj)
     - [Change of root html IDs](#change-of-root-html-ids)
     - [No more default export from `@storybook/addons`](#no-more-default-export-from-storybookaddons)
     - [Modern browser support](#modern-browser-support)
@@ -235,6 +236,46 @@ Storybook 7.0 is in early alpha. During the alpha, we are making a large number 
 In the meantime, these migration notes are the best available documentation on things you should know upgrading to 7.0.
 
 ### Breaking changes
+
+#### `Story` type change to `StoryFn`, and the new `Story` type now refers to `StoryObj`
+
+In 6.x you were able to do this:
+
+```js
+import type { Story } from '@storybook/react';
+
+export const MyStory: Story = () => <div />;
+```
+
+But this will produce an error in 7.0 because `Story` is now a type that refers to the `StoryObj` type.
+You must now use the new `StoryFn` type:
+
+```js
+import type { StoryFn } from '@storybook/react';
+
+export const MyStory: StoryFn = () => <div />;
+```
+
+This change was done to improve the experience of writing CSF3 stories, which is the recommended way of writing stories in 7.0:
+
+```js
+import type { Story } from '@storybook/react';
+import { Button, ButtonProps } from './Button';
+
+export default {
+  component: Button,
+};
+
+export const Primary: Story<ButtonProps> = {
+  variant: 'primary',
+};
+```
+
+If you want to be explicit, you can also import `StoryObj` instead of `Story`, they are the same type.
+
+For Storybook for react users: We also changed `ComponentStory` to refer to `ComponentStoryObj` instead of `ComponentStoryFn`, so if you were using `ComponentStory` you should now import/use `ComponentStoryFn` instead.
+
+You can read more about the CSF3 format here: https://storybook.js.org/blog/component-story-format-3-0/
 
 #### Change of root html IDs
 

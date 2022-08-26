@@ -65,10 +65,8 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
       platform: platform || 'browser',
       esbuildPlugins: [
         aliasPlugin({
-          process: path.resolve(
-            '../node_modules/rollup-plugin-node-polyfills/polyfills/process-es6.js'
-          ),
-          util: path.resolve('../node_modules/rollup-plugin-node-polyfills/polyfills/util.js'),
+          process: path.resolve('../node_modules/process/browser.js'),
+          util: path.resolve('../node_modules/util/util.js'),
         }),
       ],
       external: [name, ...Object.keys(dependencies || {}), ...Object.keys(peerDependencies || {})],
@@ -132,7 +130,12 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
 const flags = process.argv.slice(2);
 const cwd = process.cwd();
 
-run({ cwd, flags }).catch((err) => {
-  console.error(err.stack);
+run({ cwd, flags }).catch((err: unknown) => {
+  // We can't let the stack try to print, it crashes in a way that sets the exit code to 0.
+  // Seems to have something to do with running JSON.parse() on binary / base64 encoded sourcemaps
+  // in @cspotcode/source-map-support
+  if (err instanceof Error) {
+    console.error(err.message);
+  }
   process.exit(1);
 });

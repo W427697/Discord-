@@ -1,6 +1,6 @@
 import path from 'path';
 import fs from 'fs';
-import type { StorybookConfig, TypescriptOptions } from '@storybook/core-vite';
+import type { StorybookConfig } from '@storybook/builder-vite';
 
 export const addons: StorybookConfig['addons'] = ['@storybook/vue3'];
 
@@ -42,9 +42,9 @@ export const viteFinal: StorybookConfig['viteFinal'] = async (config, { presets 
     ...config,
     plugins,
     resolve: {
-      ...config?.resolve,
+      ...config.resolve,
       alias: {
-        ...config?.resolve?.alias,
+        ...config.resolve?.alias,
         vue: 'vue/dist/vue.esm-bundler.js',
       },
     },

@@ -2,13 +2,19 @@
 
 import * as fs from 'fs';
 import * as path from 'path';
-import type { Builder, StorybookConfig, Options } from '@storybook/core-common';
+import type {
+  Builder,
+  StorybookConfig as StorybookBaseConfig,
+  Options,
+} from '@storybook/core-common';
 import type { RequestHandler, Request, Response } from 'express';
 import type { InlineConfig, UserConfig, ViteDevServer } from 'vite';
 import { transformIframeHtml } from './transform-iframe-html';
 import { createViteServer } from './vite-server';
 import { build as viteBuild } from './build';
 import type { ExtendedOptions } from './types';
+
+export type { TypescriptOptions } from '@storybook/core-common';
 
 // Storybook's Stats are optional Webpack related property
 export type ViteStats = {
@@ -22,8 +28,8 @@ export type ViteFinal = (
   options: Options
 ) => InlineConfig | Promise<InlineConfig>;
 
-export type StorybookViteConfig = StorybookConfig & {
-  viteFinal: ViteFinal;
+export type StorybookConfig = StorybookBaseConfig & {
+  viteFinal?: ViteFinal;
 };
 
 function iframeMiddleware(options: ExtendedOptions, server: ViteDevServer): RequestHandler {
@@ -66,7 +72,7 @@ export const start: ViteBuilder['start'] = async ({
     res.header('Content-Type', 'text/event-stream');
   });
 
-  router.use(await iframeMiddleware(options as ExtendedOptions, server));
+  router.use(iframeMiddleware(options as ExtendedOptions, server));
   router.use(server.middlewares);
 
   async function bail(e?: Error): Promise<void> {
@@ -89,6 +95,3 @@ export const start: ViteBuilder['start'] = async ({
 export const build: ViteBuilder['build'] = async ({ options }) => {
   return viteBuild(options as ExtendedOptions);
 };
-
-export const corePresets = [];
-export const previewPresets = [];
