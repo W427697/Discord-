@@ -123,7 +123,7 @@ describe('new-frameworks fix', () => {
             },
           },
         })
-      ).resolves.toBeFalsy();
+      ).rejects.toBeTruthy();
     });
   });
 
