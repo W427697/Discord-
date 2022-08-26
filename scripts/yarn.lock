@@ -3342,6 +3342,7 @@ __metadata:
     p-limit: ^3.1.0
     prettier: ">=2.2.1 <=2.3.0"
     pretty-hrtime: ^1.0.0
+    process: ^0.11.10
     prompts: ^2.4.0
     puppeteer: ^2.1.1
     react: 16.14.0
@@ -3355,7 +3356,6 @@ __metadata:
     rollup: ^2.60.2
     rollup-plugin-extensions: ^0.1.0
     rollup-plugin-jsx: ^1.0.3
-    rollup-plugin-node-polyfills: ^0.2.1
     rollup-plugin-terser: ^7.0.2
     serve-static: ^1.14.1
     shelljs: ^0.8.5
@@ -3368,8 +3368,9 @@ __metadata:
     ts-jest: ^26.4.4
     ts-loader: ^9.2.8
     ts-node: ^10.4.0
-    tsup: ^6.1.2
+    tsup: ^6.2.2
     typescript: ~4.6.3
+    util: ^0.12.4
     verdaccio: ^4.10.0
     verdaccio-auth-memory: ^9.7.2
     wait-on: ^5.2.1
@@ -5195,6 +5196,13 @@ __metadata:
   bin:
     atob: bin/atob.js
   checksum: ada635b519dc0c576bb0b3ca63a73b50eefacf390abb3f062558342a8d68f2db91d0c8db54ce81b0d89de3b0f000de71f3ae7d761fd7d8cc624278fe443d6c7e
+  languageName: node
+  linkType: hard
+
+"available-typed-arrays@npm:^1.0.5":
+  version: 1.0.5
+  resolution: "available-typed-arrays@npm:1.0.5"
+  checksum: c4df567ca72d2754a6cbad20088f5f98b1065b3360178169fa9b44ea101af62c0f423fc3854fa820fd6895b6b9171b8386e71558203103ff8fc2ad503fdcc660
   languageName: node
   linkType: hard
 
@@ -8006,7 +8014,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"es-abstract@npm:^1.19.0, es-abstract@npm:^1.19.1, es-abstract@npm:^1.19.2, es-abstract@npm:^1.19.4, es-abstract@npm:^1.19.5, es-abstract@npm:^1.20.1":
+"es-abstract@npm:^1.19.0, es-abstract@npm:^1.19.1, es-abstract@npm:^1.19.2, es-abstract@npm:^1.19.4, es-abstract@npm:^1.19.5, es-abstract@npm:^1.20.0, es-abstract@npm:^1.20.1":
   version: 1.20.1
   resolution: "es-abstract@npm:1.20.1"
   dependencies:
@@ -8886,13 +8894,6 @@ __metadata:
   version: 0.2.1
   resolution: "estree-walker@npm:0.2.1"
   checksum: 5a7285ba6f4fd29d5ac112fdf3950929b2a52805b6683329355cbddf40edf08b52e6c9a4be28b5426e694d54f8b4594478eb66005b9fea641f18fa427e7888c8
-  languageName: node
-  linkType: hard
-
-"estree-walker@npm:^0.6.1":
-  version: 0.6.1
-  resolution: "estree-walker@npm:0.6.1"
-  checksum: 6dabc855faa04a1ffb17b6a9121b6008ba75ab5a163ad9dc3d7fca05cfda374c5f5e91418d783496620ca75e99a73c40874d8b75f23b4117508cc8bde78e7b41
   languageName: node
   linkType: hard
 
@@ -11321,6 +11322,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"is-generator-function@npm:^1.0.7":
+  version: 1.0.10
+  resolution: "is-generator-function@npm:1.0.10"
+  dependencies:
+    has-tostringtag: ^1.0.0
+  checksum: df03514df01a6098945b5a0cfa1abff715807c8e72f57c49a0686ad54b3b74d394e2d8714e6f709a71eb00c9630d48e73ca1796c1ccc84ac95092c1fecc0d98b
+  languageName: node
+  linkType: hard
+
 "is-glob@npm:^3.1.0":
   version: 3.1.0
   resolution: "is-glob@npm:3.1.0"
@@ -11531,6 +11541,19 @@ __metadata:
   dependencies:
     has-symbols: ^1.0.2
   checksum: 9381dd015f7c8906154dbcbf93fad769de16b4b961edc94f88d26eb8c555935caa23af88bda0c93a18e65560f6d7cca0fd5a3f8a8e1df6f1abbb9bead4502ef7
+  languageName: node
+  linkType: hard
+
+"is-typed-array@npm:^1.1.3, is-typed-array@npm:^1.1.9":
+  version: 1.1.9
+  resolution: "is-typed-array@npm:1.1.9"
+  dependencies:
+    available-typed-arrays: ^1.0.5
+    call-bind: ^1.0.2
+    es-abstract: ^1.20.0
+    for-each: ^0.3.3
+    has-tostringtag: ^1.0.0
+  checksum: 613b7dd6d121c331bb7456f6b678ebd74aee9d77f61c3df09da2cd7841c060d4f8cff14ae8ab54977180d5da2f2da300394810bc92a05a985b3438f55cf629b2
   languageName: node
   linkType: hard
 
@@ -13698,7 +13721,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"magic-string@npm:^0.25.3, magic-string@npm:^0.25.7":
+"magic-string@npm:^0.25.7":
   version: 0.25.9
   resolution: "magic-string@npm:0.25.9"
   dependencies:
@@ -17140,17 +17163,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rollup-plugin-inject@npm:^3.0.0":
-  version: 3.0.2
-  resolution: "rollup-plugin-inject@npm:3.0.2"
-  dependencies:
-    estree-walker: ^0.6.1
-    magic-string: ^0.25.3
-    rollup-pluginutils: ^2.8.1
-  checksum: 35b9d955039b56b43750a9e458bb51b7956b048b6d3ca57b1f03462aa5a0cb176d1b677d95e909b64eee4e9adf73c02f569ad8c0ab5aafdec818ff51700c114c
-  languageName: node
-  linkType: hard
-
 "rollup-plugin-jsx@npm:^1.0.3":
   version: 1.0.3
   resolution: "rollup-plugin-jsx@npm:1.0.3"
@@ -17159,15 +17171,6 @@ __metadata:
     magic-string: ^0.14.0
     rollup-pluginutils: ^1.3.1
   checksum: fe404acd2b2860eadc284f07ed25122de5b9b7f925400522eb0c95714923cc2aa4331fa8e629b8b0f2f52942179a89db1a1f9983252fa390f79412864e904102
-  languageName: node
-  linkType: hard
-
-"rollup-plugin-node-polyfills@npm:^0.2.1":
-  version: 0.2.1
-  resolution: "rollup-plugin-node-polyfills@npm:0.2.1"
-  dependencies:
-    rollup-plugin-inject: ^3.0.0
-  checksum: 30f9e09cbbf979b1212e0c455d74c3a061994fc19ddf160da4634b11377222cea5903a5ba05db66be849f550cde9ffc80ecbfcfb48544045d08bfc408501417d
   languageName: node
   linkType: hard
 
@@ -17192,15 +17195,6 @@ __metadata:
     estree-walker: ^0.2.1
     minimatch: ^3.0.2
   checksum: dd116e92b66432b987fb0cb1bb71ec7317ec4fa5fe9673a98498fd966e94daef9dc6f34deee204b17bb9438f05b8dfa370bb03e83e06af9e377e4ab9c83b048a
-  languageName: node
-  linkType: hard
-
-"rollup-pluginutils@npm:^2.8.1":
-  version: 2.8.2
-  resolution: "rollup-pluginutils@npm:2.8.2"
-  dependencies:
-    estree-walker: ^0.6.1
-  checksum: 20947bec5a5dd68b5c5c8423911e6e7c0ad834c451f1a929b1f4e2bc08836ad3f1a722ef2bfcbeca921870a0a283f13f064a317dc7a6768496e98c9a641ba290
   languageName: node
   linkType: hard
 
@@ -19075,15 +19069,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tsup@npm:^6.1.2":
-  version: 6.1.3
-  resolution: "tsup@npm:6.1.3"
+"tsup@npm:^6.2.2":
+  version: 6.2.2
+  resolution: "tsup@npm:6.2.2"
   dependencies:
     bundle-require: ^3.0.2
     cac: ^6.7.12
     chokidar: ^3.5.1
     debug: ^4.3.1
-    esbuild: ^0.14.25
+    esbuild: ^0.15.1
     execa: ^5.0.0
     globby: ^11.0.3
     joycon: ^3.0.1
@@ -19107,7 +19101,7 @@ __metadata:
   bin:
     tsup: dist/cli-default.js
     tsup-node: dist/cli-node.js
-  checksum: d5f04c5610a39c34b125a12aeae4af259f1b5f219acfcd1787e735b60cf737ca52906fae538d8e41280558b5093f594d31654f0f2ea9a7d90b223404bc97d83b
+  checksum: f06c6b42b09f14271ea9a2a1e12a9d242822de4bfd56cafe5c6147b9027a4c967f26bafe59fa0be93c8e84990f42c9b936c8938d756546c71ed91843b971e040
   languageName: node
   linkType: hard
 
@@ -19715,6 +19709,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"util@npm:^0.12.4":
+  version: 0.12.4
+  resolution: "util@npm:0.12.4"
+  dependencies:
+    inherits: ^2.0.3
+    is-arguments: ^1.0.4
+    is-generator-function: ^1.0.7
+    is-typed-array: ^1.1.3
+    safe-buffer: ^5.1.2
+    which-typed-array: ^1.1.2
+  checksum: 3e04e6feb68bccdc9fdfa013050719b3b41ce698ff5e244ee683d675b7fb9b91c8a1594b164696ee2201cca9579c286b968d0aabd9c9069ae1667413940a4e49
+  languageName: node
+  linkType: hard
+
 "utils-merge@npm:1.0.1":
   version: 1.0.1
   resolution: "utils-merge@npm:1.0.1"
@@ -20171,6 +20179,20 @@ __metadata:
   version: 1.1.0
   resolution: "which-pm-runs@npm:1.1.0"
   checksum: b8f2f230aa49babe21cb93f169f5da13937f940b8cc7a47d2078d9d200950c0dba5ac5659bc01bdbe401e6db3adec6a97b6115215a4ca8e87fd714aebd0cabc6
+  languageName: node
+  linkType: hard
+
+"which-typed-array@npm:^1.1.2":
+  version: 1.1.8
+  resolution: "which-typed-array@npm:1.1.8"
+  dependencies:
+    available-typed-arrays: ^1.0.5
+    call-bind: ^1.0.2
+    es-abstract: ^1.20.0
+    for-each: ^0.3.3
+    has-tostringtag: ^1.0.0
+    is-typed-array: ^1.1.9
+  checksum: bdab0d7d077015a8e9710d93951614f2a7962ed62f5240d2852c61eb578a888c4a9da5ef93ba9d0191812e05db1817168e1ab746036d39e863d555f9b68008f1
   languageName: node
   linkType: hard
 
