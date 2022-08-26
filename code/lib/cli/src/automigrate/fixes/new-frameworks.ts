@@ -36,7 +36,7 @@ const packagesMap: Record<string, { webpack5?: string; vite?: string }> = {
   '@storybook/svelte': {
     webpack5: '@storybook/svelte-webpack5',
     // TODO: bring this back once we have the svelte-vite package
-    // vite: '@storybook/svelte-vite',
+    vite: '@storybook/svelte-vite',
   },
   '@storybook/web-components': {
     webpack5: '@storybook/web-components-webpack5',

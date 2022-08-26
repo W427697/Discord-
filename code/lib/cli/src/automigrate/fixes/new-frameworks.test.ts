@@ -84,11 +84,11 @@ describe('new-frameworks fix', () => {
       ).resolves.toBeFalsy();
     });
 
-    // TODO: once we have a @storybook/svelte-vite framework, we should remove this test
-    it('in sb 7 with svelte and vite', async () => {
+    // TODO: once we have a @storybook/vue-vite framework, we should remove this test
+    it('in sb 7 with vue and vite', async () => {
       const packageJson = {
         dependencies: {
-          '@storybook/svelte': '^7.0.0',
+          '@storybook/vue': '^7.0.0',
           '@storybook/builder-vite': 'x.y.z',
         },
       };
@@ -96,7 +96,7 @@ describe('new-frameworks fix', () => {
         checkNewFrameworks({
           packageJson,
           main: {
-            framework: '@storybook/svelte',
+            framework: '@storybook/vue',
             core: {
               builder: '@storybook/builder-vite',
             },
