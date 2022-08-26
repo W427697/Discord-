@@ -516,7 +516,30 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/core@npm:^7.17.10, @babel/core@npm:^7.18.10":
+"@babel/core@npm:^7.17.10":
+  version: 7.18.13
+  resolution: "@babel/core@npm:7.18.13"
+  dependencies:
+    "@ampproject/remapping": ^2.1.0
+    "@babel/code-frame": ^7.18.6
+    "@babel/generator": ^7.18.13
+    "@babel/helper-compilation-targets": ^7.18.9
+    "@babel/helper-module-transforms": ^7.18.9
+    "@babel/helpers": ^7.18.9
+    "@babel/parser": ^7.18.13
+    "@babel/template": ^7.18.10
+    "@babel/traverse": ^7.18.13
+    "@babel/types": ^7.18.13
+    convert-source-map: ^1.7.0
+    debug: ^4.1.0
+    gensync: ^1.0.0-beta.2
+    json5: ^2.2.1
+    semver: ^6.3.0
+  checksum: 4a880723a1ee5b878482ce2f359d690f09ed407667f3d19c97790b772b11bec3dd71f66b5fb76d2da41e0f80f06ac85dfce1b46696307fc124f192a08b85c3b8
+  languageName: node
+  linkType: hard
+
+"@babel/core@npm:^7.18.10":
   version: 7.18.10
   resolution: "@babel/core@npm:7.18.10"
   dependencies:
@@ -583,6 +606,17 @@ __metadata:
     "@jridgewell/gen-mapping": ^0.3.2
     jsesc: ^2.5.1
   checksum: 0a81453f3d6f458b6eeac046cb47b897674ea12ac7c72068faed1762aedade2290fbd139fcb605c4ea8386014aa87a0c96e609d8c469b434ab5923189e075ad1
+  languageName: node
+  linkType: hard
+
+"@babel/generator@npm:^7.18.13":
+  version: 7.18.13
+  resolution: "@babel/generator@npm:7.18.13"
+  dependencies:
+    "@babel/types": ^7.18.13
+    "@jridgewell/gen-mapping": ^0.3.2
+    jsesc: ^2.5.1
+  checksum: 801f8b68c951da7badc81b9ed773599fa30c969cee4c7b8698aed6ed02be9231a2dea5ffe2e5cc3d1471d3b0e554cd0b949409ae8a6567e80da22b0672e4e861
   languageName: node
   linkType: hard
 
@@ -909,6 +943,15 @@ __metadata:
   bin:
     parser: ./bin/babel-parser.js
   checksum: babaa1a445681102f9d5e6dfae5155720eefe60e0b4f2623aa1a9454252e6ea840b5bce0e1f07fb880bf0a3f604d4b6220cf368a09dd6b77b462f9e2cb618e15
+  languageName: node
+  linkType: hard
+
+"@babel/parser@npm:^7.18.13":
+  version: 7.18.13
+  resolution: "@babel/parser@npm:7.18.13"
+  bin:
+    parser: ./bin/babel-parser.js
+  checksum: c81e3c47b827a3dcbe7793a56834de1bb8769f303fef008b1e91a58545594e26d0ecf1a0ba859ae853f80421d5aca830e4b7262e9f146b7023c2210ee6312f8b
   languageName: node
   linkType: hard
 
@@ -2387,6 +2430,24 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@babel/traverse@npm:^7.18.13":
+  version: 7.18.13
+  resolution: "@babel/traverse@npm:7.18.13"
+  dependencies:
+    "@babel/code-frame": ^7.18.6
+    "@babel/generator": ^7.18.13
+    "@babel/helper-environment-visitor": ^7.18.9
+    "@babel/helper-function-name": ^7.18.9
+    "@babel/helper-hoist-variables": ^7.18.6
+    "@babel/helper-split-export-declaration": ^7.18.6
+    "@babel/parser": ^7.18.13
+    "@babel/types": ^7.18.13
+    debug: ^4.1.0
+    globals: ^11.1.0
+  checksum: dd17b1c610da1480f78bb159789acd7e621313eeb49b39b42ea2adeadcd23d22d548890af1a87ad618bfdf9df4132239d6bc1b1b5b24448a6c230af9b6752830
+  languageName: node
+  linkType: hard
+
 "@babel/types@npm:^7.0.0, @babel/types@npm:^7.11.5, @babel/types@npm:^7.12.11, @babel/types@npm:^7.12.6, @babel/types@npm:^7.12.7, @babel/types@npm:^7.13.12, @babel/types@npm:^7.16.7, @babel/types@npm:^7.16.8, @babel/types@npm:^7.18.6, @babel/types@npm:^7.18.9, @babel/types@npm:^7.2.0, @babel/types@npm:^7.3.0, @babel/types@npm:^7.3.3, @babel/types@npm:^7.4.0, @babel/types@npm:^7.4.4, @babel/types@npm:^7.6.1, @babel/types@npm:^7.7.0, @babel/types@npm:^7.7.2, @babel/types@npm:^7.8.3, @babel/types@npm:^7.8.6, @babel/types@npm:^7.8.7, @babel/types@npm:^7.9.6":
   version: 7.18.9
   resolution: "@babel/types@npm:7.18.9"
@@ -2405,6 +2466,17 @@ __metadata:
     "@babel/helper-validator-identifier": ^7.18.6
     to-fast-properties: ^2.0.0
   checksum: 62f50bc10967cff9cb9f1b46ba38946a6d084bdfba4587ad80898fc2a3812e51895f65fe21dcaa7d78e494d7e319acf0e4445492a3a9ae1331a806d660754f47
+  languageName: node
+  linkType: hard
+
+"@babel/types@npm:^7.18.13":
+  version: 7.18.13
+  resolution: "@babel/types@npm:7.18.13"
+  dependencies:
+    "@babel/helper-string-parser": ^7.18.10
+    "@babel/helper-validator-identifier": ^7.18.6
+    to-fast-properties: ^2.0.0
+  checksum: 057c7f336c708f33c1a058695565ba6d311cabbd120ac514cf73fdd66cfc2c27693ff52a27e2c58f5a7741236fdcde67df524699be907d4e9edd1576d3d7058b
   languageName: node
   linkType: hard
 
@@ -3883,22 +3955,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@joshwooding/vite-plugin-react-docgen-typescript@npm:0.0.4":
-  version: 0.0.4
-  resolution: "@joshwooding/vite-plugin-react-docgen-typescript@npm:0.0.4"
-  dependencies:
-    glob: ^7.2.0
-    glob-promise: ^4.2.0
-    magic-string: ^0.26.1
-    react-docgen-typescript: ^2.1.1
-  peerDependencies:
-    typescript: ">= 4.3.x"
-    vite: ">2.0.0-0"
-  checksum: 32edc485a121e1b5dcc0ca1344378f3e4a8a8ef726103dec59fb5b1d062858b0373050631592c336b468c599eedaf5a0591428ddfecd21b08be4c9899eac32dc
-  languageName: node
-  linkType: hard
-
-"@joshwooding/vite-plugin-react-docgen-typescript@npm:0.0.5":
+"@joshwooding/vite-plugin-react-docgen-typescript@npm:0.0.5, @joshwooding/vite-plugin-react-docgen-typescript@npm:^0.0.5":
   version: 0.0.5
   resolution: "@joshwooding/vite-plugin-react-docgen-typescript@npm:0.0.5"
   dependencies:
@@ -7448,6 +7505,22 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@storybook/addon-svelte-csf@npm:^2.0.0":
+  version: 2.0.7
+  resolution: "@storybook/addon-svelte-csf@npm:2.0.7"
+  dependencies:
+    ts-dedent: ^2.0.0
+  peerDependencies:
+    "@storybook/svelte": ">=6.4.20"
+    svelte: ^3.46.6
+    svelte-loader: ^3.1.2
+  peerDependenciesMeta:
+    svelte-loader:
+      optional: true
+  checksum: 93a1412ed0a886aeb584249e8e37fbb2079e6e361bfbb464bb5cd2d6d4b6e73db13aebac3ff3c78c5c3d4b80a8c124e3603f7dc33c97ffb7873ad0392bfb057a
+  languageName: node
+  linkType: hard
+
 "@storybook/addon-toolbars@7.0.0-alpha.25, @storybook/addon-toolbars@workspace:*, @storybook/addon-toolbars@workspace:addons/toolbars":
   version: 0.0.0-use.local
   resolution: "@storybook/addon-toolbars@workspace:addons/toolbars"
@@ -7762,7 +7835,6 @@ __metadata:
     "@storybook/node-logger": 7.0.0-alpha.25
     "@storybook/preview-web": 7.0.0-alpha.25
     "@storybook/source-loader": 7.0.0-alpha.25
-    "@sveltejs/vite-plugin-svelte": ^1.0.0
     "@types/express": ^4.17.13
     "@types/node": ^17.0.23
     "@vitejs/plugin-react": ^2.0.0
@@ -7773,17 +7845,12 @@ __metadata:
     magic-string: ^0.26.1
     react-docgen: ^6.0.0-alpha.0
     slash: ^3.0.0
-    svelte: ^3.49.0
-    sveltedoc-parser: ^4.2.1
     typescript: ~4.6.3
     vite: 3
   peerDependencies:
     "@storybook/mdx2-csf": ^0.0.3
-    svelte: ^3.0.0
   peerDependenciesMeta:
     "@storybook/mdx2-csf":
-      optional: true
-    svelte:
       optional: true
   languageName: unknown
   linkType: soft
@@ -8129,7 +8196,6 @@ __metadata:
     "@types/node": ^14.0.10 || ^16.0.0
     "@types/picomatch": ^2.3.0
     "@types/pretty-hrtime": ^1.0.0
-    babel-loader: ^8.2.5
     babel-plugin-macros: ^3.0.1
     babel-plugin-polyfill-corejs3: ^0.1.0
     chalk: ^4.1.0
@@ -9014,29 +9080,20 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/react-vite@workspace:frameworks/react-vite"
   dependencies:
-    "@joshwooding/vite-plugin-react-docgen-typescript": 0.0.4
+    "@joshwooding/vite-plugin-react-docgen-typescript": ^0.0.5
     "@rollup/pluginutils": ^4.2.0
     "@storybook/builder-vite": 7.0.0-alpha.25
     "@storybook/core-server": 7.0.0-alpha.25
     "@storybook/react": 7.0.0-alpha.25
     "@types/node": ^14.14.20 || ^16.0.0
-    "@vitejs/plugin-react": ^1.0.8
+    "@vitejs/plugin-react": ^2.0.1
     ast-types: ^0.14.2
-    core-js: ^3.8.2
-    jest-specific-snapshot: ^4.0.0
     magic-string: ^0.26.1
-    react-docgen: 6.0.0-alpha.1
-    regenerator-runtime: ^0.13.7
+    react-docgen: ^6.0.0-alpha.3
     typescript: ~4.6.3
   peerDependencies:
-    "@babel/core": ^7.11.5
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
-  peerDependenciesMeta:
-    "@babel/core":
-      optional: true
-    typescript:
-      optional: true
   languageName: unknown
   linkType: soft
 
@@ -9084,17 +9141,17 @@ __metadata:
     escodegen: ^2.0.0
     global: ^4.4.0
     html-tags: ^3.1.0
+    jest-specific-snapshot: ^4.0.0
     lodash: ^4.17.21
     prop-types: ^15.7.2
     react-element-to-jsx-string: ^14.3.4
+    require-from-string: ^2.0.2
     ts-dedent: ^2.0.0
     typescript: ~4.6.3
     util-deprecate: ^1.0.2
   peerDependencies:
-    jest-specific-snapshot: ^4.0.0
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
-    require-from-string: ^2.0.2
   peerDependenciesMeta:
     typescript:
       optional: true
@@ -9510,6 +9567,40 @@ __metadata:
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
+  languageName: unknown
+  linkType: soft
+
+"@storybook/svelte-vite@workspace:frameworks/svelte-vite":
+  version: 0.0.0-use.local
+  resolution: "@storybook/svelte-vite@workspace:frameworks/svelte-vite"
+  dependencies:
+    "@rollup/pluginutils": ^4.2.0
+    "@storybook/addon-svelte-csf": ^2.0.0
+    "@storybook/builder-vite": 7.0.0-alpha.25
+    "@storybook/core-server": 7.0.0-alpha.25
+    "@storybook/node-logger": 7.0.0-alpha.25
+    "@storybook/svelte": 7.0.0-alpha.25
+    "@sveltejs/vite-plugin-svelte": ^1.0.0
+    "@types/node": ^14.14.20 || ^16.0.0
+    "@vitejs/plugin-react": ^1.0.8
+    ast-types: ^0.14.2
+    core-js: ^3.8.2
+    jest-specific-snapshot: ^4.0.0
+    magic-string: ^0.26.1
+    regenerator-runtime: ^0.13.7
+    svelte: ^3.0.0
+    sveltedoc-parser: ^4.2.1
+    typescript: ~4.6.3
+    vite: 3
+  peerDependencies:
+    "@babel/core": ^7.11.5
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0
+    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
+  peerDependenciesMeta:
+    "@babel/core":
+      optional: true
+    typescript:
+      optional: true
   languageName: unknown
   linkType: soft
 
@@ -11752,7 +11843,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vitejs/plugin-react@npm:^2.0.0":
+"@vitejs/plugin-react@npm:^2.0.0, @vitejs/plugin-react@npm:^2.0.1":
   version: 2.0.1
   resolution: "@vitejs/plugin-react@npm:2.0.1"
   dependencies:
@@ -37195,7 +37286,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-docgen@npm:^6.0.0-alpha.0":
+"react-docgen@npm:^6.0.0-alpha.0, react-docgen@npm:^6.0.0-alpha.3":
   version: 6.0.0-alpha.3
   resolution: "react-docgen@npm:6.0.0-alpha.3"
   dependencies:
@@ -41943,7 +42034,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"svelte@npm:^3.31.2, svelte@npm:^3.48.0, svelte@npm:^3.49.0":
+"svelte@npm:^3.0.0, svelte@npm:^3.31.2, svelte@npm:^3.48.0":
   version: 3.49.0
   resolution: "svelte@npm:3.49.0"
   checksum: 22bf1a252911c03fcbb840c89e02493af29304c8920e67cb2d63bb9477892dd7babd2fdeed9147328e72ba38211427e0658831b89ef63563415091b643fb116d
