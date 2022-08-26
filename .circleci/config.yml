@@ -317,6 +317,7 @@ jobs:
           name: Run @storybook/bench on repro
           command: |
             cd ./cra-bench
+            npx playwright install
             npx @storybook/bench@1.0.0--canary.11.52d1ee7.1 'echo noop' --label cra
   e2e-tests-pnp:
     executor:
