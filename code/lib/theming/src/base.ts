@@ -30,13 +30,17 @@ export const color = {
   border: 'hsla(203, 30%, 40%, 0.15)',
 
   // Status
-  positive: '#448028',
-  negative: '#D43900',
-  warning: '#A15C20',
+  positive: '#66BF3C',
+  negative: '#FF4400',
+  warning: '#E69D00',
   critical: '#FFFFFF',
 
+  // Text
   defaultText: '#2E3438',
   inverseText: '#FFFFFF',
+  positiveText: '#448028',
+  negativeText: '#D43900',
+  warningText: '#A15C20',
 };
 
 export const background = {
