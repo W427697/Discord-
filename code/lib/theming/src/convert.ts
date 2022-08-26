@@ -69,6 +69,9 @@ const createColors = (vars: ThemeVars): Color => ({
 
   defaultText: vars.textColor || color.darkest,
   inverseText: vars.textInverseColor || color.lightest,
+  positiveText: color.positiveText,
+  negativeText: color.negativeText,
+  warningText: color.warningText,
 });
 
 export const convert = (inherit: ThemeVars = themes[getPreferredColorScheme()]): StorybookTheme => {
