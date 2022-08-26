@@ -8,10 +8,10 @@ export interface StatusBadgeProps {
 
 const StyledBadge = styled.div<StatusBadgeProps>(({ theme, status }) => {
   const backgroundColor = {
-    [CallStates.DONE]: theme.color.positive,
-    [CallStates.ERROR]: theme.color.negative,
-    [CallStates.ACTIVE]: theme.color.warning,
-    [CallStates.WAITING]: theme.color.warning,
+    [CallStates.DONE]: theme.color.green,
+    [CallStates.ERROR]: theme.background.critical,
+    [CallStates.ACTIVE]: theme.color.gold,
+    [CallStates.WAITING]: theme.color.gold,
   }[status];
   return {
     padding: '4px 6px 4px 8px;',

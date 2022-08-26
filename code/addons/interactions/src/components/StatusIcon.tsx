@@ -20,8 +20,8 @@ const {
 
 const StyledStatusIcon = styled(Icons)<StatusIconProps>(({ theme, status }) => {
   const color = {
-    [CallStates.DONE]: theme.color.positive,
-    [CallStates.ERROR]: theme.color.negative,
+    [CallStates.DONE]: theme.color.green,
+    [CallStates.ERROR]: theme.background.critical,
     [CallStates.ACTIVE]: theme.color.secondary,
     [CallStates.WAITING]: transparentize(0.5, gray[500]),
   }[status];
