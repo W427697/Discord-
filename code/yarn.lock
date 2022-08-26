@@ -7448,6 +7448,22 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@storybook/addon-svelte-csf@npm:^2.0.0":
+  version: 2.0.7
+  resolution: "@storybook/addon-svelte-csf@npm:2.0.7"
+  dependencies:
+    ts-dedent: ^2.0.0
+  peerDependencies:
+    "@storybook/svelte": ">=6.4.20"
+    svelte: ^3.46.6
+    svelte-loader: ^3.1.2
+  peerDependenciesMeta:
+    svelte-loader:
+      optional: true
+  checksum: 93a1412ed0a886aeb584249e8e37fbb2079e6e361bfbb464bb5cd2d6d4b6e73db13aebac3ff3c78c5c3d4b80a8c124e3603f7dc33c97ffb7873ad0392bfb057a
+  languageName: node
+  linkType: hard
+
 "@storybook/addon-toolbars@7.0.0-alpha.25, @storybook/addon-toolbars@workspace:*, @storybook/addon-toolbars@workspace:addons/toolbars":
   version: 0.0.0-use.local
   resolution: "@storybook/addon-toolbars@workspace:addons/toolbars"
@@ -7762,7 +7778,6 @@ __metadata:
     "@storybook/node-logger": 7.0.0-alpha.25
     "@storybook/preview-web": 7.0.0-alpha.25
     "@storybook/source-loader": 7.0.0-alpha.25
-    "@sveltejs/vite-plugin-svelte": ^1.0.0
     "@types/express": ^4.17.13
     "@types/node": ^17.0.23
     "@vitejs/plugin-react": ^2.0.0
@@ -7773,17 +7788,12 @@ __metadata:
     magic-string: ^0.26.1
     react-docgen: ^6.0.0-alpha.0
     slash: ^3.0.0
-    svelte: ^3.49.0
-    sveltedoc-parser: ^4.2.1
     typescript: ~4.6.3
     vite: 3
   peerDependencies:
     "@storybook/mdx2-csf": ^0.0.3
-    svelte: ^3.0.0
   peerDependenciesMeta:
     "@storybook/mdx2-csf":
-      optional: true
-    svelte:
       optional: true
   languageName: unknown
   linkType: soft
@@ -9509,6 +9519,40 @@ __metadata:
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
+  languageName: unknown
+  linkType: soft
+
+"@storybook/svelte-vite@workspace:frameworks/svelte-vite":
+  version: 0.0.0-use.local
+  resolution: "@storybook/svelte-vite@workspace:frameworks/svelte-vite"
+  dependencies:
+    "@rollup/pluginutils": ^4.2.0
+    "@storybook/addon-svelte-csf": ^2.0.0
+    "@storybook/builder-vite": 7.0.0-alpha.25
+    "@storybook/core-server": 7.0.0-alpha.25
+    "@storybook/node-logger": 7.0.0-alpha.25
+    "@storybook/svelte": 7.0.0-alpha.25
+    "@sveltejs/vite-plugin-svelte": ^1.0.0
+    "@types/node": ^14.14.20 || ^16.0.0
+    "@vitejs/plugin-react": ^1.0.8
+    ast-types: ^0.14.2
+    core-js: ^3.8.2
+    jest-specific-snapshot: ^4.0.0
+    magic-string: ^0.26.1
+    regenerator-runtime: ^0.13.7
+    svelte: ^3.0.0
+    sveltedoc-parser: ^4.2.1
+    typescript: ~4.6.3
+    vite: 3
+  peerDependencies:
+    "@babel/core": ^7.11.5
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0
+    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
+  peerDependenciesMeta:
+    "@babel/core":
+      optional: true
+    typescript:
+      optional: true
   languageName: unknown
   linkType: soft
 
@@ -41942,7 +41986,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"svelte@npm:^3.31.2, svelte@npm:^3.48.0, svelte@npm:^3.49.0":
+"svelte@npm:^3.0.0, svelte@npm:^3.31.2, svelte@npm:^3.48.0":
   version: 3.49.0
   resolution: "svelte@npm:3.49.0"
   checksum: 22bf1a252911c03fcbb840c89e02493af29304c8920e67cb2d63bb9477892dd7babd2fdeed9147328e72ba38211427e0658831b89ef63563415091b643fb116d
