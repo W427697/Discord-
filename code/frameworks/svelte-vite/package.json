@@ -1,7 +1,7 @@
 {
   "name": "@storybook/svelte-vite",
   "version": "7.0.0-alpha.26",
-  "description": "Storybook for Svelte: Develop Svelte Component in isolation with Hot Reloading.",
+  "description": "Storybook for Svelte and Vite: Develop Svelte components in isolation with Hot Reloading.",
   "keywords": [
     "storybook"
   ],

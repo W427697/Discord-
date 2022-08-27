@@ -1,7 +1,7 @@
 {
   "name": "@storybook/react-vite",
   "version": "7.0.0-alpha.26",
-  "description": "Storybook for React: Develop React Component in isolation with Hot Reloading.",
+  "description": "Storybook for React and Vite: Develop React components in isolation with Hot Reloading.",
   "keywords": [
     "storybook"
   ],
