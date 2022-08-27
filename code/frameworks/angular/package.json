@@ -20,9 +20,28 @@
     "url": "https://opencollective.com/storybook"
   },
   "license": "MIT",
-  "main": "dist/types/index.js",
-  "module": "dist/types/index.js",
-  "types": "dist/types/index.d.ts",
+  "exports": {
+    ".": {
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.ts"
+    },
+    "./dist/runtime": {
+      "require": "./dist/runtime.js",
+      "import": "./dist/runtime.mjs",
+      "types": "./dist/runtime.d.ts"
+    },
+    "./dist/globals": {
+      "require": "./dist/globals.js",
+      "import": "./dist/globals.mjs",
+      "types": "./dist/globals.d.ts"
+    },
+    "./paths": "./paths.js",
+    "./package.json": "./package.json"
+  },
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
   "files": [
     "dist/**/*",
     "README.md",
@@ -31,7 +50,7 @@
   ],
   "scripts": {
     "check": "tsc --noEmit",
-    "prepare": "node ../../../scripts/prepare.js"
+    "prepare": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
     "@storybook/addons": "7.0.0-alpha.23",
@@ -128,5 +147,12 @@
     "access": "public"
   },
   "builders": "dist/types/builders/builders.json",
-  "gitHead": "0900e20acfbc12551c6a3f788b8de5dd6af5f80a"
+  "gitHead": "0900e20acfbc12551c6a3f788b8de5dd6af5f80a",
+  "bundler": {
+    "entries": [
+      "./src/index.ts",
+      "./src/manager.tsx",
+      "./src/preview.tsx"
+    ]
+  }
 }
