@@ -70,7 +70,7 @@
     "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0"
   },
   "engines": {
-    "node": ">=10.13.0"
+    "node": "^14.18 || >=16"
   },
   "publishConfig": {
     "access": "public"
