@@ -1,3 +1,19 @@
+## 7.0.0-alpha.26 (August 26, 2022)
+
+#### Features
+
+-   CLI: Add react, vue3, and svelte vite to new-frameworks automigration [#19016](https://github.com/storybooks/storybook/pull/19016)
+-   Svelte: Add svelte-vite framework [#18978](https://github.com/storybooks/storybook/pull/18978)
+
+#### Bug Fixes
+
+-   Core: Fix default story glob [#19018](https://github.com/storybooks/storybook/pull/19018)
+
+#### Dependency Upgrades
+
+-   React-vite: update/cleanup dependencies [#19025](https://github.com/storybooks/storybook/pull/19025)
+-   Remove babel-loader from core-common [#19022](https://github.com/storybooks/storybook/pull/19022)
+
 ## 7.0.0-alpha.25 (August 25, 2022)
 
 #### Features
