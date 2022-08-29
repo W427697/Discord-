@@ -18,6 +18,9 @@ export const ZIndex = (args, { loaded }) => (
       width: '100px',
       height: '100px',
       background: 'coral',
+      color: 'white',
+      padding: '10px',
+      fontSize: '14px',
     }}
   >
     This story has a very high <code>z-index</code>
