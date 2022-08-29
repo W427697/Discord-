@@ -21,7 +21,6 @@ export const ControlsPanel: FC = () => {
   const [args, updateArgs, resetArgs] = useArgs();
   const [globals] = useGlobals();
   const rows = useArgTypes();
-  const isArgsStory = useParameter<boolean>('__isArgsStory', false);
   const { expanded, sort, presetColors } = useParameter<ControlsParameters>(PARAM_KEY, {});
   const { path } = useStorybookState();
 
