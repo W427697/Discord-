@@ -120,8 +120,8 @@ const FocusKey = styled.code(({ theme }) => ({
   lineHeight: '16px',
   textAlign: 'center',
   fontSize: '11px',
-  background: theme.base == 'light' ? 'rgba(0,0,0,0.05)' : 'rgba(255,255,255,0.05)',
-  color: theme.base == 'light' ? theme.color.dark : theme.textMutedColor,
+  background: theme.base === 'light' ? 'rgba(0,0,0,0.05)' : 'rgba(255,255,255,0.05)',
+  color: theme.base === 'light' ? theme.color.dark : theme.textMutedColor,
   borderRadius: 3,
   userSelect: 'none',
   pointerEvents: 'none',
@@ -135,9 +135,9 @@ const ClearIcon = styled(Icons)(({ theme }) => ({
   top: 8,
   right: 16,
   zIndex: 1,
-  background: theme.base == 'light' ? 'rgba(0,0,0,0.05)' : 'rgba(255,255,255,0.1)',
+  background: theme.base === 'light' ? 'rgba(0,0,0,0.05)' : 'rgba(255,255,255,0.1)',
   borderRadius: 16,
-  color: theme.base == 'light' ? theme.color.dark : theme.textMutedColor,
+  color: theme.base === 'light' ? theme.color.dark : theme.textMutedColor,
   cursor: 'pointer',
 }));
 
