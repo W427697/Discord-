@@ -83,10 +83,10 @@ const Pane = styled.div<{
 const Paper = styled.div<{ isFullscreen: boolean }>(
   {
     position: 'absolute',
-    top: 1,
-    left: 1,
-    bottom: 1,
-    right: 0,
+    top: 0,
+    left: 0,
+    width: '100%',
+    height: '100%',
   },
   ({ isFullscreen, theme }) =>
     isFullscreen
