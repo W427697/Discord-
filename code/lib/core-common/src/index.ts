@@ -26,6 +26,7 @@ export * from './utils/glob-to-regexp';
 export * from './utils/normalize-stories';
 export * from './utils/readTemplate';
 export * from './utils/findDistEsm';
+export * from './utils/symlinks';
 
 export * from './types';
 

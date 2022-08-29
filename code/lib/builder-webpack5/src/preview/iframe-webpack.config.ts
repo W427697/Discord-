@@ -17,6 +17,7 @@ import {
   normalizeStories,
   readTemplate,
   loadPreviewOrConfigFile,
+  isPreservingSymlinks,
 } from '@storybook/core-common';
 import { toRequireContextString, toImportFn } from '@storybook/core-webpack';
 import type { BuilderOptions, TypescriptOptions } from '../types';
@@ -168,10 +169,6 @@ export default async (
   const shouldCheckTs = typescriptOptions.check && !typescriptOptions.skipBabel;
   const tsCheckOptions = typescriptOptions.checkOptions || {};
 
-  const { NODE_OPTIONS, NODE_PRESERVE_SYMLINKS } = process.env;
-  const isPreservingSymlinks =
-    !!NODE_PRESERVE_SYMLINKS || NODE_OPTIONS?.includes('--preserve-symlinks');
-
   return {
     name: 'preview',
     mode: isProd ? 'production' : 'development',
@@ -275,7 +272,7 @@ export default async (
       },
       // Set webpack to resolve symlinks based on whether the user has asked node to.
       // This feels like it should be default out-of-the-box in webpack :shrug:
-      symlinks: !isPreservingSymlinks,
+      symlinks: !isPreservingSymlinks(),
     },
     optimization: {
       splitChunks: {
