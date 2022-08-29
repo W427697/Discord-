@@ -4,7 +4,7 @@ import { styled } from '@storybook/theming';
 import { opacify, transparentize, darken, lighten } from 'polished';
 import { includeConditionalArg } from '@storybook/csf';
 import { once } from '@storybook/client-logger';
-import { Icons, Link, ResetWrapper } from '@storybook/components';
+import { IconButton, Icons, Link, ResetWrapper } from '@storybook/components';
 import { ArgRow } from './ArgRow';
 import { SectionRow } from './SectionRow';
 import { ArgType, ArgTypes, Args, Globals } from './types';
@@ -67,7 +67,7 @@ export const TableWrapper = styled.table<{
       },
 
       'th:last-of-type, td:last-of-type': {
-        paddingRight: 20,
+        paddingRight: 7,
         ...(compact
           ? null
           : {
@@ -81,10 +81,11 @@ export const TableWrapper = styled.table<{
           theme.base === 'light'
             ? transparentize(0.25, theme.color.defaultText)
             : transparentize(0.45, theme.color.defaultText),
-        paddingTop: 10,
-        paddingBottom: 10,
+        paddingTop: 6,
+        paddingBottom: 6,
         paddingLeft: 15,
         paddingRight: 15,
+        lineHeight: '28px', // matches height of IconButton
       },
 
       td: {
@@ -203,39 +204,9 @@ export const TableWrapper = styled.table<{
       : {}
 );
 
-const ResetButton = styled.button(({ theme }) => ({
-  border: 0,
-  borderRadius: '3em',
-  cursor: 'pointer',
-  display: 'inline-block',
-  overflow: 'hidden',
-  padding: '3px 8px',
-  transition: 'all 150ms ease-out',
-  verticalAlign: 'top',
-  userSelect: 'none',
+const StyledIconButton = styled(IconButton as any)(({ theme }) => ({
+  color: theme.barTextColor,
   margin: 0,
-
-  backgroundColor: theme.base === 'light' ? '#EAF3FC' : theme.color.border,
-  boxShadow:
-    theme.base === 'light'
-      ? `${theme.color.border} 0 0 0 1px inset`
-      : `${theme.color.darker}  0 0 0 1px inset`,
-  color: theme.color.secondary,
-
-  '&:hover': {
-    background: theme.base === 'light' ? darken(0.03, '#EAF3FC') : opacify(0.1, theme.color.border),
-  },
-
-  '&:focus': {
-    boxShadow: `${theme.color.secondary} 0 0 0 1px inset`,
-    outline: 'none',
-  },
-
-  svg: {
-    display: 'block',
-    height: 14,
-    width: 14,
-  },
 }));
 
 const ControlHeadingWrapper = styled.span({
@@ -472,9 +443,9 @@ export const ArgsTable: FC<ArgsTableProps> = (props) => {
                 <ControlHeadingWrapper>
                   Control{' '}
                   {!isLoading && resetArgs && (
-                    <ResetButton onClick={() => resetArgs()} title="Reset controls">
+                    <StyledIconButton onClick={() => resetArgs()} title="Reset controls">
                       <Icons icon="undo" aria-hidden />
-                    </ResetButton>
+                    </StyledIconButton>
                   )}
                 </ControlHeadingWrapper>
               </th>
