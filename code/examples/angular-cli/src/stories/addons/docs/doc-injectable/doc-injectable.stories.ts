@@ -3,9 +3,6 @@ import { DocInjectableService } from './doc-injectable.service';
 export default {
   title: 'Addons/Docs/DocInjectable',
   component: DocInjectableService,
-  parameters: {
-    controls: { hideNoControlsWarning: true },
-  },
 };
 
 const modules = {

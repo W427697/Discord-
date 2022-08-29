@@ -2,7 +2,6 @@ import React from 'react';
 import { action } from '@storybook/addon-actions';
 import { styled } from '@storybook/theming';
 import { ArgsTable, ArgsTableError } from './ArgsTable';
-import { NoControlsWarning } from './NoControlsWarning';
 import * as ArgRow from './ArgRow.stories';
 
 export default {
@@ -61,7 +60,6 @@ export const InAddonPanel = {
 export const InAddonPanelWithWarning = {
   render: (args) => (
     <>
-      <NoControlsWarning />
       <ArgsTable {...args} />
     </>
   ),

@@ -3,9 +3,6 @@ import { DocPipe } from './doc-pipe.pipe';
 export default {
   title: 'Addons/Docs/DocPipe',
   component: DocPipe,
-  parameters: {
-    controls: { hideNoControlsWarning: true },
-  },
 };
 
 const modules = {
