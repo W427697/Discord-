@@ -56,7 +56,7 @@ const Arrow = styled.div<ArrowProps>(
       placement,
       theme.color[color] || color || theme.base === 'light'
         ? lighten(theme.background.app)
-        : darken(theme.background.app),
+        : theme.background.app,
       'transparent'
     ),
     borderBottomColor: match(
@@ -64,7 +64,7 @@ const Arrow = styled.div<ArrowProps>(
       placement,
       theme.color[color] || color || theme.base === 'light'
         ? lighten(theme.background.app)
-        : darken(theme.background.app),
+        : theme.background.app,
       'transparent'
     ),
     borderLeftColor: match(
@@ -72,7 +72,7 @@ const Arrow = styled.div<ArrowProps>(
       placement,
       theme.color[color] || color || theme.base === 'light'
         ? lighten(theme.background.app)
-        : darken(theme.background.app),
+        : theme.background.app,
       'transparent'
     ),
     borderRightColor: match(
@@ -80,7 +80,7 @@ const Arrow = styled.div<ArrowProps>(
       placement,
       theme.color[color] || color || theme.base === 'light'
         ? lighten(theme.background.app)
-        : darken(theme.background.app),
+        : theme.background.app,
       'transparent'
     ),
   })
