@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import { styled } from '@storybook/theming';
-import { transparentize, lighten } from 'polished';
+import { transparentize } from 'polished';
 
 const BadgeWrapper = styled.div<BadgeProps>(
   ({ theme }) => ({
