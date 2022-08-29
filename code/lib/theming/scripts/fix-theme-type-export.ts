@@ -26,10 +26,7 @@ async function editIndexESMFile() {
   const target = join(process.cwd(), 'dist', 'index.mjs');
   const contents = await readFile(target, 'utf8');
 
-  const newContents = contents.replace(
-    new RegExp('.useInsertionEffect', 'g'),
-    `['useInsertion'+'Effect']`
-  );
+  const newContents = contents.replace(/\.useInsertionEffect/g, `['useInsertion'+'Effect']`);
 
   await writeFile(target, newContents);
 }
