@@ -11,6 +11,7 @@ import SettingsFooter from './SettingsFooter';
 const Header = styled.header(({ theme }) => ({
   marginBottom: 20,
   fontSize: theme.typography.size.m3,
+  color: theme.base === 'light' ? theme.color.darkest : theme.color.lightest,
   fontWeight: theme.typography.weight.black,
   alignItems: 'center',
   display: 'flex',
