@@ -13,5 +13,9 @@ export default {
   title: 'Core/Events',
 };
 
-export const Force = () => <Button onClick={increment}>Clicked: {timesClicked}</Button>;
+export const Force = () => (
+  <Button tertiary onClick={increment}>
+    Clicked: {timesClicked}
+  </Button>
+);
 Force.storyName = 'Force re-render';
