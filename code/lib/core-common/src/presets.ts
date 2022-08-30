@@ -72,6 +72,7 @@ export const resolveAddonName = (
   options: any
 ): ResolvedAddonPreset | ResolvedAddonVirtual | undefined => {
   const r = name.startsWith('/') ? safeResolve : safeResolveFrom.bind(null, configDir);
+  const ifResolves = (path: string) => r(path) && path;
   const resolved = r(name);
 
   if (resolved) {
@@ -93,10 +94,10 @@ export const resolveAddonName = (
   const path = name;
 
   // when user provides full path, we don't need to do anything!
-  const managerFile = r(`${path}/manager`) || r(`${path}/manager.js`);
-  const registerFile = r(`${path}/register`) || r(`${path}/register-panel`);
-  const previewFile = r(`${path}/preview`) || r(`${path}/preview.js`);
-  const presetFile = r(`${path}/preset`) || r(`${path}/preset.js`);
+  const managerFile = ifResolves(`${path}/manager`);
+  const registerFile = ifResolves(`${path}/register`) || ifResolves(`${path}/register-panel`);
+  const previewFile = ifResolves(`${path}/preview`);
+  const presetFile = r(`${path}/preset`);
 
   if (!(managerFile || previewFile) && presetFile) {
     return {
