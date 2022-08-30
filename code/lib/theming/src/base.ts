@@ -2,10 +2,10 @@ import { transparentize } from 'polished';
 
 export const color = {
   // Official color palette
-  primary: '#FF4785', // coral  // Is it time to remove primary and make ocan primary? Or should we make them 'pink', 'blue, etc'?
-  secondary: '#029CFD', // ocean // UPDATED
-  tertiary: '#FAFBFC', // Used in shortcuts, link, input?
-  ancillary: '#22a699', // used at all?
+  primary: '#FF4785', // coral
+  secondary: '#029CFD', // ocean
+  tertiary: '#FAFBFC',
+  ancillary: '#22a699',
 
   // Complimentary
   orange: '#FC521F',
@@ -17,14 +17,14 @@ export const color = {
 
   // Monochrome
   lightest: '#FFFFFF',
-  lighter: '#F7FAFC', // object select background
-  light: '#EEF3F6', // code background
-  mediumlight: '#ECF4F9', // toggle background
-  medium: '#D9E8F2', // too blue for medium?
-  mediumdark: '#73828C', // icons, tabs, labels, input placeholders, sidebar headings
-  dark: '#5C6870', // keyboard shortcut text
-  darker: '#454E54', // controls table content/headings
-  darkest: '#2E3438', // default text
+  lighter: '#F7FAFC',
+  light: '#EEF3F6',
+  mediumlight: '#ECF4F9',
+  medium: '#D9E8F2',
+  mediumdark: '#73828C',
+  dark: '#5C6870',
+  darker: '#454E54',
+  darkest: '#2E3438',
 
   // For borders
   border: 'hsla(203, 30%, 40%, 0.15)',
@@ -44,7 +44,7 @@ export const color = {
 };
 
 export const background = {
-  app: '#F5FBFF', // UPDATED
+  app: '#F5FBFF',
   bar: color.lightest,
   content: color.lightest,
   gridCellSize: 10,

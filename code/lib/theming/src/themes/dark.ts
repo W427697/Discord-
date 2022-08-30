@@ -9,8 +9,8 @@ const theme: ThemeVars = {
   colorSecondary: '#029CFD', // ocean
 
   // UI
-  appBg: '#222425', // should be accent/sidebar
-  appContentBg: '#1B1C1D', // should only be used for the content area
+  appBg: '#222425',
+  appContentBg: '#1B1C1D',
   appBorderColor: 'rgba(255,255,255,.1)',
   appBorderRadius: 4,
 
