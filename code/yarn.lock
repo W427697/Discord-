@@ -9577,6 +9577,7 @@ __metadata:
     "@emotion/is-prop-valid": ^1.2.0
     "@emotion/react": ^11.10.4
     "@emotion/styled": ^11.10.4
+    "@emotion/use-insertion-effect-with-fallbacks": ^1.0.0
     "@storybook/client-logger": 7.0.0-alpha.26
     "@types/fs-extra": ^9.0.6
     "@types/node": ^14.14.20 || ^16.0.0

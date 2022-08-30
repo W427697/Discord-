@@ -69,16 +69,7 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
           util: path.resolve('../node_modules/util/util.js'),
         }),
       ],
-      external: [
-        name,
-        ...Object.keys(dependencies || {}),
-        ...Object.keys(peerDependencies || {}),
-        // it's a transitive dependency of `@storybook/theming` that we want to keep external
-        // because it uses `React.insertionEffect` conditionally in a way that doesn't conflict with bundlers
-        // the bundled version gets changed though and creates problems when a bundle gets consumed later
-        // while this is only a dep of `@storybook/theming`, it should be safe to just add this here, for all packages
-        '@emotion/use-insertion-effect-with-fallbacks',
-      ],
+      external: [name, ...Object.keys(dependencies || {}), ...Object.keys(peerDependencies || {})],
 
       dts:
         optimized && tsConfigExists

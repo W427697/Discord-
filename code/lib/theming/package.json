@@ -47,6 +47,7 @@
     "prepare": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
+    "@emotion/use-insertion-effect-with-fallbacks": "^1.0.0",
     "@storybook/client-logger": "7.0.0-alpha.26",
     "core-js": "^3.8.2",
     "memoizerific": "^1.11.3"
