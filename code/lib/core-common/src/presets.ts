@@ -116,7 +116,7 @@ export const resolveAddonName = (
 
   // when user provides full path, we don't need to do anything!
   const managerFile = absolutizeExport(`/manager`);
-  const registerFile = absolutizeExport(`$/register`) || absolutizeExport(`/register-panel`);
+  const registerFile = absolutizeExport(`/register`) || absolutizeExport(`/register-panel`);
   const previewFile = absolutizeExport(`/preview`);
   const presetFile = resolve(`${path}/preset`);
 
