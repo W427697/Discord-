@@ -9,6 +9,7 @@ export async function generateModernIframeScriptCode(options: ExtendedOptions) {
 
   const previewOrConfigFile = loadPreviewOrConfigFile({ configDir });
   const presetEntries = await presets.apply('config', [], options);
+  console.log(presetEntries);
   const previewEntries = await presets.apply('previewEntries', [], options);
   const absolutePreviewEntries = previewEntries.map((entry) =>
     isAbsolute(entry) ? entry : resolve(entry)
