@@ -2811,7 +2811,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@emotion/babel-plugin@npm:^11.10.0, @emotion/babel-plugin@npm:^11.7.2":
+"@emotion/babel-plugin@npm:^11.10.0, @emotion/babel-plugin@npm:^11.10.2":
   version: 11.10.2
   resolution: "@emotion/babel-plugin@npm:11.10.2"
   dependencies:
@@ -2833,7 +2833,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@emotion/cache@npm:^11.10.0, @emotion/cache@npm:^11.7.1":
+"@emotion/cache@npm:^11.10.0, @emotion/cache@npm:^11.10.3":
   version: 11.10.3
   resolution: "@emotion/cache@npm:11.10.3"
   dependencies:
@@ -2872,7 +2872,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@emotion/is-prop-valid@npm:^1.1.2, @emotion/is-prop-valid@npm:^1.2.0":
+"@emotion/is-prop-valid@npm:^1.2.0":
   version: 1.2.0
   resolution: "@emotion/is-prop-valid@npm:1.2.0"
   dependencies:
@@ -2881,7 +2881,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@emotion/jest@npm:^11.8.0":
+"@emotion/jest@npm:^11.10.0":
   version: 11.10.0
   resolution: "@emotion/jest@npm:11.10.0"
   dependencies:
@@ -2916,14 +2916,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@emotion/react@npm:^11.8.1":
-  version: 11.10.0
-  resolution: "@emotion/react@npm:11.10.0"
+"@emotion/react@npm:^11.10.4":
+  version: 11.10.4
+  resolution: "@emotion/react@npm:11.10.4"
   dependencies:
     "@babel/runtime": ^7.18.3
     "@emotion/babel-plugin": ^11.10.0
     "@emotion/cache": ^11.10.0
     "@emotion/serialize": ^1.1.0
+    "@emotion/use-insertion-effect-with-fallbacks": ^1.0.0
     "@emotion/utils": ^1.2.0
     "@emotion/weak-memoize": ^0.3.0
     hoist-non-react-statics: ^3.3.1
@@ -2935,7 +2936,7 @@ __metadata:
       optional: true
     "@types/react":
       optional: true
-  checksum: 51c30698a2f81a541ec6f474665906906d9eb718a5d25567d00b24511701c1bb6563b203370f47adc65ee312591ad3366a214bae565bc386f15a5eebfd1ac967
+  checksum: da447676d10050b14534f9e903d8a058d4cdfa82f58caf4da5c150a55b2019a8b45187989085faa4b075db92f7df7abe188eb76fe5377a57516631ccf299367b
   languageName: node
   linkType: hard
 
@@ -2959,14 +2960,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@emotion/styled@npm:^11.8.1":
-  version: 11.10.0
-  resolution: "@emotion/styled@npm:11.10.0"
+"@emotion/styled@npm:^11.10.4":
+  version: 11.10.4
+  resolution: "@emotion/styled@npm:11.10.4"
   dependencies:
     "@babel/runtime": ^7.18.3
     "@emotion/babel-plugin": ^11.10.0
     "@emotion/is-prop-valid": ^1.2.0
     "@emotion/serialize": ^1.1.0
+    "@emotion/use-insertion-effect-with-fallbacks": ^1.0.0
     "@emotion/utils": ^1.2.0
   peerDependencies:
     "@babel/core": ^7.0.0
@@ -2977,7 +2979,7 @@ __metadata:
       optional: true
     "@types/react":
       optional: true
-  checksum: 3ba6c5d79b4ba7f4bfdb84bb2a824f00186922995479b6cfe62aaee03d1464c7e8c923d38be7085be5ac074b71338b59fc1bea6ff64e85a9101f3b10a87c68cf
+  checksum: 8067243991d31025967e993410298ca4c558e05e3b99e319d2734b022478001ac5b0fae7a010ba7fd5a74b762d264a17e5bddffbe09841c19857ab9b077077f3
   languageName: node
   linkType: hard
 
@@ -2992,6 +2994,15 @@ __metadata:
   version: 0.8.0
   resolution: "@emotion/unitless@npm:0.8.0"
   checksum: 1f2cfb7c0ccb83c20b1c6d8d92a74a93da4b2a440f9a0d49ded08647faf299065a2ffde17e1335920fa10397b85f8635bbfe14f3cd29222a59ea81d978478072
+  languageName: node
+  linkType: hard
+
+"@emotion/use-insertion-effect-with-fallbacks@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "@emotion/use-insertion-effect-with-fallbacks@npm:1.0.0"
+  peerDependencies:
+    react: ">=16.8.0"
+  checksum: 0c5fbd36a4f416a5abaf428ba3dca6e79018c4c74016ecb4e3991a11cf8b5dbd306d7770fee09692971335e33f97e3b555deda595e5ae7831841505078bd07d7
   languageName: node
   linkType: hard
 
@@ -7274,7 +7285,7 @@ __metadata:
   dependencies:
     "@angular/core": ^13.3.6
     "@angular/platform-browser-dynamic": ^13.3.6
-    "@emotion/jest": ^11.8.0
+    "@emotion/jest": ^11.10.0
     "@jest/transform": ^26.6.2
     "@storybook/addon-docs": 7.0.0-alpha.26
     "@storybook/addons": 7.0.0-alpha.26
@@ -9063,8 +9074,8 @@ __metadata:
     "@compodoc/compodoc": ^1.1.18
     "@cypress/skip-test": ^2.6.1
     "@cypress/webpack-preprocessor": ^5.9.1
-    "@emotion/babel-plugin": ^11.7.2
-    "@emotion/jest": ^11.8.0
+    "@emotion/babel-plugin": ^11.10.2
+    "@emotion/jest": ^11.10.0
     "@linear/sdk": ^1.21.0
     "@nicolo-ribaudo/chokidar-2": ^2.1.8
     "@nrwl/cli": 12.3.4
@@ -9562,10 +9573,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/theming@workspace:lib/theming"
   dependencies:
-    "@emotion/cache": ^11.7.1
-    "@emotion/is-prop-valid": ^1.1.2
-    "@emotion/react": ^11.8.1
-    "@emotion/styled": ^11.8.1
+    "@emotion/cache": ^11.10.3
+    "@emotion/is-prop-valid": ^1.2.0
+    "@emotion/react": ^11.10.4
+    "@emotion/styled": ^11.10.4
     "@storybook/client-logger": 7.0.0-alpha.26
     "@types/fs-extra": ^9.0.6
     "@types/node": ^14.14.20 || ^16.0.0
@@ -33525,7 +33536,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "official-storybook@workspace:examples/official-storybook"
   dependencies:
-    "@emotion/jest": ^11.8.0
+    "@emotion/jest": ^11.10.0
     "@pmmmwh/react-refresh-webpack-plugin": ^0.5.5
     "@storybook/addon-a11y": 7.0.0-alpha.26
     "@storybook/addon-actions": 7.0.0-alpha.26
