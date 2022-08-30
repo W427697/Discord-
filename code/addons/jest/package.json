@@ -33,12 +33,12 @@
       "import": "./dist/index.mjs",
       "types": "./dist/index.d.ts"
     },
-    "./manager.js": {
+    "./manager": {
       "require": "./dist/manager.js",
       "import": "./dist/manager.mjs",
       "types": "./dist/manager.d.ts"
     },
-    "./register.js": {
+    "./register": {
       "require": "./dist/manager.js",
       "import": "./dist/manager.mjs",
       "types": "./dist/manager.d.ts"
