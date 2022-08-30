@@ -93,8 +93,6 @@ export const resolveAddonName = (
 
   const absolutePackageJson = resolved && resolve(`${name}/package.json`);
 
-  // We don't want to resolve an import path (e.g. '@addons/foo/preview') to the file on disk,
-  // because you are not allowed to import arbitrary files in packages in Vite.
   // We want to absolutize the package name part to a path on disk
   //   (i.e. '/Users/foo/.../node_modules/@addons/foo') as otherwise
   // we may not be able to import the package in certain module systems (eg. pnpm, yarn pnp)
@@ -114,10 +112,13 @@ export const resolveAddonName = (
 
   const path = name;
 
-  // when user provides full path, we don't need to do anything!
+  // We don't want to resolve an import path (e.g. '@addons/foo/preview') to the file on disk,
+  // because you are not allowed to import arbitrary files in packages in Vite.
+  // Instead we check if the export exists and "absolutize" it.
   const managerFile = absolutizeExport(`/manager`);
   const registerFile = absolutizeExport(`/register`) || absolutizeExport(`/register-panel`);
   const previewFile = absolutizeExport(`/preview`);
+  // Presets are imported by node, so therefore fine to be a path on disk (at this stage anyway)
   const presetFile = resolve(`${path}/preset`);
 
   if (!(managerFile || previewFile) && presetFile) {
