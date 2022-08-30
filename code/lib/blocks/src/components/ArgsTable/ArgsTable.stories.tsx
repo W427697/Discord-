@@ -57,16 +57,6 @@ export const InAddonPanel = {
   decorators: [(storyFn) => <AddonPanelLayout>{storyFn()}</AddonPanelLayout>],
 };
 
-export const InAddonPanelWithWarning = {
-  render: (args) => (
-    <>
-      <ArgsTable {...args} />
-    </>
-  ),
-  args: { ...InAddonPanel.args, updateArgs: null },
-  decorators: InAddonPanel.decorators,
-};
-
 export const Sections = {
   args: {
     rows: {
