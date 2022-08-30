@@ -3,6 +3,7 @@ import fs from 'fs';
 import { Plugin } from 'vite';
 import viteReact from '@vitejs/plugin-react';
 import type { UserConfig } from 'vite';
+import { isPreservingSymlinks } from '@storybook/core-common';
 import { allowedEnvPrefix as envPrefix } from './envs';
 import { codeGeneratorPlugin } from './code-generator-plugin';
 import { injectExportOrderPlugin } from './inject-export-order-plugin';
@@ -33,6 +34,7 @@ export async function commonConfig(
     cacheDir: 'node_modules/.vite-storybook',
     envPrefix,
     define: {},
+    resolve: { preserveSymlinks: isPreservingSymlinks() },
     plugins: await pluginConfig(options, _type),
   };
 }
