@@ -428,6 +428,15 @@ export interface StorybookConfig {
    * Docs related features in index generation
    */
   docs?: DocsOptions;
+
+  /**
+   * Programmatically modify the preview head/body HTML.
+   * The previewHead and previewBody functions accept a string,
+   * which is the existing head/body, and return a modified string.
+   */
+  previewHead?: (head: string) => string;
+
+  previewBody?: (body: string) => string;
 }
 
 export type PresetProperty<K, TStorybookConfig = StorybookConfig> =
