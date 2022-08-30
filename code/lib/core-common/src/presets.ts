@@ -1,6 +1,6 @@
 import { dedent } from 'ts-dedent';
 import { logger } from '@storybook/node-logger';
-import { dirname, resolve } from 'path';
+import { dirname } from 'path';
 import {
   CLIOptions,
   LoadedPreset,

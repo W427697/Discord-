@@ -34,7 +34,10 @@
       "require": "./package.json",
       "import": "./package.json",
       "types": "./package.json"
-    }
+    },
+    "./templates/HOC.svelte": "./templates/HOC.svelte",
+    "./templates/PreviewRender.svelte": "./templates/PreviewRender.svelte",
+    "./templates/SlotDecorator.svelte": "./templates/SlotDecorator.svelte"
   },
   "main": "dist/index.js",
   "module": "dist/index.mjs",
