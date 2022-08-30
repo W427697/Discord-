@@ -51,7 +51,7 @@ executors:
         default: 'medium'
     working_directory: /tmp/storybook
     docker:
-      - image: mcr.microsoft.com/playwright:v1.24.0-focal
+      - image: mcr.microsoft.com/playwright:v1.25.1-focal
         environment:
           NODE_OPTIONS: --max_old_space_size=3076
     resource_class: <<parameters.class>>
@@ -317,7 +317,7 @@ jobs:
           name: Run @storybook/bench on repro
           command: |
             cd ./cra-bench
-            npx @storybook/bench@1.0.0--canary.11.52d1ee7.1 'echo noop' --label cra
+            npx -p @storybook/bench@1.0.0--canary.12.f21510e.0 sb-bench 'echo noop' --label cra
   e2e-tests-pnp:
     executor:
       class: medium

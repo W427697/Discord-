@@ -520,7 +520,7 @@ It is no longer possible to set `parameters.docs.getContainer()` and `getPage()`
 
 #### Icons API changed
 
-For addon authors who use the `Icons` component, its API has been udpated in Storybook 7.
+For addon authors who use the `Icons` component, its API has been updated in Storybook 7.
 
 ```diff
 export interface IconsProps extends ComponentProps<typeof Svg> {
