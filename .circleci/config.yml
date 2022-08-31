@@ -289,7 +289,7 @@ jobs:
   #         no_output_timeout: 5m
   cra-bench:
     executor:
-      class: medium
+      class: medium+
       name: sb_playwright
     working_directory: /tmp/storybook
     steps:
@@ -317,7 +317,14 @@ jobs:
           name: Run @storybook/bench on repro
           command: |
             cd ./cra-bench
-            npx -p @storybook/bench@1.0.0--canary.12.f21510e.0 sb-bench 'echo noop' --label cra
+            npx -p @storybook/bench@1.0.0--canary.12.7cccdee.0 sb-bench 'echo noop' --label cra
+      - run:
+          name: prep artifacts
+          when: always
+          command: tar cvzf /tmp/sb-bench.tar.gz ./cra-bench
+      - store_artifacts:
+          path: /tmp/sb-bench.tar.gz
+          destination: sb-bench.tar.gz
   e2e-tests-pnp:
     executor:
       class: medium
