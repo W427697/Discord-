@@ -1,7 +1,18 @@
+import React from 'react';
 import { Call, CallStates, LogItem } from '@storybook/instrumenter';
-import { getInteractions } from './Panel';
+import * as api from '@storybook/api';
+
+import { render } from '@testing-library/react';
+import { Panel, getInteractions } from './Panel';
+
+jest.mock('@storybook/api');
+const mockedApi = api as jest.Mocked<typeof api>;
 
 describe('Panel', () => {
+  beforeEach(() => {
+    mockedApi.useParameter.mockReset();
+  });
+
   describe('getInteractions', () => {
     const log: LogItem[] = [
       {
@@ -283,6 +294,18 @@ describe('Panel', () => {
           status: CallStates.WAITING,
         }),
       ]);
+    });
+  });
+
+  describe('when actions addon is disabled', () => {
+    beforeEach(() => {
+      mockedApi.useParameter.mockReturnValue({ disable: true });
+    });
+
+    it('should render an empty panel', () => {
+      const { container } = render(<Panel active />);
+      expect(mockedApi.useParameter).toHaveBeenCalledWith('actions', { disable: false });
+      expect(container.firstChild).toBeFalsy();
     });
   });
 });

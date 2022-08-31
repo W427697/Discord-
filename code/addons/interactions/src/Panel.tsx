@@ -75,6 +75,11 @@ export const getInteractions = ({
 };
 
 export const Panel: React.FC<{ active: boolean }> = (props) => {
+  // Panel requires an enabled actions addon.
+  if (useParameter('actions', { disable: false })?.disable) {
+    return <React.Fragment key="interactions" />;
+  }
+
   const [storyId, setStoryId] = React.useState<StoryId>();
   const [controlStates, setControlStates] = React.useState<ControlStates>(INITIAL_CONTROL_STATES);
   const [pausedAt, setPausedAt] = React.useState<Call['id']>();
