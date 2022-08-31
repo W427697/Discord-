@@ -1,5 +1,4 @@
 import memoize from 'memoizerific';
-import { color } from './base';
 import { Color, Background, Typography } from './types';
 
 type Value = string | number;
