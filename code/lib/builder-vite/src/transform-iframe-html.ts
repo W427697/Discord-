@@ -1,15 +1,25 @@
 import { normalizeStories } from '@storybook/core-common';
 import type { CoreConfig } from '@storybook/core-common';
+import { getFrameworkName } from './utils/get-framework-name';
 import type { ExtendedOptions } from './types';
 
 export type PreviewHtml = string | undefined;
 
 export async function transformIframeHtml(html: string, options: ExtendedOptions) {
-  const { configType, features, framework, presets, serverChannelUrl, title } = options;
+  const { configType, features, presets, serverChannelUrl, title } = options;
+  const framework = await getFrameworkName(options);
   const headHtmlSnippet = await presets.apply<PreviewHtml>('previewHead');
   const bodyHtmlSnippet = await presets.apply<PreviewHtml>('previewBody');
   const logLevel = await presets.apply('logLevel', undefined);
-  const frameworkOptions = await presets.apply(`${framework}Options`, {});
+
+  // TODO: pull this into frameworks?
+  let frameworkOptions;
+  if (framework.includes('react')) {
+    frameworkOptions = await presets.apply(`reactOptions`, {});
+  } else if (framework.includes('svelte')) {
+    frameworkOptions = await presets.apply(`svelteOptions`, {});
+  }
+
   const coreOptions = await presets.apply<CoreConfig>('core');
   const stories = normalizeStories(await options.presets.apply('stories', [], options), {
     configDir: options.configDir,

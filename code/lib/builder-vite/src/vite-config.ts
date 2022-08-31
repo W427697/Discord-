@@ -9,6 +9,7 @@ import { codeGeneratorPlugin } from './code-generator-plugin';
 import { injectExportOrderPlugin } from './inject-export-order-plugin';
 import { mdxPlugin } from './plugins/mdx-plugin';
 import { noFouc } from './plugins/no-fouc';
+import { getFrameworkName } from './utils/get-framework-name';
 import type { ExtendedOptions } from './types';
 
 export type PluginConfigType = 'build' | 'development';
@@ -40,7 +41,7 @@ export async function commonConfig(
 }
 
 export async function pluginConfig(options: ExtendedOptions, _type: PluginConfigType) {
-  const { framework } = options;
+  const framework = await getFrameworkName(options);
 
   const plugins = [
     codeGeneratorPlugin(options),
@@ -52,7 +53,7 @@ export async function pluginConfig(options: ExtendedOptions, _type: PluginConfig
     viteReact({
       // Do not treat story files as HMR boundaries, storybook itself needs to handle them.
       exclude: [/\.stories\.([tj])sx?$/, /node_modules/].concat(
-        framework === 'react' ? [] : [/\.([tj])sx?$/]
+        framework === '@storybook/react-vite' ? [] : [/\.([tj])sx?$/]
       ),
     }),
     {
@@ -70,12 +71,14 @@ export async function pluginConfig(options: ExtendedOptions, _type: PluginConfig
     },
   ] as Plugin[];
 
-  if (framework === 'preact') {
+  // TODO: framework doesn't exist, should move into framework when/if built
+  if (framework === '@storybook/preact-vite') {
     // eslint-disable-next-line global-require
     plugins.push(require('@preact/preset-vite').default());
   }
 
-  if (framework === 'glimmerx') {
+  // TODO: framework doesn't exist, should move into framework when/if built
+  if (framework === '@storybook/glimmerx-vite') {
     // eslint-disable-next-line global-require, import/extensions
     const plugin = require('vite-plugin-glimmerx/index.cjs');
     plugins.push(plugin.default());

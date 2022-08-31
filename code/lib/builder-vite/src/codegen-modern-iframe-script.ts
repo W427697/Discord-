@@ -2,10 +2,12 @@ import { isAbsolute, resolve } from 'path';
 import { loadPreviewOrConfigFile } from '@storybook/core-common';
 import { virtualStoriesFile, virtualAddonSetupFile } from './virtual-file-names';
 import { transformAbsPath } from './utils/transform-abs-path';
+import { getFrameworkName } from './utils/get-framework-name';
 import type { ExtendedOptions } from './types';
 
 export async function generateModernIframeScriptCode(options: ExtendedOptions) {
-  const { presets, configDir, framework } = options;
+  const { presets, configDir } = options;
+  const framework = await getFrameworkName(options);
 
   const previewOrConfigFile = loadPreviewOrConfigFile({ configDir });
   const presetEntries = await presets.apply('config', [], options);
@@ -19,7 +21,7 @@ export async function generateModernIframeScriptCode(options: ExtendedOptions) {
 
   const generateHMRHandler = (framework: string): string => {
     // Web components are not compatible with HMR, so disable HMR, reload page instead.
-    if (framework === 'web-components') {
+    if (framework === '@storybook/web-components-vite') {
       return `
       if (import.meta.hot) {
         import.meta.hot.decline();
