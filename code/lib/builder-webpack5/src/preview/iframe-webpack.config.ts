@@ -18,6 +18,7 @@ import {
   readTemplate,
   loadPreviewOrConfigFile,
   isPreservingSymlinks,
+  getFrameworkName,
 } from '@storybook/core-common';
 import { toRequireContextString, toImportFn } from '@storybook/core-webpack';
 import type { BuilderOptions, TypescriptOptions } from '../types';
@@ -67,15 +68,7 @@ export default async (
     serverChannelUrl,
   } = options;
 
-  const framework = await presets.apply('framework', undefined);
-  if (!framework) {
-    throw new Error(dedent`
-      You must to specify a framework in '.storybook/main.js' config.
-
-      https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#framework-field-mandatory
-    `);
-  }
-  const frameworkName = typeof framework === 'string' ? framework : framework.name;
+  const frameworkName = await getFrameworkName(options);
   const frameworkOptions = await presets.apply('frameworkOptions');
 
   const isProd = configType === 'PRODUCTION';

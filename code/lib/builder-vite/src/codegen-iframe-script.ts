@@ -1,8 +1,8 @@
 import { isAbsolute, resolve } from 'path';
+import { getFrameworkName } from '@storybook/core-common';
 import { virtualPreviewFile, virtualStoriesFile } from './virtual-file-names';
 import { transformAbsPath } from './utils/transform-abs-path';
 import type { ExtendedOptions } from './types';
-import { getFrameworkName } from './utils/get-framework-name';
 
 export async function generateIframeScriptCode(options: ExtendedOptions) {
   const { presets } = options;
