@@ -38,7 +38,7 @@
       "import": "./dist/preview.mjs",
       "types": "./dist/preview.d.ts"
     },
-    "./register.js": {
+    "./register": {
       "require": "./dist/manager.js",
       "import": "./dist/manager.mjs",
       "types": "./dist/manager.d.ts"

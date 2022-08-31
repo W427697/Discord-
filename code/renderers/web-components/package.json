@@ -27,7 +27,7 @@
       "import": "./dist/index.mjs",
       "types": "./dist/index.d.ts"
     },
-    "./preview.js": {
+    "./preview": {
       "require": "./dist/config.js",
       "import": "./dist/config.mjs",
       "types": "./dist/config.d.ts"
