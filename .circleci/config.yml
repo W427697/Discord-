@@ -289,7 +289,7 @@ jobs:
   #         no_output_timeout: 5m
   cra-bench:
     executor:
-      class: medium
+      class: medium+
       name: sb_playwright
     working_directory: /tmp/storybook
     steps:
