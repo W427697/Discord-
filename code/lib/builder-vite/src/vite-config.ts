@@ -13,7 +13,6 @@ import { codeGeneratorPlugin } from './code-generator-plugin';
 import { stringifyProcessEnvs } from './envs';
 import { injectExportOrderPlugin } from './inject-export-order-plugin';
 import { mdxPlugin } from './plugins/mdx-plugin';
-import { noFouc } from './plugins/no-fouc';
 import { stripStoryHMRBoundary } from './plugins/strip-story-hmr-boundaries';
 import type { ExtendedOptions, EnvsRaw } from './types';
 
@@ -85,7 +84,6 @@ export async function pluginConfig(options: ExtendedOptions) {
     codeGeneratorPlugin(options),
     // sourceLoaderPlugin(options),
     mdxPlugin(options),
-    noFouc(),
     injectExportOrderPlugin,
     stripStoryHMRBoundary(),
   ] as PluginOption[];
