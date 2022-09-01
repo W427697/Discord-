@@ -34,7 +34,9 @@ const publish = async (options: PublishOptions & { tmpFolder: string }) => {
   // otherwise old files will stick around and result inconsistent states
   logger.log(`🗑 Delete existing template dirs from clone`);
   const files = await Promise.all(
-    (await readdir(REPROS_DIRECTORY)).map(async (f) => ({ path: f, stats: await stat(f) }))
+    (
+      await readdir(REPROS_DIRECTORY)
+    ).map(async (f) => ({ path: f, stats: await stat(join(REPROS_DIRECTORY, f)) }))
   );
   await Promise.all(
     files
