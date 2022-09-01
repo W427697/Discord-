@@ -1,6 +1,6 @@
 {
   "name": "@storybook/react",
-  "version": "7.0.0-alpha.24",
+  "version": "7.0.0-alpha.27",
   "description": "Storybook React renderer",
   "keywords": [
     "storybook"
@@ -51,12 +51,12 @@
     "prepare": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/addons": "7.0.0-alpha.24",
-    "@storybook/client-logger": "7.0.0-alpha.24",
-    "@storybook/core-client": "7.0.0-alpha.24",
+    "@storybook/addons": "7.0.0-alpha.27",
+    "@storybook/client-logger": "7.0.0-alpha.27",
+    "@storybook/core-client": "7.0.0-alpha.27",
     "@storybook/csf": "0.0.2--canary.0899bb7.0",
-    "@storybook/docs-tools": "7.0.0-alpha.24",
-    "@storybook/store": "7.0.0-alpha.24",
+    "@storybook/docs-tools": "7.0.0-alpha.27",
+    "@storybook/store": "7.0.0-alpha.27",
     "@types/estree": "^0.0.51",
     "@types/node": "^14.14.20 || ^16.0.0",
     "acorn": "^7.4.1",
@@ -75,13 +75,13 @@
   "devDependencies": {
     "@babel/core": "^7.11.5",
     "@types/util-deprecate": "^1.0.0",
+    "jest-specific-snapshot": "^4.0.0",
+    "require-from-string": "^2.0.2",
     "typescript": "~4.6.3"
   },
   "peerDependencies": {
-    "jest-specific-snapshot": "^4.0.0",
     "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
-    "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0",
-    "require-from-string": "^2.0.2"
+    "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0"
   },
   "peerDependenciesMeta": {
     "typescript": {
@@ -101,5 +101,5 @@
     ],
     "platform": "browser"
   },
-  "gitHead": "e3232cb426b8381afa48f42e6baa45fd9af9bc3a"
+  "gitHead": "3e33f0709dd97151b7dfd86fd9858d13fd1c5738"
 }

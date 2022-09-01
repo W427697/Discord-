@@ -1,6 +1,6 @@
 {
   "name": "@storybook/client-logger",
-  "version": "7.0.0-alpha.24",
+  "version": "7.0.0-alpha.27",
   "description": "",
   "keywords": [
     "storybook"
@@ -56,5 +56,5 @@
       "./src/index.ts"
     ]
   },
-  "gitHead": "e3232cb426b8381afa48f42e6baa45fd9af9bc3a"
+  "gitHead": "3e33f0709dd97151b7dfd86fd9858d13fd1c5738"
 }

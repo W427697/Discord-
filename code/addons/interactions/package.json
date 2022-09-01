@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-interactions",
-  "version": "7.0.0-alpha.24",
+  "version": "7.0.0-alpha.27",
   "description": "Automate, test and debug user interactions",
   "keywords": [
     "storybook-addons",
@@ -36,15 +36,15 @@
   },
   "dependencies": {
     "@devtools-ds/object-inspector": "^1.1.2",
-    "@storybook/addons": "7.0.0-alpha.24",
-    "@storybook/api": "7.0.0-alpha.24",
-    "@storybook/client-logger": "7.0.0-alpha.24",
-    "@storybook/components": "7.0.0-alpha.24",
-    "@storybook/core-common": "7.0.0-alpha.24",
-    "@storybook/core-events": "7.0.0-alpha.24",
+    "@storybook/addons": "7.0.0-alpha.27",
+    "@storybook/api": "7.0.0-alpha.27",
+    "@storybook/client-logger": "7.0.0-alpha.27",
+    "@storybook/components": "7.0.0-alpha.27",
+    "@storybook/core-common": "7.0.0-alpha.27",
+    "@storybook/core-events": "7.0.0-alpha.27",
     "@storybook/csf": "0.0.2--canary.0899bb7.0",
-    "@storybook/instrumenter": "7.0.0-alpha.24",
-    "@storybook/theming": "7.0.0-alpha.24",
+    "@storybook/instrumenter": "7.0.0-alpha.27",
+    "@storybook/theming": "7.0.0-alpha.27",
     "core-js": "^3.8.2",
     "global": "^4.4.0",
     "jest-mock": "^27.0.6",
@@ -72,7 +72,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "e3232cb426b8381afa48f42e6baa45fd9af9bc3a",
+  "gitHead": "3e33f0709dd97151b7dfd86fd9858d13fd1c5738",
   "storybook": {
     "displayName": "Interactions",
     "unsupportedFrameworks": [

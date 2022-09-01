@@ -1,3 +1,51 @@
+## 7.0.0-alpha.27 (August 31, 2022)
+
+#### Features
+
+-   Vite: Set `resolve.preserveSymlinks` based on env vars [#19039](https://github.com/storybooks/storybook/pull/19039)
+
+#### Bug Fixes
+
+-   Core: Restore `/preview` etc package exports; return unresolved path from presets. [#19045](https://github.com/storybooks/storybook/pull/19045)
+
+#### Maintenance
+
+-   Core: Add previewHead and previewBody to StorybookConfig interface [#19047](https://github.com/storybooks/storybook/pull/19047)
+-   Build: Fix the sb-bench CI step [#19029](https://github.com/storybooks/storybook/pull/19029)
+-   Remove sandbox from `.ignore` [#19040](https://github.com/storybooks/storybook/pull/19040)
+-   Build: Use new test runner with builtin junit [#19028](https://github.com/storybooks/storybook/pull/19028)
+
+#### Dependency Upgrades
+
+-   Vite: Clean up framework dependencies / unused files [#19035](https://github.com/storybooks/storybook/pull/19035)
+
+## 7.0.0-alpha.26 (August 26, 2022)
+
+#### Features
+
+-   CLI: Add react, vue3, and svelte vite to new-frameworks automigration [#19016](https://github.com/storybooks/storybook/pull/19016)
+-   Svelte: Add svelte-vite framework [#18978](https://github.com/storybooks/storybook/pull/18978)
+
+#### Bug Fixes
+
+-   Core: Fix default story glob [#19018](https://github.com/storybooks/storybook/pull/19018)
+
+#### Dependency Upgrades
+
+-   React-vite: update/cleanup dependencies [#19025](https://github.com/storybooks/storybook/pull/19025)
+-   Remove babel-loader from core-common [#19022](https://github.com/storybooks/storybook/pull/19022)
+
+## 7.0.0-alpha.25 (August 25, 2022)
+
+#### Features
+
+-   Vite: Add builder-vite, react-vite, and vue3-vite [#19007](https://github.com/storybooks/storybook/pull/19007)
+
+#### Maintenance
+
+-   CI: use runner with playwright installed for cra_bench [#18951](https://github.com/storybooks/storybook/pull/18951)
+-   Replace rollup-plugin-node-polyfills to analogs [#18975](https://github.com/storybooks/storybook/pull/18975)
+
 ## 7.0.0-alpha.24 (August 24, 2022)
 
 #### Breaking changes
