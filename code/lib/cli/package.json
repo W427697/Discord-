@@ -35,7 +35,7 @@
   ],
   "scripts": {
     "check": "tsc --noEmit",
-    "prepare": "node ../../../scripts/prepare.js",
+    "prep": "node ../../../scripts/prepare.js",
     "test": "jest test/**/*.test.js"
   },
   "dependencies": {

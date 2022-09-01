@@ -31,7 +31,7 @@
   ],
   "scripts": {
     "check": "tsc --noEmit",
-    "prepare": "ts-node ../../../scripts/prebundle.ts"
+    "prep": "ts-node ../../../scripts/prebundle.ts"
   },
   "dependencies": {
     "@storybook/client-logger": "7.0.0-alpha.28",

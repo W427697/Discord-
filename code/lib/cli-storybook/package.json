@@ -25,7 +25,7 @@
   },
   "scripts": {
     "check": "tsc --noEmit",
-    "prepare": "node ../../../scripts/prepare.js"
+    "prep": "node ../../../scripts/prepare.js"
   },
   "dependencies": {
     "@storybook/cli": "7.0.0-alpha.28"
