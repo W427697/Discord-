@@ -48,7 +48,7 @@
   ],
   "scripts": {
     "check": "tsc --noEmit",
-    "prepare": "../../../scripts/prepare/bundle.ts"
+    "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
     "@joshwooding/vite-plugin-react-docgen-typescript": "^0.0.5",
