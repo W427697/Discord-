@@ -205,27 +205,14 @@ async function readMainConfig({ cwd }: { cwd: string }) {
   return readConfig(mainConfigPath);
 }
 
-// Recompile optimized deps on each startup, so you can change @storybook/* packages and not
-// have to clear caches.
-const viteFinalCode = `
-  (config) => ({
-    ...config,
-    optimizeDeps: {
-      ...config.optimizeDeps,
-      force: true,
-    },
-  })`;
-function forceViteRebuilds(mainConfig: ConfigFile) {
-  mainConfig.setFieldNode(
-    ['viteFinal'],
-    // @ts-ignore (not sure why TS complains here, it does exist)
-    babelParse(viteFinalCode).program.body[0].expression
-  );
-}
-
-// NOTE: the test regexp here will apply whether the path is symlink-preserved or otherwise
-const loaderPath = require.resolve('../code/node_modules/esbuild-loader');
-const webpackFinalCode = `
+// Ensure that sandboxes can refer to story files defined in `code/`.
+// Most WP-based build systems will not compile files outside of the project root or 'src/` or
+// similar. Plus they aren't guaranteed to handle TS files. So we need to patch in esbuild
+// loader for such files. NOTE this isn't necessary for Vite, as far as we know.
+function addEsbuildLoaderToStories(mainConfig: ConfigFile) {
+  // NOTE: the test regexp here will apply whether the path is symlink-preserved or otherwise
+  const loaderPath = require.resolve('../code/node_modules/esbuild-loader');
+  const webpackFinalCode = `
   (config) => ({
     ...config,
     module: {
@@ -243,18 +230,33 @@ const webpackFinalCode = `
       ],
     },
   })`;
+  mainConfig.setFieldNode(
+    ['webpackFinal'],
+    // @ts-ignore (not sure why TS complains here, it does exist)
+    babelParse(webpackFinalCode).program.body[0].expression
+  );
+}
+
+// Recompile optimized deps on each startup, so you can change @storybook/* packages and not
+// have to clear caches.
+function forceViteRebuilds(mainConfig: ConfigFile) {
+  const viteFinalCode = `
+  (config) => ({
+    ...config,
+    optimizeDeps: {
+      ...config.optimizeDeps,
+      force: true,
+    },
+  })`;
+  mainConfig.setFieldNode(
+    ['viteFinal'],
+    // @ts-ignore (not sure why TS complains here, it does exist)
+    babelParse(viteFinalCode).program.body[0].expression
+  );
+}
 
 // paths are of the form 'renderers/react', 'addons/actions'
-async function addStories(
-  paths: string[],
-  {
-    mainConfig,
-    builder,
-  }: {
-    mainConfig: ConfigFile;
-    builder: typeof TEMPLATES[Template]['expected']['builder'];
-  }
-) {
+async function addStories(paths: string[], { mainConfig }: { mainConfig: ConfigFile }) {
   const stories = mainConfig.getFieldValue(['stories']) as string[];
   const extraStoryDirsAndExistence = await Promise.all(
     paths
@@ -267,14 +269,6 @@ async function addStories(
     .filter(([, exists]) => exists)
     .map(([p]) => path.join(relativeCodeDir, p, '*.stories.@(js|jsx|ts|tsx)'));
   mainConfig.setFieldValue(['stories'], [...stories, ...extraStories]);
-
-  if (builder === '@storybook/builder-webpack5') {
-    mainConfig.setFieldNode(
-      ['webpackFinal'],
-      // @ts-ignore (not sure why TS complains here, it does exist)
-      babelParse(webpackFinalCode).program.body[0].expression
-    );
-  }
 }
 
 export async function sandbox(optionValues: OptionValues<typeof options>) {
@@ -358,6 +352,7 @@ export async function sandbox(optionValues: OptionValues<typeof options>) {
     );
     mainConfig.setFieldValue(['core', 'disableTelemetry'], true);
 
+    if (builder === '@storybook/builder-webpack5') addEsbuildLoaderToStories(mainConfig);
     if (builder === '@storybook/builder-vite') forceViteRebuilds(mainConfig);
 
     const storiesToAdd = [] as string[];
@@ -376,7 +371,7 @@ export async function sandbox(optionValues: OptionValues<typeof options>) {
     for (const addon of [...defaultAddons, ...optionValues.addon]) {
       storiesToAdd.push(path.join('addons', addon));
     }
-    await addStories(storiesToAdd, { mainConfig, builder });
+    await addStories(storiesToAdd, { mainConfig });
 
     await writeConfig(mainConfig);
 
