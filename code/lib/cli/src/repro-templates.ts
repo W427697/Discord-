@@ -9,16 +9,16 @@ const craTemplates = {
       builder: '@storybook/builder-webpack5',
     },
   },
-  'cra/default-ts': {
-    name: 'Create React App (Typescript)',
-    script: 'npx create-react-app . --template typescript',
-    cadence: ['ci', 'daily', 'weekly'],
-    expected: {
-      framework: '@storybook/cra',
-      renderer: '@storybook/react',
-      builder: '@storybook/builder-webpack5',
-    },
-  },
+  // 'cra/default-ts': {
+  //   name: 'Create React App (Typescript)',
+  //   script: 'npx create-react-app . --template typescript',
+  //   cadence: ['ci', 'daily', 'weekly'],
+  //   expected: {
+  //     framework: '@storybook/cra',
+  //     renderer: '@storybook/react',
+  //     builder: '@storybook/builder-webpack5',
+  //   },
+  // },
 };
 
 const reactViteTemplates = {
@@ -96,9 +96,9 @@ const svelteViteTemplates = {
 
 export default {
   ...craTemplates,
-  ...reactViteTemplates,
-  ...vue3ViteTemplates,
-  ...svelteViteTemplates,
+  // ...reactViteTemplates,
+  // ...vue3ViteTemplates,
+  // ...svelteViteTemplates,
   // FIXME: missing documentation.json
   // 'angular/latest': {
   //   name: 'Angular (latest)',
