@@ -155,7 +155,7 @@ export async function baseGenerator(
     ...mainOptions,
   });
   if (addComponents) {
-    copyComponents(framework, language);
+    await copyComponents(framework, language);
   }
 
   // FIXME: temporary workaround for https://github.com/storybookjs/storybook/issues/17516
