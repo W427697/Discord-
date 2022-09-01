@@ -221,7 +221,10 @@ export async function baseGenerator(
     await fse.writeFile(`.storybook/preview-head.html`, previewHead, { encoding: 'utf8' });
   }
 
-  const babelDependencies = addBabel ? await getBabelDependencies(packageManager, packageJson) : [];
+  const babelDependencies =
+    addBabel && builder !== CoreBuilder.Vite
+      ? await getBabelDependencies(packageManager, packageJson)
+      : [];
   const isNewFolder = !files.some(
     (fname) => fname.startsWith('.babel') || fname.startsWith('babel') || fname === 'package.json'
   );
