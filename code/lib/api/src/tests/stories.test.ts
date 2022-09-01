@@ -1,4 +1,4 @@
-/// <reference types="jest" />;
+/// <reference types="@types/jest" />;
 
 import {
   STORY_ARGS_UPDATED,

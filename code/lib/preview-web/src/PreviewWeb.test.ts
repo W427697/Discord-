@@ -1,3 +1,4 @@
+/// <reference types="@types/jest" />;
 import { jest, jest as mockJest, it, describe, beforeEach, afterEach, expect } from '@jest/globals';
 import global from 'global';
 import merge from 'lodash/merge';
