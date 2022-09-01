@@ -7,7 +7,6 @@ import { copy, emptyDir, readdir, remove, stat, writeFile } from 'fs-extra';
 
 import { getTemplatesData, renderTemplate } from './utils/template';
 import { commitAllToGit } from './utils/git';
-import { promiseImpl } from 'ejs';
 
 export const logger = console;
 
@@ -41,7 +40,10 @@ const publish = async (options: PublishOptions & { tmpFolder: string }) => {
   await Promise.all(
     files
       .filter(({ stats, path }) => stats.isDirectory && !path.startsWith('.'))
-      .map(async ({ path }) => emptyDir(join(tmpFolder, path)))
+      .map(async ({ path }) => {
+        logger.log(`- clearing ${path}`);
+        await emptyDir(join(tmpFolder, path));
+      })
   );
 
   logger.log(`🚚 Moving template files into the repository`);
