@@ -7728,7 +7728,7 @@ __metadata:
     react-docgen: ^6.0.0-alpha.0
     slash: ^3.0.0
     typescript: ~4.6.3
-    vite: 3
+    vite: 3.1.0-beta.1
   peerDependencies:
     "@storybook/mdx2-csf": ^0.0.3
   peerDependenciesMeta:
@@ -39306,7 +39306,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rollup@npm:^2.43.1, rollup@npm:^2.60.2, rollup@npm:^2.74.1":
+"rollup@npm:^2.43.1, rollup@npm:^2.60.2, rollup@npm:^2.74.1, rollup@npm:~2.78.0":
   version: 2.78.1
   resolution: "rollup@npm:2.78.1"
   dependencies:
@@ -44647,6 +44647,38 @@ __metadata:
   bin:
     vite: bin/vite.js
   checksum: 0e39c11e8befd9ac139ab48ace83125bb4ad0ded14fd7c370290af8c001accbb5e67ce7677d958f5b2ffaf0a38b342ffabf166bc33aa5de32a8510ecb4596be9
+  languageName: node
+  linkType: hard
+
+"vite@npm:3.1.0-beta.1":
+  version: 3.1.0-beta.1
+  resolution: "vite@npm:3.1.0-beta.1"
+  dependencies:
+    esbuild: ^0.14.47
+    fsevents: ~2.3.2
+    postcss: ^8.4.16
+    resolve: ^1.22.1
+    rollup: ~2.78.0
+  peerDependencies:
+    less: "*"
+    sass: "*"
+    stylus: "*"
+    terser: ^5.4.0
+  dependenciesMeta:
+    fsevents:
+      optional: true
+  peerDependenciesMeta:
+    less:
+      optional: true
+    sass:
+      optional: true
+    stylus:
+      optional: true
+    terser:
+      optional: true
+  bin:
+    vite: bin/vite.js
+  checksum: 2dad78ffb2c6dff7bbeb76ba8c237c25d1b7be3b054b3958c3d2df681bacdf300abed3d2646975788254b4a9b193636541017753fd52825e946c497f45d1dd37
   languageName: node
   linkType: hard
 
