@@ -3,7 +3,7 @@ import { CSFFile, Story, StoryStore } from '@storybook/store';
 import { Channel, IndexEntry } from '@storybook/addons';
 import { DOCS_RENDERED } from '@storybook/core-events';
 
-import { Render, RenderType } from './Render';
+import { Render, RenderType, PREPARE_ABORTED } from './Render';
 import type { DocsContextProps } from '../docs-context/DocsContextProps';
 import type { DocsRenderFunction } from '../docs-context/DocsRenderFunction';
 import { DocsContext } from '../docs-context/DocsContext';
@@ -29,7 +29,7 @@ export class TemplateDocsRender<TFramework extends AnyFramework> implements Rend
 
   public rerender?: () => Promise<void>;
 
-  public teardown?: (options: { viewModeChanged?: boolean }) => Promise<void>;
+  public teardownRender?: (options: { viewModeChanged?: boolean }) => Promise<void>;
 
   public torndown = false;
 
@@ -69,6 +69,8 @@ export class TemplateDocsRender<TFramework extends AnyFramework> implements Rend
     //     this.id, as such "CSF files" have only one story
     const primaryStoryId = Object.keys(primaryCsfFile.stories)[0];
     this.story = this.store.storyFromCSFFile({ storyId: primaryStoryId, csfFile: primaryCsfFile });
+
+    if (this.torndown) throw PREPARE_ABORTED;
 
     this.csfFiles = [primaryCsfFile, ...csfFiles];
 
@@ -112,12 +114,16 @@ export class TemplateDocsRender<TFramework extends AnyFramework> implements Rend
     };
 
     this.rerender = async () => renderDocs();
-    this.teardown = async ({ viewModeChanged }: { viewModeChanged?: boolean } = {}) => {
+    this.teardownRender = async ({ viewModeChanged }: { viewModeChanged?: boolean }) => {
       if (!viewModeChanged || !canvasElement) return;
       renderer.unmount(canvasElement);
-      this.torndown = true;
     };
 
     return renderDocs();
+  }
+
+  async teardown({ viewModeChanged }: { viewModeChanged?: boolean } = {}) {
+    this.teardownRender?.({ viewModeChanged });
+    this.torndown = true;
   }
 }
