@@ -51,7 +51,6 @@ export class StandaloneDocsRender<TFramework extends AnyFramework> implements Re
   async prepare() {
     this.preparing = true;
     const { entryExports, csfFiles = [] } = await this.store.loadEntry(this.id);
-
     if (this.torndown) throw PREPARE_ABORTED;
 
     this.csfFiles = csfFiles;

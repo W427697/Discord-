@@ -54,9 +54,10 @@ export class TemplateDocsRender<TFramework extends AnyFramework> implements Rend
   async prepare() {
     this.preparing = true;
     const { entryExports, csfFiles = [] } = await this.store.loadEntry(this.id);
+    if (this.torndown) throw PREPARE_ABORTED;
 
     const { importPath, title } = this.entry;
-    const primaryCsfFile = await this.store.processCSFFileWithCache<TFramework>(
+    const primaryCsfFile = this.store.processCSFFileWithCache<TFramework>(
       entryExports,
       importPath,
       title
@@ -69,8 +70,6 @@ export class TemplateDocsRender<TFramework extends AnyFramework> implements Rend
     //     this.id, as such "CSF files" have only one story
     const primaryStoryId = Object.keys(primaryCsfFile.stories)[0];
     this.story = this.store.storyFromCSFFile({ storyId: primaryStoryId, csfFile: primaryCsfFile });
-
-    if (this.torndown) throw PREPARE_ABORTED;
 
     this.csfFiles = [primaryCsfFile, ...csfFiles];
 
