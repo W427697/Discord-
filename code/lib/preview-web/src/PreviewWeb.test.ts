@@ -1,3 +1,5 @@
+/// <reference types="@types/jest" />;
+
 import global from 'global';
 import merge from 'lodash/merge';
 import {
