@@ -32,7 +32,7 @@ export function reactDocgen({
   const filter = createFilter(include, exclude);
 
   return {
-    name: 'react-docgen',
+    name: 'storybook:react-docgen-plugin',
     enforce: 'pre',
     async transform(src: string, id: string) {
       const relPath = path.relative(cwd, id);

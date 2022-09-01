@@ -10,7 +10,7 @@ import MagicString from 'magic-string';
 export function stripStoryHMRBoundary(): Plugin {
   const filter = createFilter(/\.stories\.([tj])sx?$/);
   return {
-    name: 'storybook:strip-hmr-boundary',
+    name: 'storybook:strip-hmr-boundary-plugin',
     enforce: 'post',
     async transform(src: string, id: string) {
       if (!filter(id)) return undefined;

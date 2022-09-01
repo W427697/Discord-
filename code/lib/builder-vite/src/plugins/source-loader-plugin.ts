@@ -21,7 +21,7 @@ const replaceAll = (str: string, search: string, replacement: string) => {
 export function sourceLoaderPlugin(config: ExtendedOptions): Plugin | Plugin[] {
   if (config.configType === 'DEVELOPMENT') {
     return {
-      name: 'storybook-vite-source-loader-plugin',
+      name: 'storybook:source-loader-plugin',
       enforce: 'pre',
       async transform(src: string, id: string) {
         if (id.match(storyPattern)) {

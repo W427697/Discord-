@@ -26,7 +26,7 @@ export function codeGeneratorPlugin(options: ExtendedOptions): Plugin {
 
   // noinspection JSUnusedGlobalSymbols
   return {
-    name: 'storybook-vite-code-generator-plugin',
+    name: 'storybook:code-generator-plugin',
     enforce: 'pre',
     configureServer(server) {
       // invalidate the whole vite-app.js script on every file change.

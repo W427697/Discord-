@@ -49,7 +49,7 @@ export function svelteDocgen(svelteOptions: Record<string, any>): Plugin {
   const filter = createFilter(include);
 
   return {
-    name: 'svelte-docgen',
+    name: 'storybook:svelte-docgen-plugin',
     async transform(src: string, id: string) {
       if (!filter(id)) return undefined;
 

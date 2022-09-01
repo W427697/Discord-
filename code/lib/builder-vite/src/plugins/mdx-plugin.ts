@@ -36,7 +36,7 @@ export function mdxPlugin(options: Options): Plugin {
   const filter = createFilter(include);
 
   return {
-    name: 'storybook-vite-mdx-plugin',
+    name: 'storybook:mdx-plugin',
     enforce: 'pre',
     configResolved({ plugins }) {
       // @vitejs/plugin-react-refresh has been upgraded to @vitejs/plugin-react,
