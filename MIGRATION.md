@@ -18,6 +18,7 @@
     - [Docs modern inline rendering by default](#docs-modern-inline-rendering-by-default)
     - [Babel mode v7 by default](#babel-mode-v7-by-default)
     - [7.0 feature flags removed](#70-feature-flags-removed)
+    - [Vite builder uses vite config automatically](#vite-builder-uses-vite-config-automatically)
     - [Removed docs.getContainer and getPage parameters](#removed-docsgetcontainer-and-getpage-parameters)
     - [Icons API changed](#icons-api-changed)
   - [Docs Changes](#docs-changes)
@@ -430,10 +431,13 @@ In 7.0, frameworks also specify the builder to be used. For example, The current
 - `@storybook/html-webpack5`
 - `@storybook/preact-webpack5`
 - `@storybook/react-webpack5`
+- `@storybook/react-vite`
 - `@storybook/server-webpack5`
 - `@storybook/svelte-webpack5`
+- `@storybook/svelte-vite`
 - `@storybook/vue-webpack5`
 - `@storybook/vue3-webpack5`
+- `@storybook/vue3-vite`
 - `@storybook/web-components-webpack5`
 
 We will be expanding this list over the course of the 7.0 development cycle. More info on the rationale here: [Frameworks RFC](https://www.notion.so/chromatic-ui/Frameworks-RFC-89f8aafe3f0941ceb4c24683859ed65c).
@@ -513,6 +517,12 @@ In 7.0 we've removed the following feature flags:
 | ------------------- | ---------------------------------------------------- |
 | `emotionAlias`      | This flag is no longer needed and should be deleted. |
 | `breakingChangesV7` | This flag is no longer needed and should be deleted. |
+
+#### Vite builder uses vite config automatically
+
+When using a [Vite-based framework](#framework-field-mandatory), Storybook will automatically use your `vite.config.(ctm)js` config file starting in 7.0.  
+Some settings will be overridden by storybook so that it can function properly, and the merged settings can be modified using `viteFinal` in `.storybook/main.js` (see the [Storybook Vite configuration docs](https://storybook.js.org/docs/react/builders/vite#configuration)).  
+If you were using `viteFinal` in 6.5 to simply merge in your project's standard vite config, you can now remove it.
 
 #### Removed docs.getContainer and getPage parameters
 
