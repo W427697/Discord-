@@ -4,21 +4,21 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { mergeConfig } from 'vite';
 import type { Plugin } from 'vite';
-import { transformIframeHtml } from './transform-iframe-html';
-import { generateIframeScriptCode } from './codegen-iframe-script';
-import { generateModernIframeScriptCode } from './codegen-modern-iframe-script';
-import { generateImportFnScriptCode } from './codegen-importfn-script';
-import { generateVirtualStoryEntryCode, generatePreviewEntryCode } from './codegen-entries';
-import { generateAddonSetupCode } from './codegen-set-addon-channel';
+import { transformIframeHtml } from '../transform-iframe-html';
+import { generateIframeScriptCode } from '../codegen-iframe-script';
+import { generateModernIframeScriptCode } from '../codegen-modern-iframe-script';
+import { generateImportFnScriptCode } from '../codegen-importfn-script';
+import { generateVirtualStoryEntryCode, generatePreviewEntryCode } from '../codegen-entries';
+import { generateAddonSetupCode } from '../codegen-set-addon-channel';
 
-import type { ExtendedOptions } from './types';
+import type { ExtendedOptions } from '../types';
 
 import {
   virtualAddonSetupFile,
   virtualFileId,
   virtualPreviewFile,
   virtualStoriesFile,
-} from './virtual-file-names';
+} from '../virtual-file-names';
 
 export function codeGeneratorPlugin(options: ExtendedOptions): Plugin {
   const iframePath = path.resolve(__dirname, '../..', 'input', 'iframe.html');
