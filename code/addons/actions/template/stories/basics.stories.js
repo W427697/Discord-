@@ -70,7 +70,7 @@ export const Cyclical = {
     onClick: () =>
       action('onClick')(
         (() => {
-          const cyclical: Record<string, any> = {};
+          const cyclical = {};
           cyclical.cyclical = cyclical;
           return cyclical;
         })()
