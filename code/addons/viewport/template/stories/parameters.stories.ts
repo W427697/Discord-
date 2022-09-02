@@ -7,10 +7,8 @@ export default {
     children: 'Click Me!',
   },
   parameters: {
-    parameters: {
-      viewport: {
-        viewports: MINIMAL_VIEWPORTS,
-      },
+    viewport: {
+      viewports: MINIMAL_VIEWPORTS,
     },
     chromatic: { disable: true },
   },
@@ -30,7 +28,7 @@ export const Selected = {
 
 export const Custom = {
   parameters: {
-    viewports: {
+    viewport: {
       viewports: {
         phone: {
           name: 'Phone Width',
@@ -47,6 +45,6 @@ export const Custom = {
 
 export const Disabled = {
   parameters: {
-    viewports: { disable: true },
+    viewport: { disable: true },
   },
 };
