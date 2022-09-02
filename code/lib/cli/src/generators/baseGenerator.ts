@@ -208,7 +208,7 @@ export async function baseGenerator(
   await configurePreview(renderer, options.commonJs);
 
   if (addComponents) {
-    copyComponents(renderer, language);
+    await copyComponents(renderer, language);
   }
 
   // FIXME: temporary workaround for https://github.com/storybookjs/storybook/issues/17516
