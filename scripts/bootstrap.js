@@ -54,7 +54,7 @@ function run() {
         });
 
       log.info(prefix, name);
-      command();
+      return command();
     },
   });
 
@@ -75,7 +75,7 @@ function run() {
       option: '--prep',
       command: () => {
         log.info(prefix, 'prepare');
-        spawn(
+        return spawn(
           `nx run-many --target="prepare" --all --parallel --exclude=@storybook/addon-storyshots,@storybook/addon-storyshots-puppeteer -- --reset`
         );
       },
@@ -87,7 +87,7 @@ function run() {
       option: '--retry',
       command: () => {
         log.info(prefix, 'prepare');
-        spawn(
+        return spawn(
           `nx run-many --target=prepare --all --parallel --only-failed ${
             process.env.CI ? `--max-parallel=${maxConcurrentTasks}` : ''
           }`
@@ -101,7 +101,7 @@ function run() {
       option: '--reset',
       command: () => {
         log.info(prefix, 'git clean');
-        spawn(`node -r esm ${join(__dirname, 'reset.js')}`);
+        return spawn(`node -r esm ${join(__dirname, 'reset.js')}`);
       },
       order: 0,
     }),
@@ -111,7 +111,7 @@ function run() {
       option: '--install',
       command: () => {
         const command = process.env.CI ? `yarn install --immutable` : `yarn install`;
-        spawn(command);
+        return spawn(command);
       },
       order: 1,
     }),
@@ -121,7 +121,7 @@ function run() {
       option: '--build',
       command: () => {
         log.info(prefix, 'build');
-        spawn(
+        return spawn(
           `nx run-many --target="prepare" --all --parallel=8 ${
             process.env.CI ? `--max-parallel=${maxConcurrentTasks}` : ''
           } -- --reset --optimized`
@@ -134,7 +134,7 @@ function run() {
       defaultValue: false,
       option: '--reg',
       command: () => {
-        spawn('yarn local-registry --publish --open --port 6001');
+        return spawn('yarn local-registry --publish --open --port 6001');
       },
       order: 11,
     }),
@@ -143,7 +143,7 @@ function run() {
       defaultValue: false,
       option: '--dev',
       command: () => {
-        spawn('yarn build');
+        return spawn('yarn build');
       },
       order: 9,
     }),
@@ -234,7 +234,10 @@ function run() {
         list
           .sort((a, b) => a.order - b.order)
           .forEach((key) => {
-            key.command();
+            const result = key.command();
+            if (result && 'status' in result && result.status !== 0) {
+              process.exit(result.status);
+            }
           });
         process.stdout.write('\x07');
       }
