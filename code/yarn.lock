@@ -7571,14 +7571,14 @@ __metadata:
     "@angular/platform-browser": ^13.3.6
     "@angular/platform-browser-dynamic": ^13.3.6
     "@nrwl/workspace": 14.6.1
-    "@storybook/addons": 7.0.0-alpha.27
-    "@storybook/api": 7.0.0-alpha.27
-    "@storybook/builder-webpack5": 7.0.0-alpha.27
-    "@storybook/client-logger": 7.0.0-alpha.27
-    "@storybook/core-client": 7.0.0-alpha.27
-    "@storybook/core-common": 7.0.0-alpha.27
-    "@storybook/core-events": 7.0.0-alpha.27
-    "@storybook/core-server": 7.0.0-alpha.27
+    "@storybook/addons": 7.0.0-alpha.28
+    "@storybook/api": 7.0.0-alpha.28
+    "@storybook/builder-webpack5": 7.0.0-alpha.28
+    "@storybook/client-logger": 7.0.0-alpha.28
+    "@storybook/core-client": 7.0.0-alpha.28
+    "@storybook/core-common": 7.0.0-alpha.28
+    "@storybook/core-events": 7.0.0-alpha.28
+    "@storybook/core-server": 7.0.0-alpha.28
     "@storybook/csf": 0.0.2--canary.0899bb7.0
     "@storybook/docs-tools": 7.0.0-alpha.28
     "@storybook/node-logger": 7.0.0-alpha.28
@@ -39735,6 +39735,20 @@ __metadata:
   bin:
     rollup: dist/bin/rollup
   checksum: dbabfe69bf370422de4356cbfd2611ff11efb69ceb52ade5567b752d728b4882a9db49434c978ba9d7be439967ad8832db4f7d4c7366dbaa668783a7fa8e2676
+  languageName: node
+  linkType: hard
+
+"rollup@npm:~2.78.0":
+  version: 2.78.1
+  resolution: "rollup@npm:2.78.1"
+  dependencies:
+    fsevents: ~2.3.2
+  dependenciesMeta:
+    fsevents:
+      optional: true
+  bin:
+    rollup: dist/bin/rollup
+  checksum: ae24b886adee31455ec030736b113f84628a4f74106ea47ebf666fa5c7eac23f49b7d15acb5b5ee47671f3e184fb1c8b05946e5c76eb889a1dafaf5c75c9b70a
   languageName: node
   linkType: hard
 
