@@ -1,3 +1,21 @@
+## 7.0.0-alpha.28 (September 2, 2022)
+
+#### Features
+
+-   Vite: Automatically use vite.config.js [#19026](https://github.com/storybooks/storybook/pull/19026)
+
+#### Bug Fixes
+
+-   CLI: Fix race condition in sb init [#19083](https://github.com/storybooks/storybook/pull/19083)
+-   Vite: Fix framework option checks, and SSv6 [#19062](https://github.com/storybooks/storybook/pull/19062)
+-   Core: Fix WebProjectAnnotations export in preview-web for back-compat [#19048](https://github.com/storybooks/storybook/pull/19048)
+
+#### Maintenance
+
+-   Update to new TS reference format (?) [#19072](https://github.com/storybooks/storybook/pull/19072)
+-   Build: Conditionally force vite rebuilds in sandbox [#19063](https://github.com/storybooks/storybook/pull/19063)
+-   Build: Fix CRA bench [#19066](https://github.com/storybooks/storybook/pull/19066)
+
 ## 7.0.0-alpha.27 (August 31, 2022)
 
 #### Features
