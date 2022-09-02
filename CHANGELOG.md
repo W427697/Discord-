@@ -1,3 +1,20 @@
+## 7.0.0-alpha.29 (September 2, 2022)
+
+#### Bug Fixes
+
+-   CLI/Vite: Don't add babel dependencies during init [#19088](https://github.com/storybooks/storybook/pull/19088)
+-   CLI: Fix sb init to use renderer assets instead of frameworks [#19091](https://github.com/storybooks/storybook/pull/19091)
+-   Core: Ensure if a docs render is torndown during preparation, it throws [#19071](https://github.com/storybooks/storybook/pull/19071)
+
+#### Maintenance
+
+-   Addon-viewport: Move stories into addon [#19086](https://github.com/storybooks/storybook/pull/19086)
+-   Addon-backgrounds: Move stories into addon [#19085](https://github.com/storybooks/storybook/pull/19085)
+-   Addon-actions: Move stories into addon [#19082](https://github.com/storybooks/storybook/pull/19082)
+-   Build: Exit yarn bootstrap with nonzero code if failed [#19089](https://github.com/storybooks/storybook/pull/19089)
+-   Vite: cleanup custom plugins [#19087](https://github.com/storybooks/storybook/pull/19087)
+-   Build: Prefix generic addon stories in sandbox storybooks [#19092](https://github.com/storybooks/storybook/pull/19092)
+
 ## 7.0.0-alpha.28 (September 2, 2022)
 
 #### Features

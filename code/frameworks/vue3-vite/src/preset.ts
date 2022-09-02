@@ -22,7 +22,7 @@ export function readPackageJson(): Record<string, any> | false {
 export const viteFinal: StorybookConfig['viteFinal'] = async (config, { presets }) => {
   const { plugins = [] } = config;
 
-  plugins.push(vueDocgen());
+  plugins.push(vueDocgen() as any);
 
   const updated = {
     ...config,
