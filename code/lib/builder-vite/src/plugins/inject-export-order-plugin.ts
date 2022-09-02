@@ -6,7 +6,7 @@ const include = [/\.stories\.([tj])sx?$/, /(stories|story).mdx$/];
 const filter = createFilter(include);
 
 export const injectExportOrderPlugin = {
-  name: 'storybook-vite-inject-export-order-plugin',
+  name: 'storybook:inject-export-order-plugin',
   // This should only run after the typescript has been transpiled
   enforce: 'post',
   async transform(code: string, id: string) {

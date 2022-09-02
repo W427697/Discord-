@@ -9,12 +9,13 @@ import type {
 } from 'vite';
 import viteReact from '@vitejs/plugin-react';
 import { isPreservingSymlinks, getFrameworkName } from '@storybook/core-common';
-import { codeGeneratorPlugin } from './code-generator-plugin';
 import { stringifyProcessEnvs } from './envs';
-import { injectExportOrderPlugin } from './inject-export-order-plugin';
-import { mdxPlugin } from './plugins/mdx-plugin';
-import { noFouc } from './plugins/no-fouc';
-import { stripStoryHMRBoundary } from './plugins/strip-story-hmr-boundaries';
+import {
+  codeGeneratorPlugin,
+  injectExportOrderPlugin,
+  mdxPlugin,
+  stripStoryHMRBoundary,
+} from './plugins';
 import type { ExtendedOptions, EnvsRaw } from './types';
 
 export type PluginConfigType = 'build' | 'development';
@@ -85,7 +86,6 @@ export async function pluginConfig(options: ExtendedOptions) {
     codeGeneratorPlugin(options),
     // sourceLoaderPlugin(options),
     mdxPlugin(options),
-    noFouc(),
     injectExportOrderPlugin,
     stripStoryHMRBoundary(),
   ] as PluginOption[];

@@ -15,7 +15,7 @@ export default function csfPlugin(svelteOptions?: Options) {
   const filter = createFilter(include);
 
   return {
-    name: 'storybook-addon-svelte-csf',
+    name: 'storybook:addon-svelte-csf-plugin',
     enforce: 'post',
     async transform(code: string, id: string) {
       if (!filter(id)) return undefined;
