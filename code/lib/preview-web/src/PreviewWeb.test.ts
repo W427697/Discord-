@@ -32,7 +32,6 @@ import { addons, mockChannel as createMockChannel } from '@storybook/addons';
 import type { AnyFramework } from '@storybook/csf';
 import type { ModuleImportFn, WebProjectAnnotations } from '@storybook/store';
 import { mocked } from 'ts-jest/utils';
-import jestMock from 'jest-mock';
 
 import { PreviewWeb } from './PreviewWeb';
 import {
@@ -134,7 +133,7 @@ beforeEach(() => {
   projectAnnotations.render.mockClear();
   projectAnnotations.decorators[0].mockClear();
   docsRenderer.render.mockClear();
-  (logger.warn as jestMock.Mock<typeof logger.warn>).mockClear();
+  (logger.warn as jest.Mock<typeof logger.warn>).mockClear();
   mockStoryIndex.mockReset().mockReturnValue(storyIndex);
 
   addons.setChannel(mockChannel as any);
