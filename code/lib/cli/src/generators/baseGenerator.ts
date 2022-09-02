@@ -176,6 +176,7 @@ export async function baseGenerator(
 
   const packages = [
     'storybook',
+    `@storybook/${renderer}`,
     ...frameworkPackages,
     ...addonPackages,
     ...extraPackages,

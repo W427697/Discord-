@@ -1,7 +1,7 @@
 import type { Plugin } from 'vite';
 import sourceLoaderTransform from '@storybook/source-loader';
 import MagicString from 'magic-string';
-import type { ExtendedOptions } from './types';
+import type { ExtendedOptions } from '../types';
 
 const storyPattern = /\.stories\.[jt]sx?$/;
 const storySourcePattern = /var __STORY__ = "(.*)"/;
@@ -21,7 +21,7 @@ const replaceAll = (str: string, search: string, replacement: string) => {
 export function sourceLoaderPlugin(config: ExtendedOptions): Plugin | Plugin[] {
   if (config.configType === 'DEVELOPMENT') {
     return {
-      name: 'storybook-vite-source-loader-plugin',
+      name: 'storybook:source-loader-plugin',
       enforce: 'pre',
       async transform(src: string, id: string) {
         if (id.match(storyPattern)) {

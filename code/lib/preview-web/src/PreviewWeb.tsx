@@ -34,7 +34,8 @@ import { MaybePromise, Preview } from './Preview';
 
 import { UrlStore } from './UrlStore';
 import { WebView } from './WebView';
-import { PREPARE_ABORTED, StoryRender } from './render/StoryRender';
+import { PREPARE_ABORTED } from './render/Render';
+import { StoryRender } from './render/StoryRender';
 import { TemplateDocsRender } from './render/TemplateDocsRender';
 import { StandaloneDocsRender } from './render/StandaloneDocsRender';
 

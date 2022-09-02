@@ -8,7 +8,7 @@ export function vueDocgen(): Plugin {
   const filter = createFilter(include);
 
   return {
-    name: 'vue-docgen',
+    name: 'storybook:vue-docgen-plugin',
 
     async transform(src: string, id: string) {
       if (!filter(id)) return undefined;

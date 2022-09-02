@@ -89,8 +89,8 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
     const packageJson = packageManager.retrievePackageJson();
     const allDeps = { ...packageJson.dependencies, ...packageJson.devDependencies };
 
-    const config = getStorybookInfo(packageJson);
-    const { mainConfig, version: storybookVersion, framework } = config;
+    // FIXME: update to use renderer instead of framework
+    const { mainConfig, version: storybookVersion, framework } = getStorybookInfo(packageJson);
     if (!mainConfig) {
       logger.warn('Unable to find storybook main.js config, skipping');
       return null;
