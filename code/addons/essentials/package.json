@@ -30,7 +30,7 @@
   ],
   "scripts": {
     "check": "tsc --noEmit",
-    "prep": "node ../../../scripts/prepare.js"
+    "prepare": "node ../../../scripts/prepare.js"
   },
   "dependencies": {
     "@storybook/addon-actions": "7.0.0-alpha.28",

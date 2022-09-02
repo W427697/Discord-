@@ -15,7 +15,7 @@
   "types": "dist/types/index.d.ts",
   "scripts": {
     "check": "tsc --noEmit",
-    "prep": "node ../../../scripts/prepare.js"
+    "prepare": "node ../../../scripts/prepare.js"
   },
   "dependencies": {
     "@joshwooding/vite-plugin-react-docgen-typescript": "0.0.5",
