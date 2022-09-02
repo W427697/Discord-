@@ -27,7 +27,7 @@
   ],
   "scripts": {
     "check": "tsc --noEmit",
-    "prep": "node ../../../scripts/prepare.js"
+    "prepare": "node ../../../scripts/prepare.js"
   },
   "dependencies": {
     "@storybook/builder-webpack5": "7.0.0-alpha.28",

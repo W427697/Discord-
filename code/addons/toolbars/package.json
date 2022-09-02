@@ -54,7 +54,7 @@
   ],
   "scripts": {
     "check": "tsc --noEmit",
-    "prep": "../../../scripts/prepare/bundle.ts"
+    "prepare": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
     "@storybook/addons": "7.0.0-alpha.28",

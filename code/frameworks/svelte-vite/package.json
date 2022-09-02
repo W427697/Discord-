@@ -48,7 +48,7 @@
   ],
   "scripts": {
     "check": "tsc --noEmit",
-    "prep": "../../../scripts/prepare/bundle.ts"
+    "prepare": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
     "@storybook/addon-svelte-csf": "^2.0.0",

@@ -68,7 +68,7 @@ const hasFlag = (flags, name) => !!flags.find((s) => s.startsWith(`--${name}`));
 
 const modules = true;
 
-async function prep({ cwd, flags }) {
+async function prepare({ cwd, flags }) {
   const { packageJson } = await readPkgUp(cwd);
   const message = chalk.gray(`Built: ${chalk.bold(`${packageJson.name}@${packageJson.version}`)}`);
   console.time(message);
@@ -101,4 +101,4 @@ async function prep({ cwd, flags }) {
 const flags = process.argv.slice(2);
 const cwd = process.cwd();
 
-prep({ cwd, flags });
+prepare({ cwd, flags });

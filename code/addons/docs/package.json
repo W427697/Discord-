@@ -46,7 +46,7 @@
   ],
   "scripts": {
     "check": "tsc --noEmit",
-    "prep": "node ../../../scripts/prepare.js"
+    "prepare": "node ../../../scripts/prepare.js"
   },
   "dependencies": {
     "@babel/plugin-transform-react-jsx": "^7.12.12",

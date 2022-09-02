@@ -22,7 +22,7 @@
   "bin": "./index.js",
   "scripts": {
     "check": "tsc --noEmit",
-    "prep": "node ../../../scripts/prepare.js"
+    "prepare": "node ../../../scripts/prepare.js"
   },
   "dependencies": {
     "@storybook/cli": "7.0.0-alpha.28"
