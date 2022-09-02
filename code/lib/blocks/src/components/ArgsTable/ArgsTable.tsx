@@ -67,7 +67,7 @@ export const TableWrapper = styled.table<{
       },
 
       'th:last-of-type, td:last-of-type': {
-        paddingRight: 7,
+        paddingRight: 20,
         ...(compact
           ? null
           : {
@@ -81,8 +81,8 @@ export const TableWrapper = styled.table<{
           theme.base === 'light'
             ? transparentize(0.25, theme.color.defaultText)
             : transparentize(0.45, theme.color.defaultText),
-        paddingTop: 6,
-        paddingBottom: 6,
+        paddingTop: 10,
+        paddingBottom: 10,
         paddingLeft: 15,
         paddingRight: 15,
         lineHeight: '28px', // matches height of IconButton
@@ -206,7 +206,7 @@ export const TableWrapper = styled.table<{
 
 const StyledIconButton = styled(IconButton as any)(({ theme }) => ({
   color: theme.barTextColor,
-  margin: 0,
+  margin: '0 -12px 0 0',
 }));
 
 const ControlHeadingWrapper = styled.span({
