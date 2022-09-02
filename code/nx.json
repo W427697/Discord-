@@ -34,11 +34,16 @@
         "projects": "dependencies"
       }
     ],
-    "prepare": [
+    "prep": [
       {
         "target": "prepare",
         "projects": "dependencies"
       }
     ]
+  },
+  "targetDefaults": {
+    "prep": {
+      "outputs": ["{projectRoot}/dist"]
+    }
   }
 }
