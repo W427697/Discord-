@@ -1,6 +1,6 @@
 {
   "name": "@storybook/preact-webpack5",
-  "version": "7.0.0-alpha.27",
+  "version": "7.0.0-alpha.28",
   "description": "Storybook for Preact: Develop Preact Component in isolation.",
   "keywords": [
     "storybook"
@@ -50,10 +50,10 @@
     "prepare": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/builder-webpack5": "7.0.0-alpha.27",
-    "@storybook/core-common": "7.0.0-alpha.27",
-    "@storybook/preact": "7.0.0-alpha.27",
-    "@storybook/preset-preact-webpack": "7.0.0-alpha.27",
+    "@storybook/builder-webpack5": "7.0.0-alpha.28",
+    "@storybook/core-common": "7.0.0-alpha.28",
+    "@storybook/preact": "7.0.0-alpha.28",
+    "@storybook/preset-preact-webpack": "7.0.0-alpha.28",
     "@types/node": "^14.14.20 || ^16.0.0",
     "core-js": "^3.8.2",
     "react": "16.14.0",
@@ -80,5 +80,5 @@
     ],
     "platform": "node"
   },
-  "gitHead": "3e33f0709dd97151b7dfd86fd9858d13fd1c5738"
+  "gitHead": "941b85ce04c2e7c4328edb3568c1dece36dfbcf3"
 }
