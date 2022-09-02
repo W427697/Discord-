@@ -85,7 +85,6 @@ export const TableWrapper = styled.table<{
         paddingBottom: 10,
         paddingLeft: 15,
         paddingRight: 15,
-        lineHeight: '28px', // matches height of IconButton
       },
 
       td: {
@@ -206,7 +205,7 @@ export const TableWrapper = styled.table<{
 
 const StyledIconButton = styled(IconButton as any)(({ theme }) => ({
   color: theme.barTextColor,
-  margin: '0 -12px 0 0',
+  margin: '-4px -12px -4px 0',
 }));
 
 const ControlHeadingWrapper = styled.span({
