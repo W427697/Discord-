@@ -63,6 +63,7 @@
     "util-deprecate": "^1.0.2"
   },
   "devDependencies": {
+    "@storybook/addon-actions": "7.0.0-alpha.29",
     "@storybook/addons": "7.0.0-alpha.29"
   },
   "peerDependencies": {
