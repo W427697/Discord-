@@ -7830,9 +7830,7 @@ __metadata:
     fs-extra: ^9.0.1
     get-port: ^5.1.1
     globby: ^11.0.2
-    js-yaml: ^3.14.1
     jscodeshift: ^0.13.1
-    json5: ^2.1.3
     leven: ^3.1.0
     prompts: ^2.4.0
     puppeteer-core: ^2.1.1
@@ -7853,20 +7851,14 @@ __metadata:
   resolution: "@storybook/client-api@workspace:lib/client-api"
   dependencies:
     "@storybook/addons": 7.0.0-alpha.29
-    "@storybook/channel-postmessage": 7.0.0-alpha.29
-    "@storybook/channels": 7.0.0-alpha.29
     "@storybook/client-logger": 7.0.0-alpha.29
-    "@storybook/core-events": 7.0.0-alpha.29
+    "@storybook/core-common": 7.0.0-alpha.29
     "@storybook/csf": 0.0.2--canary.0899bb7.0
     "@storybook/store": 7.0.0-alpha.29
     "@types/qs": ^6.9.5
     "@types/webpack-env": ^1.16.4
-    dequal: ^2.0.2
     global: ^4.4.0
-    lodash: ^4.17.21
-    memoizerific: ^1.11.3
     qs: ^6.10.0
-    store2: ^2.12.0
     synchronous-promise: ^2.0.15
     ts-dedent: ^2.0.0
     typescript: ~4.6.3
@@ -7925,27 +7917,15 @@ __metadata:
     "@storybook/client-logger": 7.0.0-alpha.29
     "@storybook/csf": 0.0.2--canary.0899bb7.0
     "@storybook/theming": 7.0.0-alpha.29
-    "@testing-library/jest-dom": ^5.16.4
-    "@types/color-convert": ^2.0.0
-    "@types/lodash": ^4.14.182
     "@types/overlayscrollbars": ^1.12.0
-    "@types/qs": ^6.9.7
     "@types/react-syntax-highlighter": 11.0.5
     "@types/util-deprecate": ^1.0.0
-    color-convert: ^2.0.1
     css: ^3.0.0
-    dequal: ^2.0.2
     global: ^4.4.0
-    jest: ^26.6.3
-    lodash: ^4.17.21
-    markdown-to-jsx: ^7.1.3
     memoizerific: ^1.11.3
     overlayscrollbars: ^1.13.1
     polished: ^4.2.2
     prettier: ">=2.2.1 <=2.3.0"
-    prop-types: ^15.7.2
-    qs: ^6.10.0
-    react-colorful: ^5.1.2
     react-popper-tooltip: ^3.1.1
     react-syntax-highlighter: ^15.4.5
     react-textarea-autosize: ^8.3.0
@@ -7972,12 +7952,8 @@ __metadata:
     "@storybook/preview-web": 7.0.0-alpha.29
     "@storybook/store": 7.0.0-alpha.29
     "@storybook/ui": 7.0.0-alpha.29
-    ansi-to-html: ^0.6.11
     global: ^4.4.0
-    lodash: ^4.17.21
-    qs: ^6.10.0
     regenerator-runtime: ^0.13.7
-    ts-dedent: ^2.0.0
     typescript: ~4.6.3
     util-deprecate: ^1.0.2
   peerDependenciesMeta:
@@ -8075,7 +8051,6 @@ __metadata:
     boxen: ^5.1.2
     chalk: ^4.1.0
     cli-table3: ^0.6.1
-    commander: ^6.2.1
     compression: ^1.7.4
     detect-port: ^1.3.0
     express: ^4.17.1
@@ -8083,6 +8058,7 @@ __metadata:
     global: ^4.4.0
     globby: ^11.0.2
     ip: ^2.0.0
+    jest-os-detection: ^1.3.1
     jest-specific-snapshot: ^4.0.0
     lodash: ^4.17.21
     node-fetch: ^2.6.7
@@ -8094,8 +8070,8 @@ __metadata:
     slash: ^3.0.0
     telejson: ^6.0.8
     ts-dedent: ^2.0.0
+    ts-jest: ^26.4.4
     typescript: ~4.6.3
-    util-deprecate: ^1.0.2
     watchpack: ^2.2.0
     webpack: 5
     ws: ^8.2.3
@@ -8119,6 +8095,7 @@ __metadata:
     "@types/node": ^14.0.10 || ^16.0.0
     ts-dedent: ^2.0.0
     typescript: ~4.6.3
+    webpack: 5
   languageName: unknown
   linkType: soft
 
@@ -8126,19 +8103,14 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/csf-tools@workspace:lib/csf-tools"
   dependencies:
-    "@babel/core": ^7.12.10
     "@babel/generator": ^7.12.11
     "@babel/parser": ^7.12.11
-    "@babel/plugin-transform-react-jsx": ^7.12.12
-    "@babel/preset-env": ^7.12.11
     "@babel/traverse": ^7.12.11
     "@babel/types": ^7.12.11
     "@storybook/csf": 0.0.2--canary.0899bb7.0
-    "@storybook/mdx2-csf": ^0.0.3
     "@types/fs-extra": ^9.0.6
     core-js: ^3.8.2
     fs-extra: ^9.0.1
-    global: ^4.4.0
     js-yaml: ^3.14.1
     ts-dedent: ^2.0.0
     typescript: ~4.6.3
@@ -9908,7 +9880,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@testing-library/jest-dom@npm:^5.11.9, @testing-library/jest-dom@npm:^5.16.2, @testing-library/jest-dom@npm:^5.16.4":
+"@testing-library/jest-dom@npm:^5.11.9, @testing-library/jest-dom@npm:^5.16.2":
   version: 5.16.5
   resolution: "@testing-library/jest-dom@npm:5.16.5"
   dependencies:
@@ -10145,22 +10117,6 @@ __metadata:
   dependencies:
     "@types/node": "*"
   checksum: f16e9e67e3af530c3603b4b9f7651b9223ca72944afccaa31dd39be858a90bd48d5206d36b05998a0389fedca158f22430f96796007000f34b2dd8dd6b193f6e
-  languageName: node
-  linkType: hard
-
-"@types/color-convert@npm:^2.0.0":
-  version: 2.0.0
-  resolution: "@types/color-convert@npm:2.0.0"
-  dependencies:
-    "@types/color-name": "*"
-  checksum: 87b40870ff57f1746acc3cecbbe5f74e38cd2e97a628b0680f11a4cd419d124d3251e7627f100db2b31f8383b91141c46a12b7f2dfb18f989cf686526b6e6e13
-  languageName: node
-  linkType: hard
-
-"@types/color-name@npm:*":
-  version: 1.1.1
-  resolution: "@types/color-name@npm:1.1.1"
-  checksum: 2abeac8d8d833e0622c66f21487cc8b522792abb2eff2e40df0e3e53261728cb65bab590edf24953eb8d8653ec88044dc801d9a4e58c489a0f10c025de522868
   languageName: node
   linkType: hard
 
@@ -10569,7 +10525,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/lodash@npm:^4.14.167, @types/lodash@npm:^4.14.182":
+"@types/lodash@npm:^4.14.167":
   version: 4.14.184
   resolution: "@types/lodash@npm:4.14.184"
   checksum: 35e81d477603b319179b335b839865f7bc837afcfd08b5fedfe7e01a0a0f192599f7567ffa45dbf95bfa793f1e9f9bc4666f57f47f0b00fe171e857b9178aed9
@@ -10859,7 +10815,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/qs@npm:*, @types/qs@npm:^6, @types/qs@npm:^6.9.5, @types/qs@npm:^6.9.7":
+"@types/qs@npm:*, @types/qs@npm:^6, @types/qs@npm:^6.9.5":
   version: 6.9.7
   resolution: "@types/qs@npm:6.9.7"
   checksum: 157eb05f4c75790b0ebdcf7b0547ff117feabc8cda03c3cac3d3ea82bb19a1912e76a411df3eb0bdd01026a9770f07bc0e7e3fbe39ebb31c1be4564c16be35f1
@@ -28673,7 +28629,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"json5@npm:2.x, json5@npm:^2.0.0, json5@npm:^2.1.0, json5@npm:^2.1.2, json5@npm:^2.1.3, json5@npm:^2.2.0, json5@npm:^2.2.1":
+"json5@npm:2.x, json5@npm:^2.0.0, json5@npm:^2.1.0, json5@npm:^2.1.2, json5@npm:^2.2.0, json5@npm:^2.2.1":
   version: 2.2.1
   resolution: "json5@npm:2.2.1"
   bin:
