@@ -7627,6 +7627,7 @@ __metadata:
     "@storybook/preview-web": 7.0.0-alpha.29
     "@storybook/store": 7.0.0-alpha.29
     "@storybook/theming": 7.0.0-alpha.29
+    "@types/color-convert": ^2.0.0
     color-convert: ^2.0.1
     dequal: ^2.0.2
     global: ^4.4.0
@@ -10116,6 +10117,22 @@ __metadata:
   dependencies:
     "@types/node": "*"
   checksum: f16e9e67e3af530c3603b4b9f7651b9223ca72944afccaa31dd39be858a90bd48d5206d36b05998a0389fedca158f22430f96796007000f34b2dd8dd6b193f6e
+  languageName: node
+  linkType: hard
+
+"@types/color-convert@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "@types/color-convert@npm:2.0.0"
+  dependencies:
+    "@types/color-name": "*"
+  checksum: 87b40870ff57f1746acc3cecbbe5f74e38cd2e97a628b0680f11a4cd419d124d3251e7627f100db2b31f8383b91141c46a12b7f2dfb18f989cf686526b6e6e13
+  languageName: node
+  linkType: hard
+
+"@types/color-name@npm:*":
+  version: 1.1.1
+  resolution: "@types/color-name@npm:1.1.1"
+  checksum: 2abeac8d8d833e0622c66f21487cc8b522792abb2eff2e40df0e3e53261728cb65bab590edf24953eb8d8653ec88044dc801d9a4e58c489a0f10c025de522868
   languageName: node
   linkType: hard
 
