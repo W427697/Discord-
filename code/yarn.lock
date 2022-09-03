@@ -7549,7 +7549,6 @@ __metadata:
   resolution: "@storybook/api@workspace:lib/api"
   dependencies:
     "@jest/globals": ^26.6.2
-    "@storybook/addons": 7.0.0-alpha.29
     "@storybook/channels": 7.0.0-alpha.29
     "@storybook/client-logger": 7.0.0-alpha.29
     "@storybook/core-common": 7.0.0-alpha.29

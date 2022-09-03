@@ -32,7 +32,6 @@
     "prepare": "node ../../../scripts/prepare.js"
   },
   "dependencies": {
-    "@storybook/addons": "7.0.0-alpha.29",
     "@storybook/channels": "7.0.0-alpha.29",
     "@storybook/client-logger": "7.0.0-alpha.29",
     "@storybook/core-events": "7.0.0-alpha.29",
