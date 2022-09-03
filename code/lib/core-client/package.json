@@ -45,7 +45,6 @@
     "@storybook/store": "7.0.0-alpha.29",
     "@storybook/ui": "7.0.0-alpha.29",
     "ansi-to-html": "^0.6.11",
-    "core-js": "^3.8.2",
     "global": "^4.4.0",
     "lodash": "^4.17.21",
     "qs": "^6.10.0",

@@ -56,7 +56,6 @@
     "babel-plugin-named-exports-order": "^0.0.2",
     "browser-assert": "^1.2.1",
     "case-sensitive-paths-webpack-plugin": "^2.4.0",
-    "core-js": "^3.8.2",
     "css-loader": "^6.7.1",
     "fork-ts-checker-webpack-plugin": "^7.2.8",
     "glob": "^7.1.6",

@@ -65,7 +65,6 @@
     "@storybook/components": "7.0.0-alpha.29",
     "@storybook/core-events": "7.0.0-alpha.29",
     "@storybook/theming": "7.0.0-alpha.29",
-    "core-js": "^3.8.2",
     "global": "^4.4.0",
     "react-sizeme": "^3.0.1",
     "upath": "^1.2.0"

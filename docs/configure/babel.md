@@ -138,14 +138,6 @@ Once the command completes, you should have a `.babelrc.json` file created in th
     "babel-plugin-macros",
     "@babel/plugin-proposal-optional-chaining",
     "@babel/plugin-proposal-nullish-coalescing-operator",
-    [
-      "babel-plugin-polyfill-corejs3",
-      {
-        "method": "usage-global",
-        "absoluteImports": "core-js",
-        "version": "3.18.3"
-      }
-    ]
   ]
 }
 ```

@@ -9,7 +9,6 @@
     "storybook": "storybook dev -p 9009 --no-manager-cache"
   },
   "dependencies": {
-    "core-js": "^3.8.2",
     "vue": "^2.6.12",
     "vue-class-component": "^7.2.6",
     "vue-property-decorator": "^9.1.2"

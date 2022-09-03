@@ -39,7 +39,6 @@
     "@storybook/router": "7.0.0-alpha.29",
     "@storybook/semver": "^7.3.2",
     "@storybook/theming": "7.0.0-alpha.29",
-    "core-js": "^3.8.2",
     "dequal": "^2.0.2",
     "global": "^4.4.0",
     "lodash": "^4.17.21",

@@ -3294,7 +3294,6 @@ __metadata:
     chalk: ^4.1.0
     codecov: ^3.8.1
     commander: ^6.2.1
-    core-js: ^3.21.1
     cross-env: ^7.0.3
     cypress: 8.7.0
     danger: ^10.6.2
@@ -6735,7 +6734,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"core-js@npm:^3.21.1, core-js@npm:^3.6.5, core-js@npm:^3.8.2":
+"core-js@npm:^3.6.5, core-js@npm:^3.8.2":
   version: 3.23.5
   resolution: "core-js@npm:3.23.5"
   checksum: ab9b483ede285b3949e2411f9190d147ac589d111b0aa3a4b2999a1bf2755b3e930529c2a22ff550efd4fc154c7cfae700bee858dedff905a09f35ddbcc6425f

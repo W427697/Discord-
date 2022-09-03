@@ -68,8 +68,6 @@
     "@storybook/theming": "7.0.0-alpha.29",
     "@testing-library/react": "^11.2.2",
     "copy-to-clipboard": "^3.3.1",
-    "core-js": "^3.8.2",
-    "core-js-pure": "^3.8.2",
     "downshift": "^6.0.15",
     "enzyme": "^3.11.0",
     "flush-promises": "^1.0.2",

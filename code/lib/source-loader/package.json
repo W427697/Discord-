@@ -38,7 +38,6 @@
     "@storybook/addons": "7.0.0-alpha.29",
     "@storybook/client-logger": "7.0.0-alpha.29",
     "@storybook/csf": "0.0.2--canary.0899bb7.0",
-    "core-js": "^3.8.2",
     "estraverse": "^5.2.0",
     "global": "^4.4.0",
     "lodash": "^4.17.21",

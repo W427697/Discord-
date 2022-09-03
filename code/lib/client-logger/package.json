@@ -42,7 +42,6 @@
     "prepare": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "core-js": "^3.8.2",
     "global": "^4.4.0"
   },
   "devDependencies": {

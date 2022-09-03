@@ -37,7 +37,6 @@
     "@babel/core": "^7.12.10",
     "@storybook/csf": "0.0.2--canary.0899bb7.0",
     "@storybook/store": "7.0.0-alpha.29",
-    "core-js": "^3.8.2",
     "doctrine": "^3.0.0",
     "lodash": "^4.17.21"
   },

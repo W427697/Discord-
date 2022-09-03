@@ -41,9 +41,6 @@
     "check": "tsc --noEmit",
     "prepare": "../../../scripts/prepare/bundle.ts"
   },
-  "dependencies": {
-    "core-js": "^3.8.2"
-  },
   "devDependencies": {
     "typescript": "~4.6.3"
   },
