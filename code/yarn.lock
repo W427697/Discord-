@@ -7109,6 +7109,7 @@ __metadata:
     "@storybook/jest": ^0.0.10
     "@storybook/testing-library": 0.0.14-next.0
     "@storybook/theming": 7.0.0-alpha.29
+    core-js: ^3.8.2
     formik: ^2.2.9
     global: ^4.4.0
     jest-mock: ^27.0.6
@@ -7279,6 +7280,7 @@ __metadata:
     "@types/jest": ^26.0.16
     "@types/jest-specific-snapshot": ^0.5.3
     babel-loader: ^8.2.5
+    core-js: ^3.8.2
     enzyme: ^3.11.0
     enzyme-to-json: ^3.6.1
     glob: ^7.1.6
@@ -7511,6 +7513,7 @@ __metadata:
     "@types/react-dom": ^16.9.14
     "@types/tmp": ^0.2.3
     autoprefixer: ^9.8.6
+    core-js: ^3.8.2
     cross-spawn: ^7.0.3
     find-up: ^5.0.0
     fork-ts-checker-webpack-plugin: ^7.2.6
@@ -7846,6 +7849,7 @@ __metadata:
     boxen: ^5.1.2
     chalk: ^4.1.0
     commander: ^6.2.1
+    core-js: ^3.8.2
     cross-spawn: ^7.0.3
     degit: ^2.8.4
     envinfo: ^7.7.3
@@ -8187,6 +8191,7 @@ __metadata:
     "@storybook/csf": 0.0.2--canary.0899bb7.0
     "@storybook/mdx2-csf": ^0.0.3
     "@types/fs-extra": ^9.0.6
+    core-js: ^3.8.2
     fs-extra: ^9.0.1
     global: ^4.4.0
     js-yaml: ^3.14.1
@@ -8468,6 +8473,7 @@ __metadata:
     "@storybook/addons": 7.0.0-alpha.29
     "@storybook/client-logger": 7.0.0-alpha.29
     "@storybook/core-events": 7.0.0-alpha.29
+    core-js: ^3.8.2
     global: ^4.4.0
     typescript: ~4.6.3
   languageName: unknown
