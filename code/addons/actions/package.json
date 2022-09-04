@@ -48,7 +48,7 @@
     "lodash": "^4.17.21",
     "polished": "^4.2.2",
     "prop-types": "^15.7.2",
-    "react-inspector": "^5.1.0",
+    "react-inspector": "^6.0.0",
     "telejson": "^6.0.8",
     "ts-dedent": "^2.0.0",
     "util-deprecate": "^1.0.2",
