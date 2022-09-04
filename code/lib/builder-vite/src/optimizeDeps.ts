@@ -84,7 +84,6 @@ const INCLUDE_CANDIDATES = [
   'refractor/lang/yaml.js',
   'regenerator-runtime/runtime.js',
   'slash',
-  'stable',
   'store2',
   'synchronous-promise',
   'telejson',

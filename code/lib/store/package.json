@@ -44,7 +44,6 @@
     "lodash": "^4.17.21",
     "memoizerific": "^1.11.3",
     "slash": "^3.0.0",
-    "stable": "^0.1.8",
     "synchronous-promise": "^2.0.15",
     "ts-dedent": "^2.0.0",
     "util-deprecate": "^1.0.2"
