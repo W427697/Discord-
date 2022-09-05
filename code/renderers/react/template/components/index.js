@@ -3,7 +3,7 @@ import globalThis from 'global';
 import { render } from '@storybook/react/preview';
 
 import { Button } from './Button.jsx';
-import { Code } from './Code.jsx';
+import { Pre } from './Pre.jsx';
 import { styleDecorator } from './styleDecorator.jsx';
 
-globalThis.Components = { Button, Code, styleDecorator, render };
+globalThis.Components = { Button, Pre, styleDecorator, render };

@@ -4,19 +4,20 @@ import { within } from '@storybook/testing-library';
 import { expect } from '@storybook/jest';
 
 export default {
-  component: globalThis.Components.Code,
+  component: globalThis.Components.Pre,
   loaders: [async () => new Promise((r) => setTimeout(() => r({ componentValue: 7 }), 3000))],
   render: (_: any, context: StoryContext) =>
-    globalThis.Components.render({ code: JSON.stringify(context.loaded, null, 2) }, context),
+    globalThis.Components.render({ object: context.loaded }, context),
 };
 
 export const Inheritance = {
   loaders: [async () => new Promise((r) => setTimeout(() => r({ storyValue: 3 }), 1000))],
   play: async ({ canvasElement }: PlayFunctionContext) => {
     const canvas = within(canvasElement);
-    await expect(canvas.getByTestId('code').innerHTML).toEqual(
-      JSON.stringify({ componentValue: 7, storyValue: 3 }, null, 2)
-    );
+    await expect(JSON.parse(canvas.getByTestId('pre').innerHTML)).toEqual({
+      componentValue: 7,
+      storyValue: 3,
+    });
   },
 };
 

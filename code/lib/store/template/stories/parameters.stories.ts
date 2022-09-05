@@ -6,7 +6,7 @@ import { expect } from '@storybook/jest';
 // TODO: is there some way to define a project-level annotation in sandboxes?
 
 export default {
-  component: globalThis.Components.Code,
+  component: globalThis.Components.Pre,
   parameters: {
     componentParameter: 'componentParameter',
     storyParameter: 'componentStoryParameter', // Checking this gets overridden
@@ -27,25 +27,19 @@ export const Inheritance = {
   render: (_: any, context: StoryContext) => {
     const { componentParameter, storyParameter, storyObject } = context.parameters;
     return globalThis.Components.render(
-      { code: JSON.stringify({ componentParameter, storyParameter, storyObject }, null, 2) },
+      { object: { componentParameter, storyParameter, storyObject } },
       context
     );
   },
   play: async ({ canvasElement }: PlayFunctionContext) => {
     const canvas = within(canvasElement);
-    await expect(canvas.getByTestId('code').innerHTML).toEqual(
-      JSON.stringify(
-        {
-          componentParameter: 'componentParameter',
-          storyParameter: 'storyParameter',
-          storyObject: {
-            a: 'story',
-            b: 'component',
-          },
-        },
-        null,
-        2
-      )
-    );
+    await expect(JSON.parse(canvas.getByTestId('pre').innerHTML)).toEqual({
+      componentParameter: 'componentParameter',
+      storyParameter: 'storyParameter',
+      storyObject: {
+        a: 'story',
+        b: 'component',
+      },
+    });
   },
 };
