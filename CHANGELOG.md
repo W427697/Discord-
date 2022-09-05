@@ -1,3 +1,59 @@
+## 7.0.0-alpha.29 (September 2, 2022)
+
+#### Bug Fixes
+
+-   CLI/Vite: Don't add babel dependencies during init [#19088](https://github.com/storybooks/storybook/pull/19088)
+-   CLI: Fix sb init to use renderer assets instead of frameworks [#19091](https://github.com/storybooks/storybook/pull/19091)
+-   Core: Ensure if a docs render is torndown during preparation, it throws [#19071](https://github.com/storybooks/storybook/pull/19071)
+
+#### Maintenance
+
+-   Addon-viewport: Move stories into addon [#19086](https://github.com/storybooks/storybook/pull/19086)
+-   Addon-backgrounds: Move stories into addon [#19085](https://github.com/storybooks/storybook/pull/19085)
+-   Addon-actions: Move stories into addon [#19082](https://github.com/storybooks/storybook/pull/19082)
+-   Build: Exit yarn bootstrap with nonzero code if failed [#19089](https://github.com/storybooks/storybook/pull/19089)
+-   Vite: cleanup custom plugins [#19087](https://github.com/storybooks/storybook/pull/19087)
+-   Build: Prefix generic addon stories in sandbox storybooks [#19092](https://github.com/storybooks/storybook/pull/19092)
+
+## 7.0.0-alpha.28 (September 2, 2022)
+
+#### Features
+
+-   Vite: Automatically use vite.config.js [#19026](https://github.com/storybooks/storybook/pull/19026)
+
+#### Bug Fixes
+
+-   CLI: Fix race condition in sb init [#19083](https://github.com/storybooks/storybook/pull/19083)
+-   Vite: Fix framework option checks, and SSv6 [#19062](https://github.com/storybooks/storybook/pull/19062)
+-   Core: Fix WebProjectAnnotations export in preview-web for back-compat [#19048](https://github.com/storybooks/storybook/pull/19048)
+
+#### Maintenance
+
+-   Update to new TS reference format (?) [#19072](https://github.com/storybooks/storybook/pull/19072)
+-   Build: Conditionally force vite rebuilds in sandbox [#19063](https://github.com/storybooks/storybook/pull/19063)
+-   Build: Fix CRA bench [#19066](https://github.com/storybooks/storybook/pull/19066)
+
+## 7.0.0-alpha.27 (August 31, 2022)
+
+#### Features
+
+-   Vite: Set `resolve.preserveSymlinks` based on env vars [#19039](https://github.com/storybooks/storybook/pull/19039)
+
+#### Bug Fixes
+
+-   Core: Restore `/preview` etc package exports; return unresolved path from presets. [#19045](https://github.com/storybooks/storybook/pull/19045)
+
+#### Maintenance
+
+-   Core: Add previewHead and previewBody to StorybookConfig interface [#19047](https://github.com/storybooks/storybook/pull/19047)
+-   Build: Fix the sb-bench CI step [#19029](https://github.com/storybooks/storybook/pull/19029)
+-   Remove sandbox from `.ignore` [#19040](https://github.com/storybooks/storybook/pull/19040)
+-   Build: Use new test runner with builtin junit [#19028](https://github.com/storybooks/storybook/pull/19028)
+
+#### Dependency Upgrades
+
+-   Vite: Clean up framework dependencies / unused files [#19035](https://github.com/storybooks/storybook/pull/19035)
+
 ## 7.0.0-alpha.26 (August 26, 2022)
 
 #### Features
