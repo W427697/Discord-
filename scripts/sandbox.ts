@@ -269,7 +269,11 @@ async function addStories(paths: string[], { mainConfig }: { mainConfig: ConfigF
   const stories = mainConfig.getFieldValue(['stories']) as string[];
   const extraStories = extraStoryDirsAndExistence
     .filter(([, exists]) => exists)
-    .map(([p]) => path.join('..', '..', '..', 'code', p, '*.stories.@(js|jsx|ts|tsx)'));
+    .map(([p]) => ({
+      directory: path.join('..', '..', '..', 'code', p),
+      titlePrefix: p.split('/').slice(-4, -2).join('/'),
+      files: '*.stories.@(js|jsx|ts|tsx)',
+    }));
   mainConfig.setFieldValue(['stories'], [...stories, ...extraStories]);
 
   // Add `config` entries of the form

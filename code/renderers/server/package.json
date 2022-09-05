@@ -1,6 +1,6 @@
 {
   "name": "@storybook/server",
-  "version": "7.0.0-alpha.28",
+  "version": "7.0.0-alpha.29",
   "description": "Storybook Server renderer",
   "keywords": [
     "storybook"
@@ -50,11 +50,11 @@
     "prepare": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/addons": "7.0.0-alpha.28",
-    "@storybook/core-client": "7.0.0-alpha.28",
+    "@storybook/addons": "7.0.0-alpha.29",
+    "@storybook/core-client": "7.0.0-alpha.29",
     "@storybook/csf": "0.0.2--canary.0899bb7.0",
-    "@storybook/preview-web": "7.0.0-alpha.28",
-    "@storybook/store": "7.0.0-alpha.28",
+    "@storybook/preview-web": "7.0.0-alpha.29",
+    "@storybook/store": "7.0.0-alpha.29",
     "core-js": "^3.8.2",
     "global": "^4.4.0",
     "react": "16.14.0",
@@ -77,5 +77,5 @@
     ],
     "platform": "browser"
   },
-  "gitHead": "941b85ce04c2e7c4328edb3568c1dece36dfbcf3"
+  "gitHead": "87ce9b91ce2c7e35a716d2254768fb1a34e777c7"
 }

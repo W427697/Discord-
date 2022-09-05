@@ -1,6 +1,6 @@
 {
   "name": "@storybook/builder-vite",
-  "version": "7.0.0-alpha.28",
+  "version": "7.0.0-alpha.29",
   "description": "A plugin to run and build Storybooks with Vite",
   "homepage": "https://github.com/storybookjs/storybook/tree/main/code/lib/builder-vite/#readme",
   "repository": {
@@ -19,16 +19,16 @@
   },
   "dependencies": {
     "@joshwooding/vite-plugin-react-docgen-typescript": "0.0.5",
-    "@storybook/addons": "7.0.0-alpha.28",
-    "@storybook/channel-postmessage": "7.0.0-alpha.28",
-    "@storybook/channel-websocket": "7.0.0-alpha.28",
-    "@storybook/client-api": "7.0.0-alpha.28",
-    "@storybook/client-logger": "7.0.0-alpha.28",
-    "@storybook/core-common": "7.0.0-alpha.28",
+    "@storybook/addons": "7.0.0-alpha.29",
+    "@storybook/channel-postmessage": "7.0.0-alpha.29",
+    "@storybook/channel-websocket": "7.0.0-alpha.29",
+    "@storybook/client-api": "7.0.0-alpha.29",
+    "@storybook/client-logger": "7.0.0-alpha.29",
+    "@storybook/core-common": "7.0.0-alpha.29",
     "@storybook/mdx1-csf": "0.0.5-canary.13.9ce928a.0",
-    "@storybook/node-logger": "7.0.0-alpha.28",
-    "@storybook/preview-web": "7.0.0-alpha.28",
-    "@storybook/source-loader": "7.0.0-alpha.28",
+    "@storybook/node-logger": "7.0.0-alpha.29",
+    "@storybook/preview-web": "7.0.0-alpha.29",
+    "@storybook/source-loader": "7.0.0-alpha.29",
     "@vitejs/plugin-react": "^2.0.0",
     "ast-types": "^0.14.2",
     "es-module-lexer": "^0.9.3",
@@ -43,7 +43,8 @@
     "@storybook/mdx2-csf": "^0.0.3",
     "@types/express": "^4.17.13",
     "@types/node": "^17.0.23",
-    "typescript": "~4.6.3"
+    "typescript": "~4.6.3",
+    "vite": "3.1.0-beta.1"
   },
   "peerDependencies": {
     "@storybook/mdx2-csf": "^0.0.3"
@@ -56,5 +57,5 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "941b85ce04c2e7c4328edb3568c1dece36dfbcf3"
+  "gitHead": "87ce9b91ce2c7e35a716d2254768fb1a34e777c7"
 }

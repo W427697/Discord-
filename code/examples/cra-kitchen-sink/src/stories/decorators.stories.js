@@ -1,5 +1,4 @@
 import React from 'react';
-import { action } from '@storybook/addon-actions';
 import PropTypes from 'prop-types';
 import { Button } from '../components/react-demo';
 
@@ -24,13 +23,12 @@ export default {
 };
 
 export const WithArgs = (args) => <Button {...args} />;
-WithArgs.args = { onClick: action('clicked', { depth: 1 }), children: 'With args' };
+WithArgs.args = { children: 'With args' };
 
-export const Basic = () => <Button onClick={action('clicked', { depth: 1 })}>Basic</Button>;
+export const Basic = () => <Button>Basic</Button>;
 
-export const Nested = (args) => (
-  <Button {...args}>
+export const Nested = () => (
+  <Button>
     <Bold>Hello</Bold>
   </Button>
 );
-Nested.args = { onClick: action('clicked', { depth: 1 }) };

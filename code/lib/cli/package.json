@@ -1,6 +1,6 @@
 {
   "name": "@storybook/cli",
-  "version": "7.0.0-alpha.28",
+  "version": "7.0.0-alpha.29",
   "description": "Storybook's CLI - easiest method of adding storybook to your projects",
   "keywords": [
     "cli",
@@ -41,13 +41,13 @@
   "dependencies": {
     "@babel/core": "^7.12.10",
     "@babel/preset-env": "^7.12.11",
-    "@storybook/codemod": "7.0.0-alpha.28",
-    "@storybook/core-common": "7.0.0-alpha.28",
-    "@storybook/core-server": "7.0.0-alpha.28",
-    "@storybook/csf-tools": "7.0.0-alpha.28",
-    "@storybook/node-logger": "7.0.0-alpha.28",
+    "@storybook/codemod": "7.0.0-alpha.29",
+    "@storybook/core-common": "7.0.0-alpha.29",
+    "@storybook/core-server": "7.0.0-alpha.29",
+    "@storybook/csf-tools": "7.0.0-alpha.29",
+    "@storybook/node-logger": "7.0.0-alpha.29",
     "@storybook/semver": "^7.3.2",
-    "@storybook/telemetry": "7.0.0-alpha.28",
+    "@storybook/telemetry": "7.0.0-alpha.29",
     "boxen": "^5.1.2",
     "chalk": "^4.1.0",
     "commander": "^6.2.1",
@@ -74,7 +74,7 @@
     "update-notifier": "^5.0.1"
   },
   "devDependencies": {
-    "@storybook/client-api": "7.0.0-alpha.28",
+    "@storybook/client-api": "7.0.0-alpha.29",
     "@types/cross-spawn": "^6.0.2",
     "@types/degit": "^2.8.3",
     "@types/prompts": "^2.0.9",
@@ -89,5 +89,5 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "941b85ce04c2e7c4328edb3568c1dece36dfbcf3"
+  "gitHead": "87ce9b91ce2c7e35a716d2254768fb1a34e777c7"
 }
