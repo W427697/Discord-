@@ -257,18 +257,39 @@ function forceViteRebuilds(mainConfig: ConfigFile) {
 
 // paths are of the form 'renderers/react', 'addons/actions'
 async function addStories(paths: string[], { mainConfig }: { mainConfig: ConfigFile }) {
-  const stories = mainConfig.getFieldValue(['stories']) as string[];
+  // Add `stories` entries of the form
+  //   '../../../code/lib/store/template/stories/*.stories.@(js|jsx|ts|tsx)'
+  // if the directory <code>/lib/store/template/stories exists
   const extraStoryDirsAndExistence = await Promise.all(
     paths
       .map((p) => path.join(p, 'template', 'stories'))
       .map(async (p) => [p, await pathExists(path.resolve(codeDir, p))] as const)
   );
 
-  const relativeCodeDir = path.join('..', '..', '..', 'code');
+  const stories = mainConfig.getFieldValue(['stories']) as string[];
   const extraStories = extraStoryDirsAndExistence
     .filter(([, exists]) => exists)
-    .map(([p]) => path.join(relativeCodeDir, p, '*.stories.@(js|jsx|ts|tsx)'));
+    .map(([p]) => path.join('..', '..', '..', 'code', p, '*.stories.@(js|jsx|ts|tsx)'));
   mainConfig.setFieldValue(['stories'], [...stories, ...extraStories]);
+
+  // Add `config` entries of the form
+  //   '../../code/lib/store/template/stories/preview.ts'
+  // if the file <code>/lib/store/template/stories/preview.ts exists
+  const extraPreviewAndExistence = await Promise.all(
+    extraStoryDirsAndExistence
+      .filter(([, exists]) => exists)
+      .map(([storiesPath]) => path.join(storiesPath, 'preview.ts'))
+      .map(
+        async (previewPath) =>
+          [previewPath, await pathExists(path.resolve(codeDir, previewPath))] as const
+      )
+  );
+
+  const config = mainConfig.getFieldValue(['config']) as string[];
+  const extraConfig = extraPreviewAndExistence
+    .filter(([, exists]) => exists)
+    .map(([p]) => path.join('..', '..', 'code', p));
+  mainConfig.setFieldValue(['config'], [...(config || []), ...extraConfig]);
 }
 
 type Workspace = { name: string; location: string };

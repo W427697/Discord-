@@ -37,11 +37,13 @@ export const Inheritance = {
   play: async ({ canvasElement }: PlayFunctionContext) => {
     const canvas = within(canvasElement);
     await expect(JSON.parse(canvas.getByTestId('pre').innerHTML)).toEqual({
+      projectParameter: 'projectParameter',
       componentParameter: 'componentParameter',
       storyParameter: 'storyParameter',
       storyObject: {
         a: 'story',
         b: 'component',
+        c: 'project',
       },
     });
   },
