@@ -1,6 +1,6 @@
 {
   "name": "@storybook/cli",
-  "version": "7.0.0-alpha.29",
+  "version": "7.0.0-alpha.30",
   "description": "Storybook's CLI - easiest method of adding storybook to your projects",
   "keywords": [
     "cli",
@@ -29,6 +29,7 @@
   "files": [
     "bin/**/*",
     "dist/**/*",
+    "rendererAssets/**/*",
     "README.md",
     "*.js",
     "*.d.ts"
@@ -41,13 +42,13 @@
   "dependencies": {
     "@babel/core": "^7.12.10",
     "@babel/preset-env": "^7.12.11",
-    "@storybook/codemod": "7.0.0-alpha.29",
-    "@storybook/core-common": "7.0.0-alpha.29",
-    "@storybook/core-server": "7.0.0-alpha.29",
-    "@storybook/csf-tools": "7.0.0-alpha.29",
-    "@storybook/node-logger": "7.0.0-alpha.29",
+    "@storybook/codemod": "7.0.0-alpha.30",
+    "@storybook/core-common": "7.0.0-alpha.30",
+    "@storybook/core-server": "7.0.0-alpha.30",
+    "@storybook/csf-tools": "7.0.0-alpha.30",
+    "@storybook/node-logger": "7.0.0-alpha.30",
     "@storybook/semver": "^7.3.2",
-    "@storybook/telemetry": "7.0.0-alpha.29",
+    "@storybook/telemetry": "7.0.0-alpha.30",
     "boxen": "^5.1.2",
     "chalk": "^4.1.0",
     "commander": "^6.2.1",
@@ -72,7 +73,7 @@
     "update-notifier": "^5.0.1"
   },
   "devDependencies": {
-    "@storybook/client-api": "7.0.0-alpha.29",
+    "@storybook/client-api": "7.0.0-alpha.30",
     "@types/cross-spawn": "^6.0.2",
     "@types/degit": "^2.8.3",
     "@types/prompts": "^2.0.9",
@@ -87,5 +88,5 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "87ce9b91ce2c7e35a716d2254768fb1a34e777c7"
+  "gitHead": "aabf7b595cb13d8a86dca27ad3d6039205bd55d6"
 }

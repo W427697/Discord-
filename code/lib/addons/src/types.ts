@@ -77,7 +77,8 @@ export type IndexEntry = StoryIndexEntry | DocsIndexEntry;
 
 // The `any` here is the story store's `StoreItem` record. Ideally we should probably only
 // pass a defined subset of that full data, but we pass it all so far :shrug:
-export type StorySortComparator = Comparator<[StoryId, any, Parameters, Parameters]>;
+export type IndexEntryLegacy = [StoryId, any, Parameters, Parameters];
+export type StorySortComparator = Comparator<IndexEntryLegacy>;
 export type StorySortParameter = StorySortComparator | StorySortObjectParameter;
 export type StorySortComparatorV7 = Comparator<IndexEntry>;
 export type StorySortParameterV7 = StorySortComparatorV7 | StorySortObjectParameter;

@@ -1,3 +1,20 @@
+## 7.0.0-alpha.30 (September 6, 2022)
+
+#### Bug Fixes
+
+-   CLI: Fix include rendererAssets in npm bundle [#19115](https://github.com/storybooks/storybook/pull/19115)
+
+#### Maintenance
+
+-   CLI: remove outdated comment in Angular starter [#19097](https://github.com/storybooks/storybook/pull/19097)
+
+#### Dependency Upgrades
+
+-   Remove deprecated `stable` dependency [#19103](https://github.com/storybooks/storybook/pull/19103)
+-   Svelte: Update sveltedoc dependencies [#19111](https://github.com/storybooks/storybook/pull/19111)
+-   Deps: Remove core-js from most packages [#19098](https://github.com/storybooks/storybook/pull/19098)
+-   Deps: Upgrade react-element-to-jsx-string and react-inspector for React 18 [#19104](https://github.com/storybooks/storybook/pull/19104)
+
 ## 7.0.0-alpha.29 (September 2, 2022)
 
 #### Bug Fixes
