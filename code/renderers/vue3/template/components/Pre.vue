@@ -1,5 +1,5 @@
 <template>
-  <pre data-testid="pre" :style="style">{{ text }}</pre>
+  <pre data-testid="pre" :style="style">{{ finalText }}</pre>
 </template>
 
 <script>
@@ -9,6 +9,7 @@ export default {
   name: 'my-pre',
 
   props: {
+    // deepscan-disable-next-line
     style: {
       type: Object,
     },
@@ -24,7 +25,9 @@ export default {
   setup(props, { emit }) {
     props = reactive(props);
     return {
-      text: computed(() => (props.object ? JSON.stringify(props.object, null, 2) : props.text)),
+      finalText: computed(() =>
+        props.object ? JSON.stringify(props.object, null, 2) : props.text
+      ),
     };
   },
 };
