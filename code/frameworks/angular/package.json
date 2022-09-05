@@ -150,9 +150,9 @@
   "bundler": {
     "entries": [
       "./src/index.ts",
-      "./src/manager.tsx",
-      "./src/preview.tsx"
-    ]
+      "./src/preset.ts"
+    ],
+    "platform": "node"
   },
   "gitHead": "87ce9b91ce2c7e35a716d2254768fb1a34e777c7"
 }
