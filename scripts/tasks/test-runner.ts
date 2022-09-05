@@ -14,7 +14,7 @@ export const testRunner: Task = {
 
     // We could split this out into a separate task if it became annoying
     const publishController = await servePackages({});
-    await exec(`yarn add --dev @storybook/test-runner`, execOptions);
+    await exec(`yarn add --dev @storybook/test-runner@0.7.1-next.0`, execOptions);
 
     const storybookController = await serveSandbox(builtSandboxDir, {});
 
