@@ -29,6 +29,7 @@
   "files": [
     "bin/**/*",
     "dist/**/*",
+    "rendererAssets/**/*",
     "README.md",
     "*.js",
     "*.d.ts"
