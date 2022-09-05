@@ -271,6 +271,24 @@ async function addStories(paths: string[], { mainConfig }: { mainConfig: ConfigF
   mainConfig.setFieldValue(['stories'], [...stories, ...extraStories]);
 }
 
+type Workspace = { name: string; location: string };
+
+async function getWorkspaces() {
+  const { stdout } = await command('yarn workspaces list --json', {
+    cwd: process.cwd(),
+    shell: true,
+  });
+  return JSON.parse(`[${stdout.split('\n').join(',')}]`) as Workspace[];
+}
+
+function workspacePath(type: string, packageName: string, workspaces: Workspace[]) {
+  const workspace = workspaces.find((w) => w.name === packageName);
+  if (!workspace) {
+    throw new Error(`Unknown ${type} '${packageName}', not in yarn workspace!`);
+  }
+  return workspace.location;
+}
+
 export async function sandbox(optionValues: OptionValues<typeof options>) {
   const { template, forceDelete, forceReuse, dryRun, debug, fromLocalRepro } = optionValues;
 
@@ -326,22 +344,12 @@ export async function sandbox(optionValues: OptionValues<typeof options>) {
     const mainConfig = await readMainConfig({ cwd });
 
     const templateConfig = TEMPLATES[template as Template];
+    const { renderer, builder } = templateConfig.expected;
     const storiesPath = await findFirstPath([path.join('src', 'stories'), 'stories'], { cwd });
 
-    // Link in the template/components/index.js from the renderer
-    const { stdout } = await command('yarn workspaces list --json', {
-      cwd: process.cwd(),
-      shell: true,
-    });
-    const workspaces = JSON.parse(`[${stdout.split('\n').join(',')}]`) as [
-      { name: string; location: string }
-    ];
-    const { renderer, builder } = templateConfig.expected;
-    const rendererWorkspace = workspaces.find((workspace) => workspace.name === renderer);
-    if (!rendererWorkspace) {
-      throw new Error(`Unknown renderer '${renderer}', not in yarn workspace!`);
-    }
-    const rendererPath = rendererWorkspace.location;
+    const workspaces = await getWorkspaces();
+    // Link in the template/components/index.js from store, the renderer and the addons
+    const rendererPath = workspacePath('renderer', renderer, workspaces);
     await ensureSymlink(
       path.join(codeDir, rendererPath, 'template', 'components'),
       path.resolve(cwd, storiesPath, 'components')
@@ -350,12 +358,10 @@ export async function sandbox(optionValues: OptionValues<typeof options>) {
       ['previewEntries'],
       [`.${path.sep}${path.join(storiesPath, 'components')}`]
     );
-    mainConfig.setFieldValue(['core', 'disableTelemetry'], true);
 
-    if (builder === '@storybook/builder-webpack5') addEsbuildLoaderToStories(mainConfig);
-    if (builder === '@storybook/builder-vite') forceViteRebuilds(mainConfig);
-
+    // Link in the stories from the store, the renderer and the addons
     const storiesToAdd = [] as string[];
+    storiesToAdd.push(workspacePath('core package', '@storybook/store', workspaces));
     storiesToAdd.push(rendererPath);
 
     // TODO -- sb add <addon> doesn't actually work properly:
@@ -369,9 +375,14 @@ export async function sandbox(optionValues: OptionValues<typeof options>) {
     }
 
     for (const addon of [...defaultAddons, ...optionValues.addon]) {
-      storiesToAdd.push(path.join('addons', addon));
+      storiesToAdd.push(workspacePath('addon', `@storybook/addon-${addon}`, workspaces));
     }
     await addStories(storiesToAdd, { mainConfig });
+
+    // Add some extra settings (see above for what these do)
+    mainConfig.setFieldValue(['core', 'disableTelemetry'], true);
+    if (builder === '@storybook/builder-webpack5') addEsbuildLoaderToStories(mainConfig);
+    if (builder === '@storybook/builder-vite') forceViteRebuilds(mainConfig);
 
     await writeConfig(mainConfig);
 
