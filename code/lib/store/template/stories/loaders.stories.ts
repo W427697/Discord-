@@ -1,5 +1,5 @@
 import globalThis from 'global';
-import { PlayFunctionContext, StoryContext } from '@storybook/csf';
+import { PartialStoryFn, PlayFunctionContext, StoryContext } from '@storybook/csf';
 import { within } from '@storybook/testing-library';
 import { expect } from '@storybook/jest';
 
@@ -7,8 +7,8 @@ export default {
   component: globalThis.Components.Pre,
   loaders: [async () => new Promise((r) => setTimeout(() => r({ componentValue: 7 }), 3000))],
   decorators: [
-    (storyFn, context) =>
-      storyFn({ ...context, args: { ...context.args, object: context.loaded } }),
+    (storyFn: PartialStoryFn, context: StoryContext) =>
+      storyFn({ args: { ...context.args, object: context.loaded } }),
   ],
 };
 

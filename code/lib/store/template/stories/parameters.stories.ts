@@ -1,9 +1,7 @@
 import globalThis from 'global';
-import { PlayFunctionContext, StoryContext } from '@storybook/csf';
+import { PartialStoryFn, PlayFunctionContext, StoryContext } from '@storybook/csf';
 import { within } from '@storybook/testing-library';
 import { expect } from '@storybook/jest';
-
-// TODO: is there some way to define a project-level annotation in sandboxes?
 
 export default {
   component: globalThis.Components.Pre,
@@ -15,6 +13,15 @@ export default {
       b: 'component',
     },
   },
+  decorators: [
+    (storyFn: PartialStoryFn, context: StoryContext) => {
+      const { projectParameter, componentParameter, storyParameter, storyObject } =
+        context.parameters;
+      return storyFn({
+        args: { object: { projectParameter, componentParameter, storyParameter, storyObject } },
+      });
+    },
+  ],
 };
 
 export const Inheritance = {
@@ -24,16 +31,6 @@ export const Inheritance = {
       a: 'story',
     },
   },
-  decorators: [
-    (storyFn, context) => {
-      const { projectParameter, componentParameter, storyParameter, storyObject } =
-        context.parameters;
-      return storyFn({
-        ...context,
-        args: { object: { projectParameter, componentParameter, storyParameter, storyObject } },
-      });
-    },
-  ],
   play: async ({ canvasElement }: PlayFunctionContext) => {
     const canvas = within(canvasElement);
     await expect(JSON.parse(canvas.getByTestId('pre').innerHTML)).toEqual({
