@@ -7728,7 +7728,7 @@ __metadata:
     react-docgen: ^6.0.0-alpha.0
     slash: ^3.0.0
     typescript: ~4.6.3
-    vite: 3.1.0-beta.1
+    vite: 3.1.0
   peerDependencies:
     "@storybook/mdx2-csf": ^0.0.3
   peerDependenciesMeta:
@@ -44650,11 +44650,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vite@npm:3.1.0-beta.1":
-  version: 3.1.0-beta.1
-  resolution: "vite@npm:3.1.0-beta.1"
+"vite@npm:3.1.0":
+  version: 3.1.0
+  resolution: "vite@npm:3.1.0"
   dependencies:
-    esbuild: ^0.14.47
+    esbuild: ^0.15.6
     fsevents: ~2.3.2
     postcss: ^8.4.16
     resolve: ^1.22.1
@@ -44678,7 +44678,7 @@ __metadata:
       optional: true
   bin:
     vite: bin/vite.js
-  checksum: 2dad78ffb2c6dff7bbeb76ba8c237c25d1b7be3b054b3958c3d2df681bacdf300abed3d2646975788254b4a9b193636541017753fd52825e946c497f45d1dd37
+  checksum: 38c1a495226ebda7a3f2b341152dc01cb13cbe014a0f834c0bae2f29a6a4fefa3a18587a8d787e25e0ebbd4874da2506a87e3e37b959b26ee8a22983fed2a9e0
   languageName: node
   linkType: hard
 
