@@ -42,7 +42,6 @@
     "@storybook/router": "7.0.0-alpha.29",
     "@storybook/theming": "7.0.0-alpha.29",
     "@types/webpack-env": "^1.16.4",
-    "core-js": "^3.8.2",
     "global": "^4.4.0"
   },
   "peerDependencies": {

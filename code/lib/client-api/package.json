@@ -43,7 +43,6 @@
     "@storybook/store": "7.0.0-alpha.29",
     "@types/qs": "^6.9.5",
     "@types/webpack-env": "^1.16.4",
-    "core-js": "^3.8.2",
     "dequal": "^2.0.2",
     "global": "^4.4.0",
     "lodash": "^4.17.21",

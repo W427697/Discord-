@@ -9,7 +9,6 @@
     "storybook": "storybook dev -p 6006 --no-manager-cache"
   },
   "dependencies": {
-    "core-js": "^3.8.2",
     "vue": "^3.0.0"
   },
   "devDependencies": {
