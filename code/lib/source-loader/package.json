@@ -1,6 +1,6 @@
 {
   "name": "@storybook/source-loader",
-  "version": "7.0.0-alpha.29",
+  "version": "7.0.0-alpha.30",
   "description": "Source loader",
   "keywords": [
     "lib",
@@ -35,8 +35,8 @@
     "prepare": "node ../../../scripts/prepare.js"
   },
   "dependencies": {
-    "@storybook/addons": "7.0.0-alpha.29",
-    "@storybook/client-logger": "7.0.0-alpha.29",
+    "@storybook/addons": "7.0.0-alpha.30",
+    "@storybook/client-logger": "7.0.0-alpha.30",
     "@storybook/csf": "0.0.2--canary.0899bb7.0",
     "estraverse": "^5.2.0",
     "global": "^4.4.0",
