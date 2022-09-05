@@ -6,8 +6,10 @@ import { expect } from '@storybook/jest';
 export default {
   component: globalThis.Components.Pre,
   loaders: [async () => new Promise((r) => setTimeout(() => r({ componentValue: 7 }), 3000))],
-  render: (_: any, context: StoryContext) =>
-    globalThis.Components.render({ object: context.loaded }, context),
+  decorators: [
+    (storyFn, context) =>
+      storyFn({ ...context, args: { ...context.args, object: context.loaded } }),
+  ],
 };
 
 export const Inheritance = {
@@ -22,13 +24,13 @@ export const Inheritance = {
 };
 
 export const ZIndex = {
-  decorators: [
-    globalThis.Components.styleDecorator({
+  args: {
+    style: {
       position: 'relative',
       zIndex: 1000,
       width: '500px',
       height: '500px',
       background: 'coral',
-    }),
-  ],
+    },
+  },
 };

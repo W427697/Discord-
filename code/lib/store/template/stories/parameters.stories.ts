@@ -24,13 +24,16 @@ export const Inheritance = {
       a: 'story',
     },
   },
-  render: (_: any, context: StoryContext) => {
-    const { componentParameter, storyParameter, storyObject } = context.parameters;
-    return globalThis.Components.render(
-      { object: { componentParameter, storyParameter, storyObject } },
-      context
-    );
-  },
+  decorators: [
+    (storyFn, context) => {
+      const { projectParameter, componentParameter, storyParameter, storyObject } =
+        context.parameters;
+      return storyFn({
+        ...context,
+        args: { object: { projectParameter, componentParameter, storyParameter, storyObject } },
+      });
+    },
+  ],
   play: async ({ canvasElement }: PlayFunctionContext) => {
     const canvas = within(canvasElement);
     await expect(JSON.parse(canvas.getByTestId('pre').innerHTML)).toEqual({
