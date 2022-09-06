@@ -52,21 +52,3 @@ export const ArgTypeInference = {
     });
   },
 };
-
-// Check the inferred controls from the arg types
-export const ControlInference = {
-  argTypes: {
-    a: { type: 'number' },
-    b: { type: 'string' },
-    c: { type: 'boolean' },
-    d: { type: 'object' },
-  },
-  play: async ({ canvasElement }: PlayFunctionContext) => {
-    await expect(JSON.parse(within(canvasElement).getByTestId('pre').innerHTML)).toMatchObject({
-      a: { control: { type: 'number' } },
-      b: { control: { type: 'text' } },
-      c: { control: { type: 'boolean' } },
-      d: { control: { type: 'object' } },
-    });
-  },
-};
