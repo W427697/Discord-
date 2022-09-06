@@ -20,3 +20,12 @@ export const decorators = [
     return storyFn();
   },
 ];
+
+export const globals = {
+  foo: 'fooValue',
+};
+
+export const globalTypes = {
+  foo: { defaultValue: 'fooDefaultValue' },
+  bar: { defaultValue: 'barDefaultValue' },
+};
