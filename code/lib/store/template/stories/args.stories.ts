@@ -2,6 +2,7 @@ import globalThis from 'global';
 import { PartialStoryFn, PlayFunctionContext, StoryContext } from '@storybook/csf';
 import { within } from '@storybook/testing-library';
 import { expect } from '@storybook/jest';
+import { pick } from 'lodash';
 
 export default {
   component: globalThis.Components.Pre,
@@ -13,13 +14,18 @@ export default {
       b: 'component',
     },
   },
+  // Compose the set of  args into `object`, so the pre component only needs a single prop
+  //   (selecting only the args specified on parameters.argNames if set)
+  decorators: [
+    (storyFn: PartialStoryFn, context: StoryContext) => {
+      const { argNames } = context.parameters;
+      const object = argNames ? pick(context.args, argNames) : context.args;
+      return storyFn({ args: { object } });
+    },
+  ],
 };
 
 export const Inheritance = {
-  // Compose all the args into `object`, so the pre component only needs a single prop
-  decorators: [
-    (storyFn: PartialStoryFn, context: StoryContext) => storyFn({ args: { object: context.args } }),
-  ],
   args: {
     storyArg: 'storyArg',
     object: {
@@ -39,23 +45,36 @@ export const Inheritance = {
   },
 };
 
+export const Targets = {
+  args: {
+    a: 'a',
+    b: 'b',
+  },
+  argTypes: {
+    a: { target: 'elsewhere' },
+  },
+  parameters: { argNames: ['a', 'b'] },
+  play: async ({ canvasElement }: PlayFunctionContext) => {
+    // Check that `a` doesn't end up set
+    await expect(JSON.parse(within(canvasElement).getByTestId('pre').innerHTML)).toEqual({
+      b: 'b',
+    });
+  },
+};
+
 export const Events = {
-  // Just pass the "test" arg to the pre (ignore the component ones)
-  decorators: [
-    (storyFn: PartialStoryFn, context: StoryContext) =>
-      storyFn({ args: { text: context.args.test } }),
-  ],
   args: {
     test: 'initial',
   },
+  parameters: { argNames: ['test'] },
   play: async ({ canvasElement, id }: PlayFunctionContext) => {
     const channel = globalThis.__STORYBOOK_ADDONS_CHANNEL__;
-    await within(canvasElement).findByText('initial', {}, { timeout: 3000 });
+    await within(canvasElement).findByText(/initial/, {}, { timeout: 3000 });
 
     await channel.emit('updateStoryArgs', { storyId: id, updatedArgs: { test: 'updated' } });
-    await within(canvasElement).findByText('updated', {}, { timeout: 3000 });
+    await within(canvasElement).findByText(/updated/, {}, { timeout: 3000 });
 
     await channel.emit('resetStoryArgs', { storyId: id });
-    await within(canvasElement).findByText('initial', {}, { timeout: 3000 });
+    await within(canvasElement).findByText(/initial/, {}, { timeout: 3000 });
   },
 };
