@@ -1,6 +1,6 @@
 {
   "name": "@storybook/client-logger",
-  "version": "7.0.0-alpha.29",
+  "version": "7.0.0-alpha.30",
   "description": "",
   "keywords": [
     "storybook"
@@ -42,7 +42,6 @@
     "prepare": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "core-js": "^3.8.2",
     "global": "^4.4.0"
   },
   "devDependencies": {
@@ -56,5 +55,5 @@
       "./src/index.ts"
     ]
   },
-  "gitHead": "87ce9b91ce2c7e35a716d2254768fb1a34e777c7"
+  "gitHead": "aabf7b595cb13d8a86dca27ad3d6039205bd55d6"
 }

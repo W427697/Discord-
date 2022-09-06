@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-essentials",
-  "version": "7.0.0-alpha.29",
+  "version": "7.0.0-alpha.30",
   "description": "Curated addons to bring out the best of Storybook",
   "keywords": [
     "addon",
@@ -33,25 +33,24 @@
     "prepare": "node ../../../scripts/prepare.js"
   },
   "dependencies": {
-    "@storybook/addon-actions": "7.0.0-alpha.29",
-    "@storybook/addon-backgrounds": "7.0.0-alpha.29",
-    "@storybook/addon-controls": "7.0.0-alpha.29",
-    "@storybook/addon-docs": "7.0.0-alpha.29",
-    "@storybook/addon-highlight": "7.0.0-alpha.29",
-    "@storybook/addon-measure": "7.0.0-alpha.29",
-    "@storybook/addon-outline": "7.0.0-alpha.29",
-    "@storybook/addon-toolbars": "7.0.0-alpha.29",
-    "@storybook/addon-viewport": "7.0.0-alpha.29",
-    "@storybook/addons": "7.0.0-alpha.29",
-    "@storybook/api": "7.0.0-alpha.29",
-    "@storybook/core-common": "7.0.0-alpha.29",
-    "@storybook/node-logger": "7.0.0-alpha.29",
-    "core-js": "^3.8.2",
+    "@storybook/addon-actions": "7.0.0-alpha.30",
+    "@storybook/addon-backgrounds": "7.0.0-alpha.30",
+    "@storybook/addon-controls": "7.0.0-alpha.30",
+    "@storybook/addon-docs": "7.0.0-alpha.30",
+    "@storybook/addon-highlight": "7.0.0-alpha.30",
+    "@storybook/addon-measure": "7.0.0-alpha.30",
+    "@storybook/addon-outline": "7.0.0-alpha.30",
+    "@storybook/addon-toolbars": "7.0.0-alpha.30",
+    "@storybook/addon-viewport": "7.0.0-alpha.30",
+    "@storybook/addons": "7.0.0-alpha.30",
+    "@storybook/api": "7.0.0-alpha.30",
+    "@storybook/core-common": "7.0.0-alpha.30",
+    "@storybook/node-logger": "7.0.0-alpha.30",
     "ts-dedent": "^2.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.10",
-    "@storybook/vue": "7.0.0-alpha.29",
+    "@storybook/vue": "7.0.0-alpha.30",
     "@types/jest": "^26.0.16",
     "typescript": "~4.6.3"
   },
@@ -99,5 +98,5 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "87ce9b91ce2c7e35a716d2254768fb1a34e777c7"
+  "gitHead": "aabf7b595cb13d8a86dca27ad3d6039205bd55d6"
 }

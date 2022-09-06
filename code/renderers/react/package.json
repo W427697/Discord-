@@ -1,6 +1,6 @@
 {
   "name": "@storybook/react",
-  "version": "7.0.0-alpha.29",
+  "version": "7.0.0-alpha.30",
   "description": "Storybook React renderer",
   "keywords": [
     "storybook"
@@ -51,24 +51,23 @@
     "prepare": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/addons": "7.0.0-alpha.29",
-    "@storybook/client-logger": "7.0.0-alpha.29",
-    "@storybook/core-client": "7.0.0-alpha.29",
+    "@storybook/addons": "7.0.0-alpha.30",
+    "@storybook/client-logger": "7.0.0-alpha.30",
+    "@storybook/core-client": "7.0.0-alpha.30",
     "@storybook/csf": "0.0.2--canary.0899bb7.0",
-    "@storybook/docs-tools": "7.0.0-alpha.29",
-    "@storybook/store": "7.0.0-alpha.29",
+    "@storybook/docs-tools": "7.0.0-alpha.30",
+    "@storybook/store": "7.0.0-alpha.30",
     "@types/estree": "^0.0.51",
     "@types/node": "^14.14.20 || ^16.0.0",
     "acorn": "^7.4.1",
     "acorn-jsx": "^5.3.1",
     "acorn-walk": "^7.2.0",
-    "core-js": "^3.8.2",
     "escodegen": "^2.0.0",
     "global": "^4.4.0",
     "html-tags": "^3.1.0",
     "lodash": "^4.17.21",
     "prop-types": "^15.7.2",
-    "react-element-to-jsx-string": "^14.3.4",
+    "react-element-to-jsx-string": "^15.0.0",
     "ts-dedent": "^2.0.0",
     "util-deprecate": "^1.0.2"
   },
@@ -101,5 +100,5 @@
     ],
     "platform": "browser"
   },
-  "gitHead": "87ce9b91ce2c7e35a716d2254768fb1a34e777c7"
+  "gitHead": "aabf7b595cb13d8a86dca27ad3d6039205bd55d6"
 }

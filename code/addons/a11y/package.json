@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-a11y",
-  "version": "7.0.0-alpha.29",
+  "version": "7.0.0-alpha.30",
   "description": "Test component compliance with web accessibility standards",
   "keywords": [
     "a11y",
@@ -62,17 +62,16 @@
     "prepare": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/addon-highlight": "7.0.0-alpha.29",
-    "@storybook/addons": "7.0.0-alpha.29",
-    "@storybook/api": "7.0.0-alpha.29",
-    "@storybook/channels": "7.0.0-alpha.29",
-    "@storybook/client-logger": "7.0.0-alpha.29",
-    "@storybook/components": "7.0.0-alpha.29",
-    "@storybook/core-events": "7.0.0-alpha.29",
+    "@storybook/addon-highlight": "7.0.0-alpha.30",
+    "@storybook/addons": "7.0.0-alpha.30",
+    "@storybook/api": "7.0.0-alpha.30",
+    "@storybook/channels": "7.0.0-alpha.30",
+    "@storybook/client-logger": "7.0.0-alpha.30",
+    "@storybook/components": "7.0.0-alpha.30",
+    "@storybook/core-events": "7.0.0-alpha.30",
     "@storybook/csf": "0.0.2--canary.0899bb7.0",
-    "@storybook/theming": "7.0.0-alpha.29",
+    "@storybook/theming": "7.0.0-alpha.30",
     "axe-core": "^4.2.0",
-    "core-js": "^3.8.2",
     "global": "^4.4.0",
     "lodash": "^4.17.21",
     "react-sizeme": "^3.0.1",
@@ -105,7 +104,7 @@
       "./src/preview.tsx"
     ]
   },
-  "gitHead": "87ce9b91ce2c7e35a716d2254768fb1a34e777c7",
+  "gitHead": "aabf7b595cb13d8a86dca27ad3d6039205bd55d6",
   "storybook": {
     "displayName": "Accessibility",
     "icon": "https://user-images.githubusercontent.com/263385/101991665-47042f80-3c7c-11eb-8f00-64b5a18f498a.png",
