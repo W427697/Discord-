@@ -120,7 +120,7 @@ export const renderJsx = (code: React.ReactElement, options: JSXOptions) => {
   };
 
   const result = React.Children.map(code, (c) => {
-    // @ts-ignore FIXME: workaround react-element-to-jsx-string
+    // @ts-expect-error FIXME: workaround react-element-to-jsx-string
     const child = typeof c === 'number' ? c.toString() : c;
     const toJSXString =
       typeof reactElementToJSXString === 'function'

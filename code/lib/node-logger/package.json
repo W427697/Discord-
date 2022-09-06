@@ -1,6 +1,6 @@
 {
   "name": "@storybook/node-logger",
-  "version": "7.0.0-alpha.29",
+  "version": "7.0.0-alpha.30",
   "description": "",
   "keywords": [
     "storybook"
@@ -36,7 +36,6 @@
   "dependencies": {
     "@types/npmlog": "^4.1.2",
     "chalk": "^4.1.0",
-    "core-js": "^3.8.2",
     "npmlog": "^5.0.1",
     "pretty-hrtime": "^1.0.3"
   },
@@ -47,5 +46,5 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "87ce9b91ce2c7e35a716d2254768fb1a34e777c7"
+  "gitHead": "aabf7b595cb13d8a86dca27ad3d6039205bd55d6"
 }
