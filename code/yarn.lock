@@ -7690,7 +7690,7 @@ __metadata:
     magic-string: ^0.26.1
     slash: ^3.0.0
     typescript: ~4.6.3
-    vite: 3.1.0-beta.1
+    vite: ^3.1.0
   peerDependencies:
     "@storybook/mdx2-csf": ^0.0.3
   peerDependenciesMeta:
@@ -8849,7 +8849,7 @@ __metadata:
     magic-string: ^0.26.1
     react-docgen: ^6.0.0-alpha.3
     typescript: ~4.6.3
-    vite: ^3.0.0-beta.1
+    vite: ^3.1.0
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
@@ -9326,7 +9326,7 @@ __metadata:
     svelte: ^3.0.0
     sveltedoc-parser: ^4.2.1
     typescript: ~4.6.3
-    vite: ^3.0.0-beta.1
+    vite: ^3.1.0
   languageName: unknown
   linkType: soft
 
@@ -9532,7 +9532,7 @@ __metadata:
     "@vitejs/plugin-vue": ^3.0.3
     magic-string: ^0.26.1
     typescript: ~4.6.3
-    vite: ^3.0.0-beta.1
+    vite: ^3.1.0
     vue-docgen-api: ^4.40.0
   languageName: unknown
   linkType: soft
@@ -39049,20 +39049,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rollup@npm:>=2.75.6 <2.77.0 || ~2.77.0":
-  version: 2.77.3
-  resolution: "rollup@npm:2.77.3"
-  dependencies:
-    fsevents: ~2.3.2
-  dependenciesMeta:
-    fsevents:
-      optional: true
-  bin:
-    rollup: dist/bin/rollup
-  checksum: 7e04ba4e8fdbc3a4a368013e4b788044c16fe94e7301aacbf38e37210983e159b97887ddd3333be9f78fedb30264f094c111ff56a0207c21d4e1745248a7aa42
-  languageName: node
-  linkType: hard
-
 "rollup@npm:^2.43.1, rollup@npm:^2.60.2, rollup@npm:^2.74.1, rollup@npm:~2.78.0":
   version: 2.78.1
   resolution: "rollup@npm:2.78.1"
@@ -44364,11 +44350,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vite@npm:3.1.0-beta.1":
-  version: 3.1.0-beta.1
-  resolution: "vite@npm:3.1.0-beta.1"
+"vite@npm:^3.1.0":
+  version: 3.1.0
+  resolution: "vite@npm:3.1.0"
   dependencies:
-    esbuild: ^0.14.47
+    esbuild: ^0.15.6
     fsevents: ~2.3.2
     postcss: ^8.4.16
     resolve: ^1.22.1
@@ -44392,39 +44378,7 @@ __metadata:
       optional: true
   bin:
     vite: bin/vite.js
-  checksum: 2dad78ffb2c6dff7bbeb76ba8c237c25d1b7be3b054b3958c3d2df681bacdf300abed3d2646975788254b4a9b193636541017753fd52825e946c497f45d1dd37
-  languageName: node
-  linkType: hard
-
-"vite@npm:^3.0.0-beta.1":
-  version: 3.0.9
-  resolution: "vite@npm:3.0.9"
-  dependencies:
-    esbuild: ^0.14.47
-    fsevents: ~2.3.2
-    postcss: ^8.4.16
-    resolve: ^1.22.1
-    rollup: ">=2.75.6 <2.77.0 || ~2.77.0"
-  peerDependencies:
-    less: "*"
-    sass: "*"
-    stylus: "*"
-    terser: ^5.4.0
-  dependenciesMeta:
-    fsevents:
-      optional: true
-  peerDependenciesMeta:
-    less:
-      optional: true
-    sass:
-      optional: true
-    stylus:
-      optional: true
-    terser:
-      optional: true
-  bin:
-    vite: bin/vite.js
-  checksum: 0e39c11e8befd9ac139ab48ace83125bb4ad0ded14fd7c370290af8c001accbb5e67ce7677d958f5b2ffaf0a38b342ffabf166bc33aa5de32a8510ecb4596be9
+  checksum: 38c1a495226ebda7a3f2b341152dc01cb13cbe014a0f834c0bae2f29a6a4fefa3a18587a8d787e25e0ebbd4874da2506a87e3e37b959b26ee8a22983fed2a9e0
   languageName: node
   linkType: hard
 
