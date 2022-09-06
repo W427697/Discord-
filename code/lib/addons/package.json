@@ -41,7 +41,6 @@
     "@storybook/csf": "0.0.2--canary.0899bb7.0",
     "@storybook/router": "7.0.0-alpha.30",
     "@storybook/theming": "7.0.0-alpha.30",
-    "@types/webpack-env": "^1.16.4",
     "global": "^4.4.0"
   },
   "peerDependencies": {

@@ -35,7 +35,6 @@
   },
   "dependencies": {
     "@storybook/addons": "7.0.0-alpha.30",
-    "@storybook/channel-postmessage": "7.0.0-alpha.30",
     "@storybook/channels": "7.0.0-alpha.30",
     "@storybook/client-logger": "7.0.0-alpha.30",
     "@storybook/core-events": "7.0.0-alpha.30",
@@ -50,6 +49,9 @@
     "util-deprecate": "^1.0.2"
   },
   "devDependencies": {
+    "@storybook/channel-postmessage": "7.0.0-alpha.30",
+    "react": "16.14.0",
+    "ts-jest": "^28.0.8",
     "typescript": "~4.6.3"
   },
   "publishConfig": {

@@ -44,12 +44,8 @@
     "@storybook/preview-web": "7.0.0-alpha.30",
     "@storybook/store": "7.0.0-alpha.30",
     "@storybook/ui": "7.0.0-alpha.30",
-    "ansi-to-html": "^0.6.11",
     "global": "^4.4.0",
-    "lodash": "^4.17.21",
-    "qs": "^6.10.0",
     "regenerator-runtime": "^0.13.7",
-    "ts-dedent": "^2.0.0",
     "util-deprecate": "^1.0.2"
   },
   "devDependencies": {

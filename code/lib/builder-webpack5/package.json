@@ -58,8 +58,6 @@
     "case-sensitive-paths-webpack-plugin": "^2.4.0",
     "css-loader": "^6.7.1",
     "fork-ts-checker-webpack-plugin": "^7.2.8",
-    "glob": "^7.1.6",
-    "glob-promise": "^3.4.0",
     "global": "^4.4.0",
     "html-webpack-plugin": "^5.5.0",
     "path-browserify": "^1.0.1",
