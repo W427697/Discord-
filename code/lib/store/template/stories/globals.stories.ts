@@ -27,7 +27,7 @@ export const Events = {
     (storyFn: PartialStoryFn, context: StoryContext) =>
       storyFn({ args: { text: context.globals.foo } }),
   ],
-  play: async ({ canvasElement, id }: PlayFunctionContext) => {
+  play: async ({ canvasElement }: PlayFunctionContext) => {
     const channel = globalThis.__STORYBOOK_ADDONS_CHANNEL__;
     await within(canvasElement).findByText('fooValue', {}, { timeout: 3000 });
 
