@@ -25,7 +25,7 @@ export const ForceReRender = {
 
 export const ChangeArgs = {
   play: async ({ canvasElement, id }: PlayFunctionContext) => {
-    const channel = globalThis.__STORYBOOK_ADDONS_CHANNEL__;
+    // const channel = globalThis.__STORYBOOK_ADDONS_CHANNEL__;
     const button = await within(canvasElement).findByRole('button');
     await button.focus();
     await expect(button).toHaveFocus();
