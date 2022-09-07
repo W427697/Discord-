@@ -1,6 +1,6 @@
 {
   "name": "@storybook/source-loader",
-  "version": "7.0.0-alpha.30",
+  "version": "7.0.0-alpha.31",
   "description": "Source loader",
   "keywords": [
     "lib",
@@ -32,7 +32,7 @@
   ],
   "scripts": {
     "check": "tsc --noEmit",
-    "prepare": "node ../../../scripts/prepare.js"
+    "prep": "node ../../../scripts/prepare.js"
   },
   "dependencies": {
     "@storybook/csf": "0.0.2--canary.0899bb7.0",
@@ -51,5 +51,5 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "aabf7b595cb13d8a86dca27ad3d6039205bd55d6"
+  "gitHead": "02c013c33186479017098d532a18ff8654b91f1f"
 }

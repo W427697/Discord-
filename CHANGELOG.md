@@ -1,3 +1,16 @@
+## 7.0.0-alpha.31 (September 7, 2022)
+
+#### Maintenance
+
+-   Doc blocks: Update ArgTable Reset button to use IconButton [#19052](https://github.com/storybooks/storybook/pull/19052)
+-   UI: Update a handful of icons [#19084](https://github.com/storybooks/storybook/pull/19084)
+-   Build: Update to latest nx [#19078](https://github.com/storybooks/storybook/pull/19078)
+-   Vite: Fix plugin types [#19095](https://github.com/storybooks/storybook/pull/19095)
+
+#### Dependency Upgrades
+
+-   Chore: Remove unused dependencies in /lib [#19100](https://github.com/storybooks/storybook/pull/19100)
+
 ## 7.0.0-alpha.30 (September 6, 2022)
 
 #### Bug Fixes

@@ -1,6 +1,6 @@
 {
   "name": "@storybook/preset-vue3-webpack",
-  "version": "7.0.0-alpha.30",
+  "version": "7.0.0-alpha.31",
   "description": "Storybook for Vue 3: Develop Vue 3 Components in isolation with Hot Reloading.",
   "keywords": [
     "storybook"
@@ -57,11 +57,11 @@
   ],
   "scripts": {
     "check": "tsc --noEmit",
-    "prepare": "../../../scripts/prepare/bundle.ts"
+    "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/core-webpack": "7.0.0-alpha.30",
-    "@storybook/docs-tools": "7.0.0-alpha.30",
+    "@storybook/core-webpack": "7.0.0-alpha.31",
+    "@storybook/docs-tools": "7.0.0-alpha.31",
     "@types/node": "^14.14.20 || ^16.0.0",
     "react": "16.14.0",
     "react-dom": "16.14.0",
@@ -96,5 +96,5 @@
     ],
     "platform": "node"
   },
-  "gitHead": "aabf7b595cb13d8a86dca27ad3d6039205bd55d6"
+  "gitHead": "02c013c33186479017098d532a18ff8654b91f1f"
 }

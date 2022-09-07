@@ -36,11 +36,10 @@ export interface ArgType<TArg = unknown> extends InputType {
 
 export type ArgTypes<TArgs = Args> = {
   [key in keyof Partial<TArgs>]: ArgType<TArgs[key]>;
-} &
-  {
-    // for custom defined args
-    [key in string]: ArgType<unknown>;
-  };
+} & {
+  // for custom defined args
+  [key in string]: ArgType<unknown>;
+};
 
 export type Comparator<T> = ((a: T, b: T) => boolean) | ((a: T, b: T) => number);
 export type StorySortMethod = 'configure' | 'alphabetical';
