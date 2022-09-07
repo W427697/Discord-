@@ -39,10 +39,10 @@ const WithCallback: FC<{ callback: () => void; children: ReactElement }> = ({
   children,
 }) => {
   // See https://github.com/reactwg/react-18/discussions/5#discussioncomment-2276079
-  const once = useRef(false);
+  const once = useRef<() => void>();
   useLayoutEffect(() => {
-    if (once.current) return;
-    once.current = true;
+    if (once.current === callback) return;
+    once.current = callback;
     callback();
   }, [callback]);
 
@@ -55,11 +55,7 @@ const renderElement = async (node: ReactElement, el: Element) => {
 
   return new Promise((resolve) => {
     if (root) {
-      root.render(
-        <WithCallback key={Math.random()} callback={() => resolve(null)}>
-          {node}
-        </WithCallback>
-      );
+      root.render(<WithCallback callback={() => resolve(null)}>{node}</WithCallback>);
     } else {
       ReactDOM.render(node, el, () => resolve(null));
     }
@@ -160,6 +156,7 @@ export async function renderToDOM(
   // This could leads to issues like below:
   // https://github.com/storybookjs/react-storybook/issues/81
   // (This is not the case when we change args or globals to the story however)
+  console.log({ forceRemount });
   if (forceRemount) {
     unmountElement(domElement);
   }
