@@ -1,6 +1,5 @@
 /* eslint-disable import/first,import/no-duplicates */
 import React from 'react';
-import { action } from '@storybook/addon-actions';
 
 export default {
   title: 'Core/Interleaved exports',
@@ -9,8 +8,8 @@ export default {
 
 import { Welcome } from '../../components/react-demo';
 
-export const First = () => <Welcome showApp={action('show')} />;
+export const First = () => <Welcome showApp={() => {}} />;
 
 import { Button } from '../../components/react-demo';
 
-export const Second = () => <Button onClick={action('click')}>Second</Button>;
+export const Second = () => <Button onClick={() => {}}>Second</Button>;
