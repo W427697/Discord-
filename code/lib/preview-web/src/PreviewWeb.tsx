@@ -75,7 +75,7 @@ export class PreviewWeb<TFramework extends AnyFramework> extends Preview<TFramew
     this.urlStore = new UrlStore();
 
     // Add deprecated APIs for back-compat
-    // @ts-ignore
+    // @ts-expect-error (Converted from ts-ignore)
     this.storyStore.getSelection = deprecate(
       () => this.urlStore.selection,
       dedent`

@@ -1,4 +1,3 @@
-// @ts-ignore
 import global from 'global';
 import { enableProdMode, NgModule, Component, NgModuleRef, Type, NgZone } from '@angular/core';
 import { FormsModule } from '@angular/forms';

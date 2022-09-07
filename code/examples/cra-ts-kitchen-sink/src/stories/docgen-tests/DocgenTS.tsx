@@ -15,7 +15,7 @@ export const ButtonReactFC: React.FC<ButtonProps> = ({ onClick, children }) => (
   <button onClick={onClick}>{children}</button>
 );
 ButtonReactFC.defaultProps = {
-  // @ts-ignore
+  // @ts-expect-error (Converted from ts-ignore)
   onClick: null,
 };
 
@@ -26,7 +26,7 @@ export const ButtonFC: FC<ButtonProps> = ({ onClick, children }) => (
   <button onClick={onClick}>{children}</button>
 );
 ButtonFC.defaultProps = {
-  // @ts-ignore
+  // @ts-expect-error (Converted from ts-ignore)
   onClick: null,
 };
 
@@ -37,6 +37,6 @@ export const ButtonFunctionComponent: FC<ButtonProps> = ({ onClick, children }) 
   <button onClick={onClick}>{children}</button>
 );
 ButtonFunctionComponent.defaultProps = {
-  // @ts-ignore
+  // @ts-expect-error (Converted from ts-ignore)
   onClick: null,
 };

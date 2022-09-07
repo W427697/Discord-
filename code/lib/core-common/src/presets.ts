@@ -193,9 +193,9 @@ export async function loadPreset(
   storybookOptions: InterPresetOptions
 ): Promise<LoadedPreset[]> {
   try {
-    // @ts-ignores
+    // @ts-expect-error (Converted from ts-ignore)
     const name: string = input.name ? input.name : input;
-    // @ts-ignore
+    // @ts-expect-error (Converted from ts-ignore)
     const presetOptions = input.options ? input.options : {};
 
     let contents = await getContent(input);
