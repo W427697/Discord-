@@ -1,6 +1,6 @@
 {
   "name": "@storybook/theming",
-  "version": "7.0.0-alpha.30",
+  "version": "7.0.0-alpha.31",
   "description": "Core Storybook Components",
   "keywords": [
     "storybook"
@@ -47,7 +47,7 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/client-logger": "7.0.0-alpha.30",
+    "@storybook/client-logger": "7.0.0-alpha.31",
     "memoizerific": "^1.11.3"
   },
   "devDependencies": {

@@ -1,6 +1,6 @@
 {
   "name": "@storybook/svelte",
-  "version": "7.0.0-alpha.30",
+  "version": "7.0.0-alpha.31",
   "description": "Storybook Svelte renderer",
   "keywords": [
     "storybook"
@@ -54,12 +54,12 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/addons": "7.0.0-alpha.30",
-    "@storybook/client-logger": "7.0.0-alpha.30",
-    "@storybook/core-client": "7.0.0-alpha.30",
+    "@storybook/addons": "7.0.0-alpha.31",
+    "@storybook/client-logger": "7.0.0-alpha.31",
+    "@storybook/core-client": "7.0.0-alpha.31",
     "@storybook/csf": "0.0.2--canary.0899bb7.0",
-    "@storybook/docs-tools": "7.0.0-alpha.30",
-    "@storybook/store": "7.0.0-alpha.30",
+    "@storybook/docs-tools": "7.0.0-alpha.31",
+    "@storybook/store": "7.0.0-alpha.31",
     "global": "^4.4.0",
     "react": "16.14.0",
     "react-dom": "16.14.0",

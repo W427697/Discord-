@@ -1,6 +1,6 @@
 {
   "name": "@storybook/client-api",
-  "version": "7.0.0-alpha.30",
+  "version": "7.0.0-alpha.31",
   "description": "Storybook Client API",
   "keywords": [
     "storybook"
@@ -34,10 +34,10 @@
     "prep": "node ../../../scripts/prepare.js"
   },
   "dependencies": {
-    "@storybook/addons": "7.0.0-alpha.30",
-    "@storybook/client-logger": "7.0.0-alpha.30",
+    "@storybook/addons": "7.0.0-alpha.31",
+    "@storybook/client-logger": "7.0.0-alpha.31",
     "@storybook/csf": "0.0.2--canary.0899bb7.0",
-    "@storybook/store": "7.0.0-alpha.30",
+    "@storybook/store": "7.0.0-alpha.31",
     "@types/qs": "^6.9.5",
     "@types/webpack-env": "^1.16.4",
     "global": "^4.4.0",
@@ -47,7 +47,7 @@
     "util-deprecate": "^1.0.2"
   },
   "devDependencies": {
-    "@storybook/core-common": "7.0.0-alpha.30",
+    "@storybook/core-common": "7.0.0-alpha.31",
     "typescript": "~4.6.3"
   },
   "peerDependencies": {
