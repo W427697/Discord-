@@ -30,9 +30,13 @@ export const ChangeArgs = {
     await button.focus();
     await expect(button).toHaveFocus();
 
-    // When we change the args to the button, it should not rerender
-    await channel.emit('updateStoryArgs', { storyId: id, updatedArgs: { children: 'New Text' } });
-    await within(canvasElement).findByText(/New Text/);
-    await expect(button).toHaveFocus();
+    // // When we change the args to the button, it should not rerender
+    // await channel.emit('updateStoryArgs', { storyId: id, updatedArgs: { children: 'New Text' } });
+    // await within(canvasElement).findByText(/New Text/);
+    // await expect(button).toHaveFocus();
+
+    // await channel.emit('resetStoryArgs', { storyId: id });
+    // await within(canvasElement).findByText(/Click me/);
+    // await expect(button).toHaveFocus();
   },
 };
