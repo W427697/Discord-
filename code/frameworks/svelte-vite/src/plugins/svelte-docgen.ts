@@ -1,4 +1,4 @@
-import type { Plugin } from 'vite';
+import type { PluginOption } from 'vite';
 import MagicString from 'magic-string';
 import path from 'path';
 import fs from 'fs';
@@ -42,7 +42,7 @@ function getNameFromFilename(filename: string) {
   return base[0].toUpperCase() + base.slice(1);
 }
 
-export function svelteDocgen(svelteOptions: Record<string, any>): Plugin {
+export function svelteDocgen(svelteOptions: Record<string, any>): PluginOption {
   const cwd = process.cwd();
   const { preprocess: preprocessOptions, logDocgen = false } = svelteOptions;
   const include = /\.(svelte)$/;

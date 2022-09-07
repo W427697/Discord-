@@ -1,6 +1,6 @@
 {
   "name": "@storybook/core-common",
-  "version": "7.0.0-alpha.30",
+  "version": "7.0.0-alpha.31",
   "description": "Storybook framework-agnostic API",
   "keywords": [
     "storybook"
@@ -43,12 +43,12 @@
   ],
   "scripts": {
     "check": "tsc --noEmit",
-    "prepare": "../../../scripts/prepare/bundle.ts"
+    "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
     "@babel/core": "^7.12.10",
     "@storybook/csf": "0.0.2--canary.0899bb7.0",
-    "@storybook/node-logger": "7.0.0-alpha.30",
+    "@storybook/node-logger": "7.0.0-alpha.31",
     "@types/babel__core": "^7.0.0",
     "@types/express": "^4.7.0",
     "@types/node": "^14.0.10 || ^16.0.0",
@@ -97,5 +97,5 @@
     ],
     "platform": "node"
   },
-  "gitHead": "aabf7b595cb13d8a86dca27ad3d6039205bd55d6"
+  "gitHead": "02c013c33186479017098d532a18ff8654b91f1f"
 }
