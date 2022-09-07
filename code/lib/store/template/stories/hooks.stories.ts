@@ -23,10 +23,10 @@ export const UseState = {
     },
   ],
   play: async ({ canvasElement }: PlayFunctionContext) => {
-    const button = await within(canvasElement).findByText('Clicked 0 times', {}, { timeout: 3000 });
+    const button = await within(canvasElement).findByText('Clicked 0 times');
 
     await userEvent.click(button);
-    await within(canvasElement).findByText('Clicked 1 times', {}, { timeout: 3000 });
+    await within(canvasElement).findByText('Clicked 1 times');
   },
 };
 

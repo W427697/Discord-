@@ -29,13 +29,13 @@ export const Events = {
   ],
   play: async ({ canvasElement }: PlayFunctionContext) => {
     const channel = globalThis.__STORYBOOK_ADDONS_CHANNEL__;
-    await within(canvasElement).findByText('fooValue', {}, { timeout: 3000 });
+    await within(canvasElement).findByText('fooValue');
 
     await channel.emit('updateGlobals', { globals: { foo: 'updated' } });
-    await within(canvasElement).findByText('updated', {}, { timeout: 3000 });
+    await within(canvasElement).findByText('updated');
 
     // Reset it back to the original value just to avoid polluting the URL
     await channel.emit('updateGlobals', { globals: { foo: 'fooValue' } });
-    await within(canvasElement).findByText('fooValue', {}, { timeout: 3000 });
+    await within(canvasElement).findByText('fooValue');
   },
 };

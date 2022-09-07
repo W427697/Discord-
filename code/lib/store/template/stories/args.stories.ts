@@ -69,12 +69,12 @@ export const Events = {
   parameters: { argNames: ['test'] },
   play: async ({ canvasElement, id }: PlayFunctionContext) => {
     const channel = globalThis.__STORYBOOK_ADDONS_CHANNEL__;
-    await within(canvasElement).findByText(/initial/, {}, { timeout: 3000 });
+    await within(canvasElement).findByText(/initial/);
 
     await channel.emit('updateStoryArgs', { storyId: id, updatedArgs: { test: 'updated' } });
-    await within(canvasElement).findByText(/updated/, {}, { timeout: 3000 });
+    await within(canvasElement).findByText(/updated/);
 
     await channel.emit('resetStoryArgs', { storyId: id });
-    await within(canvasElement).findByText(/initial/, {}, { timeout: 3000 });
+    await within(canvasElement).findByText(/initial/);
   },
 };

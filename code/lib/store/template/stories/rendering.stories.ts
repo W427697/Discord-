@@ -19,7 +19,7 @@ export const ForceReRender = {
 
     // By forcing the component to rerender, we reset the focus state
     await channel.emit('forceReRender');
-    await waitFor(() => expect(button).not.toHaveFocus(), { timeout: 3000 });
+    await waitFor(() => expect(button).not.toHaveFocus());
   },
 };
 
@@ -32,7 +32,7 @@ export const ChangeArgs = {
 
     // When we change the args to the button, it should not rerender
     await channel.emit('updateStoryArgs', { storyId: id, updatedArgs: { children: 'New Text' } });
-    await within(canvasElement).findByText(/New Text/, {}, { timeout: 3000 });
+    await within(canvasElement).findByText(/New Text/);
     await expect(button).toHaveFocus();
   },
 };
