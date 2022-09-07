@@ -4,29 +4,29 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { mergeConfig } from 'vite';
 import type { Plugin } from 'vite';
-import { transformIframeHtml } from './transform-iframe-html';
-import { generateIframeScriptCode } from './codegen-iframe-script';
-import { generateModernIframeScriptCode } from './codegen-modern-iframe-script';
-import { generateImportFnScriptCode } from './codegen-importfn-script';
-import { generateVirtualStoryEntryCode, generatePreviewEntryCode } from './codegen-entries';
-import { generateAddonSetupCode } from './codegen-set-addon-channel';
+import { transformIframeHtml } from '../transform-iframe-html';
+import { generateIframeScriptCode } from '../codegen-iframe-script';
+import { generateModernIframeScriptCode } from '../codegen-modern-iframe-script';
+import { generateImportFnScriptCode } from '../codegen-importfn-script';
+import { generateVirtualStoryEntryCode, generatePreviewEntryCode } from '../codegen-entries';
+import { generateAddonSetupCode } from '../codegen-set-addon-channel';
 
-import type { ExtendedOptions } from './types';
+import type { ExtendedOptions } from '../types';
 
 import {
   virtualAddonSetupFile,
   virtualFileId,
   virtualPreviewFile,
   virtualStoriesFile,
-} from './virtual-file-names';
+} from '../virtual-file-names';
 
 export function codeGeneratorPlugin(options: ExtendedOptions): Plugin {
-  const iframePath = path.resolve(__dirname, '../..', 'input', 'iframe.html');
+  const iframePath = path.resolve(__dirname, '../../..', 'input', 'iframe.html');
   let iframeId: string;
 
   // noinspection JSUnusedGlobalSymbols
   return {
-    name: 'storybook-vite-code-generator-plugin',
+    name: 'storybook:code-generator-plugin',
     enforce: 'pre',
     configureServer(server) {
       // invalidate the whole vite-app.js script on every file change.
@@ -76,7 +76,7 @@ export function codeGeneratorPlugin(options: ExtendedOptions): Plugin {
             alias: {
               'react-dom/client': path.resolve(
                 __dirname,
-                '../..',
+                '../../..',
                 'input',
                 'react-dom-client-placeholder.js'
               ),
@@ -131,7 +131,10 @@ export function codeGeneratorPlugin(options: ExtendedOptions): Plugin {
       }
 
       if (id === iframeId) {
-        return fs.readFileSync(path.resolve(__dirname, '../..', 'input', 'iframe.html'), 'utf-8');
+        return fs.readFileSync(
+          path.resolve(__dirname, '../../..', 'input', 'iframe.html'),
+          'utf-8'
+        );
       }
 
       return undefined;

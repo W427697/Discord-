@@ -1,11 +1,12 @@
 import { isAbsolute, resolve } from 'path';
-import { loadPreviewOrConfigFile } from '@storybook/core-common';
+import { loadPreviewOrConfigFile, getFrameworkName } from '@storybook/core-common';
 import { virtualStoriesFile, virtualAddonSetupFile } from './virtual-file-names';
 import { transformAbsPath } from './utils/transform-abs-path';
 import type { ExtendedOptions } from './types';
 
 export async function generateModernIframeScriptCode(options: ExtendedOptions) {
-  const { presets, configDir, framework } = options;
+  const { presets, configDir } = options;
+  const frameworkName = await getFrameworkName(options);
 
   const previewOrConfigFile = loadPreviewOrConfigFile({ configDir });
   const presetEntries = await presets.apply('config', [], options);
@@ -17,9 +18,9 @@ export async function generateModernIframeScriptCode(options: ExtendedOptions) {
     .filter(Boolean)
     .map((configEntry) => transformAbsPath(configEntry as string));
 
-  const generateHMRHandler = (framework: string): string => {
+  const generateHMRHandler = (frameworkName: string): string => {
     // Web components are not compatible with HMR, so disable HMR, reload page instead.
-    if (framework === 'web-components') {
+    if (frameworkName === '@storybook/web-components-vite') {
       return `
       if (import.meta.hot) {
         import.meta.hot.decline();
@@ -69,7 +70,7 @@ export async function generateModernIframeScriptCode(options: ExtendedOptions) {
 
     preview.initialize({ importFn, getProjectAnnotations });
     
-    ${generateHMRHandler(framework)};
+    ${generateHMRHandler(frameworkName)};
     `.trim();
   return code;
 }
