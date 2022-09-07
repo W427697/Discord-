@@ -1,9 +1,9 @@
 import { parse } from 'vue-docgen-api';
-import type { Plugin } from 'vite';
+import type { PluginOption } from 'vite';
 import { createFilter } from 'vite';
 import MagicString from 'magic-string';
 
-export function vueDocgen(): Plugin {
+export function vueDocgen(): PluginOption {
   const include = /\.(vue)$/;
   const filter = createFilter(include);
 

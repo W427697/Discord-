@@ -12,7 +12,7 @@ import reproTemplates from '../../code/lib/cli/src/repro-templates';
 import storybookVersions from '../../code/lib/cli/src/versions';
 import { JsPackageManagerFactory } from '../../code/lib/cli/src/js-package-manager/JsPackageManagerFactory';
 
-// @ts-ignore
+// @ts-expect-error (Converted from ts-ignore)
 import { maxConcurrentTasks } from '../utils/concurrency';
 
 import { localizeYarnConfigFiles, setupYarn } from './utils/yarn';
@@ -107,7 +107,7 @@ const runGenerators = async (
 
   let controller: AbortController;
   if (localRegistry) {
-    // @ts-ignore
+    // @ts-expect-error (Converted from ts-ignore)
     await publish.run();
     console.log(`⚙️ Starting local registry: ${LOCAL_REGISTRY_URL}`);
     controller = await servePackages({ debug: true });
