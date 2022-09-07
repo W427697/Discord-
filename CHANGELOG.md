@@ -1,3 +1,11 @@
+## 6.5.11-alpha.2 (September 7, 2022)
+
+#### Bug Fixes
+
+-   CLI: Fix race condition in sb init [#19083](https://github.com/storybooks/storybook/pull/19083)
+-   Core: Fix WebProjectAnnotations export in preview-web for back-compat [#19048](https://github.com/storybooks/storybook/pull/19048)
+-   Addon-interactions: Fix IE support by replacing array includes [#18993](https://github.com/storybooks/storybook/pull/18993)
+
 ## 6.5.11-alpha.1 (August 23, 2022)
 
 #### Bug Fixes
