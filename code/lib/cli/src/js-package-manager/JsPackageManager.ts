@@ -259,7 +259,7 @@ export abstract class JsPackageManager {
     let current: string;
 
     if (/(@storybook|^sb$|^storybook$)/.test(packageName)) {
-      // @ts-ignore
+      // @ts-expect-error (Converted from ts-ignore)
       current = storybookPackagesVersions[packageName];
     }
 

@@ -8,7 +8,7 @@ import {
 } from 'react-docgen';
 import type { DocumentationObject } from 'react-docgen/lib/Documentation';
 import MagicString from 'magic-string';
-import type { Plugin } from 'vite';
+import type { PluginOption } from 'vite';
 import actualNameHandler from './docgen-handlers/actualNameHandler';
 
 type DocObj = DocumentationObject & { actualName: string };
@@ -27,7 +27,7 @@ type Options = {
 export function reactDocgen({
   include = /\.(mjs|tsx?|jsx?)$/,
   exclude = [/node_modules\/.*/],
-}: Options = {}): Plugin {
+}: Options = {}): PluginOption {
   const cwd = process.cwd();
   const filter = createFilter(include, exclude);
 
