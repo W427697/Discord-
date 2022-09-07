@@ -51,8 +51,13 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
+    "@storybook/addons": "7.0.0-alpha.31",
     "@storybook/builder-vite": "7.0.0-alpha.31",
+    "@storybook/channel-postmessage": "7.0.0-alpha.31",
+    "@storybook/channel-websocket": "7.0.0-alpha.31",
+    "@storybook/client-api": "7.0.0-alpha.31",
     "@storybook/core-server": "7.0.0-alpha.31",
+    "@storybook/preview-web": "7.0.0-alpha.31",
     "@storybook/vue3": "7.0.0-alpha.31",
     "@vitejs/plugin-vue": "^3.0.3",
     "magic-string": "^0.26.1",
