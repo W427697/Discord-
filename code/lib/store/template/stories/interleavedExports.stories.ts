@@ -8,6 +8,6 @@ export default {
 export const Story1 = {};
 
 // eslint-disable-next-line import/first, import/extensions, import/no-unresolved
-import { version } from '../package.json';
+import '../package.json';
 
 export const Story2 = {};
