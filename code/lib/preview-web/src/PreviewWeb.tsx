@@ -30,11 +30,12 @@ import type {
   WebProjectAnnotations,
 } from '@storybook/store';
 
-import { Preview } from './Preview';
+import { MaybePromise, Preview } from './Preview';
 
 import { UrlStore } from './UrlStore';
 import { WebView } from './WebView';
-import { PREPARE_ABORTED, StoryRender } from './render/StoryRender';
+import { PREPARE_ABORTED } from './render/Render';
+import { StoryRender } from './render/StoryRender';
 import { TemplateDocsRender } from './render/TemplateDocsRender';
 import { StandaloneDocsRender } from './render/StandaloneDocsRender';
 
@@ -45,7 +46,6 @@ function focusInInput(event: Event) {
   return /input|textarea/i.test(target.tagName) || target.getAttribute('contenteditable') !== null;
 }
 
-type MaybePromise<T> = Promise<T> | T;
 type PossibleRender<TFramework extends AnyFramework> =
   | StoryRender<TFramework>
   | TemplateDocsRender<TFramework>
@@ -75,7 +75,7 @@ export class PreviewWeb<TFramework extends AnyFramework> extends Preview<TFramew
     this.urlStore = new UrlStore();
 
     // Add deprecated APIs for back-compat
-    // @ts-ignore
+    // @ts-expect-error (Converted from ts-ignore)
     this.storyStore.getSelection = deprecate(
       () => this.urlStore.selection,
       dedent`

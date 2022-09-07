@@ -8,6 +8,7 @@ import {
   ensureSymlink,
   ensureDir,
   existsSync,
+  copy,
 } from 'fs-extra';
 import prompts from 'prompts';
 import type { AbortController } from 'node-abort-controller';
@@ -22,6 +23,7 @@ import { ConfigFile, readConfig, writeConfig } from '../code/lib/csf-tools';
 import { babelParse } from '../code/lib/csf-tools/src/babelParse';
 import TEMPLATES from '../code/lib/cli/src/repro-templates';
 import { servePackages } from './utils/serve-packages';
+import dedent from 'ts-dedent';
 
 type Template = keyof typeof TEMPLATES;
 const templates: Template[] = Object.keys(TEMPLATES) as any;
@@ -41,6 +43,7 @@ const defaultAddons = [
 ];
 const sandboxDir = path.resolve(__dirname, '../sandbox');
 const codeDir = path.resolve(__dirname, '../code');
+const reprosDir = path.resolve(__dirname, '../repros');
 
 export const options = createOptions({
   template: {
@@ -59,9 +62,9 @@ export const options = createOptions({
     description: "Include Storybook's own stories?",
     promptType: (_, { template }) => template === 'react',
   },
-  create: {
+  fromLocalRepro: {
     type: 'boolean',
-    description: 'Create the template from scratch (rather than degitting it)?',
+    description: 'Create the template from a local repro (rather than degitting it)?',
   },
   forceDelete: {
     type: 'boolean',
@@ -202,9 +205,14 @@ async function readMainConfig({ cwd }: { cwd: string }) {
   return readConfig(mainConfigPath);
 }
 
-// NOTE: the test regexp here will apply whether the path is symlink-preserved or otherwise
-const loaderPath = require.resolve('../code/node_modules/esbuild-loader');
-const webpackFinalCode = `
+// Ensure that sandboxes can refer to story files defined in `code/`.
+// Most WP-based build systems will not compile files outside of the project root or 'src/` or
+// similar. Plus they aren't guaranteed to handle TS files. So we need to patch in esbuild
+// loader for such files. NOTE this isn't necessary for Vite, as far as we know.
+function addEsbuildLoaderToStories(mainConfig: ConfigFile) {
+  // NOTE: the test regexp here will apply whether the path is symlink-preserved or otherwise
+  const loaderPath = require.resolve('../code/node_modules/esbuild-loader');
+  const webpackFinalCode = `
   (config) => ({
     ...config,
     module: {
@@ -222,6 +230,30 @@ const webpackFinalCode = `
       ],
     },
   })`;
+  mainConfig.setFieldNode(
+    ['webpackFinal'],
+    // @ts-expect-error (not sure why TS complains here, it does exist)
+    babelParse(webpackFinalCode).program.body[0].expression
+  );
+}
+
+// Recompile optimized deps on each startup, so you can change @storybook/* packages and not
+// have to clear caches.
+function forceViteRebuilds(mainConfig: ConfigFile) {
+  const viteFinalCode = `
+  (config) => ({
+    ...config,
+    optimizeDeps: {
+      ...config.optimizeDeps,
+      force: true,
+    },
+  })`;
+  mainConfig.setFieldNode(
+    ['viteFinal'],
+    // @ts-expect-error (not sure why TS complains here, it does exist)
+    babelParse(viteFinalCode).program.body[0].expression
+  );
+}
 
 // paths are of the form 'renderers/react', 'addons/actions'
 async function addStories(paths: string[], { mainConfig }: { mainConfig: ConfigFile }) {
@@ -235,18 +267,16 @@ async function addStories(paths: string[], { mainConfig }: { mainConfig: ConfigF
   const relativeCodeDir = path.join('..', '..', '..', 'code');
   const extraStories = extraStoryDirsAndExistence
     .filter(([, exists]) => exists)
-    .map(([p]) => path.join(relativeCodeDir, p, '*.stories.@(js|jsx|ts|tsx)'));
+    .map(([p]) => ({
+      directory: path.join(relativeCodeDir, p),
+      titlePrefix: p.split('/').slice(-4, -2).join('/'),
+      files: '*.stories.@(js|jsx|ts|tsx)',
+    }));
   mainConfig.setFieldValue(['stories'], [...stories, ...extraStories]);
-
-  mainConfig.setFieldNode(
-    ['webpackFinal'],
-    // @ts-ignore (not sure why TS complains here, it does exist)
-    babelParse(webpackFinalCode).program.body[0].expression
-  );
 }
 
 export async function sandbox(optionValues: OptionValues<typeof options>) {
-  const { template, forceDelete, forceReuse, dryRun, debug } = optionValues;
+  const { template, forceDelete, forceReuse, dryRun, debug, fromLocalRepro } = optionValues;
 
   await ensureDir(sandboxDir);
   let publishController: AbortController;
@@ -273,13 +303,29 @@ export async function sandbox(optionValues: OptionValues<typeof options>) {
   if (exists && shouldDelete && !dryRun) await remove(cwd);
 
   if (!exists || shouldDelete) {
-    await executeCLIStep(steps.repro, {
-      argument: template,
-      optionValues: { output: cwd, branch: 'next' },
-      cwd: sandboxDir,
-      dryRun,
-      debug,
-    });
+    if (fromLocalRepro) {
+      const srcDir = path.join(reprosDir, template, 'after-storybook');
+      if (!existsSync(srcDir)) {
+        throw new Error(dedent`
+          Missing repro directory '${srcDir}'!
+
+          To run sandbox against a local repro, you must have already generated
+          the repro template in the /repros directory using:
+
+          yarn generate-repros-next --template ${template}
+        `);
+      }
+      const destDir = cwd;
+      await copy(srcDir, destDir);
+    } else {
+      await executeCLIStep(steps.repro, {
+        argument: template,
+        optionValues: { output: cwd, branch: 'next' },
+        cwd: sandboxDir,
+        dryRun,
+        debug,
+      });
+    }
 
     const mainConfig = await readMainConfig({ cwd });
 
@@ -294,7 +340,7 @@ export async function sandbox(optionValues: OptionValues<typeof options>) {
     const workspaces = JSON.parse(`[${stdout.split('\n').join(',')}]`) as [
       { name: string; location: string }
     ];
-    const { renderer } = templateConfig.expected;
+    const { renderer, builder } = templateConfig.expected;
     const rendererWorkspace = workspaces.find((workspace) => workspace.name === renderer);
     if (!rendererWorkspace) {
       throw new Error(`Unknown renderer '${renderer}', not in yarn workspace!`);
@@ -309,6 +355,9 @@ export async function sandbox(optionValues: OptionValues<typeof options>) {
       [`.${path.sep}${path.join(storiesPath, 'components')}`]
     );
     mainConfig.setFieldValue(['core', 'disableTelemetry'], true);
+
+    if (builder === '@storybook/builder-webpack5') addEsbuildLoaderToStories(mainConfig);
+    if (builder === '@storybook/builder-vite') forceViteRebuilds(mainConfig);
 
     const storiesToAdd = [] as string[];
     storiesToAdd.push(rendererPath);
