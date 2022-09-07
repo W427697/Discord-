@@ -1,0 +1,33 @@
+```ts
+// Histogram.stories.ts
+
+import { Meta, StoryFn } from '@storybook/vue3';
+
+import Histogram from './Histogram.vue';
+
+export default {
+  /* 👇 The title prop is optional.
+   * See https://storybook.js.org/docs/vue/configure/overview#configure-story-loading
+   * to learn how to generate automatic titles
+   */
+  title: 'Histogram',
+  component: Histogram,
+} as Meta<typeof Histogram>;
+
+//👇 We create a “template” of how args map to rendering
+const Template: StoryFn<typeof Histogram> = (args) => ({
+  components: { Histogram },
+  setup() {
+    return { args };
+  },
+  template: '<Histogram v-bind="args" />',
+});
+
+export const Default = Template.bind({});
+Default.args = {
+  dataType: 'latency',
+  showHistogramLabels: true,
+  histogramAccentColor: '#1EA7FD',
+  label: 'Latency distribution',
+};
+```

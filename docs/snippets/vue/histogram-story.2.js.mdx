@@ -1,0 +1,28 @@
+```js
+// Histogram.stories.js
+
+import Histogram from './Histogram.vue';
+
+export default {
+  /* 👇 The title prop is optional.
+   * See https://storybook.js.org/docs/vue/configure/overview#configure-story-loading
+   * to learn how to generate automatic titles
+   */
+  title: 'Histogram',
+  component: Histogram,
+};
+
+const Template = (args, { argTypes }) => ({
+  components: { Histogram },
+  props: Object.keys(argTypes),
+  template: '<Histogram v-bind="$props" v-on="$props" />',
+});
+
+export const Default = Template.bind({});
+Default.args = {
+  dataType: 'latency',
+  showHistogramLabels: true,
+  histogramAccentColor: '#1EA7FD',
+  label: 'Latency distribution',
+};
+```
