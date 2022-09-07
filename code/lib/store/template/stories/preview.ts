@@ -9,9 +9,7 @@ export const parameters = {
   },
 };
 
-export const loaders = [
-  async () => new Promise((r) => setTimeout(() => r({ projectValue: 2 }), 1000)),
-];
+export const loaders = [async () => ({ projectValue: 2 })];
 
 export const decorators = [
   (storyFn: PartialStoryFn, context: StoryContext) => {
