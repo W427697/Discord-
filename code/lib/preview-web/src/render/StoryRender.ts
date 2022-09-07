@@ -40,7 +40,7 @@ function createController(): AbortController {
   return {
     signal: { aborted: false },
     abort() {
-      // @ts-ignore
+      // @ts-expect-error (Converted from ts-ignore)
       this.signal.aborted = true;
     },
   } as AbortController;
