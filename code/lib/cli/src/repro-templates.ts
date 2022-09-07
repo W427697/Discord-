@@ -67,10 +67,38 @@ const vue3ViteTemplates = {
   },
 };
 
+const svelteViteTemplates = {
+  'svelte-vite/default-js': {
+    name: 'Svelte Vite (JS)',
+    script: 'yarn create vite . --template svelte',
+    cadence: ['ci', 'daily', 'weekly'],
+    expected: {
+      framework: '@storybook/svelte-vite',
+      renderer: '@storybook/svelte',
+      builder: '@storybook/builder-vite',
+    },
+  },
+  /*
+   * I disabled this, because it was flaky
+   * TODO: we should fixd the instability and re-enable it
+   */
+  // 'svelte-vite/default-ts': {
+  //   name: 'Svelte Vite (TS)',
+  //   script: 'yarn create vite . --template svelte-ts',
+  //   cadence: ['ci', 'daily', 'weekly'],
+  //   expected: {
+  //     framework: '@storybook/svelte-vite',
+  //     renderer: '@storybook/svelte',
+  //     builder: '@storybook/builder-vite'
+  //   }
+  // }
+};
+
 export default {
   ...craTemplates,
   ...reactViteTemplates,
   ...vue3ViteTemplates,
+  ...svelteViteTemplates,
   // FIXME: missing documentation.json
   // 'angular/latest': {
   //   name: 'Angular (latest)',
