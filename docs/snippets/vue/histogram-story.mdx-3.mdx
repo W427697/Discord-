@@ -1,0 +1,30 @@
+```md
+<!-- Histogram.stories.mdx -->
+
+import { Canvas, Meta, Story } from '@storybook/addon-docs';
+
+import Histogram from './Histogram.vue';
+
+<Meta title="Histogram" component={Histogram} />
+
+export const Template = (args) => ({
+  components: { Histogram },
+  setup() {
+    return { args };
+  },
+  template: '<Histogram v-bind="args" />',
+});
+
+<Canvas>
+  <Story
+    name="Default"
+    args={{
+      dataType: 'latency',
+      showHistogramLabels: true,
+      histogramAccentColor: '#1EA7FD',
+      label: 'Latency distribution',
+    }} >
+    {Template.bind({})}
+  </Story>
+</Canvas>
+```
