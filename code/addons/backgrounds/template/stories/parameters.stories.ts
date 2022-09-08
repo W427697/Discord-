@@ -56,7 +56,7 @@ export const Gradient = {
       values: [
         {
           name: 'gradient',
-          value: 'linear-gradient(90deg, #CA005E 0%, #863783 50%, #112396',
+          value: 'linear-gradient(90deg, #CA005E 0%, #863783 50%, #112396)',
         },
       ],
     },
