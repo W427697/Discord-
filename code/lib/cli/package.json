@@ -30,6 +30,7 @@
     "bin/**/*",
     "dist/**/*",
     "rendererAssets/**/*",
+    "templates/**/*",
     "README.md",
     "*.js",
     "*.d.ts"
