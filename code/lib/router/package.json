@@ -64,6 +64,7 @@
   },
   "bundlerEntrypoint": "./src/index.ts",
   "bundler": {
+    "platform": "browser",
     "entries": [
       "./src/index.ts"
     ]
