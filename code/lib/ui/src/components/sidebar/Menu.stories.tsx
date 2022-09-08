@@ -44,7 +44,7 @@ const DoubleThemeRenderingHack = styled.div({
 export const Expanded = () => {
   const menu = useMenu(
     {
-      // @ts-ignore
+      // @ts-expect-error (Converted from ts-ignore)
       getShortcutKeys: () => ({}),
       getAddonsShortcuts: () => ({}),
       versionUpdateAvailable: () => false,
@@ -73,7 +73,7 @@ Expanded.play = async ({ canvasElement }) => {
 export const ExpandedWithoutReleaseNotes = () => {
   const menu = useMenu(
     {
-      // @ts-ignore
+      // @ts-expect-error (Converted from ts-ignore)
       getShortcutKeys: () => ({}),
       getAddonsShortcuts: () => ({}),
       versionUpdateAvailable: () => false,
