@@ -3144,6 +3144,16 @@ describe('PreviewWeb', () => {
       });
     });
 
+    describe('with no selection', () => {
+      // eslint-disable-next-line jest/expect-expect
+      it('does not error', async () => {
+        const preview = await createAndRenderPreview();
+        await preview.onGetProjectAnnotationsChanged({
+          getProjectAnnotations: newGetProjectAnnotations,
+        });
+      });
+    });
+
     it('shows an error the new value throws', async () => {
       document.location.search = '?id=component-one--a';
       const preview = await createAndRenderPreview();
