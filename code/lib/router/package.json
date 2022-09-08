@@ -20,9 +20,22 @@
   },
   "license": "MIT",
   "sideEffects": false,
-  "main": "dist/cjs/index.js",
-  "module": "dist/esm/index.js",
-  "types": "dist/types/index.d.ts",
+  "exports": {
+    ".": {
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.ts"
+    },
+    "./utils": {
+      "require": "./dist/utils.js",
+      "import": "./dist/utils.mjs",
+      "types": "./dist/utils.d.ts"
+    },
+    "./package.json": "./package.json"
+  },
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
   "files": [
     "dist/**/*",
     "README.md",
@@ -31,7 +44,7 @@
   ],
   "scripts": {
     "check": "tsc --noEmit",
-    "prep": "ts-node ../../../scripts/prebundle.ts"
+    "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
     "@storybook/client-logger": "7.0.0-alpha.31",
@@ -54,6 +67,12 @@
   "publishConfig": {
     "access": "public"
   },
-  "bundlerEntrypoint": "./src/index.ts",
+  "bundler": {
+    "platform": "browser",
+    "entries": [
+      "./src/index.ts",
+      "./src/utils.ts"
+    ]
+  },
   "gitHead": "02c013c33186479017098d532a18ff8654b91f1f"
 }
