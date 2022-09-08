@@ -1,7 +1,7 @@
 import global from 'global';
 import { dedent } from 'ts-dedent';
 import type { RenderContext } from '@storybook/store';
-// @ts-ignore
+// @ts-expect-error (Converted from ts-ignore)
 import Component from '@ember/component'; // eslint-disable-line import/no-unresolved
 import { OptionsArgs, EmberFramework } from './types';
 

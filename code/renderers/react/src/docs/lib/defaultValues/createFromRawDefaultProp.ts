@@ -137,7 +137,7 @@ const functionResolver: TypeResolver = (rawDefaultProp, propDef) => {
       inspectionResult = inspectValue(rawDefaultProp.toString());
     }
 
-    // @ts-ignore
+    // @ts-expect-error (Converted from ts-ignore)
     const { hasParams } = inspectionResult.inferredType as InspectionFunction;
 
     return createSummaryValue(getPrettyFuncIdentifier(funcName, hasParams));
