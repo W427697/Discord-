@@ -4,6 +4,11 @@ title: 'Code contributions'
 
 Contribute a new feature or bug fix to [Storybook's monorepo](https://github.com/storybookjs/storybook). This page outlines how to get your environment set up to contribute code.
 
+## Prerequisites
+
+- Ensure you have node version 14 installed (suggestion: v14.18.1).
+- Ensure if you are using Windows to use the Windows Subsystem for Linux (WSL).
+
 ## Initial setup
 
 Start by [forking](https://docs.github.com/en/github/getting-started-with-github/quickstart/fork-a-repo) the Storybook monorepo and cloning it locally.
@@ -12,10 +17,16 @@ Start by [forking](https://docs.github.com/en/github/getting-started-with-github
 git clone https://github.com/your-username/storybook.git
 ```
 
-Navigate to the `storybook` directory and install the required dependencies with the following commands:
+Navigate to the `storybook/scripts` directory and install the required dependencies with the following commands:
 
 ```shell
-yarn && yarn bootstrap --core
+yarn install
+```
+
+Navigate to the `storybook/code` directory and run the following commands:
+
+```shell
+yarn install && yarn bootstrap --core
 ```
 
 ## Run tests & examples
