@@ -1,12 +1,12 @@
 import { isAbsolute, resolve } from 'path';
+import { getFrameworkName } from '@storybook/core-common';
 import { virtualPreviewFile, virtualStoriesFile } from './virtual-file-names';
 import { transformAbsPath } from './utils/transform-abs-path';
 import type { ExtendedOptions } from './types';
 
 export async function generateIframeScriptCode(options: ExtendedOptions) {
-  const { presets, frameworkPath, framework } = options;
-  const frameworkImportPath = frameworkPath || `@storybook/${framework}`;
-
+  const { presets } = options;
+  const frameworkName = await getFrameworkName(options);
   const presetEntries = await presets.apply('config', [], options);
   const previewEntries = await presets.apply('previewEntries', [], options);
   const absolutePreviewEntries = previewEntries.map((entry) =>
@@ -28,7 +28,7 @@ export async function generateIframeScriptCode(options: ExtendedOptions) {
   const code = `
     // Ensure that the client API is initialized by the framework before any other iframe code
     // is loaded. That way our client-apis can assume the existence of the API+store
-    import { configure } from '${frameworkImportPath}';
+    import { configure } from '${frameworkName}';
 
     import * as clientApi from "@storybook/client-api";
     import { logger } from '@storybook/client-logger';

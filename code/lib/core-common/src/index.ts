@@ -9,6 +9,7 @@ export * from './utils/interpret-files';
 export * from './utils/interpret-require';
 export * from './utils/load-custom-presets';
 export * from './utils/load-main-config';
+export * from './utils/get-framework-name';
 export * from './utils/get-storybook-configuration';
 export * from './utils/get-storybook-info';
 export * from './utils/get-storybook-refs';

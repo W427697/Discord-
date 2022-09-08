@@ -1,0 +1,32 @@
+```js
+// Histogram.stories.js
+
+import { html } from 'lit-html';
+
+import './histogram-component';
+
+export default {
+  /* 👇 The title prop is optional.
+   * See https://storybook.js.org/docs/web-components/configure/overview
+   * to learn how to generate automatic titles
+   */
+  title: 'Histogram',
+};
+
+const Template = ({ dataType, showHistogramLabels, histogramAccentColor, label }) => html`
+  <histogram-component
+    .dataType=${dataType}
+    .showHistogramLabels=${showHistogramLabels}
+    .histogramAccentColor=${histogramAccentColor}
+    .label=${label}
+  ></histogram-component>
+`;
+
+export const Default = Template.bind({});
+Default.args = {
+  dataType: 'latency',
+  showHistogramLabels: true,
+  histogramAccentColor: '#1EA7FD',
+  label: 'Latency distribution',
+};
+```

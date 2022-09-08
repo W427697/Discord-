@@ -259,7 +259,7 @@ export abstract class JsPackageManager {
     let current: string;
 
     if (/(@storybook|^sb$|^storybook$)/.test(packageName)) {
-      // @ts-ignore
+      // @ts-expect-error (Converted from ts-ignore)
       current = storybookPackagesVersions[packageName];
     }
 
@@ -386,6 +386,7 @@ export abstract class JsPackageManager {
       cwd: this.cwd,
       stdio: stdio ?? 'pipe',
       encoding: 'utf-8',
+      shell: true,
     });
 
     if (commandResult.status !== 0) {
