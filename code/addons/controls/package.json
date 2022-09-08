@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-controls",
-  "version": "7.0.0-alpha.26",
+  "version": "7.0.0-alpha.31",
   "description": "Interact with component inputs dynamically in the Storybook UI",
   "keywords": [
     "addon",
@@ -31,12 +31,12 @@
       "import": "./dist/index.mjs",
       "types": "./dist/index.d.ts"
     },
-    "./manager.js": {
+    "./manager": {
       "require": "./dist/manager.js",
       "import": "./dist/manager.mjs",
       "types": "./dist/manager.d.ts"
     },
-    "./register.js": {
+    "./register": {
       "require": "./dist/manager.js",
       "import": "./dist/manager.mjs",
       "types": "./dist/manager.d.ts"
@@ -54,20 +54,19 @@
   ],
   "scripts": {
     "check": "tsc --noEmit",
-    "prepare": "../../../scripts/prepare/bundle.ts"
+    "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/addons": "7.0.0-alpha.26",
-    "@storybook/api": "7.0.0-alpha.26",
-    "@storybook/blocks": "7.0.0-alpha.26",
-    "@storybook/client-logger": "7.0.0-alpha.26",
-    "@storybook/components": "7.0.0-alpha.26",
-    "@storybook/core-common": "7.0.0-alpha.26",
+    "@storybook/addons": "7.0.0-alpha.31",
+    "@storybook/api": "7.0.0-alpha.31",
+    "@storybook/blocks": "7.0.0-alpha.31",
+    "@storybook/client-logger": "7.0.0-alpha.31",
+    "@storybook/components": "7.0.0-alpha.31",
+    "@storybook/core-common": "7.0.0-alpha.31",
     "@storybook/csf": "0.0.2--canary.0899bb7.0",
-    "@storybook/node-logger": "7.0.0-alpha.26",
-    "@storybook/store": "7.0.0-alpha.26",
-    "@storybook/theming": "7.0.0-alpha.26",
-    "core-js": "^3.8.2",
+    "@storybook/node-logger": "7.0.0-alpha.31",
+    "@storybook/store": "7.0.0-alpha.31",
+    "@storybook/theming": "7.0.0-alpha.31",
     "lodash": "^4.17.21",
     "ts-dedent": "^2.0.0"
   },
@@ -93,7 +92,7 @@
     ],
     "platform": "browser"
   },
-  "gitHead": "e5c9cfe1d0482132e59734d9cfce57477045914f",
+  "gitHead": "02c013c33186479017098d532a18ff8654b91f1f",
   "storybook": {
     "displayName": "Controls",
     "icon": "https://user-images.githubusercontent.com/263385/101991669-479cc600-3c7c-11eb-93d9-38b67e8371f2.png",

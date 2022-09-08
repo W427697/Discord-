@@ -36,7 +36,7 @@ export function mdxPlugin(options: Options): Plugin {
   const filter = createFilter(include);
 
   return {
-    name: 'storybook-vite-mdx-plugin',
+    name: 'storybook:mdx-plugin',
     enforce: 'pre',
     configResolved({ plugins }) {
       // @vitejs/plugin-react-refresh has been upgraded to @vitejs/plugin-react,
@@ -64,7 +64,13 @@ export function mdxPlugin(options: Options): Plugin {
 
       const modifiedCode = injectRenderer(mdxCode, Boolean(features?.previewMdx2));
 
-      const result = await reactRefresh?.transform!.call(this, modifiedCode, `${id}.jsx`, options);
+      // Hooks in recent rollup versions can be functions or objects, and though react hasn't changed, the typescript defs have
+      const rTransform = reactRefresh?.transform;
+      const transform = rTransform && 'handler' in rTransform ? rTransform.handler : rTransform;
+
+      // It's safe to disable this, because we know it'll be there, since we added it ourselves.
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      const result = await transform!.call(this, modifiedCode, `${id}.jsx`, options);
 
       if (!result) return modifiedCode;
 
