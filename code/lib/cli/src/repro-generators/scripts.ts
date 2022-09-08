@@ -198,7 +198,7 @@ const initStorybook = async ({ cwd, autoDetect = true, name, e2e, pnp }: Options
     flags.push('--use-pnp');
   }
 
-  const sbCLICommand = `node ${path.join(__dirname, '../../cjs/generate')}`;
+  const sbCLICommand = `node ${path.join(__dirname, '../../generate')}`;
 
   const command = `${sbCLICommand} init ${flags.join(' ')}`;
 
