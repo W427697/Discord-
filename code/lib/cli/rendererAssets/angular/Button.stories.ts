@@ -1,4 +1,3 @@
-// also exported from '@storybook/angular' if you can deal with breaking changes in 6.1
 import type { Meta, StoryFn } from '@storybook/angular';
 import Button from './button.component';
 

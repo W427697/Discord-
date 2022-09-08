@@ -74,9 +74,9 @@ function run() {
       defaultValue: true,
       option: '--prep',
       command: () => {
-        log.info(prefix, 'prepare');
+        log.info(prefix, 'prep');
         return spawn(
-          `nx run-many --target="prepare" --all --parallel --exclude=@storybook/addon-storyshots,@storybook/addon-storyshots-puppeteer -- --reset`
+          `nx run-many --target="prep" --all --parallel --exclude=@storybook/addon-storyshots,@storybook/addon-storyshots-puppeteer -- --reset`
         );
       },
       order: 2,
@@ -86,9 +86,9 @@ function run() {
       defaultValue: true,
       option: '--retry',
       command: () => {
-        log.info(prefix, 'prepare');
+        log.info(prefix, 'prep');
         return spawn(
-          `nx run-many --target=prepare --all --parallel --only-failed ${
+          `nx run-many --target="prep" --all --parallel --only-failed ${
             process.env.CI ? `--max-parallel=${maxConcurrentTasks}` : ''
           }`
         );
@@ -122,7 +122,7 @@ function run() {
       command: () => {
         log.info(prefix, 'build');
         return spawn(
-          `nx run-many --target="prepare" --all --parallel=8 ${
+          `nx run-many --target="prep" --all --parallel=8 ${
             process.env.CI ? `--max-parallel=${maxConcurrentTasks}` : ''
           } -- --reset --optimized`
         );

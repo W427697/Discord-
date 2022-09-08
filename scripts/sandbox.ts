@@ -232,7 +232,7 @@ function addEsbuildLoaderToStories(mainConfig: ConfigFile) {
   })`;
   mainConfig.setFieldNode(
     ['webpackFinal'],
-    // @ts-ignore (not sure why TS complains here, it does exist)
+    // @ts-expect-error (not sure why TS complains here, it does exist)
     babelParse(webpackFinalCode).program.body[0].expression
   );
 }
@@ -250,7 +250,7 @@ function forceViteRebuilds(mainConfig: ConfigFile) {
   })`;
   mainConfig.setFieldNode(
     ['viteFinal'],
-    // @ts-ignore (not sure why TS complains here, it does exist)
+    // @ts-expect-error (not sure why TS complains here, it does exist)
     babelParse(viteFinalCode).program.body[0].expression
   );
 }
