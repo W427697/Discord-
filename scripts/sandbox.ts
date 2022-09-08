@@ -31,6 +31,7 @@ const addons = ['a11y', 'storysource'];
 const defaultAddons = [
   'actions',
   'a11y',
+  'links',
   'backgrounds',
   'controls',
   'docs',
