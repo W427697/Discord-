@@ -7160,7 +7160,6 @@ __metadata:
     "@storybook/jest": ^0.0.10
     "@storybook/testing-library": 0.0.14-next.0
     "@storybook/theming": 7.0.0-alpha.31
-    core-js: ^3.8.2
     formik: ^2.2.9
     global: ^4.4.0
     jest-mock: ^27.0.6
