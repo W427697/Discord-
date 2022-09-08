@@ -26,6 +26,11 @@
       "import": "./dist/index.mjs",
       "types": "./dist/index.d.ts"
     },
+    "./utils": {
+      "require": "./dist/utils.js",
+      "import": "./dist/utils.mjs",
+      "types": "./dist/utils.d.ts"
+    },
     "./package.json": "./package.json"
   },
   "main": "dist/index.js",
@@ -62,11 +67,11 @@
   "publishConfig": {
     "access": "public"
   },
-  "bundlerEntrypoint": "./src/index.ts",
   "bundler": {
     "platform": "browser",
     "entries": [
-      "./src/index.ts"
+      "./src/index.ts",
+      "./src/utils.ts"
     ]
   },
   "gitHead": "02c013c33186479017098d532a18ff8654b91f1f"
