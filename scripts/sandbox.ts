@@ -29,15 +29,14 @@ type Template = keyof typeof TEMPLATES;
 const templates: Template[] = Object.keys(TEMPLATES) as any;
 const addons = ['a11y', 'storysource'];
 const defaultAddons = [
-  'actions',
   'a11y',
-  'links',
+  'actions',
   'backgrounds',
   'controls',
   'docs',
   'highlight',
-  'links',
   'interactions',
+  'links',
   'measure',
   'outline',
   'toolbars',
