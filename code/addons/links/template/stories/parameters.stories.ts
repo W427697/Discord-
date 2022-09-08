@@ -11,24 +11,34 @@ export default {
   },
 };
 
+export const ID = {
+  args: {
+    onClick: linkTo('addons-links-parameters--basic'),
+  },
+};
+export const Title = {
+  args: {
+    onClick: linkTo('addons-links-parameters'),
+  },
+};
 export const Basic = {
   args: {
-    onClick: linkTo('basic'),
+    onClick: linkTo('addons-links-parameters', 'basic'),
   },
 };
 export const Other = {
   args: {
-    onClick: linkTo('basic'),
+    onClick: linkTo('addons-links-parameters', 'basic'),
   },
 };
 export const Third = {
   args: {
-    onClick: linkTo('other'),
+    onClick: linkTo('addons-links-parameters', 'other'),
   },
 };
 
 export const Callback = {
   args: {
-    onClick: linkTo('Addons/Links', (event: Event) => 'basic'),
+    onClick: linkTo('addons-links-parameters', (event: Event) => 'basic'),
   },
 };
