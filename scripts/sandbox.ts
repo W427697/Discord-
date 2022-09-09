@@ -23,7 +23,7 @@ import { ConfigFile, readConfig, writeConfig } from '../code/lib/csf-tools';
 import { babelParse } from '../code/lib/csf-tools/src/babelParse';
 import TEMPLATES from '../code/lib/cli/src/repro-templates';
 import { servePackages } from './utils/serve-packages';
-import dedent from 'ts-dedent';
+import { filterExistsInCodeDir, codeDir } from './utils/filterExistsInCodeDir';
 
 type Template = keyof typeof TEMPLATES;
 const templates: Template[] = Object.keys(TEMPLATES) as any;
@@ -42,7 +42,6 @@ const defaultAddons = [
   'viewport',
 ];
 const sandboxDir = path.resolve(__dirname, '../sandbox');
-const codeDir = path.resolve(__dirname, '../code');
 const reprosDir = path.resolve(__dirname, '../repros');
 
 export const options = createOptions({
@@ -219,7 +218,7 @@ function addEsbuildLoaderToStories(mainConfig: ConfigFile) {
       ...config.modules,
       rules: [
         {
-          test: [/\\/code\\/[^/]*\\/[^/]*\\/template\\/stories\\//],
+          test: [/\\/template-stories\\//],
           loader: '${loaderPath}',
           options: {
             loader: 'tsx',
@@ -256,43 +255,46 @@ function forceViteRebuilds(mainConfig: ConfigFile) {
 }
 
 // paths are of the form 'renderers/react', 'addons/actions'
-async function addStories(paths: string[], { mainConfig }: { mainConfig: ConfigFile }) {
-  // Add `stories` entries of the form
-  //   '../../../code/lib/store/template/stories/*.stories.@(js|jsx|ts|tsx)'
+async function addStories(
+  packageDirs: string[],
+  { mainConfig, cwd }: { mainConfig: ConfigFile; cwd: string }
+) {
+  // Link `stories` directories
+  //   '../../../code/lib/store/template/stories' to 'src/templates/lib/store'
   // if the directory <code>/lib/store/template/stories exists
-  const extraStoryDirsAndExistence = await Promise.all(
-    paths
-      .map((p) => path.join(p, 'template', 'stories'))
-      .map(async (p) => [p, await pathExists(path.resolve(codeDir, p))] as const)
+  //
+  // We link rather than reference relative dir to avoid Running two versions
+  // of React in react-based projects
+  await Promise.all(
+    packageDirs.map(async (p) => {
+      const source = path.join(codeDir, p, 'template', 'stories');
+      await ensureSymlink(source, path.resolve(cwd, 'template-stories', p));
+    })
   );
 
   const stories = mainConfig.getFieldValue(['stories']) as string[];
-  const extraStories = extraStoryDirsAndExistence
-    .filter(([, exists]) => exists)
-    .map(([p]) => ({
-      directory: path.join('..', '..', '..', 'code', p),
-      titlePrefix: p.split('/').slice(-4, -2).join('/'),
-      files: '*.stories.@(js|jsx|ts|tsx)',
-    }));
-  mainConfig.setFieldValue(['stories'], [...stories, ...extraStories]);
+  const templateStories = path.join(
+    '..',
+    'template-stories',
+    '**',
+    '*.stories.@(js|jsx|ts|tsx|mdx)'
+    // FIXME: '*.@(mdx|stories.mdx|stories.tsx|stories.ts|stories.jsx|stories.js'
+  );
+  mainConfig.setFieldValue(['stories'], [...stories, templateStories]);
 
   // Add `config` entries of the form
   //   '../../code/lib/store/template/stories/preview.ts'
   // if the file <code>/lib/store/template/stories/preview.ts exists
-  const extraPreviewAndExistence = await Promise.all(
-    extraStoryDirsAndExistence
-      .filter(([, exists]) => exists)
-      .map(([storiesPath]) => path.join(storiesPath, 'preview.ts'))
-      .map(
-        async (previewPath) =>
-          [previewPath, await pathExists(path.resolve(codeDir, previewPath))] as const
-      )
+  const packageDirsWithPreview = await filterExistsInCodeDir(
+    packageDirs,
+    path.join('template', 'stories', 'preview.ts')
   );
 
   const config = mainConfig.getFieldValue(['config']) as string[];
-  const extraConfig = extraPreviewAndExistence
-    .filter(([, exists]) => exists)
-    .map(([p]) => path.join('..', '..', 'code', p));
+  const extraConfig = packageDirsWithPreview.map((p) => {
+    const previewFile = path.join('template-stories', p, 'preview.ts');
+    return `./${previewFile}`;
+  });
   mainConfig.setFieldValue(['config'], [...(config || []), ...extraConfig]);
 }
 
@@ -402,7 +404,14 @@ export async function sandbox(optionValues: OptionValues<typeof options>) {
     for (const addon of [...defaultAddons, ...optionValues.addon]) {
       storiesToAdd.push(workspacePath('addon', `@storybook/addon-${addon}`, workspaces));
     }
-    await addStories(storiesToAdd, { mainConfig });
+    const existingStories = await filterExistsInCodeDir(
+      storiesToAdd,
+      path.join('template', 'stories')
+    );
+    await addStories(existingStories, {
+      mainConfig,
+      cwd,
+    });
 
     // Add some extra settings (see above for what these do)
     mainConfig.setFieldValue(['core', 'disableTelemetry'], true);
