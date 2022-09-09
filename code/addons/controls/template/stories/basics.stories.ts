@@ -70,14 +70,14 @@ export const Defined = {
 //   imageUrls: ['https://storybook.js.org/images/placeholders/350x150.png'],
 // };
 
-const hasCycle: any = {};
-hasCycle.cycle = hasCycle;
+// const hasCycle: any = {};
+// hasCycle.cycle = hasCycle;
 
-export const CyclicArgs = {
-  args: process.env.NODE_ENV !== 'test' ? { object: hasCycle } : {},
-  parameters: {
-    docs: { disable: true },
-    chromatic: { disable: true },
-    storyshots: { disable: true },
-  },
-};
+// export const CyclicArgs = {
+//   args: process.env.NODE_ENV !== 'test' ? { object: hasCycle } : {},
+//   parameters: {
+//     docs: { disable: true },
+//     chromatic: { disable: true },
+//     storyshots: { disable: true },
+//   },
+// };
