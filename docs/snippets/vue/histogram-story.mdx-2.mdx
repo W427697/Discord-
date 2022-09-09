@@ -7,11 +7,11 @@ import Histogram from './Histogram.vue';
 
 <Meta title="Histogram" component={Histogram} />
 
-export const Template = (args, { argTypes }) => ({
-  components: { Histogram },
-  props: Object.keys(argTypes),
-  template: `<Histogram v-bind="$props" v-on="$props" />`,
-});
+<!--
+ 👇 Render functions are a framework specific feature to allow you control on how the component renders.
+  See https://storybook.js.org/docs/7.0/vue/api/csf
+  to learn how to use render functions.
+-->
 
 <Canvas>
   <Story
@@ -21,8 +21,11 @@ export const Template = (args, { argTypes }) => ({
       showHistogramLabels: true,
       histogramAccentColor: '#1EA7FD',
       label: 'Latency distribution',
-    }} >
-    {Template.bind({})}
-  </Story>
+    }}
+    render={(args, { argTypes }) => ({
+      components: { Histogram },
+      props: Object.keys(argTypes),
+      template: `<Histogram v-bind="$props" v-on="$props" />`,
+    })} />
 </Canvas>
 ```
