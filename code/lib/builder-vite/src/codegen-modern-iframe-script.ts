@@ -9,12 +9,11 @@ export async function generateModernIframeScriptCode(options: ExtendedOptions) {
   const frameworkName = await getFrameworkName(options);
 
   const previewOrConfigFile = loadPreviewOrConfigFile({ configDir });
-  const presetEntries = await presets.apply('config', [], options);
-  const previewEntries = await presets.apply('previewEntries', [], options);
-  const absolutePreviewEntries = [...presetEntries, ...previewEntries].map((entry) =>
+  const configField = await presets.apply('config', [], options);
+  const absoluteConfigField = [...configField].map((entry) =>
     isAbsolute(entry) ? entry : resolve(entry)
   );
-  const configEntries = [...absolutePreviewEntries, previewOrConfigFile]
+  const configEntries = [...absoluteConfigField, previewOrConfigFile]
     .filter(Boolean)
     .map((configEntry) => transformAbsPath(configEntry as string));
 
