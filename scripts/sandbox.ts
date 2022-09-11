@@ -24,6 +24,7 @@ import { babelParse } from '../code/lib/csf-tools/src/babelParse';
 import TEMPLATES from '../code/lib/cli/src/repro-templates';
 import { servePackages } from './utils/serve-packages';
 import { filterExistsInCodeDir, codeDir } from './utils/filterExistsInCodeDir';
+import { JsPackageManagerFactory } from '../code/lib/cli/src/js-package-manager';
 
 type Template = keyof typeof TEMPLATES;
 const templates: Template[] = Object.keys(TEMPLATES) as any;
@@ -316,6 +317,23 @@ function workspacePath(type: string, packageName: string, workspaces: Workspace[
   return workspace.location;
 }
 
+function addExtraDependencies({
+  cwd,
+  dryRun,
+  debug,
+}: {
+  cwd: string;
+  dryRun: boolean;
+  debug: boolean;
+}) {
+  const extraDeps = ['@storybook/jest'];
+  if (debug) console.log('🎁 Adding extra deps', extraDeps);
+  if (!dryRun) {
+    const packageManager = JsPackageManagerFactory.getPackageManager(false, cwd);
+    packageManager.addDependencies({ installAsDevDependencies: true }, extraDeps);
+  }
+}
+
 export async function sandbox(optionValues: OptionValues<typeof options>) {
   const { template, forceDelete, forceReuse, dryRun, debug, fromLocalRepro } = optionValues;
 
@@ -456,6 +474,9 @@ export async function sandbox(optionValues: OptionValues<typeof options>) {
         }
       );
     }
+
+    // Some addon stories require extra dependencies
+    addExtraDependencies({ cwd, dryRun, debug });
 
     await addPackageScripts({
       cwd,
