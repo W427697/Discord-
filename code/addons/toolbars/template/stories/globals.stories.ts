@@ -25,7 +25,7 @@ export default {
         ...globals,
         caption: `Locale is '${globals.locale}', so I say: ${greetingForLocale(globals.locale)}`,
       };
-      return storyFn({ component: globalThis.Components.Pre, args: { object: globals } });
+      return storyFn({ component: globalThis.Components.Pre, args: { object } });
     },
   ],
 };
