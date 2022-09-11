@@ -108,7 +108,7 @@ const vueCliTemplates = {
   'vue-cli/vue2-default-js': {
     name: 'Vue-CLI (Vue2 JS)',
     script:
-      'npx -p @vue/cli vue create . --default --packageManager=yarn --force --merge --preset="Default (Vue 2)"',
+      'npx -p @vue/cli vue create . --default --packageManager=yarn --force --merge --preset=Default\\ (Vue\\ 2)',
     cadence: ['ci', 'daily', 'weekly'],
     expected: {
       framework: '@storybook/vue-webpack5',
