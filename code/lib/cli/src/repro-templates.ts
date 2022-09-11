@@ -94,11 +94,35 @@ const svelteViteTemplates = {
   // }
 };
 
+const webComponentsViteTemplates = {
+  'web-components-vite/default-js': {
+    name: 'Lit Vite (JS)',
+    script: 'yarn create vite . --template lit',
+    cadence: ['ci', 'daily', 'weekly'],
+    expected: {
+      framework: '@storybook/web-components-vite',
+      renderer: '@storybook/web-components',
+      builder: '@storybook/builder-vite',
+    },
+  },
+  'web-components-vite/default-ts': {
+    name: 'web-components Vite (TS)',
+    script: 'yarn create vite . --template lit-ts',
+    cadence: ['ci', 'daily', 'weekly'],
+    expected: {
+      framework: '@storybook/web-components-vite',
+      renderer: '@storybook/web-components',
+      builder: '@storybook/builder-vite',
+    },
+  },
+};
+
 export default {
   ...craTemplates,
   ...reactViteTemplates,
   ...vue3ViteTemplates,
   ...svelteViteTemplates,
+  ...webComponentsViteTemplates,
   // FIXME: missing documentation.json
   // 'angular/latest': {
   //   name: 'Angular (latest)',

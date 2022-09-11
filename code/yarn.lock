@@ -9675,6 +9675,21 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@storybook/web-components-vite@workspace:frameworks/web-components-vite":
+  version: 0.0.0-use.local
+  resolution: "@storybook/web-components-vite@workspace:frameworks/web-components-vite"
+  dependencies:
+    "@storybook/builder-vite": 7.0.0-alpha.31
+    "@storybook/core-server": 7.0.0-alpha.31
+    "@storybook/web-components": 7.0.0-alpha.31
+    "@types/node": ^14.14.20 || ^16.0.0
+    "@vitejs/plugin-vue": ^3.0.3
+    magic-string: ^0.26.1
+    typescript: ~4.6.3
+    vite: ^3.1.0
+  languageName: unknown
+  linkType: soft
+
 "@storybook/web-components-webpack5@workspace:*, @storybook/web-components-webpack5@workspace:frameworks/web-components-webpack5":
   version: 0.0.0-use.local
   resolution: "@storybook/web-components-webpack5@workspace:frameworks/web-components-webpack5"

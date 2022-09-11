@@ -401,6 +401,11 @@
       "type": "library",
       "implicitDependencies": []
     },
+    "@storybook/web-components-vite": {
+      "root": "frameworks/web-components-vite",
+      "type": "library",
+      "implicitDependencies": []
+    },
     "@storybook/web-components-webpack5": {
       "root": "frameworks/web-components-webpack5",
       "type": "library",
