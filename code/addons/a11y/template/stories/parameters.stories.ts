@@ -1,55 +1,55 @@
 import globalThis from 'global';
 
 export default {
-  component: globalThis.Components.Button,
+  component: globalThis.Components.Html,
   args: {
-    children: 'Click Me!',
+    contents: '<button>Click Me!</button>',
   },
   parameters: {
     chromatic: { disable: true },
   },
 };
 
-export const Basic = {};
-
-export const Violation = {
+export const Options = {
   args: {
-    // empty on purpose to get a button with no text
-    children: '',
+    contents:
+      '<button style="color: rgb(255, 255, 255); background-color: rgb(76, 175, 80);">Click me!</button>',
   },
-};
-
-export const Checks = {
   parameters: {
     a11y: {
       config: {},
       options: {
         checks: {
-          'color-contrast': { options: { noScroll: true } },
+          'color-contrast': { enabled: false },
         },
-        restoreScroll: true,
       },
+    },
+  },
+};
+
+export const Config = {
+  args: {
+    contents:
+      '<button style="color: rgb(255, 255, 255); background-color: rgb(76, 175, 80);">Click me!</button>',
+  },
+  parameters: {
+    a11y: {
+      config: {
+        rules: [{ id: 'avoid-inline-spacing', options: {} }],
+        disableOtherRules: true,
+      },
+      options: {},
     },
   },
 };
 
 export const Targetted = {
-  parameters: {
-    a11y: {
-      element: 'button',
-    },
+  args: {
+    contents: '<button class="custom-target">Click Me!</button>',
   },
-};
-
-export const Blank = {
   parameters: {
     a11y: {
-      config: {
-        disableOtherRules: true,
-        // @ts-ignore
-        rules: [],
-      },
-      options: {},
+      element: '.custom-target',
     },
   },
 };
