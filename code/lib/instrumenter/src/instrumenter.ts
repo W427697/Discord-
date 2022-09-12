@@ -503,7 +503,7 @@ export class Instrumenter {
           try {
             const res = arg(...args);
             if (res instanceof Promise) {
-              willRestore = true;
+              willRestore = true; // We need to wait for the promise to finish before restoring
               return res.finally(restore);
             }
             return res;
