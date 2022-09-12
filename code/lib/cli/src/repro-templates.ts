@@ -106,7 +106,7 @@ const litViteTemplates = {
     },
   },
   'lit-vite/default-ts': {
-    name: 'web-components Vite (TS)',
+    name: 'Lit Vite (TS)',
     script: 'yarn create vite . --template lit-ts',
     cadence: ['ci', 'daily', 'weekly'],
     expected: {
