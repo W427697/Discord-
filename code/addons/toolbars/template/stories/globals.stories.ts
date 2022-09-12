@@ -18,14 +18,14 @@ const greetingForLocale = (locale: string) => {
 };
 
 export default {
-  component: null,
+  component: globalThis.Components.Pre,
   decorators: [
     (storyFn: PartialStoryFn, { globals }: StoryContext) => {
       const object = {
         ...globals,
         caption: `Locale is '${globals.locale}', so I say: ${greetingForLocale(globals.locale)}`,
       };
-      return storyFn({ component: globalThis.Components.Pre, args: { object } });
+      return storyFn({ args: { object } });
     },
   ],
 };
