@@ -61,5 +61,5 @@ export const { step: runStep } = instrument(
 );
 
 export const parameters = {
-  hidePlayFunctionExceptions: true,
+  throwPlayFunctionExceptions: false,
 };

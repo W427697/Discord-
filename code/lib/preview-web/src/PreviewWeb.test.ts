@@ -530,7 +530,7 @@ describe('PreviewWeb', () => {
                       `);
       });
 
-      describe('when `hidePlayFunctionExceptions` is set', () => {
+      describe('when `throwPlayFunctionExceptions` is set', () => {
         it('emits but does not render exception if the play function throws', async () => {
           const error = new Error('error');
           componentOneExports.a.play.mockImplementationOnce(() => {
@@ -541,7 +541,7 @@ describe('PreviewWeb', () => {
             ...projectAnnotations,
             parameters: {
               ...projectAnnotations.parameters,
-              hidePlayFunctionExceptions: true,
+              throwPlayFunctionExceptions: false,
             },
           });
 
@@ -560,7 +560,7 @@ describe('PreviewWeb', () => {
         });
       });
 
-      describe('when `hidePlayFunctionExceptions` is unset', () => {
+      describe('when `throwPlayFunctionExceptions` is unset', () => {
         it('emits AND renders exception if the play function throws', async () => {
           const error = new Error('error');
           componentOneExports.a.play.mockImplementationOnce(() => {
