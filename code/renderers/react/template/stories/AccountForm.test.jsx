@@ -18,6 +18,6 @@ test('fills input from play function', async () => {
 
   await StandardEmailFilled.play({ canvasElement: container });
 
-  const emailInput = screen.getByTestId('email') as HTMLInputElement;
+  const emailInput = screen.getByTestId('email');
   expect(emailInput.value).toBe('michael@chromatic.com');
 });

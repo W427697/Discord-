@@ -1,12 +1,6 @@
 import React, { FC, HTMLAttributes, useCallback, useState } from 'react';
 import { keyframes, styled } from '@storybook/theming';
-import {
-  ErrorMessage,
-  Field as FormikInput,
-  Form as FormikForm,
-  Formik,
-  FormikProps,
-} from 'formik';
+import { ErrorMessage, Field as FormikInput, Form as FormikForm, Formik } from 'formik';
 import { Icons, WithTooltip } from '@storybook/components';
 
 const errorMap = {
@@ -53,36 +47,7 @@ const email99RegExp = new RegExp(
   /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 );
 
-export interface AccountFormResponse {
-  success: boolean;
-}
-
-export interface AccountFormValues {
-  email: string;
-  password: string;
-}
-
-interface FormValues extends AccountFormValues {
-  verifiedPassword: string;
-}
-
-interface FormErrors {
-  email?: string;
-  emailTooltip?: string;
-  password?: string;
-  passwordTooltip?: string;
-  verifiedPassword?: string;
-  verifiedPasswordTooltip?: string;
-}
-
-export type AccountFormProps = {
-  passwordVerification?: boolean;
-  onSubmit?: (values: AccountFormValues) => void;
-  onTransactionStart?: (values: AccountFormValues) => void;
-  onTransactionEnd?: (values: AccountFormResponse) => void;
-};
-
-export const AccountForm: FC<AccountFormProps> = ({
+export const AccountForm = ({
   passwordVerification,
   onSubmit,
   onTransactionStart,
@@ -95,7 +60,7 @@ export const AccountForm: FC<AccountFormProps> = ({
   });
 
   const handleFormSubmit = useCallback(
-    async ({ email, password }: FormValues, { setSubmitting, resetForm }) => {
+    async ({ email, password }, { setSubmitting, resetForm }) => {
       if (onSubmit) {
         onSubmit({ email, password });
       }
@@ -224,7 +189,7 @@ export const AccountForm: FC<AccountFormProps> = ({
             validateOnChange={false}
             onSubmit={handleFormSubmit}
             validate={({ email, password, verifiedPassword }) => {
-              const errors: FormErrors = {};
+              const errors = {};
 
               if (!email) {
                 errors.email = errorMap.email.required.normal;
@@ -257,15 +222,15 @@ export const AccountForm: FC<AccountFormProps> = ({
               return errors;
             }}
           >
-            {({ errors: _errors, isSubmitting, dirty }: FormikProps<FormValues>) => {
-              const errors = _errors as FormErrors;
+            {({ errors: _errors, isSubmitting, dirty }) => {
+              const errors = _errors;
 
               return (
                 <Form noValidate aria-disabled={isSubmitting ? 'true' : 'false'}>
                   <FieldWrapper>
                     <Label htmlFor="email">Email</Label>
                     <FormikInput id="email" name="email">
-                      {({ field }: { field: HTMLAttributes<HTMLInputElement> }) => (
+                      {({ field }) => (
                         <>
                           <Input
                             data-testid="email"
@@ -293,7 +258,7 @@ export const AccountForm: FC<AccountFormProps> = ({
                   <FieldWrapper>
                     <Label htmlFor="password">Password</Label>
                     <FormikInput id="password" name="password">
-                      {({ field }: { field: HTMLAttributes<HTMLInputElement> }) => (
+                      {({ field }) => (
                         <Input
                           data-testid="password1"
                           aria-required="true"
@@ -318,7 +283,7 @@ export const AccountForm: FC<AccountFormProps> = ({
                     <FieldWrapper>
                       <Label htmlFor="verifiedPassword">Verify Password</Label>
                       <FormikInput id="verifiedPassword" name="verifiedPassword">
-                        {({ field }: { field: HTMLAttributes<HTMLInputElement> }) => (
+                        {({ field }) => (
                           <Input
                             data-testid="password2"
                             aria-required="true"
@@ -371,13 +336,13 @@ export const AccountForm: FC<AccountFormProps> = ({
 };
 
 const Wrapper = styled.section(({ theme }) => ({
-  fontFamily: theme.typography.fonts.base,
+  // fontFamily: theme.typography.fonts.base,
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
   width: 450,
   padding: 32,
-  backgroundColor: theme.background.content,
+  // backgroundColor: theme.background.content,
   borderRadius: 7,
 }));
 
@@ -395,7 +360,7 @@ const Title = styled.svg({
 });
 
 const logoAnimation = keyframes({
-  '0': {
+  0: {
     transform: 'rotateY(0deg)',
     transformOrigin: '50% 5% 0',
   },
@@ -405,11 +370,7 @@ const logoAnimation = keyframes({
   },
 });
 
-interface LogoProps {
-  transacting: boolean;
-}
-
-const Logo = styled.svg<LogoProps>(
+const Logo = styled.svg(
   ({ transacting }) =>
     transacting && {
       animation: `${logoAnimation} 1250ms both infinite`,
@@ -456,9 +417,9 @@ const Label = styled.label({
   marginBottom: 6,
 });
 
-const Input = styled.input(({ theme }) => ({
+const Input = styled.input(() => ({
   fontSize: 14,
-  color: theme.color.defaultText,
+  // color: theme.color.defaultText,
   padding: '10px 15px',
   borderRadius: 4,
   appearance: 'none',
@@ -485,7 +446,7 @@ const ErrorWrapper = styled.div({
 });
 
 const ErrorIcon = styled(Icons)(({ theme }) => ({
-  fill: theme.color.defaultText,
+  // fill: theme.color.defaultText,
   opacity: 0.8,
   marginRight: 6,
   marginLeft: 2,
@@ -493,7 +454,7 @@ const ErrorIcon = styled(Icons)(({ theme }) => ({
 }));
 
 const ErrorTooltip = styled.div(({ theme }) => ({
-  fontFamily: theme.typography.fonts.base,
+  // fontFamily: theme.typography.fonts.base,
   fontSize: 13,
   padding: 8,
   maxWidth: 350,
@@ -508,11 +469,7 @@ const Actions = styled.div({
 
 const Error = styled(ErrorMessage)({});
 
-interface ButtonProps {
-  dirty?: boolean;
-}
-
-const Button = styled.button<ButtonProps>({
+const Button = styled.button({
   backgroundColor: 'transparent',
   border: '0 none',
   outline: 'none',
@@ -537,16 +494,16 @@ const Button = styled.button<ButtonProps>({
   },
 });
 
-const Submit = styled(Button)(({ theme, dirty }) => ({
+const Submit = styled(Button)(({ dirty }) => ({
   marginRight: 8,
-  backgroundColor: theme.color.secondary,
-  color: theme.color.inverseText,
+  // backgroundColor: theme.color.secondary,
+  // color: theme.color.inverseText,
   opacity: dirty ? 1 : 0.6,
   boxShadow: 'rgb(30 167 253 / 10%) 0 0 0 1px inset',
 }));
 
-const Reset = styled(Button)(({ theme }) => ({
+const Reset = styled(Button)(() => ({
   marginLeft: 8,
   boxShadow: 'rgb(30 167 253) 0 0 0 1px inset',
-  color: theme.color.secondary,
+  // color: theme.color.secondary,
 }));
