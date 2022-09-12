@@ -553,6 +553,10 @@ describe('PreviewWeb', () => {
             serializeError(error)
           );
           expect(preview.view.showErrorDisplay).not.toHaveBeenCalled();
+          expect(mockChannel.emit).not.toHaveBeenCalledWith(
+            STORY_THREW_EXCEPTION,
+            serializeError(error)
+          );
         });
       });
 
@@ -571,6 +575,10 @@ describe('PreviewWeb', () => {
             serializeError(error)
           );
           expect(preview.view.showErrorDisplay).toHaveBeenCalled();
+          expect(mockChannel.emit).toHaveBeenCalledWith(
+            STORY_THREW_EXCEPTION,
+            serializeError(error)
+          );
         });
       });
 
