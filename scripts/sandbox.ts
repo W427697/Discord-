@@ -255,9 +255,9 @@ function forceViteRebuilds(mainConfig: ConfigFile) {
   );
 }
 
-function addConfigEntries(mainConfig: ConfigFile, paths: string[]) {
-  const config = mainConfig.getFieldValue(['config']) as string[];
-  mainConfig.setFieldValue(['config'], [...(config || []), ...paths]);
+function addPreviewAnnotations(mainConfig: ConfigFile, paths: string[]) {
+  const config = mainConfig.getFieldValue(['previewAnnotations']) as string[];
+  mainConfig.setFieldValue(['previewAnnotations'], [...(config || []), ...paths]);
 }
 
 // paths are of the form 'renderers/react', 'addons/actions'
@@ -297,7 +297,7 @@ async function addStories(paths: string[], { mainConfig }: { mainConfig: ConfigF
   const extraConfig = extraPreviewAndExistence
     .filter(([, exists]) => exists)
     .map(([p]) => path.join('..', '..', 'code', p));
-  addConfigEntries(mainConfig, extraConfig);
+  addPreviewAnnotations(mainConfig, extraConfig);
 }
 
 type Workspace = { name: string; location: string };
@@ -383,7 +383,7 @@ export async function sandbox(optionValues: OptionValues<typeof options>) {
       path.join(codeDir, rendererPath, 'template', 'components'),
       path.resolve(cwd, storiesPath, 'components')
     );
-    addConfigEntries(mainConfig, [`.${path.sep}${path.join(storiesPath, 'components')}`]);
+    addPreviewAnnotations(mainConfig, [`.${path.sep}${path.join(storiesPath, 'components')}`]);
 
     // Link in the stories from the store, the renderer and the addons
     const storiesToAdd = [] as string[];
