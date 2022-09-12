@@ -1,3 +1,4 @@
+/// <reference types="@types/jest" />;
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import React from 'react';
 import { addons } from '@storybook/addons';
@@ -6,8 +7,6 @@ import { render, screen } from '@testing-library/react';
 import { composeStories, composeStory } from '@storybook/react';
 
 import * as stories from './Button.stories';
-
-import * as globalConfig from '../../../../.storybook/preview';
 
 const { CSF2StoryWithParamsAndDecorator } = composeStories(stories);
 
@@ -22,7 +21,6 @@ test('returns composed parameters from story', () => {
   expect(CSF2StoryWithParamsAndDecorator.parameters).toEqual(
     expect.objectContaining({
       ...stories.CSF2StoryWithParamsAndDecorator.parameters,
-      ...globalConfig.parameters,
     })
   );
 });
