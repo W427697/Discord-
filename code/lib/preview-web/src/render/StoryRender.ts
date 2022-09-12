@@ -242,6 +242,7 @@ export class StoryRender<TFramework extends AnyFramework> implements Render<TFra
           await this.runPhase(abortSignal, 'errored', async () => {
             this.channel.emit(PLAY_FUNCTION_THREW_EXCEPTION, serializeError(error));
           });
+          if (this.story.parameters.throwPlayFunctionExceptions !== false) throw error;
         }
         this.disableKeyListeners = false;
         if (abortSignal.aborted) return;
