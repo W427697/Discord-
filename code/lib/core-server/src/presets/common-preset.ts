@@ -91,7 +91,7 @@ export const core = async (existing: CoreConfig, options: Options): Promise<Core
 export const previewAnnotations = async (base: any, options: Options) => {
   const config = await options.presets.apply('config', [], options);
 
-  if (config?.length > 0) warnConfigField();
+  if (config.length > 0) warnConfigField();
 
   return [...config, require.resolve('@storybook/core-client/dist/esm/globals/globals'), ...base];
 };
