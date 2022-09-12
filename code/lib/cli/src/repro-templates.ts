@@ -94,8 +94,8 @@ const svelteViteTemplates = {
   // }
 };
 
-const webComponentsViteTemplates = {
-  'web-components-vite/default-js': {
+const litViteTemplates = {
+  'lit-vite/default-js': {
     name: 'Lit Vite (JS)',
     script: 'yarn create vite . --template lit',
     cadence: ['ci', 'daily', 'weekly'],
@@ -105,7 +105,7 @@ const webComponentsViteTemplates = {
       builder: '@storybook/builder-vite',
     },
   },
-  'web-components-vite/default-ts': {
+  'lit-vite/default-ts': {
     name: 'web-components Vite (TS)',
     script: 'yarn create vite . --template lit-ts',
     cadence: ['ci', 'daily', 'weekly'],
@@ -122,7 +122,7 @@ export default {
   ...reactViteTemplates,
   ...vue3ViteTemplates,
   ...svelteViteTemplates,
-  ...webComponentsViteTemplates,
+  ...litViteTemplates,
   // FIXME: missing documentation.json
   // 'angular/latest': {
   //   name: 'Angular (latest)',
