@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // eslint-disable-next-line react/no-danger
-export const Html = ({ contents }) => <div dangerouslySetInnerHTML={{ __html: contents }} />;
+export const Html = ({ content }) => <div dangerouslySetInnerHTML={{ __html: content }} />;
 
 Html.propTypes = {
-  contents: PropTypes.string.isRequired,
+  content: PropTypes.string.isRequired,
 };
