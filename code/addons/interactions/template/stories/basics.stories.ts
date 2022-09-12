@@ -18,25 +18,15 @@ export const Type = {
 };
 
 export const Step = {
-  play: async (context) => {
-    await context.step('Enter value', async () => Type.play(context));
-  },
-};
-
-export const Click = {
-  play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement);
-    await fireEvent.click(canvas.getByTestId('succeed'));
+  play: async ({ step }) => {
+    await step('Enter value', Type.play);
   },
 };
 
 export const Callback = {
-  play: async (context) => {
-    const { args, canvasElement, step } = context;
+  play: async ({ args, canvasElement, step }) => {
     const canvas = within(canvasElement);
-    await step('Enter value', async () => Type.play(context));
-
-    await step('Click checkbox', async () => Click.play(context));
+    await step('Enter value', Type.play);
 
     await step('Submit', async () => {
       await fireEvent.click(canvas.getByRole('button'));
@@ -46,30 +36,31 @@ export const Callback = {
   },
 };
 
-export const WaitFor = {
-  play: async (context) => {
-    const { args, canvasElement, step } = context;
+// NOTE: of course you can use `findByText()` to implicitly waitFor, but we want
+// an explicit test here
+export const SyncWaitFor = {
+  play: async ({ canvasElement, step }) => {
     const canvas = within(canvasElement);
-    await step('Enter value', async () => Type.play(context));
-
-    await step('Submit', async () => {
-      await fireEvent.click(canvas.getByRole('button'));
-    });
-
-    await expect(args.onSuccess).not.toHaveBeenCalled();
-
-    await waitFor(
-      async function () {
-        await canvas.getByTestId("Submitted 'test' when not allowed!");
-      },
-      { timeout: 2000 }
-    );
+    await step('Setup', Callback.play);
+    await waitFor(() => canvas.getByText('Completed!!'));
   },
 };
 
-export const Hover = {
-  play: async ({ canvasElement }) => {
+export const AsyncWaitFor = {
+  play: async ({ args, canvasElement, step }) => {
     const canvas = within(canvasElement);
-    await userEvent.hover(canvas.getByRole('button'));
+    await step('Setup', Callback.play);
+    await waitFor(async () => canvas.getByText('Completed!!'));
+  },
+};
+
+export const Validation = {
+  play: async (context) => {
+    const { args, canvasElement, step } = context;
+    const canvas = within(canvasElement);
+
+    await step('Submit', async () => fireEvent.click(canvas.getByRole('button')));
+
+    await expect(args.onSuccess).not.toHaveBeenCalled();
   },
 };

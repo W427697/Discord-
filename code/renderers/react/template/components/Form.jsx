@@ -3,48 +3,29 @@ import PropTypes from 'prop-types';
 
 export const Form = ({ onSuccess }) => {
   const [value, setValue] = useState('');
-  const [succeed, setSucceed] = useState(false);
-  const [error, setError] = useState(null);
+  const [complete, setComplete] = useState(false);
 
   function onSubmit(event) {
     event.preventDefault();
-    if (succeed) {
-      setError(null);
-      onSuccess(value);
-    } else {
-      setTimeout(() => {
-        setError(`Submitted '${value}' when not allowed!`);
-      }, 1000);
-    }
+    onSuccess(value);
+
+    setTimeout(() => setComplete(true), 500);
   }
 
   return (
     <form id="interaction-test-form" onSubmit={onSubmit}>
-      <style>{`
-        #interaction-test-form button:hover {
-          background: red;
-        }
-      `}</style>
       <label>
         Enter Value
         <input
           type="text"
           data-testid="value"
           value={value}
+          required
           onChange={(event) => setValue(event.target.value)}
         />
       </label>
-      <label>
-        Should succeed?
-        <input
-          type="checkbox"
-          data-testid="succeed"
-          value={succeed}
-          onChange={(event) => setSucceed(event.target.checked)}
-        />
-      </label>
       <button type="submit">Submit</button>
-      {error && <p data-testid="error">{error}</p>}
+      {complete && <p>Completed!!</p>}
     </form>
   );
 };
