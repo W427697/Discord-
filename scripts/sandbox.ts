@@ -14,6 +14,7 @@ import prompts from 'prompts';
 import type { AbortController } from 'node-abort-controller';
 import command from 'execa';
 
+import dedent from 'ts-dedent';
 import { createOptions, getOptionsOrPrompt, OptionValues } from './utils/options';
 import { executeCLIStep } from './utils/cli-step';
 import { installYarn2, configureYarn2ForVerdaccio, addPackageResolutions } from './utils/yarn';
@@ -23,13 +24,13 @@ import { ConfigFile, readConfig, writeConfig } from '../code/lib/csf-tools';
 import { babelParse } from '../code/lib/csf-tools/src/babelParse';
 import TEMPLATES from '../code/lib/cli/src/repro-templates';
 import { servePackages } from './utils/serve-packages';
-import dedent from 'ts-dedent';
 
 type Template = keyof typeof TEMPLATES;
 const templates: Template[] = Object.keys(TEMPLATES) as any;
 const addons = ['a11y', 'storysource'];
 const defaultAddons = [
   'actions',
+  'a11y',
   'backgrounds',
   'controls',
   'docs',
