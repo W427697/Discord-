@@ -272,7 +272,7 @@ async function addStories(paths: string[], { mainConfig }: { mainConfig: ConfigF
     .map(([p]) => ({
       directory: path.join('..', '..', '..', 'code', p),
       titlePrefix: p.split('/').slice(-4, -2).join('/'),
-      files: '*.stories.@(js|jsx|ts|tsx)',
+      files: '**/*.stories.@(js|jsx|ts|tsx)',
     }));
   mainConfig.setFieldValue(['stories'], [...stories, ...extraStories]);
 

@@ -17,10 +17,16 @@ Start by [forking](https://docs.github.com/en/github/getting-started-with-github
 git clone https://github.com/your-username/storybook.git
 ```
 
-Navigate to the `storybook/code` directory and install the required dependencies with the following commands:
+Navigate to the `storybook/scripts` directory and install the required dependencies with the following commands:
 
 ```shell
-yarn && yarn bootstrap --core
+yarn install
+```
+
+Navigate to the `storybook/code` directory and run the following commands:
+
+```shell
+yarn install && yarn bootstrap --core
 ```
 
 ## Run tests & examples

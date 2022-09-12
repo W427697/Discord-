@@ -11,7 +11,7 @@
     "storyshots-puppeteer": "storybook build && yarn run do-storyshots-puppeteer"
   },
   "devDependencies": {
-    "@emotion/jest": "^11.8.0",
+    "@emotion/jest": "^11.10.0",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.5",
     "@storybook/addon-a11y": "7.0.0-alpha.31",
     "@storybook/addon-actions": "7.0.0-alpha.31",

@@ -7,7 +7,11 @@ import { HistogramComponent } from './histogram.component';
 
 <Meta title="Histogram" component={HistogramComponent} />
 
-export const Template = (args) => ({ props: args });
+<!--
+ 👇 Render functions are a framework specific feature to allow you control on how the component renders.
+  See https://storybook.js.org/docs/7.0/angular/api/csf
+  to learn how to use render functions.
+-->
 
 <Canvas>
   <Story
@@ -17,8 +21,9 @@ export const Template = (args) => ({ props: args });
       showHistogramLabels: true,
       histogramAccentColor: '#1EA7FD',
       label: 'Latency distribution',
-    }} >
-    {Template.bind({})}
-  </Story>
+    }}
+    render={(args) => ({
+      props: args,
+    })} />
 </Canvas>
 ```

@@ -298,7 +298,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/helper-module-imports@npm:^7.10.4, @babel/helper-module-imports@npm:^7.12.13, @babel/helper-module-imports@npm:^7.18.6":
+"@babel/helper-module-imports@npm:^7.10.4, @babel/helper-module-imports@npm:^7.12.13, @babel/helper-module-imports@npm:^7.16.7, @babel/helper-module-imports@npm:^7.18.6":
   version: 7.18.6
   resolution: "@babel/helper-module-imports@npm:7.18.6"
   dependencies:
@@ -838,7 +838,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/plugin-syntax-jsx@npm:^7.12.13, @babel/plugin-syntax-jsx@npm:^7.18.6":
+"@babel/plugin-syntax-jsx@npm:^7.17.12, @babel/plugin-syntax-jsx@npm:^7.18.6":
   version: 7.18.6
   resolution: "@babel/plugin-syntax-jsx@npm:7.18.6"
   dependencies:
@@ -1580,7 +1580,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/runtime@npm:^7.10.2, @babel/runtime@npm:^7.12.5, @babel/runtime@npm:^7.13.10, @babel/runtime@npm:^7.17.2, @babel/runtime@npm:^7.18.3, @babel/runtime@npm:^7.7.2, @babel/runtime@npm:^7.8.4, @babel/runtime@npm:^7.9.2":
+"@babel/runtime@npm:^7.10.2, @babel/runtime@npm:^7.12.5, @babel/runtime@npm:^7.17.2, @babel/runtime@npm:^7.18.3, @babel/runtime@npm:^7.8.4, @babel/runtime@npm:^7.9.2":
   version: 7.18.9
   resolution: "@babel/runtime@npm:7.18.9"
   dependencies:
@@ -1854,17 +1854,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@emotion/babel-plugin@npm:^11.7.2":
-  version: 11.9.2
-  resolution: "@emotion/babel-plugin@npm:11.9.2"
+"@emotion/babel-plugin@npm:^11.10.2":
+  version: 11.10.2
+  resolution: "@emotion/babel-plugin@npm:11.10.2"
   dependencies:
-    "@babel/helper-module-imports": ^7.12.13
-    "@babel/plugin-syntax-jsx": ^7.12.13
-    "@babel/runtime": ^7.13.10
-    "@emotion/hash": ^0.8.0
-    "@emotion/memoize": ^0.7.5
-    "@emotion/serialize": ^1.0.2
-    babel-plugin-macros: ^2.6.1
+    "@babel/helper-module-imports": ^7.16.7
+    "@babel/plugin-syntax-jsx": ^7.17.12
+    "@babel/runtime": ^7.18.3
+    "@emotion/hash": ^0.9.0
+    "@emotion/memoize": ^0.8.0
+    "@emotion/serialize": ^1.1.0
+    babel-plugin-macros: ^3.1.0
     convert-source-map: ^1.5.0
     escape-string-regexp: ^4.0.0
     find-root: ^1.1.0
@@ -1872,33 +1872,33 @@ __metadata:
     stylis: 4.0.13
   peerDependencies:
     "@babel/core": ^7.0.0
-  checksum: 337d683a657f14fd9f30a50561794e9b7b986c4dfa3de4747defb38f7f352eedae56bf73b1ff6e315f05e938b7e6c11e100c3a1485722d9bcdc4018f32b9b9a1
+  checksum: 571876a4b1445c07c1a54721ab5ae72dbe4194586bceacf2b1891dce5e86755bff7e84c00af9fd047d8b96bf6a407ad8d6fcc2c788174857f84ec3c316c5c35c
   languageName: node
   linkType: hard
 
-"@emotion/css-prettifier@npm:^1.0.1":
-  version: 1.0.1
-  resolution: "@emotion/css-prettifier@npm:1.0.1"
+"@emotion/css-prettifier@npm:^1.1.0":
+  version: 1.1.0
+  resolution: "@emotion/css-prettifier@npm:1.1.0"
   dependencies:
-    "@emotion/memoize": ^0.7.4
+    "@emotion/memoize": ^0.8.0
     stylis: 4.0.13
-  checksum: bb5490433ede97e344ec7b374308cbb793d271d9044565bb735e1adf8ad28e2376e837bb020d7d58772ffeaee3360bced225c8bbc92f8c64b5b91bc9a56490c4
+  checksum: 0ca881d7096678de456ed74ca2a28ed7f7a473829f7b91f8d9480d1404afb14f36adfbe8a5f789ef7cfabd08ac3dd9aa56d6285babd6b6ed031f2e92dc23fe1b
   languageName: node
   linkType: hard
 
-"@emotion/hash@npm:^0.8.0":
-  version: 0.8.0
-  resolution: "@emotion/hash@npm:0.8.0"
-  checksum: 706303d35d416217cd7eb0d36dbda4627bb8bdf4a32ea387e8dd99be11b8e0a998e10af21216e8a5fade518ad955ff06aa8890f20e694ce3a038ae7fc1000556
+"@emotion/hash@npm:^0.9.0":
+  version: 0.9.0
+  resolution: "@emotion/hash@npm:0.9.0"
+  checksum: 0910d3e9ec46cc780f691c96fb6f6f67b4f080b50ecf4f441bc4b33b5906e28099f530a368fe0b31c6bad38a857ac44df3c36f8978be603789d71330ac01af12
   languageName: node
   linkType: hard
 
-"@emotion/jest@npm:^11.8.0":
-  version: 11.9.4
-  resolution: "@emotion/jest@npm:11.9.4"
+"@emotion/jest@npm:^11.10.0":
+  version: 11.10.0
+  resolution: "@emotion/jest@npm:11.10.0"
   dependencies:
-    "@babel/runtime": ^7.13.10
-    "@emotion/css-prettifier": ^1.0.1
+    "@babel/runtime": ^7.18.3
+    "@emotion/css-prettifier": ^1.1.0
     chalk: ^4.1.0
     specificity: ^0.4.1
     stylis: 4.0.13
@@ -1910,41 +1910,41 @@ __metadata:
       optional: true
     enzyme-to-json:
       optional: true
-  checksum: 9a4649153cd8cbc87ced484e3c399c81daeaddb61f801c30f7b1fb1973794f4bda0a32e86dac0000f4d1490baeb7ff6226553cf0795a4eb3a8a7f04db764d10d
+  checksum: d1d566e3958fb17d1bc3fe37b398546bdfc92666a34c0281a27108d7630219af0c90ec05633ec7fc55794a5f714d517d1ee9489435620b40ec9982136ad6e16a
   languageName: node
   linkType: hard
 
-"@emotion/memoize@npm:^0.7.4, @emotion/memoize@npm:^0.7.5":
-  version: 0.7.5
-  resolution: "@emotion/memoize@npm:0.7.5"
-  checksum: 28d061ec9fb9b8c495d58b4e2dcc62207d75d4e8d8f4e6a0b42342d6e7c649d41461e807363d1a0a2c33d2235f6ee59dd6394fbec88b7da65e3d5852fc34387e
+"@emotion/memoize@npm:^0.8.0":
+  version: 0.8.0
+  resolution: "@emotion/memoize@npm:0.8.0"
+  checksum: 246087ec09b32b295af67a094253831f398aabd953d03d14f186acb8607ed2a755e944f5e20b5ccebb461f15c2e5ccbf8fe977bcf3be951cf10961c504e1e65b
   languageName: node
   linkType: hard
 
-"@emotion/serialize@npm:^1.0.2":
-  version: 1.0.4
-  resolution: "@emotion/serialize@npm:1.0.4"
-  dependencies:
-    "@emotion/hash": ^0.8.0
-    "@emotion/memoize": ^0.7.4
-    "@emotion/unitless": ^0.7.5
-    "@emotion/utils": ^1.0.0
-    csstype: ^3.0.2
-  checksum: ad2d5aba32177ae305918ccebd1e7a8d1d2886dc2083d9a031853169f9713012aee998ddd8a3d62d63eade1cfa4c077de5b260ed664a77583428d3df65dd193a
-  languageName: node
-  linkType: hard
-
-"@emotion/unitless@npm:^0.7.5":
-  version: 0.7.5
-  resolution: "@emotion/unitless@npm:0.7.5"
-  checksum: 4d0d94f53cb97b4481bbfa394953e1899a0b877644642ba9dd7247c27eb8c48e14e22aeb11411d7d9874685ad85dd5fb5b50eb78c6d8840eb56a84b92dcef2f4
-  languageName: node
-  linkType: hard
-
-"@emotion/utils@npm:^1.0.0":
+"@emotion/serialize@npm:^1.1.0":
   version: 1.1.0
-  resolution: "@emotion/utils@npm:1.1.0"
-  checksum: 4659bb4c447fa8c5303fae5cae829c22ce29ba0d9e0a8fb1f3f33b8bfd9304a435af327abccbf133040eeb1771a572fad3e68decd267e26459b8ea6ea1f2ba68
+  resolution: "@emotion/serialize@npm:1.1.0"
+  dependencies:
+    "@emotion/hash": ^0.9.0
+    "@emotion/memoize": ^0.8.0
+    "@emotion/unitless": ^0.8.0
+    "@emotion/utils": ^1.2.0
+    csstype: ^3.0.2
+  checksum: a122fc4c34425bc76d0c72b14c8e0617ccc72709fbbed695c506ca493dc478df15eba0c1ec45807e7dd248430b2e0dbf8ba8fe9035832087138e0f8e51ac4100
+  languageName: node
+  linkType: hard
+
+"@emotion/unitless@npm:^0.8.0":
+  version: 0.8.0
+  resolution: "@emotion/unitless@npm:0.8.0"
+  checksum: 1f2cfb7c0ccb83c20b1c6d8d92a74a93da4b2a440f9a0d49ded08647faf299065a2ffde17e1335920fa10397b85f8635bbfe14f3cd29222a59ea81d978478072
+  languageName: node
+  linkType: hard
+
+"@emotion/utils@npm:^1.2.0":
+  version: 1.2.0
+  resolution: "@emotion/utils@npm:1.2.0"
+  checksum: 7051cec83bb49688549667484058d3a19a30001fa3692c23f7a2e727c05121f952854e1196feb9ece4fa36914705ebf474edba833a2178bdc133c654b5e3ca7d
   languageName: node
   linkType: hard
 
@@ -3566,8 +3566,8 @@ __metadata:
     "@compodoc/compodoc": ^1.1.18
     "@cypress/skip-test": ^2.6.1
     "@cypress/webpack-preprocessor": ^5.9.1
-    "@emotion/babel-plugin": ^11.7.2
-    "@emotion/jest": ^11.8.0
+    "@emotion/babel-plugin": ^11.10.2
+    "@emotion/jest": ^11.10.0
     "@jest/globals": ^26.6.2
     "@linear/sdk": ^1.21.0
     "@nicolo-ribaudo/chokidar-2": ^2.1.8
@@ -5733,18 +5733,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"babel-plugin-macros@npm:^2.6.1":
-  version: 2.8.0
-  resolution: "babel-plugin-macros@npm:2.8.0"
-  dependencies:
-    "@babel/runtime": ^7.7.2
-    cosmiconfig: ^6.0.0
-    resolve: ^1.12.0
-  checksum: 9a101e2844a800e65662b2a8d0758bdbbe500ae02d68ef6f3466ead7eaa1350e3872b97014b20bf6f3a1a46b3c9613dfac7578af6f6ae6d4eccbd68ad7b6f228
-  languageName: node
-  linkType: hard
-
-"babel-plugin-macros@npm:^3.0.1":
+"babel-plugin-macros@npm:^3.0.1, babel-plugin-macros@npm:^3.1.0":
   version: 3.1.0
   resolution: "babel-plugin-macros@npm:3.1.0"
   dependencies:
@@ -7161,19 +7150,6 @@ __metadata:
   version: 2.0.1
   resolution: "corser@npm:2.0.1"
   checksum: 1f319a752a560342dd22d936e5a4c158bfcbc332524ef5b05a7277236dad8b0b2868fd5cf818559f29954ec4d777d82e797fccd76601fcfe431610e4143c8acc
-  languageName: node
-  linkType: hard
-
-"cosmiconfig@npm:^6.0.0":
-  version: 6.0.0
-  resolution: "cosmiconfig@npm:6.0.0"
-  dependencies:
-    "@types/parse-json": ^4.0.0
-    import-fresh: ^3.1.0
-    parse-json: ^5.0.0
-    path-type: ^4.0.0
-    yaml: ^1.7.2
-  checksum: 666ed8732d0bf7d7fe6f8516c8ee6041e0622032e8fa26201577b883d2767ad105d03f38b34b93d1f02f26b22a89e7bab4443b9d2e7f931f48d0e944ffa038b5
   languageName: node
   linkType: hard
 
@@ -11341,7 +11317,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"import-fresh@npm:^3.0.0, import-fresh@npm:^3.1.0, import-fresh@npm:^3.2.1":
+"import-fresh@npm:^3.0.0, import-fresh@npm:^3.2.1":
   version: 3.3.0
   resolution: "import-fresh@npm:3.3.0"
   dependencies:
@@ -21256,7 +21232,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"yaml@npm:^1.10.0, yaml@npm:^1.10.2, yaml@npm:^1.7.2":
+"yaml@npm:^1.10.0, yaml@npm:^1.10.2":
   version: 1.10.2
   resolution: "yaml@npm:1.10.2"
   checksum: 5c28b9eb7adc46544f28d9a8d20c5b3cb1215a886609a2fd41f51628d8aaa5878ccd628b755dbcd29f6bb4921bd04ffbc6dcc370689bb96e594e2f9813d2605f
