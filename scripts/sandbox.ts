@@ -13,7 +13,9 @@ import {
 import prompts from 'prompts';
 import type { AbortController } from 'node-abort-controller';
 import command from 'execa';
+import dedent from 'ts-dedent';
 
+import dedent from 'ts-dedent';
 import { createOptions, getOptionsOrPrompt, OptionValues } from './utils/options';
 import { executeCLIStep } from './utils/cli-step';
 import { installYarn2, configureYarn2ForVerdaccio, addPackageResolutions } from './utils/yarn';
@@ -30,13 +32,14 @@ type Template = keyof typeof TEMPLATES;
 const templates: Template[] = Object.keys(TEMPLATES) as any;
 const addons = ['a11y', 'storysource'];
 const defaultAddons = [
+  'a11y',
   'actions',
   'backgrounds',
   'controls',
   'docs',
   'highlight',
-  'links',
   'interactions',
+  'links',
   'measure',
   'outline',
   'toolbars',
@@ -255,6 +258,11 @@ function forceViteRebuilds(mainConfig: ConfigFile) {
   );
 }
 
+function addPreviewAnnotations(mainConfig: ConfigFile, paths: string[]) {
+  const config = mainConfig.getFieldValue(['previewAnnotations']) as string[];
+  mainConfig.setFieldValue(['previewAnnotations'], [...(config || []), ...paths]);
+}
+
 // paths are of the form 'renderers/react', 'addons/actions'
 async function addStories(
   packageDirs: string[],
@@ -274,14 +282,9 @@ async function addStories(
   );
 
   const stories = mainConfig.getFieldValue(['stories']) as string[];
-  const templateStories = path.join(
-    '..',
-    'template-stories',
-    '**',
-    '*.stories.@(js|jsx|ts|tsx|mdx)'
-    // FIXME: '*.@(mdx|stories.mdx|stories.tsx|stories.ts|stories.jsx|stories.js'
-  );
-  mainConfig.setFieldValue(['stories'], [...stories, templateStories]);
+  // FIXME: '*.@(mdx|stories.mdx|stories.tsx|stories.ts|stories.jsx|stories.js'
+  const linkedStories = path.join('..', 'template-stories', '**', '*.stories.@(js|jsx|ts|tsx|mdx)');
+  mainConfig.setFieldValue(['stories'], [...stories, linkedStories]);
 
   // Add `config` entries of the form
   //   '../../code/lib/store/template/stories/preview.ts'
@@ -399,10 +402,7 @@ export async function sandbox(optionValues: OptionValues<typeof options>) {
       path.join(codeDir, rendererPath, 'template', 'components'),
       path.resolve(cwd, storiesPath, 'components')
     );
-    mainConfig.setFieldValue(
-      ['previewEntries'],
-      [`.${path.sep}${path.join(storiesPath, 'components')}`]
-    );
+    addPreviewAnnotations(mainConfig, [`.${path.sep}${path.join(storiesPath, 'components')}`]);
 
     // Link in the stories from the store, the renderer and the addons
     const storiesToAdd = [] as string[];
