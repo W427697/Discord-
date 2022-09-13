@@ -1,5 +1,4 @@
-/* eslint-disable import/no-extraneous-dependencies */
-import { Icons, WithTooltip } from '@storybook/components';
+import React, { FC, HTMLAttributes, useCallback, useState } from 'react';
 import { keyframes, styled } from '@storybook/theming';
 import {
   ErrorMessage,
@@ -8,7 +7,7 @@ import {
   Formik,
   FormikProps,
 } from 'formik';
-import React, { FC, HTMLAttributes, useCallback, useState } from 'react';
+import { Icons, WithTooltip } from '@storybook/components';
 
 const errorMap = {
   email: {
@@ -26,7 +25,7 @@ const errorMap = {
   password: {
     required: {
       normal: 'Please enter a password',
-      tooltip: 'A password is requried to create an account',
+      tooltip: 'A password is required to create an account',
     },
     length: {
       normal: 'Please enter a password of minimum 6 characters',
@@ -490,7 +489,7 @@ const ErrorIcon = styled(Icons)(({ theme }) => ({
   opacity: 0.8,
   marginRight: 6,
   marginLeft: 2,
-  marginTop: 4,
+  marginTop: 1,
 }));
 
 const ErrorTooltip = styled.div(({ theme }) => ({

@@ -25,11 +25,11 @@ describe('Navigation', () => {
 });
 
 describe('Routing', () => {
-  it('should navigate to story addons-a11y-basebutton--default', () => {
-    visit('official-storybook');
+  it('should navigate to sibling story sibling', () => {
+    visit('official-storybook/?path=/story/basics-actionbar--single-item');
 
-    cy.get('#addons-controls--basic').click({ force: true });
-    cy.url().should('include', 'path=/story/addons-controls--basic');
+    cy.get('#basics-actionbar--many-items').click({ force: true });
+    cy.url().should('include', 'path=/story/basics-actionbar--many-items');
   });
 
   it('should directly visit a certain story and render correctly', () => {
