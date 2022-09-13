@@ -1,3 +1,16 @@
+## 6.5.11 (September 13, 2022)
+
+#### Bug Fixes
+
+-   CLI: Fix race condition in sb init [#19083](https://github.com/storybooks/storybook/pull/19083)
+-   Core: Fix WebProjectAnnotations export in preview-web for back-compat [#19048](https://github.com/storybooks/storybook/pull/19048)
+-   Addon-interactions: Fix IE support by replacing array includes [#18993](https://github.com/storybooks/storybook/pull/18993)
+-   Vue: Fix enum check in extractArgTypes [#18959](https://github.com/storybooks/storybook/pull/18959)
+-   React: Fix callback behavior in `react@18` [#18737](https://github.com/storybooks/storybook/pull/18737)
+-   Store: always call composeConfigs in setProjectAnnotations [#18916](https://github.com/storybooks/storybook/pull/18916)
+-   Telemetry: improve addon extraction logic [#18868](https://github.com/storybooks/storybook/pull/18868)
+-   Addon-docs: Check for undefined before reading property in extractArgTypes.ts [#18710](https://github.com/storybooks/storybook/pull/18710)nance
+
 ## 6.5.11-alpha.2 (September 7, 2022)
 
 #### Bug Fixes
