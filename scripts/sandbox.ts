@@ -13,7 +13,9 @@ import {
 import prompts from 'prompts';
 import type { AbortController } from 'node-abort-controller';
 import command from 'execa';
+import dedent from 'ts-dedent';
 
+import dedent from 'ts-dedent';
 import { createOptions, getOptionsOrPrompt, OptionValues } from './utils/options';
 import { executeCLIStep } from './utils/cli-step';
 import { installYarn2, configureYarn2ForVerdaccio, addPackageResolutions } from './utils/yarn';
@@ -23,19 +25,19 @@ import { ConfigFile, readConfig, writeConfig } from '../code/lib/csf-tools';
 import { babelParse } from '../code/lib/csf-tools/src/babelParse';
 import TEMPLATES from '../code/lib/cli/src/repro-templates';
 import { servePackages } from './utils/serve-packages';
-import dedent from 'ts-dedent';
 
 type Template = keyof typeof TEMPLATES;
 const templates: Template[] = Object.keys(TEMPLATES) as any;
 const addons = ['a11y', 'storysource'];
 const defaultAddons = [
+  'a11y',
   'actions',
   'backgrounds',
   'controls',
   'docs',
   'highlight',
-  'links',
   'interactions',
+  'links',
   'measure',
   'outline',
   'toolbars',
@@ -205,9 +207,14 @@ async function readMainConfig({ cwd }: { cwd: string }) {
   return readConfig(mainConfigPath);
 }
 
-// NOTE: the test regexp here will apply whether the path is symlink-preserved or otherwise
-const loaderPath = require.resolve('../code/node_modules/esbuild-loader');
-const webpackFinalCode = `
+// Ensure that sandboxes can refer to story files defined in `code/`.
+// Most WP-based build systems will not compile files outside of the project root or 'src/` or
+// similar. Plus they aren't guaranteed to handle TS files. So we need to patch in esbuild
+// loader for such files. NOTE this isn't necessary for Vite, as far as we know.
+function addEsbuildLoaderToStories(mainConfig: ConfigFile) {
+  // NOTE: the test regexp here will apply whether the path is symlink-preserved or otherwise
+  const loaderPath = require.resolve('../code/node_modules/esbuild-loader');
+  const webpackFinalCode = `
   (config) => ({
     ...config,
     module: {
@@ -225,27 +232,92 @@ const webpackFinalCode = `
       ],
     },
   })`;
+  mainConfig.setFieldNode(
+    ['webpackFinal'],
+    // @ts-expect-error (not sure why TS complains here, it does exist)
+    babelParse(webpackFinalCode).program.body[0].expression
+  );
+}
+
+// Recompile optimized deps on each startup, so you can change @storybook/* packages and not
+// have to clear caches.
+function forceViteRebuilds(mainConfig: ConfigFile) {
+  const viteFinalCode = `
+  (config) => ({
+    ...config,
+    optimizeDeps: {
+      ...config.optimizeDeps,
+      force: true,
+    },
+  })`;
+  mainConfig.setFieldNode(
+    ['viteFinal'],
+    // @ts-expect-error (not sure why TS complains here, it does exist)
+    babelParse(viteFinalCode).program.body[0].expression
+  );
+}
+
+function addPreviewAnnotations(mainConfig: ConfigFile, paths: string[]) {
+  const config = mainConfig.getFieldValue(['previewAnnotations']) as string[];
+  mainConfig.setFieldValue(['previewAnnotations'], [...(config || []), ...paths]);
+}
 
 // paths are of the form 'renderers/react', 'addons/actions'
 async function addStories(paths: string[], { mainConfig }: { mainConfig: ConfigFile }) {
-  const stories = mainConfig.getFieldValue(['stories']) as string[];
+  // Add `stories` entries of the form
+  //   '../../../code/lib/store/template/stories/*.stories.@(js|jsx|ts|tsx)'
+  // if the directory <code>/lib/store/template/stories exists
   const extraStoryDirsAndExistence = await Promise.all(
     paths
       .map((p) => path.join(p, 'template', 'stories'))
       .map(async (p) => [p, await pathExists(path.resolve(codeDir, p))] as const)
   );
 
-  const relativeCodeDir = path.join('..', '..', '..', 'code');
+  const stories = mainConfig.getFieldValue(['stories']) as string[];
   const extraStories = extraStoryDirsAndExistence
     .filter(([, exists]) => exists)
-    .map(([p]) => path.join(relativeCodeDir, p, '*.stories.@(js|jsx|ts|tsx)'));
+    .map(([p]) => ({
+      directory: path.join('..', '..', '..', 'code', p),
+      titlePrefix: p.split('/').slice(-4, -2).join('/'),
+      files: '**/*.stories.@(js|jsx|ts|tsx)',
+    }));
   mainConfig.setFieldValue(['stories'], [...stories, ...extraStories]);
 
-  mainConfig.setFieldNode(
-    ['webpackFinal'],
-    // @ts-ignore (not sure why TS complains here, it does exist)
-    babelParse(webpackFinalCode).program.body[0].expression
+  // Add `config` entries of the form
+  //   '../../code/lib/store/template/stories/preview.ts'
+  // if the file <code>/lib/store/template/stories/preview.ts exists
+  const extraPreviewAndExistence = await Promise.all(
+    extraStoryDirsAndExistence
+      .filter(([, exists]) => exists)
+      .map(([storiesPath]) => path.join(storiesPath, 'preview.ts'))
+      .map(
+        async (previewPath) =>
+          [previewPath, await pathExists(path.resolve(codeDir, previewPath))] as const
+      )
   );
+
+  const extraConfig = extraPreviewAndExistence
+    .filter(([, exists]) => exists)
+    .map(([p]) => path.join('..', '..', 'code', p));
+  addPreviewAnnotations(mainConfig, extraConfig);
+}
+
+type Workspace = { name: string; location: string };
+
+async function getWorkspaces() {
+  const { stdout } = await command('yarn workspaces list --json', {
+    cwd: process.cwd(),
+    shell: true,
+  });
+  return JSON.parse(`[${stdout.split('\n').join(',')}]`) as Workspace[];
+}
+
+function workspacePath(type: string, packageName: string, workspaces: Workspace[]) {
+  const workspace = workspaces.find((w) => w.name === packageName);
+  if (!workspace) {
+    throw new Error(`Unknown ${type} '${packageName}', not in yarn workspace!`);
+  }
+  return workspace.location;
 }
 
 export async function sandbox(optionValues: OptionValues<typeof options>) {
@@ -303,33 +375,21 @@ export async function sandbox(optionValues: OptionValues<typeof options>) {
     const mainConfig = await readMainConfig({ cwd });
 
     const templateConfig = TEMPLATES[template as Template];
+    const { renderer, builder } = templateConfig.expected;
     const storiesPath = await findFirstPath([path.join('src', 'stories'), 'stories'], { cwd });
 
-    // Link in the template/components/index.js from the renderer
-    const { stdout } = await command('yarn workspaces list --json', {
-      cwd: process.cwd(),
-      shell: true,
-    });
-    const workspaces = JSON.parse(`[${stdout.split('\n').join(',')}]`) as [
-      { name: string; location: string }
-    ];
-    const { renderer } = templateConfig.expected;
-    const rendererWorkspace = workspaces.find((workspace) => workspace.name === renderer);
-    if (!rendererWorkspace) {
-      throw new Error(`Unknown renderer '${renderer}', not in yarn workspace!`);
-    }
-    const rendererPath = rendererWorkspace.location;
+    const workspaces = await getWorkspaces();
+    // Link in the template/components/index.js from store, the renderer and the addons
+    const rendererPath = workspacePath('renderer', renderer, workspaces);
     await ensureSymlink(
       path.join(codeDir, rendererPath, 'template', 'components'),
       path.resolve(cwd, storiesPath, 'components')
     );
-    mainConfig.setFieldValue(
-      ['previewEntries'],
-      [`.${path.sep}${path.join(storiesPath, 'components')}`]
-    );
-    mainConfig.setFieldValue(['core', 'disableTelemetry'], true);
+    addPreviewAnnotations(mainConfig, [`.${path.sep}${path.join(storiesPath, 'components')}`]);
 
+    // Link in the stories from the store, the renderer and the addons
     const storiesToAdd = [] as string[];
+    storiesToAdd.push(workspacePath('core package', '@storybook/store', workspaces));
     storiesToAdd.push(rendererPath);
 
     // TODO -- sb add <addon> doesn't actually work properly:
@@ -343,9 +403,14 @@ export async function sandbox(optionValues: OptionValues<typeof options>) {
     }
 
     for (const addon of [...defaultAddons, ...optionValues.addon]) {
-      storiesToAdd.push(path.join('addons', addon));
+      storiesToAdd.push(workspacePath('addon', `@storybook/addon-${addon}`, workspaces));
     }
     await addStories(storiesToAdd, { mainConfig });
+
+    // Add some extra settings (see above for what these do)
+    mainConfig.setFieldValue(['core', 'disableTelemetry'], true);
+    if (builder === '@storybook/builder-webpack5') addEsbuildLoaderToStories(mainConfig);
+    if (builder === '@storybook/builder-vite') forceViteRebuilds(mainConfig);
 
     await writeConfig(mainConfig);
 
