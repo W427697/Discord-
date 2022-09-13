@@ -1,6 +1,6 @@
 {
   "name": "@storybook/node-logger",
-  "version": "7.0.0-alpha.18",
+  "version": "7.0.0-alpha.33",
   "description": "",
   "keywords": [
     "storybook"
@@ -31,12 +31,11 @@
   ],
   "scripts": {
     "check": "tsc --noEmit",
-    "prepare": "node ../../../scripts/prepare.js"
+    "prep": "node ../../../scripts/prepare.js"
   },
   "dependencies": {
     "@types/npmlog": "^4.1.2",
     "chalk": "^4.1.0",
-    "core-js": "^3.8.2",
     "npmlog": "^5.0.1",
     "pretty-hrtime": "^1.0.3"
   },
@@ -47,5 +46,5 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "bd59f1eef0f644175abdb0d9873ed0553f431f53"
+  "gitHead": "5da5b0fabd04cc5cd5771e8242a960f05d03234a"
 }

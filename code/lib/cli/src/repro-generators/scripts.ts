@@ -144,7 +144,7 @@ const installYarn2 = async ({ cwd, pnp, name }: Options) => {
 const configureYarn2ForE2E = async ({ cwd }: Options) => {
   const command = [
     // ⚠️ Need to set registry because Yarn 2 is not using the conf of Yarn 1 (URL is hardcoded in CircleCI config.yml)
-    `yarn config set npmScopes --json '{ "storybook": { "npmRegistryServer": "http://localhost:6000/" } }'`,
+    `yarn config set npmScopes --json '{ "storybook": { "npmRegistryServer": "http://localhost:6001/" } }'`,
     // Some required magic to be able to fetch deps from local registry
     `yarn config set unsafeHttpWhitelist --json '["localhost"]'`,
     // Disable fallback mode to make sure everything is required correctly
@@ -198,7 +198,8 @@ const initStorybook = async ({ cwd, autoDetect = true, name, e2e, pnp }: Options
     flags.push('--use-pnp');
   }
 
-  const sbCLICommand = `node ${path.join(__dirname, '../../cjs/generate')}`;
+  // This is bundled into a single javascript file.
+  const sbCLICommand = `node ${__filename}`;
 
   const command = `${sbCLICommand} init ${flags.join(' ')}`;
 

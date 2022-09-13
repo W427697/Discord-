@@ -1,6 +1,6 @@
 {
   "name": "@storybook/channel-postmessage",
-  "version": "7.0.0-alpha.18",
+  "version": "7.0.0-alpha.33",
   "description": "",
   "keywords": [
     "storybook"
@@ -31,13 +31,12 @@
   ],
   "scripts": {
     "check": "tsc --noEmit",
-    "prepare": "node ../../../scripts/prepare.js"
+    "prep": "node ../../../scripts/prepare.js"
   },
   "dependencies": {
-    "@storybook/channels": "7.0.0-alpha.18",
-    "@storybook/client-logger": "7.0.0-alpha.18",
-    "@storybook/core-events": "7.0.0-alpha.18",
-    "core-js": "^3.8.2",
+    "@storybook/channels": "7.0.0-alpha.33",
+    "@storybook/client-logger": "7.0.0-alpha.33",
+    "@storybook/core-events": "7.0.0-alpha.33",
     "global": "^4.4.0",
     "qs": "^6.10.0",
     "telejson": "^6.0.8"
@@ -48,5 +47,5 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "bd59f1eef0f644175abdb0d9873ed0553f431f53"
+  "gitHead": "5da5b0fabd04cc5cd5771e8242a960f05d03234a"
 }

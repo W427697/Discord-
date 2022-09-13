@@ -4,7 +4,8 @@ import fs from 'fs-extra';
 import path, { join } from 'path';
 import { build } from 'tsup';
 import aliasPlugin from 'esbuild-plugin-alias';
-import shelljs from 'shelljs';
+import dedent from 'ts-dedent';
+import { exec } from '../utils/exec';
 
 const hasFlag = (flags: string[], name: string) => !!flags.find((s) => s.startsWith(`--${name}`));
 
@@ -13,13 +14,13 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
     name,
     dependencies,
     peerDependencies,
-    bundler: { entries, platform, pre },
+    bundler: { entries, platform, pre, post },
   } = await fs.readJson(join(cwd, 'package.json'));
 
-  const isThemingPackage = name === '@storybook/theming';
+  const tsnodePath = join(__dirname, '..', 'node_modules', '.bin', 'ts-node');
 
   if (pre) {
-    shelljs.exec(`esrun ${pre}`, { cwd: join(__dirname, '..') });
+    await exec(`${tsnodePath} ${pre}`, { cwd });
   }
 
   const reset = hasFlag(flags, 'reset');
@@ -37,12 +38,14 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
         const { name: entryName } = path.parse(file);
 
         const pathName = join(process.cwd(), 'dist', `${entryName}.d.ts`);
-        // throw new Error('test');
         await fs.ensureFile(pathName);
-        const footer = isThemingPackage
-          ? `export { StorybookTheme as Theme } from '../src/${entryName}';\n`
-          : '';
-        await fs.writeFile(pathName, `export * from '../src/${entryName}';\n${footer}`);
+        await fs.writeFile(
+          pathName,
+          dedent`
+          // devmode
+          export * from '../src/${entryName}'
+        `
+        );
       })
     );
   }
@@ -60,13 +63,10 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
       target: 'chrome100',
       clean: !watch,
       platform: platform || 'browser',
-      // shims: true,
       esbuildPlugins: [
         aliasPlugin({
-          process: path.resolve(
-            '../node_modules/rollup-plugin-node-polyfills/polyfills/process-es6.js'
-          ),
-          util: path.resolve('../node_modules/rollup-plugin-node-polyfills/polyfills/util.js'),
+          process: path.resolve('../node_modules/process/browser.js'),
+          util: path.resolve('../node_modules/util/util.js'),
         }),
       ],
       external: [name, ...Object.keys(dependencies || {}), ...Object.keys(peerDependencies || {})],
@@ -76,13 +76,11 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
           ? {
               entry: entries,
               resolve: true,
-              footer: isThemingPackage
-                ? `interface Theme extends StorybookTheme {};\nexport type { Theme };`
-                : '',
             }
           : false,
       esbuildOptions: (c) => {
         /* eslint-disable no-param-reassign */
+        c.conditions = ['module'];
         c.define = optimized
           ? {
               'process.env.NODE_ENV': "'production'",
@@ -115,9 +113,6 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
 
       esbuildOptions: (c) => {
         /* eslint-disable no-param-reassign */
-        // c.define = optimized
-        //   ? { 'process.env.NODE_ENV': "'production'", 'process.env': '{}' }
-        //   : { 'process.env.NODE_ENV': "'development'", 'process.env': '{}' };
         c.platform = 'node';
         c.legalComments = 'none';
         c.minifyWhitespace = optimized;
@@ -127,12 +122,21 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
       },
     }),
   ]);
+
+  if (post) {
+    await exec(`${tsnodePath} ${post}`, { cwd }, { debug: true });
+  }
 };
 
 const flags = process.argv.slice(2);
 const cwd = process.cwd();
 
-run({ cwd, flags }).catch((err) => {
-  console.error(err.stack);
+run({ cwd, flags }).catch((err: unknown) => {
+  // We can't let the stack try to print, it crashes in a way that sets the exit code to 0.
+  // Seems to have something to do with running JSON.parse() on binary / base64 encoded sourcemaps
+  // in @cspotcode/source-map-support
+  if (err instanceof Error) {
+    console.error(err.message);
+  }
   process.exit(1);
 });

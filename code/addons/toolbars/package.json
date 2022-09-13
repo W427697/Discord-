@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-toolbars",
-  "version": "7.0.0-alpha.18",
+  "version": "7.0.0-alpha.33",
   "description": "Create your own toolbar items that control story rendering",
   "keywords": [
     "addon",
@@ -25,9 +25,27 @@
     "url": "https://opencollective.com/storybook"
   },
   "license": "MIT",
-  "main": "dist/cjs/manager.js",
-  "module": "dist/esm/manager.js",
-  "types": "dist/types/manager.d.ts",
+  "exports": {
+    ".": {
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.ts"
+    },
+    "./manager": {
+      "require": "./dist/manager.js",
+      "import": "./dist/manager.mjs",
+      "types": "./dist/manager.d.ts"
+    },
+    "./register": {
+      "require": "./dist/manager.js",
+      "import": "./dist/manager.mjs",
+      "types": "./dist/manager.d.ts"
+    },
+    "./package.json": "./package.json"
+  },
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
   "files": [
     "dist/**/*",
     "README.md",
@@ -36,15 +54,14 @@
   ],
   "scripts": {
     "check": "tsc --noEmit",
-    "prepare": "node ../../../scripts/prepare.js"
+    "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/addons": "7.0.0-alpha.18",
-    "@storybook/api": "7.0.0-alpha.18",
-    "@storybook/client-logger": "7.0.0-alpha.18",
-    "@storybook/components": "7.0.0-alpha.18",
-    "@storybook/theming": "7.0.0-alpha.18",
-    "core-js": "^3.8.2"
+    "@storybook/addons": "7.0.0-alpha.33",
+    "@storybook/api": "7.0.0-alpha.33",
+    "@storybook/client-logger": "7.0.0-alpha.33",
+    "@storybook/components": "7.0.0-alpha.33",
+    "@storybook/theming": "7.0.0-alpha.33"
   },
   "devDependencies": {
     "typescript": "~4.6.3"
@@ -64,7 +81,14 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "bd59f1eef0f644175abdb0d9873ed0553f431f53",
+  "bundler": {
+    "entries": [
+      "./src/index.ts",
+      "./src/manager.tsx"
+    ],
+    "platform": "browser"
+  },
+  "gitHead": "5da5b0fabd04cc5cd5771e8242a960f05d03234a",
   "storybook": {
     "displayName": "Toolbars",
     "icon": "https://user-images.githubusercontent.com/263385/101991677-48cdf300-3c7c-11eb-93b4-19b0e3366959.png",
