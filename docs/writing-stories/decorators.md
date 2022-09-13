@@ -26,7 +26,6 @@ Some components require a “harness” to render in a useful way. For instance,
     'angular/your-component-with-decorator.ts.mdx',
     'angular/your-component-with-decorator.mdx.mdx',
     'svelte/your-component-with-decorator.js.mdx',
-    'svelte/your-component-with-decorator.native-format.mdx',
     'svelte/your-component-with-decorator.mdx.mdx',
     'web-components/your-component-with-decorator.js.mdx',
   ]}
@@ -38,7 +37,7 @@ Some components require a “harness” to render in a useful way. For instance,
 
 ## “Context” for mocking
 
-Framework-specific libraries (e.g., [Styled Components](https://styled-components.com/), [Fortawesome](https://github.com/FortAwesome/vue-fontawesome) for Vue, Angular's [localize](https://angular.io/api/localize)) may require additional configuration to render correctly in Storybook.
+Framework-specific libraries (e.g., [Styled Components](https://styled-components.com/), [Fontawesome](https://github.com/FortAwesome/vue-fontawesome) for Vue, Angular's [localize](https://angular.io/api/localize)) may require additional configuration to render correctly in Storybook.
 
 For example, if you're working with React's Styled Components and your components use themes, add a single global decorator to [`.storybook/preview.js`](../configure/overview.md#configure-story-rendering) to enable them. With Vue, extend Storybook's application and register your library. Or with Angular, add the package into your `polyfills.ts` and import it:
 
@@ -121,7 +120,6 @@ To define a decorator for all stories of a component, use the `decorators` key o
     'angular/button-story-component-decorator.ts.mdx',
     'angular/button-story-component-decorator.mdx.mdx',
     'svelte/button-story-component-decorator.js.mdx',
-    'svelte/button-story-component-decorator.native-format.mdx',
     'svelte/button-story-component-decorator.mdx.mdx',
     'web-components/button-story-component-decorator.js.mdx',
   ]}

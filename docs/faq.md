@@ -16,8 +16,11 @@ module.exports = {
   addons: [
     /* ... */
   ],
-  angularOptions: {
-    enableIvy: false,
+  framework: {
+    name: '@storybook/angular',
+    options: {
+      enableIvy: false,
+    },
   },
 };
 ```
@@ -73,8 +76,11 @@ FAST_REFRESH=true
 
 ```js
 module.exports = {
-  reactOptions: {
-    fastRefresh: true,
+  framework: {
+    name: '@storybook/react-webpack5',
+    options: {
+      fastRefresh: true,
+    },
   },
 };
 ```
@@ -91,8 +97,11 @@ You can opt-out from the new React Root API by setting the following property in
 
 ```js
 module.exports = {
-  reactOptions: {
-    legacyRootApi: true,
+  framework: {
+    name: '@storybook/react-webpack5',
+    options: {
+      legacyRootApi: true,
+    },
   },
 };
 ```
@@ -147,6 +156,7 @@ We're only covering versions 5.3 and 5.0 as they were important milestones for S
 
 | Section          | Page                                      | Current Location                                                                                           | Version 5.3 location                                                                                                                                                                                                                                                 | Version 5.0 location                                                                                                                                     |
 | ---------------- | ----------------------------------------- | ---------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| N/A              | Why Storybook                             | [See current documentation](./why-storybook.md)                                                            | Non existing feature or undocumented                                                                                                                                                                                                                                 | Non existing feature or undocumented                                                                                                                     |
 | Get started      | Install                                   | [See current documentation](./get-started/install.md)                                                      | [See versioned documentation](https://github.com/storybookjs/storybook/tree/release/5.3/docs/src/pages/guides/quick-start-guide)                                                                                                                                     | [See versioned documentation](https://github.com/storybookjs/storybook/tree/release/5.0/docs/src/pages/guides/quick-start-guide)                         |
 |                  | What's a story                            | [See current documentation](./get-started/whats-a-story.md)                                                | [See versioned documentation for your framework](https://github.com/storybookjs/storybook/tree/release/5.3/docs/src/pages/guides)                                                                                                                                    | [See versioned documentation for your framework](https://github.com/storybookjs/storybook/tree/release/5.0/docs/src/pages/guides)                        |
 |                  | Browse Stories                            | [See current documentation](./get-started/browse-stories.md)                                               | [See versioned documentation for your framework](https://github.com/storybookjs/storybook/tree/release/5.3/docs/src/pages/guides)                                                                                                                                    | [See versioned documentation for your framework](https://github.com/storybookjs/storybook/blob/release/5.0/docs/src/pages/guides)                        |
@@ -206,7 +216,7 @@ We're only covering versions 5.3 and 5.0 as they were important milestones for S
 |                  | Addons API                                | [See current documentation](./addons/addons-api.md)                                                        | [See versioned documentation](https://github.com/storybookjs/storybook/tree/release/5.3/docs/src/pages/addons/api)                                                                                                                                                   | [See versioned documentation](https://github.com/storybookjs/storybook/tree/release/5.0/docs/src/pages/addons/api)                                       |
 | API              | Stories/Component Story Format            | [See current documentation](./api/csf.md)                                                                  | [See versioned documentation](https://github.com/storybookjs/storybook/tree/release/5.3/docs/src/pages/formats/component-story-format)                                                                                                                               | Non existing feature or undocumented                                                                                                                     |
 |                  | Stories/MDX syntax                        | [See current documentation](./api/mdx.md)                                                                  | [See versioned documentation](https://github.com/storybookjs/storybook/tree/release/5.3/docs/src/pages/formats/mdx-syntax)                                                                                                                                           | Non existing feature or undocumented                                                                                                                     |
-|                  | Stories/StoriesOF format (see note below) | [See current documentation](https://github.com/storybookjs/storybook/blob/next/lib/core/docs/storiesOf.md) | [See versioned documentation](https://github.com/storybookjs/storybook/tree/release/5.3/docs/src/pages/formats/storiesof-api)                                                                                                                                        | Non existing feature or undocumented                                                                                                                     |
+|                  | Stories/StoriesOF format (see note below) | [See current documentation](https://github.com/storybookjs/storybook/blob/main/lib/core/docs/storiesOf.md) | [See versioned documentation](https://github.com/storybookjs/storybook/tree/release/5.3/docs/src/pages/formats/storiesof-api)                                                                                                                                        | Non existing feature or undocumented                                                                                                                     |
 |                  | Frameworks                                | [See current documentation](./api/new-frameworks.md)                                                       | Non existing feature or undocumented                                                                                                                                                                                                                                 | Non existing feature or undocumented                                                                                                                     |
 |                  | CLI options                               | [See current documentation](./api/cli-options.md)                                                          | [See versioned documentation](https://github.com/storybookjs/storybook/tree/release/5.3/docs/src/pages/configurations/cli-options)                                                                                                                                   | [See versioned documentation](https://github.com/storybookjs/storybook/tree/release/5.0/docs/src/pages/configurations/cli-options)                       |
 
@@ -217,41 +227,9 @@ With the release of version 5.3, we've updated how you can write your stories mo
 ### What icons are available for my toolbar or my addon?
 
 With the [`@storybook/components`](https://www.npmjs.com/package/@storybook/components) package, you get a set of icons that you can use to customize your UI. Use the table below as a reference while writing your addon or defining your Storybook global types.
-Go through this [story](https://5a375b97f4b14f0020b0cda3-wbeulgbetj.chromatic.com/?path=/story/basics-icon--labels) to see how the icons look.
+Go through this [story](https://main--5a375b97f4b14f0020b0cda3.chromatic.com/?path=/story/basics-icon--labels) to see how the icons look.
 
-| accessibility  | accessibilityalt | add          | admin        | alert         |
-| -------------- | ---------------- | ------------ | ------------ | ------------- |
-| arrowdown      | arrowleft        | arrowleftalt | arrowright   | arrowrightalt |
-| arrowup        | back             | basket       | batchaccept  | batchdeny     |
-| beaker         | bell             | bitbucket    | book         | bookmark      |
-| bookmarkhollow | bottombar        | box          | branch       | browser       |
-| button         | calendar         | camera       | category     | certificate   |
-| check          | chevrondown      | chromatic    | circle       | circlehollow  |
-| close          | closeAlt         | cog          | collapse     | comment       |
-| commit         | compass          | component    | contrast     | copy          |
-| cpu            | credit           | cross        | dashboard    | database      |
-| delete         | discord          | docchart     | doclist      | document      |
-| download       | edit             | ellipsis     | email        | expand        |
-| expandalt      | eye              | eyeclose     | facebook     | facehappy     |
-| faceneutral    | facesad          | filter       | flag         | folder        |
-| form           | gdrive           | github       | gitlab       | globe         |
-| google         | graphbar         | graphline    | graphql      | grid          |
-| grow           | heart            | hearthollow  | home         | hourglass     |
-| info           | key              | lightning    | lightningoff | link          |
-| listunordered  | location         | lock         | markup       | medium        |
-| memory         | menu             | merge        | mirror       | mobile        |
-| nut            | outbox           | outline      | paintbrush   | paperclip     |
-| paragraph      | phone            | photo        | pin          | play          |
-| plus           | power            | print        | proceed      | profile       |
-| pullrequest    | question         | redirect     | redux        | reply         |
-| repository     | requestchange    | rss          | search       | share         |
-| sharealt       | shield           | sidebar      | sidebaralt   | speaker       |
-| star           | starhollow       | stop         | structure    | subtract      |
-| support        | switchalt        | sync         | tablet       | thumbsup      |
-| time           | timer            | transfer     | trash        | twitter       |
-| undo           | unfold           | unlock       | upload       | user          |
-| useradd        | useralt          | users        | video        | watch         |
-| wrench         | youtube          | zoom         | zoomout      | zoomreset     |
+<iframe src="https://main--5a375b97f4b14f0020b0cda3.chromatic.com/iframe.html?args=&id=basics-icon--labels&viewMode=story&shortcuts=false&singleStory=true" width="100%" height="600"></iframe>
 
 ### I see a "No Preview" error with a Storybook production build
 
@@ -347,7 +325,7 @@ This is a known issue with MDX 2. We're working to fix it. For now you can apply
 
 import { Story } from '@storybook/addon-docs';
 
-import * as stories from './Button.stories.jsx';
+import \* as stories from './Button.stories.jsx';
 
 <Story name="Basic" story={stories.Basic} />
 ```
@@ -410,7 +388,7 @@ We're aware that the default Typescript story construct might seem outdated and 
 // Button.stories.ts | tsx
 
 import React from 'react';
-import { ComponentStory, ComponentMeta } from '@storybook/react';
+import type { ComponentStory, ComponentMeta } from '@storybook/react';
 
 const StoryMeta: ComponentMeta<typeof Button> = {
   /* 👇 The title prop is optional.

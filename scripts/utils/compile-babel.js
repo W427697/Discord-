@@ -2,10 +2,11 @@
 const fs = require('fs-extra');
 const path = require('path');
 const execa = require('execa');
+const { join } = require('path');
 
 function getCommand(watch, dir) {
   // Compile angular with tsc
-  if (process.cwd().includes(path.join('app', 'angular'))) {
+  if (process.cwd().includes(path.join('frameworks', 'angular'))) {
     return '';
   }
   if (process.cwd().includes(path.join('addons', 'storyshots'))) {
@@ -13,9 +14,9 @@ function getCommand(watch, dir) {
   }
 
   const args = [
-    './src',
+    join(process.cwd(), 'src'),
     `--out-dir=${dir}`,
-    `--config-file=${path.resolve(__dirname, '../../.babelrc.js')}`,
+    `--config-file=${join(__dirname, '..', '.babelrc.js')}`,
   ];
 
   // babel copying over files it did not parse is a anti-pattern
@@ -59,6 +60,7 @@ async function run({ watch, dir, silent, errorCallback }) {
 
     if (command !== '') {
       const child = execa.command(command, {
+        cwd: join(__dirname, '..'),
         buffer: false,
         env: { BABEL_MODE: path.basename(dir) },
       });
@@ -97,16 +99,10 @@ async function babelify(options = {}) {
     return;
   }
 
-  const runners = watch
-    ? [
-        run({ watch, dir: './dist/cjs', silent, errorCallback }),
-        run({ watch, dir: './dist/esm', silent, errorCallback }),
-      ]
-    : [
-        run({ dir: './dist/cjs', silent, errorCallback }),
-        run({ dir: './dist/esm', silent, errorCallback }),
-        run({ dir: './dist/modern', silent, errorCallback }),
-      ];
+  const runners = [
+    run({ watch, dir: join(process.cwd(), 'dist/cjs'), silent, errorCallback }),
+    run({ watch, dir: join(process.cwd(), 'dist/esm'), silent, errorCallback }),
+  ];
 
   await Promise.all(runners);
 }
