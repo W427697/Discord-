@@ -10,6 +10,7 @@ export const Form = ({ onSuccess }) => {
     onSuccess(value);
 
     setTimeout(() => setComplete(true), 500);
+    setTimeout(() => setComplete(false), 1500);
   }
 
   return (

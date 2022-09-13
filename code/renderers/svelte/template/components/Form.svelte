@@ -16,6 +16,10 @@
     setTimeout(() => {
       complete = true;
     }, 500);
+
+    setTimeout(() => {
+      complete = false;
+    }, 1500);
   }
 </script>
 

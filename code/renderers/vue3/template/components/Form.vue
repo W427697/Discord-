@@ -32,7 +32,12 @@ export default {
     },
     onSubmit() {
       this.onSuccess(this.value);
-      setTimeout(() => (this.complete = true), 500);
+      setTimeout(() => {
+        this.complete = true;
+      }, 500);
+      setTimeout(() => {
+        this.complete = false;
+      }, 1500);
     },
   },
 };
