@@ -6831,7 +6831,7 @@ __metadata:
     jest-image-snapshot: ^4.3.0
     regenerator-runtime: ^0.13.7
   peerDependencies:
-    "@storybook/addon-storyshots": 6.5.11-alpha.2
+    "@storybook/addon-storyshots": 6.5.11
     puppeteer: ^2.0.0 || ^3.0.0
   peerDependenciesMeta:
     puppeteer:
