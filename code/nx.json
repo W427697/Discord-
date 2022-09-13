@@ -1,0 +1,49 @@
+{
+  "npmScope": "storybook",
+  "implicitDependencies": {
+    "package.json": {
+      "dependencies": "*",
+      "devDependencies": "*"
+    }
+  },
+  "tasksRunnerOptions": {
+    "default": {
+      "runner": "@nrwl/nx-cloud",
+      "options": {
+        "cacheableOperations": ["build", "test", "lint", "package", "prep"],
+        "accessToken": "NGVmYTkxMmItYzY3OS00MjkxLTk1ZDktZDFmYTFmNmVlNGY4fHJlYWQ=",
+        "canTrackAnalytics": false,
+        "showUsageWarnings": true,
+        "parallel": 1
+      }
+    }
+  },
+  "affected": {
+    "defaultBase": "next"
+  },
+  "targetDependencies": {
+    "build": [
+      {
+        "target": "build",
+        "projects": "dependencies"
+      }
+    ],
+    "package": [
+      {
+        "target": "package",
+        "projects": "dependencies"
+      }
+    ],
+    "prep": [
+      {
+        "target": "prep",
+        "projects": "dependencies"
+      }
+    ]
+  },
+  "targetDefaults": {
+    "prep": {
+      "outputs": ["{projectRoot}/dist"]
+    }
+  }
+}
