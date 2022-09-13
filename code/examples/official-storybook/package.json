@@ -10,6 +10,9 @@
     "storybook": "cross-env STORYBOOK_DISPLAY_WARNING=true DISPLAY_WARNING=true storybook dev -p 9011 -c ./ --no-manager-cache",
     "storyshots-puppeteer": "storybook build && yarn run do-storyshots-puppeteer"
   },
+  "dependencies": {
+    "formik": "^2.2.9"
+  },
   "devDependencies": {
     "@emotion/jest": "^11.10.0",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.5",
