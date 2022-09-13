@@ -1,7 +1,8 @@
 import globalThis from 'global';
 
 import Button from './Button.vue';
-import Html from './Html.vue';
 import Pre from './Pre.vue';
+import Form from './Form.vue';
+import Html from './Html.vue';
 
-globalThis.Components = { Button, Html, Pre };
+globalThis.Components = { Button, Pre, Form, Html };

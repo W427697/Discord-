@@ -6,7 +6,7 @@ import { userEvent, within } from '@storybook/testing-library';
 import { AccountForm, AccountFormProps } from './AccountForm';
 
 export default {
-  title: 'CSF3/AccountForm',
+  title: 'Addons/Interactions/AccountForm',
   component: AccountForm,
   parameters: {
     layout: 'centered',
