@@ -28,13 +28,13 @@ describe('Routing', () => {
   it('should navigate to story addons-a11y-basebutton--default', () => {
     visit('official-storybook');
 
-    cy.get('#addons-a11y-basebutton--label').click({ force: true });
-    cy.url().should('include', 'path=/story/addons-a11y-basebutton--label');
+    cy.get('#addons-controls--basic').click({ force: true });
+    cy.url().should('include', 'path=/story/addons-controls--basic');
   });
 
   it('should directly visit a certain story and render correctly', () => {
-    visit('official-storybook/?path=/story/addons-a11y-basebutton--label');
+    visit('official-storybook/?path=/story/basics-actionbar--single-item');
 
-    cy.getStoryElement().should('contain.text', 'Testing the a11y addon');
+    cy.getStoryElement().should('contain.text', 'Clear');
   });
 });
