@@ -1,9 +1,12 @@
+/// <reference types="@types/jest" />;
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 
-import { composeStories, composeStory } from '@storybook/react';
+import { setProjectAnnotations, composeStories, composeStory } from '@storybook/react';
 
 import * as stories from './Button.stories';
+
+setProjectAnnotations([]);
 
 // example with composeStories, returns an object with all stories composed with args/decorators
 const { CSF3Primary } = composeStories(stories);
