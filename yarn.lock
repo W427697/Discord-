@@ -9054,6 +9054,7 @@ __metadata:
     "@types/webpack-env": ^1.16.0
     babel-plugin-bundled-import-meta: ^0.3.1
     core-js: ^3.8.2
+    custom-elements-manifest: ^2.0.0
     global: ^4.4.0
     lit-html: 2.0.2
     react: 16.14.0
@@ -18834,6 +18835,13 @@ __metadata:
   dependencies:
     array-find-index: ^1.0.1
   checksum: 32d197689ec32f035910202c1abb0dc6424dce01d7b51779c685119b380d98535c110ffff67a262fc7e367612a7dfd30d3d3055f9a6634b5a9dd1302de7ef11c
+  languageName: node
+  linkType: hard
+
+"custom-elements-manifest@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "custom-elements-manifest@npm:2.0.0"
+  checksum: 0499cc63e87813fbd895ad4d23657b371842ce2b632d83c1f5ab272784be4f9f78be693fe9a73370ae7fdb0bf5830cf6ee03ef8c3f27ae8922c8a156da71bebb
   languageName: node
   linkType: hard
 

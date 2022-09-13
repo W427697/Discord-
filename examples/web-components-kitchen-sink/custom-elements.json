@@ -1,5 +1,6 @@
 {
-  "schemaVersion": "1.0.0",
+  "$schema": "./node_modules/custom-elements-manifest/schema.json",
+  "schemaVersion": "2.0.0",
   "readme": "",
   "modules": [
     {
@@ -131,6 +132,12 @@
             "name": "LitElement",
             "package": "lit"
           },
+          "slots": [
+            {
+              "name": "prefix",
+              "description": "Label prefix"
+            }
+          ],
           "tagName": "sb-button",
           "summary": "This is a simple Storybook Button",
           "customElement": true
