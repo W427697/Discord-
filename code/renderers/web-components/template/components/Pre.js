@@ -1,5 +1,6 @@
+/* eslint-disable import/extensions */
 import { html } from 'lit-html';
-import { styleMap } from 'lit-html/directives/style-map';
+import { styleMap } from 'lit-html/directives/style-map.js';
 
 /**
  * Helper component for rendering text or data
