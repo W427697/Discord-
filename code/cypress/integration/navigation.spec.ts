@@ -25,11 +25,11 @@ describe('Navigation', () => {
 });
 
 describe('Routing', () => {
-  it('should navigate to story basics-actionbar--single-item', () => {
-    visit('official-storybook');
+  it('should navigate to sibling story sibling', () => {
+    visit('official-storybook/?path=/story/basics-actionbar--single-item');
 
-    cy.get('#basics-actionbar--single-item').click({ force: true });
-    cy.url().should('include', 'path=/story/basics-actionbar--single-item');
+    cy.get('#basics-actionbar--many-items').click({ force: true });
+    cy.url().should('include', 'path=/story/basics-actionbar--many-items');
   });
 
   it('should directly visit a certain story and render correctly', () => {
