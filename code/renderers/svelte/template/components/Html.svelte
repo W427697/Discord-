@@ -1,8 +1,8 @@
 <script>
   /**
-   * contents
+   * content
    */
-  export let contents = '';
+  export let content = '';
 </script>
 
-<div>{@html contents}></div>
+<div>{@html content}></div>

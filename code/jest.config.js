@@ -42,6 +42,7 @@ module.exports = {
     '<rootDir>/addons',
     '<rootDir>/frameworks',
     '<rootDir>/lib',
+    '<rootDir>/renderers',
     '<rootDir>/examples/official-storybook',
     '<rootDir>/examples/react-ts',
   ],

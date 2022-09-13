@@ -1,5 +1,5 @@
 <template>
-  <div v-html="contents"></div>
+  <div v-html="content"></div>
 </template>
 
 <script>
@@ -8,7 +8,7 @@ export default {
   name: 'my-html',
 
   props: {
-    contents: {
+    content: {
       type: String,
       required: true,
     },

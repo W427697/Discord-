@@ -7951,7 +7951,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/client-logger@npm:6.5.10, @storybook/client-logger@npm:^6.4.0, @storybook/client-logger@npm:^6.4.0 || >=6.5.0-0":
+"@storybook/client-logger@npm:6.5.10, @storybook/client-logger@npm:^6.4.0":
   version: 6.5.10
   resolution: "@storybook/client-logger@npm:6.5.10"
   dependencies:
@@ -8145,6 +8145,7 @@ __metadata:
     ts-dedent: ^2.0.0
     ts-jest: ^26.4.4
     typescript: ~4.6.3
+    util-deprecate: ^1.0.2
     watchpack: ^2.2.0
     webpack: 5
     ws: ^8.2.3
@@ -8469,7 +8470,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/instrumenter@npm:^6.4.0, @storybook/instrumenter@npm:^6.4.0 || >=6.5.0-0":
+"@storybook/instrumenter@npm:^6.4.0":
   version: 6.5.10
   resolution: "@storybook/instrumenter@npm:6.5.10"
   dependencies:
@@ -9466,19 +9467,6 @@ __metadata:
     "@testing-library/user-event": ^13.2.1
     ts-dedent: ^2.2.0
   checksum: fd10ebddd305743f4388ad939b90fed155b6c3a755e96a73f72d38d9afe2546a22be0c9a5d83b8b6d91742dd7be5d2e7dfcbbd630b2fa97e4ef7dde00f0824b0
-  languageName: node
-  linkType: hard
-
-"@storybook/testing-library@npm:^0.0.9":
-  version: 0.0.9
-  resolution: "@storybook/testing-library@npm:0.0.9"
-  dependencies:
-    "@storybook/client-logger": ^6.4.0 || >=6.5.0-0
-    "@storybook/instrumenter": ^6.4.0 || >=6.5.0-0
-    "@testing-library/dom": ^8.3.0
-    "@testing-library/user-event": ^13.2.1
-    ts-dedent: ^2.2.0
-  checksum: 4a750756a91fd06de58d0d4cf9d7e289ad3e757af6417c97f8d077007a2222a2c31c5f7444eb0d034b1cf11363a1e653718962788c23dca67f33d8691ee63a3b
   languageName: node
   linkType: hard
 
@@ -10911,15 +10899,6 @@ __metadata:
   version: 1.2.4
   resolution: "@types/range-parser@npm:1.2.4"
   checksum: 8e3c3cda88675efd9145241bcb454449715b7d015a7fb80d018dcb3d441fa1938b302242cc0dfa6b02c5d014dd8bc082ae90091e62b1e816cae3ec36c2a7dbcb
-  languageName: node
-  linkType: hard
-
-"@types/react-dom@npm:16.9.14":
-  version: 16.9.14
-  resolution: "@types/react-dom@npm:16.9.14"
-  dependencies:
-    "@types/react": ^16
-  checksum: f55c793118cb3b1c92dc31204100e7bad0e755aef6402deae40235388fc2d5fdd81d530fdc20d5ebfc23aef5170d664f5bce26e4e775a04c5af7253de77aa74b
   languageName: node
   linkType: hard
 
@@ -17510,36 +17489,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"cra-ts-essentials@workspace:examples/cra-ts-essentials":
-  version: 0.0.0-use.local
-  resolution: "cra-ts-essentials@workspace:examples/cra-ts-essentials"
-  dependencies:
-    "@storybook/addon-essentials": 7.0.0-alpha.31
-    "@storybook/addon-interactions": 7.0.0-alpha.31
-    "@storybook/addons": 7.0.0-alpha.31
-    "@storybook/builder-webpack5": 7.0.0-alpha.31
-    "@storybook/components": 7.0.0-alpha.31
-    "@storybook/preset-create-react-app": ^4.1.0
-    "@storybook/react": 7.0.0-alpha.31
-    "@storybook/react-webpack5": 7.0.0-alpha.31
-    "@storybook/testing-library": ^0.0.9
-    "@storybook/theming": 7.0.0-alpha.31
-    "@types/jest": ^26.0.16
-    "@types/node": ^14.14.20 || ^16.0.0
-    "@types/react": ^16.14.23
-    "@types/react-dom": 16.9.14
-    formik: 2.2.9
-    global: ^4.4.0
-    react: 16.14.0
-    react-dom: 16.14.0
-    react-scripts: ^5.0.1
-    storybook: 7.0.0-alpha.31
-    ts-node: ^10.4.0
-    typescript: ~4.6.3
-    webpack: 5
-  languageName: unknown
-  linkType: soft
-
 "cra-ts-kitchen-sink@workspace:examples/cra-ts-kitchen-sink":
   version: 0.0.0-use.local
   resolution: "cra-ts-kitchen-sink@workspace:examples/cra-ts-kitchen-sink"
@@ -23013,7 +22962,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"formik@npm:2.2.9, formik@npm:^2.2.9":
+"formik@npm:^2.2.9":
   version: 2.2.9
   resolution: "formik@npm:2.2.9"
   dependencies:
@@ -33760,6 +33709,7 @@ __metadata:
     eventemitter3: ^4.0.7
     express: ^4.17.1
     format-json: ^1.0.3
+    formik: ^2.2.9
     global: ^4.4.0
     lodash: ^4.17.21
     paths.macro: ^3.0.1
