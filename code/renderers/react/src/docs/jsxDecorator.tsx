@@ -1,5 +1,5 @@
 /* eslint-disable no-underscore-dangle */
-import React, { createElement, ReactElement } from 'react';
+import React, { createElement, ReactElement, ReactNode, isValidElement } from 'react';
 import reactElementToJSXString, { Options } from 'react-element-to-jsx-string';
 import { dedent } from 'ts-dedent';
 import deprecate from 'util-deprecate';
@@ -12,6 +12,26 @@ import { logger } from '@storybook/client-logger';
 import { ReactFramework } from '../types';
 
 import { isMemo, isForwardRef } from './lib';
+
+// Recursively remove "_owner" property from elements to avoid crash on docs page when passing components as an array prop (#17482)
+// Note: It may be better to use this function only in development environment.
+function simplifyNodeForStringify(node: ReactNode): ReactNode {
+  if (isValidElement(node)) {
+    const props = Object.keys(node.props).reduce<{ [key: string]: any }>((acc, cur) => {
+      acc[cur] = simplifyNodeForStringify(node.props[cur]);
+      return acc;
+    }, {});
+    return {
+      ...node,
+      props,
+      _owner: null,
+    };
+  }
+  if (Array.isArray(node)) {
+    return node.map(simplifyNodeForStringify);
+  }
+  return node;
+}
 
 type JSXOptions = Options & {
   /** How many wrappers to skip when rendering the jsx */
@@ -127,7 +147,10 @@ export const renderJsx = (code: React.ReactElement, options: JSXOptions) => {
         ? reactElementToJSXString
         : // @ts-expect-error (Converted from ts-ignore)
           reactElementToJSXString.default;
-    let string = applyBeforeRender(toJSXString(child, opts as Options), options);
+    let string = applyBeforeRender(
+      toJSXString(simplifyNodeForStringify(child), opts as Options),
+      options
+    );
 
     if (string.indexOf('&quot;') > -1) {
       const matches = string.match(/\S+=\\"([^"]*)\\"/g);
