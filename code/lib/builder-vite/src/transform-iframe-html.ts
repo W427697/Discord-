@@ -1,5 +1,5 @@
 import { normalizeStories } from '@storybook/core-common';
-import type { CoreConfig } from '@storybook/core-common';
+import type { CoreConfig, DocsOptions } from '@storybook/core-common';
 import type { ExtendedOptions } from './types';
 
 export type PreviewHtml = string | undefined;
@@ -10,6 +10,7 @@ export async function transformIframeHtml(html: string, options: ExtendedOptions
   const headHtmlSnippet = await presets.apply<PreviewHtml>('previewHead');
   const bodyHtmlSnippet = await presets.apply<PreviewHtml>('previewBody');
   const logLevel = await presets.apply('logLevel', undefined);
+  const docsOptions = await presets.apply<DocsOptions>('docs');
 
   const coreOptions = await presets.apply<CoreConfig>('core');
   const stories = normalizeStories(await options.presets.apply('stories', [], options), {
@@ -31,6 +32,7 @@ export async function transformIframeHtml(html: string, options: ExtendedOptions
     )
     .replace(`'[FEATURES HERE]'`, JSON.stringify(features || {}))
     .replace(`'[STORIES HERE]'`, JSON.stringify(stories || {}))
+    .replace(`'[DOCS_OPTIONS HERE]'`, JSON.stringify(docsOptions || {}))
     .replace(`'[SERVER_CHANNEL_URL HERE]'`, JSON.stringify(serverChannelUrl))
     .replace('<!-- [HEAD HTML SNIPPET HERE] -->', headHtmlSnippet || '')
     .replace('<!-- [BODY HTML SNIPPET HERE] -->', bodyHtmlSnippet || '');
