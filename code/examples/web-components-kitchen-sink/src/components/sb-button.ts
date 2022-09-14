@@ -94,7 +94,7 @@ export class SbButton extends LitElement {
         style=${style}
         @click="${this.onClick}"
       >
-        ${this.label}
+        <slot name="prefix"></slot> ${this.label}
       </button>
     `;
   }

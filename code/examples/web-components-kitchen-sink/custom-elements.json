@@ -38,6 +38,12 @@
               "default": "#1ea7fd"
             }
           ],
+          "slots": [
+            {
+              "name": "prefix",
+              "description": "Label prefix"
+            }
+          ],
           "members": [
             {
               "kind": "field",
