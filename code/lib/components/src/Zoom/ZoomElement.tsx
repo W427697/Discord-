@@ -45,7 +45,7 @@ const useMutationObserver = ({
   );
 
   useEffect(() => {
-    if (observer && element?.current) {
+    if (element?.current) {
       observer.observe(element.current, options);
     }
 
