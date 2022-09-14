@@ -10,7 +10,7 @@ export default {
    * See https://storybook.js.org/docs/vue/configure/overview#configure-story-loading
    * to learn how to generate automatic titles
    */
-  title: 'QueryMethods',
+  title: 'Async Query Methods',
   component: MyComponent,
 };
 
@@ -19,9 +19,11 @@ const Template = () => ({
   template: '<MyComponent />',
 });
 
-export const ExampleWithRole = Template.bind({});
-ExampleWithRole.play = async () => {
-  // See https://storybook.js.org/docs/vue/essentials/actions#automatically-matching-args to learn how to setup logging in the Actions panel
-  await userEvent.click(screen.getByRole('button', { name: / button label/i }));
+export const AsyncExample = Template.bind({});
+AsyncExample.play = async () => {
+  // Other steps
+
+  // Waits for the component to be rendered before querying the element
+  await screen.findByRole('button', { name: / button label/i }));
 };
 ```
