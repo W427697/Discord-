@@ -17,12 +17,6 @@ export const webpack: StorybookConfig['webpack'] = async (config, { presets }) =
   });
   config.module.rules.push({
     test: /\.ts$/,
-    // This exclude & its .tsx counterpart below is a hack
-    // for storybook's sandboxing setup, which uses .ts
-    // story files that get processed by esbuild-loader.
-    // This rule is too permissive, but since we don't know
-    // the user's project setup, it's hard to make it specific!
-    exclude: [/template-stories/],
     use: [
       {
         loader: require.resolve('ts-loader'),
@@ -35,7 +29,6 @@ export const webpack: StorybookConfig['webpack'] = async (config, { presets }) =
   });
   config.module.rules.push({
     test: /\.tsx$/,
-    exclude: [/template-stories/],
     use: [
       {
         loader: require.resolve('ts-loader'),
