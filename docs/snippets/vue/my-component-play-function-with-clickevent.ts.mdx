@@ -1,8 +1,8 @@
 ```ts
 // MyComponent.stories.ts
 
-// import { Meta, StoryFn } from '@storybook/vue3'; for Vue 3
-import { Meta, StoryFn } from '@storybook/vue';
+// import type { Meta, Story } from '@storybook/vue3'; for Vue 3
+import type { Meta, Story } from '@storybook/vue';
 
 import { fireEvent, screen, userEvent } from '@storybook/testing-library';
 
@@ -10,32 +10,38 @@ import MyComponent from './MyComponent.vue';
 
 export default {
   /* 👇 The title prop is optional.
-   * See https://storybook.js.org/docs/vue/configure/overview#configure-story-loading
+   * See https://storybook.js.org/docs/7.0/vue/configure/overview#configure-story-loading
    * to learn how to generate automatic titles
    */
   title: 'ClickExamples',
   component: MyComponent,
 } as Meta<typeof MyComponent>;
 
-const Template = (args) => ({
-  components: { MyComponent },
-  template: '<MyComponent />',
-});
+/*
+ *👇 Render functions are a framework specific feature to allow you control on how the component renders.
+ * See https://storybook.js.org/docs/7.0/vue/api/csf
+ * to learn how to use render functions.
+ */
 
-const Template: StoryFn<typeof MyComponent> = () => ({
-  components: { MyComponent },
-  template: '<MyComponent />',
-});
-
-export const ClickExample = Template.bind({});
-ClickExample.play = async () => {
-  // See https://storybook.js.org/docs/vue/essentials/actions#automatically-matching-args to learn how to setup logging in the Actions panel
-  await userEvent.click(screen.getByRole('button'));
+export const ClickExample: Story = {
+  render: () => ({
+    components: { MyComponent },
+    template: '<MyComponent/>',
+  }),
+  play: async () => {
+    // See https://storybook.js.org/docs/7.0/vue/essentials/actions#automatically-matching-args to learn how to setup logging in the Actions panel
+    await userEvent.click(screen.getByRole('button'));
+  },
 };
 
-export const FireEventExample = Template.bind({});
-FireEventExample.play = async () => {
-  // See https://storybook.js.org/docs/vue/essentials/actions#automatically-matching-args to learn how to setup logging in the Actions panel
-  await fireEvent.click(screen.getByTestId('data-testid'));
+export const FireEventExample: Story = {
+  render: () => ({
+    components: { MyComponent },
+    template: '<MyComponent/>',
+  }),
+  play: async () => {
+    // See https://storybook.js.org/docs/7.0/vue/essentials/actions#automatically-matching-args to learn how to setup logging in the Actions panel
+    await fireEvent.click(screen.getByTestId('data-testid'));
+  },
 };
 ```
