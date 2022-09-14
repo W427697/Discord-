@@ -94,21 +94,24 @@ const svelteViteTemplates = {
   // }
 };
 
+const angularCliTemplates = {
+  'angular-cli/default-ts': {
+    name: 'Angular CLI (latest)',
+    script:
+      'npx -p @angular/cli ng new angular-latest --directory . --routing=true --minimal=true --style=scss --skip-install=true --strict --skip-git',
+    cadence: ['ci', 'daily', 'weekly'],
+    expected: {
+      framework: '@storybook/angular',
+      renderer: '@storybook/angular',
+      builder: '@storybook/builder-webpack5',
+    },
+  },
+};
+
 export default {
   ...craTemplates,
   ...reactViteTemplates,
   ...vue3ViteTemplates,
   ...svelteViteTemplates,
-  // FIXME: missing documentation.json
-  // 'angular/latest': {
-  //   name: 'Angular (latest)',
-  //   script:
-  //     'npx -p @angular/cli ng new angular-latest --directory . --routing=true --minimal=true --style=scss --skip-install=true --strict',
-  //   cadence: ['ci', 'daily', 'weekly'],
-  //   expected: {
-  //     framework: '@storybook/angular',
-  //     renderer: '@storybook/angular',
-  //     builder: '@storybook/builder-webpack5',
-  //   },
-  // },
+  ...angularCliTemplates,
 } as const;
