@@ -22,11 +22,6 @@ const Template: StoryFn<typeof MyComponent> = () => ({
   template: '<MyComponent />',
 });
 
-// Custom function to emulate a pause
-function sleep(ms: number) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
-
 export const ExampleAsyncStory = Template.bind({});
 ExampleAsyncStory.play = async () => {
   const Input = screen.getByLabelText('Username', {
