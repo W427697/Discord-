@@ -1,13 +1,15 @@
 ```md
 <!-- MyComponent.stories.mdx -->
 
+<!-- MyComponent.stories.mdx -->
+
 import { Meta, Story } from '@storybook/addon-docs';
 
 import { screen, userEvent } from '@storybook/testing-library';
 
 import MyComponent from './MyComponent.vue';
 
-<Meta title="QueryMethods" component={MyComponent} />
+<Meta title="Async Query Methods" component={MyComponent} />
 
 export const Template = () => ({
   components: { MyComponent },
@@ -15,10 +17,12 @@ export const Template = () => ({
 });
 
 <Story
-  name="ExampleWithRole"
+  name="AsyncExample"
   play={async () => {
-    // See https://storybook.js.org/docs/vue/essentials/actions#automatically-matching-args to learn how to setup logging in the Actions panel
-    await userEvent.click(screen.getByRole('button', { name: / button label/i }));
+    // Other steps
+
+    // Waits for the component to be rendered before querying the element
+    await screen.findByRole('button', { name: / button label/i }));
   }}>
   {Template.bind({})}
 </Story>

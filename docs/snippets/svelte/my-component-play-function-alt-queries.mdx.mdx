@@ -9,30 +9,17 @@ import MyComponent from './MyComponent.svelte';
 
 <Meta title="QueryMethods" component={MyComponent} />
 
-<!--
- 👇 Render functions are a framework specific feature to allow you control on how the component renders.
-  See https://storybook.js.org/docs/7.0/svelte/api/csf
-  to learn how to use render functions.
--->
+export const Template = (args) => ({
+Component: MyComponent,
+props: args,
+});
 
 <Story
   name="ExampleWithRole"
-  play={ async () => {
-    // See https://storybook.js.org/docs/7.0/svelte/essentials/actions#automatically-matching-args to learn how to setup logging in the Actions panel
+  play={async () => {
+    // See https://storybook.js.org/docs/svelte/essentials/actions#automatically-matching-args to learn how to setup logging in the Actions panel
     await userEvent.click(screen.getByRole('button', { name: / button label/i }));
-  }}
-  render={(args) => ({
-    Component: MyComponent,
-    props: args,
-  })} />
-<Story
-  name="ExampleWithText"
-  play={ async () => {
-    // The play function interacts with the component and looks for the text
-    await screen.findByText('example string');
-  }}
-  render={(args) => ({
-    Component: MyComponent,
-    props: args,
-  })} />
+  }}>
+  {Template.bind({})}
+</Story>
 ```

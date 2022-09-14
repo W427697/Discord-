@@ -1,6 +1,9 @@
 ```js
 // MyComponent.stories.js
 
+// import { Meta, StoryFn } from '@storybook/vue3'; for Vue 3
+import { Meta, StoryFn } from '@storybook/vue';
+
 import { screen, userEvent } from '@storybook/testing-library';
 
 import MyComponent from './MyComponent.vue';
@@ -10,11 +13,11 @@ export default {
    * See https://storybook.js.org/docs/vue/configure/overview#configure-story-loading
    * to learn how to generate automatic titles
    */
-  title: 'QueryMethods',
+  title: 'MyComponent',
   component: MyComponent,
-};
+} as Meta<typeof MyComponent>;
 
-const Template = () => ({
+const Template: StoryFn<typeof MyComponent> = () => ({
   components: { MyComponent },
   template: '<MyComponent />',
 });

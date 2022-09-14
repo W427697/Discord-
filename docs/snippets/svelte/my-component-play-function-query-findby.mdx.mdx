@@ -1,0 +1,27 @@
+```md
+<!-- MyComponent.stories.mdx -->
+
+import { Meta, Story } from '@storybook/addon-docs';
+
+import { screen, userEvent } from '@storybook/testing-library';
+
+import MyComponent from './MyComponent.svelte';
+
+<Meta title="Async Query Methods" component={MyComponent} />
+
+export const Template = (args) => ({
+  Component: MyComponent,
+  props: args,
+});
+
+<Story
+  name="AsyncExample"
+  play={async () => {
+    // Other steps
+
+    // Waits for the component to be rendered before querying the element
+    await screen.findByRole('button', { name: / button label/i }));
+  }}>
+  {Template.bind({})}
+</Story>
+```
