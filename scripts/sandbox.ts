@@ -221,6 +221,7 @@ function addEsbuildLoaderToStories(mainConfig: ConfigFile) {
     module: {
       ...config.modules,
       rules: [
+        // Ensure esbuild-loader applies to all files in ./template-stories
         {
           test: [/\\/template-stories\\//],
           loader: '${loaderPath}',
@@ -229,7 +230,11 @@ function addEsbuildLoaderToStories(mainConfig: ConfigFile) {
             target: 'es2015',
           },
         },
-        ...config.module.rules,
+        // Ensure no other loaders from the framework apply
+        ...config.module.rules.map(rule => ({
+          ...rule,
+          exclude: [/\\/template-stories\\//].concat(rule.exclude || []),
+        })),
       ],
     },
   })`;
