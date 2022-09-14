@@ -294,12 +294,11 @@ async function addStories(
     path.join('template', 'stories', 'preview.ts')
   );
 
-  const config = mainConfig.getFieldValue(['config']) as string[];
   const extraConfig = packageDirsWithPreview.map((p) => {
     const previewFile = path.join('template-stories', p, 'preview.ts');
     return `./${previewFile}`;
   });
-  mainConfig.setFieldValue(['config'], [...(config || []), ...extraConfig]);
+  addPreviewAnnotations(mainConfig, extraConfig);
 }
 
 type Workspace = { name: string; location: string };
