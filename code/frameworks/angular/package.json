@@ -30,7 +30,7 @@
     "*.d.ts"
   ],
   "scripts": {
-    "check": "tsc --noEmit",
+    "check": "../../../scripts/node_modules/.bin/tsc --noEmit",
     "prep": "node ../../../scripts/prepare.js"
   },
   "dependencies": {
