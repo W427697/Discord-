@@ -2,7 +2,7 @@ import path from 'path';
 import { DefinePlugin, HotModuleReplacementPlugin, ProgressPlugin, ProvidePlugin } from 'webpack';
 import type { Configuration } from 'webpack';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
-// @ts-expect-error // -- this has typings for webpack4 in it, won't work
+// @ts-ignore
 import CaseSensitivePathsPlugin from 'case-sensitive-paths-webpack-plugin';
 import TerserWebpackPlugin from 'terser-webpack-plugin';
 import VirtualModulePlugin from 'webpack-virtual-modules';

@@ -3,7 +3,7 @@ const ignore = 0;
 module.exports = {
   overrides: [
     {
-      files: '**/template[-?]*/**',
+      files: 'templates/**/*',
       env: {
         browser: true,
       },
@@ -14,12 +14,6 @@ module.exports = {
         'import/no-extraneous-dependencies': ignore,
         'global-require': ignore,
         'no-redeclare': ignore,
-      },
-    },
-    {
-      files: 'REACT_NATIVE/template/**',
-      env: {
-        browser: false,
       },
     },
     {
