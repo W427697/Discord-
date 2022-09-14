@@ -1,10 +1,10 @@
-```js
-// MyComponent.stories.js
+```ts
+// MyComponent.stories.ts
 
 // import { Meta, StoryFn } from '@storybook/vue3'; for Vue 3
 import { Meta, StoryFn } from '@storybook/vue';
 
-import { screen, userEvent } from '@storybook/testing-library';
+import { getByRole, userEvent, within } from '@storybook/testing-library';
 
 import MyComponent from './MyComponent.vue';
 

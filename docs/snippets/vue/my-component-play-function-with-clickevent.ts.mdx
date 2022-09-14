@@ -22,10 +22,6 @@ const Template = (args) => ({
   template: '<MyComponent />',
 });
 
-const Template: StoryFn<typeof MyComponent> = () => ({
-  components: { MyComponent },
-  template: '<MyComponent />',
-});
 
 export const ClickExample = Template.bind({});
 ClickExample.play = async () => {
