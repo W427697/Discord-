@@ -1,6 +1,6 @@
 // your-component.stories.ts
 
-import { componentWrapperDecorator, Meta, moduleMetadata } from '@storybook/angular';
+import { Args, componentWrapperDecorator, Meta, moduleMetadata, Story } from '@storybook/angular';
 import ChildComponent from './child.component';
 import ParentComponent from './parent.component';
 
@@ -16,27 +16,27 @@ export default {
   argTypes: { onClickChild: { action: 'onClickChild' } },
 } as Meta;
 
-export const WithTemplate = (args) => ({
+export const WithTemplate = (args: Args) => ({
   template: `Child Template`,
   props: {
     ...args,
   },
 });
 
-export const WithComponent = (args) => ({
+export const WithComponent = (args: Args) => ({
   props: {
     ...args,
   },
 });
 
-export const WithLegacyComponent = (args) => ({
+export const WithLegacyComponent = (args: Args) => ({
   component: ChildComponent,
   props: {
     ...args,
   },
 });
 
-export const WithComponentWrapperDecorator = (args) => ({
+export const WithComponentWrapperDecorator = (args: Args) => ({
   component: ChildComponent,
   props: {
     ...args,
@@ -47,7 +47,7 @@ WithComponentWrapperDecorator.decorators = [
   componentWrapperDecorator(ParentComponent),
 ];
 
-export const WithComponentWrapperDecoratorAndProps = (args) => ({
+export const WithComponentWrapperDecoratorAndProps = (args: Args) => ({
   component: ChildComponent,
   props: {
     ...args,
@@ -63,7 +63,7 @@ WithComponentWrapperDecoratorAndProps.decorators = [
   }),
 ];
 
-export const WithComponentWrapperDecoratorAndArgs = (args) => ({
+export const WithComponentWrapperDecoratorAndArgs = (args: Args) => ({
   component: ChildComponent,
   props: {
     ...args,
@@ -81,7 +81,7 @@ WithComponentWrapperDecoratorAndArgs.decorators = [
   })),
 ];
 
-export const WithCustomDecorator = (args) => ({
+export const WithCustomDecorator = (args: Args) => ({
   template: `Child Template`,
   props: {
     ...args,
@@ -96,9 +96,9 @@ WithCustomDecorator.decorators = [
       template: `Custom Decorator <div style="margin: 3em">${story.template}</div>`,
     };
   },
-];
+] as Story['decorators'];
 
-export const AngularLegacyRendering = (args) => ({
+export const AngularLegacyRendering = (args: Args) => ({
   template: `Child Template`,
   props: {
     ...args,
@@ -114,4 +114,4 @@ AngularLegacyRendering.decorators = [
       template: `Custom Decorator <div style="margin: 3em">${story.template}</div>`,
     };
   },
-];
+] as Story['decorators'];
