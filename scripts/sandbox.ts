@@ -13,7 +13,6 @@ import {
 import prompts from 'prompts';
 import type { AbortController } from 'node-abort-controller';
 import command from 'execa';
-import dedent from 'ts-dedent';
 
 import dedent from 'ts-dedent';
 import { createOptions, getOptionsOrPrompt, OptionValues } from './utils/options';
