@@ -19,7 +19,6 @@ function eqMajor(versionRange: string, major: number) {
 export type SupportedRenderers =
   | 'react'
   | 'react-native'
-  | 'nextjs'
   | 'vue'
   | 'vue3'
   | 'angular'
@@ -39,7 +38,6 @@ export type SupportedRenderers =
 export const SUPPORTED_RENDERERS: SupportedRenderers[] = [
   'react',
   'react-native',
-  'nextjs',
   'vue',
   'vue3',
   'angular',

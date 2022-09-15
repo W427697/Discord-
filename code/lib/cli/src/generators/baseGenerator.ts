@@ -44,7 +44,8 @@ const wrapForPnp = (packageName: string) =>
 const getFrameworkDetails = (
   renderer: SupportedRenderers,
   builder: Builder,
-  pnp: boolean
+  pnp: boolean,
+  framework?: SupportedFrameworks
 ): {
   type: 'framework' | 'renderer';
   packages: string[];
@@ -53,7 +54,9 @@ const getFrameworkDetails = (
   renderer?: string;
   rendererId: SupportedRenderers;
 } => {
-  const frameworkPackage = `@storybook/${renderer}-${builder}`;
+  const frameworkPackage = framework
+    ? `@storybook/${framework}`
+    : `@storybook/${renderer}-${builder}`;
   const frameworkPackagePath = pnp ? wrapForPnp(frameworkPackage) : frameworkPackage;
 
   const rendererPackage = `@storybook/${renderer}`;
@@ -64,25 +67,6 @@ const getFrameworkDetails = (
 
   const isKnownFramework = !!(packageVersions as Record<string, string>)[frameworkPackage];
   const isKnownRenderer = !!(packageVersions as Record<string, string>)[rendererPackage];
-
-  if (renderer === 'angular') {
-    return {
-      packages: [rendererPackage],
-      framework: rendererPackagePath,
-      rendererId: 'angular',
-      type: 'framework',
-    };
-  }
-
-  // TODO: Refactor when we remove the legacy renderer support
-  if (renderer === 'nextjs') {
-    return {
-      packages: [rendererPackage],
-      framework: rendererPackagePath,
-      rendererId: 'react',
-      type: 'framework',
-    };
-  }
 
   if (isKnownFramework) {
     return {
@@ -113,12 +97,20 @@ const stripVersions = (addons: string[]) => addons.map((addon) => getPackageDeta
 const hasInteractiveStories = (rendererId: SupportedRenderers) =>
   ['react', 'angular', 'preact', 'svelte', 'vue', 'vue3', 'html'].includes(rendererId);
 
+type SupportedFrameworks = 'nextjs' | 'angular';
+
+const frameworkToRenderer: Record<SupportedFrameworks, SupportedRenderers> = {
+  nextjs: 'react',
+  angular: 'angular',
+};
+
 export async function baseGenerator(
   packageManager: JsPackageManager,
   npmOptions: NpmOptions,
   { language, builder = CoreBuilder.Webpack5, pnp, commonJs }: GeneratorOptions,
-  renderer: SupportedRenderers,
-  options: FrameworkOptions = defaultOptions
+  _renderer: SupportedRenderers,
+  options: FrameworkOptions = defaultOptions,
+  framework?: SupportedFrameworks
 ) {
   const {
     extraAddons: extraAddonPackages,
@@ -135,6 +127,8 @@ export async function baseGenerator(
     ...options,
   };
 
+  const renderer = frameworkToRenderer[framework] || _renderer;
+
   const {
     packages: frameworkPackages,
     type,
@@ -142,7 +136,7 @@ export async function baseGenerator(
     rendererId,
     framework: frameworkInclude,
     builder: builderInclude,
-  } = getFrameworkDetails(renderer, builder, pnp);
+  } = getFrameworkDetails(renderer, builder, pnp, framework);
 
   // added to main.js
   const addons = [
