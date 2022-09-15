@@ -7789,6 +7789,7 @@ __metadata:
     "@storybook/semver": ^7.3.2
     "@storybook/store": 7.0.0-alpha.33
     "@storybook/theming": 7.0.0-alpha.33
+    "@types/case-sensitive-paths-webpack-plugin": ^2.1.6
     "@types/node": ^14.0.10 || ^16.0.0
     "@types/terser-webpack-plugin": ^5.2.0
     "@types/webpack-dev-middleware": ^5.3.0
@@ -10146,6 +10147,15 @@ __metadata:
   version: 4.8.0
   resolution: "@types/browserslist@npm:4.8.0"
   checksum: 827982532ee80cfc58405e04eba7e310dd98ba107274c3c058dfdcddcb924e209ffee59ee18846d45005d2a6515b62310328e1c29ec826c2ba3c82cb567c769c
+  languageName: node
+  linkType: hard
+
+"@types/case-sensitive-paths-webpack-plugin@npm:^2.1.6":
+  version: 2.1.6
+  resolution: "@types/case-sensitive-paths-webpack-plugin@npm:2.1.6"
+  dependencies:
+    "@types/webpack": ^4
+  checksum: 9f379718393f04937be69e742f9b67e346ecca5badb37a02eb1b740a4f37e1c52033b3a9fef04b82e31b9f58ae72ae02cf1027a57ecd969ff5e1b4e6796375d6
   languageName: node
   linkType: hard
 
