@@ -15,7 +15,7 @@ test.describe('addon-docs', () => {
 
   test('should provide source snippet', async ({ page }) => {
     test.skip(
-      /^vue3/.test(templateName),
+      /^(vue3|vue-cli\/default-js)/.test(templateName),
       `Skipping ${templateName}, which does not support dynamic source snippets`
     );
 
