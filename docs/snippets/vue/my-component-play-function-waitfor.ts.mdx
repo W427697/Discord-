@@ -1,8 +1,8 @@
 ```ts
 // MyComponent.stories.ts
 
-// import { Meta, StoryFn } from '@storybook/vue3'; for Vue 3
-import { Meta, StoryFn } from '@storybook/vue';
+// import type { Meta, Story } from '@storybook/vue3'; for Vue 3
+import type { Meta, Story } from '@storybook/vue';
 
 import { screen, userEvent, waitFor } from '@storybook/testing-library';
 
@@ -17,27 +17,31 @@ export default {
   component: MyComponent,
 } as Meta<typeof MyComponent>;
 
-const Template: StoryFn<typeof MyComponent> = () => ({
-  components: { MyComponent },
-  template: '<MyComponent />',
-});
+/*
+ *👇 Render functions are a framework specific feature to allow you control on how the component renders.
+ * See https://storybook.js.org/docs/7.0/vue/api/csf
+ * to learn how to use render functions.
+ */
 
-export const ExampleAsyncStory = Template.bind({});
-ExampleAsyncStory.play = async () => {
-  const Input = screen.getByLabelText('Username', {
-    selector: 'input',
-  });
+export const ExampleAsyncStory: Story = {
+  render: () => ({
+    components: { MyComponent },
+    template: '<MyComponent />',
+  }),
+  play: async () => {
+    const Input = screen.getByLabelText('Username', {
+      selector: 'input',
+    });
+    await userEvent.type(Input, 'WrongInput', {
+      delay: 100,
+    });
+    // See https://storybook.js.org/docs/7.0/vue/essentials/actions#automatically-matching-args to learn how to setup logging in the Actions panel
+    const Submit = screen.getByRole('button');
+    await userEvent.click(Submit);
 
-  await userEvent.type(Input, 'WrongInput', {
-    delay: 100,
-  });
-
-  // See https://storybook.js.org/docs/vue/essentials/actions#automatically-matching-args to learn how to setup logging in the Actions panel
-  const Submit = screen.getByRole('button');
-  await userEvent.click(Submit);
-
-  await waitFor(async () => {
-    await userEvent.hover(screen.getByTestId('error'));
-  });
+    await waitFor(async () => {
+      await userEvent.hover(screen.getByTestId('error'));
+    });
+  },
 };
 ```

@@ -1,8 +1,8 @@
 ```js
-// MyComponent.stories.js
+// MyComponent.stories.ts
 
-// import { Meta, StoryFn } from '@storybook/vue3'; for Vue 3
-import { Meta, StoryFn } from '@storybook/vue';
+// import type { Meta, Story } from '@storybook/vue3'; for Vue 3
+import type { Meta, Story } from '@storybook/vue';
 
 import { screen, userEvent } from '@storybook/testing-library';
 
@@ -17,16 +17,22 @@ export default {
   component: MyComponent,
 } as Meta<typeof MyComponent>;
 
-const Template: StoryFn<typeof MyComponent> = () => ({
-  components: { MyComponent },
-  template: '<MyComponent />',
-});
+/*
+ *👇 Render functions are a framework specific feature to allow you control on how the component renders.
+ * See https://storybook.js.org/docs/7.0/vue/api/csf
+ * to learn how to use render functions.
+ */
 
-export const AsyncExample = Template.bind({});
-AsyncExample.play = async () => {
-  // Other steps
-
-  // Waits for the component to be rendered before querying the element
-  await screen.findByRole('button', { name: / button label/i }));
+export const AsyncExample: Story = {
+  render: () => ({
+    components: { MyComponent },
+    template: '<MyComponent />',
+  }),
+  play: async () => {
+    // Other steps
+    
+    // Waits for the component to be rendered before querying the element
+    await screen.findByRole('button', { name: / button label/i }));
+  },
 };
 ```
