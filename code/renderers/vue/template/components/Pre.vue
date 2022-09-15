@@ -22,7 +22,7 @@ export default {
 
   computed: {
     finalText() {
-      return props.object ? JSON.stringify(props.object, null, 2) : props.text;
+      return this.object ? JSON.stringify(this.object, null, 2) : this.text;
     },
   },
 };
