@@ -10,6 +10,6 @@ export default {
 
 export const Default = {
   play: async ({ title }: PlayFunctionContext) => {
-    await expect(title).toBe('lib/store/manual title');
+    await expect(title).toBe('manual title');
   },
 };
