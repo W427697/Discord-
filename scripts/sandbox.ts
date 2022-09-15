@@ -15,7 +15,6 @@ import type { AbortController } from 'node-abort-controller';
 import command from 'execa';
 import dedent from 'ts-dedent';
 
-import dedent from 'ts-dedent';
 import { createOptions, getOptionsOrPrompt, OptionValues } from './utils/options';
 import { executeCLIStep } from './utils/cli-step';
 import { installYarn2, configureYarn2ForVerdaccio, addPackageResolutions } from './utils/yarn';
@@ -24,6 +23,8 @@ import { getInterpretedFile } from '../code/lib/core-common';
 import { ConfigFile, readConfig, writeConfig } from '../code/lib/csf-tools';
 import { babelParse } from '../code/lib/csf-tools/src/babelParse';
 import TEMPLATES from '../code/lib/cli/src/repro-templates';
+import { detectLanguage } from '../code/lib/cli/src/detect';
+import { SupportedLanguage } from '../code/lib/cli/src/project_types';
 import { servePackages } from './utils/serve-packages';
 import { filterExistsInCodeDir, codeDir } from './utils/filterExistsInCodeDir';
 import { JsPackageManagerFactory } from '../code/lib/cli/src/js-package-manager';
@@ -263,43 +264,51 @@ function addPreviewAnnotations(mainConfig: ConfigFile, paths: string[]) {
   mainConfig.setFieldValue(['previewAnnotations'], [...(config || []), ...paths]);
 }
 
-// paths are of the form 'renderers/react', 'addons/actions'
-async function addStories(
-  packageDirs: string[],
-  { mainConfig, cwd }: { mainConfig: ConfigFile; cwd: string }
+// packageDir is eg 'renderers/react', 'addons/actions'
+async function linkPackageStories(
+  packageDir: string,
+  { mainConfig, cwd, linkInDir }: { mainConfig: ConfigFile; cwd: string; linkInDir?: string }
 ) {
-  // Link `stories` directories
-  //   '../../../code/lib/store/template/stories' to 'src/templates/lib/store'
+  const source = path.join(codeDir, packageDir, 'template', 'stories');
+  // By default we link `stories` directories
+  //   e.g '../../../code/lib/store/template/stories' to 'template-stories/lib/store'
   // if the directory <code>/lib/store/template/stories exists
   //
-  // We link rather than reference relative dir to avoid Running two versions
-  // of React in react-based projects
-  await Promise.all(
-    packageDirs.map(async (p) => {
-      const source = path.join(codeDir, p, 'template', 'stories');
-      await ensureSymlink(source, path.resolve(cwd, 'template-stories', p));
-    })
-  );
+  // The files must be linked in the cwd, in order to ensure that any dependencies they
+  // reference are resolved in the cwd. In particular 'react' resolved by MDX files.
+  const target = linkInDir
+    ? path.resolve(linkInDir, packageDir)
+    : path.resolve(cwd, 'template-stories', packageDir);
+  await ensureSymlink(source, target);
 
+  // Add `previewAnnotation` entries of the form
+  //   './template-stories/lib/store/preview.ts'
+  // if the file <code>/lib/store/template/stories/preview.ts exists
+
+  const previewFile = path.join(codeDir, packageDir, 'template', 'stories', 'preview.ts');
+  if (await pathExists(previewFile)) {
+    addPreviewAnnotations(mainConfig, [
+      `./${path.join('template-stories', packageDir, 'preview.ts')}`,
+    ]);
+  }
+}
+
+// Update the stories field to ensure that:
+//  a) no TS files that are linked from the renderer are picked up in non-TS projects
+//  b) files in ./template-stories are not matched by the default glob
+async function updateStoriesField(mainConfig: ConfigFile, isJs: boolean) {
   const stories = mainConfig.getFieldValue(['stories']) as string[];
+
+  // If the project is a JS project, let's make sure any linked in TS stories from the
+  // renderer inside src|stories are simply ignored.
+  const updatedStories = isJs
+    ? stories.map((specifier) => specifier.replace('js|jsx|ts|tsx', 'js|jsx'))
+    : stories;
+
   // FIXME: '*.@(mdx|stories.mdx|stories.tsx|stories.ts|stories.jsx|stories.js'
   const linkedStories = path.join('..', 'template-stories', '**', '*.stories.@(js|jsx|ts|tsx|mdx)');
-  mainConfig.setFieldValue(['stories'], [...stories, linkedStories]);
 
-  // Add `config` entries of the form
-  //   '../../code/lib/store/template/stories/preview.ts'
-  // if the file <code>/lib/store/template/stories/preview.ts exists
-  const packageDirsWithPreview = await filterExistsInCodeDir(
-    packageDirs,
-    path.join('template', 'stories', 'preview.ts')
-  );
-
-  const config = mainConfig.getFieldValue(['config']) as string[];
-  const extraConfig = packageDirsWithPreview.map((p) => {
-    const previewFile = path.join('template-stories', p, 'preview.ts');
-    return `./${previewFile}`;
-  });
-  mainConfig.setFieldValue(['config'], [...(config || []), ...extraConfig]);
+  mainConfig.setFieldValue(['stories'], [...updatedStories, linkedStories]);
 }
 
 type Workspace = { name: string; location: string };
@@ -404,10 +413,19 @@ export async function sandbox(optionValues: OptionValues<typeof options>) {
     );
     addPreviewAnnotations(mainConfig, [`.${path.sep}${path.join(storiesPath, 'components')}`]);
 
-    // Link in the stories from the store, the renderer and the addons
-    const storiesToAdd = [] as string[];
-    storiesToAdd.push(workspacePath('core package', '@storybook/store', workspaces));
-    storiesToAdd.push(rendererPath);
+    // Add stories for the renderer. NOTE: these *do* need to be processed by the framework build system
+    await linkPackageStories(rendererPath, {
+      mainConfig,
+      cwd,
+      linkInDir: path.resolve(cwd, storiesPath),
+    });
+
+    // Add stories for lib/store (and addons below). NOTE: these stories will be in the
+    // template-stories folder and *not* processed by the framework build config (instead by esbuild-loader)
+    await linkPackageStories(workspacePath('core package', '@storybook/store', workspaces), {
+      mainConfig,
+      cwd,
+    });
 
     // TODO -- sb add <addon> doesn't actually work properly:
     //   - installs in `deps` not `devDeps`
@@ -419,17 +437,23 @@ export async function sandbox(optionValues: OptionValues<typeof options>) {
       await executeCLIStep(steps.add, { argument: addonName, cwd, dryRun, debug });
     }
 
-    for (const addon of [...defaultAddons, ...optionValues.addon]) {
-      storiesToAdd.push(workspacePath('addon', `@storybook/addon-${addon}`, workspaces));
-    }
+    const addonDirs = [...defaultAddons, ...optionValues.addon].map((addon) =>
+      workspacePath('addon', `@storybook/addon-${addon}`, workspaces)
+    );
     const existingStories = await filterExistsInCodeDir(
-      storiesToAdd,
+      addonDirs,
       path.join('template', 'stories')
     );
-    await addStories(existingStories, {
+    await Promise.all(
+      existingStories.map(async (packageDir) => linkPackageStories(packageDir, { mainConfig, cwd }))
+    );
+
+    // Ensure that we match stories from the template-stories dir
+    const packageJson = await import(path.join(cwd, 'package.json'));
+    await updateStoriesField(
       mainConfig,
-      cwd,
-    });
+      detectLanguage(packageJson) === SupportedLanguage.JAVASCRIPT
+    );
 
     // Add some extra settings (see above for what these do)
     mainConfig.setFieldValue(['core', 'disableTelemetry'], true);
