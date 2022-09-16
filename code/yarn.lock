@@ -17458,37 +17458,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cra-kitchen-sink@workspace:examples/cra-kitchen-sink":
-  version: 0.0.0-use.local
-  resolution: "cra-kitchen-sink@workspace:examples/cra-kitchen-sink"
-  dependencies:
-    "@pmmmwh/react-refresh-webpack-plugin": ^0.5.5
-    "@storybook/addon-a11y": 7.0.0-alpha.33
-    "@storybook/addon-actions": 7.0.0-alpha.33
-    "@storybook/addon-backgrounds": 7.0.0-alpha.33
-    "@storybook/addon-docs": 7.0.0-alpha.33
-    "@storybook/addon-highlight": 7.0.0-alpha.33
-    "@storybook/addon-jest": 7.0.0-alpha.33
-    "@storybook/addon-links": 7.0.0-alpha.33
-    "@storybook/addon-storyshots": 7.0.0-alpha.33
-    "@storybook/addons": 7.0.0-alpha.33
-    "@storybook/builder-webpack5": 7.0.0-alpha.33
-    "@storybook/client-logger": 7.0.0-alpha.33
-    "@storybook/preset-create-react-app": ^4.1.0
-    "@storybook/react": 7.0.0-alpha.33
-    "@storybook/react-webpack5": 7.0.0-alpha.33
-    "@storybook/theming": 7.0.0-alpha.33
-    global: ^4.4.0
-    prop-types: ^15.7.2
-    react: 16.14.0
-    react-dom: 16.14.0
-    react-lifecycles-compat: ^3.0.4
-    react-scripts: ^5.0.1
-    storybook: 7.0.0-alpha.33
-    webpack: 5
-  languageName: unknown
-  linkType: soft
-
 "cra-ts-kitchen-sink@workspace:examples/cra-ts-kitchen-sink":
   version: 0.0.0-use.local
   resolution: "cra-ts-kitchen-sink@workspace:examples/cra-ts-kitchen-sink"
@@ -37452,7 +37421,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-lifecycles-compat@npm:^3.0.0, react-lifecycles-compat@npm:^3.0.4":
+"react-lifecycles-compat@npm:^3.0.0":
   version: 3.0.4
   resolution: "react-lifecycles-compat@npm:3.0.4"
   checksum: 1d0df3c85af79df720524780f00c064d53a9dd1899d785eddb7264b378026979acbddb58a4b7e06e7d0d12aa1494fd5754562ee55d32907b15601068dae82c27
