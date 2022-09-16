@@ -28,7 +28,8 @@ export default {
     // Wrap all stories with this template
     componentWrapperDecorator(
       (story) => `<sb-button [color]="propsColor">${story}</sb-button>`,
-      ({ args }) => ({ propsColor: args.color })
+      // eslint-disable-next-line dot-notation
+      ({ args }) => ({ propsColor: args['color'] })
     ),
   ],
   argTypes: {
@@ -45,7 +46,8 @@ export const EmptyButton: StoryFn = () => ({
 });
 
 export const WithDynamicContentAndArgs: StoryFn = (args) => ({
-  template: `${args.content}`,
+  // eslint-disable-next-line dot-notation
+  template: `${args['content']}`,
 });
 WithDynamicContentAndArgs.argTypes = {
   content: { control: 'text' },

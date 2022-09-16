@@ -9,22 +9,22 @@ import { Component, Input } from '@angular/core';
 })
 export class EnumsComponent {
   /** Union Type of string literals */
-  @Input() unionType: 'Union A' | 'Union B' | 'Union C';
+  @Input() unionType?: 'Union A' | 'Union B' | 'Union C';
 
   /** Union Type assigned as a Type Alias */
-  @Input() aliasedUnionType: TypeAlias;
+  @Input() aliasedUnionType?: TypeAlias;
 
   /** Base Enum Type with no assigned values */
-  @Input() enumNumeric: EnumNumeric;
+  @Input() enumNumeric?: EnumNumeric;
 
   /** Enum with initial numeric value and auto-incrementing subsequent values */
-  @Input() enumNumericInitial: EnumNumericInitial;
+  @Input() enumNumericInitial?: EnumNumericInitial;
 
   /** Enum with string values */
-  @Input() enumStrings: EnumStringValues;
+  @Input() enumStrings?: EnumStringValues;
 
   /** Type Aliased Enum Type */
-  @Input() enumAlias: EnumAlias;
+  @Input() enumAlias?: EnumAlias;
 }
 
 /**

@@ -22,15 +22,15 @@ export default {
 })
 class NgComponentOutletWrapperComponent implements OnInit {
   @Input()
-  componentOutlet: Type<unknown>;
+  componentOutlet?: Type<unknown>;
 
   @Input()
-  name: string;
+  name?: string;
 
   @Input()
-  color: string;
+  color?: string;
 
-  componentInjector: Injector;
+  componentInjector?: Injector;
 
   componentContent = [
     [document.createTextNode('Ng-content : Inspired by ')],
@@ -67,7 +67,8 @@ WithCustomNgComponentOutletWrapper.decorators = [
   }),
   componentWrapperDecorator(NgComponentOutletWrapperComponent, (args) => ({
     name: args.name,
-    color: args.color,
+    // eslint-disable-next-line dot-notation
+    color: args['color'],
     componentOutlet: WithoutSelectorComponent,
   })),
 ];

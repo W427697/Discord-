@@ -11,7 +11,7 @@ export const TEST_TOKEN = new InjectionToken<string>('test');
 })
 export class DiComponent {
   @Input()
-  title: string;
+  title?: string;
 
   constructor(
     protected injector: Injector,

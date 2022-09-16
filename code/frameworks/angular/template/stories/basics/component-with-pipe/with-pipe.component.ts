@@ -6,5 +6,5 @@ import { Component, Input } from '@angular/core';
 })
 export class WithPipeComponent {
   @Input()
-  field;
+  field: any;
 }

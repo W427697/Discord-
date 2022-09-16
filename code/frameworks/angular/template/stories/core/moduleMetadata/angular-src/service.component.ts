@@ -11,15 +11,15 @@ import { DummyService } from './dummy.service';
   `,
 })
 export class ServiceComponent implements OnInit {
-  items: {};
+  items?: {};
 
   @Input()
-  name: any;
+  name?: any;
 
   // eslint-disable-next-line no-useless-constructor
   constructor(private dummy: DummyService) {}
 
   async ngOnInit() {
-    this.items = await this.dummy.getItems();
+    this.items = (await this.dummy.getItems()) as any;
   }
 }

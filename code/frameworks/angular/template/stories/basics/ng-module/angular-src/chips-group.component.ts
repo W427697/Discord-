@@ -38,7 +38,7 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
   ],
 })
 export class ChipsGroupComponent {
-  @Input() chips: {
+  @Input() chips?: {
     id: number;
     text: string;
   }[];

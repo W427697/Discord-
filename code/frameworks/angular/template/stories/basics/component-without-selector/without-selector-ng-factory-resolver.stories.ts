@@ -25,10 +25,10 @@ export default {
 
 @Component({ selector: 'component-factory-wrapper', template: '' })
 class ComponentFactoryWrapperComponent implements AfterViewInit {
-  @ViewChild('dynamicInsert', { read: ViewContainerRef }) dynamicInsert;
+  @ViewChild('dynamicInsert', { read: ViewContainerRef }) dynamicInsert: any;
 
   @Input()
-  componentOutlet: Type<unknown>;
+  componentOutlet?: Type<unknown>;
 
   @Input()
   args: any;
@@ -41,12 +41,12 @@ class ComponentFactoryWrapperComponent implements AfterViewInit {
 
   ngAfterViewInit() {
     const componentFactory = this.componentFactoryResolver.resolveComponentFactory(
-      this.componentOutlet
+      this.componentOutlet!
     );
     const containerRef = this.viewContainerRef;
     containerRef.clear();
     const dynamicComponent = containerRef.createComponent(componentFactory);
-    Object.assign(dynamicComponent.instance, this.args);
+    Object.assign(dynamicComponent.instance as any, this.args);
   }
 }
 

@@ -7,7 +7,7 @@ import type { Meta, StoryFn } from '@storybook/angular';
     📝 The current time in console should no longer display after a change of story`,
 })
 class OnDestroyComponent implements OnInit, OnDestroy {
-  time: string;
+  time?: string;
 
   interval: any;
 

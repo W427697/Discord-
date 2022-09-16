@@ -1,3 +1,4 @@
+import type { Args } from '@storybook/angular';
 import { DiComponent } from './di.component';
 
 export default {
@@ -13,7 +14,7 @@ export const InputsAndInjectDependencies = () => ({
 
 InputsAndInjectDependencies.storyName = 'inputs and inject dependencies';
 
-export const InputsAndInjectDependenciesWithArgs = (args) => ({
+export const InputsAndInjectDependenciesWithArgs = (args: Args) => ({
   props: args,
 });
 InputsAndInjectDependenciesWithArgs.storyName = 'inputs and inject dependencies with args';

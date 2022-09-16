@@ -6,5 +6,5 @@ import { Component, Input } from '@angular/core';
 })
 export class BaseButtonComponent {
   @Input()
-  label: string;
+  label?: string;
 }

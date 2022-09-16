@@ -48,7 +48,7 @@ import { CHIP_COLOR } from './chip-color.token';
   ],
 })
 export class ChipComponent {
-  @Input() displayText: string;
+  @Input() displayText?: string;
 
   @Output() removeClicked = new EventEmitter();
 

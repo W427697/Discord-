@@ -7,5 +7,5 @@ import { BaseButtonComponent } from './base-button.component';
 })
 export class IconButtonComponent extends BaseButtonComponent {
   @Input()
-  icon: string;
+  icon?: string;
 }

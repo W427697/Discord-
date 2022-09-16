@@ -19,7 +19,8 @@ export const WithInjectionTokenAndArgs: StoryFn = (args) => ({
   props: args,
   moduleMetadata: {
     providers: [
-      { provide: WITHOUT_SELECTOR_DATA, useValue: { color: args.color, name: args.name } },
+      // eslint-disable-next-line dot-notation
+      { provide: WITHOUT_SELECTOR_DATA, useValue: { color: args['color'], name: args['name'] } },
     ],
   },
 });

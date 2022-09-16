@@ -18,7 +18,7 @@ const NOOP = () => {};
   ],
 })
 export class CustomCvaComponent implements ControlValueAccessor {
-  disabled: boolean;
+  disabled?: boolean;
 
   protected onChange: (value: any) => void = NOOP;
 

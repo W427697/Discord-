@@ -21,7 +21,8 @@ export const Default: StoryFn = () => ({
 });
 
 export const WithDynamicContentAndArgs: StoryFn = (args) => ({
-  template: `<storybook-with-ng-content><h1>${args.content}</h1></storybook-with-ng-content>`,
+  // eslint-disable-next-line dot-notation
+  template: `<storybook-with-ng-content><h1>${args['content']}</h1></storybook-with-ng-content>`,
 });
 WithDynamicContentAndArgs.argTypes = {
   content: { control: 'text' },
