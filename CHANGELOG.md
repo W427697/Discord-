@@ -1,3 +1,106 @@
+## 7.0.0-alpha.33 (September 13, 2022)
+
+#### Features
+
+-   Core: Add a new `throwPlayFunctionExceptions` parameter [#19143](https://github.com/storybooks/storybook/pull/19143)
+
+#### Bug Fixes
+
+-   Fix issue in instrumenter with `waitFor` [#19145](https://github.com/storybooks/storybook/pull/19145)
+-   Core: Fix static dirs targeting same destination [#19064](https://github.com/storybooks/storybook/pull/19064)
+-   React: Fix issue with react 18 implementation [#19125](https://github.com/storybooks/storybook/pull/19125)
+-   CLI: Fix spawning child processes on windows [#19019](https://github.com/storybooks/storybook/pull/19019)
+-   Vite: Ensure we set `DOCS_OPTIONS` in the vite builder [#19127](https://github.com/storybooks/storybook/pull/19127)
+
+#### Maintenance
+
+-   Build: Bundle @storybook/cli with tsup [#19138](https://github.com/storybooks/storybook/pull/19138)
+-   Examples: Remove `cra-ts-essentials` [#19170](https://github.com/storybooks/storybook/pull/19170)
+-   Added some basic interactions stories [#19153](https://github.com/storybooks/storybook/pull/19153)
+-   Presets: Replace `config` with `previewAnnotations`, remove `previewEntries` [#19152](https://github.com/storybooks/storybook/pull/19152)
+-   Addon-links: Move stories into addon [#19124](https://github.com/storybooks/storybook/pull/19124)
+-   Addon-a11y: Move stories into addon [#19114](https://github.com/storybooks/storybook/pull/19114)
+-   Toolbars: Generic example stories [#19166](https://github.com/storybooks/storybook/pull/19166)
+-   TypeScript: Revert a few @ts-expect-errors [#19168](https://github.com/storybooks/storybook/pull/19168)
+-   Addon-docs: Generic stories for DocsPage [#19162](https://github.com/storybooks/storybook/pull/19162)
+-   Controls: Generic stories for sorting [#19161](https://github.com/storybooks/storybook/pull/19161)
+-   Build: Generic stories for addon-controls [#19149](https://github.com/storybooks/storybook/pull/19149)
+-   remove node12 from the matrix [#19147](https://github.com/storybooks/storybook/pull/19147)
+-   Build libs/router with ts-up [#19140](https://github.com/storybooks/storybook/pull/19140)
+-   Build: Bundle addon-interactions with tsup [#19139](https://github.com/storybooks/storybook/pull/19139)
+-   Generic stories for remaining core features [#19118](https://github.com/storybooks/storybook/pull/19118)
+-   Add parameter, loader and decorator stories to `lib/store` [#19105](https://github.com/storybooks/storybook/pull/19105)
+-   Convert @ts-ignore to @ts-expect-error [#19122](https://github.com/storybooks/storybook/pull/19122)
+
+#### Dependency Upgrades
+
+-   Upgrade emotion deps again [#19054](https://github.com/storybooks/storybook/pull/19054)
+
+## 7.0.0-alpha.31 (September 7, 2022)
+
+#### Maintenance
+
+-   Doc blocks: Update ArgTable Reset button to use IconButton [#19052](https://github.com/storybooks/storybook/pull/19052)
+-   UI: Update a handful of icons [#19084](https://github.com/storybooks/storybook/pull/19084)
+-   Build: Update to latest nx [#19078](https://github.com/storybooks/storybook/pull/19078)
+-   Vite: Fix plugin types [#19095](https://github.com/storybooks/storybook/pull/19095)
+
+#### Dependency Upgrades
+
+-   Chore: Remove unused dependencies in /lib [#19100](https://github.com/storybooks/storybook/pull/19100)
+
+## 7.0.0-alpha.30 (September 6, 2022)
+
+#### Bug Fixes
+
+-   CLI: Fix include rendererAssets in npm bundle [#19115](https://github.com/storybooks/storybook/pull/19115)
+
+#### Maintenance
+
+-   CLI: remove outdated comment in Angular starter [#19097](https://github.com/storybooks/storybook/pull/19097)
+
+#### Dependency Upgrades
+
+-   Remove deprecated `stable` dependency [#19103](https://github.com/storybooks/storybook/pull/19103)
+-   Svelte: Update sveltedoc dependencies [#19111](https://github.com/storybooks/storybook/pull/19111)
+-   Deps: Remove core-js from most packages [#19098](https://github.com/storybooks/storybook/pull/19098)
+-   Deps: Upgrade react-element-to-jsx-string and react-inspector for React 18 [#19104](https://github.com/storybooks/storybook/pull/19104)
+
+## 7.0.0-alpha.29 (September 2, 2022)
+
+#### Bug Fixes
+
+-   CLI/Vite: Don't add babel dependencies during init [#19088](https://github.com/storybooks/storybook/pull/19088)
+-   CLI: Fix sb init to use renderer assets instead of frameworks [#19091](https://github.com/storybooks/storybook/pull/19091)
+-   Core: Ensure if a docs render is torndown during preparation, it throws [#19071](https://github.com/storybooks/storybook/pull/19071)
+
+#### Maintenance
+
+-   Addon-viewport: Move stories into addon [#19086](https://github.com/storybooks/storybook/pull/19086)
+-   Addon-backgrounds: Move stories into addon [#19085](https://github.com/storybooks/storybook/pull/19085)
+-   Addon-actions: Move stories into addon [#19082](https://github.com/storybooks/storybook/pull/19082)
+-   Build: Exit yarn bootstrap with nonzero code if failed [#19089](https://github.com/storybooks/storybook/pull/19089)
+-   Vite: cleanup custom plugins [#19087](https://github.com/storybooks/storybook/pull/19087)
+-   Build: Prefix generic addon stories in sandbox storybooks [#19092](https://github.com/storybooks/storybook/pull/19092)
+
+## 7.0.0-alpha.28 (September 2, 2022)
+
+#### Features
+
+-   Vite: Automatically use vite.config.js [#19026](https://github.com/storybooks/storybook/pull/19026)
+
+#### Bug Fixes
+
+-   CLI: Fix race condition in sb init [#19083](https://github.com/storybooks/storybook/pull/19083)
+-   Vite: Fix framework option checks, and SSv6 [#19062](https://github.com/storybooks/storybook/pull/19062)
+-   Core: Fix WebProjectAnnotations export in preview-web for back-compat [#19048](https://github.com/storybooks/storybook/pull/19048)
+
+#### Maintenance
+
+-   Update to new TS reference format (?) [#19072](https://github.com/storybooks/storybook/pull/19072)
+-   Build: Conditionally force vite rebuilds in sandbox [#19063](https://github.com/storybooks/storybook/pull/19063)
+-   Build: Fix CRA bench [#19066](https://github.com/storybooks/storybook/pull/19066)
+
 ## 7.0.0-alpha.27 (August 31, 2022)
 
 #### Features

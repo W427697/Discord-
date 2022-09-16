@@ -1,6 +1,6 @@
 {
   "name": "@storybook/channels",
-  "version": "7.0.0-alpha.27",
+  "version": "7.0.0-alpha.33",
   "description": "",
   "keywords": [
     "storybook"
@@ -38,11 +38,10 @@
     "*.d.ts"
   ],
   "scripts": {
-    "check": "tsc --noEmit",
-    "prepare": "../../../scripts/prepare/bundle.ts"
+    "check": "../../../scripts/node_modules/.bin/tsc --noEmit",
+    "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "core-js": "^3.8.2",
     "ts-dedent": "^2.0.0",
     "util-deprecate": "^1.0.2"
   },
@@ -57,5 +56,5 @@
       "./src/index.ts"
     ]
   },
-  "gitHead": "3e33f0709dd97151b7dfd86fd9858d13fd1c5738"
+  "gitHead": "5da5b0fabd04cc5cd5771e8242a960f05d03234a"
 }

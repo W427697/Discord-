@@ -9,7 +9,7 @@ import yaml from 'js-yaml';
 
 import startVerdaccioServer from 'verdaccio';
 import pLimit from 'p-limit';
-// @ts-ignore
+// @ts-expect-error (Converted from ts-ignore)
 import { maxConcurrentTasks } from './utils/concurrency';
 import { listOfPackages } from './utils/list-packages';
 
