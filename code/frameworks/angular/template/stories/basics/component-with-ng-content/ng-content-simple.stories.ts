@@ -10,7 +10,7 @@ import type { Meta, StoryFn } from '@storybook/angular/';
 class WithNgContentComponent {}
 
 export default {
-  title: 'Basics / Component / With ng-content / Simple',
+  // title: 'Basics / Component / With ng-content / Simple',
   component: WithNgContentComponent,
 } as Meta;
 

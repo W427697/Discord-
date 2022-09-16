@@ -2,7 +2,8 @@ import { IconButtonComponent } from './icon-button.component';
 import { BaseButtonComponent } from './base-button.component';
 
 export default {
-  title: 'Basics / Component / With Inheritance',
+  // title: 'Basics / Component / With Inheritance',
+  component: IconButtonComponent,
 };
 
 export const IconButton = () => ({

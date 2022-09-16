@@ -3,7 +3,7 @@ import { componentWrapperDecorator, moduleMetadata, StoryFn, Meta } from '@story
 import { WithoutSelectorComponent, WITHOUT_SELECTOR_DATA } from './without-selector.component';
 
 export default {
-  title: 'Basics / Component / without selector / Custom wrapper *NgComponentOutlet',
+  // title: 'Basics / Component / without selector / Custom wrapper *NgComponentOutlet',
   component: WithoutSelectorComponent,
   decorators: [
     moduleMetadata({

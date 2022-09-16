@@ -2,7 +2,7 @@ import type { Meta, StoryFn } from '@storybook/angular';
 import Button from '../../button.component';
 
 export default {
-  title: 'Others / Issues / 12009 unknown component',
+  // title: 'Others / Issues / 12009 unknown component',
   component: Button,
 } as Meta;
 

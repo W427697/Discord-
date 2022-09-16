@@ -12,7 +12,7 @@ import { componentWrapperDecorator, moduleMetadata, StoryFn, Meta } from '@story
 import { WithoutSelectorComponent } from './without-selector.component';
 
 export default {
-  title: 'Basics / Component / without selector / Custom wrapper ComponentFactoryResolver',
+  // title: 'Basics / Component / without selector / Custom wrapper ComponentFactoryResolver',
   component: WithoutSelectorComponent,
   decorators: [
     moduleMetadata({

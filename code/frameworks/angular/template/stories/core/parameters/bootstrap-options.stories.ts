@@ -10,13 +10,13 @@ import { Component } from '@angular/core';
 class ComponentWithWhitespace {}
 
 export default {
-  title: 'Core / Parameters / With Bootstrap Options',
+  // title: 'Core / Parameters / With Bootstrap Options',
+  component: ComponentWithWhitespace,
   parameters: {
     bootstrapOptions: {
       preserveWhitespaces: true,
     },
   },
-  component: ComponentWithWhitespace,
 } as Meta;
 
 export const WithPreserveWhitespaces: StoryFn = (_args) => ({});

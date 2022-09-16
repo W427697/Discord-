@@ -4,7 +4,8 @@ import { ChipsGroupComponent } from './angular-src/chips-group.component';
 import { ChipComponent } from './angular-src/chip.component';
 
 export default {
-  title: 'Basics / NgModule / Module with multiple component',
+  // title: 'Basics / NgModule / Module with multiple component',
+  component: ChipsGroupComponent,
   decorators: [
     moduleMetadata({
       imports: [ChipsModule],

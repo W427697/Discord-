@@ -1,15 +1,6 @@
 import { Meta, moduleMetadata, StoryFn } from '@storybook/angular';
 import Button from '../../button.component';
 
-export default {
-  title: 'Core / Story host styles',
-  decorators: [
-    moduleMetadata({
-      declarations: [Button],
-    }),
-  ],
-} as Meta;
-
 export const TemplateStory: StoryFn = () => ({
   template: `<storybook-button-component [text]="text" (onClick)="onClick($event)"></storybook-button-component>`,
   props: {
@@ -47,3 +38,13 @@ WithArgsStory.argTypes = {
 WithArgsStory.args = {
   text: 'Button with custom styles',
 };
+
+export default {
+  // title: 'Core / Story host styles',
+  component: TemplateStory,
+  decorators: [
+    moduleMetadata({
+      declarations: [Button],
+    }),
+  ],
+} as Meta;

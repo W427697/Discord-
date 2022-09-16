@@ -3,7 +3,7 @@ import { moduleMetadata, Meta, StoryFn } from '@storybook/angular';
 import { CustomCvaComponent } from './custom-cva.component';
 
 export default {
-  title: 'Basics / Angular forms / ControlValueAccessor',
+  // title: 'Basics / Angular forms / ControlValueAccessor',
   component: CustomCvaComponent,
   decorators: [
     moduleMetadata({

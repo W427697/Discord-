@@ -20,7 +20,7 @@ class SbButtonComponent {
 }
 
 export default {
-  title: 'Basics / Component / With ng-content / Button with different contents',
+  // title: 'Basics / Component / With ng-content / Button with different contents',
   // Implicitly declares the component to Angular
   // This will be the component described by the addon docs
   component: SbButtonComponent,

@@ -2,7 +2,7 @@ import type { Args } from '@storybook/angular';
 import { DiComponent } from './di.component';
 
 export default {
-  title: 'Basics / Component / With Provider',
+  // title: 'Basics / Component / With Provider',
   component: DiComponent,
 };
 

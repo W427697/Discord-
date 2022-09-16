@@ -1,10 +1,6 @@
 import type { Meta, StoryFn } from '@storybook/angular';
 import { TokenComponent, ITEMS, DEFAULT_NAME } from './angular-src/token.component';
 
-export default {
-  title: 'Core / ModuleMetadata / In stories',
-} as Meta;
-
 export const Individual1: StoryFn = () => ({
   template: `<storybook-simple-token-component [name]="name"></storybook-simple-token-component>`,
   props: {
@@ -43,3 +39,8 @@ export const Individual2: StoryFn = () => ({
 });
 
 Individual2.storyName = 'Individual 2';
+
+export default {
+  // title: 'Core / ModuleMetadata / In stories',
+  component: Individual1,
+} as Meta;

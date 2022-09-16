@@ -6,7 +6,8 @@ import { AttributeSelectorComponent } from './attribute-selector.component';
 import { ClassSelectorComponent } from './class-selector.component';
 
 export default {
-  title: 'Basics / Component / With Complex Selectors',
+  // title: 'Basics / Component / With Complex Selectors',
+  component: MultipleClassSelectorComponent,
 };
 
 export const MultipleSelectors = () => ({

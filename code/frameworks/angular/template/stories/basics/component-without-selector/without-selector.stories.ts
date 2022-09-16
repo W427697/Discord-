@@ -2,7 +2,7 @@ import { moduleMetadata, StoryFn, Meta } from '@storybook/angular';
 import { WithoutSelectorComponent, WITHOUT_SELECTOR_DATA } from './without-selector.component';
 
 export default {
-  title: 'Basics / Component / without selector',
+  // title: 'Basics / Component / without selector',
   component: WithoutSelectorComponent,
   decorators: [
     moduleMetadata({

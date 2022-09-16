@@ -4,7 +4,7 @@ import { ChipsGroupComponent } from './angular-src/chips-group.component';
 import { CHIP_COLOR } from './angular-src/chip-color.token';
 
 export default {
-  title: 'Basics / NgModule / forRoot() pattern',
+  // title: 'Basics / NgModule / forRoot() pattern',
   component: ChipsGroupComponent,
   decorators: [
     moduleMetadata({

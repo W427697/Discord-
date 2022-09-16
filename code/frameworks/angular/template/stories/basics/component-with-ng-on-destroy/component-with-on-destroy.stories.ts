@@ -28,7 +28,7 @@ class OnDestroyComponent implements OnInit, OnDestroy {
 }
 
 export default {
-  title: 'Basics / Component / with ngOnDestroy',
+  // title: 'Basics / Component / with ngOnDestroy',
   component: OnDestroyComponent,
   parameters: {
     // disabled due to new Date()

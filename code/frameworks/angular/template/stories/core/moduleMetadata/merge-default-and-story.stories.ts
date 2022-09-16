@@ -2,8 +2,21 @@ import { moduleMetadata, Meta, StoryFn } from '@storybook/angular';
 import { TokenComponent, ITEMS, DEFAULT_NAME } from './angular-src/token.component';
 import { CustomPipePipe } from './angular-src/custom.pipe';
 
+export const MergeWithDefaultModuleMetadata: StoryFn = () => ({
+  template: `<storybook-simple-token-component [name]="name | customPipe"></storybook-simple-token-component>`,
+  props: {
+    name: 'Prop Name',
+  },
+  moduleMetadata: {
+    declarations: [CustomPipePipe],
+    providers: [],
+  },
+});
+MergeWithDefaultModuleMetadata.storyName = 'Merge with default ModuleMetadata';
+
 export default {
-  title: 'Core / ModuleMetadata / Merge default and story',
+  // title: 'Core / ModuleMetadata / Merge default and story',
+  component: MergeWithDefaultModuleMetadata,
   decorators: [
     moduleMetadata({
       declarations: [TokenComponent],
@@ -20,15 +33,3 @@ export default {
     }),
   ],
 } as Meta;
-
-export const MergeWithDefaultModuleMetadata: StoryFn = () => ({
-  template: `<storybook-simple-token-component [name]="name | customPipe"></storybook-simple-token-component>`,
-  props: {
-    name: 'Prop Name',
-  },
-  moduleMetadata: {
-    declarations: [CustomPipePipe],
-    providers: [],
-  },
-});
-MergeWithDefaultModuleMetadata.storyName = 'Merge with default ModuleMetadata';
