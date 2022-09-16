@@ -186,10 +186,10 @@ async function updatePackageScripts({ cwd, prefix }: { cwd: string; prefix: stri
   const packageJson = await readJSON(packageJsonPath);
   packageJson.scripts = {
     ...packageJson.scripts,
-    storybook: packageJson.scripts.storybook.replace(/(npx )?storybook/, `${prefix} $&`),
+    storybook: packageJson.scripts.storybook.replace(/(npx )?storybook/, `${prefix} storybook`),
     'build-storybook': packageJson.scripts['build-storybook'].replace(
       /(npx )?storybook/,
-      `${prefix} $&`
+      `${prefix} storybook`
     ),
   };
   await writeJSON(packageJsonPath, packageJson, { spaces: 2 });
