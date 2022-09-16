@@ -180,19 +180,14 @@ async function findFirstPath(paths: string[], { cwd }: { cwd: string }) {
   return null;
 }
 
-async function addPackageScripts({
-  cwd,
-  scripts,
-}: {
-  cwd: string;
-  scripts: Record<string, string>;
-}) {
+async function updatePackageScripts({ cwd, prefix }: { cwd: string; prefix: string }) {
   logger.info(`🔢 Adding package scripts:`);
   const packageJsonPath = path.join(cwd, 'package.json');
   const packageJson = await readJSON(packageJsonPath);
   packageJson.scripts = {
     ...packageJson.scripts,
-    ...scripts,
+    storybook: packageJson.scripts.storybook.replace(/(npx )?sb/, `${prefix} $&`),
+    'build-storybook': packageJson.scripts['build-storybook'].replace(/(npx )?sb/, `${prefix} $&`),
   };
   await writeJSON(packageJsonPath, packageJson, { spaces: 2 });
 }
@@ -507,14 +502,9 @@ export async function sandbox(optionValues: OptionValues<typeof options>) {
     // Some addon stories require extra dependencies
     addExtraDependencies({ cwd, dryRun, debug });
 
-    await addPackageScripts({
+    await updatePackageScripts({
       cwd,
-      scripts: {
-        storybook:
-          'NODE_OPTIONS="--preserve-symlinks --preserve-symlinks-main" storybook dev -p 6006',
-        'build-storybook':
-          'NODE_OPTIONS="--preserve-symlinks --preserve-symlinks-main" storybook build',
-      },
+      prefix: 'NODE_OPTIONS="--preserve-symlinks --preserve-symlinks-main"',
     });
   }
 
