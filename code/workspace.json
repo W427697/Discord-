@@ -450,6 +450,21 @@
       "implicitDependencies": [],
       "root": "examples/vue-3-cli",
       "type": "library"
+    },
+    "@storybook/pixi-webpack5": {
+      "implicitDependencies": [],
+      "root": "frameworks/pixi-webpack5",
+      "type": "library"
+    },
+    "@storybook/pixi": {
+      "implicitDependencies": [],
+      "root": "renderers/pixi",
+      "type": "library"
+    },
+    "pixi-kitchen-sink": {
+      "implicitDependencies": [],
+      "root": "examples/pixi-kitchen-sink",
+      "type": "library"
     }
   }
 }

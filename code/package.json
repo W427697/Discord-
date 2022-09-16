@@ -198,6 +198,8 @@
     "@storybook/manager": "workspace:*",
     "@storybook/nextjs": "workspace:*",
     "@storybook/node-logger": "workspace:*",
+    "@storybook/pixi": "workspace:*",
+    "@storybook/pixi-webpack5": "workspace:*",
     "@storybook/postinstall": "workspace:*",
     "@storybook/preact": "workspace:*",
     "@storybook/preact-webpack5": "workspace:*",
