@@ -15,7 +15,7 @@ export default class PreComponent {
    * An object to render
    */
   @Input()
-  object: Object = null;
+  object?: Object;
 
   /**
    * The code to render

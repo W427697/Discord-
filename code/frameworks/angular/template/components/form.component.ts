@@ -24,7 +24,7 @@ export default class FormComponent {
 
   complete = false;
 
-  handleSubmit(event) {
+  handleSubmit(event: SubmitEvent) {
     event.preventDefault();
     this.onSuccess.emit(this.value);
     setTimeout(() => {
