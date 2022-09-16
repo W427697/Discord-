@@ -1,5 +1,5 @@
 import type { Meta, StoryFn } from '@storybook/angular';
-import { Button } from '../../angular-demo';
+import Button from '../../button.component';
 
 export default {
   title: 'Others / Issues / 12009 unknown component',
