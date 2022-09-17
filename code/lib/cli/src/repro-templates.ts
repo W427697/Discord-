@@ -105,17 +105,20 @@ const vueCliTemplates = {
       builder: '@storybook/builder-webpack5',
     },
   },
-  'vue-cli/vue2-default-js': {
-    name: 'Vue-CLI (Vue2 JS)',
-    script:
-      'npx -p @vue/cli vue create . --default --packageManager=yarn --force --merge --preset=Default\\ (Vue\\ 2)',
-    cadence: ['ci', 'daily', 'weekly'],
-    expected: {
-      framework: '@storybook/vue-webpack5',
-      renderer: '@storybook/vue',
-      builder: '@storybook/builder-webpack5',
-    },
-  },
+  //
+  // FIXME: https://github.com/storybookjs/storybook/issues/19204
+  //
+  // 'vue-cli/vue2-default-js': {
+  //   name: 'Vue-CLI (Vue2 JS)',
+  //   script:
+  //     'npx -p @vue/cli vue create . --default --packageManager=yarn --force --merge --preset=Default\\ (Vue\\ 2)',
+  //   cadence: ['ci', 'daily', 'weekly'],
+  //   expected: {
+  //     framework: '@storybook/vue-webpack5',
+  //     renderer: '@storybook/vue',
+  //     builder: '@storybook/builder-webpack5',
+  //   },
+  // },
 };
 
 export default {
