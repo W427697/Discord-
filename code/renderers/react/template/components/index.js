@@ -6,4 +6,4 @@ import { Form } from './Form.jsx';
 import { Html } from './Html.jsx';
 
 globalThis.Components = { Button, Pre, Form, Html };
-globalThis.storybookRenderer = 'vue';
+globalThis.storybookRenderer = 'react';
