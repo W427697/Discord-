@@ -30,6 +30,10 @@ export const ChangeArgs = {
     await button.focus();
     await expect(button).toHaveFocus();
 
+    // Vue3: https://github.com/storybookjs/storybook/issues/13913
+    // Svelte: https://github.com/storybookjs/storybook/issues/19205
+    if (['vue3', 'svelte'].includes(globalThis.storybookRenderer)) return;
+
     // When we change the args to the button, it should not rerender
     await channel.emit('updateStoryArgs', { storyId: id, updatedArgs: { children: 'New Text' } });
     await within(canvasElement).findByText(/New Text/);
