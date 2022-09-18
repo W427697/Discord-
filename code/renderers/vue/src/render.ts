@@ -9,7 +9,7 @@ import type { VueFramework } from './types';
 export const COMPONENT = 'STORYBOOK_COMPONENT';
 export const VALUES = 'STORYBOOK_VALUES';
 
-const map = new Map<Element, [Instance, Element]>();
+const map = new Map<Element, Instance>();
 type Instance = CombinedVueInstance<
   Vue,
   {
@@ -21,15 +21,10 @@ type Instance = CombinedVueInstance<
   Record<never, any>,
   unknown
 >;
-const getRoot = (domElement: Element): [Instance, Element] => {
+const getRoot = (domElement: Element): Instance => {
   if (map.has(domElement)) {
     return map.get(domElement);
   }
-
-  // Create a dummy "target" underneath #storybook-root
-  // that Vue2 will replace on first render with #storybook-vue-root
-  const target = document.createElement('div');
-  domElement.appendChild(target);
 
   const instance = new Vue({
     beforeDestroy() {
@@ -42,13 +37,13 @@ const getRoot = (domElement: Element): [Instance, Element] => {
       };
     },
     render(h) {
-      map.set(domElement, [instance, target]);
+      map.set(domElement, instance);
       const children = this[COMPONENT] ? [h(this[COMPONENT])] : undefined;
-      return h('div', { attrs: { id: 'storybook-vue-root' } }, children);
+      return h('div', { attrs: { id: 'storybook-root' } }, children);
     },
   });
 
-  return [instance, target];
+  return instance;
 };
 
 export const render: ArgsStoryFn<VueFramework> = (props, context) => {
@@ -97,7 +92,7 @@ export function renderToDOM(
   }: RenderContext<VueFramework>,
   domElement: Element
 ) {
-  const [root, target] = getRoot(domElement);
+  const root = getRoot(domElement);
   Vue.config.errorHandler = showException;
   const element = storyFn();
 
@@ -121,7 +116,7 @@ export function renderToDOM(
   root[VALUES] = { ...element.options[VALUES], ...args };
 
   if (!map.has(domElement)) {
-    root.$mount(target);
+    root.$mount(domElement);
   }
 
   showMain();
