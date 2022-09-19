@@ -64,6 +64,7 @@ export function action(name: string, options: ActionOptions = {}): HandlerFuncti
     };
     channel.emit(EVENT_ID, actionDisplayToEmit);
   };
+  handler.isAction = true;
 
   return handler;
 }

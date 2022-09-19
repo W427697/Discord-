@@ -22,27 +22,30 @@ import { getInterpretedFile } from '../code/lib/core-common';
 import { ConfigFile, readConfig, writeConfig } from '../code/lib/csf-tools';
 import { babelParse } from '../code/lib/csf-tools/src/babelParse';
 import TEMPLATES from '../code/lib/cli/src/repro-templates';
+import { detectLanguage } from '../code/lib/cli/src/detect';
+import { SupportedLanguage } from '../code/lib/cli/src/project_types';
 import { servePackages } from './utils/serve-packages';
-import dedent from 'ts-dedent';
+import { filterExistsInCodeDir, codeDir } from './utils/filterExistsInCodeDir';
+import { JsPackageManagerFactory } from '../code/lib/cli/src/js-package-manager';
 
 type Template = keyof typeof TEMPLATES;
 const templates: Template[] = Object.keys(TEMPLATES) as any;
 const addons = ['a11y', 'storysource'];
 const defaultAddons = [
+  'a11y',
   'actions',
   'backgrounds',
   'controls',
   'docs',
   'highlight',
-  'links',
   'interactions',
+  'links',
   'measure',
   'outline',
   'toolbars',
   'viewport',
 ];
 const sandboxDir = path.resolve(__dirname, '../sandbox');
-const codeDir = path.resolve(__dirname, '../code');
 const reprosDir = path.resolve(__dirname, '../repros');
 
 export const options = createOptions({
@@ -218,15 +221,20 @@ function addEsbuildLoaderToStories(mainConfig: ConfigFile) {
     module: {
       ...config.modules,
       rules: [
+        // Ensure esbuild-loader applies to all files in ./template-stories
         {
-          test: [/\\/code\\/[^/]*\\/[^/]*\\/template\\/stories\\//],
+          test: [/\\/template-stories\\//],
           loader: '${loaderPath}',
           options: {
             loader: 'tsx',
             target: 'es2015',
           },
         },
-        ...config.module.rules,
+        // Ensure no other loaders from the framework apply
+        ...config.module.rules.map(rule => ({
+          ...rule,
+          exclude: [/\\/template-stories\\//].concat(rule.exclude || []),
+        })),
       ],
     },
   })`;
@@ -255,24 +263,91 @@ function forceViteRebuilds(mainConfig: ConfigFile) {
   );
 }
 
-// paths are of the form 'renderers/react', 'addons/actions'
-async function addStories(paths: string[], { mainConfig }: { mainConfig: ConfigFile }) {
-  const stories = mainConfig.getFieldValue(['stories']) as string[];
-  const extraStoryDirsAndExistence = await Promise.all(
-    paths
-      .map((p) => path.join(p, 'template', 'stories'))
-      .map(async (p) => [p, await pathExists(path.resolve(codeDir, p))] as const)
-  );
+function addPreviewAnnotations(mainConfig: ConfigFile, paths: string[]) {
+  const config = mainConfig.getFieldValue(['previewAnnotations']) as string[];
+  mainConfig.setFieldValue(['previewAnnotations'], [...(config || []), ...paths]);
+}
 
-  const relativeCodeDir = path.join('..', '..', '..', 'code');
-  const extraStories = extraStoryDirsAndExistence
-    .filter(([, exists]) => exists)
-    .map(([p]) => ({
-      directory: path.join(relativeCodeDir, p),
-      titlePrefix: p.split('/').slice(-4, -2).join('/'),
-      files: '*.stories.@(js|jsx|ts|tsx)',
-    }));
-  mainConfig.setFieldValue(['stories'], [...stories, ...extraStories]);
+// packageDir is eg 'renderers/react', 'addons/actions'
+async function linkPackageStories(
+  packageDir: string,
+  { mainConfig, cwd, linkInDir }: { mainConfig: ConfigFile; cwd: string; linkInDir?: string }
+) {
+  const source = path.join(codeDir, packageDir, 'template', 'stories');
+  // By default we link `stories` directories
+  //   e.g '../../../code/lib/store/template/stories' to 'template-stories/lib/store'
+  // if the directory <code>/lib/store/template/stories exists
+  //
+  // The files must be linked in the cwd, in order to ensure that any dependencies they
+  // reference are resolved in the cwd. In particular 'react' resolved by MDX files.
+  const target = linkInDir
+    ? path.resolve(linkInDir, packageDir)
+    : path.resolve(cwd, 'template-stories', packageDir);
+  await ensureSymlink(source, target);
+
+  // Add `previewAnnotation` entries of the form
+  //   './template-stories/lib/store/preview.ts'
+  // if the file <code>/lib/store/template/stories/preview.ts exists
+
+  const previewFile = path.join(codeDir, packageDir, 'template', 'stories', 'preview.ts');
+  if (await pathExists(previewFile)) {
+    addPreviewAnnotations(mainConfig, [
+      `./${path.join('template-stories', packageDir, 'preview.ts')}`,
+    ]);
+  }
+}
+
+// Update the stories field to ensure that:
+//  a) no TS files that are linked from the renderer are picked up in non-TS projects
+//  b) files in ./template-stories are not matched by the default glob
+async function updateStoriesField(mainConfig: ConfigFile, isJs: boolean) {
+  const stories = mainConfig.getFieldValue(['stories']) as string[];
+
+  // If the project is a JS project, let's make sure any linked in TS stories from the
+  // renderer inside src|stories are simply ignored.
+  const updatedStories = isJs
+    ? stories.map((specifier) => specifier.replace('js|jsx|ts|tsx', 'js|jsx'))
+    : stories;
+
+  // FIXME: '*.@(mdx|stories.mdx|stories.tsx|stories.ts|stories.jsx|stories.js'
+  const linkedStories = path.join('..', 'template-stories', '**', '*.stories.@(js|jsx|ts|tsx|mdx)');
+
+  mainConfig.setFieldValue(['stories'], [...updatedStories, linkedStories]);
+}
+
+type Workspace = { name: string; location: string };
+
+async function getWorkspaces() {
+  const { stdout } = await command('yarn workspaces list --json', {
+    cwd: process.cwd(),
+    shell: true,
+  });
+  return JSON.parse(`[${stdout.split('\n').join(',')}]`) as Workspace[];
+}
+
+function workspacePath(type: string, packageName: string, workspaces: Workspace[]) {
+  const workspace = workspaces.find((w) => w.name === packageName);
+  if (!workspace) {
+    throw new Error(`Unknown ${type} '${packageName}', not in yarn workspace!`);
+  }
+  return workspace.location;
+}
+
+function addExtraDependencies({
+  cwd,
+  dryRun,
+  debug,
+}: {
+  cwd: string;
+  dryRun: boolean;
+  debug: boolean;
+}) {
+  const extraDeps = ['@storybook/jest'];
+  if (debug) console.log('🎁 Adding extra deps', extraDeps);
+  if (!dryRun) {
+    const packageManager = JsPackageManagerFactory.getPackageManager(false, cwd);
+    packageManager.addDependencies({ installAsDevDependencies: true }, extraDeps);
+  }
 }
 
 export async function sandbox(optionValues: OptionValues<typeof options>) {
@@ -330,37 +405,31 @@ export async function sandbox(optionValues: OptionValues<typeof options>) {
     const mainConfig = await readMainConfig({ cwd });
 
     const templateConfig = TEMPLATES[template as Template];
+    const { renderer, builder } = templateConfig.expected;
     const storiesPath = await findFirstPath([path.join('src', 'stories'), 'stories'], { cwd });
 
-    // Link in the template/components/index.js from the renderer
-    const { stdout } = await command('yarn workspaces list --json', {
-      cwd: process.cwd(),
-      shell: true,
-    });
-    const workspaces = JSON.parse(`[${stdout.split('\n').join(',')}]`) as [
-      { name: string; location: string }
-    ];
-    const { renderer, builder } = templateConfig.expected;
-    const rendererWorkspace = workspaces.find((workspace) => workspace.name === renderer);
-    if (!rendererWorkspace) {
-      throw new Error(`Unknown renderer '${renderer}', not in yarn workspace!`);
-    }
-    const rendererPath = rendererWorkspace.location;
+    const workspaces = await getWorkspaces();
+    // Link in the template/components/index.js from store, the renderer and the addons
+    const rendererPath = workspacePath('renderer', renderer, workspaces);
     await ensureSymlink(
       path.join(codeDir, rendererPath, 'template', 'components'),
       path.resolve(cwd, storiesPath, 'components')
     );
-    mainConfig.setFieldValue(
-      ['previewEntries'],
-      [`.${path.sep}${path.join(storiesPath, 'components')}`]
-    );
-    mainConfig.setFieldValue(['core', 'disableTelemetry'], true);
+    addPreviewAnnotations(mainConfig, [`.${path.sep}${path.join(storiesPath, 'components')}`]);
 
-    if (builder === '@storybook/builder-webpack5') addEsbuildLoaderToStories(mainConfig);
-    if (builder === '@storybook/builder-vite') forceViteRebuilds(mainConfig);
+    // Add stories for the renderer. NOTE: these *do* need to be processed by the framework build system
+    await linkPackageStories(rendererPath, {
+      mainConfig,
+      cwd,
+      linkInDir: path.resolve(cwd, storiesPath),
+    });
 
-    const storiesToAdd = [] as string[];
-    storiesToAdd.push(rendererPath);
+    // Add stories for lib/store (and addons below). NOTE: these stories will be in the
+    // template-stories folder and *not* processed by the framework build config (instead by esbuild-loader)
+    await linkPackageStories(workspacePath('core package', '@storybook/store', workspaces), {
+      mainConfig,
+      cwd,
+    });
 
     // TODO -- sb add <addon> doesn't actually work properly:
     //   - installs in `deps` not `devDeps`
@@ -372,10 +441,28 @@ export async function sandbox(optionValues: OptionValues<typeof options>) {
       await executeCLIStep(steps.add, { argument: addonName, cwd, dryRun, debug });
     }
 
-    for (const addon of [...defaultAddons, ...optionValues.addon]) {
-      storiesToAdd.push(path.join('addons', addon));
-    }
-    await addStories(storiesToAdd, { mainConfig });
+    const addonDirs = [...defaultAddons, ...optionValues.addon].map((addon) =>
+      workspacePath('addon', `@storybook/addon-${addon}`, workspaces)
+    );
+    const existingStories = await filterExistsInCodeDir(
+      addonDirs,
+      path.join('template', 'stories')
+    );
+    await Promise.all(
+      existingStories.map(async (packageDir) => linkPackageStories(packageDir, { mainConfig, cwd }))
+    );
+
+    // Ensure that we match stories from the template-stories dir
+    const packageJson = await import(path.join(cwd, 'package.json'));
+    await updateStoriesField(
+      mainConfig,
+      detectLanguage(packageJson) === SupportedLanguage.JAVASCRIPT
+    );
+
+    // Add some extra settings (see above for what these do)
+    mainConfig.setFieldValue(['core', 'disableTelemetry'], true);
+    if (builder === '@storybook/builder-webpack5') addEsbuildLoaderToStories(mainConfig);
+    if (builder === '@storybook/builder-vite') forceViteRebuilds(mainConfig);
 
     await writeConfig(mainConfig);
 
@@ -415,6 +502,9 @@ export async function sandbox(optionValues: OptionValues<typeof options>) {
         }
       );
     }
+
+    // Some addon stories require extra dependencies
+    addExtraDependencies({ cwd, dryRun, debug });
 
     await addPackageScripts({
       cwd,

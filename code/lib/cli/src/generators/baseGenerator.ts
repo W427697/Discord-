@@ -15,7 +15,7 @@ const defaultOptions: FrameworkOptions = {
   staticDir: undefined,
   addScripts: true,
   addComponents: true,
-  addBabel: true,
+  addBabel: false,
   addESLint: false,
   extraMain: undefined,
   framework: undefined,
