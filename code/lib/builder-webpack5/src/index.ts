@@ -218,9 +218,10 @@ const builder: BuilderFunction = async function* builderGeneratorFn({ startTime,
 
       logger.trace({ message: '=> Preview built', time: process.hrtime(startTime) });
       if (stats && stats.hasWarnings()) {
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- we know it has warnings because of hasWarnings()
         stats
           .toJson({ warnings: true } as StatsOptions)
-          .warnings?.forEach((e) => logger.warn(e.message));
+          .warnings!.forEach((e) => logger.warn(e.message));
       }
 
       // https://webpack.js.org/api/node/#run
