@@ -1,5 +1,5 @@
 import globalThis from 'global';
-import { h, FunctionalComponent } from 'vue';
+import { h } from 'vue';
 
 const { Button, Pre } = globalThis.Components;
 
