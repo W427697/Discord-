@@ -251,6 +251,7 @@ program
   .option('--loglevel <level>', 'Control level of logging during build')
   .option('--debug-webpack', 'Display final webpack configurations for debugging purposes')
   .option('--webpack-stats-json [directory]', 'Write Webpack Stats JSON to disk')
+  .option('--modules-json [directory]', 'Write module dependency tree to disk')
   .option(
     '--preview-url <string>',
     'Disables the default storybook preview and lets your use your own'

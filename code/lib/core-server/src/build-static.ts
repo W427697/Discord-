@@ -31,6 +31,7 @@ import { getBuilders } from './utils/get-builders';
 import { extractStoriesJson, convertToIndexV3 } from './utils/stories-json';
 import { extractStorybookMetadata } from './utils/metadata';
 import { StoryIndexGenerator } from './utils/StoryIndexGenerator';
+import { writeModulesJson } from './utils/modules-json';
 
 export async function buildStaticStandalone(
   options: CLIOptions & LoadOptions & BuilderOptions & { outputDir: string }
@@ -110,7 +111,7 @@ export async function buildStaticStandalone(
       Conflict when trying to read staticDirs:
       * Storybook's configuration option: 'staticDirs'
       * Storybook's CLI flag: '--staticDir' or '-s'
-      
+
       Choose one of them, but not both.
     `);
   }
@@ -210,10 +211,15 @@ export async function buildStaticStandalone(
               options: fullOptions,
             })
             .then(async (previewStats) => {
-              if (options.webpackStatsJson) {
-                const target =
-                  options.webpackStatsJson === true ? options.outputDir : options.webpackStatsJson;
+              if (!previewStats) return;
+              const { modulesJson, webpackStatsJson, outputDir } = options;
+              if (webpackStatsJson) {
+                const target = webpackStatsJson === true ? outputDir : webpackStatsJson;
                 await outputStats(target, previewStats);
+              }
+              if (modulesJson) {
+                const target = modulesJson === true ? outputDir : modulesJson;
+                await writeModulesJson(target, previewStats, options);
               }
             }),
         ]),
