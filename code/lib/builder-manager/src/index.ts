@@ -57,6 +57,18 @@ export const getConfig: ManagerBuilder['getConfig'] = async (options) => {
     minify: false,
     sourcemap: true,
 
+    jsxFactory: 'React.createElement',
+    jsxFragment: 'React.Fragment',
+    jsx: 'transform',
+    jsxImportSource: 'react',
+
+    tsconfigRaw: JSON.stringify({
+      compilerOptions: {
+        jsx: 'react',
+        jsxImportSource: 'react',
+      },
+    }),
+
     legalComments: 'external',
     plugins: [
       aliasPlugin({
