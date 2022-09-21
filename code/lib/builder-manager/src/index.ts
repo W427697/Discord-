@@ -8,7 +8,7 @@ import { globalExternals } from '@fal-works/esbuild-plugin-global-externals';
 import { pnpPlugin } from '@yarnpkg/esbuild-plugin-pnp';
 import aliasPlugin from 'esbuild-plugin-alias';
 
-import { renderHTML } from './utils/template';
+import { getTemplatePath, renderHTML } from './utils/template';
 import { definitions } from './utils/globals';
 import {
   BuilderBuildResult,
@@ -28,9 +28,10 @@ export let compilation: Compilation;
 let asyncIterator: ReturnType<StarterFunction> | ReturnType<BuilderFunction>;
 
 export const getConfig: ManagerBuilder['getConfig'] = async (options) => {
-  const [addonsEntryPoints, customManagerEntryPoint] = await Promise.all([
+  const [addonsEntryPoints, customManagerEntryPoint, tsconfigPath] = await Promise.all([
     options.presets.apply('managerEntries', []),
     safeResolve(join(options.configDir, 'manager')),
+    getTemplatePath('addon.tsconfig.json'),
   ]);
 
   return {
@@ -62,12 +63,7 @@ export const getConfig: ManagerBuilder['getConfig'] = async (options) => {
     jsx: 'transform',
     jsxImportSource: 'react',
 
-    tsconfigRaw: `{
-      "compilerOptions": {
-        "jsx": "react",
-        "jsxImportSource": "react",
-      }
-    }`,
+    tsconfig: tsconfigPath,
 
     legalComments: 'external',
     plugins: [
