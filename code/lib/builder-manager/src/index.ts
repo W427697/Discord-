@@ -62,12 +62,12 @@ export const getConfig: ManagerBuilder['getConfig'] = async (options) => {
     jsx: 'transform',
     jsxImportSource: 'react',
 
-    tsconfigRaw: JSON.stringify({
-      compilerOptions: {
-        jsx: 'react',
-        jsxImportSource: 'react',
-      },
-    }),
+    tsconfigRaw: `{
+      "compilerOptions": {
+        "jsx": "react",
+        "jsxImportSource": "react",
+      }
+    }`,
 
     legalComments: 'external',
     plugins: [
