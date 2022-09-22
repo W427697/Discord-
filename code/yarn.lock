@@ -7758,7 +7758,7 @@ __metadata:
     magic-string: ^0.26.1
     slash: ^3.0.0
     typescript: ~4.6.3
-    vite: ^3.1.0
+    vite: ^3.1.3
   peerDependencies:
     "@storybook/mdx2-csf": ^0.0.3
   peerDependenciesMeta:
@@ -8918,7 +8918,7 @@ __metadata:
     magic-string: ^0.26.1
     react-docgen: ^6.0.0-alpha.3
     typescript: ~4.6.3
-    vite: ^3.1.0
+    vite: ^3.1.3
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
@@ -9395,7 +9395,7 @@ __metadata:
     svelte: ^3.0.0
     sveltedoc-parser: ^4.2.1
     typescript: ~4.6.3
-    vite: ^3.1.0
+    vite: ^3.1.3
   languageName: unknown
   linkType: soft
 
@@ -9607,7 +9607,7 @@ __metadata:
     "@vitejs/plugin-vue": ^3.0.3
     magic-string: ^0.26.1
     typescript: ~4.6.3
-    vite: ^3.1.0
+    vite: ^3.1.3
     vue-docgen-api: ^4.40.0
   languageName: unknown
   linkType: soft
@@ -44701,38 +44701,6 @@ __metadata:
     unist-util-stringify-position: ^3.0.0
     vfile-message: ^3.0.0
   checksum: 590a3dcbf17acd347d0ca297b2bf6be57c4f63bff7d561a4d00abd15d95e18717e451f5ff20b7ede8664fb4dbfd1595ffdebd2ea31c42e8210d654ce98840475
-  languageName: node
-  linkType: hard
-
-"vite@npm:^3.1.0":
-  version: 3.1.0
-  resolution: "vite@npm:3.1.0"
-  dependencies:
-    esbuild: ^0.15.6
-    fsevents: ~2.3.2
-    postcss: ^8.4.16
-    resolve: ^1.22.1
-    rollup: ~2.78.0
-  peerDependencies:
-    less: "*"
-    sass: "*"
-    stylus: "*"
-    terser: ^5.4.0
-  dependenciesMeta:
-    fsevents:
-      optional: true
-  peerDependenciesMeta:
-    less:
-      optional: true
-    sass:
-      optional: true
-    stylus:
-      optional: true
-    terser:
-      optional: true
-  bin:
-    vite: bin/vite.js
-  checksum: 38c1a495226ebda7a3f2b341152dc01cb13cbe014a0f834c0bae2f29a6a4fefa3a18587a8d787e25e0ebbd4874da2506a87e3e37b959b26ee8a22983fed2a9e0
   languageName: node
   linkType: hard
 
