@@ -20,16 +20,6 @@ import type { ExtendedOptions, EnvsRaw } from './types';
 
 export type PluginConfigType = 'build' | 'development';
 
-export function readPackageJson(): Record<string, any> | false {
-  const packageJsonPath = path.resolve('package.json');
-  if (!fs.existsSync(packageJsonPath)) {
-    return false;
-  }
-
-  const jsonContent = fs.readFileSync(packageJsonPath, 'utf8');
-  return JSON.parse(jsonContent);
-}
-
 const configEnvServe: ConfigEnv = {
   mode: 'development',
   command: 'serve',

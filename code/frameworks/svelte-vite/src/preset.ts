@@ -9,16 +9,6 @@ export const core: StorybookConfig['core'] = {
   builder: '@storybook/builder-vite',
 };
 
-export function readPackageJson(): Record<string, any> | false {
-  const packageJsonPath = path.resolve('package.json');
-  if (!fs.existsSync(packageJsonPath)) {
-    return false;
-  }
-
-  const jsonContent = fs.readFileSync(packageJsonPath, 'utf8');
-  return JSON.parse(jsonContent);
-}
-
 export const viteFinal: StorybookConfig['viteFinal'] = async (config, { presets }) => {
   const { plugins = [] } = config;
 
