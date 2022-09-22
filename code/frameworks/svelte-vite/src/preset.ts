@@ -1,5 +1,3 @@
-import path from 'path';
-import fs from 'fs';
 import type { StorybookConfig } from '@storybook/builder-vite';
 import { svelteDocgen } from './plugins/svelte-docgen';
 

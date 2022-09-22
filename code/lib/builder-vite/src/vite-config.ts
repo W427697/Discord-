@@ -1,5 +1,4 @@
 import * as path from 'path';
-import fs from 'fs';
 import { loadConfigFromFile, mergeConfig } from 'vite';
 import type {
   ConfigEnv,
