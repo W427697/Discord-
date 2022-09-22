@@ -67,6 +67,20 @@ const vue3ViteTemplates = {
   },
 };
 
+const vue2ViteTemplates = {
+  'vue2-vite/2.7-js': {
+    name: 'Vue2 Vite (vue 2.7 JS)',
+    script:
+      'yarn create vite . --template vanilla && yarn add --dev @vitejs/plugin-vue2 vue-template-compiler vue@2 && echo "import vue2 from \'@vitejs/plugin-vue2\';\n\nexport default {\n\tplugins: [vue2()]\n};" > vite.config.js',
+    cadence: ['ci', 'daily', 'weekly'],
+    expected: {
+      framework: '@storybook/vue2-vite',
+      renderer: '@storybook/vue2',
+      builder: '@storybook/builder-vite',
+    },
+  },
+};
+
 const svelteViteTemplates = {
   'svelte-vite/default-js': {
     name: 'Svelte Vite (JS)',
@@ -124,6 +138,7 @@ const vueCliTemplates = {
 export default {
   ...craTemplates,
   ...reactViteTemplates,
+  ...vue2ViteTemplates,
   ...vue3ViteTemplates,
   ...svelteViteTemplates,
   ...vueCliTemplates,

@@ -72,6 +72,7 @@ export default {
   '@storybook/ui': '7.0.0-alpha.33',
   '@storybook/vue': '7.0.0-alpha.33',
   '@storybook/vue-webpack5': '7.0.0-alpha.33',
+  '@storybook/vue-vite': '7.0.0-alpha.33',
   '@storybook/vue3': '7.0.0-alpha.33',
   '@storybook/vue3-vite': '7.0.0-alpha.33',
   '@storybook/vue3-webpack5': '7.0.0-alpha.33',
