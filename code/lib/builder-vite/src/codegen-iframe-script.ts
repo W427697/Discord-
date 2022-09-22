@@ -39,6 +39,8 @@ export async function generateIframeScriptCode(options: ExtendedOptions) {
       addDecorator,
       addParameters,
       addLoader,
+      addArgs,
+      addArgTypes,
       addArgTypesEnhancer,
       addArgsEnhancer,
       setGlobalRender,
@@ -53,22 +55,10 @@ export async function generateIframeScriptCode(options: ExtendedOptions) {
         const value = config[key];
         switch (key) {
           case 'args': {
-            if (typeof clientApi.addArgs !== "undefined") {
-              return clientApi.addArgs(value);
-            } else {
-              return logger.warn(
-                "Could not add global args. Please open an issue in storybookjs/builder-vite."
-              );
-            }
+            return addArgs(value);
           }
           case 'argTypes': {
-            if (typeof clientApi.addArgTypes !== "undefined") {
-              return clientApi.addArgTypes(value);
-            } else {
-              return logger.warn(
-                "Could not add global argTypes. Please open an issue in storybookjs/builder-vite."
-              );
-            }
+            return addArgTypes(value);
           }
           case 'decorators': {
             return value.forEach((decorator) => addDecorator(decorator, false));
