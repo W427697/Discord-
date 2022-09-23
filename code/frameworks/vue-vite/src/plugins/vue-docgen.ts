@@ -8,7 +8,7 @@ export function vueDocgen(): PluginOption {
   const filter = createFilter(include);
 
   return {
-    name: 'storybook:vue-docgen-plugin',
+    name: 'storybook:vue2-docgen-plugin',
 
     async transform(src: string, id: string) {
       if (!filter(id)) return undefined;
@@ -16,7 +16,7 @@ export function vueDocgen(): PluginOption {
       const metaData = await parse(id);
       const metaSource = JSON.stringify(metaData);
       const s = new MagicString(src);
-      s.append(`;_sfc_main.__docgenInfo = ${metaSource}`);
+      s.append(`;__component__.exports.__docgenInfo = ${metaSource}`);
 
       return {
         code: s.toString(),
