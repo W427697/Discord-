@@ -1,15 +1,8 @@
 import React, { Component as ReactComponent, ComponentType } from 'react';
 import { STORY_CHANGED } from '@storybook/core-events';
 import { API } from '@storybook/api';
+import { AssertionResult } from '@jest/test-result';
 import { ADD_TESTS } from '../shared';
-
-// TODO: import type from @types/jest
-interface AssertionResult {
-  status: string;
-  fullName: string;
-  title: string;
-  failureMessages: string[];
-}
 
 export interface Test {
   name: string;

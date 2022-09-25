@@ -65,6 +65,7 @@
     "@storybook/components": "7.0.0-alpha.33",
     "@storybook/core-events": "7.0.0-alpha.33",
     "@storybook/theming": "7.0.0-alpha.33",
+    "@jest/test-result": "^29.0.3",
     "global": "^4.4.0",
     "react-sizeme": "^3.0.1",
     "upath": "^1.2.0"
