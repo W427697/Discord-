@@ -205,7 +205,7 @@ export async function baseGenerator(
       : {}),
   });
 
-  await configurePreview(renderer, options.commonJs);
+  await configurePreview(renderer);
 
   if (addComponents) {
     await copyComponents(renderer, language);
