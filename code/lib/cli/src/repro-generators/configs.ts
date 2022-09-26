@@ -148,17 +148,6 @@ export const angular13: Parameters = {
   version: '13.1.x',
 };
 
-export const angular_modern_inline_rendering: Parameters = {
-  ...baseAngular,
-  name: 'angular_modern_inline_rendering',
-  additionalDeps: ['jest@27', '@storybook/test-runner'],
-  mainOverrides: {
-    features: {
-      storyStoreV7: true,
-    },
-  },
-};
-
 export const angular: Parameters = baseAngular;
 // #endregion
 
