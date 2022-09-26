@@ -9187,7 +9187,7 @@ __metadata:
     npmlog: ^5.0.1
     nx: 14.6.1
     p-limit: ^3.1.0
-    playwright: ^1.24.2
+    playwright: 1.26.0
     postcss-loader: ^6.2.1
     prettier: 2.7.1
     process: ^0.11.10
@@ -34860,14 +34860,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"playwright@npm:^1.24.2":
-  version: 1.25.2
-  resolution: "playwright@npm:1.25.2"
-  dependencies:
-    playwright-core: 1.25.2
+"playwright-core@npm:1.26.0":
+  version: 1.26.0
+  resolution: "playwright-core@npm:1.26.0"
   bin:
     playwright: cli.js
-  checksum: f8c5647dd680dd6f15d1f7bb19f2afec9a62b7331721b0860b3777bb8f1e653fa2fb737a8e79564557805505c0d8e255fbdedb2c1cc9dd219f1b8c1f7141a744
+  checksum: 43f70bdc3e725819f5b26b5fbd5c78ca2c5769374818d2ebde7a2ebefb5bd44b301b2f3d04fa7c33cee8850d5395d299c8b063f0504ca5ae2279cbeb1af7d72b
+  languageName: node
+  linkType: hard
+
+"playwright@npm:1.26.0":
+  version: 1.26.0
+  resolution: "playwright@npm:1.26.0"
+  dependencies:
+    playwright-core: 1.26.0
+  bin:
+    playwright: cli.js
+  checksum: f4bb1c99249c6197670fd597becf52e64f7978bf46ac8edd88c572832baafa1c592e3e8909df57e99ee4ea5b9cd9f0345abec4c5dabdffcfcd92e19c393dc386
   languageName: node
   linkType: hard
 
