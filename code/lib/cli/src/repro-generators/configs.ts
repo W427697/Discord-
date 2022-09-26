@@ -208,7 +208,7 @@ export const vue: Parameters = {
   version: 'latest',
   generator: [
     // vue2 with webpack5
-    `npx -p @vue/cli vue create . --default --packageManager=yarn --force --merge --preset=Default\\ (Vue\\ 2)`,
+    `npx -p @vue/cli vue create . --default --packageManager=yarn --force --merge --preset=Default (Vue 2)`,
   ].join(' && '),
 };
 
