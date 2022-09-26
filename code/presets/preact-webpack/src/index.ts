@@ -13,7 +13,10 @@ export const babel: StorybookConfig['babelDefault'] = (config) => {
       ],
       ...(config.plugins || []).filter((p) => {
         const name = Array.isArray(p) ? p[0] : p;
-        return !name.includes('babel-plugin-transform-react-jsx');
+        if (typeof name === 'string') {
+          return !name.includes('babel-plugin-transform-react-jsx');
+        }
+        return true;
       }),
     ],
   };
