@@ -8103,7 +8103,6 @@ __metadata:
     "@babel/types": ^7.12.11
     "@storybook/csf": 0.0.2--canary.0899bb7.0
     "@types/fs-extra": ^9.0.6
-    core-js: ^3.8.2
     fs-extra: ^9.0.1
     js-yaml: ^3.14.1
     ts-dedent: ^2.0.0
