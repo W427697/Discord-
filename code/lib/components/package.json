@@ -1,6 +1,6 @@
 {
   "name": "@storybook/components",
-  "version": "7.0.0-alpha.30",
+  "version": "7.0.0-alpha.33",
   "description": "Core Storybook Components",
   "keywords": [
     "storybook"
@@ -47,13 +47,13 @@
     "*.d.ts"
   ],
   "scripts": {
-    "check": "tsc --noEmit",
+    "check": "../../../scripts/node_modules/.bin/tsc --noEmit",
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/client-logger": "7.0.0-alpha.30",
+    "@storybook/client-logger": "7.0.0-alpha.33",
     "@storybook/csf": "0.0.2--canary.0899bb7.0",
-    "@storybook/theming": "7.0.0-alpha.30",
+    "@storybook/theming": "7.0.0-alpha.33",
     "memoizerific": "^1.11.3",
     "util-deprecate": "^1.0.2"
   },
@@ -87,5 +87,5 @@
     ],
     "platform": "neutral"
   },
-  "gitHead": "aabf7b595cb13d8a86dca27ad3d6039205bd55d6"
+  "gitHead": "5da5b0fabd04cc5cd5771e8242a960f05d03234a"
 }

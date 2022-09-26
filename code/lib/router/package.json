@@ -1,6 +1,6 @@
 {
   "name": "@storybook/router",
-  "version": "7.0.0-alpha.30",
+  "version": "7.0.0-alpha.33",
   "description": "Core Storybook Router",
   "keywords": [
     "storybook"
@@ -20,9 +20,22 @@
   },
   "license": "MIT",
   "sideEffects": false,
-  "main": "dist/cjs/index.js",
-  "module": "dist/esm/index.js",
-  "types": "dist/types/index.d.ts",
+  "exports": {
+    ".": {
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.ts"
+    },
+    "./utils": {
+      "require": "./dist/utils.js",
+      "import": "./dist/utils.mjs",
+      "types": "./dist/utils.d.ts"
+    },
+    "./package.json": "./package.json"
+  },
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
   "files": [
     "dist/**/*",
     "README.md",
@@ -30,11 +43,11 @@
     "*.d.ts"
   ],
   "scripts": {
-    "check": "tsc --noEmit",
-    "prep": "ts-node ../../../scripts/prebundle.ts"
+    "check": "../../../scripts/node_modules/.bin/tsc --noEmit",
+    "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/client-logger": "7.0.0-alpha.30",
+    "@storybook/client-logger": "7.0.0-alpha.33",
     "memoizerific": "^1.11.3",
     "qs": "^6.10.0"
   },
@@ -54,6 +67,12 @@
   "publishConfig": {
     "access": "public"
   },
-  "bundlerEntrypoint": "./src/index.ts",
-  "gitHead": "aabf7b595cb13d8a86dca27ad3d6039205bd55d6"
+  "bundler": {
+    "platform": "browser",
+    "entries": [
+      "./src/index.ts",
+      "./src/utils.ts"
+    ]
+  },
+  "gitHead": "5da5b0fabd04cc5cd5771e8242a960f05d03234a"
 }

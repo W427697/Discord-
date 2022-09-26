@@ -10,13 +10,15 @@ export const chromatic: Task = {
   async run(templateKey, { sandboxDir, builtSandboxDir, junitFilename }) {
     const tokenEnvVarName = `CHROMATIC_TOKEN_${templateKey.toUpperCase().replace(/\/|-/g, '_')}`;
     const token = process.env[tokenEnvVarName];
-    return exec(
+
+    await exec(
       `npx chromatic \
-        --exit-zero-on-changes \
-        --storybook-build-dir=${builtSandboxDir} \
-        --junit-report=${junitFilename} \
-        --projectToken=${token}`,
-      { cwd: sandboxDir }
+          --exit-zero-on-changes \
+          --storybook-build-dir=${builtSandboxDir} \
+          --junit-report=${junitFilename} \
+          --projectToken=${token}`,
+      { cwd: sandboxDir },
+      { debug: true }
     );
   },
 };

@@ -15,7 +15,7 @@ const defaultOptions: FrameworkOptions = {
   staticDir: undefined,
   addScripts: true,
   addComponents: true,
-  addBabel: true,
+  addBabel: false,
   addESLint: false,
   extraMain: undefined,
   framework: undefined,
@@ -128,7 +128,6 @@ export async function baseGenerator(
   const {
     packages: frameworkPackages,
     type,
-    // @ts-ignore
     renderer: rendererInclude, // deepscan-disable-line UNUSED_DECL
     rendererId,
     framework: frameworkInclude,
@@ -206,7 +205,7 @@ export async function baseGenerator(
       : {}),
   });
 
-  await configurePreview(renderer, options.commonJs);
+  await configurePreview(renderer);
 
   if (addComponents) {
     await copyComponents(renderer, language);

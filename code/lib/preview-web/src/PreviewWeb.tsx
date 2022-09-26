@@ -75,7 +75,7 @@ export class PreviewWeb<TFramework extends AnyFramework> extends Preview<TFramew
     this.urlStore = new UrlStore();
 
     // Add deprecated APIs for back-compat
-    // @ts-ignore
+    // @ts-expect-error (Converted from ts-ignore)
     this.storyStore.getSelection = deprecate(
       () => this.urlStore.selection,
       dedent`
@@ -181,7 +181,9 @@ export class PreviewWeb<TFramework extends AnyFramework> extends Preview<TFramew
   }) {
     await super.onGetProjectAnnotationsChanged({ getProjectAnnotations });
 
-    this.renderSelection();
+    if (this.urlStore.selection) {
+      this.renderSelection();
+    }
   }
 
   // This happens when a glob gets HMR-ed

@@ -1,6 +1,6 @@
 {
   "name": "@storybook/instrumenter",
-  "version": "7.0.0-alpha.30",
+  "version": "7.0.0-alpha.33",
   "description": "",
   "keywords": [
     "storybook"
@@ -30,13 +30,13 @@
     "*.d.ts"
   ],
   "scripts": {
-    "check": "tsc --noEmit",
+    "check": "../../../scripts/node_modules/.bin/tsc --noEmit",
     "prep": "node ../../../scripts/prepare.js"
   },
   "dependencies": {
-    "@storybook/addons": "7.0.0-alpha.30",
-    "@storybook/client-logger": "7.0.0-alpha.30",
-    "@storybook/core-events": "7.0.0-alpha.30",
+    "@storybook/addons": "7.0.0-alpha.33",
+    "@storybook/client-logger": "7.0.0-alpha.33",
+    "@storybook/core-events": "7.0.0-alpha.33",
     "core-js": "^3.8.2",
     "global": "^4.4.0"
   },
@@ -46,5 +46,5 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "aabf7b595cb13d8a86dca27ad3d6039205bd55d6"
+  "gitHead": "5da5b0fabd04cc5cd5771e8242a960f05d03234a"
 }
