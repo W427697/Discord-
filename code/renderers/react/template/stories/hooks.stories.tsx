@@ -1,4 +1,5 @@
 import React, { FC, useState } from 'react';
+import { expect } from '@storybook/jest';
 
 const ButtonWithState: FC = () => {
   const [count, setCount] = useState(0);
@@ -14,3 +15,9 @@ export default {
 };
 
 export const Basic = {};
+
+export const Fail = {
+  play: async () => {
+    await expect(false).toBe(true);
+  },
+};
