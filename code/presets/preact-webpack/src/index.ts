@@ -3,7 +3,7 @@ import type { StorybookConfig } from './types';
 
 export * from './types';
 
-export const babelDefault: StorybookConfig['babelDefault'] = (config) => {
+export const babel: StorybookConfig['babelDefault'] = (config) => {
   return {
     ...config,
     plugins: [
@@ -11,7 +11,10 @@ export const babelDefault: StorybookConfig['babelDefault'] = (config) => {
         require.resolve('@babel/plugin-transform-react-jsx'),
         { importSource: 'preact', runtime: 'automatic' },
       ],
-      ...(config.plugins || []),
+      ...(config.plugins || []).filter((p) => {
+        const name = Array.isArray(p) ? p[0] : p;
+        return !name.includes('babel-plugin-transform-react-jsx');
+      }),
     ],
   };
 };
