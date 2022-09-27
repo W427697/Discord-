@@ -4,6 +4,11 @@ title: 'Code contributions'
 
 Contribute a new feature or bug fix to [Storybook's monorepo](https://github.com/storybookjs/storybook). This page outlines how to get your environment set up to contribute code.
 
+## Prerequisites
+
+- Ensure you have node version 14 installed (suggestion: v14.18.1).
+- Ensure if you are using Windows to use the Windows Subsystem for Linux (WSL).
+
 ## Initial setup
 
 Start by [forking](https://docs.github.com/en/github/getting-started-with-github/quickstart/fork-a-repo) the Storybook monorepo and cloning it locally.
@@ -12,10 +17,16 @@ Start by [forking](https://docs.github.com/en/github/getting-started-with-github
 git clone https://github.com/your-username/storybook.git
 ```
 
-Navigate to the `storybook` directory and install the required dependencies with the following commands:
+Navigate to the `storybook/scripts` directory and install the required dependencies with the following commands:
 
 ```shell
-yarn && yarn bootstrap --core
+yarn install
+```
+
+Navigate to the `storybook/code` directory and run the following commands:
+
+```shell
+yarn install && yarn bootstrap --core
 ```
 
 ## Run tests & examples
@@ -31,14 +42,14 @@ yarn test
 Once the tests finish, check if the examples are working with the following commands:
 
 ```shell
-cd examples/cra-ts-essentials && yarn storybook
+cd examples/react-ts && yarn storybook
 ```
 
 <div class="aside">
 💡 The Storybook monorepo contains various example projects, each corresponding to a different framework and environment, and they are commonly used as additional tooling to test new features.
 </div>
 
-If everything is working as it should, you should see the `example/cra-ts-essentials` Storybook running.
+If everything is working as it should, you should see the `examples/react-ts` Storybook running.
 
 ![Example Storybook running](./storybook-cra-examples-optimized.png)
 
@@ -46,7 +57,7 @@ If everything is working as it should, you should see the `example/cra-ts-essent
 
 Now that you've [verified your setup](#sanity-check), it's time to jump into code. The simplest way to do this is to run one of the examples in one terminal window and the interactive build process in a separate terminal.
 
-Assuming you're still running the `examples/cra-ts-essentials` from the previous step, open a new terminal and navigate to the root of the Storybook monorepo. Then, create a new branch with the following command:
+Assuming you're still running the `examples/react-ts` from the previous step, open a new terminal and navigate to the root of the Storybook monorepo. Then, create a new branch with the following command:
 
 ```shell
 git checkout -b my-first-storybook-contribution

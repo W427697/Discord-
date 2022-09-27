@@ -8,7 +8,7 @@ import { globalExternals } from '@fal-works/esbuild-plugin-global-externals';
 import { pnpPlugin } from '@yarnpkg/esbuild-plugin-pnp';
 import aliasPlugin from 'esbuild-plugin-alias';
 
-import { renderHTML } from './utils/template';
+import { getTemplatePath, renderHTML } from './utils/template';
 import { definitions } from './utils/globals';
 import {
   BuilderBuildResult,
@@ -28,9 +28,10 @@ export let compilation: Compilation;
 let asyncIterator: ReturnType<StarterFunction> | ReturnType<BuilderFunction>;
 
 export const getConfig: ManagerBuilder['getConfig'] = async (options) => {
-  const [addonsEntryPoints, customManagerEntryPoint] = await Promise.all([
+  const [addonsEntryPoints, customManagerEntryPoint, tsconfigPath] = await Promise.all([
     options.presets.apply('managerEntries', []),
     safeResolve(join(options.configDir, 'manager')),
+    getTemplatePath('addon.tsconfig.json'),
   ]);
 
   return {
@@ -57,11 +58,18 @@ export const getConfig: ManagerBuilder['getConfig'] = async (options) => {
     minify: false,
     sourcemap: true,
 
+    jsxFactory: 'React.createElement',
+    jsxFragment: 'React.Fragment',
+    jsx: 'transform',
+    jsxImportSource: 'react',
+
+    tsconfig: tsconfigPath,
+
     legalComments: 'external',
     plugins: [
       aliasPlugin({
-        process: require.resolve('rollup-plugin-node-polyfills/polyfills/process-es6.js'),
-        util: require.resolve('rollup-plugin-node-polyfills/polyfills/util.js'),
+        process: require.resolve('process/browser.js'),
+        util: require.resolve('util/util.js'),
         assert: require.resolve('browser-assert'),
       }),
       globalExternals(definitions),

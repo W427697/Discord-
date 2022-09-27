@@ -20,7 +20,7 @@ const isReactSyntheticEvent = (e: unknown): e is SyntheticEvent =>
 const serializeArg = <T>(a: T) => {
   if (isReactSyntheticEvent(a)) {
     const e: SyntheticEvent = Object.create(
-      // @ts-ignore
+      // @ts-expect-error (Converted from ts-ignore)
       a.constructor.prototype,
       Object.getOwnPropertyDescriptors(a)
     );
@@ -64,6 +64,7 @@ export function action(name: string, options: ActionOptions = {}): HandlerFuncti
     };
     channel.emit(EVENT_ID, actionDisplayToEmit);
   };
+  handler.isAction = true;
 
   return handler;
 }

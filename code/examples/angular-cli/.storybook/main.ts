@@ -19,7 +19,12 @@ const mainConfig: import('@storybook/angular').StorybookConfig = {
     channelOptions: { allowFunction: false, maxDepth: 10 },
     disableTelemetry: true,
   },
-  staticDirs: ['../src/assets'],
+  staticDirs: [
+    '../src/assets',
+    // reproduction of https://github.com/storybookjs/storybook/issues/16732
+    { from: '../src/assets/a', to: 'assets' },
+    { from: '../src/assets/b', to: 'assets/b' },
+  ],
   features: {
     buildStoriesJson: false,
     breakingChangesV7: false,

@@ -1,6 +1,6 @@
 {
   "name": "@storybook/core-events",
-  "version": "7.0.0-alpha.23",
+  "version": "7.0.0-alpha.33",
   "description": "Event names used in storybook core",
   "keywords": [
     "storybook"
@@ -38,11 +38,8 @@
     "*.d.ts"
   ],
   "scripts": {
-    "check": "tsc --noEmit",
-    "prepare": "../../../scripts/prepare/bundle.ts"
-  },
-  "dependencies": {
-    "core-js": "^3.8.2"
+    "check": "../../../scripts/node_modules/.bin/tsc --noEmit",
+    "prep": "../../../scripts/prepare/bundle.ts"
   },
   "devDependencies": {
     "typescript": "~4.6.3"
@@ -55,5 +52,5 @@
       "./src/index.ts"
     ]
   },
-  "gitHead": "0900e20acfbc12551c6a3f788b8de5dd6af5f80a"
+  "gitHead": "5da5b0fabd04cc5cd5771e8242a960f05d03234a"
 }
