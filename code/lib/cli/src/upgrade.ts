@@ -47,6 +47,7 @@ const excludeList = [
   '@storybook/jest',
   '@storybook/test-runner',
   '@storybook/testing-library',
+  '@storybook/testing-react',
 ];
 export const isCorePackage = (pkg: string) =>
   pkg.startsWith('@storybook/') &&
