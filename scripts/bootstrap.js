@@ -154,7 +154,8 @@ function run() {
       defaultValue: false,
       option: '--installScripts',
       command: () => {
-        return spawn('yarn install', { cwd: path.join('..', 'scripts') });
+        const command = process.env.CI ? `yarn install --immutable` : `yarn install`;
+        return spawn(command, { cwd: path.join('..', 'scripts') });
       },
       order: 10,
     }),
