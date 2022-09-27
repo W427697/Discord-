@@ -51,6 +51,9 @@
     "@storybook/theming": "7.0.0-alpha.34",
     "global": "^4.4.0"
   },
+  "devDependencies": {
+    "@types/webpack-env": "^1.16.0"
+  },
   "peerDependencies": {
     "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
     "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0"

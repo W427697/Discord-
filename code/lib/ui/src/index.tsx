@@ -1,5 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/triple-slash-reference
 /// <reference path="./typings.d.ts" />
+/// <reference types="node" />
+/// <reference types="webpack-env" />
 
 import global from 'global';
 import React, { FC } from 'react';

@@ -78,7 +78,6 @@
     "access": "public"
   },
   "bundler": {
-    "platform": "browser",
     "entries": [
       "./src/index.tsx",
       "./src/shortcut.ts"
