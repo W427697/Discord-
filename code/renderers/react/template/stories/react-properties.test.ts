@@ -8,9 +8,9 @@ import { inferControls } from '@storybook/store';
 import type { AnyFramework } from '@storybook/csf';
 import { normalizeNewlines } from '@storybook/docs-tools';
 
-import type { StoryContext } from '../types';
-import { extractProps } from './extractProps';
-import { extractArgTypes } from './extractArgTypes';
+import type { StoryContext } from '../../../src/types';
+import { extractProps } from '../../../src/docs/extractProps';
+import { extractArgTypes } from '../../../src/docs/extractArgTypes';
 
 // jest.mock('../imported', () => () => ({ imported: 'imported-value' }), { virtual: true });
 
