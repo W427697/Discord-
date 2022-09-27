@@ -5,4 +5,4 @@
 tasks:
 
   - name: Bootstrap
-    init: ./bootstrap --core
+    init: ./bootstrap.sh --core

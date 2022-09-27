@@ -20,7 +20,7 @@ git clone https://github.com/your-username/storybook.git
 In the root directory, run the following command:
 
 ```shell
-./bootstrap --core
+./bootstrap.sh --core
 ```
 
 This will install dependencies in both `scripts` and `code` directories, as well as build all the necessary packages for Storybook to run.
