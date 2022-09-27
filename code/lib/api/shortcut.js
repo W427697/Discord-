@@ -1,1 +1,1 @@
-export * from './dist/shortcut.mjs';
+export * from './dist/shortcut';
