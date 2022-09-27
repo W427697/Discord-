@@ -1,15 +1,28 @@
 ```js
-// Button.stories.js | Button.stories.ts
+// Button.stories.js|jsx|ts|tsx
 
-const Primary = ButtonStory.bind({});
-Primary.args = {
-  primary: true,
-  label: 'Button',
-}
+import { Button } from './Button';
 
-const Secondary = ButtonStory.bind({});
-Secondary.args = {
-  ...Primary.args,
-  primary: false,
-}
+export default {
+  /* 👇 The title prop is optional.
+   * See https://storybook.js.org/docs/7.0/react/configure/overview#configure-story-loading
+   * to learn how to generate automatic titles
+   */
+  title: 'Button',
+  component: Button,
+};
+
+export const Primary = {
+  args: {
+    primary: true,
+    label: 'Button',
+  },
+};
+
+const Secondary = {
+  args: {
+    ...Primary.args,
+    primary: false,
+  },
+};
 ```

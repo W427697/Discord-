@@ -4,7 +4,11 @@
 import YourComponent from './YourComponent.svelte';
 
 export default {
-  title: 'A complex case with a function',
+  /* 👇 The title prop is optional.
+   * See https://storybook.js.org/docs/7.0/svelte/configure/overview#configure-story-loading
+   * to learn how to generate automatic titles
+   */
+  title: 'YourComponent',
   component: YourComponent,
   //👇 Creates specific argTypes
   argTypes: {
@@ -23,17 +27,26 @@ const someFunction = (valuePropertyA, valuePropertyB) => {
   // Makes some computations and returns something
 };
 
-const Template = (args) => {
-  const { propertyA, propertyB } = args;
-  
-  //👇 Assigns the function result to a variable
-  const someFunctionResult = someFunction(propertyA, propertyB);
-  return {
-    Component: YourComponent,
-    props: {
-      ...args,
-      someProperty: someFunctionResult,
-    },
-  };
+/*
+ *👇 Render functions are a framework specific feature to allow you control on how the component renders.
+ * See https://storybook.js.org/docs/7.0/svelte/api/csf
+ * to learn how to use render functions.
+ */
+export const ExampleStory = {
+  render: ({ propertyA, propertyB }) => {
+    //👇 Assigns the function result to a variable
+    const someFunctionResult = someFunction(propertyA, propertyB);
+    return {
+      Component: YourComponent,
+      props: {
+        ...args,
+        someProperty: someFunctionResult,
+      },
+    };
+  },
+  args: {
+    propertyA: 'Item One',
+    propertyB: 'Another Item One',
+  },
 };
 ```

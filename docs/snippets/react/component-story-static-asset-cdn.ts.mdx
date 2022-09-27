@@ -1,0 +1,19 @@
+```ts
+//  MyComponent.stories.ts|tsx
+
+import React from 'react';
+
+import type { Meta } from '@storybook/react';
+
+export default {
+  /* 👇 The title prop is optional.
+   * See https://storybook.js.org/docs/7.0/react/configure/overview#configure-story-loading
+   * to learn how to generate automatic titles
+   */
+  title: 'img',
+} as Meta;
+
+export const WithAnImage = {
+  render: () => <img src="https://storybook.js.org/images/placeholders/350x150.png" alt="My CDN placeholder" />,
+};
+```

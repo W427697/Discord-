@@ -2,9 +2,17 @@
 // MyComponent.stories.js
 
 export default {
-  title: "img",
+  /* 👇 The title prop is optional.
+   * See https://storybook.js.org/docs/7.0/vue/configure/overview#configure-story-loading
+   * to learn how to generate automatic titles
+   */
+  title: 'img',
 };
-export const withAnImage = () => ({
-  template: '<img src="image.png" alt="my image" />'
-});
+
+// Assume image.png is located in the "public" directory.
+export const WithAnImage = {
+  render: () => ({
+    template: '<img src="image.png" alt="my image" />',
+  }),
+};
 ```

@@ -1,19 +1,45 @@
 ```md
-<!--- YourComponent.stories.mdx -->
+<!-- YourComponent.stories.mdx -->
 
-<Story name="Array Include" parameters={{ controls: { include: ['foo', 'bar'] } }}>
-  {Template.bind({})}
-</Story>
+import { Meta, Story } from '@storybook/addon-docs';
 
-<Story name="Regex Include" parameters={{ controls: { include: /^hello*/ } }}>
-  {Template.bind({})}
-</Story>
+import { YourComponent } from './YourComponent';
 
-<Story name="Array Exclude" parameters={{ controls: { exclude: ['foo', 'bar'] } }}>
-  {Template.bind({})}
-</Story>
+<Meta title="YourComponent" component={YourComponent} />
 
-<Story name="Regex Exclude" parameters={{ controls: { exclude: /^hello*/ } }}>
-  {Template.bind({})}
-</Story>
+<Story 
+  name="Array Include"
+  parameters={{ 
+    controls: { 
+      include: ['foo', 'bar'] 
+    } 
+  }}
+  render={() => ({ // Your implementation here })} />
+
+<Story 
+  name="Regex Include"
+  parameters={{ 
+    controls: { include: 
+      /^hello*/ 
+    } 
+  }}
+  render={() => ({ // Your implementation here })} />
+
+<Story 
+  name="Array Exclude"
+  parameters={{ 
+    controls: { 
+      exclude: ['foo', 'bar'] 
+    } 
+  }}
+  render={() => ({ // Your implementation here })} />
+
+<Story 
+  name="Regex Exclude"
+  parameters={{ 
+    controls: { 
+      exclude: /^hello*/ 
+    } 
+  }}
+  render={() => ({ // Your implementation here })} />
 ```

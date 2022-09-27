@@ -4,23 +4,34 @@
 import imageFile from './static/image.png';
 
 export default {
-  title: 'img'
+  /* 👇 The title prop is optional.
+   * See https://storybook.js.org/docs/7.0/vue/configure/overview#configure-story-loading
+   * to learn how to generate automatic titles
+   */
+  title: 'img',
 };
 
 const image = {
   src: imageFile,
-  alt: 'my image'
+  alt: 'my image',
 };
 
-export const withAnImage = () => ({
-  template: `<img :src="src" :alt="alt"/>`,
-  props: {
-    src: {
-      default: () => image.src,
+/*
+ *👇 Render functions are a framework specific feature to allow you control on how the component renders.
+ * See https://storybook.js.org/docs/7.0/vue/api/csf
+ * to learn how to use render functions.
+ */
+export const WithAnImage = {
+  render: () => ({
+    props: {
+      src: {
+        default: () => image.src,
+      },
+      alt: {
+        default: () => image.alt,
+      },
     },
-    alt: {
-      default: () => image.alt,
-    }
-  }
-});
+    template: `<img :src="src" :alt="alt"/>`,
+  }),
+};
 ```

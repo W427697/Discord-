@@ -1,30 +1,30 @@
 ```ts
-// button.stories.ts
+// Button.stories.mdx
 
-import { Meta, Story, componentWrapperDecorator, moduleMetadata } from '@storybook/angular';
+import { componentWrapperDecorator, Meta, moduleMetadata, Story } from '@storybook/angular';
 
-import { ButtonComponent } from './button.component';
-import { ParentComponent } from './parent.component'; // ParentComponent contains ng-content
+import { Button } from './button.component';
+import { Parent } from './parent.component'; // Parent contains ng-content
 
 export default {
-  title: 'Example/Button',
-  component: ButtonComponent,
+  /* 👇 The title prop is optional.
+   * See https://storybook.js.org/docs/7.0/angular/configure/overview#configure-story-loading
+   * to learn how to generate automatic titles
+   */
+  title: 'Button',
+  component: Button,
 } as Meta;
 
-export const Primary: Story<ButtonComponent> = () => ({
-  template: '<app-button label="Submit"></app-button>',
-});
-Primary.decorators = [
-  componentWrapperDecorator((story) => `<div style="margin: 3em">${story}</div>`),
-];
+export const Primary: Story = {
+  decorators: [componentWrapperDecorator((story) => `<div style="margin: 3em">${story}</div>`)],
+};
 
-export const InsideParent: Story<ButtonComponent> = () => ({
-  template: '<app-button label="Submit"></app-button>',
-});
-InsideParent.decorators = [
-  moduleMetadata({
-    declarations: [ParentComponent],
-  }),
-  componentWrapperDecorator(ParentComponent),
-];
+export const InsideParent: Story = {
+  decorators: [
+    moduleMetadata({
+      declarations: [Parent],
+    }),
+    componentWrapperDecorator(Parent),
+  ],
+};
 ```

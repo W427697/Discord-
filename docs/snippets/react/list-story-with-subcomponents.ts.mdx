@@ -1,24 +1,30 @@
 ```ts
-// List.stories.tsx
+// List.stories.ts|tsx
 
 import React from 'react';
 
-import { Story, Meta } from '@storybook/react';
+import type { ComponentStoryObj, ComponentMeta } from '@storybook/react';
 
-import { List, ListProps } from './List';
-import { ListItem, ListItemProps } from './ListItem';
+import { List } from './List';
+import { ListItem } from './ListItem';
 
 export default {
+  /* 👇 The title prop is optional.
+   * See https://storybook.js.org/docs/7.0/react/configure/overview#configure-story-loading
+   * to learn how to generate automatic titles
+   */
+  title: 'List',
   component: List,
   subcomponents: { ListItem }, //👈 Adds the ListItem component as a subcomponent
-  title: 'List',
-} as Meta;
+} as ComponentMeta<typeof List>;
 
-export const Empty: Story<ListProps> = (args) => <List {...args} />;
+export const Empty: ComponentStoryObj<typeof List> = {};
 
-export const OneItem = (args) => (
-  <List {...args}>
-    <ListItem />
-  </List>
-);
+export const OneItem: ComponentStoryObj<typeof List> = {
+  render: (args) => (
+    <List {...args}>
+      <ListItem />
+    </List>
+  ),
+};
 ```

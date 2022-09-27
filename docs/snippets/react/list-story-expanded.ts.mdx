@@ -1,31 +1,44 @@
 ```ts
-// List.stories.tsx
+// List.stories.ts|tsx
 
 import React from 'react';
 
-import { Story, Meta } from '@storybook/react';
+import type { ComponentStoryObj, ComponentMeta } from '@storybook/react';
 
-import { List, ListProps } from './List';
-import { ListItem, ListItemProps } from './ListItem';
+import { List } from './List';
+import { ListItem } from './ListItem';
 
 export default {
-  component: List,
+  /* 👇 The title prop is optional.
+   * See https://storybook.js.org/docs/7.0/react/configure/overview#configure-story-loading
+   * to learn how to generate automatic titles
+   */
   title: 'List',
-} as Meta;
+  component: List,
+} as ComponentMeta<typeof List>;
 
-export const Empty: Story<ListProps> = (args) => <List {...args} />;
+export const Empty: ComponentStoryObj<typeof List> = {};
 
-export const OneItem = (args) => (
-  <List {...args}>
-    <ListItem />
-  </List>
-);
+/*
+ *👇 Render functions are a framework specific feature to allow you control on how the component renders.
+ * See https://storybook.js.org/docs/7.0/react/api/csf
+ * to learn how to use render functions.
+ */
+export const OneItem: ComponentStoryObj<typeof List> = {
+  render: (args) => (
+    <List {...args}>
+      <ListItem />
+    </List>
+  ),
+};
 
-export const ManyItems = (args) => (
-  <List {...args}>
-    <ListItem />
-    <ListItem />
-    <ListItem />
-  </List>
-);
+export const ManyItems: ComponentStoryObj<typeof List> = {
+  render: (args) => (
+    <List {...args}>
+      <ListItem />
+      <ListItem />
+      <ListItem />
+    </List>
+  ),
+};
 ```
