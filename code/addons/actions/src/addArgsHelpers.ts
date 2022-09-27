@@ -1,5 +1,5 @@
 import type { Args, AnyFramework, ArgsEnhancer } from '@storybook/csf';
-import { action } from '../index';
+import { action } from './runtime/action';
 
 // interface ActionsParameter {
 //   disable?: boolean;
