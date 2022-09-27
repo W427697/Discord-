@@ -6,7 +6,6 @@
 </template>
 
 <script lang="typescript">
-import './button.css';
 import { h, computed, reactive } from 'vue';
 
 export default {
