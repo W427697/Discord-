@@ -53,7 +53,12 @@
   "dependencies": {
     "@joshwooding/vite-plugin-react-docgen-typescript": "^0.0.5",
     "@rollup/pluginutils": "^4.2.0",
+    "@storybook/addons": "7.0.0-alpha.33",
     "@storybook/builder-vite": "7.0.0-alpha.33",
+    "@storybook/channel-postmessage": "7.0.0-alpha.33",
+    "@storybook/channel-websocket": "7.0.0-alpha.33",
+    "@storybook/client-api": "7.0.0-alpha.33",
+    "@storybook/preview-web": "7.0.0-alpha.33",
     "@storybook/react": "7.0.0-alpha.33",
     "@vitejs/plugin-react": "^2.0.1",
     "ast-types": "^0.14.2",
