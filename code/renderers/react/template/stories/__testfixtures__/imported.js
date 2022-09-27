@@ -1,1 +1,1 @@
-module.exports = { imported: 'imported-value' };
+export const imported = 'imported-value';
