@@ -12,12 +12,17 @@ const fontWeight = 900;
 const fontFamily = 'monospace';
 
 export const WithFontSizes = () => <Typeset fontSizes={fontSizes} />;
+
 export const WithLetterSpacing = () => (
   <Typeset fontSizes={fontSizes} letterSpacing={letterSpacing} />
 );
+
 export const WithLineHeight = () => <Typeset fontSizes={fontSizes} lineHeight={lineHeight} />;
+
 export const WithFontWeight = () => <Typeset fontSizes={fontSizes} fontWeight={fontWeight} />;
+
 export const WithFontFamily = () => <Typeset fontSizes={fontSizes} fontFamily={fontFamily} />;
+
 export const WithWeightText = () => (
   <Typeset fontSizes={fontSizes} fontWeight={fontWeight} sampleText="Heading" />
 );
