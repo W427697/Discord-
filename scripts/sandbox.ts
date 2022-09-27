@@ -289,12 +289,17 @@ async function linkPackageStories(
   //   './template-stories/lib/store/preview.ts'
   // if the file <code>/lib/store/template/stories/preview.ts exists
 
-  const previewFile = path.join(codeDir, packageDir, 'template', 'stories', 'preview.ts');
-  if (await pathExists(previewFile)) {
-    addPreviewAnnotations(mainConfig, [
-      `./${path.join('template-stories', packageDir, 'preview.ts')}`,
-    ]);
-  }
+  await Promise.all(
+    ['js', 'ts'].map(async (ext) => {
+      const previewFile = `preview.${ext}`;
+      const previewPath = path.join(codeDir, packageDir, 'template', 'stories', previewFile);
+      if (await pathExists(previewPath)) {
+        addPreviewAnnotations(mainConfig, [
+          `./${path.join(linkInDir ? 'src/stories' : 'template-stories', packageDir, previewFile)}`,
+        ]);
+      }
+    })
+  );
 }
 
 // Update the stories field to ensure that:

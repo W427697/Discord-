@@ -9523,7 +9523,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/vue3-webpack5@7.0.0-alpha.33, @storybook/vue3-webpack5@workspace:*, @storybook/vue3-webpack5@workspace:frameworks/vue3-webpack5":
+"@storybook/vue3-webpack5@workspace:*, @storybook/vue3-webpack5@workspace:frameworks/vue3-webpack5":
   version: 0.0.0-use.local
   resolution: "@storybook/vue3-webpack5@workspace:frameworks/vue3-webpack5"
   dependencies:
@@ -11961,7 +11961,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vue/compiler-sfc@npm:3.2.39, @vue/compiler-sfc@npm:^3.2.0, @vue/compiler-sfc@npm:^3.2.33, @vue/compiler-sfc@npm:^3.2.36":
+"@vue/compiler-sfc@npm:3.2.39, @vue/compiler-sfc@npm:^3.2.0, @vue/compiler-sfc@npm:^3.2.33":
   version: 3.2.39
   resolution: "@vue/compiler-sfc@npm:3.2.39"
   dependencies:
@@ -44754,33 +44754,6 @@ __metadata:
   checksum: 4ed01e79f8caee5518d7dce567280001a00c87ff75c29421ac3693c735834f17950e79f818981c591e58c6efe681e13928470037b6ae75c948bec9b398e4c8db
   languageName: node
   linkType: hard
-
-"vue-3-cli-example@workspace:examples/vue-3-cli":
-  version: 0.0.0-use.local
-  resolution: "vue-3-cli-example@workspace:examples/vue-3-cli"
-  dependencies:
-    "@babel/core": ^7.12.10
-    "@storybook/addon-actions": 7.0.0-alpha.33
-    "@storybook/addon-essentials": 7.0.0-alpha.33
-    "@storybook/addon-interactions": 7.0.0-alpha.33
-    "@storybook/addon-links": 7.0.0-alpha.33
-    "@storybook/addon-storyshots": 7.0.0-alpha.33
-    "@storybook/jest": ^0.0.10
-    "@storybook/testing-library": 0.0.14-next.0
-    "@storybook/vue3": 7.0.0-alpha.33
-    "@storybook/vue3-webpack5": 7.0.0-alpha.33
-    "@vue/cli-plugin-babel": ^5.0.4
-    "@vue/cli-plugin-typescript": ^5.0.4
-    "@vue/cli-service": ^5.0.4
-    "@vue/compiler-sfc": ^3.2.36
-    babel-loader: ^8.2.5
-    storybook: 7.0.0-alpha.33
-    typescript: ~4.6.3
-    vue: ^3.0.0
-    vue-jest: ^5.0.0-alpha.8
-    vue-loader: ^16.0.0
-  languageName: unknown
-  linkType: soft
 
 "vue-class-component@npm:^7.1.0, vue-class-component@npm:^7.2.6":
   version: 7.2.6
