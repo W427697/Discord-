@@ -1,26 +1,26 @@
 import type { Task } from '../task';
 import { exec } from '../utils/exec';
-import { serveSandbox } from '../utils/serve-sandbox';
+import { PORT } from './serve';
 
 export const e2eTests: Task = {
-  before: ['build'],
+  before: ['serve'],
   junit: true,
   async ready() {
     return false;
   },
-  async run(_, { builtSandboxDir, junitFilename, template }) {
-    const storybookController = await serveSandbox(builtSandboxDir, {});
-
-    await exec('yarn playwright test --reporter=junit', {
-      env: {
-        STORYBOOK_URL: `http://localhost:8001`,
-        STORYBOOK_TEMPLATE_NAME: template.name,
-        ...(junitFilename && {
-          PLAYWRIGHT_JUNIT_OUTPUT_NAME: junitFilename,
-        }),
+  async run({ junitFilename, template }, { dryRun, debug }) {
+    await exec(
+      'yarn playwright test --reporter=junit',
+      {
+        env: {
+          STORYBOOK_URL: `http://localhost:${PORT}`,
+          STORYBOOK_TEMPLATE_NAME: template.name,
+          ...(junitFilename && {
+            PLAYWRIGHT_JUNIT_OUTPUT_NAME: junitFilename,
+          }),
+        },
       },
-    });
-
-    storybookController.abort();
+      { dryRun, debug }
+    );
   },
 };

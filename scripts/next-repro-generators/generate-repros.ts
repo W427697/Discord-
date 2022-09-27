@@ -20,7 +20,7 @@ import { GeneratorConfig } from './utils/types';
 import { getStackblitzUrl, renderTemplate } from './utils/template';
 import { JsPackageManager } from '../../code/lib/cli/src/js-package-manager';
 import { servePackages } from '../utils/serve-packages';
-import { publish } from '../tasks/publish';
+import { publishRepo } from '../tasks/publish-repo';
 
 const OUTPUT_DIRECTORY = join(__dirname, '..', '..', 'repros');
 const BEFORE_DIR_NAME = 'before-storybook';

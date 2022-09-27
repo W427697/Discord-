@@ -14,6 +14,7 @@ import prompts from 'prompts';
 import type { AbortController } from 'node-abort-controller';
 import command from 'execa';
 import dedent from 'ts-dedent';
+import memoize from 'memoizerific';
 
 import { createOptions, getOptionsOrPrompt, OptionValues } from './utils/options';
 import { executeCLIStep } from './utils/cli-step';
@@ -31,8 +32,8 @@ import { JsPackageManagerFactory } from '../code/lib/cli/src/js-package-manager'
 
 type Template = keyof typeof TEMPLATES;
 const templates: Template[] = Object.keys(TEMPLATES) as any;
-const addons = ['a11y', 'storysource'];
-const defaultAddons = [
+export const addons = ['a11y', 'storysource'];
+export const defaultAddons = [
   'a11y',
   'actions',
   'backgrounds',
@@ -128,7 +129,7 @@ async function getOptions() {
   return getOptionsOrPrompt('yarn sandbox', options);
 }
 
-const steps = {
+export const steps = {
   repro: {
     command: 'repro-next',
     description: 'Bootstrapping Template',
@@ -173,14 +174,14 @@ const steps = {
 
 const logger = console;
 
-async function findFirstPath(paths: string[], { cwd }: { cwd: string }) {
+export async function findFirstPath(paths: string[], { cwd }: { cwd: string }) {
   for (const filePath of paths) {
     if (await pathExists(path.join(cwd, filePath))) return filePath;
   }
   return null;
 }
 
-async function addPackageScripts({
+export async function addPackageScripts({
   cwd,
   scripts,
 }: {
@@ -197,7 +198,7 @@ async function addPackageScripts({
   await writeJSON(packageJsonPath, packageJson, { spaces: 2 });
 }
 
-async function readMainConfig({ cwd }: { cwd: string }) {
+export async function readMainConfig({ cwd }: { cwd: string }) {
   const configDir = path.join(cwd, '.storybook');
   if (!existsSync(configDir)) {
     throw new Error(
@@ -213,7 +214,7 @@ async function readMainConfig({ cwd }: { cwd: string }) {
 // Most WP-based build systems will not compile files outside of the project root or 'src/` or
 // similar. Plus they aren't guaranteed to handle TS files. So we need to patch in esbuild
 // loader for such files. NOTE this isn't necessary for Vite, as far as we know.
-function addEsbuildLoaderToStories(mainConfig: ConfigFile) {
+export function addEsbuildLoaderToStories(mainConfig: ConfigFile) {
   // NOTE: the test regexp here will apply whether the path is symlink-preserved or otherwise
   const loaderPath = require.resolve('../code/node_modules/esbuild-loader');
   const webpackFinalCode = `
@@ -243,7 +244,7 @@ function addEsbuildLoaderToStories(mainConfig: ConfigFile) {
 
 // Recompile optimized deps on each startup, so you can change @storybook/* packages and not
 // have to clear caches.
-function forceViteRebuilds(mainConfig: ConfigFile) {
+export function forceViteRebuilds(mainConfig: ConfigFile) {
   const viteFinalCode = `
   (config) => ({
     ...config,
@@ -259,13 +260,13 @@ function forceViteRebuilds(mainConfig: ConfigFile) {
   );
 }
 
-function addPreviewAnnotations(mainConfig: ConfigFile, paths: string[]) {
+export function addPreviewAnnotations(mainConfig: ConfigFile, paths: string[]) {
   const config = mainConfig.getFieldValue(['previewAnnotations']) as string[];
   mainConfig.setFieldValue(['previewAnnotations'], [...(config || []), ...paths]);
 }
 
 // packageDir is eg 'renderers/react', 'addons/actions'
-async function linkPackageStories(
+export async function linkPackageStories(
   packageDir: string,
   { mainConfig, cwd, linkInDir }: { mainConfig: ConfigFile; cwd: string; linkInDir?: string }
 ) {
@@ -296,7 +297,7 @@ async function linkPackageStories(
 // Update the stories field to ensure that:
 //  a) no TS files that are linked from the renderer are picked up in non-TS projects
 //  b) files in ./template-stories are not matched by the default glob
-async function updateStoriesField(mainConfig: ConfigFile, isJs: boolean) {
+export async function updateStoriesField(mainConfig: ConfigFile, isJs: boolean) {
   const stories = mainConfig.getFieldValue(['stories']) as string[];
 
   // If the project is a JS project, let's make sure any linked in TS stories from the
@@ -321,7 +322,10 @@ async function getWorkspaces() {
   return JSON.parse(`[${stdout.split('\n').join(',')}]`) as Workspace[];
 }
 
-function workspacePath(type: string, packageName: string, workspaces: Workspace[]) {
+const getWorkspacesMemo = memoize(1)(getWorkspaces);
+
+export async function workspacePath(type: string, packageName: string) {
+  const workspaces = await getWorkspacesMemo();
   const workspace = workspaces.find((w) => w.name === packageName);
   if (!workspace) {
     throw new Error(`Unknown ${type} '${packageName}', not in yarn workspace!`);
@@ -329,7 +333,7 @@ function workspacePath(type: string, packageName: string, workspaces: Workspace[
   return workspace.location;
 }
 
-function addExtraDependencies({
+export function addExtraDependencies({
   cwd,
   dryRun,
   debug,
@@ -404,9 +408,8 @@ export async function sandbox(optionValues: OptionValues<typeof options>) {
     const { renderer, builder } = templateConfig.expected;
     const storiesPath = await findFirstPath([path.join('src', 'stories'), 'stories'], { cwd });
 
-    const workspaces = await getWorkspaces();
     // Link in the template/components/index.js from store, the renderer and the addons
-    const rendererPath = workspacePath('renderer', renderer, workspaces);
+    const rendererPath = await workspacePath('renderer', renderer);
     await ensureSymlink(
       path.join(codeDir, rendererPath, 'template', 'components'),
       path.resolve(cwd, storiesPath, 'components')
@@ -422,7 +425,7 @@ export async function sandbox(optionValues: OptionValues<typeof options>) {
 
     // Add stories for lib/store (and addons below). NOTE: these stories will be in the
     // template-stories folder and *not* processed by the framework build config (instead by esbuild-loader)
-    await linkPackageStories(workspacePath('core package', '@storybook/store', workspaces), {
+    await linkPackageStories(await workspacePath('core package', '@storybook/store'), {
       mainConfig,
       cwd,
     });
@@ -437,8 +440,10 @@ export async function sandbox(optionValues: OptionValues<typeof options>) {
       await executeCLIStep(steps.add, { argument: addonName, cwd, dryRun, debug });
     }
 
-    const addonDirs = [...defaultAddons, ...optionValues.addon].map((addon) =>
-      workspacePath('addon', `@storybook/addon-${addon}`, workspaces)
+    const addonDirs = await Promise.all(
+      [...defaultAddons, ...optionValues.addon].map(async (addon) =>
+        workspacePath('addon', `@storybook/addon-${addon}`)
+      )
     );
     const existingStories = await filterExistsInCodeDir(
       addonDirs,

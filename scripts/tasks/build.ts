@@ -3,11 +3,11 @@ import type { Task } from '../task';
 import { exec } from '../utils/exec';
 
 export const build: Task = {
-  before: ['create'],
-  async ready(_, { builtSandboxDir }) {
+  before: ['sandbox'],
+  async ready({ builtSandboxDir }) {
     return pathExists(builtSandboxDir);
   },
-  async run(_, { sandboxDir }) {
-    return exec(`yarn build-storybook --quiet`, { cwd: sandboxDir });
+  async run({ sandboxDir }, { dryRun, debug }) {
+    return exec(`yarn build-storybook --quiet`, { cwd: sandboxDir }, { dryRun, debug });
   },
 };

@@ -215,7 +215,7 @@ export async function promptOptions<TOptions extends OptionSpecifier>(
         name: key,
         // warn: ' ',
         // pageSize: Object.keys(tasks).length + Object.keys(groups).length,
-        choices: option.values.map((value) => ({
+        choices: option.values?.map((value) => ({
           title: value,
           value,
           selected:
