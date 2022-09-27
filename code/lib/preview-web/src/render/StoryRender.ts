@@ -20,7 +20,7 @@ import {
   STORY_RENDERED,
   PLAY_FUNCTION_THREW_EXCEPTION,
 } from '@storybook/core-events';
-import { Render, RenderType } from './Render';
+import { Render, RenderType, PREPARE_ABORTED } from './Render';
 
 const { AbortController } = global;
 
@@ -33,18 +33,6 @@ export type RenderPhase =
   | 'completed'
   | 'aborted'
   | 'errored';
-
-function createController(): AbortController {
-  if (AbortController) return new AbortController();
-  // Polyfill for IE11
-  return {
-    signal: { aborted: false },
-    abort() {
-      // @ts-ignore
-      this.signal.aborted = true;
-    },
-  } as AbortController;
-}
 
 function serializeError(error: any) {
   try {
@@ -59,8 +47,6 @@ export type RenderContextCallbacks<TFramework extends AnyFramework> = Pick<
   RenderContext<TFramework>,
   'showMain' | 'showError' | 'showException'
 >;
-
-export const PREPARE_ABORTED = new Error('prepareAborted');
 
 export class StoryRender<TFramework extends AnyFramework> implements Render<TFramework> {
   public type: RenderType = 'story';
@@ -90,7 +76,7 @@ export class StoryRender<TFramework extends AnyFramework> implements Render<TFra
     public viewMode: ViewMode,
     story?: Story<TFramework>
   ) {
-    this.abortController = createController();
+    this.abortController = new AbortController();
 
     // Allow short-circuiting preparing if we happen to already
     // have the story (this is used by docs mode)
@@ -175,7 +161,7 @@ export class StoryRender<TFramework extends AnyFramework> implements Render<TFra
       // render could conceivably still be running after this call.
       // We might want to change that in the future.
       this.cancelRender();
-      this.abortController = createController();
+      this.abortController = new AbortController();
     }
 
     // We need a stable reference to the signal -- if a re-mount happens the
@@ -244,6 +230,7 @@ export class StoryRender<TFramework extends AnyFramework> implements Render<TFra
           await this.runPhase(abortSignal, 'errored', async () => {
             this.channel.emit(PLAY_FUNCTION_THREW_EXCEPTION, serializeError(error));
           });
+          if (this.story.parameters.throwPlayFunctionExceptions !== false) throw error;
         }
         this.disableKeyListeners = false;
         if (abortSignal.aborted) return;
@@ -275,7 +262,7 @@ export class StoryRender<TFramework extends AnyFramework> implements Render<TFra
     this.abortController?.abort();
   }
 
-  async teardown(options: {} = {}) {
+  async teardown() {
     this.torndown = true;
     this.cancelRender();
 

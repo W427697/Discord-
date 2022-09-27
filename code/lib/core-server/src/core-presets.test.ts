@@ -127,7 +127,7 @@ const baseOptions = {
   managerOnly, // production
   docsMode: false,
   cache,
-  configDir: path.resolve(`${__dirname}/../../../examples/cra-ts-essentials/.storybook`),
+  configDir: path.resolve(`${__dirname}/../../../examples/official-storybook/`),
   ci: true,
   managerCache: false,
 };
@@ -176,12 +176,7 @@ const prepareSnap = (get: any, name): Pick<Configuration, 'module' | 'entry' | '
 
 const snap = (name: string) => `__snapshots__/${name}`;
 
-describe.each([
-  ['cra-ts-essentials'],
-  ['vue-3-cli'],
-  ['web-components-kitchen-sink'],
-  ['html-kitchen-sink'],
-])('%s', (example) => {
+describe.each([['web-components-kitchen-sink'], ['html-kitchen-sink']])('%s', (example) => {
   describe.each([
     ['manager', managerExecutor],
     ['preview', previewExecutor],

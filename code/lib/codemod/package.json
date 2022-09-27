@@ -1,6 +1,6 @@
 {
   "name": "@storybook/codemod",
-  "version": "7.0.0-alpha.19",
+  "version": "7.0.0-alpha.34",
   "description": "A collection of codemod scripts written with JSCodeshift",
   "keywords": [
     "storybook"
@@ -23,13 +23,6 @@
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
   "jsnext:main": "src/index.js",
-  "typesVersions": {
-    "<3.8": {
-      "*": [
-        "ts3.4/*"
-      ]
-    }
-  },
   "files": [
     "dist/**/*",
     "README.md",
@@ -38,16 +31,15 @@
     "!__testfixtures__"
   ],
   "scripts": {
-    "check": "tsc --noEmit",
-    "prepare": "node ../../../scripts/prepare.js"
+    "check": "../../../scripts/node_modules/.bin/tsc --noEmit",
+    "prep": "node ../../../scripts/prepare.js"
   },
   "dependencies": {
     "@babel/types": "^7.12.11",
     "@mdx-js/mdx": "^1.6.22",
     "@storybook/csf": "0.0.2--canary.0899bb7.0",
-    "@storybook/csf-tools": "7.0.0-alpha.19",
-    "@storybook/node-logger": "7.0.0-alpha.19",
-    "core-js": "^3.8.2",
+    "@storybook/csf-tools": "7.0.0-alpha.34",
+    "@storybook/node-logger": "7.0.0-alpha.34",
     "cross-spawn": "^7.0.3",
     "globby": "^11.0.2",
     "jscodeshift": "^0.13.1",
@@ -63,5 +55,5 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "74bdb53f67dd59bae2661c668d2d5d4296113281"
+  "gitHead": "fc90fc875462421c1faa35862ac4bc436de8e75f"
 }

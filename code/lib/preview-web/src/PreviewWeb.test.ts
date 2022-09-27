@@ -1,3 +1,5 @@
+/// <reference types="@types/jest" />;
+import { jest, jest as mockJest, it, describe, beforeEach, afterEach, expect } from '@jest/globals';
 import global from 'global';
 import merge from 'lodash/merge';
 import {
@@ -29,7 +31,6 @@ import { logger } from '@storybook/client-logger';
 import { addons, mockChannel as createMockChannel } from '@storybook/addons';
 import type { AnyFramework } from '@storybook/csf';
 import type { ModuleImportFn, WebProjectAnnotations } from '@storybook/store';
-import { expect } from '@jest/globals';
 import { mocked } from 'ts-jest/utils';
 
 import { PreviewWeb } from './PreviewWeb';
@@ -58,8 +59,8 @@ const mockStoryIndex = jest.fn(() => storyIndex);
 
 let mockFetchResult;
 jest.mock('global', () => ({
-  ...(jest.requireActual('global') as any),
-  history: { replaceState: jest.fn() },
+  ...(mockJest.requireActual('global') as any),
+  history: { replaceState: mockJest.fn() },
   document: {
     location: {
       pathname: 'pathname',
@@ -68,7 +69,7 @@ jest.mock('global', () => ({
   },
   window: {
     location: {
-      reload: jest.fn(),
+      reload: mockJest.fn(),
     },
   },
   FEATURES: {
@@ -347,8 +348,12 @@ describe('PreviewWeb', () => {
       });
 
       describe('after selection changes', () => {
-        beforeEach(() => jest.useFakeTimers());
-        afterEach(() => jest.useRealTimers());
+        beforeEach(() => {
+          jest.useFakeTimers();
+        });
+        afterEach(() => {
+          jest.useRealTimers();
+        });
 
         it('DOES NOT try again if CSF file changes', async () => {
           document.location.search = '?id=component-one--missing';
@@ -506,16 +511,13 @@ describe('PreviewWeb', () => {
 
       it('renders helpful message if renderToDOM is undefined', async () => {
         document.location.search = '?id=component-one--a';
+
+        getProjectAnnotations.mockReturnValueOnce({
+          ...projectAnnotations,
+          renderToDOM: undefined,
+        });
         const preview = new PreviewWeb();
-        await expect(
-          preview.initialize({
-            importFn,
-            getProjectAnnotations: () => ({
-              ...getProjectAnnotations,
-              renderToDOM: undefined,
-            }),
-          })
-        ).rejects.toThrow();
+        await expect(preview.initialize({ importFn, getProjectAnnotations })).rejects.toThrow();
 
         expect(preview.view.showErrorDisplay).toHaveBeenCalled();
         expect((preview.view.showErrorDisplay as jest.Mock).mock.calls[0][0])
@@ -524,24 +526,60 @@ describe('PreviewWeb', () => {
 
                           Perhaps it needs to be upgraded for Storybook 6.4?
 
-                          More info: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#mainjs-framework-field          ]
+                          More info: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#mainjs-framework-field]
                       `);
       });
 
-      it('emits but does not render exception if the play function throws', async () => {
-        const error = new Error('error');
-        componentOneExports.a.play.mockImplementationOnce(() => {
-          throw error;
+      describe('when `throwPlayFunctionExceptions` is set', () => {
+        it('emits but does not render exception if the play function throws', async () => {
+          const error = new Error('error');
+          componentOneExports.a.play.mockImplementationOnce(() => {
+            throw error;
+          });
+
+          getProjectAnnotations.mockReturnValueOnce({
+            ...projectAnnotations,
+            parameters: {
+              ...projectAnnotations.parameters,
+              throwPlayFunctionExceptions: false,
+            },
+          });
+
+          document.location.search = '?id=component-one--a';
+          const preview = await createAndRenderPreview();
+
+          expect(mockChannel.emit).toHaveBeenCalledWith(
+            PLAY_FUNCTION_THREW_EXCEPTION,
+            serializeError(error)
+          );
+          expect(preview.view.showErrorDisplay).not.toHaveBeenCalled();
+          expect(mockChannel.emit).not.toHaveBeenCalledWith(
+            STORY_THREW_EXCEPTION,
+            serializeError(error)
+          );
         });
+      });
 
-        document.location.search = '?id=component-one--a';
-        const preview = await createAndRenderPreview();
+      describe('when `throwPlayFunctionExceptions` is unset', () => {
+        it('emits AND renders exception if the play function throws', async () => {
+          const error = new Error('error');
+          componentOneExports.a.play.mockImplementationOnce(() => {
+            throw error;
+          });
 
-        expect(mockChannel.emit).toHaveBeenCalledWith(
-          PLAY_FUNCTION_THREW_EXCEPTION,
-          serializeError(error)
-        );
-        expect(preview.view.showErrorDisplay).not.toHaveBeenCalled();
+          document.location.search = '?id=component-one--a';
+          const preview = await createAndRenderPreview();
+
+          expect(mockChannel.emit).toHaveBeenCalledWith(
+            PLAY_FUNCTION_THREW_EXCEPTION,
+            serializeError(error)
+          );
+          expect(preview.view.showErrorDisplay).toHaveBeenCalled();
+          expect(mockChannel.emit).toHaveBeenCalledWith(
+            STORY_THREW_EXCEPTION,
+            serializeError(error)
+          );
+        });
       });
 
       it('renders exception if the story calls showException', async () => {
@@ -1561,49 +1599,140 @@ describe('PreviewWeb', () => {
         expect(teardownRenderToDOM).not.toHaveBeenCalled();
       });
 
-      // For https://github.com/storybookjs/storybook/issues/17214
-      it('does NOT render a second time if preparing', async () => {
-        document.location.search = '?id=component-one--a';
+      describe('while preparing', () => {
+        // For https://github.com/storybookjs/storybook/issues/17214
+        it('does NOT render a second time in story mode', async () => {
+          document.location.search = '?id=component-one--a';
 
-        const [gate, openGate] = createGate();
-        const [importedGate, openImportedGate] = createGate();
-        importFn
-          .mockImplementationOnce(async (...args) => {
-            await gate;
-            return importFn(...args);
-          })
-          .mockImplementationOnce(async (...args) => {
-            // The second time we `import()` we open the "imported" gate
-            openImportedGate();
-            await gate;
-            return importFn(...args);
+          const [gate, openGate] = createGate();
+          const [importedGate, openImportedGate] = createGate();
+          importFn
+            .mockImplementationOnce(async (...args) => {
+              await gate;
+              return importFn(...args);
+            })
+            .mockImplementationOnce(async (...args) => {
+              // The second time we `import()` we open the "imported" gate
+              openImportedGate();
+              await gate;
+              return importFn(...args);
+            });
+
+          const preview = new PreviewWeb();
+          // We can't wait for the initialize function, as it waits for `renderSelection()`
+          // which prepares, but it does emit `CURRENT_STORY_WAS_SET` right before that
+          preview.initialize({ importFn, getProjectAnnotations });
+          await waitForEvents([CURRENT_STORY_WAS_SET]);
+
+          mockChannel.emit.mockClear();
+          projectAnnotations.renderToDOM.mockClear();
+          emitter.emit(SET_CURRENT_STORY, {
+            storyId: 'component-one--a',
+            viewMode: 'story',
           });
+          await importedGate;
+          // We are blocking import so this won't render yet
+          expect(projectAnnotations.renderToDOM).not.toHaveBeenCalled();
 
-        const preview = new PreviewWeb();
-        // We can't wait for the initialize function, as it waits for `renderSelection()`
-        // which prepares, but it does emit `CURRENT_STORY_WAS_SET` right before that
-        preview.initialize({ importFn, getProjectAnnotations });
-        await waitForEvents([CURRENT_STORY_WAS_SET]);
+          mockChannel.emit.mockClear();
+          openGate();
+          await waitForRender();
 
-        mockChannel.emit.mockClear();
-        projectAnnotations.renderToDOM.mockClear();
-        emitter.emit(SET_CURRENT_STORY, {
-          storyId: 'component-one--a',
-          viewMode: 'story',
+          // We should only render *once*
+          expect(projectAnnotations.renderToDOM).toHaveBeenCalledTimes(1);
+
+          // We should not show an error either
+          expect(preview.view.showErrorDisplay).not.toHaveBeenCalled();
         });
-        await importedGate;
-        // We are blocking import so this won't render yet
-        expect(projectAnnotations.renderToDOM).not.toHaveBeenCalled();
 
-        mockChannel.emit.mockClear();
-        openGate();
-        await waitForRender();
+        // For https://github.com/storybookjs/storybook/issues/19015
+        it('does NOT render a second time in template docs mode', async () => {
+          document.location.search = '?id=component-one--docs&viewMode=docs';
 
-        // We should only render *once*
-        expect(projectAnnotations.renderToDOM).toHaveBeenCalledTimes(1);
+          const [gate, openGate] = createGate();
+          const [importedGate, openImportedGate] = createGate();
+          importFn
+            .mockImplementationOnce(async (...args) => {
+              await gate;
+              return importFn(...args);
+            })
+            .mockImplementationOnce(async (...args) => {
+              // The second time we `import()` we open the "imported" gate
+              openImportedGate();
+              await gate;
+              return importFn(...args);
+            });
 
-        // We should not show an error either
-        expect(preview.view.showErrorDisplay).not.toHaveBeenCalled();
+          const preview = new PreviewWeb();
+          // We can't wait for the initialize function, as it waits for `renderSelection()`
+          // which prepares, but it does emit `CURRENT_STORY_WAS_SET` right before that
+          preview.initialize({ importFn, getProjectAnnotations });
+          await waitForEvents([CURRENT_STORY_WAS_SET]);
+
+          mockChannel.emit.mockClear();
+          projectAnnotations.renderToDOM.mockClear();
+          emitter.emit(SET_CURRENT_STORY, {
+            storyId: 'component-one--docs',
+            viewMode: 'docs',
+          });
+          await importedGate;
+          // We are blocking import so this won't render yet
+          expect(docsRenderer.render).not.toHaveBeenCalled();
+
+          mockChannel.emit.mockClear();
+          openGate();
+          await waitForRender();
+
+          // We should only render *once*
+          expect(docsRenderer.render).toHaveBeenCalledTimes(1);
+
+          // We should not show an error either
+          expect(preview.view.showErrorDisplay).not.toHaveBeenCalled();
+        });
+
+        it('does NOT render a second time in standalone docs mode', async () => {
+          document.location.search = '?id=introduction--docs&viewMode=docs';
+
+          const [gate, openGate] = createGate();
+          const [importedGate, openImportedGate] = createGate();
+          importFn
+            .mockImplementationOnce(async (...args) => {
+              await gate;
+              return importFn(...args);
+            })
+            .mockImplementationOnce(async (...args) => {
+              // The second time we `import()` we open the "imported" gate
+              openImportedGate();
+              await gate;
+              return importFn(...args);
+            });
+
+          const preview = new PreviewWeb();
+          // We can't wait for the initialize function, as it waits for `renderSelection()`
+          // which prepares, but it does emit `CURRENT_STORY_WAS_SET` right before that
+          preview.initialize({ importFn, getProjectAnnotations });
+          await waitForEvents([CURRENT_STORY_WAS_SET]);
+
+          mockChannel.emit.mockClear();
+          projectAnnotations.renderToDOM.mockClear();
+          emitter.emit(SET_CURRENT_STORY, {
+            storyId: 'introduction--docs',
+            viewMode: 'docs',
+          });
+          await importedGate;
+          // We are blocking import so this won't render yet
+          expect(docsRenderer.render).not.toHaveBeenCalled();
+
+          mockChannel.emit.mockClear();
+          openGate();
+          await waitForRender();
+
+          // We should only render *once*
+          expect(docsRenderer.render).toHaveBeenCalledTimes(1);
+
+          // We should not show an error either
+          expect(preview.view.showErrorDisplay).not.toHaveBeenCalled();
+        });
       });
     });
 
@@ -2713,8 +2842,12 @@ describe('PreviewWeb', () => {
       });
 
       describe('if it was previously rendered', () => {
-        beforeEach(() => jest.useFakeTimers());
-        afterEach(() => jest.useRealTimers());
+        beforeEach(() => {
+          jest.useFakeTimers();
+        });
+        afterEach(() => {
+          jest.useRealTimers();
+        });
         it('is reloaded when it is re-selected', async () => {
           document.location.search = '?id=component-one--a';
           const preview = await createAndRenderPreview();
@@ -3016,6 +3149,16 @@ describe('PreviewWeb', () => {
         await waitForRender();
 
         expect(preview.storyStore.globals!.get()).toEqual({ a: 'c' });
+      });
+    });
+
+    describe('with no selection', () => {
+      // eslint-disable-next-line jest/expect-expect
+      it('does not error', async () => {
+        const preview = await createAndRenderPreview();
+        await preview.onGetProjectAnnotationsChanged({
+          getProjectAnnotations: newGetProjectAnnotations,
+        });
       });
     });
 
