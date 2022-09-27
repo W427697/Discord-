@@ -37,7 +37,7 @@ const addSpies = (id: string, val: any, key?: string): any => {
     if (Array.isArray(val)) {
       return val.map((item, index) => addSpies(id, item, `${key}[${index}]`));
     }
-    if (typeof val === 'function' && val.name === 'actionHandler') {
+    if (typeof val === 'function' && val.isAction) {
       Object.defineProperty(val, 'name', { value: key, writable: false });
       Object.defineProperty(val, '__storyId__', { value: id, writable: false });
       const spy = action(val);
@@ -59,3 +59,7 @@ export const { step: runStep } = instrument(
   { step: (label: StepLabel, play: PlayFunction, context: PlayFunctionContext) => play(context) },
   { intercept: true }
 );
+
+export const parameters = {
+  throwPlayFunctionExceptions: false,
+};

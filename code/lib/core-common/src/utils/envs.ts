@@ -1,4 +1,3 @@
-// @ts-expect-error does not have defs, but universal-dotenv is in TS now
 import { getEnvironment } from 'lazy-universal-dotenv';
 import { nodePathsToArray } from './paths';
 

@@ -1,5 +1,4 @@
 import global from 'global';
-// @ts-expect-error no typedefs
 import semver from '@storybook/semver';
 import memoize from 'memoizerific';
 

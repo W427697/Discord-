@@ -1,3 +1,81 @@
+## 7.0.0-alpha.34 (September 27, 2022)
+
+#### Features
+
+-   Vite: Export storybook utilities from frameworks for better pnpm support [#19216](https://github.com/storybooks/storybook/pull/19216)
+
+#### Bug Fixes
+
+-   Vite: Do not add Webpack loaders when using Vite builder [#19263](https://github.com/storybooks/storybook/pull/19263)
+-   Source-loader: Fix invalid call to CSF sanitize [#18930](https://github.com/storybooks/storybook/pull/18930)
+-   Svelte: generate preview file with js extension always [#19253](https://github.com/storybooks/storybook/pull/19253)
+-   UI: Fix react runtime for addons in manager [#19226](https://github.com/storybooks/storybook/pull/19226)
+-   Svelte: Fix button component not accepting the onClick handler [#19249](https://github.com/storybooks/storybook/pull/19249)
+-   Vite: Support runStep in Vite builder SSv6 [#19235](https://github.com/storybooks/storybook/pull/19235)
+-   Angular: Alias decorateStory as applyDecorators [#19189](https://github.com/storybooks/storybook/pull/19189)
+-   UI: Recalculate height of ZoomElement when child element updates [#15472](https://github.com/storybooks/storybook/pull/15472)
+-   UI: Fix copy button copying outdated snippet [#18888](https://github.com/storybooks/storybook/pull/18888)
+-   UI: Fix clipboard issue [#18999](https://github.com/storybooks/storybook/pull/18999)
+-   CLI: Do not remove framework dependency in automigration [#19129](https://github.com/storybooks/storybook/pull/19129)
+-   TS: Type `storyIdToEntry` explicitly [#19123](https://github.com/storybooks/storybook/pull/19123)
+
+#### Maintenance
+
+-   Vue3: Add generic renderer stories & delete vue3 example [#19219](https://github.com/storybooks/storybook/pull/19219)
+-   Build: Remove unused angular_modern_inline_rendering [#19254](https://github.com/storybooks/storybook/pull/19254)
+-   Build: bundle csf-tools with tsup [#19141](https://github.com/storybooks/storybook/pull/19141)
+-   Build: Enforce @ts-expect-error via eslint [#19198](https://github.com/storybooks/storybook/pull/19198)
+-   Vue: Add repro template for vue-cli [#19165](https://github.com/storybooks/storybook/pull/19165)
+-   Build: Link renderer-specific stories inside the sandbox's real stories dir [#19185](https://github.com/storybooks/storybook/pull/19185)
+-   Build: Remove `cra-kitchen-sink` example [#19179](https://github.com/storybooks/storybook/pull/19179)
+-   Build: Fix the check script [#19184](https://github.com/storybooks/storybook/pull/19184)
+-   Build: Build lib/node-logger with ts-up [#19173](https://github.com/storybooks/storybook/pull/19173)
+-   Build: Fix sandbox running multiple versions of react [#19156](https://github.com/storybooks/storybook/pull/19156)
+-   Build: fix playwright version again [#19250](https://github.com/storybooks/storybook/pull/19250)
+-   Build: upgrade playwright version (and lock it) [#19227](https://github.com/storybooks/storybook/pull/19227)
+
+#### Dependency Upgrades
+
+-   Remove @nicolo-ribaudo/chokidar-2 [#19244](https://github.com/storybooks/storybook/pull/19244)
+
+## 7.0.0-alpha.33 (September 13, 2022)
+
+#### Features
+
+-   Core: Add a new `throwPlayFunctionExceptions` parameter [#19143](https://github.com/storybooks/storybook/pull/19143)
+
+#### Bug Fixes
+
+-   Fix issue in instrumenter with `waitFor` [#19145](https://github.com/storybooks/storybook/pull/19145)
+-   Core: Fix static dirs targeting same destination [#19064](https://github.com/storybooks/storybook/pull/19064)
+-   React: Fix issue with react 18 implementation [#19125](https://github.com/storybooks/storybook/pull/19125)
+-   CLI: Fix spawning child processes on windows [#19019](https://github.com/storybooks/storybook/pull/19019)
+-   Vite: Ensure we set `DOCS_OPTIONS` in the vite builder [#19127](https://github.com/storybooks/storybook/pull/19127)
+
+#### Maintenance
+
+-   Build: Bundle @storybook/cli with tsup [#19138](https://github.com/storybooks/storybook/pull/19138)
+-   Examples: Remove `cra-ts-essentials` [#19170](https://github.com/storybooks/storybook/pull/19170)
+-   Added some basic interactions stories [#19153](https://github.com/storybooks/storybook/pull/19153)
+-   Presets: Replace `config` with `previewAnnotations`, remove `previewEntries` [#19152](https://github.com/storybooks/storybook/pull/19152)
+-   Addon-links: Move stories into addon [#19124](https://github.com/storybooks/storybook/pull/19124)
+-   Addon-a11y: Move stories into addon [#19114](https://github.com/storybooks/storybook/pull/19114)
+-   Toolbars: Generic example stories [#19166](https://github.com/storybooks/storybook/pull/19166)
+-   TypeScript: Revert a few @ts-expect-errors [#19168](https://github.com/storybooks/storybook/pull/19168)
+-   Addon-docs: Generic stories for DocsPage [#19162](https://github.com/storybooks/storybook/pull/19162)
+-   Controls: Generic stories for sorting [#19161](https://github.com/storybooks/storybook/pull/19161)
+-   Build: Generic stories for addon-controls [#19149](https://github.com/storybooks/storybook/pull/19149)
+-   remove node12 from the matrix [#19147](https://github.com/storybooks/storybook/pull/19147)
+-   Build libs/router with ts-up [#19140](https://github.com/storybooks/storybook/pull/19140)
+-   Build: Bundle addon-interactions with tsup [#19139](https://github.com/storybooks/storybook/pull/19139)
+-   Generic stories for remaining core features [#19118](https://github.com/storybooks/storybook/pull/19118)
+-   Add parameter, loader and decorator stories to `lib/store` [#19105](https://github.com/storybooks/storybook/pull/19105)
+-   Convert @ts-ignore to @ts-expect-error [#19122](https://github.com/storybooks/storybook/pull/19122)
+
+#### Dependency Upgrades
+
+-   Upgrade emotion deps again [#19054](https://github.com/storybooks/storybook/pull/19054)
+
 ## 7.0.0-alpha.31 (September 7, 2022)
 
 #### Maintenance
