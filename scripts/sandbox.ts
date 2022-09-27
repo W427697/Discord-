@@ -306,7 +306,19 @@ async function updateStoriesField(mainConfig: ConfigFile, isJs: boolean) {
   // If the project is a JS project, let's make sure any linked in TS stories from the
   // renderer inside src|stories are simply ignored.
   const updatedStories = isJs
-    ? stories.map((specifier) => specifier.replace('js|jsx|ts|tsx', 'js|jsx'))
+    ? stories.map((specifier) => {
+        let newSpecifier = specifier;
+        // TODO: once we have story tags in place, we can filter error tags instead of doing this
+        if (process.env.CI) {
+          logger.log('Skipping error stories to avoid failures in CI...');
+          newSpecifier = newSpecifier.replace(
+            '../src/**/*.stories.@',
+            '../src/**/!(errors)*.stories.@'
+          );
+        }
+        newSpecifier = newSpecifier.replace('js|jsx|ts|tsx', 'js|jsx');
+        return specifier;
+      })
     : stories;
 
   // FIXME: '*.@(mdx|stories.mdx|stories.tsx|stories.ts|stories.jsx|stories.js'
