@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import deprecate from 'util-deprecate';
 import { dedent } from 'ts-dedent';
-import { scan } from 'picomatch';
+import pico from 'picomatch';
 import slash from 'slash';
 
 import type { StoriesEntry, NormalizedStoriesSpecifier } from '../types';
@@ -62,7 +62,7 @@ export const normalizeStoriesEntry = (
 
   if (typeof entry === 'string') {
     const fixedEntry = detectBadGlob(entry);
-    const globResult = scan(fixedEntry);
+    const globResult = pico.scan(fixedEntry);
     if (globResult.isGlob) {
       const directory = globResult.prefix + globResult.base;
       const files = globResult.glob;

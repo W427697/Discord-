@@ -1,7 +1,7 @@
-import { makeRe } from 'picomatch';
+import pico from 'picomatch';
 
 export function globToRegexp(glob: string) {
-  const regex = makeRe(glob, {
+  const regex = pico.makeRe(glob, {
     fastpaths: false,
     noglobstar: false,
     bash: false,
