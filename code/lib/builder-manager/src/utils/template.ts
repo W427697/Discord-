@@ -1,9 +1,10 @@
 import path, { dirname, join } from 'path';
-import { readFile, pathExists } from 'fs-extra';
+import fse from 'fs-extra';
 
 import { render } from 'ejs';
-
 import type { DocsOptions, Options, Ref } from '@storybook/core-common';
+
+const { readFile, pathExists } = fse;
 
 const interpolate = (string: string, data: Record<string, string> = {}) =>
   Object.entries(data).reduce((acc, [k, v]) => acc.replace(new RegExp(`%${k}%`, 'g'), v), string);

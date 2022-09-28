@@ -1,7 +1,9 @@
-import { writeFile, access } from 'fs-extra';
+import fse from 'fs-extra';
 import { logger } from '@storybook/node-logger';
 import path from 'path';
 import prompts from 'prompts';
+
+const { writeFile, access } = fse;
 
 export const generateStorybookBabelConfigInCWD = async () => {
   const target = process.cwd();

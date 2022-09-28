@@ -1,5 +1,5 @@
 import { Router, Request, Response } from 'express';
-import { writeJSON } from 'fs-extra';
+import fse from 'fs-extra';
 
 import type { NormalizedStoriesSpecifier } from '@storybook/core-common';
 import type { StoryIndex, StoryIndexV3 } from '@storybook/store';
@@ -9,6 +9,8 @@ import { STORY_INDEX_INVALIDATED } from '@storybook/core-events';
 import { StoryIndexGenerator } from './StoryIndexGenerator';
 import { watchStorySpecifiers } from './watch-story-specifiers';
 import { ServerChannel } from './get-server-channel';
+
+const { writeJSON } = fse;
 
 export const DEBOUNCE = 100;
 

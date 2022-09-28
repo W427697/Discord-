@@ -1,5 +1,5 @@
 import { dirname, join } from 'path';
-import { copy, writeFile, remove } from 'fs-extra';
+import fse from 'fs-extra';
 import express from 'express';
 
 import { logger } from '@storybook/node-logger';
@@ -22,6 +22,8 @@ import {
 import { getData } from './utils/data';
 import { safeResolve } from './utils/safeResolve';
 import { readOrderedFiles } from './utils/files';
+
+const { copy, writeFile, remove } = fse;
 
 // eslint-disable-next-line import/no-mutable-exports
 export let compilation: Compilation;

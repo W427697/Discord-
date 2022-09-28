@@ -1,5 +1,7 @@
-import { writeFile, ensureFile } from 'fs-extra';
+import fse from 'fs-extra';
 import { compilation } from '../index';
+
+const { writeFile, ensureFile } = fse;
 
 export async function readOrderedFiles(addonsDir: string) {
   const files = await Promise.all(

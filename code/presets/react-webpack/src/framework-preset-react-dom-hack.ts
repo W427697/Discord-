@@ -1,6 +1,8 @@
-import { readJSON } from 'fs-extra';
+import fse from 'fs-extra';
 import { IgnorePlugin } from 'webpack';
 import type { StorybookConfig } from '@storybook/core-webpack';
+
+const { readJSON } = fse;
 
 // this is a hack to allow importing react-dom/client even when it's not available
 // this should be removed once we drop support for react-dom < 18

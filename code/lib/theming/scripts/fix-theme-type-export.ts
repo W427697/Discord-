@@ -1,7 +1,9 @@
 /* eslint-disable no-console */
-import { readFile, writeFile } from 'fs-extra';
+import fse from 'fs-extra';
 import { dedent } from 'ts-dedent';
 import { join } from 'path';
+
+const { readFile, writeFile } = fse;
 
 const run = async () => {
   const target = join(process.cwd(), 'dist', 'index.d.ts');

@@ -1,8 +1,10 @@
 import * as path from 'path';
 import * as fs from 'fs';
-import { pathExists } from 'fs-extra';
+import fse from 'fs-extra';
 
 import { readFileAsJson, writeFileAsJson } from '../../helpers';
+
+const { pathExists } = fse;
 
 type TsConfig = {
   extends: string;

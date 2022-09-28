@@ -1,5 +1,5 @@
 import chalk from 'chalk';
-import { copy, emptyDir, ensureDir } from 'fs-extra';
+import fse from 'fs-extra';
 import { dirname, isAbsolute, join, resolve } from 'path';
 import { dedent } from 'ts-dedent';
 import global from 'global';
@@ -31,6 +31,8 @@ import { getBuilders } from './utils/get-builders';
 import { extractStoriesJson, convertToIndexV3 } from './utils/stories-json';
 import { extractStorybookMetadata } from './utils/metadata';
 import { StoryIndexGenerator } from './utils/StoryIndexGenerator';
+
+const { copy, emptyDir, ensureDir } = fse;
 
 export async function buildStaticStandalone(
   options: CLIOptions & LoadOptions & BuilderOptions & { outputDir: string }

@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 import path from 'path';
-import { readJSON, writeJSON, outputFile } from 'fs-extra';
+import fse from 'fs-extra';
 import shell, { ExecOptions } from 'shelljs';
 import chalk from 'chalk';
 import { command } from 'execa';
@@ -9,6 +9,7 @@ import storybookVersions from '../versions';
 
 const logger = console;
 
+const { readJSON, writeJSON, outputFile } = fse;
 export interface Parameters {
   /** E2E configuration name */
   name: string;

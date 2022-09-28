@@ -1,9 +1,11 @@
 import path from 'path';
-import { writeFile, stat } from 'fs-extra';
+import fse from 'fs-extra';
 import puppeteerCore from 'puppeteer-core';
 import express from 'express';
 import getPort from 'get-port';
 import { logger } from '@storybook/node-logger';
+
+const { writeFile, stat } = fse;
 
 const read = async (url: string) => {
   const browser = await usePuppeteerBrowser();

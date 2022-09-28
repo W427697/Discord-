@@ -3,11 +3,13 @@ import type { Options, StorybookConfig } from '@storybook/core-common';
 import { getDirectoryFromWorkingDir } from '@storybook/core-common';
 import chalk from 'chalk';
 import express from 'express';
-import { pathExists } from 'fs-extra';
+import fse from 'fs-extra';
 import path from 'path';
 import favicon from 'serve-favicon';
 
 import { dedent } from 'ts-dedent';
+
+const { pathExists } = fse;
 
 const defaultFavIcon = path.join(
   path.dirname(require.resolve('@storybook/core-server/package.json')),
