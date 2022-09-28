@@ -11,9 +11,9 @@ import InfoButton from './components/InfoButton.vue';
 />
 
 export const Template = (args, { argTypes }) => ({
-  props: Object.keys(argTypes),
+  data: () => ({ args }),
   components: { MyButton },
-  template: '<my-button :color="color" :rounded="rounded">{{label}}</my-button>',
+  template: '<my-button v-bind="args" />',
 });
 
 # Addon-controls in MDX

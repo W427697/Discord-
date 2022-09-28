@@ -1,3 +1,4 @@
+import { userEvent, within } from '@storybook/testing-library';
 import MyButton from '../Button.vue';
 
 export default {
@@ -8,12 +9,9 @@ export default {
   },
 };
 
-const Template = (args, { argTypes }) => {
+const Template = (args) => {
   return {
-    props: Object.keys(argTypes),
-    data() {
-      return { args };
-    },
+    data: () => ({ args }),
     components: { MyButton },
     template: '<my-button v-bind="args" />',
   };
@@ -22,26 +20,17 @@ const Template = (args, { argTypes }) => {
 export const Rounded = Template.bind({});
 Rounded.decorators = [
   (storyFn, context) => {
-    return storyFn({ ...context, args: { ...context.args, label: 'Hhahaha' } });
+    return storyFn({ ...context, args: { ...context.args, label: 'Overridden args' } });
   },
 ];
+Rounded.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await userEvent.click(canvas.getByRole('button'));
+};
 Rounded.args = {
   rounded: true,
   color: '#f00',
   label: 'A Button with rounded edges',
-};
-
-export const AutoRender = {
-  args: {
-    rounded: true,
-    color: '#f00',
-    label: 'A Button with rounded edges',
-  },
-  decorators: [
-    (storyFn, context) => {
-      return storyFn({ ...context, args: { ...context.args, label: 'Hhahaha' } });
-    },
-  ],
 };
 
 export const Square = Template.bind({});

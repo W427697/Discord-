@@ -4,47 +4,10 @@ import Vue from 'vue';
 import type { RenderContext } from '@storybook/store';
 import type { ArgsStoryFn } from '@storybook/csf';
 import { CombinedVueInstance } from 'vue/types/vue';
-import type { VueFramework } from './types';
-
-export const COMPONENT = 'STORYBOOK_COMPONENT';
-export const VALUES = 'STORYBOOK_VALUES';
+import type { StoryFnVueReturnType, VueFramework } from './types';
 
 const map = new Map<Element, Instance>();
-type Instance = CombinedVueInstance<
-  Vue,
-  {
-    STORYBOOK_COMPONENT: any;
-    STORYBOOK_VALUES: Record<string, unknown>;
-  },
-  object,
-  object,
-  Record<never, any>,
-  unknown
->;
-const getRoot = (domElement: Element): Instance => {
-  if (map.has(domElement)) {
-    return map.get(domElement);
-  }
-
-  const instance = new Vue({
-    beforeDestroy() {
-      map.delete(domElement);
-    },
-    data() {
-      return {
-        [COMPONENT]: undefined,
-        [VALUES]: {},
-      };
-    },
-    render(h) {
-      map.set(domElement, instance);
-      const children = this[COMPONENT] ? [h(this[COMPONENT])] : undefined;
-      return h('div', { attrs: { id: 'storybook-root' } }, children);
-    },
-  });
-
-  return instance;
-};
+type Instance = CombinedVueInstance<Vue, object, object, object, Record<never, any>>;
 
 export const render: ArgsStoryFn<VueFramework> = (args, context) => {
   const { id, component: Component, argTypes } = context;
@@ -73,31 +36,43 @@ export const render: ArgsStoryFn<VueFramework> = (args, context) => {
   }
 
   return {
-    data() {
-      return { args };
-    },
-    props: Object.keys(argTypes),
+    data: () => ({ args }),
     components: { [componentName]: component },
     template: `<${componentName} v-bind="args" />`,
   };
 };
 
 export function renderToDOM(
-  {
-    title,
-    name,
-    storyFn,
-    storyContext: { args },
-    showMain,
-    showError,
-    showException,
-    forceRemount,
-  }: RenderContext<VueFramework>,
+  { title, name, storyFn, showMain, showError, showException }: RenderContext<VueFramework>,
   domElement: Element
 ) {
-  const root = getRoot(domElement);
+  let mountTarget: Element;
+  let element: StoryFnVueReturnType;
+
+  // Vue2 mount always replaces the mount target with Vue-generated DOM.
+  // https://v2.vuejs.org/v2/api/#el:~:text=replaced%20with%20Vue%2Dgenerated%20DOM
+  // We cannot mount to the domElement directly, because it would be replaced. That would
+  // break the references to the domElement like canvasElement used in the play function.
+  // Instead, we mount to a child element of the domElement, creating one if necessary.
+  if (domElement.hasChildNodes()) {
+    mountTarget = domElement.firstElementChild;
+  } else {
+    mountTarget = document.createElement('div');
+    domElement.appendChild(mountTarget);
+  }
+
+  const storybookApp = new Vue({
+    beforeDestroy() {
+      map.delete(domElement);
+    },
+    render(h) {
+      map.set(domElement, storybookApp);
+      return h(element);
+    },
+  });
+
   Vue.config.errorHandler = showException;
-  const element = storyFn();
+  element = storyFn();
 
   if (!element) {
     showError({
@@ -110,17 +85,11 @@ export function renderToDOM(
     return;
   }
 
-  // at component creation || refresh by HMR or switching stories
-  if (!root[COMPONENT] || forceRemount) {
-    root[COMPONENT] = element;
-  }
-
-  // @ts-expect-error https://github.com/storybookjs/storrybook/pull/7578#discussion_r307986139
-  root[VALUES] = { ...element.options[VALUES], ...args };
-
-  if (!map.has(domElement)) {
-    root.$mount(domElement);
-  }
-
   showMain();
+
+  if (map.has(domElement)) {
+    map.get(domElement).$destroy();
+  }
+
+  storybookApp.$mount(mountTarget);
 }

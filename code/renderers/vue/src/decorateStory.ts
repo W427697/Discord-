@@ -3,8 +3,6 @@ import type { DecoratorFunction, StoryContext, LegacyStoryFn } from '@storybook/
 import { sanitizeStoryContextUpdate } from '@storybook/store';
 
 import type { StoryFnVueReturnType, VueFramework } from './types';
-import { extractProps } from './util';
-import { VALUES } from './render';
 
 export const WRAPS = 'STORYBOOK_WRAPS';
 
@@ -37,19 +35,10 @@ function prepare(
   return Vue.extend({
     // @ts-expect-error // https://github.com/storybookjs/storybook/pull/7578#discussion_r307985279
     [WRAPS]: story,
-    // @ts-expect-error // https://github.com/storybookjs/storybook/pull/7578#discussion_r307984824
-    [VALUES]: { ...(innerStory ? innerStory.options[VALUES] : {}), ...extractProps(story) },
     functional: true,
-    render(h, { data, parent, children }) {
-      return h(
-        story,
-        {
-          ...data,
-          // @ts-expect-error // https://github.com/storybookjs/storybook/pull/7578#discussion_r307986196
-          props: { ...(data.props || {}), ...parent.$root[VALUES] },
-        },
-        children
-      );
+
+    render(h) {
+      return h(story);
     },
   });
 }
