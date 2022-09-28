@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import mapValues from 'lodash/mapValues';
 import { PureArgsTable as ArgsTable } from '@storybook/blocks';
-import type { Parameters } from '@storybook/csf';
+import type { Args, Parameters, StoryContext } from '@storybook/csf';
 import { inferControls } from '@storybook/store';
 import { ThemeProvider, themes, convert } from '@storybook/theming';
 
@@ -16,7 +16,7 @@ import { component as TsImportTypesComponent } from './__testfixtures__/9591-ts-
 import { component as TsDeprecatedJsdocComponent } from './__testfixtures__/9721-ts-deprecated-jsdoc/input';
 import { component as TsDefaultValuesComponent } from './__testfixtures__/9827-ts-default-values/input';
 import { component as TsCamelCaseComponent } from './__testfixtures__/9575-ts-camel-case/input';
-// import { component as TsDisplayNameComponent } from './__testfixtures__/9493-ts-display-name/input';
+import { component as TsDisplayNameComponent } from './__testfixtures__/9493-ts-display-name/input';
 import { component as TsForwardRefComponent } from './__testfixtures__/8894-9511-ts-forward-ref/input';
 import { component as TsTypePropsComponent } from './__testfixtures__/9465-ts-type-props/input';
 import { component as TsExtendPropsComponent } from './__testfixtures__/9764-ts-extend-props/input';
@@ -24,7 +24,7 @@ import { component as TsComponentPropsComponent } from './__testfixtures__/9922-
 
 export default {
   component: {},
-  render: (_, context) => <ArgsStory parameters={context.parameters} />,
+  render: (_: Args, context: StoryContext) => <ArgsStory parameters={context.parameters} />,
 };
 
 const ArgsStory = ({ parameters }: { parameters: Parameters }) => {
@@ -64,7 +64,7 @@ export const TsDefaultValues = { parameters: { component: TsDefaultValuesCompone
 
 export const TsCamelCase = { parameters: { component: TsCamelCaseComponent } };
 
-// export const TsDisplayName = { parameters: { component: TsDisplayNameComponent } };
+export const TsDisplayName = { parameters: { component: TsDisplayNameComponent } };
 
 export const TsForwardRef = { parameters: { component: TsForwardRefComponent } };
 

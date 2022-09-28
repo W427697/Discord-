@@ -2,6 +2,7 @@ import React from 'react';
 
 export interface ElemAProps {
   size?: 'a' | 'b' | 'c' | 'd';
+  children: React.ReactNode;
 }
 
 export const Header: React.FC<ElemAProps> = ({ size = 'a', children }) => (
@@ -10,6 +11,7 @@ export const Header: React.FC<ElemAProps> = ({ size = 'a', children }) => (
 
 export interface ElemBProps {
   size?: 'sm' | 'md' | 'lg';
+  children: React.ReactNode;
 }
 
 export const Paragraph: React.FC<ElemBProps> = ({ size, children }) => (

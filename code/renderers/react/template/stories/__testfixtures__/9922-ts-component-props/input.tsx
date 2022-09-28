@@ -1,6 +1,9 @@
 import React, { FC, ComponentProps, HTMLAttributes } from 'react';
 
-type Props = Pick<HTMLAttributes<HTMLButtonElement>, 'onClick'>;
+type Props = Pick<HTMLAttributes<HTMLButtonElement>, 'onClick'> & {
+  children: React.ReactNode;
+};
+
 const Button: FC<Props> = ({ children, onClick }) => (
   <button onClick={onClick} type="button">
     {children}

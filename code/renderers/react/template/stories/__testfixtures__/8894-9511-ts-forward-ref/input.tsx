@@ -9,6 +9,10 @@ interface ButtonProps {
    * Disables the button.
    */
   disabled?: boolean;
+  /**
+   * Content of the button.
+   */
+  children: React.ReactNode;
 }
 
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
