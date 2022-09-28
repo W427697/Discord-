@@ -9,7 +9,11 @@ import favicon from 'serve-favicon';
 
 import { dedent } from 'ts-dedent';
 
-const defaultFavIcon = require.resolve('@storybook/core-server/public/favicon.ico');
+const defaultFavIcon = path.join(
+  path.dirname(require.resolve('@storybook/core-server/package.json')),
+  'public',
+  'favicon.ico'
+);
 
 export async function useStatics(router: any, options: Options) {
   let hasCustomFavicon = false;

@@ -19,9 +19,22 @@
     "url": "https://opencollective.com/storybook"
   },
   "license": "MIT",
-  "main": "dist/cjs/index.js",
-  "module": "dist/esm/index.js",
-  "types": "dist/types/index.d.ts",
+  "exports": {
+    ".": {
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.ts"
+    },
+    "./standalone": {
+      "require": "./dist/standalone.js",
+      "import": "./dist/standalone.mjs",
+      "types": "./dist/standalone.d.ts"
+    },
+    "./package.json": "./package.json"
+  },
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
   "files": [
     "dist/**/*",
     "public/**/*",
@@ -30,7 +43,7 @@
   ],
   "scripts": {
     "check": "../../../scripts/node_modules/.bin/tsc --noEmit",
-    "prep": "node ../../../scripts/prepare.js"
+    "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
     "@aw-web-design/x-default-browser": "1.4.88",
@@ -100,6 +113,15 @@
   },
   "publishConfig": {
     "access": "public"
+  },
+  "bundler": {
+    "platform": "node",
+    "entries": [
+      "./src/index.ts",
+      "./src/standalone.ts",
+      "./src/presets/babel-cache-preset.ts",
+      "./src/presets/common-preset.ts"
+    ]
   },
   "gitHead": "fc90fc875462421c1faa35862ac4bc436de8e75f"
 }
