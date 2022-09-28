@@ -1,6 +1,6 @@
 {
   "name": "@storybook/core-server",
-  "version": "6.5.11",
+  "version": "6.5.12",
   "description": "Storybook framework-agnostic API",
   "keywords": [
     "storybook"
@@ -40,17 +40,17 @@
   },
   "dependencies": {
     "@discoveryjs/json-ext": "^0.5.3",
-    "@storybook/builder-webpack4": "6.5.11",
-    "@storybook/core-client": "6.5.11",
-    "@storybook/core-common": "6.5.11",
-    "@storybook/core-events": "6.5.11",
+    "@storybook/builder-webpack4": "6.5.12",
+    "@storybook/core-client": "6.5.12",
+    "@storybook/core-common": "6.5.12",
+    "@storybook/core-events": "6.5.12",
     "@storybook/csf": "0.0.2--canary.4566f4d.1",
-    "@storybook/csf-tools": "6.5.11",
-    "@storybook/manager-webpack4": "6.5.11",
-    "@storybook/node-logger": "6.5.11",
+    "@storybook/csf-tools": "6.5.12",
+    "@storybook/manager-webpack4": "6.5.12",
+    "@storybook/node-logger": "6.5.12",
     "@storybook/semver": "^7.3.2",
-    "@storybook/store": "6.5.11",
-    "@storybook/telemetry": "6.5.11",
+    "@storybook/store": "6.5.12",
+    "@storybook/telemetry": "6.5.12",
     "@types/node": "^14.0.10 || ^16.0.0",
     "@types/node-fetch": "^2.5.7",
     "@types/pretty-hrtime": "^1.0.0",
@@ -86,7 +86,7 @@
     "x-default-browser": "^0.4.0"
   },
   "devDependencies": {
-    "@storybook/builder-webpack5": "6.5.11",
+    "@storybook/builder-webpack5": "6.5.12",
     "@types/compression": "^1.7.0",
     "@types/ip": "^1.1.0",
     "@types/serve-favicon": "^2.5.2",
@@ -111,6 +111,6 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "db56a2586508ee1082640f24402e491333e42ec4",
+  "gitHead": "e3991cb4dac45c964e29f82da6be5912464c5a4f",
   "sbmodern": "dist/modern/index.js"
 }

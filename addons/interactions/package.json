@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-interactions",
-  "version": "6.5.11",
+  "version": "6.5.12",
   "description": "Automate, test and debug user interactions",
   "keywords": [
     "storybook-addons",
@@ -42,15 +42,15 @@
   },
   "dependencies": {
     "@devtools-ds/object-inspector": "^1.1.2",
-    "@storybook/addons": "6.5.11",
-    "@storybook/api": "6.5.11",
-    "@storybook/client-logger": "6.5.11",
-    "@storybook/components": "6.5.11",
-    "@storybook/core-common": "6.5.11",
-    "@storybook/core-events": "6.5.11",
+    "@storybook/addons": "6.5.12",
+    "@storybook/api": "6.5.12",
+    "@storybook/client-logger": "6.5.12",
+    "@storybook/components": "6.5.12",
+    "@storybook/core-common": "6.5.12",
+    "@storybook/core-events": "6.5.12",
     "@storybook/csf": "0.0.2--canary.4566f4d.1",
-    "@storybook/instrumenter": "6.5.11",
-    "@storybook/theming": "6.5.11",
+    "@storybook/instrumenter": "6.5.12",
+    "@storybook/theming": "6.5.12",
     "core-js": "^3.8.2",
     "global": "^4.4.0",
     "jest-mock": "^27.0.6",
@@ -77,7 +77,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "db56a2586508ee1082640f24402e491333e42ec4",
+  "gitHead": "e3991cb4dac45c964e29f82da6be5912464c5a4f",
   "sbmodern": "dist/modern/index.js",
   "storybook": {
     "displayName": "Interactions",

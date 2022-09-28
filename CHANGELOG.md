@@ -1,106 +1,112 @@
+## 6.5.12 (September 14, 2022)
+
+#### Bug Fixes
+
+- React: Fix issue with react 18 implementation [#19125](https://github.com/storybooks/storybook/pull/19125)
+
 ## 6.5.11 (September 13, 2022)
 
 #### Bug Fixes
 
--   CLI: Fix race condition in sb init [#19083](https://github.com/storybooks/storybook/pull/19083)
--   Core: Fix WebProjectAnnotations export in preview-web for back-compat [#19048](https://github.com/storybooks/storybook/pull/19048)
--   Addon-interactions: Fix IE support by replacing array includes [#18993](https://github.com/storybooks/storybook/pull/18993)
--   Vue: Fix enum check in extractArgTypes [#18959](https://github.com/storybooks/storybook/pull/18959)
--   React: Fix callback behavior in `react@18` [#18737](https://github.com/storybooks/storybook/pull/18737)
--   Store: always call composeConfigs in setProjectAnnotations [#18916](https://github.com/storybooks/storybook/pull/18916)
--   Telemetry: improve addon extraction logic [#18868](https://github.com/storybooks/storybook/pull/18868)
--   Addon-docs: Check for undefined before reading property in extractArgTypes.ts [#18710](https://github.com/storybooks/storybook/pull/18710)nance
+- CLI: Fix race condition in sb init [#19083](https://github.com/storybooks/storybook/pull/19083)
+- Core: Fix WebProjectAnnotations export in preview-web for back-compat [#19048](https://github.com/storybooks/storybook/pull/19048)
+- Addon-interactions: Fix IE support by replacing array includes [#18993](https://github.com/storybooks/storybook/pull/18993)
+- Vue: Fix enum check in extractArgTypes [#18959](https://github.com/storybooks/storybook/pull/18959)
+- React: Fix callback behavior in `react@18` [#18737](https://github.com/storybooks/storybook/pull/18737)
+- Store: always call composeConfigs in setProjectAnnotations [#18916](https://github.com/storybooks/storybook/pull/18916)
+- Telemetry: improve addon extraction logic [#18868](https://github.com/storybooks/storybook/pull/18868)
+- Addon-docs: Check for undefined before reading property in extractArgTypes.ts [#18710](https://github.com/storybooks/storybook/pull/18710)nance
 
 ## 6.5.11-alpha.2 (September 7, 2022)
 
 #### Bug Fixes
 
--   CLI: Fix race condition in sb init [#19083](https://github.com/storybooks/storybook/pull/19083)
--   Core: Fix WebProjectAnnotations export in preview-web for back-compat [#19048](https://github.com/storybooks/storybook/pull/19048)
--   Addon-interactions: Fix IE support by replacing array includes [#18993](https://github.com/storybooks/storybook/pull/18993)
+- CLI: Fix race condition in sb init [#19083](https://github.com/storybooks/storybook/pull/19083)
+- Core: Fix WebProjectAnnotations export in preview-web for back-compat [#19048](https://github.com/storybooks/storybook/pull/19048)
+- Addon-interactions: Fix IE support by replacing array includes [#18993](https://github.com/storybooks/storybook/pull/18993)
 
 ## 6.5.11-alpha.1 (August 23, 2022)
 
 #### Bug Fixes
 
--   Vue: Fix enum check in extractArgTypes [#18959](https://github.com/storybooks/storybook/pull/18959)
+- Vue: Fix enum check in extractArgTypes [#18959](https://github.com/storybooks/storybook/pull/18959)
 
 ## 6.5.11-alpha.0 (August 17, 2022)
 
 #### Bug Fixes
 
--   React: Fix callback behavior in `react@18` [#18737](https://github.com/storybooks/storybook/pull/18737)
--   Store: always call composeConfigs in setProjectAnnotations [#18916](https://github.com/storybooks/storybook/pull/18916)
--   Telemetry: improve addon extraction logic [#18868](https://github.com/storybooks/storybook/pull/18868)
--   Addon-docs: Check for undefined before reading property in extractArgTypes.ts [#18710](https://github.com/storybooks/storybook/pull/18710)
+- React: Fix callback behavior in `react@18` [#18737](https://github.com/storybooks/storybook/pull/18737)
+- Store: always call composeConfigs in setProjectAnnotations [#18916](https://github.com/storybooks/storybook/pull/18916)
+- Telemetry: improve addon extraction logic [#18868](https://github.com/storybooks/storybook/pull/18868)
+- Addon-docs: Check for undefined before reading property in extractArgTypes.ts [#18710](https://github.com/storybooks/storybook/pull/18710)
 
 ## 6.5.10 (August 3, 2022)
 
 #### Maintenance
 
--   Interactions: Run conditionally based on query param [#18706](https://github.com/storybooks/storybook/pull/18706)
--   Components: Re-bundle the syntax highlighter  [#18425](https://github.com/storybooks/storybook/pull/18425)
--   Svelte: Make `svelte-loader` optional dependency [#18645](https://github.com/storybooks/storybook/pull/18645)
--   Theming: Replace references to `themes.normal` with `themes.light` [#17034](https://github.com/storybooks/storybook/pull/17034)
+- Interactions: Run conditionally based on query param [#18706](https://github.com/storybooks/storybook/pull/18706)
+- Components: Re-bundle the syntax highlighter [#18425](https://github.com/storybooks/storybook/pull/18425)
+- Svelte: Make `svelte-loader` optional dependency [#18645](https://github.com/storybooks/storybook/pull/18645)
+- Theming: Replace references to `themes.normal` with `themes.light` [#17034](https://github.com/storybooks/storybook/pull/17034)
 
 #### Bug Fixes
 
--   HTML: Fix missing ability to set `docs.extractArgTypes` [#18831](https://github.com/storybooks/storybook/pull/18831)
--   CLI: Throw error on failure in sb init [#18816](https://github.com/storybooks/storybook/pull/18816)
--   CLI: Hook up the npm7 migration [#18522](https://github.com/storybooks/storybook/pull/18522)
--   Preview: Ensure docs container re-renders when globals change [#18711](https://github.com/storybooks/storybook/pull/18711)
--   Toolbars: Fall back to name if both title and icon are not specified [#17430](https://github.com/storybooks/storybook/pull/17430)
--   CLI: Fix addons register in RN template [#18693](https://github.com/storybooks/storybook/pull/18693)
--   CLI: Fix detection of type: module when initializing storybook [#18714](https://github.com/storybooks/storybook/pull/18714)
--   CLI/Svelte: Always create main with cjs extension [#18648](https://github.com/storybooks/storybook/pull/18648)
--   Fix typo in CSS pseudo selector [#17708](https://github.com/storybooks/storybook/pull/17708)
--   UI: Fix sidebar a11y by moving aria-expanded attribute to button [#18354](https://github.com/storybooks/storybook/pull/18354)
--   CLI: Add npm7 migration for legacy peer deps [#18510](https://github.com/storybooks/storybook/pull/18510)
--   UI: Fix display skip to sidebar button [#18479](https://github.com/storybooks/storybook/pull/18479)
--   Core: Fix process is not defined when using components [#18469](https://github.com/storybooks/storybook/pull/18469)
+- HTML: Fix missing ability to set `docs.extractArgTypes` [#18831](https://github.com/storybooks/storybook/pull/18831)
+- CLI: Throw error on failure in sb init [#18816](https://github.com/storybooks/storybook/pull/18816)
+- CLI: Hook up the npm7 migration [#18522](https://github.com/storybooks/storybook/pull/18522)
+- Preview: Ensure docs container re-renders when globals change [#18711](https://github.com/storybooks/storybook/pull/18711)
+- Toolbars: Fall back to name if both title and icon are not specified [#17430](https://github.com/storybooks/storybook/pull/17430)
+- CLI: Fix addons register in RN template [#18693](https://github.com/storybooks/storybook/pull/18693)
+- CLI: Fix detection of type: module when initializing storybook [#18714](https://github.com/storybooks/storybook/pull/18714)
+- CLI/Svelte: Always create main with cjs extension [#18648](https://github.com/storybooks/storybook/pull/18648)
+- Fix typo in CSS pseudo selector [#17708](https://github.com/storybooks/storybook/pull/17708)
+- UI: Fix sidebar a11y by moving aria-expanded attribute to button [#18354](https://github.com/storybooks/storybook/pull/18354)
+- CLI: Add npm7 migration for legacy peer deps [#18510](https://github.com/storybooks/storybook/pull/18510)
+- UI: Fix display skip to sidebar button [#18479](https://github.com/storybooks/storybook/pull/18479)
+- Core: Fix process is not defined when using components [#18469](https://github.com/storybooks/storybook/pull/18469)
 
 #### Dependency Upgrades
 
--   Core: Fix process is not defined [#18367](https://github.com/storybooks/storybook/pull/18367)
--   Core: Fix PnP compatibility for @storybook/ui and @storybook/router packages [#18412](https://github.com/storybooks/storybook/pull/18412)
+- Core: Fix process is not defined [#18367](https://github.com/storybooks/storybook/pull/18367)
+- Core: Fix PnP compatibility for @storybook/ui and @storybook/router packages [#18412](https://github.com/storybooks/storybook/pull/18412)
 
 ## 6.5.10-alpha.1 (August 2, 2022)
 
 #### Maintenance
 
--   Interactions: Run conditionally based on query param [#18706](https://github.com/storybooks/storybook/pull/18706)
+- Interactions: Run conditionally based on query param [#18706](https://github.com/storybooks/storybook/pull/18706)
 
 #### Bug Fixes
 
--   HTML: Fix missing ability to set `docs.extractArgTypes` [#18831](https://github.com/storybooks/storybook/pull/18831)
--   CLI: Throw error on failure in sb init [#18816](https://github.com/storybooks/storybook/pull/18816)
+- HTML: Fix missing ability to set `docs.extractArgTypes` [#18831](https://github.com/storybooks/storybook/pull/18831)
+- CLI: Throw error on failure in sb init [#18816](https://github.com/storybooks/storybook/pull/18816)
 
 ## 6.5.10-alpha.0 (July 26, 2022)
 
 #### Bug Fixes
 
--   CLI: Hook up the npm7 migration [#18522](https://github.com/storybooks/storybook/pull/18522)
--   Preview: Ensure docs container re-renders when globals change [#18711](https://github.com/storybooks/storybook/pull/18711)
--   Toolbars: Fall back to name if both title and icon are not specified [#17430](https://github.com/storybooks/storybook/pull/17430)
--   CLI: Fix addons register in RN template [#18693](https://github.com/storybooks/storybook/pull/18693)
--   CLI: Fix detection of type: module when initializing storybook [#18714](https://github.com/storybooks/storybook/pull/18714)
--   CLI/Svelte: Always create main with cjs extension [#18648](https://github.com/storybooks/storybook/pull/18648)
--   Fix typo in CSS pseudo selector [#17708](https://github.com/storybooks/storybook/pull/17708)
--   UI: Fix sidebar a11y by moving aria-expanded attribute to button [#18354](https://github.com/storybooks/storybook/pull/18354)
--   CLI: Add npm7 migration for legacy peer deps [#18510](https://github.com/storybooks/storybook/pull/18510)
--   UI: Fix display skip to sidebar button [#18479](https://github.com/storybooks/storybook/pull/18479)
--   Core: Fix process is not defined when using components [#18469](https://github.com/storybooks/storybook/pull/18469)
+- CLI: Hook up the npm7 migration [#18522](https://github.com/storybooks/storybook/pull/18522)
+- Preview: Ensure docs container re-renders when globals change [#18711](https://github.com/storybooks/storybook/pull/18711)
+- Toolbars: Fall back to name if both title and icon are not specified [#17430](https://github.com/storybooks/storybook/pull/17430)
+- CLI: Fix addons register in RN template [#18693](https://github.com/storybooks/storybook/pull/18693)
+- CLI: Fix detection of type: module when initializing storybook [#18714](https://github.com/storybooks/storybook/pull/18714)
+- CLI/Svelte: Always create main with cjs extension [#18648](https://github.com/storybooks/storybook/pull/18648)
+- Fix typo in CSS pseudo selector [#17708](https://github.com/storybooks/storybook/pull/17708)
+- UI: Fix sidebar a11y by moving aria-expanded attribute to button [#18354](https://github.com/storybooks/storybook/pull/18354)
+- CLI: Add npm7 migration for legacy peer deps [#18510](https://github.com/storybooks/storybook/pull/18510)
+- UI: Fix display skip to sidebar button [#18479](https://github.com/storybooks/storybook/pull/18479)
+- Core: Fix process is not defined when using components [#18469](https://github.com/storybooks/storybook/pull/18469)
 
 #### Maintenance
 
--   Components: Re-bundle the syntax highlighter  [#18425](https://github.com/storybooks/storybook/pull/18425)
--   Svelte: Make `svelte-loader` optional dependency [#18645](https://github.com/storybooks/storybook/pull/18645)
--   Theming: Replace references to `themes.normal` with `themes.light` [#17034](https://github.com/storybooks/storybook/pull/17034)
+- Components: Re-bundle the syntax highlighter [#18425](https://github.com/storybooks/storybook/pull/18425)
+- Svelte: Make `svelte-loader` optional dependency [#18645](https://github.com/storybooks/storybook/pull/18645)
+- Theming: Replace references to `themes.normal` with `themes.light` [#17034](https://github.com/storybooks/storybook/pull/17034)
 
 #### Dependency Upgrades
 
--   Core: Fix process is not defined [#18367](https://github.com/storybooks/storybook/pull/18367)
--   Core: fix PnP compatibility for @storybook/ui and @storybook/router packages [#18412](https://github.com/storybooks/storybook/pull/18412)
+- Core: Fix process is not defined [#18367](https://github.com/storybooks/storybook/pull/18367)
+- Core: fix PnP compatibility for @storybook/ui and @storybook/router packages [#18412](https://github.com/storybooks/storybook/pull/18412)
 
 ## 6.5.9 (June 14, 2022)
 
