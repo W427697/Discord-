@@ -21,6 +21,7 @@ import { component as TsForwardRefComponent } from './__testfixtures__/8894-9511
 import { component as TsTypePropsComponent } from './__testfixtures__/9465-ts-type-props/input';
 import { component as TsExtendPropsComponent } from './__testfixtures__/9764-ts-extend-props/input';
 import { component as TsComponentPropsComponent } from './__testfixtures__/9922-ts-component-props/input';
+import { component as TsJsdocComponent } from './__testfixtures__/ts-jsdoc/input';
 
 export default {
   component: {},
@@ -73,3 +74,5 @@ export const TsTypeProps = { parameters: { component: TsTypePropsComponent } };
 export const TsExtendProps = { parameters: { component: TsExtendPropsComponent } };
 
 export const TsComponentProps = { parameters: { component: TsComponentPropsComponent } };
+
+export const TsJsdoc = { parameters: { component: TsJsdocComponent } };

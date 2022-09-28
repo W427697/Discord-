@@ -1,9 +1,7 @@
-/* eslint-disable react/no-unused-prop-types */
-/* eslint-disable react/require-default-props */
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export const JsDocProps = () => <div>JSDoc with PropTypes!</div>;
+const JsDocProps = () => <div>JSDoc with PropTypes!</div>;
 JsDocProps.propTypes = {
   /**
    * should not be visible since it's ignored.
@@ -229,11 +227,4 @@ JsDocProps.propTypes = {
   case43: PropTypes.func,
 };
 
-export const FailingJsDocProps = () => <div>Failing JSDoc Props!</div>;
-FailingJsDocProps.propTypes = {
-  /**
-   * autofix event.
-   * @param event.
-   */
-  case: PropTypes.func,
-};
+export const component = JsDocProps;

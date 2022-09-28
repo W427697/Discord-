@@ -17,8 +17,10 @@ interface TSProps {
 /**
  * Button functional component (React.FC)
  */
-export const TypeScriptProps: FC<TSProps> = ({ case1, case2 }) => (
+const TypeScriptProps: FC<TSProps> = ({ case1, case2 }) => (
   <button type="button" onClick={case1}>
     JSDoc with TypeScript! {case2}
   </button>
 );
+
+export const component = TypeScriptProps;
