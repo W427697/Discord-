@@ -25,6 +25,8 @@
       "import": "./dist/index.mjs",
       "types": "./dist/index.d.ts"
     },
+    "./dist/globals.js": "./dist/globals.js",
+    "./dist/globals.mjs": "./dist/globals.mjs",
     "./dist/globals": {
       "require": "./dist/globals.js",
       "import": "./dist/globals.mjs",
