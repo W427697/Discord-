@@ -11,7 +11,6 @@ import { component as TsReactFcGenericsComponent } from './__testfixtures__/8143
 import { component as TsImportedTypesComponent } from './__testfixtures__/8143-ts-imported-types/input';
 import { component as TsMultiPropsComponent } from './__testfixtures__/8740-ts-multi-props/input';
 import { component as TsReactDefaultExportsComponent } from './__testfixtures__/9556-ts-react-default-exports/input';
-// import { component as TsStyledPropsComponent } from './__testfixtures__/9592-ts-styled-props/input';
 import { component as TsImportTypesComponent } from './__testfixtures__/9591-ts-import-types/input';
 import { component as TsDeprecatedJsdocComponent } from './__testfixtures__/9721-ts-deprecated-jsdoc/input';
 import { component as TsDefaultValuesComponent } from './__testfixtures__/9827-ts-default-values/input';
@@ -56,8 +55,6 @@ export const TsImportedTypes = { parameters: { component: TsImportedTypesCompone
 export const TsMultiProps = { parameters: { component: TsMultiPropsComponent } };
 
 export const TsReactDefaultExports = { parameters: { component: TsReactDefaultExportsComponent } };
-
-// export const TsStyledProps = { parameters: { component: TsStyledPropsComponent } };
 
 export const TsImportTypes = { parameters: { component: TsImportTypesComponent } };
 
