@@ -19,9 +19,18 @@ import { component as JsHocComponent } from './__testfixtures__/9023-js-hoc/inpu
 import { component as JsReactMemoComponent } from './__testfixtures__/9586-js-react-memo/input.jsx';
 import { component as JsStaticPropTypesComponent } from './__testfixtures__/8428-js-static-prop-types/input.jsx';
 
+// Detect if we are running in vite in a hacky way for now
+// eslint-disable-next-line camelcase
+const isVite = typeof __vite_plugin_react_timeout !== 'undefined';
+
 export default {
   component: {},
   render: (_, context) => <ArgsStory parameters={context.parameters} />,
+  parameters: {
+    chromatic: {
+      disableSnapshot: isVite,
+    },
+  },
 };
 
 const ArgsStory = ({ parameters }) => {
