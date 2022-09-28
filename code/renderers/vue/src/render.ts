@@ -46,7 +46,7 @@ const getRoot = (domElement: Element): Instance => {
   return instance;
 };
 
-export const render: ArgsStoryFn<VueFramework> = (props, context) => {
+export const render: ArgsStoryFn<VueFramework> = (args, context) => {
   const { id, component: Component, argTypes } = context;
   const component = Component as VueFramework['component'] & {
     __docgenInfo?: { displayName: string };
@@ -73,9 +73,12 @@ export const render: ArgsStoryFn<VueFramework> = (props, context) => {
   }
 
   return {
+    data() {
+      return { args };
+    },
     props: Object.keys(argTypes),
     components: { [componentName]: component },
-    template: `<${componentName} v-bind="$props" />`,
+    template: `<${componentName} v-bind="args" />`,
   };
 };
 
