@@ -1,7 +1,5 @@
-/* eslint-disable react/no-unused-prop-types */
 import React from 'react';
 import PropTypes, { string, shape } from 'prop-types';
-import momentPropTypes from 'react-moment-proptypes';
 import { PRESET_SHAPE, SOME_PROP_TYPES } from './ext';
 
 const NAMED_OBJECT = {
@@ -114,7 +112,6 @@ const SOME_INLINE_DEFAULT_PROPS = {
 export const PropTypesProps = () => <div>PropTypes!</div>;
 
 PropTypesProps.propTypes = {
-  // eslint-disable-next-line react/forbid-prop-types
   any: PropTypes.any,
   bool: PropTypes.bool,
   string: PropTypes.string,
@@ -159,12 +156,11 @@ PropTypesProps.propTypes = {
   /**
    * Plain object propType (use shape!!)
    */
-  obj: PropTypes.object, // eslint-disable-line react/forbid-prop-types
+  obj: PropTypes.object,
   symbol: PropTypes.symbol,
   node: PropTypes.node,
   useCustomPropType: customPropType,
   useNestedCustomPropType: nestedCustomPropType.custom,
-  externalMomentPropType: momentPropTypes.momentObj,
   functionalElement: PropTypes.element,
   functionalElementInline: PropTypes.element,
   functionalElementNamedInline: PropTypes.element,
@@ -495,3 +491,5 @@ PropTypesProps.defaultProps = {
   undefinedDefaultValue: undefined,
   ...SOME_INLINE_DEFAULT_PROPS,
 };
+
+export const component = PropTypesProps;

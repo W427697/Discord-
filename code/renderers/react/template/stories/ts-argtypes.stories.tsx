@@ -22,6 +22,8 @@ import { component as TsTypePropsComponent } from './__testfixtures__/9465-ts-ty
 import { component as TsExtendPropsComponent } from './__testfixtures__/9764-ts-extend-props/input';
 import { component as TsComponentPropsComponent } from './__testfixtures__/9922-ts-component-props/input';
 import { component as TsJsdocComponent } from './__testfixtures__/ts-jsdoc/input';
+import { component as TsTypesComponent } from './__testfixtures__/ts-types/input';
+import { component as TsHtmlComponent } from './__testfixtures__/ts-html/input';
 
 export default {
   component: {},
@@ -76,3 +78,7 @@ export const TsExtendProps = { parameters: { component: TsExtendPropsComponent }
 export const TsComponentProps = { parameters: { component: TsComponentPropsComponent } };
 
 export const TsJsdoc = { parameters: { component: TsJsdocComponent } };
+
+export const TsTypes = { parameters: { component: TsTypesComponent } };
+
+export const TsHtml = { parameters: { component: TsHtmlComponent } };

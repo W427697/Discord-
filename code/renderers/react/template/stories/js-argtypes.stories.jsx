@@ -19,6 +19,7 @@ import { component as JsHocComponent } from './__testfixtures__/9023-js-hoc/inpu
 import { component as JsReactMemoComponent } from './__testfixtures__/9586-js-react-memo/input.jsx';
 import { component as JsStaticPropTypesComponent } from './__testfixtures__/8428-js-static-prop-types/input.jsx';
 import { component as JsdocComponent } from './__testfixtures__/jsdoc/input.jsx';
+import { component as JsProptypesComponent } from './__testfixtures__/js-proptypes/input.jsx';
 
 // Detect if we are running in vite in a hacky way for now
 // eslint-disable-next-line camelcase
@@ -87,3 +88,5 @@ export const JsReactMemo = { parameters: { component: JsReactMemoComponent } };
 export const JsStaticPropTypes = { parameters: { component: JsStaticPropTypesComponent } };
 
 export const Jsdoc = { parameters: { component: JsdocComponent } };
+
+export const JsProptypes = { parameters: { component: JsProptypesComponent } };
