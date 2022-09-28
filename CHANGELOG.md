@@ -1,3 +1,10 @@
+## 6.5.13-alpha.0 (September 28, 2022)
+
+#### Bug Fixes
+
+-   Addon-docs: Pass remarks plugins to mdx loader [#18740](https://github.com/storybooks/storybook/pull/18740)
+-   Angular: Alias decorateStory as applyDecorators [#19189](https://github.com/storybooks/storybook/pull/19189)
+
 ## 6.5.12 (September 14, 2022)
 
 #### Bug Fixes
