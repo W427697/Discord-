@@ -25,7 +25,7 @@ function webpack(webpackConfig = {}, options = {}) {
 }
 
 function managerEntries(entry = []) {
-  return [...entry, require.resolve('./dist/esm/manager')];
+  return [...entry, require.resolve('./dist/manager')];
 }
 
 module.exports = { webpack, managerEntries };
