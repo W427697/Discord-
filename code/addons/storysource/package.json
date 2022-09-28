@@ -32,16 +32,6 @@
       "import": "./dist/manager.mjs",
       "types": "./dist/manager.d.ts"
     },
-    "./events": {
-      "require": "./dist/events.js",
-      "import": "./dist/events.mjs",
-      "types": "./dist/events.d.ts"
-    },
-    "./StoryPanel": {
-      "require": "./dist/StoryPanel.js",
-      "import": "./dist/StoryPanel.mjs",
-      "types": "./dist/StoryPanel.d.ts"
-    },
     "./package.json": "./package.json"
   },
   "main": "dist/index.js",
@@ -91,10 +81,8 @@
   },
   "bundler": {
     "entries": [
-      "./src/events.ts",
       "./src/index.ts",
-      "./src/manager.tsx",
-      "./src/StoryPanel.tsx"
+      "./src/manager.tsx"
     ]
   },
   "gitHead": "fc90fc875462421c1faa35862ac4bc436de8e75f",
