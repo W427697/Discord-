@@ -8,11 +8,9 @@ import { inferControls } from '@storybook/store';
 import type { AnyFramework } from '@storybook/csf';
 import { normalizeNewlines } from '@storybook/docs-tools';
 
-import type { StoryContext } from '../../src/types';
-import { extractProps } from '../../src/docs/extractProps';
-import { extractArgTypes } from '../../src/docs/extractArgTypes';
-
-// jest.mock('../imported', () => () => ({ imported: 'imported-value' }), { virtual: true });
+import type { StoryContext } from '../types';
+import { extractProps } from './extractProps';
+import { extractArgTypes } from './extractArgTypes';
 
 // File hierarchy:
 // __testfixtures__ / some-test-case / input.*
@@ -46,7 +44,8 @@ const annotateWithDocgen = (inputPath: string) => {
 };
 
 describe('react component properties', () => {
-  const fixturesDir = path.join(__dirname, '__testfixtures__');
+  // Fixture files are in template/stories
+  const fixturesDir = path.resolve(__dirname, '../../template/stories/__testfixtures__');
   fs.readdirSync(fixturesDir, { withFileTypes: true }).forEach((testEntry) => {
     if (testEntry.isDirectory()) {
       const testDir = path.join(fixturesDir, testEntry.name);
