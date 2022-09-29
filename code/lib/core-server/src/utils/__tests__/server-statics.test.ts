@@ -3,7 +3,12 @@ import path from 'path';
 import 'jest-os-detection';
 import { parseStaticDir } from '../server-statics';
 
-fs.pathExists = jest.fn().mockReturnValue(true);
+jest.mock('fs-extra', () => ({
+  default: {
+    pathExists: jest.fn(() => Promise.resolve(true)),
+  },
+}));
+// fs.pathExists = jest.fn().mockReturnValue(true);
 
 describe('parseStaticDir', () => {
   it('returns the static dir/path and default target', async () => {

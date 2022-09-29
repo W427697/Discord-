@@ -48,9 +48,7 @@
   "dependencies": {
     "@aw-web-design/x-default-browser": "1.4.88",
     "@discoveryjs/json-ext": "^0.5.3",
-    "@storybook/builder-manager": "7.0.0-alpha.34",
     "@storybook/core-client": "7.0.0-alpha.34",
-    "@storybook/core-common": "7.0.0-alpha.34",
     "@storybook/core-events": "7.0.0-alpha.34",
     "@storybook/csf": "0.0.2--canary.0899bb7.0",
     "@storybook/csf-tools": "7.0.0-alpha.34",
@@ -89,6 +87,7 @@
   },
   "devDependencies": {
     "@storybook/builder-webpack5": "7.0.0-alpha.34",
+    "@storybook/core-common": "7.0.0-alpha.34",
     "@types/compression": "^1.7.0",
     "@types/ip": "^1.1.0",
     "@types/serve-favicon": "^2.5.2",
