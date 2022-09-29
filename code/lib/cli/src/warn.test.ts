@@ -1,9 +1,15 @@
-import globby from 'globby';
+import { fdir as FDir } from 'fdir';
 import { logger } from '@storybook/node-logger';
 import { warn } from './warn';
 
 jest.mock('@storybook/node-logger');
-jest.mock('globby');
+const syncMock = jest.fn();
+const crawlerMock = jest.fn().mockImplementation(() => {
+  return {
+    sync: syncMock,
+  };
+});
+jest.spyOn(FDir.prototype, 'crawl').mockImplementation(crawlerMock);
 
 describe('warn', () => {
   beforeEach(() => {
@@ -21,7 +27,7 @@ describe('warn', () => {
 
   describe('when TypeScript is not installed as a dependency', () => {
     it('should not warn if `.tsx?` files are not found', () => {
-      (globby.sync as jest.Mock).mockReturnValueOnce([]);
+      syncMock.mockReturnValueOnce({ files: 0 });
       warn({
         hasTSDependency: false,
       });
@@ -29,7 +35,7 @@ describe('warn', () => {
     });
 
     it('should warn if `.tsx?` files are found', () => {
-      (globby.sync as jest.Mock).mockReturnValueOnce(['a.ts']);
+      syncMock.mockReturnValueOnce({ files: 1 });
       warn({
         hasTSDependency: false,
       });

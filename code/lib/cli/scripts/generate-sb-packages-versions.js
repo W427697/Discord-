@@ -3,11 +3,16 @@
 const { readJson, writeFile } = require('fs-extra');
 const { exec } = require('child_process');
 const path = require('path');
-const globby = require('globby');
+const FDir = require('fdir').fdir;
 const semver = require('@storybook/semver');
 const { default: dedent } = require('ts-dedent');
 
 const rootDirectory = path.join(__dirname, '..', '..', '..');
+const glob = new FDir()
+  .withFullPaths()
+  .exclude((p) => p.indexOf('node_modules') > -1)
+  .glob(`${rootDirectory}/@(frameworks|addons|lib|renderers|presets)/**/package.json`)
+  .crawl(rootDirectory);
 
 const logger = console;
 
@@ -16,12 +21,7 @@ const run = async () => {
 
   if (!semver.valid(updatedVersion)) throw new Error(`Invalid version: ${updatedVersion}`);
 
-  const storybookPackagesPaths = await globby(
-    `${rootDirectory}/@(frameworks|addons|lib|renderers|presets)/**/package.json`,
-    {
-      ignore: '**/node_modules/**/*',
-    }
-  );
+  const storybookPackagesPaths = glob.sync();
 
   const packageToVersionMap = (
     await Promise.all(

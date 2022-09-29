@@ -1,14 +1,16 @@
-import globby from 'globby';
+import { fdir as FDir } from 'fdir';
 import { logger } from '@storybook/node-logger';
 
 interface Options {
   hasTSDependency: boolean;
 }
 
+const crawler = new FDir().onlyCounts().glob('**/*.@(ts|tsx)', '!**/node_modules', '!**/*.d.ts');
+
 export const warn = ({ hasTSDependency }: Options) => {
   if (!hasTSDependency) {
-    const hasTSFiles = !!globby.sync(['**/*.@(ts|tsx)', '!**/node_modules', '!**/*.d.ts']).length;
-    if (hasTSFiles) {
+    const counts = crawler.crawl(process.cwd()).sync();
+    if ('files' in counts && counts.files > 0) {
       logger.warn(
         'We have detected TypeScript files in your project directory, however TypeScript is not listed as a project dependency.'
       );

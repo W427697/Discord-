@@ -7755,12 +7755,13 @@ __metadata:
     envinfo: ^7.7.3
     execa: ^5.0.0
     express: ^4.17.1
+    fdir: ^5.2.0
     find-up: ^5.0.0
     fs-extra: ^9.0.1
     get-port: ^5.1.1
-    globby: ^11.0.2
     jscodeshift: ^0.13.1
     leven: ^3.1.0
+    picomatch: ^2.3.1
     prompts: ^2.4.0
     puppeteer-core: ^2.1.1
     read-pkg-up: ^7.0.1
@@ -7827,11 +7828,12 @@ __metadata:
     "@storybook/csf-tools": 7.0.0-alpha.34
     "@storybook/node-logger": 7.0.0-alpha.34
     cross-spawn: ^7.0.3
-    globby: ^11.0.2
+    fdir: ^5.2.0
     jest: ^26.6.3
     jest-specific-snapshot: ^4.0.0
     jscodeshift: ^0.13.1
     lodash: ^4.17.21
+    picomatch: ^2.3.1
     prettier: ">=2.2.1 <=2.3.0"
     recast: ^0.19.0
     typescript: ~4.6.3
@@ -7983,15 +7985,16 @@ __metadata:
     compression: ^1.7.4
     detect-port: ^1.3.0
     express: ^4.17.1
+    fdir: ^5.2.0
     fs-extra: ^9.0.1
     global: ^4.4.0
-    globby: ^11.0.2
     ip: ^2.0.0
     jest-os-detection: ^1.3.1
     jest-specific-snapshot: ^4.0.0
     lodash: ^4.17.21
     node-fetch: ^2.6.7
     open: ^8.4.0
+    picomatch: ^2.3.1
     pretty-hrtime: ^1.0.3
     prompts: ^2.4.0
     read-pkg-up: ^7.0.1
@@ -22009,6 +22012,13 @@ __metadata:
   dependencies:
     pend: ~1.2.0
   checksum: 304dd70270298e3ffe3bcc05e6f7ade2511acc278bc52d025f8918b48b6aa3b77f10361bddfadfe2a28163f7af7adbdce96f4d22c31b2f648ba2901f0c5fc20e
+  languageName: node
+  linkType: hard
+
+"fdir@npm:^5.2.0":
+  version: 5.2.0
+  resolution: "fdir@npm:5.2.0"
+  checksum: 1b8997beb551bf7f919ecc62442ef48936f5cdd45ff1a4160fa64f37c6aae8be2bb061862edd669cff3033d09ceb435081505a3f2604edb3fdae983615e2ae11
   languageName: node
   linkType: hard
 

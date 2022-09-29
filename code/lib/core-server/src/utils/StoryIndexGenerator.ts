@@ -1,6 +1,6 @@
 import path from 'path';
 import fs from 'fs-extra';
-import glob from 'globby';
+import { fdir as FDir } from 'fdir';
 import slash from 'slash';
 
 import type {
@@ -90,10 +90,12 @@ export class StoryIndexGenerator {
       this.specifiers.map(async (specifier) => {
         const pathToSubIndex = {} as SpecifierStoriesCache;
 
-        const fullGlob = slash(
-          path.join(this.options.workingDir, specifier.directory, specifier.files)
-        );
-        const files = await glob(fullGlob);
+        const files = new FDir()
+          .withFullPaths()
+          .glob(slash(path.join(this.options.workingDir, specifier.directory, specifier.files)))
+          .crawl(slash(path.join(this.options.workingDir, specifier.directory)))
+          .sync() as string[];
+
         files.sort().forEach((absolutePath: Path) => {
           const ext = path.extname(absolutePath);
           if (ext === '.storyshot') {

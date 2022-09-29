@@ -2,7 +2,7 @@ import Watchpack from 'watchpack';
 import slash from 'slash';
 import fs from 'fs';
 import path from 'path';
-import glob from 'globby';
+import { fdir as FDir } from 'fdir';
 import uniq from 'lodash/uniq';
 
 import type { NormalizedStoriesSpecifier } from '@storybook/core-common';
@@ -66,16 +66,18 @@ export function watchStorySpecifiers(
           .map(async (specifier) => {
             // If `./path/to/dir` was added, check all files matching `./path/to/dir/**/*.stories.*`
             // (where the last bit depends on `files`).
-            const dirGlob = path.join(
-              options.workingDir,
-              importPath,
+            const globDir = path.posix.join(options.workingDir, importPath);
+            const globPattern = path.posix.join(
               '**',
               // files can be e.g. '**/foo/*/*.js' so we just want the last bit,
-              // because the directoru could already be within the files part (e.g. './x/foo/bar')
+              // because the directory could already be within the files part (e.g. './x/foo/bar')
               path.basename(specifier.files)
             );
-            // glob only supports forward slashes
-            const files = await glob(dirGlob.replace(/\\/g, '/'));
+            const files = new FDir()
+              .withFullPaths()
+              .glob(globPattern)
+              .crawl(globDir)
+              .sync() as string[];
 
             files.forEach((filePath) => {
               const fileImportPath = toImportPath(

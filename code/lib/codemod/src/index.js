@@ -2,7 +2,7 @@
 import fs from 'fs';
 import path from 'path';
 import { promisify } from 'util';
-import globby from 'globby';
+import { fdir as FDir } from 'fdir';
 import { sync as spawnSync } from 'cross-spawn';
 import { jscodeshiftToPrettierParser } from './lib/utils';
 
@@ -53,7 +53,12 @@ export async function runCodemod(codemod, { glob, logger, dryRun, rename, parser
     if (knownParser !== 'babel') inferredParser = extension;
   }
 
-  const files = await globby([glob, '!**/node_modules', '!**/dist']);
+  const files = new FDir()
+    .withFullPaths()
+    .glob(glob)
+    .exclude((p) => p.includes('/node_modules') || p.includes('/dist'))
+    .crawl(process.cwd())
+    .sync();
   logger.log(`=> Applying ${codemod}: ${files.length} files`);
   if (!dryRun) {
     const parserArgs = inferredParser ? ['--parser', inferredParser] : [];
