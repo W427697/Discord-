@@ -22,8 +22,7 @@ import { component as JsdocComponent } from './__testfixtures__/jsdoc/input.jsx'
 import { component as JsProptypesComponent } from './__testfixtures__/js-proptypes/input.jsx';
 
 // Detect if we are running in vite in a hacky way for now
-// eslint-disable-next-line camelcase
-const isVite = typeof __vite_plugin_react_timeout !== 'undefined';
+const isVite = typeof require === 'undefined';
 
 export default {
   component: {},
