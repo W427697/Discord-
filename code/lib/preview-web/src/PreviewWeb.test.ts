@@ -31,7 +31,6 @@ import { logger } from '@storybook/client-logger';
 import { addons, mockChannel as createMockChannel } from '@storybook/addons';
 import type { AnyFramework } from '@storybook/csf';
 import type { ModuleImportFn, WebProjectAnnotations } from '@storybook/store';
-import { mocked } from 'ts-jest/utils';
 
 import { PreviewWeb } from './PreviewWeb';
 import {
@@ -98,10 +97,10 @@ const createGate = (): [Promise<any | undefined>, (_?: any) => void] => {
 };
 
 // SET_CURRENT_STORY does some stuff in promises, then waits for
-// a timer, so we need to first setImmediate (to get past the resolution), then run the timers
+// a timer, so we need to first setTimeout (to get past the resolution), then run the timers
 // Probably jest modern timers do this but they aren't working for some bizzarre reason.
 async function waitForSetCurrentStory() {
-  await new Promise((r) => setImmediate(r));
+  await new Promise((r) => setTimeout(r, 0));
   jest.runAllTimers();
 }
 
@@ -140,8 +139,8 @@ beforeEach(() => {
   addons.setServerChannel(createMockChannel());
   mockFetchResult = { status: 200, json: mockStoryIndex, text: () => 'error text' };
 
-  mocked(WebView.prototype).prepareForDocs.mockReturnValue('docs-element' as any);
-  mocked(WebView.prototype).prepareForStory.mockReturnValue('story-element' as any);
+  jest.mocked(WebView.prototype).prepareForDocs.mockReturnValue('docs-element' as any);
+  jest.mocked(WebView.prototype).prepareForStory.mockReturnValue('story-element' as any);
 });
 
 describe('PreviewWeb', () => {

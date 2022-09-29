@@ -95,11 +95,17 @@ module.exports = {
   coverageDirectory: 'coverage',
   setupFilesAfterEnv: ['./jest.init.ts'],
   coverageReporters: ['lcov'],
-  testEnvironment: 'jest-environment-jsdom-thirteen',
+  testEnvironment: 'jest-environment-jsdom',
+  testEnvironmentOptions: {
+    url: 'http://localhost',
+  },
   setupFiles: ['raf/polyfill'],
-  testURL: 'http://localhost',
   modulePathIgnorePatterns: ['/dist/.*/__mocks__/', '/storybook-static/'],
   moduleFileExtensions: ['js', 'jsx', 'ts', 'tsx', 'json', 'node'],
   watchPlugins: ['jest-watch-typeahead/filename', 'jest-watch-typeahead/testname'],
   reporters: ['default', 'jest-junit'],
+  snapshotFormat: {
+    escapeString: true,
+    printBasicPrototype: true,
+  },
 };

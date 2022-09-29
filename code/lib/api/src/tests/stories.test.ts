@@ -23,7 +23,7 @@ import { StoryEntry, SetStoriesStoryData, SetStoriesStory, StoryIndex } from '..
 import type Store from '../store';
 import { ModuleArgs } from '..';
 
-const mockStories = jest.fn<StoryIndex['entries'], []>();
+const mockStories = jest.fn<() => StoryIndex['entries']>();
 
 jest.mock('../lib/events');
 jest.mock('global', () => ({

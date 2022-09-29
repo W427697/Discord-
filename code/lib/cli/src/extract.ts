@@ -23,9 +23,9 @@ const read = async (url: string) => {
     })
   );
 
-  setImmediate(() => {
+  setTimeout(() => {
     browser.close();
-  });
+  }, 0);
   return data;
 };
 

@@ -87,7 +87,7 @@ export class Channel {
 
     if (this.isAsync) {
       // todo I'm not sure how to test this
-      setImmediate(handler);
+      setTimeout(handler, 0);
     } else {
       handler();
     }
