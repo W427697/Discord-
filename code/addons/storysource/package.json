@@ -89,8 +89,7 @@
     "entries": [
       "./src/index.ts",
       "./src/manager.tsx"
-    ],
-    "platform": "browser"
+    ]
   },
   "gitHead": "02c013c33186479017098d532a18ff8654b91f1f",
   "storybook": {
