@@ -7571,7 +7571,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/builder-manager@7.0.0-alpha.34, @storybook/builder-manager@workspace:*, @storybook/builder-manager@workspace:lib/builder-manager":
+"@storybook/builder-manager@workspace:*, @storybook/builder-manager@workspace:lib/builder-manager":
   version: 0.0.0-use.local
   resolution: "@storybook/builder-manager@workspace:lib/builder-manager"
   dependencies:
@@ -7959,7 +7959,6 @@ __metadata:
   dependencies:
     "@aw-web-design/x-default-browser": 1.4.88
     "@discoveryjs/json-ext": ^0.5.3
-    "@storybook/builder-manager": 7.0.0-alpha.34
     "@storybook/builder-webpack5": 7.0.0-alpha.34
     "@storybook/core-client": 7.0.0-alpha.34
     "@storybook/core-common": 7.0.0-alpha.34
