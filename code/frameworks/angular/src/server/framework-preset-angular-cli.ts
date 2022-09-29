@@ -3,7 +3,7 @@ import webpack from 'webpack';
 import { logger } from '@storybook/node-logger';
 import { targetFromTargetString, BuilderContext, Target } from '@angular-devkit/architect';
 import { sync as findUpSync } from 'find-up';
-import semver from '@storybook/semver';
+import semver from 'semver';
 import { dedent } from 'ts-dedent';
 
 import { logging, JsonObject } from '@angular-devkit/core';
@@ -57,7 +57,7 @@ export async function webpackFinal(baseConfig: webpack.Configuration, options: P
     },
     {
       info: '=> Loading angular-cli config for angular 12.2.x',
-      condition: semver.satisfies(angularCliVersion, '12.2.x') && options.angularBuilderContext,
+      condition: semver.satisfies(angularCliVersion, '12.2.x') && !!options.angularBuilderContext,
       getWebpackConfig: async (_baseConfig, _options) => {
         const builderContext = getBuilderContext(_options);
         const builderOptions = await getBuilderOptions(_options, builderContext);

@@ -1,5 +1,5 @@
 import path from 'path';
-import semver from '@storybook/semver';
+import semver from 'semver';
 import { ContextReplacementPlugin, Configuration } from 'webpack';
 import autoprefixer from 'autoprefixer';
 import getTsLoaderOptions from './ts_config';

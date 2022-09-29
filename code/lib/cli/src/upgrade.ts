@@ -1,6 +1,6 @@
 import { sync as spawnSync } from 'cross-spawn';
 import { telemetry } from '@storybook/telemetry';
-import semver from '@storybook/semver';
+import semver from 'semver';
 import { logger } from '@storybook/node-logger';
 import {
   getPackageDetails,
@@ -30,7 +30,6 @@ const excludeList = [
   '@storybook/linter-config',
   '@storybook/design-system',
   '@storybook/ember-cli-storybook',
-  '@storybook/semver',
   '@storybook/eslint-config-storybook',
   '@storybook/bench',
   '@storybook/addon-bench',
