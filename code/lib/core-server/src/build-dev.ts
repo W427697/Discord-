@@ -129,7 +129,10 @@ export async function buildDevStandalone(options: CLIOptions & LoadOptions & Bui
       );
 
     // eslint-disable-next-line no-console
-    console.log(problems.map((p) => p.stack));
+    console.log(
+      'Smoke test found problems: ',
+      problems.map((p) => p.stack)
+    );
     process.exit(problems.length > 0 ? 1 : 0);
     return;
   }

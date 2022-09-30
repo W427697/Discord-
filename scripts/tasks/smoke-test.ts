@@ -11,5 +11,7 @@ export const smokeTest: Task = {
     console.log(`smoke testing in ${sandboxDir}`);
 
     return exec(`yarn storybook --smoke-test`, { cwd: sandboxDir }, { debug: true });
+
+    console.log(`smoke testing in ${sandboxDir} done`);
   },
 };
