@@ -17,7 +17,7 @@ export const chromatic: Task = {
         --junit-report=${junitFilename} \
         --projectToken=${token}`,
       { cwd: sandboxDir },
-      { dryRun, debug: true }
+      { dryRun, debug }
     );
   },
 };

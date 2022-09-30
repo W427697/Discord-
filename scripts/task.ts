@@ -340,7 +340,11 @@ async function run() {
   for (let i = sortedTasks.indexOf(firstTask); i <= sortedTasks.length; i += 1) {
     sortedTasksStatus[i][1] = 'running';
     writeTaskList(sortedTasksStatus);
-    const taskController = await runTask(sortedTasks[i], details, optionValues);
+    const taskController = await runTask(sortedTasks[i], details, {
+      ...optionValues,
+      // Always debug the final task so we can see it's output fully
+      debug: sortedTasks[i] === task ? true : optionValues.debug,
+    });
     sortedTasksStatus[i][1] = 'complete';
 
     // If the task has it's own controller, it is going to remain
