@@ -58,7 +58,9 @@ export const webpack = async (webpackConfig: Configuration, options: PresetOptio
     return webpackConfig;
   }
 
-  runNgcc();
+  if(angularOptions.disableNgcc !== false) {
+    runNgcc();
+  }
 
   return {
     ...webpackConfig,
