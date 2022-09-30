@@ -13,6 +13,7 @@ const iconButton: FC<IProps> = function IconButton(props) {
 };
 
 iconButton.propTypes = {
+  // deepscan-disable-next-line
   color: PropTypes.string,
 };
 

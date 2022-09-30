@@ -5,7 +5,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const withStyles = (themeFn) => (Comp) => Comp;
+const withStyles = () => (Comp) => Comp;
 
 class Alert extends React.Component {
   render() {
