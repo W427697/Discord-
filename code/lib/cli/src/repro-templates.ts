@@ -94,6 +94,19 @@ const svelteViteTemplates = {
   // }
 };
 
+const svelteKitTemplates = {
+  'svelte-kit/default-js': {
+    name: 'Svelte Kit (JS)',
+    script: 'npm create svelte-with-args',
+    cadence: ['ci', 'daily', 'weekly'],
+    expected: {
+      framework: '@storybook/svelte-vite',
+      renderer: '@storybook/svelte',
+      builder: '@storybook/builder-vite',
+    },
+  },
+};
+
 const vueCliTemplates = {
   'vue-cli/default-js': {
     name: 'Vue-CLI (Default JS)',
@@ -126,6 +139,7 @@ export default {
   ...reactViteTemplates,
   ...vue3ViteTemplates,
   ...svelteViteTemplates,
+  ...svelteKitTemplates,
   ...vueCliTemplates,
   // FIXME: missing documentation.json
   // 'angular/latest': {
