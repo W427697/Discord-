@@ -430,9 +430,6 @@ workflows:
       - examples:
           requires:
             - build
-      - e2e-tests-examples:
-          requires:
-            - examples
       - smoke-tests:
           requires:
             - build
@@ -451,15 +448,6 @@ workflows:
       - publish:
           requires:
             - build
-      - e2e-tests-extended:
-          requires:
-            - publish
-      - e2e-tests-core:
-          requires:
-            - publish
-      - e2e-tests-pnp:
-          requires:
-            - publish
       - cra-bench:
           requires:
             - publish
