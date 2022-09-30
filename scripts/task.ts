@@ -3,6 +3,7 @@ import { AbortController } from 'node-abort-controller';
 import { getJunitXml } from 'junit-xml';
 import { outputFile } from 'fs-extra';
 import { join, resolve } from 'path';
+import { prompt } from 'prompts';
 
 import { createOptions, getOptionsOrPrompt, Option, OptionValues } from './utils/options';
 import { installRepo } from './tasks/install-repo';
@@ -22,7 +23,6 @@ import { e2eTests } from './tasks/e2e-tests';
 
 import TEMPLATES from '../code/lib/cli/src/repro-templates';
 import { addons } from './sandbox';
-import { prompt } from 'prompts';
 
 const sandboxDir = resolve(__dirname, '../sandbox');
 const codeDir = resolve(__dirname, '../code');
