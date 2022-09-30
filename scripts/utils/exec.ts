@@ -40,7 +40,9 @@ export const exec = async (
     if (typeof command === 'string') {
       logger.debug(`> ${command}`);
       currentChild = execa.command(command, { ...defaultOptions, ...options });
+      console.log('waiting child');
       await currentChild;
+      console.log('waited child');
     } else {
       for (const subcommand of command) {
         logger.debug(`> ${subcommand}`);

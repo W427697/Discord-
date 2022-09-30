@@ -10,6 +10,8 @@ export const smokeTest: Task = {
     // eslint-disable-next-line no-console
     console.log(`smoke testing in ${sandboxDir}`);
 
+    setInterval(() => console.log('outer script running'), 10000);
+
     return exec(`yarn storybook --smoke-test`, { cwd: sandboxDir }, { debug: true });
 
     console.log(`smoke testing in ${sandboxDir} done`);
