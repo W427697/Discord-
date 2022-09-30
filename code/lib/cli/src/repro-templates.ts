@@ -95,9 +95,21 @@ const svelteViteTemplates = {
 };
 
 const svelteKitTemplates = {
-  'svelte-kit/default-js': {
+  'svelte-kit/skeleton-js': {
     name: 'Svelte Kit (JS)',
-    script: 'npm create svelte-with-args',
+    script:
+      'yarn create svelte-with-args --name=svelte-kit/skeleton-js --directory=. --template=skeleton --types=null --no-prettier --no-eslint --no-playwright',
+    cadence: ['ci', 'daily', 'weekly'],
+    expected: {
+      framework: '@storybook/svelte-vite',
+      renderer: '@storybook/svelte',
+      builder: '@storybook/builder-vite',
+    },
+  },
+  'svelte-kit/skeleton-ts': {
+    name: 'Svelte Kit (TS)',
+    script:
+      'yarn create svelte-with-args --name=svelte-kit/skeleton-ts --directory=. --template=skeleton --types=typescript --no-prettier --no-eslint --no-playwright',
     cadence: ['ci', 'daily', 'weekly'],
     expected: {
       framework: '@storybook/svelte-vite',
