@@ -1,3 +1,5 @@
+/* eslint-disable react/forbid-prop-types */
+/* eslint-disable react/no-unused-prop-types */
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -8,35 +10,12 @@ const local = 'local-value';
 /**
  * A component that renders its props
  */
-export const PropsWriter = ({
-  numberOptional = 1,
-  stringOptional = 'stringOptional',
-  booleanOptional = false,
-  arrayOptional = ['array', 'optional'],
-  objectOptional = { object: 'optional' },
-  functionOptional = () => 'foo',
-  dateOptional = new Date('20 Jan 1983'),
-  localReference = local,
-  importedReference = imported,
-  globalReference = Date,
-  stringGlobalName = 'top',
-}) => (
-  <pre>
-    {JSON.stringify({
-      numberOptional,
-      stringOptional,
-      booleanOptional,
-      arrayOptional,
-      objectOptional,
-      functionOptional,
-      dateOptional,
-      localReference,
-      importedReference,
-      globalReference,
-      stringGlobalName,
-    })}
-  </pre>
-);
+// eslint-disable-next-line react/prefer-stateless-function
+class PropsWriter extends React.Component {
+  render() {
+    return <pre>{JSON.stringify(this.props)}</pre>;
+  }
+}
 
 PropsWriter.propTypes = {
   numberRequired: PropTypes.number.isRequired,
@@ -57,6 +36,22 @@ PropsWriter.propTypes = {
   importedReference: PropTypes.string,
   globalReference: PropTypes.any,
   stringGlobalName: PropTypes.string,
+};
+
+PropsWriter.defaultProps = {
+  numberOptional: 1,
+  stringOptional: 'stringOptional',
+  booleanOptional: false,
+  arrayOptional: ['array', 'optional'],
+  objectOptional: { object: 'optional' },
+  functionOptional: () => 'foo',
+  dateOptional: new Date('20 Jan 1983'),
+  localReference: local,
+  importedReference: imported,
+  globalReference: Date,
+  stringGlobalName: 'top',
+  // eslint-disable-next-line react/default-props-match-prop-types
+  stringNoPropType: 'stringNoPropType',
 };
 
 export const component = PropsWriter;

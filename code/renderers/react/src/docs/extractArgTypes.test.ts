@@ -58,7 +58,7 @@ const skippedTests = [
 
 describe('react component properties', () => {
   // Fixture files are in template/stories
-  const fixturesDir = path.resolve(__dirname, '../../template/stories/__testfixtures__');
+  const fixturesDir = path.resolve(__dirname, '../../template/stories/docgen-components');
   fs.readdirSync(fixturesDir, { withFileTypes: true }).forEach((testEntry) => {
     if (testEntry.isDirectory()) {
       const testDir = path.join(fixturesDir, testEntry.name);
