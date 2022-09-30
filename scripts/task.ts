@@ -1,4 +1,4 @@
-/* eslint-disable no-await-in-loop, no-restricted-syntax */
+/* eslint-disable no-await-in-loop */
 import { AbortController } from 'node-abort-controller';
 import { getJunitXml } from 'junit-xml';
 import { outputFile } from 'fs-extra';
@@ -228,6 +228,23 @@ function getTaskList(finalTask: Task, optionValues: PassedOptionValues) {
   return sortedTasks;
 }
 
+type TaskStatus = 'ready' | 'unready' | 'running' | 'complete' | 'failed';
+const statusToEmoji: Record<TaskStatus, string> = {
+  ready: '🟢',
+  unready: '🟡',
+  running: '🔄',
+  complete: '✅',
+  failed: '❌',
+};
+function writeTaskList(taskAndStatus: [Task, TaskStatus][]) {
+  logger.info(
+    taskAndStatus
+      .map(([task, status]) => `${statusToEmoji[status]} ${getTaskKey(task)}`)
+      .join(' > ')
+  );
+  logger.info();
+}
+
 const controllers: AbortController[] = [];
 
 async function runTask(task: Task, details: TemplateDetails, optionValues: PassedOptionValues) {
@@ -277,6 +294,13 @@ async function run() {
   const sortedTasksReady = await Promise.all(sortedTasks.map((t) => t.ready(details)));
   const firstUnready = sortedTasks.find((_, index) => !sortedTasksReady[index]);
 
+  logger.info(`Task readiness up to ${taskKey}`);
+  const sortedTasksStatus: [Task, TaskStatus][] = sortedTasks.map((sortedTask, index) => [
+    sortedTask,
+    sortedTasksReady[index] ? 'ready' : 'unready',
+  ]);
+  writeTaskList(sortedTasksStatus);
+
   let firstTask: Task;
   if (reset === 'as-needed') {
     if (!firstUnready) {
@@ -306,7 +330,7 @@ async function run() {
       type: 'select',
       message: 'Which task would you like to start at?',
       name: 'firstTask',
-      choices: sortedTasks.map((t) => ({
+      choices: sortedTasks.slice(0, sortedTasks.indexOf(firstUnready) + 1).map((t) => ({
         title: getTaskKey(t),
         value: t,
       })),
@@ -314,7 +338,11 @@ async function run() {
   }
 
   for (let i = sortedTasks.indexOf(firstTask); i <= sortedTasks.length; i += 1) {
+    sortedTasksStatus[i][1] = 'running';
+    writeTaskList(sortedTasksStatus);
     const taskController = await runTask(sortedTasks[i], details, optionValues);
+    sortedTasksStatus[i][1] = 'complete';
+
     // If the task has it's own controller, it is going to remain
     // open until the user ctrl-c's which will have the side effect
     // of stopping everything.
