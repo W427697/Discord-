@@ -11,6 +11,7 @@ const iconButton = function IconButton(props) {
 };
 
 iconButton.propTypes = {
+  // deepscan-disable-next-line
   color: PropTypes.string
 };
 iconButton.defaultProps = {

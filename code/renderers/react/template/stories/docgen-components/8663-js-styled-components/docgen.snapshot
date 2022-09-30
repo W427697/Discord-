@@ -1,7 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`react component properties 8663-js-styled-components 1`] = `
-"import React from 'react';
+"/* eslint-disable import/no-extraneous-dependencies */
+
+/* eslint-disable react/require-default-props */
+import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 const Box = styled.div\`

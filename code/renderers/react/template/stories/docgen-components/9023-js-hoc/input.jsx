@@ -5,7 +5,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const withStyles = () => (Comp) => Comp;
+// deepscan-ignore-next-line
+const withStyles = (themeFn) => (Comp) => Comp;
 
 class Alert extends React.Component {
   render() {

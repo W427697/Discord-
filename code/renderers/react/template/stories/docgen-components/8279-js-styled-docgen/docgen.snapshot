@@ -1,7 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`react component properties 8279-js-styled-docgen 1`] = `
-"import styled from 'styled-components';
+"// eslint-disable-next-line import/no-extraneous-dependencies
+import styled from 'styled-components';
 import PropTypes from 'prop-types';
 /**
  * Use \`A\` to provide a regular link
