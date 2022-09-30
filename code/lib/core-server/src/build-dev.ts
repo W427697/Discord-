@@ -133,6 +133,7 @@ export async function buildDevStandalone(options: CLIOptions & LoadOptions & Bui
       'Smoke test found problems: ',
       problems.map((p) => p.stack)
     );
+    setTimeout(() => console.log('why am I still running?'), 1000);
     process.exit(problems.length > 0 ? 1 : 0);
     return;
   }
