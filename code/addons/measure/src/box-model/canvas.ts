@@ -1,6 +1,4 @@
 /* eslint-disable no-param-reassign */
-import global from 'global';
-
 interface Size {
   width: number;
   height: number;
@@ -13,8 +11,10 @@ interface CanvasState {
   height?: number;
 }
 
+const { document } = globalThis;
+
 function getDocumentWidthAndHeight() {
-  const container = global.document.documentElement;
+  const container = document.documentElement;
 
   const height = Math.max(container.scrollHeight, container.offsetHeight);
   const width = Math.max(container.scrollWidth, container.offsetWidth);
@@ -22,7 +22,7 @@ function getDocumentWidthAndHeight() {
 }
 
 function createCanvas(): CanvasState {
-  const canvas = global.document.createElement('canvas');
+  const canvas = document.createElement('canvas');
   canvas.id = 'storybook-addon-measure';
   const context = canvas.getContext('2d');
   // Set canvas width & height
@@ -35,7 +35,7 @@ function createCanvas(): CanvasState {
   canvas.style.zIndex = '2147483647';
   // Disable any user interactions
   canvas.style.pointerEvents = 'none';
-  global.document.body.appendChild(canvas);
+  document.body.appendChild(canvas);
 
   return { canvas, context, width, height };
 }
@@ -49,7 +49,7 @@ function setCanvasWidthAndHeight(
   canvas.style.height = `${height}px`;
 
   // Scale
-  const scale = global.window.devicePixelRatio;
+  const scale = globalThis.devicePixelRatio;
   canvas.width = Math.floor(width * scale);
   canvas.height = Math.floor(height * scale);
 

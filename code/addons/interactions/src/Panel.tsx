@@ -1,4 +1,3 @@
-import global from 'global';
 import * as React from 'react';
 import { useChannel, useParameter, StoryId } from '@storybook/api';
 import {
@@ -95,10 +94,10 @@ export const Panel: React.FC<{ active: boolean }> = (props) => {
   const endRef = React.useRef();
   React.useEffect(() => {
     let observer: IntersectionObserver;
-    if (global.window.IntersectionObserver) {
-      observer = new global.window.IntersectionObserver(
+    if (globalThis.IntersectionObserver) {
+      observer = new globalThis.IntersectionObserver(
         ([end]: any) => setScrollTarget(end.isIntersecting ? undefined : end.target),
-        { root: global.window.document.querySelector('#panel-tab-content') }
+        { root: globalThis.document.querySelector('#panel-tab-content') }
       );
       if (endRef.current) observer.observe(endRef.current);
     }

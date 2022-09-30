@@ -1,13 +1,12 @@
 import type { SelectionSpecifier, Selection } from '@storybook/store';
 
-import global from 'global';
 import qs from 'qs';
 import deprecate from 'util-deprecate';
 import type { ViewMode } from '@storybook/addons';
 
 import { parseArgsParam } from './parseArgsParam';
 
-const { history, document } = global;
+const { history, document } = globalThis;
 
 export function pathToId(path: string) {
   const match = (path || '').match(/^\/story\/(.+)/);

@@ -9,7 +9,6 @@
     "storybook": "storybook dev -p 9009 --no-manager-cache"
   },
   "dependencies": {
-    "global": "^4.4.0",
     "preact": "^10.5.13"
   },
   "devDependencies": {

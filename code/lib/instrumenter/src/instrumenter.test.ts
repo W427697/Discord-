@@ -8,7 +8,6 @@ import {
   SET_CURRENT_STORY,
   STORY_RENDER_PHASE_CHANGED,
 } from '@storybook/core-events';
-import global from 'global';
 
 import { EVENTS, Instrumenter } from './instrumenter';
 import type { Options } from './types';
@@ -29,12 +28,15 @@ class HTMLElement {
   }
 }
 
-delete global.window.location;
-global.window.location = { reload: jest.fn() };
-global.window.HTMLElement = HTMLElement;
+delete globalThis.location;
+globalThis.location = { reload: jest.fn() };
+
+jest.spyOn(globalThis, 'HTMLElement').mockImplementation(() => new HTMLElement());
 
 const storyId = 'kind--story';
-global.window.__STORYBOOK_PREVIEW__ = { urlStore: { selection: { storyId } } };
+jest
+  .spyOn(globalThis, '__STORYBOOK_PREVIEW__', 'get')
+  .mockImplementation(() => ({ urlStore: { selection: { storyId } } }));
 
 const setRenderPhase = (newPhase: string) =>
   addons.getChannel().emit(STORY_RENDER_PHASE_CHANGED, { newPhase, storyId });

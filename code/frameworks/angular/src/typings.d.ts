@@ -1,4 +1,3 @@
-declare module 'global';
 declare module '@storybook/semver';
 
 // will be provided by the webpack define plugin

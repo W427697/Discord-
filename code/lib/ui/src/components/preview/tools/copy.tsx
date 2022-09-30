@@ -1,11 +1,10 @@
-import global from 'global';
 import React from 'react';
 import copy from 'copy-to-clipboard';
 import { getStoryHref, IconButton, Icons } from '@storybook/components';
 import { Consumer, Combo } from '@storybook/api';
 import { Addon } from '@storybook/addons';
 
-const { PREVIEW_URL, document } = global;
+const { PREVIEW_URL, document } = globalThis;
 
 const copyMapper = ({ state }: Combo) => {
   const { storyId, refId, refs } = state;

@@ -1,4 +1,3 @@
-import globalThis from 'global';
 import { h } from 'vue';
 
 const { Button, Pre } = globalThis.Components;

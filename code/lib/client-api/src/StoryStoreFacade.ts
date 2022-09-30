@@ -1,5 +1,4 @@
 /* eslint-disable no-underscore-dangle */
-import global from 'global';
 import { dedent } from 'ts-dedent';
 import { SynchronousPromise } from 'synchronous-promise';
 import {
@@ -13,7 +12,6 @@ import type { StoryId, AnyFramework, Parameters, StoryFn } from '@storybook/csf'
 import { StoryStore, userOrAutoTitle, sortStoriesV6 } from '@storybook/store';
 import type {
   NormalizedProjectAnnotations,
-  NormalizedStoriesSpecifier,
   Path,
   StoryIndex,
   ModuleExports,
@@ -22,7 +20,7 @@ import type {
 } from '@storybook/store';
 import { logger } from '@storybook/client-logger';
 import deprecate from 'util-deprecate';
-import type { DocsOptions } from '@storybook/core-common';
+import type { DocsOptions, NormalizedStoriesSpecifier } from '@storybook/core-common';
 
 export interface GetStorybookStory<TFramework extends AnyFramework> {
   name: string;
@@ -167,8 +165,12 @@ export class StoryStoreFacade<TFramework extends AnyFramework> {
     // eslint-disable-next-line prefer-const
     let { id: componentId, title } = defaultExport || {};
 
-    const specifiers = (global.STORIES || []).map(
-      (specifier: NormalizedStoriesSpecifier & { importPathMatcher: string }) => ({
+    const specifiers: NormalizedStoriesSpecifier[] = (globalThis.STORIES || []).map(
+      (
+        specifier: Omit<NormalizedStoriesSpecifier, 'importPathMatcher'> & {
+          importPathMatcher: string;
+        }
+      ) => ({
         ...specifier,
         importPathMatcher: new RegExp(specifier.importPathMatcher),
       })
@@ -203,7 +205,7 @@ export class StoryStoreFacade<TFramework extends AnyFramework> {
       });
     }
 
-    const docsOptions = (global.DOCS_OPTIONS || {}) as DocsOptions;
+    const docsOptions = globalThis.DOCS_OPTIONS || {};
     const seenTitles = new Set<ComponentTitle>();
     Object.entries(sortedExports)
       .filter(([key]) => isExportStory(key, defaultExport))

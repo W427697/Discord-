@@ -1,4 +1,3 @@
-import global from 'global';
 import { logger } from '@storybook/client-logger';
 import type {
   AnyFramework,
@@ -17,8 +16,6 @@ import {
   UPDATE_GLOBALS,
 } from '@storybook/core-events';
 import { addons } from './index';
-
-const { window: globalWindow } = global;
 
 interface Hook {
   name: string;
@@ -155,10 +152,10 @@ function hookify<TFramework extends AnyFramework>(fn: AbstractFunction) {
     }
     hooks.nextHookIndex = 0;
 
-    const prevContext = globalWindow.STORYBOOK_HOOKS_CONTEXT;
-    globalWindow.STORYBOOK_HOOKS_CONTEXT = hooks;
+    const prevContext = globalThis.STORYBOOK_HOOKS_CONTEXT;
+    globalThis.STORYBOOK_HOOKS_CONTEXT = hooks;
     const result = fn(...args);
-    globalWindow.STORYBOOK_HOOKS_CONTEXT = prevContext;
+    globalThis.STORYBOOK_HOOKS_CONTEXT = prevContext;
 
     if (hooks.currentPhase === 'UPDATE' && hooks.getNextHook() != null) {
       throw new Error(
@@ -217,7 +214,7 @@ const invalidHooksError = () =>
   new Error('Storybook preview hooks can only be called inside decorators and story functions.');
 
 function getHooksContextOrNull<TFramework extends AnyFramework>(): HooksContext<TFramework> | null {
-  return globalWindow.STORYBOOK_HOOKS_CONTEXT || null;
+  return globalThis.STORYBOOK_HOOKS_CONTEXT || null;
 }
 
 function getHooksContextOrThrow<TFramework extends AnyFramework>(): HooksContext<TFramework> {

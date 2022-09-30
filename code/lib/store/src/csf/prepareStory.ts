@@ -1,6 +1,5 @@
 import { dedent } from 'ts-dedent';
 import deprecate from 'util-deprecate';
-import global from 'global';
 
 import type {
   Parameters,
@@ -29,6 +28,8 @@ import { applyHooks } from '../hooks';
 import { defaultDecorateStory } from '../decorators';
 import { groupArgsByTarget, NO_TARGET_NAME } from '../args';
 import { getValuesFromArgTypes } from './getValuesFromArgTypes';
+
+const { FEATURES } = globalThis;
 
 const argTypeDefaultValueWarning = deprecate(
   () => {},
@@ -150,7 +151,7 @@ export function prepareStory<TFramework extends AnyFramework>(
   );
 
   // Add some of our metadata into parameters as we used to do this in 6.x and users may be relying on it
-  if (!global.FEATURES?.breakingChangesV7) {
+  if (!FEATURES?.breakingChangesV7) {
     contextForEnhancers.parameters = {
       ...contextForEnhancers.parameters,
       __id: id,
@@ -189,7 +190,7 @@ export function prepareStory<TFramework extends AnyFramework>(
   const decoratedStoryFn = applyHooks<TFramework>(applyDecorators)(undecoratedStoryFn, decorators);
   const unboundStoryFn = (context: StoryContext<TFramework>) => {
     let finalContext: StoryContext<TFramework> = context;
-    if (global.FEATURES?.argTypeTargetsV7) {
+    if (FEATURES?.argTypeTargetsV7) {
       const argsByTarget = groupArgsByTarget(context);
       finalContext = {
         ...context,

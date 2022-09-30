@@ -1,6 +1,5 @@
 import deprecate from 'util-deprecate';
 import { dedent } from 'ts-dedent';
-import global from 'global';
 import {
   CURRENT_STORY_WAS_SET,
   IGNORED_EXCEPTION,
@@ -39,7 +38,7 @@ import { StoryRender } from './render/StoryRender';
 import { TemplateDocsRender } from './render/TemplateDocsRender';
 import { StandaloneDocsRender } from './render/StandaloneDocsRender';
 
-const { window: globalWindow } = global;
+const { FEATURES } = globalThis;
 
 function focusInInput(event: Event) {
   const target = event.target as Element;
@@ -89,7 +88,7 @@ export class PreviewWeb<TFramework extends AnyFramework> extends Preview<TFramew
   setupListeners() {
     super.setupListeners();
 
-    globalWindow.onkeydown = this.onKeydown.bind(this);
+    globalThis.onkeydown = this.onKeydown.bind(this);
 
     this.channel.on(SET_CURRENT_STORY, this.onSetCurrentStory.bind(this));
     this.channel.on(UPDATE_QUERY_PARAMS, this.onUpdateQueryParams.bind(this));
@@ -116,7 +115,7 @@ export class PreviewWeb<TFramework extends AnyFramework> extends Preview<TFramew
   // If initialization gets as far as the story index, this function runs.
   initializeWithStoryIndex(storyIndex: StoryIndex): PromiseLike<void> {
     return super.initializeWithStoryIndex(storyIndex).then(() => {
-      if (!global.FEATURES?.storyStoreV7) {
+      if (!FEATURES?.storyStoreV7) {
         this.channel.emit(SET_STORIES, this.storyStore.getSetStoriesPayload());
       }
 
@@ -196,7 +195,7 @@ export class PreviewWeb<TFramework extends AnyFramework> extends Preview<TFramew
   }) {
     super.onStoriesChanged({ importFn, storyIndex });
 
-    if (!global.FEATURES?.storyStoreV7) {
+    if (!FEATURES?.storyStoreV7) {
       this.channel.emit(SET_STORIES, await this.storyStore.getSetStoriesPayload());
     }
 
@@ -370,7 +369,7 @@ export class PreviewWeb<TFramework extends AnyFramework> extends Preview<TFramew
         render.story
       );
 
-      if (global.FEATURES?.storyStoreV7) {
+      if (FEATURES?.storyStoreV7) {
         this.channel.emit(STORY_PREPARED, {
           id: storyId,
           parameters,
@@ -424,7 +423,7 @@ export class PreviewWeb<TFramework extends AnyFramework> extends Preview<TFramew
       Do you have an error in your \`preview.js\`? Check your Storybook's browser console for errors.`);
     }
 
-    if (global.FEATURES?.storyStoreV7) {
+    if (FEATURES?.storyStoreV7) {
       await this.storyStore.cacheAllCSFFiles();
     }
 

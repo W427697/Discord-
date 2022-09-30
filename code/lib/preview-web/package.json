@@ -41,7 +41,6 @@
     "@storybook/csf": "0.0.2--canary.0899bb7.0",
     "@storybook/store": "7.0.0-alpha.34",
     "ansi-to-html": "^0.6.11",
-    "global": "^4.4.0",
     "lodash": "^4.17.21",
     "qs": "^6.10.0",
     "synchronous-promise": "^2.0.15",

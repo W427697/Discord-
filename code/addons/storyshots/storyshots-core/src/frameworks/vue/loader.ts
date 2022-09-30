@@ -1,4 +1,3 @@
-import global from 'global';
 import hasDependency from '../hasDependency';
 import configure from '../configure';
 import { Loader } from '../Loader';
@@ -13,7 +12,7 @@ function test(options: StoryshotsOptions): boolean {
 }
 
 function load(options: StoryshotsOptions) {
-  global.STORYBOOK_ENV = 'vue';
+  globalThis.STORYBOOK_ENV = 'vue';
   mockVueToIncludeCompiler();
 
   const storybook = jest.requireActual('@storybook/vue');

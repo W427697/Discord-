@@ -1,7 +1,6 @@
 import React, { ComponentProps, FC, MouseEvent, useCallback, useState } from 'react';
 import { logger } from '@storybook/client-logger';
 import { styled } from '@storybook/theming';
-import global from 'global';
 import memoize from 'memoizerific';
 
 // @ts-expect-error (Converted from ts-ignore)
@@ -41,7 +40,7 @@ import type {
   SyntaxHighlighterRendererProps,
 } from './syntaxhighlighter-types';
 
-const { navigator, document, window: globalWindow } = global;
+const { navigator, document } = globalThis;
 
 ReactSyntaxHighlighter.registerLanguage('jsextra', jsExtras);
 ReactSyntaxHighlighter.registerLanguage('jsx', jsx);
@@ -66,7 +65,7 @@ export function createCopyToClipboardFunction() {
     return (text: string) => navigator.clipboard.writeText(text);
   }
   return async (text: string) => {
-    const tmp = document.createElement('TEXTAREA');
+    const tmp = document.createElement('textarea');
     const focus = document.activeElement;
 
     tmp.value = text;
@@ -75,6 +74,7 @@ export function createCopyToClipboardFunction() {
     tmp.select();
     document.execCommand('copy');
     document.body.removeChild(tmp);
+    // @ts-expect-error Maybe we should check that this is focusable?
     focus.focus();
   };
 }
@@ -224,7 +224,7 @@ export const SyntaxHighlighter: FC<SyntaxHighlighterProps> = ({
       copyToClipboard(highlightableCode)
         .then(() => {
           setCopied(true);
-          globalWindow.setTimeout(() => setCopied(false), 1500);
+          globalThis.setTimeout(() => setCopied(false), 1500);
         })
         .catch(logger.error);
     },

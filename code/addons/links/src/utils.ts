@@ -1,11 +1,10 @@
-import global from 'global';
 import { addons, makeDecorator } from '@storybook/addons';
 import { STORY_CHANGED, SELECT_STORY } from '@storybook/core-events';
 import type { StoryId, StoryName, ComponentTitle } from '@storybook/csf';
 import { toId } from '@storybook/csf';
 import { PARAM_KEY } from './constants';
 
-const { document, HTMLElement } = global;
+const { document, HTMLElement } = globalThis;
 
 interface ParamsId {
   storyId: StoryId;

@@ -13,7 +13,6 @@ import {
   CONFIG_ERROR,
 } from '@storybook/core-events';
 import { EventEmitter } from 'events';
-import global from 'global';
 import { mockChannel } from '@storybook/addons';
 
 import { getEventMetadata } from '../lib/events';
@@ -24,14 +23,16 @@ import type Store from '../store';
 import { ModuleArgs } from '..';
 
 const mockStories = jest.fn<StoryIndex['entries'], []>();
-
 jest.mock('../lib/events');
-jest.mock('global', () => ({
-  ...(mockJest.requireActual('global') as Record<string, any>),
-  fetch: mockJest.fn(() => ({ json: () => ({ v: 4, entries: mockStories() }) })),
-  FEATURES: { storyStoreV7: true },
-  CONFIG_TYPE: 'DEVELOPMENT',
-}));
+jest
+  .spyOn(global, 'fetch')
+  .mockImplementation(
+    mockJest.fn(() =>
+      Promise.resolve(new Response(JSON.stringify({ v: 4, entries: mockStories() })))
+    )
+  );
+jest.spyOn(global, 'FEATURES', 'get').mockImplementation(() => ({ storyStoreV7: true }));
+jest.spyOn(global, 'CONFIG_TYPE', 'get').mockImplementation(() => 'DEVELOPMENT');
 
 const getEventMetadataMock = getEventMetadata as ReturnType<typeof jest.fn>;
 
@@ -119,9 +120,11 @@ beforeEach(() => {
   provider.getConfig.mockReset().mockReturnValue({});
   provider.serverChannel = mockChannel();
   mockStories.mockReset().mockReturnValue(mockIndex);
-  global.fetch
+  (globalThis.fetch as jest.Mock)
     .mockReset()
-    .mockReturnValue({ status: 200, json: () => ({ v: 4, entries: mockStories() }) });
+    .mockReturnValue(
+      Promise.resolve({ status: 200, json: () => ({ v: 4, entries: mockStories() }) })
+    );
 
   getEventMetadataMock.mockReturnValue({ sourceType: 'local' } as any);
   getEventMetadataMock.mockReturnValue({ sourceType: 'local' } as any);
@@ -1069,7 +1072,12 @@ describe('stories API', () => {
       const store = createMockStore({});
       const fullAPI = Object.assign(new EventEmitter(), {});
 
-      global.fetch.mockReturnValue({ status: 500, text: async () => new Error('sorting error') });
+      (globalThis.fetch as jest.Mock).mockReturnValue(
+        Promise.resolve({
+          status: 500,
+          text: async () => new Error('sorting error'),
+        })
+      );
       const { api, init } = initStories({ store, navigate, provider, fullAPI } as any);
       Object.assign(fullAPI, api);
 
@@ -1173,11 +1181,11 @@ describe('stories API', () => {
       const { api, init } = initStories({ store, navigate, provider, fullAPI } as any);
       Object.assign(fullAPI, api);
 
-      global.fetch.mockClear();
+      (globalThis.fetch as jest.Mock).mockClear();
       await init();
-      expect(global.fetch).toHaveBeenCalledTimes(1);
+      expect(globalThis.fetch).toHaveBeenCalledTimes(1);
 
-      global.fetch.mockClear();
+      (globalThis.fetch as jest.Mock).mockClear();
       mockStories.mockReturnValueOnce({
         'component-a--story-1': {
           type: 'story',
@@ -1188,7 +1196,7 @@ describe('stories API', () => {
         },
       });
       provider.serverChannel.emit(STORY_INDEX_INVALIDATED);
-      expect(global.fetch).toHaveBeenCalledTimes(1);
+      expect(globalThis.fetch).toHaveBeenCalledTimes(1);
 
       // Let the promise/await chain resolve
       await new Promise((r) => setTimeout(r, 0));
@@ -1208,9 +1216,9 @@ describe('stories API', () => {
       const { api, init } = initStories({ store, navigate, provider, fullAPI } as any);
       Object.assign(fullAPI, api);
 
-      global.fetch.mockClear();
+      (globalThis.fetch as jest.Mock).mockClear();
       await init();
-      expect(global.fetch).toHaveBeenCalledTimes(1);
+      expect(globalThis.fetch).toHaveBeenCalledTimes(1);
 
       fullAPI.emit(STORY_PREPARED, {
         id: 'component-a--story-1',
@@ -1225,9 +1233,9 @@ describe('stories API', () => {
         args: { c: 'd' },
       });
 
-      global.fetch.mockClear();
+      (globalThis.fetch as jest.Mock).mockClear();
       provider.serverChannel.emit(STORY_INDEX_INVALIDATED);
-      expect(global.fetch).toHaveBeenCalledTimes(1);
+      expect(globalThis.fetch).toHaveBeenCalledTimes(1);
 
       // Let the promise/await chain resolve
       await new Promise((r) => setTimeout(r, 0));

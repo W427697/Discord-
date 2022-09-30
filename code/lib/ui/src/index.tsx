@@ -1,7 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/triple-slash-reference
 /// <reference path="./typings.d.ts" />
 
-import global from 'global';
 import React, { FC } from 'react';
 import ReactDOM from 'react-dom';
 
@@ -55,7 +54,7 @@ const Main: FC<{ provider: Provider }> = ({ provider }) => {
           provider={provider}
           {...locationData}
           navigate={navigate}
-          docsOptions={global?.DOCS_OPTIONS || {}}
+          docsOptions={globalThis.DOCS_OPTIONS || {}}
         >
           {({ state, api }: Combo) => {
             const panelCount = Object.keys(api.getPanels()).length;

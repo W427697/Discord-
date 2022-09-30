@@ -1,4 +1,3 @@
-import global from 'global';
 import { addons, mockChannel } from '@storybook/addons';
 import ensureOptionsDefaults from './ensureOptionsDefaults';
 import snapshotsTests from './snapshotsTestsTemplate';
@@ -6,18 +5,18 @@ import integrityTest from './integrityTestTemplate';
 import loadFramework from '../frameworks/frameworkLoader';
 import { StoryshotsOptions } from './StoryshotsOptions';
 
-const { describe, window: globalWindow } = global;
-global.STORYBOOK_REACT_CLASSES = global.STORYBOOK_REACT_CLASSES || {};
+const { describe } = globalThis;
+globalThis.STORYBOOK_REACT_CLASSES = globalThis.STORYBOOK_REACT_CLASSES || {};
 
 type TestMethod = 'beforeAll' | 'beforeEach' | 'afterEach' | 'afterAll';
 const methods: TestMethod[] = ['beforeAll', 'beforeEach', 'afterEach', 'afterAll'];
 
-function callTestMethodGlobals(
-  testMethod: { [key in TestMethod]?: Function & { timeout?: number } } & { [key in string]: any }
-) {
+function callTestMethodGlobals(testMethod: {
+  [key in TestMethod]?: jest.Lifecycle & { timeout?: number };
+}) {
   methods.forEach((method) => {
     if (typeof testMethod[method] === 'function') {
-      global[method](testMethod[method], testMethod[method].timeout);
+      globalThis[method](testMethod[method], testMethod[method].timeout);
     }
   });
 }
@@ -53,7 +52,7 @@ function testStorySnapshots(options: StoryshotsOptions = {}) {
   // will run *immediately* (in the same tick), and thus the `snapshotsTests`, and
   // subsequent calls to `it()` etc will all happen within this tick, which is required
   // by Jest (cannot add tests asynchronously)
-  globalWindow.__STORYBOOK_STORY_STORE__.initializationPromise.then(() => {
+  globalThis.__STORYBOOK_STORY_STORE__.initializationPromise.then(() => {
     const data = storybook.raw().reduce(
       (acc, item) => {
         if (storyNameRegex && !item.name.match(storyNameRegex)) {

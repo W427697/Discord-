@@ -6783,7 +6783,6 @@ __metadata:
     "@storybook/theming": 7.0.0-alpha.34
     "@testing-library/react": ^11.2.2
     axe-core: ^4.2.0
-    global: ^4.4.0
     lodash: ^4.17.21
     react-sizeme: ^3.0.1
     ts-dedent: ^2.0.0
@@ -6813,7 +6812,6 @@ __metadata:
     "@storybook/theming": 7.0.0-alpha.34
     "@types/lodash": ^4.14.167
     dequal: ^2.0.2
-    global: ^4.4.0
     lodash: ^4.17.21
     polished: ^4.2.2
     prop-types: ^15.7.2
@@ -6845,7 +6843,6 @@ __metadata:
     "@storybook/core-events": 7.0.0-alpha.34
     "@storybook/csf": 0.0.2--canary.0899bb7.0
     "@storybook/theming": 7.0.0-alpha.34
-    global: ^4.4.0
     memoizerific: ^1.11.3
     ts-dedent: ^2.0.0
     typescript: ~4.6.3
@@ -6917,7 +6914,6 @@ __metadata:
     "@types/util-deprecate": ^1.0.0
     babel-loader: ^8.2.5
     dequal: ^2.0.2
-    global: ^4.4.0
     lodash: ^4.17.21
     remark-external-links: ^8.0.0
     remark-slug: ^6.0.0
@@ -6997,7 +6993,6 @@ __metadata:
     "@storybook/addons": 7.0.0-alpha.34
     "@storybook/core-events": 7.0.0-alpha.34
     "@types/webpack-env": ^1.16.0
-    global: ^4.4.0
     typescript: ~4.6.3
   languageName: unknown
   linkType: soft
@@ -7019,7 +7014,6 @@ __metadata:
     "@storybook/testing-library": 0.0.14-next.0
     "@storybook/theming": 7.0.0-alpha.34
     formik: ^2.2.9
-    global: ^4.4.0
     jest-mock: ^27.0.6
     polished: ^4.2.2
     ts-dedent: ^2.2.0
@@ -7045,7 +7039,6 @@ __metadata:
     "@storybook/components": 7.0.0-alpha.34
     "@storybook/core-events": 7.0.0-alpha.34
     "@storybook/theming": 7.0.0-alpha.34
-    global: ^4.4.0
     react-sizeme: ^3.0.1
     typescript: ~4.6.3
     upath: ^1.2.0
@@ -7069,7 +7062,6 @@ __metadata:
     "@storybook/core-events": 7.0.0-alpha.34
     "@storybook/csf": 0.0.2--canary.0899bb7.0
     "@storybook/router": 7.0.0-alpha.34
-    global: ^4.4.0
     prop-types: ^15.7.2
     ts-dedent: ^2.0.0
     typescript: ~4.6.3
@@ -7094,7 +7086,6 @@ __metadata:
     "@storybook/components": 7.0.0-alpha.34
     "@storybook/core-events": 7.0.0-alpha.34
     "@storybook/csf": 0.0.2--canary.0899bb7.0
-    global: ^4.4.0
     typescript: ~4.6.3
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
@@ -7117,7 +7108,6 @@ __metadata:
     "@storybook/components": 7.0.0-alpha.34
     "@storybook/core-events": 7.0.0-alpha.34
     "@storybook/csf": 0.0.2--canary.0899bb7.0
-    global: ^4.4.0
     ts-dedent: ^2.0.0
     typescript: ~4.6.3
   peerDependencies:
@@ -7192,7 +7182,6 @@ __metadata:
     enzyme: ^3.11.0
     enzyme-to-json: ^3.6.1
     glob: ^7.1.6
-    global: ^4.4.0
     jest-preset-angular: ^8.3.2
     jest-specific-snapshot: ^4.0.0
     jest-vue-preprocessor: ^1.7.1
@@ -7329,7 +7318,6 @@ __metadata:
     "@storybook/components": 7.0.0-alpha.34
     "@storybook/core-events": 7.0.0-alpha.34
     "@storybook/theming": 7.0.0-alpha.34
-    global: ^4.4.0
     memoizerific: ^1.11.3
     prop-types: ^15.7.2
     typescript: ~4.6.3
@@ -7355,7 +7343,6 @@ __metadata:
     "@storybook/csf": 0.0.2--canary.0899bb7.0
     "@storybook/router": 7.0.0-alpha.34
     "@storybook/theming": 7.0.0-alpha.34
-    global: ^4.4.0
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
@@ -7424,7 +7411,6 @@ __metadata:
     cross-spawn: ^7.0.3
     find-up: ^5.0.0
     fork-ts-checker-webpack-plugin: ^7.2.6
-    global: ^4.4.0
     jest: ^27.5.1
     jest-preset-angular: ^12.0.0
     jest-specific-snapshot: ^5.0.0
@@ -7487,7 +7473,6 @@ __metadata:
     "@types/qs": ^6
     dequal: ^2.0.2
     flush-promises: ^1.0.2
-    global: ^4.4.0
     lodash: ^4.17.21
     memoizerific: ^1.11.3
     qs: ^6.10.1
@@ -7556,7 +7541,6 @@ __metadata:
     "@types/color-convert": ^2.0.0
     color-convert: ^2.0.1
     dequal: ^2.0.2
-    global: ^4.4.0
     lodash: ^4.17.21
     markdown-to-jsx: ^7.1.3
     memoizerific: ^1.11.3
@@ -7656,7 +7640,6 @@ __metadata:
     case-sensitive-paths-webpack-plugin: ^2.4.0
     css-loader: ^6.7.1
     fork-ts-checker-webpack-plugin: ^7.2.8
-    global: ^4.4.0
     html-webpack-plugin: ^5.5.0
     path-browserify: ^1.0.1
     process: ^0.11.10
@@ -7686,7 +7669,6 @@ __metadata:
     "@storybook/channels": 7.0.0-alpha.34
     "@storybook/client-logger": 7.0.0-alpha.34
     "@storybook/core-events": 7.0.0-alpha.34
-    global: ^4.4.0
     qs: ^6.10.0
     telejson: ^6.0.8
     typescript: ~4.6.3
@@ -7699,7 +7681,6 @@ __metadata:
   dependencies:
     "@storybook/channels": 7.0.0-alpha.34
     "@storybook/client-logger": 7.0.0-alpha.34
-    global: ^4.4.0
     telejson: ^6.0.8
     typescript: ~4.6.3
   languageName: unknown
@@ -7786,7 +7767,6 @@ __metadata:
     "@storybook/store": 7.0.0-alpha.34
     "@types/qs": ^6.9.5
     "@types/webpack-env": ^1.16.4
-    global: ^4.4.0
     qs: ^6.10.0
     synchronous-promise: ^2.0.15
     ts-dedent: ^2.0.0
@@ -7802,7 +7782,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/client-logger@workspace:lib/client-logger"
   dependencies:
-    global: ^4.4.0
     typescript: ~4.6.3
   languageName: unknown
   linkType: soft
@@ -7850,7 +7829,6 @@ __metadata:
     "@types/react-syntax-highlighter": 11.0.5
     "@types/util-deprecate": ^1.0.0
     css: ^3.0.0
-    global: ^4.4.0
     memoizerific: ^1.11.3
     overlayscrollbars: ^1.13.1
     polished: ^4.2.2
@@ -7881,7 +7859,6 @@ __metadata:
     "@storybook/preview-web": 7.0.0-alpha.34
     "@storybook/store": 7.0.0-alpha.34
     "@storybook/ui": 7.0.0-alpha.34
-    global: ^4.4.0
     regenerator-runtime: ^0.13.7
     typescript: ~4.6.3
     util-deprecate: ^1.0.2
@@ -7984,7 +7961,6 @@ __metadata:
     detect-port: ^1.3.0
     express: ^4.17.1
     fs-extra: ^9.0.1
-    global: ^4.4.0
     globby: ^11.0.2
     ip: ^2.0.0
     jest-os-detection: ^1.3.1
@@ -8144,7 +8120,6 @@ __metadata:
     "@storybook/core-common": 7.0.0-alpha.34
     "@storybook/docs-tools": 7.0.0-alpha.34
     "@storybook/store": 7.0.0-alpha.34
-    global: ^4.4.0
     react: 16.14.0
     react-dom: 16.14.0
     read-pkg-up: ^7.0.1
@@ -8283,7 +8258,6 @@ __metadata:
     "@storybook/html": 7.0.0-alpha.34
     "@storybook/preset-html-webpack": 7.0.0-alpha.34
     "@types/node": ^14.14.20 || ^16.0.0
-    global: ^4.4.0
     react: 16.14.0
     react-dom: 16.14.0
     typescript: ~4.6.3
@@ -8302,7 +8276,6 @@ __metadata:
     "@storybook/docs-tools": 7.0.0-alpha.34
     "@storybook/preview-web": 7.0.0-alpha.34
     "@storybook/store": 7.0.0-alpha.34
-    global: ^4.4.0
     react: 16.14.0
     react-dom: 16.14.0
     ts-dedent: ^2.0.0
@@ -8320,7 +8293,6 @@ __metadata:
     "@storybook/client-logger": 7.0.0-alpha.34
     "@storybook/core-events": 7.0.0-alpha.34
     core-js: ^3.8.2
-    global: ^4.4.0
     typescript: ~4.6.3
   languageName: unknown
   linkType: soft
@@ -8494,7 +8466,6 @@ __metadata:
     "@storybook/core-client": 7.0.0-alpha.34
     "@storybook/csf": 0.0.2--canary.0899bb7.0
     "@storybook/store": 7.0.0-alpha.34
-    global: ^4.4.0
     preact: ^10.5.13
     react: 16.14.0
     react-dom: 16.14.0
@@ -8612,7 +8583,6 @@ __metadata:
     "@storybook/server": 7.0.0-alpha.34
     "@types/node": ^14.14.20 || ^16.0.0
     fs-extra: ^9.0.1
-    global: ^4.4.0
     jest-specific-snapshot: ^4.0.0
     react: 16.14.0
     react-dom: 16.14.0
@@ -8728,7 +8698,6 @@ __metadata:
     "@storybook/csf": 0.0.2--canary.0899bb7.0
     "@storybook/store": 7.0.0-alpha.34
     ansi-to-html: ^0.6.11
-    global: ^4.4.0
     lodash: ^4.17.21
     qs: ^6.10.0
     react: 16.14.0
@@ -8824,7 +8793,6 @@ __metadata:
     acorn-jsx: ^5.3.1
     acorn-walk: ^7.2.0
     escodegen: ^2.0.0
-    global: ^4.4.0
     html-tags: ^3.1.0
     jest-specific-snapshot: ^4.0.0
     lodash: ^4.17.21
@@ -9116,7 +9084,6 @@ __metadata:
   dependencies:
     "@storybook/client-logger": 7.0.0-alpha.34
     dequal: ^2.0.2
-    global: ^4.4.0
     lodash: ^4.17.21
     memoizerific: ^1.11.3
     qs: ^6.10.0
@@ -9182,7 +9149,6 @@ __metadata:
     "@storybook/csf": 0.0.2--canary.0899bb7.0
     "@storybook/preview-web": 7.0.0-alpha.34
     "@storybook/store": 7.0.0-alpha.34
-    global: ^4.4.0
     react: 16.14.0
     react-dom: 16.14.0
     ts-dedent: ^2.0.0
@@ -9215,7 +9181,6 @@ __metadata:
     "@storybook/core-events": 7.0.0-alpha.34
     "@storybook/csf": 0.0.2--canary.0899bb7.0
     dequal: ^2.0.2
-    global: ^4.4.0
     lodash: ^4.17.21
     memoizerific: ^1.11.3
     slash: ^3.0.0
@@ -9282,7 +9247,6 @@ __metadata:
     "@storybook/csf": 0.0.2--canary.0899bb7.0
     "@storybook/docs-tools": 7.0.0-alpha.34
     "@storybook/store": 7.0.0-alpha.34
-    global: ^4.4.0
     react: 16.14.0
     react-dom: 16.14.0
     svelte: ^3.31.2
@@ -9338,7 +9302,6 @@ __metadata:
     "@types/node": ^14.14.20 || ^16.0.0
     deep-object-diff: ^1.1.0
     fs-extra: ^9.0.1
-    global: ^4.4.0
     memoizerific: ^1.11.3
     polished: ^4.2.2
     ts-dedent: ^2.0.0
@@ -9387,7 +9350,6 @@ __metadata:
     enzyme: ^3.11.0
     fs-extra: ^9.0.1
     fuse.js: ^3.6.1
-    global: ^4.4.0
     lodash: ^4.17.21
     markdown-to-jsx: ^7.1.3
     memoizerific: ^1.11.3
@@ -9484,7 +9446,6 @@ __metadata:
     "@storybook/csf": 0.0.2--canary.0899bb7.0
     "@storybook/docs-tools": 7.0.0-alpha.34
     "@storybook/store": 7.0.0-alpha.34
-    global: ^4.4.0
     react: 16.14.0
     react-dom: 16.14.0
     ts-dedent: ^2.0.0
@@ -9507,7 +9468,6 @@ __metadata:
     "@storybook/csf": 0.0.2--canary.0899bb7.0
     "@storybook/docs-tools": 7.0.0-alpha.34
     "@storybook/store": 7.0.0-alpha.34
-    global: ^4.4.0
     react: 16.14.0
     react-dom: 16.14.0
     ts-dedent: ^2.0.0
@@ -9552,7 +9512,6 @@ __metadata:
     "@storybook/docs-tools": 7.0.0-alpha.34
     "@storybook/preview-web": 7.0.0-alpha.34
     "@storybook/store": 7.0.0-alpha.34
-    global: ^4.4.0
     lit-html: 2.0.2
     react: 16.14.0
     react-dom: 16.14.0
@@ -12742,7 +12701,6 @@ __metadata:
     "@types/node": ^14.14.20 || ^16.0.0
     "@types/sass": ^1
     "@webcomponents/custom-elements": ^1.4.3
-    global: ^4.4.0
     jasmine-core: ~3.6.0
     jasmine-spec-reporter: ~5.0.2
     jest: ^26.6.3
@@ -24441,7 +24399,6 @@ __metadata:
     autoprefixer: ^10.0.1
     eventemitter3: ^4.0.7
     format-json: ^1.0.3
-    global: ^4.4.0
     postcss: ^8.2.4
     postcss-color-rebeccapurple: ^6.0.0
     storybook: 7.0.0-alpha.34
@@ -33441,7 +33398,6 @@ __metadata:
     express: ^4.17.1
     format-json: ^1.0.3
     formik: ^2.2.9
-    global: ^4.4.0
     lodash: ^4.17.21
     paths.macro: ^3.0.1
     prop-types: ^15.7.2
@@ -35836,7 +35792,6 @@ __metadata:
     cross-env: ^7.0.3
     enzyme-adapter-preact: ^0.2.0
     file-loader: ^6.2.0
-    global: ^4.4.0
     preact: ^10.5.13
     preact-render-to-string: ^5.1.19
     prop-types: ^15.7.2
@@ -41585,7 +41540,6 @@ __metadata:
     "@storybook/svelte": 7.0.0-alpha.34
     "@storybook/svelte-webpack5": 7.0.0-alpha.34
     "@storybook/testing-library": 0.0.14-next.0
-    global: ^4.4.0
     storybook: 7.0.0-alpha.34
     svelte-jester: ^2.3.2
     svelte-preprocess: ^4.10.6

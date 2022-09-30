@@ -2,7 +2,6 @@
 /**
  * Based on https://gist.github.com/awestbro/e668c12662ad354f02a413205b65fce7
  */
-import global from 'global';
 import { draw } from './canvas';
 import { labelStacks, Label, LabelStack } from './labels';
 
@@ -29,10 +28,10 @@ function filterZeroValues(labels: LabelStack): LabelStack {
 
 function floatingAlignment(extremities: Extremities): FloatingAlignment {
   const windowExtremities = {
-    top: global.window.scrollY,
-    bottom: global.window.scrollY + global.window.innerHeight,
-    left: global.window.scrollX,
-    right: global.window.scrollX + global.window.innerWidth,
+    top: globalThis.scrollY,
+    bottom: globalThis.scrollY + globalThis.innerHeight,
+    left: globalThis.scrollX,
+    right: globalThis.scrollX + globalThis.innerWidth,
   };
 
   const distances = {
@@ -49,7 +48,7 @@ function floatingAlignment(extremities: Extremities): FloatingAlignment {
 }
 
 function measureElement(element: HTMLElement): ElementMeasurements {
-  const style = global.getComputedStyle(element);
+  const style = globalThis.getComputedStyle(element);
   // eslint-disable-next-line prefer-const
   let { top, left, right, bottom, width, height } = element.getBoundingClientRect();
 
@@ -68,10 +67,10 @@ function measureElement(element: HTMLElement): ElementMeasurements {
     borderRightWidth,
   } = style;
 
-  top = top + global.window.scrollY;
-  left = left + global.window.scrollX;
-  bottom = bottom + global.window.scrollY;
-  right = right + global.window.scrollX;
+  top = top + globalThis.scrollY;
+  left = left + globalThis.scrollX;
+  bottom = bottom + globalThis.scrollY;
+  right = right + globalThis.scrollX;
 
   const margin = {
     top: pxToNumber(marginTop),

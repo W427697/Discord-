@@ -1,4 +1,3 @@
-import global from 'global';
 import { Provider } from '@storybook/ui';
 import { addons, AddonStore, Channel } from '@storybook/addons';
 import type { Config, Types } from '@storybook/addons';
@@ -6,7 +5,7 @@ import * as postMessage from '@storybook/channel-postmessage';
 import * as webSocket from '@storybook/channel-websocket';
 import Events from '@storybook/core-events';
 
-const { FEATURES, SERVER_CHANNEL_URL } = global;
+const { FEATURES, SERVER_CHANNEL_URL } = globalThis;
 
 export default class ReactProvider extends Provider {
   private addons: AddonStore;

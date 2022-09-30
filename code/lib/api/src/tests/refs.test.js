@@ -1,7 +1,6 @@
-import global from 'global';
 import { getSourceType, init as initRefs } from '../modules/refs';
 
-const { fetch } = global;
+const { fetch } = globalThis;
 
 jest.mock('global', () => {
   const globalMock = {

@@ -1,16 +1,16 @@
-import global from 'global';
 import { dedent } from 'ts-dedent';
 import type { RenderContext } from '@storybook/store';
 // @ts-expect-error (Converted from ts-ignore)
 import Component from '@ember/component'; // eslint-disable-line import/no-unresolved
+import '../../../typings.d';
 import { OptionsArgs, EmberFramework } from './types';
 
-const { window: globalWindow, document } = global;
+const { document } = globalThis;
 
 const rootEl = document.getElementById('storybook-root');
 
-const config = globalWindow.require(`${globalWindow.STORYBOOK_NAME}/config/environment`);
-const app = globalWindow.require(`${globalWindow.STORYBOOK_NAME}/app`).default.create({
+const config = globalThis.require(`${globalThis.STORYBOOK_NAME}/config/environment`);
+const app = globalThis.require(`${globalThis.STORYBOOK_NAME}/app`).default.create({
   autoboot: false,
   rootElement: rootEl,
   ...config.APP,

@@ -1,4 +1,3 @@
-import global from 'global';
 import {
   Dispatch,
   MutableRefObject,
@@ -15,7 +14,7 @@ import { matchesKeyCode, matchesModifiers } from '../../keybinding';
 import { CombinedDataset, Highlight, Selection } from './types';
 import { cycle, isAncestor, scrollIntoView } from './utils';
 
-const { document, window: globalWindow } = global;
+const { document } = globalThis;
 
 export interface HighlightedProps {
   containerRef: MutableRefObject<HTMLElement>;
@@ -93,8 +92,8 @@ export const useHighlighted = ({
       if (!(isArrowUp || isArrowDown)) return;
       event.preventDefault();
 
-      const requestId = globalWindow.requestAnimationFrame(() => {
-        globalWindow.cancelAnimationFrame(lastRequestId);
+      const requestId = globalThis.requestAnimationFrame(() => {
+        globalThis.cancelAnimationFrame(lastRequestId);
         lastRequestId = requestId;
 
         const target = event.target as Element;
@@ -118,6 +117,7 @@ export const useHighlighted = ({
           const item = api.getData(itemId, refId === 'storybook_internal' ? undefined : refId);
           if (item.isComponent) {
             api.emit(PRELOAD_ENTRIES, {
+              // @ts-expect-error ???
               ids: [item.isLeaf ? item.id : item.children[0]],
               options: { target: refId },
             });

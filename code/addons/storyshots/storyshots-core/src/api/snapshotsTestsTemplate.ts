@@ -1,9 +1,8 @@
 /* eslint-disable jest/no-export */
 /* eslint-disable jest/expect-expect */
-import global from 'global';
 import { addSerializer } from 'jest-specific-snapshot';
 
-const { describe, it } = global;
+const { describe, it } = globalThis;
 
 function snapshotTest({ item, asyncJest, framework, testMethod, testMethodParams }: any) {
   const { name } = item;

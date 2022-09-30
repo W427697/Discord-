@@ -1,4 +1,3 @@
-import global from 'global';
 import React, { Component, FC } from 'react';
 import { styled } from '@storybook/theming';
 import { Collection } from '@storybook/addons';

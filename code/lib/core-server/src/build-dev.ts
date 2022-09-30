@@ -12,7 +12,6 @@ import {
   loadMainConfig,
 } from '@storybook/core-common';
 import prompts from 'prompts';
-import global from 'global';
 
 import { join, resolve } from 'path';
 import { logger } from '@storybook/node-logger';
@@ -93,7 +92,7 @@ export async function buildDevStandalone(options: CLIOptions & LoadOptions & Bui
   });
 
   const features = await presets.apply<StorybookConfig['features']>('features');
-  global.FEATURES = features;
+  globalThis.FEATURES = features;
 
   const fullOptions: Options = {
     ...options,

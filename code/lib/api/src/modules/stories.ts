@@ -1,4 +1,3 @@
-import global from 'global';
 import { toId, sanitize } from '@storybook/csf';
 import {
   PRELOAD_ENTRIES,
@@ -40,7 +39,7 @@ import type {
 import type { Args, ModuleFn } from '../index';
 import type { ComposedRef } from './refs';
 
-const { FEATURES, fetch } = global;
+const { FEATURES, fetch } = globalThis;
 const STORY_INDEX_PATH = './index.json';
 
 type Direction = -1 | 1;

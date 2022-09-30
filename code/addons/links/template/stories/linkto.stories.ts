@@ -1,4 +1,3 @@
-import globalThis from 'global';
 import { linkTo } from '@storybook/addon-links';
 
 export default {

@@ -1,4 +1,3 @@
-import global from 'global';
 import { dedent } from 'ts-dedent';
 import {
   transformSetStoriesStoryDataToStoriesHash,
@@ -11,7 +10,7 @@ import {
 
 import type { ModuleFn } from '../index';
 
-const { location, fetch } = global;
+const { location, fetch } = globalThis;
 
 export interface SubState {
   refs: Refs;
@@ -190,7 +189,7 @@ export const init: ModuleFn<SubAPI, SubState, void> = (
         const [index, metadata] = await Promise.all([
           indexFetch.ok ? handleRequest(indexFetch) : handleRequest(storiesFetch),
           handleRequest(
-            fetch(`${url}/metadata.json${query}`, {
+            await fetch(`${url}/metadata.json${query}`, {
               headers: {
                 Accept: 'application/json',
               },
@@ -277,7 +276,7 @@ export const init: ModuleFn<SubAPI, SubState, void> = (
     },
   };
 
-  const refs: Refs = (!singleStory && global.REFS) || {};
+  const refs: Refs = (!singleStory && (globalThis as any).REFS) || {};
 
   const initialState: SubState['refs'] = refs;
 

@@ -1,3 +1,3 @@
-export {};
+globalThis.PREVIEW_URL = process.env.PREVIEW_URL;
 
-global.PREVIEW_URL = process.env.PREVIEW_URL;
+export {};

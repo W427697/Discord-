@@ -1,6 +1,5 @@
 import { styled } from '@storybook/theming';
 import { Icons } from '@storybook/components';
-import global from 'global';
 import React, { FC, MouseEventHandler, ReactNode, useCallback, useEffect } from 'react';
 import { ControllerStateAndHelpers } from 'downshift';
 
@@ -18,7 +17,7 @@ import {
 import { getLink } from './utils';
 import { matchesKeyCode, matchesModifiers } from '../../keybinding';
 
-const { document } = global;
+const { document } = globalThis;
 
 const ResultsList = styled.ol({
   listStyle: 'none',

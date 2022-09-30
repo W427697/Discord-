@@ -1,4 +1,3 @@
-import global from 'global';
 import React, { createElement, ElementType, FunctionComponent, Fragment } from 'react';
 import type { Parameters } from '@storybook/csf';
 import { Loader, getStoryHref } from '@storybook/components';
@@ -6,7 +5,7 @@ import { EmptyBlock } from '.';
 import { IFrame } from './IFrame';
 import { ZoomContext } from './ZoomContext';
 
-const { PREVIEW_URL } = global;
+const { PREVIEW_URL } = globalThis;
 const BASE_URL = PREVIEW_URL || 'iframe.html';
 
 export enum StoryError {

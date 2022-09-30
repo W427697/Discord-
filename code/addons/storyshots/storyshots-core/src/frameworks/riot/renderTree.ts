@@ -1,6 +1,4 @@
-import global from 'global';
-
-const { document } = global;
+const { document } = globalThis;
 
 const riotForStorybook = jest.requireActual('@storybook/riot');
 

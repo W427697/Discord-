@@ -1,12 +1,12 @@
-import global from 'global';
 import * as EVENTS from '@storybook/core-events';
 import { Channel } from '@storybook/channels';
 import type { ChannelHandler, ChannelEvent } from '@storybook/channels';
 import { logger, pretty } from '@storybook/client-logger';
 import { isJSON, parse, stringify } from 'telejson';
 import qs from 'qs';
+import '../../../globalThis';
 
-const { window: globalWindow, document, location } = global;
+const { document, location } = globalThis;
 
 interface Config {
   page: 'manager' | 'preview';
@@ -36,9 +36,7 @@ export class PostmsgTransport {
   constructor(private readonly config: Config) {
     this.buffer = [];
     this.handler = null;
-    if (globalWindow) {
-      globalWindow.addEventListener('message', this.handleEvent.bind(this), false);
-    }
+    globalThis.addEventListener('message', this.handleEvent.bind(this), false);
 
     // Check whether the config.page parameter has a valid value
     if (config.page !== 'manager' && config.page !== 'preview') {
@@ -94,7 +92,7 @@ export class PostmsgTransport {
 
     const stringifyOptions = {
       ...defaultEventOptions,
-      ...(global.CHANNEL_OPTIONS || {}),
+      ...(globalThis.CHANNEL_OPTIONS || {}),
       ...eventOptions,
     };
 
@@ -141,9 +139,9 @@ export class PostmsgTransport {
 
   private getFrames(target?: string): Window[] {
     if (this.config.page === 'manager') {
-      const nodes: HTMLIFrameElement[] = [
-        ...document.querySelectorAll('iframe[data-is-storybook][data-is-loaded]'),
-      ];
+      const nodes: HTMLIFrameElement[] = Array.prototype.slice.apply(
+        document.querySelectorAll('iframe[data-is-storybook][data-is-loaded]')
+      );
 
       const list = nodes
         .filter((e) => {
@@ -157,8 +155,10 @@ export class PostmsgTransport {
 
       return list.length ? list : this.getCurrentFrames();
     }
-    if (globalWindow && globalWindow.parent && globalWindow.parent !== globalWindow) {
-      return [globalWindow.parent];
+
+    // @ts-expect-error  I'll be honest, not sure what this check is for
+    if (globalThis.parent && globalThis.parent !== globalThis) {
+      return [globalThis.parent];
     }
 
     return [];
@@ -166,13 +166,13 @@ export class PostmsgTransport {
 
   private getCurrentFrames(): Window[] {
     if (this.config.page === 'manager') {
-      const list: HTMLIFrameElement[] = [
-        ...document.querySelectorAll('[data-is-storybook="true"]'),
-      ];
+      const list: HTMLIFrameElement[] = Array.prototype.slice.apply(
+        document.querySelectorAll('[data-is-storybook="true"]')
+      );
       return list.map((e) => e.contentWindow);
     }
-    if (globalWindow && globalWindow.parent) {
-      return [globalWindow.parent];
+    if (globalThis && globalThis.parent) {
+      return [globalThis.parent];
     }
 
     return [];
@@ -180,11 +180,13 @@ export class PostmsgTransport {
 
   private getLocalFrame(): Window[] {
     if (this.config.page === 'manager') {
-      const list: HTMLIFrameElement[] = [...document.querySelectorAll('#storybook-preview-iframe')];
+      const list: HTMLIFrameElement[] = Array.prototype.slice.apply(
+        document.querySelectorAll('#storybook-preview-iframe')
+      );
       return list.map((e) => e.contentWindow);
     }
-    if (globalWindow && globalWindow.parent) {
-      return [globalWindow.parent];
+    if (globalThis && globalThis.parent) {
+      return [globalThis.parent];
     }
 
     return [];
@@ -194,7 +196,9 @@ export class PostmsgTransport {
     try {
       const { data } = rawEvent;
       const { key, event, refId } =
-        typeof data === 'string' && isJSON(data) ? parse(data, global.CHANNEL_OPTIONS || {}) : data;
+        typeof data === 'string' && isJSON(data)
+          ? parse(data, globalThis.CHANNEL_OPTIONS || {})
+          : data;
 
       if (key === KEY) {
         const pageString =
@@ -237,7 +241,9 @@ export class PostmsgTransport {
 }
 
 const getEventSourceUrl = (event: MessageEvent) => {
-  const frames = [...document.querySelectorAll('iframe[data-is-storybook]')];
+  const frames = Array.prototype.slice.apply(
+    document.querySelectorAll('iframe[data-is-storybook]')
+  );
   // try to find the originating iframe by matching it's contentWindow
   // This might not be cross-origin safe
   const [frame, ...remainder] = frames.filter((element) => {
@@ -251,7 +257,7 @@ const getEventSourceUrl = (event: MessageEvent) => {
     let origin;
 
     try {
-      ({ origin } = new URL(src, document.location));
+      ({ origin } = new URL(src, document.location.toString()));
     } catch (err) {
       return false;
     }
@@ -260,7 +266,7 @@ const getEventSourceUrl = (event: MessageEvent) => {
 
   if (frame && remainder.length === 0) {
     const src = frame.getAttribute('src');
-    const { protocol, host, pathname } = new URL(src, document.location);
+    const { protocol, host, pathname } = new URL(src, document.location.toString());
     return `${protocol}//${host}${pathname}`;
   }
 

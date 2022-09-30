@@ -37,7 +37,6 @@
     "@storybook/channels": "7.0.0-alpha.34",
     "@storybook/client-logger": "7.0.0-alpha.34",
     "@storybook/core-events": "7.0.0-alpha.34",
-    "global": "^4.4.0",
     "qs": "^6.10.0",
     "telejson": "^6.0.8"
   },

@@ -1,7 +1,6 @@
 import * as Vue from 'vue';
-import global from 'global';
 
-const { document } = global;
+const { document } = globalThis;
 
 // This is cast as `any` to workaround type errors caused by Vue 2 types
 const { h, createApp } = Vue as any;

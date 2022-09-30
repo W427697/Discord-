@@ -1,5 +1,4 @@
 import { dedent } from 'ts-dedent';
-import global from 'global';
 import { SynchronousPromise } from 'synchronous-promise';
 import {
   CONFIG_ERROR,
@@ -30,7 +29,7 @@ import { StoryRender } from './render/StoryRender';
 import { TemplateDocsRender } from './render/TemplateDocsRender';
 import { StandaloneDocsRender } from './render/StandaloneDocsRender';
 
-const { fetch } = global;
+const { FEATURES, fetch } = globalThis;
 
 const STORY_INDEX_PATH = './index.json';
 
@@ -52,7 +51,7 @@ export class Preview<TFramework extends AnyFramework> {
   previewEntryError?: Error;
 
   constructor(protected channel: Channel = addons.getChannel()) {
-    if (global.FEATURES?.storyStoreV7 && addons.hasServerChannel()) {
+    if (FEATURES?.storyStoreV7 && addons.hasServerChannel()) {
       this.serverChannel = addons.getServerChannel();
     }
     this.storyStore = new StoryStore();
@@ -132,7 +131,7 @@ export class Preview<TFramework extends AnyFramework> {
     this.setInitialGlobals();
 
     let storyIndexPromise: PromiseLike<StoryIndex>;
-    if (global.FEATURES?.storyStoreV7) {
+    if (FEATURES?.storyStoreV7) {
       storyIndexPromise = this.getStoryIndexFromServer();
     } else {
       if (!this.getStoryIndex) {
@@ -162,9 +161,9 @@ export class Preview<TFramework extends AnyFramework> {
     });
   }
 
-  async getStoryIndexFromServer() {
+  async getStoryIndexFromServer(): Promise<StoryIndex> {
     const result = await fetch(STORY_INDEX_PATH);
-    if (result.status === 200) return result.json() as StoryIndex;
+    if (result.status === 200) return result.json();
 
     throw new Error(await result.text());
   }
@@ -177,7 +176,7 @@ export class Preview<TFramework extends AnyFramework> {
     return this.storyStore.initialize({
       storyIndex,
       importFn: this.importFn,
-      cache: !global.FEATURES?.storyStoreV7,
+      cache: !FEATURES?.storyStoreV7,
     });
   }
 
@@ -346,7 +345,7 @@ export class Preview<TFramework extends AnyFramework> {
       Do you have an error in your \`preview.js\`? Check your Storybook's browser console for errors.`);
     }
 
-    if (global.FEATURES?.storyStoreV7) {
+    if (FEATURES?.storyStoreV7) {
       await this.storyStore.cacheAllCSFFiles();
     }
 

@@ -4,7 +4,6 @@ import type { NormalizedStoriesSpecifier, StoriesEntry } from '@storybook/core-c
 import { toRequireContext } from '@storybook/core-webpack';
 import { normalizeStoriesEntry } from '@storybook/core-common';
 import registerRequireContextHook from '@storybook/babel-plugin-require-context-hook/register';
-import global from 'global';
 import type {
   AnyFramework,
   ArgsEnhancer,
@@ -75,8 +74,9 @@ function getConfigPathParts(input: string): Output {
       output.requireContexts = output.stories.map((specifier) => {
         const { path: basePath, recursive, match } = toRequireContext(specifier);
 
+        // @ts-expect-error __requireContext is added by babel-plugin-require-context-hook
         // eslint-disable-next-line no-underscore-dangle
-        return global.__requireContext(workingDir, basePath, recursive, match);
+        return globalThis.__requireContext(workingDir, basePath, recursive, match);
       });
     }
 
@@ -105,8 +105,8 @@ function configure<TFramework extends AnyFramework>(
     requireContexts = [],
   } = getConfigPathParts(configPath);
 
-  global.FEATURES = features;
-  global.STORIES = stories.map((specifier) => ({
+  globalThis.FEATURES = features;
+  globalThis.STORIES = stories.map((specifier) => ({
     ...specifier,
     importPathMatcher: specifier.importPathMatcher.source,
   }));

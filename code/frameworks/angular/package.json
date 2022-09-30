@@ -54,7 +54,6 @@
     "core-js": "^3.8.2",
     "find-up": "^5.0.0",
     "fork-ts-checker-webpack-plugin": "^7.2.6",
-    "global": "^4.4.0",
     "nanoid": "^3.1.23",
     "p-limit": "^3.1.0",
     "postcss": "^7.0.36",

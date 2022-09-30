@@ -1,6 +1,4 @@
-import global from 'global';
-
-const { document } = global;
+const { document } = globalThis;
 
 export default {
   title: 'Function',

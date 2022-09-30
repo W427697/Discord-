@@ -19,7 +19,7 @@ export const updateCheck = async (version: string): Promise<VersionCheck> => {
       const fromFetch: any = await Promise.race([
         fetch(`${STORYBOOK_VERSION_BASE}/versions.json?current=${version}`),
         // if fetch is too slow, we won't wait for it
-        new Promise((res, rej) => global.setTimeout(rej, 1500)),
+        new Promise((res, rej) => globalThis.setTimeout(rej, 1500)),
       ]);
       const data = await fromFetch.json();
       result = { success: true, data, time };

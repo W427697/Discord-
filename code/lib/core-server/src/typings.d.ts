@@ -1,4 +1,3 @@
-declare module 'global';
 declare module '@storybook/semver';
 declare module 'lazy-universal-dotenv';
 declare module 'pnp-webpack-plugin';
@@ -10,4 +9,3 @@ declare module '@aw-web-design/x-default-browser';
 declare module '@storybook/ui';
 declare module '@discoveryjs/json-ext';
 declare module 'watchpack';
-

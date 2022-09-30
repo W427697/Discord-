@@ -1,9 +1,10 @@
-import global from 'global';
+/// <reference types="@storybook/core-client" />
+
 import { addons } from '@storybook/addons';
 import { EVENTS } from './constants';
 import { A11yParameters } from './params';
 
-const { document, window: globalWindow } = global;
+const { document } = globalThis;
 
 if (module && module.hot && module.hot.decline) {
   module.hot.decline();
@@ -37,12 +38,13 @@ const run = async (storyId: string) => {
       const axe = (await import('axe-core')).default;
 
       const { element = '#storybook-root', config, options = {} } = input;
-      const htmlElement = document.querySelector(element);
+      const htmlElement = document.querySelector(element as string);
       axe.reset();
       if (config) {
         axe.configure(config);
       }
 
+      // @ts-expect-error Should we check if htmlElement is truthy?
       const result = await axe.run(htmlElement, options);
       // It's possible that we requested a new run on a different story.
       // Unfortunately, axe doesn't support a cancel method to abort current run.
@@ -64,8 +66,7 @@ const run = async (storyId: string) => {
 
 /** Returns story parameters or default ones. */
 const getParams = async (storyId: string): Promise<A11yParameters> => {
-  const { parameters } =
-    (await globalWindow.__STORYBOOK_STORY_STORE__.loadStory({ storyId })) || {};
+  const { parameters } = (await globalThis.__STORYBOOK_STORY_STORE__.loadStory({ storyId })) || {};
   return (
     parameters.a11y || {
       config: {},

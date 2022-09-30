@@ -41,9 +41,6 @@
     "check": "../../../scripts/node_modules/.bin/tsc --noEmit",
     "prep": "../../../scripts/prepare/bundle.ts"
   },
-  "dependencies": {
-    "global": "^4.4.0"
-  },
   "devDependencies": {
     "typescript": "~4.6.3"
   },

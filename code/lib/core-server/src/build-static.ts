@@ -2,7 +2,6 @@ import chalk from 'chalk';
 import { copy, emptyDir, ensureDir } from 'fs-extra';
 import { dirname, isAbsolute, join, resolve } from 'path';
 import { dedent } from 'ts-dedent';
-import global from 'global';
 
 import { logger } from '@storybook/node-logger';
 import { telemetry } from '@storybook/telemetry';
@@ -117,7 +116,7 @@ export async function buildStaticStandalone(
 
   const effects: Promise<void>[] = [];
 
-  global.FEATURES = features;
+  globalThis.FEATURES = features;
 
   await managerBuilder.build({ startTime: process.hrtime(), options: fullOptions });
 

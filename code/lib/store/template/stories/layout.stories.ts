@@ -1,5 +1,3 @@
-import globalThis from 'global';
-
 const style = {
   display: 'block',
   border: '2px solid #FF4785',

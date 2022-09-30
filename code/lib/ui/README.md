@@ -55,11 +55,10 @@ export default class MyProvider extends Provider {
 Then you need to initialize the UI like this:
 
 ```js
-import global from 'global';
 import { renderStorybookUI } from '@storybook/ui';
 import Provider from './provider';
 
-const { document } = global;
+const { document } = globalThis;
 
 const roolEl = document.getElementById('root');
 renderStorybookUI(roolEl, new Provider());

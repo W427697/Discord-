@@ -1,11 +1,10 @@
-import global from 'global';
 import React, { ReactNode, useCallback } from 'react';
 
 import * as R from 'react-router-dom';
 import { ToggleVisibility } from './visibility';
 import { queryFromString, parsePath, getMatch, StoryData } from './utils';
 
-const { document } = global;
+const { document } = globalThis;
 
 interface Other extends StoryData {
   path: string;

@@ -1,7 +1,5 @@
-import global from 'global';
-
 export const deepElementFromPoint = (x: number, y: number) => {
-  const element = global.document.elementFromPoint(x, y);
+  const element = globalThis.document.elementFromPoint(x, y);
 
   const crawlShadows = (node: Element): Element => {
     if (node && node.shadowRoot) {

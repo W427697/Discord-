@@ -71,7 +71,6 @@
     "@storybook/theming": "7.0.0-alpha.34",
     "babel-loader": "^8.2.5",
     "dequal": "^2.0.2",
-    "global": "^4.4.0",
     "lodash": "^4.17.21",
     "remark-external-links": "^8.0.0",
     "remark-slug": "^6.0.0",

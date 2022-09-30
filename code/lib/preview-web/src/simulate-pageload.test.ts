@@ -1,7 +1,7 @@
 import global from 'global';
 import { simulatePageLoad } from './simulate-pageload';
 
-const { document } = global;
+const { document } = globalThis;
 
 describe('simulatePageLoad', () => {
   it('should add script with type module to scripts root', () => {

@@ -1,4 +1,3 @@
-import global from 'global';
 import React, { Fragment, useEffect } from 'react';
 import isChromatic from 'chromatic/isChromatic';
 import {
@@ -14,7 +13,7 @@ import { Symbols } from '@storybook/components';
 
 import addHeadWarning from './head-warning';
 
-const { document } = global;
+const { document } = globalThis;
 
 if (process.env.NODE_ENV === 'development') {
   if (!process.env.DOTENV_DEVELOPMENT_DISPLAY_WARNING) {

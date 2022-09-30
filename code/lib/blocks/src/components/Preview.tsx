@@ -10,7 +10,6 @@ import React, {
 import { darken } from 'polished';
 import { styled } from '@storybook/theming';
 
-import global from 'global';
 import { ActionBar, Zoom } from '@storybook/components';
 import type { ActionItem } from '@storybook/components';
 import { Source, SourceProps } from '.';
@@ -218,8 +217,6 @@ export const Preview: FC<PreviewProps> = ({
   // @ts-expect-error (Converted from ts-ignore)
   const layout = getLayout(Children.count(children) === 1 ? [children] : children);
 
-  const { window: globalWindow } = global;
-
   const copyToClipboard = useCallback(async (text: string) => {
     const { createCopyToClipboardFunction } = await import('@storybook/components');
     createCopyToClipboardFunction();
@@ -236,7 +233,7 @@ export const Preview: FC<PreviewProps> = ({
             onClick: () => {},
           },
         ]);
-        globalWindow.setTimeout(
+        globalThis.setTimeout(
           () =>
             setAdditionalActionItems(
               additionalActionItems.filter((item) => item.title !== 'Copied')

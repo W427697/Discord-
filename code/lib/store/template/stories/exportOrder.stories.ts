@@ -1,5 +1,3 @@
-import globalThis from 'global';
-
 export default {
   component: globalThis.Components.Pre,
   args: { text: 'Check that Story2 is listed before Story1' },

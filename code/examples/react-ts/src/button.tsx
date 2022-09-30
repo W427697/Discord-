@@ -15,8 +15,8 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 export const Button = ({ label = 'Hello', icon: Icon, ...props }: ButtonProps) => {
   useEffect(() => {
     const fn = () => console.log(`click ${label}`);
-    global.window.document.querySelector('body')?.addEventListener('click', fn);
-    return () => global.window.document.querySelector('body')?.removeEventListener('click', fn);
+    globalThis.document.querySelector('body')?.addEventListener('click', fn);
+    return () => globalThis.document.querySelector('body')?.removeEventListener('click', fn);
   });
   return (
     <button type="button" {...props}>

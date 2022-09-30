@@ -1,5 +1,3 @@
-import globalThis from 'global';
-
 const COLORS = [
   { name: 'red', value: '#FB001D' },
   { name: 'orange', value: '#FB8118' },

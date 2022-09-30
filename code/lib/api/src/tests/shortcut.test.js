@@ -1,7 +1,6 @@
-import global from 'global';
 import { eventToShortcut, keyToSymbol } from '../lib/shortcut';
 
-const { KeyboardEvent } = global;
+const { KeyboardEvent } = globalThis;
 const ev = (attr) => new KeyboardEvent('keydown', { ...attr });
 
 describe('eventToShortcut', () => {

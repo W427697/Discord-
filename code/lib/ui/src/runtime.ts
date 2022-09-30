@@ -1,5 +1,3 @@
-import global from 'global';
-
 import { addons, AddonStore, Channel } from '@storybook/addons';
 import type { Config, Types } from '@storybook/addons';
 import * as postMessage from '@storybook/channel-postmessage';
@@ -11,7 +9,7 @@ import { renderStorybookUI } from './index';
 import { values } from './globals/runtime';
 import { Keys } from './globals/types';
 
-const { FEATURES, SERVER_CHANNEL_URL } = global;
+const { FEATURES, SERVER_CHANNEL_URL } = globalThis;
 
 class ReactProvider extends Provider {
   private addons: AddonStore;
@@ -51,7 +49,7 @@ class ReactProvider extends Provider {
   }
 }
 
-const { document } = global;
+const { document } = globalThis;
 
 const rootEl = document.getElementById('root');
 renderStorybookUI(rootEl, new ReactProvider());

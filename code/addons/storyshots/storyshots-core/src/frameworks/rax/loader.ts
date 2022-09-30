@@ -1,4 +1,3 @@
-import global from 'global';
 import configure from '../configure';
 import hasDependency from '../hasDependency';
 import { Loader } from '../Loader';
@@ -9,7 +8,7 @@ function test(options: StoryshotsOptions): boolean {
 }
 
 function load(options: StoryshotsOptions) {
-  global.STORYBOOK_ENV = 'rax';
+  globalThis.STORYBOOK_ENV = 'rax';
 
   const storybook = jest.requireActual('@storybook/rax');
 

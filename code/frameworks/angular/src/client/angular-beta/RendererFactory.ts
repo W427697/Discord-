@@ -50,11 +50,11 @@ export const getRenderType = (targetDOMNode: HTMLElement): RenderType => {
 export function clearRootHTMLElement(renderType: RenderType) {
   switch (renderType) {
     case 'canvas':
-      global.document.getElementById('storybook-docs').innerHTML = '';
+      globalThis.document.getElementById('storybook-docs').innerHTML = '';
       break;
 
     case 'docs':
-      global.document.getElementById('storybook-root').innerHTML = '';
+      globalThis.document.getElementById('storybook-root').innerHTML = '';
       break;
     default:
       break;

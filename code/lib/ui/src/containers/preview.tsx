@@ -1,4 +1,3 @@
-import global from 'global';
 import React from 'react';
 
 import type { Combo, StoriesHash } from '@storybook/api';
@@ -6,7 +5,7 @@ import { Consumer } from '@storybook/api';
 
 import { Preview } from '../components/preview/preview';
 
-const { PREVIEW_URL } = global;
+const { PREVIEW_URL } = globalThis;
 
 export type Item = StoriesHash[keyof StoriesHash];
 

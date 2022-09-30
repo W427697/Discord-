@@ -1,6 +1,3 @@
-// @ts-expect-error (Converted from ts-ignore)
-import global from 'global';
-
 import React, {
   Component as ReactComponent,
   FC,
@@ -18,7 +15,7 @@ import { ArgsStoryFn } from '@storybook/csf';
 
 import type { ReactFramework, StoryContext } from './types';
 
-const { FRAMEWORK_OPTIONS } = global;
+const { FRAMEWORK_OPTIONS } = globalThis;
 
 // A map of all rendered React 18 nodes
 const nodes = new Map<Element, ReactRoot>();

@@ -2,7 +2,6 @@
 
 import deprecate from 'util-deprecate';
 import { dedent } from 'ts-dedent';
-import global from 'global';
 import { logger } from '@storybook/client-logger';
 import { toId, sanitize, StepRunner } from '@storybook/csf';
 import type {
@@ -70,7 +69,7 @@ const warnings = {
 };
 
 const checkMethod = (method: string, deprecationWarning: boolean) => {
-  if (global.FEATURES?.storyStoreV7) {
+  if (globalThis.FEATURES?.storyStoreV7) {
     throw new Error(
       dedent`You cannot use \`${method}\` with the new Story Store.
 

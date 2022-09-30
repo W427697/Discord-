@@ -1,13 +1,10 @@
 /* eslint-disable no-param-reassign */
-// @ts-expect-error (Converted from ts-ignore)
-import global from 'global';
-
 import { dedent } from 'ts-dedent';
 import { simulatePageLoad, simulateDOMContentLoaded } from '@storybook/preview-web';
 import type { RenderContext } from '@storybook/store';
 import type { HtmlFramework } from './types';
 
-const { Node } = global;
+const { Node } = globalThis;
 
 export function renderToDOM(
   { storyFn, kind, name, showMain, showError, forceRemount }: RenderContext<HtmlFramework>,

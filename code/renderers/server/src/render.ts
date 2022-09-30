@@ -1,6 +1,4 @@
 /* eslint-disable no-param-reassign */
-// @ts-expect-error (Converted from ts-ignore)
-import global from 'global';
 
 import { dedent } from 'ts-dedent';
 import type { RenderContext } from '@storybook/store';
@@ -8,13 +6,13 @@ import { simulatePageLoad, simulateDOMContentLoaded } from '@storybook/preview-w
 import type { StoryFn, Args, ArgTypes } from './public-types';
 import type { FetchStoryHtmlType, ServerFramework } from './types';
 
-const { fetch, Node } = global;
+const { fetch, Node } = globalThis;
 
 const defaultFetchStoryHtml: FetchStoryHtmlType = async (url, path, params, storyContext) => {
   const fetchUrl = new URL(`${url}/${path}`);
   fetchUrl.search = new URLSearchParams({ ...storyContext.globals, ...params }).toString();
 
-  const response = await fetch(fetchUrl);
+  const response = await fetch(fetchUrl.toString());
   return response.text();
 };
 

@@ -1,4 +1,3 @@
-import globalThis from 'global';
 import { PartialStoryFn, StoryContext } from '@storybook/csf';
 
 const greetingForLocale = (locale: string) => {

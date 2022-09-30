@@ -1,14 +1,13 @@
-import global from 'global';
 import { dedent } from 'ts-dedent';
 
 import { logger } from '@storybook/client-logger';
 
 import { Background } from '../types';
 
-const { document, window } = global;
+const { document } = globalThis;
 
 export const isReduceMotionEnabled = () => {
-  const prefersReduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const prefersReduceMotion = globalThis.matchMedia('(prefers-reduced-motion: reduce)');
   return prefersReduceMotion.matches;
 };
 

@@ -1,4 +1,3 @@
-import global from 'global';
 import deprecate from 'util-deprecate';
 import { ClientApi } from '@storybook/client-api';
 import { PreviewWeb } from '@storybook/preview-web';
@@ -11,7 +10,7 @@ import type { Path, WebProjectAnnotations } from '@storybook/store';
 import { Loadable } from './types';
 import { executeLoadableForChanges } from './executeLoadable';
 
-const { window: globalWindow, FEATURES } = global;
+const { FEATURES } = globalThis;
 
 const configureDeprecationWarning = deprecate(
   () => {},
@@ -34,10 +33,8 @@ export function start<TFramework extends AnyFramework>(
     render?: ArgsStoryFn<TFramework>;
   } = {}
 ) {
-  if (globalWindow) {
-    // To enable user code to detect if it is running in Storybook
-    globalWindow.IS_STORYBOOK = true;
-  }
+  // To enable user code to detect if it is running in Storybook
+  globalThis.IS_STORYBOOK = true;
 
   if (FEATURES?.storyStoreV7) {
     return {
@@ -75,13 +72,11 @@ export function start<TFramework extends AnyFramework>(
   clientApi.onImportFnChanged = onStoriesChanged;
   clientApi.storyStore = preview.storyStore;
 
-  if (globalWindow) {
-    globalWindow.__STORYBOOK_CLIENT_API__ = clientApi;
-    globalWindow.__STORYBOOK_ADDONS_CHANNEL__ = channel;
-    // eslint-disable-next-line no-underscore-dangle
-    globalWindow.__STORYBOOK_PREVIEW__ = preview;
-    globalWindow.__STORYBOOK_STORY_STORE__ = preview.storyStore;
-  }
+  globalThis.__STORYBOOK_CLIENT_API__ = clientApi;
+  globalThis.__STORYBOOK_ADDONS_CHANNEL__ = channel;
+  // eslint-disable-next-line no-underscore-dangle
+  globalThis.__STORYBOOK_PREVIEW__ = preview;
+  globalThis.__STORYBOOK_STORY_STORE__ = preview.storyStore;
 
   return {
     forceReRender: () => channel.emit(Events.FORCE_RE_RENDER),

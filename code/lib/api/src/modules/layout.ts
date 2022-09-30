@@ -1,4 +1,3 @@
-import global from 'global';
 import pick from 'lodash/pick';
 import { dequal as deepEqual } from 'dequal';
 import { create } from '@storybook/theming/create';
@@ -10,7 +9,7 @@ import { dedent } from 'ts-dedent';
 import merge from '../lib/merge';
 import type { State, ModuleFn } from '../index';
 
-const { document } = global;
+const { document } = globalThis;
 
 export type PanelPositions = 'bottom' | 'right';
 export type ActiveTabsType = 'sidebar' | 'canvas' | 'addons';

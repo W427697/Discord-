@@ -1,10 +1,7 @@
 /* eslint-disable import/no-unresolved */
-// @ts-expect-error (Converted from ts-ignore)
-import global from 'global';
-
 import { LitElement, html, css } from 'lit-element';
 
-const { CustomEvent } = global;
+const { CustomEvent } = globalThis;
 
 const demoWcCardStyle = css`
   :host {

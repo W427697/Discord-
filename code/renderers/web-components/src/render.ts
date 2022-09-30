@@ -1,7 +1,4 @@
 /* eslint-disable no-param-reassign */
-// @ts-expect-error (Converted from ts-ignore)
-import global from 'global';
-
 import { dedent } from 'ts-dedent';
 import { render } from 'lit-html';
 // Keep `.js` extension to avoid issue with Webpack (related to export map?)
@@ -11,7 +8,7 @@ import { simulatePageLoad, simulateDOMContentLoaded } from '@storybook/preview-w
 import type { RenderContext } from '@storybook/store';
 import { WebComponentsFramework } from './types';
 
-const { Node } = global;
+const { Node } = globalThis;
 
 export function renderToDOM(
   { storyFn, kind, name, showMain, showError, forceRemount }: RenderContext<WebComponentsFramework>,

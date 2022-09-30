@@ -1,5 +1,3 @@
-import globalThis from 'global';
-
 import { action } from '@storybook/addon-actions';
 
 export default {

@@ -8,7 +8,6 @@ import {
   SET_CURRENT_STORY,
   STORY_RENDER_PHASE_CHANGED,
 } from '@storybook/core-events';
-import global from 'global';
 
 import {
   Call,
@@ -20,6 +19,8 @@ import {
   State,
   SyncPayload,
 } from './types';
+
+const { FEATURES } = globalThis;
 
 export const EVENTS = {
   CALL: 'storybook/instrumenter/call',
@@ -35,7 +36,7 @@ type PatchedObj<TObj> = {
   [Property in keyof TObj]: TObj[Property] & { __originalFn__: PatchedObj<TObj> };
 };
 
-const debuggerDisabled = global.FEATURES?.interactionsDebugger !== true;
+const debuggerDisabled = FEATURES?.interactionsDebugger !== true;
 const controlsDisabled: ControlStates = {
   debugger: !debuggerDisabled,
   start: false,
@@ -108,7 +109,7 @@ export class Instrumenter {
     this.channel = addons.getChannel();
 
     // Restore state from the parent window in case the iframe was reloaded.
-    this.state = global.window.parent.__STORYBOOK_ADDON_INTERACTIONS_INSTRUMENTER_STATE__ || {};
+    this.state = globalThis.parent.__STORYBOOK_ADDON_INTERACTIONS_INSTRUMENTER_STATE__ || {};
 
     // When called from `start`, isDebugging will be true.
     const resetState = ({
@@ -248,7 +249,7 @@ export class Instrumenter {
     const patch = typeof update === 'function' ? update(state) : update;
     this.state = { ...this.state, [storyId]: { ...state, ...patch } };
     // Track state on the parent window so we can reload the iframe without losing state.
-    global.window.parent.__STORYBOOK_ADDON_INTERACTIONS_INSTRUMENTER_STATE__ = this.state;
+    globalThis.parent.__STORYBOOK_ADDON_INTERACTIONS_INSTRUMENTER_STATE__ = this.state;
   }
 
   cleanup() {
@@ -261,7 +262,7 @@ export class Instrumenter {
     }, {} as Record<StoryId, State>);
     const payload: SyncPayload = { controlStates: controlsDisabled, logItems: [] };
     this.channel.emit(EVENTS.SYNC, payload);
-    global.window.parent.__STORYBOOK_ADDON_INTERACTIONS_INSTRUMENTER_STATE__ = this.state;
+    globalThis.parent.__STORYBOOK_ADDON_INTERACTIONS_INSTRUMENTER_STATE__ = this.state;
   }
 
   getLog(storyId: string): LogItem[] {
@@ -340,7 +341,7 @@ export class Instrumenter {
   // returns the original result.
   track(method: string, fn: Function, args: any[], options: Options) {
     const storyId: StoryId =
-      args?.[0]?.__storyId__ || global.window.__STORYBOOK_PREVIEW__?.urlStore?.selection?.storyId;
+      args?.[0]?.__storyId__ || globalThis.__STORYBOOK_PREVIEW__?.urlStore?.selection?.storyId;
     const { cursor, ancestors } = this.getState(storyId);
     this.setState(storyId, { cursor: cursor + 1 });
     const id = `${ancestors.slice(-1)[0] || storyId} [${cursor}] ${method}`;
@@ -382,7 +383,7 @@ export class Instrumenter {
 
   invoke(fn: Function, call: Call, options: Options) {
     // TODO this doesnt work because the abortSignal we have here is the newly created one
-    // const { abortSignal } = global.window.__STORYBOOK_PREVIEW__ || {};
+    // const { abortSignal } = globalThis.__STORYBOOK_PREVIEW__ || {};
     // if (abortSignal && abortSignal.aborted) throw IGNORED_EXCEPTION;
 
     const { callRefsByResult, renderPhase } = this.getState(call.storyId);
@@ -406,7 +407,7 @@ export class Instrumenter {
         const { flags, source } = value;
         return { __regexp__: { flags, source } };
       }
-      if (value instanceof global.window.HTMLElement) {
+      if (value instanceof globalThis.HTMLElement) {
         const { prefix, localName, id, classList, innerText } = value;
         const classNames = Array.from(classList);
         return { __element__: { prefix, localName, id, classNames, innerText } };
@@ -617,23 +618,24 @@ export function instrument<TObj extends Record<string, any>>(
     let forceInstrument = false;
     let skipInstrument = false;
 
-    if (global.window.location?.search?.includes('instrument=true')) {
+    if (globalThis.location?.search?.includes('instrument=true')) {
       forceInstrument = true;
-    } else if (global.window.location?.search?.includes('instrument=false')) {
+    } else if (globalThis.location?.search?.includes('instrument=false')) {
       skipInstrument = true;
     }
 
+    // @ts-expect-error TS doesn't consider one's an iframe
     // Don't do any instrumentation if not loaded in an iframe unless it's forced - instrumentation can also be skipped.
-    if ((global.window.parent === global.window && !forceInstrument) || skipInstrument) {
+    if ((globalThis.parent === globalThis && !forceInstrument) || skipInstrument) {
       return obj;
     }
 
     // Only create an instance if we don't have one (singleton) yet.
-    if (!global.window.__STORYBOOK_ADDON_INTERACTIONS_INSTRUMENTER__) {
-      global.window.__STORYBOOK_ADDON_INTERACTIONS_INSTRUMENTER__ = new Instrumenter();
+    if (!globalThis.__STORYBOOK_ADDON_INTERACTIONS_INSTRUMENTER__) {
+      globalThis.__STORYBOOK_ADDON_INTERACTIONS_INSTRUMENTER__ = new Instrumenter();
     }
 
-    const instrumenter: Instrumenter = global.window.__STORYBOOK_ADDON_INTERACTIONS_INSTRUMENTER__;
+    const instrumenter: Instrumenter = globalThis.__STORYBOOK_ADDON_INTERACTIONS_INSTRUMENTER__;
     return instrumenter.instrument(obj, options);
   } catch (e) {
     // Access to the parent window might fail due to CORS restrictions.

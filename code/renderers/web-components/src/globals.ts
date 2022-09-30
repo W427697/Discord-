@@ -1,6 +1,3 @@
-// @ts-expect-error (Converted from ts-ignore)
-import global from 'global';
+globalThis.STORYBOOK_ENV = 'web-components';
 
-const { window: globalWindow } = global;
-
-globalWindow.STORYBOOK_ENV = 'web-components';
+export {};

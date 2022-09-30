@@ -1,15 +1,11 @@
-import global from 'global';
+import type { ReleaseNotesData } from '@storybook/core-common';
 import memoize from 'memoizerific';
 
 import type { ModuleFn } from '../index';
 
-const { RELEASE_NOTES_DATA } = global;
+const { RELEASE_NOTES_DATA } = globalThis;
 
-export interface ReleaseNotes {
-  success?: boolean;
-  currentVersion?: string;
-  showOnFirstLaunch?: boolean;
-}
+export type ReleaseNotes = Partial<ReleaseNotesData>;
 
 const getReleaseNotesData = memoize(1)((): ReleaseNotes => {
   try {

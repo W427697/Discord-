@@ -1,6 +1,6 @@
-import global from 'global';
+import '../../../typings.d';
 
-const { window: globalWindow } = global;
+globalThis.STORYBOOK_NAME = process.env.STORYBOOK_NAME;
+globalThis.STORYBOOK_ENV = 'ember';
 
-globalWindow.STORYBOOK_NAME = process.env.STORYBOOK_NAME;
-globalWindow.STORYBOOK_ENV = 'ember';
+export {};

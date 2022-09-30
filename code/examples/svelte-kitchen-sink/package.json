@@ -6,9 +6,6 @@
     "build-storybook": "storybook build",
     "storybook": "storybook dev -p 9009 --no-manager-cache"
   },
-  "dependencies": {
-    "global": "^4.4.0"
-  },
   "devDependencies": {
     "@storybook/addon-a11y": "7.0.0-alpha.34",
     "@storybook/addon-actions": "7.0.0-alpha.34",

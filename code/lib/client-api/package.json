@@ -40,7 +40,6 @@
     "@storybook/store": "7.0.0-alpha.34",
     "@types/qs": "^6.9.5",
     "@types/webpack-env": "^1.16.4",
-    "global": "^4.4.0",
     "qs": "^6.10.0",
     "synchronous-promise": "^2.0.15",
     "ts-dedent": "^2.0.0",

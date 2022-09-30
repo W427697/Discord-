@@ -3,7 +3,6 @@ import { styled } from '@storybook/theming';
 import { Icons } from '@storybook/components';
 import Downshift, { DownshiftState, StateChangeOptions } from 'downshift';
 import Fuse, { FuseOptions } from 'fuse.js';
-import global from 'global';
 import { transparentize } from 'polished';
 import React, { useMemo, useRef, useState, useCallback } from 'react';
 
@@ -22,7 +21,7 @@ import {
 } from './types';
 import { searchItem } from './utils';
 
-const { document } = global;
+const { document } = globalThis;
 
 const DEFAULT_MAX_SEARCH_RESULTS = 50;
 

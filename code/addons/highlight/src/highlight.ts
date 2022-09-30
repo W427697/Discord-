@@ -1,10 +1,9 @@
 /* eslint-env browser */
-import global from 'global';
 import { addons } from '@storybook/addons';
 import { STORY_CHANGED } from '@storybook/core-events';
 import { HIGHLIGHT, RESET_HIGHLIGHT, HIGHLIGHT_STYLE_ID } from './constants';
 
-const { document } = global;
+const { document } = globalThis;
 
 type OutlineStyle = 'dotted' | 'dashed' | 'solid' | 'double';
 

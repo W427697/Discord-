@@ -1,7 +1,4 @@
 import React, { Component } from 'react';
-import global from 'global';
-
-const { window: globalWindow } = global;
 
 interface IFrameProps {
   id: string;
@@ -25,7 +22,7 @@ export class IFrame extends Component<IFrameProps> {
 
   componentDidMount() {
     const { id } = this.props;
-    this.iframe = globalWindow.document.getElementById(id);
+    this.iframe = globalThis.document.getElementById(id);
   }
 
   shouldComponentUpdate(nextProps: IFrameProps) {

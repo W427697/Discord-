@@ -1,4 +1,3 @@
-import global from 'global';
 import { enableProdMode, NgModule, Component, NgModuleRef, Type, NgZone } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
@@ -9,13 +8,7 @@ import { AppComponent } from './app.component';
 import { STORY } from './app.token';
 import type { NgModuleMetadata, StoryFnAngularReturnType, AngularFramework } from '../types';
 
-const { document } = global;
-
-declare global {
-  interface Window {
-    NODE_ENV: 'string' | 'development' | undefined;
-  }
-}
+const { document } = globalThis;
 
 let platform: any = null;
 let promises: Promise<NgModuleRef<any>>[] = [];

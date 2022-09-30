@@ -1,4 +1,3 @@
-import global from 'global';
 import { PREVIEW_KEYDOWN } from '@storybook/core-events';
 
 import type { ModuleFn } from '../index';
@@ -6,7 +5,7 @@ import type { ModuleFn } from '../index';
 import { shortcutMatchesShortcut, eventToShortcut } from '../lib/shortcut';
 import { focusableUIElements } from './layout';
 
-const { navigator, document } = global;
+const { navigator, document } = globalThis;
 
 export const isMacLike = () =>
   navigator && navigator.platform ? !!navigator.platform.match(/(Mac|iPhone|iPod|iPad)/i) : false;
@@ -226,7 +225,7 @@ export const init: ModuleFn = ({ store, fullAPI }) => {
         }
 
         case 'focusIframe': {
-          const element = document.getElementById('storybook-preview-iframe');
+          const element = document.getElementById('storybook-preview-iframe') as HTMLIFrameElement;
 
           if (element) {
             try {

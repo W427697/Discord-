@@ -4,7 +4,6 @@ import deprecate from 'util-deprecate';
 import { dedent } from 'ts-dedent';
 import mapValues from 'lodash/mapValues';
 import countBy from 'lodash/countBy';
-import global from 'global';
 import { toId, sanitize } from '@storybook/csf';
 import type {
   StoryId,
@@ -18,12 +17,13 @@ import type {
 } from '@storybook/csf';
 import type { DocsOptions } from '@storybook/core-common';
 
+import '../../../../globalThis.d';
 import { combineParameters } from '../index';
 import merge from './merge';
 import type { Provider } from '../modules/provider';
 import type { ViewMode } from '../modules/addons';
 
-const { FEATURES } = global;
+const { FEATURES } = globalThis;
 
 export type { StoryId };
 

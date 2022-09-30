@@ -65,7 +65,6 @@
     "@storybook/components": "7.0.0-alpha.34",
     "@storybook/core-events": "7.0.0-alpha.34",
     "@storybook/theming": "7.0.0-alpha.34",
-    "global": "^4.4.0",
     "react-sizeme": "^3.0.1",
     "upath": "^1.2.0"
   },

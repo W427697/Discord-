@@ -1,8 +1,7 @@
-import global from 'global';
 import { LitElement, html } from 'lit';
 import { demoWcCardStyle } from './demoWcCardStyle.css.js';
 
-const { CustomEvent } = global;
+const { CustomEvent } = globalThis;
 
 /**
  * This is a container looking like a card with a back and front side you can switch

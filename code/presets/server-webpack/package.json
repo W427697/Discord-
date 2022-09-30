@@ -59,7 +59,6 @@
     "@storybook/core-webpack": "7.0.0-alpha.34",
     "@storybook/server": "7.0.0-alpha.34",
     "@types/node": "^14.14.20 || ^16.0.0",
-    "global": "^4.4.0",
     "react": "16.14.0",
     "react-dom": "16.14.0",
     "safe-identifier": "^0.4.1",

@@ -1,7 +1,6 @@
 /** @jsxRuntime classic */
 /** @jsx h */
 
-import global from 'global';
 import configure from '../configure';
 import hasDependency from '../hasDependency';
 import { Loader } from '../Loader';
@@ -14,7 +13,7 @@ function test(options: StoryshotsOptions): boolean {
 }
 
 function load(options: StoryshotsOptions) {
-  global.STORYBOOK_ENV = 'preact';
+  globalThis.STORYBOOK_ENV = 'preact';
 
   const storybook = jest.requireActual('@storybook/preact');
 

@@ -1,4 +1,3 @@
-import global from 'global';
 import type { ReactElement } from 'react';
 import { Channel } from '@storybook/channels';
 import { SET_CONFIG } from '@storybook/core-events';
@@ -145,13 +144,12 @@ export class AddonStore {
 }
 
 // Enforce addons store to be a singleton
-const KEY = '__STORYBOOK_ADDONS';
-
+/* eslint-disable no-underscore-dangle */
 function getAddonsStore(): AddonStore {
-  if (!global[KEY]) {
-    global[KEY] = new AddonStore();
+  if (!globalThis.__STORYBOOK_ADDONS) {
+    globalThis.__STORYBOOK_ADDONS = new AddonStore();
   }
-  return global[KEY];
+  return globalThis.__STORYBOOK_ADDONS;
 }
 
 // Exporting this twice in order to to be able to import it like { addons } instead of 'addons'

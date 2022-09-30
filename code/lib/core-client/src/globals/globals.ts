@@ -1,5 +1,3 @@
-import global from 'global';
+globalThis.STORYBOOK_REACT_CLASSES = {};
 
-const { window: globalWindow } = global;
-
-globalWindow.STORYBOOK_REACT_CLASSES = {};
+export {};

@@ -1,6 +1,9 @@
 module.exports = {
   root: true,
   extends: ['@storybook/eslint-config-storybook', 'plugin:storybook/recommended'],
+  globals: {
+    globalThis: false,
+  },
   rules: {
     '@typescript-eslint/ban-ts-comment': 'error',
     'jest/no-standalone-expect': [

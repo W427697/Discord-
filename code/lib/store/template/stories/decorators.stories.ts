@@ -1,4 +1,3 @@
-import globalThis from 'global';
 import { PartialStoryFn, PlayFunctionContext, StoryContext } from '@storybook/csf';
 import { within } from '@storybook/testing-library';
 import { expect } from '@storybook/jest';

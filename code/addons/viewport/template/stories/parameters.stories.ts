@@ -1,4 +1,3 @@
-import globalThis from 'global';
 import { MINIMAL_VIEWPORTS } from '@storybook/addon-viewport';
 
 export default {

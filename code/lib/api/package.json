@@ -40,7 +40,6 @@
     "@storybook/semver": "^7.3.2",
     "@storybook/theming": "7.0.0-alpha.34",
     "dequal": "^2.0.2",
-    "global": "^4.4.0",
     "lodash": "^4.17.21",
     "memoizerific": "^1.11.3",
     "store2": "^2.12.0",

@@ -1,4 +1,3 @@
-import global from 'global';
 import hasDependency from '../hasDependency';
 import configure from '../configure';
 import { Loader } from '../Loader';
@@ -9,7 +8,7 @@ function test(options: StoryshotsOptions): boolean {
 }
 
 function load(options: StoryshotsOptions) {
-  global.STORYBOOK_ENV = 'vue3';
+  globalThis.STORYBOOK_ENV = 'vue3';
 
   const storybook = jest.requireActual('@storybook/vue3');
 

@@ -1,5 +1,3 @@
-import globalThis from 'global';
-
 import { actions, configureActions } from '@storybook/addon-actions';
 
 const configs = actions('actionA', 'actionB', 'actionC');

@@ -1,8 +1,8 @@
-import global from 'global';
+import '../../../globalThis.d';
 
-const { LOGLEVEL, console } = global;
+const { LOGLEVEL, console } = globalThis;
 
-type LogLevel = 'trace' | 'debug' | 'info' | 'warn' | 'error' | 'silent';
+type LogLevel = typeof LOGLEVEL;
 
 const levels: Record<LogLevel, number> = {
   trace: 1,
@@ -20,17 +20,17 @@ type LoggingFn = (message: any, ...args: any[]) => void;
 
 export const logger = {
   trace: (message: any, ...rest: any[]): void =>
-    currentLogLevelNumber <= levels.trace && console.trace(message, ...rest),
+    currentLogLevelNumber <= levels.trace ? console.trace(message, ...rest) : undefined,
   debug: (message: any, ...rest: any[]): void =>
-    currentLogLevelNumber <= levels.debug && console.debug(message, ...rest),
+    currentLogLevelNumber <= levels.debug ? console.debug(message, ...rest) : undefined,
   info: (message: any, ...rest: any[]): void =>
-    currentLogLevelNumber <= levels.info && console.info(message, ...rest),
+    currentLogLevelNumber <= levels.info ? console.info(message, ...rest) : undefined,
   warn: (message: any, ...rest: any[]): void =>
-    currentLogLevelNumber <= levels.warn && console.warn(message, ...rest),
+    currentLogLevelNumber <= levels.warn ? console.warn(message, ...rest) : undefined,
   error: (message: any, ...rest: any[]): void =>
-    currentLogLevelNumber <= levels.error && console.error(message, ...rest),
+    currentLogLevelNumber <= levels.error ? console.error(message, ...rest) : undefined,
   log: (message: any, ...rest: any[]): void =>
-    currentLogLevelNumber < levels.silent && console.log(message, ...rest),
+    currentLogLevelNumber < levels.silent ? console.log(message, ...rest) : undefined,
 } as const;
 
 const logged = new Set();

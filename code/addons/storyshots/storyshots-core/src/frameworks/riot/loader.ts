@@ -1,4 +1,3 @@
-import global from 'global';
 import hasDependency from '../hasDependency';
 import configure from '../configure';
 import { Loader } from '../Loader';
@@ -13,7 +12,7 @@ function test(options: StoryshotsOptions): boolean {
 }
 
 function load(options: StoryshotsOptions) {
-  global.STORYBOOK_ENV = 'riot';
+  globalThis.STORYBOOK_ENV = 'riot';
   mockRiotToIncludeCompiler();
 
   const storybook = jest.requireActual('@storybook/riot');

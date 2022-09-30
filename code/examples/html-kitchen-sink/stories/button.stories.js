@@ -1,7 +1,6 @@
-import global from 'global';
 import { useEffect } from '@storybook/client-api';
 
-const { document } = global;
+const { document } = globalThis;
 
 export default {
   title: 'Demo',

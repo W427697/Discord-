@@ -1,4 +1,3 @@
-import global from 'global';
 import hasDependency from '../hasDependency';
 import configure from '../configure';
 import { Loader } from '../Loader';
@@ -11,7 +10,7 @@ function test(options: StoryshotsOptions): boolean {
 }
 
 function load(options: StoryshotsOptions) {
-  global.STORYBOOK_ENV = 'svelte';
+  globalThis.STORYBOOK_ENV = 'svelte';
 
   const storybook = jest.requireActual('@storybook/svelte');
 

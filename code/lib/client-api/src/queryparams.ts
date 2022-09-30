@@ -1,7 +1,6 @@
-import global from 'global';
 import { parse } from 'qs';
 
-const { document } = global;
+const { document } = globalThis;
 
 export const getQueryParams = () => {
   // document.location is not defined in react-native

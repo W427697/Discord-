@@ -1,4 +1,3 @@
-import globalThis from 'global';
 import { expect } from '@storybook/jest';
 import { PlayFunctionContext } from '@storybook/csf';
 

@@ -1,7 +1,4 @@
-// @ts-expect-error (Converted from ts-ignore)
-import global from 'global';
-
-const { window, EventSource } = global;
+const { EventSource } = globalThis;
 
 export * from './globals';
 
@@ -20,7 +17,7 @@ if (module && module.hot && module.hot.decline) {
       // Only care for built events.  Heartbeats are not parsable so we ignore those
       const { action } = JSON.parse(event.data);
       if (action === 'built') {
-        window.location.reload();
+        globalThis.location.reload();
       }
     } catch (error) {
       // Most part we only get here from the data in the server-sent event not being parsable which is ok

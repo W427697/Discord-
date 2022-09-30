@@ -1,10 +1,9 @@
-import global from 'global';
 import React from 'react';
 import { getStoryHref, IconButton, Icons } from '@storybook/components';
 import { Consumer, Combo } from '@storybook/api';
 import { Addon } from '@storybook/addons';
 
-const { PREVIEW_URL } = global;
+const { PREVIEW_URL } = globalThis;
 
 const ejectMapper = ({ state }: Combo) => {
   const { storyId, refId, refs } = state;
