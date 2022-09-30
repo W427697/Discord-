@@ -21,7 +21,7 @@ export class SbHtml extends LitElement {
   }
 
   render() {
-    return this.content;
+    this.renderRoot.innerHTML = this.content;
   }
 }
 
