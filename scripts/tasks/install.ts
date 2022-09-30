@@ -8,7 +8,7 @@ import { installYarn2, configureYarn2ForVerdaccio, addPackageResolutions } from 
 import { exec } from '../utils/exec';
 
 export const install: Task = {
-  before: ({ link }) => (link ? ['create'] : ['create', 'run-registry-repo']),
+  before: ({ link }) => (link ? ['create'] : ['run-registry-repo', 'create']),
   async ready({ sandboxDir }) {
     return pathExists(join(sandboxDir, 'node_modules'));
   },
