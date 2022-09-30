@@ -25,7 +25,8 @@ export class SbForm extends LitElement {
     this.complete = false;
   }
 
-  onSubmit() {
+  onSubmit(event) {
+    event.preventDefault();
     const options = {
       bubbles: true,
       composed: true,
@@ -55,11 +56,12 @@ export class SbForm extends LitElement {
             @change=${(event) => {
               event.preventDefault();
               this.value = event.target.value;
+              return false;
             }}
           />
         </label>
         <button type="submit">Submit</button>
-        ${this.complete && '<p>Completed!!</p>'}
+        ${this.complete ? 'Completed!!' : ''}
       </form>
     `;
   }
