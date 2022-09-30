@@ -69,7 +69,7 @@
     "entries": [
       "./src/index.ts"
     ],
-    "platform": "browser"
+    "platform": "node"
   },
   "gitHead": "fc90fc875462421c1faa35862ac4bc436de8e75f"
 }
