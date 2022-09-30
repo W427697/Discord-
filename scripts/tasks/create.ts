@@ -1,6 +1,6 @@
 /* eslint-disable no-restricted-syntax, no-await-in-loop */
 import { join, resolve } from 'path';
-import { copy, existsSync, pathExists, remove } from 'fs-extra';
+import { copy, ensureDir, existsSync, pathExists, remove } from 'fs-extra';
 import dedent from 'ts-dedent';
 
 import type { Task } from '../task';
@@ -19,6 +19,9 @@ export const create: Task = {
     return remove(sandboxDir);
   },
   async run({ key, template, sandboxDir }, { addon: addons, fromLocalRepro, dryRun, debug }) {
+    const parentDir = resolve(sandboxDir, '..');
+    await ensureDir(parentDir);
+
     if (fromLocalRepro) {
       const srcDir = join(reprosDir, key, 'after-storybook');
       if (!existsSync(srcDir)) {
@@ -37,7 +40,7 @@ export const create: Task = {
       await executeCLIStep(steps.repro, {
         argument: key,
         optionValues: { output: sandboxDir, branch: 'next' },
-        cwd: resolve(sandboxDir, '..'),
+        cwd: parentDir,
         dryRun,
         debug,
       });
