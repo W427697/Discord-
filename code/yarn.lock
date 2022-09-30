@@ -7428,6 +7428,7 @@ __metadata:
     "@types/express": ^4.17.13
     "@types/node": ^17.0.23
     "@vitejs/plugin-react": ^2.0.0
+    browser-assert: ^1.2.1
     es-module-lexer: ^0.9.3
     glob: ^7.2.0
     glob-promise: ^4.2.0
