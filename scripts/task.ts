@@ -337,7 +337,7 @@ async function run() {
     }));
   }
 
-  for (let i = sortedTasks.indexOf(firstTask); i <= sortedTasks.length; i += 1) {
+  for (let i = sortedTasks.indexOf(firstTask); i < sortedTasks.length; i += 1) {
     sortedTasksStatus[i][1] = 'running';
     writeTaskList(sortedTasksStatus);
     const taskController = await runTask(sortedTasks[i], details, {
