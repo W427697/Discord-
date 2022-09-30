@@ -1,4 +1,4 @@
-import path, { join } from 'path';
+import path from 'path';
 import { ensureDir, pathExists, remove } from 'fs-extra';
 import prompts from 'prompts';
 import program from 'commander';
