@@ -7267,6 +7267,7 @@ __metadata:
     "@storybook/theming": 7.0.0-alpha.34
     "@types/react": ^16.14.23
     "@types/react-syntax-highlighter": 11.0.5
+    core-js: ^3.8.2
     estraverse: ^5.2.0
     prop-types: ^15.7.2
     react-syntax-highlighter: ^15.5.0
