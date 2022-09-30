@@ -91,7 +91,7 @@
       "./src/manager.tsx"
     ]
   },
-  "gitHead": "02c013c33186479017098d532a18ff8654b91f1f",
+  "gitHead": "fc90fc875462421c1faa35862ac4bc436de8e75f",
   "storybook": {
     "displayName": "Storysource",
     "icon": "https://user-images.githubusercontent.com/263385/101991675-48cdf300-3c7c-11eb-9400-58de5ac6daa7.png",
