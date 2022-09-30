@@ -485,7 +485,7 @@ jobs:
           at: .
       - run:
           name: Creating Sandboxes
-          command: yarn task --task sandbox --template $(yarn get-template ci) --reset=never --junit
+          command: yarn task --task sandbox --template $(yarn get-template ci) --reset=create --junit
           working_directory: code
       - persist_to_workspace:
           root: .
