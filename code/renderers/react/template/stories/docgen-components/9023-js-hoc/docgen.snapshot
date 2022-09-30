@@ -9,7 +9,7 @@ exports[`react component properties 9023-js-hoc 1`] = `
 
 /* eslint-disable react/prefer-stateless-function */
 import React from 'react';
-import PropTypes from 'prop-types'; // deepscan-ignore-next-line
+import PropTypes from 'prop-types'; // deepscan-disable-next-line
 
 const withStyles = themeFn => Comp => Comp;
 
