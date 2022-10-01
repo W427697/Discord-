@@ -98,7 +98,7 @@ const litViteTemplates = {
   'lit-vite/default-js': {
     name: 'Lit Vite (JS)',
     script: 'yarn create vite . --template lit',
-    cadence: ['ci', 'daily', 'weekly'],
+    cadence: [] as any,
     expected: {
       framework: '@storybook/web-components-vite',
       renderer: '@storybook/web-components',
@@ -108,7 +108,7 @@ const litViteTemplates = {
   'lit-vite/default-ts': {
     name: 'Lit Vite (TS)',
     script: 'yarn create vite . --template lit-ts',
-    cadence: ['ci', 'daily', 'weekly'],
+    cadence: [] as any,
     expected: {
       framework: '@storybook/web-components-vite',
       renderer: '@storybook/web-components',
@@ -128,20 +128,18 @@ const vueCliTemplates = {
       builder: '@storybook/builder-webpack5',
     },
   },
-  //
-  // FIXME: https://github.com/storybookjs/storybook/issues/19204
-  //
-  // 'vue-cli/vue2-default-js': {
-  //   name: 'Vue-CLI (Vue2 JS)',
-  //   script:
-  //     'npx -p @vue/cli vue create . --default --packageManager=yarn --force --merge --preset=Default\\ (Vue\\ 2)',
-  //   cadence: ['ci', 'daily', 'weekly'],
-  //   expected: {
-  //     framework: '@storybook/vue-webpack5',
-  //     renderer: '@storybook/vue',
-  //     builder: '@storybook/builder-webpack5',
-  //   },
-  // },
+  'vue-cli/vue2-default-js': {
+    name: 'Vue-CLI (Vue2 JS)',
+    script:
+      'npx -p @vue/cli vue create . --default --packageManager=yarn --force --merge --preset=Default\\ (Vue\\ 2)',
+    // FIXME: https://github.com/storybookjs/storybook/issues/19204
+    cadence: [] as any,
+    expected: {
+      framework: '@storybook/vue-webpack5',
+      renderer: '@storybook/vue',
+      builder: '@storybook/builder-webpack5',
+    },
+  },
 };
 
 export default {
