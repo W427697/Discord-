@@ -98,7 +98,7 @@ const litViteTemplates = {
   'lit-vite/default-js': {
     name: 'Lit Vite (JS)',
     script: 'yarn create vite . --template lit',
-    cadence: ['ci', 'daily', 'weekly'],
+    cadence: [] as any,
     expected: {
       framework: '@storybook/web-components-vite',
       renderer: '@storybook/web-components',
@@ -108,7 +108,7 @@ const litViteTemplates = {
   'lit-vite/default-ts': {
     name: 'Lit Vite (TS)',
     script: 'yarn create vite . --template lit-ts',
-    cadence: ['ci', 'daily', 'weekly'],
+    cadence: [] as any,
     expected: {
       framework: '@storybook/web-components-vite',
       renderer: '@storybook/web-components',
