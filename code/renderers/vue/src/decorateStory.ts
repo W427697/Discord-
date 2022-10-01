@@ -10,7 +10,8 @@ export const WRAPS = 'STORYBOOK_WRAPS';
 
 function prepare(
   rawStory: StoryFnVueReturnType,
-  innerStory?: VueConstructor
+  innerStory?: VueConstructor,
+  context?: StoryContext<VueFramework>
 ): VueConstructor | null {
   let story: ComponentOptions<Vue> | VueConstructor;
 
@@ -38,7 +39,11 @@ function prepare(
     // @ts-expect-error // https://github.com/storybookjs/storybook/pull/7578#discussion_r307985279
     [WRAPS]: story,
     // @ts-expect-error // https://github.com/storybookjs/storybook/pull/7578#discussion_r307984824
-    [VALUES]: { ...(innerStory ? innerStory.options[VALUES] : {}), ...extractProps(story) },
+    [VALUES]: {
+      ...(innerStory ? innerStory.options[VALUES] : {}),
+      ...extractProps(story),
+      ...(context?.args || {}),
+    },
     functional: true,
     render(h, { data, parent, children }) {
       return h(
@@ -77,6 +82,8 @@ export function decorateStory(
 
       return prepare(decoratedStory, story as any);
     },
-    (context) => prepare(storyFn(context))
+    (context) => {
+      return prepare(storyFn(context), null, context);
+    }
   );
 }
