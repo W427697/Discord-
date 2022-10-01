@@ -8667,6 +8667,7 @@ __metadata:
     "@storybook/vue3-vite": "workspace:*"
     "@storybook/vue3-webpack5": "workspace:*"
     "@storybook/web-components": "workspace:*"
+    "@storybook/web-components-vite": "workspace:*"
     "@storybook/web-components-webpack5": "workspace:*"
     "@testing-library/dom": ^7.29.4
     "@testing-library/jest-dom": ^5.11.9
@@ -9230,6 +9231,27 @@ __metadata:
     babel-loader: ^7.0.0 || ^8.0.0
     css-loader: "*"
     vue: ^2.6.8
+  languageName: unknown
+  linkType: soft
+
+"@storybook/web-components-vite@workspace:*, @storybook/web-components-vite@workspace:frameworks/web-components-vite":
+  version: 0.0.0-use.local
+  resolution: "@storybook/web-components-vite@workspace:frameworks/web-components-vite"
+  dependencies:
+    "@storybook/addons": 7.0.0-alpha.34
+    "@storybook/builder-vite": 7.0.0-alpha.34
+    "@storybook/channel-postmessage": 7.0.0-alpha.34
+    "@storybook/channel-websocket": 7.0.0-alpha.34
+    "@storybook/client-api": 7.0.0-alpha.34
+    "@storybook/core-server": 7.0.0-alpha.34
+    "@storybook/node-logger": 7.0.0-alpha.34
+    "@storybook/preview-web": 7.0.0-alpha.34
+    "@storybook/web-components": 7.0.0-alpha.34
+    "@types/node": ^14.14.20 || ^16.0.0
+    "@vitejs/plugin-vue": ^3.0.3
+    magic-string: ^0.26.1
+    typescript: ~4.6.3
+    vite: ^3.1.0
   languageName: unknown
   linkType: soft
 
