@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable no-underscore-dangle */
 import { dedent } from 'ts-dedent';
 import Vue from 'vue';
@@ -41,12 +42,15 @@ const getRoot = (domElement: Element): [Instance, Element] => {
         [VALUES]: {},
       };
     },
+    // @ts-ignore
     render(h) {
+      // @ts-ignore
       map.set(domElement, instance);
       return this[COMPONENT] ? [h(this[COMPONENT])] : undefined;
     },
   });
 
+  // @ts-ignore
   return [instance, target];
 };
 
