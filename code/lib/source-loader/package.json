@@ -60,6 +60,7 @@
     "access": "public"
   },
   "bundler": {
+    "platform": "browser",
     "entries": [
       "./src/index.ts"
     ]
