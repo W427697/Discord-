@@ -42,9 +42,8 @@ const getRoot = (domElement: Element): [Instance, Element] => {
       };
     },
     render(h) {
-      map.set(domElement, [instance, target]);
-      const children = this[COMPONENT] ? [h(this[COMPONENT])] : undefined;
-      return h('div', { attrs: { id: 'storybook-vue-root' } }, children);
+      map.set(domElement, instance);
+      return this[COMPONENT] ? [h(this[COMPONENT])] : undefined;
     },
   });
 
@@ -92,7 +91,6 @@ export function renderToDOM(
     title,
     name,
     storyFn,
-    storyContext: { args },
     showMain,
     showError,
     showException,
@@ -103,6 +101,20 @@ export function renderToDOM(
   const [root, target] = getRoot(domElement);
   Vue.config.errorHandler = showException;
   const element = storyFn();
+
+  let mountTarget: Element;
+
+  // Vue2 mount always replaces the mount target with Vue-generated DOM.
+  // https://v2.vuejs.org/v2/api/#el:~:text=replaced%20with%20Vue%2Dgenerated%20DOM
+  // We cannot mount to the domElement directly, because it would be replaced. That would
+  // break the references to the domElement like canvasElement used in the play function.
+  // Instead, we mount to a child element of the domElement, creating one if necessary.
+  if (domElement.hasChildNodes()) {
+    mountTarget = domElement.firstElementChild;
+  } else {
+    mountTarget = document.createElement('div');
+    domElement.appendChild(mountTarget);
+  }
 
   if (!element) {
     showError({
@@ -121,10 +133,10 @@ export function renderToDOM(
   }
 
   // @ts-expect-error https://github.com/storybookjs/storrybook/pull/7578#discussion_r307986139
-  root[VALUES] = { ...element.options[VALUES], ...args };
+  root[VALUES] = { ...element.options[VALUES] };
 
   if (!map.has(domElement)) {
-    root.$mount(target);
+    root.$mount(mountTarget);
   }
 
   showMain();
