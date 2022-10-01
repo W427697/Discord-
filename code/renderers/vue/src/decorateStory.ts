@@ -38,9 +38,10 @@ function prepare(
   return Vue.extend({
     // @ts-expect-error // https://github.com/storybookjs/storybook/pull/7578#discussion_r307985279
     [WRAPS]: story,
-    // @ts-expect-error // https://github.com/storybookjs/storybook/pull/7578#discussion_r307984824
     [VALUES]: {
+      // @ts-expect-error // https://github.com/storybookjs/storybook/pull/7578#discussion_r307984824
       ...(innerStory ? innerStory.options[VALUES] : {}),
+      // @ts-expect-error // https://github.com/storybookjs/storybook/pull/7578#discussion_r307984824
       ...extractProps(story),
       ...(context?.args || {}),
     },
