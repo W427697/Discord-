@@ -132,8 +132,7 @@ const vueCliTemplates = {
     name: 'Vue-CLI (Vue2 JS)',
     script:
       'npx -p @vue/cli vue create . --default --packageManager=yarn --force --merge --preset=Default\\ (Vue\\ 2)',
-    // FIXME: https://github.com/storybookjs/storybook/issues/19204
-    cadence: [] as any,
+    cadence: ['ci', 'daily', 'weekly'],
     expected: {
       framework: '@storybook/vue-webpack5',
       renderer: '@storybook/vue',
