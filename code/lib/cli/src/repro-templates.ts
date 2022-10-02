@@ -78,7 +78,7 @@ const vue2ViteTemplates = {
     cadence: ['ci', 'daily', 'weekly'],
     expected: {
       framework: '@storybook/vue2-vite',
-      renderer: '@storybook/vue2',
+      renderer: '@storybook/vue',
       builder: '@storybook/builder-vite',
     },
   },
