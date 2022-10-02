@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable no-underscore-dangle */
 import { dedent } from 'ts-dedent';
 import Vue from 'vue';
@@ -10,7 +9,7 @@ import type { VueFramework } from './types';
 export const COMPONENT = 'STORYBOOK_COMPONENT';
 export const VALUES = 'STORYBOOK_VALUES';
 
-const map = new Map<Element, [Instance, Element]>();
+const map = new Map<Element, Instance>();
 type Instance = CombinedVueInstance<
   Vue,
   {
@@ -22,7 +21,7 @@ type Instance = CombinedVueInstance<
   Record<never, any>,
   unknown
 >;
-const getRoot = (domElement: Element): [Instance, Element] => {
+const getRoot = (domElement: Element): Instance => {
   if (map.has(domElement)) {
     return map.get(domElement);
   }
@@ -42,16 +41,14 @@ const getRoot = (domElement: Element): [Instance, Element] => {
         [VALUES]: {},
       };
     },
-    // @ts-ignore
+    // @ts-expect-error What's going on here?
     render(h) {
-      // @ts-ignore
       map.set(domElement, instance);
       return this[COMPONENT] ? [h(this[COMPONENT])] : undefined;
     },
-  });
+  }) as Instance;
 
-  // @ts-ignore
-  return [instance, target];
+  return instance;
 };
 
 export const render: ArgsStoryFn<VueFramework> = (args, context) => {
@@ -82,11 +79,8 @@ export const render: ArgsStoryFn<VueFramework> = (args, context) => {
 
   return {
     props: Object.keys(argTypes),
-    data() {
-      return { args };
-    },
     components: { [componentName]: component },
-    template: `<${componentName} v-bind="args" />`,
+    template: `<${componentName} v-bind="$props" />`,
   };
 };
 
@@ -102,7 +96,7 @@ export function renderToDOM(
   }: RenderContext<VueFramework>,
   domElement: Element
 ) {
-  const [root, target] = getRoot(domElement);
+  const root = getRoot(domElement);
   Vue.config.errorHandler = showException;
   const element = storyFn();
 
