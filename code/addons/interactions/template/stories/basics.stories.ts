@@ -16,6 +16,7 @@ export default {
   },
 };
 
+// FIXME: remove this when @storybook/testing-library supports shadow DOM
 const safeWithin = (canvasElement) =>
   globalThis.storybookRenderer === 'web-components'
     ? within(canvasElement.querySelector(globalThis.Components.Form).shadowRoot)
