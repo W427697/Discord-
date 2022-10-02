@@ -16,9 +16,14 @@ export default {
   },
 };
 
+const safeWithin = (canvasElement) =>
+  globalThis.storybookRenderer === 'web-components'
+    ? within(canvasElement.querySelector(globalThis.Components.Form).shadowRoot)
+    : within(canvasElement);
+
 export const Type = {
   play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement);
+    const canvas = safeWithin(canvasElement);
     await userEvent.type(canvas.getByTestId('value'), 'test');
   },
 };
@@ -31,7 +36,7 @@ export const Step = {
 
 export const Callback = {
   play: async ({ args, canvasElement, step }) => {
-    const canvas = within(canvasElement);
+    const canvas = safeWithin(canvasElement);
     await step('Enter value', Type.play);
 
     await step('Submit', async () => {
@@ -46,15 +51,22 @@ export const Callback = {
 // an explicit test here
 export const SyncWaitFor = {
   play: async ({ canvasElement, step }) => {
-    const canvas = within(canvasElement);
+    const canvas = safeWithin(canvasElement);
     await step('Setup', Callback.play);
-    await waitFor(() => canvas.getByText('Completed!!'));
+
+    // FIXME: why doesn't this work?
+    // await waitFor(() => {
+    //   canvas.getByText('Completed!!');
+    // });
+
+    const completed = await canvas.findByText('Completed!!');
+    await expect(completed).toBeInTheDocument();
   },
 };
 
 export const AsyncWaitFor = {
   play: async ({ canvasElement, step }) => {
-    const canvas = within(canvasElement);
+    const canvas = safeWithin(canvasElement);
     await step('Setup', Callback.play);
     await waitFor(async () => canvas.getByText('Completed!!'));
   },
@@ -62,7 +74,7 @@ export const AsyncWaitFor = {
 
 export const WaitForElementToBeRemoved = {
   play: async ({ canvasElement, step }) => {
-    const canvas = within(canvasElement);
+    const canvas = safeWithin(canvasElement);
     await step('Setup', SyncWaitFor.play);
     await waitForElementToBeRemoved(() => canvas.queryByText('Completed!!'), {
       timeout: 2000,
@@ -80,7 +92,7 @@ export const WithLoaders = {
 export const Validation = {
   play: async (context) => {
     const { args, canvasElement, step } = context;
-    const canvas = within(canvasElement);
+    const canvas = safeWithin(canvasElement);
 
     await step('Submit', async () => fireEvent.click(canvas.getByRole('button')));
 

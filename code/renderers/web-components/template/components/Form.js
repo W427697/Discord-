@@ -16,6 +16,7 @@ export class SbForm extends LitElement {
     return {
       value: { type: String },
       complete: { type: Boolean },
+      onSuccess: { type: Function },
     };
   }
 
@@ -23,6 +24,7 @@ export class SbForm extends LitElement {
     super();
     this.value = '';
     this.complete = false;
+    this.onSuccess = undefined;
   }
 
   onSubmit(event) {
@@ -33,6 +35,9 @@ export class SbForm extends LitElement {
     };
 
     this.dispatchEvent(new CustomEvent('sb-form:success', options));
+    if (this.onSuccess) {
+      this.onSuccess(this.value);
+    }
 
     setTimeout(() => {
       this.complete = true;

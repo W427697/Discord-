@@ -11,3 +11,4 @@ globalThis.Components = {
   Html: HtmlTag,
   Pre: PreTag,
 };
+globalThis.storybookRenderer = 'web-components';
