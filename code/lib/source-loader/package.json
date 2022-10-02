@@ -60,7 +60,6 @@
     "access": "public"
   },
   "bundler": {
-    "platform": "node",
     "entries": [
       "./src/index.ts"
     ]
