@@ -22,11 +22,6 @@ export const render: ArgsStoryFn<WebComponentsFramework> = (args, context) => {
     );
   }
 
-  // FIXME: replace by one of
-  // - https://github.com/lit/lit/pull/1960
-  // - https://github.com/open-wc/open-wc/pull/2398
-  const argProps = Object.entries(args).map(([key, val]) => `.${key}=${val}`);
-
   const element = document.createElement(component);
   Object.entries(args).forEach(([key, val]) => {
     // @ts-ignore
