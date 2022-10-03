@@ -88,10 +88,10 @@ export async function pluginConfig(options: ExtendedOptions) {
       config(config) {
         // if there is NO allow list then Vite allows anything in the root directory
         // if there is an allow list then Vite only allows anything in the listed directories
-        // add the root directory only if there's an allow list so that we don't end up
-        // disallowing the other directories unless root is already disallowed
+        // add storybook specific directories only if there's an allow list so that we don't end up
+        // disallowing the root unless root is already disallowed
         if (config?.server?.fs?.allow) {
-          config.server.fs.allow.push('.');
+          config.server.fs.allow.push('.storybook', 'template-stories');
         }
       },
     },

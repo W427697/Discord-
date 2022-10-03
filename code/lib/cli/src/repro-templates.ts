@@ -136,6 +136,7 @@ const svelteKitTemplates = {
     },
   },
 };
+
 const litViteTemplates = {
   'lit-vite/default-js': {
     name: 'Lit Vite (JS)',
