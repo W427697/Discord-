@@ -288,7 +288,7 @@ async function runTask(task: Task, details: TemplateDetails, optionValues: Passe
     const { junitFilename } = details;
     if (existsSync(junitFilename)) {
       const junitXml = await (await readFile(junitFilename)).toString();
-      const prefixedXml = junitXml.replace(/classname="(.*)"/g, `classname="${templateKey} $1"`);
+      const prefixedXml = junitXml.replace(/classname="(.*)"/g, `classname="${details.key} $1"`);
       await outputFile(junitFilename, prefixedXml);
     }
   }
