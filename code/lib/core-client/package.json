@@ -25,13 +25,6 @@
       "import": "./dist/index.mjs",
       "types": "./dist/index.d.ts"
     },
-    "./dist/globals.js": "./dist/globals.js",
-    "./dist/globals.mjs": "./dist/globals.mjs",
-    "./dist/globals": {
-      "require": "./dist/globals.js",
-      "import": "./dist/globals.mjs",
-      "types": "./dist/globals.d.ts"
-    },
     "./package.json": "./package.json"
   },
   "main": "dist/index.js",
@@ -69,8 +62,7 @@
   },
   "bundler": {
     "entries": [
-      "./src/index.ts",
-      "./src/globals.ts"
+      "./src/index.ts"
     ]
   },
   "gitHead": "fc90fc875462421c1faa35862ac4bc436de8e75f"
