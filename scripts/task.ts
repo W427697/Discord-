@@ -20,11 +20,26 @@ import { chromatic } from './tasks/chromatic';
 import { e2eTests } from './tasks/e2e-tests';
 
 import TEMPLATES from '../code/lib/cli/src/repro-templates';
-import { addons } from './sandbox';
 
 const sandboxDir = resolve(__dirname, '../sandbox');
 const codeDir = resolve(__dirname, '../code');
 const junitDir = resolve(__dirname, '../code/test-results');
+
+export const extraAddons = ['a11y', 'storysource'];
+export const defaultAddons = [
+  'a11y',
+  'actions',
+  'backgrounds',
+  'controls',
+  'docs',
+  'highlight',
+  'interactions',
+  'links',
+  'measure',
+  'outline',
+  'toolbars',
+  'viewport',
+];
 
 export type TemplateKey = keyof typeof TEMPLATES;
 export type Template = typeof TEMPLATES[TemplateKey];
@@ -105,7 +120,7 @@ export const sandboxOptions = createOptions({
   addon: {
     type: 'string[]',
     description: 'Which extra addons (beyond the CLI defaults) would you like installed?',
-    values: addons,
+    values: extraAddons,
   },
 });
 
