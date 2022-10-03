@@ -286,7 +286,7 @@ export const sandbox: Task = {
     return pathExists(sandboxDir);
   },
   async run(details, options) {
-    if (this.ready(details)) {
+    if (await this.ready(details)) {
       logger.info('🗑  Removing old sandbox dir');
       await remove(details.sandboxDir);
     }

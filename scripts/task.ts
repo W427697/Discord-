@@ -5,7 +5,7 @@ import { outputFile, existsSync, readFile } from 'fs-extra';
 import { join, resolve } from 'path';
 import { prompt } from 'prompts';
 
-import { createOptions, getOptionsOrPrompt, Option, OptionValues } from './utils/options';
+import { createOptions, getOptionsOrPrompt, OptionValues } from './utils/options';
 import { installRepo } from './tasks/install-repo';
 import { bootstrapRepo } from './tasks/bootstrap-repo';
 import { publishRepo } from './tasks/publish-repo';
