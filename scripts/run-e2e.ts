@@ -39,6 +39,7 @@ program
     (value, previous) => previous.concat([value]),
     []
   )
+  .option('--test-runner', 'Run Storybook test runner instead of cypress', false)
   .option('--docs-mode', 'Run Storybook test runner in docs mode', false)
   .option('--all', `run e2e tests for every framework`, false);
 program.parse(process.argv);
