@@ -94,6 +94,7 @@ const svelteViteTemplates = {
   // }
 };
 
+// SvelteKit only supports Node.js >16.x, so before generating these repros you need to switch to that version
 const svelteKitTemplates = {
   'svelte-kit/skeleton-js': {
     name: 'Svelte Kit (JS)',
