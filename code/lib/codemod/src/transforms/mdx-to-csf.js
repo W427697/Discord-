@@ -162,7 +162,18 @@ export default function transformer(file, api) {
     .remove();
 
   // Add back `import React from 'react';` which is implicit in MDX
-  const react = root.find(j.ImportDeclaration).filter((decl) => decl.node.source.value === 'react');
+  const react = root.find(j.ImportDeclaration).filter((decl) => {
+    var isReact = decl.node.source.value === 'react';
+    if (isReact) {
+      // We need to check if the `React` is really imported, because sometimes we just need to import `useEffect` or `useState` etc.
+      var isReactImported = decl.node.specifiers.some(function (item) {
+        return item.local.name === 'React';
+      });
+      return isReactImported;
+    } else {
+      return false;
+    }
+  });
   if (react.size() === 0) {
     root
       .find(j.Statement)
