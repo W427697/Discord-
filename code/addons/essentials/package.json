@@ -126,7 +126,8 @@
       "./src/index.ts",
       "./src/manager.tsx",
       "./src/preview.ts"
-    ]
+    ],
+    "platform": "node"
   },
   "gitHead": "fc90fc875462421c1faa35862ac4bc436de8e75f"
 }
