@@ -215,7 +215,7 @@ export function addExtraDependencies({
   debug: boolean;
 }) {
   const extraDeps = ['@storybook/jest'];
-  if (debug) console.log('🎁 Adding extra deps', extraDeps);
+  if (debug) logger.log('🎁 Adding extra deps', extraDeps);
   if (!dryRun) {
     const packageManager = JsPackageManagerFactory.getPackageManager(false, cwd);
     packageManager.addDependencies({ installAsDevDependencies: true }, extraDeps);
