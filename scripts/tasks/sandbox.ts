@@ -22,7 +22,7 @@ import { babelParse } from '../../code/lib/csf-tools/src/babelParse';
 const logger = console;
 
 const reprosDir = resolve(__dirname, '../repros');
-const codeDir = resolve(__dirname, '../code');
+const codeDir = resolve(__dirname, '../../code');
 
 const create: Task['run'] = async (
   { key, template, sandboxDir },
