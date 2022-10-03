@@ -9,7 +9,7 @@ export const core: StorybookConfig['core'] = {
   builder: '@storybook/builder-vite',
 };
 
-export function readPackageJson(): Record<string, any> | false {
+function readPackageJson(): Record<string, any> | false {
   const packageJsonPath = path.resolve('package.json');
   if (!fs.existsSync(packageJsonPath)) {
     return false;
