@@ -50,6 +50,7 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
+    "@storybook/addons": "7.0.0-alpha.34",
     "@storybook/builder-vite": "7.0.0-alpha.34",
     "@storybook/channel-postmessage": "7.0.0-alpha.34",
     "@storybook/channel-websocket": "7.0.0-alpha.34",
