@@ -473,7 +473,12 @@ export class PreviewWeb<TFramework extends AnyFramework> extends Preview<TFramew
     this.channel.emit(STORY_RENDER_PHASE_CHANGED, { newPhase: 'errored', storyId });
 
     // Ignored exceptions exist for control flow purposes, and are typically handled elsewhere.
-    if (error !== IGNORED_EXCEPTION) {
+    //
+    // FIXME: Should be '=== IGNORED_EXCEPTION', but currently the object
+    // is coming from two different bundles (index.js vs index.mjs)
+    //
+    // https://github.com/storybookjs/storybook/issues/19321
+    if (!error.message?.startsWith('ignoredException')) {
       this.view.showErrorDisplay(error);
       logger.error(`Error rendering story '${storyId}':`);
       logger.error(error);

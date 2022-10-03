@@ -55,13 +55,7 @@ export const SyncWaitFor = {
     const canvas = safeWithin(canvasElement);
     await step('Setup', Callback.play);
 
-    // FIXME: why doesn't this work?
-    // await waitFor(() => {
-    //   canvas.getByText('Completed!!');
-    // });
-
-    const completed = await canvas.findByText('Completed!!');
-    await expect(completed).toBeInTheDocument();
+    await waitFor(() => canvas.getByText('Completed!!'));
   },
 };
 
