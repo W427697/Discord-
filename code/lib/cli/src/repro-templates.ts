@@ -67,6 +67,23 @@ const vue3ViteTemplates = {
   },
 };
 
+const vue2ViteTemplates = {
+  'vue2-vite/2.7-js': {
+    name: 'Vue2 Vite (vue 2.7 JS)',
+    // TODO: convert this to an `npm create` script, use that instead.
+    // We don't really want to maintain weird custom scripts like this,
+    // preferring community bootstrap scripts / generators instead.
+    script:
+      'yarn create vite . --template vanilla && yarn add --dev @vitejs/plugin-vue2 vue-template-compiler vue@2 && echo "import vue2 from \'@vitejs/plugin-vue2\';\n\nexport default {\n\tplugins: [vue2()]\n};" > vite.config.js',
+    cadence: ['ci', 'daily', 'weekly'],
+    expected: {
+      framework: '@storybook/vue2-vite',
+      renderer: '@storybook/vue',
+      builder: '@storybook/builder-vite',
+    },
+  },
+};
+
 const svelteViteTemplates = {
   'svelte-vite/default-js': {
     name: 'Svelte Vite (JS)',
@@ -144,6 +161,7 @@ const vueCliTemplates = {
 export default {
   ...craTemplates,
   ...reactViteTemplates,
+  ...vue2ViteTemplates,
   ...vue3ViteTemplates,
   ...svelteViteTemplates,
   ...litViteTemplates,
