@@ -1,7 +1,7 @@
 /* eslint-disable no-await-in-loop */
 import { AbortController } from 'node-abort-controller';
 import { getJunitXml } from 'junit-xml';
-import { outputFile } from 'fs-extra';
+import { outputFile, existsSync, readFile } from 'fs-extra';
 import { join, resolve } from 'path';
 import { prompt } from 'prompts';
 
@@ -284,6 +284,13 @@ async function runTask(task: Task, details: TemplateDetails, optionValues: Passe
       await writeJunitXml(getTaskKey(task), details.key, startTime, err);
 
     throw err;
+  } finally {
+    const { junitFilename } = details;
+    if (existsSync(junitFilename)) {
+      const junitXml = await (await readFile(junitFilename)).toString();
+      const prefixedXml = junitXml.replace(/classname="(.*)"/g, `classname="${templateKey} $1"`);
+      await outputFile(junitFilename, prefixedXml);
+    }
   }
 }
 
