@@ -66,8 +66,6 @@
     "@storybook/semver": "^7.3.2",
     "@storybook/theming": "7.0.0-alpha.34",
     "@testing-library/react": "^11.2.2",
-    "@types/node": "^14.0.10 || ^16.0.0",
-    "@types/webpack-env": "^1.16.0",
     "copy-to-clipboard": "^3.3.1",
     "downshift": "^6.0.15",
     "enzyme": "^3.11.0",

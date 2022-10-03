@@ -67,6 +67,23 @@ const vue3ViteTemplates = {
   },
 };
 
+const vue2ViteTemplates = {
+  'vue2-vite/2.7-js': {
+    name: 'Vue2 Vite (vue 2.7 JS)',
+    // TODO: convert this to an `npm create` script, use that instead.
+    // We don't really want to maintain weird custom scripts like this,
+    // preferring community bootstrap scripts / generators instead.
+    script:
+      'yarn create vite . --template vanilla && yarn add --dev @vitejs/plugin-vue2 vue-template-compiler vue@2 && echo "import vue2 from \'@vitejs/plugin-vue2\';\n\nexport default {\n\tplugins: [vue2()]\n};" > vite.config.js',
+    cadence: ['ci', 'daily', 'weekly'],
+    expected: {
+      framework: '@storybook/vue2-vite',
+      renderer: '@storybook/vue',
+      builder: '@storybook/builder-vite',
+    },
+  },
+};
+
 const svelteViteTemplates = {
   'svelte-vite/default-js': {
     name: 'Svelte Vite (JS)',
@@ -94,6 +111,29 @@ const svelteViteTemplates = {
   // }
 };
 
+const litViteTemplates = {
+  'lit-vite/default-js': {
+    name: 'Lit Vite (JS)',
+    script: 'yarn create vite . --template lit',
+    cadence: [] as any,
+    expected: {
+      framework: '@storybook/web-components-vite',
+      renderer: '@storybook/web-components',
+      builder: '@storybook/builder-vite',
+    },
+  },
+  'lit-vite/default-ts': {
+    name: 'Lit Vite (TS)',
+    script: 'yarn create vite . --template lit-ts',
+    cadence: [] as any,
+    expected: {
+      framework: '@storybook/web-components-vite',
+      renderer: '@storybook/web-components',
+      builder: '@storybook/builder-vite',
+    },
+  },
+};
+
 const vueCliTemplates = {
   'vue-cli/default-js': {
     name: 'Vue-CLI (Default JS)',
@@ -105,27 +145,26 @@ const vueCliTemplates = {
       builder: '@storybook/builder-webpack5',
     },
   },
-  //
-  // FIXME: https://github.com/storybookjs/storybook/issues/19204
-  //
-  // 'vue-cli/vue2-default-js': {
-  //   name: 'Vue-CLI (Vue2 JS)',
-  //   script:
-  //     'npx -p @vue/cli vue create . --default --packageManager=yarn --force --merge --preset=Default\\ (Vue\\ 2)',
-  //   cadence: ['ci', 'daily', 'weekly'],
-  //   expected: {
-  //     framework: '@storybook/vue-webpack5',
-  //     renderer: '@storybook/vue',
-  //     builder: '@storybook/builder-webpack5',
-  //   },
-  // },
+  'vue-cli/vue2-default-js': {
+    name: 'Vue-CLI (Vue2 JS)',
+    script:
+      'npx -p @vue/cli vue create . --default --packageManager=yarn --force --merge --preset=Default\\ (Vue\\ 2)',
+    cadence: ['ci', 'daily', 'weekly'],
+    expected: {
+      framework: '@storybook/vue-webpack5',
+      renderer: '@storybook/vue',
+      builder: '@storybook/builder-webpack5',
+    },
+  },
 };
 
 export default {
   ...craTemplates,
   ...reactViteTemplates,
+  ...vue2ViteTemplates,
   ...vue3ViteTemplates,
   ...svelteViteTemplates,
+  ...litViteTemplates,
   ...vueCliTemplates,
   // FIXME: missing documentation.json
   // 'angular/latest': {

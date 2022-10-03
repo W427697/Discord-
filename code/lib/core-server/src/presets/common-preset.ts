@@ -93,7 +93,7 @@ export const previewAnnotations = async (base: any, options: Options) => {
 
   if (config.length > 0) warnConfigField();
 
-  return [...config, require.resolve('@storybook/core-client/dist/globals'), ...base];
+  return [...config, ...base];
 };
 
 export const features = async (
