@@ -7150,6 +7150,7 @@ __metadata:
     "@types/react": ^16.14.23
     "@types/react-dom": ^16.9.14
     "@types/tmp": ^0.2.3
+    "@types/webpack-env": ^1.16.0
     autoprefixer: ^9.8.6
     core-js: ^3.8.2
     cross-spawn: ^7.0.3
