@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import { join, relative, resolve } from 'path';
+import { join, relative } from 'path';
 import { command } from 'execa';
 import type { Options as ExecaOptions } from 'execa';
 import pLimit from 'p-limit';
