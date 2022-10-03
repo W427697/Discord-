@@ -44,6 +44,14 @@ type MaybePromise<T> = T | Promise<T>;
 
 export type Task = {
   /**
+   * Does this task represent a service for another task?
+   *
+   * Unlink other tasks, if a service is not ready, it doesn't mean the subsequent tasks
+   * must be out of date. As such, services will never be reset back to, although they
+   * will be started if dependent tasks are.
+   */
+  service?: boolean;
+  /**
    * Which tasks run before this task
    */
   before?: TaskKey[] | ((options: PassedOptionValues) => TaskKey[]);
@@ -51,11 +59,6 @@ export type Task = {
    * Is this task already "ready", and potentially not required?
    */
   ready: (details: TemplateDetails) => MaybePromise<boolean>;
-  /**
-   * Reset the previous version of the task that ran
-   * (it may not be necessary if running the task overwrites prior versions)
-   */
-  reset?: (details: TemplateDetails, options: PassedOptionValues) => MaybePromise<void>;
   /**
    * Run the task
    */
@@ -75,11 +78,13 @@ export const tasks = {
   'install-repo': installRepo,
   'bootstrap-repo': bootstrapRepo,
   'publish-repo': publishRepo,
+  // TODO rename to registryRepo
   'run-registry-repo': runRegistryRepo,
   // These tasks pertain to a single sandbox in the ../sandboxes dir
   create,
   install,
   sandbox,
+  // TODO rename to dev
   start,
   'smoke-test': smokeTest,
   build,
@@ -225,20 +230,29 @@ function getTaskList(finalTask: Task, optionValues: PassedOptionValues) {
     });
   }
 
-  return sortedTasks;
+  return { sortedTasks, tasksThatDepend };
 }
 
-type TaskStatus = 'ready' | 'unready' | 'running' | 'complete' | 'failed';
+type TaskStatus =
+  | 'ready'
+  | 'unready'
+  | 'running'
+  | 'complete'
+  | 'failed'
+  | 'serving'
+  | 'notserving';
 const statusToEmoji: Record<TaskStatus, string> = {
   ready: '🟢',
   unready: '🟡',
   running: '🔄',
   complete: '✅',
   failed: '❌',
+  serving: '🔊',
+  notserving: '🔇',
 };
-function writeTaskList(taskAndStatus: [Task, TaskStatus][]) {
+function writeTaskList(statusMap: Map<Task, TaskStatus>) {
   logger.info(
-    taskAndStatus
+    [...statusMap.entries()]
       .map(([task, status]) => `${statusToEmoji[status]} ${getTaskKey(task)}`)
       .join(' > ')
   );
@@ -246,7 +260,6 @@ function writeTaskList(taskAndStatus: [Task, TaskStatus][]) {
 }
 
 const controllers: AbortController[] = [];
-
 async function runTask(task: Task, details: TemplateDetails, optionValues: PassedOptionValues) {
   const startTime = new Date();
   try {
@@ -277,7 +290,7 @@ async function run() {
     ...taskOptions,
   });
 
-  const task = tasks[taskKey];
+  const finalTask = tasks[taskKey];
   const { template: templateKey } = optionValues;
   const template = TEMPLATES[templateKey];
   const templateSandboxDir = templateKey && join(sandboxDir, templateKey.replace('/', '-'));
@@ -290,29 +303,40 @@ async function run() {
     junitFilename: junit && getJunitFilename(taskKey),
   };
 
-  const sortedTasks = getTaskList(task, optionValues);
+  const { sortedTasks, tasksThatDepend } = getTaskList(finalTask, optionValues);
   const sortedTasksReady = await Promise.all(sortedTasks.map((t) => t.ready(details)));
-  const firstUnready = sortedTasks.find((_, index) => !sortedTasksReady[index]);
 
   logger.info(`Task readiness up to ${taskKey}`);
-  const sortedTasksStatus: [Task, TaskStatus][] = sortedTasks.map((sortedTask, index) => [
-    sortedTask,
-    sortedTasksReady[index] ? 'ready' : 'unready',
-  ]);
-  writeTaskList(sortedTasksStatus);
-
-  let firstTask: Task;
-  if (reset === 'as-needed') {
-    if (!firstUnready) {
-      logger.info('All tasks already ready, no task needed');
-      return;
+  const initialTaskStatus = (task: Task, ready: boolean) => {
+    if (task.service) {
+      return ready ? 'serving' : 'notserving';
     }
+    return ready ? 'ready' : 'unready';
+  };
+  const statuses = new Map<Task, TaskStatus>(
+    sortedTasks.map((task, index) => [task, initialTaskStatus(task, sortedTasksReady[index])])
+  );
+  writeTaskList(statuses);
 
-    firstTask = firstUnready;
+  function setUnready(task: Task) {
+    if (task.service) throw new Error(`Cannot set service ${getTaskKey(task)} to unready`);
+
+    statuses.set(task, 'unready');
+    tasksThatDepend
+      .get(task)
+      .filter((t) => !t.service)
+      .forEach(setUnready);
+  }
+
+  // NOTE: we don't include services in the first unready task. We only need to rewind back to a
+  // service if the user explicitly asks. It's expected that a service is no longer running.
+  const firstUnready = sortedTasks.find((task) => statuses.get(task) === 'unready');
+  if (reset === 'as-needed') {
+    // Don't reset anything!
   } else if (reset === 'never') {
     if (!firstUnready) throw new Error(`Task ${taskKey} is ready`);
-    if (firstUnready !== task) throw new Error(`Task ${getTaskKey(firstUnready)} was not ready`);
-    firstTask = task;
+    if (firstUnready !== finalTask)
+      throw new Error(`Task ${getTaskKey(firstUnready)} was not ready`);
   } else if (reset) {
     // set to reset back to a specific task
     if (sortedTasks.indexOf(tasks[reset]) > sortedTasks.indexOf(firstUnready)) {
@@ -320,51 +344,56 @@ async function run() {
         `Task ${getTaskKey(firstUnready)} was not ready, earlier than your request ${reset}.`
       );
     }
-    firstTask = tasks[reset];
+    if (tasks[reset].service)
+      throw new Error(`You cannot reset a service task: ${getTaskKey(tasks[reset])}`);
+    setUnready(tasks[reset]);
   } else if (firstUnready === sortedTasks[0]) {
-    // We need to do everything, no need to ask
-    firstTask = firstUnready;
+    // We need to do everything, no need to change anything
   } else {
     // We don't know what to do! Let's ask
-    ({ firstTask } = await prompt({
+    const { firstTask } = await prompt({
       type: 'select',
       message: 'Which task would you like to start at?',
       name: 'firstTask',
-      choices: sortedTasks.slice(0, sortedTasks.indexOf(firstUnready) + 1).map((t) => ({
-        title: getTaskKey(t),
-        value: t,
-      })),
-    }));
+      choices: sortedTasks
+        .slice(0, sortedTasks.indexOf(firstUnready) + 1)
+        .filter((t) => !t.service)
+        .reverse()
+        .map((t) => ({
+          title: getTaskKey(t),
+          value: t,
+        })),
+    });
+    setUnready(firstTask);
   }
 
-  for (let i = sortedTasks.indexOf(firstTask); i < sortedTasks.length; i += 1) {
-    sortedTasksStatus[i][1] = 'running';
-    writeTaskList(sortedTasksStatus);
-    const taskController = await runTask(sortedTasks[i], details, {
-      ...optionValues,
-      // Always debug the final task so we can see it's output fully
-      debug: sortedTasks[i] === task ? true : optionValues.debug,
-    });
-    sortedTasksStatus[i][1] = 'complete';
+  for (let i = 0; i < sortedTasks.length; i += 1) {
+    const task = sortedTasks[i];
+    const status = statuses.get(task);
 
-    // If the task has it's own controller, it is going to remain
-    // open until the user ctrl-c's which will have the side effect
-    // of stopping everything.
-    if (sortedTasks[i] === task && taskController) {
-      await new Promise(() => {});
+    if (
+      status === 'unready' ||
+      (status === 'notserving' &&
+        tasksThatDepend.get(task).find((t) => statuses.get(t) === 'unready'))
+    ) {
+      statuses.set(task, 'running');
+      writeTaskList(statuses);
+
+      const taskController = await runTask(task, details, {
+        ...optionValues,
+        // Always debug the final task so we can see it's output fully
+        debug: sortedTasks[i] === finalTask ? true : optionValues.debug,
+      });
+      statuses.set(task, task.service ? 'serving' : 'complete');
+
+      // If the task has it's own controller, it is going to remain
+      // open until the user ctrl-c's which will have the side effect
+      // of stopping everything.
+      if (sortedTasks[i] === finalTask && taskController) {
+        await new Promise(() => {});
+      }
     }
   }
-
-  // TODO -- is this necessary??
-
-  // // If the task has it's own controller, it is going to remain
-  // // open until the user ctrl-c's which will have the side effect
-  // // of stopping everything.
-  // if (taskController) {
-  //   await new Promise(() => {});
-  // } else {
-  //   controllers.forEach((c) => c.abort());
-  // }
 }
 
 if (require.main === module) {

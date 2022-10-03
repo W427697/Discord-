@@ -6,6 +6,7 @@ import type { Task } from '../task';
 
 const REGISTRY_PORT = 6001;
 export const runRegistryRepo: Task = {
+  service: true,
   before: ['publish-repo'],
   async ready() {
     return (await detectFreePort(REGISTRY_PORT)) !== REGISTRY_PORT;

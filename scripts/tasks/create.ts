@@ -10,15 +10,19 @@ import { writeConfig } from '../../code/lib/csf-tools';
 
 const reprosDir = resolve(__dirname, '../repros');
 
+const logger = console;
+
 export const create: Task = {
   before: ['bootstrap-repo'],
   async ready({ sandboxDir }) {
     return pathExists(sandboxDir);
   },
-  async reset({ sandboxDir }) {
-    return remove(sandboxDir);
-  },
   async run({ key, template, sandboxDir }, { addon: addons, fromLocalRepro, dryRun, debug }) {
+    if (this.ready({ sandboxDir })) {
+      logger.info('🗑 Removing old sandbox dir');
+      await remove(sandboxDir);
+    }
+
     const parentDir = resolve(sandboxDir, '..');
     await ensureDir(parentDir);
 

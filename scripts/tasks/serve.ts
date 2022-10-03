@@ -6,6 +6,7 @@ import { exec } from '../utils/exec';
 
 export const PORT = 8001;
 export const serve: Task = {
+  service: true,
   before: ['build'],
   async ready() {
     return (await detectFreePort(PORT)) !== PORT;
