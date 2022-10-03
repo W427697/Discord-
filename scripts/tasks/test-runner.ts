@@ -4,7 +4,7 @@ import { PORT } from './serve';
 
 export const testRunner: Task = {
   junit: true,
-  before: ['run-registry-repo', 'build'],
+  before: ['registry-repo', 'build'],
   async ready() {
     return false;
   },

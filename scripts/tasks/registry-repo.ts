@@ -5,7 +5,7 @@ import { exec } from '../utils/exec';
 import type { Task } from '../task';
 
 const REGISTRY_PORT = 6001;
-export const runRegistryRepo: Task = {
+export const registryRepo: Task = {
   service: true,
   before: ['publish-repo'],
   async ready() {

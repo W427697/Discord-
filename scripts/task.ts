@@ -9,11 +9,9 @@ import { createOptions, getOptionsOrPrompt, Option, OptionValues } from './utils
 import { installRepo } from './tasks/install-repo';
 import { bootstrapRepo } from './tasks/bootstrap-repo';
 import { publishRepo } from './tasks/publish-repo';
-import { runRegistryRepo } from './tasks/run-registry-repo';
-import { create } from './tasks/create';
-import { install } from './tasks/install';
+import { registryRepo } from './tasks/registry-repo';
 import { sandbox } from './tasks/sandbox';
-import { start } from './tasks/start';
+import { dev } from './tasks/dev';
 import { smokeTest } from './tasks/smoke-test';
 import { build } from './tasks/build';
 import { serve } from './tasks/serve';
@@ -78,14 +76,10 @@ export const tasks = {
   'install-repo': installRepo,
   'bootstrap-repo': bootstrapRepo,
   'publish-repo': publishRepo,
-  // TODO rename to registryRepo
-  'run-registry-repo': runRegistryRepo,
+  'registry-repo': registryRepo,
   // These tasks pertain to a single sandbox in the ../sandboxes dir
-  create,
-  install,
   sandbox,
-  // TODO rename to dev
-  start,
+  dev,
   'smoke-test': smokeTest,
   build,
   serve,
