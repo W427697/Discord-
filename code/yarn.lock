@@ -6748,6 +6748,7 @@ __metadata:
     "@storybook/jest": ^0.0.10
     "@storybook/testing-library": 0.0.14-next.0
     "@storybook/theming": 7.0.0-alpha.34
+    "@types/node": ^14.14.20 || ^16.0.0
     formik: ^2.2.9
     global: ^4.4.0
     jest-mock: ^27.0.6
@@ -7149,6 +7150,7 @@ __metadata:
     "@types/react": ^16.14.23
     "@types/react-dom": ^16.9.14
     "@types/tmp": ^0.2.3
+    "@types/webpack-env": ^1.16.0
     autoprefixer: ^9.8.6
     core-js: ^3.8.2
     cross-spawn: ^7.0.3
