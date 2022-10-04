@@ -115,7 +115,7 @@ jobs:
           name: Bootstrap
           command: |
             cd code
-            yarn bootstrap --build
+            yarn task --task bootstrap-repo --start-from=never --no-link
             git diff --exit-code
       - save_cache:
           name: Save Yarn cache
