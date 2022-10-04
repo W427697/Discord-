@@ -1,3 +1,5 @@
+/// <reference types="webpack-env" />
+
 import global from 'global';
 
 const { window, EventSource } = global;
