@@ -7,10 +7,17 @@ export const core: StorybookConfig['core'] = {
   builder: '@storybook/builder-vite',
 };
 
-export const viteFinal: StorybookConfig['viteFinal'] = async (config, { presets }) => {
+export const viteFinal: StorybookConfig['viteFinal'] = async (config, options) => {
   const { plugins = [] } = config;
+  const svelteOptions: Record<string, any> = await options.presets.apply(
+    'svelteOptions',
+    {},
+    options
+  );
 
-  plugins.push(svelteDocgen(config));
+  const { loadSvelteConfig } = await import('@sveltejs/vite-plugin-svelte');
+  const svelteConfig = { ...(await loadSvelteConfig()), ...svelteOptions };
+  plugins.push(svelteDocgen(svelteConfig));
 
   return {
     ...config,
