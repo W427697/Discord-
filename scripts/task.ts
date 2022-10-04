@@ -153,10 +153,10 @@ export const taskOptions = createOptions({
     values: Object.keys(tasks) as TaskKey[],
     required: true,
   },
-  reset: {
+  startFrom: {
     type: 'string',
     description: 'Which task should we reset back to?',
-    values: [...(Object.keys(tasks) as TaskKey[]), 'never', 'as-needed'] as const,
+    values: [...(Object.keys(tasks) as TaskKey[]), 'never', 'auto'] as const,
   },
   junit: {
     type: 'boolean',
@@ -297,7 +297,7 @@ async function runTask(task: Task, details: TemplateDetails, optionValues: Passe
 async function run() {
   const {
     task: taskKey,
-    reset,
+    startFrom,
     junit,
     ...optionValues
   } = await getOptionsOrPrompt('yarn task', {
@@ -349,30 +349,30 @@ async function run() {
   // NOTE: we don't include services in the first unready task. We only need to rewind back to a
   // service if the user explicitly asks. It's expected that a service is no longer running.
   const firstUnready = sortedTasks.find((task) => statuses.get(task) === 'unready');
-  if (reset === 'as-needed') {
+  if (startFrom === 'auto') {
     // Don't reset anything!
-  } else if (reset === 'never') {
+  } else if (startFrom === 'never') {
     if (!firstUnready) throw new Error(`Task ${taskKey} is ready`);
     if (firstUnready !== finalTask)
       throw new Error(`Task ${getTaskKey(firstUnready)} was not ready`);
-  } else if (reset) {
+  } else if (startFrom) {
     // set to reset back to a specific task
-    if (sortedTasks.indexOf(tasks[reset]) > sortedTasks.indexOf(firstUnready)) {
+    if (sortedTasks.indexOf(tasks[startFrom]) > sortedTasks.indexOf(firstUnready)) {
       throw new Error(
-        `Task ${getTaskKey(firstUnready)} was not ready, earlier than your request ${reset}.`
+        `Task ${getTaskKey(firstUnready)} was not ready, earlier than your request ${startFrom}.`
       );
     }
-    if (tasks[reset].service)
-      throw new Error(`You cannot reset a service task: ${getTaskKey(tasks[reset])}`);
-    setUnready(tasks[reset]);
+    if (tasks[startFrom].service)
+      throw new Error(`You cannot start from a service task: ${getTaskKey(tasks[startFrom])}`);
+    setUnready(tasks[startFrom]);
   } else if (firstUnready === sortedTasks[0]) {
     // We need to do everything, no need to change anything
   } else {
     // We don't know what to do! Let's ask
-    const { firstTask } = await prompt({
+    const { startFromTask } = await prompt({
       type: 'select',
-      message: 'Which task would you like to start at?',
-      name: 'firstTask',
+      message: 'Which task would you like to start from?',
+      name: 'startFromTask',
       choices: sortedTasks
         .slice(0, sortedTasks.indexOf(firstUnready) + 1)
         .filter((t) => !t.service)
@@ -382,7 +382,7 @@ async function run() {
           value: t,
         })),
     });
-    setUnready(firstTask);
+    setUnready(startFromTask);
   }
 
   for (let i = 0; i < sortedTasks.length; i += 1) {

@@ -485,7 +485,7 @@ jobs:
           at: .
       - run:
           name: Creating Sandboxes
-          command: yarn task --task sandbox --template $(yarn get-template ci) --no-link --reset=never --junit
+          command: yarn task --task sandbox --template $(yarn get-template ci) --no-link --start-from=never --junit
           working_directory: code
       - persist_to_workspace:
           root: .
@@ -505,7 +505,7 @@ jobs:
           at: .
       - run:
           name: Smoke Testing Sandboxes
-          command: yarn task --task smoke-test --template $(yarn get-template ci) --no-link --reset=never --junit
+          command: yarn task --task smoke-test --template $(yarn get-template ci) --no-link --start-from=never --junit
           working_directory: code
       - store_test_results:
           path: code/test-results
@@ -521,7 +521,7 @@ jobs:
           at: .
       - run:
           name: Building Sandboxes
-          command: yarn task --task build --template $(yarn get-template ci) --no-link --reset=never --junit
+          command: yarn task --task build --template $(yarn get-template ci) --no-link --start-from=never --junit
           working_directory: code
       - store_test_results:
           path: code/test-results
@@ -541,7 +541,7 @@ jobs:
           at: .
       - run:
           name: Running Test Runner
-          command: yarn task --task test-runner --template $(yarn get-template ci) --no-link --reset=never --junit
+          command: yarn task --task test-runner --template $(yarn get-template ci) --no-link --start-from=never --junit
           working_directory: code
       - store_test_results:
           path: code/test-results
@@ -557,7 +557,7 @@ jobs:
           at: .
       - run:
           name: Running Chromatic
-          command: yarn task --task chromatic --template $(yarn get-template ci) --no-link --reset=never --junit
+          command: yarn task --task chromatic --template $(yarn get-template ci) --no-link --start-from=never --junit
           working_directory: code
       - store_test_results:
           path: code/test-results
@@ -573,7 +573,7 @@ jobs:
           at: .
       - run:
           name: Running E2E Tests
-          command: yarn task --task e2e-tests --template $(yarn get-template ci) --no-link --reset=never --junit
+          command: yarn task --task e2e-tests --template $(yarn get-template ci) --no-link --start-from=never --junit
           working_directory: code
       - store_test_results:
           path: code/test-results
