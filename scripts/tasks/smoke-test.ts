@@ -14,7 +14,7 @@ export const smokeTest: Task = {
 
     return exec(
       `yarn storybook --smoke-test && echo done`,
-      { cwd: sandboxDir, timeout: 5000 },
+      { cwd: sandboxDir, timeout: 60000 },
       { debug: true }
     );
 
