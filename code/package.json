@@ -423,6 +423,10 @@
         "Maintenance"
       ],
       [
+        "build",
+        "Build"
+      ],
+      [
         "dependencies",
         "Dependency Upgrades"
       ],
