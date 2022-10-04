@@ -98,6 +98,7 @@
     "babel-plugin-add-react-displayname": "^0.0.5",
     "babel-plugin-dynamic-import-node": "^2.3.3",
     "babel-plugin-macros": "^3.0.1",
+    "boxen": "^5.1.2",
     "chalk": "^4.1.0",
     "codecov": "^3.8.1",
     "commander": "^6.2.1",

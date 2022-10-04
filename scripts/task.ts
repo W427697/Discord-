@@ -4,8 +4,10 @@ import { getJunitXml } from 'junit-xml';
 import { outputFile, existsSync, readFile } from 'fs-extra';
 import { join, resolve } from 'path';
 import { prompt } from 'prompts';
+import boxen from 'boxen';
+import { dedent } from 'ts-dedent';
 
-import { createOptions, getOptionsOrPrompt, OptionValues } from './utils/options';
+import { createOptions, getCommand, getOptionsOrPrompt, OptionValues } from './utils/options';
 import { installRepo } from './tasks/install-repo';
 import { bootstrapRepo } from './tasks/bootstrap-repo';
 import { publishRepo } from './tasks/publish-repo';
@@ -295,16 +297,14 @@ async function runTask(task: Task, details: TemplateDetails, optionValues: Passe
 }
 
 async function run() {
-  const {
-    task: taskKey,
-    startFrom,
-    junit,
-    ...optionValues
-  } = await getOptionsOrPrompt('yarn task', {
+  const allOptions = {
     ...sandboxOptions,
     ...runOptions,
     ...taskOptions,
-  });
+  };
+  const allOptionValues = await getOptionsOrPrompt('yarn task', allOptions);
+
+  const { task: taskKey, startFrom, junit, ...optionValues } = allOptionValues;
 
   const finalTask = tasks[taskKey];
   const { template: templateKey } = optionValues;
@@ -397,11 +397,42 @@ async function run() {
       statuses.set(task, 'running');
       writeTaskList(statuses);
 
-      const taskController = await runTask(task, details, {
-        ...optionValues,
-        // Always debug the final task so we can see it's output fully
-        debug: sortedTasks[i] === finalTask ? true : optionValues.debug,
-      });
+      try {
+        const taskController = await runTask(task, details, {
+          ...optionValues,
+          // Always debug the final task so we can see it's output fully
+          debug: sortedTasks[i] === finalTask ? true : optionValues.debug,
+        });
+      } catch (err) {
+        logger.error(`Error running task ${getTaskKey(task)}:`);
+        logger.error();
+        logger.error(err);
+
+        if (process.env.CI) {
+          logger.error(
+            boxen(
+              dedent`
+                To reproduce this error locally, run:
+
+                  ${getCommand('yarn task', allOptions, {
+                    ...allOptionValues,
+                    link: true,
+                    startFrom: 'auto',
+                  })}
+                
+                Note this uses locally linking which in rare cases behaves differently to CI. For a closer match, run:
+                
+                  ${getCommand('yarn task', allOptions, {
+                    ...allOptionValues,
+                    startFrom: 'auto',
+                  })}`,
+              { borderStyle: 'round', padding: 1, borderColor: '#F1618C' } as any
+            )
+          );
+        }
+
+        return 1;
+      }
       statuses.set(task, task.service ? 'serving' : 'complete');
 
       // If the task has it's own controller, it is going to remain
@@ -412,15 +443,16 @@ async function run() {
       }
     }
   }
+
+  return 0;
 }
 
 if (require.main === module) {
   run()
-    .then(() => process.exit(0))
+    .then((status) => process.exit(status))
     .catch((err) => {
       logger.error();
-      logger.error(err.message);
-      // logger.error(err);
+      logger.error(err);
       process.exit(1);
     });
 }
