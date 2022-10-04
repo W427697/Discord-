@@ -152,6 +152,7 @@ async function runTask(
   const start = new Date();
   try {
     await task.run(templateKey, details);
+    console.log('task done');
 
     if (junit && !task.junit) await writeJunitXml(taskKey, templateKey, start);
   } catch (err) {
