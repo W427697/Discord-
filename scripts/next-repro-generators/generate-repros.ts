@@ -12,8 +12,7 @@ import reproTemplates from '../../code/lib/cli/src/repro-templates';
 import storybookVersions from '../../code/lib/cli/src/versions';
 import { JsPackageManagerFactory } from '../../code/lib/cli/src/js-package-manager/JsPackageManagerFactory';
 
-// @ts-expect-error (Converted from ts-ignore)
-import { maxConcurrentTasks } from '../utils/concurrency';
+import { maxConcurrentTasks } from '../utils/maxConcurrentTasks';
 
 import { localizeYarnConfigFiles, setupYarn } from './utils/yarn';
 import { GeneratorConfig } from './utils/types';

@@ -71,7 +71,7 @@ export type Task = {
   /**
    * Is this task already "ready", and potentially not required?
    */
-  ready: (details: TemplateDetails) => MaybePromise<boolean>;
+  ready: (details: TemplateDetails, options: PassedOptionValues) => MaybePromise<boolean>;
   /**
    * Run the task
    */
@@ -320,7 +320,9 @@ async function run() {
   };
 
   const { sortedTasks, tasksThatDepend } = getTaskList(finalTask, optionValues);
-  const sortedTasksReady = await Promise.all(sortedTasks.map((t) => t.ready(details)));
+  const sortedTasksReady = await Promise.all(
+    sortedTasks.map((t) => t.ready(details, optionValues))
+  );
 
   logger.info(`Task readiness up to ${taskKey}`);
   const initialTaskStatus = (task: Task, ready: boolean) => {
