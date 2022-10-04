@@ -93,6 +93,7 @@ When you're done coding, add documentation and tests as appropriate. That simpli
 
 Adding a story or set of stories to our suite of example apps helps you test your work.
 
+TODO: needs updated instructions, official-storybook is now removed
 If you're modifying part of Storybook's core, or one of the essential addons, there's probably an existing set of stories in the [`official-storybook`](../../examples/official-storybook) that documents how the feature is supposed to work. Add your stories there.
 
 If you're modifying something related to a specific framework, the framework will have its own examples in the monorepo. For instance, [`examples/vue-kitchen-sink`](../../examples/vue-kitchen-sink) is a natural place to add stories for `@storybook/vue` while [`examples/angular-cli`](../../examples/angular-cli) is the place for `@storybook/angular`.

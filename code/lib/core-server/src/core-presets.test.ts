@@ -127,6 +127,7 @@ const baseOptions = {
   managerOnly, // production
   docsMode: false,
   cache,
+  // TODO: fix this
   configDir: path.resolve(`${__dirname}/../../../examples/official-storybook/`),
   ci: true,
   managerCache: false,

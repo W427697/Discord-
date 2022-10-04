@@ -4,6 +4,7 @@ Live examples of these:
 
 ### Next release
 
+TODO: official storybook is removed, what should happen to this file?
 - [React Official](https://next--storybookjs.netlify.com/official-storybook/)
 - [Vue](https://next--storybookjs.netlify.com/vue-kitchen-sink/)
 - [Angular](https://next--storybookjs.netlify.com/angular-cli/)
