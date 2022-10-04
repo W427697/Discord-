@@ -45,9 +45,9 @@ const reactViteTemplates = {
 };
 
 const reactWebpackTemplates = {
-  'react-vite/18-ts': {
-    name: 'React Vite (TS)',
-    script: 'yarn create webpack5-react',
+  'react-webpack/18-ts': {
+    name: 'React Webpack5 (TS)',
+    script: 'yarn create webpack5-react .',
     cadence: ['ci', 'daily', 'weekly'],
     expected: {
       framework: '@storybook/react-vite',
