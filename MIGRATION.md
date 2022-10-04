@@ -20,9 +20,9 @@
     - [7.0 feature flags removed](#70-feature-flags-removed)
     - [Vite builder uses vite config automatically](#vite-builder-uses-vite-config-automatically)
     - [Removed docs.getContainer and getPage parameters](#removed-docsgetcontainer-and-getpage-parameters)
+    - [Removed STORYBOOK_REACT_CLASSES global](#removed-storybook_react_classes-global)
     - [Icons API changed](#icons-api-changed)
     - ['config' preset entry replaced with 'previewAnnotations'](#config-preset-entry-replaced-with-previewannotations)
-    - [Vue2 DOM structure changed](#vue2-dom-structure-changed)
   - [Docs Changes](#docs-changes)
     - [Standalone docs files](#standalone-docs-files)
     - [Referencing stories in docs files](#referencing-stories-in-docs-files)
@@ -529,6 +529,10 @@ If you were using `viteFinal` in 6.5 to simply merge in your project's standard 
 #### Removed docs.getContainer and getPage parameters
 
 It is no longer possible to set `parameters.docs.getContainer()` and `getPage()`. Instead use `parameters.docs.container` or `parameters.docs.page` directly.
+
+#### Removed STORYBOOK_REACT_CLASSES global
+
+This was a legacy global variable from the early days of react docgen.  If you were using this variable, you can instead use docgen information which is added directly to components using `.__docgenInfo`.
 
 #### Icons API changed
 
