@@ -12,7 +12,7 @@ export const smokeTest: Task = {
 
     setInterval(() => console.log('outer script running'), 10000);
 
-    return exec(`yarn storybook --smoke-test`, { cwd: sandboxDir }, { debug: true });
+    return exec(`yarn storybook --smoke-test && echo done`, { cwd: sandboxDir }, { debug: true });
 
     console.log(`smoke testing in ${sandboxDir} done`);
   },
