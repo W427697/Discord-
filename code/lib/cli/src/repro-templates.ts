@@ -50,9 +50,9 @@ const reactWebpackTemplates = {
     script: 'yarn create webpack5-react .',
     cadence: ['ci', 'daily', 'weekly'],
     expected: {
-      framework: '@storybook/react-vite',
+      framework: '@storybook/react-webpack5',
       renderer: '@storybook/react',
-      builder: '@storybook/builder-vite',
+      builder: '@storybook/builder-webpack5',
     },
   },
 };
