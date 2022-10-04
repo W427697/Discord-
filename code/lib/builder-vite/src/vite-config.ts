@@ -83,7 +83,7 @@ export async function pluginConfig(options: ExtendedOptions) {
     injectExportOrderPlugin,
     stripStoryHMRBoundary(),
     {
-      name: 'storybook:allow-root-dir',
+      name: 'storybook:allow-storybook-dir',
       enforce: 'post',
       config(config) {
         // if there is NO allow list then Vite allows anything in the root directory
