@@ -83,7 +83,7 @@ export async function pluginConfig(options: ExtendedOptions) {
     injectExportOrderPlugin,
     stripStoryHMRBoundary(),
     {
-      name: 'vite-plugin-storybook-allow-root-dir',
+      name: 'storybook:allow-root-dir',
       enforce: 'post',
       config(config) {
         // if there is NO allow list then Vite allows anything in the root directory
@@ -91,7 +91,7 @@ export async function pluginConfig(options: ExtendedOptions) {
         // add storybook specific directories only if there's an allow list so that we don't end up
         // disallowing the root unless root is already disallowed
         if (config?.server?.fs?.allow) {
-          config.server.fs.allow.push('.storybook', 'template-stories');
+          config.server.fs.allow.push('.storybook');
         }
       },
     },

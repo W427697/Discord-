@@ -246,9 +246,13 @@ function addEsbuildLoaderToStories(mainConfig: ConfigFile) {
   );
 }
 
-// Recompile optimized deps on each startup, so you can change @storybook/* packages and not
-// have to clear caches.
-function forceViteRebuilds(mainConfig: ConfigFile) {
+/*
+  Recompile optimized deps on each startup, so you can change @storybook/* packages and not
+  have to clear caches.
+  And allow "template-stories" directory if necessary
+
+*/
+function setSandboxViteFinal(mainConfig: ConfigFile) {
   const viteFinalCode = `
   (config) => ({
     ...config,
@@ -256,6 +260,17 @@ function forceViteRebuilds(mainConfig: ConfigFile) {
       ...config.optimizeDeps,
       force: true,
     },
+    plugins: [
+      ...config.plugins,
+      {
+        name: 'storybook:allow-template-stories',
+        config(config) {
+          if (config?.server?.fs?.allow) {
+            config.server.fs.allow.push('template-stories');
+          }
+        },
+      },
+    ],
   })`;
   mainConfig.setFieldNode(
     ['viteFinal'],
@@ -468,7 +483,7 @@ export async function sandbox(optionValues: OptionValues<typeof options>) {
     // Add some extra settings (see above for what these do)
     mainConfig.setFieldValue(['core', 'disableTelemetry'], true);
     if (builder === '@storybook/builder-webpack5') addEsbuildLoaderToStories(mainConfig);
-    if (builder === '@storybook/builder-vite') forceViteRebuilds(mainConfig);
+    if (builder === '@storybook/builder-vite') setSandboxViteFinal(mainConfig);
 
     await writeConfig(mainConfig);
 
