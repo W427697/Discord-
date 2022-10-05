@@ -12,14 +12,6 @@ const mainConfig: StorybookConfig = {
     '@storybook/addon-controls',
     '@storybook/addon-jest',
     '@storybook/addon-links',
-    {
-      name: '@storybook/addon-postcss',
-      options: {
-        postcssLoaderOptions: {
-          implementation: require('postcss'), // eslint-disable-line global-require
-        },
-      },
-    },
     '@storybook/addon-storysource',
     '@storybook/addon-viewport',
     '@storybook/addon-highlight',

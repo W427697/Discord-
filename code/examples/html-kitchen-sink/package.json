@@ -21,7 +21,6 @@
     "@storybook/addon-highlight": "7.0.0-alpha.35",
     "@storybook/addon-jest": "7.0.0-alpha.35",
     "@storybook/addon-links": "7.0.0-alpha.35",
-    "@storybook/addon-postcss": "^2.0.0",
     "@storybook/addon-storyshots": "7.0.0-alpha.35",
     "@storybook/addon-storysource": "7.0.0-alpha.35",
     "@storybook/addon-viewport": "7.0.0-alpha.35",
