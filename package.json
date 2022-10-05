@@ -1,10 +1,7 @@
 {
   "scripts": {
-    "install-code": "cd code; yarn install",
-    "install-scripts": "cd scripts; yarn install",
-    "install-all": "yarn install-code; yarn install-scripts",
-    "start": "yarn install-all; yarn task --no-prompt",
-    "task": "yarn install-scripts; cd scripts; yarn task"
+    "start": "yarn task --task dev --template cra/default-ts --start-from=install-repo",
+    "task": "cd scripts; yarn install >/dev/null; yarn task"
   },
   "packageManager": "yarn@3.2.3"
 }
