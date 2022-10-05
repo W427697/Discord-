@@ -8684,8 +8684,6 @@ __metadata:
       built: false
     puppeteer:
       optional: true
-    styled-components:
-      built: false
     ts-loader:
       optional: true
     verdaccio:

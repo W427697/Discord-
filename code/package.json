@@ -367,9 +367,6 @@
     "preact": {
       "built": false
     },
-    "styled-components": {
-      "built": false
-    },
     "yorkie": {
       "built": false
     }
