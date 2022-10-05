@@ -8895,6 +8895,11 @@ __metadata:
     sveltedoc-parser: ^4.2.1
     typescript: ~4.6.3
     vite: ^3.1.3
+  peerDependencies:
+    "@storybook/addon-svelte-csf": ^2.0.0
+  peerDependenciesMeta:
+    "@storybook/addon-svelte-csf":
+      optional: true
   languageName: unknown
   linkType: soft
 
