@@ -4,20 +4,34 @@ title: 'Code contributions'
 
 Contribute a new feature or bug fix to [Storybook's monorepo](https://github.com/storybookjs/storybook). This page outlines how to get your environment set up to contribute code.
 
+## Prerequisites
+
+- Ensure you have node version 14 installed (suggestion: v14.18.1).
+- Ensure if you are using Windows to use the Windows Subsystem for Linux (WSL).
+
 ## Initial setup
 
-First [fork](https://docs.github.com/en/github/getting-started-with-github/quickstart/fork-a-repo) the Storybook repository then clone and build your fork locally. Run the following commands:
+Start by [forking](https://docs.github.com/en/github/getting-started-with-github/quickstart/fork-a-repo) the Storybook monorepo and cloning it locally.
 
 ```shell
 git clone https://github.com/your-username/storybook.git
-cd storybook
-yarn
-yarn bootstrap --core
+```
+
+Navigate to the `storybook/scripts` directory and install the required dependencies with the following commands:
+
+```shell
+yarn install
+```
+
+Navigate to the `storybook/code` directory and run the following commands:
+
+```shell
+yarn install && yarn bootstrap --core
 ```
 
 ## Run tests & examples
 
-Once you've completed the [initial setup](#run-tests-&-examples), you should have a fully functional version of Storybook built on your local machine. Before making any code changes, it's helpful to verify that everything is working as it should. More specifically, the test suite and examples.
+Once you've completed the [initial setup](#initial-setup), you should have a fully functional version of Storybook built on your local machine. Before making any code changes, it's helpful to verify that everything is working as it should. More specifically, the test suite and examples.
 
 Run the following command to execute the tests:
 
@@ -28,15 +42,14 @@ yarn test
 Once the tests finish, check if the examples are working with the following commands:
 
 ```shell
-cd examples/cra-ts-essentials
-yarn storybook
+cd examples/react-ts && yarn storybook
 ```
 
 <div class="aside">
 💡 The Storybook monorepo contains various example projects, each corresponding to a different framework and environment, and they are commonly used as additional tooling to test new features.
 </div>
 
-If everything is working as it should, you should see the `example/cra-ts-essentials` Storybook running.
+If everything is working as it should, you should see the `examples/react-ts` Storybook running.
 
 ![Example Storybook running](./storybook-cra-examples-optimized.png)
 
@@ -44,7 +57,7 @@ If everything is working as it should, you should see the `example/cra-ts-essent
 
 Now that you've [verified your setup](#sanity-check), it's time to jump into code. The simplest way to do this is to run one of the examples in one terminal window and the interactive build process in a separate terminal.
 
-Assuming you're still running the `examples/cra-ts-essentials` from the previous step, open a new terminal and navigate to the root of the Storybook monorepo. Then, create a new branch with the following command:
+Assuming you're still running the `examples/react-ts` from the previous step, open a new terminal and navigate to the root of the Storybook monorepo. Then, create a new branch with the following command:
 
 ```shell
 git checkout -b my-first-storybook-contribution
@@ -99,14 +112,14 @@ Unit tests ensure that Storybook doesn't break accidentally. If your code can re
 Storybook's monorepo is set up to rely on end-to-end testing with [Cypress](https://www.cypress.io/) during CI. To help with testing, we encourage running this test suite before submitting your contribution. Detailed below are some steps you can take:
 
 1. Ensure you have Storybook successfully built in your local branch (i.e., run `yarn bootstrap --core`)
-2. Open a terminal and run `yarn local-registry --port 6000 --open --publish` to publish Storybook's packages into a local registry.
+2. Open a terminal and run `yarn local-registry --port 6001 --open --publish` to publish Storybook's packages into a local registry.
 3. In a second terminal, set up a reproduction using the local registry and run the Cypress tests with `yarn test:e2e-framework`.
 
 ## Submit a pull request
 
 Before submitting your contribution, run the test suite one last time with:
 
-```sh
+```shell
 yarn test
 ```
 
@@ -133,20 +146,20 @@ We encourage bug reports to include reproductions. In the same way that it's pos
 
 To do so, run the following command in the root of the monorepo:
 
-```sh
-npx sb@next link https://github.com/your-username/your-project.git
+```shell
+npx storybook@next link https://github.com/your-username/your-project.git
 ```
 
 This command creates a project `../storybook-repros/your-project`, and automatically links it to your local Storybook code. After connecting it, you should be able to run Storybook and develop as mentioned [above](#start-developing).
 
 If you already have a reproduction on your local machine, you can similarly link it to your monorepo dev setup with the `--local` flag:
 
-```sh
-npx sb@next link --local /path/to/local-repro-directory
+```shell
+npx storybook@next link --local /path/to/local-repro-directory
 ```
 
 <div class="aside">
-💡  The <code>sb link</code> command relies on <code>yarn 2</code> linking under the hood. It requires that the local repro is using <code>yarn 2</code>, which will be the case if you're using the [<code>sb repro</code> command](./how-to-reproduce) per our contributing guidelines. If you are trying to link to a non-<code>yarn 2</code> project, linking will fail.
+💡  The <code>storybook link</code> command relies on <code>yarn 2</code> linking under the hood. It requires that the local repro is using <code>yarn 2</code>, which will be the case if you're using the [<code>storybook repro</code> command](./how-to-reproduce) per our contributing guidelines. If you are trying to link to a non-<code>yarn 2</code> project, linking will fail.
 </div>
 
 ## Troubleshooting

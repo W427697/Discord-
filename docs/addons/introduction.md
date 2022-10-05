@@ -5,11 +5,11 @@ title: 'Introduction to addons'
 Addons extend Storybook with features and integrations that are not built into the core. Most Storybook features are implemented as addons. For instance: [documentation](../writing-docs/introduction.md), [accessibility testing](https://github.com/storybookjs/storybook/tree/master/addons/a11y), [interactive controls](../essentials/controls.md), among others.
 The [addon API](./addons-api.md) makes it easy for you to configure and customize Storybook in new ways. There are countless addons made by the community that unlock time-saving workflows.
 
-Browse our [addon catalog](/addons) to install an existing addon or as inspiration for your own addon.
+Browse our [addon catalog](https://storybook.js.org/addons) to install an existing addon or as inspiration for your own addon.
 
 ## Storybook basics
 
-Before writing your first addon, let’s take a look at the basics of Storybook’s architecture. While Storybook presents a unified user interface, under the hood it’s divided down the middle into **Manager** and **Preview**.
+Before writing your first [addon](https://storybook.js.org/addons), let’s take a look at the basics of Storybook’s architecture. While Storybook presents a unified user interface, under the hood it’s divided down the middle into **Manager** and **Preview**.
 
 The **Manager** is the UI responsible for rendering the:
 

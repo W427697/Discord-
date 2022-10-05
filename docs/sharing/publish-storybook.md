@@ -21,7 +21,8 @@ First, we'll need to build Storybook as a static web application. The functional
   paths={[
     'angular/custom-build-script-production.script-for-builder.js.mdx',
     'angular/build-storybook-production-mode.with-builder.js.mdx',
-    'common/build-storybook-production-mode.js.mdx',
+    'common/build-storybook-production-mode.yarn.js.mdx',
+    'common/build-storybook-production-mode.npm.js.mdx',
   ]}
 />
 
@@ -49,13 +50,16 @@ To get started, sign up with your GitHub, GitLab, Bitbucket, or email and genera
 
 Next, install the [Chromatic CLI](https://www.npmjs.com/package/chromatic) package from npm:
 
-```shell
-# With npm
-npm install --save-dev chromatic
+<!-- prettier-ignore-start -->
 
-# With yarn
-yarn add --dev chromatic
-```
+<CodeSnippets
+  paths={[
+    'common/chromatic-install.yarn.js.mdx',
+    'common/chromatic-install.npm.js.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
 
 Run the following command after the package finishes installing. Make sure that you replace `your-project-token` with your own project token.
 
@@ -109,6 +113,12 @@ If you publish your Storybook to Chromatic, you can use the [UI Review](https://
 
 ![UI review in Chromatic](./workflow-uireview.png)
 
+### Versioning and history
+
+When you publish Storybook, you also get component history and versioning down to the commit. That's useful during implementation review for comparing components between branches/commits to past versions.
+
+![Library history in Chromatic](./workflow-history-versioning.png)
+
 ## Publish Storybook to other services
 
 You can publish the static Storybook web app to many hosts. We maintain [`storybook-deployer`](https://github.com/storybookjs/storybook-deployer), a handy tool to help you publish to AWS or GitHub pages.
@@ -138,3 +148,49 @@ This level of service can serve published Storybooks but has no further integrat
 Examples: [Netlify](https://www.netlify.com/), [S3](https://aws.amazon.com/en/s3/)
 
 </details>
+
+## Search engine optimization (SEO)
+
+If your Storybook is publically viewable, you may wish to configure how it is represented in search engine result pages.
+
+### Title
+
+Storybook will generate the document title (i.e. `<title>`) for you automatically, to include the currently-viewed component and story. By default, it looks something like "Components / Button - Primary ⋅ Storybook". You can modify the "Storybook" portion by adding the following to the `main.js` file in your config directory:
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'common/seo-title.js.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
+
+### Description
+
+You can provide a description for search engines to display in the results listing, by adding the following to the `manager-head.html` file in your config directory:
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'common/seo-description.html.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
+
+### Preventing your Storybook from being crawled
+
+You can prevent your published Storybook from appearing in search engine results by including a noindex meta tag, which you can do by adding the following to the `manager-head.html` file in your config directory:
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'common/seo-noindex.html.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->

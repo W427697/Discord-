@@ -34,7 +34,7 @@ Specifically, we track the following information in our telemetry events:
   - Supported view layers (e.g., React, Vue, Angular, Svelte).
   - Builder (e.g., Webpack4, Webpack5, Vite).
   - Meta framework (e.g., [Next](https://nextjs.org/), [Gatsby](https://www.gatsbyjs.com/), [CRA](https://create-react-app.dev/)).
-  - [Addons](/addons) (e.g., [Essentials](../essentials/introduction), [Accessibility](https://storybook.js.org/addons/@storybook/addon-a11y/)).
+  - [Addons](https://storybook.js.org/addons/) (e.g., [Essentials](../essentials/introduction.md), [Accessibility](https://storybook.js.org/addons/@storybook/addon-a11y/)).
   - [Feature flags](./overview.md#feature-flags) (e.g., `buildStoriesJson`).
 - Package manager information (e.g., `npm`, `yarn`).
 - Monorepo information (e.g., [NX](https://nx.dev/), [Turborepo](https://turborepo.org/)).
@@ -73,7 +73,7 @@ Will generate the following output:
   "metadata": {
     "generatedAt": 1648233198722,
     "builder": {
-      "name": "webpack4"
+      "name": "webpack5"
     },
     "hasCustomBabel": false,
     "hasCustomWebpack": true,
@@ -87,7 +87,7 @@ Will generate the following output:
     },
     "packageManager": {
       "name": "yarn",
-      "version": "3.1.1",
+      "version": "3.1.1"
     },
     "monorepo": "Nx",
     "features": {
@@ -99,7 +99,7 @@ Will generate the following output:
       "@storybook/addons": {
         "version": "6.5.0"
       },
-      "@storybook/builder-webpack4": {
+      "@storybook/builder-webpack5": {
         "version": "6.5.0"
       },
       "@storybook/react": {

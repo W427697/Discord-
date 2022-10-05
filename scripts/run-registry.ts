@@ -1,18 +1,17 @@
 import { exec } from 'child_process';
+import { remove, pathExists } from 'fs-extra';
 import chalk from 'chalk';
 import path from 'path';
 import program from 'commander';
 import detectFreePort from 'detect-port';
-import dedent from 'ts-dedent';
 import fs from 'fs';
 import yaml from 'js-yaml';
-import nodeCleanup from 'node-cleanup';
 
 import startVerdaccioServer from 'verdaccio';
 import pLimit from 'p-limit';
-// @ts-ignore
+// @ts-expect-error (Converted from ts-ignore)
 import { maxConcurrentTasks } from './utils/concurrency';
-import { listOfPackages, Package } from './utils/list-packages';
+import { listOfPackages } from './utils/list-packages';
 
 program
   .option('-O, --open', 'keep process open')
@@ -25,7 +24,7 @@ const logger = console;
 
 const freePort = (port?: number) => port || detectFreePort(port);
 
-const startVerdaccio = (port: number) => {
+const startVerdaccio = (port: number): Promise<any> => {
   let resolved = false;
   return Promise.race([
     new Promise((resolve) => {
@@ -44,7 +43,7 @@ const startVerdaccio = (port: number) => {
         });
       };
 
-      startVerdaccioServer(config, 6000, cache, '1.0.0', 'verdaccio', onReady);
+      startVerdaccioServer(config, 6001, cache, '1.0.0', 'verdaccio', onReady);
     }),
     new Promise((_, rej) => {
       setTimeout(() => {
@@ -57,58 +56,8 @@ const startVerdaccio = (port: number) => {
   ]);
 };
 
-const registryUrlNPM = (url?: string) =>
-  new Promise<string>((res, rej) => {
-    const args = url ? ['config', 'set', 'registry', url] : ['config', 'get', 'registry'];
-    exec(`npm ${args.join(' ')}`, { cwd: path.join(process.cwd(), '..') }, (e, stdout) => {
-      if (e) {
-        rej(e);
-      } else {
-        res(url || stdout.toString().trim());
-      }
-    });
-  });
-
-const registryUrlYarn = (url?: string) =>
-  new Promise<string>((res, rej) => {
-    const args = url
-      ? ['config', 'set', 'npmRegistryServer', url]
-      : ['config', 'get', 'npmRegistryServer'];
-    exec(`yarn ${args.join(' ')}`, { cwd: path.join(__dirname, '..') }, (e, stdout) => {
-      if (e) {
-        console.log(stdout.toString());
-        rej(e);
-      } else {
-        res(url || stdout.toString().trim());
-      }
-    });
-  });
-
-const registriesUrl = (yarnUrl?: string, npmUrl?: string) =>
-  Promise.all([registryUrlYarn(yarnUrl), registryUrlNPM(npmUrl || yarnUrl)]);
-
-const applyRegistriesUrl = (
-  yarnUrl: string,
-  npmUrl: string,
-  originalYarnUrl: string,
-  originalNpmUrl: string
-) => {
-  logger.log(`↪️  changing system config`);
-  nodeCleanup(() => {
-    registriesUrl(originalYarnUrl, originalNpmUrl);
-
-    logger.log(dedent`
-      Your registry config has been restored from:
-      npm: ${npmUrl} to ${originalNpmUrl} 
-      yarn: ${yarnUrl} to ${originalYarnUrl} 
-    `);
-  });
-
-  return registriesUrl(yarnUrl, npmUrl);
-};
-
 const currentVersion = async () => {
-  const { version } = (await import('../lerna.json')).default;
+  const { version } = (await import('../code/lerna.json')).default;
   return version;
 };
 
@@ -145,18 +94,18 @@ const publish = (packages: { name: string; location: string }[], url: string) =>
   );
 };
 
-// const addUser = (url: string) =>
-//   new Promise((res, rej) => {
-//     logger.log(`👤 add temp user to verdaccio`);
+const addUser = (url: string) =>
+  new Promise((res, rej) => {
+    logger.log(`👤 add temp user to verdaccio`);
 
-//     exec(`npx npm-cli-adduser -r "${url}" -a -u user -p password -e user@example.com`, (e) => {
-//       if (e) {
-//         rej(e);
-//       } else {
-//         res();
-//       }
-//     });
-//   });
+    exec(`npx npm-cli-adduser -r "${url}" -a -u user -p password -e user@example.com`, (e) => {
+      if (e) {
+        rej(e);
+      } else {
+        res();
+      }
+    });
+  });
 
 const run = async () => {
   const port = await freePort(program.port);
@@ -164,21 +113,21 @@ const run = async () => {
 
   const verdaccioUrl = `http://localhost:${port}`;
 
-  logger.log(`🔖 reading current registry settings`);
-  let [originalYarnRegistryUrl, originalNpmRegistryUrl] = await registriesUrl();
-  if (
-    originalYarnRegistryUrl.includes('localhost') ||
-    originalNpmRegistryUrl.includes('localhost')
-  ) {
-    originalYarnRegistryUrl = 'https://registry.npmjs.org/';
-    originalNpmRegistryUrl = 'https://registry.npmjs.org/';
-  }
-
   logger.log(`📐 reading version of storybook`);
   logger.log(`🚛 listing storybook packages`);
+
+  if (!process.env.CI) {
+    // when running e2e locally, clear cache to avoid EPUBLISHCONFLICT errors
+    const verdaccioCache = path.resolve(__dirname, '..', '.verdaccio-cache');
+    if (await pathExists(verdaccioCache)) {
+      logger.log(`🗑 cleaning up cache`);
+      await remove(verdaccioCache);
+    }
+  }
+
   logger.log(`🎬 starting verdaccio (this takes ±5 seconds, so be patient)`);
 
-  const [verdaccioServer, packages, version] = await Promise.all<any, Package[], string>([
+  const [verdaccioServer, packages, version] = await Promise.all([
     startVerdaccio(port),
     listOfPackages(),
     currentVersion(),
@@ -186,15 +135,12 @@ const run = async () => {
 
   logger.log(`🌿 verdaccio running on ${verdaccioUrl}`);
 
-  await applyRegistriesUrl(
-    verdaccioUrl,
-    verdaccioUrl,
-    originalYarnRegistryUrl,
-    originalNpmRegistryUrl
-  );
-
-  // first time running, you might need to enable this
-  // await addUser(verdaccioUrl);
+  // in some environments you need to add a dummy user. always try to add & catch on failure
+  try {
+    await addUser(verdaccioUrl);
+  } catch (e) {
+    //
+  }
 
   logger.log(`📦 found ${packages.length} storybook packages at version ${chalk.blue(version)}`);
 
