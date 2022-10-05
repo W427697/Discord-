@@ -4,7 +4,6 @@
 
 - Angular: Disable ngcc when not needed [#19307](https://github.com/storybooks/storybook/pull/19307)
 - Vite: Add vue-vite framework for Vue2 [#19230](https://github.com/storybooks/storybook/pull/19230)
-- Vite: Add web-components/lit support [#19315](https://github.com/storybooks/storybook/pull/19315)
 - Storyshots-puppeteer: Add browserLaunchOptions to CommonConfig [#18927](https://github.com/storybooks/storybook/pull/18927)
 
 #### Bug Fixes
