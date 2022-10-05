@@ -52,7 +52,7 @@ export const createWebpackConfig = async (options: Options): Promise<Configurati
   const headHtmlSnippet = presets.apply<string>('previewHead');
   const bodyHtmlSnippet = presets.apply<string>('previewBody');
   const template = presets.apply<string>('previewMainTemplate');
-  const configs = presets.apply<string[]>('config', []);
+  const previewAnnotations = presets.apply<string[]>('previewAnnotations', []);
   const entriesP = presets.apply<string[]>('entries', []);
   const stories = presets.apply('stories', []);
 
@@ -60,7 +60,7 @@ export const createWebpackConfig = async (options: Options): Promise<Configurati
   const typescriptOptions = presets.apply<TypescriptOptions>('typescript');
   const builderOptions: BuilderOptions = typeof builder === 'string' ? {} : builder?.options || {};
 
-  const configsFinal = [...(await configs), getPreviewFile(options)].filter(Boolean);
+  const configsFinal = [...(await previewAnnotations), getPreviewFile(options)].filter(Boolean);
   const entriesFinal = await entriesP;
   const typescriptOptionsFinal = await typescriptOptions;
   const storiesFinal = normalizeStories(await stories, { configDir, workingDir: configDir });
@@ -70,7 +70,7 @@ export const createWebpackConfig = async (options: Options): Promise<Configurati
     ? await getModernVirtualEntries({
         configDir,
         stories: storiesFinal,
-        configs: configsFinal,
+        previewAnnotations: configsFinal,
         entries: entriesFinal,
         isProd,
         builderOptions,
@@ -78,7 +78,7 @@ export const createWebpackConfig = async (options: Options): Promise<Configurati
     : await getLegacyVirtualEntries({
         configDir,
         stories: storiesFinal,
-        configs: configsFinal,
+        previewAnnotations: configsFinal,
         entries: entriesFinal,
         frameworkName,
       });

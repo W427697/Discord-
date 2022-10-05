@@ -32,14 +32,14 @@ export async function getModernVirtualEntries({
   builderOptions,
   isProd,
   stories,
-  configs,
+  previewAnnotations,
   entries: originalEntries,
 }: {
   configDir: string;
   builderOptions: BuilderOptions;
   isProd: boolean;
   stories: ReturnType<typeof normalizeStories>;
-  configs: (string | undefined)[];
+  previewAnnotations: (string | undefined)[];
   entries: string[];
 }) {
   const entries = [...originalEntries];
@@ -53,7 +53,7 @@ export async function getModernVirtualEntries({
   const configEntryPath = r(configEntryFilename);
   const data = {
     storiesFilename: storiesFileName,
-    configs,
+    previewAnnotations,
   };
   const template = await readTemplate(
     require.resolve('@storybook/builder-webpack5/templates/virtualModuleModernEntry.js.handlebars')
@@ -72,13 +72,13 @@ export async function getModernVirtualEntries({
 export async function getLegacyVirtualEntries({
   configDir,
   stories,
-  configs,
+  previewAnnotations,
   entries: originalEntries,
   frameworkName,
 }: {
   configDir: string;
   stories: ReturnType<typeof normalizeStories>;
-  configs: (string | undefined)[];
+  previewAnnotations: (string | undefined)[];
   entries: string[];
   frameworkName: string;
 }) {
@@ -95,16 +95,16 @@ export async function getLegacyVirtualEntries({
     require.resolve('@storybook/builder-webpack5/templates/virtualModuleEntry.template.mjs')
   );
 
-  configs.forEach((configFilename: any) => {
+  previewAnnotations.forEach((previewAnnotationFilename: any) => {
     const clientApi = storybookPaths['@storybook/client-api'];
     const clientLogger = storybookPaths['@storybook/client-logger'];
 
     const data = {
-      configFilename,
+      previewAnnotationFilename,
       clientApi,
       clientLogger,
     };
-    const fileName = `${configFilename}-generated-config-entry.js`;
+    const fileName = `${previewAnnotationFilename}-generated-config-entry.js`;
     // NOTE: although this file is also from the `dist/cjs` directory, it is actually a ESM
     // file, see https://github.com/storybookjs/storybook/pull/16727#issuecomment-986485173
     mapping[fileName] = interpolate(template, data);
