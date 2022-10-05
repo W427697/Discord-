@@ -8,7 +8,7 @@ const sandboxDir = resolve(__dirname, '../sandbox');
 export type Cadence = 'ci' | 'daily' | 'weekly';
 export type Template = {
   cadence?: readonly Cadence[];
-  skipScripts?: string[];
+  skipTasks?: string[];
   // there are other fields but we don't use them here
 };
 export type TemplateKey = string;
@@ -42,7 +42,7 @@ export async function getTemplate(
     const cadenceTemplates = allTemplates.filter(([, template]) =>
       template.cadence.includes(cadence)
     );
-    const jobTemplates = cadenceTemplates.filter(([, t]) => !t.skipScripts?.includes(scriptName));
+    const jobTemplates = cadenceTemplates.filter(([, t]) => !t.skipTasks?.includes(scriptName));
     potentialTemplateKeys = jobTemplates.map(([k]) => k);
   }
 
