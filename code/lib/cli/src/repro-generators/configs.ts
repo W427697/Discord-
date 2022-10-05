@@ -194,11 +194,10 @@ export const web_components_lit2: Parameters = {
 export const vue: Parameters = {
   renderer: 'vue',
   name: 'vue',
-  // Be careful here, the latest versions of vue cli are bootstrapping a vue 3  project
-  version: '4',
+  version: 'latest',
   generator: [
-    // Force npm otherwise we have a mess between Yarn 1 and Yarn 2
-    `npx -p @vue/cli@{{version}} vue create {{appName}} --default --packageManager=npm --no-git --force`,
+    // vue2 with webpack5
+    `npx -p @vue/cli vue create {{appName}} --default --packageManager=yarn --force --merge --preset="Default (Vue 2)"`,
   ].join(' && '),
 };
 
