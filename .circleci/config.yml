@@ -485,7 +485,7 @@ jobs:
           at: .
       - run:
           name: Creating Sandboxes
-          command: yarn task --task create --template $(yarn get-template ci) --force --no-before --junit
+          command: yarn task --task create --template $(yarn get-template ci create) --force --no-before --junit
           working_directory: code
       - persist_to_workspace:
           root: .
@@ -497,7 +497,7 @@ jobs:
     executor:
       class: medium+
       name: sb_node_14_browsers
-    parallelism: 10
+    parallelism: 9
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: '--depth 1 --verbose'
@@ -505,7 +505,7 @@ jobs:
           at: .
       - run:
           name: Smoke Testing Sandboxes
-          command: yarn task --task smoke-test --template $(yarn get-template ci) --force --no-before --junit
+          command: yarn task --task smoke-test --template $(yarn get-template ci smoke-test) --force --no-before --junit
           working_directory: code
       - store_test_results:
           path: code/test-results
@@ -521,7 +521,7 @@ jobs:
           at: .
       - run:
           name: Building Sandboxes
-          command: yarn task --task build --template $(yarn get-template ci) --force --no-before --junit
+          command: yarn task --task build --template $(yarn get-template ci build) --force --no-before --junit
           working_directory: code
       - store_test_results:
           path: code/test-results
@@ -541,7 +541,7 @@ jobs:
           at: .
       - run:
           name: Running Test Runner
-          command: yarn task --task test-runner --template $(yarn get-template ci) --force --no-before --junit
+          command: yarn task --task test-runner --template $(yarn get-template ci test-runner) --force --no-before --junit
           working_directory: code
       - store_test_results:
           path: code/test-results
@@ -557,7 +557,7 @@ jobs:
           at: .
       - run:
           name: Running Chromatic
-          command: yarn task --task chromatic --template $(yarn get-template ci) --force --no-before --junit
+          command: yarn task --task chromatic --template $(yarn get-template ci chromatic) --force --no-before --junit
           working_directory: code
       - store_test_results:
           path: code/test-results
@@ -573,7 +573,7 @@ jobs:
           at: .
       - run:
           name: Running E2E Tests
-          command: yarn task --task e2e-tests --template $(yarn get-template ci) --force --no-before --junit
+          command: yarn task --task e2e-tests --template $(yarn get-template ci e2e-tests) --force --no-before --junit
           working_directory: code
       - store_test_results:
           path: code/test-results
