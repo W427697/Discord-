@@ -367,7 +367,9 @@ async function run() {
     // We don't know what to do! Let's ask
     const { startFromTask } = await prompt({
       type: 'select',
-      message: 'Which task would you like to start from?',
+      message: `We need to run all tasks after ${getTaskKey(
+        firstUnready
+      )}, would you like to go further back?`,
       name: 'startFromTask',
       choices: sortedTasks
         .slice(0, sortedTasks.indexOf(firstUnready) + 1)
