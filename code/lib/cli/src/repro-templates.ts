@@ -13,6 +13,8 @@ const craTemplates = {
     name: 'Create React App (Typescript)',
     script: 'npx create-react-app . --template typescript',
     cadence: ['ci', 'daily', 'weekly'],
+    // Re-enable once https://github.com/storybookjs/storybook/issues/19351 is fixed.
+    skipTasks: ['smoke-test'],
     expected: {
       framework: '@storybook/cra',
       renderer: '@storybook/react',
