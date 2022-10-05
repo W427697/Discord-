@@ -99,8 +99,10 @@
     "entries": [
       "./src/index.ts",
       "./src/manager.tsx",
-      "./src/preset/preview.ts"
-    ]
+      "./src/preset/preview.ts",
+      "./src/preset/checkActionsLoaded.ts"
+    ],
+    "platform": "node"
   },
   "gitHead": "fc90fc875462421c1faa35862ac4bc436de8e75f",
   "storybook": {

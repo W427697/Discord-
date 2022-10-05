@@ -57,6 +57,16 @@ const reactWebpackTemplates = {
       builder: '@storybook/builder-webpack5',
     },
   },
+  'react-webpack/17-ts': {
+    name: 'React Webpack5 (TS)',
+    script: 'yarn create webpack5-react . --version-react="17" --version-react-dom="17"',
+    cadence: ['ci', 'daily', 'weekly'],
+    expected: {
+      framework: '@storybook/react-webpack5',
+      renderer: '@storybook/react',
+      builder: '@storybook/builder-webpack5',
+    },
+  },
 };
 
 const vue3ViteTemplates = {
