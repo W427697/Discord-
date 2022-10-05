@@ -107,11 +107,6 @@ jobs:
             cd code
             yarn install --immutable
       - run:
-          name: Install script dependencies
-          command: |
-            cd scripts
-            yarn install --immutable
-      - run:
           name: Bootstrap
           command: |
             yarn task --task bootstrap-repo --start-from=never --no-link

@@ -11,13 +11,15 @@ export const publishRepo: Task = {
   async ready() {
     return pathExists(verdaccioCacheDir);
   },
-  async run() {
+  async run(_, { dryRun, debug }) {
     return exec(
       'yarn local-registry --publish',
       {},
       {
         startMessage: '📕 Publishing packages',
         errorMessage: '❌ Failed publishing packages',
+        dryRun,
+        debug,
       }
     );
   },

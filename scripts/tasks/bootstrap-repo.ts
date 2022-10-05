@@ -14,20 +14,26 @@ const noLinkCommand = `nx run-many --target="prep" --all --parallel=8 ${
 export const bootstrapRepo: Task = {
   before: ['install-repo'],
   async ready({ codeDir }, { link }) {
-    const contents = await readFile(resolve(codeDir, './lib/store/dist/types/index.d.ts'), 'utf8');
-
-    if (!contents) return false;
-
-    if (link) return contents === linkedContents;
-    return contents !== linkedContents;
+    try {
+      const contents = await readFile(
+        resolve(codeDir, './lib/store/dist/types/index.d.ts'),
+        'utf8'
+      );
+      if (link) return contents === linkedContents;
+      return contents !== linkedContents;
+    } catch (err) {
+      return false;
+    }
   },
-  async run(_, { link }) {
+  async run({ codeDir }, { link, dryRun, debug }) {
     return exec(
       link ? linkCommand : noLinkCommand,
-      {},
+      { cwd: codeDir },
       {
         startMessage: '🥾 Bootstrapping',
         errorMessage: '❌ Failed to bootstrap',
+        dryRun,
+        debug,
       }
     );
   },
