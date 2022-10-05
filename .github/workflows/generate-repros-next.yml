@@ -8,6 +8,7 @@ on:
   push:
     branches:
       - vite-frameworks-xyz
+      - norbert/sb-524-webpack5react18ts
 
 jobs:
   generate:
