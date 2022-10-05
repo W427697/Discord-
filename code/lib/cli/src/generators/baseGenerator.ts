@@ -1,7 +1,7 @@
 import fse from 'fs-extra';
 import { dedent } from 'ts-dedent';
 import { NpmOptions } from '../NpmOptions';
-import { SupportedRenderers, Builder, CoreBuilder } from '../project_types';
+import { SupportedRenderers, SupportedFrameworks, Builder, CoreBuilder } from '../project_types';
 import { getBabelDependencies, copyComponents } from '../helpers';
 import { configureMain, configurePreview } from './configure';
 import { getPackageDetails, JsPackageManager } from '../js-package-manager';
@@ -97,18 +97,14 @@ const stripVersions = (addons: string[]) => addons.map((addon) => getPackageDeta
 const hasInteractiveStories = (rendererId: SupportedRenderers) =>
   ['react', 'angular', 'preact', 'svelte', 'vue', 'vue3', 'html'].includes(rendererId);
 
-type SupportedFrameworks = 'nextjs' | 'angular';
-
-const frameworkToRenderer: Record<SupportedFrameworks, SupportedRenderers> = {
-  nextjs: 'react',
-  angular: 'angular',
-};
+const hasFrameworkTemplates = (framework?: SupportedFrameworks) =>
+  ['angular', 'nextjs'].includes(framework);
 
 export async function baseGenerator(
   packageManager: JsPackageManager,
   npmOptions: NpmOptions,
   { language, builder = CoreBuilder.Webpack5, pnp, commonJs }: GeneratorOptions,
-  _renderer: SupportedRenderers,
+  renderer: SupportedRenderers,
   options: FrameworkOptions = defaultOptions,
   framework?: SupportedFrameworks
 ) {
@@ -126,8 +122,6 @@ export async function baseGenerator(
     ...defaultOptions,
     ...options,
   };
-
-  const renderer = frameworkToRenderer[framework] || _renderer;
 
   const {
     packages: frameworkPackages,
@@ -179,7 +173,7 @@ export async function baseGenerator(
 
   const packages = [
     'storybook',
-    `@storybook/${renderer}`,
+    `@storybook/${rendererId}`,
     ...frameworkPackages,
     ...addonPackages,
     ...extraPackages,
@@ -209,10 +203,11 @@ export async function baseGenerator(
       : {}),
   });
 
-  await configurePreview(renderer);
+  await configurePreview(rendererId);
 
   if (addComponents) {
-    await copyComponents(renderer, language);
+    const templateLocation = hasFrameworkTemplates(framework) ? framework : rendererId;
+    await copyComponents(templateLocation, language);
   }
 
   // FIXME: temporary workaround for https://github.com/storybookjs/storybook/issues/17516

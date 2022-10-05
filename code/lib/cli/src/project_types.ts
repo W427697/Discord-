@@ -15,6 +15,9 @@ function eqMajor(versionRange: string, major: number) {
   return validRange(versionRange) && minVersion(versionRange).major === major;
 }
 
+// Should match @storybook/<framework>
+export type SupportedFrameworks = 'nextjs' | 'angular';
+
 // Should match @storybook/<renderer>
 export type SupportedRenderers =
   | 'react'
