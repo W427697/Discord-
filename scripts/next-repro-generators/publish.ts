@@ -5,7 +5,6 @@ import { command } from 'execa';
 import * as tempy from 'tempy';
 import { copy, emptyDir, readdir, remove, stat, writeFile } from 'fs-extra';
 
-import { promiseImpl } from 'ejs';
 import { getTemplatesData, renderTemplate } from './utils/template';
 import { commitAllToGit } from './utils/git';
 
