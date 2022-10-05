@@ -7,6 +7,7 @@ import { exec } from '../utils/exec';
 export const START_PORT = 6006;
 
 export const dev: Task = {
+  description: 'Run the sandbox in development mode',
   service: true,
   before: ['sandbox'],
   async ready() {

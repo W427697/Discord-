@@ -25,6 +25,7 @@ export async function runRegistry({ dryRun, debug }: { dryRun?: boolean; debug?:
 
 const REGISTRY_PORT = 6001;
 export const runRegistryTask: Task = {
+  description: 'Run the internal npm server',
   service: true,
   before: ['publish'],
   async ready() {

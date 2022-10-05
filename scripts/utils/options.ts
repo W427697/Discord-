@@ -41,6 +41,10 @@ export type StringOption = BaseOption & {
    */
   values?: readonly string[];
   /**
+   * How to describe the values when selecting them
+   */
+  valueDescriptions?: readonly string[];
+  /**
    * Is a value required for this option?
    */
   required?: boolean;
@@ -52,6 +56,10 @@ export type StringArrayOption = BaseOption & {
    * What values are allowed for this option?
    */
   values?: readonly string[];
+  /**
+   * How to describe the values when selecting them
+   */
+  valueDescriptions?: readonly string[];
 };
 
 export type Option = BooleanOption | StringOption | StringArrayOption;
@@ -203,7 +211,7 @@ export async function promptOptions<TOptions extends OptionSpecifier>(
         const chosenType = passedType(...args);
         return chosenType === true ? defaultType : chosenType;
       };
-    } else if (passedType) {
+    } else if (typeof passedType !== 'undefined') {
       type = passedType;
     }
 
@@ -215,8 +223,8 @@ export async function promptOptions<TOptions extends OptionSpecifier>(
         name: key,
         // warn: ' ',
         // pageSize: Object.keys(tasks).length + Object.keys(groups).length,
-        choices: option.values?.map((value) => ({
-          title: value,
+        choices: option.values?.map((value, index) => ({
+          title: option.valueDescriptions?.[index] || value,
           value,
           selected:
             currentValue === value ||

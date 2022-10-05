@@ -7,6 +7,7 @@ import type { Task } from '../task';
 const verdaccioCacheDir = resolve(__dirname, '../../.verdaccio-cache');
 
 export const publish: Task = {
+  description: 'Publish the packages of the monorepo to an internal npm server',
   before: ['compile'],
   async ready() {
     return pathExists(verdaccioCacheDir);

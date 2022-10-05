@@ -5,6 +5,7 @@ import { Task } from '../task';
 const logger = console;
 
 export const sandbox: Task = {
+  description: 'Create the sandbox from a template',
   before: ({ link }) => (link ? ['compile'] : ['compile', 'run-registry']),
   async ready({ sandboxDir }) {
     return pathExists(sandboxDir);

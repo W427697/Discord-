@@ -59,6 +59,10 @@ type MaybePromise<T> = T | Promise<T>;
 
 export type Task = {
   /**
+   * A description of the task for a prompt
+   */
+  description: string;
+  /**
    * Does this task represent a service for another task?
    *
    * Unlink other tasks, if a service is not ready, it doesn't mean the subsequent tasks
@@ -104,29 +108,45 @@ export const tasks = {
   chromatic,
   'e2e-tests': e2eTests,
 };
-
 type TaskKey = keyof typeof tasks;
 
-export const sandboxOptions = createOptions({
-  template: {
+function isSandboxTask(taskKey: TaskKey) {
+  return !['install', 'compile', 'publish', 'run-registry'].includes(taskKey);
+}
+
+export const options = createOptions({
+  task: {
     type: 'string',
-    description: 'What template are you running against?',
-    values: Object.keys(TEMPLATES) as TemplateKey[],
+    description: 'Which task would you like to run?',
+    values: Object.keys(tasks) as TaskKey[],
+    valueDescriptions: Object.values(tasks).map((t) => `${t.description} (${getTaskKey(t)})`),
+    required: true,
   },
-  // TODO -- feature flags
-  sandboxDir: {
+  startFrom: {
     type: 'string',
-    description: 'What is the name of the directory the sandbox runs in?',
+    description: 'Which task should we reset back to?',
+    values: [...(Object.keys(tasks) as TaskKey[]), 'never', 'auto'] as const,
+    // This is prompted later based on information about what's ready
     promptType: false,
   },
+  template: {
+    type: 'string',
+    description: 'What template would you like to make a sandbox for?',
+    values: Object.keys(TEMPLATES) as TemplateKey[],
+    promptType: (_, { task }) => isSandboxTask(task),
+  },
+  // // TODO -- feature flags
+  // sandboxDir: {
+  //   type: 'string',
+  //   description: 'What is the name of the directory the sandbox runs in?',
+  //   promptType: false,
+  // },
   addon: {
     type: 'string[]',
     description: 'Which extra addons (beyond the CLI defaults) would you like installed?',
     values: extraAddons,
+    promptType: (_, { task }) => isSandboxTask(task),
   },
-});
-
-export const runOptions = createOptions({
   link: {
     type: 'boolean',
     description: 'Link the storybook to the local code?',
@@ -135,6 +155,7 @@ export const runOptions = createOptions({
   fromLocalRepro: {
     type: 'boolean',
     description: 'Create the template from a local repro (rather than degitting it)?',
+    promptType: (_, { task }) => isSandboxTask(task),
   },
   dryRun: {
     type: 'boolean',
@@ -146,27 +167,14 @@ export const runOptions = createOptions({
     description: 'Print all the logs to the console',
     promptType: false,
   },
-});
-
-export const taskOptions = createOptions({
-  task: {
-    type: 'string',
-    description: 'What task are you performing (corresponds to CI job)?',
-    values: Object.keys(tasks) as TaskKey[],
-    required: true,
-  },
-  startFrom: {
-    type: 'string',
-    description: 'Which task should we reset back to?',
-    values: [...(Object.keys(tasks) as TaskKey[]), 'never', 'auto'] as const,
-  },
   junit: {
     type: 'boolean',
     description: 'Store results in junit format?',
+    promptType: false,
   },
 });
 
-type PassedOptionValues = OptionValues<typeof sandboxOptions & typeof runOptions>;
+type PassedOptionValues = Omit<OptionValues<typeof options>, 'task' | 'startFrom' | 'junit'>;
 
 const logger = console;
 
@@ -293,12 +301,7 @@ async function runTask(task: Task, details: TemplateDetails, optionValues: Passe
 }
 
 async function run() {
-  const allOptions = {
-    ...sandboxOptions,
-    ...runOptions,
-    ...taskOptions,
-  };
-  const allOptionValues = await getOptionsOrPrompt('yarn task', allOptions);
+  const allOptionValues = await getOptionsOrPrompt('yarn task', options);
 
   const { task: taskKey, startFrom, junit, ...optionValues } = allOptionValues;
 
@@ -363,20 +366,24 @@ async function run() {
     setUnready(tasks[startFrom]);
   } else if (firstUnready === sortedTasks[0]) {
     // We need to do everything, no need to change anything
+  } else if (sortedTasks.length === 1) {
+    setUnready(sortedTasks[0]);
   } else {
     // We don't know what to do! Let's ask
     const { startFromTask } = await prompt({
       type: 'select',
-      message: `We need to run all tasks after ${getTaskKey(
-        firstUnready
-      )}, would you like to go further back?`,
+      message: firstUnready
+        ? `We need to run all tasks after ${getTaskKey(
+            firstUnready
+          )}, would you like to go further back?`
+        : `Which task would you like to start from?`,
       name: 'startFromTask',
       choices: sortedTasks
-        .slice(0, sortedTasks.indexOf(firstUnready) + 1)
+        .slice(0, firstUnready && sortedTasks.indexOf(firstUnready) + 1)
         .filter((t) => !t.service)
         .reverse()
         .map((t) => ({
-          title: getTaskKey(t),
+          title: `${t.description} (${getTaskKey(t)})`,
           value: t,
         })),
     });
@@ -412,7 +419,7 @@ async function run() {
               dedent`
                 To reproduce this error locally, run:
 
-                  ${getCommand('yarn task', allOptions, {
+                  ${getCommand('yarn task', options, {
                     ...allOptionValues,
                     link: true,
                     startFrom: 'auto',
@@ -420,7 +427,7 @@ async function run() {
                 
                 Note this uses locally linking which in rare cases behaves differently to CI. For a closer match, run:
                 
-                  ${getCommand('yarn task', allOptions, {
+                  ${getCommand('yarn task', options, {
                     ...allOptionValues,
                     startFrom: 'auto',
                   })}`,

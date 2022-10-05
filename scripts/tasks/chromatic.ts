@@ -2,6 +2,7 @@ import type { Task } from '../task';
 import { exec } from '../utils/exec';
 
 export const chromatic: Task = {
+  description: 'Run Chromatic against the sandbox',
   before: ['build'],
   junit: true,
   async ready() {

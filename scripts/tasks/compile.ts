@@ -12,6 +12,7 @@ const noLinkCommand = `nx run-many --target="prep" --all --parallel=8 ${
 } -- --reset --optimized`;
 
 export const compile: Task = {
+  description: 'Compile the source code of the monorepo',
   before: ['install'],
   async ready({ codeDir }, { link }) {
     try {

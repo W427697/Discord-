@@ -6,6 +6,7 @@ import { exec } from '../utils/exec';
 
 export const PORT = 8001;
 export const serve: Task = {
+  description: 'Serve the build storybook for a sandbox',
   service: true,
   before: ['build'],
   async ready() {

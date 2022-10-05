@@ -3,6 +3,7 @@ import type { Task } from '../task';
 import { exec } from '../utils/exec';
 
 export const build: Task = {
+  description: 'Build the static version of the sandbox',
   before: ['sandbox'],
   async ready({ builtSandboxDir }) {
     return pathExists(builtSandboxDir);
