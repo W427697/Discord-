@@ -8486,7 +8486,7 @@ __metadata:
     "@storybook/preview-web": 7.0.0-alpha.34
     "@storybook/react": 7.0.0-alpha.34
     "@types/node": ^14.14.20 || ^16.0.0
-    "@vitejs/plugin-react": ^2.0.1
+    "@vitejs/plugin-react": ^2.0.0
     ast-types: ^0.14.2
     magic-string: ^0.26.1
     react-docgen: ^6.0.0-alpha.3
@@ -9182,7 +9182,7 @@ __metadata:
     "@storybook/preview-web": 7.0.0-alpha.34
     "@storybook/vue3": 7.0.0-alpha.34
     "@types/node": ^14.14.20 || ^16.0.0
-    "@vitejs/plugin-vue": ^3.0.3
+    "@vitejs/plugin-vue": ^3.0.0
     magic-string: ^0.26.1
     typescript: ~4.6.3
     vite: ^3.1.3
@@ -11013,7 +11013,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vitejs/plugin-react@npm:^2.0.0, @vitejs/plugin-react@npm:^2.0.1":
+"@vitejs/plugin-react@npm:^2.0.0":
   version: 2.1.0
   resolution: "@vitejs/plugin-react@npm:2.1.0"
   dependencies:
@@ -11030,13 +11030,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vitejs/plugin-vue@npm:^3.0.3":
+"@vitejs/plugin-vue@npm:^3.0.0":
   version: 3.1.0
   resolution: "@vitejs/plugin-vue@npm:3.1.0"
   peerDependencies:
     vite: ^3.0.0
     vue: ^3.2.25
   checksum: 21d473aa078ddd2443ad86c74fb9b15f215af631c93761a6a72107c724e9ab26565c4a491c5c345ee77d6f43fd6b2ed4ba76515a29c8f44480ce3fab8d4a4070
+  languageName: node
+  linkType: hard
+
+"@vitejs/plugin-vue@npm:^3.0.3":
+  version: 3.1.2
+  resolution: "@vitejs/plugin-vue@npm:3.1.2"
+  peerDependencies:
+    vite: ^3.0.0
+    vue: ^3.2.25
+  checksum: 53867c9367f1133305e858541a9094a44c5e60d82d0c68d5eb41194dcac01ecd273252786046b3e523d40112374ac7f47558f7b292394a4529355d64b82c04cf
   languageName: node
   linkType: hard
 

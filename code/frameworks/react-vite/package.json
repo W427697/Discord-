@@ -60,7 +60,7 @@
     "@storybook/client-api": "7.0.0-alpha.34",
     "@storybook/preview-web": "7.0.0-alpha.34",
     "@storybook/react": "7.0.0-alpha.34",
-    "@vitejs/plugin-react": "^2.0.1",
+    "@vitejs/plugin-react": "^2.0.0",
     "ast-types": "^0.14.2",
     "magic-string": "^0.26.1",
     "react-docgen": "^6.0.0-alpha.3",
