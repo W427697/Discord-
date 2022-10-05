@@ -3,7 +3,8 @@ import { dedent } from 'ts-dedent';
 import { DefinePlugin, HotModuleReplacementPlugin, ProgressPlugin, ProvidePlugin } from 'webpack';
 import type { Configuration } from 'webpack';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
-// @ts-ignore // -- this has typings for webpack4 in it, won't work
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore (this has typings for webpack4 in it, thus it won't work with webpack5)
 import CaseSensitivePathsPlugin from 'case-sensitive-paths-webpack-plugin';
 import TerserWebpackPlugin from 'terser-webpack-plugin';
 import VirtualModulePlugin from 'webpack-virtual-modules';
