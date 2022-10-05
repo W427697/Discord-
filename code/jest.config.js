@@ -41,7 +41,6 @@ module.exports = {
     '<rootDir>/frameworks',
     '<rootDir>/lib',
     '<rootDir>/renderers',
-    '<rootDir>/examples/official-storybook',
     '<rootDir>/examples/react-ts',
   ],
   transform: {
