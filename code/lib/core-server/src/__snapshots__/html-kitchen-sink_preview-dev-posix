@@ -4,7 +4,7 @@ exports[`html-kitchen-sink preview dev 1`] = `
 Object {
   "entry": Array [
     "NODE_MODULES/webpack-hot-middleware/client.js?reload=true&quiet=false&noInfo=undefined",
-    "CWD/examples/html-kitchen-sink/.storybook/storybook-config-entry.js",
+    "CWD/storybook-config-entry.js",
   ],
   "keys": Array [
     "name",

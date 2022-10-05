@@ -3,7 +3,7 @@
 exports[`web-components-kitchen-sink preview prod 1`] = `
 Object {
   "entry": Array [
-    "CWD/examples/web-components-kitchen-sink/.storybook/storybook-config-entry.js",
+    "CWD/storybook-config-entry.js",
   ],
   "keys": Array [
     "name",
