@@ -5,6 +5,7 @@ import path, { join } from 'path';
 import { build } from 'tsup';
 import aliasPlugin from 'esbuild-plugin-alias';
 import dedent from 'ts-dedent';
+import slash from 'slash';
 import { exec } from '../utils/exec';
 
 const hasFlag = (flags: string[], name: string) => !!flags.find((s) => s.startsWith(`--${name}`));
@@ -54,7 +55,7 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
   const tsConfigExists = await fs.pathExists(tsConfigPath);
   await Promise.all([
     build({
-      entry: entries.map((e: string) => join(cwd, e)),
+      entry: entries.map((e: string) => slash(join(cwd, e))),
       watch,
       ...(tsConfigExists ? { tsconfig: tsConfigPath } : {}),
       outDir: join(process.cwd(), 'dist'),
@@ -65,10 +66,8 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
       platform: platform || 'browser',
       esbuildPlugins: [
         aliasPlugin({
-          process: path.resolve(
-            '../node_modules/rollup-plugin-node-polyfills/polyfills/process-es6.js'
-          ),
-          util: path.resolve('../node_modules/rollup-plugin-node-polyfills/polyfills/util.js'),
+          process: path.resolve('../node_modules/process/browser.js'),
+          util: path.resolve('../node_modules/util/util.js'),
         }),
       ],
       external: [name, ...Object.keys(dependencies || {}), ...Object.keys(peerDependencies || {})],
@@ -82,6 +81,7 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
           : false,
       esbuildOptions: (c) => {
         /* eslint-disable no-param-reassign */
+        c.conditions = ['module'];
         c.define = optimized
           ? {
               'process.env.NODE_ENV': "'production'",
@@ -102,7 +102,7 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
       },
     }),
     build({
-      entry: entries.map((e: string) => join(cwd, e)),
+      entry: entries.map((e: string) => slash(join(cwd, e))),
       watch,
       outDir: join(process.cwd(), 'dist'),
       ...(tsConfigExists ? { tsconfig: tsConfigPath } : {}),
@@ -132,7 +132,12 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
 const flags = process.argv.slice(2);
 const cwd = process.cwd();
 
-run({ cwd, flags }).catch((err) => {
-  console.error(err.stack);
+run({ cwd, flags }).catch((err: unknown) => {
+  // We can't let the stack try to print, it crashes in a way that sets the exit code to 0.
+  // Seems to have something to do with running JSON.parse() on binary / base64 encoded sourcemaps
+  // in @cspotcode/source-map-support
+  if (err instanceof Error) {
+    console.error(err.message);
+  }
   process.exit(1);
 });

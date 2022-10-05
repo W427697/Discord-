@@ -1,4 +1,3 @@
-// @ts-ignore
 import { getEnvironment } from 'lazy-universal-dotenv';
 import { nodePathsToArray } from './paths';
 

@@ -24,6 +24,26 @@ module.exports = {
   },
 };
 ```
+### How can I opt-out of Angular ngcc?
+
+In case you postinstall ngcc, you can disable it:
+
+```javascript
+module.exports = {
+  stories: [
+    /* ... */
+  ],
+  addons: [
+    /* ... */
+  ],
+  framework: {
+    name: '@storybook/angular',
+    options: {
+      enableNgcc: false,
+    },
+  },
+};
+```
 
 Please report any issues related to Ivy in our [GitHub Issue Tracker](https://github.com/storybookjs/storybook/labels/app%3A%20angular) as the support for View Engine will be dropped in a future release of Angular.
 
@@ -156,6 +176,7 @@ We're only covering versions 5.3 and 5.0 as they were important milestones for S
 
 | Section          | Page                                      | Current Location                                                                                           | Version 5.3 location                                                                                                                                                                                                                                                 | Version 5.0 location                                                                                                                                     |
 | ---------------- | ----------------------------------------- | ---------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| N/A              | Why Storybook                             | [See current documentation](./why-storybook.md)                                                            | Non existing feature or undocumented                                                                                                                                                                                                                                 | Non existing feature or undocumented                                                                                                                     |
 | Get started      | Install                                   | [See current documentation](./get-started/install.md)                                                      | [See versioned documentation](https://github.com/storybookjs/storybook/tree/release/5.3/docs/src/pages/guides/quick-start-guide)                                                                                                                                     | [See versioned documentation](https://github.com/storybookjs/storybook/tree/release/5.0/docs/src/pages/guides/quick-start-guide)                         |
 |                  | What's a story                            | [See current documentation](./get-started/whats-a-story.md)                                                | [See versioned documentation for your framework](https://github.com/storybookjs/storybook/tree/release/5.3/docs/src/pages/guides)                                                                                                                                    | [See versioned documentation for your framework](https://github.com/storybookjs/storybook/tree/release/5.0/docs/src/pages/guides)                        |
 |                  | Browse Stories                            | [See current documentation](./get-started/browse-stories.md)                                               | [See versioned documentation for your framework](https://github.com/storybookjs/storybook/tree/release/5.3/docs/src/pages/guides)                                                                                                                                    | [See versioned documentation for your framework](https://github.com/storybookjs/storybook/blob/release/5.0/docs/src/pages/guides)                        |

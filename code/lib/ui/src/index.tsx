@@ -1,6 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/triple-slash-reference
-/// <reference path="./typings.d.ts" />
-
 import global from 'global';
 import React, { FC } from 'react';
 import ReactDOM from 'react-dom';
@@ -23,13 +20,10 @@ import Provider from './provider';
 const emotionCache = createCache({ key: 'sto' });
 emotionCache.compat = true;
 
-// @ts-ignore
+// @ts-expect-error (Converted from ts-ignore)
 ThemeProvider.displayName = 'ThemeProvider';
-// @ts-ignore
+// @ts-expect-error (Converted from ts-ignore)
 HelmetProvider.displayName = 'HelmetProvider';
-
-// @ts-ignore
-const Container = process.env.XSTORYBOOK_EXAMPLE_APP ? React.StrictMode : React.Fragment;
 
 export interface RootProps {
   provider: Provider;
@@ -37,13 +31,13 @@ export interface RootProps {
 }
 
 export const Root: FC<RootProps> = ({ provider }) => (
-  <Container key="container">
+  <React.StrictMode key="container">
     <HelmetProvider key="helmet.Provider">
       <LocationProvider key="location.provider">
         <Main provider={provider} />
       </LocationProvider>
     </HelmetProvider>
-  </Container>
+  </React.StrictMode>
 );
 
 const Main: FC<{ provider: Provider }> = ({ provider }) => {

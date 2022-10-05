@@ -10,11 +10,13 @@ const templateName = process.env.STORYBOOK_TEMPLATE_NAME || '';
 test.describe('addon-docs', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto(storybookUrl);
+    await new SbPage(page).waitUntilLoaded();
   });
 
   test('should provide source snippet', async ({ page }) => {
+    // templateName is e.g. 'Vue-CLI (Default JS)'
     test.skip(
-      /^vue3/.test(templateName),
+      /^(vue3|vue-cli)/i.test(templateName),
       `Skipping ${templateName}, which does not support dynamic source snippets`
     );
 

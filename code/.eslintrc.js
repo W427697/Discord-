@@ -55,7 +55,6 @@ module.exports = {
       },
     },
     { files: '**/.storybook/config.js', rules: { 'global-require': 'off' } },
-    { files: 'cypress/**', rules: { 'jest/expect-expect': 'off' } },
     {
       files: ['**/*.stories.*'],
       rules: {
@@ -99,6 +98,12 @@ module.exports = {
       files: ['**/e2e-tests/**/*'],
       rules: {
         'jest/no-test-callback': 'off', // These aren't jest tests
+      },
+    },
+    {
+      files: ['**/builder-vite/input/iframe.html'],
+      rules: {
+        'no-undef': 'off', // ignore "window" undef errors
       },
     },
   ],
