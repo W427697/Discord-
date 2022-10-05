@@ -5,9 +5,9 @@ on:
     - cron: '2 2 */1 * *'
   workflow_dispatch:
   # To remove when the branch will be merged
-  push:
-    branches:
-      - jeppe/sb-544-sveltekit
+  # push:
+  #   branches:
+  #     - jeppe/sb-544-sveltekit
 
 jobs:
   generate:
