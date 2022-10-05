@@ -3223,7 +3223,6 @@ __metadata:
     "@storybook/core-events": 6.5.12
     "@storybook/csf": 0.0.2--canary.4566f4d.1
     "@storybook/router": 6.5.12
-    "@storybook/semver": ^7.3.2
     "@storybook/theming": 6.5.12
     core-js: ^3.8.2
     fast-deep-equal: ^3.1.3
@@ -3551,18 +3550,6 @@ __metadata:
       optional: true
   languageName: unknown
   linkType: soft
-
-"@storybook/semver@npm:^7.3.2":
-  version: 7.3.2
-  resolution: "@storybook/semver@npm:7.3.2"
-  dependencies:
-    core-js: ^3.6.5
-    find-up: ^4.1.0
-  bin:
-    semver: bin/semver.js
-  checksum: f90e0c714d694330e9664af96ff7c3806c10981d6754e839caf59cd6791bf38c050caf98b19e97f7b059fd8521217f5f70b941a79b68a40b485e054d46343791
-  languageName: node
-  linkType: hard
 
 "@storybook/testing-library@npm:0.0.14-next.0":
   version: 0.0.14-next.0
