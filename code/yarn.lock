@@ -8663,6 +8663,7 @@ __metadata:
     eslint-plugin-storybook: ^0.3.5
     esm: ^3.2.25
     execa: ^5.0.0
+    exportman: ^0.0.3
     express: ^4.17.1
     fs-extra: ^9.0.1
     github-release-from-changelog: ^2.1.1
@@ -9420,6 +9421,18 @@ __metadata:
     mkdirp: ^1.0.4
     path-browserify: ^1.0.1
   checksum: 2a0b25128eca547cfdf4795d39e7d6e15c81008b74867ccdda9d0d9c1b0eaca534d6d729220572e726a811786efa3c38f3b6a482d3fc970d3bf0acea39a7248f
+  languageName: node
+  linkType: hard
+
+"@ts-morph/common@npm:~0.17.0":
+  version: 0.17.0
+  resolution: "@ts-morph/common@npm:0.17.0"
+  dependencies:
+    fast-glob: ^3.2.11
+    minimatch: ^5.1.0
+    mkdirp: ^1.0.4
+    path-browserify: ^1.0.1
+  checksum: 91b5f68b92d4e92376cd937e9a47b2bfce72d929bd2b15dbde4e3d3c7a81bfaeebfb11fe10477af5c8262f5a53deb3c1ee2bbc0b36a808dc04901c05330ef153
   languageName: node
   linkType: hard
 
@@ -15808,7 +15821,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"code-block-writer@npm:^11.0.0":
+"code-block-writer@npm:^11.0.0, code-block-writer@npm:^11.0.3":
   version: 11.0.3
   resolution: "code-block-writer@npm:11.0.3"
   checksum: 12fe4c02152a2b607e8913b39dcc31dcb5240f7c8933a3335d4e42a5418af409bf7ed454c80d6d8c12f9c59bb685dd88f9467874b46be62236dfbed446d03fd6
@@ -20643,6 +20656,19 @@ __metadata:
     jest-message-util: ^29.1.2
     jest-util: ^29.1.2
   checksum: fc5110b470e1a87e8ebcd869f8b68e1feca9b5f7b20949fe1c75c5d7f833b435808dcd4db597b2af32ce232b3b9328be498b3ed30756cebcefb2f095b1d62c32
+  languageName: node
+  linkType: hard
+
+"exportman@npm:^0.0.3":
+  version: 0.0.3
+  resolution: "exportman@npm:0.0.3"
+  dependencies:
+    micromatch: 4.0.5
+    ts-morph: 16.0.0
+    ts-morph-helpers: 0.3.0
+  bin:
+    exportman: dist/cli.js
+  checksum: 83e20b45bc06eb4ad63440f4d21612609fc4d56dff0bc2df121c0082ea6d260bfb5d58dd1b5d9e3394e8b1a52db06018ccb193de8056b0f35da3e4fcc8d5c002
   languageName: node
   linkType: hard
 
@@ -30502,6 +30528,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"micromatch@npm:4.0.5, micromatch@npm:^4.0.0, micromatch@npm:^4.0.2, micromatch@npm:^4.0.4":
+  version: 4.0.5
+  resolution: "micromatch@npm:4.0.5"
+  dependencies:
+    braces: ^3.0.2
+    picomatch: ^2.3.1
+  checksum: 3d6505b20f9fa804af5d8c596cb1c5e475b9b0cd05f652c5b56141cf941bd72adaeb7a436fda344235cef93a7f29b7472efc779fcdb83b478eab0867b95cdeff
+  languageName: node
+  linkType: hard
+
 "micromatch@npm:^3.1.10, micromatch@npm:^3.1.4":
   version: 3.1.10
   resolution: "micromatch@npm:3.1.10"
@@ -30520,16 +30556,6 @@ __metadata:
     snapdragon: ^0.8.1
     to-regex: ^3.0.2
   checksum: 531a32e7ac92bef60657820202be71b63d0f945c08a69cc4c239c0b19372b751483d464a850a2e3a5ff6cc9060641e43d44c303af104c1a27493d137d8af017f
-  languageName: node
-  linkType: hard
-
-"micromatch@npm:^4.0.0, micromatch@npm:^4.0.2, micromatch@npm:^4.0.4":
-  version: 4.0.5
-  resolution: "micromatch@npm:4.0.5"
-  dependencies:
-    braces: ^3.0.2
-    picomatch: ^2.3.1
-  checksum: 3d6505b20f9fa804af5d8c596cb1c5e475b9b0cd05f652c5b56141cf941bd72adaeb7a436fda344235cef93a7f29b7472efc779fcdb83b478eab0867b95cdeff
   languageName: node
   linkType: hard
 
@@ -30683,7 +30709,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"minimatch@npm:^5.0.1":
+"minimatch@npm:^5.0.1, minimatch@npm:^5.1.0":
   version: 5.1.0
   resolution: "minimatch@npm:5.1.0"
   dependencies:
@@ -41260,6 +41286,25 @@ __metadata:
   version: 1.0.3
   resolution: "ts-map@npm:1.0.3"
   checksum: 82a790ffff3b3b18a024402c612a327407de79ce318270d60c2a247f0fb7c1d3d3afecbf38098a7897fe444dd576d01c017942a5ab692317bd4316bc87f195a9
+  languageName: node
+  linkType: hard
+
+"ts-morph-helpers@npm:0.3.0":
+  version: 0.3.0
+  resolution: "ts-morph-helpers@npm:0.3.0"
+  dependencies:
+    ts-morph: 16.0.0
+  checksum: 9ec3a12db3f855bcf2c3261f1d46e409c174ac72caf9bad7946f64842d19c7b23a4e17e8423da7692537d1a622d5d7dc5e2c34a19c069dc30e4a435293c7762e
+  languageName: node
+  linkType: hard
+
+"ts-morph@npm:16.0.0":
+  version: 16.0.0
+  resolution: "ts-morph@npm:16.0.0"
+  dependencies:
+    "@ts-morph/common": ~0.17.0
+    code-block-writer: ^11.0.3
+  checksum: 8ab316db96ec9254daf1f7193e225393c4a48b814f2d0191cde9da5b380a5a8d8eb3f75fb82b841335d06dd6e9c477daf0b8986e5b5b5e172064065b0c2b7408
   languageName: node
   linkType: hard
 
