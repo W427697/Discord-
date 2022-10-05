@@ -478,13 +478,12 @@ jobs:
       - run:
           name: Creating Sandboxes
           command: yarn task --task sandbox --template $(yarn get-template ci) --no-link --start-from=never --junit
-          working_directory: code
       - persist_to_workspace:
           root: .
           paths:
             - sandbox
       - store_test_results:
-          path: code/test-results
+          path: test-results
   smoke-test-sandboxes:
     executor:
       class: medium+
@@ -498,9 +497,8 @@ jobs:
       - run:
           name: Smoke Testing Sandboxes
           command: yarn task --task smoke-test --template $(yarn get-template ci) --no-link --start-from=never --junit
-          working_directory: code
       - store_test_results:
-          path: code/test-results
+          path: test-results
   build-sandboxes:
     executor:
       class: medium+
@@ -514,9 +512,8 @@ jobs:
       - run:
           name: Building Sandboxes
           command: yarn task --task build --template $(yarn get-template ci) --no-link --start-from=never --junit
-          working_directory: code
       - store_test_results:
-          path: code/test-results
+          path: test-results
       - persist_to_workspace:
           root: .
           paths:
@@ -534,9 +531,8 @@ jobs:
       - run:
           name: Running Test Runner
           command: yarn task --task test-runner --template $(yarn get-template ci) --no-link --start-from=never --junit
-          working_directory: code
       - store_test_results:
-          path: code/test-results
+          path: test-results
   chromatic-sandboxes:
     executor:
       class: medium+
@@ -550,9 +546,8 @@ jobs:
       - run:
           name: Running Chromatic
           command: yarn task --task chromatic --template $(yarn get-template ci) --no-link --start-from=never --junit
-          working_directory: code
       - store_test_results:
-          path: code/test-results
+          path: test-results
   e2e-sandboxes:
     executor:
       class: medium+
@@ -566,9 +561,8 @@ jobs:
       - run:
           name: Running E2E Tests
           command: yarn task --task e2e-tests --template $(yarn get-template ci) --no-link --start-from=never --junit
-          working_directory: code
       - store_test_results:
-          path: code/test-results
+          path: test-results
       - store_artifacts: # this is where playwright puts more complex stuff
           path: code/playwright-results/
           destination: playwright
