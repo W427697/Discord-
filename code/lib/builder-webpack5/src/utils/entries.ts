@@ -44,10 +44,9 @@ export async function getModernVirtualEntries({
 }) {
   const entries = [...originalEntries];
   const mapping: Record<string, string> = {};
-  const r = (p: string) => path.resolve(path.join(configDir, p));
 
   const storiesFileName = 'storybook-stories.js';
-  const storiesPath = r(storiesFileName);
+  const storiesPath = path.resolve(path.join(process.cwd(), storiesFileName));
 
   const configEntryFilename = 'storybook-config-entry.js';
   const configEntryPath = path.resolve(path.join(process.cwd(), configEntryFilename));
@@ -70,13 +69,11 @@ export async function getModernVirtualEntries({
 }
 
 export async function getLegacyVirtualEntries({
-  configDir,
   stories,
   previewAnnotations,
   entries: originalEntries,
   frameworkName,
 }: {
-  configDir: string;
   stories: ReturnType<typeof normalizeStories>;
   previewAnnotations: (string | undefined)[];
   entries: string[];
@@ -84,7 +81,6 @@ export async function getLegacyVirtualEntries({
 }) {
   const entries = [...originalEntries];
   const mapping: Record<string, string> = {};
-  const r = (p: string) => path.resolve(path.join(configDir, p));
   const storybookPaths = getStorybookPaths();
 
   const frameworkInitEntry = path.resolve(
@@ -120,7 +116,7 @@ export async function getLegacyVirtualEntries({
     // NOTE: this file has a `.cjs` extension as it is a CJS file (from `dist/cjs`) and runs
     // in the user's webpack mode, which may be strict about the use of require/import.
     // See https://github.com/storybookjs/storybook/issues/14877
-    const fileName = r(`generated-stories-entry.cjs`);
+    const fileName = path.resolve(path.join(process.cwd(), `generated-stories-entry.cjs`));
     const data = {
       frameworkName,
     };
