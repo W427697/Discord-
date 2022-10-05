@@ -5,7 +5,7 @@ const { resolve } = require('path');
 const { readJSON } = require('fs-extra');
 
 const getStorybookPackages = async () => {
-  const workspaceJSON = await readJSON(resolve(__dirname, '..', 'workspace.json'));
+  const workspaceJSON = await readJSON(resolve(__dirname, '..', 'code', 'workspace.json'));
   return Object.entries(workspaceJSON.projects).map(([k, v]) => ({
     location: v.root,
     name: k,
@@ -113,10 +113,10 @@ async function run() {
   }
 
   selection?.filter(Boolean).forEach(async (v) => {
-    const commmand = (await readJSON(resolve(v.location, 'package.json'))).scripts.prepare;
-    const cwd = resolve(__dirname, '..', v.location);
+    const commmand = (await readJSON(resolve(v.location, 'package.json'))).scripts.prep;
+    const cwd = resolve(__dirname, '..', 'code', v.location);
     const sub = require('execa').command(
-      `yarn ${commmand}${watchMode ? ' --watch' : ''}${prodMode ? ' --optimized' : ''}`,
+      `${commmand}${watchMode ? ' --watch' : ''}${prodMode ? ' --optimized' : ''}`,
       {
         cwd,
         buffer: false,

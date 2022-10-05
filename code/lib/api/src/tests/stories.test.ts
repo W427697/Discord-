@@ -1,4 +1,6 @@
-/// <reference types="jest" />;
+/// <reference types="@types/jest" />;
+// Need to import jest as mockJest for annoying jest reasons. Is there a better way?
+import { jest, jest as mockJest, it, describe, expect, beforeEach } from '@jest/globals';
 
 import {
   STORY_ARGS_UPDATED,
@@ -21,17 +23,17 @@ import { StoryEntry, SetStoriesStoryData, SetStoriesStory, StoryIndex } from '..
 import type Store from '../store';
 import { ModuleArgs } from '..';
 
-const mockStories: jest.MockedFunction<() => StoryIndex['entries']> = jest.fn();
+const mockStories = jest.fn<StoryIndex['entries'], []>();
 
 jest.mock('../lib/events');
 jest.mock('global', () => ({
-  ...(jest.requireActual('global') as Record<string, any>),
-  fetch: jest.fn(() => ({ json: () => ({ v: 4, entries: mockStories() }) })),
+  ...(mockJest.requireActual('global') as Record<string, any>),
+  fetch: mockJest.fn(() => ({ json: () => ({ v: 4, entries: mockStories() }) })),
   FEATURES: { storyStoreV7: true },
   CONFIG_TYPE: 'DEVELOPMENT',
 }));
 
-const getEventMetadataMock = getEventMetadata as jest.MockedFunction<typeof getEventMetadata>;
+const getEventMetadataMock = getEventMetadata as ReturnType<typeof jest.fn>;
 
 const mockIndex = {
   'component-a--story-1': {
@@ -58,7 +60,7 @@ function createMockStore(initialState = {}) {
   let state = initialState;
   return {
     getState: jest.fn(() => state),
-    setState: jest.fn((s) => {
+    setState: jest.fn((s: typeof state) => {
       state = { ...state, ...s };
       return Promise.resolve(state);
     }),
@@ -430,6 +432,79 @@ describe('stories API', () => {
         children: ['b--1'],
       });
     });
+
+    it('adds docs entries when docsPage is enabled', () => {
+      const navigate = jest.fn();
+      const store = createMockStore({});
+
+      const {
+        api: { setStories },
+      } = initStories({
+        store,
+        navigate,
+        provider,
+        docsOptions: { docsPage: true, defaultName: 'Docs' },
+      } as any as any);
+
+      provider.getConfig.mockReturnValue({ sidebar: { showRoots: false } });
+      setStories(setStoriesData);
+
+      const { storiesHash: storedStoriesHash } = store.getState();
+
+      // We need exact key ordering, even if in theory JS doesn't guarantee it
+      expect(Object.keys(storedStoriesHash)).toEqual([
+        'a',
+        'a--docs',
+        'a--1',
+        'a--2',
+        'b',
+        'b-c',
+        'b-c--docs',
+        'b-c--1',
+        'b-d',
+        'b-d--docs',
+        'b-d--1',
+        'b-d--2',
+        'b-e',
+        'b-e--docs',
+        'custom-id--1',
+      ]);
+      expect(storedStoriesHash['a--docs']).toMatchObject({
+        type: 'docs',
+        id: 'a--docs',
+        parent: 'a',
+        title: 'a',
+        name: 'Docs',
+        storiesImports: [],
+      });
+
+      expect(storedStoriesHash['b-c--docs']).toMatchObject({
+        type: 'docs',
+        id: 'b-c--docs',
+        parent: 'b-c',
+        title: 'b/c',
+        name: 'Docs',
+        storiesImports: [],
+      });
+
+      expect(storedStoriesHash['b-d--docs']).toMatchObject({
+        type: 'docs',
+        id: 'b-d--docs',
+        parent: 'b-d',
+        title: 'b/d',
+        name: 'Docs',
+        storiesImports: [],
+      });
+
+      expect(storedStoriesHash['b-e--docs']).toMatchObject({
+        type: 'docs',
+        id: 'b-e--docs',
+        parent: 'b-e',
+        title: 'b/e',
+        name: 'Docs',
+        storiesImports: [],
+      });
+    });
   });
 
   // Can't currently run these tests as cannot set this on the events
@@ -550,7 +625,7 @@ describe('stories API', () => {
         storyId: 'a--1',
         updatedArgs: { foo: 'bar' },
         options: {
-          target: 'storybook-preview-iframe',
+          target: undefined,
         },
       });
 
@@ -581,12 +656,12 @@ describe('stories API', () => {
         storyId: 'a--1',
         updatedArgs: { foo: 'bar' },
         options: {
-          target: 'storybook-ref-refId',
+          target: 'refId',
         },
       });
     });
 
-    it('resetStoryArgs emits RESET_STORY_ARGS to the local frame and does not change anything', () => {
+    it('refId to the local frame and does not change anything', () => {
       const navigate = jest.fn();
       const emit = jest.fn();
       const on = jest.fn();
@@ -608,7 +683,7 @@ describe('stories API', () => {
         storyId: 'a--1',
         argNames: ['foo'],
         options: {
-          target: 'storybook-preview-iframe',
+          target: undefined,
         },
       });
 
@@ -639,7 +714,7 @@ describe('stories API', () => {
         storyId: 'a--1',
         argNames: ['foo'],
         options: {
-          target: 'storybook-ref-refId',
+          target: 'refId',
         },
       });
     });
@@ -1120,6 +1195,47 @@ describe('stories API', () => {
       const { storiesHash: storedStoriesHash } = store.getState();
 
       expect(Object.keys(storedStoriesHash)).toEqual(['component-a', 'component-a--story-1']);
+    });
+
+    it('retains prepared-ness of stories', async () => {
+      const navigate = jest.fn();
+      const store = createMockStore();
+      const fullAPI = Object.assign(new EventEmitter(), {
+        setStories: jest.fn(),
+        setOptions: jest.fn(),
+      });
+
+      const { api, init } = initStories({ store, navigate, provider, fullAPI } as any);
+      Object.assign(fullAPI, api);
+
+      global.fetch.mockClear();
+      await init();
+      expect(global.fetch).toHaveBeenCalledTimes(1);
+
+      fullAPI.emit(STORY_PREPARED, {
+        id: 'component-a--story-1',
+        parameters: { a: 'b' },
+        args: { c: 'd' },
+      });
+      // Let the promise/await chain resolve
+      await new Promise((r) => setTimeout(r, 0));
+      expect(store.getState().storiesHash['component-a--story-1'] as StoryEntry).toMatchObject({
+        prepared: true,
+        parameters: { a: 'b' },
+        args: { c: 'd' },
+      });
+
+      global.fetch.mockClear();
+      provider.serverChannel.emit(STORY_INDEX_INVALIDATED);
+      expect(global.fetch).toHaveBeenCalledTimes(1);
+
+      // Let the promise/await chain resolve
+      await new Promise((r) => setTimeout(r, 0));
+      expect(store.getState().storiesHash['component-a--story-1'] as StoryEntry).toMatchObject({
+        prepared: true,
+        parameters: { a: 'b' },
+        args: { c: 'd' },
+      });
     });
 
     it('handles docs entries', async () => {

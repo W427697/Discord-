@@ -3,6 +3,7 @@ import type { TransformOptions } from '@babel/core';
 import { Router } from 'express';
 import { Server } from 'http';
 import type { Parameters } from '@storybook/csf';
+import type { PackageJson as PackageJsonFromTypeFest } from 'type-fest';
 import type { FileSystemCache } from './utils/file-cache';
 
 /**
@@ -109,18 +110,7 @@ export interface BuilderResult {
   stats?: Stats;
 }
 
-// TODO: this is a generic interface that we can share across multiple SB packages (like @storybook/cli)
-export interface PackageJson {
-  name: string;
-  version: string;
-  dependencies?: Record<string, string>;
-  devDependencies?: Record<string, string>;
-  peerDependencies?: Record<string, string>;
-  scripts?: Record<string, string>;
-  eslintConfig?: Record<string, any>;
-  type?: 'module';
-  [key: string]: any;
-}
+export type PackageJson = PackageJsonFromTypeFest & Record<string, any>;
 
 // TODO: This could be exported to the outside world and used in `options.ts` file of each `@storybook/APP`
 // like it's described in docs/api/new-frameworks.md
@@ -438,6 +428,15 @@ export interface StorybookConfig {
    * Docs related features in index generation
    */
   docs?: DocsOptions;
+
+  /**
+   * Programmatically modify the preview head/body HTML.
+   * The previewHead and previewBody functions accept a string,
+   * which is the existing head/body, and return a modified string.
+   */
+  previewHead?: (head: string, options: Options) => string;
+
+  previewBody?: (body: string, options: Options) => string;
 }
 
 export type PresetProperty<K, TStorybookConfig = StorybookConfig> =

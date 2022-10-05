@@ -1,7 +1,7 @@
 import global from 'global';
 import { toId, sanitize } from '@storybook/csf';
 import {
-  PRELOAD_STORIES,
+  PRELOAD_ENTRIES,
   STORY_PREPARED,
   UPDATE_STORY_ARGS,
   RESET_STORY_ARGS,
@@ -25,6 +25,7 @@ import {
   getStoriesLookupList,
   HashEntry,
   LeafEntry,
+  addPreparedStories,
 } from '../lib/stories';
 
 import type {
@@ -122,7 +123,7 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
   provider,
   storyId: initialStoryId,
   viewMode: initialViewMode,
-  docsOptions: { docsMode } = {},
+  docsOptions = {},
 }) => {
   const api: SubAPI = {
     storyId: toId,
@@ -162,8 +163,6 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
         if (parameters) {
           return parameterName ? parameters[parameterName] : parameters;
         }
-
-        return {};
       }
 
       return null;
@@ -211,7 +210,7 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
       // Now create storiesHash by reordering the above by group
       const hash = transformSetStoriesStoryDataToStoriesHash(input, {
         provider,
-        docsMode,
+        docsOptions,
       });
 
       await store.setState({
@@ -320,9 +319,7 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
       fullAPI.emit(UPDATE_STORY_ARGS, {
         storyId,
         updatedArgs,
-        options: {
-          target: refId ? `storybook-ref-${refId}` : 'storybook-preview-iframe',
-        },
+        options: { target: refId },
       });
     },
     resetStoryArgs: (story, argNames?: [string]) => {
@@ -330,9 +327,7 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
       fullAPI.emit(RESET_STORY_ARGS, {
         storyId,
         argNames,
-        options: {
-          target: refId ? `storybook-ref-${refId}` : 'storybook-preview-iframe',
-        },
+        options: { target: refId },
       });
     },
     fetchStoryList: async () => {
@@ -357,13 +352,16 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
       }
     },
     setStoryList: async (storyIndex: StoryIndex) => {
-      const hash = transformStoryIndexToStoriesHash(storyIndex, {
+      const newHash = transformStoryIndexToStoriesHash(storyIndex, {
         provider,
-        docsMode,
+        docsOptions,
       });
 
+      // Now we need to patch in the existing prepared stories
+      const oldHash = store.getState().storiesHash;
+
       await store.setState({
-        storiesHash: hash,
+        storiesHash: addPreparedStories(newHash, oldHash),
         storiesConfigured: true,
         storiesFailed: null,
       });
@@ -448,7 +446,7 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
       }
 
       if (sourceType === 'local') {
-        const { storyId, storiesHash } = store.getState();
+        const { storyId, storiesHash, refId } = store.getState();
 
         // create a list of related stories to be preloaded
         const toBePreloaded = Array.from(
@@ -458,7 +456,10 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
           ])
         ).filter(Boolean);
 
-        fullAPI.emit(PRELOAD_STORIES, toBePreloaded);
+        fullAPI.emit(PRELOAD_ENTRIES, {
+          ids: toBePreloaded,
+          options: { target: refId },
+        });
       }
     });
 

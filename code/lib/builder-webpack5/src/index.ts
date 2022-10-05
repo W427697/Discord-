@@ -8,7 +8,7 @@ import { checkWebpackVersion } from '@storybook/core-webpack';
 
 export * from './types';
 
-let compilation: ReturnType<typeof webpackDevMiddleware>;
+let compilation: ReturnType<typeof webpackDevMiddleware> | undefined;
 let reject: (reason?: any) => void;
 
 type WebpackBuilder = Builder<Configuration, Stats>;
@@ -41,7 +41,7 @@ export const getConfig: WebpackBuilder['getConfig'] = async (options) => {
   const { presets } = options;
   const typescriptOptions = await presets.apply('typescript', {}, options);
   const babelOptions = await presets.apply('babel', {}, { ...options, typescriptOptions });
-  const framework = await presets.apply<any>('framework', {}, options);
+  const frameworkOptions = await presets.apply<any>('frameworkOptions');
 
   return presets.apply(
     'webpack',
@@ -50,7 +50,7 @@ export const getConfig: WebpackBuilder['getConfig'] = async (options) => {
       ...options,
       babelOptions,
       typescriptOptions,
-      frameworkOptions: typeof framework === 'string' ? {} : framework?.options,
+      frameworkOptions,
     }
   ) as any;
 };
@@ -72,7 +72,6 @@ export const bail: WebpackBuilder['bail'] = async () => {
   }
   // we wait for the compiler to finish it's work, so it's command-line output doesn't interfere
   return new Promise((res, rej) => {
-    // @ts-ignore
     if (process && compilation) {
       try {
         compilation.close(() => res());
@@ -134,7 +133,7 @@ const starter: StarterFunction = async function* starterGeneratorFn({
   router.use(webpackHotMiddleware(compiler as any));
 
   const stats = await new Promise<Stats>((ready, stop) => {
-    compilation.waitUntilValid(ready as any);
+    compilation?.waitUntilValid(ready as any);
     reject = stop;
   });
   yield;
@@ -219,10 +218,10 @@ const builder: BuilderFunction = async function* builderGeneratorFn({ startTime,
 
       logger.trace({ message: '=> Preview built', time: process.hrtime(startTime) });
       if (stats && stats.hasWarnings()) {
-        // @ts-ignore
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- we know it has warnings because of hasWarnings()
         stats
           .toJson({ warnings: true } as StatsOptions)
-          .warnings.forEach((e) => logger.warn(e.message));
+          .warnings!.forEach((e) => logger.warn(e.message));
       }
 
       // https://webpack.js.org/api/node/#run

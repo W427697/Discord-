@@ -1,7 +1,8 @@
 import type { AnyFramework } from '@storybook/csf';
 
-import { combineParameters } from '../parameters';
 import type { ModuleExports, WebProjectAnnotations } from '../types';
+import { combineParameters } from '../parameters';
+import { composeStepRunners } from './stepRunners';
 
 export function getField<TFieldType = any>(
   moduleExportList: ModuleExports[],
@@ -35,6 +36,7 @@ export function composeConfigs<TFramework extends AnyFramework>(
   moduleExportList: ModuleExports[]
 ): WebProjectAnnotations<TFramework> {
   const allArgTypeEnhancers = getArrayField(moduleExportList, 'argTypesEnhancers');
+  const stepRunners = getField(moduleExportList, 'runStep');
 
   return {
     parameters: combineParameters(...getField(moduleExportList, 'parameters')),
@@ -52,5 +54,6 @@ export function composeConfigs<TFramework extends AnyFramework>(
     render: getSingletonField(moduleExportList, 'render'),
     renderToDOM: getSingletonField(moduleExportList, 'renderToDOM'),
     applyDecorators: getSingletonField(moduleExportList, 'applyDecorators'),
+    runStep: composeStepRunners<TFramework>(stepRunners),
   };
 }

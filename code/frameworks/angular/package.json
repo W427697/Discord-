@@ -1,6 +1,6 @@
 {
   "name": "@storybook/angular",
-  "version": "7.0.0-alpha.16",
+  "version": "7.0.0-alpha.35",
   "description": "Storybook for Angular: Develop Angular components in isolation with hot reloading.",
   "keywords": [
     "storybook",
@@ -30,23 +30,23 @@
     "*.d.ts"
   ],
   "scripts": {
-    "check": "tsc --noEmit",
-    "prepare": "node ../../../scripts/prepare.js"
+    "check": "../../../scripts/node_modules/.bin/tsc --noEmit",
+    "prep": "node ../../../scripts/prepare.js"
   },
   "dependencies": {
-    "@storybook/addons": "7.0.0-alpha.16",
-    "@storybook/api": "7.0.0-alpha.16",
-    "@storybook/builder-webpack5": "7.0.0-alpha.16",
-    "@storybook/client-logger": "7.0.0-alpha.16",
-    "@storybook/core-client": "7.0.0-alpha.16",
-    "@storybook/core-common": "7.0.0-alpha.16",
-    "@storybook/core-events": "7.0.0-alpha.16",
-    "@storybook/core-server": "7.0.0-alpha.16",
-    "@storybook/csf": "0.0.2--canary.4566f4d.1",
-    "@storybook/docs-tools": "7.0.0-alpha.16",
-    "@storybook/node-logger": "7.0.0-alpha.16",
+    "@storybook/addons": "7.0.0-alpha.35",
+    "@storybook/api": "7.0.0-alpha.35",
+    "@storybook/builder-webpack5": "7.0.0-alpha.35",
+    "@storybook/client-logger": "7.0.0-alpha.35",
+    "@storybook/core-client": "7.0.0-alpha.35",
+    "@storybook/core-common": "7.0.0-alpha.35",
+    "@storybook/core-events": "7.0.0-alpha.35",
+    "@storybook/core-server": "7.0.0-alpha.35",
+    "@storybook/csf": "0.0.2--canary.0899bb7.0",
+    "@storybook/docs-tools": "7.0.0-alpha.35",
+    "@storybook/node-logger": "7.0.0-alpha.35",
     "@storybook/semver": "^7.3.2",
-    "@storybook/store": "7.0.0-alpha.16",
+    "@storybook/store": "7.0.0-alpha.35",
     "@types/node": "^14.14.20 || ^16.0.0",
     "@types/react": "^16.14.23",
     "@types/react-dom": "^16.9.14",
@@ -84,9 +84,10 @@
     "@angular/forms": "^13.3.6",
     "@angular/platform-browser": "^13.3.6",
     "@angular/platform-browser-dynamic": "^13.3.6",
-    "@nrwl/workspace": "^14.1.4",
+    "@nrwl/workspace": "14.6.1",
     "@types/autoprefixer": "^9.7.2",
     "@types/tmp": "^0.2.3",
+    "@types/webpack-env": "^1.16.0",
     "cross-spawn": "^7.0.3",
     "jest": "^27.5.1",
     "jest-preset-angular": "^12.0.0",
@@ -108,7 +109,7 @@
     "@angular/platform-browser": ">=6.0.0",
     "@angular/platform-browser-dynamic": ">=6.0.0",
     "@babel/core": "*",
-    "@nrwl/workspace": ">=11.1.0",
+    "@nrwl/workspace": "14.6.1",
     "rxjs": "^6.0.0 || ^7.4.0",
     "typescript": "^4.0.0",
     "zone.js": "^0.8.29 || ^0.9.0 || ^0.10.0 || ^0.11.0"
@@ -128,5 +129,5 @@
     "access": "public"
   },
   "builders": "dist/types/builders/builders.json",
-  "gitHead": "df30e7db2b251418af106345e5722477f057ec36"
+  "gitHead": "d8972df8c6c1c4716131a856751f5914acddaad1"
 }

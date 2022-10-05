@@ -27,26 +27,27 @@ export const getStorybookVersion = (line: string) => {
 };
 
 const excludeList = [
-  '@storybook/linter-config',
-  '@storybook/design-system',
-  '@storybook/ember-cli-storybook',
-  '@storybook/semver',
-  '@storybook/eslint-config-storybook',
-  '@storybook/bench',
   '@storybook/addon-bench',
   '@storybook/addon-console',
-  '@storybook/csf',
-  '@storybook/storybook-deployer',
   '@storybook/addon-postcss',
-  '@storybook/react-docgen-typescript-plugin',
   '@storybook/babel-plugin-require-context-hook',
+  '@storybook/bench',
   '@storybook/builder-vite',
-  '@storybook/mdx1-csf',
-  '@storybook/mdx2-csf',
+  '@storybook/csf',
+  '@storybook/design-system',
+  '@storybook/ember-cli-storybook',
+  '@storybook/eslint-config-storybook',
   '@storybook/expect',
   '@storybook/jest',
+  '@storybook/linter-config',
+  '@storybook/mdx1-csf',
+  '@storybook/mdx2-csf',
+  '@storybook/react-docgen-typescript-plugin',
+  '@storybook/semver',
+  '@storybook/storybook-deployer',
   '@storybook/test-runner',
   '@storybook/testing-library',
+  '@storybook/testing-react',
 ];
 export const isCorePackage = (pkg: string) =>
   pkg.startsWith('@storybook/') &&
@@ -73,7 +74,9 @@ const warnPackages = (pkgs: Package[]) =>
   pkgs.forEach((pkg) => logger.warn(`- ${formatPackage(pkg)}`));
 
 export const checkVersionConsistency = () => {
-  const lines = spawnSync('npm', ['ls'], { stdio: 'pipe' }).output.toString().split('\n');
+  const lines = spawnSync('npm', ['ls'], { stdio: 'pipe', shell: true })
+    .output.toString()
+    .split('\n');
   const storybookPackages = lines
     .map(getStorybookVersion)
     .filter(Boolean)
@@ -165,6 +168,7 @@ export const upgrade = async ({
   flags = addExtraFlags(EXTRA_FLAGS, flags, packageManager.retrievePackageJson());
   const check = spawnSync('npx', ['npm-check-updates@latest', '/storybook/', ...flags], {
     stdio: 'pipe',
+    shell: true,
   }).output.toString();
   logger.info(check);
 

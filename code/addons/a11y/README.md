@@ -4,7 +4,7 @@ This Storybook addon can be helpful to make your UI components more accessible.
 
 [Framework Support](https://storybook.js.org/docs/react/api/frameworks-feature-support)
 
-![Screenshot](https://raw.githubusercontent.com/storybookjs/storybook/next/addons/a11y/docs/screenshot.png)
+![Screenshot](https://raw.githubusercontent.com/storybookjs/storybook/next/code/addons/a11y/docs/screenshot.png)
 
 ## Getting started
 
@@ -175,7 +175,7 @@ export default {
   parameters: {
     a11y: {
       // optional selector which element to inspect
-      element: '#root',
+      element: '#storybook-root',
       // axe-core configurationOptions (https://github.com/dequelabs/axe-core/blob/develop/doc/API.md#parameters-1)
       config: {},
       // axe-core optionsParameter (https://github.com/dequelabs/axe-core/blob/develop/doc/API.md#options-parameter)

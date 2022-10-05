@@ -1,8 +1,3 @@
-/** @jsx h */
-
-import { h } from 'preact';
-import { linkTo } from '@storybook/addon-links';
-
 import Welcome from '../Welcome';
 
 export default {
@@ -12,6 +7,6 @@ export default {
   },
 };
 
-export const ToStorybook = () => <Welcome showApp={linkTo('Button')} />;
+export const ToStorybook = () => <Welcome showApp={() => {}} />;
 
 ToStorybook.storyName = 'to Storybook';

@@ -16,7 +16,7 @@ describe('framework-preset-react-docgen', () => {
 
       const config = await preset.babel(babelConfig, {
         presets: {
-          // @ts-ignore
+          // @ts-expect-error (Converted from ts-ignore)
           apply: async () =>
             ({
               check: false,
@@ -33,14 +33,7 @@ describe('framework-preset-react-docgen', () => {
         overrides: [
           {
             test: /\.(cjs|mjs|tsx?|jsx?)$/,
-            plugins: [
-              [
-                babelPluginReactDocgenPath,
-                {
-                  DOC_GEN_COLLECTION_NAME: 'STORYBOOK_REACT_CLASSES',
-                },
-              ],
-            ],
+            plugins: [[babelPluginReactDocgenPath]],
           },
         ],
       });
@@ -55,7 +48,7 @@ describe('framework-preset-react-docgen', () => {
 
       const config = await preset.webpackFinal(webpackConfig, {
         presets: {
-          // @ts-ignore
+          // @ts-expect-error (Converted from ts-ignore)
           apply: async () =>
             ({
               check: false,
@@ -85,7 +78,7 @@ describe('framework-preset-react-docgen', () => {
 
       const outputBabelconfig = await preset.babel(babelConfig, {
         presets: {
-          // @ts-ignore
+          // @ts-expect-error (Converted from ts-ignore)
           apply: async () =>
             ({
               check: false,
@@ -96,7 +89,7 @@ describe('framework-preset-react-docgen', () => {
       });
       const outputWebpackconfig = await preset.webpackFinal(webpackConfig, {
         presets: {
-          // @ts-ignore
+          // @ts-expect-error (Converted from ts-ignore)
           apply: async () =>
             ({
               check: false,
@@ -131,7 +124,7 @@ describe('framework-preset-react-docgen', () => {
 
       const outputBabelconfig = await preset.babel(babelConfig, {
         presets: {
-          // @ts-ignore
+          // @ts-expect-error (Converted from ts-ignore)
           apply: async () =>
             ({
               check: false,
@@ -142,7 +135,7 @@ describe('framework-preset-react-docgen', () => {
       });
       const outputWebpackconfig = await preset.webpackFinal(webpackConfig, {
         presets: {
-          // @ts-ignore
+          // @ts-expect-error (Converted from ts-ignore)
           apply: async () =>
             ({
               check: false,

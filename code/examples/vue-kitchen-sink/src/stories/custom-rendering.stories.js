@@ -1,7 +1,3 @@
-import Vuex from 'vuex';
-import { action } from '@storybook/addon-actions';
-import { linkTo } from '@storybook/addon-links';
-
 import MyButton from './Button.vue';
 
 export default {
@@ -43,7 +39,7 @@ export const TemplateMethods = () => ({
         <my-button :rounded="true" @click="action">MyButton rendered in a template + props & methods</my-button>
       </p>`,
   methods: {
-    action: linkTo('Button'),
+    action: () => {},
   },
 });
 
@@ -56,48 +52,6 @@ export const JSX = () => ({
     return <my-button>MyButton rendered with JSX</my-button>;
   },
 });
-
-export const VuexActions = () => ({
-  components: { MyButton },
-  template: '<my-button @click="log">with vuex: {{ $store.state.count }}</my-button>',
-  store: new Vuex.Store({
-    state: { count: 0 },
-    mutations: {
-      increment(state) {
-        state.count += 1; // eslint-disable-line
-        action('vuex state')(state);
-      },
-    },
-  }),
-  methods: {
-    log() {
-      this.$store.commit('increment');
-    },
-  },
-});
-
-VuexActions.storyName = 'vuex + actions';
-
-export const WhateverYouWant = () => ({
-  components: { MyButton },
-  template: '<my-button @click="log">with awesomeness: {{ $store.state.count }}</my-button>',
-  store: new Vuex.Store({
-    state: { count: 0 },
-    mutations: {
-      increment(state) {
-        state.count += 1; // eslint-disable-line
-        action('vuex state')(state);
-      },
-    },
-  }),
-  methods: {
-    log() {
-      this.$store.commit('increment');
-    },
-  },
-});
-
-WhateverYouWant.storyName = 'whatever you want';
 
 export const PreRegisteredComponent = () => ({
   /* By pre-registering component in preview.js,
