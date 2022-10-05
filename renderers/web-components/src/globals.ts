@@ -1,6 +1,0 @@
-// @ts-ignore
-import global from 'global';
-
-const { window: globalWindow } = global;
-
-globalWindow.STORYBOOK_ENV = 'web-components';

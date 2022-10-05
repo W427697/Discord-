@@ -1,8 +1,12 @@
+#!/usr/bin/env ../../node_modules/.bin/ts-node
+
 import fs from 'fs-extra';
 import path, { join } from 'path';
 import { build } from 'tsup';
 import aliasPlugin from 'esbuild-plugin-alias';
-import shelljs from 'shelljs';
+import dedent from 'ts-dedent';
+import slash from 'slash';
+import { exec } from '../utils/exec';
 
 const hasFlag = (flags: string[], name: string) => !!flags.find((s) => s.startsWith(`--${name}`));
 
@@ -11,11 +15,13 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
     name,
     dependencies,
     peerDependencies,
-    bundler: { entries, platform, pre },
+    bundler: { entries, platform, pre, post },
   } = await fs.readJson(join(cwd, 'package.json'));
 
+  const tsnodePath = join(__dirname, '..', 'node_modules', '.bin', 'ts-node');
+
   if (pre) {
-    shelljs.exec(`esrun ${pre}`, { cwd });
+    await exec(`${tsnodePath} ${pre}`, { cwd });
   }
 
   const reset = hasFlag(flags, 'reset');
@@ -30,47 +36,63 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
     await Promise.all(
       entries.map(async (file: string) => {
         console.log(`skipping generating types for ${file}`);
-        const { name } = path.parse(file);
+        const { name: entryName } = path.parse(file);
 
-        const pathName = join(process.cwd(), 'dist', `${name}.d.ts`);
-        // throw new Error('test');
+        const pathName = join(process.cwd(), 'dist', `${entryName}.d.ts`);
         await fs.ensureFile(pathName);
-        await fs.writeFile(pathName, `export * from '../src/${name}';`);
+        await fs.writeFile(
+          pathName,
+          dedent`
+          // devmode
+          export * from '../src/${entryName}'
+        `
+        );
       })
     );
   }
 
+  const tsConfigPath = join(cwd, 'tsconfig.json');
+  const tsConfigExists = await fs.pathExists(tsConfigPath);
   await Promise.all([
     build({
-      entry: entries,
+      entry: entries.map((e: string) => slash(join(cwd, e))),
       watch,
+      ...(tsConfigExists ? { tsconfig: tsConfigPath } : {}),
+      outDir: join(process.cwd(), 'dist'),
       // sourcemap: optimized,
       format: ['esm'],
       target: 'chrome100',
-      clean: true,
+      clean: !watch,
       platform: platform || 'browser',
-      // shims: true,
       esbuildPlugins: [
         aliasPlugin({
-          process: path.resolve(
-            '../../node_modules/rollup-plugin-node-polyfills/polyfills/process-es6.js'
-          ),
-          util: path.resolve('../../node_modules/rollup-plugin-node-polyfills/polyfills/util.js'),
+          process: path.resolve('../node_modules/process/browser.js'),
+          util: path.resolve('../node_modules/util/util.js'),
         }),
       ],
       external: [name, ...Object.keys(dependencies || {}), ...Object.keys(peerDependencies || {})],
 
-      dts: optimized
-        ? {
-            entry: entries,
-            resolve: true,
-          }
-        : false,
+      dts:
+        optimized && tsConfigExists
+          ? {
+              entry: entries,
+              resolve: true,
+            }
+          : false,
       esbuildOptions: (c) => {
         /* eslint-disable no-param-reassign */
+        c.conditions = ['module'];
         c.define = optimized
-          ? { 'process.env.NODE_ENV': "'production'", 'process.env': '{}', global: 'window' }
-          : { 'process.env.NODE_ENV': "'development'", 'process.env': '{}', global: 'window' };
+          ? {
+              'process.env.NODE_ENV': "'production'",
+              'process.env': '{}',
+              global: 'window',
+            }
+          : {
+              'process.env.NODE_ENV': "'development'",
+              'process.env': '{}',
+              global: 'window',
+            };
         c.platform = platform || 'browser';
         c.legalComments = 'none';
         c.minifyWhitespace = optimized;
@@ -80,19 +102,18 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
       },
     }),
     build({
-      entry: entries,
+      entry: entries.map((e: string) => slash(join(cwd, e))),
       watch,
+      outDir: join(process.cwd(), 'dist'),
+      ...(tsConfigExists ? { tsconfig: tsConfigPath } : {}),
       format: ['cjs'],
       target: 'node14',
       platform: 'node',
-      clean: true,
+      clean: !watch,
       external: [name, ...Object.keys(dependencies || {}), ...Object.keys(peerDependencies || {})],
 
       esbuildOptions: (c) => {
         /* eslint-disable no-param-reassign */
-        // c.define = optimized
-        //   ? { 'process.env.NODE_ENV': "'production'", 'process.env': '{}' }
-        //   : { 'process.env.NODE_ENV': "'development'", 'process.env': '{}' };
         c.platform = 'node';
         c.legalComments = 'none';
         c.minifyWhitespace = optimized;
@@ -102,12 +123,21 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
       },
     }),
   ]);
+
+  if (post) {
+    await exec(`${tsnodePath} ${post}`, { cwd }, { debug: true });
+  }
 };
 
 const flags = process.argv.slice(2);
 const cwd = process.cwd();
 
-run({ cwd, flags }).catch((err) => {
-  console.error(err.stack);
+run({ cwd, flags }).catch((err: unknown) => {
+  // We can't let the stack try to print, it crashes in a way that sets the exit code to 0.
+  // Seems to have something to do with running JSON.parse() on binary / base64 encoded sourcemaps
+  // in @cspotcode/source-map-support
+  if (err instanceof Error) {
+    console.error(err.message);
+  }
   process.exit(1);
 });

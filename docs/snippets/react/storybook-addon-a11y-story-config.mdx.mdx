@@ -9,13 +9,11 @@ import { MyComponent } from './MyComponent';
   title="Configure A11y addon" 
   component={MyComponent} />
 
-export const Template = () => <MyComponent />;
-
 <Story
   name="ExampleStory"
   parameters={{
     a11y: {
-      element: '#root',
+      element: '#storybook-root',
       config: {
         rules: [
           {
@@ -34,6 +32,6 @@ export const Template = () => <MyComponent />;
       manual: true,
     },
   }}>
-  {Template.bind({})}
+  <MyComponent />
 </Story>
 ```

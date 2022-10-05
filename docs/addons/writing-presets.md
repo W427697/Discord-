@@ -77,7 +77,6 @@ As of Storybook 6.3, Storybook can run with either `webpack4` or `webpack5` buil
 
 <!-- prettier-ignore-end -->
 
-
 ### Manager entries
 
 The addon config `managerEntries` allows you to add addons to Storybook from within a preset. For addons that require custom Webpack/Babel configuration, it is easier to install the preset, and it will take care of everything.
@@ -121,7 +120,6 @@ For example, the Backgrounds preset contains the following code:
 />
 
 <!-- prettier-ignore-end -->
-
 
 Which in turn invokes:
 
@@ -209,7 +207,7 @@ For example, the following snippet adds a style tag to the preview head programm
 
 Similarly, the `managerHead` can be used to modify the surrounding "manager" UI, analogous to `manager-head.html`.
 
-Finally, the preview's main page _template_ can also be overridden using the `previewMainTemplate`, which should return a reference to a file containing an `.ejs` template that gets interpolated with some environment variables. For an example, see the [Storybook's default template](https://github.com/storybookjs/storybook/blob/next/lib/core-common/templates/index.ejs).
+Finally, the preview's main page _template_ can also be overridden using the `previewMainTemplate`, which should return a reference to a file containing an `.ejs` template that gets interpolated with some environment variables. For an example, see the [Storybook's default template](https://github.com/storybookjs/storybook/blob/next/code/lib/core-common/templates/preview.ejs).
 
 ## Sharing advanced configuration
 
