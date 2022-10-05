@@ -21,7 +21,6 @@ package-lock.json
 storybook-static
 integration/__image_snapshots__/__diff_output__
 .jest-test-results.json
-/examples/cra-kitchen-sink/src/__image_snapshots__/__diff_output__/
 lib/*.jar
 lib/**/dll
 /false
@@ -35,6 +34,12 @@ tsconfig.tsbuildinfo
 examples/angular-cli/addon-jest.testresults.json
 junit.xml
 .next
+
+/test-results/
+/playwright-results/
+/playwright-report/
+/playwright/.cache/
+
 
 # Yarn stuff
 /**/.yarn/*

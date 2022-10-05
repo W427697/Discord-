@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-controls",
-  "version": "7.0.0-alpha.17",
+  "version": "7.0.0-alpha.35",
   "description": "Interact with component inputs dynamically in the Storybook UI",
   "keywords": [
     "addon",
@@ -36,7 +36,7 @@
       "import": "./dist/manager.mjs",
       "types": "./dist/manager.d.ts"
     },
-    "./register.js": {
+    "./register": {
       "require": "./dist/manager.js",
       "import": "./dist/manager.mjs",
       "types": "./dist/manager.d.ts"
@@ -53,21 +53,20 @@
     "*.d.ts"
   ],
   "scripts": {
-    "check": "tsc --noEmit",
-    "prepare": "../../../scripts/prepare/bundle.ts"
+    "check": "../../../scripts/node_modules/.bin/tsc --noEmit",
+    "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/addons": "7.0.0-alpha.17",
-    "@storybook/api": "7.0.0-alpha.17",
-    "@storybook/blocks": "7.0.0-alpha.17",
-    "@storybook/client-logger": "7.0.0-alpha.17",
-    "@storybook/components": "7.0.0-alpha.17",
-    "@storybook/core-common": "7.0.0-alpha.17",
+    "@storybook/addons": "7.0.0-alpha.35",
+    "@storybook/api": "7.0.0-alpha.35",
+    "@storybook/blocks": "7.0.0-alpha.35",
+    "@storybook/client-logger": "7.0.0-alpha.35",
+    "@storybook/components": "7.0.0-alpha.35",
+    "@storybook/core-common": "7.0.0-alpha.35",
     "@storybook/csf": "0.0.2--canary.0899bb7.0",
-    "@storybook/node-logger": "7.0.0-alpha.17",
-    "@storybook/store": "7.0.0-alpha.17",
-    "@storybook/theming": "7.0.0-alpha.17",
-    "core-js": "^3.8.2",
+    "@storybook/node-logger": "7.0.0-alpha.35",
+    "@storybook/store": "7.0.0-alpha.35",
+    "@storybook/theming": "7.0.0-alpha.35",
     "lodash": "^4.17.21",
     "ts-dedent": "^2.0.0"
   },
@@ -93,7 +92,7 @@
     ],
     "platform": "browser"
   },
-  "gitHead": "7d44bfd3e759c6f17b75029ee2e067fab811f27b",
+  "gitHead": "d8972df8c6c1c4716131a856751f5914acddaad1",
   "storybook": {
     "displayName": "Controls",
     "icon": "https://user-images.githubusercontent.com/263385/101991669-479cc600-3c7c-11eb-93d9-38b67e8371f2.png",

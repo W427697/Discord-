@@ -9,6 +9,7 @@ import stripJsonComments from 'strip-json-comments';
 import { SupportedRenderers, SupportedLanguage } from './project_types';
 import { JsPackageManager, PackageJson, PackageJsonWithDepsAndDevDeps } from './js-package-manager';
 import { getBaseDir } from './dirs';
+import storybookMonorepoPackages from './versions';
 
 const logger = console;
 
@@ -180,33 +181,27 @@ export function copyTemplate(templateRoot: string) {
   fse.copySync(templateDir, '.', { overwrite: true });
 }
 
-export async function copyComponents(framework: SupportedRenderers, language: SupportedLanguage) {
+export async function copyComponents(renderer: SupportedRenderers, language: SupportedLanguage) {
   const languageFolderMapping: Record<SupportedLanguage, string> = {
     javascript: 'js',
     typescript: 'ts',
   };
   const componentsPath = async () => {
     const baseDir = getBaseDir();
-    const frameworkPath = join(baseDir, 'frameworks', framework);
-    const languageSpecific = path.resolve(
-      __dirname,
-      `${frameworkPath}/${languageFolderMapping[language]}`
-    );
-    if (await fse.pathExists(languageSpecific)) {
-      return languageSpecific;
+    const assetsRoot = join(baseDir, 'rendererAssets');
+    const assetsRenderer = join(assetsRoot, renderer);
+    const assetsLanguage = join(assetsRenderer, languageFolderMapping[language]);
+    if (await fse.pathExists(assetsLanguage)) {
+      return assetsLanguage;
     }
-    const jsFallback = path.resolve(
-      __dirname,
-      `${frameworkPath}/${languageFolderMapping.javascript}`
-    );
-    if (await fse.pathExists(jsFallback)) {
-      return jsFallback;
+    const assetsJS = join(assetsRenderer, languageFolderMapping.javascript);
+    if (await fse.pathExists(assetsJS)) {
+      return assetsJS;
     }
-    const frameworkRootPath = path.resolve(__dirname, frameworkPath);
-    if (await fse.pathExists(frameworkRootPath)) {
-      return frameworkRootPath;
+    if (await fse.pathExists(assetsRenderer)) {
+      return assetsRenderer;
     }
-    throw new Error(`Unsupported framework: ${framework}`);
+    throw new Error(`Unsupported renderer: ${renderer}`);
   };
 
   const targetPath = async () => {
@@ -218,7 +213,24 @@ export async function copyComponents(framework: SupportedRenderers, language: Su
 
   const destinationPath = await targetPath();
   await fse.copy(await componentsPath(), destinationPath, { overwrite: true });
-  await fse.copy(join(getBaseDir(), 'frameworks/common'), destinationPath, {
+  await fse.copy(join(getBaseDir(), 'rendererAssets/common'), destinationPath, {
     overwrite: true,
   });
+}
+
+// Given a package.json, finds any official storybook package within it
+// and if it exists, returns the version of that package from the specified package.json
+export function getStorybookVersionSpecifier(packageJson: PackageJsonWithDepsAndDevDeps) {
+  const allDeps = { ...packageJson.dependencies, ...packageJson.devDependencies };
+  const storybookPackage = Object.keys(allDeps).find(
+    (name: keyof typeof storybookMonorepoPackages) => {
+      return storybookMonorepoPackages[name];
+    }
+  );
+
+  if (!storybookPackage) {
+    throw new Error(`Couldn't find any official storybook packages in package.json`);
+  }
+
+  return allDeps[storybookPackage];
 }

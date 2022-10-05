@@ -3,6 +3,7 @@
 /* eslint-disable global-require */
 
 const { spawnSync } = require('child_process');
+const path = require('path');
 const { join } = require('path');
 const { maxConcurrentTasks } = require('./utils/concurrency');
 
@@ -54,7 +55,7 @@ function run() {
         });
 
       log.info(prefix, name);
-      command();
+      return command();
     },
   });
 
@@ -74,9 +75,9 @@ function run() {
       defaultValue: true,
       option: '--prep',
       command: () => {
-        log.info(prefix, 'prepare');
-        spawn(
-          `nx run-many --target="prepare" --all --parallel --exclude=@storybook/addon-storyshots,@storybook/addon-storyshots-puppeteer -- --reset`
+        log.info(prefix, 'prep');
+        return spawn(
+          `nx run-many --target="prep" --all --parallel --exclude=@storybook/addon-storyshots,@storybook/addon-storyshots-puppeteer -- --reset`
         );
       },
       order: 2,
@@ -86,23 +87,14 @@ function run() {
       defaultValue: true,
       option: '--retry',
       command: () => {
-        log.info(prefix, 'prepare');
-        spawn(
-          `nx run-many --target=prepare --all --parallel --only-failed ${
+        log.info(prefix, 'prep');
+        return spawn(
+          `nx run-many --target="prep" --all --parallel --only-failed ${
             process.env.CI ? `--max-parallel=${maxConcurrentTasks}` : ''
           }`
         );
       },
       order: 1,
-    }),
-    cleanup: createTask({
-      name: `Remove compiled dist directories ${chalk.gray('(cleanup)')}`,
-      defaultValue: false,
-      option: '--cleanup',
-      command: () => {
-        spawn('npm run clean:dist');
-      },
-      order: 0,
     }),
     reset: createTask({
       name: `Clean repository ${chalk.red('(reset)')}`,
@@ -110,7 +102,7 @@ function run() {
       option: '--reset',
       command: () => {
         log.info(prefix, 'git clean');
-        spawn(`node -r esm ${join(__dirname, 'reset.js')}`);
+        return spawn(`node -r esm ${join(__dirname, 'reset.js')}`);
       },
       order: 0,
     }),
@@ -120,8 +112,9 @@ function run() {
       option: '--install',
       command: () => {
         const command = process.env.CI ? `yarn install --immutable` : `yarn install`;
-        spawn(command);
+        return spawn(command);
       },
+      pre: ['installScripts'],
       order: 1,
     }),
     build: createTask({
@@ -130,8 +123,8 @@ function run() {
       option: '--build',
       command: () => {
         log.info(prefix, 'build');
-        spawn(
-          `nx run-many --target="prepare" --all --parallel=8 ${
+        return spawn(
+          `nx run-many --target="prep" --all --parallel=8 ${
             process.env.CI ? `--max-parallel=${maxConcurrentTasks}` : ''
           } -- --reset --optimized`
         );
@@ -143,7 +136,7 @@ function run() {
       defaultValue: false,
       option: '--reg',
       command: () => {
-        spawn('yarn local-registry --publish --open --port 6000');
+        return spawn('yarn local-registry --publish --open --port 6001');
       },
       order: 11,
     }),
@@ -152,16 +145,26 @@ function run() {
       defaultValue: false,
       option: '--dev',
       command: () => {
-        spawn('yarn build');
+        return spawn('yarn build');
       },
       order: 9,
+    }),
+    installScripts: createTask({
+      name: `Install dependencies on scripts directory ${chalk.gray('(dev)')}`,
+      defaultValue: false,
+      option: '--installScripts',
+      command: () => {
+        const command = process.env.CI ? `yarn install --immutable` : `yarn install`;
+        return spawn(command, { cwd: path.join('..', 'scripts') });
+      },
+      order: 10,
     }),
   };
 
   const groups = {
     main: ['prep', 'core'],
     buildtasks: ['install', 'build'],
-    devtasks: ['dev', 'registry', 'cleanup', 'reset'],
+    devtasks: ['dev', 'registry', 'reset'],
   };
 
   Object.keys(tasks)
@@ -193,16 +196,21 @@ function run() {
       .map((key) => tasks[key].value)
       .filter(Boolean).length
   ) {
-    selection = prompts([
+    selection = prompts(
+      [
+        {
+          type: 'multiselect',
+          message: 'Select the bootstrap activities',
+          name: 'todo',
+          warn: ' ',
+          pageSize: Object.keys(tasks).length + Object.keys(groups).length,
+          choices,
+        },
+      ],
       {
-        type: 'multiselect',
-        message: 'Select the bootstrap activities',
-        name: 'todo',
-        warn: ' ',
-        pageSize: Object.keys(tasks).length + Object.keys(groups).length,
-        choices,
-      },
-    ])
+        onCancel: () => process.exit(0),
+      }
+    )
       .then(({ todo }) =>
         todo.map((name) => tasks[Object.keys(tasks).find((i) => tasks[i].name === name)])
       )
@@ -243,7 +251,10 @@ function run() {
         list
           .sort((a, b) => a.order - b.order)
           .forEach((key) => {
-            key.command();
+            const result = key.command();
+            if (result && 'status' in result && result.status !== 0) {
+              process.exit(result.status);
+            }
           });
         process.stdout.write('\x07');
       }

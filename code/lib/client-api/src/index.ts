@@ -7,8 +7,11 @@ import {
   addArgTypes,
   addArgsEnhancer,
   addArgTypesEnhancer,
+  addStepRunner,
   setGlobalRender,
 } from './ClientApi';
+
+export type { GetStorybookKind, GetStorybookStory } from './ClientApi';
 
 export * from './types';
 
@@ -24,6 +27,7 @@ export {
   addArgs,
   addArgTypes,
   addParameters,
+  addStepRunner,
   setGlobalRender,
   ClientApi,
 };

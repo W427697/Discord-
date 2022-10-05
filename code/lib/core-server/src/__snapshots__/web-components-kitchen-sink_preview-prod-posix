@@ -3,8 +3,7 @@
 exports[`web-components-kitchen-sink preview prod 1`] = `
 Object {
   "entry": Array [
-    "CWD/lib/core-client/dist/esm/globals/globals.js",
-    "CWD/examples/web-components-kitchen-sink/.storybook/storybook-config-entry.js",
+    "CWD/storybook-config-entry.js",
   ],
   "keys": Array [
     "name",
@@ -214,7 +213,7 @@ Object {
       },
       Object {
         "enforce": "pre",
-        "loader": "CWD/lib/source-loader/dist/cjs/index.js",
+        "loader": "CWD/lib/source-loader/dist/index.js",
         "options": Object {
           "injectStoryParameters": true,
           "inspectLocalDependencies": true,
@@ -228,7 +227,7 @@ Object {
         ],
         "use": Array [
           Object {
-            "loader": "CWD/lib/source-loader/dist/cjs/index.js",
+            "loader": "CWD/lib/source-loader/dist/index.js",
             "options": undefined,
           },
         ],

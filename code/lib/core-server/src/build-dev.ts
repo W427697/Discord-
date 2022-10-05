@@ -121,8 +121,8 @@ export async function buildDevStandalone(options: CLIOptions & LoadOptions & Bui
 
   if (options.smokeTest) {
     const warnings: Error[] = [];
-    warnings.push(...((managerStats && managerStats.toJson().warnings) || []));
-    warnings.push(...((managerStats && previewStats.toJson().warnings) || []));
+    warnings.push(...(managerStats?.toJson()?.warnings || []));
+    warnings.push(...(previewStats?.toJson()?.warnings || []));
 
     const problems = warnings
       .filter((warning) => !warning.message.includes(`export 'useInsertionEffect'`))
@@ -131,6 +131,7 @@ export async function buildDevStandalone(options: CLIOptions & LoadOptions & Bui
         (warning) => !warning.message.includes(`Conflicting values for 'process.env.NODE_ENV'`)
       );
 
+    // eslint-disable-next-line no-console
     console.log(problems.map((p) => p.stack));
     process.exit(problems.length > 0 ? 1 : 0);
     return;

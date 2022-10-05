@@ -5,14 +5,15 @@ import {
   addLoader,
   addArgs,
   addArgTypes,
+  addStepRunner,
   addArgsEnhancer,
   addArgTypesEnhancer,
   setGlobalRender,
 } from '{{clientApi}}';
-import * as config from '{{configFilename}}';
+import * as previewAnnotations from '{{previewAnnotationFilename}}';
 
-Object.keys(config).forEach((key) => {
-  const value = config[key];
+Object.keys(previewAnnotations).forEach((key) => {
+  const value = previewAnnotations[key];
   switch (key) {
     case 'args': {
       return addArgs(value);
@@ -49,9 +50,13 @@ Object.keys(config).forEach((key) => {
     case 'renderToDOM': {
       return null; // This key is not handled directly in v6 mode.
     }
+    case 'runStep': {
+      return addStepRunner(value);
+    }
     default: {
-      // eslint-disable-next-line prefer-template
-      return console.log(key + ' was not supported :( !');
+      return console.log(
+        `Unknown key '${key}' exported by preview annotation file '{{previewAnnotationFilename}}'`
+      );
     }
   }
 });
