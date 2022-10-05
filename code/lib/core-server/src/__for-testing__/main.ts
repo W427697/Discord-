@@ -1,4 +1,6 @@
 /// <reference types="node" />
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
 import type { StorybookConfig } from '@storybook/react-webpack5';
 
 const config: StorybookConfig = {
