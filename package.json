@@ -1,7 +1,8 @@
 {
   "scripts": {
     "start": "yarn task --task dev --template cra/default-ts --start-from=install-repo",
-    "task": "cd scripts; yarn install >/dev/null; yarn task"
+    "task": "cd scripts; yarn install >/dev/null; yarn task",
+    "get-template": "cd scripts; yarn get-template"
   },
   "packageManager": "yarn@3.2.3"
 }

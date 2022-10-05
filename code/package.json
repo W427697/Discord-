@@ -64,7 +64,6 @@
     "danger": "danger",
     "generate-repros": "zx ../scripts/repros-generator/index.mjs",
     "generate-repros-next": "ts-node ../scripts/next-repro-generators/generate-repros.ts",
-    "get-template": "ts-node ../scripts/get-template.ts",
     "github-release": "github-release-from-changelog",
     "linear-export": "ts-node --project=../scripts/tsconfig.json ../scripts/linear-export.ts",
     "lint": "yarn lint:js && yarn lint:md",
