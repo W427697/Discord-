@@ -4,7 +4,7 @@
     "install-scripts": "cd scripts; yarn install",
     "install-all": "yarn install-code; yarn install-scripts",
     "start": "yarn install-all; yarn task --no-prompt",
-    "task": "cd code; yarn task"
+    "task": "yarn install-scripts; cd scripts; yarn task"
   },
   "packageManager": "yarn@3.2.3"
 }
