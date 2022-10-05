@@ -270,17 +270,13 @@ function writeTaskList(statusMap: Map<Task, TaskStatus>) {
   logger.info();
 }
 
-const controllers: AbortController[] = [];
 async function runTask(task: Task, details: TemplateDetails, optionValues: PassedOptionValues) {
   const startTime = new Date();
   try {
-    const controller = await task.run(details, optionValues);
-    if (controller) controllers.push(controller);
+    await task.run(details, optionValues);
 
     if (details.junitFilename && !task.junit)
       await writeJunitXml(getTaskKey(task), details.key, startTime);
-
-    return controller;
   } catch (err) {
     if (details.junitFilename && !task.junit)
       await writeJunitXml(getTaskKey(task), details.key, startTime, err);
@@ -398,7 +394,7 @@ async function run() {
       writeTaskList(statuses);
 
       try {
-        const taskController = await runTask(task, details, {
+        await runTask(task, details, {
           ...optionValues,
           // Always debug the final task so we can see it's output fully
           debug: sortedTasks[i] === finalTask ? true : optionValues.debug,
@@ -435,10 +431,8 @@ async function run() {
       }
       statuses.set(task, task.service ? 'serving' : 'complete');
 
-      // If the task has it's own controller, it is going to remain
-      // open until the user ctrl-c's which will have the side effect
-      // of stopping everything.
-      if (sortedTasks[i] === finalTask && taskController) {
+      // If the task is a service, we want to stay open until we are ctrl-ced
+      if (sortedTasks[i] === finalTask && finalTask.service) {
         await new Promise(() => {});
       }
     }

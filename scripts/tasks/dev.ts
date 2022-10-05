@@ -7,6 +7,7 @@ import { exec } from '../utils/exec';
 export const START_PORT = 6006;
 
 export const dev: Task = {
+  service: true,
   before: ['sandbox'],
   async ready() {
     return (await detectFreePort(START_PORT)) !== START_PORT;
