@@ -5,7 +5,7 @@ import { Task } from '../task';
 const logger = console;
 
 export const sandbox: Task = {
-  before: ({ link }) => (link ? ['bootstrap-repo'] : ['bootstrap-repo', 'registry-repo']),
+  before: ({ link }) => (link ? ['compile'] : ['compile', 'run-registry']),
   async ready({ sandboxDir }) {
     return pathExists(sandboxDir);
   },

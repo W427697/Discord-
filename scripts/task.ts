@@ -8,10 +8,10 @@ import boxen from 'boxen';
 import { dedent } from 'ts-dedent';
 
 import { createOptions, getCommand, getOptionsOrPrompt, OptionValues } from './utils/options';
-import { installRepo } from './tasks/install-repo';
-import { bootstrapRepo } from './tasks/bootstrap-repo';
-import { publishRepo } from './tasks/publish-repo';
-import { registryRepo } from './tasks/registry-repo';
+import { install } from './tasks/install';
+import { compile } from './tasks/compile';
+import { publish } from './tasks/publish';
+import { runRegistryTask } from './tasks/run-registry';
 import { sandbox } from './tasks/sandbox';
 import { dev } from './tasks/dev';
 import { smokeTest } from './tasks/smoke-test';
@@ -90,10 +90,10 @@ export type Task = {
 export const tasks = {
   // These tasks pertain to the whole monorepo, rather than an
   // individual template/sandbox
-  'install-repo': installRepo,
-  'bootstrap-repo': bootstrapRepo,
-  'publish-repo': publishRepo,
-  'registry-repo': registryRepo,
+  install,
+  compile,
+  publish,
+  'run-registry': runRegistryTask,
   // These tasks pertain to a single sandbox in the ../sandboxes dir
   sandbox,
   dev,

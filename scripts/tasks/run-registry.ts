@@ -24,9 +24,9 @@ export async function runRegistry({ dryRun, debug }: { dryRun?: boolean; debug?:
 }
 
 const REGISTRY_PORT = 6001;
-export const registryRepo: Task = {
+export const runRegistryTask: Task = {
   service: true,
-  before: ['publish-repo'],
+  before: ['publish'],
   async ready() {
     return (await detectFreePort(REGISTRY_PORT)) !== REGISTRY_PORT;
   },

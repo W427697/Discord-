@@ -11,8 +11,8 @@ const noLinkCommand = `nx run-many --target="prep" --all --parallel=8 ${
   process.env.CI ? `--max-parallel=${maxConcurrentTasks}` : ''
 } -- --reset --optimized`;
 
-export const bootstrapRepo: Task = {
-  before: ['install-repo'],
+export const compile: Task = {
+  before: ['install'],
   async ready({ codeDir }, { link }) {
     try {
       const contents = await readFile(

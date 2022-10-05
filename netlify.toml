@@ -1,6 +1,6 @@
 [build]
   publish = "code/built-storybooks"
-  command = "cd scripts && yarn && cd ../code && yarn && yarn --task bootstrap-repo --start-from=install-repo --no-link && yarn build-storybooks --all"
+  command = "cd scripts && yarn && cd ../code && yarn && yarn --task bootstrap --start-from=auto --no-link && yarn build-storybooks --all"
 [build.environment]
   NODE_VERSION = "14"
   YARN_VERSION = "1.22.10"

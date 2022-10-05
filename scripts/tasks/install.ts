@@ -3,7 +3,7 @@ import { join } from 'path';
 import type { Task } from '../task';
 import { exec } from '../utils/exec';
 
-export const installRepo: Task = {
+export const install: Task = {
   async ready({ codeDir }) {
     return pathExists(join(codeDir, 'node_modules'));
   },

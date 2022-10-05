@@ -6,8 +6,8 @@ import type { Task } from '../task';
 
 const verdaccioCacheDir = resolve(__dirname, '../../.verdaccio-cache');
 
-export const publishRepo: Task = {
-  before: ['bootstrap-repo'],
+export const publish: Task = {
+  before: ['compile'],
   async ready() {
     return pathExists(verdaccioCacheDir);
   },

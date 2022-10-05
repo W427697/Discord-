@@ -107,7 +107,7 @@ jobs:
       - run:
           name: Bootstrap
           command: |
-            yarn task --task bootstrap-repo --start-from=auto --no-link --debug
+            yarn task --task compile --start-from=auto --no-link --debug
             git diff --exit-code
       - save_cache:
           name: Save Yarn cache
