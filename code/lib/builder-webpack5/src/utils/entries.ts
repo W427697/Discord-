@@ -50,7 +50,7 @@ export async function getModernVirtualEntries({
   const storiesPath = r(storiesFileName);
 
   const configEntryFilename = 'storybook-config-entry.js';
-  const configEntryPath = r(configEntryFilename);
+  const configEntryPath = path.resolve(path.join(process.cwd(), configEntryFilename));
   const data = {
     storiesFilename: storiesFileName,
     previewAnnotations,
@@ -87,7 +87,9 @@ export async function getLegacyVirtualEntries({
   const r = (p: string) => path.resolve(path.join(configDir, p));
   const storybookPaths = getStorybookPaths();
 
-  const frameworkInitEntry = r('storybook-init-framework-entry.mjs');
+  const frameworkInitEntry = path.resolve(
+    path.join(process.cwd(), 'storybook-init-framework-entry.js')
+  );
   mapping[frameworkInitEntry] = `import '${frameworkName}';`;
   entries.push(frameworkInitEntry);
 
