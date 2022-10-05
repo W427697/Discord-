@@ -28,14 +28,12 @@ export const getStorybookPaths = (): Record<string, string> => ({
 });
 
 export async function getModernVirtualEntries({
-  configDir,
   builderOptions,
   isProd,
   stories,
   previewAnnotations,
   entries: originalEntries,
 }: {
-  configDir: string;
   builderOptions: BuilderOptions;
   isProd: boolean;
   stories: ReturnType<typeof normalizeStories>;
