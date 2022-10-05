@@ -1,5 +1,8 @@
+// This file requires many imports from `../code`, which requires both an install and bootstrap of
+// the repo to work properly. So we load it async in the task runner *after* those steps.
+
 /* eslint-disable no-restricted-syntax, no-await-in-loop */
-import { copy, ensureSymlink, ensureDir, existsSync, pathExists, remove } from 'fs-extra';
+import { copy, ensureSymlink, ensureDir, existsSync, pathExists } from 'fs-extra';
 import { join, resolve, sep } from 'path';
 import dedent from 'ts-dedent';
 
@@ -22,8 +25,6 @@ const reprosDir = resolve(__dirname, '../../repros');
 const codeDir = resolve(__dirname, '../../code');
 const logger = console;
 
-// This file requires many imports from `../code`, which requires both an install and bootstrap of
-// the repo to work properly. So we load it async in the task runner *after* those steps.
 export const create: Task['run'] = async (
   { key, template, sandboxDir },
   { addon: addons, fromLocalRepro, dryRun, debug }
