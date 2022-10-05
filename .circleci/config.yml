@@ -103,13 +103,11 @@ jobs:
             - build-yarn-2-cache-v3--{{ checksum "code/yarn.lock" }}
       - run:
           name: Install dependencies
-          command: |
-            cd code
-            yarn install --immutable
+          command: yarn install --immutable
       - run:
           name: Bootstrap
           command: |
-            yarn task --task bootstrap-repo --start-from=never --no-link
+            yarn task --task bootstrap-repo --start-from=auto --no-link
             git diff --exit-code
       - save_cache:
           name: Save Yarn cache
