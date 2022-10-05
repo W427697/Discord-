@@ -66,8 +66,8 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
       platform: platform || 'browser',
       esbuildPlugins: [
         aliasPlugin({
-          process: path.resolve('../node_modules/process/browser.js'),
-          util: path.resolve('../node_modules/util/util.js'),
+          process: path.join(__dirname, '../node_modules/process/browser.js'),
+          util: path.join(__dirname, '../node_modules/util/util.js'),
         }),
       ],
       external: [name, ...Object.keys(dependencies || {}), ...Object.keys(peerDependencies || {})],
