@@ -1,4 +1,4 @@
-import { loadPreviewOrConfigFile } from '@storybook/core-common';
+import { getPreviewFile } from '@storybook/core-common';
 import type { Options } from '@storybook/core-common';
 import slash from 'slash';
 import { normalizePath } from 'vite';
@@ -36,8 +36,8 @@ export async function generateVirtualStoryEntryCode(options: ExtendedOptions) {
   `.trim();
 }
 
-export async function generatePreviewEntryCode({ configDir }: Options) {
-  const previewFile = loadPreviewOrConfigFile({ configDir });
+export async function generatePreviewEntryCode(options: Options) {
+  const previewFile = getPreviewFile(options);
   if (!previewFile) return '';
 
   return `import * as preview from '${slash(previewFile)}';

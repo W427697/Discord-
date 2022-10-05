@@ -1,14 +1,14 @@
 import { isAbsolute, resolve } from 'path';
-import { loadPreviewOrConfigFile, getFrameworkName } from '@storybook/core-common';
+import { getPreviewFile, getFrameworkName } from '@storybook/core-common';
 import { virtualStoriesFile, virtualAddonSetupFile } from './virtual-file-names';
 import { transformAbsPath } from './utils/transform-abs-path';
 import type { ExtendedOptions } from './types';
 
 export async function generateModernIframeScriptCode(options: ExtendedOptions) {
-  const { presets, configDir } = options;
+  const { presets } = options;
   const frameworkName = await getFrameworkName(options);
 
-  const previewOrConfigFile = loadPreviewOrConfigFile({ configDir });
+  const previewOrConfigFile = getPreviewFile(options);
   const previewAnnotations = await presets.apply('previewAnnotations', [], options);
   const resolvedPreviewAnnotations = [...previewAnnotations].map((entry) =>
     isAbsolute(entry) ? entry : resolve(entry)
