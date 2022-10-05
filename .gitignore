@@ -18,3 +18,4 @@ junit.xml
 !/**/.yarn/sdks
 !/**/.yarn/versions
 /**/.pnp.*
+!/node_modules

@@ -2,7 +2,6 @@
 
 - Ensure you have node version 14 installed (suggestion: v14.18.1).
 - Ensure if you are using Windows to use the Windows Subsystem for Linux (WSL).
-- Run `yarn install` to initialize the repo (it shouldn't install anything).
 - Run `yarn start` directory to run a basic test Storybook "sandbox".
 
 # Running against different sandbox templates
