@@ -5,8 +5,8 @@ import path, { join } from 'path';
 import { build } from 'tsup';
 import aliasPlugin from 'esbuild-plugin-alias';
 import dedent from 'ts-dedent';
-import { exec } from '../utils/exec';
 import slash from 'slash';
+import { exec } from '../utils/exec';
 
 const hasFlag = (flags: string[], name: string) => !!flags.find((s) => s.startsWith(`--${name}`));
 
