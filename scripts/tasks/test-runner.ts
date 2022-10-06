@@ -14,11 +14,11 @@ export const testRunner: Task = {
 
     // We could split this out into a separate task if it became annoying
     const publishController = await servePackages({});
-    await exec(`yarn add --dev @storybook/test-runner@0.7.1-next.0`, execOptions);
+    await exec(`yarn add --dev @storybook/test-runner`, execOptions);
 
     const storybookController = await serveSandbox(builtSandboxDir, {});
 
-    await exec(`yarn test-storybook --url http://localhost:8001 --junit`, {
+    await exec(`yarn test-storybook --url http://localhost:8001 --junit --index-json`, {
       ...execOptions,
       env: {
         JEST_JUNIT_OUTPUT_FILE: junitFilename,
