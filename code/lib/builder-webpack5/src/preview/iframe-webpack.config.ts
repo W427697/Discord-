@@ -23,26 +23,27 @@ import type { BuilderOptions, TypescriptOptions } from '../types';
 import { createBabelLoader } from './babel-loader-preview';
 
 const storybookPaths: Record<string, string> = {
-  semver: path.dirname(require.resolve(`semver/package.json`)),
   global: path.dirname(require.resolve(`global/package.json`)),
   ...[
-    '@storybook/addons',
-    '@storybook/api',
-    '@storybook/store',
-    '@storybook/channels',
-    '@storybook/channel-postmessage',
-    '@storybook/channel-websocket',
-    '@storybook/components',
-    '@storybook/core-events',
-    '@storybook/router',
-    '@storybook/theming',
-    '@storybook/preview-web',
-    '@storybook/client-api',
-    '@storybook/client-logger',
+    'addons',
+    'api',
+    'store',
+    'channels',
+    'channel-postmessage',
+    'channel-websocket',
+    'components',
+    'core-events',
+    'router',
+    'theming',
+    'preview-web',
+    'client-api',
+    'client-logger',
   ].reduce(
     (acc, sbPackage) => ({
       ...acc,
-      [sbPackage]: path.dirname(require.resolve(`${sbPackage}/package.json`)),
+      [`@storybook/${sbPackage}`]: path.dirname(
+        require.resolve(`@storybook/${sbPackage}/package.json`)
+      ),
     }),
     {}
   ),
