@@ -3,7 +3,8 @@
     "start": "yarn task --task dev --template cra/default-ts --start-from=install",
     "task": "cd scripts; yarn install >/dev/null; yarn task",
     "get-template": "cd scripts; yarn get-template",
-    "test": "cd code; yarn test"
+    "test": "cd code; yarn test",
+    "lint": "cd code; yarn lint"
   },
   "packageManager": "yarn@3.2.3"
 }
