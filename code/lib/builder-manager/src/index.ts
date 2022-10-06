@@ -192,7 +192,7 @@ const builder: BuilderFunction = async function* builderGeneratorFn({ startTime,
   yield;
 
   const managerFiles = copy(coreDirOrigin, coreDirTarget);
-  const { cssFiles, jsFiles } = await readOrderedFiles(addonsDir);
+  const { cssFiles, jsFiles } = await readOrderedFiles(addonsDir, compilation.outputFiles);
 
   yield;
 
