@@ -5,7 +5,7 @@ import { maxConcurrentTasks } from '../utils/maxConcurrentTasks';
 import { exec } from '../utils/exec';
 import type { Task } from '../task';
 
-const linkedContents = `export * from '../../src/index';`;
+const linkedContents = `export * from '../src/index'`;
 const linkCommand = `nx run-many --target="prep" --all --parallel --exclude=@storybook/addon-storyshots,@storybook/addon-storyshots-puppeteer -- --reset`;
 const noLinkCommand = `nx run-many --target="prep" --all --parallel=8 ${
   process.env.CI ? `--max-parallel=${maxConcurrentTasks}` : ''
@@ -16,12 +16,10 @@ export const compile: Task = {
   before: ['install'],
   async ready({ codeDir }, { link }) {
     try {
-      const contents = await readFile(
-        resolve(codeDir, './lib/store/dist/types/index.d.ts'),
-        'utf8'
-      );
-      if (link) return contents === linkedContents;
-      return contents !== linkedContents;
+      const contents = await readFile(resolve(codeDir, './lib/store/dist/index.d.ts'), 'utf8');
+      const isLinkedContents = contents.indexOf(linkedContents) !== -1;
+      if (link) return isLinkedContents;
+      return !isLinkedContents;
     } catch (err) {
       return false;
     }
