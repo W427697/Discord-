@@ -9,7 +9,7 @@ export const e2eTests: Task = {
   async ready() {
     return false;
   },
-  async run({ junitFilename, template }, { dryRun, debug }) {
+  async run({ codeDir, junitFilename, template }, { dryRun, debug }) {
     await exec(
       'yarn playwright test --reporter=junit',
       {
@@ -20,6 +20,7 @@ export const e2eTests: Task = {
             PLAYWRIGHT_JUNIT_OUTPUT_NAME: junitFilename,
           }),
         },
+        cwd: codeDir,
       },
       { dryRun, debug }
     );
