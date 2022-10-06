@@ -117,7 +117,7 @@ export const install: Task['run'] = async ({ sandboxDir }, { link, dryRun, debug
 // loader for such files. NOTE this isn't necessary for Vite, as far as we know.
 function addEsbuildLoaderToStories(mainConfig: ConfigFile) {
   // NOTE: the test regexp here will apply whether the path is symlink-preserved or otherwise
-  const loaderPath = require.resolve('../code/node_modules/esbuild-loader');
+  const loaderPath = require.resolve('../../code/node_modules/esbuild-loader');
   const webpackFinalCode = `
   (config) => ({
     ...config,
