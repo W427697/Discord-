@@ -123,7 +123,7 @@ const svelteViteTemplates = {
   'svelte-vite/default-ts': {
     name: 'Svelte Vite (TS)',
     script: 'yarn create vite . --template svelte-ts',
-    cadence: ['ci', 'daily', 'weekly'],
+    cadence: ['daily', 'weekly'],
     expected: {
       framework: '@storybook/svelte-vite',
       renderer: '@storybook/svelte',
