@@ -394,11 +394,14 @@ async function run() {
     const task = sortedTasks[i];
     const status = statuses.get(task);
 
-    if (
-      status === 'unready' ||
-      (status === 'notserving' &&
-        tasksThatDepend.get(task).find((t) => statuses.get(t) === 'unready'))
-    ) {
+    let shouldRun = status === 'unready';
+    if (status === 'notserving') {
+      shouldRun =
+        finalTask === task ||
+        !!tasksThatDepend.get(task).find((t) => statuses.get(t) === 'unready');
+    }
+
+    if (shouldRun) {
       statuses.set(task, 'running');
       writeTaskList(statuses);
 
