@@ -3,7 +3,7 @@ import { writeFile, ensureFile } from 'fs-extra';
 import { join } from 'path';
 import { Compilation } from '../types';
 
-export async function readOrderedFiles(addonsDir: string, outputFiles: Compilation['outputFiles']) {
+export async function readOrderedFiles(addonsDir: string, outputFiles: Compilation['outputFiles'] | undefined) {
   const files = await Promise.all(
     outputFiles?.map(async (file) => {
       // convert deeply nested paths to a single level, also remove special characters

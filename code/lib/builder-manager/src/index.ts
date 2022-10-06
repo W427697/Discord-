@@ -127,7 +127,7 @@ const starter: StarterFunction = async function* starterGeneratorFn({
   router.use(`/sb-addons`, express.static(addonsDir));
   router.use(`/sb-manager`, express.static(coreDirOrigin));
 
-  const { cssFiles, jsFiles } = await readOrderedFiles(addonsDir, compilation.outputFiles);
+  const { cssFiles, jsFiles } = await readOrderedFiles(addonsDir, compilation?.outputFiles);
 
   yield;
 
@@ -192,7 +192,7 @@ const builder: BuilderFunction = async function* builderGeneratorFn({ startTime,
   yield;
 
   const managerFiles = copy(coreDirOrigin, coreDirTarget);
-  const { cssFiles, jsFiles } = await readOrderedFiles(addonsDir, compilation.outputFiles);
+  const { cssFiles, jsFiles } = await readOrderedFiles(addonsDir, compilation?.outputFiles);
 
   yield;
 
