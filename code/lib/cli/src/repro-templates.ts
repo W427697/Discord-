@@ -46,6 +46,29 @@ const reactViteTemplates = {
   },
 };
 
+const reactWebpackTemplates = {
+  'react-webpack/18-ts': {
+    name: 'React Webpack5 (TS)',
+    script: 'yarn create webpack5-react .',
+    cadence: ['ci', 'daily', 'weekly'],
+    expected: {
+      framework: '@storybook/react-webpack5',
+      renderer: '@storybook/react',
+      builder: '@storybook/builder-webpack5',
+    },
+  },
+  'react-webpack/17-ts': {
+    name: 'React Webpack5 (TS)',
+    script: 'yarn create webpack5-react . --version-react="17" --version-react-dom="17"',
+    cadence: ['ci', 'daily', 'weekly'],
+    expected: {
+      framework: '@storybook/react-webpack5',
+      renderer: '@storybook/react',
+      builder: '@storybook/builder-webpack5',
+    },
+  },
+};
+
 const vue3ViteTemplates = {
   'vue3-vite/default-js': {
     name: 'Vue3 Vite (JS)',
@@ -162,6 +185,7 @@ const vueCliTemplates = {
 
 export default {
   ...craTemplates,
+  ...reactWebpackTemplates,
   ...reactViteTemplates,
   ...vue2ViteTemplates,
   ...vue3ViteTemplates,
