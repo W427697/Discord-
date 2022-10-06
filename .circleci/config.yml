@@ -367,7 +367,7 @@ jobs:
       - persist_to_workspace:
           root: .
           paths:
-            - sandbox
+            - sandbox/*/storybook-static
   test-runner-sandboxes:
     executor:
       class: medium+
