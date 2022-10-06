@@ -43,7 +43,6 @@ const excludeList = [
   '@storybook/mdx1-csf',
   '@storybook/mdx2-csf',
   '@storybook/react-docgen-typescript-plugin',
-  '@storybook/semver',
   '@storybook/storybook-deployer',
   '@storybook/test-runner',
   '@storybook/testing-library',

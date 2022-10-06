@@ -48,7 +48,6 @@
     "@storybook/core-server": "7.0.0-alpha.35",
     "@storybook/csf-tools": "7.0.0-alpha.35",
     "@storybook/node-logger": "7.0.0-alpha.35",
-    "@storybook/semver": "^7.3.2",
     "@storybook/telemetry": "7.0.0-alpha.35",
     "@types/semver": "^7.3.4",
     "boxen": "^5.1.2",
