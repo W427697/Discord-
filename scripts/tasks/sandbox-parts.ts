@@ -282,4 +282,6 @@ export const addStories: Task['run'] = async (
 
   // Some addon stories require extra dependencies
   addExtraDependencies({ cwd, dryRun, debug });
+
+  await writeConfig(mainConfig);
 };

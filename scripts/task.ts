@@ -356,7 +356,7 @@ async function run() {
       throw new Error(`Task ${getTaskKey(firstUnready)} was not ready`);
   } else if (startFrom) {
     // set to reset back to a specific task
-    if (sortedTasks.indexOf(tasks[startFrom]) > sortedTasks.indexOf(firstUnready)) {
+    if (firstUnready && sortedTasks.indexOf(tasks[startFrom]) > sortedTasks.indexOf(firstUnready)) {
       throw new Error(
         `Task ${getTaskKey(firstUnready)} was not ready, earlier than your request ${startFrom}.`
       );

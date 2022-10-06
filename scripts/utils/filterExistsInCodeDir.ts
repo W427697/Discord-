@@ -2,6 +2,7 @@ import path from 'path';
 import { pathExists } from 'fs-extra';
 
 export const codeDir = path.resolve(__dirname, '../../code');
+console.log(codeDir);
 
 // packageDirs of the form `lib/store`
 // paths to check of the form 'template/stories'
