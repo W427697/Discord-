@@ -400,6 +400,11 @@ async function run() {
         finalTask === task ||
         !!tasksThatDepend.get(task).find((t) => statuses.get(t) === 'unready');
     }
+    console.log(
+      status,
+      shouldRun,
+      tasksThatDepend.get(task).map((t) => getTaskKey(t))
+    );
 
     if (shouldRun) {
       statuses.set(task, 'running');
