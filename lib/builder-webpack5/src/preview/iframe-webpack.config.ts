@@ -6,10 +6,10 @@ import CaseSensitivePathsPlugin from 'case-sensitive-paths-webpack-plugin';
 import TerserWebpackPlugin from 'terser-webpack-plugin';
 import VirtualModulePlugin from 'webpack-virtual-modules';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
+import type { Options, CoreConfig, Webpack5BuilderConfig } from '@storybook/core-common';
 
 import themingPaths from '@storybook/theming/paths';
 
-import type { Options, CoreConfig } from '@storybook/core-common';
 import {
   toRequireContextString,
   es6Transpiler,
@@ -85,6 +85,13 @@ export default async (options: Options & Record<string, any>): Promise<Configura
     configDir: options.configDir,
     workingDir,
   });
+
+  const builderOptions = (coreOptions.builder as Webpack5BuilderConfig).options;
+  const cacheConfig = builderOptions?.fsCache
+    ? { cache: { type: 'filesystem' as 'filesystem' } }
+    : {};
+  const lazyCompilationConfig =
+    builderOptions?.lazyCompilation && !isProd ? { lazyCompilation: { entries: false } } : {};
 
   const virtualModuleMapping: Record<string, string> = {};
   if (features?.storyStoreV7) {
@@ -274,5 +281,7 @@ export default async (options: Options & Record<string, any>): Promise<Configura
     performance: {
       hints: isProd ? 'warning' : false,
     },
+    ...cacheConfig,
+    experiments: { ...lazyCompilationConfig },
   };
 };
