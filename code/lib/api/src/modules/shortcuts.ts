@@ -92,14 +92,12 @@ export const defaultShortcuts: Shortcuts = Object.freeze({
 });
 
 const addonsShortcuts: AddonShortcuts = {};
-export interface Event extends KeyboardEvent {
-  target: {
+interface TaggedEventTarget extends EventTarget {
     tagName: string;
-    addEventListener(): void;
-    removeEventListener(): boolean;
-    dispatchEvent(event: Event): boolean;
     getAttribute(attr: string): string | null;
-  };
+}
+export interface Event extends KeyboardEvent {
+    target: TaggedEventTarget;
 }
 
 function focusInInput(event: Event) {
