@@ -145,6 +145,7 @@ const angularCliTemplates = {
     expected: {
       framework: '@storybook/angular',
       renderer: '@storybook/angular',
+      builder: '@storybook/builder-webpack5',
     },
   },
 };
