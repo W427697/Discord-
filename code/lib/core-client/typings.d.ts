@@ -1,4 +1,4 @@
-declare module '@storybook/preview-web/dist/cjs/PreviewWeb.mockdata';
+declare module '@storybook/preview-web/dist/PreviewWeb.mockdata';
 
 declare class AnsiToHtml {
   constructor(options: { escapeHtml: boolean });

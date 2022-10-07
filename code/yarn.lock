@@ -8382,6 +8382,7 @@ __metadata:
     "@storybook/core-events": 7.0.0-alpha.35
     "@storybook/csf": 0.0.2--canary.0899bb7.0
     "@storybook/store": 7.0.0-alpha.35
+    "@types/events": ^3.0.0
     ansi-to-html: ^0.6.11
     global: ^4.4.0
     lodash: ^4.17.21
@@ -9753,6 +9754,13 @@ __metadata:
   version: 0.0.51
   resolution: "@types/estree@npm:0.0.51"
   checksum: a70c60d5e634e752fcd45b58c9c046ef22ad59ede4bc93ad5193c7e3b736ebd6bcd788ade59d9c3b7da6eeb0939235f011d4c59bb4fc04d8c346b76035099dd1
+  languageName: node
+  linkType: hard
+
+"@types/events@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "@types/events@npm:3.0.0"
+  checksum: c23b6abb253df754eca21cdfb6c4e66e7b1dc977d08934e4e01b436c776c971e4f7cac2876c9d060d72169ce451a757c9983e6a0388e155161957ce48cef0cd1
   languageName: node
   linkType: hard
 

@@ -8,7 +8,7 @@ import {
   STORY_THREW_EXCEPTION,
 } from '@storybook/core-events';
 import { StoryIndex, TeardownRenderToDOM } from '@storybook/store';
-import { RenderPhase } from './PreviewWeb';
+import type { RenderPhase } from './render/StoryRender';
 
 export const componentOneExports = {
   default: {
@@ -42,7 +42,7 @@ export const extraComponentOneExports = {
   e: {},
 };
 export const importFn = jest.fn(
-  async (path) =>
+  async (path: string) =>
     ({
       './src/ComponentOne.stories.js': componentOneExports,
       './src/ComponentTwo.stories.js': componentTwoExports,
@@ -146,7 +146,7 @@ export const waitForEvents = (
   // ensure you call `mockChannel.emit.mockClear()` before `waitFor...`
   if (
     mockChannel.emit.mock.calls.find(
-      (call) => events.includes(call[0]) && predicate(...call.slice(1))
+      (call: any[]) => events.includes(call[0]) && predicate(...call.slice(1))
     )
   ) {
     return Promise.resolve(null);

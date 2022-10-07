@@ -26,6 +26,16 @@
       "import": "./dist/index.mjs",
       "types": "./dist/index.d.ts"
     },
+    "./PreviewWeb.mockdata": {
+      "require": "./dist/PreviewWeb.mockdata.js",
+      "import": "./dist/PreviewWeb.mockdata.mjs",
+      "types": "./dist/PreviewWeb.mockdata.d.ts"
+    },
+    "./WebView": {
+      "require": "./dist/WebView.js",
+      "import": "./dist/WebView.mjs",
+      "types": "./dist/WebView.d.ts"
+    },
     "./package.json": "./package.json"
   },
   "main": "dist/index.js",
@@ -58,6 +68,7 @@
   },
   "devDependencies": {
     "@storybook/channel-postmessage": "7.0.0-alpha.35",
+    "@types/events": "^3.0.0",
     "react": "16.14.0",
     "ts-jest": "^28.0.8",
     "typescript": "~4.6.3"
@@ -67,7 +78,9 @@
   },
   "bundler": {
     "entries": [
-      "./src/index.ts"
+      "./src/index.ts",
+      "./src/WebView.ts",
+      "./src/PreviewWeb.mockdata.ts"
     ]
   },
   "gitHead": "d8972df8c6c1c4716131a856751f5914acddaad1"

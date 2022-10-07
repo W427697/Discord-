@@ -7,14 +7,13 @@ import {
   waitForQuiescence,
   emitter,
   mockChannel,
-} from '@storybook/preview-web/dist/cjs/PreviewWeb.mockdata';
-// @ts-expect-error (Converted from ts-ignore)
-import { WebView } from '@storybook/preview-web/dist/cjs/WebView';
+} from '@storybook/preview-web/dist/PreviewWeb.mockdata';
+import { WebView } from '@storybook/preview-web/dist/WebView';
 import { setGlobalRender } from '@storybook/client-api';
 
 import { start } from './start';
 
-jest.mock('@storybook/preview-web/dist/cjs/WebView');
+jest.mock('@storybook/preview-web/dist/WebView');
 jest.spyOn(WebView.prototype, 'prepareForDocs').mockReturnValue('docs-root');
 jest.spyOn(WebView.prototype, 'prepareForStory').mockReturnValue('story-root');
 
