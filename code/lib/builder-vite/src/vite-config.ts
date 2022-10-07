@@ -45,6 +45,8 @@ export async function commonConfig(
     configFile: false,
     cacheDir: 'node_modules/.vite-storybook',
     root: path.resolve(options.configDir, '..'),
+    // Allow storybook deployed as subfolder.  See https://github.com/storybookjs/builder-vite/issues/238
+    base: './',
     plugins: await pluginConfig(options),
     resolve: {
       preserveSymlinks: isPreservingSymlinks(),
