@@ -8663,7 +8663,7 @@ __metadata:
     eslint-plugin-storybook: ^0.3.5
     esm: ^3.2.25
     execa: ^5.0.0
-    exportman: ^0.0.3
+    exportman: ^0.1.0
     express: ^4.17.1
     fs-extra: ^9.0.1
     github-release-from-changelog: ^2.1.1
@@ -20659,16 +20659,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"exportman@npm:^0.0.3":
-  version: 0.0.3
-  resolution: "exportman@npm:0.0.3"
+"exportman@npm:^0.1.0":
+  version: 0.1.0
+  resolution: "exportman@npm:0.1.0"
   dependencies:
     micromatch: 4.0.5
     ts-morph: 16.0.0
-    ts-morph-helpers: 0.3.0
+    ts-morph-helpers: 0.5.0
   bin:
     exportman: dist/cli.js
-  checksum: 83e20b45bc06eb4ad63440f4d21612609fc4d56dff0bc2df121c0082ea6d260bfb5d58dd1b5d9e3394e8b1a52db06018ccb193de8056b0f35da3e4fcc8d5c002
+  checksum: def1e7d27916f1e306d9f619ef048c915fb2f674f0161c6d25b0538aff0863deaaf6a79d036bced0f6d9611eb5084c3dde6a63648cf3b400f5873018629aede4
   languageName: node
   linkType: hard
 
@@ -41289,12 +41289,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ts-morph-helpers@npm:0.3.0":
-  version: 0.3.0
-  resolution: "ts-morph-helpers@npm:0.3.0"
+"ts-morph-helpers@npm:0.5.0":
+  version: 0.5.0
+  resolution: "ts-morph-helpers@npm:0.5.0"
   dependencies:
     ts-morph: 16.0.0
-  checksum: 9ec3a12db3f855bcf2c3261f1d46e409c174ac72caf9bad7946f64842d19c7b23a4e17e8423da7692537d1a622d5d7dc5e2c34a19c069dc30e4a435293c7762e
+  checksum: f49d0a33c307cac26aa696a44df136cdb99f247acc1dc87322d811dbf3c94be0c2f43bfd4bd267b338119bf55b4d0a570c5c31bf85ea9a192c740380dfb5f727
   languageName: node
   linkType: hard
 
