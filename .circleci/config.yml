@@ -316,7 +316,7 @@ jobs:
     executor:
       class: medium+
       name: sb_node_14_browsers
-    parallelism: 12
+    parallelism: 13
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: '--depth 1 --verbose'
@@ -336,7 +336,7 @@ jobs:
     executor:
       class: medium+
       name: sb_node_14_browsers
-    parallelism: 11
+    parallelism: 13
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: '--depth 1 --verbose'
@@ -352,7 +352,7 @@ jobs:
     executor:
       class: medium+
       name: sb_node_14_browsers
-    parallelism: 12
+    parallelism: 13
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: '--depth 1 --verbose'
@@ -367,12 +367,12 @@ jobs:
       - persist_to_workspace:
           root: .
           paths:
-            - sandbox
+            - sandbox/*/storybook-static
   test-runner-sandboxes:
     executor:
       class: medium+
       name: sb_node_14_browsers
-    parallelism: 12
+    parallelism: 13
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: '--depth 1 --verbose'
@@ -388,7 +388,7 @@ jobs:
     executor:
       class: medium+
       name: sb_node_14_browsers
-    parallelism: 12
+    parallelism: 13
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: '--depth 1 --verbose'
@@ -404,7 +404,7 @@ jobs:
     executor:
       class: medium+
       name: sb_playwright
-    parallelism: 12
+    parallelism: 13
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: '--depth 1 --verbose'
