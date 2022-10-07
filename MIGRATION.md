@@ -568,12 +568,6 @@ for Angular 12 and below.
 
 In order to use Storybook 7.0, you need to upgrade to at least Angular 13.
 
-#### Vue2 DOM structure changed
-
-In 6.x, `@storybook/vue` would replace the "root" element (formerly `#root`, now `#storybook-root`) with a new node that contains the rendered children. This was problematic because it broke the `play` function, which often starts with `within(canvasElement)` and the old `canvasElement` would get replaced out from under the play function.
-
-In 7.0, `@storybook/vue` now leaves `#storybook-root` alone, and creates a new "dummy node" called `#storybook-vue-root` beneath it. This will break DOM snapshots moving from 6.5 to 7.0, but shouldn't have any other negative effects.
-
 ### Docs Changes
 
 The information hierarchy of docs in Storybook has changed in 7.0. The main difference is that each docs is listed in the sidebar as a separate entry, rather than attached to individual stories.
