@@ -336,9 +336,9 @@ async function run() {
   writeTaskList(statuses);
 
   function setUnready(task: Task) {
-    if (task.service) throw new Error(`Cannot set service ${getTaskKey(task)} to unready`);
-
-    statuses.set(task, 'unready');
+    // If the task is a service we don't need to set it unready but we still need to do so for
+    // it's dependencies
+    if (!task.service) statuses.set(task, 'unready');
     tasksThatDepend
       .get(task)
       .filter((t) => !t.service)
@@ -361,8 +361,6 @@ async function run() {
         `Task ${getTaskKey(firstUnready)} was not ready, earlier than your request ${startFrom}.`
       );
     }
-    if (tasks[startFrom].service)
-      throw new Error(`You cannot start from a service task: ${getTaskKey(tasks[startFrom])}`);
     setUnready(tasks[startFrom]);
   } else if (firstUnready === sortedTasks[0]) {
     // We need to do everything, no need to change anything
@@ -380,7 +378,6 @@ async function run() {
       name: 'startFromTask',
       choices: sortedTasks
         .slice(0, firstUnready && sortedTasks.indexOf(firstUnready) + 1)
-        .filter((t) => !t.service)
         .reverse()
         .map((t) => ({
           title: `${t.description} (${getTaskKey(t)})`,
