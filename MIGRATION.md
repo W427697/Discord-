@@ -19,6 +19,7 @@
     - [Babel mode v7 by default](#babel-mode-v7-by-default)
     - [7.0 feature flags removed](#70-feature-flags-removed)
     - [Vite builder uses vite config automatically](#vite-builder-uses-vite-config-automatically)
+    - [Vite cache moved to node_modules/.cache/.vite-storybook](#vite-cache-moved-to-node_modulescachevite-storybook)
     - [Removed docs.getContainer and getPage parameters](#removed-docsgetcontainer-and-getpage-parameters)
     - [Removed STORYBOOK_REACT_CLASSES global](#removed-storybook_react_classes-global)
     - [Icons API changed](#icons-api-changed)
@@ -526,6 +527,10 @@ In 7.0 we've removed the following feature flags:
 When using a [Vite-based framework](#framework-field-mandatory), Storybook will automatically use your `vite.config.(ctm)js` config file starting in 7.0.  
 Some settings will be overridden by storybook so that it can function properly, and the merged settings can be modified using `viteFinal` in `.storybook/main.js` (see the [Storybook Vite configuration docs](https://storybook.js.org/docs/react/builders/vite#configuration)).  
 If you were using `viteFinal` in 6.5 to simply merge in your project's standard vite config, you can now remove it.
+
+#### Vite cache moved to node_modules/.cache/.vite-storybook
+
+Previously, Storybook's Vite builder placed cache files in node_modules/.vite-storybook.  However, it's more common for tools to place cached files into `node_modules/.cache`, and putting them there makes it quick and easy to clear the cache for multiple tools at once.  We don't expect this change will cause any problems, but it's something that users of Storybook Vite projects should know about.  It can be configured by setting `cacheDir` in `viteFinal` within `.storybook/main.js` [Storybook Vite configuration docs](https://storybook.js.org/docs/react/builders/vite#configuration)). 
 
 #### Removed docs.getContainer and getPage parameters
 
