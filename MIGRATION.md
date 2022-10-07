@@ -23,6 +23,7 @@
     - [Removed STORYBOOK_REACT_CLASSES global](#removed-storybook_react_classes-global)
     - [Icons API changed](#icons-api-changed)
     - ['config' preset entry replaced with 'previewAnnotations'](#config-preset-entry-replaced-with-previewannotations)
+    - [Dropped support for Angular 12 and below](#dropped-support-for-angular-12-and-below)
   - [Docs Changes](#docs-changes)
     - [Standalone docs files](#standalone-docs-files)
     - [Referencing stories in docs files](#referencing-stories-in-docs-files)
@@ -554,6 +555,13 @@ Full change here: https://github.com/storybookjs/storybook/pull/18809
 The preset field `'config'` has been replaced with `'previewAnnotations'`. `'config'` is now deprecated and will be removed in Storybook 8.0.
 
 Additionally, the internal field `'previewEntries'` has been removed. If you need a preview entry, just use a `'previewAnnotations'` file and don't export anything.
+
+#### Dropped support for Angular 12 and below
+
+Official [Angular 12 LTS support ends Nov 2022](https://angular.io/guide/releases#actively-supported-versions). With that, Storybook also drops its support 
+for Angular 12 and below. 
+
+In order to use Storybook 7.0, you need to upgrade to at least Angular 13.
 
 #### Vue2 DOM structure changed
 
