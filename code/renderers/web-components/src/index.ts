@@ -1,3 +1,5 @@
+/// <reference types="webpack-env" />
+
 const { EventSource } = globalThis;
 
 export * from './globals';

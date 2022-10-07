@@ -20,8 +20,10 @@
     - [7.0 feature flags removed](#70-feature-flags-removed)
     - [Vite builder uses vite config automatically](#vite-builder-uses-vite-config-automatically)
     - [Removed docs.getContainer and getPage parameters](#removed-docsgetcontainer-and-getpage-parameters)
+    - [Removed STORYBOOK_REACT_CLASSES global](#removed-storybook_react_classes-global)
     - [Icons API changed](#icons-api-changed)
-    - ['config' preset entry replaced with 'previewAnnotations'](#config-preset-entry-replaced-with-preview-annotations)
+    - ['config' preset entry replaced with 'previewAnnotations'](#config-preset-entry-replaced-with-previewannotations)
+    - [Dropped support for Angular 12 and below](#dropped-support-for-angular-12-and-below)
   - [Docs Changes](#docs-changes)
     - [Standalone docs files](#standalone-docs-files)
     - [Referencing stories in docs files](#referencing-stories-in-docs-files)
@@ -529,6 +531,10 @@ If you were using `viteFinal` in 6.5 to simply merge in your project's standard 
 
 It is no longer possible to set `parameters.docs.getContainer()` and `getPage()`. Instead use `parameters.docs.container` or `parameters.docs.page` directly.
 
+#### Removed STORYBOOK_REACT_CLASSES global
+
+This was a legacy global variable from the early days of react docgen.  If you were using this variable, you can instead use docgen information which is added directly to components using `.__docgenInfo`.
+
 #### Icons API changed
 
 For addon authors who use the `Icons` component, its API has been updated in Storybook 7.
@@ -549,6 +555,19 @@ Full change here: https://github.com/storybookjs/storybook/pull/18809
 The preset field `'config'` has been replaced with `'previewAnnotations'`. `'config'` is now deprecated and will be removed in Storybook 8.0.
 
 Additionally, the internal field `'previewEntries'` has been removed. If you need a preview entry, just use a `'previewAnnotations'` file and don't export anything.
+
+#### Dropped support for Angular 12 and below
+
+Official [Angular 12 LTS support ends Nov 2022](https://angular.io/guide/releases#actively-supported-versions). With that, Storybook also drops its support 
+for Angular 12 and below. 
+
+In order to use Storybook 7.0, you need to upgrade to at least Angular 13.
+
+#### Vue2 DOM structure changed
+
+In 6.x, `@storybook/vue` would replace the "root" element (formerly `#root`, now `#storybook-root`) with a new node that contains the rendered children. This was problematic because it broke the `play` function, which often starts with `within(canvasElement)` and the old `canvasElement` would get replaced out from under the play function.
+
+In 7.0, `@storybook/vue` now leaves `#storybook-root` alone, and creates a new "dummy node" called `#storybook-vue-root` beneath it. This will break DOM snapshots moving from 6.5 to 7.0, but shouldn't have any other negative effects.
 
 ### Docs Changes
 

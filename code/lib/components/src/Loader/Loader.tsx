@@ -69,7 +69,7 @@ const ErrorIcon = styled(Icons)(({ theme }) => ({
   width: 20,
   height: 20,
   marginBottom: '0.5rem',
-  color: theme.color.mediumdark,
+  color: theme.textMutedColor,
 }));
 
 const ellipsis = keyframes`
