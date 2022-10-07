@@ -182,7 +182,7 @@ Looking for a first issue to tackle?
 
 Storybook is organized as a monorepo using [Lerna](https://lerna.js.org/). Useful scripts include:
 
-#### `yarn bootstrap`
+#### `./bootstrap.sh`
 
 > Installs package dependencies and links packages together - using lerna
 
