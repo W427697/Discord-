@@ -27,7 +27,7 @@ To run an sandbox locally, you can use the `start` command:
 yarn start
 ```
 
-That will install the required prerequisites, build the code, create and link and example for a Create React App setup, and start the storybook server.
+That will install the required prerequisites, build the code, create and link an example for a Vite/React setup, and start the storybook server.
 
 If all goes well you should see the sandbox running.
 
@@ -35,7 +35,7 @@ If all goes well you should see the sandbox running.
 
 ## Running a different sandbox template
 
-The `start` command runs a CRA template, but there are many others you can use if you want to work on a different renderer or framework.
+The `start` command runs a Vite/React template, but there are many others you can use if you want to work on a different renderer or framework.
 
 To get started, run the `yarn task` command; it will prompt you with a series of questions to figure out what you are trying to do. Once you've made a selection it will provide a set of options that you can use to run the same command again.
 
@@ -62,7 +62,7 @@ yarn test
 
 Now that you've [verified your setup](#sanity-check), it's time to jump into code. The simplest way to do this is to run one of the sandboxes in one terminal window and the interactive build process in a separate terminal.
 
-Assuming you're still running the Create React App sandbox from `yarn start`, open a new terminal and navigate to the `code/` dir of the Storybook monorepo. Then, create a new branch with the following command:
+Assuming you're still running the Vite React sandbox from `yarn start`, open a new terminal and navigate to the `code/` dir of the Storybook monorepo. Then, create a new branch with the following command:
 
 ```shell
 git checkout -b my-first-storybook-contribution

@@ -6,7 +6,7 @@
 
 # Running against different sandbox templates
 
-The `yarn start` script will generate a Create React App TypeScript sandbox with a set of test stories inside it, as well as taking all steps required to get it running (building the various packages we need etc).
+The `yarn start` script will generate a React Vite TypeScript sandbox with a set of test stories inside it, as well as taking all steps required to get it running (building the various packages we need etc).
 
 You can also pick a specific template to use as your sandbox by running `yarn task`, which will prompt you to make further choices about which template you want and which task you want to run. 
 
