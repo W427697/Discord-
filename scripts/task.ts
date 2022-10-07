@@ -124,7 +124,7 @@ export const options = createOptions({
   },
   startFrom: {
     type: 'string',
-    description: 'Which task should we reset back to?',
+    description: 'Which task should we start execution from?',
     values: [...(Object.keys(tasks) as TaskKey[]), 'never', 'auto'] as const,
     // This is prompted later based on information about what's ready
     promptType: false,
