@@ -71,6 +71,11 @@
     "css-loader": "*",
     "vue": "^2.6.8"
   },
+  "peerDependenciesMeta": {
+    "babel-loader": {
+      "optional": true
+    }
+  },
   "engines": {
     "node": ">=10.13.0"
   },

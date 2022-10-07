@@ -6597,10 +6597,13 @@ __metadata:
     util-deprecate: ^1.0.2
   peerDependencies:
     "@storybook/mdx2-csf": 0.0.4-canary.14.04ffbe8.0
+    babel-loader: ^8.2.5
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
   peerDependenciesMeta:
     "@storybook/mdx2-csf":
+      optional: true
+    babel-loader:
       optional: true
     react:
       optional: true
@@ -9168,6 +9171,9 @@ __metadata:
     "@babel/core": "*"
     babel-loader: ^7.0.0 || ^8.0.0
     vue: ^3.0.0
+  peerDependenciesMeta:
+    babel-loader:
+      optional: true
   languageName: unknown
   linkType: soft
 
@@ -9192,6 +9198,9 @@ __metadata:
     babel-loader: ^7.0.0 || ^8.0.0
     css-loader: "*"
     vue: ^2.6.8
+  peerDependenciesMeta:
+    babel-loader:
+      optional: true
   languageName: unknown
   linkType: soft
 
