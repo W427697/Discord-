@@ -3,7 +3,10 @@ import { writeFile, ensureFile } from 'fs-extra';
 import { join } from 'path';
 import { Compilation } from '../types';
 
-export async function readOrderedFiles(addonsDir: string, outputFiles: Compilation['outputFiles'] | undefined) {
+export async function readOrderedFiles(
+  addonsDir: string,
+  outputFiles: Compilation['outputFiles'] | undefined
+) {
   const files = await Promise.all(
     outputFiles?.map(async (file) => {
       // convert deeply nested paths to a single level, also remove special characters
@@ -20,11 +23,8 @@ export async function readOrderedFiles(addonsDir: string, outputFiles: Compilati
 }
 
 export function sanatizePath(file: OutputFile, addonsDir: string) {
-  const filePath = file.path
-    .replace(addonsDir, '')
-    .replace(/[^a-z0-9\-.]+/g, '-')
-    .replace(/^-/, '/');
+  const filePath = file.path.replace(addonsDir, '');
   const location = join(addonsDir, filePath);
-  const url = `./sb-addons${filePath}`;
+  const url = `./sb-addons${filePath.split('/').map(encodeURIComponent).join('/')}`;
   return { location, url };
 }
