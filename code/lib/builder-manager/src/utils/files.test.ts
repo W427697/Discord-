@@ -1,6 +1,6 @@
-import { sanatizePath } from './files';
+import { sanitizePath } from './files';
 
-test('sanatizePath', () => {
+test('sanitizePath', () => {
   const addonsDir = '/Users/username/Projects/projectname/storybook';
   const text = 'demo text';
   const file = {
@@ -8,7 +8,7 @@ test('sanatizePath', () => {
     contents: Uint8Array.from(Array.from(text).map((letter) => letter.charCodeAt(0))),
     text,
   };
-  const { location, url } = sanatizePath(file, addonsDir);
+  const { location, url } = sanitizePath(file, addonsDir);
 
   expect(location).toMatchInlineSnapshot(
     `"/Users/username/Projects/projectname/storybook/node_modules/@storybook/addon-x+y/dist/manager.mjs"`
