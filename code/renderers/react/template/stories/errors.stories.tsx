@@ -11,7 +11,7 @@ export default {
   },
   decorators: [
     // Skip errors if we are running in the test runner
-    (storyFn) => window?.navigator?.userAgent?.match(/StorybookTestRunner/) || storyFn(),
+    (storyFn: any) => window?.navigator?.userAgent?.match(/StorybookTestRunner/) || storyFn(),
   ],
 };
 
