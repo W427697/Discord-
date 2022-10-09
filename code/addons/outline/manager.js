@@ -1,1 +1,1 @@
-import './dist/manager';
+import "manager";
