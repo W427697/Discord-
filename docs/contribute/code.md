@@ -119,7 +119,7 @@ Storybook's monorepo is set up to rely on end-to-end testing with [Playwright](h
 To run a e2e test against a sandbox, you can use the `e2e-tests` task:
 
 ```shell
-yarn task --task e2e-tests --template=<template> --start-from=auto
+yarn task --task e2e-tests --template=react-vite/default-ts --start-from=auto
 ```
 
 ## Submit a pull request
