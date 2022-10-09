@@ -31,7 +31,7 @@ That will install the required prerequisites, build the code, create and link an
 
 If all goes well you should see the sandbox running.
 
-![Storybook Sandbox Running](./storybook-cra-sandbox.png)
+![Storybook Sandbox Running](./storybook-sandbox.png)
 
 ## Running a different sandbox template
 
