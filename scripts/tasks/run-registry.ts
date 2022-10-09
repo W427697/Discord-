@@ -27,7 +27,7 @@ const REGISTRY_PORT = 6001;
 export const runRegistryTask: Task = {
   description: 'Run the internal npm server',
   service: true,
-  before: ['publish'],
+  dependsOn: ['publish'],
   async ready() {
     return (await detectFreePort(REGISTRY_PORT)) !== REGISTRY_PORT;
   },

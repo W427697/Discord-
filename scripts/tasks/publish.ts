@@ -8,7 +8,7 @@ const verdaccioCacheDir = resolve(__dirname, '../../.verdaccio-cache');
 
 export const publish: Task = {
   description: 'Publish the packages of the monorepo to an internal npm server',
-  before: ['compile'],
+  dependsOn: ['compile'],
   async ready() {
     return pathExists(verdaccioCacheDir);
   },

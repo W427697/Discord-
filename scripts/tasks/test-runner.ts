@@ -5,7 +5,7 @@ import { PORT } from './serve';
 export const testRunner: Task = {
   description: 'Run the test runner against a sandbox',
   junit: true,
-  before: ['run-registry', 'serve'],
+  dependsOn: ['run-registry', 'serve'],
   async ready() {
     return false;
   },

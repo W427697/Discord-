@@ -4,7 +4,7 @@ import { exec } from '../utils/exec';
 
 export const build: Task = {
   description: 'Build the static version of the sandbox',
-  before: ['sandbox'],
+  dependsOn: ['sandbox'],
   async ready({ builtSandboxDir }) {
     return pathExists(builtSandboxDir);
   },

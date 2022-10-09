@@ -8,14 +8,14 @@ export const PORT = 8001;
 export const serve: Task = {
   description: 'Serve the build storybook for a sandbox',
   service: true,
-  before: ['build'],
+  dependsOn: ['build'],
   async ready() {
     return (await detectFreePort(PORT)) !== PORT;
   },
-  async run({ builtSandboxDir, codeDir }, { debug, dryRun }) {
+  async run({ sandboxDir, codeDir }, { debug, dryRun }) {
     const controller = new AbortController();
     exec(
-      `yarn http-server ${builtSandboxDir} --port ${PORT}`,
+      `yarn http-server ${sandboxDir} --port ${PORT}`,
       { cwd: codeDir },
       { dryRun, debug, signal: controller.signal as AbortSignal }
     ).catch((err) => {

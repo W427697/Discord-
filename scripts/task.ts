@@ -71,9 +71,9 @@ export type Task = {
    */
   service?: boolean;
   /**
-   * Which tasks run before this task
+   * Which tasks must be ready before this task can run
    */
-  before?: TaskKey[] | ((options: PassedOptionValues) => TaskKey[]);
+  dependsOn?: TaskKey[] | ((options: PassedOptionValues) => TaskKey[]);
   /**
    * Is this task already "ready", and potentially not required?
    */
@@ -222,12 +222,12 @@ function getTaskList(finalTask: Task, optionValues: PassedOptionValues) {
     // This is the first time we've seen this task
     tasksThatDepend.set(task, dependent ? [dependent] : []);
 
-    const beforeTaskNames =
-      typeof task.before === 'function' ? task.before(optionValues) : task.before || [];
-    const beforeTasks = beforeTaskNames.map((n) => tasks[n]);
-    taskDeps.set(task, beforeTasks);
+    const dependedTaskNames =
+      typeof task.dependsOn === 'function' ? task.dependsOn(optionValues) : task.dependsOn || [];
+    const dependedTasks = dependedTaskNames.map((n) => tasks[n]);
+    taskDeps.set(task, dependedTasks);
 
-    beforeTasks.forEach((t) => addTask(t, task));
+    dependedTasks.forEach((t) => addTask(t, task));
   };
   addTask(finalTask);
 

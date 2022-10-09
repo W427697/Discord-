@@ -3,7 +3,7 @@ import { exec } from '../utils/exec';
 
 export const smokeTest: Task = {
   description: 'Run the smoke tests of a sandbox',
-  before: ['sandbox'],
+  dependsOn: ['sandbox'],
   async ready() {
     return false;
   },

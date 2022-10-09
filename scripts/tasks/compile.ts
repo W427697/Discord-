@@ -13,7 +13,7 @@ const noLinkCommand = `nx run-many --target="prep" --all --parallel=8 ${
 
 export const compile: Task = {
   description: 'Compile the source code of the monorepo',
-  before: ['install'],
+  dependsOn: ['install'],
   async ready({ codeDir }, { link }) {
     try {
       const contents = await readFile(resolve(codeDir, './lib/store/dist/index.d.ts'), 'utf8');

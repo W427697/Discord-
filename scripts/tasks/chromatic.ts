@@ -3,7 +3,7 @@ import { exec } from '../utils/exec';
 
 export const chromatic: Task = {
   description: 'Run Chromatic against the sandbox',
-  before: ['build'],
+  dependsOn: ['build'],
   junit: true,
   async ready() {
     return false;

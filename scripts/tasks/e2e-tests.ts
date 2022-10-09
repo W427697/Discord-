@@ -4,7 +4,7 @@ import { PORT } from './serve';
 
 export const e2eTests: Task = {
   description: 'Run the end-to-end test suite against the sandbox',
-  before: ['serve'],
+  dependsOn: ['serve'],
   junit: true,
   async ready() {
     return false;
