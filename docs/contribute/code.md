@@ -152,7 +152,7 @@ If your contribution focuses on a bugfix and you want it featured in the next st
 After creating your PR, if one of the CI jobs failed, when checking the logs of that job, you will see that it printed a message explaining how to reproduce the task locally. Typically that involves running the task against the right template:
 
 ```shell
-yarn task --task e2e-tests --template=cra-default-ts --start-from=install
+yarn task --task e2e-tests --template=react-vite/default-ts --start-from=install
 ```
 
 Typically it is a good idea to start from the `install` task to ensure your local code is completely up to date. If you reproduce the failure, you can try and make fixes, [compile them](#start-developing) with `build`, then rerun the task with `--start-from=auto`.
