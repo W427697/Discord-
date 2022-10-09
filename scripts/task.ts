@@ -132,6 +132,7 @@ export const options = createOptions({
     type: 'string',
     description: 'What template would you like to make a sandbox for?',
     values: Object.keys(TEMPLATES) as TemplateKey[],
+    required: ({ task }) => !task || isSandboxTask(task),
     promptType: (_, { task }) => isSandboxTask(task),
   },
   // // TODO -- feature flags

@@ -47,7 +47,7 @@ export type StringOption = BaseOption & {
   /**
    * Is a value required for this option?
    */
-  required?: boolean;
+  required?: boolean | ((previous: Record<string, any>) => boolean);
 };
 
 export type StringArrayOption = BaseOption & {
@@ -180,12 +180,23 @@ export function getDefaults<TOptions extends OptionSpecifier>(options: TOptions)
   );
 }
 
+function checkRequired<TOptions extends OptionSpecifier>(
+  option: TOptions[keyof TOptions],
+  values: MaybeOptionValues<TOptions>
+) {
+  if (option.type !== 'string' || !option.required) return false;
+
+  if (typeof option.required === 'boolean') return option.required;
+
+  return option.required(values);
+}
+
 export function areOptionsSatisfied<TOptions extends OptionSpecifier>(
   options: TOptions,
   values: MaybeOptionValues<TOptions>
 ) {
   return !Object.entries(options)
-    .filter(([, option]) => option.type === 'string' && option.required)
+    .filter(([, option]) => checkRequired(option as TOptions[keyof TOptions], values))
     .find(([key]) => !values[key]);
 }
 
@@ -216,19 +227,17 @@ export async function promptOptions<TOptions extends OptionSpecifier>(
     }
 
     if (option.type !== 'boolean') {
-      const currentValue = values[key];
+      if (values[key]) {
+        return { name: key, type: false };
+      }
+
       return {
+        name: key,
         type,
         message: option.description,
-        name: key,
-        // warn: ' ',
-        // pageSize: Object.keys(tasks).length + Object.keys(groups).length,
         choices: option.values?.map((value, index) => ({
           title: option.valueDescriptions?.[index] || value,
           value,
-          selected:
-            currentValue === value ||
-            (Array.isArray(currentValue) && currentValue.includes?.(value)),
         })),
       };
     }
@@ -249,7 +258,7 @@ export async function promptOptions<TOptions extends OptionSpecifier>(
     },
   });
   // Again the structure of the questions guarantees we get responses of the type we need
-  return selection as OptionValues<TOptions>;
+  return { ...values, ...selection } as OptionValues<TOptions>;
 }
 
 function getFlag<TOption extends Option>(
