@@ -36,4 +36,8 @@ export async function renderToDOM(
     forced: !forceRemount,
     targetDOMNode: element,
   });
+
+  // todo fix eslint. I don't know why it expects void since there is no return type declaration and it should infer it
+  // eslint-disable-next-line consistent-return
+  return () => renderer.destroy();
 }

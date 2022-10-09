@@ -142,6 +142,11 @@ export abstract class AbstractRenderer {
     await this.afterFullRender();
   }
 
+  public async destroy() {
+    await AbstractRenderer.resetPlatformBrowserDynamic();
+    await AbstractRenderer.resetCompiledComponents();
+  }
+
   /**
    * Only ASCII alphanumerics can be used as HTML tag name.
    * https://html.spec.whatwg.org/#elements-2
