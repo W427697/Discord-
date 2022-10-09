@@ -188,7 +188,7 @@ Storybook is organized as a monorepo using [Lerna](https://lerna.js.org/). Usefu
 
 #### `yarn task`
 
-> As above, but gives you options to customize the sandbox
+> As above, but gives you options to customize the sandbox (e.g. selecting other frameworks)
 
 #### `yarn lint`
 

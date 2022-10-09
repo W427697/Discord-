@@ -44,7 +44,7 @@ yarn task
 ```
 
 <div class="aside">
-💡 The <code>yarn task</code> command takes a couple of shortcuts for development that could catch you out if you change branches: you may need to rerun the <code>install</code> and <code>compile</code> tasks. You can do that with <code>--start-from=install</code></li>.
+💡 The <code>yarn task</code> command takes a couple of shortcuts for development that could catch you out if you change branches: you may need to rerun the <code>install</code> and <code>compile</code> tasks. You can do that by running the command with the <code>--start-from=install</code></li> flag.
 </div>
 
 
@@ -60,7 +60,7 @@ yarn test
 
 ## Start developing
 
-Now that you've [verified your setup](#sanity-check), it's time to jump into code. The simplest way to do this is to run one of the sandboxes in one terminal window and the interactive build process in a separate terminal.
+Now that you've [verified your setup](#running-tests), it's time to jump into code. The simplest way to do this is to run one of the sandboxes in one terminal window and the interactive build process in a separate terminal.
 
 Assuming you're still running the Vite React sandbox from `yarn start`, open a new terminal and navigate to the `code/` dir of the Storybook monorepo. Then, create a new branch with the following command:
 
@@ -98,9 +98,9 @@ When you're done coding, add documentation and tests as appropriate. That simpli
 
 Adding a story or set of stories to our suite of generic stories helps you test your work.
 
-If you're modifying part of Storybook's core, or one of the essential addons, there's probably an existing set of stories in that addons `template/stories` folder that documents how the feature is supposed to work. Add your stories there.
+If you're modifying part of Storybook's core, or one of the essential addons, there's probably an existing set of stories in that addon's `template/stories` folder that documents how the feature is supposed to work. Add your stories there.
 
-If you're modifying something related to a specific renderer, the renderer will have its own template stories.
+If you're modifying something related to a specific renderer (e.g. React, Vue, etc.), the renderer will have its own template stories.
 
 ### Add tests
 
@@ -149,7 +149,7 @@ If your contribution focuses on a bugfix and you want it featured in the next st
 
 ### Reproducing job failures
 
-If one of your CI jobs fails, it will print a message explaining how to reproduce the task locally. Typically that involves running the task against the right template:
+After creating your PR, if one of the CI jobs failed, when checking the logs of that job, you will see that it printed a message explaining how to reproduce the task locally. Typically that involves running the task against the right template:
 
 ```shell
 yarn task --task e2e-tests --template=cra-default-ts --start-from=install
@@ -159,9 +159,9 @@ Typically it is a good idea to start from the `install` task to ensure your loca
  
  <div class="aside">
 
-<p>💡 The default instructions run the code "linked" which means built changes to Storybook code will be reflected in the sandbox right away (the next time you run the task). However CI runs in "unlinked" mode, which in rare cases will behave differently.</p>
+<p>💡 The default instructions run the code "linked" which means built changes to Storybook library code will be reflected in the sandbox right away (the next time you run the task). However CI runs in "unlinked" mode, which in rare cases will behave differently.</p>
 
-<p>If you are having trouble reproducing, try adding the <code>--no-link</code> flag. If you need to do that, you'll need to <code>--start-from=compile</code> after each code change.
+<p>If you are having trouble reproducing, try rerunning the command with the <code>--no-link</code> flag. If you need to do that, you'll need to run it with <code>--start-from=compile</code> after each code change.
 </div>
 
 ## How to work with reproductions

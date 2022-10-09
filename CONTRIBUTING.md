@@ -15,7 +15,7 @@ You can also pick a specific template to use as your sandbox by running `yarn ta
 
 If you want to make code changes to Storybook packages while running a sandbox, you'll need to do the following:
 
-1. In a second terminal run `yarn build --watch <package-1> <package-2>` in the `code/` directory. The package names is the bit after the `@storybook/` in the published package. For instance:
+1. In a second terminal run `yarn build --watch <package-1> <package-2>` in the `code/` directory. The package names is the bit after the `@storybook/` in the published package. For instance, to build the `@storybook/react @storybook/core-server @storybook/api @storybook/addon-docs` packages at the same time in watch mode:
 
 ```bash
 cd code
