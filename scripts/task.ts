@@ -29,7 +29,6 @@ const junitDir = resolve(__dirname, '../code/test-results');
 
 export const extraAddons = ['a11y', 'storysource'];
 export const defaultAddons = [
-  'a11y',
   'actions',
   'backgrounds',
   'controls',
