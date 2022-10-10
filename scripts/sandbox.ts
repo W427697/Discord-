@@ -344,7 +344,8 @@ function addExtraDependencies({
   dryRun: boolean;
   debug: boolean;
 }) {
-  const extraDeps = ['@storybook/jest'];
+  // web-components doesn't install '@storybook/testing-library' by default
+  const extraDeps = ['@storybook/jest', '@storybook/testing-library@0.0.14-next.0'];
   if (debug) console.log('🎁 Adding extra deps', extraDeps);
   if (!dryRun) {
     const packageManager = JsPackageManagerFactory.getPackageManager(false, cwd);
