@@ -12,10 +12,10 @@ export const serve: Task = {
   async ready() {
     return (await detectFreePort(PORT)) !== PORT;
   },
-  async run({ sandboxDir, codeDir }, { debug, dryRun }) {
+  async run({ builtSandboxDir, codeDir }, { debug, dryRun }) {
     const controller = new AbortController();
     exec(
-      `yarn http-server ${sandboxDir} --port ${PORT}`,
+      `yarn http-server ${builtSandboxDir} --port ${PORT}`,
       { cwd: codeDir },
       { dryRun, debug, signal: controller.signal as AbortSignal }
     ).catch((err) => {
