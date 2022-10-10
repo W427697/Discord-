@@ -3,7 +3,6 @@ import { dedent } from 'ts-dedent';
 import global from 'global';
 import {
   CURRENT_STORY_WAS_SET,
-  IGNORED_EXCEPTION,
   PRELOAD_ENTRIES,
   PREVIEW_KEYDOWN,
   SET_CURRENT_STORY,
