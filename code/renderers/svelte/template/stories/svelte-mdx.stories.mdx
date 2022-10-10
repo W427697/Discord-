@@ -8,24 +8,28 @@ import ButtonView from './views/ButtonView.svelte';
 
 ## Primary
 
-<Story name="Primary">
-  {{
-    Component: ButtonView,
-    props: {
-      primary: true,
-      text: 'Primary text',
-    },
-  }}
-</Story>
+<Canvas>
+  <Story name="Primary">
+    {{
+      Component: ButtonView,
+      props: {
+        primary: true,
+        text: 'Primary text',
+      },
+    }}
+  </Story>
+</Canvas>
 
 ## Secondary
 
-<Story name="Secondary">
-  {{
-    Component: ButtonView,
-    props: {
-      primary: false,
-      text: 'Secondary text',
-    },
-  }}
-</Story>
+<Canvas>
+  <Story name="Secondary">
+    {{
+      Component: ButtonView,
+      props: {
+        primary: false,
+        text: 'Secondary text',
+      },
+    }}
+  </Story>
+</Canvas>
