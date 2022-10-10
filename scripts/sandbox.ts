@@ -31,15 +31,12 @@ import { JsPackageManagerFactory } from '../code/lib/cli/src/js-package-manager'
 type Template = keyof typeof TEMPLATES;
 const templates: Template[] = Object.keys(TEMPLATES) as any;
 const addons = ['a11y', 'storysource'];
-const defaultAddons = [
-  'a11y',
+const essentialsAddons = [
   'actions',
   'backgrounds',
   'controls',
   'docs',
   'highlight',
-  'interactions',
-  'links',
   'measure',
   'outline',
   'toolbars',
@@ -217,7 +214,10 @@ async function readMainConfig({ cwd }: { cwd: string }) {
 // loader for such files. NOTE this isn't necessary for Vite, as far as we know.
 function addEsbuildLoaderToStories(mainConfig: ConfigFile) {
   // NOTE: the test regexp here will apply whether the path is symlink-preserved or otherwise
-  const loaderPath = require.resolve('../code/node_modules/esbuild-loader');
+  const esbuildLoaderPath = require.resolve('../code/node_modules/esbuild-loader');
+  const storiesMdxLoaderPath = require.resolve('../code/node_modules/@storybook/mdx1-csf/loader');
+  const babelLoaderPath = require.resolve('babel-loader');
+  const jsxPluginPath = require.resolve('@babel/plugin-transform-react-jsx');
   const webpackFinalCode = `
   (config) => ({
     ...config,
@@ -227,11 +227,54 @@ function addEsbuildLoaderToStories(mainConfig: ConfigFile) {
         // Ensure esbuild-loader applies to all files in ./template-stories
         {
           test: [/\\/template-stories\\//],
-          loader: '${loaderPath}',
+          exclude: [/\\.mdx$/],
+          loader: '${esbuildLoaderPath}',
           options: {
             loader: 'tsx',
             target: 'es2015',
           },
+        },
+        // Handle MDX files per the addon-docs presets (ish)
+        {
+          test: [/\\/template-stories\\//],
+          include: [/\\.stories\\.mdx$/],
+          use: [
+            {
+              loader: '${babelLoaderPath}',
+              options: {
+                babelrc: false,
+                configFile: false,
+                plugins: ['${jsxPluginPath}'],
+              }
+            },
+            {
+              loader: '${storiesMdxLoaderPath}',
+              options: {
+                skipCsf: false,
+              }
+            }
+          ],
+        },
+        {
+          test: [/\\/template-stories\\//],
+          include: [/\\.mdx$/],
+          exclude: [/\\.stories\\.mdx$/],
+          use: [
+            {
+              loader: '${babelLoaderPath}',
+              options: {
+                babelrc: false,
+                configFile: false,
+                plugins: ['${jsxPluginPath}'],
+              }
+            },
+            {
+              loader: '${storiesMdxLoaderPath}',
+              options: {
+                skipCsf: true,
+              }
+            }
+          ],
         },
         // Ensure no other loaders from the framework apply
         ...config.module.rules.map(rule => ({
@@ -319,8 +362,9 @@ async function updateStoriesField(mainConfig: ConfigFile, isJs: boolean) {
 
   // FIXME: '*.@(mdx|stories.mdx|stories.tsx|stories.ts|stories.jsx|stories.js'
   const linkedStories = path.join('..', 'template-stories', '**', '*.stories.@(js|jsx|ts|tsx|mdx)');
+  const linkedMdx = path.join('..', 'template-stories/addons/docs/docs2', '**', '*.@(mdx)');
 
-  mainConfig.setFieldValue(['stories'], [...updatedStories, linkedStories]);
+  mainConfig.setFieldValue(['stories'], [...updatedStories, linkedStories, linkedMdx]);
 }
 
 type Workspace = { name: string; location: string };
@@ -350,7 +394,8 @@ function addExtraDependencies({
   dryRun: boolean;
   debug: boolean;
 }) {
-  const extraDeps = ['@storybook/jest'];
+  // web-components doesn't install '@storybook/testing-library' by default
+  const extraDeps = ['@storybook/jest', '@storybook/testing-library@0.0.14-next.0'];
   if (debug) console.log('🎁 Adding extra deps', extraDeps);
   if (!dryRun) {
     const packageManager = JsPackageManagerFactory.getPackageManager(false, cwd);
@@ -449,7 +494,18 @@ export async function sandbox(optionValues: OptionValues<typeof options>) {
       await executeCLIStep(steps.add, { argument: addonName, cwd, dryRun, debug });
     }
 
-    const addonDirs = [...defaultAddons, ...optionValues.addon].map((addon) =>
+    const mainAddons = mainConfig.getFieldValue(['addons']).reduce((acc: string[], addon: any) => {
+      const name = typeof addon === 'string' ? addon : addon.name;
+      const match = /@storybook\/addon-(.*)/.exec(name);
+      if (!match) return acc;
+      const suffix = match[1];
+      if (suffix === 'essentials') {
+        return [...acc, ...essentialsAddons];
+      }
+      return [...acc, suffix];
+    }, []);
+
+    const addonDirs = [...mainAddons, ...optionValues.addon].map((addon) =>
       workspacePath('addon', `@storybook/addon-${addon}`, workspaces)
     );
     const existingStories = await filterExistsInCodeDir(
