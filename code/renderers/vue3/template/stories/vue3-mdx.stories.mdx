@@ -1,23 +1,25 @@
 import globalThis from 'global';
 import { Meta, Story, Canvas } from '@storybook/addon-docs';
 
-<Meta title="vue3/vue3-mdx" />
+<Meta title="stories/renderers/vue3/vue3-mdx" />
 
 # Vue3-specific MDX Stories
 
 export const Button = globalThis.Components.Button;
 
 export const Template = (args, { argTypes }) => ({
-  props: Object.keys(argTypes),
   components: { MyButton: Button },
-  template: '<my-button :color="color" :rounded="rounded" :children="children"></my-button>',
+  template: '<my-button v-bind="args" color="color" :rounded="rounded" />',
+  setup() {
+    return { args };
+  },
 });
 
 <Canvas>
   <Story name="Rounded">
     {{
       components: { MyButton: Button },
-      template: '<my-button :rounded="true" :children="A Button with rounded edges" />',
+      template: '<my-button :rounded="true" :children="`A Button with rounded edges`" />',
     }}
   </Story>
 </Canvas>
@@ -26,7 +28,7 @@ export const Template = (args, { argTypes }) => ({
   <Story name="Square">
     {{
       components: { MyButton: Button },
-      template: '<my-button :rounded="false">A Button with square edges</my-button>',
+      template: '<my-button :rounded="false" :children="`A Button with square edges`" />',
     }}
   </Story>
 </Canvas>
