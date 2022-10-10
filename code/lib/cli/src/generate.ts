@@ -7,6 +7,7 @@ import { sync as readUpSync } from 'read-pkg-up';
 
 import { logger } from '@storybook/node-logger';
 
+import { CommandOptions } from './generators/types';
 import { initiate } from './initiate';
 import { add } from './add';
 import { migrate } from './migrate';
@@ -39,13 +40,14 @@ program
   .option('-f --force', 'Force add Storybook')
   .option('-s --skip-install', 'Skip installing deps')
   .option('-N --use-npm', 'Use npm to install deps')
+  .option('--use-pnpm', 'Use pnpm to install deps')
   .option('--use-pnp', 'Enable pnp mode')
   .option('-p --parser <babel | babylon | flow | ts | tsx>', 'jscodeshift parser')
   .option('-t --type <type>', 'Add Storybook for a specific project type')
   .option('-y --yes', 'Answer yes to all prompts')
-  .option('-b --builder <builder>', 'Builder library')
+  .option('-b --builder <webpack5 | vite>', 'Builder library')
   .option('-l --linkable', 'Prepare installation for link (contributor helper)')
-  .action((options) =>
+  .action((options: CommandOptions) =>
     initiate(options, pkg).catch((err) => {
       logger.error(err);
       process.exit(1);
@@ -56,6 +58,7 @@ program
   .command('add <addon>')
   .description('Add an addon to your Storybook')
   .option('-N --use-npm', 'Use NPM to build the Storybook server')
+  .option('--use-pnpm', 'Use PNPM to build the Storybook server')
   .option('-s --skip-postinstall', 'Skip package specific postinstall config modifications')
   .action((addonName, options) => add(addonName, options));
 
@@ -68,6 +71,7 @@ program
   .command('upgrade')
   .description('Upgrade your Storybook packages to the latest')
   .option('-N --use-npm', 'Use NPM to build the Storybook server')
+  .option('--use-pnpm', 'Use PNPM to build the Storybook server')
   .option('-y --yes', 'Skip prompting the user')
   .option('-n --dry-run', 'Only check for upgrades, do not install')
   .option('-p --prerelease', 'Upgrade to the pre-release packages')
@@ -177,6 +181,8 @@ program
   .description('Check storybook for known problems or migrations and apply fixes')
   .option('-y --yes', 'Skip prompting the user')
   .option('-n --dry-run', 'Only check for fixes, do not actually run them')
+  .option('-N --use-npm', 'Use npm as package manager')
+  .option('--use-pnpm', 'Use pnpm as package manager')
   .action((fixId, options) =>
     automigrate({ fixId, ...options }).catch((e) => {
       logger.error(e);

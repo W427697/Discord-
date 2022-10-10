@@ -31,7 +31,7 @@ interface JsPackageManagerOptions {
   cwd?: string;
 }
 export abstract class JsPackageManager {
-  public abstract readonly type: 'npm' | 'yarn1' | 'yarn2';
+  public abstract readonly type: 'npm' | 'yarn1' | 'yarn2' | 'pnpm';
 
   public abstract initPackageJson(): void;
 

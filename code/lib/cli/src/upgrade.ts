@@ -141,6 +141,7 @@ interface UpgradeOptions {
   prerelease: boolean;
   skipCheck: boolean;
   useNpm: boolean;
+  usePnpm: boolean;
   dryRun: boolean;
   yes: boolean;
   disableTelemetry: boolean;
@@ -150,11 +151,12 @@ export const upgrade = async ({
   prerelease,
   skipCheck,
   useNpm,
+  usePnpm,
   dryRun,
   yes,
   ...options
 }: UpgradeOptions) => {
-  const packageManager = JsPackageManagerFactory.getPackageManager(useNpm);
+  const packageManager = JsPackageManagerFactory.getPackageManager({ useNpm, usePnpm });
 
   commandLog(`Checking for latest versions of '@storybook/*' packages`);
   if (!options.disableTelemetry) {
@@ -179,6 +181,6 @@ export const upgrade = async ({
 
   if (!skipCheck) {
     checkVersionConsistency();
-    await automigrate({ dryRun, yes });
+    await automigrate({ dryRun, yes, useNpm, usePnpm });
   }
 };

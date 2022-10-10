@@ -32,6 +32,7 @@ export type Generator = (
 
 export type CommandOptions = {
   useNpm?: boolean;
+  usePnpm?: boolean;
   usePnp?: boolean;
   type?: ProjectType;
   force?: any;

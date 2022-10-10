@@ -12,10 +12,12 @@ interface FixOptions {
   fixId?: string;
   yes?: boolean;
   dryRun?: boolean;
+  useNpm?: boolean;
+  usePnpm?: boolean;
 }
 
-export const automigrate = async ({ fixId, dryRun, yes }: FixOptions = {}) => {
-  const packageManager = JsPackageManagerFactory.getPackageManager();
+export const automigrate = async ({ fixId, dryRun, yes, useNpm, usePnpm }: FixOptions = {}) => {
+  const packageManager = JsPackageManagerFactory.getPackageManager({ useNpm, usePnpm });
   const filtered = fixId ? fixes.filter((f) => f.id === fixId) : fixes;
 
   logger.info('🔎 checking possible migrations..');

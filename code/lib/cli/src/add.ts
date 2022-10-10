@@ -65,8 +65,12 @@ const getVersionSpecifier = (addon: string) => {
  * it will try to use the version specifier matching your current
  * Storybook install version.
  */
-export async function add(addon: string, options: { useNpm: boolean; skipPostinstall: boolean }) {
-  const packageManager = JsPackageManagerFactory.getPackageManager(options.useNpm);
+export async function add(
+  addon: string,
+  options: { useNpm: boolean; usePnpm: boolean; skipPostinstall: boolean }
+) {
+  const { useNpm, usePnpm } = options;
+  const packageManager = JsPackageManagerFactory.getPackageManager({ useNpm, usePnpm });
   const packageJson = packageManager.retrievePackageJson();
   const [addonName, versionSpecifier] = getVersionSpecifier(addon);
 
