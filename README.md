@@ -36,8 +36,9 @@
   </a>
 </p>
 
-<p align="center">Storybook is a development environment for UI components.<br/>
-It allows you to browse a component library, view the different states of each component, and interactively develop and test components.<br/>Find out more at https://storybook.js.org.</p>
+<p align="center">
+Storybook is a frontend workshop for building UI components and pages in isolation. Thousands of teams use it for UI development, testing, and documentation. Find out more at https://storybook.js.org.
+</p>
 
 <center>
   <img src="https://raw.githubusercontent.com/storybookjs/storybook/main/media/storybook-intro.gif" width="100%" />
@@ -75,7 +76,7 @@ Documentation can be found [Storybook's docs site](https://storybook.js.org/docs
 
 ### Examples
 
-Here are some featured examples that you can reference to see how Storybook works: <https://storybook.js.org/showcase>
+View [Component Encyclopedia](https://storybook.js.org/showcase) to see how leading teams use Storybook.
 
 Storybook comes with a lot of [addons](https://storybook.js.org/docs/react/configure/storybook-addons) for component design, documentation, testing, interactivity, and so on. Storybook's API makes it possible to configure and extend in various ways. It has even been extended to support React Native, Android, iOS, and Flutter development for mobile.
 
@@ -163,7 +164,7 @@ If you're looking for material to use in your presentation about storybook, like
 - Tweeting via [@storybookjs](https://twitter.com/storybookjs)
 - Blogging at [storybook.js.org](https://storybook.js.org/blog/) and [Medium](https://medium.com/storybookjs)
 - Chatting on [Discord](https://discord.gg/storybook)
-- Streaming saved at [Youtube](https://www.youtube.com/channel/UCr7Quur3eIyA_oe8FNYexfg)
+- Videos and streams at [Youtube](https://www.youtube.com/channel/UCr7Quur3eIyA_oe8FNYexfg)
 
 ## Contributing
 

@@ -120,20 +120,16 @@ const svelteViteTemplates = {
       builder: '@storybook/builder-vite',
     },
   },
-  /*
-   * I disabled this, because it was flaky
-   * TODO: we should fixd the instability and re-enable it
-   */
-  // 'svelte-vite/default-ts': {
-  //   name: 'Svelte Vite (TS)',
-  //   script: 'yarn create vite . --template svelte-ts',
-  //   cadence: ['ci', 'daily', 'weekly'],
-  //   expected: {
-  //     framework: '@storybook/svelte-vite',
-  //     renderer: '@storybook/svelte',
-  //     builder: '@storybook/builder-vite'
-  //   }
-  // }
+  'svelte-vite/default-ts': {
+    name: 'Svelte Vite (TS)',
+    script: 'yarn create vite . --template svelte-ts',
+    cadence: ['ci', 'daily', 'weekly'],
+    expected: {
+      framework: '@storybook/svelte-vite',
+      renderer: '@storybook/svelte',
+      builder: '@storybook/builder-vite',
+    },
+  },
 };
 
 const litViteTemplates = {
