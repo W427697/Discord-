@@ -31,6 +31,11 @@ export class SbPre extends LitElement {
     const text = this.object ? JSON.stringify(this.object, null, 2) : this.text;
     return html`<pre data-testid="pre" style=${styleMap(this.style)}>${text}</pre>`;
   }
+
+  // render into the light dom so we can test this
+  createRenderRoot() {
+    return this;
+  }
 }
 
 export const PreTag = 'sb-pre';
