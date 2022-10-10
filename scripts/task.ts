@@ -28,19 +28,6 @@ const codeDir = resolve(__dirname, '../code');
 const junitDir = resolve(__dirname, '../code/test-results');
 
 export const extraAddons = ['a11y', 'storysource'];
-export const defaultAddons = [
-  'actions',
-  'backgrounds',
-  'controls',
-  'docs',
-  'highlight',
-  'interactions',
-  'links',
-  'measure',
-  'outline',
-  'toolbars',
-  'viewport',
-];
 
 export type TemplateKey = keyof typeof TEMPLATES;
 export type Template = typeof TEMPLATES[TemplateKey];

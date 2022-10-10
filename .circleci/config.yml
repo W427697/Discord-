@@ -85,18 +85,15 @@ jobs:
       - restore_cache:
           name: Restore Yarn cache
           keys:
-            - build-yarn-2-cache-v3--{{ checksum "code/yarn.lock" }}
+            - build-yarn-2-cache-v4--{{ checksum "code/yarn.lock" }}--{{ checksum "scripts/yarn.lock" }}
       - run:
-          name: Install dependencies
-          command: yarn install --immutable
-      - run:
-          name: Bootstrap
+          name: Compile
           command: |
             yarn task --task compile --start-from=auto --no-link --debug
             git diff --exit-code
       - save_cache:
           name: Save Yarn cache
-          key: build-yarn-2-cache-v3--{{ checksum "code/yarn.lock" }}
+          key: build-yarn-2-cache-v4--{{ checksum "code/yarn.lock" }}--{{ checksum "scripts/yarn.lock" }}
           paths:
             - ~/.yarn/berry/cache
       - persist_to_workspace:
