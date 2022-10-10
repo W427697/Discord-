@@ -117,8 +117,10 @@ export const install: Task['run'] = async ({ sandboxDir }, { link, dryRun, debug
 // loader for such files. NOTE this isn't necessary for Vite, as far as we know.
 function addEsbuildLoaderToStories(mainConfig: ConfigFile) {
   // NOTE: the test regexp here will apply whether the path is symlink-preserved or otherwise
-  const esbuildLoaderPath = require.resolve('../code/node_modules/esbuild-loader');
-  const storiesMdxLoaderPath = require.resolve('../code/node_modules/@storybook/mdx1-csf/loader');
+  const esbuildLoaderPath = require.resolve('../../code/node_modules/esbuild-loader');
+  const storiesMdxLoaderPath = require.resolve(
+    '../../code/node_modules/@storybook/mdx1-csf/loader'
+  );
   const babelLoaderPath = require.resolve('babel-loader');
   const jsxPluginPath = require.resolve('@babel/plugin-transform-react-jsx');
   const webpackFinalCode = `
