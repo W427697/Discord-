@@ -1,7 +1,7 @@
 import globalThis from 'global';
 import { Meta, Story, Canvas } from '@storybook/addon-docs';
 
-<Meta title="vue/vue-mdx" />
+<Meta title="stories/renderers/vue/vue-mdx" />
 
 # Vue-specific MDX Stories
 
@@ -10,23 +10,35 @@ export const Button = globalThis.Components.Button;
 export const Template = (args, { argTypes }) => ({
   props: Object.keys(argTypes),
   components: { MyButton: Button },
-  template: '<my-button :color="color" :rounded="rounded">{{label}}</my-button>',
+  template: '<my-button :color="color" :primary="primary" :children="children" />',
 });
 
-<Story name="Rounded">
-  {{
-    components: { MyButton: Button },
-    template: '<my-button :rounded="true">A Button with rounded edges</my-button>',
-  }}
-</Story>
-
-<Story name="Square">
-  {{
-    components: { MyButton: Button },
-    template: '<my-button :rounded="false">A Button with square edges</my-button>',
-  }}
-</Story>
+## Primary
 
 <Canvas>
-  <Story name="From Template">{Template.bind({})}</Story>
+  <Story name="Primary">
+    {{
+      components: { MyButton: Button },
+      template: '<my-button :primary="true" children="Primary button" />',
+    }}
+  </Story>
+</Canvas>
+
+## Secondary
+
+<Canvas>
+  <Story name="Secondary">
+    {{
+      components: { MyButton: Button },
+      template: '<my-button :primary="false" children="Secondary button" />',
+    }}
+  </Story>
+</Canvas>
+
+## From template
+
+<Canvas>
+  <Story name="From Template" args={{ children: 'From template' }}>
+    {Template.bind({})}
+  </Story>
 </Canvas>
