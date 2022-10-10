@@ -12,10 +12,10 @@ export const publish: Task = {
   async ready() {
     return pathExists(verdaccioCacheDir);
   },
-  async run(_, { dryRun, debug }) {
+  async run({ codeDir }, { dryRun, debug }) {
     return exec(
       'yarn local-registry --publish',
-      {},
+      { cwd: codeDir },
       {
         startMessage: '📕 Publishing packages',
         errorMessage: '❌ Failed publishing packages',
