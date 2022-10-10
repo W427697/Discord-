@@ -12,15 +12,13 @@ import reproTemplates from '../../code/lib/cli/src/repro-templates';
 import storybookVersions from '../../code/lib/cli/src/versions';
 import { JsPackageManagerFactory } from '../../code/lib/cli/src/js-package-manager/JsPackageManagerFactory';
 
-// @ts-expect-error (Converted from ts-ignore)
-import { maxConcurrentTasks } from '../utils/concurrency';
+import { maxConcurrentTasks } from '../utils/maxConcurrentTasks';
 
 import { localizeYarnConfigFiles, setupYarn } from './utils/yarn';
 import { GeneratorConfig } from './utils/types';
 import { getStackblitzUrl, renderTemplate } from './utils/template';
 import { JsPackageManager } from '../../code/lib/cli/src/js-package-manager';
-import { servePackages } from '../utils/serve-packages';
-import { publish } from '../tasks/publish';
+import { runRegistry } from '../tasks/run-registry';
 
 const OUTPUT_DIRECTORY = join(__dirname, '..', '..', 'repros');
 const BEFORE_DIR_NAME = 'before-storybook';
@@ -110,7 +108,7 @@ const runGenerators = async (
     // @ts-expect-error (Converted from ts-ignore)
     await publish.run();
     console.log(`⚙️ Starting local registry: ${LOCAL_REGISTRY_URL}`);
-    controller = await servePackages({ debug: true });
+    controller = await runRegistry({ debug: true });
   }
 
   await Promise.all(
