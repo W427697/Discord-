@@ -9,7 +9,7 @@ export default class PreComponent {
    * Styles to apply to the component
    */
   @Input()
-  style = {};
+  style?;
 
   /**
    * An object to render
@@ -21,7 +21,7 @@ export default class PreComponent {
    * The code to render
    */
   @Input()
-  text = '';
+  text?;
 
   get finalText() {
     return this.object ? JSON.stringify(this.object, null, 2) : this.text;
