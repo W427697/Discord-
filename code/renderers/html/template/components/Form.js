@@ -14,7 +14,10 @@ export const Form = ({ complete, value, setValue, onSubmit }) => {
   `;
 
   const form = container.querySelector('form');
-  form.onSubmit = (e) => onSubmit();
+  form.onSubmit = (e) => {
+    e.preventDefault();
+    onSubmit(e);
+  };
 
   const input = container.querySelector('[data-testid="value"]');
   input.value = value;
