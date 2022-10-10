@@ -190,6 +190,11 @@ async function updatePackageScripts({ cwd, prefix }: { cwd: string; prefix: stri
       /(npx )?storybook/,
       `${prefix} storybook`
     ),
+
+    // See comment in combine-compodoc as to why this is necessary
+    ...(packageJson.scripts['docs:json'] && {
+      'docs:json': 'DIR=$PWD; cd ../../scripts; yarn ts-node combine-compodoc $DIR',
+    }),
   };
   await writeJSON(packageJsonPath, packageJson, { spaces: 2 });
 }
