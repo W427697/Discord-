@@ -31,6 +31,9 @@ export const render: ArgsStoryFn<HtmlFramework> = (args, context) => {
 
     return output;
   }
+  if (typeof Component === 'function') {
+    return Component(args, context);
+  }
 
   console.warn(dedent`
     Storybook's HTML renderer only supports rendering DOM elements and strings.
