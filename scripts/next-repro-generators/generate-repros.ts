@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import { join, relative } from 'path';
+import { join, relative, resolve } from 'path';
 import { command } from 'execa';
 import type { Options as ExecaOptions } from 'execa';
 import pLimit from 'p-limit';
@@ -19,6 +19,7 @@ import { GeneratorConfig } from './utils/types';
 import { getStackblitzUrl, renderTemplate } from './utils/template';
 import { JsPackageManager } from '../../code/lib/cli/src/js-package-manager';
 import { runRegistry } from '../tasks/run-registry';
+import { publish } from '../tasks/publish';
 
 const OUTPUT_DIRECTORY = join(__dirname, '..', '..', 'repros');
 const BEFORE_DIR_NAME = 'before-storybook';
@@ -105,8 +106,7 @@ const runGenerators = async (
 
   let controller: AbortController;
   if (localRegistry) {
-    // @ts-expect-error (Converted from ts-ignore)
-    await publish.run();
+    await publish.run({ codeDir: resolve(__dirname, '../../code') } as any, {} as any);
     console.log(`⚙️ Starting local registry: ${LOCAL_REGISTRY_URL}`);
     controller = await runRegistry({ debug: true });
   }
