@@ -179,6 +179,31 @@ const vueCliTemplates = {
   },
 };
 
+const preactWebpackTemplates = {
+  'preact-webpack5/default-js': {
+    name: 'Preact CLI (Default JS)',
+    script: ' npx preact-cli create default . --yarn --install --force --name "preact-app"',
+    // cadence: ['ci', 'daily', 'weekly'],
+    cadence: [] as string[],
+    expected: {
+      framework: '@storybook/preact-webpack5',
+      renderer: '@storybook/preact',
+      builder: '@storybook/builder-webpack5',
+    },
+  },
+  'preact-webpack5/default-ts': {
+    name: 'Preact CLI (Default TS)',
+    script: 'npx preact-cli create typescript . --yarn --install --force --name "preact-app"',
+    // cadence: ['ci', 'daily', 'weekly'],
+    cadence: [] as string[],
+    expected: {
+      framework: '@storybook/preact-webpack5',
+      renderer: '@storybook/preact',
+      builder: '@storybook/builder-webpack5',
+    },
+  },
+};
+
 export default {
   ...craTemplates,
   ...reactWebpackTemplates,
@@ -188,6 +213,7 @@ export default {
   ...svelteViteTemplates,
   ...litViteTemplates,
   ...vueCliTemplates,
+  ...preactWebpackTemplates,
   // FIXME: missing documentation.json
   // 'angular/latest': {
   //   name: 'Angular (latest)',
