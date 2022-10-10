@@ -368,22 +368,30 @@ async function run() {
     setUnready(sortedTasks[0]);
   } else {
     // We don't know what to do! Let's ask
-    const { startFromTask } = await prompt({
-      type: 'select',
-      message: firstUnready
-        ? `We need to run all tasks after ${getTaskKey(
-            firstUnready
-          )}, would you like to go further back?`
-        : `Which task would you like to start from?`,
-      name: 'startFromTask',
-      choices: sortedTasks
-        .slice(0, firstUnready && sortedTasks.indexOf(firstUnready) + 1)
-        .reverse()
-        .map((t) => ({
-          title: `${t.description} (${getTaskKey(t)})`,
-          value: t,
-        })),
-    });
+    const { startFromTask } = await prompt(
+      {
+        type: 'select',
+        message: firstUnready
+          ? `We need to run all tasks after ${getTaskKey(
+              firstUnready
+            )}, would you like to go further back?`
+          : `Which task would you like to start from?`,
+        name: 'startFromTask',
+        choices: sortedTasks
+          .slice(0, firstUnready && sortedTasks.indexOf(firstUnready) + 1)
+          .reverse()
+          .map((t) => ({
+            title: `${t.description} (${getTaskKey(t)})`,
+            value: t,
+          })),
+      },
+      {
+        onCancel: () => {
+          logger.log('Command cancelled by the user. Exiting...');
+          process.exit(1);
+        },
+      }
+    );
     setUnready(startFromTask);
   }
 

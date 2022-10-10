@@ -96,6 +96,8 @@ export function createOptions<TOptions extends OptionSpecifier>(options: TOption
   return options;
 }
 
+const logger = console;
+
 function shortFlag(key: OptionId, option: Option) {
   const inverse = option.type === 'boolean' && option.inverse;
   const defaultShortFlag = inverse ? key.substring(0, 1).toUpperCase() : key.substring(0, 1);
@@ -253,7 +255,7 @@ export async function promptOptions<TOptions extends OptionSpecifier>(
 
   const selection = await prompts(questions, {
     onCancel: () => {
-      console.log('Command cancelled by the user. Exiting...');
+      logger.log('Command cancelled by the user. Exiting...');
       process.exit(1);
     },
   });
@@ -319,7 +321,7 @@ export async function getOptionsOrPrompt<TOptions extends OptionSpecifier>(
   const finalValues = await promptOptions(options, cliValues);
 
   const command = getCommand(commandPrefix, options, finalValues);
-  console.log(`\nTo run this directly next time, use:\n  ${command}\n`);
+  logger.log(`\nTo run this directly next time, use:\n  ${command}\n`);
 
   return finalValues;
 }
