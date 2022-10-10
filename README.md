@@ -183,9 +183,13 @@ Looking for a first issue to tackle?
 
 Storybook is organized as a monorepo using [Lerna](https://lerna.js.org/). Useful scripts include:
 
-#### `./bootstrap.sh`
+#### `yarn start`
 
-> Installs package dependencies and links packages together - using lerna
+> Runs a sandbox template storybook with test stories
+
+#### `yarn task`
+
+> As above, but gives you options to customize the sandbox (e.g. selecting other frameworks)
 
 #### `yarn lint`
 
