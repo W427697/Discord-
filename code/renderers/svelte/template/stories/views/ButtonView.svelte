@@ -9,7 +9,7 @@
   /**
    * Rounds the button
    */
-  export let rounded = false;
+  export let primary = false;
 
   /**
    * Displays the count
@@ -28,7 +28,9 @@
 </script>
 
 <h1>Button view</h1>
-<Button {rounded} on:click on:click={handleClick}>{text}: {count}</Button>
+
+<Button {primary} on:click on:click={handleClick} children="{text}: {count}" />
+
 <p>A little text to show this is a view.</p>
 <p>If we need to test components in a Svelte environment, for instance to test slot behaviour,</p>
 <p>then wrapping the component up in a view</p>
