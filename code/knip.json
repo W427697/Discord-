@@ -1,0 +1,6 @@
+{
+  "lib/ui": {
+    "entryFiles": ["src/index.tsx", "src/**/*.stories.tsx"],
+    "projectFiles": ["src/**/*.{ts,tsx}", "!**/__tests__/**", "!**/*.d.ts"]
+  }
+}

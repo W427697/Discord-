@@ -8663,7 +8663,6 @@ __metadata:
     eslint-plugin-storybook: ^0.3.5
     esm: ^3.2.25
     execa: ^5.0.0
-    exportman: ^0.1.0
     express: ^4.17.1
     fs-extra: ^9.0.1
     github-release-from-changelog: ^2.1.1
@@ -8682,6 +8681,7 @@ __metadata:
     jest-serializer-html: ^7.0.0
     jest-watch-typeahead: ^0.6.1
     js-yaml: ^3.14.1
+    knip: ^0.2.0
     lerna: ^3.22.1
     lint-staged: ^10.5.4
     lodash: ^4.17.21
@@ -14745,6 +14745,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"builtin-modules@npm:^3.3.0":
+  version: 3.3.0
+  resolution: "builtin-modules@npm:3.3.0"
+  checksum: 2cb3448b4f7306dc853632a4fcddc95e8d4e4b9868c139400027b71938fc6806d4ff44007deffb362ac85724bd40c2c6452fb6a0aa4531650eeddb98d8e5ee8a
+  languageName: node
+  linkType: hard
+
 "builtins@npm:^1.0.3":
   version: 1.0.3
   resolution: "builtins@npm:1.0.3"
@@ -20659,19 +20666,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"exportman@npm:^0.1.0":
-  version: 0.1.0
-  resolution: "exportman@npm:0.1.0"
-  dependencies:
-    micromatch: 4.0.5
-    ts-morph: 16.0.0
-    ts-morph-helpers: 0.5.0
-  bin:
-    exportman: dist/cli.js
-  checksum: def1e7d27916f1e306d9f619ef048c915fb2f674f0161c6d25b0538aff0863deaaf6a79d036bced0f6d9611eb5084c3dde6a63648cf3b400f5873018629aede4
-  languageName: node
-  linkType: hard
-
 "express@npm:4.17.1":
   version: 4.17.1
   resolution: "express@npm:4.17.1"
@@ -24649,6 +24643,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"is-builtin-module@npm:3.2.0":
+  version: 3.2.0
+  resolution: "is-builtin-module@npm:3.2.0"
+  dependencies:
+    builtin-modules: ^3.3.0
+  checksum: dd911ba5b5e9615d4da19fad3bbd839bcce8f279b28e094ff0883147a70e36fa4fd2d2aebc85886585106f8fc11d45ca60234afc4e3fa261ad58f013a26d3f1a
+  languageName: node
+  linkType: hard
+
 "is-callable@npm:^1.1.3, is-callable@npm:^1.1.4, is-callable@npm:^1.1.5, is-callable@npm:^1.2.6":
   version: 1.2.7
   resolution: "is-callable@npm:1.2.7"
@@ -27945,6 +27948,20 @@ __metadata:
   version: 2.0.5
   resolution: "klona@npm:2.0.5"
   checksum: 5b752c11ca8e2996612386699f52cc5aed802aa4116663d26239ac0b054fae25191dacb95587ecf1a167b039daa9fc3fa2da17dfd5d0821f3037de3821d9a9e5
+  languageName: node
+  linkType: hard
+
+"knip@npm:^0.2.0":
+  version: 0.2.0
+  resolution: "knip@npm:0.2.0"
+  dependencies:
+    is-builtin-module: 3.2.0
+    micromatch: 4.0.5
+    ts-morph: 16.0.0
+    ts-morph-helpers: 0.5.0
+  bin:
+    knip: dist/cli.js
+  checksum: 3bb27923271b7c377906a4821a6f6cae6b1a2541b13c3460465ba47122173cd7a912976b8b267f487e66c46261fdd2dfd2588b34d82b362846eb01c3f2eae173
   languageName: node
   linkType: hard
 

@@ -1,4 +1,0 @@
-{
-  "entryFiles": ["lib/ui/src/index.tsx", "lib/ui/src/**/*.stories.tsx"],
-  "projectFiles": ["lib/ui/src/**/*.{ts,tsx}", "!**/__tests__/**", "!**/*.d.ts"]
-}

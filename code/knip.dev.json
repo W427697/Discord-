@@ -1,0 +1,8 @@
+{
+  "lib/ui": {
+    "dev": true,
+    "exclude": ["dependencies", "unlisted"],
+    "entryFiles": ["src/index.tsx", "src/**/*.stories.tsx"],
+    "projectFiles": ["src/**/*.{ts,tsx}", "!**/__tests__/**", "!**/*.d.ts"]
+  }
+}
