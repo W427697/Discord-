@@ -136,7 +136,7 @@ const angularCliTemplates = {
   'angular-cli/default-ts': {
     name: 'Angular CLI (latest)',
     script:
-      'npx -p @angular/cli ng new angular-latest --directory . --routing=true --minimal=true --style=scss --strict --skip-git',
+      'npx -p @angular/cli ng new angular-latest --directory . --routing=true --minimal=true --style=scss --strict --skip-git --package-manager=yarn',
     cadence: ['ci', 'daily', 'weekly'],
     expected: {
       framework: '@storybook/angular',
@@ -147,7 +147,7 @@ const angularCliTemplates = {
   'angular-cli/13-ts': {
     name: 'Angular CLI (Version 13)',
     script:
-      'npx -p @angular/cli@13 ng new angular-latest --directory . --routing=true --minimal=true --style=scss --strict --skip-git',
+      'npx -p @angular/cli@13 ng new angular-latest --directory . --routing=true --minimal=true --style=scss --strict --skip-git --package-manager=yarn',
     cadence: ['ci', 'daily', 'weekly'],
     expected: {
       framework: '@storybook/angular',
@@ -158,7 +158,7 @@ const angularCliTemplates = {
   'angular-cli/12-ts': {
     name: 'Angular CLI (Version 12)',
     script:
-      'npx -p @angular/cli@12 ng new angular-latest --directory . --routing=true --minimal=true --style=scss --strict --skip-git',
+      'npx -p @angular/cli@12 ng new angular-latest --directory . --routing=true --minimal=true --style=scss --strict --skip-git --package-manager=yarn',
     cadence: ['ci', 'daily', 'weekly'],
     expected: {
       framework: '@storybook/angular',
