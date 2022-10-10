@@ -27,7 +27,7 @@ jobs:
       - name: Install dependencies
         run: node ./scripts/check-dependencies.js
       - name: Bootstrap Storybook libraries
-        run: yarn bootstrap --prep
+        run: yarn task --task compile --start-from=auto --no-link
         working-directory: ./code
       - name: Generate repros
         run: yarn generate-repros-next --local-registry
