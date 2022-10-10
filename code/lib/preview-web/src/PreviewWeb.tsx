@@ -194,8 +194,6 @@ export class PreviewWeb<TFramework extends AnyFramework> extends Preview<TFramew
     importFn?: ModuleImportFn;
     storyIndex?: StoryIndex;
   }) {
-    await this.storyStore.initializationPromise;
-
     super.onStoriesChanged({ importFn, storyIndex });
 
     if (!global.FEATURES?.storyStoreV7) {
