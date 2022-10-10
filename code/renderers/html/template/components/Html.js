@@ -1,1 +1,1 @@
-export const Html = `<div></div>`;
+export const Html = `<div>{{content}}</div>`;

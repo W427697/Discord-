@@ -21,7 +21,7 @@ export interface ShowErrorArgs {
 }
 
 export type HtmlFramework = {
-  component: HTMLElement;
+  component: string | HTMLElement;
   storyResult: StoryFnHtmlReturnType;
 };
 
