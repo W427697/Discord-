@@ -23,6 +23,11 @@ export class SbHtml extends LitElement {
   render() {
     this.renderRoot.innerHTML = this.content;
   }
+
+  // render into the light dom so we can test this
+  createRenderRoot() {
+    return this;
+  }
 }
 
 export const HtmlTag = 'sb-html';

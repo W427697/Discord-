@@ -60,6 +60,11 @@ export class SbButton extends LitElement {
       </button>
     `;
   }
+
+  // render into the light dom so we can test this
+  createRenderRoot() {
+    return this;
+  }
 }
 
 export const ButtonTag = 'sb-button';
