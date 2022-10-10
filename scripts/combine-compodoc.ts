@@ -1,8 +1,12 @@
+// Compodoc does not follow symlinks (it ignores them and their contents entirely)
+// So, we need to run a separate compodoc process on every symlink inside the project,
+// then combine the results into one large documentation.json
+
 import { join, resolve } from 'path';
-import { tmpdir } from 'os';
 import execa from 'execa';
 import { realpath, readFile, writeFile, lstat } from 'fs-extra';
 import glob from 'glob';
+import { directory } from 'tempy';
 
 const logger = console;
 
@@ -31,7 +35,7 @@ async function run(cwd: string) {
 
   const docsArray: Record<string, any>[] = await Promise.all(
     dirs.map(async (dir) => {
-      const outputDir = tmpdir();
+      const outputDir = directory();
       const resolvedDir = await realpath(dir);
       await execa.command(
         `yarn compodoc ${resolvedDir} -p ./tsconfig.json -e json -d ${outputDir}`,
@@ -40,11 +44,17 @@ async function run(cwd: string) {
         }
       );
       const contents = await readFile(join(outputDir, 'documentation.json'), 'utf8');
-      return JSON.parse(contents);
+      try {
+        return JSON.parse(contents);
+      } catch (err) {
+        logger.error(`Error parsing JSON at ${outputDir}\n\n`);
+        logger.error(contents);
+        throw err;
+      }
     })
   );
 
-  // Compose together any array entries, discard anything else
+  // Compose together any array entries, discard anything else (we happen to only read the array fields)
   const documentation = docsArray.slice(1).reduce((acc, entry) => {
     return Object.fromEntries(
       Object.entries(acc).map(([key, accValue]) => {
