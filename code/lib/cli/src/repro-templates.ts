@@ -182,7 +182,8 @@ const vueCliTemplates = {
 const preactWebpackTemplates = {
   'preact-webpack5/default-js': {
     name: 'Preact CLI (Default JS)',
-    script: ' npx preact-cli create default . --yarn --install --force --name "preact-app"',
+    script:
+      'npx preact-cli create default preact-app --yarn --no-install && mv preact-app/* . && mv preact-app/.* . && rmdir preact-app',
     // cadence: ['ci', 'daily', 'weekly'],
     cadence: [] as string[],
     expected: {
@@ -193,7 +194,8 @@ const preactWebpackTemplates = {
   },
   'preact-webpack5/default-ts': {
     name: 'Preact CLI (Default TS)',
-    script: 'npx preact-cli create typescript . --yarn --install --force --name "preact-app"',
+    script:
+      'npx preact-cli create typescript preact-app --yarn --no-install && mv preact-app/* . && mv preact-app/.* . && rmdir preact-app',
     // cadence: ['ci', 'daily', 'weekly'],
     cadence: [] as string[],
     expected: {
