@@ -33,7 +33,7 @@ export const ChangeArgs = {
     // Vue3: https://github.com/storybookjs/storybook/issues/13913
     // Svelte: https://github.com/storybookjs/storybook/issues/19205
     // Web-components: https://github.com/storybookjs/storybook/issues/19415
-    if (['vue3', 'svelte', 'web-components'].includes(globalThis.storybookRenderer)) return;
+    if (['vue3', 'svelte', 'web-components', 'html'].includes(globalThis.storybookRenderer)) return;
 
     // When we change the args to the button, it should not rerender
     await channel.emit('updateStoryArgs', { storyId: id, updatedArgs: { children: 'New Text' } });
