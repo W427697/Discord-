@@ -12,7 +12,7 @@ export const testRunner: Task = {
   async run({ sandboxDir, junitFilename }, { dryRun, debug }) {
     const execOptions = { cwd: sandboxDir };
 
-    await exec(`yarn add --dev @storybook/test-runner@0.7.1-next.0`, execOptions);
+    await exec(`yarn add --dev @storybook/test-runner`, execOptions);
 
     await exec(
       `yarn test-storybook --url http://localhost:${PORT} --junit`,

@@ -1,7 +1,10 @@
 import { Meta } from '@storybook/addon-docs';
-import { Icons, Code } from '@storybook/components';
 
-<Meta title="Addons/Docs/markdown-docs" />
+<Meta title="addons/docs/stories-mdx/markdown" />
+
+# Markdown
+
+This is a basic **docs-only MDX** that demonstrates a whole mess of Mardown formatting.
 
 # h1 Heading
 
@@ -128,15 +131,6 @@ Right aligned columns
 | engine |    engine to be used for processing templates. Handlebars is the default. |
 |    ext |                                      extension to be used for dest files. |
 
-Table with icons
-
-| SVG                     | Name     |
-| ----------------------- | -------- |
-| <Icons icon="mobile" /> | `mobile` |
-| <Icons icon="grid" />   | `grid`   |
-| <Icons icon="alert" />  | `alert`  |
-| <Icons icon="check" />  | `check`  |
-
 ## Links
 
 [external link](https://hichroma.com)
@@ -159,17 +153,3 @@ Table with icons
 
 ![Minion](https://octodex.github.com/images/minion.png)
 ![Stormtroopocat](https://octodex.github.com/images/stormtroopocat.jpg 'The Stormtroopocat')
-
-## Code
-
-<Code>{'first'}, second</Code>
-
-<Code>{['first', 'second']}</Code>
-
-<Code>{<b>first</b>}, second</Code>
-
-<Code>
-  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis rutrum {'commodo nibh'},
-  sollicitudin posuere elit varius sed. Curabitur non risus et eros blandit consequat. Cras rutrum
-  dignissim convallis.
-</Code>

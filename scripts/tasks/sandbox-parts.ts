@@ -117,7 +117,10 @@ export const install: Task['run'] = async ({ sandboxDir }, { link, dryRun, debug
 // loader for such files. NOTE this isn't necessary for Vite, as far as we know.
 function addEsbuildLoaderToStories(mainConfig: ConfigFile) {
   // NOTE: the test regexp here will apply whether the path is symlink-preserved or otherwise
-  const loaderPath = require.resolve('../../code/node_modules/esbuild-loader');
+  const esbuildLoaderPath = require.resolve('../code/node_modules/esbuild-loader');
+  const storiesMdxLoaderPath = require.resolve('../code/node_modules/@storybook/mdx1-csf/loader');
+  const babelLoaderPath = require.resolve('babel-loader');
+  const jsxPluginPath = require.resolve('@babel/plugin-transform-react-jsx');
   const webpackFinalCode = `
   (config) => ({
     ...config,
@@ -127,11 +130,54 @@ function addEsbuildLoaderToStories(mainConfig: ConfigFile) {
         // Ensure esbuild-loader applies to all files in ./template-stories
         {
           test: [/\\/template-stories\\//],
-          loader: '${loaderPath}',
+          exclude: [/\\.mdx$/],
+          loader: '${esbuildLoaderPath}',
           options: {
             loader: 'tsx',
             target: 'es2015',
           },
+        },
+        // Handle MDX files per the addon-docs presets (ish)
+        {
+          test: [/\\/template-stories\\//],
+          include: [/\\.stories\\.mdx$/],
+          use: [
+            {
+              loader: '${babelLoaderPath}',
+              options: {
+                babelrc: false,
+                configFile: false,
+                plugins: ['${jsxPluginPath}'],
+              }
+            },
+            {
+              loader: '${storiesMdxLoaderPath}',
+              options: {
+                skipCsf: false,
+              }
+            }
+          ],
+        },
+        {
+          test: [/\\/template-stories\\//],
+          include: [/\\.mdx$/],
+          exclude: [/\\.stories\\.mdx$/],
+          use: [
+            {
+              loader: '${babelLoaderPath}',
+              options: {
+                babelrc: false,
+                configFile: false,
+                plugins: ['${jsxPluginPath}'],
+              }
+            },
+            {
+              loader: '${storiesMdxLoaderPath}',
+              options: {
+                skipCsf: true,
+              }
+            }
+          ],
         },
         // Ensure no other loaders from the framework apply
         ...config.module.rules.map(rule => ({
@@ -213,8 +259,9 @@ async function updateStoriesField(mainConfig: ConfigFile, isJs: boolean) {
 
   // FIXME: '*.@(mdx|stories.mdx|stories.tsx|stories.ts|stories.jsx|stories.js'
   const linkedStories = join('..', 'template-stories', '**', '*.stories.@(js|jsx|ts|tsx|mdx)');
+  const linkedMdx = join('..', 'template-stories/addons/docs/docs2', '**', '*.@(mdx)');
 
-  mainConfig.setFieldValue(['stories'], [...updatedStories, linkedStories]);
+  mainConfig.setFieldValue(['stories'], [...updatedStories, linkedStories, linkedMdx]);
 }
 
 function addExtraDependencies({
