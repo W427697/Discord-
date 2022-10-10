@@ -1,1 +1,1 @@
-export const Pre = (args) => `<pre>${JSON.stringify(args, null, 2)}</pre>`;
+export const Pre = (args) => `<pre data-testid="pre">${JSON.stringify(args, null, 2)}</pre>`;
