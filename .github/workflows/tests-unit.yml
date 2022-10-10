@@ -29,12 +29,7 @@ jobs:
         with:
           node-version: ${{ matrix.node_version }}
           cache: yarn
-      - name: install, bootstrap
-        run: |
-          cd code
-          yarn install --immutable
-          yarn bootstrap --core
+      - name: install and compile
+        run: yarn task --task compile --start-from=auto
       - name: test
-        run: |
-          cd code
-          yarn test --runInBand --ci
+        run: yarn test --runInBand --ci

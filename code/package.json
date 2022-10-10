@@ -53,7 +53,6 @@
   },
   "scripts": {
     "await-serve-storybooks": "wait-on http://localhost:8001",
-    "bootstrap": "node ../scripts/bootstrap.js",
     "build": "NODE_ENV=production node ../scripts/build-package.js",
     "build-storybooks": "cross-env STORYBOOK_DISPLAY_WARNING=true DISPLAY_WARNING=true node -r esm ../scripts/build-storybooks.js",
     "changelog": "pr-log --sloppy --cherry-pick",
@@ -64,7 +63,6 @@
     "danger": "danger",
     "generate-repros": "zx ../scripts/repros-generator/index.mjs",
     "generate-repros-next": "ts-node ../scripts/next-repro-generators/generate-repros.ts",
-    "get-template": "ts-node ../scripts/get-template.ts",
     "github-release": "github-release-from-changelog",
     "linear-export": "ts-node --project=../scripts/tsconfig.json ../scripts/linear-export.ts",
     "lint": "yarn lint:js && yarn lint:md",
@@ -84,7 +82,6 @@
     "serve-storybooks": "http-server ./built-storybooks -p 8001",
     "smoketest-storybooks": "cross-env STORYBOOK_DISPLAY_WARNING=true DISPLAY_WARNING=true node -r esm ../scripts/smoketest-storybooks.js",
     "start": "yarn workspace official-storybook storybook --no-manager-cache",
-    "task": "ts-node ../scripts/task.ts",
     "test": "NODE_OPTIONS=--max_old_space_size=4096 jest --config ./jest.config.js",
     "test-puppeteer": "jest --projects examples/official-storybook/storyshots-puppeteer",
     "test:cli": "npm --prefix lib/cli run test",
@@ -150,7 +147,7 @@
     "@nrwl/cli": "14.6.1",
     "@nrwl/nx-cloud": "14.6.0",
     "@nrwl/workspace": "14.6.1",
-    "@playwright/test": "1.26.0",
+    "@playwright/test": "1.27.0",
     "@storybook/addon-a11y": "workspace:*",
     "@storybook/addon-actions": "workspace:*",
     "@storybook/addon-backgrounds": "workspace:*",
@@ -315,7 +312,7 @@
     "npmlog": "^5.0.1",
     "nx": "14.6.1",
     "p-limit": "^3.1.0",
-    "playwright": "1.26.0",
+    "playwright": "1.27.0",
     "postcss-loader": "^6.2.1",
     "prettier": "2.7.1",
     "process": "^0.11.10",
@@ -382,7 +379,7 @@
     "verdaccio": "^4.10.0",
     "verdaccio-auth-memory": "^9.7.2"
   },
-  "packageManager": "yarn@3.2.1",
+  "packageManager": "yarn@3.2.3",
   "engines": {
     "node": ">=10.13.0",
     "yarn": ">=1.3.2"
