@@ -1,7 +1,7 @@
 import globalThis from 'global';
 import { Meta, Story, Canvas } from '@storybook/addon-docs';
 
-<Meta title="stories/renderers/vue/vue-mdx" />
+<Meta title="stories/renderers/vue/vue-mdx" component={globalThis.Components.Button} />
 
 # Vue-specific MDX Stories
 
@@ -10,7 +10,7 @@ export const Button = globalThis.Components.Button;
 export const Template = (args, { argTypes }) => ({
   props: Object.keys(argTypes),
   components: { MyButton: Button },
-  template: '<my-button :color="color" :primary="primary" :children="children" />',
+  template: '<my-button v-bind="$props" />',
 });
 
 ## Primary
