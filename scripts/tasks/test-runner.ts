@@ -18,7 +18,7 @@ export const testRunner: Task = {
 
     const storybookController = await serveSandbox(builtSandboxDir, {});
 
-    await exec(`yarn test-storybook --url http://localhost:8001 --junit --index-json`, {
+    await exec(`yarn test-storybook --url http://localhost:8001 --junit`, {
       ...execOptions,
       env: {
         JEST_JUNIT_OUTPUT_FILE: junitFilename,
