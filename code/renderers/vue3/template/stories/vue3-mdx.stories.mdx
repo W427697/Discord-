@@ -9,29 +9,35 @@ export const Button = globalThis.Components.Button;
 
 export const Template = (args, { argTypes }) => ({
   components: { MyButton: Button },
-  template: '<my-button v-bind="args" color="color" :rounded="rounded" />',
+  template: '<my-button v-bind="args" />',
   setup() {
     return { args };
   },
 });
 
+## Primary
+
 <Canvas>
-  <Story name="Rounded">
+  <Story name="Primary">
     {{
       components: { MyButton: Button },
-      template: '<my-button :rounded="true" :children="`A Button with rounded edges`" />',
+      template: '<my-button :primary="true" :children="`Primary button`" />',
     }}
   </Story>
 </Canvas>
 
+## Secondary
+
 <Canvas>
-  <Story name="Square">
+  <Story name="Secondary">
     {{
       components: { MyButton: Button },
-      template: '<my-button :rounded="false" :children="`A Button with square edges`" />',
+      template: '<my-button :primary="false" :children="`Secondary button`" />',
     }}
   </Story>
 </Canvas>
+
+## From template
 
 <Canvas>
   <Story name="From Template" args={{ children: 'From template' }}>
