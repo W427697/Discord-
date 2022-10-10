@@ -6,7 +6,7 @@ import { copy, ensureSymlink, ensureDir, existsSync, pathExists } from 'fs-extra
 import { join, resolve, sep } from 'path';
 import dedent from 'ts-dedent';
 
-import { defaultAddons, Task } from '../task';
+import { Task } from '../task';
 import { executeCLIStep, steps } from '../utils/cli-step';
 import { installYarn2, configureYarn2ForVerdaccio, addPackageResolutions } from '../utils/yarn';
 import { exec } from '../utils/exec';
@@ -24,6 +24,18 @@ import { babelParse } from '../../code/lib/csf-tools/src/babelParse';
 const reprosDir = resolve(__dirname, '../../repros');
 const codeDir = resolve(__dirname, '../../code');
 const logger = console;
+
+export const essentialsAddons = [
+  'actions',
+  'backgrounds',
+  'controls',
+  'docs',
+  'highlight',
+  'measure',
+  'outline',
+  'toolbars',
+  'viewport',
+];
 
 export const create: Task['run'] = async (
   { key, template, sandboxDir },
@@ -63,6 +75,7 @@ export const create: Task['run'] = async (
   }
 
   const mainConfig = await readMainConfig({ cwd });
+
   mainConfig.setFieldValue(['core', 'disableTelemetry'], true);
   if (template.expected.builder === '@storybook/builder-vite') forceViteRebuilds(mainConfig);
   await writeConfig(mainConfig);
@@ -275,7 +288,8 @@ function addExtraDependencies({
   dryRun: boolean;
   debug: boolean;
 }) {
-  const extraDeps = ['@storybook/jest'];
+  // web-components doesn't install '@storybook/testing-library' by default
+  const extraDeps = ['@storybook/jest', '@storybook/testing-library@0.0.14-next.0'];
   if (debug) logger.log('🎁 Adding extra deps', extraDeps);
   if (!dryRun) {
     const packageManager = JsPackageManagerFactory.getPackageManager(false, cwd);
@@ -285,7 +299,7 @@ function addExtraDependencies({
 
 export const addStories: Task['run'] = async (
   { sandboxDir, template },
-  { addon, dryRun, debug }
+  { addon: extraAddons, dryRun, debug }
 ) => {
   const cwd = sandboxDir;
   const storiesPath = await findFirstPath([join('src', 'stories'), 'stories'], { cwd });
@@ -314,11 +328,23 @@ export const addStories: Task['run'] = async (
     cwd,
   });
 
+  const mainAddons = mainConfig.getFieldValue(['addons']).reduce((acc: string[], addon: any) => {
+    const name = typeof addon === 'string' ? addon : addon.name;
+    const match = /@storybook\/addon-(.*)/.exec(name);
+    if (!match) return acc;
+    const suffix = match[1];
+    if (suffix === 'essentials') {
+      return [...acc, ...essentialsAddons];
+    }
+    return [...acc, suffix];
+  }, []);
+
   const addonDirs = await Promise.all(
-    [...defaultAddons, ...addon].map(async (anAddon) =>
-      workspacePath('addon', `@storybook/addon-${anAddon}`)
+    [...mainAddons, ...extraAddons].map(async (addon) =>
+      workspacePath('addon', `@storybook/addon-${addon}`)
     )
   );
+
   const existingStories = await filterExistsInCodeDir(addonDirs, join('template', 'stories'));
   await Promise.all(
     existingStories.map(async (packageDir) => linkPackageStories(packageDir, { mainConfig, cwd }))
