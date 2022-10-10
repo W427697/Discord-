@@ -31,15 +31,12 @@ import { JsPackageManagerFactory } from '../code/lib/cli/src/js-package-manager'
 type Template = keyof typeof TEMPLATES;
 const templates: Template[] = Object.keys(TEMPLATES) as any;
 const addons = ['a11y', 'storysource'];
-const defaultAddons = [
-  'a11y',
+const essentialsAddons = [
   'actions',
   'backgrounds',
   'controls',
   'docs',
   'highlight',
-  'interactions',
-  'links',
   'measure',
   'outline',
   'toolbars',
@@ -394,7 +391,8 @@ function addExtraDependencies({
   dryRun: boolean;
   debug: boolean;
 }) {
-  const extraDeps = ['@storybook/jest'];
+  // web-components doesn't install '@storybook/testing-library' by default
+  const extraDeps = ['@storybook/jest', '@storybook/testing-library@0.0.14-next.0'];
   if (debug) console.log('🎁 Adding extra deps', extraDeps);
   if (!dryRun) {
     const packageManager = JsPackageManagerFactory.getPackageManager(false, cwd);
@@ -493,7 +491,18 @@ export async function sandbox(optionValues: OptionValues<typeof options>) {
       await executeCLIStep(steps.add, { argument: addonName, cwd, dryRun, debug });
     }
 
-    const addonDirs = [...defaultAddons, ...optionValues.addon].map((addon) =>
+    const mainAddons = mainConfig.getFieldValue(['addons']).reduce((acc: string[], addon: any) => {
+      const name = typeof addon === 'string' ? addon : addon.name;
+      const match = /@storybook\/addon-(.*)/.exec(name);
+      if (!match) return acc;
+      const suffix = match[1];
+      if (suffix === 'essentials') {
+        return [...acc, ...essentialsAddons];
+      }
+      return [...acc, suffix];
+    }, []);
+
+    const addonDirs = [...mainAddons, ...optionValues.addon].map((addon) =>
       workspacePath('addon', `@storybook/addon-${addon}`, workspaces)
     );
     const existingStories = await filterExistsInCodeDir(
