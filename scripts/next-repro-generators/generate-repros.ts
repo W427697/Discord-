@@ -106,8 +106,6 @@ const runGenerators = async (
 
   let controller: AbortController;
   if (localRegistry) {
-    // @ts-expect-error (Converted from ts-ignore)
-    await publish.run();
     console.log(`⚙️ Starting local registry: ${LOCAL_REGISTRY_URL}`);
     controller = await runRegistry({ debug: true });
   }
