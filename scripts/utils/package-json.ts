@@ -3,7 +3,7 @@ import { join } from 'path';
 
 const logger = console;
 
-async function updatePackageScripts({ cwd, prefix }: { cwd: string; prefix: string }) {
+export async function updatePackageScripts({ cwd, prefix }: { cwd: string; prefix: string }) {
   logger.info(`🔢 Adding package scripts:`);
   const packageJsonPath = join(cwd, 'package.json');
   const packageJson = await readJSON(packageJsonPath);
