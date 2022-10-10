@@ -33,15 +33,6 @@ const mainConfig: StorybookConfig = {
     breakingChangesV7: true,
   }, // Test code for built-in stories.json extraction
   //
-  // refs: {
-  //   'react-ts': {
-  //     title: 'React TS',
-  //     // development
-  //     url: 'http://localhost:9011',
-  //     // production
-  //     // url: 'http://localhost:8080',
-  //   },
-  // },
   framework: '@storybook/html-webpack5',
 };
 
