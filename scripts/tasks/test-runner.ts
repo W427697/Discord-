@@ -15,7 +15,7 @@ export const testRunner: Task = {
     await exec(`yarn add --dev @storybook/test-runner`, execOptions);
 
     await exec(
-      `yarn test-storybook --url http://localhost:${PORT} --junit`,
+      `yarn test-storybook --url http://localhost:${PORT} --junit --index-json`,
       {
         ...execOptions,
         env: {
