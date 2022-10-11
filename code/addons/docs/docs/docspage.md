@@ -147,9 +147,6 @@ export default {
 
 You can interleave your own components to customize the auto-generated contents of the page, or pass in different options to the blocks to customize their appearance.
 
-TODO: the link below will break
-For more info see the examples in [official-storybook](https://github.com/storybookjs/storybook/blob/next/code/examples/official-storybook/stories/addon-docs/addon-docs-blocks.stories.js).
-
 ## Story file names
 
 Unless you use a custom webpack configuration, all of your story files should have the suffix `*.stories.@(j|t)sx?`, e.g. `"Badge.stories.js"`, `"Badge.stories.tsx"`, etc.
