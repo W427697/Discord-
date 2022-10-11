@@ -433,6 +433,7 @@ In 7.0, frameworks also specify the builder to be used. For example, The current
 - `@storybook/angular`
 - `@storybook/html-webpack5`
 - `@storybook/preact-webpack5`
+- `@storybook/preact-vite`
 - `@storybook/react-webpack5`
 - `@storybook/react-vite`
 - `@storybook/server-webpack5`

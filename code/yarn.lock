@@ -487,7 +487,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/core@npm:^7.1.0, @babel/core@npm:^7.11.5, @babel/core@npm:^7.11.6, @babel/core@npm:^7.12.0, @babel/core@npm:^7.12.10, @babel/core@npm:^7.12.16, @babel/core@npm:^7.12.3, @babel/core@npm:^7.12.9, @babel/core@npm:^7.13.16, @babel/core@npm:^7.17.2, @babel/core@npm:^7.17.5, @babel/core@npm:^7.18.13, @babel/core@npm:^7.3.4, @babel/core@npm:^7.7.2, @babel/core@npm:^7.7.5, @babel/core@npm:^7.8.0":
+"@babel/core@npm:^7.1.0, @babel/core@npm:^7.11.5, @babel/core@npm:^7.11.6, @babel/core@npm:^7.12.0, @babel/core@npm:^7.12.10, @babel/core@npm:^7.12.16, @babel/core@npm:^7.12.3, @babel/core@npm:^7.12.9, @babel/core@npm:^7.13.16, @babel/core@npm:^7.17.2, @babel/core@npm:^7.17.5, @babel/core@npm:^7.18.13, @babel/core@npm:^7.3.4, @babel/core@npm:^7.7.2, @babel/core@npm:^7.7.5, @babel/core@npm:^7.8.0, @babel/core@npm:^7.9.6":
   version: 7.19.3
   resolution: "@babel/core@npm:7.19.3"
   dependencies:
@@ -1674,7 +1674,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/plugin-transform-react-jsx-development@npm:^7.18.6":
+"@babel/plugin-transform-react-jsx-development@npm:^7.16.7, @babel/plugin-transform-react-jsx-development@npm:^7.18.6":
   version: 7.18.6
   resolution: "@babel/plugin-transform-react-jsx-development@npm:7.18.6"
   dependencies:
@@ -1707,7 +1707,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/plugin-transform-react-jsx@npm:^7.12.12, @babel/plugin-transform-react-jsx@npm:^7.18.10, @babel/plugin-transform-react-jsx@npm:^7.18.6":
+"@babel/plugin-transform-react-jsx@npm:^7.12.12, @babel/plugin-transform-react-jsx@npm:^7.14.9, @babel/plugin-transform-react-jsx@npm:^7.18.10, @babel/plugin-transform-react-jsx@npm:^7.18.6":
   version: 7.19.0
   resolution: "@babel/plugin-transform-react-jsx@npm:7.19.0"
   dependencies:
@@ -6267,6 +6267,64 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@preact/preset-vite@npm:^2.4.0":
+  version: 2.4.0
+  resolution: "@preact/preset-vite@npm:2.4.0"
+  dependencies:
+    "@babel/plugin-transform-react-jsx": ^7.14.9
+    "@babel/plugin-transform-react-jsx-development": ^7.16.7
+    "@prefresh/vite": ^2.2.8
+    "@rollup/pluginutils": ^4.1.1
+    babel-plugin-transform-hook-names: ^1.0.2
+    debug: ^4.3.1
+    kolorist: ^1.2.10
+    resolve: ^1.20.0
+  peerDependencies:
+    "@babel/core": 7.x
+    vite: 2.x || 3.x
+  checksum: 5f764b3da16f8bcb1b0aff9cc0462474e1f87e09e606c4a47efa68ec6f8633a741d6cafd3a2e8a210904461fefee838d78e42afa0cec38d2ffa645774913fc8b
+  languageName: node
+  linkType: hard
+
+"@prefresh/babel-plugin@npm:0.4.3":
+  version: 0.4.3
+  resolution: "@prefresh/babel-plugin@npm:0.4.3"
+  checksum: f3b39377454c973d9c42fecedebab5b9c29a750357f71d78fb9576a906f928c4b55207413ec4b1e1997a73ab14f0fe7e5a44b6d04e2bd81c534a4296848dfe29
+  languageName: node
+  linkType: hard
+
+"@prefresh/core@npm:^1.3.3":
+  version: 1.4.1
+  resolution: "@prefresh/core@npm:1.4.1"
+  peerDependencies:
+    preact: ^10.0.0
+  checksum: 08dfe7f8b41e09a5cac0250757d79f08865998892e205196cf6fa1b9e3ad4778cb7cb06d3e4513de1f4bdfaa5ded0a73f72e189ebc11e4f545a2d40288c3d709
+  languageName: node
+  linkType: hard
+
+"@prefresh/utils@npm:^1.1.2":
+  version: 1.1.3
+  resolution: "@prefresh/utils@npm:1.1.3"
+  checksum: 718dca5803e0d7a561dc1cf8f6e2e14987dd2436173e4c8c5268d87b093c8cef08de106e0f1513638bf48e2173fe6607f3eb558c8a459abcb697706ab7cea306
+  languageName: node
+  linkType: hard
+
+"@prefresh/vite@npm:^2.2.8":
+  version: 2.2.8
+  resolution: "@prefresh/vite@npm:2.2.8"
+  dependencies:
+    "@babel/core": ^7.9.6
+    "@prefresh/babel-plugin": 0.4.3
+    "@prefresh/core": ^1.3.3
+    "@prefresh/utils": ^1.1.2
+    "@rollup/pluginutils": ^4.1.0
+  peerDependencies:
+    preact: ^10.4.0
+    vite: ">=2.0.0-beta.3"
+  checksum: e93806ad99feece09ff2c8b79bdfbd48aaa1c1986ab04803839165fb265a775113b6c5f4fbd4fa3f5e301b8796b6fd0973647f88f3f9fd33030fae18ed3c2c67
+  languageName: node
+  linkType: hard
+
 "@reach/skip-nav@npm:^0.11.2":
   version: 0.11.2
   resolution: "@reach/skip-nav@npm:0.11.2"
@@ -6294,7 +6352,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@rollup/pluginutils@npm:^4.2.0, @rollup/pluginutils@npm:^4.2.1":
+"@rollup/pluginutils@npm:^4.1.0, @rollup/pluginutils@npm:^4.1.1, @rollup/pluginutils@npm:^4.2.0, @rollup/pluginutils@npm:^4.2.1":
   version: 4.2.1
   resolution: "@rollup/pluginutils@npm:4.2.1"
   dependencies:
@@ -8148,6 +8206,34 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@storybook/preact-vite@workspace:*, @storybook/preact-vite@workspace:frameworks/preact-vite":
+  version: 0.0.0-use.local
+  resolution: "@storybook/preact-vite@workspace:frameworks/preact-vite"
+  dependencies:
+    "@joshwooding/vite-plugin-react-docgen-typescript": ^0.0.5
+    "@preact/preset-vite": ^2.4.0
+    "@rollup/pluginutils": ^4.2.0
+    "@storybook/addons": 7.0.0-alpha.35
+    "@storybook/builder-vite": 7.0.0-alpha.35
+    "@storybook/channel-postmessage": 7.0.0-alpha.35
+    "@storybook/channel-websocket": 7.0.0-alpha.35
+    "@storybook/client-api": 7.0.0-alpha.35
+    "@storybook/preact": 7.0.0-alpha.35
+    "@storybook/preview-web": 7.0.0-alpha.35
+    "@types/node": ^14.14.20 || ^16.0.0
+    ast-types: ^0.14.2
+    magic-string: ^0.26.1
+    preact: ^10.5.13
+    react: 16.14.0
+    react-docgen: ^6.0.0-alpha.3
+    react-dom: 16.14.0
+    typescript: ~4.6.3
+    vite: ^3.1.3
+  peerDependencies:
+    preact: ^8.0.0||^10.0.0
+  languageName: unknown
+  linkType: soft
+
 "@storybook/preact-webpack5@7.0.0-alpha.35, @storybook/preact-webpack5@workspace:*, @storybook/preact-webpack5@workspace:frameworks/preact-webpack5":
   version: 0.0.0-use.local
   resolution: "@storybook/preact-webpack5@workspace:frameworks/preact-webpack5"
@@ -8584,6 +8670,7 @@ __metadata:
     "@storybook/node-logger": "workspace:*"
     "@storybook/postinstall": "workspace:*"
     "@storybook/preact": "workspace:*"
+    "@storybook/preact-vite": "workspace:*"
     "@storybook/preact-webpack5": "workspace:*"
     "@storybook/preset-html-webpack": "workspace:*"
     "@storybook/preset-preact-webpack": "workspace:*"
@@ -13515,6 +13602,15 @@ __metadata:
   version: 6.18.0
   resolution: "babel-plugin-syntax-jsx@npm:6.18.0"
   checksum: d5954e9c2a3dd519f23e78674ecfba61394a8fae63499afdeca4214fad68997556ebd15ce012bbc4d527ae0e3cecc98d3e8f78004a68707122642d0df4ab7213
+  languageName: node
+  linkType: hard
+
+"babel-plugin-transform-hook-names@npm:^1.0.2":
+  version: 1.0.2
+  resolution: "babel-plugin-transform-hook-names@npm:1.0.2"
+  peerDependencies:
+    "@babel/core": ^7.12.10
+  checksum: 517b85fe0611d742b3fffad5d0e119fcbd29bf69f95c6970b9ede4cb66453c7106a2d3bf048b35255b78a9d6a9565ad37e73b46c0be1fe557e941c792fad79f0
   languageName: node
   linkType: hard
 
@@ -27936,6 +28032,13 @@ __metadata:
   version: 2.0.5
   resolution: "klona@npm:2.0.5"
   checksum: 5b752c11ca8e2996612386699f52cc5aed802aa4116663d26239ac0b054fae25191dacb95587ecf1a167b039daa9fc3fa2da17dfd5d0821f3037de3821d9a9e5
+  languageName: node
+  linkType: hard
+
+"kolorist@npm:^1.2.10":
+  version: 1.6.0
+  resolution: "kolorist@npm:1.6.0"
+  checksum: 19572fe2a98620e792003aaed7e53c0a1f1820c3b68dbaf18c8e715861b59321c5a069857d2a299a9b2b12bb24c27411887289fd0fd6484fc95e99e6c27294e8
   languageName: node
   linkType: hard
 

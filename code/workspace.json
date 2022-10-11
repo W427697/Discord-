@@ -251,6 +251,11 @@
       "type": "library",
       "implicitDependencies": []
     },
+    "@storybook/preact-vite": {
+      "root": "frameworks/preact-vite",
+      "type": "library",
+      "implicitDependencies": []
+    },
     "@storybook/preact-webpack5": {
       "root": "frameworks/preact-webpack5",
       "type": "library",

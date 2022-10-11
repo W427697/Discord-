@@ -46,6 +46,7 @@ export default {
   '@storybook/node-logger': '7.0.0-alpha.35',
   '@storybook/postinstall': '7.0.0-alpha.35',
   '@storybook/preact': '7.0.0-alpha.35',
+  '@storybook/preact-vite': '7.0.0-alpha.35',
   '@storybook/preact-webpack5': '7.0.0-alpha.35',
   '@storybook/preset-html-webpack': '7.0.0-alpha.35',
   '@storybook/preset-preact-webpack': '7.0.0-alpha.35',
