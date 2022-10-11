@@ -1,12 +1,11 @@
 import { html } from 'lit';
-import type { Meta, StoryFn } from '@storybook/web-components';
+import './demo-wc-card';
 
 export default {
-  title: 'Issues / 11831 Unknown component',
-  component: 'unknown-component',
-} as Meta;
+  component: 'demo-wc-card',
+};
 
-const Template: StoryFn = ({ backSide, header, rows }) =>
+const Template = ({ backSide, header, rows }) =>
   html`
     <demo-wc-card .backSide="${backSide}" .header="${header}" .rows="${rows}"
       >A simple card</demo-wc-card
