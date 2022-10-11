@@ -7,7 +7,7 @@ export const Page = ({ user, onLogin, onLogout, onCreateAccount }) => (
   <article>
     <Header user={user} onLogin={onLogin} onLogout={onLogout} onCreateAccount={onCreateAccount} />
 
-    <section class="storybook-page">
+    <section className="storybook-page">
       <h2>Pages in Storybook</h2>
       <p>
         We recommend building UIs with a{' '}
