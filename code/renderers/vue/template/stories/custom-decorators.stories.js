@@ -1,7 +1,9 @@
-import MyButton from './Button.vue';
+import globalThis from 'global';
+
+const MyButton = globalThis.Components.Button;
 
 export default {
-  title: 'Custom/Decorator for Vue',
+  component: {},
   decorators: [
     (storyFn) => {
       // Decorated with story-function
@@ -27,7 +29,7 @@ export default {
 };
 
 export const Template = () => ({
-  template: '<my-button>MyButton with template</my-button>',
+  template: '<global-button children="MyButton with template" />',
 });
 
 export const WithData = (_args, { parameters: { fileName, ...parameters }, hooks, ...rest }) => ({
@@ -36,6 +38,6 @@ export const WithData = (_args, { parameters: { fileName, ...parameters }, hooks
 
 export const Render = () => ({
   render(h) {
-    return h(MyButton, { props: { color: 'pink' } }, ['renders component: MyButton']);
+    return h(MyButton, { props: { color: 'pink', children: 'renders component: MyButton' } });
   },
 });

@@ -460,16 +460,6 @@
       "root": "examples/vue-3-cli",
       "type": "library",
       "implicitDependencies": []
-    },
-    "vue-cli-example": {
-      "root": "examples/vue-cli",
-      "type": "library",
-      "implicitDependencies": []
-    },
-    "vue-example": {
-      "root": "examples/vue-kitchen-sink",
-      "type": "library",
-      "implicitDependencies": []
     }
   }
 }

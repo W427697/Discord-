@@ -1,7 +1,9 @@
-import MyButton from './Button.vue';
+import globalThis from 'global';
+
+const MyButton = globalThis.Components.Button;
 
 export default {
-  title: 'Custom/Method for rendering Vue',
+  component: {},
 };
 
 export const Render = () => ({
@@ -10,11 +12,9 @@ export const Render = () => ({
 
 export const RenderComponent = () => ({
   render(h) {
-    return h(MyButton, { props: { color: 'pink' } }, ['renders component: MyButton']);
+    return h(MyButton, { props: { color: 'pink', children: 'renders component: MyButton' } });
   },
 });
-
-RenderComponent.storyName = 'render + component';
 
 export const Template = () => ({
   template: `
@@ -26,32 +26,29 @@ export const Template = () => ({
 
 export const TemplateComponent = () => ({
   components: { MyButton },
-  template: '<my-button>MyButton rendered in a template</my-button>',
+  template: '<my-button children="MyButton rendered in a template" />',
 });
-
-TemplateComponent.storyName = 'template + component';
 
 export const TemplateMethods = () => ({
   components: { MyButton },
   template: `
       <p>
         <em>Clicking the button will navigate to another story using the 'addon-links'</em><br/>
-        <my-button :rounded="true" @click="action">MyButton rendered in a template + props & methods</my-button>
+        <my-button :rounded="true" @click="action" children="MyButton rendered in a template + props & methods" />
       </p>`,
   methods: {
     action: () => {},
   },
 });
 
-TemplateMethods.storyName = 'template + methods';
-
-export const JSX = () => ({
-  components: { MyButton },
-  render() {
-    // eslint-disable-next-line react/react-in-jsx-scope
-    return <my-button>MyButton rendered with JSX</my-button>;
-  },
-});
+// FIXME: test JSX?
+// export const JSX = () => ({
+//   components: { MyButton },
+//   render() {
+//     // eslint-disable-next-line react/react-in-jsx-scope, react/no-children-prop
+//     return <my-button children="MyButton rendered with JSX" />;
+//   },
+// });
 
 export const PreRegisteredComponent = () => ({
   /* By pre-registering component in preview.js,
@@ -60,8 +57,6 @@ export const PreRegisteredComponent = () => ({
   template: `
       <p>
         <em>This component was pre-registered in .storybook/preview.js</em><br/>
-        <my-button>MyButton rendered in a template</my-button>
+        <global-button children="GlobalButton rendered in a template" />
       </p>`,
 });
-
-PreRegisteredComponent.storyName = 'pre-registered component';
