@@ -9,11 +9,13 @@
   /**
    * What background color to use
    */
-  export let backgroundColor;
+  export let backgroundColor = undefined;
+
   /**
    * How large should the button be?
    */
   export let size = 'medium';
+
   /**
    * Button contents
    */

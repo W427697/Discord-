@@ -43,7 +43,7 @@ export async function commonConfig(
 
   const sbConfig = {
     configFile: false,
-    cacheDir: 'node_modules/.vite-storybook',
+    cacheDir: 'node_modules/.cache/.vite-storybook',
     root: path.resolve(options.configDir, '..'),
     // Allow storybook deployed as subfolder.  See https://github.com/storybookjs/builder-vite/issues/238
     base: './',
