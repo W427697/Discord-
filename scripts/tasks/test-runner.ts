@@ -12,7 +12,8 @@ export const testRunner: Task = {
   async run({ sandboxDir, junitFilename }, { dryRun, debug }) {
     const execOptions = { cwd: sandboxDir };
 
-    await exec(`yarn add --dev @storybook/test-runner`, execOptions);
+    // Using a fixed version to work around core-js problems
+    await exec(`yarn add --dev @storybook/test-runner@0.8.1--canary.202.99d82aa.0`, execOptions);
 
     await exec(
       `yarn test-storybook --url http://localhost:${PORT} --junit --index-json`,
