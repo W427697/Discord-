@@ -211,11 +211,6 @@
       "type": "library",
       "implicitDependencies": []
     },
-    "@storybook/example-react-ts": {
-      "root": "examples/react-ts",
-      "type": "library",
-      "implicitDependencies": []
-    },
     "@storybook/external-docs": {
       "root": "examples/external-docs",
       "type": "library",
