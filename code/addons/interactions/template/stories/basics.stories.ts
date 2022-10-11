@@ -48,6 +48,7 @@ export const SyncWaitFor = {
   play: async ({ canvasElement, step }) => {
     const canvas = within(canvasElement);
     await step('Setup', Callback.play);
+
     await waitFor(() => canvas.getByText('Completed!!'));
   },
 };

@@ -46,6 +46,29 @@ const reactViteTemplates = {
   },
 };
 
+const reactWebpackTemplates = {
+  'react-webpack/18-ts': {
+    name: 'React Webpack5 (TS)',
+    script: 'yarn create webpack5-react .',
+    cadence: ['ci', 'daily', 'weekly'],
+    expected: {
+      framework: '@storybook/react-webpack5',
+      renderer: '@storybook/react',
+      builder: '@storybook/builder-webpack5',
+    },
+  },
+  'react-webpack/17-ts': {
+    name: 'React Webpack5 (TS)',
+    script: 'yarn create webpack5-react . --version-react="17" --version-react-dom="17"',
+    cadence: ['ci', 'daily', 'weekly'],
+    expected: {
+      framework: '@storybook/react-webpack5',
+      renderer: '@storybook/react',
+      builder: '@storybook/builder-webpack5',
+    },
+  },
+};
+
 const vue3ViteTemplates = {
   'vue3-vite/default-js': {
     name: 'Vue3 Vite (JS)',
@@ -86,6 +109,19 @@ const vue2ViteTemplates = {
   },
 };
 
+const htmlWebpackTemplates = {
+  'html-webpack/default': {
+    name: 'HTML Webpack5',
+    script: 'yarn create webpack5-html .',
+    cadence: ['ci', 'daily', 'weekly'],
+    expected: {
+      framework: '@storybook/html-webpack5',
+      renderer: '@storybook/html',
+      builder: '@storybook/builder-webpack5',
+    },
+  },
+};
+
 const svelteViteTemplates = {
   'svelte-vite/default-js': {
     name: 'Svelte Vite (JS)',
@@ -97,27 +133,23 @@ const svelteViteTemplates = {
       builder: '@storybook/builder-vite',
     },
   },
-  /*
-   * I disabled this, because it was flaky
-   * TODO: we should fixd the instability and re-enable it
-   */
-  // 'svelte-vite/default-ts': {
-  //   name: 'Svelte Vite (TS)',
-  //   script: 'yarn create vite . --template svelte-ts',
-  //   cadence: ['ci', 'daily', 'weekly'],
-  //   expected: {
-  //     framework: '@storybook/svelte-vite',
-  //     renderer: '@storybook/svelte',
-  //     builder: '@storybook/builder-vite'
-  //   }
-  // }
+  'svelte-vite/default-ts': {
+    name: 'Svelte Vite (TS)',
+    script: 'yarn create vite . --template svelte-ts',
+    cadence: ['ci', 'daily', 'weekly'],
+    expected: {
+      framework: '@storybook/svelte-vite',
+      renderer: '@storybook/svelte',
+      builder: '@storybook/builder-vite',
+    },
+  },
 };
 
 const litViteTemplates = {
   'lit-vite/default-js': {
     name: 'Lit Vite (JS)',
     script: 'yarn create vite . --template lit',
-    cadence: [] as any,
+    cadence: ['ci', 'daily', 'weekly'] as any,
     expected: {
       framework: '@storybook/web-components-vite',
       renderer: '@storybook/web-components',
@@ -127,7 +159,7 @@ const litViteTemplates = {
   'lit-vite/default-ts': {
     name: 'Lit Vite (TS)',
     script: 'yarn create vite . --template lit-ts',
-    cadence: [] as any,
+    cadence: ['ci', 'daily', 'weekly'] as any,
     expected: {
       framework: '@storybook/web-components-vite',
       renderer: '@storybook/web-components',
@@ -162,12 +194,14 @@ const vueCliTemplates = {
 
 export default {
   ...craTemplates,
+  ...reactWebpackTemplates,
   ...reactViteTemplates,
   ...vue2ViteTemplates,
   ...vue3ViteTemplates,
   ...svelteViteTemplates,
   ...litViteTemplates,
   ...vueCliTemplates,
+  ...htmlWebpackTemplates,
   // FIXME: missing documentation.json
   // 'angular/latest': {
   //   name: 'Angular (latest)',

@@ -1,6 +1,6 @@
 {
   "name": "standalone-preview",
-  "version": "7.0.0-alpha.34",
+  "version": "7.0.0-alpha.35",
   "private": true,
   "scripts": {
     "TODO": "the official-storybook is removed, can this example be removed?",
@@ -8,14 +8,14 @@
     "storybook-preview": "cross-env PREVIEW_URL=external-iframe.html parcel ./storybook.html --port 1337"
   },
   "devDependencies": {
-    "@storybook/addon-docs": "7.0.0-alpha.34",
-    "@storybook/cli": "7.0.0-alpha.34",
-    "@storybook/react": "7.0.0-alpha.34",
-    "@storybook/react-webpack5": "7.0.0-alpha.34",
+    "@storybook/addon-docs": "7.0.0-alpha.35",
+    "@storybook/cli": "7.0.0-alpha.35",
+    "@storybook/react": "7.0.0-alpha.35",
+    "@storybook/react-webpack5": "7.0.0-alpha.35",
     "cross-env": "^7.0.3",
     "parcel": "2.0.1",
     "react": "16.14.0",
     "react-dom": "16.14.0",
-    "storybook": "7.0.0-alpha.34"
+    "storybook": "7.0.0-alpha.35"
   }
 }
