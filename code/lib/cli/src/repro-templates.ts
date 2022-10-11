@@ -206,6 +206,31 @@ const preactWebpackTemplates = {
   },
 };
 
+const preactViteTemplates = {
+  'preact-vite/default-js': {
+    name: 'Preact Vite (Default JS)',
+    script: 'yarn create vite . --template preact',
+    // cadence: ['ci', 'daily', 'weekly'],
+    cadence: [] as string[],
+    expected: {
+      framework: '@storybook/preact-vite',
+      renderer: '@storybook/preact',
+      builder: '@storybook/builder-vite',
+    },
+  },
+  'preact-vite/default-ts': {
+    name: 'Preact Vite (Default TS)',
+    script: 'yarn create vite . --template preact-ts',
+    // cadence: ['ci', 'daily', 'weekly'],
+    cadence: [] as string[],
+    expected: {
+      framework: '@storybook/preact-vite',
+      renderer: '@storybook/preact',
+      builder: '@storybook/builder-vite',
+    },
+  },
+};
+
 export default {
   ...craTemplates,
   ...reactWebpackTemplates,
@@ -216,6 +241,7 @@ export default {
   ...litViteTemplates,
   ...vueCliTemplates,
   ...preactWebpackTemplates,
+  ...preactViteTemplates,
   // FIXME: missing documentation.json
   // 'angular/latest': {
   //   name: 'Angular (latest)',
