@@ -1,5 +1,5 @@
 import chalk from 'chalk';
-import { gt, satisfies } from '@storybook/semver';
+import { gt, satisfies } from 'semver';
 import { sync as spawnSync } from 'cross-spawn';
 import path from 'path';
 import fs from 'fs';
