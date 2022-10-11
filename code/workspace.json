@@ -421,11 +421,6 @@
       "type": "library",
       "implicitDependencies": []
     },
-    "official-storybook": {
-      "root": "examples/official-storybook",
-      "type": "library",
-      "implicitDependencies": []
-    },
     "preact-example": {
       "root": "examples/preact-kitchen-sink",
       "type": "library",

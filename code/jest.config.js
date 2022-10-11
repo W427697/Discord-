@@ -40,7 +40,6 @@ module.exports = {
     '<rootDir>/frameworks',
     '<rootDir>/lib',
     '<rootDir>/renderers',
-    '<rootDir>/examples/official-storybook',
   ],
   transform: {
     '^.+\\.stories\\.[jt]sx?$': '@storybook/addon-storyshots/injectFileName',

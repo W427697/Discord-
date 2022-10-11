@@ -1,12 +1,12 @@
 /// <reference types="node" />
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
 import type { StorybookConfig } from '@storybook/react-webpack5';
 
 const config: StorybookConfig = {
   stories: [
-    // FIXME: Breaks e2e tests './intro.stories.mdx',
     '../../lib/ui/src/**/*.stories.@(ts|tsx|js|jsx|mdx)',
     '../../lib/components/src/**/*.stories.@(ts|tsx|js|jsx|mdx)',
-    './stories/**/*.stories.@(ts|tsx|js|jsx|mdx)',
     './../../addons/docs/**/*.stories.@(ts|tsx|js|jsx|mdx)',
     './../../addons/interactions/**/*.stories.@(ts|tsx|js|jsx|mdx)',
   ],
@@ -15,8 +15,6 @@ const config: StorybookConfig = {
       name: '@storybook/addon-docs',
       options: {
         transcludeMarkdown: true,
-        // needed if you use addon-docs in conjunction
-        // with addon-storysource
         sourceLoaderOptions: null,
       },
     },
@@ -37,17 +35,6 @@ const config: StorybookConfig = {
     breakingChangesV7: false,
     storyStoreV7: false,
   },
-  staticDirs: [
-    './statics/public',
-    {
-      from: './statics/examples/example1',
-      to: '/example1',
-    },
-    {
-      from: './statics/examples/example2',
-      to: '/example2',
-    },
-  ],
   framework: {
     name: '@storybook/react-webpack5',
     options: {
