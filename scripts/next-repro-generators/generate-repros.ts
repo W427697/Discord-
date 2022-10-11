@@ -76,7 +76,7 @@ export const runCommand = async (script: string, options: ExecaOptions) => {
     console.log(`Running command: ${script}`);
   }
 
-  return command(script, { stdout: shouldDebug ? 'inherit' : 'ignore', ...options });
+  return command(script, { stdout: shouldDebug ? 'inherit' : 'ignore', shell: true, ...options });
 };
 
 const addDocumentation = async (
