@@ -1,0 +1,26 @@
+import globalThis from 'global';
+import { Meta, Story, Canvas } from '@storybook/addon-docs';
+
+<Meta title="stories/renderers/react/react-mdx" />
+
+# React-specific MDX Stories
+
+export const Button = globalThis.Components.Button;
+
+export const Template = (args) => <Button>From template</Button>;
+
+<Canvas>
+  <Story name="Primary">
+    <Button>Primary</Button>
+  </Story>
+</Canvas>
+
+<Canvas>
+  <Story name="Secondary">
+    <Button>Secondary</Button>
+  </Story>
+</Canvas>
+
+<Canvas>
+  <Story name="From Template">{Template.bind({})}</Story>
+</Canvas>

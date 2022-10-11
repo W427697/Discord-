@@ -77,8 +77,8 @@
     "vue-jest": "^5.0.0-alpha.8"
   },
   "peerDependencies": {
-    "@angular/core": ">=6.0.0",
-    "@angular/platform-browser-dynamic": ">=6.0.0",
+    "@angular/core": ">=13.0.0",
+    "@angular/platform-browser-dynamic": ">=13.0.0",
     "@storybook/angular": "*",
     "@storybook/react": "*",
     "@storybook/vue": "*",
