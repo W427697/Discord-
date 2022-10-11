@@ -1,1 +1,1 @@
-# Storybook for React
+# Storybook for Preact
