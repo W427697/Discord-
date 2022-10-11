@@ -6,7 +6,7 @@ const withTests = {
         shippedProposals: true,
         useBuiltIns: 'usage',
         corejs: '3',
-        targets: { node: '16' },
+        targets: { node: 'current' },
       },
     ],
   ],
@@ -23,7 +23,7 @@ const modules = process.env.BABEL_MODE === 'cjs' ? 'auto' : false;
 
 // FIXME: optional chaining introduced in chrome 80, not supported by wepback4
 // https://github.com/webpack/webpack/issues/10227#issuecomment-642734920
-const targets = process.env.BABEL_MODE === 'esm' ? { chrome: '100' } : { node: '16' };
+const targets = process.env.BABEL_MODE === 'esm' ? { chrome: '100' } : { node: 'current' };
 
 module.exports = {
   compact: false,
@@ -147,7 +147,7 @@ module.exports = {
             shippedProposals: true,
             useBuiltIns: 'usage',
             targets: {
-              node: '16',
+              node: '14',
             },
             modules,
             corejs: '3',
@@ -179,7 +179,7 @@ module.exports = {
             shippedProposals: true,
             useBuiltIns: 'usage',
             targets: {
-              node: '16',
+              node: '14',
             },
             corejs: '3',
             modules: false,
