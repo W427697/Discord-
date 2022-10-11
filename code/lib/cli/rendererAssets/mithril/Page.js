@@ -16,7 +16,7 @@ export const Page = {
           onCreateAccount: attrs.onCreateAccount,
         })}
       </div>
-      <section>
+      <section class="storybook-page">
         <h2>Pages in Storybook</h2>
         <p>
           We recommend building UIs with a{' '}
