@@ -431,11 +431,6 @@
       "type": "library",
       "implicitDependencies": []
     },
-    "html-kitchen-sink": {
-      "root": "examples/html-kitchen-sink",
-      "type": "library",
-      "implicitDependencies": []
-    },
     "official-storybook": {
       "root": "examples/official-storybook",
       "type": "library",

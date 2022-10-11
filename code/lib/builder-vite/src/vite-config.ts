@@ -43,7 +43,7 @@ export async function commonConfig(
 
   const sbConfig = {
     configFile: false,
-    cacheDir: 'node_modules/.vite-storybook',
+    cacheDir: 'node_modules/.cache/.vite-storybook',
     root: path.resolve(options.configDir, '..'),
     plugins: await pluginConfig(options),
     resolve: {
@@ -91,7 +91,7 @@ export async function pluginConfig(options: ExtendedOptions) {
 
   // TODO: framework doesn't exist, should move into framework when/if built
   if (frameworkName === '@storybook/preact-vite') {
-    // eslint-disable-next-line global-require
+    // eslint-disable-next-line global-require, import/no-extraneous-dependencies
     plugins.push(require('@preact/preset-vite').default());
   }
 
