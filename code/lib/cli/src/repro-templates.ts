@@ -101,6 +101,8 @@ const vue2ViteTemplates = {
     script:
       'yarn create vite . --template vanilla && yarn add --dev @vitejs/plugin-vue2 vue-template-compiler vue@2 && echo "import vue2 from \'@vitejs/plugin-vue2\';\n\nexport default {\n\tplugins: [vue2()]\n};" > vite.config.js',
     cadence: ['ci', 'daily', 'weekly'],
+    // Re-enable once https://github.com/storybookjs/storybook/issues/19351 is fixed.
+    skipTasks: ['smoke-test'],
     expected: {
       framework: '@storybook/vue2-vite',
       renderer: '@storybook/vue',
@@ -140,6 +142,8 @@ const angularCliTemplates = {
     script:
       'npx -p @angular/cli ng new angular-latest --directory . --routing=true --minimal=true --style=scss --skip-install=true --strict --skip-git',
     cadence: ['ci', 'daily', 'weekly'],
+    // Re-enable once https://github.com/storybookjs/storybook/issues/19351 is fixed.
+    skipTasks: ['smoke-test'],
     expected: {
       framework: '@storybook/angular',
       renderer: '@storybook/angular',
