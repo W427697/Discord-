@@ -25,11 +25,12 @@ const OUTPUT_DIRECTORY = join(__dirname, '..', '..', 'repros');
 const BEFORE_DIR_NAME = 'before-storybook';
 const AFTER_DIR_NAME = 'after-storybook';
 
-const sbInit = async (cwd: string) => {
+const sbInit = async (cwd: string, flags?: string[]) => {
   const sbCliBinaryPath = join(__dirname, `../../code/lib/cli/bin/index.js`);
   console.log(`🎁 Installing storybook`);
   const env = { STORYBOOK_DISABLE_TELEMETRY: 'true' };
-  await runCommand(`${sbCliBinaryPath} init --yes`, { cwd, env });
+  const fullFlags = ['--yes', ...(flags || [])];
+  await runCommand(`${sbCliBinaryPath} init ${fullFlags.join(' ')}`, { cwd, env });
 };
 
 const LOCAL_REGISTRY_URL = 'http://localhost:6001';
@@ -45,7 +46,7 @@ const withLocalRegistry = async (packageManager: JsPackageManager, action: () =>
   }
 };
 
-const addStorybook = async (baseDir: string, localRegistry: boolean) => {
+const addStorybook = async (baseDir: string, localRegistry: boolean, flags?: string[]) => {
   const beforeDir = join(baseDir, BEFORE_DIR_NAME);
   const afterDir = join(baseDir, AFTER_DIR_NAME);
   const tmpDir = join(baseDir, 'tmp');
@@ -60,10 +61,10 @@ const addStorybook = async (baseDir: string, localRegistry: boolean) => {
     await withLocalRegistry(packageManager, async () => {
       packageManager.addPackageResolutions(storybookVersions);
 
-      await sbInit(tmpDir);
+      await sbInit(tmpDir, flags);
     });
   } else {
-    await sbInit(tmpDir);
+    await sbInit(tmpDir, flags);
   }
   await rename(tmpDir, afterDir);
 };
@@ -106,14 +107,15 @@ const runGenerators = async (
 
   let controller: AbortController;
   if (localRegistry) {
-    await publish.run({ codeDir: resolve(__dirname, '../../code') } as any, {} as any);
     console.log(`⚙️ Starting local registry: ${LOCAL_REGISTRY_URL}`);
     controller = await runRegistry({ debug: true });
   }
 
   await Promise.all(
-    generators.map(({ dirName, name, script }) =>
+    generators.map(({ dirName, name, script, expected }) =>
       limit(async () => {
+        const flags = expected.renderer === '@storybook/html' ? ['--type html'] : [];
+
         const time = process.hrtime();
         console.log(`🧬 generating ${name}`);
 
@@ -129,7 +131,7 @@ const runGenerators = async (
 
         await localizeYarnConfigFiles(baseDir, beforeDir);
 
-        await addStorybook(baseDir, localRegistry);
+        await addStorybook(baseDir, localRegistry, flags);
 
         await addDocumentation(baseDir, { name, dirName });
 

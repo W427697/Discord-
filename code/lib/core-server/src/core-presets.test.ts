@@ -176,7 +176,7 @@ const prepareSnap = (get: any, name): Pick<Configuration, 'module' | 'entry' | '
 
 const snap = (name: string) => `__snapshots__/${name}`;
 
-describe.each([['web-components-kitchen-sink'], ['html-kitchen-sink']])('%s', (example) => {
+describe.each([['web-components-kitchen-sink']])('%s', (example) => {
   describe.each([
     ['manager', managerExecutor],
     ['preview', previewExecutor],
