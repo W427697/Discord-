@@ -90,11 +90,11 @@ export class StoryIndexGenerator {
       this.specifiers.map(async (specifier) => {
         const pathToSubIndex = {} as SpecifierStoriesCache;
 
-        const files = new FDir()
+        const files = (await new FDir()
           .withFullPaths()
           .glob(slash(path.join(this.options.workingDir, specifier.directory, specifier.files)))
           .crawl(slash(path.join(this.options.workingDir, specifier.directory)))
-          .sync() as string[];
+          .withPromise()) as string[];
 
         files.sort().forEach((absolutePath: Path) => {
           const ext = path.extname(absolutePath);
