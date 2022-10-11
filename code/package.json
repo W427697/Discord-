@@ -46,7 +46,6 @@
       "presets/*",
       "examples-native/*",
       "examples/*",
-      "!examples/web-components-kitchen-sink",
       "lib/*",
       "lib/cli/test/run/*"
     ]

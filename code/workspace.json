@@ -475,11 +475,6 @@
       "root": "examples/vue-kitchen-sink",
       "type": "library",
       "implicitDependencies": []
-    },
-    "web-components-kitchen-sink": {
-      "root": "examples/web-components-kitchen-sink",
-      "type": "library",
-      "implicitDependencies": []
     }
   }
 }
