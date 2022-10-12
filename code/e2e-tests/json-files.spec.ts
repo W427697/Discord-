@@ -13,11 +13,11 @@ test.describe('JSON files', () => {
     const json = await page.evaluate(() => fetch('/index.json').then((res) => res.json()));
 
     expect(json).toEqual({
-      v: 4,
+      v: expect.any(Number),
       entries: expect.objectContaining({
         'example-button--primary': {
           id: 'example-button--primary',
-          importPath: expect.stringMatching(/\/Button\.stories\.jsx$/),
+          importPath: expect.stringMatching(/\/Button\.stories\.[tj]sx$/),
           name: 'Primary',
           title: 'Example/Button',
           type: 'story',
