@@ -184,6 +184,8 @@ const vueCliTemplates = {
     name: 'Vue-CLI (Default JS)',
     script: 'npx -p @vue/cli vue create . --default --packageManager=yarn --force --merge',
     cadence: ['ci', 'daily', 'weekly'],
+    // Re-enable once https://github.com/storybookjs/storybook/issues/19453 is fixed.
+    skipTasks: ['test-runner'],
     expected: {
       framework: '@storybook/vue3-webpack5',
       renderer: '@storybook/vue3',
@@ -195,6 +197,8 @@ const vueCliTemplates = {
     script:
       'npx -p @vue/cli vue create . --default --packageManager=yarn --force --merge --preset=Default\\ (Vue\\ 2)',
     cadence: ['ci', 'daily', 'weekly'],
+    // Re-enable once https://github.com/storybookjs/storybook/issues/19453 is fixed.
+    skipTasks: ['test-runner'],
     expected: {
       framework: '@storybook/vue-webpack5',
       renderer: '@storybook/vue',
