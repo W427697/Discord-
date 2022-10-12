@@ -8,7 +8,6 @@ on:
   push:
     branches:
       - vite-frameworks-xyz
-      - norbert/sb-565-javascript
 
 jobs:
   generate:
@@ -27,7 +26,7 @@ jobs:
       - name: Install dependencies
         run: node ./scripts/check-dependencies.js
       - name: Bootstrap Storybook libraries
-        run: yarn task --task compile --start-from=auto --no-link
+        run: yarn task --task publish --start-from=auto --no-link
       - name: Generate repros
         run: yarn generate-repros-next --local-registry
         working-directory: ./code
