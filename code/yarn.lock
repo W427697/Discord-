@@ -7908,6 +7908,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@storybook/manager@workspace:manager":
+  version: 0.0.0-use.local
+  resolution: "@storybook/manager@workspace:manager"
+  dependencies:
+    "@vitejs/plugin-react": ^2.1.0
+    typescript: ^4.8.4
+    vite: ^3.1.7
+  languageName: unknown
+  linkType: soft
+
 "@storybook/mdx1-csf@npm:0.0.5-canary.13.9ce928a.0":
   version: 0.0.5-canary.13.9ce928a.0
   resolution: "@storybook/mdx1-csf@npm:0.0.5-canary.13.9ce928a.0"
@@ -10742,7 +10752,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vitejs/plugin-react@npm:^2.0.0":
+"@vitejs/plugin-react@npm:^2.0.0, @vitejs/plugin-react@npm:^2.1.0":
   version: 2.1.0
   resolution: "@vitejs/plugin-react@npm:2.1.0"
   dependencies:
@@ -40966,7 +40976,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vite@npm:^3.1.0, vite@npm:^3.1.3":
+"vite@npm:^3.1.0, vite@npm:^3.1.3, vite@npm:^3.1.7":
   version: 3.1.7
   resolution: "vite@npm:3.1.7"
   dependencies:
