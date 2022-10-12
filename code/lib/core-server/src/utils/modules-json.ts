@@ -52,7 +52,7 @@ export const writeModulesJson = async (directory: string, stats: Stats) => {
   const filePath = path.join(directory, `modules.json`);
   const modules = webpackStatsToModulesJson(stats);
   await new Promise((resolve, reject) => {
-    stringifyStream({ modules }, replacer, 2)
+    stringifyStream({ v: 1, modules }, replacer, 2)
       .on('error', reject)
       .pipe(fs.createWriteStream(filePath))
       .on('error', reject)

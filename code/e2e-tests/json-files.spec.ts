@@ -25,4 +25,18 @@ test.describe('JSON files', () => {
       }),
     });
   });
+
+  test('should have modules.json', async ({ page }) => {
+    // eslint-disable-next-line jest/valid-expect-in-promise
+    const json = await page.evaluate(() => fetch('/modules.json').then((res) => res.json()));
+
+    expect(json).toEqual({
+      v: expect.any(Number),
+      modules: expect.any(Object),
+    });
+
+    const keys = Object.keys(json.modules);
+    expect(keys).toContainEqual(expect.stringMatching(/\/Button\.stories\.[tj]sx$/));
+    expect(keys).toContainEqual(expect.stringMatching(/\/node_modules\//));
+  });
 });

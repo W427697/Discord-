@@ -9,6 +9,10 @@ export const build: Task = {
     return pathExists(builtSandboxDir);
   },
   async run({ sandboxDir }, { dryRun, debug }) {
-    return exec(`yarn build-storybook --quiet`, { cwd: sandboxDir }, { dryRun, debug });
+    return exec(
+      `yarn build-storybook --modules-json --quiet`,
+      { cwd: sandboxDir },
+      { dryRun, debug }
+    );
   },
 };
