@@ -1,9 +1,8 @@
-import path from 'path';
-import fs from 'fs';
-import { sync as spawnSync } from 'cross-spawn';
-
 import { getStorybookInfo } from '@storybook/core-common';
 import { readConfig, writeConfig } from '@storybook/csf-tools';
+import { sync as spawnSync } from 'cross-spawn';
+import fs from 'fs';
+import path from 'path';
 
 import { commandLog } from './helpers';
 import { JsPackageManagerFactory } from './js-package-manager';
@@ -23,6 +22,8 @@ const postinstallAddon = async (addonName: string, isOfficialAddon: boolean) => 
     LEGACY_CONFIGS.forEach((config) => {
       try {
         const codemod = require.resolve(
+          // TODO: fix this before merging
+          // @ts-expect-error getPackageName undefined, so will always go to catch branch
           `${getPackageName(addonName, isOfficialAddon)}/postinstall/${config}.js`
         );
         commandLog(`Running postinstall script for ${addonName}`)();

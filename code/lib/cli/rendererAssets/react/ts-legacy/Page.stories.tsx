@@ -4,7 +4,7 @@ import { userEvent, within } from '@storybook/testing-library';
 import React from 'react';
 import { Page } from './Page';
 
-const meta = {
+const meta: Meta<typeof Page> = {
   title: 'Example/Page',
   component: Page,
   parameters: {
@@ -12,17 +12,12 @@ const meta = {
     layout: 'fullscreen',
   },
 };
-satisfies;
-Meta<typeof Page>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
 
-export const LoggedOut = {};
-satisfies;
-Story;
+export const LoggedOut: StoryObj<typeof Page> = {};
 
-export const LoggedIn = {
+export const LoggedIn: StoryObj<typeof Page> = {
   // More on interaction testing: https://storybook.js.org/docs/react/writing-tests/interaction-testing
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
@@ -30,5 +25,3 @@ export const LoggedIn = {
     await userEvent.click(loginButton);
   },
 };
-satisfies;
-Story;

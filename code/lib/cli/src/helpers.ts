@@ -1,14 +1,14 @@
 /* eslint-disable no-param-reassign */
-import path, { join } from 'path';
+import chalk from 'chalk';
 import fs from 'fs';
 import fse from 'fs-extra';
-import chalk from 'chalk';
+import path, { join } from 'path';
 import { satisfies } from 'semver';
 import stripJsonComments from 'strip-json-comments';
-
-import { SupportedRenderers, SupportedLanguage } from './project_types';
-import { JsPackageManager, PackageJson, PackageJsonWithDepsAndDevDeps } from './js-package-manager';
 import { getBaseDir } from './dirs';
+import { JsPackageManager, PackageJson, PackageJsonWithDepsAndDevDeps } from './js-package-manager';
+
+import { SupportedLanguage, SupportedRenderers } from './project_types';
 import storybookMonorepoPackages from './versions';
 
 const logger = console;
@@ -183,18 +183,31 @@ export function copyTemplate(templateRoot: string) {
 
 export async function copyComponents(renderer: SupportedRenderers, language: SupportedLanguage) {
   const languageFolderMapping: Record<SupportedLanguage, string> = {
-    javascript: 'js',
-    typescript: 'ts',
+    [SupportedLanguage.JAVASCRIPT]: 'js',
+    [SupportedLanguage.TYPESCRIPT]: 'ts',
+    [SupportedLanguage.TYPESCRIPT_LEGACY]: 'ts-legacy',
   };
   const componentsPath = async () => {
     const baseDir = getBaseDir();
     const assetsRoot = join(baseDir, 'rendererAssets');
     const assetsRenderer = join(assetsRoot, renderer);
     const assetsLanguage = join(assetsRenderer, languageFolderMapping[language]);
+    const assetsJS = join(assetsRenderer, languageFolderMapping.javascript);
+    const assetsTSLegacy = join(
+      assetsRenderer,
+      languageFolderMapping[SupportedLanguage.TYPESCRIPT_LEGACY]
+    );
+    const assetsTS = join(assetsRenderer, languageFolderMapping[SupportedLanguage.TYPESCRIPT]);
+
     if (await fse.pathExists(assetsLanguage)) {
       return assetsLanguage;
     }
-    const assetsJS = join(assetsRenderer, languageFolderMapping.javascript);
+    if (language === SupportedLanguage.TYPESCRIPT && (await fse.pathExists(assetsTSLegacy))) {
+      return assetsTSLegacy;
+    }
+    if (language === SupportedLanguage.TYPESCRIPT_LEGACY && (await fse.pathExists(assetsTS))) {
+      return assetsTS;
+    }
     if (await fse.pathExists(assetsJS)) {
       return assetsJS;
     }

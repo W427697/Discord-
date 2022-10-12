@@ -19,7 +19,7 @@ const Template: StoryFn<HeaderProps> = (args) => createHeader(args);
 
 export const LoggedIn = Template.bind({});
 LoggedIn.args = {
-  user: {},
+  user: { name: 'John Doe' },
 };
 
 export const LoggedOut = Template.bind({});

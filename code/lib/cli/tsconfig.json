@@ -1,12 +1,23 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "types": ["node", "jest"],
+    "types": [
+      "node",
+      "jest"
+    ],
     "strict": false,
     "skipLibCheck": true,
     "strictNullChecks": false,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "experimentalDecorators": true
   },
-  "include": ["src/**/*"],
-  "exclude": ["templates/**/**", "**/*.test.*", "src/frameworks/**/*"]
+  "include": [
+    "src/**/*",
+    "rendererAssets/**/*"
+  ],
+  "exclude": [
+    "templates/**/**",
+    "src/frameworks/**/*",
+    "rendererAssets/aurelia/**/*"
+  ]
 }

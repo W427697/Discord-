@@ -226,6 +226,8 @@ describe('NPM Proxy', () => {
 
       jest.spyOn(npmProxy, 'retrievePackageJson').mockImplementation(
         jest.fn(() => ({
+          dependencies: {},
+          devDependencies: {},
           overrides: {
             bar: 'x.x.x',
           },

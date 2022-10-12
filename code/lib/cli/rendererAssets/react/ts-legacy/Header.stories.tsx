@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import React from 'react';
 import { Header } from './Header';
 
-const meta = {
+const meta: Meta<typeof Header> = {
   title: 'Example/Header',
   component: Header,
   parameters: {
@@ -10,20 +10,13 @@ const meta = {
     layout: 'fullscreen',
   },
 };
-satisfies;
-Meta<typeof Header>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
 
-export const LoggedIn = {
+export const LoggedIn: StoryObj<typeof Header> = {
   args: {
     user: { name: 'Jane Doe' },
   },
 };
-satisfies;
-Story;
 
-export const LoggedOut = {};
-satisfies;
-Story;
+export const LoggedOut: StoryObj<typeof Header> = {};

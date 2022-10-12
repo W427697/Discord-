@@ -155,6 +155,8 @@ describe('Yarn 2 Proxy', () => {
 
       jest.spyOn(yarn2Proxy, 'retrievePackageJson').mockImplementation(
         jest.fn(() => ({
+          dependencies: {},
+          devDependencies: {},
           resolutions: {
             bar: 'x.x.x',
           },

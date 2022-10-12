@@ -1,20 +1,21 @@
-import path from 'path';
-import fs from 'fs';
 import findUp from 'find-up';
+import fs from 'fs';
+import path from 'path';
+import semver from 'semver';
 
+import { detectNextJS } from './detect-nextjs';
+import { getBowerJson, paddedLog } from './helpers';
+import { JsPackageManager, PackageJson, PackageJsonWithMaybeDeps } from './js-package-manager';
 import {
+  CoreBuilder,
   ProjectType,
-  supportedTemplates,
   SUPPORTED_RENDERERS,
   SupportedLanguage,
+  supportedTemplates,
   TemplateConfiguration,
   TemplateMatcher,
   unsupportedTemplate,
-  CoreBuilder,
 } from './project_types';
-import { getBowerJson, paddedLog } from './helpers';
-import { PackageJson, JsPackageManager, PackageJsonWithMaybeDeps } from './js-package-manager';
-import { detectNextJS } from './detect-nextjs';
 
 const viteConfigFiles = ['vite.config.ts', 'vite.config.js', 'vite.config.mjs'];
 
@@ -156,8 +157,14 @@ export function detectLanguage(packageJson?: PackageJson) {
     return language;
   }
 
-  if (hasDependency(packageJson || bowerJson, 'typescript')) {
+  if (
+    hasDependency(packageJson || bowerJson, 'typescript', (version) =>
+      semver.gte(semver.coerce(version), '4.9.0')
+    )
+  ) {
     language = SupportedLanguage.TYPESCRIPT;
+  } else if (hasDependency(packageJson || bowerJson, 'typescript')) {
+    language = SupportedLanguage.TYPESCRIPT_LEGACY;
   }
 
   return language;

@@ -3434,7 +3434,7 @@ __metadata:
     npmlog: ^5.0.1
     nx: 14.6.1
     p-limit: ^3.1.0
-    prettier: ">=2.2.1 <=2.3.0"
+    prettier: ^2.7.1
     pretty-hrtime: ^1.0.0
     process: ^0.11.10
     prompts: ^2.4.0
@@ -3460,7 +3460,7 @@ __metadata:
     ts-loader: ^9.2.8
     ts-node: ^10.4.0
     tsup: ^6.2.2
-    typescript: ~4.6.3
+    typescript: 4.9.0-dev.20221011
     util: ^0.12.4
     verdaccio: ^4.10.0
     verdaccio-auth-memory: ^9.7.2
@@ -15736,12 +15736,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prettier@npm:>=2.2.1 <=2.3.0":
-  version: 2.3.0
-  resolution: "prettier@npm:2.3.0"
+"prettier@npm:^2.7.1":
+  version: 2.7.1
+  resolution: "prettier@npm:2.7.1"
   bin:
     prettier: bin-prettier.js
-  checksum: b9f434af2f25a37aad0b133894827e980885eb8bf317444c9dde0401ed2c7f463f9996d691f5ee5a0a4450ab46a894cd6557516b561e2522821522ce1f4c6668
+  checksum: 359d2b7ecf36bd52924a48331cae506d335f18637fde6c686212f952b9ce678ce9f554a80571049b36ec2897a8a6c40094b776dea371cc5c04c481cf5b78504b
   languageName: node
   linkType: hard
 
@@ -19088,23 +19088,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:~4.6.3":
-  version: 4.6.4
-  resolution: "typescript@npm:4.6.4"
+"typescript@npm:4.9.0-dev.20221011":
+  version: 4.9.0-dev.20221011
+  resolution: "typescript@npm:4.9.0-dev.20221011"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 92e2c0328485a4f7bd7435f5b105f03addff32f867e241dc3be8c372ed801a138c732d9a55697696d2f82a80dd6ad4bddff1ad6b0d1884bf4a24b92e71094c44
+  checksum: 985b213ccb9688eb2c3514567506c869c91d3d23e10ef1e9899f3a817291270fa6a87448436f1b31bd280d62d58b95ece2eccc784479f8f299c476c7cf754028
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@npm%3A~4.6.3#~builtin<compat/typescript>":
-  version: 4.6.4
-  resolution: "typescript@patch:typescript@npm%3A4.6.4#~builtin<compat/typescript>::version=4.6.4&hash=a1c5e5"
+"typescript@patch:typescript@npm%3A4.9.0-dev.20221011#~builtin<compat/typescript>":
+  version: 4.9.0-dev.20221011
+  resolution: "typescript@patch:typescript@npm%3A4.9.0-dev.20221011#~builtin<compat/typescript>::version=4.9.0-dev.20221011&hash=a1c5e5"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 0e3fa814d454942a689daf4c00f82328d323e7ecd4077e3265d45375e64642611631f4c882a71be87774468ba03793e9b8ff4bccfac3018194a9e36d8f72c251
+  checksum: fcd0f1069bb5ab06c7b666d6619ef0904496bd000230c3e8ddb397ec01f6a39168d2d6cfc181fb746307cfce49f1412d64f5abdae944d13ef56b9683c623edd9
   languageName: node
   linkType: hard
 

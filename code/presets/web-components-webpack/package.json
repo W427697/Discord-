@@ -64,7 +64,7 @@
   },
   "devDependencies": {
     "lit-html": "2.0.2",
-    "typescript": "~4.6.3"
+    "typescript": "4.9.0-dev.20221011"
   },
   "peerDependencies": {
     "lit-html": "^1.4.1 || ^2.0.0"

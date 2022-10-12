@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { Button } from './Button';
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
-const meta = {
+const meta: Meta<typeof Button> = {
   title: 'Example/Button',
   component: Button,
   // More on argTypes: https://storybook.js.org/docs/react/api/argtypes
@@ -10,44 +10,33 @@ const meta = {
     backgroundColor: { control: 'color' },
   },
 };
-satisfies;
-Meta<typeof Button>;
 
 export default meta;
-type Story = StoryObj<typeof meta>;
 
-export const Primary = {
+export const Primary: StoryObj<typeof Button> = {
   // More on args: https://storybook.js.org/docs/react/writing-stories/args
   args: {
     primary: true,
     label: 'Button',
   },
 };
-satisfies;
-Story;
 
-export const Secondary = {
+export const Secondary: StoryObj<typeof Button> = {
   args: {
     label: 'Button',
   },
 };
-satisfies;
-Story;
 
-export const Large = {
+export const Large: StoryObj<typeof Button> = {
   args: {
     size: 'large',
     label: 'Button',
   },
 };
-satisfies;
-Story;
 
-export const Small = {
+export const Small: StoryObj<typeof Button> = {
   args: {
     size: 'small',
     label: 'Button',
   },
 };
-satisfies;
-Story;
