@@ -252,9 +252,11 @@ async function linkPackageStories(
       const previewFile = `preview.${ext}`;
       const previewPath = join(codeDir, packageDir, 'template', 'stories', previewFile);
       if (await pathExists(previewPath)) {
-        addPreviewAnnotations(mainConfig, [
-          `./${join(linkInDir ? 'src/stories' : 'template-stories', packageDir, previewFile)}`,
-        ]);
+        let storiesDir = 'template-stories';
+        if (linkInDir) {
+          storiesDir = (await pathExists(join(cwd, 'src/stories'))) ? 'src/stories' : 'stories';
+        }
+        addPreviewAnnotations(mainConfig, [`./${join(storiesDir, packageDir, previewFile)}`]);
       }
     })
   );

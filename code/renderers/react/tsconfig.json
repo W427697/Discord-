@@ -5,5 +5,5 @@
     "resolveJsonModule": true
   },
   "include": ["src/**/*"],
-  "exclude": ["src/**/*.test.*", "src/**/__testfixtures__/**"]
+  "exclude": ["src/docs/**/*.test.*", "src/**/__testfixtures__/**"]
 }
