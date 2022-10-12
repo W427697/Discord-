@@ -172,19 +172,6 @@ const angularCliTemplates = {
       builder: '@storybook/builder-webpack5',
     },
   },
-  'angular-cli/12-ts': {
-    name: 'Angular CLI (Version 12)',
-    script:
-      'npx -p @angular/cli@12 ng new angular-latest --directory . --routing=true --minimal=true --style=scss --strict --skip-git --skip-install --package-manager=yarn',
-    cadence: ['ci', 'daily', 'weekly'],
-    // Re-enable once https://github.com/storybookjs/storybook/issues/19351 is fixed.
-    skipTasks: ['smoke-test'],
-    expected: {
-      framework: '@storybook/angular',
-      renderer: '@storybook/angular',
-      builder: '@storybook/builder-webpack5',
-    },
-  },
 };
 
 const litViteTemplates = {
