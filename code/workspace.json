@@ -211,11 +211,6 @@
       "type": "library",
       "implicitDependencies": []
     },
-    "@storybook/example-react-ts": {
-      "root": "examples/react-ts",
-      "type": "library",
-      "implicitDependencies": []
-    },
     "@storybook/external-docs": {
       "root": "examples/external-docs",
       "type": "library",
@@ -381,6 +376,11 @@
       "type": "library",
       "implicitDependencies": []
     },
+    "@storybook/vue-vite": {
+      "root": "frameworks/vue-vite",
+      "type": "library",
+      "implicitDependencies": []
+    },
     "@storybook/vue3": {
       "root": "renderers/vue3",
       "type": "library",
@@ -401,6 +401,11 @@
       "type": "library",
       "implicitDependencies": []
     },
+    "@storybook/web-components-vite": {
+      "root": "frameworks/web-components-vite",
+      "type": "library",
+      "implicitDependencies": []
+    },
     "@storybook/web-components-webpack5": {
       "root": "frameworks/web-components-webpack5",
       "type": "library",
@@ -411,23 +416,8 @@
       "type": "library",
       "implicitDependencies": []
     },
-    "cra-ts-kitchen-sink": {
-      "root": "examples/cra-ts-kitchen-sink",
-      "type": "library",
-      "implicitDependencies": []
-    },
     "ember-example": {
       "root": "examples/ember-cli",
-      "type": "library",
-      "implicitDependencies": []
-    },
-    "html-kitchen-sink": {
-      "root": "examples/html-kitchen-sink",
-      "type": "library",
-      "implicitDependencies": []
-    },
-    "official-storybook": {
-      "root": "examples/official-storybook",
       "type": "library",
       "implicitDependencies": []
     },
@@ -463,21 +453,6 @@
     },
     "vue-3-cli-example": {
       "root": "examples/vue-3-cli",
-      "type": "library",
-      "implicitDependencies": []
-    },
-    "vue-cli-example": {
-      "root": "examples/vue-cli",
-      "type": "library",
-      "implicitDependencies": []
-    },
-    "vue-example": {
-      "root": "examples/vue-kitchen-sink",
-      "type": "library",
-      "implicitDependencies": []
-    },
-    "web-components-kitchen-sink": {
-      "root": "examples/web-components-kitchen-sink",
       "type": "library",
       "implicitDependencies": []
     }

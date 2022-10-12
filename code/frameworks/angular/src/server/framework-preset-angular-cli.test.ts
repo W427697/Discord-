@@ -786,7 +786,6 @@ const newWebpackConfiguration = (
     devtool: 'cheap-module-source-map',
     entry: [
       '/Users/joe/storybook/lib/core-server/dist/esm/globals/polyfills.js',
-      '/Users/joe/storybook/lib/core-server/dist/esm/globals/globals.js',
       '/Users/joe/storybook/examples/angular-cli/.storybook/storybook-init-framework-entry.js',
       '/Users/joe/storybook/addons/docs/dist/esm/frameworks/common/config.js-generated-other-entry.js',
       '/Users/joe/storybook/addons/docs/dist/esm/frameworks/angular/config.js-generated-other-entry.js',
@@ -824,7 +823,6 @@ const newWebpackConfiguration = (
         '@storybook/core-events': '/Users/joe/storybook/lib/core-events',
         '@storybook/router': '/Users/joe/storybook/lib/router',
         '@storybook/theming': '/Users/joe/storybook/lib/theming',
-        '@storybook/semver': '/Users/joe/storybook/node_modules/@storybook/semver',
         '@storybook/client-api': '/Users/joe/storybook/lib/client-api',
         '@storybook/client-logger': '/Users/joe/storybook/lib/client-logger',
         react: '/Users/joe/storybook/node_modules/react',

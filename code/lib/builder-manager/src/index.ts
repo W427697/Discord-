@@ -8,7 +8,7 @@ import { globalExternals } from '@fal-works/esbuild-plugin-global-externals';
 import { pnpPlugin } from '@yarnpkg/esbuild-plugin-pnp';
 import aliasPlugin from 'esbuild-plugin-alias';
 
-import { renderHTML } from './utils/template';
+import { getTemplatePath, renderHTML } from './utils/template';
 import { definitions } from './utils/globals';
 import {
   BuilderBuildResult,
@@ -23,14 +23,14 @@ import { getData } from './utils/data';
 import { safeResolve } from './utils/safeResolve';
 import { readOrderedFiles } from './utils/files';
 
-// eslint-disable-next-line import/no-mutable-exports
-export let compilation: Compilation;
+let compilation: Compilation;
 let asyncIterator: ReturnType<StarterFunction> | ReturnType<BuilderFunction>;
 
 export const getConfig: ManagerBuilder['getConfig'] = async (options) => {
-  const [addonsEntryPoints, customManagerEntryPoint] = await Promise.all([
+  const [addonsEntryPoints, customManagerEntryPoint, tsconfigPath] = await Promise.all([
     options.presets.apply('managerEntries', []),
     safeResolve(join(options.configDir, 'manager')),
+    getTemplatePath('addon.tsconfig.json'),
   ]);
 
   return {
@@ -56,6 +56,13 @@ export const getConfig: ManagerBuilder['getConfig'] = async (options) => {
     bundle: true,
     minify: false,
     sourcemap: true,
+
+    jsxFactory: 'React.createElement',
+    jsxFragment: 'React.Fragment',
+    jsx: 'transform',
+    jsxImportSource: 'react',
+
+    tsconfig: tsconfigPath,
 
     legalComments: 'external',
     plugins: [
@@ -120,7 +127,7 @@ const starter: StarterFunction = async function* starterGeneratorFn({
   router.use(`/sb-addons`, express.static(addonsDir));
   router.use(`/sb-manager`, express.static(coreDirOrigin));
 
-  const { cssFiles, jsFiles } = await readOrderedFiles(addonsDir);
+  const { cssFiles, jsFiles } = await readOrderedFiles(addonsDir, compilation?.outputFiles);
 
   yield;
 
@@ -185,7 +192,7 @@ const builder: BuilderFunction = async function* builderGeneratorFn({ startTime,
   yield;
 
   const managerFiles = copy(coreDirOrigin, coreDirTarget);
-  const { cssFiles, jsFiles } = await readOrderedFiles(addonsDir);
+  const { cssFiles, jsFiles } = await readOrderedFiles(addonsDir, compilation?.outputFiles);
 
   yield;
 

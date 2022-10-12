@@ -27,8 +27,6 @@ module.exports = {
   projects: [
     '<rootDir>',
     // '<rootDir>/app/angular',
-    // '<rootDir>/examples/cra-ts-kitchen-sink',
-    // '<rootDir>/examples/html-kitchen-sink',
     // '<rootDir>/examples/svelte-kitchen-sink',
     // '<rootDir>/examples/vue-kitchen-sink',
     // '<rootDir>/examples/angular-cli',
@@ -42,8 +40,6 @@ module.exports = {
     '<rootDir>/frameworks',
     '<rootDir>/lib',
     '<rootDir>/renderers',
-    '<rootDir>/examples/official-storybook',
-    '<rootDir>/examples/react-ts',
   ],
   transform: {
     '^.+\\.stories\\.[jt]sx?$': '@storybook/addon-storyshots/injectFileName',

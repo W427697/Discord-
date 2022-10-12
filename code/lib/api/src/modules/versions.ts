@@ -1,6 +1,5 @@
 import global from 'global';
-// @ts-ignore (FIXME should be expect-error no typedefs but fails build --prep)
-import semver from '@storybook/semver';
+import semver from 'semver';
 import memoize from 'memoizerific';
 
 import { version as currentVersion } from '../version';
