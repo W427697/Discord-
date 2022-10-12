@@ -222,14 +222,6 @@ export interface StoryIndex {
   entries: Record<StoryId, IndexEntry>;
 }
 
-const warnLegacyShowRoots = deprecate(
-  () => {},
-  dedent`
-    The 'showRoots' config option is deprecated and will be removed in Storybook 7.0. Use 'sidebar.showRoots' instead.
-    Read more about it in the migration guide: https://github.com/storybookjs/storybook/blob/master/MIGRATION.md
-  `
-);
-
 const warnChangedDefaultHierarchySeparators = deprecate(
   () => {},
   dedent`
