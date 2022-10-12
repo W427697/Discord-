@@ -41,6 +41,7 @@
   "types": "dist/index.d.ts",
   "files": [
     "dist/**/*",
+    "template/**/*",
     "types/**/*",
     "README.md",
     "*.js",

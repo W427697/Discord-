@@ -6003,6 +6003,7 @@ __metadata:
     "@types/node": ^16.0.0
     "@types/react": ^16.14.23
     "@types/react-dom": ^16.9.14
+    "@types/rimraf": ^3.0.2
     "@types/semver": ^7.3.4
     "@types/tmp": ^0.2.3
     core-js: ^3.8.2
@@ -6015,6 +6016,7 @@ __metadata:
     react: ^16.14.0
     react-dom: ^16.14.0
     read-pkg-up: ^7.0.1
+    rimraf: ^3.0.2
     semver: ^7.3.7
     telejson: ^6.0.8
     tmp: ^0.2.1
@@ -9052,6 +9054,16 @@ __metadata:
     "@types/glob": "*"
     "@types/node": "*"
   checksum: f1b11100374be4a554fc9bf7c8bd33aef0dc0481007bc55b83451bb2dbe30626be82e3cf16612ba7e4c96ce3982d8bab07cd0e951b9c98d2518d981cf6f2e4b2
+  languageName: node
+  linkType: hard
+
+"@types/rimraf@npm:^3.0.2":
+  version: 3.0.2
+  resolution: "@types/rimraf@npm:3.0.2"
+  dependencies:
+    "@types/glob": "*"
+    "@types/node": "*"
+  checksum: 08beaf5d5ac6d6ecb76df74e3f873453feab079b5993f7cdd00bf2789bc2dea6917d5d24e75a5346fe201f396fa8a6eccb1291f97695997e34733f9663228a86
   languageName: node
   linkType: hard
 

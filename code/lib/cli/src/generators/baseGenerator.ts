@@ -206,11 +206,6 @@ export async function baseGenerator(
 
   await configurePreview(rendererId);
 
-  if (addComponents) {
-    const templateLocation = hasFrameworkTemplates(framework) ? framework : rendererId;
-    await copyComponents(templateLocation, language);
-  }
-
   // FIXME: temporary workaround for https://github.com/storybookjs/storybook/issues/17516
   if (frameworkPackages.find((pkg) => pkg.match(/^@storybook\/.*-vite$/))) {
     const previewHead = dedent`
@@ -245,5 +240,10 @@ export async function baseGenerator(
 
   if (addESLint) {
     packageManager.addESLintConfig();
+  }
+
+  if (addComponents) {
+    const templateLocation = hasFrameworkTemplates(framework) ? framework : rendererId;
+    await copyComponents(templateLocation, language);
   }
 }
