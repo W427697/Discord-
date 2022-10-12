@@ -1,3 +1,5 @@
+/** @jsx h */
+import { h } from 'preact';
 import { Button } from './Button';
 
 // More on default export: https://storybook.js.org/docs/preact/writing-stories/introduction#default-export
