@@ -101,6 +101,8 @@ const vue2ViteTemplates = {
     script:
       'yarn create vite . --template vanilla && yarn add --dev @vitejs/plugin-vue2 vue-template-compiler vue@2 && echo "import vue2 from \'@vitejs/plugin-vue2\';\n\nexport default {\n\tplugins: [vue2()]\n};" > vite.config.js',
     cadence: ['ci', 'daily', 'weekly'],
+    // Re-enable once https://github.com/storybookjs/storybook/issues/19351 is fixed.
+    skipTasks: ['smoke-test'],
     expected: {
       framework: '@storybook/vue2-vite',
       renderer: '@storybook/vue',
@@ -137,6 +139,8 @@ const svelteViteTemplates = {
     name: 'Svelte Vite (TS)',
     script: 'yarn create vite . --template svelte-ts',
     cadence: ['ci', 'daily', 'weekly'],
+    // Re-enable once https://github.com/storybookjs/storybook/issues/19351 is fixed.
+    skipTasks: ['smoke-test'],
     expected: {
       framework: '@storybook/svelte-vite',
       renderer: '@storybook/svelte',
@@ -173,6 +177,8 @@ const angularCliTemplates = {
     script:
       'npx -p @angular/cli@12 ng new angular-latest --directory . --routing=true --minimal=true --style=scss --strict --skip-git --skip-install --package-manager=yarn',
     cadence: ['ci', 'daily', 'weekly'],
+    // Re-enable once https://github.com/storybookjs/storybook/issues/19351 is fixed.
+    skipTasks: ['smoke-test'],
     expected: {
       framework: '@storybook/angular',
       renderer: '@storybook/angular',
@@ -186,6 +192,8 @@ const litViteTemplates = {
     name: 'Lit Vite (JS)',
     script: 'yarn create vite . --template lit',
     cadence: ['ci', 'daily', 'weekly'] as any,
+    // Re-enable once https://github.com/storybookjs/storybook/issues/19351 is fixed.
+    skipTasks: ['smoke-test'],
     expected: {
       framework: '@storybook/web-components-vite',
       renderer: '@storybook/web-components',
@@ -196,6 +204,8 @@ const litViteTemplates = {
     name: 'Lit Vite (TS)',
     script: 'yarn create vite . --template lit-ts',
     cadence: ['ci', 'daily', 'weekly'] as any,
+    // Re-enable once https://github.com/storybookjs/storybook/issues/19351 is fixed.
+    skipTasks: ['smoke-test'],
     expected: {
       framework: '@storybook/web-components-vite',
       renderer: '@storybook/web-components',
@@ -209,6 +219,8 @@ const vueCliTemplates = {
     name: 'Vue-CLI (Default JS)',
     script: 'npx -p @vue/cli vue create . --default --packageManager=yarn --force --merge',
     cadence: ['ci', 'daily', 'weekly'],
+    // Re-enable once https://github.com/storybookjs/storybook/issues/19453 is fixed.
+    skipTasks: ['test-runner'],
     expected: {
       framework: '@storybook/vue3-webpack5',
       renderer: '@storybook/vue3',
@@ -220,6 +232,8 @@ const vueCliTemplates = {
     script:
       'npx -p @vue/cli vue create . --default --packageManager=yarn --force --merge --preset=Default\\ (Vue\\ 2)',
     cadence: ['ci', 'daily', 'weekly'],
+    // Re-enable once https://github.com/storybookjs/storybook/issues/19453 is fixed.
+    skipTasks: ['test-runner'],
     expected: {
       framework: '@storybook/vue-webpack5',
       renderer: '@storybook/vue',
