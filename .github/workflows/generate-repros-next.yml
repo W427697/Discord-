@@ -8,7 +8,6 @@ on:
   push:
     branches:
       - vite-frameworks-xyz
-      - fix/inconsistent-button-props
 
 jobs:
   generate:
