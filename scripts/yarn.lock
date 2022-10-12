@@ -3352,7 +3352,6 @@ __metadata:
     "@storybook/eslint-config-storybook": ^2.4.0
     "@storybook/jest": ^0.0.10
     "@storybook/linter-config": ^2.5.0
-    "@storybook/semver": ^7.3.2
     "@storybook/testing-library": 0.0.14-next.0
     "@testing-library/dom": ^7.29.4
     "@testing-library/jest-dom": ^5.11.9
@@ -3402,7 +3401,7 @@ __metadata:
     eslint: ^7.17.0
     eslint-plugin-import: ^2.22.1
     eslint-plugin-react: ^7.22.0
-    eslint-plugin-storybook: ^0.3.5
+    eslint-plugin-storybook: ^0.6.4
     execa: ^5.0.0
     express: ^4.17.1
     find-up: ^5.0.0
@@ -3448,6 +3447,7 @@ __metadata:
     remark-cli: ^9.0.0
     remark-lint: ^8.0.0
     remark-preset-lint-recommended: ^5.0.0
+    semver: ^7.3.7
     serve-static: ^1.14.1
     shelljs: ^0.8.5
     shx: ^0.3.2
@@ -8529,16 +8529,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-storybook@npm:^0.3.5":
-  version: 0.3.5
-  resolution: "eslint-plugin-storybook@npm:0.3.5"
+"eslint-plugin-storybook@npm:^0.6.4":
+  version: 0.6.4
+  resolution: "eslint-plugin-storybook@npm:0.6.4"
   dependencies:
     "@storybook/csf": ^0.0.1
     "@typescript-eslint/experimental-utils": ^5.3.0
     requireindex: ^1.1.0
+    ts-dedent: ^2.2.0
   peerDependencies:
     eslint: ">=6"
-  checksum: 2fef77dc26aa395cf304c53cacd35bae7f677192eb1f681439c2a0154e57b99d376948e0918e4bb7b3c8ca01358aedbbf7bb5bc3b428b37141599abbdd763580
+  checksum: c7fcdb663ae3e064b78d743b880545a7dc44d36368e72b1535706401cba65430cd41b5b7d4aa089bb6aab10357a9dcb894d4469fd1b546a043b9078587270f85
   languageName: node
   linkType: hard
 

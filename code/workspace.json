@@ -211,11 +211,6 @@
       "type": "library",
       "implicitDependencies": []
     },
-    "@storybook/example-react-ts": {
-      "root": "examples/react-ts",
-      "type": "library",
-      "implicitDependencies": []
-    },
     "@storybook/external-docs": {
       "root": "examples/external-docs",
       "type": "library",
@@ -426,16 +421,6 @@
       "type": "library",
       "implicitDependencies": []
     },
-    "html-kitchen-sink": {
-      "root": "examples/html-kitchen-sink",
-      "type": "library",
-      "implicitDependencies": []
-    },
-    "official-storybook": {
-      "root": "examples/official-storybook",
-      "type": "library",
-      "implicitDependencies": []
-    },
     "preact-example": {
       "root": "examples/preact-kitchen-sink",
       "type": "library",
@@ -468,21 +453,6 @@
     },
     "vue-3-cli-example": {
       "root": "examples/vue-3-cli",
-      "type": "library",
-      "implicitDependencies": []
-    },
-    "vue-cli-example": {
-      "root": "examples/vue-cli",
-      "type": "library",
-      "implicitDependencies": []
-    },
-    "vue-example": {
-      "root": "examples/vue-kitchen-sink",
-      "type": "library",
-      "implicitDependencies": []
-    },
-    "web-components-kitchen-sink": {
-      "root": "examples/web-components-kitchen-sink",
       "type": "library",
       "implicitDependencies": []
     }

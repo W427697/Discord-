@@ -109,6 +109,19 @@ const vue2ViteTemplates = {
   },
 };
 
+const htmlWebpackTemplates = {
+  'html-webpack/default': {
+    name: 'HTML Webpack5',
+    script: 'yarn create webpack5-html .',
+    cadence: ['ci', 'daily', 'weekly'],
+    expected: {
+      framework: '@storybook/html-webpack5',
+      renderer: '@storybook/html',
+      builder: '@storybook/builder-webpack5',
+    },
+  },
+};
+
 const svelteViteTemplates = {
   'svelte-vite/default-js': {
     name: 'Svelte Vite (JS)',
@@ -225,4 +238,5 @@ export default {
   ...angularCliTemplates,
   ...litViteTemplates,
   ...vueCliTemplates,
+  ...htmlWebpackTemplates,
 } as const;

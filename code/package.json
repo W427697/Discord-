@@ -46,7 +46,6 @@
       "presets/*",
       "examples-native/*",
       "examples/*",
-      "!examples/web-components-kitchen-sink",
       "lib/*",
       "lib/cli/test/run/*"
     ]
@@ -81,9 +80,7 @@
     "sandbox": "ts-node ../scripts/sandbox.ts",
     "serve-storybooks": "http-server ./built-storybooks -p 8001",
     "smoketest-storybooks": "cross-env STORYBOOK_DISPLAY_WARNING=true DISPLAY_WARNING=true node -r esm ../scripts/smoketest-storybooks.js",
-    "start": "yarn workspace official-storybook storybook --no-manager-cache",
     "test": "NODE_OPTIONS=--max_old_space_size=4096 jest --config ./jest.config.js",
-    "test-puppeteer": "jest --projects examples/official-storybook/storyshots-puppeteer",
     "test:cli": "npm --prefix lib/cli run test",
     "test:e2e-examples-playwright": "playwright test",
     "test:e2e-framework": "ts-node --project=../scripts/tsconfig.json ../scripts/run-e2e.ts"
@@ -212,7 +209,6 @@
     "@storybook/react-vite": "workspace:*",
     "@storybook/react-webpack5": "workspace:*",
     "@storybook/router": "workspace:*",
-    "@storybook/semver": "^7.3.2",
     "@storybook/server": "workspace:*",
     "@storybook/server-webpack5": "workspace:*",
     "@storybook/source-loader": "workspace:*",
@@ -281,7 +277,7 @@
     "eslint": "^7.17.0",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-react": "^7.22.0",
-    "eslint-plugin-storybook": "^0.3.5",
+    "eslint-plugin-storybook": "^0.6.4",
     "esm": "^3.2.25",
     "execa": "^5.0.0",
     "express": "^4.17.1",
@@ -324,6 +320,7 @@
     "remark-cli": "^9.0.0",
     "remark-lint": "^8.0.0",
     "remark-preset-lint-recommended": "^5.0.0",
+    "semver": "^7.3.7",
     "serve-static": "^1.14.1",
     "shelljs": "^0.8.5",
     "shx": "^0.3.2",
@@ -364,9 +361,6 @@
       "built": false
     },
     "preact": {
-      "built": false
-    },
-    "styled-components": {
       "built": false
     },
     "yorkie": {
