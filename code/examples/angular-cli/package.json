@@ -61,7 +61,7 @@
     "@storybook/source-loader": "7.0.0-alpha.35",
     "@storybook/testing-library": "0.0.14-next.0",
     "@types/jest": "^26.0.16",
-    "@types/node": "^14.14.20 || ^16.0.0",
+    "@types/node": "^16.0.0",
     "@types/sass": "^1",
     "@webcomponents/custom-elements": "^1.4.3",
     "global": "^4.4.0",
