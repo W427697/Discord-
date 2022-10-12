@@ -109,6 +109,19 @@ const vue2ViteTemplates = {
   },
 };
 
+const htmlWebpackTemplates = {
+  'html-webpack/default': {
+    name: 'HTML Webpack5',
+    script: 'yarn create webpack5-html .',
+    cadence: ['ci', 'daily', 'weekly'],
+    expected: {
+      framework: '@storybook/html-webpack5',
+      renderer: '@storybook/html',
+      builder: '@storybook/builder-webpack5',
+    },
+  },
+};
+
 const svelteViteTemplates = {
   'svelte-vite/default-js': {
     name: 'Svelte Vite (JS)',
@@ -120,27 +133,23 @@ const svelteViteTemplates = {
       builder: '@storybook/builder-vite',
     },
   },
-  /*
-   * I disabled this, because it was flaky
-   * TODO: we should fixd the instability and re-enable it
-   */
-  // 'svelte-vite/default-ts': {
-  //   name: 'Svelte Vite (TS)',
-  //   script: 'yarn create vite . --template svelte-ts',
-  //   cadence: ['ci', 'daily', 'weekly'],
-  //   expected: {
-  //     framework: '@storybook/svelte-vite',
-  //     renderer: '@storybook/svelte',
-  //     builder: '@storybook/builder-vite'
-  //   }
-  // }
+  'svelte-vite/default-ts': {
+    name: 'Svelte Vite (TS)',
+    script: 'yarn create vite . --template svelte-ts',
+    cadence: ['ci', 'daily', 'weekly'],
+    expected: {
+      framework: '@storybook/svelte-vite',
+      renderer: '@storybook/svelte',
+      builder: '@storybook/builder-vite',
+    },
+  },
 };
 
 const litViteTemplates = {
   'lit-vite/default-js': {
     name: 'Lit Vite (JS)',
     script: 'yarn create vite . --template lit',
-    cadence: [] as any,
+    cadence: ['ci', 'daily', 'weekly'] as any,
     expected: {
       framework: '@storybook/web-components-vite',
       renderer: '@storybook/web-components',
@@ -150,7 +159,7 @@ const litViteTemplates = {
   'lit-vite/default-ts': {
     name: 'Lit Vite (TS)',
     script: 'yarn create vite . --template lit-ts',
-    cadence: [] as any,
+    cadence: ['ci', 'daily', 'weekly'] as any,
     expected: {
       framework: '@storybook/web-components-vite',
       renderer: '@storybook/web-components',
@@ -192,6 +201,7 @@ export default {
   ...svelteViteTemplates,
   ...litViteTemplates,
   ...vueCliTemplates,
+  ...htmlWebpackTemplates,
   // FIXME: missing documentation.json
   // 'angular/latest': {
   //   name: 'Angular (latest)',
