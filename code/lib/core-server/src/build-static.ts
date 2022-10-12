@@ -219,7 +219,7 @@ export async function buildStaticStandalone(
               }
               if (modulesJson) {
                 const target = modulesJson === true ? outputDir : modulesJson;
-                await writeModulesJson(target, previewStats, options);
+                await writeModulesJson(target, previewStats);
               }
             }),
         ]),
