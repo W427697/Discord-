@@ -198,8 +198,7 @@ const preactWebpackTemplates = {
   'preact-webpack5/default-js': {
     name: 'Preact CLI (Default JS)',
     script: 'npx preact-cli create default {{beforeDir}} --name preact-app --yarn --no-install',
-    // cadence: ['ci', 'daily', 'weekly'],
-    cadence: [] as string[],
+    cadence: ['ci', 'daily', 'weekly'],
     expected: {
       framework: '@storybook/preact-webpack5',
       renderer: '@storybook/preact',
@@ -209,8 +208,7 @@ const preactWebpackTemplates = {
   'preact-webpack5/default-ts': {
     name: 'Preact CLI (Default TS)',
     script: 'npx preact-cli create typescript {{beforeDir}} --name preact-app --yarn --no-install',
-    // cadence: ['ci', 'daily', 'weekly'],
-    cadence: [] as string[],
+    cadence: ['ci', 'daily', 'weekly'],
     expected: {
       framework: '@storybook/preact-webpack5',
       renderer: '@storybook/preact',
