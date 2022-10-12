@@ -1,4 +1,4 @@
-## 7.0.0-alpha.36 (October 13, 2022)
+## 7.0.0-alpha.37 (October 13, 2022)
 
 #### Features
 
@@ -47,6 +47,9 @@
 - Replace @storybook/semver with semver [#19292](https://github.com/storybooks/storybook/pull/19292)
 - Upgrade playwright [#19416](https://github.com/storybooks/storybook/pull/19416)
 
+## 7.0.0-alpha.36 (October 13, 2022)
+
+Bad publish
 ## 7.0.0-alpha.35 (October 5, 2022)
 
 #### Features
