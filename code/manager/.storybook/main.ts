@@ -1,10 +1,10 @@
-import type { StorybookConfig } from '../../frameworks/react-vite/dist';
 import vitePluginReact from '@vitejs/plugin-react';
-import { mergeConfig } from 'vite';
+import { PluginOption } from 'vite';
+import type { StorybookConfig } from '../../frameworks/react-vite/dist';
 
 const config: StorybookConfig = {
   stories: [
-    '../../lib/ui/src/**/*.stories.@(ts|tsx|js|jsx|mdx)',
+    '../ui/src/**/*.stories.@(ts|tsx|js|jsx|mdx)',
     // '../../lib/components/src/**/*.stories.@(js|jsx|ts|tsx|mdx)',
     // '../../../addons/interactions/**/*.stories.@(ts|tsx|js|jsx|mdx)',
   ],
@@ -17,7 +17,33 @@ const config: StorybookConfig = {
     name: '@storybook/react-vite',
     options: {},
   },
-  logLevel: 'debug',
+  /*
+  This might look complex but all we're doing is removing the default set of React Vite plugins
+  and adding them back in, but with the `jsxRuntime: 'classic'` option.
+  TODO: When we've upgraded to React 18 all of this shouldn't be necessary anymore
+  */
+  viteFinal: (config) => {
+    return {
+      ...config,
+      plugins: [...withoutReactPlugins(config.plugins), vitePluginReact({ jsxRuntime: 'classic' })],
+    };
+  },
 };
+
+// recursively remove all plugins from the React Vite plugin
+const withoutReactPlugins = (plugins: PluginOption[] = []) =>
+  plugins.map((plugin) => {
+    if (Array.isArray(plugin)) {
+      return withoutReactPlugins(plugin);
+    }
+    if (
+      plugin &&
+      'name' in plugin &&
+      ['vite:react-jsx', 'vite:react-babel', 'vite:react-refresh'].includes(plugin.name)
+    ) {
+      return false;
+    }
+    return plugin;
+  });
 
 export default config;

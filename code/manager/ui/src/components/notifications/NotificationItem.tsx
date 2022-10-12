@@ -1,8 +1,8 @@
 import React, { FC, SyntheticEvent } from 'react';
-import { State } from '@storybook/api';
+import { type State } from '@storybook/api';
 import { Link } from '@storybook/router';
 import { styled } from '@storybook/theming';
-import { Icons, IconButton, IconsProps } from '@storybook/components';
+import { Icons, IconButton, type IconsProps } from '@storybook/components';
 import { transparentize } from 'polished';
 
 const DEFAULT_ICON_COLOUR = '#66BF3C' as const;

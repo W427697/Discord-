@@ -362,7 +362,7 @@
       "implicitDependencies": []
     },
     "@storybook/ui": {
-      "root": "lib/ui",
+      "root": "manager/ui",
       "type": "library",
       "implicitDependencies": []
     },
