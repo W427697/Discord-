@@ -18,7 +18,7 @@ export const testRunner: Task = {
     await exec(`yarn why core-js`, {}, { debug: true });
 
     await exec(
-      `yarn test-storybook --url http://localhost:${PORT} --junit --index-json`,
+      `yarn test-storybook --url http://localhost:${PORT} --junit --index-json --maxWorkers=2`,
       {
         ...execOptions,
         env: {
