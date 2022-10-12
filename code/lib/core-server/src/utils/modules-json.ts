@@ -20,22 +20,33 @@ interface Module {
   reasons: Set<string>;
 }
 
-const webpackStatsToModulesJson = (stats: Stats) => {
+// Sometimes webpack paths have a URL parameter appended to them, such as ?ngResource.
+// Those should be stripped.
+const normalize = (id: string) => {
+  const CSF_REGEX = /\s+sync\s+/g;
+  const URL_PARAM_REGEX = /(\?.*)/g;
+  return URL_PARAM_REGEX.test(id) && !CSF_REGEX.test(id) ? id.replace(URL_PARAM_REGEX, '') : id;
+};
+
+export const webpackStatsToModulesJson = (stats: Stats) => {
   const { modules } = stats.toJson() as WebpackStats;
-  const modulesById = new Map(modules.map((m) => [m.id, m]));
+  const modulesById = new Map(modules.map((m) => [normalize(m.id || m.name), m]));
 
   const data = new Map<string, Module>();
-  const add = ({ name, modules, reasons }: WebpackModule) => {
-    if (!name || name.startsWith('webpack/')) return;
+  const add = ({ id, modules, reasons }: WebpackModule) => {
+    const identifier = normalize(id);
+    if (!identifier || identifier.startsWith('webpack/')) return;
     if (modules?.length) modules.forEach(add);
     else {
-      const item = data.get(name) || { reasons: new Set() };
+      const item = data.get(identifier) || { reasons: new Set() };
       reasons?.forEach(({ moduleId }) => {
-        const reason = modulesById.get(moduleId);
-        if (reason.modules?.length) reason.modules.forEach((mod) => item.reasons.add(mod.name));
-        else item.reasons.add(reason.name);
+        const reason = modulesById.get(normalize(moduleId));
+        if (!reason) return;
+        if (reason.modules?.length)
+          reason.modules.forEach((mod) => item.reasons.add(normalize(mod.id)));
+        else item.reasons.add(normalize(reason.id));
       });
-      data.set(name, item);
+      data.set(identifier, item);
     }
   };
   modules.forEach(add);
@@ -49,7 +60,7 @@ const replacer = (key: any, value: any) => {
 };
 
 export const writeModulesJson = async (directory: string, stats: Stats) => {
-  const filePath = path.join(directory, `modules.json`);
+  const filePath = path.join(directory, 'modules.json');
   const modules = webpackStatsToModulesJson(stats);
   await new Promise((resolve, reject) => {
     stringifyStream({ v: 1, modules }, replacer, 2)
