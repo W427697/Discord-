@@ -123,11 +123,11 @@ const runGenerators = async (
         const beforeDir = join(baseDir, BEFORE_DIR_NAME);
 
         await emptyDir(baseDir);
-        await ensureDir(beforeDir);
 
         await setupYarn({ cwd: baseDir });
 
-        await runCommand(script, { cwd: beforeDir });
+        const scriptWithBeforeDir = script.replace('{{beforeDir}}', beforeDir);
+        await runCommand(scriptWithBeforeDir, { cwd: baseDir });
 
         await localizeYarnConfigFiles(baseDir, beforeDir);
 
