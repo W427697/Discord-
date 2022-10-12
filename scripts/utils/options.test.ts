@@ -1,8 +1,9 @@
+import { describe, expect, it } from '@jest/globals';
 import { createCommand } from 'commander';
-import { describe, it, expect } from '@jest/globals';
+import { maxConcurrentTasks } from './maxConcurrentTasks';
 
-import { createOptions, getOptions, areOptionsSatisfied, getCommand } from './options';
-import type { OptionValues, MaybeOptionValues } from './options';
+import type { MaybeOptionValues, OptionValues } from './options';
+import { areOptionsSatisfied, createOptions, getCommand, getOptions } from './options';
 
 const allOptions = createOptions({
   first: {
@@ -47,6 +48,7 @@ function test(mv: MaybeOptionValues<typeof allOptions>, v: OptionValues<typeof a
 }
 
 describe('getOptions', () => {
+  console.log(maxConcurrentTasks);
   it('deals with boolean options', () => {
     expect(getOptions(createCommand(), allOptions, ['command', 'name', '--first'])).toMatchObject({
       first: true,

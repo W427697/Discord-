@@ -1,13 +1,13 @@
-import React, { KeyboardEventHandler, ReactNode } from 'react';
-import { expectTypeOf } from 'expect-type';
 import { describe, test } from '@jest/globals';
+import { satisfies } from '@storybook/core-common';
 import { StoryAnnotations } from '@storybook/csf';
+import { expectTypeOf } from 'expect-type';
+import React, { KeyboardEventHandler, ReactNode } from 'react';
 import { SetOptional } from 'type-fest';
 
-import { Meta, StoryObj } from '../public-types';
-import { DecoratorFn } from '../public-api';
-import { satisfies } from './utils';
-import { ReactFramework } from '../types';
+import { DecoratorFn } from './public-api';
+import { Meta, StoryObj } from './public-types';
+import { ReactFramework } from './types';
 
 type ReactStory<Args, RequiredArgs> = StoryAnnotations<ReactFramework, Args, RequiredArgs>;
 
@@ -74,6 +74,11 @@ describe('Args can be provided in multiple ways', () => {
       type Expected = ReactStory<ButtonProps, ButtonProps>;
       expectTypeOf(Basic).toEqualTypeOf<Expected>();
     }
+  });
+
+  test('Component can be used as generic parameter for StoryObj', () => {
+    type Expected = ReactStory<ButtonProps, ButtonProps>;
+    expectTypeOf<StoryObj<typeof Button>>().toEqualTypeOf<Expected>();
   });
 });
 

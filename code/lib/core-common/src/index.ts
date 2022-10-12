@@ -28,6 +28,7 @@ export * from './utils/normalize-stories';
 export * from './utils/readTemplate';
 export * from './utils/findDistEsm';
 export * from './utils/symlinks';
+export * from './utils/satisfies';
 
 export * from './types';
 
