@@ -2,9 +2,8 @@ import * as React from 'react';
 // this will be aliased by webpack at runtime (this is just for typing)
 import { action as originalAction } from '@storybook/addon-actions';
 import { StoryContext } from '@storybook/addons';
-import { RouterContext } from '../resolved-router-context';
-// this will be aliased by webpack at runtime (this is just for typing)
-import Router from './resolved-router';
+import type { RouterContext } from 'next/dist/shared/lib/router-context';
+import Router from 'next/router';
 
 let action: typeof originalAction;
 

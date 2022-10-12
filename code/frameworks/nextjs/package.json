@@ -41,11 +41,6 @@
       "import": "./dist/next-image-loader-stub.mjs",
       "types": "./dist/next-image-loader-stub.d.ts"
     },
-    "./resolved-router-context.js": {
-      "require": "./dist/resolved-router-context.js",
-      "import": "./dist/resolved-router-context.mjs",
-      "types": "./dist/resolved-router-context.d.ts"
-    },
     "./package.json": "./package.json"
   },
   "main": "dist/index.js",
@@ -85,9 +80,6 @@
     "@storybook/addon-actions": "7.0.0-alpha.37",
     "@types/loader-utils": "^2.0.3",
     "next": "^12.2.4",
-    "nextv10": "npm:next@10.0.0",
-    "nextv11": "npm:next@11.0.0",
-    "nextv9": "npm:next@9.0.0",
     "typescript": "~4.6.3",
     "webpack": "^5.65.0"
   },
@@ -121,8 +113,7 @@
       "./src/index.ts",
       "./src/preset.ts",
       "./src/preview.tsx",
-      "./src/next-image-loader-stub.ts",
-      "./src/resolved-router-context.ts"
+      "./src/next-image-loader-stub.ts"
     ],
     "platform": "node"
   }
