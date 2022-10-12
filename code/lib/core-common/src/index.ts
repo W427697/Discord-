@@ -22,6 +22,7 @@ export * from './utils/resolve-path-in-sb-cache';
 export * from './utils/cache';
 export * from './utils/template';
 export * from './utils/interpolate';
+export * from './utils/validate-config';
 export * from './utils/validate-configuration-files';
 export * from './utils/glob-to-regexp';
 export * from './utils/normalize-stories';
