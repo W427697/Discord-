@@ -1,6 +1,5 @@
 /// <reference types="webpack-env" />
 
-import deprecate from 'util-deprecate';
 import { dedent } from 'ts-dedent';
 import global from 'global';
 import { logger } from '@storybook/client-logger';
@@ -50,93 +49,61 @@ const warningAlternatives = {
   addDecorator: `Instead, use \`export const decorators = [];\` in your \`preview.js\`.`,
   addParameters: `Instead, use \`export const parameters = {};\` in your \`preview.js\`.`,
   addLoaders: `Instead, use \`export const loaders = [];\` in your \`preview.js\`.`,
+  addArgs: '',
+  addArgTypes: '',
+  addArgsEnhancer: '',
+  addArgTypesEnhancer: '',
+  addStepRunner: '',
+  getGlobalRender: '',
+  setGlobalRender: '',
 };
 
-const warningMessage = (method: keyof typeof warningAlternatives) =>
-  deprecate(
-    () => {},
-    dedent`
-  \`${method}\` is deprecated, and will be removed in Storybook 7.0.
-
-  ${warningAlternatives[method]}
-
-  Read more at https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#deprecated-addparameters-and-adddecorator).`
-  );
-
-const warnings = {
-  addDecorator: warningMessage('addDecorator'),
-  addParameters: warningMessage('addParameters'),
-  addLoaders: warningMessage('addLoaders'),
-};
-
-const checkMethod = (method: string, deprecationWarning: boolean) => {
+const checkMethod = (method: keyof typeof warningAlternatives) => {
   if (global.FEATURES?.storyStoreV7) {
     throw new Error(
       dedent`You cannot use \`${method}\` with the new Story Store.
 
-      ${warningAlternatives[method as keyof typeof warningAlternatives]}`
+      ${warningAlternatives[method]}`
     );
   }
 
   if (!singleton) {
     throw new Error(`Singleton client API not yet initialized, cannot call \`${method}\`.`);
   }
-
-  if (deprecationWarning) {
-    warnings[method as keyof typeof warningAlternatives]();
-  }
-};
-
-export const addDecorator = (
-  decorator: DecoratorFunction<AnyFramework>,
-  deprecationWarning = true
-) => {
-  checkMethod('addDecorator', deprecationWarning);
-  singleton.addDecorator(decorator);
-};
-
-export const addParameters = (parameters: Parameters, deprecationWarning = true) => {
-  checkMethod('addParameters', deprecationWarning);
-  singleton.addParameters(parameters);
-};
-
-export const addLoader = (loader: LoaderFunction<AnyFramework>, deprecationWarning = true) => {
-  checkMethod('addLoader', deprecationWarning);
-  singleton.addLoader(loader);
 };
 
 export const addArgs = (args: Args) => {
-  checkMethod('addArgs', false);
+  checkMethod('addArgs');
   singleton.addArgs(args);
 };
 
 export const addArgTypes = (argTypes: ArgTypes) => {
-  checkMethod('addArgTypes', false);
+  checkMethod('addArgTypes');
   singleton.addArgTypes(argTypes);
 };
 
 export const addArgsEnhancer = (enhancer: ArgsEnhancer<AnyFramework>) => {
-  checkMethod('addArgsEnhancer', false);
+  checkMethod('addArgsEnhancer');
   singleton.addArgsEnhancer(enhancer);
 };
 
 export const addArgTypesEnhancer = (enhancer: ArgTypesEnhancer<AnyFramework>) => {
-  checkMethod('addArgTypesEnhancer', false);
+  checkMethod('addArgTypesEnhancer');
   singleton.addArgTypesEnhancer(enhancer);
 };
 
 export const addStepRunner = (stepRunner: StepRunner) => {
-  checkMethod('addStepRunner', false);
+  checkMethod('addStepRunner');
   singleton.addStepRunner(stepRunner);
 };
 
 export const getGlobalRender = () => {
-  checkMethod('getGlobalRender', false);
+  checkMethod('getGlobalRender');
   return singleton.facade.projectAnnotations.render;
 };
 
 export const setGlobalRender = (render: StoryFn<AnyFramework>) => {
-  checkMethod('setGlobalRender', false);
+  checkMethod('setGlobalRender');
   singleton.facade.projectAnnotations.render = render;
 };
 
@@ -176,31 +143,9 @@ export class ClientApi<TFramework extends AnyFramework> {
     return this.facade.getStoryIndex(this.storyStore);
   }
 
-  setAddon = deprecate(
-    (addon: any) => {
-      this.addons = { ...this.addons, ...addon };
-    },
-    dedent`
-      \`setAddon\` is deprecated and will be removed in Storybook 7.0.
-
-      https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#deprecated-setaddon
-    `
-  );
-
   addDecorator = (decorator: DecoratorFunction<TFramework>) => {
     this.facade.projectAnnotations.decorators.push(decorator);
   };
-
-  clearDecorators = deprecate(
-    () => {
-      this.facade.projectAnnotations.decorators = [];
-    },
-    dedent`
-      \`clearDecorators\` is deprecated and will be removed in Storybook 7.0.
-
-      https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#deprecated-cleardecorators
-    `
-  );
 
   addParameters = ({
     globals,
