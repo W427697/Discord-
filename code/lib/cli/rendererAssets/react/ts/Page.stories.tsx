@@ -11,16 +11,12 @@ const meta = {
     // More on Story layout: https://storybook.js.org/docs/react/configure/story-layout
     layout: 'fullscreen',
   },
-};
-satisfies;
-Meta<typeof Page>;
+} satisfies Meta<typeof Page>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const LoggedOut = {};
-satisfies;
-Story;
+export const LoggedOut = {} satisfies Story;
 
 export const LoggedIn = {
   // More on interaction testing: https://storybook.js.org/docs/react/writing-tests/interaction-testing
@@ -29,6 +25,4 @@ export const LoggedIn = {
     const loginButton = await canvas.getByRole('button', { name: /Log in/i });
     await userEvent.click(loginButton);
   },
-};
-satisfies;
-Story;
+} satisfies Story;

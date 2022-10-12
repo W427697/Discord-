@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { Button } from './Button';
 
-// More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
+// More on meta: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 const meta = {
   title: 'Example/Button',
   component: Button,
@@ -9,9 +9,7 @@ const meta = {
   argTypes: {
     backgroundColor: { control: 'color' },
   },
-};
-satisfies;
-Meta<typeof Button>;
+} satisfies Meta<typeof Button>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
@@ -22,32 +20,24 @@ export const Primary = {
     primary: true,
     label: 'Button',
   },
-};
-satisfies;
-Story;
+} satisfies Story;
 
 export const Secondary = {
   args: {
     label: 'Button',
   },
-};
-satisfies;
-Story;
+} satisfies Story;
 
 export const Large = {
   args: {
     size: 'large',
     label: 'Button',
   },
-};
-satisfies;
-Story;
+} satisfies Story;
 
 export const Small = {
   args: {
     size: 'small',
     label: 'Button',
   },
-};
-satisfies;
-Story;
+} satisfies Story;

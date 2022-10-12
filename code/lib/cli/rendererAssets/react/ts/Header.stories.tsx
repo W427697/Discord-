@@ -9,9 +9,7 @@ const meta = {
     // More on Story layout: https://storybook.js.org/docs/react/configure/story-layout
     layout: 'fullscreen',
   },
-};
-satisfies;
-Meta<typeof Header>;
+} satisfies Meta<typeof Header>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
@@ -20,10 +18,6 @@ export const LoggedIn = {
   args: {
     user: { name: 'Jane Doe' },
   },
-};
-satisfies;
-Story;
+} satisfies Story;
 
-export const LoggedOut = {};
-satisfies;
-Story;
+export const LoggedOut = {} satisfies Story;
