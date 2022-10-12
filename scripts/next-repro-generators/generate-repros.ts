@@ -75,7 +75,7 @@ export const runCommand = async (script: string, options: ExecaOptions) => {
     console.log(`Running command: ${script}`);
   }
 
-  return command(script, { stdout: shouldDebug ? 'inherit' : 'ignore', shell: true, ...options });
+  return command(script, { stdout: shouldDebug ? 'inherit' : 'ignore', ...options });
 };
 
 const addDocumentation = async (
@@ -122,11 +122,11 @@ const runGenerators = async (
         const beforeDir = join(baseDir, BEFORE_DIR_NAME);
 
         await emptyDir(baseDir);
+        await ensureDir(beforeDir);
 
         await setupYarn({ cwd: baseDir });
 
-        const scriptWithBeforeDir = script.replace('{{beforeDir}}', beforeDir);
-        await runCommand(scriptWithBeforeDir, { cwd: baseDir });
+        await runCommand(script, { cwd: beforeDir });
 
         await localizeYarnConfigFiles(baseDir, beforeDir);
 
