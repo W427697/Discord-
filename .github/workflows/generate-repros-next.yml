@@ -25,7 +25,7 @@ jobs:
           git config --global user.email "bot@storybook.js.org"
       - name: Install dependencies
         run: node ./scripts/check-dependencies.js
-      - name: Bootstrap Storybook libraries
+      - name: Compile Storybook libraries
         run: yarn task --task publish --start-from=auto --no-link
       - name: Generate repros
         run: yarn generate-repros-next --local-registry
