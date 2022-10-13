@@ -57,20 +57,21 @@ Usage: start-storybook [options]
 Usage: build-storybook [options]
 ```
 
-| Options                         | Description                                                                                                                                                                 |
-| ------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `-h`, `--help`                  | Output usage information<br/>`build-storybook --help`                                                                                                                       |
-| `-V`, `--version`               | Output the version number<br/>`build-storybook -V`                                                                                                                          |
-| `-s`, `--static-dir`            | **Deprecated** [see note](#static-dir-deprecation).<br/> Directory where to load static files from, comma-separated list<br/>`build-storybook -s public`                    |
-| `-o`, `--output-dir [dir-name]` | Directory where to store built files<br/>`build-storybook -o /my-deployed-storybook`                                                                                        |
-| `-c`, `--config-dir [dir-name]` | Directory where to load Storybook configurations from<br/>`build-storybook -c .storybook`                                                                                   |
-| `--loglevel [level]`            | Controls level of logging during build.<br/> Available options: `silly`, `verbose`, `info` (default), `warn`, `error`, `silent`<br/>`build-storybook --loglevel warn`       |
-| `--quiet`                       | Suppress verbose build output<br/>`build-storybook --quiet`                                                                                                                 |
-| `--no-dll`                      | Do not use dll reference (no-op)<br/>`build-storybook --no-dll`                                                                                                             |
-| `--debug-webpack`               | Display final webpack configurations for debugging purposes<br/>`build-storybook --debug-webpack`                                                                           |
-| `--webpack-stats-json`          | Write Webpack Stats JSON to disk<br/>`build-storybook --webpack-stats-json /my-storybook/webpack-stats`                                                                     |
-| `--docs`                        | Builds Storybook in documentation mode. Learn more about it in [here](../writing-docs/build-documentation.md#publish-storybooks-documentation)<br/>`build-storybook --docs` |
-| `--disable-telemetry`           | Disables Storybook's telemetry. Learn more about it [here](../configure/telemetry.md).<br/>`build-storybook --disable-telemetry`                                            |
+| Options                           | Description                                                                                                                                                                 |
+| --------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `-h`, `--help`                    | Output usage information<br/>`build-storybook --help`                                                                                                                       |
+| `-V`, `--version`                 | Output the version number<br/>`build-storybook -V`                                                                                                                          |
+| `-s`, `--static-dir`              | **Deprecated** [see note](#static-dir-deprecation).<br/> Directory where to load static files from, comma-separated list<br/>`build-storybook -s public`                    |
+| `-o`, `--output-dir [dir-name]`   | Directory where to store built files<br/>`build-storybook -o /my-deployed-storybook`                                                                                        |
+| `-c`, `--config-dir [dir-name]`   | Directory where to load Storybook configurations from<br/>`build-storybook -c .storybook`                                                                                   |
+| `--loglevel [level]`              | Controls level of logging during build.<br/> Available options: `silly`, `verbose`, `info` (default), `warn`, `error`, `silent`<br/>`build-storybook --loglevel warn`       |
+| `--quiet`                         | Suppress verbose build output<br/>`build-storybook --quiet`                                                                                                                 |
+| `--no-dll`                        | Do not use dll reference (no-op)<br/>`build-storybook --no-dll`                                                                                                             |
+| `--debug-webpack`                 | Display final webpack configurations for debugging purposes<br/>`build-storybook --debug-webpack`                                                                           |
+| `--modules-json [dir-name]`       | Write module dependencies JSON to disk<br/>`build-storybook --modules-json`                                                                                                 |
+| `--webpack-stats-json [dir-name]` | Write Webpack Stats JSON to disk<br/>`build-storybook --webpack-stats-json`                                                                                                 |
+| `--docs`                          | Builds Storybook in documentation mode. Learn more about it in [here](../writing-docs/build-documentation.md#publish-storybooks-documentation)<br/>`build-storybook --docs` |
+| `--disable-telemetry`             | Disables Storybook's telemetry. Learn more about it [here](../configure/telemetry.md).<br/>`build-storybook --disable-telemetry`                                            |
 
 <div class="aside">
 💡  If you're using npm instead of yarn to publish Storybook, the commands work slightly different. For example, <code>npm run build-storybook -- -o ./path/to/build</code>.
