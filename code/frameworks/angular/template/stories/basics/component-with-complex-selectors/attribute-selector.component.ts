@@ -7,9 +7,9 @@ import { Component, ComponentFactoryResolver, ElementRef } from '@angular/core';
     Generated template: {{ generatedTemplate }}`,
 })
 export class AttributeSelectorComponent {
-  generatedTemplate = '';
+  generatedTemplate!: string;
 
-  selectors = '';
+  selectors!: string;
 
   constructor(public el: ElementRef, private resolver: ComponentFactoryResolver) {
     const factory = this.resolver.resolveComponentFactory(AttributeSelectorComponent);
