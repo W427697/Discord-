@@ -99,7 +99,7 @@ export const tasks = {
 type TaskKey = keyof typeof tasks;
 
 function isSandboxTask(taskKey: TaskKey) {
-  return !['install', 'compile', 'publish', 'run-registry'].includes(taskKey);
+  return !['install', 'compile', 'publish', 'run-registry', 'check'].includes(taskKey);
 }
 
 export const options = createOptions({
