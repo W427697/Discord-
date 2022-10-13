@@ -84,7 +84,7 @@ export const runCommand = async (script: string, options: ExecaOptions) => {
     console.log(`Running command: ${script}`);
   }
 
-  return command(script, { stdout: shouldDebug ? 'inherit' : 'ignore', ...options });
+  return command(script, { stdout: shouldDebug ? 'inherit' : 'ignore', shell: true, ...options });
 };
 
 const addDocumentation = async (
@@ -133,13 +133,11 @@ const runGenerators = async (
 
         // We do the creation inside a temp dir to avoid yarn container problems
         const createBaseDir = directory();
-        const createBeforeDir = join(createBaseDir, BEFORE_DIR_NAME);
-
-        await ensureDir(createBeforeDir);
-
         await setupYarn({ cwd: createBaseDir });
 
-        await runCommand(script, { cwd: createBeforeDir });
+        const createBeforeDir = join(createBaseDir, BEFORE_DIR_NAME);
+        const scriptWithBeforeDir = script.replace('{{beforeDir}}', createBeforeDir);
+        await runCommand(scriptWithBeforeDir, { cwd: createBaseDir });
 
         await localizeYarnConfigFiles(createBaseDir, createBeforeDir);
 
