@@ -36,7 +36,7 @@ test.describe('JSON files', () => {
     });
 
     const keys = Object.keys(json.modules);
-    expect(keys).toContainEqual(expect.stringMatching(/\/Button\.stories\.[tj]sx$/));
+    expect(keys).toContainEqual(expect.stringMatching(/\/Button\.stories\.[tj]sx?$/));
     expect(keys).toContainEqual(expect.stringMatching(/\/node_modules\//));
   });
 });
