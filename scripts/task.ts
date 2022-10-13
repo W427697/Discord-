@@ -10,6 +10,7 @@ import { dedent } from 'ts-dedent';
 import { createOptions, getCommand, getOptionsOrPrompt, OptionValues } from './utils/options';
 import { install } from './tasks/install';
 import { compile } from './tasks/compile';
+import { check } from './tasks/check';
 import { publish } from './tasks/publish';
 import { runRegistryTask } from './tasks/run-registry';
 import { sandbox } from './tasks/sandbox';
@@ -82,6 +83,7 @@ export const tasks = {
   // individual template/sandbox
   install,
   compile,
+  check,
   publish,
   'run-registry': runRegistryTask,
   // These tasks pertain to a single sandbox in the ../sandboxes dir
