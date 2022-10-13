@@ -150,6 +150,8 @@ const litViteTemplates = {
     name: 'Lit Vite (JS)',
     script: 'yarn create vite . --template lit',
     cadence: ['ci', 'daily', 'weekly'] as any,
+    // Re-enable once https://github.com/storybookjs/storybook/issues/19351 is fixed.
+    skipTasks: ['smoke-test'],
     expected: {
       framework: '@storybook/web-components-vite',
       renderer: '@storybook/web-components',
