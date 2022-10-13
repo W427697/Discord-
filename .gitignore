@@ -19,3 +19,5 @@ junit.xml
 !/**/.yarn/versions
 /**/.pnp.*
 !/node_modules
+
+.circleci/config.generated.yml

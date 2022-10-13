@@ -4,6 +4,7 @@
     "task": "echo 'Installing Script Dependencies...'; cd scripts; yarn install >/dev/null; yarn task",
     "get-template": "cd scripts; yarn get-template",
     "test": "cd code; yarn test",
+    "generate-ci-config": "node ./scripts/ci/generate.js",
     "lint": "cd code; yarn lint"
   },
   "packageManager": "yarn@3.2.3"
