@@ -2,13 +2,18 @@ version: 2.1
 setup: true
 
 orbs:
+  git-shallow-clone: guitarrapc/git-shallow-clone@2.0.3
   continuation: circleci/continuation@0.1.2
+  node: circleci/node@16.17
 
 jobs:
   setup:
     executor: continuation/default
     steps:
-      - checkout
+      - git-shallow-clone/checkout_advanced:
+          clone_options: '--depth 1 --verbose'
+      - node/install:
+          node-version: '16.17'
       - run:
           name: Generate config
           command: |
