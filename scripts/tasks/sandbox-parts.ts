@@ -15,7 +15,7 @@ import { filterExistsInCodeDir } from '../utils/filterExistsInCodeDir';
 import { findFirstPath } from '../utils/paths';
 import { detectLanguage } from '../../code/lib/cli/src/detect';
 import { SupportedLanguage } from '../../code/lib/cli/src/project_types';
-import { addPackageScripts } from '../utils/package-json';
+import { updatePackageScripts } from '../utils/package-json';
 import { addPreviewAnnotations, readMainConfig } from '../utils/main-js';
 import { JsPackageManagerFactory } from '../../code/lib/cli/src/js-package-manager';
 import { workspacePath } from '../utils/workspace';
@@ -113,14 +113,9 @@ export const install: Task['run'] = async ({ sandboxDir }, { link, dryRun, debug
   }
 
   logger.info(`🔢 Adding package scripts:`);
-  await addPackageScripts({
+  await updatePackageScripts({
     cwd,
-    scripts: {
-      storybook:
-        'NODE_OPTIONS="--preserve-symlinks --preserve-symlinks-main" storybook dev -p 6006',
-      'build-storybook':
-        'NODE_OPTIONS="--preserve-symlinks --preserve-symlinks-main" storybook build',
-    },
+    prefix: 'NODE_OPTIONS="--preserve-symlinks --preserve-symlinks-main"',
   });
 };
 
