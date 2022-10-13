@@ -1,1 +1,1 @@
-export { definitions } from '../../../../ui/manager/dist/globals';
+export { definitions } from '@storybook/ui/dist/globals';
