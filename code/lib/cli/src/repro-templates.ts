@@ -297,7 +297,8 @@ export default {
   ...vue2ViteTemplates,
   ...vue3ViteTemplates,
   ...svelteViteTemplates,
-  ...svelteKitTemplates,
+  // TODO: enable this when repo has been upgraded to node@16
+  // ...svelteKitTemplates,
   ...angularCliTemplates,
   ...litViteTemplates,
   ...vueCliTemplates,

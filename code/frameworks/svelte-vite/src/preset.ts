@@ -40,23 +40,8 @@ export const viteFinal: StorybookConfig['viteFinal'] = async (config, options) =
     }
   }
 
-  removeSvelteKitPlugin(plugins);
-
   return {
     ...config,
     plugins,
   };
-};
-
-const removeSvelteKitPlugin = (plugins: PluginOption[]) => {
-  plugins.forEach((plugin, index) => {
-    if (plugin && 'name' in plugin && plugin.name === 'vite-plugin-svelte-kit') {
-      // eslint-disable-next-line no-param-reassign -- we explicitly want to mutate the array as stated here: https://vitejs.dev/guide/api-plugin.html#config
-      plugins[index] = undefined;
-    }
-    if (Array.isArray(plugin)) {
-      // recursive, Vite plugins can be nested
-      removeSvelteKitPlugin(plugin);
-    }
-  });
 };
