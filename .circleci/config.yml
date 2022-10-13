@@ -458,9 +458,9 @@ workflows:
       - create-sandboxes:
           requires:
             - publish
-      - smoke-test-sandboxes:
-          requires:
-            - create-sandboxes
+      # - smoke-test-sandboxes: # disabled for now
+      #     requires:
+      #       - create-sandboxes
       - build-sandboxes:
           requires:
             - create-sandboxes
