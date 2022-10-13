@@ -440,6 +440,7 @@ In 7.0, frameworks also specify the builder to be used. For example, The current
 - `@storybook/svelte-webpack5`
 - `@storybook/svelte-vite`
 - `@storybook/vue-webpack5`
+- `@storybook/vue-vite`
 - `@storybook/vue3-webpack5`
 - `@storybook/vue3-vite`
 - `@storybook/web-components-webpack5`
