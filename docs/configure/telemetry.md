@@ -44,7 +44,7 @@ Access to the raw data is highly controlled, limited to select members of Storyb
 
 ## What about sensitive information?
 
-We take your privacy and our security very seriously. We perform additional steps to ensure that secure data (e.g., environment variables or other forms of sensitive data) **do not** make their way into our analytics. You can view all the information we collect by setting the `STORYBOOK_TELEMETRY_DEBUG` to `1` to print out the information gathered. For example:
+We take your privacy and our security very seriously. We perform additional steps to ensure that secure data (e.g., environment variables or other forms of sensitive data) **do not** make their way into our analytics. You can view all the information we collect by setting the `STORYBOOK_DEBUG_TELEMETRY` to `1` to print out the information gathered. For example:
 
 <!-- prettier-ignore-start -->
 
