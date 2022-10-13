@@ -12,14 +12,12 @@ jobs:
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: '--depth 1 --verbose'
-      # - node/install:
-      #     node-version: '16.17'
-      # - run:
-      #     name: Generate config
-      #     command: |
-      #       node ./scripts/ci/generate.js
-      - node/run:
-          yarn-run: generate-ci-config
+      - node/install:
+          node-version: '16.17'
+      - run:
+          name: Generate config
+          command: |
+            node ./scripts/ci/generate.js
       - continuation/continue:
           configuration_path: .circleci/config.generated.yml
 
