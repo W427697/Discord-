@@ -12,7 +12,7 @@ export const Render = () => ({
 
 export const RenderComponent = () => ({
   render(h) {
-    return h(MyButton, { props: { color: 'pink', children: 'renders component: MyButton' } });
+    return h(MyButton, { props: { color: 'pink', label: 'renders component: MyButton' } });
   },
 });
 
@@ -26,7 +26,7 @@ export const Template = () => ({
 
 export const TemplateComponent = () => ({
   components: { MyButton },
-  template: '<my-button children="MyButton rendered in a template" />',
+  template: '<my-button label="MyButton rendered in a template" />',
 });
 
 export const TemplateMethods = () => ({
@@ -34,7 +34,7 @@ export const TemplateMethods = () => ({
   template: `
       <p>
         <em>Clicking the button will navigate to another story using the 'addon-links'</em><br/>
-        <my-button :rounded="true" @click="action" children="MyButton rendered in a template + props & methods" />
+        <my-button :rounded="true" @click="action" label="MyButton rendered in a template + props & methods" />
       </p>`,
   methods: {
     action: () => {},
@@ -46,7 +46,7 @@ export const TemplateMethods = () => ({
 //   components: { MyButton },
 //   render() {
 //     // eslint-disable-next-line react/react-in-jsx-scope, react/no-children-prop
-//     return <my-button children="MyButton rendered with JSX" />;
+//     return <my-button label="MyButton rendered with JSX" />;
 //   },
 // });
 
@@ -57,6 +57,6 @@ export const PreRegisteredComponent = () => ({
   template: `
       <p>
         <em>This component was pre-registered in .storybook/preview.js</em><br/>
-        <global-button children="GlobalButton rendered in a template" />
+        <global-button label="GlobalButton rendered in a template" />
       </p>`,
 });

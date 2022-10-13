@@ -151,6 +151,8 @@ const litViteTemplates = {
     name: 'Lit Vite (JS)',
     script: 'yarn create vite {{beforeDir}} --template lit',
     cadence: ['ci', 'daily', 'weekly'] as any,
+    // Re-enable once https://github.com/storybookjs/storybook/issues/19351 is fixed.
+    skipTasks: ['smoke-test'],
     expected: {
       framework: '@storybook/web-components-vite',
       renderer: '@storybook/web-components',
@@ -161,6 +163,8 @@ const litViteTemplates = {
     name: 'Lit Vite (TS)',
     script: 'yarn create vite {{beforeDir}} --template lit-ts',
     cadence: ['ci', 'daily', 'weekly'] as any,
+    // Re-enable once https://github.com/storybookjs/storybook/issues/19351 is fixed.
+    skipTasks: ['smoke-test'],
     expected: {
       framework: '@storybook/web-components-vite',
       renderer: '@storybook/web-components',
@@ -175,6 +179,8 @@ const vueCliTemplates = {
     script:
       'npx -p @vue/cli vue create {{beforeDir}} --default --packageManager=yarn --force --merge',
     cadence: ['ci', 'daily', 'weekly'],
+    // Re-enable once https://github.com/storybookjs/storybook/issues/19351 is fixed.
+    skipTasks: ['smoke-test'],
     expected: {
       framework: '@storybook/vue3-webpack5',
       renderer: '@storybook/vue3',
@@ -186,6 +192,8 @@ const vueCliTemplates = {
     script:
       'npx -p @vue/cli vue create {{beforeDir}} --default --packageManager=yarn --force --merge --preset=Default\\ (Vue\\ 2)',
     cadence: ['ci', 'daily', 'weekly'],
+    // Re-enable once https://github.com/storybookjs/storybook/issues/19351 is fixed.
+    skipTasks: ['smoke-test'],
     expected: {
       framework: '@storybook/vue-webpack5',
       renderer: '@storybook/vue',
