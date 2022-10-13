@@ -29,7 +29,7 @@ export default {
 };
 
 export const Template = () => ({
-  template: '<global-button children="MyButton with template" />',
+  template: '<global-button label="MyButton with template" />',
 });
 
 export const WithData = (_args, { parameters: { fileName, ...parameters }, hooks, ...rest }) => ({
@@ -38,6 +38,6 @@ export const WithData = (_args, { parameters: { fileName, ...parameters }, hooks
 
 export const Render = () => ({
   render(h) {
-    return h(MyButton, { props: { color: 'pink', children: 'renders component: MyButton' } });
+    return h(MyButton, { props: { color: 'pink', label: 'renders component: MyButton' } });
   },
 });
