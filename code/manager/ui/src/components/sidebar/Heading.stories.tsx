@@ -79,6 +79,7 @@ export const LinkAndText: Story = () => {
           title: 'My title',
           url: 'https://example.com',
           image: null,
+          target: undefined,
         },
       }}
     >
@@ -97,6 +98,7 @@ export const OnlyText: Story = () => {
           title: 'My title',
           url: null,
           image: null,
+          target: undefined,
         },
       }}
     >
@@ -115,6 +117,7 @@ export const LongText: Story = () => {
           title: 'My title is way to long to actually fit',
           url: null,
           image: null,
+          target: undefined,
         },
       }}
     >
@@ -133,6 +136,7 @@ export const CustomTitle: Story = () => {
           title: '<span style="color:red">My custom title</span>',
           url: null,
           image: null,
+          target: undefined,
         },
       }}
     >
@@ -151,6 +155,7 @@ export const CustomBrandImage: Story = () => {
           title: 'My Title',
           url: 'https://example.com',
           image: 'https://storybook.js.org/images/placeholders/150x22.png',
+          target: undefined,
         },
       }}
     >
@@ -169,6 +174,7 @@ export const CustomBrandImageTall: Story = () => {
           title: 'My Title',
           url: 'https://example.com',
           image: 'https://storybook.js.org/images/placeholders/100x150.png',
+          target: undefined,
         },
       }}
     >
@@ -187,6 +193,7 @@ export const CustomBrandImageUnsizedSVG: Story = () => {
           title: 'My Title',
           url: 'https://example.com',
           image: 'https://s.cdpn.io/91525/potofgold.svg',
+          target: undefined,
         },
       }}
     >
@@ -202,9 +209,10 @@ export const NoBrand: Story = () => {
       theme={{
         ...theme,
         brand: {
-          title: null,
+          title: undefined,
           url: null,
           image: null,
+          target: undefined,
         },
       }}
     >

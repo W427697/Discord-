@@ -1,8 +1,8 @@
 import global from 'global';
 import React, { Component, FC } from 'react';
 import { styled } from '@storybook/theming';
-import { Collection } from '@storybook/addons';
-import { State } from '@storybook/api';
+import type { Collection } from '@storybook/addons';
+import type { State } from '@storybook/api';
 import { Sidebar, SidebarProps } from '../sidebar/Sidebar';
 import Panel from '../panel/panel';
 import { Preview } from '../preview/preview';

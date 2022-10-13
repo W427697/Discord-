@@ -39,7 +39,7 @@ const Shortcut: FC<{ keys: string[] }> = ({ keys }) => (
 );
 
 export const useMenu = (
-  api: API,
+  api: Omit<API, 'releaseNotesVersion'> & { releaseNotesVersion: () => string | undefined },
   showToolbar: boolean,
   isFullscreen: boolean,
   showPanel: boolean,

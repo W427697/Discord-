@@ -1,6 +1,6 @@
 import React, { Component, FC } from 'react';
 
-import { API, useStorybookApi } from '@storybook/api';
+import { type API, useStorybookApi } from '@storybook/api';
 
 import { AboutScreen } from './about';
 

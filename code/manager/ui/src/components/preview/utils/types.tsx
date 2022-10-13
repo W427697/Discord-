@@ -1,5 +1,5 @@
 import { FunctionComponent, ReactNode } from 'react';
-import { State, API, LeafEntry } from '@storybook/api';
+import type { State, API, LeafEntry } from '@storybook/api';
 import { StoryId } from '@storybook/csf';
 
 export type ViewMode = State['viewMode'];

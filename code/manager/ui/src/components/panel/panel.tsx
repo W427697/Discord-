@@ -2,7 +2,7 @@ import React, { Component, Fragment, ReactElement } from 'react';
 import { shortcutToHumanString } from '@storybook/api/shortcut';
 import { styled } from '@storybook/theming';
 import { Tabs, Icons, IconButton } from '@storybook/components';
-import { State } from '@storybook/api';
+import type { State } from '@storybook/api';
 
 const DesktopOnlyIconButton = styled(IconButton)({
   // Hides full screen icon at mobile breakpoint defined in app.js

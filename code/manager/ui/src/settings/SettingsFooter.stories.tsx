@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { DecoratorFn } from '@storybook/react';
+import type { DecoratorFn } from '@storybook/react';
 import SettingsFooter from './SettingsFooter';
 
 export default {

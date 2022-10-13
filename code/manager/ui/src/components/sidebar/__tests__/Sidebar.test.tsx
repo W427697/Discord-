@@ -28,6 +28,7 @@ const generateStories = ({ title, refId }: { title: string; refId?: string }): S
   const docsId = `${rootId}-${hypenatedComponentName}--docs`;
 
   const storyBase: HashEntry[] = [
+    // @ts-expect-error the missing fields are deprecated and replaced by the type prop
     {
       type: 'root',
       id: rootId,
@@ -37,6 +38,7 @@ const generateStories = ({ title, refId }: { title: string; refId?: string }): S
       children: [componentId],
       startCollapsed: false,
     },
+    // @ts-expect-error the missing fields are deprecated and replaced by the type prop
     {
       type: 'component',
       id: componentId,
@@ -46,6 +48,7 @@ const generateStories = ({ title, refId }: { title: string; refId?: string }): S
       children: [docsId],
       parent: rootId,
     },
+    // @ts-expect-error the missing fields are deprecated and replaced by the type prop
     {
       type: 'docs',
       id: docsId,

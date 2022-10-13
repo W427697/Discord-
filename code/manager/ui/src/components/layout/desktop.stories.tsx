@@ -15,18 +15,12 @@ export default {
   decorators: [
     ((StoryFn, c) => {
       const mocked = true;
-      const height = 900;
-      const width = 1200;
 
-      if (isChromatic) {
+      if (isChromatic()) {
         store.local.set(`storybook-layout`, {});
       }
 
-      const props = {
-        height,
-        width,
-        ...(mocked ? mockProps : realProps),
-      };
+      const props = mocked ? mockProps : realProps;
 
       return (
         <div style={{ minHeight: 900, minWidth: 1200 }}>

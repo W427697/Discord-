@@ -1,7 +1,7 @@
 import React, { FC, useMemo } from 'react';
 import sizeMe from 'react-sizeme';
 
-import { State } from '@storybook/api';
+import { type State } from '@storybook/api';
 import { Symbols } from '@storybook/components';
 import { Route } from '@storybook/router';
 import { Global, createGlobal, styled } from '@storybook/theming';

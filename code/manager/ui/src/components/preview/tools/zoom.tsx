@@ -1,7 +1,7 @@
 import React, { Component, SyntheticEvent, useCallback, MouseEventHandler } from 'react';
 
 import { Icons, IconButton, Separator } from '@storybook/components';
-import { Addon } from '@storybook/addons';
+import type { Addon } from '@storybook/addons';
 
 const initialZoom = 1 as const;
 
@@ -48,30 +48,32 @@ const Zoom = React.memo<{
 
 export { Zoom, ZoomConsumer, ZoomProvider };
 
-const ZoomWrapper = React.memo<{ set: Function; value: number }>(({ set, value }) => {
-  const zoomIn = useCallback(
-    (e: SyntheticEvent) => {
-      e.preventDefault();
-      set(0.8 * value);
-    },
-    [set, value]
-  );
-  const zoomOut = useCallback(
-    (e: SyntheticEvent) => {
-      e.preventDefault();
-      set(1.25 * value);
-    },
-    [set, value]
-  );
-  const reset = useCallback(
-    (e) => {
-      e.preventDefault();
-      set(initialZoom);
-    },
-    [set, initialZoom]
-  );
-  return <Zoom key="zoom" {...{ zoomIn, zoomOut, reset }} />;
-});
+const ZoomWrapper = React.memo<{ set: (zoomLevel: number) => void; value: number }>(
+  ({ set, value }) => {
+    const zoomIn = useCallback(
+      (e: SyntheticEvent) => {
+        e.preventDefault();
+        set(0.8 * value);
+      },
+      [set, value]
+    );
+    const zoomOut = useCallback(
+      (e: SyntheticEvent) => {
+        e.preventDefault();
+        set(1.25 * value);
+      },
+      [set, value]
+    );
+    const reset = useCallback(
+      (e) => {
+        e.preventDefault();
+        set(initialZoom);
+      },
+      [set, initialZoom]
+    );
+    return <Zoom key="zoom" {...{ zoomIn, zoomOut, reset }} />;
+  }
+);
 
 export const zoomTool: Addon = {
   title: 'zoom',

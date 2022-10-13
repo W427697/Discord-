@@ -1,5 +1,5 @@
 import React, { Component, Children, ComponentType, FC, ReactNode } from 'react';
-import { State, ActiveTabs } from '@storybook/api';
+import { type State, ActiveTabs } from '@storybook/api';
 import { styled } from '@storybook/theming';
 
 import { TabButton } from '@storybook/components';

@@ -3,11 +3,11 @@ import React, { Fragment, useMemo, FunctionComponent } from 'react';
 import { styled } from '@storybook/theming';
 
 import { FlexBar, IconButton, Icons, Separator, TabButton, TabBar } from '@storybook/components';
-import { Consumer, Combo, API, State, merge, LeafEntry } from '@storybook/api';
+import { Consumer, type Combo, type API, type State, merge, type LeafEntry } from '@storybook/api';
 import { shortcutToHumanString } from '@storybook/api/shortcut';
-import { addons, Addon, types } from '@storybook/addons';
+import { addons, type Addon, types } from '@storybook/addons';
 
-import { Location, RenderData } from '@storybook/router';
+import { Location, type RenderData } from '@storybook/router';
 import { zoomTool } from './tools/zoom';
 
 import * as S from './utils/components';

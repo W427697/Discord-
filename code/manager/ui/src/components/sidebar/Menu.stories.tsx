@@ -73,7 +73,6 @@ Expanded.play = async ({ canvasElement }) => {
 export const ExpandedWithoutReleaseNotes = () => {
   const menu = useMenu(
     {
-      // @ts-expect-error (Converted from ts-ignore)
       getShortcutKeys: () => ({}),
       getAddonsShortcuts: () => ({}),
       versionUpdateAvailable: () => false,

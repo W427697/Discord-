@@ -22,7 +22,7 @@ const selected = {
 
 const simple: Record<string, RefType> = {
   storybook_internal: {
-    title: null,
+    title: undefined,
     id: 'storybook_internal',
     url: 'iframe.html',
     ready: true,
