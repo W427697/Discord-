@@ -105,6 +105,7 @@ const DismissButtonWrapper = styled(IconButton)(({ theme }) => ({
 const DismissNotificationItem: FC<{
   onDismiss: () => void;
 }> = ({ onDismiss }) => (
+  // @ts-expect-error (we need to improve the types of IconButton)
   <DismissButtonWrapper
     title="Dismiss notification"
     onClick={(e: SyntheticEvent) => {

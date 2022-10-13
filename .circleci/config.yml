@@ -75,6 +75,22 @@ commands:
             fi
 
 jobs:
+  check:
+    executor:
+      class: xlarge
+      name: sb_node_14_classic
+    steps:
+      - git-shallow-clone/checkout_advanced:
+          clone_options: '--depth 1 --verbose'
+      - restore_cache:
+          name: Restore Yarn cache
+          keys:
+            - build-yarn-2-cache-v4--{{ checksum "code/yarn.lock" }}--{{ checksum "scripts/yarn.lock" }}
+      - run:
+          name: Compile
+          command: |
+            yarn task --task check --start-from=auto --no-link --debug
+            git diff --exit-code
   build:
     executor:
       class: xlarge
@@ -125,7 +141,7 @@ jobs:
     executor:
       class: medium+
       name: sb_node_14_browsers
-    parallelism: 6
+    parallelism: 5
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: '--depth 1 --verbose'
@@ -305,7 +321,7 @@ jobs:
     executor:
       class: medium+
       name: sb_node_14_browsers
-    parallelism: 17
+    parallelism: 18
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: '--depth 1 --verbose'
@@ -324,7 +340,7 @@ jobs:
     executor:
       class: medium+
       name: sb_node_14_browsers
-    parallelism: 9
+    parallelism: 11
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: '--depth 1 --verbose'
@@ -339,7 +355,7 @@ jobs:
     executor:
       class: medium+
       name: sb_node_14_browsers
-    parallelism: 17
+    parallelism: 18
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: '--depth 1 --verbose'
@@ -358,7 +374,7 @@ jobs:
     executor:
       class: medium+
       name: sb_node_14_browsers
-    parallelism: 15
+    parallelism: 16
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: '--depth 1 --verbose'
@@ -373,7 +389,7 @@ jobs:
     executor:
       class: medium+
       name: sb_node_14_browsers
-    parallelism: 17
+    parallelism: 18
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: '--depth 1 --verbose'
@@ -388,7 +404,7 @@ jobs:
     executor:
       class: medium+
       name: sb_playwright
-    parallelism: 17
+    parallelism: 18
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: '--depth 1 --verbose'
@@ -408,6 +424,9 @@ workflows:
     jobs:
       - build
       - lint:
+          requires:
+            - build
+      - check:
           requires:
             - build
       - examples:

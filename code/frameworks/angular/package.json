@@ -95,7 +95,8 @@
     "jest-specific-snapshot": "^5.0.0",
     "tmp": "^0.2.1",
     "typescript": "~4.6.3",
-    "webpack": "5"
+    "webpack": "5",
+    "zone.js": "^0.11.0"
   },
   "peerDependencies": {
     "@angular-devkit/architect": ">=0.1300.0",

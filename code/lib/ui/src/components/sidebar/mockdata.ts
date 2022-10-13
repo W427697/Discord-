@@ -1,6 +1,6 @@
 import type { StoriesHash } from '@storybook/api';
 
-export type MockDataSet = Record<string, StoriesHash>;
+export type MockDataSet = Record<string, Record<string, Partial<StoriesHash[0]>>>;
 
 export const mockDataset: MockDataSet = {
   withRoot: {

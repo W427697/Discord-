@@ -154,10 +154,19 @@ const angularCliTemplates = {
   'angular-cli/default-ts': {
     name: 'Angular CLI (latest)',
     script:
-      'npx -p @angular/cli ng new angular-latest --directory . --routing=true --minimal=true --style=scss --skip-install=true --strict --skip-git',
+      'npx -p @angular/cli ng new angular-latest --directory . --routing=true --minimal=true --style=scss --strict --skip-git --skip-install --package-manager=yarn',
     cadence: ['ci', 'daily', 'weekly'],
-    // Re-enable once https://github.com/storybookjs/storybook/issues/19351 is fixed.
-    skipTasks: ['smoke-test'],
+    expected: {
+      framework: '@storybook/angular',
+      renderer: '@storybook/angular',
+      builder: '@storybook/builder-webpack5',
+    },
+  },
+  'angular-cli/13-ts': {
+    name: 'Angular CLI (Version 13)',
+    script:
+      'npx -p @angular/cli@13 ng new angular-latest --directory . --routing=true --minimal=true --style=scss --strict --skip-git --skip-install --package-manager=yarn',
+    cadence: ['ci', 'daily', 'weekly'],
     expected: {
       framework: '@storybook/angular',
       renderer: '@storybook/angular',
@@ -267,16 +276,4 @@ export default {
   ...vueCliTemplates,
   ...htmlWebpackTemplates,
   ...preactWebpackTemplates,
-  // FIXME: missing documentation.json
-  // 'angular/latest': {
-  //   name: 'Angular (latest)',
-  //   script:
-  //     'npx -p @angular/cli ng new angular-latest --directory . --routing=true --minimal=true --style=scss --skip-install=true --strict',
-  //   cadence: ['ci', 'daily', 'weekly'],
-  //   expected: {
-  //     framework: '@storybook/angular',
-  //     renderer: '@storybook/angular',
-  //     builder: '@storybook/builder-webpack5',
-  //   },
-  // },
 } as const;

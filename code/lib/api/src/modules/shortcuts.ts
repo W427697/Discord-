@@ -1,6 +1,7 @@
 import global from 'global';
 import { PREVIEW_KEYDOWN } from '@storybook/core-events';
 
+import { DOMElement } from 'react';
 import type { ModuleFn } from '../index';
 
 import { shortcutMatchesShortcut, eventToShortcut, KeyboardEventLike } from '../lib/shortcut';
