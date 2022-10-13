@@ -1,5 +1,4 @@
 import type { StorybookConfig } from '@storybook/builder-vite';
-import { PluginOption } from 'vite';
 import { hasPlugin } from './utils';
 import { svelteDocgen } from './plugins/svelte-docgen';
 
