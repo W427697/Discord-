@@ -15,9 +15,9 @@ export const Button = globalThis.Components.Button;
 <Canvas>
   <Story name="Angular Story">
     {{
-      template: `<storybook-button-component [children]="text" (onClick)="onClick($event)"></storybook-button-component>`,
+      template: `<storybook-framework-button [label]="text" (onClick)="onClick($event)"></storybook-framework-button>`,
       props: {
-        children: 'hello button',
+        text: 'hello button',
         onClick: () => {},
       },
     }}
