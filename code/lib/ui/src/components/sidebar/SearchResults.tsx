@@ -68,7 +68,7 @@ const BackActionRow = styled(ActionRow)({
 
 const ActionLabel = styled.span(({ theme }) => ({
   flexGrow: 1,
-  color: theme.color.mediumdark,
+  color: theme.textMutedColor,
   fontSize: `${theme.typography.size.s1}px`,
 }));
 
@@ -77,17 +77,17 @@ const ActionIcon = styled(Icons)(({ theme }) => ({
   width: 10,
   height: 10,
   marginRight: 6,
-  color: theme.color.mediumdark,
+  color: theme.textMutedColor,
 }));
 
 const ActionKey = styled.code(({ theme }) => ({
   minWidth: 16,
   height: 16,
-  lineHeight: '17px',
+  lineHeight: '16px',
   textAlign: 'center',
   fontSize: '11px',
-  background: 'rgba(0,0,0,0.1)',
-  color: theme.textMutedColor,
+  background: theme.base === 'light' ? 'rgba(0,0,0,0.05)' : 'rgba(255,255,255,0.05)',
+  color: theme.base === 'light' ? theme.color.dark : theme.textMutedColor,
   borderRadius: 2,
   userSelect: 'none',
   pointerEvents: 'none',
@@ -128,6 +128,7 @@ const Result: FC<
     if (api && props.isHighlighted && item.isComponent) {
       api.emit(
         PRELOAD_ENTRIES,
+        // @ts-expect-error (TODO)
         { ids: [item.isLeaf ? item.id : item.children[0]] },
         { options: { target: item.refId } }
       );
@@ -162,6 +163,7 @@ const Result: FC<
   } else if (item.type === 'story') {
     node = <StoryNode href={getLink(item, item.refId)} {...nodeProps} />;
   } else {
+    // @ts-expect-error (TODO)
     node = <DocumentNode href={getLink(item, item.refId)} {...nodeProps} />;
   }
 
@@ -212,6 +214,7 @@ export const SearchResults: FC<{
 
       if (item.isComponent) {
         api.emit(PRELOAD_ENTRIES, {
+          // @ts-expect-error (TODO)
           ids: [item.isLeaf ? item.id : item.children[0]],
           options: { target: refId },
         });

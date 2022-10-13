@@ -1,7 +1,7 @@
 const craTemplates = {
   'cra/default-js': {
     name: 'Create React App (Javascript)',
-    script: 'npx create-react-app .',
+    script: 'npx create-react-app {{beforeDir}}',
     cadence: ['ci', 'daily', 'weekly'],
     expected: {
       framework: '@storybook/cra',
@@ -11,7 +11,7 @@ const craTemplates = {
   },
   'cra/default-ts': {
     name: 'Create React App (Typescript)',
-    script: 'npx create-react-app . --template typescript',
+    script: 'npx create-react-app {{beforeDir}} --template typescript',
     cadence: ['ci', 'daily', 'weekly'],
     // Re-enable once https://github.com/storybookjs/storybook/issues/19351 is fixed.
     skipTasks: ['smoke-test'],
@@ -26,7 +26,7 @@ const craTemplates = {
 const reactViteTemplates = {
   'react-vite/default-js': {
     name: 'React Vite (JS)',
-    script: 'yarn create vite . --template react',
+    script: 'yarn create vite {{beforeDir}} --template react',
     cadence: ['ci', 'daily', 'weekly'],
     expected: {
       framework: '@storybook/react-vite',
@@ -36,7 +36,7 @@ const reactViteTemplates = {
   },
   'react-vite/default-ts': {
     name: 'React Vite (TS)',
-    script: 'yarn create vite . --template react-ts',
+    script: 'yarn create vite {{beforeDir}} --template react-ts',
     cadence: ['ci', 'daily', 'weekly'],
     expected: {
       framework: '@storybook/react-vite',
@@ -49,7 +49,18 @@ const reactViteTemplates = {
 const reactWebpackTemplates = {
   'react-webpack/18-ts': {
     name: 'React Webpack5 (TS)',
-    script: 'yarn create webpack5-react .',
+    script: 'yarn create webpack5-react {{beforeDir}}',
+    cadence: ['ci', 'daily', 'weekly'],
+    expected: {
+      framework: '@storybook/react-webpack5',
+      renderer: '@storybook/react',
+      builder: '@storybook/builder-webpack5',
+    },
+  },
+  'react-webpack/17-ts': {
+    name: 'React Webpack5 (TS)',
+    script:
+      'yarn create webpack5-react {{beforeDir}} --version-react="17" --version-react-dom="17"',
     cadence: ['ci', 'daily', 'weekly'],
     expected: {
       framework: '@storybook/react-webpack5',
@@ -62,7 +73,7 @@ const reactWebpackTemplates = {
 const vue3ViteTemplates = {
   'vue3-vite/default-js': {
     name: 'Vue3 Vite (JS)',
-    script: 'yarn create vite . --template vue',
+    script: 'yarn create vite {{beforeDir}} --template vue',
     cadence: ['ci', 'daily', 'weekly'],
     expected: {
       framework: '@storybook/vue3-vite',
@@ -72,7 +83,7 @@ const vue3ViteTemplates = {
   },
   'vue3-vite/default-ts': {
     name: 'Vue3 Vite (TS)',
-    script: 'yarn create vite . --template vue-ts',
+    script: 'yarn create vite {{beforeDir}} --template vue-ts',
     cadence: ['ci', 'daily', 'weekly'],
     expected: {
       framework: '@storybook/vue3-vite',
@@ -89,8 +100,10 @@ const vue2ViteTemplates = {
     // We don't really want to maintain weird custom scripts like this,
     // preferring community bootstrap scripts / generators instead.
     script:
-      'yarn create vite . --template vanilla && yarn add --dev @vitejs/plugin-vue2 vue-template-compiler vue@2 && echo "import vue2 from \'@vitejs/plugin-vue2\';\n\nexport default {\n\tplugins: [vue2()]\n};" > vite.config.js',
+      'yarn create vite {{beforeDir}} --template vanilla && yarn add --dev @vitejs/plugin-vue2 vue-template-compiler vue@2 && echo "import vue2 from \'@vitejs/plugin-vue2\';\n\nexport default {\n\tplugins: [vue2()]\n};" > vite.config.js',
     cadence: ['ci', 'daily', 'weekly'],
+    // Re-enable once https://github.com/storybookjs/storybook/issues/19351 is fixed.
+    skipTasks: ['smoke-test'],
     expected: {
       framework: '@storybook/vue2-vite',
       renderer: '@storybook/vue',
@@ -99,10 +112,23 @@ const vue2ViteTemplates = {
   },
 };
 
+const htmlWebpackTemplates = {
+  'html-webpack/default': {
+    name: 'HTML Webpack5',
+    script: 'yarn create webpack5-html {{beforeDir}}',
+    cadence: ['ci', 'daily', 'weekly'],
+    expected: {
+      framework: '@storybook/html-webpack5',
+      renderer: '@storybook/html',
+      builder: '@storybook/builder-webpack5',
+    },
+  },
+};
+
 const svelteViteTemplates = {
   'svelte-vite/default-js': {
     name: 'Svelte Vite (JS)',
-    script: 'yarn create vite . --template svelte',
+    script: 'yarn create vite {{beforeDir}} --template svelte',
     cadence: ['ci', 'daily', 'weekly'],
     expected: {
       framework: '@storybook/svelte-vite',
@@ -110,20 +136,43 @@ const svelteViteTemplates = {
       builder: '@storybook/builder-vite',
     },
   },
-  /*
-   * I disabled this, because it was flaky
-   * TODO: we should fixd the instability and re-enable it
-   */
-  // 'svelte-vite/default-ts': {
-  //   name: 'Svelte Vite (TS)',
-  //   script: 'yarn create vite . --template svelte-ts',
-  //   cadence: ['ci', 'daily', 'weekly'],
-  //   expected: {
-  //     framework: '@storybook/svelte-vite',
-  //     renderer: '@storybook/svelte',
-  //     builder: '@storybook/builder-vite'
-  //   }
-  // }
+  'svelte-vite/default-ts': {
+    name: 'Svelte Vite (TS)',
+    script: 'yarn create vite {{beforeDir}} --template svelte-ts',
+    cadence: ['ci', 'daily', 'weekly'],
+    // Re-enable once https://github.com/storybookjs/storybook/issues/19351 is fixed.
+    skipTasks: ['smoke-test'],
+    expected: {
+      framework: '@storybook/svelte-vite',
+      renderer: '@storybook/svelte',
+      builder: '@storybook/builder-vite',
+    },
+  },
+};
+
+const angularCliTemplates = {
+  'angular-cli/default-ts': {
+    name: 'Angular CLI (latest)',
+    script:
+      'npx -p @angular/cli ng new angular-latest --directory . --routing=true --minimal=true --style=scss --strict --skip-git --skip-install --package-manager=yarn',
+    cadence: ['ci', 'daily', 'weekly'],
+    expected: {
+      framework: '@storybook/angular',
+      renderer: '@storybook/angular',
+      builder: '@storybook/builder-webpack5',
+    },
+  },
+  'angular-cli/13-ts': {
+    name: 'Angular CLI (Version 13)',
+    script:
+      'npx -p @angular/cli@13 ng new angular-latest --directory . --routing=true --minimal=true --style=scss --strict --skip-git --skip-install --package-manager=yarn',
+    cadence: ['ci', 'daily', 'weekly'],
+    expected: {
+      framework: '@storybook/angular',
+      renderer: '@storybook/angular',
+      builder: '@storybook/builder-webpack5',
+    },
+  },
 };
 
 // SvelteKit only supports Node.js >16.x, so before generating these repros you need to switch to that version
@@ -155,8 +204,10 @@ const svelteKitTemplates = {
 const litViteTemplates = {
   'lit-vite/default-js': {
     name: 'Lit Vite (JS)',
-    script: 'yarn create vite . --template lit',
-    cadence: [] as any,
+    script: 'yarn create vite {{beforeDir}} --template lit',
+    cadence: ['ci', 'daily', 'weekly'] as any,
+    // Re-enable once https://github.com/storybookjs/storybook/issues/19351 is fixed.
+    skipTasks: ['smoke-test'],
     expected: {
       framework: '@storybook/web-components-vite',
       renderer: '@storybook/web-components',
@@ -165,8 +216,10 @@ const litViteTemplates = {
   },
   'lit-vite/default-ts': {
     name: 'Lit Vite (TS)',
-    script: 'yarn create vite . --template lit-ts',
-    cadence: [] as any,
+    script: 'yarn create vite {{beforeDir}} --template lit-ts',
+    cadence: ['ci', 'daily', 'weekly'] as any,
+    // Re-enable once https://github.com/storybookjs/storybook/issues/19351 is fixed.
+    skipTasks: ['smoke-test'],
     expected: {
       framework: '@storybook/web-components-vite',
       renderer: '@storybook/web-components',
@@ -178,8 +231,15 @@ const litViteTemplates = {
 const vueCliTemplates = {
   'vue-cli/default-js': {
     name: 'Vue-CLI (Default JS)',
-    script: 'npx -p @vue/cli vue create . --default --packageManager=yarn --force --merge',
+    script:
+      'npx -p @vue/cli vue create {{beforeDir}} --default --packageManager=yarn --force --merge',
     cadence: ['ci', 'daily', 'weekly'],
+    skipTasks: [
+      // Re-enable once https://github.com/storybookjs/storybook/issues/19351 is fixed.
+      'smoke-test',
+      // Re-enable once https://github.com/storybookjs/storybook/issues/19453 is fixed.
+      'test-runner',
+    ],
     expected: {
       framework: '@storybook/vue3-webpack5',
       renderer: '@storybook/vue3',
@@ -189,11 +249,42 @@ const vueCliTemplates = {
   'vue-cli/vue2-default-js': {
     name: 'Vue-CLI (Vue2 JS)',
     script:
-      'npx -p @vue/cli vue create . --default --packageManager=yarn --force --merge --preset=Default\\ (Vue\\ 2)',
+      'npx -p @vue/cli vue create {{beforeDir}} --default --packageManager=yarn --force --merge --preset=Default\\ (Vue\\ 2)',
     cadence: ['ci', 'daily', 'weekly'],
+    skipTasks: [
+      // Re-enable once https://github.com/storybookjs/storybook/issues/19351 is fixed.
+      'smoke-test',
+      // Re-enable once https://github.com/storybookjs/storybook/issues/19453 is fixed.
+      'test-runner',
+    ],
     expected: {
       framework: '@storybook/vue-webpack5',
       renderer: '@storybook/vue',
+      builder: '@storybook/builder-webpack5',
+    },
+  },
+};
+
+const preactWebpackTemplates = {
+  'preact-webpack5/default-js': {
+    name: 'Preact CLI (Default JS)',
+    script: 'npx preact-cli create default {{beforeDir}} --name preact-app --yarn --no-install',
+    // cadence: ['ci', 'daily', 'weekly'],
+    cadence: [] as string[],
+    expected: {
+      framework: '@storybook/preact-webpack5',
+      renderer: '@storybook/preact',
+      builder: '@storybook/builder-webpack5',
+    },
+  },
+  'preact-webpack5/default-ts': {
+    name: 'Preact CLI (Default TS)',
+    script: 'npx preact-cli create typescript {{beforeDir}} --name preact-app --yarn --no-install',
+    // cadence: ['ci', 'daily', 'weekly'],
+    cadence: [] as string[],
+    expected: {
+      framework: '@storybook/preact-webpack5',
+      renderer: '@storybook/preact',
       builder: '@storybook/builder-webpack5',
     },
   },
@@ -207,18 +298,9 @@ export default {
   ...vue3ViteTemplates,
   ...svelteViteTemplates,
   ...svelteKitTemplates,
+  ...angularCliTemplates,
   ...litViteTemplates,
   ...vueCliTemplates,
-  // FIXME: missing documentation.json
-  // 'angular/latest': {
-  //   name: 'Angular (latest)',
-  //   script:
-  //     'npx -p @angular/cli ng new angular-latest --directory . --routing=true --minimal=true --style=scss --skip-install=true --strict',
-  //   cadence: ['ci', 'daily', 'weekly'],
-  //   expected: {
-  //     framework: '@storybook/angular',
-  //     renderer: '@storybook/angular',
-  //     builder: '@storybook/builder-webpack5',
-  //   },
-  // },
+  ...htmlWebpackTemplates,
+  ...preactWebpackTemplates,
 } as const;

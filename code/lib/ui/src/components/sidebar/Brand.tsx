@@ -3,11 +3,12 @@ import { styled, withTheme } from '@storybook/theming';
 
 import { StorybookLogo } from '@storybook/components';
 
-export const StorybookLogoStyled = styled(StorybookLogo)({
+export const StorybookLogoStyled = styled(StorybookLogo)(({ theme }) => ({
   width: 'auto',
   height: '22px !important',
   display: 'block',
-});
+  color: theme.base === 'light' ? theme.color.defaultText : theme.color.lightest,
+}));
 
 export const Img = styled.img({
   width: 'auto',
@@ -31,6 +32,7 @@ export const LogoLink = styled.a(({ theme }) => ({
   },
 }));
 
+// @ts-expect-error (TODO)
 export const Brand = withTheme(({ theme }) => {
   const { title = 'Storybook', url = './', image, target } = theme.brand;
   const targetValue = target || (url === './' ? '' : '_blank');
