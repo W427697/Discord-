@@ -1,6 +1,6 @@
 {
   "name": "@storybook/codemod",
-  "version": "7.0.0-alpha.35",
+  "version": "7.0.0-alpha.37",
   "description": "A collection of codemod scripts written with JSCodeshift",
   "keywords": [
     "storybook"
@@ -30,8 +30,8 @@
   },
   "main": "dist/index.js",
   "module": "dist/index.mjs",
-  "types": "dist/index.d.ts",
   "jsnext:main": "src/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
     "check": "../../../scripts/node_modules/.bin/tsc --noEmit",
     "prep": "../../../scripts/prepare/bundle.ts"
@@ -39,9 +39,9 @@
   "dependencies": {
     "@babel/types": "^7.12.11",
     "@mdx-js/mdx": "^1.6.22",
-    "@storybook/csf": "0.0.2--canary.0899bb7.0",
-    "@storybook/csf-tools": "7.0.0-alpha.35",
-    "@storybook/node-logger": "7.0.0-alpha.35",
+    "@storybook/csf": "0.0.2--canary.49.258942b.0",
+    "@storybook/csf-tools": "7.0.0-alpha.37",
+    "@storybook/node-logger": "7.0.0-alpha.37",
     "cross-spawn": "^7.0.3",
     "globby": "^11.0.2",
     "jscodeshift": "^0.13.1",
@@ -64,5 +64,5 @@
       "./src/index.js"
     ]
   },
-  "gitHead": "d8972df8c6c1c4716131a856751f5914acddaad1"
+  "gitHead": "82667a655108283aafc828427f00bb3590a334e5"
 }
