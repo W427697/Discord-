@@ -22,4 +22,4 @@
 'cli': ['lib/cli/**']
 'compatibility with other tools': []
 'documentation': ['docs', '*.md']
-'ui': ['manager/ui']
+'ui': ['ui/manager']

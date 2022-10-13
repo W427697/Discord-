@@ -26,7 +26,7 @@ module.exports = {
       files: [
         '**/lib/theming/**/*',
         '**/lib/router/**/*',
-        '**/manager/ui/**/*',
+        '**/ui/manager/**/*',
         '**/lib/components/**/*',
       ],
       rules: {
@@ -34,7 +34,7 @@ module.exports = {
       },
     },
     {
-      files: ['**/manager/*', '**/manager/.storybook/*'],
+      files: ['**/ui/*', '**/ui/.storybook/*'],
       rules: {
         'import/no-extraneous-dependencies': ['error', { packageDir: __dirname }],
       },

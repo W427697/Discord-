@@ -8853,9 +8853,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@storybook/ui@7.0.0-alpha.35, @storybook/ui@workspace:*, @storybook/ui@workspace:manager/ui":
+"@storybook/ui@7.0.0-alpha.35, @storybook/ui@workspace:*, @storybook/ui@workspace:ui/manager":
   version: 0.0.0-use.local
-  resolution: "@storybook/ui@workspace:manager/ui"
+  resolution: "@storybook/ui@workspace:ui/manager"
   dependencies:
     "@fal-works/esbuild-plugin-global-externals": ^2.1.2
     "@storybook/addons": 7.0.0-alpha.35
