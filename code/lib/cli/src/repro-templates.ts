@@ -175,6 +175,33 @@ const angularCliTemplates = {
   },
 };
 
+// TODO: enable this when repo has been upgraded to node@16
+// SvelteKit only supports Node.js >16.x, so before generating these repros you need to switch to that version
+// const svelteKitTemplates = {
+//   'svelte-kit/skeleton-js': {
+//     name: 'Svelte Kit (JS)',
+//     script:
+//       'yarn create svelte-with-args --name=svelte-kit/skeleton-js --directory=. --template=skeleton --types=null --no-prettier --no-eslint --no-playwright',
+//     cadence: ['ci', 'daily', 'weekly'],
+//     expected: {
+//       framework: '@storybook/svelte-vite',
+//       renderer: '@storybook/svelte',
+//       builder: '@storybook/builder-vite',
+//     },
+//   },
+//   'svelte-kit/skeleton-ts': {
+//     name: 'Svelte Kit (TS)',
+//     script:
+//       'yarn create svelte-with-args --name=svelte-kit/skeleton-ts --directory=. --template=skeleton --types=typescript --no-prettier --no-eslint --no-playwright',
+//     cadence: ['ci', 'daily', 'weekly'],
+//     expected: {
+//       framework: '@storybook/svelte-vite',
+//       renderer: '@storybook/svelte',
+//       builder: '@storybook/builder-vite',
+//     },
+//   },
+// };
+
 const litViteTemplates = {
   'lit-vite/default-js': {
     name: 'Lit Vite (JS)',
@@ -271,6 +298,8 @@ export default {
   ...vue2ViteTemplates,
   ...vue3ViteTemplates,
   ...svelteViteTemplates,
+  // TODO: enable this when repo has been upgraded to node@16
+  // ...svelteKitTemplates,
   ...angularCliTemplates,
   ...litViteTemplates,
   ...vueCliTemplates,
