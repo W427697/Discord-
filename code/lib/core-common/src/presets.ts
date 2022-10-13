@@ -50,7 +50,7 @@ function resolvePresetFunction<T = any>(
  *   =>  { type: 'presets', item }
  *
  * - '@storybook/addon-docs'
- *   =>  { type: 'presets', item: '@storybook/addon-docs/preset' }
+ *   =>  { type: 'presets', name: '/Users/me/project/node_modules/@storybook/addon-docs/dist/index.js' }
  *
  * - { name: '@storybook/addon-docs(/preset)?', options: { ... } }
  *   =>  { type: 'presets', item: { name: '@storybook/addon-docs/preset', options } }
@@ -106,7 +106,7 @@ export const resolveAddonName = (
   //     (vite cannot import absolute files: https://github.com/vitejs/vite/issues/5494
   //      this also means vite suffers issues with pnpm etc)
   const absolutizeExport = (exportName: string) => {
-    if (resolve(`${name}${exportName}`)) return `${absoluteDir}${exportName}`;
+    if (resolve(`${name}${exportName}`)) return `${name}${exportName}`;
     return undefined;
   };
 
@@ -213,13 +213,16 @@ export async function loadPreset(
     if (isObject(contents)) {
       const { addons: addonsInput, presets: presetsInput, ...rest } = contents;
 
-      const subPresets = resolvePresetFunction(presetsInput, presetOptions, storybookOptions);
-      const subAddons = resolvePresetFunction(addonsInput, presetOptions, storybookOptions);
+      const subPresets = await resolvePresetFunction(presetsInput, presetOptions, storybookOptions);
+      const subAddons = await resolvePresetFunction(addonsInput, presetOptions, storybookOptions);
+
+      const stringSubAddons = subAddons.filter((a) => typeof a === 'string');
+      console.log({ subAddonsRequired: subAddons.filter((a) => typeof a !== 'string') });
 
       return [
         ...(await loadPresets([...subPresets], level + 1, storybookOptions)),
         ...(await loadPresets(
-          [...subAddons.map(map(storybookOptions))].filter(Boolean) as PresetConfig[],
+          [...stringSubAddons.map(map(storybookOptions))].filter(Boolean) as PresetConfig[],
           level + 1,
           storybookOptions
         )),

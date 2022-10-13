@@ -1,6 +1,6 @@
 import path, { dirname, join } from 'path';
 import { logger } from '@storybook/node-logger';
-import { serverRequire } from '@storybook/core-common';
+import { serverRequire, resolveAddonName, interopRequireDefault } from '@storybook/core-common';
 
 interface PresetOptions {
   configDir: string;
@@ -30,41 +30,58 @@ export function addons(options: PresetOptions) {
       return name?.startsWith(addon);
     });
     if (existingAddon) {
-      logger.info(`Found existing addon ${JSON.stringify(existingAddon)}, skipping.`);
+      logger.info(
+        `[addon-essentials] Found existing addon ${JSON.stringify(existingAddon)}, skipping.`
+      );
     }
     return !!existingAddon;
   };
 
   const main = requireMain(options.configDir);
-  return (
-    [
-      'docs',
-      'controls',
-      'actions',
-      'backgrounds',
-      'viewport',
-      'toolbars',
-      'measure',
-      'outline',
-      'highlight',
-    ]
-      .filter((key) => (options as any)[key] !== false)
-      .map((key) => `@storybook/addon-${key}`)
-      .filter((addon) => !checkInstalled(addon, main))
-      // Use `require.resolve` to ensure Yarn PnP compatibility
-      // Files of various addons should be resolved in the context of `addon-essentials` as they are listed as deps here
-      // and not in `@storybook/core` nor in SB user projects. If `@storybook/core` make the require itself Yarn 2 will
-      // throw an error saying that the package to require must be added as a dependency. Doing `require.resolve` will
-      // allow `@storybook/core` to work with absolute path directly, no more require of dep no more issue.
-      // File to load can be `preset.js`, `register.js`, or the package entry point, so we need to check all these cases
-      // as it's done in `lib/core/src/server/presets.js`.
-      .map((addon) => {
-        try {
-          return dirname(require.resolve(join(addon, 'package.json')));
-          // eslint-disable-next-line no-empty
-        } catch (err) {}
+  const addonNames = [
+    'docs',
+    'controls',
+    'actions',
+    'backgrounds',
+    'viewport',
+    'toolbars',
+    'measure',
+    'outline',
+    'highlight',
+  ]
+    .filter((key) => (options as any)[key] !== false)
+    .map((key) => `@storybook/addon-${key}`)
+    .filter((addon) => !checkInstalled(addon, main));
+  // Use require() to ensure Yarn PnP and pnpm compatibility
+  // Files of various addons should be imported in the context of `addon-essentials` as they are listed as deps here
+  // and not in `@storybook/core` nor in SB user projects. If `@storybook/core` make the require itself Yarn 2/pnpm will
+  // throw an error saying that the package to require must be added as a dependency.
 
-        return require.resolve(addon);
-      })
-  );
+  return addonNames.map(async (addon) => {
+    // console.log(resolveAddonName(options.configDir, addon, {}));
+    const name = resolveAddonName(options.configDir, addon, {});
+    const parts = await getContent(name);
+    console.log(parts);
+    // const addonImport = require(addon);
+    // console.log({ addon, addonImport });
+    // return addonImport;
+
+    try {
+      return dirname(require.resolve(join(addon, 'package.json')));
+      // eslint-disable-next-line no-empty
+    } catch (err) {}
+
+    return require.resolve(addon);
+  });
+}
+
+// TODO: copied from core-common
+async function getContent(input: any) {
+  if (input.type === 'virtual') {
+    const { type, name, ...rest } = input;
+    return rest;
+  }
+  const name = input.name ? input.name : input;
+
+  return interopRequireDefault(name);
 }
