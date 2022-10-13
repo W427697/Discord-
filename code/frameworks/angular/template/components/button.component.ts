@@ -1,8 +1,7 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
-  // Needs to be a different name to the CLI template button as they have a
-  // subtly different interface [label vs children] (for compodoc)
+  // Needs to be a different name to the CLI template button
   selector: 'storybook-framework-button',
   template: ` <button
     type="button"
@@ -10,7 +9,7 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
     [ngClass]="classes"
     [ngStyle]="{ 'background-color': backgroundColor }"
   >
-    {{ children }}
+    {{ label }}
   </button>`,
   styleUrls: ['./button.css'],
 })
@@ -39,7 +38,7 @@ export default class FrameworkButtonComponent {
    * @required
    */
   @Input()
-  children = 'Button';
+  label = 'Button';
 
   /**
    * Optional click handler

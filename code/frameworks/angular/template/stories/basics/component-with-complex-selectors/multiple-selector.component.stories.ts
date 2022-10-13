@@ -1,31 +1,8 @@
-import {
-  MultipleClassSelectorComponent,
-  MultipleSelectorComponent,
-} from './multiple-selector.component';
-import { AttributeSelectorComponent } from './attribute-selector.component';
-import { ClassSelectorComponent } from './class-selector.component';
+import { MultipleSelectorComponent } from './multiple-selector.component';
 
 export default {
   // title: 'Basics / Component / With Complex Selectors',
-  component: MultipleClassSelectorComponent,
+  component: MultipleSelectorComponent,
 };
 
-export const MultipleSelectors = () => ({
-  component: MultipleSelectorComponent,
-});
-MultipleSelectors.storyName = 'multiple selectors';
-
-export const AttributeSelectors = () => ({
-  component: AttributeSelectorComponent,
-});
-AttributeSelectors.storyName = 'attribute selectors';
-
-export const ClassSelectors = () => ({
-  component: ClassSelectorComponent,
-});
-ClassSelectors.storyName = 'class selectors';
-
-export const MultipleClassSelectors = () => ({
-  component: MultipleClassSelectorComponent,
-});
-MultipleClassSelectors.storyName = 'multiple class selectors';
+export const MultipleSelectors = {};

@@ -36,13 +36,21 @@ const sbInit = async (cwd: string, flags?: string[]) => {
 const LOCAL_REGISTRY_URL = 'http://localhost:6001';
 const withLocalRegistry = async (packageManager: JsPackageManager, action: () => Promise<void>) => {
   const prevUrl = packageManager.getRegistryURL();
+  let error;
   try {
     console.log(`📦 Configuring local registry: ${LOCAL_REGISTRY_URL}`);
     packageManager.setRegistryURL(LOCAL_REGISTRY_URL);
     await action();
+  } catch (e) {
+    error = e;
   } finally {
     console.log(`📦 Restoring registry: ${prevUrl}`);
     packageManager.setRegistryURL(prevUrl);
+
+    if (error) {
+      // eslint-disable-next-line no-unsafe-finally
+      throw error;
+    }
   }
 };
 

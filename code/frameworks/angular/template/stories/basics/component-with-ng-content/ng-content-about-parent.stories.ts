@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { componentWrapperDecorator, moduleMetadata } from '@storybook/angular';
+import { componentWrapperDecorator } from '@storybook/angular';
 
 import type { Meta, StoryFn } from '@storybook/angular';
 
@@ -59,46 +59,3 @@ export const InH1: StoryFn = () => ({
 });
 InH1.decorators = [componentWrapperDecorator((story) => `<h1>${story}</h1>`)];
 InH1.storyName = 'In <h1>';
-
-@Component({
-  selector: 'sb-emoji',
-  template: `{{ emoji }}`,
-  styles: [
-    `
-      :host {
-        padding-right: 4px;
-      }
-    `,
-  ],
-})
-class SbEmojiComponent {
-  @Input()
-  emoji = '👾';
-}
-
-export const WithComponent: StoryFn = () => ({
-  // Override the default component
-  // It is therefore necessary to manually declare the parent component with moduleMetadata
-  component: SbEmojiComponent,
-});
-WithComponent.decorators = [
-  moduleMetadata({
-    declarations: [SbButtonComponent],
-  }),
-];
-
-export const WithComponentAndArgs: StoryFn = (args) => {
-  return {
-    props: args,
-    component: SbEmojiComponent,
-  };
-};
-WithComponentAndArgs.decorators = [
-  moduleMetadata({
-    declarations: [SbButtonComponent],
-  }),
-];
-WithComponentAndArgs.argTypes = {
-  emoji: { control: 'text' },
-};
-WithComponentAndArgs.args = { emoji: '🌵' };
