@@ -17,7 +17,7 @@ test.describe('JSON files', () => {
       entries: expect.objectContaining({
         'example-button--primary': {
           id: 'example-button--primary',
-          importPath: expect.stringMatching(/\/Button\.stories\.[tj]sx$/),
+          importPath: expect.stringMatching(/\/Button\.stories\.[tj]sx?$/),
           name: 'Primary',
           title: 'Example/Button',
           type: 'story',
