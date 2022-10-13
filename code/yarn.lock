@@ -8477,7 +8477,7 @@ __metadata:
     babel-plugin-dynamic-import-node: ^2.3.3
     babel-plugin-macros: ^3.0.1
     chalk: ^4.1.0
-    chromatic: ^6.0.2
+    chromatic: ^6.10.2
     codecov: ^3.8.1
     commander: ^6.2.1
     concurrently: ^5.3.0
@@ -14809,9 +14809,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"chromatic@npm:^6.0.2":
-  version: 6.10.1
-  resolution: "chromatic@npm:6.10.1"
+"chromatic@npm:^6.10.2":
+  version: 6.10.2
+  resolution: "chromatic@npm:6.10.2"
   dependencies:
     "@discoveryjs/json-ext": ^0.5.7
     "@types/webpack-env": ^1.17.0
@@ -14819,7 +14819,7 @@ __metadata:
     chroma: bin/main.cjs
     chromatic: bin/main.cjs
     chromatic-cli: bin/main.cjs
-  checksum: 20ad0ee67e1bdd6af81f920b173f3a62a8f10aa0685e779eb2c90f57735efe076f52d29c28d877f99f05f44caf22ea4de383f9959308ca29ba1f4458d980706b
+  checksum: 79d70518a07711736f0658baa256b9f275f8db126e639fedf4aaf3ee4582fe5b69b0292ac9b4f87731cf05acf2f2d8d341a5169e494ba5bced2acbf7b1fb778b
   languageName: node
   linkType: hard
 
