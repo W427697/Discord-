@@ -276,16 +276,4 @@ export default {
   ...vueCliTemplates,
   ...htmlWebpackTemplates,
   ...preactWebpackTemplates,
-  // FIXME: missing documentation.json
-  // 'angular/latest': {
-  //   name: 'Angular (latest)',
-  //   script:
-  //     'npx -p @angular/cli ng new angular-latest --directory . --routing=true --minimal=true --style=scss --skip-install=true --strict',
-  //   cadence: ['ci', 'daily', 'weekly'],
-  //   expected: {
-  //     framework: '@storybook/angular',
-  //     renderer: '@storybook/angular',
-  //     builder: '@storybook/builder-webpack5',
-  //   },
-  // },
 } as const;
