@@ -12,7 +12,7 @@ jobs:
       - run:
           name: Generate config
           command: |
-            yarn generate-ci-config
+            node ./scripts/ci/generate.js
       - continuation/continue:
           configuration_path: .circleci/config.generated.yml
 
