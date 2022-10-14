@@ -1,4 +1,4 @@
-import React, { useMemo, useState, ComponentProps, FC } from 'react';
+import React, { useMemo, ComponentProps, FC } from 'react';
 
 import { styled } from '@storybook/theming';
 import { transparentize } from 'polished';

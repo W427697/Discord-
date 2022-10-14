@@ -496,7 +496,7 @@ class Layout extends Component<LayoutProps, LayoutState> {
   };
 
   render() {
-    const { children, bounds, options, theme, viewMode, panelCount } = this.props;
+    const { children, bounds, options, viewMode, panelCount } = this.props;
     const { isDragging, resizerNav, resizerPanel } = this.state;
 
     const margin = 0;
