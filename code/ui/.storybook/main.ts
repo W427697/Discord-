@@ -1,5 +1,5 @@
 import vitePluginReact from '@vitejs/plugin-react';
-import { PluginOption } from 'vite';
+import type { PluginOption } from 'vite';
 import type { StorybookConfig } from '../../frameworks/react-vite/dist';
 
 const config: StorybookConfig = {
@@ -17,14 +17,23 @@ const config: StorybookConfig = {
     name: '@storybook/react-vite',
     options: {},
   },
-  /*
-  This might look complex but all we're doing is removing the default set of React Vite plugins
-  and adding them back in, but with the `jsxRuntime: 'classic'` option.
-  TODO: When we've upgraded to React 18 all of this shouldn't be necessary anymore
-  */
   viteFinal: (config) => {
     return {
       ...config,
+      optimizeDeps: {
+        ...config.optimizeDeps,
+        include: [
+          ...(config.optimizeDeps?.include ?? []),
+          'react-element-to-jsx-string',
+          'core-js/modules/es.regexp.flags.js',
+          'react-colorful',
+        ],
+      },
+      /*
+      This might look complex but all we're doing is removing the default set of React Vite plugins
+      and adding them back in, but with the `jsxRuntime: 'classic'` option.
+      TODO: When we've upgraded to React 18 all of this shouldn't be necessary anymore
+      */
       plugins: [...withoutReactPlugins(config.plugins), vitePluginReact({ jsxRuntime: 'classic' })],
     };
   },
