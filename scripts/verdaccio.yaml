@@ -59,6 +59,10 @@ packages:
     access: $all
     publish: $all
     proxy: npmjs
+  '@storybook/create-svelte-with-args':
+    access: $all
+    publish: $all
+    proxy: npmjs
   '@storybook/react-docgen-typescript-plugin':
     access: $all
     publish: $all

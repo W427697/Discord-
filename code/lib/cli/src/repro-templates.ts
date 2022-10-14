@@ -102,6 +102,8 @@ const vue2ViteTemplates = {
     script:
       'yarn create vite {{beforeDir}} --template vanilla && yarn add --dev @vitejs/plugin-vue2 vue-template-compiler vue@2 && echo "import vue2 from \'@vitejs/plugin-vue2\';\n\nexport default {\n\tplugins: [vue2()]\n};" > vite.config.js',
     cadence: ['ci', 'daily', 'weekly'],
+    // Re-enable once https://github.com/storybookjs/storybook/issues/19351 is fixed.
+    skipTasks: ['smoke-test'],
     expected: {
       framework: '@storybook/vue2-vite',
       renderer: '@storybook/vue',
@@ -138,6 +140,8 @@ const svelteViteTemplates = {
     name: 'Svelte Vite (TS)',
     script: 'yarn create vite {{beforeDir}} --template svelte-ts',
     cadence: ['ci', 'daily', 'weekly'],
+    // Re-enable once https://github.com/storybookjs/storybook/issues/19351 is fixed.
+    skipTasks: ['smoke-test'],
     expected: {
       framework: '@storybook/svelte-vite',
       renderer: '@storybook/svelte',
@@ -145,6 +149,58 @@ const svelteViteTemplates = {
     },
   },
 };
+
+const angularCliTemplates = {
+  'angular-cli/default-ts': {
+    name: 'Angular CLI (latest)',
+    script:
+      'npx -p @angular/cli ng new angular-latest --directory . --routing=true --minimal=true --style=scss --strict --skip-git --skip-install --package-manager=yarn',
+    cadence: ['ci', 'daily', 'weekly'],
+    expected: {
+      framework: '@storybook/angular',
+      renderer: '@storybook/angular',
+      builder: '@storybook/builder-webpack5',
+    },
+  },
+  'angular-cli/13-ts': {
+    name: 'Angular CLI (Version 13)',
+    script:
+      'npx -p @angular/cli@13 ng new angular-latest --directory . --routing=true --minimal=true --style=scss --strict --skip-git --skip-install --package-manager=yarn',
+    cadence: ['ci', 'daily', 'weekly'],
+    expected: {
+      framework: '@storybook/angular',
+      renderer: '@storybook/angular',
+      builder: '@storybook/builder-webpack5',
+    },
+  },
+};
+
+// TODO: enable this when repo has been upgraded to node@16
+// SvelteKit only supports Node.js >16.x, so before generating these repros you need to switch to that version
+// const svelteKitTemplates = {
+//   'svelte-kit/skeleton-js': {
+//     name: 'Svelte Kit (JS)',
+//     script:
+//       'yarn create svelte-with-args --name=svelte-kit/skeleton-js --directory=. --template=skeleton --types=null --no-prettier --no-eslint --no-playwright',
+//     cadence: ['ci', 'daily', 'weekly'],
+//     expected: {
+//       framework: '@storybook/svelte-vite',
+//       renderer: '@storybook/svelte',
+//       builder: '@storybook/builder-vite',
+//     },
+//   },
+//   'svelte-kit/skeleton-ts': {
+//     name: 'Svelte Kit (TS)',
+//     script:
+//       'yarn create svelte-with-args --name=svelte-kit/skeleton-ts --directory=. --template=skeleton --types=typescript --no-prettier --no-eslint --no-playwright',
+//     cadence: ['ci', 'daily', 'weekly'],
+//     expected: {
+//       framework: '@storybook/svelte-vite',
+//       renderer: '@storybook/svelte',
+//       builder: '@storybook/builder-vite',
+//     },
+//   },
+// };
 
 const litViteTemplates = {
   'lit-vite/default-js': {
@@ -179,8 +235,12 @@ const vueCliTemplates = {
     script:
       'npx -p @vue/cli vue create {{beforeDir}} --default --packageManager=yarn --force --merge',
     cadence: ['ci', 'daily', 'weekly'],
-    // Re-enable once https://github.com/storybookjs/storybook/issues/19351 is fixed.
-    skipTasks: ['smoke-test'],
+    skipTasks: [
+      // Re-enable once https://github.com/storybookjs/storybook/issues/19351 is fixed.
+      'smoke-test',
+      // Re-enable once https://github.com/storybookjs/storybook/issues/19453 is fixed.
+      'test-runner',
+    ],
     expected: {
       framework: '@storybook/vue3-webpack5',
       renderer: '@storybook/vue3',
@@ -192,8 +252,12 @@ const vueCliTemplates = {
     script:
       'npx -p @vue/cli vue create {{beforeDir}} --default --packageManager=yarn --force --merge --preset=Default\\ (Vue\\ 2)',
     cadence: ['ci', 'daily', 'weekly'],
-    // Re-enable once https://github.com/storybookjs/storybook/issues/19351 is fixed.
-    skipTasks: ['smoke-test'],
+    skipTasks: [
+      // Re-enable once https://github.com/storybookjs/storybook/issues/19351 is fixed.
+      'smoke-test',
+      // Re-enable once https://github.com/storybookjs/storybook/issues/19453 is fixed.
+      'test-runner',
+    ],
     expected: {
       framework: '@storybook/vue-webpack5',
       renderer: '@storybook/vue',
@@ -232,20 +296,11 @@ export default {
   ...vue2ViteTemplates,
   ...vue3ViteTemplates,
   ...svelteViteTemplates,
+  // TODO: enable this when repo has been upgraded to node@16
+  // ...svelteKitTemplates,
+  ...angularCliTemplates,
   ...litViteTemplates,
   ...vueCliTemplates,
   ...htmlWebpackTemplates,
   ...preactWebpackTemplates,
-  // FIXME: missing documentation.json
-  // 'angular/latest': {
-  //   name: 'Angular (latest)',
-  //   script:
-  //     'npx -p @angular/cli ng new angular-latest --directory . --routing=true --minimal=true --style=scss --skip-install=true --strict',
-  //   cadence: ['ci', 'daily', 'weekly'],
-  //   expected: {
-  //     framework: '@storybook/angular',
-  //     renderer: '@storybook/angular',
-  //     builder: '@storybook/builder-webpack5',
-  //   },
-  // },
 } as const;

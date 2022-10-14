@@ -13,6 +13,7 @@
 
 import { Dataset } from './types';
 
+// @ts-expect-error (TODO)
 export const stories = {
   images: {
     name: 'Images',

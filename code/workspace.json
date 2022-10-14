@@ -411,11 +411,6 @@
       "type": "library",
       "implicitDependencies": []
     },
-    "angular-cli": {
-      "root": "examples/angular-cli",
-      "type": "library",
-      "implicitDependencies": []
-    },
     "ember-example": {
       "root": "examples/ember-cli",
       "type": "library",
