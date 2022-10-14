@@ -10,6 +10,7 @@ import { dedent } from 'ts-dedent';
 import { createOptions, getCommand, getOptionsOrPrompt, OptionValues } from './utils/options';
 import { install } from './tasks/install';
 import { compile } from './tasks/compile';
+import { check } from './tasks/check';
 import { publish } from './tasks/publish';
 import { runRegistryTask } from './tasks/run-registry';
 import { sandbox } from './tasks/sandbox';
@@ -82,6 +83,7 @@ export const tasks = {
   // individual template/sandbox
   install,
   compile,
+  check,
   publish,
   'run-registry': runRegistryTask,
   // These tasks pertain to a single sandbox in the ../sandboxes dir
@@ -97,7 +99,7 @@ export const tasks = {
 type TaskKey = keyof typeof tasks;
 
 function isSandboxTask(taskKey: TaskKey) {
-  return !['install', 'compile', 'publish', 'run-registry'].includes(taskKey);
+  return !['install', 'compile', 'publish', 'run-registry', 'check'].includes(taskKey);
 }
 
 export const options = createOptions({
@@ -268,10 +270,12 @@ function writeTaskList(statusMap: Map<Task, TaskStatus>) {
 async function runTask(task: Task, details: TemplateDetails, optionValues: PassedOptionValues) {
   const startTime = new Date();
   try {
-    await task.run(details, optionValues);
+    const controller = await task.run(details, optionValues);
 
     if (details.junitFilename && !task.junit)
       await writeJunitXml(getTaskKey(task), details.key, startTime);
+
+    return controller;
   } catch (err) {
     if (details.junitFilename && !task.junit)
       await writeJunitXml(getTaskKey(task), details.key, startTime, err);
@@ -382,6 +386,7 @@ async function run() {
     setUnready(startFromTask);
   }
 
+  const controllers: AbortController[] = [];
   for (let i = 0; i < sortedTasks.length; i += 1) {
     const task = sortedTasks[i];
     const status = statuses.get(task);
@@ -398,11 +403,13 @@ async function run() {
       writeTaskList(statuses);
 
       try {
-        await runTask(task, details, {
+        const controller = await runTask(task, details, {
           ...optionValues,
           // Always debug the final task so we can see it's output fully
           debug: sortedTasks[i] === finalTask ? true : optionValues.debug,
         });
+
+        if (controller) controllers.push(controller);
       } catch (err) {
         logger.error(`Error running task ${getTaskKey(task)}:`);
         logger.error();
@@ -440,6 +447,9 @@ async function run() {
         await new Promise(() => {});
       }
     }
+    controllers.forEach((controller) => {
+      controller.abort();
+    });
   }
 
   return 0;

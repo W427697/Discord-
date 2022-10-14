@@ -46,6 +46,7 @@ const TypeIcon = styled(Icons)<{ docsMode?: boolean }>(
     flex: '0 0 auto',
   },
 
+  // @ts-expect-error (TODO)
   ({ theme, icon, symbol = icon, docsMode }) => {
     const colors = theme.base === 'dark' ? iconColors.dark : iconColors.light;
     const colorKey = docsMode && symbol === 'document' ? 'docsModeDocument' : symbol;

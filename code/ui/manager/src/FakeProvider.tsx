@@ -33,7 +33,6 @@ export class FakeProvider extends Provider {
     addons.loadAddons(api);
   }
 
-  // @ts-expect-error (Converted from ts-ignore)
   getConfig() {
     return {};
   }
