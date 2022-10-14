@@ -60,7 +60,8 @@
   },
   "bundler": {
     "entries": [
-      "./src/index.ts"
+      "./src/index.ts",
+      "./src/highlight.ts"
     ]
   },
   "publishConfig": {
