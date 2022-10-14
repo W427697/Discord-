@@ -182,12 +182,21 @@ const generate = async ({
       dirName,
       ...configuration,
     }))
-    .filter(({ dirName }) => {
-      if (template) {
-        return dirName === template;
+    // filter by anything provided in case `template` is passed, making it easier to do runs e.g. for all webpack templates
+    .filter(({ dirName, expected, name }) => {
+      if (!template) {
+        return true;
       }
 
-      return true;
+      const filterRegex = new RegExp(template, 'i');
+
+      return (
+        name.match(filterRegex) ||
+        dirName.match(filterRegex) ||
+        expected.builder.match(filterRegex) ||
+        expected.framework.match(filterRegex) ||
+        expected.renderer.match(filterRegex)
+      );
     });
 
   runGenerators(generatorConfigs, localRegistry);
@@ -195,7 +204,7 @@ const generate = async ({
 
 program
   .description('Create a reproduction from a set of possible templates')
-  .option('--template <template>', 'Create a single template')
+  .option('--template <template>', 'Create repros for a given filter')
   .option('--local-registry', 'Use local registry', false)
   .action((options) => {
     generate(options).catch((e) => {
