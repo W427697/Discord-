@@ -35,11 +35,7 @@ interface ClientAPIFacade {
   /* deprecated */
   addParameters: (...args: any[]) => never;
   /* deprecated */
-  clearDecorators: (...args: any[]) => never;
-  /* deprecated */
   addLoader: (...args: any[]) => never;
-  /* deprecated */
-  setAddon: (...args: any[]) => never;
   /* deprecated */
   getStorybook: (...args: any[]) => never;
   /* deprecated */
@@ -76,9 +72,7 @@ export function start<TFramework extends AnyFramework>(
       clientApi: {
         addDecorator: removedApi('clientApi.addDecorator'),
         addParameters: removedApi('clientApi.addParameters'),
-        clearDecorators: removedApi('clientApi.clearDecorators'),
         addLoader: removedApi('clientApi.addLoader'),
-        setAddon: removedApi('clientApi.setAddon'),
         getStorybook: removedApi('clientApi.getStorybook'),
         storiesOf: removedApi('clientApi.storiesOf'),
         raw: removedApi('raw'),

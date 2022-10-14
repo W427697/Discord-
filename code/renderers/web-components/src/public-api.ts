@@ -8,10 +8,8 @@ import type { IStorybookSection, WebComponentsFramework } from './types';
 const FRAMEWORK = 'web-components';
 
 interface ClientApi extends ClientStoryApi<WebComponentsFramework['storyResult']> {
-  setAddon(addon: any): void;
   configure(loader: Loadable, module: NodeModule): void;
   getStorybook(): IStorybookSection[];
-  clearDecorators(): void;
   forceReRender(): void;
   raw: () => any; // todo add type
 }

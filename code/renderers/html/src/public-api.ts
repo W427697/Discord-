@@ -8,10 +8,8 @@ import { renderToDOM, render } from './render';
 const FRAMEWORK = 'html';
 
 interface ClientApi extends ClientStoryApi<HtmlFramework['storyResult']> {
-  setAddon(addon: any): void;
   configure(loader: Loadable, module: NodeModule): void;
   getStorybook(): IStorybookSection[];
-  clearDecorators(): void;
   forceReRender(): void;
   raw: () => any; // todo add type
 }

@@ -7,10 +7,8 @@ import type { IStorybookSection, ServerFramework } from './types';
 const FRAMEWORK = 'server';
 
 interface ClientApi extends ClientStoryApi<ServerFramework['storyResult']> {
-  setAddon(addon: any): void;
   configure(loader: Loadable, module: NodeModule): void;
   getStorybook(): IStorybookSection[];
-  clearDecorators(): void;
   forceReRender(): void;
   raw: () => any; // todo add type
 }
@@ -24,7 +22,6 @@ export const storiesOf: ClientApi['storiesOf'] = (kind, m) => {
 };
 
 export const configure: ClientApi['configure'] = (...args) => api.configure(FRAMEWORK, ...args);
-export const { addDecorator, addParameters, clearDecorators, setAddon, getStorybook, raw } =
-  api.clientApi;
+export const { addDecorator, addParameters, getStorybook, raw } = api.clientApi;
 
 export const { forceReRender } = api;
