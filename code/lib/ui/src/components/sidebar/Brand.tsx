@@ -32,6 +32,7 @@ export const LogoLink = styled.a(({ theme }) => ({
   },
 }));
 
+// @ts-expect-error (TODO)
 export const Brand = withTheme(({ theme }) => {
   const { title = 'Storybook', url = './', image, target } = theme.brand;
   const targetValue = target || (url === './' ? '' : '_blank');

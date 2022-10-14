@@ -118,6 +118,7 @@ export const useHighlighted = ({
           const item = api.getData(itemId, refId === 'storybook_internal' ? undefined : refId);
           if (item.isComponent) {
             api.emit(PRELOAD_ENTRIES, {
+              // @ts-expect-error (TODO)
               ids: [item.isLeaf ? item.id : item.children[0]],
               options: { target: refId },
             });

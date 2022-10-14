@@ -128,6 +128,7 @@ const Result: FC<
     if (api && props.isHighlighted && item.isComponent) {
       api.emit(
         PRELOAD_ENTRIES,
+        // @ts-expect-error (TODO)
         { ids: [item.isLeaf ? item.id : item.children[0]] },
         { options: { target: item.refId } }
       );
@@ -162,6 +163,7 @@ const Result: FC<
   } else if (item.type === 'story') {
     node = <StoryNode href={getLink(item, item.refId)} {...nodeProps} />;
   } else {
+    // @ts-expect-error (TODO)
     node = <DocumentNode href={getLink(item, item.refId)} {...nodeProps} />;
   }
 
@@ -212,6 +214,7 @@ export const SearchResults: FC<{
 
       if (item.isComponent) {
         api.emit(PRELOAD_ENTRIES, {
+          // @ts-expect-error (TODO)
           ids: [item.isLeaf ? item.id : item.children[0]],
           options: { target: refId },
         });
