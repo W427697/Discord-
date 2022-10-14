@@ -23,8 +23,8 @@
   "license": "MIT",
   "exports": {
     ".": {
-      "require": "./dist/src/index.js",
-      "import": "./dist/src/index.mjs",
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs",
       "types": "./dist/index.d.ts"
     },
     "./preset": {
@@ -33,14 +33,14 @@
       "types": "./dist/preset.d.ts"
     },
     "./register": {
-      "require": "./dist/src/manager.js",
-      "import": "./dist/src/manager.mjs",
+      "require": "./dist/manager.js",
+      "import": "./dist/manager.mjs",
       "types": "./dist/manager.d.ts"
     },
     "./package.json": "./package.json"
   },
-  "main": "dist/src/index.js",
-  "module": "dist/src/index.mjs",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "files": [
     "dist/**/*",
@@ -88,7 +88,7 @@
     "entries": [
       "./src/index.ts",
       "./src/manager.tsx",
-      "preset.js"
+      "./src/preset.ts"
     ]
   },
   "gitHead": "82667a655108283aafc828427f00bb3590a334e5",
