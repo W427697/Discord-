@@ -25,7 +25,7 @@ function webpack(webpackConfig = {}, options = {}) {
 }
 
 function managerEntries(entry = []) {
-  return [...entry, require.resolve('./dist/manager')];
+  return [...entry, require.resolve('./dist/src/manager')];
 }
 
 module.exports = { webpack, managerEntries };
