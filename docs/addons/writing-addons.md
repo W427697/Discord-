@@ -6,7 +6,7 @@ One of Storybook's main features is its robust addon ecosystem. Use addons to en
 
 ## What we're building
 
-For this example, we're going to build a bare-bones addon which:
+For this example, we're going to build a bare-bones addon that:
 
 - Adds a new panel in Storybook.
 - Retrieves a custom parameter from the stories.
@@ -254,4 +254,4 @@ To dive deeper, we recommend Storybook's [creating an addon](https://storybook.j
 
 ### Addon kit
 
-To help you jumpstart the addon development, the Storybook maintainers created an [`addon-kit`](https://github.com/storybookjs/addon-kit), use it to bootstrap your next addon.
+To help you jumpstart the addon development, the Storybook maintainers created an [`addon-kit`](https://github.com/storybookjs/addon-kit), and use it to bootstrap your next addon.
