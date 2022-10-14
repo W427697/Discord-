@@ -248,7 +248,7 @@ const vueCliTemplates = {
   'vue-cli/vue2-default-js': {
     name: 'Vue-CLI (Vue2 JS)',
     script:
-      'npx -p @vue/cli vue create . --default --packageManager=yarn --force --merge --preset=Default\\ (Vue\\ 2)',
+      'npx -p @vue/cli vue create . --default --packageManager=yarn --force --merge --preset="Default (Vue 2)"',
     cadence: ['ci', 'daily', 'weekly'],
     skipTasks: [
       // Re-enable once https://github.com/storybookjs/storybook/issues/19351 is fixed.
