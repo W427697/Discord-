@@ -155,43 +155,43 @@ describe('prepareStory', () => {
       expect(initialArgs).toEqual({});
     });
 
-    it('are initialized to argTypes[x].defaultValue if unset', () => {
-      const { initialArgs } = prepareStory(
-        {
-          id,
-          name,
-          args: {
-            arg2: 3,
-            arg4: 'foo',
-            arg7: false,
-          },
-          argTypes: {
-            arg1: { name: 'arg1', type: stringType, defaultValue: 'arg1' },
-            arg2: { name: 'arg2', type: numberType, defaultValue: 2 },
-            arg3: {
-              name: 'arg3',
-              type: complexType,
-              defaultValue: { complex: { object: ['type'] } },
-            },
-            arg4: { name: 'arg4', type: stringType },
-            arg5: { name: 'arg5', type: stringType },
-            arg6: { name: 'arg6', type: numberType, defaultValue: 0 }, // See https://github.com/storybookjs/storybook/issues/12767 }
-          },
-          moduleExport,
-        },
-        { id, title },
-        { render: () => {} }
-      );
+    // it('are initialized to argTypes[x].defaultValue if unset', () => {
+    //   const { initialArgs } = prepareStory(
+    //     {
+    //       id,
+    //       name,
+    //       args: {
+    //         arg2: 3,
+    //         arg4: 'foo',
+    //         arg7: false,
+    //       },
+    //       argTypes: {
+    //         arg1: { name: 'arg1', type: stringType, defaultValue: 'arg1' },
+    //         arg2: { name: 'arg2', type: numberType, defaultValue: 2 },
+    //         arg3: {
+    //           name: 'arg3',
+    //           type: complexType,
+    //           defaultValue: { complex: { object: ['type'] } },
+    //         },
+    //         arg4: { name: 'arg4', type: stringType },
+    //         arg5: { name: 'arg5', type: stringType },
+    //         arg6: { name: 'arg6', type: numberType, defaultValue: 0 }, // See https://github.com/storybookjs/storybook/issues/12767 }
+    //       },
+    //       moduleExport,
+    //     },
+    //     { id, title },
+    //     { render: () => {} }
+    //   );
 
-      expect(initialArgs).toEqual({
-        arg1: 'arg1',
-        arg2: 3,
-        arg3: { complex: { object: ['type'] } },
-        arg4: 'foo',
-        arg6: 0,
-        arg7: false,
-      });
-    });
+    //   expect(initialArgs).toEqual({
+    //     arg1: 'arg1',
+    //     arg2: 3,
+    //     arg3: { complex: { object: ['type'] } },
+    //     arg4: 'foo',
+    //     arg6: 0,
+    //     arg7: false,
+    //   });
+    // });
 
     describe('argsEnhancers', () => {
       it('are applied in the right order', () => {
