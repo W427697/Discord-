@@ -82,8 +82,7 @@
   },
   "bundler": {
     "entries": [
-      "./src/index.ts",
-      "./src/html.tsx"
+      "./src/index.ts"
     ],
     "platform": "neutral"
   },
