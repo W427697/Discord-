@@ -138,13 +138,14 @@ export const options = createOptions({
   },
   link: {
     type: 'boolean',
-    description: 'Link the storybook to the local code?',
+    description: 'Build code and link for local development?',
     inverse: true,
+    promptType: false,
   },
   fromLocalRepro: {
     type: 'boolean',
     description: 'Create the template from a local repro (rather than degitting it)?',
-    promptType: (_, { task }) => isSandboxTask(task),
+    promptType: false,
   },
   dryRun: {
     type: 'boolean',
@@ -363,9 +364,9 @@ async function run() {
       {
         type: 'select',
         message: firstUnready
-          ? `We need to run all tasks after ${getTaskKey(
+          ? `We need to run all tasks from ${getTaskKey(
               firstUnready
-            )}, would you like to go further back?`
+            )} onwards, would you like to start from an earlier task?`
           : `Which task would you like to start from?`,
         name: 'startFromTask',
         choices: sortedTasks
