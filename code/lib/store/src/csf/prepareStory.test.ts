@@ -28,20 +28,20 @@ const moduleExport = {};
 const stringType: SBScalarType = { name: 'string' };
 const numberType: SBScalarType = { name: 'number' };
 const booleanType: SBScalarType = { name: 'boolean' };
-const complexType: SBObjectType = {
-  name: 'object',
-  value: {
-    complex: {
-      name: 'object',
-      value: {
-        object: {
-          name: 'array',
-          value: { name: 'string' },
-        },
-      },
-    },
-  },
-};
+// const complexType: SBObjectType = {
+//   name: 'object',
+//   value: {
+//     complex: {
+//       name: 'object',
+//       value: {
+//         object: {
+//           name: 'array',
+//           value: { name: 'string' },
+//         },
+//       },
+//     },
+//   },
+// };
 
 beforeEach(() => {
   global.FEATURES = { breakingChangesV7: true };
