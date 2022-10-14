@@ -39,8 +39,8 @@
     },
     "./package.json": "./package.json"
   },
-  "main": "dist/index.js",
-  "module": "dist/index.mjs",
+  "main": "dist/src/index.js",
+  "module": "dist/src/index.mjs",
   "types": "dist/index.d.ts",
   "files": [
     "dist/**/*",
