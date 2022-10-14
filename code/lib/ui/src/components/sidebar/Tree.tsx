@@ -419,6 +419,7 @@ export const Tree = React.memo<{
             const descendants = expandableDescendants[item.id];
             const isFullyExpanded = descendants.every((d: string) => expanded[d]);
             return (
+              // @ts-expect-error (TODO)
               <Root
                 key={id}
                 item={item}

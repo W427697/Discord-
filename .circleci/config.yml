@@ -10,7 +10,7 @@ executors:
         default: 'medium'
     working_directory: /tmp/storybook
     docker:
-      - image: cimg/node:14.19
+      - image: cimg/node:16.17.1
         environment:
           NODE_OPTIONS: --max_old_space_size=3076
     resource_class: <<parameters.class>>
@@ -23,7 +23,7 @@ executors:
         default: 'medium'
     working_directory: /tmp/storybook
     docker:
-      - image: cimg/node:14.19-browsers
+      - image: cimg/node:16.17.1-browsers
         environment:
           NODE_OPTIONS: --max_old_space_size=3076
     resource_class: <<parameters.class>>
@@ -75,6 +75,22 @@ commands:
             fi
 
 jobs:
+  check:
+    executor:
+      class: xlarge
+      name: sb_node_14_classic
+    steps:
+      - git-shallow-clone/checkout_advanced:
+          clone_options: '--depth 1 --verbose'
+      - restore_cache:
+          name: Restore Yarn cache
+          keys:
+            - build-yarn-2-cache-v4--{{ checksum "code/yarn.lock" }}--{{ checksum "scripts/yarn.lock" }}
+      - run:
+          name: Compile
+          command: |
+            yarn task --task check --start-from=auto --no-link --debug
+            git diff --exit-code
   build:
     executor:
       class: xlarge
@@ -125,7 +141,7 @@ jobs:
     executor:
       class: medium+
       name: sb_node_14_browsers
-    parallelism: 6
+    parallelism: 5
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: '--depth 1 --verbose'
@@ -305,7 +321,7 @@ jobs:
     executor:
       class: medium+
       name: sb_node_14_browsers
-    parallelism: 16
+    parallelism: 18
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: '--depth 1 --verbose'
@@ -324,7 +340,7 @@ jobs:
     executor:
       class: medium+
       name: sb_node_14_browsers
-    parallelism: 15
+    parallelism: 11
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: '--depth 1 --verbose'
@@ -339,7 +355,7 @@ jobs:
     executor:
       class: medium+
       name: sb_node_14_browsers
-    parallelism: 16
+    parallelism: 18
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: '--depth 1 --verbose'
@@ -373,7 +389,7 @@ jobs:
     executor:
       class: medium+
       name: sb_node_14_browsers
-    parallelism: 16
+    parallelism: 18
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: '--depth 1 --verbose'
@@ -388,7 +404,7 @@ jobs:
     executor:
       class: medium+
       name: sb_playwright
-    parallelism: 16
+    parallelism: 18
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: '--depth 1 --verbose'
@@ -408,6 +424,9 @@ workflows:
     jobs:
       - build
       - lint:
+          requires:
+            - build
+      - check:
           requires:
             - build
       - examples:
@@ -439,9 +458,9 @@ workflows:
       - create-sandboxes:
           requires:
             - publish
-      - smoke-test-sandboxes:
-          requires:
-            - create-sandboxes
+      # - smoke-test-sandboxes: # disabled for now
+      #     requires:
+      #       - create-sandboxes
       - build-sandboxes:
           requires:
             - create-sandboxes
