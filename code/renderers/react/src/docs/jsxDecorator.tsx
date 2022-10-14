@@ -105,7 +105,7 @@ export const renderJsx = (code: React.ReactElement, options: JSXOptions) => {
         ? reactElementToJSXString
         : // @ts-expect-error (Converted from ts-ignore)
           reactElementToJSXString.default;
-    let string = toJSXString(child, opts as Options);
+    let string: string = toJSXString(child, opts as Options);
 
     if (string.indexOf('&quot;') > -1) {
       const matches = string.match(/\S+=\\"([^"]*)\\"/g);
