@@ -136,8 +136,17 @@ const runGenerators = async (
         await setupYarn({ cwd: createBaseDir });
 
         const createBeforeDir = join(createBaseDir, BEFORE_DIR_NAME);
-        const scriptWithBeforeDir = script.replace('{{beforeDir}}', BEFORE_DIR_NAME);
-        await runCommand(scriptWithBeforeDir, { cwd: createBaseDir });
+
+        // Some tools refuse to run inside an existing directory and replace the contents,
+        // where as others are very picky about what directories can be called. So we need to
+        // handle different modes of operation.
+        if (script.includes('{{beforeDir}}')) {
+          const scriptWithBeforeDir = script.replace('{{beforeDir}}', BEFORE_DIR_NAME);
+          await runCommand(scriptWithBeforeDir, { cwd: createBaseDir });
+        } else {
+          await ensureDir(createBeforeDir);
+          await runCommand(script, { cwd: createBeforeDir });
+        }
 
         await localizeYarnConfigFiles(createBaseDir, createBeforeDir);
 
