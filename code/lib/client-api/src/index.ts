@@ -1,8 +1,5 @@
 import {
   ClientApi,
-  addDecorator,
-  addParameters,
-  addLoader,
   addArgs,
   addArgTypes,
   addArgsEnhancer,
@@ -22,11 +19,8 @@ export * from '@storybook/store';
 export {
   addArgsEnhancer,
   addArgTypesEnhancer,
-  addDecorator,
-  addLoader,
   addArgs,
   addArgTypes,
-  addParameters,
   addStepRunner,
   setGlobalRender,
   ClientApi,

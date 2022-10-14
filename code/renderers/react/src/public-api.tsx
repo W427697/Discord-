@@ -30,8 +30,6 @@ export const addDecorator: ClientApi['addDecorator'] = api.clientApi
 export type DecoratorFn<TArgs = Args> = DecoratorFunction<ReactFramework, TArgs>;
 export const addParameters: ClientApi['addParameters'] = api.clientApi
   .addParameters as ClientApi['addParameters'];
-export const clearDecorators: ClientApi['clearDecorators'] = api.clientApi.clearDecorators;
-export const setAddon: ClientApi['setAddon'] = api.clientApi.setAddon;
 export const forceReRender: ClientApi['forceReRender'] = api.forceReRender;
 export const getStorybook: ClientApi['getStorybook'] = api.clientApi.getStorybook;
 export const raw: ClientApi['raw'] = api.clientApi.raw;
