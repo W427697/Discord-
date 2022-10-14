@@ -5,7 +5,7 @@ import type {
   AnyFramework,
   ArgsEnhancer,
   PlayFunctionContext,
-  SBObjectType,
+  // SBObjectType,
   SBScalarType,
 } from '@storybook/csf';
 
