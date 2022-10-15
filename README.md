@@ -78,7 +78,7 @@ Documentation can be found [Storybook's docs site](https://storybook.js.org/docs
 
 View [Component Encyclopedia](https://storybook.js.org/showcase) to see how leading teams use Storybook.
 
-Storybook comes with a lot of [addons](https://storybook.js.org/docs/react/configure/storybook-addons) for component design, documentation, testing, interactivity, and so on. Storybook's API makes it possible to configure and extend in various ways. It has even been extended to support React Native, Android, iOS, and Flutter development for mobile.
+Storybook comes packed with a lot of [addons](https://storybook.js.org/docs/react/configure/storybook-addons) for component design, documentation, testing, interactivity, and so on. Storybook's API makes it possible to configure and extend in various ways. It has even been extended to support React Native, Android, iOS, and Flutter development for mobile.
 
 ### Community
 
@@ -142,7 +142,7 @@ See [Addon / Framework Support Table](https://storybook.js.org/docs/react/api/fr
 | [notes](https://github.com/storybookjs/deprecated-addons/tree/master/addons/notes) | Annotate Storybook stories with notes                      |
 | [options](https://www.npmjs.com/package/@storybook/addon-options)                  | Customize the Storybook UI in code                         |
 
-In order to continue improving your experience, we have to eventually deprecate certain addons in favor of new, better tools.
+In order to continue improving your experience, we have to eventually deprecate certain addons in favor of new and better tools.
 
 If you're using info/notes, we highly recommend you to migrate to [docs](code/addons/docs/) instead, and [here is a guide](code/addons/docs/docs/recipes.md#migrating-from-notesinfo-addons) to help you.
 
@@ -178,11 +178,11 @@ We welcome contributions to Storybook!
 Looking for a first issue to tackle?
 
 - We tag issues with [![Good First Issue](https://img.shields.io/github/issues/storybookjs/storybook/good%20first%20issue.svg)](https://github.com/storybookjs/storybook/issues?q=is%3Aopen+is%3Aissue+label%3A%22good+first+issue%22) when we think they are well suited for people who are new to the codebase or OSS in general.
-- [Talk to us](https://discord.gg/storybook), we'll find something to suits your skills and learning interest.
+- [Talk to us](https://discord.gg/storybook), we'll find something that suits your skills and learning interest.
 
 ### Development scripts
 
-Storybook is organized as a monorepo using [Lerna](https://lerna.js.org/). Useful scripts include:
+Storybook is organized as a mono-repo using [Lerna](https://lerna.js.org/). Useful scripts include:
 
 #### `yarn start`
 
