@@ -1,5 +1,10 @@
-function webpack(webpackConfig = {}, options = {}) {
-  const { module = {} } = webpackConfig;
+/// <reference types="webpack" />
+
+function webpack(
+  webpackConfig = { module: { rules: [] as Array<unknown> } },
+  options = { loaderOptions: {}, rule: {} }
+) {
+  const { module = { rules: [] } } = webpackConfig;
   const { loaderOptions, rule = {} } = options;
 
   return {
@@ -24,7 +29,7 @@ function webpack(webpackConfig = {}, options = {}) {
   };
 }
 
-function managerEntries(entry = []) {
+function managerEntries(entry = [] as Array<unknown>) {
   return [...entry, require.resolve('./manager')];
 }
 
