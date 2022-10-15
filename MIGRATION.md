@@ -31,6 +31,7 @@
     - [Docs Page](#docs-page)
     - [Configuring the Docs Container](#configuring-the-docs-container)
     - [External Docs](#external-docs)
+    - [MDX2 upgrade](#mdx2-upgrade)
 - [From version 6.4.x to 6.5.0](#from-version-64x-to-650)
   - [Vue 3 upgrade](#vue-3-upgrade)
   - [React18 new root API](#react18-new-root-api)
@@ -703,6 +704,14 @@ export default function App({ Component, pageProps }) {
   );
 }
 ```
+
+#### MDX2 upgrade
+
+Storybook 7 Docs uses MDXv2 instead of MDXv1. This means an improved syntax, support for inline JS expression, and improved performance among [other benefits](https://mdxjs.com/blog/v2/).
+
+If you use `.stories.mdx` files in your project, you may need to edit them since MDX2 contains [breaking changes](https://mdxjs.com/migrating/v2/#update-mdx-files).
+
+We will update this section with specific pointers based on user feedback during the prerelease period and probably add an automigration to help streamline the upgrade before final 7.0 release.
 
 ## From version 6.4.x to 6.5.0
 
