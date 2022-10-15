@@ -72,7 +72,7 @@ Visit [Storybook's website](https://storybook.js.org) to learn more about Storyb
 
 ### Documentation
 
-Documentation can be found [Storybook's docs site](https://storybook.js.org/docs).
+Documentation can be found at [Storybook's docs site](https://storybook.js.org/docs).
 
 ### Examples
 
