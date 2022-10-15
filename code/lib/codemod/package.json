@@ -36,7 +36,7 @@
   },
   "dependencies": {
     "@babel/types": "^7.12.11",
-    "@mdx-js/mdx": "^1.6.22",
+    "@mdx-js/mdx": "^2.1.5",
     "@storybook/csf": "0.0.2--canary.49.258942b.0",
     "@storybook/csf-tools": "7.0.0-alpha.38",
     "@storybook/node-logger": "7.0.0-alpha.38",
