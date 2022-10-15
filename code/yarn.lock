@@ -4626,31 +4626,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mdx-js/mdx@npm:^2.1.5":
-  version: 2.1.5
-  resolution: "@mdx-js/mdx@npm:2.1.5"
-  dependencies:
-    "@types/estree-jsx": ^1.0.0
-    "@types/mdx": ^2.0.0
-    estree-util-build-jsx: ^2.0.0
-    estree-util-is-identifier-name: ^2.0.0
-    estree-util-to-js: ^1.1.0
-    estree-walker: ^3.0.0
-    hast-util-to-estree: ^2.0.0
-    markdown-extensions: ^1.0.0
-    periscopic: ^3.0.0
-    remark-mdx: ^2.0.0
-    remark-parse: ^10.0.0
-    remark-rehype: ^10.0.0
-    unified: ^10.0.0
-    unist-util-position-from-estree: ^1.0.0
-    unist-util-stringify-position: ^3.0.0
-    unist-util-visit: ^4.0.0
-    vfile: ^5.0.0
-  checksum: 364f70656038ea9f9281b867ca4ce9efa7c678621f489711cc293bdd253687704b68303101c2446b1bb6296adda99ef07f601e8278410399438ac8f1dc9311aa
-  languageName: node
-  linkType: hard
-
 "@mdx-js/react@npm:^1.6.16, @mdx-js/react@npm:^1.6.22":
   version: 1.6.22
   resolution: "@mdx-js/react@npm:1.6.22"
@@ -7321,7 +7296,6 @@ __metadata:
   resolution: "@storybook/codemod@workspace:lib/codemod"
   dependencies:
     "@babel/types": ^7.12.11
-    "@mdx-js/mdx": ^2.1.5
     "@storybook/csf": 0.0.2--canary.49.258942b.0
     "@storybook/csf-tools": 7.0.0-alpha.38
     "@storybook/node-logger": 7.0.0-alpha.38

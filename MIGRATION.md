@@ -711,7 +711,9 @@ Storybook 7 Docs uses MDXv2 instead of MDXv1. This means an improved syntax, sup
 
 If you use `.stories.mdx` files in your project, you may need to edit them since MDX2 contains [breaking changes](https://mdxjs.com/migrating/v2/#update-mdx-files).
 
-We will update this section with specific pointers based on user feedback during the prerelease period and probably add an automigration to help streamline the upgrade before final 7.0 release.
+We will update this section with specific pointers based on user feedback during the prerelease period and probably add an codemod to help streamline the upgrade before final 7.0 release.
+
+As part of the upgrade we deleted the codemod `mdx-to-csf` and will be replacing it with a more sophisticated version prior to release.
 
 ## From version 6.4.x to 6.5.0
 
