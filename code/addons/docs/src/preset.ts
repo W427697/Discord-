@@ -1,7 +1,6 @@
 import fs from 'fs-extra';
 import remarkSlug from 'remark-slug';
 import remarkExternalLinks from 'remark-external-links';
-import global from 'global';
 
 import type { DocsOptions, IndexerOptions, Options, StoryIndexer } from '@storybook/core-common';
 import { logger } from '@storybook/node-logger';
