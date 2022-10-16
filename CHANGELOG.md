@@ -1,3 +1,36 @@
+## 7.0.0-alpha.38 (October 15, 2022)
+
+#### Bug Fixes
+
+- Vite: Fix bail not being defined for vite builder [#19405](https://github.com/storybooks/storybook/pull/19405)
+
+#### Maintenance
+
+- Breaking: Remove onBeforeRender [#19489](https://github.com/storybooks/storybook/pull/19489)
+- Breaking: Upgrade to use node 16 everywhere [#19458](https://github.com/storybooks/storybook/pull/19458)
+- Breaking: Remove the old showRoots config option [#19440](https://github.com/storybooks/storybook/pull/19440)
+- CLI: Make the button component accept a label prop, (not children) [#19461](https://github.com/storybooks/storybook/pull/19461)
+- Remove `angular-cli` example [#19202](https://github.com/storybooks/storybook/pull/19202)
+- Breakimg: Remove the html entrypoint of lib/components [#19487](https://github.com/storybooks/storybook/pull/19487)
+- Vite: Add partial SvelteKit support [#19338](https://github.com/storybooks/storybook/pull/19338)
+
+#### Build
+
+- Angular: Add angular 14 sandbox template [#19181](https://github.com/storybooks/storybook/pull/19181)
+- Storybook for Storybook - step 1: `ui/manager` [#19465](https://github.com/storybooks/storybook/pull/19465)
+- Don't pass the full path to repro generators [#19480](https://github.com/storybooks/storybook/pull/19480)
+- Bundle lib/channel-postmessage with ts-up [#19388](https://github.com/storybooks/storybook/pull/19388)
+- Disable smoke test [#19475](https://github.com/storybooks/storybook/pull/19475)
+- Remove angular example from monorepo [#19467](https://github.com/storybooks/storybook/pull/19467)
+- Add angular 13 repro template [#19428](https://github.com/storybooks/storybook/pull/19428)
+- Add a TypeScript check task and configure ci to run it [#19471](https://github.com/storybooks/storybook/pull/19471)
+- Add Preact/Webpack templates and update renderer/preset (2) [#19451](https://github.com/storybooks/storybook/pull/19451)
+- Disable another smoke test [#19466](https://github.com/storybooks/storybook/pull/19466)
+
+#### Dependency Upgrades
+
+- Ipgrade chromatic [#19468](https://github.com/storybooks/storybook/pull/19468)
+
 ## 7.0.0-alpha.37 (October 13, 2022)
 
 #### Features
@@ -50,6 +83,7 @@
 ## 7.0.0-alpha.36 (October 13, 2022)
 
 Bad publish
+
 ## 7.0.0-alpha.35 (October 5, 2022)
 
 #### Features
