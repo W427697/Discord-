@@ -407,14 +407,18 @@ async function run() {
         const controller = await runTask(task, details, {
           ...optionValues,
           // Always debug the final task so we can see it's output fully
-          debug: sortedTasks[i] === finalTask ? true : optionValues.debug,
+          debug: task === finalTask ? true : optionValues.debug,
         });
 
         if (controller) controllers.push(controller);
       } catch (err) {
         logger.error(`Error running task ${getTaskKey(task)}:`);
-        logger.error();
-        logger.error(err);
+        // If it is the last task, we don't need to log the full trace
+        if (task === finalTask) {
+          logger.error(err.message);
+        } else {
+          logger.error(err);
+        }
 
         if (process.env.CI) {
           logger.error(
