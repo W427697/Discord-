@@ -164,7 +164,7 @@ const angularCliTemplates = {
   'angular-cli/13-ts': {
     name: 'Angular CLI (Version 13)',
     script:
-      'npx -p @angular/cli@13 ng new angular-latest --directory . --routing=true --minimal=true --style=scss --strict --skip-git --skip-install --package-manager=yarn',
+      'npx -p @angular/cli@13 ng new angular-v13 --directory . --routing=true --minimal=true --style=scss --strict --skip-git --skip-install --package-manager=yarn',
     cadence: ['ci', 'daily', 'weekly'],
     expected: {
       framework: '@storybook/angular',
