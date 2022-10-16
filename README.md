@@ -72,17 +72,17 @@ Visit [Storybook's website](https://storybook.js.org) to learn more about Storyb
 
 ### Documentation
 
-Documentation can be found [Storybook's docs site](https://storybook.js.org/docs).
+> Documentation can be found [Storybook's docs site](https://storybook.js.org/docs).
 
 ### Examples
 
-View [Component Encyclopedia](https://storybook.js.org/showcase) to see how leading teams use Storybook.
+> View [Component Encyclopedia](https://storybook.js.org/showcase) to see how leading teams use Storybook.
 
-Storybook comes with a lot of [addons](https://storybook.js.org/docs/react/configure/storybook-addons) for component design, documentation, testing, interactivity, and so on. Storybook's API makes it possible to configure and extend in various ways. It has even been extended to support React Native, Android, iOS, and Flutter development for mobile.
+> Storybook comes with a lot of [addons](https://storybook.js.org/docs/react/configure/storybook-addons) for component design, documentation, testing, interactivity, and so on. Storybook's API makes it possible to configure and extend in various ways. It has even been extended to support React Native, Android, iOS, and Flutter development for mobile.
 
 ### Community
 
-For additional help, join us in the [Storybook Discord](https://discord.gg/storybook).
+> For additional help, join us in the [Storybook Discord](https://discord.gg/storybook).
 
 ## Projects
 
