@@ -24,6 +24,7 @@ import { runRegistry } from '../tasks/run-registry';
 const OUTPUT_DIRECTORY = join(__dirname, '..', '..', 'repros');
 const BEFORE_DIR_NAME = 'before-storybook';
 const AFTER_DIR_NAME = 'after-storybook';
+const SCRIPT_TIMEOUT = 5 * 60 * 1000;
 
 const sbInit = async (cwd: string, flags?: string[]) => {
   const sbCliBinaryPath = join(__dirname, `../../code/lib/cli/bin/index.js`);
@@ -136,8 +137,17 @@ const runGenerators = async (
         await setupYarn({ cwd: createBaseDir });
 
         const createBeforeDir = join(createBaseDir, BEFORE_DIR_NAME);
-        const scriptWithBeforeDir = script.replace('{{beforeDir}}', createBeforeDir);
-        await runCommand(scriptWithBeforeDir, { cwd: createBaseDir });
+
+        // Some tools refuse to run inside an existing directory and replace the contents,
+        // where as others are very picky about what directories can be called. So we need to
+        // handle different modes of operation.
+        if (script.includes('{{beforeDir}}')) {
+          const scriptWithBeforeDir = script.replace('{{beforeDir}}', BEFORE_DIR_NAME);
+          await runCommand(scriptWithBeforeDir, { cwd: createBaseDir, timeout: SCRIPT_TIMEOUT });
+        } else {
+          await ensureDir(createBeforeDir);
+          await runCommand(script, { cwd: createBeforeDir, timeout: SCRIPT_TIMEOUT });
+        }
 
         await localizeYarnConfigFiles(createBaseDir, createBeforeDir);
 

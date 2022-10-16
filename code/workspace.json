@@ -362,7 +362,7 @@
       "implicitDependencies": []
     },
     "@storybook/ui": {
-      "root": "lib/ui",
+      "root": "ui/manager",
       "type": "library",
       "implicitDependencies": []
     },
@@ -408,11 +408,6 @@
     },
     "@storybook/web-components-webpack5": {
       "root": "frameworks/web-components-webpack5",
-      "type": "library",
-      "implicitDependencies": []
-    },
-    "angular-cli": {
-      "root": "examples/angular-cli",
       "type": "library",
       "implicitDependencies": []
     },
