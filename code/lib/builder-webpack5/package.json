@@ -25,6 +25,7 @@
       "import": "./dist/index.mjs",
       "types": "./dist/index.d.ts"
     },
+    "./templates/virtualModuleModernEntry.js.handlebars": "./templates/virtualModuleModernEntry.js.handlebars",
     "./package.json": "./package.json"
   },
   "main": "dist/index.js",
