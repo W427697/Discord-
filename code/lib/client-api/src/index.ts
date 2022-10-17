@@ -1,5 +1,8 @@
 import {
   ClientApi,
+  addDecorator,
+  addLoader,
+  addParameters,
   addArgs,
   addArgTypes,
   addArgsEnhancer,
@@ -17,6 +20,9 @@ export * from './queryparams';
 export * from '@storybook/store';
 
 export {
+  addDecorator,
+  addLoader,
+  addParameters,
   addArgsEnhancer,
   addArgTypesEnhancer,
   addArgs,

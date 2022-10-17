@@ -6,15 +6,9 @@ import type { SupportedFramework } from './SupportedFramework';
 
 export type RenderTree = (story: any, context?: any, options?: any) => any;
 
-export interface ClientApi<TFramework extends AnyFramework> {
+export interface ClientApi<TFramework extends AnyFramework> extends ClientApiClass<AnyFramework> {
   configure(loader: Loadable, module: NodeModule | false, showDeprecationWarning?: boolean): void;
   forceReRender(): void;
-  addDecorator: ClientApiClass<TFramework>['addDecorator'];
-  addParameters: ClientApiClass<TFramework>['addParameters'];
-  addArgsEnhancer: ClientApiClass<TFramework>['addArgsEnhancer'];
-  addArgTypesEnhancer: ClientApiClass<TFramework>['addArgTypesEnhancer'];
-  addStepRunner: ClientApiClass<TFramework>['addStepRunner'];
-  raw: ClientApiClass<TFramework>['raw'];
 }
 
 export interface Loader {
