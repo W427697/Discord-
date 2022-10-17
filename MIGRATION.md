@@ -440,9 +440,11 @@ In 7.0, frameworks also specify the builder to be used. For example, The current
 - `@storybook/svelte-webpack5`
 - `@storybook/svelte-vite`
 - `@storybook/vue-webpack5`
+- `@storybook/vue-vite`
 - `@storybook/vue3-webpack5`
 - `@storybook/vue3-vite`
 - `@storybook/web-components-webpack5`
+- `@storybook/web-components-vite`
 
 We will be expanding this list over the course of the 7.0 development cycle. More info on the rationale here: [Frameworks RFC](https://www.notion.so/chromatic-ui/Frameworks-RFC-89f8aafe3f0941ceb4c24683859ed65c).
 
