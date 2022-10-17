@@ -48,9 +48,9 @@ const styles = ({ theme }: { theme: Theme }): CSSObject => ({
   },
 });
 
-type Sizes = '100%' | 'flex' | 'auto';
-type Alignments = 'end' | 'center' | 'start';
-type ValidationStates = 'valid' | 'error' | 'warn';
+export type Sizes = '100%' | 'flex' | 'auto';
+export type Alignments = 'end' | 'center' | 'start';
+export type ValidationStates = 'valid' | 'error' | 'warn';
 
 const sizes = ({ size }: { size?: Sizes }): CSSObject => {
   switch (size) {

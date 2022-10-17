@@ -1,6 +1,8 @@
-import React from 'react';
-import { storiesOf } from '@storybook/react';
-
 import { StorybookIcon } from './StorybookIcon';
 
-storiesOf('Basics/Brand/StorybookIcon', module).add('default', () => <StorybookIcon />);
+export default {
+  title: 'Basics/Brand/StorybookIcon',
+  component: StorybookIcon,
+};
+
+export const Default = {};
