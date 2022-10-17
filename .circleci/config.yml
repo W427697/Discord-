@@ -347,11 +347,6 @@ jobs:
       - attach_workspace:
           at: .
       - run:
-          # Although playwright was downloaded as part of the build step, it is faster to re-install
-          # now that save and restore it into the cache multiple times
-          name: Download Playwright
-          command: npx playwright install
-      - run:
           name: Smoke Testing Sandboxes
           command: yarn task --task smoke-test --template $(yarn get-template ci smoke-test) --no-link --start-from=never --junit
       - store_test_results:
@@ -385,6 +380,11 @@ jobs:
           clone_options: '--depth 1 --verbose'
       - attach_workspace:
           at: .
+      - run:
+          # Although playwright was downloaded as part of the build step, it is faster to re-install
+          # now that save and restore it into the cache multiple times
+          name: Download Playwright
+          command: npx playwright install
       - run:
           name: Running Test Runner
           command: yarn task --task test-runner --template $(yarn get-template ci test-runner) --no-link --start-from=never --junit
