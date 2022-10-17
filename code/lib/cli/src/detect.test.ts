@@ -348,6 +348,10 @@ describe('Detect', () => {
   });
 
   describe('detectFrameworkPreset should return', () => {
+    beforeAll(() => {
+      // @ts-expect-error TODO: remove this beforeAll before merging this PR.
+      process.env.STORYBOOK_REPRO_GENERATOR = 'true';
+    });
     afterEach(() => {
       jest.clearAllMocks();
     });
