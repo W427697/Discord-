@@ -124,6 +124,8 @@ jobs:
             - code/lib
             - code/renderers
             - code/presets
+            # ensure we save the downloaded version of playwright
+            - ~/.cache/ms-playwright
   chromatic:
     executor: sb_node_14_browsers
     parallelism: 15
