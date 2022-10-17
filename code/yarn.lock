@@ -6499,6 +6499,7 @@ __metadata:
     "@types/util-deprecate": ^1.0.0
     babel-loader: ^8.2.5
     dequal: ^2.0.2
+    fs-extra: ^9.0.1
     global: ^4.4.0
     lodash: ^4.17.21
     remark-external-links: ^8.0.0
