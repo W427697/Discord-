@@ -6,6 +6,8 @@ import {
   getPackageDetails,
   JsPackageManagerFactory,
   PackageJsonWithMaybeDeps,
+  PackageManagerName,
+  useNpmWarning,
 } from './js-package-manager';
 import { commandLog } from './helpers';
 import { automigrate } from './automigrate';
@@ -136,11 +138,11 @@ export const addExtraFlags = (
   );
 };
 
-interface UpgradeOptions {
+export interface UpgradeOptions {
   prerelease: boolean;
   skipCheck: boolean;
   useNpm: boolean;
-  usePnpm: boolean;
+  packageManager: PackageManagerName;
   dryRun: boolean;
   yes: boolean;
   disableTelemetry: boolean;
@@ -150,12 +152,15 @@ export const upgrade = async ({
   prerelease,
   skipCheck,
   useNpm,
-  usePnpm,
+  packageManager: pkgMgr,
   dryRun,
   yes,
   ...options
 }: UpgradeOptions) => {
-  const packageManager = JsPackageManagerFactory.getPackageManager({ useNpm, usePnpm });
+  if (useNpm) {
+    useNpmWarning();
+  }
+  const packageManager = JsPackageManagerFactory.getPackageManager({ useNpm, force: pkgMgr });
 
   commandLog(`Checking for latest versions of '@storybook/*' packages`);
   if (!options.disableTelemetry) {
@@ -180,6 +185,6 @@ export const upgrade = async ({
 
   if (!skipCheck) {
     checkVersionConsistency();
-    await automigrate({ dryRun, yes, useNpm, usePnpm });
+    await automigrate({ dryRun, yes, useNpm, force: pkgMgr });
   }
 };

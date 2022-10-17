@@ -6,7 +6,11 @@ import { getStorybookInfo } from '@storybook/core-common';
 import { readConfig, writeConfig } from '@storybook/csf-tools';
 
 import { commandLog } from './helpers';
-import { JsPackageManagerFactory } from './js-package-manager';
+import {
+  JsPackageManagerFactory,
+  useNpmWarning,
+  type PackageManagerName,
+} from './js-package-manager';
 
 const logger = console;
 
@@ -68,10 +72,13 @@ const getVersionSpecifier = (addon: string) => {
  */
 export async function add(
   addon: string,
-  options: { useNpm: boolean; usePnpm: boolean; skipPostinstall: boolean }
+  options: { useNpm: boolean; packageManager: PackageManagerName; skipPostinstall: boolean }
 ) {
-  const { useNpm, usePnpm } = options;
-  const packageManager = JsPackageManagerFactory.getPackageManager({ useNpm, usePnpm });
+  const { useNpm, packageManager: pkgMgr } = options;
+  if (useNpm) {
+    useNpmWarning();
+  }
+  const packageManager = JsPackageManagerFactory.getPackageManager({ useNpm, force: pkgMgr });
   const packageJson = packageManager.retrievePackageJson();
   const [addonName, versionSpecifier] = getVersionSpecifier(addon);
 

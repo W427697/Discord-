@@ -2,20 +2,26 @@ import { sync as spawnSync } from 'cross-spawn';
 import { sync as findUpSync } from 'find-up';
 import { NPMProxy } from './NPMProxy';
 import { PNPMProxy } from './PNPMProxy';
-import { JsPackageManager } from './JsPackageManager';
+import { JsPackageManager, type PackageManagerName } from './JsPackageManager';
 import { Yarn2Proxy } from './Yarn2Proxy';
 import { Yarn1Proxy } from './Yarn1Proxy';
 
 export class JsPackageManagerFactory {
   public static getPackageManager(
-    { usePnpm, useNpm }: { usePnpm?: boolean; useNpm?: boolean } = {},
+    { force, useNpm }: { force?: PackageManagerName; useNpm?: boolean } = {},
     cwd?: string
   ): JsPackageManager {
-    if (useNpm) {
+    if (useNpm || force === 'npm') {
       return new NPMProxy({ cwd });
     }
-    if (usePnpm) {
+    if (force === 'pnpm') {
       return new PNPMProxy({ cwd });
+    }
+    if (force === 'yarn1') {
+      return new Yarn1Proxy({ cwd });
+    }
+    if (force === 'yarn2') {
+      return new Yarn2Proxy({ cwd });
     }
 
     const yarnVersion = getYarnVersion(cwd);

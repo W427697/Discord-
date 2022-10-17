@@ -18,6 +18,7 @@
     - [Docs modern inline rendering by default](#docs-modern-inline-rendering-by-default)
     - [Babel mode v7 by default](#babel-mode-v7-by-default)
     - [7.0 feature flags removed](#70-feature-flags-removed)
+    - [CLI option `--use-npm` deprecated](#cli-option---use-npm-deprecated)
     - [Vite builder uses vite config automatically](#vite-builder-uses-vite-config-automatically)
     - [Vite cache moved to node_modules/.cache/.vite-storybook](#vite-cache-moved-to-node_modulescachevite-storybook)
     - [Removed docs.getContainer and getPage parameters](#removed-docsgetcontainer-and-getpage-parameters)
@@ -521,6 +522,10 @@ In 7.0 we've removed the following feature flags:
 | ------------------- | ---------------------------------------------------- |
 | `emotionAlias`      | This flag is no longer needed and should be deleted. |
 | `breakingChangesV7` | This flag is no longer needed and should be deleted. |
+
+#### CLI option `--use-npm` deprecated
+
+With increased support for more package managers (pnpm), we have introduced the `--package-manager` CLI option.  Please use `--package-manager=npm` to force NPM to be used to install dependencies when running Storybook CLI commands.  Other valid options are `pnpm`, `yarn1`, and `yarn2` (`yarn2` is for versions 2 and higher).
 
 #### Vite builder uses vite config automatically
 

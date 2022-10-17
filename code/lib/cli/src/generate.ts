@@ -12,7 +12,7 @@ import { initiate } from './initiate';
 import { add } from './add';
 import { migrate } from './migrate';
 import { extract } from './extract';
-import { upgrade } from './upgrade';
+import { upgrade, type UpgradeOptions } from './upgrade';
 import { repro } from './repro';
 import { reproNext } from './repro-next';
 import { link } from './link';
@@ -39,9 +39,9 @@ program
   .description('Initialize Storybook into your project.')
   .option('-f --force', 'Force add Storybook')
   .option('-s --skip-install', 'Skip installing deps')
-  .option('-N --use-npm', 'Use npm to install deps')
-  .option('--use-pnpm', 'Use pnpm to install deps')
-  .option('--use-pnp', 'Enable pnp mode')
+  .option('--package-manager <npm|pnpm|yarn1|yarn2>', 'Force package manager for installing deps')
+  .option('-N --use-npm', 'Use npm to install deps (deprecated)')
+  .option('--use-pnp', 'Enable pnp mode for Yarn 2+')
   .option('-p --parser <babel | babylon | flow | ts | tsx>', 'jscodeshift parser')
   .option('-t --type <type>', 'Add Storybook for a specific project type')
   .option('-y --yes', 'Answer yes to all prompts')
@@ -57,10 +57,13 @@ program
 program
   .command('add <addon>')
   .description('Add an addon to your Storybook')
-  .option('-N --use-npm', 'Use NPM to build the Storybook server')
-  .option('--use-pnpm', 'Use PNPM to build the Storybook server')
+  .option(
+    '--package-manager <npm|pnpm|yarn1|yarn2>',
+    'Force package manager for installing dependencies'
+  )
+  .option('-N --use-npm', 'Use NPM to install dependencies (deprecated)')
   .option('-s --skip-postinstall', 'Skip package specific postinstall config modifications')
-  .action((addonName, options) => add(addonName, options));
+  .action((addonName: string, options: any) => add(addonName, options));
 
 program
   .command('babelrc')
@@ -70,13 +73,16 @@ program
 program
   .command('upgrade')
   .description('Upgrade your Storybook packages to the latest')
-  .option('-N --use-npm', 'Use NPM to build the Storybook server')
-  .option('--use-pnpm', 'Use PNPM to build the Storybook server')
+  .option(
+    '--package-manager <npm|pnpm|yarn1|yarn2>',
+    'Force package manager for installing dependencies'
+  )
+  .option('-N --use-npm', 'Use NPM to install dependencies (deprecated)')
   .option('-y --yes', 'Skip prompting the user')
   .option('-n --dry-run', 'Only check for upgrades, do not install')
   .option('-p --prerelease', 'Upgrade to the pre-release packages')
   .option('-s --skip-check', 'Skip postinstall version and automigration checks')
-  .action((options) => upgrade(options));
+  .action((options: UpgradeOptions) => upgrade(options));
 
 program
   .command('info')
@@ -181,8 +187,8 @@ program
   .description('Check storybook for known problems or migrations and apply fixes')
   .option('-y --yes', 'Skip prompting the user')
   .option('-n --dry-run', 'Only check for fixes, do not actually run them')
-  .option('-N --use-npm', 'Use npm as package manager')
-  .option('--use-pnpm', 'Use pnpm as package manager')
+  .option('--package-manager <npm|pnpm|yarn1|yarn2>', 'Force package manager')
+  .option('-N --use-npm', 'Use npm as package manager (deprecated)')
   .action((fixId, options) =>
     automigrate({ fixId, ...options }).catch((e) => {
       logger.error(e);

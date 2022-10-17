@@ -22,6 +22,12 @@ describe('JsPackageManagerFactory', () => {
         );
       });
 
+      it('when `force` option is `npm`', () => {
+        expect(JsPackageManagerFactory.getPackageManager({ force: 'npm' })).toBeInstanceOf(
+          NPMProxy
+        );
+      });
+
       it('when all package managers are ok, but only a `package-lock.json` file', () => {
         spawnSyncMock.mockImplementation((command) => {
           // Yarn is ok
@@ -61,8 +67,8 @@ describe('JsPackageManagerFactory', () => {
     });
 
     describe('return a PNPM proxy', () => {
-      it('when `usePnpm` option is used', () => {
-        expect(JsPackageManagerFactory.getPackageManager({ usePnpm: true })).toBeInstanceOf(
+      it('when `force` option is `pnpm`', () => {
+        expect(JsPackageManagerFactory.getPackageManager({ force: 'pnpm' })).toBeInstanceOf(
           PNPMProxy
         );
       });
@@ -109,6 +115,12 @@ describe('JsPackageManagerFactory', () => {
     });
 
     describe('return a Yarn 1 proxy', () => {
+      it('when `force` option is `yarn1`', () => {
+        expect(JsPackageManagerFactory.getPackageManager({ force: 'yarn1' })).toBeInstanceOf(
+          Yarn1Proxy
+        );
+      });
+
       it('when Yarn command is ok, Yarn version is <2, NPM is ko, PNPM is ko', () => {
         spawnSyncMock.mockImplementation((command) => {
           // Yarn is ok
@@ -181,6 +193,12 @@ describe('JsPackageManagerFactory', () => {
     });
 
     describe('return a Yarn 2 proxy', () => {
+      it('when `force` option is `yarn2`', () => {
+        expect(JsPackageManagerFactory.getPackageManager({ force: 'yarn2' })).toBeInstanceOf(
+          Yarn2Proxy
+        );
+      });
+
       it('when Yarn command is ok, Yarn version is >=2, NPM is ko, PNPM is ko', () => {
         spawnSyncMock.mockImplementation((command) => {
           // Yarn is ok
