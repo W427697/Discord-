@@ -27,6 +27,7 @@
     "@storybook/svelte": "7.0.0-alpha.38",
     "@storybook/svelte-webpack5": "7.0.0-alpha.38",
     "@storybook/testing-library": "0.0.14-next.0",
+    "raw-loader": "^4.0.2",
     "storybook": "7.0.0-alpha.38",
     "svelte-jester": "^2.3.2",
     "svelte-preprocess": "^4.10.6"
