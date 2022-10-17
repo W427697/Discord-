@@ -8,13 +8,13 @@
 // };
 
 export const Primary = {
-  args: { children: 'Primary' },
+  args: { label: 'Primary' },
 };
 
 export const Secondary = {
-  args: { children: 'Secondary' },
+  args: { label: 'Secondary' },
 };
 
 export const ImplicitName = {
-  args: { children: 'Implicit Name' },
+  args: { label: 'Implicit Name' },
 };
