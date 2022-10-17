@@ -1,8 +1,8 @@
 import global from 'global';
 import hasDependency from '../hasDependency';
 import configure from '../configure';
-import { Loader } from '../Loader';
-import { StoryshotsOptions } from '../../api/StoryshotsOptions';
+import type { Loader } from '../Loader';
+import type { StoryshotsOptions } from '../../api/StoryshotsOptions';
 
 function mockVueToIncludeCompiler() {
   jest.mock('vue', () => jest.requireActual('vue/dist/vue.common.js'));
@@ -16,9 +16,16 @@ function load(options: StoryshotsOptions) {
   global.STORYBOOK_ENV = 'vue';
   mockVueToIncludeCompiler();
 
-  const storybook = jest.requireActual('@storybook/vue');
+  const storybook = jest.requireActual('@storybook/html');
+  const clientAPI = jest.requireActual('@storybook/client-api');
 
-  configure({ ...options, storybook });
+  configure({
+    ...options,
+    storybook: {
+      ...clientAPI,
+      ...storybook,
+    },
+  });
 
   return {
     framework: 'vue' as const,

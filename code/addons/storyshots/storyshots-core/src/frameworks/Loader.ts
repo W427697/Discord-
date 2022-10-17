@@ -10,6 +10,8 @@ export interface ClientApi<TFramework extends AnyFramework>
   extends ClientStoryApi<TFramework['storyResult']> {
   configure(loader: Loadable, module: NodeModule | false, showDeprecationWarning?: boolean): void;
   forceReRender(): void;
+  addDecorator: ClientApiClass<TFramework>['addDecorator'];
+  addParameters: ClientApiClass<TFramework>['addParameters'];
   addArgsEnhancer: ClientApiClass<TFramework>['addArgsEnhancer'];
   addArgTypesEnhancer: ClientApiClass<TFramework>['addArgTypesEnhancer'];
   addStepRunner: ClientApiClass<TFramework>['addStepRunner'];

@@ -2,8 +2,8 @@ import 'core-js';
 import 'core-js/es/reflect';
 import hasDependency from '../hasDependency';
 import configure from '../configure';
-import { Loader } from '../Loader';
-import { StoryshotsOptions } from '../../api/StoryshotsOptions';
+import type { Loader } from '../Loader';
+import type { StoryshotsOptions } from '../../api/StoryshotsOptions';
 
 function setupAngularJestPreset() {
   // Needed to prevent "Zone.js has detected that ZoneAwarePromise `(window|global).Promise` has been overwritten."

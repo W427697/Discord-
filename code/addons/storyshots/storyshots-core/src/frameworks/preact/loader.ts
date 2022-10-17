@@ -4,8 +4,8 @@
 import global from 'global';
 import configure from '../configure';
 import hasDependency from '../hasDependency';
-import { Loader } from '../Loader';
-import { StoryshotsOptions } from '../../api/StoryshotsOptions';
+import type { Loader } from '../Loader';
+import type { StoryshotsOptions } from '../../api/StoryshotsOptions';
 
 function test(options: StoryshotsOptions): boolean {
   return (
@@ -16,9 +16,16 @@ function test(options: StoryshotsOptions): boolean {
 function load(options: StoryshotsOptions) {
   global.STORYBOOK_ENV = 'preact';
 
-  const storybook = jest.requireActual('@storybook/preact');
+  const storybook = jest.requireActual('@storybook/html');
+  const clientAPI = jest.requireActual('@storybook/client-api');
 
-  configure({ ...options, storybook });
+  configure({
+    ...options,
+    storybook: {
+      ...clientAPI,
+      ...storybook,
+    },
+  });
 
   return {
     framework: 'preact' as const,

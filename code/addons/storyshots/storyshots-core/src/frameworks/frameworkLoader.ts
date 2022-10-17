@@ -2,7 +2,7 @@
 import fs from 'fs';
 import path from 'path';
 import { Loader } from './Loader';
-import { StoryshotsOptions } from '../api/StoryshotsOptions';
+import type { StoryshotsOptions } from '../api/StoryshotsOptions';
 
 const loaderScriptName = 'loader.js';
 

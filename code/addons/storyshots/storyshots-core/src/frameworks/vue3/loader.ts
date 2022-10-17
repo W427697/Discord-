@@ -1,8 +1,8 @@
 import global from 'global';
 import hasDependency from '../hasDependency';
 import configure from '../configure';
-import { Loader } from '../Loader';
-import { StoryshotsOptions } from '../../api/StoryshotsOptions';
+import type { Loader } from '../Loader';
+import type { StoryshotsOptions } from '../../api/StoryshotsOptions';
 
 function test(options: StoryshotsOptions): boolean {
   return options.framework === 'vue3' || (!options.framework && hasDependency('@storybook/vue3'));
@@ -11,9 +11,16 @@ function test(options: StoryshotsOptions): boolean {
 function load(options: StoryshotsOptions) {
   global.STORYBOOK_ENV = 'vue3';
 
-  const storybook = jest.requireActual('@storybook/vue3');
+  const storybook = jest.requireActual('@storybook/html');
+  const clientAPI = jest.requireActual('@storybook/client-api');
 
-  configure({ ...options, storybook });
+  configure({
+    ...options,
+    storybook: {
+      ...clientAPI,
+      ...storybook,
+    },
+  });
 
   return {
     framework: 'vue3' as const,

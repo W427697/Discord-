@@ -1,7 +1,7 @@
 import global from 'global';
 import configure from '../configure';
-import { Loader } from '../Loader';
-import { StoryshotsOptions } from '../../api/StoryshotsOptions';
+import type { Loader } from '../Loader';
+import type { StoryshotsOptions } from '../../api/StoryshotsOptions';
 
 function test(options: StoryshotsOptions): boolean {
   return options.framework === 'html';
@@ -11,8 +11,15 @@ function load(options: StoryshotsOptions) {
   global.STORYBOOK_ENV = 'html';
 
   const storybook = jest.requireActual('@storybook/html');
+  const clientAPI = jest.requireActual('@storybook/client-api');
 
-  configure({ ...options, storybook });
+  configure({
+    ...options,
+    storybook: {
+      ...clientAPI,
+      ...storybook,
+    },
+  });
 
   return {
     framework: 'html' as const,
