@@ -374,25 +374,6 @@ Read more here: https://github.com/storybookjs/storybook/blob/master/MIGRATION.m
     return api;
   };
 
-  getStorybook = (): GetStorybookKind<TFramework>[] => {
-    const { entries } = this.storyStore.storyIndex;
-
-    const kinds: Record<ComponentTitle, GetStorybookKind<TFramework>> = {};
-    Object.entries(entries).forEach(([storyId, { title, name, importPath, type }]) => {
-      if (type && type !== 'story') return;
-
-      if (!kinds[title]) {
-        kinds[title] = { kind: title, fileName: importPath, stories: [] };
-      }
-
-      const { storyFn } = this.storyStore.fromId(storyId);
-
-      kinds[title].stories.push({ name, render: storyFn });
-    });
-
-    return Object.values(kinds);
-  };
-
   // @deprecated
   raw = () => {
     return this.storyStore.raw();

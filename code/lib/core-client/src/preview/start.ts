@@ -31,14 +31,6 @@ interface RendererImplementation<TFramework extends AnyFramework> {
 
 interface ClientAPIFacade {
   /* deprecated */
-  addDecorator: (...args: any[]) => never;
-  /* deprecated */
-  addParameters: (...args: any[]) => never;
-  /* deprecated */
-  addLoader: (...args: any[]) => never;
-  /* deprecated */
-  getStorybook: (...args: any[]) => never;
-  /* deprecated */
   storiesOf: (...args: any[]) => never;
   /* deprecated */
   raw: (...args: any[]) => never;
@@ -47,8 +39,6 @@ interface ClientAPIFacade {
 interface StartReturnValue<TFramework extends AnyFramework> {
   /* deprecated */
   forceReRender: () => void;
-  /* deprecated */
-  getStorybook: any;
   /* deprecated */
   configure: any;
   /* deprecated */
@@ -67,13 +57,8 @@ export function start<TFramework extends AnyFramework>(
   if (FEATURES?.storyStoreV7) {
     return {
       forceReRender: removedApi('forceReRender'),
-      getStorybook: removedApi('getStorybook'),
       configure: removedApi('configure'),
       clientApi: {
-        addDecorator: removedApi('clientApi.addDecorator'),
-        addParameters: removedApi('clientApi.addParameters'),
-        addLoader: removedApi('clientApi.addLoader'),
-        getStorybook: removedApi('clientApi.getStorybook'),
         storiesOf: removedApi('clientApi.storiesOf'),
         raw: removedApi('raw'),
       },
@@ -108,7 +93,6 @@ export function start<TFramework extends AnyFramework>(
 
   return {
     forceReRender: () => channel.emit(FORCE_RE_RENDER),
-    getStorybook: (): void[] => [],
 
     clientApi,
     // This gets called each time the user calls configure (i.e. once per HMR)
