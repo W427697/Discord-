@@ -25,6 +25,16 @@
       "import": "./dist/index.mjs",
       "types": "./dist/index.d.ts"
     },
+    "./presets/custom-webpack-preset.js": {
+      "require": "./presets/custom-webpack-preset.js",
+      "import": "./presets/custom-webpack-preset.mjs",
+      "types": "./presets/custom-webpack-preset.d.ts"
+    },
+    "./presets/preview-preset.js": {
+      "require": "./presets/preview-preset.js",
+      "import": "./presets/preview-preset.mjs",
+      "types": "./presets/preview-preset.d.ts"
+    },
     "./templates/virtualModuleModernEntry.js.handlebars": "./templates/virtualModuleModernEntry.js.handlebars",
     "./package.json": "./package.json"
   },
