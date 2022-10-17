@@ -43,6 +43,7 @@
   },
   "dependencies": {
     "@babel/core": "^7.12.10",
+    "@storybook/core-common": "7.0.0-alpha.38",
     "@storybook/csf": "0.0.2--canary.49.258942b.0",
     "@storybook/store": "7.0.0-alpha.38",
     "doctrine": "^3.0.0",
