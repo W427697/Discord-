@@ -362,7 +362,7 @@
       "implicitDependencies": []
     },
     "@storybook/ui": {
-      "root": "lib/ui",
+      "root": "ui/manager",
       "type": "library",
       "implicitDependencies": []
     },
@@ -411,18 +411,8 @@
       "type": "library",
       "implicitDependencies": []
     },
-    "angular-cli": {
-      "root": "examples/angular-cli",
-      "type": "library",
-      "implicitDependencies": []
-    },
     "ember-example": {
       "root": "examples/ember-cli",
-      "type": "library",
-      "implicitDependencies": []
-    },
-    "official-storybook": {
-      "root": "examples/official-storybook",
       "type": "library",
       "implicitDependencies": []
     },

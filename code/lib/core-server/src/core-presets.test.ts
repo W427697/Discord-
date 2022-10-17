@@ -127,7 +127,7 @@ const baseOptions = {
   managerOnly, // production
   docsMode: false,
   cache,
-  configDir: path.resolve(`${__dirname}/../../../examples/official-storybook/`),
+  configDir: path.resolve(`${__dirname}/__for-testing__/`),
   ci: true,
   managerCache: false,
 };
