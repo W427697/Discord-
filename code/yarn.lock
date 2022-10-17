@@ -7412,9 +7412,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/components@7.0.0-alpha.38, @storybook/components@workspace:*, @storybook/components@workspace:lib/components":
+"@storybook/components@7.0.0-alpha.38, @storybook/components@workspace:*, @storybook/components@workspace:ui/components":
   version: 0.0.0-use.local
-  resolution: "@storybook/components@workspace:lib/components"
+  resolution: "@storybook/components@workspace:ui/components"
   dependencies:
     "@popperjs/core": ^2.6.0
     "@storybook/client-logger": 7.0.0-alpha.38
