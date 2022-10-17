@@ -12,7 +12,7 @@ const {
   render,
 });
 
-export const { addDecorator, addParameters, getStorybook, raw } = clientApi;
+export const { raw } = clientApi;
 
 const FRAMEWORK = 'svelte';
 export const storiesOf = (kind: string, m: any) =>

@@ -48,7 +48,7 @@ let singleton: ClientApi<AnyFramework>;
 const warningAlternatives = {
   addDecorator: `Instead, use \`export const decorators = [];\` in your \`preview.js\`.`,
   addParameters: `Instead, use \`export const parameters = {};\` in your \`preview.js\`.`,
-  addLoaders: `Instead, use \`export const loaders = [];\` in your \`preview.js\`.`,
+  addLoader: `Instead, use \`export const loaders = [];\` in your \`preview.js\`.`,
   addArgs: '',
   addArgTypes: '',
   addArgsEnhancer: '',
@@ -70,6 +70,21 @@ const checkMethod = (method: keyof typeof warningAlternatives) => {
   if (!singleton) {
     throw new Error(`Singleton client API not yet initialized, cannot call \`${method}\`.`);
   }
+};
+
+export const addDecorator = (decorator: DecoratorFunction<AnyFramework>) => {
+  checkMethod('addDecorator');
+  singleton.addDecorator(decorator);
+};
+
+export const addParameters = (parameters: Parameters) => {
+  checkMethod('addParameters');
+  singleton.addParameters(parameters);
+};
+
+export const addLoader = (loader: LoaderFunction<AnyFramework>) => {
+  checkMethod('addLoader');
+  singleton.addLoader(loader);
 };
 
 export const addArgs = (args: Args) => {

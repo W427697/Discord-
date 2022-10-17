@@ -2,7 +2,7 @@ import type { App } from 'vue';
 import { start } from '@storybook/core-client';
 import type { ClientStoryApi, Loadable } from '@storybook/addons';
 
-import type { IStorybookSection, VueFramework } from './types';
+import type { VueFramework } from './types';
 import { decorateStory } from './decorateStory';
 
 import { render, renderToDOM } from './render';
@@ -11,7 +11,6 @@ const FRAMEWORK = 'vue3';
 
 interface ClientApi extends ClientStoryApi<VueFramework['storyResult']> {
   configure(loader: Loadable, module: NodeModule): void;
-  getStorybook(): IStorybookSection[];
   forceReRender(): void;
   raw: () => any; // todo add type
   load: (...args: any[]) => void;
@@ -27,9 +26,6 @@ export const storiesOf: ClientApi['storiesOf'] = (kind, m) => {
 };
 
 export const configure: ClientApi['configure'] = (...args) => api.configure(FRAMEWORK, ...args);
-export const { addDecorator } = api.clientApi;
-export const { addParameters } = api.clientApi;
 export const { forceReRender } = api;
-export const { getStorybook } = api.clientApi;
 export const { raw } = api.clientApi;
 export { setup } from './render';
