@@ -1,13 +1,13 @@
 import path from 'path';
 import { render, screen, waitFor } from '@testing-library/react';
-import initStoryshots, { Stories2SnapsConverter } from '../dist/types';
-import { TIMEOUT, EXPECTED_VALUE } from './required_with_context/Async.stories';
+import initStoryshots, { Stories2SnapsConverter } from '../src';
+import { TIMEOUT, EXPECTED_VALUE } from './exported_metadata/Async.stories.jsx';
 
 initStoryshots({
   asyncJest: true,
   framework: 'react',
   integrityOptions: false,
-  configPath: path.join(__dirname, '..', '.storybook'),
+  configPath: path.join(__dirname, 'exported_metadata'),
 
   // When async is true we need to provide a test method that
   // calls done() when at the end of the test method
