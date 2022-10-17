@@ -122,6 +122,7 @@ jobs:
             - code/addons
             - code/frameworks
             - code/lib
+            - code/ui
             - code/renderers
             - code/presets
   chromatic:

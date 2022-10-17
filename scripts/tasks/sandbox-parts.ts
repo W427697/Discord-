@@ -77,7 +77,7 @@ export const create: Task['run'] = async (
   const mainConfig = await readMainConfig({ cwd });
 
   mainConfig.setFieldValue(['core', 'disableTelemetry'], true);
-  if (template.expected.builder === '@storybook/builder-vite') forceViteRebuilds(mainConfig);
+  if (template.expected.builder === '@storybook/builder-vite') setSandboxViteFinal(mainConfig);
   await writeConfig(mainConfig);
 };
 
@@ -204,15 +204,23 @@ function addEsbuildLoaderToStories(mainConfig: ConfigFile) {
   );
 }
 
-// Recompile optimized deps on each startup, so you can change @storybook/* packages and not
-// have to clear caches.
-function forceViteRebuilds(mainConfig: ConfigFile) {
+/*
+  Recompile optimized deps on each startup, so you can change @storybook/* packages and not
+  have to clear caches.
+  And allow source directories to complement any existing allow patterns
+  (".storybook" is already being allowed by builder-vite)
+*/
+function setSandboxViteFinal(mainConfig: ConfigFile) {
   const viteFinalCode = `
   (config) => ({
     ...config,
-    optimizeDeps: {
-      ...config.optimizeDeps,
-      force: true,
+    optimizeDeps: { ...config.optimizeDeps, force: true },
+    server: {
+      ...config.server,
+      fs: {
+        ...config.server?.fs,
+        allow: ['src', 'template-stories', 'node_modules', ...(config.server?.fs?.allow || [])],
+      },
     },
   })`;
   mainConfig.setFieldNode(
