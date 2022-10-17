@@ -32,13 +32,3 @@ exports[`Storyshots Another Button with text 1`] = `
   suffix
 </div>
 `;
-
-exports[`Storyshots Text Simple 1`] = `
-<div>
-  prefix
-   
-  contents
-   
-  suffix
-</div>
-`;

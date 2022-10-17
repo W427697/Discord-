@@ -8,6 +8,6 @@ initStoryshots({
   framework: 'react',
   // Ignore integrityOptions for async.storyshot because only run when asyncJest is true
   integrityOptions: { cwd: __dirname, ignore: ['**/**.async.storyshot'] },
-  configPath: path.join(__dirname, '..', '.storybook'),
+  configPath: path.join(__dirname, 'exported_metadata'),
   test: multiSnapshotWithOptions(),
 });
