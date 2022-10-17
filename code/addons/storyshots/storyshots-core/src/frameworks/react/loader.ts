@@ -8,22 +8,24 @@ function test(options: StoryshotsOptions): boolean {
 }
 
 function load(options: StoryshotsOptions) {
-  const storybook = jest.requireActual('@storybook/html');
+  const storybook = jest.requireActual('@storybook/react');
   const clientAPI = jest.requireActual('@storybook/client-api');
+
+  const api = {
+    ...clientAPI,
+    ...storybook,
+  };
 
   configure({
     ...options,
-    storybook: {
-      ...clientAPI,
-      ...storybook,
-    },
+    storybook: api,
   });
 
   return {
     framework: 'react' as const,
     renderTree: jest.requireActual('./renderTree').default,
     renderShallowTree: jest.requireActual('./renderShallowTree').default,
-    storybook,
+    storybook: api,
   };
 }
 

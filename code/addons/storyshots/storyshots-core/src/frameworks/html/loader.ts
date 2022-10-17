@@ -13,12 +13,14 @@ function load(options: StoryshotsOptions) {
   const storybook = jest.requireActual('@storybook/html');
   const clientAPI = jest.requireActual('@storybook/client-api');
 
+  const api = {
+    ...clientAPI,
+    ...storybook,
+  };
+
   configure({
     ...options,
-    storybook: {
-      ...clientAPI,
-      ...storybook,
-    },
+    storybook: api,
   });
 
   return {
@@ -27,7 +29,7 @@ function load(options: StoryshotsOptions) {
     renderShallowTree: () => {
       throw new Error('Shallow renderer is not supported for HTML');
     },
-    storybook,
+    storybook: api,
   };
 }
 

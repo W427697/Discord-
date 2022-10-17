@@ -16,15 +16,17 @@ function load(options: StoryshotsOptions) {
   global.STORYBOOK_ENV = 'riot';
   mockRiotToIncludeCompiler();
 
-  const storybook = jest.requireActual('@storybook/html');
+  const storybook = jest.requireActual('@storybook/riot');
   const clientAPI = jest.requireActual('@storybook/client-api');
+
+  const api = {
+    ...clientAPI,
+    ...storybook,
+  };
 
   configure({
     ...options,
-    storybook: {
-      ...clientAPI,
-      ...storybook,
-    },
+    storybook: api,
   });
 
   return {
@@ -33,7 +35,7 @@ function load(options: StoryshotsOptions) {
     renderShallowTree: () => {
       throw new Error('Shallow renderer is not supported for riot');
     },
-    storybook,
+    storybook: api,
   };
 }
 

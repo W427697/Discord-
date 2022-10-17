@@ -34,8 +34,17 @@ function load(options: StoryshotsOptions) {
   setupAngularJestPreset();
 
   const storybook = jest.requireActual('@storybook/angular');
+  const clientAPI = jest.requireActual('@storybook/client-api');
 
-  configure({ ...options, storybook });
+  const api = {
+    ...clientAPI,
+    ...storybook,
+  };
+
+  configure({
+    ...options,
+    storybook: api,
+  });
 
   return {
     framework: 'angular' as const,
@@ -43,7 +52,7 @@ function load(options: StoryshotsOptions) {
     renderShallowTree: () => {
       throw new Error('Shallow renderer is not supported for angular');
     },
-    storybook,
+    storybook: api,
   };
 }
 
