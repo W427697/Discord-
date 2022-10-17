@@ -2,8 +2,9 @@ import chalk from 'chalk';
 import { dedent } from 'ts-dedent';
 import { ConfigFile, readConfig, writeConfig } from '@storybook/csf-tools';
 import { getStorybookInfo } from '@storybook/core-common';
+import { readFile, readJson, writeJson } from 'fs-extra';
+import detectIndent from 'detect-indent';
 
-import { readJson, writeJson } from 'fs-extra';
 import { findEslintFile, SUPPORTED_ESLINT_EXTENSIONS } from '../helpers/getEslintInfo';
 
 import type { Fix } from '../types';
@@ -80,7 +81,7 @@ export const eslintPlugin: Fix<EslintPluginRunOptions> = {
     if (!dryRun) packageManager.addDependencies({ installAsDevDependencies: true }, deps);
 
     if (!dryRun && unsupportedExtension) {
-      throw new Error(dedent`
+      logger.info(dedent`
           ⚠️ The plugin was successfuly installed but failed to configure.
           
           Found an .eslintrc config file with an unsupported automigration format: ${unsupportedExtension}.
@@ -98,7 +99,10 @@ export const eslintPlugin: Fix<EslintPluginRunOptions> = {
           ? eslintConfig.extends
           : [eslintConfig.extends];
         eslintConfig.extends = [...(existingConfigValue || []), 'plugin:storybook/recommended'];
-        await writeJson(eslintFile, eslintConfig, { spaces: 2 });
+
+        const eslintFileContents = await readFile(eslintFile, 'utf8');
+        const spaces = detectIndent(eslintFileContents).amount || 2;
+        await writeJson(eslintFile, eslintConfig, { spaces });
       } else {
         const eslint = await readConfig(eslintFile);
         const extendsConfig = eslint.getFieldValue(['extends']) || [];
