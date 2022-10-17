@@ -302,37 +302,6 @@ describe('start', () => {
       ]);
     });
 
-    it('allows global metadata via client-api', async () => {
-      const renderToDOM = jest.fn(({ storyFn }) => storyFn());
-
-      const { configure, clientApi } = start(renderToDOM);
-
-      const loader = jest.fn(async () => ({ val: 'loaded' }));
-      const decorator = jest.fn();
-      configure('test', () => {
-        clientApi.addLoader(loader);
-        clientApi.addDecorator(decorator);
-        clientApi.addParameters({ param: 'global' });
-        clientApi.storiesOf('Component A', { id: 'file1' } as NodeModule).add('default', jest.fn());
-      });
-
-      await waitForRender();
-
-      expect(loader).toHaveBeenCalled();
-      expect(decorator).toHaveBeenCalled();
-      expect(renderToDOM).toHaveBeenCalledWith(
-        expect.objectContaining({
-          storyContext: expect.objectContaining({
-            parameters: expect.objectContaining({
-              framework: 'test',
-              param: 'global',
-            }),
-          }),
-        }),
-        'story-root'
-      );
-    });
-
     it('allows setting compomnent/args/argTypes via a parameter', async () => {
       const renderToDOM = jest.fn(({ storyFn }) => storyFn());
 
