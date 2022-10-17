@@ -3,6 +3,7 @@ import { dedent } from 'ts-dedent';
 import { ConfigFile, readConfig, writeConfig } from '@storybook/csf-tools';
 import { getStorybookInfo } from '@storybook/core-common';
 
+import { readJson, writeJson } from 'fs-extra';
 import { findEslintFile, SUPPORTED_ESLINT_EXTENSIONS } from '../helpers/getEslintInfo';
 
 import type { Fix } from '../types';
@@ -89,16 +90,23 @@ export const eslintPlugin: Fix<EslintPluginRunOptions> = {
       `);
     }
 
-    const eslint = await readConfig(eslintFile);
-    logger.info(`✅ Configuring eslint rules in ${eslint.fileName}`);
-
+    logger.info(`✅ Adding Storybook plugin to ${eslintFile}`);
     if (!dryRun) {
-      logger.info(`✅ Adding Storybook to extends list`);
-      const extendsConfig = eslint.getFieldValue(['extends']) || [];
-      const existingConfigValue = Array.isArray(extendsConfig) ? extendsConfig : [extendsConfig];
-      eslint.setFieldValue(['extends'], [...existingConfigValue, 'plugin:storybook/recommended']);
+      if (eslintFile.endsWith('json')) {
+        const eslintConfig = (await readJson(eslintFile)) as { extends?: string[] };
+        const existingConfigValue = Array.isArray(eslintConfig.extends)
+          ? eslintConfig.extends
+          : [eslintConfig.extends];
+        eslintConfig.extends = [...(existingConfigValue || []), 'plugin:storybook/recommended'];
+        await writeJson(eslintFile, eslintConfig, { spaces: 2 });
+      } else {
+        const eslint = await readConfig(eslintFile);
+        const extendsConfig = eslint.getFieldValue(['extends']) || [];
+        const existingConfigValue = Array.isArray(extendsConfig) ? extendsConfig : [extendsConfig];
+        eslint.setFieldValue(['extends'], [...existingConfigValue, 'plugin:storybook/recommended']);
 
-      await writeConfig(eslint);
+        await writeConfig(eslint);
+      }
     }
   },
 };
