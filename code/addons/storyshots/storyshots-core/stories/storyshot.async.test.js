@@ -1,6 +1,6 @@
 import path from 'path';
 import { render, screen, waitFor } from '@testing-library/react';
-import initStoryshots, { Stories2SnapsConverter } from '../dist/types';
+import initStoryshots, { Stories2SnapsConverter } from '../src';
 import { TIMEOUT, EXPECTED_VALUE } from './exported_metadata/Async.stories.jsx';
 
 initStoryshots({

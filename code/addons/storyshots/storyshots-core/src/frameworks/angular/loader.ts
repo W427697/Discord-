@@ -36,6 +36,8 @@ function load(options: StoryshotsOptions) {
   const storybook = jest.requireActual('@storybook/angular');
   const clientAPI = jest.requireActual('@storybook/client-api');
 
+  console.log({ clientAPI });
+
   const api = {
     ...clientAPI,
     ...storybook,

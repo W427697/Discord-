@@ -1,5 +1,5 @@
 import path from 'path';
-import initStoryshots, { multiSnapshotWithOptions } from '../dist/types';
+import initStoryshots, { multiSnapshotWithOptions } from '../src';
 
 jest.mock('@storybook/node-logger');
 

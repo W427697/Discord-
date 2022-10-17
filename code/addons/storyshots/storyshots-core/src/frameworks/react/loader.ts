@@ -16,6 +16,8 @@ function load(options: StoryshotsOptions) {
     ...storybook,
   };
 
+  console.log({ clientAPI });
+
   configure({
     ...options,
     storybook: api,
