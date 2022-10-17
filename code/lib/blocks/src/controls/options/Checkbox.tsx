@@ -1,4 +1,4 @@
-import React, { FC, ChangeEvent, useState } from 'react';
+import React, { FC, ChangeEvent, useState, useEffect } from 'react';
 import { styled } from '@storybook/theming';
 import { logger } from '@storybook/client-logger';
 import { ControlProps, OptionsMultiSelection, NormalizedOptionsConfig } from '../types';
@@ -69,6 +69,10 @@ export const CheckboxControl: FC<CheckboxProps> = ({
     onChange(selectedValues(updated, options));
     setSelected(updated);
   };
+
+  useEffect(() => {
+    setSelected(selectedKeys(value, options));
+  }, [value]);
 
   const controlId = getControlId(name);
 
