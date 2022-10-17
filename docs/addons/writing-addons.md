@@ -254,4 +254,4 @@ To dive deeper, we recommend Storybook's [creating an addon](https://storybook.j
 
 ### Addon kit
 
-To help you jumpstart the addon development, the Storybook maintainers created an [`addon-kit`](https://github.com/storybookjs/addon-kit), and use it to bootstrap your next addon.
+To help you jumpstart the addon development, the Storybook maintainers created an [`addon-kit`](https://github.com/storybookjs/addon-kit), use it to bootstrap your next addon.
