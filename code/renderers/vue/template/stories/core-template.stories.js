@@ -3,4 +3,4 @@ export default {
   component: {},
 };
 
-export const StringOnly = () => '<global-button :primary="true" children="Primary button" />';
+export const StringOnly = () => '<global-button :primary="true" label="Primary button" />';
