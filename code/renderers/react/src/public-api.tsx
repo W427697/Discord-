@@ -1,6 +1,7 @@
 /* eslint-disable prefer-destructuring */
 import { start } from '@storybook/core-client';
 import type { ClientStoryApi, Loadable } from '@storybook/addons';
+import { Args, DecoratorFunction } from '@storybook/csf';
 
 import { renderToDOM, render } from './render';
 import type { ReactFramework } from './types';
@@ -23,3 +24,5 @@ export const storiesOf: ClientApi['storiesOf'] = (kind, m) => {
 export const configure: ClientApi['configure'] = (...args) => api.configure(FRAMEWORK, ...args);
 export const forceReRender: ClientApi['forceReRender'] = api.forceReRender;
 export const raw: ClientApi['raw'] = api.clientApi.raw;
+
+export type DecoratorFn<TArgs = Args> = DecoratorFunction<ReactFramework, TArgs>;
