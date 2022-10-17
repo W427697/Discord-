@@ -28,7 +28,7 @@ jobs:
       - name: Compile Storybook libraries
         run: yarn task --task publish --start-from=auto --no-link
       - name: Generate repros
-        run: yarn generate-repros-next --local-registry
+        run: DEBUG=1 yarn generate-repros-next --local-registry
         working-directory: ./code
       - name: Publish repros to GitHub
         run: yarn publish-repros --remote=https://storybook-bot:${{ secrets.PAT_STORYBOOK_BOT}}@github.com/storybookjs/repro-templates-temp.git --push
