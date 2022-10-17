@@ -84,8 +84,10 @@ export const eslintPlugin: Fix<EslintPluginRunOptions> = {
       logger.info(dedent`
           ⚠️ The plugin was successfuly installed but failed to configure.
           
-          Found an .eslintrc config file with an unsupported automigration format: ${unsupportedExtension}.
-          Supported formats for automigration are: ${SUPPORTED_ESLINT_EXTENSIONS.join(', ')}.
+          Found an eslint config file with an unsupported automigration format: .eslintrc.${unsupportedExtension}.
+          The supported formats for this automigration are: ${SUPPORTED_ESLINT_EXTENSIONS.join(
+            ', '
+          )}.
 
           Please refer to https://github.com/storybookjs/eslint-plugin-storybook#usage to finish setting up the plugin manually.
       `);
