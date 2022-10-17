@@ -31,18 +31,20 @@ const skipStoriesJsonPreset = [{ features: { buildStoriesJson: false, storyStore
 jest.mock('@storybook/builder-webpack5', () => {
   const value = jest.fn(() => false);
   const actualBuilder = jest.requireActual('@storybook/builder-webpack5');
-  // MUTATION! we couldn't mock webpack5, so we added a level of indirection instead
-  actualBuilder.executor.get = () => value;
-  actualBuilder.overridePresets = [...actualBuilder.overridePresets, skipStoriesJsonPreset];
-  return actualBuilder;
+  return {
+    ...actualBuilder,
+    executor: { get: () => value },
+    overridePresets: [...actualBuilder.overridePresets, skipStoriesJsonPreset],
+  };
 });
 
 jest.mock('@storybook/builder-manager', () => {
   const value = jest.fn();
   const actualBuilder = jest.requireActual('@storybook/builder-manager');
-  // MUTATION!
-  actualBuilder.executor.get = () => value;
-  return actualBuilder;
+  return {
+    ...actualBuilder,
+    executor: { get: () => value },
+  };
 });
 
 jest.mock('@storybook/telemetry', () => ({
