@@ -289,7 +289,6 @@ const preactWebpackTemplates = {
 
 export default {
   ...craTemplates,
-  ...nextjsTemplates,
   ...reactViteTemplates,
   ...reactWebpackTemplates,
   ...vue2ViteTemplates,
@@ -300,4 +299,5 @@ export default {
   ...vueCliTemplates,
   ...htmlWebpackTemplates,
   ...preactWebpackTemplates,
+  ...nextjsTemplates,
 } as const;
