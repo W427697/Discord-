@@ -94,7 +94,6 @@ const getImportResolver =
 
 const isCssLoaderV6 = () => {
   try {
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
     const cssLoaderVersion = require(scopedResolve('css-loader/package.json')).version;
     return semver.gte(cssLoaderVersion, '6.0.0');
   } catch {

@@ -1,4 +1,4 @@
-import { Configuration as WebpackConfig } from 'webpack';
+import type { Configuration as WebpackConfig } from 'webpack';
 import { PHASE_DEVELOPMENT_SERVER } from 'next/constants';
 import path from 'path';
 import { NextConfig } from 'next';
@@ -21,9 +21,7 @@ const resolveNextConfig = async (
   baseConfig: WebpackConfig,
   nextConfigPath?: string
 ): Promise<NextConfig> => {
-  const nextConfigExport = await import(
-    nextConfigPath ? nextConfigPath : path.resolve('next.config.js')
-  );
+  const nextConfigExport = await import(nextConfigPath || path.resolve('next.config.js'));
 
   const nextConfig =
     typeof nextConfigExport === 'function'
@@ -35,8 +33,8 @@ const resolveNextConfig = async (
   return nextConfig;
 };
 
-const setupRuntimeConfig = (baseConfig: WebpackConfig, nextConfig: NextConfig): void =>
-  void baseConfig.plugins?.push(
+const setupRuntimeConfig = (baseConfig: WebpackConfig, nextConfig: NextConfig): void => {
+  baseConfig.plugins?.push(
     new DefinePlugin({
       // this mimics what nextjs does client side
       // https://github.com/vercel/next.js/blob/57702cb2a9a9dba4b552e0007c16449cf36cfb44/packages/next/client/index.tsx#L101
@@ -46,3 +44,4 @@ const setupRuntimeConfig = (baseConfig: WebpackConfig, nextConfig: NextConfig): 
       }),
     })
   );
+};
