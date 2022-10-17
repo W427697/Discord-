@@ -11,7 +11,7 @@ const config: StorybookConfig = {
     },
     {
       directory: '../components/src/**/',
-      files: 'Button/*.stories.@(js|jsx|ts|tsx|mdx)',
+      files: '@(Button|Badge)/*.stories.@(js|jsx|ts|tsx|mdx)',
       titlePrefix: 'Components',
     },
     // '../components/src/**/*.stories.@(js|jsx|ts|tsx|mdx)',
