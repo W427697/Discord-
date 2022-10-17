@@ -4,8 +4,18 @@ import type { StorybookConfig } from '../../frameworks/react-vite/dist';
 
 const config: StorybookConfig = {
   stories: [
-    '../manager/src/**/*.stories.@(ts|tsx|js|jsx|mdx)',
-    '../components/src/**/*.stories.@(js|jsx|ts|tsx|mdx)',
+    {
+      directory: '../manager/src/**/',
+      files: '*.stories.@(ts|tsx|js|jsx|mdx)',
+      titlePrefix: 'Manager',
+    },
+    {
+      directory: '../components/src/**/',
+      files: 'Button/*.stories.@(js|jsx|ts|tsx|mdx)',
+      titlePrefix: 'Components',
+    },
+    // '../components/src/**/*.stories.@(js|jsx|ts|tsx|mdx)',
+
     // '../../../addons/interactions/**/*.stories.@(ts|tsx|js|jsx|mdx)',
   ],
   addons: [
