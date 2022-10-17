@@ -14,7 +14,6 @@ import type {
   ArgsEnhancer,
   LoaderFunction,
   StoryFn,
-  ComponentTitle,
   Globals,
   GlobalTypes,
   LegacyStoryFn,
