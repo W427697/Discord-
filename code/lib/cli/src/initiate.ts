@@ -220,7 +220,7 @@ const installStorybook = (
 };
 
 const projectTypeInquirer = async (
-  options: { yes?: boolean },
+  options: CommandOptions & { yes?: boolean },
   packageManager: JsPackageManager
 ) => {
   const manualAnswer = options.yes
