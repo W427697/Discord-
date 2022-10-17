@@ -123,11 +123,7 @@ export async function buildStaticStandalone(options: CLIOptions & LoadOptions & 
   const core = await presets.apply<CoreConfig>('core');
   if (!core?.disableTelemetry) {
     initializedStoryIndexGenerator.then(async (generator) => {
-      if (!generator) {
-        return;
-      }
-
-      const storyIndex = await generator.getIndex();
+      const storyIndex = await generator?.getIndex();
       const payload = storyIndex
         ? {
             storyIndex: {
