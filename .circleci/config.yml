@@ -87,7 +87,7 @@ jobs:
           keys:
             - build-yarn-2-cache-v4--{{ checksum "code/yarn.lock" }}--{{ checksum "scripts/yarn.lock" }}
       - run:
-          name: Compile
+          name: Check
           command: |
             yarn task --task check --start-from=auto --no-link --debug
             git diff --exit-code
