@@ -14,59 +14,51 @@ const PlaceholderInline = styled.span(({ color }) => ({
   padding: 20,
 }));
 
-storiesOf('Basics/Spaced', module)
-  .add('row', () => (
+export default {
+  title: 'Basics/Spaced',
+  component: Spaced,
+};
+
+export const Default = (args) => (
+  <div>
+    <PlaceholderBlock color="silver" />
+    <Spaced {...args}>
+      <PlaceholderBlock />
+      <PlaceholderBlock />
+      <PlaceholderBlock />
+    </Spaced>
+    <PlaceholderBlock color="silver" />
+  </div>
+);
+
+export const Column = {
+  render: (args) => (
     <div>
       <PlaceholderBlock color="silver" />
-      <Spaced row={1}>
+      <Spaced {...args}>
         <PlaceholderBlock />
         <PlaceholderBlock />
         <PlaceholderBlock />
       </Spaced>
       <PlaceholderBlock color="silver" />
     </div>
-  ))
-  .add('row outer', () => (
-    <div>
-      <PlaceholderBlock color="silver" />
-      <Spaced row={1} outer>
-        <PlaceholderBlock />
-        <PlaceholderBlock />
-        <PlaceholderBlock />
-      </Spaced>
-      <PlaceholderBlock color="silver" />
-    </div>
-  ))
-  .add('row multiply', () => (
-    <div>
-      <PlaceholderBlock color="silver" />
-      <Spaced row={3} outer={0.5}>
-        <PlaceholderBlock />
-        <PlaceholderBlock />
-        <PlaceholderBlock />
-      </Spaced>
-      <PlaceholderBlock color="silver" />
-    </div>
-  ))
-  .add('col', () => (
+  ),
+};
+export const Row = {
+  render: (args) => (
     <div>
       <PlaceholderInline color="silver" />
-      <Spaced col={1}>
+      <Spaced {...args}>
         <PlaceholderInline />
         <PlaceholderInline />
         <PlaceholderInline />
       </Spaced>
       <PlaceholderInline color="silver" />
     </div>
-  ))
-  .add('col outer', () => (
-    <div>
-      <PlaceholderInline color="silver" />
-      <Spaced col={1} outer>
-        <PlaceholderInline />
-        <PlaceholderInline />
-        <PlaceholderInline />
-      </Spaced>
-      <PlaceholderInline color="silver" />
-    </div>
-  ));
+  ),
+  argTypes: {
+    col: {
+      defaultValue: 1,
+    },
+  },
+};
