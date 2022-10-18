@@ -414,7 +414,7 @@ If you are running into errors, you can upgrade your project to Webpack5 or you 
 To upgrade:
 
 - If you're configuring webpack directly, see the Webpack5 [release announcement](https://webpack.js.org/blog/2020-10-10-webpack-5-release/) and [migration guide](https://webpack.js.org/migrate/5).
-- If you're using Create React App, see the [migration notes](https://github.com/facebook/create-react-app/blob/main/CHANGELOG.md#migrating-from-40x-to-500) to ugprade from V4 (Webpack4) to 5
+- If you're using Create React App, see the [migration notes](https://github.com/facebook/create-react-app/blob/main/CHANGELOG.md#migrating-from-40x-to-500) to upgrade from V4 (Webpack4) to 5
 
 During the 7.0 dev cycle we will be updating this section with useful resources as we run across them.
 
