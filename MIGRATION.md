@@ -27,8 +27,9 @@
     - [Icons API changed](#icons-api-changed)
     - ['config' preset entry replaced with 'previewAnnotations'](#config-preset-entry-replaced-with-previewannotations)
     - [Dropped support for Angular 12 and below](#dropped-support-for-angular-12-and-below)
-    - [Removed deprecated grid parameter](#removed-deprecated-grid-parameter)
-    - [Removed deprecated addon-docs blocks.js entry](#removed-deprecated-addon-docs-blocksjs-entry)
+    - [Addon-backgrounds: Removed deprecated grid parameter](#addon-backgrounds-removed-deprecated-grid-parameter)
+    - [Addon-docs: Removed deprecated blocks.js entry](#addon-docs-removed-deprecated-blocksjs-entry)
+    - [Addon-a11y: Removed deprecated withA11y decorator](#addon-a11y-removed-deprecated-witha11y-decorator)
   - [Docs Changes](#docs-changes)
     - [Standalone docs files](#standalone-docs-files)
     - [Referencing stories in docs files](#referencing-stories-in-docs-files)
@@ -586,13 +587,17 @@ for Angular 12 and below.
 
 In order to use Storybook 7.0, you need to upgrade to at least Angular 13.
 
-#### Removed deprecated grid parameter
+#### Addon-backgrounds: Removed deprecated grid parameter
 
 Starting in 7.0 the `grid.cellSize` parameter should now be `backgrounds.grid.cellSize`. This was [deprecated in SB 6.1](#deprecated-grid-parameter).
 
-#### Removed deprecated addon-docs blocks.js entry
+#### Addon-docs: Removed deprecated blocks.js entry
 
 Removed `@storybook/addon-docs/blocks` entry. Import directly from `@storybook/addon-docs` instead. This was [deprecated in SB 6.3](#deprecated-scoped-blocks-imports).
+
+#### Addon-a11y: Removed deprecated withA11y decorator
+
+We removed the deprecated `withA11y` decorator. This was [deprecated in 6.0](#removed-witha11y-decorator)
 
 ### Docs Changes
 
