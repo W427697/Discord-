@@ -64,6 +64,8 @@ module.exports = {
     '/dist/',
     '/prebuilt/',
     '/generators/',
+    '/frameworks/*/template',
+    '/addons/*/template',
     '/dll/',
     '/__mocks__ /',
     '/__mockdata__/',
