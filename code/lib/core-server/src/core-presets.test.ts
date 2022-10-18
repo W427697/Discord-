@@ -53,6 +53,7 @@ jest.mock('@storybook/telemetry', () => ({
 }));
 jest.mock('fs-extra', () => ({
   copy: jest.fn(() => undefined),
+  ensureFile: jest.fn(() => undefined),
   writeFile: jest.fn(() => undefined),
   readFile: jest.fn((f) => ''),
   emptyDir: jest.fn(() => undefined),
