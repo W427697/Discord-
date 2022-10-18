@@ -35,7 +35,6 @@ const storybookPaths: Record<string, string> = {
     'core-events',
     'router',
     'theming',
-    'semver',
     'preview-web',
     'client-api',
     'client-logger',
@@ -78,7 +77,9 @@ export default async (
   const template = await presets.apply<string>('previewMainTemplate');
   const coreOptions = await presets.apply<CoreConfig>('core');
   const builderOptions: BuilderOptions =
-    typeof coreOptions.builder === 'string' ? {} : coreOptions.builder?.options || {};
+    typeof coreOptions.builder === 'string'
+      ? {}
+      : coreOptions.builder?.options || ({} as BuilderOptions);
   const docsOptions = await presets.apply<DocsOptions>('docs');
 
   const previewAnnotations = [
@@ -159,6 +160,14 @@ export default async (
 
   const shouldCheckTs = typescriptOptions.check && !typescriptOptions.skipBabel;
   const tsCheckOptions = typescriptOptions.checkOptions || {};
+
+  const cacheConfig = builderOptions.fsCache ? { cache: { type: 'filesystem' as const } } : {};
+  const lazyCompilationConfig =
+    builderOptions.lazyCompilation && !isProd
+      ? {
+          lazyCompilation: { entries: false },
+        }
+      : {};
 
   return {
     name: 'preview',
@@ -289,5 +298,7 @@ export default async (
     performance: {
       hints: isProd ? 'warning' : false,
     },
+    ...cacheConfig,
+    experiments: { ...lazyCompilationConfig },
   };
 };
