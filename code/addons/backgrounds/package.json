@@ -71,8 +71,7 @@
     "@storybook/theming": "7.0.0-alpha.38",
     "global": "^4.4.0",
     "memoizerific": "^1.11.3",
-    "ts-dedent": "^2.0.0",
-    "util-deprecate": "^1.0.2"
+    "ts-dedent": "^2.0.0"
   },
   "devDependencies": {
     "typescript": "~4.6.3"
