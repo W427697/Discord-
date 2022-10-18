@@ -91,6 +91,7 @@ export const eslintPlugin: Fix<EslintPluginRunOptions> = {
 
           Please refer to https://github.com/storybookjs/eslint-plugin-storybook#usage to finish setting up the plugin manually.
       `);
+      return;
     }
 
     logger.info(`✅ Adding Storybook plugin to ${eslintFile}`);
