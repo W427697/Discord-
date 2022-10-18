@@ -32019,7 +32019,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"postcss-loader@npm:6.2.1, postcss-loader@npm:^6.2.1":
+"postcss-loader@npm:6.2.1":
   version: 6.2.1
   resolution: "postcss-loader@npm:6.2.1"
   dependencies:
