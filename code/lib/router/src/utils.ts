@@ -1,4 +1,4 @@
-import { once } from '@storybook/client-logger';
+import { deprecate } from '@storybook/client-logger';
 import { dequal as deepEqual } from 'dequal';
 import isPlainObject from 'lodash/isPlainObject';
 import memoize from 'memoizerific';
@@ -117,7 +117,7 @@ export const buildArgsParam = (initialArgs: Args, args: Args): string => {
 
   const object = Object.entries(update).reduce((acc, [key, value]) => {
     if (validateArgs(key, value)) return Object.assign(acc, { [key]: value });
-    once.warn(dedent`
+    deprecate(dedent`
       Omitted potentially unsafe URL args.
 
       More info: https://storybook.js.org/docs/react/writing-stories/args#setting-args-through-the-url

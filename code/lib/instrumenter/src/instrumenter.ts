@@ -1,7 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 import { addons, Channel } from '@storybook/addons';
 import type { StoryId } from '@storybook/addons';
-import { logger, once } from '@storybook/client-logger';
+import { deprecate, logger } from '@storybook/client-logger';
 import {
   FORCE_REMOUNT,
   IGNORED_EXCEPTION,
@@ -637,7 +637,7 @@ export function instrument<TObj extends Record<string, any>>(
     return instrumenter.instrument(obj, options);
   } catch (e) {
     // Access to the parent window might fail due to CORS restrictions.
-    once.warn(e);
+    deprecate(e);
     return obj;
   }
 }

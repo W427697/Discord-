@@ -1,7 +1,7 @@
 import qs from 'qs';
 import { dedent } from 'ts-dedent';
 import type { Args } from '@storybook/addons';
-import { once } from '@storybook/client-logger';
+import { deprecate } from '@storybook/client-logger';
 import isPlainObject from 'lodash/isPlainObject';
 
 // Keep this in sync with validateArgs in router/src/utils.ts
@@ -65,7 +65,7 @@ export const parseArgsParam = (argsString: string): Args => {
   const parts = argsString.split(';').map((part) => part.replace('=', '~').replace(':', '='));
   return Object.entries(qs.parse(parts.join(';'), QS_OPTIONS)).reduce((acc, [key, value]) => {
     if (validateArgs(key, value)) return Object.assign(acc, { [key]: value });
-    once.warn(dedent`
+    deprecate(dedent`
       Omitted potentially unsafe URL args.
 
       More info: https://storybook.js.org/docs/react/writing-stories/args#setting-args-through-the-url
