@@ -26,25 +26,15 @@ const { packageJson } = readUpSync({ cwd: __dirname });
 jest.setTimeout(10000);
 
 // FIXME: this doesn't work
-const skipStoriesJsonPreset = [{ features: { buildStoriesJson: false, storyStoreV7: false } }];
 
-jest.mock('@storybook/builder-webpack5', () => {
+jest.mock('webpack', () => {
   const value = jest.fn(() => false);
-  const actualBuilder = jest.requireActual('@storybook/builder-webpack5');
-  return {
-    ...actualBuilder,
-    executor: { get: () => value },
-    overridePresets: [...actualBuilder.overridePresets, skipStoriesJsonPreset],
-  };
-});
+  const actual = jest.requireActual('webpack');
 
-jest.mock('@storybook/builder-manager', () => {
-  const value = jest.fn();
-  const actualBuilder = jest.requireActual('@storybook/builder-manager');
-  return {
-    ...actualBuilder,
-    executor: { get: () => value },
-  };
+  Object.keys(actual).forEach((key) => {
+    value[key] = actual[key];
+  });
+  return value;
 });
 
 jest.mock('@storybook/telemetry', () => ({
