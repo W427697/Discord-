@@ -53,15 +53,15 @@ jest.mock('@storybook/telemetry', () => ({
 }));
 jest.mock('fs-extra', () => ({
   copy: jest.fn(() => undefined),
-  ensureFile: jest.fn(() => undefined),
-  writeFile: jest.fn(() => undefined),
-  readFile: jest.fn((f) => ''),
   emptyDir: jest.fn(() => undefined),
-  ensureDir: jest.fn(() => undefined),
-  writeJSON: jest.fn(() => undefined),
-  remove: jest.fn(() => undefined),
-  readJSON: jest.fn(() => ({})),
+  ensureDir: jest.fn(() => true),
+  ensureFile: jest.fn(() => undefined),
   pathExists: jest.fn(() => true),
+  readFile: jest.fn((f) => ''),
+  readJSON: jest.fn(() => ({})),
+  remove: jest.fn(() => undefined),
+  writeFile: jest.fn(() => undefined),
+  writeJSON: jest.fn(() => undefined),
 }));
 
 jest.mock('./utils/StoryIndexGenerator', () => {
