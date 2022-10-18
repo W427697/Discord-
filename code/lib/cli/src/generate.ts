@@ -233,6 +233,7 @@ program
   )
   .option('--force-build-preview', 'Build the preview iframe even if you are using --preview-url')
   .option('--docs', 'Build a documentation-only site using addon-docs')
+  .option('--story-filter <regexp>', 'Regexp to filter story file paths specified on main.js')
   .action((options) => {
     logger.setLevel(program.loglevel);
     consoleLogger.log(chalk.bold(`${pkg.name} v${pkg.version}`) + chalk.reset('\n'));
@@ -270,6 +271,7 @@ program
   .option('--force-build-preview', 'Build the preview iframe even if you are using --preview-url')
   .option('--docs', 'Build a documentation-only site using addon-docs')
   .option('--no-manager-cache', 'Do not cache the manager UI')
+  .option('--story-filter <regexp>', 'Regexp to filter story file paths specified on main.js')
   .action((options) => {
     process.env.NODE_ENV = process.env.NODE_ENV || 'production';
     logger.setLevel(program.loglevel);

@@ -154,6 +154,7 @@ export interface CLIOptions {
   debugWebpack?: boolean;
   webpackStatsJson?: string | boolean;
   outputDir?: string;
+  storyFilter?: string;
 }
 
 export interface BuilderOptions {

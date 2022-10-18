@@ -79,6 +79,7 @@ export class StoryIndexGenerator {
       storyStoreV7: boolean;
       storyIndexers: StoryIndexer[];
       docs: DocsOptions;
+      storyFilter: string;
     }
   ) {
     this.specifierToCache = new Map();
@@ -94,7 +95,12 @@ export class StoryIndexGenerator {
           path.join(this.options.workingDir, specifier.directory, specifier.files)
         );
         const files = await glob(fullGlob);
-        files.sort().forEach((absolutePath: Path) => {
+        const filteredFiles = this.options.storyFilter
+          ? files.filter((absolutePath) =>
+              new RegExp(this.options.storyFilter, 'g').test(absolutePath)
+            )
+          : files;
+        filteredFiles.sort().forEach((absolutePath: Path) => {
           const ext = path.extname(absolutePath);
           if (ext === '.storyshot') {
             const relativePath = path.relative(this.options.workingDir, absolutePath);

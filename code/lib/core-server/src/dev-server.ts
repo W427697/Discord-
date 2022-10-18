@@ -59,6 +59,7 @@ export async function storybookDevServer(options: Options) {
         workingDir,
         storiesV2Compatibility: !features?.breakingChangesV7 && !features?.storyStoreV7,
         storyStoreV7: features?.storyStoreV7,
+        storyFilter: options.storyFilter,
       });
 
       initializedStoryIndexGenerator = generator.initialize().then(() => generator);
