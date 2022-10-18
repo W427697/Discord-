@@ -79,7 +79,7 @@ export class StoryIndexGenerator {
       storyStoreV7: boolean;
       storyIndexers: StoryIndexer[];
       docs: DocsOptions;
-      storyFilter: string;
+      storyFilter?: string;
     }
   ) {
     this.specifierToCache = new Map();
