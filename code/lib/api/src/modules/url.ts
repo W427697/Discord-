@@ -1,4 +1,4 @@
-import { once } from '@storybook/client-logger';
+import { deprecate } from '@storybook/client-logger';
 import {
   NAVIGATE_URL,
   STORY_ARGS_UPDATED,
@@ -72,7 +72,7 @@ const initialUrlSupport = ({
 
   // @deprecated Superceded by `panel=false`, to be removed in 7.0
   if (addons === '0') {
-    once.warn(dedent`
+    deprecate(dedent`
       The 'addons' query param is deprecated and will be removed in Storybook 7.0. Use 'panel=false' instead.
 
       More info: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#deprecated-layout-url-params
@@ -81,7 +81,7 @@ const initialUrlSupport = ({
   }
   // @deprecated Superceded by `panel=right`, to be removed in 7.0
   if (panelRight === '1') {
-    once.warn(dedent`
+    deprecate(dedent`
       The 'panelRight' query param is deprecated and will be removed in Storybook 7.0. Use 'panel=right' instead.
 
       More info: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#deprecated-layout-url-params
@@ -90,7 +90,7 @@ const initialUrlSupport = ({
   }
   // @deprecated Superceded by `nav=false`, to be removed in 7.0
   if (stories === '0') {
-    once.warn(dedent`
+    deprecate(dedent`
       The 'stories' query param is deprecated and will be removed in Storybook 7.0. Use 'nav=false' instead.
 
       More info: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#deprecated-layout-url-params
@@ -103,7 +103,7 @@ const initialUrlSupport = ({
   // NOTE: this "storyId" can just be a prefix of a storyId, really it is a storyIdSpecifier.
   let storyId = storyIdFromUrl;
   if (!storyId && selectedKind) {
-    once.warn(dedent`
+    deprecate(dedent`
       The 'selectedKind' and 'selectedStory' query params are deprecated and will be removed in Storybook 7.0. Use 'path' instead.
 
       More info: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#deprecated-layout-url-params
