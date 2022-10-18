@@ -374,13 +374,8 @@ jobs:
   test-runner-sandboxes:
     executor:
       class: medium+
-<<<<<<< Updated upstream
-      name: sb_node_16_browsers
-    parallelism: 18
-=======
       name: sb_playwright
-    parallelism: 16
->>>>>>> Stashed changes
+    parallelism: 18
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: '--depth 1 --verbose'
