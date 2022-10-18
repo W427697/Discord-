@@ -7005,6 +7005,7 @@ __metadata:
     "@storybook/store": 7.0.0-alpha.38
     "@storybook/theming": 7.0.0-alpha.38
     "@types/color-convert": ^2.0.0
+    "@types/lodash": ^4.14.167
     color-convert: ^2.0.1
     dequal: ^2.0.2
     global: ^4.4.0
