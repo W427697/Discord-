@@ -11,6 +11,7 @@ import { configureStyledJsxTransforms } from './styledJsx/babel';
 import { configureImages } from './images/webpack';
 import { configureRuntimeNextjsVersionResolution } from './utils';
 import { FrameworkOptions, StorybookConfig } from './types';
+import { configureTypescript } from './config/babel';
 
 export const addons: PresetProperty<'addons', StorybookConfig> = [
   dirname(require.resolve(join('@storybook/preset-react-webpack', 'package.json'))),
@@ -67,8 +68,15 @@ export const config: StorybookConfig['previewAnnotations'] = (entry = []) => [
   require.resolve('@storybook/nextjs/preview.js'),
 ];
 
-export const babel = async (config: TransformOptions): Promise<TransformOptions> =>
-  configureStyledJsxTransforms(config);
+// Not even sb init - automigrate - running dev
+// You're using a version of Nextjs prior to v10, which is unsupported by this framework.
+
+export const babel = async (baseConfig: TransformOptions): Promise<TransformOptions> => {
+  configureTypescript(baseConfig);
+  configureStyledJsxTransforms(baseConfig);
+
+  return baseConfig;
+};
 
 export const webpackFinal: StorybookConfig['webpackFinal'] = async (baseConfig, options) => {
   const frameworkOptions = await options.presets.apply<FrameworkOptions>('frameworkOptions');

@@ -3,7 +3,14 @@ import { loadConfig } from 'tsconfig-paths';
 import { Configuration as WebpackConfig } from 'webpack';
 
 export const configureImports = (baseConfig: WebpackConfig): void => {
-  const configLoadResult = loadConfig();
+  let configLoadResult;
+
+  try {
+    configLoadResult = loadConfig();
+  } catch (err) {
+    // possibly not a typescript project, or project is missing baseUrl
+    return;
+  }
 
   if (
     configLoadResult.resultType === 'failed' ||
@@ -20,6 +27,6 @@ export const configureImports = (baseConfig: WebpackConfig): void => {
     new TsconfigPathsPlugin({
       configFile: configLoadResult.configFileAbsolutePath,
       extensions: ['.js', '.jsx', '.ts', '.tsx'],
-    })
+    }) as any
   );
 };
