@@ -7,9 +7,8 @@ import type {
   DecoratorFunction,
   StoryAnnotations,
 } from '@storybook/csf';
-import { ComponentProps, ComponentType, SvelteComponent, SvelteComponentTyped } from 'svelte';
+import { ComponentProps, ComponentType, SvelteComponentTyped } from 'svelte';
 import { SetOptional, Simplify } from 'type-fest';
-
 import { SvelteFramework } from './types';
 
 export type { Args, ArgTypes, Parameters, StoryContext } from '@storybook/csf';
@@ -56,7 +55,4 @@ export type StoryObj<MetaOrCmpOrArgs = Args> = MetaOrCmpOrArgs extends {
     >
   : StoryAnnotations<SvelteFramework, MetaOrCmpOrArgs>;
 
-export type DecoratorFn<Component extends SvelteComponentTyped> = DecoratorFunction<
-  SvelteFramework<SvelteComponent>,
-  ComponentProps<Component>
->;
+export type DecoratorFn<TArgs = Args> = DecoratorFunction<SvelteFramework, TArgs>;

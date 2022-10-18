@@ -172,7 +172,10 @@ describe('Story args can be inferred', () => {
     expectTypeOf(Basic).toEqualTypeOf<Expected>();
   });
 
-  const withDecorator: DecoratorFn<Decorator> = (storyFn, { args: { decoratorArg } }) => ({
+  const withDecorator: DecoratorFn<{ decoratorArg: string }> = (
+    storyFn,
+    { args: { decoratorArg } }
+  ) => ({
     Component: Decorator,
     props: { decoratorArg },
   });
@@ -199,7 +202,10 @@ describe('Story args can be inferred', () => {
   test('Correct args are inferred when type is widened for multiple decorators', () => {
     type Props = ComponentProps<Button> & { decoratorArg: string; decoratorArg2: string };
 
-    const secondDecorator: DecoratorFn<Decorator2> = (storyFn, { args: { decoratorArg2 } }) => ({
+    const secondDecorator: DecoratorFn<{ decoratorArg2: string }> = (
+      storyFn,
+      { args: { decoratorArg2 } }
+    ) => ({
       Component: Decorator2,
       props: { decoratorArg2 },
     });
