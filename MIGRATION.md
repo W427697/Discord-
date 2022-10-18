@@ -3,7 +3,7 @@
 - [From version 6.5.x to 7.0.0](#from-version-65x-to-700)
   - [Alpha release notes](#alpha-release-notes)
   - [Breaking changes](#breaking-changes)
-    - [Addon register.js renamed to manager.js](#addon-registerjs-renamed-to-managerjs)
+    - [register.js removed](#registerjs-removed)
     - [`Story` type change to `StoryFn`, and the new `Story` type now refers to `StoryObj`](#story-type-change-to-storyfn-and-the-new-story-type-now-refers-to-storyobj)
     - [Change of root html IDs](#change-of-root-html-ids)
     - [No more default export from `@storybook/addons`](#no-more-default-export-from-storybookaddons)
@@ -27,6 +27,7 @@
     - [Icons API changed](#icons-api-changed)
     - ['config' preset entry replaced with 'previewAnnotations'](#config-preset-entry-replaced-with-previewannotations)
     - [Dropped support for Angular 12 and below](#dropped-support-for-angular-12-and-below)
+    - [Removed deprecated grid parameter](#removed-deprecated-grid-parameter)
   - [Docs Changes](#docs-changes)
     - [Standalone docs files](#standalone-docs-files)
     - [Referencing stories in docs files](#referencing-stories-in-docs-files)
@@ -244,9 +245,9 @@ In the meantime, these migration notes are the best available documentation on t
 
 ### Breaking changes
 
-#### Addon register.js renamed to manager.js
+#### register.js removed
 
-In SB 6.x and earlier, addons exported a `register.js` entry point by convention, and users would import this in `.storybook/manager.js`.
+In SB 6.x and earlier, addons exported a `register.js` entry point by convention, and users would import this in `.storybook/manager.js`. This was [deprecated in SB 6.5](#deprecated-registerjs)
 
 In 7.0, most of Storybook's addons now export a `manager.js` entry point, which is automatically registered in Storybook's manager when the addon is listed in `.storybook/main.js`'s `addons` field.
 
@@ -583,6 +584,10 @@ Official [Angular 12 LTS support ends Nov 2022](https://angular.io/guide/release
 for Angular 12 and below.
 
 In order to use Storybook 7.0, you need to upgrade to at least Angular 13.
+
+#### Removed deprecated grid parameter
+
+Starting in 7.0 the `grid.cellSize` parameter should now be `backgrounds.grid.cellSize`. This was [deprecated in SB 6.1](#deprecated-grid-parameter).
 
 ### Docs Changes
 
