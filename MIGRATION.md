@@ -28,6 +28,7 @@
     - ['config' preset entry replaced with 'previewAnnotations'](#config-preset-entry-replaced-with-previewannotations)
     - [Dropped support for Angular 12 and below](#dropped-support-for-angular-12-and-below)
     - [Removed deprecated grid parameter](#removed-deprecated-grid-parameter)
+    - [Removed deprecated addon-docs blocks.js entry](#removed-deprecated-addon-docs-blocksjs-entry)
   - [Docs Changes](#docs-changes)
     - [Standalone docs files](#standalone-docs-files)
     - [Referencing stories in docs files](#referencing-stories-in-docs-files)
@@ -588,6 +589,10 @@ In order to use Storybook 7.0, you need to upgrade to at least Angular 13.
 #### Removed deprecated grid parameter
 
 Starting in 7.0 the `grid.cellSize` parameter should now be `backgrounds.grid.cellSize`. This was [deprecated in SB 6.1](#deprecated-grid-parameter).
+
+#### Removed deprecated addon-docs blocks.js entry
+
+Removed `@storybook/addon-docs/blocks` entry. Import directly from `@storybook/addon-docs` instead. This was [deprecated in SB 6.3](#deprecated-scoped-blocks-imports).
 
 ### Docs Changes
 
