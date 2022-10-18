@@ -73,13 +73,11 @@
     "global": "^4.4.0",
     "remark-external-links": "^8.0.0",
     "remark-slug": "^6.0.0",
-    "ts-dedent": "^2.0.0",
-    "util-deprecate": "^1.0.2"
+    "ts-dedent": "^2.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.10",
     "@storybook/mdx2-csf": "0.0.4-canary.14.04ffbe8.0",
-    "@types/util-deprecate": "^1.0.0",
     "typescript": "~4.6.3"
   },
   "peerDependencies": {

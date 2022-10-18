@@ -6349,9 +6349,7 @@ __metadata:
     global: ^4.4.0
     lodash: ^4.17.21
     react-sizeme: ^3.0.1
-    ts-dedent: ^2.0.0
     typescript: ~4.6.3
-    util-deprecate: ^1.0.2
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
@@ -6412,7 +6410,6 @@ __metadata:
     memoizerific: ^1.11.3
     ts-dedent: ^2.0.0
     typescript: ~4.6.3
-    util-deprecate: ^1.0.2
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
@@ -6476,7 +6473,6 @@ __metadata:
     "@storybook/source-loader": 7.0.0-alpha.38
     "@storybook/store": 7.0.0-alpha.38
     "@storybook/theming": 7.0.0-alpha.38
-    "@types/util-deprecate": ^1.0.0
     dequal: ^2.0.2
     fs-extra: ^9.0.1
     global: ^4.4.0
@@ -6484,7 +6480,6 @@ __metadata:
     remark-slug: ^6.0.0
     ts-dedent: ^2.0.0
     typescript: ~4.6.3
-    util-deprecate: ^1.0.2
   peerDependencies:
     "@storybook/mdx2-csf": 0.0.4-canary.14.04ffbe8.0
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
