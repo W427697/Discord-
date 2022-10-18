@@ -164,7 +164,7 @@ const angularCliTemplates = {
   'angular-cli/13-ts': {
     name: 'Angular CLI (Version 13)',
     script:
-      'npx -p @angular/cli@13 ng new angular-latest --directory . --routing=true --minimal=true --style=scss --strict --skip-git --skip-install --package-manager=yarn',
+      'npx -p @angular/cli@13 ng new angular-v13 --directory . --routing=true --minimal=true --style=scss --strict --skip-git --skip-install --package-manager=yarn',
     cadence: ['ci', 'daily', 'weekly'],
     expected: {
       framework: '@storybook/angular',
@@ -268,8 +268,7 @@ const preactWebpackTemplates = {
   'preact-webpack5/default-js': {
     name: 'Preact CLI (Default JS)',
     script: 'npx preact-cli create default {{beforeDir}} --name preact-app --yarn --no-install',
-    // cadence: ['ci', 'daily', 'weekly'],
-    cadence: [] as string[],
+    cadence: ['ci', 'daily', 'weekly'],
     expected: {
       framework: '@storybook/preact-webpack5',
       renderer: '@storybook/preact',
@@ -279,8 +278,7 @@ const preactWebpackTemplates = {
   'preact-webpack5/default-ts': {
     name: 'Preact CLI (Default TS)',
     script: 'npx preact-cli create typescript {{beforeDir}} --name preact-app --yarn --no-install',
-    // cadence: ['ci', 'daily', 'weekly'],
-    cadence: [] as string[],
+    cadence: ['ci', 'daily', 'weekly'],
     expected: {
       framework: '@storybook/preact-webpack5',
       renderer: '@storybook/preact',
