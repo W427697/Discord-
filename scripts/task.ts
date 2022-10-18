@@ -269,20 +269,19 @@ function writeTaskList(statusMap: Map<Task, TaskStatus>) {
 }
 
 async function runTask(task: Task, details: TemplateDetails, optionValues: PassedOptionValues) {
+  const { junitFilename } = details;
   const startTime = new Date();
   try {
     const controller = await task.run(details, optionValues);
 
-    if (details.junitFilename && !task.junit)
-      await writeJunitXml(getTaskKey(task), details.key, startTime);
+    if (junitFilename && !task.junit) await writeJunitXml(getTaskKey(task), details.key, startTime);
 
     return controller;
   } catch (err) {
-    if (details.junitFilename) await writeJunitXml(getTaskKey(task), details.key, startTime, err);
+    if (junitFilename) await writeJunitXml(getTaskKey(task), details.key, startTime, err);
 
     throw err;
   } finally {
-    const { junitFilename } = details;
     if (existsSync(junitFilename)) {
       const junitXml = await (await readFile(junitFilename)).toString();
       const prefixedXml = junitXml.replace(/classname="(.*)"/g, `classname="${details.key} $1"`);
