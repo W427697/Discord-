@@ -374,18 +374,18 @@ jobs:
   test-runner-sandboxes:
     executor:
       class: medium+
+<<<<<<< Updated upstream
       name: sb_node_16_browsers
     parallelism: 18
+=======
+      name: sb_playwright
+    parallelism: 16
+>>>>>>> Stashed changes
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: '--depth 1 --verbose'
       - attach_workspace:
           at: .
-      - run:
-          # Although playwright was downloaded as part of the build step, it is faster to re-install
-          # now that save and restore it into the cache multiple times
-          name: Download Playwright
-          command: npx playwright install
       - run:
           name: Running Test Runner
           command: yarn task --task test-runner --template $(yarn get-template ci test-runner) --no-link --start-from=never --junit
