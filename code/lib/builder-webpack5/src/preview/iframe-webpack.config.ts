@@ -122,7 +122,7 @@ export default async (
     entries.push(frameworkInitEntry);
 
     const entryTemplate = await readTemplate(
-      path.join(__dirname, '..', '..', 'virtualModuleEntry.template.js')
+      path.join(__dirname, '..', '..', 'templates', 'virtualModuleEntry.template.js')
     );
 
     previewAnnotations.forEach((previewAnnotationFilename: any) => {
