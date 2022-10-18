@@ -297,7 +297,7 @@ function addExtraDependencies({
   const extraDeps = ['@storybook/jest', '@storybook/testing-library@0.0.14-next.0'];
   if (debug) logger.log('🎁 Adding extra deps', extraDeps);
   if (!dryRun) {
-    const packageManager = JsPackageManagerFactory.getPackageManager(false, cwd);
+    const packageManager = JsPackageManagerFactory.getPackageManager({}, cwd);
     packageManager.addDependencies({ installAsDevDependencies: true }, extraDeps);
   }
 }
