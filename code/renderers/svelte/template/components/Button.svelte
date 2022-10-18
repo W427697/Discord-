@@ -19,7 +19,7 @@
   /**
    * Button contents
    */
-  export let children = '';
+  export let label = '';
 
   let mode = primary ? 'storybook-button--primary' : 'storybook-button--secondary';
 
@@ -41,5 +41,5 @@
   {style}
   on:click={onClick}
 >
-  {children}
+  {label}
 </button>
