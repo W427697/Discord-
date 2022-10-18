@@ -8375,7 +8375,6 @@ __metadata:
     nx: 14.6.1
     p-limit: ^3.1.0
     playwright: 1.27.0
-    postcss-loader: ^6.2.1
     prettier: 2.7.1
     process: ^0.11.10
     prompts: ^2.4.0
