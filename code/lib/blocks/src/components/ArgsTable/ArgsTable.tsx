@@ -3,7 +3,7 @@ import pickBy from 'lodash/pickBy';
 import { styled } from '@storybook/theming';
 import { opacify, transparentize, darken, lighten } from 'polished';
 import { includeConditionalArg } from '@storybook/csf';
-import { deprecate } from '@storybook/client-logger';
+import { once } from '@storybook/client-logger';
 import { IconButton, Icons, Link, ResetWrapper } from '@storybook/components';
 import { ArgRow } from './ArgRow';
 import { SectionRow } from './SectionRow';
@@ -353,7 +353,7 @@ const safeIncludeConditionalArg = (row: ArgType, args: Args, globals: Globals) =
   try {
     return includeConditionalArg(row, args, globals);
   } catch (err) {
-    deprecate(err.message);
+    once.warn(err.message);
     return false;
   }
 };
