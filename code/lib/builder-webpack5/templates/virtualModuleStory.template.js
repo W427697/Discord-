@@ -1,4 +1,3 @@
-/* eslint-disable import/no-unresolved */
-import { configure } from '{{frameworkName}}';
+const { configure } = require('{{frameworkName}}');
 
 configure(['{{stories}}'], module, false);
