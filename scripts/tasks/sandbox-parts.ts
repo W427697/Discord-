@@ -297,8 +297,7 @@ function addExtraDependencies({
   const extraDeps = [
     '@storybook/jest',
     '@storybook/testing-library@0.0.14-next.0',
-    // Using a fixed version to work around core-js problems
-    '@storybook/test-runner@0.8.1--canary.202.99d82aa.0',
+    '@storybook/test-runner',
   ];
   if (debug) logger.log('🎁 Adding extra deps', extraDeps);
   if (!dryRun) {
