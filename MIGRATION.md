@@ -19,10 +19,12 @@
     - [Babel mode v7 by default](#babel-mode-v7-by-default)
     - [7.0 feature flags removed](#70-feature-flags-removed)
     - [Vite builder uses vite config automatically](#vite-builder-uses-vite-config-automatically)
+    - [Vite cache moved to node_modules/.cache/.vite-storybook](#vite-cache-moved-to-node_modulescachevite-storybook)
     - [Removed docs.getContainer and getPage parameters](#removed-docsgetcontainer-and-getpage-parameters)
     - [Removed STORYBOOK_REACT_CLASSES global](#removed-storybook_react_classes-global)
     - [Icons API changed](#icons-api-changed)
     - ['config' preset entry replaced with 'previewAnnotations'](#config-preset-entry-replaced-with-previewannotations)
+    - [Dropped support for Angular 12 and below](#dropped-support-for-angular-12-and-below)
   - [Docs Changes](#docs-changes)
     - [Standalone docs files](#standalone-docs-files)
     - [Referencing stories in docs files](#referencing-stories-in-docs-files)
@@ -438,9 +440,11 @@ In 7.0, frameworks also specify the builder to be used. For example, The current
 - `@storybook/svelte-webpack5`
 - `@storybook/svelte-vite`
 - `@storybook/vue-webpack5`
+- `@storybook/vue-vite`
 - `@storybook/vue3-webpack5`
 - `@storybook/vue3-vite`
 - `@storybook/web-components-webpack5`
+- `@storybook/web-components-vite`
 
 We will be expanding this list over the course of the 7.0 development cycle. More info on the rationale here: [Frameworks RFC](https://www.notion.so/chromatic-ui/Frameworks-RFC-89f8aafe3f0941ceb4c24683859ed65c).
 
@@ -526,6 +530,10 @@ When using a [Vite-based framework](#framework-field-mandatory), Storybook will 
 Some settings will be overridden by storybook so that it can function properly, and the merged settings can be modified using `viteFinal` in `.storybook/main.js` (see the [Storybook Vite configuration docs](https://storybook.js.org/docs/react/builders/vite#configuration)).  
 If you were using `viteFinal` in 6.5 to simply merge in your project's standard vite config, you can now remove it.
 
+#### Vite cache moved to node_modules/.cache/.vite-storybook
+
+Previously, Storybook's Vite builder placed cache files in node_modules/.vite-storybook.  However, it's more common for tools to place cached files into `node_modules/.cache`, and putting them there makes it quick and easy to clear the cache for multiple tools at once.  We don't expect this change will cause any problems, but it's something that users of Storybook Vite projects should know about.  It can be configured by setting `cacheDir` in `viteFinal` within `.storybook/main.js` [Storybook Vite configuration docs](https://storybook.js.org/docs/react/builders/vite#configuration)).
+
 #### Removed docs.getContainer and getPage parameters
 
 It is no longer possible to set `parameters.docs.getContainer()` and `getPage()`. Instead use `parameters.docs.container` or `parameters.docs.page` directly.
@@ -555,11 +563,12 @@ The preset field `'config'` has been replaced with `'previewAnnotations'`. `'con
 
 Additionally, the internal field `'previewEntries'` has been removed. If you need a preview entry, just use a `'previewAnnotations'` file and don't export anything.
 
-#### Vue2 DOM structure changed
+#### Dropped support for Angular 12 and below
 
-In 6.x, `@storybook/vue` would replace the "root" element (formerly `#root`, now `#storybook-root`) with a new node that contains the rendered children. This was problematic because it broke the `play` function, which often starts with `within(canvasElement)` and the old `canvasElement` would get replaced out from under the play function.
+Official [Angular 12 LTS support ends Nov 2022](https://angular.io/guide/releases#actively-supported-versions). With that, Storybook also drops its support
+for Angular 12 and below.
 
-In 7.0, `@storybook/vue` now leaves `#storybook-root` alone, and creates a new "dummy node" called `#storybook-vue-root` beneath it. This will break DOM snapshots moving from 6.5 to 7.0, but shouldn't have any other negative effects.
+In order to use Storybook 7.0, you need to upgrade to at least Angular 13.
 
 ### Docs Changes
 
@@ -766,7 +775,7 @@ SB6.5 moves framework specializations (e.g. ArgType inference, dynamic snippet r
 
 This change should not require any specific migrations on your part if you are using the docs addon as described in the documentation. However, if you are using `react-docgen` or `react-docgen-typescript` information in some custom way outside of `addon-docs`, you should be aware of this change.
 
-In SB6.4, `@storybook/react` added `react-docgen` to its babel settings and `react-docgen-typescript` to its webpack settings. In SB6.5, this only happens if you are using `addon-docs` or `addon-controls`, either directly or indirectly through `addon-essentials`. If you're not using either of those addons, but require that information for some other addon, please configure that manually in your `.storybook/main.js` configuration. You can see the docs configuration here: https://github.com/storybookjs/storybook/blob/next/app/react/src/server/framework-preset-react-docs.ts
+In SB6.4, `@storybook/react` added `react-docgen` to its babel settings and `react-docgen-typescript` to its webpack settings. In SB6.5, this only happens if you are using `addon-docs` or `addon-controls`, either directly or indirectly through `addon-essentials`. If you're not using either of those addons, but require that information for some other addon, please configure that manually in your `.storybook/main.js` configuration. You can see the docs configuration here: https://github.com/storybookjs/storybook/blob/next/code/presets/react-webpack/src/framework-preset-react-docs.ts
 
 ### Opt-in MDX2 support
 
