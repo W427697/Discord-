@@ -1,6 +1,6 @@
 {
   "name": "@storybook/instrumenter",
-  "version": "7.0.0-alpha.34",
+  "version": "7.0.0-alpha.38",
   "description": "",
   "keywords": [
     "storybook"
@@ -20,9 +20,17 @@
   },
   "license": "MIT",
   "sideEffects": false,
-  "main": "dist/cjs/index.js",
-  "module": "dist/esm/index.js",
-  "types": "dist/types/index.d.ts",
+  "exports": {
+    ".": {
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.ts"
+    },
+    "./package.json": "./package.json"
+  },
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
   "files": [
     "dist/**/*",
     "README.md",
@@ -31,13 +39,13 @@
   ],
   "scripts": {
     "check": "../../../scripts/node_modules/.bin/tsc --noEmit",
-    "prep": "node ../../../scripts/prepare.js"
+    "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/addon-highlight": "7.0.0-alpha.34",
-    "@storybook/addons": "7.0.0-alpha.34",
-    "@storybook/client-logger": "7.0.0-alpha.34",
-    "@storybook/core-events": "7.0.0-alpha.34",
+    "@storybook/addon-highlight": "7.0.0-alpha.38",
+    "@storybook/addons": "7.0.0-alpha.38",
+    "@storybook/client-logger": "7.0.0-alpha.38",
+    "@storybook/core-events": "7.0.0-alpha.38",
     "core-js": "^3.8.2",
     "css-selector-generator": "^3.5.4",
     "global": "^4.4.0"
@@ -48,5 +56,10 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "fc90fc875462421c1faa35862ac4bc436de8e75f"
+  "bundler": {
+    "entries": [
+      "./src/index.ts"
+    ]
+  },
+  "gitHead": "438114fcf62a763f0e8c07e2c34890dd987ca431"
 }

@@ -1,16 +1,19 @@
+// @ts-expect-error (TODO)
 import { getNameFromFilename } from '@storybook/addon-svelte-csf/dist/cjs/parser/svelte-stories-loader';
 import { readFileSync } from 'fs';
+// @ts-expect-error (TODO)
 import { extractStories } from '@storybook/addon-svelte-csf/dist/cjs/parser/extract-stories';
 import type { Options } from '@sveltejs/vite-plugin-svelte';
 import * as svelte from 'svelte/compiler';
 import MagicString from 'magic-string';
 import { createFilter } from 'vite';
+import type { PluginOption } from 'vite';
 
 const parser = require
   .resolve('@storybook/addon-svelte-csf/dist/esm/parser/collect-stories')
   .replace(/[/\\]/g, '/');
 
-export default function csfPlugin(svelteOptions?: Options) {
+export default function csfPlugin(svelteOptions?: Options): PluginOption {
   const include = /\.stories\.svelte$/;
   const filter = createFilter(include);
 
