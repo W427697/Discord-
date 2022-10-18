@@ -7299,7 +7299,7 @@ __metadata:
     envinfo: ^7.7.3
     execa: ^5.0.0
     express: ^4.17.1
-    fdir: ^5.2.1
+    fdir: ^5.3.0
     find-up: ^5.0.0
     fs-extra: ^9.0.1
     get-port: ^5.1.1
@@ -7373,7 +7373,7 @@ __metadata:
     "@storybook/csf-tools": 7.0.0-alpha.38
     "@storybook/node-logger": 7.0.0-alpha.38
     cross-spawn: ^7.0.3
-    fdir: ^5.2.1
+    fdir: ^5.3.0
     jest: ^26.6.3
     jest-specific-snapshot: ^4.0.0
     jscodeshift: ^0.13.1
@@ -7531,7 +7531,7 @@ __metadata:
     compression: ^1.7.4
     detect-port: ^1.3.0
     express: ^4.17.1
-    fdir: ^5.2.1
+    fdir: ^5.3.0
     fs-extra: ^9.0.1
     global: ^4.4.0
     ip: ^2.0.0
@@ -19985,15 +19985,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fdir@npm:^5.2.1":
-  version: 5.2.1
-  resolution: "fdir@npm:5.2.1"
+"fdir@npm:^5.3.0":
+  version: 5.3.0
+  resolution: "fdir@npm:5.3.0"
   peerDependencies:
     picomatch: 2.x
   peerDependenciesMeta:
     picomatch:
       optional: true
-  checksum: 636e68cec8c41125023d17df444d66da65dd2e06a140b1e69fdf0b0992d90db9e00db91a9e8da1f52f4efab5f687942da84132902ad7df18b6ee2e349bcfb15a
+  checksum: 01231df0cd72f5cd3f75e56779369a3525d03afaf67225cc239db9ddeb5b6e39cb42b1ed3fd85231eb468f1fc141fe83737847387545fc5b3270c6679fcc58ea
   languageName: node
   linkType: hard
 

@@ -91,11 +91,10 @@ export class StoryIndexGenerator {
         const pathToSubIndex = {} as SpecifierStoriesCache;
 
         const files = (await new FDir()
-          .withFullPaths()
-          .glob(slash(path.join(this.options.workingDir, specifier.directory, specifier.files)))
+          .withSymlinks()
+          .glob(slash(specifier.files))
           .crawl(slash(path.join(this.options.workingDir, specifier.directory)))
           .withPromise()) as string[];
-
         files.sort().forEach((absolutePath: Path) => {
           const ext = path.extname(absolutePath);
           if (ext === '.storyshot') {
