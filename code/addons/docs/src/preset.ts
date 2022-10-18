@@ -48,7 +48,7 @@ export async function webpack(
       typeof createCompiler
     >[0] */
 ) {
-  const resolvedBabelLoader = require.resolve('babel-loader');
+  const resolvedBabelLoader = await options.presets.apply('babelLoaderRef');
 
   const { module = {} } = webpackConfig;
 

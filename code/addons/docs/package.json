@@ -82,20 +82,15 @@
     "@babel/core": "^7.12.10",
     "@storybook/mdx2-csf": "0.0.4-canary.14.04ffbe8.0",
     "@types/util-deprecate": "^1.0.0",
-    "babel-loader": "^8.2.5",
     "typescript": "~4.6.3"
   },
   "peerDependencies": {
     "@storybook/mdx2-csf": "0.0.4-canary.14.04ffbe8.0",
-    "babel-loader": "^8.2.5",
     "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
     "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0"
   },
   "peerDependenciesMeta": {
     "@storybook/mdx2-csf": {
-      "optional": true
-    },
-    "babel-loader": {
       "optional": true
     },
     "react": {

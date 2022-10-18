@@ -6478,7 +6478,6 @@ __metadata:
     "@storybook/store": 7.0.0-alpha.38
     "@storybook/theming": 7.0.0-alpha.38
     "@types/util-deprecate": ^1.0.0
-    babel-loader: ^8.2.5
     dequal: ^2.0.2
     fs-extra: ^9.0.1
     global: ^4.4.0
@@ -6490,13 +6489,10 @@ __metadata:
     util-deprecate: ^1.0.2
   peerDependencies:
     "@storybook/mdx2-csf": 0.0.4-canary.14.04ffbe8.0
-    babel-loader: ^8.2.5
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
   peerDependenciesMeta:
     "@storybook/mdx2-csf":
-      optional: true
-    babel-loader:
       optional: true
     react:
       optional: true
