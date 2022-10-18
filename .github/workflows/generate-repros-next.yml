@@ -8,7 +8,6 @@ on:
   push:
     branches:
       - vite-frameworks-xyz
-      - jeppe/sb-544-sveltekit-follow-up
 
 jobs:
   generate:
