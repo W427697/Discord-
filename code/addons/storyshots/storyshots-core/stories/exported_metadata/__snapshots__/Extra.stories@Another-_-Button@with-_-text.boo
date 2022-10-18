@@ -1,10 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Storyshots Welcome to Storybook 1`] = `
+exports[`Storyshots Another Button with text 1`] = `
 <button
   onClick={[Function]}
-  type="button"
 >
-  Welcome
+  Hello button
 </button>
 `;

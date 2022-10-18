@@ -269,18 +269,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@angular/elements@npm:^13.3.6":
-  version: 13.3.11
-  resolution: "@angular/elements@npm:13.3.11"
-  dependencies:
-    tslib: ^2.3.0
-  peerDependencies:
-    "@angular/core": 13.3.11
-    rxjs: ^6.5.3 || ^7.4.0
-  checksum: def63b21cf25a6733964b190cb6e878df3eed5eb2d50beba0f138a55b8ccf458734464356de4d943bbcb58bbfcd1b13433632271a7055d2d3cb9165302d64f8e
-  languageName: node
-  linkType: hard
-
 "@angular/forms@npm:^13.3.6":
   version: 13.3.11
   resolution: "@angular/forms@npm:13.3.11"
@@ -6867,7 +6855,6 @@ __metadata:
     "@angular/compiler": ^13.3.6
     "@angular/compiler-cli": ^13.3.6
     "@angular/core": ^13.3.6
-    "@angular/elements": ^13.3.6
     "@angular/forms": ^13.3.6
     "@angular/platform-browser": ^13.3.6
     "@angular/platform-browser-dynamic": ^13.3.6
@@ -6880,40 +6867,30 @@ __metadata:
     "@storybook/core-common": 7.0.0-alpha.38
     "@storybook/core-events": 7.0.0-alpha.38
     "@storybook/core-server": 7.0.0-alpha.38
+    "@storybook/core-webpack": 7.0.0-alpha.38
     "@storybook/csf": 0.0.2--canary.49.258942b.0
     "@storybook/docs-tools": 7.0.0-alpha.38
     "@storybook/node-logger": 7.0.0-alpha.38
     "@storybook/store": 7.0.0-alpha.38
-    "@types/autoprefixer": ^9.7.2
     "@types/node": ^16.0.0
     "@types/react": ^16.14.23
     "@types/react-dom": ^16.9.14
     "@types/semver": ^7.3.4
     "@types/tmp": ^0.2.3
-    "@types/webpack-env": ^1.16.0
-    autoprefixer: ^9.8.6
     core-js: ^3.8.2
     cross-spawn: ^7.0.3
     find-up: ^5.0.0
-    fork-ts-checker-webpack-plugin: ^7.2.6
     global: ^4.4.0
     jest: ^27.5.1
     jest-preset-angular: ^12.0.0
     jest-specific-snapshot: ^5.0.0
-    nanoid: ^3.1.23
-    p-limit: ^3.1.0
-    postcss: ^7.0.36
-    postcss-loader: ^6.2.1
-    raw-loader: ^4.0.2
     react: ^16.14.0
     react-dom: ^16.14.0
     read-pkg-up: ^7.0.1
-    sass-loader: ^12.6.0
     semver: ^7.3.7
     telejson: ^6.0.8
     tmp: ^0.2.1
     ts-dedent: ^2.0.0
-    ts-loader: ^9.2.8
     tsconfig-paths-webpack-plugin: ^3.5.2
     typescript: ~4.6.3
     util-deprecate: ^1.0.2
@@ -7219,6 +7196,7 @@ __metadata:
     commander: ^6.2.1
     cross-spawn: ^7.0.3
     degit: ^2.8.4
+    detect-indent: ^6.1.0
     envinfo: ^7.7.3
     execa: ^5.0.0
     express: ^4.17.1
@@ -7559,6 +7537,7 @@ __metadata:
   resolution: "@storybook/docs-tools@workspace:lib/docs-tools"
   dependencies:
     "@babel/core": ^7.12.10
+    "@storybook/core-common": 7.0.0-alpha.38
     "@storybook/csf": 0.0.2--canary.49.258942b.0
     "@storybook/store": 7.0.0-alpha.38
     doctrine: ^3.0.0
@@ -9148,16 +9127,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/autoprefixer@npm:^9.7.2":
-  version: 9.7.2
-  resolution: "@types/autoprefixer@npm:9.7.2"
-  dependencies:
-    "@types/browserslist": "*"
-    postcss: 7.x.x
-  checksum: da38f831d092203c37a4511754a40e2b6f926d75248285f2de3770f6cd552853de459f36c6277377e62f44ff74ba1fe0cd29343f8b75639c9a8ddda96464ea39
-  languageName: node
-  linkType: hard
-
 "@types/babel__core@npm:^7.0.0, @types/babel__core@npm:^7.1.14, @types/babel__core@npm:^7.1.7":
   version: 7.1.19
   resolution: "@types/babel__core@npm:7.1.19"
@@ -9222,13 +9191,6 @@ __metadata:
   dependencies:
     "@types/node": "*"
   checksum: 5a3d70695a8dfe79c020579fcbf18d7dbb89b8f061dd388c76b68c4797c0fccd71f3e8a9e2bea00afffdb9b37a49dd0ac0a192829d5b655a5b49c66f313a7be8
-  languageName: node
-  linkType: hard
-
-"@types/browserslist@npm:*":
-  version: 4.8.0
-  resolution: "@types/browserslist@npm:4.8.0"
-  checksum: 827982532ee80cfc58405e04eba7e310dd98ba107274c3c058dfdcddcb924e209ffee59ee18846d45005d2a6515b62310328e1c29ec826c2ba3c82cb567c769c
   languageName: node
   linkType: hard
 
@@ -12219,23 +12181,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"autoprefixer@npm:^9.8.6":
-  version: 9.8.8
-  resolution: "autoprefixer@npm:9.8.8"
-  dependencies:
-    browserslist: ^4.12.0
-    caniuse-lite: ^1.0.30001109
-    normalize-range: ^0.1.2
-    num2fraction: ^1.2.2
-    picocolors: ^0.2.1
-    postcss: ^7.0.32
-    postcss-value-parser: ^4.1.0
-  bin:
-    autoprefixer: bin/autoprefixer
-  checksum: 9b2688cd0ef7252ae1a565ca935a83ddd5c38b9b4c7bf895f36d88e91dbc36d2e7ccb2d34270e436498d8f372d7320a83af6ceb5d1c3bff8f8cbeb6ff33ac837
-  languageName: node
-  linkType: hard
-
 "available-typed-arrays@npm:^1.0.5":
   version: 1.0.5
   resolution: "available-typed-arrays@npm:1.0.5"
@@ -13720,7 +13665,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"browserslist@npm:^4.12.0, browserslist@npm:^4.14.5, browserslist@npm:^4.19.1, browserslist@npm:^4.21.3, browserslist@npm:^4.21.4, browserslist@npm:^4.6.6, browserslist@npm:^4.9.1":
+"browserslist@npm:^4.14.5, browserslist@npm:^4.19.1, browserslist@npm:^4.21.3, browserslist@npm:^4.21.4, browserslist@npm:^4.6.6, browserslist@npm:^4.9.1":
   version: 4.21.4
   resolution: "browserslist@npm:4.21.4"
   dependencies:
@@ -14208,7 +14153,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"caniuse-lite@npm:^1.0.30001109, caniuse-lite@npm:^1.0.30001299, caniuse-lite@npm:^1.0.30001400, caniuse-lite@npm:^1.0.30001406, caniuse-lite@npm:^1.0.30001407":
+"caniuse-lite@npm:^1.0.30001299, caniuse-lite@npm:^1.0.30001400, caniuse-lite@npm:^1.0.30001406, caniuse-lite@npm:^1.0.30001407":
   version: 1.0.30001418
   resolution: "caniuse-lite@npm:1.0.30001418"
   checksum: 0b7165f1ea0d232676d339af875038b75af2d025ee67f1651b46ab78db1bb12021875c3fa4e533e1fa1febf373d1858672f1038426ca4a1b240138bad3297ec5
@@ -16574,7 +16519,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"detect-indent@npm:^6.0.0":
+"detect-indent@npm:^6.0.0, detect-indent@npm:^6.1.0":
   version: 6.1.0
   resolution: "detect-indent@npm:6.1.0"
   checksum: dd83cdeda9af219cf77f5e9a0dc31d828c045337386cfb55ce04fad94ba872ee7957336834154f7647b89b899c3c7acc977c57a79b7c776b506240993f97acc7
@@ -20359,7 +20304,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fork-ts-checker-webpack-plugin@npm:^7.2.6, fork-ts-checker-webpack-plugin@npm:^7.2.8":
+"fork-ts-checker-webpack-plugin@npm:^7.2.8":
   version: 7.2.13
   resolution: "fork-ts-checker-webpack-plugin@npm:7.2.13"
   dependencies:
@@ -29566,7 +29511,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"nanoid@npm:^3.1.23, nanoid@npm:^3.1.30, nanoid@npm:^3.3.1, nanoid@npm:^3.3.4":
+"nanoid@npm:^3.1.30, nanoid@npm:^3.3.1, nanoid@npm:^3.3.4":
   version: 3.3.4
   resolution: "nanoid@npm:3.3.4"
   bin:
@@ -30420,13 +30365,6 @@ __metadata:
   version: 1.1.1
   resolution: "nullthrows@npm:1.1.1"
   checksum: 56f34bd7c3dcb3bd23481a277fa22918120459d3e9d95ca72976c72e9cac33a97483f0b95fc420e2eb546b9fe6db398273aba9a938650cdb8c98ee8f159dcb30
-  languageName: node
-  linkType: hard
-
-"num2fraction@npm:^1.2.2":
-  version: 1.2.2
-  resolution: "num2fraction@npm:1.2.2"
-  checksum: 3bf17b44af00508a2b0370146629710645c3e3ff3c052893680efe3f4a6ff5c953ce9e54734013b02b35744a49352d54fbc5d8b455fac979047ef17dd8ec74bd
   languageName: node
   linkType: hard
 
@@ -32349,16 +32287,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"postcss@npm:7.x.x, postcss@npm:^7.0.14, postcss@npm:^7.0.32, postcss@npm:^7.0.36, postcss@npm:^7.0.5, postcss@npm:^7.0.6":
-  version: 7.0.39
-  resolution: "postcss@npm:7.0.39"
-  dependencies:
-    picocolors: ^0.2.1
-    source-map: ^0.6.1
-  checksum: fd27ee808c0d02407582cccfad4729033e2b439d56cd45534fb39aaad308bb35a290f3b7db5f2394980e8756f9381b458a625618550808c5ff01a125f51efc53
-  languageName: node
-  linkType: hard
-
 "postcss@npm:8.4.14":
   version: 8.4.14
   resolution: "postcss@npm:8.4.14"
@@ -32378,6 +32306,16 @@ __metadata:
     picocolors: ^1.0.0
     source-map-js: ^1.0.1
   checksum: e019240473575fc39d6ec38bfa748250c302dacdf3b1660df5f736c6d0279d067e0a4dd6aae2bf0999a0a687fe77ef7a887d550fdf91eeccf9e67dda969ea716
+  languageName: node
+  linkType: hard
+
+"postcss@npm:^7.0.14, postcss@npm:^7.0.32, postcss@npm:^7.0.36, postcss@npm:^7.0.5, postcss@npm:^7.0.6":
+  version: 7.0.39
+  resolution: "postcss@npm:7.0.39"
+  dependencies:
+    picocolors: ^0.2.1
+    source-map: ^0.6.1
+  checksum: fd27ee808c0d02407582cccfad4729033e2b439d56cd45534fb39aaad308bb35a290f3b7db5f2394980e8756f9381b458a625618550808c5ff01a125f51efc53
   languageName: node
   linkType: hard
 
@@ -35446,31 +35384,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"sass-loader@npm:^12.6.0":
-  version: 12.6.0
-  resolution: "sass-loader@npm:12.6.0"
-  dependencies:
-    klona: ^2.0.4
-    neo-async: ^2.6.2
-  peerDependencies:
-    fibers: ">= 3.1.0"
-    node-sass: ^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0
-    sass: ^1.3.0
-    sass-embedded: "*"
-    webpack: ^5.0.0
-  peerDependenciesMeta:
-    fibers:
-      optional: true
-    node-sass:
-      optional: true
-    sass:
-      optional: true
-    sass-embedded:
-      optional: true
-  checksum: e1ef655f3898cc4c45f02b3c627f8baf998139993a9a79c524153a80814282bfe20d8d8d703b8cf1d05457c1930940b65e2156d11285ed0861f9a1016f993e53
-  languageName: node
-  linkType: hard
-
 "sass@npm:1.49.9":
   version: 1.49.9
   resolution: "sass@npm:1.49.9"
@@ -37497,6 +37410,7 @@ __metadata:
     "@storybook/svelte-webpack5": 7.0.0-alpha.38
     "@storybook/testing-library": 0.0.14-next.0
     global: ^4.4.0
+    raw-loader: ^4.0.2
     storybook: 7.0.0-alpha.38
     svelte-jester: ^2.3.2
     svelte-preprocess: ^4.10.6

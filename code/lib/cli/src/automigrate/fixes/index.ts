@@ -8,9 +8,11 @@ import { builderVite } from './builder-vite';
 import { npm7 } from './npm7';
 import { sbScripts } from './sb-scripts';
 import { newFrameworks } from './new-frameworks';
+import { removedGlobalClientAPIs } from './remove-global-client-apis';
 import { Fix } from '../types';
 
 export * from '../types';
+
 export const fixes: Fix[] = [
   cra5,
   webpack5,
@@ -22,4 +24,5 @@ export const fixes: Fix[] = [
   npm7,
   sbScripts,
   newFrameworks,
+  removedGlobalClientAPIs,
 ];

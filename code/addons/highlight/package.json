@@ -58,14 +58,14 @@
     "@types/webpack-env": "^1.16.0",
     "typescript": "~4.6.3"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "bundler": {
     "entries": [
       "./src/index.ts",
       "./src/highlight.ts"
     ]
-  },
-  "publishConfig": {
-    "access": "public"
   },
   "gitHead": "438114fcf62a763f0e8c07e2c34890dd987ca431",
   "sbmodern": "dist/modern/index.js",
