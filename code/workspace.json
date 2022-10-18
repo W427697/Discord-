@@ -362,7 +362,7 @@
       "implicitDependencies": []
     },
     "@storybook/ui": {
-      "root": "lib/ui",
+      "root": "ui/manager",
       "type": "library",
       "implicitDependencies": []
     },
@@ -413,11 +413,6 @@
     },
     "ember-example": {
       "root": "examples/ember-cli",
-      "type": "library",
-      "implicitDependencies": []
-    },
-    "preact-example": {
-      "root": "examples/preact-kitchen-sink",
       "type": "library",
       "implicitDependencies": []
     },
