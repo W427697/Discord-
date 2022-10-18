@@ -21,7 +21,7 @@ const run = async () => {
 
   if (!semver.valid(updatedVersion)) throw new Error(`Invalid version: ${updatedVersion}`);
 
-  const storybookPackagesPaths = glob.sync();
+  const storybookPackagesPaths = await glob.withPromise();
 
   const packageToVersionMap = (
     await Promise.all(

@@ -73,11 +73,11 @@ export function watchStorySpecifiers(
               // because the directory could already be within the files part (e.g. './x/foo/bar')
               path.basename(specifier.files)
             );
-            const files = new FDir()
+            const files = (await new FDir()
               .withFullPaths()
               .glob(globPattern)
               .crawl(globDir)
-              .sync() as string[];
+              .withPromise()) as string[];
 
             files.forEach((filePath) => {
               const fileImportPath = toImportPath(

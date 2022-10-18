@@ -53,12 +53,12 @@ export async function runCodemod(codemod, { glob, logger, dryRun, rename, parser
     if (knownParser !== 'babel') inferredParser = extension;
   }
 
-  const files = new FDir()
+  const files = await new FDir()
     .withFullPaths()
     .glob(glob)
     .exclude((p) => p.includes('/node_modules') || p.includes('/dist'))
     .crawl(process.cwd())
-    .sync();
+    .withPromise();
   logger.log(`=> Applying ${codemod}: ${files.length} files`);
   if (!dryRun) {
     const parserArgs = inferredParser ? ['--parser', inferredParser] : [];
