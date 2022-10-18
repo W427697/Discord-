@@ -374,7 +374,7 @@ jobs:
   test-runner-sandboxes:
     executor:
       class: medium+
-      name: sb_node_16_browsers
+      name: sb_playwright
     parallelism: 18
     steps:
       - git-shallow-clone/checkout_advanced:
