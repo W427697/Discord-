@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import 'jest-specific-snapshot';
 import path from 'path';
 import { mkdtemp as mkdtempCb } from 'fs';
