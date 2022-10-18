@@ -7295,6 +7295,7 @@ __metadata:
     commander: ^6.2.1
     cross-spawn: ^7.0.3
     degit: ^2.8.4
+    detect-indent: ^6.1.0
     envinfo: ^7.7.3
     execa: ^5.0.0
     express: ^4.17.1
@@ -16699,7 +16700,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"detect-indent@npm:^6.0.0":
+"detect-indent@npm:^6.0.0, detect-indent@npm:^6.1.0":
   version: 6.1.0
   resolution: "detect-indent@npm:6.1.0"
   checksum: dd83cdeda9af219cf77f5e9a0dc31d828c045337386cfb55ce04fad94ba872ee7957336834154f7647b89b899c3c7acc977c57a79b7c776b506240993f97acc7
@@ -39181,7 +39182,7 @@ __metadata:
 
 "typescript@patch:typescript@npm%3A~4.6.3#~builtin<compat/typescript>":
   version: 4.6.4
-  resolution: "typescript@patch:typescript@npm%3A4.6.4#~builtin<compat/typescript>::version=4.6.4&hash=a1c5e5"
+  resolution: "typescript@patch:typescript@npm%3A4.6.4#~builtin<compat/typescript>::version=4.6.4&hash=701156"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
