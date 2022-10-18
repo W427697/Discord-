@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import 'jest-specific-snapshot';
 import path from 'path';
 import { mkdtemp as mkdtempCb } from 'fs';
@@ -26,23 +27,15 @@ const { packageJson } = readUpSync({ cwd: __dirname });
 jest.setTimeout(10000);
 
 // FIXME: this doesn't work
-const skipStoriesJsonPreset = [{ features: { buildStoriesJson: false, storyStoreV7: false } }];
 
-jest.mock('@storybook/builder-webpack5', () => {
+jest.mock('webpack', () => {
   const value = jest.fn(() => false);
-  const actualBuilder = jest.requireActual('@storybook/builder-webpack5');
-  // MUTATION! we couldn't mock webpack5, so we added a level of indirection instead
-  actualBuilder.executor.get = () => value;
-  actualBuilder.overridePresets = [...actualBuilder.overridePresets, skipStoriesJsonPreset];
-  return actualBuilder;
-});
+  const actual = jest.requireActual('webpack');
 
-jest.mock('@storybook/builder-manager', () => {
-  const value = jest.fn();
-  const actualBuilder = jest.requireActual('@storybook/builder-manager');
-  // MUTATION!
-  actualBuilder.executor.get = () => value;
-  return actualBuilder;
+  Object.keys(actual).forEach((key) => {
+    value[key] = actual[key];
+  });
+  return value;
 });
 
 jest.mock('@storybook/telemetry', () => ({
@@ -51,14 +44,15 @@ jest.mock('@storybook/telemetry', () => ({
 }));
 jest.mock('fs-extra', () => ({
   copy: jest.fn(() => undefined),
-  writeFile: jest.fn(() => undefined),
-  readFile: jest.fn((f) => ''),
   emptyDir: jest.fn(() => undefined),
-  ensureDir: jest.fn(() => undefined),
-  writeJSON: jest.fn(() => undefined),
-  remove: jest.fn(() => undefined),
-  readJSON: jest.fn(() => ({})),
+  ensureDir: jest.fn(() => true),
+  ensureFile: jest.fn(() => undefined),
   pathExists: jest.fn(() => true),
+  readFile: jest.fn((f) => ''),
+  readJSON: jest.fn(() => ({})),
+  remove: jest.fn(() => undefined),
+  writeFile: jest.fn(() => undefined),
+  writeJSON: jest.fn(() => undefined),
 }));
 
 jest.mock('./utils/StoryIndexGenerator', () => {

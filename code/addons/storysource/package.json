@@ -81,15 +81,15 @@
       "optional": true
     }
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "bundler": {
     "entries": [
       "./src/index.ts",
       "./src/manager.tsx",
       "./src/preset.ts"
     ]
-  },
-  "publishConfig": {
-    "access": "public"
   },
   "gitHead": "47386bd49d141ea70daac41ab3e4d52749fc5da9",
   "storybook": {
