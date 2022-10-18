@@ -81,9 +81,6 @@
       "optional": true
     }
   },
-  "publishConfig": {
-    "access": "public"
-  },
   "bundler": {
     "entries": [
       "./src/index.ts",
@@ -91,7 +88,10 @@
       "./src/preset.ts"
     ]
   },
-  "gitHead": "438114fcf62a763f0e8c07e2c34890dd987ca431",
+  "publishConfig": {
+    "access": "public"
+  },
+  "gitHead": "47386bd49d141ea70daac41ab3e4d52749fc5da9",
   "storybook": {
     "displayName": "Storysource",
     "icon": "https://user-images.githubusercontent.com/263385/101991675-48cdf300-3c7c-11eb-9400-58de5ac6daa7.png",
