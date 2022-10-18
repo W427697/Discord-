@@ -6457,7 +6457,6 @@ __metadata:
   dependencies:
     "@babel/core": ^7.12.10
     "@babel/plugin-transform-react-jsx": ^7.12.12
-    "@babel/preset-env": ^7.12.11
     "@jest/transform": ^26.6.2
     "@mdx-js/react": ^1.6.22
     "@storybook/addons": 7.0.0-alpha.38
@@ -6478,11 +6477,9 @@ __metadata:
     "@storybook/store": 7.0.0-alpha.38
     "@storybook/theming": 7.0.0-alpha.38
     "@types/util-deprecate": ^1.0.0
-    babel-loader: ^8.2.5
     dequal: ^2.0.2
     fs-extra: ^9.0.1
     global: ^4.4.0
-    lodash: ^4.17.21
     remark-external-links: ^8.0.0
     remark-slug: ^6.0.0
     ts-dedent: ^2.0.0
@@ -8970,6 +8967,9 @@ __metadata:
     "@babel/core": "*"
     babel-loader: ^7.0.0 || ^8.0.0
     vue: ^3.0.0
+  peerDependenciesMeta:
+    babel-loader:
+      optional: true
   languageName: unknown
   linkType: soft
 
@@ -8994,6 +8994,9 @@ __metadata:
     babel-loader: ^7.0.0 || ^8.0.0
     css-loader: "*"
     vue: ^2.6.8
+  peerDependenciesMeta:
+    babel-loader:
+      optional: true
   languageName: unknown
   linkType: soft
 
