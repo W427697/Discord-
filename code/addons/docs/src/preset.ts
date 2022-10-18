@@ -26,9 +26,6 @@ function createBabelOptions({ babelOptions, mdxBabelOptions, configureJSX }: Bab
     return true;
   });
 
-  console.log(babelPlugins);
-  console.log(filteredBabelPlugins);
-
   const jsxPlugin = [
     require.resolve('@babel/plugin-transform-react-jsx'),
     { pragma: 'React.createElement', pragmaFrag: 'React.Fragment' },
