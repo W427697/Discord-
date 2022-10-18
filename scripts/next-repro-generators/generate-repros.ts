@@ -4,7 +4,7 @@ import { command } from 'execa';
 import type { Options as ExecaOptions } from 'execa';
 import pLimit from 'p-limit';
 import prettyTime from 'pretty-hrtime';
-import { copy, emptyDir, ensureDir, move, rename, writeFile } from 'fs-extra';
+import { copy, emptyDir, ensureDir, move, remove, rename, writeFile } from 'fs-extra';
 import { program } from 'commander';
 import { AbortController } from 'node-abort-controller';
 import { directory } from 'tempy';
@@ -153,6 +153,9 @@ const runGenerators = async (
 
         // Now move the created before dir into it's final location and add storybook
         await move(createBeforeDir, beforeDir);
+
+        // Make sure there are no git projects in the folder
+        await remove(join(beforeDir, '.git'));
 
         await addStorybook(baseDir, localRegistry, flags);
 
