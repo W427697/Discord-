@@ -47,3 +47,5 @@ once.verbose = once('verbose');
 once.info = once('info');
 once.warn = once('warn');
 once.error = once('error');
+
+export const deprecate = once('warn');

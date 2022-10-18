@@ -3,6 +3,7 @@
 - [From version 6.5.x to 7.0.0](#from-version-65x-to-700)
   - [Alpha release notes](#alpha-release-notes)
   - [Breaking changes](#breaking-changes)
+    - [register.js removed](#registerjs-removed)
     - [`Story` type change to `StoryFn`, and the new `Story` type now refers to `StoryObj`](#story-type-change-to-storyfn-and-the-new-story-type-now-refers-to-storyobj)
     - [Change of root html IDs](#change-of-root-html-ids)
     - [No more default export from `@storybook/addons`](#no-more-default-export-from-storybookaddons)
@@ -18,6 +19,7 @@
     - [Docs modern inline rendering by default](#docs-modern-inline-rendering-by-default)
     - [Babel mode v7 by default](#babel-mode-v7-by-default)
     - [7.0 feature flags removed](#70-feature-flags-removed)
+    - [CLI option `--use-npm` deprecated](#cli-option---use-npm-deprecated)
     - [Vite builder uses vite config automatically](#vite-builder-uses-vite-config-automatically)
     - [Vite cache moved to node_modules/.cache/.vite-storybook](#vite-cache-moved-to-node_modulescachevite-storybook)
     - [Removed docs.getContainer and getPage parameters](#removed-docsgetcontainer-and-getpage-parameters)
@@ -25,6 +27,9 @@
     - [Icons API changed](#icons-api-changed)
     - ['config' preset entry replaced with 'previewAnnotations'](#config-preset-entry-replaced-with-previewannotations)
     - [Dropped support for Angular 12 and below](#dropped-support-for-angular-12-and-below)
+    - [Addon-backgrounds: Removed deprecated grid parameter](#addon-backgrounds-removed-deprecated-grid-parameter)
+    - [Addon-docs: Removed deprecated blocks.js entry](#addon-docs-removed-deprecated-blocksjs-entry)
+    - [Addon-a11y: Removed deprecated withA11y decorator](#addon-a11y-removed-deprecated-witha11y-decorator)
   - [Docs Changes](#docs-changes)
     - [Standalone docs files](#standalone-docs-files)
     - [Referencing stories in docs files](#referencing-stories-in-docs-files)
@@ -242,6 +247,14 @@ In the meantime, these migration notes are the best available documentation on t
 
 ### Breaking changes
 
+#### register.js removed
+
+In SB 6.x and earlier, addons exported a `register.js` entry point by convention, and users would import this in `.storybook/manager.js`. This was [deprecated in SB 6.5](#deprecated-registerjs)
+
+In 7.0, most of Storybook's addons now export a `manager.js` entry point, which is automatically registered in Storybook's manager when the addon is listed in `.storybook/main.js`'s `addons` field.
+
+If your `.manager.js` config references `register.js` of any of the following addons, you can remove it: `a11y`, `actions`, `backgrounds`, `controls`, `interactions`, `jest`, `links`, `measure`, `outline`, `toolbars`, `viewport`.
+
 #### `Story` type change to `StoryFn`, and the new `Story` type now refers to `StoryObj`
 
 In 6.x you were able to do this:
@@ -414,7 +427,7 @@ If you are running into errors, you can upgrade your project to Webpack5 or you 
 To upgrade:
 
 - If you're configuring webpack directly, see the Webpack5 [release announcement](https://webpack.js.org/blog/2020-10-10-webpack-5-release/) and [migration guide](https://webpack.js.org/migrate/5).
-- If you're using Create React App, see the [migration notes](https://github.com/facebook/create-react-app/blob/main/CHANGELOG.md#migrating-from-40x-to-500) to ugprade from V4 (Webpack4) to 5
+- If you're using Create React App, see the [migration notes](https://github.com/facebook/create-react-app/blob/main/CHANGELOG.md#migrating-from-40x-to-500) to upgrade from V4 (Webpack4) to 5
 
 During the 7.0 dev cycle we will be updating this section with useful resources as we run across them.
 
@@ -524,6 +537,10 @@ In 7.0 we've removed the following feature flags:
 | `emotionAlias`      | This flag is no longer needed and should be deleted. |
 | `breakingChangesV7` | This flag is no longer needed and should be deleted. |
 
+#### CLI option `--use-npm` deprecated
+
+With increased support for more package managers (pnpm), we have introduced the `--package-manager` CLI option.  Please use `--package-manager=npm` to force NPM to be used to install dependencies when running Storybook CLI commands.  Other valid options are `pnpm`, `yarn1`, and `yarn2` (`yarn2` is for versions 2 and higher).
+
 #### Vite builder uses vite config automatically
 
 When using a [Vite-based framework](#framework-field-mandatory), Storybook will automatically use your `vite.config.(ctm)js` config file starting in 7.0.  
@@ -569,6 +586,18 @@ Official [Angular 12 LTS support ends Nov 2022](https://angular.io/guide/release
 for Angular 12 and below.
 
 In order to use Storybook 7.0, you need to upgrade to at least Angular 13.
+
+#### Addon-backgrounds: Removed deprecated grid parameter
+
+Starting in 7.0 the `grid.cellSize` parameter should now be `backgrounds.grid.cellSize`. This was [deprecated in SB 6.1](#deprecated-grid-parameter).
+
+#### Addon-docs: Removed deprecated blocks.js entry
+
+Removed `@storybook/addon-docs/blocks` entry. Import directly from `@storybook/addon-docs` instead. This was [deprecated in SB 6.3](#deprecated-scoped-blocks-imports).
+
+#### Addon-a11y: Removed deprecated withA11y decorator
+
+We removed the deprecated `withA11y` decorator. This was [deprecated in 6.0](#removed-witha11y-decorator)
 
 ### Docs Changes
 

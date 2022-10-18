@@ -25,7 +25,7 @@ import preactGenerator from './generators/PREACT';
 import svelteGenerator from './generators/SVELTE';
 import raxGenerator from './generators/RAX';
 import serverGenerator from './generators/SERVER';
-import { JsPackageManagerFactory, JsPackageManager } from './js-package-manager';
+import { JsPackageManagerFactory, JsPackageManager, useNpmWarning } from './js-package-manager';
 import { NpmOptions } from './NpmOptions';
 import { automigrate } from './automigrate';
 import { CommandOptions } from './generators/types';
@@ -220,7 +220,7 @@ const installStorybook = (
 };
 
 const projectTypeInquirer = async (
-  options: { yes?: boolean },
+  options: CommandOptions & { yes?: boolean },
   packageManager: JsPackageManager
 ) => {
   const manualAnswer = options.yes
@@ -251,7 +251,11 @@ const projectTypeInquirer = async (
 };
 
 export async function initiate(options: CommandOptions, pkg: Package): Promise<void> {
-  const packageManager = JsPackageManagerFactory.getPackageManager(options.useNpm);
+  const { useNpm, packageManager: pkgMgr } = options;
+  if (useNpm) {
+    useNpmWarning();
+  }
+  const packageManager = JsPackageManagerFactory.getPackageManager({ useNpm, force: pkgMgr });
   const welcomeMessage = 'storybook init - the simplest way to add a Storybook to your project.';
   logger.log(chalk.inverse(`\n ${welcomeMessage} \n`));
 
@@ -307,7 +311,7 @@ export async function initiate(options: CommandOptions, pkg: Package): Promise<v
     packageManager.installDependencies();
   }
 
-  await automigrate({ yes: options.yes || process.env.CI === 'true' });
+  await automigrate({ yes: options.yes || process.env.CI === 'true', useNpm, force: pkgMgr });
 
   logger.log('\nTo run your Storybook, type:\n');
   codeLog([packageManager.getRunStorybookCommand()]);
