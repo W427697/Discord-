@@ -4,7 +4,7 @@ import { dequal as deepEqual } from 'dequal';
 import { create } from '@storybook/theming/create';
 import { SET_CONFIG } from '@storybook/core-events';
 import type { ThemeVars } from '@storybook/theming';
-import { once } from '@storybook/client-logger';
+import { deprecate } from '@storybook/client-logger';
 import { dedent } from 'ts-dedent';
 
 import merge from '../lib/merge';
@@ -226,7 +226,7 @@ export const init: ModuleFn = ({ store, provider, singleStory, fullAPI }) => {
       const { theme, selectedPanel, ...options } = provider.getConfig();
 
       if (options.layout?.isToolshown !== undefined) {
-        once.warn(dedent`
+        deprecate(dedent`
           The "isToolshown" option is deprecated. Please use "showToolbar" instead.
 
           See https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#renamed-istoolshown-to-showtoolbar
