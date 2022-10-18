@@ -82,7 +82,7 @@ export const eslintPlugin: Fix<EslintPluginRunOptions> = {
 
     if (!dryRun && unsupportedExtension) {
       logger.info(dedent`
-          ⚠️ The plugin was successfuly installed but failed to configure.
+          ⚠️ The plugin was successfully installed but failed to configure.
           
           Found an eslint config file with an unsupported automigration format: .eslintrc.${unsupportedExtension}.
           The supported formats for this automigration are: ${SUPPORTED_ESLINT_EXTENSIONS.join(
