@@ -441,6 +441,10 @@ async function run() {
           );
         }
 
+        controllers.forEach((controller) => {
+          controller.abort();
+        });
+
         return 1;
       }
       statuses.set(task, task.service ? 'serving' : 'complete');
