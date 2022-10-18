@@ -29,7 +29,6 @@ module.exports = {
     // '<rootDir>/app/angular',
     // '<rootDir>/examples/svelte-kitchen-sink',
     // '<rootDir>/examples/vue-kitchen-sink',
-    // '<rootDir>/examples/preact-kitchen-sink',
     // This is explicitly commented out because having vue 2 & 3 in the
     // dependency graph makes it impossible to run storyshots on both examples
     // '<rootDir>/examples/vue-3-cli',

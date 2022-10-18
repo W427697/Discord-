@@ -1,7 +1,8 @@
-import { ReactFunctionalComponent, ReactClassComponent } from '../React';
+/* eslint-disable react/react-in-jsx-scope */
+import { ReactFunctionalComponent, ReactClassComponent } from './React';
 
 export default {
-  title: 'React Compatibility',
+  component: ReactFunctionalComponent,
 };
 
 export const ReactComponentDemo = () => (
