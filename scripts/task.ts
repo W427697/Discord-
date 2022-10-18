@@ -278,8 +278,7 @@ async function runTask(task: Task, details: TemplateDetails, optionValues: Passe
 
     return controller;
   } catch (err) {
-    if (details.junitFilename && !task.junit)
-      await writeJunitXml(getTaskKey(task), details.key, startTime, err);
+    if (details.junitFilename) await writeJunitXml(getTaskKey(task), details.key, startTime, err);
 
     throw err;
   } finally {
