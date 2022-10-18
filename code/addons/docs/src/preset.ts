@@ -17,11 +17,20 @@ type BabelParams = {
 };
 function createBabelOptions({ babelOptions, mdxBabelOptions, configureJSX }: BabelParams) {
   const babelPlugins = mdxBabelOptions?.plugins || babelOptions?.plugins || [];
+
+  const filteredBabelPlugins = babelPlugins.filter((p: any) => {
+    const name = Array.isArray(p) ? p[0] : p;
+    if (typeof name === 'string') {
+      return !name.includes('plugin-transform-react-jsx');
+    }
+    return true;
+  });
+
   const jsxPlugin = [
     require.resolve('@babel/plugin-transform-react-jsx'),
     { pragma: 'React.createElement', pragmaFrag: 'React.Fragment' },
   ];
-  const plugins = configureJSX ? [...babelPlugins, jsxPlugin] : babelPlugins;
+  const plugins = configureJSX ? [...filteredBabelPlugins, jsxPlugin] : babelPlugins;
   return {
     // don't use the root babelrc by default (users can override this in mdxBabelOptions)
     babelrc: false,
@@ -39,7 +48,7 @@ export async function webpack(
       typeof createCompiler
     >[0] */
 ) {
-  const resolvedBabelLoader = require.resolve('babel-loader');
+  const resolvedBabelLoader = await options.presets.apply('babelLoaderRef');
 
   const { module = {} } = webpackConfig;
 
