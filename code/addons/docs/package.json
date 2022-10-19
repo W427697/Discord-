@@ -51,7 +51,7 @@
   "dependencies": {
     "@babel/plugin-transform-react-jsx": "^7.12.12",
     "@jest/transform": "^26.6.2",
-    "@mdx-js/react": "^1.6.22",
+    "@mdx-js/react": "^2.1.5",
     "@storybook/addons": "7.0.0-alpha.39",
     "@storybook/api": "7.0.0-alpha.39",
     "@storybook/blocks": "7.0.0-alpha.39",

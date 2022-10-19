@@ -4607,12 +4607,24 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mdx-js/react@npm:^1.6.16, @mdx-js/react@npm:^1.6.22":
+"@mdx-js/react@npm:^1.6.16":
   version: 1.6.22
   resolution: "@mdx-js/react@npm:1.6.22"
   peerDependencies:
     react: ^16.13.1 || ^17.0.0
   checksum: ed896671ffab04c1f11cdba45bfb2786acff58cd0b749b0a13d9b7a7022ac75cc036bec067ca946e6540e2934727e0ba8bf174e4ae10c916f30cda6aecac8992
+  languageName: node
+  linkType: hard
+
+"@mdx-js/react@npm:^2.1.5":
+  version: 2.1.5
+  resolution: "@mdx-js/react@npm:2.1.5"
+  dependencies:
+    "@types/mdx": ^2.0.0
+    "@types/react": ">=16"
+  peerDependencies:
+    react: ">=16"
+  checksum: dd054aded70f9f098f01fe3daf8234f92b36e2a7e0dca9c918c0fdddd3eac91d1e84e5faf4a227b551143a262ff610edeb2db6367e011fcbf32c265b1c31cce6
   languageName: node
   linkType: hard
 
@@ -6366,7 +6378,7 @@ __metadata:
     "@babel/core": ^7.12.10
     "@babel/plugin-transform-react-jsx": ^7.12.12
     "@jest/transform": ^26.6.2
-    "@mdx-js/react": ^1.6.22
+    "@mdx-js/react": ^2.1.5
     "@storybook/addons": 7.0.0-alpha.39
     "@storybook/api": 7.0.0-alpha.39
     "@storybook/blocks": 7.0.0-alpha.39
@@ -9912,6 +9924,17 @@ __metadata:
     "@types/scheduler": "*"
     csstype: ^3.0.2
   checksum: bf27d0397f374c5ba828427b0c5a60b49f0fe41ad064892a4b76e618db180b2ffd5b798f06b6c9d9b3433b6e878c448773d2ecdcc208eca344152647a06ed20d
+  languageName: node
+  linkType: hard
+
+"@types/react@npm:>=16":
+  version: 18.0.21
+  resolution: "@types/react@npm:18.0.21"
+  dependencies:
+    "@types/prop-types": "*"
+    "@types/scheduler": "*"
+    csstype: ^3.0.2
+  checksum: cfe65f3291a62c86b342935df70943c222a4a70b3c74bfb45c1acb7bec47a583c9832b4628313baf0c312447c08baa6353a6f39313b0624b6eb7c1251cf5a0a0
   languageName: node
   linkType: hard
 
