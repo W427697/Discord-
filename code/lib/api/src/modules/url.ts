@@ -1,4 +1,3 @@
-import { deprecate } from '@storybook/client-logger';
 import {
   NAVIGATE_URL,
   STORY_ARGS_UPDATED,
@@ -8,10 +7,8 @@ import {
 } from '@storybook/core-events';
 import type { NavigateOptions } from '@storybook/router';
 import { queryFromLocation, buildArgsParam } from '@storybook/router';
-import { toId, sanitize } from '@storybook/csf';
 import { dequal as deepEqual } from 'dequal';
 import global from 'global';
-import { dedent } from 'ts-dedent';
 
 import { ModuleArgs, ModuleFn } from '../index';
 import { Layout, UI } from './layout';

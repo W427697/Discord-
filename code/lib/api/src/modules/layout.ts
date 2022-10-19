@@ -4,8 +4,6 @@ import { dequal as deepEqual } from 'dequal';
 import { create } from '@storybook/theming/create';
 import { SET_CONFIG } from '@storybook/core-events';
 import type { ThemeVars } from '@storybook/theming';
-import { deprecate } from '@storybook/client-logger';
-import { dedent } from 'ts-dedent';
 
 import merge from '../lib/merge';
 import type { State, ModuleFn } from '../index';

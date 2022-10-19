@@ -13,7 +13,6 @@ import {
   STORY_INDEX_INVALIDATED,
   CONFIG_ERROR,
 } from '@storybook/core-events';
-import deprecate from 'util-deprecate';
 import { logger } from '@storybook/client-logger';
 
 import { getEventMetadata } from '../lib/events';
