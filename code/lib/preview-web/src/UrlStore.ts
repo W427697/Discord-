@@ -82,10 +82,6 @@ export const getSelectionSpecifierFromPath: () => SelectionSpecifier | null = ()
     return { storySpecifier: storyId, args, globals, viewMode };
   }
 
-  // Legacy URL format
-  const title = getFirstString(query.selectedKind);
-  const name = getFirstString(query.selectedStory);
-
   return null;
 };
 
