@@ -178,11 +178,11 @@ const map =
   };
 
 async function getContent(input: any) {
-  if (input.type === 'virtual') {
+  if (input.type === 'virtual' || input.type === 'content') {
     const { type, name, ...rest } = input;
     return rest;
   }
-  const name = input.name ? input.name : input;
+  const name = input.name ?? input;
 
   return interopRequireDefault(name);
 }
@@ -213,11 +213,10 @@ export async function loadPreset(
     if (isObject(contents)) {
       const { addons: addonsInput, presets: presetsInput, ...rest } = contents;
 
-      const subPresets = await resolvePresetFunction(presetsInput, presetOptions, storybookOptions);
-      const subAddons = await resolvePresetFunction(addonsInput, presetOptions, storybookOptions);
-
+      const subPresets = resolvePresetFunction(presetsInput, presetOptions, storybookOptions);
+      const subAddons = resolvePresetFunction(addonsInput, presetOptions, storybookOptions);
       const stringSubAddons = subAddons.filter((a) => typeof a === 'string');
-      console.log({ subAddonsRequired: subAddons.filter((a) => typeof a !== 'string') });
+      const objectSubAddons = subAddons.filter((a) => typeof a === 'object');
 
       return [
         ...(await loadPresets([...subPresets], level + 1, storybookOptions)),
@@ -226,6 +225,7 @@ export async function loadPreset(
           level + 1,
           storybookOptions
         )),
+        ...(await loadPresets([...objectSubAddons], level + 1, storybookOptions)),
         {
           name,
           preset: rest,

@@ -57,14 +57,10 @@ export function addons(options: PresetOptions) {
   // and not in `@storybook/core` nor in SB user projects. If `@storybook/core` make the require itself Yarn 2/pnpm will
   // throw an error saying that the package to require must be added as a dependency.
 
-  return addonNames.map(async (addon) => {
-    // console.log(resolveAddonName(options.configDir, addon, {}));
+  return addonNames.map((addon) => {
     const name = resolveAddonName(options.configDir, addon, {});
-    const parts = await getContent(name);
-    console.log(parts);
-    // const addonImport = require(addon);
-    // console.log({ addon, addonImport });
-    // return addonImport;
+    const parts = getContent(name);
+    return parts;
 
     try {
       return dirname(require.resolve(join(addon, 'package.json')));
@@ -75,11 +71,27 @@ export function addons(options: PresetOptions) {
   });
 }
 
-// TODO: copied from core-common
-async function getContent(input: any) {
+// copied from core-common and adjusted to create a `content` type
+function getContent(input: any) {
   if (input.type === 'virtual') {
     const { type, name, ...rest } = input;
-    return rest;
+
+    const content: Record<string, any> = {
+      name,
+      type: 'content',
+    };
+    if (rest.managerEntries) {
+      content.managerEntries = rest.managerEntries;
+    }
+    if (rest.previewAnnotations) {
+      content.previewAnnotations = rest.previewAnnotations.map((name: string) =>
+        interopRequireDefault(name)
+      );
+    }
+    if (rest.presets) {
+      content.presets = rest.presets;
+    }
+    return content;
   }
   const name = input.name ? input.name : input;
 
