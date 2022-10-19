@@ -35,9 +35,6 @@ export interface GetStorybookKind<TFramework extends AnyFramework> {
   stories: GetStorybookStory<TFramework>[];
 }
 
-const docs2Warning = deprecate(() => {},
-`You cannot use \`.mdx\` files without using \`storyStoreV7\`. Consider upgrading to the new store.`);
-
 export class StoryStoreFacade<TFramework extends AnyFramework> {
   projectAnnotations: NormalizedProjectAnnotations<TFramework>;
 
@@ -152,7 +149,6 @@ export class StoryStoreFacade<TFramework extends AnyFramework> {
   // NOTE: we could potentially share some of this code with the stories.json generation
   addStoriesFromExports(fileName: Path, fileExports: ModuleExports) {
     if (fileName.match(/\.mdx$/) && !fileName.match(/\.stories\.mdx$/)) {
-      docs2Warning();
       return;
     }
 
