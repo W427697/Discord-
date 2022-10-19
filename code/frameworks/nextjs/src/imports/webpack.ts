@@ -3,20 +3,10 @@ import { loadConfig } from 'tsconfig-paths';
 import { Configuration as WebpackConfig } from 'webpack';
 
 export const configureImports = (baseConfig: WebpackConfig): void => {
-  let configLoadResult;
+  const configLoadResult = loadConfig();
 
-  try {
-    configLoadResult = loadConfig();
-  } catch (err) {
-    // possibly not a typescript project, or project is missing baseUrl
-    return;
-  }
-
-  if (
-    configLoadResult.resultType === 'failed' ||
-    // in development, the call to loadConfig() will load this addon's tsconfig lol
-    configLoadResult.absoluteBaseUrl.endsWith('storybook-addon-next')
-  ) {
+  if (configLoadResult.resultType === 'failed' || !configLoadResult.baseUrl) {
+    // either not a typescript project or tsconfig contains no baseUrl
     return;
   }
 
