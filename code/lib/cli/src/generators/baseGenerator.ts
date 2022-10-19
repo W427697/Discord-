@@ -152,8 +152,7 @@ export async function baseGenerator(
     addonPackages.push('@storybook/addon-interactions', '@storybook/testing-library');
   }
 
-  const yarn2ExtraPackages =
-    packageManager.type === 'yarn2' ? ['@storybook/addon-docs', '@mdx-js/react@1.x.x'] : [];
+  const yarn2ExtraPackages = packageManager.type === 'yarn2' ? ['@storybook/addon-docs'] : [];
 
   const files = await fse.readdir(process.cwd());
 
