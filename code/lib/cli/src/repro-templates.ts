@@ -4,7 +4,8 @@ const craTemplates = {
     script: 'npx create-react-app .',
     cadence: ['ci', 'daily', 'weekly'],
     expected: {
-      framework: '@storybook/cra',
+      // TODO: change this to @storybook/cra once that package is created
+      framework: '@storybook/react-webpack5',
       renderer: '@storybook/react',
       builder: '@storybook/builder-webpack5',
     },
@@ -16,7 +17,8 @@ const craTemplates = {
     // Re-enable once https://github.com/storybookjs/storybook/issues/19351 is fixed.
     skipTasks: ['smoke-test'],
     expected: {
-      framework: '@storybook/cra',
+      // TODO: change this to @storybook/cra once that package is created
+      framework: '@storybook/react-webpack5',
       renderer: '@storybook/react',
       builder: '@storybook/builder-webpack5',
     },
