@@ -21,7 +21,6 @@ import type {
   IndexEntry,
 } from '@storybook/store';
 import { logger } from '@storybook/client-logger';
-import deprecate from 'util-deprecate';
 import type { DocsOptions } from '@storybook/core-common';
 
 export interface GetStorybookStory<TFramework extends AnyFramework> {
