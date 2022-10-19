@@ -94,7 +94,7 @@ export interface SubAPI {
 const removedOptions = ['enableShortcuts', 'theme', 'showRoots'];
 
 function removeRemovedOptions<T extends Record<string, any> = Record<string, any>>(options?: T): T {
-  if (!options) {
+  if (!options || typeof options === 'string') {
     return options;
   }
   const result: T = { ...options } as T;
