@@ -129,7 +129,7 @@ const vue2ViteTemplates = {
     // Re-enable once https://github.com/storybookjs/storybook/issues/19351 is fixed.
     skipTasks: ['smoke-test'],
     expected: {
-      framework: '@storybook/vue2-vite',
+      framework: '@storybook/vue-vite',
       renderer: '@storybook/vue',
       builder: '@storybook/builder-vite',
     },
