@@ -1,11 +1,14 @@
 import React from 'react';
-import { storiesOf } from '@storybook/react';
 import ListItem from './ListItem';
-
 import { Icons } from '../icon/icon';
 
-storiesOf('basics/Tooltip/ListItem', module)
-  .add('all', () => (
+export default {
+  title: 'basics/Tooltip/ListItem',
+  component: ListItem,
+};
+
+export const All = {
+  render: (args) => (
     <div>
       <ListItem loading />
       <ListItem title="Default" />
@@ -21,15 +24,59 @@ storiesOf('basics/Tooltip/ListItem', module)
       />
       <ListItem disabled left="left" title="disabled" center="center" right="right" />
     </div>
-  ))
-  .add('loading', () => <ListItem loading />)
-  .add('default', () => <ListItem title="Default" />)
-  .add('default icon', () => <ListItem title="Default icon" right={<Icons icon="eye" />} />)
-  .add('active icon', () => <ListItem active title="active icon" right={<Icons icon="eye" />} />)
-  .add('w/positions', () => <ListItem left="left" title="title" center="center" right="right" />)
-  .add('w/positions active', () => (
-    <ListItem active left="left" title="active" center="center" right="right" />
-  ))
-  .add('disabled', () => (
-    <ListItem disabled left="left" title="disabled" center="center" right="right" />
-  ));
+  ),
+};
+
+export const Default = {
+  args: {
+    title: 'Default',
+  },
+};
+
+export const Loading = {
+  args: {
+    loading: true,
+  },
+};
+
+export const DefaultIcon = {
+  args: {
+    title: 'Default icon',
+    right: <Icons icon="eye" />,
+  },
+};
+export const ActiveIcon = {
+  args: {
+    title: 'Active icon',
+    active: true,
+    right: <Icons icon="eye" />,
+  },
+};
+
+export const WPositions = {
+  args: {
+    left: 'left',
+    title: 'title',
+    center: 'center',
+    right: 'right',
+  },
+};
+
+export const WPositionsActive = {
+  args: {
+    active: true,
+    left: 'left',
+    title: 'title',
+    center: 'center',
+    right: 'right',
+  },
+};
+export const WPositionsDisabled = {
+  args: {
+    disabled: true,
+    left: 'left',
+    title: 'title',
+    center: 'center',
+    right: 'right',
+  },
+};
