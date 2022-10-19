@@ -322,7 +322,7 @@ jobs:
     executor:
       class: medium+
       name: sb_node_16_browsers
-    parallelism: 20
+    parallelism: 22
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: '--depth 1 --verbose'
@@ -341,7 +341,7 @@ jobs:
     executor:
       class: medium+
       name: sb_node_16_browsers
-    parallelism: 15
+    parallelism: 22
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: '--depth 1 --verbose'
@@ -356,7 +356,7 @@ jobs:
     executor:
       class: medium+
       name: sb_node_16_browsers
-    parallelism: 20
+    parallelism: 22
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: '--depth 1 --verbose'
@@ -375,7 +375,7 @@ jobs:
     executor:
       class: medium+
       name: sb_playwright
-    parallelism: 18
+    parallelism: 20
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: '--depth 1 --verbose'
@@ -390,7 +390,7 @@ jobs:
     executor:
       class: medium+
       name: sb_node_16_browsers
-    parallelism: 20
+    parallelism: 22
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: '--depth 1 --verbose'
@@ -405,7 +405,7 @@ jobs:
     executor:
       class: medium+
       name: sb_playwright
-    parallelism: 20
+    parallelism: 22
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: '--depth 1 --verbose'
