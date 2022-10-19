@@ -3,7 +3,7 @@ import ListItem from './ListItem';
 import { Icons } from '../icon/icon';
 
 export default {
-  title: 'basics/Tooltip/ListItem',
+  title: 'Basics/Tooltip/ListItem',
   component: ListItem,
 };
 

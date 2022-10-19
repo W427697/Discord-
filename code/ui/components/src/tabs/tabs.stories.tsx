@@ -1,8 +1,7 @@
 import React, { Fragment, Key } from 'react';
-import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { logger } from '@storybook/client-logger';
-
+import { Meta, Story } from '@storybook/react';
 import { Tabs, TabsState, TabWrapper } from './tabs';
 
 const colours = Array.from(new Array(15), (val, index) => index).map((i) =>
@@ -56,7 +55,11 @@ const panels: Panels = {
       <div
         key={key}
         id="test2"
-        style={{ background: 'hotpink', minHeight: '100%', display: active ? 'block' : 'none' }}
+        style={{
+          background: 'hotpink',
+          minHeight: '100%',
+          display: active ? 'block' : 'none',
+        }}
       >
         CONTENT 2
       </div>
@@ -113,21 +116,27 @@ const content = Object.entries(panels).map(([k, v]) => (
   </div>
 ));
 
-storiesOf('Basics/Tabs', module)
-  .addDecorator((s) => (
-    <div
-      style={{
-        position: 'relative',
-        height: 'calc(100vh - 20px)',
-        width: 'calc(100vw - 20px)',
-        margin: 10,
-      }}
-    >
-      {s()}
-    </div>
-  ))
-  .add('stateful - static', () => (
-    <TabsState initial="test2">
+export default {
+  title: 'Basics/Tabs',
+  decorators: [
+    (story) => (
+      <div
+        style={{
+          position: 'relative',
+          height: 'calc(100vh - 20px)',
+          width: 'calc(100vw - 20px)',
+          margin: 10,
+        }}
+      >
+        {story()}
+      </div>
+    ),
+  ],
+} as Meta;
+
+export const StatefulStatic = {
+  render: (args) => (
+    <TabsState initial="test2" {...args}>
       <div id="test1" title="With a function">
         {({ active, selected }: { active: boolean; selected: string }) =>
           active ? <div>{selected} is selected</div> : null
@@ -137,10 +146,13 @@ storiesOf('Basics/Tabs', module)
         <div>test2 is always active (but visually hidden)</div>
       </div>
     </TabsState>
-  ))
-  .add('stateful - static with set button text colors', () => (
+  ),
+};
+
+export const StatefulStaticWithSetButtonTextColors = {
+  render: (args) => (
     <div>
-      <TabsState initial="test2">
+      <TabsState initial="test2" {...args}>
         <div id="test1" title="With a function" color="#e00000">
           {({ active, selected }: { active: boolean; selected: string }) =>
             active ? <div>{selected} is selected</div> : null
@@ -151,10 +163,12 @@ storiesOf('Basics/Tabs', module)
         </div>
       </TabsState>
     </div>
-  ))
-  .add('stateful - static with set backgroundColor', () => (
+  ),
+};
+export const StatefulStaticWithSetBackgroundColor = {
+  render: (args) => (
     <div>
-      <TabsState initial="test2" backgroundColor="rgba(0,0,0,.05)">
+      <TabsState initial="test2" backgroundColor="rgba(0,0,0,.05)" {...args}>
         <div id="test1" title="With a function" color="#e00000">
           {({ active, selected }: { active: boolean; selected: string }) =>
             active ? <div>{selected} is selected</div> : null
@@ -165,26 +179,45 @@ storiesOf('Basics/Tabs', module)
         </div>
       </TabsState>
     </div>
-  ))
-  .add('stateful - dynamic', () => (
-    <TabsState initial="test3">
+  ),
+};
+
+export const StatefulDynamic = {
+  render: (args) => (
+    <TabsState initial="test3" {...args}>
       {Object.entries(panels).map(([k, v]) => (
         <div key={k} id={k} title={v.title}>
           {v.render}
         </div>
       ))}
     </TabsState>
-  ))
-  .add('stateful - no initial', () => <TabsState>{content}</TabsState>)
-  .add('stateless - bordered', () => (
-    <Tabs bordered absolute={false} selected="test3" actions={{ onSelect }}>
+  ),
+};
+export const StatefulNoInitial = {
+  render: (args) => <TabsState {...args}>{content}</TabsState>,
+};
+export const StatelessBordered = {
+  render: (args) => (
+    <Tabs
+      bordered
+      absolute={false}
+      selected="test3"
+      actions={{
+        onSelect,
+      }}
+      {...args}
+    >
       {content}
     </Tabs>
-  ))
-  .add('stateless - with tools', () => (
+  ),
+};
+export const StatelessWithTools = {
+  render: (args) => (
     <Tabs
       selected="test3"
-      actions={{ onSelect }}
+      actions={{
+        onSelect,
+      }}
       tools={
         <Fragment>
           <button type="button" onClick={() => logger.log('1')}>
@@ -195,18 +228,50 @@ storiesOf('Basics/Tabs', module)
           </button>
         </Fragment>
       }
+      {...args}
     >
       {content}
     </Tabs>
-  ))
-  .add('stateless - absolute', () => (
-    <Tabs absolute selected="test3" actions={{ onSelect }}>
+  ),
+};
+export const StatelessAbsolute = {
+  render: (args) => (
+    <Tabs
+      absolute
+      selected="test3"
+      actions={{
+        onSelect,
+      }}
+      {...args}
+    >
       {content}
     </Tabs>
-  ))
-  .add('stateless - absolute bordered', () => (
-    <Tabs absolute bordered selected="test3" actions={{ onSelect }}>
+  ),
+};
+export const StatelessAbsoluteBordered = {
+  render: (args) => (
+    <Tabs
+      absolute
+      bordered
+      selected="test3"
+      actions={{
+        onSelect,
+      }}
+      {...args}
+    >
       {content}
     </Tabs>
-  ))
-  .add('stateless - empty', () => <Tabs actions={{ onSelect }} bordered absolute />);
+  ),
+};
+export const StatelessEmpty = {
+  render: (args) => (
+    <Tabs
+      actions={{
+        onSelect,
+      }}
+      bordered
+      absolute
+      {...args}
+    />
+  ),
+};
