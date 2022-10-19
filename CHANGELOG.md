@@ -1,3 +1,48 @@
+## 7.0.0-alpha.39 (October 19, 2022)
+
+#### Breaking Changes
+
+- Addons: Remove deprecations [#19524](https://github.com/storybooks/storybook/pull/19524)
+
+#### Features
+
+- Core: Throw an error if renderer is used as framework [#19452](https://github.com/storybooks/storybook/pull/19452)
+- CLI: Add pnpm support [#19425](https://github.com/storybooks/storybook/pull/19425)
+- CLI: support .json in eslint-plugin migration [#19511](https://github.com/storybooks/storybook/pull/19511)
+
+#### Bug Fixes
+
+- Vite/React: Align with webpack react docgen [#19399](https://github.com/storybooks/storybook/pull/19399)
+- Core: Direct logs to stdout [#19434](https://github.com/storybooks/storybook/pull/19434)
+- Telemetry: Send start/build events even when there is no generator [#19507](https://github.com/storybooks/storybook/pull/19507)
+- Core: Fix inconsistent telemetry debug [#19509](https://github.com/storybooks/storybook/pull/19509)
+
+#### Maintenance
+
+- Addon-docs: Define children for DocsContainer [#19437](https://github.com/storybooks/storybook/pull/19437)
+- Convert issue templates to forms [#19370](https://github.com/storybooks/storybook/pull/19370)
+- Change once.warn to deprecate when that is the actual intent [#19521](https://github.com/storybooks/storybook/pull/19521)
+- Cleanup framework angular dependencies [#19389](https://github.com/storybooks/storybook/pull/19389)
+- Frameworks: Don't re-export renderer types from frameworks [#19510](https://github.com/storybooks/storybook/pull/19510)
+- Core: Remove storyStore.getSelection [#19491](https://github.com/storybooks/storybook/pull/19491)
+- CLI: rename "latest" to "v13" app name in angular v13 repro template [#19498](https://github.com/storybooks/storybook/pull/19498)
+
+#### Build
+
+- Improve misc build parts [#19520](https://github.com/storybooks/storybook/pull/19520)
+- Build: Bundle addons/storysource with ts-up [#19482](https://github.com/storybooks/storybook/pull/19482)
+- Build: Bundle lib/docs-tools & lib/instrumenter with ts-up [#19206](https://github.com/storybooks/storybook/pull/19206)
+- Actions: update actions/setup-node to v3 [#19444](https://github.com/storybooks/storybook/pull/19444)
+- Actions: update actions/checkout to v3 [#19441](https://github.com/storybooks/storybook/pull/19441)
+- Build: Bundle lib/codemod with ts-up [#19398](https://github.com/storybooks/storybook/pull/19398)
+- Build: Bundle addons/highlight with ts-up [#19483](https://github.com/storybooks/storybook/pull/19483)
+- Enable preact templates and remove `preact-kitchen-sink` [#19454](https://github.com/storybooks/storybook/pull/19454)
+
+#### Dependency Upgrades
+
+- Addon-docs: Make babel-loader an optional peer dependency [#19385](https://github.com/storybooks/storybook/pull/19385)
+- Add missing addons/docs dependency for fs-extra [#19493](https://github.com/storybooks/storybook/pull/19493)
+
 ## 7.0.0-alpha.38 (October 15, 2022)
 
 #### Bug Fixes
