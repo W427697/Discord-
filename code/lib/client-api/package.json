@@ -44,7 +44,7 @@
   "dependencies": {
     "@storybook/addons": "7.0.0-alpha.39",
     "@storybook/client-logger": "7.0.0-alpha.39",
-    "@storybook/csf": "0.0.2--canary.51.23af5af.0",
+    "@storybook/csf": "0.0.2--canary.51.26e6539.0",
     "@storybook/store": "7.0.0-alpha.39",
     "@types/qs": "^6.9.5",
     "@types/webpack-env": "^1.16.4",
