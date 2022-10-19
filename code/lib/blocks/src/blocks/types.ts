@@ -1,5 +1,3 @@
-import { deprecate } from '@storybook/client-logger';
-
 export const PRIMARY_STORY = '^';
 
 export type Component = any;
