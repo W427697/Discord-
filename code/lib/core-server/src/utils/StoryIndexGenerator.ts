@@ -92,7 +92,7 @@ export class StoryIndexGenerator {
 
         const files = (await new FDir()
           .withSymlinks()
-          .glob(slash(specifier.files))
+          .glob(slash(path.join(this.options.workingDir, specifier.directory, specifier.files)))
           .crawl(slash(path.join(this.options.workingDir, specifier.directory)))
           .withPromise()) as string[];
         files.sort().forEach((absolutePath: Path) => {

@@ -55,7 +55,7 @@ export async function runCodemod(codemod, { glob, logger, dryRun, rename, parser
 
   const files = await new FDir()
     .withFullPaths()
-    .glob(glob)
+    .glob(path.join(process.cwd(), glob))
     .exclude((p) => p.includes('/node_modules') || p.includes('/dist'))
     .crawl(process.cwd())
     .withPromise();
