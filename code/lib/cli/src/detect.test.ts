@@ -348,16 +348,16 @@ describe('Detect', () => {
   });
 
   describe('detectFrameworkPreset should return', () => {
-    beforeAll(() => {
-      // @ts-expect-error TODO: remove this beforeAll before merging this PR.
-      process.env.STORYBOOK_REPRO_GENERATOR = 'true';
-    });
     afterEach(() => {
       jest.clearAllMocks();
     });
 
     MOCK_FRAMEWORK_FILES.forEach((structure) => {
       it(`${structure.name}`, () => {
+        // TODO: remove this once we fully enable nextjs framework in CI. @yannbf
+        if (structure.name === ProjectType.NEXTJS) {
+          process.env.STORYBOOK_REPRO_GENERATOR = 'true';
+        }
         (fs.existsSync as jest.Mock).mockImplementation((filePath) => {
           return Object.keys(structure.files).includes(filePath);
         });
