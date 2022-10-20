@@ -1,4 +1,4 @@
-import type { AnyFramework, StoryContextForLoaders, StoryId, StoryName } from '@storybook/csf';
+import type { AnyFramework, StoryContextForLoaders, StoryId, StoryName } from '@storybook/types';
 import type { CSFFile, ModuleExport, ModuleExports, Story, StoryStore } from '@storybook/store';
 import type { Channel } from '@storybook/channels';
 

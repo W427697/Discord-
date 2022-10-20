@@ -8,7 +8,7 @@ import type {
   ComponentTitle,
   StoryContextForEnhancers,
   StoryContext,
-} from '@storybook/csf';
+} from '@storybook/types';
 import mapValues from 'lodash/mapValues';
 import pick from 'lodash/pick';
 import { SynchronousPromise } from 'synchronous-promise';

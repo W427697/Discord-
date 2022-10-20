@@ -5,15 +5,15 @@ import fs from 'fs-extra';
 import { normalizeStoriesEntry } from '@storybook/core-common';
 import type { NormalizedStoriesSpecifier } from '@storybook/core-common';
 import { loadCsf, getStorySortParameter } from '@storybook/csf-tools';
-import { toId } from '@storybook/csf';
+import { toId } from '@storybook/types';
 import { logger } from '@storybook/node-logger';
 import { mocked } from 'ts-jest/utils';
 
 import { StoryIndexGenerator } from './StoryIndexGenerator';
 
 jest.mock('@storybook/csf-tools');
-jest.mock('@storybook/csf', () => {
-  const csf = jest.requireActual('@storybook/csf');
+jest.mock('@storybook/types', () => {
+  const csf = jest.requireActual('@storybook/types');
   return {
     ...csf,
     toId: jest.fn(csf.toId),

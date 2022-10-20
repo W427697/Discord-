@@ -1,5 +1,5 @@
+import { isExportStory } from '@storybook/csf';
 import {
-  isExportStory,
   AnyFramework,
   AnnotatedStoryFn,
   StoryAnnotations,
@@ -9,7 +9,7 @@ import {
   StoryContext,
   Parameters,
   LegacyStoryAnnotationsOrFn,
-} from '@storybook/csf';
+} from '@storybook/types';
 
 import { composeConfigs } from '../composeConfigs';
 import { prepareStory } from '../prepareStory';

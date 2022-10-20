@@ -1,5 +1,5 @@
 import React, { FC, useContext } from 'react';
-import { BaseAnnotations } from '@storybook/csf';
+import { BaseAnnotations } from '@storybook/types';
 import type { ModuleExports } from '@storybook/store';
 
 import { Anchor } from './Anchor';

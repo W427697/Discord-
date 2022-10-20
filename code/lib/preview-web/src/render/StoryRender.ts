@@ -5,7 +5,7 @@ import {
   ViewMode,
   StoryContextForLoaders,
   StoryContext,
-} from '@storybook/csf';
+} from '@storybook/types';
 import {
   Story,
   RenderContext,

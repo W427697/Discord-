@@ -1,4 +1,4 @@
-import { AnyFramework, StoryId } from '@storybook/csf';
+import { AnyFramework, StoryId } from '@storybook/types';
 import { CSFFile, Story, StoryStore } from '@storybook/store';
 import { Channel, IndexEntry } from '@storybook/addons';
 import { DOCS_RENDERED } from '@storybook/core-events';

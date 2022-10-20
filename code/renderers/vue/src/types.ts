@@ -1,4 +1,4 @@
-import type { StoryContext as StoryContextBase } from '@storybook/csf';
+import type { StoryContext as StoryContextBase } from '@storybook/types';
 import type { Component, AsyncComponent } from 'vue';
 
 export type { RenderContext } from '@storybook/core-client';

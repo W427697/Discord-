@@ -3,7 +3,7 @@ import type {
   StoryAnnotations,
   AnnotatedStoryFn,
   Args,
-} from '@storybook/csf';
+} from '@storybook/types';
 import { WebComponentsFramework } from './types';
 
 /**

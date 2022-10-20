@@ -5,7 +5,7 @@ import type {
   ComponentAnnotations,
   LoaderFunction,
   StoryAnnotations,
-} from '@storybook/csf';
+} from '@storybook/types';
 import { SetOptional, Simplify, UnionToIntersection } from 'type-fest';
 import { ComponentProps, ComponentType, JSXElementConstructor } from 'react';
 

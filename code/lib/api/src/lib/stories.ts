@@ -13,7 +13,7 @@ import type {
   ArgTypes,
   Parameters,
   ComponentId,
-} from '@storybook/csf';
+} from '@storybook/types';
 import type { DocsOptions } from '@storybook/core-common';
 
 import { combineParameters } from '../index';

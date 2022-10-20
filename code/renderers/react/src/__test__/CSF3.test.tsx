@@ -1,7 +1,7 @@
 import React, { KeyboardEventHandler, ReactNode } from 'react';
 import { expectTypeOf } from 'expect-type';
 import { describe, test } from '@jest/globals';
-import { StoryAnnotations } from '@storybook/csf';
+import { StoryAnnotations } from '@storybook/types';
 import { SetOptional } from 'type-fest';
 
 import { Meta, StoryObj } from '../public-types';

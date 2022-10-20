@@ -1,4 +1,4 @@
-import type { Globals, GlobalTypes } from '@storybook/csf';
+import type { Globals, GlobalTypes } from '@storybook/types';
 
 import { deepDiff, DEEPLY_EQUAL } from './args';
 import { getValuesFromArgTypes } from './csf/getValuesFromArgTypes';

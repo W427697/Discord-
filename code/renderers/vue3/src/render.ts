@@ -1,7 +1,7 @@
 import { dedent } from 'ts-dedent';
 import { createApp, h } from 'vue';
 import type { RenderContext } from '@storybook/store';
-import type { ArgsStoryFn } from '@storybook/csf';
+import type { ArgsStoryFn } from '@storybook/types';
 
 import { StoryFnVueReturnType, VueFramework } from './types';
 

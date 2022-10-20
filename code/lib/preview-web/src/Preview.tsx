@@ -15,7 +15,7 @@ import {
 } from '@storybook/core-events';
 import { logger } from '@storybook/client-logger';
 import { addons, Channel } from '@storybook/addons';
-import { AnyFramework, StoryId, ProjectAnnotations, Args, Globals } from '@storybook/csf';
+import { AnyFramework, StoryId, ProjectAnnotations, Args, Globals } from '@storybook/types';
 import {
   ModuleImportFn,
   Story,

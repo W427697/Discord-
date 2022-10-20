@@ -18,7 +18,14 @@ import {
   UPDATE_QUERY_PARAMS,
 } from '@storybook/core-events';
 import { logger } from '@storybook/client-logger';
-import { AnyFramework, StoryId, ProjectAnnotations, Args, Globals, ViewMode } from '@storybook/csf';
+import {
+  AnyFramework,
+  StoryId,
+  ProjectAnnotations,
+  Args,
+  Globals,
+  ViewMode,
+} from '@storybook/types';
 import type {
   ModuleImportFn,
   Selection,

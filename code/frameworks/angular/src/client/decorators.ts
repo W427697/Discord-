@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign */
 import type { Type } from '@angular/core';
-import type { DecoratorFunction, StoryContext } from '@storybook/csf';
+import type { DecoratorFunction, StoryContext } from '@storybook/types';
 import { computesTemplateFromComponent } from './angular-beta/ComputesTemplateFromComponent';
 import { isComponent } from './angular-beta/utils/NgComponentAnalyzer';
 import type { ICollection, NgModuleMetadata, AngularFramework } from './types';

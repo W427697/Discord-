@@ -63,10 +63,10 @@
     "@storybook/client-logger": "7.0.0-alpha.40",
     "@storybook/components": "7.0.0-alpha.40",
     "@storybook/core-common": "7.0.0-alpha.40",
-    "@storybook/csf": "0.0.2--canary.49.258942b.0",
     "@storybook/node-logger": "7.0.0-alpha.40",
     "@storybook/store": "7.0.0-alpha.40",
     "@storybook/theming": "7.0.0-alpha.40",
+    "@storybook/types": "7.0.0-alpha.40",
     "lodash": "^4.17.21",
     "ts-dedent": "^2.0.0"
   },

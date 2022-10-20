@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { BrowserModule } from '@angular/platform-browser';
 import { Observable, ReplaySubject, Subscriber } from 'rxjs';
-import type { PartialStoryFn } from '@storybook/csf';
+import type { PartialStoryFn } from '@storybook/types';
 import { AppComponent } from './app.component';
 import { STORY } from './app.token';
 import type { NgModuleMetadata, StoryFnAngularReturnType, AngularFramework } from '../types';

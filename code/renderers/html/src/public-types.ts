@@ -3,10 +3,10 @@ import type {
   ComponentAnnotations,
   StoryAnnotations,
   AnnotatedStoryFn,
-} from '@storybook/csf';
+} from '@storybook/types';
 import { HtmlFramework } from './types';
 
-export type { Args, ArgTypes, Parameters } from '@storybook/csf';
+export type { Args, ArgTypes, Parameters } from '@storybook/types';
 
 /**
  * Metadata to configure the stories for a component.

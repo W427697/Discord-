@@ -2,7 +2,7 @@ import { Context, createContext } from 'react';
 import { window as globalWindow } from 'global';
 
 import type { DocsContextProps } from '@storybook/preview-web';
-import type { AnyFramework } from '@storybook/csf';
+import type { AnyFramework } from '@storybook/types';
 
 export type { DocsContextProps };
 

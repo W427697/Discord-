@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import type { StoryId, AnyFramework } from '@storybook/csf';
+import type { StoryId, AnyFramework } from '@storybook/types';
 import type { Story } from '@storybook/store';
 
 import { DocsContextProps } from './DocsContext';

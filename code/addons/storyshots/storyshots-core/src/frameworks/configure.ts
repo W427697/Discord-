@@ -10,7 +10,7 @@ import type {
   ArgsEnhancer,
   ArgTypesEnhancer,
   DecoratorFunction,
-} from '@storybook/csf';
+} from '@storybook/types';
 
 import { ClientApi } from './Loader';
 import type { StoryshotsOptions } from '../api/StoryshotsOptions';

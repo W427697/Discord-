@@ -5,7 +5,7 @@ import global from 'global';
 import { dedent } from 'ts-dedent';
 import { simulatePageLoad, simulateDOMContentLoaded } from '@storybook/preview-web';
 import type { RenderContext } from '@storybook/store';
-import { ArgsStoryFn } from '@storybook/csf';
+import { ArgsStoryFn } from '@storybook/types';
 import type { HtmlFramework } from './types';
 
 const { Node } = global;

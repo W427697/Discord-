@@ -29,7 +29,7 @@ import {
 } from '@storybook/core-events';
 import { logger } from '@storybook/client-logger';
 import { addons, mockChannel as createMockChannel } from '@storybook/addons';
-import type { AnyFramework } from '@storybook/csf';
+import type { AnyFramework } from '@storybook/types';
 import type { ModuleImportFn, WebProjectAnnotations } from '@storybook/store';
 import { mocked } from 'ts-jest/utils';
 

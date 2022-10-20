@@ -1,7 +1,7 @@
 import global from 'global';
 import { ClientApi } from '@storybook/client-api';
 import { PreviewWeb } from '@storybook/preview-web';
-import type { AnyFramework, ArgsStoryFn } from '@storybook/csf';
+import type { AnyFramework, ArgsStoryFn } from '@storybook/types';
 import { createChannel } from '@storybook/channel-postmessage';
 import { addons } from '@storybook/addons';
 import { FORCE_RE_RENDER } from '@storybook/core-events';

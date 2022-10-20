@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { AnyFramework, Parameters } from '@storybook/csf';
+import { AnyFramework, Parameters } from '@storybook/types';
 import { DocsContextProps, DocsRenderFunction } from '@storybook/preview-web';
 import { components as htmlComponents } from '@storybook/components';
 import { Docs, CodeOrSourceMdx, AnchorMdx, HeadersMdx } from '@storybook/blocks';

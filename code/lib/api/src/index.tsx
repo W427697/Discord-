@@ -11,7 +11,7 @@ import React, {
   useRef,
 } from 'react';
 import mergeWith from 'lodash/mergeWith';
-import { Conditional } from '@storybook/csf';
+import { Conditional } from '@storybook/types';
 
 import {
   STORY_CHANGED,

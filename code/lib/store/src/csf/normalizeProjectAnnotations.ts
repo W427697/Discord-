@@ -1,4 +1,4 @@
-import type { AnyFramework, ArgTypes, ProjectAnnotations } from '@storybook/csf';
+import type { AnyFramework, ArgTypes, ProjectAnnotations } from '@storybook/types';
 
 import { inferArgTypes } from '../inferArgTypes';
 import { inferControls } from '../inferControls';

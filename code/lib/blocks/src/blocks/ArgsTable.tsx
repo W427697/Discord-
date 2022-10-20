@@ -8,7 +8,7 @@ import {
   RESET_STORY_ARGS,
   GLOBALS_UPDATED,
 } from '@storybook/core-events';
-import { StrictArgTypes, Args, Globals } from '@storybook/csf';
+import { StrictArgTypes, Args, Globals } from '@storybook/types';
 import {
   ArgsTable as PureArgsTable,
   ArgsTableProps as PureArgsTableProps,

@@ -13,7 +13,7 @@ import type {
   StoryName,
   Args,
   ComponentTitle,
-} from '@storybook/csf';
+} from '@storybook/types';
 
 import { Addon } from './index';
 
@@ -28,7 +28,7 @@ export type {
   StoryIdentifier,
   ViewMode,
   Args,
-} from '@storybook/csf';
+} from '@storybook/types';
 
 export interface ArgType<TArg = unknown> extends InputType {
   defaultValue?: TArg;

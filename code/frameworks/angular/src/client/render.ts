@@ -1,5 +1,5 @@
 import type { RenderContext } from '@storybook/store';
-import type { ArgsStoryFn } from '@storybook/csf';
+import type { ArgsStoryFn } from '@storybook/types';
 
 import { renderNgApp } from './angular/helpers';
 import type { AngularFramework } from './types';

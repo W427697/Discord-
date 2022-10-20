@@ -5,7 +5,7 @@ import type {
   PartialStoryFn,
   LegacyStoryFn,
   AnyFramework,
-} from '@storybook/csf';
+} from '@storybook/types';
 
 export function decorateStory<TFramework extends AnyFramework>(
   storyFn: LegacyStoryFn<TFramework>,

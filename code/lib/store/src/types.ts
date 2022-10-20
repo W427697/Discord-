@@ -21,7 +21,7 @@ import type {
   ComponentId,
   PartialStoryFn,
   Parameters,
-} from '@storybook/csf';
+} from '@storybook/types';
 import type {
   StoryIndexEntry,
   DocsIndexEntry,

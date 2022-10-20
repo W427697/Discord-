@@ -1,5 +1,5 @@
 import { dedent } from 'ts-dedent';
-import type { StoryId } from '@storybook/csf';
+import type { StoryId } from '@storybook/types';
 import memoize from 'memoizerific';
 
 import type { StorySpecifier, StoryIndex, IndexEntry, Path } from './types';

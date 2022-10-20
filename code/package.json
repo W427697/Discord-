@@ -220,6 +220,7 @@
     "@storybook/telemetry": "workspace:*",
     "@storybook/testing-library": "0.0.14-next.0",
     "@storybook/theming": "workspace:*",
+    "@storybook/types": "workspace:*",
     "@storybook/ui": "workspace:*",
     "@storybook/vue": "workspace:*",
     "@storybook/vue-webpack5": "workspace:*",

@@ -1,4 +1,4 @@
-import type { AnyFramework } from '@storybook/csf';
+import type { AnyFramework } from '@storybook/types';
 import type { Loadable } from '@storybook/addons';
 import { ClientApi as ClientApiClass } from '@storybook/client-api';
 import type { StoryshotsOptions } from '../api/StoryshotsOptions';

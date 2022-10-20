@@ -1,6 +1,6 @@
 import type { ConcreteComponent, Component, ComponentOptions } from 'vue';
 import { h } from 'vue';
-import type { DecoratorFunction, StoryContext, LegacyStoryFn } from '@storybook/csf';
+import type { DecoratorFunction, StoryContext, LegacyStoryFn } from '@storybook/types';
 import { sanitizeStoryContextUpdate } from '@storybook/store';
 
 import type { VueFramework } from './types';

@@ -1,4 +1,4 @@
-import type { Conditional } from '@storybook/csf';
+import type { Conditional } from '@storybook/types';
 
 export interface JsDocParam {
   name: string;

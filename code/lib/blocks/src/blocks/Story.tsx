@@ -8,7 +8,7 @@ import React, {
   useEffect,
   useState,
 } from 'react';
-import { StoryId, StoryAnnotations, AnyFramework } from '@storybook/csf';
+import { StoryId, StoryAnnotations, AnyFramework } from '@storybook/types';
 import type { ModuleExport, ModuleExports, Story as StoryType } from '@storybook/store';
 
 import { Story as PureStory, StorySkeleton } from '../components';

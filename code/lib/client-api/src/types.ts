@@ -13,7 +13,7 @@ import type {
   LoaderFunction,
   StoryContext,
 } from '@storybook/addons';
-import { AnyFramework, StoryIdentifier, ProjectAnnotations } from '@storybook/csf';
+import { AnyFramework, StoryIdentifier, ProjectAnnotations } from '@storybook/types';
 import type { RenderContext } from '@storybook/store';
 import { StoryStore, HooksContext } from '@storybook/store';
 
@@ -26,7 +26,7 @@ export type {
   SBIntersectionType,
   SBUnionType,
   SBOtherType,
-} from '@storybook/csf';
+} from '@storybook/types';
 
 // NOTE: these types are really just here for back-compat. Many of them don't have much meaning
 // Remove in 7.0

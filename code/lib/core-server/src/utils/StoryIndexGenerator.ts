@@ -18,7 +18,7 @@ import type { StoryIndexer, NormalizedStoriesSpecifier, DocsOptions } from '@sto
 import { normalizeStoryPath } from '@storybook/core-common';
 import { logger } from '@storybook/node-logger';
 import { getStorySortParameter, NoMetaError } from '@storybook/csf-tools';
-import type { ComponentTitle, StoryName } from '@storybook/csf';
+import type { ComponentTitle, StoryName } from '@storybook/types';
 import { toId } from '@storybook/csf';
 
 /** A .mdx file will produce a "standalone" docs entry */

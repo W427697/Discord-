@@ -1,5 +1,5 @@
 import { expect } from '@jest/globals';
-import { StoryId } from '@storybook/csf';
+import { StoryId } from '@storybook/types';
 import { StoryIndexEntry } from '@storybook/store';
 
 import { storySort } from './storySort';

@@ -14,7 +14,7 @@ import ReactDOM, { version as reactDomVersion } from 'react-dom';
 import type { Root as ReactRoot } from 'react-dom/client';
 
 import type { RenderContext } from '@storybook/store';
-import { ArgsStoryFn } from '@storybook/csf';
+import { ArgsStoryFn } from '@storybook/types';
 
 import type { ReactFramework, StoryContext } from './types';
 

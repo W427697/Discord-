@@ -2,7 +2,7 @@
 import * as preact from 'preact';
 import { dedent } from 'ts-dedent';
 import type { RenderContext } from '@storybook/store';
-import { ArgsStoryFn } from '@storybook/csf';
+import { ArgsStoryFn } from '@storybook/types';
 
 import type { StoryFnPreactReturnType, PreactFramework } from './types';
 

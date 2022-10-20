@@ -27,7 +27,7 @@ packages:
     proxy: npmjs
 
   # storybook's packages not hosted in this monorepo
-  '@storybook/csf':
+  '@storybook/types':
     access: $all
     publish: $all
     proxy: npmjs

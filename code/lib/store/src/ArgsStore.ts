@@ -1,4 +1,4 @@
-import type { StoryId, Args } from '@storybook/csf';
+import type { StoryId, Args } from '@storybook/types';
 
 import type { Story } from './types';
 import { combineArgs, mapArgsToTypes, validateOptions, deepDiff, DEEPLY_EQUAL } from './args';

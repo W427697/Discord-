@@ -8,7 +8,7 @@ import type {
   StoryId,
   Args,
   LegacyStoryFn,
-} from '@storybook/csf';
+} from '@storybook/types';
 import {
   FORCE_RE_RENDER,
   STORY_RENDERED,

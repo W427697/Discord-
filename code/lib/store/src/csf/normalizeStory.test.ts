@@ -1,5 +1,5 @@
 import { expect } from '@jest/globals';
-import { AnyFramework, StoryAnnotationsOrFn } from '@storybook/csf';
+import { AnyFramework, StoryAnnotationsOrFn } from '@storybook/types';
 
 import { normalizeStory } from './normalizeStory';
 

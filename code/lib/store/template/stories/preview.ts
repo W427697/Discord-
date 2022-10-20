@@ -1,4 +1,4 @@
-import { PartialStoryFn, StoryContext } from '@storybook/csf';
+import { PartialStoryFn, StoryContext } from '@storybook/types';
 
 export const parameters = {
   projectParameter: 'projectParameter',

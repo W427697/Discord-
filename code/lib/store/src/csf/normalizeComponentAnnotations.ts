@@ -1,5 +1,5 @@
 import { sanitize } from '@storybook/csf';
-import type { AnyFramework } from '@storybook/csf';
+import type { AnyFramework } from '@storybook/types';
 
 import type { ModuleExports, NormalizedComponentAnnotations } from '../types';
 import { normalizeInputTypes } from './normalizeInputTypes';

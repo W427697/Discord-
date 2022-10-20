@@ -1,4 +1,4 @@
-import { AnyFramework } from '@storybook/csf';
+import { AnyFramework } from '@storybook/types';
 import { DocsContext } from '@storybook/preview-web';
 import { StoryStore } from '@storybook/store';
 import type { DocsContextProps } from '@storybook/preview-web';

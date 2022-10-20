@@ -15,7 +15,7 @@ import type {
   PlayFunctionContext,
   StepLabel,
   PlayFunction,
-} from '@storybook/csf';
+} from '@storybook/types';
 import { includeConditionalArg } from '@storybook/csf';
 
 import type {

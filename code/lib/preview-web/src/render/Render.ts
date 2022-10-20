@@ -1,4 +1,4 @@
-import { StoryId, AnyFramework } from '@storybook/csf';
+import { StoryId, AnyFramework } from '@storybook/types';
 
 export type RenderType = 'story' | 'docs';
 

@@ -2,7 +2,7 @@
 import { dedent } from 'ts-dedent';
 import Vue from 'vue';
 import type { RenderContext } from '@storybook/store';
-import type { ArgsStoryFn } from '@storybook/csf';
+import type { ArgsStoryFn } from '@storybook/types';
 import { CombinedVueInstance } from 'vue/types/vue';
 import type { VueFramework } from './types';
 

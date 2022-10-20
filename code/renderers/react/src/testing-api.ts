@@ -4,7 +4,7 @@ import {
   setProjectAnnotations as originalSetProjectAnnotations,
 } from '@storybook/store';
 import type { CSFExports, ComposedStory, StoriesWithPartialProps } from '@storybook/store';
-import { ProjectAnnotations, Args } from '@storybook/csf';
+import { ProjectAnnotations, Args } from '@storybook/types';
 import { deprecate } from '@storybook/client-logger';
 
 import { render } from './render';

@@ -3,9 +3,10 @@
 import { dedent } from 'ts-dedent';
 import global from 'global';
 import { logger } from '@storybook/client-logger';
-import { toId, sanitize, StepRunner } from '@storybook/csf';
+import { toId, sanitize } from '@storybook/csf';
 import type {
   Args,
+  StepRunner,
   ArgTypes,
   AnyFramework,
   DecoratorFunction,
@@ -17,7 +18,7 @@ import type {
   Globals,
   GlobalTypes,
   LegacyStoryFn,
-} from '@storybook/csf';
+} from '@storybook/types';
 import {
   combineParameters,
   composeStepRunners,

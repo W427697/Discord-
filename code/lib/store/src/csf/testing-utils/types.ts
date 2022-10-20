@@ -5,7 +5,7 @@ import type {
   ComponentAnnotations,
   Args,
   StoryContext,
-} from '@storybook/csf';
+} from '@storybook/types';
 
 export type CSFExports<TFramework extends AnyFramework = AnyFramework> = {
   default: ComponentAnnotations<TFramework, Args>;

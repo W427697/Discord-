@@ -1,4 +1,4 @@
-import type { ArgsStoryFn, StoryContext as DefaultStoryContext } from '@storybook/csf';
+import type { ArgsStoryFn, StoryContext as DefaultStoryContext } from '@storybook/types';
 import { parameters } from './config';
 
 export type { RenderContext } from '@storybook/core-client';

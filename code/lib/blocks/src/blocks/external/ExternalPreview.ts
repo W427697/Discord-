@@ -1,6 +1,6 @@
 import { Preview } from '@storybook/preview-web';
 import { Path, ModuleExports, StoryIndex, composeConfigs } from '@storybook/store';
-import { AnyFramework, ComponentTitle, ProjectAnnotations } from '@storybook/csf';
+import { AnyFramework, ComponentTitle, ProjectAnnotations } from '@storybook/types';
 import { Channel } from '@storybook/channels';
 
 import { ExternalDocsContext } from './ExternalDocsContext';

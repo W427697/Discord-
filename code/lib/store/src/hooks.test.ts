@@ -7,7 +7,7 @@ import {
   UPDATE_GLOBALS,
 } from '@storybook/core-events';
 import { addons } from '@storybook/addons';
-import { DecoratorFunction, StoryContext } from '@storybook/csf';
+import { DecoratorFunction, StoryContext } from '@storybook/types';
 
 import { defaultDecorateStory } from './decorators';
 import {

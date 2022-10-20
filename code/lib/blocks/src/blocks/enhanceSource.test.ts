@@ -1,4 +1,4 @@
-import type { StoryContext } from '@storybook/csf';
+import type { StoryContext } from '@storybook/types';
 import { enhanceSource } from './enhanceSource';
 
 const emptyContext: StoryContext = {

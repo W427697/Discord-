@@ -2,7 +2,7 @@ import type { Options as TelejsonOptions } from 'telejson';
 import type { TransformOptions } from '@babel/core';
 import { Router } from 'express';
 import { Server } from 'http';
-import type { Parameters } from '@storybook/csf';
+import type { Parameters } from '@storybook/types';
 import type { PackageJson as PackageJsonFromTypeFest } from 'type-fest';
 import type { FileSystemCache } from './utils/file-cache';
 
