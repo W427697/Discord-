@@ -229,7 +229,7 @@ jobs:
           name: Run @storybook/bench on repro
           command: |
             cd ../cra-bench
-            npx -p @storybook/bench@0.7.6--canary.760ff01.0 sb-bench 'echo noop' --label cra
+            npx -p @storybook/bench@0.7.6--canary.14.6702e4f.0 sb-bench 'echo noop' --label cra
       - run:
           name: prep artifacts
           when: always
@@ -268,7 +268,7 @@ jobs:
           command: |
             cd ../vite-react-bench
             yarn install
-            npx -p @storybook/bench@0.7.6--canary.760ff01.0 sb-bench 'echo noop' --label vite-react
+            npx -p @storybook/bench@0.7.6--canary.14.6702e4f.0 sb-bench 'echo noop' --label vite-react
       - run:
           name: prep artifacts
           when: always
