@@ -12,7 +12,8 @@ import {
 import { WebView } from '@storybook/preview-web/dist/cjs/WebView';
 import { setGlobalRender } from '@storybook/client-api';
 
-import { start } from './start';
+import { start as realStart } from './start';
+import { Loadable } from './types';
 
 jest.mock('@storybook/preview-web/dist/cjs/WebView');
 jest.spyOn(WebView.prototype, 'prepareForDocs').mockReturnValue('docs-root');
@@ -51,6 +52,22 @@ beforeEach(() => {
   // Preview doesn't clean itself up as it isn't designed to ever be stopped :shrug:
   emitter.removeAllListeners();
 });
+
+const start: typeof realStart = (renderToDOM) => {
+  const result = realStart(renderToDOM);
+
+  const configure: typeof result['configure'] = (
+    framework: string,
+    loadable: Loadable,
+    m?: NodeModule,
+    disableBackwardCompatibility = false
+  ) => result.configure(framework, loadable, m, disableBackwardCompatibility);
+
+  return {
+    ...result,
+    configure,
+  };
+};
 
 describe('start', () => {
   describe('when configure is called with storiesOf only', () => {

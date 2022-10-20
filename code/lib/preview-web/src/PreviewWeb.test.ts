@@ -753,38 +753,38 @@ describe('PreviewWeb', () => {
       document.location.search = '?id=component-one--a';
       await createAndRenderPreview();
 
-      emitter.emit(UPDATE_GLOBALS, { globals: { foo: 'bar' } });
+      emitter.emit(UPDATE_GLOBALS, { globals: { a: 'c' } });
 
       await waitForEvents([GLOBALS_UPDATED]);
       expect(mockChannel.emit).toHaveBeenCalledWith(GLOBALS_UPDATED, {
-        globals: { a: 'b', foo: 'bar' },
+        globals: { a: 'c' },
         initialGlobals: { a: 'b' },
       });
     });
 
-    it('sets new globals on the store', async () => {
+    it('doet not allow new globals on the store', async () => {
       document.location.search = '?id=component-one--a';
       const preview = await createAndRenderPreview();
 
       emitter.emit(UPDATE_GLOBALS, { globals: { foo: 'bar' } });
 
-      expect(preview.storyStore.globals!.get()).toEqual({ a: 'b', foo: 'bar' });
+      expect(preview.storyStore.globals!.get()).toEqual({ a: 'b' });
     });
 
-    it('passes new globals in context to renderToDOM', async () => {
+    it('passes globals in context to renderToDOM', async () => {
       document.location.search = '?id=component-one--a';
       const preview = await createAndRenderPreview();
 
       mockChannel.emit.mockClear();
       projectAnnotations.renderToDOM.mockClear();
-      emitter.emit(UPDATE_GLOBALS, { globals: { foo: 'bar' } });
+      emitter.emit(UPDATE_GLOBALS, { globals: { a: 'd' } });
       await waitForRender();
 
       expect(projectAnnotations.renderToDOM).toHaveBeenCalledWith(
         expect.objectContaining({
           forceRemount: false,
           storyContext: expect.objectContaining({
-            globals: { a: 'b', foo: 'bar' },
+            globals: { a: 'd' },
           }),
         }),
         'story-element'

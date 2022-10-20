@@ -93,9 +93,9 @@ export function start<TFramework extends AnyFramework>(
       framework: string,
       loadable: Loadable,
       m?: NodeModule,
-      showDeprecationWarning = true
+      disableBackwardCompatibility = true
     ) {
-      if (showDeprecationWarning) {
+      if (disableBackwardCompatibility) {
         throw new Error('unexpected configure() call');
       }
 
