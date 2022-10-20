@@ -248,7 +248,7 @@ export const denormalizeStoryParameters = ({
 
 const TITLE_PATH_SEPARATOR = /\s*\/\s*/;
 
-// We used to received a bit more data over the channel on the SET_STORIES event, including
+// We used to received a bit more data over the channel on the SET_INDEX event, including
 // the full parameters for each story.
 type PreparedIndexEntry = IndexEntry & {
   parameters?: Parameters;
@@ -265,19 +265,14 @@ export const transformSetStoriesStoryDataToStoriesHash = (
   data: SetStoriesStoryData,
   { provider, docsOptions }: { provider: Provider; docsOptions: DocsOptions }
 ) =>
-  transformStoryIndexToStoriesHash(
-    transformSetStoriesStoryDataToPreparedStoryIndex(data, { docsOptions }),
-    {
-      provider,
-      docsOptions,
-    }
-  );
+  transformStoryIndexToStoriesHash(transformSetStoriesStoryDataToPreparedStoryIndex(data), {
+    provider,
+    docsOptions,
+  });
 
 const transformSetStoriesStoryDataToPreparedStoryIndex = (
-  stories: SetStoriesStoryData,
-  { docsOptions }: { docsOptions: DocsOptions }
+  stories: SetStoriesStoryData
 ): PreparedStoryIndex => {
-  const seenTitles = new Set<ComponentTitle>();
   const entries: PreparedStoryIndex['entries'] = Object.entries(stories).reduce(
     (acc, [id, story]) => {
       if (!story) return acc;
@@ -296,19 +291,6 @@ const transformSetStoriesStoryDataToPreparedStoryIndex = (
           ...base,
         };
       } else {
-        if (!seenTitles.has(base.title) && docsOptions.docsPage) {
-          const name = docsOptions.defaultName;
-          const docsId = toId(story.componentId || base.title, name);
-          seenTitles.add(base.title);
-          acc[docsId] = {
-            type: 'docs',
-            storiesImports: [],
-            ...base,
-            id: docsId,
-            name,
-          };
-        }
-
         const { argTypes, args, initialArgs } = story;
         acc[id] = {
           type: 'story',
