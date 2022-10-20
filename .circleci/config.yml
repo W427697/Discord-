@@ -237,6 +237,44 @@ jobs:
       - store_artifacts:
           path: /tmp/sb-bench.tar.gz
           destination: sb-bench.tar.gz
+  vite-react-bench:
+    executor:
+      class: medium+
+      name: sb_playwright
+    working_directory: /tmp/storybook
+    steps:
+      - git-shallow-clone/checkout_advanced:
+          clone_options: '--depth 1 --verbose'
+      - attach_workspace:
+          at: .
+      - run:
+          name: Running local registry
+          command: |
+            cd code
+            yarn local-registry --port 6001 --open
+          background: true
+      - run:
+          name: Wait for registry
+          command: |
+            cd code
+            yarn wait-on http://localhost:6001
+      - run:
+          name: set up vite-react repro, skip tests
+          command: |
+            cd code
+            node ./lib/cli/bin/index.js repro-next react-vite/default-ts --output ../../vite-react-bench
+      - run:
+          name: Run @storybook/bench on repro
+          command: |
+            cd ../vite-react-bench
+            npx -p @storybook/bench@0.7.6--canary.760ff01.0 sb-bench 'echo noop' --label vite-react
+      - run:
+          name: prep artifacts
+          when: always
+          command: tar cvzf /tmp/sb-bench.tar.gz ../vite-react-bench
+      - store_artifacts:
+          path: /tmp/sb-bench.tar.gz
+          destination: sb-bench.tar.gz
   smoke-tests:
     executor:
       class: medium+
@@ -454,7 +492,9 @@ workflows:
       - cra-bench:
           requires:
             - publish
-
+      - vite-react-bench:
+          requires:
+            - publish
       ## new workflow
       - create-sandboxes:
           requires:
