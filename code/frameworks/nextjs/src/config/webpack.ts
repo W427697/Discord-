@@ -27,9 +27,10 @@ export const configureConfig = async ({
 const findNextConfigFile = async (configDir: string) => {
   const supportedExtensions = ['mjs', 'js'];
   return supportedExtensions.reduce<Promise<undefined | string>>(
-    async (ext, acc: string | undefined) => {
-      if (!(await acc)) {
-        acc = await findUp(`next.config.${ext}`, { cwd: configDir });
+    async (acc, ext: string | undefined) => {
+      const resolved = await acc;
+      if (!resolved) {
+        acc = findUp(`next.config.${ext}`, { cwd: configDir });
       }
 
       return acc;
