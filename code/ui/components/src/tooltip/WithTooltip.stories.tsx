@@ -1,7 +1,6 @@
-import React, { FunctionComponent } from 'react';
-import { storiesOf } from '@storybook/react';
+import React, { FunctionComponent, ComponentProps } from 'react';
+import type { StoryObj } from '@storybook/react';
 import { styled } from '@storybook/theming';
-
 import { TooltipMessage } from './TooltipMessage';
 import { WithToolTipState as WithTooltip } from './WithTooltip';
 
@@ -36,50 +35,101 @@ const Tooltip: FunctionComponent<TooltipProps> = ({ onHide }) => (
   <TooltipMessage
     title="Lorem ipsum dolor sit"
     desc="Amet consectatur vestibulum concet durum politu coret weirom"
-    links={[{ title: 'Continue', onClick: onHide }]}
+    links={[
+      {
+        title: 'Continue',
+        onClick: onHide,
+      },
+    ]}
   />
 );
 
-Tooltip.defaultProps = {
-  onHide: null,
+export default {
+  title: 'Basics/Tooltip/WithTooltip',
+  component: WithTooltip,
+  decorators: [
+    (storyFn) => (
+      <ViewPort>
+        <BackgroundBox>
+          <Spacer />
+          {storyFn()}
+        </BackgroundBox>
+      </ViewPort>
+    ),
+  ],
 };
 
-storiesOf('basics/Tooltip/WithTooltip', module)
-  .addDecorator((storyFn) => (
-    <ViewPort>
-      <BackgroundBox>
-        <Spacer />
-        {storyFn()}
-      </BackgroundBox>
-    </ViewPort>
-  ))
-  .add('simple hover', () => (
-    <WithTooltip placement="top" trigger="hover" tooltip={<Tooltip />}>
+export const SimpleHover: StoryObj<ComponentProps<typeof WithTooltip>> = {
+  args: {
+    placement: 'top',
+    trigger: 'hover',
+  },
+  render: (args) => (
+    <WithTooltip tooltip={<Tooltip />} {...args}>
       <Trigger>Hover me!</Trigger>
     </WithTooltip>
-  ))
-  .add('simple hover, functional', () => (
-    <WithTooltip placement="top" trigger="hover" tooltip={Tooltip}>
+  ),
+};
+
+export const SimpleHoverFunctional: StoryObj<ComponentProps<typeof WithTooltip>> = {
+  args: {
+    placement: 'top',
+    trigger: 'hover',
+  },
+  render: (args) => (
+    <WithTooltip tooltip={Tooltip} {...args}>
       <Trigger>Hover me!</Trigger>
     </WithTooltip>
-  ))
-  .add('simple click', () => (
-    <WithTooltip placement="top" trigger="click" tooltip={<Tooltip />}>
+  ),
+};
+
+export const SimpleClick: StoryObj<ComponentProps<typeof WithTooltip>> = {
+  args: {
+    placement: 'top',
+    trigger: 'click',
+  },
+  render: (args) => (
+    <WithTooltip tooltip={<Tooltip />} {...args}>
       <Trigger>Click me!</Trigger>
     </WithTooltip>
-  ))
-  .add('simple click start open', () => (
-    <WithTooltip placement="top" trigger="click" startOpen tooltip={<Tooltip />}>
+  ),
+};
+
+export const SimpleClickStartOpen: StoryObj<ComponentProps<typeof WithTooltip>> = {
+  args: {
+    placement: 'top',
+    trigger: 'click',
+    startOpen: true,
+  },
+  render: (args) => (
+    <WithTooltip tooltip={<Tooltip />} {...args}>
       <Trigger>Click me!</Trigger>
     </WithTooltip>
-  ))
-  .add('simple click closeOnClick', () => (
-    <WithTooltip placement="top" trigger="click" closeOnClick tooltip={<Tooltip />}>
+  ),
+};
+
+export const SimpleClickCloseOnClick: StoryObj<ComponentProps<typeof WithTooltip>> = {
+  args: {
+    placement: 'top',
+    trigger: 'click',
+    closeOnClick: true,
+  },
+  render: (args) => (
+    <WithTooltip tooltip={<Tooltip />} {...args}>
       <Trigger>Click me!</Trigger>
     </WithTooltip>
-  ))
-  .add('no chrome', () => (
-    <WithTooltip placement="top" trigger="click" hasChrome={false} tooltip={<Tooltip />}>
+  ),
+};
+
+export const WithoutChrome: StoryObj<ComponentProps<typeof WithTooltip>> = {
+  args: {
+    placement: 'top',
+    trigger: 'click',
+    hasChrome: false,
+  },
+  render: (args) => (
+    <WithTooltip tooltip={<Tooltip />} {...args}>
       <Trigger>Click me!</Trigger>
     </WithTooltip>
-  ));
+  ),
+};
