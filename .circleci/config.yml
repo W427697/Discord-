@@ -229,7 +229,7 @@ jobs:
           name: Run @storybook/bench on repro
           command: |
             cd ../cra-bench
-            npx -p @storybook/bench@1.0.0--canary.12.7cccdee.0 sb-bench 'echo noop' --label cra
+            npx -p @storybook/bench@0.7.6--canary.760ff01.0 sb-bench 'echo noop' --label cra
       - run:
           name: prep artifacts
           when: always
@@ -322,7 +322,7 @@ jobs:
     executor:
       class: medium+
       name: sb_node_16_browsers
-    parallelism: 20
+    parallelism: 22
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: '--depth 1 --verbose'
@@ -341,7 +341,7 @@ jobs:
     executor:
       class: medium+
       name: sb_node_16_browsers
-    parallelism: 15
+    parallelism: 22
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: '--depth 1 --verbose'
@@ -356,7 +356,7 @@ jobs:
     executor:
       class: medium+
       name: sb_node_16_browsers
-    parallelism: 20
+    parallelism: 22
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: '--depth 1 --verbose'
@@ -375,7 +375,7 @@ jobs:
     executor:
       class: medium+
       name: sb_playwright
-    parallelism: 18
+    parallelism: 20
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: '--depth 1 --verbose'
@@ -390,7 +390,7 @@ jobs:
     executor:
       class: medium+
       name: sb_node_16_browsers
-    parallelism: 20
+    parallelism: 22
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: '--depth 1 --verbose'
@@ -405,7 +405,7 @@ jobs:
     executor:
       class: medium+
       name: sb_playwright
-    parallelism: 20
+    parallelism: 22
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: '--depth 1 --verbose'

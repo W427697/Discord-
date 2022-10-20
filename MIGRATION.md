@@ -36,6 +36,8 @@
     - [Docs Page](#docs-page)
     - [Configuring the Docs Container](#configuring-the-docs-container)
     - [External Docs](#external-docs)
+    - [MDX2 upgrade](#mdx2-upgrade)
+    - [Dropped addon-docs manual configuration](#dropped-addon-docs-manual-configuration)
 - [From version 6.4.x to 6.5.0](#from-version-64x-to-650)
   - [Vue 3 upgrade](#vue-3-upgrade)
   - [React18 new root API](#react18-new-root-api)
@@ -539,7 +541,7 @@ In 7.0 we've removed the following feature flags:
 
 #### CLI option `--use-npm` deprecated
 
-With increased support for more package managers (pnpm), we have introduced the `--package-manager` CLI option.  Please use `--package-manager=npm` to force NPM to be used to install dependencies when running Storybook CLI commands.  Other valid options are `pnpm`, `yarn1`, and `yarn2` (`yarn2` is for versions 2 and higher).
+With increased support for more package managers (pnpm), we have introduced the `--package-manager` CLI option. Please use `--package-manager=npm` to force NPM to be used to install dependencies when running Storybook CLI commands. Other valid options are `pnpm`, `yarn1`, and `yarn2` (`yarn2` is for versions 2 and higher).
 
 #### Vite builder uses vite config automatically
 
@@ -549,7 +551,7 @@ If you were using `viteFinal` in 6.5 to simply merge in your project's standard 
 
 #### Vite cache moved to node_modules/.cache/.vite-storybook
 
-Previously, Storybook's Vite builder placed cache files in node_modules/.vite-storybook.  However, it's more common for tools to place cached files into `node_modules/.cache`, and putting them there makes it quick and easy to clear the cache for multiple tools at once.  We don't expect this change will cause any problems, but it's something that users of Storybook Vite projects should know about.  It can be configured by setting `cacheDir` in `viteFinal` within `.storybook/main.js` [Storybook Vite configuration docs](https://storybook.js.org/docs/react/builders/vite#configuration)).
+Previously, Storybook's Vite builder placed cache files in node_modules/.vite-storybook. However, it's more common for tools to place cached files into `node_modules/.cache`, and putting them there makes it quick and easy to clear the cache for multiple tools at once. We don't expect this change will cause any problems, but it's something that users of Storybook Vite projects should know about. It can be configured by setting `cacheDir` in `viteFinal` within `.storybook/main.js` [Storybook Vite configuration docs](https://storybook.js.org/docs/react/builders/vite#configuration)).
 
 #### Removed docs.getContainer and getPage parameters
 
@@ -557,7 +559,7 @@ It is no longer possible to set `parameters.docs.getContainer()` and `getPage()`
 
 #### Removed STORYBOOK_REACT_CLASSES global
 
-This was a legacy global variable from the early days of react docgen.  If you were using this variable, you can instead use docgen information which is added directly to components using `.__docgenInfo`.
+This was a legacy global variable from the early days of react docgen. If you were using this variable, you can instead use docgen information which is added directly to components using `.__docgenInfo`.
 
 #### Icons API changed
 
@@ -665,7 +667,7 @@ You can configure Docs Page in `main.js`:
 module.exports = {
   docs: {
     docsPage: true, // set to false to disable docs page entirely
-    defaultTitle: 'Docs', // set to change the title of generated docs entries
+    defaultName: 'Docs', // set to change the name of generated docs entries
   },
 };
 ```
@@ -734,6 +736,20 @@ export default function App({ Component, pageProps }) {
   );
 }
 ```
+
+#### MDX2 upgrade
+
+Storybook 7 Docs uses MDXv2 instead of MDXv1. This means an improved syntax, support for inline JS expression, and improved performance among [other benefits](https://mdxjs.com/blog/v2/).
+
+If you use `.stories.mdx` files in your project, you may need to edit them since MDX2 contains [breaking changes](https://mdxjs.com/migrating/v2/#update-mdx-files).
+
+We will update this section with specific pointers based on user feedback during the prerelease period and probably add an codemod to help streamline the upgrade before final 7.0 release.
+
+As part of the upgrade we deleted the codemod `mdx-to-csf` and will be replacing it with a more sophisticated version prior to release.
+
+#### Dropped addon-docs manual configuration
+
+Storybook Docs 5.x shipped with instructions for how to manually configure webpack and storybook without the use of Storybook's "presets" feature. Over time, these docs went out of sync. Now in Storybook 7 we have removed support for manual configuration entirely.
 
 ## From version 6.4.x to 6.5.0
 
