@@ -1,11 +1,9 @@
 import * as React from 'react';
 // this will be aliased by webpack at runtime (this is just for typing)
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { action as originalAction } from '@storybook/addon-actions';
 import { StoryContext } from '@storybook/addons';
-import { RouterContext } from '../resolved-router-context';
-// this will be aliased by webpack at runtime (this is just for typing)
-import Router from './resolved-router';
+import { RouterContext } from 'next/dist/shared/lib/router-context';
+import Router from 'next/router';
 
 let action: typeof originalAction;
 
@@ -68,7 +66,6 @@ export const RouterDecorator = (
   } as NonNullable<typeof Router.router>;
 
   return (
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     <RouterContext.Provider value={Router.router as any}>
       <Story />
     </RouterContext.Provider>

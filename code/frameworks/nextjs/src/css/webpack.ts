@@ -5,6 +5,9 @@ import { Configuration as WebpackConfig } from 'webpack';
 import semver from 'semver';
 import { scopedResolve } from '../utils';
 
+// This tries to follow nextjs's css config, please refer to this file for more info:
+// https://github.com/vercel/next.js/blob/canary/packages/next/build/webpack-config.ts
+
 export const configureCss = (baseConfig: WebpackConfig, nextConfig: NextConfig): void => {
   const rules = baseConfig.module?.rules;
   rules?.forEach((rule, i) => {
@@ -94,7 +97,6 @@ const getImportResolver =
 
 const isCssLoaderV6 = () => {
   try {
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
     const cssLoaderVersion = require(scopedResolve('css-loader/package.json')).version;
     return semver.gte(cssLoaderVersion, '6.0.0');
   } catch {

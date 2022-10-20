@@ -6,11 +6,6 @@ export const configureRouting = (baseConfig: WebpackConfig): void => {
   // here we resolve the router context path with the installed version of Next.js
   const routerContextPath = getRouterContextPath();
   addScopedAlias(baseConfig, routerContextPath);
-  addScopedAlias(
-    baseConfig,
-    require.resolve('@storybook/nextjs/resolved-router-context.js'),
-    routerContextPath
-  );
 };
 
 const getRouterContextPath = () => {

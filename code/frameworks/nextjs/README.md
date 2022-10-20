@@ -27,13 +27,10 @@
   - [Runtime Config](#runtime-config)
   - [Custom Webpack Config](#custom-webpack-config)
   - [Typescript](#typescript)
-  - [next.config.js](#nextconfigjs)
-    - [ESM](#esm)
   - [Notes for Yarn v2 and v3 users](#notes-for-yarn-v2-and-v3-users)
   - [FAQ](#faq)
     - [Stories for pages](#stories-for-pages)
     - [Statically imported images won't load](#statically-imported-images-wont-load)
-    - [This framework breaks when the .mjs extension for the next config is used](#this-framework-breaks-when-the-mjs-extension-for-the-next-config-is-used)
     - [Module not found: Error: Can't resolve [package name]](#module-not-found-error-cant-resolve-package-name)
 - [Acknowledgements](#acknowledgements)
 
@@ -63,8 +60,6 @@
 
 - [Next.js](https://nextjs.org/) >= 9.x
 - [Storybook](https://storybook.js.org/) >= 7.x
-- Your Next.js config file uses the `.js` extension and not the `.mjs` extension (i.e. `next.config.js` not `next.config.mjs`)
-  - See [next.config.js](#nextconfigjs) for more details
 
 ## Getting Started
 
@@ -323,8 +318,6 @@ import '../styles/globals.scss';
 
 This will automatically include any of your [custom sass configurations](https://nextjs.org/docs/basic-features/built-in-css-support#customizing-sass-options) in your `next.config.js` file.
 
-> Right now only the `.js` extension of the Next.js config is supported, not `.mjs`. See [next.config.js](#nextconfigjs) for more details.
-
 ```js
 // next.config.js
 const path = require('path');
@@ -534,14 +527,6 @@ Storybook handles most [Typescript](https://www.typescriptlang.org/) configurati
 }
 ```
 
-### next.config.js
-
-#### ESM
-
-Right now the only supported config format for Next.js that this framework supports is the commonjs version of the config (i.e. `next.config.js`).
-
-This is mostly because I haven't figured out how to require a `.mjs` file from a storybook addon (which is bound to commonjs modules as far as I know right now). If you are able to help, I'd love it if you could contribute to [this discussion](https://github.com/RyanClementsHax/storybook-addon-next/discussions/28) to get support for the `.mjs` version if such support is even possible.
-
 ### Notes for Yarn v2 and v3 users
 
 If you're using [Yarn](https://yarnpkg.com/) v2 or v3, you may run into issues where Storybook can't resolve `style-loader` or `css-loader`. For example, you might get errors like:
@@ -605,10 +590,6 @@ Before using this framework, image imports just imported the raw path to the ima
 Therefore, if something in storybook isn't showing the image properly, make sure you expect the object to be returned from an import instead of just the asset path.
 
 See [local images](https://nextjs.org/docs/basic-features/image-optimization#local-images) for more detail on how Next.js treats static image imports.
-
-#### This framework breaks when the .mjs extension for the next config is used
-
-Right now using `next.config.mjs` isn't supported. See [next.config.js](#nextconfigjs) for more details. You are required to use the `.js` extension instead.
 
 #### Module not found: Error: Can't resolve [package name]
 

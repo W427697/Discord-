@@ -16,6 +16,11 @@ const configureStaticImageImport = (baseConfig: WebpackConfig): void => {
   const assetRule = rules?.find(
     (rule) => typeof rule !== 'string' && rule.test instanceof RegExp && rule.test.test('test.jpg')
   ) as RuleSetRule;
+
+  if (!assetRule) {
+    return;
+  }
+
   assetRule.test = /\.(apng|eot|otf|ttf|woff|woff2|cur|ani|pdf)(\?.*)?$/;
 
   rules?.push({

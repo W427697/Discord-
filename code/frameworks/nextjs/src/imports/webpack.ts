@@ -5,11 +5,8 @@ import { Configuration as WebpackConfig } from 'webpack';
 export const configureImports = (baseConfig: WebpackConfig): void => {
   const configLoadResult = loadConfig();
 
-  if (
-    configLoadResult.resultType === 'failed' ||
-    // in development, the call to loadConfig() will load this addon's tsconfig lol
-    configLoadResult.absoluteBaseUrl.endsWith('storybook-addon-next')
-  ) {
+  if (configLoadResult.resultType === 'failed' || !configLoadResult.baseUrl) {
+    // either not a typescript project or tsconfig contains no baseUrl
     return;
   }
 
@@ -20,6 +17,6 @@ export const configureImports = (baseConfig: WebpackConfig): void => {
     new TsconfigPathsPlugin({
       configFile: configLoadResult.configFileAbsolutePath,
       extensions: ['.js', '.jsx', '.ts', '.tsx'],
-    })
+    }) as any
   );
 };
