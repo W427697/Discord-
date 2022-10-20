@@ -416,11 +416,6 @@
       "type": "library",
       "implicitDependencies": []
     },
-    "preact-example": {
-      "root": "examples/preact-kitchen-sink",
-      "type": "library",
-      "implicitDependencies": []
-    },
     "sb": {
       "root": "lib/cli-sb",
       "type": "library",
