@@ -267,6 +267,7 @@ jobs:
           name: Run @storybook/bench on repro
           command: |
             cd ../vite-react-bench
+            yarn install
             npx -p @storybook/bench@0.7.6--canary.760ff01.0 sb-bench 'echo noop' --label vite-react
       - run:
           name: prep artifacts
