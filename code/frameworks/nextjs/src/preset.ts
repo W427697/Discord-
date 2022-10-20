@@ -79,9 +79,15 @@ export const babel = async (baseConfig: TransformOptions): Promise<TransformOpti
 };
 
 export const webpackFinal: StorybookConfig['webpackFinal'] = async (baseConfig, options) => {
-  const frameworkOptions = await options.presets.apply<FrameworkOptions>('frameworkOptions');
-  const { nextConfigPath } = frameworkOptions;
-  const nextConfig = await configureConfig(baseConfig, nextConfigPath);
+  const frameworkOptions = await options.presets.apply<{ options: FrameworkOptions }>(
+    'frameworkOptions'
+  );
+  const { options: { nextConfigPath } = {} } = frameworkOptions;
+  const nextConfig = await configureConfig({
+    baseConfig,
+    nextConfigPath,
+    configDir: options.configDir,
+  });
 
   configureRuntimeNextjsVersionResolution(baseConfig);
   configureImports(baseConfig);

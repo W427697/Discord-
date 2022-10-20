@@ -1,15 +1,22 @@
 import type { Configuration as WebpackConfig } from 'webpack';
 import { PHASE_DEVELOPMENT_SERVER } from 'next/constants';
-import path from 'path';
+import findUp from 'find-up';
+import { pathExists } from 'fs-extra';
 import { NextConfig } from 'next';
+import dedent from 'ts-dedent';
 import { DefinePlugin } from 'webpack';
 import { addScopedAlias } from '../utils';
 
-export const configureConfig = async (
-  baseConfig: WebpackConfig,
-  nextConfigPath?: string
-): Promise<NextConfig> => {
-  const nextConfig = await resolveNextConfig(baseConfig, nextConfigPath);
+export const configureConfig = async ({
+  baseConfig,
+  nextConfigPath,
+  configDir,
+}: {
+  baseConfig: WebpackConfig;
+  nextConfigPath?: string;
+  configDir: string;
+}): Promise<NextConfig> => {
+  const nextConfig = await resolveNextConfig({ baseConfig, nextConfigPath, configDir });
 
   addScopedAlias(baseConfig, 'next/config');
   setupRuntimeConfig(baseConfig, nextConfig);
@@ -17,11 +24,42 @@ export const configureConfig = async (
   return nextConfig;
 };
 
-const resolveNextConfig = async (
-  baseConfig: WebpackConfig,
-  nextConfigPath?: string
-): Promise<NextConfig> => {
-  const nextConfigExport = await import(nextConfigPath || path.resolve('next.config.js'));
+const findNextConfigFile = async (configDir: string) => {
+  const supportedExtensions = ['mjs', 'js'];
+  return supportedExtensions.reduce<Promise<undefined | string>>(
+    async (ext, acc: string | undefined) => {
+      if (!(await acc)) {
+        acc = await findUp(`next.config.${ext}`, { cwd: configDir });
+      }
+
+      return acc;
+    },
+    Promise.resolve(undefined)
+  );
+};
+
+const resolveNextConfig = async ({
+  baseConfig,
+  nextConfigPath,
+  configDir,
+}: {
+  baseConfig: WebpackConfig;
+  nextConfigPath?: string;
+  configDir: string;
+}): Promise<NextConfig> => {
+  const nextConfigFile = nextConfigPath || (await findNextConfigFile(configDir));
+
+  if (!nextConfigFile || (await pathExists(nextConfigFile)) === false) {
+    throw new Error(
+      dedent`
+        Could not find or resolve your Next config file. Please provide the next config file path as a framework option.
+
+        More info: https://github.com/storybookjs/storybook/blob/next/code/frameworks/nextjs/README.md#options
+      `
+    );
+  }
+
+  const nextConfigExport = await import(nextConfigFile);
 
   const nextConfig =
     typeof nextConfigExport === 'function'
