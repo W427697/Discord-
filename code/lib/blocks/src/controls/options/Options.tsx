@@ -40,7 +40,7 @@ export const OptionsControl: FC<OptionsProps> = (props) => {
   const { type = 'select', labels, argType } = props;
   const normalized = {
     ...props,
-    options: normalizeOptions(argType.options, labels),
+    options: argType ? normalizeOptions(argType.options, labels) : {},
     isInline: type.includes('inline'),
     isMulti: type.includes('multi'),
   };
