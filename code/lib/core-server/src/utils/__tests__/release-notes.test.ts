@@ -1,4 +1,4 @@
-import { getReleaseNotesData, RELEASE_NOTES_CACHE_KEY } from './utils/release-notes';
+import { getReleaseNotesData, RELEASE_NOTES_CACHE_KEY } from '../release-notes';
 
 describe('getReleaseNotesData', () => {
   it('handles errors gracefully', async () => {
