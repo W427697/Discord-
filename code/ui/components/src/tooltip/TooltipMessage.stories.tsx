@@ -1,40 +1,65 @@
 import React from 'react';
-import { storiesOf } from '@storybook/react';
+import type { Meta } from '@storybook/react';
 import { WithTooltip } from './WithTooltip';
-
 import { TooltipMessage } from './TooltipMessage';
 
-storiesOf('basics/Tooltip/TooltipMessage', module)
-  .addDecorator((storyFn) => (
-    <div style={{ height: '300px' }}>
-      <WithTooltip placement="top" trigger="click" startOpen tooltip={storyFn()}>
-        <div>Tooltip</div>
-      </WithTooltip>
-    </div>
-  ))
-  .add('default', () => (
-    <TooltipMessage
-      title="Lorem ipsum dolor sit"
-      desc="Amet consectatur vestibulum concet durum politu coret weirom"
-    />
-  ))
-  .add('with link', () => (
-    <TooltipMessage
-      title="Lorem ipsum dolor sit"
-      desc="Amet consectatur vestibulum concet durum politu coret weirom"
-      links={[{ title: 'Continue', href: 'test' }]}
-    />
-  ))
-  .add('with links', () => (
-    <TooltipMessage
-      title="Lorem ipsum dolor sit"
-      desc="Amet consectatur vestibulum concet durum politu coret weirom"
-      links={[
-        { title: 'Get more tips', href: 'test' },
-        { title: 'Done', href: 'test' },
-      ]}
-    />
-  ))
-  .add('minimal message', () => (
-    <TooltipMessage desc="Amet consectatur vestibulum concet durum politu coret weirom" />
-  ));
+export default {
+  title: 'Basics/Tooltip/TooltipMessage',
+  component: TooltipMessage,
+  decorators: [
+    (storyFn) => (
+      <div
+        style={{
+          height: '300px',
+        }}
+      >
+        <WithTooltip placement="top" trigger="click" startOpen tooltip={storyFn()}>
+          <div>Tooltip</div>
+        </WithTooltip>
+      </div>
+    ),
+  ],
+} as Meta;
+
+export const Default = {
+  args: {
+    title: 'The title',
+    desc: 'The longest of the long description',
+  },
+};
+
+export const WithSingleLink = {
+  args: {
+    title: 'The title',
+    desc: 'The longest of the long description',
+    links: [
+      {
+        title: 'Continue',
+        href: 'test',
+      },
+    ],
+  },
+};
+
+export const WithMultipleLinks = {
+  args: {
+    title: 'The title',
+    desc: 'The longest of the long description',
+    links: [
+      {
+        title: 'Get more tips',
+        href: 'test',
+      },
+      {
+        title: 'Done',
+        href: 'test',
+      },
+    ],
+  },
+};
+
+export const DescriptionOnly = {
+  args: {
+    desc: 'The description',
+  },
+};
