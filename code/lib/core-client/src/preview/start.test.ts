@@ -53,8 +53,8 @@ beforeEach(() => {
   emitter.removeAllListeners();
 });
 
-const start: typeof realStart = (renderToDOM) => {
-  const result = realStart(renderToDOM);
+const start: typeof realStart = (...args) => {
+  const result = realStart(...args);
 
   const configure: typeof result['configure'] = (
     framework: string,
