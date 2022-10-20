@@ -541,7 +541,7 @@ In 7.0 we've removed the following feature flags:
 
 #### CLI option `--use-npm` deprecated
 
-With increased support for more package managers (pnpm), we have introduced the `--package-manager` CLI option.  Please use `--package-manager=npm` to force NPM to be used to install dependencies when running Storybook CLI commands.  Other valid options are `pnpm`, `yarn1`, and `yarn2` (`yarn2` is for versions 2 and higher).
+With increased support for more package managers (pnpm), we have introduced the `--package-manager` CLI option. Please use `--package-manager=npm` to force NPM to be used to install dependencies when running Storybook CLI commands. Other valid options are `pnpm`, `yarn1`, and `yarn2` (`yarn2` is for versions 2 and higher).
 
 #### Vite builder uses vite config automatically
 
@@ -551,7 +551,7 @@ If you were using `viteFinal` in 6.5 to simply merge in your project's standard 
 
 #### Vite cache moved to node_modules/.cache/.vite-storybook
 
-Previously, Storybook's Vite builder placed cache files in node_modules/.vite-storybook.  However, it's more common for tools to place cached files into `node_modules/.cache`, and putting them there makes it quick and easy to clear the cache for multiple tools at once.  We don't expect this change will cause any problems, but it's something that users of Storybook Vite projects should know about.  It can be configured by setting `cacheDir` in `viteFinal` within `.storybook/main.js` [Storybook Vite configuration docs](https://storybook.js.org/docs/react/builders/vite#configuration)).
+Previously, Storybook's Vite builder placed cache files in node_modules/.vite-storybook. However, it's more common for tools to place cached files into `node_modules/.cache`, and putting them there makes it quick and easy to clear the cache for multiple tools at once. We don't expect this change will cause any problems, but it's something that users of Storybook Vite projects should know about. It can be configured by setting `cacheDir` in `viteFinal` within `.storybook/main.js` [Storybook Vite configuration docs](https://storybook.js.org/docs/react/builders/vite#configuration)).
 
 #### Removed docs.getContainer and getPage parameters
 
@@ -559,7 +559,7 @@ It is no longer possible to set `parameters.docs.getContainer()` and `getPage()`
 
 #### Removed STORYBOOK_REACT_CLASSES global
 
-This was a legacy global variable from the early days of react docgen.  If you were using this variable, you can instead use docgen information which is added directly to components using `.__docgenInfo`.
+This was a legacy global variable from the early days of react docgen. If you were using this variable, you can instead use docgen information which is added directly to components using `.__docgenInfo`.
 
 #### Icons API changed
 
@@ -667,7 +667,7 @@ You can configure Docs Page in `main.js`:
 module.exports = {
   docs: {
     docsPage: true, // set to false to disable docs page entirely
-    defaultTitle: 'Docs', // set to change the title of generated docs entries
+    defaultName: 'Docs', // set to change the name of generated docs entries
   },
 };
 ```
