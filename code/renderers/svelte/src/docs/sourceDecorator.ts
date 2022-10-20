@@ -115,7 +115,7 @@ export function generateSvelteSource(
 /**
  * Check if the story component is a wrapper to the real component.
  *
- * A component can be annoted with @wrapper to indicate that
+ * A component can be annotated with @wrapper to indicate that
  * it's just a wrapper for the real tested component. If it's the case
  * then the code generated references the real component, not the wrapper.
  *

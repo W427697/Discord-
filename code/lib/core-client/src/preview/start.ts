@@ -1,5 +1,4 @@
 import global from 'global';
-import deprecate from 'util-deprecate';
 import { ClientApi } from '@storybook/client-api';
 import { PreviewWeb } from '@storybook/preview-web';
 import type { AnyFramework, ArgsStoryFn } from '@storybook/csf';
@@ -12,13 +11,6 @@ import { Loadable } from './types';
 import { executeLoadableForChanges } from './executeLoadable';
 
 const { window: globalWindow, FEATURES } = global;
-
-const configureDeprecationWarning = deprecate(
-  () => {},
-  `\`configure()\` is deprecated and will be removed in Storybook 7.0. 
-Please use the \`stories\` field of \`main.js\` to load stories.
-Read more at https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#deprecated-configure`
-);
 
 const removedApi = (name: string) => () => {
   throw new Error(`@storybook/client-api:${name} was removed in storyStoreV7.`);
@@ -104,7 +96,7 @@ export function start<TFramework extends AnyFramework>(
       showDeprecationWarning = true
     ) {
       if (showDeprecationWarning) {
-        configureDeprecationWarning();
+        throw new Error('unexpected configure() call');
       }
 
       clientApi.addParameters({ framework });

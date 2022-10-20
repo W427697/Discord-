@@ -14,7 +14,6 @@ export * from './external/ExternalDocsContainer';
 export * from './Heading';
 export * from './Meta';
 export * from './Primary';
-export * from './Props';
 export * from './Source';
 export * from './SourceContainer';
 export * from './Stories';
