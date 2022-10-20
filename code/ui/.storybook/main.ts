@@ -11,12 +11,7 @@ const config: StorybookConfig = {
     },
     {
       directory: '../components/src/**/',
-      files: 'tooltip/WithTooltip.stories.@(js|jsx|ts|tsx|mdx)',
-      titlePrefix: 'Components',
-    },
-    {
-      directory: '../components/src/**/',
-      files: 'tooltip/TooltipLinkList.stories.@(js|jsx|ts|tsx|mdx)',
+      files: '*.stories.@(js|jsx|ts|tsx|mdx)',
       titlePrefix: 'Components',
     },
     // '../components/src/**/*.stories.@(js|jsx|ts|tsx|mdx)',

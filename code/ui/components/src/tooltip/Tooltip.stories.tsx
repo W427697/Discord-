@@ -1,11 +1,15 @@
 import React from 'react';
-import { storiesOf } from '@storybook/react';
 import { styled } from '@storybook/theming';
 import { Tooltip } from './Tooltip';
 
 // Popper would position the tooltip absolutely. We just need to make sure we are pos:rel
-const mockPopperProps = { style: { position: 'relative', top: 20, left: 20 } };
-
+const mockPopperProps = {
+  style: {
+    position: 'relative',
+    top: 20,
+    left: 20,
+  },
+};
 const Content = styled.div({
   width: '100px',
   height: '100px',
@@ -14,29 +18,65 @@ const Content = styled.div({
   lineHeight: '100px',
 });
 
-storiesOf('basics/Tooltip/Tooltip', module)
-  .add('basic, default', () => (
-    <Tooltip {...mockPopperProps}>
+export default {
+  component: Tooltip,
+  title: 'Basics/Tooltip/Tooltip',
+  args: mockPopperProps,
+};
+
+export const BasicDefault = {
+  // args: mockPopperProps,
+  render: (args) => (
+    <Tooltip {...args}>
       <Content>Text</Content>
     </Tooltip>
-  ))
-  .add('basic, default, bottom', () => (
-    <Tooltip placement="bottom" {...mockPopperProps}>
+  ),
+};
+
+export const BasicDefaultBottom = {
+  args: {
+    // ...mockPopperProps,
+    placement: 'bottom',
+  },
+  render: (args) => (
+    <Tooltip {...args}>
       <Content>Text</Content>
     </Tooltip>
-  ))
-  .add('basic, default, left', () => (
-    <Tooltip placement="left" {...mockPopperProps}>
+  ),
+};
+
+export const BasicDefaultLeft = {
+  args: {
+    // ...mockPopperProps,
+    placement: 'left',
+  },
+  render: (args) => (
+    <Tooltip {...args}>
       <Content>Text</Content>
     </Tooltip>
-  ))
-  .add('basic, default, right', () => (
-    <Tooltip placement="right" {...mockPopperProps}>
+  ),
+};
+
+export const BasicDefaultRight = {
+  args: {
+    // ...mockPopperProps,
+    placement: 'right',
+  },
+  render: (args) => (
+    <Tooltip {...args}>
       <Content>Text</Content>
     </Tooltip>
-  ))
-  .add('no chrome', () => (
-    <Tooltip hasChrome={false} {...mockPopperProps}>
+  ),
+};
+
+export const WithoutChrome = {
+  args: {
+    // ...mockPopperProps,
+    hasChrome: false,
+  },
+  render: (args) => (
+    <Tooltip {...args}>
       <Content>Text</Content>
     </Tooltip>
-  ));
+  ),
+};
