@@ -8684,6 +8684,14 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@storybook/types@workspace:lib/types":
+  version: 0.0.0-use.local
+  resolution: "@storybook/types@workspace:lib/types"
+  dependencies:
+    typescript: ~4.6.3
+  languageName: unknown
+  linkType: soft
+
 "@storybook/ui@7.0.0-alpha.40, @storybook/ui@workspace:*, @storybook/ui@workspace:ui/manager":
   version: 0.0.0-use.local
   resolution: "@storybook/ui@workspace:ui/manager"
