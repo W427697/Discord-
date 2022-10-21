@@ -1,11 +1,16 @@
+/* eslint-disable camelcase */
 import global from 'global';
 import { ClientApi } from '@storybook/client-api';
 import { PreviewWeb } from '@storybook/preview-web';
-import type { AnyFramework, ArgsStoryFn } from '@storybook/types';
+import type {
+  AnyFramework,
+  ArgsStoryFn,
+  Store_Path,
+  Store_WebProjectAnnotations,
+} from '@storybook/types';
 import { createChannel } from '@storybook/channel-postmessage';
 import { addons } from '@storybook/addons';
 import { FORCE_RE_RENDER } from '@storybook/core-events';
-import type { Path, WebProjectAnnotations } from '@storybook/store';
 
 import { Loadable } from './types';
 import { executeLoadableForChanges } from './executeLoadable';
@@ -17,7 +22,7 @@ const removedApi = (name: string) => () => {
 };
 
 interface RendererImplementation<TFramework extends AnyFramework> {
-  decorateStory?: WebProjectAnnotations<TFramework>['applyDecorators'];
+  decorateStory?: Store_WebProjectAnnotations<TFramework>['applyDecorators'];
   render?: ArgsStoryFn<TFramework>;
 }
 
@@ -38,7 +43,7 @@ interface StartReturnValue<TFramework extends AnyFramework> {
 }
 
 export function start<TFramework extends AnyFramework>(
-  renderToDOM: WebProjectAnnotations<TFramework>['renderToDOM'],
+  renderToDOM: Store_WebProjectAnnotations<TFramework>['renderToDOM'],
   { decorateStory, render }: RendererImplementation<TFramework> = {}
 ): StartReturnValue<TFramework> {
   if (globalWindow) {
@@ -64,7 +69,7 @@ export function start<TFramework extends AnyFramework>(
   const preview = new PreviewWeb<TFramework>();
   let initialized = false;
 
-  const importFn = (path: Path) => clientApi.importFn(path);
+  const importFn = (path: Store_Path) => clientApi.importFn(path);
   function onStoriesChanged() {
     const storyIndex = clientApi.getStoryIndex();
     preview.onStoriesChanged({ storyIndex, importFn });

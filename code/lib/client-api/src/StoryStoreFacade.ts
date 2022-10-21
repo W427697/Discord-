@@ -12,16 +12,14 @@ import type {
   Parameters,
   StoryFn,
   Addon_IndexEntry,
+  Store_NormalizedProjectAnnotations,
+  Store_NormalizedStoriesSpecifier,
+  Store_Path,
+  Store_StoryIndex,
+  Store_ModuleExports,
+  Store_Story,
 } from '@storybook/types';
 import { StoryStore, userOrAutoTitle, sortStoriesV6 } from '@storybook/store';
-import type {
-  NormalizedProjectAnnotations,
-  NormalizedStoriesSpecifier,
-  Path,
-  StoryIndex,
-  ModuleExports,
-  Story,
-} from '@storybook/store';
 import { logger } from '@storybook/client-logger';
 import type { DocsOptions } from '@storybook/core-common';
 
@@ -37,11 +35,11 @@ export interface GetStorybookKind<TFramework extends AnyFramework> {
 }
 
 export class StoryStoreFacade<TFramework extends AnyFramework> {
-  projectAnnotations: NormalizedProjectAnnotations<TFramework>;
+  projectAnnotations: Store_NormalizedProjectAnnotations<TFramework>;
 
   entries: Record<StoryId, Addon_IndexEntry & { componentId?: ComponentId }>;
 
-  csfExports: Record<Path, ModuleExports>;
+  csfExports: Record<Store_Path, Store_ModuleExports>;
 
   constructor() {
     this.projectAnnotations = {
@@ -61,7 +59,7 @@ export class StoryStoreFacade<TFramework extends AnyFramework> {
 
   // This doesn't actually import anything because the client-api loads fully
   // on startup, but this is a shim after all.
-  importFn(path: Path) {
+  importFn(path: Store_Path) {
     return SynchronousPromise.resolve().then(() => {
       const moduleExports = this.csfExports[path];
       if (!moduleExports) throw new Error(`Unknown path: ${path}`);
@@ -75,8 +73,8 @@ export class StoryStoreFacade<TFramework extends AnyFramework> {
 
     const storyEntries = Object.entries(this.entries);
     // Add the kind parameters and global parameters to each entry
-    const sortableV6: [StoryId, Story<TFramework>, Parameters, Parameters][] = storyEntries.map(
-      ([storyId, { type, importPath, ...entry }]) => {
+    const sortableV6: [StoryId, Store_Story<TFramework>, Parameters, Parameters][] =
+      storyEntries.map(([storyId, { type, importPath, ...entry }]) => {
         const exports = this.csfExports[importPath];
         const csfFile = store.processCSFFileWithCache<TFramework>(
           exports,
@@ -84,7 +82,7 @@ export class StoryStoreFacade<TFramework extends AnyFramework> {
           exports.default.title
         );
 
-        let storyLike: Story<TFramework>;
+        let storyLike: Store_Story<TFramework>;
         if (type === 'story') {
           storyLike = store.storyFromCSFFile({ storyId, csfFile });
         } else {
@@ -97,8 +95,7 @@ export class StoryStoreFacade<TFramework extends AnyFramework> {
           } as any;
         }
         return [storyId, storyLike, csfFile.meta.parameters, this.projectAnnotations.parameters];
-      }
-    );
+      });
 
     // NOTE: the sortStoriesV6 version returns the v7 data format. confusing but more convenient!
     let sortedV7: Addon_IndexEntry[];
@@ -126,12 +123,12 @@ export class StoryStoreFacade<TFramework extends AnyFramework> {
       // NOTE: this doesn't actually change the story object, just the index.
       acc[s.id] = this.entries[s.id];
       return acc;
-    }, {} as StoryIndex['entries']);
+    }, {} as Store_StoryIndex['entries']);
 
     return { v: 4, entries };
   }
 
-  clearFilenameExports(fileName: Path) {
+  clearFilenameExports(fileName: Store_Path) {
     if (!this.csfExports[fileName]) {
       return;
     }
@@ -148,7 +145,7 @@ export class StoryStoreFacade<TFramework extends AnyFramework> {
   }
 
   // NOTE: we could potentially share some of this code with the stories.json generation
-  addStoriesFromExports(fileName: Path, fileExports: ModuleExports) {
+  addStoriesFromExports(fileName: Store_Path, fileExports: Store_ModuleExports) {
     if (fileName.match(/\.mdx$/) && !fileName.match(/\.stories\.mdx$/)) {
       return;
     }
@@ -165,7 +162,7 @@ export class StoryStoreFacade<TFramework extends AnyFramework> {
     let { id: componentId, title } = defaultExport || {};
 
     const specifiers = (global.STORIES || []).map(
-      (specifier: NormalizedStoriesSpecifier & { importPathMatcher: string }) => ({
+      (specifier: Store_NormalizedStoriesSpecifier & { importPathMatcher: string }) => ({
         ...specifier,
         importPathMatcher: new RegExp(specifier.importPathMatcher),
       })

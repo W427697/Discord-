@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import { dedent } from 'ts-dedent';
 import global from 'global';
 import {
@@ -27,13 +28,12 @@ import {
   ViewMode,
 } from '@storybook/types';
 import type {
-  ModuleImportFn,
-  Selection,
-  StorySpecifier,
-  StoryIndex,
-  PromiseLike,
-  WebProjectAnnotations,
-} from '@storybook/store';
+  Store_ModuleImportFn,
+  Store_Selection,
+  Store_StorySpecifier,
+  Store_StoryIndex,
+  Store_WebProjectAnnotations,
+} from '@storybook/types';
 
 import { MaybePromise, Preview } from './Preview';
 
@@ -69,7 +69,7 @@ export class PreviewWeb<TFramework extends AnyFramework> extends Preview<TFramew
 
   previewEntryError?: Error;
 
-  currentSelection?: Selection;
+  currentSelection?: Store_Selection;
 
   currentRender?: PossibleRender<TFramework>;
 
@@ -90,7 +90,7 @@ export class PreviewWeb<TFramework extends AnyFramework> extends Preview<TFramew
     this.channel.on(PRELOAD_ENTRIES, this.onPreloadStories.bind(this));
   }
 
-  initializeWithProjectAnnotations(projectAnnotations: WebProjectAnnotations<TFramework>) {
+  initializeWithProjectAnnotations(projectAnnotations: Store_WebProjectAnnotations<TFramework>) {
     return super
       .initializeWithProjectAnnotations(projectAnnotations)
       .then(() => this.setInitialGlobals());
@@ -108,7 +108,7 @@ export class PreviewWeb<TFramework extends AnyFramework> extends Preview<TFramew
   }
 
   // If initialization gets as far as the story index, this function runs.
-  initializeWithStoryIndex(storyIndex: StoryIndex): PromiseLike<void> {
+  initializeWithStoryIndex(storyIndex: Store_StoryIndex): PromiseLike<void> {
     return super.initializeWithStoryIndex(storyIndex).then(() => {
       if (!global.FEATURES?.storyStoreV7) {
         this.channel.emit(SET_STORIES, this.storyStore.getSetStoriesPayload());
@@ -185,8 +185,8 @@ export class PreviewWeb<TFramework extends AnyFramework> extends Preview<TFramew
     importFn,
     storyIndex,
   }: {
-    importFn?: ModuleImportFn;
-    storyIndex?: StoryIndex;
+    importFn?: Store_ModuleImportFn;
+    storyIndex?: Store_StoryIndex;
   }) {
     await super.onStoriesChanged({ importFn, storyIndex });
 
@@ -455,7 +455,7 @@ export class PreviewWeb<TFramework extends AnyFramework> extends Preview<TFramew
     this.channel.emit(STORY_MISSING);
   }
 
-  renderStoryLoadingException(storySpecifier: StorySpecifier, err: Error) {
+  renderStoryLoadingException(storySpecifier: Store_StorySpecifier, err: Error) {
     logger.error(`Unable to load story '${storySpecifier}':`);
     logger.error(err);
     this.view.showErrorDisplay(err);

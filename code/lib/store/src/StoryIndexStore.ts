@@ -1,25 +1,29 @@
 /* eslint-disable camelcase */
 import { dedent } from 'ts-dedent';
-import type { StoryId, Addon_IndexEntry } from '@storybook/types';
+import type {
+  StoryId,
+  Addon_IndexEntry,
+  Store_StorySpecifier,
+  Store_StoryIndex,
+  Store_Path,
+} from '@storybook/types';
 import memoize from 'memoizerific';
 
-import type { StorySpecifier, StoryIndex, Path } from './types';
-
-const getImportPathMap = memoize(1)((entries: StoryIndex['entries']) =>
+const getImportPathMap = memoize(1)((entries: Store_StoryIndex['entries']) =>
   Object.values(entries).reduce((acc, entry) => {
     acc[entry.importPath] = acc[entry.importPath] || entry;
     return acc;
-  }, {} as Record<Path, Addon_IndexEntry>)
+  }, {} as Record<Store_Path, Addon_IndexEntry>)
 );
 
 export class StoryIndexStore {
-  entries: StoryIndex['entries'];
+  entries: Store_StoryIndex['entries'];
 
-  constructor({ entries }: StoryIndex = { v: 4, entries: {} }) {
+  constructor({ entries }: Store_StoryIndex = { v: 4, entries: {} }) {
     this.entries = entries;
   }
 
-  entryFromSpecifier(specifier: StorySpecifier) {
+  entryFromSpecifier(specifier: Store_StorySpecifier) {
     const entries = Object.values(this.entries);
     if (specifier === '*') {
       // '*' means select the first entry. If there is none, we have no selection.
@@ -53,7 +57,7 @@ export class StoryIndexStore {
     return storyEntry;
   }
 
-  importPathToEntry(importPath: Path): Addon_IndexEntry {
+  importPathToEntry(importPath: Store_Path): Addon_IndexEntry {
     return getImportPathMap(this.entries)[importPath];
   }
 }

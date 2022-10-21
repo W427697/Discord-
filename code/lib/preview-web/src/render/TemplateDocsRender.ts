@@ -1,8 +1,13 @@
 /* eslint-disable camelcase */
-import { AnyFramework, StoryId } from '@storybook/types';
-import { type CSFFile, type Story, StoryStore } from '@storybook/store';
+import type {
+  AnyFramework,
+  StoryId,
+  Store_CSFFile,
+  Store_Story,
+  Addon_IndexEntry,
+} from '@storybook/types';
+import { StoryStore } from '@storybook/store';
 import type { Channel } from '@storybook/channels';
-import type { Addon_IndexEntry } from '@storybook/types';
 import { DOCS_RENDERED } from '@storybook/core-events';
 
 import { Render, RenderType, PREPARE_ABORTED } from './Render';
@@ -27,7 +32,7 @@ export class TemplateDocsRender<TFramework extends AnyFramework> implements Rend
 
   public readonly id: StoryId;
 
-  public story?: Story<TFramework>;
+  public story?: Store_Story<TFramework>;
 
   public rerender?: () => Promise<void>;
 
@@ -39,7 +44,7 @@ export class TemplateDocsRender<TFramework extends AnyFramework> implements Rend
 
   public preparing = false;
 
-  private csfFiles?: CSFFile<TFramework>[];
+  private csfFiles?: Store_CSFFile<TFramework>[];
 
   constructor(
     protected channel: Channel,

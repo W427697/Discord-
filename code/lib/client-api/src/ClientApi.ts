@@ -21,6 +21,9 @@ import type {
   LegacyStoryFn,
   Addon_ClientApiAddons,
   Addon_StoryApi,
+  Store_NormalizedComponentAnnotations,
+  Store_Path,
+  Store_ModuleImportFn,
 } from '@storybook/types';
 import {
   combineParameters,
@@ -28,7 +31,6 @@ import {
   StoryStore,
   normalizeInputTypes,
 } from '@storybook/store';
-import type { NormalizedComponentAnnotations, Path, ModuleImportFn } from '@storybook/store';
 
 import { StoryStoreFacade } from './StoryStoreFacade';
 
@@ -132,7 +134,7 @@ export class ClientApi<TFramework extends AnyFramework> {
 
   private addons: Addon_ClientApiAddons<TFramework['storyResult']>;
 
-  onImportFnChanged?: ({ importFn }: { importFn: ModuleImportFn }) => void;
+  onImportFnChanged?: ({ importFn }: { importFn: Store_ModuleImportFn }) => void;
 
   // If we don't get passed modules so don't know filenames, we can
   // just use numeric indexes
@@ -149,7 +151,7 @@ export class ClientApi<TFramework extends AnyFramework> {
     singleton = this;
   }
 
-  importFn(path: Path) {
+  importFn(path: Store_Path) {
     return this.facade.importFn(path);
   }
 
@@ -292,7 +294,7 @@ export class ClientApi<TFramework extends AnyFramework> {
       };
     });
 
-    const meta: NormalizedComponentAnnotations<TFramework> = {
+    const meta: Store_NormalizedComponentAnnotations<TFramework> = {
       id: sanitize(kind),
       title: kind,
       decorators: [],

@@ -14,10 +14,11 @@ import type {
   DecoratorFunction,
   LoaderFunction,
   StoryContext,
+  Store_RenderContext,
+  AnyFramework,
+  StoryIdentifier,
+  ProjectAnnotations,
 } from '@storybook/types';
-
-import { AnyFramework, StoryIdentifier, ProjectAnnotations } from '@storybook/types';
-import type { RenderContext } from '@storybook/store';
 import { StoryStore, HooksContext } from '@storybook/store';
 
 export type {
@@ -121,4 +122,4 @@ export interface GetStorybookKind {
   stories: GetStorybookStory[];
 }
 
-export type RenderContextWithoutStoryContext = Omit<RenderContext, 'storyContext'>;
+export type RenderContextWithoutStoryContext = Omit<Store_RenderContext, 'storyContext'>;

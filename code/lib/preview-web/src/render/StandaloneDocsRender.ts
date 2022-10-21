@@ -1,6 +1,7 @@
 /* eslint-disable camelcase */
 import { AnyFramework, StoryId, Addon_IndexEntry } from '@storybook/types';
-import { CSFFile, ModuleExports, StoryStore } from '@storybook/store';
+import { StoryStore } from '@storybook/store';
+import type { Store_CSFFile, Store_ModuleExports } from '@storybook/types';
 import type { Channel } from '@storybook/channels';
 import { DOCS_RENDERED } from '@storybook/core-events';
 
@@ -23,7 +24,7 @@ export class StandaloneDocsRender<TFramework extends AnyFramework> implements Re
 
   public readonly id: StoryId;
 
-  private exports?: ModuleExports;
+  private exports?: Store_ModuleExports;
 
   public rerender?: () => Promise<void>;
 
@@ -35,7 +36,7 @@ export class StandaloneDocsRender<TFramework extends AnyFramework> implements Re
 
   public preparing = false;
 
-  private csfFiles?: CSFFile<TFramework>[];
+  private csfFiles?: Store_CSFFile<TFramework>[];
 
   constructor(
     protected channel: Channel,
