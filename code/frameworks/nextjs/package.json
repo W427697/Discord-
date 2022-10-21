@@ -119,5 +119,6 @@
       "./src/next-image-loader-stub.ts"
     ],
     "platform": "node"
-  }
+  },
+  "gitHead": "7ec6f916eb875bd2e3cf3aa6b1afcd1fe25d1637"
 }
