@@ -264,12 +264,11 @@ export async function initiate(options: CommandOptions, pkg: Package): Promise<v
   }
 
   // Update notify code.
-  import('update-notifier').then((module) => {
-    new module.UpdateNotifier({
-      pkg,
-      updateCheckInterval: 1000 * 60 * 60, // every hour (we could increase this later on.)
-    }).notify();
-  });
+  const { default: updateNotifier } = await import('update-notifier');
+  updateNotifier({
+    pkg,
+    updateCheckInterval: 1000 * 60 * 60, // every hour (we could increase this later on.)
+  }).notify();
 
   let projectType;
   const projectTypeProvided = options.type;
