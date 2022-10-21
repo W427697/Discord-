@@ -1,57 +1,43 @@
 /* eslint-disable camelcase */
 import type { Addon } from '@storybook/addons';
 
+import type { StoryStore, HooksContext } from '@storybook/store';
+import type { Addon_StoryApi } from './addons';
+import type { Store_RenderContext } from './store';
 import type {
-  StoryId,
-  StoryName,
-  StoryKind,
-  ViewMode,
-  StoryFn,
-  Parameters,
+  AnyFramework,
   Args,
   ArgTypes,
-  Addon_StoryApi,
   DecoratorFunction,
   LoaderFunction,
-  StoryContext,
-  Store_RenderContext,
-  AnyFramework,
-  StoryIdentifier,
+  Parameters,
   ProjectAnnotations,
-} from '@storybook/types';
-import { StoryStore, HooksContext } from '@storybook/store';
+  StoryContext,
+  StoryFn,
+  StoryId,
+  StoryIdentifier,
+  StoryKind,
+  StoryName,
+  ViewMode,
+} from './csf';
 
-export type {
-  SBType,
-  SBScalarType,
-  SBArrayType,
-  SBObjectType,
-  SBEnumType,
-  SBIntersectionType,
-  SBUnionType,
-  SBOtherType,
-} from '@storybook/types';
-
-// NOTE: these types are really just here for back-compat. Many of them don't have much meaning
-// Remove in 7.0
-
-export interface ErrorLike {
+export interface ClientAPI_ErrorLike {
   message: string;
   stack: string;
 }
 
 // Metadata about a story that can be set at various levels: global, for a kind, or for a single story.
-export interface StoryMetadata {
+export interface ClientAPI_StoryMetadata {
   parameters?: Parameters;
   decorators?: DecoratorFunction[];
   loaders?: LoaderFunction[];
 }
-export type ArgTypesEnhancer = (context: StoryContext) => ArgTypes;
-export type ArgsEnhancer = (context: StoryContext) => Args;
+export type ClientAPI_ArgTypesEnhancer = (context: StoryContext) => ArgTypes;
+export type ClientAPI_ArgsEnhancer = (context: StoryContext) => Args;
 
 type StorySpecifier = StoryId | { name: StoryName; kind: StoryKind } | '*';
 
-export interface StoreSelectionSpecifier {
+export interface ClientAPI_StoreSelectionSpecifier {
   storySpecifier: StorySpecifier;
   viewMode: ViewMode;
   singleStory?: boolean;
@@ -59,19 +45,19 @@ export interface StoreSelectionSpecifier {
   globals?: Args;
 }
 
-export interface StoreSelection {
+export interface ClientAPI_StoreSelection {
   storyId: StoryId;
   viewMode: ViewMode;
 }
 
-export type AddStoryArgs = StoryIdentifier & {
+export type ClientAPI_AddStoryArgs = StoryIdentifier & {
   storyFn: StoryFn<any>;
   parameters?: Parameters;
   decorators?: DecoratorFunction[];
   loaders?: LoaderFunction[];
 };
 
-export type StoreItem = StoryIdentifier & {
+export type ClientAPI_StoreItem = StoryIdentifier & {
   parameters: Parameters;
   getDecorated: () => StoryFn<any>;
   getOriginal: () => StoryFn<any>;
@@ -85,41 +71,41 @@ export type StoreItem = StoryIdentifier & {
   argTypes: ArgTypes;
 };
 
-export type PublishedStoreItem = StoreItem & {
+export type ClientAPI_PublishedStoreItem = ClientAPI_StoreItem & {
   globals: Args;
 };
 
-export interface StoreData {
-  [key: string]: StoreItem;
+export interface ClientAPI_StoreData {
+  [key: string]: ClientAPI_StoreItem;
 }
 
-export interface ClientApiParams {
+export interface ClientAPI_ClientApiParams {
   storyStore: StoryStore<AnyFramework>;
   decorateStory?: ProjectAnnotations<AnyFramework>['applyDecorators'];
   noStoryModuleAddMethodHotDispose?: boolean;
 }
 
-export type ClientApiReturnFn<StoryFnReturnType> = (
+export type ClientAPI_ClientApiReturnFn<StoryFnReturnType> = (
   ...args: any[]
 ) => Addon_StoryApi<StoryFnReturnType>;
 
-export interface ClientApiAddon<StoryFnReturnType = unknown> extends Addon {
+export interface ClientAPI_ClientApiAddon<StoryFnReturnType = unknown> extends Addon {
   apply: (a: Addon_StoryApi<StoryFnReturnType>, b: any[]) => any;
 }
 
-export interface ClientApiAddons<StoryFnReturnType> {
-  [key: string]: ClientApiAddon<StoryFnReturnType>;
+export interface ClientAPI_ClientApiAddons<StoryFnReturnType> {
+  [key: string]: ClientAPI_ClientApiAddon<StoryFnReturnType>;
 }
 
-export interface GetStorybookStory {
+export interface ClientAPI_GetStorybookStory {
   name: string;
   render: StoryFn;
 }
 
-export interface GetStorybookKind {
+export interface ClientAPI_GetStorybookKind {
   kind: string;
   fileName: string;
-  stories: GetStorybookStory[];
+  stories: ClientAPI_GetStorybookStory[];
 }
 
-export type RenderContextWithoutStoryContext = Omit<Store_RenderContext, 'storyContext'>;
+export type ClientAPI_RenderContextWithoutStoryContext = Omit<Store_RenderContext, 'storyContext'>;

@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 import { Store_RenderContext } from '@storybook/types';
-import type { RenderContextWithoutStoryContext } from '@storybook/client-api';
+import type { ClientAPI_RenderContextWithoutStoryContext } from '@storybook/types';
 
 export interface PreviewError {
   message?: string;
@@ -25,7 +25,7 @@ export interface RequireContext {
 export type LoaderFunction = () => void | any[];
 export type Loadable = RequireContext | RequireContext[] | LoaderFunction;
 
-export type { Store_RenderContext as RenderContext, RenderContextWithoutStoryContext };
+export type { Store_RenderContext as RenderContext, ClientAPI_RenderContextWithoutStoryContext };
 
 // The function used by a framework to render story to the DOM
 export type RenderStoryFunction = (context: Store_RenderContext) => void;

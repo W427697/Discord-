@@ -13,8 +13,6 @@ import {
 
 export type { GetStorybookKind, GetStorybookStory } from './ClientApi';
 
-export * from './types';
-
 export * from './queryparams';
 
 export * from '@storybook/store';
