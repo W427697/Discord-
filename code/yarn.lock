@@ -2172,7 +2172,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/types@npm:^7.0.0, @babel/types@npm:^7.11.5, @babel/types@npm:^7.12.11, @babel/types@npm:^7.16.7, @babel/types@npm:^7.16.8, @babel/types@npm:^7.18.10, @babel/types@npm:^7.18.6, @babel/types@npm:^7.18.8, @babel/types@npm:^7.18.9, @babel/types@npm:^7.19.0, @babel/types@npm:^7.19.3, @babel/types@npm:^7.19.4, @babel/types@npm:^7.2.0, @babel/types@npm:^7.3.0, @babel/types@npm:^7.3.3, @babel/types@npm:^7.4.0, @babel/types@npm:^7.4.4, @babel/types@npm:^7.6.1, @babel/types@npm:^7.7.0, @babel/types@npm:^7.7.2, @babel/types@npm:^7.8.3, @babel/types@npm:^7.8.6, @babel/types@npm:^7.8.7, @babel/types@npm:^7.9.6":
+"@babel/types@npm:^7.0.0, @babel/types@npm:^7.11.5, @babel/types@npm:^7.12.11, @babel/types@npm:^7.14.8, @babel/types@npm:^7.16.7, @babel/types@npm:^7.16.8, @babel/types@npm:^7.18.10, @babel/types@npm:^7.18.6, @babel/types@npm:^7.18.8, @babel/types@npm:^7.18.9, @babel/types@npm:^7.19.0, @babel/types@npm:^7.19.3, @babel/types@npm:^7.19.4, @babel/types@npm:^7.2.0, @babel/types@npm:^7.3.0, @babel/types@npm:^7.3.3, @babel/types@npm:^7.4.0, @babel/types@npm:^7.4.4, @babel/types@npm:^7.6.1, @babel/types@npm:^7.7.0, @babel/types@npm:^7.7.2, @babel/types@npm:^7.8.3, @babel/types@npm:^7.8.6, @babel/types@npm:^7.8.7, @babel/types@npm:^7.9.6":
   version: 7.19.4
   resolution: "@babel/types@npm:7.19.4"
   dependencies:
@@ -7055,7 +7055,7 @@ __metadata:
     "@storybook/client-api": 7.0.0-alpha.40
     "@storybook/client-logger": 7.0.0-alpha.40
     "@storybook/core-common": 7.0.0-alpha.40
-    "@storybook/mdx2-csf": 0.1.0-next.0
+    "@storybook/mdx2-csf": 0.0.4-canary.20.b3f2a2f.0
     "@storybook/node-logger": 7.0.0-alpha.40
     "@storybook/preview-web": 7.0.0-alpha.40
     "@storybook/source-loader": 7.0.0-alpha.40
@@ -7772,6 +7772,23 @@ __metadata:
     remark: ^12.0.0
     typescript: ^3.8.0
   checksum: e092785c4d248644e8b72da2386b43afb28ad9449441ecce1d12dc9ba6f3360a52371fa3f3812065a990643513779b0b9d3f8d5eead21463f088a7459d7d472c
+  languageName: node
+  linkType: hard
+
+"@storybook/mdx2-csf@npm:0.0.4-canary.20.b3f2a2f.0":
+  version: 0.0.4-canary.20.b3f2a2f.0
+  resolution: "@storybook/mdx2-csf@npm:0.0.4-canary.20.b3f2a2f.0"
+  dependencies:
+    "@babel/generator": ^7.12.11
+    "@babel/parser": ^7.12.11
+    "@babel/types": ^7.14.8
+    "@mdx-js/mdx": ^2.0.0
+    estree-to-babel: ^4.9.0
+    hast-util-to-estree: ^2.0.2
+    js-string-escape: ^1.0.1
+    loader-utils: ^2.0.0
+    lodash: ^4.17.21
+  checksum: a5bca16b5d010e97c1287a26b2eb5ada25b48dc2ff2bdee6d43cd7f4ef94e3e1ac124931ec28edede42321143e2714e49d613ac40de5223d4743c5c2cb4caf89
   languageName: node
   linkType: hard
 
