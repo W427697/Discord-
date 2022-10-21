@@ -2,6 +2,7 @@
 import type { SynchronousPromise } from 'synchronous-promise';
 import type { Addon_IndexEntry, Addon_StoryIndexEntry } from './addons';
 import type {
+  AnnotatedStoryFn,
   AnyFramework,
   Args,
   ComponentAnnotations,
@@ -165,3 +166,62 @@ export type Store_ContextStore<TFramework extends AnyFramework> = {
 };
 
 export type Store_PropDescriptor = string[] | RegExp;
+
+export type Store_CSFExports<TFramework extends AnyFramework = AnyFramework> = {
+  default: ComponentAnnotations<TFramework, Args>;
+  __esModule?: boolean;
+  __namedExportsOrder?: string[];
+};
+
+export type Store_ComposedStoryPlayContext = Partial<StoryContext> &
+  Pick<StoryContext, 'canvasElement'>;
+
+export type Store_ComposedStoryPlayFn = (
+  context: Store_ComposedStoryPlayContext
+) => Promise<void> | void;
+
+export type Store_StoryFn<
+  TFramework extends AnyFramework = AnyFramework,
+  TArgs = Args
+> = AnnotatedStoryFn<TFramework, TArgs> & { play: Store_ComposedStoryPlayFn };
+
+export type Store_ComposedStory<TFramework extends AnyFramework = AnyFramework, TArgs = Args> =
+  | StoryFn<TFramework, TArgs>
+  | StoryAnnotations<TFramework, TArgs>;
+
+/**
+ * T represents the whole ES module of a stories file. K of T means named exports (basically the Story type)
+ * 1. pick the keys K of T that have properties that are Story<AnyProps>
+ * 2. infer the actual prop type for each Story
+ * 3. reconstruct Story with Partial. Story<Props> -> Story<Partial<Props>>
+ */
+export type Store_StoriesWithPartialProps<TFramework extends AnyFramework, TModule> = {
+  // @TODO once we can use Typescript 4.0 do this to exclude nonStory exports:
+  // replace [K in keyof TModule] with [K in keyof TModule as TModule[K] extends ComposedStory<any> ? K : never]
+  [K in keyof TModule]: TModule[K] extends Store_ComposedStory<infer _, infer TProps>
+    ? AnnotatedStoryFn<TFramework, Partial<TProps>>
+    : unknown;
+};
+
+export type Store_ControlsMatchers = {
+  date: RegExp;
+  color: RegExp;
+};
+
+export interface Store_ComposeStory<
+  TFramework extends AnyFramework = AnyFramework,
+  TArgs extends Args = Args
+> {
+  (
+    storyAnnotations: AnnotatedStoryFn<TFramework, TArgs> | StoryAnnotations<TFramework, TArgs>,
+    componentAnnotations: ComponentAnnotations<TFramework, TArgs>,
+    projectAnnotations: ProjectAnnotations<TFramework>,
+    exportsName?: string
+  ): {
+    (extraArgs: Partial<TArgs>): TFramework['storyResult'];
+    storyName: string;
+    args: Args;
+    play: Store_ComposedStoryPlayFn;
+    parameters: Parameters;
+  };
+}
