@@ -1,31 +1,30 @@
+/* eslint-disable camelcase */
 import path from 'path';
 import fs from 'fs-extra';
 import glob from 'globby';
 import slash from 'slash';
 
+import type { Path, StoryIndex, V2CompatIndexEntry, StoryId } from '@storybook/store';
 import type {
-  Path,
-  StoryIndex,
-  V2CompatIndexEntry,
-  StoryId,
-  IndexEntry,
-  StoryIndexEntry,
-  StandaloneDocsIndexEntry,
-  TemplateDocsIndexEntry,
-} from '@storybook/store';
+  Addon_IndexEntry,
+  Addon_StoryIndexEntry,
+  Addon_StandaloneDocsIndexEntry,
+  Addon_TemplateDocsIndexEntry,
+  ComponentTitle,
+  StoryName,
+} from '@storybook/types';
 import { userOrAutoTitleFromSpecifier, sortStoriesV7 } from '@storybook/store';
 import type { StoryIndexer, NormalizedStoriesSpecifier, DocsOptions } from '@storybook/core-common';
 import { normalizeStoryPath } from '@storybook/core-common';
 import { logger } from '@storybook/node-logger';
 import { getStorySortParameter, NoMetaError } from '@storybook/csf-tools';
-import type { ComponentTitle, StoryName } from '@storybook/types';
 import { toId } from '@storybook/csf';
 
 /** A .mdx file will produce a "standalone" docs entry */
-type DocsCacheEntry = StandaloneDocsIndexEntry;
+type DocsCacheEntry = Addon_StandaloneDocsIndexEntry;
 /** A *.stories.* file will produce a list of stories and possibly a docs entry */
 type StoriesCacheEntry = {
-  entries: (StoryIndexEntry | TemplateDocsIndexEntry)[];
+  entries: (Addon_StoryIndexEntry | Addon_TemplateDocsIndexEntry)[];
   dependents: Path[];
   type: 'stories';
 };
@@ -141,7 +140,7 @@ export class StoryIndexGenerator {
     return /(?<!\.stories)\.mdx$/i.test(absolutePath);
   }
 
-  async ensureExtracted(): Promise<IndexEntry[]> {
+  async ensureExtracted(): Promise<Addon_IndexEntry[]> {
     // First process all the story files. Then, in a second pass,
     // process the docs files. The reason for this is that the docs
     // files may use the `<Meta of={XStories} />` syntax, which requires
@@ -158,7 +157,7 @@ export class StoryIndexGenerator {
 
     return this.specifiers.flatMap((specifier) => {
       const cache = this.specifierToCache.get(specifier);
-      return Object.values(cache).flatMap((entry): IndexEntry[] => {
+      return Object.values(cache).flatMap((entry): Addon_IndexEntry[] => {
         if (!entry) return [];
         if (entry.type === 'docs') return [entry];
         return entry.entries;
@@ -196,7 +195,7 @@ export class StoryIndexGenerator {
 
   async extractStories(specifier: NormalizedStoriesSpecifier, absolutePath: Path) {
     const relativePath = path.relative(this.options.workingDir, absolutePath);
-    const entries = [] as IndexEntry[];
+    const entries = [] as Addon_IndexEntry[];
     try {
       const importPath = slash(normalizeStoryPath(relativePath));
       const makeTitle = (userTitle?: string) => {
@@ -327,7 +326,7 @@ export class StoryIndexGenerator {
     }
   }
 
-  chooseDuplicate(firstEntry: IndexEntry, secondEntry: IndexEntry): IndexEntry {
+  chooseDuplicate(firstEntry: Addon_IndexEntry, secondEntry: Addon_IndexEntry): Addon_IndexEntry {
     let firstIsBetter = true;
     if (secondEntry.type === 'story') {
       firstIsBetter = false;
@@ -383,7 +382,7 @@ export class StoryIndexGenerator {
     return betterEntry;
   }
 
-  async sortStories(storiesList: IndexEntry[]) {
+  async sortStories(storiesList: Addon_IndexEntry[]) {
     const entries: StoryIndex['entries'] = {};
 
     storiesList.forEach((entry) => {

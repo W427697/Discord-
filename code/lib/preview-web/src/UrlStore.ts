@@ -2,7 +2,7 @@ import type { SelectionSpecifier, Selection } from '@storybook/store';
 
 import global from 'global';
 import qs from 'qs';
-import type { ViewMode } from '@storybook/addons';
+import type { ViewMode } from '@storybook/types';
 
 import { parseArgsParam } from './parseArgsParam';
 

@@ -7,13 +7,13 @@ import {
   StoryContext,
 } from '@storybook/types';
 import {
-  Story,
-  RenderContext,
+  type Story,
+  type RenderContext,
   StoryStore,
-  RenderToDOM,
-  TeardownRenderToDOM,
+  type RenderToDOM,
+  type TeardownRenderToDOM,
 } from '@storybook/store';
-import { Channel } from '@storybook/addons';
+import { Channel } from '@storybook/channels';
 import { logger } from '@storybook/client-logger';
 import {
   STORY_RENDER_PHASE_CHANGED,

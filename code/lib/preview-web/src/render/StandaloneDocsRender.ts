@@ -1,6 +1,7 @@
-import { AnyFramework, StoryId } from '@storybook/types';
+/* eslint-disable camelcase */
+import { AnyFramework, StoryId, Addon_IndexEntry } from '@storybook/types';
 import { CSFFile, ModuleExports, StoryStore } from '@storybook/store';
-import { Channel, IndexEntry } from '@storybook/addons';
+import type { Channel } from '@storybook/channels';
 import { DOCS_RENDERED } from '@storybook/core-events';
 
 import { Render, RenderType, PREPARE_ABORTED } from './Render';
@@ -39,7 +40,7 @@ export class StandaloneDocsRender<TFramework extends AnyFramework> implements Re
   constructor(
     protected channel: Channel,
     protected store: StoryStore<TFramework>,
-    public entry: IndexEntry
+    public entry: Addon_IndexEntry
   ) {
     this.id = entry.id;
   }

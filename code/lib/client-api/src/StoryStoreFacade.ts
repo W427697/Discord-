@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 /* eslint-disable no-underscore-dangle */
 import global from 'global';
 import { dedent } from 'ts-dedent';
@@ -10,6 +11,7 @@ import type {
   AnyFramework,
   Parameters,
   StoryFn,
+  Addon_IndexEntry,
 } from '@storybook/types';
 import { StoryStore, userOrAutoTitle, sortStoriesV6 } from '@storybook/store';
 import type {
@@ -19,7 +21,6 @@ import type {
   StoryIndex,
   ModuleExports,
   Story,
-  IndexEntry,
 } from '@storybook/store';
 import { logger } from '@storybook/client-logger';
 import type { DocsOptions } from '@storybook/core-common';
@@ -38,7 +39,7 @@ export interface GetStorybookKind<TFramework extends AnyFramework> {
 export class StoryStoreFacade<TFramework extends AnyFramework> {
   projectAnnotations: NormalizedProjectAnnotations<TFramework>;
 
-  entries: Record<StoryId, IndexEntry & { componentId?: ComponentId }>;
+  entries: Record<StoryId, Addon_IndexEntry & { componentId?: ComponentId }>;
 
   csfExports: Record<Path, ModuleExports>;
 
@@ -100,7 +101,7 @@ export class StoryStoreFacade<TFramework extends AnyFramework> {
     );
 
     // NOTE: the sortStoriesV6 version returns the v7 data format. confusing but more convenient!
-    let sortedV7: IndexEntry[];
+    let sortedV7: Addon_IndexEntry[];
 
     try {
       sortedV7 = sortStoriesV6(sortableV6, storySortParameter, fileNameOrder);

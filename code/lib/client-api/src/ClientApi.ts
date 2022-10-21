@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 /// <reference types="webpack-env" />
 
 import { dedent } from 'ts-dedent';
@@ -18,6 +19,8 @@ import type {
   Globals,
   GlobalTypes,
   LegacyStoryFn,
+  Addon_ClientApiAddons,
+  Addon_StoryApi,
 } from '@storybook/types';
 import {
   combineParameters,
@@ -26,7 +29,6 @@ import {
   normalizeInputTypes,
 } from '@storybook/store';
 import type { NormalizedComponentAnnotations, Path, ModuleImportFn } from '@storybook/store';
-import type { ClientApiAddons, StoryApi } from '@storybook/addons';
 
 import { StoryStoreFacade } from './StoryStoreFacade';
 
@@ -128,7 +130,7 @@ export class ClientApi<TFramework extends AnyFramework> {
 
   storyStore?: StoryStore<TFramework>;
 
-  private addons: ClientApiAddons<TFramework['storyResult']>;
+  private addons: Addon_ClientApiAddons<TFramework['storyResult']>;
 
   onImportFnChanged?: ({ importFn }: { importFn: ModuleImportFn }) => void;
 
@@ -218,7 +220,7 @@ export class ClientApi<TFramework extends AnyFramework> {
   };
 
   // what are the occasions that "m" is a boolean vs an obj
-  storiesOf = (kind: string, m?: NodeModule): StoryApi<TFramework['storyResult']> => {
+  storiesOf = (kind: string, m?: NodeModule): Addon_StoryApi<TFramework['storyResult']> => {
     if (!kind && typeof kind !== 'string') {
       throw new Error('Invalid or missing kind provided for stories, should be a string');
     }
@@ -273,7 +275,7 @@ export class ClientApi<TFramework extends AnyFramework> {
     }
 
     let hasAdded = false;
-    const api: StoryApi<TFramework['storyResult']> = {
+    const api: Addon_StoryApi<TFramework['storyResult']> = {
       kind: kind.toString(),
       add: () => api,
       addDecorator: () => api,

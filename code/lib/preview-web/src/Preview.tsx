@@ -14,17 +14,18 @@ import {
   UPDATE_STORY_ARGS,
 } from '@storybook/core-events';
 import { logger } from '@storybook/client-logger';
-import { addons, Channel } from '@storybook/addons';
+import { Channel } from '@storybook/channels';
+import { addons } from '@storybook/addons';
 import { AnyFramework, StoryId, ProjectAnnotations, Args, Globals } from '@storybook/types';
-import {
+import type {
   ModuleImportFn,
   Story,
-  StoryStore,
   StoryIndex,
   PromiseLike,
   WebProjectAnnotations,
   RenderToDOM,
 } from '@storybook/store';
+import { StoryStore } from '@storybook/store';
 
 import { StoryRender } from './render/StoryRender';
 import { TemplateDocsRender } from './render/TemplateDocsRender';

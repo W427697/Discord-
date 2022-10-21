@@ -1,5 +1,7 @@
+/* eslint-disable camelcase */
+import type { Addon } from '@storybook/addons';
+
 import type {
-  Addon,
   StoryId,
   StoryName,
   StoryKind,
@@ -8,11 +10,12 @@ import type {
   Parameters,
   Args,
   ArgTypes,
-  StoryApi,
+  Addon_StoryApi,
   DecoratorFunction,
   LoaderFunction,
   StoryContext,
-} from '@storybook/addons';
+} from '@storybook/types';
+
 import { AnyFramework, StoryIdentifier, ProjectAnnotations } from '@storybook/types';
 import type { RenderContext } from '@storybook/store';
 import { StoryStore, HooksContext } from '@storybook/store';
@@ -95,12 +98,12 @@ export interface ClientApiParams {
   noStoryModuleAddMethodHotDispose?: boolean;
 }
 
-export type ClientApiReturnFn<StoryFnReturnType> = (...args: any[]) => StoryApi<StoryFnReturnType>;
-
-export type { StoryApi, DecoratorFunction };
+export type ClientApiReturnFn<StoryFnReturnType> = (
+  ...args: any[]
+) => Addon_StoryApi<StoryFnReturnType>;
 
 export interface ClientApiAddon<StoryFnReturnType = unknown> extends Addon {
-  apply: (a: StoryApi<StoryFnReturnType>, b: any[]) => any;
+  apply: (a: Addon_StoryApi<StoryFnReturnType>, b: any[]) => any;
 }
 
 export interface ClientApiAddons<StoryFnReturnType> {

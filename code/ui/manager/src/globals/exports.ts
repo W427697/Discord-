@@ -214,7 +214,6 @@ export default {
   ],
   '@storybook/addons': [
     'AddonStore',
-    'Channel',
     'HooksContext',
     'addons',
     'applyHooks',

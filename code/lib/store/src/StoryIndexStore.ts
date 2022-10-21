@@ -1,14 +1,15 @@
+/* eslint-disable camelcase */
 import { dedent } from 'ts-dedent';
-import type { StoryId } from '@storybook/types';
+import type { StoryId, Addon_IndexEntry } from '@storybook/types';
 import memoize from 'memoizerific';
 
-import type { StorySpecifier, StoryIndex, IndexEntry, Path } from './types';
+import type { StorySpecifier, StoryIndex, Path } from './types';
 
 const getImportPathMap = memoize(1)((entries: StoryIndex['entries']) =>
   Object.values(entries).reduce((acc, entry) => {
     acc[entry.importPath] = acc[entry.importPath] || entry;
     return acc;
-  }, {} as Record<Path, IndexEntry>)
+  }, {} as Record<Path, Addon_IndexEntry>)
 );
 
 export class StoryIndexStore {
@@ -39,7 +40,7 @@ export class StoryIndexStore {
     return entries.find((entry) => entry.name === name && entry.title === title);
   }
 
-  storyIdToEntry(storyId: StoryId): IndexEntry {
+  storyIdToEntry(storyId: StoryId): Addon_IndexEntry {
     const storyEntry = this.entries[storyId];
     if (!storyEntry) {
       throw new Error(dedent`Couldn't find story matching '${storyId}' after HMR.
@@ -52,7 +53,7 @@ export class StoryIndexStore {
     return storyEntry;
   }
 
-  importPathToEntry(importPath: Path): IndexEntry {
+  importPathToEntry(importPath: Path): Addon_IndexEntry {
     return getImportPathMap(this.entries)[importPath];
   }
 }

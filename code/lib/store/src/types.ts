@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import { SynchronousPromise } from 'synchronous-promise';
 import type {
   DecoratorFunction,
@@ -21,22 +22,10 @@ import type {
   ComponentId,
   PartialStoryFn,
   Parameters,
+  Addon_StoryIndexEntry,
+  Addon_IndexEntry,
 } from '@storybook/types';
-import type {
-  StoryIndexEntry,
-  DocsIndexEntry,
-  TemplateDocsIndexEntry,
-  StandaloneDocsIndexEntry,
-  IndexEntry,
-} from '@storybook/addons';
 
-export type {
-  StoryIndexEntry,
-  DocsIndexEntry,
-  IndexEntry,
-  TemplateDocsIndexEntry,
-  StandaloneDocsIndexEntry,
-};
 export type { StoryId, Parameters };
 export type Path = string;
 export type ModuleExport = any;
@@ -117,9 +106,9 @@ export declare type RenderContext<TFramework extends AnyFramework = AnyFramework
     unboundStoryFn: LegacyStoryFn<TFramework>;
   };
 
-export interface V2CompatIndexEntry extends Omit<StoryIndexEntry, 'type'> {
-  kind: StoryIndexEntry['title'];
-  story: StoryIndexEntry['name'];
+export interface V2CompatIndexEntry extends Omit<Addon_StoryIndexEntry, 'type'> {
+  kind: Addon_StoryIndexEntry['title'];
+  story: Addon_StoryIndexEntry['name'];
   parameters: Parameters;
 }
 
@@ -130,7 +119,7 @@ export interface StoryIndexV3 {
 
 export interface StoryIndex {
   v: number;
-  entries: Record<StoryId, IndexEntry>;
+  entries: Record<StoryId, Addon_IndexEntry>;
 }
 
 export type StorySpecifier = StoryId | { name: StoryName; title: ComponentTitle } | '*';

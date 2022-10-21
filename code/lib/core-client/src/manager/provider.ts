@@ -1,7 +1,9 @@
+/* eslint-disable camelcase */
 import global from 'global';
 import { Provider } from '@storybook/ui';
-import { addons, AddonStore, Channel } from '@storybook/addons';
-import type { Config, Types } from '@storybook/addons';
+import { Channel } from '@storybook/channels';
+import { addons, AddonStore, type Types } from '@storybook/addons';
+import type { Addon_Config } from '@storybook/types';
 import * as postMessage from '@storybook/channel-postmessage';
 import * as webSocket from '@storybook/channel-websocket';
 import Events from '@storybook/core-events';
@@ -37,7 +39,7 @@ export default class ReactProvider extends Provider {
     return this.addons.getElements(type);
   }
 
-  getConfig(): Config {
+  getConfig(): Addon_Config {
     return this.addons.getConfig();
   }
 

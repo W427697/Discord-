@@ -1,7 +1,8 @@
+/* eslint-disable camelcase */
 import global from 'global';
 import React, { Component, FC } from 'react';
 import { styled } from '@storybook/theming';
-import type { Collection } from '@storybook/addons';
+import type { Addon_Collection } from '@storybook/types';
 import type { State } from '@storybook/api';
 import { Sidebar, SidebarProps } from '../sidebar/Sidebar';
 import Panel from '../panel/panel';
@@ -34,7 +35,7 @@ export const shortcuts: State['shortcuts'] = {
   expandAll: ['ctrl', 'shift', 'ArrowDown'],
 };
 
-export const panels: Collection = {
+export const panels: Addon_Collection = {
   test1: {
     title: 'Test 1',
     render: ({ active, key }) =>
