@@ -12,7 +12,7 @@ import {
   StylePreprocessorOptions,
 } from '@angular-devkit/build-angular';
 import { from, Observable, of } from 'rxjs';
-import type { CLIOptions } from '@storybook/core-common';
+import type { CLIOptions } from '@storybook/types';
 import { map, switchMap, mapTo } from 'rxjs/operators';
 import { sync as findUpSync } from 'find-up';
 import { sync as readUpSync } from 'read-pkg-up';

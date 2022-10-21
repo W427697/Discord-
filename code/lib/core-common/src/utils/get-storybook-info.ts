@@ -1,7 +1,7 @@
 import path from 'path';
 import fse from 'fs-extra';
+import { PackageJson } from '@storybook/types';
 import { getStorybookConfiguration } from './get-storybook-configuration';
-import { PackageJson } from '../types';
 
 interface StorybookInfo {
   version: string;

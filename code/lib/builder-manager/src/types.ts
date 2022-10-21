@@ -1,4 +1,4 @@
-import type { Builder } from '@storybook/core-common';
+import type { Builder } from '@storybook/types';
 
 import type { BuildOptions, BuildResult } from 'esbuild';
 

@@ -2,8 +2,11 @@
 import { Router, Request, Response } from 'express';
 import { writeJSON } from 'fs-extra';
 
-import type { NormalizedStoriesSpecifier } from '@storybook/core-common';
-import type { Store_StoryIndex, Store_StoryIndexV3 } from '@storybook/types';
+import type {
+  CoreCommon_NormalizedStoriesSpecifier,
+  Store_StoryIndex,
+  Store_StoryIndexV3,
+} from '@storybook/types';
 import debounce from 'lodash/debounce';
 
 import { STORY_INDEX_INVALIDATED } from '@storybook/core-events';
@@ -34,7 +37,7 @@ export function useStoriesJson({
   initializedStoryIndexGenerator: Promise<StoryIndexGenerator>;
   serverChannel: ServerChannel;
   workingDir?: string;
-  normalizedStories: NormalizedStoriesSpecifier[];
+  normalizedStories: CoreCommon_NormalizedStoriesSpecifier[];
 }) {
   const maybeInvalidate = debounce(() => serverChannel.emit(STORY_INDEX_INVALIDATED), DEBOUNCE, {
     leading: true,

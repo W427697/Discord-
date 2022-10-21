@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import type { StorybookConfig } from '@storybook/core-common';
+import type { StorybookConfig } from '@storybook/types';
 import type { SupportedRenderers } from '../project_types';
 
 export interface Parameters {

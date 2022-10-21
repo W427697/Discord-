@@ -21,7 +21,7 @@ import {
 } from '@storybook/core-events';
 import type { RouterData } from '@storybook/router';
 import type { Listener } from '@storybook/channels';
-import type { DocsOptions } from '@storybook/core-common';
+import type { DocsOptions } from '@storybook/types';
 
 import { createContext } from './context';
 import Store, { Options } from './store';

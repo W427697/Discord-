@@ -18,10 +18,10 @@ import type {
   Store_StoryIndex,
   Store_ModuleExports,
   Store_Story,
+  DocsOptions,
 } from '@storybook/types';
 import { StoryStore, userOrAutoTitle, sortStoriesV6 } from '@storybook/store';
 import { logger } from '@storybook/client-logger';
-import type { DocsOptions } from '@storybook/core-common';
 
 export interface GetStorybookStory<TFramework extends AnyFramework> {
   name: string;

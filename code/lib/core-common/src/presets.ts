@@ -8,7 +8,7 @@ import {
   PresetConfig,
   Presets,
   BuilderOptions,
-} from './types';
+} from '@storybook/types';
 import { loadCustomPresets } from './utils/load-custom-presets';
 import { safeResolve, safeResolveFrom } from './utils/safeResolve';
 import { interopRequireDefault } from './utils/interpret-require';

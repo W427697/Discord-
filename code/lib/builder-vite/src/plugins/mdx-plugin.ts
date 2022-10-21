@@ -1,4 +1,4 @@
-import type { Options } from '@storybook/core-common';
+import type { Options } from '@storybook/types';
 import type { Plugin } from 'vite';
 import { createFilter } from 'vite';
 

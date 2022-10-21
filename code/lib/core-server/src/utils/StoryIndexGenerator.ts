@@ -15,9 +15,11 @@ import type {
   Addon_TemplateDocsIndexEntry,
   ComponentTitle,
   StoryName,
+  CoreCommon_StoryIndexer,
+  CoreCommon_NormalizedStoriesSpecifier,
+  DocsOptions,
 } from '@storybook/types';
 import { userOrAutoTitleFromSpecifier, sortStoriesV7 } from '@storybook/store';
-import type { StoryIndexer, NormalizedStoriesSpecifier, DocsOptions } from '@storybook/core-common';
 import { normalizeStoryPath } from '@storybook/core-common';
 import { logger } from '@storybook/node-logger';
 import { getStorySortParameter, NoMetaError } from '@storybook/csf-tools';
@@ -69,7 +71,7 @@ const makeAbsolute = (
 export class StoryIndexGenerator {
   // An internal cache mapping specifiers to a set of path=><set of stories>
   // Later, we'll combine each of these subsets together to form the full index
-  private specifierToCache: Map<NormalizedStoriesSpecifier, SpecifierStoriesCache>;
+  private specifierToCache: Map<CoreCommon_NormalizedStoriesSpecifier, SpecifierStoriesCache>;
 
   // Cache the last value of `getStoryIndex`. We invalidate (by unsetting) when:
   //  - any file changes, including deletions
@@ -77,13 +79,13 @@ export class StoryIndexGenerator {
   private lastIndex?: Store_StoryIndex;
 
   constructor(
-    public readonly specifiers: NormalizedStoriesSpecifier[],
+    public readonly specifiers: CoreCommon_NormalizedStoriesSpecifier[],
     public readonly options: {
       workingDir: Store_Path;
       configDir: Store_Path;
       storiesV2Compatibility: boolean;
       storyStoreV7: boolean;
-      storyIndexers: StoryIndexer[];
+      storyIndexers: CoreCommon_StoryIndexer[];
       docs: DocsOptions;
     }
   ) {
@@ -124,7 +126,7 @@ export class StoryIndexGenerator {
    */
   async updateExtracted(
     updater: (
-      specifier: NormalizedStoriesSpecifier,
+      specifier: CoreCommon_NormalizedStoriesSpecifier,
       absolutePath: Store_Path,
       existingEntry: CacheEntry
     ) => Promise<CacheEntry>,
@@ -200,7 +202,7 @@ export class StoryIndexGenerator {
     return dependencies;
   }
 
-  async extractStories(specifier: NormalizedStoriesSpecifier, absolutePath: Store_Path) {
+  async extractStories(specifier: CoreCommon_NormalizedStoriesSpecifier, absolutePath: Store_Path) {
     const relativePath = path.relative(this.options.workingDir, absolutePath);
     const entries = [] as Addon_IndexEntry[];
     try {
@@ -251,7 +253,7 @@ export class StoryIndexGenerator {
     return { entries, type: 'stories', dependents: [] } as StoriesCacheEntry;
   }
 
-  async extractDocs(specifier: NormalizedStoriesSpecifier, absolutePath: Store_Path) {
+  async extractDocs(specifier: CoreCommon_NormalizedStoriesSpecifier, absolutePath: Store_Path) {
     const relativePath = path.relative(this.options.workingDir, absolutePath);
     try {
       if (!this.options.storyStoreV7) {
@@ -459,7 +461,11 @@ export class StoryIndexGenerator {
     return this.lastIndex;
   }
 
-  invalidate(specifier: NormalizedStoriesSpecifier, importPath: Store_Path, removed: boolean) {
+  invalidate(
+    specifier: CoreCommon_NormalizedStoriesSpecifier,
+    importPath: Store_Path,
+    removed: boolean
+  ) {
     const absolutePath = slash(path.resolve(this.options.workingDir, importPath));
     const cache = this.specifierToCache.get(specifier);
 
