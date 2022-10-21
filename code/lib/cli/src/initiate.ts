@@ -2,6 +2,8 @@ import { UpdateNotifier, Package } from 'update-notifier';
 import chalk from 'chalk';
 import prompts from 'prompts';
 import { telemetry } from '@storybook/telemetry';
+import { withTelemetry } from '@storybook/core-server';
+
 import { installableProjectTypes, ProjectType } from './project_types';
 import { detect, isStorybookInstalled, detectLanguage, detectBuilder } from './detect';
 import { commandLog, codeLog, paddedLog } from './helpers';
@@ -250,7 +252,7 @@ const projectTypeInquirer = async (
   return Promise.resolve();
 };
 
-export async function initiate(options: CommandOptions, pkg: Package): Promise<void> {
+async function doInitiate(options: CommandOptions, pkg: Package): Promise<void> {
   const { useNpm, packageManager: pkgMgr } = options;
   if (useNpm) {
     useNpmWarning();
@@ -260,7 +262,7 @@ export async function initiate(options: CommandOptions, pkg: Package): Promise<v
   logger.log(chalk.inverse(`\n ${welcomeMessage} \n`));
 
   if (!options.disableTelemetry) {
-    telemetry('init');
+    telemetry('init', {}, { stripMetadata: true });
   }
 
   // Update notify code.
@@ -331,4 +333,8 @@ export async function initiate(options: CommandOptions, pkg: Package): Promise<v
 
   // Add a new line for the clear visibility.
   logger.log();
+}
+
+export async function initiate(options: CommandOptions, pkg: Package): Promise<void> {
+  await withTelemetry('init', { cliOptions: options }, () => doInitiate(options, pkg));
 }
