@@ -142,7 +142,7 @@ jobs:
     executor:
       class: medium+
       name: sb_node_16_browsers
-    parallelism: 4
+    parallelism: 3
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: '--depth 1 --verbose'

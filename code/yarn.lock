@@ -6477,7 +6477,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/addon-interactions@7.0.0-alpha.40, @storybook/addon-interactions@workspace:*, @storybook/addon-interactions@workspace:addons/interactions":
+"@storybook/addon-interactions@workspace:*, @storybook/addon-interactions@workspace:addons/interactions":
   version: 0.0.0-use.local
   resolution: "@storybook/addon-interactions@workspace:addons/interactions"
   dependencies:
@@ -8572,7 +8572,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/svelte-webpack5@7.0.0-alpha.40, @storybook/svelte-webpack5@workspace:*, @storybook/svelte-webpack5@workspace:frameworks/svelte-webpack5":
+"@storybook/svelte-webpack5@workspace:*, @storybook/svelte-webpack5@workspace:frameworks/svelte-webpack5":
   version: 0.0.0-use.local
   resolution: "@storybook/svelte-webpack5@workspace:frameworks/svelte-webpack5"
   dependencies:
@@ -9850,13 +9850,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/pug@npm:^2.0.4":
-  version: 2.0.6
-  resolution: "@types/pug@npm:2.0.6"
-  checksum: 8e7a3b6c1158d3a87b643c91f6cf2552ae781bc2a8f8b17a61e7b1ddd9ce480fd3483459a9b6e0f205ebe158ed67c11fd9a3206262057a14f655138c2322b0c9
-  languageName: node
-  linkType: hard
-
 "@types/puppeteer-core@npm:^2.1.0":
   version: 2.1.0
   resolution: "@types/puppeteer-core@npm:2.1.0"
@@ -9972,15 +9965,6 @@ __metadata:
     "@types/glob": "*"
     "@types/node": "*"
   checksum: f1b11100374be4a554fc9bf7c8bd33aef0dc0481007bc55b83451bb2dbe30626be82e3cf16612ba7e4c96ce3982d8bab07cd0e951b9c98d2518d981cf6f2e4b2
-  languageName: node
-  linkType: hard
-
-"@types/sass@npm:^1.16.0":
-  version: 1.43.1
-  resolution: "@types/sass@npm:1.43.1"
-  dependencies:
-    "@types/node": "*"
-  checksum: cb55602b2f7a356d784e8ad1f432246daf4cb1fe75ef27ede997d41bdee0b08814435966471909762043d5169e009fab4a3b14db98e782103081b2da64497304
   languageName: node
   linkType: hard
 
@@ -13745,7 +13729,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"buffer-crc32@npm:^0.2.5, buffer-crc32@npm:~0.2.3":
+"buffer-crc32@npm:~0.2.3":
   version: 0.2.13
   resolution: "buffer-crc32@npm:0.2.13"
   checksum: cb0a8ddf5cf4f766466db63279e47761eb825693eeba6a5a95ee4ec8cb8f81ede70aa7f9d8aeec083e781d47154290eb5d4d26b3f7a465ec57fb9e7d59c47150
@@ -18149,13 +18133,6 @@ __metadata:
     es6-symbol: ~3.1.1
     event-emitter: ~0.3.5
   checksum: 62fe1a90ead1704bed699cb9c975e642023f590d5338c2a640d60ce0a846de7d5197561393ac03dd11473b96087cf8793c9e4836fe05ad4d2ef6afda6b9a3511
-  languageName: node
-  linkType: hard
-
-"es6-promise@npm:^3.1.2":
-  version: 3.3.1
-  resolution: "es6-promise@npm:3.3.1"
-  checksum: b4fc87cb8509c001f62f860f97b05d1fd3f87220c8b832578e6a483c719ca272b73a77f2231cb26395fa865e1cab2fd4298ab67786b69e97b8d757b938f4fc1f
   languageName: node
   linkType: hard
 
@@ -33278,18 +33255,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"raw-loader@npm:^4.0.2":
-  version: 4.0.2
-  resolution: "raw-loader@npm:4.0.2"
-  dependencies:
-    loader-utils: ^2.0.0
-    schema-utils: ^3.0.0
-  peerDependencies:
-    webpack: ^4.0.0 || ^5.0.0
-  checksum: 981ebe65e1cee7230300d21ba6dcd8bd23ea81ef4ad2b167c0f62d93deba347f27921d330be848634baab3831cf9f38900af6082d6416c2e937fe612fa6a74ff
-  languageName: node
-  linkType: hard
-
 "rc@npm:1.2.8, rc@npm:^1.2.8":
   version: 1.2.8
   resolution: "rc@npm:1.2.8"
@@ -35131,7 +35096,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rimraf@npm:^2.2.8, rimraf@npm:^2.3.4, rimraf@npm:^2.4.1, rimraf@npm:^2.4.3, rimraf@npm:^2.5.2, rimraf@npm:^2.5.3, rimraf@npm:^2.5.4, rimraf@npm:^2.6.1, rimraf@npm:^2.6.2, rimraf@npm:^2.6.3":
+"rimraf@npm:^2.2.8, rimraf@npm:^2.3.4, rimraf@npm:^2.4.1, rimraf@npm:^2.4.3, rimraf@npm:^2.5.3, rimraf@npm:^2.5.4, rimraf@npm:^2.6.1, rimraf@npm:^2.6.2, rimraf@npm:^2.6.3":
   version: 2.7.1
   resolution: "rimraf@npm:2.7.1"
   dependencies:
@@ -35352,18 +35317,6 @@ __metadata:
   version: 2.1.2
   resolution: "safer-buffer@npm:2.1.2"
   checksum: 7e3c8b2e88a1841c9671094bbaeebd94448111dd90a81a1f606f3f67708a6ec57763b3b47f06da09fc6054193e0e6709e77325415dc8422b04497a8070fa02d4
-  languageName: node
-  linkType: hard
-
-"sander@npm:^0.5.0":
-  version: 0.5.1
-  resolution: "sander@npm:0.5.1"
-  dependencies:
-    es6-promise: ^3.1.2
-    graceful-fs: ^4.1.3
-    mkdirp: ^0.5.1
-    rimraf: ^2.5.2
-  checksum: ce1e423fe5b4e57926df7cc6bd24b70271adfbe7b8ff995784f98101878e037327ac31c7a4e317ac3e1579f410e41a477fef40c2376f0dfa4499c8864a26f499
   languageName: node
   linkType: hard
 
@@ -36184,20 +36137,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"sorcery@npm:^0.10.0":
-  version: 0.10.0
-  resolution: "sorcery@npm:0.10.0"
-  dependencies:
-    buffer-crc32: ^0.2.5
-    minimist: ^1.2.0
-    sander: ^0.5.0
-    sourcemap-codec: ^1.3.0
-  bin:
-    sorcery: bin/index.js
-  checksum: 4b939487c4c157d27b9477c0948def0d10aab3891dc33f2d140a1710a10ef50fa7cf4e22e2c4564226942ec719ce0eb83c8b9096708533c888de34a673ee5934
-  languageName: node
-  linkType: hard
-
 "sort-keys-length@npm:^1.0.0":
   version: 1.0.1
   resolution: "sort-keys-length@npm:1.0.1"
@@ -36394,7 +36333,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"sourcemap-codec@npm:^1.3.0, sourcemap-codec@npm:^1.4.1, sourcemap-codec@npm:^1.4.4, sourcemap-codec@npm:^1.4.8":
+"sourcemap-codec@npm:^1.4.1, sourcemap-codec@npm:^1.4.4, sourcemap-codec@npm:^1.4.8":
   version: 1.4.8
   resolution: "sourcemap-codec@npm:1.4.8"
   checksum: f099279fdaae070ff156df7414bbe39aad69cdd615454947ed3e19136bfdfcb4544952685ee73f56e17038f4578091e12b17b283ed8ac013882916594d95b9e6
@@ -37412,35 +37351,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"svelte-example@workspace:examples/svelte-kitchen-sink":
-  version: 0.0.0-use.local
-  resolution: "svelte-example@workspace:examples/svelte-kitchen-sink"
-  dependencies:
-    "@storybook/addon-a11y": 7.0.0-alpha.40
-    "@storybook/addon-actions": 7.0.0-alpha.40
-    "@storybook/addon-backgrounds": 7.0.0-alpha.40
-    "@storybook/addon-controls": 7.0.0-alpha.40
-    "@storybook/addon-docs": 7.0.0-alpha.40
-    "@storybook/addon-highlight": 7.0.0-alpha.40
-    "@storybook/addon-interactions": 7.0.0-alpha.40
-    "@storybook/addon-links": 7.0.0-alpha.40
-    "@storybook/addon-storyshots": 7.0.0-alpha.40
-    "@storybook/addon-storysource": 7.0.0-alpha.40
-    "@storybook/addon-viewport": 7.0.0-alpha.40
-    "@storybook/addons": 7.0.0-alpha.40
-    "@storybook/jest": ^0.0.10
-    "@storybook/source-loader": 7.0.0-alpha.40
-    "@storybook/svelte": 7.0.0-alpha.40
-    "@storybook/svelte-webpack5": 7.0.0-alpha.40
-    "@storybook/testing-library": 0.0.14-next.0
-    global: ^4.4.0
-    raw-loader: ^4.0.2
-    storybook: 7.0.0-alpha.40
-    svelte-jester: ^2.3.2
-    svelte-preprocess: ^4.10.6
-  languageName: unknown
-  linkType: soft
-
 "svelte-hmr@npm:^0.14.2":
   version: 0.14.12
   resolution: "svelte-hmr@npm:0.14.12"
@@ -37459,16 +37369,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"svelte-jester@npm:^2.3.2":
-  version: 2.3.2
-  resolution: "svelte-jester@npm:2.3.2"
-  peerDependencies:
-    jest: ">= 27"
-    svelte: ">= 3"
-  checksum: 6f1a240b0dc94e1f252f6c9872474fec49e7d50ed1477e676d885a57bc0a90a31d7bae018d847b9d83a1f0060e4a53a5c8da323bcb2e0479daba62a9c0525472
-  languageName: node
-  linkType: hard
-
 "svelte-loader@npm:^3.1.2":
   version: 3.1.3
   resolution: "svelte-loader@npm:3.1.3"
@@ -37479,55 +37379,6 @@ __metadata:
   peerDependencies:
     svelte: ">3.0.0"
   checksum: 5c4f91fdfb7760eea29974c11743f73654049cdada16ad2fdca127493f739082c9d5b1cac8438cae2345409b238cc516983e00b96b77b7f10c25150e21bb8884
-  languageName: node
-  linkType: hard
-
-"svelte-preprocess@npm:^4.10.6":
-  version: 4.10.7
-  resolution: "svelte-preprocess@npm:4.10.7"
-  dependencies:
-    "@types/pug": ^2.0.4
-    "@types/sass": ^1.16.0
-    detect-indent: ^6.0.0
-    magic-string: ^0.25.7
-    sorcery: ^0.10.0
-    strip-indent: ^3.0.0
-  peerDependencies:
-    "@babel/core": ^7.10.2
-    coffeescript: ^2.5.1
-    less: ^3.11.3 || ^4.0.0
-    postcss: ^7 || ^8
-    postcss-load-config: ^2.1.0 || ^3.0.0 || ^4.0.0
-    pug: ^3.0.0
-    sass: ^1.26.8
-    stylus: ^0.55.0
-    sugarss: ^2.0.0
-    svelte: ^3.23.0
-    typescript: ^3.9.5 || ^4.0.0
-  peerDependenciesMeta:
-    "@babel/core":
-      optional: true
-    coffeescript:
-      optional: true
-    less:
-      optional: true
-    node-sass:
-      optional: true
-    postcss:
-      optional: true
-    postcss-load-config:
-      optional: true
-    pug:
-      optional: true
-    sass:
-      optional: true
-    stylus:
-      optional: true
-    sugarss:
-      optional: true
-    typescript:
-      optional: true
-  checksum: aa90206063270bc3a33b0228315c1cae1609897c785a05cfaacd361bf1b55b9e1ff2f3a52cd22a21a587b9fe0305d2e6bee1ce17940c8d09fe4c5beb2eaef68b
   languageName: node
   linkType: hard
 
