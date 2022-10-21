@@ -15,7 +15,7 @@ import { filterExistsInCodeDir } from '../utils/filterExistsInCodeDir';
 import { findFirstPath } from '../utils/paths';
 import { detectLanguage } from '../../code/lib/cli/src/detect';
 import { SupportedLanguage } from '../../code/lib/cli/src/project_types';
-import { addPackageScripts } from '../utils/package-json';
+import { updatePackageScripts } from '../utils/package-json';
 import { addPreviewAnnotations, readMainConfig } from '../utils/main-js';
 import { JsPackageManagerFactory } from '../../code/lib/cli/src/js-package-manager';
 import { workspacePath } from '../utils/workspace';
@@ -77,7 +77,7 @@ export const create: Task['run'] = async (
   const mainConfig = await readMainConfig({ cwd });
 
   mainConfig.setFieldValue(['core', 'disableTelemetry'], true);
-  if (template.expected.builder === '@storybook/builder-vite') forceViteRebuilds(mainConfig);
+  if (template.expected.builder === '@storybook/builder-vite') setSandboxViteFinal(mainConfig);
   await writeConfig(mainConfig);
 };
 
@@ -113,14 +113,9 @@ export const install: Task['run'] = async ({ sandboxDir }, { link, dryRun, debug
   }
 
   logger.info(`🔢 Adding package scripts:`);
-  await addPackageScripts({
+  await updatePackageScripts({
     cwd,
-    scripts: {
-      storybook:
-        'NODE_OPTIONS="--preserve-symlinks --preserve-symlinks-main" storybook dev -p 6006',
-      'build-storybook':
-        'NODE_OPTIONS="--preserve-symlinks --preserve-symlinks-main" storybook build',
-    },
+    prefix: 'NODE_OPTIONS="--preserve-symlinks --preserve-symlinks-main"',
   });
 };
 
@@ -132,7 +127,7 @@ function addEsbuildLoaderToStories(mainConfig: ConfigFile) {
   // NOTE: the test regexp here will apply whether the path is symlink-preserved or otherwise
   const esbuildLoaderPath = require.resolve('../../code/node_modules/esbuild-loader');
   const storiesMdxLoaderPath = require.resolve(
-    '../../code/node_modules/@storybook/mdx1-csf/loader'
+    '../../code/node_modules/@storybook/mdx2-csf/loader'
   );
   const babelLoaderPath = require.resolve('babel-loader');
   const jsxPluginPath = require.resolve('@babel/plugin-transform-react-jsx');
@@ -209,15 +204,23 @@ function addEsbuildLoaderToStories(mainConfig: ConfigFile) {
   );
 }
 
-// Recompile optimized deps on each startup, so you can change @storybook/* packages and not
-// have to clear caches.
-function forceViteRebuilds(mainConfig: ConfigFile) {
+/*
+  Recompile optimized deps on each startup, so you can change @storybook/* packages and not
+  have to clear caches.
+  And allow source directories to complement any existing allow patterns
+  (".storybook" is already being allowed by builder-vite)
+*/
+function setSandboxViteFinal(mainConfig: ConfigFile) {
   const viteFinalCode = `
   (config) => ({
     ...config,
-    optimizeDeps: {
-      ...config.optimizeDeps,
-      force: true,
+    optimizeDeps: { ...config.optimizeDeps, force: true },
+    server: {
+      ...config.server,
+      fs: {
+        ...config.server?.fs,
+        allow: ['src', 'template-stories', 'node_modules', ...(config.server?.fs?.allow || [])],
+      },
     },
   })`;
   mainConfig.setFieldNode(
@@ -291,10 +294,14 @@ function addExtraDependencies({
   debug: boolean;
 }) {
   // web-components doesn't install '@storybook/testing-library' by default
-  const extraDeps = ['@storybook/jest', '@storybook/testing-library@0.0.14-next.0'];
+  const extraDeps = [
+    '@storybook/jest',
+    '@storybook/testing-library@0.0.14-next.0',
+    '@storybook/test-runner',
+  ];
   if (debug) logger.log('🎁 Adding extra deps', extraDeps);
   if (!dryRun) {
-    const packageManager = JsPackageManagerFactory.getPackageManager(false, cwd);
+    const packageManager = JsPackageManagerFactory.getPackageManager({}, cwd);
     packageManager.addDependencies({ installAsDevDependencies: true }, extraDeps);
   }
 }

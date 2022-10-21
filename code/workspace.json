@@ -362,7 +362,7 @@
       "implicitDependencies": []
     },
     "@storybook/ui": {
-      "root": "lib/ui",
+      "root": "ui/manager",
       "type": "library",
       "implicitDependencies": []
     },
@@ -411,18 +411,8 @@
       "type": "library",
       "implicitDependencies": []
     },
-    "angular-cli": {
-      "root": "examples/angular-cli",
-      "type": "library",
-      "implicitDependencies": []
-    },
     "ember-example": {
       "root": "examples/ember-cli",
-      "type": "library",
-      "implicitDependencies": []
-    },
-    "preact-example": {
-      "root": "examples/preact-kitchen-sink",
       "type": "library",
       "implicitDependencies": []
     },
@@ -443,11 +433,6 @@
     },
     "storybook": {
       "root": "lib/cli-storybook",
-      "type": "library",
-      "implicitDependencies": []
-    },
-    "svelte-example": {
-      "root": "examples/svelte-kitchen-sink",
       "type": "library",
       "implicitDependencies": []
     },

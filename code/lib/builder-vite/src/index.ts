@@ -14,6 +14,7 @@ import { createViteServer } from './vite-server';
 import { build as viteBuild } from './build';
 import type { ExtendedOptions } from './types';
 
+export { withoutVitePlugins } from './utils/without-vite-plugins';
 export type { TypescriptOptions } from '@storybook/core-common';
 
 // Storybook's Stats are optional Webpack related property
@@ -57,13 +58,25 @@ function iframeMiddleware(options: ExtendedOptions, server: ViteDevServer): Requ
   };
 }
 
+let server: ViteDevServer;
+
+export async function bail(e?: Error): Promise<void> {
+  try {
+    return await server.close();
+  } catch (err) {
+    console.warn('unable to close vite server');
+  }
+
+  throw e;
+}
+
 export const start: ViteBuilder['start'] = async ({
   startTime,
   options,
   router,
   server: devServer,
 }) => {
-  const server = await createViteServer(options as ExtendedOptions, devServer);
+  server = await createViteServer(options as ExtendedOptions, devServer);
 
   // Just mock this endpoint (which is really Webpack-specific) so we don't get spammed with 404 in browser devtools
   // TODO: we should either show some sort of progress from Vite, or just try to disable the whole Loader in the Manager UI.
@@ -74,16 +87,6 @@ export const start: ViteBuilder['start'] = async ({
 
   router.use(iframeMiddleware(options as ExtendedOptions, server));
   router.use(server.middlewares);
-
-  async function bail(e?: Error): Promise<void> {
-    try {
-      return await server.close();
-    } catch (err) {
-      console.warn('unable to close vite server');
-    }
-
-    throw e;
-  }
 
   return {
     bail,
