@@ -224,13 +224,13 @@ jobs:
           name: set up cra repro, skip tests
           command: |
             cd code
-            node ./lib/cli/bin/index.js repro-next cra/default-js --no-init --output ../../cra-bench
+            node ./lib/cli/bin/index.js repro-next cra/default-js --output ../../cra-bench
       - run:
           name: Run @storybook/bench on repro
           command: |
             cd ../cra-bench
-            yarn add storybook --dev
-            npx -p @storybook/bench@0.7.6--canary.14.6702e4f.0 sb-bench 'yarn storybook init' --label cra
+            rm -rf node_modules
+            npx -p @storybook/bench@0.7.6--canary.14.6702e4f.0 sb-bench 'yarn install' --label cra
       - run:
           name: prep artifacts
           when: always
@@ -263,15 +263,13 @@ jobs:
           name: set up react-vite repro, skip tests
           command: |
             cd code
-            node ./lib/cli/bin/index.js repro-next react-vite/default-ts --no-init --output ../../react-vite-bench
+            node ./lib/cli/bin/index.js repro-next react-vite/default-ts --output ../../react-vite-bench
       - run:
           name: Run @storybook/bench on repro
-          # FIXME: we have to add storybook dep because `npx storybook init` fails somehow
-          # in verdaccio. this means that we're not getting a "full" install size/time currently
           command: |
             cd ../react-vite-bench
-            yarn add storybook --dev
-            npx -p @storybook/bench@0.7.6--canary.14.6702e4f.0 sb-bench 'yarn storybook init' --label react-vite
+            rm -rf node_modules
+            npx -p @storybook/bench@0.7.6--canary.14.6702e4f.0 sb-bench 'yarn install' --label react-vite
       - run:
           name: prep artifacts
           when: always
