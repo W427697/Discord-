@@ -11,10 +11,10 @@ import {
   LegacyStoryAnnotationsOrFn,
 } from '@storybook/types';
 
+import { HooksContext } from '@storybook/addons';
 import { composeConfigs } from '../composeConfigs';
 import { prepareStory } from '../prepareStory';
 import { normalizeStory } from '../normalizeStory';
-import { HooksContext } from '../../hooks';
 import { normalizeComponentAnnotations } from '../normalizeComponentAnnotations';
 import { getValuesFromArgTypes } from '../getValuesFromArgTypes';
 import { normalizeProjectAnnotations } from '../normalizeProjectAnnotations';

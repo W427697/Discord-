@@ -23,8 +23,8 @@ import type {
 } from '@storybook/types';
 import { includeConditionalArg } from '@storybook/csf';
 
+import { applyHooks } from '@storybook/addons';
 import { combineParameters } from '../parameters';
-import { applyHooks } from '../hooks';
 import { defaultDecorateStory } from '../decorators';
 import { groupArgsByTarget, NO_TARGET_NAME } from '../args';
 import { getValuesFromArgTypes } from './getValuesFromArgTypes';

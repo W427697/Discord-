@@ -1,7 +1,6 @@
 /* eslint-disable camelcase */
-import type { Addon } from '@storybook/addons';
-
-import type { StoryStore, HooksContext } from '@storybook/store';
+import type { Addon, HooksContext } from '@storybook/addons';
+import type { StoryStore } from '@storybook/store';
 import type { Addon_StoryApi } from './addons';
 import type { Store_RenderContext } from './store';
 import type {

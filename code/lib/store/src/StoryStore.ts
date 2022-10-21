@@ -27,11 +27,11 @@ import mapValues from 'lodash/mapValues';
 import pick from 'lodash/pick';
 import { SynchronousPromise } from 'synchronous-promise';
 
+import { HooksContext } from '@storybook/addons';
 import { StoryIndexStore } from './StoryIndexStore';
 import { ArgsStore } from './ArgsStore';
 import { GlobalsStore } from './GlobalsStore';
 import { processCSFFile, prepareStory, normalizeProjectAnnotations } from './csf';
-import { HooksContext } from './hooks';
 
 // TODO -- what are reasonable values for these?
 const CSF_CACHE_SIZE = 1000;

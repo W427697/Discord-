@@ -152,3 +152,16 @@ export interface Store_NormalizedStoriesSpecifier {
 export type Store_ExtractOptions = {
   includeDocsOnly?: boolean;
 };
+
+export interface Store_NormalizedStoriesSpecifierEntry {
+  titlePrefix?: string;
+  directory: string;
+  files?: string;
+  importPathMatcher: RegExp;
+}
+
+export type Store_ContextStore<TFramework extends AnyFramework> = {
+  value?: StoryContext<TFramework>;
+};
+
+export type Store_PropDescriptor = string[] | RegExp;
