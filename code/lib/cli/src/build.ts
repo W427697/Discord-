@@ -17,7 +17,6 @@ export const build = async (cliOptions: any) => {
     };
     await withTelemetry('build', { presetOptions: options }, () => buildStaticStandalone(options));
   } catch (err) {
-    // send error
     logger.error(err);
     process.exit(1);
   }
