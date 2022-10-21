@@ -230,6 +230,7 @@ jobs:
           command: |
             cd ../cra-bench
             rm -rf node_modules
+            mkdir node_modules
             npx -p @storybook/bench@0.7.6--canary.14.6702e4f.0 sb-bench 'yarn install' --label cra
       - run:
           name: prep artifacts
@@ -269,6 +270,7 @@ jobs:
           command: |
             cd ../react-vite-bench
             rm -rf node_modules
+            mkdir node_modules
             npx -p @storybook/bench@0.7.6--canary.14.6702e4f.0 sb-bench 'yarn install' --label react-vite
       - run:
           name: prep artifacts
