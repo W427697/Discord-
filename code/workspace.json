@@ -231,6 +231,11 @@
       "type": "library",
       "implicitDependencies": []
     },
+    "@storybook/nextjs": {
+      "root": "frameworks/nextjs",
+      "type": "library",
+      "implicitDependencies": []
+    },
     "@storybook/node-logger": {
       "root": "lib/node-logger",
       "type": "library",

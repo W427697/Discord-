@@ -43,6 +43,7 @@ export default {
   '@storybook/html': '7.0.0-alpha.40',
   '@storybook/html-webpack5': '7.0.0-alpha.40',
   '@storybook/instrumenter': '7.0.0-alpha.40',
+  '@storybook/nextjs': '7.0.0-alpha.40',
   '@storybook/node-logger': '7.0.0-alpha.40',
   '@storybook/postinstall': '7.0.0-alpha.40',
   '@storybook/preact': '7.0.0-alpha.40',

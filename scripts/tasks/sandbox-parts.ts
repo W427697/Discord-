@@ -330,6 +330,16 @@ export const addStories: Task['run'] = async (
     linkInDir: resolve(cwd, storiesPath),
   });
 
+  const frameworkPath = await workspacePath('frameworks', template.expected.framework);
+  // Add stories for the framework if it has one. NOTE: these *do* need to be processed by the framework build system
+  if (await pathExists(resolve(codeDir, frameworkPath, join('template', 'stories')))) {
+    await linkPackageStories(frameworkPath, {
+      mainConfig,
+      cwd,
+      linkInDir: resolve(cwd, storiesPath),
+    });
+  }
+
   // Add stories for lib/store (and addons below). NOTE: these stories will be in the
   // template-stories folder and *not* processed by the framework build config (instead by esbuild-loader)
   await linkPackageStories(await workspacePath('core package', '@storybook/store'), {

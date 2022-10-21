@@ -29,7 +29,7 @@ const SCRIPT_TIMEOUT = 5 * 60 * 1000;
 const sbInit = async (cwd: string, flags?: string[]) => {
   const sbCliBinaryPath = join(__dirname, `../../code/lib/cli/bin/index.js`);
   console.log(`🎁 Installing storybook`);
-  const env = { STORYBOOK_DISABLE_TELEMETRY: 'true' };
+  const env = { STORYBOOK_DISABLE_TELEMETRY: 'true', STORYBOOK_REPRO_GENERATOR: 'true' };
   const fullFlags = ['--yes', ...(flags || [])];
   await runCommand(`${sbCliBinaryPath} init ${fullFlags.join(' ')}`, { cwd, env });
 };
@@ -208,7 +208,7 @@ const generate = async ({
 
 program
   .description('Create a reproduction from a set of possible templates')
-  .option('--template <template>', 'Create a single template')
+  .option('--template <template>', 'Create a single template') // change this to allow multiple templates or regex
   .option('--local-registry', 'Use local registry', false)
   .action((options) => {
     generate(options).catch((e) => {

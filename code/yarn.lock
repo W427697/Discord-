@@ -2038,7 +2038,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/preset-typescript@npm:^7.12.7, @babel/preset-typescript@npm:^7.13.0, @babel/preset-typescript@npm:^7.16.7":
+"@babel/preset-typescript@npm:^7.12.7, @babel/preset-typescript@npm:^7.13.0, @babel/preset-typescript@npm:^7.16.7, @babel/preset-typescript@npm:^7.18.6":
   version: 7.18.6
   resolution: "@babel/preset-typescript@npm:7.18.6"
   dependencies:
@@ -7792,6 +7792,52 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@storybook/nextjs@workspace:*, @storybook/nextjs@workspace:frameworks/nextjs":
+  version: 0.0.0-use.local
+  resolution: "@storybook/nextjs@workspace:frameworks/nextjs"
+  dependencies:
+    "@babel/preset-typescript": ^7.18.6
+    "@storybook/addon-actions": 7.0.0-alpha.40
+    "@storybook/addons": 7.0.0-alpha.40
+    "@storybook/builder-webpack5": 7.0.0-alpha.40
+    "@storybook/core-common": 7.0.0-alpha.40
+    "@storybook/node-logger": 7.0.0-alpha.40
+    "@storybook/preset-react-webpack": 7.0.0-alpha.40
+    "@storybook/react": 7.0.0-alpha.40
+    "@types/loader-utils": ^2.0.3
+    "@types/node": ^14.14.20 || ^16.0.0
+    find-up: ^5.0.0
+    fs-extra: ^9.0.1
+    image-size: ^1.0.0
+    loader-utils: ^3.2.0
+    next: ^12.2.4
+    pnp-webpack-plugin: ^1.7.0
+    postcss-loader: ^6.2.1
+    resolve-url-loader: ^5.0.0
+    sass-loader: ^12.4.0
+    semver: ^7.3.5
+    ts-dedent: ^2.0.0
+    tsconfig-paths: ^4.0.0
+    tsconfig-paths-webpack-plugin: ^3.5.2
+    typescript: ~4.6.3
+    webpack: ^5.65.0
+  peerDependencies:
+    "@babel/core": ^7.11.5
+    "@storybook/addon-actions": 7.0.0-alpha.40
+    next: ^9.0.0 || ^10.0.0 || ^11.0.0 || ^12.0.0
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0
+    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
+    webpack: ^5.0.0
+  peerDependenciesMeta:
+    "@babel/core":
+      optional: true
+    "@storybook/addon-actions":
+      optional: true
+    typescript:
+      optional: true
+  languageName: unknown
+  linkType: soft
+
 "@storybook/node-logger@7.0.0-alpha.40, @storybook/node-logger@workspace:*, @storybook/node-logger@workspace:lib/node-logger":
   version: 0.0.0-use.local
   resolution: "@storybook/node-logger@workspace:lib/node-logger"
@@ -8242,6 +8288,7 @@ __metadata:
     "@storybook/instrumenter": "workspace:*"
     "@storybook/jest": ^0.0.10
     "@storybook/linter-config": ^2.5.0
+    "@storybook/nextjs": "workspace:*"
     "@storybook/node-logger": "workspace:*"
     "@storybook/postinstall": "workspace:*"
     "@storybook/preact": "workspace:*"
@@ -9648,6 +9695,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/loader-utils@npm:^2.0.3":
+  version: 2.0.3
+  resolution: "@types/loader-utils@npm:2.0.3"
+  dependencies:
+    "@types/node": "*"
+    "@types/webpack": ^4
+  checksum: e4998224ca40a05a395469894215e3d700c4cc71415efb296269bca6b1fa3b00ee07e79206f1113e30f844e55a8829f1293526cb0379d96821a8840b7ef7a80f
+  languageName: node
+  linkType: hard
+
 "@types/lodash@npm:^4.14.167":
   version: 4.14.186
   resolution: "@types/lodash@npm:4.14.186"
@@ -9743,6 +9800,13 @@ __metadata:
   version: 18.8.4
   resolution: "@types/node@npm:18.8.4"
   checksum: 2dab5a821edd12c2e435c14645dc396d568090c1703d65aef2f8a2b66abf24cce8cd925ce7c645a105c505a1457722159d6248e9f69f35c0d196fa85e0a52f3c
+  languageName: node
+  linkType: hard
+
+"@types/node@npm:^14.14.20 || ^16.0.0":
+  version: 16.11.66
+  resolution: "@types/node@npm:16.11.66"
+  checksum: 7de1769c50ccb772a2edb22a02d67359deb5b655013b60152245b5a6e4ba71c38c815775b9de3906a6e0e7c879bad50fb2415a5fc9ad096adce583665a7cea91
   languageName: node
   linkType: hard
 
@@ -22632,6 +22696,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"image-size@npm:^1.0.0":
+  version: 1.0.2
+  resolution: "image-size@npm:1.0.2"
+  dependencies:
+    queue: 6.0.2
+  bin:
+    image-size: bin/image-size.js
+  checksum: df518606c75d0ee12a6d7e822a64ef50d9eabbb303dcee8c9df06bad94e49b4d4680b9003968203f239ff39a9cc51d4ff1781cd331cc0a4b3b858d9fc9836c68
+  languageName: node
+  linkType: hard
+
 "image-size@npm:~0.5.0":
   version: 0.5.5
   resolution: "image-size@npm:0.5.5"
@@ -26948,7 +27023,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"loader-utils@npm:3.2.0":
+"loader-utils@npm:3.2.0, loader-utils@npm:^3.2.0":
   version: 3.2.0
   resolution: "loader-utils@npm:3.2.0"
   checksum: 573f7059f283b24b2b68cd230d9f0ba87315da8ecc7885734ea5f108fc83c7882e4eb8f8feab65f7db1661ab540f5aea778f48d18b7aadc24c37be77b2ff70a0
@@ -29625,7 +29700,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"next@npm:^12.1.0":
+"next@npm:^12.1.0, next@npm:^12.2.4":
   version: 12.3.1
   resolution: "next@npm:12.3.1"
   dependencies:
@@ -31779,6 +31854,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"pnp-webpack-plugin@npm:^1.7.0":
+  version: 1.7.0
+  resolution: "pnp-webpack-plugin@npm:1.7.0"
+  dependencies:
+    ts-pnp: ^1.1.6
+  checksum: 79d1973ec0b04be6d44f15d5625991701a010dae28f2798d974d3aa164e8c60dc7fa22fd01a47fb6af369c4ba6585c3030d4deb775ccfecd7156594bc223d086
+  languageName: node
+  linkType: hard
+
 "polished@npm:^4.2.2":
   version: 4.2.2
   resolution: "polished@npm:4.2.2"
@@ -32020,7 +32104,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"postcss-loader@npm:6.2.1":
+"postcss-loader@npm:6.2.1, postcss-loader@npm:^6.2.1":
   version: 6.2.1
   resolution: "postcss-loader@npm:6.2.1"
   dependencies:
@@ -33119,6 +33203,15 @@ __metadata:
   version: 1.2.3
   resolution: "queue-microtask@npm:1.2.3"
   checksum: 900a93d3cdae3acd7d16f642c29a642aea32c2026446151f0778c62ac089d4b8e6c986811076e1ae180a694cedf077d453a11b58ff0a865629a4f82ab558e102
+  languageName: node
+  linkType: hard
+
+"queue@npm:6.0.2":
+  version: 6.0.2
+  resolution: "queue@npm:6.0.2"
+  dependencies:
+    inherits: ~2.0.3
+  checksum: cf987476cc72e7d3aaabe23ccefaab1cd757a2b5e0c8d80b67c9575a6b5e1198807ffd4f0948a3f118b149d1111d810ee773473530b77a5c606673cac2c9c996
   languageName: node
   linkType: hard
 
@@ -34905,7 +34998,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"resolve-url-loader@npm:5.0.0":
+"resolve-url-loader@npm:5.0.0, resolve-url-loader@npm:^5.0.0":
   version: 5.0.0
   resolution: "resolve-url-loader@npm:5.0.0"
   dependencies:
@@ -35358,6 +35451,31 @@ __metadata:
     sass:
       optional: true
   checksum: 179dba7bce7f7b4e38ce6fb1a21ce50879db0951d1611ffd3c9ade45f5ec41a2ae89cb207de4a921fe6f1465d432350b81497f8f8fbe0148ef97167c8622aa0b
+  languageName: node
+  linkType: hard
+
+"sass-loader@npm:^12.4.0":
+  version: 12.6.0
+  resolution: "sass-loader@npm:12.6.0"
+  dependencies:
+    klona: ^2.0.4
+    neo-async: ^2.6.2
+  peerDependencies:
+    fibers: ">= 3.1.0"
+    node-sass: ^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0
+    sass: ^1.3.0
+    sass-embedded: "*"
+    webpack: ^5.0.0
+  peerDependenciesMeta:
+    fibers:
+      optional: true
+    node-sass:
+      optional: true
+    sass:
+      optional: true
+    sass-embedded:
+      optional: true
+  checksum: e1ef655f3898cc4c45f02b3c627f8baf998139993a9a79c524153a80814282bfe20d8d8d703b8cf1d05457c1930940b65e2156d11285ed0861f9a1016f993e53
   languageName: node
   linkType: hard
 
@@ -38472,6 +38590,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"ts-pnp@npm:^1.1.6":
+  version: 1.2.0
+  resolution: "ts-pnp@npm:1.2.0"
+  peerDependenciesMeta:
+    typescript:
+      optional: true
+  checksum: ff32b4f810f9d99f676d70fe2c0e327cb6c812214bd4fc7135870b039f9e85a85b2c20f8fe030d9bd36e9598a12faa391f10aecb95df624b92f1af6bd47dc397
+  languageName: node
+  linkType: hard
+
 "ts-simple-type@npm:~1.0.5":
   version: 1.0.7
   resolution: "ts-simple-type@npm:1.0.7"
@@ -38499,6 +38627,17 @@ __metadata:
     minimist: ^1.2.6
     strip-bom: ^3.0.0
   checksum: 67cd2e400119a0063514782176a9e5c3420d43b7a550804ae65d833027379c0559dec44d21c93791825a3be3c2ec593f07cba658c4167dcbbadb048cb3d36fa3
+  languageName: node
+  linkType: hard
+
+"tsconfig-paths@npm:^4.0.0":
+  version: 4.1.0
+  resolution: "tsconfig-paths@npm:4.1.0"
+  dependencies:
+    json5: ^2.2.1
+    minimist: ^1.2.6
+    strip-bom: ^3.0.0
+  checksum: cadfd6a856c1e6cb96336b2802a3f3d064baee31b5d4ecaeb8bb4397cdc1e9fc5f2f085cc753042a8c8552323ad8ff7a3c98686567e1148a77acc3092ab7b328
   languageName: node
   linkType: hard
 
