@@ -224,7 +224,7 @@ jobs:
           name: set up cra repro, skip tests
           command: |
             cd code
-            node ./lib/cli/bin/index.js repro-next cra/default-js --no-init --output ../../react-vite-bench
+            node ./lib/cli/bin/index.js repro-next cra/default-js --no-init --output ../../cra-bench
       - run:
           name: Run @storybook/bench on repro
           command: |
