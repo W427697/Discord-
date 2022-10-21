@@ -1,12 +1,15 @@
 import { TransformOptions } from '@babel/core';
+import { loadConfig } from 'tsconfig-paths';
 
 export const configureTypescript = async (baseConfig: TransformOptions) => {
-  // TODO: add a check so we only add this in typescript projects
-  const isTypescript = true;
+  const configLoadResult = loadConfig();
 
-  baseConfig.presets ||= [];
+  // if tsconfig is successfully loaded, this is a typescript project
+  if (configLoadResult.resultType === 'success') {
+    baseConfig.presets ||= [];
 
-  if (isTypescript && !baseConfig.presets.includes('@babel/preset-typescript')) {
-    baseConfig.presets.push('@babel/preset-typescript');
+    if (!baseConfig.presets.includes('@babel/preset-typescript')) {
+      baseConfig.presets.push('@babel/preset-typescript');
+    }
   }
 };
