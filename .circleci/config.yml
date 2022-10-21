@@ -237,7 +237,7 @@ jobs:
       - store_artifacts:
           path: /tmp/sb-bench.tar.gz
           destination: sb-bench.tar.gz
-  vite-react-bench:
+  react-vite-bench:
     executor:
       class: medium+
       name: sb_playwright
@@ -259,20 +259,20 @@ jobs:
             cd code
             yarn wait-on http://localhost:6001
       - run:
-          name: set up vite-react repro, skip tests
+          name: set up react-vite repro, skip tests
           command: |
             cd code
-            node ./lib/cli/bin/index.js repro-next react-vite/default-ts --output ../../vite-react-bench
+            node ./lib/cli/bin/index.js repro-next react-vite/default-ts --output ../../react-vite-bench
       - run:
           name: Run @storybook/bench on repro
           command: |
-            cd ../vite-react-bench
+            cd ../react-vite-bench
             yarn install
-            npx -p @storybook/bench@0.7.6--canary.14.6702e4f.0 sb-bench 'echo noop' --label vite-react
+            npx -p @storybook/bench@0.7.6--canary.14.6702e4f.0 sb-bench 'echo noop' --label react-vite
       - run:
           name: prep artifacts
           when: always
-          command: tar cvzf /tmp/sb-bench.tar.gz ../vite-react-bench
+          command: tar cvzf /tmp/sb-bench.tar.gz ../react-vite-bench
       - store_artifacts:
           path: /tmp/sb-bench.tar.gz
           destination: sb-bench.tar.gz
@@ -493,7 +493,7 @@ workflows:
       - cra-bench:
           requires:
             - publish
-      - vite-react-bench:
+      - react-vite-bench:
           requires:
             - publish
       ## new workflow
