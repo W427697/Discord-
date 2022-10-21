@@ -1,4 +1,4 @@
-import { UpdateNotifier, Package } from 'update-notifier';
+import type { Package } from 'update-notifier';
 import chalk from 'chalk';
 import prompts from 'prompts';
 import { telemetry } from '@storybook/telemetry';
@@ -264,10 +264,12 @@ export async function initiate(options: CommandOptions, pkg: Package): Promise<v
   }
 
   // Update notify code.
-  new UpdateNotifier({
-    pkg,
-    updateCheckInterval: 1000 * 60 * 60, // every hour (we could increase this later on.)
-  }).notify();
+  import('update-notifier').then((module) => {
+    new module.UpdateNotifier({
+      pkg,
+      updateCheckInterval: 1000 * 60 * 60, // every hour (we could increase this later on.)
+    }).notify();
+  });
 
   let projectType;
   const projectTypeProvided = options.type;
