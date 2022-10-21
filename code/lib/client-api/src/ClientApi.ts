@@ -18,7 +18,6 @@ import type {
   StoryFn,
   Globals,
   GlobalTypes,
-  LegacyStoryFn,
   Addon_ClientApiAddons,
   Addon_StoryApi,
   Store_NormalizedComponentAnnotations,
@@ -33,17 +32,6 @@ import {
 } from '@storybook/store';
 
 import { StoryStoreFacade } from './StoryStoreFacade';
-
-export interface GetStorybookStory<TFramework extends AnyFramework> {
-  name: string;
-  render: LegacyStoryFn<TFramework>;
-}
-
-export interface GetStorybookKind<TFramework extends AnyFramework> {
-  kind: string;
-  fileName: string;
-  stories: GetStorybookStory<TFramework>[];
-}
 
 // ClientApi (and StoreStore) are really singletons. However they are not created until the
 // relevant framework instanciates them via `start.js`. The good news is this happens right away.

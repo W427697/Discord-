@@ -12,6 +12,7 @@ import type {
   LoaderFunction,
   Parameters,
   ProjectAnnotations,
+  LegacyStoryFn,
   StoryContext,
   StoryFn,
   StoryId,
@@ -97,15 +98,15 @@ export interface ClientAPI_ClientApiAddons<StoryFnReturnType> {
   [key: string]: ClientAPI_ClientApiAddon<StoryFnReturnType>;
 }
 
-export interface ClientAPI_GetStorybookStory {
+export type ClientAPI_RenderContextWithoutStoryContext = Omit<Store_RenderContext, 'storyContext'>;
+
+export interface ClientAPI_GetStorybookStory<TFramework extends AnyFramework> {
   name: string;
-  render: StoryFn;
+  render: LegacyStoryFn<TFramework>;
 }
 
-export interface ClientAPI_GetStorybookKind {
+export interface ClientAPI_GetStorybookKind<TFramework extends AnyFramework> {
   kind: string;
   fileName: string;
-  stories: ClientAPI_GetStorybookStory[];
+  stories: ClientAPI_GetStorybookStory<TFramework>[];
 }
-
-export type ClientAPI_RenderContextWithoutStoryContext = Omit<Store_RenderContext, 'storyContext'>;

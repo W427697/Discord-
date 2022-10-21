@@ -10,7 +10,6 @@ import type {
   StoryId,
   AnyFramework,
   Parameters,
-  StoryFn,
   Addon_IndexEntry,
   Store_NormalizedProjectAnnotations,
   Store_NormalizedStoriesSpecifier,
@@ -22,17 +21,6 @@ import type {
 } from '@storybook/types';
 import { StoryStore, userOrAutoTitle, sortStoriesV6 } from '@storybook/store';
 import { logger } from '@storybook/client-logger';
-
-export interface GetStorybookStory<TFramework extends AnyFramework> {
-  name: string;
-  render: StoryFn<TFramework>;
-}
-
-export interface GetStorybookKind<TFramework extends AnyFramework> {
-  kind: string;
-  fileName: string;
-  stories: GetStorybookStory<TFramework>[];
-}
 
 export class StoryStoreFacade<TFramework extends AnyFramework> {
   projectAnnotations: Store_NormalizedProjectAnnotations<TFramework>;
