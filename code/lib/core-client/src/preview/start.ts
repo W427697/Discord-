@@ -12,7 +12,7 @@ import { createChannel } from '@storybook/channel-postmessage';
 import { addons } from '@storybook/addons';
 import { FORCE_RE_RENDER } from '@storybook/core-events';
 
-import { Loadable } from './types';
+import { Loadable } from '@storybook/types';
 import { executeLoadableForChanges } from './executeLoadable';
 
 const { window: globalWindow, FEATURES } = global;

@@ -4,7 +4,7 @@
 
 import { logger } from '@storybook/client-logger';
 import type { Store_Path, Store_ModuleExports } from '@storybook/types';
-import { Loadable, RequireContext, LoaderFunction } from './types';
+import { Loadable, CoreClient_RequireContext, CoreClient_LoaderFunction } from '@storybook/types';
 
 /**
  * Executes a Loadable (function that returns exports or require context(s))
@@ -18,8 +18,8 @@ export function executeLoadable(loadable: Loadable) {
   // todo discuss / improve type check
   if (Array.isArray(loadable)) {
     reqs = loadable;
-  } else if ((loadable as RequireContext).keys) {
-    reqs = [loadable as RequireContext];
+  } else if ((loadable as CoreClient_RequireContext).keys) {
+    reqs = [loadable as CoreClient_RequireContext];
   }
 
   let exportsMap = new Map<Store_Path, Store_ModuleExports>();
@@ -40,7 +40,7 @@ export function executeLoadable(loadable: Loadable) {
       });
     });
   } else {
-    const exported = (loadable as LoaderFunction)();
+    const exported = (loadable as CoreClient_LoaderFunction)();
     if (Array.isArray(exported) && exported.every((obj) => obj.default != null)) {
       exportsMap = new Map(
         exported.map((fileExports, index) => [`exports-map-${index}`, fileExports])
