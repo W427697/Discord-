@@ -269,7 +269,7 @@ jobs:
           name: Run @storybook/bench on repro
           command: |
             cd ../react-vite-bench
-            npx -p @storybook/bench@0.7.6--canary.14.6702e4f.0 sb-bench 'storybook init' --label react-vite
+            npx -p @storybook/bench@0.7.6--canary.14.6702e4f.0 sb-bench 'npx sb init' --label react-vite
       - run:
           name: prep artifacts
           when: always
