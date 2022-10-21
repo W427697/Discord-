@@ -163,7 +163,7 @@ export const supportedTemplates: TemplateConfiguration[] = [
       next: (versionRange) => eqMajor(versionRange, 9) || gtMajor(versionRange, 9),
     },
     matcherFunction: ({ dependencies }) => {
-      return process.env.STORYBOOK_REPRO_GENERATOR && dependencies.every(Boolean);
+      return dependencies.every(Boolean);
     },
   },
   {

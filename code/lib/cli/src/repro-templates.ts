@@ -29,7 +29,7 @@ const nextjsTemplates = {
   'nextjs/default-js': {
     name: 'Next.js (JavaScript)',
     script: 'npx create-next-app {{beforeDir}}',
-    cadence: [] as string[],
+    cadence: ['ci', 'daily', 'weekly'],
     expected: {
       framework: '@storybook/nextjs',
       renderer: '@storybook/react',
@@ -39,7 +39,7 @@ const nextjsTemplates = {
   'nextjs/default-ts': {
     name: 'Next.js (TypeScript)',
     script: 'npx create-next-app {{beforeDir}} --typescript',
-    cadence: [] as string[],
+    cadence: ['ci', 'daily', 'weekly'],
     expected: {
       framework: '@storybook/nextjs',
       renderer: '@storybook/react',
