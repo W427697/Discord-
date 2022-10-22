@@ -38,7 +38,7 @@
   },
   "dependencies": {
     "@babel/types": "^7.12.11",
-    "@storybook/csf": "0.0.2--canary.49.258942b.0",
+    "@storybook/csf": "next",
     "@storybook/csf-tools": "7.0.0-alpha.41",
     "@storybook/node-logger": "7.0.0-alpha.41",
     "cross-spawn": "^7.0.3",
