@@ -1,5 +1,5 @@
 /* global window */
-import Events, { SET_STORIES, STORY_RENDERED } from '@storybook/core-events';
+import { SET_STORIES, STORY_RENDERED } from '@storybook/core-events';
 
 import {
   waitForRender,
