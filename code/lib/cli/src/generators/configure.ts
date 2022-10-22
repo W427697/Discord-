@@ -13,7 +13,7 @@ interface ConfigureMainOptions {
    * In order to provide non-serializable data like functions, you can use
    * { value: '%%yourFunctionCall()%%' }
    *
-   * '%% and %%' will be replace.
+   * '%% and %%' will be replaced.
    *
    */
   [key: string]: any;
