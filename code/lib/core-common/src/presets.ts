@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import { dedent } from 'ts-dedent';
 import { logger } from '@storybook/node-logger';
 import { dirname } from 'path';
@@ -8,6 +9,8 @@ import {
   PresetConfig,
   Presets,
   BuilderOptions,
+  CoreCommon_ResolvedAddonPreset,
+  CoreCommon_ResolvedAddonVirtual,
 } from '@storybook/types';
 import { loadCustomPresets } from './utils/load-custom-presets';
 import { safeResolve, safeResolveFrom } from './utils/safeResolve';
@@ -55,23 +58,12 @@ function resolvePresetFunction<T = any>(
  * - { name: '@storybook/addon-docs(/preset)?', options: { ... } }
  *   =>  { type: 'presets', item: { name: '@storybook/addon-docs/preset', options } }
  */
-interface ResolvedAddonPreset {
-  type: 'presets';
-  name: string;
-}
-interface ResolvedAddonVirtual {
-  type: 'virtual';
-  name: string;
-  managerEntries?: string[];
-  previewAnnotations?: string[];
-  presets?: (string | { name: string; options?: any })[];
-}
 
 export const resolveAddonName = (
   configDir: string,
   name: string,
   options: any
-): ResolvedAddonPreset | ResolvedAddonVirtual | undefined => {
+): CoreCommon_ResolvedAddonPreset | CoreCommon_ResolvedAddonVirtual | undefined => {
   const resolve = name.startsWith('/') ? safeResolve : safeResolveFrom.bind(null, configDir);
   const resolved = resolve(name);
 

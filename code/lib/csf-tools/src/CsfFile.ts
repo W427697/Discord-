@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 /* eslint-disable no-underscore-dangle */
 import fs from 'fs-extra';
 import { dedent } from 'ts-dedent';
@@ -5,22 +6,10 @@ import * as t from '@babel/types';
 import generate from '@babel/generator';
 import traverse from '@babel/traverse';
 import { toId, isExportStory, storyNameFromExport } from '@storybook/csf';
+import type { CSF_Meta, CSF_Story } from '@storybook/types';
 import { babelParse } from './babelParse';
 
 const logger = console;
-interface Meta {
-  id?: string;
-  title?: string;
-  component?: string;
-  includeStories?: string[] | RegExp;
-  excludeStories?: string[] | RegExp;
-}
-
-interface Story {
-  id: string;
-  name: string;
-  parameters: Record<string, any>;
-}
 
 function parseIncludeExclude(prop: t.Node) {
   if (t.isArrayExpression(prop)) {
@@ -146,9 +135,9 @@ export class CsfFile {
 
   _makeTitle: (title: string) => string;
 
-  _meta?: Meta;
+  _meta?: CSF_Meta;
 
-  _stories: Record<string, Story> = {};
+  _stories: Record<string, CSF_Story> = {};
 
   _metaAnnotations: Record<string, t.Node> = {};
 
@@ -182,7 +171,7 @@ export class CsfFile {
   }
 
   _parseMeta(declaration: t.ObjectExpression, program: t.Program) {
-    const meta: Meta = {};
+    const meta: CSF_Meta = {};
     declaration.properties.forEach((p: t.ObjectProperty) => {
       if (t.isIdentifier(p.key)) {
         this._metaAnnotations[p.key.name] = p.value;
@@ -417,7 +406,7 @@ export class CsfFile {
         acc[key] = { ...story, id, parameters };
       }
       return acc;
-    }, {} as Record<string, Story>);
+    }, {} as Record<string, CSF_Story>);
 
     Object.keys(self._storyExports).forEach((key) => {
       if (!isExportStory(key, self._meta)) {

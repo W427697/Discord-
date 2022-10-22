@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import type {
   ViewMode,
   AnnotatedStoryFn,
@@ -111,3 +112,17 @@ export {
   StrictGlobalTypes,
   StrictInputType,
 };
+
+export interface CSF_Meta {
+  id?: string;
+  title?: string;
+  component?: string;
+  includeStories?: string[] | RegExp;
+  excludeStories?: string[] | RegExp;
+}
+
+export interface CSF_Story {
+  id: string;
+  name: string;
+  parameters: Record<string, any>;
+}

@@ -21,31 +21,31 @@ const removedApi = (name: string) => () => {
   throw new Error(`@storybook/client-api:${name} was removed in storyStoreV7.`);
 };
 
-interface RendererImplementation<TFramework extends AnyFramework> {
+interface CoreClient_RendererImplementation<TFramework extends AnyFramework> {
   decorateStory?: Store_WebProjectAnnotations<TFramework>['applyDecorators'];
   render?: ArgsStoryFn<TFramework>;
 }
 
-interface ClientAPIFacade {
+interface CoreClient_ClientAPIFacade {
   /* deprecated */
   storiesOf: (...args: any[]) => never;
   /* deprecated */
   raw: (...args: any[]) => never;
 }
 
-interface StartReturnValue<TFramework extends AnyFramework> {
+interface CoreClient_StartReturnValue<TFramework extends AnyFramework> {
   /* deprecated */
   forceReRender: () => void;
   /* deprecated */
   configure: any;
   /* deprecated */
-  clientApi: ClientApi<TFramework> | ClientAPIFacade;
+  clientApi: ClientApi<TFramework> | CoreClient_ClientAPIFacade;
 }
 
 export function start<TFramework extends AnyFramework>(
   renderToDOM: Store_WebProjectAnnotations<TFramework>['renderToDOM'],
-  { decorateStory, render }: RendererImplementation<TFramework> = {}
-): StartReturnValue<TFramework> {
+  { decorateStory, render }: CoreClient_RendererImplementation<TFramework> = {}
+): CoreClient_StartReturnValue<TFramework> {
   if (globalWindow) {
     // To enable user code to detect if it is running in Storybook
     globalWindow.IS_STORYBOOK = true;

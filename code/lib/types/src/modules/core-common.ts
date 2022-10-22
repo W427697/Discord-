@@ -452,3 +452,35 @@ export type PresetPropertyFn<K, TStorybookConfig = StorybookConfig, TOptions = {
 ) =>
   | TStorybookConfig[K extends keyof TStorybookConfig ? K : never]
   | Promise<TStorybookConfig[K extends keyof TStorybookConfig ? K : never]>;
+
+export interface CoreCommon_ResolvedAddonPreset {
+  type: 'presets';
+  name: string;
+}
+
+export interface CoreCommon_ResolvedAddonVirtual {
+  type: 'virtual';
+  name: string;
+  managerEntries?: string[];
+  previewAnnotations?: string[];
+  presets?: (string | { name: string; options?: any })[];
+}
+
+export type CoreCommon_OptionsEntry = { name: string };
+export type CoreCommon_AddonEntry = string | CoreCommon_OptionsEntry;
+export type CoreCommon_AddonInfo = { name: string; inEssentials: boolean };
+
+export interface CoreCommon_StorybookInfo {
+  version: string;
+  // FIXME: these are renderers for now,
+  // need to update with framework OR fix
+  // the calling code
+  framework: string;
+  frameworkPackage: string;
+  renderer: string;
+  rendererPackage: string;
+  configDir?: string;
+  mainConfig?: string;
+  previewConfig?: string;
+  managerConfig?: string;
+}
