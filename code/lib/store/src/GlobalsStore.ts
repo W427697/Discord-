@@ -56,6 +56,7 @@ export class GlobalsStore {
   }
 
   update(newGlobals: Globals) {
-    this.globals = { ...this.globals, ...this.filterAllowedGlobals(newGlobals) };
+    // this.globals = { ...this.globals, ...this.filterAllowedGlobals(newGlobals) };
+    this.globals = { ...this.globals, ...newGlobals };
   }
 }

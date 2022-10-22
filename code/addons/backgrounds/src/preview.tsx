@@ -1,9 +1,10 @@
 import { withBackground } from './decorators/withBackground';
 import { withGrid } from './decorators/withGrid';
+import { PARAM_KEY as BACKGROUNDS_PARAM_KEY } from './constants';
 
 export const decorators = [withGrid, withBackground];
 export const parameters = {
-  backgrounds: {
+  [BACKGROUNDS_PARAM_KEY]: {
     grid: {
       cellSize: 20,
       opacity: 0.5,
@@ -17,5 +18,5 @@ export const parameters = {
 };
 
 export const globals = {
-  backgrounds: { name: 'light', value: '#F8F8F8' },
+  [BACKGROUNDS_PARAM_KEY]: null as any,
 };
