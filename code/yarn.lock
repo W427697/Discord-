@@ -6632,6 +6632,7 @@ __metadata:
   resolution: "@storybook/addon-storyshots-puppeteer@workspace:addons/storyshots/storyshots-puppeteer"
   dependencies:
     "@axe-core/puppeteer": ^4.2.0
+    "@storybook/csf": 0.0.2--canary.49.258942b.0
     "@storybook/node-logger": 7.0.0-alpha.41
     "@storybook/types": 7.0.0-alpha.41
     "@types/jest-image-snapshot": ^4.1.3
