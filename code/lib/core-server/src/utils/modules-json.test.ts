@@ -59,6 +59,64 @@ describe('webpackStatsToModulesJson', () => {
     });
   });
 
+  it('recurses into child modules', async () => {
+    const modules = webpackStatsToModulesJson(
+      stats([
+        {
+          id: './src/foo.component.ts',
+          reasons: [
+            { moduleId: './src/foo.stories.ts' },
+            { moduleId: './src/bar.stories.ts' },
+            { moduleId: './src/foo.component.ts' },
+          ],
+          modules: [
+            {
+              id: './src/foo.component.ts',
+              reasons: [{ moduleId: './src/foo.stories.ts' }, { moduleId: './src/bar.stories.ts' }],
+            },
+            {
+              id: './src/util.ts',
+              reasons: [
+                { moduleId: './src/foo.stories.ts' },
+                { moduleId: './src/foo.component.ts' },
+              ],
+            },
+          ],
+        },
+        {
+          id: './src/foo.stories.ts',
+          reasons: [{ moduleId: CSF_GLOB }],
+        },
+        {
+          id: './src/bar.stories.ts',
+          reasons: [{ moduleId: CSF_GLOB }],
+        },
+        {
+          id: CSF_GLOB,
+          reasons: [{ moduleId: './.storybook/generated-stories-entry.js' }],
+        },
+      ])
+    );
+
+    expect(Object.fromEntries(modules)).toEqual({
+      './src/foo.component.ts': {
+        reasons: new Set(['./src/foo.stories.ts', './src/bar.stories.ts']),
+      },
+      './src/util.ts': {
+        reasons: new Set(['./src/foo.stories.ts', './src/foo.component.ts']),
+      },
+      './src/foo.stories.ts': {
+        reasons: new Set([CSF_GLOB]),
+      },
+      './src/bar.stories.ts': {
+        reasons: new Set([CSF_GLOB]),
+      },
+      [CSF_GLOB]: {
+        reasons: new Set(),
+      },
+    });
+  });
+
   it('should trim URL parameters in module identifiers', () => {
     const modules = webpackStatsToModulesJson(
       stats([

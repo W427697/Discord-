@@ -34,20 +34,30 @@ export const webpackStatsToModulesJson = (stats: Stats) => {
 
   const data = new Map<string, Module>();
   const add = ({ id, modules, reasons }: WebpackModule) => {
-    const identifier = normalize(id);
-    if (!identifier || identifier.startsWith('webpack/')) return;
-    if (modules?.length) modules.forEach(add);
-    else {
-      const item = data.get(identifier) || { reasons: new Set() };
-      reasons?.forEach(({ moduleId }) => {
-        const reason = modulesById.get(normalize(moduleId));
-        if (!reason) return;
-        if (reason.modules?.length)
-          reason.modules.forEach((mod) => item.reasons.add(normalize(mod.id)));
-        else item.reasons.add(normalize(reason.id));
-      });
-      data.set(identifier, item);
+    if (modules?.length) {
+      modules.forEach(add);
+      return;
     }
+
+    const identifier = normalize(id);
+    if (!identifier || identifier.startsWith('webpack/')) {
+      return;
+    }
+
+    const item = data.get(identifier) || { reasons: new Set() };
+    reasons?.forEach(({ moduleId }) => {
+      const reason = modulesById.get(normalize(moduleId));
+      if (!reason) return;
+      if (reason.modules?.length) {
+        reason.modules.forEach((mod) => {
+          const id = normalize(mod.id);
+          if (id !== identifier) item.reasons.add(id);
+        });
+      } else {
+        item.reasons.add(normalize(reason.id));
+      }
+    });
+    data.set(identifier, item);
   };
   modules.forEach(add);
   return data;
