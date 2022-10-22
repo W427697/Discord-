@@ -6,11 +6,8 @@ import {
   RESET_STORY_ARGS,
   UPDATE_GLOBALS,
 } from '@storybook/core-events';
-import { addons } from '@storybook/addons';
-import { DecoratorFunction, StoryContext } from '@storybook/types';
-
-import { defaultDecorateStory } from './decorators';
 import {
+  addons,
   applyHooks,
   useEffect,
   useMemo,
@@ -24,7 +21,12 @@ import {
   HooksContext,
   useArgs,
   useGlobals,
-} from './hooks';
+} from '@storybook/addons';
+import type { DecoratorFunction, StoryContext } from '@storybook/types';
+
+import { defaultDecorateStory } from './decorators';
+// import {
+// } from './hooks';
 
 jest.mock('@storybook/client-logger', () => ({
   logger: { warn: jest.fn(), log: jest.fn() },

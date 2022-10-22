@@ -13,8 +13,8 @@ import { mocked } from 'ts-jest/utils';
 import { StoryIndexGenerator } from './StoryIndexGenerator';
 
 jest.mock('@storybook/csf-tools');
-jest.mock('@storybook/types', () => {
-  const csf = jest.requireActual('@storybook/types');
+jest.mock('@storybook/csf', () => {
+  const csf = jest.requireActual('@storybook/csf');
   return {
     ...csf,
     toId: jest.fn(csf.toId),

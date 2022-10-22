@@ -1,4 +1,4 @@
-import { toId } from '@storybook/types';
+import { toId } from '@storybook/csf';
 
 import { constructUrl } from '../url';
 
