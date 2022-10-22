@@ -1,4 +1,4 @@
-import { addons, type types } from '@storybook/addons';
+import { addons, types } from '@storybook/addons';
 
 import { ADDON_ID, PANEL_ID } from './constants';
 import { Panel } from './Panel';

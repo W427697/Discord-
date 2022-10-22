@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { addons, type types } from '@storybook/addons';
+import { addons, types } from '@storybook/addons';
 
 import { ADDON_ID } from './constants';
 import { BackgroundSelector } from './containers/BackgroundSelector';

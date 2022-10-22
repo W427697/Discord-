@@ -1,9 +1,9 @@
+/* eslint-disable import/no-extraneous-dependencies */
+/* eslint-disable camelcase */
 // @ts-expect-error (Converted from ts-ignore)
 import global from 'global';
 
-import type { ArgsStoryFn } from '@storybook/types';
-import type { RenderContext } from '@storybook/store';
-// eslint-disable-next-line import/no-extraneous-dependencies
+import type { Store_RenderContext, ArgsStoryFn } from '@storybook/types';
 import PreviewRender from '@storybook/svelte/templates/PreviewRender.svelte';
 import { SvelteFramework } from './types';
 
@@ -20,7 +20,7 @@ function cleanUpPreviousStory() {
 }
 
 export function renderToDOM(
-  { storyFn, kind, name, showMain, showError, storyContext }: RenderContext<SvelteFramework>,
+  { storyFn, kind, name, showMain, showError, storyContext }: Store_RenderContext<SvelteFramework>,
   domElement: Element
 ) {
   cleanUpPreviousStory();

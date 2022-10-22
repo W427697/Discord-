@@ -1,9 +1,10 @@
+/* eslint-disable camelcase */
 /* eslint-disable no-param-reassign */
 // @ts-expect-error (Converted from ts-ignore)
 import global from 'global';
 
 import { dedent } from 'ts-dedent';
-import type { RenderContext } from '@storybook/store';
+import type { Store_RenderContext } from '@storybook/types';
 import { simulatePageLoad, simulateDOMContentLoaded } from '@storybook/preview-web';
 import type { StoryFn, Args, ArgTypes } from './public-types';
 import type { FetchStoryHtmlType, ServerFramework } from './types';
@@ -55,7 +56,7 @@ export async function renderToDOM(
     storyFn,
     storyContext,
     storyContext: { parameters, args, argTypes },
-  }: RenderContext<ServerFramework>,
+  }: Store_RenderContext<ServerFramework>,
   domElement: Element
 ) {
   // Some addons wrap the storyFn so we need to call it even though Server doesn't need the answer
