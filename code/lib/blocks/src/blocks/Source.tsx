@@ -1,6 +1,6 @@
+/* eslint-disable camelcase */
 import React, { ComponentProps, FC, useContext } from 'react';
-import type { StoryId } from '@storybook/api';
-import type { Story } from '@storybook/store';
+import type { StoryId, Store_Story } from '@storybook/types';
 import { SourceType } from '@storybook/docs-tools';
 
 import { Source as PureSource, SourceError } from '../components';
@@ -39,7 +39,7 @@ type NoneProps = CommonProps;
 
 type SourceProps = SingleSourceProps | MultiSourceProps | CodeProps | NoneProps;
 
-const getSourceState = (stories: Story[]) => {
+const getSourceState = (stories: Store_Story[]) => {
   const states = stories.map((story) => story.parameters.docs?.source?.state).filter(Boolean);
   if (states.length === 0) return SourceState.CLOSED;
   // FIXME: handling multiple stories is a pain
@@ -53,7 +53,7 @@ const getStorySource = (storyId: StoryId, sourceContext: SourceContextProps): So
   return sources?.[storyId] || { code: '', format: false };
 };
 
-const getSnippet = (snippet: string, story?: Story<any>): string => {
+const getSnippet = (snippet: string, story?: Store_Story<any>): string => {
   if (!story) {
     return snippet;
   }
@@ -118,13 +118,13 @@ export const getSourceProps = (
     source = storyIds
       .map((storyId, idx) => {
         const { code: storySource } = getStorySource(storyId, sourceContext);
-        const storyObj = stories[idx] as Story;
+        const storyObj = stories[idx] as Store_Story;
         return getSnippet(storySource, storyObj);
       })
       .join('\n\n');
   }
 
-  const state = getSourceState(stories as Story[]);
+  const state = getSourceState(stories as Store_Story[]);
 
   const { docs: docsParameters = {} } = parameters;
   const { source: sourceParameters = {} } = docsParameters;

@@ -5,7 +5,7 @@ import type { Channel } from '@storybook/channels';
 
 import { SNIPPET_RENDERED } from '@storybook/docs-tools';
 import type { SyntaxHighlighterFormatTypes } from '@storybook/components';
-import type { StoryId } from '@storybook/api';
+import type { StoryId } from '@storybook/types';
 
 export interface SourceItem {
   code: string;

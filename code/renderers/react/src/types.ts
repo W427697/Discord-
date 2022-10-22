@@ -1,7 +1,8 @@
+/* eslint-disable camelcase */
 import type { ComponentType, ReactElement } from 'react';
 import type { AnyFramework } from '@storybook/types';
 
-export type { RenderContext } from '@storybook/store';
+export type { Store_RenderContext as RenderContext } from '@storybook/types';
 export type { StoryContext } from '@storybook/types';
 
 export interface ReactFramework extends AnyFramework {

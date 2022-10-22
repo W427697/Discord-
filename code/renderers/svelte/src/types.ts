@@ -1,6 +1,6 @@
 import type { StoryContext as StoryContextBase } from '@storybook/types';
 
-export type { RenderContext } from '@storybook/core-client';
+export type { RenderContext } from '@storybook/types';
 
 export type StoryContext = StoryContextBase<SvelteFramework>;
 

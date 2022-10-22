@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import pickBy from 'lodash/pickBy';
 import { styled } from '@storybook/theming';
 import { opacify, transparentize, darken, lighten } from 'polished';
-import { includeConditionalArg } from '@storybook/types';
+import { includeConditionalArg } from '@storybook/csf';
 import { once } from '@storybook/client-logger';
 import { IconButton, Icons, Link, ResetWrapper } from '@storybook/components';
 import { ArgRow } from './ArgRow';
