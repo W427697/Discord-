@@ -224,16 +224,58 @@ jobs:
           name: set up cra repro, skip tests
           command: |
             cd code
-            node ./lib/cli/bin/index.js repro -t cra --e2e ../../cra-bench
+            node ./lib/cli/bin/index.js repro-next cra/default-js --output ../../cra-bench
       - run:
           name: Run @storybook/bench on repro
           command: |
             cd ../cra-bench
-            npx -p @storybook/bench@0.7.6--canary.760ff01.0 sb-bench 'echo noop' --label cra
+            rm -rf node_modules
+            mkdir node_modules
+            npx -p @storybook/bench@0.7.6--canary.14.6702e4f.0 sb-bench 'yarn install' --label cra
       - run:
           name: prep artifacts
           when: always
           command: tar cvzf /tmp/sb-bench.tar.gz ../cra-bench
+      - store_artifacts:
+          path: /tmp/sb-bench.tar.gz
+          destination: sb-bench.tar.gz
+  react-vite-bench:
+    executor:
+      class: medium+
+      name: sb_playwright
+    working_directory: /tmp/storybook
+    steps:
+      - git-shallow-clone/checkout_advanced:
+          clone_options: '--depth 1 --verbose'
+      - attach_workspace:
+          at: .
+      - run:
+          name: Running local registry
+          command: |
+            cd code
+            yarn local-registry --port 6001 --open
+          background: true
+      - run:
+          name: Wait for registry
+          command: |
+            cd code
+            yarn wait-on http://localhost:6001
+      - run:
+          name: set up react-vite repro, skip tests
+          command: |
+            cd code
+            node ./lib/cli/bin/index.js repro-next react-vite/default-ts --output ../../react-vite-bench
+      - run:
+          name: Run @storybook/bench on repro
+          command: |
+            cd ../react-vite-bench
+            rm -rf node_modules
+            mkdir node_modules
+            npx -p @storybook/bench@0.7.6--canary.14.6702e4f.0 sb-bench 'yarn install' --label react-vite
+      - run:
+          name: prep artifacts
+          when: always
+          command: tar cvzf /tmp/sb-bench.tar.gz ../react-vite-bench
       - store_artifacts:
           path: /tmp/sb-bench.tar.gz
           destination: sb-bench.tar.gz
@@ -454,7 +496,9 @@ workflows:
       - cra-bench:
           requires:
             - publish
-
+      - react-vite-bench:
+          requires:
+            - publish
       ## new workflow
       - create-sandboxes:
           requires:
