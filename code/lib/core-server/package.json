@@ -39,7 +39,7 @@
     "@storybook/core-client": "7.0.0-alpha.41",
     "@storybook/core-common": "7.0.0-alpha.41",
     "@storybook/core-events": "7.0.0-alpha.41",
-    "@storybook/csf": "0.0.2--canary.49.258942b.0",
+    "@storybook/csf": "next",
     "@storybook/csf-tools": "7.0.0-alpha.41",
     "@storybook/docs-mdx": "0.0.1-canary.12433cf.0",
     "@storybook/node-logger": "7.0.0-alpha.41",

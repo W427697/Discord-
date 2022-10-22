@@ -6284,7 +6284,7 @@ __metadata:
     "@storybook/client-logger": 7.0.0-alpha.41
     "@storybook/components": 7.0.0-alpha.41
     "@storybook/core-events": 7.0.0-alpha.41
-    "@storybook/csf": 0.0.2--canary.49.258942b.0
+    "@storybook/csf": next
     "@storybook/theming": 7.0.0-alpha.41
     "@testing-library/react": ^11.2.2
     axe-core: ^4.2.0
@@ -6312,7 +6312,7 @@ __metadata:
     "@storybook/client-logger": 7.0.0-alpha.41
     "@storybook/components": 7.0.0-alpha.41
     "@storybook/core-events": 7.0.0-alpha.41
-    "@storybook/csf": 0.0.2--canary.49.258942b.0
+    "@storybook/csf": next
     "@storybook/theming": 7.0.0-alpha.41
     "@types/lodash": ^4.14.167
     dequal: ^2.0.2
@@ -6346,7 +6346,7 @@ __metadata:
     "@storybook/client-logger": 7.0.0-alpha.41
     "@storybook/components": 7.0.0-alpha.41
     "@storybook/core-events": 7.0.0-alpha.41
-    "@storybook/csf": 0.0.2--canary.49.258942b.0
+    "@storybook/csf": next
     "@storybook/theming": 7.0.0-alpha.41
     global: ^4.4.0
     memoizerific: ^1.11.3
@@ -6373,7 +6373,7 @@ __metadata:
     "@storybook/client-logger": 7.0.0-alpha.41
     "@storybook/components": 7.0.0-alpha.41
     "@storybook/core-common": 7.0.0-alpha.41
-    "@storybook/csf": 0.0.2--canary.49.258942b.0
+    "@storybook/csf": next
     "@storybook/node-logger": 7.0.0-alpha.41
     "@storybook/store": 7.0.0-alpha.41
     "@storybook/theming": 7.0.0-alpha.41
@@ -6404,7 +6404,7 @@ __metadata:
     "@storybook/components": 7.0.0-alpha.41
     "@storybook/core-common": 7.0.0-alpha.41
     "@storybook/core-events": 7.0.0-alpha.41
-    "@storybook/csf": 0.0.2--canary.49.258942b.0
+    "@storybook/csf": next
     "@storybook/csf-tools": 7.0.0-alpha.41
     "@storybook/docs-tools": 7.0.0-alpha.41
     "@storybook/mdx2-csf": 0.1.0-next.0
@@ -6507,7 +6507,7 @@ __metadata:
     "@storybook/components": 7.0.0-alpha.41
     "@storybook/core-common": 7.0.0-alpha.41
     "@storybook/core-events": 7.0.0-alpha.41
-    "@storybook/csf": 0.0.2--canary.49.258942b.0
+    "@storybook/csf": next
     "@storybook/instrumenter": 7.0.0-alpha.41
     "@storybook/jest": ^0.0.10
     "@storybook/testing-library": 0.0.14-next.0
@@ -6562,7 +6562,7 @@ __metadata:
     "@storybook/addons": 7.0.0-alpha.41
     "@storybook/client-logger": 7.0.0-alpha.41
     "@storybook/core-events": 7.0.0-alpha.41
-    "@storybook/csf": 0.0.2--canary.49.258942b.0
+    "@storybook/csf": next
     "@storybook/router": 7.0.0-alpha.41
     global: ^4.4.0
     prop-types: ^15.7.2
@@ -6588,7 +6588,7 @@ __metadata:
     "@storybook/client-logger": 7.0.0-alpha.41
     "@storybook/components": 7.0.0-alpha.41
     "@storybook/core-events": 7.0.0-alpha.41
-    "@storybook/csf": 0.0.2--canary.49.258942b.0
+    "@storybook/csf": next
     global: ^4.4.0
     typescript: ~4.6.3
   peerDependencies:
@@ -6611,7 +6611,7 @@ __metadata:
     "@storybook/client-logger": 7.0.0-alpha.41
     "@storybook/components": 7.0.0-alpha.41
     "@storybook/core-events": 7.0.0-alpha.41
-    "@storybook/csf": 0.0.2--canary.49.258942b.0
+    "@storybook/csf": next
     global: ^4.4.0
     ts-dedent: ^2.0.0
     typescript: ~4.6.3
@@ -6631,7 +6631,7 @@ __metadata:
   resolution: "@storybook/addon-storyshots-puppeteer@workspace:addons/storyshots/storyshots-puppeteer"
   dependencies:
     "@axe-core/puppeteer": ^4.2.0
-    "@storybook/csf": 0.0.2--canary.49.258942b.0
+    "@storybook/csf": next
     "@storybook/node-logger": 7.0.0-alpha.41
     "@types/jest-image-snapshot": ^4.1.3
     "@types/puppeteer": ^5.4.0
@@ -6662,7 +6662,7 @@ __metadata:
     "@storybook/core-client": 7.0.0-alpha.41
     "@storybook/core-common": 7.0.0-alpha.41
     "@storybook/core-webpack": 7.0.0-alpha.41
-    "@storybook/csf": 0.0.2--canary.49.258942b.0
+    "@storybook/csf": next
     "@storybook/react": 7.0.0-alpha.41
     "@storybook/vue": 7.0.0-alpha.41
     "@storybook/vue3": 7.0.0-alpha.41
@@ -6834,7 +6834,7 @@ __metadata:
     "@storybook/channels": 7.0.0-alpha.41
     "@storybook/client-logger": 7.0.0-alpha.41
     "@storybook/core-events": 7.0.0-alpha.41
-    "@storybook/csf": 0.0.2--canary.49.258942b.0
+    "@storybook/csf": next
     "@storybook/router": 7.0.0-alpha.41
     "@storybook/theming": 7.0.0-alpha.41
     global: ^4.4.0
@@ -6891,7 +6891,7 @@ __metadata:
     "@storybook/core-events": 7.0.0-alpha.41
     "@storybook/core-server": 7.0.0-alpha.41
     "@storybook/core-webpack": 7.0.0-alpha.41
-    "@storybook/csf": 0.0.2--canary.49.258942b.0
+    "@storybook/csf": next
     "@storybook/docs-tools": 7.0.0-alpha.41
     "@storybook/node-logger": 7.0.0-alpha.41
     "@storybook/store": 7.0.0-alpha.41
@@ -6953,7 +6953,7 @@ __metadata:
     "@storybook/client-logger": 7.0.0-alpha.41
     "@storybook/core-common": 7.0.0-alpha.41
     "@storybook/core-events": 7.0.0-alpha.41
-    "@storybook/csf": 0.0.2--canary.49.258942b.0
+    "@storybook/csf": next
     "@storybook/router": 7.0.0-alpha.41
     "@storybook/theming": 7.0.0-alpha.41
     "@types/lodash": ^4.14.167
@@ -7022,7 +7022,7 @@ __metadata:
     "@storybook/client-logger": 7.0.0-alpha.41
     "@storybook/components": 7.0.0-alpha.41
     "@storybook/core-events": 7.0.0-alpha.41
-    "@storybook/csf": 0.0.2--canary.49.258942b.0
+    "@storybook/csf": next
     "@storybook/docs-tools": 7.0.0-alpha.41
     "@storybook/preview-web": 7.0.0-alpha.41
     "@storybook/store": 7.0.0-alpha.41
@@ -7254,7 +7254,7 @@ __metadata:
     "@storybook/addons": 7.0.0-alpha.41
     "@storybook/client-logger": 7.0.0-alpha.41
     "@storybook/core-common": 7.0.0-alpha.41
-    "@storybook/csf": 0.0.2--canary.49.258942b.0
+    "@storybook/csf": next
     "@storybook/store": 7.0.0-alpha.41
     "@types/qs": ^6.9.5
     "@types/webpack-env": ^1.16.4
@@ -7294,7 +7294,7 @@ __metadata:
   resolution: "@storybook/codemod@workspace:lib/codemod"
   dependencies:
     "@babel/types": ^7.12.11
-    "@storybook/csf": 0.0.2--canary.49.258942b.0
+    "@storybook/csf": next
     "@storybook/csf-tools": 7.0.0-alpha.41
     "@storybook/node-logger": 7.0.0-alpha.41
     cross-spawn: ^7.0.3
@@ -7316,7 +7316,7 @@ __metadata:
   dependencies:
     "@popperjs/core": ^2.6.0
     "@storybook/client-logger": 7.0.0-alpha.41
-    "@storybook/csf": 0.0.2--canary.49.258942b.0
+    "@storybook/csf": next
     "@storybook/theming": 7.0.0-alpha.41
     "@types/overlayscrollbars": ^1.12.0
     "@types/react-syntax-highlighter": 11.0.5
@@ -7349,7 +7349,7 @@ __metadata:
     "@storybook/client-api": 7.0.0-alpha.41
     "@storybook/client-logger": 7.0.0-alpha.41
     "@storybook/core-events": 7.0.0-alpha.41
-    "@storybook/csf": 0.0.2--canary.49.258942b.0
+    "@storybook/csf": next
     "@storybook/preview-web": 7.0.0-alpha.41
     "@storybook/store": 7.0.0-alpha.41
     "@storybook/ui": 7.0.0-alpha.41
@@ -7368,7 +7368,7 @@ __metadata:
   resolution: "@storybook/core-common@workspace:lib/core-common"
   dependencies:
     "@babel/core": ^7.12.10
-    "@storybook/csf": 0.0.2--canary.49.258942b.0
+    "@storybook/csf": next
     "@storybook/node-logger": 7.0.0-alpha.41
     "@types/babel__core": ^7.0.0
     "@types/express": ^4.7.0
@@ -7434,7 +7434,7 @@ __metadata:
     "@storybook/core-client": 7.0.0-alpha.41
     "@storybook/core-common": 7.0.0-alpha.41
     "@storybook/core-events": 7.0.0-alpha.41
-    "@storybook/csf": 0.0.2--canary.49.258942b.0
+    "@storybook/csf": next
     "@storybook/csf-tools": 7.0.0-alpha.41
     "@storybook/docs-mdx": 0.0.1-canary.12433cf.0
     "@storybook/node-logger": 7.0.0-alpha.41
@@ -7510,7 +7510,7 @@ __metadata:
     "@babel/parser": ^7.12.11
     "@babel/traverse": ^7.12.11
     "@babel/types": ^7.12.11
-    "@storybook/csf": 0.0.2--canary.49.258942b.0
+    "@storybook/csf": next
     "@types/fs-extra": ^9.0.6
     fs-extra: ^9.0.1
     js-yaml: ^3.14.1
@@ -7528,21 +7528,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@storybook/csf@npm:0.0.2--canary.49.258942b.0":
-  version: 0.0.2--canary.49.258942b.0
-  resolution: "@storybook/csf@npm:0.0.2--canary.49.258942b.0"
-  dependencies:
-    lodash: ^4.17.15
-  checksum: f765e427fa086ea00a313a107672a092a607e8086cd0d126fb8a3f6cf305af16db8cba8a0a9b81594fa378ade7d6842ab682d951c45c4b3ee74406b83e989404
-  languageName: node
-  linkType: hard
-
 "@storybook/csf@npm:^0.0.1":
   version: 0.0.1
   resolution: "@storybook/csf@npm:0.0.1"
   dependencies:
     lodash: ^4.17.15
   checksum: 7b0f75763415f9147692a460b44417ee56ea9639433716a1fd4d1df4c8b0221cbc71b8da0fbed4dcecb3ccd6c7ed64be39f5c255c713539a6088a1d6488aaa24
+  languageName: node
+  linkType: hard
+
+"@storybook/csf@npm:next":
+  version: 0.0.2-next.0
+  resolution: "@storybook/csf@npm:0.0.2-next.0"
+  dependencies:
+    expect-type: ^0.14.2
+    lodash: ^4.17.15
+    type-fest: ^2.19.0
+  checksum: 5e3da0544245893a2374df3de3fda504b2ec1b124bedff4dda85507f1a6209f25a3819d70af1792b0a74a2590fee84955fdbd0a6f1050a84ac7c8e8f40204317
   languageName: node
   linkType: hard
 
@@ -7564,7 +7566,7 @@ __metadata:
   dependencies:
     "@babel/core": ^7.12.10
     "@storybook/core-common": 7.0.0-alpha.41
-    "@storybook/csf": 0.0.2--canary.49.258942b.0
+    "@storybook/csf": next
     "@storybook/store": 7.0.0-alpha.41
     doctrine: ^3.0.0
     jest-specific-snapshot: ^4.0.0
@@ -7665,7 +7667,7 @@ __metadata:
     "@storybook/addon-essentials": 7.0.0-alpha.41
     "@storybook/blocks": 7.0.0-alpha.41
     "@storybook/components": 7.0.0-alpha.41
-    "@storybook/csf": 0.0.2--canary.49.258942b.0
+    "@storybook/csf": next
     "@storybook/preview-web": 7.0.0-alpha.41
     "@storybook/react": 7.0.0-alpha.41
     "@storybook/react-webpack5": 7.0.0-alpha.41
@@ -7715,7 +7717,7 @@ __metadata:
   dependencies:
     "@storybook/addons": 7.0.0-alpha.41
     "@storybook/core-client": 7.0.0-alpha.41
-    "@storybook/csf": 0.0.2--canary.49.258942b.0
+    "@storybook/csf": next
     "@storybook/docs-tools": 7.0.0-alpha.41
     "@storybook/preview-web": 7.0.0-alpha.41
     "@storybook/store": 7.0.0-alpha.41
@@ -7906,7 +7908,7 @@ __metadata:
   dependencies:
     "@storybook/addons": 7.0.0-alpha.41
     "@storybook/core-client": 7.0.0-alpha.41
-    "@storybook/csf": 0.0.2--canary.49.258942b.0
+    "@storybook/csf": next
     "@storybook/store": 7.0.0-alpha.41
     global: ^4.4.0
     preact: ^10.5.13
@@ -8110,7 +8112,7 @@ __metadata:
     "@storybook/channels": 7.0.0-alpha.41
     "@storybook/client-logger": 7.0.0-alpha.41
     "@storybook/core-events": 7.0.0-alpha.41
-    "@storybook/csf": 0.0.2--canary.49.258942b.0
+    "@storybook/csf": next
     "@storybook/store": 7.0.0-alpha.41
     ansi-to-html: ^0.6.11
     global: ^4.4.0
@@ -8200,7 +8202,7 @@ __metadata:
     "@storybook/addons": 7.0.0-alpha.41
     "@storybook/client-logger": 7.0.0-alpha.41
     "@storybook/core-client": 7.0.0-alpha.41
-    "@storybook/csf": 0.0.2--canary.49.258942b.0
+    "@storybook/csf": next
     "@storybook/docs-tools": 7.0.0-alpha.41
     "@storybook/store": 7.0.0-alpha.41
     "@types/estree": ^0.0.51
@@ -8560,7 +8562,7 @@ __metadata:
   dependencies:
     "@storybook/addons": 7.0.0-alpha.41
     "@storybook/core-client": 7.0.0-alpha.41
-    "@storybook/csf": 0.0.2--canary.49.258942b.0
+    "@storybook/csf": next
     "@storybook/preview-web": 7.0.0-alpha.41
     "@storybook/store": 7.0.0-alpha.41
     global: ^4.4.0
@@ -8575,7 +8577,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/source-loader@workspace:lib/source-loader"
   dependencies:
-    "@storybook/csf": 0.0.2--canary.49.258942b.0
+    "@storybook/csf": next
     estraverse: ^5.2.0
     jest-specific-snapshot: ^4.0.0
     lodash: ^4.17.21
@@ -8594,7 +8596,7 @@ __metadata:
     "@storybook/addons": 7.0.0-alpha.41
     "@storybook/client-logger": 7.0.0-alpha.41
     "@storybook/core-events": 7.0.0-alpha.41
-    "@storybook/csf": 0.0.2--canary.49.258942b.0
+    "@storybook/csf": next
     dequal: ^2.0.2
     global: ^4.4.0
     lodash: ^4.17.21
@@ -8665,7 +8667,7 @@ __metadata:
     "@storybook/addons": 7.0.0-alpha.41
     "@storybook/client-logger": 7.0.0-alpha.41
     "@storybook/core-client": 7.0.0-alpha.41
-    "@storybook/csf": 0.0.2--canary.49.258942b.0
+    "@storybook/csf": next
     "@storybook/docs-tools": 7.0.0-alpha.41
     "@storybook/store": 7.0.0-alpha.41
     global: ^4.4.0
@@ -8763,7 +8765,7 @@ __metadata:
     "@storybook/client-logger": 7.0.0-alpha.41
     "@storybook/components": 7.0.0-alpha.41
     "@storybook/core-events": 7.0.0-alpha.41
-    "@storybook/csf": 0.0.2--canary.49.258942b.0
+    "@storybook/csf": next
     "@storybook/router": 7.0.0-alpha.41
     "@storybook/theming": 7.0.0-alpha.41
     "@testing-library/react": ^11.2.2
@@ -8891,7 +8893,7 @@ __metadata:
     "@digitak/esrun": ^3.2.2
     "@storybook/addons": 7.0.0-alpha.41
     "@storybook/core-client": 7.0.0-alpha.41
-    "@storybook/csf": 0.0.2--canary.49.258942b.0
+    "@storybook/csf": next
     "@storybook/docs-tools": 7.0.0-alpha.41
     "@storybook/store": 7.0.0-alpha.41
     global: ^4.4.0
@@ -8917,7 +8919,7 @@ __metadata:
     "@storybook/addons": 7.0.0-alpha.41
     "@storybook/client-logger": 7.0.0-alpha.41
     "@storybook/core-client": 7.0.0-alpha.41
-    "@storybook/csf": 0.0.2--canary.49.258942b.0
+    "@storybook/csf": next
     "@storybook/docs-tools": 7.0.0-alpha.41
     "@storybook/store": 7.0.0-alpha.41
     global: ^4.4.0
@@ -8985,7 +8987,7 @@ __metadata:
     "@storybook/api": 7.0.0-alpha.41
     "@storybook/client-logger": 7.0.0-alpha.41
     "@storybook/core-client": 7.0.0-alpha.41
-    "@storybook/csf": 0.0.2--canary.49.258942b.0
+    "@storybook/csf": next
     "@storybook/docs-tools": 7.0.0-alpha.41
     "@storybook/preview-web": 7.0.0-alpha.41
     "@storybook/store": 7.0.0-alpha.41
