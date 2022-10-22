@@ -24,7 +24,7 @@ interface MatchingData {
 }
 
 interface LocationProps {
-  children: (renderData: RenderData) => ReactNode;
+  children: (renderData: RenderData) => any;
 }
 interface MatchProps {
   path: string;

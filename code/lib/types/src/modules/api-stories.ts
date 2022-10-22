@@ -21,7 +21,7 @@ export interface API_BaseEntry {
   depth: number;
   name: string;
   refId?: string;
-  renderLabel?: (item: API_BaseEntry) => React.ReactNode;
+  renderLabel?: (item: API_BaseEntry) => any;
 
   /** @deprecated */
   isRoot: boolean;
