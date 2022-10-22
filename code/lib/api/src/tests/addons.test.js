@@ -1,4 +1,5 @@
-import { init as initAddons, types } from '../modules/addons';
+import { types } from '@storybook/addons';
+import { init as initAddons } from '../modules/addons';
 
 const PANELS = {
   a11y: {
