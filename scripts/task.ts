@@ -26,7 +26,7 @@ import TEMPLATES from '../code/lib/cli/src/repro-templates';
 
 const sandboxDir = resolve(__dirname, '../sandbox');
 const codeDir = resolve(__dirname, '../code');
-const junitDir = resolve(__dirname, '../code/test-results');
+const junitDir = resolve(__dirname, '../test-results');
 
 export const extraAddons = ['a11y', 'storysource'];
 

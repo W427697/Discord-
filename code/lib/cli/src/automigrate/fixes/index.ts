@@ -1,3 +1,5 @@
+import { Fix } from '../types';
+
 import { cra5 } from './cra5';
 import { webpack5 } from './webpack5';
 import { angular12 } from './angular12';
@@ -9,7 +11,7 @@ import { npm7 } from './npm7';
 import { sbScripts } from './sb-scripts';
 import { newFrameworks } from './new-frameworks';
 import { removedGlobalClientAPIs } from './remove-global-client-apis';
-import { Fix } from '../types';
+import { mdx1to2 } from './mdx-1-to-2';
 
 export * from '../types';
 
@@ -25,4 +27,5 @@ export const fixes: Fix[] = [
   sbScripts,
   newFrameworks,
   removedGlobalClientAPIs,
+  mdx1to2,
 ];

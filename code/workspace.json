@@ -231,6 +231,11 @@
       "root": "lib/instrumenter",
       "type": "library"
     },
+    "@storybook/nextjs": {
+      "root": "frameworks/nextjs",
+      "type": "library",
+      "implicitDependencies": []
+    },
     "@storybook/node-logger": {
       "implicitDependencies": [],
       "root": "lib/node-logger",
@@ -439,11 +444,6 @@
     "storybook": {
       "implicitDependencies": [],
       "root": "lib/cli-storybook",
-      "type": "library"
-    },
-    "svelte-example": {
-      "implicitDependencies": [],
-      "root": "examples/svelte-kitchen-sink",
       "type": "library"
     },
     "vue-3-cli-example": {
