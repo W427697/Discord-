@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 import type {
-  ViewMode,
+  ViewMode as ViewModeFromCSF,
   AnnotatedStoryFn,
   AnyFramework,
   ArgTypes,
@@ -57,7 +57,6 @@ import type {
 } from '@storybook/csf';
 
 export {
-  ViewMode,
   AnnotatedStoryFn,
   AnyFramework,
   ArgTypes,
@@ -126,3 +125,5 @@ export interface CSF_Story {
   name: string;
   parameters: Record<string, any>;
 }
+
+export type ViewMode = ViewModeFromCSF | 'story' | 'info' | 'settings' | string | undefined;

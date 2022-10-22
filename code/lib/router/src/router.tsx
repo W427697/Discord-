@@ -13,7 +13,7 @@ interface Other extends StoryData {
 }
 
 export type RouterData = {
-  location: Partial<Location>;
+  location: Partial<R.Location>;
   navigate: ReturnType<typeof useNavigate>;
 } & Other;
 
