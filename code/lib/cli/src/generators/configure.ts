@@ -6,6 +6,7 @@ interface ConfigureMainOptions {
   addons: string[];
   extensions?: string[];
   commonJs?: boolean;
+  staticDirs?: string[];
   /**
    * Extra values for main.js
    *

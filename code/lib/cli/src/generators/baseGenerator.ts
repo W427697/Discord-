@@ -192,6 +192,7 @@ export async function baseGenerator(
     addons: pnp ? addons.map(wrapForPnp) : addons,
     extensions,
     commonJs,
+    ...(staticDir ? { staticDirs: [staticDir] } : null),
     ...extraMain,
     ...(type !== 'framework'
       ? {
@@ -237,7 +238,6 @@ export async function baseGenerator(
   if (addScripts) {
     packageManager.addStorybookCommandInScripts({
       port: 6006,
-      staticFolder: staticDir,
     });
   }
 
