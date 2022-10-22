@@ -198,7 +198,7 @@ describe('when command fails', () => {
   });
 
   // if main.js has errors, we have no way to tell if they've disabled telemetry
-  it('does not error messages when presets fail to evaluate', async () => {
+  it('does not send error messages when presets fail to evaluate', async () => {
     mocked(loadAllPresets).mockRejectedValueOnce(error);
 
     await expect(async () =>
