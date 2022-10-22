@@ -1,12 +1,14 @@
-import type { RenderData as RouterData } from '@storybook/router';
-import type { ThemeVars } from '@storybook/theming';
-import type { API } from '@storybook/api';
-import type { types } from '@storybook/addons';
-
 /* eslint-disable camelcase */
-import type {
+import type { RenderData as RouterData } from '../../../router/src/router';
+import type { ThemeVars } from '../../../theming/src/types';
+import {
   AnyFramework,
+  Args,
+  ComponentTitle,
   InputType,
+  StoryId,
+  StoryKind,
+  StoryName,
   StoryContext as StoryContextForFramework,
   LegacyStoryFn as LegacyStoryFnForFramework,
   PartialStoryFn as PartialStoryFnForFramework,
@@ -14,14 +16,9 @@ import type {
   StoryFn as StoryFnForFramework,
   DecoratorFunction as DecoratorFunctionForFramework,
   LoaderFunction as LoaderFunctionForFramework,
-  StoryId,
-  StoryKind,
-  StoryName,
-  Args,
-  ComponentTitle,
-} from '@storybook/types';
+} from './csf';
 
-export type Addon_Types = types | string;
+export type Addon_Types = Addon_TypesEnum | string;
 
 export interface Addon_ArgType<TArg = unknown> extends InputType {
   defaultValue?: TArg;
@@ -328,10 +325,10 @@ export interface Addon_Type {
   hidden?: boolean;
 }
 
-export type Addon_Loader = (api: API) => void;
+export type Addon_Loader<API> = (api: API) => void;
 
-export interface Addon_Loaders {
-  [key: string]: Addon_Loader;
+export interface Addon_Loaders<API> {
+  [key: string]: Addon_Loader<API>;
 }
 export interface Addon_Collection {
   [key: string]: Addon_Type;
@@ -348,4 +345,13 @@ export interface Addon_Config {
     [id: string]: Addon_ToolbarConfig;
   };
   [key: string]: any;
+}
+
+export enum Addon_TypesEnum {
+  TAB = 'tab',
+  PANEL = 'panel',
+  TOOL = 'tool',
+  TOOLEXTRA = 'toolextra',
+  PREVIEW = 'preview',
+  NOTES_ELEMENT = 'notes-element',
 }

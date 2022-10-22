@@ -1,7 +1,5 @@
 /* eslint-disable camelcase */
-import type { Addon, HooksContext } from '@storybook/addons';
-import type { StoryStore } from '@storybook/store';
-import type { Addon_StoryApi } from './addons';
+import type { Addon_StoryApi, Addon_Type } from './addons';
 import type { Store_RenderContext } from './store';
 import type {
   AnyFramework,
@@ -10,7 +8,6 @@ import type {
   DecoratorFunction,
   LoaderFunction,
   Parameters,
-  ProjectAnnotations,
   LegacyStoryFn,
   StoryContext,
   StoryFn,
@@ -57,39 +54,39 @@ export type ClientAPI_AddStoryArgs = StoryIdentifier & {
   loaders?: LoaderFunction[];
 };
 
-export type ClientAPI_StoreItem = StoryIdentifier & {
-  parameters: Parameters;
-  getDecorated: () => StoryFn<any>;
-  getOriginal: () => StoryFn<any>;
-  applyLoaders: () => Promise<StoryContext>;
-  playFunction: (context: StoryContext) => Promise<void> | void;
-  storyFn: StoryFn<any>;
-  unboundStoryFn: StoryFn<any>;
-  hooks: HooksContext<AnyFramework>;
-  args: Args;
-  initialArgs: Args;
-  argTypes: ArgTypes;
-};
+// export type ClientAPI_StoreItem = StoryIdentifier & {
+//   parameters: Parameters;
+//   getDecorated: () => StoryFn<any>;
+//   getOriginal: () => StoryFn<any>;
+//   applyLoaders: () => Promise<StoryContext>;
+//   playFunction: (context: StoryContext) => Promise<void> | void;
+//   storyFn: StoryFn<any>;
+//   unboundStoryFn: StoryFn<any>;
+//   hooks: HooksContext<AnyFramework>;
+//   args: Args;
+//   initialArgs: Args;
+//   argTypes: ArgTypes;
+// };
 
-export type ClientAPI_PublishedStoreItem = ClientAPI_StoreItem & {
-  globals: Args;
-};
+// export type ClientAPI_PublishedStoreItem = ClientAPI_StoreItem & {
+//   globals: Args;
+// };
 
-export interface ClientAPI_StoreData {
-  [key: string]: ClientAPI_StoreItem;
-}
+// export interface ClientAPI_StoreData {
+//   [key: string]: ClientAPI_StoreItem;
+// }
 
-export interface ClientAPI_ClientApiParams {
-  storyStore: StoryStore<AnyFramework>;
-  decorateStory?: ProjectAnnotations<AnyFramework>['applyDecorators'];
-  noStoryModuleAddMethodHotDispose?: boolean;
-}
+// export interface ClientAPI_ClientApiParams {
+//   storyStore: StoryStore<AnyFramework>;
+//   decorateStory?: ProjectAnnotations<AnyFramework>['applyDecorators'];
+//   noStoryModuleAddMethodHotDispose?: boolean;
+// }
 
 export type ClientAPI_ClientApiReturnFn<StoryFnReturnType> = (
   ...args: any[]
 ) => Addon_StoryApi<StoryFnReturnType>;
 
-export interface ClientAPI_ClientApiAddon<StoryFnReturnType = unknown> extends Addon {
+export interface ClientAPI_ClientApiAddon<StoryFnReturnType = unknown> extends Addon_Type {
   apply: (a: Addon_StoryApi<StoryFnReturnType>, b: any[]) => any;
 }
 

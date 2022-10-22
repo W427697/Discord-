@@ -12,25 +12,17 @@ import type {
   Addon_Type,
   Addon_Types,
 } from '@storybook/types';
+import { Addon_TypesEnum } from '@storybook/types';
 import { logger } from '@storybook/client-logger';
 import { mockChannel } from './storybook-channel-mock';
 
-export enum types {
-  TAB = 'tab',
-  PANEL = 'panel',
-  TOOL = 'tool',
-  TOOLEXTRA = 'toolextra',
-  PREVIEW = 'preview',
-  NOTES_ELEMENT = 'notes-element',
-}
-
-export { Addon_Type as Addon };
+export { Addon_Type as Addon, Addon_TypesEnum as types };
 
 export function isSupportedType(type: Addon_Types): boolean {
-  return !!Object.values(types).find((typeVal) => typeVal === type);
+  return !!Object.values(Addon_TypesEnum).find((typeVal) => typeVal === type);
 }
 
-export type Types = types | string;
+export type Types = Addon_TypesEnum | string;
 
 export class AddonStore {
   constructor() {
@@ -39,7 +31,7 @@ export class AddonStore {
     }) as Promise<Channel>;
   }
 
-  private loaders: Addon_Loaders = {};
+  private loaders: Addon_Loaders<API> = {};
 
   private elements: Addon_Elements = {};
 
@@ -94,7 +86,7 @@ export class AddonStore {
 
   addPanel = (name: string, options: Addon_Type): void => {
     this.add(name, {
-      type: types.PANEL,
+      type: Addon_TypesEnum.PANEL,
       ...options,
     });
   };

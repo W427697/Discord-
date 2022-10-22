@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
-import type { RenderData } from '@storybook/router';
-import type { Channel } from '@storybook/channels';
-import type { ThemeVars } from '@storybook/theming';
+import type { RenderData } from '../../../router/src/router';
+import type { Channel } from '../../../channels/src';
+import type { ThemeVars } from '../../../theming/src/types';
 import type { ViewMode } from './csf';
 import type { DocsOptions } from './core-common';
 import {

@@ -7060,6 +7060,7 @@ __metadata:
     "@storybook/node-logger": 7.0.0-alpha.40
     "@storybook/preview-web": 7.0.0-alpha.40
     "@storybook/source-loader": 7.0.0-alpha.40
+    "@storybook/types": 7.0.0-alpha.40
     "@types/express": ^4.17.13
     "@types/node": ^16.0.0
     "@vitejs/plugin-react": ^2.0.0
@@ -7190,6 +7191,7 @@ __metadata:
     "@storybook/csf-tools": 7.0.0-alpha.40
     "@storybook/node-logger": 7.0.0-alpha.40
     "@storybook/telemetry": 7.0.0-alpha.40
+    "@storybook/types": 7.0.0-alpha.40
     "@types/cross-spawn": ^6.0.2
     "@types/degit": ^2.8.3
     "@types/prompts": ^2.0.9
@@ -7331,6 +7333,7 @@ __metadata:
     "@storybook/addons": 7.0.0-alpha.40
     "@storybook/channel-postmessage": 7.0.0-alpha.40
     "@storybook/channel-websocket": 7.0.0-alpha.40
+    "@storybook/channels": 7.0.0-alpha.40
     "@storybook/client-api": 7.0.0-alpha.40
     "@storybook/client-logger": 7.0.0-alpha.40
     "@storybook/core-events": 7.0.0-alpha.40
@@ -7482,6 +7485,7 @@ __metadata:
   dependencies:
     "@storybook/core-common": 7.0.0-alpha.40
     "@storybook/node-logger": 7.0.0-alpha.40
+    "@storybook/types": 7.0.0-alpha.40
     "@types/node": ^16.0.0
     ts-dedent: ^2.0.0
     typescript: ~4.6.3
@@ -7722,6 +7726,7 @@ __metadata:
   resolution: "@storybook/instrumenter@workspace:lib/instrumenter"
   dependencies:
     "@storybook/addons": 7.0.0-alpha.40
+    "@storybook/channels": 7.0.0-alpha.40
     "@storybook/client-logger": 7.0.0-alpha.40
     "@storybook/core-events": 7.0.0-alpha.40
     core-js: ^3.8.2
@@ -8699,6 +8704,11 @@ __metadata:
   resolution: "@storybook/types@workspace:lib/types"
   dependencies:
     "@storybook/csf": 0.0.2--canary.49.258942b.0
+    "@types/babel__core": ^7.0.0
+    "@types/express": ^4.7.0
+    "@types/node": ^16.0.0
+    file-system-cache: ^2.0.0
+    synchronous-promise: ^2.0.15
     typescript: ~4.6.3
   languageName: unknown
   linkType: soft

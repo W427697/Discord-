@@ -5,8 +5,8 @@ import type { Options as TelejsonOptions } from 'telejson';
 import type { TransformOptions } from '@babel/core';
 import type { Router } from 'express';
 import type { Server } from 'http';
-import type { Parameters } from '@storybook/types';
 import type { PackageJson as PackageJsonFromTypeFest } from 'type-fest';
+import type { Parameters } from './csf';
 
 /**
  * ⚠️ This file contains internal WIP types they MUST NOT be exported outside this package for now!
