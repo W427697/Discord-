@@ -15,3 +15,7 @@ export const parameters = {
     ],
   },
 };
+
+export const globals = {
+  backgrounds: { name: 'light', value: '#F8F8F8' },
+};
