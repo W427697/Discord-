@@ -25,8 +25,6 @@ import {
 import type { DecoratorFunction, StoryContext } from '@storybook/types';
 
 import { defaultDecorateStory } from './decorators';
-// import {
-// } from './hooks';
 
 jest.mock('@storybook/client-logger', () => ({
   logger: { warn: jest.fn(), log: jest.fn() },
@@ -66,7 +64,7 @@ beforeEach(() => {
 const decorateStory = applyHooks(defaultDecorateStory);
 
 const run = (storyFn, decorators: DecoratorFunction[] = [], context = {}) =>
-  decorateStory(storyFn, decorators)({ ...context, hooks } as Partial<StoryContext>);
+  decorateStory(storyFn, decorators)({ ...context, hooks } as StoryContext);
 
 describe('Preview hooks', () => {
   describe('useEffect', () => {

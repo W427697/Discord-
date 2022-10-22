@@ -1,4 +1,4 @@
-import { StorybookConfig, withoutVitePlugins } from '@storybook/builder-vite';
+import { type StorybookConfig, withoutVitePlugins } from '@storybook/builder-vite';
 import { hasPlugin } from './utils';
 import { svelteDocgen } from './plugins/svelte-docgen';
 

@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 import global from 'global';
-import {
+import type {
   AnyFramework,
   StoryId,
   ViewMode,
@@ -11,7 +11,7 @@ import {
   Store_RenderToDOM,
   Store_TeardownRenderToDOM,
 } from '@storybook/types';
-import { StoryStore } from '@storybook/store';
+import type { StoryStore } from '@storybook/store';
 import { Channel } from '@storybook/channels';
 import { logger } from '@storybook/client-logger';
 import {

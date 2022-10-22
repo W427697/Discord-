@@ -3,8 +3,13 @@
 /// <reference types="webpack-env" />
 
 import { logger } from '@storybook/client-logger';
-import type { Store_Path, Store_ModuleExports } from '@storybook/types';
-import { Loadable, CoreClient_RequireContext, CoreClient_LoaderFunction } from '@storybook/types';
+import type {
+  Store_Path,
+  Store_ModuleExports,
+  Loadable,
+  CoreClient_RequireContext,
+  CoreClient_LoaderFunction,
+} from '@storybook/types';
 
 /**
  * Executes a Loadable (function that returns exports or require context(s))

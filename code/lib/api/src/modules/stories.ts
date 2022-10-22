@@ -16,7 +16,7 @@ import {
 } from '@storybook/core-events';
 import { logger } from '@storybook/client-logger';
 
-import {
+import type {
   API_Args,
   API_ComposedRef,
   API_HashEntry,

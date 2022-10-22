@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import { API_Settings } from '@storybook/types';
+import type { API_Settings } from '@storybook/types';
 import type { ModuleFn } from '../index';
 
 export interface SubAPI {

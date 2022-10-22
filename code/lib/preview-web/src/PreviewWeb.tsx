@@ -19,15 +19,13 @@ import {
   UPDATE_QUERY_PARAMS,
 } from '@storybook/core-events';
 import { logger } from '@storybook/client-logger';
-import {
+import type {
   AnyFramework,
   StoryId,
   ProjectAnnotations,
   Args,
   Globals,
   ViewMode,
-} from '@storybook/types';
-import type {
   Store_ModuleImportFn,
   Store_Selection,
   Store_StorySpecifier,

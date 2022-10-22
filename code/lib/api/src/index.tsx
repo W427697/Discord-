@@ -12,24 +12,13 @@ import React, {
   useRef,
 } from 'react';
 import mergeWith from 'lodash/mergeWith';
-import {
+import type {
   API_Args,
   API_ArgTypes,
   API_OptionsData,
   API_ProviderData,
   API_StateMerger,
   StoryId,
-} from '@storybook/types';
-
-import {
-  STORY_CHANGED,
-  SHARED_STATE_CHANGED,
-  SHARED_STATE_SET,
-  SET_STORIES,
-} from '@storybook/core-events';
-import type { RouterData } from '@storybook/router';
-import type { Listener } from '@storybook/channels';
-import type {
   API_StoriesHash,
   API_RootEntry,
   API_GroupEntry,
@@ -42,6 +31,15 @@ import type {
   API_Refs,
   Parameters,
 } from '@storybook/types';
+
+import {
+  STORY_CHANGED,
+  SHARED_STATE_CHANGED,
+  SHARED_STATE_SET,
+  SET_STORIES,
+} from '@storybook/core-events';
+import type { RouterData } from '@storybook/router';
+import type { Listener } from '@storybook/channels';
 
 import { createContext } from './context';
 import Store, { Options } from './store';

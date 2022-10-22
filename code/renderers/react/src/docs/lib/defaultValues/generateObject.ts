@@ -1,7 +1,7 @@
 import {
   createSummaryValue,
   isTooLongForDefaultValueSummary,
-  PropDefaultValue,
+  type PropDefaultValue,
 } from '@storybook/docs-tools';
 
 import { OBJECT_CAPTION } from '../captions';

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { AddonPanel, Link, Placeholder } from '@storybook/components';
-import { Call, CallStates, ControlStates } from '@storybook/instrumenter';
+import { type Call, CallStates, type ControlStates } from '@storybook/instrumenter';
 import { styled } from '@storybook/theming';
 import { transparentize } from 'polished';
 

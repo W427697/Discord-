@@ -1,7 +1,11 @@
 /* eslint-disable camelcase, prefer-destructuring */
-import type { Addon_ClientStoryApi, Addon_Loadable } from '@storybook/types';
+import type {
+  Addon_ClientStoryApi,
+  Addon_Loadable,
+  Args,
+  DecoratorFunction,
+} from '@storybook/types';
 import { start } from '@storybook/core-client';
-import { Args, DecoratorFunction } from '@storybook/types';
 
 import { renderToDOM, render } from './render';
 import type { ReactFramework } from './types';

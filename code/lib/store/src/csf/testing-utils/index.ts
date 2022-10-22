@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 import { isExportStory } from '@storybook/csf';
-import {
+import type {
   AnyFramework,
   ComponentAnnotations,
   ProjectAnnotations,
@@ -8,10 +8,11 @@ import {
   StoryContext,
   LegacyStoryAnnotationsOrFn,
   Store_ComposeStory,
+  Store_CSFExports,
+  Store_ComposedStoryPlayFn,
 } from '@storybook/types';
 
 import { HooksContext } from '@storybook/addons';
-import type { Store_CSFExports, Store_ComposedStoryPlayFn } from '@storybook/types';
 import { composeConfigs } from '../composeConfigs';
 import { prepareStory } from '../prepareStory';
 import { normalizeStory } from '../normalizeStory';

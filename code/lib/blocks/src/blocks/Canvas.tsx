@@ -1,5 +1,5 @@
 import React, { FC, ReactElement, ReactNode, ReactNodeArray, useContext } from 'react';
-import { AnyFramework } from '@storybook/types';
+import type { AnyFramework } from '@storybook/types';
 import {
   Preview as PurePreview,
   PreviewProps as PurePreviewProps,

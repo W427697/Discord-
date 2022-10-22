@@ -1,7 +1,12 @@
 /* eslint-disable camelcase */
-import { AnyFramework, StoryId, Addon_IndexEntry } from '@storybook/types';
+import type {
+  AnyFramework,
+  StoryId,
+  Addon_IndexEntry,
+  Store_CSFFile,
+  Store_ModuleExports,
+} from '@storybook/types';
 import { StoryStore } from '@storybook/store';
-import type { Store_CSFFile, Store_ModuleExports } from '@storybook/types';
 import type { Channel } from '@storybook/channels';
 import { DOCS_RENDERED } from '@storybook/core-events';
 

@@ -1,13 +1,13 @@
 import React, { KeyboardEventHandler, ReactNode } from 'react';
 import { expectTypeOf } from 'expect-type';
 import { describe, test } from '@jest/globals';
-import { StoryAnnotations } from '@storybook/types';
+import type { StoryAnnotations } from '@storybook/types';
 import { SetOptional } from 'type-fest';
 
-import { Meta, StoryObj } from '../public-types';
-import { DecoratorFn } from '../public-api';
+import type { Meta, StoryObj } from '../public-types';
+import type { DecoratorFn } from '../public-api';
 import { satisfies } from './utils';
-import { ReactFramework } from '../types';
+import type { ReactFramework } from '../types';
 
 type ReactStory<Args, RequiredArgs> = StoryAnnotations<ReactFramework, Args, RequiredArgs>;
 

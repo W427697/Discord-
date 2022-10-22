@@ -17,8 +17,12 @@ import {
 import { logger } from '@storybook/client-logger';
 import { Channel } from '@storybook/channels';
 import { addons } from '@storybook/addons';
-import { AnyFramework, StoryId, ProjectAnnotations, Args, Globals } from '@storybook/types';
 import type {
+  AnyFramework,
+  StoryId,
+  ProjectAnnotations,
+  Args,
+  Globals,
   Store_ModuleImportFn,
   Store_Story,
   Store_StoryIndex,

@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 import { logger } from '@storybook/client-logger';
 
-import { API_ComposedRef } from '@storybook/types';
+import type { API_ComposedRef } from '@storybook/types';
 import { getSourceType } from '../modules/refs';
 import type { API } from '../index';
 
