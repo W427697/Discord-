@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 /// <reference types="@types/jest" />;
 // Need to import jest as mockJest for annoying jest reasons. Is there a better way?
 import { jest, jest as mockJest, it, describe, expect, beforeEach } from '@jest/globals';
@@ -14,16 +15,31 @@ import {
 } from '@storybook/core-events';
 import { EventEmitter } from 'events';
 import global from 'global';
-import { mockChannel } from '@storybook/addons';
 
+import { Channel } from '@storybook/channels';
+
+import type {
+  API_StoryEntry,
+  API_SetStoriesStoryData,
+  API_SetStoriesStory,
+  API_StoryIndex,
+} from '@storybook/types';
 import { getEventMetadata } from '../lib/events';
 
 import { init as initStories } from '../modules/stories';
-import { StoryEntry, SetStoriesStoryData, SetStoriesStory, StoryIndex } from '../lib/stories';
 import type Store from '../store';
 import { ModuleArgs } from '..';
 
-const mockStories = jest.fn<StoryIndex['entries'], []>();
+function mockChannel() {
+  const transport = {
+    setHandler: () => {},
+    send: () => {},
+  };
+
+  return new Channel({ transport });
+}
+
+const mockStories = jest.fn<API_StoryIndex['entries'], []>();
 
 jest.mock('../lib/events');
 jest.mock('global', () => ({
@@ -69,50 +85,50 @@ function createMockStore(initialState = {}) {
 
 const provider = { getConfig: jest.fn().mockReturnValue({}), serverChannel: mockChannel() };
 
-const parameters = {} as SetStoriesStory['parameters'];
-const setStoriesData: SetStoriesStoryData = {
+const parameters = {} as API_SetStoriesStory['parameters'];
+const setStoriesData: API_SetStoriesStoryData = {
   'a--1': {
     kind: 'a',
     name: '1',
     parameters,
     id: 'a--1',
     args: {},
-  } as SetStoriesStory,
+  } as API_SetStoriesStory,
   'a--2': {
     kind: 'a',
     name: '2',
     parameters,
     id: 'a--2',
     args: {},
-  } as SetStoriesStory,
+  } as API_SetStoriesStory,
   'b-c--1': {
     kind: 'b/c',
     name: '1',
     parameters,
     id: 'b-c--1',
     args: {},
-  } as SetStoriesStory,
+  } as API_SetStoriesStory,
   'b-d--1': {
     kind: 'b/d',
     name: '1',
     parameters,
     id: 'b-d--1',
     args: {},
-  } as SetStoriesStory,
+  } as API_SetStoriesStory,
   'b-d--2': {
     kind: 'b/d',
     name: '2',
     parameters,
     id: 'b-d--2',
     args: { a: 'b' },
-  } as SetStoriesStory,
+  } as API_SetStoriesStory,
   'custom-id--1': {
     kind: 'b/e',
     name: '1',
     parameters,
     id: 'custom-id--1',
     args: {},
-  } as SetStoriesStory,
+  } as API_SetStoriesStory,
 };
 
 beforeEach(() => {
@@ -572,15 +588,15 @@ describe('stories API', () => {
       });
 
       const { storiesHash: initialStoriesHash } = store.getState();
-      expect((initialStoriesHash['a--1'] as StoryEntry).args).toEqual({ a: 'b' });
-      expect((initialStoriesHash['b--1'] as StoryEntry).args).toEqual({ x: 'y' });
+      expect((initialStoriesHash['a--1'] as API_StoryEntry).args).toEqual({ a: 'b' });
+      expect((initialStoriesHash['b--1'] as API_StoryEntry).args).toEqual({ x: 'y' });
 
       init();
       fullAPI.emit(STORY_ARGS_UPDATED, { storyId: 'a--1', args: { foo: 'bar' } });
 
       const { storiesHash: changedStoriesHash } = store.getState();
-      expect((changedStoriesHash['a--1'] as StoryEntry).args).toEqual({ foo: 'bar' });
-      expect((changedStoriesHash['b--1'] as StoryEntry).args).toEqual({ x: 'y' });
+      expect((changedStoriesHash['a--1'] as API_StoryEntry).args).toEqual({ foo: 'bar' });
+      expect((changedStoriesHash['b--1'] as API_StoryEntry).args).toEqual({ x: 'y' });
     });
 
     it('changes reffed args properly, per story when receiving STORY_ARGS_UPDATED', () => {
@@ -620,7 +636,7 @@ describe('stories API', () => {
       Object.assign(fullAPI, api);
       init();
 
-      api.updateStoryArgs({ id: 'a--1' } as StoryEntry, { foo: 'bar' });
+      api.updateStoryArgs({ id: 'a--1' } as API_StoryEntry, { foo: 'bar' });
       expect(emit).toHaveBeenCalledWith(UPDATE_STORY_ARGS, {
         storyId: 'a--1',
         updatedArgs: { foo: 'bar' },
@@ -630,8 +646,8 @@ describe('stories API', () => {
       });
 
       const { storiesHash: changedStoriesHash } = store.getState();
-      expect((changedStoriesHash['a--1'] as StoryEntry).args).toEqual({ a: 'b' });
-      expect((changedStoriesHash['b--1'] as StoryEntry).args).toEqual({ x: 'y' });
+      expect((changedStoriesHash['a--1'] as API_StoryEntry).args).toEqual({ a: 'b' });
+      expect((changedStoriesHash['b--1'] as API_StoryEntry).args).toEqual({ x: 'y' });
     });
 
     it('updateStoryArgs emits UPDATE_STORY_ARGS to the right frame', () => {
@@ -651,7 +667,7 @@ describe('stories API', () => {
       Object.assign(fullAPI, api);
       init();
 
-      api.updateStoryArgs({ id: 'a--1', refId: 'refId' } as StoryEntry, { foo: 'bar' });
+      api.updateStoryArgs({ id: 'a--1', refId: 'refId' } as API_StoryEntry, { foo: 'bar' });
       expect(emit).toHaveBeenCalledWith(UPDATE_STORY_ARGS, {
         storyId: 'a--1',
         updatedArgs: { foo: 'bar' },
@@ -678,7 +694,7 @@ describe('stories API', () => {
       Object.assign(fullAPI, api);
       init();
 
-      api.resetStoryArgs({ id: 'a--1' } as StoryEntry, ['foo']);
+      api.resetStoryArgs({ id: 'a--1' } as API_StoryEntry, ['foo']);
       expect(emit).toHaveBeenCalledWith(RESET_STORY_ARGS, {
         storyId: 'a--1',
         argNames: ['foo'],
@@ -688,8 +704,8 @@ describe('stories API', () => {
       });
 
       const { storiesHash: changedStoriesHash } = store.getState();
-      expect((changedStoriesHash['a--1'] as StoryEntry).args).toEqual({ a: 'b' });
-      expect((changedStoriesHash['b--1'] as StoryEntry).args).toEqual({ x: 'y' });
+      expect((changedStoriesHash['a--1'] as API_StoryEntry).args).toEqual({ a: 'b' });
+      expect((changedStoriesHash['b--1'] as API_StoryEntry).args).toEqual({ x: 'y' });
     });
 
     it('resetStoryArgs emits RESET_STORY_ARGS to the right frame', () => {
@@ -709,7 +725,7 @@ describe('stories API', () => {
       Object.assign(fullAPI, api);
       init();
 
-      api.resetStoryArgs({ id: 'a--1', refId: 'refId' } as StoryEntry, ['foo']);
+      api.resetStoryArgs({ id: 'a--1', refId: 'refId' } as API_StoryEntry, ['foo']);
       expect(emit).toHaveBeenCalledWith(RESET_STORY_ARGS, {
         storyId: 'a--1',
         argNames: ['foo'],
@@ -1117,7 +1133,7 @@ describe('stories API', () => {
         prepared: false,
       });
       expect(
-        (storedStoriesHash['component-a--story-1'] as StoryEntry as StoryEntry).args
+        (storedStoriesHash['component-a--story-1'] as API_StoryEntry as API_StoryEntry).args
       ).toBeUndefined();
     });
 
@@ -1219,7 +1235,7 @@ describe('stories API', () => {
       });
       // Let the promise/await chain resolve
       await new Promise((r) => setTimeout(r, 0));
-      expect(store.getState().storiesHash['component-a--story-1'] as StoryEntry).toMatchObject({
+      expect(store.getState().storiesHash['component-a--story-1'] as API_StoryEntry).toMatchObject({
         prepared: true,
         parameters: { a: 'b' },
         args: { c: 'd' },
@@ -1231,7 +1247,7 @@ describe('stories API', () => {
 
       // Let the promise/await chain resolve
       await new Promise((r) => setTimeout(r, 0));
-      expect(store.getState().storiesHash['component-a--story-1'] as StoryEntry).toMatchObject({
+      expect(store.getState().storiesHash['component-a--story-1'] as API_StoryEntry).toMatchObject({
         prepared: true,
         parameters: { a: 'b' },
         args: { c: 'd' },

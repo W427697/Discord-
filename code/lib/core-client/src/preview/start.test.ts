@@ -12,8 +12,8 @@ import {
 import { WebView } from '@storybook/preview-web/dist/cjs/WebView';
 import { setGlobalRender } from '@storybook/client-api';
 
+import type { Loadable } from '@storybook/types';
 import { start as realStart } from './start';
-import { Loadable } from './types';
 
 jest.mock('@storybook/preview-web/dist/cjs/WebView');
 jest.spyOn(WebView.prototype, 'prepareForDocs').mockReturnValue('docs-root');
