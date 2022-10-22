@@ -368,7 +368,7 @@
     },
     "@storybook/types": {
       "implicitDependencies": [],
-      "root": "lib/channels",
+      "root": "lib/types",
       "type": "library"
     },
     "@storybook/ui": {
