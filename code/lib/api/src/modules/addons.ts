@@ -1,12 +1,10 @@
-import type { ReactElement } from 'react';
-import type { RenderData } from '@storybook/router';
+/* eslint-disable camelcase */
 
+import type { API_Collection, API_Panels, API_StateMerger, API_Types } from '@storybook/types';
 import { ModuleFn } from '../index';
 import { Options } from '../store';
 
-export type ViewMode = 'story' | 'info' | 'settings' | 'page' | undefined | string;
-
-export enum types {
+enum types {
   TAB = 'tab',
   PANEL = 'panel',
   TOOL = 'tool',
@@ -14,64 +12,26 @@ export enum types {
   NOTES_ELEMENT = 'notes-element',
 }
 
-export type Types = types | string;
-export interface RenderOptions {
-  active: boolean;
-  key: string;
-}
-
-export interface RouteOptions {
-  storyId: string;
-  viewMode: ViewMode;
-  location: RenderData['location'];
-  path: string;
-}
-export interface MatchOptions {
-  storyId: string;
-  viewMode: ViewMode;
-  location: RenderData['location'];
-  path: string;
-}
-
-export interface Addon {
-  title: string;
-  type?: Types;
-  id?: string;
-  route?: (routeOptions: RouteOptions) => string;
-  match?: (matchOptions: MatchOptions) => boolean;
-  render: (renderOptions: RenderOptions) => ReactElement<any>;
-  paramKey?: string;
-  disabled?: boolean;
-  hidden?: boolean;
-}
-export interface Collection<T = Addon> {
-  [key: string]: T;
-}
-
-type Panels = Collection<Addon>;
-
-type StateMerger<S> = (input: S) => S;
-
 export interface SubState {
   selectedPanel: string;
   addons: Record<string, never>;
 }
 
 export interface SubAPI {
-  getElements: <T>(type: Types) => Collection<T>;
-  getPanels: () => Panels;
-  getStoryPanels: () => Panels;
+  getElements: <T>(type: API_Types) => API_Collection<T>;
+  getPanels: () => API_Panels;
+  getStoryPanels: () => API_Panels;
   getSelectedPanel: () => string;
   setSelectedPanel: (panelName: string) => void;
   setAddonState<S>(
     addonId: string,
-    newStateOrMerger: S | StateMerger<S>,
+    newStateOrMerger: S | API_StateMerger<S>,
     options?: Options
   ): Promise<S>;
   getAddonState<S>(addonId: string): S;
 }
 
-export function ensurePanel(panels: Panels, selectedPanel?: string, currentPanel?: string) {
+export function ensurePanel(panels: API_Panels, selectedPanel?: string, currentPanel?: string) {
   const keys = Object.keys(panels);
 
   if (keys.indexOf(selectedPanel) >= 0) {
@@ -99,7 +59,7 @@ export const init: ModuleFn<SubAPI, SubState> = ({ provider, store, fullAPI }) =
 
       const { parameters } = story;
 
-      const filteredPanels: Collection = {};
+      const filteredPanels: API_Collection = {};
       Object.entries(allPanels).forEach(([id, panel]) => {
         const { paramKey } = panel;
         if (paramKey && parameters && parameters[paramKey] && parameters[paramKey].disable) {
@@ -119,13 +79,13 @@ export const init: ModuleFn<SubAPI, SubState> = ({ provider, store, fullAPI }) =
     },
     setAddonState<S>(
       addonId: string,
-      newStateOrMerger: S | StateMerger<S>,
+      newStateOrMerger: S | API_StateMerger<S>,
       options?: Options
     ): Promise<S> {
       let nextState;
       const { addons: existing } = store.getState();
       if (typeof newStateOrMerger === 'function') {
-        const merger = newStateOrMerger as StateMerger<S>;
+        const merger = newStateOrMerger as API_StateMerger<S>;
         nextState = merger(api.getAddonState<S>(addonId));
       } else {
         nextState = newStateOrMerger;

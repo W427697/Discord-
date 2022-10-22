@@ -1,5 +1,6 @@
+/* eslint-disable camelcase */
 import global from 'global';
-import { toId, sanitize } from '@storybook/csf';
+import { toId, sanitize, StoryId } from '@storybook/csf';
 import {
   PRELOAD_ENTRIES,
   STORY_PREPARED,
@@ -15,6 +16,17 @@ import {
 } from '@storybook/core-events';
 import { logger } from '@storybook/client-logger';
 
+import {
+  API_Args,
+  API_ComposedRef,
+  API_HashEntry,
+  API_LeafEntry,
+  API_SetStoriesPayload,
+  API_SetStoriesStoryData,
+  API_StoriesHash,
+  API_StoryEntry,
+  API_StoryIndex,
+} from '@storybook/types';
 import { getEventMetadata } from '../lib/events';
 import {
   denormalizeStoryParameters,
@@ -22,22 +34,10 @@ import {
   transformStoryIndexToStoriesHash,
   getComponentLookupList,
   getStoriesLookupList,
-  HashEntry,
-  LeafEntry,
   addPreparedStories,
 } from '../lib/stories';
 
-import type {
-  StoriesHash,
-  StoryEntry,
-  StoryId,
-  SetStoriesStoryData,
-  SetStoriesPayload,
-  StoryIndex,
-} from '../lib/stories';
-
-import type { Args, ModuleFn } from '../index';
-import type { ComposedRef } from './refs';
+import type { ModuleFn } from '../index';
 
 const { FEATURES, fetch } = global;
 const STORY_INDEX_PATH = './index.json';
@@ -46,10 +46,10 @@ type Direction = -1 | 1;
 type ParameterName = string;
 
 type ViewMode = 'story' | 'info' | 'settings' | string | undefined;
-type StoryUpdate = Pick<StoryEntry, 'parameters' | 'initialArgs' | 'argTypes' | 'args'>;
+type StoryUpdate = Pick<API_StoryEntry, 'parameters' | 'initialArgs' | 'argTypes' | 'args'>;
 
 export interface SubState {
-  storiesHash: StoriesHash;
+  storiesHash: API_StoriesHash;
   storyId: StoryId;
   viewMode: ViewMode;
   storiesConfigured: boolean;
@@ -58,37 +58,37 @@ export interface SubState {
 
 export interface SubAPI {
   storyId: typeof toId;
-  resolveStory: (storyId: StoryId, refsId?: string) => HashEntry;
+  resolveStory: (storyId: StoryId, refsId?: string) => API_HashEntry;
   selectFirstStory: () => void;
   selectStory: (
     kindOrId?: string,
     story?: string,
     obj?: { ref?: string; viewMode?: ViewMode }
   ) => void;
-  getCurrentStoryData: () => LeafEntry;
-  setStories: (stories: SetStoriesStoryData, failed?: Error) => Promise<void>;
+  getCurrentStoryData: () => API_LeafEntry;
+  setStories: (stories: API_SetStoriesStoryData, failed?: Error) => Promise<void>;
   jumpToComponent: (direction: Direction) => void;
   jumpToStory: (direction: Direction) => void;
-  getData: (storyId: StoryId, refId?: string) => LeafEntry;
+  getData: (storyId: StoryId, refId?: string) => API_LeafEntry;
   isPrepared: (storyId: StoryId, refId?: string) => boolean;
   getParameters: (
     storyId: StoryId | { storyId: StoryId; refId: string },
     parameterName?: ParameterName
-  ) => StoryEntry['parameters'] | any;
+  ) => API_StoryEntry['parameters'] | any;
   getCurrentParameter<S>(parameterName?: ParameterName): S;
-  updateStoryArgs(story: StoryEntry, newArgs: Args): void;
-  resetStoryArgs: (story: StoryEntry, argNames?: string[]) => void;
-  findLeafEntry(StoriesHash: StoriesHash, storyId: StoryId): LeafEntry;
-  findLeafStoryId(StoriesHash: StoriesHash, storyId: StoryId): StoryId;
+  updateStoryArgs(story: API_StoryEntry, newArgs: API_Args): void;
+  resetStoryArgs: (story: API_StoryEntry, argNames?: string[]) => void;
+  findLeafEntry(StoriesHash: API_StoriesHash, storyId: StoryId): API_LeafEntry;
+  findLeafStoryId(StoriesHash: API_StoriesHash, storyId: StoryId): StoryId;
   findSiblingStoryId(
     storyId: StoryId,
-    hash: StoriesHash,
+    hash: API_StoriesHash,
     direction: Direction,
     toSiblingGroup: boolean // when true, skip over leafs within the same group
   ): StoryId;
   fetchStoryList: () => Promise<void>;
-  setStoryList: (storyList: StoryIndex) => Promise<void>;
-  updateStory: (storyId: StoryId, update: StoryUpdate, ref?: ComposedRef) => Promise<void>;
+  setStoryList: (storyList: API_StoryIndex) => Promise<void>;
+  updateStory: (storyId: StoryId, update: StoryUpdate, ref?: API_ComposedRef) => Promise<void>;
 }
 
 const removedOptions = ['enableShortcuts', 'theme', 'showRoots'];
@@ -327,7 +327,7 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
         const result = await fetch(STORY_INDEX_PATH);
         if (result.status !== 200) throw new Error(await result.text());
 
-        const storyIndex = (await result.json()) as StoryIndex;
+        const storyIndex = (await result.json()) as API_StoryIndex;
 
         // We can only do this if the stories.json is a proper storyIndex
         if (storyIndex.v < 3) {
@@ -343,7 +343,7 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
         });
       }
     },
-    setStoryList: async (storyIndex: StoryIndex) => {
+    setStoryList: async (storyIndex: API_StoryIndex) => {
       const newHash = transformStoryIndexToStoriesHash(storyIndex, {
         provider,
         docsOptions,
@@ -361,21 +361,21 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
     updateStory: async (
       storyId: StoryId,
       update: StoryUpdate,
-      ref?: ComposedRef
+      ref?: API_ComposedRef
     ): Promise<void> => {
       if (!ref) {
         const { storiesHash } = store.getState();
         storiesHash[storyId] = {
           ...storiesHash[storyId],
           ...update,
-        } as StoryEntry;
+        } as API_StoryEntry;
         await store.setState({ storiesHash });
       } else {
         const { id: refId, stories } = ref;
         stories[storyId] = {
           ...stories[storyId],
           ...update,
-        } as StoryEntry;
+        } as API_StoryEntry;
         await fullAPI.updateRef(refId, { stories });
       }
     },
@@ -453,7 +453,7 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
       }
     });
 
-    fullAPI.on(SET_STORIES, function handler(data: SetStoriesPayload) {
+    fullAPI.on(SET_STORIES, function handler(data: API_SetStoriesPayload) {
       const { ref } = getEventMetadata(this, fullAPI);
       const setStoriesData = data.v ? denormalizeStoryParameters(data) : data.stories;
 
@@ -495,7 +495,7 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
 
     fullAPI.on(
       STORY_ARGS_UPDATED,
-      function handleStoryArgsUpdated({ storyId, args }: { storyId: StoryId; args: Args }) {
+      function handleStoryArgsUpdated({ storyId, args }: { storyId: StoryId; args: API_Args }) {
         const { ref } = getEventMetadata(this, fullAPI);
         fullAPI.updateStory(storyId, { args }, ref);
       }
