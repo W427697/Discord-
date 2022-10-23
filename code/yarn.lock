@@ -8453,7 +8453,7 @@ __metadata:
     ts-loader: ^9.2.8
     ts-node: ^10.4.0
     tsup: ^6.2.2
-    typescript: 4.7.4
+    typescript: ~4.6.3
     util: ^0.12.4
     verdaccio: ^4.10.0
     verdaccio-auth-memory: ^9.7.2
@@ -8670,11 +8670,14 @@ __metadata:
     "@storybook/csf": next
     "@storybook/docs-tools": 7.0.0-alpha.41
     "@storybook/store": 7.0.0-alpha.41
+    expect-type: ^0.14.2
     global: ^4.4.0
     react: 16.14.0
     react-dom: 16.14.0
     svelte: ^3.31.2
+    svelte-check: ^2.9.2
     sveltedoc-parser: ^4.2.1
+    type-fest: 2.19.0
     typescript: ~4.6.3
   peerDependencies:
     "@babel/core": "*"
@@ -9942,6 +9945,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/pug@npm:^2.0.4":
+  version: 2.0.6
+  resolution: "@types/pug@npm:2.0.6"
+  checksum: 8e7a3b6c1158d3a87b643c91f6cf2552ae781bc2a8f8b17a61e7b1ddd9ce480fd3483459a9b6e0f205ebe158ed67c11fd9a3206262057a14f655138c2322b0c9
+  languageName: node
+  linkType: hard
+
 "@types/puppeteer-core@npm:^2.1.0":
   version: 2.1.0
   resolution: "@types/puppeteer-core@npm:2.1.0"
@@ -10057,6 +10067,15 @@ __metadata:
     "@types/glob": "*"
     "@types/node": "*"
   checksum: f1b11100374be4a554fc9bf7c8bd33aef0dc0481007bc55b83451bb2dbe30626be82e3cf16612ba7e4c96ce3982d8bab07cd0e951b9c98d2518d981cf6f2e4b2
+  languageName: node
+  linkType: hard
+
+"@types/sass@npm:^1.16.0":
+  version: 1.43.1
+  resolution: "@types/sass@npm:1.43.1"
+  dependencies:
+    "@types/node": "*"
+  checksum: cb55602b2f7a356d784e8ad1f432246daf4cb1fe75ef27ede997d41bdee0b08814435966471909762043d5169e009fab4a3b14db98e782103081b2da64497304
   languageName: node
   linkType: hard
 
@@ -13821,7 +13840,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"buffer-crc32@npm:~0.2.3":
+"buffer-crc32@npm:^0.2.5, buffer-crc32@npm:~0.2.3":
   version: 0.2.13
   resolution: "buffer-crc32@npm:0.2.13"
   checksum: cb0a8ddf5cf4f766466db63279e47761eb825693eeba6a5a95ee4ec8cb8f81ede70aa7f9d8aeec083e781d47154290eb5d4d26b3f7a465ec57fb9e7d59c47150
@@ -14512,7 +14531,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"chokidar@npm:>=3.0.0 <4.0.0, chokidar@npm:^3.0.0, chokidar@npm:^3.4.0, chokidar@npm:^3.5.1, chokidar@npm:^3.5.2, chokidar@npm:^3.5.3":
+"chokidar@npm:>=3.0.0 <4.0.0, chokidar@npm:^3.0.0, chokidar@npm:^3.4.0, chokidar@npm:^3.4.1, chokidar@npm:^3.5.1, chokidar@npm:^3.5.2, chokidar@npm:^3.5.3":
   version: 3.5.3
   resolution: "chokidar@npm:3.5.3"
   dependencies:
@@ -18263,6 +18282,13 @@ __metadata:
     es6-symbol: ~3.1.1
     event-emitter: ~0.3.5
   checksum: 62fe1a90ead1704bed699cb9c975e642023f590d5338c2a640d60ce0a846de7d5197561393ac03dd11473b96087cf8793c9e4836fe05ad4d2ef6afda6b9a3511
+  languageName: node
+  linkType: hard
+
+"es6-promise@npm:^3.1.2":
+  version: 3.3.1
+  resolution: "es6-promise@npm:3.3.1"
+  checksum: b4fc87cb8509c001f62f860f97b05d1fd3f87220c8b832578e6a483c719ca272b73a77f2231cb26395fa865e1cab2fd4298ab67786b69e97b8d757b938f4fc1f
   languageName: node
   linkType: hard
 
@@ -35327,7 +35353,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rimraf@npm:^2.2.8, rimraf@npm:^2.3.4, rimraf@npm:^2.4.1, rimraf@npm:^2.4.3, rimraf@npm:^2.5.3, rimraf@npm:^2.5.4, rimraf@npm:^2.6.1, rimraf@npm:^2.6.2, rimraf@npm:^2.6.3":
+"rimraf@npm:^2.2.8, rimraf@npm:^2.3.4, rimraf@npm:^2.4.1, rimraf@npm:^2.4.3, rimraf@npm:^2.5.2, rimraf@npm:^2.5.3, rimraf@npm:^2.5.4, rimraf@npm:^2.6.1, rimraf@npm:^2.6.2, rimraf@npm:^2.6.3":
   version: 2.7.1
   resolution: "rimraf@npm:2.7.1"
   dependencies:
@@ -35473,7 +35499,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"sade@npm:^1.7.3":
+"sade@npm:^1.7.3, sade@npm:^1.7.4":
   version: 1.8.1
   resolution: "sade@npm:1.8.1"
   dependencies:
@@ -35548,6 +35574,18 @@ __metadata:
   version: 2.1.2
   resolution: "safer-buffer@npm:2.1.2"
   checksum: 7e3c8b2e88a1841c9671094bbaeebd94448111dd90a81a1f606f3f67708a6ec57763b3b47f06da09fc6054193e0e6709e77325415dc8422b04497a8070fa02d4
+  languageName: node
+  linkType: hard
+
+"sander@npm:^0.5.0":
+  version: 0.5.1
+  resolution: "sander@npm:0.5.1"
+  dependencies:
+    es6-promise: ^3.1.2
+    graceful-fs: ^4.1.3
+    mkdirp: ^0.5.1
+    rimraf: ^2.5.2
+  checksum: ce1e423fe5b4e57926df7cc6bd24b70271adfbe7b8ff995784f98101878e037327ac31c7a4e317ac3e1579f410e41a477fef40c2376f0dfa4499c8864a26f499
   languageName: node
   linkType: hard
 
@@ -36393,6 +36431,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"sorcery@npm:^0.10.0":
+  version: 0.10.0
+  resolution: "sorcery@npm:0.10.0"
+  dependencies:
+    buffer-crc32: ^0.2.5
+    minimist: ^1.2.0
+    sander: ^0.5.0
+    sourcemap-codec: ^1.3.0
+  bin:
+    sorcery: bin/index.js
+  checksum: 4b939487c4c157d27b9477c0948def0d10aab3891dc33f2d140a1710a10ef50fa7cf4e22e2c4564226942ec719ce0eb83c8b9096708533c888de34a673ee5934
+  languageName: node
+  linkType: hard
+
 "sort-keys-length@npm:^1.0.0":
   version: 1.0.1
   resolution: "sort-keys-length@npm:1.0.1"
@@ -36589,7 +36641,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"sourcemap-codec@npm:^1.4.1, sourcemap-codec@npm:^1.4.4, sourcemap-codec@npm:^1.4.8":
+"sourcemap-codec@npm:^1.3.0, sourcemap-codec@npm:^1.4.1, sourcemap-codec@npm:^1.4.4, sourcemap-codec@npm:^1.4.8":
   version: 1.4.8
   resolution: "sourcemap-codec@npm:1.4.8"
   checksum: f099279fdaae070ff156df7414bbe39aad69cdd615454947ed3e19136bfdfcb4544952685ee73f56e17038f4578091e12b17b283ed8ac013882916594d95b9e6
@@ -37600,6 +37652,26 @@ __metadata:
   languageName: node
   linkType: hard
 
+"svelte-check@npm:^2.9.2":
+  version: 2.9.2
+  resolution: "svelte-check@npm:2.9.2"
+  dependencies:
+    "@jridgewell/trace-mapping": ^0.3.9
+    chokidar: ^3.4.1
+    fast-glob: ^3.2.7
+    import-fresh: ^3.2.1
+    picocolors: ^1.0.0
+    sade: ^1.7.4
+    svelte-preprocess: ^4.0.0
+    typescript: "*"
+  peerDependencies:
+    svelte: ^3.24.0
+  bin:
+    svelte-check: bin/svelte-check
+  checksum: 74466baae06839cdac247db88af3ebd4bdaa5e2b9332f8420e501cb4731541722aa69baecf8f269e96cbf6a79027fc59b742449f4ca04b2d6981df3c6842a4cd
+  languageName: node
+  linkType: hard
+
 "svelte-dev-helper@npm:^1.1.9":
   version: 1.1.9
   resolution: "svelte-dev-helper@npm:1.1.9"
@@ -37635,6 +37707,55 @@ __metadata:
   peerDependencies:
     svelte: ">3.0.0"
   checksum: 5c4f91fdfb7760eea29974c11743f73654049cdada16ad2fdca127493f739082c9d5b1cac8438cae2345409b238cc516983e00b96b77b7f10c25150e21bb8884
+  languageName: node
+  linkType: hard
+
+"svelte-preprocess@npm:^4.0.0":
+  version: 4.10.7
+  resolution: "svelte-preprocess@npm:4.10.7"
+  dependencies:
+    "@types/pug": ^2.0.4
+    "@types/sass": ^1.16.0
+    detect-indent: ^6.0.0
+    magic-string: ^0.25.7
+    sorcery: ^0.10.0
+    strip-indent: ^3.0.0
+  peerDependencies:
+    "@babel/core": ^7.10.2
+    coffeescript: ^2.5.1
+    less: ^3.11.3 || ^4.0.0
+    postcss: ^7 || ^8
+    postcss-load-config: ^2.1.0 || ^3.0.0 || ^4.0.0
+    pug: ^3.0.0
+    sass: ^1.26.8
+    stylus: ^0.55.0
+    sugarss: ^2.0.0
+    svelte: ^3.23.0
+    typescript: ^3.9.5 || ^4.0.0
+  peerDependenciesMeta:
+    "@babel/core":
+      optional: true
+    coffeescript:
+      optional: true
+    less:
+      optional: true
+    node-sass:
+      optional: true
+    postcss:
+      optional: true
+    postcss-load-config:
+      optional: true
+    pug:
+      optional: true
+    sass:
+      optional: true
+    stylus:
+      optional: true
+    sugarss:
+      optional: true
+    typescript:
+      optional: true
+  checksum: aa90206063270bc3a33b0228315c1cae1609897c785a05cfaacd361bf1b55b9e1ff2f3a52cd22a21a587b9fe0305d2e6bee1ce17940c8d09fe4c5beb2eaef68b
   languageName: node
   linkType: hard
 
@@ -38907,6 +39028,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"type-fest@npm:2.19.0, type-fest@npm:^2.17.0, type-fest@npm:^2.19.0":
+  version: 2.19.0
+  resolution: "type-fest@npm:2.19.0"
+  checksum: a5a7ecf2e654251613218c215c7493574594951c08e52ab9881c9df6a6da0aeca7528c213c622bc374b4e0cb5c443aa3ab758da4e3c959783ce884c3194e12cb
+  languageName: node
+  linkType: hard
+
 "type-fest@npm:^0.11.0":
   version: 0.11.0
   resolution: "type-fest@npm:0.11.0"
@@ -38960,13 +39088,6 @@ __metadata:
   version: 1.4.0
   resolution: "type-fest@npm:1.4.0"
   checksum: a3c0f4ee28ff6ddf800d769eafafcdeab32efa38763c1a1b8daeae681920f6e345d7920bf277245235561d8117dab765cb5f829c76b713b4c9de0998a5397141
-  languageName: node
-  linkType: hard
-
-"type-fest@npm:^2.17.0, type-fest@npm:^2.19.0":
-  version: 2.19.0
-  resolution: "type-fest@npm:2.19.0"
-  checksum: a5a7ecf2e654251613218c215c7493574594951c08e52ab9881c9df6a6da0aeca7528c213c622bc374b4e0cb5c443aa3ab758da4e3c959783ce884c3194e12cb
   languageName: node
   linkType: hard
 
