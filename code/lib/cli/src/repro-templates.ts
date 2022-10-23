@@ -4,7 +4,8 @@ const craTemplates = {
     script: 'npx create-react-app .',
     cadence: ['ci', 'daily', 'weekly'],
     expected: {
-      framework: '@storybook/cra',
+      // TODO: change this to @storybook/cra once that package is created
+      framework: '@storybook/react-webpack5',
       renderer: '@storybook/react',
       builder: '@storybook/builder-webpack5',
     },
@@ -16,7 +17,31 @@ const craTemplates = {
     // Re-enable once https://github.com/storybookjs/storybook/issues/19351 is fixed.
     skipTasks: ['smoke-test'],
     expected: {
-      framework: '@storybook/cra',
+      // TODO: change this to @storybook/cra once that package is created
+      framework: '@storybook/react-webpack5',
+      renderer: '@storybook/react',
+      builder: '@storybook/builder-webpack5',
+    },
+  },
+};
+
+const nextjsTemplates = {
+  'nextjs/default-js': {
+    name: 'Next.js (JavaScript)',
+    script: 'npx create-next-app {{beforeDir}}',
+    cadence: ['ci', 'daily', 'weekly'],
+    expected: {
+      framework: '@storybook/nextjs',
+      renderer: '@storybook/react',
+      builder: '@storybook/builder-webpack5',
+    },
+  },
+  'nextjs/default-ts': {
+    name: 'Next.js (TypeScript)',
+    script: 'npx create-next-app {{beforeDir}} --typescript',
+    cadence: ['ci', 'daily', 'weekly'],
+    expected: {
+      framework: '@storybook/nextjs',
       renderer: '@storybook/react',
       builder: '@storybook/builder-webpack5',
     },
@@ -104,7 +129,7 @@ const vue2ViteTemplates = {
     // Re-enable once https://github.com/storybookjs/storybook/issues/19351 is fixed.
     skipTasks: ['smoke-test'],
     expected: {
-      framework: '@storybook/vue2-vite',
+      framework: '@storybook/vue-vite',
       renderer: '@storybook/vue',
       builder: '@storybook/builder-vite',
     },
@@ -174,32 +199,30 @@ const angularCliTemplates = {
   },
 };
 
-// TODO: enable this when repo has been upgraded to node@16
-// SvelteKit only supports Node.js >16.x, so before generating these repros you need to switch to that version
-// const svelteKitTemplates = {
-//   'svelte-kit/skeleton-js': {
-//     name: 'Svelte Kit (JS)',
-//     script:
-//       'yarn create svelte-with-args --name=svelte-kit/skeleton-js --directory=. --template=skeleton --types=null --no-prettier --no-eslint --no-playwright',
-//     cadence: ['ci', 'daily', 'weekly'],
-//     expected: {
-//       framework: '@storybook/svelte-vite',
-//       renderer: '@storybook/svelte',
-//       builder: '@storybook/builder-vite',
-//     },
-//   },
-//   'svelte-kit/skeleton-ts': {
-//     name: 'Svelte Kit (TS)',
-//     script:
-//       'yarn create svelte-with-args --name=svelte-kit/skeleton-ts --directory=. --template=skeleton --types=typescript --no-prettier --no-eslint --no-playwright',
-//     cadence: ['ci', 'daily', 'weekly'],
-//     expected: {
-//       framework: '@storybook/svelte-vite',
-//       renderer: '@storybook/svelte',
-//       builder: '@storybook/builder-vite',
-//     },
-//   },
-// };
+const svelteKitTemplates = {
+  'svelte-kit/skeleton-js': {
+    name: 'Svelte Kit (JS)',
+    script:
+      'yarn create svelte-with-args --name=svelte-kit/skeleton-js --directory=. --template=skeleton --types=null --no-prettier --no-eslint --no-playwright',
+    cadence: ['ci', 'daily', 'weekly'],
+    expected: {
+      framework: '@storybook/svelte-vite',
+      renderer: '@storybook/svelte',
+      builder: '@storybook/builder-vite',
+    },
+  },
+  'svelte-kit/skeleton-ts': {
+    name: 'Svelte Kit (TS)',
+    script:
+      'yarn create svelte-with-args --name=svelte-kit/skeleton-ts --directory=. --template=skeleton --types=typescript --no-prettier --no-eslint --no-playwright',
+    cadence: ['ci', 'daily', 'weekly'],
+    expected: {
+      framework: '@storybook/svelte-vite',
+      renderer: '@storybook/svelte',
+      builder: '@storybook/builder-vite',
+    },
+  },
+};
 
 const litViteTemplates = {
   'lit-vite/default-js': {
@@ -289,16 +312,16 @@ const preactWebpackTemplates = {
 
 export default {
   ...craTemplates,
-  ...reactWebpackTemplates,
   ...reactViteTemplates,
+  ...reactWebpackTemplates,
   ...vue2ViteTemplates,
   ...vue3ViteTemplates,
   ...svelteViteTemplates,
-  // TODO: enable this when repo has been upgraded to node@16
-  // ...svelteKitTemplates,
+  ...svelteKitTemplates,
   ...angularCliTemplates,
   ...litViteTemplates,
   ...vueCliTemplates,
   ...htmlWebpackTemplates,
   ...preactWebpackTemplates,
+  ...nextjsTemplates,
 } as const;

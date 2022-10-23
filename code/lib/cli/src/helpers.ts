@@ -5,10 +5,11 @@ import fse from 'fs-extra';
 import path, { join } from 'path';
 import { satisfies } from 'semver';
 import stripJsonComments from 'strip-json-comments';
-import { getBaseDir } from './dirs';
-import { JsPackageManager, PackageJson, PackageJsonWithDepsAndDevDeps } from './js-package-manager';
 
-import { SupportedLanguage, SupportedRenderers } from './project_types';
+import { SupportedFrameworks, SupportedLanguage, SupportedRenderers } from './project_types';
+import { JsPackageManager, PackageJson, PackageJsonWithDepsAndDevDeps } from './js-package-manager';
+import { getBaseDir } from './dirs';
+
 import storybookMonorepoPackages from './versions';
 
 const logger = console;
@@ -181,7 +182,10 @@ export function copyTemplate(templateRoot: string) {
   fse.copySync(templateDir, '.', { overwrite: true });
 }
 
-export async function copyComponents(renderer: SupportedRenderers, language: SupportedLanguage) {
+export async function copyComponents(
+  renderer: SupportedFrameworks | SupportedRenderers,
+  language: SupportedLanguage
+) {
   const languageFolderMapping: Record<SupportedLanguage, string> = {
     [SupportedLanguage.JAVASCRIPT]: 'js',
     [SupportedLanguage.TYPESCRIPT]: 'ts',
@@ -225,10 +229,8 @@ export async function copyComponents(renderer: SupportedRenderers, language: Sup
   };
 
   const destinationPath = await targetPath();
+  await fse.copy(join(getBaseDir(), 'rendererAssets/common'), destinationPath, { overwrite: true });
   await fse.copy(await componentsPath(), destinationPath, { overwrite: true });
-  await fse.copy(join(getBaseDir(), 'rendererAssets/common'), destinationPath, {
-    overwrite: true,
-  });
 }
 
 // Given a package.json, finds any official storybook package within it

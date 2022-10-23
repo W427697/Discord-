@@ -1,7 +1,7 @@
 import path from 'path';
 import { render, screen, waitFor } from '@testing-library/react';
 import initStoryshots, { Stories2SnapsConverter } from '../src';
-import { TIMEOUT, EXPECTED_VALUE } from './exported_metadata/Async.stories.jsx';
+import { EXPECTED_VALUE } from './exported_metadata/Async.stories.jsx';
 
 initStoryshots({
   asyncJest: true,
@@ -11,7 +11,7 @@ initStoryshots({
 
   // When async is true we need to provide a test method that
   // calls done() when at the end of the test method
-  test: ({ story, context, done }) => {
+  test: async ({ story, context, done }) => {
     expect(done).toBeDefined();
 
     // This is a storyOf Async (see ./required_with_context/Async.stories)
@@ -26,16 +26,13 @@ initStoryshots({
       // The Async component should not contain the expected value
       expect(screen.queryByText(EXPECTED_VALUE)).toBeFalsy();
 
-      // wait until the "Async" component is updated
-      setTimeout(async () => {
-        await waitFor(() => {
-          expect(screen.getByText(EXPECTED_VALUE)).toBeInTheDocument();
-          expect(container.firstChild).toMatchSpecificSnapshot(snapshotFilename);
-        });
+      await waitFor(() => {
+        expect(screen.getByText(EXPECTED_VALUE)).toBeInTheDocument();
+        expect(container.firstChild).toMatchSpecificSnapshot(snapshotFilename);
+      });
 
-        // finally mark test as done
-        done();
-      }, TIMEOUT);
+      // finally mark test as done
+      done();
     } else {
       // If not async, mark the test as done
       done();
