@@ -1,3 +1,25 @@
+## 7.0.0-alpha.41 (October 21, 2022)
+
+#### Features
+
+-   Add `@storybook/nextjs` framework [#19382](https://github.com/storybooks/storybook/pull/19382)
+-   CLI: Enable `@storybook/nextjs` framework [#19478](https://github.com/storybooks/storybook/pull/19478)
+-   CLI: Automigrate from MDX1 to MDX2 [#19568](https://github.com/storybooks/storybook/pull/19568)
+
+#### Maintenance
+
+-   Remove warning of removed feature in lib/client-api [#19544](https://github.com/storybooks/storybook/pull/19544)
+-   Remove vite-plugin-svelte-kit when detected [#19522](https://github.com/storybooks/storybook/pull/19522)
+
+#### Build
+
+-   Delete Svelte example [#19549](https://github.com/storybooks/storybook/pull/19549)
+-   Fix circle test results [#19552](https://github.com/storybooks/storybook/pull/19552)
+
+#### Dependency Upgrades
+
+-   Update the version of the "update-notifier" package [#19569](https://github.com/storybooks/storybook/pull/19569)
+
 ## 7.0.0-alpha.40 (October 20, 2022)
 
 #### Breaking Changes
