@@ -1,15 +1,15 @@
-/* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable camelcase */
-// @ts-expect-error (Converted from ts-ignore)
 import global from 'global';
 
 import type { Store_RenderContext, ArgsStoryFn } from '@storybook/types';
-import PreviewRender from '@storybook/svelte/templates/PreviewRender.svelte';
+import { SvelteComponentTyped } from 'svelte';
+import PreviewRender from '../templates/PreviewRender.svelte';
+
 import { SvelteFramework } from './types';
 
 const { document } = global;
 
-let previousComponent: SvelteFramework['component'] = null;
+let previousComponent: SvelteComponentTyped | null = null;
 
 function cleanUpPreviousStory() {
   if (!previousComponent) {

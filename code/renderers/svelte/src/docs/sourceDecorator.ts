@@ -89,7 +89,7 @@ export function generateSvelteSource(
   component: any,
   args: Args,
   argTypes: ArgTypes,
-  slotProperty?: string
+  slotProperty?: string | null
 ): string | null {
   const name = getComponentName(component);
 

@@ -29,5 +29,6 @@ export * from './utils/symlinks';
 export * from './utils/template';
 export * from './utils/validate-config';
 export * from './utils/validate-configuration-files';
+export * from './utils/satisfies';
 
 export { createFileSystemCache } from './utils/file-cache';
