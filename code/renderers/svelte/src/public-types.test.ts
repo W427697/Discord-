@@ -3,9 +3,9 @@ import { satisfies } from '@storybook/core-common';
 import { ComponentAnnotations, StoryAnnotations } from '@storybook/csf';
 import { expectTypeOf } from 'expect-type';
 import { ComponentProps, SvelteComponentTyped } from 'svelte';
-import Button from './___test___/Button.svelte';
-import Decorator from './___test___/Decorator.svelte';
-import Decorator2 from './___test___/Decorator2.svelte';
+import Button from './__test__/Button.svelte';
+import Decorator from './__test__/Decorator.svelte';
+import Decorator2 from './__test__/Decorator2.svelte';
 
 import { DecoratorFn, Meta, StoryObj } from './public-types';
 import { SvelteFramework } from './types';
