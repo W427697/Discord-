@@ -1,7 +1,6 @@
 /* eslint no-underscore-dangle: ["error", { "allow": ["_vnode"] }] */
 
-import { ComponentOptions } from 'vue';
-import Vue from 'vue/dist/vue';
+import Vue, { ComponentOptions, VNode } from 'vue';
 import { vnodeToString } from './sourceDecorator';
 
 expect.addSnapshotSerializer({
@@ -11,11 +10,12 @@ expect.addSnapshotSerializer({
 
 const getVNode = (Component: ComponentOptions<any, any, any>) => {
   const vm = new Vue({
-    render(h: (c: any) => unknown) {
+    render(h) {
       return h(Component);
     },
   }).$mount();
 
+  // @ts-expect-error TS says it is called $vnode
   return vm.$children[0]._vnode;
 };
 

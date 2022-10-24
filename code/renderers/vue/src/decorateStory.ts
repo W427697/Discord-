@@ -84,7 +84,7 @@ export function decorateStory(
       return prepare(decoratedStory, story as any);
     },
     (context) => {
-      return prepare(storyFn(context), null, context);
+      return prepare(storyFn(context), undefined, context);
     }
   );
 }

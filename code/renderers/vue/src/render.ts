@@ -22,16 +22,15 @@ type Instance = CombinedVueInstance<
   unknown
 >;
 const getRoot = (domElement: Element): Instance => {
-  if (map.has(domElement)) {
-    return map.get(domElement);
-  }
+  const cachedInstance = map.get(domElement);
+  if (cachedInstance != null) return cachedInstance;
 
   // Create a dummy "target" underneath #storybook-root
   // that Vue2 will replace on first render with #storybook-vue-root
   const target = document.createElement('div');
   domElement.appendChild(target);
 
-  const instance = new Vue({
+  const instance: Instance = new Vue({
     beforeDestroy() {
       map.delete(domElement);
     },
@@ -41,12 +40,12 @@ const getRoot = (domElement: Element): Instance => {
         [VALUES]: {},
       };
     },
-    // @ts-expect-error What's going on here?
+    // @ts-expect-error What's going on here? (TS says that we should not return an array here, but the `h` directly)
     render(h) {
       map.set(domElement, instance);
       return this[COMPONENT] ? [h(this[COMPONENT])] : undefined;
     },
-  }) as Instance;
+  });
 
   return instance;
 };
@@ -100,7 +99,7 @@ export function renderToDOM(
   Vue.config.errorHandler = showException;
   const element = storyFn();
 
-  let mountTarget: Element;
+  let mountTarget: Element | null;
 
   // Vue2 mount always replaces the mount target with Vue-generated DOM.
   // https://v2.vuejs.org/v2/api/#el:~:text=replaced%20with%20Vue%2Dgenerated%20DOM
@@ -134,7 +133,7 @@ export function renderToDOM(
   root[VALUES] = { ...element.options[VALUES] };
 
   if (!map.has(domElement)) {
-    root.$mount(mountTarget);
+    root.$mount(mountTarget ?? undefined);
   }
 
   showMain();

@@ -9,7 +9,7 @@ export interface ShowErrorArgs {
 }
 
 // TODO: some vue expert needs to look at this
-export type StoryFnVueReturnType = string | Component;
+export type StoryFnVueReturnType = string | Component | null;
 
 export type StoryContext = StoryContextBase<VueFramework>;
 
