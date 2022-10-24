@@ -5,12 +5,29 @@ const scriptPath = path.join(__dirname, '..', 'scripts');
 module.exports = {
   root: true,
   extends: [path.join(scriptPath, '.eslintrc.js')],
+  parserOptions: {
+    tsconfigRootDir: __dirname,
+    project: ['./tsconfig.json'],
+  },
   overrides: [
     {
       // this package depends on a lot of peerDependencies we don't want to specify, because npm would install them
       files: ['**/addons/docs/**/*'],
       rules: {
         'import/no-extraneous-dependencies': 'off',
+      },
+    },
+    {
+      files: ['*.js', '*.jsx', '*.json'],
+      parserOptions: {
+        project: null,
+      },
+      rules: {
+        // '@typescript-eslint/no-var-requires': 'off',
+        '@typescript-eslint/dot-notation': 'off',
+        '@typescript-eslint/no-implied-eval': 'off',
+        '@typescript-eslint/no-throw-literal': 'off',
+        '@typescript-eslint/return-await': 'off',
       },
     },
     {
