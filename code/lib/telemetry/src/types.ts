@@ -3,14 +3,7 @@ import type { PM } from 'detect-package-manager';
 
 import type { MonorepoType } from './get-monorepo-type';
 
-export type EventType =
-  | 'start'
-  | 'build'
-  | 'upgrade'
-  | 'init'
-  | 'error-build'
-  | 'error-dev'
-  | 'error-metadata';
+export type EventType = 'boot' | 'dev' | 'build' | 'upgrade' | 'init' | 'error' | 'error-metadata';
 
 export interface Dependency {
   version: string | undefined;
@@ -62,6 +55,7 @@ export interface Options {
   immediate: boolean;
   configDir?: string;
   enableCrashReports?: boolean;
+  stripMetadata?: boolean;
 }
 
 export interface TelemetryData {
