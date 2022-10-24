@@ -39,43 +39,33 @@ export async function storybookDevServer(options: Options) {
   // try get index generator, if failed, send telemetry without storyCount, then rethrow the error
   let initializedStoryIndexGenerator: Promise<StoryIndexGenerator> = Promise.resolve(undefined);
   if (features?.buildStoriesJson || features?.storyStoreV7) {
-    try {
-      const workingDir = process.cwd();
-      const directories = {
-        configDir: options.configDir,
-        workingDir,
-      };
-      const normalizedStories = normalizeStories(
-        await options.presets.apply('stories'),
-        directories
-      );
-      const storyIndexers = await options.presets.apply('storyIndexers', []);
-      const docsOptions = await options.presets.apply<DocsOptions>('docs', {});
+    const workingDir = process.cwd();
+    const directories = {
+      configDir: options.configDir,
+      workingDir,
+    };
+    const normalizedStories = normalizeStories(await options.presets.apply('stories'), directories);
+    const storyIndexers = await options.presets.apply('storyIndexers', []);
+    const docsOptions = await options.presets.apply<DocsOptions>('docs', {});
 
-      const generator = new StoryIndexGenerator(normalizedStories, {
-        ...directories,
-        storyIndexers,
-        docs: docsOptions,
-        workingDir,
-        storiesV2Compatibility: !features?.breakingChangesV7 && !features?.storyStoreV7,
-        storyStoreV7: features?.storyStoreV7,
-      });
+    const generator = new StoryIndexGenerator(normalizedStories, {
+      ...directories,
+      storyIndexers,
+      docs: docsOptions,
+      workingDir,
+      storiesV2Compatibility: !features?.breakingChangesV7 && !features?.storyStoreV7,
+      storyStoreV7: features?.storyStoreV7,
+    });
 
-      initializedStoryIndexGenerator = generator.initialize().then(() => generator);
+    initializedStoryIndexGenerator = generator.initialize().then(() => generator);
 
-      useStoriesJson({
-        router,
-        initializedStoryIndexGenerator,
-        normalizedStories,
-        serverChannel,
-        workingDir,
-      });
-    } catch (err) {
-      if (!core?.disableTelemetry) {
-        telemetry('start');
-      }
-      throw err;
-    }
+    useStoriesJson({
+      router,
+      initializedStoryIndexGenerator,
+      normalizedStories,
+      serverChannel,
+      workingDir,
+    });
   }
 
   if (!core?.disableTelemetry) {
@@ -89,7 +79,7 @@ export async function storybookDevServer(options: Options) {
             },
           }
         : undefined;
-      telemetry('start', payload, { configDir: options.configDir });
+      telemetry('dev', payload, { configDir: options.configDir });
     });
   }
 
