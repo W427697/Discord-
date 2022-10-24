@@ -4,7 +4,8 @@ const craTemplates = {
     script: 'npx create-react-app .',
     cadence: ['ci', 'daily', 'weekly'],
     expected: {
-      framework: '@storybook/cra',
+      // TODO: change this to @storybook/cra once that package is created
+      framework: '@storybook/react-webpack5',
       renderer: '@storybook/react',
       builder: '@storybook/builder-webpack5',
     },
@@ -16,7 +17,31 @@ const craTemplates = {
     // Re-enable once https://github.com/storybookjs/storybook/issues/19351 is fixed.
     skipTasks: ['smoke-test'],
     expected: {
-      framework: '@storybook/cra',
+      // TODO: change this to @storybook/cra once that package is created
+      framework: '@storybook/react-webpack5',
+      renderer: '@storybook/react',
+      builder: '@storybook/builder-webpack5',
+    },
+  },
+};
+
+const nextjsTemplates = {
+  'nextjs/default-js': {
+    name: 'Next.js (JavaScript)',
+    script: 'npx create-next-app {{beforeDir}}',
+    cadence: ['ci', 'daily', 'weekly'],
+    expected: {
+      framework: '@storybook/nextjs',
+      renderer: '@storybook/react',
+      builder: '@storybook/builder-webpack5',
+    },
+  },
+  'nextjs/default-ts': {
+    name: 'Next.js (TypeScript)',
+    script: 'npx create-next-app {{beforeDir}} --typescript',
+    cadence: ['ci', 'daily', 'weekly'],
+    expected: {
+      framework: '@storybook/nextjs',
       renderer: '@storybook/react',
       builder: '@storybook/builder-webpack5',
     },
@@ -104,7 +129,7 @@ const vue2ViteTemplates = {
     // Re-enable once https://github.com/storybookjs/storybook/issues/19351 is fixed.
     skipTasks: ['smoke-test'],
     expected: {
-      framework: '@storybook/vue2-vite',
+      framework: '@storybook/vue-vite',
       renderer: '@storybook/vue',
       builder: '@storybook/builder-vite',
     },
@@ -287,8 +312,8 @@ const preactWebpackTemplates = {
 
 export default {
   ...craTemplates,
-  ...reactWebpackTemplates,
   ...reactViteTemplates,
+  ...reactWebpackTemplates,
   ...vue2ViteTemplates,
   ...vue3ViteTemplates,
   ...svelteViteTemplates,
@@ -298,4 +323,5 @@ export default {
   ...vueCliTemplates,
   ...htmlWebpackTemplates,
   ...preactWebpackTemplates,
+  ...nextjsTemplates,
 } as const;
