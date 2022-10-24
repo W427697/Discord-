@@ -1,5 +1,3 @@
-// import vitePluginReact from '@vitejs/plugin-react';
-import type { PluginOption } from 'vite';
 import type { StorybookConfig } from '../../frameworks/react-vite/dist';
 
 const config: StorybookConfig = {

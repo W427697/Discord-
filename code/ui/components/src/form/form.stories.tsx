@@ -4,7 +4,6 @@ import { action } from '@storybook/addon-actions';
 
 import * as InputComponents from './input/input';
 import { Field as FieldComponent } from './field/field';
-import { Spaced } from '../spaced/Spaced';
 
 const Flexed = styled(FieldComponent)({ display: 'flex' });
 

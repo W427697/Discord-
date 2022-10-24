@@ -1,7 +1,7 @@
 import React, { Fragment, Key } from 'react';
 import { action } from '@storybook/addon-actions';
 import { logger } from '@storybook/client-logger';
-import { Meta, Story } from '@storybook/react';
+import type { Meta } from '@storybook/react';
 import { Tabs, TabsState, TabWrapper } from './tabs';
 
 const colours = Array.from(new Array(15), (val, index) => index).map((i) =>
