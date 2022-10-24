@@ -1,3 +1,12 @@
+## 6.5.13 (October 24, 2022)
+
+### Bug Fixes
+
+- Telemetry: Send start/build events even when there is no generator [#19507](https://github.com/storybooks/storybook/pull/19507)
+- Telemetry: Fix inconsistent debug [#19509](https://github.com/storybooks/storybook/pull/19509)
+- Addon-docs: Pass remarks plugins to mdx loader [#18740](https://github.com/storybooks/storybook/pull/18740)
+- Angular: Alias decorateStory as applyDecorators [#19189](https://github.com/storybooks/storybook/pull/19189)
+
 ## 6.5.13-alpha.1 (October 24, 2022)
 
 ### Bug Fixes
