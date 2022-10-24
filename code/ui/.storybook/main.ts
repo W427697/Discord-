@@ -3,14 +3,19 @@ import type { StorybookConfig } from '../../frameworks/react-vite/dist';
 const config: StorybookConfig = {
   stories: [
     {
-      directory: '../manager/src/**/',
-      files: '*.stories.@(ts|tsx|js|jsx|mdx)',
+      directory: '../manager/src',
+      // files: '*.stories.@(ts|tsx|js|jsx|mdx)',
       titlePrefix: 'Manager',
     },
     {
-      directory: '../components/src/**/',
-      files: '*.stories.@(js|jsx|ts|tsx|mdx)',
+      directory: '../components/src',
+      // files: '*.stories.@(js|jsx|ts|tsx|mdx)',
       titlePrefix: 'Components',
+    },
+    {
+      directory: '../blocks/src',
+      // files: '*.stories.@(js|jsx|ts|tsx|mdx)',
+      titlePrefix: 'Doc Blocks',
     },
   ],
   addons: [
