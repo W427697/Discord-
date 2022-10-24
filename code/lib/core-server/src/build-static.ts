@@ -77,12 +77,14 @@ export async function buildStaticStandalone(
   });
 
   const [previewBuilder, managerBuilder] = await getBuilders({ ...options, presets });
+  const { renderer } = await presets.apply<CoreConfig>('core', undefined);
 
   presets = await loadAllPresets({
     corePresets: [
       require.resolve('./presets/common-preset'),
       ...(managerBuilder.corePresets || []),
       ...(previewBuilder.corePresets || []),
+      ...(renderer ? [renderer] : []),
       ...corePresets,
       require.resolve('./presets/babel-cache-preset'),
     ],
