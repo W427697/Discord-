@@ -1,4 +1,4 @@
-/* eslint-disable camelcase */
+/* eslint-disable @typescript-eslint/naming-convention */
 import type { StorybookConfig } from '@storybook/core-common';
 import type { SupportedRenderers } from '../project_types';
 

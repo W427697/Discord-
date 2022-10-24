@@ -9,7 +9,19 @@ module.exports = {
     tsconfigRootDir: __dirname,
     project: ['./tsconfig.json'],
   },
+  rules: {
+    'eslint-comments/disable-enable-pair': ['error', { allowWholeFile: true }],
+    'react-hooks/rules-of-hooks': 'off',
+    'jest/no-done-callback': 'off',
+  },
   overrides: [
+    {
+      // this package depends on a lot of peerDependencies we don't want to specify, because npm would install them
+      files: ['**/frameworks/angular/template/**/*'],
+      rules: {
+        '@typescript-eslint/no-useless-constructor': 'off',
+      },
+    },
     {
       // this package depends on a lot of peerDependencies we don't want to specify, because npm would install them
       files: ['**/addons/docs/**/*'],
@@ -18,7 +30,15 @@ module.exports = {
       },
     },
     {
-      files: ['*.js', '*.jsx', '*.json'],
+      files: [
+        '*.js',
+        '*.jsx',
+        '*.json',
+        '*.html',
+        '**/.storybook/*.ts',
+        '**/.storybook/*.tsx',
+        'setup-jest.ts',
+      ],
       parserOptions: {
         project: null,
       },

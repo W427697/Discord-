@@ -263,6 +263,7 @@ export class CsfFile {
                 }
                 let parameters;
                 if (t.isVariableDeclarator(decl) && t.isObjectExpression(decl.init)) {
+                  // eslint-disable-next-line @typescript-eslint/naming-convention
                   let __isArgsStory = true; // assume default render is an args story
                   // CSF3 object export
                   decl.init.properties.forEach((p: t.ObjectProperty) => {

@@ -165,6 +165,7 @@ export const StoryTable: FC<
     const story = useStory(storyId, context);
     // eslint-disable-next-line prefer-const
     let [args, updateArgs, resetArgs] = useArgs(storyId, context);
+
     const [globals] = useGlobals(context);
     if (!story) return <PureArgsTable isLoading updateArgs={updateArgs} resetArgs={resetArgs} />;
 

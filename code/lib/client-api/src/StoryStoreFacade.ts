@@ -158,6 +158,7 @@ export class StoryStoreFacade<TFramework extends AnyFramework> {
     // OTOH, if they have changed, let's clear them out first
     this.clearFilenameExports(fileName);
 
+    // eslint-disable-next-line @typescript-eslint/naming-convention
     const { default: defaultExport, __namedExportsOrder, ...namedExports } = fileExports;
     // eslint-disable-next-line prefer-const
     let { id: componentId, title } = defaultExport || {};
@@ -212,6 +213,7 @@ export class StoryStoreFacade<TFramework extends AnyFramework> {
           exportName;
 
         if (!seenTitles.has(title) && docsOptions.docsPage) {
+          // eslint-disable-next-line @typescript-eslint/no-shadow
           const name = docsOptions.defaultName;
           const docsId = toId(componentId || title, name);
           seenTitles.add(title);

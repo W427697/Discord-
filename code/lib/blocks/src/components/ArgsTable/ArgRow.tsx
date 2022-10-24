@@ -6,6 +6,7 @@ import { codeCommon } from '@storybook/components';
 import { ArgType, Args, TableAnnotation } from './types';
 import { ArgJsDoc } from './ArgJsDoc';
 import { ArgValue } from './ArgValue';
+// eslint-disable-next-line import/no-cycle
 import { ArgControl, ArgControlProps } from './ArgControl';
 
 interface ArgRowProps {

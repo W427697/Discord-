@@ -10,7 +10,6 @@ type MetaExports = ModuleExports;
 class ConstantMap<TKey, TValue extends string> {
   entries = new Map<TKey, TValue>();
 
-  // eslint-disable-next-line no-useless-constructor
   constructor(private prefix: string) {}
 
   get(key: TKey) {

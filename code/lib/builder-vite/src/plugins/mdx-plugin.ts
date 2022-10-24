@@ -52,6 +52,7 @@ export function mdxPlugin(options: Options): Plugin {
       );
       reactRefresh = reactRefreshPlugins.find((p) => p.transform);
     },
+    // eslint-disable-next-line @typescript-eslint/no-shadow
     async transform(src, id, options) {
       if (!filter(id)) return undefined;
 

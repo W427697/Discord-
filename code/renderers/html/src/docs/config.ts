@@ -1,4 +1,5 @@
 import { SourceType, enhanceArgTypes } from '@storybook/docs-tools';
+// eslint-disable-next-line import/no-cycle
 import { sourceDecorator } from './sourceDecorator';
 
 export const decorators = [sourceDecorator];

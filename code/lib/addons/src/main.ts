@@ -8,6 +8,7 @@ import type { RenderData as RouterData } from '@storybook/router';
 import { logger } from '@storybook/client-logger';
 import type { ThemeVars } from '@storybook/theming';
 import { mockChannel } from './storybook-channel-mock';
+// eslint-disable-next-line import/no-cycle
 import { types, Types } from './types';
 
 export { Channel };

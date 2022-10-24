@@ -1,11 +1,13 @@
 import type { ReactElement } from 'react';
 import type { RenderData } from '@storybook/router';
 
+// eslint-disable-next-line import/no-cycle
 import { ModuleFn } from '../index';
 import { Options } from '../store';
 
 export type ViewMode = 'story' | 'info' | 'settings' | 'page' | undefined | string;
 
+// eslint-disable-next-line @typescript-eslint/naming-convention
 export enum types {
   TAB = 'tab',
   PANEL = 'panel',

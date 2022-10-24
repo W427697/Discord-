@@ -116,6 +116,7 @@ export function composeStories<TModule extends CSFExports>(
   globalConfig: ProjectAnnotations<AnyFramework>,
   composeStoryFn: ComposeStory
 ) {
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   const { default: meta, __esModule, __namedExportsOrder, ...stories } = storiesImport;
   const composedStories = Object.entries(stories).reduce((storiesMap, [exportsName, story]) => {
     if (!isExportStory(exportsName, meta)) {

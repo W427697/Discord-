@@ -49,6 +49,7 @@ export const hrefTo = (title: ComponentTitle, name: StoryName): Promise<string> 
   });
 };
 
+// eslint-disable-next-line @typescript-eslint/no-shadow
 const valueOrCall = (args: string[]) => (value: string | ((...args: string[]) => string)) =>
   typeof value === 'function' ? value(...args) : value;
 

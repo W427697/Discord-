@@ -1,5 +1,6 @@
 import global from 'global';
 import { dedent } from 'ts-dedent';
+// eslint-disable-next-line import/no-cycle
 import {
   transformSetStoriesStoryDataToStoriesHash,
   SetStoriesStory,

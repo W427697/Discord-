@@ -45,6 +45,7 @@ export class WebView {
 
   constructor() {
     // Special code for testing situations
+    // eslint-disable-next-line @typescript-eslint/naming-convention
     const { __SPECIAL_TEST_PARAMETER__ } = qs.parse(document.location.search, {
       ignoreQueryPrefix: true,
     });

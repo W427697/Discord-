@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-cycle
 import { StoryWrapper, LegacyStoryFn, StoryContext } from './types';
 
 type MakeDecoratorResult = (...args: any) => any;

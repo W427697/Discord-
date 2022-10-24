@@ -1,7 +1,9 @@
 import React, { FC, ChangeEvent, useState } from 'react';
 import { styled } from '@storybook/theming';
 import { logger } from '@storybook/client-logger';
+// eslint-disable-next-line import/no-cycle
 import { ControlProps, OptionsMultiSelection, NormalizedOptionsConfig } from '../types';
+// eslint-disable-next-line import/no-cycle
 import { selectedKeys, selectedValues } from './helpers';
 import { getControlId } from '../helpers';
 

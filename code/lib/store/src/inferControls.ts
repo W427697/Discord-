@@ -59,6 +59,7 @@ const inferControl = (argType: StrictInputType, name: string, matchers: Controls
 export const inferControls: ArgTypesEnhancer<AnyFramework> = (context) => {
   const {
     argTypes,
+    // eslint-disable-next-line @typescript-eslint/naming-convention
     parameters: { __isArgsStory, controls: { include = null, exclude = null, matchers = {} } = {} },
   } = context;
   if (!__isArgsStory) return argTypes;

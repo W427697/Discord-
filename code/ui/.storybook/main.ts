@@ -17,13 +17,13 @@ const config: StorybookConfig = {
     name: '@storybook/react-vite',
     options: {},
   },
-  viteFinal: (config) => {
+  viteFinal: (viteConfig) => {
     return {
-      ...config,
+      ...viteConfig,
       optimizeDeps: {
-        ...config.optimizeDeps,
+        ...viteConfig.optimizeDeps,
         include: [
-          ...(config.optimizeDeps?.include ?? []),
+          ...(viteConfig.optimizeDeps?.include ?? []),
           'react-element-to-jsx-string',
           'core-js/modules/es.regexp.flags.js',
           'react-colorful',
@@ -34,7 +34,10 @@ const config: StorybookConfig = {
       and adding them back in, but with the `jsxRuntime: 'classic'` option.
       TODO: When we've upgraded to React 18 all of this shouldn't be necessary anymore
       */
-      plugins: [...withoutReactPlugins(config.plugins), vitePluginReact({ jsxRuntime: 'classic' })],
+      plugins: [
+        ...withoutReactPlugins(viteConfig.plugins),
+        vitePluginReact({ jsxRuntime: 'classic' }),
+      ],
     };
   },
 };

@@ -58,8 +58,8 @@ export type StoryObj<MetaOrCmpOrArgs = Args> = MetaOrCmpOrArgs extends {
     >
   : StoryAnnotations<ReactFramework, MetaOrCmpOrArgs>;
 
-type ActionArgs<Args> = {
-  [P in keyof Args as ((...args: any[]) => void) extends Args[P] ? P : never]: Args[P];
+type ActionArgs<RArgs> = {
+  [P in keyof RArgs as ((...args: any[]) => void) extends RArgs[P] ? P : never]: RArgs[P];
 };
 
 /**

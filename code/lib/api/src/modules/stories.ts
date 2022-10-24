@@ -15,7 +15,9 @@ import {
 } from '@storybook/core-events';
 import { logger } from '@storybook/client-logger';
 
+// eslint-disable-next-line import/no-cycle
 import { getEventMetadata } from '../lib/events';
+// eslint-disable-next-line import/no-cycle
 import {
   denormalizeStoryParameters,
   transformSetStoriesStoryDataToStoriesHash,

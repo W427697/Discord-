@@ -3,6 +3,7 @@ import { STORIES_COLLAPSE_ALL, STORIES_EXPAND_ALL } from '@storybook/core-events
 import { Channel } from '@storybook/channels';
 import type { Listener } from '@storybook/channels';
 
+// eslint-disable-next-line import/no-cycle
 import { ModuleFn } from '../index';
 
 export interface SubAPI {

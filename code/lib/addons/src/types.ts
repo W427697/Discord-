@@ -15,6 +15,7 @@ import type {
   ComponentTitle,
 } from '@storybook/csf';
 
+// eslint-disable-next-line import/no-cycle
 import { Addon } from './index';
 
 // NOTE: The types exported from this file are simplified versions of the types exported
@@ -123,6 +124,7 @@ export type DecoratorFunction<StoryFnReturnType = unknown> = DecoratorFunctionFo
 >;
 export type LoaderFunction = LoaderFunctionForFramework<ReturnTypeFramework<unknown>>;
 
+// eslint-disable-next-line @typescript-eslint/naming-convention
 export enum types {
   TAB = 'tab',
   PANEL = 'panel',
@@ -199,6 +201,7 @@ export type BaseDecorators<StoryFnReturnType> = Array<
   (story: () => StoryFnReturnType, context: StoryContext) => StoryFnReturnType
 >;
 
+// eslint-disable-next-line @typescript-eslint/no-shadow
 export interface BaseAnnotations<Args, StoryFnReturnType> {
   /**
    * Dynamic data that are provided (and possibly updated by) Storybook and its addons.
@@ -237,6 +240,7 @@ export interface BaseAnnotations<Args, StoryFnReturnType> {
   play?: (context: StoryContext) => Promise<void> | void;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-shadow
 export interface Annotations<Args, StoryFnReturnType>
   extends BaseAnnotations<Args, StoryFnReturnType> {
   /**
@@ -312,6 +316,7 @@ export interface BaseMeta<ComponentType> {
   subcomponents?: Record<string, ComponentType>;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-shadow
 export type BaseStoryObject<Args, StoryFnReturnType> = {
   /**
    * Override the display name in the UI
@@ -319,10 +324,12 @@ export type BaseStoryObject<Args, StoryFnReturnType> = {
   storyName?: string;
 };
 
+// eslint-disable-next-line @typescript-eslint/no-shadow
 export type BaseStoryFn<Args, StoryFnReturnType> = {
   (args: Args, context: StoryContext): StoryFnReturnType;
 } & BaseStoryObject<Args, StoryFnReturnType>;
 
+// eslint-disable-next-line @typescript-eslint/no-shadow
 export type BaseStory<Args, StoryFnReturnType> =
   | BaseStoryFn<Args, StoryFnReturnType>
   | BaseStoryObject<Args, StoryFnReturnType>;

@@ -387,6 +387,7 @@ describe('StoryIndexGenerator', () => {
           options
         );
 
+        // eslint-disable-next-line @typescript-eslint/no-shadow
         const docsSpecifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
           './src/docs2/MetaOf.mdx',
           options

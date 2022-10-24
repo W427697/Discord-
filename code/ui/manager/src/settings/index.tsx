@@ -12,30 +12,36 @@ import { matchesModifiers, matchesKeyCode } from '../keybinding';
 
 const { document } = global;
 
-const TabBarButton = React.memo<{
+const TabBarButton = React.memo(function TabBarButton({
+  changeTab,
+  id,
+  title,
+}: {
   changeTab: (tab: string) => void;
   id: string;
   title: string;
-}>(({ changeTab, id, title }) => (
-  <Location>
-    {({ path }) => {
-      const active = path.includes(`settings/${id}`);
-      return (
-        <TabButton
-          id={`tabbutton-${id}`}
-          className={['tabbutton'].concat(active ? ['tabbutton-active'] : []).join(' ')}
-          type="button"
-          key="id"
-          active={active}
-          onClick={() => changeTab(id)}
-          role="tab"
-        >
-          {title}
-        </TabButton>
-      );
-    }}
-  </Location>
-));
+}) {
+  return (
+    <Location>
+      {({ path }) => {
+        const active = path.includes(`settings/${id}`);
+        return (
+          <TabButton
+            id={`tabbutton-${id}`}
+            className={['tabbutton'].concat(active ? ['tabbutton-active'] : []).join(' ')}
+            type="button"
+            key="id"
+            active={active}
+            onClick={() => changeTab(id)}
+            role="tab"
+          >
+            {title}
+          </TabButton>
+        );
+      }}
+    </Location>
+  );
+});
 
 const Content = styled(ScrollArea)(
   {

@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import { Context, createContext } from 'react';
 import { window as globalWindow } from 'global';
 
@@ -11,7 +12,6 @@ export type { DocsContextProps };
 // we will have multiple DocsContext definitions - leading to lost context in
 // the React component tree.
 // This was specifically a problem with the Vite builder.
-/* eslint-disable no-underscore-dangle */
 if (globalWindow && globalWindow.__DOCS_CONTEXT__ === undefined) {
   globalWindow.__DOCS_CONTEXT__ = createContext(null);
   globalWindow.__DOCS_CONTEXT__.displayName = 'DocsContext';

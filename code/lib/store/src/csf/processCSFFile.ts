@@ -37,6 +37,7 @@ export function processCSFFile<TFramework extends AnyFramework>(
   importPath: Path,
   title: ComponentTitle
 ): CSFFile<TFramework> {
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   const { default: defaultExport, __namedExportsOrder, ...namedExports } = moduleExports;
 
   const meta: NormalizedComponentAnnotations<TFramework> =

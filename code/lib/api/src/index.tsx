@@ -39,17 +39,24 @@ import type {
 import type { ComposedRef, Refs } from './modules/refs';
 
 import * as provider from './modules/provider';
+// eslint-disable-next-line import/no-cycle
 import * as addons from './modules/addons';
+// eslint-disable-next-line import/no-cycle
 import * as channel from './modules/channel';
+// eslint-disable-next-line import/no-cycle
 import * as notifications from './modules/notifications';
 import * as settings from './modules/settings';
 import * as releaseNotes from './modules/release-notes';
+// eslint-disable-next-line import/no-cycle
 import * as stories from './modules/stories';
+// eslint-disable-next-line import/no-cycle
 import * as refs from './modules/refs';
 import * as layout from './modules/layout';
 import * as shortcuts from './modules/shortcuts';
+// eslint-disable-next-line import/no-cycle
 import * as url from './modules/url';
 import * as version from './modules/versions';
+// eslint-disable-next-line import/no-cycle
 import * as globals from './modules/globals';
 
 const { ActiveTabs } = layout;

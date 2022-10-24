@@ -10,6 +10,7 @@ import { queryFromLocation, buildArgsParam } from '@storybook/router';
 import { dequal as deepEqual } from 'dequal';
 import global from 'global';
 
+// eslint-disable-next-line import/no-cycle
 import { ModuleArgs, ModuleFn } from '../index';
 import { Layout, UI } from './layout';
 

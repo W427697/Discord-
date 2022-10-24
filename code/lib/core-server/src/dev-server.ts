@@ -122,6 +122,7 @@ export async function storybookDevServer(options: Options) {
   }
 
   // User's own static files
+
   await useStatics(router, options);
 
   getMiddleware(options.configDir)(router);

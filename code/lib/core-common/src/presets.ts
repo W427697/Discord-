@@ -207,7 +207,7 @@ export async function loadPreset(
 
     if (Array.isArray(contents)) {
       const subPresets = contents;
-      return loadPresets(subPresets, level + 1, storybookOptions);
+      return await loadPresets(subPresets, level + 1, storybookOptions);
     }
 
     if (isObject(contents)) {

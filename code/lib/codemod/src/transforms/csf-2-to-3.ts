@@ -6,7 +6,7 @@ import { jscodeshiftToPrettierParser } from '../lib/utils';
 
 const logger = console;
 
-const _rename = (annotation: string) => {
+const renameAnnotation = (annotation: string) => {
   return annotation === 'storyName' ? 'name' : annotation;
 };
 
@@ -104,7 +104,7 @@ function transform({ source }: { source: string }, api: any, options: { parser?:
   const objectExports: Record<string, t.Statement> = {};
   Object.entries(csf._storyExports).forEach(([key, decl]) => {
     const annotations = Object.entries(csf._storyAnnotations[key]).map(([annotation, val]) => {
-      return t.objectProperty(t.identifier(_rename(annotation)), val as t.Expression);
+      return t.objectProperty(t.identifier(renameAnnotation(annotation)), val as t.Expression);
     });
 
     if (t.isVariableDeclarator(decl)) {

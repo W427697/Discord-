@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react';
+// eslint-disable-next-line import/no-cycle
 import { ModuleFn } from '../index';
 
 export interface Notification {

@@ -79,6 +79,7 @@ export const babel = async (baseConfig: TransformOptions): Promise<TransformOpti
 };
 
 export const webpackFinal: StorybookConfig['webpackFinal'] = async (baseConfig, options) => {
+  // eslint-disable-next-line @typescript-eslint/no-shadow
   const frameworkOptions = await options.presets.apply<{ options: FrameworkOptions }>(
     'frameworkOptions'
   );

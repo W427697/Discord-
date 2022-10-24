@@ -5,6 +5,7 @@ import { styled } from '@storybook/theming';
 
 import { Form } from '@storybook/components';
 import { getControlId, getControlSetterButtonId } from './helpers';
+// eslint-disable-next-line import/no-cycle
 import { ControlProps, BooleanValue, BooleanConfig } from './types';
 
 const Label = styled.label(({ theme }) => ({

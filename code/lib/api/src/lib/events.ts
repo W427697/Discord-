@@ -1,5 +1,6 @@
 import { logger } from '@storybook/client-logger';
 
+// eslint-disable-next-line import/no-cycle
 import { getSourceType, ComposedRef } from '../modules/refs';
 import type { API } from '../index';
 

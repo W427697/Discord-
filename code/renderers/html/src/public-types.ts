@@ -4,6 +4,7 @@ import type {
   StoryAnnotations,
   AnnotatedStoryFn,
 } from '@storybook/csf';
+// eslint-disable-next-line import/no-cycle
 import { HtmlFramework } from './types';
 
 export type { Args, ArgTypes, Parameters } from '@storybook/csf';

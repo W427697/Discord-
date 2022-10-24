@@ -5,6 +5,7 @@ import type { Globals, GlobalTypes } from '@storybook/csf';
 
 import type { ModuleFn } from '../index';
 
+// eslint-disable-next-line import/no-cycle
 import { getEventMetadata } from '../lib/events';
 
 interface SetGlobalsPayload {

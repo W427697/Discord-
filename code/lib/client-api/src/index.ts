@@ -11,8 +11,10 @@ import {
   setGlobalRender,
 } from './ClientApi';
 
+// eslint-disable-next-line import/export
 export type { GetStorybookKind, GetStorybookStory } from './ClientApi';
 
+// eslint-disable-next-line import/export
 export * from './types';
 
 export * from './queryparams';

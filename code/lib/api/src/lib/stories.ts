@@ -16,6 +16,7 @@ import type {
 } from '@storybook/csf';
 import type { DocsOptions } from '@storybook/core-common';
 
+// eslint-disable-next-line import/no-cycle
 import { combineParameters } from '../index';
 import merge from './merge';
 import type { Provider } from '../modules/provider';
