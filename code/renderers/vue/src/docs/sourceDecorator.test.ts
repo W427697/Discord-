@@ -1,6 +1,6 @@
 /* eslint no-underscore-dangle: ["error", { "allow": ["_vnode"] }] */
 
-import Vue, { ComponentOptions, VNode } from 'vue';
+import Vue, { ComponentOptions } from 'vue';
 import { vnodeToString } from './sourceDecorator';
 
 expect.addSnapshotSerializer({
