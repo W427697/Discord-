@@ -31,7 +31,10 @@ module.exports = {
     '^.+\\.[jt]sx?$': '<rootDir>/../scripts/utils/jest-transform-js.js',
     '^.+\\.mdx$': '@storybook/addon-docs/jest-transform-mdx',
   },
-  transformIgnorePatterns: ['/node_modules/(?!lit-html).+\\.js'],
+  transformIgnorePatterns: [
+    '/node_modules/(?!(lit-html|@mdx-js)).+\\.js',
+    '/node_modules/(?!).+\\.js',
+  ],
   testMatch: ['**/__tests__/**/*.[jt]s?(x)', '**/?(*.)+(spec|test).[jt]s?(x)'],
   testPathIgnorePatterns: [
     '/storybook-static/',
@@ -44,6 +47,8 @@ module.exports = {
     '/examples/*/src/*.*',
     '/examples/*/src/*/*.*',
     '/examples/*/src/*/*/*.*',
+    // TODO: Can not get svelte-jester to work, but also not necessary for this test, as it is run by tsc/svelte-check.
+    '/renderers/svelte/src/public-types.test.ts',
   ],
   collectCoverage: false,
   collectCoverageFrom: [

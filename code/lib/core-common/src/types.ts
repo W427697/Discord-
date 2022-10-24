@@ -11,6 +11,7 @@ import type { FileSystemCache } from './utils/file-cache';
  */
 
 export type BuilderName = 'webpack5' | '@storybook/builder-webpack5' | string;
+export type RendererName = string;
 
 export interface CoreConfig {
   builder?:
@@ -19,6 +20,7 @@ export interface CoreConfig {
         name: BuilderName;
         options?: Record<string, any>;
       };
+  renderer?: RendererName;
   disableWebpackDefaults?: boolean;
   channelOptions?: Partial<TelejsonOptions>;
   /**
@@ -362,11 +364,6 @@ export interface StorybookConfig {
      * Will be removed in 7.0.
      */
     warnOnLegacyHierarchySeparator?: boolean;
-
-    /**
-     * Preview MDX2 support, will become default in 7.0
-     */
-    previewMdx2?: boolean;
   };
 
   /**

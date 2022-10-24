@@ -1,7 +1,9 @@
-import { UpdateNotifier, Package } from 'update-notifier';
+import type { Package } from 'update-notifier';
 import chalk from 'chalk';
 import prompts from 'prompts';
 import { telemetry } from '@storybook/telemetry';
+import { withTelemetry } from '@storybook/core-server';
+
 import { installableProjectTypes, ProjectType } from './project_types';
 import { detect, isStorybookInstalled, detectLanguage, detectBuilder } from './detect';
 import { commandLog, codeLog, paddedLog } from './helpers';
@@ -11,6 +13,7 @@ import emberGenerator from './generators/EMBER';
 import reactGenerator from './generators/REACT';
 import reactNativeGenerator from './generators/REACT_NATIVE';
 import reactScriptsGenerator from './generators/REACT_SCRIPTS';
+import nextjsGenerator from './generators/NEXTJS';
 import sfcVueGenerator from './generators/SFC_VUE';
 import vueGenerator from './generators/VUE';
 import vue3Generator from './generators/VUE3';
@@ -107,6 +110,11 @@ const installStorybook = (
       case ProjectType.REACT_PROJECT:
         return reactGenerator(packageManager, npmOptions, generatorOptions).then(
           commandLog('Adding Storybook support to your "React" library\n')
+        );
+
+      case ProjectType.NEXTJS:
+        return nextjsGenerator(packageManager, npmOptions, generatorOptions).then(
+          commandLog('Adding Storybook support to your "Next" app\n')
         );
 
       case ProjectType.SFC_VUE:
@@ -250,7 +258,7 @@ const projectTypeInquirer = async (
   return Promise.resolve();
 };
 
-export async function initiate(options: CommandOptions, pkg: Package): Promise<void> {
+async function doInitiate(options: CommandOptions, pkg: Package): Promise<void> {
   const { useNpm, packageManager: pkgMgr } = options;
   if (useNpm) {
     useNpmWarning();
@@ -260,11 +268,12 @@ export async function initiate(options: CommandOptions, pkg: Package): Promise<v
   logger.log(chalk.inverse(`\n ${welcomeMessage} \n`));
 
   if (!options.disableTelemetry) {
-    telemetry('init');
+    telemetry('init', {}, { stripMetadata: true });
   }
 
   // Update notify code.
-  new UpdateNotifier({
+  const { default: updateNotifier } = await import('update-notifier');
+  updateNotifier({
     pkg,
     updateCheckInterval: 1000 * 60 * 60, // every hour (we could increase this later on.)
   }).notify();
@@ -331,4 +340,8 @@ export async function initiate(options: CommandOptions, pkg: Package): Promise<v
 
   // Add a new line for the clear visibility.
   logger.log();
+}
+
+export async function initiate(options: CommandOptions, pkg: Package): Promise<void> {
+  await withTelemetry('init', { cliOptions: options }, () => doInitiate(options, pkg));
 }

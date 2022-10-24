@@ -7,6 +7,8 @@ import { sanitizeError } from './sanitize';
 
 export * from './storybook-metadata';
 
+export * from './types';
+
 export const telemetry = async (
   eventType: EventType,
   payload: Payload = {},
@@ -18,23 +20,22 @@ export const telemetry = async (
     payload,
   };
   try {
-    telemetryData.metadata = await getStorybookMetadata(options?.configDir);
-  } catch (error) {
-    if (!telemetryData.payload.error) telemetryData.payload.error = error;
+    if (!options?.stripMetadata)
+      telemetryData.metadata = await getStorybookMetadata(options?.configDir);
+  } catch (error: any) {
+    telemetryData.payload.metadataErrorMessage = sanitizeError(error).message;
+    if (options?.enableCrashReports) telemetryData.payload.metadataError = sanitizeError(error);
   } finally {
     const { error } = telemetryData.payload;
-    if (error) {
-      // make sure to anonymise possible paths from error messages
-      telemetryData.payload.error = sanitizeError(error);
-    }
+    // make sure to anonymise possible paths from error messages
+    if (error) telemetryData.payload.error = sanitizeError(error);
 
     if (!telemetryData.payload.error || options?.enableCrashReports) {
       if (process.env?.STORYBOOK_TELEMETRY_DEBUG) {
         logger.info('\n[telemetry]');
         logger.info(JSON.stringify(telemetryData, null, 2));
-      } else {
-        await sendTelemetry(telemetryData, options);
       }
+      await sendTelemetry(telemetryData, options);
     }
   }
 };

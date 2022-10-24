@@ -7,8 +7,11 @@ import TerserWebpackPlugin from 'terser-webpack-plugin';
 import VirtualModulePlugin from 'webpack-virtual-modules';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 
-import type { Options, CoreConfig, DocsOptions } from '@storybook/core-common';
 import {
+  Options,
+  CoreConfig,
+  DocsOptions,
+  getRendererName,
   stringifyProcessEnvs,
   handlebars,
   interpolate,
@@ -115,31 +118,36 @@ export default async (
     ).replace(/\\/g, '\\\\');
     entries.push(configEntryPath);
   } else {
+    const rendererName = await getRendererName(options);
+
     const frameworkInitEntry = path.resolve(
       path.join(workingDir, 'storybook-init-framework-entry.js')
     );
-    virtualModuleMapping[frameworkInitEntry] = `import '${frameworkName}';`;
+    virtualModuleMapping[frameworkInitEntry] = `import '${rendererName}';`;
     entries.push(frameworkInitEntry);
 
     const entryTemplate = await readTemplate(
       path.join(__dirname, '..', '..', 'templates', 'virtualModuleEntry.template.js')
     );
 
-    previewAnnotations.forEach((previewAnnotationFilename: any) => {
+    previewAnnotations.forEach((previewAnnotationFilename: string | undefined) => {
+      if (!previewAnnotationFilename) return;
       const clientApi = storybookPaths['@storybook/client-api'];
       const clientLogger = storybookPaths['@storybook/client-logger'];
 
+      // Ensure that relative paths end up mapped to a filename in the cwd, so a later import
+      // of the `previewAnnotationFilename` in the template works.
+      const entryFilename = previewAnnotationFilename.startsWith('.')
+        ? `${previewAnnotationFilename.replace(/(\w)(\/|\\)/g, '$1-')}-generated-config-entry.js`
+        : previewAnnotationFilename;
       // NOTE: although this file is also from the `dist/cjs` directory, it is actually a ESM
       // file, see https://github.com/storybookjs/storybook/pull/16727#issuecomment-986485173
-      virtualModuleMapping[`${previewAnnotationFilename}-generated-config-entry.js`] = interpolate(
-        entryTemplate,
-        {
-          previewAnnotationFilename,
-          clientApi,
-          clientLogger,
-        }
-      );
-      entries.push(`${previewAnnotationFilename}-generated-config-entry.js`);
+      virtualModuleMapping[entryFilename] = interpolate(entryTemplate, {
+        previewAnnotationFilename,
+        clientApi,
+        clientLogger,
+      });
+      entries.push(entryFilename);
     });
     if (stories.length > 0) {
       const storyTemplate = await readTemplate(
@@ -150,7 +158,7 @@ export default async (
       // See https://github.com/storybookjs/storybook/issues/14877
       const storiesFilename = path.resolve(path.join(workingDir, `generated-stories-entry.cjs`));
       virtualModuleMapping[storiesFilename] = interpolate(storyTemplate, {
-        frameworkName,
+        rendererName,
       })
         // Make sure we also replace quotes for this one
         .replace("'{{stories}}'", stories.map(toRequireContextString).join(','));
