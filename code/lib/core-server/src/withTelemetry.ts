@@ -1,5 +1,5 @@
 import prompts from 'prompts';
-import type { CLIOptions, LoadOptions, BuilderOptions, CoreConfig } from '@storybook/core-common';
+import type { CLIOptions, CoreConfig } from '@storybook/core-common';
 import { loadAllPresets, cache } from '@storybook/core-common';
 import { telemetry } from '@storybook/telemetry';
 import type { EventType } from '@storybook/telemetry';
@@ -40,7 +40,7 @@ async function shouldSendError({ cliOptions, presetOptions }: TelemetryOptions) 
   // If the user has chosen to enable/disable crash reports in main.js
   // or disabled telemetry, we can return that
   const core = await presets.apply<CoreConfig>('core');
-  if (core.enableCrashReports !== undefined) return core.enableCrashReports;
+  if (core?.enableCrashReports !== undefined) return core.enableCrashReports;
   if (core?.disableTelemetry) return false;
 
   // Deal with typo, remove in future version (7.1?)

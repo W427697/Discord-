@@ -20,7 +20,7 @@ export const telemetry = async (
     payload,
   };
   try {
-    if (!options.stripMetadata)
+    if (!options?.stripMetadata)
       telemetryData.metadata = await getStorybookMetadata(options?.configDir);
   } catch (error: any) {
     telemetryData.payload.metadataErrorMessage = sanitizeError(error).message;
