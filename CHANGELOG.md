@@ -1,3 +1,23 @@
+## 7.0.0-alpha.42 (October 24, 2022)
+
+#### Features
+
+-   Svelte: Improve CSF3 types [#19512](https://github.com/storybooks/storybook/pull/19512)
+
+#### Maintenance
+
+-   Telemetry: Use a wrapper around all CLI commands to send boot and error events [#19566](https://github.com/storybooks/storybook/pull/19566)
+
+#### Build
+
+-   Add ability to run tasks from code dir [#19588](https://github.com/storybooks/storybook/pull/19588)
+-   Make the reporter dynamic [#19587](https://github.com/storybooks/storybook/pull/19587)
+-   Add vite-react benchmark [#19558](https://github.com/storybooks/storybook/pull/19558)
+
+#### Dependency Upgrades
+
+-   Fix test-runner version conflicts [#19581](https://github.com/storybooks/storybook/pull/19581)
+
 ## 7.0.0-alpha.41 (October 21, 2022)
 
 #### Features

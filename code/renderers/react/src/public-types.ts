@@ -1,16 +1,15 @@
 import type {
   AnnotatedStoryFn,
   Args,
+  ArgsFromMeta,
   ArgsStoryFn,
   ComponentAnnotations,
-  LoaderFunction,
   StoryAnnotations,
 } from '@storybook/csf';
-import { SetOptional, Simplify, UnionToIntersection } from 'type-fest';
 import { ComponentProps, ComponentType, JSXElementConstructor } from 'react';
+import { SetOptional, Simplify } from 'type-fest';
 
 import { ReactFramework } from './types';
-import { DecoratorFn } from './public-api';
 
 type JSXElement = keyof JSX.IntrinsicElements | JSXElementConstructor<any>;
 
@@ -36,29 +35,28 @@ export type StoryFn<TArgs = Args> = AnnotatedStoryFn<ReactFramework, TArgs>;
  * @see [Named Story exports](https://storybook.js.org/docs/formats/component-story-format/#named-story-exports)
  */
 
-export type StoryObj<MetaOrArgs = Args> = MetaOrArgs extends {
-  render?: ArgsStoryFn<ReactFramework, infer RArgs>;
-  component?: ComponentType<infer CmpArgs>;
-  loaders?: (infer Loaders)[];
+export type StoryObj<MetaOrCmpOrArgs = Args> = MetaOrCmpOrArgs extends {
+  render?: ArgsStoryFn<ReactFramework, any>;
+  component?: infer Component;
   args?: infer DefaultArgs;
-  decorators?: (infer Decorators)[];
 }
-  ? Simplify<CmpArgs & RArgs & DecoratorsArgs<Decorators> & LoaderArgs<Loaders>> extends infer TArgs
+  ? Simplify<
+      (Component extends ComponentType<any> ? ComponentProps<Component> : unknown) &
+        ArgsFromMeta<ReactFramework, MetaOrCmpOrArgs>
+    > extends infer TArgs
     ? StoryAnnotations<
         ReactFramework,
         TArgs,
         SetOptional<TArgs, Extract<keyof TArgs, keyof (DefaultArgs & ActionArgs<TArgs>)>>
       >
     : never
-  : StoryAnnotations<ReactFramework, MetaOrArgs>;
-
-type DecoratorsArgs<Decorators> = UnionToIntersection<
-  Decorators extends DecoratorFn<infer Args> ? Args : unknown
->;
-
-type LoaderArgs<Loaders> = UnionToIntersection<
-  Loaders extends LoaderFunction<ReactFramework, infer Args> ? Args : unknown
->;
+  : MetaOrCmpOrArgs extends ComponentType<any>
+  ? StoryAnnotations<
+      ReactFramework,
+      ComponentProps<MetaOrCmpOrArgs>,
+      ComponentProps<MetaOrCmpOrArgs>
+    >
+  : StoryAnnotations<ReactFramework, MetaOrCmpOrArgs>;
 
 type ActionArgs<Args> = {
   [P in keyof Args as ((...args: any[]) => void) extends Args[P] ? P : never]: Args[P];
