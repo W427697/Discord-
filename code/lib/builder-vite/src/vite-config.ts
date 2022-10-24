@@ -15,6 +15,7 @@ import {
   injectExportOrderPlugin,
   mdxPlugin,
   stripStoryHMRBoundary,
+  sourceLoaderPlugin,
 } from './plugins';
 import type { ExtendedOptions } from './types';
 
@@ -79,7 +80,7 @@ export async function pluginConfig(options: ExtendedOptions) {
 
   const plugins = [
     codeGeneratorPlugin(options),
-    // sourceLoaderPlugin(options),
+    sourceLoaderPlugin(options),
     mdxPlugin(),
     injectExportOrderPlugin,
     stripStoryHMRBoundary(),

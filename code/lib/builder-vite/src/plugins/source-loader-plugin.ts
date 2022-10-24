@@ -11,6 +11,7 @@ const mockClassLoader = (id: string) => ({
   // eslint-disable-next-line no-console
   emitWarning: (message: string) => console.warn(message),
   resourcePath: id,
+  getOptions: () => ({}),
 });
 
 // HACK: Until we can support only node 15+ and use string.prototype.replaceAll
@@ -25,6 +26,7 @@ export function sourceLoaderPlugin(config: ExtendedOptions): Plugin | Plugin[] {
       enforce: 'pre',
       async transform(src: string, id: string) {
         if (id.match(storyPattern)) {
+          // @ts-expect-error - source loader doesn't have types
           const code: string = await sourceLoaderTransform.call(mockClassLoader(id), src);
           const s = new MagicString(src);
           // Entirely replace with new code
@@ -52,6 +54,7 @@ export function sourceLoaderPlugin(config: ExtendedOptions): Plugin | Plugin[] {
       },
       async transform(src: string, id: string) {
         if (id.match(storyPattern)) {
+          // @ts-expect-error - source loader doesn't have types
           let code: string = await sourceLoaderTransform.call(mockClassLoader(id), src);
           // eslint-disable-next-line @typescript-eslint/naming-convention
           const [_, sourceString] = code.match(storySourcePattern) ?? [null, null];
