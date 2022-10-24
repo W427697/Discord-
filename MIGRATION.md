@@ -2,9 +2,8 @@
 
 - [From version 6.5.x to 7.0.0](#from-version-65x-to-700)
   - [Alpha release notes](#alpha-release-notes)
-  - [Breaking changes](#breaking-changes)
+  - [7.0 breaking changes](#70-breaking-changes)
     - [register.js removed](#registerjs-removed)
-    - [`Story` type change to `StoryFn`, and the new `Story` type now refers to `StoryObj`](#story-type-change-to-storyfn-and-the-new-story-type-now-refers-to-storyobj)
     - [Change of root html IDs](#change-of-root-html-ids)
     - [No more default export from `@storybook/addons`](#no-more-default-export-from-storybookaddons)
     - [Modern browser support](#modern-browser-support)
@@ -38,11 +37,12 @@
     - [External Docs](#external-docs)
     - [MDX2 upgrade](#mdx2-upgrade)
     - [Dropped addon-docs manual configuration](#dropped-addon-docs-manual-configuration)
+  - [7.0 Deprecations](#70-deprecations)
+    - [`Story` type deprecated](#story-type-deprecated)
 - [From version 6.4.x to 6.5.0](#from-version-64x-to-650)
   - [Vue 3 upgrade](#vue-3-upgrade)
   - [React18 new root API](#react18-new-root-api)
   - [Renamed isToolshown to showToolbar](#renamed-istoolshown-to-showtoolbar)
-  - [Deprecated register.js](#deprecated-registerjs)
   - [Dropped support for addon-actions addDecorators](#dropped-support-for-addon-actions-adddecorators)
   - [Vite builder renamed](#vite-builder-renamed)
   - [Docs framework refactor for React](#docs-framework-refactor-for-react)
@@ -51,6 +51,8 @@
     - [Auto-title filename case](#auto-title-filename-case)
     - [Auto-title redundant filename](#auto-title-redundant-filename)
     - [Auto-title always prefixes](#auto-title-always-prefixes)
+  - [6.5 Deprecations](#65-deprecations)
+    - [Deprecated register.js](#deprecated-registerjs)
 - [From version 6.3.x to 6.4.0](#from-version-63x-to-640)
   - [Automigrate](#automigrate)
   - [CRA5 upgrade](#cra5-upgrade)
@@ -247,7 +249,7 @@ Storybook 7.0 is in early alpha. During the alpha, we are making a large number 
 
 In the meantime, these migration notes are the best available documentation on things you should know upgrading to 7.0.
 
-### Breaking changes
+### 7.0 breaking changes
 
 #### register.js removed
 
@@ -256,46 +258,6 @@ In SB 6.x and earlier, addons exported a `register.js` entry point by convention
 In 7.0, most of Storybook's addons now export a `manager.js` entry point, which is automatically registered in Storybook's manager when the addon is listed in `.storybook/main.js`'s `addons` field.
 
 If your `.manager.js` config references `register.js` of any of the following addons, you can remove it: `a11y`, `actions`, `backgrounds`, `controls`, `interactions`, `jest`, `links`, `measure`, `outline`, `toolbars`, `viewport`.
-
-#### `Story` type change to `StoryFn`, and the new `Story` type now refers to `StoryObj`
-
-In 6.x you were able to do this:
-
-```js
-import type { Story } from '@storybook/react';
-
-export const MyStory: Story = () => <div />;
-```
-
-But this will produce an error in 7.0 because `Story` is now a type that refers to the `StoryObj` type.
-You must now use the new `StoryFn` type:
-
-```js
-import type { StoryFn } from '@storybook/react';
-
-export const MyStory: StoryFn = () => <div />;
-```
-
-This change was done to improve the experience of writing CSF3 stories, which is the recommended way of writing stories in 7.0:
-
-```js
-import type { Story } from '@storybook/react';
-import { Button, ButtonProps } from './Button';
-
-export default {
-  component: Button,
-};
-
-export const Primary: Story<ButtonProps> = {
-  variant: 'primary',
-};
-```
-
-If you want to be explicit, you can also import `StoryObj` instead of `Story`, they are the same type.
-
-For Storybook for react users: We also changed `ComponentStory` to refer to `ComponentStoryObj` instead of `ComponentStoryFn`, so if you were using `ComponentStory` you should now import/use `ComponentStoryFn` instead.
-
-You can read more about the CSF3 format here: https://storybook.js.org/blog/component-story-format-3-0/
 
 #### Change of root html IDs
 
@@ -730,7 +692,9 @@ import * as previewAnnotations from '../.storybook/preview';
 
 export default function App({ Component, pageProps }) {
   return (
-    <ExternalDocs projectAnnotationsList={[reactAnnotations, previewAnnotations]}>
+    <ExternalDocs
+      projectAnnotationsList={[reactAnnotations, previewAnnotations]}
+    >
       <Component {...pageProps} />
     </ExternalDocs>
   );
@@ -750,6 +714,31 @@ As part of the upgrade we deleted the codemod `mdx-to-csf` and will be replacing
 #### Dropped addon-docs manual configuration
 
 Storybook Docs 5.x shipped with instructions for how to manually configure webpack and storybook without the use of Storybook's "presets" feature. Over time, these docs went out of sync. Now in Storybook 7 we have removed support for manual configuration entirely.
+
+### 7.0 Deprecations
+
+#### `Story` type deprecated
+
+In 6.x you were able to do this:
+
+```js
+import type { Story } from '@storybook/react';
+
+export const MyStory: Story = () => <div />;
+```
+
+But this will produce a deprecation warning in 7.0 because `Story` has been deprecated.
+To fix the deprecation wanring, use the `StoryFn` type:
+
+```js
+import type { StoryFn } from '@storybook/react';
+
+export const MyStory: StoryFn = () => <div />;
+```
+
+This change is part of our move to CSF3, which uses objects instead of functions to represent stories.
+
+You can read more about the CSF3 format here: https://storybook.js.org/blog/component-story-format-3-0/
 
 ## From version 6.4.x to 6.5.0
 
@@ -782,22 +771,6 @@ import { addons } from '@storybook/addons';
 addons.setConfig({
   showToolbar: false,
 });
-```
-
-### Deprecated register.js
-
-In ancient versions of Storybook, addons were registered by referring to `addon-name/register.js`. This is going away in SB7.0. Instead you should just add `addon-name` to the `addons` array in `.storybook/main.js`.
-
-Before:
-
-```js
-module.exports = { addons: ['my-addon/register.js'] };
-```
-
-After:
-
-```js
-module.exports = { addons: ['my-addon'] };
 ```
 
 ### Dropped support for addon-actions addDecorators
@@ -868,7 +841,8 @@ import startCase from 'lodash/startCase';
 
 addons.setConfig({
   sidebar: {
-    renderLabel: ({ name, type }) => (type === 'story' ? name : startCase(name)),
+    renderLabel: ({ name, type }) =>
+      type === 'story' ? name : startCase(name),
   },
 });
 ```
@@ -916,6 +890,24 @@ In 6.5, the final titles would be:
 - `Title.stories.js` => `Custom/Bar`
 
 <!-- markdown-link-check-disable -->
+
+### 6.5 Deprecations
+
+#### Deprecated register.js
+
+In ancient versions of Storybook, addons were registered by referring to `addon-name/register.js`. This is going away in SB7.0. Instead you should just add `addon-name` to the `addons` array in `.storybook/main.js`.
+
+Before:
+
+```js
+module.exports = { addons: ['my-addon/register.js'] };
+```
+
+After:
+
+```js
+module.exports = { addons: ['my-addon'] };
+```
 
 ## From version 6.3.x to 6.4.0
 
@@ -1295,7 +1287,11 @@ After:
 ```js
 // .storybook/main.js
 module.exports = {
-  staticDirs: ['../public', '../static', { from: '../foo/assets', to: '/assets' }],
+  staticDirs: [
+    '../public',
+    '../static',
+    { from: '../foo/assets', to: '/assets' },
+  ],
 };
 ```
 
@@ -1843,13 +1839,17 @@ This breaking change only affects you if your stories actually use the context, 
 Consider the following story that uses the context:
 
 ```js
-export const Dummy = ({ parameters }) => <div>{JSON.stringify(parameters)}</div>;
+export const Dummy = ({ parameters }) => (
+  <div>{JSON.stringify(parameters)}</div>
+);
 ```
 
 Here's an updated story for 6.0 that ignores the args object:
 
 ```js
-export const Dummy = (_args, { parameters }) => <div>{JSON.stringify(parameters)}</div>;
+export const Dummy = (_args, { parameters }) => (
+  <div>{JSON.stringify(parameters)}</div>
+);
 ```
 
 Alternatively, if you want to opt out of the new behavior, you can add the following to your `.storybook/preview.js` config:
@@ -2639,7 +2639,9 @@ For example, here's how to sort by story ID using `storySort`:
 addParameters({
   options: {
     storySort: (a, b) =>
-      a[1].kind === b[1].kind ? 0 : a[1].id.localeCompare(b[1].id, undefined, { numeric: true }),
+      a[1].kind === b[1].kind
+        ? 0
+        : a[1].id.localeCompare(b[1].id, undefined, { numeric: true }),
   },
 });
 ```
@@ -2685,7 +2687,9 @@ Storybook 5.1 relies on `core-js@^3.0.0` and therefore causes a conflict with An
 {
   "compilerOptions": {
     "paths": {
-      "core-js/es7/reflect": ["node_modules/core-js/proposals/reflect-metadata"],
+      "core-js/es7/reflect": [
+        "node_modules/core-js/proposals/reflect-metadata"
+      ],
       "core-js/es6/*": ["node_modules/core-js/es"]
     }
   }
