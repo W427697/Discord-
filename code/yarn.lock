@@ -7307,7 +7307,7 @@ __metadata:
     memoizerific: ^1.11.3
     overlayscrollbars: ^1.13.1
     polished: ^4.2.2
-    prettier: ">=2.2.1 <=2.3.0"
+    prettier: "*"
     react-popper-tooltip: ^3.1.1
     react-syntax-highlighter: ^15.4.5
     react-textarea-autosize: ^8.3.0
@@ -32439,7 +32439,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prettier@npm:2.7.1, prettier@npm:^1.18.2 || ^2.0.0":
+"prettier@npm:*, prettier@npm:2.7.1, prettier@npm:^1.18.2 || ^2.0.0":
   version: 2.7.1
   resolution: "prettier@npm:2.7.1"
   bin:
