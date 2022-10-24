@@ -4,6 +4,7 @@ import type {
   BuilderOptions,
   Options,
   StorybookConfig,
+  CoreConfig,
 } from '@storybook/core-common';
 import {
   resolvePathInStorybookCache,
@@ -82,12 +83,14 @@ export async function buildDevStandalone(options: CLIOptions & LoadOptions & Bui
   });
 
   const [previewBuilder, managerBuilder] = await getBuilders({ ...options, presets });
+  const { renderer } = await presets.apply<CoreConfig>('core', undefined);
 
   presets = await loadAllPresets({
     corePresets: [
       require.resolve('./presets/common-preset'),
       ...(managerBuilder.corePresets || []),
       ...(previewBuilder.corePresets || []),
+      ...(renderer ? [renderer] : []),
       ...corePresets,
       require.resolve('./presets/babel-cache-preset'),
     ],

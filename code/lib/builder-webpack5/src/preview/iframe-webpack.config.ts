@@ -7,8 +7,11 @@ import TerserWebpackPlugin from 'terser-webpack-plugin';
 import VirtualModulePlugin from 'webpack-virtual-modules';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 
-import type { Options, CoreConfig, DocsOptions } from '@storybook/core-common';
 import {
+  Options,
+  CoreConfig,
+  DocsOptions,
+  getRendererName,
   stringifyProcessEnvs,
   handlebars,
   interpolate,
@@ -115,17 +118,19 @@ export default async (
     ).replace(/\\/g, '\\\\');
     entries.push(configEntryPath);
   } else {
+    const rendererName = await getRendererName(options);
+
     const frameworkInitEntry = path.resolve(
       path.join(workingDir, 'storybook-init-framework-entry.js')
     );
-    virtualModuleMapping[frameworkInitEntry] = `import '${frameworkName}';`;
+    virtualModuleMapping[frameworkInitEntry] = `import '${rendererName}';`;
     entries.push(frameworkInitEntry);
 
     const entryTemplate = await readTemplate(
       path.join(__dirname, '..', '..', 'templates', 'virtualModuleEntry.template.js')
     );
 
-    previewAnnotations.forEach((previewAnnotationFilename: string) => {
+    previewAnnotations.forEach((previewAnnotationFilename: string | undefined) => {
       if (!previewAnnotationFilename) return;
       const clientApi = storybookPaths['@storybook/client-api'];
       const clientLogger = storybookPaths['@storybook/client-logger'];
@@ -153,14 +158,13 @@ export default async (
       // See https://github.com/storybookjs/storybook/issues/14877
       const storiesFilename = path.resolve(path.join(workingDir, `generated-stories-entry.cjs`));
       virtualModuleMapping[storiesFilename] = interpolate(storyTemplate, {
-        frameworkName,
+        rendererName,
       })
         // Make sure we also replace quotes for this one
         .replace("'{{stories}}'", stories.map(toRequireContextString).join(','));
       entries.push(storiesFilename);
     }
   }
-  // console.log(virtualModuleMapping);
 
   const shouldCheckTs = typescriptOptions.check && !typescriptOptions.skipBabel;
   const tsCheckOptions = typescriptOptions.checkOptions || {};
