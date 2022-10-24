@@ -3,7 +3,7 @@ import React from 'react';
 import { dedent } from 'ts-dedent';
 import mapValues from 'lodash/mapValues';
 import countBy from 'lodash/countBy';
-import { toId, sanitize } from '@storybook/csf';
+import { sanitize } from '@storybook/csf';
 import type {
   StoryId,
   ComponentTitle,

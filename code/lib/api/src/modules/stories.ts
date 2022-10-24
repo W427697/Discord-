@@ -19,7 +19,6 @@ import { logger } from '@storybook/client-logger';
 import { getEventMetadata } from '../lib/events';
 import {
   denormalizeStoryParameters,
-  transformSetStoriesStoryDataToStoriesHash,
   transformStoryIndexToStoriesHash,
   getComponentLookupList,
   getStoriesLookupList,
@@ -33,7 +32,6 @@ import type {
   StoriesHash,
   StoryEntry,
   StoryId,
-  SetStoriesStoryData,
   SetStoriesPayload,
   StoryIndex,
 } from '../lib/stories';
