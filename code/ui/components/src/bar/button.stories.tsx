@@ -5,7 +5,6 @@ import { Icons } from '../icon/icon';
 
 export default {
   component: IconButton,
-  title: 'Basics/IconButton',
 };
 
 export const Loading = () => <IconButtonSkeleton />;

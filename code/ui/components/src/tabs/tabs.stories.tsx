@@ -117,7 +117,7 @@ const content = Object.entries(panels).map(([k, v]) => (
 ));
 
 export default {
-  title: 'Basics/Tabs',
+  title: 'Tabs',
   decorators: [
     (story) => (
       <div

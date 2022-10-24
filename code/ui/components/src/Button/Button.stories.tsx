@@ -6,7 +6,6 @@ import { Icons } from '../icon/icon';
 import { Form } from '../form/index';
 
 export default {
-  title: 'Basics/Button',
   component: Button,
 };
 

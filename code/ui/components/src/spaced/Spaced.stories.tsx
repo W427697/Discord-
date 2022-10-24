@@ -14,7 +14,6 @@ const PlaceholderInline = styled.span(({ color }) => ({
 }));
 
 export default {
-  title: 'Basics/Spaced',
   component: Spaced,
 };
 

@@ -3,7 +3,6 @@ import { WithTooltip } from './WithTooltip';
 import { TooltipNote } from './TooltipNote';
 
 export default {
-  title: 'Basics/Tooltip/TooltipNote',
   component: TooltipNote,
   decorators: [
     (storyFn) => (

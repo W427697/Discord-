@@ -8,7 +8,7 @@ import { Field as FieldComponent } from './field/field';
 const Flexed = styled(FieldComponent)({ display: 'flex' });
 
 export default {
-  title: 'Basics/Form',
+  title: 'Form',
 };
 
 const sharedArgTypes = {

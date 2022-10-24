@@ -5,7 +5,6 @@ import { Link } from '../typography/link/link';
 
 export default {
   component: Placeholder,
-  title: 'Basics/Placeholder',
 };
 
 export const SingleChild = () => (
