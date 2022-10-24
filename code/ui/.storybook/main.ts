@@ -5,17 +5,17 @@ const config: StorybookConfig = {
     {
       directory: '../manager/src',
       // files: '*.stories.@(ts|tsx|js|jsx|mdx)',
-      titlePrefix: 'Manager',
+      titlePrefix: '@storybook⁄ui',
     },
     {
       directory: '../components/src',
       // files: '*.stories.@(js|jsx|ts|tsx|mdx)',
-      titlePrefix: 'Components',
+      titlePrefix: '@storybook⁄components',
     },
     {
       directory: '../blocks/src',
       // files: '*.stories.@(js|jsx|ts|tsx|mdx)',
-      titlePrefix: 'Doc Blocks',
+      titlePrefix: '@storybook⁄blocks',
     },
   ],
   addons: [
