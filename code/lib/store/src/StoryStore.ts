@@ -31,6 +31,7 @@ import type {
   IndexEntry,
   StoryIndexV3,
   ModuleExports,
+  PreparedStoryIndex,
 } from './types';
 import { HooksContext } from './hooks';
 
@@ -350,6 +351,30 @@ export class StoryStore<TFramework extends AnyFramework> {
       stories,
     };
   };
+
+  getSetIndexPayload(): PreparedStoryIndex {
+    if (!this.storyIndex) throw new Error('getSetIndexPayload called before initialization');
+
+    const stories = this.extract({ includeDocsOnly: true });
+
+    return {
+      v: 4,
+      entries: Object.fromEntries(
+        Object.entries(this.storyIndex.entries).map(([id, entry]) => [
+          id,
+          stories[id]
+            ? {
+                ...entry,
+                args: stories[id].initialArgs,
+                initialArgs: stories[id].initialArgs,
+                argTypes: stories[id].argTypes,
+                parameters: stories[id].parameters,
+              }
+            : entry,
+        ])
+      ),
+    };
+  }
 
   raw(): BoundStory<TFramework>[] {
     return Object.values(this.extract())

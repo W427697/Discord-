@@ -5,7 +5,7 @@ import {
   PRELOAD_ENTRIES,
   PREVIEW_KEYDOWN,
   SET_CURRENT_STORY,
-  SET_STORIES,
+  SET_INDEX,
   STORY_ARGS_UPDATED,
   STORY_CHANGED,
   STORY_ERRORED,
@@ -104,7 +104,7 @@ export class PreviewWeb<TFramework extends AnyFramework> extends Preview<TFramew
   initializeWithStoryIndex(storyIndex: StoryIndex): PromiseLike<void> {
     return super.initializeWithStoryIndex(storyIndex).then(() => {
       if (!global.FEATURES?.storyStoreV7) {
-        this.channel.emit(SET_STORIES, this.storyStore.getSetStoriesPayload());
+        this.channel.emit(SET_INDEX, this.storyStore.getSetIndexPayload());
       }
 
       return this.selectSpecifiedStory();
@@ -184,7 +184,7 @@ export class PreviewWeb<TFramework extends AnyFramework> extends Preview<TFramew
     await super.onStoriesChanged({ importFn, storyIndex });
 
     if (!global.FEATURES?.storyStoreV7) {
-      this.channel.emit(SET_STORIES, await this.storyStore.getSetStoriesPayload());
+      this.channel.emit(SET_INDEX, await this.storyStore.getSetIndexPayload());
     }
 
     if (this.urlStore.selection) {
@@ -323,6 +323,7 @@ export class PreviewWeb<TFramework extends AnyFramework> extends Preview<TFramew
       }
       return;
     }
+
     const implementationChanged = !storyIdChanged && lastRender && !render.isEqual(lastRender);
 
     if (persistedArgs && isStoryRender(render)) {
@@ -449,7 +450,7 @@ export class PreviewWeb<TFramework extends AnyFramework> extends Preview<TFramew
   }
 
   renderStoryLoadingException(storySpecifier: StorySpecifier, err: Error) {
-    logger.error(`Unable to load story '${storySpecifier}':`);
+    // logger.error(`Unable to load story '${storySpecifier}':`);
     logger.error(err);
     this.view.showErrorDisplay(err);
     this.channel.emit(STORY_MISSING, storySpecifier);

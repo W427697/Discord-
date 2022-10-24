@@ -248,7 +248,7 @@ export const denormalizeStoryParameters = ({
 
 const TITLE_PATH_SEPARATOR = /\s*\/\s*/;
 
-// We used to received a bit more data over the channel on the SET_INDEX event, including
+// We recieve a bit more data over the channel on the SET_INDEX event (v6 store), including
 // the full parameters for each story.
 type PreparedIndexEntry = IndexEntry & {
   parameters?: Parameters;
