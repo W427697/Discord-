@@ -2172,7 +2172,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/types@npm:^7.0.0, @babel/types@npm:^7.11.5, @babel/types@npm:^7.12.11, @babel/types@npm:^7.16.7, @babel/types@npm:^7.16.8, @babel/types@npm:^7.18.10, @babel/types@npm:^7.18.6, @babel/types@npm:^7.18.8, @babel/types@npm:^7.18.9, @babel/types@npm:^7.19.0, @babel/types@npm:^7.19.3, @babel/types@npm:^7.19.4, @babel/types@npm:^7.2.0, @babel/types@npm:^7.3.0, @babel/types@npm:^7.3.3, @babel/types@npm:^7.4.0, @babel/types@npm:^7.4.4, @babel/types@npm:^7.6.1, @babel/types@npm:^7.7.0, @babel/types@npm:^7.7.2, @babel/types@npm:^7.8.3, @babel/types@npm:^7.8.6, @babel/types@npm:^7.8.7, @babel/types@npm:^7.9.6":
+"@babel/types@npm:^7.0.0, @babel/types@npm:^7.11.5, @babel/types@npm:^7.12.11, @babel/types@npm:^7.14.8, @babel/types@npm:^7.16.7, @babel/types@npm:^7.16.8, @babel/types@npm:^7.18.10, @babel/types@npm:^7.18.6, @babel/types@npm:^7.18.8, @babel/types@npm:^7.18.9, @babel/types@npm:^7.19.0, @babel/types@npm:^7.19.3, @babel/types@npm:^7.19.4, @babel/types@npm:^7.2.0, @babel/types@npm:^7.3.0, @babel/types@npm:^7.3.3, @babel/types@npm:^7.4.0, @babel/types@npm:^7.4.4, @babel/types@npm:^7.6.1, @babel/types@npm:^7.7.0, @babel/types@npm:^7.7.2, @babel/types@npm:^7.8.3, @babel/types@npm:^7.8.6, @babel/types@npm:^7.8.7, @babel/types@npm:^7.9.6":
   version: 7.19.4
   resolution: "@babel/types@npm:7.19.4"
   dependencies:
@@ -6407,7 +6407,7 @@ __metadata:
     "@storybook/csf": next
     "@storybook/csf-tools": 7.0.0-alpha.42
     "@storybook/docs-tools": 7.0.0-alpha.42
-    "@storybook/mdx2-csf": 0.1.0-next.0
+    "@storybook/mdx2-csf": next
     "@storybook/node-logger": 7.0.0-alpha.42
     "@storybook/postinstall": 7.0.0-alpha.42
     "@storybook/preview-web": 7.0.0-alpha.42
@@ -7074,7 +7074,7 @@ __metadata:
     "@storybook/client-api": 7.0.0-alpha.42
     "@storybook/client-logger": 7.0.0-alpha.42
     "@storybook/core-common": 7.0.0-alpha.42
-    "@storybook/mdx2-csf": 0.1.0-next.0
+    "@storybook/mdx2-csf": next
     "@storybook/node-logger": 7.0.0-alpha.42
     "@storybook/preview-web": 7.0.0-alpha.42
     "@storybook/source-loader": 7.0.0-alpha.42
@@ -7797,19 +7797,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@storybook/mdx2-csf@npm:0.1.0-next.0":
-  version: 0.1.0-next.0
-  resolution: "@storybook/mdx2-csf@npm:0.1.0-next.0"
+"@storybook/mdx2-csf@npm:next":
+  version: 0.1.0-next.2
+  resolution: "@storybook/mdx2-csf@npm:0.1.0-next.2"
   dependencies:
     "@babel/generator": ^7.12.11
     "@babel/parser": ^7.12.11
+    "@babel/types": ^7.14.8
     "@mdx-js/mdx": ^2.0.0
     estree-to-babel: ^4.9.0
     hast-util-to-estree: ^2.0.2
     js-string-escape: ^1.0.1
     loader-utils: ^2.0.0
     lodash: ^4.17.21
-  checksum: 116292c2bc658ad575dbc31c1aa6530f57e7c392ee1728143a8b31686e38ecb3fac6ccea860ce9860fe78167dabe6e09bed5ca5089594851b7733091ad0f91e9
+  checksum: 4375d35d49976a0f916dc9311af5e29845892ed49bd8ad1fcc994294617898b19b4fac17b7a4c851f720cb491ee2c6e44e879341cf411685e02956dbcaef57cf
   languageName: node
   linkType: hard
 
