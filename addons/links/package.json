@@ -72,7 +72,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "03f5ebeedfa0027ceeb18c0991ddf47e1ffa6651",
+  "gitHead": "9bc627d9b364d2ea915470dfd08cfe5cb3716dee",
   "sbmodern": "dist/modern/index.js",
   "storybook": {
     "displayName": "Links",
