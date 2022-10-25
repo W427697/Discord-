@@ -3,7 +3,6 @@ import { ThemeProvider, themes, ensure } from '@storybook/theming';
 import { SyntaxHighlighter } from './lazy-syntaxhighlighter';
 
 export default {
-  title: 'Basics/SyntaxHighlighter',
   component: SyntaxHighlighter,
 };
 

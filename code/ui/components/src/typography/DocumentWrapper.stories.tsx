@@ -5,7 +5,6 @@ import MarkdownSample from './DocumentFormattingSample.mdx';
 
 export default {
   component: DocumentWrapper,
-  title: 'Basics/DocumentFormatting',
   decorators: [(storyFn: any) => <div style={{ width: '600px' }}>{storyFn()}</div>],
 };
 

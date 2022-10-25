@@ -3,14 +3,16 @@ import type { StorybookConfig } from '../../frameworks/react-vite/dist';
 const config: StorybookConfig = {
   stories: [
     {
-      directory: '../manager/src/**/',
-      files: '*.stories.@(ts|tsx|js|jsx|mdx)',
-      titlePrefix: 'Manager',
+      directory: '../manager/src',
+      titlePrefix: '@storybook-ui',
     },
     {
-      directory: '../components/src/**/',
-      files: '*.stories.@(js|jsx|ts|tsx|mdx)',
-      titlePrefix: 'Components',
+      directory: '../components/src',
+      titlePrefix: '@storybook-components',
+    },
+    {
+      directory: '../blocks/src',
+      titlePrefix: '@storybook-blocks',
     },
   ],
   addons: [
@@ -21,6 +23,9 @@ const config: StorybookConfig = {
   framework: {
     name: '@storybook/react-vite',
     options: {},
+  },
+  core: {
+    disableTelemetry: true,
   },
 };
 

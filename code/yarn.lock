@@ -6224,9 +6224,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@storybook/blocks@7.0.0-alpha.42, @storybook/blocks@workspace:*, @storybook/blocks@workspace:lib/blocks":
+"@storybook/blocks@7.0.0-alpha.42, @storybook/blocks@workspace:*, @storybook/blocks@workspace:ui/blocks":
   version: 0.0.0-use.local
-  resolution: "@storybook/blocks@workspace:lib/blocks"
+  resolution: "@storybook/blocks@workspace:ui/blocks"
   dependencies:
     "@storybook/addon-actions": 7.0.0-alpha.42
     "@storybook/addons": 7.0.0-alpha.42

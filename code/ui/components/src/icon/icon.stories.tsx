@@ -54,7 +54,6 @@ const Header = styled.h2`
 `;
 
 export default {
-  title: 'Basics/Icon',
   component: Icons,
 };
 

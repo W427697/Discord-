@@ -4,7 +4,6 @@ import { WithTooltip } from './WithTooltip';
 import { TooltipMessage } from './TooltipMessage';
 
 export default {
-  title: 'Basics/Tooltip/TooltipMessage',
   component: TooltipMessage,
   decorators: [
     (storyFn) => (
