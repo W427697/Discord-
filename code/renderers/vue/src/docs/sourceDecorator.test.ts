@@ -1,6 +1,7 @@
 /* eslint no-underscore-dangle: ["error", { "allow": ["_vnode"] }] */
 
-import Vue, { ComponentOptions } from 'vue';
+import type { ComponentOptions, VueConstructor } from 'vue';
+import Vue from 'vue/dist/vue';
 import { vnodeToString } from './sourceDecorator';
 
 expect.addSnapshotSerializer({
@@ -9,7 +10,7 @@ expect.addSnapshotSerializer({
 });
 
 const getVNode = (Component: ComponentOptions<any, any, any>) => {
-  const vm = new Vue({
+  const vm = new (Vue as unknown as VueConstructor)({
     render(h) {
       return h(Component);
     },
