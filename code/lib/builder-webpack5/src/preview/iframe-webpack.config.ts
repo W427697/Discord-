@@ -125,7 +125,7 @@ export default async (
       path.join(__dirname, '..', '..', 'templates', 'virtualModuleEntry.template.js')
     );
 
-    previewAnnotations.forEach((previewAnnotationFilename: string) => {
+    previewAnnotations.forEach((previewAnnotationFilename: string | undefined) => {
       if (!previewAnnotationFilename) return;
       const clientApi = storybookPaths['@storybook/client-api'];
       const clientLogger = storybookPaths['@storybook/client-logger'];
