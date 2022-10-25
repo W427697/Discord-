@@ -4,7 +4,7 @@ import { schema } from '@angular-devkit/core';
 import * as path from 'path';
 
 const buildStandaloneMock = jest.fn();
-jest.doMock('@storybook/angular/standalone', () => buildStandaloneMock);
+jest.doMock('@storybook/core-server/standalone', () => buildStandaloneMock);
 jest.doMock('find-up', () => ({ sync: () => './storybook/tsconfig.ts' }));
 
 const cpSpawnMock = {
