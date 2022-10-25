@@ -9,6 +9,7 @@ import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 
 import type { Options, CoreConfig, DocsOptions } from '@storybook/core-common';
 import {
+  getRendererName,
   stringifyProcessEnvs,
   handlebars,
   interpolate,
@@ -16,7 +17,6 @@ import {
   readTemplate,
   loadPreviewOrConfigFile,
   isPreservingSymlinks,
-  getFrameworkName,
 } from '@storybook/core-common';
 import { toRequireContextString, toImportFn } from '@storybook/core-webpack';
 import type { BuilderOptions, TypescriptOptions } from '../types';
@@ -65,7 +65,6 @@ export default async (
     serverChannelUrl,
   } = options;
 
-  const frameworkName = await getFrameworkName(options);
   const frameworkOptions = await presets.apply('frameworkOptions');
 
   const isProd = configType === 'PRODUCTION';
@@ -115,11 +114,13 @@ export default async (
     ).replace(/\\/g, '\\\\');
     entries.push(configEntryPath);
   } else {
-    const frameworkInitEntry = path.resolve(
-      path.join(workingDir, 'storybook-init-framework-entry.js')
+    const rendererName = await getRendererName(options);
+
+    const rendererInitEntry = path.resolve(
+      path.join(workingDir, 'storybook-init-renderer-entry.js')
     );
-    virtualModuleMapping[frameworkInitEntry] = `import '${frameworkName}';`;
-    entries.push(frameworkInitEntry);
+    virtualModuleMapping[rendererInitEntry] = `import '${rendererName}';`;
+    entries.push(rendererInitEntry);
 
     const entryTemplate = await readTemplate(
       path.join(__dirname, '..', '..', 'templates', 'virtualModuleEntry.template.js')
@@ -153,14 +154,13 @@ export default async (
       // See https://github.com/storybookjs/storybook/issues/14877
       const storiesFilename = path.resolve(path.join(workingDir, `generated-stories-entry.cjs`));
       virtualModuleMapping[storiesFilename] = interpolate(storyTemplate, {
-        frameworkName,
+        rendererName,
       })
         // Make sure we also replace quotes for this one
         .replace("'{{stories}}'", stories.map(toRequireContextString).join(','));
       entries.push(storiesFilename);
     }
   }
-  // console.log(virtualModuleMapping);
 
   const shouldCheckTs = typescriptOptions.check && !typescriptOptions.skipBabel;
   const tsCheckOptions = typescriptOptions.checkOptions || {};
