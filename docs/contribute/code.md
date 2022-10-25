@@ -170,7 +170,6 @@ When you run with the `--no-link` flag, what happens that the task runner will s
 1. Re-publish the packages:
 
 ```shell
-rm -rf .verdaccio-cache
 yarn task --task run-registry --start-from compile --no-link
 ```
 
@@ -178,8 +177,7 @@ yarn task --task run-registry --start-from compile --no-link
 
 ```shell
 cd sandbox/<your-sandbox>
-rm -rf .yarn/cache
-yarn
+yarn cache clean && yarn install
 ```
 
 ## How to work with reproductions

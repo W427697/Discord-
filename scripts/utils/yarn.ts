@@ -31,6 +31,8 @@ export const installYarn2 = async ({ cwd, dryRun, debug }: YarnOptions) => {
     // Use the global cache so we aren't re-caching dependencies each time we run sandbox
     `yarn config set enableGlobalCache true`,
     `yarn config set nodeLinker node-modules`,
+    // Allow installing newer versions of the same package number (for local --no-link installs)
+    `yarn config set checksumBehavior update`,
   ];
 
   await exec(
