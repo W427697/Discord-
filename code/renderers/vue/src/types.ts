@@ -8,8 +8,9 @@ export interface ShowErrorArgs {
   description: string;
 }
 
-// TODO: some vue expert needs to look at this
-export type StoryFnVueReturnType = string | Component;
+export type StoryFnVueReturnType =
+  | Component<any, any, any, any>
+  | AsyncComponent<any, any, any, any>;
 
 export type StoryContext = StoryContextBase<VueFramework>;
 
