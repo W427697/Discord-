@@ -52,7 +52,6 @@ export type OptionsControlType =
 
 export interface OptionsConfig {
   labels: Record<any, string>;
-  options: Options;
   type: OptionsControlType;
 }
 

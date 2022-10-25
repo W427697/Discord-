@@ -19,7 +19,8 @@ const rawOptionsHelper = (options, type, isMulti, initial) => {
     <>
       <OptionsControl
         name="options"
-        options={options}
+        labels={{}}
+        argType={{ options }}
         value={value}
         type={type}
         onChange={(newVal) => setValue(newVal)}

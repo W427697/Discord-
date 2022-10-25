@@ -13,7 +13,8 @@ import { WebView } from '@storybook/preview-web/dist/cjs/WebView';
 import { ModuleExports, Path, setGlobalRender } from '@storybook/client-api';
 import global from 'global';
 
-import { start } from './start';
+import { start as realStart } from './start';
+import { Loadable } from './types';
 
 jest.mock('@storybook/preview-web/dist/cjs/WebView');
 jest.spyOn(WebView.prototype, 'prepareForDocs').mockReturnValue('docs-root');
@@ -56,6 +57,21 @@ beforeEach(() => {
   emitter.removeAllListeners();
 });
 
+const start: typeof realStart = (...args) => {
+  const result = realStart(...args);
+
+  const configure: typeof result['configure'] = (
+    framework: string,
+    loadable: Loadable,
+    m?: NodeModule,
+    disableBackwardCompatibility = false
+  ) => result.configure(framework, loadable, m, disableBackwardCompatibility);
+
+  return {
+    ...result,
+    configure,
+  };
+};
 afterEach(() => {
   // I'm not sure why this is required (it seems just afterEach is required really)
   mockChannel.emit.mockClear();

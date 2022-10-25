@@ -1,7 +1,7 @@
 import fs from 'fs-extra';
-import deprecate from 'util-deprecate';
+import { deprecate } from '@storybook/node-logger';
 import {
-  CLIOptions,
+  type CLIOptions,
   getPreviewBodyTemplate,
   getPreviewHeadTemplate,
   getPreviewMainTemplate,
@@ -15,9 +15,6 @@ import type {
   IndexerOptions,
 } from '@storybook/core-common';
 import { loadCsf } from '@storybook/csf-tools';
-
-const warnConfigField = deprecate(() => {},
-`You (or an addon) are using the 'config' preset field. This has been replaced by 'previewAnnotations' and will be removed in 8.0`);
 
 export const babel = async (_: unknown, options: Options) => {
   const { presets } = options;
@@ -91,7 +88,11 @@ export const core = async (existing: CoreConfig, options: Options): Promise<Core
 export const previewAnnotations = async (base: any, options: Options) => {
   const config = await options.presets.apply('config', [], options);
 
-  if (config.length > 0) warnConfigField();
+  if (config.length > 0) {
+    deprecate(
+      `You (or an addon) are using the 'config' preset field. This has been replaced by 'previewAnnotations' and will be removed in 8.0`
+    );
+  }
 
   return [...config, ...base];
 };
