@@ -71,11 +71,11 @@ export class PreviewWeb<TFramework extends AnyFramework> extends Preview<TFramew
 
   currentRender?: PossibleRender<TFramework>;
 
-  constructor() {
+  constructor({ view = new WebView(), urlStore = new UrlStore() }) {
     super();
 
-    this.view = new WebView();
-    this.urlStore = new UrlStore();
+    this.view = view;
+    this.urlStore = urlStore;
   }
 
   setupListeners() {
