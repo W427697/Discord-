@@ -61,7 +61,7 @@
     "@storybook/csf": "next",
     "@storybook/csf-tools": "7.0.0-alpha.42",
     "@storybook/docs-tools": "7.0.0-alpha.42",
-    "@storybook/mdx2-csf": "0.1.0-next.0",
+    "@storybook/mdx2-csf": "next",
     "@storybook/node-logger": "7.0.0-alpha.42",
     "@storybook/postinstall": "7.0.0-alpha.42",
     "@storybook/preview-web": "7.0.0-alpha.42",

@@ -60,7 +60,6 @@
     "@storybook/node-logger": "7.0.0-alpha.42",
     "@storybook/preview-web": "7.0.0-alpha.42",
     "@storybook/web-components": "7.0.0-alpha.42",
-    "@vitejs/plugin-vue": "^3.0.3",
     "magic-string": "^0.26.1",
     "vite": "3"
   },

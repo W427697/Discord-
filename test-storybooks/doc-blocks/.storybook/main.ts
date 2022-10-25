@@ -1,7 +1,7 @@
 import type { StorybookConfig } from '@storybook/react-webpack5';
 
 const config: StorybookConfig = {
-  stories: ['../../../lib/blocks/src/**/*.stories.*'],
+  stories: ['../../../code/lib/blocks/src/**/*.stories.*'],
   logLevel: 'debug',
   addons: ['@storybook/addon-essentials'],
   core: {
