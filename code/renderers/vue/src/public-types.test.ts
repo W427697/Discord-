@@ -2,7 +2,7 @@ import { satisfies } from '@storybook/core-common';
 import { ComponentAnnotations, StoryAnnotations } from '@storybook/csf';
 import { expectTypeOf } from 'expect-type';
 import { SetOptional } from 'type-fest';
-import { AsyncComponent, Component } from 'vue';
+import { Component } from 'vue';
 import { ExtendedVue, Vue } from 'vue/types/vue';
 import { DecoratorFn, Meta, StoryObj } from './public-types';
 import Button from './__tests__/Button.vue';
