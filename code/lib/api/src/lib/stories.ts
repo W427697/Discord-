@@ -2,10 +2,9 @@
 import memoize from 'memoizerific';
 import { dedent } from 'ts-dedent';
 import countBy from 'lodash/countBy';
-import { toId, sanitize } from '@storybook/csf';
+import { sanitize } from '@storybook/csf';
 import type {
   StoryId,
-  ComponentTitle,
   Parameters,
   DocsOptions,
   API_Provider,
@@ -48,19 +47,14 @@ export const transformSetStoriesStoryDataToStoriesHash = (
   data: API_SetStoriesStoryData,
   { provider, docsOptions }: { provider: API_Provider<API>; docsOptions: DocsOptions }
 ) =>
-  transformStoryIndexToStoriesHash(
-    transformSetStoriesStoryDataToPreparedStoryIndex(data, { docsOptions }),
-    {
-      provider,
-      docsOptions,
-    }
-  );
+  transformStoryIndexToStoriesHash(transformSetStoriesStoryDataToPreparedStoryIndex(data), {
+    provider,
+    docsOptions,
+  });
 
 const transformSetStoriesStoryDataToPreparedStoryIndex = (
-  stories: API_SetStoriesStoryData,
-  { docsOptions }: { docsOptions: DocsOptions }
+  stories: API_SetStoriesStoryData
 ): API_PreparedStoryIndex => {
-  const seenTitles = new Set<ComponentTitle>();
   const entries: API_PreparedStoryIndex['entries'] = Object.entries(stories).reduce(
     (acc, [id, story]) => {
       if (!story) return acc;
@@ -79,19 +73,6 @@ const transformSetStoriesStoryDataToPreparedStoryIndex = (
           ...base,
         };
       } else {
-        if (!seenTitles.has(base.title) && docsOptions.docsPage) {
-          const name = docsOptions.defaultName;
-          const docsId = toId(story.componentId || base.title, name);
-          seenTitles.add(base.title);
-          acc[docsId] = {
-            type: 'docs',
-            storiesImports: [],
-            ...base,
-            id: docsId,
-            name,
-          };
-        }
-
         const { argTypes, args, initialArgs } = story;
         acc[id] = {
           type: 'story',

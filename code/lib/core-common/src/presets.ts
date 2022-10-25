@@ -330,8 +330,8 @@ export async function loadAllPresets(
   options: CLIOptions &
     LoadOptions &
     BuilderOptions & {
-      corePresets: string[];
-      overridePresets: string[];
+      corePresets: PresetConfig[];
+      overridePresets: PresetConfig[];
     }
 ) {
   const { corePresets = [], overridePresets = [], ...restOptions } = options;

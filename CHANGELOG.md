@@ -1,44 +1,71 @@
+## 7.0.0-alpha.43 (October 25, 2022)
+
+#### Bug Fixes
+
+- Core: Add `renderer` field to frameworks, and use to drive v6 store entrypoints [#19595](https://github.com/storybooks/storybook/pull/19595)
+- Core: Add new SET_INDEX event [#19590](https://github.com/storybooks/storybook/pull/19590)
+- CLI: Don't run MDX2 automigration on node_modules [#19611](https://github.com/storybooks/storybook/pull/19611)
+- Core: Ensure preview annotations are resolved relative to the cwd [#19594](https://github.com/storybooks/storybook/pull/19594)
+- Core: Fix addon URLs on Windows [#19589](https://github.com/storybooks/storybook/pull/19589)
+
+#### Maintenance
+
+- Vite: Tidy up mdx-plugin [#19563](https://github.com/storybooks/storybook/pull/19563)
+- Web-components/Vite: remove unused dependencies [#19583](https://github.com/storybooks/storybook/pull/19583)
+
+#### Build
+
+- Remove DocBlocks example Storybook [#19616](https://github.com/storybooks/storybook/pull/19616)
+- Move and include `@storybook/blocks` in standalone Storybook [#19615](https://github.com/storybooks/storybook/pull/19615)
+- Move and include `@storybook/components` in standalone Storybook [#19598](https://github.com/storybooks/storybook/pull/19598)
+- Move examples -> test-storybooks [#19599](https://github.com/storybooks/storybook/pull/19599)
+- MDX iframe stories [#19586](https://github.com/storybooks/storybook/pull/19586)
+
+#### Dependency Upgrades
+
+- Upgrade mdx2-csf to next [#19600](https://github.com/storybooks/storybook/pull/19600)
+
 ## 7.0.0-alpha.42 (October 24, 2022)
 
 #### Features
 
--   Svelte: Improve CSF3 types [#19512](https://github.com/storybooks/storybook/pull/19512)
+- Svelte: Improve CSF3 types [#19512](https://github.com/storybooks/storybook/pull/19512)
 
 #### Maintenance
 
--   Telemetry: Use a wrapper around all CLI commands to send boot and error events [#19566](https://github.com/storybooks/storybook/pull/19566)
+- Telemetry: Use a wrapper around all CLI commands to send boot and error events [#19566](https://github.com/storybooks/storybook/pull/19566)
 
 #### Build
 
--   Add ability to run tasks from code dir [#19588](https://github.com/storybooks/storybook/pull/19588)
--   Make the reporter dynamic [#19587](https://github.com/storybooks/storybook/pull/19587)
--   Add vite-react benchmark [#19558](https://github.com/storybooks/storybook/pull/19558)
+- Add ability to run tasks from code dir [#19588](https://github.com/storybooks/storybook/pull/19588)
+- Make the reporter dynamic [#19587](https://github.com/storybooks/storybook/pull/19587)
+- Add vite-react benchmark [#19558](https://github.com/storybooks/storybook/pull/19558)
 
 #### Dependency Upgrades
 
--   Fix test-runner version conflicts [#19581](https://github.com/storybooks/storybook/pull/19581)
+- Fix test-runner version conflicts [#19581](https://github.com/storybooks/storybook/pull/19581)
 
 ## 7.0.0-alpha.41 (October 21, 2022)
 
 #### Features
 
--   Add `@storybook/nextjs` framework [#19382](https://github.com/storybooks/storybook/pull/19382)
--   CLI: Enable `@storybook/nextjs` framework [#19478](https://github.com/storybooks/storybook/pull/19478)
--   CLI: Automigrate from MDX1 to MDX2 [#19568](https://github.com/storybooks/storybook/pull/19568)
+- Add `@storybook/nextjs` framework [#19382](https://github.com/storybooks/storybook/pull/19382)
+- CLI: Enable `@storybook/nextjs` framework [#19478](https://github.com/storybooks/storybook/pull/19478)
+- CLI: Automigrate from MDX1 to MDX2 [#19568](https://github.com/storybooks/storybook/pull/19568)
 
 #### Maintenance
 
--   Remove warning of removed feature in lib/client-api [#19544](https://github.com/storybooks/storybook/pull/19544)
--   Remove vite-plugin-svelte-kit when detected [#19522](https://github.com/storybooks/storybook/pull/19522)
+- Remove warning of removed feature in lib/client-api [#19544](https://github.com/storybooks/storybook/pull/19544)
+- Remove vite-plugin-svelte-kit when detected [#19522](https://github.com/storybooks/storybook/pull/19522)
 
 #### Build
 
--   Delete Svelte example [#19549](https://github.com/storybooks/storybook/pull/19549)
--   Fix circle test results [#19552](https://github.com/storybooks/storybook/pull/19552)
+- Delete Svelte example [#19549](https://github.com/storybooks/storybook/pull/19549)
+- Fix circle test results [#19552](https://github.com/storybooks/storybook/pull/19552)
 
 #### Dependency Upgrades
 
--   Update the version of the "update-notifier" package [#19569](https://github.com/storybooks/storybook/pull/19569)
+- Update the version of the "update-notifier" package [#19569](https://github.com/storybooks/storybook/pull/19569)
 
 ## 7.0.0-alpha.40 (October 20, 2022)
 

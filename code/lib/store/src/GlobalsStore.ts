@@ -1,4 +1,5 @@
 import type { Globals, GlobalTypes } from '@storybook/types';
+import { logger } from '@storybook/client-logger';
 
 import { deepDiff, DEEPLY_EQUAL } from './args';
 import { getValuesFromArgTypes } from './csf/getValuesFromArgTypes';
@@ -39,6 +40,10 @@ export class GlobalsStore {
     return Object.entries(globals).reduce((acc, [key, value]) => {
       if (this.allowedGlobalNames.has(key)) {
         acc[key] = value;
+      } else {
+        logger.warn(
+          `Attempted to set a global (${key}) that is not defined in initial globals or globalTypes`
+        );
       }
       return acc;
     }, {} as Globals);

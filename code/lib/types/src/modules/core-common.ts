@@ -13,6 +13,7 @@ import type { Parameters } from './csf';
  */
 
 export type BuilderName = 'webpack5' | '@storybook/builder-webpack5' | string;
+export type RendererName = string;
 
 export interface CoreConfig {
   builder?:
@@ -21,6 +22,7 @@ export interface CoreConfig {
         name: BuilderName;
         options?: Record<string, any>;
       };
+  renderer?: RendererName;
   disableWebpackDefaults?: boolean;
   channelOptions?: Partial<TelejsonOptions>;
   /**

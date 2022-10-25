@@ -21,6 +21,7 @@ import type {
   Store_StoryIndex,
   Store_V2CompatIndexEntry,
   Store_StoryIndexV3,
+  API_PreparedStoryIndex,
   Store_ModuleExports,
 } from '@storybook/types';
 import mapValues from 'lodash/mapValues';
@@ -355,6 +356,30 @@ export class StoryStore<TFramework extends AnyFramework> {
       stories,
     };
   };
+
+  getSetIndexPayload(): API_PreparedStoryIndex {
+    if (!this.storyIndex) throw new Error('getSetIndexPayload called before initialization');
+
+    const stories = this.extract({ includeDocsOnly: true });
+
+    return {
+      v: 4,
+      entries: Object.fromEntries(
+        Object.entries(this.storyIndex.entries).map(([id, entry]) => [
+          id,
+          stories[id]
+            ? {
+                ...entry,
+                args: stories[id].initialArgs,
+                initialArgs: stories[id].initialArgs,
+                argTypes: stories[id].argTypes,
+                parameters: stories[id].parameters,
+              }
+            : entry,
+        ])
+      ),
+    };
+  }
 
   raw(): Store_BoundStory<TFramework>[] {
     return Object.values(this.extract())

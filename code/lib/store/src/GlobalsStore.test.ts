@@ -1,6 +1,12 @@
 import { expect } from '@jest/globals';
 import { GlobalsStore } from './GlobalsStore';
 
+jest.mock('@storybook/client-logger', () => ({
+  logger: {
+    warn: jest.fn(),
+  },
+}));
+
 describe('GlobalsStore', () => {
   it('is initialized to the value in globals', () => {
     const store = new GlobalsStore({

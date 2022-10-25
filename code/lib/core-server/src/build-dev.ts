@@ -3,6 +3,7 @@ import type {
   LoadOptions,
   BuilderOptions,
   Options,
+  CoreConfig,
   StorybookConfig,
 } from '@storybook/types';
 import {
@@ -11,6 +12,7 @@ import {
   cache,
   loadMainConfig,
   validateFrameworkName,
+  resolveAddonName,
 } from '@storybook/core-common';
 import prompts from 'prompts';
 import global from 'global';
@@ -82,12 +84,14 @@ export async function buildDevStandalone(options: CLIOptions & LoadOptions & Bui
   });
 
   const [previewBuilder, managerBuilder] = await getBuilders({ ...options, presets });
+  const { renderer } = await presets.apply<CoreConfig>('core', undefined);
 
   presets = await loadAllPresets({
     corePresets: [
       require.resolve('./presets/common-preset'),
       ...(managerBuilder.corePresets || []),
       ...(previewBuilder.corePresets || []),
+      ...(renderer ? [resolveAddonName(options.configDir, renderer, options)] : []),
       ...corePresets,
       require.resolve('./presets/babel-cache-preset'),
     ],
