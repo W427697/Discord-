@@ -11,8 +11,8 @@ import React, {
   FC,
   FocusEvent,
 } from 'react';
-import { styled, useTheme, Theme } from '@storybook/theming';
-import { Form, Icons, IconsProps, IconButton } from '@storybook/components';
+import { styled, useTheme, type Theme } from '@storybook/theming';
+import { Form, Icons, type IconsProps, IconButton } from '@storybook/components';
 import { JsonTree, getObjectType } from './react-editable-json-tree';
 import { getControlId, getControlSetterButtonId } from './helpers';
 import type { ControlProps, ObjectValue, ObjectConfig } from './types';

@@ -1,4 +1,4 @@
-import type { AnyFramework, ProjectAnnotations } from '@storybook/csf';
+import type { AnyFramework, ProjectAnnotations } from '@storybook/types';
 import global from 'global';
 import { expect } from '@jest/globals';
 

@@ -3,9 +3,9 @@ import type {
   LoadOptions,
   BuilderOptions,
   Options,
-  StorybookConfig,
   CoreConfig,
-} from '@storybook/core-common';
+  StorybookConfig,
+} from '@storybook/types';
 import {
   resolvePathInStorybookCache,
   loadAllPresets,

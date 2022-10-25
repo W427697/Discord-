@@ -44,8 +44,8 @@
   "dependencies": {
     "@babel/core": "^7.12.10",
     "@storybook/core-common": "7.0.0-alpha.43",
-    "@storybook/csf": "next",
     "@storybook/store": "7.0.0-alpha.43",
+    "@storybook/types": "7.0.0-alpha.43",
     "doctrine": "^3.0.0",
     "lodash": "^4.17.21"
   },

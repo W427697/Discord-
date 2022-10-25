@@ -1,6 +1,6 @@
 import globalThis from 'global';
 import { PartialStoryFn, PlayFunctionContext } from '@storybook/csf';
-import { useEffect, useState } from '@storybook/client-api';
+import { useEffect, useState } from '@storybook/addons';
 import { within, userEvent } from '@storybook/testing-library';
 
 export default {

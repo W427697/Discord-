@@ -1,11 +1,13 @@
+/* eslint-disable camelcase */
 /// <reference types="webpack-env" />
 
 import { dedent } from 'ts-dedent';
 import global from 'global';
 import { logger } from '@storybook/client-logger';
-import { toId, sanitize, StepRunner } from '@storybook/csf';
+import { toId, sanitize } from '@storybook/csf';
 import type {
   Args,
+  StepRunner,
   ArgTypes,
   AnyFramework,
   DecoratorFunction,
@@ -16,30 +18,21 @@ import type {
   StoryFn,
   Globals,
   GlobalTypes,
-  LegacyStoryFn,
-} from '@storybook/csf';
+  Addon_ClientApiAddons,
+  Addon_StoryApi,
+  Store_NormalizedComponentAnnotations,
+  Store_Path,
+  Store_ModuleImportFn,
+  Store_ModuleExports,
+} from '@storybook/types';
 import {
   combineParameters,
   composeStepRunners,
   StoryStore,
   normalizeInputTypes,
-  ModuleExports,
 } from '@storybook/store';
-import type { NormalizedComponentAnnotations, Path, ModuleImportFn } from '@storybook/store';
-import type { ClientApiAddons, StoryApi } from '@storybook/addons';
 
 import { StoryStoreFacade } from './StoryStoreFacade';
-
-export interface GetStorybookStory<TFramework extends AnyFramework> {
-  name: string;
-  render: LegacyStoryFn<TFramework>;
-}
-
-export interface GetStorybookKind<TFramework extends AnyFramework> {
-  kind: string;
-  fileName: string;
-  stories: GetStorybookStory<TFramework>[];
-}
 
 // ClientApi (and StoreStore) are really singletons. However they are not created until the
 // relevant framework instanciates them via `start.js`. The good news is this happens right away.
@@ -128,9 +121,9 @@ export class ClientApi<TFramework extends AnyFramework> {
 
   storyStore?: StoryStore<TFramework>;
 
-  private addons: ClientApiAddons<TFramework['storyResult']>;
+  private addons: Addon_ClientApiAddons<TFramework['storyResult']>;
 
-  onImportFnChanged?: ({ importFn }: { importFn: ModuleImportFn }) => void;
+  onImportFnChanged?: ({ importFn }: { importFn: Store_ModuleImportFn }) => void;
 
   // If we don't get passed modules so don't know filenames, we can
   // just use numeric indexes
@@ -147,7 +140,7 @@ export class ClientApi<TFramework extends AnyFramework> {
     singleton = this;
   }
 
-  importFn(path: Path) {
+  importFn(path: Store_Path) {
     return this.facade.importFn(path);
   }
 
@@ -221,7 +214,7 @@ export class ClientApi<TFramework extends AnyFramework> {
   // storiesOf file to finish adding stories, and us to load it into the facade as a
   // single psuedo-CSF file. So instead we just keep collecting the CSF files and load
   // them all into the facade at the end.
-  _addedExports = {} as Record<Path, ModuleExports>;
+  _addedExports = {} as Record<Store_Path, Store_ModuleExports>;
 
   _loadAddedExports() {
     // eslint-disable-next-line no-underscore-dangle
@@ -231,7 +224,7 @@ export class ClientApi<TFramework extends AnyFramework> {
   }
 
   // what are the occasions that "m" is a boolean vs an obj
-  storiesOf = (kind: string, m?: NodeModule): StoryApi<TFramework['storyResult']> => {
+  storiesOf = (kind: string, m?: NodeModule): Addon_StoryApi<TFramework['storyResult']> => {
     if (!kind && typeof kind !== 'string') {
       throw new Error('Invalid or missing kind provided for stories, should be a string');
     }
@@ -287,7 +280,7 @@ export class ClientApi<TFramework extends AnyFramework> {
     }
 
     let hasAdded = false;
-    const api: StoryApi<TFramework['storyResult']> = {
+    const api: Addon_StoryApi<TFramework['storyResult']> = {
       kind: kind.toString(),
       add: () => api,
       addDecorator: () => api,
@@ -304,7 +297,7 @@ export class ClientApi<TFramework extends AnyFramework> {
       };
     });
 
-    const meta: NormalizedComponentAnnotations<TFramework> = {
+    const meta: Store_NormalizedComponentAnnotations<TFramework> = {
       id: sanitize(kind),
       title: kind,
       decorators: [],

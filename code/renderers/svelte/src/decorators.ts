@@ -1,7 +1,6 @@
-import type { DecoratorFunction, StoryContext, LegacyStoryFn } from '@storybook/csf';
+import type { DecoratorFunction, StoryContext, LegacyStoryFn } from '@storybook/types';
 import { sanitizeStoryContextUpdate } from '@storybook/store';
-// eslint-disable-next-line import/no-extraneous-dependencies
-import SlotDecorator from '@storybook/svelte/templates/SlotDecorator.svelte';
+import SlotDecorator from '../templates/SlotDecorator.svelte';
 import { SvelteFramework } from './types';
 
 /**

@@ -44,6 +44,7 @@
   },
   "dependencies": {
     "@storybook/csf": "next",
+    "@storybook/types": "7.0.0-alpha.43",
     "estraverse": "^5.2.0",
     "lodash": "^4.17.21",
     "prettier": ">=2.2.1 <=2.3.0"

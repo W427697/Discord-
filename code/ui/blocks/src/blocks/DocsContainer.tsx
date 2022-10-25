@@ -2,7 +2,7 @@ import React, { FunctionComponent, useEffect, ReactNode } from 'react';
 import global from 'global';
 import type { ThemeVars } from '@storybook/theming';
 import { ThemeProvider, ensure as ensureTheme } from '@storybook/theming';
-import { AnyFramework } from '@storybook/csf';
+import type { AnyFramework } from '@storybook/types';
 import { DocsWrapper, DocsContent } from '../components';
 import { DocsContextProps, DocsContext } from './DocsContext';
 import { SourceContainer } from './SourceContainer';

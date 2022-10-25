@@ -1,5 +1,6 @@
+/* eslint-disable camelcase */
 import { describe, expect, test } from '@jest/globals';
-import type { Args } from '@storybook/api';
+import type { API_Args } from '@storybook/types';
 import { generateSvelteSource } from './sourceDecorator';
 
 expect.addSnapshotSerializer({
@@ -7,7 +8,7 @@ expect.addSnapshotSerializer({
   test: (val: unknown) => typeof val === 'string',
 });
 
-function generateForArgs(args: Args, slotProperty: string | null = null) {
+function generateForArgs(args: API_Args, slotProperty: string | null = null) {
   return generateSvelteSource({ name: 'Component' }, args, {}, slotProperty);
 }
 

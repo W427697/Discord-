@@ -1,14 +1,14 @@
 import { describe, test } from '@jest/globals';
 import { satisfies } from '@storybook/core-common';
-import { ComponentAnnotations, StoryAnnotations } from '@storybook/csf';
+import type { ComponentAnnotations, StoryAnnotations } from '@storybook/types';
 import { expectTypeOf } from 'expect-type';
-import { ComponentProps, SvelteComponentTyped } from 'svelte';
+import type { ComponentProps, SvelteComponentTyped } from 'svelte';
 import Button from './__test__/Button.svelte';
 import Decorator from './__test__/Decorator.svelte';
 import Decorator2 from './__test__/Decorator2.svelte';
 
-import { DecoratorFn, Meta, StoryObj } from './public-types';
-import { SvelteFramework } from './types';
+import type { DecoratorFn, Meta, StoryObj } from './public-types';
+import type { SvelteFramework } from './types';
 
 type SvelteStory<Component extends SvelteComponentTyped, Args, RequiredArgs> = StoryAnnotations<
   SvelteFramework<Component>,

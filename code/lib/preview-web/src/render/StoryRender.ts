@@ -1,19 +1,18 @@
+/* eslint-disable camelcase */
 import global from 'global';
-import {
+import type {
   AnyFramework,
   StoryId,
   ViewMode,
   StoryContextForLoaders,
   StoryContext,
-} from '@storybook/csf';
-import {
-  Story,
-  RenderContext,
-  StoryStore,
-  RenderToDOM,
-  TeardownRenderToDOM,
-} from '@storybook/store';
-import { Channel } from '@storybook/addons';
+  Store_Story,
+  Store_RenderContext,
+  Store_RenderToDOM,
+  Store_TeardownRenderToDOM,
+} from '@storybook/types';
+import type { StoryStore } from '@storybook/store';
+import { Channel } from '@storybook/channels';
 import { logger } from '@storybook/client-logger';
 import {
   STORY_RENDER_PHASE_CHANGED,
@@ -44,14 +43,14 @@ function serializeError(error: any) {
 }
 
 export type RenderContextCallbacks<TFramework extends AnyFramework> = Pick<
-  RenderContext<TFramework>,
+  Store_RenderContext<TFramework>,
   'showMain' | 'showError' | 'showException'
 >;
 
 export class StoryRender<TFramework extends AnyFramework> implements Render<TFramework> {
   public type: RenderType = 'story';
 
-  public story?: Story<TFramework>;
+  public story?: Store_Story<TFramework>;
 
   public phase?: RenderPhase;
 
@@ -63,18 +62,18 @@ export class StoryRender<TFramework extends AnyFramework> implements Render<TFra
 
   public disableKeyListeners = false;
 
-  private teardownRender: TeardownRenderToDOM = () => {};
+  private teardownRender: Store_TeardownRenderToDOM = () => {};
 
   public torndown = false;
 
   constructor(
     public channel: Channel,
     public store: StoryStore<TFramework>,
-    private renderToScreen: RenderToDOM<TFramework>,
+    private renderToScreen: Store_RenderToDOM<TFramework>,
     private callbacks: RenderContextCallbacks<TFramework>,
     public id: StoryId,
     public viewMode: ViewMode,
-    story?: Story<TFramework>
+    story?: Store_Story<TFramework>
   ) {
     this.abortController = new AbortController();
 
@@ -105,7 +104,7 @@ export class StoryRender<TFramework extends AnyFramework> implements Render<TFra
     });
 
     if ((this.abortController as AbortController).signal.aborted) {
-      this.store.cleanupStory(this.story as Story<TFramework>);
+      this.store.cleanupStory(this.story as Store_Story<TFramework>);
       throw PREPARE_ABORTED;
     }
   }
@@ -188,7 +187,7 @@ export class StoryRender<TFramework extends AnyFramework> implements Render<TFra
         abortSignal,
         canvasElement,
       };
-      const renderContext: RenderContext<TFramework> = {
+      const renderContext: Store_RenderContext<TFramework> = {
         componentId,
         title,
         kind: title,

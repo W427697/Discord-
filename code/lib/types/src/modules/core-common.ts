@@ -1,10 +1,12 @@
+/* eslint-disable camelcase */
+import type { FileSystemCache } from 'file-system-cache';
+
 import type { Options as TelejsonOptions } from 'telejson';
 import type { TransformOptions } from '@babel/core';
-import { Router } from 'express';
-import { Server } from 'http';
-import type { Parameters } from '@storybook/csf';
+import type { Router } from 'express';
+import type { Server } from 'http';
 import type { PackageJson as PackageJsonFromTypeFest } from 'type-fest';
-import type { FileSystemCache } from './utils/file-cache';
+import type { Parameters } from './csf';
 
 /**
  * ⚠️ This file contains internal WIP types they MUST NOT be exported outside this package for now!
@@ -61,7 +63,7 @@ export interface Presets {
   apply(extension: 'framework', config?: {}, args?: any): Promise<Preset>;
   apply(extension: 'babel', config?: {}, args?: any): Promise<TransformOptions>;
   apply(extension: 'entries', config?: [], args?: any): Promise<unknown>;
-  apply(extension: 'stories', config?: [], args?: any): Promise<StoriesEntry[]>;
+  apply(extension: 'stories', config?: [], args?: any): Promise<CoreCommon_StoriesEntry[]>;
   apply(extension: 'managerEntries', config: [], args?: any): Promise<string[]>;
   apply(extension: 'refs', config?: [], args?: any): Promise<unknown>;
   apply(extension: 'core', config?: {}, args?: any): Promise<CoreConfig>;
@@ -199,23 +201,23 @@ export interface Builder<Config, BuilderStats extends Stats = Stats> {
   overridePresets?: string[];
 }
 
-export interface IndexerOptions {
+export interface CoreCommon_IndexerOptions {
   makeTitle: (userTitle?: string) => string;
 }
 
-export interface IndexedStory {
+export interface CoreCommon_IndexedStory {
   id: string;
   name: string;
   parameters?: Parameters;
 }
-export interface StoryIndex {
+export interface CoreCommon_StoryIndex {
   meta: { title?: string };
-  stories: IndexedStory[];
+  stories: CoreCommon_IndexedStory[];
 }
 
-export interface StoryIndexer {
+export interface CoreCommon_StoryIndexer {
   test: RegExp;
-  indexer: (fileName: string, options: IndexerOptions) => Promise<StoryIndex>;
+  indexer: (fileName: string, options: CoreCommon_IndexerOptions) => Promise<CoreCommon_StoryIndex>;
   addDocsTemplate?: boolean;
 }
 
@@ -237,7 +239,7 @@ export interface TypescriptOptions {
   skipBabel: boolean;
 }
 
-interface StoriesSpecifier {
+interface CoreCommon_StoriesSpecifier {
   /**
    * When auto-titling, what to prefix all generated titles with (default: '')
    */
@@ -254,9 +256,9 @@ interface StoriesSpecifier {
   files?: string;
 }
 
-export type StoriesEntry = string | StoriesSpecifier;
+export type CoreCommon_StoriesEntry = string | CoreCommon_StoriesSpecifier;
 
-export type NormalizedStoriesSpecifier = Required<StoriesSpecifier> & {
+export type CoreCommon_NormalizedStoriesSpecifier = Required<CoreCommon_StoriesSpecifier> & {
   /*
    * Match the "importPath" of a file (e.g. `./src/button/Button.stories.js')
    * relative to the current working directory.
@@ -277,7 +279,10 @@ export type Preset =
  */
 export type Entry = string;
 
-type StorybookRefs = Record<string, { title: string; url: string } | { disable: boolean }>;
+type CoreCommon_StorybookRefs = Record<
+  string,
+  { title: string; url: string } | { disable: boolean }
+>;
 
 export type DocsOptions = {
   /**
@@ -371,7 +376,7 @@ export interface StorybookConfig {
    *
    * @example `['./src/*.stories.@(j|t)sx?']`
    */
-  stories: StoriesEntry[];
+  stories: CoreCommon_StoriesEntry[];
 
   /**
    * Framework, e.g. '@storybook/react', required in v7
@@ -386,7 +391,7 @@ export interface StorybookConfig {
   /**
    * References external Storybooks
    */
-  refs?: StorybookRefs | ((config: any, options: Options) => StorybookRefs);
+  refs?: CoreCommon_StorybookRefs | ((config: any, options: Options) => CoreCommon_StorybookRefs);
 
   /**
    * Modify or return babel config.
@@ -419,7 +424,10 @@ export interface StorybookConfig {
   /**
    * Process CSF files for the story index.
    */
-  storyIndexers?: (indexers: StoryIndexer[], options: Options) => StoryIndexer[];
+  storyIndexers?: (
+    indexers: CoreCommon_StoryIndexer[],
+    options: Options
+  ) => CoreCommon_StoryIndexer[];
 
   /**
    * Docs related features in index generation
@@ -446,3 +454,35 @@ export type PresetPropertyFn<K, TStorybookConfig = StorybookConfig, TOptions = {
 ) =>
   | TStorybookConfig[K extends keyof TStorybookConfig ? K : never]
   | Promise<TStorybookConfig[K extends keyof TStorybookConfig ? K : never]>;
+
+export interface CoreCommon_ResolvedAddonPreset {
+  type: 'presets';
+  name: string;
+}
+
+export interface CoreCommon_ResolvedAddonVirtual {
+  type: 'virtual';
+  name: string;
+  managerEntries?: string[];
+  previewAnnotations?: string[];
+  presets?: (string | { name: string; options?: any })[];
+}
+
+export type CoreCommon_OptionsEntry = { name: string };
+export type CoreCommon_AddonEntry = string | CoreCommon_OptionsEntry;
+export type CoreCommon_AddonInfo = { name: string; inEssentials: boolean };
+
+export interface CoreCommon_StorybookInfo {
+  version: string;
+  // FIXME: these are renderers for now,
+  // need to update with framework OR fix
+  // the calling code
+  framework: string;
+  frameworkPackage: string;
+  renderer: string;
+  rendererPackage: string;
+  configDir?: string;
+  mainConfig?: string;
+  previewConfig?: string;
+  managerConfig?: string;
+}

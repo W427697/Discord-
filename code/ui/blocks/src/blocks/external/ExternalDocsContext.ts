@@ -1,8 +1,13 @@
-import { AnyFramework } from '@storybook/csf';
+/* eslint-disable camelcase */
+import type {
+  AnyFramework,
+  Store_CSFFile,
+  Store_ModuleExport,
+  Store_ModuleExports,
+} from '@storybook/types';
 import { DocsContext } from '@storybook/preview-web';
 import { StoryStore } from '@storybook/store';
 import type { DocsContextProps } from '@storybook/preview-web';
-import type { CSFFile, ModuleExport, ModuleExports } from '@storybook/store';
 import type { Channel } from '@storybook/channels';
 
 export class ExternalDocsContext<TFramework extends AnyFramework> extends DocsContext<TFramework> {
@@ -10,17 +15,17 @@ export class ExternalDocsContext<TFramework extends AnyFramework> extends DocsCo
     public channel: Channel,
     protected store: StoryStore<TFramework>,
     public renderStoryToElement: DocsContextProps['renderStoryToElement'],
-    private processMetaExports: (metaExports: ModuleExports) => CSFFile<TFramework>
+    private processMetaExports: (metaExports: Store_ModuleExports) => Store_CSFFile<TFramework>
   ) {
     super(channel, store, renderStoryToElement, [], true);
   }
 
-  setMeta = (metaExports: ModuleExports) => {
+  setMeta = (metaExports: Store_ModuleExports) => {
     const csfFile = this.processMetaExports(metaExports);
     this.referenceCSFFile(csfFile, true);
   };
 
-  storyIdByModuleExport(storyExport: ModuleExport, metaExports?: ModuleExports) {
+  storyIdByModuleExport(storyExport: Store_ModuleExport, metaExports?: Store_ModuleExports) {
     if (metaExports) {
       const csfFile = this.processMetaExports(metaExports);
       this.referenceCSFFile(csfFile, false);

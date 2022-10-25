@@ -1,10 +1,11 @@
+/* eslint-disable camelcase */
 import global from 'global';
 import { logger } from '@storybook/client-logger';
 import AnsiToHtml from 'ansi-to-html';
 import { dedent } from 'ts-dedent';
 import qs from 'qs';
 
-import type { Story } from '@storybook/store';
+import type { Store_Story } from '@storybook/types';
 
 const { document } = global;
 
@@ -64,7 +65,7 @@ export class WebView {
   }
 
   // Get ready to render a story, returning the element to render to
-  prepareForStory(story: Story<any>) {
+  prepareForStory(story: Store_Story<any>) {
     this.showStory();
     this.applyLayout(story.parameters.layout);
 

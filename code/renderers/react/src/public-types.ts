@@ -5,7 +5,8 @@ import type {
   ArgsStoryFn,
   ComponentAnnotations,
   StoryAnnotations,
-} from '@storybook/csf';
+} from '@storybook/types';
+
 import { ComponentProps, ComponentType, JSXElementConstructor } from 'react';
 import { SetOptional, Simplify } from 'type-fest';
 

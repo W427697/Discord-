@@ -47,6 +47,7 @@
     "@babel/traverse": "^7.12.11",
     "@babel/types": "^7.12.11",
     "@storybook/csf": "next",
+    "@storybook/types": "7.0.0-alpha.43",
     "fs-extra": "^9.0.1",
     "ts-dedent": "^2.0.0"
   },

@@ -1,24 +1,29 @@
+/* eslint-disable camelcase */
 import { dedent } from 'ts-dedent';
-import type { StoryId } from '@storybook/csf';
+import type {
+  StoryId,
+  Addon_IndexEntry,
+  Store_StorySpecifier,
+  Store_StoryIndex,
+  Store_Path,
+} from '@storybook/types';
 import memoize from 'memoizerific';
 
-import type { StorySpecifier, StoryIndex, IndexEntry, Path } from './types';
-
-const getImportPathMap = memoize(1)((entries: StoryIndex['entries']) =>
+const getImportPathMap = memoize(1)((entries: Store_StoryIndex['entries']) =>
   Object.values(entries).reduce((acc, entry) => {
     acc[entry.importPath] = acc[entry.importPath] || entry;
     return acc;
-  }, {} as Record<Path, IndexEntry>)
+  }, {} as Record<Store_Path, Addon_IndexEntry>)
 );
 
 export class StoryIndexStore {
-  entries: StoryIndex['entries'];
+  entries: Store_StoryIndex['entries'];
 
-  constructor({ entries }: StoryIndex = { v: 4, entries: {} }) {
+  constructor({ entries }: Store_StoryIndex = { v: 4, entries: {} }) {
     this.entries = entries;
   }
 
-  entryFromSpecifier(specifier: StorySpecifier) {
+  entryFromSpecifier(specifier: Store_StorySpecifier) {
     const entries = Object.values(this.entries);
     if (specifier === '*') {
       // '*' means select the first entry. If there is none, we have no selection.
@@ -39,7 +44,7 @@ export class StoryIndexStore {
     return entries.find((entry) => entry.name === name && entry.title === title);
   }
 
-  storyIdToEntry(storyId: StoryId): IndexEntry {
+  storyIdToEntry(storyId: StoryId): Addon_IndexEntry {
     const storyEntry = this.entries[storyId];
     if (!storyEntry) {
       throw new Error(dedent`Couldn't find story matching '${storyId}' after HMR.
@@ -52,7 +57,7 @@ export class StoryIndexStore {
     return storyEntry;
   }
 
-  importPathToEntry(importPath: Path): IndexEntry {
+  importPathToEntry(importPath: Store_Path): Addon_IndexEntry {
     return getImportPathMap(this.entries)[importPath];
   }
 }

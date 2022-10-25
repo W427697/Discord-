@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import { dedent } from 'ts-dedent';
 import deprecate from 'util-deprecate';
 import global from 'global';
@@ -15,17 +16,15 @@ import type {
   PlayFunctionContext,
   StepLabel,
   PlayFunction,
-} from '@storybook/csf';
+  Store_NormalizedComponentAnnotations,
+  Store_Story,
+  Store_NormalizedStoryAnnotations,
+  Store_NormalizedProjectAnnotations,
+} from '@storybook/types';
 import { includeConditionalArg } from '@storybook/csf';
 
-import type {
-  NormalizedComponentAnnotations,
-  Story,
-  NormalizedStoryAnnotations,
-  NormalizedProjectAnnotations,
-} from '../types';
+import { applyHooks } from '@storybook/addons';
 import { combineParameters } from '../parameters';
-import { applyHooks } from '../hooks';
 import { defaultDecorateStory } from '../decorators';
 import { groupArgsByTarget, NO_TARGET_NAME } from '../args';
 import { getValuesFromArgTypes } from './getValuesFromArgTypes';
@@ -44,10 +43,10 @@ const argTypeDefaultValueWarning = deprecate(
 // Note that this story function is *stateless* in the sense that it does not track args or globals
 // Instead, it is expected these are tracked separately (if necessary) and are passed into each invocation.
 export function prepareStory<TFramework extends AnyFramework>(
-  storyAnnotations: NormalizedStoryAnnotations<TFramework>,
-  componentAnnotations: NormalizedComponentAnnotations<TFramework>,
-  projectAnnotations: NormalizedProjectAnnotations<TFramework>
-): Story<TFramework> {
+  storyAnnotations: Store_NormalizedStoryAnnotations<TFramework>,
+  componentAnnotations: Store_NormalizedComponentAnnotations<TFramework>,
+  projectAnnotations: Store_NormalizedProjectAnnotations<TFramework>
+): Store_Story<TFramework> {
   // NOTE: in the current implementation we are doing everything once, up front, rather than doing
   // anything at render time. The assumption is that as we don't load all the stories at once, this
   // will have a limited cost. If this proves misguided, we can refactor it.

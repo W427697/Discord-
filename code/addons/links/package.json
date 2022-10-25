@@ -68,6 +68,7 @@
     "@storybook/core-events": "7.0.0-alpha.43",
     "@storybook/csf": "next",
     "@storybook/router": "7.0.0-alpha.43",
+    "@storybook/types": "7.0.0-alpha.43",
     "global": "^4.4.0",
     "prop-types": "^15.7.2",
     "ts-dedent": "^2.0.0"

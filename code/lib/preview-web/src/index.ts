@@ -1,6 +1,7 @@
+/* eslint-disable camelcase */
 // FIXME: breaks builder-vite, remove this in 7.0
 export { composeConfigs } from '@storybook/store';
-export type { WebProjectAnnotations } from '@storybook/store';
+export type { Store_WebProjectAnnotations as WebProjectAnnotations } from '@storybook/types';
 
 export { Preview } from './Preview';
 export { PreviewWeb } from './PreviewWeb';

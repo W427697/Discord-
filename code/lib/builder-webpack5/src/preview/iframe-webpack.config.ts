@@ -7,7 +7,7 @@ import TerserWebpackPlugin from 'terser-webpack-plugin';
 import VirtualModulePlugin from 'webpack-virtual-modules';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 
-import type { Options, CoreConfig, DocsOptions } from '@storybook/core-common';
+import type { Options, CoreConfig, DocsOptions } from '@storybook/types';
 import {
   getRendererName,
   stringifyProcessEnvs,

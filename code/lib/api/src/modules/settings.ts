@@ -1,3 +1,5 @@
+/* eslint-disable camelcase */
+import type { API_Settings } from '@storybook/types';
 import type { ModuleFn } from '../index';
 
 export interface SubAPI {
@@ -7,12 +9,8 @@ export interface SubAPI {
   navigateToSettingsPage: (path: string) => Promise<void>;
 }
 
-export interface Settings {
-  lastTrackedStoryId: string;
-}
-
 export interface SubState {
-  settings: Settings;
+  settings: API_Settings;
 }
 
 export const init: ModuleFn<SubAPI, SubState> = ({ store, navigate, fullAPI }) => {

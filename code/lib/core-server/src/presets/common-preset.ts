@@ -1,7 +1,7 @@
+/* eslint-disable camelcase */
 import fs from 'fs-extra';
 import { deprecate } from '@storybook/node-logger';
 import {
-  type CLIOptions,
   getPreviewBodyTemplate,
   getPreviewHeadTemplate,
   getPreviewMainTemplate,
@@ -9,11 +9,12 @@ import {
 } from '@storybook/core-common';
 import type {
   Options,
+  CLIOptions,
   CoreConfig,
   StorybookConfig,
-  StoryIndexer,
-  IndexerOptions,
-} from '@storybook/core-common';
+  CoreCommon_StoryIndexer,
+  CoreCommon_IndexerOptions,
+} from '@storybook/types';
 import { loadCsf } from '@storybook/csf-tools';
 
 export const babel = async (_: unknown, options: Options) => {
@@ -111,8 +112,8 @@ export const features = async (
   argTypeTargetsV7: true,
 });
 
-export const storyIndexers = async (indexers?: StoryIndexer[]) => {
-  const csfIndexer = async (fileName: string, opts: IndexerOptions) => {
+export const storyIndexers = async (indexers?: CoreCommon_StoryIndexer[]) => {
+  const csfIndexer = async (fileName: string, opts: CoreCommon_IndexerOptions) => {
     const code = (await fs.readFile(fileName, 'utf-8')).toString();
     return loadCsf(code, { ...opts, fileName }).parse();
   };

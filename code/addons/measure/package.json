@@ -66,7 +66,7 @@
     "@storybook/client-logger": "7.0.0-alpha.43",
     "@storybook/components": "7.0.0-alpha.43",
     "@storybook/core-events": "7.0.0-alpha.43",
-    "@storybook/csf": "next",
+    "@storybook/types": "7.0.0-alpha.43",
     "global": "^4.4.0"
   },
   "devDependencies": {

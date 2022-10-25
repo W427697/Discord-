@@ -1,6 +1,7 @@
+/* eslint-disable camelcase */
 import global from 'global';
-import type { ArgsStoryFn } from '@storybook/csf';
-import type { RenderContext } from '@storybook/store';
+
+import type { Store_RenderContext, ArgsStoryFn } from '@storybook/types';
 import { SvelteComponentTyped } from 'svelte';
 import PreviewRender from '../templates/PreviewRender.svelte';
 
@@ -19,7 +20,7 @@ function cleanUpPreviousStory() {
 }
 
 export function renderToDOM(
-  { storyFn, kind, name, showMain, showError, storyContext }: RenderContext<SvelteFramework>,
+  { storyFn, kind, name, showMain, showError, storyContext }: Store_RenderContext<SvelteFramework>,
   domElement: Element
 ) {
   cleanUpPreviousStory();

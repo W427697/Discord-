@@ -1,4 +1,4 @@
-import type { Globals, GlobalTypes } from '@storybook/csf';
+import type { Globals, GlobalTypes } from '@storybook/types';
 import { logger } from '@storybook/client-logger';
 
 import { deepDiff, DEEPLY_EQUAL } from './args';

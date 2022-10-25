@@ -1,9 +1,15 @@
+/* eslint-disable camelcase */
 /// <reference types="node" />
 /// <reference types="webpack-env" />
 
 import { logger } from '@storybook/client-logger';
-import { Path, ModuleExports } from '@storybook/store';
-import { Loadable, RequireContext, LoaderFunction } from './types';
+import type {
+  Store_Path,
+  Store_ModuleExports,
+  Loadable,
+  CoreClient_RequireContext,
+  CoreClient_LoaderFunction,
+} from '@storybook/types';
 
 /**
  * Executes a Loadable (function that returns exports or require context(s))
@@ -17,16 +23,16 @@ export function executeLoadable(loadable: Loadable) {
   // todo discuss / improve type check
   if (Array.isArray(loadable)) {
     reqs = loadable;
-  } else if ((loadable as RequireContext).keys) {
-    reqs = [loadable as RequireContext];
+  } else if ((loadable as CoreClient_RequireContext).keys) {
+    reqs = [loadable as CoreClient_RequireContext];
   }
 
-  let exportsMap = new Map<Path, ModuleExports>();
+  let exportsMap = new Map<Store_Path, Store_ModuleExports>();
   if (reqs) {
     reqs.forEach((req) => {
       req.keys().forEach((filename: string) => {
         try {
-          const fileExports = req(filename) as ModuleExports;
+          const fileExports = req(filename) as Store_ModuleExports;
           exportsMap.set(
             typeof req.resolve === 'function' ? req.resolve(filename) : filename,
             fileExports
@@ -39,7 +45,7 @@ export function executeLoadable(loadable: Loadable) {
       });
     });
   } else {
-    const exported = (loadable as LoaderFunction)();
+    const exported = (loadable as CoreClient_LoaderFunction)();
     if (Array.isArray(exported) && exported.every((obj) => obj.default != null)) {
       exportsMap = new Map(
         exported.map((fileExports, index) => [`exports-map-${index}`, fileExports])
@@ -76,7 +82,7 @@ export function executeLoadableForChanges(loadable: Loadable, m?: NodeModule) {
   }
 
   const exportsMap = executeLoadable(loadable);
-  const added = new Map<Path, ModuleExports>();
+  const added = new Map<Store_Path, Store_ModuleExports>();
   Array.from(exportsMap.entries())
     // Ignore files that do not have a default export
     .filter(([, fileExports]) => !!fileExports.default)
@@ -84,7 +90,7 @@ export function executeLoadableForChanges(loadable: Loadable, m?: NodeModule) {
     .filter(([fileName, fileExports]) => lastExportsMap.get(fileName) !== fileExports)
     .forEach(([fileName, fileExports]) => added.set(fileName, fileExports));
 
-  const removed = new Map<Path, ModuleExports>();
+  const removed = new Map<Store_Path, Store_ModuleExports>();
   Array.from(lastExportsMap.keys())
     .filter((fileName) => !exportsMap.has(fileName))
     .forEach((fileName) => removed.set(fileName, lastExportsMap.get(fileName)));

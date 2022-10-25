@@ -52,10 +52,10 @@
   "dependencies": {
     "@storybook/addons": "7.0.0-alpha.43",
     "@storybook/core-client": "7.0.0-alpha.43",
-    "@storybook/csf": "next",
     "@storybook/docs-tools": "7.0.0-alpha.43",
     "@storybook/preview-web": "7.0.0-alpha.43",
     "@storybook/store": "7.0.0-alpha.43",
+    "@storybook/types": "7.0.0-alpha.43",
     "global": "^4.4.0",
     "react": "16.14.0",
     "react-dom": "16.14.0",

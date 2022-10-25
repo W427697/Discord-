@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useRef } from 'react';
-import { AnyFramework, ProjectAnnotations } from '@storybook/csf';
+import type { AnyFramework, ProjectAnnotations } from '@storybook/types';
 import { composeConfigs } from '@storybook/store';
 
 import { Docs } from '../Docs';

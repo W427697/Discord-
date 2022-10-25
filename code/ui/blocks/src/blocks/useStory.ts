@@ -1,13 +1,13 @@
+/* eslint-disable camelcase */
 import { useState, useEffect } from 'react';
-import type { StoryId, AnyFramework } from '@storybook/csf';
-import type { Story } from '@storybook/store';
+import type { StoryId, AnyFramework, Store_Story } from '@storybook/types';
 
 import { DocsContextProps } from './DocsContext';
 
 export function useStory<TFramework extends AnyFramework = AnyFramework>(
   storyId: StoryId,
   context: DocsContextProps<TFramework>
-): Story<TFramework> | void {
+): Store_Story<TFramework> | void {
   const stories = useStories([storyId], context);
   return stories && stories[0];
 }
@@ -15,10 +15,10 @@ export function useStory<TFramework extends AnyFramework = AnyFramework>(
 export function useStories<TFramework extends AnyFramework = AnyFramework>(
   storyIds: StoryId[],
   context: DocsContextProps<TFramework>
-): (Story<TFramework> | void)[] {
+): (Store_Story<TFramework> | void)[] {
   // Legacy docs pages can reference any story by id. Those stories will need to be
   // asyncronously loaded; we use the state for this
-  const [storiesById, setStories] = useState<Record<StoryId, Story<TFramework>>>({});
+  const [storiesById, setStories] = useState<Record<StoryId, Store_Story<TFramework>>>({});
 
   useEffect(() => {
     // deepscan-disable-next-line NO_EFFECT_CALL

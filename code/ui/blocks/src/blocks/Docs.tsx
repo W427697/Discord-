@@ -1,6 +1,6 @@
 import React from 'react';
 import type { FunctionComponent, ComponentType } from 'react';
-import type { AnyFramework, Parameters } from '@storybook/csf';
+import type { AnyFramework, Parameters } from '@storybook/types';
 import type { Theme } from '@storybook/theming';
 
 import type { DocsContextProps } from './DocsContext';

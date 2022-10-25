@@ -1,11 +1,19 @@
+/* eslint-disable camelcase */
 import { Preview } from '@storybook/preview-web';
-import { Path, ModuleExports, StoryIndex, composeConfigs } from '@storybook/store';
-import { AnyFramework, ComponentTitle, ProjectAnnotations } from '@storybook/csf';
+import type {
+  Store_Path,
+  Store_ModuleExports,
+  Store_StoryIndex,
+  AnyFramework,
+  ComponentTitle,
+  ProjectAnnotations,
+} from '@storybook/types';
+import { composeConfigs } from '@storybook/store';
 import { Channel } from '@storybook/channels';
 
 import { ExternalDocsContext } from './ExternalDocsContext';
 
-type MetaExports = ModuleExports;
+type MetaExports = Store_ModuleExports;
 
 class ConstantMap<TKey, TValue extends string> {
   entries = new Map<TKey, TValue>();
@@ -24,20 +32,20 @@ class ConstantMap<TKey, TValue extends string> {
 export class ExternalPreview<
   TFramework extends AnyFramework = AnyFramework
 > extends Preview<TFramework> {
-  private importPaths = new ConstantMap<MetaExports, Path>('./importPath/');
+  private importPaths = new ConstantMap<MetaExports, Store_Path>('./importPath/');
 
   private titles = new ConstantMap<MetaExports, ComponentTitle>('title-');
 
-  private storyIndex: StoryIndex = { v: 4, entries: {} };
+  private storyIndex: Store_StoryIndex = { v: 4, entries: {} };
 
-  private moduleExportsByImportPath: Record<Path, ModuleExports> = {};
+  private moduleExportsByImportPath: Record<Store_Path, Store_ModuleExports> = {};
 
   constructor(public projectAnnotations: ProjectAnnotations) {
     super(new Channel());
 
     this.initialize({
       getStoryIndex: () => this.storyIndex,
-      importFn: (path: Path) => {
+      importFn: (path: Store_Path) => {
         return Promise.resolve(this.moduleExportsByImportPath[path]);
       },
       getProjectAnnotations: () =>

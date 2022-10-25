@@ -14,7 +14,7 @@ import type {
   StorybookConfig,
   CoreConfig,
   DocsOptions,
-} from '@storybook/core-common';
+} from '@storybook/types';
 import {
   loadAllPresets,
   normalizeStories,

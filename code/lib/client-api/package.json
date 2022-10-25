@@ -46,6 +46,7 @@
     "@storybook/client-logger": "7.0.0-alpha.43",
     "@storybook/csf": "next",
     "@storybook/store": "7.0.0-alpha.43",
+    "@storybook/types": "7.0.0-alpha.43",
     "@types/qs": "^6.9.5",
     "@types/webpack-env": "^1.16.4",
     "global": "^4.4.0",

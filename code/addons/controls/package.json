@@ -63,10 +63,10 @@
     "@storybook/client-logger": "7.0.0-alpha.43",
     "@storybook/components": "7.0.0-alpha.43",
     "@storybook/core-common": "7.0.0-alpha.43",
-    "@storybook/csf": "next",
     "@storybook/node-logger": "7.0.0-alpha.43",
     "@storybook/store": "7.0.0-alpha.43",
     "@storybook/theming": "7.0.0-alpha.43",
+    "@storybook/types": "7.0.0-alpha.43",
     "lodash": "^4.17.21",
     "ts-dedent": "^2.0.0"
   },

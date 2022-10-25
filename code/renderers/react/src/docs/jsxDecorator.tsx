@@ -3,7 +3,7 @@ import React, { createElement, ReactElement } from 'react';
 import reactElementToJSXString, { Options } from 'react-element-to-jsx-string';
 
 import { addons, useEffect } from '@storybook/addons';
-import { StoryContext, ArgsStoryFn, PartialStoryFn } from '@storybook/csf';
+import type { StoryContext, ArgsStoryFn, PartialStoryFn } from '@storybook/types';
 import { SourceType, SNIPPET_RENDERED, getDocgenSection } from '@storybook/docs-tools';
 import { logger } from '@storybook/client-logger';
 

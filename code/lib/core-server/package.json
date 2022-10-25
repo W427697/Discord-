@@ -45,6 +45,7 @@
     "@storybook/node-logger": "7.0.0-alpha.43",
     "@storybook/store": "7.0.0-alpha.43",
     "@storybook/telemetry": "7.0.0-alpha.43",
+    "@storybook/types": "7.0.0-alpha.43",
     "@types/node": "^16.0.0",
     "@types/node-fetch": "^2.5.7",
     "@types/pretty-hrtime": "^1.0.0",

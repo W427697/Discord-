@@ -1,16 +1,18 @@
+/* eslint-disable camelcase */
 import fs from 'fs';
 import path from 'path';
-import type { NormalizedStoriesSpecifier, StoriesEntry } from '@storybook/core-common';
-import { toRequireContext } from '@storybook/core-webpack';
-import { normalizeStoriesEntry } from '@storybook/core-common';
-import registerRequireContextHook from '@storybook/babel-plugin-require-context-hook/register';
-import global from 'global';
 import type {
+  CoreCommon_NormalizedStoriesSpecifier,
+  CoreCommon_StoriesEntry,
   AnyFramework,
   ArgsEnhancer,
   ArgTypesEnhancer,
   DecoratorFunction,
-} from '@storybook/csf';
+} from '@storybook/types';
+import { toRequireContext } from '@storybook/core-webpack';
+import { normalizeStoriesEntry } from '@storybook/core-common';
+import registerRequireContextHook from '@storybook/babel-plugin-require-context-hook/register';
+import global from 'global';
 
 import { ClientApi } from './Loader';
 import type { StoryshotsOptions } from '../api/StoryshotsOptions';
@@ -28,7 +30,7 @@ const isFile = (file: string): boolean => {
 interface Output {
   features?: Record<string, boolean>;
   preview?: string;
-  stories?: NormalizedStoriesSpecifier[];
+  stories?: CoreCommon_NormalizedStoriesSpecifier[];
   requireContexts?: string[];
 }
 
@@ -64,7 +66,7 @@ function getConfigPathParts(input: string): Output {
       output.features = features;
 
       const workingDir = process.cwd();
-      output.stories = stories.map((entry: StoriesEntry) => {
+      output.stories = stories.map((entry: CoreCommon_StoriesEntry) => {
         const specifier = normalizeStoriesEntry(entry, {
           configDir,
           workingDir,

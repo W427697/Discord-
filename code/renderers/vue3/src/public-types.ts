@@ -6,12 +6,11 @@ import type {
   ArgsStoryFn,
   ArgsFromMeta,
   DecoratorFunction,
-} from '@storybook/csf';
-import { SetOptional, Simplify } from 'type-fest';
-import { ComponentOptions, ConcreteComponent, FunctionalComponent } from 'vue';
-import { VueFramework } from './types';
+} from '@storybook/types';
 
-export type { Args, ArgTypes, Parameters, StoryContext } from '@storybook/csf';
+import type { SetOptional, Simplify } from 'type-fest';
+import type { ComponentOptions, ConcreteComponent, FunctionalComponent } from 'vue';
+import type { VueFramework } from './types';
 
 /**
  * Metadata to configure the stories for a component.

@@ -1,15 +1,21 @@
+/* eslint-disable camelcase */
 import mapValues from 'lodash/mapValues';
 import { logger } from '@storybook/client-logger';
-import type { AnyFramework, SBEnumType, StrictInputType, ArgTypesEnhancer } from '@storybook/csf';
+import type {
+  AnyFramework,
+  SBEnumType,
+  StrictInputType,
+  ArgTypesEnhancer,
+  Store_ControlsMatchers,
+} from '@storybook/types';
 import { filterArgTypes } from './filterArgTypes';
 import { combineParameters } from './parameters';
 
-type ControlsMatchers = {
-  date: RegExp;
-  color: RegExp;
-};
-
-const inferControl = (argType: StrictInputType, name: string, matchers: ControlsMatchers): any => {
+const inferControl = (
+  argType: StrictInputType,
+  name: string,
+  matchers: Store_ControlsMatchers
+): any => {
   const { type, options } = argType;
   if (!type) {
     return undefined;

@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import memoize from 'memoizerific';
 import type {
   Parameters,
@@ -8,32 +9,30 @@ import type {
   ComponentTitle,
   StoryContextForEnhancers,
   StoryContext,
-} from '@storybook/csf';
+  Addon_IndexEntry,
+  Store_CSFFile,
+  Store_ModuleImportFn,
+  Store_Story,
+  Store_NormalizedProjectAnnotations,
+  Store_Path,
+  Store_ExtractOptions,
+  Store_BoundStory,
+  Store_PromiseLike,
+  Store_StoryIndex,
+  Store_V2CompatIndexEntry,
+  Store_StoryIndexV3,
+  API_PreparedStoryIndex,
+  Store_ModuleExports,
+} from '@storybook/types';
 import mapValues from 'lodash/mapValues';
 import pick from 'lodash/pick';
 import { SynchronousPromise } from 'synchronous-promise';
 
+import { HooksContext } from '@storybook/addons';
 import { StoryIndexStore } from './StoryIndexStore';
 import { ArgsStore } from './ArgsStore';
 import { GlobalsStore } from './GlobalsStore';
 import { processCSFFile, prepareStory, normalizeProjectAnnotations } from './csf';
-import type {
-  CSFFile,
-  ModuleImportFn,
-  Story,
-  NormalizedProjectAnnotations,
-  Path,
-  ExtractOptions,
-  BoundStory,
-  PromiseLike,
-  StoryIndex,
-  V2CompatIndexEntry,
-  IndexEntry,
-  StoryIndexV3,
-  ModuleExports,
-  PreparedStoryIndex,
-} from './types';
-import { HooksContext } from './hooks';
 
 // TODO -- what are reasonable values for these?
 const CSF_CACHE_SIZE = 1000;
@@ -42,9 +41,9 @@ const STORY_CACHE_SIZE = 10000;
 export class StoryStore<TFramework extends AnyFramework> {
   storyIndex?: StoryIndexStore;
 
-  importFn?: ModuleImportFn;
+  importFn?: Store_ModuleImportFn;
 
-  projectAnnotations?: NormalizedProjectAnnotations<TFramework>;
+  projectAnnotations?: Store_NormalizedProjectAnnotations<TFramework>;
 
   globals?: GlobalsStore;
 
@@ -52,7 +51,7 @@ export class StoryStore<TFramework extends AnyFramework> {
 
   hooks: Record<StoryId, HooksContext<TFramework>>;
 
-  cachedCSFFiles?: Record<Path, CSFFile<TFramework>>;
+  cachedCSFFiles?: Record<Store_Path, Store_CSFFile<TFramework>>;
 
   processCSFFileWithCache: typeof processCSFFile;
 
@@ -96,10 +95,10 @@ export class StoryStore<TFramework extends AnyFramework> {
     importFn,
     cache = false,
   }: {
-    storyIndex?: StoryIndex;
-    importFn: ModuleImportFn;
+    storyIndex?: Store_StoryIndex;
+    importFn: Store_ModuleImportFn;
     cache?: boolean;
-  }): PromiseLike<void> {
+  }): Store_PromiseLike<void> {
     this.storyIndex = new StoryIndexStore(storyIndex);
     this.importFn = importFn;
 
@@ -117,8 +116,8 @@ export class StoryStore<TFramework extends AnyFramework> {
     importFn,
     storyIndex,
   }: {
-    importFn?: ModuleImportFn;
-    storyIndex?: StoryIndex;
+    importFn?: Store_ModuleImportFn;
+    storyIndex?: Store_StoryIndex;
   }) {
     await this.initializationPromise;
 
@@ -129,14 +128,14 @@ export class StoryStore<TFramework extends AnyFramework> {
   }
 
   // Get an entry from the index, waiting on initialization if necessary
-  async storyIdToEntry(storyId: StoryId): Promise<IndexEntry> {
+  async storyIdToEntry(storyId: StoryId): Promise<Addon_IndexEntry> {
     await this.initializationPromise;
     // The index will always be set before the initialization promise returns
     return this.storyIndex!.storyIdToEntry(storyId);
   }
 
   // To load a single CSF file to service a story we need to look up the importPath in the index
-  loadCSFFileByStoryId(storyId: StoryId): PromiseLike<CSFFile<TFramework>> {
+  loadCSFFileByStoryId(storyId: StoryId): Store_PromiseLike<Store_CSFFile<TFramework>> {
     if (!this.storyIndex || !this.importFn)
       throw new Error(`loadCSFFileByStoryId called before initialization`);
 
@@ -147,10 +146,10 @@ export class StoryStore<TFramework extends AnyFramework> {
     );
   }
 
-  loadAllCSFFiles(): PromiseLike<StoryStore<TFramework>['cachedCSFFiles']> {
+  loadAllCSFFiles(): Store_PromiseLike<StoryStore<TFramework>['cachedCSFFiles']> {
     if (!this.storyIndex) throw new Error(`loadAllCSFFiles called before initialization`);
 
-    const importPaths: Record<Path, StoryId> = {};
+    const importPaths: Record<Store_Path, StoryId> = {};
     Object.entries(this.storyIndex.entries).forEach(([storyId, { importPath }]) => {
       importPaths[importPath] = storyId;
     });
@@ -166,11 +165,11 @@ export class StoryStore<TFramework extends AnyFramework> {
       list.reduce((acc, { importPath, csfFile }) => {
         acc[importPath] = csfFile;
         return acc;
-      }, {} as Record<Path, CSFFile<TFramework>>)
+      }, {} as Record<Store_Path, Store_CSFFile<TFramework>>)
     );
   }
 
-  cacheAllCSFFiles(): PromiseLike<void> {
+  cacheAllCSFFiles(): Store_PromiseLike<void> {
     return this.initializationPromise.then(() =>
       this.loadAllCSFFiles().then((csfFiles) => {
         this.cachedCSFFiles = csfFiles;
@@ -179,7 +178,7 @@ export class StoryStore<TFramework extends AnyFramework> {
   }
 
   // Load the CSF file for a story and prepare the story from it and the project annotations.
-  async loadStory({ storyId }: { storyId: StoryId }): Promise<Story<TFramework>> {
+  async loadStory({ storyId }: { storyId: StoryId }): Promise<Store_Story<TFramework>> {
     await this.initializationPromise;
     const csfFile = await this.loadCSFFileByStoryId(storyId);
     return this.storyFromCSFFile({ storyId, csfFile });
@@ -192,8 +191,8 @@ export class StoryStore<TFramework extends AnyFramework> {
     csfFile,
   }: {
     storyId: StoryId;
-    csfFile: CSFFile<TFramework>;
-  }): Story<TFramework> {
+    csfFile: Store_CSFFile<TFramework>;
+  }): Store_Story<TFramework> {
     if (!this.projectAnnotations) throw new Error(`storyFromCSFFile called before initialization`);
 
     const storyAnnotations = csfFile.stories[storyId];
@@ -213,7 +212,11 @@ export class StoryStore<TFramework extends AnyFramework> {
   }
 
   // If we have a CSF file we can get all the stories from it synchronously
-  componentStoriesFromCSFFile({ csfFile }: { csfFile: CSFFile<TFramework> }): Story<TFramework>[] {
+  componentStoriesFromCSFFile({
+    csfFile,
+  }: {
+    csfFile: Store_CSFFile<TFramework>;
+  }): Store_Story<TFramework>[] {
     if (!this.storyIndex)
       throw new Error(`componentStoriesFromCSFFile called before initialization`);
 
@@ -236,14 +239,16 @@ export class StoryStore<TFramework extends AnyFramework> {
         const firstStoryEntry = storyIndex.importPathToEntry(storyImportPath);
         return this.loadCSFFileByStoryId(firstStoryEntry.id);
       }),
-    ])) as [ModuleExports, ...CSFFile<TFramework>[]];
+    ])) as [Store_ModuleExports, ...Store_CSFFile<TFramework>[]];
 
     return { entryExports, csfFiles };
   }
 
   // A prepared story does not include args, globals or hooks. These are stored in the story store
   // and updated separtely to the (immutable) story.
-  getStoryContext(story: Story<TFramework>): Omit<StoryContextForLoaders<TFramework>, 'viewMode'> {
+  getStoryContext(
+    story: Store_Story<TFramework>
+  ): Omit<StoryContextForLoaders<TFramework>, 'viewMode'> {
     if (!this.globals) throw new Error(`getStoryContext called before initialization`);
 
     return {
@@ -254,12 +259,12 @@ export class StoryStore<TFramework extends AnyFramework> {
     };
   }
 
-  cleanupStory(story: Story<TFramework>): void {
+  cleanupStory(story: Store_Story<TFramework>): void {
     this.hooks[story.id].clean();
   }
 
   extract(
-    options: ExtractOptions = { includeDocsOnly: false }
+    options: Store_ExtractOptions = { includeDocsOnly: false }
   ): Record<StoryId, StoryContextForEnhancers<TFramework>> {
     if (!this.storyIndex) throw new Error(`extract called before initialization`);
 
@@ -322,14 +327,14 @@ export class StoryStore<TFramework extends AnyFramework> {
   // NOTE: this is legacy `stories.json` data for the `extract` script.
   // It is used to allow v7 Storybooks to be composed in v6 Storybooks, which expect a
   // `stories.json` file with legacy fields (`kind` etc).
-  getStoriesJsonData = (): StoryIndexV3 => {
+  getStoriesJsonData = (): Store_StoryIndexV3 => {
     const { storyIndex } = this;
     if (!storyIndex) throw new Error(`getStoriesJsonData called before initialization`);
 
     const value = this.getSetStoriesPayload();
     const allowedParameters = ['fileName', 'docsOnly', 'framework', '__id', '__isArgsStory'];
 
-    const stories: Record<StoryId, V2CompatIndexEntry> = mapValues(value.stories, (story) => {
+    const stories: Record<StoryId, Store_V2CompatIndexEntry> = mapValues(value.stories, (story) => {
       const { importPath } = storyIndex.entries[story.id];
       return {
         ...pick(story, ['id', 'name', 'title']),
@@ -352,7 +357,7 @@ export class StoryStore<TFramework extends AnyFramework> {
     };
   };
 
-  getSetIndexPayload(): PreparedStoryIndex {
+  getSetIndexPayload(): API_PreparedStoryIndex {
     if (!this.storyIndex) throw new Error('getSetIndexPayload called before initialization');
 
     const stories = this.extract({ includeDocsOnly: true });
@@ -376,13 +381,13 @@ export class StoryStore<TFramework extends AnyFramework> {
     };
   }
 
-  raw(): BoundStory<TFramework>[] {
+  raw(): Store_BoundStory<TFramework>[] {
     return Object.values(this.extract())
       .map(({ id }: { id: StoryId }) => this.fromId(id))
-      .filter(Boolean) as BoundStory<TFramework>[];
+      .filter(Boolean) as Store_BoundStory<TFramework>[];
   }
 
-  fromId(storyId: StoryId): BoundStory<TFramework> | null {
+  fromId(storyId: StoryId): Store_BoundStory<TFramework> | null {
     if (!this.storyIndex) throw new Error(`fromId called before initialization`);
 
     if (!this.cachedCSFFiles)

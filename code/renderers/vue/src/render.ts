@@ -1,8 +1,8 @@
+/* eslint-disable camelcase */
 /* eslint-disable no-underscore-dangle */
 import { dedent } from 'ts-dedent';
 import Vue from 'vue';
-import type { RenderContext } from '@storybook/store';
-import type { ArgsStoryFn } from '@storybook/csf';
+import type { Store_RenderContext, ArgsStoryFn } from '@storybook/types';
 import { CombinedVueInstance } from 'vue/types/vue';
 import type { VueFramework } from './types';
 
@@ -92,7 +92,7 @@ export function renderToDOM(
     showError,
     showException,
     forceRemount,
-  }: RenderContext<VueFramework>,
+  }: Store_RenderContext<VueFramework>,
   domElement: Element
 ) {
   const root = getRoot(domElement);

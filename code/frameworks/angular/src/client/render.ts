@@ -1,5 +1,5 @@
-import type { RenderContext } from '@storybook/store';
-import type { ArgsStoryFn } from '@storybook/csf';
+/* eslint-disable camelcase */
+import type { Store_RenderContext, ArgsStoryFn } from '@storybook/types';
 
 import { renderNgApp } from './angular/helpers';
 import type { AngularFramework } from './types';
@@ -17,7 +17,7 @@ export async function renderToDOM(
     forceRemount,
     storyContext: { parameters, component },
     id,
-  }: RenderContext<AngularFramework>,
+  }: Store_RenderContext<AngularFramework>,
   element: HTMLElement
 ) {
   showMain();
