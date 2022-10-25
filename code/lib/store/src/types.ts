@@ -21,6 +21,7 @@ import type {
   ComponentId,
   PartialStoryFn,
   Parameters,
+  ArgTypes,
 } from '@storybook/csf';
 import type {
   StoryIndexEntry,
@@ -131,6 +132,20 @@ export interface StoryIndexV3 {
 export interface StoryIndex {
   v: number;
   entries: Record<StoryId, IndexEntry>;
+}
+
+// We send a bit more data over the channel on the SET_INDEX event, including
+// the full parameters for each story.
+type PreparedIndexEntry = IndexEntry & {
+  parameters?: Parameters;
+  argTypes?: ArgTypes;
+  args?: Args;
+  initialArgs?: Args;
+};
+
+export interface PreparedStoryIndex {
+  v: number;
+  entries: Record<StoryId, PreparedIndexEntry>;
 }
 
 export type StorySpecifier = StoryId | { name: StoryName; title: ComponentTitle } | '*';
