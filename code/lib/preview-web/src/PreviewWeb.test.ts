@@ -796,7 +796,7 @@ describe('PreviewWeb', () => {
       await createAndRenderPreview();
 
       mockChannel.emit.mockClear();
-      emitter.emit(UPDATE_GLOBALS, { globals: { foo: 'bar' } });
+      emitter.emit(UPDATE_GLOBALS, { globals: { a: 'c' } });
       await waitForRender();
 
       expect(mockChannel.emit).toHaveBeenCalledWith(STORY_RENDERED, 'component-one--a');
@@ -810,7 +810,7 @@ describe('PreviewWeb', () => {
 
         mockChannel.emit.mockClear();
         docsRenderer.render.mockClear();
-        emitter.emit(UPDATE_GLOBALS, { globals: { foo: 'bar' } });
+        emitter.emit(UPDATE_GLOBALS, { globals: { a: 'd' } });
         await waitForEvents([GLOBALS_UPDATED]);
 
         expect(docsRenderer.render).toHaveBeenCalled();
