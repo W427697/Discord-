@@ -45,7 +45,6 @@ const Tooltip: FunctionComponent<TooltipProps> = ({ onHide }) => (
 );
 
 export default {
-  title: 'Basics/Tooltip/WithTooltip',
   component: WithTooltip,
   decorators: [
     (storyFn) => (

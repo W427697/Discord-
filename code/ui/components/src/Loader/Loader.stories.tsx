@@ -28,7 +28,7 @@ const withBackground = (storyFn) => (
 );
 
 export default {
-  title: 'Basics/Loader',
+  component: Loader,
 };
 
 export const InfiniteState = () => <Loader role="progressbar" />;

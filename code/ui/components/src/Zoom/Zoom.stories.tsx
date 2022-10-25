@@ -3,7 +3,6 @@ import { Zoom } from './Zoom';
 
 export default {
   component: Zoom,
-  title: 'Basics/Zoom',
   argTypes: {
     scale: {
       control: { type: 'range', min: 0.2, max: 30, step: 0.02 },

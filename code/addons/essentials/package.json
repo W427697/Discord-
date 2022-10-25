@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-essentials",
-  "version": "7.0.0-alpha.42",
+  "version": "7.0.0-alpha.43",
   "description": "Curated addons to bring out the best of Storybook",
   "keywords": [
     "addon",
@@ -41,24 +41,24 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/addon-actions": "7.0.0-alpha.42",
-    "@storybook/addon-backgrounds": "7.0.0-alpha.42",
-    "@storybook/addon-controls": "7.0.0-alpha.42",
-    "@storybook/addon-docs": "7.0.0-alpha.42",
-    "@storybook/addon-highlight": "7.0.0-alpha.42",
-    "@storybook/addon-measure": "7.0.0-alpha.42",
-    "@storybook/addon-outline": "7.0.0-alpha.42",
-    "@storybook/addon-toolbars": "7.0.0-alpha.42",
-    "@storybook/addon-viewport": "7.0.0-alpha.42",
-    "@storybook/addons": "7.0.0-alpha.42",
-    "@storybook/api": "7.0.0-alpha.42",
-    "@storybook/core-common": "7.0.0-alpha.42",
-    "@storybook/node-logger": "7.0.0-alpha.42",
+    "@storybook/addon-actions": "7.0.0-alpha.43",
+    "@storybook/addon-backgrounds": "7.0.0-alpha.43",
+    "@storybook/addon-controls": "7.0.0-alpha.43",
+    "@storybook/addon-docs": "7.0.0-alpha.43",
+    "@storybook/addon-highlight": "7.0.0-alpha.43",
+    "@storybook/addon-measure": "7.0.0-alpha.43",
+    "@storybook/addon-outline": "7.0.0-alpha.43",
+    "@storybook/addon-toolbars": "7.0.0-alpha.43",
+    "@storybook/addon-viewport": "7.0.0-alpha.43",
+    "@storybook/addons": "7.0.0-alpha.43",
+    "@storybook/api": "7.0.0-alpha.43",
+    "@storybook/core-common": "7.0.0-alpha.43",
+    "@storybook/node-logger": "7.0.0-alpha.43",
     "ts-dedent": "^2.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.10",
-    "@storybook/vue": "7.0.0-alpha.42",
+    "@storybook/vue": "7.0.0-alpha.43",
     "@types/jest": "^26.0.16",
     "typescript": "~4.6.3"
   },
@@ -112,5 +112,5 @@
     ],
     "platform": "node"
   },
-  "gitHead": "4ed2e832e3accf8e533da92a46a812eacaf5db0b"
+  "gitHead": "f801c26f7bdcbfeeeca6706c0854d130bfb2f38b"
 }

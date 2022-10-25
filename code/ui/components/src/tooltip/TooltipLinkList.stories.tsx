@@ -45,7 +45,6 @@ export const links = [
 ];
 
 export default {
-  title: 'Basics/Tooltip/TooltipLinkList',
   component: TooltipLinkList,
   decorators: [
     (storyFn) => (

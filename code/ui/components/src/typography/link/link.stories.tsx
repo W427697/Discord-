@@ -6,7 +6,6 @@ import { Icons } from '../../icon/icon';
 const onClick = action('onClick');
 
 export default {
-  title: 'Basics/Link',
   component: Link,
 };
 

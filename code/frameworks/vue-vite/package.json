@@ -1,6 +1,6 @@
 {
   "name": "@storybook/vue-vite",
-  "version": "7.0.0-alpha.42",
+  "version": "7.0.0-alpha.43",
   "description": "Storybook for Vue2 and Vite: Develop Vue2 Components in isolation with Hot Reloading.",
   "keywords": [
     "storybook"
@@ -50,15 +50,15 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/addons": "7.0.0-alpha.42",
-    "@storybook/builder-vite": "7.0.0-alpha.42",
-    "@storybook/channel-postmessage": "7.0.0-alpha.42",
-    "@storybook/channel-websocket": "7.0.0-alpha.42",
-    "@storybook/client-api": "7.0.0-alpha.42",
-    "@storybook/core-common": "7.0.0-alpha.42",
-    "@storybook/core-server": "7.0.0-alpha.42",
-    "@storybook/preview-web": "7.0.0-alpha.42",
-    "@storybook/vue": "7.0.0-alpha.42",
+    "@storybook/addons": "7.0.0-alpha.43",
+    "@storybook/builder-vite": "7.0.0-alpha.43",
+    "@storybook/channel-postmessage": "7.0.0-alpha.43",
+    "@storybook/channel-websocket": "7.0.0-alpha.43",
+    "@storybook/client-api": "7.0.0-alpha.43",
+    "@storybook/core-common": "7.0.0-alpha.43",
+    "@storybook/core-server": "7.0.0-alpha.43",
+    "@storybook/preview-web": "7.0.0-alpha.43",
+    "@storybook/vue": "7.0.0-alpha.43",
     "magic-string": "^0.26.1",
     "vite": "^3.1.3",
     "vue-docgen-api": "^4.40.0"
@@ -83,5 +83,5 @@
     ],
     "platform": "node"
   },
-  "gitHead": "4ed2e832e3accf8e533da92a46a812eacaf5db0b"
+  "gitHead": "f801c26f7bdcbfeeeca6706c0854d130bfb2f38b"
 }

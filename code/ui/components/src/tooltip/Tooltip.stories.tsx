@@ -20,7 +20,6 @@ const Content = styled.div({
 
 export default {
   component: Tooltip,
-  title: 'Basics/Tooltip/Tooltip',
   args: mockPopperProps,
 };
 

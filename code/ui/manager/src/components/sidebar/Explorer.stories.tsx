@@ -7,7 +7,7 @@ import * as RefStories from './Refs.stories';
 
 export default {
   component: Explorer,
-  title: 'UI/Sidebar/Explorer',
+  title: 'Sidebar/Explorer',
   parameters: { layout: 'fullscreen' },
   decorators: [
     RefStories.default.decorators[0],
