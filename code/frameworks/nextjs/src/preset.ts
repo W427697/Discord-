@@ -15,7 +15,6 @@ import { configureTypescript } from './config/babel';
 
 export const addons: PresetProperty<'addons', StorybookConfig> = [
   dirname(require.resolve(join('@storybook/preset-react-webpack', 'package.json'))),
-  dirname(require.resolve(join('@storybook/react', 'package.json'))),
   dirname(require.resolve(join('@storybook/builder-webpack5', 'package.json'))),
 ];
 
@@ -60,6 +59,7 @@ export const core: PresetProperty<'core', StorybookConfig> = async (config, opti
       ) as '@storybook/builder-webpack5',
       options: typeof framework === 'string' ? {} : framework.options.builder || {},
     },
+    renderer: dirname(require.resolve(join('@storybook/react', 'package.json'))),
   };
 };
 

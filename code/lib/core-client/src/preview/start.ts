@@ -113,6 +113,8 @@ export function start<TFramework extends AnyFramework>(
       // function in case it throws. So we also need to process its output there also
       const getProjectAnnotations = () => {
         const { added, removed } = executeLoadableForChanges(loadable, m);
+        // eslint-disable-next-line no-underscore-dangle
+        clientApi._loadAddedExports();
 
         Array.from(added.entries()).forEach(([fileName, fileExports]) =>
           clientApi.facade.addStoriesFromExports(fileName, fileExports)
