@@ -1,6 +1,6 @@
 {
   "name": "sb",
-  "version": "7.0.0-alpha.42",
+  "version": "7.0.0-alpha.43",
   "description": "Storybook CLI",
   "keywords": [
     "storybook"
@@ -24,7 +24,7 @@
     "prep": "node ../../../scripts/prepare.js"
   },
   "dependencies": {
-    "@storybook/cli": "7.0.0-alpha.42"
+    "@storybook/cli": "7.0.0-alpha.43"
   },
   "devDependencies": {
     "typescript": "~4.6.3"
