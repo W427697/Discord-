@@ -3,7 +3,6 @@ defineProps<{ decoratorArg: string }>();
 </script>
 
 <template>
-    Decorator: {decoratorArg}
-    <slot></slot>
+  Decorator: {decoratorArg}
+  <slot></slot>
 </template>
-
