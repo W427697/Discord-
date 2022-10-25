@@ -39,6 +39,10 @@ export class GlobalsStore {
     return Object.entries(globals).reduce((acc, [key, value]) => {
       if (this.allowedGlobalNames.has(key)) {
         acc[key] = value;
+      } else {
+        throw new Error(
+          'Attempted to set a global that is not defined in initial globals or globalTypes'
+        );
       }
       return acc;
     }, {} as Globals);
