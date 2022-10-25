@@ -1,5 +1,5 @@
 import { dedent } from 'ts-dedent';
-import type { Options } from '../types';
+import type { Options } from '@storybook/types';
 
 /**
  * Render is set as a string on core. It must be set by the framework
