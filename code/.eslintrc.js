@@ -27,7 +27,7 @@ module.exports = {
         '**/lib/theming/**/*',
         '**/lib/router/**/*',
         '**/ui/manager/**/*',
-        '**/lib/components/**/*',
+        '**/ui/components/**/*',
       ],
       rules: {
         'import/no-extraneous-dependencies': ['error', { bundledDependencies: false }],

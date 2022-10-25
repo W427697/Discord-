@@ -157,7 +157,7 @@
       "implicitDependencies": []
     },
     "@storybook/components": {
-      "root": "lib/components",
+      "root": "ui/components",
       "type": "library",
       "implicitDependencies": []
     },
@@ -228,6 +228,11 @@
     },
     "@storybook/instrumenter": {
       "root": "lib/instrumenter",
+      "type": "library",
+      "implicitDependencies": []
+    },
+    "@storybook/nextjs": {
+      "root": "frameworks/nextjs",
       "type": "library",
       "implicitDependencies": []
     },
@@ -433,11 +438,6 @@
     },
     "storybook": {
       "root": "lib/cli-storybook",
-      "type": "library",
-      "implicitDependencies": []
-    },
-    "svelte-example": {
-      "root": "examples/svelte-kitchen-sink",
       "type": "library",
       "implicitDependencies": []
     },

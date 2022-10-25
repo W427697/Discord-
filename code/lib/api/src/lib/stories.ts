@@ -1,11 +1,9 @@
 import memoize from 'memoizerific';
 import React from 'react';
-import deprecate from 'util-deprecate';
 import { dedent } from 'ts-dedent';
 import mapValues from 'lodash/mapValues';
 import countBy from 'lodash/countBy';
-import global from 'global';
-import { toId, sanitize } from '@storybook/csf';
+import { sanitize } from '@storybook/csf';
 import type {
   StoryId,
   ComponentTitle,
@@ -22,8 +20,6 @@ import { combineParameters } from '../index';
 import merge from './merge';
 import type { Provider } from '../modules/provider';
 import type { ViewMode } from '../modules/addons';
-
-const { FEATURES } = global;
 
 export type { StoryId };
 
@@ -222,15 +218,6 @@ export interface StoryIndex {
   entries: Record<StoryId, IndexEntry>;
 }
 
-const warnChangedDefaultHierarchySeparators = deprecate(
-  () => {},
-  dedent`
-    The default hierarchy separators changed in Storybook 6.0.
-    '|' and '.' will no longer create a hierarchy, but codemods are available.
-    Read more about it in the migration guide: https://github.com/storybookjs/storybook/blob/master/MIGRATION.md
-  `
-);
-
 export const denormalizeStoryParameters = ({
   globalParameters,
   kindParameters,
@@ -248,7 +235,7 @@ export const denormalizeStoryParameters = ({
 
 const TITLE_PATH_SEPARATOR = /\s*\/\s*/;
 
-// We used to received a bit more data over the channel on the SET_STORIES event, including
+// We recieve a bit more data over the channel on the SET_INDEX event (v6 store), including
 // the full parameters for each story.
 type PreparedIndexEntry = IndexEntry & {
   parameters?: Parameters;
@@ -265,19 +252,14 @@ export const transformSetStoriesStoryDataToStoriesHash = (
   data: SetStoriesStoryData,
   { provider, docsOptions }: { provider: Provider; docsOptions: DocsOptions }
 ) =>
-  transformStoryIndexToStoriesHash(
-    transformSetStoriesStoryDataToPreparedStoryIndex(data, { docsOptions }),
-    {
-      provider,
-      docsOptions,
-    }
-  );
+  transformStoryIndexToStoriesHash(transformSetStoriesStoryDataToPreparedStoryIndex(data), {
+    provider,
+    docsOptions,
+  });
 
 const transformSetStoriesStoryDataToPreparedStoryIndex = (
-  stories: SetStoriesStoryData,
-  { docsOptions }: { docsOptions: DocsOptions }
+  stories: SetStoriesStoryData
 ): PreparedStoryIndex => {
-  const seenTitles = new Set<ComponentTitle>();
   const entries: PreparedStoryIndex['entries'] = Object.entries(stories).reduce(
     (acc, [id, story]) => {
       if (!story) return acc;
@@ -296,19 +278,6 @@ const transformSetStoriesStoryDataToPreparedStoryIndex = (
           ...base,
         };
       } else {
-        if (!seenTitles.has(base.title) && docsOptions.docsPage) {
-          const name = docsOptions.defaultName;
-          const docsId = toId(story.componentId || base.title, name);
-          seenTitles.add(base.title);
-          acc[docsId] = {
-            type: 'docs',
-            storiesImports: [],
-            ...base,
-            id: docsId,
-            name,
-          };
-        }
-
         const { argTypes, args, initialArgs } = story;
         acc[id] = {
           type: 'story',
@@ -366,12 +335,8 @@ export const transformStoryIndexToStoriesHash = (
   const entryValues = Object.values(v4Index.entries);
   const { sidebar = {} } = provider.getConfig();
   const { showRoots, collapsedRoots = [], renderLabel } = sidebar;
-  const usesOldHierarchySeparator = entryValues.some(({ title }) => title.match(/\.|\|/)); // dot or pipe
 
   const setShowRoots = typeof showRoots !== 'undefined';
-  if (usesOldHierarchySeparator && !setShowRoots && FEATURES?.warnOnLegacyHierarchySeparator) {
-    warnChangedDefaultHierarchySeparators();
-  }
 
   const storiesHashOutOfOrder = Object.values(entryValues).reduce((acc, item) => {
     if (docsOptions.docsMode && item.type !== 'docs') return acc;
