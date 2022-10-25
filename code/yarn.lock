@@ -6524,9 +6524,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/components@7.0.0-alpha.42, @storybook/components@workspace:*, @storybook/components@workspace:lib/components":
+"@storybook/components@7.0.0-alpha.42, @storybook/components@workspace:*, @storybook/components@workspace:ui/components":
   version: 0.0.0-use.local
-  resolution: "@storybook/components@workspace:lib/components"
+  resolution: "@storybook/components@workspace:ui/components"
   dependencies:
     "@popperjs/core": ^2.6.0
     "@storybook/client-logger": 7.0.0-alpha.42
@@ -6540,7 +6540,7 @@ __metadata:
     memoizerific: ^1.11.3
     overlayscrollbars: ^1.13.1
     polished: ^4.2.2
-    prettier: ">=2.2.1 <=2.3.0"
+    prettier: ">=2.5"
     react-popper-tooltip: ^3.1.1
     react-syntax-highlighter: ^15.4.5
     react-textarea-autosize: ^8.3.0
@@ -28522,7 +28522,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prettier@npm:2.7.1, prettier@npm:^1.18.2 || ^2.0.0":
+"prettier@npm:2.7.1, prettier@npm:>=2.5, prettier@npm:^1.18.2 || ^2.0.0":
   version: 2.7.1
   resolution: "prettier@npm:2.7.1"
   bin:

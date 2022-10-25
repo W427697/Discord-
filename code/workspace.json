@@ -157,7 +157,7 @@
       "implicitDependencies": []
     },
     "@storybook/components": {
-      "root": "lib/components",
+      "root": "ui/components",
       "type": "library",
       "implicitDependencies": []
     },
