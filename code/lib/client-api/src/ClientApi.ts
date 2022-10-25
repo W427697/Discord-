@@ -21,7 +21,7 @@ import type {
   Addon_ClientApiAddons,
   Addon_StoryApi,
   Store_NormalizedComponentAnnotations,
-  Store_Path,
+  Path,
   Store_ModuleImportFn,
 } from '@storybook/types';
 import {
@@ -139,7 +139,7 @@ export class ClientApi<TFramework extends AnyFramework> {
     singleton = this;
   }
 
-  importFn(path: Store_Path) {
+  importFn(path: Path) {
     return this.facade.importFn(path);
   }
 

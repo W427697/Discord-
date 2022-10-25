@@ -26,11 +26,11 @@ import type {
   ViewMode,
 } from './csf';
 
-export type Store_Path = string;
+export type Path = string;
 export type Store_ModuleExport = any;
 export type Store_ModuleExports = Record<string, Store_ModuleExport>;
 export type Store_PromiseLike<T> = Promise<T> | SynchronousPromise<T>;
-export type Store_ModuleImportFn = (path: Store_Path) => Store_PromiseLike<Store_ModuleExports>;
+export type Store_ModuleImportFn = (path: Path) => Store_PromiseLike<Store_ModuleExports>;
 
 type Store_MaybePromise<T> = Promise<T> | T;
 

@@ -9,14 +9,14 @@ import type {
   Addon_StoryIndexEntry,
   Addon_IndexEntry,
   Store_Story,
-  Store_Path,
+  Path,
 } from '@storybook/types';
 import { storySort } from './storySort';
 
 const sortStoriesCommon = (
   stories: Addon_IndexEntry[],
   storySortParameter: Addon_StorySortParameterV7,
-  fileNameOrder: Store_Path[]
+  fileNameOrder: Path[]
 ) => {
   if (storySortParameter) {
     let sortFn: Addon_Comparator<any>;
@@ -37,7 +37,7 @@ const sortStoriesCommon = (
 export const sortStoriesV7 = (
   stories: Addon_IndexEntry[],
   storySortParameter: Addon_StorySortParameterV7,
-  fileNameOrder: Store_Path[]
+  fileNameOrder: Path[]
 ) => {
   try {
     return sortStoriesCommon(stories, storySortParameter, fileNameOrder);
@@ -62,7 +62,7 @@ const toIndexEntry = (story: any): Addon_StoryIndexEntry => {
 export const sortStoriesV6 = (
   stories: [string, Store_Story, Parameters, Parameters][],
   storySortParameter: Addon_StorySortParameter,
-  fileNameOrder: Store_Path[]
+  fileNameOrder: Path[]
 ) => {
   if (storySortParameter && typeof storySortParameter === 'function') {
     stories.sort(

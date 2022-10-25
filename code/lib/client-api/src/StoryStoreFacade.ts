@@ -13,7 +13,7 @@ import type {
   Addon_IndexEntry,
   Store_NormalizedProjectAnnotations,
   Store_NormalizedStoriesSpecifier,
-  Store_Path,
+  Path,
   Store_StoryIndex,
   Store_ModuleExports,
   Store_Story,
@@ -27,7 +27,7 @@ export class StoryStoreFacade<TFramework extends AnyFramework> {
 
   entries: Record<StoryId, Addon_IndexEntry & { componentId?: ComponentId }>;
 
-  csfExports: Record<Store_Path, Store_ModuleExports>;
+  csfExports: Record<Path, Store_ModuleExports>;
 
   constructor() {
     this.projectAnnotations = {
@@ -47,7 +47,7 @@ export class StoryStoreFacade<TFramework extends AnyFramework> {
 
   // This doesn't actually import anything because the client-api loads fully
   // on startup, but this is a shim after all.
-  importFn(path: Store_Path) {
+  importFn(path: Path) {
     return SynchronousPromise.resolve().then(() => {
       const moduleExports = this.csfExports[path];
       if (!moduleExports) throw new Error(`Unknown path: ${path}`);
@@ -116,7 +116,7 @@ export class StoryStoreFacade<TFramework extends AnyFramework> {
     return { v: 4, entries };
   }
 
-  clearFilenameExports(fileName: Store_Path) {
+  clearFilenameExports(fileName: Path) {
     if (!this.csfExports[fileName]) {
       return;
     }
@@ -133,7 +133,7 @@ export class StoryStoreFacade<TFramework extends AnyFramework> {
   }
 
   // NOTE: we could potentially share some of this code with the stories.json generation
-  addStoriesFromExports(fileName: Store_Path, fileExports: Store_ModuleExports) {
+  addStoriesFromExports(fileName: Path, fileExports: Store_ModuleExports) {
     if (fileName.match(/\.mdx$/) && !fileName.match(/\.stories\.mdx$/)) {
       return;
     }

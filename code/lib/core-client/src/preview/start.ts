@@ -5,7 +5,7 @@ import { PreviewWeb } from '@storybook/preview-web';
 import type {
   AnyFramework,
   ArgsStoryFn,
-  Store_Path,
+  Path,
   Store_WebProjectAnnotations,
 } from '@storybook/types';
 import { createChannel } from '@storybook/channel-postmessage';
@@ -69,7 +69,7 @@ export function start<TFramework extends AnyFramework>(
   const preview = new PreviewWeb<TFramework>();
   let initialized = false;
 
-  const importFn = (path: Store_Path) => clientApi.importFn(path);
+  const importFn = (path: Path) => clientApi.importFn(path);
   function onStoriesChanged() {
     const storyIndex = clientApi.getStoryIndex();
     preview.onStoriesChanged({ storyIndex, importFn });

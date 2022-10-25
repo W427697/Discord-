@@ -6,7 +6,7 @@ import type {
   Store_ModuleExports,
   Store_CSFFile,
   Store_NormalizedComponentAnnotations,
-  Store_Path,
+  Path,
 } from '@storybook/types';
 import { isExportStory } from '@storybook/csf';
 import { logger } from '@storybook/client-logger';
@@ -42,7 +42,7 @@ const checkDisallowedParameters = (parameters?: Parameters) => {
 // Given the raw exports of a CSF file, check and normalize it.
 export function processCSFFile<TFramework extends AnyFramework>(
   moduleExports: Store_ModuleExports,
-  importPath: Store_Path,
+  importPath: Path,
   title: ComponentTitle
 ): Store_CSFFile<TFramework> {
   const { default: defaultExport, __namedExportsOrder, ...namedExports } = moduleExports;

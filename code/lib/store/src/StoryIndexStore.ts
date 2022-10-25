@@ -5,7 +5,7 @@ import type {
   Addon_IndexEntry,
   Store_StorySpecifier,
   Store_StoryIndex,
-  Store_Path,
+  Path,
 } from '@storybook/types';
 import memoize from 'memoizerific';
 
@@ -13,7 +13,7 @@ const getImportPathMap = memoize(1)((entries: Store_StoryIndex['entries']) =>
   Object.values(entries).reduce((acc, entry) => {
     acc[entry.importPath] = acc[entry.importPath] || entry;
     return acc;
-  }, {} as Record<Store_Path, Addon_IndexEntry>)
+  }, {} as Record<Path, Addon_IndexEntry>)
 );
 
 export class StoryIndexStore {
@@ -57,7 +57,7 @@ export class StoryIndexStore {
     return storyEntry;
   }
 
-  importPathToEntry(importPath: Store_Path): Addon_IndexEntry {
+  importPathToEntry(importPath: Path): Addon_IndexEntry {
     return getImportPathMap(this.entries)[importPath];
   }
 }
