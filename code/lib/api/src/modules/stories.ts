@@ -9,6 +9,7 @@ import {
   STORY_CHANGED,
   SELECT_STORY,
   SET_STORIES,
+  SET_INDEX,
   STORY_SPECIFIED,
   STORY_INDEX_INVALIDATED,
   CONFIG_ERROR,
@@ -18,20 +19,19 @@ import { logger } from '@storybook/client-logger';
 import { getEventMetadata } from '../lib/events';
 import {
   denormalizeStoryParameters,
-  transformSetStoriesStoryDataToStoriesHash,
   transformStoryIndexToStoriesHash,
   getComponentLookupList,
   getStoriesLookupList,
   HashEntry,
   LeafEntry,
   addPreparedStories,
+  PreparedStoryIndex,
 } from '../lib/stories';
 
 import type {
   StoriesHash,
   StoryEntry,
   StoryId,
-  SetStoriesStoryData,
   SetStoriesPayload,
   StoryIndex,
 } from '../lib/stories';
@@ -66,7 +66,7 @@ export interface SubAPI {
     obj?: { ref?: string; viewMode?: ViewMode }
   ) => void;
   getCurrentStoryData: () => LeafEntry;
-  setStories: (stories: SetStoriesStoryData, failed?: Error) => Promise<void>;
+  setIndex: (index: PreparedStoryIndex) => Promise<void>;
   jumpToComponent: (direction: Direction) => void;
   jumpToStory: (direction: Direction) => void;
   getData: (storyId: StoryId, refId?: string) => LeafEntry;
@@ -86,8 +86,7 @@ export interface SubAPI {
     direction: Direction,
     toSiblingGroup: boolean // when true, skip over leafs within the same group
   ): StoryId;
-  fetchStoryList: () => Promise<void>;
-  setStoryList: (storyList: StoryIndex) => Promise<void>;
+  fetchIndex: () => Promise<void>;
   updateStory: (storyId: StoryId, update: StoryUpdate, ref?: ComposedRef) => Promise<void>;
 }
 
@@ -197,19 +196,6 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
       if (result) {
         api.selectStory(result, undefined, { ref: refId });
       }
-    },
-    setStories: async (input, error) => {
-      // Now create storiesHash by reordering the above by group
-      const hash = transformSetStoriesStoryDataToStoriesHash(input, {
-        provider,
-        docsOptions,
-      });
-
-      await store.setState({
-        storiesHash: hash,
-        storiesConfigured: true,
-        storiesFailed: error,
-      });
     },
     selectFirstStory: () => {
       const { storiesHash } = store.getState();
@@ -322,7 +308,7 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
         options: { target: refId },
       });
     },
-    fetchStoryList: async () => {
+    fetchIndex: async () => {
       try {
         const result = await fetch(STORY_INDEX_PATH);
         if (result.status !== 200) throw new Error(await result.text());
@@ -335,7 +321,7 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
           return;
         }
 
-        await fullAPI.setStoryList(storyIndex);
+        await fullAPI.setIndex(storyIndex);
       } catch (err) {
         store.setState({
           storiesConfigured: true,
@@ -343,7 +329,10 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
         });
       }
     },
-    setStoryList: async (storyIndex: StoryIndex) => {
+    // The story index we receive on SET_INDEX is "prepared" in that it has parameters
+    // The story index we receive on fetchStoryIndex is not, but all the prepared fields are optional
+    // so we can cast one to the other easily enough
+    setIndex: async (storyIndex: PreparedStoryIndex) => {
       const newHash = transformStoryIndexToStoriesHash(storyIndex, {
         provider,
         docsOptions,
@@ -453,18 +442,25 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
       }
     });
 
+    fullAPI.on(SET_INDEX, function handler(index: PreparedStoryIndex) {
+      const { ref } = getEventMetadata(this, fullAPI);
+
+      if (!ref) {
+        fullAPI.setIndex(index);
+        const options = fullAPI.getCurrentParameter('options');
+        fullAPI.setOptions(removeRemovedOptions(options));
+      } else {
+        fullAPI.setRef(ref.id, { ...ref, storyIndex: index }, true);
+      }
+    });
+
+    // For composition back-compatibilty
     fullAPI.on(SET_STORIES, function handler(data: SetStoriesPayload) {
       const { ref } = getEventMetadata(this, fullAPI);
       const setStoriesData = data.v ? denormalizeStoryParameters(data) : data.stories;
 
       if (!ref) {
-        if (!data.v) {
-          throw new Error('Unexpected legacy SET_STORIES event from local source');
-        }
-
-        fullAPI.setStories(setStoriesData);
-        const options = fullAPI.getCurrentParameter('options');
-        fullAPI.setOptions(removeRemovedOptions(options));
+        throw new Error('Cannot call SET_STORIES for local frame');
       } else {
         fullAPI.setRef(ref.id, { ...ref, setStoriesData }, true);
       }
@@ -509,8 +505,8 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
     });
 
     if (FEATURES?.storyStoreV7) {
-      provider.serverChannel?.on(STORY_INDEX_INVALIDATED, () => fullAPI.fetchStoryList());
-      await fullAPI.fetchStoryList();
+      provider.serverChannel?.on(STORY_INDEX_INVALIDATED, () => fullAPI.fetchIndex());
+      await fullAPI.fetchIndex();
     }
   };
 
