@@ -1,15 +1,15 @@
 /* eslint-disable camelcase */
 import { dedent } from 'ts-dedent';
 import type {
-  Parameters,
   Addon_Comparator,
+  Addon_IndexEntry,
   Addon_IndexEntryLegacy,
+  Addon_StoryIndexEntry,
   Addon_StorySortParameter,
   Addon_StorySortParameterV7,
-  Addon_StoryIndexEntry,
-  Addon_IndexEntry,
-  Store_Story,
+  Parameters,
   Path,
+  Store_Story,
 } from '@storybook/types';
 import { storySort } from './storySort';
 

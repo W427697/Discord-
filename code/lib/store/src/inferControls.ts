@@ -3,10 +3,10 @@ import mapValues from 'lodash/mapValues';
 import { logger } from '@storybook/client-logger';
 import type {
   AnyFramework,
-  SBEnumType,
-  StrictInputType,
   ArgTypesEnhancer,
+  SBEnumType,
   Store_ControlsMatchers,
+  StrictInputType,
 } from '@storybook/types';
 import { filterArgTypes } from './filterArgTypes';
 import { combineParameters } from './parameters';

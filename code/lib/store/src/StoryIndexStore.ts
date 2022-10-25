@@ -1,11 +1,11 @@
 /* eslint-disable camelcase */
 import { dedent } from 'ts-dedent';
 import type {
-  StoryId,
   Addon_IndexEntry,
-  Store_StorySpecifier,
-  Store_StoryIndex,
   Path,
+  Store_StoryIndex,
+  Store_StorySpecifier,
+  StoryId,
 } from '@storybook/types';
 import memoize from 'memoizerific';
 

@@ -1,12 +1,12 @@
 /* eslint-disable camelcase */
 import { Preview } from '@storybook/preview-web';
 import type {
-  Path,
-  Store_ModuleExports,
-  Store_StoryIndex,
   AnyFramework,
   ComponentTitle,
+  Path,
   ProjectAnnotations,
+  Store_ModuleExports,
+  Store_StoryIndex,
 } from '@storybook/types';
 import { composeConfigs } from '@storybook/store';
 import { Channel } from '@storybook/channels';

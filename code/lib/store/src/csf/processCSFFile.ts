@@ -1,12 +1,12 @@
 /* eslint-disable camelcase */
 import type {
-  Parameters,
   AnyFramework,
   ComponentTitle,
-  Store_ModuleExports,
-  Store_CSFFile,
-  Store_NormalizedComponentAnnotations,
+  Parameters,
   Path,
+  Store_CSFFile,
+  Store_ModuleExports,
+  Store_NormalizedComponentAnnotations,
 } from '@storybook/types';
 import { isExportStory } from '@storybook/csf';
 import { logger } from '@storybook/client-logger';

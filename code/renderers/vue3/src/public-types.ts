@@ -1,11 +1,11 @@
 import type {
-  Args,
-  ComponentAnnotations,
-  StoryAnnotations,
   AnnotatedStoryFn,
-  ArgsStoryFn,
+  Args,
   ArgsFromMeta,
+  ArgsStoryFn,
+  ComponentAnnotations,
   DecoratorFunction,
+  StoryAnnotations,
 } from '@storybook/types';
 
 import type { SetOptional, Simplify } from 'type-fest';

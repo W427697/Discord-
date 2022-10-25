@@ -1,8 +1,8 @@
 /* eslint-disable camelcase */
 import React, {
   Component,
-  Fragment,
   FC,
+  Fragment,
   ReactElement,
   ReactNode,
   useCallback,
@@ -15,21 +15,21 @@ import mergeWith from 'lodash/mergeWith';
 import type {
   API_Args,
   API_ArgTypes,
-  API_OptionsData,
-  API_ProviderData,
-  API_StateMerger,
-  StoryId,
-  API_StoriesHash,
-  API_RootEntry,
-  API_GroupEntry,
   API_ComponentEntry,
+  API_ComposedRef,
   API_DocsEntry,
-  API_StoryEntry,
+  API_GroupEntry,
   API_HashEntry,
   API_LeafEntry,
-  API_ComposedRef,
+  API_OptionsData,
+  API_ProviderData,
   API_Refs,
+  API_RootEntry,
+  API_StateMerger,
+  API_StoriesHash,
+  API_StoryEntry,
   Parameters,
+  StoryId,
 } from '@storybook/types';
 
 import {

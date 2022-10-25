@@ -5,19 +5,19 @@ import glob from 'globby';
 import slash from 'slash';
 
 import type {
+  Addon_IndexEntry,
+  Addon_StandaloneDocsIndexEntry,
+  Addon_StoryIndexEntry,
+  Addon_TemplateDocsIndexEntry,
+  ComponentTitle,
+  CoreCommon_NormalizedStoriesSpecifier,
+  CoreCommon_StoryIndexer,
+  DocsOptions,
   Path,
   Store_StoryIndex,
   Store_V2CompatIndexEntry,
   StoryId,
-  Addon_IndexEntry,
-  Addon_StoryIndexEntry,
-  Addon_StandaloneDocsIndexEntry,
-  Addon_TemplateDocsIndexEntry,
-  ComponentTitle,
   StoryName,
-  CoreCommon_StoryIndexer,
-  CoreCommon_NormalizedStoriesSpecifier,
-  DocsOptions,
 } from '@storybook/types';
 import { userOrAutoTitleFromSpecifier, sortStoriesV7 } from '@storybook/store';
 import { normalizeStoryPath } from '@storybook/core-common';
