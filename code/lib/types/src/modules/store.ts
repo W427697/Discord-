@@ -12,6 +12,7 @@ import type {
   LegacyStoryFn,
   Parameters,
   PartialStoryFn,
+  Path,
   ProjectAnnotations,
   StoryAnnotations,
   StoryContext,
@@ -26,7 +27,6 @@ import type {
   ViewMode,
 } from './csf';
 
-export type Path = string;
 export type Store_ModuleExport = any;
 export type Store_ModuleExports = Record<string, Store_ModuleExport>;
 export type Store_PromiseLike<T> = Promise<T> | SynchronousPromise<T>;
