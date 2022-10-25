@@ -47,7 +47,9 @@ export type RenderContextCallbacks<TFramework extends AnyFramework> = Pick<
   'showMain' | 'showError' | 'showException'
 >;
 
-export class StoryRender<TFramework extends AnyFramework> implements Render<TFramework> {
+export class StoryRender<TFramework extends AnyFramework, TRootElement = HTMLElement>
+  implements Render<TFramework, TRootElement>
+{
   public type: RenderType = 'story';
 
   public story?: Store_Story<TFramework>;
@@ -56,7 +58,7 @@ export class StoryRender<TFramework extends AnyFramework> implements Render<TFra
 
   private abortController?: AbortController;
 
-  private canvasElement?: HTMLElement;
+  private canvasElement?: TRootElement;
 
   private notYetRendered = true;
 
@@ -69,7 +71,7 @@ export class StoryRender<TFramework extends AnyFramework> implements Render<TFra
   constructor(
     public channel: Channel,
     public store: StoryStore<TFramework>,
-    private renderToScreen: Store_RenderToDOM<TFramework>,
+    private renderToScreen: Store_RenderToDOM<TFramework, TRootElement>,
     private callbacks: RenderContextCallbacks<TFramework>,
     public id: StoryId,
     public viewMode: ViewMode,
@@ -110,11 +112,11 @@ export class StoryRender<TFramework extends AnyFramework> implements Render<TFra
   }
 
   // The two story "renders" are equal and have both loaded the same story
-  isEqual(other: Render<TFramework>): boolean {
+  isEqual(other: Render<TFramework, TRootElement>): boolean {
     return !!(
       this.id === other.id &&
       this.story &&
-      this.story === (other as StoryRender<TFramework>).story
+      this.story === (other as StoryRender<TFramework, TRootElement>).story
     );
   }
 
@@ -126,7 +128,7 @@ export class StoryRender<TFramework extends AnyFramework> implements Render<TFra
     return ['rendering', 'playing'].includes(this.phase as RenderPhase);
   }
 
-  async renderToElement(canvasElement: HTMLElement) {
+  async renderToElement(canvasElement: TRootElement) {
     this.canvasElement = canvasElement;
 
     // FIXME: this comment
@@ -185,7 +187,8 @@ export class StoryRender<TFramework extends AnyFramework> implements Render<TFra
         // and we need to ensure we render it with the new values
         ...this.storyContext(),
         abortSignal,
-        canvasElement,
+        // We should consider parameterizing the story types with TRootElement in the future
+        canvasElement: canvasElement as any,
       };
       const renderContext: Store_RenderContext<TFramework> = {
         componentId,

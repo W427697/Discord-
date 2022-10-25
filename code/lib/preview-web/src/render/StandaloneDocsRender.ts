@@ -24,7 +24,9 @@ import { DocsContext } from '../docs-context/DocsContext';
  *  - *.mdx file that may or may not reference a specific CSF file with `<Meta of={} />`
  */
 
-export class StandaloneDocsRender<TFramework extends AnyFramework> implements Render<TFramework> {
+export class StandaloneDocsRender<TFramework extends AnyFramework, TRootElement = HTMLElement>
+  implements Render<TFramework, TRootElement>
+{
   public readonly type: RenderType = 'docs';
 
   public readonly id: StoryId;
@@ -66,16 +68,16 @@ export class StandaloneDocsRender<TFramework extends AnyFramework> implements Re
     this.preparing = false;
   }
 
-  isEqual(other: Render<TFramework>): boolean {
+  isEqual(other: Render<TFramework, TRootElement>): boolean {
     return !!(
       this.id === other.id &&
       this.exports &&
-      this.exports === (other as StandaloneDocsRender<TFramework>).exports
+      this.exports === (other as StandaloneDocsRender<TFramework, TRootElement>).exports
     );
   }
 
   async renderToElement(
-    canvasElement: HTMLElement,
+    canvasElement: TRootElement,
     renderStoryToElement: DocsContextProps['renderStoryToElement']
   ) {
     if (!this.exports || !this.csfFiles || !this.store.projectAnnotations)
@@ -100,7 +102,10 @@ export class StandaloneDocsRender<TFramework extends AnyFramework> implements Re
     const renderer = await docs.renderer();
     const { render } = renderer as { render: DocsRenderFunction<TFramework> };
     const renderDocs = async () => {
-      await new Promise<void>((r) => render(docsContext, docsParameter, canvasElement, r));
+      await new Promise<void>((r) =>
+        // NOTE: it isn't currently possible to use a docs renderer outside of "web" mode.
+        render(docsContext, docsParameter, canvasElement as HTMLElement, r)
+      );
       this.channel.emit(DOCS_RENDERED, this.id);
     };
 

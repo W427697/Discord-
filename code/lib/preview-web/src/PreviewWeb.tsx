@@ -41,6 +41,8 @@ import { PREPARE_ABORTED } from './render/Render';
 import { StoryRender } from './render/StoryRender';
 import { TemplateDocsRender } from './render/TemplateDocsRender';
 import { StandaloneDocsRender } from './render/StandaloneDocsRender';
+import { SelectionStore } from './SelectionStore';
+import { View } from './View';
 
 const { window: globalWindow } = global;
 
@@ -49,33 +51,45 @@ function focusInInput(event: Event) {
   return /input|textarea/i.test(target.tagName) || target.getAttribute('contenteditable') !== null;
 }
 
-type PossibleRender<TFramework extends AnyFramework> =
-  | StoryRender<TFramework>
-  | TemplateDocsRender<TFramework>
-  | StandaloneDocsRender<TFramework>;
+type PossibleRender<TFramework extends AnyFramework, TRootElement = HTMLElement> =
+  | StoryRender<TFramework, TRootElement>
+  | TemplateDocsRender<TFramework, TRootElement>
+  | StandaloneDocsRender<TFramework, TRootElement>;
 
-function isStoryRender<TFramework extends AnyFramework>(
-  r: PossibleRender<TFramework>
-): r is StoryRender<TFramework> {
+function isStoryRender<TFramework extends AnyFramework, TRootElement>(
+  r: PossibleRender<TFramework, TRootElement>
+): r is StoryRender<TFramework, TRootElement> {
   return r.type === 'story';
 }
 
-export class PreviewWeb<TFramework extends AnyFramework> extends Preview<TFramework> {
-  urlStore: UrlStore;
+export class PreviewWeb<
+  TFramework extends AnyFramework,
+  TRootElement = HTMLElement
+> extends Preview<TFramework, TRootElement> {
+  selectionStore: SelectionStore;
 
-  view: WebView;
+  view: View<TRootElement>;
 
   previewEntryError?: Error;
 
   currentSelection?: Store_Selection;
 
-  currentRender?: PossibleRender<TFramework>;
+  currentRender?: PossibleRender<TFramework, TRootElement>;
 
-  constructor({ view = new WebView(), urlStore = new UrlStore() }) {
+  constructor({
+    // I'm not quite sure how to express this -- if you don't pass a view, you need to ensure
+    // this is a PreviewWeb<..., HTMLElement>. If you pass one, it can be parameterized however you want,
+    // as long as it is consistent.
+    view = new WebView() as any,
+    selectionStore = new UrlStore(),
+  }: {
+    view: View<TRootElement>;
+    selectionStore: SelectionStore;
+  }) {
     super();
 
     this.view = view;
-    this.urlStore = urlStore;
+    this.selectionStore = selectionStore;
   }
 
   setupListeners() {
@@ -88,7 +102,9 @@ export class PreviewWeb<TFramework extends AnyFramework> extends Preview<TFramew
     this.channel.on(PRELOAD_ENTRIES, this.onPreloadStories.bind(this));
   }
 
-  initializeWithProjectAnnotations(projectAnnotations: Store_WebProjectAnnotations<TFramework>) {
+  initializeWithProjectAnnotations(
+    projectAnnotations: Store_WebProjectAnnotations<TFramework, TRootElement>
+  ) {
     return super
       .initializeWithProjectAnnotations(projectAnnotations)
       .then(() => this.setInitialGlobals());
@@ -98,7 +114,7 @@ export class PreviewWeb<TFramework extends AnyFramework> extends Preview<TFramew
     if (!this.storyStore.globals)
       throw new Error(`Cannot call setInitialGlobals before initialization`);
 
-    const { globals } = this.urlStore.selectionSpecifier || {};
+    const { globals } = this.selectionStore.selectionSpecifier || {};
     if (globals) {
       this.storyStore.globals.updateFromPersisted(globals);
     }
@@ -121,12 +137,12 @@ export class PreviewWeb<TFramework extends AnyFramework> extends Preview<TFramew
     if (!this.storyStore.storyIndex)
       throw new Error(`Cannot call selectSpecifiedStory before initialization`);
 
-    if (!this.urlStore.selectionSpecifier) {
+    if (!this.selectionStore.selectionSpecifier) {
       this.renderMissingStory();
       return;
     }
 
-    const { storySpecifier, args } = this.urlStore.selectionSpecifier;
+    const { storySpecifier, args } = this.selectionStore.selectionSpecifier;
     const entry = this.storyStore.storyIndex.entryFromSpecifier(storySpecifier);
 
     if (!entry) {
@@ -155,10 +171,10 @@ export class PreviewWeb<TFramework extends AnyFramework> extends Preview<TFramew
     }
 
     const { id: storyId, type: viewMode } = entry;
-    this.urlStore.setSelection({ storyId, viewMode });
-    this.channel.emit(STORY_SPECIFIED, this.urlStore.selection);
+    this.selectionStore.setSelection({ storyId, viewMode });
+    this.channel.emit(STORY_SPECIFIED, this.selectionStore.selection);
 
-    this.channel.emit(CURRENT_STORY_WAS_SET, this.urlStore.selection);
+    this.channel.emit(CURRENT_STORY_WAS_SET, this.selectionStore.selection);
 
     await this.renderSelection({ persistedArgs: args });
   }
@@ -173,7 +189,7 @@ export class PreviewWeb<TFramework extends AnyFramework> extends Preview<TFramew
   }) {
     await super.onGetProjectAnnotationsChanged({ getProjectAnnotations });
 
-    if (this.urlStore.selection) {
+    if (this.selectionStore.selection) {
       this.renderSelection();
     }
   }
@@ -192,7 +208,7 @@ export class PreviewWeb<TFramework extends AnyFramework> extends Preview<TFramew
       this.channel.emit(SET_INDEX, await this.storyStore.getSetIndexPayload());
     }
 
-    if (this.urlStore.selection) {
+    if (this.selectionStore.selection) {
       await this.renderSelection();
     } else {
       // Our selection has never applied before, but maybe it does now, let's try!
@@ -213,13 +229,13 @@ export class PreviewWeb<TFramework extends AnyFramework> extends Preview<TFramew
   async onSetCurrentStory(selection: { storyId: StoryId; viewMode?: ViewMode }) {
     await this.storyStore.initializationPromise;
 
-    this.urlStore.setSelection({ viewMode: 'story', ...selection });
-    this.channel.emit(CURRENT_STORY_WAS_SET, this.urlStore.selection);
+    this.selectionStore.setSelection({ viewMode: 'story', ...selection });
+    this.channel.emit(CURRENT_STORY_WAS_SET, this.selectionStore.selection);
     this.renderSelection();
   }
 
   onUpdateQueryParams(queryParams: any) {
-    this.urlStore.setQueryParams(queryParams);
+    this.selectionStore.setQueryParams(queryParams);
   }
 
   async onUpdateGlobals({ globals }: { globals: Globals }) {
@@ -256,7 +272,7 @@ export class PreviewWeb<TFramework extends AnyFramework> extends Preview<TFramew
   async renderSelection({ persistedArgs }: { persistedArgs?: Args } = {}) {
     const { renderToDOM } = this;
     if (!renderToDOM) throw new Error('Cannot call renderSelection before initialization');
-    const { selection } = this.urlStore;
+    const { selection } = this.selectionStore;
     if (!selection) throw new Error('Cannot call renderSelection as no selection was made');
 
     const { storyId } = selection;
@@ -289,12 +305,12 @@ export class PreviewWeb<TFramework extends AnyFramework> extends Preview<TFramew
       await this.teardownRender(this.currentRender);
     }
 
-    let render: PossibleRender<TFramework>;
+    let render: PossibleRender<TFramework, TRootElement>;
     if (entry.type === 'story') {
-      render = new StoryRender<TFramework>(
+      render = new StoryRender<TFramework, TRootElement>(
         this.channel,
         this.storyStore,
-        (...args) => {
+        (...args: Parameters<typeof renderToDOM>) => {
           // At the start of renderToDOM we make the story visible (see note in WebView)
           this.view.showStoryDuringRender();
           return renderToDOM(...args);
@@ -304,9 +320,17 @@ export class PreviewWeb<TFramework extends AnyFramework> extends Preview<TFramew
         'story'
       );
     } else if (entry.standalone) {
-      render = new StandaloneDocsRender<TFramework>(this.channel, this.storyStore, entry);
+      render = new StandaloneDocsRender<TFramework, TRootElement>(
+        this.channel,
+        this.storyStore,
+        entry
+      );
     } else {
-      render = new TemplateDocsRender<TFramework>(this.channel, this.storyStore, entry);
+      render = new TemplateDocsRender<TFramework, TRootElement>(
+        this.channel,
+        this.storyStore,
+        entry
+      );
     }
 
     // We need to store this right away, so if the story changes during
@@ -385,20 +409,24 @@ export class PreviewWeb<TFramework extends AnyFramework> extends Preview<TFramew
 
     if (isStoryRender(render)) {
       if (!render.story) throw new Error('Render has not been prepared!');
-      this.storyRenders.push(render as StoryRender<TFramework>);
-      (this.currentRender as StoryRender<TFramework>).renderToElement(
+      this.storyRenders.push(render as StoryRender<TFramework, TRootElement>);
+      (this.currentRender as StoryRender<TFramework, TRootElement>).renderToElement(
         this.view.prepareForStory(render.story)
       );
     } else {
       this.currentRender.renderToElement(
         this.view.prepareForDocs(),
-        this.renderStoryToElement.bind(this)
+        // This argument is used for docs, which is currently only compatible with HTMLElements
+        this.renderStoryToElement.bind(this) as PreviewWeb<
+          TFramework,
+          HTMLElement
+        >['renderStoryToElement']
       );
     }
   }
 
   async teardownRender(
-    render: PossibleRender<TFramework>,
+    render: PossibleRender<TFramework, TRootElement>,
     { viewModeChanged = false }: { viewModeChanged?: boolean } = {}
   ) {
     this.storyRenders = this.storyRenders.filter((r) => r !== render);

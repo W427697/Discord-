@@ -42,7 +42,7 @@ const STORY_INDEX_PATH = './index.json';
 
 export type MaybePromise<T> = Promise<T> | T;
 
-export class Preview<TFramework extends AnyFramework> {
+export class Preview<TFramework extends AnyFramework, TRootElement = HTMLElement> {
   serverChannel?: Channel;
 
   storyStore: StoryStore<TFramework>;
@@ -51,9 +51,9 @@ export class Preview<TFramework extends AnyFramework> {
 
   importFn?: Store_ModuleImportFn;
 
-  renderToDOM?: Store_RenderToDOM<TFramework>;
+  renderToDOM?: Store_RenderToDOM<TFramework, TRootElement>;
 
-  storyRenders: StoryRender<TFramework>[] = [];
+  storyRenders: StoryRender<TFramework, TRootElement>[] = [];
 
   previewEntryError?: Error;
 
@@ -81,7 +81,9 @@ export class Preview<TFramework extends AnyFramework> {
     // getProjectAnnotations has been run, thus this slightly awkward approach
     getStoryIndex?: () => Store_StoryIndex;
     importFn: Store_ModuleImportFn;
-    getProjectAnnotations: () => MaybePromise<Store_WebProjectAnnotations<TFramework>>;
+    getProjectAnnotations: () => MaybePromise<
+      Store_WebProjectAnnotations<TFramework, TRootElement>
+    >;
   }) {
     // We save these two on initialization in case `getProjectAnnotations` errors,
     // in which case we may need them later when we recover.
@@ -106,7 +108,7 @@ export class Preview<TFramework extends AnyFramework> {
   }
 
   getProjectAnnotationsOrRenderError(
-    getProjectAnnotations: () => MaybePromise<Store_WebProjectAnnotations<TFramework>>
+    getProjectAnnotations: () => MaybePromise<Store_WebProjectAnnotations<TFramework, TRootElement>>
   ): Store_PromiseLike<ProjectAnnotations<TFramework>> {
     return SynchronousPromise.resolve()
       .then(getProjectAnnotations)
@@ -132,7 +134,9 @@ export class Preview<TFramework extends AnyFramework> {
   }
 
   // If initialization gets as far as project annotations, this function runs.
-  initializeWithProjectAnnotations(projectAnnotations: Store_WebProjectAnnotations<TFramework>) {
+  initializeWithProjectAnnotations(
+    projectAnnotations: Store_WebProjectAnnotations<TFramework, TRootElement>
+  ) {
     this.storyStore.setProjectAnnotations(projectAnnotations);
 
     this.setInitialGlobals();
@@ -305,11 +309,11 @@ export class Preview<TFramework extends AnyFramework> {
   // main to be consistent with the previous behaviour. In the future,
   // we will change it to go ahead and load the story, which will end up being
   // "instant", although async.
-  renderStoryToElement(story: Store_Story<TFramework>, element: HTMLElement) {
+  renderStoryToElement(story: Store_Story<TFramework>, element: TRootElement) {
     if (!this.renderToDOM)
       throw new Error(`Cannot call renderStoryToElement before initialization`);
 
-    const render = new StoryRender<TFramework>(
+    const render = new StoryRender<TFramework, TRootElement>(
       this.channel,
       this.storyStore,
       this.renderToDOM,
@@ -329,9 +333,9 @@ export class Preview<TFramework extends AnyFramework> {
 
   async teardownRender(
     render:
-      | StoryRender<TFramework>
-      | TemplateDocsRender<TFramework>
-      | StandaloneDocsRender<TFramework>,
+      | StoryRender<TFramework, TRootElement>
+      | TemplateDocsRender<TFramework, TRootElement>
+      | StandaloneDocsRender<TFramework, TRootElement>,
     { viewModeChanged }: { viewModeChanged?: boolean } = {}
   ) {
     this.storyRenders = this.storyRenders.filter((r) => r !== render);

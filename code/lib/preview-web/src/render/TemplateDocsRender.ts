@@ -27,7 +27,9 @@ import { DocsContext } from '../docs-context/DocsContext';
  *  - *.stories.mdx files, where the MDX compiler produces a CSF file with a `.parameter.docs.page`
  *      parameter containing the compiled content of the MDX file.
  */
-export class TemplateDocsRender<TFramework extends AnyFramework> implements Render<TFramework> {
+export class TemplateDocsRender<TFramework extends AnyFramework, TRootElement = HTMLElement>
+  implements Render<TFramework, TRootElement>
+{
   public readonly type: RenderType = 'docs';
 
   public readonly id: StoryId;
@@ -83,16 +85,16 @@ export class TemplateDocsRender<TFramework extends AnyFramework> implements Rend
     this.preparing = false;
   }
 
-  isEqual(other: Render<TFramework>): boolean {
+  isEqual(other: Render<TFramework, TRootElement>): boolean {
     return !!(
       this.id === other.id &&
       this.story &&
-      this.story === (other as TemplateDocsRender<TFramework>).story
+      this.story === (other as TemplateDocsRender<TFramework, TRootElement>).story
     );
   }
 
   async renderToElement(
-    canvasElement: HTMLElement,
+    canvasElement: TRootElement,
     renderStoryToElement: DocsContextProps['renderStoryToElement']
   ) {
     if (!this.story || !this.csfFiles) throw new Error('Cannot render docs before preparing');
@@ -115,7 +117,10 @@ export class TemplateDocsRender<TFramework extends AnyFramework> implements Rend
     const renderer = await docsParameter.renderer();
     const { render } = renderer as { render: DocsRenderFunction<TFramework> };
     const renderDocs = async () => {
-      await new Promise<void>((r) => render(docsContext, docsParameter, canvasElement, r));
+      await new Promise<void>((r) =>
+        // NOTE: it isn't currently possible to use a docs renderer outside of "web" mode.
+        render(docsContext, docsParameter, canvasElement as HTMLElement, r)
+      );
       this.channel.emit(DOCS_RENDERED, this.id);
     };
 
