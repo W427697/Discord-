@@ -310,7 +310,7 @@ const preactWebpackTemplates = {
   },
 };
 
-export default {
+const reproTemplates = {
   ...craTemplates,
   ...reactViteTemplates,
   ...reactWebpackTemplates,
@@ -324,4 +324,6 @@ export default {
   ...htmlWebpackTemplates,
   ...preactWebpackTemplates,
   ...nextjsTemplates,
-} as const;
+};
+
+export default reproTemplates;
