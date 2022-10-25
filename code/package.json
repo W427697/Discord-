@@ -339,6 +339,9 @@
     "window-size": "^1.1.1",
     "zx": "^7.0.3"
   },
+  "devDependencies": {
+    "expect-type": "^0.14.2"
+  },
   "dependenciesMeta": {
     "@compodoc/compodoc": {
       "built": false

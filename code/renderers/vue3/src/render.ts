@@ -13,8 +13,7 @@ export const render: ArgsStoryFn<VueFramework> = (props, context) => {
     );
   }
 
-  // TODO remove this hack
-  return h(Component as Parameters<typeof h>[0], props);
+  return h(Component, props);
 };
 
 let setupFunction = (app: any) => {};
@@ -40,7 +39,7 @@ export function renderToDOM(
       return h(element);
     },
   });
-  storybookApp.config.errorHandler = showException;
+  storybookApp.config.errorHandler = (e: unknown) => showException(e as Error);
   element = storyFn();
 
   if (!element) {
@@ -56,9 +55,7 @@ export function renderToDOM(
 
   showMain();
 
-  if (map.has(domElement)) {
-    map.get(domElement).unmount();
-  }
+  map.get(domElement)?.unmount();
 
   storybookApp.mount(domElement);
 }
