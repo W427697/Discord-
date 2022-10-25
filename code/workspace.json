@@ -103,7 +103,7 @@
     },
     "@storybook/blocks": {
       "implicitDependencies": ["@storybook/types"],
-      "root": "lib/blocks",
+      "root": "ui/blocks",
       "type": "library"
     },
     "@storybook/builder-manager": {
