@@ -20,6 +20,7 @@ import {
   normalizeStories,
   logConfig,
   loadMainConfig,
+  resolveAddonName,
 } from '@storybook/core-common';
 
 import { outputStats } from './utils/output-stats';
@@ -84,7 +85,7 @@ export async function buildStaticStandalone(
       require.resolve('./presets/common-preset'),
       ...(managerBuilder.corePresets || []),
       ...(previewBuilder.corePresets || []),
-      ...(renderer ? [renderer] : []),
+      ...(renderer ? [resolveAddonName(options.configDir, renderer, options)] : []),
       ...corePresets,
       require.resolve('./presets/babel-cache-preset'),
     ],
