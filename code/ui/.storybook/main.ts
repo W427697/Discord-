@@ -4,17 +4,15 @@ const config: StorybookConfig = {
   stories: [
     {
       directory: '../manager/src',
-      // files: '*.stories.@(ts|tsx|js|jsx|mdx)',
+      // these titles uses a special unicode character for the slash as a workaround for https://github.com/storybookjs/storybook/issues/9761
       titlePrefix: '@storybook⁄ui',
     },
     {
       directory: '../components/src',
-      // files: '*.stories.@(js|jsx|ts|tsx|mdx)',
       titlePrefix: '@storybook⁄components',
     },
     {
       directory: '../blocks/src',
-      // files: '*.stories.@(js|jsx|ts|tsx|mdx)',
       titlePrefix: '@storybook⁄blocks',
     },
   ],
