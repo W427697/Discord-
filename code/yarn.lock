@@ -25992,49 +25992,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"msgpackr-extract@npm:^2.1.2":
-  version: 2.1.2
-  resolution: "msgpackr-extract@npm:2.1.2"
-  dependencies:
-    "@msgpackr-extract/msgpackr-extract-darwin-arm64": 2.1.2
-    "@msgpackr-extract/msgpackr-extract-darwin-x64": 2.1.2
-    "@msgpackr-extract/msgpackr-extract-linux-arm": 2.1.2
-    "@msgpackr-extract/msgpackr-extract-linux-arm64": 2.1.2
-    "@msgpackr-extract/msgpackr-extract-linux-x64": 2.1.2
-    "@msgpackr-extract/msgpackr-extract-win32-x64": 2.1.2
-    node-gyp: latest
-    node-gyp-build-optional-packages: 5.0.3
-  dependenciesMeta:
-    "@msgpackr-extract/msgpackr-extract-darwin-arm64":
-      optional: true
-    "@msgpackr-extract/msgpackr-extract-darwin-x64":
-      optional: true
-    "@msgpackr-extract/msgpackr-extract-linux-arm":
-      optional: true
-    "@msgpackr-extract/msgpackr-extract-linux-arm64":
-      optional: true
-    "@msgpackr-extract/msgpackr-extract-linux-x64":
-      optional: true
-    "@msgpackr-extract/msgpackr-extract-win32-x64":
-      optional: true
-  bin:
-    download-msgpackr-prebuilds: bin/download-prebuilds.js
-  checksum: 1fc1e951d66030cb064fac25cd356a5322eb19d82ad892d180fcc05d07a05e04f470f7ff8dbf27c33c7298aa6b30408683c9e99bb32fa65e1d840c2dc4830a78
-  languageName: node
-  linkType: hard
-
-"msgpackr@npm:^1.5.4":
-  version: 1.7.2
-  resolution: "msgpackr@npm:1.7.2"
-  dependencies:
-    msgpackr-extract: ^2.1.2
-  dependenciesMeta:
-    msgpackr-extract:
-      optional: true
-  checksum: c3b6fe0eebd8ebf997e610cf4291b6c7ccece1dba7aa87fc3584f0cef8e35b02ddcc6d31aabaeaa702afbe5e2c3b2dad666c3d769a4acc1ded27cca5c908dae6
-  languageName: node
-  linkType: hard
-
 "muggle-string@npm:^0.1.0":
   version: 0.1.0
   resolution: "muggle-string@npm:0.1.0"
