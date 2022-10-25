@@ -142,7 +142,7 @@ See [Addon / Framework Support Table](https://storybook.js.org/docs/react/api/fr
 | [notes](https://github.com/storybookjs/deprecated-addons/tree/master/addons/notes) | Annotate Storybook stories with notes                      |
 | [options](https://www.npmjs.com/package/@storybook/addon-options)                  | Customize the Storybook UI in code                         |
 
-In order to continue improving your experience, we have to eventually deprecate certain addons in favor of new and better tools.
+To continue improving your experience, we have to eventually deprecate certain addons in favor of new and better tools.
 
 If you're using info/notes, we highly recommend you to migrate to [docs](code/addons/docs/) instead, and [here is a guide](code/addons/docs/docs/recipes.md#migrating-from-notesinfo-addons) to help you.
 
@@ -158,7 +158,7 @@ We have a badge! Link it to your live Storybook example.
 [![Storybook](https://cdn.jsdelivr.net/gh/storybookjs/brand@main/badge/badge-storybook.svg)](link to site)
 ```
 
-If you're looking for material to use in your presentation about storybook, like logo's video material and the colors we use etc, you can find all of that at our [brand repo](https://github.com/storybookjs/brand).
+If you're looking for material to use in your storybook presentation, such as logos, video material, and the colors we use, you can find it all on our  [brand repo](https://github.com/storybookjs/brand).
 
 ## Community
 
@@ -169,7 +169,7 @@ If you're looking for material to use in your presentation about storybook, like
 
 ## Contributing
 
-We welcome contributions to Storybook!
+Contributions to Storybook are always welcome!
 
 - 📥 Pull requests and 🌟 Stars are always welcome.
 - Read our [contributing guide](CONTRIBUTING.md) to get started,
@@ -182,7 +182,7 @@ Looking for a first issue to tackle?
 
 ### Development scripts
 
-Storybook is organized as a mono-repo using [Lerna](https://lerna.js.org/). Useful scripts include:
+Storybook is organized as a monorepo using [Lerna](https://lerna.js.org/). Useful scripts include:
 
 #### `yarn start`
 
@@ -208,7 +208,7 @@ Storybook is organized as a mono-repo using [Lerna](https://lerna.js.org/). Usef
 
 ### Sponsors
 
-Become a sponsor and get your logo on our README on Github with a link to your site. \[[Become a sponsor](https://opencollective.com/storybook#sponsor)]
+Become a sponsor to have your logo and website URL on our README on Github. \[[Become a sponsor](https://opencollective.com/storybook#sponsor)]
 
 <a href="https://opencollective.com/storybook/sponsor/0/website" target="_blank"><img src="https://opencollective.com/storybook/sponsor/0/avatar.svg"></a>
 <a href="https://opencollective.com/storybook/sponsor/1/website" target="_blank"><img src="https://opencollective.com/storybook/sponsor/1/avatar.svg"></a>
@@ -243,7 +243,7 @@ Become a sponsor and get your logo on our README on Github with a link to your s
 
 ### Backers
 
-Support us with a monthly donation and help us continue our activities. \[[Become a backer](https://opencollective.com/storybook#backer)]
+By making a recurring donation, you can support us and our work. \[[Become a backer](https://opencollective.com/storybook#backer)]
 
 <a href="https://opencollective.com/storybook/backer/0/website" target="_blank"><img src="https://opencollective.com/storybook/backer/0/avatar.svg"></a>
 <a href="https://opencollective.com/storybook/backer/1/website" target="_blank"><img src="https://opencollective.com/storybook/backer/1/avatar.svg"></a>
