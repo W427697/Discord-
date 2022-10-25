@@ -125,21 +125,24 @@ export default async (
       path.join(__dirname, '..', '..', 'templates', 'virtualModuleEntry.template.js')
     );
 
-    previewAnnotations.forEach((previewAnnotationFilename: any) => {
+    previewAnnotations.forEach((previewAnnotationFilename: string | undefined) => {
+      if (!previewAnnotationFilename) return;
       const clientApi = storybookPaths['@storybook/client-api'];
       const clientLogger = storybookPaths['@storybook/client-logger'];
 
+      // Ensure that relative paths end up mapped to a filename in the cwd, so a later import
+      // of the `previewAnnotationFilename` in the template works.
+      const entryFilename = previewAnnotationFilename.startsWith('.')
+        ? `${previewAnnotationFilename.replace(/(\w)(\/|\\)/g, '$1-')}-generated-config-entry.js`
+        : previewAnnotationFilename;
       // NOTE: although this file is also from the `dist/cjs` directory, it is actually a ESM
       // file, see https://github.com/storybookjs/storybook/pull/16727#issuecomment-986485173
-      virtualModuleMapping[`${previewAnnotationFilename}-generated-config-entry.js`] = interpolate(
-        entryTemplate,
-        {
-          previewAnnotationFilename,
-          clientApi,
-          clientLogger,
-        }
-      );
-      entries.push(`${previewAnnotationFilename}-generated-config-entry.js`);
+      virtualModuleMapping[entryFilename] = interpolate(entryTemplate, {
+        previewAnnotationFilename,
+        clientApi,
+        clientLogger,
+      });
+      entries.push(entryFilename);
     });
     if (stories.length > 0) {
       const storyTemplate = await readTemplate(
@@ -157,6 +160,7 @@ export default async (
       entries.push(storiesFilename);
     }
   }
+  // console.log(virtualModuleMapping);
 
   const shouldCheckTs = typescriptOptions.check && !typescriptOptions.skipBabel;
   const tsCheckOptions = typescriptOptions.checkOptions || {};
