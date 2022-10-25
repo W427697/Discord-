@@ -116,11 +116,11 @@ export default async (
   } else {
     const rendererName = await getRendererName(options);
 
-    const frameworkInitEntry = path.resolve(
-      path.join(workingDir, 'storybook-init-framework-entry.js')
+    const rendererInitEntry = path.resolve(
+      path.join(workingDir, 'storybook-init-renderer-entry.js')
     );
-    virtualModuleMapping[frameworkInitEntry] = `import '${rendererName}';`;
-    entries.push(frameworkInitEntry);
+    virtualModuleMapping[rendererInitEntry] = `import '${rendererName}';`;
+    entries.push(rendererInitEntry);
 
     const entryTemplate = await readTemplate(
       path.join(__dirname, '..', '..', 'templates', 'virtualModuleEntry.template.js')
