@@ -6799,7 +6799,7 @@ __metadata:
     "@storybook/core-common": 7.0.0-alpha.42
     "@storybook/docs-tools": 7.0.0-alpha.42
     "@storybook/store": 7.0.0-alpha.42
-    ember-source: ~3.28.0
+    ember-source: ~3.28.1
     global: ^4.4.0
     react: 16.14.0
     react-dom: 16.14.0
@@ -15435,7 +15435,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ember-source@npm:~3.28.0":
+"ember-source@npm:~3.28.1":
   version: 3.28.9
   resolution: "ember-source@npm:3.28.9"
   dependencies:
