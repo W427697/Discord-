@@ -8989,7 +8989,7 @@ __metadata:
     ts-dedent: ^2.0.0
     type-fest: 2.19.0
     typescript: ~4.6.3
-    vue: ^2.6.12
+    vue: 2.6.14
     vue-tsc: ^1.0.9
   peerDependencies:
     "@babel/core": "*"
@@ -40723,6 +40723,13 @@ __metadata:
   bin:
     vue-tsc: bin/vue-tsc.js
   checksum: b1a446cd3a88220d7e996c54afb8e1932eeabcd8efdcc0fcb8dd06e83833a70aa835373b687c6bf35a7d35cfcd79c776737a13eecc8faf1b237d695a5abf1433
+  languageName: node
+  linkType: hard
+
+"vue@npm:2.6.14":
+  version: 2.6.14
+  resolution: "vue@npm:2.6.14"
+  checksum: efbe26ccc7c1bd025b88e464ebc81217b92350a77b98049122a46ac2242e249719f930d3914e2efdeaaa521a51e6e6b1cb9ffbf95b4835ed94dc92efb481040f
   languageName: node
   linkType: hard
 

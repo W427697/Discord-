@@ -2,7 +2,7 @@ import { satisfies } from '@storybook/core-common';
 import { ComponentAnnotations, StoryAnnotations } from '@storybook/csf';
 import { expectTypeOf } from 'expect-type';
 import { SetOptional } from 'type-fest';
-import { Component } from 'vue';
+import { AsyncComponent, Component } from 'vue';
 import { ExtendedVue, Vue } from 'vue/types/vue';
 import { DecoratorFn, Meta, StoryObj } from './public-types';
 import Button from './__tests__/Button.vue';
@@ -126,11 +126,11 @@ describe('Story args can be inferred', () => {
   });
 
   const withDecorator: DecoratorFn<{ decoratorArg: string }> = (
-    Story,
+    storyFn,
     { args: { decoratorArg } }
   ) =>
     Vue.extend({
-      components: { Story },
+      components: { Story: storyFn() },
       template: `<div>Decorator: ${decoratorArg}<Story/></div>`,
     });
 
@@ -153,13 +153,14 @@ describe('Story args can be inferred', () => {
     type Props = ComponentProps<typeof Button> & { decoratorArg: string; decoratorArg2: string };
 
     const secondDecorator: DecoratorFn<{ decoratorArg2: string }> = (
-      Story,
+      storyFn,
       { args: { decoratorArg2 } }
-    ) =>
-      Vue.extend({
-        components: { Story },
+    ) => {
+      return Vue.extend({
+        components: { Story: storyFn() },
         template: `<div>Decorator: ${decoratorArg2}<Story/></div>`,
       });
+    };
 
     const meta = satisfies<Meta<Props>>()({
       component: Button,

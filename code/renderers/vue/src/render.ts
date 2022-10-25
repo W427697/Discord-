@@ -18,9 +18,9 @@ type Instance = CombinedVueInstance<
   },
   object,
   object,
-  Record<never, any>,
-  unknown
+  Record<never, any>
 >;
+
 const getRoot = (domElement: Element): Instance => {
   const cachedInstance = map.get(domElement);
   if (cachedInstance != null) return cachedInstance;

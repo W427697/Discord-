@@ -20,7 +20,10 @@ export type { Args, ArgTypes, Parameters, StoryContext } from '@storybook/csf';
  * @see [Default export](https://storybook.js.org/docs/formats/component-story-format/#default-export)
  */
 export type Meta<CmpOrArgs = Args> = CmpOrArgs extends Component<any>
-  ? ComponentAnnotations<VueFramework, ComponentProps<CmpOrArgs>>
+  ? ComponentAnnotations<
+      VueFramework,
+      unknown extends ComponentProps<CmpOrArgs> ? CmpOrArgs : ComponentProps<CmpOrArgs>
+    >
   : ComponentAnnotations<VueFramework, CmpOrArgs>;
 
 /**
