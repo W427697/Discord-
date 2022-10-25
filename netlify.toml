@@ -1,6 +1,6 @@
 [build]
   publish = "code/built-storybooks"
-  command = "yarn task --task compile --start-from=auto --no-link && cd code && yarn build-storybooks --all"
+  command = "yarn task --task compile --start-from=auto --no-link"
 [build.environment]
   NODE_VERSION = "16"
   YARN_VERSION = "1.22.10"
