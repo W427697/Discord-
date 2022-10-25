@@ -4,7 +4,6 @@ import type { StorybookConfig } from './types';
 
 export const addons: PresetProperty<'addons', StorybookConfig> = [
   path.dirname(require.resolve(path.join('@storybook/preset-vue3-webpack', 'package.json'))),
-  path.dirname(require.resolve(path.join('@storybook/vue3', 'package.json'))),
 ];
 
 export const core: PresetProperty<'core', StorybookConfig> = async (config, options) => {
@@ -18,6 +17,7 @@ export const core: PresetProperty<'core', StorybookConfig> = async (config, opti
       ) as '@storybook/builder-webpack5',
       options: typeof framework === 'string' ? {} : framework.options.builder || {},
     },
+    renderer: path.dirname(require.resolve(path.join('@storybook/vue3', 'package.json'))),
   };
 };
 

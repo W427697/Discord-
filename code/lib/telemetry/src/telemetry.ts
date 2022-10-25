@@ -25,10 +25,12 @@ export async function sendTelemetry(
 
   // flatten the data before we send it
   const { payload, metadata, ...rest } = data;
-  const context = {
-    anonymousId: getAnonymousProjectId(),
-    inCI: process.env.CI === 'true',
-  };
+  const context = options.stripMetadata
+    ? {}
+    : {
+        anonymousId: getAnonymousProjectId(),
+        inCI: process.env.CI === 'true',
+      };
   const eventId = nanoid();
   const body = { ...rest, eventId, sessionId, metadata, payload, context };
   let request: Promise<any>;
