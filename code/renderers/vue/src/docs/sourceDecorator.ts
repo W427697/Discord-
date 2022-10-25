@@ -3,9 +3,9 @@
 
 import { addons } from '@storybook/addons';
 import { logger } from '@storybook/client-logger';
-import Vue from 'vue';
-
 import { SourceType, SNIPPET_RENDERED } from '@storybook/docs-tools';
+import type { ComponentOptions } from 'vue';
+import type Vue from 'vue';
 import type { StoryContext } from '../types';
 
 export const skipSourceRender = (context: StoryContext) => {
@@ -34,7 +34,7 @@ export const sourceDecorator = (storyFn: any, context: StoryContext) => {
 
   const storyComponent = getStoryComponent(story.options.STORYBOOK_WRAPS);
 
-  return Vue.extend({
+  return {
     components: {
       Story: story,
     },
@@ -43,7 +43,6 @@ export const sourceDecorator = (storyFn: any, context: StoryContext) => {
     // lifecycle hook.
     mounted() {
       // Theoretically this does not happens but we need to check it.
-
       // @ts-expect-error TS says it is called $vnode
       if (!this._vnode) {
         return;
@@ -61,7 +60,7 @@ export const sourceDecorator = (storyFn: any, context: StoryContext) => {
       }
     },
     template: '<story />',
-  });
+  } as ComponentOptions<Vue> & ThisType<Vue>;
 };
 
 export function vnodeToString(vnode: Vue.VNode): string {
