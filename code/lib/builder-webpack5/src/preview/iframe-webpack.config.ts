@@ -68,7 +68,6 @@ export default async (
     serverChannelUrl,
   } = options;
 
-  const frameworkName = await getFrameworkName(options);
   const frameworkOptions = await presets.apply('frameworkOptions');
 
   const isProd = configType === 'PRODUCTION';

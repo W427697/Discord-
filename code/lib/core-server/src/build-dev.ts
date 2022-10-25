@@ -12,6 +12,7 @@ import {
   cache,
   loadMainConfig,
   validateFrameworkName,
+  resolveAddonName,
 } from '@storybook/core-common';
 import prompts from 'prompts';
 import global from 'global';
@@ -90,7 +91,7 @@ export async function buildDevStandalone(options: CLIOptions & LoadOptions & Bui
       require.resolve('./presets/common-preset'),
       ...(managerBuilder.corePresets || []),
       ...(previewBuilder.corePresets || []),
-      ...(renderer ? [renderer] : []),
+      ...(renderer ? [resolveAddonName(options.configDir, renderer, options)] : []),
       ...corePresets,
       require.resolve('./presets/babel-cache-preset'),
     ],
