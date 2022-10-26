@@ -20,6 +20,7 @@ module.exports = {
       files: ['**/frameworks/angular/template/**/*'],
       rules: {
         '@typescript-eslint/no-useless-constructor': 'off',
+        '@typescript-eslint/dot-notation': 'off',
       },
     },
     {
