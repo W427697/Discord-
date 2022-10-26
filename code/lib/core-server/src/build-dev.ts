@@ -1,18 +1,18 @@
 import type {
-  CLIOptions,
-  LoadOptions,
   BuilderOptions,
-  Options,
+  CLIOptions,
   CoreConfig,
+  LoadOptions,
+  Options,
   StorybookConfig,
 } from '@storybook/types';
 import {
-  resolvePathInStorybookCache,
-  loadAllPresets,
   cache,
+  loadAllPresets,
   loadMainConfig,
-  validateFrameworkName,
   resolveAddonName,
+  resolvePathInStorybookCache,
+  validateFrameworkName,
 } from '@storybook/core-common';
 import prompts from 'prompts';
 import global from 'global';

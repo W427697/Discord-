@@ -1,6 +1,5 @@
-/* eslint-disable camelcase */
 import global from 'global';
-import { API_KeyCollection } from '../modules/shortcuts';
+import type { API_KeyCollection } from '../modules/shortcuts';
 
 const { navigator } = global;
 

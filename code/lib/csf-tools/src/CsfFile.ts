@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 /* eslint-disable no-underscore-dangle */
 import fs from 'fs-extra';
 import { dedent } from 'ts-dedent';
@@ -6,7 +5,7 @@ import * as t from '@babel/types';
 import generate from '@babel/generator';
 import traverse from '@babel/traverse';
 import { toId, isExportStory, storyNameFromExport } from '@storybook/csf';
-import type { CSF_Meta, CSF_Story } from '@storybook/types';
+import type { CSF_Meta, CSF_Story, CSF_Tag } from '@storybook/types';
 import { babelParse } from './babelParse';
 
 const logger = console;
@@ -24,6 +23,17 @@ function parseIncludeExclude(prop: t.Node) {
   if (t.isRegExpLiteral(prop)) return new RegExp(prop.pattern, prop.flags);
 
   throw new Error(`Unknown include/exclude: ${prop}`);
+}
+
+function parseTags(prop: t.Node) {
+  if (!t.isArrayExpression(prop)) {
+    throw new Error('CSF: Expected tags array');
+  }
+
+  return prop.elements.map((e) => {
+    if (t.isStringLiteral(e)) return e.value;
+    throw new Error(`CSF: Expected tag to be string literal`);
+  }) as CSF_Tag[];
 }
 
 const findVarInitialization = (identifier: string, program: t.Program) => {
@@ -184,6 +194,12 @@ export class CsfFile {
         } else if (p.key.name === 'component') {
           const { code } = generate(p.value, {});
           meta.component = code;
+        } else if (p.key.name === 'tags') {
+          let node = p.value;
+          if (t.isIdentifier(node)) {
+            node = findVarInitialization(node.name, this._ast.program);
+          }
+          meta.tags = parseTags(node);
         } else if (p.key.name === 'id') {
           if (t.isStringLiteral(p.value)) {
             meta.id = p.value.value;
@@ -252,6 +268,7 @@ export class CsfFile {
                 }
                 let parameters;
                 if (t.isVariableDeclarator(decl) && t.isObjectExpression(decl.init)) {
+                  // eslint-disable-next-line @typescript-eslint/naming-convention
                   let __isArgsStory = true; // assume default render is an args story
                   // CSF3 object export
                   decl.init.properties.forEach((p: t.ObjectProperty) => {
@@ -404,6 +421,13 @@ export class CsfFile {
           parameters.docsOnly = true;
         }
         acc[key] = { ...story, id, parameters };
+        const { tags } = self._storyAnnotations[key];
+        if (tags) {
+          const node = t.isIdentifier(tags)
+            ? findVarInitialization(tags.name, this._ast.program)
+            : tags;
+          acc[key].tags = parseTags(node);
+        }
       }
       return acc;
     }, {} as Record<string, CSF_Story>);

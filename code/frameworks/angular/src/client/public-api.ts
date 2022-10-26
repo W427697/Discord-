@@ -1,4 +1,4 @@
-/* eslint-disable camelcase, prefer-destructuring */
+/* eslint-disable prefer-destructuring */
 import type { Addon_ClientStoryApi, Addon_Loadable } from '@storybook/types';
 import { start } from '@storybook/core-client';
 import { renderToDOM, render } from './render';

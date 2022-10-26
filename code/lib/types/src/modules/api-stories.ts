@@ -1,5 +1,5 @@
-/* eslint-disable camelcase */
-
+/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable import/no-cycle */
 import { API_ViewMode } from './api';
 import { DocsOptions } from './core-common';
 import {
@@ -14,6 +14,7 @@ import {
   Conditional,
   Globals,
   GlobalTypes,
+  Path,
 } from './csf';
 
 export interface API_BaseEntry {
@@ -76,7 +77,7 @@ export interface API_DocsEntry extends API_BaseEntry {
   title: ComponentTitle;
   /** @deprecated */
   kind: ComponentTitle;
-  importPath: API_Path;
+  importPath: Path;
 
   /** @deprecated */
   isRoot: false;
@@ -92,7 +93,7 @@ export interface API_StoryEntry extends API_BaseEntry {
   title: ComponentTitle;
   /** @deprecated */
   kind: ComponentTitle;
-  importPath: API_Path;
+  importPath: Path;
   prepared: boolean;
   parameters?: {
     [parameterName: string]: any;
@@ -182,14 +183,11 @@ export type API_SetStoriesPayload =
       stories: API_SetStoriesStoryData;
     } & Record<string, never>);
 
-// The data recevied via the story index
-type API_Path = string;
-
 interface API_BaseIndexEntry {
   id: StoryId;
   name: StoryName;
   title: ComponentTitle;
-  importPath: API_Path;
+  importPath: Path;
 }
 
 export type API_StoryIndexEntry = API_BaseIndexEntry & {
@@ -206,7 +204,7 @@ export interface API_StoryIndexV3 {
 }
 
 export type API_DocsIndexEntry = API_BaseIndexEntry & {
-  storiesImports: API_Path[];
+  storiesImports: Path[];
   type: 'docs';
 };
 

@@ -4,7 +4,9 @@ import { SNIPPET_RENDERED, SourceType } from '@storybook/docs-tools';
 import { addons, useEffect } from '@storybook/addons';
 import type { PartialStoryFn } from '@storybook/types';
 import { dedent } from 'ts-dedent';
+// eslint-disable-next-line import/no-cycle
 import { HtmlFramework, StoryContext } from '../types';
+// eslint-disable-next-line import/no-cycle
 import { StoryFn } from '../public-types';
 
 function skipSourceRender(context: StoryContext) {

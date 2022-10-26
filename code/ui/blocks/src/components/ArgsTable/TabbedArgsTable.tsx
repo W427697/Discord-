@@ -1,5 +1,6 @@
 import React, { FC } from 'react';
 import { TabsState } from '@storybook/components';
+// eslint-disable-next-line import/no-cycle
 import { ArgsTable, ArgsTableProps, SortType } from './ArgsTable';
 
 export interface TabbedArgsTableProps {

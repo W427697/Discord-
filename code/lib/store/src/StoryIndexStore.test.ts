@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import { expect } from '@jest/globals';
 
 import type { Store_StoryIndex } from '@storybook/types';

@@ -1,7 +1,9 @@
 import React, { FC } from 'react';
 import { styled } from '@storybook/theming';
 import { logger } from '@storybook/client-logger';
+// eslint-disable-next-line import/no-cycle
 import { ControlProps, OptionsSingleSelection, NormalizedOptionsConfig } from '../types';
+// eslint-disable-next-line import/no-cycle
 import { selectedKey } from './helpers';
 import { getControlId } from '../helpers';
 

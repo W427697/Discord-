@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import { describe, expect, test } from '@jest/globals';
 import type { API_Args } from '@storybook/types';
 import { generateSvelteSource } from './sourceDecorator';

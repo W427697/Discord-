@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import { dedent } from 'ts-dedent';
 import { createApp, h } from 'vue';
 import type { Store_RenderContext, ArgsStoryFn } from '@storybook/types';

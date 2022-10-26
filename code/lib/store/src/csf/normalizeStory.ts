@@ -1,13 +1,12 @@
-/* eslint-disable camelcase */
 import type {
   AnyFramework,
-  LegacyStoryAnnotationsOrFn,
-  StoryId,
-  StoryAnnotations,
-  StoryFn,
   ArgTypes,
+  LegacyStoryAnnotationsOrFn,
   Store_NormalizedComponentAnnotations,
   Store_NormalizedStoryAnnotations,
+  StoryAnnotations,
+  StoryFn,
+  StoryId,
 } from '@storybook/types';
 import { storyNameFromExport, toId } from '@storybook/csf';
 import { dedent } from 'ts-dedent';

@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import React, { FC } from 'react';
 import { useArgs, useGlobals, useArgTypes, useParameter, useStorybookState } from '@storybook/api';
 import {

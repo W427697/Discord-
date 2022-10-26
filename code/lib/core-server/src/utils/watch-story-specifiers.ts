@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import Watchpack from 'watchpack';
 import slash from 'slash';
 import fs from 'fs';
@@ -6,9 +5,9 @@ import path from 'path';
 import glob from 'globby';
 import uniq from 'lodash/uniq';
 
-import type { CoreCommon_NormalizedStoriesSpecifier, Store_Path } from '@storybook/types';
+import type { CoreCommon_NormalizedStoriesSpecifier, Path } from '@storybook/types';
 
-const isDirectory = (directory: Store_Path) => {
+const isDirectory = (directory: Path) => {
   try {
     return fs.lstatSync(directory).isDirectory();
   } catch (err) {
@@ -19,16 +18,16 @@ const isDirectory = (directory: Store_Path) => {
 // Watchpack (and path.relative) passes paths either with no leading './' - e.g. `src/Foo.stories.js`,
 // or with a leading `../` (etc), e.g. `../src/Foo.stories.js`.
 // We want to deal in importPaths relative to the working dir, so we normalize
-function toImportPath(relativePath: Store_Path) {
+function toImportPath(relativePath: Path) {
   return relativePath.startsWith('.') ? relativePath : `./${relativePath}`;
 }
 
 export function watchStorySpecifiers(
   specifiers: CoreCommon_NormalizedStoriesSpecifier[],
-  options: { workingDir: Store_Path },
+  options: { workingDir: Path },
   onInvalidate: (
     specifier: CoreCommon_NormalizedStoriesSpecifier,
-    path: Store_Path,
+    path: Path,
     removed: boolean
   ) => void
 ) {
@@ -43,7 +42,7 @@ export function watchStorySpecifiers(
     directories: uniq(specifiers.map((ns) => ns.directory)),
   });
 
-  async function onChangeOrRemove(watchpackPath: Store_Path, removed: boolean) {
+  async function onChangeOrRemove(watchpackPath: Path, removed: boolean) {
     // Watchpack passes paths either with no leading './' - e.g. `src/Foo.stories.js`,
     // or with a leading `../` (etc), e.g. `../src/Foo.stories.js`.
     // We want to deal in importPaths relative to the working dir, or absolute paths.
@@ -96,7 +95,7 @@ export function watchStorySpecifiers(
     }
   }
 
-  wp.on('change', async (filePath: Store_Path, mtime: Date, explanation: string) => {
+  wp.on('change', async (filePath: Path, mtime: Date, explanation: string) => {
     // When a file is renamed (including being moved out of the watched dir)
     // we see first an event with explanation=rename and no mtime for the old name.
     // then an event with explanation=rename with an mtime for the new name.
@@ -106,7 +105,7 @@ export function watchStorySpecifiers(
     const removed = !mtime;
     await onChangeOrRemove(filePath, removed);
   });
-  wp.on('remove', async (filePath: Store_Path, explanation: string) => {
+  wp.on('remove', async (filePath: Path, explanation: string) => {
     await onChangeOrRemove(filePath, true);
   });
 

@@ -1,4 +1,4 @@
-/* eslint-disable camelcase */
+/* eslint-disable @typescript-eslint/no-shadow */
 /// <reference types="@types/jest" />;
 
 import path from 'path';

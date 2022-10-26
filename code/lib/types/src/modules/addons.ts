@@ -1,21 +1,24 @@
-/* eslint-disable camelcase */
+/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable import/no-cycle */
 import type { RenderData as RouterData } from '../../../router/src/router';
 import type { ThemeVars } from '../../../theming/src/types';
 import {
   AnyFramework,
   Args,
+  ArgsStoryFn as ArgsStoryFnForFramework,
   ComponentTitle,
+  DecoratorFunction as DecoratorFunctionForFramework,
   InputType,
+  LegacyStoryFn as LegacyStoryFnForFramework,
+  LoaderFunction as LoaderFunctionForFramework,
+  Parameters,
+  PartialStoryFn as PartialStoryFnForFramework,
+  Path,
+  StoryContext as StoryContextForFramework,
+  StoryFn as StoryFnForFramework,
   StoryId,
   StoryKind,
   StoryName,
-  StoryContext as StoryContextForFramework,
-  LegacyStoryFn as LegacyStoryFnForFramework,
-  PartialStoryFn as PartialStoryFnForFramework,
-  ArgsStoryFn as ArgsStoryFnForFramework,
-  StoryFn as StoryFnForFramework,
-  DecoratorFunction as DecoratorFunctionForFramework,
-  LoaderFunction as LoaderFunctionForFramework,
 } from './csf';
 
 export type Addon_Types = Addon_TypesEnum | string;
@@ -40,19 +43,18 @@ export interface Addon_StorySortObjectParameter {
   includeNames?: boolean;
 }
 
-export type Addon_Path = string;
 export interface Addon_BaseIndexEntry {
   id: StoryId;
   name: StoryName;
   title: ComponentTitle;
-  importPath: Addon_Path;
+  importPath: Path;
 }
 export type Addon_StoryIndexEntry = Addon_BaseIndexEntry & {
   type: 'story';
 };
 
 export type Addon_DocsIndexEntry = Addon_BaseIndexEntry & {
-  storiesImports: Addon_Path[];
+  storiesImports: Path[];
   type: 'docs';
   standalone: boolean;
 };
@@ -66,7 +68,7 @@ export type Addon_IndexEntry = Addon_StoryIndexEntry | Addon_DocsIndexEntry;
 
 // The `any` here is the story store's `StoreItem` record. Ideally we should probably only
 // pass a defined subset of that full data, but we pass it all so far :shrug:
-export type Addon_IndexEntryLegacy = [StoryId, any, Addon_Parameters, Addon_Parameters];
+export type Addon_IndexEntryLegacy = [StoryId, any, Parameters, Parameters];
 export type Addon_StorySortComparator = Addon_Comparator<Addon_IndexEntryLegacy>;
 export type Addon_StorySortParameter = Addon_StorySortComparator | Addon_StorySortObjectParameter;
 export type Addon_StorySortComparatorV7 = Addon_Comparator<Addon_IndexEntry>;
@@ -82,15 +84,6 @@ export interface Addon_OptionsParameter extends Object {
     base: string;
     brandTitle?: string;
   };
-  [key: string]: any;
-}
-
-export interface Addon_Parameters {
-  fileName?: string;
-  options?: Addon_OptionsParameter;
-  /** The layout property defines basic styles added to the preview body where the story is rendered. If you pass 'none', no styles are applied. */
-  layout?: 'centered' | 'fullscreen' | 'padded' | 'none';
-  docsOnly?: boolean;
   [key: string]: any;
 }
 
@@ -137,7 +130,7 @@ export interface Addon_AddStoryArgs<StoryFnReturnType = unknown> {
   kind: StoryKind;
   name: StoryName;
   storyFn: Addon_StoryFn<StoryFnReturnType>;
-  parameters: Addon_Parameters;
+  parameters: Parameters;
 }
 
 export interface Addon_ClientApiAddon<StoryFnReturnType = unknown> extends Addon_Type {
@@ -156,13 +149,13 @@ export interface Addon_StoryApi<StoryFnReturnType = unknown> {
   add: (
     storyName: StoryName,
     storyFn: Addon_StoryFn<StoryFnReturnType>,
-    parameters?: Addon_Parameters
+    parameters?: Parameters
   ) => Addon_StoryApi<StoryFnReturnType>;
   addDecorator: (
     decorator: Addon_DecoratorFunction<StoryFnReturnType>
   ) => Addon_StoryApi<StoryFnReturnType>;
   addLoader: (decorator: Addon_LoaderFunction) => Addon_StoryApi<StoryFnReturnType>;
-  addParameters: (parameters: Addon_Parameters) => Addon_StoryApi<StoryFnReturnType>;
+  addParameters: (parameters: Parameters) => Addon_StoryApi<StoryFnReturnType>;
   [k: string]: string | Addon_ClientApiReturnFn<StoryFnReturnType>;
 }
 
@@ -197,7 +190,7 @@ export interface Addon_BaseAnnotations<Args, StoryFnReturnType> {
    * Custom metadata for a story.
    * @see [Parameters](https://storybook.js.org/docs/basics/writing-stories/#parameters)
    */
-  parameters?: Addon_Parameters;
+  parameters?: Parameters;
 
   /**
    * Wrapper components or Storybook decorators that wrap a story.

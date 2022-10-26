@@ -8,6 +8,7 @@ import { useStorybookApi } from '@storybook/api';
 
 import { MenuItemIcon } from './Menu';
 import { RefType } from './types';
+// eslint-disable-next-line import/no-cycle
 import { getStateType } from './utils';
 
 const { document, window: globalWindow } = global;

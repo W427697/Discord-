@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 // @ts-expect-error (Converted from ts-ignore)
 import global from 'global';
 

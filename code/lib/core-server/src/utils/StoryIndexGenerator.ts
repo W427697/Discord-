@@ -1,23 +1,22 @@
-/* eslint-disable camelcase */
 import path from 'path';
 import fs from 'fs-extra';
 import glob from 'globby';
 import slash from 'slash';
 
 import type {
-  Store_Path,
+  Addon_IndexEntry,
+  Addon_StandaloneDocsIndexEntry,
+  Addon_StoryIndexEntry,
+  Addon_TemplateDocsIndexEntry,
+  ComponentTitle,
+  CoreCommon_NormalizedStoriesSpecifier,
+  CoreCommon_StoryIndexer,
+  DocsOptions,
+  Path,
   Store_StoryIndex,
   Store_V2CompatIndexEntry,
   StoryId,
-  Addon_IndexEntry,
-  Addon_StoryIndexEntry,
-  Addon_StandaloneDocsIndexEntry,
-  Addon_TemplateDocsIndexEntry,
-  ComponentTitle,
   StoryName,
-  CoreCommon_StoryIndexer,
-  CoreCommon_NormalizedStoriesSpecifier,
-  DocsOptions,
 } from '@storybook/types';
 import { userOrAutoTitleFromSpecifier, sortStoriesV7 } from '@storybook/store';
 import { normalizeStoryPath } from '@storybook/core-common';
@@ -30,17 +29,13 @@ type DocsCacheEntry = Addon_StandaloneDocsIndexEntry;
 /** A *.stories.* file will produce a list of stories and possibly a docs entry */
 type StoriesCacheEntry = {
   entries: (Addon_StoryIndexEntry | Addon_TemplateDocsIndexEntry)[];
-  dependents: Store_Path[];
+  dependents: Path[];
   type: 'stories';
 };
 type CacheEntry = false | StoriesCacheEntry | DocsCacheEntry;
-type SpecifierStoriesCache = Record<Store_Path, CacheEntry>;
+type SpecifierStoriesCache = Record<Path, CacheEntry>;
 
-const makeAbsolute = (
-  otherImport: Store_Path,
-  normalizedPath: Store_Path,
-  workingDir: Store_Path
-) =>
+const makeAbsolute = (otherImport: Path, normalizedPath: Path, workingDir: Path) =>
   otherImport.startsWith('.')
     ? slash(
         path.resolve(
@@ -81,8 +76,8 @@ export class StoryIndexGenerator {
   constructor(
     public readonly specifiers: CoreCommon_NormalizedStoriesSpecifier[],
     public readonly options: {
-      workingDir: Store_Path;
-      configDir: Store_Path;
+      workingDir: Path;
+      configDir: Path;
       storiesV2Compatibility: boolean;
       storyStoreV7: boolean;
       storyIndexers: CoreCommon_StoryIndexer[];
@@ -102,7 +97,7 @@ export class StoryIndexGenerator {
           path.join(this.options.workingDir, specifier.directory, specifier.files)
         );
         const files = await glob(fullGlob);
-        files.sort().forEach((absolutePath: Store_Path) => {
+        files.sort().forEach((absolutePath: Path) => {
           const ext = path.extname(absolutePath);
           if (ext === '.storyshot') {
             const relativePath = path.relative(this.options.workingDir, absolutePath);
@@ -127,7 +122,7 @@ export class StoryIndexGenerator {
   async updateExtracted(
     updater: (
       specifier: CoreCommon_NormalizedStoriesSpecifier,
-      absolutePath: Store_Path,
+      absolutePath: Path,
       existingEntry: CacheEntry
     ) => Promise<CacheEntry>,
     overwrite = false
@@ -145,7 +140,7 @@ export class StoryIndexGenerator {
     );
   }
 
-  isDocsMdx(absolutePath: Store_Path) {
+  isDocsMdx(absolutePath: Path) {
     return /(?<!\.stories)\.mdx$/i.test(absolutePath);
   }
 
@@ -174,7 +169,7 @@ export class StoryIndexGenerator {
     });
   }
 
-  findDependencies(absoluteImports: Store_Path[]) {
+  findDependencies(absoluteImports: Path[]) {
     const dependencies = [] as StoriesCacheEntry[];
     const foundImports = new Set();
     this.specifierToCache.forEach((cache) => {
@@ -202,7 +197,7 @@ export class StoryIndexGenerator {
     return dependencies;
   }
 
-  async extractStories(specifier: CoreCommon_NormalizedStoriesSpecifier, absolutePath: Store_Path) {
+  async extractStories(specifier: CoreCommon_NormalizedStoriesSpecifier, absolutePath: Path) {
     const relativePath = path.relative(this.options.workingDir, absolutePath);
     const entries = [] as Addon_IndexEntry[];
     try {
@@ -253,7 +248,7 @@ export class StoryIndexGenerator {
     return { entries, type: 'stories', dependents: [] } as StoriesCacheEntry;
   }
 
-  async extractDocs(specifier: CoreCommon_NormalizedStoriesSpecifier, absolutePath: Store_Path) {
+  async extractDocs(specifier: CoreCommon_NormalizedStoriesSpecifier, absolutePath: Path) {
     const relativePath = path.relative(this.options.workingDir, absolutePath);
     try {
       if (!this.options.storyStoreV7) {
@@ -274,10 +269,10 @@ export class StoryIndexGenerator {
       const content = await fs.readFile(absolutePath, 'utf8');
       const result: {
         title?: ComponentTitle;
-        of?: Store_Path;
+        of?: Path;
         name?: StoryName;
         isTemplate?: boolean;
-        imports?: Store_Path[];
+        imports?: Path[];
       } = analyze(content);
 
       // Templates are not indexed
@@ -461,11 +456,7 @@ export class StoryIndexGenerator {
     return this.lastIndex;
   }
 
-  invalidate(
-    specifier: CoreCommon_NormalizedStoriesSpecifier,
-    importPath: Store_Path,
-    removed: boolean
-  ) {
+  invalidate(specifier: CoreCommon_NormalizedStoriesSpecifier, importPath: Path, removed: boolean) {
     const absolutePath = slash(path.resolve(this.options.workingDir, importPath));
     const cache = this.specifierToCache.get(specifier);
 

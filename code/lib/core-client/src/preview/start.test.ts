@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 /* global window */
 import { STORY_RENDERED, STORY_UNCHANGED, SET_INDEX } from '@storybook/core-events';
 
@@ -11,7 +10,7 @@ import {
 } from '@storybook/preview-web/dist/cjs/PreviewWeb.mockdata';
 // @ts-expect-error (Converted from ts-ignore)
 import { WebView } from '@storybook/preview-web/dist/cjs/WebView';
-import type { Store_ModuleExports, Store_Path, Loadable } from '@storybook/types';
+import type { Store_ModuleExports, Path, Loadable } from '@storybook/types';
 import { setGlobalRender } from '@storybook/client-api';
 import global from 'global';
 
@@ -47,7 +46,7 @@ jest.mock('@storybook/store', () => {
   const actualStore = jest.requireActual('@storybook/store');
   return {
     ...actualStore,
-    userOrAutoTitle: (importPath: string, specifier: any, userTitle?: string) =>
+    userOrAutoTitle: (importPath: Path, specifier: any, userTitle?: string) =>
       userTitle || 'auto-title',
   };
 });
@@ -78,8 +77,8 @@ afterEach(() => {
   mockChannel.emit.mockClear();
 });
 
-function makeRequireContext(importMap: Record<Store_Path, Store_ModuleExports>) {
-  const req = (path: Store_Path) => importMap[path];
+function makeRequireContext(importMap: Record<Path, Store_ModuleExports>) {
+  const req = (path: Path) => importMap[path];
   req.keys = () => Object.keys(importMap);
   return req;
 }

@@ -2,6 +2,7 @@ import global from 'global';
 import React, { createElement, ElementType, FunctionComponent, Fragment } from 'react';
 import type { Parameters } from '@storybook/types';
 import { Loader, getStoryHref } from '@storybook/components';
+// eslint-disable-next-line import/no-cycle
 import { EmptyBlock } from '.';
 import { IFrame } from './IFrame';
 import { ZoomContext } from './ZoomContext';

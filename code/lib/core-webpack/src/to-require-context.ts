@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import type { CoreCommon_NormalizedStoriesSpecifier } from '@storybook/types';
 import { globToRegexp } from '@storybook/core-common';
 

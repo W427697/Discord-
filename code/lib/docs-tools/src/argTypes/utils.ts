@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-cycle
 import { PropSummaryValue } from './docgen';
 
 export const MAX_TYPE_SUMMARY_LENGTH = 90;

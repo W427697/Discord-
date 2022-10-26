@@ -1,22 +1,21 @@
-/* eslint-disable camelcase */
 /* eslint-disable no-underscore-dangle */
 import global from 'global';
 import { dedent } from 'ts-dedent';
 import { SynchronousPromise } from 'synchronous-promise';
 import { toId, isExportStory, storyNameFromExport } from '@storybook/csf';
 import type {
-  StoryId,
-  AnyFramework,
-  Parameters,
-  ComponentId,
-  Store_NormalizedProjectAnnotations,
   Addon_IndexEntry,
-  Store_Path,
+  AnyFramework,
+  ComponentId,
+  DocsOptions,
+  Parameters,
+  Path,
   Store_ModuleExports,
+  Store_NormalizedProjectAnnotations,
+  Store_NormalizedStoriesSpecifier,
   Store_Story,
   Store_StoryIndex,
-  Store_NormalizedStoriesSpecifier,
-  DocsOptions,
+  StoryId,
 } from '@storybook/types';
 import { StoryStore, userOrAutoTitle, sortStoriesV6 } from '@storybook/store';
 import { logger } from '@storybook/client-logger';
@@ -26,7 +25,7 @@ export class StoryStoreFacade<TFramework extends AnyFramework> {
 
   entries: Record<StoryId, Addon_IndexEntry & { componentId?: ComponentId }>;
 
-  csfExports: Record<Store_Path, Store_ModuleExports>;
+  csfExports: Record<Path, Store_ModuleExports>;
 
   constructor() {
     this.projectAnnotations = {
@@ -46,7 +45,7 @@ export class StoryStoreFacade<TFramework extends AnyFramework> {
 
   // This doesn't actually import anything because the client-api loads fully
   // on startup, but this is a shim after all.
-  importFn(path: Store_Path) {
+  importFn(path: Path) {
     return SynchronousPromise.resolve().then(() => {
       const moduleExports = this.csfExports[path];
       if (!moduleExports) throw new Error(`Unknown path: ${path}`);
@@ -115,7 +114,7 @@ export class StoryStoreFacade<TFramework extends AnyFramework> {
     return { v: 4, entries };
   }
 
-  clearFilenameExports(fileName: Store_Path) {
+  clearFilenameExports(fileName: Path) {
     if (!this.csfExports[fileName]) {
       return;
     }
@@ -132,7 +131,7 @@ export class StoryStoreFacade<TFramework extends AnyFramework> {
   }
 
   // NOTE: we could potentially share some of this code with the stories.json generation
-  addStoriesFromExports(fileName: Store_Path, fileExports: Store_ModuleExports) {
+  addStoriesFromExports(fileName: Path, fileExports: Store_ModuleExports) {
     if (fileName.match(/\.mdx$/) && !fileName.match(/\.stories\.mdx$/)) {
       return;
     }
@@ -144,6 +143,7 @@ export class StoryStoreFacade<TFramework extends AnyFramework> {
     // OTOH, if they have changed, let's clear them out first
     this.clearFilenameExports(fileName);
 
+    // eslint-disable-next-line @typescript-eslint/naming-convention
     const { default: defaultExport, __namedExportsOrder, ...namedExports } = fileExports;
     // eslint-disable-next-line prefer-const
     let { id: componentId, title } = defaultExport || {};

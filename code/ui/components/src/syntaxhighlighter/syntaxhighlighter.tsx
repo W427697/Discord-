@@ -216,6 +216,7 @@ export const SyntaxHighlighter: FC<SyntaxHighlighterProps> = ({
   }
 
   const highlightableCode = formatter ? formatter(format, children) : children.trim();
+
   const [copied, setCopied] = useState(false);
 
   const onClick = useCallback(

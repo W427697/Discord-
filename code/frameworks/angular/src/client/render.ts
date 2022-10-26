@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import type { Store_RenderContext, ArgsStoryFn } from '@storybook/types';
 
 import { renderNgApp } from './angular/helpers';

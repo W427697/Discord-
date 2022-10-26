@@ -9,8 +9,8 @@ import {
   convert,
   styled,
   useTheme,
-} from '../../lib/theming';
-import { Symbols } from '../components';
+} from '@storybook/theming';
+import { Symbols } from '@storybook/components';
 
 const { document } = global;
 

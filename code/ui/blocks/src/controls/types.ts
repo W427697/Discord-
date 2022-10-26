@@ -1,6 +1,8 @@
+/* eslint-disable @typescript-eslint/no-empty-interface */
+
+// eslint-disable-next-line import/no-cycle
 import { ArgType } from '../components/ArgsTable';
 
-/* eslint-disable @typescript-eslint/no-empty-interface */
 export interface ControlProps<T> {
   name: string;
   value?: T;

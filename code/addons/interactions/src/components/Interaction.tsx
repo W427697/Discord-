@@ -7,6 +7,7 @@ import { transparentize } from 'polished';
 import { MatcherResult } from './MatcherResult';
 import { MethodCall } from './MethodCall';
 import { StatusIcon } from './StatusIcon';
+// eslint-disable-next-line import/no-cycle
 import { Controls } from './InteractionsPanel';
 
 const MethodCallWrapper = styled.div(() => ({
