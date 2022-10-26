@@ -299,6 +299,22 @@ jobs:
             yarn storybook:ui:chromatic
       - store_test_results:
           path: test-results
+  chromatic-storybook-blocks:
+    executor:
+      class: medium+
+      name: sb_node_16_browsers
+    steps:
+      - git-shallow-clone/checkout_advanced:
+          clone_options: '--depth 1 --verbose'
+      - attach_workspace:
+          at: .
+      - run:
+          name: Running Chromatic
+          command: |
+            cd code
+            yarn storybook:blocks:chrmoatic
+      - store_test_results:
+          path: test-results
   ## new workflow
   create-sandboxes:
     executor:
@@ -419,6 +435,9 @@ workflows:
           requires:
             - build
       - chromatic-storybook-ui:
+          requires:
+            - build
+      - chromatic-storybook-blocks:
           requires:
             - build
       - coverage:
