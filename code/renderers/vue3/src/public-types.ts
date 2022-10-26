@@ -17,16 +17,20 @@ import type { VueFramework } from './types';
  *
  * @see [Default export](https://storybook.js.org/docs/formats/component-story-format/#default-export)
  */
-export type Meta<TCmpOrArgs = Args> = TCmpOrArgs extends ComponentOptions<infer Props>
-  ? ComponentAnnotations<VueFramework, unknown extends Props ? TCmpOrArgs : Props>
-  : ComponentAnnotations<VueFramework, TCmpOrArgs>;
+export type Meta<TCmpOrArgs = Args> = ComponentAnnotations<
+  VueFramework,
+  ComponentPropsOrProps<TCmpOrArgs>
+>;
 
 /**
  * Story function that represents a CSFv2 component example.
  *
  * @see [Named Story exports](https://storybook.js.org/docs/formats/component-story-format/#named-story-exports)
  */
-export type StoryFn<TArgs = Args> = AnnotatedStoryFn<VueFramework, TArgs>;
+export type StoryFn<TCmpOrArgs = Args> = AnnotatedStoryFn<
+  VueFramework,
+  ComponentPropsOrProps<TCmpOrArgs>
+>;
 
 /**
  * Story function that represents a CSFv3 component example.
@@ -47,15 +51,20 @@ export type StoryObj<TMetaOrCmpOrArgs = Args> = TMetaOrCmpOrArgs extends {
         SetOptional<TArgs, Extract<keyof TArgs, keyof DefaultArgs>>
       >
     : never
-  : TMetaOrCmpOrArgs extends ConcreteComponent<any>
-  ? StoryAnnotations<VueFramework, ComponentProps<TMetaOrCmpOrArgs>>
-  : StoryAnnotations<VueFramework, TMetaOrCmpOrArgs>;
+  : StoryAnnotations<VueFramework, ComponentPropsOrProps<TMetaOrCmpOrArgs>>;
 
 type ComponentProps<C> = C extends ComponentOptions<infer P>
   ? P
   : C extends FunctionalComponent<infer P>
   ? P
   : unknown;
+
+type ComponentPropsOrProps<TCmpOrArgs> = TCmpOrArgs extends ConcreteComponent<any>
+  ? unknown extends ComponentProps<TCmpOrArgs>
+    ? TCmpOrArgs
+    : ComponentProps<TCmpOrArgs>
+  : TCmpOrArgs;
+
 /**
  * @deprecated Use `StoryFn` instead.
  * Use `StoryObj` if you want to migrate to CSF3, which uses objects instead of functions to represent stories.
