@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-/* eslint-disable import/no-cycle */
-import { API_ViewMode } from './api';
-import { DocsOptions } from './core-common';
-import {
+
+import type { API_ViewMode } from './api';
+import type { DocsOptions } from './core-common';
+import type {
   Args,
   ArgTypes,
   ComponentId,

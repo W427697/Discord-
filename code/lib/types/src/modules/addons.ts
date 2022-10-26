@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-/* eslint-disable import/no-cycle */
+
 import type { RenderData as RouterData } from '../../../router/src/router';
 import type { ThemeVars } from '../../../theming/src/types';
-import {
+import type {
   AnyFramework,
   Args,
   ArgsStoryFn as ArgsStoryFnForFramework,
@@ -173,18 +173,18 @@ export type Addon_BaseDecorators<StoryFnReturnType> = Array<
   (story: () => StoryFnReturnType, context: Addon_StoryContext) => StoryFnReturnType
 >;
 
-export interface Addon_BaseAnnotations<Args, StoryFnReturnType> {
+export interface Addon_BaseAnnotations<TArgs, StoryFnReturnType> {
   /**
    * Dynamic data that are provided (and possibly updated by) Storybook and its addons.
    * @see [Arg story inputs](https://storybook.js.org/docs/react/api/csf#args-story-inputs)
    */
-  args?: Partial<Args>;
+  args?: Partial<TArgs>;
 
   /**
    * ArgTypes encode basic metadata for args, such as `name`, `description`, `defaultValue` for an arg. These get automatically filled in by Storybook Docs.
    * @see [Control annotations](https://github.com/storybookjs/storybook/blob/91e9dee33faa8eff0b342a366845de7100415367/addons/controls/README.md#control-annotations)
    */
-  argTypes?: Addons_ArgTypes<Args>;
+  argTypes?: Addons_ArgTypes<TArgs>;
 
   /**
    * Custom metadata for a story.
@@ -203,7 +203,7 @@ export interface Addon_BaseAnnotations<Args, StoryFnReturnType> {
   /**
    * Define a custom render function for the story(ies). If not passed, a default render function by the framework will be used.
    */
-  render?: (args: Args, context: Addon_StoryContext) => StoryFnReturnType;
+  render?: (args: TArgs, context: Addon_StoryContext) => StoryFnReturnType;
 
   /**
    * Function that is executed after the story is rendered.
@@ -211,8 +211,8 @@ export interface Addon_BaseAnnotations<Args, StoryFnReturnType> {
   play?: (context: Addon_StoryContext) => Promise<void> | void;
 }
 
-export interface Addon_Annotations<Args, StoryFnReturnType>
-  extends Addon_BaseAnnotations<Args, StoryFnReturnType> {
+export interface Addon_Annotations<TArgs, StoryFnReturnType>
+  extends Addon_BaseAnnotations<TArgs, StoryFnReturnType> {
   /**
    * Used to only include certain named exports as stories. Useful when you want to have non-story exports such as mock data or ignore a few stories.
    * @example
@@ -286,20 +286,20 @@ export interface Addon_BaseMeta<ComponentType> {
   subcomponents?: Record<string, ComponentType>;
 }
 
-export type Addon_BaseStoryObject<Args, StoryFnReturnType> = {
+export type Addon_BaseStoryObject<TArgs, StoryFnReturnType> = {
   /**
    * Override the display name in the UI
    */
   storyName?: string;
 };
 
-export type Addon_BaseStoryFn<Args, StoryFnReturnType> = {
-  (args: Args, context: Addon_StoryContext): StoryFnReturnType;
-} & Addon_BaseStoryObject<Args, StoryFnReturnType>;
+export type Addon_BaseStoryFn<TArgs, StoryFnReturnType> = {
+  (args: TArgs, context: Addon_StoryContext): StoryFnReturnType;
+} & Addon_BaseStoryObject<TArgs, StoryFnReturnType>;
 
-export type BaseStory<Args, StoryFnReturnType> =
-  | Addon_BaseStoryFn<Args, StoryFnReturnType>
-  | Addon_BaseStoryObject<Args, StoryFnReturnType>;
+export type BaseStory<TArgs, StoryFnReturnType> =
+  | Addon_BaseStoryFn<TArgs, StoryFnReturnType>
+  | Addon_BaseStoryObject<TArgs, StoryFnReturnType>;
 
 export interface Addon_RenderOptions {
   active?: boolean;
