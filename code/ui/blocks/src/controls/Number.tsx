@@ -2,6 +2,7 @@ import React, { FC, ChangeEvent, useState, useCallback, useEffect, useRef } from
 import { styled } from '@storybook/theming';
 import { Form } from '@storybook/components';
 import { getControlId, getControlSetterButtonId } from './helpers';
+// eslint-disable-next-line import/no-cycle
 import { ControlProps, NumberValue, NumberConfig } from './types';
 
 const Wrapper = styled.label({

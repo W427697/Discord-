@@ -16,6 +16,7 @@ import {
   RESET_STORY_ARGS,
   UPDATE_GLOBALS,
 } from '@storybook/core-events';
+// eslint-disable-next-line import/no-cycle
 import { addons } from './index';
 
 const { window: globalWindow } = global;

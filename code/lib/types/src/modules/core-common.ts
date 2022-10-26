@@ -1,4 +1,4 @@
-/* eslint-disable camelcase */
+/* eslint-disable @typescript-eslint/naming-convention */
 import type { FileSystemCache } from 'file-system-cache';
 
 import type { Options as TelejsonOptions } from 'telejson';

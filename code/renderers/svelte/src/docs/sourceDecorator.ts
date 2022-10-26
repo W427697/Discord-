@@ -64,6 +64,7 @@ function getComponentName(component: any): string | null {
     return null;
   }
 
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   const { __docgen = {} } = component;
   let { name } = __docgen;
 
@@ -125,6 +126,7 @@ export function generateSvelteSource(
  * @param component Component
  */
 function getWrapperProperties(component: any) {
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   const { __docgen } = component;
   if (!__docgen) {
     return { wrapper: false };
@@ -152,6 +154,7 @@ export const sourceDecorator = (storyFn: any, context: StoryContext<AnyFramework
   const story = storyFn();
 
   let source: string;
+
   useEffect(() => {
     if (!skip && source) {
       channel.emit(SNIPPET_RENDERED, (context || {}).id, source);

@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import { Preview } from '@storybook/preview-web';
 import type {
   AnyFramework,
@@ -18,7 +17,6 @@ type MetaExports = Store_ModuleExports;
 class ConstantMap<TKey, TValue extends string> {
   entries = new Map<TKey, TValue>();
 
-  // eslint-disable-next-line no-useless-constructor
   constructor(private prefix: string) {}
 
   get(key: TKey) {

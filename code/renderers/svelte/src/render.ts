@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import global from 'global';
 
 import type { Store_RenderContext, ArgsStoryFn } from '@storybook/types';

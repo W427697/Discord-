@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import global from 'global';
 import type {
   AnyFramework,

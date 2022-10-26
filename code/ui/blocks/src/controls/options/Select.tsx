@@ -3,7 +3,9 @@ import { styled } from '@storybook/theming';
 import type { CSSObject } from '@storybook/theming';
 import { logger } from '@storybook/client-logger';
 import { Icons } from '@storybook/components';
+// eslint-disable-next-line import/no-cycle
 import { ControlProps, OptionsSelection, NormalizedOptionsConfig } from '../types';
+// eslint-disable-next-line import/no-cycle
 import { selectedKey, selectedKeys, selectedValues } from './helpers';
 import { getControlId } from '../helpers';
 

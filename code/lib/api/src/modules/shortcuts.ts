@@ -1,4 +1,4 @@
-/* eslint-disable camelcase */
+/* eslint-disable @typescript-eslint/naming-convention */
 import global from 'global';
 import { PREVIEW_KEYDOWN } from '@storybook/core-events';
 

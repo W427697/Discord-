@@ -1,4 +1,4 @@
-/* eslint-disable camelcase */
+/* eslint-disable @typescript-eslint/naming-convention */
 import type { SynchronousPromise } from 'synchronous-promise';
 import type { Addon_IndexEntry, Addon_StoryIndexEntry } from './addons';
 import type {

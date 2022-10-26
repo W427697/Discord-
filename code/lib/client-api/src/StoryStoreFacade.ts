@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 /* eslint-disable no-underscore-dangle */
 import global from 'global';
 import { dedent } from 'ts-dedent';
@@ -144,6 +143,7 @@ export class StoryStoreFacade<TFramework extends AnyFramework> {
     // OTOH, if they have changed, let's clear them out first
     this.clearFilenameExports(fileName);
 
+    // eslint-disable-next-line @typescript-eslint/naming-convention
     const { default: defaultExport, __namedExportsOrder, ...namedExports } = fileExports;
     // eslint-disable-next-line prefer-const
     let { id: componentId, title } = defaultExport || {};

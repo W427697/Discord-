@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import {
   NAVIGATE_URL,
   STORY_ARGS_UPDATED,
@@ -12,7 +11,7 @@ import { dequal as deepEqual } from 'dequal';
 import global from 'global';
 
 import type { API_Layout, API_UI } from '@storybook/types';
-import { ModuleArgs, ModuleFn } from '../index';
+import type { ModuleArgs, ModuleFn } from '../index';
 
 const { window: globalWindow } = global;
 

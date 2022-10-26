@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 /** @jsx h */
 import * as preact from 'preact';
 import { dedent } from 'ts-dedent';

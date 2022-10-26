@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import { Router, Request, Response } from 'express';
 import { writeJSON } from 'fs-extra';
 

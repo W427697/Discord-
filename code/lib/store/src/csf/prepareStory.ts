@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import { dedent } from 'ts-dedent';
 import deprecate from 'util-deprecate';
 import global from 'global';
@@ -208,6 +207,7 @@ export function prepareStory<TFramework extends AnyFramework>(
     (async (storyContext: StoryContext<TFramework>) => {
       const playFunctionContext: PlayFunctionContext<TFramework> = {
         ...storyContext,
+        // eslint-disable-next-line @typescript-eslint/no-shadow
         step: (label: StepLabel, play: PlayFunction<TFramework>) =>
           // TODO: We know runStep is defined, we need a proper normalized annotations type
           runStep!(label, play, playFunctionContext),

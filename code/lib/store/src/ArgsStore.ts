@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import type { StoryId, Args, Store_Story } from '@storybook/types';
 
 import { combineArgs, mapArgsToTypes, validateOptions, deepDiff, DEEPLY_EQUAL } from './args';

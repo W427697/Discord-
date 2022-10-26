@@ -4,6 +4,7 @@ import type {
   ComponentAnnotations,
   StoryAnnotations,
 } from '@storybook/types';
+// eslint-disable-next-line import/no-cycle
 import { HtmlFramework } from './types';
 
 export type { Args, ArgTypes, Parameters } from '@storybook/types';

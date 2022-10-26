@@ -9,7 +9,7 @@ export default {
 
 export const Loading = () => <IconButtonSkeleton />;
 
-// eslint-disable-next-line no-underscore-dangle
+// eslint-disable-next-line no-underscore-dangle, @typescript-eslint/naming-convention
 export const _IconButton = () => (
   <IconButton>
     <Icons icon="bookmark" />

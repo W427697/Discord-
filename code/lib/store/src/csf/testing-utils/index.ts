@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import { isExportStory } from '@storybook/csf';
 import type {
   AnyFramework,
@@ -99,6 +98,7 @@ export function composeStories<TModule extends Store_CSFExports>(
   globalConfig: ProjectAnnotations<AnyFramework>,
   composeStoryFn: Store_ComposeStory
 ) {
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   const { default: meta, __esModule, __namedExportsOrder, ...stories } = storiesImport;
   const composedStories = Object.entries(stories).reduce((storiesMap, [exportsName, story]) => {
     if (!isExportStory(exportsName, meta)) {

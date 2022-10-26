@@ -65,9 +65,9 @@ describe('react component properties', () => {
       const testFile = fs.readdirSync(testDir).find((fileName) => inputRegExp.test(fileName));
       if (testFile) {
         if (skippedTests.includes(testEntry.name)) {
-          it.skip(testEntry.name, () => {});
+          it.skip(`${testEntry.name}`, () => {});
         } else {
-          it(testEntry.name, () => {
+          it(`${testEntry.name}`, () => {
             const inputPath = path.join(testDir, testFile);
 
             // snapshot the output of babel-plugin-react-docgen

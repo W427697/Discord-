@@ -1,9 +1,8 @@
-/* eslint-disable camelcase */
-
 import type { API_Collection, API_Panels, API_StateMerger, API_Types } from '@storybook/types';
-import { ModuleFn } from '../index';
+import type { ModuleFn } from '../index';
 import { Options } from '../store';
 
+// eslint-disable-next-line @typescript-eslint/naming-convention
 enum types {
   TAB = 'tab',
   PANEL = 'panel',

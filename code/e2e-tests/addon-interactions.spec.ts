@@ -16,7 +16,8 @@ test.describe('addon-interactions', () => {
   test('should have interactions', async ({ page }) => {
     // templateName is e.g. 'Vue-CLI (Default JS)'
     test.skip(
-      /^(lit)/i.test(templateName),
+      // eslint-disable-next-line jest/valid-title
+      /^(lit)/i.test(`${templateName}`),
       `Skipping ${templateName}, which does not support addon-interactions`
     );
 

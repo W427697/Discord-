@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import memoize from 'memoizerific';
 import { dedent } from 'ts-dedent';
 import countBy from 'lodash/countBy';
@@ -23,7 +22,8 @@ import type {
 } from '@storybook/types';
 
 import mapValues from 'lodash/mapValues';
-import { API, combineParameters } from '../index';
+// eslint-disable-next-line import/no-cycle
+import { type API, combineParameters } from '../index';
 import merge from './merge';
 
 const TITLE_PATH_SEPARATOR = /\s*\/\s*/;

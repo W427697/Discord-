@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import type {
   Addon_IndexEntry,
   AnyFramework,
