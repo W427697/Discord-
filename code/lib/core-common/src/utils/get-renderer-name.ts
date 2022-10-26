@@ -8,7 +8,6 @@ export async function getRendererName(options: Options) {
   const { renderer } = await options.presets.apply('core', {}, options);
 
   if (!renderer) {
-    console.log('getting framework name');
     // At the moment some frameworks (Angular/Ember) do not define a renderer, but themselves
     // serve the purpose (in particular exporting the symbols needed by entrypoints)
     return getFrameworkName(options);
