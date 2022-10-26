@@ -74,7 +74,7 @@
     "html-tags": "^3.1.0",
     "lodash": "^4.17.21",
     "prop-types": "^15.7.2",
-    "react-element-to-jsx-string": "^14.3.4",
+    "react-element-to-jsx-string": "^15.0.0",
     "react-refresh": "^0.11.0",
     "read-pkg-up": "^7.0.1",
     "regenerator-runtime": "^0.13.7",
