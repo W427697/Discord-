@@ -1,8 +1,8 @@
 import type {
+  AnnotatedStoryFn,
   Args,
   ComponentAnnotations,
   StoryAnnotations,
-  AnnotatedStoryFn,
 } from '@storybook/types';
 import { HtmlFramework } from './types';
 

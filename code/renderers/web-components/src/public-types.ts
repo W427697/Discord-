@@ -1,8 +1,8 @@
 import type {
-  ComponentAnnotations,
-  StoryAnnotations,
   AnnotatedStoryFn,
   Args,
+  ComponentAnnotations,
+  StoryAnnotations,
 } from '@storybook/types';
 import { WebComponentsFramework } from './types';
 

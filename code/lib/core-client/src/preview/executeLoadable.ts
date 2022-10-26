@@ -4,7 +4,7 @@
 
 import { logger } from '@storybook/client-logger';
 import type {
-  Store_Path,
+  Path,
   Store_ModuleExports,
   Loadable,
   CoreClient_RequireContext,
@@ -27,7 +27,7 @@ export function executeLoadable(loadable: Loadable) {
     reqs = [loadable as CoreClient_RequireContext];
   }
 
-  let exportsMap = new Map<Store_Path, Store_ModuleExports>();
+  let exportsMap = new Map<Path, Store_ModuleExports>();
   if (reqs) {
     reqs.forEach((req) => {
       req.keys().forEach((filename: string) => {
@@ -82,7 +82,7 @@ export function executeLoadableForChanges(loadable: Loadable, m?: NodeModule) {
   }
 
   const exportsMap = executeLoadable(loadable);
-  const added = new Map<Store_Path, Store_ModuleExports>();
+  const added = new Map<Path, Store_ModuleExports>();
   Array.from(exportsMap.entries())
     // Ignore files that do not have a default export
     .filter(([, fileExports]) => !!fileExports.default)
@@ -90,7 +90,7 @@ export function executeLoadableForChanges(loadable: Loadable, m?: NodeModule) {
     .filter(([fileName, fileExports]) => lastExportsMap.get(fileName) !== fileExports)
     .forEach(([fileName, fileExports]) => added.set(fileName, fileExports));
 
-  const removed = new Map<Store_Path, Store_ModuleExports>();
+  const removed = new Map<Path, Store_ModuleExports>();
   Array.from(lastExportsMap.keys())
     .filter((fileName) => !exportsMap.has(fileName))
     .forEach((fileName) => removed.set(fileName, lastExportsMap.get(fileName)));

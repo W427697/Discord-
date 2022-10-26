@@ -1,11 +1,11 @@
 import { dequal as deepEqual } from 'dequal';
 import type {
-  SBType,
-  Args,
-  InputType,
-  ArgTypes,
-  StoryContext,
   AnyFramework,
+  Args,
+  ArgTypes,
+  InputType,
+  SBType,
+  StoryContext,
 } from '@storybook/types';
 import { once } from '@storybook/client-logger';
 import isPlainObject from 'lodash/isPlainObject';
