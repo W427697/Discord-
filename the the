@@ -692,7 +692,8 @@ You likely want to use the `DocsContainer` component exported by `@storybook/blo
 
 **Overriding theme**:
 
-To override the theme, you can continue to use the `docs.theme` parameter.
+To override 
+me, you can continue to use the `docs.theme` parameter.
 
 **Overriding MDX components**
 
@@ -1282,7 +1283,7 @@ export const MyStory = () => ({ component: MyComponent, ... })
 
 #### Deprecated --static-dir CLI flag
 
-In 6.4 we've replaced the `--static-dir` CLI flag with the the `staticDirs` field in `.storybook/main.js`. Note that the CLI directories are relative to the current working directory, whereas the `staticDirs` are relative to the location of `main.js`.
+In 6.4 we've replaced the `--static-dir` CLI flag with the `staticDirs` field in `.storybook/main.js`. Note that the CLI directories are relative to the current working directory, whereas the `staticDirs` are relative to the location of `main.js`.
 
 Before:
 
@@ -1772,7 +1773,7 @@ Basic.parameters = { ... };
 Basic.decorators = [ ... ];
 ```
 
-1. The new syntax is slightly more compact/ergonomic compared the the old one
+1. The new syntax is slightly more compact/ergonomic compared to the old one
 2. Similar to React's `displayName`, `propTypes`, `defaultProps` annotations
 3. We're introducing a new feature, [Storybook Args](https://docs.google.com/document/d/1Mhp1UFRCKCsN8pjlfPdz8ZdisgjNXeMXpXvGoALjxYM/edit?usp=sharing), where the new syntax will be significantly more ergonomic
 
@@ -1978,7 +1979,7 @@ module.exports = {
 };
 ```
 
-In earlier versions of Storybook, this would automatically call `@storybook/addon-knobs/register`, which adds the the knobs panel to the Storybook UI. As a user you would also add a decorator:
+In earlier versions of Storybook, this would automatically call `@storybook/addon-knobs/register`, which adds the knobs panel to the Storybook UI. As a user you would also add a decorator:
 
 ```js
 import { withKnobs } from '../index';
