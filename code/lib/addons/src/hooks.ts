@@ -19,8 +19,6 @@ import {
 // eslint-disable-next-line import/no-cycle
 import { addons } from './index';
 
-const { window: globalWindow } = global;
-
 interface Hook {
   name: string;
   memoizedState?: any;
@@ -156,10 +154,10 @@ function hookify<TFramework extends AnyFramework>(fn: AbstractFunction) {
     }
     hooks.nextHookIndex = 0;
 
-    const prevContext = globalWindow.STORYBOOK_HOOKS_CONTEXT;
-    globalWindow.STORYBOOK_HOOKS_CONTEXT = hooks;
+    const prevContext = global.STORYBOOK_HOOKS_CONTEXT;
+    global.STORYBOOK_HOOKS_CONTEXT = hooks;
     const result = fn(...args);
-    globalWindow.STORYBOOK_HOOKS_CONTEXT = prevContext;
+    global.STORYBOOK_HOOKS_CONTEXT = prevContext;
 
     if (hooks.currentPhase === 'UPDATE' && hooks.getNextHook() != null) {
       throw new Error(
@@ -218,7 +216,7 @@ const invalidHooksError = () =>
   new Error('Storybook preview hooks can only be called inside decorators and story functions.');
 
 function getHooksContextOrNull<TFramework extends AnyFramework>(): HooksContext<TFramework> | null {
-  return globalWindow.STORYBOOK_HOOKS_CONTEXT || null;
+  return global.STORYBOOK_HOOKS_CONTEXT || null;
 }
 
 function getHooksContextOrThrow<TFramework extends AnyFramework>(): HooksContext<TFramework> {
