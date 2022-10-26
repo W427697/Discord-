@@ -50,7 +50,7 @@ export function normalizeStory<TFramework extends AnyFramework>(
   const args = { ...story?.args, ...storyObject.args };
   const argTypes = { ...(story?.argTypes as ArgTypes), ...(storyObject.argTypes as ArgTypes) };
   const loaders = [...(storyObject.loaders || []), ...(story?.loaders || [])];
-  const { render, play } = storyObject;
+  const { render, play, tags = [] } = storyObject;
 
   // eslint-disable-next-line no-underscore-dangle
   const id = parameters.__id || toId(meta.id, exportName);
@@ -58,6 +58,7 @@ export function normalizeStory<TFramework extends AnyFramework>(
     moduleExport: storyAnnotations,
     id,
     name,
+    tags,
     decorators,
     parameters,
     args,

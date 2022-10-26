@@ -1,4 +1,5 @@
 /* eslint-disable camelcase */
+import { Tag } from '@storybook/csf';
 import type { RenderData as RouterData } from '../../../router/src/router';
 import type { ThemeVars } from '../../../theming/src/types';
 import {
@@ -45,6 +46,7 @@ export interface Addon_BaseIndexEntry {
   id: StoryId;
   name: StoryName;
   title: ComponentTitle;
+  tags?: Tag[];
   importPath: Addon_Path;
 }
 export type Addon_StoryIndexEntry = Addon_BaseIndexEntry & {

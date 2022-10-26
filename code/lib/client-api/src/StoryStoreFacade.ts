@@ -205,6 +205,7 @@ export class StoryStoreFacade<TFramework extends AnyFramework> {
           title,
           importPath: fileName,
           componentId,
+          tags: [...(storyExport.tags || []), ...(defaultExport.tags || [])],
         };
       }
     });

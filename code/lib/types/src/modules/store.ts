@@ -1,4 +1,5 @@
 /* eslint-disable camelcase */
+import { Tag } from '@storybook/csf';
 import type { SynchronousPromise } from 'synchronous-promise';
 import type { Addon_IndexEntry, Addon_StoryIndexEntry } from './addons';
 import type {
