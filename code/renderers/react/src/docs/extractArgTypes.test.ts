@@ -5,7 +5,7 @@ import requireFromString from 'require-from-string';
 import { transformFileSync, transformSync } from '@babel/core';
 
 import { inferControls } from '@storybook/store';
-import type { AnyFramework } from '@storybook/csf';
+import type { AnyFramework } from '@storybook/types';
 import { normalizeNewlines } from '@storybook/docs-tools';
 
 import type { StoryContext } from '../types';

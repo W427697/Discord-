@@ -1,12 +1,12 @@
 import type {
+  AnnotatedStoryFn,
   Args,
   ComponentAnnotations,
   StoryAnnotations,
-  AnnotatedStoryFn,
-} from '@storybook/csf';
+} from '@storybook/types';
 import { PreactFramework } from './types';
 
-export type { Args, ArgTypes, Parameters, StoryContext } from '@storybook/csf';
+export type { Args, ArgTypes, Parameters, StoryContext } from '@storybook/types';
 
 /**
  * Metadata to configure the stories for a component.

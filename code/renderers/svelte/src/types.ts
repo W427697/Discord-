@@ -1,8 +1,6 @@
-import type { AnyFramework, StoryContext as StoryContextBase } from '@storybook/csf';
+import type { AnyFramework, StoryContext as StoryContextBase } from '@storybook/types';
 import { ComponentConstructorOptions, ComponentEvents } from 'svelte';
 import type { SvelteComponentTyped } from 'svelte';
-
-export type { RenderContext } from '@storybook/core-client';
 
 export type StoryContext = StoryContextBase<SvelteFramework>;
 

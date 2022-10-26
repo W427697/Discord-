@@ -1,13 +1,12 @@
 import type {
+  AnnotatedStoryFn,
   Args,
   ComponentAnnotations,
   StoryAnnotations,
-  AnnotatedStoryFn,
-} from '@storybook/csf';
-// eslint-disable-next-line import/no-cycle
+} from '@storybook/types';
 import { HtmlFramework } from './types';
 
-export type { Args, ArgTypes, Parameters } from '@storybook/csf';
+export type { Args, ArgTypes, Parameters } from '@storybook/types';
 
 /**
  * Metadata to configure the stories for a component.

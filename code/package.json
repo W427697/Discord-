@@ -1,6 +1,6 @@
 {
   "name": "@storybook/root",
-  "version": "7.0.0-alpha.42",
+  "version": "7.0.0-alpha.43",
   "private": true,
   "description": "Storybook is an open source tool for developing UI components in isolation for React, Vue and Angular. It makes building stunning UIs organized and efficient.",
   "keywords": [
@@ -54,12 +54,10 @@
   "scripts": {
     "await-serve-storybooks": "wait-on http://localhost:8001",
     "build": "NODE_ENV=production node ../scripts/build-package.js",
-    "build-storybooks": "cross-env STORYBOOK_DISPLAY_WARNING=true DISPLAY_WARNING=true node -r esm ../scripts/build-storybooks.js",
     "changelog": "pr-log --sloppy --cherry-pick",
     "changelog:next": "pr-log --sloppy --since-prerelease",
     "check": "NODE_ENV=production node ../scripts/check-package.js",
     "coverage": "codecov",
-    "create-built-sandboxes-index": "ts-node ../scripts/create-built-sandboxes-index",
     "danger": "danger",
     "generate-repros": "zx ../scripts/repros-generator/index.mjs",
     "generate-repros-next": "ts-node ../scripts/next-repro-generators/generate-repros.ts",
@@ -77,16 +75,12 @@
     "publish:debug": "npm run publish:latest -- --npm-tag=debug --no-push",
     "publish:latest": "lerna publish --exact --concurrency 1 --force-publish",
     "publish:next": "npm run publish:latest -- --npm-tag=next",
-    "run-chromatics": "node -r esm ../scripts/run-chromatics.js",
-    "sandbox": "ts-node ../scripts/sandbox.ts",
-    "serve-storybooks": "http-server ./built-storybooks -p 8001",
-    "smoketest-storybooks": "cross-env STORYBOOK_DISPLAY_WARNING=true DISPLAY_WARNING=true node -r esm ../scripts/smoketest-storybooks.js",
     "storybook:ui": "./lib/cli/bin/index.js dev --port 6006 --config-dir ./ui/.storybook --no-manager-cache",
+    "storybook:ui:build": "./lib/cli/bin/index.js build --config-dir ./ui/.storybook",
+    "storybook:ui:chromatic": "yarn chromatic --build-script-name storybook:ui:build --storybook-config-dir ./ui/.storybook --storybook-base-dir ./code/ui --project-token=$CHROMATIC_TOKEN_STORYBOOK_UI --only-changed --exit-zero-on-changes --exit-once-uploaded",
     "task": "cd .. && yarn task",
     "test": "NODE_OPTIONS=--max_old_space_size=4096 jest --config ./jest.config.js",
-    "test:cli": "npm --prefix lib/cli run test",
-    "test:e2e-examples-playwright": "playwright test",
-    "test:e2e-framework": "ts-node --project=../scripts/tsconfig.json ../scripts/run-e2e.ts"
+    "test:cli": "npm --prefix lib/cli run test"
   },
   "husky": {
     "hooks": {
@@ -222,6 +216,7 @@
     "@storybook/telemetry": "workspace:*",
     "@storybook/testing-library": "0.0.14-next.0",
     "@storybook/theming": "workspace:*",
+    "@storybook/types": "workspace:*",
     "@storybook/ui": "workspace:*",
     "@storybook/vue": "workspace:*",
     "@storybook/vue-webpack5": "workspace:*",
@@ -346,6 +341,9 @@
     "webpack-dev-middleware": "^5.3.1",
     "window-size": "^1.1.1",
     "zx": "^7.0.3"
+  },
+  "devDependencies": {
+    "expect-type": "^0.14.2"
   },
   "dependenciesMeta": {
     "@compodoc/compodoc": {

@@ -1,12 +1,12 @@
 import type {
+  AnnotatedStoryFn,
   Args,
   ComponentAnnotations,
   StoryAnnotations,
-  AnnotatedStoryFn,
-} from '@storybook/csf';
+} from '@storybook/types';
 import { AngularFramework } from './types';
 
-export type { Args, ArgTypes } from '@storybook/csf';
+export type { Args, ArgTypes } from '@storybook/types';
 
 /**
  * Metadata to configure the stories for a component.

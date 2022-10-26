@@ -1,10 +1,18 @@
-import type { Parameters, AnyFramework, ComponentTitle } from '@storybook/csf';
+/* eslint-disable camelcase */
+import type {
+  AnyFramework,
+  ComponentTitle,
+  Parameters,
+  Path,
+  Store_CSFFile,
+  Store_ModuleExports,
+  Store_NormalizedComponentAnnotations,
+} from '@storybook/types';
 import { isExportStory } from '@storybook/csf';
 import { logger } from '@storybook/client-logger';
 
 import { normalizeStory } from './normalizeStory';
 import { normalizeComponentAnnotations } from './normalizeComponentAnnotations';
-import type { ModuleExports, CSFFile, NormalizedComponentAnnotations, Path } from '../types';
 
 const checkGlobals = (parameters: Parameters) => {
   const { globals, globalTypes } = parameters;
@@ -33,18 +41,17 @@ const checkDisallowedParameters = (parameters?: Parameters) => {
 
 // Given the raw exports of a CSF file, check and normalize it.
 export function processCSFFile<TFramework extends AnyFramework>(
-  moduleExports: ModuleExports,
+  moduleExports: Store_ModuleExports,
   importPath: Path,
   title: ComponentTitle
-): CSFFile<TFramework> {
-  // eslint-disable-next-line @typescript-eslint/naming-convention
+): Store_CSFFile<TFramework> {
   const { default: defaultExport, __namedExportsOrder, ...namedExports } = moduleExports;
 
-  const meta: NormalizedComponentAnnotations<TFramework> =
+  const meta: Store_NormalizedComponentAnnotations<TFramework> =
     normalizeComponentAnnotations<TFramework>(defaultExport, title, importPath);
   checkDisallowedParameters(meta.parameters);
 
-  const csfFile: CSFFile<TFramework> = { meta, stories: {} };
+  const csfFile: Store_CSFFile<TFramework> = { meta, stories: {} };
 
   Object.keys(namedExports).forEach((key) => {
     if (isExportStory(key, meta)) {

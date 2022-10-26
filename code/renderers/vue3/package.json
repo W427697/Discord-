@@ -1,6 +1,6 @@
 {
   "name": "@storybook/vue3",
-  "version": "7.0.0-alpha.42",
+  "version": "7.0.0-alpha.43",
   "description": "Storybook Vue 3 renderer",
   "keywords": [
     "storybook"
@@ -46,24 +46,26 @@
     "*.d.ts"
   ],
   "scripts": {
-    "check": "../../../scripts/node_modules/.bin/tsc --noEmit",
+    "check": "vue-tsc --noEmit",
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/addons": "7.0.0-alpha.42",
-    "@storybook/core-client": "7.0.0-alpha.42",
-    "@storybook/csf": "next",
-    "@storybook/docs-tools": "7.0.0-alpha.42",
-    "@storybook/store": "7.0.0-alpha.42",
+    "@storybook/addons": "7.0.0-alpha.43",
+    "@storybook/core-client": "7.0.0-alpha.43",
+    "@storybook/docs-tools": "7.0.0-alpha.43",
+    "@storybook/store": "7.0.0-alpha.43",
+    "@storybook/types": "7.0.0-alpha.43",
     "global": "^4.4.0",
     "react": "16.14.0",
     "react-dom": "16.14.0",
-    "ts-dedent": "^2.0.0"
+    "ts-dedent": "^2.0.0",
+    "type-fest": "2.19.0"
   },
   "devDependencies": {
     "@digitak/esrun": "^3.2.2",
     "typescript": "~4.6.3",
-    "vue": "^3.0.0"
+    "vue": "^3.2.41",
+    "vue-tsc": "^1.0.8"
   },
   "peerDependencies": {
     "@babel/core": "*",
@@ -88,5 +90,5 @@
     ],
     "platform": "browser"
   },
-  "gitHead": "4ed2e832e3accf8e533da92a46a812eacaf5db0b"
+  "gitHead": "f801c26f7bdcbfeeeca6706c0854d130bfb2f38b"
 }

@@ -1,9 +1,9 @@
 import type {
-  ComponentAnnotations,
-  StoryAnnotations,
   AnnotatedStoryFn,
   Args,
-} from '@storybook/csf';
+  ComponentAnnotations,
+  StoryAnnotations,
+} from '@storybook/types';
 import { WebComponentsFramework } from './types';
 
 /**

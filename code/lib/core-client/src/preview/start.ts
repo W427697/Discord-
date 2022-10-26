@@ -1,54 +1,51 @@
+/* eslint-disable camelcase */
 import global from 'global';
-import deprecate from 'util-deprecate';
 import { ClientApi } from '@storybook/client-api';
 import { PreviewWeb } from '@storybook/preview-web';
-import type { AnyFramework, ArgsStoryFn } from '@storybook/csf';
+import type {
+  AnyFramework,
+  ArgsStoryFn,
+  Path,
+  Store_WebProjectAnnotations,
+} from '@storybook/types';
 import { createChannel } from '@storybook/channel-postmessage';
 import { addons } from '@storybook/addons';
 import { FORCE_RE_RENDER } from '@storybook/core-events';
-import type { Path, WebProjectAnnotations } from '@storybook/store';
 
-import { Loadable } from './types';
+import { Loadable } from '@storybook/types';
 import { executeLoadableForChanges } from './executeLoadable';
 
 const { window: globalWindow, FEATURES } = global;
-
-const configureDeprecationWarning = deprecate(
-  () => {},
-  `\`configure()\` is deprecated and will be removed in Storybook 7.0. 
-Please use the \`stories\` field of \`main.js\` to load stories.
-Read more at https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#deprecated-configure`
-);
 
 const removedApi = (name: string) => () => {
   throw new Error(`@storybook/client-api:${name} was removed in storyStoreV7.`);
 };
 
-interface RendererImplementation<TFramework extends AnyFramework> {
-  decorateStory?: WebProjectAnnotations<TFramework>['applyDecorators'];
+interface CoreClient_RendererImplementation<TFramework extends AnyFramework> {
+  decorateStory?: Store_WebProjectAnnotations<TFramework>['applyDecorators'];
   render?: ArgsStoryFn<TFramework>;
 }
 
-interface ClientAPIFacade {
+interface CoreClient_ClientAPIFacade {
   /* deprecated */
   storiesOf: (...args: any[]) => never;
   /* deprecated */
   raw: (...args: any[]) => never;
 }
 
-interface StartReturnValue<TFramework extends AnyFramework> {
+interface CoreClient_StartReturnValue<TFramework extends AnyFramework> {
   /* deprecated */
   forceReRender: () => void;
   /* deprecated */
   configure: any;
   /* deprecated */
-  clientApi: ClientApi<TFramework> | ClientAPIFacade;
+  clientApi: ClientApi<TFramework> | CoreClient_ClientAPIFacade;
 }
 
 export function start<TFramework extends AnyFramework>(
-  renderToDOM: WebProjectAnnotations<TFramework>['renderToDOM'],
-  { decorateStory, render }: RendererImplementation<TFramework> = {}
-): StartReturnValue<TFramework> {
+  renderToDOM: Store_WebProjectAnnotations<TFramework>['renderToDOM'],
+  { decorateStory, render }: CoreClient_RendererImplementation<TFramework> = {}
+): CoreClient_StartReturnValue<TFramework> {
   if (globalWindow) {
     // To enable user code to detect if it is running in Storybook
     globalWindow.IS_STORYBOOK = true;
@@ -101,10 +98,10 @@ export function start<TFramework extends AnyFramework>(
       framework: string,
       loadable: Loadable,
       m?: NodeModule,
-      showDeprecationWarning = true
+      disableBackwardCompatibility = true
     ) {
-      if (showDeprecationWarning) {
-        configureDeprecationWarning();
+      if (disableBackwardCompatibility) {
+        throw new Error('unexpected configure() call');
       }
 
       clientApi.addParameters({ framework });
@@ -113,6 +110,8 @@ export function start<TFramework extends AnyFramework>(
       // function in case it throws. So we also need to process its output there also
       const getProjectAnnotations = () => {
         const { added, removed } = executeLoadableForChanges(loadable, m);
+        // eslint-disable-next-line no-underscore-dangle
+        clientApi._loadAddedExports();
 
         Array.from(added.entries()).forEach(([fileName, fileExports]) =>
           clientApi.facade.addStoriesFromExports(fileName, fileExports)

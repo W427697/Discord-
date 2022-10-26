@@ -12,8 +12,6 @@ import { addons } from './main';
 export * from './make-decorator';
 // eslint-disable-next-line import/no-cycle
 export * from './main';
-// eslint-disable-next-line import/no-cycle
-export * from './types';
 export * from './storybook-channel-mock';
 // eslint-disable-next-line import/no-cycle
 export * from './hooks';

@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 // @ts-expect-error (Converted from ts-ignore)
 import global from 'global';
 
@@ -13,8 +14,7 @@ import React, {
 import ReactDOM, { version as reactDomVersion } from 'react-dom';
 import type { Root as ReactRoot } from 'react-dom/client';
 
-import type { RenderContext } from '@storybook/store';
-import { ArgsStoryFn } from '@storybook/csf';
+import type { Store_RenderContext, ArgsStoryFn } from '@storybook/types';
 
 import type { ReactFramework, StoryContext } from './types';
 
@@ -137,7 +137,7 @@ export async function renderToDOM(
     showMain,
     showException,
     forceRemount,
-  }: RenderContext<ReactFramework>,
+  }: Store_RenderContext<ReactFramework>,
   domElement: Element
 ) {
   const Story = unboundStoryFn as FC<StoryContext<ReactFramework>>;

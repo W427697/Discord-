@@ -1,5 +1,5 @@
 import prompts from 'prompts';
-import type { CLIOptions, CoreConfig } from '@storybook/core-common';
+import type { CLIOptions, CoreConfig } from '@storybook/types';
 import { loadAllPresets, cache } from '@storybook/core-common';
 import { telemetry } from '@storybook/telemetry';
 import type { EventType } from '@storybook/telemetry';
@@ -10,7 +10,9 @@ type TelemetryOptions = {
 };
 
 const promptCrashReports = async () => {
-  if (process.env.CI && process.env.NODE_ENV !== 'test') return undefined;
+  if (process.env.CI && process.env.NODE_ENV !== 'test') {
+    return undefined;
+  }
 
   const { enableCrashReports } = await prompts({
     type: 'confirm',

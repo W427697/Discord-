@@ -1,4 +1,5 @@
-import type { ArgType, ArgTypes } from '@storybook/api';
+/* eslint-disable camelcase */
+import type { API_ArgType, API_ArgTypes } from '@storybook/types';
 import { logger } from '@storybook/client-logger';
 import { getCustomElements, isValidComponent, isValidMetaData } from '..';
 
@@ -46,7 +47,7 @@ interface Sections {
   cssShadowParts?: any;
 }
 
-function mapItem(item: TagItem, category: string): ArgType {
+function mapItem(item: TagItem, category: string): API_ArgType {
   const type =
     category === 'properties' ? { name: item.type?.text || item.type } : { name: 'void' };
 
@@ -65,7 +66,7 @@ function mapItem(item: TagItem, category: string): ArgType {
   };
 }
 
-function mapEvent(item: TagItem): ArgType[] {
+function mapEvent(item: TagItem): API_ArgType[] {
   let name = item.name
     .replace(/(-|_|:|\.|\s)+(.)?/g, (_match, _separator, chr: string) => {
       return chr ? chr.toUpperCase() : '';
@@ -97,7 +98,7 @@ function mapData(data: TagItem[], category: string) {
         }
 
         return acc;
-      }, {} as ArgTypes)
+      }, {} as API_ArgTypes)
   );
 }
 

@@ -1,11 +1,12 @@
+/* eslint-disable camelcase */
 import { logger } from '@storybook/client-logger';
 
-// eslint-disable-next-line import/no-cycle
-import { getSourceType, ComposedRef } from '../modules/refs';
+import type { API_ComposedRef } from '@storybook/types';
+import { getSourceType } from '../modules/refs';
 import type { API } from '../index';
 
 interface Meta {
-  ref?: ComposedRef;
+  ref?: API_ComposedRef;
   source?: string;
   sourceType?: 'local' | 'external';
   sourceLocation?: string;

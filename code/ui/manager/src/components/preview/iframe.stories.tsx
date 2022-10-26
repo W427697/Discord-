@@ -4,7 +4,7 @@ import { IFrame } from './iframe';
 
 export default {
   component: IFrame,
-  title: 'UI/Iframe',
+  title: 'Iframe',
 };
 
 const style: CSSProperties = {

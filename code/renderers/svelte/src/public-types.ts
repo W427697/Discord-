@@ -6,12 +6,11 @@ import type {
   ComponentAnnotations,
   DecoratorFunction,
   StoryAnnotations,
-} from '@storybook/csf';
+} from '@storybook/types';
+
 import { ComponentProps, ComponentType, SvelteComponentTyped } from 'svelte';
 import { SetOptional, Simplify } from 'type-fest';
 import { SvelteFramework } from './types';
-
-export type { Args, ArgTypes, Parameters, StoryContext } from '@storybook/csf';
 
 /**
  * Metadata to configure the stories for a component.

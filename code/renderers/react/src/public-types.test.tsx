@@ -1,8 +1,10 @@
 import { describe, test } from '@jest/globals';
+import type { StoryAnnotations } from '@storybook/types';
+
 import { satisfies } from '@storybook/core-common';
-import { StoryAnnotations } from '@storybook/csf';
 import { expectTypeOf } from 'expect-type';
 import React, { KeyboardEventHandler, ReactNode } from 'react';
+
 import { SetOptional } from 'type-fest';
 
 import { DecoratorFn } from './public-api';

@@ -1,12 +1,13 @@
-import { StoryContext } from './types';
+/* eslint-disable camelcase */
+import type { Addon_StoryContext } from '@storybook/types';
 import { makeDecorator } from './make-decorator';
 
 // Copy & paste from internal api: client-api/src/client_api
-type DecoratorFn = (fn: any, context: StoryContext) => any;
+type DecoratorFn = (fn: any, context: Addon_StoryContext) => any;
 
 const defaultDecorateStory = (getStory: any, decorators: DecoratorFn[]) =>
   decorators.reduce(
-    (decorated, decorator) => (context: StoryContext) =>
+    (decorated, decorator) => (context: Addon_StoryContext) =>
       decorator(() => decorated(context), context),
     getStory
   );
