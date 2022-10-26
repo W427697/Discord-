@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-/* eslint-disable import/no-cycle */
+
 import type {
   AnnotatedStoryFn,
   AnyFramework,
