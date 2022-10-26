@@ -739,7 +739,7 @@ You can read more about the CSF3 format here: https://storybook.js.org/blog/comp
 
 #### `ComponentStory`, `ComponentStoryObj`, `ComponentStoryFn` and `ComponentMeta` types are deprecated
 
-We have changed the type of StoryObj and StoryFn in 7.0 so that both the component as the props of the component will be accepted as the generic parameter.
+The type of StoryObj and StoryFn have been changed in 7.0 so that both the "component" as "the props of the component" will be accepted as the generic parameter.
 
 ```ts
 import type { Story } from '@storybook/react';
