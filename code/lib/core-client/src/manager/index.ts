@@ -1,5 +1,5 @@
 import global from 'global';
-import { renderStorybookUI } from '@storybook/ui';
+import { renderStorybookUI } from '@storybook/manager';
 
 import Provider from './provider';
 

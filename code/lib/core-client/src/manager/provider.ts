@@ -1,5 +1,5 @@
 import global from 'global';
-import { Provider } from '@storybook/ui';
+import { Provider } from '@storybook/manager';
 import { Channel } from '@storybook/channels';
 import { addons, AddonStore, type Types } from '@storybook/addons';
 import type { Addon_Config } from '@storybook/types';
