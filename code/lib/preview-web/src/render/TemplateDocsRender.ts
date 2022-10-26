@@ -119,7 +119,7 @@ export class TemplateDocsRender<TFramework extends AnyFramework, TRootElement = 
     const renderDocs = async () => {
       await new Promise<void>((r) =>
         // NOTE: it isn't currently possible to use a docs renderer outside of "web" mode.
-        render(docsContext, docsParameter, canvasElement as HTMLElement, r)
+        render(docsContext, docsParameter, canvasElement as any, r)
       );
       this.channel.emit(DOCS_RENDERED, this.id);
     };

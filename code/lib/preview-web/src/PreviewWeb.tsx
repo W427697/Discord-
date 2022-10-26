@@ -417,10 +417,7 @@ export class PreviewWeb<
       this.currentRender.renderToElement(
         this.view.prepareForDocs(),
         // This argument is used for docs, which is currently only compatible with HTMLElements
-        this.renderStoryToElement.bind(this) as PreviewWeb<
-          TFramework,
-          HTMLElement
-        >['renderStoryToElement']
+        this.renderStoryToElement.bind(this) as any
       );
     }
   }
