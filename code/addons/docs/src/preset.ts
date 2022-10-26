@@ -4,10 +4,10 @@ import remarkSlug from 'remark-slug';
 import remarkExternalLinks from 'remark-external-links';
 
 import type {
-  DocsOptions,
   CoreCommon_IndexerOptions,
-  Options,
   CoreCommon_StoryIndexer,
+  DocsOptions,
+  Options,
 } from '@storybook/types';
 import { logger } from '@storybook/node-logger';
 import { loadCsf } from '@storybook/csf-tools';

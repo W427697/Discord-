@@ -21,16 +21,16 @@ import {
 import { logger } from '@storybook/client-logger';
 import type {
   AnyFramework,
-  StoryId,
-  ProjectAnnotations,
   Args,
   Globals,
-  ViewMode,
+  ProjectAnnotations,
   Store_ModuleImportFn,
   Store_Selection,
-  Store_StorySpecifier,
   Store_StoryIndex,
+  Store_StorySpecifier,
   Store_WebProjectAnnotations,
+  StoryId,
+  ViewMode,
 } from '@storybook/types';
 
 import { MaybePromise, Preview } from './Preview';

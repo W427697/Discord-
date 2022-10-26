@@ -89,6 +89,10 @@ describe('StoryIndexGenerator', () => {
                 "id": "a--story-one",
                 "importPath": "./src/A.stories.js",
                 "name": "Story One",
+                "tags": Array [
+                  "story-tag",
+                  "story",
+                ],
                 "title": "A",
                 "type": "story",
               },
@@ -115,6 +119,10 @@ describe('StoryIndexGenerator', () => {
                 "id": "nested-button--story-one",
                 "importPath": "./src/nested/Button.stories.ts",
                 "name": "Story One",
+                "tags": Array [
+                  "component-tag",
+                  "story",
+                ],
                 "title": "nested/Button",
                 "type": "story",
               },
@@ -122,6 +130,9 @@ describe('StoryIndexGenerator', () => {
                 "id": "second-nested-g--story-one",
                 "importPath": "./src/second-nested/G.stories.ts",
                 "name": "Story One",
+                "tags": Array [
+                  "story",
+                ],
                 "title": "second-nested/G",
                 "type": "story",
               },
@@ -149,6 +160,10 @@ describe('StoryIndexGenerator', () => {
                 "id": "a--story-one",
                 "importPath": "./src/A.stories.js",
                 "name": "Story One",
+                "tags": Array [
+                  "story-tag",
+                  "story",
+                ],
                 "title": "A",
                 "type": "story",
               },
@@ -156,6 +171,9 @@ describe('StoryIndexGenerator', () => {
                 "id": "b--story-one",
                 "importPath": "./src/B.stories.ts",
                 "name": "Story One",
+                "tags": Array [
+                  "story",
+                ],
                 "title": "B",
                 "type": "story",
               },
@@ -163,6 +181,9 @@ describe('StoryIndexGenerator', () => {
                 "id": "d--story-one",
                 "importPath": "./src/D.stories.jsx",
                 "name": "Story One",
+                "tags": Array [
+                  "story",
+                ],
                 "title": "D",
                 "type": "story",
               },
@@ -170,6 +191,9 @@ describe('StoryIndexGenerator', () => {
                 "id": "first-nested-deeply-f--story-one",
                 "importPath": "./src/first-nested/deeply/F.stories.js",
                 "name": "Story One",
+                "tags": Array [
+                  "story",
+                ],
                 "title": "first-nested/deeply/F",
                 "type": "story",
               },
@@ -177,6 +201,10 @@ describe('StoryIndexGenerator', () => {
                 "id": "nested-button--story-one",
                 "importPath": "./src/nested/Button.stories.ts",
                 "name": "Story One",
+                "tags": Array [
+                  "component-tag",
+                  "story",
+                ],
                 "title": "nested/Button",
                 "type": "story",
               },
@@ -184,6 +212,9 @@ describe('StoryIndexGenerator', () => {
                 "id": "second-nested-g--story-one",
                 "importPath": "./src/second-nested/G.stories.ts",
                 "name": "Story One",
+                "tags": Array [
+                  "story",
+                ],
                 "title": "second-nested/G",
                 "type": "story",
               },
@@ -218,6 +249,10 @@ describe('StoryIndexGenerator', () => {
                 "name": "docs",
                 "standalone": false,
                 "storiesImports": Array [],
+                "tags": Array [
+                  "component-tag",
+                  "docs",
+                ],
                 "title": "A",
                 "type": "docs",
               },
@@ -225,6 +260,10 @@ describe('StoryIndexGenerator', () => {
                 "id": "a--story-one",
                 "importPath": "./src/A.stories.js",
                 "name": "Story One",
+                "tags": Array [
+                  "story-tag",
+                  "story",
+                ],
                 "title": "A",
                 "type": "story",
               },
@@ -253,6 +292,10 @@ describe('StoryIndexGenerator', () => {
                 "id": "a--story-one",
                 "importPath": "./src/A.stories.js",
                 "name": "Story One",
+                "tags": Array [
+                  "story-tag",
+                  "story",
+                ],
                 "title": "A",
                 "type": "story",
               },
@@ -286,6 +329,10 @@ describe('StoryIndexGenerator', () => {
                 "name": "docs",
                 "standalone": false,
                 "storiesImports": Array [],
+                "tags": Array [
+                  "component-tag",
+                  "docs",
+                ],
                 "title": "A",
                 "type": "docs",
               },
@@ -293,6 +340,10 @@ describe('StoryIndexGenerator', () => {
                 "id": "a--story-one",
                 "importPath": "./src/A.stories.js",
                 "name": "Story One",
+                "tags": Array [
+                  "story-tag",
+                  "story",
+                ],
                 "title": "A",
                 "type": "story",
               },
@@ -302,6 +353,9 @@ describe('StoryIndexGenerator', () => {
                 "name": "docs",
                 "standalone": false,
                 "storiesImports": Array [],
+                "tags": Array [
+                  "docs",
+                ],
                 "title": "B",
                 "type": "docs",
               },
@@ -309,6 +363,9 @@ describe('StoryIndexGenerator', () => {
                 "id": "b--story-one",
                 "importPath": "./src/B.stories.ts",
                 "name": "Story One",
+                "tags": Array [
+                  "story",
+                ],
                 "title": "B",
                 "type": "story",
               },
@@ -318,6 +375,9 @@ describe('StoryIndexGenerator', () => {
                 "name": "docs",
                 "standalone": false,
                 "storiesImports": Array [],
+                "tags": Array [
+                  "docs",
+                ],
                 "title": "D",
                 "type": "docs",
               },
@@ -325,6 +385,9 @@ describe('StoryIndexGenerator', () => {
                 "id": "d--story-one",
                 "importPath": "./src/D.stories.jsx",
                 "name": "Story One",
+                "tags": Array [
+                  "story",
+                ],
                 "title": "D",
                 "type": "story",
               },
@@ -334,6 +397,9 @@ describe('StoryIndexGenerator', () => {
                 "name": "docs",
                 "standalone": false,
                 "storiesImports": Array [],
+                "tags": Array [
+                  "docs",
+                ],
                 "title": "first-nested/deeply/F",
                 "type": "docs",
               },
@@ -341,6 +407,9 @@ describe('StoryIndexGenerator', () => {
                 "id": "first-nested-deeply-f--story-one",
                 "importPath": "./src/first-nested/deeply/F.stories.js",
                 "name": "Story One",
+                "tags": Array [
+                  "story",
+                ],
                 "title": "first-nested/deeply/F",
                 "type": "story",
               },
@@ -350,6 +419,10 @@ describe('StoryIndexGenerator', () => {
                 "name": "docs",
                 "standalone": false,
                 "storiesImports": Array [],
+                "tags": Array [
+                  "component-tag",
+                  "docs",
+                ],
                 "title": "nested/Button",
                 "type": "docs",
               },
@@ -357,6 +430,10 @@ describe('StoryIndexGenerator', () => {
                 "id": "nested-button--story-one",
                 "importPath": "./src/nested/Button.stories.ts",
                 "name": "Story One",
+                "tags": Array [
+                  "component-tag",
+                  "story",
+                ],
                 "title": "nested/Button",
                 "type": "story",
               },
@@ -366,6 +443,9 @@ describe('StoryIndexGenerator', () => {
                 "name": "docs",
                 "standalone": false,
                 "storiesImports": Array [],
+                "tags": Array [
+                  "docs",
+                ],
                 "title": "second-nested/G",
                 "type": "docs",
               },
@@ -373,6 +453,9 @@ describe('StoryIndexGenerator', () => {
                 "id": "second-nested-g--story-one",
                 "importPath": "./src/second-nested/G.stories.ts",
                 "name": "Story One",
+                "tags": Array [
+                  "story",
+                ],
                 "title": "second-nested/G",
                 "type": "story",
               },
@@ -407,6 +490,9 @@ describe('StoryIndexGenerator', () => {
                 "storiesImports": Array [
                   "./src/A.stories.js",
                 ],
+                "tags": Array [
+                  "docs",
+                ],
                 "title": "A",
                 "type": "docs",
               },
@@ -414,6 +500,10 @@ describe('StoryIndexGenerator', () => {
                 "id": "a--story-one",
                 "importPath": "./src/A.stories.js",
                 "name": "Story One",
+                "tags": Array [
+                  "story-tag",
+                  "story",
+                ],
                 "title": "A",
                 "type": "story",
               },
@@ -443,6 +533,9 @@ describe('StoryIndexGenerator', () => {
                 "storiesImports": Array [
                   "./duplicate/SecondA.stories.js",
                 ],
+                "tags": Array [
+                  "docs",
+                ],
                 "title": "duplicate/A",
                 "type": "docs",
               },
@@ -450,6 +543,9 @@ describe('StoryIndexGenerator', () => {
                 "id": "duplicate-a--story-one",
                 "importPath": "./duplicate/A.stories.js",
                 "name": "Story One",
+                "tags": Array [
+                  "story",
+                ],
                 "title": "duplicate/A",
                 "type": "story",
               },
@@ -457,6 +553,9 @@ describe('StoryIndexGenerator', () => {
                 "id": "duplicate-a--story-two",
                 "importPath": "./duplicate/SecondA.stories.js",
                 "name": "Story Two",
+                "tags": Array [
+                  "story",
+                ],
                 "title": "duplicate/A",
                 "type": "story",
               },
@@ -501,6 +600,9 @@ describe('StoryIndexGenerator', () => {
                 "storiesImports": Array [
                   "./src/A.stories.js",
                 ],
+                "tags": Array [
+                  "docs",
+                ],
                 "title": "A",
                 "type": "docs",
               },
@@ -512,6 +614,9 @@ describe('StoryIndexGenerator', () => {
                 "storiesImports": Array [
                   "./src/A.stories.js",
                 ],
+                "tags": Array [
+                  "docs",
+                ],
                 "title": "A",
                 "type": "docs",
               },
@@ -519,6 +624,10 @@ describe('StoryIndexGenerator', () => {
                 "id": "a--story-one",
                 "importPath": "./src/A.stories.js",
                 "name": "Story One",
+                "tags": Array [
+                  "story-tag",
+                  "story",
+                ],
                 "title": "A",
                 "type": "story",
               },
@@ -528,6 +637,9 @@ describe('StoryIndexGenerator', () => {
                 "name": "docs",
                 "standalone": true,
                 "storiesImports": Array [],
+                "tags": Array [
+                  "docs",
+                ],
                 "title": "docs2/Yabbadabbadooo",
                 "type": "docs",
               },
@@ -537,6 +649,9 @@ describe('StoryIndexGenerator', () => {
                 "name": "docs",
                 "standalone": true,
                 "storiesImports": Array [],
+                "tags": Array [
+                  "docs",
+                ],
                 "title": "NoTitle",
                 "type": "docs",
               },
@@ -590,6 +705,10 @@ describe('StoryIndexGenerator', () => {
                 "id": "a--story-one",
                 "importPath": "./src/A.stories.js",
                 "name": "Story One",
+                "tags": Array [
+                  "story-tag",
+                  "story",
+                ],
                 "title": "A",
                 "type": "story",
               },
@@ -620,6 +739,9 @@ describe('StoryIndexGenerator', () => {
                 "storiesImports": Array [
                   "./src/A.stories.js",
                 ],
+                "tags": Array [
+                  "docs",
+                ],
                 "title": "A",
                 "type": "docs",
               },
@@ -631,6 +753,9 @@ describe('StoryIndexGenerator', () => {
                 "storiesImports": Array [
                   "./src/A.stories.js",
                 ],
+                "tags": Array [
+                  "docs",
+                ],
                 "title": "A",
                 "type": "docs",
               },
@@ -638,6 +763,10 @@ describe('StoryIndexGenerator', () => {
                 "id": "a--story-one",
                 "importPath": "./src/A.stories.js",
                 "name": "Story One",
+                "tags": Array [
+                  "story-tag",
+                  "story",
+                ],
                 "title": "A",
                 "type": "story",
               },
@@ -647,6 +776,9 @@ describe('StoryIndexGenerator', () => {
                 "name": "Info",
                 "standalone": true,
                 "storiesImports": Array [],
+                "tags": Array [
+                  "docs",
+                ],
                 "title": "docs2/Yabbadabbadooo",
                 "type": "docs",
               },
@@ -656,6 +788,9 @@ describe('StoryIndexGenerator', () => {
                 "name": "Info",
                 "standalone": true,
                 "storiesImports": Array [],
+                "tags": Array [
+                  "docs",
+                ],
                 "title": "NoTitle",
                 "type": "docs",
               },

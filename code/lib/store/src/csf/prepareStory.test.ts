@@ -51,7 +51,7 @@ beforeEach(() => {
 
 describe('prepareStory', () => {
   describe('tags', () => {
-    it('are combined in the right order', () => {
+    it('story tags override component', () => {
       const { tags } = prepareStory(
         { id, name, tags: ['story-1', 'story-2'], moduleExport },
         {
@@ -59,24 +59,30 @@ describe('prepareStory', () => {
           title,
           tags: ['component-1', 'component-2'],
         },
-        {
-          render,
-          parameters: {
-            a: { name: 'global' },
-            b: { name: 'global' },
-            c: { name: 'global' },
-            nested: { z: { name: 'global' }, x: { name: 'global' } },
-          },
-        }
+        { render }
       );
 
-      expect(tags).toEqual(['story-1', 'story-2', 'component-1', 'component-2']);
+      expect(tags).toEqual(['story-1', 'story-2', 'story']);
+    });
+
+    it('component tags work if story are unset', () => {
+      const { tags } = prepareStory(
+        { id, name, moduleExport },
+        {
+          id,
+          title,
+          tags: ['component-1', 'component-2'],
+        },
+        { render }
+      );
+
+      expect(tags).toEqual(['component-1', 'component-2', 'story']);
     });
 
     it('sets a value even if annotations do not have tags', () => {
       const { tags } = prepareStory({ id, name, moduleExport }, { id, title }, { render });
 
-      expect(tags).toEqual([]);
+      expect(tags).toEqual(['story']);
     });
   });
 

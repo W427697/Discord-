@@ -7,19 +7,19 @@ import global from 'global';
 import { logger } from '@storybook/node-logger';
 import { telemetry } from '@storybook/telemetry';
 import type {
-  LoadOptions,
-  CLIOptions,
   BuilderOptions,
-  Options,
-  StorybookConfig,
+  CLIOptions,
   CoreConfig,
   DocsOptions,
+  LoadOptions,
+  Options,
+  StorybookConfig,
 } from '@storybook/types';
 import {
   loadAllPresets,
-  normalizeStories,
-  logConfig,
   loadMainConfig,
+  logConfig,
+  normalizeStories,
   resolveAddonName,
 } from '@storybook/core-common';
 

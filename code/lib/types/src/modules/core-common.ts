@@ -7,6 +7,7 @@ import type { Router } from 'express';
 import type { Server } from 'http';
 import type { PackageJson as PackageJsonFromTypeFest } from 'type-fest';
 import type { Parameters } from './csf';
+import { Tag } from '@storybook/csf';
 
 /**
  * ⚠️ This file contains internal WIP types they MUST NOT be exported outside this package for now!
@@ -208,10 +209,11 @@ export interface CoreCommon_IndexerOptions {
 export interface CoreCommon_IndexedStory {
   id: string;
   name: string;
+  tags?: Tag[];
   parameters?: Parameters;
 }
 export interface CoreCommon_StoryIndex {
-  meta: { title?: string };
+  meta: { title?: string; tags?: Tag[] };
   stories: CoreCommon_IndexedStory[];
 }
 

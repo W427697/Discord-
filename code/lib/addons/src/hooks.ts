@@ -2,12 +2,12 @@ import global from 'global';
 import { logger } from '@storybook/client-logger';
 import type {
   AnyFramework,
-  DecoratorFunction,
+  Args,
   DecoratorApplicator,
+  DecoratorFunction,
+  LegacyStoryFn,
   StoryContext,
   StoryId,
-  Args,
-  LegacyStoryFn,
 } from '@storybook/types';
 import {
   FORCE_RE_RENDER,

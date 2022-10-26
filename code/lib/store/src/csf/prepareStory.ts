@@ -4,22 +4,22 @@ import deprecate from 'util-deprecate';
 import global from 'global';
 
 import type {
-  Parameters,
-  Args,
-  LegacyStoryFn,
-  ArgsStoryFn,
-  StoryContextForEnhancers,
-  StoryContext,
   AnyFramework,
-  StrictArgTypes,
-  StoryContextForLoaders,
+  Args,
+  ArgsStoryFn,
+  LegacyStoryFn,
+  Parameters,
+  PlayFunction,
   PlayFunctionContext,
   StepLabel,
-  PlayFunction,
   Store_NormalizedComponentAnnotations,
-  Store_Story,
-  Store_NormalizedStoryAnnotations,
   Store_NormalizedProjectAnnotations,
+  Store_NormalizedStoryAnnotations,
+  Store_Story,
+  StoryContext,
+  StoryContextForEnhancers,
+  StoryContextForLoaders,
+  StrictArgTypes,
 } from '@storybook/types';
 import { includeConditionalArg } from '@storybook/csf';
 
@@ -54,7 +54,7 @@ export function prepareStory<TFramework extends AnyFramework>(
   const { moduleExport, id, name } = storyAnnotations;
   const { title } = componentAnnotations;
 
-  const tags = [...(storyAnnotations.tags || []), ...(componentAnnotations.tags || []), 'story'];
+  const tags = [...(storyAnnotations.tags || componentAnnotations.tags || []), 'story'];
 
   const parameters: Parameters = combineParameters(
     projectAnnotations.parameters,
