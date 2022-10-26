@@ -16,23 +16,26 @@ export default {
   },
 };
 
-export const Type = {
+export const AType = {
   play: async ({ canvasElement }) => {
+    await new Promise((r) => setTimeout(r, 0));
     const canvas = within(canvasElement);
     await userEvent.type(canvas.getByTestId('value'), 'test');
   },
 };
 
-export const Step = {
+export const BStep = {
   play: async ({ step }) => {
-    await step('Enter value', Type.play);
+    await new Promise((r) => setTimeout(r, 1000));
+    await step('Enter value', AType.play);
   },
 };
 
-export const Callback = {
+export const CCallback = {
   play: async ({ args, canvasElement, step }) => {
+    await new Promise((r) => setTimeout(r, 2000));
     const canvas = within(canvasElement);
-    await step('Enter value', Type.play);
+    await step('Enter value', AType.play);
 
     await step('Submit', async () => {
       await fireEvent.click(canvas.getByRole('button'));
@@ -44,41 +47,46 @@ export const Callback = {
 
 // NOTE: of course you can use `findByText()` to implicitly waitFor, but we want
 // an explicit test here
-export const SyncWaitFor = {
+export const DSyncWaitFor = {
   play: async ({ canvasElement, step }) => {
+    await new Promise((r) => setTimeout(r, 3000));
     const canvas = within(canvasElement);
-    await step('Submit form', Callback.play);
+    await step('Submit form', CCallback.play);
     await waitFor(() => canvas.getByText('Completed!!'));
   },
 };
 
-export const AsyncWaitFor = {
+export const EAsyncWaitFor = {
   play: async ({ canvasElement, step }) => {
+    await new Promise((r) => setTimeout(r, 4000));
     const canvas = within(canvasElement);
-    await step('Submit form', Callback.play);
+    await step('Submit form', CCallback.play);
     await waitFor(async () => canvas.getByText('Completed!!'));
   },
 };
 
-export const WaitForElementToBeRemoved = {
+export const FWaitForElementToBeRemoved = {
   play: async ({ canvasElement, step }) => {
+    await new Promise((r) => setTimeout(r, 5000));
     const canvas = within(canvasElement);
-    await step('SyncWaitFor play fn', SyncWaitFor.play);
+    await step('SyncWaitFor play fn', DSyncWaitFor.play);
     await waitForElementToBeRemoved(() => canvas.queryByText('Completed!!'), {
       timeout: 2000,
     });
   },
 };
 
-export const WithLoaders = {
+export const GWithLoaders = {
   loaders: [async () => new Promise((resolve) => setTimeout(resolve, 2000))],
   play: async ({ step }) => {
-    await step('Submit form', Callback.play);
+    await new Promise((r) => setTimeout(r, 6000));
+    await step('Submit form', CCallback.play);
   },
 };
 
-export const Validation = {
+export const HValidation = {
   play: async (context) => {
+    await new Promise((r) => setTimeout(r, 7000));
     const { args, canvasElement, step } = context;
     const canvas = within(canvasElement);
 
