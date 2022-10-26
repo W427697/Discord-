@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import { SET_GLOBALS, UPDATE_GLOBALS, GLOBALS_UPDATED } from '@storybook/core-events';
 import { logger } from '@storybook/client-logger';
 import { dequal as deepEqual } from 'dequal';

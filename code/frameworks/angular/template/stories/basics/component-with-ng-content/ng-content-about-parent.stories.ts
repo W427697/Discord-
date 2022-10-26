@@ -29,7 +29,7 @@ export default {
     componentWrapperDecorator(
       (story) => `<sb-button [color]="propsColor">${story}</sb-button>`,
 
-      ({ args }) => ({ propsColor: args['color'] })
+      ({ args }) => ({ propsColor: args.color })
     ),
   ],
   argTypes: {
@@ -46,7 +46,7 @@ export const EmptyButton: StoryFn = () => ({
 });
 
 export const WithDynamicContentAndArgs: StoryFn = (args) => ({
-  template: `${args['content']}`,
+  template: `${args.content}`,
 });
 WithDynamicContentAndArgs.argTypes = {
   content: { control: 'text' },

@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import { dedent } from 'ts-dedent';
 import { logger } from '@storybook/node-logger';
 import { dirname } from 'path';

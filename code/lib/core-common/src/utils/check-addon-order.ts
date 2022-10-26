@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import type {
   CoreCommon_AddonEntry,
   CoreCommon_AddonInfo,

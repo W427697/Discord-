@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import React, { FC, useContext, useEffect, useState, useCallback } from 'react';
 import mapValues from 'lodash/mapValues';
 import type { ArgTypesExtractor } from '@storybook/docs-tools';

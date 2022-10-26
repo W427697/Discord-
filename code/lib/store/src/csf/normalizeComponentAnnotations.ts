@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import { sanitize } from '@storybook/csf';
 import type {
   AnyFramework,

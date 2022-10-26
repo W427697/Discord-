@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import global from 'global';
 import { toId, sanitize } from '@storybook/csf';
 import {
@@ -29,6 +28,7 @@ import type {
   API_StoryEntry,
   API_StoryIndex,
 } from '@storybook/types';
+// eslint-disable-next-line import/no-cycle
 import { getEventMetadata } from '../lib/events';
 // eslint-disable-next-line import/no-cycle
 import {

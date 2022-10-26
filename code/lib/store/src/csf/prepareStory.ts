@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import { dedent } from 'ts-dedent';
 import deprecate from 'util-deprecate';
 import global from 'global';

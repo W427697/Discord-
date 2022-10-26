@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import global from 'global';
 
 import { Channel } from '@storybook/channels';

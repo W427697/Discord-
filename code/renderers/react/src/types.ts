@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import type { ComponentType, ReactElement } from 'react';
 import type { AnyFramework } from '@storybook/types';
 

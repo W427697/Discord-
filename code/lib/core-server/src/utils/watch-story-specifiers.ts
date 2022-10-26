@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import Watchpack from 'watchpack';
 import slash from 'slash';
 import fs from 'fs';

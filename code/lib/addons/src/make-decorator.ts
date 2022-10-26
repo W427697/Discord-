@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import type { Addon_StoryWrapper, Addon_LegacyStoryFn, Addon_StoryContext } from '@storybook/types';
 
 type MakeDecoratorResult = (...args: any) => any;

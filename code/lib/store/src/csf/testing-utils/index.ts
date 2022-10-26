@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import { isExportStory } from '@storybook/csf';
 import type {
   AnyFramework,

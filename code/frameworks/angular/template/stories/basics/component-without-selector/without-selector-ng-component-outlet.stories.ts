@@ -67,7 +67,7 @@ WithCustomNgComponentOutletWrapper.decorators = [
   componentWrapperDecorator(NgComponentOutletWrapperComponent, (args) => ({
     name: args.name,
 
-    color: args['color'],
+    color: args.color,
     componentOutlet: WithoutSelectorComponent,
   })),
 ];

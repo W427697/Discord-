@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import { Preview } from '@storybook/preview-web';
 import type {
   AnyFramework,

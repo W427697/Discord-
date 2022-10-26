@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import { dedent } from 'ts-dedent';
 import global from 'global';
 import { SynchronousPromise } from 'synchronous-promise';

@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import fs from 'fs-extra';
 import { deprecate } from '@storybook/node-logger';
 import {

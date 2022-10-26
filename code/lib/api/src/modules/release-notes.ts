@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import global from 'global';
 import type { API_ReleaseNotes } from '@storybook/types';
 import memoize from 'memoizerific';

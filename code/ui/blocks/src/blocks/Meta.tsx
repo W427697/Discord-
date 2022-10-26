@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import React, { FC, useContext } from 'react';
 import type { BaseAnnotations, Store_ModuleExports } from '@storybook/types';
 

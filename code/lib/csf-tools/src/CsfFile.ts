@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 /* eslint-disable no-underscore-dangle */
 import fs from 'fs-extra';
 import { dedent } from 'ts-dedent';

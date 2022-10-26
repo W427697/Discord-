@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import mapValues from 'lodash/mapValues';
 import { logger } from '@storybook/client-logger';
 import type {

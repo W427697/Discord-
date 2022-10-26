@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import { logger } from '@storybook/node-logger';
 import type {
   CoreCommon_AddonEntry,

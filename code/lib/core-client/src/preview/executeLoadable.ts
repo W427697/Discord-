@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 /// <reference types="node" />
 /// <reference types="webpack-env" />
 

@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import React from 'react';
 import global from 'global';
 import type { Store_RenderContext } from '@storybook/types';
