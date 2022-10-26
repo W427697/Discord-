@@ -54,7 +54,7 @@ export function prepareStory<TFramework extends AnyFramework>(
   const { moduleExport, id, name } = storyAnnotations;
   const { title } = componentAnnotations;
 
-  const tags = [...(storyAnnotations.tags || []), ...(componentAnnotations.tags || []), 'story'];
+  const tags = [...(storyAnnotations.tags || componentAnnotations.tags || []), 'story'];
 
   const parameters: Parameters = combineParameters(
     projectAnnotations.parameters,

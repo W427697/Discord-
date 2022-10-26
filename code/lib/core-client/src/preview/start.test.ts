@@ -124,7 +124,9 @@ describe('start', () => {
                 "fileName": "file1",
                 "framework": "test",
               },
-              "tags": Array [],
+              "tags": Array [
+                "story",
+              ],
               "title": "Component A",
               "type": "story",
             },
@@ -142,7 +144,9 @@ describe('start', () => {
                 "fileName": "file1",
                 "framework": "test",
               },
-              "tags": Array [],
+              "tags": Array [
+                "story",
+              ],
               "title": "Component A",
               "type": "story",
             },
@@ -160,7 +164,9 @@ describe('start', () => {
                 "fileName": "file2",
                 "framework": "test",
               },
-              "tags": Array [],
+              "tags": Array [
+                "story",
+              ],
               "title": "Component B",
               "type": "story",
             },
@@ -406,7 +412,9 @@ describe('start', () => {
                 "fileName": "file1",
                 "framework": "test",
               },
-              "tags": Array [],
+              "tags": Array [
+                "story",
+              ],
               "title": "Component A",
               "type": "story",
             },
@@ -424,7 +432,9 @@ describe('start', () => {
                 "fileName": "file1",
                 "framework": "test",
               },
-              "tags": Array [],
+              "tags": Array [
+                "story",
+              ],
               "title": "Component A",
               "type": "story",
             },
@@ -473,7 +483,9 @@ describe('start', () => {
                 "fileName": "file1",
                 "framework": "test",
               },
-              "tags": Array [],
+              "tags": Array [
+                "story",
+              ],
               "title": "Component A",
               "type": "story",
             },
@@ -491,7 +503,9 @@ describe('start', () => {
                 "fileName": "file2",
                 "framework": "test",
               },
-              "tags": Array [],
+              "tags": Array [
+                "story",
+              ],
               "title": "Component B",
               "type": "story",
             },
@@ -521,7 +535,9 @@ describe('start', () => {
                 "fileName": "file1",
                 "framework": "test",
               },
-              "tags": Array [],
+              "tags": Array [
+                "story",
+              ],
               "title": "Component A",
               "type": "story",
             },
@@ -535,11 +551,11 @@ describe('start', () => {
   const componentCExports = {
     default: {
       title: 'Component C',
-      tags: ['component'],
+      tags: ['component-tag'],
     },
     StoryOne: {
       render: jest.fn(),
-      tags: ['story'],
+      tags: ['story-tag'],
     },
     StoryTwo: jest.fn(),
   };
@@ -570,8 +586,8 @@ describe('start', () => {
                 "framework": "test",
               },
               "tags": Array [
+                "story-tag",
                 "story",
-                "component",
               ],
               "title": "Component C",
               "type": "story",
@@ -590,7 +606,8 @@ describe('start', () => {
                 "framework": "test",
               },
               "tags": Array [
-                "component",
+                "component-tag",
+                "story",
               ],
               "title": "Component C",
               "type": "story",
@@ -691,8 +708,8 @@ describe('start', () => {
                 "framework": "test",
               },
               "tags": Array [
+                "story-tag",
                 "story",
-                "component",
               ],
               "title": "Component C",
               "type": "story",
@@ -711,7 +728,8 @@ describe('start', () => {
                 "framework": "test",
               },
               "tags": Array [
-                "component",
+                "component-tag",
+                "story",
               ],
               "title": "Component C",
               "type": "story",
@@ -730,7 +748,8 @@ describe('start', () => {
                 "framework": "test",
               },
               "tags": Array [
-                "component",
+                "component-tag",
+                "story",
               ],
               "title": "Component C",
               "type": "story",
@@ -781,8 +800,8 @@ describe('start', () => {
                 "framework": "test",
               },
               "tags": Array [
+                "story-tag",
                 "story",
-                "component",
               ],
               "title": "Component C",
               "type": "story",
@@ -801,7 +820,8 @@ describe('start', () => {
                 "framework": "test",
               },
               "tags": Array [
-                "component",
+                "component-tag",
+                "story",
               ],
               "title": "Component C",
               "type": "story",
@@ -819,7 +839,9 @@ describe('start', () => {
                 "fileName": "exports-map-1",
                 "framework": "test",
               },
-              "tags": Array [],
+              "tags": Array [
+                "story",
+              ],
               "title": "Component D",
               "type": "story",
             },
@@ -852,8 +874,8 @@ describe('start', () => {
                 "framework": "test",
               },
               "tags": Array [
+                "story-tag",
                 "story",
-                "component",
               ],
               "title": "Component C",
               "type": "story",
@@ -872,7 +894,8 @@ describe('start', () => {
                 "framework": "test",
               },
               "tags": Array [
-                "component",
+                "component-tag",
+                "story",
               ],
               "title": "Component C",
               "type": "story",
@@ -945,6 +968,9 @@ describe('start', () => {
                 "name": undefined,
                 "standalone": false,
                 "storiesImports": Array [],
+                "tags": Array [
+                  "docs",
+                ],
                 "title": "Introduction",
                 "type": "docs",
               },
@@ -996,7 +1022,9 @@ describe('start', () => {
                 "fileName": "file1",
                 "framework": "test",
               },
-              "tags": Array [],
+              "tags": Array [
+                "story",
+              ],
               "title": "Component A",
               "type": "story",
             },
@@ -1014,7 +1042,9 @@ describe('start', () => {
                 "fileName": "file1",
                 "framework": "test",
               },
-              "tags": Array [],
+              "tags": Array [
+                "story",
+              ],
               "title": "Component A",
               "type": "story",
             },
@@ -1032,7 +1062,9 @@ describe('start', () => {
                 "fileName": "file2",
                 "framework": "test",
               },
-              "tags": Array [],
+              "tags": Array [
+                "story",
+              ],
               "title": "Component B",
               "type": "story",
             },
@@ -1050,8 +1082,8 @@ describe('start', () => {
                 "framework": "test",
               },
               "tags": Array [
+                "story-tag",
                 "story",
-                "component",
               ],
               "title": "Component C",
               "type": "story",
@@ -1070,7 +1102,8 @@ describe('start', () => {
                 "framework": "test",
               },
               "tags": Array [
-                "component",
+                "component-tag",
+                "story",
               ],
               "title": "Component C",
               "type": "story",
@@ -1131,7 +1164,9 @@ describe('start', () => {
                 "fileName": "exports-map-0",
                 "framework": "test",
               },
-              "tags": Array [],
+              "tags": Array [
+                "story",
+              ],
               "title": "auto-title",
               "type": "story",
             },
