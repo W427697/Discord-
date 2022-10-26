@@ -9,7 +9,7 @@ import { useMenu } from '../../containers/menu';
 
 export default {
   component: MenuItemIcon,
-  title: 'UI/Sidebar/Menu',
+  title: 'Sidebar/Menu',
   decorators: [
     (StoryFn: FunctionComponent) => (
       <Fragment>

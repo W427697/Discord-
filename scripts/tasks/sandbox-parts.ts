@@ -296,8 +296,8 @@ function addExtraDependencies({
   // web-components doesn't install '@storybook/testing-library' by default
   const extraDeps = [
     '@storybook/jest',
-    '@storybook/testing-library@0.0.14-next.0',
-    '@storybook/test-runner',
+    '@storybook/testing-library@next',
+    '@storybook/test-runner@next',
   ];
   if (debug) logger.log('🎁 Adding extra deps', extraDeps);
   if (!dryRun) {

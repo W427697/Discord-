@@ -125,38 +125,6 @@ jobs:
             - code/ui
             - code/renderers
             - code/presets
-  chromatic:
-    executor: sb_node_16_browsers
-    parallelism: 15
-    steps:
-      # Keep using default checkout because Chromatic needs some git history to work properly
-      - checkout
-      - attach_workspace:
-          at: .
-      - run:
-          name: chromatic
-          command: |
-            cd code
-            yarn run-chromatics
-  examples:
-    executor:
-      class: medium+
-      name: sb_node_16_browsers
-    parallelism: 3
-    steps:
-      - git-shallow-clone/checkout_advanced:
-          clone_options: '--depth 1 --verbose'
-      - attach_workspace:
-          at: .
-      - run:
-          name: examples
-          command: |
-            cd code
-            yarn build-storybooks --all
-      - persist_to_workspace:
-          root: .
-          paths:
-            - code/built-storybooks
   publish:
     executor:
       class: medium
@@ -175,30 +143,6 @@ jobs:
           root: .
           paths:
             - .verdaccio-cache
-  # NOTE: this currently tests each story in docs mode, which doesn't make sense any more as stories
-  #   can no longer run in docs mode. Instead we should probably change the test runner to test each
-  #   docs entry if you run it in `VIEW_MODE=docs`
-  # e2e-tests-sb-docs:
-  #   executor:
-  #     class: large
-  #     name: sb_cypress_8_node_14
-  #   parallelism: 8
-  #   steps:
-  #     - git-shallow-clone/checkout_advanced:
-  #         clone_options: '--depth 1 --verbose'
-  #     - attach_workspace:
-  #         at: .
-  #     - run:
-  #         name: Running local registry
-  #         command: yarn local-registry --port 6001 --open
-  #         background: true
-  #     - run:
-  #         name: Wait for registry
-  #         command: yarn wait-on http://localhost:6001
-  #     - run:
-  #         name: Run smoke tests
-  #         command: yarn test:e2e-framework angular_modern_inline_rendering --test-runner --docs-mode
-  #         no_output_timeout: 5m
   cra-bench:
     executor:
       class: medium+
@@ -279,25 +223,6 @@ jobs:
       - store_artifacts:
           path: /tmp/sb-bench.tar.gz
           destination: sb-bench.tar.gz
-  smoke-tests:
-    executor:
-      class: medium+
-      name: sb_node_16_browsers
-    environment:
-      # Disable ESLint when running smoke tests to improve perf + As of CRA 4.0.3, CRA kitchen sinks are throwing
-      # because of some ESLint warnings, related to: https://github.com/facebook/create-react-app/pull/10590
-      DISABLE_ESLINT_PLUGIN: 'true'
-    parallelism: 4
-    steps:
-      - git-shallow-clone/checkout_advanced:
-          clone_options: '--depth 1 --verbose'
-      - attach_workspace:
-          at: .
-      - run:
-          name: smoke tests
-          command: |
-            cd code
-            yarn smoketest-storybooks --all
   lint:
     executor:
       class: medium
@@ -358,7 +283,22 @@ jobs:
           command: |
             cd code
             yarn coverage
-
+  chromatic-storybook-ui:
+    executor:
+      class: medium+
+      name: sb_node_16_browsers
+    steps:
+      - git-shallow-clone/checkout_advanced:
+          clone_options: '--depth 1 --verbose'
+      - attach_workspace:
+          at: .
+      - run:
+          name: Running Chromatic
+          command: |
+            cd code
+            yarn storybook:ui:chromatic
+      - store_test_results:
+          path: test-results
   ## new workflow
   create-sandboxes:
     executor:
@@ -472,24 +412,18 @@ workflows:
       - check:
           requires:
             - build
-      - examples:
-          requires:
-            - build
-      - smoke-tests:
-          requires:
-            - build
       - unit-tests:
           requires:
             - build
       - script-unit-tests:
           requires:
             - build
+      - chromatic-storybook-ui:
+          requires:
+            - build
       - coverage:
           requires:
             - unit-tests
-      - chromatic:
-          requires:
-            - examples
       - publish:
           requires:
             - build
