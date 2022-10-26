@@ -114,18 +114,22 @@ export {
   StrictInputType,
 };
 
+export type CSF_Tag = string;
+
 export interface CSF_Meta {
   id?: string;
   title?: string;
   component?: string;
   includeStories?: string[] | RegExp;
   excludeStories?: string[] | RegExp;
+  tags?: CSF_Tag[];
 }
 
 export interface CSF_Story {
   id: string;
   name: string;
   parameters: Parameters;
+  tags?: CSF_Tag[];
 }
 
 export type ViewMode = ViewModeBase | 'story' | 'info' | 'settings' | string | undefined;
