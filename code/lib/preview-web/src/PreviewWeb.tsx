@@ -83,9 +83,9 @@ export class PreviewWeb<
     view = new WebView() as any,
     selectionStore = new UrlStore(),
   }: {
-    view: View<TRootElement>;
-    selectionStore: SelectionStore;
-  }) {
+    view?: View<TRootElement>;
+    selectionStore?: SelectionStore;
+  } = {}) {
     super();
 
     this.view = view;
