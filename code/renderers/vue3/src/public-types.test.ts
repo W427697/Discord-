@@ -3,11 +3,11 @@ import { ComponentAnnotations, StoryAnnotations } from '@storybook/csf';
 import { expectTypeOf } from 'expect-type';
 import { SetOptional } from 'type-fest';
 import { ComponentOptions, FunctionalComponent, h } from 'vue';
-import Button from './__tests__/Button.vue';
-import Decorator2TsVue from './__tests__/Decorator2.vue';
-import DecoratorTsVue from './__tests__/Decorator.vue';
 import { DecoratorFn, Meta, StoryObj } from './public-types';
 import { VueFramework } from './types';
+import Button from './__tests__/Button.vue';
+import DecoratorTsVue from './__tests__/Decorator.vue';
+import Decorator2TsVue from './__tests__/Decorator2.vue';
 
 describe('Meta', () => {
   test('Generic parameter of Meta can be a component', () => {
