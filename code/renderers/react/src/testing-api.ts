@@ -5,11 +5,11 @@ import {
   setProjectAnnotations as originalSetProjectAnnotations,
 } from '@storybook/store';
 import type {
-  Store_CSFExports,
-  Store_ComposedStory,
-  Store_StoriesWithPartialProps,
-  ProjectAnnotations,
   Args,
+  ProjectAnnotations,
+  Store_ComposedStory,
+  Store_CSFExports,
+  Store_StoriesWithPartialProps,
 } from '@storybook/types';
 import { deprecate } from '@storybook/client-logger';
 

@@ -19,16 +19,16 @@ import { Channel } from '@storybook/channels';
 import { addons } from '@storybook/addons';
 import type {
   AnyFramework,
-  StoryId,
-  ProjectAnnotations,
   Args,
   Globals,
+  ProjectAnnotations,
   Store_ModuleImportFn,
+  Store_PromiseLike,
+  Store_RenderToDOM,
   Store_Story,
   Store_StoryIndex,
-  Store_PromiseLike,
   Store_WebProjectAnnotations,
-  Store_RenderToDOM,
+  StoryId,
 } from '@storybook/types';
 import { StoryStore } from '@storybook/store';
 

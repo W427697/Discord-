@@ -2,14 +2,14 @@
 import { isExportStory } from '@storybook/csf';
 import type {
   AnyFramework,
-  ComponentAnnotations,
-  ProjectAnnotations,
   Args,
-  StoryContext,
+  ComponentAnnotations,
   LegacyStoryAnnotationsOrFn,
+  ProjectAnnotations,
+  Store_ComposedStoryPlayFn,
   Store_ComposeStory,
   Store_CSFExports,
-  Store_ComposedStoryPlayFn,
+  StoryContext,
 } from '@storybook/types';
 
 import { HooksContext } from '@storybook/addons';
