@@ -2,7 +2,7 @@
 /* eslint-disable import/no-cycle */
 import type { RenderData as RouterData } from '../../../router/src/router';
 import type { ThemeVars } from '../../../theming/src/types';
-import {
+import type {
   AnyFramework,
   Args,
   ArgsStoryFn as ArgsStoryFnForFramework,

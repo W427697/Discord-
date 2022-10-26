@@ -59,7 +59,7 @@ import type {
 } from '@storybook/csf';
 import { Addon_OptionsParameter } from './addons';
 
-export {
+export type {
   AnnotatedStoryFn,
   AnyFramework,
   Args,

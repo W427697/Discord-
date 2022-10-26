@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import { Store_RenderContext } from './store';
+import type { Store_RenderContext } from './store';
 // import { Store_RenderContext, Store_WebProjectAnnotations } from './store';
 // import { ArgsStoryFn } from './csf';
 
