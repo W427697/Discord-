@@ -251,7 +251,7 @@ describe('PreviewWeb', () => {
 
       const preview = await createAndRenderPreview();
 
-      expect(preview.urlStore.selection).toEqual({
+      expect(preview.selectionStore.selection).toEqual({
         storyId: 'component-one--a',
         viewMode: 'story',
       });
