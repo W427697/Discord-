@@ -692,9 +692,7 @@ import * as previewAnnotations from '../.storybook/preview';
 
 export default function App({ Component, pageProps }) {
   return (
-    <ExternalDocs
-      projectAnnotationsList={[reactAnnotations, previewAnnotations]}
-    >
+    <ExternalDocs projectAnnotationsList={[reactAnnotations, previewAnnotations]}>
       <Component {...pageProps} />
     </ExternalDocs>
   );
@@ -728,17 +726,41 @@ export const MyStory: Story = () => <div />;
 ```
 
 But this will produce a deprecation warning in 7.0 because `Story` has been deprecated.
-To fix the deprecation wanring, use the `StoryFn` type:
+To fix the deprecation warning, use the `StoryFn` type:
 
-```js
+```ts
 import type { StoryFn } from '@storybook/react';
 
 export const MyStory: StoryFn = () => <div />;
 ```
 
 This change is part of our move to CSF3, which uses objects instead of functions to represent stories.
-
 You can read more about the CSF3 format here: https://storybook.js.org/blog/component-story-format-3-0/
+
+#### `ComponentStory`, `ComponentStoryObj`, `ComponentStoryFn` and `ComponentMeta` types are deprecated
+
+We have changed the type of StoryObj and StoryFn in 7.0 so that both the component as the props of the component will be accepted as the generic parameter.
+
+```ts
+import type { Story } from '@storybook/react';
+import { Button, ButtonProps } from './Button';
+
+// This works in 7.0, making the ComponentX types redundant.
+const meta: Meta<typeof Button> = { component: Button };
+
+export const CSF3Story: StoryObj<typeof Button> = { args: { label: 'Label' } };
+
+export const CSF2Story: StoryFn<typeof Button> = (args) => <Button {...args} />;
+CSF2Story.args = { label: 'Label' };
+
+// Passing props directly still works as well.
+const meta: Meta<ButtonProps> = { component: Button };
+
+export const CSF3Story: StoryObj<ButtonProps> = { args: { label: 'Label' } };
+
+export const CSF2Story: StoryFn<ButtonProps> = (args) => <Button {...args} />;
+CSF2Story.args = { label: 'Label' };
+```
 
 ## From version 6.4.x to 6.5.0
 
@@ -841,8 +863,7 @@ import startCase from 'lodash/startCase';
 
 addons.setConfig({
   sidebar: {
-    renderLabel: ({ name, type }) =>
-      type === 'story' ? name : startCase(name),
+    renderLabel: ({ name, type }) => (type === 'story' ? name : startCase(name)),
   },
 });
 ```
@@ -1287,11 +1308,7 @@ After:
 ```js
 // .storybook/main.js
 module.exports = {
-  staticDirs: [
-    '../public',
-    '../static',
-    { from: '../foo/assets', to: '/assets' },
-  ],
+  staticDirs: ['../public', '../static', { from: '../foo/assets', to: '/assets' }],
 };
 ```
 
@@ -1839,17 +1856,13 @@ This breaking change only affects you if your stories actually use the context, 
 Consider the following story that uses the context:
 
 ```js
-export const Dummy = ({ parameters }) => (
-  <div>{JSON.stringify(parameters)}</div>
-);
+export const Dummy = ({ parameters }) => <div>{JSON.stringify(parameters)}</div>;
 ```
 
 Here's an updated story for 6.0 that ignores the args object:
 
 ```js
-export const Dummy = (_args, { parameters }) => (
-  <div>{JSON.stringify(parameters)}</div>
-);
+export const Dummy = (_args, { parameters }) => <div>{JSON.stringify(parameters)}</div>;
 ```
 
 Alternatively, if you want to opt out of the new behavior, you can add the following to your `.storybook/preview.js` config:
@@ -2639,9 +2652,7 @@ For example, here's how to sort by story ID using `storySort`:
 addParameters({
   options: {
     storySort: (a, b) =>
-      a[1].kind === b[1].kind
-        ? 0
-        : a[1].id.localeCompare(b[1].id, undefined, { numeric: true }),
+      a[1].kind === b[1].kind ? 0 : a[1].id.localeCompare(b[1].id, undefined, { numeric: true }),
   },
 });
 ```
@@ -2687,9 +2698,7 @@ Storybook 5.1 relies on `core-js@^3.0.0` and therefore causes a conflict with An
 {
   "compilerOptions": {
     "paths": {
-      "core-js/es7/reflect": [
-        "node_modules/core-js/proposals/reflect-metadata"
-      ],
+      "core-js/es7/reflect": ["node_modules/core-js/proposals/reflect-metadata"],
       "core-js/es6/*": ["node_modules/core-js/es"]
     }
   }
