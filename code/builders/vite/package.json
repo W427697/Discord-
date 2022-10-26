@@ -2,11 +2,14 @@
   "name": "@storybook/builder-vite",
   "version": "7.0.0-alpha.43",
   "description": "A plugin to run and build Storybooks with Vite",
-  "homepage": "https://github.com/storybookjs/storybook/tree/main/code/lib/builder-vite/#readme",
+  "keywords": [
+    "storybook"
+  ],
+  "homepage": "https://github.com/storybookjs/storybook/tree/main/code/builders/vite/#readme",
   "repository": {
     "type": "git",
     "url": "https://github.com/storybookjs/storybook.git",
-    "directory": "code/lib/builder-vite"
+    "directory": "code/builders/vite"
   },
   "license": "MIT",
   "author": "Eirik Sletteberg",

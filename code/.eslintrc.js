@@ -145,7 +145,7 @@ module.exports = {
       },
     },
     {
-      files: ['**/builder-vite/input/iframe.html'],
+      files: ['**/builders/vite/input/iframe.html'],
       rules: {
         'no-undef': 'off', // ignore "window" undef errors
       },

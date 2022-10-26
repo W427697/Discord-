@@ -5,14 +5,14 @@
   "keywords": [
     "storybook"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/main/lib/core",
-  "bugs": {
-    "url": "https://github.com/storybookjs/storybook/issues"
-  },
+  "homepage": "https://github.com/storybookjs/storybook/tree/main/code/builders/webpack/#readme",
   "repository": {
     "type": "git",
     "url": "https://github.com/storybookjs/storybook.git",
-    "directory": "lib/core"
+    "directory": "code/builders/webpack5"
+  },
+  "bugs": {
+    "url": "https://github.com/storybookjs/storybook/issues"
   },
   "funding": {
     "type": "opencollective",

@@ -41,14 +41,12 @@
     "packages": [
       "addons/*",
       "addons/storyshots/*",
-      "examples/*",
-      "examples-native/*",
+      "builders/*",
       "frameworks/*",
       "lib/*",
-      "lib/cli/test/run/*",
-      "ui/*",
       "presets/*",
-      "renderers/*"
+      "renderers/*",
+      "ui/*"
     ]
   },
   "scripts": {

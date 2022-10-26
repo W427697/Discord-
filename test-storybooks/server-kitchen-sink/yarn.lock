@@ -1772,9 +1772,9 @@ __metadata:
   languageName: node
   linkType: soft
 
-"@storybook/builder-manager@portal:../../code/lib/builder-manager::locator=server-kitchen-sink%40workspace%3A.":
+"@storybook/builder-manager@portal:../../code/builders/manager::locator=server-kitchen-sink%40workspace%3A.":
   version: 0.0.0-use.local
-  resolution: "@storybook/builder-manager@portal:../../code/lib/builder-manager::locator=server-kitchen-sink%40workspace%3A."
+  resolution: "@storybook/builder-manager@portal:../../code/builders/manager::locator=server-kitchen-sink%40workspace%3A."
   dependencies:
     "@fal-works/esbuild-plugin-global-externals": ^2.1.2
     "@storybook/core-common": 7.0.0-alpha.42
@@ -1793,9 +1793,9 @@ __metadata:
   languageName: node
   linkType: soft
 
-"@storybook/builder-webpack5@portal:../../code/lib/builder-webpack5::locator=server-kitchen-sink%40workspace%3A.":
+"@storybook/builder-webpack5@portal:../../code/builders/webpack5::locator=server-kitchen-sink%40workspace%3A.":
   version: 0.0.0-use.local
-  resolution: "@storybook/builder-webpack5@portal:../../code/lib/builder-webpack5::locator=server-kitchen-sink%40workspace%3A."
+  resolution: "@storybook/builder-webpack5@portal:../../code/builders/webpack5::locator=server-kitchen-sink%40workspace%3A."
   dependencies:
     "@babel/core": ^7.12.10
     "@storybook/addons": 7.0.0-alpha.42
