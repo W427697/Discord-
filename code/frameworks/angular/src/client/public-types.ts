@@ -30,7 +30,8 @@ export type StoryFn<TArgs = Args> = AnnotatedStoryFn<AngularFramework, TArgs>;
 export type StoryObj<TArgs = Args> = StoryAnnotations<AngularFramework, TArgs>;
 
 /**
- * @deprecated Use `StoryFn` instead. Use `StoryObj` if you want to migrate to CSF3, which uses objects instead of functions to represent stories.
+ * @deprecated Use `StoryFn` instead.
+ * Use `StoryObj` if you want to migrate to CSF3, which uses objects instead of functions to represent stories.
  * You can read more about the CSF3 format here: https://storybook.js.org/blog/component-story-format-3-0/
  *
  * Story function that represents a CSFv2 component example.
