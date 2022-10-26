@@ -312,7 +312,7 @@ jobs:
           name: Running Chromatic
           command: |
             cd code
-            yarn storybook:blocks:chrmoatic
+            yarn storybook:blocks:chromatic
       - store_test_results:
           path: test-results
   ## new workflow
