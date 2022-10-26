@@ -7,7 +7,7 @@ export abstract class View<TRootElement> {
 
   abstract prepareForDocs(): TRootElement;
 
-  abstract showErrorDisplay(err: { message: string; stack: string }): void;
+  abstract showErrorDisplay(err: { message?: string; stack?: string }): void;
 
   abstract showNoPreview(): void;
 
