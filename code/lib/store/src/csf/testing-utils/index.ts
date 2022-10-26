@@ -1,15 +1,14 @@
-/* eslint-disable camelcase */
 import { isExportStory } from '@storybook/csf';
 import type {
   AnyFramework,
-  ComponentAnnotations,
-  ProjectAnnotations,
   Args,
-  StoryContext,
+  ComponentAnnotations,
   LegacyStoryAnnotationsOrFn,
+  ProjectAnnotations,
+  Store_ComposedStoryPlayFn,
   Store_ComposeStory,
   Store_CSFExports,
-  Store_ComposedStoryPlayFn,
+  StoryContext,
 } from '@storybook/types';
 
 import { HooksContext } from '@storybook/addons';
@@ -99,6 +98,7 @@ export function composeStories<TModule extends Store_CSFExports>(
   globalConfig: ProjectAnnotations<AnyFramework>,
   composeStoryFn: Store_ComposeStory
 ) {
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   const { default: meta, __esModule, __namedExportsOrder, ...stories } = storiesImport;
   const composedStories = Object.entries(stories).reduce((storiesMap, [exportsName, story]) => {
     if (!isExportStory(exportsName, meta)) {

@@ -37,7 +37,6 @@ class NgComponentOutletWrapperComponent implements OnInit {
     [document.createTextNode('https://angular.io/api/common/NgComponentOutlet')],
   ];
 
-  // eslint-disable-next-line no-useless-constructor
   constructor(private readonly injector: Injector) {}
 
   ngOnInit(): void {
@@ -67,7 +66,7 @@ WithCustomNgComponentOutletWrapper.decorators = [
   }),
   componentWrapperDecorator(NgComponentOutletWrapperComponent, (args) => ({
     name: args.name,
-    // eslint-disable-next-line dot-notation
+
     color: args['color'],
     componentOutlet: WithoutSelectorComponent,
   })),

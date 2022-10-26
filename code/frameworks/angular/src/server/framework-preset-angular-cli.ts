@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import webpack from 'webpack';
 import { logger } from '@storybook/node-logger';
 import { targetFromTargetString, BuilderContext, Target } from '@angular-devkit/architect';

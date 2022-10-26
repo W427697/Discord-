@@ -32,24 +32,26 @@ const Zoom = React.memo<{
   zoomIn: MouseEventHandler;
   zoomOut: MouseEventHandler;
   reset: MouseEventHandler;
-}>(({ zoomIn, zoomOut, reset }) => (
-  <>
-    <IconButton key="zoomin" onClick={zoomIn} title="Zoom in">
-      <Icons icon="zoom" />
-    </IconButton>
-    <IconButton key="zoomout" onClick={zoomOut} title="Zoom out">
-      <Icons icon="zoomout" />
-    </IconButton>
-    <IconButton key="zoomreset" onClick={reset} title="Reset zoom">
-      <Icons icon="zoomreset" />
-    </IconButton>
-  </>
-));
+}>(function Zoom({ zoomIn, zoomOut, reset }) {
+  return (
+    <>
+      <IconButton key="zoomin" onClick={zoomIn} title="Zoom in">
+        <Icons icon="zoom" />
+      </IconButton>
+      <IconButton key="zoomout" onClick={zoomOut} title="Zoom out">
+        <Icons icon="zoomout" />
+      </IconButton>
+      <IconButton key="zoomreset" onClick={reset} title="Reset zoom">
+        <Icons icon="zoomreset" />
+      </IconButton>
+    </>
+  );
+});
 
 export { Zoom, ZoomConsumer, ZoomProvider };
 
 const ZoomWrapper = React.memo<{ set: (zoomLevel: number) => void; value: number }>(
-  ({ set, value }) => {
+  function ZoomWrapper({ set, value }) {
     const zoomIn = useCallback(
       (e: SyntheticEvent) => {
         e.preventDefault();
@@ -79,10 +81,12 @@ export const zoomTool: Addon = {
   title: 'zoom',
   id: 'zoom',
   match: ({ viewMode }) => viewMode === 'story',
-  render: React.memo(() => (
-    <>
-      <ZoomConsumer>{({ set, value }) => <ZoomWrapper {...{ set, value }} />}</ZoomConsumer>
-      <Separator />
-    </>
-  )),
+  render: React.memo(function ZoomToolRenderer() {
+    return (
+      <>
+        <ZoomConsumer>{({ set, value }) => <ZoomWrapper {...{ set, value }} />}</ZoomConsumer>
+        <Separator />
+      </>
+    );
+  }),
 };

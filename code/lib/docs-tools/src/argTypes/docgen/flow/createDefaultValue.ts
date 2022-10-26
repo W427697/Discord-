@@ -1,5 +1,6 @@
 import { PropDefaultValue } from '../PropDef';
 import { DocgenPropDefaultValue, DocgenPropType } from '../types';
+// eslint-disable-next-line import/no-cycle
 import { createSummaryValue, isTooLongForDefaultValueSummary } from '../../utils';
 import { isDefaultValueBlacklisted } from '../utils/defaultValue';
 

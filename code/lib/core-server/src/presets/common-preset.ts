@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import fs from 'fs-extra';
 import { deprecate } from '@storybook/node-logger';
 import {
@@ -8,12 +7,12 @@ import {
   loadEnvs,
 } from '@storybook/core-common';
 import type {
-  Options,
   CLIOptions,
-  CoreConfig,
-  StorybookConfig,
-  CoreCommon_StoryIndexer,
   CoreCommon_IndexerOptions,
+  CoreCommon_StoryIndexer,
+  CoreConfig,
+  Options,
+  StorybookConfig,
 } from '@storybook/types';
 import { loadCsf } from '@storybook/csf-tools';
 

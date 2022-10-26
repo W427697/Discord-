@@ -1,8 +1,8 @@
-/* eslint-disable camelcase */
+/* eslint-disable @typescript-eslint/naming-convention */
 import React, {
   Component,
-  Fragment,
   FC,
+  Fragment,
   ReactElement,
   ReactNode,
   useCallback,
@@ -15,21 +15,21 @@ import mergeWith from 'lodash/mergeWith';
 import type {
   API_Args,
   API_ArgTypes,
-  API_OptionsData,
-  API_ProviderData,
-  API_StateMerger,
-  StoryId,
-  API_StoriesHash,
-  API_RootEntry,
-  API_GroupEntry,
   API_ComponentEntry,
+  API_ComposedRef,
   API_DocsEntry,
-  API_StoryEntry,
+  API_GroupEntry,
   API_HashEntry,
   API_LeafEntry,
-  API_ComposedRef,
+  API_OptionsData,
+  API_ProviderData,
   API_Refs,
+  API_RootEntry,
+  API_StateMerger,
+  API_StoriesHash,
+  API_StoryEntry,
   Parameters,
+  StoryId,
 } from '@storybook/types';
 
 import {
@@ -46,17 +46,24 @@ import Store, { Options } from './store';
 import getInitialState from './initial-state';
 
 import * as provider from './modules/provider';
+
 import * as addons from './modules/addons';
+
 import * as channel from './modules/channel';
+
 import * as notifications from './modules/notifications';
 import * as settings from './modules/settings';
 import * as releaseNotes from './modules/release-notes';
+// eslint-disable-next-line import/no-cycle
 import * as stories from './modules/stories';
+// eslint-disable-next-line import/no-cycle
 import * as refs from './modules/refs';
 import * as layout from './modules/layout';
 import * as shortcuts from './modules/shortcuts';
+
 import * as url from './modules/url';
 import * as version from './modules/versions';
+// eslint-disable-next-line import/no-cycle
 import * as globals from './modules/globals';
 
 const { ActiveTabs } = layout;

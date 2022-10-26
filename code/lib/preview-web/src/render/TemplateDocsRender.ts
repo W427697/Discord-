@@ -1,10 +1,9 @@
-/* eslint-disable camelcase */
 import type {
+  Addon_IndexEntry,
   AnyFramework,
-  StoryId,
   Store_CSFFile,
   Store_Story,
-  Addon_IndexEntry,
+  StoryId,
 } from '@storybook/types';
 import { StoryStore } from '@storybook/store';
 import type { Channel } from '@storybook/channels';

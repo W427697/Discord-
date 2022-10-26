@@ -71,7 +71,7 @@ const DEFAULT_BACKGROUNDS_CONFIG: BackgroundsParameter = {
   values: [],
 };
 
-export const BackgroundSelector: FC = memo(() => {
+export const BackgroundSelector: FC = memo(function BackgroundSelector() {
   const backgroundsConfig = useParameter<BackgroundsParameter>(
     BACKGROUNDS_PARAM_KEY,
     DEFAULT_BACKGROUNDS_CONFIG

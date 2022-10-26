@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import type {
   Addon_StorySortComparatorV7,
   Addon_StorySortObjectParameter,

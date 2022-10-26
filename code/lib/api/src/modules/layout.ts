@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import global from 'global';
 import pick from 'lodash/pick';
 import { dequal as deepEqual } from 'dequal';

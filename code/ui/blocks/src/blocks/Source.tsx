@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import React, { ComponentProps, FC, useContext } from 'react';
 import type { StoryId, Store_Story } from '@storybook/types';
 import { SourceType } from '@storybook/docs-tools';

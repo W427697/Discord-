@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import { jest, describe, it, expect } from '@jest/globals';
 import { Channel } from '@storybook/channels';
 import type { AnyFramework, Addon_StandaloneDocsIndexEntry } from '@storybook/types';

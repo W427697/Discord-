@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import React, { FC, useContext, useEffect, useState, useCallback } from 'react';
 import mapValues from 'lodash/mapValues';
 import type { ArgTypesExtractor } from '@storybook/docs-tools';
@@ -166,6 +165,7 @@ export const StoryTable: FC<
     const story = useStory(storyId, context);
     // eslint-disable-next-line prefer-const
     let [args, updateArgs, resetArgs] = useArgs(storyId, context);
+
     const [globals] = useGlobals(context);
     if (!story) return <PureArgsTable isLoading updateArgs={updateArgs} resetArgs={resetArgs} />;
 

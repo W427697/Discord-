@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 /// <reference types="webpack-env" />
 
 import { dedent } from 'ts-dedent';
@@ -21,7 +20,7 @@ import type {
   Addon_ClientApiAddons,
   Addon_StoryApi,
   Store_NormalizedComponentAnnotations,
-  Store_Path,
+  Path,
   Store_ModuleImportFn,
   Store_ModuleExports,
 } from '@storybook/types';
@@ -140,7 +139,7 @@ export class ClientApi<TFramework extends AnyFramework> {
     singleton = this;
   }
 
-  importFn(path: Store_Path) {
+  importFn(path: Path) {
     return this.facade.importFn(path);
   }
 
@@ -214,7 +213,7 @@ export class ClientApi<TFramework extends AnyFramework> {
   // storiesOf file to finish adding stories, and us to load it into the facade as a
   // single psuedo-CSF file. So instead we just keep collecting the CSF files and load
   // them all into the facade at the end.
-  _addedExports = {} as Record<Store_Path, Store_ModuleExports>;
+  _addedExports = {} as Record<Path, Store_ModuleExports>;
 
   _loadAddedExports() {
     // eslint-disable-next-line no-underscore-dangle

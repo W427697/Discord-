@@ -374,6 +374,7 @@ export class Instrumenter {
       }));
     }).then(() => {
       this.setState(call.storyId, (state) => {
+        // eslint-disable-next-line @typescript-eslint/naming-convention
         const { [call.id]: _, ...resolvers } = state.resolvers;
         return { isLocked: true, resolvers };
       });

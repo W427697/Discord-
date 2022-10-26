@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import React, {
   FC,
   ReactNode,
@@ -10,12 +9,12 @@ import React, {
   useState,
 } from 'react';
 import type {
-  StoryId,
-  StoryAnnotations,
   AnyFramework,
   Store_ModuleExport,
   Store_ModuleExports,
   Store_Story as StoryType,
+  StoryAnnotations,
+  StoryId,
 } from '@storybook/types';
 
 import { Story as PureStory, StorySkeleton } from '../components';

@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import type { API_ArgType, API_ArgTypes } from '@storybook/types';
 import { logger } from '@storybook/client-logger';
 import { getCustomElements, isValidComponent, isValidMetaData } from '..';

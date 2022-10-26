@@ -1,25 +1,24 @@
-/* eslint-disable camelcase */
 import { dedent } from 'ts-dedent';
 import deprecate from 'util-deprecate';
 import global from 'global';
 
 import type {
-  Parameters,
-  Args,
-  LegacyStoryFn,
-  ArgsStoryFn,
-  StoryContextForEnhancers,
-  StoryContext,
   AnyFramework,
-  StrictArgTypes,
-  StoryContextForLoaders,
+  Args,
+  ArgsStoryFn,
+  LegacyStoryFn,
+  Parameters,
+  PlayFunction,
   PlayFunctionContext,
   StepLabel,
-  PlayFunction,
   Store_NormalizedComponentAnnotations,
-  Store_Story,
-  Store_NormalizedStoryAnnotations,
   Store_NormalizedProjectAnnotations,
+  Store_NormalizedStoryAnnotations,
+  Store_Story,
+  StoryContext,
+  StoryContextForEnhancers,
+  StoryContextForLoaders,
+  StrictArgTypes,
 } from '@storybook/types';
 import { includeConditionalArg } from '@storybook/csf';
 
@@ -206,6 +205,7 @@ export function prepareStory<TFramework extends AnyFramework>(
     (async (storyContext: StoryContext<TFramework>) => {
       const playFunctionContext: PlayFunctionContext<TFramework> = {
         ...storyContext,
+        // eslint-disable-next-line @typescript-eslint/no-shadow
         step: (label: StepLabel, play: PlayFunction<TFramework>) =>
           // TODO: We know runStep is defined, we need a proper normalized annotations type
           runStep!(label, play, playFunctionContext),

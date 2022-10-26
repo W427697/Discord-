@@ -13,6 +13,7 @@ import { Call, CallStates, ControlStates } from '@storybook/instrumenter';
 import { styled } from '@storybook/theming';
 
 import { StatusBadge } from './StatusBadge';
+// eslint-disable-next-line import/no-cycle
 import { Controls } from './InteractionsPanel';
 
 const SubnavWrapper = styled.div(({ theme }) => ({

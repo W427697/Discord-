@@ -21,19 +21,19 @@ export interface DesktopProps {
 }
 
 const Desktop = Object.assign(
-  React.memo<DesktopProps>(
-    ({
-      Panel,
-      Sidebar,
-      Preview,
-      Notifications,
-      pages,
-      options,
-      viewMode = undefined,
-      width = 0,
-      height = 0,
-      panelCount,
-    }) => (
+  React.memo<DesktopProps>(function Desktop({
+    Panel,
+    Sidebar,
+    Preview,
+    Notifications,
+    pages,
+    options,
+    viewMode = undefined,
+    width = 0,
+    height = 0,
+    panelCount,
+  }) {
+    return (
       <Fragment>
         <Notifications
           placement={{
@@ -76,8 +76,8 @@ const Desktop = Object.assign(
           <div title={JSON.stringify({ width, height })} />
         )}
       </Fragment>
-    )
-  ),
+    );
+  }),
   {
     displayName: 'DesktopLayout',
   }

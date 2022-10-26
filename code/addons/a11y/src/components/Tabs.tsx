@@ -4,6 +4,7 @@ import { styled } from '@storybook/theming';
 import { NodeResult, Result } from 'axe-core';
 import { SizeMe } from 'react-sizeme';
 import HighlightToggle from './Report/HighlightToggle';
+// eslint-disable-next-line import/no-cycle
 import { RuleType } from './A11YPanel';
 import { useA11yContext } from './A11yContext';
 

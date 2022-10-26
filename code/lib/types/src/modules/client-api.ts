@@ -1,4 +1,4 @@
-/* eslint-disable camelcase */
+/* eslint-disable @typescript-eslint/naming-convention */
 import type { Addon_StoryApi, Addon_Type } from './addons';
 import type { Store_RenderContext } from './store';
 import type {
@@ -53,34 +53,6 @@ export type ClientAPI_AddStoryArgs = StoryIdentifier & {
   decorators?: DecoratorFunction[];
   loaders?: LoaderFunction[];
 };
-
-// export type ClientAPI_StoreItem = StoryIdentifier & {
-//   parameters: Parameters;
-//   getDecorated: () => StoryFn<any>;
-//   getOriginal: () => StoryFn<any>;
-//   applyLoaders: () => Promise<StoryContext>;
-//   playFunction: (context: StoryContext) => Promise<void> | void;
-//   storyFn: StoryFn<any>;
-//   unboundStoryFn: StoryFn<any>;
-//   hooks: HooksContext<AnyFramework>;
-//   args: Args;
-//   initialArgs: Args;
-//   argTypes: ArgTypes;
-// };
-
-// export type ClientAPI_PublishedStoreItem = ClientAPI_StoreItem & {
-//   globals: Args;
-// };
-
-// export interface ClientAPI_StoreData {
-//   [key: string]: ClientAPI_StoreItem;
-// }
-
-// export interface ClientAPI_ClientApiParams {
-//   storyStore: StoryStore<AnyFramework>;
-//   decorateStory?: ProjectAnnotations<AnyFramework>['applyDecorators'];
-//   noStoryModuleAddMethodHotDispose?: boolean;
-// }
 
 export type ClientAPI_ClientApiReturnFn<StoryFnReturnType> = (
   ...args: any[]

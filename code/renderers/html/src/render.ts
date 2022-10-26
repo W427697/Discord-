@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 /* eslint-disable no-param-reassign */
 // @ts-expect-error (Converted from ts-ignore)
 import global from 'global';

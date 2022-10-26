@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-cycle
 import { OptionsObject } from '../types';
 
 export const selectedKey = (value: any, options: OptionsObject) => {

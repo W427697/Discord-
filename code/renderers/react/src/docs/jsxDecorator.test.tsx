@@ -174,7 +174,7 @@ describe('jsxDecorator', () => {
   beforeEach(() => {
     mockedAddons.getChannel.mockReset();
     // @ts-expect-error (Converted from ts-ignore)
-    mockedUseEffect.mockImplementation((cb) => setTimeout(cb, 0));
+    mockedUseEffect.mockImplementation((cb) => setTimeout(() => cb(), 0));
 
     mockChannel = { on: jest.fn(), emit: jest.fn() };
     mockedAddons.getChannel.mockReturnValue(mockChannel as any);
@@ -281,6 +281,7 @@ describe('jsxDecorator', () => {
     const storyFn = jest.fn();
     storyFn
       .mockImplementationOnce(() => {
+        // eslint-disable-next-line @typescript-eslint/no-throw-literal
         throw Promise.resolve();
       })
       .mockImplementation(() => {

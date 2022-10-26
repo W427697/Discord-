@@ -1,28 +1,27 @@
-/* eslint-disable camelcase */
 import memoize from 'memoizerific';
 import type {
-  Parameters,
-  StoryId,
-  StoryContextForLoaders,
-  AnyFramework,
-  ProjectAnnotations,
-  ComponentTitle,
-  StoryContextForEnhancers,
-  StoryContext,
   Addon_IndexEntry,
-  Store_CSFFile,
-  Store_ModuleImportFn,
-  Store_Story,
-  Store_NormalizedProjectAnnotations,
-  Store_Path,
-  Store_ExtractOptions,
-  Store_BoundStory,
-  Store_PromiseLike,
-  Store_StoryIndex,
-  Store_V2CompatIndexEntry,
-  Store_StoryIndexV3,
+  AnyFramework,
   API_PreparedStoryIndex,
+  ComponentTitle,
+  Parameters,
+  Path,
+  ProjectAnnotations,
+  Store_BoundStory,
+  Store_CSFFile,
+  Store_ExtractOptions,
   Store_ModuleExports,
+  Store_ModuleImportFn,
+  Store_NormalizedProjectAnnotations,
+  Store_PromiseLike,
+  Store_Story,
+  Store_StoryIndex,
+  Store_StoryIndexV3,
+  Store_V2CompatIndexEntry,
+  StoryContext,
+  StoryContextForEnhancers,
+  StoryContextForLoaders,
+  StoryId,
 } from '@storybook/types';
 import mapValues from 'lodash/mapValues';
 import pick from 'lodash/pick';
@@ -51,7 +50,7 @@ export class StoryStore<TFramework extends AnyFramework> {
 
   hooks: Record<StoryId, HooksContext<TFramework>>;
 
-  cachedCSFFiles?: Record<Store_Path, Store_CSFFile<TFramework>>;
+  cachedCSFFiles?: Record<Path, Store_CSFFile<TFramework>>;
 
   processCSFFileWithCache: typeof processCSFFile;
 
@@ -149,7 +148,7 @@ export class StoryStore<TFramework extends AnyFramework> {
   loadAllCSFFiles(): Store_PromiseLike<StoryStore<TFramework>['cachedCSFFiles']> {
     if (!this.storyIndex) throw new Error(`loadAllCSFFiles called before initialization`);
 
-    const importPaths: Record<Store_Path, StoryId> = {};
+    const importPaths: Record<Path, StoryId> = {};
     Object.entries(this.storyIndex.entries).forEach(([storyId, { importPath }]) => {
       importPaths[importPath] = storyId;
     });
@@ -165,7 +164,7 @@ export class StoryStore<TFramework extends AnyFramework> {
       list.reduce((acc, { importPath, csfFile }) => {
         acc[importPath] = csfFile;
         return acc;
-      }, {} as Record<Store_Path, Store_CSFFile<TFramework>>)
+      }, {} as Record<Path, Store_CSFFile<TFramework>>)
     );
   }
 

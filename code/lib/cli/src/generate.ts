@@ -291,7 +291,7 @@ program.on('command:*', ([invalidCmd]) => {
     ' Invalid command: %s.\n See --help for a list of available commands.',
     invalidCmd
   );
-  // eslint-disable-next-line
+  // eslint-disable-next-line no-underscore-dangle
   const availableCommands = program.commands.map((cmd) => cmd._name);
   const suggestion = availableCommands.find((cmd) => leven(cmd, invalidCmd) < 3);
   if (suggestion) {
