@@ -4,7 +4,10 @@
 import path from 'path';
 import fs from 'fs-extra';
 import { normalizeStoriesEntry } from '@storybook/core-common';
-import type { CoreCommon_NormalizedStoriesSpecifier } from '@storybook/types';
+import type {
+  CoreCommon_NormalizedStoriesSpecifier,
+  CoreCommon_StoryIndexer,
+} from '@storybook/types';
 import { loadCsf, getStorySortParameter } from '@storybook/csf-tools';
 import { toId } from '@storybook/csf';
 import { logger } from '@storybook/node-logger';
@@ -50,7 +53,9 @@ const csfIndexer = async (fileName: string, opts: any) => {
 const options = {
   configDir: path.join(__dirname, '__mockdata__'),
   workingDir: path.join(__dirname, '__mockdata__'),
-  storyIndexers: [{ test: /\.stories\..*$/, indexer: csfIndexer }],
+  storyIndexers: [
+    { test: /\.stories\..*$/, indexer: csfIndexer as any as CoreCommon_StoryIndexer['indexer'] },
+  ],
   storiesV2Compatibility: false,
   storyStoreV7: true,
   docs: { enabled: true, defaultName: 'docs', docsPage: false },
@@ -172,6 +177,7 @@ describe('StoryIndexGenerator', () => {
                 "importPath": "./src/B.stories.ts",
                 "name": "Story One",
                 "tags": Array [
+                  "docsPage",
                   "story",
                 ],
                 "title": "B",
@@ -182,6 +188,7 @@ describe('StoryIndexGenerator', () => {
                 "importPath": "./src/D.stories.jsx",
                 "name": "Story One",
                 "tags": Array [
+                  "docsPage",
                   "story",
                 ],
                 "title": "D",
@@ -251,6 +258,7 @@ describe('StoryIndexGenerator', () => {
                 "storiesImports": Array [],
                 "tags": Array [
                   "component-tag",
+                  "docsPage",
                   "docs",
                 ],
                 "title": "A",
@@ -311,7 +319,7 @@ describe('StoryIndexGenerator', () => {
         ...options,
         docs: { ...options.docs, docsPage: true },
       };
-      it('generates an entry per CSF file', async () => {
+      it('generates an entry per CSF file with the docsPage tag', async () => {
         const specifier: CoreCommon_NormalizedStoriesSpecifier = normalizeStoriesEntry(
           './src/**/*.stories.(ts|js|jsx)',
           options
@@ -331,6 +339,7 @@ describe('StoryIndexGenerator', () => {
                 "storiesImports": Array [],
                 "tags": Array [
                   "component-tag",
+                  "docsPage",
                   "docs",
                 ],
                 "title": "A",
@@ -354,6 +363,7 @@ describe('StoryIndexGenerator', () => {
                 "standalone": false,
                 "storiesImports": Array [],
                 "tags": Array [
+                  "docsPage",
                   "docs",
                 ],
                 "title": "B",
@@ -364,6 +374,7 @@ describe('StoryIndexGenerator', () => {
                 "importPath": "./src/B.stories.ts",
                 "name": "Story One",
                 "tags": Array [
+                  "docsPage",
                   "story",
                 ],
                 "title": "B",
@@ -376,6 +387,7 @@ describe('StoryIndexGenerator', () => {
                 "standalone": false,
                 "storiesImports": Array [],
                 "tags": Array [
+                  "docsPage",
                   "docs",
                 ],
                 "title": "D",
@@ -386,22 +398,11 @@ describe('StoryIndexGenerator', () => {
                 "importPath": "./src/D.stories.jsx",
                 "name": "Story One",
                 "tags": Array [
+                  "docsPage",
                   "story",
                 ],
                 "title": "D",
                 "type": "story",
-              },
-              "first-nested-deeply-f--docs": Object {
-                "id": "first-nested-deeply-f--docs",
-                "importPath": "./src/first-nested/deeply/F.stories.js",
-                "name": "docs",
-                "standalone": false,
-                "storiesImports": Array [],
-                "tags": Array [
-                  "docs",
-                ],
-                "title": "first-nested/deeply/F",
-                "type": "docs",
               },
               "first-nested-deeply-f--story-one": Object {
                 "id": "first-nested-deeply-f--story-one",
@@ -413,19 +414,6 @@ describe('StoryIndexGenerator', () => {
                 "title": "first-nested/deeply/F",
                 "type": "story",
               },
-              "nested-button--docs": Object {
-                "id": "nested-button--docs",
-                "importPath": "./src/nested/Button.stories.ts",
-                "name": "docs",
-                "standalone": false,
-                "storiesImports": Array [],
-                "tags": Array [
-                  "component-tag",
-                  "docs",
-                ],
-                "title": "nested/Button",
-                "type": "docs",
-              },
               "nested-button--story-one": Object {
                 "id": "nested-button--story-one",
                 "importPath": "./src/nested/Button.stories.ts",
@@ -436,18 +424,6 @@ describe('StoryIndexGenerator', () => {
                 ],
                 "title": "nested/Button",
                 "type": "story",
-              },
-              "second-nested-g--docs": Object {
-                "id": "second-nested-g--docs",
-                "importPath": "./src/second-nested/G.stories.ts",
-                "name": "docs",
-                "standalone": false,
-                "storiesImports": Array [],
-                "tags": Array [
-                  "docs",
-                ],
-                "title": "second-nested/G",
-                "type": "docs",
               },
               "second-nested-g--story-one": Object {
                 "id": "second-nested-g--story-one",
@@ -534,6 +510,7 @@ describe('StoryIndexGenerator', () => {
                   "./duplicate/SecondA.stories.js",
                 ],
                 "tags": Array [
+                  "docsPage",
                   "docs",
                 ],
                 "title": "duplicate/A",
@@ -544,6 +521,7 @@ describe('StoryIndexGenerator', () => {
                 "importPath": "./duplicate/A.stories.js",
                 "name": "Story One",
                 "tags": Array [
+                  "docsPage",
                   "story",
                 ],
                 "title": "duplicate/A",
@@ -554,6 +532,7 @@ describe('StoryIndexGenerator', () => {
                 "importPath": "./duplicate/SecondA.stories.js",
                 "name": "Story Two",
                 "tags": Array [
+                  "docsPage",
                   "story",
                 ],
                 "title": "duplicate/A",
