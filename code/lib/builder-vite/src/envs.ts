@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import { stringifyEnvs } from '@storybook/core-common';
 
 import type { UserConfig } from 'vite';

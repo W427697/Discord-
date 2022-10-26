@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import type { Store_PropDescriptor, StrictArgTypes } from '@storybook/types';
 import pickBy from 'lodash/pickBy';
 

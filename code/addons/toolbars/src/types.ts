@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import type { IconsProps } from '@storybook/components';
 import type { API_ArgType } from '@storybook/types';
 

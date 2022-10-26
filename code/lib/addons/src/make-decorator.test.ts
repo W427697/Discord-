@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import type { Addon_StoryContext } from '@storybook/types';
 import { makeDecorator } from './make-decorator';
 

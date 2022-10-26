@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import * as React from 'react';
 // this will be aliased by webpack at runtime (this is just for typing)
 import { action as originalAction } from '@storybook/addon-actions';

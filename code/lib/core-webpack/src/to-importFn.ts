@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import { dedent } from 'ts-dedent';
 import type { CoreCommon_NormalizedStoriesSpecifier } from '@storybook/types';
 import { globToRegexp } from '@storybook/core-common';

@@ -17,6 +17,7 @@ export const getTemplatePath = async (template: string) => {
 };
 
 export const readTemplate = async (template: string) => {
+  // eslint-disable-next-line @typescript-eslint/no-shadow
   const path = await getTemplatePath(template);
 
   return fs.readFile(path, 'utf8');

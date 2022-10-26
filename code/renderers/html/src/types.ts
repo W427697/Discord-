@@ -1,4 +1,5 @@
 import type { ArgsStoryFn, StoryContext as DefaultStoryContext } from '@storybook/types';
+// eslint-disable-next-line import/no-cycle
 import { parameters } from './config';
 
 export type { RenderContext } from '@storybook/types';

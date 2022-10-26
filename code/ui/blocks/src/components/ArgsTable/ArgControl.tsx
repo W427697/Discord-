@@ -1,4 +1,5 @@
 import React, { FC, useCallback, useState, useEffect } from 'react';
+// eslint-disable-next-line import/no-cycle
 import {
   BooleanControl,
   ColorControl,

@@ -33,16 +33,18 @@ export interface SymbolsProps extends ComponentProps<typeof Svg> {
   icons?: IconKey[];
 }
 
-export const Symbols = memo<SymbolsProps>(({ icons: keys = Object.keys(icons) }) => (
-  <Svg
-    viewBox="0 0 14 14"
-    style={{ position: 'absolute', width: 0, height: 0 }}
-    data-chromatic="ignore"
-  >
-    {keys.map((key: IconKey) => (
-      <symbol id={`icon--${key}`} key={key}>
-        {icons[key]}
-      </symbol>
-    ))}
-  </Svg>
-));
+export const Symbols = memo<SymbolsProps>(function Symbols({ icons: keys = Object.keys(icons) }) {
+  return (
+    <Svg
+      viewBox="0 0 14 14"
+      style={{ position: 'absolute', width: 0, height: 0 }}
+      data-chromatic="ignore"
+    >
+      {keys.map((key: IconKey) => (
+        <symbol id={`icon--${key}`} key={key}>
+          {icons[key]}
+        </symbol>
+      ))}
+    </Svg>
+  );
+});

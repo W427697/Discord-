@@ -40,6 +40,7 @@ export function mdxPlugin(): Plugin {
       );
       reactRefresh = reactRefreshPlugins.find((p) => p.transform);
     },
+
     async transform(src, id, options) {
       if (!filter(id)) return undefined;
 

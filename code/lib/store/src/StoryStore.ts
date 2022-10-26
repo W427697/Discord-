@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import memoize from 'memoizerific';
 import type {
   Addon_IndexEntry,

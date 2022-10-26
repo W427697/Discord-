@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 /// <reference types="webpack-env" />
 
 import { dedent } from 'ts-dedent';

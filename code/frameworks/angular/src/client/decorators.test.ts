@@ -1,9 +1,9 @@
-import type { StoryContext } from '@storybook/addons';
+import type { Addon_StoryContext } from '@storybook/types';
 
 import { Component } from '@angular/core';
 import { moduleMetadata } from './decorators';
 
-const defaultContext: StoryContext = {
+const defaultContext: Addon_StoryContext = {
   componentId: 'unspecified',
   kind: 'unspecified',
   title: 'unspecified',

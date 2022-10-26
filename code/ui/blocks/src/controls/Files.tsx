@@ -1,6 +1,7 @@
 import React, { ChangeEvent, FC } from 'react';
 import { styled } from '@storybook/theming';
 import { Form } from '@storybook/components';
+// eslint-disable-next-line import/no-cycle
 import { ControlProps } from './types';
 import { getControlId } from './helpers';
 

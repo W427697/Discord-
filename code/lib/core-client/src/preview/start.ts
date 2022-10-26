@@ -1,10 +1,11 @@
-/* eslint-disable camelcase */
+/* eslint-disable @typescript-eslint/naming-convention */
 import global from 'global';
 import { ClientApi } from '@storybook/client-api';
 import { PreviewWeb } from '@storybook/preview-web';
 import type {
   AnyFramework,
   ArgsStoryFn,
+  Loadable,
   Path,
   Store_WebProjectAnnotations,
 } from '@storybook/types';
@@ -12,7 +13,6 @@ import { createChannel } from '@storybook/channel-postmessage';
 import { addons } from '@storybook/addons';
 import { FORCE_RE_RENDER } from '@storybook/core-events';
 
-import { Loadable } from '@storybook/types';
 import { executeLoadableForChanges } from './executeLoadable';
 
 const { window: globalWindow, FEATURES } = global;

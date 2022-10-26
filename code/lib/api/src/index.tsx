@@ -1,4 +1,4 @@
-/* eslint-disable camelcase */
+/* eslint-disable @typescript-eslint/naming-convention */
 import React, {
   Component,
   FC,
@@ -46,17 +46,24 @@ import Store, { Options } from './store';
 import getInitialState from './initial-state';
 
 import * as provider from './modules/provider';
+
 import * as addons from './modules/addons';
+
 import * as channel from './modules/channel';
+
 import * as notifications from './modules/notifications';
 import * as settings from './modules/settings';
 import * as releaseNotes from './modules/release-notes';
+// eslint-disable-next-line import/no-cycle
 import * as stories from './modules/stories';
+// eslint-disable-next-line import/no-cycle
 import * as refs from './modules/refs';
 import * as layout from './modules/layout';
 import * as shortcuts from './modules/shortcuts';
+
 import * as url from './modules/url';
 import * as version from './modules/versions';
+// eslint-disable-next-line import/no-cycle
 import * as globals from './modules/globals';
 
 const { ActiveTabs } = layout;

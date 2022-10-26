@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import { SET_GLOBALS, UPDATE_GLOBALS, GLOBALS_UPDATED } from '@storybook/core-events';
 import { logger } from '@storybook/client-logger';
 import { dequal as deepEqual } from 'dequal';
@@ -6,6 +5,7 @@ import type { API_SetGlobalsPayload, Globals, GlobalTypes } from '@storybook/typ
 
 import type { ModuleFn } from '../index';
 
+// eslint-disable-next-line import/no-cycle
 import { getEventMetadata } from '../lib/events';
 
 export interface SubState {

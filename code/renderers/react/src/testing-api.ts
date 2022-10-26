@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import {
   composeStory as originalComposeStory,
   composeStories as originalComposeStories,

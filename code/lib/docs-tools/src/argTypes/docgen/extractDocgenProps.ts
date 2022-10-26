@@ -2,6 +2,7 @@ import { Component } from '../types';
 import { ExtractedJsDoc, parseJsDoc } from '../jsdocParser';
 import { PropDef, DocgenInfo, TypeSystem } from './types';
 import { getDocgenSection, isValidDocgenSection, getDocgenDescription } from './utils';
+// eslint-disable-next-line import/no-cycle
 import { getPropDefFactory, PropDefFactory } from './createPropDef';
 
 export interface ExtractedProp {

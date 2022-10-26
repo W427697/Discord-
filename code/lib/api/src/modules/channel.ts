@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 /* eslint-disable no-param-reassign */
 import { STORIES_COLLAPSE_ALL, STORIES_EXPAND_ALL } from '@storybook/core-events';
 import type { Listener } from '@storybook/channels';

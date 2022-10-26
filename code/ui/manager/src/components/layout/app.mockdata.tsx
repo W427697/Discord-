@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import global from 'global';
 import React, { Component, FC } from 'react';
 import { styled } from '@storybook/theming';

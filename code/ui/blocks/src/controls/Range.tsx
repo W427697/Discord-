@@ -3,7 +3,9 @@ import React, { FC, ChangeEvent, useMemo } from 'react';
 import { styled } from '@storybook/theming';
 import { lighten, darken, rgba } from 'polished';
 import { getControlId } from './helpers';
+// eslint-disable-next-line import/no-cycle
 import { ControlProps, NumberValue, RangeConfig } from './types';
+// eslint-disable-next-line import/no-cycle
 import { parse } from './Number';
 
 type RangeProps = ControlProps<NumberValue | null> & RangeConfig;

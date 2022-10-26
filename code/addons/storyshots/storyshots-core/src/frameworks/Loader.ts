@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import type { AnyFramework, Addon_Loadable } from '@storybook/types';
 import { ClientApi as ClientApiClass } from '@storybook/client-api';
 import type { StoryshotsOptions } from '../api/StoryshotsOptions';

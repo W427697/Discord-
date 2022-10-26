@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import type { Addon_ClientStoryApi, Addon_Loadable } from '@storybook/types';
 import { start } from '@storybook/core-client';
 

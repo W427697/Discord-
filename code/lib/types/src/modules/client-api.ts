@@ -1,4 +1,4 @@
-/* eslint-disable camelcase */
+/* eslint-disable @typescript-eslint/naming-convention */
 import type { Addon_StoryApi, Addon_Type } from './addons';
 import type { Store_RenderContext } from './store';
 import type {

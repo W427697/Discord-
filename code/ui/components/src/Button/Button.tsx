@@ -248,7 +248,7 @@ export const Button: FC<ComponentProps<typeof ButtonWrapper>> = Object.assign(
       children?: ReactNode;
       href?: string;
     }
-  >(({ isLink, children, ...props }, ref) => {
+  >(function Button({ isLink, children, ...props }, ref) {
     if (isLink) {
       return (
         <ButtonLink {...props} ref={ref}>

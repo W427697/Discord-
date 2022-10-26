@@ -1,9 +1,12 @@
 import { PropDefaultValue } from './PropDef';
 import { PropDef, TypeSystem, DocgenInfo, DocgenType, DocgenPropDefaultValue } from './types';
 import { JsDocParsingResult } from '../jsdocParser';
+// eslint-disable-next-line import/no-cycle
 import { createSummaryValue } from '../utils';
+// eslint-disable-next-line import/no-cycle
 import { createFlowPropDef } from './flow/createPropDef';
 import { isDefaultValueBlacklisted } from './utils/defaultValue';
+// eslint-disable-next-line import/no-cycle
 import { createTsPropDef } from './typeScript/createPropDef';
 import { convert } from '../convert';
 

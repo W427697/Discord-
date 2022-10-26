@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import path from 'path';
 import fs from 'fs-extra';
 import glob from 'globby';

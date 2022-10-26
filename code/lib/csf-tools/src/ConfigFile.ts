@@ -13,6 +13,7 @@ const propKey = (p: t.ObjectProperty) => {
   return null;
 };
 
+// eslint-disable-next-line @typescript-eslint/naming-convention
 const _getPath = (path: string[], node: t.Node): t.Node | undefined => {
   if (path.length === 0) {
     return node;
@@ -27,6 +28,7 @@ const _getPath = (path: string[], node: t.Node): t.Node | undefined => {
   return undefined;
 };
 
+// eslint-disable-next-line @typescript-eslint/naming-convention
 const _findVarInitialization = (identifier: string, program: t.Program) => {
   let init: t.Expression | null | undefined = null;
   let declarations: t.VariableDeclarator[] | null = null;
@@ -55,6 +57,7 @@ const _findVarInitialization = (identifier: string, program: t.Program) => {
   return init;
 };
 
+// eslint-disable-next-line @typescript-eslint/naming-convention
 const _makeObjectExpression = (path: string[], value: t.Expression): t.Expression => {
   if (path.length === 0) return value;
   const [first, ...rest] = path;
@@ -62,6 +65,7 @@ const _makeObjectExpression = (path: string[], value: t.Expression): t.Expressio
   return t.objectExpression([t.objectProperty(t.identifier(first), innerExpression)]);
 };
 
+// eslint-disable-next-line @typescript-eslint/naming-convention
 const _updateExportNode = (path: string[], expr: t.Expression, existing: t.ObjectExpression) => {
   const [first, ...rest] = path;
   const existingField = existing.properties.find(

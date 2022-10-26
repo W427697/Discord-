@@ -1,5 +1,5 @@
-/* eslint-disable camelcase */
-
+/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable import/no-cycle */
 import { API_ViewMode } from './api';
 import { DocsOptions } from './core-common';
 import {
