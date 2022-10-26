@@ -1,5 +1,6 @@
 /* eslint-disable camelcase */
 
+import { Tag } from '@storybook/csf';
 import { API_ViewMode } from './api';
 import { DocsOptions } from './core-common';
 import {
@@ -93,6 +94,7 @@ export interface API_StoryEntry extends API_BaseEntry {
   /** @deprecated */
   kind: ComponentTitle;
   importPath: API_Path;
+  tags: Tag[];
   prepared: boolean;
   parameters?: {
     [parameterName: string]: any;
