@@ -283,7 +283,7 @@ jobs:
           command: |
             cd code
             yarn coverage
-  chromatic-storybook-ui:
+  chromatic-internal-storybooks:
     executor:
       class: medium+
       name: sb_node_16_browsers
@@ -297,6 +297,7 @@ jobs:
           command: |
             cd code
             yarn storybook:ui:chromatic
+            yarn storybook:blocks:chromatic
       - store_test_results:
           path: test-results
   ## new workflow
@@ -418,7 +419,7 @@ workflows:
       - script-unit-tests:
           requires:
             - build
-      - chromatic-storybook-ui:
+      - chromatic-internal-storybooks:
           requires:
             - build
       - coverage:
