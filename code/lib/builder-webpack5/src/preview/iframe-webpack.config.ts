@@ -135,7 +135,7 @@ export default async (
       // of the `previewAnnotationFilename` in the template works.
       const entryFilename = previewAnnotationFilename.startsWith('.')
         ? `${previewAnnotationFilename.replace(/(\w)(\/|\\)/g, '$1-')}-generated-config-entry.js`
-        : previewAnnotationFilename;
+        : `${previewAnnotationFilename}-generated-config-entry.js`;
       // NOTE: although this file is also from the `dist/cjs` directory, it is actually a ESM
       // file, see https://github.com/storybookjs/storybook/pull/16727#issuecomment-986485173
       virtualModuleMapping[entryFilename] = interpolate(entryTemplate, {
