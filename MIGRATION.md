@@ -719,7 +719,7 @@ Storybook Docs 5.x shipped with instructions for how to manually configure webpa
 
 In 6.x you were able to do this:
 
-```js
+```ts
 import type { Story } from '@storybook/react';
 
 export const MyStory: Story = () => <div />;
