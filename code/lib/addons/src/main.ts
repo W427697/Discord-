@@ -21,8 +21,6 @@ export function isSupportedType(type: Addon_Types): boolean {
   return !!Object.values(Addon_TypesEnum).find((typeVal) => typeVal === type);
 }
 
-export type Types = Addon_TypesEnum | string;
-
 export class AddonStore {
   constructor() {
     this.promise = new Promise((res) => {
@@ -76,7 +74,7 @@ export class AddonStore {
     this.serverChannel = channel;
   };
 
-  getElements = (type: Types): Addon_Collection => {
+  getElements = (type: Addon_Types): Addon_Collection => {
     if (!this.elements[type]) {
       this.elements[type] = {};
     }
