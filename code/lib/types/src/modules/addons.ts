@@ -1,5 +1,4 @@
 /* eslint-disable camelcase */
-import { Tag } from '@storybook/csf';
 import type { RenderData as RouterData } from '../../../router/src/router';
 import type { ThemeVars } from '../../../theming/src/types';
 import {
@@ -19,6 +18,7 @@ import {
   StoryId,
   StoryKind,
   StoryName,
+  Tag,
 } from './csf';
 
 export type Addon_Types = Addon_TypesEnum | string;

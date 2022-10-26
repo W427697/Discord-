@@ -1,9 +1,8 @@
 /* eslint-disable camelcase */
 
-import { Tag } from '@storybook/csf';
-import { API_ViewMode } from './api';
-import { DocsOptions } from './core-common';
-import {
+import type { API_ViewMode } from './api';
+import type { DocsOptions } from './core-common';
+import type {
   Args,
   ArgTypes,
   ComponentId,
@@ -16,6 +15,7 @@ import {
   Globals,
   GlobalTypes,
   Path,
+  Tag,
 } from './csf';
 
 export interface API_BaseEntry {
