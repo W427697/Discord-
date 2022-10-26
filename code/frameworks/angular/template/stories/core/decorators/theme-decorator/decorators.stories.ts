@@ -14,7 +14,7 @@ export default {
     componentWrapperDecorator(
       (story) => `<div [class]="myTheme">${story}</div>`,
 
-      ({ globals }) => ({ myTheme: `${globals.theme}-theme` })
+      ({ globals }) => ({ myTheme: `${globals['theme']}-theme` })
     ),
   ],
 } as Meta;
