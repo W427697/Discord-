@@ -9,7 +9,7 @@ export default {
   decorators: [
     (storyFn: PartialStoryFn, context: StoryContext) => {
       return storyFn({
-        args: { object: context.tags },
+        args: { object: { tags: context.tags } },
       });
     },
   ],
@@ -19,11 +19,8 @@ export const Inheritance = {
   tags: ['story-one', 'story-two'],
   play: async ({ canvasElement }: PlayFunctionContext) => {
     const canvas = within(canvasElement);
-    await expect(JSON.parse(canvas.getByTestId('pre').innerText)).toEqual([
-      'story-one',
-      'story-two',
-      'component-one',
-      'component-two',
-    ]);
+    await expect(JSON.parse(canvas.getByTestId('pre').innerText)).toEqual({
+      tags: ['story-one', 'story-two', 'component-one', 'component-two', 'story'],
+    });
   },
 };
