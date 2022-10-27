@@ -27,6 +27,11 @@
       "import": "./dist/index.mjs",
       "types": "./dist/index.d.ts"
     },
+    "./decorator": {
+      "require": "./dist/decorator.js",
+      "import": "./dist/decorator.mjs",
+      "types": "./dist/decorator.d.ts"
+    },
     "./manager": {
       "require": "./dist/manager.js",
       "import": "./dist/manager.mjs",
@@ -73,7 +78,6 @@
     "react-inspector": "^6.0.0",
     "telejson": "^6.0.8",
     "ts-dedent": "^2.0.0",
-    "util-deprecate": "^1.0.2",
     "uuid-browser": "^3.1.0"
   },
   "devDependencies": {
@@ -98,6 +102,7 @@
   "bundler": {
     "entries": [
       "./src/index.ts",
+      "./src/decorator.ts",
       "./src/manager.tsx",
       "./src/preview.ts"
     ]

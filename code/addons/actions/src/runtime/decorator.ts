@@ -1,9 +1,5 @@
-// Based on http://backbonejs.org/docs/backbone.html#section-164
 import global from 'global';
 import { useEffect, makeDecorator } from '@storybook/addons';
-import deprecate from 'util-deprecate';
-import { dedent } from 'ts-dedent';
-
 import { actions } from './actions';
 
 import { PARAM_KEY } from '../constants';
@@ -42,46 +38,27 @@ const createHandlers = (actionsFn: (...arg: any[]) => object, ...handles: any[])
   });
 };
 
-const applyEventHandlers = deprecate(
-  (actionsFn: any, ...handles: any[]) => {
-    const root = document && document.getElementById('storybook-root');
-    useEffect(() => {
-      if (root != null) {
-        const handlers = createHandlers(actionsFn, ...handles);
-        handlers.forEach(({ eventName, handler }) => root.addEventListener(eventName, handler));
-        return () =>
-          handlers.forEach(({ eventName, handler }) =>
-            root.removeEventListener(eventName, handler)
-          );
-      }
-      return undefined;
-    }, [root, actionsFn, handles]);
-  },
-  dedent`
-    withActions(options) is deprecated, please configure addon-actions using the addParameter api:
-
-    addParameters({
-      actions: {
-        handles: options
-      },
-    });
-  `
-);
-
-const applyDeprecatedOptions = (actionsFn: any, options: any[]) => {
-  if (options) {
-    applyEventHandlers(actionsFn, options);
-  }
+const applyEventHandlers = (actionsFn: any, ...handles: any[]) => {
+  const root = document && document.getElementById('storybook-root');
+  useEffect(() => {
+    if (root != null) {
+      const handlers = createHandlers(actionsFn, ...handles);
+      handlers.forEach(({ eventName, handler }) => root.addEventListener(eventName, handler));
+      return () =>
+        handlers.forEach(({ eventName, handler }) => root.removeEventListener(eventName, handler));
+    }
+    return undefined;
+  }, [root, actionsFn, handles]);
 };
 
 export const withActions = makeDecorator({
   name: 'withActions',
   parameterName: PARAM_KEY,
   skipIfNoParametersOrOptions: true,
-  wrapper: (getStory, context, { parameters, options }) => {
-    applyDeprecatedOptions(actions, options as any[]);
-
-    if (parameters && parameters.handles) applyEventHandlers(actions, ...parameters.handles);
+  wrapper: (getStory, context, { parameters }) => {
+    if (parameters?.handles) {
+      applyEventHandlers(actions, ...parameters.handles);
+    }
 
     return getStory(context);
   },
