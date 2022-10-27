@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-a11y",
-  "version": "7.0.0-alpha.43",
+  "version": "7.0.0-alpha.44",
   "description": "Test component compliance with web accessibility standards",
   "keywords": [
     "a11y",
@@ -62,15 +62,15 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/addon-highlight": "7.0.0-alpha.43",
-    "@storybook/addons": "7.0.0-alpha.43",
-    "@storybook/api": "7.0.0-alpha.43",
-    "@storybook/channels": "7.0.0-alpha.43",
-    "@storybook/client-logger": "7.0.0-alpha.43",
-    "@storybook/components": "7.0.0-alpha.43",
-    "@storybook/core-events": "7.0.0-alpha.43",
-    "@storybook/theming": "7.0.0-alpha.43",
-    "@storybook/types": "7.0.0-alpha.43",
+    "@storybook/addon-highlight": "7.0.0-alpha.44",
+    "@storybook/addons": "7.0.0-alpha.44",
+    "@storybook/api": "7.0.0-alpha.44",
+    "@storybook/channels": "7.0.0-alpha.44",
+    "@storybook/client-logger": "7.0.0-alpha.44",
+    "@storybook/components": "7.0.0-alpha.44",
+    "@storybook/core-events": "7.0.0-alpha.44",
+    "@storybook/theming": "7.0.0-alpha.44",
+    "@storybook/types": "7.0.0-alpha.44",
     "axe-core": "^4.2.0",
     "global": "^4.4.0",
     "lodash": "^4.17.21",
