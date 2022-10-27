@@ -146,6 +146,7 @@ describe('useStoriesJson', () => {
               "importPath": "./src/B.stories.ts",
               "name": "Story One",
               "tags": Array [
+                "docsPage",
                 "story",
               ],
               "title": "B",
@@ -156,6 +157,7 @@ describe('useStoriesJson', () => {
               "importPath": "./src/D.stories.jsx",
               "name": "Story One",
               "tags": Array [
+                "docsPage",
                 "story",
               ],
               "title": "D",
@@ -302,6 +304,7 @@ describe('useStoriesJson', () => {
               },
               "story": "Story One",
               "tags": Array [
+                "docsPage",
                 "story",
               ],
               "title": "B",
@@ -318,6 +321,7 @@ describe('useStoriesJson', () => {
               },
               "story": "Story One",
               "tags": Array [
+                "docsPage",
                 "story",
               ],
               "title": "D",
@@ -481,6 +485,7 @@ describe('useStoriesJson', () => {
               },
               "story": "Story One",
               "tags": Array [
+                "docsPage",
                 "story",
               ],
               "title": "B",
@@ -497,6 +502,7 @@ describe('useStoriesJson', () => {
               },
               "story": "Story One",
               "tags": Array [
+                "docsPage",
                 "story",
               ],
               "title": "D",
@@ -630,6 +636,7 @@ describe('useStoriesJson', () => {
               },
               "story": "Story One",
               "tags": Array [
+                "docsPage",
                 "story",
               ],
               "title": "B",
@@ -646,6 +653,7 @@ describe('useStoriesJson', () => {
               },
               "story": "Story One",
               "tags": Array [
+                "docsPage",
                 "story",
               ],
               "title": "D",
