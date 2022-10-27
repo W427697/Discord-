@@ -10,7 +10,8 @@ export const check: Task = {
   async ready() {
     return false;
   },
-  async run({ codeDir }, { dryRun, debug }) {
+  async run({ codeDir }, { dryRun, debug, link }) {
+    if (link) throw new Error('Cannot check when linked, please run with `--no-link`');
     return exec(
       command,
       { cwd: codeDir },
