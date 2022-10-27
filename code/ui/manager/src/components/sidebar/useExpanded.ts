@@ -7,6 +7,7 @@ import React, { Dispatch, MutableRefObject, useCallback, useEffect, useReducer }
 import { matchesKeyCode, matchesModifiers } from '../../keybinding';
 import { Highlight } from './types';
 
+// eslint-disable-next-line import/no-cycle
 import { isAncestor, getAncestorIds, getDescendantIds, scrollIntoView } from './utils';
 
 const { document } = global;

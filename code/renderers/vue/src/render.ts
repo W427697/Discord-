@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 /* eslint-disable no-underscore-dangle */
 import { dedent } from 'ts-dedent';
 import Vue from 'vue';

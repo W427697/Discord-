@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import { useState, useEffect } from 'react';
 import type { StoryId, AnyFramework, Store_Story } from '@storybook/types';
 

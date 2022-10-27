@@ -1,9 +1,8 @@
-/* eslint-disable camelcase */
 import global from 'global';
 
 import type { Channel } from '@storybook/channels';
-import { addons, AddonStore, type Types } from '@storybook/addons';
-import type { Addon_Config } from '@storybook/types';
+import { addons, AddonStore } from '@storybook/addons';
+import type { Addon_Types, Addon_Config } from '@storybook/types';
 import * as postMessage from '@storybook/channel-postmessage';
 import * as webSocket from '@storybook/channel-websocket';
 import { CHANNEL_CREATED } from '@storybook/core-events';
@@ -40,7 +39,7 @@ class ReactProvider extends Provider {
     }
   }
 
-  getElements(type: Types) {
+  getElements(type: Addon_Types) {
     return this.addons.getElements(type);
   }
 

@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import type {
   AnyFramework,
   ComponentTitle,
@@ -45,6 +44,7 @@ export function processCSFFile<TFramework extends AnyFramework>(
   importPath: Path,
   title: ComponentTitle
 ): Store_CSFFile<TFramework> {
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   const { default: defaultExport, __namedExportsOrder, ...namedExports } = moduleExports;
 
   const meta: Store_NormalizedComponentAnnotations<TFramework> =

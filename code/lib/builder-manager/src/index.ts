@@ -19,6 +19,7 @@ import {
   ManagerBuilder,
   StarterFunction,
 } from './types';
+// eslint-disable-next-line import/no-cycle
 import { getData } from './utils/data';
 import { safeResolve } from './utils/safeResolve';
 import { readOrderedFiles } from './utils/files';

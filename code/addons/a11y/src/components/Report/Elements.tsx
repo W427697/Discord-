@@ -4,6 +4,7 @@ import { styled } from '@storybook/theming';
 
 import { NodeResult } from 'axe-core';
 import { Rules } from './Rules';
+// eslint-disable-next-line import/no-cycle
 import { RuleType } from '../A11YPanel';
 import HighlightToggle from './HighlightToggle';
 

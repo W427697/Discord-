@@ -1,16 +1,7 @@
-/* eslint-disable camelcase */
-
-import type { API_Collection, API_Panels, API_StateMerger, API_Types } from '@storybook/types';
-import { ModuleFn } from '../index';
+import type { Addon_Types, API_Collection, API_Panels, API_StateMerger } from '@storybook/types';
+import { Addon_TypesEnum } from '@storybook/types';
+import type { ModuleFn } from '../index';
 import { Options } from '../store';
-
-enum types {
-  TAB = 'tab',
-  PANEL = 'panel',
-  TOOL = 'tool',
-  PREVIEW = 'preview',
-  NOTES_ELEMENT = 'notes-element',
-}
 
 export interface SubState {
   selectedPanel: string;
@@ -18,7 +9,7 @@ export interface SubState {
 }
 
 export interface SubAPI {
-  getElements: <T>(type: API_Types) => API_Collection<T>;
+  getElements: <T>(type: Addon_Types) => API_Collection<T>;
   getPanels: () => API_Panels;
   getStoryPanels: () => API_Panels;
   getSelectedPanel: () => string;
@@ -47,7 +38,7 @@ export function ensurePanel(panels: API_Panels, selectedPanel?: string, currentP
 export const init: ModuleFn<SubAPI, SubState> = ({ provider, store, fullAPI }) => {
   const api: SubAPI = {
     getElements: (type) => provider.getElements(type),
-    getPanels: () => api.getElements(types.PANEL),
+    getPanels: () => api.getElements(Addon_TypesEnum.PANEL),
     getStoryPanels: () => {
       const allPanels = api.getPanels();
       const { storyId } = store.getState();

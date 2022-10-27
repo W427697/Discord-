@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import global from 'global';
 import semver from 'semver';
 import memoize from 'memoizerific';

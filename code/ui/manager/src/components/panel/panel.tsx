@@ -17,7 +17,9 @@ export interface SafeTabProps {
   children: ReactElement;
 }
 
-const SafeTabContent = React.memo<SafeTabProps>(({ children }) => children);
+const SafeTabContent = React.memo<SafeTabProps>(function SafeTabContent({ children }) {
+  return children;
+});
 
 class SafeTab extends Component<SafeTabProps, { hasError: boolean }> {
   constructor(props: SafeTabProps) {

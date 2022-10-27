@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import slash from 'slash';
 import { dedent } from 'ts-dedent';
 import { once } from '@storybook/client-logger';

@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import mapValues from 'lodash/mapValues';
 import { logger } from '@storybook/client-logger';
 import type {
@@ -65,6 +64,7 @@ const inferControl = (
 export const inferControls: ArgTypesEnhancer<AnyFramework> = (context) => {
   const {
     argTypes,
+    // eslint-disable-next-line @typescript-eslint/naming-convention
     parameters: { __isArgsStory, controls: { include = null, exclude = null, matchers = {} } = {} },
   } = context;
   if (!__isArgsStory) return argTypes;

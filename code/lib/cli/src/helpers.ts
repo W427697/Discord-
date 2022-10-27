@@ -7,6 +7,7 @@ import { satisfies } from 'semver';
 import stripJsonComments from 'strip-json-comments';
 
 import { SupportedFrameworks, SupportedRenderers, SupportedLanguage } from './project_types';
+// eslint-disable-next-line import/no-cycle
 import { JsPackageManager, PackageJson, PackageJsonWithDepsAndDevDeps } from './js-package-manager';
 import { getBaseDir } from './dirs';
 import storybookMonorepoPackages from './versions';

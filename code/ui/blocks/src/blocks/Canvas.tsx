@@ -53,6 +53,7 @@ const getPreviewProps = (
   const storyIds = targetIds.map((targetId) => {
     return targetId;
   });
+
   const stories = useStories(storyIds, docsContext);
   isLoading = stories.some((s) => !s);
 

@@ -1,4 +1,5 @@
-/* eslint-disable camelcase */
+/* eslint-disable @typescript-eslint/naming-convention */
+
 import type {
   AnnotatedStoryFn,
   AnyFramework,
@@ -59,7 +60,7 @@ import type {
 } from '@storybook/csf';
 import { Addon_OptionsParameter } from './addons';
 
-export {
+export type {
   AnnotatedStoryFn,
   AnyFramework,
   Args,

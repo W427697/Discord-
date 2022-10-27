@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import global from 'global';
 import { dedent } from 'ts-dedent';
 import type { Store_RenderContext } from '@storybook/types';

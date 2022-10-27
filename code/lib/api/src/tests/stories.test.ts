@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 /// <reference types="@types/jest" />;
 // Need to import jest as mockJest for annoying jest reasons. Is there a better way?
 import { jest, jest as mockJest, it, describe, expect, beforeEach } from '@jest/globals';

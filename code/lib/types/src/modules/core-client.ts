@@ -1,7 +1,6 @@
-/* eslint-disable camelcase */
-import { Store_RenderContext } from './store';
+/* eslint-disable @typescript-eslint/naming-convention */
+import type { Store_RenderContext } from './store';
 // import { Store_RenderContext, Store_WebProjectAnnotations } from './store';
-import type { ClientAPI_RenderContextWithoutStoryContext } from './client-api';
 // import { ArgsStoryFn } from './csf';
 
 export interface CoreClient_PreviewError {
@@ -20,7 +19,7 @@ export type Loadable =
   | CoreClient_RequireContext[]
   | CoreClient_LoaderFunction;
 
-export type { Store_RenderContext as RenderContext, ClientAPI_RenderContextWithoutStoryContext };
+export type { Store_RenderContext as RenderContext };
 
 // The function used by a framework to render story to the DOM
 export type CoreClient_RenderStoryFunction = (context: Store_RenderContext) => void;

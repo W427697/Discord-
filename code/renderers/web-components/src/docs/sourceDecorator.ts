@@ -42,6 +42,7 @@ export function sourceDecorator(
     : storyFn();
 
   let source: string;
+
   useEffect(() => {
     if (source) addons.getChannel().emit(SNIPPET_RENDERED, context.id, source);
   });

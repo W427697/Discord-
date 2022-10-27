@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import path from 'path';
 import fse from 'fs-extra';
 import { CoreCommon_StorybookInfo, PackageJson } from '@storybook/types';
