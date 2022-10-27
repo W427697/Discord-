@@ -5,7 +5,7 @@ import * as t from '@babel/types';
 import generate from '@babel/generator';
 import traverse from '@babel/traverse';
 import { toId, isExportStory, storyNameFromExport } from '@storybook/csf';
-import type { CSF_Meta, CSF_Story, CSF_Tag } from '@storybook/types';
+import type { CSF_Meta, CSF_Story, Tag } from '@storybook/types';
 import { babelParse } from './babelParse';
 
 const logger = console;
@@ -33,7 +33,7 @@ function parseTags(prop: t.Node) {
   return prop.elements.map((e) => {
     if (t.isStringLiteral(e)) return e.value;
     throw new Error(`CSF: Expected tag to be string literal`);
-  }) as CSF_Tag[];
+  }) as Tag[];
 }
 
 const findVarInitialization = (identifier: string, program: t.Program) => {
