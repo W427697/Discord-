@@ -1,17 +1,13 @@
-import {
-  BuilderContext,
-  BuilderOutput,
-  createBuilder,
-  targetFromTargetString,
-  Target,
-} from '@angular-devkit/architect';
-import { JsonObject } from '@angular-devkit/core';
-import { from, Observable, of, throwError } from 'rxjs';
+import type { BuilderContext, BuilderOutput, Target } from '@angular-devkit/architect';
+import { createBuilder, targetFromTargetString } from '@angular-devkit/architect';
+import type { JsonObject } from '@angular-devkit/core';
+import type { Observable } from 'rxjs';
+import { from, of, throwError } from 'rxjs';
 import type { CLIOptions } from '@storybook/types';
 import { catchError, map, mapTo, switchMap } from 'rxjs/operators';
 import { sync as findUpSync } from 'find-up';
 import { sync as readUpSync } from 'read-pkg-up';
-import {
+import type {
   BrowserBuilderOptions,
   ExtraEntryPoint,
   StylePreprocessorOptions,

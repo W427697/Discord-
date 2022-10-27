@@ -1,12 +1,7 @@
-import {
-  BuilderContext,
-  BuilderOutput,
-  createBuilder,
-  targetFromTargetString,
-  Target,
-} from '@angular-devkit/architect';
-import { JsonObject } from '@angular-devkit/core';
-import {
+import type { BuilderContext, BuilderOutput, Target } from '@angular-devkit/architect';
+import { createBuilder, targetFromTargetString } from '@angular-devkit/architect';
+import type { JsonObject } from '@angular-devkit/core';
+import type {
   BrowserBuilderOptions,
   ExtraEntryPoint,
   StylePreprocessorOptions,

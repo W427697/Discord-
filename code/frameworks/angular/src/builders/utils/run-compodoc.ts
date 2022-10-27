@@ -1,4 +1,4 @@
-import { BuilderContext } from '@angular-devkit/architect';
+import type { BuilderContext } from '@angular-devkit/architect';
 import { spawn } from 'child_process';
 import { Observable } from 'rxjs';
 import * as path from 'path';

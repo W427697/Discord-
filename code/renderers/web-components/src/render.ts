@@ -9,7 +9,7 @@ import { render as litRender } from 'lit-html';
 import { isTemplateResult } from 'lit-html/directive-helpers.js';
 import { simulatePageLoad, simulateDOMContentLoaded } from '@storybook/preview-web';
 import type { Store_RenderContext, ArgsStoryFn } from '@storybook/types';
-import { WebComponentsFramework } from './types';
+import type { WebComponentsFramework } from './types';
 
 const { Node } = global;
 

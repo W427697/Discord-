@@ -1,5 +1,6 @@
 /* eslint-disable no-fallthrough */
-import React, { Fragment, ReactNode, useEffect, useRef, FC, memo } from 'react';
+import type { ReactNode, FC } from 'react';
+import React, { Fragment, useEffect, useRef, memo } from 'react';
 import memoize from 'memoizerific';
 
 import { styled, Global, type Theme, withTheme } from '@storybook/theming';
@@ -10,7 +11,7 @@ import { useStorybookApi, useParameter, useAddonState } from '@storybook/api';
 import { registerShortcuts } from './shortcuts';
 import { PARAM_KEY, ADDON_ID } from './constants';
 import { MINIMAL_VIEWPORTS } from './defaults';
-import { ViewportAddonParameter, ViewportMap, ViewportStyles, Styles } from './models';
+import type { ViewportAddonParameter, ViewportMap, ViewportStyles, Styles } from './models';
 
 interface ViewportItem {
   id: string;

@@ -1,5 +1,4 @@
-// eslint-disable-next-line import/no-cycle
-import { OptionsObject } from '../types';
+import type { OptionsObject } from '../types';
 
 export const selectedKey = (value: any, options: OptionsObject) => {
   const entry = options && Object.entries(options).find(([_key, val]) => val === value);

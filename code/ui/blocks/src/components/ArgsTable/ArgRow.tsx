@@ -1,13 +1,15 @@
-import React, { FC } from 'react';
+import type { FC } from 'react';
+import React from 'react';
 import Markdown from 'markdown-to-jsx';
 import { transparentize } from 'polished';
 import { styled } from '@storybook/theming';
 import { codeCommon } from '@storybook/components';
-import { ArgType, Args, TableAnnotation } from './types';
+import type { ArgType, Args, TableAnnotation } from './types';
 import { ArgJsDoc } from './ArgJsDoc';
 import { ArgValue } from './ArgValue';
-// eslint-disable-next-line import/no-cycle
-import { ArgControl, ArgControlProps } from './ArgControl';
+
+import type { ArgControlProps } from './ArgControl';
+import { ArgControl } from './ArgControl';
 
 interface ArgRowProps {
   row: ArgType;

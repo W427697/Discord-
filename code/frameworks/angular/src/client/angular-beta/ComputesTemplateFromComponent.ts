@@ -1,8 +1,8 @@
 import type { Type } from '@angular/core';
 import type { API_ArgType, API_ArgTypes } from '@storybook/types';
 import type { ICollection } from '../types';
+import type { ComponentInputsOutputs } from './utils/NgComponentAnalyzer';
 import {
-  ComponentInputsOutputs,
   getComponentDecoratorMetadata,
   getComponentInputsOutputs,
 } from './utils/NgComponentAnalyzer';

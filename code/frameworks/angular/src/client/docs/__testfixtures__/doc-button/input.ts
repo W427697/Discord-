@@ -2,9 +2,9 @@
 // @ts-nocheck
 /* eslint-disable no-console */
 /* eslint-disable no-underscore-dangle */
+import type { ElementRef } from '@angular/core';
 import {
   Component,
-  ElementRef,
   EventEmitter,
   HostBinding,
   HostListener,

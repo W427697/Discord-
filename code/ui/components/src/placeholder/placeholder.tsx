@@ -1,4 +1,5 @@
-import React, { Children, FunctionComponent } from 'react';
+import type { FunctionComponent } from 'react';
+import React, { Children } from 'react';
 import { styled } from '@storybook/theming';
 
 const Title = styled.div(({ theme }) => ({

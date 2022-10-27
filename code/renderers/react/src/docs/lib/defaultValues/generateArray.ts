@@ -4,7 +4,7 @@ import {
   type PropDefaultValue,
 } from '@storybook/docs-tools';
 import { ARRAY_CAPTION } from '../captions';
-import { InspectionResult, InspectionArray } from '../inspection';
+import type { InspectionResult, InspectionArray } from '../inspection';
 import { generateArrayCode } from '../generateCode';
 
 export function generateArray({ inferredType, ast }: InspectionResult): PropDefaultValue {

@@ -1,17 +1,18 @@
-import React, { FC, useMemo, useState, useRef, useCallback, MutableRefObject } from 'react';
+import type { FC, MutableRefObject } from 'react';
+import React, { useMemo, useState, useRef, useCallback } from 'react';
 import { useStorybookApi, useStorybookState } from '@storybook/api';
 import { styled } from '@storybook/theming';
 import { transparentize } from 'polished';
 
 import { AuthBlock, ErrorBlock, LoaderBlock, EmptyBlock } from './RefBlocks';
-// eslint-disable-next-line import/no-cycle
+
 import { RefIndicator } from './RefIndicator';
 // eslint-disable-next-line import/no-cycle
 import { Tree } from './Tree';
 import { CollapseIcon } from './TreeNode';
 // eslint-disable-next-line import/no-cycle
 import { DEFAULT_REF_ID } from './Sidebar';
-import { Highlight, RefType } from './types';
+import type { Highlight, RefType } from './types';
 // eslint-disable-next-line import/no-cycle
 import { getStateType } from './utils';
 

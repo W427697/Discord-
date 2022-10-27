@@ -1,7 +1,7 @@
 import { addons } from '@storybook/addons';
 import { DOCS_RENDERED, STORY_CHANGED } from '@storybook/core-events';
 import { AbstractRenderer } from './AbstractRenderer';
-import { StoryFnAngularReturnType, Parameters } from '../types';
+import type { StoryFnAngularReturnType, Parameters } from '../types';
 
 export class DocsRenderer extends AbstractRenderer {
   public async render(options: {

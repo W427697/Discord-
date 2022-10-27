@@ -2,23 +2,20 @@
 // to provide @Inputs and subscribe to @Outputs, see
 // https://github.com/angular/angular/issues/15360
 // For the time being, the ViewContainerRef approach works pretty well.
+import type { OnInit, ComponentFactoryResolver, OnDestroy, SimpleChanges } from '@angular/core';
 import {
   Component,
   Inject,
-  OnInit,
   ViewChild,
   ViewContainerRef,
-  ComponentFactoryResolver,
-  OnDestroy,
   EventEmitter,
-  SimpleChanges,
   SimpleChange,
   ChangeDetectorRef,
 } from '@angular/core';
-import { Observable, Subscription } from 'rxjs';
+import type { Observable, Subscription } from 'rxjs';
 import { first } from 'rxjs/operators';
 import { STORY } from './app.token';
-import { StoryFnAngularReturnType, ICollection } from '../types';
+import type { StoryFnAngularReturnType, ICollection } from '../types';
 
 @Component({
   selector: 'storybook-dynamic-app-root',

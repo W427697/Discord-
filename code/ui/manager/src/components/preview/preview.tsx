@@ -14,7 +14,7 @@ import { defaultWrappers, ApplyWrappers } from './wrappers';
 import { ToolbarComp } from './toolbar';
 import { FramesRenderer } from './FramesRenderer';
 
-import { PreviewProps } from './utils/types';
+import type { PreviewProps } from './utils/types';
 
 const getWrappers = (getFn: API['getElements']) => Object.values(getFn<Addon>(types.PREVIEW));
 const getTabs = (getFn: API['getElements']) => Object.values(getFn<Addon>(types.TAB));

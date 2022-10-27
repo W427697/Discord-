@@ -4,9 +4,8 @@ import { type Call, CallStates, type ControlStates } from '@storybook/instrument
 import { styled } from '@storybook/theming';
 import { transparentize } from 'polished';
 
-// eslint-disable-next-line import/no-cycle
 import { Subnav } from './Subnav';
-// eslint-disable-next-line import/no-cycle
+
 import { Interaction } from './Interaction';
 
 export interface Controls {

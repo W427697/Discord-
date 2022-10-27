@@ -7,8 +7,8 @@ import {
   STORY_RENDER_PHASE_CHANGED,
   STORY_THREW_EXCEPTION,
 } from '@storybook/core-events';
-import { StoryIndex, TeardownRenderToDOM } from '@storybook/store';
-import { RenderPhase } from './PreviewWeb';
+import type { StoryIndex, TeardownRenderToDOM } from '@storybook/store';
+import type { RenderPhase } from './PreviewWeb';
 
 export const componentOneExports = {
   default: {

@@ -1,4 +1,5 @@
-import React, { FC, Context, createContext, useEffect, useState } from 'react';
+import type { FC, Context } from 'react';
+import React, { createContext, useEffect, useState } from 'react';
 
 import { dequal as deepEqual } from 'dequal';
 import type { Channel } from '@storybook/channels';

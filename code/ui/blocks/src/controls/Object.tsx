@@ -1,16 +1,7 @@
 import global from 'global';
 import cloneDeep from 'lodash/cloneDeep';
-import React, {
-  ComponentProps,
-  SyntheticEvent,
-  useCallback,
-  useMemo,
-  useState,
-  useEffect,
-  useRef,
-  FC,
-  FocusEvent,
-} from 'react';
+import type { ComponentProps, SyntheticEvent, FC, FocusEvent } from 'react';
+import React, { useCallback, useMemo, useState, useEffect, useRef } from 'react';
 import { styled, useTheme, type Theme } from '@storybook/theming';
 import { Form, Icons, type IconsProps, IconButton } from '@storybook/components';
 import { JsonTree, getObjectType } from './react-editable-json-tree';

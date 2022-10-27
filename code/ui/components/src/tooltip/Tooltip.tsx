@@ -1,4 +1,5 @@
-import React, { FC } from 'react';
+import type { FC } from 'react';
+import React from 'react';
 import memoize from 'memoizerific';
 
 import { styled, type Color, lighten } from '@storybook/theming';

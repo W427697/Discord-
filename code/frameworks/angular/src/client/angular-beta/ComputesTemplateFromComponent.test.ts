@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import type { API_ArgTypes } from '@storybook/types';
 import { computesTemplateSourceFromComponent } from './ComputesTemplateFromComponent';
-import { ButtonAccent, InputComponent, ISomeInterface } from './__testfixtures__/input.component';
+import type { ISomeInterface } from './__testfixtures__/input.component';
+import { ButtonAccent, InputComponent } from './__testfixtures__/input.component';
 
 describe('angular source decorator', () => {
   it('With no props should generate simple tag', () => {

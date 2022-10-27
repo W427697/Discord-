@@ -2,7 +2,7 @@ import path from 'path';
 import type { Configuration } from 'webpack';
 import { logger } from '@storybook/node-logger';
 import { normalize, getSystemPath } from '@angular-devkit/core';
-import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin';
+import type TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin';
 import { webpackFinal } from './framework-preset-angular-cli';
 import type { PresetOptions } from './preset-options';
 

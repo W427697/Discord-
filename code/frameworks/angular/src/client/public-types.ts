@@ -4,7 +4,7 @@ import type {
   ComponentAnnotations,
   StoryAnnotations,
 } from '@storybook/types';
-import { AngularFramework } from './types';
+import type { AngularFramework } from './types';
 
 export type { Args, ArgTypes } from '@storybook/types';
 

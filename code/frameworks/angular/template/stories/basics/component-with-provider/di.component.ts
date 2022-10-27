@@ -1,4 +1,5 @@
-import { Component, Input, InjectionToken, Injector, ElementRef, Inject } from '@angular/core';
+import type { Injector, ElementRef } from '@angular/core';
+import { Component, Input, InjectionToken, Inject } from '@angular/core';
 import { stringify } from 'telejson';
 
 export const TEST_TOKEN = new InjectionToken<string>('test');

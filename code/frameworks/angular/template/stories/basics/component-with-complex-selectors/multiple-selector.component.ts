@@ -1,4 +1,5 @@
-import { Component, ComponentFactoryResolver, ElementRef } from '@angular/core';
+import type { ComponentFactoryResolver, ElementRef } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'storybook-multiple-selector, storybook-multiple-selector2',

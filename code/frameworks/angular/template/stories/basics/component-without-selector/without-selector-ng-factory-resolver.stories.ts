@@ -1,13 +1,7 @@
-import {
-  AfterViewInit,
-  Component,
-  ComponentFactoryResolver,
-  Input,
-  Type,
-  ViewChild,
-  ViewContainerRef,
-} from '@angular/core';
-import { componentWrapperDecorator, moduleMetadata, StoryFn, Meta } from '@storybook/angular';
+import type { AfterViewInit, ComponentFactoryResolver, Type } from '@angular/core';
+import { Component, Input, ViewChild, ViewContainerRef } from '@angular/core';
+import type { StoryFn, Meta } from '@storybook/angular';
+import { componentWrapperDecorator, moduleMetadata } from '@storybook/angular';
 
 import { WithoutSelectorComponent } from './without-selector.component';
 

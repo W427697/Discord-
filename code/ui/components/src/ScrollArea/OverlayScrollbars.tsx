@@ -1,4 +1,5 @@
-import React, { useRef, useEffect, HTMLAttributes, FC } from 'react';
+import type { HTMLAttributes, FC } from 'react';
+import React, { useRef, useEffect } from 'react';
 import OverlayScrollbars from 'overlayscrollbars';
 
 interface OverlayScrollbarsComponentProps extends HTMLAttributes<HTMLDivElement> {

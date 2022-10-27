@@ -5,6 +5,7 @@
  * It is not possible to use the original because arguments have changed between version 6.1.* and 11.*.* of angular-cli
  */
 import { statSync } from 'fs';
+import type { Path } from '@angular-devkit/core';
 import {
   BaseException,
   basename,
@@ -12,12 +13,11 @@ import {
   getSystemPath,
   join,
   normalize,
-  Path,
   relative,
   resolve,
 } from '@angular-devkit/core';
-import { AssetPattern } from '@angular-devkit/build-angular';
-import { AssetPatternClass } from '@angular-devkit/build-angular/src/builders/browser/schema';
+import type { AssetPattern } from '@angular-devkit/build-angular';
+import type { AssetPatternClass } from '@angular-devkit/build-angular/src/builders/browser/schema';
 
 export class MissingAssetSourceRootException extends BaseException {
   constructor(path: string) {

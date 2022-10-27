@@ -1,10 +1,13 @@
-import React, { ComponentProps, FC, useContext } from 'react';
+import type { ComponentProps, FC } from 'react';
+import React, { useContext } from 'react';
 import type { StoryId, Store_Story } from '@storybook/types';
 import { SourceType } from '@storybook/docs-tools';
 
 import { Source as PureSource, SourceError } from '../components';
-import { DocsContext, DocsContextProps } from './DocsContext';
-import { SourceContext, SourceContextProps, SourceItem } from './SourceContainer';
+import type { DocsContextProps } from './DocsContext';
+import { DocsContext } from './DocsContext';
+import type { SourceContextProps, SourceItem } from './SourceContainer';
+import { SourceContext } from './SourceContainer';
 
 import { enhanceSource } from './enhanceSource';
 import { useStories } from './useStory';

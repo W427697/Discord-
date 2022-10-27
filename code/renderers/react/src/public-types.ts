@@ -7,10 +7,10 @@ import type {
   StoryAnnotations,
 } from '@storybook/types';
 
-import { ComponentProps, ComponentType, JSXElementConstructor } from 'react';
-import { SetOptional, Simplify } from 'type-fest';
+import type { ComponentProps, ComponentType, JSXElementConstructor } from 'react';
+import type { SetOptional, Simplify } from 'type-fest';
 
-import { ReactFramework } from './types';
+import type { ReactFramework } from './types';
 
 type JSXElement = keyof JSX.IntrinsicElements | JSXElementConstructor<any>;
 

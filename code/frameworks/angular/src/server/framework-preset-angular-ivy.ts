@@ -1,4 +1,4 @@
-import { Configuration } from 'webpack';
+import type { Configuration } from 'webpack';
 import * as path from 'path';
 import type { Preset } from '@storybook/types';
 

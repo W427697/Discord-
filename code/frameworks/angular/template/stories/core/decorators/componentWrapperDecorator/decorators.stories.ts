@@ -1,6 +1,7 @@
 // your-component.stories.ts
 
-import { Args, componentWrapperDecorator, Meta, moduleMetadata, Story } from '@storybook/angular';
+import type { Args, Meta, Story } from '@storybook/angular';
+import { componentWrapperDecorator, moduleMetadata } from '@storybook/angular';
 import ChildComponent from './child.component';
 import ParentComponent from './parent.component';
 

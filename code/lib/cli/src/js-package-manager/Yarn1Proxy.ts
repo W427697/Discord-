@@ -1,4 +1,3 @@
-// eslint-disable-next-line import/no-cycle
 import { JsPackageManager } from './JsPackageManager';
 import type { PackageJson } from './PackageJson';
 

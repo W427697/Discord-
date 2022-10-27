@@ -1,4 +1,5 @@
-import { moduleMetadata, Meta, StoryFn } from '@storybook/angular';
+import type { Meta, StoryFn } from '@storybook/angular';
+import { moduleMetadata } from '@storybook/angular';
 import { TokenComponent, ITEMS, DEFAULT_NAME } from './angular-src/token.component';
 import { CustomPipePipe } from './angular-src/custom.pipe';
 

@@ -32,7 +32,8 @@ import type {
   ViewMode,
 } from '@storybook/types';
 
-import { MaybePromise, Preview } from './Preview';
+import type { MaybePromise } from './Preview';
+import { Preview } from './Preview';
 
 import { UrlStore } from './UrlStore';
 import { WebView } from './WebView';

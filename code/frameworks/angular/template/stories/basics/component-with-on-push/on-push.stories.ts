@@ -1,4 +1,4 @@
-import { Meta, StoryFn } from '@storybook/angular';
+import type { Meta, StoryFn } from '@storybook/angular';
 import { OnPushBoxComponent } from './on-push-box.component';
 
 export default {

@@ -1,11 +1,13 @@
-import webpack from 'webpack';
+import type webpack from 'webpack';
 import { logger } from '@storybook/node-logger';
-import { targetFromTargetString, BuilderContext, Target } from '@angular-devkit/architect';
+import type { BuilderContext, Target } from '@angular-devkit/architect';
+import { targetFromTargetString } from '@angular-devkit/architect';
 import { sync as findUpSync } from 'find-up';
 import semver from 'semver';
 import { dedent } from 'ts-dedent';
 
-import { logging, JsonObject } from '@angular-devkit/core';
+import type { JsonObject } from '@angular-devkit/core';
+import { logging } from '@angular-devkit/core';
 import { moduleIsAvailable } from './utils/module-is-available';
 import { getWebpackConfig as getWebpackConfig13_x_x } from './angular-cli-webpack-13.x.x';
 import type { PresetOptions } from './preset-options';

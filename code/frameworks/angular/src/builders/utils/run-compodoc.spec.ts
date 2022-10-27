@@ -1,5 +1,5 @@
-import { BuilderContext } from '@angular-devkit/architect';
-import { LoggerApi } from '@angular-devkit/core/src/logger';
+import type { BuilderContext } from '@angular-devkit/architect';
+import type { LoggerApi } from '@angular-devkit/core/src/logger';
 import { take } from 'rxjs/operators';
 
 const cpSpawnMock = {
