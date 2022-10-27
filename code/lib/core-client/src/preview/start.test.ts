@@ -1121,7 +1121,7 @@ describe('start', () => {
         global.DOCS_OPTIONS = { enabled: true, docsPage: true, defaultName: 'Docs' };
       });
 
-      it('adds stories for each component', async () => {
+      it('adds stories for each component with docsPage tag', async () => {
         const renderToDOM = jest.fn();
 
         const { configure, clientApi } = start(renderToDOM);
@@ -1133,6 +1133,7 @@ describe('start', () => {
 
           clientApi
             .storiesOf('Component B', { id: 'file2' } as NodeModule)
+            .addParameters({ tags: ['docsPage'] })
             .add('Story Three', jest.fn());
 
           return [componentCExports];
@@ -1183,6 +1184,20 @@ describe('start', () => {
                 "title": "Component A",
                 "type": "story",
               },
+              "component-b--docs": Object {
+                "componentId": "component-b",
+                "id": "component-b--docs",
+                "importPath": "file2",
+                "name": "Docs",
+                "standalone": false,
+                "storiesImports": Array [],
+                "tags": Array [
+                  "docsPage",
+                  "docs",
+                ],
+                "title": "Component B",
+                "type": "docs",
+              },
               "component-b--story-three": Object {
                 "argTypes": Object {},
                 "args": Object {},
@@ -1198,6 +1213,7 @@ describe('start', () => {
                   "framework": "test",
                 },
                 "tags": Array [
+                  "docsPage",
                   "story",
                 ],
                 "title": "Component B",
