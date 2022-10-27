@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-
 import type { API_ViewMode } from './api';
 import type { DocsOptions } from './core-common';
 import type {
@@ -15,6 +14,7 @@ import type {
   Globals,
   GlobalTypes,
   Path,
+  Tag,
 } from './csf';
 
 export interface API_BaseEntry {
@@ -94,6 +94,7 @@ export interface API_StoryEntry extends API_BaseEntry {
   /** @deprecated */
   kind: ComponentTitle;
   importPath: Path;
+  tags: Tag[];
   prepared: boolean;
   parameters?: {
     [parameterName: string]: any;

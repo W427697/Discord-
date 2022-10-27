@@ -152,7 +152,8 @@ export class StoryRender<TFramework extends AnyFramework> implements Render<TFra
     if (!this.story) throw new Error('cannot render when not prepared');
     if (!canvasElement) throw new Error('cannot render when canvasElement is unset');
 
-    const { id, componentId, title, name, applyLoaders, unboundStoryFn, playFunction } = this.story;
+    const { id, componentId, title, name, tags, applyLoaders, unboundStoryFn, playFunction } =
+      this.story;
 
     if (forceRemount && !initial) {
       // NOTE: we don't check the cancel actually worked here, so the previous
@@ -193,6 +194,7 @@ export class StoryRender<TFramework extends AnyFramework> implements Render<TFra
         id,
         name,
         story: name,
+        tags,
         ...this.callbacks,
         showError: (error) => {
           this.phase = 'errored';

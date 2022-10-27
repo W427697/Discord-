@@ -3394,6 +3394,9 @@ describe('PreviewWeb', () => {
             },
             "story": "A",
             "subcomponents": undefined,
+            "tags": Array [
+              "story",
+            ],
             "title": "Component One",
           },
           "component-one--b": Object {
@@ -3427,6 +3430,9 @@ describe('PreviewWeb', () => {
             },
             "story": "B",
             "subcomponents": undefined,
+            "tags": Array [
+              "story",
+            ],
             "title": "Component One",
           },
           "component-one--e": Object {
@@ -3449,6 +3455,9 @@ describe('PreviewWeb', () => {
             "playFunction": undefined,
             "story": "E",
             "subcomponents": undefined,
+            "tags": Array [
+              "story",
+            ],
             "title": "Component One",
           },
           "component-two--c": Object {
@@ -3481,6 +3490,9 @@ describe('PreviewWeb', () => {
             "playFunction": undefined,
             "story": "C",
             "subcomponents": undefined,
+            "tags": Array [
+              "story",
+            ],
             "title": "Component Two",
           },
         }

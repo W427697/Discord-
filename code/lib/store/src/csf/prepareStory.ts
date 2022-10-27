@@ -53,6 +53,8 @@ export function prepareStory<TFramework extends AnyFramework>(
   const { moduleExport, id, name } = storyAnnotations;
   const { title } = componentAnnotations;
 
+  const tags = [...(storyAnnotations.tags || componentAnnotations.tags || []), 'story'];
+
   const parameters: Parameters = combineParameters(
     projectAnnotations.parameters,
     componentAnnotations.parameters,
@@ -88,7 +90,6 @@ export function prepareStory<TFramework extends AnyFramework>(
     projectAnnotations.render;
 
   if (!render) throw new Error(`No render function available for storyId '${id}'`);
-
   const passedArgTypes: StrictArgTypes = combineParameters(
     projectAnnotations.argTypes,
     componentAnnotations.argTypes,
@@ -115,6 +116,7 @@ export function prepareStory<TFramework extends AnyFramework>(
     story: name, // Back compat
     component: componentAnnotations.component,
     subcomponents: componentAnnotations.subcomponents,
+    tags,
     parameters,
     initialArgs: passedArgs,
     argTypes: passedArgTypes,

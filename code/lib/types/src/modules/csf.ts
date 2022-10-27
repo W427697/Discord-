@@ -55,6 +55,7 @@ import type {
   StrictArgTypes,
   StrictGlobalTypes,
   StrictInputType,
+  Tag,
   ViewMode as ViewModeBase,
 } from '@storybook/csf';
 import { Addon_OptionsParameter } from './addons';
@@ -113,6 +114,7 @@ export type {
   StrictArgTypes,
   StrictGlobalTypes,
   StrictInputType,
+  Tag,
 };
 
 export type CSF_Tag = string;

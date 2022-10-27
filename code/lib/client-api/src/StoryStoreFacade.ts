@@ -205,6 +205,7 @@ export class StoryStoreFacade<TFramework extends AnyFramework> {
           title,
           importPath: fileName,
           componentId,
+          tags: [...(storyExport.tags || defaultExport.tags || []), 'story'],
         };
       }
     });
@@ -223,8 +224,9 @@ export class StoryStoreFacade<TFramework extends AnyFramework> {
           title,
           name,
           importPath: fileName,
-          storiesImports: [],
           componentId,
+          tags: [...(defaultExport.tags || []), 'docs'],
+          storiesImports: [],
         };
       }
     }
