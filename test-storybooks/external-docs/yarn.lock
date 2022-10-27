@@ -2328,7 +2328,7 @@ __metadata:
     "@fal-works/esbuild-plugin-global-externals": ^2.1.2
     "@storybook/core-common": 7.0.0-alpha.42
     "@storybook/node-logger": 7.0.0-alpha.42
-    "@storybook/ui": 7.0.0-alpha.42
+    "@storybook/manager": 7.0.0-alpha.42
     "@types/ejs": ^3.1.1
     "@yarnpkg/esbuild-plugin-pnp": ^3.0.0-rc.10
     browser-assert: ^1.2.1
@@ -2542,7 +2542,7 @@ __metadata:
     "@storybook/csf": next
     "@storybook/preview-web": 7.0.0-alpha.42
     "@storybook/store": 7.0.0-alpha.42
-    "@storybook/ui": 7.0.0-alpha.42
+    "@storybook/manager": 7.0.0-alpha.42
     global: ^4.4.0
     regenerator-runtime: ^0.13.7
     util-deprecate: ^1.0.2
@@ -2984,9 +2984,9 @@ __metadata:
   languageName: node
   linkType: soft
 
-"@storybook/ui@portal:../../code/ui/manager::locator=%40storybook%2Fexternal-docs%40workspace%3A.":
+"@storybook/manager@portal:../../code/ui/manager::locator=%40storybook%2Fexternal-docs%40workspace%3A.":
   version: 0.0.0-use.local
-  resolution: "@storybook/ui@portal:../../code/ui/manager::locator=%40storybook%2Fexternal-docs%40workspace%3A."
+  resolution: "@storybook/manager@portal:../../code/ui/manager::locator=%40storybook%2Fexternal-docs%40workspace%3A."
   languageName: node
   linkType: soft
 

@@ -123,7 +123,7 @@ const starter: StarterFunction = async function* starterGeneratorFn({
 
   yield;
 
-  const coreDirOrigin = join(dirname(require.resolve('@storybook/ui/package.json')), 'dist');
+  const coreDirOrigin = join(dirname(require.resolve('@storybook/manager/package.json')), 'dist');
 
   router.use(`/sb-addons`, express.static(addonsDir));
   router.use(`/sb-manager`, express.static(coreDirOrigin));
@@ -180,7 +180,7 @@ const builder: BuilderFunction = async function* builderGeneratorFn({ startTime,
   yield;
 
   const addonsDir = config.outdir;
-  const coreDirOrigin = join(dirname(require.resolve('@storybook/ui/package.json')), 'dist');
+  const coreDirOrigin = join(dirname(require.resolve('@storybook/manager/package.json')), 'dist');
   const coreDirTarget = join(options.outputDir, `sb-manager`);
 
   compilation = await instance({

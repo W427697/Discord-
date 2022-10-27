@@ -22,7 +22,7 @@ test.describe('addon-docs', () => {
     );
 
     const sbPage = new SbPage(page);
-    await sbPage.navigateToStory('example-button', 'docs');
+    await sbPage.navigateToStory('addons/docs/docspage/basic', 'docs');
     const root = sbPage.previewRoot();
     const toggles = root.locator('.docblock-code-toggle');
 
