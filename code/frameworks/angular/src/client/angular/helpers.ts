@@ -1,15 +1,13 @@
 import global from 'global';
-import type { NgModuleRef, Type } from '@angular/core';
-import { enableProdMode, NgModule, Component, NgZone } from '@angular/core';
+import { NgModuleRef, Type, enableProdMode, NgModule, Component, NgZone } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { BrowserModule } from '@angular/platform-browser';
-import type { Subscriber } from 'rxjs';
-import { Observable, ReplaySubject } from 'rxjs';
-import type { PartialStoryFn } from '@storybook/types';
+import { Subscriber, Observable, ReplaySubject } from 'rxjs';
+import { PartialStoryFn } from '@storybook/types';
 import { AppComponent } from './app.component';
 import { STORY } from './app.token';
-import type { NgModuleMetadata, StoryFnAngularReturnType, AngularFramework } from '../types';
+import { NgModuleMetadata, StoryFnAngularReturnType, AngularFramework } from '../types';
 
 const { document } = global;
 

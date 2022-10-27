@@ -1,5 +1,5 @@
 import { extractType, setCompodocJson } from './compodoc';
-import type { CompodocJson, Decorator } from './types';
+import { CompodocJson, Decorator } from './types';
 
 const makeProperty = (compodocType?: string) => ({
   type: compodocType,

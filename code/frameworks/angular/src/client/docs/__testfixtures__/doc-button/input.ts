@@ -2,7 +2,6 @@
 // @ts-nocheck
 /* eslint-disable no-console */
 /* eslint-disable no-underscore-dangle */
-import type { ElementRef } from '@angular/core';
 import {
   Component,
   EventEmitter,
@@ -11,6 +10,7 @@ import {
   Input,
   Output,
   ViewChild,
+  ElementRef,
 } from '@angular/core';
 
 export const exportedConstant = 'An exported constant';

@@ -1,5 +1,4 @@
-import type { Meta, StoryFn } from '@storybook/angular';
-import { moduleMetadata } from '@storybook/angular';
+import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
 import Button from '../../button.component';
 
 export const TemplateStory: StoryFn = () => ({

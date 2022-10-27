@@ -1,7 +1,7 @@
-import type { Options as CoreOptions } from '@storybook/types';
+import { Options as CoreOptions } from '@storybook/types';
 
-import type { BuilderContext } from '@angular-devkit/architect';
-import type { ExtraEntryPoint, StylePreprocessorOptions } from '@angular-devkit/build-angular';
+import { BuilderContext } from '@angular-devkit/architect';
+import { ExtraEntryPoint, StylePreprocessorOptions } from '@angular-devkit/build-angular';
 
 export type PresetOptions = CoreOptions & {
   /* Allow to get the options of a targeted "browser builder"  */

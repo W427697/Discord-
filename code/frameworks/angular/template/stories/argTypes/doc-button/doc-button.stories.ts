@@ -1,4 +1,4 @@
-import type { Args } from '@storybook/angular';
+import { Args } from '@storybook/angular';
 import { DocButtonComponent } from './doc-button.component';
 
 export default {

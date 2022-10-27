@@ -1,5 +1,6 @@
-import type { ComponentFactory, Type } from '@angular/core';
 import {
+  ComponentFactory,
+  Type,
   Component,
   ComponentFactoryResolver,
   Directive,

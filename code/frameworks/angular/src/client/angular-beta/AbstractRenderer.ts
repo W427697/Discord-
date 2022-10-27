@@ -1,11 +1,9 @@
-import type { NgModule, PlatformRef } from '@angular/core';
-import { enableProdMode } from '@angular/core';
+import { NgModule, PlatformRef, enableProdMode } from '@angular/core';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 
-import type { Subject } from 'rxjs';
-import { BehaviorSubject } from 'rxjs';
+import { Subject, BehaviorSubject } from 'rxjs';
 import { stringify } from 'telejson';
-import type { ICollection, StoryFnAngularReturnType, Parameters } from '../types';
+import { ICollection, StoryFnAngularReturnType, Parameters } from '../types';
 import { createStorybookModule, getStorybookModuleMetadata } from './StorybookModule';
 
 type StoryRenderInfo = {

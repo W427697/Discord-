@@ -1,12 +1,20 @@
-import type { AfterViewInit, ElementRef, OnDestroy, Type } from '@angular/core';
-import { ChangeDetectorRef, Component, Inject, ViewChild, ViewContainerRef } from '@angular/core';
-import type { Subscription, Subject } from 'rxjs';
+import {
+  AfterViewInit,
+  ElementRef,
+  OnDestroy,
+  Type,
+  ChangeDetectorRef,
+  Component,
+  Inject,
+  ViewChild,
+  ViewContainerRef,
+} from '@angular/core';
+import { Subscription, Subject } from 'rxjs';
 import { map, skip } from 'rxjs/operators';
 
-import type { ICollection } from '../types';
+import { ICollection } from '../types';
 import { STORY_PROPS } from './StorybookProvider';
-import type { ComponentInputsOutputs } from './utils/NgComponentAnalyzer';
-import { getComponentInputsOutputs } from './utils/NgComponentAnalyzer';
+import { ComponentInputsOutputs, getComponentInputsOutputs } from './utils/NgComponentAnalyzer';
 
 const getNonInputsOutputsProps = (
   ngComponentInputsOutputs: ComponentInputsOutputs,

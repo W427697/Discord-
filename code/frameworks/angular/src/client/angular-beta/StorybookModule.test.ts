@@ -1,10 +1,9 @@
-import type { NgModule, Type } from '@angular/core';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { NgModule, Type, Component, EventEmitter, Input, Output } from '@angular/core';
 
 import { TestBed } from '@angular/core/testing';
 import { BrowserModule } from '@angular/platform-browser';
 import { BehaviorSubject } from 'rxjs';
-import type { ICollection } from '../types';
+import { ICollection } from '../types';
 import { getStorybookModuleMetadata } from './StorybookModule';
 
 describe('StorybookModule', () => {

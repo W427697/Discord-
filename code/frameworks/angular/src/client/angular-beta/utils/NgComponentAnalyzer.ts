@@ -1,5 +1,5 @@
-import type { Type } from '@angular/core';
 import {
+  Type,
   Component,
   Directive,
   Input,

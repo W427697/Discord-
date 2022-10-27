@@ -1,5 +1,5 @@
-import type { OptimizationUnion } from '@angular-devkit/build-angular';
-import type { NormalizedOptimizationOptions } from '@angular-devkit/build-angular/src/utils/normalize-optimization';
+import { OptimizationUnion } from '@angular-devkit/build-angular';
+import { NormalizedOptimizationOptions } from '@angular-devkit/build-angular/src/utils/normalize-optimization';
 import { moduleIsAvailable } from './module-is-available';
 
 const importAngularCliNormalizeOptimization = ():

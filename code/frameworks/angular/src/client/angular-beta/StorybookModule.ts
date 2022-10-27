@@ -1,9 +1,8 @@
-import type { Type } from '@angular/core';
-import { NgModule } from '@angular/core';
+import { Type, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
-import type { Subject } from 'rxjs';
-import type { ICollection, StoryFnAngularReturnType } from '../types';
+import { Subject } from 'rxjs';
+import { ICollection, StoryFnAngularReturnType } from '../types';
 import { storyPropsProvider } from './StorybookProvider';
 import { isComponentAlreadyDeclaredInModules } from './utils/NgModulesAnalyzer';
 import { isDeclarable, isStandaloneComponent } from './utils/NgComponentAnalyzer';

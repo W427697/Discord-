@@ -1,20 +1,24 @@
-import type { BuilderContext, BuilderOutput, Target } from '@angular-devkit/architect';
-import { createBuilder, targetFromTargetString } from '@angular-devkit/architect';
-import type { JsonObject } from '@angular-devkit/core';
-import type { Observable } from 'rxjs';
-import { from, of, throwError } from 'rxjs';
-import type { CLIOptions } from '@storybook/types';
+import {
+  BuilderContext,
+  BuilderOutput,
+  Target,
+  createBuilder,
+  targetFromTargetString,
+} from '@angular-devkit/architect';
+import { JsonObject } from '@angular-devkit/core';
+import { Observable, from, of, throwError } from 'rxjs';
+import { CLIOptions } from '@storybook/types';
 import { catchError, map, mapTo, switchMap } from 'rxjs/operators';
 import { sync as findUpSync } from 'find-up';
 import { sync as readUpSync } from 'read-pkg-up';
-import type {
+import {
   BrowserBuilderOptions,
   ExtraEntryPoint,
   StylePreprocessorOptions,
 } from '@angular-devkit/build-angular';
 
 import { buildStaticStandalone } from '@storybook/core-server';
-import type { StandaloneOptions } from '../utils/standalone-options';
+import { StandaloneOptions } from '../utils/standalone-options';
 import { runCompodoc } from '../utils/run-compodoc';
 import { buildStandaloneErrorHandler } from '../utils/build-standalone-errors-handler';
 

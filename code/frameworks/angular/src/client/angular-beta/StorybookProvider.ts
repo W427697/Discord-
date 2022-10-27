@@ -1,8 +1,6 @@
-import type { Provider } from '@angular/core';
-import { InjectionToken, NgZone } from '@angular/core';
-import type { Subject, Subscriber } from 'rxjs';
-import { Observable } from 'rxjs';
-import type { ICollection } from '../types';
+import { Provider, InjectionToken, NgZone } from '@angular/core';
+import { Subject, Subscriber, Observable } from 'rxjs';
+import { ICollection } from '../types';
 
 export const STORY_PROPS = new InjectionToken<Subject<ICollection | undefined>>('STORY_PROPS');
 

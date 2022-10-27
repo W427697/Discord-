@@ -1,6 +1,6 @@
 import path from 'path';
-import type { PresetProperty } from '@storybook/types';
-import type { StorybookConfig } from './types';
+import { PresetProperty } from '@storybook/types';
+import { StorybookConfig } from './types';
 
 export const addons: PresetProperty<'addons', StorybookConfig> = [
   require.resolve('./server/framework-preset-angular-cli'),
