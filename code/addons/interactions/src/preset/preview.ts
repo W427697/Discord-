@@ -1,3 +1,5 @@
+/// <reference types="node" />
+
 import { addons } from '@storybook/addons';
 import { FORCE_REMOUNT, STORY_RENDER_PHASE_CHANGED } from '@storybook/core-events';
 import type {
@@ -6,7 +8,7 @@ import type {
   PlayFunction,
   PlayFunctionContext,
   StepLabel,
-} from '@storybook/csf';
+} from '@storybook/types';
 import { instrument } from '@storybook/instrumenter';
 import { ModuleMocker } from 'jest-mock';
 
@@ -37,7 +39,7 @@ const addSpies = (id: string, val: any, key?: string): any => {
     if (Array.isArray(val)) {
       return val.map((item, index) => addSpies(id, item, `${key}[${index}]`));
     }
-    if (typeof val === 'function' && val.name === 'actionHandler') {
+    if (typeof val === 'function' && val.isAction) {
       Object.defineProperty(val, 'name', { value: key, writable: false });
       Object.defineProperty(val, '__storyId__', { value: id, writable: false });
       const spy = action(val);

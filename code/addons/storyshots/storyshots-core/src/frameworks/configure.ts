@@ -1,16 +1,17 @@
 import fs from 'fs';
 import path from 'path';
-import type { NormalizedStoriesSpecifier, StoriesEntry } from '@storybook/core-common';
-import { toRequireContext } from '@storybook/core-webpack';
-import { normalizeStoriesEntry } from '@storybook/core-common';
-import registerRequireContextHook from '@storybook/babel-plugin-require-context-hook/register';
-import global from 'global';
 import type {
   AnyFramework,
   ArgsEnhancer,
   ArgTypesEnhancer,
+  CoreCommon_NormalizedStoriesSpecifier,
+  CoreCommon_StoriesEntry,
   DecoratorFunction,
-} from '@storybook/csf';
+} from '@storybook/types';
+import { toRequireContext } from '@storybook/core-webpack';
+import { normalizeStoriesEntry } from '@storybook/core-common';
+import registerRequireContextHook from '@storybook/babel-plugin-require-context-hook/register';
+import global from 'global';
 
 import { ClientApi } from './Loader';
 import type { StoryshotsOptions } from '../api/StoryshotsOptions';
@@ -28,7 +29,7 @@ const isFile = (file: string): boolean => {
 interface Output {
   features?: Record<string, boolean>;
   preview?: string;
-  stories?: NormalizedStoriesSpecifier[];
+  stories?: CoreCommon_NormalizedStoriesSpecifier[];
   requireContexts?: string[];
 }
 
@@ -64,7 +65,7 @@ function getConfigPathParts(input: string): Output {
       output.features = features;
 
       const workingDir = process.cwd();
-      output.stories = stories.map((entry: StoriesEntry) => {
+      output.stories = stories.map((entry: CoreCommon_StoriesEntry) => {
         const specifier = normalizeStoriesEntry(entry, {
           configDir,
           workingDir,
@@ -112,7 +113,7 @@ function configure<TFramework extends AnyFramework>(
   }));
 
   if (preview) {
-    // This is essentially the same code as lib/core/src/server/preview/virtualModuleEntry.template
+    // This is essentially the same code as lib/builder-webpack5/templates/virtualModuleEntry.template
     const {
       parameters,
       decorators,

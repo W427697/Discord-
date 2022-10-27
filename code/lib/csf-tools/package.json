@@ -1,6 +1,6 @@
 {
   "name": "@storybook/csf-tools",
-  "version": "7.0.0-alpha.33",
+  "version": "7.0.0-alpha.45",
   "description": "",
   "keywords": [
     "storybook"
@@ -20,9 +20,17 @@
   },
   "license": "MIT",
   "sideEffects": false,
-  "main": "dist/cjs/index.js",
-  "module": "dist/esm/index.js",
-  "types": "dist/types/index.d.ts",
+  "exports": {
+    ".": {
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.ts"
+    },
+    "./package.json": "./package.json"
+  },
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
   "files": [
     "dist/**/*",
     "README.md",
@@ -30,16 +38,16 @@
     "*.d.ts"
   ],
   "scripts": {
-    "check": "tsc --noEmit",
-    "prep": "node ../../../scripts/prepare.js"
+    "check": "../../../scripts/node_modules/.bin/tsc --noEmit",
+    "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
     "@babel/generator": "^7.12.11",
     "@babel/parser": "^7.12.11",
     "@babel/traverse": "^7.12.11",
     "@babel/types": "^7.12.11",
-    "@storybook/csf": "0.0.2--canary.0899bb7.0",
-    "core-js": "^3.8.2",
+    "@storybook/csf": "next",
+    "@storybook/types": "7.0.0-alpha.45",
     "fs-extra": "^9.0.1",
     "ts-dedent": "^2.0.0"
   },
@@ -51,5 +59,10 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "5da5b0fabd04cc5cd5771e8242a960f05d03234a"
+  "bundler": {
+    "entries": [
+      "./src/index.ts"
+    ]
+  },
+  "gitHead": "3ef14366115c56c1d45c0359ff681cc47ed50532"
 }

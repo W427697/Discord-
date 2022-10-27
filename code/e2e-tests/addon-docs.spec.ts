@@ -14,8 +14,10 @@ test.describe('addon-docs', () => {
   });
 
   test('should provide source snippet', async ({ page }) => {
+    // templateName is e.g. 'Vue-CLI (Default JS)'
     test.skip(
-      /^vue3/.test(templateName),
+      // eslint-disable-next-line jest/valid-title
+      /^(vue3|vue-cli|preact)/i.test(`${templateName}`),
       `Skipping ${templateName}, which does not support dynamic source snippets`
     );
 

@@ -13,6 +13,7 @@ import { Call, CallStates, ControlStates } from '@storybook/instrumenter';
 import { styled } from '@storybook/theming';
 
 import { StatusBadge } from './StatusBadge';
+// eslint-disable-next-line import/no-cycle
 import { Controls } from './InteractionsPanel';
 
 const SubnavWrapper = styled.div(({ theme }) => ({
@@ -57,7 +58,7 @@ const Note = styled(TooltipNote)(({ theme }) => ({
 }));
 
 export const StyledIconButton = styled(IconButton as any)(({ theme }) => ({
-  color: theme.color.mediumdark,
+  color: theme.textMutedColor,
   margin: '0 3px',
 }));
 

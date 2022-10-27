@@ -1,67 +1,7 @@
-import type { ReactElement } from 'react';
-import type { RenderData } from '@storybook/router';
-import deprecate from 'util-deprecate';
-import { dedent } from 'ts-dedent';
-
-import { ModuleFn } from '../index';
+import type { Addon_Types, API_Collection, API_Panels, API_StateMerger } from '@storybook/types';
+import { Addon_TypesEnum } from '@storybook/types';
+import type { ModuleFn } from '../index';
 import { Options } from '../store';
-
-const warnDisabledDeprecated = deprecate(
-  () => {},
-  dedent`
-    Use 'parameters.key.disable' instead of 'parameters.key.disabled'.
-    
-    https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#deprecated-disabled-parameter
-  `
-);
-
-export type ViewMode = 'story' | 'info' | 'settings' | 'page' | undefined | string;
-
-export enum types {
-  TAB = 'tab',
-  PANEL = 'panel',
-  TOOL = 'tool',
-  PREVIEW = 'preview',
-  NOTES_ELEMENT = 'notes-element',
-}
-
-export type Types = types | string;
-export interface RenderOptions {
-  active: boolean;
-  key: string;
-}
-
-export interface RouteOptions {
-  storyId: string;
-  viewMode: ViewMode;
-  location: RenderData['location'];
-  path: string;
-}
-export interface MatchOptions {
-  storyId: string;
-  viewMode: ViewMode;
-  location: RenderData['location'];
-  path: string;
-}
-
-export interface Addon {
-  title: string;
-  type?: Types;
-  id?: string;
-  route?: (routeOptions: RouteOptions) => string;
-  match?: (matchOptions: MatchOptions) => boolean;
-  render: (renderOptions: RenderOptions) => ReactElement<any>;
-  paramKey?: string;
-  disabled?: boolean;
-  hidden?: boolean;
-}
-export interface Collection<T = Addon> {
-  [key: string]: T;
-}
-
-type Panels = Collection<Addon>;
-
-type StateMerger<S> = (input: S) => S;
 
 export interface SubState {
   selectedPanel: string;
@@ -69,20 +9,20 @@ export interface SubState {
 }
 
 export interface SubAPI {
-  getElements: <T>(type: Types) => Collection<T>;
-  getPanels: () => Panels;
-  getStoryPanels: () => Panels;
+  getElements: <T>(type: Addon_Types) => API_Collection<T>;
+  getPanels: () => API_Panels;
+  getStoryPanels: () => API_Panels;
   getSelectedPanel: () => string;
   setSelectedPanel: (panelName: string) => void;
   setAddonState<S>(
     addonId: string,
-    newStateOrMerger: S | StateMerger<S>,
+    newStateOrMerger: S | API_StateMerger<S>,
     options?: Options
   ): Promise<S>;
   getAddonState<S>(addonId: string): S;
 }
 
-export function ensurePanel(panels: Panels, selectedPanel?: string, currentPanel?: string) {
+export function ensurePanel(panels: API_Panels, selectedPanel?: string, currentPanel?: string) {
   const keys = Object.keys(panels);
 
   if (keys.indexOf(selectedPanel) >= 0) {
@@ -98,7 +38,7 @@ export function ensurePanel(panels: Panels, selectedPanel?: string, currentPanel
 export const init: ModuleFn<SubAPI, SubState> = ({ provider, store, fullAPI }) => {
   const api: SubAPI = {
     getElements: (type) => provider.getElements(type),
-    getPanels: () => api.getElements(types.PANEL),
+    getPanels: () => api.getElements(Addon_TypesEnum.PANEL),
     getStoryPanels: () => {
       const allPanels = api.getPanels();
       const { storyId } = store.getState();
@@ -110,18 +50,10 @@ export const init: ModuleFn<SubAPI, SubState> = ({ provider, store, fullAPI }) =
 
       const { parameters } = story;
 
-      const filteredPanels: Collection = {};
+      const filteredPanels: API_Collection = {};
       Object.entries(allPanels).forEach(([id, panel]) => {
         const { paramKey } = panel;
-        if (
-          paramKey &&
-          parameters &&
-          parameters[paramKey] &&
-          (parameters[paramKey].disabled || parameters[paramKey].disable)
-        ) {
-          if (parameters[paramKey].disabled) {
-            warnDisabledDeprecated();
-          }
+        if (paramKey && parameters && parameters[paramKey] && parameters[paramKey].disable) {
           return;
         }
         filteredPanels[id] = panel;
@@ -138,13 +70,13 @@ export const init: ModuleFn<SubAPI, SubState> = ({ provider, store, fullAPI }) =
     },
     setAddonState<S>(
       addonId: string,
-      newStateOrMerger: S | StateMerger<S>,
+      newStateOrMerger: S | API_StateMerger<S>,
       options?: Options
     ): Promise<S> {
       let nextState;
       const { addons: existing } = store.getState();
       if (typeof newStateOrMerger === 'function') {
-        const merger = newStateOrMerger as StateMerger<S>;
+        const merger = newStateOrMerger as API_StateMerger<S>;
         nextState = merger(api.getAddonState<S>(addonId));
       } else {
         nextState = newStateOrMerger;

@@ -1,7 +1,8 @@
 /* eslint-disable no-underscore-dangle */
-import { addons, Channel } from '@storybook/addons';
-import type { StoryId } from '@storybook/addons';
-import { logger, once } from '@storybook/client-logger';
+import { Channel } from '@storybook/channels';
+import { addons } from '@storybook/addons';
+import type { StoryId } from '@storybook/types';
+import { once, logger } from '@storybook/client-logger';
 import {
   FORCE_REMOUNT,
   IGNORED_EXCEPTION,
@@ -373,6 +374,7 @@ export class Instrumenter {
       }));
     }).then(() => {
       this.setState(call.storyId, (state) => {
+        // eslint-disable-next-line @typescript-eslint/naming-convention
         const { [call.id]: _, ...resolvers } = state.resolvers;
         return { isLocked: true, resolvers };
       });

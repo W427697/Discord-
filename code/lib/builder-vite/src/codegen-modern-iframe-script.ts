@@ -17,6 +17,7 @@ export async function generateModernIframeScriptCode(options: ExtendedOptions) {
     .filter(Boolean)
     .map((configEntry) => transformAbsPath(configEntry as string));
 
+  // eslint-disable-next-line @typescript-eslint/no-shadow
   const generateHMRHandler = (frameworkName: string): string => {
     // Web components are not compatible with HMR, so disable HMR, reload page instead.
     if (frameworkName === '@storybook/web-components-vite') {
@@ -51,8 +52,8 @@ export async function generateModernIframeScriptCode(options: ExtendedOptions) {
    * @todo Inline variable and remove `noinspection`
    */
   const code = `
-    import { composeConfigs, PreviewWeb } from '@storybook/preview-web';
-    import { ClientApi } from '@storybook/client-api';
+    import { ClientApi, composeConfigs, PreviewWeb } from '${frameworkName}';
+
     import '${virtualAddonSetupFile}';
     import { importFn } from '${virtualStoriesFile}';
 

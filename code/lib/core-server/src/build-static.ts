@@ -7,19 +7,20 @@ import global from 'global';
 import { logger } from '@storybook/node-logger';
 import { telemetry } from '@storybook/telemetry';
 import type {
-  LoadOptions,
-  CLIOptions,
   BuilderOptions,
-  Options,
-  StorybookConfig,
+  CLIOptions,
   CoreConfig,
   DocsOptions,
-} from '@storybook/core-common';
+  LoadOptions,
+  Options,
+  StorybookConfig,
+} from '@storybook/types';
 import {
   loadAllPresets,
-  normalizeStories,
-  logConfig,
   loadMainConfig,
+  logConfig,
+  normalizeStories,
+  resolveAddonName,
 } from '@storybook/core-common';
 
 import { outputStats } from './utils/output-stats';
@@ -77,12 +78,14 @@ export async function buildStaticStandalone(
   });
 
   const [previewBuilder, managerBuilder] = await getBuilders({ ...options, presets });
+  const { renderer } = await presets.apply<CoreConfig>('core', undefined);
 
   presets = await loadAllPresets({
     corePresets: [
       require.resolve('./presets/common-preset'),
       ...(managerBuilder.corePresets || []),
       ...(previewBuilder.corePresets || []),
+      ...(renderer ? [resolveAddonName(options.configDir, renderer, options)] : []),
       ...corePresets,
       require.resolve('./presets/babel-cache-preset'),
     ],
@@ -168,11 +171,7 @@ export async function buildStaticStandalone(
   if (!core?.disableTelemetry) {
     effects.push(
       initializedStoryIndexGenerator.then(async (generator) => {
-        if (!generator) {
-          return;
-        }
-
-        const storyIndex = await generator.getIndex();
+        const storyIndex = await generator?.getIndex();
         const payload = storyIndex
           ? {
               storyIndex: {

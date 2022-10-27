@@ -1,6 +1,6 @@
 import chalk from 'chalk';
 import dedent from 'ts-dedent';
-import semver from '@storybook/semver';
+import semver from 'semver';
 import { ConfigFile, readConfig, writeConfig } from '@storybook/csf-tools';
 import { getStorybookInfo } from '@storybook/core-common';
 
@@ -35,11 +35,11 @@ const packagesMap: Record<string, { webpack5?: string; vite?: string }> = {
   },
   '@storybook/svelte': {
     webpack5: '@storybook/svelte-webpack5',
-    // TODO: bring this back once we have the svelte-vite package
     vite: '@storybook/svelte-vite',
   },
   '@storybook/web-components': {
     webpack5: '@storybook/web-components-webpack5',
+    vite: '@storybook/web-components-vite',
   },
   '@storybook/html': {
     webpack5: '@storybook/html-webpack5',

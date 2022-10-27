@@ -5,7 +5,7 @@ import { Icons, IconButton } from '@storybook/components';
 
 import { PARAM_KEY as BACKGROUNDS_PARAM_KEY } from '../constants';
 
-export const GridSelector: FC = memo(() => {
+export const GridSelector: FC = memo(function GridSelector() {
   const [globals, updateGlobals] = useGlobals();
 
   const { grid } = useParameter(BACKGROUNDS_PARAM_KEY, {

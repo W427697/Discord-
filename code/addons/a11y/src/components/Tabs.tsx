@@ -4,6 +4,7 @@ import { styled } from '@storybook/theming';
 import { NodeResult, Result } from 'axe-core';
 import { SizeMe } from 'react-sizeme';
 import HighlightToggle from './Report/HighlightToggle';
+// eslint-disable-next-line import/no-cycle
 import { RuleType } from './A11YPanel';
 import { useA11yContext } from './A11yContext';
 
@@ -78,7 +79,7 @@ const TabsWrapper = styled.div({});
 
 const List = styled.div(({ theme }) => ({
   boxShadow: `${theme.appBorderColor} 0 -1px 0 0 inset`,
-  background: 'rgba(0, 0, 0, .05)',
+  background: theme.background.app,
   display: 'flex',
   justifyContent: 'space-between',
   whiteSpace: 'nowrap',

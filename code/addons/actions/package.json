@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-actions",
-  "version": "7.0.0-alpha.33",
+  "version": "7.0.0-alpha.45",
   "description": "Get UI feedback when an action is performed on an interactive element",
   "keywords": [
     "storybook",
@@ -21,9 +21,37 @@
     "url": "https://opencollective.com/storybook"
   },
   "license": "MIT",
-  "main": "dist/cjs/index.js",
-  "module": "dist/esm/index.js",
-  "types": "dist/types/index.d.ts",
+  "exports": {
+    ".": {
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.ts"
+    },
+    "./decorator": {
+      "require": "./dist/decorator.js",
+      "import": "./dist/decorator.mjs",
+      "types": "./dist/decorator.d.ts"
+    },
+    "./manager": {
+      "require": "./dist/manager.js",
+      "import": "./dist/manager.mjs",
+      "types": "./dist/manager.d.ts"
+    },
+    "./preview": {
+      "require": "./dist/preview.js",
+      "import": "./dist/preview.mjs",
+      "types": "./dist/preview.d.ts"
+    },
+    "./register.js": {
+      "require": "./dist/manager.js",
+      "import": "./dist/manager.mjs",
+      "types": "./dist/manager.d.ts"
+    },
+    "./package.json": "./package.json"
+  },
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
   "files": [
     "dist/**/*",
     "README.md",
@@ -31,17 +59,17 @@
     "*.d.ts"
   ],
   "scripts": {
-    "check": "tsc --noEmit",
-    "prep": "node ../../../scripts/prepare.js"
+    "check": "../../../scripts/node_modules/.bin/tsc --noEmit",
+    "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/addons": "7.0.0-alpha.33",
-    "@storybook/api": "7.0.0-alpha.33",
-    "@storybook/client-logger": "7.0.0-alpha.33",
-    "@storybook/components": "7.0.0-alpha.33",
-    "@storybook/core-events": "7.0.0-alpha.33",
-    "@storybook/csf": "0.0.2--canary.0899bb7.0",
-    "@storybook/theming": "7.0.0-alpha.33",
+    "@storybook/addons": "7.0.0-alpha.45",
+    "@storybook/api": "7.0.0-alpha.45",
+    "@storybook/client-logger": "7.0.0-alpha.45",
+    "@storybook/components": "7.0.0-alpha.45",
+    "@storybook/core-events": "7.0.0-alpha.45",
+    "@storybook/theming": "7.0.0-alpha.45",
+    "@storybook/types": "7.0.0-alpha.45",
     "dequal": "^2.0.2",
     "global": "^4.4.0",
     "lodash": "^4.17.21",
@@ -50,7 +78,6 @@
     "react-inspector": "^6.0.0",
     "telejson": "^6.0.8",
     "ts-dedent": "^2.0.0",
-    "util-deprecate": "^1.0.2",
     "uuid-browser": "^3.1.0"
   },
   "devDependencies": {
@@ -72,7 +99,15 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "5da5b0fabd04cc5cd5771e8242a960f05d03234a",
+  "bundler": {
+    "entries": [
+      "./src/index.ts",
+      "./src/decorator.ts",
+      "./src/manager.tsx",
+      "./src/preview.ts"
+    ]
+  },
+  "gitHead": "3ef14366115c56c1d45c0359ff681cc47ed50532",
   "storybook": {
     "displayName": "Actions",
     "unsupportedFrameworks": [

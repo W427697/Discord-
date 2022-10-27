@@ -1,19 +1,10 @@
-import type { StoryContext as DefaultStoryContext } from '@storybook/csf';
+import type { ArgsStoryFn, StoryContext as DefaultStoryContext } from '@storybook/types';
+// eslint-disable-next-line import/no-cycle
 import { parameters } from './config';
 
-export type { RenderContext } from '@storybook/core-client';
+export type { RenderContext } from '@storybook/types';
 
 export type StoryFnHtmlReturnType = string | Node;
-
-export interface IStorybookStory {
-  name: string;
-  render: (context: any) => any;
-}
-
-export interface IStorybookSection {
-  kind: string;
-  stories: IStorybookStory[];
-}
 
 export interface ShowErrorArgs {
   title: string;
@@ -21,7 +12,7 @@ export interface ShowErrorArgs {
 }
 
 export type HtmlFramework = {
-  component: HTMLElement;
+  component: string | HTMLElement | ArgsStoryFn<HtmlFramework>;
   storyResult: StoryFnHtmlReturnType;
 };
 

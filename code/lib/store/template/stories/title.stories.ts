@@ -1,10 +1,10 @@
 import globalThis from 'global';
 import { expect } from '@storybook/jest';
-import { PlayFunctionContext } from '@storybook/csf';
+import { PlayFunctionContext } from '@storybook/types';
 
 export default {
   component: globalThis.Components.Pre,
-  title: 'manual title',
+  title: 'lib/store/manual title',
   args: { text: 'No content' },
 };
 

@@ -9,6 +9,10 @@ export default {
     storyshots: { disable: true },
     chromatic: { disable: true },
   },
+  decorators: [
+    // Skip errors if we are running in the test runner
+    (storyFn: any) => window?.navigator?.userAgent?.match(/StorybookTestRunner/) || storyFn(),
+  ],
 };
 
 export const RenderThrows = {
@@ -26,6 +30,7 @@ export const StoryIsUnrenderable = {
 export const StoryContainsUnrenderable = {
   render: () => (
     <div>
+      {/* @ts-expect-error we're doing it wrong here on purpose */}
       <BadComponent />
     </div>
   ),

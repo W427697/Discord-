@@ -1,19 +1,17 @@
 import global from 'global';
-import {
+import type {
   AnyFramework,
+  Store_RenderContext,
+  Store_RenderToDOM,
+  Store_Story,
+  Store_TeardownRenderToDOM,
+  StoryContext,
+  StoryContextForLoaders,
   StoryId,
   ViewMode,
-  StoryContextForLoaders,
-  StoryContext,
-} from '@storybook/csf';
-import {
-  Story,
-  RenderContext,
-  StoryStore,
-  RenderToDOM,
-  TeardownRenderToDOM,
-} from '@storybook/store';
-import { Channel } from '@storybook/addons';
+} from '@storybook/types';
+import type { StoryStore } from '@storybook/store';
+import { Channel } from '@storybook/channels';
 import { logger } from '@storybook/client-logger';
 import {
   STORY_RENDER_PHASE_CHANGED,
@@ -34,18 +32,6 @@ export type RenderPhase =
   | 'aborted'
   | 'errored';
 
-function createController(): AbortController {
-  if (AbortController) return new AbortController();
-  // Polyfill for IE11
-  return {
-    signal: { aborted: false },
-    abort() {
-      // @ts-ignore (should be @ts-expect-error but fails build --prep)
-      this.signal.aborted = true;
-    },
-  } as AbortController;
-}
-
 function serializeError(error: any) {
   try {
     const { name = 'Error', message = String(error), stack } = error;
@@ -56,14 +42,14 @@ function serializeError(error: any) {
 }
 
 export type RenderContextCallbacks<TFramework extends AnyFramework> = Pick<
-  RenderContext<TFramework>,
+  Store_RenderContext<TFramework>,
   'showMain' | 'showError' | 'showException'
 >;
 
 export class StoryRender<TFramework extends AnyFramework> implements Render<TFramework> {
   public type: RenderType = 'story';
 
-  public story?: Story<TFramework>;
+  public story?: Store_Story<TFramework>;
 
   public phase?: RenderPhase;
 
@@ -75,20 +61,20 @@ export class StoryRender<TFramework extends AnyFramework> implements Render<TFra
 
   public disableKeyListeners = false;
 
-  private teardownRender: TeardownRenderToDOM = () => {};
+  private teardownRender: Store_TeardownRenderToDOM = () => {};
 
   public torndown = false;
 
   constructor(
     public channel: Channel,
     public store: StoryStore<TFramework>,
-    private renderToScreen: RenderToDOM<TFramework>,
+    private renderToScreen: Store_RenderToDOM<TFramework>,
     private callbacks: RenderContextCallbacks<TFramework>,
     public id: StoryId,
     public viewMode: ViewMode,
-    story?: Story<TFramework>
+    story?: Store_Story<TFramework>
   ) {
-    this.abortController = createController();
+    this.abortController = new AbortController();
 
     // Allow short-circuiting preparing if we happen to already
     // have the story (this is used by docs mode)
@@ -117,7 +103,7 @@ export class StoryRender<TFramework extends AnyFramework> implements Render<TFra
     });
 
     if ((this.abortController as AbortController).signal.aborted) {
-      this.store.cleanupStory(this.story as Story<TFramework>);
+      this.store.cleanupStory(this.story as Store_Story<TFramework>);
       throw PREPARE_ABORTED;
     }
   }
@@ -166,14 +152,15 @@ export class StoryRender<TFramework extends AnyFramework> implements Render<TFra
     if (!this.story) throw new Error('cannot render when not prepared');
     if (!canvasElement) throw new Error('cannot render when canvasElement is unset');
 
-    const { id, componentId, title, name, applyLoaders, unboundStoryFn, playFunction } = this.story;
+    const { id, componentId, title, name, tags, applyLoaders, unboundStoryFn, playFunction } =
+      this.story;
 
     if (forceRemount && !initial) {
       // NOTE: we don't check the cancel actually worked here, so the previous
       // render could conceivably still be running after this call.
       // We might want to change that in the future.
       this.cancelRender();
-      this.abortController = createController();
+      this.abortController = new AbortController();
     }
 
     // We need a stable reference to the signal -- if a re-mount happens the
@@ -200,13 +187,14 @@ export class StoryRender<TFramework extends AnyFramework> implements Render<TFra
         abortSignal,
         canvasElement,
       };
-      const renderContext: RenderContext<TFramework> = {
+      const renderContext: Store_RenderContext<TFramework> = {
         componentId,
         title,
         kind: title,
         id,
         name,
         story: name,
+        tags,
         ...this.callbacks,
         showError: (error) => {
           this.phase = 'errored';

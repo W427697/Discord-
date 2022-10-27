@@ -5,8 +5,10 @@ import { Icons } from '@storybook/components';
 
 import { Result } from 'axe-core';
 import { Info } from './Info';
+// eslint-disable-next-line import/no-cycle
 import { Elements } from './Elements';
 import { Tags } from './Tags';
+// eslint-disable-next-line import/no-cycle
 import { RuleType } from '../A11YPanel';
 import HighlightToggle from './HighlightToggle';
 
@@ -23,7 +25,7 @@ const Icon = styled(Icons)(({ theme }) => ({
   height: 10,
   width: 10,
   minWidth: 10,
-  color: theme.color.mediumdark,
+  color: theme.textMutedColor,
   marginRight: 10,
   transition: 'transform 0.1s ease-in-out',
   alignSelf: 'center',

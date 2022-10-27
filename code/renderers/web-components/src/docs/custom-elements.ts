@@ -1,4 +1,4 @@
-import type { ArgType, ArgTypes } from '@storybook/api';
+import type { API_ArgType, API_ArgTypes } from '@storybook/types';
 import { logger } from '@storybook/client-logger';
 import { getCustomElements, isValidComponent, isValidMetaData } from '..';
 
@@ -76,7 +76,7 @@ function mapItem(item: TagItem, category: string): ArgType {
   };
 }
 
-function mapEvent(item: TagItem): ArgType[] {
+function mapEvent(item: TagItem): API_ArgType[] {
   let name = item.name
     .replace(/(-|_|:|\.|\s)+(.)?/g, (_match, _separator, chr: string) => {
       return chr ? chr.toUpperCase() : '';
@@ -108,7 +108,7 @@ function mapData(data: TagItem[], category: string) {
         }
 
         return acc;
-      }, {} as ArgTypes)
+      }, {} as API_ArgTypes)
   );
 }
 

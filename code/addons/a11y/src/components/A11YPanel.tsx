@@ -6,7 +6,9 @@ import { ActionBar, Icons, ScrollArea } from '@storybook/components';
 
 import { AxeResults } from 'axe-core';
 import { useChannel, useParameter, useStorybookState } from '@storybook/api';
+// eslint-disable-next-line import/no-cycle
 import { Report } from './Report';
+// eslint-disable-next-line import/no-cycle
 import { Tabs } from './Tabs';
 
 import { useA11yContext } from './A11yContext';
@@ -30,15 +32,15 @@ const RotatingIcon = styled(Icon)(({ theme }) => ({
 }));
 
 const Passes = styled.span(({ theme }) => ({
-  color: theme.color.positive,
+  color: theme.color.positiveText,
 }));
 
 const Violations = styled.span(({ theme }) => ({
-  color: theme.color.negative,
+  color: theme.color.negativeText,
 }));
 
 const Incomplete = styled.span(({ theme }) => ({
-  color: theme.color.warning,
+  color: theme.color.warningText,
 }));
 
 const Centered = styled.span({
@@ -106,7 +108,7 @@ export const A11YPanel: React.FC = () => {
             'Rerun tests'
           ) : (
             <>
-              <Icon inline icon="check" /> Tests completed
+              <Icon icon="check" /> Tests completed
             </>
           ),
         onClick: handleManual,
@@ -162,8 +164,7 @@ export const A11YPanel: React.FC = () => {
       )}
       {status === 'running' && (
         <Centered>
-          <RotatingIcon inline icon="sync" /> Please wait while the accessibility scan is running
-          ...
+          <RotatingIcon icon="sync" /> Please wait while the accessibility scan is running ...
         </Centered>
       )}
       {(status === 'ready' || status === 'ran') && (

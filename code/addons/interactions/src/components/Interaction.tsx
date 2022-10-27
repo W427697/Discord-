@@ -1,12 +1,13 @@
 import * as React from 'react';
 import { IconButton, Icons, TooltipNote, WithTooltip } from '@storybook/components';
-import { Call, CallStates, ControlStates } from '@storybook/instrumenter';
+import { type Call, CallStates, type ControlStates } from '@storybook/instrumenter';
 import { styled, typography } from '@storybook/theming';
 import { transparentize } from 'polished';
 
 import { MatcherResult } from './MatcherResult';
 import { MethodCall } from './MethodCall';
 import { StatusIcon } from './StatusIcon';
+// eslint-disable-next-line import/no-cycle
 import { Controls } from './InteractionsPanel';
 
 const MethodCallWrapper = styled.div(() => ({
@@ -92,7 +93,7 @@ const RowActions = styled.div({
 });
 
 export const StyledIconButton = styled(IconButton as any)(({ theme }) => ({
-  color: theme.color.mediumdark,
+  color: theme.textMutedColor,
   margin: '0 3px',
 }));
 

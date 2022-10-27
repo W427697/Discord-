@@ -1,7 +1,7 @@
 import path from 'path';
+import { PresetConfig } from '@storybook/types';
 import { serverRequire, serverResolve } from './interpret-require';
 import { validateConfigurationFiles } from './validate-configuration-files';
-import { PresetConfig } from '../types';
 
 export function loadCustomPresets({ configDir }: { configDir: string }): PresetConfig[] {
   validateConfigurationFiles(configDir);

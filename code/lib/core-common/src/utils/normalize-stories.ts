@@ -1,36 +1,17 @@
 import fs from 'fs';
 import path from 'path';
-import deprecate from 'util-deprecate';
-import { dedent } from 'ts-dedent';
 import { scan } from 'picomatch';
 import slash from 'slash';
 
-import type { StoriesEntry, NormalizedStoriesSpecifier } from '../types';
+import type {
+  CoreCommon_StoriesEntry,
+  CoreCommon_NormalizedStoriesSpecifier,
+} from '@storybook/types';
 import { normalizeStoryPath } from './paths';
 import { globToRegexp } from './glob-to-regexp';
 
 const DEFAULT_TITLE_PREFIX = '';
 const DEFAULT_FILES = '**/*.@(mdx|stories.mdx|stories.tsx|stories.ts|stories.jsx|stories.js)';
-
-// TODO: remove - LEGACY support for bad glob patterns we had in SB 5 - remove in SB7
-const fixBadGlob = deprecate(
-  (match: RegExpMatchArray) => {
-    // @ts-ignore (FIXME should be "@ts-expect-error this will get removed later anyway" but fails build --prep)
-    return match.input.replace(match[1], `@${match[1]}`);
-  },
-  dedent`
-    You have specified an invalid glob, we've attempted to fix it, please ensure that the glob you specify is valid. See: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#correct-globs-in-mainjs
-  `
-);
-const detectBadGlob = (val: string) => {
-  const match = val.match(/\.(\([^)]+\))/);
-
-  if (match) {
-    return fixBadGlob(match);
-  }
-
-  return val;
-};
 
 const isDirectory = (configDir: string, entry: string) => {
   try {
@@ -54,14 +35,13 @@ export const getDirectoryFromWorkingDir = ({
 };
 
 export const normalizeStoriesEntry = (
-  entry: StoriesEntry,
+  entry: CoreCommon_StoriesEntry,
   { configDir, workingDir }: NormalizeOptions
-): NormalizedStoriesSpecifier => {
-  let specifierWithoutMatcher: Omit<NormalizedStoriesSpecifier, 'importPathMatcher'>;
+): CoreCommon_NormalizedStoriesSpecifier => {
+  let specifierWithoutMatcher: Omit<CoreCommon_NormalizedStoriesSpecifier, 'importPathMatcher'>;
 
   if (typeof entry === 'string') {
-    const fixedEntry = detectBadGlob(entry);
-    const globResult = scan(fixedEntry);
+    const globResult = scan(entry);
     if (globResult.isGlob) {
       const directory = globResult.prefix + globResult.base;
       const files = globResult.glob;
@@ -123,5 +103,5 @@ interface NormalizeOptions {
   workingDir: string;
 }
 
-export const normalizeStories = (entries: StoriesEntry[], options: NormalizeOptions) =>
+export const normalizeStories = (entries: CoreCommon_StoriesEntry[], options: NormalizeOptions) =>
   entries.map((entry) => normalizeStoriesEntry(entry, options));

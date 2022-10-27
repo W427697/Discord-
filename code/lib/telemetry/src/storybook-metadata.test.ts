@@ -1,4 +1,4 @@
-import type { PackageJson, StorybookConfig } from '@storybook/core-common';
+import type { PackageJson, StorybookConfig } from '@storybook/types';
 
 import path from 'path';
 import { computeStorybookMetadata, metaFrameworks, sanitizeAddonName } from './storybook-metadata';
@@ -123,11 +123,15 @@ describe('await computeStorybookMetadata', () => {
         ...mainJsMock,
         angularOptions: {
           enableIvy: true,
+          enableNgcc: true,
         },
       },
     });
 
-    expect(angularResult.framework).toEqual({ name: 'angular', options: { enableIvy: true } });
+    expect(angularResult.framework).toEqual({
+      name: 'angular',
+      options: { enableIvy: true, enableNgcc: true },
+    });
   });
 
   test('should separate storybook packages and addons', async () => {

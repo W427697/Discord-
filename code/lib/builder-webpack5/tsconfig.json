@@ -1,8 +1,9 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "strict": true
+    "strict": true,
+    "skipLibCheck": true
   },
-  "include": ["src/**/*", "typings.d.ts"],
+  "include": ["src/**/*", "typings.d.ts", "templates/virtualModuleEntry.template.js"],
   "exclude": ["src/**.test.ts"]
 }

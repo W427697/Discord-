@@ -1,8 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 import { dedent } from 'ts-dedent';
 import Vue from 'vue';
-import type { RenderContext } from '@storybook/store';
-import type { ArgsStoryFn } from '@storybook/csf';
+import type { Store_RenderContext, ArgsStoryFn } from '@storybook/types';
 import { CombinedVueInstance } from 'vue/types/vue';
 import type { VueFramework } from './types';
 
@@ -18,15 +17,19 @@ type Instance = CombinedVueInstance<
   },
   object,
   object,
-  Record<never, any>,
-  unknown
+  Record<never, any>
 >;
-const getRoot = (domElement: Element): Instance => {
-  if (map.has(domElement)) {
-    return map.get(domElement);
-  }
 
-  const instance = new Vue({
+const getRoot = (domElement: Element): Instance => {
+  const cachedInstance = map.get(domElement);
+  if (cachedInstance != null) return cachedInstance;
+
+  // Create a dummy "target" underneath #storybook-root
+  // that Vue2 will replace on first render with #storybook-vue-root
+  const target = document.createElement('div');
+  domElement.appendChild(target);
+
+  const instance: Instance = new Vue({
     beforeDestroy() {
       map.delete(domElement);
     },
@@ -36,17 +39,17 @@ const getRoot = (domElement: Element): Instance => {
         [VALUES]: {},
       };
     },
+    // @ts-expect-error What's going on here? (TS says that we should not return an array here, but the `h` directly)
     render(h) {
       map.set(domElement, instance);
-      const children = this[COMPONENT] ? [h(this[COMPONENT])] : undefined;
-      return h('div', { attrs: { id: 'storybook-root' } }, children);
+      return this[COMPONENT] ? [h(this[COMPONENT])] : undefined;
     },
   });
 
   return instance;
 };
 
-export const render: ArgsStoryFn<VueFramework> = (props, context) => {
+export const render: ArgsStoryFn<VueFramework> = (args, context) => {
   const { id, component: Component, argTypes } = context;
   const component = Component as VueFramework['component'] & {
     __docgenInfo?: { displayName: string };
@@ -84,17 +87,30 @@ export function renderToDOM(
     title,
     name,
     storyFn,
-    storyContext: { args },
     showMain,
     showError,
     showException,
     forceRemount,
-  }: RenderContext<VueFramework>,
+  }: Store_RenderContext<VueFramework>,
   domElement: Element
 ) {
   const root = getRoot(domElement);
   Vue.config.errorHandler = showException;
   const element = storyFn();
+
+  let mountTarget: Element | null;
+
+  // Vue2 mount always replaces the mount target with Vue-generated DOM.
+  // https://v2.vuejs.org/v2/api/#el:~:text=replaced%20with%20Vue%2Dgenerated%20DOM
+  // We cannot mount to the domElement directly, because it would be replaced. That would
+  // break the references to the domElement like canvasElement used in the play function.
+  // Instead, we mount to a child element of the domElement, creating one if necessary.
+  if (domElement.hasChildNodes()) {
+    mountTarget = domElement.firstElementChild;
+  } else {
+    mountTarget = document.createElement('div');
+    domElement.appendChild(mountTarget);
+  }
 
   if (!element) {
     showError({
@@ -113,10 +129,10 @@ export function renderToDOM(
   }
 
   // @ts-expect-error https://github.com/storybookjs/storrybook/pull/7578#discussion_r307986139
-  root[VALUES] = { ...element.options[VALUES], ...args };
+  root[VALUES] = { ...element.options[VALUES] };
 
   if (!map.has(domElement)) {
-    root.$mount(domElement);
+    root.$mount(mountTarget ?? undefined);
   }
 
   showMain();

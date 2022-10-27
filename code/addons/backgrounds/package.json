@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-backgrounds",
-  "version": "7.0.0-alpha.33",
+  "version": "7.0.0-alpha.45",
   "description": "Switch backgrounds to view components in different settings",
   "keywords": [
     "addon",
@@ -58,21 +58,20 @@
     "*.d.ts"
   ],
   "scripts": {
-    "check": "tsc --noEmit",
+    "check": "../../../scripts/node_modules/.bin/tsc --noEmit",
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/addons": "7.0.0-alpha.33",
-    "@storybook/api": "7.0.0-alpha.33",
-    "@storybook/client-logger": "7.0.0-alpha.33",
-    "@storybook/components": "7.0.0-alpha.33",
-    "@storybook/core-events": "7.0.0-alpha.33",
-    "@storybook/csf": "0.0.2--canary.0899bb7.0",
-    "@storybook/theming": "7.0.0-alpha.33",
+    "@storybook/addons": "7.0.0-alpha.45",
+    "@storybook/api": "7.0.0-alpha.45",
+    "@storybook/client-logger": "7.0.0-alpha.45",
+    "@storybook/components": "7.0.0-alpha.45",
+    "@storybook/core-events": "7.0.0-alpha.45",
+    "@storybook/theming": "7.0.0-alpha.45",
+    "@storybook/types": "7.0.0-alpha.45",
     "global": "^4.4.0",
     "memoizerific": "^1.11.3",
-    "ts-dedent": "^2.0.0",
-    "util-deprecate": "^1.0.2"
+    "ts-dedent": "^2.0.0"
   },
   "devDependencies": {
     "typescript": "~4.6.3"
@@ -99,7 +98,7 @@
       "./src/preview.tsx"
     ]
   },
-  "gitHead": "5da5b0fabd04cc5cd5771e8242a960f05d03234a",
+  "gitHead": "3ef14366115c56c1d45c0359ff681cc47ed50532",
   "storybook": {
     "displayName": "Backgrounds",
     "icon": "https://user-images.githubusercontent.com/263385/101991667-479cc600-3c7c-11eb-96d3-410e936252e7.png",
