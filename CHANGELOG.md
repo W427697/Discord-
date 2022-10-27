@@ -1,3 +1,37 @@
+## 7.0.0-alpha.44 (October 27, 2022)
+
+#### Features
+
+- Add tags to story and index [#19625](https://github.com/storybooks/storybook/pull/19625)
+- CSF tools: Add tags support [#19626](https://github.com/storybooks/storybook/pull/19626)
+- Vue2: Improve CSF3 types [#19603](https://github.com/storybooks/storybook/pull/19603)
+- Vue3: Improve CSF3 types [#19602](https://github.com/storybooks/storybook/pull/19602)
+
+#### Bug Fixes
+
+- Core: Fix v6 store when no explicit renderer [#19624](https://github.com/storybooks/storybook/pull/19624)
+- CLI/React native: Fix addons template to import register instead of manager [#19620](https://github.com/storybooks/storybook/pull/19620)
+
+#### Maintenance
+
+- Build-storybook: Only copy .mjs files for manager build [#19647](https://github.com/storybooks/storybook/pull/19647)
+- Rename storybook/ui to storybook/manager [#19635](https://github.com/storybooks/storybook/pull/19635)
+- Addons: Support SSR by not using global.window to store hooks context [#19631](https://github.com/storybooks/storybook/pull/19631)
+- Breaking: Final few deprecations removal in a batch [#19553](https://github.com/storybooks/storybook/pull/19553)
+- TypeScript: Misc types improvements [#19633](https://github.com/storybooks/storybook/pull/19633)
+- TypeScript: Restructure storybook types [#19580](https://github.com/storybooks/storybook/pull/19580)
+- TypeScript: cleanup types [#19621](https://github.com/storybooks/storybook/pull/19621)
+
+#### Build
+
+- Build: Reduce CI usage by 60% [#19644](https://github.com/storybooks/storybook/pull/19644)
+- Remove `netlify.toml` [#19645](https://github.com/storybooks/storybook/pull/19645)
+- Small fixes for `check` task [#19643](https://github.com/storybooks/storybook/pull/19643)
+- Storybook for `@storybook/blocks` only [#19630](https://github.com/storybooks/storybook/pull/19630)
+- Fix broken stories in UI Storybook [#19632](https://github.com/storybooks/storybook/pull/19632)
+- Ugrade eslint [#19601](https://github.com/storybooks/storybook/pull/19601)
+- Integrate standalone Storybook with Chromatic [#19619](https://github.com/storybooks/storybook/pull/19619)
+
 ## 7.0.0-alpha.43 (October 25, 2022)
 
 #### Bug Fixes

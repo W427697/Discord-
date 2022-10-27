@@ -1,4 +1,4 @@
-import { dirname, join } from 'path';
+import { dirname, join, parse } from 'path';
 import fs from 'fs-extra';
 import express from 'express';
 
@@ -192,7 +192,15 @@ const builder: BuilderFunction = async function* builderGeneratorFn({ startTime,
 
   yield;
 
-  const managerFiles = fs.copy(coreDirOrigin, coreDirTarget);
+  const managerFiles = fs.copy(coreDirOrigin, coreDirTarget, {
+    filter: (src) => {
+      const { ext } = parse(src);
+      if (ext) {
+        return ext === '.mjs';
+      }
+      return true;
+    },
+  });
   const { cssFiles, jsFiles } = await readOrderedFiles(addonsDir, compilation?.outputFiles);
 
   yield;

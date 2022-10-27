@@ -10,6 +10,7 @@ const defaultContext: Addon_StoryContext = {
   id: 'unspecified',
   name: 'unspecified',
   story: 'unspecified',
+  tags: [],
   parameters: {},
   initialArgs: {},
   args: {},

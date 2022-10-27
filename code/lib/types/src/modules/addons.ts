@@ -19,6 +19,7 @@ import type {
   StoryId,
   StoryKind,
   StoryName,
+  Tag,
 } from './csf';
 
 export type Addon_Types = Addon_TypesEnum | string;
@@ -47,6 +48,7 @@ export interface Addon_BaseIndexEntry {
   id: StoryId;
   name: StoryName;
   title: ComponentTitle;
+  tags?: Tag[];
   importPath: Path;
 }
 export type Addon_StoryIndexEntry = Addon_BaseIndexEntry & {

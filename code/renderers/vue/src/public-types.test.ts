@@ -1,5 +1,5 @@
 import { satisfies } from '@storybook/core-common';
-import { ComponentAnnotations, StoryAnnotations } from '@storybook/csf';
+import { ComponentAnnotations, StoryAnnotations } from '@storybook/types';
 import { expectTypeOf } from 'expect-type';
 import { SetOptional } from 'type-fest';
 import { Component } from 'vue';

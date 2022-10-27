@@ -1,8 +1,8 @@
 import global from 'global';
 import { useEffect, makeDecorator } from '@storybook/addons';
-import { actions } from './actions';
+import { actions } from './runtime/actions';
 
-import { PARAM_KEY } from '../constants';
+import { PARAM_KEY } from './constants';
 
 const { document, Element } = global;
 
