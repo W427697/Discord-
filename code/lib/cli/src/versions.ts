@@ -70,7 +70,7 @@ export default {
   '@storybook/svelte-webpack5': '7.0.0-alpha.43',
   '@storybook/telemetry': '7.0.0-alpha.43',
   '@storybook/theming': '7.0.0-alpha.43',
-  '@storybook/ui': '7.0.0-alpha.43',
+  '@storybook/manager': '7.0.0-alpha.43',
   '@storybook/vue': '7.0.0-alpha.43',
   '@storybook/vue-vite': '7.0.0-alpha.43',
   '@storybook/vue-webpack5': '7.0.0-alpha.43',
