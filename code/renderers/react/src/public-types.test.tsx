@@ -79,7 +79,7 @@ describe('Args can be provided in multiple ways', () => {
   });
 
   test('Component can be used as generic parameter for StoryObj', () => {
-    type Expected = ReactStory<ButtonProps, ButtonProps>;
+    type Expected = ReactStory<ButtonProps, Partial<ButtonProps>>;
     expectTypeOf<StoryObj<typeof Button>>().toEqualTypeOf<Expected>();
   });
 });
