@@ -67,10 +67,6 @@ export async function storybookDevServer(options: Options) {
   if (!core?.disableTelemetry) {
     initializedStoryIndexGenerator.then(async (generator) => {
       const storyIndex = await generator?.getIndex();
-      const entries = Object.values(storyIndex.entries);
-      if (storyIndex) {
-        console.dir(entries.filter((e) => e.type === 'docs')); // .map((e) => ({ id: e.id, type: e.type })));
-      }
       const payload = storyIndex
         ? {
             storyIndex: summarizeIndex(storyIndex),
