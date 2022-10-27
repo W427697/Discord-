@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import type { ComponentStory, ComponentMeta } from '@storybook/react';
+import type { StoryObj, Meta } from '@storybook/react';
 
 const Component: FC = () => <p>Story</p>;
 
@@ -13,9 +13,9 @@ export default {
       </>
     ),
   ],
-} as ComponentMeta<typeof Component>;
+} as Meta<typeof Component>;
 
-export const All: ComponentStory<typeof Component> = {
+export const All: StoryObj<typeof Component> = {
   decorators: [
     (Story) => (
       <>

@@ -1,8 +1,8 @@
 import global from 'global';
 import { Provider } from '@storybook/ui';
 import { Channel } from '@storybook/channels';
-import { addons, AddonStore, type Types } from '@storybook/addons';
-import type { Addon_Config } from '@storybook/types';
+import type { Addon_Types, Addon_Config } from '@storybook/types';
+import { addons, AddonStore } from '@storybook/addons';
 import * as postMessage from '@storybook/channel-postmessage';
 import * as webSocket from '@storybook/channel-websocket';
 import { CHANNEL_CREATED } from '@storybook/core-events';
@@ -34,7 +34,7 @@ export default class ReactProvider extends Provider {
     }
   }
 
-  getElements(type: Types) {
+  getElements(type: Addon_Types) {
     return this.addons.getElements(type);
   }
 
