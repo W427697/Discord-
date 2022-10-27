@@ -5,8 +5,10 @@ import { Icons } from '@storybook/components';
 
 import { Result } from 'axe-core';
 import { Info } from './Info';
+// eslint-disable-next-line import/no-cycle
 import { Elements } from './Elements';
 import { Tags } from './Tags';
+// eslint-disable-next-line import/no-cycle
 import { RuleType } from '../A11YPanel';
 import HighlightToggle from './HighlightToggle';
 

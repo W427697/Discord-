@@ -2,7 +2,7 @@
 import React, { Fragment, ReactNode, useEffect, useRef, FC, memo } from 'react';
 import memoize from 'memoizerific';
 
-import { styled, Global, Theme, withTheme } from '@storybook/theming';
+import { styled, Global, type Theme, withTheme } from '@storybook/theming';
 
 import { Icons, IconButton, WithTooltip, TooltipLinkList } from '@storybook/components';
 

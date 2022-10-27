@@ -13,7 +13,7 @@ export default {
   decorators: [
     componentWrapperDecorator(
       (story) => `<div [class]="myTheme">${story}</div>`,
-      // eslint-disable-next-line dot-notation
+
       ({ globals }) => ({ myTheme: `${globals['theme']}-theme` })
     ),
   ],

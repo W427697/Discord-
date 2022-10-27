@@ -4,10 +4,10 @@ import isFunction from 'lodash/isFunction';
 import isString from 'lodash/isString';
 import reactElementToJSXString from 'react-element-to-jsx-string';
 import {
-  PropDef,
+  type PropDef,
   createSummaryValue,
   isTooLongForDefaultValueSummary,
-  PropDefaultValue,
+  type PropDefaultValue,
 } from '@storybook/docs-tools';
 
 import { inspectValue, InspectionFunction } from '../inspection';

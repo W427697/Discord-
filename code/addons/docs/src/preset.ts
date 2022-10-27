@@ -1,9 +1,13 @@
 import fs from 'fs-extra';
 import remarkSlug from 'remark-slug';
 import remarkExternalLinks from 'remark-external-links';
-import global from 'global';
 
-import type { DocsOptions, IndexerOptions, Options, StoryIndexer } from '@storybook/core-common';
+import type {
+  CoreCommon_IndexerOptions,
+  CoreCommon_StoryIndexer,
+  DocsOptions,
+  Options,
+} from '@storybook/types';
 import { logger } from '@storybook/node-logger';
 import { loadCsf } from '@storybook/csf-tools';
 
@@ -68,12 +72,9 @@ export async function webpack(
     remarkPlugins: [remarkSlug, remarkExternalLinks],
   };
 
-  const mdxVersion = global.FEATURES?.previewMdx2 ? 'MDX2' : 'MDX1';
-  logger.info(`Addon-docs: using ${mdxVersion}`);
+  logger.info(`Addon-docs: using MDX2`);
 
-  const mdxLoader = global.FEATURES?.previewMdx2
-    ? require.resolve('@storybook/mdx2-csf/loader')
-    : require.resolve('@storybook/mdx1-csf/loader');
+  const mdxLoader = require.resolve('@storybook/mdx2-csf/loader');
 
   // set `sourceLoaderOptions` to `null` to disable for manual configuration
   const sourceLoader = sourceLoaderOptions
@@ -151,13 +152,11 @@ export async function webpack(
   return result;
 }
 
-export const storyIndexers = async (indexers: StoryIndexer[] | null) => {
-  const mdxIndexer = async (fileName: string, opts: IndexerOptions) => {
+export const storyIndexers = async (indexers: CoreCommon_StoryIndexer[] | null) => {
+  const mdxIndexer = async (fileName: string, opts: CoreCommon_IndexerOptions) => {
     let code = (await fs.readFile(fileName, 'utf-8')).toString();
     // @ts-expect-error (Converted from ts-ignore)
-    const { compile } = global.FEATURES?.previewMdx2
-      ? await import('@storybook/mdx2-csf')
-      : await import('@storybook/mdx1-csf');
+    const { compile } = await import('@storybook/mdx2-csf');
     code = await compile(code, {});
     return loadCsf(code, { ...opts, fileName }).parse();
   };

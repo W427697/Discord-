@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { Icons, IconButton, IconsProps } from '@storybook/components';
+import { Icons, IconButton, type IconsProps } from '@storybook/components';
 
 interface ToolbarMenuButtonProps {
   active: boolean;

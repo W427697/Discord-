@@ -1,10 +1,11 @@
 import global from 'global';
-import { Provider } from '@storybook/ui';
-import { addons, AddonStore, Channel } from '@storybook/addons';
-import type { Config, Types } from '@storybook/addons';
+import { Provider } from '@storybook/manager';
+import { Channel } from '@storybook/channels';
+import type { Addon_Types, Addon_Config } from '@storybook/types';
+import { addons, AddonStore } from '@storybook/addons';
 import * as postMessage from '@storybook/channel-postmessage';
 import * as webSocket from '@storybook/channel-websocket';
-import Events from '@storybook/core-events';
+import { CHANNEL_CREATED } from '@storybook/core-events';
 
 const { FEATURES, SERVER_CHANNEL_URL } = global;
 
@@ -21,7 +22,7 @@ export default class ReactProvider extends Provider {
     const channel = postMessage.createChannel({ page: 'manager' });
 
     addons.setChannel(channel);
-    channel.emit(Events.CHANNEL_CREATED);
+    channel.emit(CHANNEL_CREATED);
 
     this.addons = addons;
     this.channel = channel;
@@ -33,11 +34,11 @@ export default class ReactProvider extends Provider {
     }
   }
 
-  getElements(type: Types) {
+  getElements(type: Addon_Types) {
     return this.addons.getElements(type);
   }
 
-  getConfig(): Config {
+  getConfig(): Addon_Config {
     return this.addons.getConfig();
   }
 

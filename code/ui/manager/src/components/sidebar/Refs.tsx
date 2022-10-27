@@ -4,11 +4,15 @@ import { styled } from '@storybook/theming';
 import { transparentize } from 'polished';
 
 import { AuthBlock, ErrorBlock, LoaderBlock, EmptyBlock } from './RefBlocks';
+// eslint-disable-next-line import/no-cycle
 import { RefIndicator } from './RefIndicator';
+// eslint-disable-next-line import/no-cycle
 import { Tree } from './Tree';
 import { CollapseIcon } from './TreeNode';
+// eslint-disable-next-line import/no-cycle
 import { DEFAULT_REF_ID } from './Sidebar';
 import { Highlight, RefType } from './types';
+// eslint-disable-next-line import/no-cycle
 import { getStateType } from './utils';
 
 export interface RefProps {
@@ -90,7 +94,7 @@ const CollapseButton = styled.button(({ theme }) => ({
   },
 }));
 
-export const Ref: FC<RefType & RefProps> = React.memo((props) => {
+export const Ref: FC<RefType & RefProps> = React.memo(function Ref(props) {
   const { docsOptions } = useStorybookState();
   const api = useStorybookApi();
   const {

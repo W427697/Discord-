@@ -13,7 +13,7 @@ interface Other extends StoryData {
 }
 
 export type RouterData = {
-  location: Partial<Location>;
+  location: Partial<R.Location>;
   navigate: ReturnType<typeof useNavigate>;
 } & Other;
 
@@ -24,7 +24,7 @@ interface MatchingData {
 }
 
 interface LocationProps {
-  children: (renderData: RenderData) => ReactNode;
+  children: (renderData: RenderData) => any;
 }
 interface MatchProps {
   path: string;

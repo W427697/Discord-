@@ -6,7 +6,9 @@ import { ActionBar, Icons, ScrollArea } from '@storybook/components';
 
 import { AxeResults } from 'axe-core';
 import { useChannel, useParameter, useStorybookState } from '@storybook/api';
+// eslint-disable-next-line import/no-cycle
 import { Report } from './Report';
+// eslint-disable-next-line import/no-cycle
 import { Tabs } from './Tabs';
 
 import { useA11yContext } from './A11yContext';

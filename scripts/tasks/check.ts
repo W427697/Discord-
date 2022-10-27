@@ -1,7 +1,8 @@
-import { exec } from '../utils/exec';
 import type { Task } from '../task';
+import { exec } from '../utils/exec';
+import { maxConcurrentTasks } from '../utils/maxConcurrentTasks';
 
-const command = `nx run-many --target="check" --all --parallel --exclude=@storybook/addon-storyshots,@storybook/addon-storyshots-puppeteer`;
+const command = `nx run-many --target="check" --all --parallel=${maxConcurrentTasks} --exclude=@storybook/addon-storyshots,@storybook/addon-storyshots-puppeteer`;
 
 export const check: Task = {
   description: 'Typecheck the source code of the monorepo',
@@ -9,7 +10,8 @@ export const check: Task = {
   async ready() {
     return false;
   },
-  async run({ codeDir }, { dryRun, debug }) {
+  async run({ codeDir }, { dryRun, debug, link }) {
+    if (link) throw new Error('Cannot check when linked, please run with `--no-link`');
     return exec(
       command,
       { cwd: codeDir },

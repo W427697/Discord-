@@ -3,7 +3,7 @@ import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
 import { logger } from '@storybook/node-logger';
 import { useProgressReporting } from '@storybook/core-common';
-import type { Builder, Options } from '@storybook/core-common';
+import type { Builder, Options } from '@storybook/types';
 import { checkWebpackVersion } from '@storybook/core-webpack';
 import { join } from 'path';
 
@@ -144,6 +144,7 @@ const starter: StarterFunction = async function* starterGeneratorFn({
   }
 
   if (stats.hasErrors()) {
+    // eslint-disable-next-line @typescript-eslint/no-throw-literal
     throw stats;
   }
 
