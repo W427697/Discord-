@@ -53,11 +53,7 @@ export type StoryObj<TMetaOrCmpOrArgs = Args> = TMetaOrCmpOrArgs extends {
       >
     : never
   : TMetaOrCmpOrArgs extends ComponentType<any>
-  ? StoryAnnotations<
-      ReactFramework,
-      ComponentProps<TMetaOrCmpOrArgs>,
-      ComponentProps<TMetaOrCmpOrArgs>
-    >
+  ? StoryAnnotations<ReactFramework, ComponentProps<TMetaOrCmpOrArgs>>
   : StoryAnnotations<ReactFramework, TMetaOrCmpOrArgs>;
 
 type ActionArgs<RArgs> = {
