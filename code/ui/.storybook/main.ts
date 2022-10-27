@@ -4,7 +4,7 @@ const config: StorybookConfig = {
   stories: [
     {
       directory: '../manager/src',
-      titlePrefix: '@storybook-ui',
+      titlePrefix: '@storybook-manager',
     },
     {
       directory: '../components/src',
