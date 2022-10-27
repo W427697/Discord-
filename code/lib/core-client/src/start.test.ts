@@ -550,7 +550,7 @@ describe('start', () => {
   const componentCExports = {
     default: {
       title: 'Component C',
-      tags: ['component-tag'],
+      tags: ['component-tag', 'docsPage'],
     },
     StoryOne: {
       render: jest.fn(),
@@ -574,7 +574,6 @@ describe('start', () => {
             "component-c--story-one": Object {
               "argTypes": Object {},
               "args": Object {},
-              "componentId": undefined,
               "id": "component-c--story-one",
               "importPath": "exports-map-0",
               "initialArgs": Object {},
@@ -594,7 +593,6 @@ describe('start', () => {
             "component-c--story-two": Object {
               "argTypes": Object {},
               "args": Object {},
-              "componentId": undefined,
               "id": "component-c--story-two",
               "importPath": "exports-map-0",
               "initialArgs": Object {},
@@ -606,6 +604,7 @@ describe('start', () => {
               },
               "tags": Array [
                 "component-tag",
+                "docsPage",
                 "story",
               ],
               "title": "Component C",
@@ -696,7 +695,6 @@ describe('start', () => {
             "component-c--story-one": Object {
               "argTypes": Object {},
               "args": Object {},
-              "componentId": undefined,
               "id": "component-c--story-one",
               "importPath": "exports-map-0",
               "initialArgs": Object {},
@@ -716,7 +714,6 @@ describe('start', () => {
             "component-c--story-three": Object {
               "argTypes": Object {},
               "args": Object {},
-              "componentId": undefined,
               "id": "component-c--story-three",
               "importPath": "exports-map-0",
               "initialArgs": Object {},
@@ -728,6 +725,7 @@ describe('start', () => {
               },
               "tags": Array [
                 "component-tag",
+                "docsPage",
                 "story",
               ],
               "title": "Component C",
@@ -736,7 +734,6 @@ describe('start', () => {
             "component-c--story-two": Object {
               "argTypes": Object {},
               "args": Object {},
-              "componentId": undefined,
               "id": "component-c--story-two",
               "importPath": "exports-map-0",
               "initialArgs": Object {},
@@ -748,6 +745,7 @@ describe('start', () => {
               },
               "tags": Array [
                 "component-tag",
+                "docsPage",
                 "story",
               ],
               "title": "Component C",
@@ -788,7 +786,6 @@ describe('start', () => {
             "component-c--story-one": Object {
               "argTypes": Object {},
               "args": Object {},
-              "componentId": undefined,
               "id": "component-c--story-one",
               "importPath": "exports-map-0",
               "initialArgs": Object {},
@@ -808,7 +805,6 @@ describe('start', () => {
             "component-c--story-two": Object {
               "argTypes": Object {},
               "args": Object {},
-              "componentId": undefined,
               "id": "component-c--story-two",
               "importPath": "exports-map-0",
               "initialArgs": Object {},
@@ -820,6 +816,7 @@ describe('start', () => {
               },
               "tags": Array [
                 "component-tag",
+                "docsPage",
                 "story",
               ],
               "title": "Component C",
@@ -828,7 +825,6 @@ describe('start', () => {
             "component-d--story-four": Object {
               "argTypes": Object {},
               "args": Object {},
-              "componentId": undefined,
               "id": "component-d--story-four",
               "importPath": "exports-map-1",
               "initialArgs": Object {},
@@ -862,7 +858,6 @@ describe('start', () => {
             "component-c--story-one": Object {
               "argTypes": Object {},
               "args": Object {},
-              "componentId": undefined,
               "id": "component-c--story-one",
               "importPath": "exports-map-0",
               "initialArgs": Object {},
@@ -882,7 +877,6 @@ describe('start', () => {
             "component-c--story-two": Object {
               "argTypes": Object {},
               "args": Object {},
-              "componentId": undefined,
               "id": "component-c--story-two",
               "importPath": "exports-map-0",
               "initialArgs": Object {},
@@ -894,6 +888,7 @@ describe('start', () => {
               },
               "tags": Array [
                 "component-tag",
+                "docsPage",
                 "story",
               ],
               "title": "Component C",
@@ -961,7 +956,6 @@ describe('start', () => {
           Object {
             "entries": Object {
               "introduction": Object {
-                "componentId": undefined,
                 "id": "introduction",
                 "importPath": "./Introduction.stories.mdx",
                 "name": undefined,
@@ -1070,7 +1064,6 @@ describe('start', () => {
             "component-c--story-one": Object {
               "argTypes": Object {},
               "args": Object {},
-              "componentId": undefined,
               "id": "component-c--story-one",
               "importPath": "exports-map-0",
               "initialArgs": Object {},
@@ -1090,7 +1083,6 @@ describe('start', () => {
             "component-c--story-two": Object {
               "argTypes": Object {},
               "args": Object {},
-              "componentId": undefined,
               "id": "component-c--story-two",
               "importPath": "exports-map-0",
               "initialArgs": Object {},
@@ -1102,6 +1094,7 @@ describe('start', () => {
               },
               "tags": Array [
                 "component-tag",
+                "docsPage",
                 "story",
               ],
               "title": "Component C",
@@ -1125,10 +1118,165 @@ describe('start', () => {
 
     describe('docsPage', () => {
       beforeEach(() => {
-        global.DOCS_OPTIONS = { enabled: true, docsPage: true, defaultTitle: 'Docs' };
+        global.DOCS_OPTIONS = { enabled: true, docsPage: true, defaultName: 'Docs' };
       });
 
-      it('adds stories for each component', async () => {});
+      it('adds stories for each component with docsPage tag', async () => {
+        const renderToDOM = jest.fn();
+
+        const { configure, clientApi } = start(renderToDOM);
+        configure('test', () => {
+          clientApi
+            .storiesOf('Component A', { id: 'file1' } as NodeModule)
+            .add('Story One', jest.fn())
+            .add('Story Two', jest.fn());
+
+          clientApi
+            .storiesOf('Component B', { id: 'file2' } as NodeModule)
+            .addParameters({ tags: ['docsPage'] })
+            .add('Story Three', jest.fn());
+
+          return [componentCExports];
+        });
+
+        await waitForRender();
+        expect(mockChannel.emit.mock.calls.find((call: [string, any]) => call[0] === SET_INDEX)[1])
+          .toMatchInlineSnapshot(`
+          Object {
+            "entries": Object {
+              "component-a--story-one": Object {
+                "argTypes": Object {},
+                "args": Object {},
+                "componentId": "component-a",
+                "id": "component-a--story-one",
+                "importPath": "file1",
+                "initialArgs": Object {},
+                "name": "Story One",
+                "parameters": Object {
+                  "__id": "component-a--story-one",
+                  "__isArgsStory": false,
+                  "fileName": "file1",
+                  "framework": "test",
+                },
+                "tags": Array [
+                  "story",
+                ],
+                "title": "Component A",
+                "type": "story",
+              },
+              "component-a--story-two": Object {
+                "argTypes": Object {},
+                "args": Object {},
+                "componentId": "component-a",
+                "id": "component-a--story-two",
+                "importPath": "file1",
+                "initialArgs": Object {},
+                "name": "Story Two",
+                "parameters": Object {
+                  "__id": "component-a--story-two",
+                  "__isArgsStory": false,
+                  "fileName": "file1",
+                  "framework": "test",
+                },
+                "tags": Array [
+                  "story",
+                ],
+                "title": "Component A",
+                "type": "story",
+              },
+              "component-b--docs": Object {
+                "componentId": "component-b",
+                "id": "component-b--docs",
+                "importPath": "file2",
+                "name": "Docs",
+                "standalone": false,
+                "storiesImports": Array [],
+                "tags": Array [
+                  "docsPage",
+                  "docs",
+                ],
+                "title": "Component B",
+                "type": "docs",
+              },
+              "component-b--story-three": Object {
+                "argTypes": Object {},
+                "args": Object {},
+                "componentId": "component-b",
+                "id": "component-b--story-three",
+                "importPath": "file2",
+                "initialArgs": Object {},
+                "name": "Story Three",
+                "parameters": Object {
+                  "__id": "component-b--story-three",
+                  "__isArgsStory": false,
+                  "fileName": "file2",
+                  "framework": "test",
+                },
+                "tags": Array [
+                  "docsPage",
+                  "story",
+                ],
+                "title": "Component B",
+                "type": "story",
+              },
+              "component-c--docs": Object {
+                "id": "component-c--docs",
+                "importPath": "exports-map-0",
+                "name": "Docs",
+                "standalone": false,
+                "storiesImports": Array [],
+                "tags": Array [
+                  "component-tag",
+                  "docsPage",
+                  "docs",
+                ],
+                "title": "Component C",
+                "type": "docs",
+              },
+              "component-c--story-one": Object {
+                "argTypes": Object {},
+                "args": Object {},
+                "id": "component-c--story-one",
+                "importPath": "exports-map-0",
+                "initialArgs": Object {},
+                "name": "Story One",
+                "parameters": Object {
+                  "__isArgsStory": false,
+                  "fileName": "exports-map-0",
+                  "framework": "test",
+                },
+                "tags": Array [
+                  "story-tag",
+                  "story",
+                ],
+                "title": "Component C",
+                "type": "story",
+              },
+              "component-c--story-two": Object {
+                "argTypes": Object {},
+                "args": Object {},
+                "id": "component-c--story-two",
+                "importPath": "exports-map-0",
+                "initialArgs": Object {},
+                "name": "Story Two",
+                "parameters": Object {
+                  "__isArgsStory": false,
+                  "fileName": "exports-map-0",
+                  "framework": "test",
+                },
+                "tags": Array [
+                  "component-tag",
+                  "docsPage",
+                  "story",
+                ],
+                "title": "Component C",
+                "type": "story",
+              },
+            },
+            "v": 4,
+          }
+        `);
+      });
     });
   });
 
@@ -1153,7 +1301,6 @@ describe('start', () => {
             "auto-title--story-one": Object {
               "argTypes": Object {},
               "args": Object {},
-              "componentId": undefined,
               "id": "auto-title--story-one",
               "importPath": "exports-map-0",
               "initialArgs": Object {},
