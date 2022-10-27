@@ -6654,13 +6654,13 @@ __metadata:
   linkType: hard
 
 "@storybook/csf@npm:next":
-  version: 0.0.2-next.0
-  resolution: "@storybook/csf@npm:0.0.2-next.0"
+  version: 0.0.2-next.1
+  resolution: "@storybook/csf@npm:0.0.2-next.1"
   dependencies:
     expect-type: ^0.14.2
     lodash: ^4.17.15
     type-fest: ^2.19.0
-  checksum: 5e3da0544245893a2374df3de3fda504b2ec1b124bedff4dda85507f1a6209f25a3819d70af1792b0a74a2590fee84955fdbd0a6f1050a84ac7c8e8f40204317
+  checksum: 941ed6463ffd5dd15b70c624d34abf800dc55d8bffb923740df25d2e675e55702417bef489e7c955388aec4c4b74a7435acc0b8d721cd5ef7f75b31972f6c864
   languageName: node
   linkType: hard
 
