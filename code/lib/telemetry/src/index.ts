@@ -14,7 +14,11 @@ export const telemetry = async (
   payload: Payload = {},
   options: Partial<Options> = {}
 ) => {
-  await notify();
+  // Don't notify on boot since it can lead to double notification in `sb init`.
+  // The notification will happen when the actual command runs.
+  if (eventType !== 'boot') {
+    await notify();
+  }
   const telemetryData: TelemetryData = {
     eventType,
     payload,
