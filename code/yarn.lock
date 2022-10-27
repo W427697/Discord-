@@ -7428,6 +7428,7 @@ __metadata:
     "@storybook/core-events": "workspace:*"
     "@storybook/core-server": "workspace:*"
     "@storybook/core-webpack": "workspace:*"
+    "@storybook/csf": next
     "@storybook/csf-tools": "workspace:*"
     "@storybook/docs-tools": "workspace:*"
     "@storybook/ember": "workspace:*"
