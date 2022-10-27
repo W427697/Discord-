@@ -54,12 +54,12 @@
     "@storybook/core-common": "7.0.0-alpha.47",
     "@storybook/preset-vue-webpack": "7.0.0-alpha.47",
     "@storybook/vue": "7.0.0-alpha.47",
-    "@types/node": "^16.0.0",
+    "@types/node": "18.11.6",
     "react": "16.14.0",
     "react-dom": "16.14.0"
   },
   "devDependencies": {
-    "typescript": "~4.6.3",
+    "typescript": "4.9.0-dev.20221026",
     "vue": "^2.6.12",
     "vue-loader": "^15.7.0",
     "vue-template-compiler": "^2.6.14"

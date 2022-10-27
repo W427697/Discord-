@@ -56,7 +56,7 @@
     "@babel/plugin-syntax-import-meta": "^7.10.4",
     "@babel/preset-env": "^7.12.11",
     "@storybook/core-webpack": "7.0.0-alpha.47",
-    "@types/node": "^16.0.0",
+    "@types/node": "18.11.6",
     "babel-loader": "^7.0.0 || ^8.0.0",
     "babel-plugin-bundled-import-meta": "^0.3.1",
     "react": "16.14.0",
@@ -64,7 +64,7 @@
   },
   "devDependencies": {
     "lit-html": "2.0.2",
-    "typescript": "~4.6.3"
+    "typescript": "4.9.0-dev.20221026"
   },
   "peerDependencies": {
     "lit-html": "^1.4.1 || ^2.0.0"

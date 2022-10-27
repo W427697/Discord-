@@ -69,7 +69,7 @@
     "@storybook/router": "7.0.0-alpha.47",
     "@storybook/store": "7.0.0-alpha.47",
     "@storybook/theming": "7.0.0-alpha.47",
-    "@types/node": "^16.0.0",
+    "@types/node": "18.11.6",
     "@types/semver": "^7.3.4",
     "babel-loader": "^8.2.5",
     "babel-plugin-named-exports-order": "^0.0.2",
@@ -98,7 +98,7 @@
     "@types/webpack-dev-middleware": "^5.3.0",
     "@types/webpack-hot-middleware": "^2.25.6",
     "@types/webpack-virtual-modules": "^0.1.1",
-    "typescript": "~4.6.3"
+    "typescript": "4.9.0-dev.20221026"
   },
   "peerDependencies": {
     "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
