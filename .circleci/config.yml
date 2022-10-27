@@ -223,7 +223,7 @@ jobs:
             yarn lint
   check:
     executor:
-      class: medium+
+      class: large
       name: sb_node_16_classic
     steps:
       - git-shallow-clone/checkout_advanced:
