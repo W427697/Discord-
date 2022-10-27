@@ -1,3 +1,19 @@
+## 7.0.0-alpha.45 (October 28, 2022)
+
+#### Bug Fixes
+
+- Svelte: Fix regression causing all stories to error [#19653](https://github.com/storybooks/storybook/pull/19653)
+- CSF: Fix `StoryObj<typeof Cmp>` to work the same as old ComponentStoryObj [#19651](https://github.com/storybooks/storybook/pull/19651)
+
+#### Maintenance
+
+- Core: Misc dead code removal [#19654](https://github.com/storybooks/storybook/pull/19654)
+- Addon-actions: Move decorator to its own entrypoint [#19650](https://github.com/storybooks/storybook/pull/19650)
+
+#### Build
+
+- Build: Reduce resource classes [#19652](https://github.com/storybooks/storybook/pull/19652)
+
 ## 7.0.0-alpha.44 (October 27, 2022)
 
 #### Features
