@@ -7,7 +7,7 @@ executors:
         description: The Resource class
         type: enum
         enum: ['small', 'medium', 'medium+', 'large', 'xlarge']
-        default: 'medium'
+        default: 'small'
     working_directory: /tmp/storybook
     docker:
       - image: cimg/node:16.17.1
@@ -20,7 +20,7 @@ executors:
         description: The Resource class
         type: enum
         enum: ['small', 'medium', 'medium+', 'large', 'xlarge']
-        default: 'medium'
+        default: 'small'
     working_directory: /tmp/storybook
     docker:
       - image: cimg/node:16.17.1-browsers
@@ -33,7 +33,7 @@ executors:
         description: The Resource class
         type: enum
         enum: ['small', 'medium', 'medium+', 'large', 'xlarge']
-        default: 'medium'
+        default: 'small'
     working_directory: /tmp/storybook
     docker:
       - image: mcr.microsoft.com/playwright:v1.27.0-focal
@@ -77,7 +77,7 @@ commands:
 jobs:
   build:
     executor:
-      class: xlarge
+      class: large
       name: sb_node_16_classic
     steps:
       - git-shallow-clone/checkout_advanced:
@@ -111,7 +111,7 @@ jobs:
             - code/presets
   publish:
     executor:
-      class: medium
+      class: small
       name: sb_node_16_classic
     steps:
       - git-shallow-clone/checkout_advanced:
@@ -129,7 +129,7 @@ jobs:
             - .verdaccio-cache
   cra-bench:
     executor:
-      class: medium+
+      class: medium
       name: sb_playwright
     working_directory: /tmp/storybook
     steps:
@@ -169,7 +169,7 @@ jobs:
           destination: sb-bench.tar.gz
   react-vite-bench:
     executor:
-      class: medium+
+      class: medium
       name: sb_playwright
     working_directory: /tmp/storybook
     steps:
@@ -223,7 +223,7 @@ jobs:
             yarn lint
   check:
     executor:
-      class: xlarge
+      class: large
       name: sb_node_16_classic
     steps:
       - git-shallow-clone/checkout_advanced:
@@ -250,7 +250,9 @@ jobs:
       - store_test_results:
           path: scripts/junit.xml
   unit-tests:
-    executor: sb_node_16_browsers
+    executor:
+      class: medium+
+      name: sb_node_16_browsers
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: '--depth 1 --verbose'
@@ -283,7 +285,7 @@ jobs:
             yarn coverage
   chromatic-internal-storybooks:
     executor:
-      class: medium+
+      class: medium
       name: sb_node_16_browsers
     steps:
       - git-shallow-clone/checkout_advanced:
@@ -301,9 +303,9 @@ jobs:
   ## new workflow
   create-sandboxes:
     executor:
-      class: medium+
+      class: medium
       name: sb_node_16_browsers
-    parallelism: 24
+    parallelism: 9
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: '--depth 1 --verbose'
@@ -320,9 +322,9 @@ jobs:
           path: test-results
   smoke-test-sandboxes:
     executor:
-      class: medium+
+      class: medium
       name: sb_node_16_browsers
-    parallelism: 24
+    parallelism: 9
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: '--depth 1 --verbose'
@@ -337,7 +339,7 @@ jobs:
     executor:
       class: medium+
       name: sb_node_16_browsers
-    parallelism: 24
+    parallelism: 9
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: '--depth 1 --verbose'
@@ -354,9 +356,9 @@ jobs:
             - sandbox/*/storybook-static
   test-runner-sandboxes:
     executor:
-      class: medium+
+      class: medium
       name: sb_playwright
-    parallelism: 22
+    parallelism: 8
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: '--depth 1 --verbose'
@@ -369,9 +371,9 @@ jobs:
           path: test-results
   chromatic-sandboxes:
     executor:
-      class: medium+
+      class: medium
       name: sb_node_16_browsers
-    parallelism: 24
+    parallelism: 9
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: '--depth 1 --verbose'
@@ -384,9 +386,9 @@ jobs:
           path: test-results
   e2e-sandboxes:
     executor:
-      class: medium+
+      class: medium
       name: sb_playwright
-    parallelism: 24
+    parallelism: 9
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: '--depth 1 --verbose'

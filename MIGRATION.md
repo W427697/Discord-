@@ -3,6 +3,7 @@
 - [From version 6.5.x to 7.0.0](#from-version-65x-to-700)
   - [Alpha release notes](#alpha-release-notes)
   - [7.0 breaking changes](#70-breaking-changes)
+    - [removed auto injection of @storybook/addon-actions decorator](#removed-auto-injection-of-storybookaddon-actions-decorator)
     - [register.js removed](#registerjs-removed)
     - [Change of root html IDs](#change-of-root-html-ids)
     - [No more default export from `@storybook/addons`](#no-more-default-export-from-storybookaddons)
@@ -39,6 +40,7 @@
     - [Dropped addon-docs manual configuration](#dropped-addon-docs-manual-configuration)
   - [7.0 Deprecations](#70-deprecations)
     - [`Story` type deprecated](#story-type-deprecated)
+    - [`ComponentStory`, `ComponentStoryObj`, `ComponentStoryFn` and `ComponentMeta` types are deprecated](#componentstory-componentstoryobj-componentstoryfn-and-componentmeta-types-are-deprecated)
 - [From version 6.4.x to 6.5.0](#from-version-64x-to-650)
   - [Vue 3 upgrade](#vue-3-upgrade)
   - [React18 new root API](#react18-new-root-api)
@@ -250,6 +252,32 @@ Storybook 7.0 is in early alpha. During the alpha, we are making a large number 
 In the meantime, these migration notes are the best available documentation on things you should know upgrading to 7.0.
 
 ### 7.0 breaking changes
+
+#### removed auto injection of @storybook/addon-actions decorator
+
+The `withActions` decorator is no longer automatically added to stories. This is because it is really only used in the html renderer, for all other renderers it's redundant.
+If you are using the html renderer and use the `handles` parameter, you'll need to manually add the `withActions` decorator:
+
+```diff
+import globalThis from 'global';
++import { withActions } from '@storybook/addon-actions/decorator';
+
+export default {
+  component: globalThis.Components.Button,
+  args: {
+    label: 'Click Me!',
+  },
+  parameters: {
+    chromatic: { disable: true },
+  },
+};
+export const Basic = {
+  parameters: {
+    handles: [{ click: 'clicked', contextmenu: 'right clicked' }],
+  },
++  decorators: [withActions],
+};
+```
 
 #### register.js removed
 
