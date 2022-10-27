@@ -1,5 +1,5 @@
 {
-  "name": "@storybook/ui",
+  "name": "@storybook/manager",
   "version": "7.0.0-alpha.43",
   "description": "Core Storybook UI",
   "keywords": [
