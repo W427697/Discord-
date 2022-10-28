@@ -4,7 +4,6 @@ import { useArgs } from '@storybook/addons';
 import { FilesControl } from './Files';
 
 export default {
-  title: 'Controls/Files',
   component: FilesControl,
   tags: ['docsPage'],
   parameters: { controls: { include: ['value', 'accept'] } },

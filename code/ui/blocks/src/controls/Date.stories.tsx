@@ -4,7 +4,6 @@ import { useArgs } from '@storybook/addons';
 import { DateControl } from './Date';
 
 export default {
-  title: 'Controls/Date',
   component: DateControl,
   // not using component here because we want to define argTypes ourselves
   tags: ['docsPage'],

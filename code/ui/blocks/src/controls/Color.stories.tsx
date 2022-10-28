@@ -4,7 +4,6 @@ import { useArgs } from '@storybook/addons';
 import { ColorControl } from './Color';
 
 export default {
-  title: 'Controls/Color',
   component: ColorControl,
   parameters: { controls: { include: ['value', 'startOpen'] } },
   tags: ['docsPage'],

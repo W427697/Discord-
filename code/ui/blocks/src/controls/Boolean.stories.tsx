@@ -4,7 +4,6 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { BooleanControl } from './Boolean';
 
 const meta = {
-  title: 'Controls/Boolean',
   component: BooleanControl,
   tags: ['docsPage'],
   parameters: { controls: { include: ['value'] } },

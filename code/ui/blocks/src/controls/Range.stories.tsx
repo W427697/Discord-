@@ -4,7 +4,6 @@ import { useArgs } from '@storybook/addons';
 import { RangeControl } from './Range';
 
 export default {
-  title: 'Controls/Range',
   component: RangeControl,
   tags: ['docsPage'],
   parameters: { controls: { include: ['value', 'min', 'max', 'step'] } },

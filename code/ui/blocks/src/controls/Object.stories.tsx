@@ -4,7 +4,6 @@ import { useArgs } from '@storybook/addons';
 import { ObjectControl } from './Object';
 
 export default {
-  title: 'Controls/Object',
   component: ObjectControl,
   tags: ['docsPage'],
   parameters: { controls: { include: ['value'] } },

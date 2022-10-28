@@ -4,7 +4,6 @@ import { useArgs } from '@storybook/addons';
 import { TextControl } from './Text';
 
 export default {
-  title: 'Controls/Text',
   component: TextControl,
   tags: ['docsPage'],
   parameters: { controls: { include: ['value', 'maxLength'] } },

@@ -4,7 +4,6 @@ import { useArgs } from '@storybook/addons';
 import { NumberControl } from './Number';
 
 export default {
-  title: 'Controls/Number',
   component: NumberControl,
   tags: ['docsPage'],
   parameters: { controls: { include: ['value', 'min', 'max', 'step'] } },
