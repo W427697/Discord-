@@ -1,10 +1,12 @@
+/// <reference types="@types/jest" />;
+
 import fs from 'fs-extra';
 import type { Router, Request, Response } from 'express';
 import Watchpack from 'watchpack';
 import path from 'path';
 import debounce from 'lodash/debounce';
 import { STORY_INDEX_INVALIDATED } from '@storybook/core-events';
-import type { StoryIndex } from '@storybook/store';
+import type { Store_StoryIndex } from '@storybook/types';
 import { loadCsf } from '@storybook/csf-tools';
 import { normalizeStoriesEntry } from '@storybook/core-common';
 
@@ -852,7 +854,7 @@ describe('useStoriesJson', () => {
 
 describe('convertToIndexV3', () => {
   it('converts v7 index.json to v6 stories.json', () => {
-    const indexJson: StoryIndex = {
+    const indexJson: Store_StoryIndex = {
       v: 4,
       entries: {
         'a--docs': {
