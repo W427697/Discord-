@@ -10,48 +10,6 @@ expect.addSnapshotSerializer({
   test: (val) => true,
 });
 
-const source = (csfExport: string) => {
-  const code = dedent`
-    export default { title: 'Button' }
-    ${csfExport}
-  `;
-  const csf = loadCsf(code, { makeTitle: (userTitle) => userTitle }).parse();
-  const exportNode = Object.values(csf._storyExports)[0];
-  return extractSource(exportNode);
-};
-
-describe('extractSource', () => {
-  it('csf1', () => {
-    expect(
-      source(dedent`
-        export const Basic = () => <Button />
-      `)
-    ).toMatchInlineSnapshot(`() => <Button />`);
-  });
-  it('csf2', () => {
-    expect(
-      source(dedent`
-        export const Basic =  (args) => <Button {...args} />;
-      `)
-    ).toMatchInlineSnapshot(`args => <Button {...args} />`);
-  });
-  it('csf3', () => {
-    expect(
-      source(dedent`
-        export const Basic = {
-          parameters: { foo: 'bar' }
-        }
-      `)
-    ).toMatchInlineSnapshot(`
-      {
-        parameters: {
-          foo: 'bar'
-        }
-      }
-    `);
-  });
-});
-
 describe('enrichCsf', () => {
   describe('source', () => {
     it('csf1', () => {
@@ -158,5 +116,47 @@ describe('enrichCsf', () => {
         };
       `);
     });
+  });
+});
+
+const source = (csfExport: string) => {
+  const code = dedent`
+    export default { title: 'Button' }
+    ${csfExport}
+  `;
+  const csf = loadCsf(code, { makeTitle: (userTitle) => userTitle }).parse();
+  const exportNode = Object.values(csf._storyExports)[0];
+  return extractSource(exportNode);
+};
+
+describe('extractSource', () => {
+  it('csf1', () => {
+    expect(
+      source(dedent`
+        export const Basic = () => <Button />
+      `)
+    ).toMatchInlineSnapshot(`() => <Button />`);
+  });
+  it('csf2', () => {
+    expect(
+      source(dedent`
+        export const Basic =  (args) => <Button {...args} />;
+      `)
+    ).toMatchInlineSnapshot(`args => <Button {...args} />`);
+  });
+  it('csf3', () => {
+    expect(
+      source(dedent`
+        export const Basic = {
+          parameters: { foo: 'bar' }
+        }
+      `)
+    ).toMatchInlineSnapshot(`
+      {
+        parameters: {
+          foo: 'bar'
+        }
+      }
+    `);
   });
 });
