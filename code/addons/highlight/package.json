@@ -67,7 +67,7 @@
       "./src/highlight.ts"
     ]
   },
-  "gitHead": "3ef14366115c56c1d45c0359ff681cc47ed50532",
+  "gitHead": "c64b5be851ed2affac56e1daaac3f453fbe6f230",
   "sbmodern": "dist/modern/index.js",
   "storybook": {
     "displayName": "Highlight",
