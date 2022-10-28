@@ -4,23 +4,17 @@ import { STORY_RENDERED, STORY_UNCHANGED, SET_INDEX } from '@storybook/core-even
 import type { Store_ModuleExports, Path, Loadable } from '@storybook/types';
 import { setGlobalRender } from '@storybook/client-api';
 import global from 'global';
-import { WebView } from '../../preview-web/src/WebView';
 import {
   waitForRender,
   waitForEvents,
   waitForQuiescence,
   emitter,
   mockChannel,
-} from '../../preview-web/src/PreviewWeb.mockdata';
+} from './PreviewWeb.mockdata';
 
 import { start as realStart } from './start';
 
-jest.mock('../../preview-web/src/WebView');
-jest.spyOn(WebView.prototype, 'prepareForDocs').mockReturnValue('docs-root');
-jest.spyOn(WebView.prototype, 'prepareForStory').mockReturnValue('story-root');
-
 jest.mock('global', () => ({
-  // @ts-expect-error (Converted from ts-ignore)
   ...jest.requireActual('global'),
   history: { replaceState: jest.fn() },
   document: {
@@ -47,6 +41,28 @@ jest.mock('@storybook/store', () => {
     ...actualStore,
     userOrAutoTitle: (importPath: Path, specifier: any, userTitle?: string) =>
       userTitle || 'auto-title',
+  };
+});
+
+jest.mock('@storybook/preview-web', () => {
+  const actualPreviewWeb = jest.requireActual('@storybook/preview-web');
+
+  class OverloadPreviewWeb extends actualPreviewWeb.PreviewWeb {
+    constructor() {
+      super();
+
+      this.view = {
+        ...Object.fromEntries(
+          Object.getOwnPropertyNames(this.view.constructor.prototype).map((key) => [key, jest.fn()])
+        ),
+        prepareForDocs: jest.fn().mockReturnValue('docs-root'),
+        prepareForStory: jest.fn().mockReturnValue('story-root'),
+      };
+    }
+  }
+  return {
+    ...actualPreviewWeb,
+    PreviewWeb: OverloadPreviewWeb,
   };
 });
 
@@ -104,6 +120,8 @@ describe('start', () => {
       });
 
       await waitForRender();
+
+      // @ts-expect-error (mockChannel be like that)
       expect(mockChannel.emit.mock.calls.find((call: [string, any]) => call[0] === SET_INDEX)[1])
         .toMatchInlineSnapshot(`
         Object {
@@ -259,8 +277,9 @@ describe('start', () => {
       await waitForRender();
       expect(mockChannel.emit).toHaveBeenCalledWith(STORY_RENDERED, 'component-a--default');
 
+      // @ts-expect-error (mockChannel be like that)
       const storiesOfData = mockChannel.emit.mock.calls.find(
-        (call: [string, any]) => call[0] === SET_INDEX
+        (call: any[]) => call[0] === SET_INDEX
       )[1];
       expect(Object.values(storiesOfData.entries).map((s: any) => s.parameters.fileName)).toEqual([
         'file1',
@@ -332,7 +351,7 @@ describe('start', () => {
 
       const { configure, clientApi } = start(renderToDOM);
 
-      let disposeCallback: () => void;
+      let disposeCallback: () => void = () => {};
       const module = {
         id: 'file1',
         hot: {
@@ -368,7 +387,7 @@ describe('start', () => {
 
       const { configure, clientApi, forceReRender } = start(renderToDOM);
 
-      let disposeCallback: () => void;
+      let disposeCallback: () => void = () => {};
       const module = {
         id: 'file1',
         hot: {
@@ -392,6 +411,7 @@ describe('start', () => {
         .add('new', jest.fn());
 
       await waitForEvents([SET_INDEX]);
+      // @ts-expect-error (mockChannel be like that)
       expect(mockChannel.emit.mock.calls.find((call: [string, any]) => call[0] === SET_INDEX)[1])
         .toMatchInlineSnapshot(`
         Object {
@@ -445,9 +465,9 @@ describe('start', () => {
     it('re-emits SET_INDEX when a story file is removed', async () => {
       const renderToDOM = jest.fn(({ storyFn }) => storyFn());
 
-      const { configure, clientApi, forceReRender } = start(renderToDOM);
+      const { configure, clientApi } = start(renderToDOM);
 
-      let disposeCallback: () => void;
+      let disposeCallback: () => void = () => {};
       const moduleB = {
         id: 'file2',
         hot: {
@@ -463,6 +483,7 @@ describe('start', () => {
       });
 
       await waitForEvents([SET_INDEX]);
+      // @ts-expect-error (mockChannel be like that)
       expect(mockChannel.emit.mock.calls.find((call: [string, any]) => call[0] === SET_INDEX)[1])
         .toMatchInlineSnapshot(`
         Object {
@@ -515,6 +536,7 @@ describe('start', () => {
       disposeCallback();
 
       await waitForEvents([SET_INDEX]);
+      // @ts-expect-error (mockChannel be like that)
       expect(mockChannel.emit.mock.calls.find((call: [string, any]) => call[0] === SET_INDEX)[1])
         .toMatchInlineSnapshot(`
         Object {
@@ -566,6 +588,7 @@ describe('start', () => {
       configure('test', () => [componentCExports]);
 
       await waitForRender();
+      // @ts-expect-error (mockChannel be like that)
       expect(mockChannel.emit.mock.calls.find((call: [string, any]) => call[0] === SET_INDEX)[1])
         .toMatchInlineSnapshot(`
         Object {
@@ -628,7 +651,7 @@ describe('start', () => {
     it('supports HMR when a story file changes', async () => {
       const renderToDOM = jest.fn(({ storyFn }) => storyFn());
 
-      let disposeCallback: (data: object) => void;
+      let disposeCallback: (data: object) => void = () => {};
       const module = {
         id: 'file1',
         hot: {
@@ -666,7 +689,7 @@ describe('start', () => {
     it('re-emits SET_INDEX when a story is added', async () => {
       const renderToDOM = jest.fn(({ storyFn }) => storyFn());
 
-      let disposeCallback: (data: object) => void;
+      let disposeCallback: (data: object) => void = () => {};
       const module = {
         id: 'file1',
         hot: {
@@ -687,6 +710,7 @@ describe('start', () => {
       configure('test', () => [{ ...componentCExports, StoryThree: jest.fn() }], module as any);
 
       await waitForEvents([SET_INDEX]);
+      // @ts-expect-error (mockChannel be like that)
       expect(mockChannel.emit.mock.calls.find((call: [string, any]) => call[0] === SET_INDEX)[1])
         .toMatchInlineSnapshot(`
         Object {
@@ -759,7 +783,7 @@ describe('start', () => {
     it('re-emits SET_INDEX when a story file is removed', async () => {
       const renderToDOM = jest.fn(({ storyFn }) => storyFn());
 
-      let disposeCallback: (data: object) => void;
+      let disposeCallback: (data: object) => void = () => {};
       const module = {
         id: 'file1',
         hot: {
@@ -778,6 +802,7 @@ describe('start', () => {
       );
 
       await waitForEvents([SET_INDEX]);
+      // @ts-expect-error (mockChannel be like that)
       expect(mockChannel.emit.mock.calls.find((call: [string, any]) => call[0] === SET_INDEX)[1])
         .toMatchInlineSnapshot(`
         Object {
@@ -850,6 +875,7 @@ describe('start', () => {
       configure('test', () => [componentCExports], module as any);
 
       await waitForEvents([SET_INDEX]);
+      // @ts-expect-error (mockChannel be like that)
       expect(mockChannel.emit.mock.calls.find((call: [string, any]) => call[0] === SET_INDEX)[1])
         .toMatchInlineSnapshot(`
         Object {
@@ -950,6 +976,7 @@ describe('start', () => {
         );
 
         await waitForEvents([SET_INDEX]);
+        // @ts-expect-error (mockChannel be like that)
         expect(mockChannel.emit.mock.calls.find((call: [string, any]) => call[0] === SET_INDEX)[1])
           .toMatchInlineSnapshot(`
           Object {
@@ -996,6 +1023,7 @@ describe('start', () => {
       });
 
       await waitForRender();
+      // @ts-expect-error (mockChannel be like that)
       expect(mockChannel.emit.mock.calls.find((call: [string, any]) => call[0] === SET_INDEX)[1])
         .toMatchInlineSnapshot(`
         Object {
@@ -1139,6 +1167,7 @@ describe('start', () => {
         });
 
         await waitForRender();
+        // @ts-expect-error (mockChannel be like that)
         expect(mockChannel.emit.mock.calls.find((call: [string, any]) => call[0] === SET_INDEX)[1])
           .toMatchInlineSnapshot(`
           Object {
@@ -1293,6 +1322,7 @@ describe('start', () => {
       configure('test', () => [componentDExports]);
 
       await waitForEvents([SET_INDEX]);
+      // @ts-expect-error (mockChannel be like that)
       expect(mockChannel.emit.mock.calls.find((call: [string, any]) => call[0] === SET_INDEX)[1])
         .toMatchInlineSnapshot(`
         Object {
