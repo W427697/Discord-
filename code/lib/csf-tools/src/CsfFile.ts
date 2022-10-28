@@ -1,7 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 import fs from 'fs-extra';
 import { dedent } from 'ts-dedent';
-// eslint-disable-next-line import/no-extraneous-dependencies
+
 import * as t from '@babel/types';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import * as generate from '@babel/generator';

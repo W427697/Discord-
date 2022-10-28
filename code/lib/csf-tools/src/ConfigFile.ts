@@ -1,6 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 import fs from 'fs-extra';
-// eslint-disable-next-line import/no-extraneous-dependencies
+
 import * as t from '@babel/types';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import * as generate from '@babel/generator';
