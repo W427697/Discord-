@@ -23,7 +23,6 @@ export const enrichCsf = (code: string) => {
 };
 
 export const extractSource = (node: t.Node) => {
-  // console.log({ node });
   const src = t.isVariableDeclarator(node) ? node.init : node;
   const { code } = generate(src, {});
   return code;

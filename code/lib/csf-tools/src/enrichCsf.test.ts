@@ -31,16 +31,15 @@ describe('extractSource', () => {
   it('csf2', () => {
     expect(
       source(dedent`
-        const Template = (args) => <Button {...args} />
-        export const Basic = Template.bind({});
+        export const Basic =  (args) => <Button {...args} />;
       `)
-    ).toMatchInlineSnapshot(`Template.bind({})`);
+    ).toMatchInlineSnapshot(`args => <Button {...args} />`);
   });
   it('csf3', () => {
     expect(
       source(dedent`
         export const Basic = {
-            parameters: { foo: 'bar' }
+          parameters: { foo: 'bar' }
         }
       `)
     ).toMatchInlineSnapshot(`

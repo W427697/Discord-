@@ -227,7 +227,8 @@ export class CsfFile {
             t.isObjectExpression(bindArguments[0]) &&
             bindArguments[0].properties.length === 0))
       ) {
-        node = this._templates[callee.object.name];
+        const { name } = callee.object;
+        node = this._templates[name];
       }
     }
     return node;
