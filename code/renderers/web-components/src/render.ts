@@ -1,16 +1,15 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable no-param-reassign */
-// @ts-expect-error (Converted from ts-ignore)
 import global from 'global';
 
 import { dedent } from 'ts-dedent';
-import { render as litRender, html } from 'lit-html';
+import { render as litRender } from 'lit-html';
 // Keep `.js` extension to avoid issue with Webpack (related to export map?)
 // eslint-disable-next-line import/extensions
 import { isTemplateResult } from 'lit-html/directive-helpers.js';
 import { simulatePageLoad, simulateDOMContentLoaded } from '@storybook/preview-web';
-import type { RenderContext } from '@storybook/store';
-import { ArgsStoryFn } from '@storybook/csf';
-import { WebComponentsFramework } from './types';
+import type { Store_RenderContext, ArgsStoryFn } from '@storybook/types';
+import type { WebComponentsFramework } from './types';
 
 const { Node } = global;
 
@@ -22,16 +21,23 @@ export const render: ArgsStoryFn<WebComponentsFramework> = (args, context) => {
     );
   }
 
-  // FIXME: replace by one of
-  // - https://github.com/lit/lit/pull/1960
-  // - https://github.com/open-wc/open-wc/pull/2398
-  const argProps = Object.entries(args).map(([key, val]) => `.${key}=${val}`);
-
-  return html`<${component} ${argProps.join(' ')}></${component}>`;
+  const element = document.createElement(component);
+  Object.entries(args).forEach(([key, val]) => {
+    // @ts-ignore
+    element[key] = val;
+  });
+  return element;
 };
 
 export function renderToDOM(
-  { storyFn, kind, name, showMain, showError, forceRemount }: RenderContext<WebComponentsFramework>,
+  {
+    storyFn,
+    kind,
+    name,
+    showMain,
+    showError,
+    forceRemount,
+  }: Store_RenderContext<WebComponentsFramework>,
   domElement: Element
 ) {
   const element = storyFn();

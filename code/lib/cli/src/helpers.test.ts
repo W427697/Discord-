@@ -2,7 +2,8 @@ import fs from 'fs';
 import fse from 'fs-extra';
 
 import * as helpers from './helpers';
-import { SupportedLanguage, SupportedRenderers } from './project_types';
+import type { SupportedRenderers } from './project_types';
+import { SupportedLanguage } from './project_types';
 
 jest.mock('fs', () => ({
   existsSync: jest.fn(),
@@ -75,13 +76,13 @@ describe('Helpers', () => {
       await helpers.copyComponents('react', language);
 
       const copySpy = jest.spyOn(fse, 'copy');
-      expect(copySpy).toHaveBeenNthCalledWith(1, expectedDirectory, './stories', expect.anything());
       expect(copySpy).toHaveBeenNthCalledWith(
-        2,
+        1,
         'rendererAssets/common',
         './stories',
         expect.anything()
       );
+      expect(copySpy).toHaveBeenNthCalledWith(2, expectedDirectory, './stories', expect.anything());
     }
   );
 

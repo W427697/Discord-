@@ -1,5 +1,5 @@
-import { dirname, join } from 'path';
-import { copy, writeFile, remove } from 'fs-extra';
+import { dirname, join, parse } from 'path';
+import fs from 'fs-extra';
 import express from 'express';
 
 import { logger } from '@storybook/node-logger';
@@ -10,7 +10,7 @@ import aliasPlugin from 'esbuild-plugin-alias';
 
 import { getTemplatePath, renderHTML } from './utils/template';
 import { definitions } from './utils/globals';
-import {
+import type {
   BuilderBuildResult,
   BuilderFunction,
   BuilderStartOptions,
@@ -19,12 +19,12 @@ import {
   ManagerBuilder,
   StarterFunction,
 } from './types';
+// eslint-disable-next-line import/no-cycle
 import { getData } from './utils/data';
 import { safeResolve } from './utils/safeResolve';
 import { readOrderedFiles } from './utils/files';
 
-// eslint-disable-next-line import/no-mutable-exports
-export let compilation: Compilation;
+let compilation: Compilation;
 let asyncIterator: ReturnType<StarterFunction> | ReturnType<BuilderFunction>;
 
 export const getConfig: ManagerBuilder['getConfig'] = async (options) => {
@@ -112,7 +112,7 @@ const starter: StarterFunction = async function* starterGeneratorFn({
   // make sure we clear output directory of addons dir before starting
   // this could cause caching issues where addons are loaded when they shouldn't
   const addonsDir = config.outdir;
-  await remove(addonsDir);
+  await fs.remove(addonsDir);
 
   yield;
 
@@ -123,12 +123,12 @@ const starter: StarterFunction = async function* starterGeneratorFn({
 
   yield;
 
-  const coreDirOrigin = join(dirname(require.resolve('@storybook/ui/package.json')), 'dist');
+  const coreDirOrigin = join(dirname(require.resolve('@storybook/manager/package.json')), 'dist');
 
   router.use(`/sb-addons`, express.static(addonsDir));
   router.use(`/sb-manager`, express.static(coreDirOrigin));
 
-  const { cssFiles, jsFiles } = await readOrderedFiles(addonsDir);
+  const { cssFiles, jsFiles } = await readOrderedFiles(addonsDir, compilation?.outputFiles);
 
   yield;
 
@@ -180,7 +180,7 @@ const builder: BuilderFunction = async function* builderGeneratorFn({ startTime,
   yield;
 
   const addonsDir = config.outdir;
-  const coreDirOrigin = join(dirname(require.resolve('@storybook/ui/package.json')), 'dist');
+  const coreDirOrigin = join(dirname(require.resolve('@storybook/manager/package.json')), 'dist');
   const coreDirTarget = join(options.outputDir, `sb-manager`);
 
   compilation = await instance({
@@ -192,8 +192,16 @@ const builder: BuilderFunction = async function* builderGeneratorFn({ startTime,
 
   yield;
 
-  const managerFiles = copy(coreDirOrigin, coreDirTarget);
-  const { cssFiles, jsFiles } = await readOrderedFiles(addonsDir);
+  const managerFiles = fs.copy(coreDirOrigin, coreDirTarget, {
+    filter: (src) => {
+      const { ext } = parse(src);
+      if (ext) {
+        return ext === '.mjs';
+      }
+      return true;
+    },
+  });
+  const { cssFiles, jsFiles } = await readOrderedFiles(addonsDir, compilation?.outputFiles);
 
   yield;
 
@@ -212,7 +220,7 @@ const builder: BuilderFunction = async function* builderGeneratorFn({ startTime,
 
   await Promise.all([
     //
-    writeFile(join(options.outputDir, 'index.html'), html),
+    fs.writeFile(join(options.outputDir, 'index.html'), html),
     managerFiles,
   ]);
 

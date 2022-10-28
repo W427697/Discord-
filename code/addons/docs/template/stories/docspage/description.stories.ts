@@ -6,7 +6,8 @@ export default {
   subcomponents: {
     Pre: globalThis.Components.Pre,
   },
-  args: { children: 'Click Me!' },
+  tags: ['docsPage'],
+  args: { label: 'Click Me!' },
   parameters: {
     docs: {
       description: {

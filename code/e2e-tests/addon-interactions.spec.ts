@@ -1,8 +1,10 @@
+/* eslint-disable jest/no-disabled-tests */
 import { test, expect } from '@playwright/test';
 import process from 'process';
 import { SbPage } from './util';
 
 const storybookUrl = process.env.STORYBOOK_URL || 'http://localhost:8001';
+const templateName = process.env.STORYBOOK_TEMPLATE_NAME || '';
 
 test.describe('addon-interactions', () => {
   test.beforeEach(async ({ page }) => {
@@ -12,9 +14,16 @@ test.describe('addon-interactions', () => {
 
   // FIXME: skip xxx
   test('should have interactions', async ({ page }) => {
+    // templateName is e.g. 'Vue-CLI (Default JS)'
+    test.skip(
+      // eslint-disable-next-line jest/valid-title
+      /^(lit)/i.test(`${templateName}`),
+      `Skipping ${templateName}, which does not support addon-interactions`
+    );
+
     const sbPage = new SbPage(page);
 
-    await sbPage.navigateToStory('example-page', 'logged-in');
+    await sbPage.navigateToStory('example/page', 'logged-in');
     await sbPage.viewAddonPanel('Interactions');
 
     const welcome = await sbPage.previewRoot().locator('.welcome');

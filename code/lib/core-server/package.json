@@ -1,6 +1,6 @@
 {
   "name": "@storybook/core-server",
-  "version": "7.0.0-alpha.34",
+  "version": "7.0.0-alpha.46",
   "description": "Storybook framework-agnostic API",
   "keywords": [
     "storybook"
@@ -35,20 +35,21 @@
   "dependencies": {
     "@aw-web-design/x-default-browser": "1.4.88",
     "@discoveryjs/json-ext": "^0.5.3",
-    "@storybook/builder-manager": "7.0.0-alpha.34",
-    "@storybook/core-client": "7.0.0-alpha.34",
-    "@storybook/core-common": "7.0.0-alpha.34",
-    "@storybook/core-events": "7.0.0-alpha.34",
-    "@storybook/csf": "0.0.2--canary.0899bb7.0",
-    "@storybook/csf-tools": "7.0.0-alpha.34",
+    "@storybook/builder-manager": "7.0.0-alpha.46",
+    "@storybook/core-client": "7.0.0-alpha.46",
+    "@storybook/core-common": "7.0.0-alpha.46",
+    "@storybook/core-events": "7.0.0-alpha.46",
+    "@storybook/csf": "next",
+    "@storybook/csf-tools": "7.0.0-alpha.46",
     "@storybook/docs-mdx": "0.0.1-canary.12433cf.0",
-    "@storybook/node-logger": "7.0.0-alpha.34",
-    "@storybook/semver": "^7.3.2",
-    "@storybook/store": "7.0.0-alpha.34",
-    "@storybook/telemetry": "7.0.0-alpha.34",
-    "@types/node": "^14.0.10 || ^16.0.0",
+    "@storybook/node-logger": "7.0.0-alpha.46",
+    "@storybook/store": "7.0.0-alpha.46",
+    "@storybook/telemetry": "7.0.0-alpha.46",
+    "@storybook/types": "7.0.0-alpha.46",
+    "@types/node": "^16.0.0",
     "@types/node-fetch": "^2.5.7",
     "@types/pretty-hrtime": "^1.0.0",
+    "@types/semver": "^7.3.4",
     "better-opn": "^2.1.1",
     "boxen": "^5.1.2",
     "chalk": "^4.1.0",
@@ -66,6 +67,7 @@
     "pretty-hrtime": "^1.0.3",
     "prompts": "^2.4.0",
     "read-pkg-up": "^7.0.1",
+    "semver": "^7.3.7",
     "serve-favicon": "^2.5.0",
     "slash": "^3.0.0",
     "telejson": "^6.0.8",
@@ -75,7 +77,7 @@
     "ws": "^8.2.3"
   },
   "devDependencies": {
-    "@storybook/builder-webpack5": "7.0.0-alpha.34",
+    "@storybook/builder-webpack5": "7.0.0-alpha.46",
     "@types/compression": "^1.7.0",
     "@types/ip": "^1.1.0",
     "@types/serve-favicon": "^2.5.2",
@@ -101,5 +103,5 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "fc90fc875462421c1faa35862ac4bc436de8e75f"
+  "gitHead": "c64b5be851ed2affac56e1daaac3f453fbe6f230"
 }

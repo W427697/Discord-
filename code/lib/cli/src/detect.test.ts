@@ -3,7 +3,8 @@ import fs from 'fs';
 import { getBowerJson } from './helpers';
 import { isStorybookInstalled, detectFrameworkPreset, detect, detectLanguage } from './detect';
 import { ProjectType, SUPPORTED_RENDERERS, SupportedLanguage } from './project_types';
-import { PackageJsonWithMaybeDeps, readPackageJson } from './js-package-manager';
+import type { PackageJsonWithMaybeDeps } from './js-package-manager';
+import { readPackageJson } from './js-package-manager';
 
 jest.mock('./helpers', () => ({
   getBowerJson: jest.fn(),
@@ -135,6 +136,16 @@ const MOCK_FRAMEWORK_FILES: {
       'package.json': {
         dependencies: {
           react: '1.0.0',
+        },
+      },
+    },
+  },
+  {
+    name: ProjectType.NEXTJS,
+    files: {
+      'package.json': {
+        dependencies: {
+          next: '^9.0.0',
         },
       },
     },

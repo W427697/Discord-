@@ -1,6 +1,6 @@
-import type { StoryContext as StoryContextBase } from '@storybook/csf';
+import type { StoryContext as StoryContextBase } from '@storybook/types';
 
-export type { RenderContext } from '@storybook/core-client';
+export type { RenderContext } from '@storybook/types';
 
 export type StoryFnServerReturnType = any;
 export type StoryContext = StoryContextBase<ServerFramework>;
@@ -16,16 +16,6 @@ export type FetchStoryHtmlType = (
   params: any,
   context: StoryContext
 ) => Promise<string | Node>;
-
-export interface IStorybookStory {
-  name: string;
-  render: (context: any) => any;
-}
-
-export interface IStorybookSection {
-  kind: string;
-  stories: IStorybookStory[];
-}
 
 export interface ShowErrorArgs {
   title: string;

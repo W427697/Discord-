@@ -2,9 +2,10 @@
 import prompts from 'prompts';
 import chalk from 'chalk';
 import boxen from 'boxen';
-import { JsPackageManagerFactory } from '../js-package-manager';
+import { JsPackageManagerFactory, type PackageManagerName } from '../js-package-manager';
 
-import { fixes, Fix } from './fixes';
+import type { Fix } from './fixes';
+import { fixes } from './fixes';
 
 const logger = console;
 
@@ -12,10 +13,12 @@ interface FixOptions {
   fixId?: string;
   yes?: boolean;
   dryRun?: boolean;
+  useNpm?: boolean;
+  force?: PackageManagerName;
 }
 
-export const automigrate = async ({ fixId, dryRun, yes }: FixOptions = {}) => {
-  const packageManager = JsPackageManagerFactory.getPackageManager();
+export const automigrate = async ({ fixId, dryRun, yes, useNpm, force }: FixOptions = {}) => {
+  const packageManager = JsPackageManagerFactory.getPackageManager({ useNpm, force });
   const filtered = fixId ? fixes.filter((f) => f.id === fixId) : fixes;
 
   logger.info('🔎 checking possible migrations..');

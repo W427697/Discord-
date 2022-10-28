@@ -6,96 +6,6 @@ beforeEach(() => {
 });
 
 describe('ClientApi', () => {
-  describe('setAddon', () => {
-    it('should register addons', () => {
-      const clientApi = new ClientApi();
-      let data;
-
-      clientApi.setAddon({
-        aa() {
-          data = 'foo';
-        },
-      });
-
-      // @ts-expect-error (Converted from ts-ignore)
-      clientApi.storiesOf('none', module).aa();
-      expect(data).toBe('foo');
-    });
-
-    it('should not remove previous addons', () => {
-      const clientApi = new ClientApi();
-      const data = [];
-
-      clientApi.setAddon({
-        aa() {
-          data.push('foo');
-        },
-      });
-
-      clientApi.setAddon({
-        bb() {
-          data.push('bar');
-        },
-      });
-
-      // @ts-expect-error (Converted from ts-ignore)
-      clientApi.storiesOf('none', module).aa().bb();
-      expect(data).toEqual(['foo', 'bar']);
-    });
-
-    it('should call with the clientApi context', () => {
-      const clientApi = new ClientApi();
-      let data;
-
-      clientApi.setAddon({
-        aa() {
-          data = typeof this.add;
-        },
-      });
-
-      // @ts-expect-error (Converted from ts-ignore)
-      clientApi.storiesOf('none', module).aa();
-      expect(data).toBe('function');
-    });
-
-    it('should be able to access addons added previously', () => {
-      const clientApi = new ClientApi();
-      let data;
-
-      clientApi.setAddon({
-        aa() {
-          data = 'foo';
-        },
-      });
-
-      clientApi.setAddon({
-        bb() {
-          this.aa();
-        },
-      });
-
-      // @ts-expect-error (Converted from ts-ignore)
-      clientApi.storiesOf('none', module).bb();
-      expect(data).toBe('foo');
-    });
-
-    it('should be able to access the current kind', () => {
-      const clientApi = new ClientApi();
-      const kind = 'dfdwf3e3';
-      let data;
-
-      clientApi.setAddon({
-        aa() {
-          data = this.kind;
-        },
-      });
-
-      // @ts-expect-error (Converted from ts-ignore)
-      clientApi.storiesOf(kind, module).aa();
-      expect(data).toBe(kind);
-    });
-  });
-
   describe('getStoryIndex', () => {
     it('should remember the order that files were added in', async () => {
       const clientApi = new ClientApi();
@@ -124,6 +34,9 @@ describe('ClientApi', () => {
       };
       clientApi.storiesOf('kind1', module1 as unknown as NodeModule).add('story1', jest.fn());
       clientApi.storiesOf('kind2', module2 as unknown as NodeModule).add('story2', jest.fn());
+      // This gets called by configure
+      // eslint-disable-next-line no-underscore-dangle
+      clientApi._loadAddedExports();
 
       expect(Object.keys(clientApi.getStoryIndex().entries)).toEqual([
         'kind1--story1',
@@ -132,6 +45,7 @@ describe('ClientApi', () => {
 
       disposeCallback();
       clientApi.storiesOf('kind1', module1 as unknown as NodeModule).add('story1', jest.fn());
+      await new Promise((r) => setTimeout(r, 0));
       expect(Object.keys(clientApi.getStoryIndex().entries)).toEqual([
         'kind1--story1',
         'kind2--story2',

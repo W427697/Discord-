@@ -1,7 +1,24 @@
+/** @jsx h */
 import * as preact from 'preact';
 import { dedent } from 'ts-dedent';
-import type { RenderContext } from '@storybook/store';
+import type { Store_RenderContext, ArgsStoryFn } from '@storybook/types';
+
 import type { StoryFnPreactReturnType, PreactFramework } from './types';
+
+const { h } = preact;
+
+export const render: ArgsStoryFn<PreactFramework> = (args, context) => {
+  const { id, component: Component } = context;
+  if (!Component) {
+    throw new Error(
+      `Unable to render story ${id} as the component annotation is missing from the default export`
+    );
+  }
+
+  // @ts-expect-error I think the type of Component should be Preact.ComponentType, but even that
+  // doens't make TS happy, I suspect because TS wants "react" components.
+  return <Component {...args} />;
+};
 
 let renderedStory: Element;
 
@@ -18,7 +35,7 @@ function preactRender(story: StoryFnPreactReturnType | null, domElement: Element
 const StoryHarness: preact.FunctionalComponent<{
   name: string;
   title: string;
-  showError: RenderContext<PreactFramework>['showError'];
+  showError: Store_RenderContext<PreactFramework>['showError'];
   storyFn: () => any;
   domElement: Element;
 }> = ({ showError, name, title, storyFn, domElement }) => {
@@ -37,7 +54,7 @@ const StoryHarness: preact.FunctionalComponent<{
 };
 
 export function renderToDOM(
-  { storyFn, title, name, showMain, showError, forceRemount }: RenderContext<PreactFramework>,
+  { storyFn, title, name, showMain, showError, forceRemount }: Store_RenderContext<PreactFramework>,
   domElement: Element
 ) {
   if (forceRemount) {
