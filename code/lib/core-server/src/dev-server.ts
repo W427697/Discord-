@@ -17,6 +17,7 @@ import { getServerChannel } from './utils/get-server-channel';
 import { openInBrowser } from './utils/open-in-browser';
 import { getBuilders } from './utils/get-builders';
 import { StoryIndexGenerator } from './utils/StoryIndexGenerator';
+import { summarizeIndex } from './utils/summarizeIndex';
 
 // @ts-expect-error (Converted from ts-ignore)
 export const router: Router = new Router();
@@ -68,10 +69,7 @@ export async function storybookDevServer(options: Options) {
       const storyIndex = await generator?.getIndex();
       const payload = storyIndex
         ? {
-            storyIndex: {
-              storyCount: Object.keys(storyIndex.entries).length,
-              version: storyIndex.v,
-            },
+            storyIndex: summarizeIndex(storyIndex),
           }
         : undefined;
       telemetry('dev', payload, { configDir: options.configDir });
