@@ -1,21 +1,41 @@
-import React, { useState } from 'react';
+import React from 'react';
+import type { Meta, StoryObj } from '@storybook/react';
+import { useArgs } from '@storybook/addons';
 import { DateControl } from './Date';
 
 export default {
   title: 'Controls/Date',
-  component: DateControl,
+  // not using component here because we want to define argTypes ourselves
+  tags: ['docsPage'],
+  argTypes: {
+    value: {
+      description: 'Currently set date',
+      control: { type: 'date' },
+    },
+  },
+  render: (args) => {
+    const [, updateArgs] = useArgs();
+    const { value, onChange } = args;
+
+    return (
+      <>
+        <DateControl
+          {...args}
+          name="date"
+          onChange={(newValue) => {
+            updateArgs({ value: newValue });
+            onChange?.(newValue);
+          }}
+        />
+        <pre>{JSON.stringify(value) || 'undefined'}</pre>
+      </>
+    );
+  },
+} as Meta<typeof DateControl>;
+
+export const Basic: StoryObj<typeof DateControl> = {
+  args: { value: new Date('2020-10-20T09:30:02') },
 };
-
-const Template = (initialValue) => {
-  const [value, setValue] = useState(initialValue);
-  return (
-    <>
-      <DateControl name="date" value={value} onChange={(newVal) => setValue(newVal)} />
-      <pre>{JSON.stringify(value) || 'undefined'}</pre>
-    </>
-  );
+export const Undefined: StoryObj<typeof DateControl> = {
+  args: { value: undefined },
 };
-
-export const Basic = () => Template(new Date(2020, 4, 20));
-
-export const Undefined = () => Template(undefined);

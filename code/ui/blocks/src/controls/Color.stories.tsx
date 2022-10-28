@@ -1,4 +1,4 @@
-import type { Meta } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react';
 import React from 'react';
 import { useArgs } from '@storybook/addons';
 import { ColorControl } from './Color';
@@ -44,19 +44,19 @@ export default {
   },
 } as Meta<typeof ColorControl>;
 
-export const Basic = {
+export const Basic: StoryObj<typeof ColorControl> = {
   args: {
     value: '#ff00ff',
   },
 };
 
-export const Undefined = {
+export const Undefined: StoryObj<typeof ColorControl> = {
   args: {
     value: undefined,
   },
 };
 
-export const WithPresetColors = {
+export const WithPresetColors: StoryObj<typeof ColorControl> = {
   args: {
     value: '#00ffff',
     presetColors: [
@@ -87,7 +87,7 @@ export const WithPresetColors = {
   },
 };
 
-export const StartOpen = {
+export const StartOpen: StoryObj<typeof ColorControl> = {
   args: {
     startOpen: true,
   },
