@@ -212,6 +212,27 @@ export class CsfFile {
     this._meta = meta;
   }
 
+  getStoryExport(key: string) {
+    let node = this._storyExports[key] as t.Node;
+    node = t.isVariableDeclarator(node) ? node.init : node;
+    if (t.isCallExpression(node)) {
+      const { callee, arguments: bindArguments } = node;
+      if (
+        t.isMemberExpression(callee) &&
+        t.isIdentifier(callee.object) &&
+        t.isIdentifier(callee.property) &&
+        callee.property.name === 'bind' &&
+        (bindArguments.length === 0 ||
+          (bindArguments.length === 1 &&
+            t.isObjectExpression(bindArguments[0]) &&
+            bindArguments[0].properties.length === 0))
+      ) {
+        node = this._templates[callee.object.name];
+      }
+    }
+    return node;
+  }
+
   parse() {
     // eslint-disable-next-line @typescript-eslint/no-this-alias
     const self = this;
