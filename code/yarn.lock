@@ -6456,23 +6456,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/core-client@workspace:lib/core-client"
   dependencies:
-    "@storybook/addons": 7.0.0-alpha.45
-    "@storybook/channel-postmessage": 7.0.0-alpha.45
-    "@storybook/channel-websocket": 7.0.0-alpha.45
-    "@storybook/channels": 7.0.0-alpha.45
-    "@storybook/client-api": 7.0.0-alpha.45
-    "@storybook/client-logger": 7.0.0-alpha.45
-    "@storybook/core-events": 7.0.0-alpha.45
-    "@storybook/csf": next
-    "@storybook/preview-web": 7.0.0-alpha.45
-    "@storybook/store": 7.0.0-alpha.45
-    "@storybook/types": 7.0.0-alpha.45
-    global: ^4.4.0
-    typescript: ~4.6.3
-    util-deprecate: ^1.0.2
-  peerDependenciesMeta:
-    typescript:
-      optional: true
+    "@storybook/preview": 7.0.0-alpha.45
   languageName: unknown
   linkType: soft
 
@@ -7237,6 +7221,26 @@ __metadata:
     ts-dedent: ^2.0.0
     ts-jest: ^28.0.8
     typescript: ~4.6.3
+    util-deprecate: ^1.0.2
+  languageName: unknown
+  linkType: soft
+
+"@storybook/preview@7.0.0-alpha.45, @storybook/preview@workspace:lib/preview":
+  version: 0.0.0-use.local
+  resolution: "@storybook/preview@workspace:lib/preview"
+  dependencies:
+    "@storybook/addons": 7.0.0-alpha.45
+    "@storybook/channel-postmessage": 7.0.0-alpha.45
+    "@storybook/channel-websocket": 7.0.0-alpha.45
+    "@storybook/channels": 7.0.0-alpha.45
+    "@storybook/client-api": 7.0.0-alpha.45
+    "@storybook/client-logger": 7.0.0-alpha.45
+    "@storybook/core-events": 7.0.0-alpha.45
+    "@storybook/csf": next
+    "@storybook/preview-web": 7.0.0-alpha.45
+    "@storybook/store": 7.0.0-alpha.45
+    "@storybook/types": 7.0.0-alpha.45
+    global: ^4.4.0
     util-deprecate: ^1.0.2
   languageName: unknown
   linkType: soft

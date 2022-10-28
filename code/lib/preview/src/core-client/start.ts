@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable @typescript-eslint/naming-convention */
 import global from 'global';
 import { ClientApi } from '@storybook/client-api';
