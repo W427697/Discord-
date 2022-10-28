@@ -1,4 +1,5 @@
-import React, { FC, lazy, Suspense } from 'react';
+import type { FC } from 'react';
+import React, { lazy, Suspense } from 'react';
 import { styled } from '@storybook/theming';
 
 const GlobalScrollAreaStyles = lazy(() => import('./GlobalScrollAreaStyles'));

@@ -11,7 +11,7 @@ import type {
 import type { StoryStore } from '@storybook/store';
 import type { Channel } from '@storybook/channels';
 
-import { DocsContextProps } from './DocsContextProps';
+import type { DocsContextProps } from './DocsContextProps';
 
 export class DocsContext<TFramework extends AnyFramework> implements DocsContextProps<TFramework> {
   private componentStoriesValue: Store_Story<TFramework>[];

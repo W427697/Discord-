@@ -1,4 +1,5 @@
-import React, { Fragment, Key } from 'react';
+import type { Key } from 'react';
+import React, { Fragment } from 'react';
 import { action } from '@storybook/addon-actions';
 import { logger } from '@storybook/client-logger';
 import type { Meta } from '@storybook/react';

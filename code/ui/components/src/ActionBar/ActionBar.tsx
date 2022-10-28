@@ -1,4 +1,5 @@
-import React, { FC, MouseEvent } from 'react';
+import type { FC, MouseEvent } from 'react';
+import React from 'react';
 
 import { styled } from '@storybook/theming';
 

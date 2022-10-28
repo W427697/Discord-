@@ -1,8 +1,9 @@
-import React, { ChangeEvent, FC } from 'react';
+import type { ChangeEvent, FC } from 'react';
+import React from 'react';
 import { styled } from '@storybook/theming';
 import { Form } from '@storybook/components';
-// eslint-disable-next-line import/no-cycle
-import { ControlProps } from './types';
+
+import type { ControlProps } from './types';
 import { getControlId } from './helpers';
 
 export interface FilesControlProps extends ControlProps<string[]> {

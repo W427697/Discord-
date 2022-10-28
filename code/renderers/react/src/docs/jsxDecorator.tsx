@@ -1,13 +1,15 @@
 /* eslint-disable no-underscore-dangle */
-import React, { createElement, ReactElement } from 'react';
-import reactElementToJSXString, { Options } from 'react-element-to-jsx-string';
+import type { ReactElement } from 'react';
+import React, { createElement } from 'react';
+import type { Options } from 'react-element-to-jsx-string';
+import reactElementToJSXString from 'react-element-to-jsx-string';
 
 import { addons, useEffect } from '@storybook/addons';
 import type { StoryContext, ArgsStoryFn, PartialStoryFn } from '@storybook/types';
 import { SourceType, SNIPPET_RENDERED, getDocgenSection } from '@storybook/docs-tools';
 import { logger } from '@storybook/client-logger';
 
-import { ReactFramework } from '../types';
+import type { ReactFramework } from '../types';
 
 import { isMemo, isForwardRef } from './lib';
 

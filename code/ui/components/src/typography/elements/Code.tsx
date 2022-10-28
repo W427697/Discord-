@@ -1,5 +1,6 @@
 import { styled } from '@storybook/theming';
-import React, { Children, ComponentProps } from 'react';
+import type { ComponentProps } from 'react';
+import React, { Children } from 'react';
 import { SyntaxHighlighter } from '../../syntaxhighlighter/syntaxhighlighter';
 import { isReactChildString } from '../lib/isReactChildString';
 import { codeCommon } from '../lib/common';

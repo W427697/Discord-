@@ -4,7 +4,7 @@ import { Sidebar, DEFAULT_REF_ID } from './Sidebar';
 import { standardData as standardHeaderData } from './Heading.stories';
 import * as ExplorerStories from './Explorer.stories';
 import { mockDataset } from './mockdata';
-import { RefType } from './types';
+import type { RefType } from './types';
 
 export default {
   component: Sidebar,

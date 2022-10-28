@@ -1,4 +1,5 @@
-import React, { useContext, FC } from 'react';
+import type { FC } from 'react';
+import React, { useContext } from 'react';
 
 import { DocsContext } from './DocsContext';
 import { DocsStory } from './DocsStory';

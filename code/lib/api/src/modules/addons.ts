@@ -1,7 +1,7 @@
 import type { Addon_Types, API_Collection, API_Panels, API_StateMerger } from '@storybook/types';
 import { Addon_TypesEnum } from '@storybook/types';
 import type { ModuleFn } from '../index';
-import { Options } from '../store';
+import type { Options } from '../store';
 
 export interface SubState {
   selectedPanel: string;

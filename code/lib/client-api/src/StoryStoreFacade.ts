@@ -17,7 +17,8 @@ import type {
   Store_StoryIndex,
   StoryId,
 } from '@storybook/types';
-import { StoryStore, userOrAutoTitle, sortStoriesV6 } from '@storybook/store';
+import type { StoryStore } from '@storybook/store';
+import { userOrAutoTitle, sortStoriesV6 } from '@storybook/store';
 import { logger } from '@storybook/client-logger';
 
 export class StoryStoreFacade<TFramework extends AnyFramework> {

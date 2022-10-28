@@ -1,7 +1,9 @@
-import React, { FC, useCallback, SyntheticEvent } from 'react';
+import type { FC, SyntheticEvent } from 'react';
+import React, { useCallback } from 'react';
 import { styled } from '@storybook/theming';
 
-import ListItem, { LinkWrapperType, ListItemProps } from './ListItem';
+import type { LinkWrapperType, ListItemProps } from './ListItem';
+import ListItem from './ListItem';
 
 const List = styled.div(
   {

@@ -1,10 +1,11 @@
 import { satisfies } from '@storybook/core-common';
-import { ComponentAnnotations, StoryAnnotations } from '@storybook/types';
+import type { ComponentAnnotations, StoryAnnotations } from '@storybook/types';
 import { expectTypeOf } from 'expect-type';
-import { SetOptional } from 'type-fest';
-import { ComponentOptions, FunctionalComponent, h } from 'vue';
-import { DecoratorFn, Meta, StoryObj } from './public-types';
-import { VueFramework } from './types';
+import type { SetOptional } from 'type-fest';
+import type { ComponentOptions, FunctionalComponent } from 'vue';
+import { h } from 'vue';
+import type { DecoratorFn, Meta, StoryObj } from './public-types';
+import type { VueFramework } from './types';
 import Button from './__tests__/Button.vue';
 import DecoratorTsVue from './__tests__/Decorator.vue';
 import Decorator2TsVue from './__tests__/Decorator2.vue';

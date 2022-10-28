@@ -1,9 +1,13 @@
-import React, { FC, useContext } from 'react';
+import type { FC } from 'react';
+import React, { useContext } from 'react';
 import { str } from '@storybook/docs-tools';
-import { Description, DescriptionProps as PureDescriptionProps } from '../components';
+import type { DescriptionProps as PureDescriptionProps } from '../components';
+import { Description } from '../components';
 
-import { DocsContext, DocsContextProps } from './DocsContext';
-import { Component, PRIMARY_STORY } from './types';
+import type { DocsContextProps } from './DocsContext';
+import { DocsContext } from './DocsContext';
+import type { Component } from './types';
+import { PRIMARY_STORY } from './types';
 
 export enum DescriptionType {
   INFO = 'info',

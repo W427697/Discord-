@@ -1,6 +1,6 @@
-import { PropType } from '../PropDef';
-import { DocgenInfo } from '../types';
-// eslint-disable-next-line import/no-cycle
+import type { PropType } from '../PropDef';
+import type { DocgenInfo } from '../types';
+
 import { createSummaryValue } from '../../utils';
 
 export function createType({ tsType, required }: DocgenInfo): PropType {
