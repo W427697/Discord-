@@ -18,9 +18,9 @@ import type {
   Store_StoryIndex,
   StoryId,
 } from '@storybook/types';
-import type { StoryStore } from '@storybook/store';
-import { userOrAutoTitle, sortStoriesV6 } from '@storybook/store';
 import { logger } from '@storybook/client-logger';
+import type { StoryStore } from '../store';
+import { userOrAutoTitle, sortStoriesV6 } from '../store';
 
 export class StoryStoreFacade<TFramework extends AnyFramework> {
   projectAnnotations: Store_NormalizedProjectAnnotations<TFramework>;

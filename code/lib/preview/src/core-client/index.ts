@@ -1,5 +1,4 @@
-/* eslint-disable import/no-extraneous-dependencies */
-import { StoryStore } from '@storybook/store';
+import { StoryStore } from '../store';
 import { ClientApi } from '../client-api';
 import { start } from './start';
 

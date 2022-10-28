@@ -36,8 +36,8 @@ jest.mock('@storybook/channel-postmessage', () => ({ createChannel: () => mockCh
 jest.mock('react-dom');
 
 // for the auto-title test
-jest.mock('@storybook/store', () => {
-  const actualStore = jest.requireActual('@storybook/store');
+jest.mock('../store', () => {
+  const actualStore = jest.requireActual('../store');
   return {
     ...actualStore,
     userOrAutoTitle: (importPath: Path, specifier: any, userTitle?: string) =>
@@ -45,8 +45,8 @@ jest.mock('@storybook/store', () => {
   };
 });
 
-jest.mock('@storybook/preview-web', () => {
-  const actualPreviewWeb = jest.requireActual('@storybook/preview-web');
+jest.mock('../preview-web', () => {
+  const actualPreviewWeb = jest.requireActual('../preview-web');
 
   class OverloadPreviewWeb extends actualPreviewWeb.PreviewWeb {
     constructor() {
