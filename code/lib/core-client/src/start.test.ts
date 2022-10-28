@@ -15,7 +15,7 @@ import {
 
 import { start as realStart } from './start';
 
-jest.mock('@storybook/preview-web/dist/WebView');
+jest.mock('../../preview-web/src/WebView');
 jest.spyOn(WebView.prototype, 'prepareForDocs').mockReturnValue('docs-root');
 jest.spyOn(WebView.prototype, 'prepareForStory').mockReturnValue('story-root');
 
