@@ -7,7 +7,7 @@ export default {
   title: 'Controls/Object',
   component: ObjectControl,
   tags: ['docsPage'],
-  // parameters: { controls: { include: ['value', 'min', 'max', 'step'] } },
+  parameters: { controls: { include: ['value'] } },
   render: (args) => {
     const [, updateArgs] = useArgs();
     const { value, onChange } = args;
