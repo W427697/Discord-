@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import global from 'global';
 import { parse } from 'qs';
 

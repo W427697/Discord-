@@ -2,8 +2,8 @@
 import { STORY_RENDERED, STORY_UNCHANGED, SET_INDEX } from '@storybook/core-events';
 
 import type { Store_ModuleExports, Path, Loadable } from '@storybook/types';
-import { setGlobalRender } from '@storybook/client-api';
 import global from 'global';
+import { setGlobalRender } from '../client-api';
 import {
   waitForRender,
   waitForEvents,

@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 /// <reference types="webpack-env" />
 
 import { dedent } from 'ts-dedent';
