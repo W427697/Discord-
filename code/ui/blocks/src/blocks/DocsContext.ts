@@ -1,5 +1,6 @@
 /* eslint-disable no-underscore-dangle */
-import { Context, createContext } from 'react';
+import type { Context } from 'react';
+import { createContext } from 'react';
 import { window as globalWindow } from 'global';
 
 import type { DocsContextProps } from '@storybook/preview-web';

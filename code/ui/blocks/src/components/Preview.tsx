@@ -1,20 +1,15 @@
-import React, {
-  Children,
-  ClipboardEvent,
-  FC,
-  ReactElement,
-  ReactNode,
-  useCallback,
-  useState,
-} from 'react';
+import type { ClipboardEvent, FC, ReactElement, ReactNode } from 'react';
+import React, { Children, useCallback, useState } from 'react';
 import { darken } from 'polished';
 import { styled } from '@storybook/theming';
 
 import global from 'global';
 import { ActionBar, Zoom } from '@storybook/components';
 import type { ActionItem } from '@storybook/components';
+
+import type { SourceProps } from '.';
 // eslint-disable-next-line import/no-cycle
-import { Source, SourceProps } from '.';
+import { Source } from '.';
 import { getBlockBackgroundStyle } from './BlockBackgroundStyles';
 import { Toolbar } from './Toolbar';
 import { ZoomContext } from './ZoomContext';

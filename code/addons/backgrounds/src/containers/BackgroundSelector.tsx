@@ -1,4 +1,5 @@
-import React, { FC, Fragment, useCallback, useMemo, memo } from 'react';
+import type { FC } from 'react';
+import React, { Fragment, useCallback, useMemo, memo } from 'react';
 import memoize from 'memoizerific';
 
 import { useParameter, useGlobals } from '@storybook/api';
@@ -7,7 +8,12 @@ import { Icons, IconButton, WithTooltip, TooltipLinkList } from '@storybook/comp
 
 import { PARAM_KEY as BACKGROUNDS_PARAM_KEY } from '../constants';
 import { ColorIcon } from '../components/ColorIcon';
-import { BackgroundSelectorItem, Background, BackgroundsParameter, GlobalState } from '../types';
+import type {
+  BackgroundSelectorItem,
+  Background,
+  BackgroundsParameter,
+  GlobalState,
+} from '../types';
 import { getBackgroundColorByName } from '../helpers';
 
 const createBackgroundSelectorItem = memoize(1000)(

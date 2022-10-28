@@ -1,4 +1,5 @@
-import React, { Fragment, useMemo, FunctionComponent } from 'react';
+import type { FunctionComponent } from 'react';
+import React, { Fragment, useMemo } from 'react';
 
 import { styled } from '@storybook/theming';
 
@@ -12,7 +13,7 @@ import { zoomTool } from './tools/zoom';
 
 import * as S from './utils/components';
 
-import { PreviewProps } from './utils/types';
+import type { PreviewProps } from './utils/types';
 import { copyTool } from './tools/copy';
 import { ejectTool } from './tools/eject';
 import { menuTool } from './tools/menu';

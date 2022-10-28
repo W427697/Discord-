@@ -1,14 +1,15 @@
-import React, { FC } from 'react';
+import type { FC } from 'react';
+import React from 'react';
 import pickBy from 'lodash/pickBy';
 import { styled } from '@storybook/theming';
 import { opacify, transparentize, darken, lighten } from 'polished';
 import { includeConditionalArg } from '@storybook/csf';
 import { once } from '@storybook/client-logger';
 import { IconButton, Icons, Link, ResetWrapper } from '@storybook/components';
-// eslint-disable-next-line import/no-cycle
+
 import { ArgRow } from './ArgRow';
 import { SectionRow } from './SectionRow';
-import { ArgType, ArgTypes, Args, Globals } from './types';
+import type { ArgType, ArgTypes, Args, Globals } from './types';
 // eslint-disable-next-line import/no-cycle
 import { EmptyBlock } from '..';
 

@@ -1,4 +1,5 @@
-import store, { StoreAPI } from 'store2';
+import type { StoreAPI } from 'store2';
+import store from 'store2';
 import storeSetup from './lib/store-setup';
 
 import type { State } from './index';

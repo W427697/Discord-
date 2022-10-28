@@ -1,5 +1,6 @@
 /* eslint-disable jest/no-standalone-expect, no-await-in-loop */
-import { expect, Page } from '@playwright/test';
+import type { Page } from '@playwright/test';
+import { expect } from '@playwright/test';
 import { toId } from '@storybook/csf';
 
 export class SbPage {

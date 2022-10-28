@@ -1,8 +1,9 @@
-import React, { FC, useRef } from 'react';
+import type { FC } from 'react';
+import React, { useRef } from 'react';
 
 // eslint-disable-next-line import/no-cycle
 import { Ref } from './Refs';
-import { CombinedDataset, Selection } from './types';
+import type { CombinedDataset, Selection } from './types';
 // eslint-disable-next-line import/no-cycle
 import { useHighlighted } from './useHighlighted';
 import { HighlightStyles } from './HighlightStyles';

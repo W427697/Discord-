@@ -1,12 +1,13 @@
 import { satisfies } from '@storybook/core-common';
-import { ComponentAnnotations, StoryAnnotations } from '@storybook/types';
+import type { ComponentAnnotations, StoryAnnotations } from '@storybook/types';
 import { expectTypeOf } from 'expect-type';
-import { SetOptional } from 'type-fest';
-import { Component } from 'vue';
-import { ExtendedVue, Vue } from 'vue/types/vue';
-import { DecoratorFn, Meta, StoryObj } from './public-types';
+import type { SetOptional } from 'type-fest';
+import type { Component } from 'vue';
+import type { ExtendedVue } from 'vue/types/vue';
+import { Vue } from 'vue/types/vue';
+import type { DecoratorFn, Meta, StoryObj } from './public-types';
 import Button from './__tests__/Button.vue';
-import { VueFramework } from './types';
+import type { VueFramework } from './types';
 
 describe('Meta', () => {
   test('Generic parameter of Meta can be a component', () => {

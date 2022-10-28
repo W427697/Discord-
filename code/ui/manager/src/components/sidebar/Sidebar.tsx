@@ -12,7 +12,7 @@ import { Explorer } from './Explorer';
 import { Search } from './Search';
 // eslint-disable-next-line import/no-cycle
 import { SearchResults } from './SearchResults';
-import { Refs, CombinedDataset, Selection } from './types';
+import type { Refs, CombinedDataset, Selection } from './types';
 import { useLastViewed } from './useLastViewed';
 
 export const DEFAULT_REF_ID = 'storybook_internal';

@@ -1,7 +1,7 @@
 import type { DecoratorFunction, StoryContext, LegacyStoryFn } from '@storybook/types';
 import { sanitizeStoryContextUpdate } from '@storybook/store';
 import SlotDecorator from '../templates/SlotDecorator.svelte';
-import { SvelteFramework } from './types';
+import type { SvelteFramework } from './types';
 
 /**
  * Check if an object is a svelte component.

@@ -1,4 +1,5 @@
-import React, { FunctionComponent } from 'react';
+import type { FunctionComponent } from 'react';
+import React from 'react';
 import { transparentize } from 'polished';
 import { styled } from '@storybook/theming';
 import { ResetWrapper } from '@storybook/components';

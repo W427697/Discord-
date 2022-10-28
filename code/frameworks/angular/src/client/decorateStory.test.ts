@@ -1,9 +1,9 @@
 import { Component, Input, Output } from '@angular/core';
-import type { DecoratorFunction, StoryContext } from '@storybook/types';
+import { DecoratorFunction, StoryContext } from '@storybook/types';
 import { componentWrapperDecorator } from './decorators';
 
 import decorateStory from './decorateStory';
-import type { AngularFramework } from './types';
+import { AngularFramework } from './types';
 
 describe('decorateStory', () => {
   describe('angular behavior', () => {

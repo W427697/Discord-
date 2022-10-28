@@ -5,14 +5,13 @@ import {
 } from '@storybook/docs-tools';
 
 import { FUNCTION_CAPTION, ELEMENT_CAPTION } from '../captions';
-import {
+import type {
   InspectionFunction,
   InspectionResult,
-  InspectionType,
   InspectionElement,
   InspectionIdentifiableInferedType,
-  inspectValue,
 } from '../inspection';
+import { InspectionType, inspectValue } from '../inspection';
 import { isHtmlTag } from '../isHtmlTag';
 import { generateCode } from '../generateCode';
 import { generateObject } from './generateObject';

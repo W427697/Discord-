@@ -1,12 +1,12 @@
-import React, { FC, ReactElement, ReactNode, ReactNodeArray, useContext } from 'react';
+import type { FC, ReactElement, ReactNode, ReactNodeArray } from 'react';
+import React, { useContext } from 'react';
 import type { AnyFramework } from '@storybook/types';
-import {
-  Preview as PurePreview,
-  PreviewProps as PurePreviewProps,
-  PreviewSkeleton,
-} from '../components';
-import { DocsContext, DocsContextProps } from './DocsContext';
-import { SourceContext, SourceContextProps } from './SourceContainer';
+import type { PreviewProps as PurePreviewProps } from '../components';
+import { Preview as PurePreview, PreviewSkeleton } from '../components';
+import type { DocsContextProps } from './DocsContext';
+import { DocsContext } from './DocsContext';
+import type { SourceContextProps } from './SourceContainer';
+import { SourceContext } from './SourceContainer';
 import { getSourceProps, SourceState } from './Source';
 import { useStories } from './useStory';
 

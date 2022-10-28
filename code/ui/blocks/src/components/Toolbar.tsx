@@ -1,4 +1,5 @@
-import React, { Fragment, FC, MouseEvent } from 'react';
+import type { FC, MouseEvent } from 'react';
+import React, { Fragment } from 'react';
 import { styled } from '@storybook/theming';
 import {
   FlexBar,

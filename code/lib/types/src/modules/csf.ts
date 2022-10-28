@@ -58,7 +58,7 @@ import type {
   Tag,
   ViewMode as ViewModeBase,
 } from '@storybook/csf';
-import { Addon_OptionsParameter } from './addons';
+import type { Addon_OptionsParameter } from './addons';
 
 export type {
   AnnotatedStoryFn,

@@ -1,5 +1,5 @@
 /* eslint-disable no-underscore-dangle */
-import { Channel } from '@storybook/channels';
+import type { Channel } from '@storybook/channels';
 import { addons } from '@storybook/addons';
 import type { StoryId } from '@storybook/types';
 import { once, logger } from '@storybook/client-logger';
@@ -11,16 +11,8 @@ import {
 } from '@storybook/core-events';
 import global from 'global';
 
-import {
-  Call,
-  CallRef,
-  CallStates,
-  ControlStates,
-  LogItem,
-  Options,
-  State,
-  SyncPayload,
-} from './types';
+import type { Call, CallRef, ControlStates, LogItem, Options, State, SyncPayload } from './types';
+import { CallStates } from './types';
 
 export const EVENTS = {
   CALL: 'storybook/instrumenter/call',

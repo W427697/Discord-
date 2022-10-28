@@ -1,6 +1,8 @@
-import React, { FunctionComponent, ComponentProps, memo } from 'react';
+import type { FunctionComponent, ComponentProps } from 'react';
+import React, { memo } from 'react';
 import { styled } from '@storybook/theming';
-import { icons, IconKey } from './icons';
+import type { IconKey } from './icons';
+import { icons } from './icons';
 
 const Svg = styled.svg`
   display: inline-block;

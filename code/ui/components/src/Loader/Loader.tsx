@@ -1,6 +1,7 @@
 import global from 'global';
 import { transparentize } from 'polished';
-import React, { ComponentProps, FC, useEffect, useState } from 'react';
+import type { ComponentProps, FC } from 'react';
+import React, { useEffect, useState } from 'react';
 import { styled, keyframes } from '@storybook/theming';
 import { Icons } from '../icon/icon';
 import { rotate360 } from '../shared/animation';

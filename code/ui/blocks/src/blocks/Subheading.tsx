@@ -1,7 +1,8 @@
-import React, { FC } from 'react';
+import type { FC } from 'react';
+import React from 'react';
 import { H3 } from '@storybook/components';
 import { HeaderMdx } from './mdx';
-import { HeadingProps } from './Heading';
+import type { HeadingProps } from './Heading';
 
 export const Subheading: FC<HeadingProps> = ({ children, disableAnchor }) => {
   if (disableAnchor || typeof children !== 'string') {

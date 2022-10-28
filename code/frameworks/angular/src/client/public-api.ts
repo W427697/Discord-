@@ -1,9 +1,9 @@
 /* eslint-disable prefer-destructuring */
-import type { Addon_ClientStoryApi, Addon_Loadable } from '@storybook/types';
+import { Addon_ClientStoryApi, Addon_Loadable } from '@storybook/types';
 import { start } from '@storybook/core-client';
 import { renderToDOM, render } from './render';
 import decorateStory from './decorateStory';
-import type { AngularFramework } from './types';
+import { AngularFramework } from './types';
 
 export * from './public-types';
 
