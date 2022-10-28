@@ -1,9 +1,12 @@
 /* eslint-disable no-underscore-dangle */
 import fs from 'fs-extra';
 import { dedent } from 'ts-dedent';
+
 import * as t from '@babel/types';
-import generate from '@babel/generator';
-import traverse from '@babel/traverse';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import * as generate from '@babel/generator';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import * as traverse from '@babel/traverse';
 import { toId, isExportStory, storyNameFromExport } from '@storybook/csf';
 import type { CSF_Meta, CSF_Story, Tag } from '@storybook/types';
 import { babelParse } from './babelParse';
@@ -192,7 +195,7 @@ export class CsfFile {
           // @ts-expect-error (Converted from ts-ignore)
           meta[p.key.name] = parseIncludeExclude(p.value);
         } else if (p.key.name === 'component') {
-          const { code } = generate(p.value, {});
+          const { code } = generate.default(p.value, {});
           meta.component = code;
         } else if (p.key.name === 'tags') {
           let node = p.value;
@@ -215,7 +218,7 @@ export class CsfFile {
   parse() {
     // eslint-disable-next-line @typescript-eslint/no-this-alias
     const self = this;
-    traverse(this._ast, {
+    traverse.default(this._ast, {
       ExportDefaultDeclaration: {
         enter({ node, parent }) {
           let metaNode: t.ObjectExpression;
@@ -472,7 +475,7 @@ export const loadCsf = (code: string, options: CsfOptions) => {
 };
 
 export const formatCsf = (csf: CsfFile) => {
-  const { code } = generate(csf._ast, {});
+  const { code } = generate.default(csf._ast, {});
   return code;
 };
 
