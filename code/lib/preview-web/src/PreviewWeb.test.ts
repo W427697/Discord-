@@ -3333,8 +3333,7 @@ describe('PreviewWeb', () => {
       componentOneExports.b.play.mockImplementationOnce(async () => gate);
       preview.renderStoryToElement(
         await preview.storyStore.loadStory({ storyId: 'component-one--b' }),
-        {} as any,
-        { runPlayFunction: true }
+        {} as any
       );
       await waitForRenderPhase('playing');
 
