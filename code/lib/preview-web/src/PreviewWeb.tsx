@@ -200,6 +200,7 @@ export class PreviewWeb<TFramework extends AnyFramework> extends Preview<TFramew
   }
 
   onKeydown(event: KeyboardEvent) {
+    console.log('keydown');
     if (!this.storyRenders.find((r) => r.disableKeyListeners) && !focusInInput(event)) {
       // We have to pick off the keys of the event that we need on the other side
       const { altKey, ctrlKey, metaKey, shiftKey, key, code, keyCode } = event;
