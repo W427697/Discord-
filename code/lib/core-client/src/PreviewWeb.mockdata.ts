@@ -11,7 +11,16 @@ import {
 } from '@storybook/core-events';
 
 import type { Store_StoryIndex, Store_TeardownRenderToDOM } from '@storybook/types';
-import type { RenderPhase } from './render/StoryRender';
+
+export type RenderPhase =
+  | 'preparing'
+  | 'loading'
+  | 'rendering'
+  | 'playing'
+  | 'played'
+  | 'completed'
+  | 'aborted'
+  | 'errored';
 
 export const componentOneExports = {
   default: {

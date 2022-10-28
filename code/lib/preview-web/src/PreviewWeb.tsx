@@ -65,8 +65,6 @@ export class PreviewWeb<TFramework extends AnyFramework> extends Preview<TFramew
 
   view: WebView;
 
-  previewEntryError?: Error;
-
   currentSelection?: Store_Selection;
 
   currentRender?: PossibleRender<TFramework>;
