@@ -1,7 +1,13 @@
 import express, { Router } from 'express';
 import compression from 'compression';
 
-import type { CoreConfig, DocsOptions, Options, StorybookConfig } from '@storybook/types';
+import type {
+  CoreConfig,
+  DocsOptions,
+  Options,
+  StorybookConfig,
+  VersionCheck,
+} from '@storybook/types';
 
 import { normalizeStories, logConfig } from '@storybook/core-common';
 
@@ -23,6 +29,12 @@ import { summarizeIndex } from './utils/summarizeIndex';
 export const router: Router = new Router();
 
 export const DEBOUNCE = 100;
+
+const versionStatus = (versionCheck: VersionCheck) => {
+  if (versionCheck.error) return 'error';
+  if (versionCheck.cached) return 'cached';
+  return 'success';
+};
 
 export async function storybookDevServer(options: Options) {
   const startTime = process.hrtime();
@@ -67,8 +79,10 @@ export async function storybookDevServer(options: Options) {
   if (!core?.disableTelemetry) {
     initializedStoryIndexGenerator.then(async (generator) => {
       const storyIndex = await generator?.getIndex();
+      const { versionCheck, versionUpdates } = options;
       const payload = storyIndex
         ? {
+            versionStatus: versionUpdates ? versionStatus(versionCheck) : 'disabled',
             storyIndex: summarizeIndex(storyIndex),
           }
         : undefined;
