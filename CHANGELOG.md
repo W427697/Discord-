@@ -1,3 +1,26 @@
+## 7.0.0-alpha.46 (October 28, 2022)
+
+#### Features
+
+- Addon-docs: Don't show docspage unless the user opts in [#19627](https://github.com/storybooks/storybook/pull/19627)
+- Core: Allow setting tags in storiesOf via parameters. [#19642](https://github.com/storybooks/storybook/pull/19642)
+
+#### Bug Fixes
+
+- Addon-docs: Fix React Profiler in source snippets [#19004](https://github.com/storybooks/storybook/pull/19004)
+
+#### Maintenance
+
+- Telemetry: Measure version update check [#19660](https://github.com/storybooks/storybook/pull/19660)
+- Build: Bundle lib/preview-web with ts-up [#19655](https://github.com/storybooks/storybook/pull/19655)
+- CSF-tools: Make ESM node compatible [#19661](https://github.com/storybooks/storybook/pull/19661)
+- Telemetry: Measure docs usage [#19648](https://github.com/storybooks/storybook/pull/19648)
+- Go back to `csf@next` [#19657](https://github.com/storybooks/storybook/pull/19657)
+
+#### Build
+
+- Build: Reduce parallelism in check task [#19662](https://github.com/storybooks/storybook/pull/19662)
+
 ## 7.0.0-alpha.45 (October 28, 2022)
 
 #### Bug Fixes
