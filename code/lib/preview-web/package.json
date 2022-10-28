@@ -26,16 +26,6 @@
       "import": "./dist/index.mjs",
       "types": "./dist/index.d.ts"
     },
-    "./PreviewWeb.mockdata": {
-      "require": "./dist/PreviewWeb.mockdata.js",
-      "import": "./dist/PreviewWeb.mockdata.mjs",
-      "types": "./dist/PreviewWeb.mockdata.d.ts"
-    },
-    "./WebView": {
-      "require": "./dist/WebView.js",
-      "import": "./dist/WebView.mjs",
-      "types": "./dist/WebView.d.ts"
-    },
     "./package.json": "./package.json"
   },
   "main": "dist/index.js",
@@ -77,9 +67,7 @@
   },
   "bundler": {
     "entries": [
-      "./src/index.ts",
-      "./src/WebView.ts",
-      "./src/PreviewWeb.mockdata.ts"
+      "./src/index.ts"
     ]
   },
   "gitHead": "3ef14366115c56c1d45c0359ff681cc47ed50532"
