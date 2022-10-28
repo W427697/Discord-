@@ -250,7 +250,6 @@ export class StoryRender<TFramework extends AnyFramework> implements Render<TFra
         this.channel.emit(STORY_RENDERED, id)
       );
     } catch (err) {
-      console.log(err);
       this.phase = 'errored';
       this.callbacks.showException(err as Error);
     }
