@@ -5,7 +5,8 @@ import { ColorControl } from './Color';
 
 export default {
   title: 'Controls/Color',
-  // not using component here because we want to define argTypes ourselves
+  component: ColorControl,
+  parameters: { controls: { include: ['value', 'startOpen'] } },
   tags: ['docsPage'],
   argTypes: {
     value: {
@@ -18,10 +19,6 @@ export default {
       description:
         'Whether the color picker should be open by default. Requires remount to see effect.',
       defaultValue: false,
-
-      control: {
-        type: 'boolean',
-      },
     },
   },
   render: (args) => {

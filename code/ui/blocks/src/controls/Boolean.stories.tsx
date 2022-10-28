@@ -5,7 +5,9 @@ import { BooleanControl } from './Boolean';
 
 const meta = {
   title: 'Controls/Boolean',
+  component: BooleanControl,
   tags: ['docsPage'],
+  parameters: { controls: { include: ['value'] } },
   argTypes: {
     value: {
       control: {
@@ -13,7 +15,7 @@ const meta = {
       },
     },
   },
-  render: (args: typeof meta['args']) => {
+  render: (args) => {
     const [, updateArgs] = useArgs();
     const { value, onChange } = args;
     return (
@@ -34,18 +36,18 @@ const meta = {
 
 export default meta;
 
-export const True: StoryObj<typeof meta> = {
+export const True: StoryObj<typeof BooleanControl> = {
   args: {
     value: true,
   },
 };
-export const False: StoryObj<typeof meta> = {
+export const False: StoryObj<typeof BooleanControl> = {
   args: {
     value: false,
   },
 };
 
-export const Undefined: StoryObj<typeof meta> = {
+export const Undefined: StoryObj<typeof BooleanControl> = {
   args: {
     value: undefined,
   },
