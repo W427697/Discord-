@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addons",
-  "version": "7.0.0-alpha.45",
+  "version": "7.0.0-alpha.46",
   "description": "Storybook addons store",
   "keywords": [
     "storybook"
@@ -42,7 +42,7 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/preview": "7.0.0-alpha.45"
+    "@storybook/preview": "7.0.0-alpha.46"
   },
   "publishConfig": {
     "access": "public"
@@ -52,5 +52,5 @@
       "./src/entry.ts"
     ]
   },
-  "gitHead": "3ef14366115c56c1d45c0359ff681cc47ed50532"
+  "gitHead": "c64b5be851ed2affac56e1daaac3f453fbe6f230"
 }
