@@ -2,14 +2,15 @@ import { Header } from './Header';
 
 export default {
   title: 'Example/Header',
+  render: (args) => Header(args),
 };
 
-const Template = (args) => Header(args);
-
-export const LoggedIn = Template.bind({});
-LoggedIn.args = {
-  user: {},
+export const LoggedIn = {
+  args: {
+    user: {
+      name: 'Jane Doe',
+    },
+  },
 };
 
-export const LoggedOut = Template.bind({});
-LoggedOut.args = {};
+export const LoggedOut = {};
