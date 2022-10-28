@@ -29,7 +29,7 @@ export async function sendTelemetry(
     ? {}
     : {
         anonymousId: getAnonymousProjectId(),
-        inCI: process.env.CI === 'true',
+        inCI: Boolean(process.env.CI),
       };
   const eventId = nanoid();
   const body = { ...rest, eventId, sessionId, metadata, payload, context };
