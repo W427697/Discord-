@@ -34,6 +34,7 @@ import type { ReactFramework } from './types';
 export function setProjectAnnotations(
   projectAnnotations: ProjectAnnotations<ReactFramework> | ProjectAnnotations<ReactFramework>[]
 ) {
+  // @ts-expect-error (not strict)
   originalSetProjectAnnotations(projectAnnotations);
 }
 
@@ -88,6 +89,7 @@ export function composeStory<TArgs = Args>(
 ) {
   return originalComposeStory<ReactFramework, TArgs>(
     story as Store_ComposedStory<ReactFramework, Args>,
+    // @ts-expect-error (not strict)
     componentAnnotations,
     projectAnnotations,
     defaultProjectAnnotations,

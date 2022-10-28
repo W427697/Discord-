@@ -38,7 +38,7 @@ export function composeStory<
   projectAnnotations: ProjectAnnotations<TFramework> = GLOBAL_STORYBOOK_PROJECT_ANNOTATIONS,
   defaultConfig: ProjectAnnotations<TFramework> = {},
   exportsName?: string
-) {
+): ReturnType<Store_ComposeStory<TFramework, TArgs>> {
   if (storyAnnotations === undefined) {
     throw new Error('Expected a story but received undefined.');
   }

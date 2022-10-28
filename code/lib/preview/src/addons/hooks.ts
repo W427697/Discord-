@@ -57,7 +57,9 @@ export class HooksContext<TFramework extends AnyFramework> {
   currentContext: StoryContext<TFramework> | null;
 
   renderListener = (storyId: StoryId) => {
-    if (storyId !== this.currentContext.id) return;
+    if (storyId !== this.currentContext?.id) {
+      return;
+    }
     this.triggerEffects();
     this.currentContext = null;
     this.removeRenderListeners();

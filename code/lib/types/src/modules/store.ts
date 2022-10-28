@@ -220,7 +220,7 @@ export interface Store_ComposeStory<
   ): {
     (extraArgs: Partial<TArgs>): TFramework['storyResult'];
     storyName: string;
-    args: Args;
+    args: TArgs;
     play: Store_ComposedStoryPlayFn;
     parameters: Parameters;
   };

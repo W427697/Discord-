@@ -67,9 +67,6 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/types": "7.0.0-alpha.46"
-  },
-  "devDependencies": {
     "@storybook/api": "7.0.0-alpha.46",
     "@storybook/channel-postmessage": "7.0.0-alpha.46",
     "@storybook/channel-websocket": "7.0.0-alpha.46",
@@ -80,6 +77,9 @@
     "@storybook/csf": "next",
     "@storybook/router": "7.0.0-alpha.46",
     "@storybook/theming": "7.0.0-alpha.46",
+    "@storybook/types": "7.0.0-alpha.46"
+  },
+  "devDependencies": {
     "@types/qs": "^6.9.5",
     "@types/webpack-env": "^1.16.4",
     "ansi-to-html": "^0.6.11",

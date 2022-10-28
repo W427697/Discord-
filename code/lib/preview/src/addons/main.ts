@@ -44,8 +44,11 @@ export class AddonStore {
 
   getChannel = (): Channel => {
     // this.channel should get overwritten by setChannel. If it wasn't called (e.g. in non-browser environment), set a mock instead.
-    if (!this.channel) {
-      this.setChannel(mockChannel());
+    if (this.channel === undefined) {
+      const mock = mockChannel();
+      this.channel = mock;
+
+      this.setChannel(mock);
     }
 
     return this.channel;
@@ -83,8 +86,8 @@ export class AddonStore {
 
   addPanel = (name: string, options: Addon_Type): void => {
     this.add(name, {
-      type: Addon_TypesEnum.PANEL,
       ...options,
+      type: options.type || Addon_TypesEnum.PANEL,
     });
   };
 

@@ -61,6 +61,7 @@ export class StoryStoreFacade<TFramework extends AnyFramework> {
 
     const storyEntries = Object.entries(this.entries);
     // Add the kind parameters and global parameters to each entry
+    // @ts-expect-error (not strict)
     const sortableV6: [StoryId, Store_Story<TFramework>, Parameters, Parameters][] =
       storyEntries.map(([storyId, { type, importPath, ...entry }]) => {
         const exports = this.csfExports[importPath];

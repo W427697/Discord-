@@ -5643,6 +5643,7 @@ __metadata:
     "@storybook/components": 7.0.0-alpha.46
     "@storybook/core-events": 7.0.0-alpha.46
     "@storybook/theming": 7.0.0-alpha.46
+    "@storybook/types": 7.0.0-alpha.46
     global: ^4.4.0
     react-sizeme: ^3.0.1
     typescript: ~4.6.3
@@ -5852,6 +5853,7 @@ __metadata:
     "@storybook/router": 7.0.0-alpha.46
     "@storybook/source-loader": 7.0.0-alpha.46
     "@storybook/theming": 7.0.0-alpha.46
+    "@storybook/types": 7.0.0-alpha.46
     "@types/react": ^16.14.23
     "@types/react-syntax-highlighter": 11.0.5
     estraverse: ^5.2.0
@@ -5935,7 +5937,16 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/addons@workspace:lib/addons"
   dependencies:
+    "@storybook/api": 7.0.0-alpha.46
+    "@storybook/channel-postmessage": 7.0.0-alpha.46
+    "@storybook/channel-websocket": 7.0.0-alpha.46
+    "@storybook/channels": 7.0.0-alpha.46
+    "@storybook/client-logger": 7.0.0-alpha.46
+    "@storybook/core-common": 7.0.0-alpha.46
     "@storybook/preview": 7.0.0-alpha.46
+    "@storybook/router": 7.0.0-alpha.46
+    "@storybook/theming": 7.0.0-alpha.46
+    "@storybook/types": 7.0.0-alpha.46
   languageName: unknown
   linkType: soft
 
@@ -6351,7 +6362,16 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/client-api@workspace:lib/client-api"
   dependencies:
+    "@storybook/api": 7.0.0-alpha.46
+    "@storybook/channel-postmessage": 7.0.0-alpha.46
+    "@storybook/channel-websocket": 7.0.0-alpha.46
+    "@storybook/channels": 7.0.0-alpha.46
+    "@storybook/client-logger": 7.0.0-alpha.46
+    "@storybook/core-common": 7.0.0-alpha.46
     "@storybook/preview": 7.0.0-alpha.46
+    "@storybook/router": 7.0.0-alpha.46
+    "@storybook/theming": 7.0.0-alpha.46
+    "@storybook/types": 7.0.0-alpha.46
   languageName: unknown
   linkType: soft
 
@@ -6430,7 +6450,16 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/core-client@workspace:lib/core-client"
   dependencies:
+    "@storybook/api": 7.0.0-alpha.46
+    "@storybook/channel-postmessage": 7.0.0-alpha.46
+    "@storybook/channel-websocket": 7.0.0-alpha.46
+    "@storybook/channels": 7.0.0-alpha.46
+    "@storybook/client-logger": 7.0.0-alpha.46
+    "@storybook/core-common": 7.0.0-alpha.46
     "@storybook/preview": 7.0.0-alpha.46
+    "@storybook/router": 7.0.0-alpha.46
+    "@storybook/theming": 7.0.0-alpha.46
+    "@storybook/types": 7.0.0-alpha.46
   languageName: unknown
   linkType: soft
 
@@ -7179,7 +7208,16 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/preview-web@workspace:lib/preview-web"
   dependencies:
+    "@storybook/api": 7.0.0-alpha.46
+    "@storybook/channel-postmessage": 7.0.0-alpha.46
+    "@storybook/channel-websocket": 7.0.0-alpha.46
+    "@storybook/channels": 7.0.0-alpha.46
+    "@storybook/client-logger": 7.0.0-alpha.46
+    "@storybook/core-common": 7.0.0-alpha.46
     "@storybook/preview": 7.0.0-alpha.46
+    "@storybook/router": 7.0.0-alpha.46
+    "@storybook/theming": 7.0.0-alpha.46
+    "@storybook/types": 7.0.0-alpha.46
   languageName: unknown
   linkType: soft
 

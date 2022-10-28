@@ -310,7 +310,7 @@ export interface Addon_RenderOptions {
 
 export interface Addon_Type {
   title: (() => string) | string;
-  type?: Addon_Types;
+  type: Addon_Types;
   id?: string;
   route?: (routeOptions: RouterData) => string;
   match?: (matchOptions: RouterData) => boolean;
