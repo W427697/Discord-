@@ -1,17 +1,18 @@
 import type { Plugin } from 'vite';
 import sourceLoaderTransform from '@storybook/source-loader';
 import MagicString from 'magic-string';
+import type { StorybookConfig } from '@storybook/types';
 import type { ExtendedOptions } from '../types';
 
 const storyPattern = /\.stories\.[jt]sx?$/;
 const storySourcePattern = /var __STORY__ = "(.*)"/;
 const storySourceReplacement = '--STORY_SOURCE_REPLACEMENT--';
 
-const mockClassLoader = (id: string) => ({
+const mockClassLoader = (id: string, options: any) => ({
   // eslint-disable-next-line no-console
   emitWarning: (message: string) => console.warn(message),
   resourcePath: id,
-  getOptions: () => ({}),
+  getOptions: () => ({ injectStoryParameters: true, inspectLocalDependencies: true, ...options }),
 });
 
 // HACK: Until we can support only node 15+ and use string.prototype.replaceAll
@@ -19,7 +20,14 @@ const replaceAll = (str: string, search: string, replacement: string) => {
   return str.split(search).join(replacement);
 };
 
-export function sourceLoaderPlugin(config: ExtendedOptions): Plugin | Plugin[] {
+export async function sourceLoaderPlugin(config: ExtendedOptions): Promise<Plugin | Plugin[]> {
+  const { presets } = config;
+
+  const addons = await presets.apply('addons', [] as StorybookConfig['addons']);
+
+  const docsOptions =
+    // @ts-expect-error - not sure what type to use here
+    addons.find((a) => [a, a.name].includes('@storybook/addon-docs'))?.options ?? {};
   if (config.configType === 'DEVELOPMENT') {
     return {
       name: 'storybook:source-loader-plugin',
@@ -27,7 +35,10 @@ export function sourceLoaderPlugin(config: ExtendedOptions): Plugin | Plugin[] {
       async transform(src: string, id: string) {
         if (id.match(storyPattern)) {
           // @ts-expect-error - source loader doesn't have types
-          const code: string = await sourceLoaderTransform.call(mockClassLoader(id), src);
+          const code: string = await sourceLoaderTransform.call(
+            mockClassLoader(id, docsOptions.sourceLoaderOptions),
+            src
+          );
           const s = new MagicString(src);
           // Entirely replace with new code
           s.overwrite(0, src.length, code);

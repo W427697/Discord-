@@ -80,7 +80,7 @@ export async function pluginConfig(options: ExtendedOptions) {
 
   const plugins = [
     codeGeneratorPlugin(options),
-    sourceLoaderPlugin(options),
+    await sourceLoaderPlugin(options),
     mdxPlugin(),
     injectExportOrderPlugin,
     stripStoryHMRBoundary(),
