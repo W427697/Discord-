@@ -10,7 +10,7 @@ export default {
 };
 
 // Should not autoplay
-export const Basic = {
+export const NoAutoplay = {
   play: async ({ viewMode, canvasElement }) => {
     const pre = await within(canvasElement).findByText('Play has not run');
     if (viewMode === 'docs') {
