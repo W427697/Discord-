@@ -1,9 +1,10 @@
-import type { Meta, StoryFn } from '@storybook/html';
+import type { Meta, StoryObj } from '@storybook/html';
 import type { HeaderProps } from './Header';
 import { createHeader } from './Header';
 
-export default {
+const meta: Meta<HeaderProps> = {
   title: 'Example/Header',
+  render: (args) => createHeader(args),
   parameters: {
     // More on Story layout: https://storybook.js.org/docs/html/configure/story-layout
     layout: 'fullscreen',
@@ -14,16 +15,17 @@ export default {
     onLogout: { action: 'onLogout' },
     onCreateAccount: { action: 'onCreateAccount' },
   },
-} as Meta<HeaderProps>;
+};
 
-const Template: StoryFn<HeaderProps> = (args) => createHeader(args);
+export default meta;
+type Story = StoryObj<HeaderProps>;
 
-export const LoggedIn = Template.bind({});
-LoggedIn.args = {
-  user: {
-    name: 'John Doe',
+export const LoggedIn: Story = {
+  args: {
+    user: {
+      name: 'John Doe',
+    },
   },
 };
 
-export const LoggedOut = Template.bind({});
-LoggedOut.args = {};
+export const LoggedOut: Story = {};
