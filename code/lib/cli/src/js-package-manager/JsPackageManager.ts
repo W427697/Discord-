@@ -3,9 +3,9 @@ import { gt, satisfies } from 'semver';
 import { sync as spawnSync } from 'cross-spawn';
 import path from 'path';
 import fs from 'fs';
-// eslint-disable-next-line import/no-cycle
+
 import { commandLog } from '../helpers';
-import { PackageJson, PackageJsonWithDepsAndDevDeps } from './PackageJson';
+import type { PackageJson, PackageJsonWithDepsAndDevDeps } from './PackageJson';
 import storybookPackagesVersions from '../versions';
 
 const logger = console;

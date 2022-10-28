@@ -1,20 +1,15 @@
 import { styled } from '@storybook/theming';
 import { Icons } from '@storybook/components';
 import global from 'global';
-import React, { FC, MouseEventHandler, ReactNode, useCallback, useEffect } from 'react';
-import { ControllerStateAndHelpers } from 'downshift';
+import type { FC, MouseEventHandler, ReactNode } from 'react';
+import React, { useCallback, useEffect } from 'react';
+import type { ControllerStateAndHelpers } from 'downshift';
 
 import { useStorybookApi } from '@storybook/api';
 import { PRELOAD_ENTRIES } from '@storybook/core-events';
 import { ComponentNode, DocumentNode, Path, RootNode, StoryNode } from './TreeNode';
-import {
-  Match,
-  DownshiftItem,
-  isCloseType,
-  isClearType,
-  isExpandType,
-  SearchResult,
-} from './types';
+import type { Match, DownshiftItem, SearchResult } from './types';
+import { isCloseType, isClearType, isExpandType } from './types';
 // eslint-disable-next-line import/no-cycle
 import { getLink } from './utils';
 import { matchesKeyCode, matchesModifiers } from '../../keybinding';

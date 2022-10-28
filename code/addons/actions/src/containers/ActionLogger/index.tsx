@@ -6,7 +6,7 @@ import { STORY_CHANGED } from '@storybook/core-events';
 
 import { ActionLogger as ActionLoggerComponent } from '../../components/ActionLogger';
 import { EVENT_ID } from '../..';
-import { ActionDisplay } from '../../models';
+import type { ActionDisplay } from '../../models';
 
 interface ActionLoggerProps {
   active: boolean;

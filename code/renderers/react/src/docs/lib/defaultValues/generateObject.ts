@@ -5,7 +5,7 @@ import {
 } from '@storybook/docs-tools';
 
 import { OBJECT_CAPTION } from '../captions';
-import { InspectionResult, InspectionArray } from '../inspection';
+import type { InspectionResult, InspectionArray } from '../inspection';
 import { generateObjectCode } from '../generateCode';
 
 export function generateObject({ inferredType, ast }: InspectionResult): PropDefaultValue {

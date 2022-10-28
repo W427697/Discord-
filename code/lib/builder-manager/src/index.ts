@@ -10,7 +10,7 @@ import aliasPlugin from 'esbuild-plugin-alias';
 
 import { getTemplatePath, renderHTML } from './utils/template';
 import { definitions } from './utils/globals';
-import {
+import type {
   BuilderBuildResult,
   BuilderFunction,
   BuilderStartOptions,

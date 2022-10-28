@@ -1,6 +1,6 @@
 {
   "name": "@storybook/types",
-  "version": "7.0.0-alpha.44",
+  "version": "7.0.0-alpha.45",
   "description": "Core Storybook Types",
   "keywords": [
     "storybook"
@@ -47,7 +47,7 @@
     "file-system-cache": "^2.0.0"
   },
   "devDependencies": {
-    "@storybook/csf": " 0.0.2--canary.52.d2acbe4.0",
+    "@storybook/csf": "next",
     "@types/node": "^16.0.0",
     "synchronous-promise": "^2.0.15",
     "typescript": "~4.6.3"
@@ -60,5 +60,5 @@
       "./src/index.ts"
     ]
   },
-  "gitHead": "d4965bd328d8f83c279560c7bc8428e490b275f3"
+  "gitHead": "3ef14366115c56c1d45c0359ff681cc47ed50532"
 }

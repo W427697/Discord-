@@ -1,9 +1,11 @@
 import global from 'global';
-import React, { ReactNode, useCallback } from 'react';
+import type { ReactNode } from 'react';
+import React, { useCallback } from 'react';
 
 import * as R from 'react-router-dom';
 import { ToggleVisibility } from './visibility';
-import { queryFromString, parsePath, getMatch, StoryData } from './utils';
+import type { StoryData } from './utils';
+import { queryFromString, parsePath, getMatch } from './utils';
 
 const { document } = global;
 

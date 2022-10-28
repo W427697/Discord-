@@ -6,7 +6,7 @@ import { prepareStory } from './csf/prepareStory';
 import { processCSFFile } from './csf/processCSFFile';
 import { StoryStore } from './StoryStore';
 import type { StoryIndex } from './types';
-import { HooksContext } from './hooks';
+import type { HooksContext } from './hooks';
 
 // Spy on prepareStory/processCSFFile
 jest.mock('./csf/prepareStory', () => ({

@@ -58,7 +58,7 @@ import type {
   Tag,
   ViewMode as ViewModeBase,
 } from '@storybook/csf';
-import { Addon_OptionsParameter } from './addons';
+import type { Addon_OptionsParameter } from './addons';
 
 export type {
   AnnotatedStoryFn,
@@ -117,22 +117,20 @@ export type {
   Tag,
 };
 
-export type CSF_Tag = string;
-
 export interface CSF_Meta {
   id?: string;
   title?: string;
   component?: string;
   includeStories?: string[] | RegExp;
   excludeStories?: string[] | RegExp;
-  tags?: CSF_Tag[];
+  tags?: Tag[];
 }
 
 export interface CSF_Story {
   id: string;
   name: string;
   parameters: Parameters;
-  tags?: CSF_Tag[];
+  tags?: Tag[];
 }
 
 export type ViewMode = ViewModeBase | 'story' | 'info' | 'settings' | string | undefined;

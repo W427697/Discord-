@@ -1,14 +1,15 @@
 import { sync as spawnSync } from 'cross-spawn';
 import { sync as findUpSync } from 'find-up';
-// eslint-disable-next-line import/no-cycle
+
 import { NPMProxy } from './NPMProxy';
-// eslint-disable-next-line import/no-cycle
+
 import { PNPMProxy } from './PNPMProxy';
-// eslint-disable-next-line import/no-cycle
-import { JsPackageManager, type PackageManagerName } from './JsPackageManager';
-// eslint-disable-next-line import/no-cycle
+
+import type { JsPackageManager } from './JsPackageManager';
+import { type PackageManagerName } from './JsPackageManager';
+
 import { Yarn2Proxy } from './Yarn2Proxy';
-// eslint-disable-next-line import/no-cycle
+
 import { Yarn1Proxy } from './Yarn1Proxy';
 
 export class JsPackageManagerFactory {

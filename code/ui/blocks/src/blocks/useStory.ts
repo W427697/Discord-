@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import type { StoryId, AnyFramework, Store_Story } from '@storybook/types';
 
-import { DocsContextProps } from './DocsContext';
+import type { DocsContextProps } from './DocsContext';
 
 export function useStory<TFramework extends AnyFramework = AnyFramework>(
   storyId: StoryId,

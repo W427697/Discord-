@@ -9,6 +9,7 @@ import {
   STORY_RENDER_PHASE_CHANGED,
   STORY_THREW_EXCEPTION,
 } from '@storybook/core-events';
+
 import type { Store_StoryIndex, Store_TeardownRenderToDOM } from '@storybook/types';
 import type { RenderPhase } from './render/StoryRender';
 

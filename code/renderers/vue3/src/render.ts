@@ -2,7 +2,7 @@ import { dedent } from 'ts-dedent';
 import { createApp, h } from 'vue';
 import type { Store_RenderContext, ArgsStoryFn } from '@storybook/types';
 
-import { StoryFnVueReturnType, VueFramework } from './types';
+import type { StoryFnVueReturnType, VueFramework } from './types';
 
 export const render: ArgsStoryFn<VueFramework> = (props, context) => {
   const { id, component: Component } = context;

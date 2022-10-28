@@ -1,5 +1,5 @@
 import { SourceType, enhanceArgTypes } from '@storybook/docs-tools';
-import type { Parameters, DecoratorFunction, ArgTypesEnhancer } from '@storybook/types';
+import { Parameters, DecoratorFunction, ArgTypesEnhancer } from '@storybook/types';
 import { extractArgTypes, extractComponentDescription } from './compodoc';
 import { sourceDecorator } from './sourceDecorator';
 

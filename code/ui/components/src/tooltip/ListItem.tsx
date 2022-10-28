@@ -1,4 +1,5 @@
-import React, { FC, ReactNode, ComponentProps } from 'react';
+import type { FC, ReactNode, ComponentProps } from 'react';
+import React from 'react';
 import { styled } from '@storybook/theming';
 import memoize from 'memoizerific';
 import { transparentize } from 'polished';

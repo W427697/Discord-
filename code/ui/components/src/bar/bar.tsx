@@ -1,4 +1,5 @@
-import React, { Children, ComponentProps, FC } from 'react';
+import type { ComponentProps, FC } from 'react';
+import React, { Children } from 'react';
 import { styled } from '@storybook/theming';
 
 import { ScrollArea } from '../ScrollArea/ScrollArea';

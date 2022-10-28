@@ -1,4 +1,5 @@
-import Vue, { VueConstructor, ComponentOptions } from 'vue';
+import type { VueConstructor, ComponentOptions } from 'vue';
+import Vue from 'vue';
 import type { DecoratorFunction, StoryContext, LegacyStoryFn } from '@storybook/types';
 import { sanitizeStoryContextUpdate } from '@storybook/store';
 

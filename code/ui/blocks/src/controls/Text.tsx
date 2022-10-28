@@ -1,9 +1,10 @@
-import React, { FC, ChangeEvent, useCallback, useState } from 'react';
+import type { FC, ChangeEvent } from 'react';
+import React, { useCallback, useState } from 'react';
 import { styled } from '@storybook/theming';
 import { Form } from '@storybook/components';
 import { getControlId, getControlSetterButtonId } from './helpers';
-// eslint-disable-next-line import/no-cycle
-import { ControlProps, TextValue, TextConfig } from './types';
+
+import type { ControlProps, TextValue, TextConfig } from './types';
 
 export type TextProps = ControlProps<TextValue | undefined> & TextConfig;
 

@@ -1,5 +1,5 @@
 /* eslint-disable no-underscore-dangle */
-import { Component } from './types';
+import type { Component } from './types';
 
 const titleCase = (str: string): string =>
   str

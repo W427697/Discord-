@@ -1,6 +1,7 @@
 import path from 'path';
 import { readJSON, writeJSON, outputFile } from 'fs-extra';
-import shell, { ExecOptions } from 'shelljs';
+import type { ExecOptions } from 'shelljs';
+import shell from 'shelljs';
 import chalk from 'chalk';
 import { command } from 'execa';
 import { cra, cra_typescript } from './configs';

@@ -24,12 +24,8 @@ import type {
   Store_ModuleImportFn,
   Store_ModuleExports,
 } from '@storybook/types';
-import {
-  combineParameters,
-  composeStepRunners,
-  StoryStore,
-  normalizeInputTypes,
-} from '@storybook/store';
+import type { StoryStore } from '@storybook/store';
+import { combineParameters, composeStepRunners, normalizeInputTypes } from '@storybook/store';
 
 import { StoryStoreFacade } from './StoryStoreFacade';
 
@@ -360,7 +356,7 @@ Read more here: https://github.com/storybookjs/storybook/blob/master/MIGRATION.m
       return api;
     };
 
-    api.addParameters = ({ component, args, argTypes, ...parameters }: Parameters) => {
+    api.addParameters = ({ component, args, argTypes, tags, ...parameters }: Parameters) => {
       if (hasAdded)
         throw new Error(`You cannot add parameters after the first story for a kind.
 Read more here: https://github.com/storybookjs/storybook/blob/master/MIGRATION.md#can-no-longer-add-decoratorsparameters-after-stories`);
@@ -369,6 +365,7 @@ Read more here: https://github.com/storybookjs/storybook/blob/master/MIGRATION.m
       if (component) meta.component = component;
       if (args) meta.args = { ...meta.args, ...args };
       if (argTypes) meta.argTypes = { ...meta.argTypes, ...argTypes };
+      if (tags) meta.tags = tags;
       return api;
     };
 

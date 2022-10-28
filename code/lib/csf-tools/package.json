@@ -1,6 +1,6 @@
 {
   "name": "@storybook/csf-tools",
-  "version": "7.0.0-alpha.44",
+  "version": "7.0.0-alpha.45",
   "description": "",
   "keywords": [
     "storybook"
@@ -47,7 +47,7 @@
     "@babel/traverse": "^7.12.11",
     "@babel/types": "^7.12.11",
     "@storybook/csf": "next",
-    "@storybook/types": "7.0.0-alpha.44",
+    "@storybook/types": "7.0.0-alpha.45",
     "fs-extra": "^9.0.1",
     "ts-dedent": "^2.0.0"
   },
@@ -64,5 +64,5 @@
       "./src/index.ts"
     ]
   },
-  "gitHead": "d4965bd328d8f83c279560c7bc8428e490b275f3"
+  "gitHead": "3ef14366115c56c1d45c0359ff681cc47ed50532"
 }

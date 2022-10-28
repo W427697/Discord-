@@ -215,10 +215,10 @@ export class StoryIndexGenerator {
       }
       const csf = await storyIndexer.indexer(absolutePath, { makeTitle });
 
-      const componentTags = csf.meta.tags;
+      const componentTags = csf.meta.tags || [];
       csf.stories.forEach(({ id, name, tags: storyTags, parameters }) => {
         if (!parameters?.docsOnly) {
-          const tags = [...(storyTags || componentTags || []), 'story'];
+          const tags = [...(storyTags || componentTags), 'story'];
           entries.push({ id, title: csf.meta.title, name, importPath, tags, type: 'story' });
         }
       });
@@ -226,7 +226,10 @@ export class StoryIndexGenerator {
       if (this.options.docs.enabled && csf.stories.length) {
         // We always add a template for *.stories.mdx, but only if docs page is enabled for
         // regular CSF files
-        if (storyIndexer.addDocsTemplate || this.options.docs.docsPage) {
+        if (
+          storyIndexer.addDocsTemplate ||
+          (this.options.docs.docsPage && componentTags.includes('docsPage'))
+        ) {
           const name = this.options.docs.defaultName;
           const id = toId(csf.meta.title, name);
           entries.unshift({
@@ -235,7 +238,7 @@ export class StoryIndexGenerator {
             name,
             importPath,
             type: 'docs',
-            tags: [...(componentTags || []), 'docs'],
+            tags: [...componentTags, 'docs'],
             storiesImports: [],
             standalone: false,
           });
