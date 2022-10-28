@@ -1,4 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
 import { sanitize } from '@storybook/csf';
 import type {
   AnyFramework,

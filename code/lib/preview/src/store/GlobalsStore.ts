@@ -1,4 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
 import type { Globals, GlobalTypes } from '@storybook/types';
 import { logger } from '@storybook/client-logger';
 

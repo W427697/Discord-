@@ -1,4 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
 import type {
   Addon_IndexEntry,
   AnyFramework,

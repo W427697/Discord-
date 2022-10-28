@@ -1,4 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
 /// <reference types="@types/jest" />;
 
 import { EventEmitter } from 'events';
