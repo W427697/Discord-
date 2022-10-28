@@ -13,7 +13,6 @@ test.describe('preview-web', () => {
   test('should pass over shortcuts, but not from play functions, story', async ({ page }) => {
     const sbPage = new SbPage(page);
     await sbPage.navigateToStory('lib/store/shortcuts', 'keydown-during-play');
-    await new Promise((r) => setTimeout(r, 1000));
 
     await expect(sbPage.page.locator('.sidebar-container')).toBeVisible();
 
@@ -26,7 +25,6 @@ test.describe('preview-web', () => {
     await sbPage.navigateToStory('lib/store/shortcuts', 'docs');
 
     await expect(sbPage.page.locator('.sidebar-container')).toBeVisible();
-    await new Promise((r) => setTimeout(r, 1000));
 
     await sbPage.previewRoot().getByText('Submit').press('s');
     await expect(sbPage.page.locator('.sidebar-container')).not.toBeVisible();
