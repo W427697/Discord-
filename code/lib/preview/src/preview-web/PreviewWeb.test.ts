@@ -28,10 +28,13 @@ import {
   UPDATE_STORY_ARGS,
 } from '@storybook/core-events';
 import { logger } from '@storybook/client-logger';
-import { addons, mockChannel as createMockChannel } from '@storybook/addons';
-import type { AnyFramework } from '@storybook/types';
-import type { ModuleImportFn, WebProjectAnnotations } from '@storybook/preview/dist/store';
+import type {
+  AnyFramework,
+  Store_ModuleImportFn,
+  Store_WebProjectAnnotations,
+} from '@storybook/types';
 import { mocked } from 'ts-jest/utils';
+import { addons, mockChannel as createMockChannel } from '../addons';
 
 import { PreviewWeb } from './PreviewWeb';
 import {
@@ -109,8 +112,8 @@ async function createAndRenderPreview({
   importFn: inputImportFn = importFn,
   getProjectAnnotations: inputGetProjectAnnotations = getProjectAnnotations,
 }: {
-  importFn?: ModuleImportFn;
-  getProjectAnnotations?: () => WebProjectAnnotations<AnyFramework>;
+  importFn?: Store_ModuleImportFn;
+  getProjectAnnotations?: () => Store_WebProjectAnnotations<AnyFramework>;
 } = {}) {
   const preview = new PreviewWeb();
   await preview.initialize({

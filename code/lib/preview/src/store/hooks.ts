@@ -1,7 +1,7 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import { SHARED_STATE_CHANGED, SHARED_STATE_SET } from '@storybook/core-events';
 
-import { addons, useMemo, useState, useEffect, useChannel } from '@storybook/addons';
+import { addons, useMemo, useState, useEffect, useChannel } from '../addons';
 
 export function useSharedState<S>(sharedId: string, defaultState?: S): [S, (s: S) => void] {
   const channel = addons.getChannel();

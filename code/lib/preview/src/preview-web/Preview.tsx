@@ -16,7 +16,6 @@ import {
 } from '@storybook/core-events';
 import { logger } from '@storybook/client-logger';
 import type { Channel } from '@storybook/channels';
-import { addons } from '@storybook/addons';
 import type {
   AnyFramework,
   Args,
@@ -30,6 +29,7 @@ import type {
   Store_WebProjectAnnotations,
   StoryId,
 } from '@storybook/types';
+import { addons } from '../addons';
 import { StoryStore } from '../store';
 
 import { StoryRender } from './render/StoryRender';

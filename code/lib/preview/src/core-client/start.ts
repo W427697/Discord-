@@ -9,8 +9,8 @@ import type {
   Store_WebProjectAnnotations,
 } from '@storybook/types';
 import { createChannel } from '@storybook/channel-postmessage';
-import { addons } from '@storybook/addons';
 import { FORCE_RE_RENDER } from '@storybook/core-events';
+import { addons } from '../addons';
 import { PreviewWeb } from '../preview-web';
 import { ClientApi } from '../client-api';
 

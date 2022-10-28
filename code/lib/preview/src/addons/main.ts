@@ -1,4 +1,4 @@
-import global from 'global';
+/* eslint-disable import/no-extraneous-dependencies */
 
 import type { Channel } from '@storybook/channels';
 import { SET_CONFIG } from '@storybook/core-events';
@@ -119,9 +119,12 @@ export class AddonStore {
 const KEY = '__STORYBOOK_ADDONS';
 
 function getAddonsStore(): AddonStore {
+  // @ts-expect-error (global can be anything)
   if (!global[KEY]) {
+    // @ts-expect-error (global can be anything)
     global[KEY] = new AddonStore();
   }
+  // @ts-expect-error (global can be anything)
   return global[KEY];
 }
 

@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import { Channel } from '@storybook/channels';
 
 export function mockChannel() {
