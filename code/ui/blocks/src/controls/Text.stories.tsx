@@ -1,23 +1,54 @@
-import React, { useState } from 'react';
+import React from 'react';
+import type { Meta, StoryObj } from '@storybook/react';
+import { useArgs } from '@storybook/addons';
 import { TextControl } from './Text';
 
 export default {
   title: 'Controls/Text',
   component: TextControl,
+  tags: ['docsPage'],
+  parameters: { controls: { include: ['value', 'maxLength'] } },
+  render: (args) => {
+    const [, updateArgs] = useArgs();
+    const { value, onChange } = args;
+
+    return (
+      <>
+        <TextControl
+          {...args}
+          name="text"
+          onChange={(newValue) => {
+            updateArgs({ value: newValue });
+            onChange?.(newValue);
+          }}
+        />
+        <pre>{JSON.stringify(value) || 'undefined'}</pre>
+      </>
+    );
+  },
+} as Meta<typeof TextControl>;
+
+export const Basic: StoryObj<typeof TextControl> = {
+  args: {
+    value: 'Storybook says hi. 👋',
+  },
 };
 
-const Template = (initialValue?: string) => {
-  const [value, setValue] = useState(initialValue);
-  return (
-    <>
-      <TextControl name="Text" value={value} onChange={(newVal) => setValue(newVal)} />
-      <pre>{JSON.stringify(value) || 'undefined'}</pre>
-    </>
-  );
+export const Empty: StoryObj<typeof TextControl> = {
+  args: {
+    value: '',
+  },
 };
 
-export const Basic = () => Template('Hello text');
+export const Undefined: StoryObj<typeof TextControl> = {
+  args: {
+    value: undefined,
+  },
+};
 
-export const Empty = () => Template('');
-
-export const Undefined = () => Template(undefined);
+export const WithMaxLength: StoryObj<typeof TextControl> = {
+  args: {
+    value: "You can't finish this sente",
+    maxLength: 28,
+  },
+};
