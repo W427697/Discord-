@@ -89,7 +89,6 @@ export class StoryRender<TFramework extends AnyFramework> implements Render<TFra
       // TODO -- should we emit the render phase changed event?
       this.phase = 'preparing';
     }
-    console.log(this.renderOptions);
   }
 
   private async runPhase(signal: AbortSignal, phase: RenderPhase, phaseFn?: () => Promise<void>) {
@@ -251,6 +250,7 @@ export class StoryRender<TFramework extends AnyFramework> implements Render<TFra
         this.channel.emit(STORY_RENDERED, id)
       );
     } catch (err) {
+      console.log(err);
       this.phase = 'errored';
       this.callbacks.showException(err as Error);
     }

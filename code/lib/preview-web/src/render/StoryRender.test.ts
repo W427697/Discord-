@@ -50,4 +50,56 @@ describe('StoryRender', () => {
 
     await expect(preparePromise).rejects.toThrowError(PREPARE_ABORTED);
   });
+
+  it('does run play function if passed runPlayFunction=true', async () => {
+    const story = {
+      id: 'id',
+      title: 'title',
+      name: 'name',
+      tags: [],
+      applyLoaders: jest.fn(),
+      unboundStoryFn: jest.fn(),
+      playFunction: jest.fn(),
+    };
+
+    const render = new StoryRender(
+      new Channel(),
+      { getStoryContext: () => ({}) } as any,
+      jest.fn() as any,
+      {} as any,
+      entry.id,
+      'story',
+      { runPlayFunction: true },
+      story as any
+    );
+
+    await render.renderToElement({} as any);
+    expect(story.playFunction).toHaveBeenCalled();
+  });
+
+  it('does not run play function if passed runPlayFunction=false', async () => {
+    const story = {
+      id: 'id',
+      title: 'title',
+      name: 'name',
+      tags: [],
+      applyLoaders: jest.fn(),
+      unboundStoryFn: jest.fn(),
+      playFunction: jest.fn(),
+    };
+
+    const render = new StoryRender(
+      new Channel(),
+      { getStoryContext: () => ({}) } as any,
+      jest.fn() as any,
+      {} as any,
+      entry.id,
+      'story',
+      { runPlayFunction: false },
+      story as any
+    );
+
+    await render.renderToElement({} as any);
+    expect(story.playFunction).not.toHaveBeenCalled();
+  });
 });
