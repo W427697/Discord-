@@ -19,8 +19,8 @@ const meta = {
     return (
       <>
         <BooleanControl
-          name="boolean"
           {...args}
+          name="boolean"
           onChange={(newValue) => {
             updateArgs({ value: newValue });
             onChange?.(newValue);
