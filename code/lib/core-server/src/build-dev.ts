@@ -36,7 +36,7 @@ export async function buildDevStandalone(options: CLIOptions & LoadOptions & Bui
     getServerPort(options.port),
     versionUpdates
       ? updateCheck(version)
-      : Promise.resolve({ success: false, data: {}, time: Date.now() }),
+      : Promise.resolve({ success: false, cached: false, data: {}, time: Date.now() }),
     releaseNotes
       ? getReleaseNotesData(version, cache)
       : Promise.resolve(getReleaseNotesFailedState(version)),
