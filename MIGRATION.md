@@ -381,7 +381,7 @@ To convert this project to 7.0:
     "build-storybook": "storybook build <some flags>"
   },
   "devDependencies": {
-    "storybook": "future"
+    "storybook": "next"
   }
 }
 ```
