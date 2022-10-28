@@ -2,7 +2,7 @@ import type { Task } from '../task';
 import { exec } from '../utils/exec';
 import { maxConcurrentTasks } from '../utils/maxConcurrentTasks';
 
-const parallel = process.env.CI ? 2 : maxConcurrentTasks;
+const parallel = process.env.CI ? 8 : maxConcurrentTasks;
 
 const command = `nx run-many --target="check" --all --parallel=${parallel} --exclude=@storybook/addon-storyshots,@storybook/addon-storyshots-puppeteer`;
 
