@@ -2,11 +2,9 @@
 import * as t from '@babel/types';
 import generate from '@babel/generator';
 import template from '@babel/template';
-import { formatCsf, loadCsf } from './CsfFile';
+import { CsfFile, formatCsf, loadCsf } from './CsfFile';
 
-export const enrichCsf = (code: string) => {
-  const csf = loadCsf(code, { makeTitle: (userTitle) => userTitle }).parse();
-
+export const enrichCsf = (csf: CsfFile) => {
   Object.keys(csf._storyExports).forEach((key) => {
     const storyExport = csf.getStoryExport(key);
     const source = extractSource(storyExport);
@@ -18,8 +16,6 @@ export const enrichCsf = (code: string) => {
     }) as t.Statement;
     csf._ast.program.body.push(addParameter);
   });
-
-  return formatCsf(csf);
 };
 
 export const extractSource = (node: t.Node) => {

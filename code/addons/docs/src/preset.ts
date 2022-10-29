@@ -8,6 +8,7 @@ import type {
   DocsOptions,
   Options,
 } from '@storybook/types';
+import type { CsfPluginOptions } from '@storybook/csf-plugin';
 import { logger } from '@storybook/node-logger';
 import { loadCsf } from '@storybook/csf-tools';
 
@@ -48,7 +49,10 @@ function createBabelOptions({ babelOptions, mdxBabelOptions, configureJSX }: Bab
 export async function webpack(
   webpackConfig: any = {},
   options: Options &
-    BabelParams & { sourceLoaderOptions: any; transcludeMarkdown: boolean } /* & Parameters<
+    BabelParams & {
+      csfPluginOptions: CsfPluginOptions | null;
+      transcludeMarkdown: boolean;
+    } /* & Parameters<
       typeof createCompiler
     >[0] */
 ) {
@@ -62,7 +66,7 @@ export async function webpack(
     babelOptions,
     mdxBabelOptions,
     configureJSX = true,
-    sourceLoaderOptions = { injectStoryParameters: true },
+    csfPluginOptions = {},
     transcludeMarkdown = false,
   } = options;
 
@@ -75,18 +79,6 @@ export async function webpack(
   logger.info(`Addon-docs: using MDX2`);
 
   const mdxLoader = require.resolve('@storybook/mdx2-csf/loader');
-
-  // set `sourceLoaderOptions` to `null` to disable for manual configuration
-  const sourceLoader = sourceLoaderOptions
-    ? [
-        {
-          test: /\.(stories|story)\.[tj]sx?$/,
-          loader: require.resolve('@storybook/source-loader'),
-          options: { ...sourceLoaderOptions, inspectLocalDependencies: true },
-          enforce: 'pre',
-        },
-      ]
-    : [];
 
   let rules = module.rules || [];
   if (transcludeMarkdown) {
@@ -110,6 +102,12 @@ export async function webpack(
 
   const result = {
     ...webpackConfig,
+    plugins: [
+      ...(webpackConfig.plugins || []),
+      // eslint-disable-next-line global-require
+      ...(csfPluginOptions ? [require('@storybook/csf-plugin').webpack(csfPluginOptions)] : []),
+    ],
+
     module: {
       ...module,
       rules: [
@@ -144,7 +142,6 @@ export async function webpack(
             },
           ],
         },
-        ...sourceLoader,
       ],
     },
   };

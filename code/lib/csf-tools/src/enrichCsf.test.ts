@@ -2,7 +2,7 @@
 /* eslint-disable no-underscore-dangle */
 
 import { dedent } from 'ts-dedent';
-import { loadCsf } from './CsfFile';
+import { loadCsf, formatCsf } from './CsfFile';
 import { enrichCsf, extractSource } from './enrichCsf';
 
 expect.addSnapshotSerializer({
@@ -10,11 +10,19 @@ expect.addSnapshotSerializer({
   test: (val) => true,
 });
 
+const enrich = (code: string) => {
+  // we don't actually care about the title
+
+  const csf = loadCsf(code, { makeTitle: (userTitle) => userTitle || 'default' }).parse();
+  enrichCsf(csf);
+  return formatCsf(csf);
+};
+
 describe('enrichCsf', () => {
   describe('source', () => {
     it('csf1', () => {
       expect(
-        enrichCsf(dedent`
+        enrich(dedent`
           export default {
            title: 'Button',
           }
@@ -35,7 +43,7 @@ describe('enrichCsf', () => {
     });
     it('csf2', () => {
       expect(
-        enrichCsf(dedent`
+        enrich(dedent`
           export default {
             title: 'Button',
           }
@@ -62,7 +70,7 @@ describe('enrichCsf', () => {
     });
     it('csf3', () => {
       expect(
-        enrichCsf(dedent`
+        enrich(dedent`
           export default {
             title: 'Button',
           }
@@ -89,7 +97,7 @@ describe('enrichCsf', () => {
     });
     it('multiple stories', () => {
       expect(
-        enrichCsf(dedent`
+        enrich(dedent`
           export default {
             title: 'Button',
           }
