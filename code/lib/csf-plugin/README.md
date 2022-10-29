@@ -15,7 +15,7 @@ Would be transformed to:
 
 ```js
 export const Basic = () => <Button />;
-Basic.parameers = {
+Basic.parameters = {
   storySource: {
     source: '() => <Button />',
   },
