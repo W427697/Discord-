@@ -7,13 +7,6 @@ const meta = {
   component: BooleanControl,
   tags: ['docsPage'],
   parameters: { controls: { include: ['value'] } },
-  argTypes: {
-    value: {
-      control: {
-        type: 'boolean',
-      },
-    },
-  },
   render: (args) => {
     const [, updateArgs] = useArgs();
     const { value, onChange } = args;
