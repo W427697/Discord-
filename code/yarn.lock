@@ -2119,7 +2119,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/template@npm:^7.12.11, @babel/template@npm:^7.16.7, @babel/template@npm:^7.18.10, @babel/template@npm:^7.3.3, @babel/template@npm:^7.4.0, @babel/template@npm:^7.7.0, @babel/template@npm:^7.8.6":
+"@babel/template@npm:^7.16.7, @babel/template@npm:^7.18.10, @babel/template@npm:^7.3.3, @babel/template@npm:^7.4.0, @babel/template@npm:^7.7.0, @babel/template@npm:^7.8.6":
   version: 7.18.10
   resolution: "@babel/template@npm:7.18.10"
   dependencies:
@@ -6644,7 +6644,6 @@ __metadata:
   dependencies:
     "@babel/generator": ^7.12.11
     "@babel/parser": ^7.12.11
-    "@babel/template": ^7.12.11
     "@babel/traverse": ^7.12.11
     "@babel/types": ^7.12.11
     "@storybook/csf": next
