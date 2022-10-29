@@ -59,18 +59,19 @@ representative at an online or offline event.
 
 ## Enforcement
 
-Instances of abusive, harassing, or otherwise unacceptable behavior may be
-reported to the community leaders responsible for enforcement at
-[INSERT CONTACT METHOD].
-All complaints will be reviewed and investigated promptly and fairly.
+Instances of abusive, harassing, or otherwise unacceptable behavior may be reported by contacting one of the Steering committee members for enforcement:
 
-All community leaders are obligated to respect the privacy and security of the
-reporter of any incident.
+- Norbert de Langen ~ @ndelangen - `ndelangen@me.com`
+- Igor Davydkin ~ @igordv - `davydkin.igor@gmail.com`
+- Tom Coleman ~ @tmeasday - `tom@thesnail.org`
+- Michael Shilman ~ @shilman - `michael@lab80.co`
+- Philip Riabchun ~ @hypnosphi - `talpa@yandex.ru`
+
+The steering committee will review and investigate all complaints and will respond in a way that it deems appropriate to the circumstances. The project team is obligated to maintain confidentiality with regard to the reporter of an incident. Further details of specific enforcement policies may be posted separately.
 
 ## Enforcement Guidelines
 
-Community leaders will follow these Community Impact Guidelines in determining
-the consequences for any action they deem in violation of this Code of Conduct:
+Project maintainers or community leaders who do not follow or enforce the Code of Conduct in good faith may face temporary or permanent repercussions as determined by other members of the project's leadership.
 
 ### 1. Correction
 
