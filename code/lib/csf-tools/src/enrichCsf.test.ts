@@ -125,6 +125,122 @@ describe('enrichCsf', () => {
       `);
     });
   });
+
+  describe('descriptions', () => {
+    it('skips inline comments', () => {
+      expect(
+        enrich(dedent`
+          export default {
+           title: 'Button',
+          }
+          // The most basic button
+          export const Basic = () => <Button />
+        `)
+      ).toMatchInlineSnapshot(`
+        export default {
+          title: 'Button'
+        };
+        // The most basic button
+        export const Basic = () => <Button />;
+        Basic.parameters = {
+          storySource: {
+            source: "() => <Button />"
+          },
+          ...Basic.parameters
+        };
+      `);
+    });
+
+    it('skips blocks without jsdoc', () => {
+      expect(
+        enrich(dedent`
+          export default {
+           title: 'Button',
+          }
+          /* The most basic button */
+          export const Basic = () => <Button />
+        `)
+      ).toMatchInlineSnapshot(`
+        export default {
+          title: 'Button'
+        };
+        /* The most basic button */
+        export const Basic = () => <Button />;
+        Basic.parameters = {
+          storySource: {
+            source: "() => <Button />"
+          },
+          ...Basic.parameters
+        };
+      `);
+    });
+
+    it('JSDoc single-line', () => {
+      expect(
+        enrich(dedent`
+          export default {
+           title: 'Button',
+          }
+          /** The most basic button */
+          export const Basic = () => <Button />
+        `)
+      ).toMatchInlineSnapshot(`
+        export default {
+          title: 'Button'
+        };
+        /** The most basic button */
+        export const Basic = () => <Button />;
+        Basic.parameters = {
+          storySource: {
+            source: "() => <Button />"
+          },
+          docs: {
+            description: {
+              story: "The most basic button"
+            }
+          },
+          ...Basic.parameters
+        };
+      `);
+    });
+
+    it('JSDoc multi-line', () => {
+      expect(
+        enrich(dedent`
+          export default {
+           title: 'Button',
+          }
+          /**
+           * The most basic button
+           * 
+           * In a block!
+           */
+          export const Basic = () => <Button />
+        `)
+      ).toMatchInlineSnapshot(`
+        export default {
+          title: 'Button'
+        };
+        /**
+         * The most basic button
+         * 
+         * In a block!
+         */
+        export const Basic = () => <Button />;
+        Basic.parameters = {
+          storySource: {
+            source: "() => <Button />"
+          },
+          docs: {
+            description: {
+              story: "The most basic button\\n\\nIn a block!"
+            }
+          },
+          ...Basic.parameters
+        };
+      `);
+    });
+  });
 });
 
 const source = (csfExport: string) => {

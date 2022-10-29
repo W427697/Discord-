@@ -156,6 +156,8 @@ export class CsfFile {
 
   _storyExports: Record<string, t.VariableDeclarator | t.FunctionDeclaration> = {};
 
+  _storyStatements: Record<string, t.ExportNamedDeclaration> = {};
+
   _storyAnnotations: Record<string, Record<string, t.Node>> = {};
 
   _templates: Record<string, t.Expression> = {};
@@ -283,6 +285,7 @@ export class CsfFile {
                   return;
                 }
                 self._storyExports[exportName] = decl;
+                self._storyStatements[exportName] = node;
                 let name = storyNameFromExport(exportName);
                 if (self._storyAnnotations[exportName]) {
                   logger.warn(
