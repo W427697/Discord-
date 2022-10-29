@@ -3,7 +3,7 @@ import type { StoriesHash } from '@storybook/api';
 
 import { mockDataset } from './mockdata';
 import { SearchResults } from './SearchResults';
-import { CombinedDataset, Refs, SearchItem } from './types';
+import type { CombinedDataset, Refs, SearchItem } from './types';
 import { searchItem } from './utils';
 
 export default {

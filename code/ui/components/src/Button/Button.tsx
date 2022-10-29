@@ -1,4 +1,5 @@
-import React, { forwardRef, FC, ComponentProps, ReactNode } from 'react';
+import type { FC, ComponentProps, ReactNode } from 'react';
+import React, { forwardRef } from 'react';
 import { styled } from '@storybook/theming';
 import { darken, lighten, rgba, transparentize } from 'polished';
 

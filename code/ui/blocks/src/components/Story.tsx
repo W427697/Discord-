@@ -1,5 +1,6 @@
 import global from 'global';
-import React, { createElement, ElementType, FunctionComponent, Fragment } from 'react';
+import type { ElementType, FunctionComponent } from 'react';
+import React, { createElement, Fragment } from 'react';
 import type { Parameters } from '@storybook/types';
 import { Loader, getStoryHref } from '@storybook/components';
 // eslint-disable-next-line import/no-cycle

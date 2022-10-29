@@ -1,10 +1,8 @@
 /* eslint-disable @typescript-eslint/naming-convention */
+import type { FC, ReactElement, ReactNode } from 'react';
 import React, {
   Component,
-  FC,
   Fragment,
-  ReactElement,
-  ReactNode,
   useCallback,
   useContext,
   useEffect,
@@ -42,7 +40,8 @@ import type { RouterData } from '@storybook/router';
 import type { Listener } from '@storybook/channels';
 
 import { createContext } from './context';
-import Store, { Options } from './store';
+import type { Options } from './store';
+import Store from './store';
 import getInitialState from './initial-state';
 
 import * as provider from './modules/provider';

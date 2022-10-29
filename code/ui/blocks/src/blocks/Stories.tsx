@@ -1,8 +1,9 @@
-import React, { useContext, FC } from 'react';
+import type { FC } from 'react';
+import React, { useContext } from 'react';
 import { DocsContext } from './DocsContext';
 import { DocsStory } from './DocsStory';
 import { Heading } from './Heading';
-import { DocsStoryProps } from './types';
+import type { DocsStoryProps } from './types';
 
 interface StoriesProps {
   title?: JSX.Element | string;

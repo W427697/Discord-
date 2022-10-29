@@ -1,6 +1,6 @@
-import { PropType } from '../PropDef';
-import { DocgenFlowType } from '../types';
-// eslint-disable-next-line import/no-cycle
+import type { PropType } from '../PropDef';
+import type { DocgenFlowType } from '../types';
+
 import { createSummaryValue, isTooLongForTypeSummary } from '../../utils';
 
 enum FlowTypesType {

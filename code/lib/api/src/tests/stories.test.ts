@@ -23,7 +23,7 @@ import { getEventMetadata } from '../lib/events';
 
 import { init as initStories } from '../modules/stories';
 import type Store from '../store';
-import { ModuleArgs } from '..';
+import type { ModuleArgs } from '..';
 
 function mockChannel() {
   const transport = {

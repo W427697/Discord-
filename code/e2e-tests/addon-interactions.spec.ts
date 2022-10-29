@@ -23,7 +23,7 @@ test.describe('addon-interactions', () => {
 
     const sbPage = new SbPage(page);
 
-    await sbPage.navigateToStory('example-page', 'logged-in');
+    await sbPage.navigateToStory('example/page', 'logged-in');
     await sbPage.viewAddonPanel('Interactions');
 
     const welcome = await sbPage.previewRoot().locator('.welcome');

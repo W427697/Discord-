@@ -4,7 +4,7 @@ import type {
   ComponentAnnotations,
   StoryAnnotations,
 } from '@storybook/types';
-import { WebComponentsFramework } from './types';
+import type { WebComponentsFramework } from './types';
 
 /**
  * Metadata to configure the stories for a component.

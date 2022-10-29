@@ -8,9 +8,9 @@ import type {
   StoryAnnotations,
 } from '@storybook/types';
 
-import { ComponentProps, ComponentType, SvelteComponentTyped } from 'svelte';
-import { SetOptional, Simplify } from 'type-fest';
-import { SvelteFramework } from './types';
+import type { ComponentProps, ComponentType, SvelteComponentTyped } from 'svelte';
+import type { SetOptional, Simplify } from 'type-fest';
+import type { SvelteFramework } from './types';
 
 /**
  * Metadata to configure the stories for a component.

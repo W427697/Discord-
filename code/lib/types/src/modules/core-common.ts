@@ -94,6 +94,7 @@ export interface Ref {
 
 export interface VersionCheck {
   success: boolean;
+  cached: boolean;
   data?: any;
   error?: any;
   time: number;

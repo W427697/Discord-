@@ -3,7 +3,8 @@ import { IconButton, Icons, FlexBar, TabBar, TabButton, ScrollArea } from '@stor
 import { Location, Route } from '@storybook/router';
 import { styled } from '@storybook/theming';
 import global from 'global';
-import React, { FC, SyntheticEvent, Fragment } from 'react';
+import type { FC, SyntheticEvent } from 'react';
+import React, { Fragment } from 'react';
 
 import { AboutPage } from './about_page';
 import { ReleaseNotesPage } from './release_notes_page';

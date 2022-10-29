@@ -1,13 +1,6 @@
 /* global MutationObserver */
-import React, {
-  ReactElement,
-  useEffect,
-  useRef,
-  useState,
-  useMemo,
-  RefObject,
-  useCallback,
-} from 'react';
+import type { ReactElement, RefObject } from 'react';
+import React, { useEffect, useRef, useState, useMemo, useCallback } from 'react';
 import { styled } from '@storybook/theming';
 import { browserSupportsCssZoom } from './browserSupportsCssZoom';
 

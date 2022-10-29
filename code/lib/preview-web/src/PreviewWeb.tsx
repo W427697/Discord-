@@ -32,7 +32,8 @@ import type {
   ViewMode,
 } from '@storybook/types';
 
-import { MaybePromise, Preview } from './Preview';
+import type { MaybePromise } from './Preview';
+import { Preview } from './Preview';
 
 import { UrlStore } from './UrlStore';
 import { WebView } from './WebView';
@@ -63,8 +64,6 @@ export class PreviewWeb<TFramework extends AnyFramework> extends Preview<TFramew
   urlStore: UrlStore;
 
   view: WebView;
-
-  previewEntryError?: Error;
 
   currentSelection?: Store_Selection;
 

@@ -1,4 +1,5 @@
-import React, { Component, ReactElement } from 'react';
+import type { ReactElement } from 'react';
+import React, { Component } from 'react';
 
 import { JsonNode } from './JsonNodes';
 import { value, object, array } from './utils/styles';

@@ -11,14 +11,15 @@ import type {
   ViewMode,
 } from '@storybook/types';
 import type { StoryStore } from '@storybook/store';
-import { Channel } from '@storybook/channels';
+import type { Channel } from '@storybook/channels';
 import { logger } from '@storybook/client-logger';
 import {
   STORY_RENDER_PHASE_CHANGED,
   STORY_RENDERED,
   PLAY_FUNCTION_THREW_EXCEPTION,
 } from '@storybook/core-events';
-import { Render, RenderType, PREPARE_ABORTED } from './Render';
+import type { Render, RenderType } from './Render';
+import { PREPARE_ABORTED } from './Render';
 
 const { AbortController } = global;
 
@@ -214,6 +215,7 @@ export class StoryRender<TFramework extends AnyFramework> implements Render<TFra
         const teardown = await this.renderToScreen(renderContext, canvasElement);
         this.teardownRender = teardown || (() => {});
       });
+
       this.notYetRendered = false;
       if (abortSignal.aborted) return;
 

@@ -1,10 +1,9 @@
 // @ts-expect-error (Converted from ts-ignore)
 import global from 'global';
 
+import type { FC, ReactElement } from 'react';
 import React, {
   Component as ReactComponent,
-  FC,
-  ReactElement,
   StrictMode,
   Fragment,
   useLayoutEffect,

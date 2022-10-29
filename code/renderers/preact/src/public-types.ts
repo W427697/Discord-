@@ -4,7 +4,7 @@ import type {
   ComponentAnnotations,
   StoryAnnotations,
 } from '@storybook/types';
-import { PreactFramework } from './types';
+import type { PreactFramework } from './types';
 
 export type { Args, ArgTypes, Parameters, StoryContext } from '@storybook/types';
 

@@ -1,8 +1,11 @@
 /* eslint-disable no-underscore-dangle */
 import fs from 'fs-extra';
+
 import * as t from '@babel/types';
-import generate from '@babel/generator';
-import traverse from '@babel/traverse';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import * as generate from '@babel/generator';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import * as traverse from '@babel/traverse';
 import { babelParse } from './babelParse';
 
 const logger = console;
@@ -104,7 +107,7 @@ export class ConfigFile {
   parse() {
     // eslint-disable-next-line @typescript-eslint/no-this-alias
     const self = this;
-    traverse(this._ast, {
+    traverse.default(this._ast, {
       ExportNamedDeclaration: {
         enter({ node, parent }) {
           if (t.isVariableDeclaration(node.declaration)) {
@@ -172,7 +175,7 @@ export class ConfigFile {
   getFieldValue(path: string[]) {
     const node = this.getFieldNode(path);
     if (node) {
-      const { code } = generate(node, {});
+      const { code } = generate.default(node, {});
       // eslint-disable-next-line no-eval
       const value = (0, eval)(`(() => (${code}))()`);
       return value;
@@ -222,9 +225,9 @@ export class ConfigFile {
     // we do this rather than t.valueToNode because apparently
     // babel only preserves quotes if they are parsed from the original code.
     if (quotes === 'single') {
-      const { code } = generate(t.valueToNode(value), { jsescOption: { quotes } });
+      const { code } = generate.default(t.valueToNode(value), { jsescOption: { quotes } });
       const program = babelParse(`const __x = ${code}`);
-      traverse(program, {
+      traverse.default(program, {
         VariableDeclaration: {
           enter({ node }) {
             if (
@@ -255,7 +258,7 @@ export const loadConfig = (code: string, fileName?: string) => {
 };
 
 export const formatConfig = (config: ConfigFile) => {
-  const { code } = generate(config._ast, {});
+  const { code } = generate.default(config._ast, {});
   return code;
 };
 

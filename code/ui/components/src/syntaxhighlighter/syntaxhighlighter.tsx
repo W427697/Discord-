@@ -1,4 +1,5 @@
-import React, { ComponentProps, FC, MouseEvent, useCallback, useState } from 'react';
+import type { ComponentProps, FC, MouseEvent } from 'react';
+import React, { useCallback, useState } from 'react';
 import { logger } from '@storybook/client-logger';
 import { styled } from '@storybook/theming';
 import global from 'global';

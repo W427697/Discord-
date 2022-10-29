@@ -5,15 +5,15 @@
 import {
   Component,
   Inject,
-  OnInit,
   ViewChild,
   ViewContainerRef,
-  ComponentFactoryResolver,
-  OnDestroy,
   EventEmitter,
-  SimpleChanges,
   SimpleChange,
   ChangeDetectorRef,
+  OnInit,
+  ComponentFactoryResolver,
+  OnDestroy,
+  SimpleChanges,
 } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 import { first } from 'rxjs/operators';

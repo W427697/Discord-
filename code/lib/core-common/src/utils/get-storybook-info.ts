@@ -1,6 +1,6 @@
 import path from 'path';
 import fse from 'fs-extra';
-import { CoreCommon_StorybookInfo, PackageJson } from '@storybook/types';
+import type { CoreCommon_StorybookInfo, PackageJson } from '@storybook/types';
 import { getStorybookConfiguration } from './get-storybook-configuration';
 
 const rendererPackages: Record<string, string> = {

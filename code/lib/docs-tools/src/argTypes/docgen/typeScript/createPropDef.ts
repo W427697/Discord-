@@ -1,8 +1,7 @@
-// eslint-disable-next-line import/no-cycle
-import { PropDefFactory } from '../createPropDef';
-// eslint-disable-next-line import/no-cycle
+import type { PropDefFactory } from '../createPropDef';
+
 import { createType } from './createType';
-// eslint-disable-next-line import/no-cycle
+
 import { createDefaultValue } from './createDefaultValue';
 
 export const createTsPropDef: PropDefFactory = (propName, docgenInfo) => {

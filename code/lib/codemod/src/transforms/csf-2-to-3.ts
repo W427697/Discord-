@@ -1,7 +1,8 @@
 /* eslint-disable no-underscore-dangle */
 import prettier from 'prettier';
 import * as t from '@babel/types';
-import { CsfFile, formatCsf, loadCsf } from '@storybook/csf-tools';
+import type { CsfFile } from '@storybook/csf-tools';
+import { formatCsf, loadCsf } from '@storybook/csf-tools';
 import { jscodeshiftToPrettierParser } from '../lib/utils';
 
 const logger = console;

@@ -1,4 +1,5 @@
-import React, { Fragment, ComponentType, FC } from 'react';
+import type { ComponentType, FC } from 'react';
+import React, { Fragment } from 'react';
 
 import type { State } from '@storybook/api';
 import * as S from './container';
