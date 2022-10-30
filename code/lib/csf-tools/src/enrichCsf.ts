@@ -49,18 +49,19 @@ export const extractSource = (node: t.Node) => {
 };
 
 export const extractDescription = (node?: t.Node) => {
-  if (node?.leadingComments) {
-    const comments = node.leadingComments
-      .map((comment) => {
-        if (comment.type === 'CommentLine' || !comment.value.startsWith('*')) return null;
-        return comment.value
+  if (!node?.leadingComments) return '';
+  const comments = node.leadingComments
+    .map((comment) => {
+      if (comment.type === 'CommentLine' || !comment.value.startsWith('*')) return null;
+      return (
+        comment.value
           .split('\n')
-          .map((line) => line.replace(/^(\s+)?(\*+)?(\s+)?/, ''))
+          // remove leading *'s and spaces from the beginning of each line
+          .map((line) => line.replace(/^(\s+)?(\*+)?(\s)?/, ''))
           .join('\n')
-          .trim();
-      })
-      .filter(Boolean);
-    return comments.join('\n');
-  }
-  return '';
+          .trim()
+      );
+    })
+    .filter(Boolean);
+  return comments.join('\n');
 };

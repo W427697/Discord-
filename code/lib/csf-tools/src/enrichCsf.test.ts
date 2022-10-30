@@ -240,6 +240,43 @@ describe('enrichCsf', () => {
         };
       `);
     });
+
+    it('preserves indentation', () => {
+      expect(
+        enrich(dedent`
+          export default {
+           title: 'Button',
+          }
+          /**
+           * - A bullet list
+           *   - A sub-bullet
+           * - A second bullet
+           */
+          export const Basic = () => <Button />
+        `)
+      ).toMatchInlineSnapshot(`
+        export default {
+          title: 'Button'
+        };
+        /**
+         * - A bullet list
+         *   - A sub-bullet
+         * - A second bullet
+         */
+        export const Basic = () => <Button />;
+        Basic.parameters = {
+          storySource: {
+            source: "() => <Button />"
+          },
+          docs: {
+            description: {
+              story: "- A bullet list\\n  - A sub-bullet\\n- A second bullet"
+            }
+          },
+          ...Basic.parameters
+        };
+      `);
+    });
   });
 });
 
