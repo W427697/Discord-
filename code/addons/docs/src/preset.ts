@@ -1,6 +1,7 @@
 import fs from 'fs-extra';
 import remarkSlug from 'remark-slug';
 import remarkExternalLinks from 'remark-external-links';
+import { dedent } from 'ts-dedent';
 
 import type {
   CoreCommon_IndexerOptions,
@@ -50,6 +51,8 @@ export async function webpack(
   webpackConfig: any = {},
   options: Options &
     BabelParams & {
+      /** @deprecated */
+      sourceLoaderOptions: any;
       csfPluginOptions: CsfPluginOptions | null;
       transcludeMarkdown: boolean;
     } /* & Parameters<
@@ -67,6 +70,7 @@ export async function webpack(
     mdxBabelOptions,
     configureJSX = true,
     csfPluginOptions = {},
+    sourceLoaderOptions = null,
     transcludeMarkdown = false,
   } = options;
 
@@ -76,7 +80,15 @@ export async function webpack(
     remarkPlugins: [remarkSlug, remarkExternalLinks],
   };
 
-  logger.info(`Addon-docs: using MDX2`);
+  if (sourceLoaderOptions) {
+    throw new Error(dedent`
+      Addon-docs no longer uses source-loader in 7.0.
+
+      To update your configuration, please see migration instructions here:
+
+      https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#dropped-source-loader--storiesof-static-snippets
+    `);
+  }
 
   const mdxLoader = require.resolve('@storybook/mdx2-csf/loader');
 
