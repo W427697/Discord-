@@ -1,21 +1,24 @@
 import { createUnplugin } from 'unplugin';
+import fs from 'fs';
 import { loadCsf, enrichCsf, formatCsf } from '@storybook/csf-tools';
 
 export interface CsfPluginOptions {
   source?: boolean;
+  description?: boolean;
 }
 
 const STORIES_REGEX = /\.(story|stories)\.[tj]sx?$/;
 
 const logger = console;
 
-export const unplugin = createUnplugin((options: CsfPluginOptions) => {
+export const unplugin = createUnplugin<CsfPluginOptions>((options) => {
   return {
     name: 'unplugin-csf',
-    transformInclude(id) {
+    loadInclude(id) {
       return STORIES_REGEX.test(id);
     },
-    transform(code) {
+    load(fname) {
+      const code = fs.readFileSync(fname, 'utf-8');
       try {
         const csf = loadCsf(code, { makeTitle: (userTitle) => userTitle || 'default' }).parse();
         enrichCsf(csf);
