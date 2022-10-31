@@ -1,11 +1,11 @@
 import {
   AfterViewInit,
-  ChangeDetectorRef,
-  Component,
   ElementRef,
-  Inject,
   OnDestroy,
   Type,
+  ChangeDetectorRef,
+  Component,
+  Inject,
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';

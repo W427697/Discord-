@@ -1,25 +1,24 @@
 import { useStorybookApi } from '@storybook/api';
 import { styled } from '@storybook/theming';
 import { Icons } from '@storybook/components';
-import Downshift, { DownshiftState, StateChangeOptions } from 'downshift';
-import Fuse, { FuseOptions } from 'fuse.js';
+import type { DownshiftState, StateChangeOptions } from 'downshift';
+import Downshift from 'downshift';
+import type { FuseOptions } from 'fuse.js';
+import Fuse from 'fuse.js';
 import global from 'global';
 import React, { useMemo, useRef, useState, useCallback } from 'react';
 
 // eslint-disable-next-line import/no-cycle
 import { DEFAULT_REF_ID } from './Sidebar';
-import {
+import type {
   CombinedDataset,
   SearchItem,
   SearchResult,
   DownshiftItem,
   SearchChildrenFn,
   Selection,
-  isSearchResult,
-  isExpandType,
-  isClearType,
-  isCloseType,
 } from './types';
+import { isSearchResult, isExpandType, isClearType, isCloseType } from './types';
 // eslint-disable-next-line import/no-cycle
 import { searchItem } from './utils';
 

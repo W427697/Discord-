@@ -1,4 +1,5 @@
-import webpack, { Stats, Configuration, ProgressPlugin, StatsOptions } from 'webpack';
+import type { Stats, Configuration, StatsOptions } from 'webpack';
+import webpack, { ProgressPlugin } from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
 import { logger } from '@storybook/node-logger';

@@ -32,6 +32,7 @@ import { getBuilders } from './utils/get-builders';
 import { extractStoriesJson, convertToIndexV3 } from './utils/stories-json';
 import { extractStorybookMetadata } from './utils/metadata';
 import { StoryIndexGenerator } from './utils/StoryIndexGenerator';
+import { summarizeIndex } from './utils/summarizeIndex';
 
 export async function buildStaticStandalone(
   options: CLIOptions & LoadOptions & BuilderOptions & { outputDir: string }
@@ -174,10 +175,7 @@ export async function buildStaticStandalone(
         const storyIndex = await generator?.getIndex();
         const payload = storyIndex
           ? {
-              storyIndex: {
-                storyCount: Object.keys(storyIndex.entries).length,
-                version: storyIndex.v,
-              },
+              storyIndex: summarizeIndex(storyIndex),
             }
           : undefined;
         await telemetry('build', payload, { configDir: options.configDir });

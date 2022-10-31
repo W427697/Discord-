@@ -1,4 +1,5 @@
-import React, { AnchorHTMLAttributes, FC, MouseEvent } from 'react';
+import type { AnchorHTMLAttributes, FC, MouseEvent } from 'react';
+import React from 'react';
 import { styled } from '@storybook/theming';
 import { darken } from 'polished';
 

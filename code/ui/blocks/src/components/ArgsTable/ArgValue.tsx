@@ -1,9 +1,10 @@
-import React, { FC, useState } from 'react';
+import type { FC } from 'react';
+import React, { useState } from 'react';
 import memoize from 'memoizerific';
 import uniq from 'lodash/uniq';
 import { styled } from '@storybook/theming';
 import { WithTooltipPure, Icons, SyntaxHighlighter, codeCommon } from '@storybook/components';
-import { PropSummaryValue } from './types';
+import type { PropSummaryValue } from './types';
 
 interface ArgValueProps {
   value?: PropSummaryValue;

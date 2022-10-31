@@ -7,10 +7,10 @@ import type {
   DecoratorFunction,
   StoryAnnotations,
 } from '@storybook/types';
-import { SetOptional, Simplify } from 'type-fest';
-import { Component } from 'vue';
-import { ExtendedVue } from 'vue/types/vue';
-import { VueFramework } from './types';
+import type { SetOptional, Simplify } from 'type-fest';
+import type { Component } from 'vue';
+import type { ExtendedVue } from 'vue/types/vue';
+import type { VueFramework } from './types';
 
 export type { Args, ArgTypes, Parameters, StoryContext } from '@storybook/types';
 

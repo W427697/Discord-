@@ -3,7 +3,8 @@ import type { StoriesHash, GroupEntry, ComponentEntry, StoryEntry } from '@story
 import { styled } from '@storybook/theming';
 import { Button, Icons } from '@storybook/components';
 import { transparentize } from 'polished';
-import React, { MutableRefObject, useCallback, useMemo, useRef } from 'react';
+import type { MutableRefObject } from 'react';
+import React, { useCallback, useMemo, useRef } from 'react';
 
 import { PRELOAD_ENTRIES } from '@storybook/core-events';
 import {
@@ -14,9 +15,11 @@ import {
   StoryNode,
   CollapseIcon,
 } from './TreeNode';
+
+import type { ExpandAction, ExpandedState } from './useExpanded';
 // eslint-disable-next-line import/no-cycle
-import { useExpanded, ExpandAction, ExpandedState } from './useExpanded';
-import { Highlight, Item } from './types';
+import { useExpanded } from './useExpanded';
+import type { Highlight, Item } from './types';
 // eslint-disable-next-line import/no-cycle
 import { isStoryHoistable, createId, getAncestorIds, getDescendantIds, getLink } from './utils';
 

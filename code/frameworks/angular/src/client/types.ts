@@ -1,4 +1,4 @@
-import type {
+import {
   Parameters as DefaultParameters,
   StoryContext as DefaultStoryContext,
 } from '@storybook/types';

@@ -1,6 +1,6 @@
 import global from 'global';
 
-import { Channel } from '@storybook/channels';
+import type { Channel } from '@storybook/channels';
 import { SET_CONFIG } from '@storybook/core-events';
 import type { API } from '@storybook/api';
 import type {

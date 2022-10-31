@@ -1,9 +1,4 @@
-import type {
-  AnnotatedStoryFn,
-  Args,
-  ComponentAnnotations,
-  StoryAnnotations,
-} from '@storybook/types';
+import { AnnotatedStoryFn, Args, ComponentAnnotations, StoryAnnotations } from '@storybook/types';
 import { AngularFramework } from './types';
 
 export type { Args, ArgTypes } from '@storybook/types';

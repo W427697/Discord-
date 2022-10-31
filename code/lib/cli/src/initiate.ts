@@ -28,10 +28,11 @@ import preactGenerator from './generators/PREACT';
 import svelteGenerator from './generators/SVELTE';
 import raxGenerator from './generators/RAX';
 import serverGenerator from './generators/SERVER';
-import { JsPackageManagerFactory, JsPackageManager, useNpmWarning } from './js-package-manager';
-import { NpmOptions } from './NpmOptions';
+import type { JsPackageManager } from './js-package-manager';
+import { JsPackageManagerFactory, useNpmWarning } from './js-package-manager';
+import type { NpmOptions } from './NpmOptions';
 import { automigrate } from './automigrate';
-import { CommandOptions } from './generators/types';
+import type { CommandOptions } from './generators/types';
 
 const logger = console;
 

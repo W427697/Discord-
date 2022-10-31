@@ -13,7 +13,7 @@ import { normalizeStoriesEntry } from '@storybook/core-common';
 import registerRequireContextHook from '@storybook/babel-plugin-require-context-hook/register';
 import global from 'global';
 
-import { ClientApi } from './Loader';
+import type { ClientApi } from './Loader';
 import type { StoryshotsOptions } from '../api/StoryshotsOptions';
 
 registerRequireContextHook();

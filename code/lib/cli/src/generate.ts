@@ -7,7 +7,7 @@ import { sync as readUpSync } from 'read-pkg-up';
 
 import { logger } from '@storybook/node-logger';
 
-import { CommandOptions } from './generators/types';
+import type { CommandOptions } from './generators/types';
 import { initiate } from './initiate';
 import { add } from './add';
 import { migrate } from './migrate';

@@ -1,7 +1,7 @@
 // https://storybook.js.org/docs/react/addons/writing-presets
 import { dirname, join } from 'path';
 import type { Options, PresetProperty } from '@storybook/types';
-import { TransformOptions } from '@babel/core';
+import type { TransformOptions } from '@babel/core';
 import { configureConfig } from './config/webpack';
 import { configureCss } from './css/webpack';
 import { configureImports } from './imports/webpack';
@@ -10,7 +10,7 @@ import { configureStyledJsx } from './styledJsx/webpack';
 import { configureStyledJsxTransforms } from './styledJsx/babel';
 import { configureImages } from './images/webpack';
 import { configureRuntimeNextjsVersionResolution } from './utils';
-import { FrameworkOptions, StorybookConfig } from './types';
+import type { FrameworkOptions, StorybookConfig } from './types';
 import { configureTypescript } from './config/babel';
 
 export const addons: PresetProperty<'addons', StorybookConfig> = [

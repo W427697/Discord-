@@ -1,7 +1,8 @@
 import { withReset } from '@storybook/components';
 import { styled } from '@storybook/theming';
 import { transparentize } from 'polished';
-import React, { FC } from 'react';
+import type { FC } from 'react';
+import React from 'react';
 
 const breakpoint = 600;
 

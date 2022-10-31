@@ -1,9 +1,10 @@
-import React, { FC, ReactNode, useCallback, useState, useEffect } from 'react';
+import type { FC, ReactNode } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import { styled } from '@storybook/theming';
 import global from 'global';
 
 import TooltipTrigger from 'react-popper-tooltip';
-import { Modifier, Placement } from '@popperjs/core';
+import type { Modifier, Placement } from '@popperjs/core';
 import { Tooltip } from './Tooltip';
 
 const { document } = global;

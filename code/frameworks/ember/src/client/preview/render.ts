@@ -3,7 +3,7 @@ import { dedent } from 'ts-dedent';
 import type { Store_RenderContext } from '@storybook/types';
 // @ts-expect-error (Converted from ts-ignore)
 import Component from '@ember/component'; // eslint-disable-line import/no-unresolved
-import { OptionsArgs, EmberFramework } from './types';
+import type { OptionsArgs, EmberFramework } from './types';
 
 const { window: globalWindow, document } = global;
 

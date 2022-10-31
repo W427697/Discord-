@@ -1,5 +1,6 @@
-import React, { FC, useCallback, useState, useEffect } from 'react';
-// eslint-disable-next-line import/no-cycle
+import type { FC } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
+
 import {
   BooleanControl,
   ColorControl,
@@ -11,7 +12,7 @@ import {
   RangeControl,
   TextControl,
 } from '../../controls';
-import { Args, ArgType } from './types';
+import type { Args, ArgType } from './types';
 
 export interface ArgControlProps {
   row: ArgType;

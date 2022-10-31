@@ -6,7 +6,7 @@ import { Search } from './Search';
 import { SearchResults } from './SearchResults';
 import { noResults } from './SearchResults.stories';
 import { DEFAULT_REF_ID } from './Sidebar';
-import { Selection } from './types';
+import type { Selection } from './types';
 
 const refId = DEFAULT_REF_ID;
 const data = { [refId]: { id: refId, url: '/', stories } };

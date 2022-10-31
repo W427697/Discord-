@@ -1,4 +1,5 @@
-import React, { FunctionComponent, ComponentProps } from 'react';
+import type { FunctionComponent, ComponentProps } from 'react';
+import React from 'react';
 import type { StoryObj } from '@storybook/react';
 import { styled } from '@storybook/theming';
 import { TooltipMessage } from './TooltipMessage';
