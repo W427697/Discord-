@@ -6006,6 +6006,7 @@ __metadata:
     "@types/react-dom": ^16.9.14
     "@types/semver": ^7.3.4
     "@types/tmp": ^0.2.3
+    "@types/webpack-env": ^1.18.0
     core-js: ^3.8.2
     cross-spawn: ^7.0.3
     find-up: ^5.0.0
@@ -9264,7 +9265,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/webpack-env@npm:^1.16.0, @types/webpack-env@npm:^1.16.4, @types/webpack-env@npm:^1.17.0":
+"@types/webpack-env@npm:^1.16.0, @types/webpack-env@npm:^1.16.4, @types/webpack-env@npm:^1.17.0, @types/webpack-env@npm:^1.18.0":
   version: 1.18.0
   resolution: "@types/webpack-env@npm:1.18.0"
   checksum: ac2e91b025ea31b98b0271ccb40da789c5b54693c1efb18265a54c03b303b750501f080a44e99d7ce0a5422d68d535e600e851df4b8f2240444eca7ac3159719
