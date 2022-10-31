@@ -10,7 +10,7 @@ export interface EnrichCsfOptions {
 }
 
 export const enrichCsf = (csf: CsfFile, options?: EnrichCsfOptions) => {
-  const enablesSource = Object.keys(csf._storyExports).forEach((key) => {
+  Object.keys(csf._storyExports).forEach((key) => {
     const storyExport = csf.getStoryExport(key);
     const source = !options?.disableSource && extractSource(storyExport);
     const description =
