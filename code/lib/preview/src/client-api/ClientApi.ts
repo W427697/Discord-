@@ -138,8 +138,7 @@ export class ClientApi<TFramework extends AnyFramework> {
 
     this.storyStore = storyStore;
 
-    // @ts-expect-error (Type 'HooksContext<AnyFramework>' is not assignable to type 'HooksContext<TFramework>')
-    singleton = this; // eslint-disable-line @typescript-eslint/no-this-alias
+    singleton = this as any as ClientApi<AnyFramework>;
   }
 
   importFn(path: Path) {
