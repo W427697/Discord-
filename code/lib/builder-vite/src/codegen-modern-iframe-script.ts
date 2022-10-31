@@ -15,7 +15,19 @@ export async function generateModernIframeScriptCode(options: ExtendedOptions) {
   );
   const relativePreviewAnnotations = [...resolvedPreviewAnnotations, previewOrConfigFile]
     .filter(Boolean)
-    .map((configEntry) => transformAbsPath(configEntry as string));
+    .map((configEntry) => {
+      // Convert absolute path into a "bare" import (See https://github.com/vitejs/vite/issues/5494)
+      const relative = transformAbsPath(configEntry as string);
+      // If this is a sub-addon of essentials, rewrite the import to point to essentials re-export
+      const match =
+        /@storybook\/addon-(actions|backgrounds|docs|highlight|measure|outline)\/preview/.exec(
+          relative
+        );
+      if (match) {
+        return `@storybook/addon-essentials/preview/${match[1]}`;
+      }
+      return relative;
+    });
 
   // eslint-disable-next-line @typescript-eslint/no-shadow
   const generateHMRHandler = (frameworkName: string): string => {

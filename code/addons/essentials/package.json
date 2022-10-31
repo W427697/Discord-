@@ -27,6 +27,36 @@
       "import": "./dist/index.mjs",
       "types": "./dist/index.d.ts"
     },
+    "./preview/actions": {
+      "require": "./dist/preview/actions.js",
+      "import": "./dist/preview/actions.mjs",
+      "types": "./dist/actions.d.ts"
+    },
+    "./preview/backgrounds": {
+      "require": "./dist/preview/backgrounds.js",
+      "import": "./dist/preview/backgrounds.mjs",
+      "types": "./dist/backgrounds.d.ts"
+    },
+    "./preview/docs": {
+      "require": "./dist/preview/docs.js",
+      "import": "./dist/preview/docs.mjs",
+      "types": "./dist/docs.d.ts"
+    },
+    "./preview/highlight": {
+      "require": "./dist/preview/highlight.js",
+      "import": "./dist/preview/highlight.mjs",
+      "types": "./dist/highlight.d.ts"
+    },
+    "./preview/measure": {
+      "require": "./dist/preview/measure.js",
+      "import": "./dist/preview/measure.mjs",
+      "types": "./dist/measure.d.ts"
+    },
+    "./preview/outline": {
+      "require": "./dist/preview/outline.js",
+      "import": "./dist/preview/outline.mjs",
+      "types": "./dist/outline.d.ts"
+    },
     "./package.json": "./package.json"
   },
   "main": "dist/index.js",
@@ -108,7 +138,13 @@
   },
   "bundler": {
     "entries": [
-      "./src/index.ts"
+      "./src/index.ts",
+      "./src/preview/actions.ts",
+      "./src/preview/backgrounds.ts",
+      "./src/preview/docs.ts",
+      "./src/preview/highlight.ts",
+      "./src/preview/measure.ts",
+      "./src/preview/outline.ts"
     ],
     "platform": "node"
   },
