@@ -41,7 +41,7 @@ export const render: ArgsStoryFn<HtmlFramework> = (args, context) => {
   throw new Error(`Unable to render story ${id}`);
 };
 
-export function renderToDOM(
+export function renderToRoot(
   { storyFn, kind, name, showMain, showError, forceRemount }: Store_RenderContext<HtmlFramework>,
   domElement: Element
 ) {

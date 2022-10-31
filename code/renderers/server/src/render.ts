@@ -44,7 +44,7 @@ const buildStoryArgs = (args: Args, argTypes: ArgTypes) => {
 
 export const render: StoryFn<ServerFramework> = (args: Args) => {};
 
-export async function renderToDOM(
+export async function renderToRoot(
   {
     id,
     title,

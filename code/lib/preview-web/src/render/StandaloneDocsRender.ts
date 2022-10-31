@@ -24,8 +24,8 @@ import { DocsContext } from '../docs-context/DocsContext';
  *  - *.mdx file that may or may not reference a specific CSF file with `<Meta of={} />`
  */
 
-export class StandaloneDocsRender<TFramework extends AnyFramework, TRootElement = HTMLElement>
-  implements Render<TFramework, TRootElement>
+export class StandaloneDocsRender<TFramework extends AnyFramework, TStorybookRoot = HTMLElement>
+  implements Render<TFramework, TStorybookRoot>
 {
   public readonly type: RenderType = 'docs';
 
@@ -68,16 +68,16 @@ export class StandaloneDocsRender<TFramework extends AnyFramework, TRootElement 
     this.preparing = false;
   }
 
-  isEqual(other: Render<TFramework, TRootElement>): boolean {
+  isEqual(other: Render<TFramework, TStorybookRoot>): boolean {
     return !!(
       this.id === other.id &&
       this.exports &&
-      this.exports === (other as StandaloneDocsRender<TFramework, TRootElement>).exports
+      this.exports === (other as StandaloneDocsRender<TFramework, TStorybookRoot>).exports
     );
   }
 
   async renderToElement(
-    canvasElement: TRootElement,
+    canvasElement: TStorybookRoot,
     renderStoryToElement: DocsContextProps['renderStoryToElement']
   ) {
     if (!this.exports || !this.csfFiles || !this.store.projectAnnotations)

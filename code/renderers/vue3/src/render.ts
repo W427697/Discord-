@@ -22,7 +22,7 @@ export const setup = (fn: (app: any) => void) => {
 
 const map = new Map<Element, ReturnType<typeof createApp>>();
 
-export function renderToDOM(
+export function renderToRoot(
   { title, name, storyFn, showMain, showError, showException }: Store_RenderContext<VueFramework>,
   domElement: Element
 ) {

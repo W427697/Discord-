@@ -49,7 +49,7 @@ import {
   waitForRenderPhase,
   docsRenderer,
   standaloneDocsExports,
-  teardownRenderToDOM,
+  teardownrenderToRoot,
 } from './PreviewWeb.mockdata';
 import { WebView } from './WebView';
 
@@ -128,8 +128,8 @@ beforeEach(() => {
   emitter.removeAllListeners();
   componentOneExports.default.loaders[0].mockReset().mockImplementation(async () => ({ l: 7 }));
   componentOneExports.a.play.mockReset();
-  teardownRenderToDOM.mockReset();
-  projectAnnotations.renderToDOM.mockReset().mockReturnValue(teardownRenderToDOM);
+  teardownrenderToRoot.mockReset();
+  projectAnnotations.renderToRoot.mockReset().mockReturnValue(teardownrenderToRoot);
   projectAnnotations.render.mockClear();
   projectAnnotations.decorators[0].mockClear();
   docsRenderer.render.mockClear();
@@ -193,7 +193,7 @@ describe('PreviewWeb', () => {
     });
 
     it('SET_GLOBALS sets globals and types even when undefined', async () => {
-      await createAndRenderPreview({ getProjectAnnotations: () => ({ renderToDOM: jest.fn() }) });
+      await createAndRenderPreview({ getProjectAnnotations: () => ({ renderToRoot: jest.fn() }) });
 
       expect(mockChannel.emit).toHaveBeenCalledWith(SET_GLOBALS, {
         globals: {},
@@ -458,11 +458,11 @@ describe('PreviewWeb', () => {
         );
       });
 
-      it('passes loaded context to renderToDOM', async () => {
+      it('passes loaded context to renderToRoot', async () => {
         document.location.search = '?id=component-one--a';
         await createAndRenderPreview();
 
-        expect(projectAnnotations.renderToDOM).toHaveBeenCalledWith(
+        expect(projectAnnotations.renderToRoot).toHaveBeenCalledWith(
           expect.objectContaining({
             forceRemount: true,
             storyContext: expect.objectContaining({
@@ -496,9 +496,9 @@ describe('PreviewWeb', () => {
         expect(preview.view.showErrorDisplay).toHaveBeenCalledWith(error);
       });
 
-      it('renders exception if renderToDOM throws', async () => {
+      it('renders exception if renderToRoot throws', async () => {
         const error = new Error('error');
-        projectAnnotations.renderToDOM.mockImplementation(() => {
+        projectAnnotations.renderToRoot.mockImplementation(() => {
           throw error;
         });
 
@@ -509,12 +509,12 @@ describe('PreviewWeb', () => {
         expect(preview.view.showErrorDisplay).toHaveBeenCalledWith(error);
       });
 
-      it('renders helpful message if renderToDOM is undefined', async () => {
+      it('renders helpful message if renderToRoot is undefined', async () => {
         document.location.search = '?id=component-one--a';
 
         getProjectAnnotations.mockReturnValueOnce({
           ...projectAnnotations,
-          renderToDOM: undefined,
+          renderToRoot: undefined,
         });
         const preview = new PreviewWeb();
         await expect(preview.initialize({ importFn, getProjectAnnotations })).rejects.toThrow();
@@ -522,7 +522,7 @@ describe('PreviewWeb', () => {
         expect(preview.view.showErrorDisplay).toHaveBeenCalled();
         expect((preview.view.showErrorDisplay as jest.Mock).mock.calls[0][0])
           .toMatchInlineSnapshot(`
-                          [Error: Expected your framework's preset to export a \`renderToDOM\` field.
+                          [Error: Expected your framework's preset to export a \`renderToRoot\` field.
 
                           Perhaps it needs to be upgraded for Storybook 6.4?
 
@@ -584,7 +584,7 @@ describe('PreviewWeb', () => {
 
       it('renders exception if the story calls showException', async () => {
         const error = new Error('error');
-        projectAnnotations.renderToDOM.mockImplementation((context) =>
+        projectAnnotations.renderToRoot.mockImplementation((context) =>
           context.showException(error)
         );
 
@@ -597,7 +597,7 @@ describe('PreviewWeb', () => {
 
       it('renders error if the story calls showError', async () => {
         const error = { title: 'title', description: 'description' };
-        projectAnnotations.renderToDOM.mockImplementation((context) => context.showError(error));
+        projectAnnotations.renderToRoot.mockImplementation((context) => context.showError(error));
 
         document.location.search = '?id=component-one--a';
         const preview = await createAndRenderPreview();
@@ -625,7 +625,7 @@ describe('PreviewWeb', () => {
 
       it('does not show error display if the render function throws IGNORED_EXCEPTION', async () => {
         document.location.search = '?id=component-one--a';
-        projectAnnotations.renderToDOM.mockImplementation(() => {
+        projectAnnotations.renderToRoot.mockImplementation(() => {
           throw IGNORED_EXCEPTION;
         });
 
@@ -771,16 +771,16 @@ describe('PreviewWeb', () => {
       expect(preview.storyStore.globals!.get()).toEqual({ a: 'b' });
     });
 
-    it('passes globals in context to renderToDOM', async () => {
+    it('passes globals in context to renderToRoot', async () => {
       document.location.search = '?id=component-one--a';
       const preview = await createAndRenderPreview();
 
       mockChannel.emit.mockClear();
-      projectAnnotations.renderToDOM.mockClear();
+      projectAnnotations.renderToRoot.mockClear();
       emitter.emit(UPDATE_GLOBALS, { globals: { a: 'd' } });
       await waitForRender();
 
-      expect(projectAnnotations.renderToDOM).toHaveBeenCalledWith(
+      expect(projectAnnotations.renderToRoot).toHaveBeenCalledWith(
         expect.objectContaining({
           forceRemount: false,
           storyContext: expect.objectContaining({
@@ -850,19 +850,19 @@ describe('PreviewWeb', () => {
       });
     });
 
-    it('passes new args in context to renderToDOM', async () => {
+    it('passes new args in context to renderToRoot', async () => {
       document.location.search = '?id=component-one--a';
       await createAndRenderPreview();
 
       mockChannel.emit.mockClear();
-      projectAnnotations.renderToDOM.mockClear();
+      projectAnnotations.renderToRoot.mockClear();
       emitter.emit(UPDATE_STORY_ARGS, {
         storyId: 'component-one--a',
         updatedArgs: { new: 'arg' },
       });
       await waitForRender();
 
-      expect(projectAnnotations.renderToDOM).toHaveBeenCalledWith(
+      expect(projectAnnotations.renderToRoot).toHaveBeenCalledWith(
         expect.objectContaining({
           forceRemount: false,
           storyContext: expect.objectContaining({
@@ -918,8 +918,8 @@ describe('PreviewWeb', () => {
         );
 
         // Story gets rendered with updated args
-        expect(projectAnnotations.renderToDOM).toHaveBeenCalledTimes(1);
-        expect(projectAnnotations.renderToDOM).toHaveBeenCalledWith(
+        expect(projectAnnotations.renderToRoot).toHaveBeenCalledTimes(1);
+        expect(projectAnnotations.renderToRoot).toHaveBeenCalledWith(
           expect.objectContaining({
             forceRemount: true, // Wasn't yet rendered so we need to force remount
             storyContext: expect.objectContaining({
@@ -932,14 +932,14 @@ describe('PreviewWeb', () => {
 
         // Now let the first loader call resolve
         mockChannel.emit.mockClear();
-        projectAnnotations.renderToDOM.mockClear();
+        projectAnnotations.renderToRoot.mockClear();
         openGate({ l: 8 });
         await waitForRender();
 
         // Now the first call comes through, but picks up the new args
         // Note this isn't a particularly realistic case (the second loader being quicker than the first)
-        expect(projectAnnotations.renderToDOM).toHaveBeenCalledTimes(1);
-        expect(projectAnnotations.renderToDOM).toHaveBeenCalledWith(
+        expect(projectAnnotations.renderToRoot).toHaveBeenCalledTimes(1);
+        expect(projectAnnotations.renderToRoot).toHaveBeenCalledWith(
           expect.objectContaining({
             storyContext: expect.objectContaining({
               loaded: { l: 8 },
@@ -950,11 +950,11 @@ describe('PreviewWeb', () => {
         );
       });
 
-      it('renders a second time if renderToDOM is running', async () => {
+      it('renders a second time if renderToRoot is running', async () => {
         const [gate, openGate] = createGate();
 
         document.location.search = '?id=component-one--a';
-        projectAnnotations.renderToDOM.mockImplementation(async () => gate);
+        projectAnnotations.renderToRoot.mockImplementation(async () => gate);
 
         await new PreviewWeb().initialize({ importFn, getProjectAnnotations });
         await waitForRenderPhase('rendering');
@@ -964,12 +964,12 @@ describe('PreviewWeb', () => {
           updatedArgs: { new: 'arg' },
         });
 
-        // Now let the renderToDOM call resolve
+        // Now let the renderToRoot call resolve
         openGate();
         await waitForRender();
 
-        expect(projectAnnotations.renderToDOM).toHaveBeenCalledTimes(2);
-        expect(projectAnnotations.renderToDOM).toHaveBeenCalledWith(
+        expect(projectAnnotations.renderToRoot).toHaveBeenCalledTimes(2);
+        expect(projectAnnotations.renderToRoot).toHaveBeenCalledWith(
           expect.objectContaining({
             forceRemount: true,
             storyContext: expect.objectContaining({
@@ -979,7 +979,7 @@ describe('PreviewWeb', () => {
           }),
           'story-element'
         );
-        expect(projectAnnotations.renderToDOM).toHaveBeenCalledWith(
+        expect(projectAnnotations.renderToRoot).toHaveBeenCalledWith(
           expect.objectContaining({
             forceRemount: false,
             storyContext: expect.objectContaining({
@@ -991,9 +991,9 @@ describe('PreviewWeb', () => {
         );
       });
 
-      it('works if it is called directly from inside non async renderToDOM', async () => {
+      it('works if it is called directly from inside non async renderToRoot', async () => {
         document.location.search = '?id=component-one--a';
-        projectAnnotations.renderToDOM.mockImplementation(() => {
+        projectAnnotations.renderToRoot.mockImplementation(() => {
           emitter.emit(UPDATE_STORY_ARGS, {
             storyId: 'component-one--a',
             updatedArgs: { new: 'arg' },
@@ -1001,8 +1001,8 @@ describe('PreviewWeb', () => {
         });
         await createAndRenderPreview();
 
-        expect(projectAnnotations.renderToDOM).toHaveBeenCalledTimes(2);
-        expect(projectAnnotations.renderToDOM).toHaveBeenCalledWith(
+        expect(projectAnnotations.renderToRoot).toHaveBeenCalledTimes(2);
+        expect(projectAnnotations.renderToRoot).toHaveBeenCalledWith(
           expect.objectContaining({
             forceRemount: true,
             storyContext: expect.objectContaining({
@@ -1012,7 +1012,7 @@ describe('PreviewWeb', () => {
           }),
           'story-element'
         );
-        expect(projectAnnotations.renderToDOM).toHaveBeenCalledWith(
+        expect(projectAnnotations.renderToRoot).toHaveBeenCalledWith(
           expect.objectContaining({
             forceRemount: false,
             storyContext: expect.objectContaining({
@@ -1024,12 +1024,12 @@ describe('PreviewWeb', () => {
         );
       });
 
-      it('calls renderToDOM again if play function is running', async () => {
+      it('calls renderToRoot again if play function is running', async () => {
         const [gate, openGate] = createGate();
         componentOneExports.a.play.mockImplementationOnce(async () => gate);
 
-        const renderToDOMCalled = new Promise((resolve) => {
-          projectAnnotations.renderToDOM.mockImplementation(() => {
+        const renderToRootCalled = new Promise((resolve) => {
+          projectAnnotations.renderToRoot.mockImplementation(() => {
             resolve(null);
           });
         });
@@ -1038,9 +1038,9 @@ describe('PreviewWeb', () => {
         await new PreviewWeb().initialize({ importFn, getProjectAnnotations });
         await waitForRenderPhase('playing');
 
-        await renderToDOMCalled;
+        await renderToRootCalled;
         // Story gets rendered with original args
-        expect(projectAnnotations.renderToDOM).toHaveBeenCalledWith(
+        expect(projectAnnotations.renderToRoot).toHaveBeenCalledWith(
           expect.objectContaining({
             forceRemount: true,
             storyContext: expect.objectContaining({
@@ -1060,7 +1060,7 @@ describe('PreviewWeb', () => {
         await waitForRender();
 
         // Story gets rendered with updated args
-        expect(projectAnnotations.renderToDOM).toHaveBeenCalledWith(
+        expect(projectAnnotations.renderToRoot).toHaveBeenCalledWith(
           expect.objectContaining({
             forceRemount: false,
             storyContext: expect.objectContaining({
@@ -1105,7 +1105,7 @@ describe('PreviewWeb', () => {
           preview.renderStoryToElement(story, 'story-element' as any);
           await waitForRender();
 
-          expect(projectAnnotations.renderToDOM).toHaveBeenCalledWith(
+          expect(projectAnnotations.renderToRoot).toHaveBeenCalledWith(
             expect.objectContaining({
               storyContext: expect.objectContaining({
                 args: { foo: 'a' },
@@ -1122,7 +1122,7 @@ describe('PreviewWeb', () => {
           });
           await waitForRender();
 
-          expect(projectAnnotations.renderToDOM).toHaveBeenCalledWith(
+          expect(projectAnnotations.renderToRoot).toHaveBeenCalledWith(
             expect.objectContaining({
               storyContext: expect.objectContaining({
                 args: { foo: 'a', new: 'arg' },
@@ -1227,7 +1227,7 @@ describe('PreviewWeb', () => {
 
       await waitForRender();
 
-      expect(projectAnnotations.renderToDOM).toHaveBeenCalledWith(
+      expect(projectAnnotations.renderToRoot).toHaveBeenCalledWith(
         expect.objectContaining({
           forceRemount: false,
           storyContext: expect.objectContaining({
@@ -1268,7 +1268,7 @@ describe('PreviewWeb', () => {
 
       await waitForRender();
 
-      expect(projectAnnotations.renderToDOM).toHaveBeenCalledWith(
+      expect(projectAnnotations.renderToRoot).toHaveBeenCalledWith(
         expect.objectContaining({
           forceRemount: false,
           storyContext: expect.objectContaining({
@@ -1309,7 +1309,7 @@ describe('PreviewWeb', () => {
 
       await waitForRender();
 
-      expect(projectAnnotations.renderToDOM).toHaveBeenCalledWith(
+      expect(projectAnnotations.renderToRoot).toHaveBeenCalledWith(
         expect.objectContaining({
           forceRemount: false,
           storyContext: expect.objectContaining({
@@ -1350,7 +1350,7 @@ describe('PreviewWeb', () => {
 
       await waitForRender();
 
-      expect(projectAnnotations.renderToDOM).toHaveBeenCalledWith(
+      expect(projectAnnotations.renderToRoot).toHaveBeenCalledWith(
         expect.objectContaining({
           forceRemount: false,
           storyContext: expect.objectContaining({
@@ -1380,11 +1380,11 @@ describe('PreviewWeb', () => {
       await createAndRenderPreview();
 
       mockChannel.emit.mockClear();
-      projectAnnotations.renderToDOM.mockClear();
+      projectAnnotations.renderToRoot.mockClear();
       emitter.emit(FORCE_RE_RENDER);
       await waitForRender();
 
-      expect(projectAnnotations.renderToDOM).toHaveBeenCalledWith(
+      expect(projectAnnotations.renderToRoot).toHaveBeenCalledWith(
         expect.objectContaining({ forceRemount: false }),
         'story-element'
       );
@@ -1404,11 +1404,11 @@ describe('PreviewWeb', () => {
       await createAndRenderPreview();
 
       mockChannel.emit.mockClear();
-      projectAnnotations.renderToDOM.mockClear();
+      projectAnnotations.renderToRoot.mockClear();
       emitter.emit(FORCE_REMOUNT, { storyId: 'component-one--a' });
       await waitForRender();
 
-      expect(projectAnnotations.renderToDOM).toHaveBeenCalledWith(
+      expect(projectAnnotations.renderToRoot).toHaveBeenCalledWith(
         expect.objectContaining({ forceRemount: true }),
         'story-element'
       );
@@ -1418,11 +1418,11 @@ describe('PreviewWeb', () => {
       const [gate, openGate] = createGate();
 
       document.location.search = '?id=component-one--a';
-      projectAnnotations.renderToDOM.mockImplementation(async () => gate);
+      projectAnnotations.renderToRoot.mockImplementation(async () => gate);
       await new PreviewWeb().initialize({ importFn, getProjectAnnotations });
       await waitForRenderPhase('rendering');
 
-      expect(projectAnnotations.renderToDOM).toHaveBeenCalledWith(
+      expect(projectAnnotations.renderToRoot).toHaveBeenCalledWith(
         expect.objectContaining({
           forceRemount: true,
           storyContext: expect.objectContaining({
@@ -1437,13 +1437,13 @@ describe('PreviewWeb', () => {
       emitter.emit(FORCE_REMOUNT, { storyId: 'component-one--a' });
       await waitForSetCurrentStory();
 
-      // Now let the renderToDOM call resolve
+      // Now let the renderToRoot call resolve
       openGate();
       await waitForRenderPhase('aborted');
       await waitForSetCurrentStory();
 
       await waitForRenderPhase('rendering');
-      expect(projectAnnotations.renderToDOM).toHaveBeenCalledTimes(2);
+      expect(projectAnnotations.renderToRoot).toHaveBeenCalledTimes(2);
 
       await waitForRenderPhase('playing');
       expect(componentOneExports.a.play).toHaveBeenCalledTimes(1);
@@ -1569,34 +1569,34 @@ describe('PreviewWeb', () => {
         expect(mockChannel.emit).toHaveBeenCalledWith(STORY_UNCHANGED, 'component-one--a');
       });
 
-      it('does NOT call renderToDOM', async () => {
+      it('does NOT call renderToRoot', async () => {
         document.location.search = '?id=component-one--a';
         await createAndRenderPreview();
 
-        projectAnnotations.renderToDOM.mockClear();
+        projectAnnotations.renderToRoot.mockClear();
         emitter.emit(SET_CURRENT_STORY, {
           storyId: 'component-one--a',
           viewMode: 'story',
         });
         await waitForSetCurrentStory();
 
-        // The renderToDOM would have been async so we need to wait a tick.
+        // The renderToRoot would have been async so we need to wait a tick.
         await waitForQuiescence();
-        expect(projectAnnotations.renderToDOM).not.toHaveBeenCalled();
+        expect(projectAnnotations.renderToRoot).not.toHaveBeenCalled();
       });
 
-      it('does NOT call renderToDOMs teardown', async () => {
+      it('does NOT call renderToRoots teardown', async () => {
         document.location.search = '?id=component-one--a';
         await createAndRenderPreview();
 
-        projectAnnotations.renderToDOM.mockClear();
+        projectAnnotations.renderToRoot.mockClear();
         emitter.emit(SET_CURRENT_STORY, {
           storyId: 'component-one--a',
           viewMode: 'story',
         });
         await waitForSetCurrentStory();
 
-        expect(teardownRenderToDOM).not.toHaveBeenCalled();
+        expect(teardownrenderToRoot).not.toHaveBeenCalled();
       });
 
       describe('while preparing', () => {
@@ -1625,21 +1625,21 @@ describe('PreviewWeb', () => {
           await waitForEvents([CURRENT_STORY_WAS_SET]);
 
           mockChannel.emit.mockClear();
-          projectAnnotations.renderToDOM.mockClear();
+          projectAnnotations.renderToRoot.mockClear();
           emitter.emit(SET_CURRENT_STORY, {
             storyId: 'component-one--a',
             viewMode: 'story',
           });
           await importedGate;
           // We are blocking import so this won't render yet
-          expect(projectAnnotations.renderToDOM).not.toHaveBeenCalled();
+          expect(projectAnnotations.renderToRoot).not.toHaveBeenCalled();
 
           mockChannel.emit.mockClear();
           openGate();
           await waitForRender();
 
           // We should only render *once*
-          expect(projectAnnotations.renderToDOM).toHaveBeenCalledTimes(1);
+          expect(projectAnnotations.renderToRoot).toHaveBeenCalledTimes(1);
 
           // We should not show an error either
           expect(preview.view.showErrorDisplay).not.toHaveBeenCalled();
@@ -1670,7 +1670,7 @@ describe('PreviewWeb', () => {
           await waitForEvents([CURRENT_STORY_WAS_SET]);
 
           mockChannel.emit.mockClear();
-          projectAnnotations.renderToDOM.mockClear();
+          projectAnnotations.renderToRoot.mockClear();
           emitter.emit(SET_CURRENT_STORY, {
             storyId: 'component-one--docs',
             viewMode: 'docs',
@@ -1714,7 +1714,7 @@ describe('PreviewWeb', () => {
           await waitForEvents([CURRENT_STORY_WAS_SET]);
 
           mockChannel.emit.mockClear();
-          projectAnnotations.renderToDOM.mockClear();
+          projectAnnotations.renderToRoot.mockClear();
           emitter.emit(SET_CURRENT_STORY, {
             storyId: 'introduction--docs',
             viewMode: 'docs',
@@ -1737,18 +1737,18 @@ describe('PreviewWeb', () => {
     });
 
     describe('when changing story in story viewMode', () => {
-      it('calls renderToDOMs teardown', async () => {
+      it('calls renderToRoots teardown', async () => {
         document.location.search = '?id=component-one--a';
         await createAndRenderPreview();
 
-        projectAnnotations.renderToDOM.mockClear();
+        projectAnnotations.renderToRoot.mockClear();
         emitter.emit(SET_CURRENT_STORY, {
           storyId: 'component-one--b',
           viewMode: 'story',
         });
         await waitForSetCurrentStory();
 
-        expect(teardownRenderToDOM).toHaveBeenCalled();
+        expect(teardownrenderToRoot).toHaveBeenCalled();
       });
 
       it('updates URL', async () => {
@@ -1848,7 +1848,7 @@ describe('PreviewWeb', () => {
         );
       });
 
-      it('passes loaded context to renderToDOM', async () => {
+      it('passes loaded context to renderToRoot', async () => {
         document.location.search = '?id=component-one--a';
         await createAndRenderPreview();
 
@@ -1860,7 +1860,7 @@ describe('PreviewWeb', () => {
         await waitForSetCurrentStory();
         await waitForRender();
 
-        expect(projectAnnotations.renderToDOM).toHaveBeenCalledWith(
+        expect(projectAnnotations.renderToRoot).toHaveBeenCalledWith(
           expect.objectContaining({
             forceRemount: true,
             storyContext: expect.objectContaining({
@@ -1881,12 +1881,12 @@ describe('PreviewWeb', () => {
         );
       });
 
-      it('renders exception if renderToDOM throws', async () => {
+      it('renders exception if renderToRoot throws', async () => {
         document.location.search = '?id=component-one--a';
         const preview = await createAndRenderPreview();
 
         const error = new Error('error');
-        projectAnnotations.renderToDOM.mockImplementation(() => {
+        projectAnnotations.renderToRoot.mockImplementation(() => {
           throw error;
         });
 
@@ -1907,7 +1907,7 @@ describe('PreviewWeb', () => {
         const preview = await createAndRenderPreview();
 
         const error = { title: 'title', description: 'description' };
-        projectAnnotations.renderToDOM.mockImplementation((context) => context.showError(error));
+        projectAnnotations.renderToRoot.mockImplementation((context) => context.showError(error));
 
         mockChannel.emit.mockClear();
         emitter.emit(SET_CURRENT_STORY, {
@@ -1929,7 +1929,7 @@ describe('PreviewWeb', () => {
         const preview = await createAndRenderPreview();
 
         const error = new Error('error');
-        projectAnnotations.renderToDOM.mockImplementation((context) =>
+        projectAnnotations.renderToRoot.mockImplementation((context) =>
           context.showException(error)
         );
 
@@ -2033,8 +2033,8 @@ describe('PreviewWeb', () => {
           await waitForRender();
 
           // Story gets rendered with updated args
-          expect(projectAnnotations.renderToDOM).toHaveBeenCalledTimes(1);
-          expect(projectAnnotations.renderToDOM).toHaveBeenCalledWith(
+          expect(projectAnnotations.renderToRoot).toHaveBeenCalledTimes(1);
+          expect(projectAnnotations.renderToRoot).toHaveBeenCalledWith(
             expect.objectContaining({
               forceRemount: true,
               storyContext: expect.objectContaining({
@@ -2050,7 +2050,7 @@ describe('PreviewWeb', () => {
           const [gate, openGate] = createGate();
 
           document.location.search = '?id=component-one--a';
-          projectAnnotations.renderToDOM.mockImplementation(async () => gate);
+          projectAnnotations.renderToRoot.mockImplementation(async () => gate);
           await new PreviewWeb().initialize({ importFn, getProjectAnnotations });
           await waitForRenderPhase('rendering');
 
@@ -2061,13 +2061,13 @@ describe('PreviewWeb', () => {
           });
           await waitForSetCurrentStory();
 
-          // Now let the renderToDOM call resolve
+          // Now let the renderToRoot call resolve
           openGate();
           await waitForRenderPhase('aborted');
           await waitForSetCurrentStory();
 
           await waitForRenderPhase('rendering');
-          expect(projectAnnotations.renderToDOM).toHaveBeenCalledTimes(2);
+          expect(projectAnnotations.renderToRoot).toHaveBeenCalledTimes(2);
 
           await waitForRenderPhase('playing');
           expect(componentOneExports.a.play).not.toHaveBeenCalled();
@@ -2088,7 +2088,7 @@ describe('PreviewWeb', () => {
           await new PreviewWeb().initialize({ importFn, getProjectAnnotations });
           await waitForRenderPhase('playing');
 
-          expect(projectAnnotations.renderToDOM).toHaveBeenCalledWith(
+          expect(projectAnnotations.renderToRoot).toHaveBeenCalledWith(
             expect.objectContaining({
               forceRemount: true,
               storyContext: expect.objectContaining({
@@ -2113,7 +2113,7 @@ describe('PreviewWeb', () => {
 
           await waitForRenderPhase('rendering');
           expect(mockChannel.emit).toHaveBeenCalledWith(STORY_CHANGED, 'component-one--b');
-          expect(projectAnnotations.renderToDOM).toHaveBeenCalledWith(
+          expect(projectAnnotations.renderToRoot).toHaveBeenCalledWith(
             expect.objectContaining({
               forceRemount: true,
               storyContext: expect.objectContaining({
@@ -2141,7 +2141,7 @@ describe('PreviewWeb', () => {
           await new PreviewWeb().initialize({ importFn, getProjectAnnotations });
           await waitForRenderPhase('playing');
 
-          expect(projectAnnotations.renderToDOM).toHaveBeenCalledWith(
+          expect(projectAnnotations.renderToRoot).toHaveBeenCalledWith(
             expect.objectContaining({
               forceRemount: true,
               storyContext: expect.objectContaining({
@@ -2165,7 +2165,7 @@ describe('PreviewWeb', () => {
 
           expect(global.window.location.reload).toHaveBeenCalled();
           expect(mockChannel.emit).not.toHaveBeenCalledWith(STORY_CHANGED, 'component-one--b');
-          expect(projectAnnotations.renderToDOM).not.toHaveBeenCalledWith(
+          expect(projectAnnotations.renderToRoot).not.toHaveBeenCalledWith(
             expect.objectContaining({
               storyContext: expect.objectContaining({ id: 'component-one--b' }),
             }),
@@ -2176,7 +2176,7 @@ describe('PreviewWeb', () => {
     });
 
     describe('when changing from story viewMode to docs', () => {
-      it('calls renderToDOMs teardown', async () => {
+      it('calls renderToRoots teardown', async () => {
         document.location.search = '?id=component-one--a';
         await createAndRenderPreview();
 
@@ -2186,7 +2186,7 @@ describe('PreviewWeb', () => {
         });
         await waitForSetCurrentStory();
 
-        expect(teardownRenderToDOM).toHaveBeenCalled();
+        expect(teardownrenderToRoot).toHaveBeenCalled();
       });
 
       it('updates URL', async () => {
@@ -2403,7 +2403,7 @@ describe('PreviewWeb', () => {
         );
       });
 
-      it('passes loaded context to renderToDOM', async () => {
+      it('passes loaded context to renderToRoot', async () => {
         document.location.search = '?id=component-one--docs&viewMode=docs';
         await createAndRenderPreview();
 
@@ -2415,7 +2415,7 @@ describe('PreviewWeb', () => {
         await waitForSetCurrentStory();
         await waitForRender();
 
-        expect(projectAnnotations.renderToDOM).toHaveBeenCalledWith(
+        expect(projectAnnotations.renderToRoot).toHaveBeenCalledWith(
           expect.objectContaining({
             forceRemount: true,
             storyContext: expect.objectContaining({
@@ -2436,12 +2436,12 @@ describe('PreviewWeb', () => {
         );
       });
 
-      it('renders exception if renderToDOM throws', async () => {
+      it('renders exception if renderToRoot throws', async () => {
         document.location.search = '?id=component-one--docs&viewMode=docs';
         const preview = await createAndRenderPreview();
 
         const error = new Error('error');
-        projectAnnotations.renderToDOM.mockImplementation(() => {
+        projectAnnotations.renderToRoot.mockImplementation(() => {
           throw error;
         });
 
@@ -2459,7 +2459,7 @@ describe('PreviewWeb', () => {
 
       it('renders error if the story calls showError', async () => {
         const error = { title: 'title', description: 'description' };
-        projectAnnotations.renderToDOM.mockImplementation((context) => context.showError(error));
+        projectAnnotations.renderToRoot.mockImplementation((context) => context.showError(error));
 
         document.location.search = '?id=component-one--docs&viewMode=docs';
         const preview = await createAndRenderPreview();
@@ -2481,7 +2481,7 @@ describe('PreviewWeb', () => {
 
       it('renders exception if the story calls showException', async () => {
         const error = new Error('error');
-        projectAnnotations.renderToDOM.mockImplementation((context) =>
+        projectAnnotations.renderToRoot.mockImplementation((context) =>
           context.showException(error)
         );
 
@@ -2587,7 +2587,7 @@ describe('PreviewWeb', () => {
           : componentTwoExports;
       });
 
-      it('calls renderToDOMs teardown', async () => {
+      it('calls renderToRoots teardown', async () => {
         document.location.search = '?id=component-one--a';
         const preview = await createAndRenderPreview();
         mockChannel.emit.mockClear();
@@ -2595,7 +2595,7 @@ describe('PreviewWeb', () => {
         preview.onStoriesChanged({ importFn: newImportFn });
         await waitForRender();
 
-        expect(teardownRenderToDOM).toHaveBeenCalled();
+        expect(teardownrenderToRoot).toHaveBeenCalled();
       });
 
       it('does not emit STORY_UNCHANGED', async () => {
@@ -2679,16 +2679,16 @@ describe('PreviewWeb', () => {
         );
       });
 
-      it('passes loaded context to renderToDOM', async () => {
+      it('passes loaded context to renderToRoot', async () => {
         document.location.search = '?id=component-one--a';
         const preview = await createAndRenderPreview();
 
         mockChannel.emit.mockClear();
-        projectAnnotations.renderToDOM.mockClear();
+        projectAnnotations.renderToRoot.mockClear();
         preview.onStoriesChanged({ importFn: newImportFn });
         await waitForRender();
 
-        expect(projectAnnotations.renderToDOM).toHaveBeenCalledWith(
+        expect(projectAnnotations.renderToRoot).toHaveBeenCalledWith(
           expect.objectContaining({
             forceRemount: true,
             storyContext: expect.objectContaining({
@@ -2721,11 +2721,11 @@ describe('PreviewWeb', () => {
         await waitForRender();
 
         mockChannel.emit.mockClear();
-        projectAnnotations.renderToDOM.mockClear();
+        projectAnnotations.renderToRoot.mockClear();
         preview.onStoriesChanged({ importFn: newImportFn });
         await waitForRender();
 
-        expect(projectAnnotations.renderToDOM).toHaveBeenCalledWith(
+        expect(projectAnnotations.renderToRoot).toHaveBeenCalledWith(
           expect.objectContaining({
             forceRemount: true,
             storyContext: expect.objectContaining({
@@ -2737,12 +2737,12 @@ describe('PreviewWeb', () => {
         );
       });
 
-      it('renders exception if renderToDOM throws', async () => {
+      it('renders exception if renderToRoot throws', async () => {
         document.location.search = '?id=component-one--a';
         const preview = await createAndRenderPreview();
 
         const error = new Error('error');
-        projectAnnotations.renderToDOM.mockImplementation(() => {
+        projectAnnotations.renderToRoot.mockImplementation(() => {
           throw error;
         });
 
@@ -2759,7 +2759,7 @@ describe('PreviewWeb', () => {
         const preview = await createAndRenderPreview();
 
         const error = { title: 'title', description: 'description' };
-        projectAnnotations.renderToDOM.mockImplementation((context) => context.showError(error));
+        projectAnnotations.renderToRoot.mockImplementation((context) => context.showError(error));
 
         mockChannel.emit.mockClear();
         preview.onStoriesChanged({ importFn: newImportFn });
@@ -2777,7 +2777,7 @@ describe('PreviewWeb', () => {
         const preview = await createAndRenderPreview();
 
         const error = new Error('error');
-        projectAnnotations.renderToDOM.mockImplementation((context) =>
+        projectAnnotations.renderToRoot.mockImplementation((context) =>
           context.showException(error)
         );
 
@@ -2882,7 +2882,7 @@ describe('PreviewWeb', () => {
           : newComponentTwoExports;
       });
 
-      it('does NOT call renderToDOMs teardown', async () => {
+      it('does NOT call renderToRoots teardown', async () => {
         document.location.search = '?id=component-one--a';
         const preview = await createAndRenderPreview();
 
@@ -2890,7 +2890,7 @@ describe('PreviewWeb', () => {
         preview.onStoriesChanged({ importFn: newImportFn });
         await waitForEvents([STORY_UNCHANGED]);
 
-        expect(teardownRenderToDOM).not.toHaveBeenCalled();
+        expect(teardownrenderToRoot).not.toHaveBeenCalled();
       });
 
       it('emits STORY_UNCHANGED', async () => {
@@ -2922,11 +2922,11 @@ describe('PreviewWeb', () => {
         const preview = await createAndRenderPreview();
 
         mockChannel.emit.mockClear();
-        projectAnnotations.renderToDOM.mockClear();
+        projectAnnotations.renderToRoot.mockClear();
         preview.onStoriesChanged({ importFn: newImportFn });
         await waitForQuiescence();
 
-        expect(projectAnnotations.renderToDOM).not.toHaveBeenCalled();
+        expect(projectAnnotations.renderToRoot).not.toHaveBeenCalled();
         expect(mockChannel.emit).not.toHaveBeenCalledWith(STORY_RENDERED, 'component-one--a');
       });
     });
@@ -2973,7 +2973,7 @@ describe('PreviewWeb', () => {
 
         // Update story A's args via HMR
         mockChannel.emit.mockClear();
-        projectAnnotations.renderToDOM.mockClear();
+        projectAnnotations.renderToRoot.mockClear();
         preview.onStoriesChanged({ importFn: newImportFn });
         await waitForRender();
 
@@ -2990,7 +2990,7 @@ describe('PreviewWeb', () => {
           bar: 'edited',
         });
 
-        expect(projectAnnotations.renderToDOM).toHaveBeenCalledWith(
+        expect(projectAnnotations.renderToRoot).toHaveBeenCalledWith(
           expect.objectContaining({
             forceRemount: true,
             storyContext: expect.objectContaining({
@@ -3018,7 +3018,7 @@ describe('PreviewWeb', () => {
         },
       };
 
-      it('calls renderToDOMs teardown', async () => {
+      it('calls renderToRoots teardown', async () => {
         document.location.search = '?id=component-one--a';
         const preview = await createAndRenderPreview();
 
@@ -3026,7 +3026,7 @@ describe('PreviewWeb', () => {
         preview.onStoriesChanged({ importFn: newImportFn, storyIndex: newStoryIndex });
         await waitForEvents([STORY_MISSING]);
 
-        expect(teardownRenderToDOM).toHaveBeenCalled();
+        expect(teardownrenderToRoot).toHaveBeenCalled();
       });
 
       it('renders loading error', async () => {
@@ -3046,11 +3046,11 @@ describe('PreviewWeb', () => {
         const preview = await createAndRenderPreview();
 
         mockChannel.emit.mockClear();
-        projectAnnotations.renderToDOM.mockClear();
+        projectAnnotations.renderToRoot.mockClear();
         preview.onStoriesChanged({ importFn: newImportFn, storyIndex: newStoryIndex });
         await waitForQuiescence();
 
-        expect(projectAnnotations.renderToDOM).not.toHaveBeenCalled();
+        expect(projectAnnotations.renderToRoot).not.toHaveBeenCalled();
         expect(mockChannel.emit).not.toHaveBeenCalledWith(STORY_RENDERED, 'component-one--a');
       });
 
@@ -3244,28 +3244,28 @@ describe('PreviewWeb', () => {
       });
     });
 
-    it('calls renderToDOMs teardown', async () => {
+    it('calls renderToRoots teardown', async () => {
       document.location.search = '?id=component-one--a';
       const preview = await createAndRenderPreview();
 
-      projectAnnotations.renderToDOM.mockClear();
+      projectAnnotations.renderToRoot.mockClear();
       mockChannel.emit.mockClear();
       preview.onGetProjectAnnotationsChanged({ getProjectAnnotations: newGetProjectAnnotations });
       await waitForRender();
 
-      expect(teardownRenderToDOM).toHaveBeenCalled();
+      expect(teardownrenderToRoot).toHaveBeenCalled();
     });
 
     it('rerenders the current story with new global meta-generated context', async () => {
       document.location.search = '?id=component-one--a';
       const preview = await createAndRenderPreview();
 
-      projectAnnotations.renderToDOM.mockClear();
+      projectAnnotations.renderToRoot.mockClear();
       mockChannel.emit.mockClear();
       preview.onGetProjectAnnotationsChanged({ getProjectAnnotations: newGetProjectAnnotations });
       await waitForRender();
 
-      expect(projectAnnotations.renderToDOM).toHaveBeenCalledWith(
+      expect(projectAnnotations.renderToRoot).toHaveBeenCalledWith(
         expect.objectContaining({
           storyContext: expect.objectContaining({
             args: { foo: 'a', global: 'added' },

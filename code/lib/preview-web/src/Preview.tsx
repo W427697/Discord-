@@ -23,13 +23,14 @@ import type {
   ProjectAnnotations,
   Store_ModuleImportFn,
   Store_PromiseLike,
-  Store_RenderToDOM,
+  Store_renderToRoot,
   Store_Story,
   Store_StoryIndex,
   Store_WebProjectAnnotations,
   StoryId,
 } from '@storybook/types';
 import { StoryStore } from '@storybook/store';
+import deprecate from 'util-deprecate';
 
 import { StoryRender } from './render/StoryRender';
 import type { TemplateDocsRender } from './render/TemplateDocsRender';
@@ -41,7 +42,10 @@ const STORY_INDEX_PATH = './index.json';
 
 export type MaybePromise<T> = Promise<T> | T;
 
-export class Preview<TFramework extends AnyFramework, TRootElement = HTMLElement> {
+const renderToDOMDeprecated = deprecate(() => {},
+`\`renderToDOM\` is deprecated, please rename to \`renderToRoot\``);
+
+export class Preview<TFramework extends AnyFramework, TStorybookRoot = HTMLElement> {
   serverChannel?: Channel;
 
   storyStore: StoryStore<TFramework>;
@@ -50,9 +54,9 @@ export class Preview<TFramework extends AnyFramework, TRootElement = HTMLElement
 
   importFn?: Store_ModuleImportFn;
 
-  renderToDOM?: Store_RenderToDOM<TFramework, TRootElement>;
+  renderToRoot?: Store_renderToRoot<TFramework, TStorybookRoot>;
 
-  storyRenders: StoryRender<TFramework, TRootElement>[] = [];
+  storyRenders: StoryRender<TFramework, TStorybookRoot>[] = [];
 
   previewEntryError?: Error;
 
@@ -81,7 +85,7 @@ export class Preview<TFramework extends AnyFramework, TRootElement = HTMLElement
     getStoryIndex?: () => Store_StoryIndex;
     importFn: Store_ModuleImportFn;
     getProjectAnnotations: () => MaybePromise<
-      Store_WebProjectAnnotations<TFramework, TRootElement>
+      Store_WebProjectAnnotations<TFramework, TStorybookRoot>
     >;
   }) {
     // We save these two on initialization in case `getProjectAnnotations` errors,
@@ -107,15 +111,19 @@ export class Preview<TFramework extends AnyFramework, TRootElement = HTMLElement
   }
 
   getProjectAnnotationsOrRenderError(
-    getProjectAnnotations: () => MaybePromise<Store_WebProjectAnnotations<TFramework, TRootElement>>
+    getProjectAnnotations: () => MaybePromise<
+      Store_WebProjectAnnotations<TFramework, TStorybookRoot>
+    >
   ): Store_PromiseLike<ProjectAnnotations<TFramework>> {
     return SynchronousPromise.resolve()
       .then(getProjectAnnotations)
       .then((projectAnnotations) => {
-        this.renderToDOM = projectAnnotations.renderToDOM;
-        if (!this.renderToDOM) {
+        if (projectAnnotations.renderToDOM) renderToDOMDeprecated();
+
+        this.renderToRoot = projectAnnotations.renderToRoot || projectAnnotations.renderToDOM;
+        if (!this.renderToRoot) {
           throw new Error(dedent`
-            Expected your framework's preset to export a \`renderToDOM\` field.
+            Expected your framework's preset to export a \`renderToRoot\` field.
 
             Perhaps it needs to be upgraded for Storybook 6.4?
 
@@ -134,7 +142,7 @@ export class Preview<TFramework extends AnyFramework, TRootElement = HTMLElement
 
   // If initialization gets as far as project annotations, this function runs.
   initializeWithProjectAnnotations(
-    projectAnnotations: Store_WebProjectAnnotations<TFramework, TRootElement>
+    projectAnnotations: Store_WebProjectAnnotations<TFramework, TStorybookRoot>
   ) {
     this.storyStore.setProjectAnnotations(projectAnnotations);
 
@@ -308,14 +316,14 @@ export class Preview<TFramework extends AnyFramework, TRootElement = HTMLElement
   // main to be consistent with the previous behaviour. In the future,
   // we will change it to go ahead and load the story, which will end up being
   // "instant", although async.
-  renderStoryToElement(story: Store_Story<TFramework>, element: TRootElement) {
-    if (!this.renderToDOM)
+  renderStoryToElement(story: Store_Story<TFramework>, element: TStorybookRoot) {
+    if (!this.renderToRoot)
       throw new Error(`Cannot call renderStoryToElement before initialization`);
 
-    const render = new StoryRender<TFramework, TRootElement>(
+    const render = new StoryRender<TFramework, TStorybookRoot>(
       this.channel,
       this.storyStore,
-      this.renderToDOM,
+      this.renderToRoot,
       this.inlineStoryCallbacks(story.id),
       story.id,
       'docs',
@@ -332,9 +340,9 @@ export class Preview<TFramework extends AnyFramework, TRootElement = HTMLElement
 
   async teardownRender(
     render:
-      | StoryRender<TFramework, TRootElement>
-      | TemplateDocsRender<TFramework, TRootElement>
-      | StandaloneDocsRender<TFramework, TRootElement>,
+      | StoryRender<TFramework, TStorybookRoot>
+      | TemplateDocsRender<TFramework, TStorybookRoot>
+      | StandaloneDocsRender<TFramework, TStorybookRoot>,
     { viewModeChanged }: { viewModeChanged?: boolean } = {}
   ) {
     this.storyRenders = this.storyRenders.filter((r) => r !== render);

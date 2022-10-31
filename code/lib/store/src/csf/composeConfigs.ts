@@ -55,7 +55,8 @@ export function composeConfigs<TFramework extends AnyFramework>(
     globalTypes: getObjectField(moduleExportList, 'globalTypes'),
     loaders: getArrayField(moduleExportList, 'loaders'),
     render: getSingletonField(moduleExportList, 'render'),
-    renderToDOM: getSingletonField(moduleExportList, 'renderToDOM'),
+    renderToRoot: getSingletonField(moduleExportList, 'renderToRoot'),
+    renderToDOM: getSingletonField(moduleExportList, 'renderToDOM'), // deprecated
     applyDecorators: getSingletonField(moduleExportList, 'applyDecorators'),
     runStep: composeStepRunners<TFramework>(stepRunners),
   };

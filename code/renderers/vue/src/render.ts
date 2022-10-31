@@ -82,7 +82,7 @@ export const render: ArgsStoryFn<VueFramework> = (args, context) => {
   };
 };
 
-export function renderToDOM(
+export function renderToRoot(
   {
     title,
     name,

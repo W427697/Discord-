@@ -41,8 +41,8 @@ import { PREPARE_ABORTED } from './render/Render';
 import { StoryRender } from './render/StoryRender';
 import { TemplateDocsRender } from './render/TemplateDocsRender';
 import { StandaloneDocsRender } from './render/StandaloneDocsRender';
-import { SelectionStore } from './SelectionStore';
-import { View } from './View';
+import type { SelectionStore } from './SelectionStore';
+import type { View } from './View';
 
 const { window: globalWindow } = global;
 
@@ -51,28 +51,28 @@ function focusInInput(event: Event) {
   return /input|textarea/i.test(target.tagName) || target.getAttribute('contenteditable') !== null;
 }
 
-type PossibleRender<TFramework extends AnyFramework, TRootElement = HTMLElement> =
-  | StoryRender<TFramework, TRootElement>
-  | TemplateDocsRender<TFramework, TRootElement>
-  | StandaloneDocsRender<TFramework, TRootElement>;
+type PossibleRender<TFramework extends AnyFramework, TStorybookRoot = HTMLElement> =
+  | StoryRender<TFramework, TStorybookRoot>
+  | TemplateDocsRender<TFramework, TStorybookRoot>
+  | StandaloneDocsRender<TFramework, TStorybookRoot>;
 
-function isStoryRender<TFramework extends AnyFramework, TRootElement>(
-  r: PossibleRender<TFramework, TRootElement>
-): r is StoryRender<TFramework, TRootElement> {
+function isStoryRender<TFramework extends AnyFramework, TStorybookRoot>(
+  r: PossibleRender<TFramework, TStorybookRoot>
+): r is StoryRender<TFramework, TStorybookRoot> {
   return r.type === 'story';
 }
 
 export class PreviewWeb<
   TFramework extends AnyFramework,
-  TRootElement = HTMLElement
-> extends Preview<TFramework, TRootElement> {
+  TStorybookRoot = HTMLElement
+> extends Preview<TFramework, TStorybookRoot> {
   selectionStore: SelectionStore;
 
-  view: View<TRootElement>;
+  view: View<TStorybookRoot>;
 
   currentSelection?: Store_Selection;
 
-  currentRender?: PossibleRender<TFramework, TRootElement>;
+  currentRender?: PossibleRender<TFramework, TStorybookRoot>;
 
   constructor({
     // I'm not quite sure how to express this -- if you don't pass a view, you need to ensure
@@ -81,7 +81,7 @@ export class PreviewWeb<
     view = new WebView() as any,
     selectionStore = new UrlStore(),
   }: {
-    view?: View<TRootElement>;
+    view?: View<TStorybookRoot>;
     selectionStore?: SelectionStore;
   } = {}) {
     super();
@@ -101,7 +101,7 @@ export class PreviewWeb<
   }
 
   initializeWithProjectAnnotations(
-    projectAnnotations: Store_WebProjectAnnotations<TFramework, TRootElement>
+    projectAnnotations: Store_WebProjectAnnotations<TFramework, TStorybookRoot>
   ) {
     return super
       .initializeWithProjectAnnotations(projectAnnotations)
@@ -268,8 +268,8 @@ export class PreviewWeb<
   // - a story selected in "docs" viewMode,
   //     in which case we render the docsPage for that story
   async renderSelection({ persistedArgs }: { persistedArgs?: Args } = {}) {
-    const { renderToDOM } = this;
-    if (!renderToDOM) throw new Error('Cannot call renderSelection before initialization');
+    const { renderToRoot } = this;
+    if (!renderToRoot) throw new Error('Cannot call renderSelection before initialization');
     const { selection } = this.selectionStore;
     if (!selection) throw new Error('Cannot call renderSelection as no selection was made');
 
@@ -303,28 +303,28 @@ export class PreviewWeb<
       await this.teardownRender(this.currentRender);
     }
 
-    let render: PossibleRender<TFramework, TRootElement>;
+    let render: PossibleRender<TFramework, TStorybookRoot>;
     if (entry.type === 'story') {
-      render = new StoryRender<TFramework, TRootElement>(
+      render = new StoryRender<TFramework, TStorybookRoot>(
         this.channel,
         this.storyStore,
-        (...args: Parameters<typeof renderToDOM>) => {
-          // At the start of renderToDOM we make the story visible (see note in WebView)
+        (...args: Parameters<typeof renderToRoot>) => {
+          // At the start of renderToRoot we make the story visible (see note in WebView)
           this.view.showStoryDuringRender();
-          return renderToDOM(...args);
+          return renderToRoot(...args);
         },
         this.mainStoryCallbacks(storyId),
         storyId,
         'story'
       );
     } else if (entry.standalone) {
-      render = new StandaloneDocsRender<TFramework, TRootElement>(
+      render = new StandaloneDocsRender<TFramework, TStorybookRoot>(
         this.channel,
         this.storyStore,
         entry
       );
     } else {
-      render = new TemplateDocsRender<TFramework, TRootElement>(
+      render = new TemplateDocsRender<TFramework, TStorybookRoot>(
         this.channel,
         this.storyStore,
         entry
@@ -407,8 +407,8 @@ export class PreviewWeb<
 
     if (isStoryRender(render)) {
       if (!render.story) throw new Error('Render has not been prepared!');
-      this.storyRenders.push(render as StoryRender<TFramework, TRootElement>);
-      (this.currentRender as StoryRender<TFramework, TRootElement>).renderToElement(
+      this.storyRenders.push(render as StoryRender<TFramework, TStorybookRoot>);
+      (this.currentRender as StoryRender<TFramework, TStorybookRoot>).renderToElement(
         this.view.prepareForStory(render.story)
       );
     } else {
@@ -421,7 +421,7 @@ export class PreviewWeb<
   }
 
   async teardownRender(
-    render: PossibleRender<TFramework, TRootElement>,
+    render: PossibleRender<TFramework, TStorybookRoot>,
     { viewModeChanged = false }: { viewModeChanged?: boolean } = {}
   ) {
     this.storyRenders = this.storyRenders.filter((r) => r !== render);

@@ -128,7 +128,7 @@ class ErrorBoundary extends ReactComponent<{
 
 const Wrapper = FRAMEWORK_OPTIONS?.strictMode ? StrictMode : Fragment;
 
-export async function renderToDOM(
+export async function renderToRoot(
   {
     storyContext,
     unboundStoryFn,

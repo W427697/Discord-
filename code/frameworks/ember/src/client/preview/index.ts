@@ -1,9 +1,9 @@
 import { start } from '@storybook/core-client';
 
 import './globals';
-import { renderToDOM } from './render';
+import { renderToRoot } from './render';
 
-const { configure: coreConfigure, clientApi, forceReRender } = start(renderToDOM);
+const { configure: coreConfigure, clientApi, forceReRender } = start(renderToRoot);
 
 export const { raw } = clientApi;
 

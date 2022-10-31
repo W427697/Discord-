@@ -1,11 +1,10 @@
-/* eslint-disable camelcase */
 import type { Store_Story } from '@storybook/types';
 
-export abstract class View<TRootElement> {
+export abstract class View<TStorybookRoot> {
   // Get ready to render a story, returning the element to render to
-  abstract prepareForStory(story: Store_Story<any>): TRootElement;
+  abstract prepareForStory(story: Store_Story<any>): TStorybookRoot;
 
-  abstract prepareForDocs(): TRootElement;
+  abstract prepareForDocs(): TStorybookRoot;
 
   abstract showErrorDisplay(err: { message?: string; stack?: string }): void;
 

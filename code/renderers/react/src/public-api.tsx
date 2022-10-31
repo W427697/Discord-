@@ -7,7 +7,7 @@ import type {
 } from '@storybook/types';
 import { start } from '@storybook/core-client';
 
-import { renderToDOM, render } from './render';
+import { renderToRoot, render } from './render';
 import type { ReactFramework } from './types';
 
 interface ClientApi extends Addon_ClientStoryApi<ReactFramework['storyResult']> {
@@ -17,7 +17,7 @@ interface ClientApi extends Addon_ClientStoryApi<ReactFramework['storyResult']> 
 }
 const FRAMEWORK = 'react';
 
-const api = start(renderToDOM, { render });
+const api = start(renderToRoot, { render });
 
 export const storiesOf: ClientApi['storiesOf'] = (kind, m) => {
   return (api.clientApi.storiesOf(kind, m) as ReturnType<ClientApi['storiesOf']>).addParameters({

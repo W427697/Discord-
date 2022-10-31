@@ -34,18 +34,21 @@ export type Store_ModuleImportFn = (path: Path) => Store_PromiseLike<Store_Modul
 
 type Store_MaybePromise<T> = Promise<T> | T;
 
-export type Store_TeardownRenderToDOM = () => Store_MaybePromise<void>;
+export type Store_TeardownrenderToRoot = () => Store_MaybePromise<void>;
 // We should consider renaming this to `RenderToRootElement` or similar
-export type Store_RenderToDOM<TFramework extends AnyFramework, TRootElement = HTMLElement> = (
+export type Store_renderToRoot<TFramework extends AnyFramework, TStorybookRoot = HTMLElement> = (
   context: Store_RenderContext<TFramework>,
-  element: TRootElement
-) => Store_MaybePromise<void | Store_TeardownRenderToDOM>;
+  element: TStorybookRoot
+) => Store_MaybePromise<void | Store_TeardownrenderToRoot>;
 
 export type Store_WebProjectAnnotations<
   TFramework extends AnyFramework,
-  TRootElement = HTMLElement
+  TStorybookRoot = HTMLElement
 > = ProjectAnnotations<TFramework> & {
-  renderToDOM?: Store_RenderToDOM<TFramework, TRootElement>;
+  renderToRoot?: Store_renderToRoot<TFramework, TStorybookRoot>;
+
+  /* @deprecated use renderToRoot */
+  renderToDOM?: Store_renderToRoot<TFramework, TStorybookRoot>;
 };
 
 export type Store_NormalizedProjectAnnotations<TFramework extends AnyFramework = AnyFramework> =

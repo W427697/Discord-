@@ -27,8 +27,8 @@ import { DocsContext } from '../docs-context/DocsContext';
  *  - *.stories.mdx files, where the MDX compiler produces a CSF file with a `.parameter.docs.page`
  *      parameter containing the compiled content of the MDX file.
  */
-export class TemplateDocsRender<TFramework extends AnyFramework, TRootElement = HTMLElement>
-  implements Render<TFramework, TRootElement>
+export class TemplateDocsRender<TFramework extends AnyFramework, TStorybookRoot = HTMLElement>
+  implements Render<TFramework, TStorybookRoot>
 {
   public readonly type: RenderType = 'docs';
 
@@ -85,16 +85,16 @@ export class TemplateDocsRender<TFramework extends AnyFramework, TRootElement = 
     this.preparing = false;
   }
 
-  isEqual(other: Render<TFramework, TRootElement>): boolean {
+  isEqual(other: Render<TFramework, TStorybookRoot>): boolean {
     return !!(
       this.id === other.id &&
       this.story &&
-      this.story === (other as TemplateDocsRender<TFramework, TRootElement>).story
+      this.story === (other as TemplateDocsRender<TFramework, TStorybookRoot>).story
     );
   }
 
   async renderToElement(
-    canvasElement: TRootElement,
+    canvasElement: TStorybookRoot,
     renderStoryToElement: DocsContextProps['renderStoryToElement']
   ) {
     if (!this.story || !this.csfFiles) throw new Error('Cannot render docs before preparing');
