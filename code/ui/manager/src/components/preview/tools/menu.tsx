@@ -2,6 +2,7 @@ import React from 'react';
 import { IconButton, Icons, Separator } from '@storybook/components';
 import { Consumer, type Combo } from '@storybook/api';
 import type { Addon } from '@storybook/addons';
+import { Addon_TypesEnum } from '@storybook/types';
 
 const menuMapper = ({ api, state }: Combo) => ({
   isVisible: state.layout.showNav,
@@ -12,6 +13,7 @@ const menuMapper = ({ api, state }: Combo) => ({
 export const menuTool: Addon = {
   title: 'menu',
   id: 'menu',
+  type: Addon_TypesEnum.TOOL,
   match: ({ viewMode }) => viewMode === 'story',
   render: () => (
     <Consumer filter={menuMapper}>

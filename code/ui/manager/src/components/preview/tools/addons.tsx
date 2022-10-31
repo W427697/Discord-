@@ -1,7 +1,8 @@
 import React from 'react';
 import { IconButton, Icons } from '@storybook/components';
 import { Consumer, type Combo } from '@storybook/api';
-import type { Addon } from '@storybook/addons';
+import type { Addon_Type } from '@storybook/types';
+import { Addon_TypesEnum } from '@storybook/types';
 
 const menuMapper = ({ api, state }: Combo) => ({
   isVisible: state.layout.showPanel,
@@ -10,9 +11,10 @@ const menuMapper = ({ api, state }: Combo) => ({
   toggle: () => api.togglePanel(),
 });
 
-export const addonsTool: Addon = {
+export const addonsTool: Addon_Type = {
   title: 'addons',
   id: 'addons',
+  type: Addon_TypesEnum.TOOL,
   match: ({ viewMode }) => viewMode === 'story',
   render: () => (
     <Consumer filter={menuMapper}>

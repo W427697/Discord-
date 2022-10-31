@@ -33,6 +33,7 @@ const canvasMapper = ({ state, api }: Combo) => ({
   active: !!(state.viewMode && state.viewMode.match(/^(story|docs)$/)),
 });
 
+// @ts-expect-error (no strict)
 const createCanvas = (id: string, baseUrl = 'iframe.html', withLoader = true): Addon => ({
   id: 'canvas',
   title: 'Canvas',

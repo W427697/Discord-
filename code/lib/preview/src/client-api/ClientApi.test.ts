@@ -18,7 +18,7 @@ describe('ClientApi', () => {
       };
       clientApi.storyStore = store as any;
 
-      let disposeCallback: () => void;
+      let disposeCallback: () => void = () => {};
       const module1 = {
         id: 'file1',
         hot: {

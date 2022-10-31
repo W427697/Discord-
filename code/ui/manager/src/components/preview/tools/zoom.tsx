@@ -3,6 +3,7 @@ import React, { Component, useCallback } from 'react';
 
 import { Icons, IconButton, Separator } from '@storybook/components';
 import type { Addon } from '@storybook/addons';
+import { Addon_TypesEnum } from '@storybook/types';
 
 const initialZoom = 1 as const;
 
@@ -81,6 +82,7 @@ const ZoomWrapper = React.memo<{ set: (zoomLevel: number) => void; value: number
 export const zoomTool: Addon = {
   title: 'zoom',
   id: 'zoom',
+  type: Addon_TypesEnum.TOOL,
   match: ({ viewMode }) => viewMode === 'story',
   render: React.memo(function ZoomToolRenderer() {
     return (

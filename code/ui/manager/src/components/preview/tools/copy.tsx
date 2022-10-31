@@ -4,6 +4,7 @@ import copy from 'copy-to-clipboard';
 import { getStoryHref, IconButton, Icons } from '@storybook/components';
 import { Consumer, type Combo } from '@storybook/api';
 import type { Addon } from '@storybook/addons';
+import { Addon_TypesEnum } from '@storybook/types';
 
 const { PREVIEW_URL, document } = global;
 
@@ -25,6 +26,7 @@ const copyMapper = ({ state }: Combo) => {
 export const copyTool: Addon = {
   title: 'copy',
   id: 'copy',
+  type: Addon_TypesEnum.TOOL,
   match: ({ viewMode }) => viewMode === 'story',
   render: () => (
     <Consumer filter={copyMapper}>

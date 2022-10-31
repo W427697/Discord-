@@ -31,39 +31,50 @@ jest.mock('@storybook/client-logger', () => ({
 }));
 
 const SOME_EVENT = 'someEvent';
+// @ts-expect-error (no strict)
 let mockChannel;
+// @ts-expect-error (no strict)
 let hooks;
+// @ts-expect-error (no strict)
 let onSomeEvent;
+// @ts-expect-error (no strict)
 let removeSomeEventListener;
 beforeEach(() => {
   onSomeEvent = jest.fn();
   removeSomeEventListener = jest.fn();
   mockChannel = {
     emit: jest.fn(),
+    // @ts-expect-error (no strict)
     on(event, callback) {
       switch (event) {
         case STORY_RENDERED:
           callback();
           break;
         case SOME_EVENT:
+          // @ts-expect-error (no strict)
           onSomeEvent(event, callback);
           break;
         default:
       }
     },
+    // @ts-expect-error (no strict)
     removeListener(event, callback) {
       if (event === SOME_EVENT) {
+        // @ts-expect-error (no strict)
         removeSomeEventListener(event, callback);
       }
     },
   };
   hooks = new HooksContext();
+  // @ts-expect-error (no strict)
   addons.setChannel(mockChannel);
 });
 
 const decorateStory = applyHooks(defaultDecorateStory);
 
+// @ts-expect-error (no strict)
 const run = (storyFn, decorators: DecoratorFunction[] = [], context = {}) =>
+  // @ts-expect-error (no strict)
   decorateStory(storyFn, decorators)({ ...context, hooks } as StoryContext);
 
 describe('Preview hooks', () => {
@@ -116,6 +127,7 @@ describe('Preview hooks', () => {
     });
     it("doesn't retrigger the effect from decorator if story has changed", () => {
       const effect = jest.fn();
+      // @ts-expect-error (no strict)
       const decorator = (storyFn) => {
         useEffect(effect, []);
         return storyFn();
@@ -126,6 +138,7 @@ describe('Preview hooks', () => {
     });
     it("doesn't retrigger the effect from decorator if story has changed and story call comes before useEffect", () => {
       const effect = jest.fn();
+      // @ts-expect-error (no strict)
       const decorator = (storyFn) => {
         const story = storyFn();
         useEffect(effect, []);
@@ -140,6 +153,7 @@ describe('Preview hooks', () => {
       const story = () => {
         useEffect(effect, []);
       };
+      // @ts-expect-error (no strict)
       const decorator = (storyFn) => {
         storyFn();
         return storyFn();
@@ -208,7 +222,9 @@ describe('Preview hooks', () => {
           return storyFn();
         },
       ]);
+      // @ts-expect-error (no strict)
       expect(onSomeEvent).toHaveBeenCalledTimes(1);
+      // @ts-expect-error (no strict)
       expect(removeSomeEventListener).toHaveBeenCalledTimes(0);
     });
     it('calls .removeListener when removing the decorator', () => {
@@ -221,9 +237,12 @@ describe('Preview hooks', () => {
           return storyFn();
         },
       ]);
+      // @ts-expect-error (no strict)
       expect(onSomeEvent).toHaveBeenCalledTimes(1);
+      // @ts-expect-error (no strict)
       expect(removeSomeEventListener).toHaveBeenCalledTimes(0);
       run(() => {});
+      // @ts-expect-error (no strict)
       expect(removeSomeEventListener).toHaveBeenCalledTimes(1);
     });
   });
@@ -232,6 +251,7 @@ describe('Preview hooks', () => {
       const context = {};
       run(
         () => {
+          // @ts-expect-error (no strict)
           expect(useStoryContext()).toEqual({ ...context, hooks });
         },
         [],
@@ -353,6 +373,7 @@ describe('Preview hooks', () => {
         ref = useRef('foo');
       };
       run(storyFn);
+      // @ts-expect-error (no strict)
       expect(ref.current).toBe('foo');
     });
     it('stores mutations', () => {
@@ -436,7 +457,9 @@ describe('Preview hooks', () => {
         [state, setState] = useState('foo');
       });
       run(storyFn);
+      // @ts-expect-error (no strict)
       setState('bar');
+      // @ts-expect-error (no strict)
       expect(mockChannel.emit).toHaveBeenCalledWith(FORCE_RE_RENDER);
       run(storyFn);
       expect(state).toBe('bar');
@@ -497,7 +520,9 @@ describe('Preview hooks', () => {
         }, 0);
       });
       run(storyFn);
+      // @ts-expect-error (no strict)
       dispatch('INCREMENT');
+      // @ts-expect-error (no strict)
       expect(mockChannel.emit).toHaveBeenCalledWith(FORCE_RE_RENDER);
       run(storyFn);
       expect(state).toBe(1);
@@ -522,6 +547,7 @@ describe('Preview hooks', () => {
         [
           (storyFn) => {
             useArgs()[1]({ a: 'b' });
+            // @ts-expect-error (no strict)
             expect(mockChannel.emit).toHaveBeenCalledWith(UPDATE_STORY_ARGS, {
               storyId: '1',
               updatedArgs: { a: 'b' },
@@ -538,11 +564,13 @@ describe('Preview hooks', () => {
         [
           (storyFn) => {
             useArgs()[2](['a']);
+            // @ts-expect-error (no strict)
             expect(mockChannel.emit).toHaveBeenCalledWith(RESET_STORY_ARGS, {
               storyId: '1',
               argNames: ['a'],
             });
             useArgs()[2]();
+            // @ts-expect-error (no strict)
             expect(mockChannel.emit).toHaveBeenCalledWith(RESET_STORY_ARGS, {
               storyId: '1',
             });
@@ -573,6 +601,7 @@ describe('Preview hooks', () => {
         [
           (storyFn) => {
             useGlobals()[1]({ a: 'b' });
+            // @ts-expect-error (no strict)
             expect(mockChannel.emit).toHaveBeenCalledWith(UPDATE_GLOBALS, { globals: { a: 'b' } });
             return storyFn();
           },

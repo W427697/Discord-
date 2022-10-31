@@ -92,7 +92,12 @@ export function executeLoadableForChanges(loadable: Loadable, m?: NodeModule) {
   const removed = new Map<Path, Store_ModuleExports>();
   Array.from(lastExportsMap.keys())
     .filter((fileName) => !exportsMap.has(fileName))
-    .forEach((fileName) => removed.set(fileName, lastExportsMap.get(fileName)));
+    .forEach((fileName) => {
+      const v = lastExportsMap.get(fileName);
+      if (v) {
+        removed.set(fileName, v);
+      }
+    });
 
   // Save the value for the dispose() call above
   lastExportsMap = exportsMap;

@@ -5,6 +5,7 @@ import { Consumer, type Combo } from '@storybook/api';
 import type { Addon } from '@storybook/addons';
 import { styled } from '@storybook/theming';
 import { FORCE_REMOUNT } from '@storybook/core-events';
+import { Addon_TypesEnum } from '@storybook/types';
 
 interface AnimatedButtonProps {
   animating?: boolean;
@@ -30,6 +31,7 @@ const menuMapper = ({ api, state }: Combo) => {
 export const remountTool: Addon = {
   title: 'remount',
   id: 'remount',
+  type: Addon_TypesEnum.TOOL,
   match: ({ viewMode }) => viewMode === 'story',
   render: () => (
     <Consumer filter={menuMapper}>

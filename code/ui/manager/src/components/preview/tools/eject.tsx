@@ -3,6 +3,7 @@ import React from 'react';
 import { getStoryHref, IconButton, Icons } from '@storybook/components';
 import { Consumer, type Combo } from '@storybook/api';
 import type { Addon } from '@storybook/addons';
+import { Addon_TypesEnum } from '@storybook/types';
 
 const { PREVIEW_URL } = global;
 
@@ -21,6 +22,7 @@ const ejectMapper = ({ state }: Combo) => {
 export const ejectTool: Addon = {
   title: 'eject',
   id: 'eject',
+  type: Addon_TypesEnum.TOOL,
   match: ({ viewMode }) => viewMode === 'story',
   render: () => (
     <Consumer filter={ejectMapper}>

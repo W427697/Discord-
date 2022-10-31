@@ -15,7 +15,6 @@ import {
 import { start as realStart } from './start';
 
 jest.mock('global', () => ({
-  // @ts-expect-error (jest is not happy with this)
   ...jest.requireActual('global'),
   history: { replaceState: jest.fn() },
   document: {
@@ -122,6 +121,7 @@ describe('start', () => {
 
       await waitForRender();
 
+      // @ts-expect-error (can be empty)
       expect(mockChannel.emit.mock.calls.find((call: [string, any]) => call[0] === SET_INDEX)[1])
         .toMatchInlineSnapshot(`
         Object {
@@ -277,6 +277,7 @@ describe('start', () => {
       await waitForRender();
       expect(mockChannel.emit).toHaveBeenCalledWith(STORY_RENDERED, 'component-a--default');
 
+      // @ts-expect-error (can be empty)
       const storiesOfData = mockChannel.emit.mock.calls.find(
         (call: any[]) => call[0] === SET_INDEX
       )[1];
@@ -410,6 +411,7 @@ describe('start', () => {
         .add('new', jest.fn());
 
       await waitForEvents([SET_INDEX]);
+      // @ts-expect-error (can be empty)
       expect(mockChannel.emit.mock.calls.find((call: [string, any]) => call[0] === SET_INDEX)[1])
         .toMatchInlineSnapshot(`
         Object {
@@ -481,6 +483,7 @@ describe('start', () => {
       });
 
       await waitForEvents([SET_INDEX]);
+      // @ts-expect-error (can be empty)
       expect(mockChannel.emit.mock.calls.find((call: [string, any]) => call[0] === SET_INDEX)[1])
         .toMatchInlineSnapshot(`
         Object {
@@ -533,6 +536,7 @@ describe('start', () => {
       disposeCallback();
 
       await waitForEvents([SET_INDEX]);
+      // @ts-expect-error (can be empty)
       expect(mockChannel.emit.mock.calls.find((call: [string, any]) => call[0] === SET_INDEX)[1])
         .toMatchInlineSnapshot(`
         Object {
@@ -584,6 +588,7 @@ describe('start', () => {
       configure('test', () => [componentCExports]);
 
       await waitForRender();
+      // @ts-expect-error (can be empty)
       expect(mockChannel.emit.mock.calls.find((call: [string, any]) => call[0] === SET_INDEX)[1])
         .toMatchInlineSnapshot(`
         Object {
@@ -705,6 +710,7 @@ describe('start', () => {
       configure('test', () => [{ ...componentCExports, StoryThree: jest.fn() }], module as any);
 
       await waitForEvents([SET_INDEX]);
+      // @ts-expect-error (can be empty)
       expect(mockChannel.emit.mock.calls.find((call: [string, any]) => call[0] === SET_INDEX)[1])
         .toMatchInlineSnapshot(`
         Object {
@@ -796,6 +802,7 @@ describe('start', () => {
       );
 
       await waitForEvents([SET_INDEX]);
+      // @ts-expect-error (can be empty)
       expect(mockChannel.emit.mock.calls.find((call: [string, any]) => call[0] === SET_INDEX)[1])
         .toMatchInlineSnapshot(`
         Object {
@@ -868,6 +875,7 @@ describe('start', () => {
       configure('test', () => [componentCExports], module as any);
 
       await waitForEvents([SET_INDEX]);
+      // @ts-expect-error (can be empty)
       expect(mockChannel.emit.mock.calls.find((call: [string, any]) => call[0] === SET_INDEX)[1])
         .toMatchInlineSnapshot(`
         Object {
@@ -968,6 +976,7 @@ describe('start', () => {
         );
 
         await waitForEvents([SET_INDEX]);
+        // @ts-expect-error (can be empty)
         expect(mockChannel.emit.mock.calls.find((call: [string, any]) => call[0] === SET_INDEX)[1])
           .toMatchInlineSnapshot(`
           Object {
@@ -1014,6 +1023,7 @@ describe('start', () => {
       });
 
       await waitForRender();
+      // @ts-expect-error (can be empty)
       expect(mockChannel.emit.mock.calls.find((call: [string, any]) => call[0] === SET_INDEX)[1])
         .toMatchInlineSnapshot(`
         Object {
@@ -1157,6 +1167,7 @@ describe('start', () => {
         });
 
         await waitForRender();
+        // @ts-expect-error (can be empty)
         expect(mockChannel.emit.mock.calls.find((call: [string, any]) => call[0] === SET_INDEX)[1])
           .toMatchInlineSnapshot(`
           Object {
@@ -1311,6 +1322,7 @@ describe('start', () => {
       configure('test', () => [componentDExports]);
 
       await waitForEvents([SET_INDEX]);
+      // @ts-expect-error (can be empty)
       expect(mockChannel.emit.mock.calls.find((call: [string, any]) => call[0] === SET_INDEX)[1])
         .toMatchInlineSnapshot(`
         Object {

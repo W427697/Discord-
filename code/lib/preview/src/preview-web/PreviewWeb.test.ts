@@ -60,6 +60,7 @@ const { history, document } = global;
 
 const mockStoryIndex = jest.fn(() => storyIndex);
 
+// @ts-expect-error (no strict)
 let mockFetchResult;
 jest.mock('global', () => ({
   ...(mockJest.requireActual('global') as any),
@@ -80,6 +81,7 @@ jest.mock('global', () => ({
     breakingChangesV7: true,
     // xxx
   },
+  // @ts-expect-error (no strict)
   fetch: async () => mockFetchResult,
 }));
 
@@ -109,6 +111,7 @@ async function waitForSetCurrentStory() {
 }
 
 async function createAndRenderPreview({
+  // @ts-expect-error (no strict)
   importFn: inputImportFn = importFn,
   getProjectAnnotations: inputGetProjectAnnotations = getProjectAnnotations,
 }: {
@@ -154,6 +157,7 @@ describe('PreviewWeb', () => {
       const preview = new PreviewWeb();
       await expect(
         preview.initialize({
+          // @ts-expect-error (no strict)
           importFn,
           getProjectAnnotations: () => {
             throw err;
@@ -170,6 +174,7 @@ describe('PreviewWeb', () => {
       mockFetchResult = { status: 500, text: async () => err.toString() };
 
       const preview = new PreviewWeb();
+      // @ts-expect-error (no strict)
       await expect(preview.initialize({ importFn, getProjectAnnotations })).rejects.toThrow(
         'sort error'
       );
@@ -238,6 +243,7 @@ describe('PreviewWeb', () => {
     it('allows async getProjectAnnotations', async () => {
       const preview = new PreviewWeb();
       await preview.initialize({
+        // @ts-expect-error (no strict)
         importFn,
         getProjectAnnotations: async () => {
           return getProjectAnnotations();
@@ -520,6 +526,7 @@ describe('PreviewWeb', () => {
           renderToDOM: undefined,
         });
         const preview = new PreviewWeb();
+        // @ts-expect-error (no strict)
         await expect(preview.initialize({ importFn, getProjectAnnotations })).rejects.toThrow();
 
         expect(preview.view.showErrorDisplay).toHaveBeenCalled();
@@ -633,6 +640,7 @@ describe('PreviewWeb', () => {
         });
 
         const preview = new PreviewWeb();
+        // @ts-expect-error (no strict)
         await preview.initialize({ importFn, getProjectAnnotations });
 
         await waitForRender();
@@ -688,6 +696,7 @@ describe('PreviewWeb', () => {
 
         const context = docsRenderer.render.mock.calls[0][0];
 
+        // @ts-expect-error (no strict)
         expect(context.componentStories().map((s) => s.id)).toEqual([
           'component-one--a',
           'component-one--b',
@@ -898,6 +907,7 @@ describe('PreviewWeb', () => {
         document.location.search = '?id=component-one--a';
         componentOneExports.default.loaders[0].mockImplementationOnce(async () => gate);
 
+        // @ts-expect-error (no strict)
         await new PreviewWeb().initialize({ importFn, getProjectAnnotations });
         await waitForRenderPhase('loading');
 
@@ -959,6 +969,7 @@ describe('PreviewWeb', () => {
         document.location.search = '?id=component-one--a';
         projectAnnotations.renderToDOM.mockImplementation(async () => gate);
 
+        // @ts-expect-error (no strict)
         await new PreviewWeb().initialize({ importFn, getProjectAnnotations });
         await waitForRenderPhase('rendering');
 
@@ -1038,6 +1049,7 @@ describe('PreviewWeb', () => {
         });
 
         document.location.search = '?id=component-one--a';
+        // @ts-expect-error (no strict)
         await new PreviewWeb().initialize({ importFn, getProjectAnnotations });
         await waitForRenderPhase('playing');
 
@@ -1422,6 +1434,7 @@ describe('PreviewWeb', () => {
 
       document.location.search = '?id=component-one--a';
       projectAnnotations.renderToDOM.mockImplementation(async () => gate);
+      // @ts-expect-error (no strict)
       await new PreviewWeb().initialize({ importFn, getProjectAnnotations });
       await waitForRenderPhase('rendering');
 
@@ -1518,6 +1531,7 @@ describe('PreviewWeb', () => {
       it('still renders the selected story, once ready', async () => {
         document.location.search = '';
         // We intentionally are *not* awaiting here
+        // @ts-expect-error (no strict)
         new PreviewWeb().initialize({ importFn, getProjectAnnotations });
 
         emitter.emit(SET_CURRENT_STORY, {
@@ -1624,6 +1638,7 @@ describe('PreviewWeb', () => {
           const preview = new PreviewWeb();
           // We can't wait for the initialize function, as it waits for `renderSelection()`
           // which prepares, but it does emit `CURRENT_STORY_WAS_SET` right before that
+          // @ts-expect-error (no strict)
           preview.initialize({ importFn, getProjectAnnotations });
           await waitForEvents([CURRENT_STORY_WAS_SET]);
 
@@ -1669,6 +1684,7 @@ describe('PreviewWeb', () => {
           const preview = new PreviewWeb();
           // We can't wait for the initialize function, as it waits for `renderSelection()`
           // which prepares, but it does emit `CURRENT_STORY_WAS_SET` right before that
+          // @ts-expect-error (no strict)
           preview.initialize({ importFn, getProjectAnnotations });
           await waitForEvents([CURRENT_STORY_WAS_SET]);
 
@@ -1713,6 +1729,7 @@ describe('PreviewWeb', () => {
           const preview = new PreviewWeb();
           // We can't wait for the initialize function, as it waits for `renderSelection()`
           // which prepares, but it does emit `CURRENT_STORY_WAS_SET` right before that
+          // @ts-expect-error (no strict)
           preview.initialize({ importFn, getProjectAnnotations });
           await waitForEvents([CURRENT_STORY_WAS_SET]);
 
@@ -2021,6 +2038,7 @@ describe('PreviewWeb', () => {
           componentOneExports.default.loaders[0].mockImplementationOnce(async () => gate);
 
           document.location.search = '?id=component-one--a';
+          // @ts-expect-error (no strict)
           await new PreviewWeb().initialize({ importFn, getProjectAnnotations });
           await waitForRenderPhase('loading');
 
@@ -2054,6 +2072,7 @@ describe('PreviewWeb', () => {
 
           document.location.search = '?id=component-one--a';
           projectAnnotations.renderToDOM.mockImplementation(async () => gate);
+          // @ts-expect-error (no strict)
           await new PreviewWeb().initialize({ importFn, getProjectAnnotations });
           await waitForRenderPhase('rendering');
 
@@ -2088,6 +2107,7 @@ describe('PreviewWeb', () => {
           componentOneExports.a.play.mockImplementationOnce(async () => gate);
 
           document.location.search = '?id=component-one--a';
+          // @ts-expect-error (no strict)
           await new PreviewWeb().initialize({ importFn, getProjectAnnotations });
           await waitForRenderPhase('playing');
 
@@ -2141,6 +2161,7 @@ describe('PreviewWeb', () => {
           componentOneExports.a.play.mockImplementationOnce(async () => gate);
 
           document.location.search = '?id=component-one--a';
+          // @ts-expect-error (no strict)
           await new PreviewWeb().initialize({ importFn, getProjectAnnotations });
           await waitForRenderPhase('playing');
 
@@ -2543,6 +2564,7 @@ describe('PreviewWeb', () => {
         mockFetchResult = { status: 500, text: async () => err.toString() };
 
         const preview = new PreviewWeb();
+        // @ts-expect-error (no strict)
         await expect(preview.initialize({ importFn, getProjectAnnotations })).rejects.toThrow(
           'sort error'
         );
@@ -2563,6 +2585,7 @@ describe('PreviewWeb', () => {
         mockFetchResult = { status: 500, text: async () => err.toString() };
 
         const preview = new PreviewWeb();
+        // @ts-expect-error (no strict)
         await expect(preview.initialize({ importFn, getProjectAnnotations })).rejects.toThrow(
           'sort error'
         );
@@ -3066,6 +3089,7 @@ describe('PreviewWeb', () => {
         await waitForEvents([STORY_MISSING]);
 
         mockChannel.emit.mockClear();
+        // @ts-expect-error (no strict)
         preview.onStoriesChanged({ importFn, storyIndex });
         await waitForRender();
         expect(mockChannel.emit).toHaveBeenCalledWith(STORY_RENDERED, 'component-one--a');
@@ -3076,6 +3100,7 @@ describe('PreviewWeb', () => {
       const newStandaloneDocsExports = { default: jest.fn() };
 
       const newImportFn = jest.fn(async (path) => {
+        // @ts-expect-error (no strict)
         return path === './src/Introduction.mdx' ? newStandaloneDocsExports : importFn(path);
       });
 
@@ -3085,6 +3110,7 @@ describe('PreviewWeb', () => {
         mockChannel.emit.mockClear();
         docsRenderer.render.mockClear();
 
+        // @ts-expect-error (no strict)
         preview.onStoriesChanged({ importFn: newImportFn });
         await waitForRender();
 
@@ -3104,6 +3130,7 @@ describe('PreviewWeb', () => {
         const preview = await createAndRenderPreview();
         mockChannel.emit.mockClear();
 
+        // @ts-expect-error (no strict)
         preview.onStoriesChanged({ importFn: newImportFn });
         await waitForRender();
 
@@ -3121,6 +3148,7 @@ describe('PreviewWeb', () => {
         const preview = new PreviewWeb();
         await expect(
           preview.initialize({
+            // @ts-expect-error (no strict)
             importFn,
             getProjectAnnotations: () => {
               throw err;
@@ -3141,6 +3169,7 @@ describe('PreviewWeb', () => {
         const preview = new PreviewWeb();
         await expect(
           preview.initialize({
+            // @ts-expect-error (no strict)
             importFn,
             getProjectAnnotations: () => {
               throw err;
@@ -3183,6 +3212,7 @@ describe('PreviewWeb', () => {
       expect(mockChannel.emit).toHaveBeenCalledWith(CONFIG_ERROR, err);
     });
 
+    // @ts-expect-error (no strict)
     const newGlobalDecorator = jest.fn((s) => s());
     const newGetProjectAnnotations = () => {
       return {
@@ -3321,6 +3351,7 @@ describe('PreviewWeb', () => {
       const preview = new PreviewWeb();
       await expect(
         preview.initialize({
+          // @ts-expect-error (no strict)
           importFn,
           getProjectAnnotations: () => {
             throw err;
@@ -3336,6 +3367,7 @@ describe('PreviewWeb', () => {
       mockFetchResult = { status: 500, text: async () => err.toString() };
 
       const preview = new PreviewWeb();
+      // @ts-expect-error (no strict)
       await expect(preview.initialize({ importFn, getProjectAnnotations })).rejects.toThrow(
         'sort error'
       );
@@ -3346,11 +3378,13 @@ describe('PreviewWeb', () => {
     it('waits for stories to be cached', async () => {
       const [gate, openGate] = createGate();
 
+      // @ts-expect-error (no strict)
       const gatedImportFn = async (path) => {
         await gate;
         return importFn(path);
       };
 
+      // @ts-expect-error (no strict)
       const preview = await createAndRenderPreview({ importFn: gatedImportFn });
 
       let extracted = false;
