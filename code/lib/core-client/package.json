@@ -32,7 +32,7 @@
   "types": "dist/entry.d.ts",
   "scripts": {
     "check": "../../../scripts/node_modules/.bin/tsc --noEmit",
-    "prep": "../../../scripts/prepare/bundle.ts"
+    "prep": "../../../scripts/prepare/facade.ts"
   },
   "dependencies": {
     "@storybook/api": "7.0.0-alpha.46",
@@ -52,7 +52,8 @@
   "bundler": {
     "entries": [
       "./src/entry.ts"
-    ]
+    ],
+    "shim": "@storybook/preview/dist/core-client"
   },
   "gitHead": "c64b5be851ed2affac56e1daaac3f453fbe6f230"
 }

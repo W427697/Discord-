@@ -108,7 +108,6 @@ export const getGlobalRender = () => {
 
 export const setGlobalRender = (render: StoryFn<AnyFramework>) => {
   checkMethod('setGlobalRender');
-  // @ts-expect-error (not strict)
   singleton.facade.projectAnnotations.render = render;
 };
 
@@ -133,7 +132,6 @@ export class ClientApi<TFramework extends AnyFramework> {
 
     this.storyStore = storyStore;
 
-    // @ts-expect-error (not strict)
     singleton = this; // eslint-disable-line @typescript-eslint/no-this-alias
   }
 
@@ -149,7 +147,6 @@ export class ClientApi<TFramework extends AnyFramework> {
   }
 
   addDecorator = (decorator: DecoratorFunction<TFramework>) => {
-    // @ts-expect-error (not strict)
     this.facade.projectAnnotations.decorators.push(decorator);
   };
 
@@ -178,13 +175,11 @@ export class ClientApi<TFramework extends AnyFramework> {
 
   addStepRunner = (stepRunner: StepRunner) => {
     this.facade.projectAnnotations.runStep = composeStepRunners(
-      // @ts-expect-error (not strict)
       [this.facade.projectAnnotations.runStep, stepRunner].filter(Boolean)
     );
   };
 
   addLoader = (loader: LoaderFunction<TFramework>) => {
-    // @ts-expect-error (not strict)
     this.facade.projectAnnotations.loaders.push(loader);
   };
 
@@ -203,12 +198,10 @@ export class ClientApi<TFramework extends AnyFramework> {
   };
 
   addArgsEnhancer = (enhancer: ArgsEnhancer<TFramework>) => {
-    // @ts-expect-error (not strict)
     this.facade.projectAnnotations.argsEnhancers.push(enhancer);
   };
 
   addArgTypesEnhancer = (enhancer: ArgTypesEnhancer<TFramework>) => {
-    // @ts-expect-error (not strict)
     this.facade.projectAnnotations.argTypesEnhancers.push(enhancer);
   };
 
@@ -352,7 +345,6 @@ export class ClientApi<TFramework extends AnyFramework> {
         throw new Error(`You cannot add a decorator after the first story for a kind.
 Read more here: https://github.com/storybookjs/storybook/blob/master/MIGRATION.md#can-no-longer-add-decoratorsparameters-after-stories`);
 
-      // @ts-expect-error (not strict)
       meta.decorators.push(decorator);
       return api;
     };
@@ -360,7 +352,6 @@ Read more here: https://github.com/storybookjs/storybook/blob/master/MIGRATION.m
     api.addLoader = (loader: LoaderFunction<TFramework>) => {
       if (hasAdded) throw new Error(`You cannot add a loader after the first story for a kind.`);
 
-      // @ts-expect-error (not strict)
       meta.loaders.push(loader);
       return api;
     };
@@ -383,7 +374,6 @@ Read more here: https://github.com/storybookjs/storybook/blob/master/MIGRATION.m
 
   // @deprecated
   raw = () => {
-    // @ts-expect-error (not strict)
     return this.storyStore.raw();
   };
 

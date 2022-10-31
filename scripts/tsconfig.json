@@ -39,11 +39,7 @@
     "dist",
     "**/dist",
     "node_modules",
-    "**/node_modules",
-    "**/*.spec.ts",
-    "**/__tests__",
-    "**/*.test.ts",
-    "**/setup-jest.ts"
+    "**/node_modules"
   ],
   "include": [
     "./**/*"

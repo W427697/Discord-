@@ -1,5 +1,4 @@
-dist
-lib/**/dll
+**/dist/**
 build
 coverage
 node_modules
