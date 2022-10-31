@@ -4,17 +4,18 @@
 import { dedent } from 'ts-dedent';
 import { loadCsf, formatCsf } from './CsfFile';
 import { enrichCsf, extractSource } from './enrichCsf';
+import type { EnrichCsfOptions } from './enrichCsf';
 
 expect.addSnapshotSerializer({
   print: (val: any) => val,
   test: (val) => true,
 });
 
-const enrich = (code: string) => {
+const enrich = (code: string, options?: EnrichCsfOptions) => {
   // we don't actually care about the title
 
   const csf = loadCsf(code, { makeTitle: (userTitle) => userTitle || 'default' }).parse();
-  enrichCsf(csf);
+  enrichCsf(csf, options);
   return formatCsf(csf);
 };
 
@@ -291,6 +292,88 @@ describe('enrichCsf', () => {
             }
           }
         };
+      `);
+    });
+  });
+
+  describe('options', () => {
+    it('disableSource', () => {
+      expect(
+        enrich(
+          dedent`
+          export default {
+           title: 'Button',
+          }
+          /** The most basic button */
+          export const Basic = () => <Button />
+        `,
+          { disableSource: true }
+        )
+      ).toMatchInlineSnapshot(`
+        export default {
+          title: 'Button'
+        };
+        /** The most basic button */
+        export const Basic = () => <Button />;
+        Basic.parameters = {
+          ...Basic.parameters,
+          docs: {
+            ...Basic.parameters?.docs,
+            description: {
+              story: "The most basic button",
+              ...Basic.parameters?.docs?.description
+            }
+          }
+        };
+      `);
+    });
+
+    it('disableDescription', () => {
+      expect(
+        enrich(
+          dedent`
+          export default {
+           title: 'Button',
+          }
+          /** The most basic button */
+          export const Basic = () => <Button />
+        `,
+          { disableDescription: true }
+        )
+      ).toMatchInlineSnapshot(`
+        export default {
+          title: 'Button'
+        };
+        /** The most basic button */
+        export const Basic = () => <Button />;
+        Basic.parameters = {
+          ...Basic.parameters,
+          storySource: {
+            source: "() => <Button />",
+            ...Basic.parameters?.storySource
+          }
+        };
+      `);
+    });
+
+    it('disable all', () => {
+      expect(
+        enrich(
+          dedent`
+          export default {
+           title: 'Button',
+          }
+          /** The most basic button */
+          export const Basic = () => <Button />
+        `,
+          { disableSource: true, disableDescription: true }
+        )
+      ).toMatchInlineSnapshot(`
+        export default {
+          title: 'Button'
+        };
+        /** The most basic button */
+        export const Basic = () => <Button />;
       `);
     });
   });

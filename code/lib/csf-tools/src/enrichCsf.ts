@@ -4,32 +4,41 @@ import * as t from '@babel/types';
 import * as generate from '@babel/generator';
 import type { CsfFile } from './CsfFile';
 
-export const enrichCsf = (csf: CsfFile) => {
-  Object.keys(csf._storyExports).forEach((key) => {
+export interface EnrichCsfOptions {
+  disableSource?: boolean;
+  disableDescription?: boolean;
+}
+
+export const enrichCsf = (csf: CsfFile, options?: EnrichCsfOptions) => {
+  const enablesSource = Object.keys(csf._storyExports).forEach((key) => {
     const storyExport = csf.getStoryExport(key);
-    const source = extractSource(storyExport);
-    const description = extractDescription(csf._storyStatements[key]);
+    const source = !options?.disableSource && extractSource(storyExport);
+    const description =
+      !options?.disableDescription && extractDescription(csf._storyStatements[key]);
     const parameters = [];
     // storySource: { source: %%source%% },
     const originalParameters = t.memberExpression(t.identifier(key), t.identifier('parameters'));
     parameters.push(t.spreadElement(originalParameters));
 
-    const optionalStorySource = t.optionalMemberExpression(
-      originalParameters,
-      t.identifier('storySource'),
-      false,
-      true
-    );
-
-    parameters.push(
-      t.objectProperty(
+    if (source) {
+      const optionalStorySource = t.optionalMemberExpression(
+        originalParameters,
         t.identifier('storySource'),
-        t.objectExpression([
-          t.objectProperty(t.identifier('source'), t.stringLiteral(source)),
-          t.spreadElement(optionalStorySource),
-        ])
-      )
-    );
+        false,
+        true
+      );
+
+      parameters.push(
+        t.objectProperty(
+          t.identifier('storySource'),
+          t.objectExpression([
+            t.objectProperty(t.identifier('source'), t.stringLiteral(source)),
+            t.spreadElement(optionalStorySource),
+          ])
+        )
+      );
+    }
+
     // docs: { description: { story: %%description%% } },
     if (description) {
       const optionalDocs = t.optionalMemberExpression(
@@ -62,10 +71,12 @@ export const enrichCsf = (csf: CsfFile) => {
         )
       );
     }
-    const addParameter = t.expressionStatement(
-      t.assignmentExpression('=', originalParameters, t.objectExpression(parameters))
-    );
-    csf._ast.program.body.push(addParameter);
+    if (parameters.length > 1) {
+      const addParameter = t.expressionStatement(
+        t.assignmentExpression('=', originalParameters, t.objectExpression(parameters))
+      );
+      csf._ast.program.body.push(addParameter);
+    }
   });
 };
 

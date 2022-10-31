@@ -1,11 +1,9 @@
 import { createUnplugin } from 'unplugin';
 import fs from 'fs/promises';
 import { loadCsf, enrichCsf, formatCsf } from '@storybook/csf-tools';
+import type { EnrichCsfOptions } from '@storybook/csf-tools';
 
-export interface CsfPluginOptions {
-  source?: boolean;
-  description?: boolean;
-}
+export type CsfPluginOptions = EnrichCsfOptions;
 
 const STORIES_REGEX = /\.(story|stories)\.[tj]sx?$/;
 
