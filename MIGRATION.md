@@ -461,7 +461,7 @@ In 7.0, the `main.js` fields `reactOptions` and `angularOptions` have been renam
 module.exports = {
   framework: {
     name: '@storybook/react-webpack5',
-    options: { fastRefresh: true };
+    options: { fastRefresh: true },
   }
 }
 ```
