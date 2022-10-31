@@ -1,12 +1,11 @@
-/* eslint-disable camelcase */
 import fs from 'fs';
 import path from 'path';
 import type {
-  CoreCommon_NormalizedStoriesSpecifier,
-  CoreCommon_StoriesEntry,
   AnyFramework,
   ArgsEnhancer,
   ArgTypesEnhancer,
+  CoreCommon_NormalizedStoriesSpecifier,
+  CoreCommon_StoriesEntry,
   DecoratorFunction,
 } from '@storybook/types';
 import { toRequireContext } from '@storybook/core-webpack';
@@ -14,7 +13,7 @@ import { normalizeStoriesEntry } from '@storybook/core-common';
 import registerRequireContextHook from '@storybook/babel-plugin-require-context-hook/register';
 import global from 'global';
 
-import { ClientApi } from './Loader';
+import type { ClientApi } from './Loader';
 import type { StoryshotsOptions } from '../api/StoryshotsOptions';
 
 registerRequireContextHook();

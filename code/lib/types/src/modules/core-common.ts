@@ -1,4 +1,4 @@
-/* eslint-disable camelcase */
+/* eslint-disable @typescript-eslint/naming-convention */
 import type { FileSystemCache } from 'file-system-cache';
 
 import type { Options as TelejsonOptions } from 'telejson';
@@ -6,7 +6,7 @@ import type { TransformOptions } from '@babel/core';
 import type { Router } from 'express';
 import type { Server } from 'http';
 import type { PackageJson as PackageJsonFromTypeFest } from 'type-fest';
-import type { Parameters } from './csf';
+import type { Parameters, Tag } from './csf';
 
 /**
  * ⚠️ This file contains internal WIP types they MUST NOT be exported outside this package for now!
@@ -94,6 +94,7 @@ export interface Ref {
 
 export interface VersionCheck {
   success: boolean;
+  cached: boolean;
   data?: any;
   error?: any;
   time: number;
@@ -208,10 +209,11 @@ export interface CoreCommon_IndexerOptions {
 export interface CoreCommon_IndexedStory {
   id: string;
   name: string;
+  tags?: Tag[];
   parameters?: Parameters;
 }
 export interface CoreCommon_StoryIndex {
-  meta: { title?: string };
+  meta: { title?: string; tags?: Tag[] };
   stories: CoreCommon_IndexedStory[];
 }
 

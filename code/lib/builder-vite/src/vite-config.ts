@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import * as path from 'path';
 import { loadConfigFromFile, mergeConfig } from 'vite';
 import type {

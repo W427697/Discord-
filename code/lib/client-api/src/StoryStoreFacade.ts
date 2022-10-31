@@ -1,24 +1,24 @@
-/* eslint-disable camelcase */
 /* eslint-disable no-underscore-dangle */
 import global from 'global';
 import { dedent } from 'ts-dedent';
 import { SynchronousPromise } from 'synchronous-promise';
 import { toId, isExportStory, storyNameFromExport } from '@storybook/csf';
 import type {
-  StoryId,
-  AnyFramework,
-  Parameters,
-  ComponentId,
-  Store_NormalizedProjectAnnotations,
   Addon_IndexEntry,
-  Store_Path,
+  AnyFramework,
+  ComponentId,
+  DocsOptions,
+  Parameters,
+  Path,
   Store_ModuleExports,
+  Store_NormalizedProjectAnnotations,
+  Store_NormalizedStoriesSpecifier,
   Store_Story,
   Store_StoryIndex,
-  Store_NormalizedStoriesSpecifier,
-  DocsOptions,
+  StoryId,
 } from '@storybook/types';
-import { StoryStore, userOrAutoTitle, sortStoriesV6 } from '@storybook/store';
+import type { StoryStore } from '@storybook/store';
+import { userOrAutoTitle, sortStoriesV6 } from '@storybook/store';
 import { logger } from '@storybook/client-logger';
 
 export class StoryStoreFacade<TFramework extends AnyFramework> {
@@ -26,7 +26,7 @@ export class StoryStoreFacade<TFramework extends AnyFramework> {
 
   entries: Record<StoryId, Addon_IndexEntry & { componentId?: ComponentId }>;
 
-  csfExports: Record<Store_Path, Store_ModuleExports>;
+  csfExports: Record<Path, Store_ModuleExports>;
 
   constructor() {
     this.projectAnnotations = {
@@ -46,7 +46,7 @@ export class StoryStoreFacade<TFramework extends AnyFramework> {
 
   // This doesn't actually import anything because the client-api loads fully
   // on startup, but this is a shim after all.
-  importFn(path: Store_Path) {
+  importFn(path: Path) {
     return SynchronousPromise.resolve().then(() => {
       const moduleExports = this.csfExports[path];
       if (!moduleExports) throw new Error(`Unknown path: ${path}`);
@@ -115,7 +115,7 @@ export class StoryStoreFacade<TFramework extends AnyFramework> {
     return { v: 4, entries };
   }
 
-  clearFilenameExports(fileName: Store_Path) {
+  clearFilenameExports(fileName: Path) {
     if (!this.csfExports[fileName]) {
       return;
     }
@@ -132,7 +132,7 @@ export class StoryStoreFacade<TFramework extends AnyFramework> {
   }
 
   // NOTE: we could potentially share some of this code with the stories.json generation
-  addStoriesFromExports(fileName: Store_Path, fileExports: Store_ModuleExports) {
+  addStoriesFromExports(fileName: Path, fileExports: Store_ModuleExports) {
     if (fileName.match(/\.mdx$/) && !fileName.match(/\.stories\.mdx$/)) {
       return;
     }
@@ -144,9 +144,10 @@ export class StoryStoreFacade<TFramework extends AnyFramework> {
     // OTOH, if they have changed, let's clear them out first
     this.clearFilenameExports(fileName);
 
+    // eslint-disable-next-line @typescript-eslint/naming-convention
     const { default: defaultExport, __namedExportsOrder, ...namedExports } = fileExports;
     // eslint-disable-next-line prefer-const
-    let { id: componentId, title } = defaultExport || {};
+    let { id: componentId, title, tags: componentTags = [] } = defaultExport || {};
 
     const specifiers = (global.STORIES || []).map(
       (specifier: Store_NormalizedStoriesSpecifier & { importPathMatcher: string }) => ({
@@ -188,6 +189,30 @@ export class StoryStoreFacade<TFramework extends AnyFramework> {
       isExportStory(key, defaultExport)
     );
 
+    // NOTE: this logic is equivalent to the `extractStories` function of `StoryIndexGenerator`
+    const docsOptions = (global.DOCS_OPTIONS || {}) as DocsOptions;
+    if (docsOptions.enabled && storyExports.length) {
+      // We will use tags soon and this crappy filename test will go away
+      if (
+        fileName.match(/\.mdx$/) ||
+        (docsOptions.docsPage && componentTags.includes('docsPage'))
+      ) {
+        const name = docsOptions.defaultName;
+        const docsId = toId(componentId || title, name);
+        this.entries[docsId] = {
+          type: 'docs',
+          standalone: false,
+          id: docsId,
+          title,
+          name,
+          importPath: fileName,
+          ...(componentId && { componentId }),
+          tags: [...componentTags, 'docs'],
+          storiesImports: [],
+        };
+      }
+    }
+
     storyExports.forEach(([key, storyExport]: [string, any]) => {
       const exportName = storyNameFromExport(key);
       const id = storyExport.parameters?.__id || toId(componentId || title, exportName);
@@ -204,29 +229,10 @@ export class StoryStoreFacade<TFramework extends AnyFramework> {
           name,
           title,
           importPath: fileName,
-          componentId,
+          ...(componentId && { componentId }),
+          tags: [...(storyExport.tags || componentTags), 'story'],
         };
       }
     });
-
-    // NOTE: this logic is equivalent to the `extractStories` function of `StoryIndexGenerator`
-    const docsOptions = (global.DOCS_OPTIONS || {}) as DocsOptions;
-    if (docsOptions.enabled && storyExports.length) {
-      // We will use tags soon and this crappy filename test will go away
-      if (fileName.match(/\.mdx$/) || docsOptions.docsPage) {
-        const name = docsOptions.defaultName;
-        const docsId = toId(componentId || title, name);
-        this.entries[docsId] = {
-          type: 'docs',
-          standalone: false,
-          id: docsId,
-          title,
-          name,
-          importPath: fileName,
-          storiesImports: [],
-          componentId,
-        };
-      }
-    }
   }
 }

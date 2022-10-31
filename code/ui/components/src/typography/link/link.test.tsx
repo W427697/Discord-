@@ -1,8 +1,10 @@
-import React, { AnchorHTMLAttributes } from 'react';
+import type { AnchorHTMLAttributes } from 'react';
+import React from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { ThemeProvider, themes, convert } from '@storybook/theming';
-import { Link, LinkProps } from './link';
+import type { LinkProps } from './link';
+import { Link } from './link';
 
 const LEFT_BUTTON = 0;
 const MIDDLE_BUTTON = 1;

@@ -1,4 +1,5 @@
-import webpack, { Stats, Configuration, ProgressPlugin, StatsOptions } from 'webpack';
+import type { Stats, Configuration, StatsOptions } from 'webpack';
+import webpack, { ProgressPlugin } from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
 import { logger } from '@storybook/node-logger';
@@ -144,6 +145,7 @@ const starter: StarterFunction = async function* starterGeneratorFn({
   }
 
   if (stats.hasErrors()) {
+    // eslint-disable-next-line @typescript-eslint/no-throw-literal
     throw stats;
   }
 

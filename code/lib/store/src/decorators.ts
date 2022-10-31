@@ -1,11 +1,10 @@
-/* eslint-disable camelcase */
 import type {
-  DecoratorFunction,
-  StoryContextUpdate,
-  PartialStoryFn,
-  LegacyStoryFn,
   AnyFramework,
+  DecoratorFunction,
+  LegacyStoryFn,
+  PartialStoryFn,
   Store_ContextStore,
+  StoryContextUpdate,
 } from '@storybook/types';
 
 export function decorateStory<TFramework extends AnyFramework>(

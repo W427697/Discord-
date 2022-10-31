@@ -1,25 +1,17 @@
-/* eslint-disable camelcase */
-import React, {
-  FC,
-  ReactNode,
-  ElementType,
-  ComponentProps,
-  useContext,
-  useRef,
-  useEffect,
-  useState,
-} from 'react';
+import type { FC, ReactNode, ElementType, ComponentProps } from 'react';
+import React, { useContext, useRef, useEffect, useState } from 'react';
 import type {
-  StoryId,
-  StoryAnnotations,
   AnyFramework,
   Store_ModuleExport,
   Store_ModuleExports,
   Store_Story as StoryType,
+  StoryAnnotations,
+  StoryId,
 } from '@storybook/types';
 
 import { Story as PureStory, StorySkeleton } from '../components';
-import { DocsContext, DocsContextProps } from './DocsContext';
+import type { DocsContextProps } from './DocsContext';
+import { DocsContext } from './DocsContext';
 import { useStory } from './useStory';
 
 export const storyBlockIdFromId = (storyId: string) => `story--${storyId}`;

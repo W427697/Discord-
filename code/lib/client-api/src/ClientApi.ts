@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 /// <reference types="webpack-env" />
 
 import { dedent } from 'ts-dedent';
@@ -21,16 +20,12 @@ import type {
   Addon_ClientApiAddons,
   Addon_StoryApi,
   Store_NormalizedComponentAnnotations,
-  Store_Path,
+  Path,
   Store_ModuleImportFn,
   Store_ModuleExports,
 } from '@storybook/types';
-import {
-  combineParameters,
-  composeStepRunners,
-  StoryStore,
-  normalizeInputTypes,
-} from '@storybook/store';
+import type { StoryStore } from '@storybook/store';
+import { combineParameters, composeStepRunners, normalizeInputTypes } from '@storybook/store';
 
 import { StoryStoreFacade } from './StoryStoreFacade';
 
@@ -140,7 +135,7 @@ export class ClientApi<TFramework extends AnyFramework> {
     singleton = this;
   }
 
-  importFn(path: Store_Path) {
+  importFn(path: Path) {
     return this.facade.importFn(path);
   }
 
@@ -214,7 +209,7 @@ export class ClientApi<TFramework extends AnyFramework> {
   // storiesOf file to finish adding stories, and us to load it into the facade as a
   // single psuedo-CSF file. So instead we just keep collecting the CSF files and load
   // them all into the facade at the end.
-  _addedExports = {} as Record<Store_Path, Store_ModuleExports>;
+  _addedExports = {} as Record<Path, Store_ModuleExports>;
 
   _loadAddedExports() {
     // eslint-disable-next-line no-underscore-dangle
@@ -361,7 +356,7 @@ Read more here: https://github.com/storybookjs/storybook/blob/master/MIGRATION.m
       return api;
     };
 
-    api.addParameters = ({ component, args, argTypes, ...parameters }: Parameters) => {
+    api.addParameters = ({ component, args, argTypes, tags, ...parameters }: Parameters) => {
       if (hasAdded)
         throw new Error(`You cannot add parameters after the first story for a kind.
 Read more here: https://github.com/storybookjs/storybook/blob/master/MIGRATION.md#can-no-longer-add-decoratorsparameters-after-stories`);
@@ -370,6 +365,7 @@ Read more here: https://github.com/storybookjs/storybook/blob/master/MIGRATION.m
       if (component) meta.component = component;
       if (args) meta.args = { ...meta.args, ...args };
       if (argTypes) meta.argTypes = { ...meta.argTypes, ...argTypes };
+      if (tags) meta.tags = tags;
       return api;
     };
 

@@ -1,7 +1,6 @@
-/* eslint-disable camelcase */
 import global from 'global';
 
-import { Channel } from '@storybook/channels';
+import type { Channel } from '@storybook/channels';
 import { SET_CONFIG } from '@storybook/core-events';
 import type { API } from '@storybook/api';
 import type {
@@ -21,8 +20,6 @@ export { Addon_Type as Addon, Addon_TypesEnum as types };
 export function isSupportedType(type: Addon_Types): boolean {
   return !!Object.values(Addon_TypesEnum).find((typeVal) => typeVal === type);
 }
-
-export type Types = Addon_TypesEnum | string;
 
 export class AddonStore {
   constructor() {
@@ -77,7 +74,7 @@ export class AddonStore {
     this.serverChannel = channel;
   };
 
-  getElements = (type: Types): Addon_Collection => {
+  getElements = (type: Addon_Types): Addon_Collection => {
     if (!this.elements[type]) {
       this.elements[type] = {};
     }

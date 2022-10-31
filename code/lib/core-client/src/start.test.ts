@@ -1,28 +1,21 @@
-/* eslint-disable camelcase */
 /* global window */
 import { STORY_RENDERED, STORY_UNCHANGED, SET_INDEX } from '@storybook/core-events';
 
+import type { Store_ModuleExports, Path, Loadable } from '@storybook/types';
+import { setGlobalRender } from '@storybook/client-api';
+import global from 'global';
 import {
   waitForRender,
   waitForEvents,
   waitForQuiescence,
   emitter,
   mockChannel,
-} from '@storybook/preview-web/dist/cjs/PreviewWeb.mockdata';
-// @ts-expect-error (Converted from ts-ignore)
-import { WebView } from '@storybook/preview-web/dist/cjs/WebView';
-import type { Store_ModuleExports, Store_Path, Loadable } from '@storybook/types';
-import { setGlobalRender } from '@storybook/client-api';
-import global from 'global';
+} from './PreviewWeb.mockdata';
 
 import { start as realStart } from './start';
 
-jest.mock('@storybook/preview-web/dist/cjs/WebView');
-jest.spyOn(WebView.prototype, 'prepareForDocs').mockReturnValue('docs-root');
-jest.spyOn(WebView.prototype, 'prepareForStory').mockReturnValue('story-root');
-
 jest.mock('global', () => ({
-  // @ts-expect-error (Converted from ts-ignore)
+  // @ts-expect-error (jest is not happy with this)
   ...jest.requireActual('global'),
   history: { replaceState: jest.fn() },
   document: {
@@ -47,8 +40,30 @@ jest.mock('@storybook/store', () => {
   const actualStore = jest.requireActual('@storybook/store');
   return {
     ...actualStore,
-    userOrAutoTitle: (importPath: string, specifier: any, userTitle?: string) =>
+    userOrAutoTitle: (importPath: Path, specifier: any, userTitle?: string) =>
       userTitle || 'auto-title',
+  };
+});
+
+jest.mock('@storybook/preview-web', () => {
+  const actualPreviewWeb = jest.requireActual('@storybook/preview-web');
+
+  class OverloadPreviewWeb extends actualPreviewWeb.PreviewWeb {
+    constructor() {
+      super();
+
+      this.view = {
+        ...Object.fromEntries(
+          Object.getOwnPropertyNames(this.view.constructor.prototype).map((key) => [key, jest.fn()])
+        ),
+        prepareForDocs: jest.fn().mockReturnValue('docs-root'),
+        prepareForStory: jest.fn().mockReturnValue('story-root'),
+      };
+    }
+  }
+  return {
+    ...actualPreviewWeb,
+    PreviewWeb: OverloadPreviewWeb,
   };
 });
 
@@ -78,8 +93,8 @@ afterEach(() => {
   mockChannel.emit.mockClear();
 });
 
-function makeRequireContext(importMap: Record<Store_Path, Store_ModuleExports>) {
-  const req = (path: Store_Path) => importMap[path];
+function makeRequireContext(importMap: Record<Path, Store_ModuleExports>) {
+  const req = (path: Path) => importMap[path];
   req.keys = () => Object.keys(importMap);
   return req;
 }
@@ -106,6 +121,7 @@ describe('start', () => {
       });
 
       await waitForRender();
+
       expect(mockChannel.emit.mock.calls.find((call: [string, any]) => call[0] === SET_INDEX)[1])
         .toMatchInlineSnapshot(`
         Object {
@@ -124,6 +140,9 @@ describe('start', () => {
                 "fileName": "file1",
                 "framework": "test",
               },
+              "tags": Array [
+                "story",
+              ],
               "title": "Component A",
               "type": "story",
             },
@@ -141,6 +160,9 @@ describe('start', () => {
                 "fileName": "file1",
                 "framework": "test",
               },
+              "tags": Array [
+                "story",
+              ],
               "title": "Component A",
               "type": "story",
             },
@@ -158,6 +180,9 @@ describe('start', () => {
                 "fileName": "file2",
                 "framework": "test",
               },
+              "tags": Array [
+                "story",
+              ],
               "title": "Component B",
               "type": "story",
             },
@@ -253,7 +278,7 @@ describe('start', () => {
       expect(mockChannel.emit).toHaveBeenCalledWith(STORY_RENDERED, 'component-a--default');
 
       const storiesOfData = mockChannel.emit.mock.calls.find(
-        (call: [string, any]) => call[0] === SET_INDEX
+        (call: any[]) => call[0] === SET_INDEX
       )[1];
       expect(Object.values(storiesOfData.entries).map((s: any) => s.parameters.fileName)).toEqual([
         'file1',
@@ -325,7 +350,7 @@ describe('start', () => {
 
       const { configure, clientApi } = start(renderToDOM);
 
-      let disposeCallback: () => void;
+      let disposeCallback: () => void = () => {};
       const module = {
         id: 'file1',
         hot: {
@@ -361,7 +386,7 @@ describe('start', () => {
 
       const { configure, clientApi, forceReRender } = start(renderToDOM);
 
-      let disposeCallback: () => void;
+      let disposeCallback: () => void = () => {};
       const module = {
         id: 'file1',
         hot: {
@@ -403,6 +428,9 @@ describe('start', () => {
                 "fileName": "file1",
                 "framework": "test",
               },
+              "tags": Array [
+                "story",
+              ],
               "title": "Component A",
               "type": "story",
             },
@@ -420,6 +448,9 @@ describe('start', () => {
                 "fileName": "file1",
                 "framework": "test",
               },
+              "tags": Array [
+                "story",
+              ],
               "title": "Component A",
               "type": "story",
             },
@@ -432,9 +463,9 @@ describe('start', () => {
     it('re-emits SET_INDEX when a story file is removed', async () => {
       const renderToDOM = jest.fn(({ storyFn }) => storyFn());
 
-      const { configure, clientApi, forceReRender } = start(renderToDOM);
+      const { configure, clientApi } = start(renderToDOM);
 
-      let disposeCallback: () => void;
+      let disposeCallback: () => void = () => {};
       const moduleB = {
         id: 'file2',
         hot: {
@@ -468,6 +499,9 @@ describe('start', () => {
                 "fileName": "file1",
                 "framework": "test",
               },
+              "tags": Array [
+                "story",
+              ],
               "title": "Component A",
               "type": "story",
             },
@@ -485,6 +519,9 @@ describe('start', () => {
                 "fileName": "file2",
                 "framework": "test",
               },
+              "tags": Array [
+                "story",
+              ],
               "title": "Component B",
               "type": "story",
             },
@@ -514,6 +551,9 @@ describe('start', () => {
                 "fileName": "file1",
                 "framework": "test",
               },
+              "tags": Array [
+                "story",
+              ],
               "title": "Component A",
               "type": "story",
             },
@@ -527,8 +567,12 @@ describe('start', () => {
   const componentCExports = {
     default: {
       title: 'Component C',
+      tags: ['component-tag', 'docsPage'],
     },
-    StoryOne: jest.fn(),
+    StoryOne: {
+      render: jest.fn(),
+      tags: ['story-tag'],
+    },
     StoryTwo: jest.fn(),
   };
 
@@ -547,7 +591,6 @@ describe('start', () => {
             "component-c--story-one": Object {
               "argTypes": Object {},
               "args": Object {},
-              "componentId": undefined,
               "id": "component-c--story-one",
               "importPath": "exports-map-0",
               "initialArgs": Object {},
@@ -557,13 +600,16 @@ describe('start', () => {
                 "fileName": "exports-map-0",
                 "framework": "test",
               },
+              "tags": Array [
+                "story-tag",
+                "story",
+              ],
               "title": "Component C",
               "type": "story",
             },
             "component-c--story-two": Object {
               "argTypes": Object {},
               "args": Object {},
-              "componentId": undefined,
               "id": "component-c--story-two",
               "importPath": "exports-map-0",
               "initialArgs": Object {},
@@ -573,6 +619,11 @@ describe('start', () => {
                 "fileName": "exports-map-0",
                 "framework": "test",
               },
+              "tags": Array [
+                "component-tag",
+                "docsPage",
+                "story",
+              ],
               "title": "Component C",
               "type": "story",
             },
@@ -595,7 +646,7 @@ describe('start', () => {
     it('supports HMR when a story file changes', async () => {
       const renderToDOM = jest.fn(({ storyFn }) => storyFn());
 
-      let disposeCallback: (data: object) => void;
+      let disposeCallback: (data: object) => void = () => {};
       const module = {
         id: 'file1',
         hot: {
@@ -612,7 +663,7 @@ describe('start', () => {
 
       await waitForRender();
       expect(mockChannel.emit).toHaveBeenCalledWith(STORY_RENDERED, 'component-c--story-one');
-      expect(componentCExports.StoryOne).toHaveBeenCalled();
+      expect(componentCExports.StoryOne.render).toHaveBeenCalled();
       expect(module.hot.accept).toHaveBeenCalled();
       expect(disposeCallback).toBeDefined();
 
@@ -633,7 +684,7 @@ describe('start', () => {
     it('re-emits SET_INDEX when a story is added', async () => {
       const renderToDOM = jest.fn(({ storyFn }) => storyFn());
 
-      let disposeCallback: (data: object) => void;
+      let disposeCallback: (data: object) => void = () => {};
       const module = {
         id: 'file1',
         hot: {
@@ -661,7 +712,6 @@ describe('start', () => {
             "component-c--story-one": Object {
               "argTypes": Object {},
               "args": Object {},
-              "componentId": undefined,
               "id": "component-c--story-one",
               "importPath": "exports-map-0",
               "initialArgs": Object {},
@@ -671,13 +721,16 @@ describe('start', () => {
                 "fileName": "exports-map-0",
                 "framework": "test",
               },
+              "tags": Array [
+                "story-tag",
+                "story",
+              ],
               "title": "Component C",
               "type": "story",
             },
             "component-c--story-three": Object {
               "argTypes": Object {},
               "args": Object {},
-              "componentId": undefined,
               "id": "component-c--story-three",
               "importPath": "exports-map-0",
               "initialArgs": Object {},
@@ -687,13 +740,17 @@ describe('start', () => {
                 "fileName": "exports-map-0",
                 "framework": "test",
               },
+              "tags": Array [
+                "component-tag",
+                "docsPage",
+                "story",
+              ],
               "title": "Component C",
               "type": "story",
             },
             "component-c--story-two": Object {
               "argTypes": Object {},
               "args": Object {},
-              "componentId": undefined,
               "id": "component-c--story-two",
               "importPath": "exports-map-0",
               "initialArgs": Object {},
@@ -703,6 +760,11 @@ describe('start', () => {
                 "fileName": "exports-map-0",
                 "framework": "test",
               },
+              "tags": Array [
+                "component-tag",
+                "docsPage",
+                "story",
+              ],
               "title": "Component C",
               "type": "story",
             },
@@ -715,7 +777,7 @@ describe('start', () => {
     it('re-emits SET_INDEX when a story file is removed', async () => {
       const renderToDOM = jest.fn(({ storyFn }) => storyFn());
 
-      let disposeCallback: (data: object) => void;
+      let disposeCallback: (data: object) => void = () => {};
       const module = {
         id: 'file1',
         hot: {
@@ -741,7 +803,6 @@ describe('start', () => {
             "component-c--story-one": Object {
               "argTypes": Object {},
               "args": Object {},
-              "componentId": undefined,
               "id": "component-c--story-one",
               "importPath": "exports-map-0",
               "initialArgs": Object {},
@@ -751,13 +812,16 @@ describe('start', () => {
                 "fileName": "exports-map-0",
                 "framework": "test",
               },
+              "tags": Array [
+                "story-tag",
+                "story",
+              ],
               "title": "Component C",
               "type": "story",
             },
             "component-c--story-two": Object {
               "argTypes": Object {},
               "args": Object {},
-              "componentId": undefined,
               "id": "component-c--story-two",
               "importPath": "exports-map-0",
               "initialArgs": Object {},
@@ -767,13 +831,17 @@ describe('start', () => {
                 "fileName": "exports-map-0",
                 "framework": "test",
               },
+              "tags": Array [
+                "component-tag",
+                "docsPage",
+                "story",
+              ],
               "title": "Component C",
               "type": "story",
             },
             "component-d--story-four": Object {
               "argTypes": Object {},
               "args": Object {},
-              "componentId": undefined,
               "id": "component-d--story-four",
               "importPath": "exports-map-1",
               "initialArgs": Object {},
@@ -783,6 +851,9 @@ describe('start', () => {
                 "fileName": "exports-map-1",
                 "framework": "test",
               },
+              "tags": Array [
+                "story",
+              ],
               "title": "Component D",
               "type": "story",
             },
@@ -804,7 +875,6 @@ describe('start', () => {
             "component-c--story-one": Object {
               "argTypes": Object {},
               "args": Object {},
-              "componentId": undefined,
               "id": "component-c--story-one",
               "importPath": "exports-map-0",
               "initialArgs": Object {},
@@ -814,13 +884,16 @@ describe('start', () => {
                 "fileName": "exports-map-0",
                 "framework": "test",
               },
+              "tags": Array [
+                "story-tag",
+                "story",
+              ],
               "title": "Component C",
               "type": "story",
             },
             "component-c--story-two": Object {
               "argTypes": Object {},
               "args": Object {},
-              "componentId": undefined,
               "id": "component-c--story-two",
               "importPath": "exports-map-0",
               "initialArgs": Object {},
@@ -830,6 +903,11 @@ describe('start', () => {
                 "fileName": "exports-map-0",
                 "framework": "test",
               },
+              "tags": Array [
+                "component-tag",
+                "docsPage",
+                "story",
+              ],
               "title": "Component C",
               "type": "story",
             },
@@ -895,12 +973,14 @@ describe('start', () => {
           Object {
             "entries": Object {
               "introduction": Object {
-                "componentId": undefined,
                 "id": "introduction",
                 "importPath": "./Introduction.stories.mdx",
                 "name": undefined,
                 "standalone": false,
                 "storiesImports": Array [],
+                "tags": Array [
+                  "docs",
+                ],
                 "title": "Introduction",
                 "type": "docs",
               },
@@ -952,6 +1032,9 @@ describe('start', () => {
                 "fileName": "file1",
                 "framework": "test",
               },
+              "tags": Array [
+                "story",
+              ],
               "title": "Component A",
               "type": "story",
             },
@@ -969,6 +1052,9 @@ describe('start', () => {
                 "fileName": "file1",
                 "framework": "test",
               },
+              "tags": Array [
+                "story",
+              ],
               "title": "Component A",
               "type": "story",
             },
@@ -986,13 +1072,15 @@ describe('start', () => {
                 "fileName": "file2",
                 "framework": "test",
               },
+              "tags": Array [
+                "story",
+              ],
               "title": "Component B",
               "type": "story",
             },
             "component-c--story-one": Object {
               "argTypes": Object {},
               "args": Object {},
-              "componentId": undefined,
               "id": "component-c--story-one",
               "importPath": "exports-map-0",
               "initialArgs": Object {},
@@ -1002,13 +1090,16 @@ describe('start', () => {
                 "fileName": "exports-map-0",
                 "framework": "test",
               },
+              "tags": Array [
+                "story-tag",
+                "story",
+              ],
               "title": "Component C",
               "type": "story",
             },
             "component-c--story-two": Object {
               "argTypes": Object {},
               "args": Object {},
-              "componentId": undefined,
               "id": "component-c--story-two",
               "importPath": "exports-map-0",
               "initialArgs": Object {},
@@ -1018,6 +1109,11 @@ describe('start', () => {
                 "fileName": "exports-map-0",
                 "framework": "test",
               },
+              "tags": Array [
+                "component-tag",
+                "docsPage",
+                "story",
+              ],
               "title": "Component C",
               "type": "story",
             },
@@ -1039,10 +1135,165 @@ describe('start', () => {
 
     describe('docsPage', () => {
       beforeEach(() => {
-        global.DOCS_OPTIONS = { enabled: true, docsPage: true, defaultTitle: 'Docs' };
+        global.DOCS_OPTIONS = { enabled: true, docsPage: true, defaultName: 'Docs' };
       });
 
-      it('adds stories for each component', async () => {});
+      it('adds stories for each component with docsPage tag', async () => {
+        const renderToDOM = jest.fn();
+
+        const { configure, clientApi } = start(renderToDOM);
+        configure('test', () => {
+          clientApi
+            .storiesOf('Component A', { id: 'file1' } as NodeModule)
+            .add('Story One', jest.fn())
+            .add('Story Two', jest.fn());
+
+          clientApi
+            .storiesOf('Component B', { id: 'file2' } as NodeModule)
+            .addParameters({ tags: ['docsPage'] })
+            .add('Story Three', jest.fn());
+
+          return [componentCExports];
+        });
+
+        await waitForRender();
+        expect(mockChannel.emit.mock.calls.find((call: [string, any]) => call[0] === SET_INDEX)[1])
+          .toMatchInlineSnapshot(`
+          Object {
+            "entries": Object {
+              "component-a--story-one": Object {
+                "argTypes": Object {},
+                "args": Object {},
+                "componentId": "component-a",
+                "id": "component-a--story-one",
+                "importPath": "file1",
+                "initialArgs": Object {},
+                "name": "Story One",
+                "parameters": Object {
+                  "__id": "component-a--story-one",
+                  "__isArgsStory": false,
+                  "fileName": "file1",
+                  "framework": "test",
+                },
+                "tags": Array [
+                  "story",
+                ],
+                "title": "Component A",
+                "type": "story",
+              },
+              "component-a--story-two": Object {
+                "argTypes": Object {},
+                "args": Object {},
+                "componentId": "component-a",
+                "id": "component-a--story-two",
+                "importPath": "file1",
+                "initialArgs": Object {},
+                "name": "Story Two",
+                "parameters": Object {
+                  "__id": "component-a--story-two",
+                  "__isArgsStory": false,
+                  "fileName": "file1",
+                  "framework": "test",
+                },
+                "tags": Array [
+                  "story",
+                ],
+                "title": "Component A",
+                "type": "story",
+              },
+              "component-b--docs": Object {
+                "componentId": "component-b",
+                "id": "component-b--docs",
+                "importPath": "file2",
+                "name": "Docs",
+                "standalone": false,
+                "storiesImports": Array [],
+                "tags": Array [
+                  "docsPage",
+                  "docs",
+                ],
+                "title": "Component B",
+                "type": "docs",
+              },
+              "component-b--story-three": Object {
+                "argTypes": Object {},
+                "args": Object {},
+                "componentId": "component-b",
+                "id": "component-b--story-three",
+                "importPath": "file2",
+                "initialArgs": Object {},
+                "name": "Story Three",
+                "parameters": Object {
+                  "__id": "component-b--story-three",
+                  "__isArgsStory": false,
+                  "fileName": "file2",
+                  "framework": "test",
+                },
+                "tags": Array [
+                  "docsPage",
+                  "story",
+                ],
+                "title": "Component B",
+                "type": "story",
+              },
+              "component-c--docs": Object {
+                "id": "component-c--docs",
+                "importPath": "exports-map-0",
+                "name": "Docs",
+                "standalone": false,
+                "storiesImports": Array [],
+                "tags": Array [
+                  "component-tag",
+                  "docsPage",
+                  "docs",
+                ],
+                "title": "Component C",
+                "type": "docs",
+              },
+              "component-c--story-one": Object {
+                "argTypes": Object {},
+                "args": Object {},
+                "id": "component-c--story-one",
+                "importPath": "exports-map-0",
+                "initialArgs": Object {},
+                "name": "Story One",
+                "parameters": Object {
+                  "__isArgsStory": false,
+                  "fileName": "exports-map-0",
+                  "framework": "test",
+                },
+                "tags": Array [
+                  "story-tag",
+                  "story",
+                ],
+                "title": "Component C",
+                "type": "story",
+              },
+              "component-c--story-two": Object {
+                "argTypes": Object {},
+                "args": Object {},
+                "id": "component-c--story-two",
+                "importPath": "exports-map-0",
+                "initialArgs": Object {},
+                "name": "Story Two",
+                "parameters": Object {
+                  "__isArgsStory": false,
+                  "fileName": "exports-map-0",
+                  "framework": "test",
+                },
+                "tags": Array [
+                  "component-tag",
+                  "docsPage",
+                  "story",
+                ],
+                "title": "Component C",
+                "type": "story",
+              },
+            },
+            "v": 4,
+          }
+        `);
+      });
     });
   });
 
@@ -1067,7 +1318,6 @@ describe('start', () => {
             "auto-title--story-one": Object {
               "argTypes": Object {},
               "args": Object {},
-              "componentId": undefined,
               "id": "auto-title--story-one",
               "importPath": "exports-map-0",
               "initialArgs": Object {},
@@ -1077,6 +1327,9 @@ describe('start', () => {
                 "fileName": "exports-map-0",
                 "framework": "test",
               },
+              "tags": Array [
+                "story",
+              ],
               "title": "auto-title",
               "type": "story",
             },

@@ -3302,6 +3302,51 @@ describe('PreviewWeb', () => {
         expect.objectContaining({})
       );
     });
+
+    it('does not emit PREVIEW_KEYDOWN during story play functions', async () => {
+      document.location.search = '?id=component-one--a';
+
+      const [gate, openGate] = createGate();
+      componentOneExports.a.play.mockImplementationOnce(async () => gate);
+      const preview = new PreviewWeb();
+      await preview.initialize({ importFn, getProjectAnnotations });
+      await waitForRenderPhase('playing');
+
+      await preview.onKeydown({
+        target: { tagName: 'div', getAttribute: jest.fn().mockReturnValue(null) },
+      } as any);
+
+      expect(mockChannel.emit).not.toHaveBeenCalledWith(
+        PREVIEW_KEYDOWN,
+        expect.objectContaining({})
+      );
+      openGate();
+    });
+
+    it('does not emit PREVIEW_KEYDOWN during docs play functions', async () => {
+      document.location.search = '?id=component-one--a';
+
+      const preview = await createAndRenderPreview();
+
+      mockChannel.emit.mockClear();
+      const [gate, openGate] = createGate();
+      componentOneExports.b.play.mockImplementationOnce(async () => gate);
+      preview.renderStoryToElement(
+        await preview.storyStore.loadStory({ storyId: 'component-one--b' }),
+        {} as any
+      );
+      await waitForRenderPhase('playing');
+
+      await preview.onKeydown({
+        target: { tagName: 'div', getAttribute: jest.fn().mockReturnValue(null) },
+      } as any);
+
+      expect(mockChannel.emit).not.toHaveBeenCalledWith(
+        PREVIEW_KEYDOWN,
+        expect.objectContaining({})
+      );
+      openGate();
+    });
   });
 
   describe('extract', () => {
@@ -3394,6 +3439,9 @@ describe('PreviewWeb', () => {
             },
             "story": "A",
             "subcomponents": undefined,
+            "tags": Array [
+              "story",
+            ],
             "title": "Component One",
           },
           "component-one--b": Object {
@@ -3427,6 +3475,9 @@ describe('PreviewWeb', () => {
             },
             "story": "B",
             "subcomponents": undefined,
+            "tags": Array [
+              "story",
+            ],
             "title": "Component One",
           },
           "component-one--e": Object {
@@ -3449,6 +3500,9 @@ describe('PreviewWeb', () => {
             "playFunction": undefined,
             "story": "E",
             "subcomponents": undefined,
+            "tags": Array [
+              "story",
+            ],
             "title": "Component One",
           },
           "component-two--c": Object {
@@ -3481,6 +3535,9 @@ describe('PreviewWeb', () => {
             "playFunction": undefined,
             "story": "C",
             "subcomponents": undefined,
+            "tags": Array [
+              "story",
+            ],
             "title": "Component Two",
           },
         }

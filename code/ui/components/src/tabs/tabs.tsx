@@ -1,13 +1,5 @@
-import React, {
-  Children,
-  Component,
-  Fragment,
-  FC,
-  memo,
-  MouseEvent,
-  ReactElement,
-  ReactNode,
-} from 'react';
+import type { FC, MouseEvent, ReactElement, ReactNode } from 'react';
+import React, { Children, Component, Fragment, memo } from 'react';
 import { styled } from '@storybook/theming';
 import { sanitize } from '@storybook/csf';
 

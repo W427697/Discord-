@@ -1,25 +1,25 @@
-/* eslint-disable camelcase */
 import global from 'global';
 import type {
   AnyFramework,
-  StoryId,
-  ViewMode,
-  StoryContextForLoaders,
-  StoryContext,
-  Store_Story,
   Store_RenderContext,
   Store_RenderToDOM,
+  Store_Story,
   Store_TeardownRenderToDOM,
+  StoryContext,
+  StoryContextForLoaders,
+  StoryId,
+  ViewMode,
 } from '@storybook/types';
 import type { StoryStore } from '@storybook/store';
-import { Channel } from '@storybook/channels';
+import type { Channel } from '@storybook/channels';
 import { logger } from '@storybook/client-logger';
 import {
   STORY_RENDER_PHASE_CHANGED,
   STORY_RENDERED,
   PLAY_FUNCTION_THREW_EXCEPTION,
 } from '@storybook/core-events';
-import { Render, RenderType, PREPARE_ABORTED } from './Render';
+import type { Render, RenderType } from './Render';
+import { PREPARE_ABORTED } from './Render';
 
 const { AbortController } = global;
 
@@ -155,7 +155,8 @@ export class StoryRender<TFramework extends AnyFramework, TRootElement = HTMLEle
     if (!this.story) throw new Error('cannot render when not prepared');
     if (!canvasElement) throw new Error('cannot render when canvasElement is unset');
 
-    const { id, componentId, title, name, applyLoaders, unboundStoryFn, playFunction } = this.story;
+    const { id, componentId, title, name, tags, applyLoaders, unboundStoryFn, playFunction } =
+      this.story;
 
     if (forceRemount && !initial) {
       // NOTE: we don't check the cancel actually worked here, so the previous
@@ -197,6 +198,7 @@ export class StoryRender<TFramework extends AnyFramework, TRootElement = HTMLEle
         id,
         name,
         story: name,
+        tags,
         ...this.callbacks,
         showError: (error) => {
           this.phase = 'errored';
@@ -216,6 +218,7 @@ export class StoryRender<TFramework extends AnyFramework, TRootElement = HTMLEle
         const teardown = await this.renderToScreen(renderContext, canvasElement);
         this.teardownRender = teardown || (() => {});
       });
+
       this.notYetRendered = false;
       if (abortSignal.aborted) return;
 

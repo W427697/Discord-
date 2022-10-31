@@ -141,7 +141,7 @@ describe('StoryObj', () => {
       SvelteStory<
         Button,
         { disabled: boolean; label: string },
-        { disabled: boolean; label: string }
+        { disabled?: boolean; label?: string }
       >
     >();
   });

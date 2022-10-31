@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import { dedent } from 'ts-dedent';
 import global from 'global';
 import { SynchronousPromise } from 'synchronous-promise';
@@ -15,26 +14,26 @@ import {
   UPDATE_STORY_ARGS,
 } from '@storybook/core-events';
 import { logger } from '@storybook/client-logger';
-import { Channel } from '@storybook/channels';
+import type { Channel } from '@storybook/channels';
 import { addons } from '@storybook/addons';
 import type {
   AnyFramework,
-  StoryId,
-  ProjectAnnotations,
   Args,
   Globals,
+  ProjectAnnotations,
   Store_ModuleImportFn,
+  Store_PromiseLike,
+  Store_RenderToDOM,
   Store_Story,
   Store_StoryIndex,
-  Store_PromiseLike,
   Store_WebProjectAnnotations,
-  Store_RenderToDOM,
+  StoryId,
 } from '@storybook/types';
 import { StoryStore } from '@storybook/store';
 
 import { StoryRender } from './render/StoryRender';
-import { TemplateDocsRender } from './render/TemplateDocsRender';
-import { StandaloneDocsRender } from './render/StandaloneDocsRender';
+import type { TemplateDocsRender } from './render/TemplateDocsRender';
+import type { StandaloneDocsRender } from './render/StandaloneDocsRender';
 
 const { fetch } = global;
 

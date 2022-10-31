@@ -1,10 +1,9 @@
-/* eslint-disable camelcase */
 /* eslint-disable no-underscore-dangle */
 /* global window */
 
-import type { API_ArgType, API_ArgTypes } from '@storybook/types';
+import { API_ArgType, API_ArgTypes } from '@storybook/types';
 import { logger } from '@storybook/client-logger';
-import type {
+import {
   Argument,
   Class,
   CompodocJson,
@@ -226,6 +225,7 @@ export const extractArgTypesFromData = (componentData: Class | Directive | Injec
   const compodocClasses = ['component', 'directive'].includes(componentData.type)
     ? ['propertiesClass', 'methodsClass', 'inputsClass', 'outputsClass']
     : ['properties', 'methods'];
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   type COMPODOC_CLASS =
     | 'properties'
     | 'methods'

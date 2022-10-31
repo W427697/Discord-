@@ -1,21 +1,25 @@
-/* eslint-disable camelcase */
+/* eslint-disable @typescript-eslint/naming-convention */
+
 import type { RenderData as RouterData } from '../../../router/src/router';
 import type { ThemeVars } from '../../../theming/src/types';
-import {
+import type {
   AnyFramework,
   Args,
+  ArgsStoryFn as ArgsStoryFnForFramework,
   ComponentTitle,
+  DecoratorFunction as DecoratorFunctionForFramework,
   InputType,
+  LegacyStoryFn as LegacyStoryFnForFramework,
+  LoaderFunction as LoaderFunctionForFramework,
+  Parameters,
+  PartialStoryFn as PartialStoryFnForFramework,
+  Path,
+  StoryContext as StoryContextForFramework,
+  StoryFn as StoryFnForFramework,
   StoryId,
   StoryKind,
   StoryName,
-  StoryContext as StoryContextForFramework,
-  LegacyStoryFn as LegacyStoryFnForFramework,
-  PartialStoryFn as PartialStoryFnForFramework,
-  ArgsStoryFn as ArgsStoryFnForFramework,
-  StoryFn as StoryFnForFramework,
-  DecoratorFunction as DecoratorFunctionForFramework,
-  LoaderFunction as LoaderFunctionForFramework,
+  Tag,
 } from './csf';
 
 export type Addon_Types = Addon_TypesEnum | string;
@@ -40,19 +44,19 @@ export interface Addon_StorySortObjectParameter {
   includeNames?: boolean;
 }
 
-export type Addon_Path = string;
 export interface Addon_BaseIndexEntry {
   id: StoryId;
   name: StoryName;
   title: ComponentTitle;
-  importPath: Addon_Path;
+  tags?: Tag[];
+  importPath: Path;
 }
 export type Addon_StoryIndexEntry = Addon_BaseIndexEntry & {
   type: 'story';
 };
 
 export type Addon_DocsIndexEntry = Addon_BaseIndexEntry & {
-  storiesImports: Addon_Path[];
+  storiesImports: Path[];
   type: 'docs';
   standalone: boolean;
 };
@@ -66,7 +70,7 @@ export type Addon_IndexEntry = Addon_StoryIndexEntry | Addon_DocsIndexEntry;
 
 // The `any` here is the story store's `StoreItem` record. Ideally we should probably only
 // pass a defined subset of that full data, but we pass it all so far :shrug:
-export type Addon_IndexEntryLegacy = [StoryId, any, Addon_Parameters, Addon_Parameters];
+export type Addon_IndexEntryLegacy = [StoryId, any, Parameters, Parameters];
 export type Addon_StorySortComparator = Addon_Comparator<Addon_IndexEntryLegacy>;
 export type Addon_StorySortParameter = Addon_StorySortComparator | Addon_StorySortObjectParameter;
 export type Addon_StorySortComparatorV7 = Addon_Comparator<Addon_IndexEntry>;
@@ -82,15 +86,6 @@ export interface Addon_OptionsParameter extends Object {
     base: string;
     brandTitle?: string;
   };
-  [key: string]: any;
-}
-
-export interface Addon_Parameters {
-  fileName?: string;
-  options?: Addon_OptionsParameter;
-  /** The layout property defines basic styles added to the preview body where the story is rendered. If you pass 'none', no styles are applied. */
-  layout?: 'centered' | 'fullscreen' | 'padded' | 'none';
-  docsOnly?: boolean;
   [key: string]: any;
 }
 
@@ -137,7 +132,7 @@ export interface Addon_AddStoryArgs<StoryFnReturnType = unknown> {
   kind: StoryKind;
   name: StoryName;
   storyFn: Addon_StoryFn<StoryFnReturnType>;
-  parameters: Addon_Parameters;
+  parameters: Parameters;
 }
 
 export interface Addon_ClientApiAddon<StoryFnReturnType = unknown> extends Addon_Type {
@@ -156,13 +151,13 @@ export interface Addon_StoryApi<StoryFnReturnType = unknown> {
   add: (
     storyName: StoryName,
     storyFn: Addon_StoryFn<StoryFnReturnType>,
-    parameters?: Addon_Parameters
+    parameters?: Parameters
   ) => Addon_StoryApi<StoryFnReturnType>;
   addDecorator: (
     decorator: Addon_DecoratorFunction<StoryFnReturnType>
   ) => Addon_StoryApi<StoryFnReturnType>;
   addLoader: (decorator: Addon_LoaderFunction) => Addon_StoryApi<StoryFnReturnType>;
-  addParameters: (parameters: Addon_Parameters) => Addon_StoryApi<StoryFnReturnType>;
+  addParameters: (parameters: Parameters) => Addon_StoryApi<StoryFnReturnType>;
   [k: string]: string | Addon_ClientApiReturnFn<StoryFnReturnType>;
 }
 
@@ -180,24 +175,24 @@ export type Addon_BaseDecorators<StoryFnReturnType> = Array<
   (story: () => StoryFnReturnType, context: Addon_StoryContext) => StoryFnReturnType
 >;
 
-export interface Addon_BaseAnnotations<Args, StoryFnReturnType> {
+export interface Addon_BaseAnnotations<TArgs, StoryFnReturnType> {
   /**
    * Dynamic data that are provided (and possibly updated by) Storybook and its addons.
    * @see [Arg story inputs](https://storybook.js.org/docs/react/api/csf#args-story-inputs)
    */
-  args?: Partial<Args>;
+  args?: Partial<TArgs>;
 
   /**
    * ArgTypes encode basic metadata for args, such as `name`, `description`, `defaultValue` for an arg. These get automatically filled in by Storybook Docs.
    * @see [Control annotations](https://github.com/storybookjs/storybook/blob/91e9dee33faa8eff0b342a366845de7100415367/addons/controls/README.md#control-annotations)
    */
-  argTypes?: Addons_ArgTypes<Args>;
+  argTypes?: Addons_ArgTypes<TArgs>;
 
   /**
    * Custom metadata for a story.
    * @see [Parameters](https://storybook.js.org/docs/basics/writing-stories/#parameters)
    */
-  parameters?: Addon_Parameters;
+  parameters?: Parameters;
 
   /**
    * Wrapper components or Storybook decorators that wrap a story.
@@ -210,7 +205,7 @@ export interface Addon_BaseAnnotations<Args, StoryFnReturnType> {
   /**
    * Define a custom render function for the story(ies). If not passed, a default render function by the framework will be used.
    */
-  render?: (args: Args, context: Addon_StoryContext) => StoryFnReturnType;
+  render?: (args: TArgs, context: Addon_StoryContext) => StoryFnReturnType;
 
   /**
    * Function that is executed after the story is rendered.
@@ -218,8 +213,8 @@ export interface Addon_BaseAnnotations<Args, StoryFnReturnType> {
   play?: (context: Addon_StoryContext) => Promise<void> | void;
 }
 
-export interface Addon_Annotations<Args, StoryFnReturnType>
-  extends Addon_BaseAnnotations<Args, StoryFnReturnType> {
+export interface Addon_Annotations<TArgs, StoryFnReturnType>
+  extends Addon_BaseAnnotations<TArgs, StoryFnReturnType> {
   /**
    * Used to only include certain named exports as stories. Useful when you want to have non-story exports such as mock data or ignore a few stories.
    * @example
@@ -293,20 +288,20 @@ export interface Addon_BaseMeta<ComponentType> {
   subcomponents?: Record<string, ComponentType>;
 }
 
-export type Addon_BaseStoryObject<Args, StoryFnReturnType> = {
+export type Addon_BaseStoryObject<TArgs, StoryFnReturnType> = {
   /**
    * Override the display name in the UI
    */
   storyName?: string;
 };
 
-export type Addon_BaseStoryFn<Args, StoryFnReturnType> = {
-  (args: Args, context: Addon_StoryContext): StoryFnReturnType;
-} & Addon_BaseStoryObject<Args, StoryFnReturnType>;
+export type Addon_BaseStoryFn<TArgs, StoryFnReturnType> = {
+  (args: TArgs, context: Addon_StoryContext): StoryFnReturnType;
+} & Addon_BaseStoryObject<TArgs, StoryFnReturnType>;
 
-export type BaseStory<Args, StoryFnReturnType> =
-  | Addon_BaseStoryFn<Args, StoryFnReturnType>
-  | Addon_BaseStoryObject<Args, StoryFnReturnType>;
+export type BaseStory<TArgs, StoryFnReturnType> =
+  | Addon_BaseStoryFn<TArgs, StoryFnReturnType>
+  | Addon_BaseStoryObject<TArgs, StoryFnReturnType>;
 
 export interface Addon_RenderOptions {
   active?: boolean;

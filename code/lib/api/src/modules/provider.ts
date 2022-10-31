@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import type { API_Provider } from '@storybook/types';
 import type { API, ModuleFn } from '../index';
 

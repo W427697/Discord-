@@ -1,4 +1,5 @@
-import React, { forwardRef, FC, ComponentProps, ReactNode } from 'react';
+import type { FC, ComponentProps, ReactNode } from 'react';
+import React, { forwardRef } from 'react';
 import { styled } from '@storybook/theming';
 import { darken, lighten, rgba, transparentize } from 'polished';
 
@@ -248,7 +249,7 @@ export const Button: FC<ComponentProps<typeof ButtonWrapper>> = Object.assign(
       children?: ReactNode;
       href?: string;
     }
-  >(({ isLink, children, ...props }, ref) => {
+  >(function Button({ isLink, children, ...props }, ref) {
     if (isLink) {
       return (
         <ButtonLink {...props} ref={ref}>

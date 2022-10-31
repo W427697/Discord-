@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import { dedent } from 'ts-dedent';
 import global from 'global';
 import {
@@ -21,19 +20,20 @@ import {
 import { logger } from '@storybook/client-logger';
 import type {
   AnyFramework,
-  StoryId,
-  ProjectAnnotations,
   Args,
   Globals,
-  ViewMode,
+  ProjectAnnotations,
   Store_ModuleImportFn,
   Store_Selection,
-  Store_StorySpecifier,
   Store_StoryIndex,
+  Store_StorySpecifier,
   Store_WebProjectAnnotations,
+  StoryId,
+  ViewMode,
 } from '@storybook/types';
 
-import { MaybePromise, Preview } from './Preview';
+import type { MaybePromise } from './Preview';
+import { Preview } from './Preview';
 
 import { UrlStore } from './UrlStore';
 import { WebView } from './WebView';
@@ -69,8 +69,6 @@ export class PreviewWeb<
   selectionStore: SelectionStore;
 
   view: View<TRootElement>;
-
-  previewEntryError?: Error;
 
   currentSelection?: Store_Selection;
 
@@ -217,7 +215,7 @@ export class PreviewWeb<
   }
 
   onKeydown(event: KeyboardEvent) {
-    if (!this.currentRender?.disableKeyListeners && !focusInInput(event)) {
+    if (!this.storyRenders.find((r) => r.disableKeyListeners) && !focusInInput(event)) {
       // We have to pick off the keys of the event that we need on the other side
       const { altKey, ctrlKey, metaKey, shiftKey, key, code, keyCode } = event;
       this.channel.emit(PREVIEW_KEYDOWN, {

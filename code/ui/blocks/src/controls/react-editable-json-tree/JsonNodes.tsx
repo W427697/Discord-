@@ -1,11 +1,12 @@
+/* eslint-disable react/no-direct-mutation-state */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable react/sort-comp */
 /* eslint-disable react/no-array-index-key */
-
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable react/button-has-type */
 
-import React, { cloneElement, Component, ReactElement } from 'react';
+import type { ReactElement } from 'react';
+import React, { cloneElement, Component } from 'react';
 import * as inputUsageTypes from './types/inputUsageTypes';
 
 import * as dataTypes from './types/dataTypes';

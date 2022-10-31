@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable no-param-reassign */
 import global from 'global';
@@ -10,7 +9,7 @@ import { render as litRender } from 'lit-html';
 import { isTemplateResult } from 'lit-html/directive-helpers.js';
 import { simulatePageLoad, simulateDOMContentLoaded } from '@storybook/preview-web';
 import type { Store_RenderContext, ArgsStoryFn } from '@storybook/types';
-import { WebComponentsFramework } from './types';
+import type { WebComponentsFramework } from './types';
 
 const { Node } = global;
 

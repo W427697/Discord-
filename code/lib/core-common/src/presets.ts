@@ -1,16 +1,15 @@
-/* eslint-disable camelcase */
 import { dedent } from 'ts-dedent';
 import { logger } from '@storybook/node-logger';
 import { dirname } from 'path';
 import type {
+  BuilderOptions,
   CLIOptions,
+  CoreCommon_ResolvedAddonPreset,
+  CoreCommon_ResolvedAddonVirtual,
   LoadedPreset,
   LoadOptions,
   PresetConfig,
   Presets,
-  BuilderOptions,
-  CoreCommon_ResolvedAddonPreset,
-  CoreCommon_ResolvedAddonVirtual,
 } from '@storybook/types';
 import { loadCustomPresets } from './utils/load-custom-presets';
 import { safeResolve, safeResolveFrom } from './utils/safeResolve';
@@ -199,7 +198,7 @@ export async function loadPreset(
 
     if (Array.isArray(contents)) {
       const subPresets = contents;
-      return loadPresets(subPresets, level + 1, storybookOptions);
+      return await loadPresets(subPresets, level + 1, storybookOptions);
     }
 
     if (isObject(contents)) {

@@ -1,22 +1,19 @@
-import React, {
-  Children,
-  ClipboardEvent,
-  FC,
-  ReactElement,
-  ReactNode,
-  useCallback,
-  useState,
-} from 'react';
+import type { ClipboardEvent, FC, ReactElement, ReactNode } from 'react';
+import React, { Children, useCallback, useState } from 'react';
 import { darken } from 'polished';
 import { styled } from '@storybook/theming';
 
 import global from 'global';
 import { ActionBar, Zoom } from '@storybook/components';
 import type { ActionItem } from '@storybook/components';
-import { Source, SourceProps } from '.';
+
+import type { SourceProps } from '.';
+// eslint-disable-next-line import/no-cycle
+import { Source } from '.';
 import { getBlockBackgroundStyle } from './BlockBackgroundStyles';
 import { Toolbar } from './Toolbar';
 import { ZoomContext } from './ZoomContext';
+// eslint-disable-next-line import/no-cycle
 import { StorySkeleton } from './Story';
 
 export interface PreviewProps {
@@ -31,9 +28,9 @@ export interface PreviewProps {
   children?: ReactNode;
 }
 
-type layout = 'padded' | 'fullscreen' | 'centered';
+type Layout = 'padded' | 'fullscreen' | 'centered';
 
-const ChildrenContainer = styled.div<PreviewProps & { layout: layout }>(
+const ChildrenContainer = styled.div<PreviewProps & { layout: Layout }>(
   ({ isColumn, columns, layout }) => ({
     display: isColumn || !columns ? 'block' : 'flex',
     position: 'relative',
@@ -175,7 +172,7 @@ const Relative = styled.div({
   position: 'relative',
 });
 
-const getLayout = (children: ReactElement[]): layout => {
+const getLayout = (children: ReactElement[]): Layout => {
   return children.reduce((result, c) => {
     if (result) {
       return result;

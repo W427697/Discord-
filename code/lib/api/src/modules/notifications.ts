@@ -1,6 +1,5 @@
-/* eslint-disable camelcase */
 import type { API_Notification } from '@storybook/types';
-import { ModuleFn } from '../index';
+import type { ModuleFn } from '../index';
 
 export interface SubState {
   notifications: API_Notification[];

@@ -1,28 +1,21 @@
-/* eslint-disable camelcase */
+/* eslint-disable @typescript-eslint/naming-convention */
+
 import type { RenderData } from '../../../router/src/router';
 import type { Channel } from '../../../channels/src';
 import type { ThemeVars } from '../../../theming/src/types';
 import type { ViewMode } from './csf';
 import type { DocsOptions } from './core-common';
-import {
+import type {
   API_HashEntry,
   API_SetStoriesStory,
   API_SetStoriesStoryData,
   API_StoriesHash,
   API_StoryIndex,
 } from './api-stories';
+import type { Addon_Types } from './addons';
 
 export type API_ViewMode = 'story' | 'info' | 'settings' | 'page' | undefined | string;
 
-enum types {
-  TAB = 'tab',
-  PANEL = 'panel',
-  TOOL = 'tool',
-  PREVIEW = 'preview',
-  NOTES_ELEMENT = 'notes-element',
-}
-
-export type API_Types = types | string;
 export interface API_RenderOptions {
   active: boolean;
   key: string;
@@ -43,7 +36,7 @@ export interface API_MatchOptions {
 
 export interface API_Addon {
   title: string;
-  type?: API_Types;
+  type?: Addon_Types;
   id?: string;
   route?: (routeOptions: API_RouteOptions) => string;
   match?: (matchOptions: API_MatchOptions) => boolean;

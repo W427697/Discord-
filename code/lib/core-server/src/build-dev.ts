@@ -1,18 +1,18 @@
 import type {
-  CLIOptions,
-  LoadOptions,
   BuilderOptions,
-  Options,
+  CLIOptions,
   CoreConfig,
+  LoadOptions,
+  Options,
   StorybookConfig,
 } from '@storybook/types';
 import {
-  resolvePathInStorybookCache,
-  loadAllPresets,
   cache,
+  loadAllPresets,
   loadMainConfig,
-  validateFrameworkName,
   resolveAddonName,
+  resolvePathInStorybookCache,
+  validateFrameworkName,
 } from '@storybook/core-common';
 import prompts from 'prompts';
 import global from 'global';
@@ -36,7 +36,7 @@ export async function buildDevStandalone(options: CLIOptions & LoadOptions & Bui
     getServerPort(options.port),
     versionUpdates
       ? updateCheck(version)
-      : Promise.resolve({ success: false, data: {}, time: Date.now() }),
+      : Promise.resolve({ success: false, cached: false, data: {}, time: Date.now() }),
     releaseNotes
       ? getReleaseNotesData(version, cache)
       : Promise.resolve(getReleaseNotesFailedState(version)),

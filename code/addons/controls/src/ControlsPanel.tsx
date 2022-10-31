@@ -1,5 +1,5 @@
-/* eslint-disable camelcase */
-import React, { FC } from 'react';
+import type { FC } from 'react';
+import React from 'react';
 import { useArgs, useGlobals, useArgTypes, useParameter, useStorybookState } from '@storybook/api';
 import {
   PureArgsTable as ArgsTable,

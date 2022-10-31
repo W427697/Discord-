@@ -1,7 +1,8 @@
 // eslint-disable-next-line @typescript-eslint/triple-slash-reference
 /// <reference path="./typings.d.ts" />
 
-import { createElement, forwardRef, ElementType } from 'react';
+import type { ElementType } from 'react';
+import { createElement, forwardRef } from 'react';
 import * as typography from './typography/components';
 
 export { A } from './typography/elements/A';
@@ -87,6 +88,7 @@ export const components = typography.components;
 const resetComponents: Record<string, ElementType> = {};
 
 Object.keys(typography.components).forEach((key) => {
+  // eslint-disable-next-line react/display-name
   resetComponents[key] = forwardRef((props, ref) => createElement(key, { ...props, ref }));
 });
 

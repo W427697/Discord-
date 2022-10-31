@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import { expect, describe, it } from '@jest/globals';
 import type { StoryId, Addon_StoryIndexEntry } from '@storybook/types';
 

@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import type {
   AnyFramework,
   Store_CSFFile,
@@ -6,7 +5,7 @@ import type {
   Store_ModuleExports,
 } from '@storybook/types';
 import { DocsContext } from '@storybook/preview-web';
-import { StoryStore } from '@storybook/store';
+import type { StoryStore } from '@storybook/store';
 import type { DocsContextProps } from '@storybook/preview-web';
 import type { Channel } from '@storybook/channels';
 

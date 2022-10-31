@@ -1,4 +1,4 @@
-/* eslint-disable camelcase */
+/* eslint-disable @typescript-eslint/naming-convention */
 import type { SynchronousPromise } from 'synchronous-promise';
 import type { Addon_IndexEntry, Addon_StoryIndexEntry } from './addons';
 import type {
@@ -12,6 +12,7 @@ import type {
   LegacyStoryFn,
   Parameters,
   PartialStoryFn,
+  Path,
   ProjectAnnotations,
   StoryAnnotations,
   StoryContext,
@@ -26,11 +27,10 @@ import type {
   ViewMode,
 } from './csf';
 
-export type Store_Path = string;
 export type Store_ModuleExport = any;
 export type Store_ModuleExports = Record<string, Store_ModuleExport>;
 export type Store_PromiseLike<T> = Promise<T> | SynchronousPromise<T>;
-export type Store_ModuleImportFn = (path: Store_Path) => Store_PromiseLike<Store_ModuleExports>;
+export type Store_ModuleImportFn = (path: Path) => Store_PromiseLike<Store_ModuleExports>;
 
 type Store_MaybePromise<T> = Promise<T> | T;
 

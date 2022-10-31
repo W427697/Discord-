@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/naming-convention
 enum events {
   CHANNEL_CREATED = 'channelCreated',
   // There was an error executing the config, likely an bug in the user's preview.js

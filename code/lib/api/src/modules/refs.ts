@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import global from 'global';
 import { dedent } from 'ts-dedent';
 import type {
@@ -10,6 +9,7 @@ import type {
   API_StoriesHash,
   API_StoryMapper,
 } from '@storybook/types';
+// eslint-disable-next-line import/no-cycle
 import {
   transformSetStoriesStoryDataToStoriesHash,
   transformStoryIndexToStoriesHash,

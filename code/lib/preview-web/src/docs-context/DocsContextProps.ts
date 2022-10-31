@@ -1,12 +1,11 @@
-/* eslint-disable camelcase */
 import type {
-  StoryId,
-  StoryName,
   AnyFramework,
-  StoryContextForLoaders,
   Store_ModuleExport,
   Store_ModuleExports,
   Store_Story,
+  StoryContextForLoaders,
+  StoryId,
+  StoryName,
 } from '@storybook/types';
 import type { Channel } from '@storybook/channels';
 

@@ -1,5 +1,5 @@
-/* eslint-disable camelcase */
-import React, { FC, useContext, useEffect, useState, useCallback } from 'react';
+import type { FC } from 'react';
+import React, { useContext, useEffect, useState, useCallback } from 'react';
 import mapValues from 'lodash/mapValues';
 import type { ArgTypesExtractor } from '@storybook/docs-tools';
 import { filterArgTypes } from '@storybook/store';
@@ -10,16 +10,13 @@ import {
   RESET_STORY_ARGS,
   GLOBALS_UPDATED,
 } from '@storybook/core-events';
-import {
-  ArgsTable as PureArgsTable,
-  ArgsTableProps as PureArgsTableProps,
-  ArgsTableError,
-  SortType,
-  TabbedArgsTable,
-} from '../components';
+import type { ArgsTableProps as PureArgsTableProps, SortType } from '../components';
+import { ArgsTable as PureArgsTable, ArgsTableError, TabbedArgsTable } from '../components';
 
-import { DocsContext, DocsContextProps } from './DocsContext';
-import { Component, PRIMARY_STORY } from './types';
+import type { DocsContextProps } from './DocsContext';
+import { DocsContext } from './DocsContext';
+import type { Component } from './types';
+import { PRIMARY_STORY } from './types';
 import { getComponentName } from './utils';
 import { useStory } from './useStory';
 
@@ -166,6 +163,7 @@ export const StoryTable: FC<
     const story = useStory(storyId, context);
     // eslint-disable-next-line prefer-const
     let [args, updateArgs, resetArgs] = useArgs(storyId, context);
+
     const [globals] = useGlobals(context);
     if (!story) return <PureArgsTable isLoading updateArgs={updateArgs} resetArgs={resetArgs} />;
 

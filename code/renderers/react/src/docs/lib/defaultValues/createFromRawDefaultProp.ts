@@ -10,7 +10,8 @@ import {
   type PropDefaultValue,
 } from '@storybook/docs-tools';
 
-import { inspectValue, InspectionFunction } from '../inspection';
+import type { InspectionFunction } from '../inspection';
+import { inspectValue } from '../inspection';
 import { generateObject } from './generateObject';
 import { generateArray } from './generateArray';
 import { getPrettyElementIdentifier, getPrettyFuncIdentifier } from './prettyIdentifier';

@@ -1,10 +1,9 @@
-/* eslint-disable camelcase */
 import type {
+  AnyFramework,
   Store_CSFFile,
   Store_ModuleExport,
   Store_ModuleExports,
   Store_Story,
-  AnyFramework,
   StoryContextForLoaders,
   StoryId,
   StoryName,
@@ -12,7 +11,7 @@ import type {
 import type { StoryStore } from '@storybook/store';
 import type { Channel } from '@storybook/channels';
 
-import { DocsContextProps } from './DocsContextProps';
+import type { DocsContextProps } from './DocsContextProps';
 
 export class DocsContext<TFramework extends AnyFramework> implements DocsContextProps<TFramework> {
   private componentStoriesValue: Store_Story<TFramework>[];

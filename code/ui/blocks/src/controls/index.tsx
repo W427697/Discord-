@@ -1,4 +1,5 @@
-import React, { ComponentProps, lazy, Suspense } from 'react';
+import type { ComponentProps } from 'react';
+import React, { lazy, Suspense } from 'react';
 import type { ColorControlProps } from './Color';
 
 export * from './types';
@@ -16,9 +17,14 @@ export const ColorControl = (props: ComponentProps<typeof LazyColorControl>) => 
 );
 
 export * from './Date';
+
 export * from './Number';
+
 export * from './options';
 export * from './Object';
+
 export * from './Range';
+
 export * from './Text';
+
 export * from './Files';

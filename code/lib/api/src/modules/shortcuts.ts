@@ -1,10 +1,11 @@
-/* eslint-disable camelcase */
+/* eslint-disable @typescript-eslint/naming-convention */
 import global from 'global';
 import { PREVIEW_KEYDOWN } from '@storybook/core-events';
 
 import type { ModuleFn } from '../index';
 
-import { shortcutMatchesShortcut, eventToShortcut, KeyboardEventLike } from '../lib/shortcut';
+import type { KeyboardEventLike } from '../lib/shortcut';
+import { shortcutMatchesShortcut, eventToShortcut } from '../lib/shortcut';
 import { focusableUIElements } from './layout';
 
 const { navigator, document } = global;

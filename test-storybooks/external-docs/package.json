@@ -124,6 +124,6 @@
     "@storybook/vue": "portal:../../code/renderers/vue",
     "@storybook/vue3": "portal:../../code/renderers/vue3",
     "@storybook/web-components": "portal:../../code/renderers/web-components",
-    "@storybook/ui": "portal:../../code/ui/manager"
+    "@storybook/manager": "portal:../../code/ui/manager"
   }
 }

@@ -1,22 +1,21 @@
-/* eslint-disable camelcase */
 import { dedent } from 'ts-dedent';
 import type {
-  Parameters,
   Addon_Comparator,
+  Addon_IndexEntry,
   Addon_IndexEntryLegacy,
+  Addon_StoryIndexEntry,
   Addon_StorySortParameter,
   Addon_StorySortParameterV7,
-  Addon_StoryIndexEntry,
-  Addon_IndexEntry,
+  Parameters,
+  Path,
   Store_Story,
-  Store_Path,
 } from '@storybook/types';
 import { storySort } from './storySort';
 
 const sortStoriesCommon = (
   stories: Addon_IndexEntry[],
   storySortParameter: Addon_StorySortParameterV7,
-  fileNameOrder: Store_Path[]
+  fileNameOrder: Path[]
 ) => {
   if (storySortParameter) {
     let sortFn: Addon_Comparator<any>;
@@ -37,7 +36,7 @@ const sortStoriesCommon = (
 export const sortStoriesV7 = (
   stories: Addon_IndexEntry[],
   storySortParameter: Addon_StorySortParameterV7,
-  fileNameOrder: Store_Path[]
+  fileNameOrder: Path[]
 ) => {
   try {
     return sortStoriesCommon(stories, storySortParameter, fileNameOrder);
@@ -62,7 +61,7 @@ const toIndexEntry = (story: any): Addon_StoryIndexEntry => {
 export const sortStoriesV6 = (
   stories: [string, Store_Story, Parameters, Parameters][],
   storySortParameter: Addon_StorySortParameter,
-  fileNameOrder: Store_Path[]
+  fileNameOrder: Path[]
 ) => {
   if (storySortParameter && typeof storySortParameter === 'function') {
     stories.sort(

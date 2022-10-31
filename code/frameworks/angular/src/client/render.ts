@@ -1,8 +1,7 @@
-/* eslint-disable camelcase */
-import type { Store_RenderContext, ArgsStoryFn } from '@storybook/types';
+import { Store_RenderContext, ArgsStoryFn } from '@storybook/types';
 
 import { renderNgApp } from './angular/helpers';
-import type { AngularFramework } from './types';
+import { AngularFramework } from './types';
 
 import { RendererFactory } from './angular-beta/RendererFactory';
 

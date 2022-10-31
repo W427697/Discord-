@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import global from 'global';
 import qs from 'qs';
 import type { ViewMode, Store_SelectionSpecifier, Store_Selection } from '@storybook/types';

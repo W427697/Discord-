@@ -7,7 +7,8 @@ import { transparentize } from 'polished';
 import { MatcherResult } from './MatcherResult';
 import { MethodCall } from './MethodCall';
 import { StatusIcon } from './StatusIcon';
-import { Controls } from './InteractionsPanel';
+
+import type { Controls } from './InteractionsPanel';
 
 const MethodCallWrapper = styled.div(() => ({
   fontFamily: typography.fonts.mono,

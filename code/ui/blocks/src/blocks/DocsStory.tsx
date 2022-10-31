@@ -1,6 +1,7 @@
-import React, { FC } from 'react';
+import type { FC } from 'react';
+import React from 'react';
 import { Subheading } from './Subheading';
-import { DocsStoryProps } from './types';
+import type { DocsStoryProps } from './types';
 import { Anchor } from './Anchor';
 import { Description } from './Description';
 import { Story } from './Story';

@@ -1,4 +1,5 @@
-import React, { useContext, FunctionComponent } from 'react';
+import type { FunctionComponent } from 'react';
+import React, { useContext } from 'react';
 import { Subtitle as PureSubtitle } from '../components';
 import { DocsContext } from './DocsContext';
 

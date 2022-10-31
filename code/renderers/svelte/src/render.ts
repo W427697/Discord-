@@ -1,11 +1,11 @@
-/* eslint-disable camelcase */
 import global from 'global';
 
 import type { Store_RenderContext, ArgsStoryFn } from '@storybook/types';
-import { SvelteComponentTyped } from 'svelte';
-import PreviewRender from '../templates/PreviewRender.svelte';
+import type { SvelteComponentTyped } from 'svelte';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import PreviewRender from '@storybook/svelte/templates/PreviewRender.svelte';
 
-import { SvelteFramework } from './types';
+import type { SvelteFramework } from './types';
 
 const { document } = global;
 

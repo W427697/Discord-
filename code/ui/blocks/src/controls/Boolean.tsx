@@ -1,11 +1,13 @@
-import React, { FC, useCallback } from 'react';
+import type { FC } from 'react';
+import React, { useCallback } from 'react';
 
 import { opacify, transparentize } from 'polished';
 import { styled } from '@storybook/theming';
 
 import { Form } from '@storybook/components';
 import { getControlId, getControlSetterButtonId } from './helpers';
-import { ControlProps, BooleanValue, BooleanConfig } from './types';
+
+import type { ControlProps, BooleanValue, BooleanConfig } from './types';
 
 const Label = styled.label(({ theme }) => ({
   lineHeight: '18px',
