@@ -3342,7 +3342,11 @@ describe('PreviewWeb', () => {
       const [gate, openGate] = createGate();
       componentOneExports.a.play.mockImplementationOnce(async () => gate);
       const preview = new PreviewWeb();
-      await preview.initialize({ importFn, getProjectAnnotations });
+      await preview.initialize({
+        // @ts-expect-error (no strict)
+        importFn,
+        getProjectAnnotations,
+      });
       await waitForRenderPhase('playing');
 
       await preview.onKeydown({
