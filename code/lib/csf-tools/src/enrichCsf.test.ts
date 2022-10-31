@@ -34,10 +34,11 @@ describe('enrichCsf', () => {
         };
         export const Basic = () => <Button />;
         Basic.parameters = {
+          ...Basic.parameters,
           storySource: {
-            source: "() => <Button />"
-          },
-          ...Basic.parameters
+            source: "() => <Button />",
+            ...Basic.parameters?.storySource
+          }
         };
       `);
     });
@@ -61,10 +62,11 @@ describe('enrichCsf', () => {
           foo: 'bar'
         };
         Basic.parameters = {
+          ...Basic.parameters,
           storySource: {
-            source: "args => <Button {...args} />"
-          },
-          ...Basic.parameters
+            source: "args => <Button {...args} />",
+            ...Basic.parameters?.storySource
+          }
         };
       `);
     });
@@ -88,10 +90,11 @@ describe('enrichCsf', () => {
           }
         };
         Basic.parameters = {
+          ...Basic.parameters,
           storySource: {
-            source: "{\\n  parameters: {\\n    foo: 'bar'\\n  }\\n}"
-          },
-          ...Basic.parameters
+            source: "{\\n  parameters: {\\n    foo: 'bar'\\n  }\\n}",
+            ...Basic.parameters?.storySource
+          }
         };
       `);
     });
@@ -111,16 +114,18 @@ describe('enrichCsf', () => {
         export const A = {};
         export const B = {};
         A.parameters = {
+          ...A.parameters,
           storySource: {
-            source: "{}"
-          },
-          ...A.parameters
+            source: "{}",
+            ...A.parameters?.storySource
+          }
         };
         B.parameters = {
+          ...B.parameters,
           storySource: {
-            source: "{}"
-          },
-          ...B.parameters
+            source: "{}",
+            ...B.parameters?.storySource
+          }
         };
       `);
     });
@@ -143,10 +148,11 @@ describe('enrichCsf', () => {
         // The most basic button
         export const Basic = () => <Button />;
         Basic.parameters = {
+          ...Basic.parameters,
           storySource: {
-            source: "() => <Button />"
-          },
-          ...Basic.parameters
+            source: "() => <Button />",
+            ...Basic.parameters?.storySource
+          }
         };
       `);
     });
@@ -167,10 +173,11 @@ describe('enrichCsf', () => {
         /* The most basic button */
         export const Basic = () => <Button />;
         Basic.parameters = {
+          ...Basic.parameters,
           storySource: {
-            source: "() => <Button />"
-          },
-          ...Basic.parameters
+            source: "() => <Button />",
+            ...Basic.parameters?.storySource
+          }
         };
       `);
     });
@@ -191,15 +198,18 @@ describe('enrichCsf', () => {
         /** The most basic button */
         export const Basic = () => <Button />;
         Basic.parameters = {
+          ...Basic.parameters,
           storySource: {
-            source: "() => <Button />"
+            source: "() => <Button />",
+            ...Basic.parameters?.storySource
           },
           docs: {
+            ...Basic.parameters?.docs,
             description: {
-              story: "The most basic button"
+              story: "The most basic button",
+              ...Basic.parameters?.docs?.description
             }
-          },
-          ...Basic.parameters
+          }
         };
       `);
     });
@@ -228,15 +238,18 @@ describe('enrichCsf', () => {
          */
         export const Basic = () => <Button />;
         Basic.parameters = {
+          ...Basic.parameters,
           storySource: {
-            source: "() => <Button />"
+            source: "() => <Button />",
+            ...Basic.parameters?.storySource
           },
           docs: {
+            ...Basic.parameters?.docs,
             description: {
-              story: "The most basic button\\n\\nIn a block!"
+              story: "The most basic button\\n\\nIn a block!",
+              ...Basic.parameters?.docs?.description
             }
-          },
-          ...Basic.parameters
+          }
         };
       `);
     });
@@ -265,15 +278,18 @@ describe('enrichCsf', () => {
          */
         export const Basic = () => <Button />;
         Basic.parameters = {
+          ...Basic.parameters,
           storySource: {
-            source: "() => <Button />"
+            source: "() => <Button />",
+            ...Basic.parameters?.storySource
           },
           docs: {
+            ...Basic.parameters?.docs,
             description: {
-              story: "- A bullet list\\n  - A sub-bullet\\n- A second bullet"
+              story: "- A bullet list\\n  - A sub-bullet\\n- A second bullet",
+              ...Basic.parameters?.docs?.description
             }
-          },
-          ...Basic.parameters
+          }
         };
       `);
     });

@@ -11,30 +11,57 @@ export const enrichCsf = (csf: CsfFile) => {
     const description = extractDescription(csf._storyStatements[key]);
     const parameters = [];
     // storySource: { source: %%source%% },
+    const originalParameters = t.memberExpression(t.identifier(key), t.identifier('parameters'));
+    parameters.push(t.spreadElement(originalParameters));
+
+    const optionalStorySource = t.optionalMemberExpression(
+      originalParameters,
+      t.identifier('storySource'),
+      false,
+      true
+    );
+
     parameters.push(
       t.objectProperty(
         t.identifier('storySource'),
-        t.objectExpression([t.objectProperty(t.identifier('source'), t.stringLiteral(source))])
+        t.objectExpression([
+          t.objectProperty(t.identifier('source'), t.stringLiteral(source)),
+          t.spreadElement(optionalStorySource),
+        ])
       )
     );
     // docs: { description: { story: %%description%% } },
     if (description) {
+      const optionalDocs = t.optionalMemberExpression(
+        originalParameters,
+        t.identifier('docs'),
+        false,
+        true
+      );
+
+      const optionalDescription = t.optionalMemberExpression(
+        optionalDocs,
+        t.identifier('description'),
+        false,
+        true
+      );
+
       parameters.push(
         t.objectProperty(
           t.identifier('docs'),
           t.objectExpression([
+            t.spreadElement(optionalDocs),
             t.objectProperty(
               t.identifier('description'),
               t.objectExpression([
                 t.objectProperty(t.identifier('story'), t.stringLiteral(description)),
+                t.spreadElement(optionalDescription),
               ])
             ),
           ])
         )
       );
     }
-    const originalParameters = t.memberExpression(t.identifier(key), t.identifier('parameters'));
-    parameters.push(t.spreadElement(originalParameters));
     const addParameter = t.expressionStatement(
       t.assignmentExpression('=', originalParameters, t.objectExpression(parameters))
     );
