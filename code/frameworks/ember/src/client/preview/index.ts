@@ -2,8 +2,9 @@ import { start } from '@storybook/preview/dist/core-client';
 
 import './globals';
 import { renderToDOM } from './render';
+import type { EmberFramework } from './types';
 
-const { configure: coreConfigure, clientApi, forceReRender } = start(renderToDOM);
+const { configure: coreConfigure, clientApi, forceReRender } = start<EmberFramework>(renderToDOM);
 
 export const { raw } = clientApi;
 

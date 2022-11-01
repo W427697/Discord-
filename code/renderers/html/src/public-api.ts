@@ -13,7 +13,7 @@ interface ClientApi extends Addon_ClientStoryApi<HtmlFramework['storyResult']> {
   raw: () => any; // todo add type
 }
 
-const api = start(renderToDOM, { render });
+const api = start<HtmlFramework>(renderToDOM, { render });
 
 export const storiesOf: ClientApi['storiesOf'] = (kind, m) => {
   return (api.clientApi.storiesOf(kind, m) as ReturnType<ClientApi['storiesOf']>).addParameters({

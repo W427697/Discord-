@@ -1,1 +1,2 @@
-export * from './modules/addons/index';
+/* eslint-disable import/no-extraneous-dependencies */
+export * from '@storybook/addons';

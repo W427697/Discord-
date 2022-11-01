@@ -2,12 +2,13 @@ import { start } from '@storybook/core-client';
 import { decorateStory } from './decorators';
 
 import { render, renderToDOM } from './render';
+import type { SvelteFramework } from './types';
 
 const {
   configure: coreConfigure,
   clientApi,
   forceReRender,
-} = start(renderToDOM, {
+} = start<SvelteFramework>(renderToDOM, {
   decorateStory,
   render,
 });

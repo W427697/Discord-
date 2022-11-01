@@ -1,4 +1,5 @@
-/* eslint-disable import/no-extraneous-dependencies */
+import global from 'global';
+
 import type { Channel } from '@storybook/channels';
 import { SET_CONFIG } from '@storybook/core-events';
 import type { API } from '@storybook/api';
@@ -43,11 +44,8 @@ export class AddonStore {
 
   getChannel = (): Channel => {
     // this.channel should get overwritten by setChannel. If it wasn't called (e.g. in non-browser environment), set a mock instead.
-    if (this.channel === undefined) {
-      const mock = mockChannel();
-      this.channel = mock;
-
-      this.setChannel(mock);
+    if (!this.channel) {
+      this.setChannel(mockChannel());
     }
 
     return this.channel;
@@ -85,8 +83,8 @@ export class AddonStore {
 
   addPanel = (name: string, options: Addon_Type): void => {
     this.add(name, {
+      type: Addon_TypesEnum.PANEL,
       ...options,
-      type: options.type || Addon_TypesEnum.PANEL,
     });
   };
 
@@ -121,12 +119,9 @@ export class AddonStore {
 const KEY = '__STORYBOOK_ADDONS';
 
 function getAddonsStore(): AddonStore {
-  // @ts-expect-error (global can be anything)
   if (!global[KEY]) {
-    // @ts-expect-error (global can be anything)
     global[KEY] = new AddonStore();
   }
-  // @ts-expect-error (global can be anything)
   return global[KEY];
 }
 

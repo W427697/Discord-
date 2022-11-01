@@ -34,7 +34,7 @@ import type { ReactFramework } from './types';
 export function setProjectAnnotations(
   projectAnnotations: ProjectAnnotations<ReactFramework> | ProjectAnnotations<ReactFramework>[]
 ) {
-  originalSetProjectAnnotations(projectAnnotations);
+  originalSetProjectAnnotations<ReactFramework>(projectAnnotations);
 }
 
 /** Preserved for users migrating from `@storybook/testing-react`.
