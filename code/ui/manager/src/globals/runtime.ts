@@ -7,7 +7,7 @@ import * as STORYBOOKEVENTS from '@storybook/core-events';
 import * as STORYBOOKROUTER from '@storybook/router';
 import * as STORYBOOKTHEMING from '@storybook/theming';
 import * as STORYBOOKAPI from '@storybook/api';
-// eslint-disable-next-line import/namespace
+
 import * as STORYBOOKADDONS from '@storybook/addons';
 import * as STORYBOOKCLIENTLOGGER from '@storybook/client-logger';
 

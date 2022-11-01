@@ -2,7 +2,7 @@ import {
   composeStory as originalComposeStory,
   composeStories as originalComposeStories,
   setProjectAnnotations as originalSetProjectAnnotations,
-} from '@storybook/preview/dist/store';
+} from '@storybook/store';
 import type {
   Args,
   ProjectAnnotations,
