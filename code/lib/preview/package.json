@@ -97,6 +97,7 @@
     "@storybook/channel-websocket": "7.0.0-alpha.47",
     "@storybook/channels": "7.0.0-alpha.47",
     "@storybook/client-logger": "7.0.0-alpha.47",
+    "@storybook/core-client": "7.0.0-alpha.47",
     "@storybook/core-common": "7.0.0-alpha.47",
     "@storybook/core-events": "7.0.0-alpha.47",
     "@storybook/csf": "next",
