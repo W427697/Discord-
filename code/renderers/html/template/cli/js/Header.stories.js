@@ -2,6 +2,7 @@ import { createHeader } from './Header';
 
 export default {
   title: 'Example/Header',
+  render: (args) => createHeader(args),
   parameters: {
     // More on Story layout: https://storybook.js.org/docs/html/configure/story-layout
     layout: 'fullscreen',
@@ -14,14 +15,12 @@ export default {
   },
 };
 
-const Template = (args) => createHeader(args);
-
-export const LoggedIn = Template.bind({});
-LoggedIn.args = {
-  user: {
-    name: 'Jane Doe',
+export const LoggedIn = {
+  args: {
+    user: {
+      name: 'Jane Doe',
+    },
   },
 };
 
-export const LoggedOut = Template.bind({});
-LoggedOut.args = {};
+export const LoggedOut = {};

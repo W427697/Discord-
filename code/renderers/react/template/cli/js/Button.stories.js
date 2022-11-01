@@ -1,17 +1,16 @@
 import { Button } from './Button';
 
-// More on default export: https://storybook.js.org/docs/preact/writing-stories/introduction#default-export
+// More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
   title: 'Example/Button',
   component: Button,
-  // More on argTypes: https://storybook.js.org/docs/preact/api/argtypes
+  // More on argTypes: https://storybook.js.org/docs/react/api/argtypes
   argTypes: {
     backgroundColor: { control: 'color' },
-    onClick: { action: 'onClick' },
   },
 };
 
-// More on component templates: https://storybook.js.org/docs/preact/writing-stories/introduction#using-args
+// More on component templates: https://storybook.js.org/docs/react/writing-stories/introduction#using-args
 export const Primary = {
   args: {
     primary: true,

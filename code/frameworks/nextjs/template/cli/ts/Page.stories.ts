@@ -1,20 +1,24 @@
+import type { Meta, StoryObj } from '@storybook/react';
 import { within, userEvent } from '@storybook/testing-library';
 
 import { Page } from './Page';
 
-export default {
+const meta: Meta<typeof Page> = {
   title: 'Example/Page',
   component: Page,
   parameters: {
-    // More on Story layout: https://storybook.js.org/docs/preact/configure/story-layout
+    // More on Story layout: https://storybook.js.org/docs/react/configure/story-layout
     layout: 'fullscreen',
   },
 };
 
-export const LoggedOut = {};
+export default meta;
+type Story = StoryObj<typeof Page>;
 
-// More on interaction testing: https://storybook.js.org/docs/preact/writing-tests/interaction-testing
-export const LoggedIn = {
+export const LoggedOut: Story = {};
+
+// More on interaction testing: https://storybook.js.org/docs/react/writing-tests/interaction-testing
+export const LoggedIn: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     const loginButton = await canvas.getByRole('button', {

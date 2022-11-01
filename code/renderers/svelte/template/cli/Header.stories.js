@@ -3,6 +3,15 @@ import Header from './Header.svelte';
 export default {
   title: 'Example/Header',
   component: Header,
+  render: (args) => ({
+    Component: Header,
+    props: args,
+    on: {
+      login: args.onLogin,
+      logout: args.onLogout,
+      createAccount: args.onCreateAccount,
+    },
+  }),
   parameters: {
     // More on Story layout: https://storybook.js.org/docs/svelte/configure/story-layout
     layout: 'fullscreen',
@@ -14,22 +23,12 @@ export default {
   },
 };
 
-const Template = (args) => ({
-  Component: Header,
-  props: args,
-  on: {
-    login: args.onLogin,
-    logout: args.onLogout,
-    createAccount: args.onCreateAccount,
-  },
-});
-
-export const LoggedIn = Template.bind({});
-LoggedIn.args = {
-  user: {
-    name: 'Jane Doe',
+export const LoggedIn = {
+  args: {
+    user: {
+      name: 'Jane Doe',
+    },
   },
 };
 
-export const LoggedOut = Template.bind({});
-LoggedOut.args = {};
+export const LoggedOut = {};
