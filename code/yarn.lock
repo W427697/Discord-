@@ -3128,7 +3128,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@jest/globals@npm:^28.1.3":
+"@jest/globals@npm:^28.0.0, @jest/globals@npm:^28.1.3":
   version: 28.1.3
   resolution: "@jest/globals@npm:28.1.3"
   dependencies:
@@ -6880,7 +6880,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/api@workspace:lib/api"
   dependencies:
-    "@jest/globals": ^26.6.2
+    "@jest/globals": ^28.0.0
     "@storybook/channels": 7.0.0-alpha.42
     "@storybook/client-logger": 7.0.0-alpha.42
     "@storybook/core-common": 7.0.0-alpha.42
@@ -7405,7 +7405,7 @@ __metadata:
     slash: ^3.0.0
     telejson: ^6.0.8
     ts-dedent: ^2.0.0
-    ts-jest: ^26.4.4
+    ts-jest: ^28.0.0
     typescript: ~4.6.3
     util-deprecate: ^1.0.2
     watchpack: ^2.2.0
@@ -8132,7 +8132,7 @@ __metadata:
   resolution: "@storybook/react@workspace:renderers/react"
   dependencies:
     "@babel/core": ^7.11.5
-    "@jest/globals": ^26.6.2
+    "@jest/globals": ^28.0.0
     "@storybook/addons": 7.0.0-alpha.42
     "@storybook/client-logger": 7.0.0-alpha.42
     "@storybook/core-client": 7.0.0-alpha.42
@@ -38378,7 +38378,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ts-jest@npm:26.x, ts-jest@npm:^26.4.4":
+"ts-jest@npm:26.x":
   version: 26.5.6
   resolution: "ts-jest@npm:26.5.6"
   dependencies:

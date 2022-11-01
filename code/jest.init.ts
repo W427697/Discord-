@@ -9,6 +9,7 @@ import Adapter from 'enzyme-adapter-react-16';
 import regeneratorRuntime from 'regenerator-runtime';
 import registerRequireContextHook from '@storybook/babel-plugin-require-context-hook/register';
 import EventEmitter from 'events';
+import { webcrypto } from 'node:crypto';
 
 registerRequireContextHook();
 
@@ -96,3 +97,9 @@ class EventSourceMock {
 }
 
 global.window.EventSource = EventSourceMock as any;
+
+Object.defineProperty(window, 'crypto', {
+  get() {
+    return webcrypto;
+  },
+});
