@@ -1,7 +1,8 @@
-import React, { FC } from 'react';
+import type { FC } from 'react';
+import React from 'react';
 import { styled } from '@storybook/theming';
 import { codeCommon } from '@storybook/components';
-import { JsDocTags } from './types';
+import type { JsDocTags } from './types';
 
 interface ArgJsDocArgs {
   tags: JsDocTags;

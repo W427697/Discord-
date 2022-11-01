@@ -1,16 +1,22 @@
 import { Preview } from '@storybook/preview-web';
-import { Path, ModuleExports, StoryIndex, composeConfigs } from '@storybook/store';
-import { AnyFramework, ComponentTitle, ProjectAnnotations } from '@storybook/csf';
+import type {
+  AnyFramework,
+  ComponentTitle,
+  Path,
+  ProjectAnnotations,
+  Store_ModuleExports,
+  Store_StoryIndex,
+} from '@storybook/types';
+import { composeConfigs } from '@storybook/store';
 import { Channel } from '@storybook/channels';
 
 import { ExternalDocsContext } from './ExternalDocsContext';
 
-type MetaExports = ModuleExports;
+type MetaExports = Store_ModuleExports;
 
 class ConstantMap<TKey, TValue extends string> {
   entries = new Map<TKey, TValue>();
 
-  // eslint-disable-next-line no-useless-constructor
   constructor(private prefix: string) {}
 
   get(key: TKey) {
@@ -28,9 +34,9 @@ export class ExternalPreview<
 
   private titles = new ConstantMap<MetaExports, ComponentTitle>('title-');
 
-  private storyIndex: StoryIndex = { v: 4, entries: {} };
+  private storyIndex: Store_StoryIndex = { v: 4, entries: {} };
 
-  private moduleExportsByImportPath: Record<Path, ModuleExports> = {};
+  private moduleExportsByImportPath: Record<Path, Store_ModuleExports> = {};
 
   constructor(public projectAnnotations: ProjectAnnotations) {
     super(new Channel());

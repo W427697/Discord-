@@ -1,3 +1,76 @@
+## 7.0.0-alpha.46 (October 28, 2022)
+
+#### Features
+
+- Addon-docs: Don't show docspage unless the user opts in [#19627](https://github.com/storybooks/storybook/pull/19627)
+- Core: Allow setting tags in storiesOf via parameters. [#19642](https://github.com/storybooks/storybook/pull/19642)
+
+#### Bug Fixes
+
+- Addon-docs: Fix React Profiler in source snippets [#19004](https://github.com/storybooks/storybook/pull/19004)
+
+#### Maintenance
+
+- Telemetry: Measure version update check [#19660](https://github.com/storybooks/storybook/pull/19660)
+- Build: Bundle lib/preview-web with ts-up [#19655](https://github.com/storybooks/storybook/pull/19655)
+- CSF-tools: Make ESM node compatible [#19661](https://github.com/storybooks/storybook/pull/19661)
+- Telemetry: Measure docs usage [#19648](https://github.com/storybooks/storybook/pull/19648)
+- Go back to `csf@next` [#19657](https://github.com/storybooks/storybook/pull/19657)
+
+#### Build
+
+- Build: Reduce parallelism in check task [#19662](https://github.com/storybooks/storybook/pull/19662)
+
+## 7.0.0-alpha.45 (October 28, 2022)
+
+#### Bug Fixes
+
+- Svelte: Fix regression causing all stories to error [#19653](https://github.com/storybooks/storybook/pull/19653)
+- CSF: Fix `StoryObj<typeof Cmp>` to work the same as old ComponentStoryObj [#19651](https://github.com/storybooks/storybook/pull/19651)
+
+#### Maintenance
+
+- Core: Misc dead code removal [#19654](https://github.com/storybooks/storybook/pull/19654)
+- Addon-actions: Move decorator to its own entrypoint [#19650](https://github.com/storybooks/storybook/pull/19650)
+
+#### Build
+
+- Build: Reduce resource classes [#19652](https://github.com/storybooks/storybook/pull/19652)
+
+## 7.0.0-alpha.44 (October 27, 2022)
+
+#### Features
+
+- Add tags to story and index [#19625](https://github.com/storybooks/storybook/pull/19625)
+- CSF tools: Add tags support [#19626](https://github.com/storybooks/storybook/pull/19626)
+- Vue2: Improve CSF3 types [#19603](https://github.com/storybooks/storybook/pull/19603)
+- Vue3: Improve CSF3 types [#19602](https://github.com/storybooks/storybook/pull/19602)
+
+#### Bug Fixes
+
+- Core: Fix v6 store when no explicit renderer [#19624](https://github.com/storybooks/storybook/pull/19624)
+- CLI/React native: Fix addons template to import register instead of manager [#19620](https://github.com/storybooks/storybook/pull/19620)
+
+#### Maintenance
+
+- Build-storybook: Only copy .mjs files for manager build [#19647](https://github.com/storybooks/storybook/pull/19647)
+- Rename storybook/ui to storybook/manager [#19635](https://github.com/storybooks/storybook/pull/19635)
+- Addons: Support SSR by not using global.window to store hooks context [#19631](https://github.com/storybooks/storybook/pull/19631)
+- Breaking: Final few deprecations removal in a batch [#19553](https://github.com/storybooks/storybook/pull/19553)
+- TypeScript: Misc types improvements [#19633](https://github.com/storybooks/storybook/pull/19633)
+- TypeScript: Restructure storybook types [#19580](https://github.com/storybooks/storybook/pull/19580)
+- TypeScript: cleanup types [#19621](https://github.com/storybooks/storybook/pull/19621)
+
+#### Build
+
+- Build: Reduce CI usage by 60% [#19644](https://github.com/storybooks/storybook/pull/19644)
+- Remove `netlify.toml` [#19645](https://github.com/storybooks/storybook/pull/19645)
+- Small fixes for `check` task [#19643](https://github.com/storybooks/storybook/pull/19643)
+- Storybook for `@storybook/blocks` only [#19630](https://github.com/storybooks/storybook/pull/19630)
+- Fix broken stories in UI Storybook [#19632](https://github.com/storybooks/storybook/pull/19632)
+- Ugrade eslint [#19601](https://github.com/storybooks/storybook/pull/19601)
+- Integrate standalone Storybook with Chromatic [#19619](https://github.com/storybooks/storybook/pull/19619)
+
 ## 7.0.0-alpha.43 (October 25, 2022)
 
 #### Bug Fixes

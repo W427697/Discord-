@@ -1,18 +1,17 @@
-import React, {
-  FC,
-  ReactNode,
-  ElementType,
-  ComponentProps,
-  useContext,
-  useRef,
-  useEffect,
-  useState,
-} from 'react';
-import { StoryId, StoryAnnotations, AnyFramework } from '@storybook/csf';
-import type { ModuleExport, ModuleExports, Story as StoryType } from '@storybook/store';
+import type { FC, ReactNode, ElementType, ComponentProps } from 'react';
+import React, { useContext, useRef, useEffect, useState } from 'react';
+import type {
+  AnyFramework,
+  Store_ModuleExport,
+  Store_ModuleExports,
+  Store_Story as StoryType,
+  StoryAnnotations,
+  StoryId,
+} from '@storybook/types';
 
 import { Story as PureStory, StorySkeleton } from '../components';
-import { DocsContext, DocsContextProps } from './DocsContext';
+import type { DocsContextProps } from './DocsContext';
+import { DocsContext } from './DocsContext';
 import { useStory } from './useStory';
 
 export const storyBlockIdFromId = (storyId: string) => `story--${storyId}`;
@@ -31,8 +30,8 @@ type StoryDefProps = {
 
 type StoryRefProps = {
   id?: string;
-  of?: ModuleExport;
-  meta?: ModuleExports;
+  of?: Store_ModuleExport;
+  meta?: Store_ModuleExports;
 };
 
 type StoryImportProps = {

@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { ThemeProvider, themes, ensure } from '@storybook/theming';
-import { AnyFramework } from '@storybook/csf';
+import type { AnyFramework } from '@storybook/types';
 
 import { DocsContext } from '../DocsContext';
 import { ExternalPreview } from './ExternalPreview';

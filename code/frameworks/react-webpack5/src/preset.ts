@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
 
 import path from 'path';
-import type { PresetProperty, Options } from '@storybook/core-common';
+import type { PresetProperty, Options } from '@storybook/types';
 import type { FrameworkOptions, StorybookConfig } from './types';
 
 export const addons: PresetProperty<'addons', StorybookConfig> = [

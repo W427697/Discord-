@@ -1,8 +1,10 @@
-import React, { FC, forwardRef, HTMLProps, SelectHTMLAttributes } from 'react';
+import type { FC, HTMLProps, SelectHTMLAttributes } from 'react';
+import React, { forwardRef } from 'react';
 import type { Theme, CSSObject } from '@storybook/theming';
 import { styled } from '@storybook/theming';
 
-import TextareaAutoResize, { TextareaAutosizeProps } from 'react-textarea-autosize';
+import type { TextareaAutosizeProps } from 'react-textarea-autosize';
+import TextareaAutoResize from 'react-textarea-autosize';
 
 import { Button as StyledButton } from '../../Button/Button';
 
@@ -124,9 +126,9 @@ type InputProps = Omit<
 };
 export const Input = Object.assign(
   styled(
-    forwardRef<any, InputProps>(({ size, valid, align, ...props }, ref) => (
-      <input {...props} ref={ref} />
-    ))
+    forwardRef<any, InputProps>(function Input({ size, valid, align, ...props }, ref) {
+      return <input {...props} ref={ref} />;
+    })
   )<{
     size?: Sizes;
     align?: Alignments;
@@ -156,9 +158,9 @@ type SelectProps = Omit<
 };
 export const Select = Object.assign(
   styled(
-    forwardRef<any, SelectProps>(({ size, valid, align, ...props }, ref) => (
-      <select {...props} ref={ref} />
-    ))
+    forwardRef<any, SelectProps>(function Select({ size, valid, align, ...props }, ref) {
+      return <select {...props} ref={ref} />;
+    })
   )<SelectProps>(styles, sizes, validation, {
     height: 32,
     userSelect: 'none',
@@ -186,9 +188,9 @@ type TextareaProps = Omit<
 };
 export const Textarea = Object.assign(
   styled(
-    forwardRef<any, TextareaProps>(({ size, valid, align, ...props }, ref) => (
-      <TextareaAutoResize {...props} ref={ref} />
-    ))
+    forwardRef<any, TextareaProps>(function Textarea({ size, valid, align, ...props }, ref) {
+      return <TextareaAutoResize {...props} ref={ref} />;
+    })
   )<TextareaProps>(styles, sizes, alignment, validation, ({ height = 400 }) => ({
     overflow: 'visible',
     maxHeight: height,
@@ -207,7 +209,9 @@ const ButtonStyled = styled(
       valid?: ValidationStates;
       height?: number;
     }
-  >(({ size, valid, align, ...props }, ref) => <StyledButton {...props} ref={ref} />)
+  >(function ButtonStyled({ size, valid, align, ...props }, ref) {
+    return <StyledButton {...props} ref={ref} />;
+  })
 )<{
   size?: Sizes;
   align?: Alignments;
@@ -226,9 +230,9 @@ const ButtonStyled = styled(
 });
 
 export const Button: FC<any> = Object.assign(
-  forwardRef<{}, {}>((props, ref) => (
-    <ButtonStyled {...props} {...{ tertiary: true, small: true, inForm: true }} ref={ref} />
-  )),
+  forwardRef<{}, {}>(function Button(props, ref) {
+    return <ButtonStyled {...props} {...{ tertiary: true, small: true, inForm: true }} ref={ref} />;
+  }),
   {
     displayName: 'Button',
   }

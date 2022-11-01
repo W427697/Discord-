@@ -1,4 +1,5 @@
-import React, { ComponentProps, Suspense, lazy } from 'react';
+import type { ComponentProps } from 'react';
+import React, { Suspense, lazy } from 'react';
 
 const LazySyntaxHighlighter = lazy(() => import('./syntaxhighlighter'));
 const LazySyntaxHighlighterWithFormatter = lazy(async () => {

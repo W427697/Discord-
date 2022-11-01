@@ -1,5 +1,6 @@
-import { ComponentTitle } from '@storybook/csf';
-import React, { useContext, FunctionComponent } from 'react';
+import type { ComponentTitle } from '@storybook/types';
+import type { FunctionComponent } from 'react';
+import React, { useContext } from 'react';
 import { Title as PureTitle } from '../components';
 import { DocsContext } from './DocsContext';
 

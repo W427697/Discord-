@@ -1,4 +1,5 @@
-import { Component, RefObject, ReactElement } from 'react';
+import type { RefObject, ReactElement } from 'react';
+import { Component } from 'react';
 import { browserSupportsCssZoom } from './browserSupportsCssZoom';
 
 export type IZoomIFrameProps = {

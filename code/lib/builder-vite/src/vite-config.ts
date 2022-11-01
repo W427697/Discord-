@@ -8,6 +8,7 @@ import type {
 } from 'vite';
 import viteReact from '@vitejs/plugin-react';
 import { isPreservingSymlinks, getFrameworkName } from '@storybook/core-common';
+import type { Builder_EnvsRaw } from '@storybook/types';
 import { stringifyProcessEnvs } from './envs';
 import {
   codeGeneratorPlugin,
@@ -15,7 +16,7 @@ import {
   mdxPlugin,
   stripStoryHMRBoundary,
 } from './plugins';
-import type { ExtendedOptions, EnvsRaw } from './types';
+import type { ExtendedOptions } from './types';
 
 export type PluginConfigType = 'build' | 'development';
 
@@ -45,6 +46,8 @@ export async function commonConfig(
     configFile: false,
     cacheDir: 'node_modules/.cache/.vite-storybook',
     root: path.resolve(options.configDir, '..'),
+    // Allow storybook deployed as subfolder.  See https://github.com/storybookjs/builder-vite/issues/238
+    base: './',
     plugins: await pluginConfig(options),
     resolve: {
       preserveSymlinks: isPreservingSymlinks(),
@@ -60,7 +63,7 @@ export async function commonConfig(
   const config: ViteConfig = mergeConfig(userConfig, sbConfig);
 
   // Sanitize environment variables if needed
-  const envsRaw = await presets.apply<Promise<EnvsRaw>>('env');
+  const envsRaw = await presets.apply<Promise<Builder_EnvsRaw>>('env');
   if (Object.keys(envsRaw).length) {
     // Stringify env variables after getting `envPrefix` from the  config
     const envs = stringifyProcessEnvs(envsRaw, config.envPrefix);

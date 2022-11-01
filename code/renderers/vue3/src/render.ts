@@ -1,9 +1,8 @@
 import { dedent } from 'ts-dedent';
 import { createApp, h } from 'vue';
-import type { RenderContext } from '@storybook/store';
-import type { ArgsStoryFn } from '@storybook/csf';
+import type { Store_RenderContext, ArgsStoryFn } from '@storybook/types';
 
-import { StoryFnVueReturnType, VueFramework } from './types';
+import type { StoryFnVueReturnType, VueFramework } from './types';
 
 export const render: ArgsStoryFn<VueFramework> = (props, context) => {
   const { id, component: Component } = context;
@@ -24,7 +23,7 @@ export const setup = (fn: (app: any) => void) => {
 const map = new Map<Element, ReturnType<typeof createApp>>();
 
 export function renderToDOM(
-  { title, name, storyFn, showMain, showError, showException }: RenderContext<VueFramework>,
+  { title, name, storyFn, showMain, showError, showException }: Store_RenderContext<VueFramework>,
   domElement: Element
 ) {
   // TODO: explain cyclical nature of these app => story => mount

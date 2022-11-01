@@ -159,7 +159,7 @@ export const Radio = {
       description: 'someEnum description',
       control: {
         type: 'radio',
-        options: ['a', 'b', 'c'],
+        argType: { options: ['a', 'b', 'c'] },
       },
     },
   },

@@ -1,11 +1,11 @@
-import React, { FC, useContext } from 'react';
-import { BaseAnnotations } from '@storybook/csf';
-import type { ModuleExports } from '@storybook/store';
+import type { FC } from 'react';
+import React, { useContext } from 'react';
+import type { BaseAnnotations, Store_ModuleExports } from '@storybook/types';
 
 import { Anchor } from './Anchor';
 import { DocsContext } from './DocsContext';
 
-type MetaProps = BaseAnnotations & { of?: ModuleExports };
+type MetaProps = BaseAnnotations & { of?: Store_ModuleExports };
 
 /**
  * This component is used to declare component metadata in docs
@@ -13,8 +13,9 @@ type MetaProps = BaseAnnotations & { of?: ModuleExports };
  */
 export const Meta: FC<MetaProps> = ({ of }) => {
   const context = useContext(DocsContext);
-  console.log(DocsContext, context);
-  if (of) context.setMeta(of);
+  if (of) {
+    context.setMeta(of);
+  }
 
   try {
     const primary = context.storyById();

@@ -15,16 +15,26 @@ import {
 } from '@storybook/core-events';
 import { EventEmitter } from 'events';
 import global from 'global';
-import { mockChannel } from '@storybook/addons';
 
+import { Channel } from '@storybook/channels';
+
+import type { API_StoryEntry, API_StoryIndex, API_PreparedStoryIndex } from '@storybook/types';
 import { getEventMetadata } from '../lib/events';
 
 import { init as initStories } from '../modules/stories';
-import { StoryEntry, StoryIndex, PreparedStoryIndex } from '../lib/stories';
 import type Store from '../store';
-import { ModuleArgs } from '..';
+import type { ModuleArgs } from '..';
 
-const mockGetEntries = jest.fn<StoryIndex['entries'], []>();
+function mockChannel() {
+  const transport = {
+    setHandler: () => {},
+    send: () => {},
+  };
+
+  return new Channel({ transport });
+}
+
+const mockGetEntries = jest.fn<API_StoryIndex['entries'], []>();
 
 jest.mock('../lib/events');
 jest.mock('global', () => ({
@@ -36,7 +46,7 @@ jest.mock('global', () => ({
 
 const getEventMetadataMock = getEventMetadata as ReturnType<typeof jest.fn>;
 
-const mockEntries: StoryIndex['entries'] = {
+const mockEntries: API_StoryIndex['entries'] = {
   'component-a--story-1': {
     id: 'component-a--story-1',
     title: 'Component A',
@@ -133,7 +143,7 @@ describe('stories API', () => {
         prepared: false,
       });
       expect(
-        (storedStoriesHash['component-a--story-1'] as StoryEntry as StoryEntry).args
+        (storedStoriesHash['component-a--story-1'] as API_StoryEntry as API_StoryEntry).args
       ).toBeUndefined();
     });
 
@@ -395,7 +405,7 @@ describe('stories API', () => {
       });
       // Let the promise/await chain resolve
       await new Promise((r) => setTimeout(r, 0));
-      expect(store.getState().storiesHash['component-a--story-1'] as StoryEntry).toMatchObject({
+      expect(store.getState().storiesHash['component-a--story-1'] as API_StoryEntry).toMatchObject({
         prepared: true,
         parameters: { a: 'b' },
         args: { c: 'd' },
@@ -405,7 +415,7 @@ describe('stories API', () => {
 
       // Let the promise/await chain resolve
       await new Promise((r) => setTimeout(r, 0));
-      expect(store.getState().storiesHash['component-a--story-1'] as StoryEntry).toMatchObject({
+      expect(store.getState().storiesHash['component-a--story-1'] as API_StoryEntry).toMatchObject({
         prepared: true,
         parameters: { a: 'b' },
         args: { c: 'd' },
@@ -413,7 +423,7 @@ describe('stories API', () => {
     });
 
     describe('docs entries', () => {
-      const docsEntries: StoryIndex['entries'] = {
+      const docsEntries: API_StoryIndex['entries'] = {
         'component-a--page': {
           id: 'component-a--page',
           title: 'Component A',
@@ -636,7 +646,7 @@ describe('stories API', () => {
 
   describe('args handling', () => {
     const parameters = {};
-    const preparedEntries: PreparedStoryIndex['entries'] = {
+    const preparedEntries: API_PreparedStoryIndex['entries'] = {
       'a--1': {
         title: 'a',
         name: '1',
@@ -666,15 +676,15 @@ describe('stories API', () => {
       setIndex({ v: 4, entries: preparedEntries });
 
       const { storiesHash: initialStoriesHash } = store.getState();
-      expect((initialStoriesHash['a--1'] as StoryEntry).args).toEqual({ a: 'b' });
-      expect((initialStoriesHash['b--1'] as StoryEntry).args).toEqual({ x: 'y' });
+      expect((initialStoriesHash['a--1'] as API_StoryEntry).args).toEqual({ a: 'b' });
+      expect((initialStoriesHash['b--1'] as API_StoryEntry).args).toEqual({ x: 'y' });
 
       init();
       fullAPI.emit(STORY_ARGS_UPDATED, { storyId: 'a--1', args: { foo: 'bar' } });
 
       const { storiesHash: changedStoriesHash } = store.getState();
-      expect((changedStoriesHash['a--1'] as StoryEntry).args).toEqual({ foo: 'bar' });
-      expect((changedStoriesHash['b--1'] as StoryEntry).args).toEqual({ x: 'y' });
+      expect((changedStoriesHash['a--1'] as API_StoryEntry).args).toEqual({ foo: 'bar' });
+      expect((changedStoriesHash['b--1'] as API_StoryEntry).args).toEqual({ x: 'y' });
     });
 
     it('changes reffed args properly, per story when receiving STORY_ARGS_UPDATED', () => {
@@ -711,7 +721,7 @@ describe('stories API', () => {
 
       init();
 
-      api.updateStoryArgs({ id: 'a--1' } as StoryEntry, { foo: 'bar' });
+      api.updateStoryArgs({ id: 'a--1' } as API_StoryEntry, { foo: 'bar' });
       expect(emit).toHaveBeenCalledWith(UPDATE_STORY_ARGS, {
         storyId: 'a--1',
         updatedArgs: { foo: 'bar' },
@@ -721,8 +731,8 @@ describe('stories API', () => {
       });
 
       const { storiesHash: changedStoriesHash } = store.getState();
-      expect((changedStoriesHash['a--1'] as StoryEntry).args).toEqual({ a: 'b' });
-      expect((changedStoriesHash['b--1'] as StoryEntry).args).toEqual({ x: 'y' });
+      expect((changedStoriesHash['a--1'] as API_StoryEntry).args).toEqual({ a: 'b' });
+      expect((changedStoriesHash['b--1'] as API_StoryEntry).args).toEqual({ x: 'y' });
     });
 
     it('updateStoryArgs emits UPDATE_STORY_ARGS to the right frame', () => {
@@ -739,7 +749,7 @@ describe('stories API', () => {
 
       init();
 
-      api.updateStoryArgs({ id: 'a--1', refId: 'refId' } as StoryEntry, { foo: 'bar' });
+      api.updateStoryArgs({ id: 'a--1', refId: 'refId' } as API_StoryEntry, { foo: 'bar' });
       expect(emit).toHaveBeenCalledWith(UPDATE_STORY_ARGS, {
         storyId: 'a--1',
         updatedArgs: { foo: 'bar' },
@@ -762,7 +772,7 @@ describe('stories API', () => {
       setIndex({ v: 4, entries: preparedEntries });
       init();
 
-      api.resetStoryArgs({ id: 'a--1' } as StoryEntry, ['foo']);
+      api.resetStoryArgs({ id: 'a--1' } as API_StoryEntry, ['foo']);
       expect(emit).toHaveBeenCalledWith(RESET_STORY_ARGS, {
         storyId: 'a--1',
         argNames: ['foo'],
@@ -772,8 +782,8 @@ describe('stories API', () => {
       });
 
       const { storiesHash: changedStoriesHash } = store.getState();
-      expect((changedStoriesHash['a--1'] as StoryEntry).args).toEqual({ a: 'b' });
-      expect((changedStoriesHash['b--1'] as StoryEntry).args).toEqual({ x: 'y' });
+      expect((changedStoriesHash['a--1'] as API_StoryEntry).args).toEqual({ a: 'b' });
+      expect((changedStoriesHash['b--1'] as API_StoryEntry).args).toEqual({ x: 'y' });
     });
 
     it('resetStoryArgs emits RESET_STORY_ARGS to the right frame', () => {
@@ -789,7 +799,7 @@ describe('stories API', () => {
       setIndex({ v: 4, entries: preparedEntries });
       init();
 
-      api.resetStoryArgs({ id: 'a--1', refId: 'refId' } as StoryEntry, ['foo']);
+      api.resetStoryArgs({ id: 'a--1', refId: 'refId' } as API_StoryEntry, ['foo']);
       expect(emit).toHaveBeenCalledWith(RESET_STORY_ARGS, {
         storyId: 'a--1',
         argNames: ['foo'],
@@ -800,7 +810,7 @@ describe('stories API', () => {
     });
   });
 
-  const navigationEntries: StoryIndex['entries'] = {
+  const navigationEntries: API_StoryIndex['entries'] = {
     'a--1': {
       title: 'a',
       name: '1',

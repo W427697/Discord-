@@ -1,6 +1,7 @@
-import { ArgType } from '../components/ArgsTable';
-
 /* eslint-disable @typescript-eslint/no-empty-interface */
+
+import type { ArgType } from '../components/ArgsTable';
+
 export interface ControlProps<T> {
   name: string;
   value?: T;
@@ -52,7 +53,6 @@ export type OptionsControlType =
 
 export interface OptionsConfig {
   labels: Record<any, string>;
-  options: Options;
   type: OptionsControlType;
 }
 

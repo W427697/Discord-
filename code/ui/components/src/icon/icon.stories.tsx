@@ -2,7 +2,8 @@ import React from 'react';
 import { styled, css } from '@storybook/theming';
 
 import { Icons } from './icon';
-import { icons, IconKey } from './icons';
+import type { IconKey } from './icons';
+import { icons } from './icons';
 
 const Meta = styled.div`
   color: #666;

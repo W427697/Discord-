@@ -79,6 +79,7 @@ const parsePx = (val) => {
     : val;
 };
 
+// eslint-disable-next-line @typescript-eslint/naming-convention
 const { __keyframes, ...styles } = convert(read(INPUT), OPTIONS);
 
 const stringifiedKeyFrames = Object.values(__keyframes)

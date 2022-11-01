@@ -1,7 +1,7 @@
-import type { AnyFramework, StoryContext as StoryContextBase } from '@storybook/csf';
+import type { AnyFramework, StoryContext as StoryContextBase } from '@storybook/types';
 import type { ConcreteComponent } from 'vue';
 
-export type { RenderContext } from '@storybook/core-client';
+export type { RenderContext } from '@storybook/types';
 
 export interface ShowErrorArgs {
   title: string;

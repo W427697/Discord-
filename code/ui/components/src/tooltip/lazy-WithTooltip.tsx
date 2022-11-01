@@ -1,4 +1,5 @@
-import React, { ComponentProps, lazy, Suspense } from 'react';
+import type { ComponentProps } from 'react';
+import React, { lazy, Suspense } from 'react';
 
 const LazyWithTooltip = lazy(() =>
   import('./WithTooltip').then((mod) => ({ default: mod.WithTooltip }))

@@ -1,7 +1,9 @@
-import React, { FC, ChangeEvent, RefObject, useState, useRef, useEffect } from 'react';
+import type { FC, ChangeEvent, RefObject } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { styled } from '@storybook/theming';
 import { Form } from '@storybook/components';
-import { ControlProps, DateValue, DateConfig } from './types';
+
+import type { ControlProps, DateValue, DateConfig } from './types';
 import { getControlId } from './helpers';
 
 export const parseDate = (value: string) => {
