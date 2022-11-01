@@ -97,7 +97,7 @@ const Story: FC<StoryProps> = (props) => {
     let cleanup: () => void;
     if (story && storyRef.current) {
       const element = storyRef.current as HTMLElement;
-      const autoplay = story.parameters.docs?.autoplay;
+      const { autoplay } = story.parameters.docs || {};
       cleanup = context.renderStoryToElement(story, element, { autoplay });
       setShowLoader(false);
     }
