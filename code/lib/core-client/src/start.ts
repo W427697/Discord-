@@ -7,7 +7,7 @@ import type {
   ArgsStoryFn,
   Loadable,
   Path,
-  Store_WebProjectAnnotations,
+  ProjectAnnotations,
 } from '@storybook/types';
 import { createChannel } from '@storybook/channel-postmessage';
 import { addons } from '@storybook/addons';
@@ -22,7 +22,7 @@ const removedApi = (name: string) => () => {
 };
 
 interface CoreClient_RendererImplementation<TFramework extends AnyFramework> {
-  decorateStory?: Store_WebProjectAnnotations<TFramework>['applyDecorators'];
+  decorateStory?: ProjectAnnotations<TFramework>['applyDecorators'];
   render?: ArgsStoryFn<TFramework>;
 }
 
@@ -43,7 +43,7 @@ interface CoreClient_StartReturnValue<TFramework extends AnyFramework> {
 }
 
 export function start<TFramework extends AnyFramework>(
-  renderToRoot: Store_WebProjectAnnotations<TFramework>['renderToRoot'],
+  renderToRoot: ProjectAnnotations<TFramework>['renderToRoot'],
   { decorateStory, render }: CoreClient_RendererImplementation<TFramework> = {}
 ): CoreClient_StartReturnValue<TFramework> {
   if (globalWindow) {

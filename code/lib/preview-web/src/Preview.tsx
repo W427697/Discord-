@@ -20,13 +20,12 @@ import type {
   AnyFramework,
   Args,
   Globals,
-  ProjectAnnotations,
   Store_ModuleImportFn,
   Store_PromiseLike,
-  Store_renderToRoot,
+  RenderToRoot,
   Store_Story,
   Store_StoryIndex,
-  Store_WebProjectAnnotations,
+  ProjectAnnotations,
   StoryId,
 } from '@storybook/types';
 import { StoryStore } from '@storybook/store';
@@ -54,7 +53,7 @@ export class Preview<TFramework extends AnyFramework, TStorybookRoot = HTMLEleme
 
   importFn?: Store_ModuleImportFn;
 
-  renderToRoot?: Store_renderToRoot<TFramework, TStorybookRoot>;
+  renderToRoot?: RenderToRoot<TFramework, TStorybookRoot>;
 
   storyRenders: StoryRender<TFramework, TStorybookRoot>[] = [];
 
@@ -84,9 +83,7 @@ export class Preview<TFramework extends AnyFramework, TStorybookRoot = HTMLEleme
     // getProjectAnnotations has been run, thus this slightly awkward approach
     getStoryIndex?: () => Store_StoryIndex;
     importFn: Store_ModuleImportFn;
-    getProjectAnnotations: () => MaybePromise<
-      Store_WebProjectAnnotations<TFramework, TStorybookRoot>
-    >;
+    getProjectAnnotations: () => MaybePromise<ProjectAnnotations<TFramework, TStorybookRoot>>;
   }) {
     // We save these two on initialization in case `getProjectAnnotations` errors,
     // in which case we may need them later when we recover.
@@ -111,9 +108,7 @@ export class Preview<TFramework extends AnyFramework, TStorybookRoot = HTMLEleme
   }
 
   getProjectAnnotationsOrRenderError(
-    getProjectAnnotations: () => MaybePromise<
-      Store_WebProjectAnnotations<TFramework, TStorybookRoot>
-    >
+    getProjectAnnotations: () => MaybePromise<ProjectAnnotations<TFramework, TStorybookRoot>>
   ): Store_PromiseLike<ProjectAnnotations<TFramework>> {
     return SynchronousPromise.resolve()
       .then(getProjectAnnotations)
@@ -142,7 +137,7 @@ export class Preview<TFramework extends AnyFramework, TStorybookRoot = HTMLEleme
 
   // If initialization gets as far as project annotations, this function runs.
   initializeWithProjectAnnotations(
-    projectAnnotations: Store_WebProjectAnnotations<TFramework, TStorybookRoot>
+    projectAnnotations: ProjectAnnotations<TFramework, TStorybookRoot>
   ) {
     this.storyStore.setProjectAnnotations(projectAnnotations);
 

@@ -2,9 +2,9 @@ import global from 'global';
 import type {
   AnyFramework,
   Store_RenderContext,
-  Store_renderToRoot,
+  RenderToRoot,
   Store_Story,
-  Store_TeardownrenderToRoot,
+  TeardownRenderToRoot,
   StoryContext,
   StoryContextForLoaders,
   StoryId,
@@ -64,14 +64,14 @@ export class StoryRender<TFramework extends AnyFramework, TStorybookRoot = HTMLE
 
   public disableKeyListeners = false;
 
-  private teardownRender: Store_TeardownrenderToRoot = () => {};
+  private teardownRender: TeardownRenderToRoot = () => {};
 
   public torndown = false;
 
   constructor(
     public channel: Channel,
     public store: StoryStore<TFramework>,
-    private renderToScreen: Store_renderToRoot<TFramework, TStorybookRoot>,
+    private renderToScreen: RenderToRoot<TFramework, TStorybookRoot>,
     private callbacks: RenderContextCallbacks<TFramework>,
     public id: StoryId,
     public viewMode: ViewMode,

@@ -10,7 +10,7 @@ import {
   STORY_THREW_EXCEPTION,
 } from '@storybook/core-events';
 
-import type { Store_StoryIndex, Store_TeardownrenderToRoot } from '@storybook/types';
+import type { Store_StoryIndex, TeardownRenderToRoot } from '@storybook/types';
 
 export type RenderPhase =
   | 'preparing'
@@ -67,7 +67,7 @@ export const docsRenderer = {
   render: jest.fn().mockImplementation((context, parameters, element, cb) => cb()),
   unmount: jest.fn(),
 };
-export const teardownrenderToRoot: jest.Mock<Store_TeardownrenderToRoot> = jest.fn();
+export const teardownrenderToRoot: jest.Mock<TeardownRenderToRoot> = jest.fn();
 export const projectAnnotations = {
   globals: { a: 'b' },
   globalTypes: {},

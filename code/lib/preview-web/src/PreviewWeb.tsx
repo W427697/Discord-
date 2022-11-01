@@ -22,12 +22,11 @@ import type {
   AnyFramework,
   Args,
   Globals,
-  ProjectAnnotations,
   Store_ModuleImportFn,
   Store_Selection,
   Store_StoryIndex,
   Store_StorySpecifier,
-  Store_WebProjectAnnotations,
+  ProjectAnnotations,
   StoryId,
   ViewMode,
 } from '@storybook/types';
@@ -101,7 +100,7 @@ export class PreviewWeb<
   }
 
   initializeWithProjectAnnotations(
-    projectAnnotations: Store_WebProjectAnnotations<TFramework, TStorybookRoot>
+    projectAnnotations: ProjectAnnotations<TFramework, TStorybookRoot>
   ) {
     return super
       .initializeWithProjectAnnotations(projectAnnotations)

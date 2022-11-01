@@ -1,5 +1,7 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import type { SynchronousPromise } from 'synchronous-promise';
+import type { ProjectAnnotations as CsfProjectAnnotations } from '@storybook/csf';
+
 import type { Addon_IndexEntry, Addon_StoryIndexEntry } from './addons';
 import type {
   AnnotatedStoryFn,
@@ -13,7 +15,6 @@ import type {
   Parameters,
   PartialStoryFn,
   Path,
-  ProjectAnnotations,
   StoryAnnotations,
   StoryContext,
   StoryContextForEnhancers,
@@ -34,21 +35,20 @@ export type Store_ModuleImportFn = (path: Path) => Store_PromiseLike<Store_Modul
 
 type Store_MaybePromise<T> = Promise<T> | T;
 
-export type Store_TeardownrenderToRoot = () => Store_MaybePromise<void>;
-// We should consider renaming this to `RenderToRootElement` or similar
-export type Store_renderToRoot<TFramework extends AnyFramework, TStorybookRoot = HTMLElement> = (
+export type TeardownRenderToRoot = () => Store_MaybePromise<void>;
+export type RenderToRoot<TFramework extends AnyFramework, TStorybookRoot = HTMLElement> = (
   context: Store_RenderContext<TFramework>,
   element: TStorybookRoot
-) => Store_MaybePromise<void | Store_TeardownrenderToRoot>;
+) => Store_MaybePromise<void | TeardownRenderToRoot>;
 
-export type Store_WebProjectAnnotations<
+export type ProjectAnnotations<
   TFramework extends AnyFramework,
   TStorybookRoot = HTMLElement
-> = ProjectAnnotations<TFramework> & {
-  renderToRoot?: Store_renderToRoot<TFramework, TStorybookRoot>;
+> = CsfProjectAnnotations<TFramework> & {
+  renderToRoot?: RenderToRoot<TFramework, TStorybookRoot>;
 
   /* @deprecated use renderToRoot */
-  renderToDOM?: Store_renderToRoot<TFramework, TStorybookRoot>;
+  renderToDOM?: RenderToRoot<TFramework, TStorybookRoot>;
 };
 
 export type Store_NormalizedProjectAnnotations<TFramework extends AnyFramework = AnyFramework> =
