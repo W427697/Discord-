@@ -31,11 +31,6 @@
       "require": "./dist/addons.js",
       "types": "./dist/addons.d.ts"
     },
-    "./dist/global/addons": {
-      "import": "./dist/global/addons.mjs",
-      "require": "./dist/global/addons.js",
-      "types": "./dist/global/addons.d.ts"
-    },
     "./dist/client-api": {
       "import": "./dist/client-api.mjs",
       "require": "./dist/client-api.js",
@@ -55,6 +50,31 @@
       "import": "./dist/store.mjs",
       "require": "./dist/store.js",
       "types": "./dist/store.d.ts"
+    },
+    "./dist/global/addons": {
+      "import": "./dist/global/addons.mjs",
+      "require": "./dist/global/addons.js",
+      "types": "./dist/global/addons.d.ts"
+    },
+    "./dist/global/client-api": {
+      "import": "./dist/global/client-api.mjs",
+      "require": "./dist/global/client-api.js",
+      "types": "./dist/global/client-api.d.ts"
+    },
+    "./dist/global/core-client": {
+      "import": "./dist/global/core-client.mjs",
+      "require": "./dist/global/core-client.js",
+      "types": "./dist/global/core-client.d.ts"
+    },
+    "./dist/global/preview-web": {
+      "import": "./dist/global/preview-web.mjs",
+      "require": "./dist/global/preview-web.js",
+      "types": "./dist/global/preview-web.d.ts"
+    },
+    "./dist/global/store": {
+      "import": "./dist/global/store.mjs",
+      "require": "./dist/global/store.js",
+      "types": "./dist/global/store.d.ts"
     },
     "./package.json": "./package.json"
   },
