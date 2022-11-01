@@ -182,7 +182,7 @@ export class PreviewWeb<
   async onGetProjectAnnotationsChanged({
     getProjectAnnotations,
   }: {
-    getProjectAnnotations: () => MaybePromise<ProjectAnnotations<TFramework>>;
+    getProjectAnnotations: () => MaybePromise<ProjectAnnotations<TFramework, TStorybookRoot>>;
   }) {
     await super.onGetProjectAnnotationsChanged({ getProjectAnnotations });
 

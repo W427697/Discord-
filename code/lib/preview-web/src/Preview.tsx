@@ -47,7 +47,7 @@ const renderToDOMDeprecated = deprecate(() => {},
 export class Preview<TFramework extends AnyFramework, TStorybookRoot = HTMLElement> {
   serverChannel?: Channel;
 
-  storyStore: StoryStore<TFramework>;
+  storyStore: StoryStore<TFramework, TStorybookRoot>;
 
   getStoryIndex?: () => Store_StoryIndex;
 
@@ -109,7 +109,7 @@ export class Preview<TFramework extends AnyFramework, TStorybookRoot = HTMLEleme
 
   getProjectAnnotationsOrRenderError(
     getProjectAnnotations: () => MaybePromise<ProjectAnnotations<TFramework, TStorybookRoot>>
-  ): Store_PromiseLike<ProjectAnnotations<TFramework>> {
+  ): Store_PromiseLike<ProjectAnnotations<TFramework, TStorybookRoot>> {
     return SynchronousPromise.resolve()
       .then(getProjectAnnotations)
       .then((projectAnnotations) => {
@@ -199,7 +199,7 @@ export class Preview<TFramework extends AnyFramework, TStorybookRoot = HTMLEleme
   async onGetProjectAnnotationsChanged({
     getProjectAnnotations,
   }: {
-    getProjectAnnotations: () => MaybePromise<ProjectAnnotations<TFramework>>;
+    getProjectAnnotations: () => MaybePromise<ProjectAnnotations<TFramework, TStorybookRoot>>;
   }) {
     delete this.previewEntryError;
 

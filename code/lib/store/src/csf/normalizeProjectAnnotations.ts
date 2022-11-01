@@ -9,12 +9,15 @@ import { inferArgTypes } from '../inferArgTypes';
 import { inferControls } from '../inferControls';
 import { normalizeInputTypes } from './normalizeInputTypes';
 
-export function normalizeProjectAnnotations<TFramework extends AnyFramework>({
+export function normalizeProjectAnnotations<TFramework extends AnyFramework, TStorybookRoot>({
   argTypes,
   globalTypes,
   argTypesEnhancers,
   ...annotations
-}: ProjectAnnotations<TFramework>): Store_NormalizedProjectAnnotations<TFramework> {
+}: ProjectAnnotations<TFramework, TStorybookRoot>): Store_NormalizedProjectAnnotations<
+  TFramework,
+  TStorybookRoot
+> {
   return {
     ...(argTypes && { argTypes: normalizeInputTypes(argTypes as ArgTypes) }),
     ...(globalTypes && { globalTypes: normalizeInputTypes(globalTypes) }),

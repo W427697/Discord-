@@ -47,7 +47,7 @@ export class StandaloneDocsRender<TFramework extends AnyFramework, TStorybookRoo
 
   constructor(
     protected channel: Channel,
-    protected store: StoryStore<TFramework>,
+    protected store: StoryStore<TFramework, TStorybookRoot>,
     public entry: Addon_IndexEntry
   ) {
     this.id = entry.id;
@@ -83,7 +83,7 @@ export class StandaloneDocsRender<TFramework extends AnyFramework, TStorybookRoo
     if (!this.exports || !this.csfFiles || !this.store.projectAnnotations)
       throw new Error('Cannot render docs before preparing');
 
-    const docsContext = new DocsContext<TFramework>(
+    const docsContext = new DocsContext<TFramework, TStorybookRoot>(
       this.channel,
       this.store,
       renderStoryToElement,

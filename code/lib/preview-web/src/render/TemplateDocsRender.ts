@@ -50,7 +50,7 @@ export class TemplateDocsRender<TFramework extends AnyFramework, TStorybookRoot 
 
   constructor(
     protected channel: Channel,
-    protected store: StoryStore<TFramework>,
+    protected store: StoryStore<TFramework, TStorybookRoot>,
     public entry: Addon_IndexEntry
   ) {
     this.id = entry.id;
@@ -99,7 +99,7 @@ export class TemplateDocsRender<TFramework extends AnyFramework, TStorybookRoot 
   ) {
     if (!this.story || !this.csfFiles) throw new Error('Cannot render docs before preparing');
 
-    const docsContext = new DocsContext<TFramework>(
+    const docsContext = new DocsContext<TFramework, TStorybookRoot>(
       this.channel,
       this.store,
       renderStoryToElement,

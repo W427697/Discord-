@@ -70,7 +70,7 @@ export class StoryRender<TFramework extends AnyFramework, TStorybookRoot = HTMLE
 
   constructor(
     public channel: Channel,
-    public store: StoryStore<TFramework>,
+    public store: StoryStore<TFramework, TStorybookRoot>,
     private renderToScreen: RenderToRoot<TFramework, TStorybookRoot>,
     private callbacks: RenderContextCallbacks<TFramework>,
     public id: StoryId,

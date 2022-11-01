@@ -37,12 +37,12 @@ import { processCSFFile, prepareStory, normalizeProjectAnnotations } from './csf
 const CSF_CACHE_SIZE = 1000;
 const STORY_CACHE_SIZE = 10000;
 
-export class StoryStore<TFramework extends AnyFramework> {
+export class StoryStore<TFramework extends AnyFramework, TStorybookRoot = HTMLElement> {
   storyIndex?: StoryIndexStore;
 
   importFn?: Store_ModuleImportFn;
 
-  projectAnnotations?: Store_NormalizedProjectAnnotations<TFramework>;
+  projectAnnotations?: Store_NormalizedProjectAnnotations<TFramework, TStorybookRoot>;
 
   globals?: GlobalsStore;
 
@@ -77,7 +77,7 @@ export class StoryStore<TFramework extends AnyFramework> {
     });
   }
 
-  setProjectAnnotations(projectAnnotations: ProjectAnnotations<TFramework>) {
+  setProjectAnnotations(projectAnnotations: ProjectAnnotations<TFramework, TStorybookRoot>) {
     // By changing `this.projectAnnotations, we implicitly invalidate the `prepareStoryWithCache`
     this.projectAnnotations = normalizeProjectAnnotations(projectAnnotations);
     const { globals, globalTypes } = projectAnnotations;
@@ -145,7 +145,7 @@ export class StoryStore<TFramework extends AnyFramework> {
     );
   }
 
-  loadAllCSFFiles(): Store_PromiseLike<StoryStore<TFramework>['cachedCSFFiles']> {
+  loadAllCSFFiles(): Store_PromiseLike<StoryStore<TFramework, TStorybookRoot>['cachedCSFFiles']> {
     if (!this.storyIndex) throw new Error(`loadAllCSFFiles called before initialization`);
 
     const importPaths: Record<Path, StoryId> = {};

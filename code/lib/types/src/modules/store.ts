@@ -51,11 +51,13 @@ export type ProjectAnnotations<
   renderToDOM?: RenderToRoot<TFramework, TStorybookRoot>;
 };
 
-export type Store_NormalizedProjectAnnotations<TFramework extends AnyFramework = AnyFramework> =
-  ProjectAnnotations<TFramework> & {
-    argTypes?: StrictArgTypes;
-    globalTypes?: StrictGlobalTypes;
-  };
+export type Store_NormalizedProjectAnnotations<
+  TFramework extends AnyFramework = AnyFramework,
+  TStorybookRoot = HTMLElement
+> = ProjectAnnotations<TFramework, TStorybookRoot> & {
+  argTypes?: StrictArgTypes;
+  globalTypes?: StrictGlobalTypes;
+};
 
 export type Store_NormalizedComponentAnnotations<TFramework extends AnyFramework = AnyFramework> =
   ComponentAnnotations<TFramework> & {
