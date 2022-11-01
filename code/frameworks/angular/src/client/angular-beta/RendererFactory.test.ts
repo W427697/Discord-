@@ -304,10 +304,7 @@ describe('RendererFactory', () => {
         global.document.getElementById('root').appendChild(global.document.createElement('👾'));
 
         expect(global.document.getElementById('root').innerHTML).toContain('Canvas 🖼');
-        const render = await rendererFactory.getRendererInstance(
-          'my-story-in-docs',
-          rootDocstargetDOMNode
-        );
+        await rendererFactory.getRendererInstance('my-story-in-docs', rootDocstargetDOMNode);
         expect(global.document.getElementById('root').innerHTML).toBe('');
       });
     });

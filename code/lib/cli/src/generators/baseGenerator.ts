@@ -128,7 +128,8 @@ export async function baseGenerator(
   const {
     packages: frameworkPackages,
     type,
-    renderer: rendererInclude, // deepscan-disable-line UNUSED_DECL
+    // @ts-expect-error Possibly remove this unused variable?
+    renderer: rendererInclude,
     rendererId,
     framework: frameworkInclude,
     builder: builderInclude,

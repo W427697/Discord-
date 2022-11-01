@@ -41,7 +41,7 @@ describe('Meta', () => {
   });
 
   test('Events are inferred from component', () => {
-    const meta: Meta<typeof Button> = {
+    ({
       component: Button,
       args: {
         label: 'good',
@@ -58,7 +58,7 @@ describe('Meta', () => {
           },
         });
       },
-    };
+    }) satisfies Meta<typeof Button>;
   });
 });
 

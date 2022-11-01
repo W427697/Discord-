@@ -42,7 +42,7 @@ describe('Meta', () => {
   });
 
   test('Events are inferred from component', () => {
-    const meta: Meta<Button> = {
+    ({
       component: Button,
       args: {
         label: 'good',
@@ -57,11 +57,11 @@ describe('Meta', () => {
           },
         },
       }),
-    };
+    }) satisfies Meta<Button>;
   });
 
   test('Events fallback to custom events when no component is specified', () => {
-    const meta: Meta<{ disabled: boolean; label: string }> = {
+    ({
       component: Button,
       args: { label: 'good', disabled: false },
       render: (args) => ({
@@ -73,7 +73,7 @@ describe('Meta', () => {
           },
         },
       }),
-    };
+    }) satisfies Meta<{ disabled: boolean; label: string }>;
   });
 });
 
