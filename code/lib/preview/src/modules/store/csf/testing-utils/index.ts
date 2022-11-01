@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import { isExportStory } from '@storybook/csf';
 import type {
   AnyFramework,

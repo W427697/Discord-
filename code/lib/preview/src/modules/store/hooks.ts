@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import { SHARED_STATE_CHANGED, SHARED_STATE_SET } from '@storybook/core-events';
 
 import { addons, useMemo, useState, useEffect, useChannel } from '../../addons';

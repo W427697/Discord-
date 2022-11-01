@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 /// <reference types="node" />
 /// <reference types="webpack-env" />
 

@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import type { Channel } from '@storybook/channels';
 import { SET_CONFIG } from '@storybook/core-events';
 import type { API } from '@storybook/api';

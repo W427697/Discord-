@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 // FIXME: breaks builder-vite, remove this in 7.0
 export { composeConfigs } from '../../store';
 export type { Store_WebProjectAnnotations as WebProjectAnnotations } from '@storybook/types';
