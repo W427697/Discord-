@@ -7955,7 +7955,7 @@ __metadata:
     vue-template-compiler: ^2.6.14
   peerDependencies:
     "@babel/core": "*"
-    babel-loader: ^7.0.0 || ^8.0.0
+    babel-loader: ^7.0.0 || ^8.0.0 || ^9.0.0
     css-loader: "*"
     vue: ^2.6.8
     vue-loader: ^15.7.0
