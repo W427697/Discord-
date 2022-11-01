@@ -51,7 +51,7 @@ describe('StoryRender', () => {
     await expect(preparePromise).rejects.toThrowError(PREPARE_ABORTED);
   });
 
-  it('does run play function if passed runPlayFunction=true', async () => {
+  it('does run play function if passed autoplay=true', async () => {
     const story = {
       id: 'id',
       title: 'title',
@@ -69,7 +69,7 @@ describe('StoryRender', () => {
       {} as any,
       entry.id,
       'story',
-      { runPlayFunction: true },
+      { autoplay: true },
       story as any
     );
 
@@ -77,7 +77,7 @@ describe('StoryRender', () => {
     expect(story.playFunction).toHaveBeenCalled();
   });
 
-  it('does not run play function if passed runPlayFunction=false', async () => {
+  it('does not run play function if passed autoplay=false', async () => {
     const story = {
       id: 'id',
       title: 'title',
@@ -95,7 +95,7 @@ describe('StoryRender', () => {
       {} as any,
       entry.id,
       'story',
-      { runPlayFunction: false },
+      { autoplay: false },
       story as any
     );
 

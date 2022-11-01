@@ -47,7 +47,7 @@ export type RenderContextCallbacks<TFramework extends AnyFramework> = Pick<
 >;
 
 export type StoryRenderOptions = {
-  runPlayFunction?: boolean;
+  autoplay?: boolean;
 };
 
 export class StoryRender<TFramework extends AnyFramework> implements Render<TFramework> {
@@ -76,7 +76,7 @@ export class StoryRender<TFramework extends AnyFramework> implements Render<TFra
     private callbacks: RenderContextCallbacks<TFramework>,
     public id: StoryId,
     public viewMode: ViewMode,
-    public renderOptions: StoryRenderOptions = { runPlayFunction: true },
+    public renderOptions: StoryRenderOptions = { autoplay: true },
     story?: Store_Story<TFramework>
   ) {
     this.abortController = new AbortController();
@@ -223,12 +223,7 @@ export class StoryRender<TFramework extends AnyFramework> implements Render<TFra
       if (abortSignal.aborted) return;
 
       // The phase should be 'rendering' but it might be set to 'aborted' by another render cycle
-      if (
-        this.renderOptions.runPlayFunction &&
-        forceRemount &&
-        playFunction &&
-        this.phase !== 'errored'
-      ) {
+      if (this.renderOptions.autoplay && forceRemount && playFunction && this.phase !== 'errored') {
         this.disableKeyListeners = true;
         try {
           await this.runPhase(abortSignal, 'playing', async () => {
