@@ -91,7 +91,7 @@
     "check": "../../../scripts/node_modules/.bin/tsc --noEmit",
     "prep": "../../../scripts/prepare/bundle.ts"
   },
-  "dependencies": {
+  "devDependencies": {
     "@storybook/api": "7.0.0-alpha.47",
     "@storybook/channel-postmessage": "7.0.0-alpha.47",
     "@storybook/channel-websocket": "7.0.0-alpha.47",
@@ -102,9 +102,7 @@
     "@storybook/csf": "next",
     "@storybook/router": "7.0.0-alpha.47",
     "@storybook/theming": "7.0.0-alpha.47",
-    "@storybook/types": "7.0.0-alpha.47"
-  },
-  "devDependencies": {
+    "@storybook/types": "7.0.0-alpha.47",
     "@types/qs": "^6.9.5",
     "@types/webpack-env": "^1.16.4",
     "ansi-to-html": "^0.6.11",

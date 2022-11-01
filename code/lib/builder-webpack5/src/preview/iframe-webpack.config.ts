@@ -37,16 +37,16 @@ const storybookPaths: Record<string, string> = {
   ].reduce(
     (acc, sbPackage) => ({
       ...acc,
-      [`@storybook/${sbPackage}`]: dirname(require.resolve(`${sbPackage}/package.json`)),
+      [`@storybook/${sbPackage}`]: dirname(require.resolve(`@storybook/${sbPackage}/package.json`)),
     }),
     {}
   ),
-  ...['addons', 'store', 'components', 'preview-web', 'client-api'].reduce(
+  ...['addons', 'store', 'preview-web', 'client-api', 'core-client'].reduce(
     (acc, sbPackage) => ({
       ...acc,
       [`@storybook/${sbPackage}`]: join(
         dirname(require.resolve(`@storybook/preview/package.json`)),
-        `dist/global${sbPackage}.mjs`
+        `dist/global/${sbPackage}.mjs`
       ),
     }),
     {}
@@ -68,6 +68,8 @@ export default async (
     features,
     serverChannelUrl,
   } = options;
+
+  console.log('aa', { storybookPaths });
 
   const frameworkOptions = await presets.apply('frameworkOptions');
 

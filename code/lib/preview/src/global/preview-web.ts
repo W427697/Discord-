@@ -8,7 +8,7 @@ const {
   composeConfigs,
   simulateDOMContentLoaded,
   simulatePageLoad,
-} = (globalThis as any).__STORYBOOK_ADDONS__ as typeof PREVIEW_WEB;
+} = (globalThis as any).__STORYBOOK_MODULE_PREVIEW_WEB__ as typeof PREVIEW_WEB;
 
 export {
   DocsContext,

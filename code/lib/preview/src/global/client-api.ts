@@ -14,7 +14,7 @@ const {
   getQueryParam,
   getQueryParams,
   setGlobalRender,
-} = (globalThis as any).__STORYBOOK_ADDONS__ as typeof CLIENT_API;
+} = (globalThis as any).__STORYBOOK_MODULE_CLIENT_API__ as typeof CLIENT_API;
 
 export {
   ClientApi,

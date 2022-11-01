@@ -40,7 +40,7 @@ const {
   userOrAutoTitle,
   userOrAutoTitleFromSpecifier,
   validateOptions,
-} = (globalThis as any).__STORYBOOK_ADDONS__ as typeof STORE;
+} = (globalThis as any).__STORYBOOK_MODULE_STORE__ as typeof STORE;
 
 export {
   DEEPLY_EQUAL,

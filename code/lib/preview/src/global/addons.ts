@@ -21,7 +21,7 @@ const {
   types,
   AddonStore,
   HooksContext,
-} = (globalThis as any).__STORYBOOK_ADDONS__ as typeof ADDONS;
+} = (globalThis as any).__STORYBOOK_MODULE_ADDONS__ as typeof ADDONS;
 
 export {
   useMemo,
