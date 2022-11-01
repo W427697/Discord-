@@ -15,7 +15,7 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
     name,
     dependencies,
     peerDependencies,
-    bundler: { entries, platform, pre, post },
+    bundler: { entries = [], untypedEntries = [], platform, pre, post },
   } = await fs.readJson(join(cwd, 'package.json'));
 
   const tsnodePath = join(__dirname, '..', 'node_modules', '.bin', 'ts-node');
@@ -55,7 +55,7 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
   const tsConfigExists = await fs.pathExists(tsConfigPath);
   await Promise.all([
     build({
-      entry: entries.map((e: string) => slash(join(cwd, e))),
+      entry: [...entries, ...untypedEntries].map((e: string) => slash(join(cwd, e))),
       watch,
       ...(tsConfigExists ? { tsconfig: tsConfigPath } : {}),
       outDir: join(process.cwd(), 'dist'),
@@ -102,7 +102,7 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
       },
     }),
     build({
-      entry: entries.map((e: string) => slash(join(cwd, e))),
+      entry: [...entries, ...untypedEntries].map((e: string) => slash(join(cwd, e))),
       watch,
       outDir: join(process.cwd(), 'dist'),
       ...(tsConfigExists ? { tsconfig: tsConfigPath } : {}),

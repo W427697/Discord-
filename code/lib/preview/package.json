@@ -111,16 +111,18 @@
   "bundler": {
     "entries": [
       "./src/index.ts",
-      "./src/global/addons.ts",
-      "./src/global/client-api.ts",
-      "./src/global/core-client.ts",
-      "./src/global/preview-web.ts",
-      "./src/global/store.ts",
       "./src/addons.ts",
       "./src/client-api.ts",
       "./src/core-client.ts",
       "./src/preview-web.ts",
       "./src/store.ts"
+    ],
+    "untypedEntries": [
+      "./src/global/addons.ts",
+      "./src/global/client-api.ts",
+      "./src/global/core-client.ts",
+      "./src/global/preview-web.ts",
+      "./src/global/store.ts"
     ]
   },
   "gitHead": "3ef14366115c56c1d45c0359ff681cc47ed50532"
