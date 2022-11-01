@@ -1,4 +1,4 @@
-import path from 'path';
+import { dirname, join, resolve } from 'path';
 import { DefinePlugin, HotModuleReplacementPlugin, ProgressPlugin, ProvidePlugin } from 'webpack';
 import type { Configuration } from 'webpack';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
@@ -23,11 +23,9 @@ import type { BuilderOptions, TypescriptOptions } from '../types';
 import { createBabelLoader } from './babel-loader-preview';
 
 const storybookPaths: Record<string, string> = {
-  global: path.dirname(require.resolve(`global/package.json`)),
+  global: dirname(require.resolve(`global/package.json`)),
   ...[
-    'addons',
     'api',
-    'store',
     'channels',
     'channel-postmessage',
     'channel-websocket',
@@ -35,14 +33,20 @@ const storybookPaths: Record<string, string> = {
     'core-events',
     'router',
     'theming',
-    'preview-web',
-    'client-api',
     'client-logger',
   ].reduce(
     (acc, sbPackage) => ({
       ...acc,
-      [`@storybook/${sbPackage}`]: path.dirname(
-        require.resolve(`@storybook/${sbPackage}/package.json`)
+      [`@storybook/${sbPackage}`]: dirname(require.resolve(`${sbPackage}/package.json`)),
+    }),
+    {}
+  ),
+  ...['addons', 'store', 'components', 'preview-web', 'client-api'].reduce(
+    (acc, sbPackage) => ({
+      ...acc,
+      [`@storybook/${sbPackage}`]: join(
+        dirname(require.resolve(`@storybook/preview/package.json`)),
+        `dist/global${sbPackage}.mjs`
       ),
     }),
     {}
@@ -53,7 +57,7 @@ export default async (
   options: Options & Record<string, any> & { typescriptOptions: TypescriptOptions }
 ): Promise<Configuration> => {
   const {
-    outputDir = path.join('.', 'public'),
+    outputDir = join('.', 'public'),
     quiet,
     packageJson,
     configType,
@@ -95,11 +99,11 @@ export default async (
   const virtualModuleMapping: Record<string, string> = {};
   if (features?.storyStoreV7) {
     const storiesFilename = 'storybook-stories.js';
-    const storiesPath = path.resolve(path.join(workingDir, storiesFilename));
+    const storiesPath = resolve(join(workingDir, storiesFilename));
 
     const needPipelinedImport = !!builderOptions.lazyCompilation && !isProd;
     virtualModuleMapping[storiesPath] = toImportFn(stories, { needPipelinedImport });
-    const configEntryPath = path.resolve(path.join(workingDir, 'storybook-config-entry.js'));
+    const configEntryPath = resolve(join(workingDir, 'storybook-config-entry.js'));
     virtualModuleMapping[configEntryPath] = handlebars(
       await readTemplate(
         require.resolve(
@@ -116,14 +120,12 @@ export default async (
   } else {
     const rendererName = await getRendererName(options);
 
-    const rendererInitEntry = path.resolve(
-      path.join(workingDir, 'storybook-init-renderer-entry.js')
-    );
+    const rendererInitEntry = resolve(join(workingDir, 'storybook-init-renderer-entry.js'));
     virtualModuleMapping[rendererInitEntry] = `import '${rendererName}';`;
     entries.push(rendererInitEntry);
 
     const entryTemplate = await readTemplate(
-      path.join(__dirname, '..', '..', 'templates', 'virtualModuleEntry.template.js')
+      join(__dirname, '..', '..', 'templates', 'virtualModuleEntry.template.js')
     );
 
     previewAnnotations.forEach((previewAnnotationFilename: string | undefined) => {
@@ -147,12 +149,12 @@ export default async (
     });
     if (stories.length > 0) {
       const storyTemplate = await readTemplate(
-        path.join(__dirname, '..', '..', 'templates', 'virtualModuleStory.template.js')
+        join(__dirname, '..', '..', 'templates', 'virtualModuleStory.template.js')
       );
       // NOTE: this file has a `.cjs` extension as it is a CJS file (from `dist/cjs`) and runs
       // in the user's webpack mode, which may be strict about the use of require/import.
       // See https://github.com/storybookjs/storybook/issues/14877
-      const storiesFilename = path.resolve(path.join(workingDir, `generated-stories-entry.cjs`));
+      const storiesFilename = resolve(join(workingDir, `generated-stories-entry.cjs`));
       virtualModuleMapping[storiesFilename] = interpolate(storyTemplate, {
         rendererName,
       })
@@ -180,7 +182,7 @@ export default async (
     devtool: 'cheap-module-source-map',
     entry: entries,
     output: {
-      path: path.resolve(process.cwd(), outputDir),
+      path: resolve(process.cwd(), outputDir),
       filename: isProd ? '[name].[contenthash:8].iframe.bundle.js' : '[name].iframe.bundle.js',
       publicPath: '',
     },
