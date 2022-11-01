@@ -9,7 +9,7 @@ import type {
   StoryName,
 } from '@storybook/types';
 import type { Channel } from '@storybook/channels';
-import type { StoryStore } from '../../store';
+import type { StoryStore } from '../../../store';
 
 import type { DocsContextProps } from './DocsContextProps';
 

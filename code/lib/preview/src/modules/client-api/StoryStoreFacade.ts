@@ -18,8 +18,8 @@ import type {
   StoryId,
 } from '@storybook/types';
 import { logger } from '@storybook/client-logger';
-import type { StoryStore } from '../store';
-import { userOrAutoTitle, sortStoriesV6 } from '../store';
+import type { StoryStore } from '../../store';
+import { userOrAutoTitle, sortStoriesV6 } from '../../store';
 
 export class StoryStoreFacade<TFramework extends AnyFramework> {
   projectAnnotations: Store_NormalizedProjectAnnotations<TFramework>;

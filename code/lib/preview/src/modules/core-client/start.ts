@@ -10,9 +10,9 @@ import type {
 } from '@storybook/types';
 import { createChannel } from '@storybook/channel-postmessage';
 import { FORCE_RE_RENDER } from '@storybook/core-events';
-import { addons } from '../addons';
-import { PreviewWeb } from '../preview-web';
-import { ClientApi } from '../client-api';
+import { addons } from '../../addons';
+import { PreviewWeb } from '../../preview-web';
+import { ClientApi } from '../../client-api';
 
 import { executeLoadableForChanges } from './executeLoadable';
 

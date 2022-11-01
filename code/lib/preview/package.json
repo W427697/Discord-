@@ -31,6 +31,11 @@
       "require": "./dist/addons.js",
       "types": "./dist/addons.d.ts"
     },
+    "./dist/global/addons": {
+      "import": "./dist/global/addons.mjs",
+      "require": "./dist/global/addons.js",
+      "types": "./dist/global/addons.d.ts"
+    },
     "./dist/client-api": {
       "import": "./dist/client-api.mjs",
       "require": "./dist/client-api.js",
@@ -106,8 +111,13 @@
   "bundler": {
     "entries": [
       "./src/index.ts",
-      "./src/client-api.ts",
+      "./src/global/addons.ts",
+      "./src/global/client-api.ts",
+      "./src/global/core-client.ts",
+      "./src/global/preview-web.ts",
+      "./src/global/store.ts",
       "./src/addons.ts",
+      "./src/client-api.ts",
       "./src/core-client.ts",
       "./src/preview-web.ts",
       "./src/store.ts"

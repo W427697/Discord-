@@ -11,7 +11,7 @@ import type {
   StoryContext,
 } from '@storybook/types';
 
-import { HooksContext } from '../../../addons';
+import { HooksContext } from '../../../../addons';
 import { composeConfigs } from '../composeConfigs';
 import { prepareStory } from '../prepareStory';
 import { normalizeStory } from '../normalizeStory';

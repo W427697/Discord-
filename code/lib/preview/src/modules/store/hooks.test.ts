@@ -22,7 +22,7 @@ import {
   HooksContext,
   useArgs,
   useGlobals,
-} from '../addons';
+} from '../../addons';
 
 import { defaultDecorateStory } from './decorators';
 

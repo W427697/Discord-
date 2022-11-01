@@ -1,1 +1,1 @@
-export * from './client-api/index';
+export * from './modules/client-api/index';

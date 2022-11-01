@@ -18,7 +18,7 @@ import {
   STORY_RENDERED,
   PLAY_FUNCTION_THREW_EXCEPTION,
 } from '@storybook/core-events';
-import type { StoryStore } from '../../store';
+import type { StoryStore } from '../../../store';
 import type { Render, RenderType } from './Render';
 import { PREPARE_ABORTED } from './Render';
 

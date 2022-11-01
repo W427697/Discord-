@@ -1,1 +1,1 @@
-export * from './preview-web/index';
+export * from './modules/preview-web/index';

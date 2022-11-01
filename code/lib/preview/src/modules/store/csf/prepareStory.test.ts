@@ -9,7 +9,7 @@ import type {
   SBObjectType,
   SBScalarType,
 } from '@storybook/types';
-import { addons, HooksContext } from '../../addons';
+import { addons, HooksContext } from '../../../addons';
 
 import { NO_TARGET_NAME } from '../args';
 import { prepareStory } from './prepareStory';

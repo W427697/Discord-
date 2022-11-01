@@ -1,1 +1,1 @@
-export * from './addons/index';
+export * from './modules/addons/index';

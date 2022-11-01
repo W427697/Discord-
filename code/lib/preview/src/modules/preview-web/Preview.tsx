@@ -29,8 +29,8 @@ import type {
   Store_WebProjectAnnotations,
   StoryId,
 } from '@storybook/types';
-import { addons } from '../addons';
-import { StoryStore } from '../store';
+import { addons } from '../../addons';
+import { StoryStore } from '../../store';
 
 import { StoryRender } from './render/StoryRender';
 import type { TemplateDocsRender } from './render/TemplateDocsRender';

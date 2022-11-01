@@ -3,7 +3,7 @@ import { STORY_RENDERED, STORY_UNCHANGED, SET_INDEX } from '@storybook/core-even
 
 import type { Store_ModuleExports, Path, Loadable } from '@storybook/types';
 import global from 'global';
-import { setGlobalRender } from '../client-api';
+import { setGlobalRender } from '../../client-api';
 import {
   waitForRender,
   waitForEvents,

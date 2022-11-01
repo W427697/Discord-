@@ -34,7 +34,7 @@ import type {
   Store_WebProjectAnnotations,
 } from '@storybook/types';
 import { mocked } from 'ts-jest/utils';
-import { addons, mockChannel as createMockChannel } from '../addons';
+import { addons, mockChannel as createMockChannel } from '../../addons';
 
 import { PreviewWeb } from './PreviewWeb';
 import {

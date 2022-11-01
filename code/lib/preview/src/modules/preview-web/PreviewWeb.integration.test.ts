@@ -4,7 +4,7 @@ import type { Store_RenderContext } from '@storybook/types';
 
 import { mocked } from 'ts-jest/utils';
 import { expect } from '@jest/globals';
-import { addons, mockChannel as createMockChannel } from '../addons';
+import { addons, mockChannel as createMockChannel } from '../../addons';
 
 import { PreviewWeb } from './PreviewWeb';
 import { WebView } from './WebView';
