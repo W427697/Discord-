@@ -149,6 +149,29 @@ const htmlWebpackTemplates = {
   },
 };
 
+const htmlViteTemplates = {
+  'html-vite/default-js': {
+    name: 'HTML Vite JS',
+    script: 'yarn create vite . --template vanilla && echo "export default {}" > vite.config.js',
+    cadence: ['daily', 'weekly'],
+    expected: {
+      framework: '@storybook/html-vite',
+      renderer: '@storybook/html',
+      builder: '@storybook/builder-vite',
+    },
+  },
+  'html-vite/default-ts': {
+    name: 'HTML Vite TS',
+    script: 'yarn create vite . --template vanilla-ts && echo "export default {}" > vite.config.js',
+    cadence: ['daily', 'weekly'],
+    expected: {
+      framework: '@storybook/html-vite',
+      renderer: '@storybook/html',
+      builder: '@storybook/builder-vite',
+    },
+  },
+};
+
 const svelteViteTemplates = {
   'svelte-vite/default-js': {
     name: 'Svelte Vite (JS)',
@@ -324,6 +347,7 @@ const reproTemplates = {
   ...htmlWebpackTemplates,
   ...preactWebpackTemplates,
   ...nextjsTemplates,
+  ...htmlViteTemplates,
 };
 
 export default reproTemplates;
