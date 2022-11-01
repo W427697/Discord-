@@ -4,6 +4,7 @@ import { BooleanControl } from './Boolean';
 export default {
   title: 'Controls/Boolean',
   component: BooleanControl,
+  tags: ['docsPage'],
 };
 
 const Template = (initialValue?: boolean) => {
@@ -20,4 +21,7 @@ export const True = () => Template(true);
 
 export const False = () => Template(false);
 
+/**
+ * When no value is set on the control
+ */
 export const Undefined = () => Template(undefined);
