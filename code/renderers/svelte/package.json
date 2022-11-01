@@ -45,6 +45,7 @@
   "files": [
     "dist/**/*",
     "templates/**/*",
+    "template/**/*",
     "README.md",
     "*.js",
     "*.d.ts"
