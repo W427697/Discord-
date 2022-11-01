@@ -1,1 +1,2 @@
-export * from './modules/client-api/index';
+/* eslint-disable import/no-extraneous-dependencies */
+export * from '@storybook/client-api';
