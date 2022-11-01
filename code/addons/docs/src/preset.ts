@@ -10,7 +10,6 @@ import type {
   Options,
 } from '@storybook/types';
 import type { CsfPluginOptions } from '@storybook/csf-plugin';
-import { logger } from '@storybook/node-logger';
 import { loadCsf } from '@storybook/csf-tools';
 
 // for frameworks that are not working with react, we need to configure
