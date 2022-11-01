@@ -360,7 +360,7 @@ Each addon is imported into the manager as an ESM module that's bundled separate
 
 SB6.x framework packages shipped binaries called `start-storybook` and `build-storybook`.
 
-In SB7.0, we've removed these binaries and replaced them with new commands in Storybook's CLI: `sb dev` and `sb build`. These commands will look for the `framework` field in your `.storybook/main.js` config--[which is now required](#framework-field-mandatory)--and use that to determine how to start/build your storybook. The benefit of this change is that it is now possible to install multiple frameworks in a project without having to worry about hoisting issues.
+In SB7.0, we've removed these binaries and replaced them with new commands in Storybook's CLI: `storybook dev` and `storybook build`. These commands will look for the `framework` field in your `.storybook/main.js` config--[which is now required](#framework-field-mandatory)--and use that to determine how to start/build your storybook. The benefit of this change is that it is now possible to install multiple frameworks in a project without having to worry about hoisting issues.
 
 A typical storybook project includes two scripts in your projects `package.json`:
 
