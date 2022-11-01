@@ -16,10 +16,10 @@ export const enrichCsf = (csf: CsfFile, options?: EnrichCsfOptions) => {
     const description =
       !options?.disableDescription && extractDescription(csf._storyStatements[key]);
     const parameters = [];
-    // storySource: { source: %%source%% },
     const originalParameters = t.memberExpression(t.identifier(key), t.identifier('parameters'));
     parameters.push(t.spreadElement(originalParameters));
 
+    // storySource: { source: %%source%% },
     if (source) {
       const optionalStorySource = t.optionalMemberExpression(
         originalParameters,
