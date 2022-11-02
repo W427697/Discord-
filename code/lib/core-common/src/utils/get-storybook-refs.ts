@@ -4,7 +4,7 @@ import findUp from 'find-up';
 
 import resolveFrom from 'resolve-from';
 import { logger } from '@storybook/node-logger';
-import { Options, Ref } from '../types';
+import type { Options, Ref } from '@storybook/types';
 
 export const getAutoRefs = async (options: Options): Promise<Record<string, Ref>> => {
   const location = await findUp('package.json', { cwd: options.configDir });
@@ -26,7 +26,12 @@ export const getAutoRefs = async (options: Options): Promise<Record<string, Ref>
         if (storybook?.url) {
           return { id: name, ...storybook, version };
         }
-      } catch {
+      } catch (error) {
+        if ((error as any).code === 'ERR_PACKAGE_PATH_NOT_EXPORTED') {
+          // silent warning because user can't do anything about it
+          // "package.json" is not part of the package's "exports" field in its package.json
+          return undefined;
+        }
         logger.warn(`unable to find package.json for ${d}`);
         return undefined;
       }

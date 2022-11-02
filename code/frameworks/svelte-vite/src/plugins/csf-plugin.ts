@@ -1,5 +1,7 @@
+// @ts-expect-error (TODO)
 import { getNameFromFilename } from '@storybook/addon-svelte-csf/dist/cjs/parser/svelte-stories-loader';
 import { readFileSync } from 'fs';
+// @ts-expect-error (TODO)
 import { extractStories } from '@storybook/addon-svelte-csf/dist/cjs/parser/extract-stories';
 import type { Options } from '@sveltejs/vite-plugin-svelte';
 import * as svelte from 'svelte/compiler';
@@ -31,6 +33,7 @@ export default function csfPlugin(svelteOptions?: Options): PluginOption {
       const { stories } = all;
       const storyDef = Object.entries<any>(stories)
         .filter(([, def]) => !def.template)
+        // eslint-disable-next-line @typescript-eslint/no-shadow
         .map(([id]) => `export const ${id} = __storiesMetaData.stories[${JSON.stringify(id)}];`)
         .join('\n');
 
@@ -38,6 +41,7 @@ export default function csfPlugin(svelteOptions?: Options): PluginOption {
 
       const namedExportsOrder = Object.entries<any>(stories)
         .filter(([, def]) => !def.template)
+        // eslint-disable-next-line @typescript-eslint/no-shadow
         .map(([id]) => id);
 
       const output = [

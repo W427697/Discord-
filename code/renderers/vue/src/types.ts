@@ -1,27 +1,18 @@
-import type { StoryContext as StoryContextBase } from '@storybook/csf';
+import type { StoryContext as StoryContextBase } from '@storybook/types';
 import type { Component, AsyncComponent } from 'vue';
 
-export type { RenderContext } from '@storybook/core-client';
+export type { RenderContext } from '@storybook/types';
 
 export interface ShowErrorArgs {
   title: string;
   description: string;
 }
 
-// TODO: some vue expert needs to look at this
-export type StoryFnVueReturnType = string | Component;
+export type StoryFnVueReturnType =
+  | Component<any, any, any, any>
+  | AsyncComponent<any, any, any, any>;
 
 export type StoryContext = StoryContextBase<VueFramework>;
-
-export interface IStorybookStory {
-  name: string;
-  render: (context: any) => any;
-}
-
-export interface IStorybookSection {
-  kind: string;
-  stories: IStorybookStory[];
-}
 
 export type VueFramework = {
   component: Component<any, any, any, any> | AsyncComponent<any, any, any, any>;

@@ -1,14 +1,15 @@
 import express, { Router } from 'express';
 import compression from 'compression';
 
-import {
+import type {
   CoreConfig,
   DocsOptions,
   Options,
   StorybookConfig,
-  normalizeStories,
-  logConfig,
-} from '@storybook/core-common';
+  VersionCheck,
+} from '@storybook/types';
+
+import { normalizeStories, logConfig } from '@storybook/core-common';
 
 import { telemetry } from '@storybook/telemetry';
 import { getMiddleware } from './utils/middleware';
@@ -22,11 +23,18 @@ import { getServerChannel } from './utils/get-server-channel';
 import { openInBrowser } from './utils/open-in-browser';
 import { getBuilders } from './utils/get-builders';
 import { StoryIndexGenerator } from './utils/StoryIndexGenerator';
+import { summarizeIndex } from './utils/summarizeIndex';
 
 // @ts-expect-error (Converted from ts-ignore)
 export const router: Router = new Router();
 
 export const DEBOUNCE = 100;
+
+const versionStatus = (versionCheck: VersionCheck) => {
+  if (versionCheck.error) return 'error';
+  if (versionCheck.cached) return 'cached';
+  return 'success';
+};
 
 export async function storybookDevServer(options: Options) {
   const startTime = process.hrtime();
@@ -39,61 +47,46 @@ export async function storybookDevServer(options: Options) {
   // try get index generator, if failed, send telemetry without storyCount, then rethrow the error
   let initializedStoryIndexGenerator: Promise<StoryIndexGenerator> = Promise.resolve(undefined);
   if (features?.buildStoriesJson || features?.storyStoreV7) {
-    try {
-      const workingDir = process.cwd();
-      const directories = {
-        configDir: options.configDir,
-        workingDir,
-      };
-      const normalizedStories = normalizeStories(
-        await options.presets.apply('stories'),
-        directories
-      );
-      const storyIndexers = await options.presets.apply('storyIndexers', []);
-      const docsOptions = await options.presets.apply<DocsOptions>('docs', {});
+    const workingDir = process.cwd();
+    const directories = {
+      configDir: options.configDir,
+      workingDir,
+    };
+    const normalizedStories = normalizeStories(await options.presets.apply('stories'), directories);
+    const storyIndexers = await options.presets.apply('storyIndexers', []);
+    const docsOptions = await options.presets.apply<DocsOptions>('docs', {});
 
-      const generator = new StoryIndexGenerator(normalizedStories, {
-        ...directories,
-        storyIndexers,
-        docs: docsOptions,
-        workingDir,
-        storiesV2Compatibility: !features?.breakingChangesV7 && !features?.storyStoreV7,
-        storyStoreV7: features?.storyStoreV7,
-      });
+    const generator = new StoryIndexGenerator(normalizedStories, {
+      ...directories,
+      storyIndexers,
+      docs: docsOptions,
+      workingDir,
+      storiesV2Compatibility: !features?.breakingChangesV7 && !features?.storyStoreV7,
+      storyStoreV7: features?.storyStoreV7,
+    });
 
-      initializedStoryIndexGenerator = generator.initialize().then(() => generator);
+    initializedStoryIndexGenerator = generator.initialize().then(() => generator);
 
-      useStoriesJson({
-        router,
-        initializedStoryIndexGenerator,
-        normalizedStories,
-        serverChannel,
-        workingDir,
-      });
-    } catch (err) {
-      if (!core?.disableTelemetry) {
-        telemetry('start');
-      }
-      throw err;
-    }
+    useStoriesJson({
+      router,
+      initializedStoryIndexGenerator,
+      normalizedStories,
+      serverChannel,
+      workingDir,
+    });
   }
 
   if (!core?.disableTelemetry) {
     initializedStoryIndexGenerator.then(async (generator) => {
-      if (!generator) {
-        return;
-      }
-
-      const storyIndex = await generator.getIndex();
+      const storyIndex = await generator?.getIndex();
+      const { versionCheck, versionUpdates } = options;
       const payload = storyIndex
         ? {
-            storyIndex: {
-              storyCount: Object.keys(storyIndex.entries).length,
-              version: storyIndex.v,
-            },
+            versionStatus: versionUpdates ? versionStatus(versionCheck) : 'disabled',
+            storyIndex: summarizeIndex(storyIndex),
           }
         : undefined;
-      telemetry('start', payload, { configDir: options.configDir });
+      telemetry('dev', payload, { configDir: options.configDir });
     });
   }
 
@@ -126,6 +119,7 @@ export async function storybookDevServer(options: Options) {
   }
 
   // User's own static files
+
   await useStatics(router, options);
 
   getMiddleware(options.configDir)(router);
@@ -147,40 +141,29 @@ export async function storybookDevServer(options: Options) {
     logConfig('Preview webpack config', await previewBuilder.getConfig(options));
   }
 
-  const preview = options.ignorePreview
-    ? Promise.resolve()
-    : previewBuilder.start({
-        startTime,
-        options,
-        router,
-        server,
-      });
-
-  const manager = managerBuilder.start({
+  const managerResult = await managerBuilder.start({
     startTime,
     options,
     router,
     server,
   });
 
-  const [previewResult, managerResult] = await Promise.all([
-    preview.catch(async (err) => {
+  let previewResult;
+  if (!options.ignorePreview) {
+    try {
+      previewResult = await previewBuilder.start({
+        startTime,
+        options,
+        router,
+        server,
+      });
+    } catch (error) {
       await managerBuilder?.bail();
-      throw err;
-    }),
-    manager
-      // TODO #13083 Restore this when compiling the preview is fast enough
-      // .then((result) => {
-      //   if (!options.ci && !options.smokeTest) openInBrowser(address);
-      //   return result;
-      // })
-      .catch(async (err) => {
-        await previewBuilder?.bail();
-        throw err;
-      }),
-  ]);
+      throw error;
+    }
+  }
 
-  // TODO #13083 Remove this when compiling the preview is fast enough
+  // TODO #13083 Move this to before starting the previewBuilder - when compiling the preview is so fast that it will be done before the browser is done opening
   if (!options.ci && !options.smokeTest && options.open) {
     openInBrowser(host ? networkAddress : address);
   }
