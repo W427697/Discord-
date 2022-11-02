@@ -25,11 +25,16 @@ function prepare(
     return null;
   }
 
+  // TODO: this doesn't work at all with decorators. they don't have args on setup()
+  // @ts-expect-error types are strict here, this will still work in the majority of cases where users don't have arguments in their setup() functions
+  const args = story.setup?.().args;
+
   if (innerStory) {
     return {
       // Normalize so we can always spread an object
       ...normalizeFunctionalComponent(story),
       components: { ...(story.components || {}), story: innerStory },
+      args,
     };
   }
 
@@ -37,6 +42,7 @@ function prepare(
     render() {
       return h(story);
     },
+    args,
   };
 }
 
