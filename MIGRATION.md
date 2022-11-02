@@ -3,7 +3,7 @@
 - [From version 6.5.x to 7.0.0](#from-version-65x-to-700)
   - [Alpha release notes](#alpha-release-notes)
   - [7.0 breaking changes](#70-breaking-changes)
-    - [removed auto injection of @storybook/addon-actions decorator](#removed-auto-injection-of-storybookaddon-actions-decorator)
+    - [Titles are statically computed](#titles-are-statically-computed)
     - [register.js removed](#registerjs-removed)
     - [Change of root html IDs](#change-of-root-html-ids)
     - [No more default export from `@storybook/addons`](#no-more-default-export-from-storybookaddons)
@@ -50,7 +50,6 @@
   - [Vite builder renamed](#vite-builder-renamed)
   - [Docs framework refactor for React](#docs-framework-refactor-for-react)
   - [Opt-in MDX2 support](#opt-in-mdx2-support)
-  - [Titles are statically computed](#titles-are-statically-computed)
   - [CSF3 auto-title improvements](#csf3-auto-title-improvements)
     - [Auto-title filename case](#auto-title-filename-case)
     - [Auto-title redundant filename](#auto-title-redundant-filename)
@@ -254,6 +253,44 @@ Storybook 7.0 is in early alpha. During the alpha, we are making a large number 
 In the meantime, these migration notes are the best available documentation on things you should know upgrading to 7.0.
 
 ### 7.0 breaking changes
+
+#### Titles are statically computed
+
+Up until SB 7.0, it was possible to generate the default export of a CSF story by calling a function, or mixing in variables defined in other ES Modules. For instance:
+
+```js
+// Dynamically computed local title
+const categories = {
+  atoms: 'Atoms',
+  molecules: 'Molecules',
+  // etc.
+}
+
+export default {
+  title: `${categories.atoms}/MyComponent`
+}
+
+// Title returned by a function
+import { genDefault } from '../utils/storybook'
+
+export default genDefault({
+  category: 'Atoms',
+  title: 'MyComponent',
+})
+```
+
+This is no longer possible in SB 7.0, as story titles are parsed at build time. Titles cannot depend on variables or functions, and cannot be dynamically computed even with local variables. All stories must have a static `title` property, or a static `component` property from which an automatic title will be derived.
+
+Likewise, the `id` property must be statically defined. The URL defined for a story in the sidebar will be statically computed, so if you dynamically add an `id` through a function call like above, the story URL will not match the one in the sidebar and the story will be unreachable.
+
+To opt-out of the old behavior you can set the `storyStoreV7` feature flag to `false` in `main.js`. However, a variety of performance optimizations depend on the new behavior, and the old behavior is deprecated and will be removed from Storybook in 8.0.
+
+```js
+module.exports = {
+  features: {
+    storyStoreV7: false,
+  }
+}
 
 #### removed auto injection of @storybook/addon-actions decorator
 
@@ -902,35 +939,6 @@ module.exports = {
   },
 };
 ```
-
-### Titles are statically computed
-
-Up until SB 7.0, it was possible to generate the default export of a CSF story by calling a function, or mixing in variables defined in other ES Modules. For instance:
-
-```js
-// Dynamically computed local title
-const categories = {
-  atoms: 'Atoms',
-  molecules: 'Molecules',
-  // etc.
-}
-
-export default {
-  title: `${categories.atoms}/MyComponent`
-}
-
-// Title returned by a function
-import { genDefault } from '../utils/storybook'
-
-export default genDefault({
-  category: 'Atoms',
-  title: 'MyComponent',
-})
-```
-
-This is no longer possible in SB 7.0, as story titles are parsed at build time. Titles cannot depend on variables or functions, and cannot be dynamically computed even with local variables. All stories must have a static `title` property, or a static `component` property from which an automatic title will be derived.
-
-Likewise, the `id` property must be statically defined. The URL defined for a story in the sidebar will be statically computed, so if you dynamically add an `id` through a function call like above, the story URL will not match the one in the sidebar and the story will be unreachable.
 
 ### CSF3 auto-title improvements
 
