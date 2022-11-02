@@ -4,6 +4,8 @@ import { Header } from './Header';
 
 const meta: Meta<HeaderProps> = {
   title: 'Example/Header',
+  // This component will have an automatically generated docsPage entry: https://storybook.js.org/docs/web-components/writing-docs/docs-page
+  tags: ['docsPage'],
   render: (args) => Header(args),
 };
 

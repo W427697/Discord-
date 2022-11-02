@@ -3,6 +3,8 @@ import MyHeader from './Header.vue';
 export default {
   title: 'Example/Header',
   component: MyHeader,
+  // This component will have an automatically generated docsPage entry: https://storybook.js.org/docs/vue/writing-docs/docs-page
+  tags: ['docsPage'],
   render: (args) => ({
     // Components used in your story `template` are defined in the `components` object
     components: {

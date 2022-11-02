@@ -3,6 +3,8 @@ import Header from './Header.svelte';
 export default {
   title: 'Example/Header',
   component: Header,
+  // This component will have an automatically generated docsPage entry: https://storybook.js.org/docs/svelte/writing-docs/docs-page
+  tags: ['docsPage'],
   render: (args) => ({
     Component: Header,
     props: args,
