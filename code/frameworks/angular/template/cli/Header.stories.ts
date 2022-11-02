@@ -8,6 +8,8 @@ import Header from './header.component';
 const meta: Meta<Header> = {
   title: 'Example/Header',
   component: Header,
+  // This component will have an automatically generated docsPage entry: https://storybook.js.org/docs/angular/writing-docs/docs-page
+  tags: ['docsPage'],
   render: (args) => ({ props: args }),
   decorators: [
     moduleMetadata({
