@@ -902,6 +902,35 @@ module.exports = {
 };
 ```
 
+### Titles are statically computed
+
+Up until SB 7.0, it was possible to generate the default export of a CSF story by calling a function, or mixing in variables defined in other ES Modules. For instance:
+
+```js
+// Dynamically computed local title
+const categories = {
+  atoms: 'Atoms',
+  molecules: 'Molecules',
+  // etc.
+}
+
+export default {
+  title: `${categories.atoms}/MyComponent`
+}
+
+// Title returned by a function
+import { genDefault } from '../utils/storybook'
+
+export default genDefault({
+  category: 'Atoms',
+  title: 'MyComponent',
+})
+```
+
+This is no longer possible in SB 7.0, as story titles are parsed at build time. Titles cannot depend on variables or functions, and cannot be dynamically computed even with local variables. All stories must have a static `title` property, or a static `component` property from which an automatic title will be derived.
+
+Likewise, the `id` property must be statically defined. The URL defined for a story in the sidebar will be statically computed, so if you dynamically add an `id` through a function call like above, the story URL will not match the one in the sidebar and the story will be unreachable.
+
 ### CSF3 auto-title improvements
 
 SB 6.4 introduced experimental "auto-title", in which a story's location in the sidebar (aka `title`) can be automatically inferred from its location on disk. For example, the file `atoms/Button.stories.js` might result in the title `Atoms/Button`.
