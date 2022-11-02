@@ -191,6 +191,11 @@
       "root": "lib/core-webpack",
       "type": "library"
     },
+    "@storybook/csf-plugin": {
+      "implicitDependencies": [],
+      "root": "lib/csf-plugin",
+      "type": "library"
+    },
     "@storybook/csf-tools": {
       "implicitDependencies": [],
       "root": "lib/csf-tools",
