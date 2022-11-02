@@ -121,10 +121,6 @@
     "typescript": "~4.6.3",
     "util-deprecate": "^1.0.2"
   },
-  "peerDependencies": {
-    "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
-    "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0"
-  },
   "publishConfig": {
     "access": "public"
   },
@@ -139,8 +135,13 @@
     ],
     "untypedEntries": [
       "./src/global/addons.ts",
+      "./src/global/channel-postmessage.ts",
+      "./src/global/channel-websocket.ts",
+      "./src/global/channels.ts",
       "./src/global/client-api.ts",
+      "./src/global/client-logger.ts",
       "./src/global/core-client.ts",
+      "./src/global/core-events.ts",
       "./src/global/preview-web.ts",
       "./src/global/store.ts"
     ]
