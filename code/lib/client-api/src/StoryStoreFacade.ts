@@ -192,9 +192,8 @@ export class StoryStoreFacade<TFramework extends AnyFramework> {
     // NOTE: this logic is equivalent to the `extractStories` function of `StoryIndexGenerator`
     const docsOptions = (global.DOCS_OPTIONS || {}) as DocsOptions;
     if (docsOptions.enabled && storyExports.length) {
-      // We will use tags soon and this crappy filename test will go away
       if (
-        fileName.match(/\.mdx$/) ||
+        componentTags.includes('mdx') ||
         (docsOptions.docsPage && componentTags.includes('docsPage'))
       ) {
         const name = docsOptions.defaultName;
