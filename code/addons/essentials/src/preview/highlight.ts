@@ -1,1 +1,1 @@
-export * from '@storybook/addon-highlight/dist/preview';
+export * from '@storybook/addon-highlight/preview';

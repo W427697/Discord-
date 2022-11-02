@@ -1,1 +1,1 @@
-export * from '@storybook/addon-backgrounds/dist/preview';
+export * from '@storybook/addon-backgrounds/preview';

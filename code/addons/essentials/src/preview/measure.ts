@@ -1,1 +1,1 @@
-export * from '@storybook/addon-measure/dist/preview';
+export * from '@storybook/addon-measure/preview';
