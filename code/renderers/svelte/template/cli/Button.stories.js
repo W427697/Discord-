@@ -5,6 +5,8 @@ import Button from './Button.svelte';
 export default {
   title: 'Example/Button',
   component: Button,
+  // This component will have an automatically generated docsPage entry: https://storybook.js.org/docs/svelte/writing-docs/docs-page
+  tags: ['docsPage'],
   // More on component templates: https://storybook.js.org/docs/svelte/writing-stories/introduction#using-args
   render: (args) => ({
     Component: Button,

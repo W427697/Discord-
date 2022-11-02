@@ -5,6 +5,8 @@ import { Button } from './Button';
 // More on how to set up stories at: https://storybook.js.org/docs/web-components/writing-stories/introduction#default-export
 const meta: Meta<ButtonProps> = {
   title: 'Example/Button',
+  // This component will have an automatically generated docsPage entry: https://storybook.js.org/docs/web-components/writing-docs/docs-page
+  tags: ['docsPage'],
   render: (args) => Button(args),
   // More on argTypes: https://storybook.js.org/docs/web-components/api/argtypes
   argTypes: {
