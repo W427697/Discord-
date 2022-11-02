@@ -1,5 +1,6 @@
 {
   "deepscan.enable": true,
+  "eslint.workingDirectories": [".", "../scripts"],
   "typescript.tsdk": "node_modules/typescript/lib",
   "[javascript]": {
     "editor.defaultFormatter": "dbaeumer.vscode-eslint",
