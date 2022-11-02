@@ -33,17 +33,17 @@
       "import": "./dist/index.mjs",
       "types": "./dist/index.d.ts"
     },
-    "./manager": {
+    "./dist/manager": {
       "require": "./dist/manager.js",
       "import": "./dist/manager.mjs",
       "types": "./dist/manager.d.ts"
     },
-    "./preview": {
-      "require": "./dist/preset/preview.js",
-      "import": "./dist/preset/preview.mjs",
+    "./dist/preview": {
+      "require": "./dist/preview.js",
+      "import": "./dist/preview.mjs",
       "types": "./dist/preview.d.ts"
     },
-    "./register": {
+    "./dist/register": {
       "require": "./dist/manager.js",
       "import": "./dist/manager.mjs",
       "types": "./dist/manager.d.ts"
@@ -95,7 +95,7 @@
     "entries": [
       "./src/index.ts",
       "./src/manager.tsx",
-      "./src/preset/preview.tsx"
+      "./src/preview.tsx"
     ]
   },
   "gitHead": "1c706a4a778831e012343c905f86225fa71491a7",

@@ -29,10 +29,10 @@
       "import": "./dist/index.mjs",
       "types": "./dist/index.d.ts"
     },
-    "./preview": {
-      "require": "./dist/highlight.js",
-      "import": "./dist/highlight.mjs",
-      "types": "./dist/highlight.d.ts"
+    "./dist/preview": {
+      "require": "./dist/preview.js",
+      "import": "./dist/preview.mjs",
+      "types": "./dist/preview.d.ts"
     },
     "./package.json": "./package.json"
   },
@@ -64,7 +64,7 @@
   "bundler": {
     "entries": [
       "./src/index.ts",
-      "./src/highlight.ts"
+      "./src/preview.ts"
     ]
   },
   "gitHead": "1c706a4a778831e012343c905f86225fa71491a7",
