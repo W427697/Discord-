@@ -1,4 +1,5 @@
 import type { PackageJson, StorybookConfig } from '@storybook/types';
+import { getActualPackageJson } from './package-json';
 
 const knownRenderers = [
   'html',
@@ -36,8 +37,7 @@ export async function getFrameworkInfo(mainConfig: StorybookConfig) {
 
   const framework = typeof frameworkInput === 'string' ? { name: frameworkInput } : frameworkInput;
 
-  // eslint-disable-next-line import/no-dynamic-require, global-require
-  const frameworkPackageJson = require(`${framework.name}/package.json`);
+  const frameworkPackageJson = await getActualPackageJson(framework.name);
 
   const builder = findMatchingPackage(frameworkPackageJson, knownBuilders);
   const renderer = findMatchingPackage(frameworkPackageJson, knownRenderers);

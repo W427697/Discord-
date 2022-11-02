@@ -9,7 +9,7 @@ import {
 import type { StorybookConfig, PackageJson } from '@storybook/types';
 
 import type { StorybookMetadata, Dependency, StorybookAddon } from './types';
-import { getActualPackageVersion, getActualPackageVersions } from './package-versions';
+import { getActualPackageVersion, getActualPackageVersions } from './package-json';
 import { getMonorepoType } from './get-monorepo-type';
 import { cleanPaths } from './sanitize';
 import { getFrameworkInfo } from './get-framework-info';
