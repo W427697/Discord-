@@ -163,7 +163,7 @@ const htmlViteTemplates = {
   'html-vite/default-ts': {
     name: 'HTML Vite TS',
     script: 'yarn create vite . --template vanilla-ts && echo "export default {}" > vite.config.js',
-    cadence: ['daily', 'weekly'],
+    cadence: ['ci', 'daily', 'weekly'],
     expected: {
       framework: '@storybook/html-vite',
       renderer: '@storybook/html',
