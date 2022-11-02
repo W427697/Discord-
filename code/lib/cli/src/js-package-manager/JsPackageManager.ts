@@ -3,11 +3,14 @@ import { gt, satisfies } from 'semver';
 import { sync as spawnSync } from 'cross-spawn';
 import path from 'path';
 import fs from 'fs';
+
 import { commandLog } from '../helpers';
-import { PackageJson, PackageJsonWithDepsAndDevDeps } from './PackageJson';
+import type { PackageJson, PackageJsonWithDepsAndDevDeps } from './PackageJson';
 import storybookPackagesVersions from '../versions';
 
 const logger = console;
+
+export type PackageManagerName = 'npm' | 'yarn1' | 'yarn2' | 'pnpm';
 
 /**
  * Extract package name and version from input
@@ -31,7 +34,7 @@ interface JsPackageManagerOptions {
   cwd?: string;
 }
 export abstract class JsPackageManager {
-  public abstract readonly type: 'npm' | 'yarn1' | 'yarn2';
+  public abstract readonly type: PackageManagerName;
 
   public abstract initPackageJson(): void;
 

@@ -124,7 +124,7 @@ For additional help, join us in the [Storybook Discord](https://discord.gg/story
 | [jest](code/addons/jest/)                                                 | View the results of components' unit tests in Storybook                    |
 | [links](code/addons/links/)                                               | Create links between stories                                               |
 | [measure](code/addons/measure/)                                           | Visually inspect the layout and box model within the Storybook UI          |
-| [outline](code/addons/outline/)                                           | Visuallly debug the CSS layout and alignment within the Storybook UI       |
+| [outline](code/addons/outline/)                                           | Visually debug the CSS layout and alignment within the Storybook UI        |
 | [query params](https://github.com/storybookjs/addon-queryparams)          | Mock query params                                                          |
 | [storyshots](code/addons/storyshots/)                                     | Snapshot testing for components in Storybook                               |
 | [storysource](code/addons/storysource/)                                   | View the code of your stories within the Storybook UI                      |
@@ -165,7 +165,7 @@ If you're looking for material to use in your presentation about the storybook, 
 - Tweeting via [@storybookjs](https://twitter.com/storybookjs)
 - Blogging at [storybook.js.org](https://storybook.js.org/blog/) and [Medium](https://medium.com/storybookjs)
 - Chatting on [Discord](https://discord.gg/storybook)
-- Videos and streams at [Youtube](https://www.youtube.com/channel/UCr7Quur3eIyA_oe8FNYexfg)
+- Videos and streams at [YouTube](https://www.youtube.com/channel/UCr7Quur3eIyA_oe8FNYexfg)
 
 ## Contributing
 

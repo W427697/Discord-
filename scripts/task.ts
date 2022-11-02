@@ -10,6 +10,7 @@ import { dedent } from 'ts-dedent';
 import { createOptions, getCommand, getOptionsOrPrompt, OptionValues } from './utils/options';
 import { install } from './tasks/install';
 import { compile } from './tasks/compile';
+import { check } from './tasks/check';
 import { publish } from './tasks/publish';
 import { runRegistryTask } from './tasks/run-registry';
 import { sandbox } from './tasks/sandbox';
@@ -25,7 +26,7 @@ import TEMPLATES from '../code/lib/cli/src/repro-templates';
 
 const sandboxDir = resolve(__dirname, '../sandbox');
 const codeDir = resolve(__dirname, '../code');
-const junitDir = resolve(__dirname, '../code/test-results');
+const junitDir = resolve(__dirname, '../test-results');
 
 export const extraAddons = ['a11y', 'storysource'];
 
@@ -82,6 +83,7 @@ export const tasks = {
   // individual template/sandbox
   install,
   compile,
+  check,
   publish,
   'run-registry': runRegistryTask,
   // These tasks pertain to a single sandbox in the ../sandboxes dir
@@ -97,7 +99,7 @@ export const tasks = {
 type TaskKey = keyof typeof tasks;
 
 function isSandboxTask(taskKey: TaskKey) {
-  return !['install', 'compile', 'publish', 'run-registry'].includes(taskKey);
+  return !['install', 'compile', 'publish', 'run-registry', 'check'].includes(taskKey);
 }
 
 export const options = createOptions({
@@ -136,13 +138,14 @@ export const options = createOptions({
   },
   link: {
     type: 'boolean',
-    description: 'Link the storybook to the local code?',
+    description: 'Build code and link for local development?',
     inverse: true,
+    promptType: false,
   },
   fromLocalRepro: {
     type: 'boolean',
     description: 'Create the template from a local repro (rather than degitting it)?',
-    promptType: (_, { task }) => isSandboxTask(task),
+    promptType: false,
   },
   dryRun: {
     type: 'boolean',
@@ -266,19 +269,19 @@ function writeTaskList(statusMap: Map<Task, TaskStatus>) {
 }
 
 async function runTask(task: Task, details: TemplateDetails, optionValues: PassedOptionValues) {
+  const { junitFilename } = details;
   const startTime = new Date();
   try {
-    await task.run(details, optionValues);
+    const controller = await task.run(details, optionValues);
 
-    if (details.junitFilename && !task.junit)
-      await writeJunitXml(getTaskKey(task), details.key, startTime);
+    if (junitFilename && !task.junit) await writeJunitXml(getTaskKey(task), details.key, startTime);
+
+    return controller;
   } catch (err) {
-    if (details.junitFilename && !task.junit)
-      await writeJunitXml(getTaskKey(task), details.key, startTime, err);
+    if (junitFilename) await writeJunitXml(getTaskKey(task), details.key, startTime, err);
 
     throw err;
   } finally {
-    const { junitFilename } = details;
     if (existsSync(junitFilename)) {
       const junitXml = await (await readFile(junitFilename)).toString();
       const prefixedXml = junitXml.replace(/classname="(.*)"/g, `classname="${details.key} $1"`);
@@ -359,9 +362,9 @@ async function run() {
       {
         type: 'select',
         message: firstUnready
-          ? `We need to run all tasks after ${getTaskKey(
+          ? `We need to run all tasks from ${getTaskKey(
               firstUnready
-            )}, would you like to go further back?`
+            )} onwards, would you like to start from an earlier task?`
           : `Which task would you like to start from?`,
         name: 'startFromTask',
         choices: sortedTasks
@@ -382,6 +385,7 @@ async function run() {
     setUnready(startFromTask);
   }
 
+  const controllers: AbortController[] = [];
   for (let i = 0; i < sortedTasks.length; i += 1) {
     const task = sortedTasks[i];
     const status = statuses.get(task);
@@ -398,15 +402,21 @@ async function run() {
       writeTaskList(statuses);
 
       try {
-        await runTask(task, details, {
+        const controller = await runTask(task, details, {
           ...optionValues,
           // Always debug the final task so we can see it's output fully
-          debug: sortedTasks[i] === finalTask ? true : optionValues.debug,
+          debug: task === finalTask ? true : optionValues.debug,
         });
+
+        if (controller) controllers.push(controller);
       } catch (err) {
         logger.error(`Error running task ${getTaskKey(task)}:`);
-        logger.error();
-        logger.error(err);
+        // If it is the last task, we don't need to log the full trace
+        if (task === finalTask) {
+          logger.error(err.message);
+        } else {
+          logger.error(err);
+        }
 
         if (process.env.CI) {
           logger.error(
@@ -431,6 +441,10 @@ async function run() {
           );
         }
 
+        controllers.forEach((controller) => {
+          controller.abort();
+        });
+
         return 1;
       }
       statuses.set(task, task.service ? 'serving' : 'complete');
@@ -440,6 +454,9 @@ async function run() {
         await new Promise(() => {});
       }
     }
+    controllers.forEach((controller) => {
+      controller.abort();
+    });
   }
 
   return 0;
