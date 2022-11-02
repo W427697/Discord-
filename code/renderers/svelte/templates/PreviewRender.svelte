@@ -8,14 +8,7 @@
   export let showError;
   export let storyContext;
 
-  let Component;
-  let props = {};
-  let on;
-  let Wrapper;
-  let WrapperData = {};
-
-  // reactive, re-render on storyFn change
-  $: ({
+  let {
     /** @type {SvelteComponent} */
     Component,
     /** @type {any} */
@@ -24,7 +17,10 @@
     on,
     Wrapper,
     WrapperData = {},
-  } = storyFn());
+  } = storyFn();
+
+  // reactive, re-render on storyFn change
+  $: ({ Component, props = {}, on, Wrapper, WrapperData = {} } = storyFn());
 
   const eventsFromArgTypes = Object.fromEntries(
     Object.entries(storyContext.argTypes)
