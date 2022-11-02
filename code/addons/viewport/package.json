@@ -28,12 +28,12 @@
       "import": "./dist/index.mjs",
       "types": "./dist/index.d.ts"
     },
-    "./manager": {
+    "./dist/manager": {
       "require": "./dist/manager.js",
       "import": "./dist/manager.mjs",
       "types": "./dist/manager.d.ts"
     },
-    "./preview": {
+    "./dist/preview": {
       "require": "./dist/preview.ts",
       "import": "./dist/preview.mjs",
       "types": "./dist/preview.d.ts"

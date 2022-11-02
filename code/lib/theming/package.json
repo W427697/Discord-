@@ -26,7 +26,7 @@
       "import": "./dist/index.mjs",
       "types": "./dist/index.d.ts"
     },
-    "./create": {
+    "./dist/create": {
       "require": "./dist/create.js",
       "import": "./dist/create.mjs",
       "types": "./dist/create.d.ts"

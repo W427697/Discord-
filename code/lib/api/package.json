@@ -24,7 +24,7 @@
       "import": "./dist/index.mjs",
       "types": "./dist/index.d.ts"
     },
-    "./shortcut": {
+    "./dist/shortcut": {
       "require": "./dist/shortcut.js",
       "import": "./dist/shortcut.mjs",
       "types": "./dist/shortcut.d.ts"

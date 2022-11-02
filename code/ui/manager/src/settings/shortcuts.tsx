@@ -6,7 +6,7 @@ import {
   eventToShortcut,
   shortcutToHumanString,
   shortcutMatchesShortcut,
-} from '@storybook/api/shortcut';
+} from '@storybook/api/dist/shortcut';
 import { Form, Icons } from '@storybook/components';
 import SettingsFooter from './SettingsFooter';
 

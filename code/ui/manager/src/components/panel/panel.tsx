@@ -1,6 +1,6 @@
 import type { ReactElement } from 'react';
 import React, { Component, Fragment } from 'react';
-import { shortcutToHumanString } from '@storybook/api/shortcut';
+import { shortcutToHumanString } from '@storybook/api/dist/shortcut';
 import { styled } from '@storybook/theming';
 import { Tabs, Icons, IconButton } from '@storybook/components';
 import type { State } from '@storybook/api';

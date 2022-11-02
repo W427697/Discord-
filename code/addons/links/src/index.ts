@@ -9,7 +9,7 @@ export function LinkTo(): null {
     // eslint-disable-next-line no-console
     console.error(dedent`
       LinkTo has moved to addon-links/react:
-      import LinkTo from '@storybook/addon-links/react';
+      import LinkTo from '@storybook/addon-links/dist/react';
     `);
     hasWarned = true;
   }

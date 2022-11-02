@@ -26,17 +26,17 @@
       "import": "./dist/index.mjs",
       "types": "./dist/index.d.ts"
     },
-    "./preset": {
+    "./dist/preset": {
       "require": "./dist/preset.js",
       "import": "./dist/preset.mjs",
       "types": "./dist/preset.d.ts"
     },
-    "./preview.js": {
+    "./dist/preview.js": {
       "require": "./dist/preview.js",
       "import": "./dist/preview.mjs",
       "types": "./dist/preview.d.ts"
     },
-    "./next-image-loader-stub.js": {
+    "./dist/next-image-loader-stub": {
       "require": "./dist/next-image-loader-stub.js",
       "import": "./dist/next-image-loader-stub.mjs",
       "types": "./dist/next-image-loader-stub.d.ts"

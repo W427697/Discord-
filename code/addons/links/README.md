@@ -56,7 +56,7 @@ You can also pass a function instead for any of above parameter. That function a
 
 ```js
 import { linkTo } from '@storybook/addon-links';
-import LinkTo from '@storybook/addon-links/react';
+import LinkTo from '@storybook/addon-links/dist/react';
 
 export default {
   title: 'Select',
@@ -120,7 +120,7 @@ One possible way of using `hrefTo` is to create a component that uses native `a`
 A React implementation of such a component can be imported from `@storybook/addon-links` package:
 
 ```js
-import LinkTo from '@storybook/addon-links/react';
+import LinkTo from '@storybook/addon-links/dist/react';
 
 export default {
   title: 'Link',

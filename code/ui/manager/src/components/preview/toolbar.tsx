@@ -5,7 +5,7 @@ import { styled } from '@storybook/theming';
 
 import { FlexBar, IconButton, Icons, Separator, TabButton, TabBar } from '@storybook/components';
 import { Consumer, type Combo, type API, type State, merge, type LeafEntry } from '@storybook/api';
-import { shortcutToHumanString } from '@storybook/api/shortcut';
+import { shortcutToHumanString } from '@storybook/api/dist/shortcut';
 import { addons, type Addon, types } from '@storybook/addons';
 
 import { Location, type RenderData } from '@storybook/router';
