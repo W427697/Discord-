@@ -24,9 +24,7 @@ import { DocsContext } from '../docs-context/DocsContext';
  *  - *.mdx file that may or may not reference a specific CSF file with `<Meta of={} />`
  */
 
-export class StandaloneDocsRender<TFramework extends Framework, TStorybookRoot = HTMLElement>
-  implements Render<TFramework, TStorybookRoot>
-{
+export class StandaloneDocsRender<TFramework extends Framework> implements Render<TFramework> {
   public readonly type: RenderType = 'docs';
 
   public readonly id: StoryId;
@@ -47,7 +45,7 @@ export class StandaloneDocsRender<TFramework extends Framework, TStorybookRoot =
 
   constructor(
     protected channel: Channel,
-    protected store: StoryStore<TFramework, TStorybookRoot>,
+    protected store: StoryStore<TFramework>,
     public entry: Addon_IndexEntry
   ) {
     this.id = entry.id;
@@ -68,22 +66,22 @@ export class StandaloneDocsRender<TFramework extends Framework, TStorybookRoot =
     this.preparing = false;
   }
 
-  isEqual(other: Render<TFramework, TStorybookRoot>): boolean {
+  isEqual(other: Render<TFramework>): boolean {
     return !!(
       this.id === other.id &&
       this.exports &&
-      this.exports === (other as StandaloneDocsRender<TFramework, TStorybookRoot>).exports
+      this.exports === (other as StandaloneDocsRender<TFramework>).exports
     );
   }
 
   async renderToElement(
-    canvasElement: TStorybookRoot,
+    canvasElement: TFramework['rootElement'],
     renderStoryToElement: DocsContextProps['renderStoryToElement']
   ) {
     if (!this.exports || !this.csfFiles || !this.store.projectAnnotations)
       throw new Error('Cannot render docs before preparing');
 
-    const docsContext = new DocsContext<TFramework, TStorybookRoot>(
+    const docsContext = new DocsContext<TFramework>(
       this.channel,
       this.store,
       renderStoryToElement,

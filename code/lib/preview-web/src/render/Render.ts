@@ -9,15 +9,18 @@ export type RenderType = 'story' | 'docs';
  *  - Tracking the state of the rendering as it moves between preparing, rendering and tearing down.
  *  - Tracking what is rendered to know if a change requires re-rendering or teardown + recreation.
  */
-export interface Render<TFramework extends Framework, TStorybookRoot = HTMLElement> {
+export interface Render<TFramework extends Framework> {
   type: RenderType;
   id: StoryId;
   isPreparing: () => boolean;
-  isEqual: (other: Render<TFramework, TStorybookRoot>) => boolean;
+  isEqual: (other: Render<TFramework>) => boolean;
   disableKeyListeners: boolean;
   teardown?: (options: { viewModeChanged: boolean }) => Promise<void>;
   torndown: boolean;
-  renderToElement: (canvasElement: TStorybookRoot, renderStoryToElement?: any) => Promise<void>;
+  renderToElement: (
+    canvasElement: TFramework['rootElement'],
+    renderStoryToElement?: any
+  ) => Promise<void>;
 }
 
 export const PREPARE_ABORTED = new Error('prepareAborted');

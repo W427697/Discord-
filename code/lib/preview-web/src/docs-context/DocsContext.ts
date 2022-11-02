@@ -13,9 +13,7 @@ import type { Channel } from '@storybook/channels';
 
 import type { DocsContextProps } from './DocsContextProps';
 
-export class DocsContext<TFramework extends Framework, TStorybookRoot = HTMLElement>
-  implements DocsContextProps<TFramework>
-{
+export class DocsContext<TFramework extends Framework> implements DocsContextProps<TFramework> {
   private componentStoriesValue: Store_Story<TFramework>[];
 
   private storyIdToCSFFile: Map<StoryId, Store_CSFFile<TFramework>>;
@@ -28,7 +26,7 @@ export class DocsContext<TFramework extends Framework, TStorybookRoot = HTMLElem
 
   constructor(
     public channel: Channel,
-    protected store: StoryStore<TFramework, TStorybookRoot>,
+    protected store: StoryStore<TFramework>,
     public renderStoryToElement: DocsContextProps['renderStoryToElement'],
     /** The CSF files known (via the index) to be refererenced by this docs file */
     csfFiles: Store_CSFFile<TFramework>[],

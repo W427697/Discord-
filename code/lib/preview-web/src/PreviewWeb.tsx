@@ -50,28 +50,25 @@ function focusInInput(event: Event) {
   return /input|textarea/i.test(target.tagName) || target.getAttribute('contenteditable') !== null;
 }
 
-type PossibleRender<TFramework extends Framework, TStorybookRoot = HTMLElement> =
-  | StoryRender<TFramework, TStorybookRoot>
-  | TemplateDocsRender<TFramework, TStorybookRoot>
-  | StandaloneDocsRender<TFramework, TStorybookRoot>;
+type PossibleRender<TFramework extends Framework> =
+  | StoryRender<TFramework>
+  | TemplateDocsRender<TFramework>
+  | StandaloneDocsRender<TFramework>;
 
-function isStoryRender<TFramework extends Framework, TStorybookRoot>(
-  r: PossibleRender<TFramework, TStorybookRoot>
-): r is StoryRender<TFramework, TStorybookRoot> {
+function isStoryRender<TFramework extends Framework>(
+  r: PossibleRender<TFramework>
+): r is StoryRender<TFramework> {
   return r.type === 'story';
 }
 
-export class PreviewWeb<TFramework extends Framework, TStorybookRoot = HTMLElement> extends Preview<
-  TFramework,
-  TStorybookRoot
-> {
+export class PreviewWeb<TFramework extends Framework> extends Preview<TFramework> {
   selectionStore: SelectionStore;
 
-  view: View<TStorybookRoot>;
+  view: View<TFramework['rootElement']>;
 
   currentSelection?: Store_Selection;
 
-  currentRender?: PossibleRender<TFramework, TStorybookRoot>;
+  currentRender?: PossibleRender<TFramework>;
 
   constructor({
     // I'm not quite sure how to express this -- if you don't pass a view, you need to ensure
@@ -80,7 +77,7 @@ export class PreviewWeb<TFramework extends Framework, TStorybookRoot = HTMLEleme
     view = new WebView() as any,
     selectionStore = new UrlStore(),
   }: {
-    view?: View<TStorybookRoot>;
+    view?: View<TFramework['rootElement']>;
     selectionStore?: SelectionStore;
   } = {}) {
     super();
@@ -99,9 +96,7 @@ export class PreviewWeb<TFramework extends Framework, TStorybookRoot = HTMLEleme
     this.channel.on(PRELOAD_ENTRIES, this.onPreloadStories.bind(this));
   }
 
-  initializeWithProjectAnnotations(
-    projectAnnotations: ProjectAnnotations<TFramework, TStorybookRoot>
-  ) {
+  initializeWithProjectAnnotations(projectAnnotations: ProjectAnnotations<TFramework>) {
     return super
       .initializeWithProjectAnnotations(projectAnnotations)
       .then(() => this.setInitialGlobals());
@@ -182,7 +177,7 @@ export class PreviewWeb<TFramework extends Framework, TStorybookRoot = HTMLEleme
   async onGetProjectAnnotationsChanged({
     getProjectAnnotations,
   }: {
-    getProjectAnnotations: () => MaybePromise<ProjectAnnotations<TFramework, TStorybookRoot>>;
+    getProjectAnnotations: () => MaybePromise<ProjectAnnotations<TFramework>>;
   }) {
     await super.onGetProjectAnnotationsChanged({ getProjectAnnotations });
 
@@ -302,9 +297,9 @@ export class PreviewWeb<TFramework extends Framework, TStorybookRoot = HTMLEleme
       await this.teardownRender(this.currentRender);
     }
 
-    let render: PossibleRender<TFramework, TStorybookRoot>;
+    let render: PossibleRender<TFramework>;
     if (entry.type === 'story') {
-      render = new StoryRender<TFramework, TStorybookRoot>(
+      render = new StoryRender<TFramework>(
         this.channel,
         this.storyStore,
         (...args: Parameters<typeof renderToRoot>) => {
@@ -317,17 +312,9 @@ export class PreviewWeb<TFramework extends Framework, TStorybookRoot = HTMLEleme
         'story'
       );
     } else if (entry.standalone) {
-      render = new StandaloneDocsRender<TFramework, TStorybookRoot>(
-        this.channel,
-        this.storyStore,
-        entry
-      );
+      render = new StandaloneDocsRender<TFramework>(this.channel, this.storyStore, entry);
     } else {
-      render = new TemplateDocsRender<TFramework, TStorybookRoot>(
-        this.channel,
-        this.storyStore,
-        entry
-      );
+      render = new TemplateDocsRender<TFramework>(this.channel, this.storyStore, entry);
     }
 
     // We need to store this right away, so if the story changes during
@@ -406,8 +393,8 @@ export class PreviewWeb<TFramework extends Framework, TStorybookRoot = HTMLEleme
 
     if (isStoryRender(render)) {
       if (!render.story) throw new Error('Render has not been prepared!');
-      this.storyRenders.push(render as StoryRender<TFramework, TStorybookRoot>);
-      (this.currentRender as StoryRender<TFramework, TStorybookRoot>).renderToElement(
+      this.storyRenders.push(render as StoryRender<TFramework>);
+      (this.currentRender as StoryRender<TFramework>).renderToElement(
         this.view.prepareForStory(render.story)
       );
     } else {
@@ -420,7 +407,7 @@ export class PreviewWeb<TFramework extends Framework, TStorybookRoot = HTMLEleme
   }
 
   async teardownRender(
-    render: PossibleRender<TFramework, TStorybookRoot>,
+    render: PossibleRender<TFramework>,
     { viewModeChanged = false }: { viewModeChanged?: boolean } = {}
   ) {
     this.storyRenders = this.storyRenders.filter((r) => r !== render);

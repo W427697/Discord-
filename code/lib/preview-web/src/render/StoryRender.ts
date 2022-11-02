@@ -47,9 +47,7 @@ export type RenderContextCallbacks<TFramework extends Framework> = Pick<
   'showMain' | 'showError' | 'showException'
 >;
 
-export class StoryRender<TFramework extends Framework, TStorybookRoot = HTMLElement>
-  implements Render<TFramework, TStorybookRoot>
-{
+export class StoryRender<TFramework extends Framework> implements Render<TFramework> {
   public type: RenderType = 'story';
 
   public story?: Store_Story<TFramework>;
@@ -58,7 +56,7 @@ export class StoryRender<TFramework extends Framework, TStorybookRoot = HTMLElem
 
   private abortController?: AbortController;
 
-  private canvasElement?: TStorybookRoot;
+  private canvasElement?: TFramework['rootElement'];
 
   private notYetRendered = true;
 
@@ -70,8 +68,8 @@ export class StoryRender<TFramework extends Framework, TStorybookRoot = HTMLElem
 
   constructor(
     public channel: Channel,
-    public store: StoryStore<TFramework, TStorybookRoot>,
-    private renderToScreen: RenderToRoot<TFramework, TStorybookRoot>,
+    public store: StoryStore<TFramework>,
+    private renderToScreen: RenderToRoot<TFramework>,
     private callbacks: RenderContextCallbacks<TFramework>,
     public id: StoryId,
     public viewMode: ViewMode,
@@ -112,11 +110,11 @@ export class StoryRender<TFramework extends Framework, TStorybookRoot = HTMLElem
   }
 
   // The two story "renders" are equal and have both loaded the same story
-  isEqual(other: Render<TFramework, TStorybookRoot>): boolean {
+  isEqual(other: Render<TFramework>): boolean {
     return !!(
       this.id === other.id &&
       this.story &&
-      this.story === (other as StoryRender<TFramework, TStorybookRoot>).story
+      this.story === (other as StoryRender<TFramework>).story
     );
   }
 
@@ -128,7 +126,7 @@ export class StoryRender<TFramework extends Framework, TStorybookRoot = HTMLElem
     return ['rendering', 'playing'].includes(this.phase as RenderPhase);
   }
 
-  async renderToElement(canvasElement: TStorybookRoot) {
+  async renderToElement(canvasElement: TFramework['rootElement']) {
     this.canvasElement = canvasElement;
 
     // FIXME: this comment
@@ -188,7 +186,7 @@ export class StoryRender<TFramework extends Framework, TStorybookRoot = HTMLElem
         // and we need to ensure we render it with the new values
         ...this.storyContext(),
         abortSignal,
-        // We should consider parameterizing the story types with TStorybookRoot in the future
+        // We should consider parameterizing the story types with TFramework['rootElement'] in the future
         canvasElement: canvasElement as any,
       };
       const renderContext: Store_RenderContext<TFramework> = {

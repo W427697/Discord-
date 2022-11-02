@@ -31,7 +31,7 @@ import { StoryStoreFacade } from './StoryStoreFacade';
 
 // ClientApi (and StoreStore) are really singletons. However they are not created until the
 // relevant framework instanciates them via `start.js`. The good news is this happens right away.
-let singleton: ClientApi<Framework, any>;
+let singleton: ClientApi<Framework>;
 
 const warningAlternatives = {
   addDecorator: `Instead, use \`export const decorators = [];\` in your \`preview.js\`.`,
@@ -111,10 +111,10 @@ export const setGlobalRender = (render: StoryFn<Framework>) => {
 };
 
 const invalidStoryTypes = new Set(['string', 'number', 'boolean', 'symbol']);
-export class ClientApi<TFramework extends Framework, TStorybookRoot = HTMLElement> {
-  facade: StoryStoreFacade<TFramework, TStorybookRoot>;
+export class ClientApi<TFramework extends Framework> {
+  facade: StoryStoreFacade<TFramework>;
 
-  storyStore?: StoryStore<TFramework, TStorybookRoot>;
+  storyStore?: StoryStore<TFramework>;
 
   private addons: Addon_ClientApiAddons<TFramework['storyResult']>;
 
@@ -124,7 +124,7 @@ export class ClientApi<TFramework extends Framework, TStorybookRoot = HTMLElemen
   // just use numeric indexes
   private lastFileName = 0;
 
-  constructor({ storyStore }: { storyStore?: StoryStore<TFramework, TStorybookRoot> } = {}) {
+  constructor({ storyStore }: { storyStore?: StoryStore<TFramework> } = {}) {
     this.facade = new StoryStoreFacade();
 
     this.addons = {};

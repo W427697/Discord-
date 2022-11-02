@@ -41,10 +41,10 @@ const argTypeDefaultValueWarning = deprecate(
 //
 // Note that this story function is *stateless* in the sense that it does not track args or globals
 // Instead, it is expected these are tracked separately (if necessary) and are passed into each invocation.
-export function prepareStory<TFramework extends Framework, TStorybookRoot = HTMLElement>(
+export function prepareStory<TFramework extends Framework>(
   storyAnnotations: Store_NormalizedStoryAnnotations<TFramework>,
   componentAnnotations: Store_NormalizedComponentAnnotations<TFramework>,
-  projectAnnotations: Store_NormalizedProjectAnnotations<TFramework, TStorybookRoot>
+  projectAnnotations: Store_NormalizedProjectAnnotations<TFramework>
 ): Store_Story<TFramework> {
   // NOTE: in the current implementation we are doing everything once, up front, rather than doing
   // anything at render time. The assumption is that as we don't load all the stories at once, this

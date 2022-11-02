@@ -43,28 +43,23 @@ export type Store_ModuleImportFn = (path: Path) => Store_PromiseLike<Store_Modul
 type Store_MaybePromise<T> = Promise<T> | T;
 
 export type TeardownRenderToRoot = () => Store_MaybePromise<void>;
-export type RenderToRoot<TFramework extends Framework, TStorybookRoot = HTMLElement> = (
+export type RenderToRoot<TFramework extends Framework> = (
   context: Store_RenderContext<TFramework>,
-  element: TStorybookRoot
+  element: TFramework['rootElement']
 ) => Store_MaybePromise<void | TeardownRenderToRoot>;
 
-export type ProjectAnnotations<
-  TFramework extends Framework,
-  TStorybookRoot = HTMLElement
-> = CsfProjectAnnotations<TFramework> & {
-  renderToRoot?: RenderToRoot<TFramework, TStorybookRoot>;
+export type ProjectAnnotations<TFramework extends Framework> = CsfProjectAnnotations<TFramework> & {
+  renderToRoot?: RenderToRoot<TFramework>;
 
   /* @deprecated use renderToRoot */
-  renderToDOM?: RenderToRoot<TFramework, TStorybookRoot>;
+  renderToDOM?: RenderToRoot<TFramework>;
 };
 
-export type Store_NormalizedProjectAnnotations<
-  TFramework extends Framework = Framework,
-  TStorybookRoot = HTMLElement
-> = ProjectAnnotations<TFramework, TStorybookRoot> & {
-  argTypes?: StrictArgTypes;
-  globalTypes?: StrictGlobalTypes;
-};
+export type Store_NormalizedProjectAnnotations<TFramework extends Framework = Framework> =
+  ProjectAnnotations<TFramework> & {
+    argTypes?: StrictArgTypes;
+    globalTypes?: StrictGlobalTypes;
+  };
 
 export type Store_NormalizedComponentAnnotations<TFramework extends Framework = Framework> =
   ComponentAnnotations<TFramework> & {

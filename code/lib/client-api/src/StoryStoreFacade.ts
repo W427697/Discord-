@@ -21,8 +21,8 @@ import type { StoryStore } from '@storybook/store';
 import { userOrAutoTitle, sortStoriesV6 } from '@storybook/store';
 import { logger } from '@storybook/client-logger';
 
-export class StoryStoreFacade<TFramework extends Framework, TStorybookRoot = HTMLElement> {
-  projectAnnotations: Store_NormalizedProjectAnnotations<TFramework, TStorybookRoot>;
+export class StoryStoreFacade<TFramework extends Framework> {
+  projectAnnotations: Store_NormalizedProjectAnnotations<TFramework>;
 
   entries: Record<StoryId, Addon_IndexEntry & { componentId?: ComponentId }>;
 
@@ -54,7 +54,7 @@ export class StoryStoreFacade<TFramework extends Framework, TStorybookRoot = HTM
     });
   }
 
-  getStoryIndex(store: StoryStore<TFramework, TStorybookRoot>) {
+  getStoryIndex(store: StoryStore<TFramework>) {
     const fileNameOrder = Object.keys(this.csfExports);
     const storySortParameter = this.projectAnnotations.parameters?.options?.storySort;
 

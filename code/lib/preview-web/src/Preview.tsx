@@ -44,18 +44,18 @@ export type MaybePromise<T> = Promise<T> | T;
 const renderToDOMDeprecated = deprecate(() => {},
 `\`renderToDOM\` is deprecated, please rename to \`renderToRoot\``);
 
-export class Preview<TFramework extends Framework, TStorybookRoot = HTMLElement> {
+export class Preview<TFramework extends Framework> {
   serverChannel?: Channel;
 
-  storyStore: StoryStore<TFramework, TStorybookRoot>;
+  storyStore: StoryStore<TFramework>;
 
   getStoryIndex?: () => Store_StoryIndex;
 
   importFn?: Store_ModuleImportFn;
 
-  renderToRoot?: RenderToRoot<TFramework, TStorybookRoot>;
+  renderToRoot?: RenderToRoot<TFramework>;
 
-  storyRenders: StoryRender<TFramework, TStorybookRoot>[] = [];
+  storyRenders: StoryRender<TFramework>[] = [];
 
   previewEntryError?: Error;
 
@@ -83,7 +83,7 @@ export class Preview<TFramework extends Framework, TStorybookRoot = HTMLElement>
     // getProjectAnnotations has been run, thus this slightly awkward approach
     getStoryIndex?: () => Store_StoryIndex;
     importFn: Store_ModuleImportFn;
-    getProjectAnnotations: () => MaybePromise<ProjectAnnotations<TFramework, TStorybookRoot>>;
+    getProjectAnnotations: () => MaybePromise<ProjectAnnotations<TFramework>>;
   }) {
     // We save these two on initialization in case `getProjectAnnotations` errors,
     // in which case we may need them later when we recover.
@@ -108,8 +108,8 @@ export class Preview<TFramework extends Framework, TStorybookRoot = HTMLElement>
   }
 
   getProjectAnnotationsOrRenderError(
-    getProjectAnnotations: () => MaybePromise<ProjectAnnotations<TFramework, TStorybookRoot>>
-  ): Store_PromiseLike<ProjectAnnotations<TFramework, TStorybookRoot>> {
+    getProjectAnnotations: () => MaybePromise<ProjectAnnotations<TFramework>>
+  ): Store_PromiseLike<ProjectAnnotations<TFramework>> {
     return SynchronousPromise.resolve()
       .then(getProjectAnnotations)
       .then((projectAnnotations) => {
@@ -136,9 +136,7 @@ export class Preview<TFramework extends Framework, TStorybookRoot = HTMLElement>
   }
 
   // If initialization gets as far as project annotations, this function runs.
-  initializeWithProjectAnnotations(
-    projectAnnotations: ProjectAnnotations<TFramework, TStorybookRoot>
-  ) {
+  initializeWithProjectAnnotations(projectAnnotations: ProjectAnnotations<TFramework>) {
     this.storyStore.setProjectAnnotations(projectAnnotations);
 
     this.setInitialGlobals();
@@ -199,7 +197,7 @@ export class Preview<TFramework extends Framework, TStorybookRoot = HTMLElement>
   async onGetProjectAnnotationsChanged({
     getProjectAnnotations,
   }: {
-    getProjectAnnotations: () => MaybePromise<ProjectAnnotations<TFramework, TStorybookRoot>>;
+    getProjectAnnotations: () => MaybePromise<ProjectAnnotations<TFramework>>;
   }) {
     delete this.previewEntryError;
 
@@ -311,11 +309,11 @@ export class Preview<TFramework extends Framework, TStorybookRoot = HTMLElement>
   // main to be consistent with the previous behaviour. In the future,
   // we will change it to go ahead and load the story, which will end up being
   // "instant", although async.
-  renderStoryToElement(story: Store_Story<TFramework>, element: TStorybookRoot) {
+  renderStoryToElement(story: Store_Story<TFramework>, element: TFramework['rootElement']) {
     if (!this.renderToRoot)
       throw new Error(`Cannot call renderStoryToElement before initialization`);
 
-    const render = new StoryRender<TFramework, TStorybookRoot>(
+    const render = new StoryRender<TFramework>(
       this.channel,
       this.storyStore,
       this.renderToRoot,
@@ -335,9 +333,9 @@ export class Preview<TFramework extends Framework, TStorybookRoot = HTMLElement>
 
   async teardownRender(
     render:
-      | StoryRender<TFramework, TStorybookRoot>
-      | TemplateDocsRender<TFramework, TStorybookRoot>
-      | StandaloneDocsRender<TFramework, TStorybookRoot>,
+      | StoryRender<TFramework>
+      | TemplateDocsRender<TFramework>
+      | StandaloneDocsRender<TFramework>,
     { viewModeChanged }: { viewModeChanged?: boolean } = {}
   ) {
     this.storyRenders = this.storyRenders.filter((r) => r !== render);

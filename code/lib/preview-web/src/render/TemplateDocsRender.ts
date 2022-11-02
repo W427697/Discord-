@@ -27,9 +27,7 @@ import { DocsContext } from '../docs-context/DocsContext';
  *  - *.stories.mdx files, where the MDX compiler produces a CSF file with a `.parameter.docs.page`
  *      parameter containing the compiled content of the MDX file.
  */
-export class TemplateDocsRender<TFramework extends Framework, TStorybookRoot = HTMLElement>
-  implements Render<TFramework, TStorybookRoot>
-{
+export class TemplateDocsRender<TFramework extends Framework> implements Render<TFramework> {
   public readonly type: RenderType = 'docs';
 
   public readonly id: StoryId;
@@ -50,7 +48,7 @@ export class TemplateDocsRender<TFramework extends Framework, TStorybookRoot = H
 
   constructor(
     protected channel: Channel,
-    protected store: StoryStore<TFramework, TStorybookRoot>,
+    protected store: StoryStore<TFramework>,
     public entry: Addon_IndexEntry
   ) {
     this.id = entry.id;
@@ -85,21 +83,21 @@ export class TemplateDocsRender<TFramework extends Framework, TStorybookRoot = H
     this.preparing = false;
   }
 
-  isEqual(other: Render<TFramework, TStorybookRoot>): boolean {
+  isEqual(other: Render<TFramework>): boolean {
     return !!(
       this.id === other.id &&
       this.story &&
-      this.story === (other as TemplateDocsRender<TFramework, TStorybookRoot>).story
+      this.story === (other as TemplateDocsRender<TFramework>).story
     );
   }
 
   async renderToElement(
-    canvasElement: TStorybookRoot,
+    canvasElement: TFramework['rootElement'],
     renderStoryToElement: DocsContextProps['renderStoryToElement']
   ) {
     if (!this.story || !this.csfFiles) throw new Error('Cannot render docs before preparing');
 
-    const docsContext = new DocsContext<TFramework, TStorybookRoot>(
+    const docsContext = new DocsContext<TFramework>(
       this.channel,
       this.store,
       renderStoryToElement,
