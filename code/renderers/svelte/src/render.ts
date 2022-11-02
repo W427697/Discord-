@@ -1,3 +1,4 @@
+import global from 'global';
 import type { Store_RenderContext, ArgsStoryFn } from '@storybook/types';
 import type { SvelteComponentTyped } from 'svelte';
 // eslint-disable-next-line import/no-extraneous-dependencies
@@ -5,38 +6,77 @@ import PreviewRender from '@storybook/svelte/templates/PreviewRender.svelte';
 
 import type { SvelteFramework } from './types';
 
-const componentsByDomElementId = new Map<string, SvelteComponentTyped>();
+const componentsByDomElementKey = new Map<string, SvelteComponentTyped>();
 
-function cleanupExistingComponent(domElementKey: string) {
-  if (!componentsByDomElementId.has(domElementKey)) {
+const STORYBOOK_ROOT_ID = 'storybook-root';
+
+function teardown(domElementKey: string) {
+  if (!componentsByDomElementKey.has(domElementKey)) {
     return;
   }
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- we know it exists because we just checked
-  componentsByDomElementId.get(domElementKey)!.$destroy();
-  componentsByDomElementId.delete(domElementKey);
+  componentsByDomElementKey.get(domElementKey)!.$destroy();
+
+  // in docs mode, the element we render to is a child of the element with the story id
+  // TODO: this feels brittle. If we ever change the structure in the <Story /> component, this will break
+  const rootElement =
+    domElementKey === STORYBOOK_ROOT_ID
+      ? global.document.getElementById(domElementKey)
+      : global.document.getElementById(domElementKey).children[0];
+  rootElement.innerHTML = '';
+  componentsByDomElementKey.delete(domElementKey);
 }
 
 export function renderToDOM(
-  { storyFn, kind, name, showMain, showError, storyContext }: Store_RenderContext<SvelteFramework>,
+  {
+    storyFn,
+    kind,
+    name,
+    id,
+    showMain,
+    showError,
+    storyContext,
+    forceRemount,
+  }: Store_RenderContext<SvelteFramework>,
   domElement: Element
 ) {
   // in docs mode we're rendering multiple stories to the DOM, so we need to key by the story id
-  const domElementKey = storyContext.viewMode === 'docs' ? storyContext.id : 'storybook-root';
-  cleanupExistingComponent(domElementKey);
+  const domElementKey = storyContext.viewMode === 'docs' ? id : STORYBOOK_ROOT_ID;
 
-  const renderedComponent = new PreviewRender({
-    target: domElement,
-    props: {
+  const existingComponent = componentsByDomElementKey.get(domElementKey);
+
+  if (forceRemount) {
+    teardown(domElementKey);
+  }
+
+  if (!existingComponent || forceRemount) {
+    const createdComponent = new PreviewRender({
+      target: domElement,
+      props: {
+        storyFn,
+        storyContext,
+        name,
+        kind,
+        showError,
+      },
+    }) as SvelteComponentTyped;
+    componentsByDomElementKey.set(domElementKey, createdComponent);
+  } else {
+    existingComponent.$set({
       storyFn,
       storyContext,
       name,
       kind,
       showError,
-    },
-  });
-  componentsByDomElementId.set(domElementKey, renderedComponent);
+    });
+  }
 
   showMain();
+
+  // teardown the component when the story changes
+  return () => {
+    teardown(domElementKey);
+  };
 }
 
 export const render: ArgsStoryFn<SvelteFramework> = (args, context) => {
