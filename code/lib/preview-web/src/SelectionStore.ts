@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import type { Store_SelectionSpecifier, Store_Selection } from '@storybook/types';
 
 export abstract class SelectionStore {
