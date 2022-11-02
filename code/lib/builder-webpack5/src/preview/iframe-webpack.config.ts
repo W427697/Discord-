@@ -24,24 +24,26 @@ import { createBabelLoader } from './babel-loader-preview';
 
 const storybookPaths: Record<string, string> = {
   global: dirname(require.resolve(`global/package.json`)),
-  ...[
-    'api',
-    'channels',
-    'channel-postmessage',
-    'channel-websocket',
-    'components',
-    'core-events',
-    'router',
-    'theming',
-    'client-logger',
-  ].reduce(
+  ...['api', 'channel-websocket', 'router', 'theming'].reduce(
     (acc, sbPackage) => ({
       ...acc,
       [`@storybook/${sbPackage}`]: dirname(require.resolve(`@storybook/${sbPackage}/package.json`)),
     }),
     {}
   ),
-  ...['addons', 'store', 'preview-web', 'client-api', 'core-client'].reduce(
+  ...[
+    //
+    'channels',
+    'channel-postmessage',
+    'components',
+    'core-events',
+    'client-logger',
+    'addons',
+    'store',
+    'preview-web',
+    'client-api',
+    'core-client',
+  ].reduce(
     (acc, sbPackage) => ({
       ...acc,
       [`@storybook/${sbPackage}`]: join(

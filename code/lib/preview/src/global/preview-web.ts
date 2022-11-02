@@ -1,5 +1,5 @@
 /* eslint-disable no-underscore-dangle */
-import type * as PREVIEW_WEB from '../preview-web';
+import type * as MODULE from '../preview-web';
 
 const {
   DocsContext,
@@ -8,7 +8,7 @@ const {
   composeConfigs,
   simulateDOMContentLoaded,
   simulatePageLoad,
-} = (globalThis as any).__STORYBOOK_MODULE_PREVIEW_WEB__ as typeof PREVIEW_WEB;
+} = (globalThis as any).__STORYBOOK_MODULE_PREVIEW_WEB__ as typeof MODULE;
 
 export {
   DocsContext,

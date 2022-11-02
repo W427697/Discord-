@@ -1,5 +1,5 @@
 /* eslint-disable no-underscore-dangle */
-import type * as STORE from '../store';
+import type * as MODULE from '../store';
 
 const {
   DEEPLY_EQUAL,
@@ -40,7 +40,7 @@ const {
   userOrAutoTitle,
   userOrAutoTitleFromSpecifier,
   validateOptions,
-} = (globalThis as any).__STORYBOOK_MODULE_STORE__ as typeof STORE;
+} = (globalThis as any).__STORYBOOK_MODULE_STORE__ as typeof MODULE;
 
 export {
   DEEPLY_EQUAL,
