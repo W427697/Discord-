@@ -224,10 +224,11 @@ export class StoryIndexGenerator {
       });
 
       if (this.options.docs.enabled && csf.stories.length) {
+        console.log(absolutePath, componentTags);
         // We always add a template for *.stories.mdx, but only if docs page is enabled for
         // regular CSF files
         if (
-          storyIndexer.addDocsTemplate ||
+          componentTags.includes('mdx') ||
           (this.options.docs.docsPage && componentTags.includes('docsPage'))
         ) {
           const name = this.options.docs.defaultName;

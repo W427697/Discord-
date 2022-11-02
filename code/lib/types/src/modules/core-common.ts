@@ -220,7 +220,6 @@ export interface CoreCommon_StoryIndex {
 export interface CoreCommon_StoryIndexer {
   test: RegExp;
   indexer: (fileName: string, options: CoreCommon_IndexerOptions) => Promise<CoreCommon_StoryIndex>;
-  addDocsTemplate?: boolean;
 }
 
 /**

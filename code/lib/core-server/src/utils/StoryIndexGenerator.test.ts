@@ -12,6 +12,7 @@ import { loadCsf, getStorySortParameter } from '@storybook/csf-tools';
 import { toId } from '@storybook/csf';
 import { logger } from '@storybook/node-logger';
 import { mocked } from 'ts-jest/utils';
+import { storyIndexers } from '@storybook/addon-docs/preset';
 
 import { StoryIndexGenerator } from './StoryIndexGenerator';
 
@@ -33,7 +34,8 @@ jest.mock('@storybook/docs-mdx', async () => ({
     const name = content.match(/name=['"](.*)['"]/)?.[1];
     const ofMatch = content.match(/of=\{(.*)\}/)?.[1];
     const isTemplate = content.match(/isTemplate/);
-    return { title, name, imports, of: ofMatch && imports.length && imports[0], isTemplate };
+    const tags = ['mdx'];
+    return { title, name, tags, imports, of: ofMatch && imports.length && imports[0], isTemplate };
   },
 }));
 
@@ -50,12 +52,24 @@ const csfIndexer = async (fileName: string, opts: any) => {
   return loadCsf(code, { ...opts, fileName }).parse();
 };
 
+// const storiesMdxIndexer = async (fileName: string, opts: any) => {
+//   const code = (await fs.readFile(fileName, 'utf-8')).toString();
+//   const { compile } = await import('@storybook/mdx2-csf');
+//   try {
+//     console.log(code, compile);
+
+//     code = await compile(code, {});
+//   } catch (err) {
+//     console.log(err);
+//     throw err;
+//   }
+//   return loadCsf(code, { ...opts, fileName }).parse();
+// };
+
 const options = {
   configDir: path.join(__dirname, '__mockdata__'),
   workingDir: path.join(__dirname, '__mockdata__'),
-  storyIndexers: [
-    { test: /\.stories\..*$/, indexer: csfIndexer as any as CoreCommon_StoryIndexer['indexer'] },
-  ],
+  storyIndexers: storyIndexers([{ test: /\.stories\.(js|ts)x?$/, indexer: csfIndexer }]),
   storiesV2Compatibility: false,
   storyStoreV7: true,
   docs: { enabled: true, defaultName: 'docs', docsPage: false },
@@ -232,18 +246,15 @@ describe('StoryIndexGenerator', () => {
       });
     });
 
-    describe('addDocsTemplate indexer', () => {
-      const templateIndexer = { ...options.storyIndexers[0], addDocsTemplate: true };
-
+    describe('mdx tagged components', () => {
       it('adds docs entry with docs enabled', async () => {
         const specifier: CoreCommon_NormalizedStoriesSpecifier = normalizeStoriesEntry(
-          './src/A.stories.js',
+          './src/nested/Page.stories.mdx',
           options
         );
 
         const generator = new StoryIndexGenerator([specifier], {
           ...options,
-          storyIndexers: [templateIndexer],
         });
         await generator.initialize();
 

@@ -160,7 +160,7 @@ export async function webpack(
   return result;
 }
 
-export const storyIndexers = async (indexers: CoreCommon_StoryIndexer[] | null) => {
+export const storyIndexers = (indexers: CoreCommon_StoryIndexer[] | null) => {
   const mdxIndexer = async (fileName: string, opts: CoreCommon_IndexerOptions) => {
     let code = (await fs.readFile(fileName, 'utf-8')).toString();
     // @ts-expect-error (Converted from ts-ignore)
@@ -172,7 +172,6 @@ export const storyIndexers = async (indexers: CoreCommon_StoryIndexer[] | null) 
     {
       test: /(stories|story)\.mdx$/,
       indexer: mdxIndexer,
-      addDocsTemplate: true,
     },
     ...(indexers || []),
   ];
