@@ -24,11 +24,6 @@
       "import": "./dist/index.mjs",
       "types": "./dist/index.d.ts"
     },
-    "./shortcut": {
-      "require": "./dist/shortcut.js",
-      "import": "./dist/shortcut.mjs",
-      "types": "./dist/shortcut.d.ts"
-    },
     "./package.json": "./package.json"
   },
   "main": "dist/index.js",
@@ -80,8 +75,7 @@
   },
   "bundler": {
     "entries": [
-      "./src/index.tsx",
-      "./src/shortcut.ts"
+      "./src/index.tsx"
     ]
   },
   "gitHead": "1c706a4a778831e012343c905f86225fa71491a7"

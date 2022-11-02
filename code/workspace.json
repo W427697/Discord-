@@ -156,6 +156,11 @@
       "root": "lib/codemod",
       "type": "library"
     },
+    "@storybook/[preview]": {
+      "implicitDependencies": [],
+      "root": "lib/preview",
+      "type": "library"
+    },
     "@storybook/components": {
       "implicitDependencies": [],
       "root": "ui/components",

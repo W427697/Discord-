@@ -64,6 +64,7 @@ import * as url from './modules/url';
 import * as version from './modules/versions';
 // eslint-disable-next-line import/no-cycle
 import * as globals from './modules/globals';
+import { eventToShortcut, shortcutMatchesShortcut, shortcutToHumanString } from './lib/shortcut';
 
 const { ActiveTabs } = layout;
 
@@ -480,3 +481,5 @@ export function useArgTypes(): API_ArgTypes {
   const current = useCurrentStory();
   return (current?.type === 'story' && current.argTypes) || {};
 }
+
+export { eventToShortcut, shortcutToHumanString, shortcutMatchesShortcut };

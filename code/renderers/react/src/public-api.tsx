@@ -17,7 +17,7 @@ interface ClientApi extends Addon_ClientStoryApi<ReactFramework['storyResult']> 
 }
 const FRAMEWORK = 'react';
 
-const api = start(renderToDOM, { render });
+const api = start<ReactFramework>(renderToDOM, { render });
 
 export const storiesOf: ClientApi['storiesOf'] = (kind, m) => {
   return (api.clientApi.storiesOf(kind, m) as ReturnType<ClientApi['storiesOf']>).addParameters({

@@ -2,11 +2,7 @@ import type { ComponentProps, FC } from 'react';
 import React, { Component } from 'react';
 import { styled, keyframes } from '@storybook/theming';
 
-import {
-  eventToShortcut,
-  shortcutToHumanString,
-  shortcutMatchesShortcut,
-} from '@storybook/api/shortcut';
+import { eventToShortcut, shortcutToHumanString, shortcutMatchesShortcut } from '@storybook/api';
 import { Form, Icons } from '@storybook/components';
 import SettingsFooter from './SettingsFooter';
 

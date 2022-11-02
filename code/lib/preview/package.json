@@ -1,0 +1,150 @@
+{
+  "name": "@storybook/preview",
+  "version": "7.0.0-alpha.47",
+  "description": "",
+  "keywords": [
+    "storybook"
+  ],
+  "homepage": "https://github.com/storybookjs/storybook/tree/main/code/lib/preview",
+  "bugs": {
+    "url": "https://github.com/storybookjs/storybook/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/storybookjs/storybook.git",
+    "directory": "code/lib/preview"
+  },
+  "funding": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/storybook"
+  },
+  "license": "MIT",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./dist/addons": {
+      "import": "./dist/addons.mjs",
+      "require": "./dist/addons.js",
+      "types": "./dist/addons.d.ts"
+    },
+    "./dist/client-api": {
+      "import": "./dist/client-api.mjs",
+      "require": "./dist/client-api.js",
+      "types": "./dist/client-api.d.ts"
+    },
+    "./dist/core-client": {
+      "import": "./dist/core-client.mjs",
+      "require": "./dist/core-client.js",
+      "types": "./dist/core-client.d.ts"
+    },
+    "./dist/preview-web": {
+      "import": "./dist/preview-web.mjs",
+      "require": "./dist/preview-web.js",
+      "types": "./dist/preview-web.d.ts"
+    },
+    "./dist/store": {
+      "import": "./dist/store.mjs",
+      "require": "./dist/store.js",
+      "types": "./dist/store.d.ts"
+    },
+    "./dist/global/addons": {
+      "import": "./dist/global/addons.mjs",
+      "require": "./dist/global/addons.js",
+      "types": "./dist/global/addons.d.ts"
+    },
+    "./dist/global/client-api": {
+      "import": "./dist/global/client-api.mjs",
+      "require": "./dist/global/client-api.js",
+      "types": "./dist/global/client-api.d.ts"
+    },
+    "./dist/global/core-client": {
+      "import": "./dist/global/core-client.mjs",
+      "require": "./dist/global/core-client.js",
+      "types": "./dist/global/core-client.d.ts"
+    },
+    "./dist/global/preview-web": {
+      "import": "./dist/global/preview-web.mjs",
+      "require": "./dist/global/preview-web.js",
+      "types": "./dist/global/preview-web.d.ts"
+    },
+    "./dist/global/store": {
+      "import": "./dist/global/store.mjs",
+      "require": "./dist/global/store.js",
+      "types": "./dist/global/store.d.ts"
+    },
+    "./package.json": "./package.json"
+  },
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist/**/*",
+    "README.md",
+    "*.js",
+    "*.d.ts"
+  ],
+  "scripts": {
+    "check": "../../../scripts/node_modules/.bin/tsc --noEmit",
+    "prep": "../../../scripts/prepare/bundle.ts"
+  },
+  "devDependencies": {
+    "@storybook/api": "7.0.0-alpha.47",
+    "@storybook/channel-postmessage": "7.0.0-alpha.47",
+    "@storybook/channel-websocket": "7.0.0-alpha.47",
+    "@storybook/channels": "7.0.0-alpha.47",
+    "@storybook/client-logger": "7.0.0-alpha.47",
+    "@storybook/core-client": "7.0.0-alpha.47",
+    "@storybook/core-common": "7.0.0-alpha.47",
+    "@storybook/core-events": "7.0.0-alpha.47",
+    "@storybook/csf": "next",
+    "@storybook/preview-web": "7.0.0-alpha.47",
+    "@storybook/router": "7.0.0-alpha.47",
+    "@storybook/theming": "7.0.0-alpha.47",
+    "@storybook/types": "7.0.0-alpha.47",
+    "@types/qs": "^6.9.5",
+    "@types/webpack-env": "^1.16.4",
+    "ansi-to-html": "^0.6.11",
+    "dequal": "^2.0.2",
+    "global": "^4.4.0",
+    "lodash": "^4.17.21",
+    "memoizerific": "^1.11.3",
+    "qs": "^6.10.0",
+    "react": "16.14.0",
+    "slash": "^3.0.0",
+    "synchronous-promise": "^2.0.15",
+    "ts-dedent": "^2.0.0",
+    "ts-jest": "^28.0.8",
+    "typescript": "~4.6.3",
+    "util-deprecate": "^1.0.2"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "bundler": {
+    "entries": [
+      "./src/index.ts",
+      "./src/addons.ts",
+      "./src/client-api.ts",
+      "./src/core-client.ts",
+      "./src/preview-web.ts",
+      "./src/store.ts"
+    ],
+    "untypedEntries": [
+      "./src/global/addons.ts",
+      "./src/global/channel-postmessage.ts",
+      "./src/global/channel-websocket.ts",
+      "./src/global/channels.ts",
+      "./src/global/client-api.ts",
+      "./src/global/client-logger.ts",
+      "./src/global/core-client.ts",
+      "./src/global/core-events.ts",
+      "./src/global/preview-web.ts",
+      "./src/global/store.ts"
+    ]
+  },
+  "gitHead": "3ef14366115c56c1d45c0359ff681cc47ed50532"
+}

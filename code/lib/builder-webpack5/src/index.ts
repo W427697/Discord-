@@ -6,7 +6,9 @@ import { logger } from '@storybook/node-logger';
 import { useProgressReporting } from '@storybook/core-common';
 import type { Builder, Options } from '@storybook/types';
 import { checkWebpackVersion } from '@storybook/core-webpack';
-import { join } from 'path';
+import { dirname, join, parse } from 'path';
+import express from 'express';
+import fs from 'fs-extra';
 
 export * from './types';
 
@@ -131,6 +133,11 @@ const starter: StarterFunction = async function* starterGeneratorFn({
 
   compilation = webpackDevMiddleware(compiler, middlewareOptions);
 
+  const previewResolvedDir = dirname(require.resolve('@storybook/preview/package.json'));
+  const previewDirOrigin = join(previewResolvedDir, 'dist');
+
+  router.use(`/sb-preview`, express.static(previewDirOrigin));
+
   router.use(compilation);
   router.use(webpackHotMiddleware(compiler as any));
 
@@ -181,7 +188,7 @@ const builder: BuilderFunction = async function* builderGeneratorFn({ startTime,
     } as any as Stats;
   }
 
-  return new Promise<Stats>((succeed, fail) => {
+  const webpackCompilation = new Promise<Stats>((succeed, fail) => {
     compiler.run((error, stats) => {
       if (error || !stats || stats.hasErrors()) {
         logger.error('=> Failed to build the preview');
@@ -238,6 +245,24 @@ const builder: BuilderFunction = async function* builderGeneratorFn({ startTime,
       });
     });
   });
+
+  const previewResolvedDir = dirname(require.resolve('@storybook/preview/package.json'));
+  const previewDirOrigin = join(previewResolvedDir, 'dist');
+  const previewDirTarget = join(options.outputDir || '', `sb-preview`);
+
+  const previewFiles = fs.copy(previewDirOrigin, previewDirTarget, {
+    filter: (src) => {
+      const { ext } = parse(src);
+      if (ext) {
+        return ext === '.mjs';
+      }
+      return true;
+    },
+  });
+
+  const [webpackCompilationOutput] = await Promise.all([webpackCompilation, previewFiles]);
+
+  return webpackCompilationOutput;
 };
 
 export const start = async (options: BuilderStartOptions) => {
