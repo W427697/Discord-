@@ -5643,7 +5643,6 @@ __metadata:
     "@storybook/components": 7.0.0-alpha.47
     "@storybook/core-events": 7.0.0-alpha.47
     "@storybook/theming": 7.0.0-alpha.47
-    "@storybook/types": 7.0.0-alpha.47
     global: ^4.4.0
     react-sizeme: ^3.0.1
     typescript: ~4.6.3
@@ -5764,10 +5763,10 @@ __metadata:
     "@storybook/addons": 7.0.0-alpha.47
     "@storybook/angular": 7.0.0-alpha.47
     "@storybook/babel-plugin-require-context-hook": 1.0.1
+    "@storybook/client-api": 7.0.0-alpha.47
     "@storybook/core-client": 7.0.0-alpha.47
     "@storybook/core-common": 7.0.0-alpha.47
     "@storybook/core-webpack": 7.0.0-alpha.47
-    "@storybook/preview": 7.0.0-alpha.47
     "@storybook/react": 7.0.0-alpha.47
     "@storybook/types": 7.0.0-alpha.47
     "@storybook/vue": 7.0.0-alpha.47
@@ -5853,7 +5852,6 @@ __metadata:
     "@storybook/router": 7.0.0-alpha.47
     "@storybook/source-loader": 7.0.0-alpha.47
     "@storybook/theming": 7.0.0-alpha.47
-    "@storybook/types": 7.0.0-alpha.47
     "@types/react": ^16.14.23
     "@types/react-syntax-highlighter": 11.0.5
     estraverse: ^5.2.0
@@ -6718,7 +6716,7 @@ __metadata:
     "@storybook/core-client": 7.0.0-alpha.47
     "@storybook/core-common": 7.0.0-alpha.47
     "@storybook/docs-tools": 7.0.0-alpha.47
-    "@storybook/preview": 7.0.0-alpha.47
+    "@storybook/store": 7.0.0-alpha.47
     "@storybook/types": 7.0.0-alpha.47
     ember-source: ~3.28.1
     global: ^4.4.0
@@ -7985,7 +7983,7 @@ __metadata:
     vue-template-compiler: ^2.6.14
   peerDependencies:
     "@babel/core": "*"
-    babel-loader: ^7.0.0 || ^8.0.0
+    babel-loader: ^7.0.0 || ^8.0.0 || ^9.0.0
     css-loader: "*"
     vue: ^2.6.8
     vue-loader: ^15.7.0
