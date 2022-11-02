@@ -9,7 +9,6 @@ import * as CHANNELS from './channels';
 import * as CHANNEL_POSTMESSAGE from './channel-postmessage';
 import * as CHANNEL_WEBSOCKET from './channel-websocket';
 import * as CLIENT_LOGGER from './client-logger';
-import * as COMPONENTS from './components';
 import * as CORE_EVENTS from './core-events';
 
 (globalThis as any).__STORYBOOK_MODULE_ADDONS__ = ADDONS;
@@ -21,7 +20,6 @@ import * as CORE_EVENTS from './core-events';
 (globalThis as any).__STORYBOOK_MODULE_CHANNEL_POSTMESSAGE__ = CHANNEL_POSTMESSAGE;
 (globalThis as any).__STORYBOOK_MODULE_CHANNEL_WEBSOCKET__ = CHANNEL_WEBSOCKET;
 (globalThis as any).__STORYBOOK_MODULE_CLIENT_LOGGER__ = CLIENT_LOGGER;
-(globalThis as any).__STORYBOOK_MODULE_COMPONENTS__ = COMPONENTS;
 (globalThis as any).__STORYBOOK_MODULE_CORE_EVENTS__ = CORE_EVENTS;
 
 const element = document.getElementById('storybook-script');

@@ -15,10 +15,10 @@ const {
   useGlobals,
   useParameter,
   useReducer,
+  types,
   useRef,
   useState,
   useStoryContext,
-  types,
   AddonStore,
   HooksContext,
 } = (globalThis as any).__STORYBOOK_MODULE_ADDONS__ as typeof MODULE;
