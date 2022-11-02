@@ -14,6 +14,14 @@ module.exports = {
     'react-hooks/rules-of-hooks': 'off',
     'jest/no-done-callback': 'off',
   },
+  settings: {
+    'import/resolver': {
+      typescript: {
+        alwaysTryTypes: true,
+        project: './tsconfig.json',
+      },
+    },
+  },
   overrides: [
     {
       // this package depends on a lot of peerDependencies we don't want to specify, because npm would install them
