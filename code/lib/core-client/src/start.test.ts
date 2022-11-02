@@ -1,27 +1,21 @@
 /* global window */
 import { STORY_RENDERED, STORY_UNCHANGED, SET_INDEX } from '@storybook/core-events';
 
+import type { Store_ModuleExports, Path, Loadable } from '@storybook/types';
+import { setGlobalRender } from '@storybook/client-api';
+import global from 'global';
 import {
   waitForRender,
   waitForEvents,
   waitForQuiescence,
   emitter,
   mockChannel,
-} from '@storybook/preview-web/dist/cjs/PreviewWeb.mockdata';
-// @ts-expect-error (Converted from ts-ignore)
-import { WebView } from '@storybook/preview-web/dist/cjs/WebView';
-import type { Store_ModuleExports, Path, Loadable } from '@storybook/types';
-import { setGlobalRender } from '@storybook/client-api';
-import global from 'global';
+} from './PreviewWeb.mockdata';
 
 import { start as realStart } from './start';
 
-jest.mock('@storybook/preview-web/dist/cjs/WebView');
-jest.spyOn(WebView.prototype, 'prepareForDocs').mockReturnValue('docs-root');
-jest.spyOn(WebView.prototype, 'prepareForStory').mockReturnValue('story-root');
-
 jest.mock('global', () => ({
-  // @ts-expect-error (Converted from ts-ignore)
+  // @ts-expect-error (jest is not happy with this)
   ...jest.requireActual('global'),
   history: { replaceState: jest.fn() },
   document: {
@@ -48,6 +42,28 @@ jest.mock('@storybook/store', () => {
     ...actualStore,
     userOrAutoTitle: (importPath: Path, specifier: any, userTitle?: string) =>
       userTitle || 'auto-title',
+  };
+});
+
+jest.mock('@storybook/preview-web', () => {
+  const actualPreviewWeb = jest.requireActual('@storybook/preview-web');
+
+  class OverloadPreviewWeb extends actualPreviewWeb.PreviewWeb {
+    constructor() {
+      super();
+
+      this.view = {
+        ...Object.fromEntries(
+          Object.getOwnPropertyNames(this.view.constructor.prototype).map((key) => [key, jest.fn()])
+        ),
+        prepareForDocs: jest.fn().mockReturnValue('docs-root'),
+        prepareForStory: jest.fn().mockReturnValue('story-root'),
+      };
+    }
+  }
+  return {
+    ...actualPreviewWeb,
+    PreviewWeb: OverloadPreviewWeb,
   };
 });
 
@@ -105,6 +121,7 @@ describe('start', () => {
       });
 
       await waitForRender();
+
       expect(mockChannel.emit.mock.calls.find((call: [string, any]) => call[0] === SET_INDEX)[1])
         .toMatchInlineSnapshot(`
         Object {
@@ -261,7 +278,7 @@ describe('start', () => {
       expect(mockChannel.emit).toHaveBeenCalledWith(STORY_RENDERED, 'component-a--default');
 
       const storiesOfData = mockChannel.emit.mock.calls.find(
-        (call: [string, any]) => call[0] === SET_INDEX
+        (call: any[]) => call[0] === SET_INDEX
       )[1];
       expect(Object.values(storiesOfData.entries).map((s: any) => s.parameters.fileName)).toEqual([
         'file1',
@@ -333,7 +350,7 @@ describe('start', () => {
 
       const { configure, clientApi } = start(renderToDOM);
 
-      let disposeCallback: () => void;
+      let disposeCallback: () => void = () => {};
       const module = {
         id: 'file1',
         hot: {
@@ -369,7 +386,7 @@ describe('start', () => {
 
       const { configure, clientApi, forceReRender } = start(renderToDOM);
 
-      let disposeCallback: () => void;
+      let disposeCallback: () => void = () => {};
       const module = {
         id: 'file1',
         hot: {
@@ -446,9 +463,9 @@ describe('start', () => {
     it('re-emits SET_INDEX when a story file is removed', async () => {
       const renderToDOM = jest.fn(({ storyFn }) => storyFn());
 
-      const { configure, clientApi, forceReRender } = start(renderToDOM);
+      const { configure, clientApi } = start(renderToDOM);
 
-      let disposeCallback: () => void;
+      let disposeCallback: () => void = () => {};
       const moduleB = {
         id: 'file2',
         hot: {
@@ -629,7 +646,7 @@ describe('start', () => {
     it('supports HMR when a story file changes', async () => {
       const renderToDOM = jest.fn(({ storyFn }) => storyFn());
 
-      let disposeCallback: (data: object) => void;
+      let disposeCallback: (data: object) => void = () => {};
       const module = {
         id: 'file1',
         hot: {
@@ -667,7 +684,7 @@ describe('start', () => {
     it('re-emits SET_INDEX when a story is added', async () => {
       const renderToDOM = jest.fn(({ storyFn }) => storyFn());
 
-      let disposeCallback: (data: object) => void;
+      let disposeCallback: (data: object) => void = () => {};
       const module = {
         id: 'file1',
         hot: {
@@ -760,7 +777,7 @@ describe('start', () => {
     it('re-emits SET_INDEX when a story file is removed', async () => {
       const renderToDOM = jest.fn(({ storyFn }) => storyFn());
 
-      let disposeCallback: (data: object) => void;
+      let disposeCallback: (data: object) => void = () => {};
       const module = {
         id: 'file1',
         hot: {

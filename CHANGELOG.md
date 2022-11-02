@@ -1,3 +1,44 @@
+## 7.0.0-alpha.47 (November 1, 2022)
+
+#### Features
+
+-   CSF-tools: Turn story comments into docs descriptions [#19684](https://github.com/storybooks/storybook/pull/19684)
+-   CLI: Migrate CLI templates to CSF3 [#19665](https://github.com/storybooks/storybook/pull/19665)
+-   Vite: Set default `base` for subfolder deployments [#19383](https://github.com/storybooks/storybook/pull/19383)
+
+#### Bug Fixes
+
+-   Disable keyboard shortcuts during (docs) play functions and add tests [#19668](https://github.com/storybooks/storybook/pull/19668)
+
+#### Maintenance
+
+-   Addon-docs: Replace source-loader with csf-plugin [#19680](https://github.com/storybooks/storybook/pull/19680)
+-   CLI: Move all templates out of cli into renderers [#19664](https://github.com/storybooks/storybook/pull/19664)
+-   Addon-docs: Remove mdx-compiler-plugin [#19681](https://github.com/storybooks/storybook/pull/19681)
+
+## 7.0.0-alpha.46 (October 28, 2022)
+
+#### Features
+
+- Addon-docs: Don't show docspage unless the user opts in [#19627](https://github.com/storybooks/storybook/pull/19627)
+- Core: Allow setting tags in storiesOf via parameters. [#19642](https://github.com/storybooks/storybook/pull/19642)
+
+#### Bug Fixes
+
+- Addon-docs: Fix React Profiler in source snippets [#19004](https://github.com/storybooks/storybook/pull/19004)
+
+#### Maintenance
+
+- Telemetry: Measure version update check [#19660](https://github.com/storybooks/storybook/pull/19660)
+- Build: Bundle lib/preview-web with ts-up [#19655](https://github.com/storybooks/storybook/pull/19655)
+- CSF-tools: Make ESM node compatible [#19661](https://github.com/storybooks/storybook/pull/19661)
+- Telemetry: Measure docs usage [#19648](https://github.com/storybooks/storybook/pull/19648)
+- Go back to `csf@next` [#19657](https://github.com/storybooks/storybook/pull/19657)
+
+#### Build
+
+- Build: Reduce parallelism in check task [#19662](https://github.com/storybooks/storybook/pull/19662)
+
 ## 7.0.0-alpha.45 (October 28, 2022)
 
 #### Bug Fixes

@@ -215,6 +215,7 @@ export class StoryRender<TFramework extends AnyFramework> implements Render<TFra
         const teardown = await this.renderToScreen(renderContext, canvasElement);
         this.teardownRender = teardown || (() => {});
       });
+
       this.notYetRendered = false;
       if (abortSignal.aborted) return;
 
