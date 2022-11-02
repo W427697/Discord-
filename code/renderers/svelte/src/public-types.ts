@@ -6,12 +6,11 @@ import type {
   ComponentAnnotations,
   DecoratorFunction,
   StoryAnnotations,
-} from '@storybook/csf';
-import { ComponentProps, ComponentType, SvelteComponentTyped } from 'svelte';
-import { SetOptional, Simplify } from 'type-fest';
-import { SvelteFramework } from './types';
+} from '@storybook/types';
 
-export type { Args, ArgTypes, Parameters, StoryContext } from '@storybook/csf';
+import type { ComponentProps, ComponentType, SvelteComponentTyped } from 'svelte';
+import type { SetOptional, Simplify } from 'type-fest';
+import type { SvelteFramework } from './types';
 
 /**
  * Metadata to configure the stories for a component.
@@ -26,7 +25,9 @@ export type Meta<CmpOrArgs = Args> = CmpOrArgs extends SvelteComponentTyped<infe
  *
  * @see [Named Story exports](https://storybook.js.org/docs/formats/component-story-format/#named-story-exports)
  */
-export type StoryFn<TArgs = Args> = AnnotatedStoryFn<SvelteFramework, TArgs>;
+export type StoryFn<TCmpOrArgs = Args> = TCmpOrArgs extends SvelteComponentTyped<infer Props>
+  ? AnnotatedStoryFn<SvelteFramework, Props>
+  : AnnotatedStoryFn<SvelteFramework, TCmpOrArgs>;
 
 /**
  * Story function that represents a CSFv3 component example.
@@ -48,11 +49,7 @@ export type StoryObj<MetaOrCmpOrArgs = Args> = MetaOrCmpOrArgs extends {
       >
     : never
   : MetaOrCmpOrArgs extends SvelteComponentTyped
-  ? StoryAnnotations<
-      SvelteFramework<MetaOrCmpOrArgs>,
-      ComponentProps<MetaOrCmpOrArgs>,
-      ComponentProps<MetaOrCmpOrArgs>
-    >
+  ? StoryAnnotations<SvelteFramework<MetaOrCmpOrArgs>, ComponentProps<MetaOrCmpOrArgs>>
   : StoryAnnotations<SvelteFramework, MetaOrCmpOrArgs>;
 
 export type DecoratorFn<TArgs = Args> = DecoratorFunction<SvelteFramework, TArgs>;

@@ -61,7 +61,7 @@ describe('Yarn 2 Proxy', () => {
   });
 
   describe('removeDependencies', () => {
-    it('it should run `yarn remove @storybook/addons`', () => {
+    it('should run `yarn remove @storybook/addons`', () => {
       const executeCommandSpy = jest.spyOn(yarn2Proxy, 'executeCommand').mockReturnValue('');
 
       yarn2Proxy.removeDependencies({}, ['@storybook/addons']);
@@ -155,6 +155,8 @@ describe('Yarn 2 Proxy', () => {
 
       jest.spyOn(yarn2Proxy, 'retrievePackageJson').mockImplementation(
         jest.fn(() => ({
+          dependencies: {},
+          devDependencies: {},
           resolutions: {
             bar: 'x.x.x',
           },
@@ -167,6 +169,8 @@ describe('Yarn 2 Proxy', () => {
       yarn2Proxy.addPackageResolutions(versions);
 
       expect(writePackageSpy).toHaveBeenCalledWith({
+        dependencies: {},
+        devDependencies: {},
         resolutions: {
           ...versions,
           bar: 'x.x.x',
