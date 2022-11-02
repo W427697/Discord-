@@ -463,8 +463,8 @@ module.exports = {
   framework: {
     name: '@storybook/react-webpack5',
     options: { fastRefresh: true },
-  }
-}
+  },
+};
 ```
 
 #### Framework standalone build moved
@@ -657,11 +657,23 @@ You can configure Docs Page in `main.js`:
 ```js
 module.exports = {
   docs: {
-    docsPage: true, // set to false to disable docs page entirely
+    docsPage: 'automatic', // see below for alternatives
     defaultName: 'Docs', // set to change the name of generated docs entries
   },
 };
 ```
+
+If you are migrating from 6.x your `docs.docsPage` option will have been set to `'automatic'`, which has the effect of enabling docs page for _every_ CSF file. However, as of 7.0, the new default is `true`, which requires opting into DocsPage per-CSF file, with the `docsPage` **tag** on your component export:
+
+```ts
+export default {
+  component: MyComponent
+  // Tags are a new feature coming in 7.1, that we are using to drive this behaviour.
+  tags: ['docsPage']
+}
+```
+
+You can also set `docsPage: false` to opt-out of docs page entirely.
 
 You can change the default template in the same way as in 6.x, using the `docs.page` parameter.
 
@@ -754,16 +766,15 @@ module.exports = {
       use: [
         {
           loader: require.resolve('@storybook/source-loader'),
-          options: {} /* your sourceLoaderOptions here */
+          options: {} /* your sourceLoaderOptions here */,
         },
       ],
       enforce: 'pre',
-    })
+    });
     return config;
-  }
-}
+  },
+};
 ```
-
 
 #### Dropped addon-docs manual configuration
 
