@@ -77,8 +77,6 @@ export default async (
     serverChannelUrl,
   } = options;
 
-  console.log('aa', { storybookPaths });
-
   const frameworkOptions = await presets.apply('frameworkOptions');
 
   const isProd = configType === 'PRODUCTION';
