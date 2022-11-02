@@ -213,6 +213,7 @@ describe('await computeStorybookMetadata', () => {
         },
       })
     ).toMatchObject({
+      framework: { name: '@storybook/react-vite' },
       renderer: '@storybook/react',
       builder: '@storybook/builder-vite',
     });
