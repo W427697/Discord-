@@ -1,7 +1,7 @@
 import memoize from 'memoizerific';
 import type {
   Addon_IndexEntry,
-  AnyFramework,
+  Framework,
   API_PreparedStoryIndex,
   ComponentTitle,
   Parameters,
@@ -37,7 +37,7 @@ import { processCSFFile, prepareStory, normalizeProjectAnnotations } from './csf
 const CSF_CACHE_SIZE = 1000;
 const STORY_CACHE_SIZE = 10000;
 
-export class StoryStore<TFramework extends AnyFramework, TStorybookRoot = HTMLElement> {
+export class StoryStore<TFramework extends Framework, TStorybookRoot = HTMLElement> {
   storyIndex?: StoryIndexStore;
 
   importFn?: Store_ModuleImportFn;

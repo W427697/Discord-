@@ -1,5 +1,5 @@
 import type {
-  AnyFramework,
+  Framework,
   Store_CSFFile,
   Store_ModuleExport,
   Store_ModuleExports,
@@ -13,7 +13,7 @@ import type { Channel } from '@storybook/channels';
 
 import type { DocsContextProps } from './DocsContextProps';
 
-export class DocsContext<TFramework extends AnyFramework, TStorybookRoot = HTMLElement>
+export class DocsContext<TFramework extends Framework, TStorybookRoot = HTMLElement>
   implements DocsContextProps<TFramework>
 {
   private componentStoriesValue: Store_Story<TFramework>[];

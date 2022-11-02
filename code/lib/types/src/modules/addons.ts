@@ -3,7 +3,6 @@
 import type { RenderData as RouterData } from '../../../router/src/router';
 import type { ThemeVars } from '../../../theming/src/types';
 import type {
-  AnyFramework,
   Args,
   ArgsStoryFn as ArgsStoryFnForFramework,
   ComponentTitle,
@@ -21,6 +20,7 @@ import type {
   StoryName,
   Tag,
 } from './csf';
+import type { Framework } from './store';
 
 export type Addon_Types = Addon_TypesEnum | string;
 
@@ -89,7 +89,7 @@ export interface Addon_OptionsParameter extends Object {
   [key: string]: any;
 }
 
-export type Addon_StoryContext<TFramework extends AnyFramework = AnyFramework> =
+export type Addon_StoryContext<TFramework extends Framework = Framework> =
   StoryContextForFramework<TFramework>;
 export type Addon_StoryContextUpdate = Partial<Addon_StoryContext>;
 

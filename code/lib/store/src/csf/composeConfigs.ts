@@ -1,4 +1,4 @@
-import type { AnyFramework, Store_ModuleExports, ProjectAnnotations } from '@storybook/types';
+import type { Framework, Store_ModuleExports, ProjectAnnotations } from '@storybook/types';
 
 import { combineParameters } from '../parameters';
 import { composeStepRunners } from './stepRunners';
@@ -31,7 +31,7 @@ export function getSingletonField<TFieldType = any>(
   return getField(moduleExportList, field).pop();
 }
 
-export function composeConfigs<TFramework extends AnyFramework>(
+export function composeConfigs<TFramework extends Framework>(
   moduleExportList: Store_ModuleExports[]
 ): ProjectAnnotations<TFramework> {
   const allArgTypeEnhancers = getArrayField(moduleExportList, 'argTypesEnhancers');

@@ -1,6 +1,6 @@
 import type {
   Addon_IndexEntry,
-  AnyFramework,
+  Framework,
   Store_CSFFile,
   Store_ModuleExports,
   StoryId,
@@ -24,7 +24,7 @@ import { DocsContext } from '../docs-context/DocsContext';
  *  - *.mdx file that may or may not reference a specific CSF file with `<Meta of={} />`
  */
 
-export class StandaloneDocsRender<TFramework extends AnyFramework, TStorybookRoot = HTMLElement>
+export class StandaloneDocsRender<TFramework extends Framework, TStorybookRoot = HTMLElement>
   implements Render<TFramework, TStorybookRoot>
 {
   public readonly type: RenderType = 'docs';

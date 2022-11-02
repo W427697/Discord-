@@ -2,7 +2,6 @@
 
 import type {
   AnnotatedStoryFn,
-  AnyFramework,
   Args,
   ArgsEnhancer,
   ArgsFromMeta,
@@ -61,7 +60,6 @@ import type { Addon_OptionsParameter } from './addons';
 
 export type {
   AnnotatedStoryFn,
-  AnyFramework,
   Args,
   ArgsEnhancer,
   ArgsFromMeta,

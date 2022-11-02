@@ -1,8 +1,7 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import type { Addon_StoryApi, Addon_Type } from './addons';
-import type { Store_RenderContext } from './store';
+import type { Framework, Store_RenderContext } from './store';
 import type {
-  AnyFramework,
   Args,
   ArgTypes,
   DecoratorFunction,
@@ -68,12 +67,12 @@ export interface ClientAPI_ClientApiAddons<StoryFnReturnType> {
 
 export type ClientAPI_RenderContextWithoutStoryContext = Omit<Store_RenderContext, 'storyContext'>;
 
-export interface ClientAPI_GetStorybookStory<TFramework extends AnyFramework> {
+export interface ClientAPI_GetStorybookStory<TFramework extends Framework> {
   name: string;
   render: LegacyStoryFn<TFramework>;
 }
 
-export interface ClientAPI_GetStorybookKind<TFramework extends AnyFramework> {
+export interface ClientAPI_GetStorybookKind<TFramework extends Framework> {
   kind: string;
   fileName: string;
   stories: ClientAPI_GetStorybookStory<TFramework>[];

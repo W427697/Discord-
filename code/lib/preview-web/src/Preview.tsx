@@ -17,7 +17,7 @@ import { logger } from '@storybook/client-logger';
 import type { Channel } from '@storybook/channels';
 import { addons } from '@storybook/addons';
 import type {
-  AnyFramework,
+  Framework,
   Args,
   Globals,
   Store_ModuleImportFn,
@@ -44,7 +44,7 @@ export type MaybePromise<T> = Promise<T> | T;
 const renderToDOMDeprecated = deprecate(() => {},
 `\`renderToDOM\` is deprecated, please rename to \`renderToRoot\``);
 
-export class Preview<TFramework extends AnyFramework, TStorybookRoot = HTMLElement> {
+export class Preview<TFramework extends Framework, TStorybookRoot = HTMLElement> {
   serverChannel?: Channel;
 
   storyStore: StoryStore<TFramework, TStorybookRoot>;

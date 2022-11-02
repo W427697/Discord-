@@ -1,6 +1,6 @@
 import global from 'global';
 import type {
-  AnyFramework,
+  Framework,
   Store_RenderContext,
   RenderToRoot,
   Store_Story,
@@ -42,12 +42,12 @@ function serializeError(error: any) {
   }
 }
 
-export type RenderContextCallbacks<TFramework extends AnyFramework> = Pick<
+export type RenderContextCallbacks<TFramework extends Framework> = Pick<
   Store_RenderContext<TFramework>,
   'showMain' | 'showError' | 'showException'
 >;
 
-export class StoryRender<TFramework extends AnyFramework, TStorybookRoot = HTMLElement>
+export class StoryRender<TFramework extends Framework, TStorybookRoot = HTMLElement>
   implements Render<TFramework, TStorybookRoot>
 {
   public type: RenderType = 'story';

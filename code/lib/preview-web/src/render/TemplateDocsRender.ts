@@ -1,6 +1,6 @@
 import type {
   Addon_IndexEntry,
-  AnyFramework,
+  Framework,
   Store_CSFFile,
   Store_Story,
   StoryId,
@@ -27,7 +27,7 @@ import { DocsContext } from '../docs-context/DocsContext';
  *  - *.stories.mdx files, where the MDX compiler produces a CSF file with a `.parameter.docs.page`
  *      parameter containing the compiled content of the MDX file.
  */
-export class TemplateDocsRender<TFramework extends AnyFramework, TStorybookRoot = HTMLElement>
+export class TemplateDocsRender<TFramework extends Framework, TStorybookRoot = HTMLElement>
   implements Render<TFramework, TStorybookRoot>
 {
   public readonly type: RenderType = 'docs';
