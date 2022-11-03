@@ -456,6 +456,29 @@ jobs:
       - store_artifacts: # this is where playwright puts more complex stuff
           path: code/playwright-results/
           destination: playwright
+  cancel-workflow-on-failure:
+    executor: default
+    steps:
+      - run:
+          command: |
+            while true; do
+              json=$(curl -s -H 'Accept: application/json' -X GET https://circleci.com/api/v2/workflow/${CIRCLE_WORKFLOW_ID}/job?circle-token=${CIRCLE_TOKEN})
+              any_required_step_failed=$(echo $json | jq '.items | map(select(.name == "check" or .name == "lint" or .name == "publish" or .name == "script-unit-tests" or .name == "unit-tests")) | any(.status == "failed")')
+              any_required_step_pending=$(echo $json | jq '.items | map(select(.name == "check" or .name == "lint" or .name == "publish" or .name == "script-unit-tests" or .name == "unit-tests")) | any(.status == "running")')
+              all_jobs_done=$(echo $json | jq '.items | map(select(.status == "running")) | length > 0')
+
+              if [ "$any_required_step_pending" == "true" ]; then
+                echo "Waiting for other required jobs to finish..."
+              elif [ "$any_required_step_failed" == "true" ]; then
+                echo "One of the required steps failed, canceling workflow..."
+                curl -s -H 'Accept: application/json' -X POST https://circleci.com/api/v2/workflow/${CIRCLE_WORKFLOW_ID}/cancel?circle-token=${CIRCLE_TOKEN}
+                exit 0
+              elif [ "$all_jobs_done" == "true" ]; then
+                echo "All jobs are done!"
+                exit 0
+              fi
+              sleep 30 # run this check every 30 seconds
+            done
 
 workflows:
   daily-tests:
@@ -499,6 +522,9 @@ workflows:
       equal: [ tests, << pipeline.parameters.workflow >> ]
     jobs:
       - build
+      - cancel-workflow-on-failure:
+          requires:
+            - build
       - lint:
           requires:
             - build
