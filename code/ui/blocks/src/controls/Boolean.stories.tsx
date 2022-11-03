@@ -1,5 +1,3 @@
-import React from 'react';
-import { useArgs } from '@storybook/addons';
 import type { Meta, StoryObj } from '@storybook/react';
 import { BooleanControl } from './Boolean';
 

@@ -1,6 +1,4 @@
-import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { useArgs } from '@storybook/addons';
 import { FilesControl } from './Files';
 
 export default {
