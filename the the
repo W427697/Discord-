@@ -692,8 +692,7 @@ You likely want to use the `DocsContainer` component exported by `@storybook/blo
 
 **Overriding theme**:
 
-To override 
-me, you can continue to use the `docs.theme` parameter.
+To override the theme, you can continue to use the `docs.theme` parameter.
 
 **Overriding MDX components**
 
