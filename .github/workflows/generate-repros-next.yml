@@ -8,7 +8,6 @@ on:
   push:
     branches:
       - vite-frameworks-xyz
-      - jeppe/fix-svelte-in-docs
 
 jobs:
   generate:
