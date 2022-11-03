@@ -457,7 +457,9 @@ jobs:
           path: code/playwright-results/
           destination: playwright
   cancel-workflow-on-failure:
-    executor: default
+    executor:
+      class: small
+      name: sb_node_16_classic
     steps:
       - run:
           command: |
