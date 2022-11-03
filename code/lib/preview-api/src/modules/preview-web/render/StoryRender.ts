@@ -10,7 +10,6 @@ import type {
   StoryId,
   ViewMode,
 } from '@storybook/types';
-import type { StoryStore } from '@storybook/store';
 import type { Channel } from '@storybook/channels';
 import { logger } from '@storybook/client-logger';
 import {
@@ -18,6 +17,7 @@ import {
   STORY_RENDERED,
   PLAY_FUNCTION_THREW_EXCEPTION,
 } from '@storybook/core-events';
+import type { StoryStore } from '../../store';
 import type { Render, RenderType } from './Render';
 import { PREPARE_ABORTED } from './Render';
 

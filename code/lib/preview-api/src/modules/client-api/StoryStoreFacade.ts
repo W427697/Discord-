@@ -17,9 +17,9 @@ import type {
   Store_StoryIndex,
   StoryId,
 } from '@storybook/types';
-import type { StoryStore } from '@storybook/store';
-import { userOrAutoTitle, sortStoriesV6 } from '@storybook/store';
 import { logger } from '@storybook/client-logger';
+import type { StoryStore } from '../../store';
+import { userOrAutoTitle, sortStoriesV6 } from '../../store';
 
 export class StoryStoreFacade<TFramework extends AnyFramework> {
   projectAnnotations: Store_NormalizedProjectAnnotations<TFramework>;
@@ -60,36 +60,35 @@ export class StoryStoreFacade<TFramework extends AnyFramework> {
 
     const storyEntries = Object.entries(this.entries);
     // Add the kind parameters and global parameters to each entry
-    const sortableV6: [StoryId, Store_Story<TFramework>, Parameters, Parameters][] =
-      storyEntries.map(([storyId, { type, importPath, ...entry }]) => {
-        const exports = this.csfExports[importPath];
-        const csfFile = store.processCSFFileWithCache<TFramework>(
-          exports,
-          importPath,
-          exports.default.title
-        );
+    const sortableV6 = storyEntries.map(([storyId, { type, importPath, ...entry }]) => {
+      const exports = this.csfExports[importPath];
+      const csfFile = store.processCSFFileWithCache<TFramework>(
+        exports,
+        importPath,
+        exports.default.title
+      );
 
-        let storyLike: Store_Story<TFramework>;
-        if (type === 'story') {
-          storyLike = store.storyFromCSFFile({ storyId, csfFile });
-        } else {
-          storyLike = {
-            ...entry,
-            story: entry.name,
-            kind: entry.title,
-            componentId: toId(entry.componentId || entry.title),
-            parameters: { fileName: importPath },
-          } as any;
-        }
-        return [storyId, storyLike, csfFile.meta.parameters, this.projectAnnotations.parameters];
-      });
+      let storyLike: Store_Story<TFramework>;
+      if (type === 'story') {
+        storyLike = store.storyFromCSFFile({ storyId, csfFile });
+      } else {
+        storyLike = {
+          ...entry,
+          story: entry.name,
+          kind: entry.title,
+          componentId: toId(entry.componentId || entry.title),
+          parameters: { fileName: importPath },
+        } as any;
+      }
+      return [storyId, storyLike, csfFile.meta.parameters, this.projectAnnotations.parameters];
+    }) as [StoryId, Store_Story<TFramework>, Parameters, Parameters][];
 
     // NOTE: the sortStoriesV6 version returns the v7 data format. confusing but more convenient!
     let sortedV7: Addon_IndexEntry[];
 
     try {
       sortedV7 = sortStoriesV6(sortableV6, storySortParameter, fileNameOrder);
-    } catch (err) {
+    } catch (err: any) {
       if (typeof storySortParameter === 'function') {
         throw new Error(dedent`
           Error sorting stories with sort parameter ${storySortParameter}:

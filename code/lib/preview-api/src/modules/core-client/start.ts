@@ -1,7 +1,5 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import global from 'global';
-import { ClientApi } from '@storybook/client-api';
-import { PreviewWeb } from '@storybook/preview-web';
 import type {
   AnyFramework,
   ArgsStoryFn,
@@ -12,6 +10,8 @@ import type {
 import { createChannel } from '@storybook/channel-postmessage';
 import { addons } from '@storybook/addons';
 import { FORCE_RE_RENDER } from '@storybook/core-events';
+import { PreviewWeb } from '../../preview-web';
+import { ClientApi } from '../../client-api';
 
 import { executeLoadableForChanges } from './executeLoadable';
 

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-this-alias */
 /// <reference types="webpack-env" />
 
 import { dedent } from 'ts-dedent';
@@ -24,8 +25,8 @@ import type {
   Store_ModuleImportFn,
   Store_ModuleExports,
 } from '@storybook/types';
-import type { StoryStore } from '@storybook/store';
-import { combineParameters, composeStepRunners, normalizeInputTypes } from '@storybook/store';
+import type { StoryStore } from '../../store';
+import { combineParameters, composeStepRunners, normalizeInputTypes } from '../../store';
 
 import { StoryStoreFacade } from './StoryStoreFacade';
 
@@ -105,7 +106,9 @@ export const getGlobalRender = () => {
   return singleton.facade.projectAnnotations.render;
 };
 
-export const setGlobalRender = (render: StoryFn<AnyFramework>) => {
+export const setGlobalRender = (
+  render: typeof singleton['facade']['projectAnnotations']['render']
+) => {
   checkMethod('setGlobalRender');
   singleton.facade.projectAnnotations.render = render;
 };
@@ -131,7 +134,7 @@ export class ClientApi<TFramework extends AnyFramework> {
 
     this.storyStore = storyStore;
 
-    // eslint-disable-next-line @typescript-eslint/no-this-alias
+    // @ts-expect-error (whatever)
     singleton = this;
   }
 
@@ -147,7 +150,7 @@ export class ClientApi<TFramework extends AnyFramework> {
   }
 
   addDecorator = (decorator: DecoratorFunction<TFramework>) => {
-    this.facade.projectAnnotations.decorators.push(decorator);
+    this.facade.projectAnnotations.decorators?.push(decorator);
   };
 
   addParameters = ({
@@ -175,12 +178,12 @@ export class ClientApi<TFramework extends AnyFramework> {
 
   addStepRunner = (stepRunner: StepRunner) => {
     this.facade.projectAnnotations.runStep = composeStepRunners(
-      [this.facade.projectAnnotations.runStep, stepRunner].filter(Boolean)
+      [this.facade.projectAnnotations.runStep, stepRunner].filter(Boolean) as StepRunner[]
     );
   };
 
   addLoader = (loader: LoaderFunction<TFramework>) => {
-    this.facade.projectAnnotations.loaders.push(loader);
+    this.facade.projectAnnotations.loaders?.push(loader);
   };
 
   addArgs = (args: Args) => {
@@ -198,11 +201,11 @@ export class ClientApi<TFramework extends AnyFramework> {
   };
 
   addArgsEnhancer = (enhancer: ArgsEnhancer<TFramework>) => {
-    this.facade.projectAnnotations.argsEnhancers.push(enhancer);
+    this.facade.projectAnnotations.argsEnhancers?.push(enhancer);
   };
 
   addArgTypesEnhancer = (enhancer: ArgTypesEnhancer<TFramework>) => {
-    this.facade.projectAnnotations.argTypesEnhancers.push(enhancer);
+    this.facade.projectAnnotations.argTypesEnhancers?.push(enhancer);
   };
 
   // Because of the API of `storiesOf().add()` we don't have a good "end" call for a
@@ -345,14 +348,14 @@ export class ClientApi<TFramework extends AnyFramework> {
         throw new Error(`You cannot add a decorator after the first story for a kind.
 Read more here: https://github.com/storybookjs/storybook/blob/master/MIGRATION.md#can-no-longer-add-decoratorsparameters-after-stories`);
 
-      meta.decorators.push(decorator);
+      meta.decorators?.push(decorator);
       return api;
     };
 
     api.addLoader = (loader: LoaderFunction<TFramework>) => {
       if (hasAdded) throw new Error(`You cannot add a loader after the first story for a kind.`);
 
-      meta.loaders.push(loader);
+      meta.loaders?.push(loader);
       return api;
     };
 
@@ -374,7 +377,7 @@ Read more here: https://github.com/storybookjs/storybook/blob/master/MIGRATION.m
 
   // @deprecated
   raw = () => {
-    return this.storyStore.raw();
+    return this.storyStore?.raw();
   };
 
   // @deprecated

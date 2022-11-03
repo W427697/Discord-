@@ -29,7 +29,7 @@ import type {
   Store_WebProjectAnnotations,
   StoryId,
 } from '@storybook/types';
-import { StoryStore } from '@storybook/store';
+import { StoryStore } from '../../store';
 
 import { StoryRender } from './render/StoryRender';
 import type { TemplateDocsRender } from './render/TemplateDocsRender';

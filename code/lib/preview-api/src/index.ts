@@ -31,12 +31,12 @@ export { addons } from '@storybook/addons';
 /**
  * DOCS API
  */
-export { DocsContext } from '@storybook/preview-web';
+export { DocsContext } from './preview-web';
 
 /**
  * SIMULATION API
  */
-export { simulatePageLoad, simulateDOMContentLoaded } from '@storybook/preview-web';
+export { simulatePageLoad, simulateDOMContentLoaded } from './preview-web';
 
 /**
  * STORIES API
@@ -50,9 +50,9 @@ export {
   addLoader,
   addParameters,
   addStepRunner,
-} from '@storybook/client-api';
-export { getQueryParam, getQueryParams } from '@storybook/client-api';
-export { setGlobalRender } from '@storybook/client-api';
+} from './client-api';
+export { getQueryParam, getQueryParams } from './client-api';
+export { setGlobalRender } from './client-api';
 
 export {
   combineArgs,
@@ -71,12 +71,12 @@ export {
   inferControls,
   userOrAutoTitleFromSpecifier,
   sortStoriesV7,
-} from '@storybook/store';
+} from './store';
 
 /**
  * STORIES API
  */
-export { ClientApi } from '@storybook/client-api';
-export { StoryStore } from '@storybook/store';
-export { Preview, PreviewWeb } from '@storybook/preview-web';
-export { start } from '@storybook/core-client';
+export { ClientApi } from './client-api';
+export { StoryStore } from './store';
+export { Preview, PreviewWeb } from './preview-web';
+export { start } from './core-client';

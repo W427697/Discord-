@@ -26,6 +26,26 @@
       "require": "./dist/index.js",
       "types": "./dist/index.d.ts"
     },
+    "./dist/store": {
+      "import": "./dist/store.mjs",
+      "require": "./dist/store.js",
+      "types": "./dist/store.d.ts"
+    },
+    "./dist/client-api": {
+      "import": "./dist/client-api.mjs",
+      "require": "./dist/client-api.js",
+      "types": "./dist/client-api.d.ts"
+    },
+    "./dist/core-client": {
+      "import": "./dist/core-client.mjs",
+      "require": "./dist/core-client.js",
+      "types": "./dist/core-client.d.ts"
+    },
+    "./dist/preview-web": {
+      "import": "./dist/preview-web.mjs",
+      "require": "./dist/preview-web.js",
+      "types": "./dist/preview-web.d.ts"
+    },
     "./package.json": "./package.json"
   },
   "main": "dist/index.js",
@@ -43,17 +63,32 @@
   },
   "dependencies": {
     "@storybook/addons": "7.0.0-alpha.47",
-    "@storybook/client-api": "7.0.0-alpha.47",
-    "@storybook/core-client": "7.0.0-alpha.47",
-    "@storybook/preview-web": "7.0.0-alpha.47",
-    "@storybook/store": "7.0.0-alpha.47"
+    "@storybook/client-logger": "7.0.0-alpha.47",
+    "@storybook/core-events": "7.0.0-alpha.47",
+    "@storybook/csf": "next",
+    "@storybook/types": "7.0.0-alpha.47",
+    "@types/qs": "^6.9.5",
+    "@types/webpack-env": "^1.16.4",
+    "dequal": "^2.0.2",
+    "global": "^4.4.0",
+    "lodash": "^4.17.21",
+    "memoizerific": "^1.11.3",
+    "qs": "^6.10.0",
+    "slash": "^3.0.0",
+    "synchronous-promise": "^2.0.15",
+    "ts-dedent": "^2.0.0",
+    "util-deprecate": "^1.0.2"
   },
   "publishConfig": {
     "access": "public"
   },
   "bundler": {
     "entries": [
-      "./src/index.ts"
+      "./src/index.ts",
+      "./src/store.ts",
+      "./src/client-api.ts",
+      "./src/core-client.ts",
+      "./src/preview-web.ts"
     ]
   },
   "gitHead": "3ef14366115c56c1d45c0359ff681cc47ed50532"

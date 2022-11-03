@@ -8,8 +8,8 @@ import type {
   StoryId,
   StoryName,
 } from '@storybook/types';
-import type { StoryStore } from '@storybook/store';
 import type { Channel } from '@storybook/channels';
+import type { StoryStore } from '../../store';
 
 import type { DocsContextProps } from './DocsContextProps';
 

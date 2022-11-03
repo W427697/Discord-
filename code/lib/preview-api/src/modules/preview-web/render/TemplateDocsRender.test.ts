@@ -1,20 +1,20 @@
 import { jest, describe, it, expect } from '@jest/globals';
 import { Channel } from '@storybook/channels';
-import type { AnyFramework, Addon_StandaloneDocsIndexEntry } from '@storybook/types';
-import type { StoryStore } from '@storybook/store';
+import type { AnyFramework, Addon_TemplateDocsIndexEntry } from '@storybook/types';
+import type { StoryStore } from '../../store';
 import { PREPARE_ABORTED } from './Render';
 
-import { StandaloneDocsRender } from './StandaloneDocsRender';
+import { TemplateDocsRender } from './TemplateDocsRender';
 
 const entry = {
   type: 'docs',
-  id: 'introduction--docs',
+  id: 'component--docs',
   name: 'Docs',
-  title: 'Introduction',
-  importPath: './Introduction.mdx',
+  title: 'Component',
+  importPath: './Component.stories.ts',
   storiesImports: [],
-  standalone: true,
-} as Addon_StandaloneDocsIndexEntry;
+  standalone: false,
+} as Addon_TemplateDocsIndexEntry;
 
 const createGate = (): [Promise<any | undefined>, (_?: any) => void] => {
   let openGate = (_?: any) => {};
@@ -24,7 +24,7 @@ const createGate = (): [Promise<any | undefined>, (_?: any) => void] => {
   return [gate, openGate];
 };
 
-describe('StandaloneDocsRender', () => {
+describe('TemplateDocsRender', () => {
   it('throws PREPARE_ABORTED if torndown during prepare', async () => {
     const [importGate, openImportGate] = createGate();
     const mockStore = {
@@ -34,7 +34,7 @@ describe('StandaloneDocsRender', () => {
       }),
     };
 
-    const render = new StandaloneDocsRender(
+    const render = new TemplateDocsRender(
       new Channel(),
       mockStore as unknown as StoryStore<AnyFramework>,
       entry

@@ -6393,23 +6393,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/client-api@workspace:lib/client-api"
   dependencies:
-    "@storybook/addons": 7.0.0-alpha.47
-    "@storybook/client-logger": 7.0.0-alpha.47
-    "@storybook/core-common": 7.0.0-alpha.47
-    "@storybook/csf": next
-    "@storybook/store": 7.0.0-alpha.47
-    "@storybook/types": 7.0.0-alpha.47
-    "@types/qs": ^6.9.5
-    "@types/webpack-env": ^1.16.4
-    global: ^4.4.0
-    qs: ^6.10.0
-    synchronous-promise: ^2.0.15
-    ts-dedent: ^2.0.0
-    typescript: ~4.6.3
-    util-deprecate: ^1.0.2
-  peerDependencies:
-    react: ^16.8.0 || ^17.0.0 || ^18.0.0
-    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
+    "@storybook/preview-api": 7.0.0-alpha.47
   languageName: unknown
   linkType: soft
 
@@ -6488,23 +6472,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/core-client@workspace:lib/core-client"
   dependencies:
-    "@storybook/addons": 7.0.0-alpha.47
-    "@storybook/channel-postmessage": 7.0.0-alpha.47
-    "@storybook/channel-websocket": 7.0.0-alpha.47
-    "@storybook/channels": 7.0.0-alpha.47
-    "@storybook/client-api": 7.0.0-alpha.47
-    "@storybook/client-logger": 7.0.0-alpha.47
-    "@storybook/core-events": 7.0.0-alpha.47
-    "@storybook/csf": next
-    "@storybook/preview-web": 7.0.0-alpha.47
-    "@storybook/store": 7.0.0-alpha.47
-    "@storybook/types": 7.0.0-alpha.47
-    global: ^4.4.0
-    typescript: ~4.6.3
-    util-deprecate: ^1.0.2
-  peerDependenciesMeta:
-    typescript:
-      optional: true
+    "@storybook/preview-api": 7.0.0-alpha.47
   languageName: unknown
   linkType: soft
 
@@ -7272,10 +7240,21 @@ __metadata:
   resolution: "@storybook/preview-api@workspace:lib/preview-api"
   dependencies:
     "@storybook/addons": 7.0.0-alpha.47
-    "@storybook/client-api": 7.0.0-alpha.47
-    "@storybook/core-client": 7.0.0-alpha.47
-    "@storybook/preview-web": 7.0.0-alpha.47
-    "@storybook/store": 7.0.0-alpha.47
+    "@storybook/client-logger": 7.0.0-alpha.47
+    "@storybook/core-events": 7.0.0-alpha.47
+    "@storybook/csf": next
+    "@storybook/types": 7.0.0-alpha.47
+    "@types/qs": ^6.9.5
+    "@types/webpack-env": ^1.16.4
+    dequal: ^2.0.2
+    global: ^4.4.0
+    lodash: ^4.17.21
+    memoizerific: ^1.11.3
+    qs: ^6.10.0
+    slash: ^3.0.0
+    synchronous-promise: ^2.0.15
+    ts-dedent: ^2.0.0
+    util-deprecate: ^1.0.2
   languageName: unknown
   linkType: soft
 
@@ -7283,23 +7262,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/preview-web@workspace:lib/preview-web"
   dependencies:
-    "@storybook/addons": 7.0.0-alpha.47
-    "@storybook/channel-postmessage": 7.0.0-alpha.47
-    "@storybook/channels": 7.0.0-alpha.47
-    "@storybook/client-logger": 7.0.0-alpha.47
-    "@storybook/core-events": 7.0.0-alpha.47
-    "@storybook/store": 7.0.0-alpha.47
-    "@storybook/types": 7.0.0-alpha.47
-    ansi-to-html: ^0.6.11
-    global: ^4.4.0
-    lodash: ^4.17.21
-    qs: ^6.10.0
-    react: 16.14.0
-    synchronous-promise: ^2.0.15
-    ts-dedent: ^2.0.0
-    ts-jest: ^28.0.8
-    typescript: ~4.6.3
-    util-deprecate: ^1.0.2
+    "@storybook/preview-api": 7.0.0-alpha.47
   languageName: unknown
   linkType: soft
 
@@ -7814,23 +7777,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/store@workspace:lib/store"
   dependencies:
-    "@storybook/addons": 7.0.0-alpha.47
-    "@storybook/client-logger": 7.0.0-alpha.47
-    "@storybook/core-events": 7.0.0-alpha.47
-    "@storybook/csf": next
-    "@storybook/types": 7.0.0-alpha.47
-    dequal: ^2.0.2
-    global: ^4.4.0
-    lodash: ^4.17.21
-    memoizerific: ^1.11.3
-    slash: ^3.0.0
-    synchronous-promise: ^2.0.15
-    ts-dedent: ^2.0.0
-    typescript: ~4.6.3
-    util-deprecate: ^1.0.2
-  peerDependencies:
-    react: ^16.8.0 || ^17.0.0 || ^18.0.0
-    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
+    "@storybook/preview-api": 7.0.0-alpha.47
   languageName: unknown
   linkType: soft
 

@@ -1,20 +1,18 @@
 import { jest, describe, it, expect } from '@jest/globals';
 import { Channel } from '@storybook/channels';
-import type { AnyFramework, Addon_TemplateDocsIndexEntry } from '@storybook/types';
-import type { StoryStore } from '@storybook/store';
+import type { AnyFramework, Addon_StoryIndexEntry } from '@storybook/types';
+import type { StoryStore } from '../../store';
 import { PREPARE_ABORTED } from './Render';
 
-import { TemplateDocsRender } from './TemplateDocsRender';
+import { StoryRender } from './StoryRender';
 
 const entry = {
-  type: 'docs',
-  id: 'component--docs',
-  name: 'Docs',
-  title: 'Component',
-  importPath: './Component.stories.ts',
-  storiesImports: [],
-  standalone: false,
-} as Addon_TemplateDocsIndexEntry;
+  type: 'story',
+  id: 'component--a',
+  name: 'A',
+  title: 'component',
+  importPath: './component.stories.ts',
+} as Addon_StoryIndexEntry;
 
 const createGate = (): [Promise<any | undefined>, (_?: any) => void] => {
   let openGate = (_?: any) => {};
@@ -24,20 +22,24 @@ const createGate = (): [Promise<any | undefined>, (_?: any) => void] => {
   return [gate, openGate];
 };
 
-describe('TemplateDocsRender', () => {
+describe('StoryRender', () => {
   it('throws PREPARE_ABORTED if torndown during prepare', async () => {
     const [importGate, openImportGate] = createGate();
     const mockStore = {
-      loadEntry: jest.fn(async () => {
+      loadStory: jest.fn(async () => {
         await importGate;
         return {};
       }),
+      cleanupStory: jest.fn(),
     };
 
-    const render = new TemplateDocsRender(
+    const render = new StoryRender(
       new Channel(),
       mockStore as unknown as StoryStore<AnyFramework>,
-      entry
+      jest.fn(),
+      {} as any,
+      entry.id,
+      'story'
     );
 
     const preparePromise = render.prepare();
