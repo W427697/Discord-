@@ -1,13 +1,7 @@
-import * as ADDONS from '@storybook/addons';
-import * as CLIENT_API from '@storybook/client-api';
-import * as CORE_CLIENT from '@storybook/core-client';
-import * as PREVIEW_WEB from '@storybook/preview-web';
-import * as STORE from '@storybook/store';
-
 /**
  * HOOKS API
  */
-export const {
+export {
   useArgs,
   useCallback,
   useChannel,
@@ -21,33 +15,33 @@ export const {
   useStoryContext,
   applyHooks,
   HooksContext,
-} = ADDONS;
+} from '@storybook/addons';
 
 /**
  * DECORATORS API
  */
-export const { makeDecorator } = ADDONS;
+export { makeDecorator } from '@storybook/addons';
 
 /**
  * ADDON API
  * @deprecated
  */
-export const { addons } = ADDONS;
+export { addons } from '@storybook/addons';
 
 /**
  * DOCS API
  */
-export const { DocsContext } = PREVIEW_WEB;
+export { DocsContext } from '@storybook/preview-web';
 
 /**
  * SIMULATION API
  */
-export const { simulatePageLoad, simulateDOMContentLoaded } = PREVIEW_WEB;
+export { simulatePageLoad, simulateDOMContentLoaded } from '@storybook/preview-web';
 
 /**
  * STORIES API
  */
-export const {
+export {
   addArgTypes,
   addArgTypesEnhancer,
   addArgs,
@@ -56,11 +50,11 @@ export const {
   addLoader,
   addParameters,
   addStepRunner,
-} = CLIENT_API;
-export const { getQueryParam, getQueryParams } = CLIENT_API;
-export const { setGlobalRender } = CLIENT_API;
+} from '@storybook/client-api';
+export { getQueryParam, getQueryParams } from '@storybook/client-api';
+export { setGlobalRender } from '@storybook/client-api';
 
-export const {
+export {
   combineArgs,
   combineParameters,
   composeConfigs,
@@ -77,12 +71,12 @@ export const {
   inferControls,
   userOrAutoTitleFromSpecifier,
   sortStoriesV7,
-} = STORE;
+} from '@storybook/store';
 
 /**
  * STORIES API
  */
-export const { ClientApi } = CLIENT_API;
-export const { StoryStore } = STORE;
-export const { Preview, PreviewWeb } = PREVIEW_WEB;
-export const { start } = CORE_CLIENT;
+export { ClientApi } from '@storybook/client-api';
+export { StoryStore } from '@storybook/store';
+export { Preview, PreviewWeb } from '@storybook/preview-web';
+export { start } from '@storybook/core-client';

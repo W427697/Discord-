@@ -6329,6 +6329,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@storybook/channels@npm:next":
+  version: 7.0.0-alpha.47
+  resolution: "@storybook/channels@npm:7.0.0-alpha.47"
+  checksum: 089aac0bb8a3a0fa2d60360adea1342593acb61e1a4faeb48e9c8b82a8ec3e0df721b0720b614fcf9a72cc7868865067ba6fed07df4ccde7c3ca4d8c07651a45
+  languageName: node
+  linkType: hard
+
 "@storybook/cli@7.0.0-alpha.47, @storybook/cli@workspace:*, @storybook/cli@workspace:lib/cli":
   version: 0.0.0-use.local
   resolution: "@storybook/cli@workspace:lib/cli"
@@ -7267,7 +7274,6 @@ __metadata:
     "@storybook/addons": 7.0.0-alpha.47
     "@storybook/client-api": 7.0.0-alpha.47
     "@storybook/core-client": 7.0.0-alpha.47
-    "@storybook/preview-api": 7.0.0-alpha.47
     "@storybook/preview-web": 7.0.0-alpha.47
     "@storybook/store": 7.0.0-alpha.47
   languageName: unknown
@@ -7978,6 +7984,7 @@ __metadata:
   resolution: "@storybook/types@workspace:lib/types"
   dependencies:
     "@babel/core": ^7.12.10
+    "@storybook/channels": next
     "@storybook/csf": next
     "@types/babel__core": ^7.0.0
     "@types/express": ^4.7.0

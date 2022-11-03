@@ -1,5 +1,5 @@
 import type { Channel } from '@storybook/channels';
-import type { AnyFramework, StoryContextForLoaders, StoryId, StoryName } from './csf';
+import type { AnyFramework, StoryContextForLoaders, StoryId, StoryName, Parameters } from './csf';
 import type { Store_ModuleExport, Store_ModuleExports, Store_Story } from './store';
 
 export interface DocsContextProps<TFramework extends AnyFramework = AnyFramework> {
@@ -55,3 +55,10 @@ export interface DocsContextProps<TFramework extends AnyFramework = AnyFramework
    */
   channel: Channel;
 }
+
+export type DocsRenderFunction<TFramework extends AnyFramework> = (
+  docsContext: DocsContextProps<TFramework>,
+  docsParameters: Parameters,
+  element: HTMLElement,
+  callback: () => void
+) => void;
