@@ -17,7 +17,6 @@ export default {
   '@storybook/addon-storysource': '7.0.0-alpha.47',
   '@storybook/addon-toolbars': '7.0.0-alpha.47',
   '@storybook/addon-viewport': '7.0.0-alpha.47',
-  '@storybook/preview-api': '7.0.0-alpha.47',
   '@storybook/angular': '7.0.0-alpha.47',
   '@storybook/api': '7.0.0-alpha.47',
   '@storybook/blocks': '7.0.0-alpha.47',
