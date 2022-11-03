@@ -39,16 +39,17 @@ const storybookPaths: Record<string, string> = {
   ),
   ...[
     //
-    'channels',
+    'addons',
     'channel-postmessage',
     'channel-websocket',
-    'core-events',
-    'client-logger',
-    'addons',
-    'store',
-    'preview-web',
+    'channels',
     'client-api',
+    'client-logger',
     'core-client',
+    'core-events',
+    'preview-api',
+    'preview-web',
+    'store',
   ].reduce(
     (acc, sbPackage) => ({
       ...acc,
