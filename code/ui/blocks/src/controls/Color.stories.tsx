@@ -1,6 +1,4 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import React from 'react';
-import { useArgs } from '@storybook/addons';
 import { ColorControl } from './Color';
 
 export default {
@@ -9,14 +7,9 @@ export default {
   tags: ['docsPage'],
   argTypes: {
     value: {
-      description: 'Currently picked color',
       control: {
         type: 'color',
       },
-    },
-    startOpen: {
-      description:
-        'Whether the color picker should be open by default. Requires remount to see effect.',
     },
   },
   args: { name: 'color' },
