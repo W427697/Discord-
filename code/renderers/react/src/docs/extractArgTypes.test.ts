@@ -4,7 +4,7 @@ import fs from 'fs';
 import requireFromString from 'require-from-string';
 import { transformFileSync, transformSync } from '@babel/core';
 
-import { inferControls } from '@storybook/store';
+import { inferControls } from '@storybook/preview-api';
 import type { AnyFramework } from '@storybook/types';
 import { normalizeNewlines } from '@storybook/docs-tools';
 

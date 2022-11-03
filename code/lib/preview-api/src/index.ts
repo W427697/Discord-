@@ -71,6 +71,12 @@ export const {
   defaultDecorateStory,
   prepareStory,
   normalizeStory,
+  filterArgTypes,
+  sanitizeStoryContextUpdate,
+  setProjectAnnotations,
+  inferControls,
+  userOrAutoTitleFromSpecifier,
+  sortStoriesV7,
 } = STORE;
 
 /**

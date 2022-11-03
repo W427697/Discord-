@@ -6,7 +6,7 @@ import type {
   DocsContextProps,
 } from '@storybook/types';
 import { DocsContext } from '@storybook/preview-api';
-import type { StoryStore } from '@storybook/store';
+import type { StoryStore } from '@storybook/preview-api';
 import type { Channel } from '@storybook/channels';
 
 export class ExternalDocsContext<TFramework extends AnyFramework> extends DocsContext<TFramework> {
