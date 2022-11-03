@@ -218,6 +218,7 @@ export default {
   ],
   '@storybook/preview-api': [
     'ClientApi',
+    'DocsContext',
     'HooksContext',
     'Preview',
     'PreviewWeb',
@@ -246,6 +247,8 @@ export default {
     'normalizeStory',
     'prepareStory',
     'setGlobalRender',
+    'simulateDOMContentLoaded',
+    'simulatePageLoad',
     'start',
     'useArgs',
     'useCallback',
