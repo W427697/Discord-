@@ -55,7 +55,7 @@ const storybookPaths: Record<string, string> = {
       ...acc,
       [`@storybook/${sbPackage}`]: join(
         dirname(require.resolve(`@storybook/preview/package.json`)),
-        `dist/global/${sbPackage}.mjs`
+        `dist/global/${sbPackage}`
       ),
     }),
     {}

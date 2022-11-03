@@ -71,6 +71,11 @@
       "require": "./dist/global/preview-web.js",
       "types": "./dist/global/preview-web.d.ts"
     },
+    "./dist/global/preview-api": {
+      "import": "./dist/global/preview-api.mjs",
+      "require": "./dist/global/preview-api.js",
+      "types": "./dist/global/preview-api.d.ts"
+    },
     "./dist/global/store": {
       "import": "./dist/global/store.mjs",
       "require": "./dist/global/store.js",
@@ -139,6 +144,7 @@
       "./src/global/core-client.ts",
       "./src/global/core-events.ts",
       "./src/global/preview-web.ts",
+      "./src/global/preview-api.ts",
       "./src/global/store.ts"
     ]
   },
