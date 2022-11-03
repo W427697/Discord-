@@ -12,7 +12,6 @@ import { loadCsf, getStorySortParameter } from '@storybook/csf-tools';
 import { toId } from '@storybook/csf';
 import { logger } from '@storybook/node-logger';
 import { mocked } from 'ts-jest/utils';
-import { storyIndexers } from '@storybook/addon-docs/preset';
 
 import { StoryIndexGenerator } from './StoryIndexGenerator';
 
@@ -52,24 +51,20 @@ const csfIndexer = async (fileName: string, opts: any) => {
   return loadCsf(code, { ...opts, fileName }).parse();
 };
 
-// const storiesMdxIndexer = async (fileName: string, opts: any) => {
-//   const code = (await fs.readFile(fileName, 'utf-8')).toString();
-//   const { compile } = await import('@storybook/mdx2-csf');
-//   try {
-//     console.log(code, compile);
-
-//     code = await compile(code, {});
-//   } catch (err) {
-//     console.log(err);
-//     throw err;
-//   }
-//   return loadCsf(code, { ...opts, fileName }).parse();
-// };
+const storiesMdxIndexer = async (fileName: string, opts: any) => {
+  let code = (await fs.readFile(fileName, 'utf-8')).toString();
+  const { compile } = await import('@storybook/mdx2-csf');
+  code = await compile(code, {});
+  return loadCsf(code, { ...opts, fileName }).parse();
+};
 
 const options = {
   configDir: path.join(__dirname, '__mockdata__'),
   workingDir: path.join(__dirname, '__mockdata__'),
-  storyIndexers: storyIndexers([{ test: /\.stories\.(js|ts)x?$/, indexer: csfIndexer }]),
+  storyIndexers: [
+    { test: /\.stories\.mdx$/, indexer: storiesMdxIndexer },
+    { test: /\.stories\.(js|ts)x?$/, indexer: csfIndexer },
+  ] as CoreCommon_StoryIndexer[],
   storiesV2Compatibility: false,
   storyStoreV7: true,
   docs: { enabled: true, defaultName: 'docs', docsPage: false },
@@ -261,29 +256,28 @@ describe('StoryIndexGenerator', () => {
         expect(await generator.getIndex()).toMatchInlineSnapshot(`
           Object {
             "entries": Object {
-              "a--docs": Object {
-                "id": "a--docs",
-                "importPath": "./src/A.stories.js",
+              "page--docs": Object {
+                "id": "page--docs",
+                "importPath": "./src/nested/Page.stories.mdx",
                 "name": "docs",
                 "standalone": false,
                 "storiesImports": Array [],
                 "tags": Array [
-                  "component-tag",
-                  "docsPage",
+                  "mdx",
                   "docs",
                 ],
-                "title": "A",
+                "title": "Page",
                 "type": "docs",
               },
-              "a--story-one": Object {
-                "id": "a--story-one",
-                "importPath": "./src/A.stories.js",
-                "name": "Story One",
+              "page--story-one": Object {
+                "id": "page--story-one",
+                "importPath": "./src/nested/Page.stories.mdx",
+                "name": "StoryOne",
                 "tags": Array [
-                  "story-tag",
+                  "mdx",
                   "story",
                 ],
-                "title": "A",
+                "title": "Page",
                 "type": "story",
               },
             },
@@ -299,7 +293,6 @@ describe('StoryIndexGenerator', () => {
 
         const generator = new StoryIndexGenerator([specifier], {
           ...options,
-          storyIndexers: [templateIndexer],
           docs: { enabled: false },
         });
         await generator.initialize();

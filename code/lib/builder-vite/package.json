@@ -22,7 +22,7 @@
     "@storybook/client-api": "7.0.0-alpha.47",
     "@storybook/client-logger": "7.0.0-alpha.47",
     "@storybook/core-common": "7.0.0-alpha.47",
-    "@storybook/mdx2-csf": "next",
+    "@storybook/mdx2-csf": "0.0.4-canary.23.5394b4c.0",
     "@storybook/node-logger": "7.0.0-alpha.47",
     "@storybook/preview-web": "7.0.0-alpha.47",
     "@storybook/source-loader": "7.0.0-alpha.47",

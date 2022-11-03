@@ -163,7 +163,6 @@ export async function webpack(
 export const storyIndexers = (indexers: CoreCommon_StoryIndexer[] | null) => {
   const mdxIndexer = async (fileName: string, opts: CoreCommon_IndexerOptions) => {
     let code = (await fs.readFile(fileName, 'utf-8')).toString();
-    // @ts-expect-error (Converted from ts-ignore)
     const { compile } = await import('@storybook/mdx2-csf');
     code = await compile(code, {});
     return loadCsf(code, { ...opts, fileName }).parse();
