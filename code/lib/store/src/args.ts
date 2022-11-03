@@ -152,7 +152,7 @@ export const deepDiff = (value: any, update: any): any => {
 };
 
 export const NO_TARGET_NAME = '';
-export function groupArgsByTarget<TArgs = Args>({
+export function groupArgsByTarget<TArgs extends Args = Args>({
   args,
   argTypes,
 }: StoryContext<AnyFramework, TArgs>) {
@@ -166,6 +166,8 @@ export function groupArgsByTarget<TArgs = Args>({
   return groupedArgs;
 }
 
-export function noTargetArgs<TArgs = Args>(context: StoryContext<AnyFramework, TArgs>) {
+export function noTargetArgs<TArgs extends Args = Args>(
+  context: StoryContext<AnyFramework, TArgs>
+) {
   return groupArgsByTarget(context)[NO_TARGET_NAME];
 }
