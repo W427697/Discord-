@@ -11,6 +11,12 @@ import {
   useTheme,
 } from '@storybook/theming';
 import { Symbols } from '@storybook/components';
+import type { PreviewWeb } from '@storybook/preview-web';
+import { DocsContext } from '@storybook/preview-web';
+import type { ReactFramework } from '@storybook/react';
+import type { Channel } from '@storybook/channels';
+
+import { DocsContainer } from '../blocks/src/blocks/DocsContainer';
 
 const { document } = global;
 
@@ -86,7 +92,49 @@ const ThemedSetRoot = () => {
   return null;
 };
 
+// eslint-disable-next-line no-underscore-dangle
+const preview = (window as any).__STORYBOOK_PREVIEW__ as PreviewWeb<ReactFramework>;
+const channel = (window as any).__STORYBOOK_ADDONS_CHANNEL__ as Channel;
+export const loaders = [
+  async () => ({ globalValue: 1 }),
+
+  async ({ parameters: { relativeCsfPaths } }) => {
+    if (!relativeCsfPaths) return {};
+
+    const csfFiles = await Promise.all(
+      (relativeCsfPaths as string[]).map(async (relativePath) => {
+        const webpackPath = `./ui/blocks/src/${relativePath.replace(/^..\//, '')}.tsx`;
+        const entry = preview.storyStore.storyIndex!.importPathToEntry(webpackPath);
+
+        if (!entry) {
+          throw new Error(`Couldn't find story file at ${webpackPath} (passed as ${relativePath})`);
+        }
+
+        return preview.storyStore.loadCSFFileByStoryId(entry.id);
+      })
+    );
+
+    return {
+      docsContext: new DocsContext(
+        channel,
+        preview.storyStore,
+        preview.renderStoryToElement.bind(preview),
+        csfFiles,
+        false
+      ),
+    };
+  },
+];
+
 export const decorators = [
+  (Story, { loaded: { docsContext } }) =>
+    docsContext ? (
+      <DocsContainer context={docsContext}>
+        <Story />
+      </DocsContainer>
+    ) : (
+      <Story />
+    ),
   (StoryFn, { globals, parameters, playFunction }) => {
     const defaultTheme = isChromatic() && !playFunction ? 'stacked' : 'light';
     const theme = globals.theme || parameters.theme || defaultTheme;
@@ -241,8 +289,6 @@ export const globalTypes = {
     },
   },
 };
-
-export const loaders = [async () => ({ globalValue: 1 })];
 
 export const argTypes = { color: { control: 'color' } };
 export const args = { color: 'red' };
