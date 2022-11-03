@@ -1,0 +1,60 @@
+{
+  "name": "@storybook/preview-api",
+  "version": "7.0.0-alpha.47",
+  "description": "",
+  "keywords": [
+    "storybook"
+  ],
+  "homepage": "https://github.com/storybookjs/storybook/tree/main/code/lib/preview-api",
+  "bugs": {
+    "url": "https://github.com/storybookjs/storybook/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/storybookjs/storybook.git",
+    "directory": "code/lib/preview-api"
+  },
+  "funding": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/storybook"
+  },
+  "license": "MIT",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./package.json": "./package.json"
+  },
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist/**/*",
+    "README.md",
+    "*.js",
+    "*.d.ts"
+  ],
+  "scripts": {
+    "check": "../../../scripts/node_modules/.bin/tsc --noEmit",
+    "prep": "../../../scripts/prepare/bundle.ts"
+  },
+  "dependencies": {
+    "@storybook/addons": "7.0.0-alpha.47",
+    "@storybook/client-api": "7.0.0-alpha.47",
+    "@storybook/core-client": "7.0.0-alpha.47",
+    "@storybook/preview-web": "7.0.0-alpha.47",
+    "@storybook/store": "7.0.0-alpha.47"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "bundler": {
+    "entries": [
+      "./src/index.ts"
+    ]
+  },
+  "gitHead": "3ef14366115c56c1d45c0359ff681cc47ed50532"
+}

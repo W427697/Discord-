@@ -7234,6 +7234,18 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@storybook/preview-api@workspace:lib/preview-api":
+  version: 0.0.0-use.local
+  resolution: "@storybook/preview-api@workspace:lib/preview-api"
+  dependencies:
+    "@storybook/addons": 7.0.0-alpha.47
+    "@storybook/client-api": 7.0.0-alpha.47
+    "@storybook/core-client": 7.0.0-alpha.47
+    "@storybook/preview-web": 7.0.0-alpha.47
+    "@storybook/store": 7.0.0-alpha.47
+  languageName: unknown
+  linkType: soft
+
 "@storybook/preview-web@7.0.0-alpha.47, @storybook/preview-web@workspace:*, @storybook/preview-web@workspace:lib/preview-web":
   version: 0.0.0-use.local
   resolution: "@storybook/preview-web@workspace:lib/preview-web"
