@@ -29,7 +29,7 @@ export async function generateIframeScriptCode(options: ExtendedOptions) {
     // is loaded. That way our client-apis can assume the existence of the API+store
     import { configure } from '${rendererName}';
 
-    import * as clientApi from "@storybook/client-api";
+    import * as clientApi from "@storybook/preview-api";
     import { logger } from '@storybook/client-logger';
     ${absoluteFilesToImport(configEntries, 'config')}
     import * as preview from '${virtualPreviewFile}';
@@ -45,7 +45,7 @@ export async function generateIframeScriptCode(options: ExtendedOptions) {
       addArgTypesEnhancer,
       addArgsEnhancer,
       setGlobalRender,
-    } = clientApi;
+    } = previewApi;
 
     const configs = [${importArray('config', configEntries.length)
       .concat('preview.default')

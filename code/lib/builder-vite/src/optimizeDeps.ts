@@ -17,6 +17,7 @@ const INCLUDE_CANDIDATES = [
   '@storybook/channel-postmessage',
   '@storybook/channel-websocket',
   '@storybook/client-api',
+  '@storybook/preview-api',
   '@storybook/client-logger',
   '@storybook/core/client',
   '@storybook/types',

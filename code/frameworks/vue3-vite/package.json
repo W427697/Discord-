@@ -57,6 +57,7 @@
     "@storybook/channel-websocket": "7.0.0-alpha.47",
     "@storybook/client-api": "7.0.0-alpha.47",
     "@storybook/core-server": "7.0.0-alpha.47",
+    "@storybook/preview-api": "7.0.0-alpha.47",
     "@storybook/preview-web": "7.0.0-alpha.47",
     "@storybook/vue3": "7.0.0-alpha.47",
     "@vitejs/plugin-vue": "^3.0.0",

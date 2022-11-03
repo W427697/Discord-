@@ -58,6 +58,7 @@
     "@storybook/channel-websocket": "7.0.0-alpha.47",
     "@storybook/client-api": "7.0.0-alpha.47",
     "@storybook/node-logger": "7.0.0-alpha.47",
+    "@storybook/preview-api": "7.0.0-alpha.47",
     "@storybook/preview-web": "7.0.0-alpha.47",
     "@storybook/svelte": "7.0.0-alpha.47",
     "@sveltejs/vite-plugin-svelte": "^1.0.0",

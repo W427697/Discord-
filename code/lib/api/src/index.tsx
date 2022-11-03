@@ -125,7 +125,7 @@ export type ManagerProviderProps = RouterData &
     children: ReactNode | ((props: Combo) => ReactNode);
   };
 
-// This is duplicated from @storybook/client-api for the reasons mentioned in lib-addons/types.js
+// This is duplicated from @storybook/preview-api for the reasons mentioned in lib-addons/types.js
 export const combineParameters = (...parameterSets: Parameters[]) =>
   mergeWith({}, ...parameterSets, (objValue: any, srcValue: any) => {
     // Treat arrays as scalars:
