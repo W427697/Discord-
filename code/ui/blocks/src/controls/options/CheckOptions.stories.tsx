@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useArgs } from '@storybook/addons';
 import type { Meta, StoryObj } from '@storybook/react';
 import { OptionsControl } from './Options';
