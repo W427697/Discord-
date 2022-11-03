@@ -343,7 +343,7 @@ export const addStories: Task['run'] = async (
 
   // Add stories for lib/store (and addons below). NOTE: these stories will be in the
   // template-stories folder and *not* processed by the framework build config (instead by esbuild-loader)
-  await linkPackageStories(await workspacePath('core package', '@storybook/preview-api'), {
+  await linkPackageStories(await workspacePath('core package', '@storybook/store'), {
     mainConfig,
     cwd,
   });
