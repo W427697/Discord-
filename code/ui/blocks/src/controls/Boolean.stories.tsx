@@ -6,24 +6,8 @@ import { BooleanControl } from './Boolean';
 const meta = {
   component: BooleanControl,
   tags: ['docsPage'],
-  parameters: { controls: { include: ['value'] } },
-  render: (args) => {
-    const [, updateArgs] = useArgs();
-    const { value, onChange } = args;
-    return (
-      <>
-        <BooleanControl
-          {...args}
-          name="boolean"
-          onChange={(newValue) => {
-            updateArgs({ value: newValue });
-            onChange?.(newValue);
-          }}
-        />
-        <pre>{JSON.stringify(value) || 'undefined'}</pre>
-      </>
-    );
-  },
+  parameters: { withRawArg: 'value', controls: { include: ['value'] } },
+  args: { name: 'boolean' },
 } as Meta<typeof BooleanControl>;
 
 export default meta;

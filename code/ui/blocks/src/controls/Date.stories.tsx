@@ -6,31 +6,14 @@ import { DateControl } from './Date';
 export default {
   component: DateControl,
   tags: ['docsPage'],
-  parameters: { controls: { include: ['value'] } },
+  parameters: { withRawArg: 'value', controls: { include: ['value'] } },
   argTypes: {
     value: {
       description: 'The date',
       control: { type: 'date' },
     },
   },
-  render: (args) => {
-    const [, updateArgs] = useArgs();
-    const { value, onChange } = args;
-
-    return (
-      <>
-        <DateControl
-          {...args}
-          name="date"
-          onChange={(newValue) => {
-            updateArgs({ value: newValue });
-            onChange?.(newValue);
-          }}
-        />
-        <pre>{JSON.stringify(value) || 'undefined'}</pre>
-      </>
-    );
-  },
+  args: { name: 'date' },
 } as Meta<typeof DateControl>;
 
 export const Basic: StoryObj<typeof DateControl> = {

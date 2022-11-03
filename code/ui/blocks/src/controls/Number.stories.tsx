@@ -6,25 +6,8 @@ import { NumberControl } from './Number';
 export default {
   component: NumberControl,
   tags: ['docsPage'],
-  parameters: { controls: { include: ['value', 'min', 'max', 'step'] } },
-  render: (args) => {
-    const [, updateArgs] = useArgs();
-    const { value, onChange } = args;
-
-    return (
-      <>
-        <NumberControl
-          {...args}
-          name="number"
-          onChange={(newValue) => {
-            updateArgs({ value: newValue });
-            onChange?.(newValue);
-          }}
-        />
-        <pre>{JSON.stringify(value) || 'undefined'}</pre>
-      </>
-    );
-  },
+  parameters: { withRawArg: 'value', controls: { include: ['value', 'min', 'max', 'step'] } },
+  args: { name: 'number' },
 } as Meta<typeof NumberControl>;
 
 export const Undefined: StoryObj<typeof NumberControl> = {

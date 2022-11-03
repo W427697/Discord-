@@ -1,5 +1,4 @@
 import React from 'react';
-import { useArgs } from '@storybook/addons';
 import type { Meta, StoryObj } from '@storybook/react';
 import { OptionsControl } from './Options';
 
@@ -27,8 +26,12 @@ const meta = {
   title: 'Controls/Options/Select',
   component: OptionsControl,
   tags: ['docsPage'],
-  parameters: { controls: { include: ['argType', 'type', 'value', 'labels'] } },
+  parameters: {
+    withRawArg: 'value',
+    controls: { include: ['argType', 'type', 'value', 'labels'] },
+  },
   args: {
+    name: 'select',
     type: 'select',
     argType: { options: arrayOptions },
   },
@@ -37,23 +40,6 @@ const meta = {
       control: { type: 'select' },
       options: arrayOptions,
     },
-  },
-  render: (args) => {
-    const [, updateArgs] = useArgs();
-    const { value, onChange } = args;
-    return (
-      <>
-        <OptionsControl
-          {...args}
-          name="options"
-          onChange={(newValue) => {
-            updateArgs({ value: newValue });
-            onChange?.(newValue);
-          }}
-        />
-        <pre>{JSON.stringify(value) || 'undefined'}</pre>
-      </>
-    );
   },
 } as Meta<typeof OptionsControl>;
 

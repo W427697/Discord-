@@ -6,31 +6,14 @@ import { FilesControl } from './Files';
 export default {
   component: FilesControl,
   tags: ['docsPage'],
-  parameters: { controls: { include: ['value', 'accept'] } },
+  parameters: { withRawArg: 'value', controls: { include: ['value', 'accept'] } },
   argTypes: {
     value: {
       description: 'Selected file',
       control: { type: 'file' },
     },
   },
-  render: (args) => {
-    const [, updateArgs] = useArgs();
-    const { value, onChange } = args;
-
-    return (
-      <>
-        <FilesControl
-          {...args}
-          name="files"
-          onChange={(newValue) => {
-            updateArgs({ value: newValue });
-            onChange?.(newValue);
-          }}
-        />
-        <pre>{JSON.stringify(value) || 'undefined'}</pre>
-      </>
-    );
-  },
+  args: { name: 'files' },
 } as Meta<typeof FilesControl>;
 
 export const Undefined: StoryObj<typeof FilesControl> = {

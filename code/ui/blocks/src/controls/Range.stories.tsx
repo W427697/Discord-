@@ -6,25 +6,8 @@ import { RangeControl } from './Range';
 export default {
   component: RangeControl,
   tags: ['docsPage'],
-  parameters: { controls: { include: ['value', 'min', 'max', 'step'] } },
-  render: (args) => {
-    const [, updateArgs] = useArgs();
-    const { value, onChange } = args;
-
-    return (
-      <>
-        <RangeControl
-          {...args}
-          name="range"
-          onChange={(newValue) => {
-            updateArgs({ value: newValue });
-            onChange?.(newValue);
-          }}
-        />
-        <pre>{JSON.stringify(value) || 'undefined'}</pre>
-      </>
-    );
-  },
+  parameters: { withRawArg: 'value', controls: { include: ['value', 'min', 'max', 'step'] } },
+  args: { name: 'range' },
 } as Meta<typeof RangeControl>;
 
 export const Undefined: StoryObj<typeof RangeControl> = {

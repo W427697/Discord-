@@ -6,25 +6,8 @@ import { ObjectControl } from './Object';
 export default {
   component: ObjectControl,
   tags: ['docsPage'],
-  parameters: { controls: { include: ['value'] } },
-  render: (args) => {
-    const [, updateArgs] = useArgs();
-    const { value, onChange } = args;
-
-    return (
-      <>
-        <ObjectControl
-          {...args}
-          name="theName"
-          onChange={(newValue) => {
-            updateArgs({ value: newValue });
-            onChange?.(newValue);
-          }}
-        />
-        <pre>{JSON.stringify(value) || 'undefined'}</pre>
-      </>
-    );
-  },
+  parameters: { withRawArg: 'value', controls: { include: ['value'] } },
+  args: { name: 'object' },
 } as Meta<typeof ObjectControl>;
 
 export const Object: StoryObj<typeof ObjectControl> = {

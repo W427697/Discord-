@@ -5,7 +5,7 @@ import { ColorControl } from './Color';
 
 export default {
   component: ColorControl,
-  parameters: { controls: { include: ['value', 'startOpen'] } },
+  parameters: { withRawArg: 'value', controls: { include: ['value', 'startOpen'] } },
   tags: ['docsPage'],
   argTypes: {
     value: {
@@ -17,27 +17,9 @@ export default {
     startOpen: {
       description:
         'Whether the color picker should be open by default. Requires remount to see effect.',
-      defaultValue: false,
     },
   },
-  render: (args) => {
-    const [, updateArgs] = useArgs();
-    const { value, onChange } = args;
-
-    return (
-      <>
-        <ColorControl
-          {...args}
-          onChange={(newValue) => {
-            updateArgs({ value: newValue });
-            onChange?.(newValue);
-          }}
-          name="color"
-        />
-        <pre>{JSON.stringify(value) || 'undefined'}</pre>
-      </>
-    );
-  },
+  args: { name: 'color' },
 } as Meta<typeof ColorControl>;
 
 export const Basic: StoryObj<typeof ColorControl> = {

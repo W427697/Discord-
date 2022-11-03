@@ -19,8 +19,12 @@ const meta = {
   title: 'Controls/Options/Radio',
   component: OptionsControl,
   tags: ['docsPage'],
-  parameters: { controls: { include: ['argType', 'type', 'value', 'labels'] } },
+  parameters: {
+    withRawArg: 'value',
+    controls: { include: ['argType', 'type', 'value', 'labels'] },
+  },
   args: {
+    name: 'radio',
     type: 'radio',
     argType: { options: arrayOptions },
   },
@@ -29,23 +33,6 @@ const meta = {
       control: { type: 'radio' },
       options: arrayOptions,
     },
-  },
-  render: (args) => {
-    const [, updateArgs] = useArgs();
-    const { value, onChange } = args;
-    return (
-      <>
-        <OptionsControl
-          {...args}
-          name="options"
-          onChange={(newValue) => {
-            updateArgs({ value: newValue });
-            onChange?.(newValue);
-          }}
-        />
-        <pre>{JSON.stringify(value) || 'undefined'}</pre>
-      </>
-    );
   },
 } as Meta<typeof OptionsControl>;
 

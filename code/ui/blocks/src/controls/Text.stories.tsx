@@ -6,25 +6,8 @@ import { TextControl } from './Text';
 export default {
   component: TextControl,
   tags: ['docsPage'],
-  parameters: { controls: { include: ['value', 'maxLength'] } },
-  render: (args) => {
-    const [, updateArgs] = useArgs();
-    const { value, onChange } = args;
-
-    return (
-      <>
-        <TextControl
-          {...args}
-          name="text"
-          onChange={(newValue) => {
-            updateArgs({ value: newValue });
-            onChange?.(newValue);
-          }}
-        />
-        <pre>{JSON.stringify(value) || 'undefined'}</pre>
-      </>
-    );
-  },
+  parameters: { withRawArg: 'value', controls: { include: ['value', 'maxLength'] } },
+  args: { name: 'text' },
 } as Meta<typeof TextControl>;
 
 export const Basic: StoryObj<typeof TextControl> = {
