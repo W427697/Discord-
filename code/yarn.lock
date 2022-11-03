@@ -6928,7 +6928,7 @@ __metadata:
   resolution: "@storybook/mdx2-csf@npm:0.0.4-canary.23.5394b4c.0"
   dependencies:
     loader-utils: ^2.0.0
-  checksum: 107ae225d895d6f44bc2108d60bbda7deb2070961d00d3f71d20d40cc7f48311e53386fbb6a88216f7239e29c1d4ac6d8a10a9d4b7da070716a26ee53faf975f
+  checksum: cf1d7f416d4a4cc223e02aff6fff50438fbc24557b38f7d940797010b2eedc3bdc35c9bd70be0e14d53587f59bf2a566b199eb599ed611b1fb1cd37650f4e9a2
   languageName: node
   linkType: hard
 
