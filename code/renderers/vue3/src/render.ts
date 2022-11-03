@@ -20,31 +20,20 @@ export const setup = (fn: (app: any) => void) => {
   setupFunction = fn;
 };
 
-const componentsByDomElementId = new Map<string, ReturnType<typeof createApp>>();
+const map = new Map<Element, ReturnType<typeof createApp>>();
 
 export function renderToDOM(
-  {
-    title,
-    name,
-    storyFn,
-    showMain,
-    showError,
-    showException,
-    storyContext,
-  }: Store_RenderContext<VueFramework>,
+  { title, name, storyFn, showMain, showError, showException }: Store_RenderContext<VueFramework>,
   domElement: Element
 ) {
-  // in docs mode we're rendering multiple stories to the DOM, so we need to key by the story id
-  const domElementKey = storyContext.viewMode === 'docs' ? storyContext.id : 'storybook-root';
-
   // TODO: explain cyclical nature of these app => story => mount
   let element: StoryFnVueReturnType;
   const storybookApp = createApp({
     unmounted() {
-      componentsByDomElementId.delete(domElementKey);
+      map.delete(domElement);
     },
     render() {
-      componentsByDomElementId.set(domElementKey, storybookApp);
+      map.set(domElement, storybookApp);
       setupFunction(storybookApp);
       return h(element);
     },
@@ -65,7 +54,7 @@ export function renderToDOM(
 
   showMain();
 
-  componentsByDomElementId.get(domElementKey)?.unmount();
+  map.get(domElement)?.unmount();
 
   storybookApp.mount(domElement);
 }
