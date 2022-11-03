@@ -281,7 +281,6 @@
     "esbuild-loader": "^2.19.0",
     "esbuild-plugin-alias": "^0.2.1",
     "eslint": "^8.26.0",
-    "eslint-import-resolver-typescript": "3.1.0",
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-react": "^7.31.10",
     "eslint-plugin-storybook": "^0.6.6",
