@@ -1,8 +1,15 @@
 import { isAbsolute, resolve } from 'path';
 import { getRendererName } from '@storybook/core-common';
 import { virtualPreviewFile, virtualStoriesFile } from './virtual-file-names';
-import { transformAbsPath } from './utils/transform-abs-path';
 import type { ExtendedOptions } from './types';
+
+function resolveRelativePath(path: string) {
+  // resolve relative paths into absolute paths, but don't resolve "bare" imports
+  if (path?.startsWith('./') || path?.startsWith('../')) {
+    return resolve(path);
+  }
+  return path;
+}
 
 export async function generateIframeScriptCode(options: ExtendedOptions) {
   const { presets } = options;
@@ -15,7 +22,7 @@ export async function generateIframeScriptCode(options: ExtendedOptions) {
 
   const absoluteFilesToImport = (files: string[], name: string) =>
     files
-      .map((el, i) => `import ${name ? `* as ${name}_${i} from ` : ''}'${transformAbsPath(el)}'`)
+      .map((el, i) => `import ${name ? `* as ${name}_${i} from ` : ''}'${resolveRelativePath(el)}'`)
       .join('\n');
 
   const importArray = (name: string, length: number) =>
