@@ -5,6 +5,8 @@ import Button from './button.component';
 const meta: Meta<Button> = {
   title: 'Example/Button',
   component: Button,
+  // This component will have an automatically generated docsPage entry: https://storybook.js.org/docs/angular/writing-docs/docs-page
+  tags: ['docsPage'],
   // More on component templates: https://storybook.js.org/docs/angular/writing-stories/introduction#using-args
   render: (args: Button) => ({
     props: {

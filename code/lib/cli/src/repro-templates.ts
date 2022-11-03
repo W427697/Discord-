@@ -282,8 +282,6 @@ const vueCliTemplates = {
     skipTasks: [
       // Re-enable once https://github.com/storybookjs/storybook/issues/19351 is fixed.
       'smoke-test',
-      // Re-enable once https://github.com/storybookjs/storybook/issues/19453 is fixed.
-      'test-runner',
     ],
     expected: {
       framework: '@storybook/vue3-webpack5',
@@ -299,8 +297,6 @@ const vueCliTemplates = {
     skipTasks: [
       // Re-enable once https://github.com/storybookjs/storybook/issues/19351 is fixed.
       'smoke-test',
-      // Re-enable once https://github.com/storybookjs/storybook/issues/19453 is fixed.
-      'test-runner',
     ],
     expected: {
       framework: '@storybook/vue-webpack5',
