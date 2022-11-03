@@ -3,8 +3,7 @@ import type { Context } from 'react';
 import { createContext } from 'react';
 import { window as globalWindow } from 'global';
 
-import type { DocsContextProps } from '@storybook/preview-web';
-import type { AnyFramework } from '@storybook/types';
+import type { DocsContextProps, AnyFramework } from '@storybook/types';
 
 export type { DocsContextProps };
 

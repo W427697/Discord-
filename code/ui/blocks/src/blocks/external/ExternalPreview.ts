@@ -1,4 +1,4 @@
-import { Preview } from '@storybook/preview-web';
+import { Preview } from '@storybook/preview-api';
 import type {
   AnyFramework,
   ComponentTitle,

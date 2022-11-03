@@ -35,6 +35,16 @@ export const { makeDecorator } = ADDONS;
 export const { addons } = ADDONS;
 
 /**
+ * DOCS API
+ */
+export const { DocsContext } = PREVIEW_WEB;
+
+/**
+ * SIMULATION API
+ */
+export const { simulatePageLoad, simulateDOMContentLoaded } = PREVIEW_WEB;
+
+/**
  * STORIES API
  */
 export const {
