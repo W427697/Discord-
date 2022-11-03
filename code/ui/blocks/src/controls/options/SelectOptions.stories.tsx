@@ -14,6 +14,14 @@ const labels = {
   Cat: 'Catwoman',
   Rat: 'Ratwoman',
 };
+const argTypeMultiSelect = {
+  argTypes: {
+    value: {
+      control: { type: 'multi-select' },
+      options: arrayOptions,
+    },
+  },
+};
 
 const meta = {
   title: 'Controls/Options/Select',
@@ -23,6 +31,12 @@ const meta = {
   args: {
     type: 'select',
     argType: { options: arrayOptions },
+  },
+  argTypes: {
+    value: {
+      control: { type: 'select' },
+      options: arrayOptions,
+    },
   },
   render: (args) => {
     const [, updateArgs] = useArgs();
@@ -56,6 +70,7 @@ export const ArrayMulti: StoryObj<typeof OptionsControl> = {
     type: 'multi-select',
     value: [arrayOptions[1], arrayOptions[2]],
   },
+  ...argTypeMultiSelect,
 };
 
 export const ArrayUndefined: StoryObj<typeof OptionsControl> = {
@@ -69,6 +84,7 @@ export const ArrayMultiUndefined: StoryObj<typeof OptionsControl> = {
     type: 'multi-select',
     value: undefined,
   },
+  ...argTypeMultiSelect,
 };
 
 export const ArrayLabels: StoryObj<typeof OptionsControl> = {
@@ -84,6 +100,7 @@ export const ArrayMultiLabels: StoryObj<typeof OptionsControl> = {
     value: [arrayOptions[1], arrayOptions[2]],
     labels,
   },
+  ...argTypeMultiSelect,
 };
 
 export const Object: StoryObj<typeof OptionsControl> = {
@@ -92,6 +109,7 @@ export const Object: StoryObj<typeof OptionsControl> = {
     value: objectOptions.B,
     argType: { options: objectOptions },
   },
+  argTypes: { value: { control: { type: 'object' } } },
 };
 
 export const ObjectMulti: StoryObj<typeof OptionsControl> = {
@@ -101,6 +119,7 @@ export const ObjectMulti: StoryObj<typeof OptionsControl> = {
     value: [objectOptions.A, objectOptions.B],
     argType: { options: objectOptions },
   },
+  argTypes: { value: { control: { type: 'object' } } },
 };
 
 export const ObjectUndefined: StoryObj<typeof OptionsControl> = {
@@ -109,6 +128,7 @@ export const ObjectUndefined: StoryObj<typeof OptionsControl> = {
     value: undefined,
     argType: { options: objectOptions },
   },
+  argTypes: { value: { control: { type: 'object' } } },
 };
 
 export const ObjectMultiUndefined: StoryObj<typeof OptionsControl> = {
@@ -118,4 +138,5 @@ export const ObjectMultiUndefined: StoryObj<typeof OptionsControl> = {
     value: undefined,
     argType: { options: objectOptions },
   },
+  argTypes: { value: { control: { type: 'object' } } },
 };

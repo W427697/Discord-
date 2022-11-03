@@ -19,9 +19,16 @@ const meta = {
   title: 'Controls/Options/Check',
   component: OptionsControl,
   tags: ['docsPage'],
+  parameters: { controls: { include: ['argType', 'type', 'value', 'labels'] } },
   args: {
     argType: { options: arrayOptions },
     type: 'check',
+  },
+  argTypes: {
+    value: {
+      control: { type: 'check' },
+      options: arrayOptions,
+    },
   },
   render: (args) => {
     const [, updateArgs] = useArgs();
@@ -84,6 +91,7 @@ export const Object: StoryObj<typeof OptionsControl> = {
     value: [objectOptions.B],
     argType: { options: objectOptions },
   },
+  argTypes: { value: { control: { type: 'object' } } },
 };
 
 export const ObjectInline: StoryObj<typeof OptionsControl> = {
@@ -93,6 +101,7 @@ export const ObjectInline: StoryObj<typeof OptionsControl> = {
     value: [objectOptions.A, objectOptions.C],
     argType: { options: objectOptions },
   },
+  argTypes: { value: { control: { type: 'object' } } },
 };
 
 export const ObjectUndefined: StoryObj<typeof OptionsControl> = {
@@ -101,4 +110,5 @@ export const ObjectUndefined: StoryObj<typeof OptionsControl> = {
     value: undefined,
     argType: { options: objectOptions },
   },
+  argTypes: { value: { control: { type: 'object' } } },
 };

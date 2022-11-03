@@ -24,6 +24,12 @@ const meta = {
     type: 'radio',
     argType: { options: arrayOptions },
   },
+  argTypes: {
+    value: {
+      control: { type: 'radio' },
+      options: arrayOptions,
+    },
+  },
   render: (args) => {
     const [, updateArgs] = useArgs();
     const { value, onChange } = args;
@@ -85,6 +91,7 @@ export const Object: StoryObj<typeof OptionsControl> = {
     value: objectOptions.B,
     argType: { options: objectOptions },
   },
+  argTypes: { value: { control: { type: 'object' } } },
 };
 
 export const ObjectInline: StoryObj<typeof OptionsControl> = {
@@ -94,6 +101,7 @@ export const ObjectInline: StoryObj<typeof OptionsControl> = {
     value: objectOptions.A,
     argType: { options: objectOptions },
   },
+  argTypes: { value: { control: { type: 'object' } } },
 };
 
 export const ObjectUndefined: StoryObj<typeof OptionsControl> = {
@@ -102,4 +110,5 @@ export const ObjectUndefined: StoryObj<typeof OptionsControl> = {
     value: undefined,
     argType: { options: objectOptions },
   },
+  argTypes: { value: { control: { type: 'object' } } },
 };
