@@ -5,7 +5,6 @@ import { DateControl } from './Date';
 
 export default {
   component: DateControl,
-  // not using component here because we want to define argTypes ourselves
   tags: ['docsPage'],
   parameters: { controls: { include: ['value'] } },
   argTypes: {
