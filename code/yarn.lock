@@ -5201,7 +5201,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@pkgr/utils@npm:^2.3.1":
+"@pkgr/utils@npm:^2.3.0":
   version: 2.3.1
   resolution: "@pkgr/utils@npm:2.3.1"
   dependencies:
@@ -7549,7 +7549,7 @@ __metadata:
     esbuild-loader: ^2.19.0
     esbuild-plugin-alias: ^0.2.1
     eslint: ^8.26.0
-    eslint-import-resolver-typescript: ^3.5.2
+    eslint-import-resolver-typescript: 3.1.0
     eslint-plugin-import: ^2.26.0
     eslint-plugin-react: ^7.31.10
     eslint-plugin-storybook: ^0.6.6
@@ -15583,7 +15583,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"enhanced-resolve@npm:^5.0.0, enhanced-resolve@npm:^5.10.0, enhanced-resolve@npm:^5.7.0":
+"enhanced-resolve@npm:^5.0.0, enhanced-resolve@npm:^5.10.0, enhanced-resolve@npm:^5.7.0, enhanced-resolve@npm:^5.9.3":
   version: 5.10.0
   resolution: "enhanced-resolve@npm:5.10.0"
   dependencies:
@@ -16411,21 +16411,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-import-resolver-typescript@npm:^3.5.2":
-  version: 3.5.2
-  resolution: "eslint-import-resolver-typescript@npm:3.5.2"
+"eslint-import-resolver-typescript@npm:3.1.0":
+  version: 3.1.0
+  resolution: "eslint-import-resolver-typescript@npm:3.1.0"
   dependencies:
     debug: ^4.3.4
-    enhanced-resolve: ^5.10.0
-    get-tsconfig: ^4.2.0
+    enhanced-resolve: ^5.9.3
+    get-tsconfig: ^4.0.6
     globby: ^13.1.2
-    is-core-module: ^2.10.0
+    is-core-module: ^2.9.0
     is-glob: ^4.0.3
-    synckit: ^0.8.4
+    synckit: ^0.7.1
   peerDependencies:
     eslint: "*"
     eslint-plugin-import: "*"
-  checksum: 7947cccc80d439132cb75ec7a74bf710fef72b3b0d6d804246265836f143e86520608a5a3c3313aec0e21a8b0ca0eb99101236895ea89b71559d0cf9c9ac377a
+  checksum: dbd541e19624af4705aecf2f5437199b91635d38cd670dd4452ff5222cdf21ed6d2baeabbe34a62544c9f078c1b935b159fd86be574f436e4c5032f49bebce15
   languageName: node
   linkType: hard
 
@@ -18523,7 +18523,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"get-tsconfig@npm:^4.2.0":
+"get-tsconfig@npm:^4.0.6":
   version: 4.2.0
   resolution: "get-tsconfig@npm:4.2.0"
   checksum: a60b2665d57894f844116cd0947722d107f2f639ef62d01a488da70f3d91707eeb3843a5c2eb49e21b6a46a68853d42450a63c251cb1659576454febb03bd307
@@ -20466,7 +20466,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"is-core-module@npm:^2.10.0, is-core-module@npm:^2.5.0, is-core-module@npm:^2.8.1, is-core-module@npm:^2.9.0":
+"is-core-module@npm:^2.5.0, is-core-module@npm:^2.8.1, is-core-module@npm:^2.9.0":
   version: 2.11.0
   resolution: "is-core-module@npm:2.11.0"
   dependencies:
@@ -33378,13 +33378,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"synckit@npm:^0.8.4":
-  version: 0.8.4
-  resolution: "synckit@npm:0.8.4"
+"synckit@npm:^0.7.1":
+  version: 0.7.3
+  resolution: "synckit@npm:0.7.3"
   dependencies:
-    "@pkgr/utils": ^2.3.1
+    "@pkgr/utils": ^2.3.0
     tslib: ^2.4.0
-  checksum: cd2444b7879b010b220721874527dbf3231a05cd42a47b24260db9c9427e9c3d3e481bd41175112434267dec3402166cfde417c4ae254937b5cc3b0cd994b992
+  checksum: 572daa56f743c6b433dcee2ad12eba1b0329ddb98f6a3fd47ce85269a5315cdaa095ee62e3b02d77094897cbffc92832993790e709501c23dab7ac867b63e315
   languageName: node
   linkType: hard
 
