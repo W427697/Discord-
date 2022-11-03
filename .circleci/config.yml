@@ -473,7 +473,7 @@ jobs:
                 echo "Waiting for other required jobs to finish..."
               elif [ "$any_required_step_failed" == "true" ]; then
                 echo "One of the required steps failed, canceling workflow..."
-                curl -s -H 'Accept: application/json' -X POST https://circleci.com/api/v2/workflow/${CIRCLE_WORKFLOW_ID}/cancel?circle-token=${CIRCLE_TOKEN}
+                curl -s -H 'Accept: application/json' -X POST https://circleci.com/api/v2/workflow/${CIRCLE_WORKFLOW_ID}/cancel?circle-token=${WORKFLOW_CANCELER}
                 exit 0
               elif [ "$all_jobs_done" == "true" ]; then
                 echo "All jobs are done!"
