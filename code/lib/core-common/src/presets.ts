@@ -82,22 +82,8 @@ export const resolveAddonName = (
     }
   }
 
-  const absolutePackageJson = resolved && resolve(`${name}/package.json`);
-
-  // We want to absolutize the package name part to a path on disk
-  //   (i.e. '/Users/foo/.../node_modules/@addons/foo') as otherwise
-  // we may not be able to import the package in certain module systems (eg. pnpm, yarn pnp)
-  const absoluteDir = absolutePackageJson && dirname(absolutePackageJson);
-
-  // If the package has an export (e.g. `/preview`), absolutize it, eg. to
-  //    /Users/foo/.../node_modules/@addons/foo/preview
-  // NOTE: this looks like the path of an absolute file, but it DOES NOT exist.
-  //  - However it is importable by webpack.
-  //  - Vite needs to strip off the absolute part to import it though
-  //     (vite cannot import absolute files: https://github.com/vitejs/vite/issues/5494
-  //      this also means vite suffers issues with pnpm etc)
-  const absolutizeExport = (exportName: string) => {
-    if (resolve(`${name}${exportName}`)) return `${absoluteDir}${exportName}`;
+  const checkExists = (exportName: string) => {
+    if (resolve(`${name}${exportName}`)) return `${name}${exportName}`;
     return undefined;
   };
 
@@ -106,9 +92,9 @@ export const resolveAddonName = (
   // We don't want to resolve an import path (e.g. '@addons/foo/preview') to the file on disk,
   // because you are not allowed to import arbitrary files in packages in Vite.
   // Instead we check if the export exists and "absolutize" it.
-  const managerFile = absolutizeExport(`/manager`);
-  const registerFile = absolutizeExport(`/register`) || absolutizeExport(`/register-panel`);
-  const previewFile = absolutizeExport(`/preview`);
+  const managerFile = checkExists(`/manager`);
+  const registerFile = checkExists(`/register`) || checkExists(`/register-panel`);
+  const previewFile = checkExists(`/preview`);
   // Presets are imported by node, so therefore fine to be a path on disk (at this stage anyway)
   const presetFile = resolve(`${path}/preset`);
 

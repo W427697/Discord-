@@ -1,7 +1,6 @@
-import { isAbsolute, resolve } from 'path';
+import { resolve } from 'path';
 import { loadPreviewOrConfigFile, getFrameworkName } from '@storybook/core-common';
 import { virtualStoriesFile, virtualAddonSetupFile } from './virtual-file-names';
-import { transformAbsPath } from './utils/transform-abs-path';
 import type { ExtendedOptions } from './types';
 
 export async function generateModernIframeScriptCode(options: ExtendedOptions) {
@@ -10,23 +9,14 @@ export async function generateModernIframeScriptCode(options: ExtendedOptions) {
 
   const previewOrConfigFile = loadPreviewOrConfigFile({ configDir });
   const previewAnnotations = await presets.apply('previewAnnotations', [], options);
-  const resolvedPreviewAnnotations = [...previewAnnotations].map((entry) =>
-    isAbsolute(entry) ? entry : resolve(entry)
-  );
-  const relativePreviewAnnotations = [...resolvedPreviewAnnotations, previewOrConfigFile]
+  const relativePreviewAnnotations = [...previewAnnotations, previewOrConfigFile]
     .filter(Boolean)
     .map((configEntry) => {
-      // Convert absolute path into a "bare" import (See https://github.com/vitejs/vite/issues/5494)
-      const relative = transformAbsPath(configEntry as string);
-      // If this is a sub-addon of essentials, rewrite the import to point to essentials re-export
-      const match =
-        /@storybook\/addon-(actions|backgrounds|docs|highlight|measure|outline)\/preview/.exec(
-          relative
-        );
-      if (match) {
-        return `@storybook/addon-essentials/preview/${match[1]}`;
+      // resolve relative paths into absolute paths, but don't resolve "bare" imports
+      if (configEntry?.startsWith('./') || configEntry?.startsWith('../')) {
+        return resolve(configEntry);
       }
-      return relative;
+      return configEntry;
     });
 
   // eslint-disable-next-line @typescript-eslint/no-shadow
