@@ -176,7 +176,7 @@ jobs:
           destination: sb-bench.tar.gz
   react-vite-bench:
     executor:
-      class: medium
+      class: large
       name: sb_playwright
     working_directory: /tmp/storybook
     steps:
