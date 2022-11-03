@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-this-alias */
 /// <reference types="webpack-env" />
 
 import { dedent } from 'ts-dedent';
@@ -134,8 +133,7 @@ export class ClientApi<TFramework extends AnyFramework> {
 
     this.storyStore = storyStore;
 
-    // @ts-expect-error (whatever)
-    singleton = this;
+    singleton = this as any;
   }
 
   importFn(path: Path) {
