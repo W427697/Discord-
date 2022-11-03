@@ -67,6 +67,7 @@
   "devDependencies": {
     "@storybook/addon-actions": "7.0.0-alpha.47",
     "@storybook/addons": "7.0.0-alpha.47",
+    "@storybook/preview-api": "7.0.0-alpha.47",
     "@types/color-convert": "^2.0.0"
   },
   "peerDependencies": {

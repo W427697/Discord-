@@ -1,5 +1,5 @@
 import React from 'react';
-import { addons, types } from '@storybook/addons';
+import { addons, types } from '@storybook/preview-api';
 import { ToolbarManager } from './components/ToolbarManager';
 import { ADDON_ID } from './constants';
 

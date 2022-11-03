@@ -13,7 +13,7 @@ const INCLUDE_CANDIDATES = [
   '@mdx-js/react',
   '@storybook/addon-docs > acorn-jsx',
   '@storybook/addon-docs',
-  '@storybook/addons',
+  '@storybook/preview-api',
   '@storybook/channel-postmessage',
   '@storybook/channel-websocket',
   '@storybook/client-api',

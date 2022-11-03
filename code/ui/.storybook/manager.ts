@@ -1,4 +1,4 @@
-import { addons } from '@storybook/addons';
+import { addons } from '@storybook/preview-api';
 import startCase from 'lodash/startCase';
 
 addons.setConfig({

@@ -19,6 +19,7 @@ export const {
   useRef,
   useState,
   useStoryContext,
+  applyHooks,
   HooksContext,
 } = ADDONS;
 
@@ -26,6 +27,12 @@ export const {
  * DECORATORS API
  */
 export const { makeDecorator } = ADDONS;
+
+/**
+ * ADDON API
+ * @deprecated
+ */
+export const { addons } = ADDONS;
 
 /**
  * STORIES API

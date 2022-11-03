@@ -3,7 +3,7 @@ import React from 'react';
 import copy from 'copy-to-clipboard';
 import { getStoryHref, IconButton, Icons } from '@storybook/components';
 import { Consumer, type Combo } from '@storybook/api';
-import type { Addon } from '@storybook/addons';
+import type { Addon } from '@storybook/preview-api';
 
 const { PREVIEW_URL, document } = global;
 

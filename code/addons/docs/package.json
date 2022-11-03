@@ -64,6 +64,7 @@
     "@storybook/mdx2-csf": "next",
     "@storybook/node-logger": "7.0.0-alpha.47",
     "@storybook/postinstall": "7.0.0-alpha.47",
+    "@storybook/preview-api": "7.0.0-alpha.47",
     "@storybook/preview-web": "7.0.0-alpha.47",
     "@storybook/store": "7.0.0-alpha.47",
     "@storybook/theming": "7.0.0-alpha.47",

@@ -54,6 +54,7 @@
     "@storybook/api": "7.0.0-alpha.47",
     "@storybook/core-common": "7.0.0-alpha.47",
     "@storybook/node-logger": "7.0.0-alpha.47",
+    "@storybook/preview-api": "7.0.0-alpha.47",
     "ts-dedent": "^2.0.0"
   },
   "devDependencies": {

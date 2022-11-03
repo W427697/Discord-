@@ -5388,6 +5388,7 @@ __metadata:
     "@storybook/client-logger": 7.0.0-alpha.47
     "@storybook/components": 7.0.0-alpha.47
     "@storybook/core-events": 7.0.0-alpha.47
+    "@storybook/preview-api": 7.0.0-alpha.47
     "@storybook/theming": 7.0.0-alpha.47
     "@storybook/types": 7.0.0-alpha.47
     "@testing-library/react": ^11.2.2
@@ -5416,6 +5417,7 @@ __metadata:
     "@storybook/client-logger": 7.0.0-alpha.47
     "@storybook/components": 7.0.0-alpha.47
     "@storybook/core-events": 7.0.0-alpha.47
+    "@storybook/preview-api": 7.0.0-alpha.47
     "@storybook/theming": 7.0.0-alpha.47
     "@storybook/types": 7.0.0-alpha.47
     "@types/lodash": ^4.14.167
@@ -5449,6 +5451,7 @@ __metadata:
     "@storybook/client-logger": 7.0.0-alpha.47
     "@storybook/components": 7.0.0-alpha.47
     "@storybook/core-events": 7.0.0-alpha.47
+    "@storybook/preview-api": 7.0.0-alpha.47
     "@storybook/theming": 7.0.0-alpha.47
     "@storybook/types": 7.0.0-alpha.47
     global: ^4.4.0
@@ -5477,6 +5480,7 @@ __metadata:
     "@storybook/components": 7.0.0-alpha.47
     "@storybook/core-common": 7.0.0-alpha.47
     "@storybook/node-logger": 7.0.0-alpha.47
+    "@storybook/preview-api": 7.0.0-alpha.47
     "@storybook/store": 7.0.0-alpha.47
     "@storybook/theming": 7.0.0-alpha.47
     "@storybook/types": 7.0.0-alpha.47
@@ -5513,6 +5517,7 @@ __metadata:
     "@storybook/mdx2-csf": next
     "@storybook/node-logger": 7.0.0-alpha.47
     "@storybook/postinstall": 7.0.0-alpha.47
+    "@storybook/preview-api": 7.0.0-alpha.47
     "@storybook/preview-web": 7.0.0-alpha.47
     "@storybook/store": 7.0.0-alpha.47
     "@storybook/theming": 7.0.0-alpha.47
@@ -5553,6 +5558,7 @@ __metadata:
     "@storybook/api": 7.0.0-alpha.47
     "@storybook/core-common": 7.0.0-alpha.47
     "@storybook/node-logger": 7.0.0-alpha.47
+    "@storybook/preview-api": 7.0.0-alpha.47
     "@storybook/vue": 7.0.0-alpha.47
     "@types/jest": ^26.0.16
     ts-dedent: ^2.0.0
@@ -5593,6 +5599,7 @@ __metadata:
   dependencies:
     "@storybook/addons": 7.0.0-alpha.47
     "@storybook/core-events": 7.0.0-alpha.47
+    "@storybook/preview-api": 7.0.0-alpha.47
     "@types/webpack-env": ^1.16.0
     global: ^4.4.0
     typescript: ~4.6.3
@@ -5612,6 +5619,7 @@ __metadata:
     "@storybook/core-events": 7.0.0-alpha.47
     "@storybook/instrumenter": 7.0.0-alpha.47
     "@storybook/jest": ^0.0.10
+    "@storybook/preview-api": 7.0.0-alpha.47
     "@storybook/testing-library": 0.0.14-next.0
     "@storybook/theming": 7.0.0-alpha.47
     "@storybook/types": 7.0.0-alpha.47
@@ -5642,6 +5650,7 @@ __metadata:
     "@storybook/client-logger": 7.0.0-alpha.47
     "@storybook/components": 7.0.0-alpha.47
     "@storybook/core-events": 7.0.0-alpha.47
+    "@storybook/preview-api": 7.0.0-alpha.47
     "@storybook/theming": 7.0.0-alpha.47
     global: ^4.4.0
     react-sizeme: ^3.0.1
@@ -5666,6 +5675,7 @@ __metadata:
     "@storybook/client-logger": 7.0.0-alpha.47
     "@storybook/core-events": 7.0.0-alpha.47
     "@storybook/csf": next
+    "@storybook/preview-api": 7.0.0-alpha.47
     "@storybook/router": 7.0.0-alpha.47
     "@storybook/types": 7.0.0-alpha.47
     global: ^4.4.0
@@ -5692,6 +5702,7 @@ __metadata:
     "@storybook/client-logger": 7.0.0-alpha.47
     "@storybook/components": 7.0.0-alpha.47
     "@storybook/core-events": 7.0.0-alpha.47
+    "@storybook/preview-api": 7.0.0-alpha.47
     "@storybook/types": 7.0.0-alpha.47
     global: ^4.4.0
     typescript: ~4.6.3
@@ -5715,6 +5726,7 @@ __metadata:
     "@storybook/client-logger": 7.0.0-alpha.47
     "@storybook/components": 7.0.0-alpha.47
     "@storybook/core-events": 7.0.0-alpha.47
+    "@storybook/preview-api": 7.0.0-alpha.47
     "@storybook/types": 7.0.0-alpha.47
     global: ^4.4.0
     ts-dedent: ^2.0.0
@@ -5767,6 +5779,7 @@ __metadata:
     "@storybook/core-client": 7.0.0-alpha.47
     "@storybook/core-common": 7.0.0-alpha.47
     "@storybook/core-webpack": 7.0.0-alpha.47
+    "@storybook/preview-api": 7.0.0-alpha.47
     "@storybook/react": 7.0.0-alpha.47
     "@storybook/types": 7.0.0-alpha.47
     "@storybook/vue": 7.0.0-alpha.47
@@ -5849,6 +5862,7 @@ __metadata:
     "@storybook/api": 7.0.0-alpha.47
     "@storybook/client-logger": 7.0.0-alpha.47
     "@storybook/components": 7.0.0-alpha.47
+    "@storybook/preview-api": 7.0.0-alpha.47
     "@storybook/router": 7.0.0-alpha.47
     "@storybook/source-loader": 7.0.0-alpha.47
     "@storybook/theming": 7.0.0-alpha.47
@@ -5893,6 +5907,7 @@ __metadata:
     "@storybook/api": 7.0.0-alpha.47
     "@storybook/client-logger": 7.0.0-alpha.47
     "@storybook/components": 7.0.0-alpha.47
+    "@storybook/preview-api": 7.0.0-alpha.47
     "@storybook/theming": 7.0.0-alpha.47
     typescript: ~4.6.3
   peerDependencies:
@@ -5915,6 +5930,7 @@ __metadata:
     "@storybook/client-logger": 7.0.0-alpha.47
     "@storybook/components": 7.0.0-alpha.47
     "@storybook/core-events": 7.0.0-alpha.47
+    "@storybook/preview-api": 7.0.0-alpha.47
     "@storybook/theming": 7.0.0-alpha.47
     global: ^4.4.0
     memoizerific: ^1.11.3
@@ -5998,6 +6014,7 @@ __metadata:
     "@storybook/core-webpack": 7.0.0-alpha.47
     "@storybook/docs-tools": 7.0.0-alpha.47
     "@storybook/node-logger": 7.0.0-alpha.47
+    "@storybook/preview-api": 7.0.0-alpha.47
     "@storybook/store": 7.0.0-alpha.47
     "@storybook/types": 7.0.0-alpha.47
     "@types/node": ^16.0.0
@@ -6133,6 +6150,7 @@ __metadata:
     "@storybook/core-events": 7.0.0-alpha.47
     "@storybook/csf": next
     "@storybook/docs-tools": 7.0.0-alpha.47
+    "@storybook/preview-api": 7.0.0-alpha.47
     "@storybook/preview-web": 7.0.0-alpha.47
     "@storybook/store": 7.0.0-alpha.47
     "@storybook/theming": 7.0.0-alpha.47
@@ -6778,6 +6796,7 @@ __metadata:
     "@storybook/addons": 7.0.0-alpha.47
     "@storybook/core-client": 7.0.0-alpha.47
     "@storybook/docs-tools": 7.0.0-alpha.47
+    "@storybook/preview-api": 7.0.0-alpha.47
     "@storybook/preview-web": 7.0.0-alpha.47
     "@storybook/store": 7.0.0-alpha.47
     "@storybook/types": 7.0.0-alpha.47
@@ -6799,6 +6818,7 @@ __metadata:
     "@storybook/channels": 7.0.0-alpha.47
     "@storybook/client-logger": 7.0.0-alpha.47
     "@storybook/core-events": 7.0.0-alpha.47
+    "@storybook/preview-api": 7.0.0-alpha.47
     core-js: ^3.8.2
     global: ^4.4.0
     typescript: ~4.6.3
@@ -6898,6 +6918,7 @@ __metadata:
     "@storybook/client-logger": 7.0.0-alpha.47
     "@storybook/components": 7.0.0-alpha.47
     "@storybook/core-events": 7.0.0-alpha.47
+    "@storybook/preview-api": 7.0.0-alpha.47
     "@storybook/router": 7.0.0-alpha.47
     "@storybook/theming": 7.0.0-alpha.47
     "@storybook/types": 7.0.0-alpha.47
@@ -6956,6 +6977,7 @@ __metadata:
     "@storybook/core-common": 7.0.0-alpha.47
     "@storybook/node-logger": 7.0.0-alpha.47
     "@storybook/preset-react-webpack": 7.0.0-alpha.47
+    "@storybook/preview-api": 7.0.0-alpha.47
     "@storybook/react": 7.0.0-alpha.47
     "@types/loader-utils": ^2.0.3
     "@types/node": ^14.14.20 || ^16.0.0
@@ -7040,6 +7062,7 @@ __metadata:
   dependencies:
     "@storybook/addons": 7.0.0-alpha.47
     "@storybook/core-client": 7.0.0-alpha.47
+    "@storybook/preview-api": 7.0.0-alpha.47
     "@storybook/store": 7.0.0-alpha.47
     "@storybook/types": 7.0.0-alpha.47
     global: ^4.4.0
@@ -7235,13 +7258,14 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/preview-api@7.0.0-alpha.47, @storybook/preview-api@workspace:lib/preview-api":
+"@storybook/preview-api@7.0.0-alpha.47, @storybook/preview-api@workspace:*, @storybook/preview-api@workspace:lib/preview-api":
   version: 0.0.0-use.local
   resolution: "@storybook/preview-api@workspace:lib/preview-api"
   dependencies:
     "@storybook/addons": 7.0.0-alpha.47
     "@storybook/client-api": 7.0.0-alpha.47
     "@storybook/core-client": 7.0.0-alpha.47
+    "@storybook/preview-api": 7.0.0-alpha.47
     "@storybook/preview-web": 7.0.0-alpha.47
     "@storybook/store": 7.0.0-alpha.47
   languageName: unknown
@@ -7384,6 +7408,7 @@ __metadata:
     "@storybook/client-logger": 7.0.0-alpha.47
     "@storybook/core-client": 7.0.0-alpha.47
     "@storybook/docs-tools": 7.0.0-alpha.47
+    "@storybook/preview-api": 7.0.0-alpha.47
     "@storybook/store": 7.0.0-alpha.47
     "@storybook/types": 7.0.0-alpha.47
     "@types/estree": ^0.0.51
@@ -7506,6 +7531,7 @@ __metadata:
     "@storybook/preset-vue-webpack": "workspace:*"
     "@storybook/preset-vue3-webpack": "workspace:*"
     "@storybook/preset-web-components-webpack": "workspace:*"
+    "@storybook/preview-api": "workspace:*"
     "@storybook/preview-web": "workspace:*"
     "@storybook/react": "workspace:*"
     "@storybook/react-vite": "workspace:*"
@@ -7747,6 +7773,7 @@ __metadata:
   dependencies:
     "@storybook/addons": 7.0.0-alpha.47
     "@storybook/core-client": 7.0.0-alpha.47
+    "@storybook/preview-api": 7.0.0-alpha.47
     "@storybook/preview-web": 7.0.0-alpha.47
     "@storybook/store": 7.0.0-alpha.47
     "@storybook/types": 7.0.0-alpha.47
@@ -7856,6 +7883,7 @@ __metadata:
     "@storybook/client-logger": 7.0.0-alpha.47
     "@storybook/core-client": 7.0.0-alpha.47
     "@storybook/docs-tools": 7.0.0-alpha.47
+    "@storybook/preview-api": 7.0.0-alpha.47
     "@storybook/store": 7.0.0-alpha.47
     "@storybook/types": 7.0.0-alpha.47
     expect-type: ^0.14.2
@@ -8060,6 +8088,7 @@ __metadata:
     "@storybook/addons": 7.0.0-alpha.47
     "@storybook/core-client": 7.0.0-alpha.47
     "@storybook/docs-tools": 7.0.0-alpha.47
+    "@storybook/preview-api": 7.0.0-alpha.47
     "@storybook/store": 7.0.0-alpha.47
     "@storybook/types": 7.0.0-alpha.47
     global: ^4.4.0
@@ -8088,6 +8117,7 @@ __metadata:
     "@storybook/client-logger": 7.0.0-alpha.47
     "@storybook/core-client": 7.0.0-alpha.47
     "@storybook/docs-tools": 7.0.0-alpha.47
+    "@storybook/preview-api": 7.0.0-alpha.47
     "@storybook/store": 7.0.0-alpha.47
     "@storybook/types": 7.0.0-alpha.47
     global: ^4.4.0
@@ -8158,6 +8188,7 @@ __metadata:
     "@storybook/client-logger": 7.0.0-alpha.47
     "@storybook/core-client": 7.0.0-alpha.47
     "@storybook/docs-tools": 7.0.0-alpha.47
+    "@storybook/preview-api": 7.0.0-alpha.47
     "@storybook/preview-web": 7.0.0-alpha.47
     "@storybook/store": 7.0.0-alpha.47
     "@storybook/types": 7.0.0-alpha.47

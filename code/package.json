@@ -209,6 +209,7 @@
     "@storybook/preset-vue-webpack": "workspace:*",
     "@storybook/preset-vue3-webpack": "workspace:*",
     "@storybook/preset-web-components-webpack": "workspace:*",
+    "@storybook/preview-api": "workspace:*",
     "@storybook/preview-web": "workspace:*",
     "@storybook/react": "workspace:*",
     "@storybook/react-vite": "workspace:*",
