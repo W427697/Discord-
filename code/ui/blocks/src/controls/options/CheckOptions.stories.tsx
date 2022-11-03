@@ -102,20 +102,3 @@ export const ObjectUndefined: StoryObj<typeof OptionsControl> = {
     argType: { options: objectOptions },
   },
 };
-
-const rawOptionsHelper = (options, type, isMulti, initial) => {
-  const [value, setValue] = useState(isMulti ? [initial] : initial);
-  return (
-    <>
-      <OptionsControl
-        name="options"
-        labels={{}}
-        argType={{ options }}
-        value={value}
-        type={type}
-        onChange={(newVal) => setValue(newVal)}
-      />
-      <pre>{JSON.stringify(value) || 'undefined'}</pre>
-    </>
-  );
-};
