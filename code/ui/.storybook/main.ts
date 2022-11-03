@@ -36,6 +36,7 @@ const config: StorybookConfig = {
   viteFinal: (vite) => ({
     ...vite,
     plugins: [...(vite.plugins || []), csfPlugin({})],
+    optimizeDeps: { ...vite.optimizeDeps, force: true },
   }),
 };
 
