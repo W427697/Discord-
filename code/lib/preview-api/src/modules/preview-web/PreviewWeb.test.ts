@@ -3351,9 +3351,9 @@ describe('PreviewWeb', () => {
       mockChannel.emit.mockClear();
       const [gate, openGate] = createGate();
       componentOneExports.b.play.mockImplementationOnce(async () => gate);
+      // @ts-expect-error (uhmmm no idea)
       preview.renderStoryToElement(
         await preview.storyStore.loadStory({ storyId: 'component-one--b' }),
-        'story-element' as any,
         {} as any
       );
       await waitForRenderPhase('playing');
