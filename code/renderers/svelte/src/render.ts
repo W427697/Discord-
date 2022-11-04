@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 import type { Store_RenderContext, ArgsStoryFn } from '@storybook/types';
 import type { SvelteComponentTyped } from 'svelte';
 // eslint-disable-next-line import/no-extraneous-dependencies
@@ -8,14 +9,14 @@ import type { SvelteFramework } from './types';
 const componentsByDomElement = new Map<SvelteFramework['canvasElement'], SvelteComponentTyped>();
 
 function teardown(canvasElement: SvelteFramework['canvasElement']) {
-  if (!componentsByDomElement.has(domElement)) {
+  if (!componentsByDomElement.has(canvasElement)) {
     return;
   }
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- we know it exists because we just checked
-  componentsByDomElement.get(domElement)!.$destroy();
+  componentsByDomElement.get(canvasElement)!.$destroy();
 
-  domElement.innerHTML = '';
-  componentsByDomElement.delete(domElement);
+  canvasElement.innerHTML = '';
+  componentsByDomElement.delete(canvasElement);
 }
 
 export function renderToCanvas(
@@ -30,15 +31,15 @@ export function renderToCanvas(
   }: Store_RenderContext<SvelteFramework>,
   canvasElement: SvelteFramework['canvasElement']
 ) {
-  const existingComponent = componentsByDomElement.get(domElement);
+  const existingComponent = componentsByDomElement.get(canvasElement);
 
   if (forceRemount) {
-    teardown(domElement);
+    teardown(canvasElement);
   }
 
   if (!existingComponent || forceRemount) {
     const createdComponent = new PreviewRender({
-      target: domElement,
+      target: canvasElement,
       props: {
         storyFn,
         storyContext,
@@ -47,7 +48,7 @@ export function renderToCanvas(
         showError,
       },
     }) as SvelteComponentTyped;
-    componentsByDomElement.set(domElement, createdComponent);
+    componentsByDomElement.set(canvasElement, createdComponent);
   } else {
     existingComponent.$set({
       storyFn,
@@ -62,7 +63,7 @@ export function renderToCanvas(
 
   // teardown the component when the story changes
   return () => {
-    teardown(domElement);
+    teardown(canvasElement);
   };
 }
 

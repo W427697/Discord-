@@ -155,10 +155,10 @@ export async function renderToCanvas(
   // https://github.com/storybookjs/react-storybook/issues/81
   // (This is not the case when we change args or globals to the story however)
   if (forceRemount) {
-    unmountElement(domElement);
+    unmountElement(canvasElement);
   }
 
-  await renderElement(element, domElement);
+  await renderElement(element, canvasElement);
 
-  return () => unmountElement(domElement);
+  return () => unmountElement(canvasElement);
 }

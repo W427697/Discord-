@@ -30,10 +30,10 @@ export function renderToCanvas(
   let element: StoryFnVueReturnType;
   const storybookApp = createApp({
     unmounted() {
-      map.delete(domElement);
+      map.delete(canvasElement);
     },
     render() {
-      map.set(domElement, storybookApp);
+      map.set(canvasElement, storybookApp);
       setupFunction(storybookApp);
       return h(element);
     },
@@ -54,7 +54,7 @@ export function renderToCanvas(
 
   showMain();
 
-  map.get(domElement)?.unmount();
+  map.get(canvasElement)?.unmount();
 
-  storybookApp.mount(domElement);
+  storybookApp.mount(canvasElement);
 }

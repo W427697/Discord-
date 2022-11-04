@@ -26,9 +26,9 @@ function preactRender(story: StoryFnPreactReturnType | null, canvasElement: Elem
   // @ts-expect-error (Converted from ts-ignore)
   if (preact.Fragment) {
     // Preact 10 only:
-    preact.render(story, domElement);
+    preact.render(story, canvasElement);
   } else {
-    renderedStory = preact.render(story, domElement, renderedStory) as unknown as Element;
+    renderedStory = preact.render(story, canvasElement, renderedStory) as unknown as Element;
   }
 }
 
@@ -38,7 +38,7 @@ const StoryHarness: preact.FunctionalComponent<{
   showError: Store_RenderContext<PreactFramework>['showError'];
   storyFn: () => any;
   canvasElement: PreactFramework['canvasElement'];
-}> = ({ showError, name, title, storyFn, domElement }) => {
+}> = ({ showError, name, title, storyFn, canvasElement }) => {
   const content = preact.h(storyFn as any, null);
   if (!content) {
     showError({
@@ -58,10 +58,13 @@ export function renderToCanvas(
   canvasElement: PreactFramework['canvasElement']
 ) {
   if (forceRemount) {
-    preactRender(null, domElement);
+    preactRender(null, canvasElement);
   }
 
   showMain();
 
-  preactRender(preact.h(StoryHarness, { name, title, showError, storyFn, domElement }), domElement);
+  preactRender(
+    preact.h(StoryHarness, { name, title, showError, storyFn, canvasElement }),
+    canvasElement
+  );
 }

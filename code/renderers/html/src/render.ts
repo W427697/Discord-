@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 import global from 'global';
 
 import { dedent } from 'ts-dedent';
@@ -46,15 +47,15 @@ export function renderToCanvas(
   const element = storyFn();
   showMain();
   if (typeof element === 'string') {
-    domElement.innerHTML = element;
-    simulatePageLoad(domElement);
+    canvasElement.innerHTML = element;
+    simulatePageLoad(canvasElement);
   } else if (element instanceof Node) {
-    if (domElement.firstChild === element && forceRemount === false) {
+    if (canvasElement.firstChild === element && forceRemount === false) {
       return;
     }
 
-    domElement.innerHTML = '';
-    domElement.appendChild(element);
+    canvasElement.innerHTML = '';
+    canvasElement.appendChild(element);
     simulateDOMContentLoaded();
   } else {
     showError({

@@ -21,17 +21,17 @@ type Instance = CombinedVueInstance<
 >;
 
 const getRoot = (canvasElement: VueFramework['canvasElement']): Instance => {
-  const cachedInstance = map.get(domElement);
+  const cachedInstance = map.get(canvasElement);
   if (cachedInstance != null) return cachedInstance;
 
   // Create a dummy "target" underneath #storybook-root
   // that Vue2 will replace on first render with #storybook-vue-root
   const target = document.createElement('div');
-  domElement.appendChild(target);
+  canvasElement.appendChild(target);
 
   const instance: Instance = new Vue({
     beforeDestroy() {
-      map.delete(domElement);
+      map.delete(canvasElement);
     },
     data() {
       return {
@@ -41,7 +41,7 @@ const getRoot = (canvasElement: VueFramework['canvasElement']): Instance => {
     },
     // @ts-expect-error What's going on here? (TS says that we should not return an array here, but the `h` directly)
     render(h) {
-      map.set(domElement, instance);
+      map.set(canvasElement, instance);
       return this[COMPONENT] ? [h(this[COMPONENT])] : undefined;
     },
   });
@@ -94,7 +94,7 @@ export function renderToCanvas(
   }: Store_RenderContext<VueFramework>,
   canvasElement: VueFramework['canvasElement']
 ) {
-  const root = getRoot(domElement);
+  const root = getRoot(canvasElement);
   Vue.config.errorHandler = showException;
   const element = storyFn();
 
@@ -102,14 +102,14 @@ export function renderToCanvas(
 
   // Vue2 mount always replaces the mount target with Vue-generated DOM.
   // https://v2.vuejs.org/v2/api/#el:~:text=replaced%20with%20Vue%2Dgenerated%20DOM
-  // We cannot mount to the domElement directly, because it would be replaced. That would
-  // break the references to the domElement like canvasElement used in the play function.
-  // Instead, we mount to a child element of the domElement, creating one if necessary.
-  if (domElement.hasChildNodes()) {
-    mountTarget = domElement.firstElementChild;
+  // We cannot mount to the canvasElement directly, because it would be replaced. That would
+  // break the references to the canvasElement like canvasElement used in the play function.
+  // Instead, we mount to a child element of the canvasElement, creating one if necessary.
+  if (canvasElement.hasChildNodes()) {
+    mountTarget = canvasElement.firstElementChild;
   } else {
     mountTarget = document.createElement('div');
-    domElement.appendChild(mountTarget);
+    canvasElement.appendChild(mountTarget);
   }
 
   if (!element) {
@@ -131,7 +131,7 @@ export function renderToCanvas(
   // @ts-expect-error https://github.com/storybookjs/storrybook/pull/7578#discussion_r307986139
   root[VALUES] = { ...element.options[VALUES] };
 
-  if (!map.has(domElement)) {
+  if (!map.has(canvasElement)) {
     root.$mount(mountTarget ?? undefined);
   }
 

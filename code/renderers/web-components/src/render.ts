@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 
 import global from 'global';
@@ -45,26 +46,26 @@ export function renderToCanvas(
   showMain();
   if (isTemplateResult(element)) {
     // `render` stores the TemplateInstance in the Node and tries to update based on that.
-    // Since we reuse `domElement` for all stories, remove the stored instance first.
+    // Since we reuse `canvasElement` for all stories, remove the stored instance first.
     // But forceRemount means that it's the same story, so we want too keep the state in that case.
-    if (forceRemount || !domElement.querySelector('[id="root-inner"]')) {
-      domElement.innerHTML = '<div id="root-inner"></div>';
+    if (forceRemount || !canvasElement.querySelector('[id="root-inner"]')) {
+      canvasElement.innerHTML = '<div id="root-inner"></div>';
     }
-    const renderTo = domElement.querySelector<HTMLElement>('[id="root-inner"]');
+    const renderTo = canvasElement.querySelector<HTMLElement>('[id="root-inner"]');
 
     litRender(element, renderTo);
-    simulatePageLoad(domElement);
+    simulatePageLoad(canvasElement);
   } else if (typeof element === 'string') {
-    domElement.innerHTML = element;
-    simulatePageLoad(domElement);
+    canvasElement.innerHTML = element;
+    simulatePageLoad(canvasElement);
   } else if (element instanceof Node) {
     // Don't re-mount the element if it didn't change and neither did the story
-    if (domElement.firstChild === element && !forceRemount) {
+    if (canvasElement.firstChild === element && !forceRemount) {
       return;
     }
 
-    domElement.innerHTML = '';
-    domElement.appendChild(element);
+    canvasElement.innerHTML = '';
+    canvasElement.appendChild(element);
     simulateDOMContentLoaded();
   } else {
     showError({

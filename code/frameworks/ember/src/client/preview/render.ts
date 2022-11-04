@@ -80,5 +80,5 @@ export function renderToCanvas(
   }
 
   showMain();
-  render(element, domElement);
+  render(element, canvasElement);
 }

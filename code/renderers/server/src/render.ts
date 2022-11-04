@@ -1,4 +1,4 @@
-// @ts-expect-error (Converted from ts-ignore)
+/* eslint-disable no-param-reassign */
 import global from 'global';
 
 import { dedent } from 'ts-dedent';
@@ -71,16 +71,16 @@ export async function renderToCanvas(
 
   showMain();
   if (typeof element === 'string') {
-    domElement.innerHTML = element;
-    simulatePageLoad(domElement);
+    canvasElement.innerHTML = element;
+    simulatePageLoad(canvasElement);
   } else if (element instanceof Node) {
     // Don't re-mount the element if it didn't change and neither did the story
-    if (domElement.firstChild === element && forceRemount === false) {
+    if (canvasElement.firstChild === element && forceRemount === false) {
       return;
     }
 
-    domElement.innerHTML = '';
-    domElement.appendChild(element);
+    canvasElement.innerHTML = '';
+    canvasElement.appendChild(element);
     simulateDOMContentLoaded();
   } else {
     showError({
