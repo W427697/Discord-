@@ -80,7 +80,15 @@ commands:
               echo "🏁 The PR isn't labelled with '<< parameters.label >>' so this job will end at the current step."
               circleci-agent step halt
             fi
-
+  cancel-workflow-on-failure:
+    description: 'Cancels the entire workflow in case the previous step has failed'
+    steps:
+      - run:
+          name: Cancel current workflow
+          when: on_fail
+          command: |
+            echo "Canceling workflow as previous step resulted in failure. To test locally, please run yarn ci-tests"
+            curl -X POST --header "Content-Type: application/json" "https://circleci.com/api/v2/workflow/${CIRCLE_WORKFLOW_ID}/cancel?circle-token=${WORKFLOW_CANCELER}"
 jobs:
   build:
     executor:
@@ -228,6 +236,7 @@ jobs:
           command: |
             cd code
             yarn lint
+      - cancel-workflow-on-failure
   check:
     executor:
       class: xlarge
@@ -242,6 +251,7 @@ jobs:
           command: |
             yarn task --task check --start-from=auto --no-link --debug
             git diff --exit-code
+      - cancel-workflow-on-failure
   script-unit-tests:
     executor: sb_node_16_browsers
     steps:
@@ -256,6 +266,7 @@ jobs:
             yarn test --coverage --ci
       - store_test_results:
           path: scripts/junit.xml
+      - cancel-workflow-on-failure
   unit-tests:
     executor:
       class: xlarge
@@ -276,6 +287,7 @@ jobs:
           root: .
           paths:
             - code/coverage
+      - cancel-workflow-on-failure
   coverage:
     executor:
       class: small
@@ -456,32 +468,6 @@ jobs:
       - store_artifacts: # this is where playwright puts more complex stuff
           path: code/playwright-results/
           destination: playwright
-  cancel-workflow-on-failure:
-    executor:
-      class: small
-      name: sb_node_16_classic
-    steps:
-      - run:
-          name: 'cancel-workflow-on-failure'
-          command: |
-            while true; do
-              json=$(curl -s -H 'Accept: application/json' -X GET https://circleci.com/api/v2/workflow/${CIRCLE_WORKFLOW_ID}/job?circle-token=${CIRCLE_TOKEN})
-              any_required_step_failed=$(echo $json | jq '.items | map(select(.name == "check" or .name == "lint" or .name == "publish" or .name == "script-unit-tests" or .name == "unit-tests")) | any(.status == "failed")')
-              any_required_step_pending=$(echo $json | jq '.items | map(select(.name == "check" or .name == "lint" or .name == "publish" or .name == "script-unit-tests" or .name == "unit-tests")) | any(.status == "running")')
-              all_jobs_done=$(echo $json | jq '.items | map(select(.status == "running")) | length > 0')
-
-              if [ "$any_required_step_pending" == "true" ]; then
-                echo "Waiting for other required jobs to finish..."
-              elif [ "$any_required_step_failed" == "true" ]; then
-                echo "One of the required steps failed, canceling workflow..."
-                curl -s -H 'Accept: application/json' -X POST https://circleci.com/api/v2/workflow/${CIRCLE_WORKFLOW_ID}/cancel?circle-token=${WORKFLOW_CANCELER}
-                exit 0
-              elif [ "$all_jobs_done" == "true" ]; then
-                echo "All jobs are done!"
-                exit 0
-              fi
-              sleep 30 # run this check every 30 seconds
-            done
 
 workflows:
   daily-tests:
@@ -525,9 +511,6 @@ workflows:
       equal: [ tests, << pipeline.parameters.workflow >> ]
     jobs:
       - build
-      - cancel-workflow-on-failure:
-          requires:
-            - build
       - lint:
           requires:
             - build
