@@ -504,6 +504,7 @@ describe('StoryIndexGenerator', () => {
                   "./src/A.stories.js",
                 ],
                 "tags": Array [
+                  "mdx",
                   "docs",
                 ],
                 "title": "A",
@@ -617,6 +618,7 @@ describe('StoryIndexGenerator', () => {
                   "./src/A.stories.js",
                 ],
                 "tags": Array [
+                  "mdx",
                   "docs",
                 ],
                 "title": "A",
@@ -631,6 +633,7 @@ describe('StoryIndexGenerator', () => {
                   "./src/A.stories.js",
                 ],
                 "tags": Array [
+                  "mdx",
                   "docs",
                 ],
                 "title": "A",
@@ -654,6 +657,7 @@ describe('StoryIndexGenerator', () => {
                 "standalone": true,
                 "storiesImports": Array [],
                 "tags": Array [
+                  "mdx",
                   "docs",
                 ],
                 "title": "docs2/Yabbadabbadooo",
@@ -666,6 +670,7 @@ describe('StoryIndexGenerator', () => {
                 "standalone": true,
                 "storiesImports": Array [],
                 "tags": Array [
+                  "mdx",
                   "docs",
                 ],
                 "title": "NoTitle",
@@ -756,6 +761,7 @@ describe('StoryIndexGenerator', () => {
                   "./src/A.stories.js",
                 ],
                 "tags": Array [
+                  "mdx",
                   "docs",
                 ],
                 "title": "A",
@@ -770,6 +776,7 @@ describe('StoryIndexGenerator', () => {
                   "./src/A.stories.js",
                 ],
                 "tags": Array [
+                  "mdx",
                   "docs",
                 ],
                 "title": "A",
@@ -793,6 +800,7 @@ describe('StoryIndexGenerator', () => {
                 "standalone": true,
                 "storiesImports": Array [],
                 "tags": Array [
+                  "mdx",
                   "docs",
                 ],
                 "title": "docs2/Yabbadabbadooo",
@@ -805,6 +813,7 @@ describe('StoryIndexGenerator', () => {
                 "standalone": true,
                 "storiesImports": Array [],
                 "tags": Array [
+                  "mdx",
                   "docs",
                 ],
                 "title": "NoTitle",
