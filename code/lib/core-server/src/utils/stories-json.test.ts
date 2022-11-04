@@ -68,7 +68,7 @@ const getInitializedStoryIndexGenerator = async (
   return generator;
 };
 
-describe('useStoriesJson', () => {
+(process.platform === 'win32' ? describe.skip : describe)('useStoriesJson', () => {
   const use = jest.fn();
   const router: Router = { use } as any;
   const send = jest.fn();
