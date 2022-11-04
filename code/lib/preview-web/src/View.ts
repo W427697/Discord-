@@ -1,24 +1,24 @@
 import type { Store_Story } from '@storybook/types';
 
-export abstract class View<TStorybookRoot> {
+export interface View<TStorybookRoot> {
   // Get ready to render a story, returning the element to render to
-  abstract prepareForStory(story: Store_Story<any>): TStorybookRoot;
+  prepareForStory(story: Store_Story<any>): TStorybookRoot;
 
-  abstract prepareForDocs(): TStorybookRoot;
+  prepareForDocs(): TStorybookRoot;
 
-  abstract showErrorDisplay(err: { message?: string; stack?: string }): void;
+  showErrorDisplay(err: { message?: string; stack?: string }): void;
 
-  abstract showNoPreview(): void;
+  showNoPreview(): void;
 
-  abstract showPreparingStory(options: { immediate: boolean }): void;
+  showPreparingStory(options: { immediate: boolean }): void;
 
-  abstract showPreparingDocs(): void;
+  showPreparingDocs(): void;
 
-  abstract showMain(): void;
+  showMain(): void;
 
-  abstract showDocs(): void;
+  showDocs(): void;
 
-  abstract showStory(): void;
+  showStory(): void;
 
-  abstract showStoryDuringRender(): void;
+  showStoryDuringRender(): void;
 }

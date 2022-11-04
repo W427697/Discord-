@@ -5,7 +5,7 @@ import { dedent } from 'ts-dedent';
 import qs from 'qs';
 
 import type { Store_Story } from '@storybook/types';
-import { View } from './View';
+import type { View } from './View';
 
 const { document } = global;
 
@@ -37,7 +37,7 @@ const ansiConverter = new AnsiToHtml({
   escapeXML: true,
 });
 
-export class WebView extends View<HTMLElement> {
+export class WebView implements View<HTMLElement> {
   private currentLayoutClass?: typeof layoutClassMap[keyof typeof layoutClassMap] | null;
 
   private testing = false;
@@ -45,8 +45,6 @@ export class WebView extends View<HTMLElement> {
   private preparingTimeout?: ReturnType<typeof setTimeout>;
 
   constructor() {
-    super();
-
     // Special code for testing situations
     // eslint-disable-next-line @typescript-eslint/naming-convention
     const { __SPECIAL_TEST_PARAMETER__ } = qs.parse(document.location.search, {

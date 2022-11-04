@@ -1,11 +1,11 @@
 import type { Store_SelectionSpecifier, Store_Selection } from '@storybook/types';
 
-export abstract class SelectionStore {
-  public selectionSpecifier: Store_SelectionSpecifier | null = null;
+export interface SelectionStore {
+  selectionSpecifier: Store_SelectionSpecifier | null;
 
-  public selection?: Store_Selection;
+  selection?: Store_Selection;
 
-  abstract setSelection(selection: Store_Selection): void;
+  setSelection(selection: Store_Selection): void;
 
-  abstract setQueryParams(queryParams: qs.ParsedQs): void;
+  setQueryParams(queryParams: qs.ParsedQs): void;
 }
