@@ -56,7 +56,7 @@ export async function renderToCanvas(
     storyContext,
     storyContext: { parameters, args, argTypes },
   }: Store_RenderContext<ServerFramework>,
-  domElement: Element
+  domElement: ServerFramework['canvasElement']
 ) {
   // Some addons wrap the storyFn so we need to call it even though Server doesn't need the answer
   storyFn();

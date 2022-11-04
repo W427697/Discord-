@@ -20,11 +20,11 @@ export const setup = (fn: (app: any) => void) => {
   setupFunction = fn;
 };
 
-const map = new Map<Element, ReturnType<typeof createApp>>();
+const map = new Map<VueFramework['canvasElement'], ReturnType<typeof createApp>>();
 
 export function renderToCanvas(
   { title, name, storyFn, showMain, showError, showException }: Store_RenderContext<VueFramework>,
-  domElement: Element
+  domElement: VueFramework['canvasElement']
 ) {
   // TODO: explain cyclical nature of these app => story => mount
   let element: StoryFnVueReturnType;

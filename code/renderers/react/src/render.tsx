@@ -136,7 +136,7 @@ export async function renderToCanvas(
     showException,
     forceRemount,
   }: Store_RenderContext<ReactFramework>,
-  domElement: Element
+  domElement: ReactFramework['canvasElement']
 ) {
   const Story = unboundStoryFn as FC<StoryContext<ReactFramework>>;
 

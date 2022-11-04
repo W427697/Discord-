@@ -5,9 +5,9 @@ import PreviewRender from '@storybook/svelte/templates/PreviewRender.svelte';
 
 import type { SvelteFramework } from './types';
 
-const componentsByDomElement = new Map<Element, SvelteComponentTyped>();
+const componentsByDomElement = new Map<SvelteFramework['canvasElement'], SvelteComponentTyped>();
 
-function teardown(domElement: Element) {
+function teardown(domElement: SvelteFramework['canvasElement']) {
   if (!componentsByDomElement.has(domElement)) {
     return;
   }
@@ -29,7 +29,7 @@ export function renderToCanvas(
     storyContext,
     forceRemount,
   }: Store_RenderContext<SvelteFramework>,
-  domElement: Element
+  domElement: SvelteFramework['canvasElement']
 ) {
   const existingComponent = componentsByDomElement.get(domElement);
 

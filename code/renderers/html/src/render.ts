@@ -1,5 +1,4 @@
 /* eslint-disable no-param-reassign */
-// @ts-expect-error (Converted from ts-ignore)
 import global from 'global';
 
 import { dedent } from 'ts-dedent';
@@ -43,7 +42,7 @@ export const render: ArgsStoryFn<HtmlFramework> = (args, context) => {
 
 export function renderToCanvas(
   { storyFn, kind, name, showMain, showError, forceRemount }: Store_RenderContext<HtmlFramework>,
-  domElement: Element
+  domElement: HtmlFramework['canvasElement']
 ) {
   const element = storyFn();
   showMain();

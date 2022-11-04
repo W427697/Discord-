@@ -8,7 +8,7 @@ import type { VueFramework } from './types';
 export const COMPONENT = 'STORYBOOK_COMPONENT';
 export const VALUES = 'STORYBOOK_VALUES';
 
-const map = new Map<Element, Instance>();
+const map = new Map<VueFramework['canvasElement'], Instance>();
 type Instance = CombinedVueInstance<
   Vue,
   {
@@ -20,7 +20,7 @@ type Instance = CombinedVueInstance<
   Record<never, any>
 >;
 
-const getRoot = (domElement: Element): Instance => {
+const getRoot = (domElement: VueFramework['canvasElement']): Instance => {
   const cachedInstance = map.get(domElement);
   if (cachedInstance != null) return cachedInstance;
 
@@ -92,13 +92,13 @@ export function renderToCanvas(
     showException,
     forceRemount,
   }: Store_RenderContext<VueFramework>,
-  domElement: Element
+  domElement: VueFramework['canvasElement']
 ) {
   const root = getRoot(domElement);
   Vue.config.errorHandler = showException;
   const element = storyFn();
 
-  let mountTarget: Element | null;
+  let mountTarget: VueFramework['canvasElement'] | null;
 
   // Vue2 mount always replaces the mount target with Vue-generated DOM.
   // https://v2.vuejs.org/v2/api/#el:~:text=replaced%20with%20Vue%2Dgenerated%20DOM

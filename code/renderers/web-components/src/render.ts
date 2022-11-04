@@ -38,7 +38,7 @@ export function renderToCanvas(
     showError,
     forceRemount,
   }: Store_RenderContext<WebComponentsFramework>,
-  domElement: Element
+  domElement: WebComponentsFramework['canvasElement']
 ) {
   const element = storyFn();
 

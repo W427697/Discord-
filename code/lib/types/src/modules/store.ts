@@ -28,7 +28,7 @@ import type {
 } from './csf';
 
 export interface WebFramework extends Framework {
-  rootElement: HTMLElement;
+  canvasElement: HTMLElement;
 }
 
 export type Store_ModuleExport = any;
