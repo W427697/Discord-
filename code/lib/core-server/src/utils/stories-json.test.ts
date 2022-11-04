@@ -1,10 +1,12 @@
+/// <reference types="@types/jest" />;
+
 import fs from 'fs-extra';
 import type { Router, Request, Response } from 'express';
 import Watchpack from 'watchpack';
 import path from 'path';
 import debounce from 'lodash/debounce';
 import { STORY_INDEX_INVALIDATED } from '@storybook/core-events';
-import type { StoryIndex } from '@storybook/store';
+import type { Store_StoryIndex, CoreCommon_StoryIndexer } from '@storybook/types';
 import { loadCsf } from '@storybook/csf-tools';
 import { normalizeStoriesEntry } from '@storybook/core-common';
 
@@ -51,12 +53,22 @@ const csfIndexer = async (fileName: string, opts: any) => {
   return loadCsf(code, { ...opts, fileName }).parse();
 };
 
+const storiesMdxIndexer = async (fileName: string, opts: any) => {
+  let code = (await fs.readFile(fileName, 'utf-8')).toString();
+  const { compile } = await import('@storybook/mdx2-csf');
+  code = await compile(code, {});
+  return loadCsf(code, { ...opts, fileName }).parse();
+};
+
 const getInitializedStoryIndexGenerator = async (
   overrides: any = {},
   inputNormalizedStories = normalizedStories
 ) => {
   const generator = new StoryIndexGenerator(inputNormalizedStories, {
-    storyIndexers: [{ test: /\.stories\..*$/, indexer: csfIndexer }],
+    storyIndexers: [
+      { test: /\.stories\.mdx$/, indexer: storiesMdxIndexer },
+      { test: /\.stories\.(js|ts)x?$/, indexer: csfIndexer },
+    ] as CoreCommon_StoryIndexer[],
     configDir: workingDir,
     workingDir,
     storiesV2Compatibility: false,
@@ -852,7 +864,7 @@ describe('useStoriesJson', () => {
 
 describe('convertToIndexV3', () => {
   it('converts v7 index.json to v6 stories.json', () => {
-    const indexJson: StoryIndex = {
+    const indexJson: Store_StoryIndex = {
       v: 4,
       entries: {
         'a--docs': {
