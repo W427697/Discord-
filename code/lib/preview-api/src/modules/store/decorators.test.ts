@@ -18,9 +18,9 @@ describe('client-api.decorators', () => {
   it('calls decorators in out to in order', () => {
     const order: number[] = [];
     const decorators = [
-      (s) => order.push(1) && s(),
-      (s) => order.push(2) && s(),
-      (s) => order.push(3) && s(),
+      (s: any) => order.push(1) && s(),
+      (s: any) => order.push(2) && s(),
+      (s: any) => order.push(3) && s(),
     ];
     const decorated = defaultDecorateStory(() => order.push(4), decorators);
 
@@ -32,9 +32,9 @@ describe('client-api.decorators', () => {
   it('passes context through to sub decorators', () => {
     const contexts: StoryContext[] = [];
     const decorators = [
-      (s, c) => contexts.push(c) && s({ args: { k: 1 } }),
-      (s, c) => contexts.push(c) && s({ args: { k: 2 } }),
-      (s, c) => contexts.push(c) && s({ args: { k: 3 } }),
+      (s: any, c: any) => contexts.push(c) && s({ args: { k: 1 } }),
+      (s: any, c: any) => contexts.push(c) && s({ args: { k: 2 } }),
+      (s: any, c: any) => contexts.push(c) && s({ args: { k: 3 } }),
     ];
     const decorated = defaultDecorateStory((c) => contexts.push(c), decorators);
 
@@ -46,8 +46,8 @@ describe('client-api.decorators', () => {
   it('passes context through to sub decorators additively', () => {
     const contexts: StoryContext[] = [];
     const decorators = [
-      (s, c) => contexts.push(c) && s({ args: { a: 1 } }),
-      (s, c) => contexts.push(c) && s({ globals: { g: 2 } }),
+      (s: any, c: any) => contexts.push(c) && s({ args: { a: 1 } }),
+      (s: any, c: any) => contexts.push(c) && s({ globals: { g: 2 } }),
     ];
     const decorated = defaultDecorateStory((c) => contexts.push(c), decorators);
 
@@ -61,9 +61,9 @@ describe('client-api.decorators', () => {
   });
 
   it('does not recreate decorated story functions each time', () => {
-    const decoratedStories = [];
+    const decoratedStories: any[] = [];
     const decorators = [
-      (s, c) => {
+      (s: any, c: any) => {
         decoratedStories.push = s;
         return s();
       },
@@ -80,12 +80,12 @@ describe('client-api.decorators', () => {
   // the same story twice at the same time.
   it('does not interleave contexts if two decorated stories are call simultaneously', async () => {
     const contexts: StoryContext[] = [];
-    let resolve;
+    let resolve: any;
     const fence = new Promise((r) => {
       resolve = r;
     });
     const decorators = [
-      async (s, c) => {
+      async (s: any, c: any) => {
         // The fence here simulates async-ness in react rendering an element (`<S />` doesn't run `S()` straight away)
         await fence;
         s();
@@ -107,7 +107,7 @@ describe('client-api.decorators', () => {
   it('DOES NOT merge core metadata or pass through core metadata keys in context', () => {
     const contexts: StoryContext[] = [];
     const decorators = [
-      (s, c) =>
+      (s: any, c: any) =>
         contexts.push(c) &&
         s({ parameters: { c: 'd' }, id: 'notId', kind: 'notKind', name: 'notName' }),
     ];

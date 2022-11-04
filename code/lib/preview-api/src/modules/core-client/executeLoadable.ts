@@ -36,7 +36,7 @@ export function executeLoadable(loadable: Loadable) {
             typeof req.resolve === 'function' ? req.resolve(filename) : filename,
             fileExports
           );
-        } catch (error) {
+        } catch (error: any) {
           const errorString =
             error.message && error.stack ? `${error.message}\n ${error.stack}` : error.toString();
           logger.error(`Unexpected error while loading ${filename}: ${errorString}`);
@@ -92,7 +92,12 @@ export function executeLoadableForChanges(loadable: Loadable, m?: NodeModule) {
   const removed = new Map<Path, Store_ModuleExports>();
   Array.from(lastExportsMap.keys())
     .filter((fileName) => !exportsMap.has(fileName))
-    .forEach((fileName) => removed.set(fileName, lastExportsMap.get(fileName)));
+    .forEach((fileName) => {
+      const value = lastExportsMap.get(fileName);
+      if (value) {
+        removed.set(fileName, value);
+      }
+    });
 
   // Save the value for the dispose() call above
   lastExportsMap = exportsMap;

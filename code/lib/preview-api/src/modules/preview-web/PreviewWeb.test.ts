@@ -29,9 +29,13 @@ import {
 } from '@storybook/core-events';
 import { logger } from '@storybook/client-logger';
 import { addons, mockChannel as createMockChannel } from '@storybook/addons';
-import type { AnyFramework } from '@storybook/types';
+import type {
+  AnyFramework,
+  Store_ModuleImportFn,
+  Store_WebProjectAnnotations,
+} from '@storybook/types';
 import { mocked } from 'ts-jest/utils';
-import type { ModuleImportFn, WebProjectAnnotations } from '../../store';
+// import type { ModuleImportFn, WebProjectAnnotations } from '../../store';
 
 import { PreviewWeb } from './PreviewWeb';
 import {
@@ -57,7 +61,7 @@ const { history, document } = global;
 
 const mockStoryIndex = jest.fn(() => storyIndex);
 
-let mockFetchResult;
+let mockFetchResult: any;
 jest.mock('global', () => ({
   ...(mockJest.requireActual('global') as any),
   history: { replaceState: mockJest.fn() },
@@ -109,8 +113,8 @@ async function createAndRenderPreview({
   importFn: inputImportFn = importFn,
   getProjectAnnotations: inputGetProjectAnnotations = getProjectAnnotations,
 }: {
-  importFn?: ModuleImportFn;
-  getProjectAnnotations?: () => WebProjectAnnotations<AnyFramework>;
+  importFn?: Store_ModuleImportFn;
+  getProjectAnnotations?: () => Store_WebProjectAnnotations<AnyFramework>;
 } = {}) {
   const preview = new PreviewWeb();
   await preview.initialize({
@@ -685,7 +689,7 @@ describe('PreviewWeb', () => {
 
         const context = docsRenderer.render.mock.calls[0][0];
 
-        expect(context.componentStories().map((s) => s.id)).toEqual([
+        expect(context.componentStories().map((s: any) => s.id)).toEqual([
           'component-one--a',
           'component-one--b',
           'component-one--e',
@@ -1141,6 +1145,7 @@ describe('PreviewWeb', () => {
       const preview = await createAndRenderPreview();
       await waitForRender();
 
+      // @ts-expect-error (jest mock)
       importFn.mockClear();
       await preview.onPreloadStories({ ids: ['component-two--c'] });
       expect(importFn).toHaveBeenCalledWith('./src/ComponentTwo.stories.js');
@@ -1151,6 +1156,7 @@ describe('PreviewWeb', () => {
       const preview = await createAndRenderPreview();
       await waitForRender();
 
+      // @ts-expect-error (jest mock)
       importFn.mockClear();
       await preview.onPreloadStories({ ids: ['component-one--docs'] });
       expect(importFn).toHaveBeenCalledWith('./src/ComponentOne.stories.js');
@@ -1161,6 +1167,7 @@ describe('PreviewWeb', () => {
       const preview = await createAndRenderPreview();
       await waitForRender();
 
+      // @ts-expect-error (jest mock)
       importFn.mockClear();
       await preview.onPreloadStories({ ids: ['introduction--docs'] });
       expect(importFn).toHaveBeenCalledWith('./src/Introduction.mdx');
@@ -1170,6 +1177,7 @@ describe('PreviewWeb', () => {
       const preview = await createAndRenderPreview();
       await waitForRender();
 
+      // @ts-expect-error (jest mock)
       importFn.mockClear();
       await preview.onPreloadStories({ ids: ['introduction--docs'] });
       expect(importFn).toHaveBeenCalledWith('./src/ComponentTwo.stories.js');
@@ -1607,14 +1615,18 @@ describe('PreviewWeb', () => {
           const [gate, openGate] = createGate();
           const [importedGate, openImportedGate] = createGate();
           importFn
+            // @ts-expect-error (jest mock)
             .mockImplementationOnce(async (...args) => {
               await gate;
+              // @ts-expect-error (jest mock)
               return importFn(...args);
             })
+            // @ts-expect-error (jest mock)
             .mockImplementationOnce(async (...args) => {
               // The second time we `import()` we open the "imported" gate
               openImportedGate();
               await gate;
+              // @ts-expect-error (jest mock)
               return importFn(...args);
             });
 
@@ -1652,14 +1664,18 @@ describe('PreviewWeb', () => {
           const [gate, openGate] = createGate();
           const [importedGate, openImportedGate] = createGate();
           importFn
+            // @ts-expect-error (jest mock)
             .mockImplementationOnce(async (...args) => {
               await gate;
+              // @ts-expect-error (jest mock)
               return importFn(...args);
             })
+            // @ts-expect-error (jest mock)
             .mockImplementationOnce(async (...args) => {
               // The second time we `import()` we open the "imported" gate
               openImportedGate();
               await gate;
+              // @ts-expect-error (jest mock)
               return importFn(...args);
             });
 
@@ -1696,14 +1712,18 @@ describe('PreviewWeb', () => {
           const [gate, openGate] = createGate();
           const [importedGate, openImportedGate] = createGate();
           importFn
+            // @ts-expect-error (jest mock)
             .mockImplementationOnce(async (...args) => {
               await gate;
+              // @ts-expect-error (jest mock)
               return importFn(...args);
             })
+            // @ts-expect-error (jest mock)
             .mockImplementationOnce(async (...args) => {
               // The second time we `import()` we open the "imported" gate
               openImportedGate();
               await gate;
+              // @ts-expect-error (jest mock)
               return importFn(...args);
             });
 
@@ -3072,7 +3092,7 @@ describe('PreviewWeb', () => {
     describe('when a standalone docs file changes', () => {
       const newStandaloneDocsExports = { default: jest.fn() };
 
-      const newImportFn = jest.fn(async (path) => {
+      const newImportFn = jest.fn(async (path: string) => {
         return path === './src/Introduction.mdx' ? newStandaloneDocsExports : importFn(path);
       });
 
@@ -3180,7 +3200,7 @@ describe('PreviewWeb', () => {
       expect(mockChannel.emit).toHaveBeenCalledWith(CONFIG_ERROR, err);
     });
 
-    const newGlobalDecorator = jest.fn((s) => s());
+    const newGlobalDecorator = jest.fn((s: any) => s());
     const newGetProjectAnnotations = () => {
       return {
         ...projectAnnotations,
@@ -3388,7 +3408,7 @@ describe('PreviewWeb', () => {
     it('waits for stories to be cached', async () => {
       const [gate, openGate] = createGate();
 
-      const gatedImportFn = async (path) => {
+      const gatedImportFn = async (path: string) => {
         await gate;
         return importFn(path);
       };

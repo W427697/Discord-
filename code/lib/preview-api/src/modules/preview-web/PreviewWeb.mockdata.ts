@@ -10,7 +10,11 @@ import {
   STORY_THREW_EXCEPTION,
 } from '@storybook/core-events';
 
-import type { Store_StoryIndex, Store_TeardownRenderToDOM } from '@storybook/types';
+import type {
+  Store_ModuleImportFn,
+  Store_StoryIndex,
+  Store_TeardownRenderToDOM,
+} from '@storybook/types';
 import type { RenderPhase } from './render/StoryRender';
 
 export const componentOneExports = {
@@ -44,7 +48,7 @@ export const extraComponentOneExports = {
   },
   e: {},
 };
-export const importFn = jest.fn(
+export const importFn: Store_ModuleImportFn = jest.fn(
   async (path: string) =>
     ({
       './src/ComponentOne.stories.js': componentOneExports,
@@ -52,7 +56,7 @@ export const importFn = jest.fn(
       './src/Introduction.mdx': standaloneDocsExports,
       './src/ExtraComponentOne.stories.js': extraComponentOneExports,
     }[path])
-);
+) as any as Store_ModuleImportFn;
 
 export const docsRenderer = {
   render: jest.fn().mockImplementation((context, parameters, element, cb) => cb()),

@@ -20,7 +20,7 @@ describe('UrlStore', () => {
       expect(pathToId('/story/story--id')).toEqual('story--id');
     });
     it('should error on invalid ids', () => {
-      [null, '', '/whatever/story/story--id'].forEach((path) => {
+      [null, '', '/whatever/story/story--id'].forEach((path: any) => {
         expect(() => pathToId(path)).toThrow(/Invalid/);
       });
     });

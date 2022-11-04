@@ -1,7 +1,7 @@
 import React from 'react';
 import { IconButton, Icons } from '@storybook/components';
 import { Consumer, type Combo } from '@storybook/api';
-import type { Addon } from '@storybook/preview-api';
+import type { Addon } from '@storybook/addons';
 
 const menuMapper = ({ api, state }: Combo) => ({
   isVisible: state.layout.showPanel,

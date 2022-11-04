@@ -29,7 +29,6 @@ jest.mock('./WebView');
 
 const { window, document } = global;
 jest.mock('global', () => ({
-  // @ts-expect-error (Converted from ts-ignore)
   ...jest.requireActual('global'),
   history: { replaceState: jest.fn() },
   document: {

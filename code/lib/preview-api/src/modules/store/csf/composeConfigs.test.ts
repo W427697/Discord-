@@ -162,9 +162,9 @@ describe('composeConfigs', () => {
     const fn = jest.fn();
 
     const { runStep } = composeConfigs([
-      { runStep: (label, play, context) => fn(`${label}1`, play(context)) },
-      { runStep: (label, play, context) => fn(`${label}2`, play(context)) },
-      { runStep: (label, play, context) => fn(`${label}3`, play(context)) },
+      { runStep: (label: any, play: any, context: any) => fn(`${label}1`, play(context)) },
+      { runStep: (label: any, play: any, context: any) => fn(`${label}2`, play(context)) },
+      { runStep: (label: any, play: any, context: any) => fn(`${label}3`, play(context)) },
     ]);
 
     // @ts-expect-error We don't care about the context value here

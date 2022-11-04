@@ -7237,6 +7237,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/preview-api@workspace:lib/preview-api"
   dependencies:
+    "@jest/globals": ^26.6.2
     "@storybook/addons": 7.0.0-alpha.47
     "@storybook/channels": next
     "@storybook/client-logger": 7.0.0-alpha.47
