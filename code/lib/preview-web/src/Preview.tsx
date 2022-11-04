@@ -13,7 +13,7 @@ import {
   UPDATE_GLOBALS,
   UPDATE_STORY_ARGS,
 } from '@storybook/core-events';
-import { logger } from '@storybook/client-logger';
+import { logger, deprecate } from '@storybook/client-logger';
 import type { Channel } from '@storybook/channels';
 import { addons } from '@storybook/addons';
 import type {
@@ -29,7 +29,6 @@ import type {
   StoryId,
 } from '@storybook/types';
 import { StoryStore } from '@storybook/store';
-import deprecate from 'util-deprecate';
 
 import { StoryRender } from './render/StoryRender';
 import type { TemplateDocsRender } from './render/TemplateDocsRender';
@@ -40,9 +39,6 @@ const { fetch } = global;
 const STORY_INDEX_PATH = './index.json';
 
 export type MaybePromise<T> = Promise<T> | T;
-
-const renderToDOMDeprecated = deprecate(() => {},
-`\`renderToDOM\` is deprecated, please rename to \`renderToCanvas\``);
 
 export class Preview<TFramework extends Framework> {
   serverChannel?: Channel;
@@ -113,7 +109,8 @@ export class Preview<TFramework extends Framework> {
     return SynchronousPromise.resolve()
       .then(getProjectAnnotations)
       .then((projectAnnotations) => {
-        if (projectAnnotations.renderToDOM) renderToDOMDeprecated();
+        if (projectAnnotations.renderToDOM)
+          deprecate(`\`renderToDOM\` is deprecated, please rename to \`renderToCanvas\``);
 
         this.renderToCanvas = projectAnnotations.renderToCanvas || projectAnnotations.renderToDOM;
         if (!this.renderToCanvas) {
