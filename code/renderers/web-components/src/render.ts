@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-/* eslint-disable no-param-reassign */
+
 import global from 'global';
 
 import { dedent } from 'ts-dedent';
@@ -38,7 +38,7 @@ export function renderToCanvas(
     showError,
     forceRemount,
   }: Store_RenderContext<WebComponentsFramework>,
-  domElement: WebComponentsFramework['canvasElement']
+  canvasElement: WebComponentsFramework['canvasElement']
 ) {
   const element = storyFn();
 

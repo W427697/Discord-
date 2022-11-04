@@ -20,7 +20,7 @@ type Instance = CombinedVueInstance<
   Record<never, any>
 >;
 
-const getRoot = (domElement: VueFramework['canvasElement']): Instance => {
+const getRoot = (canvasElement: VueFramework['canvasElement']): Instance => {
   const cachedInstance = map.get(domElement);
   if (cachedInstance != null) return cachedInstance;
 
@@ -92,7 +92,7 @@ export function renderToCanvas(
     showException,
     forceRemount,
   }: Store_RenderContext<VueFramework>,
-  domElement: VueFramework['canvasElement']
+  canvasElement: VueFramework['canvasElement']
 ) {
   const root = getRoot(domElement);
   Vue.config.errorHandler = showException;

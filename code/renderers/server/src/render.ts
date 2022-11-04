@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 // @ts-expect-error (Converted from ts-ignore)
 import global from 'global';
 
@@ -56,7 +55,7 @@ export async function renderToCanvas(
     storyContext,
     storyContext: { parameters, args, argTypes },
   }: Store_RenderContext<ServerFramework>,
-  domElement: ServerFramework['canvasElement']
+  canvasElement: ServerFramework['canvasElement']
 ) {
   // Some addons wrap the storyFn so we need to call it even though Server doesn't need the answer
   storyFn();

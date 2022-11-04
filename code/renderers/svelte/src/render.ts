@@ -7,14 +7,13 @@ import type { SvelteFramework } from './types';
 
 const componentsByDomElement = new Map<SvelteFramework['canvasElement'], SvelteComponentTyped>();
 
-function teardown(domElement: SvelteFramework['canvasElement']) {
+function teardown(canvasElement: SvelteFramework['canvasElement']) {
   if (!componentsByDomElement.has(domElement)) {
     return;
   }
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- we know it exists because we just checked
   componentsByDomElement.get(domElement)!.$destroy();
 
-  // eslint-disable-next-line no-param-reassign -- this is on purpose
   domElement.innerHTML = '';
   componentsByDomElement.delete(domElement);
 }
@@ -29,7 +28,7 @@ export function renderToCanvas(
     storyContext,
     forceRemount,
   }: Store_RenderContext<SvelteFramework>,
-  domElement: SvelteFramework['canvasElement']
+  canvasElement: SvelteFramework['canvasElement']
 ) {
   const existingComponent = componentsByDomElement.get(domElement);
 

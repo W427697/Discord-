@@ -22,7 +22,7 @@ export const render: ArgsStoryFn<PreactFramework> = (args, context) => {
 
 let renderedStory: Element;
 
-function preactRender(story: StoryFnPreactReturnType | null, domElement: Element): void {
+function preactRender(story: StoryFnPreactReturnType | null, canvasElement: Element): void {
   // @ts-expect-error (Converted from ts-ignore)
   if (preact.Fragment) {
     // Preact 10 only:
@@ -37,7 +37,7 @@ const StoryHarness: preact.FunctionalComponent<{
   title: string;
   showError: Store_RenderContext<PreactFramework>['showError'];
   storyFn: () => any;
-  domElement: PreactFramework['canvasElement'];
+  canvasElement: PreactFramework['canvasElement'];
 }> = ({ showError, name, title, storyFn, domElement }) => {
   const content = preact.h(storyFn as any, null);
   if (!content) {
@@ -55,7 +55,7 @@ const StoryHarness: preact.FunctionalComponent<{
 
 export function renderToCanvas(
   { storyFn, title, name, showMain, showError, forceRemount }: Store_RenderContext<PreactFramework>,
-  domElement: PreactFramework['canvasElement']
+  canvasElement: PreactFramework['canvasElement']
 ) {
   if (forceRemount) {
     preactRender(null, domElement);

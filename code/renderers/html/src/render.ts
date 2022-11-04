@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 import global from 'global';
 
 import { dedent } from 'ts-dedent';
@@ -42,7 +41,7 @@ export const render: ArgsStoryFn<HtmlFramework> = (args, context) => {
 
 export function renderToCanvas(
   { storyFn, kind, name, showMain, showError, forceRemount }: Store_RenderContext<HtmlFramework>,
-  domElement: HtmlFramework['canvasElement']
+  canvasElement: HtmlFramework['canvasElement']
 ) {
   const element = storyFn();
   showMain();

@@ -24,7 +24,7 @@ const map = new Map<VueFramework['canvasElement'], ReturnType<typeof createApp>>
 
 export function renderToCanvas(
   { title, name, storyFn, showMain, showError, showException }: Store_RenderContext<VueFramework>,
-  domElement: VueFramework['canvasElement']
+  canvasElement: VueFramework['canvasElement']
 ) {
   // TODO: explain cyclical nature of these app => story => mount
   let element: StoryFnVueReturnType;

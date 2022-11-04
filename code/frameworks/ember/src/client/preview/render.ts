@@ -62,7 +62,7 @@ function render(options: OptionsArgs, el: EmberFramework['canvasElement']) {
 
 export function renderToCanvas(
   { storyFn, kind, name, showMain, showError }: Store_RenderContext<EmberFramework>,
-  domElement: EmberFramework['canvasElement']
+  canvasElement: EmberFramework['canvasElement']
 ) {
   const element = storyFn();
 
