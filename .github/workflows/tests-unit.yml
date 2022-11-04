@@ -28,9 +28,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node_version }}
-          cache: yarn
-          cache-dependency-path: ./code/yarn.lock
       - name: install and compile
-        run: yarn task --task compile --start-from=auto
+        run: yarn task --task compile --start-from=auto --no-link
       - name: test
         run: yarn test --runInBand --ci
