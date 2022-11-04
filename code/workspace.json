@@ -181,11 +181,6 @@
       "root": "lib/core-server",
       "type": "library"
     },
-    "@storybook/core-vite": {
-      "implicitDependencies": [],
-      "root": "lib/core-vite",
-      "type": "library"
-    },
     "@storybook/core-webpack": {
       "implicitDependencies": [],
       "root": "lib/core-webpack",

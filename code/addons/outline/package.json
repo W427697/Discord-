@@ -41,7 +41,7 @@
     "./preview": {
       "require": "./dist/preset/preview.js",
       "import": "./dist/preset/preview.mjs",
-      "types": "./dist/preview.d.ts"
+      "types": "./dist/preset/preview.d.ts"
     },
     "./register": {
       "require": "./dist/manager.js",

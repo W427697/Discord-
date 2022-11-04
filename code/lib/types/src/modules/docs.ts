@@ -2,6 +2,10 @@ import type { Channel } from '@storybook/channels';
 import type { AnyFramework, StoryContextForLoaders, StoryId, StoryName, Parameters } from './csf';
 import type { Store_ModuleExport, Store_ModuleExports, Store_Story } from './store';
 
+export type StoryRenderOptions = {
+  autoplay?: boolean;
+};
+
 export interface DocsContextProps<TFramework extends AnyFramework = AnyFramework> {
   /**
    * Register the CSF file that this docs entry represents.
@@ -47,7 +51,8 @@ export interface DocsContextProps<TFramework extends AnyFramework = AnyFramework
    */
   renderStoryToElement: (
     story: Store_Story<TFramework>,
-    element: HTMLElement
+    element: HTMLElement,
+    options: StoryRenderOptions
   ) => () => Promise<void>;
 
   /**

@@ -9,8 +9,7 @@ export const getActualPackageVersions = async (packages: Record<string, Partial<
 
 export const getActualPackageVersion = async (packageName: string) => {
   try {
-    // eslint-disable-next-line import/no-dynamic-require,global-require
-    const packageJson = require(path.join(packageName, 'package.json'));
+    const packageJson = await getActualPackageJson(packageName);
     return {
       name: packageName,
       version: packageJson.version,
@@ -18,4 +17,10 @@ export const getActualPackageVersion = async (packageName: string) => {
   } catch (err) {
     return { name: packageName, version: null };
   }
+};
+
+export const getActualPackageJson = async (packageName: string) => {
+  // eslint-disable-next-line import/no-dynamic-require,global-require
+  const packageJson = require(path.join(packageName, 'package.json'));
+  return packageJson;
 };
