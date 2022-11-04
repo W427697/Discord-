@@ -39,6 +39,7 @@
     - [MDX2 upgrade](#mdx2-upgrade)
     - [Dropped source loader / storiesOf static snippets](#dropped-source-loader--storiesof-static-snippets)
     - [Dropped addon-docs manual configuration](#dropped-addon-docs-manual-configuration)
+    - [Autoplay in docs](#autoplay-in-docs)
   - [7.0 Deprecations](#70-deprecations)
     - [`Story` type deprecated](#story-type-deprecated)
     - [`ComponentStory`, `ComponentStoryObj`, `ComponentStoryFn` and `ComponentMeta` types are deprecated](#componentstory-componentstoryobj-componentstoryfn-and-componentmeta-types-are-deprecated)
@@ -779,6 +780,12 @@ module.exports = {
 #### Dropped addon-docs manual configuration
 
 Storybook Docs 5.x shipped with instructions for how to manually configure webpack and storybook without the use of Storybook's "presets" feature. Over time, these docs went out of sync. Now in Storybook 7 we have removed support for manual configuration entirely.
+
+#### Autoplay in docs
+
+Running play functions in docs is generally tricky, as they can steal focus and cause the window to scroll. Consequently, we've disabled play functions in docs by default.
+
+If your story depends on a play function to render correctly, _and_ you are confident the function autoplaying won't mess up your docs, you can set `parameters.docs.autoplay = true` to have it auto play.
 
 ### 7.0 Deprecations
 
