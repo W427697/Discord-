@@ -19,7 +19,7 @@ function cleanUpPreviousStory() {
   previousComponent = null;
 }
 
-export function renderToRoot(
+export function renderToCanvas(
   { storyFn, kind, name, showMain, showError, storyContext }: Store_RenderContext<SvelteFramework>,
   domElement: Element
 ) {

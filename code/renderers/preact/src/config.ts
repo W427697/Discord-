@@ -1,3 +1,3 @@
-export { renderToRoot, render } from './render';
+export { renderToCanvas, render } from './render';
 
 export const parameters = { framework: 'preact' as const };

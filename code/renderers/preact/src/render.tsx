@@ -53,7 +53,7 @@ const StoryHarness: preact.FunctionalComponent<{
   return content;
 };
 
-export function renderToRoot(
+export function renderToCanvas(
   { storyFn, title, name, showMain, showError, forceRemount }: Store_RenderContext<PreactFramework>,
   domElement: Element
 ) {

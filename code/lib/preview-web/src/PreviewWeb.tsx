@@ -64,7 +64,7 @@ function isStoryRender<TFramework extends Framework>(
 export class PreviewWeb<TFramework extends Framework> extends Preview<TFramework> {
   selectionStore: SelectionStore;
 
-  view: View<TFramework['rootElement']>;
+  view: View<TFramework['canvasElement']>;
 
   currentSelection?: Store_Selection;
 
@@ -77,7 +77,7 @@ export class PreviewWeb<TFramework extends Framework> extends Preview<TFramework
     view = new WebView() as any,
     selectionStore = new UrlStore(),
   }: {
-    view?: View<TFramework['rootElement']>;
+    view?: View<TFramework['canvasElement']>;
     selectionStore?: SelectionStore;
   } = {}) {
     super();
@@ -262,8 +262,8 @@ export class PreviewWeb<TFramework extends Framework> extends Preview<TFramework
   // - a story selected in "docs" viewMode,
   //     in which case we render the docsPage for that story
   async renderSelection({ persistedArgs }: { persistedArgs?: Args } = {}) {
-    const { renderToRoot } = this;
-    if (!renderToRoot) throw new Error('Cannot call renderSelection before initialization');
+    const { renderToCanvas } = this;
+    if (!renderToCanvas) throw new Error('Cannot call renderSelection before initialization');
     const { selection } = this.selectionStore;
     if (!selection) throw new Error('Cannot call renderSelection as no selection was made');
 
@@ -302,10 +302,10 @@ export class PreviewWeb<TFramework extends Framework> extends Preview<TFramework
       render = new StoryRender<TFramework>(
         this.channel,
         this.storyStore,
-        (...args: Parameters<typeof renderToRoot>) => {
-          // At the start of renderToRoot we make the story visible (see note in WebView)
+        (...args: Parameters<typeof renderToCanvas>) => {
+          // At the start of renderToCanvas we make the story visible (see note in WebView)
           this.view.showStoryDuringRender();
-          return renderToRoot(...args);
+          return renderToCanvas(...args);
         },
         this.mainStoryCallbacks(storyId),
         storyId,

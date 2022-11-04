@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import type { SynchronousPromise } from 'synchronous-promise';
-import type { AnyFramework, ProjectAnnotations as CsfProjectAnnotations } from '@storybook/csf';
+import type { Framework, ProjectAnnotations as CsfProjectAnnotations } from '@storybook/csf';
 
 import type { Addon_IndexEntry, Addon_StoryIndexEntry } from './addons';
 import type {
@@ -27,10 +27,6 @@ import type {
   ViewMode,
 } from './csf';
 
-export interface Framework extends AnyFramework {
-  rootElement: unknown;
-}
-
 export interface WebFramework extends Framework {
   rootElement: HTMLElement;
 }
@@ -42,17 +38,17 @@ export type Store_ModuleImportFn = (path: Path) => Store_PromiseLike<Store_Modul
 
 type Store_MaybePromise<T> = Promise<T> | T;
 
-export type TeardownRenderToRoot = () => Store_MaybePromise<void>;
-export type RenderToRoot<TFramework extends Framework> = (
+export type TeardownRenderToCanvas = () => Store_MaybePromise<void>;
+export type RenderToCanvas<TFramework extends Framework> = (
   context: Store_RenderContext<TFramework>,
-  element: TFramework['rootElement']
-) => Store_MaybePromise<void | TeardownRenderToRoot>;
+  element: TFramework['canvasElement']
+) => Store_MaybePromise<void | TeardownRenderToCanvas>;
 
 export type ProjectAnnotations<TFramework extends Framework> = CsfProjectAnnotations<TFramework> & {
-  renderToRoot?: RenderToRoot<TFramework>;
+  renderToCanvas?: RenderToCanvas<TFramework>;
 
-  /* @deprecated use renderToRoot */
-  renderToDOM?: RenderToRoot<TFramework>;
+  /* @deprecated use renderToCanvas */
+  renderToDOM?: RenderToCanvas<TFramework>;
 };
 
 export type Store_NormalizedProjectAnnotations<TFramework extends Framework = Framework> =

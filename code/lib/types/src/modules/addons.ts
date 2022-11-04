@@ -8,6 +8,7 @@ import type {
   ComponentTitle,
   DecoratorFunction as DecoratorFunctionForFramework,
   InputType,
+  Framework,
   LegacyStoryFn as LegacyStoryFnForFramework,
   LoaderFunction as LoaderFunctionForFramework,
   Parameters,
@@ -20,7 +21,6 @@ import type {
   StoryName,
   Tag,
 } from './csf';
-import type { Framework } from './store';
 
 export type Addon_Types = Addon_TypesEnum | string;
 
@@ -93,7 +93,11 @@ export type Addon_StoryContext<TFramework extends Framework = Framework> =
   StoryContextForFramework<TFramework>;
 export type Addon_StoryContextUpdate = Partial<Addon_StoryContext>;
 
-type Addon_ReturnTypeFramework<ReturnType> = { component: any; storyResult: ReturnType };
+type Addon_ReturnTypeFramework<ReturnType> = {
+  component: any;
+  storyResult: ReturnType;
+  canvasElement: any;
+};
 export type Addon_PartialStoryFn<ReturnType = unknown> = PartialStoryFnForFramework<
   Addon_ReturnTypeFramework<ReturnType>
 >;

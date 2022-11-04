@@ -1,10 +1,11 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import type { Addon_StoryApi, Addon_Type } from './addons';
-import type { Framework, Store_RenderContext } from './store';
+import type { Store_RenderContext } from './store';
 import type {
   Args,
   ArgTypes,
   DecoratorFunction,
+  Framework,
   LoaderFunction,
   Parameters,
   LegacyStoryFn,

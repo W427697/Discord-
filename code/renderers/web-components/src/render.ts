@@ -29,7 +29,7 @@ export const render: ArgsStoryFn<WebComponentsFramework> = (args, context) => {
   return element;
 };
 
-export function renderToRoot(
+export function renderToCanvas(
   {
     storyFn,
     kind,

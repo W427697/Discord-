@@ -18,7 +18,7 @@ export interface Render<TFramework extends Framework> {
   teardown?: (options: { viewModeChanged: boolean }) => Promise<void>;
   torndown: boolean;
   renderToElement: (
-    canvasElement: TFramework['rootElement'],
+    canvasElement: TFramework['canvasElement'],
     renderStoryToElement?: any
   ) => Promise<void>;
 }

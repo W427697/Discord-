@@ -22,7 +22,7 @@ import type {
   Globals,
   Store_ModuleImportFn,
   Store_PromiseLike,
-  RenderToRoot,
+  RenderToCanvas,
   Store_Story,
   Store_StoryIndex,
   ProjectAnnotations,
@@ -42,7 +42,7 @@ const STORY_INDEX_PATH = './index.json';
 export type MaybePromise<T> = Promise<T> | T;
 
 const renderToDOMDeprecated = deprecate(() => {},
-`\`renderToDOM\` is deprecated, please rename to \`renderToRoot\``);
+`\`renderToDOM\` is deprecated, please rename to \`renderToCanvas\``);
 
 export class Preview<TFramework extends Framework> {
   serverChannel?: Channel;
@@ -53,7 +53,7 @@ export class Preview<TFramework extends Framework> {
 
   importFn?: Store_ModuleImportFn;
 
-  renderToRoot?: RenderToRoot<TFramework>;
+  renderToCanvas?: RenderToCanvas<TFramework>;
 
   storyRenders: StoryRender<TFramework>[] = [];
 
@@ -115,10 +115,10 @@ export class Preview<TFramework extends Framework> {
       .then((projectAnnotations) => {
         if (projectAnnotations.renderToDOM) renderToDOMDeprecated();
 
-        this.renderToRoot = projectAnnotations.renderToRoot || projectAnnotations.renderToDOM;
-        if (!this.renderToRoot) {
+        this.renderToCanvas = projectAnnotations.renderToCanvas || projectAnnotations.renderToDOM;
+        if (!this.renderToCanvas) {
           throw new Error(dedent`
-            Expected your framework's preset to export a \`renderToRoot\` field.
+            Expected your framework's preset to export a \`renderToCanvas\` field.
 
             Perhaps it needs to be upgraded for Storybook 6.4?
 
@@ -309,14 +309,14 @@ export class Preview<TFramework extends Framework> {
   // main to be consistent with the previous behaviour. In the future,
   // we will change it to go ahead and load the story, which will end up being
   // "instant", although async.
-  renderStoryToElement(story: Store_Story<TFramework>, element: TFramework['rootElement']) {
-    if (!this.renderToRoot)
+  renderStoryToElement(story: Store_Story<TFramework>, element: TFramework['canvasElement']) {
+    if (!this.renderToCanvas)
       throw new Error(`Cannot call renderStoryToElement before initialization`);
 
     const render = new StoryRender<TFramework>(
       this.channel,
       this.storyStore,
-      this.renderToRoot,
+      this.renderToCanvas,
       this.inlineStoryCallbacks(story.id),
       story.id,
       'docs',

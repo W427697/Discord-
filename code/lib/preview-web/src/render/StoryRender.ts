@@ -2,9 +2,9 @@ import global from 'global';
 import type {
   Framework,
   Store_RenderContext,
-  RenderToRoot,
+  RenderToCanvas,
   Store_Story,
-  TeardownRenderToRoot,
+  TeardownRenderToCanvas,
   StoryContext,
   StoryContextForLoaders,
   StoryId,
@@ -56,20 +56,20 @@ export class StoryRender<TFramework extends Framework> implements Render<TFramew
 
   private abortController?: AbortController;
 
-  private canvasElement?: TFramework['rootElement'];
+  private canvasElement?: TFramework['canvasElement'];
 
   private notYetRendered = true;
 
   public disableKeyListeners = false;
 
-  private teardownRender: TeardownRenderToRoot = () => {};
+  private teardownRender: TeardownRenderToCanvas = () => {};
 
   public torndown = false;
 
   constructor(
     public channel: Channel,
     public store: StoryStore<TFramework>,
-    private renderToScreen: RenderToRoot<TFramework>,
+    private renderToScreen: RenderToCanvas<TFramework>,
     private callbacks: RenderContextCallbacks<TFramework>,
     public id: StoryId,
     public viewMode: ViewMode,
@@ -126,7 +126,7 @@ export class StoryRender<TFramework extends Framework> implements Render<TFramew
     return ['rendering', 'playing'].includes(this.phase as RenderPhase);
   }
 
-  async renderToElement(canvasElement: TFramework['rootElement']) {
+  async renderToElement(canvasElement: TFramework['canvasElement']) {
     this.canvasElement = canvasElement;
 
     // FIXME: this comment
@@ -186,7 +186,7 @@ export class StoryRender<TFramework extends Framework> implements Render<TFramew
         // and we need to ensure we render it with the new values
         ...this.storyContext(),
         abortSignal,
-        // We should consider parameterizing the story types with TFramework['rootElement'] in the future
+        // We should consider parameterizing the story types with TFramework['canvasElement'] in the future
         canvasElement: canvasElement as any,
       };
       const renderContext: Store_RenderContext<TFramework> = {

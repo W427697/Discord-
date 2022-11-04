@@ -92,7 +92,7 @@ export class TemplateDocsRender<TFramework extends Framework> implements Render<
   }
 
   async renderToElement(
-    canvasElement: TFramework['rootElement'],
+    canvasElement: TFramework['canvasElement'],
     renderStoryToElement: DocsContextProps['renderStoryToElement']
   ) {
     if (!this.story || !this.csfFiles) throw new Error('Cannot render docs before preparing');

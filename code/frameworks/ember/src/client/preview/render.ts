@@ -60,7 +60,7 @@ function render(options: OptionsArgs, el: Element) {
     });
 }
 
-export function renderToRoot(
+export function renderToCanvas(
   { storyFn, kind, name, showMain, showError }: Store_RenderContext<EmberFramework>,
   domElement: Element
 ) {

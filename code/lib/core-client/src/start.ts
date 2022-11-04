@@ -37,7 +37,7 @@ interface CoreClient_StartReturnValue<TFramework extends Framework> {
 }
 
 export function start<TFramework extends Framework>(
-  renderToRoot: ProjectAnnotations<TFramework>['renderToRoot'],
+  renderToCanvas: ProjectAnnotations<TFramework>['renderToCanvas'],
   { decorateStory, render }: CoreClient_RendererImplementation<TFramework> = {}
 ): CoreClient_StartReturnValue<TFramework> {
   if (globalWindow) {
@@ -118,7 +118,7 @@ export function start<TFramework extends Framework>(
         return {
           render,
           ...clientApi.facade.projectAnnotations,
-          renderToRoot,
+          renderToCanvas,
           applyDecorators: decorateStory,
         };
       };

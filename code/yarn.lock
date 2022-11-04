@@ -5665,7 +5665,7 @@ __metadata:
     "@storybook/addons": 7.0.0-alpha.46
     "@storybook/client-logger": 7.0.0-alpha.46
     "@storybook/core-events": 7.0.0-alpha.46
-    "@storybook/csf": next
+    "@storybook/csf": 0.0.2--canary.53.4879818.0
     "@storybook/router": 7.0.0-alpha.46
     "@storybook/types": 7.0.0-alpha.46
     global: ^4.4.0
@@ -5735,7 +5735,7 @@ __metadata:
   resolution: "@storybook/addon-storyshots-puppeteer@workspace:addons/storyshots/storyshots-puppeteer"
   dependencies:
     "@axe-core/puppeteer": ^4.2.0
-    "@storybook/csf": next
+    "@storybook/csf": 0.0.2--canary.53.4879818.0
     "@storybook/node-logger": 7.0.0-alpha.46
     "@storybook/types": 7.0.0-alpha.46
     "@types/jest-image-snapshot": ^4.1.3
@@ -6058,7 +6058,7 @@ __metadata:
     "@storybook/client-logger": 7.0.0-alpha.46
     "@storybook/core-common": 7.0.0-alpha.46
     "@storybook/core-events": 7.0.0-alpha.46
-    "@storybook/csf": next
+    "@storybook/csf": 0.0.2--canary.53.4879818.0
     "@storybook/router": 7.0.0-alpha.46
     "@storybook/theming": 7.0.0-alpha.46
     "@storybook/types": 7.0.0-alpha.46
@@ -6128,7 +6128,7 @@ __metadata:
     "@storybook/client-logger": 7.0.0-alpha.46
     "@storybook/components": 7.0.0-alpha.46
     "@storybook/core-events": 7.0.0-alpha.46
-    "@storybook/csf": next
+    "@storybook/csf": 0.0.2--canary.53.4879818.0
     "@storybook/docs-tools": 7.0.0-alpha.46
     "@storybook/preview-web": 7.0.0-alpha.46
     "@storybook/store": 7.0.0-alpha.46
@@ -6364,7 +6364,7 @@ __metadata:
     "@storybook/addons": 7.0.0-alpha.46
     "@storybook/client-logger": 7.0.0-alpha.46
     "@storybook/core-common": 7.0.0-alpha.46
-    "@storybook/csf": next
+    "@storybook/csf": 0.0.2--canary.53.4879818.0
     "@storybook/store": 7.0.0-alpha.46
     "@storybook/types": 7.0.0-alpha.46
     "@types/qs": ^6.9.5
@@ -6405,7 +6405,7 @@ __metadata:
   resolution: "@storybook/codemod@workspace:lib/codemod"
   dependencies:
     "@babel/types": ^7.12.11
-    "@storybook/csf": next
+    "@storybook/csf": 0.0.2--canary.53.4879818.0
     "@storybook/csf-tools": 7.0.0-alpha.46
     "@storybook/node-logger": 7.0.0-alpha.46
     "@storybook/types": 7.0.0-alpha.46
@@ -6428,7 +6428,7 @@ __metadata:
   dependencies:
     "@popperjs/core": ^2.6.0
     "@storybook/client-logger": 7.0.0-alpha.46
-    "@storybook/csf": next
+    "@storybook/csf": 0.0.2--canary.53.4879818.0
     "@storybook/theming": 7.0.0-alpha.46
     "@storybook/types": 7.0.0-alpha.46
     "@types/overlayscrollbars": ^1.12.0
@@ -6463,7 +6463,7 @@ __metadata:
     "@storybook/client-api": 7.0.0-alpha.46
     "@storybook/client-logger": 7.0.0-alpha.46
     "@storybook/core-events": 7.0.0-alpha.46
-    "@storybook/csf": next
+    "@storybook/csf": 0.0.2--canary.53.4879818.0
     "@storybook/preview-web": 7.0.0-alpha.46
     "@storybook/store": 7.0.0-alpha.46
     "@storybook/types": 7.0.0-alpha.46
@@ -6547,7 +6547,7 @@ __metadata:
     "@storybook/core-client": 7.0.0-alpha.46
     "@storybook/core-common": 7.0.0-alpha.46
     "@storybook/core-events": 7.0.0-alpha.46
-    "@storybook/csf": next
+    "@storybook/csf": 0.0.2--canary.53.4879818.0
     "@storybook/csf-tools": 7.0.0-alpha.46
     "@storybook/docs-mdx": 0.0.1-canary.12433cf.0
     "@storybook/node-logger": 7.0.0-alpha.46
@@ -6625,7 +6625,7 @@ __metadata:
     "@babel/parser": ^7.12.11
     "@babel/traverse": ^7.12.11
     "@babel/types": ^7.12.11
-    "@storybook/csf": next
+    "@storybook/csf": 0.0.2--canary.53.4879818.0
     "@storybook/types": 7.0.0-alpha.46
     "@types/fs-extra": ^9.0.6
     fs-extra: ^9.0.1
@@ -6644,23 +6644,23 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@storybook/csf@npm:0.0.2--canary.53.4879818.0":
+  version: 0.0.2--canary.53.4879818.0
+  resolution: "@storybook/csf@npm:0.0.2--canary.53.4879818.0"
+  dependencies:
+    expect-type: ^0.14.2
+    lodash: ^4.17.15
+    type-fest: ^2.19.0
+  checksum: 23f5e01d4d090d6454df0b06831a238a2d30f725c145ef5e9f2a4c9ae5d260e7ed85d288cc6750e0efc78650cac24b1104bdc12fafc09a8469a70b1f8f6c123d
+  languageName: node
+  linkType: hard
+
 "@storybook/csf@npm:^0.0.1":
   version: 0.0.1
   resolution: "@storybook/csf@npm:0.0.1"
   dependencies:
     lodash: ^4.17.15
   checksum: 7b0f75763415f9147692a460b44417ee56ea9639433716a1fd4d1df4c8b0221cbc71b8da0fbed4dcecb3ccd6c7ed64be39f5c255c713539a6088a1d6488aaa24
-  languageName: node
-  linkType: hard
-
-"@storybook/csf@npm:next":
-  version: 0.0.2-next.1
-  resolution: "@storybook/csf@npm:0.0.2-next.1"
-  dependencies:
-    expect-type: ^0.14.2
-    lodash: ^4.17.15
-    type-fest: ^2.19.0
-  checksum: 941ed6463ffd5dd15b70c624d34abf800dc55d8bffb923740df25d2e675e55702417bef489e7c955388aec4c4b74a7435acc0b8d721cd5ef7f75b31972f6c864
   languageName: node
   linkType: hard
 
@@ -7414,7 +7414,7 @@ __metadata:
     "@storybook/core-events": "workspace:*"
     "@storybook/core-server": "workspace:*"
     "@storybook/core-webpack": "workspace:*"
-    "@storybook/csf": next
+    "@storybook/csf": 0.0.2--canary.53.4879818.0
     "@storybook/csf-tools": "workspace:*"
     "@storybook/docs-tools": "workspace:*"
     "@storybook/ember": "workspace:*"
@@ -7694,7 +7694,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/source-loader@workspace:lib/source-loader"
   dependencies:
-    "@storybook/csf": next
+    "@storybook/csf": 0.0.2--canary.53.4879818.0
     "@storybook/types": 7.0.0-alpha.46
     estraverse: ^5.2.0
     jest-specific-snapshot: ^4.0.0
@@ -7714,7 +7714,7 @@ __metadata:
     "@storybook/addons": 7.0.0-alpha.46
     "@storybook/client-logger": 7.0.0-alpha.46
     "@storybook/core-events": 7.0.0-alpha.46
-    "@storybook/csf": next
+    "@storybook/csf": 0.0.2--canary.53.4879818.0
     "@storybook/types": 7.0.0-alpha.46
     dequal: ^2.0.2
     global: ^4.4.0
@@ -7879,7 +7879,7 @@ __metadata:
   resolution: "@storybook/types@workspace:lib/types"
   dependencies:
     "@babel/core": ^7.12.10
-    "@storybook/csf": next
+    "@storybook/csf": 0.0.2--canary.53.4879818.0
     "@types/babel__core": ^7.0.0
     "@types/express": ^4.7.0
     "@types/node": ^16.0.0

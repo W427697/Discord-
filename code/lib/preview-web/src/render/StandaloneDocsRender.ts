@@ -75,7 +75,7 @@ export class StandaloneDocsRender<TFramework extends Framework> implements Rende
   }
 
   async renderToElement(
-    canvasElement: TFramework['rootElement'],
+    canvasElement: TFramework['canvasElement'],
     renderStoryToElement: DocsContextProps['renderStoryToElement']
   ) {
     if (!this.exports || !this.csfFiles || !this.store.projectAnnotations)
