@@ -106,6 +106,11 @@ jobs:
           command: |
             yarn task --task compile --start-from=auto --no-link --debug
             git diff --exit-code
+      - run:
+          name: Publish to Verdaccio
+          command: |
+            cd code
+            yarn local-registry --publish
       - save_cache:
           name: Save Yarn cache
           key: build-yarn-2-cache-v4--{{ checksum "code/yarn.lock" }}--{{ checksum "scripts/yarn.lock" }}
@@ -124,23 +129,6 @@ jobs:
             - code/ui
             - code/renderers
             - code/presets
-  publish:
-    executor:
-      class: small
-      name: sb_node_16_classic
-    steps:
-      - git-shallow-clone/checkout_advanced:
-          clone_options: '--depth 1 --verbose'
-      - attach_workspace:
-          at: .
-      - run:
-          name: running local registry
-          command: |
-            cd code
-            yarn local-registry --publish
-      - persist_to_workspace:
-          root: .
-          paths:
             - .verdaccio-cache
   cra-bench:
     executor:
@@ -475,14 +463,11 @@ workflows:
       equal: [ daily-tests, << pipeline.parameters.workflow >> ]
     jobs:
       - build
-      - publish:
-          requires:
-            - build
       - create-sandboxes:
           parallelism: 24
           cadence: "daily"
           requires:
-            - publish
+            - build
       # - smoke-test-sandboxes: # disabled for now
       #     requires:
       #       - create-sandboxes
@@ -529,19 +514,16 @@ workflows:
       - coverage:
           requires:
             - unit-tests
-      - publish:
-          requires:
-            - build
       - cra-bench:
           requires:
-            - publish
+            - build
       - react-vite-bench:
           requires:
-            - publish
+            - build
       ## new workflow
       - create-sandboxes:
           requires:
-            - publish
+            - build
       # - smoke-test-sandboxes: # disabled for now
       #     requires:
       #       - create-sandboxes
