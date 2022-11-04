@@ -53,7 +53,6 @@ Update your Storybook configuration (in `.storybook/main.js|ts`) to include the 
 The test itself is defined inside a `play` function connected to a story. Here's an example of how to set up an interaction test with Storybook and the `play` function:
 
 <!-- prettier-ignore-start -->
-
 <CodeSnippets
   paths={[
     'react/login-form-with-play-function.js.mdx',
@@ -62,8 +61,10 @@ The test itself is defined inside a `play` function connected to a story. Here's
     'angular/login-form-with-play-function.ts.mdx',
     'angular/login-form-with-play-function.mdx.mdx',
     'vue/login-form-with-play-function.2.js.mdx',
+    'vue/login-form-with-play-function.ts-2.ts.mdx',
     'vue/login-form-with-play-function.mdx-2.mdx',
     'vue/login-form-with-play-function.3.js.mdx',
+    'vue/login-form-with-play-function.ts-3.ts.mdx',
     'vue/login-form-with-play-function.mdx-3.mdx',
     'svelte/login-form-with-play-function.js.mdx',
     'svelte/login-form-with-play-function.mdx.mdx',
@@ -98,24 +99,6 @@ Below is an abridged API for user-event. For more, check out the [official user-
 | `selectOptions`   | Selects the specified option, or options of a select element <br/>`userEvent.selectOptions(await within(canvasElement).getByRole('listbox'),['1','2']);` |
 | `type`            | Writes text inside inputs, or textareas <br/>`userEvent.type(await within(canvasElement).getByRole('my-input'),'Some text');`                            |
 | `unhover`         | Unhovers out of element <br/>`userEvent.unhover(await within(canvasElement).getByLabelText(/Example/i));`                                                |
-
-### Group interactions with the `step` function
-
-For complex flows, it can be worthwhile to group sets of related interactions together using the `step` function. This allows you to provide a custom label that describes a set of interactions:
-
-<!-- prettier-ignore-start -->
-
-<CodeSnippets
-  paths={[
-    'common/storybook-interactions-step-function.js.mdx',
-  ]}
-/>
-
-<!-- prettier-ignore-end -->
-
-This will show your interactions nested in a collapsible group:
-
-![Interaction testing with labeled steps](./storybook-addon-interactions-steps.png)
 
 ### Interactive debugger
 
