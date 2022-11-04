@@ -1,0 +1,38 @@
+```md
+<!-- MyForm.stories.mdx -->
+
+import { Canvas, Meta, Story } from '@storybook/addon-docs';
+
+import { userEvent, waitFor, within } from '@storybook/testing-library';
+
+import { expect } from '@storybook/jest';
+
+import { MyForm } from './MyForm';
+
+<Meta title="MyForm" component={MyForm} />
+
+export const Template = (args) => (
+  // 👇 Your story template goes here
+);
+
+<!--  
+ See https://storybook.js.org/docs/react/writing-stories/play-function#working-with-the-canvas
+ to learn more about using the canvasElement to query the DOM
+ -->
+<Canvas>
+  <Story
+    name="Submitted"
+    play={async ({ canvasElement, args}) => {
+      const canvas = within(canvasElement);
+
+      await userEvent.type(canvas.getByTestId('Email'), 'hi@example.com');
+      await userEvent.type(canvas.getByTestId('Password'), 'supersecret');
+
+      await userEvent.click(canvas.getByRole('button'));
+
+      await waitFor(() => expect(args.onSubmit).toHaveBeenCalled());
+    }}>
+    {Template.bind({})}
+  </Story>
+</Canvas>
+```

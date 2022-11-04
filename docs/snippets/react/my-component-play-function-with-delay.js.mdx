@@ -1,32 +1,41 @@
 ```js
 // MyComponent.stories.js|jsx
 
-import { screen, userEvent } from '@storybook/testing-library';
+import React from 'react';
+
+import { userEvent, within } from '@storybook/testing-library';
 
 import { MyComponent } from './MyComponent';
 
 export default {
   /* 👇 The title prop is optional.
-   * See https://storybook.js.org/docs/7.0/react/configure/overview#configure-story-loading
-   * to learn how to generate automatic titles
-   */
+  * See https://storybook.js.org/docs/react/configure/overview#configure-story-loading
+  * to learn how to generate automatic titles
+  */
   title: 'WithDelay',
   component: MyComponent,
 };
 
-export const DelayedStory = {
-  play: async () => {
-    const exampleElement = screen.getByLabelText('example-element');
+const Template = (args) => <MyComponent {...args} />;
 
-    // The delay option set the ammount of milliseconds between characters being typed
-    await userEvent.type(exampleElement, 'random string', {
-      delay: 100,
-    });
+/*
+* See https://storybook.js.org/docs/react/writing-stories/play-function#working-with-the-canvas
+* to learn more about using the canvasElement to query the DOM
+*/
+export const DelayedStory = Template.bind({});
+DelayedStory.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
 
-    const AnotherExampleElement = screen.getByLabelText('another-example-element');
-    await userEvent.type(AnotherExampleElement, 'another random string', {
-      delay: 100,
-    });
-  },
+  const exampleElement = canvas.getByLabelText('example-element');
+
+  // The delay option set the amount of milliseconds between characters being typed
+  await userEvent.type(exampleElement, 'random string', {
+    delay: 100,
+  });
+
+  const AnotherExampleElement = canvas.getByLabelText('another-example-element');
+  await userEvent.type(AnotherExampleElement, 'another random string', {
+    delay: 100,
+  });
 };
 ```

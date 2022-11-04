@@ -1,5 +1,8 @@
-```js
-// MyForm.stories.js|jsx
+```ts
+// MyForm.stories.ts|tsx
+
+// Replace your-framework with your framework of choice
+import { Meta, Story } from '@storybook/your-framework';
 
 import { expect } from '@storybook/jest';
 
@@ -17,10 +20,10 @@ export default {
   argTypes: {
     onSubmit: { action: true },
   },
-};
+} as Meta;
 
-const Template = (args) => (
-  // 👇 Your story template goes here
+const Template: Story = (args) => (
+ // 👇 Your story template goes here
 );
 
 /*

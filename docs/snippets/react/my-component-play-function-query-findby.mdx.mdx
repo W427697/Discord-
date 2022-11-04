@@ -3,20 +3,27 @@
 
 import { Meta, Story } from '@storybook/addon-docs';
 
-import { screen, userEvent } from '@storybook/testing-library';
+import { userEvent, within } from '@storybook/testing-library';
 
 import { MyComponent } from './MyComponent';
 
 <Meta title="Async Query Methods" component={MyComponent} />
 
+export const Template = (args) => <MyComponent {...args} />;
+
+<!--  
+ See https://storybook.js.org/docs/react/writing-stories/play-function#working-with-the-canvas
+ to learn more about using the canvasElement to query the DOM
+ -->
 <Story
   name="AsyncExample"
-  play={async () => {
+  play={async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
     // Other steps
 
     // Waits for the component to be rendered before querying the element
-    await screen.findByRole('button', { name: / button label/i }));
+    await canvas.findByRole('button', { name: / button label/i }));
   }}>
-  <MyComponent />
+  {Template.bind({})}
 </Story>
 ```

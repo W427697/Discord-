@@ -3,16 +3,23 @@
 
 import { Meta, Story } from '@storybook/addon-docs';
 
-import { screen, userEvent, waitFor } from '@storybook/testing-library';
+import { userEvent, waitFor, within } from '@storybook/testing-library';
 
 import { MyComponent } from './MyComponent';
 
 <Meta title="WithAsync" component={MyComponent}/>
 
+export const Template = (args) => <MyComponent {...args} />;
+
+<!--  
+ See https://storybook.js.org/docs/react/writing-stories/play-function#working-with-the-canvas
+ to learn more about using the canvasElement to query the DOM
+ -->
 <Story
   name="ExampleAsyncStory"
-  play={ async () => {
-    const Input = screen.getByLabelText('Username', {
+  play={async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const Input = canvas.getByLabelText('Username', {
       selector: 'input',
     });
 
@@ -20,15 +27,15 @@ import { MyComponent } from './MyComponent';
       delay: 100,
     });
     
-    // See https://storybook.js.org/docs/7.0/react/essentials/actions#automatically-matching-args to learn how to setup logging in the Actions panel
+    // See https://storybook.js.org/docs/react/essentials/actions#automatically-matching-args to learn how to setup logging in the Actions panel
     const Submit = screen.getByRole('button');
 
     await userEvent.click(Submit);
 
     await waitFor(async () => {
-      await userEvent.hover(screen.getByTestId('error'));
+      await userEvent.hover(canvas.getByTestId('error'));
     });
   }}>
-  <MyComponent />
+  {Template.bind({})}
 </Story>
 ```
