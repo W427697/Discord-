@@ -1,4 +1,4 @@
-import { types, type Addon } from '@storybook/preview-api';
+import { types, type Addon } from '@storybook/addons';
 import type { API, State } from '@storybook/api';
 import type { PreviewProps } from './utils/types';
 
@@ -24,6 +24,7 @@ export const previewProps: PreviewProps = {
         : []) as API['getElements'],
   } as any as API,
   entry: {
+    tags: [],
     type: 'story',
     id: 'story--id',
     parent: 'root',
