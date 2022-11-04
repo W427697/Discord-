@@ -8,7 +8,7 @@ import type {
   StoryName,
 } from '@storybook/types';
 import type { Channel } from '@storybook/channels';
-import { StoryRenderOptions } from '../render/StoryRender';
+import type { StoryRenderOptions } from '../render/StoryRender';
 
 export interface DocsContextProps<TFramework extends AnyFramework = AnyFramework> {
   /**
