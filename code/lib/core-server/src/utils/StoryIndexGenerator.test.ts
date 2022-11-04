@@ -61,8 +61,7 @@ const options = {
   docs: { enabled: true, defaultName: 'docs', docsPage: false },
 };
 
-// TODO Revisit this test later, when we have a windows machine @valentinpalkovic
-(process.platform === 'win32' ? describe.skip : describe)('StoryIndexGenerator', () => {
+describe('StoryIndexGenerator', () => {
   beforeEach(() => {
     const actual = jest.requireActual('@storybook/csf-tools');
     loadCsfMock.mockImplementation(actual.loadCsf);

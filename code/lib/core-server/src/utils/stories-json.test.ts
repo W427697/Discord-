@@ -68,8 +68,7 @@ const getInitializedStoryIndexGenerator = async (
   return generator;
 };
 
-// TODO Revisit this test later, when we have a windows machine @valentinpalkovic
-(process.platform === 'win32' ? describe.skip : describe)('useStoriesJson', () => {
+describe('useStoriesJson', () => {
   const use = jest.fn();
   const router: Router = { use } as any;
   const send = jest.fn();
