@@ -4,6 +4,8 @@ import MyButton from './Button.vue';
 export default {
   title: 'Example/Button',
   component: MyButton,
+  // This component will have an automatically generated docsPage entry: https://storybook.js.org/docs/vue/writing-docs/docs-page
+  tags: ['docsPage'],
   // More on component templates: https://storybook.js.org/docs/vue/writing-stories/introduction#using-args
   render: (args) => ({
     // Components used in your story `template` are defined in the `components` object

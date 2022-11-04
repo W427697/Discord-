@@ -3,6 +3,8 @@ import { Header } from './Header';
 export default {
   title: 'Example/Header',
   component: Header,
+  // This component will have an automatically generated docsPage entry: https://storybook.js.org/docs/preact/writing-docs/docs-page
+  tags: ['docsPage'],
   parameters: {
     // More on Story layout: https://storybook.js.org/docs/preact/configure/story-layout
     layout: 'fullscreen',

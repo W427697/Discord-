@@ -39,6 +39,7 @@
     - [MDX2 upgrade](#mdx2-upgrade)
     - [Dropped source loader / storiesOf static snippets](#dropped-source-loader--storiesof-static-snippets)
     - [Dropped addon-docs manual configuration](#dropped-addon-docs-manual-configuration)
+    - [Autoplay in docs](#autoplay-in-docs)
   - [7.0 Deprecations](#70-deprecations)
     - [`Story` type deprecated](#story-type-deprecated)
     - [`ComponentStory`, `ComponentStoryObj`, `ComponentStoryFn` and `ComponentMeta` types are deprecated](#componentstory-componentstoryobj-componentstoryfn-and-componentmeta-types-are-deprecated)
@@ -463,8 +464,8 @@ module.exports = {
   framework: {
     name: '@storybook/react-webpack5',
     options: { fastRefresh: true },
-  }
-}
+  },
+};
 ```
 
 #### Framework standalone build moved
@@ -657,11 +658,23 @@ You can configure Docs Page in `main.js`:
 ```js
 module.exports = {
   docs: {
-    docsPage: true, // set to false to disable docs page entirely
+    docsPage: 'automatic', // see below for alternatives
     defaultName: 'Docs', // set to change the name of generated docs entries
   },
 };
 ```
+
+If you are migrating from 6.x your `docs.docsPage` option will have been set to `'automatic'`, which has the effect of enabling docs page for _every_ CSF file. However, as of 7.0, the new default is `true`, which requires opting into DocsPage per-CSF file, with the `docsPage` **tag** on your component export:
+
+```ts
+export default {
+  component: MyComponent
+  // Tags are a new feature coming in 7.1, that we are using to drive this behaviour.
+  tags: ['docsPage']
+}
+```
+
+You can also set `docsPage: false` to opt-out of docs page entirely.
 
 You can change the default template in the same way as in 6.x, using the `docs.page` parameter.
 
@@ -754,20 +767,25 @@ module.exports = {
       use: [
         {
           loader: require.resolve('@storybook/source-loader'),
-          options: {} /* your sourceLoaderOptions here */
+          options: {} /* your sourceLoaderOptions here */,
         },
       ],
       enforce: 'pre',
-    })
+    });
     return config;
-  }
-}
+  },
+};
 ```
-
 
 #### Dropped addon-docs manual configuration
 
 Storybook Docs 5.x shipped with instructions for how to manually configure webpack and storybook without the use of Storybook's "presets" feature. Over time, these docs went out of sync. Now in Storybook 7 we have removed support for manual configuration entirely.
+
+#### Autoplay in docs
+
+Running play functions in docs is generally tricky, as they can steal focus and cause the window to scroll. Consequently, we've disabled play functions in docs by default.
+
+If your story depends on a play function to render correctly, _and_ you are confident the function autoplaying won't mess up your docs, you can set `parameters.docs.autoplay = true` to have it auto play.
 
 ### 7.0 Deprecations
 

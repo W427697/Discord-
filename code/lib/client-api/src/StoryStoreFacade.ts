@@ -191,11 +191,11 @@ export class StoryStoreFacade<TFramework extends AnyFramework> {
 
     // NOTE: this logic is equivalent to the `extractStories` function of `StoryIndexGenerator`
     const docsOptions = (global.DOCS_OPTIONS || {}) as DocsOptions;
+    const docsPageOptedIn =
+      docsOptions.docsPage === 'automatic' ||
+      (docsOptions.docsPage && componentTags.includes('docsPage'));
     if (docsOptions.enabled && storyExports.length) {
-      if (
-        componentTags.includes('mdx') ||
-        (docsOptions.docsPage && componentTags.includes('docsPage'))
-      ) {
+      if (componentTags.includes('mdx') || docsPageOptedIn) {
         const name = docsOptions.defaultName;
         const docsId = toId(componentId || title, name);
         this.entries[docsId] = {
