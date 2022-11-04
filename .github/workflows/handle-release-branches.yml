@@ -9,7 +9,7 @@ jobs:
     steps:
       - id: get-branch
         run: |
-          BRANCH=($(echo ${{ github.ref }} | sed -E 's/refs\/heads\///'))
+          BRANCH=next
           echo "branch=$BRANCH" >> $GITHUB_ENV
     outputs:
       branch: ${{ env.branch }}
