@@ -21,6 +21,16 @@ executors:
         environment:
           NODE_OPTIONS: --max_old_space_size=3076
     resource_class: <<parameters.class>>
+  sb_node_16_windows:
+    executor: win/server-2022
+    parameters:
+      class:
+        description: The Resource class
+        type: enum
+        enum: ['small', 'medium', 'medium+', 'large', 'xlarge']
+        default: 'small'
+    working_directory: /tmp/storybook
+    resource_class: <<parameters.class>>
   sb_node_16_browsers:
     parameters:
       class:
@@ -51,6 +61,7 @@ executors:
 orbs:
   git-shallow-clone: guitarrapc/git-shallow-clone@2.0.3
   browser-tools: circleci/browser-tools@1.4.0
+  win: circleci/windows@4.1.1 # The Windows orb gives you everything you need to start using the Windows executor
 
 commands:
   ensure-pr-is-labeled-with:
@@ -256,6 +267,20 @@ jobs:
       - store_test_results:
           path: scripts/junit.xml
       - cancel-workflow-on-failure
+  script-unit-tests-windows:
+    executor: sb_node_16_browsers
+    steps:
+      - git-shallow-clone/checkout_advanced:
+          clone_options: '--depth 1 --verbose'
+      - attach_workspace:
+          at: .
+      - run:
+          name: Test
+          command: |
+            cd scripts
+            yarn test --coverage --ci
+      - store_test_results:
+          path: scripts/junit.xml
   unit-tests:
     executor:
       class: xlarge
@@ -504,6 +529,9 @@ workflows:
           requires:
             - build
       - unit-tests:
+          requires:
+            - build
+      - script-unit-tests-windows:
           requires:
             - build
       - script-unit-tests:
