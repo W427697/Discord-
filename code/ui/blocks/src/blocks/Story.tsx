@@ -1,13 +1,5 @@
-import React, {
-  FC,
-  ReactNode,
-  ElementType,
-  ComponentProps,
-  useContext,
-  useRef,
-  useEffect,
-  useState,
-} from 'react';
+import type { FC, ReactNode, ElementType, ComponentProps } from 'react';
+import React, { useContext, useRef, useEffect, useState } from 'react';
 import type {
   AnyFramework,
   Store_ModuleExport,
@@ -18,7 +10,8 @@ import type {
 } from '@storybook/types';
 
 import { Story as PureStory, StorySkeleton } from '../components';
-import { DocsContext, DocsContextProps } from './DocsContext';
+import type { DocsContextProps } from './DocsContext';
+import { DocsContext } from './DocsContext';
 import { useStory } from './useStory';
 
 export const storyBlockIdFromId = (storyId: string) => `story--${storyId}`;

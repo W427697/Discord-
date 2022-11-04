@@ -1,7 +1,13 @@
 import express, { Router } from 'express';
 import compression from 'compression';
 
-import type { CoreConfig, DocsOptions, Options, StorybookConfig } from '@storybook/types';
+import type {
+  CoreConfig,
+  DocsOptions,
+  Options,
+  StorybookConfig,
+  VersionCheck,
+} from '@storybook/types';
 
 import { normalizeStories, logConfig } from '@storybook/core-common';
 
@@ -17,11 +23,18 @@ import { getServerChannel } from './utils/get-server-channel';
 import { openInBrowser } from './utils/open-in-browser';
 import { getBuilders } from './utils/get-builders';
 import { StoryIndexGenerator } from './utils/StoryIndexGenerator';
+import { summarizeIndex } from './utils/summarizeIndex';
 
 // @ts-expect-error (Converted from ts-ignore)
 export const router: Router = new Router();
 
 export const DEBOUNCE = 100;
+
+const versionStatus = (versionCheck: VersionCheck) => {
+  if (versionCheck.error) return 'error';
+  if (versionCheck.cached) return 'cached';
+  return 'success';
+};
 
 export async function storybookDevServer(options: Options) {
   const startTime = process.hrtime();
@@ -66,12 +79,11 @@ export async function storybookDevServer(options: Options) {
   if (!core?.disableTelemetry) {
     initializedStoryIndexGenerator.then(async (generator) => {
       const storyIndex = await generator?.getIndex();
+      const { versionCheck, versionUpdates } = options;
       const payload = storyIndex
         ? {
-            storyIndex: {
-              storyCount: Object.keys(storyIndex.entries).length,
-              version: storyIndex.v,
-            },
+            versionStatus: versionUpdates ? versionStatus(versionCheck) : 'disabled',
+            storyIndex: summarizeIndex(storyIndex),
           }
         : undefined;
       telemetry('dev', payload, { configDir: options.configDir });

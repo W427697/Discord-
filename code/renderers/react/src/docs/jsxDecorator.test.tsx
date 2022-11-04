@@ -1,5 +1,6 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events */
-import React, { createElement, FC, Profiler, PropsWithChildren } from 'react';
+import type { FC, PropsWithChildren } from 'react';
+import React, { createElement, Profiler } from 'react';
 import PropTypes from 'prop-types';
 import { addons, useEffect } from '@storybook/addons';
 import { SNIPPET_RENDERED } from '@storybook/docs-tools';

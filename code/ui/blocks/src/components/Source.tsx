@@ -1,4 +1,5 @@
-import React, { ComponentProps, FunctionComponent } from 'react';
+import type { ComponentProps, FunctionComponent } from 'react';
+import React from 'react';
 import { styled, ThemeProvider, convert, themes } from '@storybook/theming';
 import { SyntaxHighlighter } from '@storybook/components';
 

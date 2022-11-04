@@ -1,7 +1,10 @@
-import React, { FC } from 'react';
+import type { FC } from 'react';
+import React from 'react';
 import { TabsState } from '@storybook/components';
+
+import type { ArgsTableProps, SortType } from './ArgsTable';
 // eslint-disable-next-line import/no-cycle
-import { ArgsTable, ArgsTableProps, SortType } from './ArgsTable';
+import { ArgsTable } from './ArgsTable';
 
 export interface TabbedArgsTableProps {
   children?: React.ReactNode;

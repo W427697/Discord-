@@ -22,13 +22,13 @@ export const updateCheck = async (version: string): Promise<VersionCheck> => {
         new Promise((res, rej) => global.setTimeout(rej, 1500)),
       ]);
       const data = await fromFetch.json();
-      result = { success: true, data, time };
+      result = { success: true, cached: false, data, time };
       await cache.set('lastUpdateCheck', result);
     } else {
-      result = fromCache;
+      result = { ...fromCache, cached: true };
     }
   } catch (error) {
-    result = { success: false, error, time };
+    result = { success: false, cached: false, error, time };
   }
   return result;
 };

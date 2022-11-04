@@ -1,6 +1,7 @@
-import React, { Children, cloneElement, FunctionComponent, MouseEvent, ReactElement } from 'react';
+import type { FunctionComponent, MouseEvent, ReactElement } from 'react';
+import React, { Children, cloneElement } from 'react';
 import { action } from '@storybook/addon-actions';
-import { Meta } from '@storybook/react';
+import type { Meta } from '@storybook/react';
 import { WithTooltip } from './WithTooltip';
 import { TooltipLinkList } from './TooltipLinkList';
 

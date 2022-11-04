@@ -1,4 +1,5 @@
-import React, { Component, SyntheticEvent, useCallback, MouseEventHandler } from 'react';
+import type { SyntheticEvent, MouseEventHandler } from 'react';
+import React, { Component, useCallback } from 'react';
 
 import { Icons, IconButton, Separator } from '@storybook/components';
 import type { Addon } from '@storybook/addons';

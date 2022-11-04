@@ -1,9 +1,12 @@
 /* eslint-disable no-underscore-dangle */
 import fs from 'fs-extra';
 import { dedent } from 'ts-dedent';
+
 import * as t from '@babel/types';
-import generate from '@babel/generator';
-import traverse from '@babel/traverse';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import * as generate from '@babel/generator';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import * as traverse from '@babel/traverse';
 import { toId, isExportStory, storyNameFromExport } from '@storybook/csf';
 import type { CSF_Meta, CSF_Story, Tag } from '@storybook/types';
 import { babelParse } from './babelParse';
@@ -153,6 +156,8 @@ export class CsfFile {
 
   _storyExports: Record<string, t.VariableDeclarator | t.FunctionDeclaration> = {};
 
+  _storyStatements: Record<string, t.ExportNamedDeclaration> = {};
+
   _storyAnnotations: Record<string, Record<string, t.Node>> = {};
 
   _templates: Record<string, t.Expression> = {};
@@ -192,7 +197,7 @@ export class CsfFile {
           // @ts-expect-error (Converted from ts-ignore)
           meta[p.key.name] = parseIncludeExclude(p.value);
         } else if (p.key.name === 'component') {
-          const { code } = generate(p.value, {});
+          const { code } = generate.default(p.value, {});
           meta.component = code;
         } else if (p.key.name === 'tags') {
           let node = p.value;
@@ -212,10 +217,32 @@ export class CsfFile {
     this._meta = meta;
   }
 
+  getStoryExport(key: string) {
+    let node = this._storyExports[key] as t.Node;
+    node = t.isVariableDeclarator(node) ? node.init : node;
+    if (t.isCallExpression(node)) {
+      const { callee, arguments: bindArguments } = node;
+      if (
+        t.isMemberExpression(callee) &&
+        t.isIdentifier(callee.object) &&
+        t.isIdentifier(callee.property) &&
+        callee.property.name === 'bind' &&
+        (bindArguments.length === 0 ||
+          (bindArguments.length === 1 &&
+            t.isObjectExpression(bindArguments[0]) &&
+            bindArguments[0].properties.length === 0))
+      ) {
+        const { name } = callee.object;
+        node = this._templates[name];
+      }
+    }
+    return node;
+  }
+
   parse() {
     // eslint-disable-next-line @typescript-eslint/no-this-alias
     const self = this;
-    traverse(this._ast, {
+    traverse.default(this._ast, {
       ExportDefaultDeclaration: {
         enter({ node, parent }) {
           let metaNode: t.ObjectExpression;
@@ -258,6 +285,7 @@ export class CsfFile {
                   return;
                 }
                 self._storyExports[exportName] = decl;
+                self._storyStatements[exportName] = node;
                 let name = storyNameFromExport(exportName);
                 if (self._storyAnnotations[exportName]) {
                   logger.warn(
@@ -472,7 +500,7 @@ export const loadCsf = (code: string, options: CsfOptions) => {
 };
 
 export const formatCsf = (csf: CsfFile) => {
-  const { code } = generate(csf._ast, {});
+  const { code } = generate.default(csf._ast, {});
   return code;
 };
 

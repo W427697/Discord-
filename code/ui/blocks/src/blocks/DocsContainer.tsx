@@ -1,10 +1,12 @@
-import React, { FunctionComponent, useEffect, ReactNode } from 'react';
+import type { FunctionComponent, ReactNode } from 'react';
+import React, { useEffect } from 'react';
 import global from 'global';
 import type { ThemeVars } from '@storybook/theming';
 import { ThemeProvider, ensure as ensureTheme } from '@storybook/theming';
 import type { AnyFramework } from '@storybook/types';
 import { DocsWrapper, DocsContent } from '../components';
-import { DocsContextProps, DocsContext } from './DocsContext';
+import type { DocsContextProps } from './DocsContext';
+import { DocsContext } from './DocsContext';
 import { SourceContainer } from './SourceContainer';
 import { scrollToElement } from './utils';
 

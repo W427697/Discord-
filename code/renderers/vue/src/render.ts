@@ -2,7 +2,7 @@
 import { dedent } from 'ts-dedent';
 import Vue from 'vue';
 import type { Store_RenderContext, ArgsStoryFn } from '@storybook/types';
-import { CombinedVueInstance } from 'vue/types/vue';
+import type { CombinedVueInstance } from 'vue/types/vue';
 import type { VueFramework } from './types';
 
 export const COMPONENT = 'STORYBOOK_COMPONENT';

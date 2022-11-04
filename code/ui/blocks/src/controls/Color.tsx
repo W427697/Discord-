@@ -1,19 +1,12 @@
-import React, {
-  FC,
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-  ChangeEvent,
-  FocusEvent,
-} from 'react';
+import type { FC, ChangeEvent, FocusEvent } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { HexColorPicker, HslaStringColorPicker, RgbaStringColorPicker } from 'react-colorful';
 import convert from 'color-convert';
 import throttle from 'lodash/throttle';
 import { styled } from '@storybook/theming';
 import { TooltipNote, WithTooltip, Form, Icons } from '@storybook/components';
-// eslint-disable-next-line import/no-cycle
-import { ControlProps, ColorValue, ColorConfig, PresetColor } from './types';
+
+import type { ControlProps, ColorValue, ColorConfig, PresetColor } from './types';
 import { getControlId } from './helpers';
 
 const Wrapper = styled.div({

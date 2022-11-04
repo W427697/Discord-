@@ -1,7 +1,8 @@
 import global from 'global';
 
 import type { Channel } from '@storybook/channels';
-import { addons, AddonStore } from '@storybook/addons';
+import type { AddonStore } from '@storybook/addons';
+import { addons } from '@storybook/addons';
 import type { Addon_Types, Addon_Config } from '@storybook/types';
 import * as postMessage from '@storybook/channel-postmessage';
 import * as webSocket from '@storybook/channel-websocket';

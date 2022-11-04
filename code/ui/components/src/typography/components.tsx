@@ -1,4 +1,4 @@
-import React, {
+import type {
   HTMLAttributes,
   DetailedHTMLProps,
   AnchorHTMLAttributes,
@@ -8,6 +8,7 @@ import React, {
   LiHTMLAttributes,
   OlHTMLAttributes,
 } from 'react';
+import React from 'react';
 import { nameSpaceClassNames } from './DocumentFormatting';
 import { A } from './elements/A';
 import { Blockquote } from './elements/Blockquote';

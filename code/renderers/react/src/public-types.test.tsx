@@ -3,13 +3,14 @@ import type { StoryAnnotations } from '@storybook/types';
 
 import { satisfies } from '@storybook/core-common';
 import { expectTypeOf } from 'expect-type';
-import React, { KeyboardEventHandler, ReactNode } from 'react';
+import type { KeyboardEventHandler, ReactNode } from 'react';
+import React from 'react';
 
-import { SetOptional } from 'type-fest';
+import type { SetOptional } from 'type-fest';
 
-import { DecoratorFn } from './public-api';
-import { Meta, StoryObj } from './public-types';
-import { ReactFramework } from './types';
+import type { DecoratorFn } from './public-api';
+import type { Meta, StoryObj } from './public-types';
+import type { ReactFramework } from './types';
 
 type ReactStory<Args, RequiredArgs> = StoryAnnotations<ReactFramework, Args, RequiredArgs>;
 

@@ -4,7 +4,7 @@ import type {
   ComponentAnnotations,
   StoryAnnotations,
 } from '@storybook/types';
-import { ServerFramework } from './types';
+import type { ServerFramework } from './types';
 
 export type { Args, ArgTypes, Parameters, StoryContext } from '@storybook/types';
 

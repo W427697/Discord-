@@ -1,6 +1,6 @@
-import type { Type } from '@angular/core';
-import type { API_ArgType, API_ArgTypes } from '@storybook/types';
-import type { ICollection } from '../types';
+import { Type } from '@angular/core';
+import { API_ArgType, API_ArgTypes } from '@storybook/types';
+import { ICollection } from '../types';
 import {
   ComponentInputsOutputs,
   getComponentDecoratorMetadata,

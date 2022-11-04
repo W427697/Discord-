@@ -1,4 +1,5 @@
-import React, { useState, FC } from 'react';
+import type { FC } from 'react';
+import React, { useState } from 'react';
 import { transparentize } from 'polished';
 import { styled } from '@storybook/theming';
 import { Icons } from '@storybook/components';

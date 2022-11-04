@@ -32,7 +32,8 @@ import type {
   ViewMode,
 } from '@storybook/types';
 
-import { MaybePromise, Preview } from './Preview';
+import type { MaybePromise } from './Preview';
+import { Preview } from './Preview';
 
 import { UrlStore } from './UrlStore';
 import { WebView } from './WebView';
@@ -63,8 +64,6 @@ export class PreviewWeb<TFramework extends AnyFramework> extends Preview<TFramew
   urlStore: UrlStore;
 
   view: WebView;
-
-  previewEntryError?: Error;
 
   currentSelection?: Store_Selection;
 
@@ -200,7 +199,7 @@ export class PreviewWeb<TFramework extends AnyFramework> extends Preview<TFramew
   }
 
   onKeydown(event: KeyboardEvent) {
-    if (!this.currentRender?.disableKeyListeners && !focusInInput(event)) {
+    if (!this.storyRenders.find((r) => r.disableKeyListeners) && !focusInInput(event)) {
       // We have to pick off the keys of the event that we need on the other side
       const { altKey, ctrlKey, metaKey, shiftKey, key, code, keyCode } = event;
       this.channel.emit(PREVIEW_KEYDOWN, {

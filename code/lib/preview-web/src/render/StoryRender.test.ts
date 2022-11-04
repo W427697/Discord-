@@ -1,7 +1,7 @@
 import { jest, describe, it, expect } from '@jest/globals';
 import { Channel } from '@storybook/channels';
 import type { AnyFramework, Addon_StoryIndexEntry } from '@storybook/types';
-import { StoryStore } from '@storybook/store';
+import type { StoryStore } from '@storybook/store';
 import { PREPARE_ABORTED } from './Render';
 
 import { StoryRender } from './StoryRender';

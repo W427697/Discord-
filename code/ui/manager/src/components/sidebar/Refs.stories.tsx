@@ -4,7 +4,7 @@ import { ManagerContext } from '@storybook/api';
 import { Ref } from './Refs';
 import { standardData as standardHeaderData } from './Heading.stories';
 import { mockDataset } from './mockdata';
-import { RefType } from './types';
+import type { RefType } from './types';
 
 export default {
   component: Ref,

@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Explorer } from './Explorer';
 import { mockDataset } from './mockdata';
-import { RefType } from './types';
+import type { RefType } from './types';
 import * as RefStories from './Refs.stories';
 
 export default {

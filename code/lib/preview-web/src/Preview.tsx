@@ -14,7 +14,7 @@ import {
   UPDATE_STORY_ARGS,
 } from '@storybook/core-events';
 import { logger } from '@storybook/client-logger';
-import { Channel } from '@storybook/channels';
+import type { Channel } from '@storybook/channels';
 import { addons } from '@storybook/addons';
 import type {
   AnyFramework,
@@ -31,9 +31,10 @@ import type {
 } from '@storybook/types';
 import { StoryStore } from '@storybook/store';
 
-import { StoryRender, StoryRenderOptions } from './render/StoryRender';
-import { TemplateDocsRender } from './render/TemplateDocsRender';
-import { StandaloneDocsRender } from './render/StandaloneDocsRender';
+import type { StoryRenderOptions } from './render/StoryRender';
+import { StoryRender } from './render/StoryRender';
+import type { TemplateDocsRender } from './render/TemplateDocsRender';
+import type { StandaloneDocsRender } from './render/StandaloneDocsRender';
 
 const { fetch } = global;
 

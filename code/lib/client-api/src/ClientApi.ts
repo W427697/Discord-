@@ -24,12 +24,8 @@ import type {
   Store_ModuleImportFn,
   Store_ModuleExports,
 } from '@storybook/types';
-import {
-  combineParameters,
-  composeStepRunners,
-  StoryStore,
-  normalizeInputTypes,
-} from '@storybook/store';
+import type { StoryStore } from '@storybook/store';
+import { combineParameters, composeStepRunners, normalizeInputTypes } from '@storybook/store';
 
 import { StoryStoreFacade } from './StoryStoreFacade';
 

@@ -94,6 +94,7 @@ export interface Ref {
 
 export interface VersionCheck {
   success: boolean;
+  cached: boolean;
   data?: any;
   error?: any;
   time: number;
@@ -295,9 +296,10 @@ export type DocsOptions = {
    */
   defaultName?: string;
   /**
-   * Should we generate a docs entry per CSF file?
+   * Should we generate a docs entry per CSF file with the `docsPage` tag?
+   * Set to 'automatic' to generate an entry irrespective of tag.
    */
-  docsPage?: boolean;
+  docsPage?: boolean | 'automatic';
   /**
    * Only show doc entries in the side bar (usually set with the `--docs` CLI flag)
    */

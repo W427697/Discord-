@@ -1,5 +1,5 @@
 import fs from 'fs-extra';
-import { Router, Request, Response } from 'express';
+import type { Router, Request, Response } from 'express';
 import Watchpack from 'watchpack';
 import path from 'path';
 import debounce from 'lodash/debounce';
@@ -9,7 +9,7 @@ import { loadCsf } from '@storybook/csf-tools';
 import { normalizeStoriesEntry } from '@storybook/core-common';
 
 import { useStoriesJson, DEBOUNCE, convertToIndexV3 } from './stories-json';
-import { ServerChannel } from './get-server-channel';
+import type { ServerChannel } from './get-server-channel';
 import { StoryIndexGenerator } from './StoryIndexGenerator';
 
 jest.mock('watchpack');

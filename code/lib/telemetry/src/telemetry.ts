@@ -1,7 +1,7 @@
 import originalFetch from 'isomorphic-unfetch';
 import retry from 'fetch-retry';
 import { nanoid } from 'nanoid';
-import { Options, TelemetryData } from './types';
+import type { Options, TelemetryData } from './types';
 import { getAnonymousProjectId } from './anonymous-id';
 
 const URL = 'https://storybook.js.org/event-log';
@@ -29,7 +29,7 @@ export async function sendTelemetry(
     ? {}
     : {
         anonymousId: getAnonymousProjectId(),
-        inCI: process.env.CI === 'true',
+        inCI: Boolean(process.env.CI),
       };
   const eventId = nanoid();
   const body = { ...rest, eventId, sessionId, metadata, payload, context };
