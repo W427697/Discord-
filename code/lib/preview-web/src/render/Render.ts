@@ -1,4 +1,5 @@
 import type { StoryId, Framework } from '@storybook/types';
+import type { StoryRenderOptions } from './StoryRender';
 
 export type RenderType = 'story' | 'docs';
 
@@ -19,7 +20,8 @@ export interface Render<TFramework extends Framework> {
   torndown: boolean;
   renderToElement: (
     canvasElement: TFramework['canvasElement'],
-    renderStoryToElement?: any
+    renderStoryToElement?: any,
+    options?: StoryRenderOptions
   ) => Promise<void>;
 }
 
