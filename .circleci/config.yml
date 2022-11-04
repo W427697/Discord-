@@ -80,7 +80,16 @@ commands:
               echo "🏁 The PR isn't labelled with '<< parameters.label >>' so this job will end at the current step."
               circleci-agent step halt
             fi
-
+  cancel-workflow-on-failure:
+    description: 'Cancels the entire workflow in case the previous step has failed'
+    steps:
+      - run:
+          name: Cancel current workflow
+          when: on_fail
+          command: |
+            echo "Canceling workflow as previous step resulted in failure."
+            echo "To execute all checks locally, please run yarn ci-tests"
+            curl -X POST --header "Content-Type: application/json" "https://circleci.com/api/v2/workflow/${CIRCLE_WORKFLOW_ID}/cancel?circle-token=${WORKFLOW_CANCELER}"
 jobs:
   build:
     executor:
@@ -98,6 +107,11 @@ jobs:
           command: |
             yarn task --task compile --start-from=auto --no-link --debug
             git diff --exit-code
+      - run:
+          name: Publish to Verdaccio
+          command: |
+            cd code
+            yarn local-registry --publish
       - save_cache:
           name: Save Yarn cache
           key: build-yarn-2-cache-v4--{{ checksum "code/yarn.lock" }}--{{ checksum "scripts/yarn.lock" }}
@@ -116,23 +130,6 @@ jobs:
             - code/ui
             - code/renderers
             - code/presets
-  publish:
-    executor:
-      class: small
-      name: sb_node_16_classic
-    steps:
-      - git-shallow-clone/checkout_advanced:
-          clone_options: '--depth 1 --verbose'
-      - attach_workspace:
-          at: .
-      - run:
-          name: running local registry
-          command: |
-            cd code
-            yarn local-registry --publish
-      - persist_to_workspace:
-          root: .
-          paths:
             - .verdaccio-cache
   cra-bench:
     executor:
@@ -228,6 +225,7 @@ jobs:
           command: |
             cd code
             yarn lint
+      - cancel-workflow-on-failure
   check:
     executor:
       class: xlarge
@@ -242,6 +240,7 @@ jobs:
           command: |
             yarn task --task check --start-from=auto --no-link --debug
             git diff --exit-code
+      - cancel-workflow-on-failure
   script-unit-tests:
     executor: sb_node_16_browsers
     steps:
@@ -256,6 +255,7 @@ jobs:
             yarn test --coverage --ci
       - store_test_results:
           path: scripts/junit.xml
+      - cancel-workflow-on-failure
   unit-tests:
     executor:
       class: xlarge
@@ -276,6 +276,7 @@ jobs:
           root: .
           paths:
             - code/coverage
+      - cancel-workflow-on-failure
   coverage:
     executor:
       class: small
@@ -463,14 +464,11 @@ workflows:
       equal: [ daily-tests, << pipeline.parameters.workflow >> ]
     jobs:
       - build
-      - publish:
-          requires:
-            - build
       - create-sandboxes:
           parallelism: 24
           cadence: "daily"
           requires:
-            - publish
+            - build
       # - smoke-test-sandboxes: # disabled for now
       #     requires:
       #       - create-sandboxes
@@ -517,19 +515,16 @@ workflows:
       - coverage:
           requires:
             - unit-tests
-      - publish:
-          requires:
-            - build
       - cra-bench:
           requires:
-            - publish
+            - build
       - react-vite-bench:
           requires:
-            - publish
+            - build
       ## new workflow
       - create-sandboxes:
           requires:
-            - publish
+            - build
       # - smoke-test-sandboxes: # disabled for now
       #     requires:
       #       - create-sandboxes
