@@ -331,7 +331,7 @@ export const addStories: Task['run'] = async (
 
   // Ensure that we match the right stories in the stories directory
   const packageJson = await import(join(cwd, 'package.json'));
-  await updateStoriesField(
+  updateStoriesField(
     mainConfig,
     detectLanguage(packageJson) === SupportedLanguage.JAVASCRIPT
   );
