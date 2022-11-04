@@ -85,7 +85,7 @@ Once the story loads in the UI, it simulates the user's behavior and verifies th
 
 Under the hood, Storybook’s interaction addon mirrors Testing Library’s [`user-events`](https://testing-library.com/docs/user-event/intro/) API. If you’re familiar with [Testing Library](https://testing-library.com/), you should be at home in Storybook.
 
-Below is an abridged API for user-event. For more, check out the [official user-event docs](https://testing-library.com/docs/user-event/intro).
+Below is an abridged API for user-event. For more, check out the [official user-event docs](https://testing-library.com/docs/user-event/utility/).
 
 | User events       | Description                                                                                                                                              |
 | ----------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
