@@ -61,7 +61,7 @@ const options = {
   docs: { enabled: true, defaultName: 'docs', docsPage: false },
 };
 
-describe('StoryIndexGenerator', () => {
+(process.platform === 'win32' ? describe.skip : describe)('StoryIndexGenerator', () => {
   beforeEach(() => {
     const actual = jest.requireActual('@storybook/csf-tools');
     loadCsfMock.mockImplementation(actual.loadCsf);
