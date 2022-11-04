@@ -98,7 +98,7 @@ export function renderToCanvas(
   Vue.config.errorHandler = showException;
   const element = storyFn();
 
-  let mountTarget: VueFramework['canvasElement'] | null;
+  let mountTarget: Element | VueFramework['canvasElement'] | null;
 
   // Vue2 mount always replaces the mount target with Vue-generated DOM.
   // https://v2.vuejs.org/v2/api/#el:~:text=replaced%20with%20Vue%2Dgenerated%20DOM
