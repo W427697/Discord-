@@ -1,11 +1,6 @@
 import type { API } from '@storybook/api';
 import { ADDON_ID } from './constants';
 
-type State = {
-  selected: string;
-  isRotated: boolean;
-};
-
 const getCurrentViewportIndex = (viewportsKeys: string[], current: string): number =>
   viewportsKeys.indexOf(current);
 
@@ -29,7 +24,7 @@ export const registerShortcuts = async (api: API, setState: any, viewportsKeys: 
     defaultShortcut: ['shift', 'V'],
     actionName: 'previous',
     action: () => {
-      const { selected, isRotated } = api.getAddonState<State>(ADDON_ID);
+      const { selected, isRotated } = api.getAddonState(ADDON_ID);
       setState({
         selected: getPreviousViewport(viewportsKeys, selected),
         isRotated,
@@ -42,7 +37,7 @@ export const registerShortcuts = async (api: API, setState: any, viewportsKeys: 
     defaultShortcut: ['V'],
     actionName: 'next',
     action: () => {
-      const { selected, isRotated } = api.getAddonState<State>(ADDON_ID);
+      const { selected, isRotated } = api.getAddonState(ADDON_ID);
       setState({
         selected: getNextViewport(viewportsKeys, selected),
         isRotated,
@@ -55,7 +50,7 @@ export const registerShortcuts = async (api: API, setState: any, viewportsKeys: 
     defaultShortcut: ['alt', 'V'],
     actionName: 'reset',
     action: () => {
-      const { isRotated } = api.getAddonState<State>(ADDON_ID);
+      const { isRotated } = api.getAddonState(ADDON_ID);
       setState({
         selected: 'reset',
         isRotated,
