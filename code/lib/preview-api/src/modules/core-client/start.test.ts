@@ -1319,9 +1319,7 @@ describe('start', () => {
         });
 
         await waitForRender();
-        const setIndexData = mockChannel.emit.mock.calls.find(
-          (call: [string, any]) => call[0] === SET_INDEX
-        )[1];
+        const setIndexData = mockChannel.emit.mock.calls.find((call) => call[0] === SET_INDEX)?.[1];
         expect(Object.keys(setIndexData.entries)).toMatchInlineSnapshot(`
           Array [
             "component-a--docs",

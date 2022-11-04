@@ -1106,7 +1106,7 @@ describe('PreviewWeb', () => {
 
           mockChannel.emit.mockClear();
           const story = await preview.storyStore.loadStory({ storyId: 'component-one--a' });
-          preview.renderStoryToElement(story, 'story-element' as any);
+          preview.renderStoryToElement(story, 'story-element' as any, {});
           await waitForRender();
 
           expect(projectAnnotations.renderToDOM).toHaveBeenCalledWith(
@@ -3353,6 +3353,7 @@ describe('PreviewWeb', () => {
       componentOneExports.b.play.mockImplementationOnce(async () => gate);
       preview.renderStoryToElement(
         await preview.storyStore.loadStory({ storyId: 'component-one--b' }),
+        'story-element' as any,
         {} as any
       );
       await waitForRenderPhase('playing');
