@@ -63,7 +63,8 @@
   },
   "dependencies": {
     "@storybook/addons": "7.0.0-alpha.47",
-    "@storybook/channels": "next",
+    "@storybook/channel-postmessage": "7.0.0-alpha.47",
+    "@storybook/channels": "7.0.0-alpha.47",
     "@storybook/client-logger": "7.0.0-alpha.47",
     "@storybook/core-events": "7.0.0-alpha.47",
     "@storybook/csf": "next",
@@ -81,7 +82,8 @@
     "util-deprecate": "^1.0.2"
   },
   "devDependencies": {
-    "@jest/globals": "^26.6.2"
+    "@jest/globals": "^26.6.2",
+    "ansi-to-html": "^0.6.11"
   },
   "publishConfig": {
     "access": "public"

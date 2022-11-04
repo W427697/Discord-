@@ -1,3 +1,4 @@
+/* eslint-disable import/namespace */
 /* eslint-disable no-underscore-dangle */
 import type * as MODULE from '../client-api';
 

@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import global from 'global';
 import { logger } from '@storybook/client-logger';
 import AnsiToHtml from 'ansi-to-html';

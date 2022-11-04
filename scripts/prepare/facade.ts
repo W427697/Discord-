@@ -37,7 +37,7 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
             dtsPathName,
             dedent`
             // shim-mmode
-            export * from '${shim}'
+            export * from '${shim}';
           `
           )
         ),
@@ -46,7 +46,7 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
             mjsPathName,
             dedent`
             // shim-mmode
-            export * from '${shim}'
+            export * from '${shim}';
           `
           )
         ),
