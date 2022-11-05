@@ -3,7 +3,7 @@
 // then combine the results into one large documentation.json
 
 import { join, resolve } from 'path';
-import {execaCommand} from 'execa';
+import { execaCommand } from 'execa';
 import { realpath, readFile, writeFile, lstat } from 'fs-extra';
 import glob from 'glob';
 import { directory } from 'tempy';

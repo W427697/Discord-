@@ -12,6 +12,8 @@ type StepOptions = {
   signal?: AbortSignal;
 };
 
+// Note this is to fool `ts-node` into not turning the `import()` into a `require()`.
+// See: https://github.com/TypeStrong/ts-node/discussions/1290
 const dynamicImport = new Function('specifier', 'return import(specifier)');
 export const getExeca = async () => (await dynamicImport('execa')) as typeof import('execa');
 
