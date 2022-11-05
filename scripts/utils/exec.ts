@@ -1,5 +1,5 @@
 /* eslint-disable no-await-in-loop, no-restricted-syntax */
-import type { ExecaChildProcess, ExecaReturnValue, Options } from 'execa';
+import type { ExecaChildProcess, Options } from 'execa';
 import chalk from 'chalk';
 
 const logger = console;
