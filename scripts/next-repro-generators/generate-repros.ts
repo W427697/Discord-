@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 import { join, relative } from 'path';
-import { command } from 'execa';
+import { execaCommand } from 'execa';
 import type { Options as ExecaOptions } from 'execa';
 import pLimit from 'p-limit';
 import prettyTime from 'pretty-hrtime';
@@ -85,7 +85,7 @@ export const runCommand = async (script: string, options: ExecaOptions) => {
     console.log(`Running command: ${script}`);
   }
 
-  return command(script, { stdout: shouldDebug ? 'inherit' : 'ignore', shell: true, ...options });
+  return execaCommand(script, { stdout: shouldDebug ? 'inherit' : 'ignore', shell: true, ...options });
 };
 
 const addDocumentation = async (
