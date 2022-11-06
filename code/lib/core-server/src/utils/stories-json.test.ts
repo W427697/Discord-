@@ -232,6 +232,30 @@ describe('useStoriesJson', () => {
               "title": "nested/Button",
               "type": "story",
             },
+            "nested-page--docs": Object {
+              "id": "nested-page--docs",
+              "importPath": "./src/nested/Page.stories.mdx",
+              "name": "docs",
+              "standalone": false,
+              "storiesImports": Array [],
+              "tags": Array [
+                "mdx",
+                "docs",
+              ],
+              "title": "nested/Page",
+              "type": "docs",
+            },
+            "nested-page--story-one": Object {
+              "id": "nested-page--story-one",
+              "importPath": "./src/nested/Page.stories.mdx",
+              "name": "StoryOne",
+              "tags": Array [
+                "mdx",
+                "story",
+              ],
+              "title": "nested/Page",
+              "type": "story",
+            },
             "second-nested-g--story-one": Object {
               "id": "second-nested-g--story-one",
               "importPath": "./src/second-nested/G.stories.ts",
@@ -425,6 +449,42 @@ describe('useStoriesJson', () => {
               ],
               "title": "nested/Button",
             },
+            "nested-page--docs": Object {
+              "id": "nested-page--docs",
+              "importPath": "./src/nested/Page.stories.mdx",
+              "kind": "nested/Page",
+              "name": "docs",
+              "parameters": Object {
+                "__id": "nested-page--docs",
+                "docsOnly": true,
+                "fileName": "./src/nested/Page.stories.mdx",
+              },
+              "standalone": false,
+              "storiesImports": Array [],
+              "story": "docs",
+              "tags": Array [
+                "mdx",
+                "docs",
+              ],
+              "title": "nested/Page",
+            },
+            "nested-page--story-one": Object {
+              "id": "nested-page--story-one",
+              "importPath": "./src/nested/Page.stories.mdx",
+              "kind": "nested/Page",
+              "name": "StoryOne",
+              "parameters": Object {
+                "__id": "nested-page--story-one",
+                "docsOnly": false,
+                "fileName": "./src/nested/Page.stories.mdx",
+              },
+              "story": "StoryOne",
+              "tags": Array [
+                "mdx",
+                "story",
+              ],
+              "title": "nested/Page",
+            },
             "second-nested-g--story-one": Object {
               "id": "second-nested-g--story-one",
               "importPath": "./src/second-nested/G.stories.ts",
@@ -551,6 +611,23 @@ describe('useStoriesJson', () => {
                 "story",
               ],
               "title": "nested/Button",
+            },
+            "nested-page--story-one": Object {
+              "id": "nested-page--story-one",
+              "importPath": "./src/nested/Page.stories.mdx",
+              "kind": "nested/Page",
+              "name": "StoryOne",
+              "parameters": Object {
+                "__id": "nested-page--story-one",
+                "docsOnly": false,
+                "fileName": "./src/nested/Page.stories.mdx",
+              },
+              "story": "StoryOne",
+              "tags": Array [
+                "mdx",
+                "story",
+              ],
+              "title": "nested/Page",
             },
             "second-nested-g--story-one": Object {
               "id": "second-nested-g--story-one",
