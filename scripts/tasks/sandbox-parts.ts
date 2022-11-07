@@ -254,7 +254,7 @@ function addStoriesEntry(mainConfig: ConfigFile, path: string) {
   const entry = {
     directory: join('../template-stories', path),
     titlePrefix: path,
-    files: '*.@(mdx|stories.@(js|jsx|ts|tsx))',
+    files: '**/*.@(mdx|stories.@(js|jsx|ts|tsx))',
   };
   
   mainConfig.setFieldValue(['stories'], [...stories, entry]);
