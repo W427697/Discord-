@@ -195,8 +195,7 @@ export class StoryStoreFacade<TFramework extends AnyFramework> {
       docsOptions.docsPage === 'automatic' ||
       (docsOptions.docsPage && componentTags.includes('docsPage'));
     if (docsOptions.enabled && storyExports.length) {
-      // We will use tags soon and this crappy filename test will go away
-      if (fileName.match(/\.mdx$/) || docsPageOptedIn) {
+      if (componentTags.includes('mdx') || docsPageOptedIn) {
         const name = docsOptions.defaultName;
         const docsId = toId(componentId || title, name);
         this.entries[docsId] = {
