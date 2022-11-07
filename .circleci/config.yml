@@ -498,14 +498,10 @@ workflows:
       - react-vite-bench:
           requires:
             - build
-      ## new workflow
       - create-sandboxes:
           parallelism: 9
           requires:
             - build
-      # - smoke-test-sandboxes: # disabled for now
-      #     requires:
-      #       - create-sandboxes
       - build-sandboxes:
           parallelism: 9
           requires:
@@ -551,14 +547,10 @@ workflows:
       - react-vite-bench:
           requires:
             - build
-      ## new workflow
       - create-sandboxes:
           parallelism: 14
           requires:
             - build
-      # - smoke-test-sandboxes: # disabled for now
-      #     requires:
-      #       - create-sandboxes
       - build-sandboxes:
           parallelism: 14
           requires:
