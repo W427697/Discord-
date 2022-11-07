@@ -19,6 +19,30 @@ npx storybook init -t pixi
 
 For more information visit: [storybook.js.org](https://storybook.js.org)
 
+## PixiJS Stories
+
+Unlike reactive web UI frameworks, PixiJS requires a more imperative code style to interact 
+with the HTML5 Canvas API. Components are added to a display list, most commonly via a 
+top level Application instance, and often need to respond to application-level events and
+callbacks. This Pixi renderer, handles setting up an Application and Renderer for you
+and handles adding and removing your Story's DisplayObject from the Stage, but in order to 
+accommodate this, PixiJS stories must return a JS object with a fixed API:
+
+```typescript
+type StoryFnPixiReturnType = {
+  view: DisplayObject; 
+  // optionally respond to requestAnimationFrame tick
+  update?: (delta: number) => void;
+  // optionally respond to application level resizing
+  resize?: (rendererWidth: number, rendererHeight: number) => void;
+  // optionally clean up things when story is rerendered / removed - this happens a lot, so do it!
+  destroy?: () => void;
+}
+```
+
+If your component already matches this particular interface, then you can just return an 
+instance of it.
+
 ### Typescript
 
 `npx sb init` will select `.ts` starter stories if your `package.json` has typescript as a dependency. If starting a new project,
