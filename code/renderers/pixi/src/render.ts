@@ -8,11 +8,10 @@ import type {
   StoryFnPixiReturnType,
   ApplicationResizeFunctionReturnType,
   ApplicationResizeFunction,
-  StoryResizeFn,
   EventHandler,
 } from './types';
 
-let app: Application;
+let pixiApp: Application;
 let lastApplicationOptions: IApplicationOptions;
 let storyState: {
   resizeHandler: EventHandler;
@@ -33,21 +32,21 @@ function getPixiApplication(applicationOptions: IApplicationOptions): Applicatio
   // Destroy previous app instance and create a new one each time applicationOptions
   // changes - in theory it shouldn't be often
   if (!equals(applicationOptions, lastApplicationOptions)) {
-    if (app) {
-      app.destroy(true, {
+    if (pixiApp) {
+      pixiApp.destroy(true, {
         children: true,
         texture: true,
         baseTexture: true,
       });
     }
 
-    app = new Application(applicationOptions);
-    app.view.style.display = 'block';
+    pixiApp = new Application(applicationOptions);
+    pixiApp.view.style.display = 'block';
 
     lastApplicationOptions = applicationOptions;
   }
 
-  return app;
+  return pixiApp;
 }
 
 function resizeApplication({
@@ -55,14 +54,14 @@ function resizeApplication({
   containerHeight,
   app,
   resizeFn,
-  storyResizeFn,
+  storyObject,
   force = false,
 }: {
   containerWidth: number;
   containerHeight: number;
   app: Application;
   resizeFn: ApplicationResizeFunction;
-  storyResizeFn?: StoryResizeFn;
+  storyObject?: StoryFnPixiReturnType;
   force?: boolean;
 }) {
   const { view, renderer } = app;
@@ -82,18 +81,18 @@ function resizeApplication({
     view.style.height = `${newSize.canvasHeight}px`;
     window.scrollTo(0, 0);
     renderer.resize(resizeState.w, resizeState.h);
-    storyResizeFn?.(resizeState.w, resizeState.h);
+    storyObject?.resize?.(resizeState.w, resizeState.h);
   }
 }
 
 function initResize({
   app,
   resizeFn,
-  storyResizeFn,
+  storyObject,
 }: {
   app: Application;
   resizeFn: ApplicationResizeFunction;
-  storyResizeFn?: StoryResizeFn;
+  storyObject?: StoryFnPixiReturnType;
 }): EventHandler {
   const storyResizeHandler = (e: Event) =>
     resizeApplication({
@@ -101,7 +100,7 @@ function initResize({
       containerHeight: window.innerHeight,
       app,
       resizeFn,
-      storyResizeFn,
+      storyObject,
     });
 
   // TODO: throttle/debounce?
@@ -113,8 +112,8 @@ function initResize({
     containerHeight: window.innerHeight,
     app,
     resizeFn,
-    storyResizeFn,
-    force: Boolean(storyResizeFn),
+    storyObject,
+    force: Boolean(storyObject?.resize),
   });
 
   return storyResizeHandler;
@@ -132,13 +131,13 @@ function addStory({
   const storyResizeHandler = initResize({
     app,
     resizeFn,
-    storyResizeFn: storyObject.resize,
+    storyObject,
   });
 
   app.stage.addChild(storyObject.view);
 
   if (storyObject.update) {
-    app.ticker.add(storyObject.update);
+    app.ticker.add(storyObject.update, storyObject);
   }
 
   return storyResizeHandler;
@@ -154,7 +153,7 @@ function removeStory({
   storyResizeHandler: EventHandler;
 }) {
   if (storyObject.update) {
-    app.ticker.remove(storyObject.update);
+    app.ticker.remove(storyObject.update, storyObject);
   }
 
   app.stage.removeChild(storyObject.view);

@@ -11,8 +11,8 @@ export const makeFitToStageDecorator =
 
     return {
       view: root,
-      update: storyResult.update,
-      resize: (screenWidth, screenHeight) => {
+      update: storyResult.update?.bind(storyResult),
+      resize: (screenWidth:number, screenHeight:number) => {
         const appAspect = appWidth / appHeight;
         const screenAspect = screenWidth / screenHeight;
 
@@ -29,6 +29,6 @@ export const makeFitToStageDecorator =
         // logical fixed width and height
         storyResult.resize?.(screenWidth, screenHeight);
       },
-      destroy: storyResult.destroy,
+      destroy: storyResult.destroy?.bind(storyResult),
     };
   };
