@@ -2159,17 +2159,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/types@npm:^7.14.8":
-  version: 7.20.0
-  resolution: "@babel/types@npm:7.20.0"
-  dependencies:
-    "@babel/helper-string-parser": ^7.19.4
-    "@babel/helper-validator-identifier": ^7.19.1
-    to-fast-properties: ^2.0.0
-  checksum: 8b9c960eb013142eaf6294d77b75e469b7e97461bd7ad939e625ed74865fbf5a1c20b7989ec3357d0f4ffd93dd79d6daead08c0c06647815d8bbe94dae445f5c
-  languageName: node
-  linkType: hard
-
 "@base2/pretty-print-object@npm:1.0.1":
   version: 1.0.1
   resolution: "@base2/pretty-print-object@npm:1.0.1"
@@ -6935,19 +6924,11 @@ __metadata:
   linkType: soft
 
 "@storybook/mdx2-csf@npm:next":
-  version: 0.1.0-next.3
-  resolution: "@storybook/mdx2-csf@npm:0.1.0-next.3"
+  version: 0.1.0-next.4
+  resolution: "@storybook/mdx2-csf@npm:0.1.0-next.4"
   dependencies:
-    "@babel/generator": ^7.12.11
-    "@babel/parser": ^7.12.11
-    "@babel/types": ^7.14.8
-    "@mdx-js/mdx": ^2.0.0
-    estree-to-babel: ^4.9.0
-    hast-util-to-estree: ^2.0.2
-    js-string-escape: ^1.0.1
     loader-utils: ^2.0.0
-    lodash: ^4.17.21
-  checksum: b8cf49e6549507b0e176191ce58f2fb9ab152383e54c73d665414bd5013dc0b90d3cddc814e396563e6af7164b762f75a6a488091f2b46aa33b3fcbd89a12e70
+  checksum: 206f3fea03db7aad37873653e7c98cdda28c27253eef26df5e5cff7943770c404af839a250c6e9035604670362810847e7103a5834af0632cfd16576dd386c1f
   languageName: node
   linkType: hard
 
@@ -22892,13 +22873,6 @@ __metadata:
   version: 4.1.5
   resolution: "js-sdsl@npm:4.1.5"
   checksum: d95116180b977da36ad23a4f242a8eb96da42910a3662143e07fa12a5276663564ea9102d8570b2e6b0918fe284f2924a173082b6f84d25df29fbec3f71aa42f
-  languageName: node
-  linkType: hard
-
-"js-string-escape@npm:^1.0.1":
-  version: 1.0.1
-  resolution: "js-string-escape@npm:1.0.1"
-  checksum: 2c33b9ff1ba6b84681c51ca0997e7d5a1639813c95d5b61cb7ad47e55cc28fa4a0b1935c3d218710d8e6bcee5d0cd8c44755231e3a4e45fc604534d9595a3628
   languageName: node
   linkType: hard
 
