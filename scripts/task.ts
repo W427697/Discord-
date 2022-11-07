@@ -22,7 +22,7 @@ import { testRunner } from './tasks/test-runner';
 import { chromatic } from './tasks/chromatic';
 import { e2eTests } from './tasks/e2e-tests';
 
-import TEMPLATES from '../code/lib/cli/src/repro-templates';
+import { allTemplates as TEMPLATES } from '../code/lib/cli/src/repro-templates';
 
 const sandboxDir = resolve(__dirname, '../sandbox');
 const codeDir = resolve(__dirname, '../code');
