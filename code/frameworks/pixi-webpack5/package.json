@@ -59,6 +59,7 @@
     "react-dom": "16.14.0"
   },
   "devDependencies": {
+    "@types/offscreencanvas": "^2019.7.0",
     "typescript": "~4.6.3"
   },
   "peerDependencies": {

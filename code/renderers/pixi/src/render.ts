@@ -1,8 +1,9 @@
-import { Application, IApplicationOptions } from 'pixi.js';
+import type { IApplicationOptions } from 'pixi.js';
+import { Application } from 'pixi.js';
 import equals from 'deep-equal';
 
 import { dedent } from 'ts-dedent';
-import type { RenderContext } from '@storybook/store';
+import type { Store_RenderContext } from '@storybook/types';
 import type {
   PixiFramework,
   StoryFnPixiReturnType,
@@ -173,7 +174,7 @@ export function renderToDOM(
     showMain,
     showError,
     forceRemount,
-  }: RenderContext<PixiFramework>,
+  }: Store_RenderContext<PixiFramework>,
   domElement: Element
 ) {
   const {

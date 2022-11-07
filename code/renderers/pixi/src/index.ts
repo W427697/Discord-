@@ -1,3 +1,6 @@
+/// <reference types="webpack-env" />
+/// <reference types="offscreencanvas" />
+
 import './globals';
 
 export * from './public-api';

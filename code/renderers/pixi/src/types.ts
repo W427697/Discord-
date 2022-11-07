@@ -1,8 +1,8 @@
-import { DisplayObject, IApplicationOptions } from 'pixi.js';
+import type { DisplayObject, IApplicationOptions } from 'pixi.js';
 import type { StoryContext as DefaultStoryContext } from '@storybook/csf';
-import { parameters } from './config';
+import type { parameters } from './config';
 
-export type { RenderContext } from '@storybook/core-client';
+export type { RenderContext } from '@storybook/types';
 
 export type ApplicationResizeFunctionReturnType = {
   rendererWidth: number;

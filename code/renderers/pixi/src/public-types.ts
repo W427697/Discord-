@@ -4,7 +4,7 @@ import type {
   StoryAnnotations,
   AnnotatedStoryFn,
 } from '@storybook/csf';
-import { PixiFramework } from './types';
+import type { PixiFramework } from './types';
 
 export type { Args, ArgTypes, Parameters } from '@storybook/csf';
 

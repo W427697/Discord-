@@ -7422,6 +7422,7 @@ __metadata:
     "@storybook/core-common": 7.0.0-alpha.48
     "@storybook/pixi": 7.0.0-alpha.48
     "@types/node": ^14.14.20 || ^16.0.0
+    "@types/offscreencanvas": ^2019.7.0
     global: ^4.4.0
     react: 16.14.0
     react-dom: 16.14.0
@@ -7441,7 +7442,9 @@ __metadata:
     "@storybook/docs-tools": 7.0.0-alpha.48
     "@storybook/preview-web": 7.0.0-alpha.48
     "@storybook/store": 7.0.0-alpha.48
+    "@storybook/types": 7.0.0-alpha.48
     "@types/deep-equal": ^1.0.1
+    "@types/offscreencanvas": ^2019.7.0
     deep-equal: ^2.0.5
     global: ^4.4.0
     pixi.js: ^6.5.2
@@ -9363,7 +9366,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/offscreencanvas@npm:^2019.6.4":
+"@types/offscreencanvas@npm:^2019.6.4, @types/offscreencanvas@npm:^2019.7.0":
   version: 2019.7.0
   resolution: "@types/offscreencanvas@npm:2019.7.0"
   checksum: f10647cf8abf5c5313ac39a688866e824f04207b18fd03c2fa986a2d856f1c26dd11b04b3692fe64e6f1467b0d52579e8f4d0e532377d5c9065214bff4ebc0e7
