@@ -30,6 +30,7 @@ export type SupportedRenderers =
   | 'ember'
   | 'marionette'
   | 'marko'
+  | 'pixi'
   | 'preact'
   | 'svelte'
   | 'rax'
@@ -74,6 +75,7 @@ export enum ProjectType {
   MITHRIL = 'MITHRIL',
   MARIONETTE = 'MARIONETTE',
   MARKO = 'MARKO',
+  PIXI = 'PIXI',
   HTML = 'HTML',
   RIOT = 'RIOT',
   PREACT = 'PREACT',
