@@ -296,8 +296,7 @@ jobs:
       class: medium
       name: sb_node_16_browsers
     steps:
-      - git-shallow-clone/checkout_advanced:
-          clone_options: '--depth 500 --verbose'
+      - checkout
       - attach_workspace:
           at: .
       - run:
