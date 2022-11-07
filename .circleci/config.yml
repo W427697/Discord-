@@ -297,7 +297,7 @@ jobs:
       name: sb_node_16_browsers
     steps:
       - git-shallow-clone/checkout_advanced:
-          clone_options: '--depth 1 --verbose'
+          clone_options: '--depth 5 --verbose'
       - attach_workspace:
           at: .
       - run:
