@@ -10,6 +10,7 @@ import {
   styled,
   useTheme,
 } from '@storybook/theming';
+import { useArgs } from '@storybook/addons';
 import { Symbols } from '@storybook/components';
 import type { PreviewWeb } from '@storybook/preview-web';
 import { DocsContext } from '@storybook/preview-web';
@@ -197,6 +198,37 @@ export const decorators = [
         );
       }
     }
+  },
+  /**
+   * This decorator shows the current state of the arg named in the
+   * parameters.withRawArg property, by updating the arg in the onChange function
+   * this also means that the arg will sync with the control panel
+   *
+   * If parameters.withRawArg is not set, this decorator will do nothing
+   */
+  (StoryFn, { parameters, args, hooks }) => {
+    const [, updateArgs] = useArgs();
+    if (!parameters.withRawArg) {
+      return <StoryFn />;
+    }
+
+    return (
+      <>
+        <StoryFn
+          args={{
+            ...args,
+            onChange: (newValue) => {
+              updateArgs({ [parameters.withRawArg]: newValue });
+              args.onChange?.(newValue);
+            },
+          }}
+        />
+        <div style={{ marginTop: '1rem' }}>
+          Current <code>{parameters.withRawArg}</code>:{' '}
+          <pre>{JSON.stringify(args[parameters.withRawArg], null, 2) || 'undefined'}</pre>
+        </div>
+      </>
+    );
   },
 ];
 
