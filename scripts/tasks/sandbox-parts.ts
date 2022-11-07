@@ -6,11 +6,12 @@ import { copy, ensureSymlink, ensureDir, existsSync, pathExists } from 'fs-extra
 import { join, resolve, sep } from 'path';
 import dedent from 'ts-dedent';
 
-import { Task } from '../task';
+import type { Task } from '../task';
 import { executeCLIStep, steps } from '../utils/cli-step';
 import { installYarn2, configureYarn2ForVerdaccio, addPackageResolutions } from '../utils/yarn';
 import { exec } from '../utils/exec';
-import { ConfigFile, writeConfig } from '../../code/lib/csf-tools';
+import type { ConfigFile } from '../../code/lib/csf-tools';
+import { writeConfig } from '../../code/lib/csf-tools';
 import { filterExistsInCodeDir } from '../utils/filterExistsInCodeDir';
 import { findFirstPath } from '../utils/paths';
 import { detectLanguage } from '../../code/lib/cli/src/detect';
