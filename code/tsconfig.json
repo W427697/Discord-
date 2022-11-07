@@ -24,5 +24,11 @@
     "compilerOptions": {
       "types": ["node"]
     }
+  },
+  "angularCompilerOptions": {
+    "enableI18nLegacyMessageIdFormat": false,
+    "strictInjectionParameters": true,
+    "strictTemplates": true
+    // ...
   }
 }
