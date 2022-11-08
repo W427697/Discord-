@@ -1,7 +1,7 @@
 import { SNIPPET_RENDERED } from '@storybook/docs-tools';
 import { addons, useEffect } from '@storybook/addons';
 import { sourceDecorator } from './sourceDecorator';
-import { StoryContext } from '../types';
+import type { StoryContext } from '../types';
 
 jest.mock('@storybook/addons');
 const mockedAddons = addons as jest.Mocked<typeof addons>;
@@ -35,8 +35,8 @@ describe('sourceDecorator', () => {
   let mockChannel: { on: jest.Mock; emit?: jest.Mock };
   beforeEach(() => {
     mockedAddons.getChannel.mockReset();
-    // @ts-ignore
-    mockedUseEffect.mockImplementation((cb) => setTimeout(cb, 0));
+    // @ts-expect-error (Converted from ts-ignore)
+    mockedUseEffect.mockImplementation((cb) => setTimeout(() => cb(), 0));
 
     mockChannel = { on: jest.fn(), emit: jest.fn() };
     mockedAddons.getChannel.mockReturnValue(mockChannel as any);

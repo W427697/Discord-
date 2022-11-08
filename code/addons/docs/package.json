@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-docs",
-  "version": "7.0.0-alpha.25",
+  "version": "7.0.0-alpha.48",
   "description": "Document component usage and properties in Markdown",
   "keywords": [
     "addon",
@@ -45,55 +45,45 @@
     "!__testfixtures__"
   ],
   "scripts": {
-    "check": "tsc --noEmit",
-    "prepare": "node ../../../scripts/prepare.js"
+    "check": "../../../scripts/node_modules/.bin/tsc --noEmit",
+    "prep": "node ../../../scripts/prepare.js"
   },
   "dependencies": {
     "@babel/plugin-transform-react-jsx": "^7.12.12",
-    "@babel/preset-env": "^7.12.11",
     "@jest/transform": "^26.6.2",
-    "@mdx-js/react": "^1.6.22",
-    "@storybook/addons": "7.0.0-alpha.25",
-    "@storybook/api": "7.0.0-alpha.25",
-    "@storybook/blocks": "7.0.0-alpha.25",
-    "@storybook/components": "7.0.0-alpha.25",
-    "@storybook/core-common": "7.0.0-alpha.25",
-    "@storybook/core-events": "7.0.0-alpha.25",
-    "@storybook/csf": "0.0.2--canary.0899bb7.0",
-    "@storybook/csf-tools": "7.0.0-alpha.25",
-    "@storybook/docs-tools": "7.0.0-alpha.25",
-    "@storybook/mdx1-csf": "0.0.5-canary.13.9ce928a.0",
-    "@storybook/node-logger": "7.0.0-alpha.25",
-    "@storybook/postinstall": "7.0.0-alpha.25",
-    "@storybook/preview-web": "7.0.0-alpha.25",
-    "@storybook/source-loader": "7.0.0-alpha.25",
-    "@storybook/store": "7.0.0-alpha.25",
-    "@storybook/theming": "7.0.0-alpha.25",
-    "babel-loader": "^8.2.5",
-    "core-js": "^3.8.2",
+    "@mdx-js/react": "^2.1.5",
+    "@storybook/addons": "7.0.0-alpha.48",
+    "@storybook/api": "7.0.0-alpha.48",
+    "@storybook/blocks": "7.0.0-alpha.48",
+    "@storybook/components": "7.0.0-alpha.48",
+    "@storybook/core-common": "7.0.0-alpha.48",
+    "@storybook/core-events": "7.0.0-alpha.48",
+    "@storybook/csf-plugin": "7.0.0-alpha.48",
+    "@storybook/csf-tools": "7.0.0-alpha.48",
+    "@storybook/docs-tools": "7.0.0-alpha.48",
+    "@storybook/mdx2-csf": "next",
+    "@storybook/node-logger": "7.0.0-alpha.48",
+    "@storybook/postinstall": "7.0.0-alpha.48",
+    "@storybook/preview-web": "7.0.0-alpha.48",
+    "@storybook/store": "7.0.0-alpha.48",
+    "@storybook/theming": "7.0.0-alpha.48",
+    "@storybook/types": "7.0.0-alpha.48",
     "dequal": "^2.0.2",
+    "fs-extra": "^9.0.1",
     "global": "^4.4.0",
-    "lodash": "^4.17.21",
     "remark-external-links": "^8.0.0",
     "remark-slug": "^6.0.0",
-    "ts-dedent": "^2.0.0",
-    "util-deprecate": "^1.0.2"
+    "ts-dedent": "^2.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.10",
-    "@storybook/mdx2-csf": "0.0.4-canary.14.04ffbe8.0",
-    "@types/util-deprecate": "^1.0.0",
     "typescript": "~4.6.3"
   },
   "peerDependencies": {
-    "@storybook/mdx2-csf": "0.0.4-canary.14.04ffbe8.0",
     "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
     "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0"
   },
   "peerDependenciesMeta": {
-    "@storybook/mdx2-csf": {
-      "optional": true
-    },
     "react": {
       "optional": true
     },
@@ -104,7 +94,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "058af8bac4892d95fdfe755dedfd826cb4508fdc",
+  "gitHead": "b58a29b785462f8a8b711b6bb2d7223fd6dc17fd",
   "storybook": {
     "displayName": "Docs",
     "icon": "https://user-images.githubusercontent.com/263385/101991672-48355c80-3c7c-11eb-82d9-95fa12438f64.png",

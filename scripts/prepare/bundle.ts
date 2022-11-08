@@ -1,10 +1,11 @@
 #!/usr/bin/env ../../node_modules/.bin/ts-node
 
 import fs from 'fs-extra';
-import path, { join } from 'path';
+import path, { dirname, join, relative } from 'path';
 import { build } from 'tsup';
 import aliasPlugin from 'esbuild-plugin-alias';
 import dedent from 'ts-dedent';
+import slash from 'slash';
 import { exec } from '../utils/exec';
 
 const hasFlag = (flags: string[], name: string) => !!flags.find((s) => s.startsWith(`--${name}`));
@@ -35,26 +36,30 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
     await Promise.all(
       entries.map(async (file: string) => {
         console.log(`skipping generating types for ${file}`);
-        const { name: entryName } = path.parse(file);
-
-        const pathName = join(process.cwd(), 'dist', `${entryName}.d.ts`);
+        const { name: entryName, dir } = path.parse(file);
+  
+        const pathName = join(process.cwd(), dir.replace('./src', 'dist'), `${entryName}.d.ts`);
+        const srcName = join(process.cwd(), file);
+  
+        const rel = relative(dirname(pathName), dirname(srcName)).split(path.sep).join(path.posix.sep);
+  
         await fs.ensureFile(pathName);
         await fs.writeFile(
           pathName,
           dedent`
           // devmode
-          export * from '../src/${entryName}'
+          export * from '${rel}/${entryName}';
         `
         );
       })
     );
   }
-
+  
   const tsConfigPath = join(cwd, 'tsconfig.json');
   const tsConfigExists = await fs.pathExists(tsConfigPath);
   await Promise.all([
     build({
-      entry: entries.map((e: string) => join(cwd, e)),
+      entry: entries.map((e: string) => slash(join(cwd, e))),
       watch,
       ...(tsConfigExists ? { tsconfig: tsConfigPath } : {}),
       outDir: join(process.cwd(), 'dist'),
@@ -80,6 +85,7 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
           : false,
       esbuildOptions: (c) => {
         /* eslint-disable no-param-reassign */
+        c.conditions = ['module'];
         c.define = optimized
           ? {
               'process.env.NODE_ENV': "'production'",
@@ -100,12 +106,12 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
       },
     }),
     build({
-      entry: entries.map((e: string) => join(cwd, e)),
+      entry: entries.map((e: string) => slash(join(cwd, e))),
       watch,
       outDir: join(process.cwd(), 'dist'),
       ...(tsConfigExists ? { tsconfig: tsConfigPath } : {}),
       format: ['cjs'],
-      target: 'node14',
+      target: 'node16',
       platform: 'node',
       clean: !watch,
       external: [name, ...Object.keys(dependencies || {}), ...Object.keys(peerDependencies || {})],

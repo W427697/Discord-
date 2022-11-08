@@ -2,10 +2,12 @@
 /* global window */
 import { SNIPPET_RENDERED, SourceType } from '@storybook/docs-tools';
 import { addons, useEffect } from '@storybook/addons';
-import type { PartialStoryFn } from '@storybook/csf';
+import type { PartialStoryFn } from '@storybook/types';
 import { dedent } from 'ts-dedent';
-import { HtmlFramework, StoryContext } from '../types';
-import { StoryFn } from '../public-types';
+
+import type { HtmlFramework, StoryContext } from '../types';
+
+import type { StoryFn } from '../public-types';
 
 function skipSourceRender(context: StoryContext) {
   const sourceParams = context?.parameters.docs?.source;
@@ -30,7 +32,7 @@ function defaultTransformSource(source: string) {
 function applyTransformSource(source: string, context: StoryContext): string {
   const docs = context.parameters.docs ?? {};
   const transformSource = docs.transformSource ?? defaultTransformSource;
-  // @ts-ignore
+  // @ts-expect-error (Converted from ts-ignore)
   return transformSource(source, context);
 }
 

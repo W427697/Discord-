@@ -1,20 +1,21 @@
 import type { Server } from 'http';
 import { createServer } from 'vite';
-import { stringifyProcessEnvs } from './envs';
-import { getOptimizeDeps } from './optimizeDeps';
 import { commonConfig } from './vite-config';
-import type { EnvsRaw, ExtendedOptions } from './types';
+import type { ExtendedOptions } from './types';
+import { getOptimizeDeps } from './optimizeDeps';
 
 export async function createViteServer(options: ExtendedOptions, devServer: Server) {
-  const { port, presets } = options;
+  const { presets } = options;
 
-  const baseConfig = await commonConfig(options, 'development');
-  const defaultConfig = {
-    ...baseConfig,
+  const commonCfg = await commonConfig(options, 'development');
+
+  const config = {
+    ...commonCfg,
+    // Set up dev server
     server: {
       middlewareMode: true,
       hmr: {
-        port,
+        port: options.port,
         server: devServer,
       },
       fs: {
@@ -22,19 +23,9 @@ export async function createViteServer(options: ExtendedOptions, devServer: Serv
       },
     },
     appType: 'custom' as const,
-    optimizeDeps: await getOptimizeDeps(baseConfig, options),
+    optimizeDeps: await getOptimizeDeps(commonCfg, options),
   };
 
-  const finalConfig = await presets.apply('viteFinal', defaultConfig, options);
-
-  const envsRaw = await presets.apply<Promise<EnvsRaw>>('env');
-  // Stringify env variables after getting `envPrefix` from the final config
-  const envs = stringifyProcessEnvs(envsRaw, finalConfig.envPrefix);
-  // Update `define`
-  finalConfig.define = {
-    ...finalConfig.define,
-    ...envs,
-  };
-
+  const finalConfig = await presets.apply('viteFinal', config, options);
   return createServer(finalConfig);
 }

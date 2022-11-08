@@ -1,4 +1,5 @@
-import { Channel, ChannelTransport, Listener } from '.';
+import type { ChannelTransport, Listener } from '.';
+import { Channel } from '.';
 
 jest.useFakeTimers();
 
@@ -103,7 +104,7 @@ describe('Channel', () => {
         listenerOutputData = data;
       });
       const sendSpy = jest.fn();
-      // @ts-ignore
+      // @ts-expect-error (Converted from ts-ignore)
       channel.transport.send = sendSpy;
       channel.emit(eventName, ...listenerInputData);
       expect(listenerOutputData).toEqual(listenerInputData);

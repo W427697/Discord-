@@ -1,14 +1,16 @@
-import webpack, { Stats, Configuration, ProgressPlugin, StatsOptions } from 'webpack';
+import type { Stats, Configuration, StatsOptions } from 'webpack';
+import webpack, { ProgressPlugin } from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
 import { logger } from '@storybook/node-logger';
 import { useProgressReporting } from '@storybook/core-common';
-import type { Builder, Options } from '@storybook/core-common';
+import type { Builder, Options } from '@storybook/types';
 import { checkWebpackVersion } from '@storybook/core-webpack';
+import { join } from 'path';
 
 export * from './types';
 
-let compilation: ReturnType<typeof webpackDevMiddleware>;
+let compilation: ReturnType<typeof webpackDevMiddleware> | undefined;
 let reject: (reason?: any) => void;
 
 type WebpackBuilder = Builder<Configuration, Stats>;
@@ -72,7 +74,6 @@ export const bail: WebpackBuilder['bail'] = async () => {
   }
   // we wait for the compiler to finish it's work, so it's command-line output doesn't interfere
   return new Promise((res, rej) => {
-    // @ts-ignore
     if (process && compilation) {
       try {
         compilation.close(() => res());
@@ -134,7 +135,7 @@ const starter: StarterFunction = async function* starterGeneratorFn({
   router.use(webpackHotMiddleware(compiler as any));
 
   const stats = await new Promise<Stats>((ready, stop) => {
-    compilation.waitUntilValid(ready as any);
+    compilation?.waitUntilValid(ready as any);
     reject = stop;
   });
   yield;
@@ -144,6 +145,7 @@ const starter: StarterFunction = async function* starterGeneratorFn({
   }
 
   if (stats.hasErrors()) {
+    // eslint-disable-next-line @typescript-eslint/no-throw-literal
     throw stats;
   }
 
@@ -219,10 +221,10 @@ const builder: BuilderFunction = async function* builderGeneratorFn({ startTime,
 
       logger.trace({ message: '=> Preview built', time: process.hrtime(startTime) });
       if (stats && stats.hasWarnings()) {
-        // @ts-ignore
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- we know it has warnings because of hasWarnings()
         stats
           .toJson({ warnings: true } as StatsOptions)
-          .warnings.forEach((e) => logger.warn(e.message));
+          .warnings!.forEach((e) => logger.warn(e.message));
       }
 
       // https://webpack.js.org/api/node/#run
@@ -262,5 +264,5 @@ export const build = async (options: BuilderStartOptions) => {
   return result.value;
 };
 
-export const corePresets = [require.resolve('./presets/preview-preset.js')];
-export const overridePresets = [require.resolve('./presets/custom-webpack-preset.js')];
+export const corePresets = [join(__dirname, 'presets/preview-preset.js')];
+export const overridePresets = [join(__dirname, './presets/custom-webpack-preset.js')];

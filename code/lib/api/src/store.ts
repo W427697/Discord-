@@ -1,13 +1,13 @@
-import store, { StoreAPI } from 'store2';
+import type { StoreAPI } from 'store2';
+import store from 'store2';
 import storeSetup from './lib/store-setup';
 
 import type { State } from './index';
 
 // setting up the store, overriding set and get to use telejson
-// @ts-ignore
 storeSetup(store._);
 
-export const STORAGE_KEY = '@storybook/ui/store';
+export const STORAGE_KEY = '@storybook/manager/store';
 
 function get(storage: StoreAPI) {
   const data = storage.get(STORAGE_KEY);

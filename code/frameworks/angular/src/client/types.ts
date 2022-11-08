@@ -1,7 +1,8 @@
-import type {
+import {
   Parameters as DefaultParameters,
   StoryContext as DefaultStoryContext,
-} from '@storybook/csf';
+  WebFramework,
+} from '@storybook/types';
 
 export interface NgModuleMetadata {
   declarations?: any[];
@@ -12,16 +13,6 @@ export interface NgModuleMetadata {
 }
 export interface ICollection {
   [p: string]: any;
-}
-
-export interface IStorybookStory {
-  name: string;
-  render: (context: any) => any;
-}
-
-export interface IStorybookSection {
-  kind: string;
-  stories: IStorybookStory[];
 }
 
 export interface StoryFnAngularReturnType {
@@ -36,10 +27,10 @@ export interface StoryFnAngularReturnType {
   userDefinedTemplate?: boolean;
 }
 
-export type AngularFramework = {
+export interface AngularFramework extends WebFramework {
   component: any;
   storyResult: StoryFnAngularReturnType;
-};
+}
 
 export type Parameters = DefaultParameters & {
   /** Uses legacy angular rendering engine that use dynamic component */

@@ -1,7 +1,7 @@
-import { AnyFramework, StoryContextForEnhancers } from '@storybook/csf';
+import type { Framework, StoryContextForEnhancers } from '@storybook/types';
 import { combineParameters } from '@storybook/store';
 
-export const enhanceArgTypes = <TFramework extends AnyFramework>(
+export const enhanceArgTypes = <TFramework extends Framework>(
   context: StoryContextForEnhancers<TFramework>
 ) => {
   const {
@@ -13,7 +13,7 @@ export const enhanceArgTypes = <TFramework extends AnyFramework>(
 
   const extractedArgTypes = extractArgTypes && component ? extractArgTypes(component) : {};
   const withExtractedTypes = extractedArgTypes
-    ? combineParameters(extractedArgTypes, userArgTypes)
+    ? (combineParameters(extractedArgTypes, userArgTypes) as typeof userArgTypes)
     : userArgTypes;
 
   return withExtractedTypes;

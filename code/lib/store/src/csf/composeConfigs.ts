@@ -1,40 +1,39 @@
-import type { AnyFramework } from '@storybook/csf';
+import type { Framework, Store_ModuleExports, ProjectAnnotations } from '@storybook/types';
 
-import type { ModuleExports, WebProjectAnnotations } from '../types';
 import { combineParameters } from '../parameters';
 import { composeStepRunners } from './stepRunners';
 
 export function getField<TFieldType = any>(
-  moduleExportList: ModuleExports[],
+  moduleExportList: Store_ModuleExports[],
   field: string
 ): TFieldType | TFieldType[] {
   return moduleExportList.map((xs) => xs[field]).filter(Boolean);
 }
 
 export function getArrayField<TFieldType = any>(
-  moduleExportList: ModuleExports[],
+  moduleExportList: Store_ModuleExports[],
   field: string
 ): TFieldType[] {
   return getField(moduleExportList, field).reduce((a: any, b: any) => [...a, ...b], []);
 }
 
 export function getObjectField<TFieldType = Record<string, any>>(
-  moduleExportList: ModuleExports[],
+  moduleExportList: Store_ModuleExports[],
   field: string
 ): TFieldType {
   return Object.assign({}, ...getField(moduleExportList, field));
 }
 
 export function getSingletonField<TFieldType = any>(
-  moduleExportList: ModuleExports[],
+  moduleExportList: Store_ModuleExports[],
   field: string
 ): TFieldType {
   return getField(moduleExportList, field).pop();
 }
 
-export function composeConfigs<TFramework extends AnyFramework>(
-  moduleExportList: ModuleExports[]
-): WebProjectAnnotations<TFramework> {
+export function composeConfigs<TFramework extends Framework>(
+  moduleExportList: Store_ModuleExports[]
+): ProjectAnnotations<TFramework> {
   const allArgTypeEnhancers = getArrayField(moduleExportList, 'argTypesEnhancers');
   const stepRunners = getField(moduleExportList, 'runStep');
 
@@ -52,7 +51,8 @@ export function composeConfigs<TFramework extends AnyFramework>(
     globalTypes: getObjectField(moduleExportList, 'globalTypes'),
     loaders: getArrayField(moduleExportList, 'loaders'),
     render: getSingletonField(moduleExportList, 'render'),
-    renderToDOM: getSingletonField(moduleExportList, 'renderToDOM'),
+    renderToCanvas: getSingletonField(moduleExportList, 'renderToCanvas'),
+    renderToDOM: getSingletonField(moduleExportList, 'renderToDOM'), // deprecated
     applyDecorators: getSingletonField(moduleExportList, 'applyDecorators'),
     runStep: composeStepRunners<TFramework>(stepRunners),
   };

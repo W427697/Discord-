@@ -1,17 +1,17 @@
 import { readdir } from 'fs/promises';
 import { pathExists } from 'fs-extra';
 import { resolve } from 'path';
-import TEMPLATES from '../code/lib/cli/src/repro-templates';
+import { allTemplates, templatesByCadence } from '../code/lib/cli/src/repro-templates';
 
 const sandboxDir = resolve(__dirname, '../sandbox');
 
-export type Cadence = 'ci' | 'daily' | 'weekly';
+export type Cadence = keyof typeof templatesByCadence;
 export type Template = {
   cadence?: readonly Cadence[];
-  skipScripts?: string[];
+  skipTasks?: string[];
   // there are other fields but we don't use them here
 };
-export type TemplateKey = string;
+export type TemplateKey = keyof typeof allTemplates;
 export type Templates = Record<TemplateKey, Template>;
 
 async function getDirectories(source: string) {
@@ -30,21 +30,23 @@ export async function getTemplate(
     const sandboxes = await getDirectories(sandboxDir);
     potentialTemplateKeys = sandboxes
       .map((dirName) => {
-        return Object.keys(TEMPLATES).find(
+        return Object.keys(allTemplates).find(
           (templateKey) => templateKey.replace('/', '-') === dirName
         );
       })
-      .filter(Boolean);
+      .filter(Boolean) as TemplateKey[];
   }
 
   if (potentialTemplateKeys.length === 0) {
-    const allTemplates = Object.entries(TEMPLATES as Templates);
-    const cadenceTemplates = allTemplates.filter(([, template]) =>
-      template.cadence.includes(cadence)
+    const cadenceTemplates = Object.entries(allTemplates).filter(([key]) =>
+      templatesByCadence[cadence].includes(key as TemplateKey)
     );
-    const jobTemplates = cadenceTemplates.filter(([, t]) => !t.skipScripts?.includes(scriptName));
-    potentialTemplateKeys = jobTemplates.map(([k]) => k);
+    potentialTemplateKeys = cadenceTemplates.map(([k]) => k) as TemplateKey[];
   }
+
+  potentialTemplateKeys = potentialTemplateKeys.filter(
+    (t) => !(allTemplates[t] as Template).skipTasks?.includes(scriptName)
+  );
 
   if (potentialTemplateKeys.length !== total) {
     throw new Error(`Circle parallelism set incorrectly.

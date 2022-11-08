@@ -1,14 +1,14 @@
 import global from 'global';
 import { logger } from '@storybook/client-logger';
 import type {
-  AnyFramework,
-  DecoratorFunction,
+  Framework,
+  Args,
   DecoratorApplicator,
+  DecoratorFunction,
+  LegacyStoryFn,
   StoryContext,
   StoryId,
-  Args,
-  LegacyStoryFn,
-} from '@storybook/csf';
+} from '@storybook/types';
 import {
   FORCE_RE_RENDER,
   STORY_RENDERED,
@@ -16,9 +16,8 @@ import {
   RESET_STORY_ARGS,
   UPDATE_GLOBALS,
 } from '@storybook/core-events';
+// eslint-disable-next-line import/no-cycle
 import { addons } from './index';
-
-const { window: globalWindow } = global;
 
 interface Hook {
   name: string;
@@ -33,7 +32,7 @@ interface Effect {
 
 type AbstractFunction = (...args: any[]) => any;
 
-export class HooksContext<TFramework extends AnyFramework> {
+export class HooksContext<TFramework extends Framework> {
   hookListsMap: WeakMap<AbstractFunction, Hook[]>;
 
   mountedDecorators: Set<AbstractFunction>;
@@ -127,13 +126,13 @@ export class HooksContext<TFramework extends AnyFramework> {
   }
 }
 
-function hookify<TFramework extends AnyFramework>(
+function hookify<TFramework extends Framework>(
   storyFn: LegacyStoryFn<TFramework>
 ): LegacyStoryFn<TFramework>;
-function hookify<TFramework extends AnyFramework>(
+function hookify<TFramework extends Framework>(
   decorator: DecoratorFunction<TFramework>
 ): DecoratorFunction<TFramework>;
-function hookify<TFramework extends AnyFramework>(fn: AbstractFunction) {
+function hookify<TFramework extends Framework>(fn: AbstractFunction) {
   return (...args: any[]) => {
     const { hooks }: { hooks: HooksContext<TFramework> } =
       typeof args[0] === 'function' ? args[1] : args[0];
@@ -155,10 +154,10 @@ function hookify<TFramework extends AnyFramework>(fn: AbstractFunction) {
     }
     hooks.nextHookIndex = 0;
 
-    const prevContext = globalWindow.STORYBOOK_HOOKS_CONTEXT;
-    globalWindow.STORYBOOK_HOOKS_CONTEXT = hooks;
+    const prevContext = global.STORYBOOK_HOOKS_CONTEXT;
+    global.STORYBOOK_HOOKS_CONTEXT = hooks;
     const result = fn(...args);
-    globalWindow.STORYBOOK_HOOKS_CONTEXT = prevContext;
+    global.STORYBOOK_HOOKS_CONTEXT = prevContext;
 
     if (hooks.currentPhase === 'UPDATE' && hooks.getNextHook() != null) {
       throw new Error(
@@ -178,7 +177,7 @@ function hookify<TFramework extends AnyFramework>(fn: AbstractFunction) {
 let numberOfRenders = 0;
 const RENDER_LIMIT = 25;
 export const applyHooks =
-  <TFramework extends AnyFramework>(
+  <TFramework extends Framework>(
     applyDecorators: DecoratorApplicator<TFramework>
   ): DecoratorApplicator<TFramework> =>
   (storyFn: LegacyStoryFn<TFramework>, decorators: DecoratorFunction<TFramework>[]) => {
@@ -216,11 +215,11 @@ const areDepsEqual = (deps: any[], nextDeps: any[]) =>
 const invalidHooksError = () =>
   new Error('Storybook preview hooks can only be called inside decorators and story functions.');
 
-function getHooksContextOrNull<TFramework extends AnyFramework>(): HooksContext<TFramework> | null {
-  return globalWindow.STORYBOOK_HOOKS_CONTEXT || null;
+function getHooksContextOrNull<TFramework extends Framework>(): HooksContext<TFramework> | null {
+  return global.STORYBOOK_HOOKS_CONTEXT || null;
 }
 
-function getHooksContextOrThrow<TFramework extends AnyFramework>(): HooksContext<TFramework> {
+function getHooksContextOrThrow<TFramework extends Framework>(): HooksContext<TFramework> {
   const hooks = getHooksContextOrNull<TFramework>();
   if (hooks == null) {
     throw invalidHooksError();
@@ -329,11 +328,11 @@ function useStateLike<S>(
 ): [S, (update: ((prevState: S) => S) | S) => void] {
   const stateRef = useRefLike(
     name,
-    // @ts-ignore S type should never be function, but there's no way to tell that to TypeScript
+    // @ts-expect-error S type should never be function, but there's no way to tell that to TypeScript
     typeof initialState === 'function' ? initialState() : initialState
   );
   const setState = (update: ((prevState: S) => S) | S) => {
-    // @ts-ignore S type should never be function, but there's no way to tell that to TypeScript
+    // @ts-expect-error S type should never be function, but there's no way to tell that to TypeScript
     stateRef.current = typeof update === 'function' ? update(stateRef.current) : update;
     triggerUpdate();
   };
@@ -405,7 +404,7 @@ export function useChannel(eventMap: EventMap, deps: any[] = []) {
 }
 
 /* Returns current story context */
-export function useStoryContext<TFramework extends AnyFramework>(): StoryContext<TFramework> {
+export function useStoryContext<TFramework extends Framework>(): StoryContext<TFramework> {
   const { currentContext } = getHooksContextOrThrow();
   if (currentContext == null) {
     throw invalidHooksError();

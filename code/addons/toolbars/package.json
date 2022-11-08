@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-toolbars",
-  "version": "7.0.0-alpha.25",
+  "version": "7.0.0-alpha.48",
   "description": "Create your own toolbar items that control story rendering",
   "keywords": [
     "addon",
@@ -31,12 +31,12 @@
       "import": "./dist/index.mjs",
       "types": "./dist/index.d.ts"
     },
-    "./manager.js": {
+    "./manager": {
       "require": "./dist/manager.js",
       "import": "./dist/manager.mjs",
       "types": "./dist/manager.d.ts"
     },
-    "./register.js": {
+    "./register": {
       "require": "./dist/manager.js",
       "import": "./dist/manager.mjs",
       "types": "./dist/manager.d.ts"
@@ -53,16 +53,15 @@
     "*.d.ts"
   ],
   "scripts": {
-    "check": "tsc --noEmit",
-    "prepare": "../../../scripts/prepare/bundle.ts"
+    "check": "../../../scripts/node_modules/.bin/tsc --noEmit",
+    "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/addons": "7.0.0-alpha.25",
-    "@storybook/api": "7.0.0-alpha.25",
-    "@storybook/client-logger": "7.0.0-alpha.25",
-    "@storybook/components": "7.0.0-alpha.25",
-    "@storybook/theming": "7.0.0-alpha.25",
-    "core-js": "^3.8.2"
+    "@storybook/addons": "7.0.0-alpha.48",
+    "@storybook/api": "7.0.0-alpha.48",
+    "@storybook/client-logger": "7.0.0-alpha.48",
+    "@storybook/components": "7.0.0-alpha.48",
+    "@storybook/theming": "7.0.0-alpha.48"
   },
   "devDependencies": {
     "typescript": "~4.6.3"
@@ -89,7 +88,7 @@
     ],
     "platform": "browser"
   },
-  "gitHead": "058af8bac4892d95fdfe755dedfd826cb4508fdc",
+  "gitHead": "b58a29b785462f8a8b711b6bb2d7223fd6dc17fd",
   "storybook": {
     "displayName": "Toolbars",
     "icon": "https://user-images.githubusercontent.com/263385/101991677-48cdf300-3c7c-11eb-93b4-19b0e3366959.png",

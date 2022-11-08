@@ -1,8 +1,8 @@
 import React from 'react';
 import global from 'global';
-import { RenderContext } from '@storybook/store';
-import addons, { mockChannel as createMockChannel } from '@storybook/addons';
-import { DocsRenderer } from '@storybook/addon-docs';
+import type { Store_RenderContext } from '@storybook/types';
+import { addons, mockChannel as createMockChannel } from '@storybook/addons';
+
 import { mocked } from 'ts-jest/utils';
 import { expect } from '@jest/globals';
 
@@ -20,7 +20,7 @@ import {
 } from './PreviewWeb.mockdata';
 
 // PreviewWeb.test mocks out all rendering
-//   - ie. from`renderToDOM()` (stories) or`ReactDOM.render()` (docs) in.
+//   - ie. from`renderToCanvas()` (stories) or`ReactDOM.render()` (docs) in.
 // This file lets them rip.
 
 jest.mock('@storybook/channel-postmessage', () => ({ createChannel: () => mockChannel }));
@@ -29,7 +29,7 @@ jest.mock('./WebView');
 
 const { window, document } = global;
 jest.mock('global', () => ({
-  // @ts-ignore
+  // @ts-expect-error (Converted from ts-ignore)
   ...jest.requireActual('global'),
   history: { replaceState: jest.fn() },
   document: {
@@ -52,10 +52,13 @@ beforeEach(() => {
   componentOneExports.default.loaders[0].mockReset().mockImplementation(async () => ({ l: 7 }));
   componentOneExports.default.parameters.docs.container.mockClear();
   componentOneExports.a.play.mockReset();
-  projectAnnotations.renderToDOM.mockReset();
+  projectAnnotations.renderToCanvas.mockReset();
   projectAnnotations.render.mockClear();
   projectAnnotations.decorators[0].mockClear();
-  projectAnnotations.parameters.docs.renderer = () => new DocsRenderer() as any;
+
+  // We need to import DocsRenderer async because MDX2 is ESM-only so we inline
+  // this in each of the async tests below to get it working in Jest
+  // projectAnnotations.parameters.docs.renderer = () => new DocsRenderer() as any;
 
   addons.setChannel(mockChannel as any);
   addons.setServerChannel(createMockChannel());
@@ -67,8 +70,11 @@ beforeEach(() => {
 describe('PreviewWeb', () => {
   describe('initial render', () => {
     it('renders story mode through the stack', async () => {
-      projectAnnotations.renderToDOM.mockImplementationOnce(({ storyFn }: RenderContext<any>) =>
-        storyFn()
+      const { DocsRenderer } = await import('@storybook/addon-docs');
+      projectAnnotations.parameters.docs.renderer = () => new DocsRenderer() as any;
+
+      projectAnnotations.renderToCanvas.mockImplementationOnce(
+        ({ storyFn }: Store_RenderContext<any>) => storyFn()
       );
       document.location.search = '?id=component-one--a';
       await new PreviewWeb().initialize({ importFn, getProjectAnnotations });
@@ -80,6 +86,9 @@ describe('PreviewWeb', () => {
     });
 
     it('renders docs mode through docs page', async () => {
+      const { DocsRenderer } = await import('@storybook/addon-docs');
+      projectAnnotations.parameters.docs.renderer = () => new DocsRenderer() as any;
+
       document.location.search = '?id=component-one--docs&viewMode=docs';
       const preview = new PreviewWeb();
 
@@ -116,13 +125,16 @@ describe('PreviewWeb', () => {
     };
 
     it('renders story mode through the updated stack', async () => {
+      const { DocsRenderer } = await import('@storybook/addon-docs');
+      projectAnnotations.parameters.docs.renderer = () => new DocsRenderer() as any;
+
       document.location.search = '?id=component-one--a';
       const preview = new PreviewWeb();
       await preview.initialize({ importFn, getProjectAnnotations });
       await waitForRender();
 
-      projectAnnotations.renderToDOM.mockImplementationOnce(({ storyFn }: RenderContext<any>) =>
-        storyFn()
+      projectAnnotations.renderToCanvas.mockImplementationOnce(
+        ({ storyFn }: Store_RenderContext<any>) => storyFn()
       );
       projectAnnotations.decorators[0].mockClear();
       mockChannel.emit.mockClear();

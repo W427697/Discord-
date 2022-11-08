@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { AnyFramework, Parameters } from '@storybook/csf';
-import { DocsContextProps, DocsRenderFunction } from '@storybook/preview-web';
+import type { Framework, Parameters } from '@storybook/types';
+import type { DocsContextProps, DocsRenderFunction } from '@storybook/preview-web';
 import { components as htmlComponents } from '@storybook/components';
 import { Docs, CodeOrSourceMdx, AnchorMdx, HeadersMdx } from '@storybook/blocks';
 import { MDXProvider } from '@mdx-js/react';
@@ -14,7 +14,7 @@ export const defaultComponents: Record<string, any> = {
   ...HeadersMdx,
 };
 
-export class DocsRenderer<TFramework extends AnyFramework> {
+export class DocsRenderer<TFramework extends Framework> {
   public render: DocsRenderFunction<TFramework>;
 
   public unmount: (element: HTMLElement) => void;
@@ -29,8 +29,12 @@ export class DocsRenderer<TFramework extends AnyFramework> {
       // Use a random key to force the container to re-render each time we call `renderDocs`
       //   TODO: do we still need this? It was needed for angular (legacy) inline rendering:
       //   https://github.com/storybookjs/storybook/pull/16149
+      const components = {
+        ...defaultComponents,
+        ...docsParameter?.components,
+      };
       ReactDOM.render(
-        <MDXProvider components={defaultComponents}>
+        <MDXProvider components={components}>
           <Docs key={Math.random()} context={context} docsParameter={docsParameter} />
         </MDXProvider>,
         element,

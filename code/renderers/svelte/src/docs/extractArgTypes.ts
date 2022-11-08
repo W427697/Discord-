@@ -1,4 +1,4 @@
-import type { SBScalarType, StrictArgTypes } from '@storybook/csf';
+import type { SBScalarType, StrictArgTypes } from '@storybook/types';
 import { logger } from '@storybook/client-logger';
 import type {
   SvelteComponentDoc,
@@ -89,7 +89,7 @@ export const createArgTypes = (docgen: SvelteComponentDoc) => {
 
 /**
  * Function to convert the type from sveltedoc-parser to a storybook type
- * @param typeName
+ * @param type
  * @returns string
  */
 const parseTypeToControl = (type: JSDocType | undefined): any => {
@@ -110,7 +110,7 @@ const parseTypeToControl = (type: JSDocType | undefined): any => {
         return { type: type.type };
     }
   } else if (type.kind === 'union') {
-    // @ts-ignore TODO: fix, this seems like a broke in package update
+    // @ts-expect-error TODO: fix, this seems like a broke in package update
     if (Array.isArray(type.type) && !type.type.find((t) => t.type !== 'string')) {
       return {
         type: 'radio',

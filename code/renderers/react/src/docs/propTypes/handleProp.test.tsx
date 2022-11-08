@@ -3,10 +3,10 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {
-  PropDef,
+  type PropDef,
   extractComponentProps,
-  DocgenInfo,
-  DocgenPropDefaultValue,
+  type DocgenInfo,
+  type DocgenPropDefaultValue,
 } from '@storybook/docs-tools';
 import { enhancePropTypesProp, enhancePropTypesProps } from './handleProp';
 
@@ -47,7 +47,7 @@ function createComponent({ propTypes = {}, defaultProps = {}, docgenInfo = {} })
   component.propTypes = propTypes;
   component.defaultProps = defaultProps;
 
-  // @ts-ignore
+  // @ts-expect-error (Converted from ts-ignore)
   component.__docgenInfo = createDocgenSection(docgenInfo);
 
   return component;
@@ -1296,7 +1296,7 @@ describe('enhancePropTypesProp', () => {
       it('should support React element with props', () => {
         const component = createTestComponent(null);
 
-        // @ts-ignore
+        // @ts-expect-error (Converted from ts-ignore)
         const defaultProp = <ReactComponent className="toto" />;
         // Simulate babel-plugin-add-react-displayname.
         defaultProp.type.displayName = 'ReactComponent';

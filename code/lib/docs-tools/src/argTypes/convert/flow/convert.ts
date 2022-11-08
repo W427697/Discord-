@@ -1,5 +1,5 @@
 /* eslint-disable no-case-declarations */
-import type { SBType } from '@storybook/csf';
+import type { SBType } from '@storybook/types';
 import type { FlowType, FlowSigType, FlowLiteralType } from './types';
 
 const isLiteral = (type: FlowType) => type.name === 'literal';
@@ -43,7 +43,6 @@ export const convert = (type: FlowType): SBType | void => {
       return { ...base, ...convertSig(type) };
     case 'union':
       if (type.elements.every(isLiteral)) {
-        // @ts-ignore
         return { ...base, name: 'enum', value: type.elements.map(toEnumOption) };
       }
       return { ...base, name, value: type.elements.map(convert) };

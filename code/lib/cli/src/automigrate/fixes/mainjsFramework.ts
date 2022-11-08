@@ -1,11 +1,12 @@
 import chalk from 'chalk';
 import { dedent } from 'ts-dedent';
 
-import semver from '@storybook/semver';
-import { ConfigFile, readConfig, writeConfig } from '@storybook/csf-tools';
+import semver from 'semver';
+import type { ConfigFile } from '@storybook/csf-tools';
+import { readConfig, writeConfig } from '@storybook/csf-tools';
 import { getStorybookInfo } from '@storybook/core-common';
 
-import { Fix } from '../types';
+import type { Fix } from '../types';
 
 const logger = console;
 
@@ -19,6 +20,8 @@ export const mainjsFramework: Fix<MainjsFrameworkRunOptions> = {
 
   async check({ packageManager }) {
     const packageJson = packageManager.retrievePackageJson();
+
+    // FIXME: use renderer in SB7?
     const { mainConfig, framework, version: storybookVersion } = getStorybookInfo(packageJson);
 
     if (!mainConfig) {

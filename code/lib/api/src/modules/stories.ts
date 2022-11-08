@@ -9,35 +9,37 @@ import {
   STORY_CHANGED,
   SELECT_STORY,
   SET_STORIES,
+  SET_INDEX,
   STORY_SPECIFIED,
   STORY_INDEX_INVALIDATED,
   CONFIG_ERROR,
 } from '@storybook/core-events';
-import deprecate from 'util-deprecate';
 import { logger } from '@storybook/client-logger';
 
+import type {
+  StoryId,
+  API_Args,
+  API_ComposedRef,
+  API_HashEntry,
+  API_LeafEntry,
+  API_PreparedStoryIndex,
+  API_SetStoriesPayload,
+  API_StoriesHash,
+  API_StoryEntry,
+  API_StoryIndex,
+} from '@storybook/types';
+// eslint-disable-next-line import/no-cycle
 import { getEventMetadata } from '../lib/events';
+// eslint-disable-next-line import/no-cycle
 import {
   denormalizeStoryParameters,
-  transformSetStoriesStoryDataToStoriesHash,
   transformStoryIndexToStoriesHash,
   getComponentLookupList,
   getStoriesLookupList,
-  HashEntry,
-  LeafEntry,
+  addPreparedStories,
 } from '../lib/stories';
 
-import type {
-  StoriesHash,
-  StoryEntry,
-  StoryId,
-  SetStoriesStoryData,
-  SetStoriesPayload,
-  StoryIndex,
-} from '../lib/stories';
-
-import type { Args, ModuleFn } from '../index';
-import type { ComposedRef } from './refs';
+import type { ModuleFn } from '../index';
 
 const { FEATURES, fetch } = global;
 const STORY_INDEX_PATH = './index.json';
@@ -46,10 +48,10 @@ type Direction = -1 | 1;
 type ParameterName = string;
 
 type ViewMode = 'story' | 'info' | 'settings' | string | undefined;
-type StoryUpdate = Pick<StoryEntry, 'parameters' | 'initialArgs' | 'argTypes' | 'args'>;
+type StoryUpdate = Pick<API_StoryEntry, 'parameters' | 'initialArgs' | 'argTypes' | 'args'>;
 
 export interface SubState {
-  storiesHash: StoriesHash;
+  storiesHash: API_StoriesHash;
   storyId: StoryId;
   viewMode: ViewMode;
   storiesConfigured: boolean;
@@ -58,61 +60,53 @@ export interface SubState {
 
 export interface SubAPI {
   storyId: typeof toId;
-  resolveStory: (storyId: StoryId, refsId?: string) => HashEntry;
+  resolveStory: (storyId: StoryId, refsId?: string) => API_HashEntry;
   selectFirstStory: () => void;
   selectStory: (
     kindOrId?: string,
     story?: string,
     obj?: { ref?: string; viewMode?: ViewMode }
   ) => void;
-  getCurrentStoryData: () => LeafEntry;
-  setStories: (stories: SetStoriesStoryData, failed?: Error) => Promise<void>;
+  getCurrentStoryData: () => API_LeafEntry;
+  setIndex: (index: API_PreparedStoryIndex) => Promise<void>;
   jumpToComponent: (direction: Direction) => void;
   jumpToStory: (direction: Direction) => void;
-  getData: (storyId: StoryId, refId?: string) => LeafEntry;
+  getData: (storyId: StoryId, refId?: string) => API_LeafEntry;
   isPrepared: (storyId: StoryId, refId?: string) => boolean;
   getParameters: (
     storyId: StoryId | { storyId: StoryId; refId: string },
     parameterName?: ParameterName
-  ) => StoryEntry['parameters'] | any;
+  ) => API_StoryEntry['parameters'] | any;
   getCurrentParameter<S>(parameterName?: ParameterName): S;
-  updateStoryArgs(story: StoryEntry, newArgs: Args): void;
-  resetStoryArgs: (story: StoryEntry, argNames?: string[]) => void;
-  findLeafEntry(StoriesHash: StoriesHash, storyId: StoryId): LeafEntry;
-  findLeafStoryId(StoriesHash: StoriesHash, storyId: StoryId): StoryId;
+  updateStoryArgs(story: API_StoryEntry, newArgs: API_Args): void;
+  resetStoryArgs: (story: API_StoryEntry, argNames?: string[]) => void;
+  findLeafEntry(StoriesHash: API_StoriesHash, storyId: StoryId): API_LeafEntry;
+  findLeafStoryId(StoriesHash: API_StoriesHash, storyId: StoryId): StoryId;
   findSiblingStoryId(
     storyId: StoryId,
-    hash: StoriesHash,
+    hash: API_StoriesHash,
     direction: Direction,
     toSiblingGroup: boolean // when true, skip over leafs within the same group
   ): StoryId;
-  fetchStoryList: () => Promise<void>;
-  setStoryList: (storyList: StoryIndex) => Promise<void>;
-  updateStory: (storyId: StoryId, update: StoryUpdate, ref?: ComposedRef) => Promise<void>;
+  fetchIndex: () => Promise<void>;
+  updateStory: (storyId: StoryId, update: StoryUpdate, ref?: API_ComposedRef) => Promise<void>;
 }
 
-const deprecatedOptionsParameterWarnings: Record<string, () => void> = [
-  'enableShortcuts',
-  'theme',
-  'showRoots',
-].reduce((acc, option: string) => {
-  acc[option] = deprecate(
-    () => {},
-    `parameters.options.${option} is deprecated and will be removed in Storybook 7.0.
-To change this setting, use \`addons.setConfig\`. See https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#deprecated-immutable-options-parameters
-  `
-  );
-  return acc;
-}, {} as Record<string, () => void>);
-function checkDeprecatedOptionParameters(options?: Record<string, any>) {
-  if (!options) {
-    return;
+const removedOptions = ['enableShortcuts', 'theme', 'showRoots'];
+
+function removeRemovedOptions<T extends Record<string, any> = Record<string, any>>(options?: T): T {
+  if (!options || typeof options === 'string') {
+    return options;
   }
-  Object.keys(options).forEach((option: string) => {
-    if (deprecatedOptionsParameterWarnings[option]) {
-      deprecatedOptionsParameterWarnings[option]();
+  const result: T = { ...options } as T;
+
+  removedOptions.forEach((option) => {
+    if (option in result) {
+      delete result[option];
     }
   });
+
+  return result;
 }
 
 export const init: ModuleFn<SubAPI, SubState, true> = ({
@@ -204,19 +198,6 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
       if (result) {
         api.selectStory(result, undefined, { ref: refId });
       }
-    },
-    setStories: async (input, error) => {
-      // Now create storiesHash by reordering the above by group
-      const hash = transformSetStoriesStoryDataToStoriesHash(input, {
-        provider,
-        docsOptions,
-      });
-
-      await store.setState({
-        storiesHash: hash,
-        storiesConfigured: true,
-        storiesFailed: error,
-      });
     },
     selectFirstStory: () => {
       const { storiesHash } = store.getState();
@@ -329,12 +310,12 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
         options: { target: refId },
       });
     },
-    fetchStoryList: async () => {
+    fetchIndex: async () => {
       try {
         const result = await fetch(STORY_INDEX_PATH);
         if (result.status !== 200) throw new Error(await result.text());
 
-        const storyIndex = (await result.json()) as StoryIndex;
+        const storyIndex = (await result.json()) as API_StoryIndex;
 
         // We can only do this if the stories.json is a proper storyIndex
         if (storyIndex.v < 3) {
@@ -342,7 +323,7 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
           return;
         }
 
-        await fullAPI.setStoryList(storyIndex);
+        await fullAPI.setIndex(storyIndex);
       } catch (err) {
         store.setState({
           storiesConfigured: true,
@@ -350,14 +331,20 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
         });
       }
     },
-    setStoryList: async (storyIndex: StoryIndex) => {
-      const hash = transformStoryIndexToStoriesHash(storyIndex, {
+    // The story index we receive on SET_INDEX is "prepared" in that it has parameters
+    // The story index we receive on fetchStoryIndex is not, but all the prepared fields are optional
+    // so we can cast one to the other easily enough
+    setIndex: async (storyIndex: API_PreparedStoryIndex) => {
+      const newHash = transformStoryIndexToStoriesHash(storyIndex, {
         provider,
         docsOptions,
       });
 
+      // Now we need to patch in the existing prepared stories
+      const oldHash = store.getState().storiesHash;
+
       await store.setState({
-        storiesHash: hash,
+        storiesHash: addPreparedStories(newHash, oldHash),
         storiesConfigured: true,
         storiesFailed: null,
       });
@@ -365,21 +352,21 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
     updateStory: async (
       storyId: StoryId,
       update: StoryUpdate,
-      ref?: ComposedRef
+      ref?: API_ComposedRef
     ): Promise<void> => {
       if (!ref) {
         const { storiesHash } = store.getState();
         storiesHash[storyId] = {
           ...storiesHash[storyId],
           ...update,
-        } as StoryEntry;
+        } as API_StoryEntry;
         await store.setState({ storiesHash });
       } else {
         const { id: refId, stories } = ref;
         stories[storyId] = {
           ...stories[storyId],
           ...update,
-        } as StoryEntry;
+        } as API_StoryEntry;
         await fullAPI.updateRef(refId, { stories });
       }
     },
@@ -420,8 +407,7 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
         const options = fullAPI.getCurrentParameter('options');
 
         if (options) {
-          checkDeprecatedOptionParameters(options);
-          fullAPI.setOptions(options);
+          fullAPI.setOptions(removeRemovedOptions(options));
         }
       }
     });
@@ -433,8 +419,7 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
       if (!ref) {
         if (!store.getState().hasCalledSetOptions) {
           const { options } = update.parameters;
-          checkDeprecatedOptionParameters(options);
-          fullAPI.setOptions(options);
+          fullAPI.setOptions(removeRemovedOptions(options));
           store.setState({ hasCalledSetOptions: true });
         }
       } else {
@@ -459,19 +444,25 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
       }
     });
 
-    fullAPI.on(SET_STORIES, function handler(data: SetStoriesPayload) {
+    fullAPI.on(SET_INDEX, function handler(index: API_PreparedStoryIndex) {
+      const { ref } = getEventMetadata(this, fullAPI);
+
+      if (!ref) {
+        fullAPI.setIndex(index);
+        const options = fullAPI.getCurrentParameter('options');
+        fullAPI.setOptions(removeRemovedOptions(options));
+      } else {
+        fullAPI.setRef(ref.id, { ...ref, storyIndex: index }, true);
+      }
+    });
+
+    // For composition back-compatibilty
+    fullAPI.on(SET_STORIES, function handler(data: API_SetStoriesPayload) {
       const { ref } = getEventMetadata(this, fullAPI);
       const setStoriesData = data.v ? denormalizeStoryParameters(data) : data.stories;
 
       if (!ref) {
-        if (!data.v) {
-          throw new Error('Unexpected legacy SET_STORIES event from local source');
-        }
-
-        fullAPI.setStories(setStoriesData);
-        const options = fullAPI.getCurrentParameter('options');
-        checkDeprecatedOptionParameters(options);
-        fullAPI.setOptions(options);
+        throw new Error('Cannot call SET_STORIES for local frame');
       } else {
         fullAPI.setRef(ref.id, { ...ref, setStoriesData }, true);
       }
@@ -502,7 +493,7 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
 
     fullAPI.on(
       STORY_ARGS_UPDATED,
-      function handleStoryArgsUpdated({ storyId, args }: { storyId: StoryId; args: Args }) {
+      function handleStoryArgsUpdated({ storyId, args }: { storyId: StoryId; args: API_Args }) {
         const { ref } = getEventMetadata(this, fullAPI);
         fullAPI.updateStory(storyId, { args }, ref);
       }
@@ -516,8 +507,8 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
     });
 
     if (FEATURES?.storyStoreV7) {
-      provider.serverChannel?.on(STORY_INDEX_INVALIDATED, () => fullAPI.fetchStoryList());
-      await fullAPI.fetchStoryList();
+      provider.serverChannel?.on(STORY_INDEX_INVALIDATED, () => fullAPI.fetchIndex());
+      await fullAPI.fetchIndex();
     }
   };
 

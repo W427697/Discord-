@@ -1,9 +1,16 @@
-import { AnyFramework, StoryId } from '@storybook/csf';
-import { CSFFile, ModuleExports, StoryStore } from '@storybook/store';
-import { Channel, IndexEntry } from '@storybook/addons';
+import type {
+  Addon_IndexEntry,
+  Framework,
+  Store_CSFFile,
+  Store_ModuleExports,
+  StoryId,
+} from '@storybook/types';
+import type { StoryStore } from '@storybook/store';
+import type { Channel } from '@storybook/channels';
 import { DOCS_RENDERED } from '@storybook/core-events';
 
-import { Render, RenderType } from './Render';
+import type { Render, RenderType } from './Render';
+import { PREPARE_ABORTED } from './Render';
 import type { DocsContextProps } from '../docs-context/DocsContextProps';
 import type { DocsRenderFunction } from '../docs-context/DocsRenderFunction';
 import { DocsContext } from '../docs-context/DocsContext';
@@ -17,16 +24,16 @@ import { DocsContext } from '../docs-context/DocsContext';
  *  - *.mdx file that may or may not reference a specific CSF file with `<Meta of={} />`
  */
 
-export class StandaloneDocsRender<TFramework extends AnyFramework> implements Render<TFramework> {
+export class StandaloneDocsRender<TFramework extends Framework> implements Render<TFramework> {
   public readonly type: RenderType = 'docs';
 
   public readonly id: StoryId;
 
-  private exports?: ModuleExports;
+  private exports?: Store_ModuleExports;
 
   public rerender?: () => Promise<void>;
 
-  public teardown?: (options: { viewModeChanged?: boolean }) => Promise<void>;
+  public teardownRender?: (options: { viewModeChanged?: boolean }) => Promise<void>;
 
   public torndown = false;
 
@@ -34,12 +41,12 @@ export class StandaloneDocsRender<TFramework extends AnyFramework> implements Re
 
   public preparing = false;
 
-  private csfFiles?: CSFFile<TFramework>[];
+  private csfFiles?: Store_CSFFile<TFramework>[];
 
   constructor(
     protected channel: Channel,
     protected store: StoryStore<TFramework>,
-    public entry: IndexEntry
+    public entry: Addon_IndexEntry
   ) {
     this.id = entry.id;
   }
@@ -51,6 +58,8 @@ export class StandaloneDocsRender<TFramework extends AnyFramework> implements Re
   async prepare() {
     this.preparing = true;
     const { entryExports, csfFiles = [] } = await this.store.loadEntry(this.id);
+    if (this.torndown) throw PREPARE_ABORTED;
+
     this.csfFiles = csfFiles;
     this.exports = entryExports;
 
@@ -66,7 +75,7 @@ export class StandaloneDocsRender<TFramework extends AnyFramework> implements Re
   }
 
   async renderToElement(
-    canvasElement: HTMLElement,
+    canvasElement: TFramework['canvasElement'],
     renderStoryToElement: DocsContextProps['renderStoryToElement']
   ) {
     if (!this.exports || !this.csfFiles || !this.store.projectAnnotations)
@@ -91,17 +100,25 @@ export class StandaloneDocsRender<TFramework extends AnyFramework> implements Re
     const renderer = await docs.renderer();
     const { render } = renderer as { render: DocsRenderFunction<TFramework> };
     const renderDocs = async () => {
-      await new Promise<void>((r) => render(docsContext, docsParameter, canvasElement, r));
+      await new Promise<void>((r) =>
+        // NOTE: it isn't currently possible to use a docs renderer outside of "web" mode.
+        render(docsContext, docsParameter, canvasElement as any, r)
+      );
       this.channel.emit(DOCS_RENDERED, this.id);
     };
 
     this.rerender = async () => renderDocs();
-    this.teardown = async ({ viewModeChanged }: { viewModeChanged?: boolean } = {}) => {
+    this.teardownRender = async ({ viewModeChanged }: { viewModeChanged?: boolean } = {}) => {
       if (!viewModeChanged || !canvasElement) return;
       renderer.unmount(canvasElement);
       this.torndown = true;
     };
 
     return renderDocs();
+  }
+
+  async teardown({ viewModeChanged }: { viewModeChanged?: boolean } = {}) {
+    this.teardownRender?.({ viewModeChanged });
+    this.torndown = true;
   }
 }

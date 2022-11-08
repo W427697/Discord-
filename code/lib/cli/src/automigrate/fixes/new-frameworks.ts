@@ -1,7 +1,8 @@
 import chalk from 'chalk';
 import dedent from 'ts-dedent';
-import semver from '@storybook/semver';
-import { ConfigFile, readConfig, writeConfig } from '@storybook/csf-tools';
+import semver from 'semver';
+import type { ConfigFile } from '@storybook/csf-tools';
+import { readConfig, writeConfig } from '@storybook/csf-tools';
 import { getStorybookInfo } from '@storybook/core-common';
 
 import type { Fix } from '../types';
@@ -10,7 +11,7 @@ import { getStorybookVersionSpecifier } from '../../helpers';
 
 const logger = console;
 
-const packagesMap = {
+const packagesMap: Record<string, { webpack5?: string; vite?: string }> = {
   '@storybook/react': {
     webpack5: '@storybook/react-webpack5',
     vite: '@storybook/react-vite',
@@ -26,7 +27,8 @@ const packagesMap = {
   },
   '@storybook/vue': {
     webpack5: '@storybook/vue-webpack5',
-    vite: '@storybook/vue-vite',
+    // TODO: bring this back if we ever want to support vue 2 + vite. Else delete this!
+    // vite: '@storybook/vue-vite',
   },
   '@storybook/vue3': {
     webpack5: '@storybook/vue3-webpack5',
@@ -38,6 +40,7 @@ const packagesMap = {
   },
   '@storybook/web-components': {
     webpack5: '@storybook/web-components-webpack5',
+    vite: '@storybook/web-components-vite',
   },
   '@storybook/html': {
     webpack5: '@storybook/html-webpack5',
@@ -87,8 +90,8 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
     const packageJson = packageManager.retrievePackageJson();
     const allDeps = { ...packageJson.dependencies, ...packageJson.devDependencies };
 
-    const config = getStorybookInfo(packageJson);
-    const { mainConfig, version: storybookVersion, framework } = config;
+    // FIXME: update to use renderer instead of framework
+    const { mainConfig, version: storybookVersion, framework } = getStorybookInfo(packageJson);
     if (!mainConfig) {
       logger.warn('Unable to find storybook main.js config, skipping');
       return null;
@@ -127,9 +130,22 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
       options: main.getFieldValue(['core', 'builder', 'options']) || {},
     } as const;
 
-    // TODO: once we have vite frameworks e.g. @storybook/react-vite, then we support it here
-    // and remove ['storybook-builder-vite', '@storybook/builder-vite'] from deps
-    if (builderInfo.name === 'vite') {
+    const newFrameworkPackage = packagesMap[frameworkPackage][builderInfo.name];
+
+    // not all frameworks support vite yet e.g. Svelte
+    if (!newFrameworkPackage) {
+      return null;
+    }
+
+    if (allDeps.vite && semver.lt(semver.coerce(allDeps.vite).version, '3.0.0')) {
+      logger.warn(dedent`
+        ❌ Detected Vite ${
+          allDeps.vite
+        }, which is unsupported in Storybook 7.0, so the ${chalk.cyan(
+        'newFrameworks'
+      )} fix will be skipped.
+      Please upgrade vite to 3.0.0 or higher and rerun this automigration with "npx storybook@future automigrate".
+      `);
       return null;
     }
 
@@ -140,14 +156,14 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
       '@storybook/manager-webpack5',
       '@storybook/builder-webpack4',
       '@storybook/manager-webpack4',
+      '@storybook/builder-vite',
+      'storybook-builder-vite',
     ].filter((dep) => allDeps[dep]);
 
-    const newFrameworkPackage = packagesMap[frameworkPackage][builderInfo.name];
     const dependenciesToAdd = [];
 
     // some frameworks didn't change e.g. Angular, Ember
     if (newFrameworkPackage !== frameworkPackage) {
-      dependenciesToRemove.push(frameworkPackage);
       dependenciesToAdd.push(newFrameworkPackage);
     }
 

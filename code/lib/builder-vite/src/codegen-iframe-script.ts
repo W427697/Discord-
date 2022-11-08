@@ -1,18 +1,17 @@
 import { isAbsolute, resolve } from 'path';
+import { getRendererName } from '@storybook/core-common';
 import { virtualPreviewFile, virtualStoriesFile } from './virtual-file-names';
 import { transformAbsPath } from './utils/transform-abs-path';
 import type { ExtendedOptions } from './types';
 
 export async function generateIframeScriptCode(options: ExtendedOptions) {
-  const { presets, frameworkPath, framework } = options;
-  const frameworkImportPath = frameworkPath || `@storybook/${framework}`;
-
-  const presetEntries = await presets.apply('config', [], options);
-  const previewEntries = await presets.apply('previewEntries', [], options);
-  const absolutePreviewEntries = previewEntries.map((entry) =>
+  const { presets } = options;
+  const rendererName = await getRendererName(options);
+  const previewAnnotations = await presets.apply('previewAnnotations', [], options);
+  const resolvedPreviewAnnotations = previewAnnotations.map((entry) =>
     isAbsolute(entry) ? entry : resolve(entry)
   );
-  const configEntries = [...presetEntries, ...absolutePreviewEntries].filter(Boolean);
+  const configEntries = [...resolvedPreviewAnnotations].filter(Boolean);
 
   const absoluteFilesToImport = (files: string[], name: string) =>
     files
@@ -28,7 +27,7 @@ export async function generateIframeScriptCode(options: ExtendedOptions) {
   const code = `
     // Ensure that the client API is initialized by the framework before any other iframe code
     // is loaded. That way our client-apis can assume the existence of the API+store
-    import { configure } from '${frameworkImportPath}';
+    import { configure } from '${rendererName}';
 
     import * as clientApi from "@storybook/client-api";
     import { logger } from '@storybook/client-logger';
@@ -40,6 +39,9 @@ export async function generateIframeScriptCode(options: ExtendedOptions) {
       addDecorator,
       addParameters,
       addLoader,
+      addArgs,
+      addArgTypes,
+      addStepRunner,
       addArgTypesEnhancer,
       addArgsEnhancer,
       setGlobalRender,
@@ -54,22 +56,10 @@ export async function generateIframeScriptCode(options: ExtendedOptions) {
         const value = config[key];
         switch (key) {
           case 'args': {
-            if (typeof clientApi.addArgs !== "undefined") {
-              return clientApi.addArgs(value);
-            } else {
-              return logger.warn(
-                "Could not add global args. Please open an issue in storybookjs/builder-vite."
-              );
-            }
+            return addArgs(value);
           }
           case 'argTypes': {
-            if (typeof clientApi.addArgTypes !== "undefined") {
-              return clientApi.addArgTypes(value);
-            } else {
-              return logger.warn(
-                "Could not add global argTypes. Please open an issue in storybookjs/builder-vite."
-              );
-            }
+            return addArgTypes(value);
           }
           case 'decorators': {
             return value.forEach((decorator) => addDecorator(decorator, false));
@@ -97,8 +87,12 @@ export async function generateIframeScriptCode(options: ExtendedOptions) {
           }
           case 'decorateStory':
           case 'applyDecorators':
-          case 'renderToDOM': {
+          case 'renderToDOM': // deprecated
+          case 'renderToCanvas': {
             return null; // This key is not handled directly in v6 mode.
+          }
+          case 'runStep': {
+            return addStepRunner(value);
           }
           default: {
             // eslint-disable-next-line prefer-template

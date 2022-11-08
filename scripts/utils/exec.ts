@@ -1,5 +1,6 @@
 /* eslint-disable no-await-in-loop, no-restricted-syntax */
-import execa, { ExecaChildProcess, Options } from 'execa';
+import type { ExecaChildProcess, Options } from 'execa';
+import execa from 'execa';
 import chalk from 'chalk';
 
 const logger = console;
@@ -27,7 +28,8 @@ export const exec = async (
 
   const defaultOptions: Options = {
     shell: true,
-    stdout: debug ? 'inherit' : 'ignore',
+    stdout: debug ? 'inherit' : 'pipe',
+    stderr: debug ? 'inherit' : 'pipe',
   };
   let currentChild: ExecaChildProcess;
 
@@ -51,8 +53,7 @@ export const exec = async (
   } catch (err) {
     if (!err.killed) {
       logger.error(chalk.red(`An error occurred while executing: \`${command}\``));
-      logger.error(err);
-      logger.log(errorMessage);
+      logger.log(`${errorMessage}\n`);
     }
 
     throw err;

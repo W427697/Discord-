@@ -1,5 +1,4 @@
-/* eslint-disable import/no-unresolved */
-// @ts-ignore
+// @ts-expect-error (Converted from ts-ignore)
 import global from 'global';
 
 import { LitElement, html, css } from 'lit-element';

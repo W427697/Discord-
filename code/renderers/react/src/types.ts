@@ -1,12 +1,13 @@
 import type { ComponentType, ReactElement } from 'react';
+import type { WebFramework } from '@storybook/types';
 
-export type { RenderContext } from '@storybook/store';
-export type { StoryContext } from '@storybook/csf';
+export type { Store_RenderContext as RenderContext } from '@storybook/types';
+export type { StoryContext } from '@storybook/types';
 
-export type ReactFramework = {
-  component: ComponentType<any>;
+export interface ReactFramework extends WebFramework {
+  component: ComponentType<this['T']>;
   storyResult: StoryFnReactReturnType;
-};
+}
 
 export interface ShowErrorArgs {
   title: string;
@@ -14,13 +15,3 @@ export interface ShowErrorArgs {
 }
 
 export type StoryFnReactReturnType = ReactElement<unknown>;
-
-export interface IStorybookStory {
-  name: string;
-  render: (context: any) => any;
-}
-
-export interface IStorybookSection {
-  kind: string;
-  stories: IStorybookStory[];
-}

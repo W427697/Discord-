@@ -1,7 +1,10 @@
 import chalk from 'chalk';
 import { dedent } from 'ts-dedent';
-import { ConfigFile, readConfig, writeConfig } from '@storybook/csf-tools';
+import type { ConfigFile } from '@storybook/csf-tools';
+import { readConfig, writeConfig } from '@storybook/csf-tools';
 import { getStorybookInfo } from '@storybook/core-common';
+import { readFile, readJson, writeJson } from 'fs-extra';
+import detectIndent from 'detect-indent';
 
 import { findEslintFile, SUPPORTED_ESLINT_EXTENSIONS } from '../helpers/getEslintInfo';
 
@@ -36,9 +39,8 @@ export const eslintPlugin: Fix<EslintPluginRunOptions> = {
       return null;
     }
 
-    const config = getStorybookInfo(packageJson);
+    const { mainConfig } = getStorybookInfo(packageJson);
 
-    const { mainConfig } = config;
     if (!mainConfig) {
       logger.warn('Unable to find storybook main.js config, skipping');
       return null;
@@ -80,26 +82,39 @@ export const eslintPlugin: Fix<EslintPluginRunOptions> = {
     if (!dryRun) packageManager.addDependencies({ installAsDevDependencies: true }, deps);
 
     if (!dryRun && unsupportedExtension) {
-      throw new Error(dedent`
-          ⚠️ The plugin was successfuly installed but failed to configure.
+      logger.info(dedent`
+          ⚠️ The plugin was successfully installed but failed to configure.
           
-          Found an .eslintrc config file with an unsupported automigration format: ${unsupportedExtension}.
-          Supported formats for automigration are: ${SUPPORTED_ESLINT_EXTENSIONS.join(', ')}.
+          Found an eslint config file with an unsupported automigration format: .eslintrc.${unsupportedExtension}.
+          The supported formats for this automigration are: ${SUPPORTED_ESLINT_EXTENSIONS.join(
+            ', '
+          )}.
 
           Please refer to https://github.com/storybookjs/eslint-plugin-storybook#usage to finish setting up the plugin manually.
       `);
+      return;
     }
 
-    const eslint = await readConfig(eslintFile);
-    logger.info(`✅ Configuring eslint rules in ${eslint.fileName}`);
-
+    logger.info(`✅ Adding Storybook plugin to ${eslintFile}`);
     if (!dryRun) {
-      logger.info(`✅ Adding Storybook to extends list`);
-      const extendsConfig = eslint.getFieldValue(['extends']) || [];
-      const existingConfigValue = Array.isArray(extendsConfig) ? extendsConfig : [extendsConfig];
-      eslint.setFieldValue(['extends'], [...existingConfigValue, 'plugin:storybook/recommended']);
+      if (eslintFile.endsWith('json')) {
+        const eslintConfig = (await readJson(eslintFile)) as { extends?: string[] };
+        const existingConfigValue = Array.isArray(eslintConfig.extends)
+          ? eslintConfig.extends
+          : [eslintConfig.extends];
+        eslintConfig.extends = [...(existingConfigValue || []), 'plugin:storybook/recommended'];
 
-      await writeConfig(eslint);
+        const eslintFileContents = await readFile(eslintFile, 'utf8');
+        const spaces = detectIndent(eslintFileContents).amount || 2;
+        await writeJson(eslintFile, eslintConfig, { spaces });
+      } else {
+        const eslint = await readConfig(eslintFile);
+        const extendsConfig = eslint.getFieldValue(['extends']) || [];
+        const existingConfigValue = Array.isArray(extendsConfig) ? extendsConfig : [extendsConfig];
+        eslint.setFieldValue(['extends'], [...existingConfigValue, 'plugin:storybook/recommended']);
+
+        await writeConfig(eslint);
+      }
     }
   },
 };

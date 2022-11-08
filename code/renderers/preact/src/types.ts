@@ -1,6 +1,7 @@
+import type { WebFramework } from '@storybook/types';
 import type { AnyComponent } from 'preact';
 
-export type { RenderContext } from '@storybook/core-client';
+export type { RenderContext } from '@storybook/types';
 
 export type StoryFnPreactReturnType = string | Node | preact.JSX.Element;
 
@@ -9,17 +10,7 @@ export interface ShowErrorArgs {
   description: string;
 }
 
-export interface IStorybookStory {
-  name: string;
-  render: (context: any) => any;
-}
-
-export interface IStorybookSection {
-  kind: string;
-  stories: IStorybookStory[];
-}
-
-export type PreactFramework = {
+export interface PreactFramework extends WebFramework {
   component: AnyComponent<any, any>;
   storyResult: StoryFnPreactReturnType;
-};
+}

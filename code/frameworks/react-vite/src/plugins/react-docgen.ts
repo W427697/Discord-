@@ -6,9 +6,9 @@ import {
   resolver as docgenResolver,
   importers as docgenImporters,
 } from 'react-docgen';
-import type { DocumentationObject } from 'react-docgen/lib/Documentation';
+import type { DocumentationObject } from 'react-docgen/dist/Documentation';
 import MagicString from 'magic-string';
-import type { Plugin } from 'vite';
+import type { PluginOption } from 'vite';
 import actualNameHandler from './docgen-handlers/actualNameHandler';
 
 type DocObj = DocumentationObject & { actualName: string };
@@ -27,12 +27,12 @@ type Options = {
 export function reactDocgen({
   include = /\.(mjs|tsx?|jsx?)$/,
   exclude = [/node_modules\/.*/],
-}: Options = {}): Plugin {
+}: Options = {}): PluginOption {
   const cwd = process.cwd();
   const filter = createFilter(include, exclude);
 
   return {
-    name: 'react-docgen',
+    name: 'storybook:react-docgen-plugin',
     enforce: 'pre',
     async transform(src: string, id: string) {
       const relPath = path.relative(cwd, id);

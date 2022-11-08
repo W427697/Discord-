@@ -1,4 +1,3 @@
-// @ts-ignore
 import Watchpack from 'watchpack';
 import slash from 'slash';
 import fs from 'fs';
@@ -6,8 +5,7 @@ import path from 'path';
 import glob from 'globby';
 import uniq from 'lodash/uniq';
 
-import type { NormalizedStoriesSpecifier } from '@storybook/core-common';
-import type { Path } from '@storybook/store';
+import type { CoreCommon_NormalizedStoriesSpecifier, Path } from '@storybook/types';
 
 const isDirectory = (directory: Path) => {
   try {
@@ -25,9 +23,13 @@ function toImportPath(relativePath: Path) {
 }
 
 export function watchStorySpecifiers(
-  specifiers: NormalizedStoriesSpecifier[],
+  specifiers: CoreCommon_NormalizedStoriesSpecifier[],
   options: { workingDir: Path },
-  onInvalidate: (specifier: NormalizedStoriesSpecifier, path: Path, removed: boolean) => void
+  onInvalidate: (
+    specifier: CoreCommon_NormalizedStoriesSpecifier,
+    path: Path,
+    removed: boolean
+  ) => void
 ) {
   // See https://www.npmjs.com/package/watchpack for full options.
   // If you want less traffic, consider using aggregation with some interval
