@@ -25,6 +25,7 @@ jobs:
     outputs:
       branch: ${{ env.branch }}
 
+
   trigger-ci-tests:
     runs-on: ubuntu-latest
     needs: get-branch
