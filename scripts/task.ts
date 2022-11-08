@@ -1,13 +1,14 @@
 /* eslint-disable no-await-in-loop */
-import { AbortController } from 'node-abort-controller';
+import type { AbortController } from 'node-abort-controller';
 import { getJunitXml } from 'junit-xml';
-import { outputFile, existsSync, readFile } from 'fs-extra';
+import { outputFile, readFile, pathExists } from 'fs-extra';
 import { join, resolve } from 'path';
 import { prompt } from 'prompts';
 import boxen from 'boxen';
 import { dedent } from 'ts-dedent';
 
-import { createOptions, getCommand, getOptionsOrPrompt, OptionValues } from './utils/options';
+import type { OptionValues } from './utils/options';
+import { createOptions, getCommand, getOptionsOrPrompt } from './utils/options';
 import { install } from './tasks/install';
 import { compile } from './tasks/compile';
 import { check } from './tasks/check';
@@ -278,11 +279,15 @@ async function runTask(task: Task, details: TemplateDetails, optionValues: Passe
 
     return controller;
   } catch (err) {
-    if (junitFilename) await writeJunitXml(getTaskKey(task), details.key, startTime, err);
+    const hasJunitFile = await pathExists(junitFilename);
+    // If there's a non-test related error (junit report has not been reported already), we report the general failure in a junit report
+    if (junitFilename && !hasJunitFile) {
+      await writeJunitXml(getTaskKey(task), details.key, startTime, err);
+    }
 
     throw err;
   } finally {
-    if (existsSync(junitFilename)) {
+    if (await pathExists(junitFilename)) {
       const junitXml = await (await readFile(junitFilename)).toString();
       const prefixedXml = junitXml.replace(/classname="(.*)"/g, `classname="${details.key} $1"`);
       await outputFile(junitFilename, prefixedXml);
