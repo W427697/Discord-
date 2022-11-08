@@ -416,7 +416,7 @@ jobs:
         default: 9
       cadence:
         type: enum
-        enum: [ "ci", "daily", "weekly" ]
+        enum: ["ci", "daily", "weekly"]
         default: "ci"
     executor:
       class: medium
@@ -438,7 +438,7 @@ jobs:
         default: 9
       cadence:
         type: enum
-        enum: [ "ci", "daily", "weekly" ]
+        enum: ["ci", "daily", "weekly"]
         default: "ci"
     executor:
       class: medium
