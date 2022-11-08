@@ -1,5 +1,4 @@
-import { isAbsolute, resolve } from 'path';
-import { getRendererName } from '@storybook/core-common';
+import { getRendererName, getFrameworkName } from '@storybook/core-common';
 import { virtualPreviewFile, virtualStoriesFile } from './virtual-file-names';
 import type { ExtendedOptions } from './types';
 import { processPreviewAnnotation } from './utils/process-preview-annotation';
@@ -8,12 +7,9 @@ export async function generateIframeScriptCode(options: ExtendedOptions) {
   const { presets } = options;
   const rendererName = await getRendererName(options);
   const previewAnnotations = await presets.apply('previewAnnotations', [], options);
-  const resolvedPreviewAnnotations = previewAnnotations.map((entry) =>
-    isAbsolute(entry) ? entry : resolve(entry)
-  );
-  const configEntries = [...resolvedPreviewAnnotations].filter(Boolean);
+  const configEntries = [...previewAnnotations].filter(Boolean);
 
-  const absoluteFilesToImport = (files: string[], name: string) =>
+  const filesToImport = (files: string[], name: string) =>
     files
       .map(
         (el, i) =>
@@ -34,7 +30,7 @@ export async function generateIframeScriptCode(options: ExtendedOptions) {
 
     import * as clientApi from "@storybook/client-api";
     import { logger } from '@storybook/client-logger';
-    ${absoluteFilesToImport(configEntries, 'config')}
+    ${filesToImport(configEntries, 'config')}
     import * as preview from '${virtualPreviewFile}';
     import { configStories } from '${virtualStoriesFile}';
 
