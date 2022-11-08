@@ -3,8 +3,9 @@ name: Trigger CircleCI workflow
 on:
   pull_request:
     types: [opened, synchronize, labeled, unlabeled, reopened, converted_to_draft, ready_for_review]
-  branches:
-    - next
+  push:
+    branches:
+      - next
 
 jobs:
   get-branch:
