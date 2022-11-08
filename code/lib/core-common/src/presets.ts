@@ -136,7 +136,7 @@ export const resolveAddonName = (
   if (resolved) {
     return {
       type: 'presets',
-      name: resolved,
+      name,
     };
   }
 
@@ -200,6 +200,19 @@ export async function loadPreset(
 
       const subPresets = resolvePresetFunction(presetsInput, presetOptions, storybookOptions);
       const subAddons = resolvePresetFunction(addonsInput, presetOptions, storybookOptions);
+
+      // Addons that specify different sub-addons are a problem for vite with yarn pnp and pnpm
+      // Alert the user if an addon is using this pattern.  We aren't positive what the final solution will be,
+      // maybe re-exporting as we do in addon-essentials, maybe something else.  For now, we just want to add awareness.
+      if (
+        !name.startsWith('/') &&
+        subAddons.length &&
+        subAddons.some((subAddon) => !subAddon.startsWith('/') && !subAddon.startsWith(name))
+      ) {
+        console.warn(
+          `Storybook addons that reference sub-addons by name are deprecated, but will continue to work in 7.0.  Please check ${name}.`
+        );
+      }
 
       return [
         ...(await loadPresets([...subPresets], level + 1, storybookOptions)),
