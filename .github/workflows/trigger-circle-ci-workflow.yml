@@ -9,7 +9,7 @@ jobs:
   get-branch:
     runs-on: ubuntu-latest
     steps:
-      - id: get_branch
+      - id: get-branch
         run: |
           export IS_PR_FROM_FORK=${{ github.event.pull_request.head.repo.fork }}
           echo $IS_PR_FROM_FORK
@@ -23,7 +23,7 @@ jobs:
           echo "$BRANCH"
           echo "branch=$BRANCH" >> $GITHUB_ENV
     outputs:
-      branch: ${{ steps.get_branch.outputs.branch }}
+      branch: ${{ env.branch }}
 
   trigger-ci-tests:
     runs-on: ubuntu-latest
