@@ -17,6 +17,7 @@ export const chromatic: Task = {
           --exit-zero-on-changes \
           --exit-once-uploaded \
           --only-changed \
+          --debug \
           --storybook-build-dir=${builtSandboxDir} \
           --junit-report=${junitFilename} \
           --projectToken=${token}`,
