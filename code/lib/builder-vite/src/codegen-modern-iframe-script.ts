@@ -1,4 +1,3 @@
-import { resolve } from 'path';
 import { loadPreviewOrConfigFile, getFrameworkName } from '@storybook/core-common';
 import { virtualStoriesFile, virtualAddonSetupFile } from './virtual-file-names';
 import type { ExtendedOptions } from './types';
