@@ -24,7 +24,7 @@ const Template: ComponentStory<typeof MyComponent> = (args) => <MyComponent {...
 * See https://storybook.js.org/docs/react/writing-stories/play-function#working-with-the-canvas
 * to learn more about using the canvasElement to query the DOM
 */
-export const AsyncExample= Template.bind({});
+export const AsyncExample = Template.bind({});
 AsyncExample.play = async ({ canvasElement }) => {
   const canvas = within(canvasElement);
    // Other steps

@@ -39,6 +39,7 @@ SecondStory.play = async ({ canvasElement }) => {
 export const CombinedStories = Template.bind({});
 CombinedStories.play = async ({ canvasElement }) => {
    const canvas = within(canvasElement);
+   
   // Runs the FirstStory and Second story play function before running this story's play function
   await FirstStory.play({ canvasElement });
   await SecondStory.play({ canvasElement });
