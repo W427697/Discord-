@@ -1,23 +1,27 @@
-```js
-// MyComponent.stories.js
+```ts
+// MyComponent.stories.ts
 
-import {  userEvent, within } from '@storybook/testing-library';
+// import { Meta, StoryFn } from '@storybook/vue3'; for Vue 3
+import { Meta, StoryFn } from '@storybook/vue';
+
+import { userEvent, within } from '@storybook/testing-library';
 
 import MyComponent from './MyComponent.vue';
 
 export default {
   /* 👇 The title prop is optional.
-  * See https://storybook.js.org/docs/vue/configure/overview#configure-story-loading
-  * to learn how to generate automatic titles
-  */
+   * See https://storybook.js.org/docs/vue/configure/overview#configure-story-loading
+   * to learn how to generate automatic titles
+   */
   title: 'QueryMethods',
   component: MyComponent,
-};
+} as Meta<typeof MyComponent>;
 
-const Template = (args) => ({
+const Template: StoryFn<typeof MyComponent> = (args) => ({
   components: { MyComponent },
   template: '<MyComponent />',
 });
+
 
 /*
 * See https://storybook.js.org/docs/vue/writing-stories/play-function#working-with-the-canvas

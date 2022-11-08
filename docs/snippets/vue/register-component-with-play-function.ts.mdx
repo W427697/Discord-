@@ -1,20 +1,23 @@
-```js
-// RegistrationForm.stories.js
+```ts
+// RegistrationForm.stories.ts
+
+// import { Meta, StoryFn } from '@storybook/vue3'; for Vue 3
+import { Meta, StoryFn } from '@storybook/vue';
 
 import { userEvent, within } from '@storybook/testing-library';
 
 import RegistrationForm from './RegistrationForm.vue';
 
 export default {
-  /* 👇 The title prop is optional.
-  * See https://storybook.js.org/docs/vue/configure/overview#configure-story-loading
-  * to learn how to generate automatic titles
-  */
+ /* 👇 The title prop is optional.
+   * See https://storybook.js.org/docs/vue/configure/overview#configure-story-loading
+   * to learn how to generate automatic titles
+   */
   title: 'RegistrationForm',
   component: RegistrationForm,
-};
+} as Meta<typeof RegistrationForm>;
 
-const Template = (args) => ({
+const Template: StoryFn<typeof RegistrationForm> = (args) => ({
   components: { RegistrationForm },
   template: '<RegistrationForm />',
 });
@@ -43,8 +46,8 @@ FilledForm.play = async ({ canvasElement }) => {
     delay: 100,
   });
     
-    // See https://storybook.js.org/docs/vue/essentials/actions#automatically-matching-args to learn how to setup logging in the Actions panel
-  const Submit = canvas.getByRole('button');
-  await userEvent.click(Submit);
+  // See https://storybook.js.org/docs/vue/essentials/actions#automatically-matching-args to learn how to setup logging in the Actions panel
+  const submitButton = canvas.getByRole('button');
+  await userEvent.click(submitButton);
 };
 ```

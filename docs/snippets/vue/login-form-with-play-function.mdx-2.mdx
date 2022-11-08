@@ -21,11 +21,13 @@ export const Template = (args, { argTypes }) => ({
   <Story name="Empty Form">
     {Template.bind({})}
   </Story>
-
+  <!--  
+   See https://storybook.js.org/docs/vue/writing-stories/play-function#working-with-the-canvas
+   to learn more about using the canvasElement to query the DOM
+  -->
   <Story
     name="Filled Form"
-    play={async ({ canvasElement }) => {
-      // Starts querying the component from its root element
+    play={ async ({ canvasElement }) => {
       const canvas = within(canvasElement);
 
       // 👇 Simulate interactions with the component

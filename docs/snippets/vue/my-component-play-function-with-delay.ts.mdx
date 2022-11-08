@@ -1,5 +1,8 @@
-```js
-// MyComponent.stories.js
+```ts
+// MyComponent.stories.ts
+
+// import { Meta, StoryFn } from '@storybook/vue3'; for Vue 3
+import { Meta, StoryFn } from '@storybook/vue';
 
 import { userEvent, within } from '@storybook/testing-library';
 
@@ -7,14 +10,14 @@ import MyComponent from './MyComponent.vue';
 
 export default {
   /* 👇 The title prop is optional.
-  * See https://storybook.js.org/docs/vue/configure/overview#configure-story-loading
-  * to learn how to generate automatic titles
-  */
+   * See https://storybook.js.org/docs/7.0/vue/configure/overview#configure-story-loading
+   * to learn how to generate automatic titles
+   */
   title: 'WithDelay',
   component: MyComponent,
-};
+} as Meta<typeof MyComponent>;
 
-const Template = (args) => ({
+const Template: StoryFn<typeof MyComponent> = (args) => ({
   components: { MyComponent },
   template: '<MyComponent />',
 });

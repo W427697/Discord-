@@ -1,5 +1,8 @@
-```js
-// MyComponent.stories.js
+```ts
+// MyComponent.stories.ts
+
+// import { Meta, Story } from '@storybook/vue3'; for Vue 3
+import { Meta, Story } from '@storybook/vue';
 
 import { fireEvent, userEvent, within } from '@storybook/testing-library';
 
@@ -7,14 +10,15 @@ import MyComponent from './MyComponent.vue';
 
 export default {
   /* 👇 The title prop is optional.
-  * See https://storybook.js.org/docs/vue/configure/overview#configure-story-loading
-  * to learn how to generate automatic titles
-  */
+   * See https://storybook.js.org/docs/vue/configure/overview#configure-story-loading
+   * to learn how to generate automatic titles
+   */
   title: 'ClickExamples',
   component: MyComponent,
-};
+} as Meta<typeof MyComponent>;
 
-const Template = (args) => ({
+
+const Template: StoryFn<typeof MyComponent> = (args) => ({
   components: { MyComponent },
   template: '<MyComponent />',
 });
@@ -34,7 +38,7 @@ ClickExample.play = async ({ canvasElement }) => {
 export const FireEventExample = Template.bind({});
 FireEventExample.play = async ({ canvasElement }) => {
   const canvas = within(canvasElement);
-
+  
   // See https://storybook.js.org/docs/vue/essentials/actions#automatically-matching-args to learn how to setup logging in the Actions panel
   await fireEvent.click(canvas.getByTestId('data-testid'));
 };

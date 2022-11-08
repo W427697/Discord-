@@ -3,7 +3,7 @@
 
 import { Meta, Story } from '@storybook/addon-docs';
 
-import { screen, userEvent } from '@storybook/testing-library';
+import { userEvent, within } from '@storybook/testing-library';
 
 import MyComponent from './MyComponent.vue';
 
@@ -14,17 +14,23 @@ const Template = (args) => ({
   template: '<MyComponent />',
 });
 
+<!--  
+ See https://storybook.js.org/docs/vue/writing-stories/play-function#working-with-the-canvas
+ to learn more about using the canvasElement to query the DOM
+ -->
 <Story
   name="DelayedStory"
-  play={async () => {
-    const exampleElement= screen.getByLabelText('example-element');
+   play={ async ({ canvasElement, args}) => {
+    const canvas = within(canvasElement);
+
+    const exampleElement= canvas.getByLabelText('example-element');
 
     // The delay option set the amount of milliseconds between characters being typed
     await userEvent.type(exampleElement, 'random string', {
       delay: 100,
     });
 
-    const AnotherExampleElement= screen.getByLabelText('another-example-element');
+    const AnotherExampleElement= canvas.getByLabelText('another-example-element');
     await userEvent.type(AnotherExampleElement, 'another random string', {
       delay: 100,
     });

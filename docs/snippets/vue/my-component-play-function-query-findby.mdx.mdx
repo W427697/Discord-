@@ -7,13 +7,7 @@ import { userEvent, within } from '@storybook/testing-library';
 
 import MyComponent from './MyComponent.vue';
 
-<Meta title="ExampleChangeEvent" component={MyComponent} />
-
-<!-- Function to emulate pausing between interactions -->
-
-export const sleep= (ms) => {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-};
+<Meta title="Async Query Methods" component={MyComponent} />
 
 export const Template = (args) => ({
   components: { MyComponent },
@@ -24,21 +18,15 @@ export const Template = (args) => ({
  See https://storybook.js.org/docs/vue/writing-stories/play-function#working-with-the-canvas
  to learn more about using the canvasElement to query the DOM
  -->
-<Story 
-  name="ExampleChangeEvent"
+<Story
+  name="AsyncExample"
   play={ async ({ canvasElement }) => {
     const canvas = within(canvasElement);
+    
+    // Other steps
 
-    const select = canvas.getByRole('listbox');
-
-    await userEvent.selectOptions(select, ['One Item']);
-    await sleep(2000);
-
-    await userEvent.selectOptions(select, ['Another Item']);
-    await sleep(2000);
-
-    await userEvent.selectOptions(select, ['Yet another item']);
-
+    // Waits for the component to be rendered before querying the element
+    await canvas.findByRole('button', { name: / button label/i }));
   }}>
   {Template.bind({})}
 </Story>
