@@ -316,7 +316,7 @@ jobs:
         default: 9
       cadence:
         type: enum
-        enum: ["ci", "daily", "weekly"]
+        enum: [ "ci", "daily", "weekly" ]
         default: "ci"
     executor:
       class: medium
@@ -343,7 +343,7 @@ jobs:
         default: 9
       cadence:
         type: enum
-        enum: ["ci", "daily", "weekly"]
+        enum: [ "ci", "daily", "weekly" ]
         default: "ci"
     executor:
       class: medium
@@ -366,7 +366,7 @@ jobs:
         default: 9
       cadence:
         type: enum
-        enum: ["ci", "daily", "weekly"]
+        enum: [ "ci", "daily", "weekly" ]
         default: "ci"
     executor:
       class: medium+
@@ -393,7 +393,7 @@ jobs:
         default: 9
       cadence:
         type: enum
-        enum: ["ci", "daily", "weekly"]
+        enum: [ "ci", "daily", "weekly" ]
         default: "ci"
     executor:
       class: medium
@@ -416,7 +416,7 @@ jobs:
         default: 9
       cadence:
         type: enum
-        enum: ["ci", "daily", "weekly"]
+        enum: [ "ci", "daily", "weekly" ]
         default: "ci"
     executor:
       class: medium
@@ -438,7 +438,7 @@ jobs:
         default: 9
       cadence:
         type: enum
-        enum: ["ci", "daily", "weekly"]
+        enum: [ "ci", "daily", "weekly" ]
         default: "ci"
     executor:
       class: medium
@@ -494,7 +494,7 @@ workflows:
             - build-sandboxes
   test:
     when:
-      equal: [tests, << pipeline.parameters.workflow >>]
+      equal: [ tests, << pipeline.parameters.workflow >> ]
     jobs:
       - build
       - lint:
