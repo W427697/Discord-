@@ -15,7 +15,7 @@ jobs:
         run: |
           if  [ "${{ github.event.pull_request.head.repo.fork }}" = "true" ]; then
             export BRANCH=pull/${{ github.event.pull_request.number }}/head
-            elif [ "${{ github.event_name }}" = "push"  ]; then
+            elif [ "${{ github.event_name }}" = "push" ]; then
             export BRANCH=${{ github.ref_name }}
             else
             export BRANCH=${{ github.event.pull_request.head.ref }}
