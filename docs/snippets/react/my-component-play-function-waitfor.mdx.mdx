@@ -3,7 +3,7 @@
 
 import { Meta, Story } from '@storybook/addon-docs';
 
-import { screen, userEvent, waitFor } from '@storybook/testing-library';
+import { userEvent, waitFor, within } from '@storybook/testing-library';
 
 import { MyComponent } from './MyComponent';
 
@@ -11,10 +11,16 @@ import { MyComponent } from './MyComponent';
 
 export const Template = (args) => <MyComponent {...args} />;
 
+<!--  
+ See https://storybook.js.org/docs/react/writing-stories/play-function#working-with-the-canvas
+ to learn more about using the canvasElement to query the DOM
+-->
 <Story
   name="ExampleAsyncStory"
-  play={async () => {
-    const Input = screen.getByLabelText('Username', {
+  play={ async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    const Input = canvas.getByLabelText('Username', {
       selector: 'input',
     });
 
@@ -28,7 +34,7 @@ export const Template = (args) => <MyComponent {...args} />;
     await userEvent.click(Submit);
 
     await waitFor(async () => {
-      await userEvent.hover(screen.getByTestId('error'));
+      await userEvent.hover(canvas.getByTestId('error'));
     });
   }}>
   {Template.bind({})}

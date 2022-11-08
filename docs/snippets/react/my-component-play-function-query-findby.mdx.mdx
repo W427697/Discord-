@@ -7,7 +7,7 @@ import { userEvent, within } from '@storybook/testing-library';
 
 import { MyComponent } from './MyComponent';
 
-<Meta title="WithDelay" component={MyComponent} />
+<Meta title="Async Query Methods" component={MyComponent} />
 
 export const Template = (args) => <MyComponent {...args} />;
 
@@ -16,21 +16,13 @@ export const Template = (args) => <MyComponent {...args} />;
  to learn more about using the canvasElement to query the DOM
 -->
 <Story
-  name="DelayedStory"
+  name="AsyncExample"
   play={ async ({ canvasElement }) => {
     const canvas = within(canvasElement);
+    // Other steps
 
-    const exampleElement = canvas.getByLabelText('example-element');
-
-    // The delay option set the amount of milliseconds between characters being typed
-    await userEvent.type(exampleElement, 'random string', {
-      delay: 100,
-    });
-
-    const AnotherExampleElement = canvas.getByLabelText('another-example-element');
-    await userEvent.type(AnotherExampleElement, 'another random string', {
-      delay: 100,
-    });
+    // Waits for the component to be rendered before querying the element
+    await canvas.findByRole('button', { name: / button label/i }));
   }}>
   {Template.bind({})}
 </Story>
