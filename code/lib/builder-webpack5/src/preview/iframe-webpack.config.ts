@@ -82,7 +82,15 @@ export default async (
   const docsOptions = await presets.apply<DocsOptions>('docs');
 
   const previewAnnotations = [
-    ...(await presets.apply('previewAnnotations', [], options)),
+    ...(await presets.apply('previewAnnotations', [], options)).map((entry) => {
+      // If entry is a tuple, take the second, which is the absolute path.
+      // This is to maintain back-compat with community addons that bundle other addons.
+      // The vite builder uses the first element of the tuple, which is the bare import.
+      if (Array.isArray(entry)) {
+        return entry[1];
+      }
+      return entry;
+    }),
     loadPreviewOrConfigFile(options),
   ].filter(Boolean);
   const entries = (await presets.apply('entries', [], options)) as string[];

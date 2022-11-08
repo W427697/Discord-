@@ -466,7 +466,7 @@ export interface CoreCommon_ResolvedAddonVirtual {
   type: 'virtual';
   name: string;
   managerEntries?: string[];
-  previewAnnotations?: string[];
+  previewAnnotations?: (string | string[])[];
   presets?: (string | { name: string; options?: any })[];
 }
 

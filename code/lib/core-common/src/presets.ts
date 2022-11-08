@@ -86,16 +86,19 @@ export const resolveAddonName = (
     return undefined;
   };
 
-  const path = name;
+  // This is used to maintain back-compat with community addons that do not re-export their sub-addons but reference
+  // the sub-addon name directly.  We need to turn it into an absolute path so that webpack can serve it up correctly
+  // when yarn pnp or pnpm is being used.  Vite will be broken in such cases, because it does not process absolute paths,
+  // and it will try to import from the bare import, breaking in pnp/pnpm.
+  const absolutizeExport = (exportName: string) => {
+    return resolve(`${name}${exportName}`);
+  };
 
-  // We don't want to resolve an import path (e.g. '@addons/foo/preview') to the file on disk,
-  // because you are not allowed to import arbitrary files in packages in Vite.
-  // Instead we check if the export exists and "absolutize" it.
-  const managerFile = checkExists(`/manager`);
-  const registerFile = checkExists(`/register`) || checkExists(`/register-panel`);
+  const managerFile = absolutizeExport(`/manager`);
+  const registerFile = absolutizeExport(`/register`) || absolutizeExport(`/register-panel`);
   const previewFile = checkExists(`/preview`);
-  // Presets are imported by node, so therefore fine to be a path on disk (at this stage anyway)
-  const presetFile = resolve(`${path}/preset`);
+  const previewFileAbsolute = absolutizeExport('/preview');
+  const presetFile = absolutizeExport(`/preset`);
 
   if (!(managerFile || previewFile) && presetFile) {
     return {
@@ -117,9 +120,15 @@ export const resolveAddonName = (
 
     return {
       type: 'virtual',
-      name: path,
+      name,
       ...(managerEntries.length ? { managerEntries } : {}),
-      ...(previewFile ? { previewAnnotations: [previewFile] } : {}),
+      ...(previewFile
+        ? {
+            previewAnnotations: [
+              previewFileAbsolute ? [previewFile, previewFileAbsolute] : [previewFile],
+            ],
+          }
+        : {}),
       ...(presetFile ? { presets: [{ name: presetFile, options }] } : {}),
     };
   }

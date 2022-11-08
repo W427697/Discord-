@@ -2,22 +2,21 @@ import { resolve } from 'path';
 import { loadPreviewOrConfigFile, getFrameworkName } from '@storybook/core-common';
 import { virtualStoriesFile, virtualAddonSetupFile } from './virtual-file-names';
 import type { ExtendedOptions } from './types';
+import { processPreviewAnnotation } from './utils/process-preview-annotation';
 
 export async function generateModernIframeScriptCode(options: ExtendedOptions) {
   const { presets, configDir } = options;
   const frameworkName = await getFrameworkName(options);
 
   const previewOrConfigFile = loadPreviewOrConfigFile({ configDir });
-  const previewAnnotations = await presets.apply('previewAnnotations', [], options);
+  const previewAnnotations = await presets.apply<(string | string[])[]>(
+    'previewAnnotations',
+    [],
+    options
+  );
   const relativePreviewAnnotations = [...previewAnnotations, previewOrConfigFile]
     .filter(Boolean)
-    .map((configEntry) => {
-      // resolve relative paths into absolute paths, but don't resolve "bare" imports
-      if (configEntry?.startsWith('./') || configEntry?.startsWith('../')) {
-        return resolve(configEntry);
-      }
-      return configEntry;
-    });
+    .map(processPreviewAnnotation);
 
   // eslint-disable-next-line @typescript-eslint/no-shadow
   const generateHMRHandler = (frameworkName: string): string => {
