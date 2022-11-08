@@ -105,6 +105,7 @@ export function codeGeneratorPlugin(options: ExtendedOptions): Plugin {
       if (source === virtualAddonSetupFile) {
         return virtualAddonSetupFile;
       }
+
       return undefined;
     },
     async load(id) {
