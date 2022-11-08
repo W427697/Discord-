@@ -5,7 +5,7 @@ import { SynchronousPromise } from 'synchronous-promise';
 import { toId, isExportStory, storyNameFromExport } from '@storybook/csf';
 import type {
   Addon_IndexEntry,
-  AnyFramework,
+  Framework,
   ComponentId,
   DocsOptions,
   Parameters,
@@ -21,7 +21,7 @@ import type { StoryStore } from '@storybook/store';
 import { userOrAutoTitle, sortStoriesV6 } from '@storybook/store';
 import { logger } from '@storybook/client-logger';
 
-export class StoryStoreFacade<TFramework extends AnyFramework> {
+export class StoryStoreFacade<TFramework extends Framework> {
   projectAnnotations: Store_NormalizedProjectAnnotations<TFramework>;
 
   entries: Record<StoryId, Addon_IndexEntry & { componentId?: ComponentId }>;
