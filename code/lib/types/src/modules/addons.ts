@@ -8,6 +8,7 @@ import type {
   ArgsStoryFn as ArgsStoryFnForFramework,
   ComponentTitle,
   DecoratorFunction as DecoratorFunctionForFramework,
+  Framework,
   InputType,
   LegacyStoryFn as LegacyStoryFnForFramework,
   LoaderFunction as LoaderFunctionForFramework,
@@ -93,7 +94,10 @@ export type Addon_StoryContext<TFramework extends AnyFramework = AnyFramework> =
   StoryContextForFramework<TFramework>;
 export type Addon_StoryContextUpdate = Partial<Addon_StoryContext>;
 
-type Addon_ReturnTypeFramework<ReturnType> = { component: any; storyResult: ReturnType };
+interface Addon_ReturnTypeFramework<ReturnType> extends Framework {
+  component: any;
+  storyResult: ReturnType;
+}
 export type Addon_PartialStoryFn<ReturnType = unknown> = PartialStoryFnForFramework<
   Addon_ReturnTypeFramework<ReturnType>
 >;

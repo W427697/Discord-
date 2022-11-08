@@ -1,4 +1,5 @@
 import {
+  Framework,
   Parameters as DefaultParameters,
   StoryContext as DefaultStoryContext,
 } from '@storybook/types';
@@ -26,10 +27,10 @@ export interface StoryFnAngularReturnType {
   userDefinedTemplate?: boolean;
 }
 
-export type AngularFramework = {
+export interface AngularFramework extends Framework {
   component: any;
   storyResult: StoryFnAngularReturnType;
-};
+}
 
 export type Parameters = DefaultParameters & {
   /** Uses legacy angular rendering engine that use dynamic component */
