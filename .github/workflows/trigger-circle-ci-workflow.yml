@@ -13,8 +13,6 @@ jobs:
     steps:
       - id: get-branch
         run: |
-          export IS_PR_FROM_FORK=${{ github.event.pull_request.head.repo.fork }}
-          echo $IS_PR_FROM_FORK
           if  [ "${{ github.event.pull_request.head.repo.fork }}" = "true" ]; then
             export BRANCH=pull/${{ github.event.pull_request.number }}/head
             elif [ "${{ github.event_name }}" = "push"  ]; then
