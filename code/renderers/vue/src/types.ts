@@ -1,4 +1,4 @@
-import type { StoryContext as StoryContextBase } from '@storybook/types';
+import type { Framework, StoryContext as StoryContextBase } from '@storybook/types';
 import type { Component, AsyncComponent } from 'vue';
 
 export type { RenderContext } from '@storybook/types';
@@ -14,7 +14,7 @@ export type StoryFnVueReturnType =
 
 export type StoryContext = StoryContextBase<VueFramework>;
 
-export type VueFramework = {
+export interface VueFramework extends Framework {
   component: Component<any, any, any, any> | AsyncComponent<any, any, any, any>;
   storyResult: StoryFnVueReturnType;
-};
+}
