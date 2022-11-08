@@ -17,7 +17,7 @@ const allStories = [
     titlePrefix: '@storybook-blocks',
   },
 ];
-const blocksOnlyStories = ['../blocks/src/**/*.stories.@(js|jsx|ts|tsx|mdx)'];
+const blocksOnlyStories = ['../blocks/src/@(blocks|controls)/**/*.@(mdx|stories.@(tsx|ts|jsx|js))'];
 
 const config: StorybookConfig = {
   stories: isBlocksOnly ? blocksOnlyStories : allStories,
@@ -36,6 +36,7 @@ const config: StorybookConfig = {
   viteFinal: (vite) => ({
     ...vite,
     plugins: [...(vite.plugins || []), csfPlugin({})],
+    optimizeDeps: { ...vite.optimizeDeps, force: true },
   }),
 };
 

@@ -1,7 +1,7 @@
 import type { FC, ReactNode, ElementType, ComponentProps } from 'react';
 import React, { useContext, useRef, useEffect, useState } from 'react';
 import type {
-  AnyFramework,
+  Framework,
   Store_ModuleExport,
   Store_ModuleExports,
   Store_Story as StoryType,
@@ -53,7 +53,7 @@ export const getStoryId = (props: StoryProps, context: DocsContextProps): StoryI
   return inputId || context.storyIdByName(name);
 };
 
-export const getStoryProps = <TFramework extends AnyFramework>(
+export const getStoryProps = <TFramework extends Framework>(
   { height, inline }: StoryProps,
   story: StoryType<TFramework>
 ): PureStoryProps => {
@@ -90,11 +90,12 @@ const Story: FC<StoryProps> = (props) => {
     let cleanup: () => void;
     if (story && storyRef.current) {
       const element = storyRef.current as HTMLElement;
-      cleanup = context.renderStoryToElement(story, element);
+      const { autoplay } = story.parameters.docs || {};
+      cleanup = context.renderStoryToElement(story, element, { autoplay });
       setShowLoader(false);
     }
     return () => cleanup && cleanup();
-  }, [story]);
+  }, [context, story]);
 
   if (!story) {
     return <StorySkeleton />;
