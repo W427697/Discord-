@@ -67,7 +67,7 @@ jobs:
   trigger-merged-tests:
     runs-on: ubuntu-latest
     needs: get-branch
-    if: (github.event_name == 'push' && github.ref_name == 'next') || (contains(github.event.pull_request.labels.*.name, 'ci:merged') && !contains(github.event.pull_request.labels.*.name, 'ci:daily'))
+    if: github.event_name == 'push' || (contains(github.event.pull_request.labels.*.name, 'ci:merged') && !contains(github.event.pull_request.labels.*.name, 'ci:daily'))
     steps:
       - name: Trigger merged tests
         run: >
