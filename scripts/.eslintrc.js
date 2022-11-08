@@ -19,6 +19,7 @@ module.exports = {
         assertFunctionNames: ['expect', 'expectTypeOf'],
       },
     ],
+    'eslint-comments/disable-enable-pair': ['error', { allowWholeFile: true }],
   },
   overrides: [
     {

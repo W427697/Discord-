@@ -961,7 +961,7 @@ describe('start', () => {
           'test',
           makeRequireContext({
             './Introduction.stories.mdx': {
-              default: { title: 'Introduction' },
+              default: { title: 'Introduction', tags: ['mdx'] },
               _Page: { name: 'Page', parameters: { docsOnly: true } },
             },
           })
@@ -979,6 +979,7 @@ describe('start', () => {
                 "standalone": false,
                 "storiesImports": Array [],
                 "tags": Array [
+                  "mdx",
                   "docs",
                 ],
                 "title": "Introduction",

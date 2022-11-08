@@ -6,7 +6,7 @@ import Watchpack from 'watchpack';
 import path from 'path';
 import debounce from 'lodash/debounce';
 import { STORY_INDEX_INVALIDATED } from '@storybook/core-events';
-import type { Store_StoryIndex } from '@storybook/types';
+import type { Store_StoryIndex, CoreCommon_StoryIndexer } from '@storybook/types';
 import { loadCsf } from '@storybook/csf-tools';
 import { normalizeStoriesEntry } from '@storybook/core-common';
 
@@ -53,12 +53,22 @@ const csfIndexer = async (fileName: string, opts: any) => {
   return loadCsf(code, { ...opts, fileName }).parse();
 };
 
+const storiesMdxIndexer = async (fileName: string, opts: any) => {
+  let code = (await fs.readFile(fileName, 'utf-8')).toString();
+  const { compile } = await import('@storybook/mdx2-csf');
+  code = await compile(code, {});
+  return loadCsf(code, { ...opts, fileName }).parse();
+};
+
 const getInitializedStoryIndexGenerator = async (
   overrides: any = {},
   inputNormalizedStories = normalizedStories
 ) => {
   const generator = new StoryIndexGenerator(inputNormalizedStories, {
-    storyIndexers: [{ test: /\.stories\..*$/, indexer: csfIndexer }],
+    storyIndexers: [
+      { test: /\.stories\.mdx$/, indexer: storiesMdxIndexer },
+      { test: /\.stories\.(js|ts)x?$/, indexer: csfIndexer },
+    ] as CoreCommon_StoryIndexer[],
     configDir: workingDir,
     workingDir,
     storiesV2Compatibility: false,
@@ -220,6 +230,30 @@ describe('useStoriesJson', () => {
                 "story",
               ],
               "title": "nested/Button",
+              "type": "story",
+            },
+            "nested-page--docs": Object {
+              "id": "nested-page--docs",
+              "importPath": "./src/nested/Page.stories.mdx",
+              "name": "docs",
+              "standalone": false,
+              "storiesImports": Array [],
+              "tags": Array [
+                "mdx",
+                "docs",
+              ],
+              "title": "nested/Page",
+              "type": "docs",
+            },
+            "nested-page--story-one": Object {
+              "id": "nested-page--story-one",
+              "importPath": "./src/nested/Page.stories.mdx",
+              "name": "StoryOne",
+              "tags": Array [
+                "mdx",
+                "story",
+              ],
+              "title": "nested/Page",
               "type": "story",
             },
             "second-nested-g--story-one": Object {
@@ -415,6 +449,42 @@ describe('useStoriesJson', () => {
               ],
               "title": "nested/Button",
             },
+            "nested-page--docs": Object {
+              "id": "nested-page--docs",
+              "importPath": "./src/nested/Page.stories.mdx",
+              "kind": "nested/Page",
+              "name": "docs",
+              "parameters": Object {
+                "__id": "nested-page--docs",
+                "docsOnly": true,
+                "fileName": "./src/nested/Page.stories.mdx",
+              },
+              "standalone": false,
+              "storiesImports": Array [],
+              "story": "docs",
+              "tags": Array [
+                "mdx",
+                "docs",
+              ],
+              "title": "nested/Page",
+            },
+            "nested-page--story-one": Object {
+              "id": "nested-page--story-one",
+              "importPath": "./src/nested/Page.stories.mdx",
+              "kind": "nested/Page",
+              "name": "StoryOne",
+              "parameters": Object {
+                "__id": "nested-page--story-one",
+                "docsOnly": false,
+                "fileName": "./src/nested/Page.stories.mdx",
+              },
+              "story": "StoryOne",
+              "tags": Array [
+                "mdx",
+                "story",
+              ],
+              "title": "nested/Page",
+            },
             "second-nested-g--story-one": Object {
               "id": "second-nested-g--story-one",
               "importPath": "./src/second-nested/G.stories.ts",
@@ -541,6 +611,23 @@ describe('useStoriesJson', () => {
                 "story",
               ],
               "title": "nested/Button",
+            },
+            "nested-page--story-one": Object {
+              "id": "nested-page--story-one",
+              "importPath": "./src/nested/Page.stories.mdx",
+              "kind": "nested/Page",
+              "name": "StoryOne",
+              "parameters": Object {
+                "__id": "nested-page--story-one",
+                "docsOnly": false,
+                "fileName": "./src/nested/Page.stories.mdx",
+              },
+              "story": "StoryOne",
+              "tags": Array [
+                "mdx",
+                "story",
+              ],
+              "title": "nested/Page",
             },
             "second-nested-g--story-one": Object {
               "id": "second-nested-g--story-one",
@@ -811,7 +898,7 @@ describe('useStoriesJson', () => {
     });
 
     it('debounces invalidation events', async () => {
-      (debounce as jest.Mock).mockImplementation(jest.requireActual('lodash/debounce'));
+      (debounce as jest.Mock).mockImplementation(jest.requireActual('lodash/debounce') as any);
 
       const mockServerChannel = { emit: jest.fn() } as any as ServerChannel;
       useStoriesJson({
