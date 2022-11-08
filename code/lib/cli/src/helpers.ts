@@ -1,5 +1,5 @@
 /* eslint-disable no-param-reassign */
-import path, { join } from 'path';
+import path, { join, posix } from 'path';
 import fs from 'fs';
 import fse from 'fs-extra';
 import chalk from 'chalk';
@@ -197,14 +197,15 @@ export async function copyComponents(
   };
   const componentsPath = async () => {
     const baseDir = getRendererDir(renderer);
-    const assetsDir = join(baseDir, 'template/cli');
-    const assetsLanguage = join(assetsDir, languageFolderMapping[language]);
-    const assetsJS = join(assetsDir, languageFolderMapping[SupportedLanguage.JAVASCRIPT]);
-    const assetsTSLegacy = join(
+    const assetsDir = posix.join(baseDir, 'template/cli');
+
+    const assetsLanguage = posix.join(assetsDir, languageFolderMapping[language]);
+    const assetsJS = posix.join(assetsDir, languageFolderMapping[SupportedLanguage.JAVASCRIPT]);
+    const assetsTSLegacy = posix.join(
       assetsDir,
       languageFolderMapping[SupportedLanguage.TYPESCRIPT_LEGACY]
     );
-    const assetsTS = join(assetsDir, languageFolderMapping[SupportedLanguage.TYPESCRIPT]);
+    const assetsTS = posix.join(assetsDir, languageFolderMapping[SupportedLanguage.TYPESCRIPT]);
 
     if (await fse.pathExists(assetsLanguage)) {
       return assetsLanguage;
@@ -232,7 +233,9 @@ export async function copyComponents(
   };
 
   const destinationPath = await targetPath();
-  await fse.copy(join(getCliDir(), 'rendererAssets/common'), destinationPath, { overwrite: true });
+  await fse.copy(posix.join(getCliDir(), 'rendererAssets/common'), destinationPath, {
+    overwrite: true,
+  });
   await fse.copy(await componentsPath(), destinationPath, { overwrite: true });
 }
 
