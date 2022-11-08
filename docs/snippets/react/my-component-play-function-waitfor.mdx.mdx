@@ -29,7 +29,7 @@ export const Template = (args) => <MyComponent {...args} />;
     });
     
     // See https://storybook.js.org/docs/react/essentials/actions#automatically-matching-args to learn how to setup logging in the Actions panel
-    const Submit = screen.getByRole('button');
+    const Submit = canvas.getByRole('button');
 
     await userEvent.click(Submit);
 
