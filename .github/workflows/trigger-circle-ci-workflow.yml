@@ -28,7 +28,7 @@ jobs:
   trigger-ci-tests:
     runs-on: ubuntu-latest
     needs: get-branch
-    if: github.event_name == 'pull_request' && github.event.pull_request.draft == true && !contains(github.event.pull_request.labels.*.name, 'ci:pr') && !contains(github.event.pull_request.labels.*.name, 'ci:merged') && !contains(github.event.pull_request.labels.*.name, 'ci:daily')
+    if: github.event_name == 'pull_request_target' && github.event.pull_request.draft == true && !contains(github.event.pull_request.labels.*.name, 'ci:pr') && !contains(github.event.pull_request.labels.*.name, 'ci:merged') && !contains(github.event.pull_request.labels.*.name, 'ci:daily')
     steps:
       - uses: actions/setup-node@v3
         with:
@@ -49,7 +49,7 @@ jobs:
   trigger-pr-tests:
     runs-on: ubuntu-latest
     needs: get-branch
-    if: github.event_name == 'pull_request' && ((github.event.pull_request.draft == false || contains(github.event.pull_request.labels.*.name, 'ci:pr')) && !contains(github.event.pull_request.labels.*.name, 'ci:merged') && !contains(github.event.pull_request.labels.*.name, 'ci:daily'))
+    if: github.event_name == 'pull_request_target' && ((github.event.pull_request.draft == false || contains(github.event.pull_request.labels.*.name, 'ci:pr')) && !contains(github.event.pull_request.labels.*.name, 'ci:merged') && !contains(github.event.pull_request.labels.*.name, 'ci:daily'))
     steps:
       - name: Trigger PR tests
         run: >
@@ -85,7 +85,7 @@ jobs:
   trigger-daily-tests:
     runs-on: ubuntu-latest
     needs: get-branch
-    if: github.event_name == 'pull_request' && contains(github.event.pull_request.labels.*.name, 'ci:daily')
+    if: github.event_name == 'pull_request_target' && contains(github.event.pull_request.labels.*.name, 'ci:daily')
     steps:
       - name: Trigger the daily tests
         run: >
