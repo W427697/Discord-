@@ -1,7 +1,7 @@
 /* eslint-disable no-await-in-loop */
 import type { AbortController } from 'node-abort-controller';
 import { getJunitXml } from 'junit-xml';
-import { outputFile, existsSync, readFile } from 'fs-extra';
+import { outputFile, readFile, pathExists } from 'fs-extra';
 import { join, resolve } from 'path';
 import { prompt } from 'prompts';
 import boxen from 'boxen';
@@ -279,14 +279,15 @@ async function runTask(task: Task, details: TemplateDetails, optionValues: Passe
 
     return controller;
   } catch (err) {
+    const hasJunitFile = await pathExists(junitFilename);
     // If there's a non-test related error (junit report has not been reported already), we report the general failure in a junit report
-    if (junitFilename && !existsSync(junitFilename)) {
+    if (junitFilename && !hasJunitFile) {
       await writeJunitXml(getTaskKey(task), details.key, startTime, err);
     }
 
     throw err;
   } finally {
-    if (existsSync(junitFilename)) {
+    if (await pathExists(junitFilename)) {
       const junitXml = await (await readFile(junitFilename)).toString();
       const prefixedXml = junitXml.replace(/classname="(.*)"/g, `classname="${details.key} $1"`);
       await outputFile(junitFilename, prefixedXml);
