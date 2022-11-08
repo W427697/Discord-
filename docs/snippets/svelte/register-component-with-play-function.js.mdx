@@ -1,7 +1,7 @@
 ```js
 // RegistrationForm.stories.js
 
-import { screen, userEvent } from '@storybook/testing-library';
+import { userEvent, within } from '@storybook/testing-library';
 
 import RegistrationForm from './RegistrationForm.svelte';
 
@@ -19,9 +19,15 @@ const Template = (args) => ({
   props: args,
 });
 
+/*
+* See https://storybook.js.org/docs/svelte/writing-stories/play-function#working-with-the-canvas
+* to learn more about using the canvasElement to query the DOM
+*/
 export const FilledForm = Template.bind({});
-FilledForm.play = async () => {
-  const emailInput = screen.getByLabelText('email', {
+FilledForm.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+
+  const emailInput = canvas.getByLabelText('email', {
     selector: 'input',
   });
 
@@ -29,7 +35,7 @@ FilledForm.play = async () => {
     delay: 100,
   });
 
-  const passwordInput = screen.getByLabelText('password', {
+  const passwordInput = canvas.getByLabelText('password', {
     selector: 'input',
   });
 
@@ -37,7 +43,7 @@ FilledForm.play = async () => {
     delay: 100,
   });
   // See https://storybook.js.org/docs/svelte/essentials/actions#automatically-matching-args to learn how to setup logging in the Actions panel
-  const submitButton = screen.getByRole('button');
+  const submitButton = canvas.getByRole('button');
 
   await userEvent.click(submitButton);
 };
