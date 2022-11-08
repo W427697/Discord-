@@ -381,8 +381,8 @@ jobs:
       class: medium
       name: sb_node_16_browsers
     steps:
-      - checkout_advanced:
-          clone_options: '--depth 1 --verbose'
+      # switched this to the CircleCI helper to get the full git history for TurboSnap
+      - checkout
       - attach_workspace:
           at: .
       - run:

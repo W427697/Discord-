@@ -7513,7 +7513,7 @@ __metadata:
     babel-plugin-dynamic-import-node: ^2.3.3
     babel-plugin-macros: ^3.0.1
     chalk: ^4.1.0
-    chromatic: ^6.10.2
+    chromatic: ^6.11.3
     codecov: ^3.8.1
     commander: ^6.2.1
     concurrently: ^5.3.0
@@ -7592,6 +7592,7 @@ __metadata:
     verdaccio: ^4.10.0
     verdaccio-auth-memory: ^9.7.2
     vite: ^3.1.7
+    vite-plugin-turbosnap: ^1.0.1
     wait-on: ^5.2.1
     web-component-analyzer: ^1.1.6
     webpack: 5
@@ -12893,9 +12894,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"chromatic@npm:^6.10.2":
-  version: 6.11.1
-  resolution: "chromatic@npm:6.11.1"
+"chromatic@npm:^6.11.3":
+  version: 6.11.4
+  resolution: "chromatic@npm:6.11.4"
   dependencies:
     "@discoveryjs/json-ext": ^0.5.7
     "@types/webpack-env": ^1.17.0
@@ -12903,7 +12904,7 @@ __metadata:
     chroma: bin/main.cjs
     chromatic: bin/main.cjs
     chromatic-cli: bin/main.cjs
-  checksum: 39d8b0ec6e4776bff167c5e7a1239de3afb816d8986bd7059e42e9fe3d19a8107d48d9f5014b78547d286fe93715d571363834a015616fe03b4f7fe5bb0aa90b
+  checksum: 403544ebe647013c5d5db2188c07426094febe6e3254fc782f8218410792f25e20fabb16d9746f3d8864f255589e90fc620f1902f66a5796713ca665a40e5b96
   languageName: node
   linkType: hard
 
@@ -35408,6 +35409,13 @@ __metadata:
     unist-util-stringify-position: ^3.0.0
     vfile-message: ^3.0.0
   checksum: a2a6c5597fd9901c3f513af097630feab2d83cd89b23fc264f6277704401ffc9110ffa2847273441fdf18cc103011a58a01bd0951b42f358e2e8cbb4b481e42b
+  languageName: node
+  linkType: hard
+
+"vite-plugin-turbosnap@npm:^1.0.1":
+  version: 1.0.1
+  resolution: "vite-plugin-turbosnap@npm:1.0.1"
+  checksum: 0ebadba21ad7a5220e00fd393f178503fc89b26cb9b880943d64ac65ad1f2a5f99ca456b6218e270ad7e1775eb3c0f84bc9441e200ead437119a9027b611bb57
   languageName: node
   linkType: hard
 
