@@ -20,9 +20,10 @@ jobs:
             else
             export BRANCH=${{ github.event.pull_request.head.ref }}
           fi
+          echo "$BRANCH"
           echo "branch=$BRANCH" >> $GITHUB_ENV
     outputs:
-      branch: ${{ steps.get-branch.outputs.branch }}
+      branch: ${{ steps.get_branch.outputs.branch }}
 
   trigger-ci-tests:
     runs-on: ubuntu-latest
