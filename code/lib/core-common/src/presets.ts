@@ -227,7 +227,6 @@ export async function loadPreset(
 
     logger.warn(warning);
     logger.error(e);
-    console.log('something went terribly wrong', e);
     return [];
   }
 }
