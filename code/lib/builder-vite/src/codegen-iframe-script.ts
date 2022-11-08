@@ -6,6 +6,8 @@ import { processPreviewAnnotation } from './utils/process-preview-annotation';
 export async function generateIframeScriptCode(options: ExtendedOptions) {
   const { presets } = options;
   const rendererName = await getRendererName(options);
+  const frameworkName = await getFrameworkName(options);
+
   const previewAnnotations = await presets.apply('previewAnnotations', [], options);
   const configEntries = [...previewAnnotations].filter(Boolean);
 
@@ -27,9 +29,7 @@ export async function generateIframeScriptCode(options: ExtendedOptions) {
     // Ensure that the client API is initialized by the framework before any other iframe code
     // is loaded. That way our client-apis can assume the existence of the API+store
     import { configure } from '${rendererName}';
-
-    import * as clientApi from "@storybook/client-api";
-    import { logger } from '@storybook/client-logger';
+    import { clientApi } from '${frameworkName}';
     ${filesToImport(configEntries, 'config')}
     import * as preview from '${virtualPreviewFile}';
     import { configStories } from '${virtualStoriesFile}';
