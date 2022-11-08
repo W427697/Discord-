@@ -7,7 +7,7 @@ import { userEvent, within } from '@storybook/testing-library';
 
 import { MyComponent } from './MyComponent.component';
 
-<Meta title="QueryMethods" component={MyComponent} />
+<Meta title="Async Query Methods" component={MyComponent} />
 
 export const Template = (args) => ({ props: args });
 
@@ -16,12 +16,13 @@ export const Template = (args) => ({ props: args });
  to learn more about using the canvasElement to query the DOM
  -->
 <Story
-  name="ExampleWithRole"
+  name="AsyncExample"
   play={async ({ canvasElement }) => {
     const canvas = within(canvasElement);
+    // Other steps
 
-    // See https://storybook.js.org/docs/angular/essentials/actions#automatically-matching-args to learn how to setup logging in the Actions panel
-    await userEvent.click(canvas.getByRole('button', { name: / button label/i }));
+    // Waits for the component to be rendered before querying the element
+    await canvas.findByRole('button', { name: / button label/i }));
   }}>
   {Template.bind({})}
 </Story>

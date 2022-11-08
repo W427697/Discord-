@@ -3,7 +3,7 @@
 
 import { Meta, Story } from '@storybook/addon-docs';
 
-import { screen, userEvent } from '@storybook/testing-library';
+import { userEvent, within } from '@storybook/testing-library';
 
 import { RegistrationForm } from './RegistrationForm.component';
 
@@ -11,10 +11,16 @@ import { RegistrationForm } from './RegistrationForm.component';
 
 export const Template = (args) => ({ props: args });
 
+<!--  
+ See https://storybook.js.org/docs/angular/writing-stories/play-function#working-with-the-canvas
+ to learn more about using the canvasElement to query the DOM
+-->
 <Story
   name="FilledForm"
-  play={async () => {
-    const emailInput = screen.getByLabelText('email', {
+  play={ async ({ canvasElement, args}) => {
+    const canvas = within(canvasElement);
+
+    const emailInput = canvas.getByLabelText('email', {
       selector: 'input',
     });
 
@@ -22,18 +28,18 @@ export const Template = (args) => ({ props: args });
       delay: 100,
     });
 
-    const passwordInput = screen.getByLabelText('password', {
+    const passwordInput = canvas.getByLabelText('password', {
       selector: 'input',
     });
 
     await userEvent.type(passwordInput, 'ExamplePassword', {
       delay: 100,
     });
-    
-    // See https://storybook.js.org/docs/angular/essentials/actions#automatically-matching-args to learn how to setup logging in the Actions panel
-    const Submit = screen.getByRole('button');
 
-    await userEvent.click(Submit);
+    // See https://storybook.js.org/docs/angular/essentials/actions#automatically-matching-args to learn how to setup logging in the Actions panel
+    const submitButton = canvas.getByRole('button');
+
+    await userEvent.click(submitButton);
   }}>
   {Template.bind({})}
 </Story>
