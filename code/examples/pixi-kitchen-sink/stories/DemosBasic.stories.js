@@ -1,5 +1,5 @@
 import { action } from '@storybook/addon-actions';
-import { BunnyDemo, BunnyDemoOptions } from './BunnyDemo';
+import { BunnyDemo } from './BunnyDemo';
 
 export default {
   title: 'Demos-Basic',
@@ -12,6 +12,6 @@ export default {
   },
 };
 
-export const Default = (args: BunnyDemoOptions) => {
+export const Default = (args) => {
   return new BunnyDemo(args);
 };

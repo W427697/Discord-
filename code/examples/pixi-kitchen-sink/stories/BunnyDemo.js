@@ -1,21 +1,7 @@
 import { Container, Sprite, Texture } from 'pixi.js';
 
-type InjectedObjectType = {
-  onBunnyClick: () => void;
-};
-
-export type BunnyDemoOptions = {
-  bunnySize: number;
-  bunnySpacing: number;
-  someInjectedObject: InjectedObjectType;
-};
-
 export class BunnyDemo {
-  view: Container;
-
-  constructor(opts: BunnyDemoOptions) {
-    const { bunnySize, bunnySpacing, someInjectedObject } = opts;
-
+  constructor({ bunnySize, bunnySpacing, someInjectedObject }) {
     this.view = new Container();
 
     // Create a new texture
@@ -41,7 +27,7 @@ export class BunnyDemo {
     this.view.rotation = Math.PI / 4;
   }
 
-  update(delta: number) {
+  update(delta) {
     this.view.rotation -= 0.01 * delta;
   }
 

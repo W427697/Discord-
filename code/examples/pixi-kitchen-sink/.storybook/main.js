@@ -1,6 +1,4 @@
-import type { StorybookConfig } from '@storybook/pixi-webpack5';
-
-const mainConfig: StorybookConfig = {
+const mainConfig = {
   // this dirname is because we run tests from project root
   stories: ['../stories/**/*.stories.@(ts|tsx|js|jsx|mdx)'],
   staticDirs: ['../public'],

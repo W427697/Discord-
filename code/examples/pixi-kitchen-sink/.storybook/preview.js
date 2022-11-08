@@ -1,4 +1,3 @@
-import { ApplicationResizeFunctionReturnType } from '@storybook/pixi/src/types';
 // This decorator would be custom written/have functionality imported from your game if
 // necessary, how you resize/fit/scale and combine with the gameResize function ultimately
 // depends on your use case.
@@ -10,8 +9,8 @@ import { makeFitToStageDecorator } from './decorators/fitToStageDecorator';
 const LOGICAL_WIDTH = 720;
 const LOGICAL_HEIGHT = 1280;
 
-function gameResize(logicalWidth: number, logicalHeight: number) {
-  return (w: number, h: number): ApplicationResizeFunctionReturnType => {
+function gameResize(logicalWidth, logicalHeight) {
+  return (w, h) => {
     if (w > h) {
       const ratioW = w / logicalWidth;
       const ratioH = logicalHeight / h;

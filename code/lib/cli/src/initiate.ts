@@ -1,12 +1,12 @@
-import type {Package} from 'update-notifier';
+import type { Package } from 'update-notifier';
 import chalk from 'chalk';
 import prompts from 'prompts';
-import {telemetry} from '@storybook/telemetry';
-import {withTelemetry} from '@storybook/core-server';
+import { telemetry } from '@storybook/telemetry';
+import { withTelemetry } from '@storybook/core-server';
 
-import {installableProjectTypes, ProjectType} from './project_types';
-import {detect, detectBuilder, detectLanguage, isStorybookInstalled} from './detect';
-import {codeLog, commandLog, paddedLog} from './helpers';
+import { installableProjectTypes, ProjectType } from './project_types';
+import { detect, detectBuilder, detectLanguage, isStorybookInstalled } from './detect';
+import { codeLog, commandLog, paddedLog } from './helpers';
 import angularGenerator from './generators/ANGULAR';
 import aureliaGenerator from './generators/AURELIA';
 import emberGenerator from './generators/EMBER';
@@ -29,11 +29,11 @@ import svelteGenerator from './generators/SVELTE';
 import pixiGenerator from './generators/PIXI';
 import raxGenerator from './generators/RAX';
 import serverGenerator from './generators/SERVER';
-import type {JsPackageManager} from './js-package-manager';
-import {JsPackageManagerFactory, useNpmWarning} from './js-package-manager';
-import type {NpmOptions} from './NpmOptions';
-import {automigrate} from './automigrate';
-import type {CommandOptions} from './generators/types';
+import type { JsPackageManager } from './js-package-manager';
+import { JsPackageManagerFactory, useNpmWarning } from './js-package-manager';
+import type { NpmOptions } from './NpmOptions';
+import { automigrate } from './automigrate';
+import type { CommandOptions } from './generators/types';
 
 const logger = console;
 
