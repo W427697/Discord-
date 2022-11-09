@@ -1,3 +1,5 @@
+import { vite as csfPlugin } from '@storybook/csf-plugin';
+import pluginTurbosnap from 'vite-plugin-turbosnap';
 import type { StorybookConfig } from '../../frameworks/react-vite/dist';
 
 const isBlocksOnly = process.env.BLOCKS_ONLY === 'true';
@@ -16,7 +18,7 @@ const allStories = [
     titlePrefix: '@storybook-blocks',
   },
 ];
-const blocksOnlyStories = ['../blocks/src/**/*.stories.@(js|jsx|ts|tsx|mdx)'];
+const blocksOnlyStories = ['../blocks/src/@(blocks|controls)/**/*.@(mdx|stories.@(tsx|ts|jsx|js))'];
 
 const config: StorybookConfig = {
   stories: isBlocksOnly ? blocksOnlyStories : allStories,
@@ -32,6 +34,15 @@ const config: StorybookConfig = {
   core: {
     disableTelemetry: true,
   },
+  viteFinal: (vite, { configType }) => ({
+    ...vite,
+    plugins: [
+      ...(vite.plugins || []),
+      csfPlugin({}),
+      configType === 'PRODUCTION' ? pluginTurbosnap({ rootDir: vite.root || '' }) : [],
+    ],
+    optimizeDeps: { ...vite.optimizeDeps, force: true },
+  }),
 };
 
 export default config;

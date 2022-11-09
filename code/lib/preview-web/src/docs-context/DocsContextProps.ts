@@ -1,5 +1,5 @@
 import type {
-  AnyFramework,
+  Framework,
   Store_ModuleExport,
   Store_ModuleExports,
   Store_Story,
@@ -8,8 +8,9 @@ import type {
   StoryName,
 } from '@storybook/types';
 import type { Channel } from '@storybook/channels';
+import type { StoryRenderOptions } from '../render/StoryRender';
 
-export interface DocsContextProps<TFramework extends AnyFramework = AnyFramework> {
+export interface DocsContextProps<TFramework extends Framework = Framework> {
   /**
    * Register the CSF file that this docs entry represents.
    * Used by the `<Meta of={} />` block.
@@ -54,7 +55,8 @@ export interface DocsContextProps<TFramework extends AnyFramework = AnyFramework
    */
   renderStoryToElement: (
     story: Store_Story<TFramework>,
-    element: HTMLElement
+    element: HTMLElement,
+    options: StoryRenderOptions
   ) => () => Promise<void>;
 
   /**
