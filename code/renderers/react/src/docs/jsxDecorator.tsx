@@ -76,7 +76,7 @@ export const renderJsx = (code: React.ReactElement, options: JSXOptions) => {
 
   if (typeof options.displayName === 'string') {
     displayNameDefaults = { showFunctions: true, displayName: () => options.displayName };
-  } else if (getDocgenSection(code.type, 'displayName')) {
+  } else if (getDocgenSection(renderedJSX.type, 'displayName')) {
     displayNameDefaults = {
       // To get exotic component names resolving properly
       displayName: (el: any): string => getDocgenSection(el.type, 'displayName'),
