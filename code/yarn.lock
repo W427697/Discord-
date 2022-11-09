@@ -5512,12 +5512,18 @@ __metadata:
     "@storybook/types": 7.0.0-alpha.48
     fs-extra: ^9.0.1
     global: ^4.4.0
-    react: ^16.8.0
-    react-dom: ^16.14.0
     remark-external-links: ^8.0.0
     remark-slug: ^6.0.0
     ts-dedent: ^2.0.0
     typescript: ~4.6.3
+  peerDependencies:
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0
+    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
+  peerDependenciesMeta:
+    react:
+      optional: true
+    react-dom:
+      optional: true
   languageName: unknown
   linkType: soft
 
@@ -5545,31 +5551,6 @@ __metadata:
     typescript: ~4.6.3
   peerDependencies:
     "@babel/core": ^7.9.6
-  peerDependenciesMeta:
-    "@storybook/angular":
-      optional: true
-    "@storybook/html":
-      optional: true
-    "@storybook/vue":
-      optional: true
-    "@storybook/vue3":
-      optional: true
-    "@storybook/web-components":
-      optional: true
-    lit:
-      optional: true
-    lit-html:
-      optional: true
-    react:
-      optional: true
-    react-dom:
-      optional: true
-    svelte:
-      optional: true
-    sveltedoc-parser:
-      optional: true
-    vue:
-      optional: true
   languageName: unknown
   linkType: soft
 

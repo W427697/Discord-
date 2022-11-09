@@ -40,16 +40,6 @@
       "import": "./dist/preset.mjs",
       "types": "./dist/preset.d.ts"
     },
-    "./blocks": {
-      "require": "./dist/blocks.js",
-      "import": "./dist/blocks.mjs",
-      "types": "./dist/blocks.d.ts"
-    },
-    "./dist/blocks": {
-      "require": "./dist/blocks.js",
-      "import": "./dist/blocks.mjs",
-      "types": "./dist/blocks.d.ts"
-    },
     "./svelte/HOC.svelte": "./svelte/HOC.svelte",
     "./ember/index.js": "./ember/index.js",
     "./web-components/index.js": "./web-components/index.js",
@@ -95,8 +85,6 @@
     "@storybook/types": "7.0.0-alpha.48",
     "fs-extra": "^9.0.1",
     "global": "^4.4.0",
-    "react": "^16.8.0",
-    "react-dom": "^16.14.0",
     "remark-external-links": "^8.0.0",
     "remark-slug": "^6.0.0",
     "ts-dedent": "^2.0.0"
@@ -105,6 +93,18 @@
     "@babel/core": "^7.12.10",
     "typescript": "~4.6.3"
   },
+  "peerDependencies": {
+    "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
+    "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    },
+    "react-dom": {
+      "optional": true
+    }
+  },
   "publishConfig": {
     "access": "public"
   },
@@ -112,8 +112,7 @@
     "entries": [
       "./src/index.ts",
       "./src/preset.ts",
-      "./src/preview.ts",
-      "./src/blocks.ts"
+      "./src/preview.ts"
     ]
   },
   "gitHead": "b58a29b785462f8a8b711b6bb2d7223fd6dc17fd",
