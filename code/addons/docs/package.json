@@ -42,6 +42,7 @@
     },
     "./svelte/HOC.svelte": "./svelte/HOC.svelte",
     "./ember/index.js": "./ember/index.js",
+    "./angular/index.js": "./angular/index.js",
     "./web-components/index.js": "./web-components/index.js",
     "./jest-transform-mdx.js": "./jest-transform-mdx.js",
     "./package.json": "./package.json"
