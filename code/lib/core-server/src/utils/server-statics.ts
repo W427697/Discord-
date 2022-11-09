@@ -73,7 +73,7 @@ export const parseStaticDir = async (arg: string) => {
   const splitIndex = lastColonIndex !== -1 && !isWindowsRawDirOnly ? lastColonIndex : arg.length;
 
   const targetRaw = arg.substring(splitIndex + 1) || '/';
-  const target = targetRaw.split(path.win32.sep).join(path.posix.sep); // Ensure target has forward-slash path
+  const target = targetRaw.split(path.sep).join(path.posix.sep); // Ensure target has forward-slash path
 
   const rawDir = arg.substring(0, splitIndex);
   const staticDir = path.isAbsolute(rawDir) ? rawDir : `./${rawDir}`;
