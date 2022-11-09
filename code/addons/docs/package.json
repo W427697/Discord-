@@ -41,7 +41,9 @@
       "types": "./dist/preset.d.ts"
     },
     "./svelte/HOC.svelte": "./svelte/HOC.svelte",
+    "./ember": "./ember/index.js",
     "./ember/index.js": "./ember/index.js",
+    "./angular": "./angular/index.js",
     "./angular/index.js": "./angular/index.js",
     "./web-components/index.js": "./web-components/index.js",
     "./jest-transform-mdx.js": "./jest-transform-mdx.js",
