@@ -23,10 +23,10 @@ export const execaCommand = async (
   command: string,
   options: Options = {}
 ): Promise<ExecaChildProcess<string>> => {
-  const { execaCommand } = await getExeca();
+  const execa = await getExeca();
   // We await here because execaCommand returns a promise, but that's not what the user expects
   // eslint-disable-next-line @typescript-eslint/return-await
-  return await execaCommand(command, options);
+  return await execa.execaCommand(command, options);
 };
 
 export const exec = async (
@@ -47,13 +47,9 @@ export const exec = async (
     shell: true,
     stdout: debug ? 'inherit' : 'pipe',
     stderr: debug ? 'inherit' : 'pipe',
+    signal,
   };
   let currentChild: ExecaChildProcess<string>;
-
-  // Newer versions of execa have explicit support for abort signals, but this works
-  if (signal) {
-    signal.addEventListener('abort', () => currentChild.kill());
-  }
 
   try {
     if (typeof command === 'string') {
