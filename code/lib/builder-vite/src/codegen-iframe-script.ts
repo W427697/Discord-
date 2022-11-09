@@ -1,4 +1,5 @@
 import { getRendererName, getFrameworkName } from '@storybook/core-common';
+import type { PreviewAnnotation } from '@storybook/types';
 import { virtualPreviewFile, virtualStoriesFile } from './virtual-file-names';
 import type { ExtendedOptions } from './types';
 import { processPreviewAnnotation } from './utils/process-preview-annotation';
@@ -8,16 +9,15 @@ export async function generateIframeScriptCode(options: ExtendedOptions) {
   const rendererName = await getRendererName(options);
   const frameworkName = await getFrameworkName(options);
 
-  const previewAnnotations = await presets.apply('previewAnnotations', [], options);
-  const configEntries = [...previewAnnotations].filter(Boolean);
+  const previewAnnotations = await presets.apply<PreviewAnnotation[]>(
+    'previewAnnotations',
+    [],
+    options
+  );
+  const configEntries = [...previewAnnotations].filter(Boolean).map(processPreviewAnnotation);
 
   const filesToImport = (files: string[], name: string) =>
-    files
-      .map(
-        (el, i) =>
-          `import ${name ? `* as ${name}_${i} from ` : ''}'${processPreviewAnnotation(el)}'`
-      )
-      .join('\n');
+    files.map((el, i) => `import ${name ? `* as ${name}_${i} from ` : ''}'${el}'`).join('\n');
 
   const importArray = (name: string, length: number) =>
     new Array(length).fill(0).map((_, i) => `${name}_${i}`);

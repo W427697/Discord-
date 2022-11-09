@@ -86,9 +86,11 @@ export const resolveAddonName = (
     return undefined;
   };
 
-  // This is used to maintain back-compat with community addons that do not re-export their sub-addons but reference
-  // the sub-addon name directly.  We need to turn it into an absolute path so that webpack can serve it up correctly
-  // when yarn pnp or pnpm is being used.  Vite will be broken in such cases, because it does not process absolute paths,
+  // This is used to maintain back-compat with community addons that do not
+  // re-export their sub-addons but reference the sub-addon name directly.
+  //  We need to turn it into an absolute path so that webpack can
+  // serve it up correctly  when yarn pnp or pnpm is being used.
+  // Vite will be broken in such cases, because it does not process absolute paths,
   // and it will try to import from the bare import, breaking in pnp/pnpm.
   const absolutizeExport = (exportName: string) => {
     return resolve(`${name}${exportName}`);
@@ -125,7 +127,9 @@ export const resolveAddonName = (
       ...(previewFile
         ? {
             previewAnnotations: [
-              previewFileAbsolute ? [previewFile, previewFileAbsolute] : [previewFile],
+              previewFileAbsolute
+                ? { bare: previewFile, absolute: previewFileAbsolute }
+                : previewFile,
             ],
           }
         : {}),

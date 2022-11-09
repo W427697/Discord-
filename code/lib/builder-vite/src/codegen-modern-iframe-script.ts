@@ -1,4 +1,5 @@
 import { loadPreviewOrConfigFile, getFrameworkName } from '@storybook/core-common';
+import type { PreviewAnnotation } from '@storybook/types';
 import { virtualStoriesFile, virtualAddonSetupFile } from './virtual-file-names';
 import type { ExtendedOptions } from './types';
 import { processPreviewAnnotation } from './utils/process-preview-annotation';
@@ -8,7 +9,7 @@ export async function generateModernIframeScriptCode(options: ExtendedOptions) {
   const frameworkName = await getFrameworkName(options);
 
   const previewOrConfigFile = loadPreviewOrConfigFile({ configDir });
-  const previewAnnotations = await presets.apply<(string | string[])[]>(
+  const previewAnnotations = await presets.apply<PreviewAnnotation[]>(
     'previewAnnotations',
     [],
     options
