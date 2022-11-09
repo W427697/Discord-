@@ -11,7 +11,7 @@ import { logger } from '@storybook/client-logger';
 
 import type { ReactFramework } from '../types';
 
-import { isMemo, isForwardRef } from './lib';
+import { isSuspense, isProfiler, isMemo, isForwardRef } from './lib';
 
 type JSXOptions = Options & {
   /** How many wrappers to skip when rendering the jsx */
@@ -81,6 +81,8 @@ export const renderJsx = (code: React.ReactElement, options: JSXOptions) => {
           // To get exotic component names resolving properly
           displayName: (el: any): string =>
             el.type.displayName ||
+            (isSuspense(el.type) ? 'Suspense' : null) ||
+            (isProfiler(el.type) ? 'Profiler' : null) ||
             getDocgenSection(el.type, 'displayName') ||
             (el.type.name !== '_default' ? el.type.name : null) ||
             (typeof el.type === 'function' ? 'No Display Name' : null) ||
