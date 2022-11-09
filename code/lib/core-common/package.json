@@ -73,9 +73,9 @@
     "util-deprecate": "^1.0.2"
   },
   "devDependencies": {
-    "@types/mock-fs": "^4.13.0",
+    "@types/mock-fs": "^4.13.1",
     "@types/picomatch": "^2.3.0",
-    "mock-fs": "^4.13.0",
+    "mock-fs": "^5.2.0",
     "type-fest": "^2.17.0",
     "typescript": "~4.6.3"
   },
