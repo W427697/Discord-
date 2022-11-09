@@ -24,6 +24,7 @@
     "@storybook/core-common": "7.0.0-alpha.48",
     "@storybook/mdx2-csf": "next",
     "@storybook/node-logger": "7.0.0-alpha.48",
+    "@storybook/preview": "7.0.0-alpha.48",
     "@storybook/preview-web": "7.0.0-alpha.48",
     "@storybook/source-loader": "7.0.0-alpha.48",
     "@storybook/types": "7.0.0-alpha.48",
