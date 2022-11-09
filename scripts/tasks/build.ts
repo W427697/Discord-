@@ -9,6 +9,7 @@ export const build: Task = {
     return pathExists(builtSandboxDir);
   },
   async run({ sandboxDir }, { dryRun, debug }) {
+    throw new Error('Problems!');
     return exec(`yarn build-storybook --quiet`, { cwd: sandboxDir }, { dryRun, debug });
   },
 };
