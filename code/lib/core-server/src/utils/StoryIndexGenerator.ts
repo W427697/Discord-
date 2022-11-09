@@ -490,18 +490,6 @@ export class StoryIndexGenerator {
           }
         });
       });
-
-      /**
-       * Currently, we don't sort cacheEntries and invalidate cacheEntries from type 'stories' first, but
-       * cacheEntries with type 'docs' might be invalidated before ones with cacheEntry type 'story'.
-       * This can cause a race condition, because cacheEntries from type 'docs' might already be deleted,
-       * before cacheEntries from type 'story' are invalidated.
-       * Therefore, throwing an error here is not a good idea.
-       */
-      // const notFound = dependents.filter((dep) => !invalidated.has(dep));
-      // if (notFound.length > 0) {
-      //   throw new Error(`Could not invalidate ${notFound.length} deps: ${notFound.join(', ')}`);
-      // }
     }
 
     if (removed) {
