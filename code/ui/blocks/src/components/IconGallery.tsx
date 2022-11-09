@@ -1,7 +1,7 @@
 import type { FunctionComponent } from 'react';
 import React from 'react';
 import { styled } from '@storybook/theming';
-import { ResetWrapper } from '@storybook/components';
+import { ResetWrapper } from '@storybook/components'; // eslint-disable-line import/no-extraneous-dependencies
 
 import { getBlockBackgroundStyle } from './BlockBackgroundStyles';
 

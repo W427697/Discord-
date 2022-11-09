@@ -1,10 +1,10 @@
 import type { ClipboardEvent, FC, ReactElement, ReactNode } from 'react';
 import React, { Children, useCallback, useState } from 'react';
-import { darken } from 'polished';
+import { darken } from 'polished'; // eslint-disable-line import/no-extraneous-dependencies
 import { styled } from '@storybook/theming';
 
 import global from 'global';
-import { ActionBar, Zoom } from '@storybook/components';
+import { ActionBar, Zoom } from '@storybook/components'; // eslint-disable-line import/no-extraneous-dependencies
 import type { ActionItem } from '@storybook/components';
 
 import type { SourceProps } from '.';
@@ -218,7 +218,7 @@ export const Preview: FC<PreviewProps> = ({
   const { window: globalWindow } = global;
 
   const copyToClipboard = useCallback(async (text: string) => {
-    const { createCopyToClipboardFunction } = await import('@storybook/components');
+    const { createCopyToClipboardFunction } = await import('@storybook/components'); // eslint-disable-line import/no-extraneous-dependencies
     createCopyToClipboardFunction();
   }, []);
 

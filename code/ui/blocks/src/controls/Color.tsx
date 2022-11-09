@@ -1,10 +1,10 @@
 import type { FC, ChangeEvent, FocusEvent } from 'react';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { HexColorPicker, HslaStringColorPicker, RgbaStringColorPicker } from 'react-colorful';
-import convert from 'color-convert';
+import { HexColorPicker, HslaStringColorPicker, RgbaStringColorPicker } from 'react-colorful'; // eslint-disable-line import/no-extraneous-dependencies
+import convert from 'color-convert'; // eslint-disable-line import/no-extraneous-dependencies
 import throttle from 'lodash/throttle';
 import { styled } from '@storybook/theming';
-import { TooltipNote, WithTooltip, Form, Icons } from '@storybook/components';
+import { TooltipNote, WithTooltip, Form, Icons } from '@storybook/components'; // eslint-disable-line import/no-extraneous-dependencies
 
 import type { ControlProps, ColorValue, ColorConfig, PresetColor } from './types';
 import { getControlId } from './helpers';

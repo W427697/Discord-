@@ -1,6 +1,7 @@
 import type { FC, MouseEvent } from 'react';
 import React, { Fragment } from 'react';
 import { styled } from '@storybook/theming';
+// eslint-disable-next-line import/no-extraneous-dependencies
 import {
   FlexBar,
   Icons,
