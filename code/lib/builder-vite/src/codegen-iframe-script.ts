@@ -87,7 +87,8 @@ export async function generateIframeScriptCode(options: ExtendedOptions) {
           }
           case 'decorateStory':
           case 'applyDecorators':
-          case 'renderToDOM': {
+          case 'renderToDOM': // deprecated
+          case 'renderToCanvas': {
             return null; // This key is not handled directly in v6 mode.
           }
           case 'runStep': {

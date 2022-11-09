@@ -75,7 +75,7 @@ export class StandaloneDocsRender<TFramework extends Framework> implements Rende
   }
 
   async renderToElement(
-    canvasElement: HTMLElement,
+    canvasElement: TFramework['canvasElement'],
     renderStoryToElement: DocsContextProps['renderStoryToElement']
   ) {
     if (!this.exports || !this.csfFiles || !this.store.projectAnnotations)
@@ -100,7 +100,10 @@ export class StandaloneDocsRender<TFramework extends Framework> implements Rende
     const renderer = await docs.renderer();
     const { render } = renderer as { render: DocsRenderFunction<TFramework> };
     const renderDocs = async () => {
-      await new Promise<void>((r) => render(docsContext, docsParameter, canvasElement, r));
+      await new Promise<void>((r) =>
+        // NOTE: it isn't currently possible to use a docs renderer outside of "web" mode.
+        render(docsContext, docsParameter, canvasElement as any, r)
+      );
       this.channel.emit(DOCS_RENDERED, this.id);
     };
 

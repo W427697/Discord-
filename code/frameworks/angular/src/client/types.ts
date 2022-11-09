@@ -1,7 +1,7 @@
 import {
-  Framework,
   Parameters as DefaultParameters,
   StoryContext as DefaultStoryContext,
+  WebFramework,
 } from '@storybook/types';
 
 export interface NgModuleMetadata {
@@ -27,7 +27,7 @@ export interface StoryFnAngularReturnType {
   userDefinedTemplate?: boolean;
 }
 
-export interface AngularFramework extends Framework {
+export interface AngularFramework extends WebFramework {
   component: any;
   storyResult: StoryFnAngularReturnType;
 }

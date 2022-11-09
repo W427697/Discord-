@@ -6626,6 +6626,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@storybook/csf@npm:0.0.2--canary.53.4879818.0":
+  version: 0.0.2--canary.53.4879818.0
+  resolution: "@storybook/csf@npm:0.0.2--canary.53.4879818.0"
+  dependencies:
+    expect-type: ^0.14.2
+    lodash: ^4.17.15
+    type-fest: ^2.19.0
+  checksum: 23f5e01d4d090d6454df0b06831a238a2d30f725c145ef5e9f2a4c9ae5d260e7ed85d288cc6750e0efc78650cac24b1104bdc12fafc09a8469a70b1f8f6c123d
+  languageName: node
+  linkType: hard
+
 "@storybook/csf@npm:^0.0.1":
   version: 0.0.1
   resolution: "@storybook/csf@npm:0.0.1"
@@ -7507,7 +7518,7 @@ __metadata:
     babel-plugin-dynamic-import-node: ^2.3.3
     babel-plugin-macros: ^3.0.1
     chalk: ^4.1.0
-    chromatic: ^6.10.2
+    chromatic: ^6.11.3
     codecov: ^3.8.1
     commander: ^6.2.1
     concurrently: ^5.3.0
@@ -7586,6 +7597,7 @@ __metadata:
     verdaccio: ^4.10.0
     verdaccio-auth-memory: ^9.7.2
     vite: ^3.1.7
+    vite-plugin-turbosnap: ^1.0.1
     wait-on: ^5.2.1
     web-component-analyzer: ^1.1.6
     webpack: 5
@@ -7890,7 +7902,7 @@ __metadata:
   resolution: "@storybook/types@workspace:lib/types"
   dependencies:
     "@babel/core": ^7.12.10
-    "@storybook/csf": next
+    "@storybook/csf": 0.0.2--canary.53.4879818.0
     "@types/babel__core": ^7.0.0
     "@types/express": ^4.7.0
     "@types/node": ^16.0.0
@@ -12903,7 +12915,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"chromatic@npm:^6.10.2":
+"chromatic@npm:^6.11.3":
   version: 6.11.4
   resolution: "chromatic@npm:6.11.4"
   dependencies:
@@ -35448,6 +35460,13 @@ __metadata:
     unist-util-stringify-position: ^3.0.0
     vfile-message: ^3.0.0
   checksum: a2a6c5597fd9901c3f513af097630feab2d83cd89b23fc264f6277704401ffc9110ffa2847273441fdf18cc103011a58a01bd0951b42f358e2e8cbb4b481e42b
+  languageName: node
+  linkType: hard
+
+"vite-plugin-turbosnap@npm:^1.0.1":
+  version: 1.0.1
+  resolution: "vite-plugin-turbosnap@npm:1.0.1"
+  checksum: 0ebadba21ad7a5220e00fd393f178503fc89b26cb9b880943d64ac65ad1f2a5f99ca456b6218e270ad7e1775eb3c0f84bc9441e200ead437119a9027b611bb57
   languageName: node
   linkType: hard
 

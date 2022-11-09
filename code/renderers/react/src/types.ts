@@ -1,10 +1,10 @@
 import type { ComponentType, ReactElement } from 'react';
-import type { Framework } from '@storybook/types';
+import type { WebFramework } from '@storybook/types';
 
 export type { Store_RenderContext as RenderContext } from '@storybook/types';
 export type { StoryContext } from '@storybook/types';
 
-export interface ReactFramework extends Framework {
+export interface ReactFramework extends WebFramework {
   component: ComponentType<this['T']>;
   storyResult: StoryFnReactReturnType;
 }

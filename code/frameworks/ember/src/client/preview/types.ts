@@ -1,4 +1,4 @@
-import type { Framework } from '@storybook/types';
+import type { WebFramework } from '@storybook/types';
 
 export type { RenderContext } from '@storybook/types';
 
@@ -13,7 +13,7 @@ export interface OptionsArgs {
   element: any;
 }
 
-export interface EmberFramework extends Framework {
+export interface EmberFramework extends WebFramework {
   component: any;
   storyResult: OptionsArgs;
 }
