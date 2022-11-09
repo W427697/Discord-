@@ -155,6 +155,23 @@ describe('renderJsx', () => {
     `);
   });
 
+  it('Suspense', () => {
+    function SuspenseComponent(props: any) {
+      return (
+        <React.Suspense fallback={null}>
+          <div>{props.children}</div>
+        </React.Suspense>
+      );
+    }
+
+    expect(renderJsx(createElement(SuspenseComponent, {}, 'I am Suspense'), {}))
+      .toMatchInlineSnapshot(`
+      <SuspenseComponent>
+        I am Suspense
+      </SuspenseComponent>
+    `);
+  });
+
   it('should not add default props to string if the prop value has not changed', () => {
     const Container = ({ className, children }: { className: string; children: string }) => {
       return <div className={className}>{children}</div>;
