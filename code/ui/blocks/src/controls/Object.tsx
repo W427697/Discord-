@@ -3,7 +3,7 @@ import cloneDeep from 'lodash/cloneDeep';
 import type { ComponentProps, SyntheticEvent, FC, FocusEvent } from 'react';
 import React, { useCallback, useMemo, useState, useEffect, useRef } from 'react';
 import { styled, useTheme, type Theme } from '@storybook/theming';
-import { Form, Icons, type IconsProps, IconButton } from '@storybook/components';
+import { Form, Icons, type IconsProps, IconButton } from '@storybook/components'; // eslint-disable-line import/no-extraneous-dependencies
 import { JsonTree, getObjectType } from './react-editable-json-tree';
 import { getControlId, getControlSetterButtonId } from './helpers';
 import type { ControlProps, ObjectValue, ObjectConfig } from './types';

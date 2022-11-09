@@ -1,6 +1,6 @@
 import React from 'react';
 import { styled } from '@storybook/theming';
-import { Link } from '@storybook/components';
+import { Link } from '@storybook/components'; // eslint-disable-line import/no-extraneous-dependencies
 
 const NoControlsWrapper = styled.div(({ theme }) => ({
   background: theme.background.warning,

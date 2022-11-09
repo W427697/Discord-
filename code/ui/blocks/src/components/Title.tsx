@@ -1,6 +1,6 @@
 import type { Theme } from '@storybook/theming';
 import { styled } from '@storybook/theming';
-import { withReset } from '@storybook/components';
+import { withReset } from '@storybook/components'; // eslint-disable-line import/no-extraneous-dependencies
 
 const breakpoint = 600;
 

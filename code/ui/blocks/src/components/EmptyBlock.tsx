@@ -1,7 +1,7 @@
 import React from 'react';
-import { transparentize } from 'polished';
+import { transparentize } from 'polished'; // eslint-disable-line import/no-extraneous-dependencies
 import { styled } from '@storybook/theming';
-import { withReset } from '@storybook/components';
+import { withReset } from '@storybook/components'; // eslint-disable-line import/no-extraneous-dependencies
 
 const Wrapper = styled.div(withReset, ({ theme }) => ({
   backgroundColor: theme.base === 'light' ? 'rgba(0,0,0,.01)' : 'rgba(255,255,255,.01)',

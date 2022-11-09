@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 import React from 'react';
 import { styled } from '@storybook/theming';
-import { codeCommon } from '@storybook/components';
+import { codeCommon } from '@storybook/components'; // eslint-disable-line import/no-extraneous-dependencies
 import type { JsDocTags } from './types';
 
 interface ArgJsDocArgs {

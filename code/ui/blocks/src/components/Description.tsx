@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 import React from 'react';
-import Markdown from 'markdown-to-jsx';
-import { components, ResetWrapper } from '@storybook/components';
+import Markdown from 'markdown-to-jsx'; // eslint-disable-line import/no-extraneous-dependencies
+import { components, ResetWrapper } from '@storybook/components'; // eslint-disable-line import/no-extraneous-dependencies
 
 export interface DescriptionProps {
   markdown: string;

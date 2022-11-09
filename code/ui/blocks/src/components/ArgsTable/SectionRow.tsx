@@ -1,8 +1,8 @@
 import type { FC } from 'react';
 import React, { useState } from 'react';
-import { transparentize } from 'polished';
+import { transparentize } from 'polished'; // eslint-disable-line import/no-extraneous-dependencies
 import { styled } from '@storybook/theming';
-import { Icons } from '@storybook/components';
+import { Icons } from '@storybook/components'; // eslint-disable-line import/no-extraneous-dependencies
 
 type Level = 'section' | 'subsection';
 

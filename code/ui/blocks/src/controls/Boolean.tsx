@@ -1,10 +1,10 @@
 import type { FC } from 'react';
 import React, { useCallback } from 'react';
 
-import { opacify, transparentize } from 'polished';
+import { opacify, transparentize } from 'polished'; // eslint-disable-line import/no-extraneous-dependencies
 import { styled } from '@storybook/theming';
 
-import { Form } from '@storybook/components';
+import { Form } from '@storybook/components'; // eslint-disable-line import/no-extraneous-dependencies
 import { getControlId, getControlSetterButtonId } from './helpers';
 
 import type { ControlProps, BooleanValue, BooleanConfig } from './types';

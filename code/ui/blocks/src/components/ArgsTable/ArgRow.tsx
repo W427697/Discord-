@@ -1,9 +1,9 @@
 import type { FC } from 'react';
 import React from 'react';
-import Markdown from 'markdown-to-jsx';
-import { transparentize } from 'polished';
+import Markdown from 'markdown-to-jsx'; // eslint-disable-line import/no-extraneous-dependencies
+import { transparentize } from 'polished'; // eslint-disable-line import/no-extraneous-dependencies
 import { styled } from '@storybook/theming';
-import { codeCommon } from '@storybook/components';
+import { codeCommon } from '@storybook/components'; // eslint-disable-line import/no-extraneous-dependencies
 import type { ArgType, Args, TableAnnotation } from './types';
 import { ArgJsDoc } from './ArgJsDoc';
 import { ArgValue } from './ArgValue';
