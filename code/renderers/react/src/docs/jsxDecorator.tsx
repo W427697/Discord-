@@ -72,13 +72,16 @@ export const renderJsx = (code: React.ReactElement, options: JSXOptions) => {
     }
   }
 
-  const displayNameDefaults =
-    typeof options.displayName === 'string'
-      ? { showFunctions: true, displayName: () => options.displayName }
-      : {
-          // To get exotic component names resolving properly
-          displayName: (el: any): string => getDocgenSection(el.type, 'displayName'),
-        };
+  let displayNameDefaults;
+
+  if (typeof options.displayName === 'string') {
+    displayNameDefaults = { showFunctions: true, displayName: () => options.displayName };
+  } else if (getDocgenSection(code.type, 'displayName')) {
+    displayNameDefaults = {
+      // To get exotic component names resolving properly
+      displayName: (el: any): string => getDocgenSection(el.type, 'displayName'),
+    };
+  }
 
   const filterDefaults = {
     filterProps: (value: any, key: string): boolean => value !== undefined,
