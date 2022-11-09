@@ -11,8 +11,6 @@ import { logger } from '@storybook/client-logger';
 
 import type { ReactFramework } from '../types';
 
-import { isMemo, isForwardRef } from './lib';
-
 type JSXOptions = Options & {
   /** How many wrappers to skip when rendering the jsx */
   skip?: number;
@@ -79,15 +77,7 @@ export const renderJsx = (code: React.ReactElement, options: JSXOptions) => {
       ? { showFunctions: true, displayName: () => options.displayName }
       : {
           // To get exotic component names resolving properly
-          displayName: (el: any): string =>
-            el.type.displayName ||
-            (el.type === Symbol.for('react.profiler') ? 'Profiler' : null) ||
-            getDocgenSection(el.type, 'displayName') ||
-            (el.type.name !== '_default' ? el.type.name : null) ||
-            (typeof el.type === 'function' ? 'No Display Name' : null) ||
-            (isForwardRef(el.type) ? el.type.render.name : null) ||
-            (isMemo(el.type) ? el.type.type.name : null) ||
-            el.type,
+          displayName: (el: any): string => getDocgenSection(el.type, 'displayName'),
         };
 
   const filterDefaults = {
