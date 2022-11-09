@@ -1,5 +1,4 @@
 /* eslint-disable no-await-in-loop */
-import type { AbortController } from 'node-abort-controller';
 import { getJunitXml } from 'junit-xml';
 import { outputFile, readFile, pathExists } from 'fs-extra';
 import { join, resolve } from 'path';

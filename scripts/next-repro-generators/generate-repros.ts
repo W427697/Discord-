@@ -1,13 +1,12 @@
 /* eslint-disable no-console */
 import { join, relative } from 'path';
-import { execaCommand } from '../utils/exec';
 import type { Options as ExecaOptions } from 'execa';
 import pLimit from 'p-limit';
 import prettyTime from 'pretty-hrtime';
 import { copy, emptyDir, ensureDir, move, remove, rename, writeFile } from 'fs-extra';
 import { program } from 'commander';
-import type { AbortController } from 'node-abort-controller';
 import { directory } from 'tempy';
+import { execaCommand } from '../utils/exec';
 
 import { allTemplates as reproTemplates } from '../../code/lib/cli/src/repro-templates';
 import storybookVersions from '../../code/lib/cli/src/versions';
@@ -85,7 +84,11 @@ export const runCommand = async (script: string, options: ExecaOptions) => {
     console.log(`Running command: ${script}`);
   }
 
-  return execaCommand(script, { stdout: shouldDebug ? 'inherit' : 'ignore', shell: true, ...options });
+  return execaCommand(script, {
+    stdout: shouldDebug ? 'inherit' : 'ignore',
+    shell: true,
+    ...options,
+  });
 };
 
 const addDocumentation = async (

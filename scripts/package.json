@@ -140,7 +140,6 @@
     "lodash": "^4.17.21",
     "memoizerific": "^1.11.3",
     "mocha-list-tests": "^1.0.5",
-    "node-abort-controller": "^3.0.1",
     "node-cleanup": "^2.1.2",
     "node-fetch": "^2.6.1",
     "node-gyp": "^8.4.0",
