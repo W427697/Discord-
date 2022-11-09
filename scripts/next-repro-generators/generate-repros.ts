@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 import { join, relative } from 'path';
-import { execaCommand } from 'execa';
+import { execaCommand } from '../utils/exec';
 import type { Options as ExecaOptions } from 'execa';
 import pLimit from 'p-limit';
 import prettyTime from 'pretty-hrtime';
