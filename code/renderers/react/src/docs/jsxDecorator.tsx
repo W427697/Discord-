@@ -72,6 +72,8 @@ export const renderJsx = (code: React.ReactElement, options: JSXOptions) => {
     }
   }
 
+  console.log(renderedJSX);
+
   let displayNameDefaults;
 
   if (typeof options.displayName === 'string') {
