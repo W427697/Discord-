@@ -36,7 +36,7 @@ export class ExternalPreview<TFramework extends Framework = Framework> extends P
 
   private moduleExportsByImportPath: Record<Path, Store_ModuleExports> = {};
 
-  constructor(public projectAnnotations: ProjectAnnotations) {
+  constructor(public projectAnnotations: ProjectAnnotations<TFramework>) {
     super(new Channel());
 
     this.initialize({
