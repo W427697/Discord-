@@ -5513,7 +5513,7 @@ __metadata:
     fs-extra: ^9.0.1
     global: ^4.4.0
     react: ^16.8.0
-    react-dom: 16.14.0
+    react-dom: ^16.14.0
     remark-external-links: ^8.0.0
     remark-slug: ^6.0.0
     ts-dedent: ^2.0.0
@@ -6133,6 +6133,7 @@ __metadata:
     react-colorful: ^5.1.2
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
+    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
   languageName: unknown
   linkType: soft
 
