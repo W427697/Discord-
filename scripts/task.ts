@@ -177,11 +177,18 @@ async function writeJunitXml(
   taskKey: TaskKey,
   templateKey: TemplateKey,
   startTime: Date,
-  err?: Error
+  err?: Error,
+  systemError?: boolean
 ) {
+  let errorData = {};
+  if (err) {
+    // we want to distinguish whether the error comes from the tests we are running or from arbitrary code
+    errorData = systemError ? { systemErr: [err.stack] } : { errors: [err] };
+  }
+
   const name = `${taskKey} - ${templateKey}`;
   const time = (Date.now() - +startTime) / 1000;
-  const testCase = { name, assertions: 1, time, ...(err && { errors: [err] }) };
+  const testCase = { name, assertions: 1, time, ...errorData };
   const suite = { name, timestamp: startTime, time, testCases: [testCase] };
   const junitXml = getJunitXml({ time, name, suites: [suite] });
   const path = getJunitFilename(taskKey);
@@ -282,7 +289,7 @@ async function runTask(task: Task, details: TemplateDetails, optionValues: Passe
     const hasJunitFile = await pathExists(junitFilename);
     // If there's a non-test related error (junit report has not been reported already), we report the general failure in a junit report
     if (junitFilename && !hasJunitFile) {
-      await writeJunitXml(getTaskKey(task), details.key, startTime, err);
+      await writeJunitXml(getTaskKey(task), details.key, startTime, err, true);
     }
 
     throw err;
