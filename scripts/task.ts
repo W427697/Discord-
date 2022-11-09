@@ -183,7 +183,7 @@ async function writeJunitXml(
   let errorData = {};
   if (err) {
     // we want to distinguish whether the error comes from the tests we are running or from arbitrary code
-    errorData = systemError ? { systemErr: [err.stack] } : { errors: [err] };
+    errorData = systemError ? { errors: [{ message: err.stack }] } : { errors: [err] };
   }
 
   const name = `${taskKey} - ${templateKey}`;
