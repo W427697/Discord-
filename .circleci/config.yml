@@ -240,17 +240,17 @@ jobs:
       - run:
           name: Run @storybook/bench on repro
           command: |
-            cd ../sandbox/cra-default-js
+            cd sandbox/cra-default-js
             rm -rf node_modules
             mkdir node_modules
             npx -p @storybook/bench@next sb-bench 'yarn install' --label cra
       - run:
           name: prep artifacts
           when: always
-          command: tar cvzf /tmp/sb-bench.tar.gz ../cra-bench
+          command: tar cvzf /tmp/cra-default-js-bench.tar.gz sandbox/cra-default-js
       - store_artifacts:
-          path: /tmp/sb-bench.tar.gz
-          destination: sb-bench.tar.gz
+          path: /tmp/cra-default-js-bench.tar.gz
+          destination: cra-default-js-bench.tar.gz
   react-vite-bench:
     executor:
       class: large
@@ -275,17 +275,17 @@ jobs:
       - run:
           name: Run @storybook/bench on repro
           command: |
-            cd ../sandboxes/react-vite-default-ts
+            cd sandbox/react-vite-default-ts
             rm -rf node_modules
             mkdir node_modules
             npx -p @storybook/bench@next sb-bench 'yarn install' --label react-vite
       - run:
           name: prep artifacts
           when: always
-          command: tar cvzf /tmp/sb-bench.tar.gz ../react-vite-bench
+          command: tar cvzf /tmp/react-vite-default-ts-bench.tar.gz sandbox/react-vite-default-ts
       - store_artifacts:
-          path: /tmp/sb-bench.tar.gz
-          destination: sb-bench.tar.gz
+          path: /tmp/react-vite-default-ts-bench.tar.gz
+          destination: react-vite-default-ts-bench.tar.gz
   lint:
     executor:
       class: medium
