@@ -1,7 +1,7 @@
 ```js
 // MyComponent.stories.js
 
-import { userEvent, screen } from '@storybook/testing-library';
+import { userEvent, within } from '@storybook/testing-library';
 
 import MyComponent from './MyComponent.svelte';
 
@@ -24,9 +24,15 @@ const Template = (args) => ({
   props: args,
 });
 
+/*
+* See https://storybook.js.org/docs/svelte/writing-stories/play-function#working-with-the-canvas
+* to learn more about using the canvasElement to query the DOM
+*/
 export const ExampleChangeEvent = Template.bind({});
-ExampleChangeEvent.play = async () => {
-  const select = screen.getByRole('listbox');
+ExampleChangeEvent.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  
+  const select = canvas.getByRole('listbox');
 
   await userEvent.selectOptions(select, ['One Item']);
   await sleep(2000);

@@ -3,7 +3,7 @@
 
 import { Meta, Story } from '@storybook/addon-docs';
 
-import { screen, userEvent } from '@storybook/testing-library';
+import { userEvent, within } from '@storybook/testing-library';
 
 import { MyComponent } from './MyComponent';
 
@@ -11,20 +11,17 @@ import { MyComponent } from './MyComponent';
 
 export const Template = (args) => <MyComponent {...args} />;
 
+<!--  
+ See https://storybook.js.org/docs/react/writing-stories/play-function#working-with-the-canvas
+ to learn more about using the canvasElement to query the DOM
+-->
 <Story
   name="ExampleWithRole"
-  play={async () => {
-    // See https://storybook.js.org/docs/react/essentials/actions#automatically-matching-args to learn how to setup logging in the Actions panel
-    await userEvent.click(screen.getByRole('button', { name: / button label/i }));
-  }}>
-  {Template.bind({})}
-</Story>
+  play={ async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
 
-<Story
-  name="ExampleWithText"
-  play={async () => {
-    // The play function interacts with the component and looks for the text
-    await screen.findByText('example string');
+    // See https://storybook.js.org/docs/react/essentials/actions#automatically-matching-args to learn how to setup logging in the Actions panel
+    await userEvent.click(canvas.getByRole('button', { name: / button label/i }));
   }}>
   {Template.bind({})}
 </Story>

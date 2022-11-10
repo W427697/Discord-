@@ -1,10 +1,17 @@
 ```js
-// MyForm.stories.js
+// MyForm.stories.js|jsx
+
 import { expect } from '@storybook/jest';
+
 import { userEvent, waitFor, within } from '@storybook/testing-library';
+
 import { MyForm } from './MyForm'
 
 export default {
+  /* 👇 The title prop is optional.
+   * See https://storybook.js.org/docs/react/configure/overview#configure-story-loading
+   * to learn how to generate automatic titles
+   */
   title: 'MyForm',
   component: MyForm,
   argTypes: {
@@ -12,8 +19,14 @@ export default {
   },
 };
 
-const Template = (args) => <MyForm {...args} />;
+const Template = (args) => (
+  // 👇 Your story template goes here
+);
 
+/*
+* See https://storybook.js.org/docs/react/writing-stories/play-function#working-with-the-canvas
+* to learn more about using the canvasElement to query the DOM
+*/
 const Submitted = Template.bind({});
 Submitted.play = async ({ args, canvasElement }) => {
   const canvas = within(canvasElement);

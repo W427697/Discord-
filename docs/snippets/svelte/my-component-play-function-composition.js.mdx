@@ -1,7 +1,7 @@
 ```js
 // MyComponent.stories.js
 
-import { screen, userEvent } from '@storybook/testing-library';
+import { userEvent, within } from '@storybook/testing-library';
 
 import MyComponent from './MyComponent.svelte';
 
@@ -19,21 +19,31 @@ const Template = (args) => ({
   props: args,
 });
 
+/*
+* See https://storybook.js.org/docs/svelte/writing-stories/play-function#working-with-the-canvas
+* to learn more about using the canvasElement to query the DOM
+*/
 export const FirstStory = Template.bind({});
-FirstStory.play = async () => {
-  userEvent.type(screen.getByTestId('an-element'), 'example-value');
+FirstStory.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+
+  userEvent.type(canvas.getByTestId('an-element'), 'example-value');
 };
 
 export const SecondStory = Template.bind({});
-SecondStory.play = async () => {
-  await userEvent.type(screen.getByTestId('other-element'), 'another value');
+SecondStory.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+
+  await userEvent.type(canvas.getByTestId('other-element'), 'another value');
 };
 
 export const CombinedStories = Template.bind({});
-CombinedStories.play = async () => {
+CombinedStories.play = async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+
   // Runs the FirstStory and Second story play function before running this story's play function
-  await FirstStory.play();
-  await SecondStory.play();
-  await userEvent.type(screen.getByTestId('another-element'), 'random value');
+  await FirstStory.play({ canvasElement });
+  await SecondStory.play({ canvasElement });
+  await userEvent.type(canvas.getByTestId('another-element'), 'random value');
 };
 ```

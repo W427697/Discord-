@@ -1,0 +1,33 @@
+```md
+<!-- MyComponent.stories.mdx -->
+
+import { Meta, Story } from '@storybook/addon-docs';
+
+import { userEvent, within } from '@storybook/testing-library';
+
+import MyComponent from './MyComponent.svelte';
+
+<Meta title="Async Query Methods" component={MyComponent} />
+
+export const Template = (args) => ({
+  Component: MyComponent,
+  props: args,
+});
+
+<!--  
+  See https://storybook.js.org/docs/svelte/writing-stories/play-function#working-with-the-canvas
+  to learn more about using the canvasElement to query the DOM
+-->
+<Story
+  name="AsyncExample"
+  play={ async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    // Other steps
+
+    // Waits for the component to be rendered before querying the element
+    await canvas.findByRole('button', { name: / button label/i }));
+  }}>
+  {Template.bind({})}
+</Story>
+```
