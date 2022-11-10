@@ -48,7 +48,7 @@ export const renderJsx = (code: React.ReactElement, options: JSXOptions) => {
   const Type = renderedJSX.type;
 
   // @ts-expect-error (Converted from ts-ignore)
-  for (let i = 0; i < options.skip; i += 1) {
+  for (let i = 0; i < options?.skip; i += 1) {
     if (typeof renderedJSX === 'undefined') {
       logger.warn('Cannot skip undefined element');
       return null;
@@ -74,7 +74,7 @@ export const renderJsx = (code: React.ReactElement, options: JSXOptions) => {
 
   let displayNameDefaults;
 
-  if (typeof options.displayName === 'string') {
+  if (typeof options?.displayName === 'string') {
     displayNameDefaults = { showFunctions: true, displayName: () => options.displayName };
     /**
      * add `renderedJSX?.type`to handle this case:
