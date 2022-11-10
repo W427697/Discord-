@@ -55,7 +55,7 @@
     "@types/pretty-hrtime": "^1.0.0",
     "chalk": "^4.1.0",
     "esbuild": "^0.14.48",
-    "esbuild-register": "^3.3.3",
+    "esbuild-register": "3.3.x",
     "express": "^4.17.1",
     "file-system-cache": "^2.0.0",
     "find-up": "^5.0.0",
