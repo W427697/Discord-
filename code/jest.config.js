@@ -1,3 +1,3 @@
 module.exports = {
-  projects: ['<rootDir>/lib/*', '<rootDir>/frameworks/*'],
+  projects: ['<rootDir>/lib/*', '<rootDir>/frameworks/*', '<rootDir>/renderers/*'],
 };

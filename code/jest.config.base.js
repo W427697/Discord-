@@ -25,9 +25,9 @@ module.exports = {
   moduleNameMapper: {
     // non-js files
     '\\.(jpg|jpeg|png|apng|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$':
-      '<rootDir>/__mocks__/fileMock.js',
-    '\\.(css|scss|stylesheet)$': '<rootDir>/__mocks__/styleMock.js',
-    '\\.(md)$': '<rootDir>/__mocks__/htmlMock.js',
+      path.resolve('./__mocks__/fileMock.js'),
+    '\\.(css|scss|stylesheet)$': path.resolve('./__mocks__/styleMock.js'),
+    '\\.(md)$': path.resolve('./__mocks__/htmlMock.js'),
 
     // core-js v2 to v3 mapping
     'core-js/modules/es6.(.*)': 'core-js/modules/es.$1',
@@ -44,7 +44,6 @@ module.exports = {
     'core-js/library/fn/object/assign': 'core-js/es/object/assign',
   },
   transform: {
-    '^.+\\.stories\\.[jt]sx?$': '@storybook/addon-storyshots/injectFileName',
     '^.+\\.[jt]sx?$': path.resolve('../scripts/utils/jest-transform-js.js'),
     '^.+\\.mdx$': '@storybook/addon-docs/jest-transform-mdx',
   },
