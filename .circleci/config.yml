@@ -247,7 +247,7 @@ jobs:
       - run:
           name: prep artifacts
           when: always
-          command: tar cvzf /tmp/cra-default-ts-bench.tar.gz sandbox/cra-default-ts
+          command: tar czf /tmp/cra-default-ts-bench.tar.gz sandbox/cra-default-ts
       - store_artifacts:
           path: /tmp/cra-default-ts-bench.tar.gz
           destination: cra-default-ts-bench.tar.gz
@@ -282,7 +282,7 @@ jobs:
       - run:
           name: prep artifacts
           when: always
-          command: tar cvzf /tmp/react-vite-default-ts-bench.tar.gz sandbox/react-vite-default-ts
+          command: tar czf /tmp/react-vite-default-ts-bench.tar.gz sandbox/react-vite-default-ts
       - store_artifacts:
           path: /tmp/react-vite-default-ts-bench.tar.gz
           destination: react-vite-default-ts-bench.tar.gz
