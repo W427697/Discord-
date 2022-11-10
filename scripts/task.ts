@@ -445,6 +445,7 @@ async function run() {
           );
         }
 
+        console.log('exiting 1');
         controllers.forEach((controller) => {
           controller.abort();
         });
@@ -458,11 +459,11 @@ async function run() {
         await new Promise(() => {});
       }
     }
-    controllers.forEach((controller) => {
-      controller.abort();
-    });
   }
-
+  console.log('exiting 0');
+  controllers.forEach((controller) => {
+    controller.abort();
+  });
   return 0;
 }
 

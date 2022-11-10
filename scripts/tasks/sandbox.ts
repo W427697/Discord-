@@ -17,7 +17,7 @@ export const sandbox: Task = {
     }
     const { create, install, addStories } = await import('./sandbox-parts');
 
-    while (true);
+    // while (true);
 
     await create(details, options);
     await install(details, options);
