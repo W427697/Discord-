@@ -240,17 +240,17 @@ jobs:
       - run:
           name: Run @storybook/bench on repro
           command: |
-            cd sandbox/cra-default-js
+            cd sandbox/cra-default-ts
             rm -rf node_modules
             mkdir node_modules
             npx -p @storybook/bench@next sb-bench 'yarn install' --label cra
       - run:
           name: prep artifacts
           when: always
-          command: tar cvzf /tmp/cra-default-js-bench.tar.gz sandbox/cra-default-js
+          command: tar cvzf /tmp/cra-default-ts-bench.tar.gz sandbox/cra-default-ts
       - store_artifacts:
-          path: /tmp/cra-default-js-bench.tar.gz
-          destination: cra-default-js-bench.tar.gz
+          path: /tmp/cra-default-ts-bench.tar.gz
+          destination: cra-default-ts-bench.tar.gz
   react-vite-bench:
     executor:
       class: large
