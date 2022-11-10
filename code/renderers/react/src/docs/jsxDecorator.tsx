@@ -72,13 +72,20 @@ export const renderJsx = (code: React.ReactElement, options: JSXOptions) => {
     }
   }
 
-  console.log(renderedJSX);
-
   let displayNameDefaults;
 
   if (typeof options.displayName === 'string') {
     displayNameDefaults = { showFunctions: true, displayName: () => options.displayName };
-  } else if (getDocgenSection(renderedJSX.type, 'displayName')) {
+    /**
+     * add `renderedJSX?.type`to handle this case:
+     *
+     * https://github.com/zhyd1997/storybook/blob/20863a75ba4026d7eba6b288991a2cf091d4dfff/code/renderers/react/template/stories/errors.stories.tsx#L14
+     *
+     * or it show the error message when run `yarn build-storybook --quiet`:
+     *
+     * Cannot read properties of undefined (reading '__docgenInfo').
+     */
+  } else if (renderedJSX?.type && getDocgenSection(renderedJSX.type, 'displayName')) {
     displayNameDefaults = {
       // To get exotic component names resolving properly
       displayName: (el: any): string => getDocgenSection(el.type, 'displayName'),
