@@ -91,11 +91,7 @@ module.exports = {
     PREVIEW_URL: undefined,
     SNAPSHOT_OS: os.platform() === 'win32' ? 'windows' : 'posix',
   },
-  snapshotSerializers: [
-    '@emotion/jest/serializer',
-    'enzyme-to-json/serializer',
-    'jest-serializer-html',
-  ],
+  snapshotSerializers: ['@emotion/jest/serializer', 'jest-serializer-html'],
   coverageDirectory: 'coverage',
   coverageReporters: ['lcov'],
   testEnvironmentOptions: {
