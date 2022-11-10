@@ -1,3 +1,7 @@
+/**
+ * @jest-environment jsdom
+ */
+
 import global from 'global';
 import { eventToShortcut, keyToSymbol } from '../lib/shortcut';
 

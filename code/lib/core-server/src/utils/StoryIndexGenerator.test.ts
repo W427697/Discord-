@@ -1,6 +1,10 @@
 /* eslint-disable @typescript-eslint/no-shadow */
 /// <reference types="@types/jest" />;
 
+/**
+ * @jest-environment node
+ */
+
 import path from 'path';
 import fs from 'fs-extra';
 import { normalizeStoriesEntry } from '@storybook/core-common';
