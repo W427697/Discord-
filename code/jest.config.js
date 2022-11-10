@@ -1,3 +1,8 @@
 module.exports = {
-  projects: ['<rootDir>/lib/*', '<rootDir>/frameworks/*', '<rootDir>/renderers/*'],
+  projects: [
+    '<rootDir>/addons/*',
+    '<rootDir>/frameworks/*',
+    '<rootDir>/lib/*',
+    '<rootDir>/renderers/*',
+  ],
 };
