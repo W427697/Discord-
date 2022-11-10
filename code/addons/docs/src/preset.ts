@@ -190,7 +190,7 @@ const docs = (docsOptions: DocsOptions) => {
  * something down the dependency chain is using typescript namespaces, which are not supported by rollup-plugin-dts
  */
 const webpackX = webpack as any;
-const storyIndexersX = webpack as any;
+const storyIndexersX = storyIndexers as any;
 const docsX = docs as any;
 
 export { webpackX as webpack, storyIndexersX as storyIndexers, docsX as docs };
