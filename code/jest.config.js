@@ -1,7 +1,7 @@
 module.exports = {
   projects: [
     '<rootDir>/addons/*',
-    '<rootDir>/frameworks/*',
+    '<rootDir>/frameworks/!(angular)*',
     '<rootDir>/lib/*',
     '<rootDir>/renderers/*',
   ],
