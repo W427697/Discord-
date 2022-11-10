@@ -1,8 +1,7 @@
 import { jest, describe, it, expect } from '@jest/globals';
 import { Channel } from '@storybook/channels';
-import { AnyFramework } from '@storybook/csf';
-import { StoryStore } from '@storybook/store';
-import type { StandaloneDocsIndexEntry } from '@storybook/store';
+import type { Framework, Addon_StandaloneDocsIndexEntry } from '@storybook/types';
+import type { StoryStore } from '@storybook/store';
 import { PREPARE_ABORTED } from './Render';
 
 import { StandaloneDocsRender } from './StandaloneDocsRender';
@@ -15,7 +14,7 @@ const entry = {
   importPath: './Introduction.mdx',
   storiesImports: [],
   standalone: true,
-} as StandaloneDocsIndexEntry;
+} as Addon_StandaloneDocsIndexEntry;
 
 const createGate = (): [Promise<any | undefined>, (_?: any) => void] => {
   let openGate = (_?: any) => {};
@@ -37,7 +36,7 @@ describe('StandaloneDocsRender', () => {
 
     const render = new StandaloneDocsRender(
       new Channel(),
-      mockStore as unknown as StoryStore<AnyFramework>,
+      mockStore as unknown as StoryStore<Framework>,
       entry
     );
 

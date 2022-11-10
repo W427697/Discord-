@@ -1,8 +1,5 @@
-import type { AnyFramework, StoryContext as StoryContextBase } from '@storybook/csf';
-import { ComponentConstructorOptions, ComponentEvents } from 'svelte';
-import type { SvelteComponentTyped } from 'svelte';
-
-export type { RenderContext } from '@storybook/core-client';
+import type { StoryContext as StoryContextBase, WebFramework } from '@storybook/types';
+import type { ComponentConstructorOptions, ComponentEvents, SvelteComponentTyped } from 'svelte';
 
 export type StoryContext = StoryContextBase<SvelteFramework>;
 
@@ -35,7 +32,7 @@ type ComponentType<
 };
 
 export interface SvelteFramework<C extends SvelteComponentTyped = SvelteComponentTyped>
-  extends AnyFramework {
+  extends WebFramework {
   component: ComponentType<this['T'] extends Record<string, any> ? this['T'] : any>;
   storyResult: this['T'] extends Record<string, any>
     ? SvelteStoryResult<this['T'], ComponentEvents<C>>

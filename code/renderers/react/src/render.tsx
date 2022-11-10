@@ -1,10 +1,9 @@
 // @ts-expect-error (Converted from ts-ignore)
 import global from 'global';
 
+import type { FC, ReactElement } from 'react';
 import React, {
   Component as ReactComponent,
-  FC,
-  ReactElement,
   StrictMode,
   Fragment,
   useLayoutEffect,
@@ -13,8 +12,7 @@ import React, {
 import ReactDOM, { version as reactDomVersion } from 'react-dom';
 import type { Root as ReactRoot } from 'react-dom/client';
 
-import type { RenderContext } from '@storybook/store';
-import { ArgsStoryFn } from '@storybook/csf';
+import type { Store_RenderContext, ArgsStoryFn } from '@storybook/types';
 
 import type { ReactFramework, StoryContext } from './types';
 
@@ -130,15 +128,15 @@ class ErrorBoundary extends ReactComponent<{
 
 const Wrapper = FRAMEWORK_OPTIONS?.strictMode ? StrictMode : Fragment;
 
-export async function renderToDOM(
+export async function renderToCanvas(
   {
     storyContext,
     unboundStoryFn,
     showMain,
     showException,
     forceRemount,
-  }: RenderContext<ReactFramework>,
-  domElement: Element
+  }: Store_RenderContext<ReactFramework>,
+  canvasElement: ReactFramework['canvasElement']
 ) {
   const Story = unboundStoryFn as FC<StoryContext<ReactFramework>>;
 
@@ -157,10 +155,10 @@ export async function renderToDOM(
   // https://github.com/storybookjs/react-storybook/issues/81
   // (This is not the case when we change args or globals to the story however)
   if (forceRemount) {
-    unmountElement(domElement);
+    unmountElement(canvasElement);
   }
 
-  await renderElement(element, domElement);
+  await renderElement(element, canvasElement);
 
-  return () => unmountElement(domElement);
+  return () => unmountElement(canvasElement);
 }

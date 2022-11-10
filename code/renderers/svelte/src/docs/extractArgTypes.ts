@@ -1,4 +1,4 @@
-import type { SBScalarType, StrictArgTypes } from '@storybook/csf';
+import type { SBScalarType, StrictArgTypes } from '@storybook/types';
 import { logger } from '@storybook/client-logger';
 import type {
   SvelteComponentDoc,

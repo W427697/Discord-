@@ -1,5 +1,5 @@
-import { expect } from '@jest/globals';
-import { AnyFramework, StoryAnnotationsOrFn } from '@storybook/csf';
+import { expect, describe, it } from '@jest/globals';
+import type { Framework, StoryAnnotationsOrFn } from '@storybook/types';
 
 import { normalizeStory } from './normalizeStory';
 
@@ -57,6 +57,7 @@ describe('normalizeStory', () => {
           "moduleExport": [Function],
           "name": "Story Export",
           "parameters": Object {},
+          "tags": Array [],
           "userStoryFn": [Function],
         }
       `);
@@ -125,13 +126,14 @@ describe('normalizeStory', () => {
             "moduleExport": Object {},
             "name": "Story Export",
             "parameters": Object {},
+            "tags": Array [],
           }
         `);
         expect(normalized.moduleExport).toBe(storyObj);
       });
 
       it('full annotations', () => {
-        const storyObj: StoryAnnotationsOrFn<AnyFramework> = {
+        const storyObj: StoryAnnotationsOrFn<Framework> = {
           name: 'story name',
           parameters: { storyParam: 'val' },
           decorators: [() => {}],
@@ -165,13 +167,14 @@ describe('normalizeStory', () => {
             "parameters": Object {
               "storyParam": "val",
             },
+            "tags": Array [],
           }
         `);
         expect(moduleExport).toBe(storyObj);
       });
 
       it('prefers new annotations to legacy, but combines', () => {
-        const storyObj: StoryAnnotationsOrFn<AnyFramework> = {
+        const storyObj: StoryAnnotationsOrFn<Framework> = {
           name: 'story name',
           parameters: { storyParam: 'val' },
           decorators: [() => {}],
@@ -222,6 +225,7 @@ describe('normalizeStory', () => {
               "storyParam": "val",
               "storyParam2": "legacy",
             },
+            "tags": Array [],
           }
         `);
         expect(moduleExport).toBe(storyObj);

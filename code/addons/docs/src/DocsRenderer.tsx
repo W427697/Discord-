@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { AnyFramework, Parameters } from '@storybook/csf';
-import { DocsContextProps, DocsRenderFunction } from '@storybook/preview-web';
+import type { Framework, Parameters } from '@storybook/types';
+import type { DocsContextProps, DocsRenderFunction } from '@storybook/preview-web';
 import { components as htmlComponents } from '@storybook/components';
 import { Docs, CodeOrSourceMdx, AnchorMdx, HeadersMdx } from '@storybook/blocks';
 import { MDXProvider } from '@mdx-js/react';
@@ -14,7 +14,7 @@ export const defaultComponents: Record<string, any> = {
   ...HeadersMdx,
 };
 
-export class DocsRenderer<TFramework extends AnyFramework> {
+export class DocsRenderer<TFramework extends Framework> {
   public render: DocsRenderFunction<TFramework>;
 
   public unmount: (element: HTMLElement) => void;

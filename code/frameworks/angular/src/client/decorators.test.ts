@@ -1,15 +1,17 @@
-import type { StoryContext } from '@storybook/addons';
+import { Addon_StoryContext } from '@storybook/types';
 
 import { Component } from '@angular/core';
 import { moduleMetadata } from './decorators';
+import { AngularFramework } from './types';
 
-const defaultContext: StoryContext = {
+const defaultContext: Addon_StoryContext<AngularFramework> = {
   componentId: 'unspecified',
   kind: 'unspecified',
   title: 'unspecified',
   id: 'unspecified',
   name: 'unspecified',
   story: 'unspecified',
+  tags: [],
   parameters: {},
   initialArgs: {},
   args: {},

@@ -40,10 +40,10 @@ export function mdxPlugin(): Plugin {
       );
       reactRefresh = reactRefreshPlugins.find((p) => p.transform);
     },
+
     async transform(src, id, options) {
       if (!filter(id)) return undefined;
 
-      // @ts-expect-error typescript doesn't think compile exists, but it does.
       const { compile } = await import('@storybook/mdx2-csf');
 
       const mdxCode = String(await compile(src, { skipCsf: !isStorybookMdx(id) }));

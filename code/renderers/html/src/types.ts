@@ -1,7 +1,12 @@
-import type { ArgsStoryFn, StoryContext as DefaultStoryContext } from '@storybook/csf';
-import { parameters } from './config';
+import type {
+  ArgsStoryFn,
+  StoryContext as DefaultStoryContext,
+  WebFramework,
+} from '@storybook/types';
 
-export type { RenderContext } from '@storybook/core-client';
+import type { parameters } from './config';
+
+export type { RenderContext } from '@storybook/types';
 
 export type StoryFnHtmlReturnType = string | Node;
 
@@ -10,10 +15,10 @@ export interface ShowErrorArgs {
   description: string;
 }
 
-export type HtmlFramework = {
+export interface HtmlFramework extends WebFramework {
   component: string | HTMLElement | ArgsStoryFn<HtmlFramework>;
   storyResult: StoryFnHtmlReturnType;
-};
+}
 
 export type StoryContext = DefaultStoryContext<HtmlFramework> & {
   parameters: DefaultStoryContext<HtmlFramework>['parameters'] & typeof parameters;

@@ -1,18 +1,19 @@
 import fse from 'fs-extra';
 import { dedent } from 'ts-dedent';
-import { SupportedRenderers, SupportedFrameworks } from '../project_types';
+import type { SupportedRenderers, SupportedFrameworks } from '../project_types';
 
 interface ConfigureMainOptions {
   addons: string[];
   extensions?: string[];
   commonJs?: boolean;
+  staticDirs?: string[];
   /**
    * Extra values for main.js
    *
    * In order to provide non-serializable data like functions, you can use
    * { value: '%%yourFunctionCall()%%' }
    *
-   * '%% and %%' will be replace.
+   * '%% and %%' will be replaced.
    *
    */
   [key: string]: any;

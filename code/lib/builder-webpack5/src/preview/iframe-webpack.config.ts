@@ -7,8 +7,9 @@ import TerserWebpackPlugin from 'terser-webpack-plugin';
 import VirtualModulePlugin from 'webpack-virtual-modules';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 
-import type { Options, CoreConfig, DocsOptions } from '@storybook/core-common';
+import type { Options, CoreConfig, DocsOptions, PreviewAnnotation } from '@storybook/types';
 import {
+  getRendererName,
   stringifyProcessEnvs,
   handlebars,
   interpolate,
@@ -16,7 +17,6 @@ import {
   readTemplate,
   loadPreviewOrConfigFile,
   isPreservingSymlinks,
-  getFrameworkName,
 } from '@storybook/core-common';
 import { toRequireContextString, toImportFn } from '@storybook/core-webpack';
 import type { BuilderOptions, TypescriptOptions } from '../types';
@@ -65,7 +65,6 @@ export default async (
     serverChannelUrl,
   } = options;
 
-  const frameworkName = await getFrameworkName(options);
   const frameworkOptions = await presets.apply('frameworkOptions');
 
   const isProd = configType === 'PRODUCTION';
@@ -83,7 +82,18 @@ export default async (
   const docsOptions = await presets.apply<DocsOptions>('docs');
 
   const previewAnnotations = [
-    ...(await presets.apply('previewAnnotations', [], options)),
+    ...(await presets.apply<PreviewAnnotation[]>('previewAnnotations', [], options)).map(
+      (entry) => {
+        // If entry is an object, use the absolute import specifier.
+        // This is to maintain back-compat with community addons that bundle other addons
+        // and package managers that "hide" sub dependencies (e.g. pnpm / yarn pnp)
+        // The vite builder uses the bare import specifier.
+        if (typeof entry === 'object') {
+          return entry.absolute;
+        }
+        return entry;
+      }
+    ),
     loadPreviewOrConfigFile(options),
   ].filter(Boolean);
   const entries = (await presets.apply('entries', [], options)) as string[];
@@ -115,31 +125,36 @@ export default async (
     ).replace(/\\/g, '\\\\');
     entries.push(configEntryPath);
   } else {
-    const frameworkInitEntry = path.resolve(
-      path.join(workingDir, 'storybook-init-framework-entry.js')
+    const rendererName = await getRendererName(options);
+
+    const rendererInitEntry = path.resolve(
+      path.join(workingDir, 'storybook-init-renderer-entry.js')
     );
-    virtualModuleMapping[frameworkInitEntry] = `import '${frameworkName}';`;
-    entries.push(frameworkInitEntry);
+    virtualModuleMapping[rendererInitEntry] = `import '${rendererName}';`;
+    entries.push(rendererInitEntry);
 
     const entryTemplate = await readTemplate(
       path.join(__dirname, '..', '..', 'templates', 'virtualModuleEntry.template.js')
     );
 
-    previewAnnotations.forEach((previewAnnotationFilename: any) => {
+    previewAnnotations.forEach((previewAnnotationFilename: string | undefined) => {
+      if (!previewAnnotationFilename) return;
       const clientApi = storybookPaths['@storybook/client-api'];
       const clientLogger = storybookPaths['@storybook/client-logger'];
 
+      // Ensure that relative paths end up mapped to a filename in the cwd, so a later import
+      // of the `previewAnnotationFilename` in the template works.
+      const entryFilename = previewAnnotationFilename.startsWith('.')
+        ? `${previewAnnotationFilename.replace(/(\w)(\/|\\)/g, '$1-')}-generated-config-entry.js`
+        : `${previewAnnotationFilename}-generated-config-entry.js`;
       // NOTE: although this file is also from the `dist/cjs` directory, it is actually a ESM
       // file, see https://github.com/storybookjs/storybook/pull/16727#issuecomment-986485173
-      virtualModuleMapping[`${previewAnnotationFilename}-generated-config-entry.js`] = interpolate(
-        entryTemplate,
-        {
-          previewAnnotationFilename,
-          clientApi,
-          clientLogger,
-        }
-      );
-      entries.push(`${previewAnnotationFilename}-generated-config-entry.js`);
+      virtualModuleMapping[entryFilename] = interpolate(entryTemplate, {
+        previewAnnotationFilename,
+        clientApi,
+        clientLogger,
+      });
+      entries.push(entryFilename);
     });
     if (stories.length > 0) {
       const storyTemplate = await readTemplate(
@@ -150,7 +165,7 @@ export default async (
       // See https://github.com/storybookjs/storybook/issues/14877
       const storiesFilename = path.resolve(path.join(workingDir, `generated-stories-entry.cjs`));
       virtualModuleMapping[storiesFilename] = interpolate(storyTemplate, {
-        frameworkName,
+        rendererName,
       })
         // Make sure we also replace quotes for this one
         .replace("'{{stories}}'", stories.map(toRequireContextString).join(','));

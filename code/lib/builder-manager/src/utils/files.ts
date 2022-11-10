@@ -1,8 +1,8 @@
-import { OutputFile } from 'esbuild';
+import type { OutputFile } from 'esbuild';
 import fs from 'fs-extra';
 import { join } from 'path';
 import slash from 'slash';
-import { Compilation } from '../types';
+import type { Compilation } from '../types';
 
 export async function readOrderedFiles(
   addonsDir: string,

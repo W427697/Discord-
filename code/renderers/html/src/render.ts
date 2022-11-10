@@ -4,8 +4,7 @@ import global from 'global';
 
 import { dedent } from 'ts-dedent';
 import { simulatePageLoad, simulateDOMContentLoaded } from '@storybook/preview-web';
-import type { RenderContext } from '@storybook/store';
-import { ArgsStoryFn } from '@storybook/csf';
+import type { Store_RenderContext, ArgsStoryFn } from '@storybook/types';
 import type { HtmlFramework } from './types';
 
 const { Node } = global;
@@ -42,22 +41,22 @@ export const render: ArgsStoryFn<HtmlFramework> = (args, context) => {
   throw new Error(`Unable to render story ${id}`);
 };
 
-export function renderToDOM(
-  { storyFn, kind, name, showMain, showError, forceRemount }: RenderContext<HtmlFramework>,
-  domElement: Element
+export function renderToCanvas(
+  { storyFn, kind, name, showMain, showError, forceRemount }: Store_RenderContext<HtmlFramework>,
+  canvasElement: HtmlFramework['canvasElement']
 ) {
   const element = storyFn();
   showMain();
   if (typeof element === 'string') {
-    domElement.innerHTML = element;
-    simulatePageLoad(domElement);
+    canvasElement.innerHTML = element;
+    simulatePageLoad(canvasElement);
   } else if (element instanceof Node) {
-    if (domElement.firstChild === element && forceRemount === false) {
+    if (canvasElement.firstChild === element && forceRemount === false) {
       return;
     }
 
-    domElement.innerHTML = '';
-    domElement.appendChild(element);
+    canvasElement.innerHTML = '';
+    canvasElement.appendChild(element);
     simulateDOMContentLoaded();
   } else {
     showError({
