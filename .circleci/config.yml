@@ -176,14 +176,21 @@ commands:
             echo "Canceling workflow as previous step resulted in failure."
             echo "To execute all checks locally, please run yarn ci-tests"
             curl -X POST --header "Content-Type: application/json" "https://circleci.com/api/v2/workflow/${CIRCLE_WORKFLOW_ID}/cancel?circle-token=${WORKFLOW_CANCELER}"
+  set-current-running-template:
+    description: 'Set current running template name in a variable. Useful for reporting.'
+    steps:
+      - run:
+          name: Setting environtment variable for current template
+          command: |
+            echo 'export CURRENT_TEMPLATE=$(yarn get-template << pipeline.parameters.workflow >> ${CIRCLE_JOB})' >> "$BASH_ENV"
   report-workflow-on-failure:
     description: 'Reports failures to discord'
     steps:
-    - discord/status:
-        only_for_branches: chore/failure-reports
-        fail_only: true
-        failure_message: "Hey **${CIRCLE_USERNAME}**, the **$CIRCLE_JOB** job has failed! Pipeline id: << pipeline.id >> , build: **${CIRCLE_BUILD_URL}**"
-        mentions: "@yann"
+      - set-current-running-template
+      - discord/status:
+          only_for_branches: chore/failure-reports
+          fail_only: true
+          failure_message: "Oh no! The **$CIRCLE_JOB** job has failed for ${CURRENT_TEMPLATE}"
 jobs:
   build:
     executor:
