@@ -184,6 +184,7 @@ commands:
           when: always
           command: |
             echo 'export CURRENT_TEMPLATE=$(yarn get-template << pipeline.parameters.workflow >> ${CIRCLE_JOB})' >> "$BASH_ENV"
+            echo ${CURRENT_TEMPLATE}
   list-recent-merges:
     description: 'Lists the merge commits from the past 24 hours'
     steps:
@@ -196,8 +197,7 @@ commands:
   report-workflow-on-failure:
     description: 'Reports failures to discord'
     steps:
-      - checkout_advanced:
-          clone_options: --shallow-since "5 days ago"
+      - run: git fetch --unshallow
       - set-current-running-template
       - list-recent-merges
       - discord/status:
