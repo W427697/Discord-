@@ -196,12 +196,14 @@ commands:
   report-workflow-on-failure:
     description: 'Reports failures to discord'
     steps:
+      - checkout_advanced:
+          clone_options: --shallow-since "5 days ago"
       - set-current-running-template
       - list-recent-merges
       - discord/status:
           only_for_branches: chore/failure-reports
           fail_only: true
-          failure_message: "Oh no! The **$CIRCLE_JOB** job has failed for **${CURRENT_TEMPLATE}**.\n Here are the merges of the last 24h:\n\n${RECENT_MERGES}"
+          failure_message: "Oh no! The **$CIRCLE_JOB** job has failed for **${CURRENT_TEMPLATE}**."
 jobs:
   build:
     executor:
@@ -525,7 +527,6 @@ jobs:
       - run:
           name: Running Chromatic
           command: yarn task --task chromatic --template $(yarn get-template << pipeline.parameters.workflow >> chromatic) --no-link --start-from=never --junit
-      - report-workflow-on-failure
       - store_test_results:
           path: test-results
   e2e-sandboxes:
