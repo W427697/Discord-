@@ -378,7 +378,7 @@ jobs:
             yarn coverage
   chromatic-internal-storybooks:
     executor:
-      class: medium+
+      class: medium
       name: sb_node_16_browsers
     steps:
       # switched this to the CircleCI helper to get the full git history for TurboSnap
