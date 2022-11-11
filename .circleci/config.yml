@@ -181,7 +181,7 @@ commands:
     steps:
     - discord/status:
         only_for_branches: chore/failure-reports
-        fail_only: false
+        fail_only: true
         failure_message: "Hey **${CIRCLE_USERNAME}**, the **$CIRCLE_JOB** job has failed! Pipeline id: << pipeline.id >> , build: **${CIRCLE_BUILD_URL}**"
         mentions: "@yann"
 jobs:
