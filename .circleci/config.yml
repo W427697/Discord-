@@ -180,13 +180,13 @@ commands:
     description: 'Set current running template name in a variable. Useful for reporting.'
     steps:
       - run:
-          name: Setting environtment variable for current template
+          name: Setting environment variable for current template
+          when: always
           command: |
             echo 'export CURRENT_TEMPLATE=$(yarn get-template << pipeline.parameters.workflow >> ${CIRCLE_JOB})' >> "$BASH_ENV"
   report-workflow-on-failure:
     description: 'Reports failures to discord'
     steps:
-      - set-current-running-template
       - discord/status:
           only_for_branches: chore/failure-reports
           fail_only: true
@@ -534,6 +534,7 @@ jobs:
       - run:
           name: Running E2E Tests
           command: yarn task --task e2e-tests --template $(yarn get-template << pipeline.parameters.workflow >> e2e-tests) --no-link --start-from=never --junit
+      - set-current-running-template
       - report-workflow-on-failure
       - store_test_results:
           path: test-results
