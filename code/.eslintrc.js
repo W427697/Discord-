@@ -9,6 +9,13 @@ module.exports = {
     tsconfigRootDir: __dirname,
     project: ['./tsconfig.json'],
   },
+  settings: {
+    'import/resolver': {
+      typescript: {
+        project: ['./tsconfig.json'],
+      },
+    },
+  },
   rules: {
     'eslint-comments/disable-enable-pair': ['error', { allowWholeFile: true }],
     'react-hooks/rules-of-hooks': 'off',

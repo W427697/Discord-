@@ -350,6 +350,7 @@
     "zx": "^7.0.3"
   },
   "devDependencies": {
+    "eslint-import-resolver-typescript": "^3.5.2",
     "expect-type": "^0.14.2"
   },
   "dependenciesMeta": {
