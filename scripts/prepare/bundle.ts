@@ -37,12 +37,14 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
       entries.map(async (file: string) => {
         console.log(`skipping generating types for ${file}`);
         const { name: entryName, dir } = path.parse(file);
-  
+
         const pathName = join(process.cwd(), dir.replace('./src', 'dist'), `${entryName}.d.ts`);
         const srcName = join(process.cwd(), file);
-  
-        const rel = relative(dirname(pathName), dirname(srcName)).split(path.sep).join(path.posix.sep);
-  
+
+        const rel = relative(dirname(pathName), dirname(srcName))
+          .split(path.sep)
+          .join(path.posix.sep);
+
         await fs.ensureFile(pathName);
         await fs.writeFile(
           pathName,
@@ -54,7 +56,7 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
       })
     );
   }
-  
+
   const tsConfigPath = join(cwd, 'tsconfig.json');
   const tsConfigExists = await fs.pathExists(tsConfigPath);
   await Promise.all([

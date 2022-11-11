@@ -40,8 +40,21 @@
       "import": "./dist/preset.mjs",
       "types": "./dist/preset.d.ts"
     },
+    "./dist/preview": {
+      "require": "./dist/preview.js",
+      "import": "./dist/preview.mjs",
+      "types": "./dist/preview.d.ts"
+    },
+    "./dist/preset": {
+      "require": "./dist/preset.js",
+      "import": "./dist/preset.mjs",
+      "types": "./dist/preset.d.ts"
+    },
     "./svelte/HOC.svelte": "./svelte/HOC.svelte",
+    "./ember": "./ember/index.js",
     "./ember/index.js": "./ember/index.js",
+    "./angular": "./angular/index.js",
+    "./angular/index.js": "./angular/index.js",
     "./web-components/index.js": "./web-components/index.js",
     "./jest-transform-mdx.js": "./jest-transform-mdx.js",
     "./package.json": "./package.json"
