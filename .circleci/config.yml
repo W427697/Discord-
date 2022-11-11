@@ -199,7 +199,7 @@ commands:
       - discord/status:
           only_for_branches: chore/failure-reports
           fail_only: true
-          failure_message: "Oh no! The **$CIRCLE_JOB** job has failed for **<< parameters.template >>**."
+          failure_message: 'Oh no! The **$CIRCLE_JOB** job has failed for **<< parameters.template >>**.\n\n$(git log --merges --oneline --since="24 hours ago" --pretty=format:"%h %<(12)%ar | %s [%an]" | grep "Merge pull request")'
 jobs:
   build:
     executor:
