@@ -1,5 +1,5 @@
 /* eslint-disable no-param-reassign */
-import path, { join, posix } from 'path';
+import path, { posix } from 'path';
 import fs from 'fs';
 import fse from 'fs-extra';
 import chalk from 'chalk';
