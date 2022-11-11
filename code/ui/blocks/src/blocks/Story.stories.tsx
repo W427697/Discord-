@@ -1,3 +1,4 @@
+/// <reference types="vite/client" />
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 
@@ -27,9 +28,11 @@ export const OfWithMeta: Story = {
   },
 };
 
+const isBlocksOnly = import.meta.env.STORYBOOK_BLOCKS_ONLY === 'true';
+
 export const Id: Story = {
   args: {
-    id: `${process.env.BLOCKS_ONLY ? '' : 'storybook-blocks-'}controls-boolean--false`,
+    id: `${isBlocksOnly ? '' : 'storybook-blocks-'}controls-boolean--false`,
   },
 };
 
