@@ -18,4 +18,9 @@
     "editor.defaultFormatter": "dbaeumer.vscode-eslint",
     "editor.formatOnSave": true
   },
+  "workbench.colorCustomizations": {
+    "activityBar.background": "#263108",
+    "titleBar.activeBackground": "#35450C",
+    "titleBar.activeForeground": "#F8FCED"
+  },
 }

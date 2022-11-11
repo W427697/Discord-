@@ -8,7 +8,7 @@ const allowedEnvVariables = [
   'STORYBOOK',
   // Vite `import.meta.env` default variables
   // @see https://github.com/vitejs/vite/blob/6b8d94dca2a1a8b4952e3e3fcd0aed1aedb94215/packages/vite/types/importMeta.d.ts#L68-L75
-  'BASE_URL',
+  'BASE_URLS',
   'MODE',
   'DEV',
   'PROD',
