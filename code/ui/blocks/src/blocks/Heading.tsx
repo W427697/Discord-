@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 import React from 'react';
-import { H2 } from '@storybook/components'; // eslint-disable-line import/no-extraneous-dependencies
+import { H2 } from '@storybook/components';
 import { HeaderMdx } from './mdx';
 
 export interface HeadingProps {

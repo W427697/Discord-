@@ -1,7 +1,7 @@
 import type { FC, SyntheticEvent } from 'react';
 import React, { useContext } from 'react';
 import { NAVIGATE_URL } from '@storybook/core-events';
-import { Code, components } from '@storybook/components'; // eslint-disable-line import/no-extraneous-dependencies
+import { Code, components } from '@storybook/components';
 import global from 'global';
 import { styled } from '@storybook/theming';
 import { Source } from '../components';

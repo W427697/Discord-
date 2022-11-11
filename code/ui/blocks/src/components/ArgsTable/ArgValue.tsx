@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import memoize from 'memoizerific';
 import uniq from 'lodash/uniq';
 import { styled } from '@storybook/theming';
-import { WithTooltipPure, Icons, SyntaxHighlighter, codeCommon } from '@storybook/components'; // eslint-disable-line import/no-extraneous-dependencies
+import { WithTooltipPure, Icons, SyntaxHighlighter, codeCommon } from '@storybook/components';
 import type { PropSummaryValue } from './types';
 
 interface ArgValueProps {

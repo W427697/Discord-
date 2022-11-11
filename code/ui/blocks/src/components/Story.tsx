@@ -2,7 +2,7 @@ import global from 'global';
 import type { ElementType, FunctionComponent } from 'react';
 import React, { createElement, Fragment } from 'react';
 import type { Parameters } from '@storybook/types';
-import { Loader, getStoryHref } from '@storybook/components'; // eslint-disable-line import/no-extraneous-dependencies
+import { Loader, getStoryHref } from '@storybook/components';
 // eslint-disable-next-line import/no-cycle
 import { EmptyBlock } from '.';
 import { IFrame } from './IFrame';

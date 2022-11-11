@@ -6092,6 +6092,8 @@ __metadata:
   resolution: "@storybook/blocks@workspace:ui/blocks"
   dependencies:
     "@storybook/addon-actions": 7.0.0-alpha.48
+    "@storybook/addons": 7.0.0-alpha.48
+    "@storybook/api": 7.0.0-alpha.48
     "@storybook/channels": 7.0.0-alpha.48
     "@storybook/client-logger": 7.0.0-alpha.48
     "@storybook/components": 7.0.0-alpha.48
@@ -6112,6 +6114,8 @@ __metadata:
     memoizerific: ^1.11.3
     polished: ^4.2.2
     react-colorful: ^5.1.2
+    ts-dedent: ^2.0.0
+    util-deprecate: ^1.0.2
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
