@@ -79,23 +79,16 @@ export const IframeWithHeight: Story = {
   },
 };
 
-// export const WithPlay: Story = {
-//   args: {
-//     of: BooleanStories.Undefined,
-//     play: () => {
-//       throw new Error('This should not play automatically');
-//     },
-//     parameters: { docs: { autoplay: true } },
-//   },
-// };
-// export const WithPlayDisabled: Story = {
-//   args: {
-//     of: BooleanStories.Undefined,
-//     play: () => {
-//       throw new Error('This should not play automatically');
-//     },
-//   },
-// };
+export const WithDefaultInteractions: Story = {
+  args: {
+    of: BooleanStories.Toggling,
+  },
+};
+export const WithInteractionsAutoplayInStory: Story = {
+  args: {
+    of: BooleanStories.TogglingInDocs,
+  },
+};
 
 // TODO: types suggest that <Story /> can take ProjectAnnotations, but it doesn't seem to do anything with them
 // Such as parameters, decorators, etc.

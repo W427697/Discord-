@@ -56,6 +56,9 @@ const config: StorybookConfig = {
   core: {
     disableTelemetry: true,
   },
+  features: {
+    interactionsDebugger: true,
+  },
   viteFinal: (vite, { configType }) => ({
     ...vite,
     plugins: [
