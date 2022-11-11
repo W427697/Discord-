@@ -1,3 +1,6 @@
+// TODO: figure out if any of this is required
+// possibly make it not required, framework should never be imported directly, except for types in config files
+
 export { createChannel as createPostMessageChannel } from '@storybook/channel-postmessage';
 export { createChannel as createWebSocketChannel } from '@storybook/channel-websocket';
 

@@ -7295,7 +7295,6 @@ __metadata:
     "@storybook/builder-vite": 7.0.0-alpha.48
     "@storybook/channel-postmessage": 7.0.0-alpha.48
     "@storybook/channel-websocket": 7.0.0-alpha.48
-    "@storybook/client-api": 7.0.0-alpha.48
     "@storybook/preview-api": 7.0.0-alpha.48
     "@storybook/react": 7.0.0-alpha.48
     "@types/node": ^16.0.0
@@ -7753,7 +7752,6 @@ __metadata:
     "@storybook/builder-vite": 7.0.0-alpha.48
     "@storybook/channel-postmessage": 7.0.0-alpha.48
     "@storybook/channel-websocket": 7.0.0-alpha.48
-    "@storybook/client-api": 7.0.0-alpha.48
     "@storybook/node-logger": 7.0.0-alpha.48
     "@storybook/preview-api": 7.0.0-alpha.48
     "@storybook/svelte": 7.0.0-alpha.48
@@ -7912,7 +7910,6 @@ __metadata:
     "@storybook/builder-vite": 7.0.0-alpha.48
     "@storybook/channel-postmessage": 7.0.0-alpha.48
     "@storybook/channel-websocket": 7.0.0-alpha.48
-    "@storybook/client-api": 7.0.0-alpha.48
     "@storybook/core-common": 7.0.0-alpha.48
     "@storybook/core-server": 7.0.0-alpha.48
     "@storybook/preview-api": 7.0.0-alpha.48
@@ -7960,7 +7957,6 @@ __metadata:
     "@storybook/builder-vite": 7.0.0-alpha.48
     "@storybook/channel-postmessage": 7.0.0-alpha.48
     "@storybook/channel-websocket": 7.0.0-alpha.48
-    "@storybook/client-api": 7.0.0-alpha.48
     "@storybook/core-server": 7.0.0-alpha.48
     "@storybook/preview-api": 7.0.0-alpha.48
     "@storybook/vue3": 7.0.0-alpha.48
@@ -8060,7 +8056,6 @@ __metadata:
     "@storybook/builder-vite": 7.0.0-alpha.48
     "@storybook/channel-postmessage": 7.0.0-alpha.48
     "@storybook/channel-websocket": 7.0.0-alpha.48
-    "@storybook/client-api": 7.0.0-alpha.48
     "@storybook/core-server": 7.0.0-alpha.48
     "@storybook/node-logger": 7.0.0-alpha.48
     "@storybook/preview-api": 7.0.0-alpha.48
