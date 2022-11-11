@@ -1,5 +1,5 @@
 import { dequal as deepEqual } from 'dequal';
-import type { Framework, Args, ArgTypes, InputType, SBType, StoryContext } from '@storybook/types';
+import type { Renderer, Args, ArgTypes, InputType, SBType, StoryContext } from '@storybook/types';
 import { once } from '@storybook/client-logger';
 import isPlainObject from 'lodash/isPlainObject';
 import { dedent } from 'ts-dedent';
@@ -145,10 +145,7 @@ export const deepDiff = (value: any, update: any): any => {
 };
 
 export const NO_TARGET_NAME = '';
-export function groupArgsByTarget<TArgs = Args>({
-  args,
-  argTypes,
-}: StoryContext<Framework, TArgs>) {
+export function groupArgsByTarget<TArgs = Args>({ args, argTypes }: StoryContext<Renderer, TArgs>) {
   const groupedArgs: Record<string, Partial<TArgs>> = {};
   (Object.entries(args) as [keyof TArgs, any][]).forEach(([name, value]) => {
     const { target = NO_TARGET_NAME } = (argTypes[name] || {}) as { target?: string };
@@ -159,6 +156,6 @@ export function groupArgsByTarget<TArgs = Args>({
   return groupedArgs;
 }
 
-export function noTargetArgs<TArgs = Args>(context: StoryContext<Framework, TArgs>) {
+export function noTargetArgs<TArgs = Args>(context: StoryContext<Renderer, TArgs>) {
   return groupArgsByTarget(context)[NO_TARGET_NAME];
 }

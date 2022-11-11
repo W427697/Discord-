@@ -1,5 +1,5 @@
 import type {
-  Framework,
+  Renderer,
   ComponentTitle,
   Parameters,
   Path,
@@ -39,19 +39,19 @@ const checkDisallowedParameters = (parameters?: Parameters) => {
 };
 
 // Given the raw exports of a CSF file, check and normalize it.
-export function processCSFFile<TFramework extends Framework>(
+export function processCSFFile<TRenderer extends Renderer>(
   moduleExports: Store_ModuleExports,
   importPath: Path,
   title: ComponentTitle
-): Store_CSFFile<TFramework> {
+): Store_CSFFile<TRenderer> {
   // eslint-disable-next-line @typescript-eslint/naming-convention
   const { default: defaultExport, __namedExportsOrder, ...namedExports } = moduleExports;
 
-  const meta: Store_NormalizedComponentAnnotations<TFramework> =
-    normalizeComponentAnnotations<TFramework>(defaultExport, title, importPath);
+  const meta: Store_NormalizedComponentAnnotations<TRenderer> =
+    normalizeComponentAnnotations<TRenderer>(defaultExport, title, importPath);
   checkDisallowedParameters(meta.parameters);
 
-  const csfFile: Store_CSFFile<TFramework> = { meta, stories: {} };
+  const csfFile: Store_CSFFile<TRenderer> = { meta, stories: {} };
 
   Object.keys(namedExports).forEach((key) => {
     if (isExportStory(key, meta)) {

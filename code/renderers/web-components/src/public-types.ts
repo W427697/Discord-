@@ -4,28 +4,28 @@ import type {
   ComponentAnnotations,
   StoryAnnotations,
 } from '@storybook/types';
-import type { WebComponentsFramework } from './types';
+import type { WebComponentsRenderer } from './types';
 
 /**
  * Metadata to configure the stories for a component.
  *
  * @see [Default export](https://storybook.js.org/docs/formats/component-story-format/#default-export)
  */
-export type Meta<TArgs = Args> = ComponentAnnotations<WebComponentsFramework, TArgs>;
+export type Meta<TArgs = Args> = ComponentAnnotations<WebComponentsRenderer, TArgs>;
 
 /**
  * Story function that represents a CSFv2 component example.
  *
  * @see [Named Story exports](https://storybook.js.org/docs/formats/component-story-format/#named-story-exports)
  */
-export type StoryFn<TArgs = Args> = AnnotatedStoryFn<WebComponentsFramework, TArgs>;
+export type StoryFn<TArgs = Args> = AnnotatedStoryFn<WebComponentsRenderer, TArgs>;
 
 /**
  * Story function that represents a CSFv3 component example.
  *
  * @see [Named Story exports](https://storybook.js.org/docs/formats/component-story-format/#named-story-exports)
  */
-export type StoryObj<TArgs = Args> = StoryAnnotations<WebComponentsFramework, TArgs>;
+export type StoryObj<TArgs = Args> = StoryAnnotations<WebComponentsRenderer, TArgs>;
 
 /**
  * @deprecated Use `StoryFn` instead.
