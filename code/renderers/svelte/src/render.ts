@@ -2,6 +2,7 @@
 import type { Store_RenderContext, ArgsStoryFn } from '@storybook/types';
 import type { SvelteComponentTyped } from 'svelte';
 
+// eslint-disable-next-line import/no-extraneous-dependencies
 import PreviewRender from '@storybook/svelte/templates/PreviewRender.svelte';
 
 import type { SvelteRenderer } from './types';
