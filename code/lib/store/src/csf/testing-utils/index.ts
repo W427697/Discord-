@@ -1,3 +1,4 @@
+import type { AnnotatedStoryFn } from '@storybook/csf';
 import { isExportStory } from '@storybook/csf';
 import type {
   Renderer,
@@ -9,7 +10,7 @@ import type {
   Store_ComposeStory,
   Store_CSFExports,
   StoryContext,
-  StoryFn,
+  Parameters,
 } from '@storybook/types';
 
 import { HooksContext } from '@storybook/addons';
@@ -35,7 +36,7 @@ export function composeStory<TRenderer extends Renderer = Renderer, TArgs extend
   projectAnnotations: ProjectAnnotations<TRenderer> = GLOBAL_STORYBOOK_PROJECT_ANNOTATIONS,
   defaultConfig: ProjectAnnotations<TRenderer> = {},
   exportsName?: string
-): StoryFn<TRenderer, TArgs> {
+) {
   if (storyAnnotations === undefined) {
     throw new Error('Expected a story but received undefined.');
   }
@@ -86,7 +87,7 @@ export function composeStory<TRenderer extends Renderer = Renderer, TArgs extend
   composedStory.storyName = storyName;
   composedStory.args = story.initialArgs;
   composedStory.play = story.playFunction as Store_ComposedStoryPlayFn;
-  composedStory.parameters = story.parameters;
+  composedStory.parameters = story.parameters as Parameters;
 
   return composedStory;
 }
