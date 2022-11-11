@@ -51,6 +51,7 @@ executors:
 orbs:
   git-shallow-clone: guitarrapc/git-shallow-clone@2.4.0
   browser-tools: circleci/browser-tools@1.4.0
+  discord: antonioned/discord@0.1.0
 
 commands:
   # Forked off from https://github.com/guitarrapc/git-shallow-clone-orb
@@ -175,6 +176,14 @@ commands:
             echo "Canceling workflow as previous step resulted in failure."
             echo "To execute all checks locally, please run yarn ci-tests"
             curl -X POST --header "Content-Type: application/json" "https://circleci.com/api/v2/workflow/${CIRCLE_WORKFLOW_ID}/cancel?circle-token=${WORKFLOW_CANCELER}"
+  report-workflow-on-failure:
+    description: 'Reports failures to discord'
+    steps:
+    - discord/status:
+        fail_only: false
+        failure_message: "Hey **${CIRCLE_USERNAME}**, the **$CIRCLE_JOB** job has failed! Pipeline id: << pipeline.id >> , build: **${CIRCLE_BUILD_URL}**"
+        webhook: "${DISCORD_STATUS_WEBHOOK}"
+        mentions: "@yann"
 jobs:
   build:
     executor:
@@ -411,6 +420,7 @@ jobs:
       - run:
           name: Creating Sandboxes
           command: yarn task --task sandbox --template $(yarn get-template << pipeline.parameters.workflow >> create) --no-link --start-from=never --junit
+      - report-workflow-on-failure
       - persist_to_workspace:
           root: .
           paths:
@@ -434,6 +444,7 @@ jobs:
       - run:
           name: Smoke Testing Sandboxes
           command: yarn task --task smoke-test --template $(yarn get-template << pipeline.parameters.workflow >> smoke-test) --no-link --start-from=never --junit
+      - report-workflow-on-failure
       - store_test_results:
           path: test-results
   build-sandboxes:
@@ -453,6 +464,7 @@ jobs:
       - run:
           name: Building Sandboxes
           command: yarn task --task build --template $(yarn get-template << pipeline.parameters.workflow >> build) --no-link --start-from=never --junit
+      - report-workflow-on-failure
       - store_test_results:
           path: test-results
       - persist_to_workspace:
@@ -476,6 +488,7 @@ jobs:
       - run:
           name: Running Test Runner
           command: yarn task --task test-runner --template $(yarn get-template << pipeline.parameters.workflow >> test-runner) --no-link --start-from=never --junit
+      - report-workflow-on-failure
       - store_test_results:
           path: test-results
   chromatic-sandboxes:
@@ -494,6 +507,7 @@ jobs:
       - run:
           name: Running Chromatic
           command: yarn task --task chromatic --template $(yarn get-template << pipeline.parameters.workflow >> chromatic) --no-link --start-from=never --junit
+      - report-workflow-on-failure
       - store_test_results:
           path: test-results
   e2e-sandboxes:
@@ -513,6 +527,7 @@ jobs:
       - run:
           name: Running E2E Tests
           command: yarn task --task e2e-tests --template $(yarn get-template << pipeline.parameters.workflow >> e2e-tests) --no-link --start-from=never --junit
+      - report-workflow-on-failure
       - store_test_results:
           path: test-results
       - store_artifacts: # this is where playwright puts more complex stuff
