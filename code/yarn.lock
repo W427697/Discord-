@@ -5501,23 +5501,15 @@ __metadata:
     "@babel/plugin-transform-react-jsx": ^7.12.12
     "@jest/transform": ^26.6.2
     "@mdx-js/react": ^2.1.5
-    "@storybook/addons": 7.0.0-alpha.48
-    "@storybook/api": 7.0.0-alpha.48
     "@storybook/blocks": 7.0.0-alpha.48
     "@storybook/components": 7.0.0-alpha.48
-    "@storybook/core-common": 7.0.0-alpha.48
-    "@storybook/core-events": 7.0.0-alpha.48
     "@storybook/csf-plugin": 7.0.0-alpha.48
     "@storybook/csf-tools": 7.0.0-alpha.48
-    "@storybook/docs-tools": 7.0.0-alpha.48
     "@storybook/mdx2-csf": next
     "@storybook/node-logger": 7.0.0-alpha.48
     "@storybook/postinstall": 7.0.0-alpha.48
     "@storybook/preview-web": 7.0.0-alpha.48
-    "@storybook/store": 7.0.0-alpha.48
-    "@storybook/theming": 7.0.0-alpha.48
     "@storybook/types": 7.0.0-alpha.48
-    dequal: ^2.0.2
     fs-extra: ^9.0.1
     global: ^4.4.0
     remark-external-links: ^8.0.0
@@ -5559,31 +5551,6 @@ __metadata:
     typescript: ~4.6.3
   peerDependencies:
     "@babel/core": ^7.9.6
-  peerDependenciesMeta:
-    "@storybook/angular":
-      optional: true
-    "@storybook/html":
-      optional: true
-    "@storybook/vue":
-      optional: true
-    "@storybook/vue3":
-      optional: true
-    "@storybook/web-components":
-      optional: true
-    lit:
-      optional: true
-    lit-html:
-      optional: true
-    react:
-      optional: true
-    react-dom:
-      optional: true
-    svelte:
-      optional: true
-    sveltedoc-parser:
-      optional: true
-    vue:
-      optional: true
   languageName: unknown
   linkType: soft
 
@@ -6150,6 +6117,7 @@ __metadata:
     util-deprecate: ^1.0.2
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
+    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
   languageName: unknown
   linkType: soft
 
