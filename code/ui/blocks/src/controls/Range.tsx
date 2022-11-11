@@ -2,7 +2,7 @@ import type { FC, ChangeEvent } from 'react';
 import React, { useMemo } from 'react';
 
 import { styled } from '@storybook/theming';
-import { lighten, darken, rgba } from 'polished'; // eslint-disable-line import/no-extraneous-dependencies
+import { lighten, darken, rgba } from 'polished';
 import { getControlId } from './helpers';
 
 import type { ControlProps, NumberValue, RangeConfig } from './types';
