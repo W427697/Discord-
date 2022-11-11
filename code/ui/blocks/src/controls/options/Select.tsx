@@ -3,7 +3,7 @@ import React from 'react';
 import { styled } from '@storybook/theming';
 import type { CSSObject } from '@storybook/theming';
 import { logger } from '@storybook/client-logger';
-import { Icons } from '@storybook/components'; // eslint-disable-line import/no-extraneous-dependencies
+import { Icons } from '@storybook/components';
 
 import type { ControlProps, OptionsSelection, NormalizedOptionsConfig } from '../types';
 

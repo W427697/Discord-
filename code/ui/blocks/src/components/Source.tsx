@@ -1,7 +1,7 @@
 import type { ComponentProps, FunctionComponent } from 'react';
 import React from 'react';
 import { styled, ThemeProvider, convert, themes } from '@storybook/theming';
-import { SyntaxHighlighter } from '@storybook/components'; // eslint-disable-line import/no-extraneous-dependencies
+import { SyntaxHighlighter } from '@storybook/components';
 
 import { EmptyBlock } from './EmptyBlock';
 

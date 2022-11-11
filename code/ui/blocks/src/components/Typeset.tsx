@@ -1,8 +1,8 @@
 import type { FC } from 'react';
 import React from 'react';
-import { transparentize } from 'polished'; // eslint-disable-line import/no-extraneous-dependencies
+import { transparentize } from 'polished';
 import { styled } from '@storybook/theming';
-import { withReset } from '@storybook/components'; // eslint-disable-line import/no-extraneous-dependencies
+import { withReset } from '@storybook/components';
 import { getBlockBackgroundStyle } from './BlockBackgroundStyles';
 
 const Label = styled.div(({ theme }) => ({
