@@ -55,7 +55,6 @@
     "@storybook/builder-vite": "7.0.0-alpha.48",
     "@storybook/channel-postmessage": "7.0.0-alpha.48",
     "@storybook/channel-websocket": "7.0.0-alpha.48",
-    "@storybook/client-api": "7.0.0-alpha.48",
     "@storybook/core-server": "7.0.0-alpha.48",
     "@storybook/preview-api": "7.0.0-alpha.48",
     "@storybook/vue3": "7.0.0-alpha.48",

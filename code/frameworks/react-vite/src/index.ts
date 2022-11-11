@@ -1,9 +1,3 @@
-// TODO: should move this to preview-api, I guess
-// exports for builder-vite
-import * as clientApi from '@storybook/client-api';
-
-export { clientApi };
-
 export { createChannel as createPostMessageChannel } from '@storybook/channel-postmessage';
 export { createChannel as createWebSocketChannel } from '@storybook/channel-websocket';
 
