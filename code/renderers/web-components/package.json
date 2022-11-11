@@ -59,8 +59,6 @@
     "@storybook/core-client": "7.0.0-alpha.48",
     "@storybook/docs-tools": "7.0.0-alpha.48",
     "@storybook/preview-api": "7.0.0-alpha.48",
-    "@storybook/preview-web": "7.0.0-alpha.48",
-    "@storybook/store": "7.0.0-alpha.48",
     "@storybook/types": "7.0.0-alpha.48",
     "global": "^4.4.0",
     "react": "16.14.0",

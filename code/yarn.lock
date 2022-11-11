@@ -5481,7 +5481,6 @@ __metadata:
     "@storybook/core-common": 7.0.0-alpha.48
     "@storybook/node-logger": 7.0.0-alpha.48
     "@storybook/preview-api": 7.0.0-alpha.48
-    "@storybook/store": 7.0.0-alpha.48
     "@storybook/theming": 7.0.0-alpha.48
     "@storybook/types": 7.0.0-alpha.48
     lodash: ^4.17.21
@@ -5513,8 +5512,6 @@ __metadata:
     "@storybook/node-logger": 7.0.0-alpha.48
     "@storybook/postinstall": 7.0.0-alpha.48
     "@storybook/preview-api": 7.0.0-alpha.48
-    "@storybook/preview-web": 7.0.0-alpha.48
-    "@storybook/store": 7.0.0-alpha.48
     "@storybook/theming": 7.0.0-alpha.48
     "@storybook/types": 7.0.0-alpha.48
     dequal: ^2.0.2
@@ -5985,7 +5982,6 @@ __metadata:
     "@storybook/docs-tools": 7.0.0-alpha.48
     "@storybook/node-logger": 7.0.0-alpha.48
     "@storybook/preview-api": 7.0.0-alpha.48
-    "@storybook/store": 7.0.0-alpha.48
     "@storybook/types": 7.0.0-alpha.48
     "@types/node": ^16.0.0
     "@types/react": ^16.14.23
@@ -6121,8 +6117,6 @@ __metadata:
     "@storybook/csf": next
     "@storybook/docs-tools": 7.0.0-alpha.48
     "@storybook/preview-api": 7.0.0-alpha.48
-    "@storybook/preview-web": 7.0.0-alpha.48
-    "@storybook/store": 7.0.0-alpha.48
     "@storybook/theming": 7.0.0-alpha.48
     "@storybook/types": 7.0.0-alpha.48
     "@types/color-convert": ^2.0.0
@@ -6177,7 +6171,7 @@ __metadata:
     "@storybook/mdx2-csf": next
     "@storybook/node-logger": 7.0.0-alpha.48
     "@storybook/preview": 7.0.0-alpha.48
-    "@storybook/preview-web": 7.0.0-alpha.48
+    "@storybook/preview-api": 7.0.0-alpha.48
     "@storybook/source-loader": 7.0.0-alpha.48
     "@storybook/types": 7.0.0-alpha.48
     "@types/express": ^4.17.13
@@ -6215,7 +6209,6 @@ __metadata:
     "@storybook/node-logger": 7.0.0-alpha.48
     "@storybook/preview": 7.0.0-alpha.48
     "@storybook/preview-api": 7.0.0-alpha.48
-    "@storybook/preview-web": 7.0.0-alpha.48
     "@storybook/router": 7.0.0-alpha.48
     "@storybook/store": 7.0.0-alpha.48
     "@storybook/theming": 7.0.0-alpha.48
@@ -6677,7 +6670,6 @@ __metadata:
     "@babel/core": ^7.12.10
     "@storybook/core-common": 7.0.0-alpha.48
     "@storybook/preview-api": 7.0.0-alpha.48
-    "@storybook/store": 7.0.0-alpha.48
     "@storybook/types": 7.0.0-alpha.48
     doctrine: ^3.0.0
     jest-specific-snapshot: ^4.0.0
@@ -6695,7 +6687,6 @@ __metadata:
     "@storybook/core-client": 7.0.0-alpha.48
     "@storybook/core-common": 7.0.0-alpha.48
     "@storybook/docs-tools": 7.0.0-alpha.48
-    "@storybook/store": 7.0.0-alpha.48
     "@storybook/types": 7.0.0-alpha.48
     ember-source: ~3.28.1
     global: ^4.4.0
@@ -6757,8 +6748,6 @@ __metadata:
     "@storybook/core-client": 7.0.0-alpha.48
     "@storybook/docs-tools": 7.0.0-alpha.48
     "@storybook/preview-api": 7.0.0-alpha.48
-    "@storybook/preview-web": 7.0.0-alpha.48
-    "@storybook/store": 7.0.0-alpha.48
     "@storybook/types": 7.0.0-alpha.48
     global: ^4.4.0
     react: 16.14.0
@@ -7015,7 +7004,6 @@ __metadata:
     "@storybook/addons": 7.0.0-alpha.48
     "@storybook/core-client": 7.0.0-alpha.48
     "@storybook/preview-api": 7.0.0-alpha.48
-    "@storybook/store": 7.0.0-alpha.48
     "@storybook/types": 7.0.0-alpha.48
     global: ^4.4.0
     preact: ^10.5.13
@@ -7237,7 +7225,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/preview-web@7.0.0-alpha.48, @storybook/preview-web@workspace:*, @storybook/preview-web@workspace:lib/preview-web":
+"@storybook/preview-web@workspace:*, @storybook/preview-web@workspace:lib/preview-web":
   version: 0.0.0-use.local
   resolution: "@storybook/preview-web@workspace:lib/preview-web"
   dependencies:
@@ -7254,12 +7242,10 @@ __metadata:
     "@storybook/channel-websocket": 7.0.0-alpha.48
     "@storybook/channels": 7.0.0-alpha.48
     "@storybook/client-logger": 7.0.0-alpha.48
-    "@storybook/core-client": 7.0.0-alpha.48
     "@storybook/core-common": 7.0.0-alpha.48
     "@storybook/core-events": 7.0.0-alpha.48
     "@storybook/csf": next
     "@storybook/preview-api": 7.0.0-alpha.48
-    "@storybook/preview-web": 7.0.0-alpha.48
     "@storybook/router": 7.0.0-alpha.48
     "@storybook/theming": 7.0.0-alpha.48
     "@storybook/types": 7.0.0-alpha.48
@@ -7311,7 +7297,6 @@ __metadata:
     "@storybook/channel-websocket": 7.0.0-alpha.48
     "@storybook/client-api": 7.0.0-alpha.48
     "@storybook/preview-api": 7.0.0-alpha.48
-    "@storybook/preview-web": 7.0.0-alpha.48
     "@storybook/react": 7.0.0-alpha.48
     "@types/node": ^16.0.0
     "@vitejs/plugin-react": ^2.0.0
@@ -7359,7 +7344,6 @@ __metadata:
     "@storybook/core-client": 7.0.0-alpha.48
     "@storybook/docs-tools": 7.0.0-alpha.48
     "@storybook/preview-api": 7.0.0-alpha.48
-    "@storybook/store": 7.0.0-alpha.48
     "@storybook/types": 7.0.0-alpha.48
     "@types/estree": ^0.0.51
     "@types/node": ^16.0.0
@@ -7726,8 +7710,6 @@ __metadata:
     "@storybook/addons": 7.0.0-alpha.48
     "@storybook/core-client": 7.0.0-alpha.48
     "@storybook/preview-api": 7.0.0-alpha.48
-    "@storybook/preview-web": 7.0.0-alpha.48
-    "@storybook/store": 7.0.0-alpha.48
     "@storybook/types": 7.0.0-alpha.48
     global: ^4.4.0
     react: 16.14.0
@@ -7774,7 +7756,6 @@ __metadata:
     "@storybook/client-api": 7.0.0-alpha.48
     "@storybook/node-logger": 7.0.0-alpha.48
     "@storybook/preview-api": 7.0.0-alpha.48
-    "@storybook/preview-web": 7.0.0-alpha.48
     "@storybook/svelte": 7.0.0-alpha.48
     "@sveltejs/vite-plugin-svelte": ^1.0.0
     "@types/node": ^16.0.0
@@ -7820,7 +7801,6 @@ __metadata:
     "@storybook/core-client": 7.0.0-alpha.48
     "@storybook/docs-tools": 7.0.0-alpha.48
     "@storybook/preview-api": 7.0.0-alpha.48
-    "@storybook/store": 7.0.0-alpha.48
     "@storybook/types": 7.0.0-alpha.48
     expect-type: ^0.14.2
     global: ^4.4.0
@@ -7936,7 +7916,6 @@ __metadata:
     "@storybook/core-common": 7.0.0-alpha.48
     "@storybook/core-server": 7.0.0-alpha.48
     "@storybook/preview-api": 7.0.0-alpha.48
-    "@storybook/preview-web": 7.0.0-alpha.48
     "@storybook/vue": 7.0.0-alpha.48
     magic-string: ^0.26.1
     typescript: ~4.6.3
@@ -7984,7 +7963,6 @@ __metadata:
     "@storybook/client-api": 7.0.0-alpha.48
     "@storybook/core-server": 7.0.0-alpha.48
     "@storybook/preview-api": 7.0.0-alpha.48
-    "@storybook/preview-web": 7.0.0-alpha.48
     "@storybook/vue3": 7.0.0-alpha.48
     "@types/node": ^16.0.0
     "@vitejs/plugin-vue": ^3.0.0
@@ -8026,7 +8004,6 @@ __metadata:
     "@storybook/core-client": 7.0.0-alpha.48
     "@storybook/docs-tools": 7.0.0-alpha.48
     "@storybook/preview-api": 7.0.0-alpha.48
-    "@storybook/store": 7.0.0-alpha.48
     "@storybook/types": 7.0.0-alpha.48
     global: ^4.4.0
     react: 16.14.0
@@ -8055,7 +8032,6 @@ __metadata:
     "@storybook/core-client": 7.0.0-alpha.48
     "@storybook/docs-tools": 7.0.0-alpha.48
     "@storybook/preview-api": 7.0.0-alpha.48
-    "@storybook/store": 7.0.0-alpha.48
     "@storybook/types": 7.0.0-alpha.48
     global: ^4.4.0
     react: 16.14.0
@@ -8088,7 +8064,6 @@ __metadata:
     "@storybook/core-server": 7.0.0-alpha.48
     "@storybook/node-logger": 7.0.0-alpha.48
     "@storybook/preview-api": 7.0.0-alpha.48
-    "@storybook/preview-web": 7.0.0-alpha.48
     "@storybook/web-components": 7.0.0-alpha.48
     "@types/node": ^16.0.0
     magic-string: ^0.26.1
@@ -8126,8 +8101,6 @@ __metadata:
     "@storybook/core-client": 7.0.0-alpha.48
     "@storybook/docs-tools": 7.0.0-alpha.48
     "@storybook/preview-api": 7.0.0-alpha.48
-    "@storybook/preview-web": 7.0.0-alpha.48
-    "@storybook/store": 7.0.0-alpha.48
     "@storybook/types": 7.0.0-alpha.48
     global: ^4.4.0
     lit: 2.3.1

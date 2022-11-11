@@ -45,7 +45,6 @@
     "@babel/core": "^7.12.10",
     "@storybook/core-common": "7.0.0-alpha.48",
     "@storybook/preview-api": "7.0.0-alpha.48",
-    "@storybook/store": "7.0.0-alpha.48",
     "@storybook/types": "7.0.0-alpha.48",
     "doctrine": "^3.0.0",
     "lodash": "^4.17.21"

@@ -1,3 +1,2 @@
-/* eslint-disable import/export */
 /* eslint-disable import/no-extraneous-dependencies */
-export * from '@storybook/client-api';
+export * from '@storybook/preview-api/dist/client-api';

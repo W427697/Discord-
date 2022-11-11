@@ -56,6 +56,8 @@ export default {
   '@storybook/preset-vue-webpack': '7.0.0-alpha.48',
   '@storybook/preset-vue3-webpack': '7.0.0-alpha.48',
   '@storybook/preset-web-components-webpack': '7.0.0-alpha.48',
+  '@storybook/preview': '7.0.0-alpha.48',
+  '@storybook/preview-api': '7.0.0-alpha.48',
   '@storybook/preview-web': '7.0.0-alpha.48',
   '@storybook/react': '7.0.0-alpha.48',
   '@storybook/react-vite': '7.0.0-alpha.48',

@@ -38,8 +38,8 @@ import { PREPARE_ABORTED } from './render/Render';
 import { StoryRender } from './render/StoryRender';
 import { TemplateDocsRender } from './render/TemplateDocsRender';
 import { StandaloneDocsRender } from './render/StandaloneDocsRender';
-import type { SelectionStore } from '../../../../preview-web/src/SelectionStore';
-import type { View } from '../../../../preview-web/src/View';
+import type { SelectionStore } from './SelectionStore';
+import type { View } from './View';
 
 const { window: globalWindow } = global;
 
