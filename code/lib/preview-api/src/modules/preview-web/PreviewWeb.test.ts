@@ -29,11 +29,7 @@ import {
 } from '@storybook/core-events';
 import { logger } from '@storybook/client-logger';
 import { addons, mockChannel as createMockChannel } from '@storybook/addons';
-import type {
-  Framework,
-  Store_ModuleImportFn,
-  Store_WebProjectAnnotations,
-} from '@storybook/types';
+import type { Framework, Store_ModuleImportFn, ProjectAnnotations } from '@storybook/types';
 import { mocked } from 'ts-jest/utils';
 // import type { ModuleImportFn, WebProjectAnnotations } from '../../store';
 
@@ -114,7 +110,7 @@ async function createAndRenderPreview({
   getProjectAnnotations: inputGetProjectAnnotations = getProjectAnnotations,
 }: {
   importFn?: Store_ModuleImportFn;
-  getProjectAnnotations?: () => Store_WebProjectAnnotations<Framework>;
+  getProjectAnnotations?: () => ProjectAnnotations<Framework>;
 } = {}) {
   const preview = new PreviewWeb();
   await preview.initialize({
