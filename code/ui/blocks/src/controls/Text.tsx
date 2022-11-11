@@ -1,7 +1,7 @@
 import type { FC, ChangeEvent } from 'react';
 import React, { useCallback, useState } from 'react';
 import { styled } from '@storybook/theming';
-import { Form } from '@storybook/components'; // eslint-disable-line import/no-extraneous-dependencies
+import { Form } from '@storybook/components';
 import { getControlId, getControlSetterButtonId } from './helpers';
 
 import type { ControlProps, TextValue, TextConfig } from './types';

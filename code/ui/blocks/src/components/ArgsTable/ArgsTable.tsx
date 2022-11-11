@@ -2,10 +2,10 @@ import type { FC } from 'react';
 import React from 'react';
 import pickBy from 'lodash/pickBy';
 import { styled } from '@storybook/theming';
-import { opacify, transparentize, darken, lighten } from 'polished'; // eslint-disable-line import/no-extraneous-dependencies
+import { opacify, transparentize, darken, lighten } from 'polished';
 import { includeConditionalArg } from '@storybook/csf';
 import { once } from '@storybook/client-logger';
-import { IconButton, Icons, Link, ResetWrapper } from '@storybook/components'; // eslint-disable-line import/no-extraneous-dependencies
+import { IconButton, Icons, Link, ResetWrapper } from '@storybook/components';
 
 import { ArgRow } from './ArgRow';
 import { SectionRow } from './SectionRow';
