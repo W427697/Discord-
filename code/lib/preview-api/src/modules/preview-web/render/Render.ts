@@ -1,4 +1,4 @@
-import type { StoryId, AnyFramework, StoryRenderOptions } from '@storybook/types';
+import type { StoryId, Framework, StoryRenderOptions } from '@storybook/types';
 
 export type RenderType = 'story' | 'docs';
 
@@ -9,7 +9,7 @@ export type RenderType = 'story' | 'docs';
  *  - Tracking the state of the rendering as it moves between preparing, rendering and tearing down.
  *  - Tracking what is rendered to know if a change requires re-rendering or teardown + recreation.
  */
-export interface Render<TFramework extends AnyFramework> {
+export interface Render<TFramework extends Framework> {
   type: RenderType;
   id: StoryId;
   isPreparing: () => boolean;
@@ -18,7 +18,7 @@ export interface Render<TFramework extends AnyFramework> {
   teardown?: (options: { viewModeChanged: boolean }) => Promise<void>;
   torndown: boolean;
   renderToElement: (
-    canvasElement: HTMLElement,
+    canvasElement: TFramework['canvasElement'],
     renderStoryToElement?: any,
     options?: StoryRenderOptions
   ) => Promise<void>;

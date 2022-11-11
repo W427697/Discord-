@@ -1,6 +1,6 @@
 {
   "name": "@storybook/preview",
-  "version": "7.0.0-alpha.47",
+  "version": "7.0.0-alpha.48",
   "description": "",
   "keywords": [
     "storybook"
@@ -41,20 +41,15 @@
       "require": "./dist/core-client.js",
       "types": "./dist/core-client.d.ts"
     },
-    "./dist/preview-web": {
-      "import": "./dist/preview-web.mjs",
-      "require": "./dist/preview-web.js",
-      "types": "./dist/preview-web.d.ts"
-    },
-    "./dist/store": {
-      "import": "./dist/store.mjs",
-      "require": "./dist/store.js",
-      "types": "./dist/store.d.ts"
-    },
     "./dist/global/addons": {
       "import": "./dist/global/addons.mjs",
       "require": "./dist/global/addons.js",
       "types": "./dist/global/addons.d.ts"
+    },
+    "./dist/global/blocks": {
+      "import": "./dist/global/blocks.mjs",
+      "require": "./dist/global/blocks.js",
+      "types": "./dist/global/blocks.d.ts"
     },
     "./dist/global/client-api": {
       "import": "./dist/global/client-api.mjs",
@@ -81,6 +76,16 @@
       "require": "./dist/global/store.js",
       "types": "./dist/global/store.d.ts"
     },
+    "./dist/preview-web": {
+      "import": "./dist/preview-web.mjs",
+      "require": "./dist/preview-web.js",
+      "types": "./dist/preview-web.d.ts"
+    },
+    "./dist/store": {
+      "import": "./dist/store.mjs",
+      "require": "./dist/store.js",
+      "types": "./dist/store.d.ts"
+    },
     "./package.json": "./package.json"
   },
   "main": "dist/index.js",
@@ -97,20 +102,20 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "devDependencies": {
-    "@storybook/api": "7.0.0-alpha.47",
-    "@storybook/channel-postmessage": "7.0.0-alpha.47",
-    "@storybook/channel-websocket": "7.0.0-alpha.47",
-    "@storybook/channels": "7.0.0-alpha.47",
-    "@storybook/client-logger": "7.0.0-alpha.47",
-    "@storybook/core-client": "7.0.0-alpha.47",
-    "@storybook/core-common": "7.0.0-alpha.47",
-    "@storybook/core-events": "7.0.0-alpha.47",
+    "@storybook/api": "7.0.0-alpha.48",
+    "@storybook/channel-postmessage": "7.0.0-alpha.48",
+    "@storybook/channel-websocket": "7.0.0-alpha.48",
+    "@storybook/channels": "7.0.0-alpha.48",
+    "@storybook/client-logger": "7.0.0-alpha.48",
+    "@storybook/core-client": "7.0.0-alpha.48",
+    "@storybook/core-common": "7.0.0-alpha.48",
+    "@storybook/core-events": "7.0.0-alpha.48",
     "@storybook/csf": "next",
-    "@storybook/preview-api": "7.0.0-alpha.47",
-    "@storybook/preview-web": "7.0.0-alpha.47",
-    "@storybook/router": "7.0.0-alpha.47",
-    "@storybook/theming": "7.0.0-alpha.47",
-    "@storybook/types": "7.0.0-alpha.47",
+    "@storybook/preview-api": "7.0.0-alpha.48",
+    "@storybook/preview-web": "7.0.0-alpha.48",
+    "@storybook/router": "7.0.0-alpha.48",
+    "@storybook/theming": "7.0.0-alpha.48",
+    "@storybook/types": "7.0.0-alpha.48",
     "@types/qs": "^6.9.5",
     "@types/webpack-env": "^1.16.4",
     "ansi-to-html": "^0.6.11",

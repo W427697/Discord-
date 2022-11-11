@@ -1,5 +1,5 @@
 import type {
-  AnyFramework,
+  Framework,
   Store_CSFFile,
   Store_ModuleExport,
   Store_ModuleExports,
@@ -9,7 +9,7 @@ import { DocsContext } from '@storybook/preview-api';
 import type { StoryStore } from '@storybook/preview-api';
 import type { Channel } from '@storybook/channels';
 
-export class ExternalDocsContext<TFramework extends AnyFramework> extends DocsContext<TFramework> {
+export class ExternalDocsContext<TFramework extends Framework> extends DocsContext<TFramework> {
   constructor(
     public channel: Channel,
     protected store: StoryStore<TFramework>,

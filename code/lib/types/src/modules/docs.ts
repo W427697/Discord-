@@ -1,12 +1,12 @@
 import type { Channel } from '@storybook/channels';
-import type { AnyFramework, StoryContextForLoaders, StoryId, StoryName, Parameters } from './csf';
+import type { Framework, StoryContextForLoaders, StoryId, StoryName, Parameters } from './csf';
 import type { Store_ModuleExport, Store_ModuleExports, Store_Story } from './store';
 
 export type StoryRenderOptions = {
   autoplay?: boolean;
 };
 
-export interface DocsContextProps<TFramework extends AnyFramework = AnyFramework> {
+export interface DocsContextProps<TFramework extends Framework = Framework> {
   /**
    * Register the CSF file that this docs entry represents.
    * Used by the `<Meta of={} />` block.
@@ -61,7 +61,7 @@ export interface DocsContextProps<TFramework extends AnyFramework = AnyFramework
   channel: Channel;
 }
 
-export type DocsRenderFunction<TFramework extends AnyFramework> = (
+export type DocsRenderFunction<TFramework extends Framework> = (
   docsContext: DocsContextProps<TFramework>,
   docsParameters: Parameters,
   element: HTMLElement,

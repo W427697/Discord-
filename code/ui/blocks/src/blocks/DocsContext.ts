@@ -3,7 +3,7 @@ import type { Context } from 'react';
 import { createContext } from 'react';
 import { window as globalWindow } from 'global';
 
-import type { DocsContextProps, AnyFramework } from '@storybook/types';
+import type { DocsContextProps, Framework } from '@storybook/types';
 
 export type { DocsContextProps };
 
@@ -17,6 +17,6 @@ if (globalWindow && globalWindow.__DOCS_CONTEXT__ === undefined) {
   globalWindow.__DOCS_CONTEXT__.displayName = 'DocsContext';
 }
 
-export const DocsContext: Context<DocsContextProps<AnyFramework>> = globalWindow
+export const DocsContext: Context<DocsContextProps<Framework>> = globalWindow
   ? globalWindow.__DOCS_CONTEXT__
   : createContext(null);

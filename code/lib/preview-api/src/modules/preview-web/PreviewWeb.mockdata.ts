@@ -13,7 +13,7 @@ import {
 import type {
   Store_ModuleImportFn,
   Store_StoryIndex,
-  Store_TeardownRenderToDOM,
+  TeardownRenderToCanvas,
 } from '@storybook/types';
 import type { RenderPhase } from './render/StoryRender';
 
@@ -62,13 +62,13 @@ export const docsRenderer = {
   render: jest.fn().mockImplementation((context, parameters, element, cb) => cb()),
   unmount: jest.fn(),
 };
-export const teardownRenderToDOM: jest.Mock<Store_TeardownRenderToDOM> = jest.fn();
+export const teardownrenderToCanvas: jest.Mock<TeardownRenderToCanvas> = jest.fn();
 export const projectAnnotations = {
   globals: { a: 'b' },
   globalTypes: {},
   decorators: [jest.fn((s) => s())],
   render: jest.fn(),
-  renderToDOM: jest.fn().mockReturnValue(teardownRenderToDOM),
+  renderToCanvas: jest.fn().mockReturnValue(teardownrenderToCanvas),
   parameters: { docs: { renderer: () => docsRenderer } },
 };
 export const getProjectAnnotations = jest.fn(() => projectAnnotations as any);

@@ -104,9 +104,9 @@ describe('start', () => {
   });
   describe('when configure is called with storiesOf only', () => {
     it('loads and renders the first story correctly', async () => {
-      const renderToDOM = jest.fn();
+      const renderToCanvas = jest.fn();
 
-      const { configure, clientApi } = start(renderToDOM);
+      const { configure, clientApi } = start(renderToCanvas);
 
       configure('test', () => {
         clientApi
@@ -193,7 +193,7 @@ describe('start', () => {
       await waitForRender();
       expect(mockChannel.emit).toHaveBeenCalledWith(STORY_RENDERED, 'component-a--story-one');
 
-      expect(renderToDOM).toHaveBeenCalledWith(
+      expect(renderToCanvas).toHaveBeenCalledWith(
         expect.objectContaining({
           id: 'component-a--story-one',
         }),
@@ -202,9 +202,9 @@ describe('start', () => {
     });
 
     it('deals with stories with "default" name', async () => {
-      const renderToDOM = jest.fn();
+      const renderToCanvas = jest.fn();
 
-      const { configure, clientApi } = start(renderToDOM);
+      const { configure, clientApi } = start(renderToCanvas);
 
       configure('test', () => {
         clientApi.storiesOf('Component A', { id: 'file1' } as NodeModule).add('default', jest.fn());
@@ -216,9 +216,9 @@ describe('start', () => {
     });
 
     it('deals with stories with camel-cased names', async () => {
-      const renderToDOM = jest.fn();
+      const renderToCanvas = jest.fn();
 
-      const { configure, clientApi } = start(renderToDOM);
+      const { configure, clientApi } = start(renderToCanvas);
 
       configure('test', () => {
         clientApi
@@ -232,9 +232,9 @@ describe('start', () => {
     });
 
     it('deals with stories with spaces in the name', async () => {
-      const renderToDOM = jest.fn();
+      const renderToCanvas = jest.fn();
 
-      const { configure, clientApi } = start(renderToDOM);
+      const { configure, clientApi } = start(renderToCanvas);
 
       configure('test', () => {
         clientApi
@@ -249,9 +249,9 @@ describe('start', () => {
 
     // https://github.com/storybookjs/storybook/issues/16303
     it('deals with stories with numeric names', async () => {
-      const renderToDOM = jest.fn();
+      const renderToCanvas = jest.fn();
 
-      const { configure, clientApi } = start(renderToDOM);
+      const { configure, clientApi } = start(renderToCanvas);
 
       configure('test', () => {
         clientApi.storiesOf('Component A', { id: 'file1' } as NodeModule).add('story0', jest.fn());
@@ -263,9 +263,9 @@ describe('start', () => {
     });
 
     it('deals with storiesOf from the same file twice', async () => {
-      const renderToDOM = jest.fn();
+      const renderToCanvas = jest.fn();
 
-      const { configure, clientApi } = start(renderToDOM);
+      const { configure, clientApi } = start(renderToCanvas);
 
       configure('test', () => {
         clientApi.storiesOf('Component A', { id: 'file1' } as NodeModule).add('default', jest.fn());
@@ -285,9 +285,9 @@ describe('start', () => {
     });
 
     it('allows setting compomnent/args/argTypes via a parameter', async () => {
-      const renderToDOM = jest.fn(({ storyFn }) => storyFn());
+      const renderToCanvas = jest.fn(({ storyFn }) => storyFn());
 
-      const { configure, clientApi } = start(renderToDOM);
+      const { configure, clientApi } = start(renderToCanvas);
 
       const component = {};
       configure('test', () => {
@@ -306,7 +306,7 @@ describe('start', () => {
 
       await waitForRender();
 
-      expect(renderToDOM).toHaveBeenCalledWith(
+      expect(renderToCanvas).toHaveBeenCalledWith(
         expect.objectContaining({
           storyContext: expect.objectContaining({
             component,
@@ -324,9 +324,9 @@ describe('start', () => {
     });
 
     it('supports forceRerender()', async () => {
-      const renderToDOM = jest.fn(({ storyFn }) => storyFn());
+      const renderToCanvas = jest.fn(({ storyFn }) => storyFn());
 
-      const { configure, clientApi, forceReRender } = start(renderToDOM);
+      const { configure, clientApi, forceReRender } = start(renderToCanvas);
 
       configure('test', () => {
         clientApi.storiesOf('Component A', { id: 'file1' } as NodeModule).add('default', jest.fn());
@@ -343,9 +343,9 @@ describe('start', () => {
     });
 
     it('supports HMR when a story file changes', async () => {
-      const renderToDOM = jest.fn(({ storyFn }) => storyFn());
+      const renderToCanvas = jest.fn(({ storyFn }) => storyFn());
 
-      const { configure, clientApi } = start(renderToDOM);
+      const { configure, clientApi } = start(renderToCanvas);
 
       let disposeCallback: () => void = () => {};
       const module = {
@@ -379,9 +379,9 @@ describe('start', () => {
     });
 
     it('re-emits SET_INDEX when a story is added', async () => {
-      const renderToDOM = jest.fn(({ storyFn }) => storyFn());
+      const renderToCanvas = jest.fn(({ storyFn }) => storyFn());
 
-      const { configure, clientApi, forceReRender } = start(renderToDOM);
+      const { configure, clientApi, forceReRender } = start(renderToCanvas);
 
       let disposeCallback: () => void = () => {};
       const module = {
@@ -458,9 +458,9 @@ describe('start', () => {
     });
 
     it('re-emits SET_INDEX when a story file is removed', async () => {
-      const renderToDOM = jest.fn(({ storyFn }) => storyFn());
+      const renderToCanvas = jest.fn(({ storyFn }) => storyFn());
 
-      const { configure, clientApi } = start(renderToDOM);
+      const { configure, clientApi } = start(renderToCanvas);
 
       let disposeCallback: () => void = () => {};
       const moduleB = {
@@ -575,9 +575,9 @@ describe('start', () => {
 
   describe('when configure is called with CSF only', () => {
     it('loads and renders the first story correctly', async () => {
-      const renderToDOM = jest.fn();
+      const renderToCanvas = jest.fn();
 
-      const { configure } = start(renderToDOM);
+      const { configure } = start(renderToCanvas);
       configure('test', () => [componentCExports]);
 
       await waitForRender();
@@ -632,7 +632,7 @@ describe('start', () => {
       await waitForRender();
       expect(mockChannel.emit).toHaveBeenCalledWith(STORY_RENDERED, 'component-c--story-one');
 
-      expect(renderToDOM).toHaveBeenCalledWith(
+      expect(renderToCanvas).toHaveBeenCalledWith(
         expect.objectContaining({
           id: 'component-c--story-one',
         }),
@@ -641,7 +641,7 @@ describe('start', () => {
     });
 
     it('supports HMR when a story file changes', async () => {
-      const renderToDOM = jest.fn(({ storyFn }) => storyFn());
+      const renderToCanvas = jest.fn(({ storyFn }) => storyFn());
 
       let disposeCallback: (data: object) => void = () => {};
       const module = {
@@ -655,7 +655,7 @@ describe('start', () => {
         },
       };
 
-      const { configure } = start(renderToDOM);
+      const { configure } = start(renderToCanvas);
       configure('test', () => [componentCExports], module as any);
 
       await waitForRender();
@@ -679,7 +679,7 @@ describe('start', () => {
     });
 
     it('re-emits SET_INDEX when a story is added', async () => {
-      const renderToDOM = jest.fn(({ storyFn }) => storyFn());
+      const renderToCanvas = jest.fn(({ storyFn }) => storyFn());
 
       let disposeCallback: (data: object) => void = () => {};
       const module = {
@@ -692,7 +692,7 @@ describe('start', () => {
           },
         },
       };
-      const { configure } = start(renderToDOM);
+      const { configure } = start(renderToCanvas);
       configure('test', () => [componentCExports], module as any);
 
       await waitForRender();
@@ -772,7 +772,7 @@ describe('start', () => {
     });
 
     it('re-emits SET_INDEX when a story file is removed', async () => {
-      const renderToDOM = jest.fn(({ storyFn }) => storyFn());
+      const renderToCanvas = jest.fn(({ storyFn }) => storyFn());
 
       let disposeCallback: (data: object) => void = () => {};
       const module = {
@@ -785,7 +785,7 @@ describe('start', () => {
           },
         },
       };
-      const { configure } = start(renderToDOM);
+      const { configure } = start(renderToCanvas);
       configure(
         'test',
         () => [componentCExports, { default: { title: 'Component D' }, StoryFour: jest.fn() }],
@@ -917,10 +917,10 @@ describe('start', () => {
     });
 
     it('allows you to override the render function in project annotations', async () => {
-      const renderToDOM = jest.fn(({ storyFn }) => storyFn());
+      const renderToCanvas = jest.fn(({ storyFn }) => storyFn());
       const frameworkRender = jest.fn();
 
-      const { configure } = start(renderToDOM, { render: frameworkRender });
+      const { configure } = start(renderToCanvas, { render: frameworkRender });
 
       const projectRender = jest.fn();
       setGlobalRender(projectRender);
@@ -950,15 +950,15 @@ describe('start', () => {
 
       // NOTE: MDX files are only ever passed as CSF
       it('sends over docs only stories as entries', async () => {
-        const renderToDOM = jest.fn();
+        const renderToCanvas = jest.fn();
 
-        const { configure } = start(renderToDOM);
+        const { configure } = start(renderToCanvas);
 
         configure(
           'test',
           makeRequireContext({
             './Introduction.stories.mdx': {
-              default: { title: 'Introduction' },
+              default: { title: 'Introduction', tags: ['mdx'] },
               _Page: { name: 'Page', parameters: { docsOnly: true } },
             },
           })
@@ -976,6 +976,7 @@ describe('start', () => {
                 "standalone": false,
                 "storiesImports": Array [],
                 "tags": Array [
+                  "mdx",
                   "docs",
                 ],
                 "title": "Introduction",
@@ -994,9 +995,9 @@ describe('start', () => {
 
   describe('when configure is called with a combination', () => {
     it('loads and renders the first story correctly', async () => {
-      const renderToDOM = jest.fn();
+      const renderToCanvas = jest.fn();
 
-      const { configure, clientApi } = start(renderToDOM);
+      const { configure, clientApi } = start(renderToCanvas);
       configure('test', () => {
         clientApi
           .storiesOf('Component A', { id: 'file1' } as NodeModule)
@@ -1122,7 +1123,7 @@ describe('start', () => {
       await waitForRender();
       expect(mockChannel.emit).toHaveBeenCalledWith(STORY_RENDERED, 'component-a--story-one');
 
-      expect(renderToDOM).toHaveBeenCalledWith(
+      expect(renderToCanvas).toHaveBeenCalledWith(
         expect.objectContaining({
           id: 'component-a--story-one',
         }),
@@ -1136,9 +1137,9 @@ describe('start', () => {
       });
 
       it('adds stories for each component with docsPage tag', async () => {
-        const renderToDOM = jest.fn();
+        const renderToCanvas = jest.fn();
 
-        const { configure, clientApi } = start(renderToDOM);
+        const { configure, clientApi } = start(renderToCanvas);
         configure('test', () => {
           clientApi
             .storiesOf('Component A', { id: 'file1' } as NodeModule)
@@ -1344,9 +1345,9 @@ describe('start', () => {
       StoryOne: jest.fn(),
     };
     it('loads and renders the first story correctly', async () => {
-      const renderToDOM = jest.fn();
+      const renderToCanvas = jest.fn();
 
-      const { configure } = start(renderToDOM);
+      const { configure } = start(renderToCanvas);
       configure('test', () => [componentDExports]);
 
       await waitForEvents([SET_INDEX]);

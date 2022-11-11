@@ -1,10 +1,12 @@
 // noinspection JSUnusedGlobalSymbols
 
-import * as fs from 'fs';
+import fs from 'fs-extra';
 import * as path from 'path';
 import type { Builder, StorybookConfig as StorybookBaseConfig, Options } from '@storybook/types';
 import type { RequestHandler, Request, Response } from 'express';
 import type { InlineConfig, UserConfig, ViteDevServer } from 'vite';
+import express from 'express';
+import { dirname, join, parse } from 'path';
 import { transformIframeHtml } from './transform-iframe-html';
 import { createViteServer } from './vite-server';
 import { build as viteBuild } from './build';
@@ -45,7 +47,7 @@ function iframeMiddleware(options: ExtendedOptions, server: ViteDevServer): Requ
       return;
     }
 
-    const indexHtml = fs.readFileSync(
+    const indexHtml = await fs.readFile(
       path.resolve(__dirname, '../..', 'input', 'iframe.html'),
       'utf-8'
     );
@@ -83,6 +85,11 @@ export const start: ViteBuilder['start'] = async ({
     res.header('Content-Type', 'text/event-stream');
   });
 
+  const previewResolvedDir = dirname(require.resolve('@storybook/preview/package.json'));
+  const previewDirOrigin = join(previewResolvedDir, 'dist');
+
+  router.use(`/sb-preview`, express.static(previewDirOrigin));
+
   router.use(iframeMiddleware(options as ExtendedOptions, server));
   router.use(server.middlewares);
 
@@ -94,5 +101,23 @@ export const start: ViteBuilder['start'] = async ({
 };
 
 export const build: ViteBuilder['build'] = async ({ options }) => {
-  return viteBuild(options as ExtendedOptions);
+  const viteCompilation = viteBuild(options as ExtendedOptions);
+
+  const previewResolvedDir = dirname(require.resolve('@storybook/preview/package.json'));
+  const previewDirOrigin = join(previewResolvedDir, 'dist');
+  const previewDirTarget = join(options.outputDir || '', `sb-preview`);
+
+  const previewFiles = fs.copy(previewDirOrigin, previewDirTarget, {
+    filter: (src) => {
+      const { ext } = parse(src);
+      if (ext) {
+        return ext === '.mjs';
+      }
+      return true;
+    },
+  });
+
+  const [out] = await Promise.all([viteCompilation, previewFiles]);
+
+  return out;
 };
