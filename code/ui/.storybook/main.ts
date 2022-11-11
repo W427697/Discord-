@@ -18,7 +18,29 @@ const allStories = [
     titlePrefix: '@storybook-blocks',
   },
 ];
-const blocksOnlyStories = ['../blocks/src/@(blocks|controls)/**/*.@(mdx|stories.@(tsx|ts|jsx|js))'];
+
+/**
+ * match all stories in blocks/src/blocks and blocks/src/controls EXCEPT blocks/src/blocks/internal
+ * Examples:
+ *
+ * src/blocks/Canvas.stories.tsx - MATCH
+ * src/blocks/internal/InternalCanvas.stories.tsx - IGNORED, internal stories
+ * src/blocks/internal/nested/InternalCanvas.stories.tsx - IGNORED, internal stories
+ *
+ * src/blocks/Canvas.tsx - IGNORED, not story
+ * src/blocks/nested/Canvas.stories.tsx - MATCH
+ * src/blocks/nested/deep/Canvas.stories.tsx - MATCH
+ *
+ * src/controls/Boolean.stories.tsx - MATCH
+ * src/controls/Boolean.tsx - IGNORED, not story
+ *
+ * src/components/ColorPalette.stories.tsx - MATCH
+ * src/components/ColorPalette.tsx - IGNORED, not story
+ */
+const blocksOnlyStories = [
+  '../blocks/src/@(blocks|controls)/!(internal)/**/*.@(mdx|stories.@(tsx|ts|jsx|js))',
+  '../blocks/src/@(blocks|controls)/*.@(mdx|stories.@(tsx|ts|jsx|js))',
+];
 
 const config: StorybookConfig = {
   stories: isBlocksOnly ? blocksOnlyStories : allStories,
