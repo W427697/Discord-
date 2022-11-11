@@ -184,14 +184,24 @@ commands:
           when: always
           command: |
             echo 'export CURRENT_TEMPLATE=$(yarn get-template << pipeline.parameters.workflow >> ${CIRCLE_JOB})' >> "$BASH_ENV"
+  list-recent-merges:
+    description: 'Lists the merge commits from the past 24 hours'
+    steps:
+      - run:
+          name: Listing merge commits from the past 24 hours
+          when: always
+          command: |
+            echo 'export RECENT_MERGES=$(git log --merges --oneline --since="24 hours ago" --pretty=format:"%h %<(12)%ar | %s [%an]" | grep "Merge pull request")' >> "$BASH_ENV"
+            echo ${RECENT_MERGES}
   report-workflow-on-failure:
     description: 'Reports failures to discord'
     steps:
       - set-current-running-template
+      - list-recent-merges
       - discord/status:
           only_for_branches: chore/failure-reports
           fail_only: true
-          failure_message: "Oh no! The **$CIRCLE_JOB** job has failed for ${CURRENT_TEMPLATE}"
+          failure_message: "Oh no! The **$CIRCLE_JOB** job has failed for **${CURRENT_TEMPLATE}**.\n Here are the merges of the last 24h:\n\n${RECENT_MERGES}"
 jobs:
   build:
     executor:
