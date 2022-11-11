@@ -52,7 +52,7 @@
   },
   "dependencies": {
     "@storybook/client-logger": "7.0.0-alpha.49",
-    "@storybook/csf": "next",
+    "@storybook/csf": "0.0.2-next.5",
     "@storybook/theming": "7.0.0-alpha.49",
     "@storybook/types": "7.0.0-alpha.49",
     "memoizerific": "^1.11.3",

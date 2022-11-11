@@ -8,7 +8,7 @@ import type {
   Args,
   StepRunner,
   ArgTypes,
-  Framework,
+  Renderer,
   DecoratorFunction,
   Parameters,
   ArgTypesEnhancer,
@@ -31,7 +31,7 @@ import { StoryStoreFacade } from './StoryStoreFacade';
 
 // ClientApi (and StoreStore) are really singletons. However they are not created until the
 // relevant framework instanciates them via `start.js`. The good news is this happens right away.
-let singleton: ClientApi<Framework>;
+let singleton: ClientApi<Renderer>;
 
 const warningAlternatives = {
   addDecorator: `Instead, use \`export const decorators = [];\` in your \`preview.js\`.`,
@@ -60,7 +60,7 @@ const checkMethod = (method: keyof typeof warningAlternatives) => {
   }
 };
 
-export const addDecorator = (decorator: DecoratorFunction<Framework>) => {
+export const addDecorator = (decorator: DecoratorFunction<Renderer>) => {
   checkMethod('addDecorator');
   singleton.addDecorator(decorator);
 };
@@ -70,7 +70,7 @@ export const addParameters = (parameters: Parameters) => {
   singleton.addParameters(parameters);
 };
 
-export const addLoader = (loader: LoaderFunction<Framework>) => {
+export const addLoader = (loader: LoaderFunction<Renderer>) => {
   checkMethod('addLoader');
   singleton.addLoader(loader);
 };
@@ -85,12 +85,12 @@ export const addArgTypes = (argTypes: ArgTypes) => {
   singleton.addArgTypes(argTypes);
 };
 
-export const addArgsEnhancer = (enhancer: ArgsEnhancer<Framework>) => {
+export const addArgsEnhancer = (enhancer: ArgsEnhancer<Renderer>) => {
   checkMethod('addArgsEnhancer');
   singleton.addArgsEnhancer(enhancer);
 };
 
-export const addArgTypesEnhancer = (enhancer: ArgTypesEnhancer<Framework>) => {
+export const addArgTypesEnhancer = (enhancer: ArgTypesEnhancer<Renderer>) => {
   checkMethod('addArgTypesEnhancer');
   singleton.addArgTypesEnhancer(enhancer);
 };
@@ -105,18 +105,18 @@ export const getGlobalRender = () => {
   return singleton.facade.projectAnnotations.render;
 };
 
-export const setGlobalRender = (render: StoryFn<Framework>) => {
+export const setGlobalRender = (render: StoryFn<Renderer>) => {
   checkMethod('setGlobalRender');
   singleton.facade.projectAnnotations.render = render;
 };
 
 const invalidStoryTypes = new Set(['string', 'number', 'boolean', 'symbol']);
-export class ClientApi<TFramework extends Framework> {
-  facade: StoryStoreFacade<TFramework>;
+export class ClientApi<TRenderer extends Renderer> {
+  facade: StoryStoreFacade<TRenderer>;
 
-  storyStore?: StoryStore<TFramework>;
+  storyStore?: StoryStore<TRenderer>;
 
-  private addons: Addon_ClientApiAddons<TFramework['storyResult']>;
+  private addons: Addon_ClientApiAddons<TRenderer['storyResult']>;
 
   onImportFnChanged?: ({ importFn }: { importFn: Store_ModuleImportFn }) => void;
 
@@ -124,7 +124,7 @@ export class ClientApi<TFramework extends Framework> {
   // just use numeric indexes
   private lastFileName = 0;
 
-  constructor({ storyStore }: { storyStore?: StoryStore<TFramework> } = {}) {
+  constructor({ storyStore }: { storyStore?: StoryStore<TRenderer> } = {}) {
     this.facade = new StoryStoreFacade();
 
     this.addons = {};
@@ -146,7 +146,7 @@ export class ClientApi<TFramework extends Framework> {
     return this.facade.getStoryIndex(this.storyStore);
   }
 
-  addDecorator = (decorator: DecoratorFunction<TFramework>) => {
+  addDecorator = (decorator: DecoratorFunction<TRenderer>) => {
     this.facade.projectAnnotations.decorators.push(decorator);
   };
 
@@ -179,7 +179,7 @@ export class ClientApi<TFramework extends Framework> {
     );
   };
 
-  addLoader = (loader: LoaderFunction<TFramework>) => {
+  addLoader = (loader: LoaderFunction<TRenderer>) => {
     this.facade.projectAnnotations.loaders.push(loader);
   };
 
@@ -197,11 +197,11 @@ export class ClientApi<TFramework extends Framework> {
     };
   };
 
-  addArgsEnhancer = (enhancer: ArgsEnhancer<TFramework>) => {
+  addArgsEnhancer = (enhancer: ArgsEnhancer<TRenderer>) => {
     this.facade.projectAnnotations.argsEnhancers.push(enhancer);
   };
 
-  addArgTypesEnhancer = (enhancer: ArgTypesEnhancer<TFramework>) => {
+  addArgTypesEnhancer = (enhancer: ArgTypesEnhancer<TRenderer>) => {
     this.facade.projectAnnotations.argTypesEnhancers.push(enhancer);
   };
 
@@ -219,7 +219,7 @@ export class ClientApi<TFramework extends Framework> {
   }
 
   // what are the occasions that "m" is a boolean vs an obj
-  storiesOf = (kind: string, m?: NodeModule): Addon_StoryApi<TFramework['storyResult']> => {
+  storiesOf = (kind: string, m?: NodeModule): Addon_StoryApi<TRenderer['storyResult']> => {
     if (!kind && typeof kind !== 'string') {
       throw new Error('Invalid or missing kind provided for stories, should be a string');
     }
@@ -275,7 +275,7 @@ export class ClientApi<TFramework extends Framework> {
     }
 
     let hasAdded = false;
-    const api: Addon_StoryApi<TFramework['storyResult']> = {
+    const api: Addon_StoryApi<TRenderer['storyResult']> = {
       kind: kind.toString(),
       add: () => api,
       addDecorator: () => api,
@@ -292,7 +292,7 @@ export class ClientApi<TFramework extends Framework> {
       };
     });
 
-    const meta: Store_NormalizedComponentAnnotations<TFramework> = {
+    const meta: Store_NormalizedComponentAnnotations<TRenderer> = {
       id: sanitize(kind),
       title: kind,
       decorators: [],
@@ -304,7 +304,7 @@ export class ClientApi<TFramework extends Framework> {
     this._addedExports[fileName] = { default: meta };
 
     let counter = 0;
-    api.add = (storyName: string, storyFn: StoryFn<TFramework>, parameters: Parameters = {}) => {
+    api.add = (storyName: string, storyFn: StoryFn<TRenderer>, parameters: Parameters = {}) => {
       hasAdded = true;
 
       if (typeof storyName !== 'string') {
@@ -340,7 +340,7 @@ export class ClientApi<TFramework extends Framework> {
       return api;
     };
 
-    api.addDecorator = (decorator: DecoratorFunction<TFramework>) => {
+    api.addDecorator = (decorator: DecoratorFunction<TRenderer>) => {
       if (hasAdded)
         throw new Error(`You cannot add a decorator after the first story for a kind.
 Read more here: https://github.com/storybookjs/storybook/blob/master/MIGRATION.md#can-no-longer-add-decoratorsparameters-after-stories`);
@@ -349,7 +349,7 @@ Read more here: https://github.com/storybookjs/storybook/blob/master/MIGRATION.m
       return api;
     };
 
-    api.addLoader = (loader: LoaderFunction<TFramework>) => {
+    api.addLoader = (loader: LoaderFunction<TRenderer>) => {
       if (hasAdded) throw new Error(`You cannot add a loader after the first story for a kind.`);
 
       meta.loaders.push(loader);
