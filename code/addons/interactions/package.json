@@ -33,9 +33,9 @@
       "types": "./dist/manager.d.ts"
     },
     "./preview": {
-      "require": "./dist/preset/preview.js",
-      "import": "./dist/preset/preview.mjs",
-      "types": "./dist/preset/preview.d.ts"
+      "require": "./dist/preview.js",
+      "import": "./dist/preview.mjs",
+      "types": "./dist/preview.d.ts"
     },
     "./register.js": {
       "require": "./dist/manager.js",
@@ -47,6 +47,19 @@
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
+  "typesVersions": {
+    "*": {
+      "*": [
+        "dist/index.d.ts"
+      ],
+      "manager": [
+        "dist/manager.d.ts"
+      ],
+      "preview": [
+        "dist/preview.d.ts"
+      ]
+    }
+  },
   "files": [
     "dist/**/*",
     "README.md",
@@ -99,7 +112,7 @@
     "entries": [
       "./src/index.ts",
       "./src/manager.tsx",
-      "./src/preset/preview.ts",
+      "./src/preview.ts",
       "./src/preset/checkActionsLoaded.ts"
     ],
     "platform": "node"

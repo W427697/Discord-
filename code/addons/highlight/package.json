@@ -30,15 +30,25 @@
       "types": "./dist/index.d.ts"
     },
     "./preview": {
-      "require": "./dist/highlight.js",
-      "import": "./dist/highlight.mjs",
-      "types": "./dist/highlight.d.ts"
+      "require": "./dist/preview.js",
+      "import": "./dist/preview.mjs",
+      "types": "./dist/preview.d.ts"
     },
     "./package.json": "./package.json"
   },
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
+  "typesVersions": {
+    "*": {
+      "*": [
+        "dist/index.d.ts"
+      ],
+      "preview": [
+        "dist/preview.d.ts"
+      ]
+    }
+  },
   "files": [
     "dist/**/*",
     "README.md",
@@ -64,7 +74,7 @@
   "bundler": {
     "entries": [
       "./src/index.ts",
-      "./src/highlight.ts"
+      "./src/preview.ts"
     ]
   },
   "gitHead": "b58a29b785462f8a8b711b6bb2d7223fd6dc17fd",
