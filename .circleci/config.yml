@@ -187,6 +187,7 @@ commands:
   report-workflow-on-failure:
     description: 'Reports failures to discord'
     steps:
+      - set-current-running-template
       - discord/status:
           only_for_branches: chore/failure-reports
           fail_only: true
@@ -534,7 +535,6 @@ jobs:
       - run:
           name: Running E2E Tests
           command: yarn task --task e2e-tests --template $(yarn get-template << pipeline.parameters.workflow >> e2e-tests) --no-link --start-from=never --junit
-      - set-current-running-template
       - report-workflow-on-failure
       - store_test_results:
           path: test-results
