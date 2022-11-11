@@ -9,6 +9,7 @@ import type {
   Store_ComposeStory,
   Store_CSFExports,
   StoryContext,
+  StoryFn,
 } from '@storybook/types';
 
 import { HooksContext } from '@storybook/addons';
@@ -34,7 +35,7 @@ export function composeStory<TRenderer extends Renderer = Renderer, TArgs extend
   projectAnnotations: ProjectAnnotations<TRenderer> = GLOBAL_STORYBOOK_PROJECT_ANNOTATIONS,
   defaultConfig: ProjectAnnotations<TRenderer> = {},
   exportsName?: string
-) {
+): StoryFn<TRenderer, TArgs> {
   if (storyAnnotations === undefined) {
     throw new Error('Expected a story but received undefined.');
   }
