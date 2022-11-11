@@ -182,7 +182,6 @@ commands:
     - discord/status:
         fail_only: false
         failure_message: "Hey **${CIRCLE_USERNAME}**, the **$CIRCLE_JOB** job has failed! Pipeline id: << pipeline.id >> , build: **${CIRCLE_BUILD_URL}**"
-        webhook: "${DISCORD_STATUS_WEBHOOK}"
         mentions: "@yann"
 jobs:
   build:
