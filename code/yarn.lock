@@ -6297,7 +6297,6 @@ __metadata:
     slash: ^3.0.0
     telejson: ^6.0.8
     ts-dedent: ^2.0.0
-    ts-jest: ^28.0.0
     typescript: ~4.6.3
     util-deprecate: ^1.0.2
     watchpack: ^2.2.0
@@ -6960,7 +6959,6 @@ __metadata:
     react: 16.14.0
     synchronous-promise: ^2.0.15
     ts-dedent: ^2.0.0
-    ts-jest: ^28.0.8
     typescript: ~4.6.3
     util-deprecate: ^1.0.2
   languageName: unknown
@@ -7291,7 +7289,6 @@ __metadata:
     terser-webpack-plugin: ^5.3.1
     trash: ^7.0.0
     ts-dedent: ^2.0.0
-    ts-jest: ^28.0.0
     ts-loader: ^9.2.8
     ts-node: ^10.4.0
     tsup: ^6.2.2
@@ -32957,7 +32954,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ts-jest@npm:^28.0.0, ts-jest@npm:^28.0.8":
+"ts-jest@npm:^28.0.0":
   version: 28.0.8
   resolution: "ts-jest@npm:28.0.8"
   dependencies:
