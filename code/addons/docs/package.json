@@ -56,7 +56,7 @@
     "./angular": "./angular/index.js",
     "./angular/index.js": "./angular/index.js",
     "./web-components/index.js": "./web-components/index.js",
-    "./jest-transform-mdx.js": "./jest-transform-mdx.js",
+    "./jest-transform-mdx": "./jest-transform-mdx.js",
     "./package.json": "./package.json"
   },
   "main": "dist/index.js",
