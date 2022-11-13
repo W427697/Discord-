@@ -33,6 +33,7 @@ export class DocsRenderer<TFramework extends Framework> {
         ...defaultComponents,
         ...docsParameter?.components,
       };
+
       ReactDOM.render(
         <MDXProvider components={components}>
           <Docs key={Math.random()} context={context} docsParameter={docsParameter} />
