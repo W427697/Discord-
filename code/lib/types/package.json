@@ -1,6 +1,6 @@
 {
   "name": "@storybook/types",
-  "version": "7.0.0-alpha.48",
+  "version": "7.0.0-alpha.49",
   "description": "Core Storybook Types",
   "keywords": [
     "storybook"
@@ -60,5 +60,5 @@
       "./src/index.ts"
     ]
   },
-  "gitHead": "b58a29b785462f8a8b711b6bb2d7223fd6dc17fd"
+  "gitHead": "d7eb433300cac55d3c7256c8181eb6fd7a47b4c8"
 }
