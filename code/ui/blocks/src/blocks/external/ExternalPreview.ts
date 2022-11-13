@@ -36,7 +36,7 @@ export class ExternalPreview<TRenderer extends Renderer = Renderer> extends Prev
 
   private moduleExportsByImportPath: Record<Path, Store_ModuleExports> = {};
 
-  constructor(public projectAnnotations: ProjectAnnotations<TFramework>) {
+  constructor(public projectAnnotations: ProjectAnnotations<TRenderer>) {
     super(new Channel());
 
     this.initialize({

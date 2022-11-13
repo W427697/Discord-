@@ -14,14 +14,14 @@ export const defaultComponents: Record<string, any> = {
   ...HeadersMdx,
 };
 
-export class DocsRenderer<TFramework extends Renderer> {
-  public render: DocsRenderFunction<TFramework>;
+export class DocsRenderer<TRenderer extends Renderer> {
+  public render: DocsRenderFunction<TRenderer>;
 
   public unmount: (element: HTMLElement) => void;
 
   constructor() {
     this.render = (
-      context: DocsContextProps<TFramework>,
+      context: DocsContextProps<TRenderer>,
       docsParameter: Parameters,
       element: HTMLElement,
       callback: () => void
