@@ -3197,7 +3197,6 @@ __metadata:
     jest-image-snapshot: ^4.3.0
     jest-junit: ^13.0.0
     jest-os-detection: ^1.3.1
-    jest-raw-loader: ^1.0.1
     jest-serializer-html: ^7.0.0
     jest-watch-typeahead: ^0.6.1
     js-yaml: ^3.14.1
@@ -10978,13 +10977,6 @@ __metadata:
     jest-resolve:
       optional: true
   checksum: f6ef6193f7f015830aea3a13a4fd9f53a60746bbaa2d56d18af4afd26ed1b527039c466c8d2447f68b149db8a912b9493a727f29b809ff883b8b5daec16e98ce
-  languageName: node
-  linkType: hard
-
-"jest-raw-loader@npm:^1.0.1":
-  version: 1.0.1
-  resolution: "jest-raw-loader@npm:1.0.1"
-  checksum: 14c5630f34f3f4a0d45036d5a180ca4c971d3428171100c5e4d6a00541bffb5599ee8592dd2c1abbd7e1caed635971b9c59394737dd76402278e41d025793c08
   languageName: node
   linkType: hard
 
