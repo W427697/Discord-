@@ -63,7 +63,6 @@
     "util-deprecate": "^1.0.2"
   },
   "devDependencies": {
-    "@jest/globals": "^28.0.0",
     "@storybook/core-common": "7.0.0-alpha.48",
     "@types/lodash": "^4.14.167",
     "@types/qs": "^6",
