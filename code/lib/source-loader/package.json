@@ -43,7 +43,7 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/csf": "next",
+    "@storybook/csf": "0.0.2-next.5",
     "@storybook/types": "7.0.0-alpha.49",
     "estraverse": "^5.2.0",
     "lodash": "^4.17.21",

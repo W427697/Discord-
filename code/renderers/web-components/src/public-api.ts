@@ -3,11 +3,11 @@ import type { Addon_ClientStoryApi, Addon_Loadable } from '@storybook/types';
 import { start } from '@storybook/core-client';
 
 import { renderToCanvas } from './render';
-import type { WebComponentsFramework } from './types';
+import type { WebComponentsRenderer } from './types';
 
 const FRAMEWORK = 'web-components';
 
-interface ClientApi extends Addon_ClientStoryApi<WebComponentsFramework['storyResult']> {
+interface ClientApi extends Addon_ClientStoryApi<WebComponentsRenderer['storyResult']> {
   configure(loader: Addon_Loadable, module: NodeModule): void;
   forceReRender(): void;
   raw: () => any; // todo add type

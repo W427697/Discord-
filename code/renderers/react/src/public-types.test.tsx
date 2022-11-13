@@ -10,9 +10,9 @@ import type { SetOptional } from 'type-fest';
 
 import type { DecoratorFn } from './public-api';
 import type { Meta, StoryObj } from './public-types';
-import type { ReactFramework } from './types';
+import type { ReactRenderer } from './types';
 
-type ReactStory<Args, RequiredArgs> = StoryAnnotations<ReactFramework, Args, RequiredArgs>;
+type ReactStory<Args, RequiredArgs> = StoryAnnotations<ReactRenderer, Args, RequiredArgs>;
 
 type ButtonProps = { label: string; disabled: boolean };
 const Button: (props: ButtonProps) => JSX.Element = () => <></>;

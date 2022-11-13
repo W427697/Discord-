@@ -44,6 +44,7 @@
     - [`Story` type deprecated](#story-type-deprecated)
     - [`ComponentStory`, `ComponentStoryObj`, `ComponentStoryFn` and `ComponentMeta` types are deprecated](#componentstory-componentstoryobj-componentstoryfn-and-componentmeta-types-are-deprecated)
     - [Renamed `renderToDOM` to `renderToCanvas`](#renamed-rendertodom-to-rendertoroot)
+    - [Renamed `XFramework` to `XRenderer`](#renamed-xframework-to-xrenderer)
 - [From version 6.4.x to 6.5.0](#from-version-64x-to-650)
   - [Vue 3 upgrade](#vue-3-upgrade)
   - [React18 new root API](#react18-new-root-api)
@@ -840,6 +841,28 @@ CSF2Story.args = { label: 'Label' };
 #### Renamed `renderToDOM` to `renderToCanvas`
 
 The "rendering" function that renderers (ex-frameworks) must export (`renderToDOM`) has been renamed to `renderToCanvas` to acknowledge that some consumers of frameworks/the preview do not work with DOM elements.
+
+#### Renamed `XFramework` to `XRenderer`
+
+In 6.x you could import XFramework types:
+
+```ts
+import type { ReactFramework } from '@storybook/react';
+import type { VueFramework } from '@storybook/vue';
+import type { SvelteFramework } from '@storybook/svelte';
+
+// etc.
+```
+
+Those are deprecated in 7.0 as they are renamed to:
+
+```ts
+import type { ReactRenderer } from '@storybook/react';
+import type { VueRenderer } from '@storybook/vue';
+import type { SvelteRenderer } from '@storybook/svelte';
+
+// etc.
+```
 
 ## From version 6.4.x to 6.5.0
 

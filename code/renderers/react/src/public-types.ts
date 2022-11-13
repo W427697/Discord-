@@ -10,9 +10,9 @@ import type {
 import type { ComponentProps, ComponentType, JSXElementConstructor } from 'react';
 import type { SetOptional, Simplify } from 'type-fest';
 
-import type { ReactFramework } from './types';
+import type { ReactRenderer } from './types';
 
-export { ReactFramework };
+export { ReactRenderer };
 
 type JSXElement = keyof JSX.IntrinsicElements | JSXElementConstructor<any>;
 
@@ -22,8 +22,8 @@ type JSXElement = keyof JSX.IntrinsicElements | JSXElementConstructor<any>;
  * @see [Default export](https://storybook.js.org/docs/formats/component-story-format/#default-export)
  */
 export type Meta<TCmpOrArgs = Args> = TCmpOrArgs extends ComponentType<any>
-  ? ComponentAnnotations<ReactFramework, ComponentProps<TCmpOrArgs>>
-  : ComponentAnnotations<ReactFramework, TCmpOrArgs>;
+  ? ComponentAnnotations<ReactRenderer, ComponentProps<TCmpOrArgs>>
+  : ComponentAnnotations<ReactRenderer, TCmpOrArgs>;
 
 /**
  * Story function that represents a CSFv2 component example.
@@ -31,8 +31,8 @@ export type Meta<TCmpOrArgs = Args> = TCmpOrArgs extends ComponentType<any>
  * @see [Named Story exports](https://storybook.js.org/docs/formats/component-story-format/#named-story-exports)
  */
 export type StoryFn<TCmpOrArgs = Args> = TCmpOrArgs extends ComponentType<any>
-  ? AnnotatedStoryFn<ReactFramework, ComponentProps<TCmpOrArgs>>
-  : AnnotatedStoryFn<ReactFramework, TCmpOrArgs>;
+  ? AnnotatedStoryFn<ReactRenderer, ComponentProps<TCmpOrArgs>>
+  : AnnotatedStoryFn<ReactRenderer, TCmpOrArgs>;
 
 /**
  * Story function that represents a CSFv3 component example.
@@ -40,23 +40,23 @@ export type StoryFn<TCmpOrArgs = Args> = TCmpOrArgs extends ComponentType<any>
  * @see [Named Story exports](https://storybook.js.org/docs/formats/component-story-format/#named-story-exports)
  */
 export type StoryObj<TMetaOrCmpOrArgs = Args> = TMetaOrCmpOrArgs extends {
-  render?: ArgsStoryFn<ReactFramework, any>;
+  render?: ArgsStoryFn<ReactRenderer, any>;
   component?: infer Component;
   args?: infer DefaultArgs;
 }
   ? Simplify<
       (Component extends ComponentType<any> ? ComponentProps<Component> : unknown) &
-        ArgsFromMeta<ReactFramework, TMetaOrCmpOrArgs>
+        ArgsFromMeta<ReactRenderer, TMetaOrCmpOrArgs>
     > extends infer TArgs
     ? StoryAnnotations<
-        ReactFramework,
+        ReactRenderer,
         TArgs,
         SetOptional<TArgs, Extract<keyof TArgs, keyof (DefaultArgs & ActionArgs<TArgs>)>>
       >
     : never
   : TMetaOrCmpOrArgs extends ComponentType<any>
-  ? StoryAnnotations<ReactFramework, ComponentProps<TMetaOrCmpOrArgs>>
-  : StoryAnnotations<ReactFramework, TMetaOrCmpOrArgs>;
+  ? StoryAnnotations<ReactRenderer, ComponentProps<TMetaOrCmpOrArgs>>
+  : StoryAnnotations<ReactRenderer, TMetaOrCmpOrArgs>;
 
 type ActionArgs<RArgs> = {
   [P in keyof RArgs as ((...args: any[]) => void) extends RArgs[P] ? P : never]: RArgs[P];
