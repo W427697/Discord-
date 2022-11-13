@@ -3299,7 +3299,6 @@ __metadata:
     jest-environment-jsdom: ^28.0.0
     jest-enzyme: ^7.1.2
     jest-image-snapshot: ^4.3.0
-    jest-jasmine2: ^28.0.0
     jest-junit: ^13.0.0
     jest-os-detection: ^1.3.1
     jest-raw-loader: ^1.0.1
@@ -11560,31 +11559,6 @@ __metadata:
   peerDependencies:
     jest: ">=20 <=27"
   checksum: 270934f48183e5e0719ab1bfef91bce223f26ae99c68d2478f40caecdb6f43abcbabfa05c785f0a214ef5a24c1a54b9547c50e1c2dd9256e4fdf45589ac63dfd
-  languageName: node
-  linkType: hard
-
-"jest-jasmine2@npm:^28.0.0":
-  version: 28.1.3
-  resolution: "jest-jasmine2@npm:28.1.3"
-  dependencies:
-    "@jest/environment": ^28.1.3
-    "@jest/expect": ^28.1.3
-    "@jest/source-map": ^28.1.2
-    "@jest/test-result": ^28.1.3
-    "@jest/types": ^28.1.3
-    "@types/node": "*"
-    chalk: ^4.0.0
-    co: ^4.6.0
-    is-generator-fn: ^2.0.0
-    jest-each: ^28.1.3
-    jest-matcher-utils: ^28.1.3
-    jest-message-util: ^28.1.3
-    jest-runtime: ^28.1.3
-    jest-snapshot: ^28.1.3
-    jest-util: ^28.1.3
-    p-limit: ^3.1.0
-    pretty-format: ^28.1.3
-  checksum: ebc28398279c3e9de0025d3d41bf03f47ead61c5486aaa55fa632ecdc7e83b14c7a454b0284360d04f127d6c9332c54a93a7d20b64fc479624584642cee11b68
   languageName: node
   linkType: hard
 
