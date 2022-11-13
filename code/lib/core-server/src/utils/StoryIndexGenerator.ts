@@ -304,7 +304,7 @@ export class StoryIndexGenerator {
         dependencies.forEach((dep) => {
           if (dep.entries.length > 0) {
             const first = dep.entries[0];
-            if (path.resolve(this.options.workingDir, first.importPath).startsWith(absoluteOf)) {
+            if (slash(path.resolve(this.options.workingDir, first.importPath)).startsWith(absoluteOf)) {
               ofTitle = first.title;
             }
           }
