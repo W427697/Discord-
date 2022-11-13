@@ -1,4 +1,3 @@
-// import 'jest-enzyme/lib/index';
 import '@testing-library/jest-dom';
 
 // setup file
