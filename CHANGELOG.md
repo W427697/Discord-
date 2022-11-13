@@ -1,3 +1,24 @@
+## 7.0.0-alpha.49 (November 13, 2022)
+
+#### Bug Fixes
+
+-   Essentials: Fix preview annotations for Vite pnpm support [#19689](https://github.com/storybooks/storybook/pull/19689)
+
+#### Maintenance
+
+-   Build: convert addon-docs to use ts-up [#19790](https://github.com/storybooks/storybook/pull/19790)
+-   Core: Allow overriding WebView and UrlStore [#19623](https://github.com/storybooks/storybook/pull/19623)
+-   Storyshots: Support .cjs and .mjs file extensions [#19726](https://github.com/storybooks/storybook/pull/19726)
+
+#### Build
+
+-   Build: less noise when compiling [#19808](https://github.com/storybooks/storybook/pull/19808)
+-   Build: Upgrade bench to `next` [#19791](https://github.com/storybooks/storybook/pull/19791)
+-   Maintenance: improve error feedback when tasks fail in CI [#19786](https://github.com/storybooks/storybook/pull/19786)
+-   UI: Enable TurboSnap for UI Storybook [#19767](https://github.com/storybooks/storybook/pull/19767)
+-   CI: Use a new cadence (ci, pr, merged, daily) and trigger CircleCI from github actions [#19768](https://github.com/storybooks/storybook/pull/19768)
+-   Maintenance: provide expected failure metadata in junit reports [#19775](https://github.com/storybooks/storybook/pull/19775)
+
 ## 7.0.0-alpha.48 (November 7, 2022)
 
 #### Breaking Changes
