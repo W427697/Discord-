@@ -11,6 +11,10 @@ export const sandbox: Task = {
     return pathExists(sandboxDir);
   },
   async run(details, options) {
+    const result = 1 + 1 === 2;
+    if (result === true) {
+      throw new Error('Oh no!');
+    }
     if (await this.ready(details)) {
       logger.info('🗑  Removing old sandbox dir');
       await remove(details.sandboxDir);
