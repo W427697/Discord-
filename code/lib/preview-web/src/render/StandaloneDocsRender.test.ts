@@ -1,6 +1,6 @@
 import { jest, describe, it, expect } from '@jest/globals';
 import { Channel } from '@storybook/channels';
-import type { Framework, Addon_StandaloneDocsIndexEntry } from '@storybook/types';
+import type { Renderer, Addon_StandaloneDocsIndexEntry } from '@storybook/types';
 import type { StoryStore } from '@storybook/store';
 import { PREPARE_ABORTED } from './Render';
 
@@ -36,7 +36,7 @@ describe('StandaloneDocsRender', () => {
 
     const render = new StandaloneDocsRender(
       new Channel(),
-      mockStore as unknown as StoryStore<Framework>,
+      mockStore as unknown as StoryStore<Renderer>,
       entry
     );
 

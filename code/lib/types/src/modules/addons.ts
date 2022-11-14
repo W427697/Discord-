@@ -8,7 +8,7 @@ import type {
   ComponentTitle,
   DecoratorFunction as DecoratorFunctionForFramework,
   InputType,
-  Framework,
+  Renderer,
   LegacyStoryFn as LegacyStoryFnForFramework,
   LoaderFunction as LoaderFunctionForFramework,
   Parameters,
@@ -89,8 +89,8 @@ export interface Addon_OptionsParameter extends Object {
   [key: string]: any;
 }
 
-export type Addon_StoryContext<TFramework extends Framework = Framework> =
-  StoryContextForFramework<TFramework>;
+export type Addon_StoryContext<TRenderer extends Renderer = Renderer> =
+  StoryContextForFramework<TRenderer>;
 export type Addon_StoryContextUpdate = Partial<Addon_StoryContext>;
 
 type Addon_ReturnTypeFramework<ReturnType> = {

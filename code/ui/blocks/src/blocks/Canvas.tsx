@@ -1,6 +1,6 @@
 import React, { Children, useContext } from 'react';
 import type { FC, ReactElement, ReactNode } from 'react';
-import type { Framework } from '@storybook/types';
+import type { Renderer } from '@storybook/types';
 import type { PreviewProps as PurePreviewProps } from '../components';
 import { Preview as PurePreview, PreviewSkeleton } from '../components';
 import type { DocsContextProps } from './DocsContext';
@@ -19,7 +19,7 @@ type CanvasProps = Omit<PurePreviewProps, 'isExpanded'> & {
 
 const usePreviewProps = (
   { withSource, mdxSource, children, ...props }: CanvasProps & { children?: ReactNode },
-  docsContext: DocsContextProps<Framework>,
+  docsContext: DocsContextProps<Renderer>,
   sourceContext: SourceContextProps
 ) => {
   /*
