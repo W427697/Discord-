@@ -191,6 +191,7 @@ describe('PreviewWeb', () => {
 
     it('SET_GLOBALS sets globals and types even when undefined', async () => {
       await createAndRenderPreview({
+        // @ts-expect-error (not strict)
         getProjectAnnotations: () => ({ renderToCanvas: jest.fn() }),
       });
 
@@ -3104,7 +3105,6 @@ describe('PreviewWeb', () => {
       const newStandaloneDocsExports = { default: jest.fn() };
 
       const newImportFn = jest.fn(async (path) => {
-        // @ts-expect-error (not strict)
         return path === './src/Introduction.mdx' ? newStandaloneDocsExports : importFn(path);
       });
 
@@ -3216,7 +3216,6 @@ describe('PreviewWeb', () => {
       expect(mockChannel.emit).toHaveBeenCalledWith(CONFIG_ERROR, err);
     });
 
-    // @ts-expect-error (not strict)
     const newGlobalDecorator = jest.fn((s) => s());
     const newGetProjectAnnotations = () => {
       return {
