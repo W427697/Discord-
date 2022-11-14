@@ -1,4 +1,3 @@
-import type { AnnotatedStoryFn } from '@storybook/csf';
 import { isExportStory } from '@storybook/csf';
 import type {
   Renderer,
