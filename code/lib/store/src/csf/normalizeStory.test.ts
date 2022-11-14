@@ -1,5 +1,5 @@
 import { expect, describe, it } from '@jest/globals';
-import type { Framework, StoryAnnotationsOrFn } from '@storybook/types';
+import type { Renderer, StoryAnnotationsOrFn } from '@storybook/types';
 
 import { normalizeStory } from './normalizeStory';
 
@@ -133,7 +133,7 @@ describe('normalizeStory', () => {
       });
 
       it('full annotations', () => {
-        const storyObj: StoryAnnotationsOrFn<Framework> = {
+        const storyObj: StoryAnnotationsOrFn<Renderer> = {
           name: 'story name',
           parameters: { storyParam: 'val' },
           decorators: [() => {}],
@@ -174,7 +174,7 @@ describe('normalizeStory', () => {
       });
 
       it('prefers new annotations to legacy, but combines', () => {
-        const storyObj: StoryAnnotationsOrFn<Framework> = {
+        const storyObj: StoryAnnotationsOrFn<Renderer> = {
           name: 'story name',
           parameters: { storyParam: 'val' },
           decorators: [() => {}],

@@ -4,7 +4,7 @@ import type {
   ComponentAnnotations,
   StoryAnnotations,
 } from '@storybook/types';
-import type { PreactFramework } from './types';
+import type { PreactRenderer } from './types';
 
 export type { Args, ArgTypes, Parameters, StoryContext } from '@storybook/types';
 
@@ -13,21 +13,21 @@ export type { Args, ArgTypes, Parameters, StoryContext } from '@storybook/types'
  *
  * @see [Default export](https://storybook.js.org/docs/formats/component-story-format/#default-export)
  */
-export type Meta<TArgs = Args> = ComponentAnnotations<PreactFramework, TArgs>;
+export type Meta<TArgs = Args> = ComponentAnnotations<PreactRenderer, TArgs>;
 
 /**
  * Story function that represents a CSFv2 component example.
  *
  * @see [Named Story exports](https://storybook.js.org/docs/formats/component-story-format/#named-story-exports)
  */
-export type StoryFn<TArgs = Args> = AnnotatedStoryFn<PreactFramework, TArgs>;
+export type StoryFn<TArgs = Args> = AnnotatedStoryFn<PreactRenderer, TArgs>;
 
 /**
  * Story function that represents a CSFv3 component example.
  *
  * @see [Named Story exports](https://storybook.js.org/docs/formats/component-story-format/#named-story-exports)
  */
-export type StoryObj<TArgs = Args> = StoryAnnotations<PreactFramework, TArgs>;
+export type StoryObj<TArgs = Args> = StoryAnnotations<PreactRenderer, TArgs>;
 
 /**
  * @deprecated Use `StoryFn` instead.

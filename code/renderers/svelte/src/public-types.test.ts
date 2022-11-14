@@ -8,10 +8,10 @@ import Decorator from './__test__/Decorator.svelte';
 import Decorator2 from './__test__/Decorator2.svelte';
 
 import type { DecoratorFn, Meta, StoryObj } from './public-types';
-import type { SvelteFramework } from './types';
+import type { SvelteRenderer } from './types';
 
 type SvelteStory<Component extends SvelteComponentTyped, Args, RequiredArgs> = StoryAnnotations<
-  SvelteFramework<Component>,
+  SvelteRenderer<Component>,
   Args,
   RequiredArgs
 >;
@@ -27,7 +27,7 @@ describe('Meta', () => {
     };
 
     expectTypeOf(meta).toEqualTypeOf<
-      ComponentAnnotations<SvelteFramework<Button>, { disabled: boolean; label: string }>
+      ComponentAnnotations<SvelteRenderer<Button>, { disabled: boolean; label: string }>
     >();
   });
 
@@ -38,7 +38,7 @@ describe('Meta', () => {
     };
 
     expectTypeOf(meta).toEqualTypeOf<
-      ComponentAnnotations<SvelteFramework, { disabled: boolean; label: string }>
+      ComponentAnnotations<SvelteRenderer, { disabled: boolean; label: string }>
     >();
   });
 

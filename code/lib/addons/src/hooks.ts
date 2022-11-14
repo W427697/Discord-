@@ -1,7 +1,7 @@
 import global from 'global';
 import { logger } from '@storybook/client-logger';
 import type {
-  Framework,
+  Renderer,
   Args,
   DecoratorApplicator,
   DecoratorFunction,
@@ -32,7 +32,7 @@ interface Effect {
 
 type AbstractFunction = (...args: any[]) => any;
 
-export class HooksContext<TFramework extends Framework> {
+export class HooksContext<TRenderer extends Renderer> {
   hookListsMap: WeakMap<AbstractFunction, Hook[]>;
 
   mountedDecorators: Set<AbstractFunction>;
@@ -53,7 +53,7 @@ export class HooksContext<TFramework extends Framework> {
 
   hasUpdates: boolean;
 
-  currentContext: StoryContext<TFramework> | null;
+  currentContext: StoryContext<TRenderer> | null;
 
   renderListener = (storyId: StoryId) => {
     if (storyId !== this.currentContext.id) return;
@@ -126,15 +126,15 @@ export class HooksContext<TFramework extends Framework> {
   }
 }
 
-function hookify<TFramework extends Framework>(
-  storyFn: LegacyStoryFn<TFramework>
-): LegacyStoryFn<TFramework>;
-function hookify<TFramework extends Framework>(
-  decorator: DecoratorFunction<TFramework>
-): DecoratorFunction<TFramework>;
-function hookify<TFramework extends Framework>(fn: AbstractFunction) {
+function hookify<TRenderer extends Renderer>(
+  storyFn: LegacyStoryFn<TRenderer>
+): LegacyStoryFn<TRenderer>;
+function hookify<TRenderer extends Renderer>(
+  decorator: DecoratorFunction<TRenderer>
+): DecoratorFunction<TRenderer>;
+function hookify<TRenderer extends Renderer>(fn: AbstractFunction) {
   return (...args: any[]) => {
-    const { hooks }: { hooks: HooksContext<TFramework> } =
+    const { hooks }: { hooks: HooksContext<TRenderer> } =
       typeof args[0] === 'function' ? args[1] : args[0];
 
     const prevPhase = hooks.currentPhase;
@@ -177,16 +177,16 @@ function hookify<TFramework extends Framework>(fn: AbstractFunction) {
 let numberOfRenders = 0;
 const RENDER_LIMIT = 25;
 export const applyHooks =
-  <TFramework extends Framework>(
-    applyDecorators: DecoratorApplicator<TFramework>
-  ): DecoratorApplicator<TFramework> =>
-  (storyFn: LegacyStoryFn<TFramework>, decorators: DecoratorFunction<TFramework>[]) => {
+  <TRenderer extends Renderer>(
+    applyDecorators: DecoratorApplicator<TRenderer>
+  ): DecoratorApplicator<TRenderer> =>
+  (storyFn: LegacyStoryFn<TRenderer>, decorators: DecoratorFunction<TRenderer>[]) => {
     const decorated = applyDecorators(
       hookify(storyFn),
       decorators.map((decorator) => hookify(decorator))
     );
     return (context) => {
-      const { hooks } = context as { hooks: HooksContext<TFramework> };
+      const { hooks } = context as { hooks: HooksContext<TRenderer> };
       hooks.prevMountedDecorators = hooks.mountedDecorators;
       hooks.mountedDecorators = new Set([storyFn, ...decorators]);
       hooks.currentContext = context;
@@ -215,12 +215,12 @@ const areDepsEqual = (deps: any[], nextDeps: any[]) =>
 const invalidHooksError = () =>
   new Error('Storybook preview hooks can only be called inside decorators and story functions.');
 
-function getHooksContextOrNull<TFramework extends Framework>(): HooksContext<TFramework> | null {
+function getHooksContextOrNull<TRenderer extends Renderer>(): HooksContext<TRenderer> | null {
   return global.STORYBOOK_HOOKS_CONTEXT || null;
 }
 
-function getHooksContextOrThrow<TFramework extends Framework>(): HooksContext<TFramework> {
-  const hooks = getHooksContextOrNull<TFramework>();
+function getHooksContextOrThrow<TRenderer extends Renderer>(): HooksContext<TRenderer> {
+  const hooks = getHooksContextOrNull<TRenderer>();
   if (hooks == null) {
     throw invalidHooksError();
   }
@@ -404,7 +404,7 @@ export function useChannel(eventMap: EventMap, deps: any[] = []) {
 }
 
 /* Returns current story context */
-export function useStoryContext<TFramework extends Framework>(): StoryContext<TFramework> {
+export function useStoryContext<TRenderer extends Renderer>(): StoryContext<TRenderer> {
   const { currentContext } = getHooksContextOrThrow();
   if (currentContext == null) {
     throw invalidHooksError();
