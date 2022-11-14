@@ -43,8 +43,9 @@
   - [7.0 Deprecations](#70-deprecations)
     - [`Story` type deprecated](#story-type-deprecated)
     - [`ComponentStory`, `ComponentStoryObj`, `ComponentStoryFn` and `ComponentMeta` types are deprecated](#componentstory-componentstoryobj-componentstoryfn-and-componentmeta-types-are-deprecated)
-    - [Renamed `renderToDOM` to `renderToCanvas`](#renamed-rendertodom-to-rendertoroot)
+    - [Renamed `renderToDOM` to `renderToCanvas`](#renamed-rendertodom-to-rendertocanvas)
     - [Renamed `XFramework` to `XRenderer`](#renamed-xframework-to-xrenderer)
+    - [Renamed `DecoratorFn` to `Decorator`](#renamed-decoratorfn-to-decorator)
 - [From version 6.4.x to 6.5.0](#from-version-64x-to-650)
   - [Vue 3 upgrade](#vue-3-upgrade)
   - [React18 new root API](#react18-new-root-api)
@@ -862,6 +863,43 @@ import type { VueRenderer } from '@storybook/vue';
 import type { SvelteRenderer } from '@storybook/svelte';
 
 // etc.
+```
+
+#### Renamed `DecoratorFn` to `Decorator`
+
+In 6.x you could import the type `DecoratorFn`:
+
+```ts
+import type { DecoratorFn } from '@storybook/react';
+// etc.
+```
+
+This type is deprecated in 7.0, instead you can use the type `Decorator`:
+
+```ts
+import type { Decorator } from '@storybook/react';
+// etc.
+```
+
+The type `Decorator` accepts a generic parameter `TArgs`. This can be used like this:
+
+```tsx
+import type { Decorator } from '@storybook/react';
+
+const withTheme: Decorator<{ theme: 'light' | 'dark' }> = (Story, { args }) => (
+  <ThemeProvider theme={args.theme}>
+    <Story />
+  </ThemeProvider>
+);
+```
+
+If you want to use `Decorator` in a backwards compatible way to `DecoratorFn`, you can use:
+
+```tsx
+import type { Args, Decorator } from '@storybook/react';
+
+// same Decorator<Args> is the same as the old DecartorFn
+const withTheme: Decorator<Args> = (Story, {args}) => // args has type { [name: string]: any }
 ```
 
 ## From version 6.4.x to 6.5.0
