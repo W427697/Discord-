@@ -266,7 +266,7 @@ jobs:
           name: set up cra repro, skip tests
           command: |
             cd code
-            SANDBOX_ROOT=../bench yarn task --task sandbox --template cra/default-ts --skip-template-stories
+            SANDBOX_ROOT=../bench yarn task --task sandbox --template cra/default-ts --skip-template-stories --start-from=never
       - run:
           name: Run @storybook/bench on repro
           command: |
@@ -306,7 +306,7 @@ jobs:
           name: set up react-vite repro, skip tests
           command: |
             cd code
-            SANDBOX_ROOT=../bench yarn task --task sandbox --template react-vite/default-ts --skip-template-stories
+            SANDBOX_ROOT=../bench yarn task --task sandbox --template react-vite/default-ts --skip-template-stories --start-from=never
       - run:
           name: Run @storybook/bench on repro
           command: |
