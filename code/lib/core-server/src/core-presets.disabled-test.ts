@@ -89,7 +89,6 @@ jest.mock('@storybook/store', () => {
 });
 
 jest.mock('http', () => ({
-  // @ts-expect-error (not strict)
   ...jest.requireActual('http'),
   // @ts-expect-error (not strict)
   createServer: () => ({ listen: (_options, cb) => cb(), on: jest.fn() }),
