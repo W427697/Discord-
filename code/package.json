@@ -184,7 +184,7 @@
     "@storybook/core-events": "workspace:*",
     "@storybook/core-server": "workspace:*",
     "@storybook/core-webpack": "workspace:*",
-    "@storybook/csf": "0.0.2-next.5",
+    "@storybook/csf": "0.0.2-next.6",
     "@storybook/csf-plugin": "workspace:*",
     "@storybook/csf-tools": "workspace:*",
     "@storybook/docs-tools": "workspace:*",
