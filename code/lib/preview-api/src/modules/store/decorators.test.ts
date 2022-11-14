@@ -110,7 +110,6 @@ describe('client-api.decorators', () => {
     decoratedOne(makeContext({ value: 1 }));
     decoratedTwo(makeContext({ value: 2 }));
 
-    // @ts-expect-error (not defined)
     resolve();
     await fence;
 

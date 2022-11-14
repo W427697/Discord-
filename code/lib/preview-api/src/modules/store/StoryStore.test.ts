@@ -634,7 +634,6 @@ describe('StoryStore', () => {
         v: 4,
         entries: {
           ...storyIndex.entries,
-          // @ts-expect-error (not strict)
           'introduction--docs': {
             standalone: true,
             type: 'docs',
