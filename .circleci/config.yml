@@ -183,7 +183,7 @@ commands:
           name: Listing merge commits from the past 24 hours
           when: on_fail
           command: |
-            git log --merges --oneline --since="24 hours ago" --pretty=format:"%h %<(12)%ar | %s [%an]" | grep "Merge pull request"
+            git log --merges --since="124 hours ago" --pretty=format:"\`%h\` %<(12)%ar | %s [%an]" | grep "Merge pull request" | sed "s/Merge pull request #/https:\/\/github.com\/storybookjs\/storybook\/pull\//g"
   report-workflow-on-failure:
     description: 'Reports failures to discord'
     parameters:
@@ -199,7 +199,7 @@ commands:
       - discord/status:
           only_for_branches: chore/failure-reports
           fail_only: true
-          failure_message: 'Oh no! The **$CIRCLE_JOB** job has failed for **<< parameters.template >>**.\n\nRelevant PRs:\n$(git log --merges --oneline --since="24 hours ago" --pretty=format:"%h %<(12)%ar | %s" | grep "Merge pull request" | sed "s/Merge pull request #/https:\/\/github.com\/storybookjs\/storybook\/pull\//g")'
+          failure_message: 'Oh no! The **$CIRCLE_JOB** job has failed for **<< parameters.template >>**.\n\n**Relevant PRs of the last 24h:**\n$(git log --merges --since="124 hours ago" --pretty=format:"\`%h\` %<(12)%ar | %s [%an]" | grep "Merge pull request" | sed "s/Merge pull request #/https:\/\/github.com\/storybookjs\/storybook\/pull\//g")'
 jobs:
   build:
     executor:
