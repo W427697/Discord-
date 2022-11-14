@@ -31,16 +31,17 @@ jest.mock('@storybook/client-logger', () => ({
 }));
 
 const SOME_EVENT = 'someEvent';
-let mockChannel;
-let hooks;
-let onSomeEvent;
-let removeSomeEventListener;
+
+let mockChannel: any;
+let hooks: any;
+let onSomeEvent: any;
+let removeSomeEventListener: any;
 beforeEach(() => {
   onSomeEvent = jest.fn();
   removeSomeEventListener = jest.fn();
   mockChannel = {
     emit: jest.fn(),
-    on(event, callback) {
+    on(event: any, callback: any) {
       switch (event) {
         case STORY_RENDERED:
           callback();
@@ -51,7 +52,7 @@ beforeEach(() => {
         default:
       }
     },
-    removeListener(event, callback) {
+    removeListener(event: any, callback: any) {
       if (event === SOME_EVENT) {
         removeSomeEventListener(event, callback);
       }
@@ -63,7 +64,7 @@ beforeEach(() => {
 
 const decorateStory = applyHooks(defaultDecorateStory);
 
-const run = (storyFn, decorators: DecoratorFunction[] = [], context = {}) =>
+const run = (storyFn: any, decorators: DecoratorFunction[] = [], context = {}) =>
   decorateStory(storyFn, decorators)({ ...context, hooks } as StoryContext);
 
 describe('Preview hooks', () => {
@@ -116,7 +117,7 @@ describe('Preview hooks', () => {
     });
     it("doesn't retrigger the effect from decorator if story has changed", () => {
       const effect = jest.fn();
-      const decorator = (storyFn) => {
+      const decorator = (storyFn: any) => {
         useEffect(effect, []);
         return storyFn();
       };
@@ -126,7 +127,7 @@ describe('Preview hooks', () => {
     });
     it("doesn't retrigger the effect from decorator if story has changed and story call comes before useEffect", () => {
       const effect = jest.fn();
-      const decorator = (storyFn) => {
+      const decorator = (storyFn: any) => {
         const story = storyFn();
         useEffect(effect, []);
         return story;
@@ -140,7 +141,7 @@ describe('Preview hooks', () => {
       const story = () => {
         useEffect(effect, []);
       };
-      const decorator = (storyFn) => {
+      const decorator = (storyFn: any) => {
         storyFn();
         return storyFn();
       };
@@ -348,7 +349,7 @@ describe('Preview hooks', () => {
   });
   describe('useRef', () => {
     it('attaches initial value', () => {
-      let ref;
+      let ref: any;
       const storyFn = () => {
         ref = useRef('foo');
       };
@@ -431,7 +432,7 @@ describe('Preview hooks', () => {
     });
     it('performs asynchronous state updates', () => {
       let state;
-      let setState;
+      let setState: any;
       const storyFn = jest.fn(() => {
         [state, setState] = useState('foo');
       });
@@ -484,8 +485,8 @@ describe('Preview hooks', () => {
       expect(state).toBe(3);
     });
     it('performs asynchronous state updates', () => {
-      let state;
-      let dispatch;
+      let state: any;
+      let dispatch: any;
       const storyFn = jest.fn(() => {
         [state, dispatch] = useReducer((prevState, action) => {
           switch (action) {

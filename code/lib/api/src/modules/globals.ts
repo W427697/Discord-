@@ -19,7 +19,7 @@ export interface SubAPI {
   updateGlobals: (newGlobals: Globals) => void;
 }
 
-export const init: ModuleFn = ({ store, fullAPI }) => {
+export const init: ModuleFn<SubAPI, SubState, true> = ({ store, fullAPI }) => {
   const api: SubAPI = {
     getGlobals() {
       return store.getState().globals;

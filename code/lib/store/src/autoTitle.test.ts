@@ -5,7 +5,7 @@ import { userOrAutoTitleFromSpecifier as userOrAuto } from './autoTitle';
 
 expect.addSnapshotSerializer({
   print: (val: any) => val,
-  test: (val) => true,
+  test: (val: any) => true,
 });
 
 // Make these two the same so `normalizeStoriesEntry` doesn't change anything
