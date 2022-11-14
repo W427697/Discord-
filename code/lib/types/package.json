@@ -41,7 +41,7 @@
   },
   "dependencies": {
     "@babel/core": "^7.12.10",
-    "@storybook/channels": "next",
+    "@storybook/channels": "7.0.0-alpha.49",
     "@types/babel__core": "^7.0.0",
     "@types/express": "^4.7.0",
     "express": "^4.17.1",
