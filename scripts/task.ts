@@ -25,7 +25,7 @@ import { e2eTests } from './tasks/e2e-tests';
 
 import { allTemplates as TEMPLATES } from '../code/lib/cli/src/repro-templates';
 
-const sandboxDir = resolve(__dirname, '../sandbox');
+const sandboxDir = process.env.SANDBOX_ROOT || resolve(__dirname, '../sandbox');
 const codeDir = resolve(__dirname, '../code');
 const junitDir = resolve(__dirname, '../test-results');
 
