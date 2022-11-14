@@ -28,7 +28,6 @@ jest.mock('path', () => {
     resolve: jest.fn((_, p) => p),
     dirname: path.dirname,
     join: path.join,
-    posix: path.posix,
   };
 });
 
