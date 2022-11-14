@@ -13,7 +13,7 @@ export interface ClientApi extends Addon_ClientStoryApi<PreactRenderer['storyRes
 }
 
 const FRAMEWORK = 'preact';
-const api = start(renderToCanvas);
+const api = start<PreactRenderer>(renderToCanvas);
 
 export const storiesOf: ClientApi['storiesOf'] = (kind, m) => {
   return (api.clientApi.storiesOf(kind, m) as ReturnType<ClientApi['storiesOf']>).addParameters({

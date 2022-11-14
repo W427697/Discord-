@@ -162,8 +162,11 @@ describe('composeConfigs', () => {
     const fn = jest.fn();
 
     const { runStep } = composeConfigs([
+      // @ts-expect-error (not defined)
       { runStep: (label, play, context) => fn(`${label}1`, play(context)) },
+      // @ts-expect-error (not defined)
       { runStep: (label, play, context) => fn(`${label}2`, play(context)) },
+      // @ts-expect-error (not defined)
       { runStep: (label, play, context) => fn(`${label}3`, play(context)) },
     ]);
 

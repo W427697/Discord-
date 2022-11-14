@@ -19,6 +19,7 @@ import { buildStaticStandalone } from './build-static';
 
 import { outputStats } from './utils/output-stats';
 
+// @ts-expect-error (not strict)
 const { SNAPSHOT_OS } = global;
 const mkdtemp = promisify(mkdtempCb);
 const { packageJson } = readUpSync({ cwd: __dirname });
@@ -33,6 +34,7 @@ jest.mock('webpack', () => {
   const actual = jest.requireActual('webpack');
 
   Object.keys(actual).forEach((key) => {
+    // @ts-expect-error (not strict)
     value[key] = actual[key];
   });
   return value;
@@ -87,7 +89,9 @@ jest.mock('@storybook/store', () => {
 });
 
 jest.mock('http', () => ({
+  // @ts-expect-error (not strict)
   ...jest.requireActual('http'),
+  // @ts-expect-error (not strict)
   createServer: () => ({ listen: (_options, cb) => cb(), on: jest.fn() }),
 }));
 jest.mock('ws');
@@ -129,7 +133,7 @@ const baseOptions = {
 const ROOT = getProjectRoot();
 const CWD = process.cwd();
 const NODE_MODULES = /.*node_modules/g;
-const cleanRoots = (obj): any => {
+const cleanRoots = (obj: any): any => {
   if (!obj) return obj;
   if (typeof obj === 'string')
     return obj.replace(CWD, 'CWD').replace(ROOT, 'ROOT').replace(NODE_MODULES, 'NODE_MODULES');
@@ -148,15 +152,18 @@ const cleanRoots = (obj): any => {
   return obj;
 };
 
-const getConfig = (fn: any, name): Configuration | null => {
-  const call = fn.mock.calls.find((c) => c[0].name === name);
+const getConfig = (fn: any, name: string): Configuration | null => {
+  const call = fn.mock.calls.find((c: any) => c[0].name === name);
   if (!call) {
     return null;
   }
   return call[0];
 };
 
-const prepareSnap = (get: any, name): Pick<Configuration, 'module' | 'entry' | 'plugins'> => {
+const prepareSnap = (
+  get: any,
+  name: string
+): Pick<Configuration, 'module' | 'entry' | 'plugins'> => {
   const config = getConfig(get(), name);
   if (!config) {
     return null;
@@ -173,7 +180,8 @@ const snap = (name: string) => `__snapshots__/${name}`;
 // FIXME: we no longer have test cases
 // eslint-disable-next-line jest/no-disabled-tests
 describe.skip('FIXME', () => {
-  describe.each([[]])('%s', (example) => {
+  // @ts-expect-error (not strict)
+  describe.each([[]])('%s', (example: string) => {
     describe.each([
       ['manager', managerExecutor],
       ['preview', previewExecutor],
@@ -209,8 +217,8 @@ describe.skip('FIXME', () => {
   });
 });
 
-const progressPlugin = (config) =>
-  config.plugins.find((p) => p.constructor.name === 'ProgressPlugin');
+const progressPlugin = (config: any) =>
+  config.plugins.find((p: any) => p.constructor.name === 'ProgressPlugin');
 
 describe('dev cli flags', () => {
   beforeEach(async () => {
@@ -271,6 +279,7 @@ describe('dev cli flags', () => {
 
     it('production mode', async () => {
       expect.assertions(1);
+      // @ts-expect-error (not strict)
       await expect(buildStaticStandalone(optionsWithInvalidStaticDir)).rejects.toThrow(
         "Won't copy root directory. Check your staticDirs!"
       );
