@@ -2159,6 +2159,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@babel/types@npm:^7.14.8":
+  version: 7.20.2
+  resolution: "@babel/types@npm:7.20.2"
+  dependencies:
+    "@babel/helper-string-parser": ^7.19.4
+    "@babel/helper-validator-identifier": ^7.19.1
+    to-fast-properties: ^2.0.0
+  checksum: 62bb4665a9fcb149a8791f42c0509c23f6bd5da01c8319d4f49a16b5b49e2bfb97c5f7a99cf7935f94994da059feabaf90c29e3f380684f5328fc33fafb09984
+  languageName: node
+  linkType: hard
+
 "@base2/pretty-print-object@npm:1.0.1":
   version: 1.0.1
   resolution: "@base2/pretty-print-object@npm:1.0.1"
@@ -6533,7 +6544,7 @@ __metadata:
     "@storybook/core-events": 7.0.0-alpha.49
     "@storybook/csf": 0.0.2-next.5
     "@storybook/csf-tools": 7.0.0-alpha.49
-    "@storybook/docs-mdx": 0.0.1-canary.12433cf.0
+    "@storybook/docs-mdx": next
     "@storybook/node-logger": 7.0.0-alpha.49
     "@storybook/store": 7.0.0-alpha.49
     "@storybook/telemetry": 7.0.0-alpha.49
@@ -6658,15 +6669,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@storybook/docs-mdx@npm:0.0.1-canary.12433cf.0":
-  version: 0.0.1-canary.12433cf.0
-  resolution: "@storybook/docs-mdx@npm:0.0.1-canary.12433cf.0"
+"@storybook/docs-mdx@npm:next":
+  version: 0.0.1-next.3
+  resolution: "@storybook/docs-mdx@npm:0.0.1-next.3"
   dependencies:
     "@babel/traverse": ^7.12.11
+    "@babel/types": ^7.14.8
     "@mdx-js/mdx": ^2.0.0
     estree-to-babel: ^4.9.0
     hast-util-to-estree: ^2.0.2
-  checksum: 41ad8df3c898d0eea257ffee4c7a127625ebd95d7af01899b342562254e90c70e4c8f56ae32ad8171c72f1cc0503c8c5967c43fc9ef2b90eaee2506060db898c
+    lodash: ^4.17.21
+  checksum: aeedcb6a05528d2aa255694d8e1eec329af28ee3d89fc59c3225d8c7c0902a8559ed12ade0eec68f9dcd2f40a4a2f8dd55d2b42fd8c7e797b51f3e906558dfec
   languageName: node
   linkType: hard
 
