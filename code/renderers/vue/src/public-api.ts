@@ -15,7 +15,7 @@ interface ClientApi extends Addon_ClientStoryApi<VueRenderer['storyResult']> {
   load: (...args: any[]) => void;
 }
 
-const api = start(renderToCanvas, { decorateStory, render });
+const api = start<VueRenderer>(renderToCanvas, { decorateStory, render });
 
 export const storiesOf: ClientApi['storiesOf'] = (kind, m) => {
   return (api.clientApi.storiesOf(kind, m) as ReturnType<ClientApi['storiesOf']>).addParameters({

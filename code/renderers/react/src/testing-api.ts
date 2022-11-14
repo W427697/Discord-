@@ -34,7 +34,7 @@ import type { ReactRenderer } from './types';
 export function setProjectAnnotations(
   projectAnnotations: ProjectAnnotations<ReactRenderer> | ProjectAnnotations<ReactRenderer>[]
 ) {
-  originalSetProjectAnnotations(projectAnnotations);
+  originalSetProjectAnnotations<ReactRenderer>(projectAnnotations);
 }
 
 /** Preserved for users migrating from `@storybook/testing-react`.
