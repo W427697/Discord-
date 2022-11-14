@@ -54,15 +54,22 @@ export type StoryObj<TMetaOrCmpOrArgs = Args> = TMetaOrCmpOrArgs extends {
     ? StoryAnnotations<
         ReactRenderer,
         TArgs,
-        SetOptional<TArgs, Extract<keyof TArgs, keyof (DefaultArgs & ActionArgs<TArgs>)>>
+        SetOptional<TArgs, keyof TArgs & keyof (DefaultArgs & ActionArgs<TArgs>)>
       >
     : never
   : TMetaOrCmpOrArgs extends ComponentType<any>
   ? StoryAnnotations<ReactRenderer, ComponentProps<TMetaOrCmpOrArgs>>
   : StoryAnnotations<ReactRenderer, TMetaOrCmpOrArgs>;
 
-type ActionArgs<RArgs> = {
-  [P in keyof RArgs as ((...args: any[]) => void) extends RArgs[P] ? P : never]: RArgs[P];
+type ActionArgs<TArgs> = {
+  // This can be read as: filter TArgs on functions where we can assign a void function to that function.
+  // The docs addon argsEnhancers can only safely provide a default value for void functions.
+  // Other kind of required functions should be provided by the user.
+  [P in keyof TArgs as TArgs[P] extends (...args: any[]) => any
+    ? ((...args: any[]) => void) extends TArgs[P]
+      ? P
+      : never
+    : never]: TArgs[P];
 };
 
 /**

@@ -44,7 +44,7 @@
   "dependencies": {
     "@storybook/addons": "7.0.0-alpha.48",
     "@storybook/client-logger": "7.0.0-alpha.48",
-    "@storybook/csf": "0.0.2-next.6",
+    "@storybook/csf": "0.0.2-next.7",
     "@storybook/store": "7.0.0-alpha.48",
     "@storybook/types": "7.0.0-alpha.48",
     "@types/qs": "^6.9.5",
