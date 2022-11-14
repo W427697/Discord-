@@ -197,9 +197,9 @@ commands:
           command: git fetch --unshallow
       - list-recent-merges
       - discord/status:
-          only_for_branches: next,alpha
+          only_for_branches: next,alpha,chore/improve-failure-reports
           fail_only: true
-          failure_message: 'Oh no! The **$CIRCLE_JOB** job has failed for **<< parameters.template >>**.\n\n**Relevant PRs of the last 24h:**\n$(git log --merges --since="24 hours ago" --pretty=format:"\`%h\` %<(12)%ar %s [%an]" | grep "Merge pull request" | sed "s/Merge pull request #/https:\/\/github.com\/storybookjs\/storybook\/pull\//g" | tr "\\n" "\\\\n" | sed "s/\\\\/\\\\n/g")'
+          failure_message: 'Oh no! The **$CIRCLE_JOB** job has failed for **<< parameters.template >>**.\n\n**Branch**: ${CIRCLE_BRANCH}\n**Workflow:** << pipeline.parameters.workflow >>\n**Relevant PRs of the last 24h:**\n$(git log --merges --since="24 hours ago" --pretty=format:"\`%h\` %<(12)%ar %s [%an]" | grep "Merge pull request" | sed "s/Merge pull request #/https:\/\/github.com\/storybookjs\/storybook\/pull\//g" | tr "\\n" "\\\\n" | sed "s/\\\\/\\\\n/g")'
 jobs:
   build:
     executor:
