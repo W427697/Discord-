@@ -1,3 +1,4 @@
+// @ts-expect-error (loader-utils has no webpack5 compatible types)
 import { interpolateName } from 'loader-utils';
 import imageSizeOf from 'image-size';
 import type { RawLoaderDefinition } from 'webpack';
