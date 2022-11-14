@@ -4,5 +4,6 @@ module.exports = {
     '<rootDir>/frameworks/!(angular)*',
     '<rootDir>/lib/*',
     '<rootDir>/renderers/*',
+    '<rootDir>/ui/*',
   ],
 };
