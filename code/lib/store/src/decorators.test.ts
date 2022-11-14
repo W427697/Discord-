@@ -1,9 +1,9 @@
 import { expect } from '@jest/globals';
-import type { AnyFramework, StoryContext } from '@storybook/csf';
+import type { Renderer, StoryContext } from '@storybook/types';
 
 import { defaultDecorateStory } from './decorators';
 
-function makeContext(input: Record<string, any> = {}): StoryContext<AnyFramework> {
+function makeContext(input: Record<string, any> = {}): StoryContext<Renderer> {
   return {
     id: 'id',
     kind: 'kind',
@@ -11,7 +11,7 @@ function makeContext(input: Record<string, any> = {}): StoryContext<AnyFramework
     viewMode: 'story',
     parameters: {},
     ...input,
-  } as StoryContext<AnyFramework>;
+  } as StoryContext<Renderer>;
 }
 
 describe('client-api.decorators', () => {

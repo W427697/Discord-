@@ -4,13 +4,8 @@ import semver from 'semver';
 import { logger } from '@storybook/node-logger';
 import { withTelemetry } from '@storybook/core-server';
 
-import {
-  getPackageDetails,
-  JsPackageManagerFactory,
-  PackageJsonWithMaybeDeps,
-  PackageManagerName,
-  useNpmWarning,
-} from './js-package-manager';
+import type { PackageJsonWithMaybeDeps, PackageManagerName } from './js-package-manager';
+import { getPackageDetails, JsPackageManagerFactory, useNpmWarning } from './js-package-manager';
 import { commandLog } from './helpers';
 import { automigrate } from './automigrate';
 

@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-outline",
-  "version": "7.0.0-alpha.42",
+  "version": "7.0.0-alpha.49",
   "description": "Outline all elements with CSS to help with layout placement and alignment",
   "keywords": [
     "storybook-addons",
@@ -39,8 +39,8 @@
       "types": "./dist/manager.d.ts"
     },
     "./preview": {
-      "require": "./dist/preset/preview.js",
-      "import": "./dist/preset/preview.mjs",
+      "require": "./dist/preview.js",
+      "import": "./dist/preview.mjs",
       "types": "./dist/preview.d.ts"
     },
     "./register": {
@@ -53,6 +53,19 @@
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
+  "typesVersions": {
+    "*": {
+      "*": [
+        "dist/index.d.ts"
+      ],
+      "manager": [
+        "dist/manager.d.ts"
+      ],
+      "preview": [
+        "dist/preview.d.ts"
+      ]
+    }
+  },
   "files": [
     "dist/**/*",
     "README.md",
@@ -64,12 +77,12 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/addons": "7.0.0-alpha.42",
-    "@storybook/api": "7.0.0-alpha.42",
-    "@storybook/client-logger": "7.0.0-alpha.42",
-    "@storybook/components": "7.0.0-alpha.42",
-    "@storybook/core-events": "7.0.0-alpha.42",
-    "@storybook/csf": "next",
+    "@storybook/addons": "7.0.0-alpha.49",
+    "@storybook/api": "7.0.0-alpha.49",
+    "@storybook/client-logger": "7.0.0-alpha.49",
+    "@storybook/components": "7.0.0-alpha.49",
+    "@storybook/core-events": "7.0.0-alpha.49",
+    "@storybook/types": "7.0.0-alpha.49",
     "global": "^4.4.0",
     "ts-dedent": "^2.0.0"
   },
@@ -95,10 +108,10 @@
     "entries": [
       "./src/index.ts",
       "./src/manager.tsx",
-      "./src/preset/preview.tsx"
+      "./src/preview.tsx"
     ]
   },
-  "gitHead": "4ed2e832e3accf8e533da92a46a812eacaf5db0b",
+  "gitHead": "d7eb433300cac55d3c7256c8181eb6fd7a47b4c8",
   "storybook": {
     "displayName": "Outline",
     "unsupportedFrameworks": [

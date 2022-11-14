@@ -1,15 +1,18 @@
 import { describe, test } from '@jest/globals';
+import type { StoryAnnotations } from '@storybook/types';
+
 import { satisfies } from '@storybook/core-common';
-import { StoryAnnotations } from '@storybook/csf';
 import { expectTypeOf } from 'expect-type';
-import React, { KeyboardEventHandler, ReactNode } from 'react';
-import { SetOptional } from 'type-fest';
+import type { KeyboardEventHandler, ReactNode } from 'react';
+import React from 'react';
 
-import { DecoratorFn } from './public-api';
-import { Meta, StoryObj } from './public-types';
-import { ReactFramework } from './types';
+import type { SetOptional } from 'type-fest';
 
-type ReactStory<Args, RequiredArgs> = StoryAnnotations<ReactFramework, Args, RequiredArgs>;
+import type { DecoratorFn } from './public-api';
+import type { Meta, StoryObj } from './public-types';
+import type { ReactRenderer } from './types';
+
+type ReactStory<Args, RequiredArgs> = StoryAnnotations<ReactRenderer, Args, RequiredArgs>;
 
 type ButtonProps = { label: string; disabled: boolean };
 const Button: (props: ButtonProps) => JSX.Element = () => <></>;
@@ -77,7 +80,7 @@ describe('Args can be provided in multiple ways', () => {
   });
 
   test('Component can be used as generic parameter for StoryObj', () => {
-    type Expected = ReactStory<ButtonProps, ButtonProps>;
+    type Expected = ReactStory<ButtonProps, Partial<ButtonProps>>;
     expectTypeOf<StoryObj<typeof Button>>().toEqualTypeOf<Expected>();
   });
 });

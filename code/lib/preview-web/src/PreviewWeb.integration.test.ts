@@ -1,7 +1,7 @@
 import React from 'react';
 import global from 'global';
-import { RenderContext } from '@storybook/store';
-import addons, { mockChannel as createMockChannel } from '@storybook/addons';
+import type { Store_RenderContext } from '@storybook/types';
+import { addons, mockChannel as createMockChannel } from '@storybook/addons';
 
 import { mocked } from 'ts-jest/utils';
 import { expect } from '@jest/globals';
@@ -20,7 +20,7 @@ import {
 } from './PreviewWeb.mockdata';
 
 // PreviewWeb.test mocks out all rendering
-//   - ie. from`renderToDOM()` (stories) or`ReactDOM.render()` (docs) in.
+//   - ie. from`renderToCanvas()` (stories) or`ReactDOM.render()` (docs) in.
 // This file lets them rip.
 
 jest.mock('@storybook/channel-postmessage', () => ({ createChannel: () => mockChannel }));
@@ -52,7 +52,7 @@ beforeEach(() => {
   componentOneExports.default.loaders[0].mockReset().mockImplementation(async () => ({ l: 7 }));
   componentOneExports.default.parameters.docs.container.mockClear();
   componentOneExports.a.play.mockReset();
-  projectAnnotations.renderToDOM.mockReset();
+  projectAnnotations.renderToCanvas.mockReset();
   projectAnnotations.render.mockClear();
   projectAnnotations.decorators[0].mockClear();
 
@@ -73,8 +73,8 @@ describe('PreviewWeb', () => {
       const { DocsRenderer } = await import('@storybook/addon-docs');
       projectAnnotations.parameters.docs.renderer = () => new DocsRenderer() as any;
 
-      projectAnnotations.renderToDOM.mockImplementationOnce(({ storyFn }: RenderContext<any>) =>
-        storyFn()
+      projectAnnotations.renderToCanvas.mockImplementationOnce(
+        ({ storyFn }: Store_RenderContext<any>) => storyFn()
       );
       document.location.search = '?id=component-one--a';
       await new PreviewWeb().initialize({ importFn, getProjectAnnotations });
@@ -133,8 +133,8 @@ describe('PreviewWeb', () => {
       await preview.initialize({ importFn, getProjectAnnotations });
       await waitForRender();
 
-      projectAnnotations.renderToDOM.mockImplementationOnce(({ storyFn }: RenderContext<any>) =>
-        storyFn()
+      projectAnnotations.renderToCanvas.mockImplementationOnce(
+        ({ storyFn }: Store_RenderContext<any>) => storyFn()
       );
       projectAnnotations.decorators[0].mockClear();
       mockChannel.emit.mockClear();

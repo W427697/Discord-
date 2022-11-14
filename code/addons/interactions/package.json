@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-interactions",
-  "version": "7.0.0-alpha.42",
+  "version": "7.0.0-alpha.49",
   "description": "Automate, test and debug user interactions",
   "keywords": [
     "storybook-addons",
@@ -33,9 +33,9 @@
       "types": "./dist/manager.d.ts"
     },
     "./preview": {
-      "require": "./dist/preset/preview.js",
-      "import": "./dist/preset/preview.mjs",
-      "types": "./dist/preset/preview.d.ts"
+      "require": "./dist/preview.js",
+      "import": "./dist/preview.mjs",
+      "types": "./dist/preview.d.ts"
     },
     "./register.js": {
       "require": "./dist/manager.js",
@@ -47,6 +47,19 @@
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
+  "typesVersions": {
+    "*": {
+      "*": [
+        "dist/index.d.ts"
+      ],
+      "manager": [
+        "dist/manager.d.ts"
+      ],
+      "preview": [
+        "dist/preview.d.ts"
+      ]
+    }
+  },
   "files": [
     "dist/**/*",
     "README.md",
@@ -59,15 +72,15 @@
   },
   "dependencies": {
     "@devtools-ds/object-inspector": "^1.1.2",
-    "@storybook/addons": "7.0.0-alpha.42",
-    "@storybook/api": "7.0.0-alpha.42",
-    "@storybook/client-logger": "7.0.0-alpha.42",
-    "@storybook/components": "7.0.0-alpha.42",
-    "@storybook/core-common": "7.0.0-alpha.42",
-    "@storybook/core-events": "7.0.0-alpha.42",
-    "@storybook/csf": "next",
-    "@storybook/instrumenter": "7.0.0-alpha.42",
-    "@storybook/theming": "7.0.0-alpha.42",
+    "@storybook/addons": "7.0.0-alpha.49",
+    "@storybook/api": "7.0.0-alpha.49",
+    "@storybook/client-logger": "7.0.0-alpha.49",
+    "@storybook/components": "7.0.0-alpha.49",
+    "@storybook/core-common": "7.0.0-alpha.49",
+    "@storybook/core-events": "7.0.0-alpha.49",
+    "@storybook/instrumenter": "7.0.0-alpha.49",
+    "@storybook/theming": "7.0.0-alpha.49",
+    "@storybook/types": "7.0.0-alpha.49",
     "global": "^4.4.0",
     "jest-mock": "^27.0.6",
     "polished": "^4.2.2",
@@ -99,12 +112,12 @@
     "entries": [
       "./src/index.ts",
       "./src/manager.tsx",
-      "./src/preset/preview.ts",
+      "./src/preview.ts",
       "./src/preset/checkActionsLoaded.ts"
     ],
     "platform": "node"
   },
-  "gitHead": "4ed2e832e3accf8e533da92a46a812eacaf5db0b",
+  "gitHead": "d7eb433300cac55d3c7256c8181eb6fd7a47b4c8",
   "storybook": {
     "displayName": "Interactions",
     "unsupportedFrameworks": [

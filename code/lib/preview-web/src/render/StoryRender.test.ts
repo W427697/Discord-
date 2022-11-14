@@ -1,8 +1,7 @@
 import { jest, describe, it, expect } from '@jest/globals';
 import { Channel } from '@storybook/channels';
-import { AnyFramework } from '@storybook/csf';
-import { StoryStore } from '@storybook/store';
-import type { StoryIndexEntry } from '@storybook/store';
+import type { Renderer, Addon_StoryIndexEntry } from '@storybook/types';
+import type { StoryStore } from '@storybook/store';
 import { PREPARE_ABORTED } from './Render';
 
 import { StoryRender } from './StoryRender';
@@ -13,7 +12,7 @@ const entry = {
   name: 'A',
   title: 'component',
   importPath: './component.stories.ts',
-} as StoryIndexEntry;
+} as Addon_StoryIndexEntry;
 
 const createGate = (): [Promise<any | undefined>, (_?: any) => void] => {
   let openGate = (_?: any) => {};
@@ -36,7 +35,7 @@ describe('StoryRender', () => {
 
     const render = new StoryRender(
       new Channel(),
-      mockStore as unknown as StoryStore<AnyFramework>,
+      mockStore as unknown as StoryStore<Renderer>,
       jest.fn(),
       {} as any,
       entry.id,
@@ -50,5 +49,57 @@ describe('StoryRender', () => {
     openImportGate();
 
     await expect(preparePromise).rejects.toThrowError(PREPARE_ABORTED);
+  });
+
+  it('does run play function if passed autoplay=true', async () => {
+    const story = {
+      id: 'id',
+      title: 'title',
+      name: 'name',
+      tags: [],
+      applyLoaders: jest.fn(),
+      unboundStoryFn: jest.fn(),
+      playFunction: jest.fn(),
+    };
+
+    const render = new StoryRender(
+      new Channel(),
+      { getStoryContext: () => ({}) } as any,
+      jest.fn() as any,
+      {} as any,
+      entry.id,
+      'story',
+      { autoplay: true },
+      story as any
+    );
+
+    await render.renderToElement({} as any);
+    expect(story.playFunction).toHaveBeenCalled();
+  });
+
+  it('does not run play function if passed autoplay=false', async () => {
+    const story = {
+      id: 'id',
+      title: 'title',
+      name: 'name',
+      tags: [],
+      applyLoaders: jest.fn(),
+      unboundStoryFn: jest.fn(),
+      playFunction: jest.fn(),
+    };
+
+    const render = new StoryRender(
+      new Channel(),
+      { getStoryContext: () => ({}) } as any,
+      jest.fn() as any,
+      {} as any,
+      entry.id,
+      'story',
+      { autoplay: false },
+      story as any
+    );
+
+    await render.renderToElement({} as any);
+    expect(story.playFunction).not.toHaveBeenCalled();
   });
 });

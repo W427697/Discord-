@@ -3,29 +3,27 @@ import deprecate from 'util-deprecate';
 import global from 'global';
 
 import type {
-  Parameters,
+  Renderer,
   Args,
-  LegacyStoryFn,
   ArgsStoryFn,
-  StoryContextForEnhancers,
-  StoryContext,
-  AnyFramework,
-  StrictArgTypes,
-  StoryContextForLoaders,
+  LegacyStoryFn,
+  Parameters,
+  PlayFunction,
   PlayFunctionContext,
   StepLabel,
-  PlayFunction,
-} from '@storybook/csf';
+  Store_NormalizedComponentAnnotations,
+  Store_NormalizedProjectAnnotations,
+  Store_NormalizedStoryAnnotations,
+  Store_Story,
+  StoryContext,
+  StoryContextForEnhancers,
+  StoryContextForLoaders,
+  StrictArgTypes,
+} from '@storybook/types';
 import { includeConditionalArg } from '@storybook/csf';
 
-import type {
-  NormalizedComponentAnnotations,
-  Story,
-  NormalizedStoryAnnotations,
-  NormalizedProjectAnnotations,
-} from '../types';
+import { applyHooks } from '@storybook/addons';
 import { combineParameters } from '../parameters';
-import { applyHooks } from '../hooks';
 import { defaultDecorateStory } from '../decorators';
 import { groupArgsByTarget, NO_TARGET_NAME } from '../args';
 import { getValuesFromArgTypes } from './getValuesFromArgTypes';
@@ -43,17 +41,19 @@ const argTypeDefaultValueWarning = deprecate(
 //
 // Note that this story function is *stateless* in the sense that it does not track args or globals
 // Instead, it is expected these are tracked separately (if necessary) and are passed into each invocation.
-export function prepareStory<TFramework extends AnyFramework>(
-  storyAnnotations: NormalizedStoryAnnotations<TFramework>,
-  componentAnnotations: NormalizedComponentAnnotations<TFramework>,
-  projectAnnotations: NormalizedProjectAnnotations<TFramework>
-): Story<TFramework> {
+export function prepareStory<TRenderer extends Renderer>(
+  storyAnnotations: Store_NormalizedStoryAnnotations<TRenderer>,
+  componentAnnotations: Store_NormalizedComponentAnnotations<TRenderer>,
+  projectAnnotations: Store_NormalizedProjectAnnotations<TRenderer>
+): Store_Story<TRenderer> {
   // NOTE: in the current implementation we are doing everything once, up front, rather than doing
   // anything at render time. The assumption is that as we don't load all the stories at once, this
   // will have a limited cost. If this proves misguided, we can refactor it.
 
   const { moduleExport, id, name } = storyAnnotations;
   const { title } = componentAnnotations;
+
+  const tags = [...(storyAnnotations.tags || componentAnnotations.tags || []), 'story'];
 
   const parameters: Parameters = combineParameters(
     projectAnnotations.parameters,
@@ -90,7 +90,6 @@ export function prepareStory<TFramework extends AnyFramework>(
     projectAnnotations.render;
 
   if (!render) throw new Error(`No render function available for storyId '${id}'`);
-
   const passedArgTypes: StrictArgTypes = combineParameters(
     projectAnnotations.argTypes,
     componentAnnotations.argTypes,
@@ -108,7 +107,7 @@ export function prepareStory<TFramework extends AnyFramework>(
     ...storyAnnotations.args,
   } as Args;
 
-  const contextForEnhancers: StoryContextForEnhancers<TFramework> = {
+  const contextForEnhancers: StoryContextForEnhancers<TRenderer> = {
     componentId: componentAnnotations.id,
     title,
     kind: title, // Back compat
@@ -117,6 +116,7 @@ export function prepareStory<TFramework extends AnyFramework>(
     story: name, // Back compat
     component: componentAnnotations.component,
     subcomponents: componentAnnotations.subcomponents,
+    tags,
     parameters,
     initialArgs: passedArgs,
     argTypes: passedArgTypes,
@@ -161,13 +161,13 @@ export function prepareStory<TFramework extends AnyFramework>(
     };
   }
 
-  const applyLoaders = async (context: StoryContextForLoaders<TFramework>) => {
+  const applyLoaders = async (context: StoryContextForLoaders<TRenderer>) => {
     const loadResults = await Promise.all(loaders.map((loader) => loader(context)));
     const loaded = Object.assign({}, ...loadResults);
     return { ...context, loaded };
   };
 
-  const undecoratedStoryFn: LegacyStoryFn<TFramework> = (context: StoryContext<TFramework>) => {
+  const undecoratedStoryFn: LegacyStoryFn<TRenderer> = (context: StoryContext<TRenderer>) => {
     const mappedArgs = Object.entries(context.args).reduce((acc, [key, val]) => {
       const mapping = context.argTypes[key]?.mapping;
       acc[key] = mapping && val in mapping ? mapping[val] : val;
@@ -183,12 +183,12 @@ export function prepareStory<TFramework extends AnyFramework>(
     const includedContext = { ...context, args: includedArgs };
     const { passArgsFirst: renderTimePassArgsFirst = true } = context.parameters;
     return renderTimePassArgsFirst
-      ? (render as ArgsStoryFn<TFramework>)(includedContext.args, includedContext)
-      : (render as LegacyStoryFn<TFramework>)(includedContext);
+      ? (render as ArgsStoryFn<TRenderer>)(includedContext.args, includedContext)
+      : (render as LegacyStoryFn<TRenderer>)(includedContext);
   };
-  const decoratedStoryFn = applyHooks<TFramework>(applyDecorators)(undecoratedStoryFn, decorators);
-  const unboundStoryFn = (context: StoryContext<TFramework>) => {
-    let finalContext: StoryContext<TFramework> = context;
+  const decoratedStoryFn = applyHooks<TRenderer>(applyDecorators)(undecoratedStoryFn, decorators);
+  const unboundStoryFn = (context: StoryContext<TRenderer>) => {
+    let finalContext: StoryContext<TRenderer> = context;
     if (global.FEATURES?.argTypeTargetsV7) {
       const argsByTarget = groupArgsByTarget(context);
       finalContext = {
@@ -204,10 +204,11 @@ export function prepareStory<TFramework extends AnyFramework>(
   const { play } = storyAnnotations;
   const playFunction =
     play &&
-    (async (storyContext: StoryContext<TFramework>) => {
-      const playFunctionContext: PlayFunctionContext<TFramework> = {
+    (async (storyContext: StoryContext<TRenderer>) => {
+      const playFunctionContext: PlayFunctionContext<TRenderer> = {
         ...storyContext,
-        step: (label: StepLabel, play: PlayFunction<TFramework>) =>
+        // eslint-disable-next-line @typescript-eslint/no-shadow
+        step: (label: StepLabel, play: PlayFunction<TRenderer>) =>
           // TODO: We know runStep is defined, we need a proper normalized annotations type
           runStep!(label, play, playFunctionContext),
       };

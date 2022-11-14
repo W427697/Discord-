@@ -1,4 +1,4 @@
-import { validRange, minVersion } from 'semver';
+import { minVersion, validRange } from 'semver';
 
 function ltMajor(versionRange: string, major: number) {
   // Uses validRange to avoid a throw from minVersion if an invalid range gets passed
@@ -93,6 +93,7 @@ export type Builder = CoreBuilder | (string & {});
 
 export enum SupportedLanguage {
   JAVASCRIPT = 'javascript',
+  TYPESCRIPT_LEGACY = 'typescript-legacy',
   TYPESCRIPT = 'typescript',
 }
 
@@ -277,7 +278,7 @@ export const supportedTemplates: TemplateConfiguration[] = [
 ];
 
 // A TemplateConfiguration that matches unsupported frameworks
-// AnyFramework matchers can be added to this object to give
+// Framework matchers can be added to this object to give
 // users an "Unsupported framework" message
 export const unsupportedTemplate: TemplateConfiguration = {
   preset: ProjectType.UNSUPPORTED,

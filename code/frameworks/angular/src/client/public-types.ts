@@ -1,37 +1,36 @@
-import type {
-  Args,
-  ComponentAnnotations,
-  StoryAnnotations,
-  AnnotatedStoryFn,
-} from '@storybook/csf';
-import { AngularFramework } from './types';
+import { AnnotatedStoryFn, Args, ComponentAnnotations, StoryAnnotations } from '@storybook/types';
+import { AngularRenderer } from './types';
 
-export type { Args, ArgTypes } from '@storybook/csf';
+export type { Args, ArgTypes } from '@storybook/types';
 
 /**
  * Metadata to configure the stories for a component.
  *
  * @see [Default export](https://storybook.js.org/docs/formats/component-story-format/#default-export)
  */
-export type Meta<TArgs = Args> = ComponentAnnotations<AngularFramework, TArgs>;
+export type Meta<TArgs = Args> = ComponentAnnotations<AngularRenderer, TArgs>;
 
 /**
  * Story function that represents a CSFv2 component example.
  *
  * @see [Named Story exports](https://storybook.js.org/docs/formats/component-story-format/#named-story-exports)
  */
-export type StoryFn<TArgs = Args> = AnnotatedStoryFn<AngularFramework, TArgs>;
+export type StoryFn<TArgs = Args> = AnnotatedStoryFn<AngularRenderer, TArgs>;
 
 /**
  * Story function that represents a CSFv3 component example.
  *
  * @see [Named Story exports](https://storybook.js.org/docs/formats/component-story-format/#named-story-exports)
  */
-export type StoryObj<TArgs = Args> = StoryAnnotations<AngularFramework, TArgs>;
+export type StoryObj<TArgs = Args> = StoryAnnotations<AngularRenderer, TArgs>;
 
 /**
- * Story function that represents a CSFv3 component example.
+ * @deprecated Use `StoryFn` instead.
+ * Use `StoryObj` if you want to migrate to CSF3, which uses objects instead of functions to represent stories.
+ * You can read more about the CSF3 format here: https://storybook.js.org/blog/component-story-format-3-0/
+ *
+ * Story function that represents a CSFv2 component example.
  *
  * @see [Named Story exports](https://storybook.js.org/docs/formats/component-story-format/#named-story-exports)
  */
-export type Story<TArgs = Args> = StoryObj<TArgs>;
+export type Story<TArgs = Args> = StoryFn<TArgs>;

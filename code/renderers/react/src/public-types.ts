@@ -5,11 +5,14 @@ import type {
   ArgsStoryFn,
   ComponentAnnotations,
   StoryAnnotations,
-} from '@storybook/csf';
-import { ComponentProps, ComponentType, JSXElementConstructor } from 'react';
-import { SetOptional, Simplify } from 'type-fest';
+} from '@storybook/types';
 
-import { ReactFramework } from './types';
+import type { ComponentProps, ComponentType, JSXElementConstructor } from 'react';
+import type { SetOptional, Simplify } from 'type-fest';
+
+import type { ReactRenderer } from './types';
+
+export { ReactRenderer };
 
 type JSXElement = keyof JSX.IntrinsicElements | JSXElementConstructor<any>;
 
@@ -18,52 +21,50 @@ type JSXElement = keyof JSX.IntrinsicElements | JSXElementConstructor<any>;
  *
  * @see [Default export](https://storybook.js.org/docs/formats/component-story-format/#default-export)
  */
-export type Meta<CmpOrArgs = Args> = CmpOrArgs extends ComponentType<infer CmpArgs>
-  ? ComponentAnnotations<ReactFramework, CmpArgs>
-  : ComponentAnnotations<ReactFramework, CmpOrArgs>;
+export type Meta<TCmpOrArgs = Args> = TCmpOrArgs extends ComponentType<any>
+  ? ComponentAnnotations<ReactRenderer, ComponentProps<TCmpOrArgs>>
+  : ComponentAnnotations<ReactRenderer, TCmpOrArgs>;
 
 /**
  * Story function that represents a CSFv2 component example.
  *
  * @see [Named Story exports](https://storybook.js.org/docs/formats/component-story-format/#named-story-exports)
  */
-export type StoryFn<TArgs = Args> = AnnotatedStoryFn<ReactFramework, TArgs>;
+export type StoryFn<TCmpOrArgs = Args> = TCmpOrArgs extends ComponentType<any>
+  ? AnnotatedStoryFn<ReactRenderer, ComponentProps<TCmpOrArgs>>
+  : AnnotatedStoryFn<ReactRenderer, TCmpOrArgs>;
 
 /**
  * Story function that represents a CSFv3 component example.
  *
  * @see [Named Story exports](https://storybook.js.org/docs/formats/component-story-format/#named-story-exports)
  */
-
-export type StoryObj<MetaOrCmpOrArgs = Args> = MetaOrCmpOrArgs extends {
-  render?: ArgsStoryFn<ReactFramework, any>;
+export type StoryObj<TMetaOrCmpOrArgs = Args> = TMetaOrCmpOrArgs extends {
+  render?: ArgsStoryFn<ReactRenderer, any>;
   component?: infer Component;
   args?: infer DefaultArgs;
 }
   ? Simplify<
       (Component extends ComponentType<any> ? ComponentProps<Component> : unknown) &
-        ArgsFromMeta<ReactFramework, MetaOrCmpOrArgs>
+        ArgsFromMeta<ReactRenderer, TMetaOrCmpOrArgs>
     > extends infer TArgs
     ? StoryAnnotations<
-        ReactFramework,
+        ReactRenderer,
         TArgs,
         SetOptional<TArgs, Extract<keyof TArgs, keyof (DefaultArgs & ActionArgs<TArgs>)>>
       >
     : never
-  : MetaOrCmpOrArgs extends ComponentType<any>
-  ? StoryAnnotations<
-      ReactFramework,
-      ComponentProps<MetaOrCmpOrArgs>,
-      ComponentProps<MetaOrCmpOrArgs>
-    >
-  : StoryAnnotations<ReactFramework, MetaOrCmpOrArgs>;
+  : TMetaOrCmpOrArgs extends ComponentType<any>
+  ? StoryAnnotations<ReactRenderer, ComponentProps<TMetaOrCmpOrArgs>>
+  : StoryAnnotations<ReactRenderer, TMetaOrCmpOrArgs>;
 
-type ActionArgs<Args> = {
-  [P in keyof Args as ((...args: any[]) => void) extends Args[P] ? P : never]: Args[P];
+type ActionArgs<RArgs> = {
+  [P in keyof RArgs as ((...args: any[]) => void) extends RArgs[P] ? P : never]: RArgs[P];
 };
 
 /**
- * @deprecated Use `Meta` instead.
+ * @deprecated Use `Meta` instead, e.g. ComponentMeta<typeof Button> -> Meta<typeof Button>.
+ *
  * For the common case where a component's stories are simple components that receives args as props:
  *
  * ```tsx
@@ -73,6 +74,10 @@ type ActionArgs<Args> = {
 export type ComponentMeta<T extends JSXElement> = Meta<ComponentProps<T>>;
 
 /**
+ * @deprecated Use `StoryFn` instead, e.g. ComponentStoryFn<typeof Button> -> StoryFn<typeof Button>.
+ * Use `StoryObj` if you want to migrate to CSF3, which uses objects instead of functions to represent stories.
+ * You can read more about the CSF3 format here: https://storybook.js.org/blog/component-story-format-3-0/
+ *
  * For the common case where a (CSFv2) story is a simple component that receives args as props:
  *
  * ```tsx
@@ -82,7 +87,7 @@ export type ComponentMeta<T extends JSXElement> = Meta<ComponentProps<T>>;
 export type ComponentStoryFn<T extends JSXElement> = StoryFn<ComponentProps<T>>;
 
 /**
- * @deprecated Use `StoryObj` instead.
+ * @deprecated Use `StoryObj` instead, e.g. ComponentStoryObj<typeof Button> -> StoryObj<typeof Button>.
  *
  * For the common case where a (CSFv3) story is a simple component that receives args as props:
  *
@@ -95,18 +100,20 @@ export type ComponentStoryFn<T extends JSXElement> = StoryFn<ComponentProps<T>>;
 export type ComponentStoryObj<T extends JSXElement> = StoryObj<ComponentProps<T>>;
 
 /**
-
- /**
- * @deprecated Use `StoryObj` instead.
+ * @deprecated Use `StoryFn` instead.
+ * Use `StoryObj` if you want to migrate to CSF3, which uses objects instead of functions to represent stories.
+ * You can read more about the CSF3 format here: https://storybook.js.org/blog/component-story-format-3-0/
  *
- * Story function that represents a CSFv3 component example.
+ * Story function that represents a CSFv2 component example.
  *
  * @see [Named Story exports](https://storybook.js.org/docs/formats/component-story-format/#named-story-exports)
  */
 export type Story<TArgs = Args> = StoryFn<TArgs>;
 
 /**
- * @deprecated Use StoryObj instead.
+ * @deprecated Use `StoryFn` instead, e.g. ComponentStory<typeof Button> -> StoryFn<typeof Button>.
+ * Use `StoryObj` if you want to migrate to CSF3, which uses objects instead of functions to represent stories
+ * You can read more about the CSF3 format here: https://storybook.js.org/blog/component-story-format-3-0/.
  *
  * For the common case where a (CSFv3) story is a simple component that receives args as props:
  *
@@ -116,4 +123,4 @@ export type Story<TArgs = Args> = StoryFn<TArgs>;
  * }
  * ```
  */
-export type ComponentStory<T extends JSXElement> = ComponentStoryObj<T>;
+export type ComponentStory<T extends JSXElement> = ComponentStoryFn<T>;

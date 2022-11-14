@@ -1,59 +1,40 @@
-import {
-  isExportStory,
-  AnyFramework,
-  AnnotatedStoryFn,
-  StoryAnnotations,
-  ComponentAnnotations,
-  ProjectAnnotations,
+import type { AnnotatedStoryFn } from '@storybook/csf';
+import { isExportStory } from '@storybook/csf';
+import type {
+  Renderer,
   Args,
+  ComponentAnnotations,
+  LegacyStoryAnnotationsOrFn,
+  ProjectAnnotations,
+  Store_ComposedStoryPlayFn,
+  Store_ComposeStory,
+  Store_CSFExports,
   StoryContext,
   Parameters,
-  LegacyStoryAnnotationsOrFn,
-} from '@storybook/csf';
+} from '@storybook/types';
 
+import { HooksContext } from '@storybook/addons';
 import { composeConfigs } from '../composeConfigs';
 import { prepareStory } from '../prepareStory';
 import { normalizeStory } from '../normalizeStory';
-import { HooksContext } from '../../hooks';
 import { normalizeComponentAnnotations } from '../normalizeComponentAnnotations';
 import { getValuesFromArgTypes } from '../getValuesFromArgTypes';
 import { normalizeProjectAnnotations } from '../normalizeProjectAnnotations';
-import type { CSFExports, ComposedStoryPlayFn } from './types';
-
-export * from './types';
 
 let GLOBAL_STORYBOOK_PROJECT_ANNOTATIONS = {};
 
-export function setProjectAnnotations<TFramework extends AnyFramework = AnyFramework>(
-  projectAnnotations: ProjectAnnotations<TFramework> | ProjectAnnotations<TFramework>[]
+export function setProjectAnnotations<TRenderer extends Renderer = Renderer>(
+  projectAnnotations: ProjectAnnotations<TRenderer> | ProjectAnnotations<TRenderer>[]
 ) {
   const annotations = Array.isArray(projectAnnotations) ? projectAnnotations : [projectAnnotations];
   GLOBAL_STORYBOOK_PROJECT_ANNOTATIONS = composeConfigs(annotations);
 }
 
-interface ComposeStory<TFramework extends AnyFramework = AnyFramework, TArgs extends Args = Args> {
-  (
-    storyAnnotations: AnnotatedStoryFn<TFramework, TArgs> | StoryAnnotations<TFramework, TArgs>,
-    componentAnnotations: ComponentAnnotations<TFramework, TArgs>,
-    projectAnnotations: ProjectAnnotations<TFramework>,
-    exportsName?: string
-  ): {
-    (extraArgs: Partial<TArgs>): TFramework['storyResult'];
-    storyName: string;
-    args: Args;
-    play: ComposedStoryPlayFn;
-    parameters: Parameters;
-  };
-}
-
-export function composeStory<
-  TFramework extends AnyFramework = AnyFramework,
-  TArgs extends Args = Args
->(
-  storyAnnotations: LegacyStoryAnnotationsOrFn<TFramework>,
-  componentAnnotations: ComponentAnnotations<TFramework, TArgs>,
-  projectAnnotations: ProjectAnnotations<TFramework> = GLOBAL_STORYBOOK_PROJECT_ANNOTATIONS,
-  defaultConfig: ProjectAnnotations<TFramework> = {},
+export function composeStory<TRenderer extends Renderer = Renderer, TArgs extends Args = Args>(
+  storyAnnotations: LegacyStoryAnnotationsOrFn<TRenderer>,
+  componentAnnotations: ComponentAnnotations<TRenderer, TArgs>,
+  projectAnnotations: ProjectAnnotations<TRenderer> = GLOBAL_STORYBOOK_PROJECT_ANNOTATIONS,
+  defaultConfig: ProjectAnnotations<TRenderer> = {},
   exportsName?: string
 ) {
   if (storyAnnotations === undefined) {
@@ -64,7 +45,7 @@ export function composeStory<
   // eslint-disable-next-line no-param-reassign
   componentAnnotations.title = componentAnnotations.title ?? 'ComposedStory';
   const normalizedComponentAnnotations =
-    normalizeComponentAnnotations<TFramework>(componentAnnotations);
+    normalizeComponentAnnotations<TRenderer>(componentAnnotations);
 
   const storyName =
     exportsName ||
@@ -73,7 +54,7 @@ export function composeStory<
     storyAnnotations.name ||
     'unknown';
 
-  const normalizedStory = normalizeStory<TFramework>(
+  const normalizedStory = normalizeStory<TRenderer>(
     storyName,
     storyAnnotations,
     normalizedComponentAnnotations
@@ -84,7 +65,7 @@ export function composeStory<
     ...defaultConfig,
   });
 
-  const story = prepareStory<TFramework>(
+  const story = prepareStory<TRenderer>(
     normalizedStory,
     normalizedComponentAnnotations,
     normalizedProjectAnnotations
@@ -105,17 +86,18 @@ export function composeStory<
 
   composedStory.storyName = storyName;
   composedStory.args = story.initialArgs;
-  composedStory.play = story.playFunction as ComposedStoryPlayFn;
-  composedStory.parameters = story.parameters;
+  composedStory.play = story.playFunction as Store_ComposedStoryPlayFn;
+  composedStory.parameters = story.parameters as Parameters;
 
   return composedStory;
 }
 
-export function composeStories<TModule extends CSFExports>(
+export function composeStories<TModule extends Store_CSFExports>(
   storiesImport: TModule,
-  globalConfig: ProjectAnnotations<AnyFramework>,
-  composeStoryFn: ComposeStory
+  globalConfig: ProjectAnnotations<Renderer>,
+  composeStoryFn: Store_ComposeStory
 ) {
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   const { default: meta, __esModule, __namedExportsOrder, ...stories } = storiesImport;
   const composedStories = Object.entries(stories).reduce((storiesMap, [exportsName, story]) => {
     if (!isExportStory(exportsName, meta)) {

@@ -3,13 +3,18 @@ import {
   composeStories as originalComposeStories,
   setProjectAnnotations as originalSetProjectAnnotations,
 } from '@storybook/store';
-import type { CSFExports, ComposedStory, StoriesWithPartialProps } from '@storybook/store';
-import { ProjectAnnotations, Args } from '@storybook/csf';
+import type {
+  Args,
+  ProjectAnnotations,
+  Store_ComposedStory,
+  Store_CSFExports,
+  Store_StoriesWithPartialProps,
+} from '@storybook/types';
 import { deprecate } from '@storybook/client-logger';
 
 import { render } from './render';
 import type { Meta } from './public-types';
-import type { ReactFramework } from './types';
+import type { ReactRenderer } from './types';
 
 /** Function that sets the globalConfig of your storybook. The global config is the preview module of your .storybook folder.
  *
@@ -27,7 +32,7 @@ import type { ReactFramework } from './types';
  * @param projectAnnotations - e.g. (import * as projectAnnotations from '../.storybook/preview')
  */
 export function setProjectAnnotations(
-  projectAnnotations: ProjectAnnotations<ReactFramework> | ProjectAnnotations<ReactFramework>[]
+  projectAnnotations: ProjectAnnotations<ReactRenderer> | ProjectAnnotations<ReactRenderer>[]
 ) {
   originalSetProjectAnnotations(projectAnnotations);
 }
@@ -37,14 +42,14 @@ export function setProjectAnnotations(
  * @deprecated Use setProjectAnnotations instead
  */
 export function setGlobalConfig(
-  projectAnnotations: ProjectAnnotations<ReactFramework> | ProjectAnnotations<ReactFramework>[]
+  projectAnnotations: ProjectAnnotations<ReactRenderer> | ProjectAnnotations<ReactRenderer>[]
 ) {
   deprecate(`setGlobalConfig is deprecated. Use setProjectAnnotations instead.`);
   setProjectAnnotations(projectAnnotations);
 }
 
 // This will not be necessary once we have auto preset loading
-const defaultProjectAnnotations: ProjectAnnotations<ReactFramework> = {
+const defaultProjectAnnotations: ProjectAnnotations<ReactRenderer> = {
   render,
 };
 
@@ -76,13 +81,13 @@ const defaultProjectAnnotations: ProjectAnnotations<ReactFramework> = {
  * @param [exportsName] - in case your story does not contain a name and you want it to have a name.
  */
 export function composeStory<TArgs = Args>(
-  story: ComposedStory<ReactFramework, TArgs>,
+  story: Store_ComposedStory<ReactRenderer, TArgs>,
   componentAnnotations: Meta<TArgs | any>,
-  projectAnnotations?: ProjectAnnotations<ReactFramework>,
+  projectAnnotations?: ProjectAnnotations<ReactRenderer>,
   exportsName?: string
 ) {
-  return originalComposeStory<ReactFramework, TArgs>(
-    story as ComposedStory<ReactFramework, Args>,
+  return originalComposeStory<ReactRenderer, TArgs>(
+    story as Store_ComposedStory<ReactRenderer, Args>,
     componentAnnotations,
     projectAnnotations,
     defaultProjectAnnotations,
@@ -115,15 +120,15 @@ export function composeStory<TArgs = Args>(
  * @param csfExports - e.g. (import * as stories from './Button.stories')
  * @param [projectAnnotations] - e.g. (import * as projectAnnotations from '../.storybook/preview') this can be applied automatically if you use `setProjectAnnotations` in your setup files.
  */
-export function composeStories<TModule extends CSFExports<ReactFramework>>(
+export function composeStories<TModule extends Store_CSFExports<ReactRenderer>>(
   csfExports: TModule,
-  projectAnnotations?: ProjectAnnotations<ReactFramework>
+  projectAnnotations?: ProjectAnnotations<ReactRenderer>
 ) {
   // @ts-expect-error (Converted from ts-ignore)
   const composedStories = originalComposeStories(csfExports, projectAnnotations, composeStory);
 
   return composedStories as unknown as Omit<
-    StoriesWithPartialProps<ReactFramework, TModule>,
-    keyof CSFExports
+    Store_StoriesWithPartialProps<ReactRenderer, TModule>,
+    keyof Store_CSFExports
   >;
 }

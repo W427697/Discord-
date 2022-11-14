@@ -1,10 +1,9 @@
-import type { SelectionSpecifier, Selection } from '@storybook/store';
-
 import global from 'global';
 import qs from 'qs';
-import type { ViewMode } from '@storybook/addons';
+import type { ViewMode, Store_SelectionSpecifier, Store_Selection } from '@storybook/types';
 
 import { parseArgsParam } from './parseArgsParam';
+import type { SelectionStore } from './SelectionStore';
 
 const { history, document } = global;
 
@@ -20,7 +19,7 @@ const getQueryString = ({
   selection,
   extraParams,
 }: {
-  selection?: Selection;
+  selection?: Store_Selection;
   extraParams?: qs.ParsedQs;
 }) => {
   const { search = '' } = document.location;
@@ -37,7 +36,7 @@ const getQueryString = ({
   );
 };
 
-export const setPath = (selection?: Selection) => {
+export const setPath = (selection?: Store_Selection) => {
   if (!selection) return;
   const query = getQueryString({ selection });
   const { hash = '' } = document.location;
@@ -65,7 +64,7 @@ const getFirstString = (v: ValueOf<qs.ParsedQs>): string | void => {
   return undefined;
 };
 
-export const getSelectionSpecifierFromPath: () => SelectionSpecifier | null = () => {
+export const getSelectionSpecifierFromPath: () => Store_SelectionSpecifier | null = () => {
   const query = qs.parse(document.location.search, { ignoreQueryPrefix: true });
   const args = typeof query.args === 'string' ? parseArgsParam(query.args) : undefined;
   const globals = typeof query.globals === 'string' ? parseArgsParam(query.globals) : undefined;
@@ -85,16 +84,16 @@ export const getSelectionSpecifierFromPath: () => SelectionSpecifier | null = ()
   return null;
 };
 
-export class UrlStore {
-  selectionSpecifier: SelectionSpecifier | null;
+export class UrlStore implements SelectionStore {
+  selectionSpecifier: Store_SelectionSpecifier | null;
 
-  selection?: Selection;
+  selection?: Store_Selection;
 
   constructor() {
     this.selectionSpecifier = getSelectionSpecifierFromPath();
   }
 
-  setSelection(selection: Selection) {
+  setSelection(selection: Store_Selection) {
     this.selection = selection;
     setPath(this.selection);
   }

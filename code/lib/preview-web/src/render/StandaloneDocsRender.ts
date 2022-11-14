@@ -1,9 +1,16 @@
-import { AnyFramework, StoryId } from '@storybook/csf';
-import { CSFFile, ModuleExports, StoryStore } from '@storybook/store';
-import { Channel, IndexEntry } from '@storybook/addons';
+import type {
+  Addon_IndexEntry,
+  Renderer,
+  Store_CSFFile,
+  Store_ModuleExports,
+  StoryId,
+} from '@storybook/types';
+import type { StoryStore } from '@storybook/store';
+import type { Channel } from '@storybook/channels';
 import { DOCS_RENDERED } from '@storybook/core-events';
 
-import { Render, RenderType, PREPARE_ABORTED } from './Render';
+import type { Render, RenderType } from './Render';
+import { PREPARE_ABORTED } from './Render';
 import type { DocsContextProps } from '../docs-context/DocsContextProps';
 import type { DocsRenderFunction } from '../docs-context/DocsRenderFunction';
 import { DocsContext } from '../docs-context/DocsContext';
@@ -17,12 +24,12 @@ import { DocsContext } from '../docs-context/DocsContext';
  *  - *.mdx file that may or may not reference a specific CSF file with `<Meta of={} />`
  */
 
-export class StandaloneDocsRender<TFramework extends AnyFramework> implements Render<TFramework> {
+export class StandaloneDocsRender<TRenderer extends Renderer> implements Render<TRenderer> {
   public readonly type: RenderType = 'docs';
 
   public readonly id: StoryId;
 
-  private exports?: ModuleExports;
+  private exports?: Store_ModuleExports;
 
   public rerender?: () => Promise<void>;
 
@@ -34,12 +41,12 @@ export class StandaloneDocsRender<TFramework extends AnyFramework> implements Re
 
   public preparing = false;
 
-  private csfFiles?: CSFFile<TFramework>[];
+  private csfFiles?: Store_CSFFile<TRenderer>[];
 
   constructor(
     protected channel: Channel,
-    protected store: StoryStore<TFramework>,
-    public entry: IndexEntry
+    protected store: StoryStore<TRenderer>,
+    public entry: Addon_IndexEntry
   ) {
     this.id = entry.id;
   }
@@ -59,22 +66,22 @@ export class StandaloneDocsRender<TFramework extends AnyFramework> implements Re
     this.preparing = false;
   }
 
-  isEqual(other: Render<TFramework>): boolean {
+  isEqual(other: Render<TRenderer>): boolean {
     return !!(
       this.id === other.id &&
       this.exports &&
-      this.exports === (other as StandaloneDocsRender<TFramework>).exports
+      this.exports === (other as StandaloneDocsRender<TRenderer>).exports
     );
   }
 
   async renderToElement(
-    canvasElement: HTMLElement,
+    canvasElement: TRenderer['canvasElement'],
     renderStoryToElement: DocsContextProps['renderStoryToElement']
   ) {
     if (!this.exports || !this.csfFiles || !this.store.projectAnnotations)
       throw new Error('Cannot render docs before preparing');
 
-    const docsContext = new DocsContext<TFramework>(
+    const docsContext = new DocsContext<TRenderer>(
       this.channel,
       this.store,
       renderStoryToElement,
@@ -91,9 +98,12 @@ export class StandaloneDocsRender<TFramework extends AnyFramework> implements Re
 
     const docsParameter = { ...docs, page: this.exports.default };
     const renderer = await docs.renderer();
-    const { render } = renderer as { render: DocsRenderFunction<TFramework> };
+    const { render } = renderer as { render: DocsRenderFunction<TRenderer> };
     const renderDocs = async () => {
-      await new Promise<void>((r) => render(docsContext, docsParameter, canvasElement, r));
+      await new Promise<void>((r) =>
+        // NOTE: it isn't currently possible to use a docs renderer outside of "web" mode.
+        render(docsContext, docsParameter, canvasElement as any, r)
+      );
       this.channel.emit(DOCS_RENDERED, this.id);
     };
 
