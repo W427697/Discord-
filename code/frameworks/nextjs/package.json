@@ -82,7 +82,6 @@
   },
   "devDependencies": {
     "@storybook/addon-actions": "7.0.0-alpha.49",
-    "@types/loader-utils": "^2.0.3",
     "next": "^12.2.4",
     "typescript": "~4.6.3",
     "webpack": "^5.65.0"

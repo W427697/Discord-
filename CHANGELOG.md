@@ -563,9 +563,10 @@ Bad publish
 
 #### Bug Fixes
 
-- CLI: Fix race condition in sb init [#19083](https://github.com/storybooks/storybook/pull/19083)
-- Vite: Fix framework option checks, and SSv6 [#19062](https://github.com/storybooks/storybook/pull/19062)
-- Core: Fix WebProjectAnnotations export in preview-web for back-compat [#19048](https://github.com/storybooks/storybook/pull/19048)
+-   CLI: Fix race condition in sb init [#19083](https://github.com/storybooks/storybook/pull/19083)
+-   Vite: Fix framework option checks, and SSv6 [#19062](https://github.com/storybooks/storybook/pull/19062)
+-   Core: Fix WebProjectAnnotations export in preview-web for back-compat [#19048](https://github.com/storybooks/storybook/pull/19048)
+-   Blocks: Fix Checkbox control update when using useArgs hook
 
 #### Maintenance
 

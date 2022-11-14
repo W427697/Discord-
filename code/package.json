@@ -185,7 +185,7 @@
     "@storybook/core-events": "workspace:*",
     "@storybook/core-server": "workspace:*",
     "@storybook/core-webpack": "workspace:*",
-    "@storybook/csf": "next",
+    "@storybook/csf": "0.0.2-next.5",
     "@storybook/csf-plugin": "workspace:*",
     "@storybook/csf-tools": "workspace:*",
     "@storybook/docs-tools": "workspace:*",
@@ -345,6 +345,7 @@
     "zx": "^7.0.3"
   },
   "devDependencies": {
+    "eslint-import-resolver-typescript": "^3.5.2",
     "expect-type": "^0.14.2"
   },
   "dependenciesMeta": {

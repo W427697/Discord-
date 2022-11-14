@@ -21,6 +21,7 @@ describe('UrlStore', () => {
     });
     it('should error on invalid ids', () => {
       [null, '', '/whatever/story/story--id'].forEach((path) => {
+        // @ts-expect-error (invalid data)
         expect(() => pathToId(path)).toThrow(/Invalid/);
       });
     });

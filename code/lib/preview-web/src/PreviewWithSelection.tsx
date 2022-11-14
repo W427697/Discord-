@@ -19,7 +19,7 @@ import {
 } from '@storybook/core-events';
 import { logger } from '@storybook/client-logger';
 import type {
-  Framework,
+  Renderer,
   Args,
   Globals,
   Store_ModuleImportFn,
@@ -48,18 +48,18 @@ function focusInInput(event: Event) {
   return /input|textarea/i.test(target.tagName) || target.getAttribute('contenteditable') !== null;
 }
 
-type PossibleRender<TFramework extends Framework> =
+type PossibleRender<TFramework extends Renderer> =
   | StoryRender<TFramework>
   | TemplateDocsRender<TFramework>
   | StandaloneDocsRender<TFramework>;
 
-function isStoryRender<TFramework extends Framework>(
+function isStoryRender<TFramework extends Renderer>(
   r: PossibleRender<TFramework>
 ): r is StoryRender<TFramework> {
   return r.type === 'story';
 }
 
-export class PreviewWithSelection<TFramework extends Framework> extends Preview<TFramework> {
+export class PreviewWithSelection<TFramework extends Renderer> extends Preview<TFramework> {
   currentSelection?: Store_Selection;
 
   currentRender?: PossibleRender<TFramework>;

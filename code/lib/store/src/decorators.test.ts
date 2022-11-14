@@ -1,9 +1,9 @@
 import { expect } from '@jest/globals';
-import type { Framework, StoryContext } from '@storybook/types';
+import type { Renderer, StoryContext } from '@storybook/types';
 
 import { defaultDecorateStory } from './decorators';
 
-function makeContext(input: Record<string, any> = {}): StoryContext<Framework> {
+function makeContext(input: Record<string, any> = {}): StoryContext<Renderer> {
   return {
     id: 'id',
     kind: 'kind',
@@ -11,15 +11,18 @@ function makeContext(input: Record<string, any> = {}): StoryContext<Framework> {
     viewMode: 'story',
     parameters: {},
     ...input,
-  } as StoryContext<Framework>;
+  } as StoryContext<Renderer>;
 }
 
 describe('client-api.decorators', () => {
   it('calls decorators in out to in order', () => {
     const order: number[] = [];
     const decorators = [
+      // @ts-expect-error (not defined)
       (s) => order.push(1) && s(),
+      // @ts-expect-error (not defined)
       (s) => order.push(2) && s(),
+      // @ts-expect-error (not defined)
       (s) => order.push(3) && s(),
     ];
     const decorated = defaultDecorateStory(() => order.push(4), decorators);
@@ -32,8 +35,11 @@ describe('client-api.decorators', () => {
   it('passes context through to sub decorators', () => {
     const contexts: StoryContext[] = [];
     const decorators = [
+      // @ts-expect-error (not defined)
       (s, c) => contexts.push(c) && s({ args: { k: 1 } }),
+      // @ts-expect-error (not defined)
       (s, c) => contexts.push(c) && s({ args: { k: 2 } }),
+      // @ts-expect-error (not defined)
       (s, c) => contexts.push(c) && s({ args: { k: 3 } }),
     ];
     const decorated = defaultDecorateStory((c) => contexts.push(c), decorators);
@@ -46,7 +52,9 @@ describe('client-api.decorators', () => {
   it('passes context through to sub decorators additively', () => {
     const contexts: StoryContext[] = [];
     const decorators = [
+      // @ts-expect-error (not defined)
       (s, c) => contexts.push(c) && s({ args: { a: 1 } }),
+      // @ts-expect-error (not defined)
       (s, c) => contexts.push(c) && s({ globals: { g: 2 } }),
     ];
     const decorated = defaultDecorateStory((c) => contexts.push(c), decorators);
@@ -61,9 +69,12 @@ describe('client-api.decorators', () => {
   });
 
   it('does not recreate decorated story functions each time', () => {
+    // @ts-expect-error (not defined)
     const decoratedStories = [];
     const decorators = [
+      // @ts-expect-error (not defined)
       (s, c) => {
+        // @ts-expect-error (not defined)
         decoratedStories.push = s;
         return s();
       },
@@ -72,6 +83,7 @@ describe('client-api.decorators', () => {
 
     decorated(makeContext());
     decorated(makeContext());
+    // @ts-expect-error (not defined)
     expect(decoratedStories[0]).toBe(decoratedStories[1]);
   });
 
@@ -85,6 +97,7 @@ describe('client-api.decorators', () => {
       resolve = r;
     });
     const decorators = [
+      // @ts-expect-error (not defined)
       async (s, c) => {
         // The fence here simulates async-ness in react rendering an element (`<S />` doesn't run `S()` straight away)
         await fence;
@@ -97,6 +110,7 @@ describe('client-api.decorators', () => {
     decoratedOne(makeContext({ value: 1 }));
     decoratedTwo(makeContext({ value: 2 }));
 
+    // @ts-expect-error (not defined)
     resolve();
     await fence;
 
@@ -107,6 +121,7 @@ describe('client-api.decorators', () => {
   it('DOES NOT merge core metadata or pass through core metadata keys in context', () => {
     const contexts: StoryContext[] = [];
     const decorators = [
+      // @ts-expect-error (not defined)
       (s, c) =>
         contexts.push(c) &&
         s({ parameters: { c: 'd' }, id: 'notId', kind: 'notKind', name: 'notName' }),
