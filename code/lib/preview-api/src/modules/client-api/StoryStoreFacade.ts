@@ -5,7 +5,7 @@ import { SynchronousPromise } from 'synchronous-promise';
 import { toId, isExportStory, storyNameFromExport } from '@storybook/csf';
 import type {
   Addon_IndexEntry,
-  Framework,
+  Renderer,
   ComponentId,
   DocsOptions,
   Parameters,
@@ -21,8 +21,8 @@ import { logger } from '@storybook/client-logger';
 import type { StoryStore } from '../../store';
 import { userOrAutoTitle, sortStoriesV6 } from '../../store';
 
-export class StoryStoreFacade<TFramework extends Framework> {
-  projectAnnotations: Store_NormalizedProjectAnnotations<TFramework>;
+export class StoryStoreFacade<TRenderer extends Renderer> {
+  projectAnnotations: Store_NormalizedProjectAnnotations<TRenderer>;
 
   entries: Record<StoryId, Addon_IndexEntry & { componentId?: ComponentId }>;
 
@@ -54,7 +54,7 @@ export class StoryStoreFacade<TFramework extends Framework> {
     });
   }
 
-  getStoryIndex(store: StoryStore<TFramework>) {
+  getStoryIndex(store: StoryStore<TRenderer>) {
     const fileNameOrder = Object.keys(this.csfExports);
     const storySortParameter = this.projectAnnotations.parameters?.options?.storySort;
 
@@ -62,13 +62,13 @@ export class StoryStoreFacade<TFramework extends Framework> {
     // Add the kind parameters and global parameters to each entry
     const sortableV6 = storyEntries.map(([storyId, { type, importPath, ...entry }]) => {
       const exports = this.csfExports[importPath];
-      const csfFile = store.processCSFFileWithCache<TFramework>(
+      const csfFile = store.processCSFFileWithCache<TRenderer>(
         exports,
         importPath,
         exports.default.title
       );
 
-      let storyLike: Store_Story<TFramework>;
+      let storyLike: Store_Story<TRenderer>;
       if (type === 'story') {
         storyLike = store.storyFromCSFFile({ storyId, csfFile });
       } else {
@@ -81,7 +81,7 @@ export class StoryStoreFacade<TFramework extends Framework> {
         } as any;
       }
       return [storyId, storyLike, csfFile.meta.parameters, this.projectAnnotations.parameters];
-    }) as [StoryId, Store_Story<TFramework>, Parameters, Parameters][];
+    }) as [StoryId, Store_Story<TRenderer>, Parameters, Parameters][];
 
     // NOTE: the sortStoriesV6 version returns the v7 data format. confusing but more convenient!
     let sortedV7: Addon_IndexEntry[];

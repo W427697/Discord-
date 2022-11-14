@@ -1,4 +1,4 @@
-import type { Framework, ProjectAnnotations, Store_StoryIndex } from '@storybook/types';
+import type { Renderer, ProjectAnnotations, Store_StoryIndex } from '@storybook/types';
 import global from 'global';
 import { expect } from '@jest/globals';
 
@@ -443,7 +443,7 @@ describe('StoryStore', () => {
 
       const story = await store.loadStory({ storyId: 'component-one--a' });
 
-      const { hooks } = store.getStoryContext(story) as { hooks: HooksContext<Framework> };
+      const { hooks } = store.getStoryContext(story) as { hooks: HooksContext<Renderer> };
       hooks.clean = jest.fn();
       store.cleanupStory(story);
       expect(hooks.clean).toHaveBeenCalled();
