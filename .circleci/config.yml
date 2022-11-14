@@ -51,6 +51,7 @@ executors:
 orbs:
   git-shallow-clone: guitarrapc/git-shallow-clone@2.4.0
   browser-tools: circleci/browser-tools@1.4.0
+  discord: antonioned/discord@0.1.0
 
 commands:
   # Forked off from https://github.com/guitarrapc/git-shallow-clone-orb
@@ -175,6 +176,30 @@ commands:
             echo "Canceling workflow as previous step resulted in failure."
             echo "To execute all checks locally, please run yarn ci-tests"
             curl -X POST --header "Content-Type: application/json" "https://circleci.com/api/v2/workflow/${CIRCLE_WORKFLOW_ID}/cancel?circle-token=${WORKFLOW_CANCELER}"
+  list-recent-merges:
+    description: 'Lists the merge commits from the past 24 hours'
+    steps:
+      - run:
+          name: Listing merge commits from the past 24 hours
+          when: on_fail
+          command: |
+            git log --merges --since="24 hours ago" --pretty=format:"\`%h\` %<(12)%ar | %s [%an]" | grep "Merge pull request" | sed "s/Merge pull request #/https:\/\/github.com\/storybookjs\/storybook\/pull\//g"
+  report-workflow-on-failure:
+    description: 'Reports failures to discord'
+    parameters:
+      template:
+        description: |
+          Which template to report in discord
+        type: string
+    steps:
+      - run:
+          when: on_fail
+          command: git fetch --unshallow
+      - list-recent-merges
+      - discord/status:
+          only_for_branches: next,alpha
+          fail_only: true
+          failure_message: 'Oh no! The **$CIRCLE_JOB** job has failed for **<< parameters.template >>**.\n\n**Relevant PRs of the last 24h:**\n$(git log --merges --since="24 hours ago" --pretty=format:"\`%h\` %<(12)%ar %s [%an]" | grep "Merge pull request" | sed "s/Merge pull request #/https:\/\/github.com\/storybookjs\/storybook\/pull\//g" | tr "\\n" "\\\\n" | sed "s/\\\\/\\\\n/g")'
 jobs:
   build:
     executor:
@@ -410,7 +435,9 @@ jobs:
           at: .
       - run:
           name: Creating Sandboxes
-          command: yarn task --task sandbox --template $(yarn get-template << pipeline.parameters.workflow >> create) --no-link --start-from=never --junit
+          command: yarn task --task sandbox --template $(yarn get-template << pipeline.parameters.workflow >> sandbox) --no-link --start-from=never --junit
+      - report-workflow-on-failure:
+          template: $(yarn get-template << pipeline.parameters.workflow >> sandbox)
       - persist_to_workspace:
           root: .
           paths:
@@ -434,6 +461,8 @@ jobs:
       - run:
           name: Smoke Testing Sandboxes
           command: yarn task --task smoke-test --template $(yarn get-template << pipeline.parameters.workflow >> smoke-test) --no-link --start-from=never --junit
+      - report-workflow-on-failure:
+          template: $(yarn get-template << pipeline.parameters.workflow >> smoke-test)
       - store_test_results:
           path: test-results
   build-sandboxes:
@@ -453,6 +482,8 @@ jobs:
       - run:
           name: Building Sandboxes
           command: yarn task --task build --template $(yarn get-template << pipeline.parameters.workflow >> build) --no-link --start-from=never --junit
+      - report-workflow-on-failure:
+          template: $(yarn get-template << pipeline.parameters.workflow >> build)
       - store_test_results:
           path: test-results
       - persist_to_workspace:
@@ -476,6 +507,8 @@ jobs:
       - run:
           name: Running Test Runner
           command: yarn task --task test-runner --template $(yarn get-template << pipeline.parameters.workflow >> test-runner) --no-link --start-from=never --junit
+      - report-workflow-on-failure:
+          template: $(yarn get-template << pipeline.parameters.workflow >> test-runner)
       - store_test_results:
           path: test-results
   chromatic-sandboxes:
@@ -513,6 +546,8 @@ jobs:
       - run:
           name: Running E2E Tests
           command: yarn task --task e2e-tests --template $(yarn get-template << pipeline.parameters.workflow >> e2e-tests) --no-link --start-from=never --junit
+      - report-workflow-on-failure:
+          template: $(yarn get-template << pipeline.parameters.workflow >> e2e-tests)
       - store_test_results:
           path: test-results
       - store_artifacts: # this is where playwright puts more complex stuff
