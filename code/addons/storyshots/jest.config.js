@@ -1,3 +1,4 @@
+const path = require('path');
 const baseConfig = require('../../jest.config.browser');
 
 module.exports = {
@@ -7,5 +8,5 @@ module.exports = {
     ...baseConfig.transform,
     '^.+\\.stories\\.[jt]sx?$': '@storybook/addon-storyshots/injectFileName',
   },
-  displayName: 'addons/storyshots',
+  displayName: __dirname.split(path.sep).slice(-2).join(path.posix.sep),
 };
