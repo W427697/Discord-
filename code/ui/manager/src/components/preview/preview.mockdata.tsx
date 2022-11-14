@@ -26,6 +26,7 @@ export const previewProps: PreviewProps = {
   entry: {
     tags: [],
     type: 'story',
+    tags: [],
     id: 'story--id',
     parent: 'root',
     depth: 1,

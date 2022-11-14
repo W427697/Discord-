@@ -1,6 +1,7 @@
 import 'jest-specific-snapshot';
 import path from 'path';
 import fs from 'fs';
+// @ts-expect-error (seems broken/missing)
 import requireFromString from 'require-from-string';
 import { transformFileSync, transformSync } from '@babel/core';
 

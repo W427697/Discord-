@@ -6226,7 +6226,6 @@ __metadata:
     "@storybook/router": 7.0.0-alpha.49
     "@storybook/store": 7.0.0-alpha.49
     "@storybook/theming": 7.0.0-alpha.49
-    "@types/case-sensitive-paths-webpack-plugin": ^2.1.6
     "@types/node": ^16.0.0
     "@types/semver": ^7.3.4
     "@types/terser-webpack-plugin": ^5.2.0
@@ -6916,7 +6915,6 @@ __metadata:
     "@storybook/preset-react-webpack": 7.0.0-alpha.49
     "@storybook/preview-api": 7.0.0-alpha.49
     "@storybook/react": 7.0.0-alpha.49
-    "@types/loader-utils": ^2.0.3
     "@types/node": ^14.14.20 || ^16.0.0
     find-up: ^5.0.0
     fs-extra: ^9.0.1
@@ -8354,15 +8352,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/case-sensitive-paths-webpack-plugin@npm:^2.1.6":
-  version: 2.1.6
-  resolution: "@types/case-sensitive-paths-webpack-plugin@npm:2.1.6"
-  dependencies:
-    "@types/webpack": ^4
-  checksum: 9f379718393f04937be69e742f9b67e346ecca5badb37a02eb1b740a4f37e1c52033b3a9fef04b82e31b9f58ae72ae02cf1027a57ecd969ff5e1b4e6796375d6
-  languageName: node
-  linkType: hard
-
 "@types/cheerio@npm:*, @types/cheerio@npm:^0.22.22":
   version: 0.22.31
   resolution: "@types/cheerio@npm:0.22.31"
@@ -8751,16 +8740,6 @@ __metadata:
   version: 0.0.29
   resolution: "@types/json5@npm:0.0.29"
   checksum: 6bf5337bc447b706bb5b4431d37686aa2ea6d07cfd6f79cc31de80170d6ff9b1c7384a9c0ccbc45b3f512bae9e9f75c2e12109806a15331dc94e8a8db6dbb4ac
-  languageName: node
-  linkType: hard
-
-"@types/loader-utils@npm:^2.0.3":
-  version: 2.0.3
-  resolution: "@types/loader-utils@npm:2.0.3"
-  dependencies:
-    "@types/node": "*"
-    "@types/webpack": ^4
-  checksum: e4998224ca40a05a395469894215e3d700c4cc71415efb296269bca6b1fa3b00ee07e79206f1113e30f844e55a8829f1293526cb0379d96821a8840b7ef7a80f
   languageName: node
   linkType: hard
 

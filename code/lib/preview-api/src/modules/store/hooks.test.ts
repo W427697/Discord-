@@ -430,7 +430,7 @@ describe('Preview hooks', () => {
       expect(state).toBe(3);
     });
     it('performs asynchronous state updates', () => {
-      let state: any;
+      let state;
       let setState: any;
       const storyFn = jest.fn(() => {
         [state, setState] = useState('foo');

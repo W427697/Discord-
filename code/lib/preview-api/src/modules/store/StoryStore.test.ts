@@ -5,7 +5,7 @@ import { expect } from '@jest/globals';
 import { prepareStory } from './csf/prepareStory';
 import { processCSFFile } from './csf/processCSFFile';
 import { StoryStore } from './StoryStore';
-import type { HooksContext } from '../..';
+import type { HooksContext } from './hooks';
 
 // Spy on prepareStory/processCSFFile
 jest.mock('./csf/prepareStory', () => ({
@@ -636,6 +636,7 @@ describe('StoryStore', () => {
           ...storyIndex.entries,
           // @ts-expect-error (not strict)
           'introduction--docs': {
+            standalone: true,
             type: 'docs',
             id: 'introduction--docs',
             title: 'Introduction',
