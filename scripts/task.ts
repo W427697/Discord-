@@ -163,6 +163,11 @@ export const options = createOptions({
     description: 'Store results in junit format?',
     promptType: false,
   },
+  skipTemplateStories: {
+    type: 'boolean',
+    description: 'Do not include template stories and their addons',
+    promptType: false,
+  },
 });
 
 type PassedOptionValues = Omit<OptionValues<typeof options>, 'task' | 'startFrom' | 'junit'>;
