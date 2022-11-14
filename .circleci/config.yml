@@ -248,7 +248,7 @@ jobs:
             cd ../cra-bench
             rm -rf node_modules
             mkdir node_modules
-            npx -p @storybook/bench@0.7.6--canary.14.6702e4f.0 sb-bench 'yarn install' --label cra
+            npx -p @storybook/bench@next sb-bench 'yarn install' --label cra
       - run:
           name: prep artifacts
           when: always
@@ -288,7 +288,7 @@ jobs:
             cd ../react-vite-bench
             rm -rf node_modules
             mkdir node_modules
-            npx -p @storybook/bench@0.7.6--canary.14.6702e4f.0 sb-bench 'yarn install' --label react-vite
+            npx -p @storybook/bench@next sb-bench 'yarn install' --label react-vite
       - run:
           name: prep artifacts
           when: always
@@ -381,8 +381,8 @@ jobs:
       class: medium
       name: sb_node_16_browsers
     steps:
-      - checkout_advanced:
-          clone_options: '--depth 1 --verbose'
+      # switched this to the CircleCI helper to get the full git history for TurboSnap
+      - checkout
       - attach_workspace:
           at: .
       - run:
