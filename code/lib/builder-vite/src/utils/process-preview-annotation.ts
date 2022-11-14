@@ -1,5 +1,6 @@
 import type { PreviewAnnotation } from '@storybook/types';
 import { resolve } from 'path';
+import { normalizePath } from 'vite';
 
 /**
  * Preview annotations can take several forms, and vite needs them to be
@@ -29,5 +30,5 @@ export function processPreviewAnnotation(path: PreviewAnnotation | undefined) {
     throw new Error('Could not determine path for previewAnnotation');
   }
 
-  return path;
+  return normalizePath(path);
 }
