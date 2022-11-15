@@ -17,7 +17,7 @@ import { logger, deprecate } from '@storybook/client-logger';
 import type { Channel } from '@storybook/channels';
 import { addons } from '@storybook/addons';
 import type {
-  Framework,
+  Renderer,
   Args,
   Globals,
   Store_ModuleImportFn,
@@ -41,7 +41,7 @@ const STORY_INDEX_PATH = './index.json';
 
 export type MaybePromise<T> = Promise<T> | T;
 
-export class Preview<TFramework extends Framework> {
+export class Preview<TFramework extends Renderer> {
   serverChannel?: Channel;
 
   storyStore: StoryStore<TFramework>;

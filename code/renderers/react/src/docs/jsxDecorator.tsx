@@ -9,7 +9,7 @@ import type { StoryContext, ArgsStoryFn, PartialStoryFn } from '@storybook/types
 import { SourceType, SNIPPET_RENDERED, getDocgenSection } from '@storybook/docs-tools';
 import { logger } from '@storybook/client-logger';
 
-import type { ReactFramework } from '../types';
+import type { ReactRenderer } from '../types';
 
 type JSXOptions = Options & {
   /** How many wrappers to skip when rendering the jsx */
@@ -21,14 +21,14 @@ type JSXOptions = Options & {
   /** Override the display name used for a component */
   displayName?: string | Options['displayName'];
   /** A function ran after a story is rendered */
-  transformSource?(dom: string, context?: StoryContext<ReactFramework>): string;
+  transformSource?(dom: string, context?: StoryContext<ReactRenderer>): string;
 };
 
 /** Run the user supplied transformSource function if it exists */
 const applyTransformSource = (
   domString: string,
   options: JSXOptions,
-  context?: StoryContext<ReactFramework>
+  context?: StoryContext<ReactRenderer>
 ) => {
   if (typeof options.transformSource !== 'function') {
     return domString;
@@ -134,7 +134,7 @@ const defaultOpts = {
   showDefaultProps: false,
 };
 
-export const skipJsxRender = (context: StoryContext<ReactFramework>) => {
+export const skipJsxRender = (context: StoryContext<ReactRenderer>) => {
   const sourceParams = context?.parameters.docs?.source;
   const isArgsStory = context?.parameters.__isArgsStory;
 
@@ -162,8 +162,8 @@ const mdxToJsx = (node: any) => {
 };
 
 export const jsxDecorator = (
-  storyFn: PartialStoryFn<ReactFramework>,
-  context: StoryContext<ReactFramework>
+  storyFn: PartialStoryFn<ReactRenderer>,
+  context: StoryContext<ReactRenderer>
 ) => {
   const channel = addons.getChannel();
   const skip = skipJsxRender(context);
@@ -190,7 +190,7 @@ export const jsxDecorator = (
 
   // Exclude decorators from source code snippet by default
   const storyJsx = context?.parameters.docs?.source?.excludeDecorators
-    ? (context.originalStoryFn as ArgsStoryFn<ReactFramework>)(context.args, context)
+    ? (context.originalStoryFn as ArgsStoryFn<ReactRenderer>)(context.args, context)
     : story;
 
   const sourceJsx = mdxToJsx(storyJsx);

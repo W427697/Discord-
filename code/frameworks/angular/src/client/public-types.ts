@@ -1,5 +1,5 @@
 import { AnnotatedStoryFn, Args, ComponentAnnotations, StoryAnnotations } from '@storybook/types';
-import { AngularFramework } from './types';
+import { AngularRenderer } from './types';
 
 export type { Args, ArgTypes } from '@storybook/types';
 
@@ -8,21 +8,21 @@ export type { Args, ArgTypes } from '@storybook/types';
  *
  * @see [Default export](https://storybook.js.org/docs/formats/component-story-format/#default-export)
  */
-export type Meta<TArgs = Args> = ComponentAnnotations<AngularFramework, TArgs>;
+export type Meta<TArgs = Args> = ComponentAnnotations<AngularRenderer, TArgs>;
 
 /**
  * Story function that represents a CSFv2 component example.
  *
  * @see [Named Story exports](https://storybook.js.org/docs/formats/component-story-format/#named-story-exports)
  */
-export type StoryFn<TArgs = Args> = AnnotatedStoryFn<AngularFramework, TArgs>;
+export type StoryFn<TArgs = Args> = AnnotatedStoryFn<AngularRenderer, TArgs>;
 
 /**
  * Story function that represents a CSFv3 component example.
  *
  * @see [Named Story exports](https://storybook.js.org/docs/formats/component-story-format/#named-story-exports)
  */
-export type StoryObj<TArgs = Args> = StoryAnnotations<AngularFramework, TArgs>;
+export type StoryObj<TArgs = Args> = StoryAnnotations<AngularRenderer, TArgs>;
 
 /**
  * @deprecated Use `StoryFn` instead.

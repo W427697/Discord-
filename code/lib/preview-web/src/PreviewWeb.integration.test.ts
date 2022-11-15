@@ -29,7 +29,6 @@ jest.mock('./WebView');
 
 const { window, document } = global;
 jest.mock('global', () => ({
-  // @ts-expect-error (Converted from ts-ignore)
   ...jest.requireActual('global'),
   history: { replaceState: jest.fn() },
   document: {
@@ -77,6 +76,7 @@ describe('PreviewWeb', () => {
         ({ storyFn }: Store_RenderContext<any>) => storyFn()
       );
       document.location.search = '?id=component-one--a';
+      // @ts-expect-error (not strict)
       await new PreviewWeb().initialize({ importFn, getProjectAnnotations });
 
       await waitForRender();
@@ -100,6 +100,7 @@ describe('PreviewWeb', () => {
         React.createElement('div', {}, 'INSIDE')
       );
 
+      // @ts-expect-error (not strict)
       await preview.initialize({ importFn, getProjectAnnotations });
       await waitForRender();
 
@@ -130,6 +131,7 @@ describe('PreviewWeb', () => {
 
       document.location.search = '?id=component-one--a';
       const preview = new PreviewWeb();
+      // @ts-expect-error (not strict)
       await preview.initialize({ importFn, getProjectAnnotations });
       await waitForRender();
 

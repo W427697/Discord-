@@ -31,6 +31,7 @@ describe('composeStory', () => {
 
   test('should throw an error if Story is undefined', () => {
     expect(() => {
+      // @ts-expect-error (invalid input)
       composeStory(undefined, meta);
     }).toThrow();
   });
