@@ -58,7 +58,7 @@ async function run() {
   const body = `\n\n**Branch**: ${currentBranch}\n**Workflow:** ${workflow}`;
   const footer = await getFooter(currentBranch as Branch, workflow as Workflow, currentJob);
 
-  console.log(`${title}${body}${footer}`);
+  console.log(`${title}${body}${footer}`.replace(/\n/g, '\\n'));
 }
 
 if (require.main === module) {
