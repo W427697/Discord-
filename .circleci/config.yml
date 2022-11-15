@@ -102,7 +102,7 @@ commands:
             then
               export HOME=$(getent passwd $(id -un) | cut -d: -f6)
             fi
-            
+
             # known_hosts
             mkdir -p ~/.ssh
             if [ -x "$(command -v ssh-keyscan)" ] && ([ "<< parameters.keyscan_github >>" == "true" ] || [ "<< parameters.keyscan_bitbucket >>" == "true" ])
@@ -126,19 +126,19 @@ commands:
               echo 'bitbucket.org ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAubiN81eDcafrgMeLzaFPsw2kNvEcqTKl/VqLat/MaB33pZy0y3rJZtnqwR2qOOvbwKZYKiEO1O6VqNEBxKvJJelCq0dTXWT5pbO2gDXC6h6QDXCaHo6pOHGPUy+YBaGQRGuSusMEASYiWunYN0vCAI8QaXnWMXNMdFP3jHAJH0eDsoiGnLPBlBp4TNm6rYI74nMzgz3B9IikW4WVK+dc8KZJZWYjAuORU3jc1c/NPskD2ASinf8v3xnfXeukU0sJ5N6m5E8VLjObPEO+mN2t/FZTMZLiFqPWc/ALSqnMnnhwrNi2rbfg/rd/IpL8Le3pSBne8+seeFVBoGqzHM9yXw==
             ' >> ~/.ssh/known_hosts
             fi
-            
+
             (umask 077; touch ~/.ssh/id_rsa)
             chmod 0600 ~/.ssh/id_rsa
             (echo $CHECKOUT_KEY > ~/.ssh/id_rsa)
-            
+
             # use git+ssh instead of https
             git config --global url."ssh://git@github.com".insteadOf "https://github.com" || true
             git config --global gc.auto 0 || true
-            
+
             # checkout
             git clone << parameters.clone_options >> $CIRCLE_REPOSITORY_URL "<< parameters.path >>"
             cd "<< parameters.path >>"
-            
+
             # Fetch remote and check the commit ID of the checked out code
             if [ -n "$CIRCLE_TAG" ]
             then
@@ -152,7 +152,7 @@ commands:
               # others
               git fetch << parameters.fetch_options >> --force origin "$CIRCLE_BRANCH:remotes/origin/$CIRCLE_BRANCH"
             fi
-            
+
             # Check the commit ID of the checked out code
             if [ -n "$CIRCLE_TAG" ]
             then
@@ -163,7 +163,7 @@ commands:
               git reset --hard "$CIRCLE_SHA1"
               git checkout -q -B "$CIRCLE_BRANCH"
             fi
-            
+
             git reset --hard "$CIRCLE_SHA1"
           name: Checkout code shallow
   cancel-workflow-on-failure:
@@ -266,21 +266,21 @@ jobs:
           name: set up cra repro, skip tests
           command: |
             cd code
-            node ./lib/cli/bin/index.js repro-next cra/default-js --output ../../cra-bench
+            SANDBOX_ROOT=../bench yarn task --task sandbox --template cra/default-ts --skip-template-stories --start-from=never  --no-link
       - run:
           name: Run @storybook/bench on repro
           command: |
-            cd ../cra-bench
+            cd bench/cra-default-ts
             rm -rf node_modules
             mkdir node_modules
             npx -p @storybook/bench@next sb-bench 'yarn install' --label cra
       - run:
           name: prep artifacts
           when: always
-          command: tar cvzf /tmp/sb-bench.tar.gz ../cra-bench
+          command: tar cvzf /tmp/cra-default-ts-bench.tar.gz bench/cra-default-ts
       - store_artifacts:
-          path: /tmp/sb-bench.tar.gz
-          destination: sb-bench.tar.gz
+          path: /tmp/cra-default-ts-bench.tar.gz
+          destination: cra-default-ts-bench.tar.gz
   react-vite-bench:
     executor:
       class: large
@@ -306,21 +306,21 @@ jobs:
           name: set up react-vite repro, skip tests
           command: |
             cd code
-            node ./lib/cli/bin/index.js repro-next react-vite/default-ts --output ../../react-vite-bench
+            SANDBOX_ROOT=../bench yarn task --task sandbox --template react-vite/default-ts --skip-template-stories --start-from=never  --no-link
       - run:
           name: Run @storybook/bench on repro
           command: |
-            cd ../react-vite-bench
+            cd bench/react-vite-default-ts
             rm -rf node_modules
             mkdir node_modules
             npx -p @storybook/bench@next sb-bench 'yarn install' --label react-vite
       - run:
           name: prep artifacts
           when: always
-          command: tar cvzf /tmp/sb-bench.tar.gz ../react-vite-bench
+          command: tar cvzf /tmp/react-vite-default-ts-bench.tar.gz bench/react-vite-default-ts
       - store_artifacts:
-          path: /tmp/sb-bench.tar.gz
-          destination: sb-bench.tar.gz
+          path: /tmp/react-vite-default-ts-bench.tar.gz
+          destination: react-vite-default-ts-bench.tar.gz
   lint:
     executor:
       class: medium
@@ -558,8 +558,8 @@ workflows:
   ci:
     when:
       and:
-        - equal: [ api, << pipeline.trigger_source >> ]
-        - equal:  [ ci, << pipeline.parameters.workflow >> ]
+        - equal: [api, << pipeline.trigger_source >>]
+        - equal: [ci, << pipeline.parameters.workflow >>]
     jobs:
       - build
       - lint:
@@ -591,7 +591,7 @@ workflows:
             - build-sandboxes
   pr:
     when:
-      equal: [ pr, << pipeline.parameters.workflow >> ]
+      equal: [pr, << pipeline.parameters.workflow >>]
     jobs:
       - build
       - lint:
@@ -640,7 +640,7 @@ workflows:
             - build-sandboxes
   merged:
     when:
-      equal: [ merged, << pipeline.parameters.workflow >> ]
+      equal: [merged, << pipeline.parameters.workflow >>]
     jobs:
       - build
       - lint:
@@ -689,7 +689,7 @@ workflows:
             - build-sandboxes
   daily:
     when:
-      equal: [ daily, << pipeline.parameters.workflow >> ]
+      equal: [daily, << pipeline.parameters.workflow >>]
     jobs:
       - build
       - create-sandboxes:
