@@ -1,6 +1,6 @@
 import type { Options, CoreConfig, Builder } from '@storybook/types';
 
-export async function getManagerBuilder() {
+export async function getManagerBuilder(): Promise<Builder<unknown>> {
   return import('@storybook/builder-manager');
 }
 
