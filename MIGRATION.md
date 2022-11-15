@@ -898,7 +898,7 @@ If you want to use `Decorator` in a backwards compatible way to `DecoratorFn`, y
 ```tsx
 import type { Args, Decorator } from '@storybook/react';
 
-// same Decorator<Args> is the same as the old DecartorFn
+// Decorator<Args> behaves the same as DecoratorFn (without generic)
 const withTheme: Decorator<Args> = (Story, {args}) => // args has type { [name: string]: any }
 ```
 
