@@ -8,6 +8,9 @@ jest.mock('npmlog', () => ({
 }));
 
 describe('node-logger', () => {
+  it('should fail', () => {
+    expect(1).toBe(2);
+  });
   it('should have an info method', () => {
     const message = 'information';
     logger.info(message);

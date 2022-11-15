@@ -188,7 +188,7 @@ commands:
           when: on_fail
           command: git fetch --unshallow
       - discord/status:
-          only_for_branches: main,next,alpha
+          only_for_branches: main,next,alpha,yann/improve-reporting-mechanism
           fail_only: true
           failure_message: $(yarn get-report-message << pipeline.parameters.workflow >> << parameters.template >>)
 jobs:
