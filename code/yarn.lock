@@ -2014,7 +2014,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/preset-typescript@npm:^7.13.0, @babel/preset-typescript@npm:^7.16.7, @babel/preset-typescript@npm:^7.18.6":
+"@babel/preset-typescript@npm:^7.13.0, @babel/preset-typescript@npm:^7.16.7":
   version: 7.18.6
   resolution: "@babel/preset-typescript@npm:7.18.6"
   dependencies:
@@ -6529,7 +6529,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/nextjs@workspace:frameworks/nextjs"
   dependencies:
-    "@babel/preset-typescript": ^7.18.6
     "@storybook/addon-actions": 7.0.0-alpha.50
     "@storybook/addons": 7.0.0-alpha.50
     "@storybook/builder-webpack5": 7.0.0-alpha.50
