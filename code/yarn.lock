@@ -7619,6 +7619,7 @@ __metadata:
     "@storybook/docs-tools": 7.0.0-alpha.49
     "@storybook/store": 7.0.0-alpha.49
     "@storybook/types": 7.0.0-alpha.49
+    "@vue/vue3-jest": 28
     global: ^4.4.0
     react: 16.14.0
     react-dom: 16.14.0
@@ -9466,6 +9467,29 @@ __metadata:
   version: 3.2.41
   resolution: "@vue/shared@npm:3.2.41"
   checksum: bc46bf36e856a10646639561b346a76594e8a1afa992e3394056a6e0b534c6c71b1330e13960ba9788bb36265a5e761ac4c562daad0d168265d496fc3e7d6575
+  languageName: node
+  linkType: hard
+
+"@vue/vue3-jest@npm:28":
+  version: 28.1.0
+  resolution: "@vue/vue3-jest@npm:28.1.0"
+  dependencies:
+    "@babel/plugin-transform-modules-commonjs": ^7.2.0
+    chalk: ^2.1.0
+    convert-source-map: ^1.6.0
+    css-tree: ^2.0.1
+    source-map: 0.5.6
+    tsconfig: ^7.0.0
+  peerDependencies:
+    "@babel/core": 7.x
+    babel-jest: 28.x
+    jest: 28.x
+    typescript: ">= 4.3"
+    vue: ^3.0.0-0
+  peerDependenciesMeta:
+    typescript:
+      optional: true
+  checksum: bde2d7155c6cb10d49211ece59f754ae57526a47e9bf8c82eee9fac646c9dc6a52b50f3146664a83019dcbf034b219190a01bdc2595920c8d2df62cea70eb816
   languageName: node
   linkType: hard
 
@@ -13478,6 +13502,16 @@ __metadata:
     domutils: ^3.0.1
     nth-check: ^2.0.1
   checksum: 551c60dba5b54054741032c1793b5734f6ba45e23ae9e82761a3c0ed1acbb8cfedfa443aaba3a3c1a54cac12b456d2012a09d2cd5f0e82e430454c1b9d84d500
+  languageName: node
+  linkType: hard
+
+"css-tree@npm:^2.0.1":
+  version: 2.2.1
+  resolution: "css-tree@npm:2.2.1"
+  dependencies:
+    mdn-data: 2.0.28
+    source-map-js: ^1.0.1
+  checksum: 47e87b0f02f8ac22f57eceb65c58011dd142d2158128882a0bf963cf2eabb81a4ebbc2e3790c8289be7919fa8b83750c7b69272bd66772c708143b772ba3c186
   languageName: node
   linkType: hard
 
@@ -23499,6 +23533,13 @@ __metadata:
   version: 3.1.0
   resolution: "mdast-util-to-string@npm:3.1.0"
   checksum: ce329d5da6038fbeaee26873c3ae8b269bfbfc39cd6cf42799ecff21030d6c5853a1013d053c60ed25baf0f03723e77019149ad3cad1c764e3bbd49379fbaba7
+  languageName: node
+  linkType: hard
+
+"mdn-data@npm:2.0.28":
+  version: 2.0.28
+  resolution: "mdn-data@npm:2.0.28"
+  checksum: 20000932bc4cd1cde9cba4e23f08cc4f816398af4c15ec81040ed25421d6bf07b5cf6b17095972577fb498988f40f4cb589e3169b9357bb436a12d8e07e5ea7b
   languageName: node
   linkType: hard
 
