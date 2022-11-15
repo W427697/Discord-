@@ -8,7 +8,7 @@ import * as BooleanStories from '../controls/Boolean.stories';
 const meta: Meta<typeof StoryComponent> = {
   component: StoryComponent,
   parameters: {
-    relativeCsfPaths: ['../controls/Boolean.stories'],
+    relativeCsfPaths: ['../controls/Boolean.stories', '../blocks/Story.stories'],
   },
 };
 export default meta;
@@ -28,13 +28,13 @@ export const OfWithMeta: Story = {
   },
 };
 
-const id = `${
+const blocksAwareId = `${
   import.meta.env.STORYBOOK_BLOCKS_ONLY === 'true' ? '' : 'storybook-blocks-'
 }controls-boolean--false`;
 
 export const Id: Story = {
   args: {
-    id,
+    id: blocksAwareId,
   },
 };
 
@@ -44,26 +44,42 @@ export const Name: Story = {
   },
 };
 
+export const SimpleSizeTest: Story = {
+  render: () => {
+    return (
+      <div
+        style={{
+          background: '#fd5c9355',
+          padding: '3rem',
+          height: '1000px',
+          width: '800px',
+          // a global decorator is applying a default padding that we want to negate here
+          margin: '-4rem -20px',
+        }}
+      >
+        <p>
+          This story does nothing. Its only purpose is to show how its size renders in different
+          conditions (inline/iframe/fixed height) when used in a <code>{'<Story />'}</code> block.
+        </p>
+        <p>
+          It has a fixed <code>height</code> of <code>1000px</code> and a fixed <code>width</code>{' '}
+          of <code>800px</code>
+        </p>
+      </div>
+    );
+  },
+};
+
 export const Inline: Story = {
   args: {
-    of: BooleanStories.Undefined,
+    of: SimpleSizeTest,
     inline: true,
   },
-  decorators: [
-    (Story) => (
-      <>
-        <span>A border has been added to the following story to highlight its final size.</span>
-        <div style={{ border: '1px solid gray' }}>
-          <Story />
-        </div>
-      </>
-    ),
-  ],
 };
 export const InlineWithHeight: Story = {
   ...Inline,
   args: {
-    of: BooleanStories.Undefined,
+    of: SimpleSizeTest,
     inline: true,
     height: '300px',
   },
@@ -71,14 +87,14 @@ export const InlineWithHeight: Story = {
 export const Iframe: Story = {
   ...Inline,
   args: {
-    of: BooleanStories.Undefined,
+    of: SimpleSizeTest,
     inline: false,
   },
 };
 export const IframeWithHeight: Story = {
   ...Inline,
   args: {
-    of: BooleanStories.Undefined,
+    of: SimpleSizeTest,
     inline: false,
     height: '300px',
   },
