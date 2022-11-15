@@ -1,6 +1,7 @@
 import type { FC } from 'react';
 import React, { useContext } from 'react';
 import { str } from '@storybook/docs-tools';
+import { deprecate } from '@storybook/client-logger';
 import type { DescriptionProps as PureDescriptionProps } from '../components';
 import { Description } from '../components';
 
@@ -8,7 +9,6 @@ import type { DocsContextProps } from './DocsContext';
 import { DocsContext } from './DocsContext';
 import type { Component } from './types';
 import { PRIMARY_STORY } from './types';
-import { useDeprecate } from '../use-deprecate';
 
 export enum DescriptionType {
   INFO = 'info',
@@ -52,10 +52,12 @@ export const useDescriptionProps = (
     return { markdown: children || markdown };
   }
   const { notes, info, docs } = parameters;
-  useDeprecate(
-    "Using 'parameters.notes' or 'parameters.info' properties to describe stories is deprecated. Write JSDocs directly at the meta, story or component instead.",
-    Boolean(notes) || Boolean(info)
-  );
+  if (Boolean(notes) || Boolean(info)) {
+    deprecate(
+      "Using 'parameters.notes' or 'parameters.info' properties to describe stories is deprecated. Write JSDocs directly at the meta, story or component instead."
+    );
+  }
+
   const { extractComponentDescription = noDescription, description } = docs || {};
   const target = [PRIMARY_STORY].includes(of) ? component : of;
 
@@ -80,18 +82,21 @@ export const useDescriptionProps = (
 const DescriptionContainer: FC<DescriptionProps> = (props = { of: PRIMARY_STORY }) => {
   const context = useContext(DocsContext);
   const { markdown } = useDescriptionProps(props, context);
-  useDeprecate(
-    'Manually specifying description type is deprecated. In the future all descriptions will be extracted from JSDocs on the meta, story or component.',
-    Boolean(props.type)
-  );
-  useDeprecate(
-    "The 'markdown' prop on the Description block is deprecated. Write the markdown directly in the .mdx file instead",
-    Boolean(props.markdown)
-  );
-  useDeprecate(
-    "The 'children' prop on the Description block is deprecated. Write the markdown directly in the .mdx file instead.",
-    Boolean(props.children)
-  );
+  if (props.type) {
+    deprecate(
+      'Manually specifying description type is deprecated. In the future all descriptions will be extracted from JSDocs on the meta, story or component.'
+    );
+  }
+  if (props.markdown) {
+    deprecate(
+      "The 'markdown' prop on the Description block is deprecated. Write the markdown directly in the .mdx file instead"
+    );
+  }
+  if (props.children) {
+    deprecate(
+      "The 'children' prop on the Description block is deprecated. Write the markdown directly in the .mdx file instead."
+    );
+  }
   return markdown ? <Description markdown={markdown} /> : null;
 };
 
