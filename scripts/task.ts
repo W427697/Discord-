@@ -145,11 +145,6 @@ export const options = createOptions({
     inverse: true,
     promptType: false,
   },
-  fromLocalRepro: {
-    type: 'boolean',
-    description: 'Create the template from a local repro (rather than degitting it)?',
-    promptType: false,
-  },
   dryRun: {
     type: 'boolean',
     description: "Don't execute commands, just list them (dry run)?",
