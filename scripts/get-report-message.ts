@@ -30,7 +30,7 @@ const getFooter = async (branch: Branch, workflow: Workflow, job: string) => {
     // discord needs escaped line breaks
     .replace(/\n/g, '\\n')
     // make links out of pull request ids
-    .replace('Merge pull request #', 'https://github.com/storybookjs/storybook/pull/');
+    .replace(/Merge pull request #/g, 'https://github.com/storybookjs/storybook/pull/');
 
   return `\n\n**Relevant PRs:**\n${formattedResult}`;
 };
@@ -55,7 +55,7 @@ async function run() {
   const title = `Oh no! The **${currentJob}** job has failed${
     template !== 'none' ? ` for **${template}**.` : '.'
   }`;
-  const body = `\n\n**Branch**: ${currentBranch}\n**Workflow:** ${workflow}`;
+  const body = `\n\n**Branch**: \`${currentBranch}\`\n**Workflow:** ${workflow}`;
   const footer = await getFooter(currentBranch as Branch, workflow as Workflow, currentJob);
 
   console.log(`${title}${body}${footer}`.replace(/\n/g, '\\n'));
