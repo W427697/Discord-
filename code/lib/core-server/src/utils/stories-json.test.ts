@@ -17,17 +17,6 @@ import { StoryIndexGenerator } from './StoryIndexGenerator';
 jest.mock('watchpack');
 jest.mock('lodash/debounce');
 
-// FIXME: can't figure out how to import ESM
-jest.mock('@storybook/docs-mdx', async () => ({
-  analyze(content: string) {
-    const importMatches = content.matchAll(/'(.[^']*\.stories)'/g);
-    const imports = Array.from(importMatches).map((match) => match[1]);
-    const title = content.match(/title=['"](.*)['"]/)?.[1];
-    const ofMatch = content.match(/of=\{(.*)\}/)?.[1];
-    return { title, imports, of: ofMatch && imports.length && imports[0] };
-  },
-}));
-
 const workingDir = path.join(__dirname, '__mockdata__');
 const normalizedStories = [
   normalizeStoriesEntry(
@@ -142,6 +131,20 @@ describe('useStoriesJson', () => {
               "title": "A",
               "type": "docs",
             },
+            "a--second-docs": Object {
+              "id": "a--second-docs",
+              "importPath": "./src/docs2/SecondMetaOf.mdx",
+              "name": "Second Docs",
+              "standalone": true,
+              "storiesImports": Array [
+                "./src/A.stories.js",
+              ],
+              "tags": Array [
+                "docs",
+              ],
+              "title": "A",
+              "type": "docs",
+            },
             "a--story-one": Object {
               "id": "a--story-one",
               "importPath": "./src/A.stories.js",
@@ -185,18 +188,6 @@ describe('useStoriesJson', () => {
                 "docs",
               ],
               "title": "docs2/NoTitle",
-              "type": "docs",
-            },
-            "docs2-template--docs": Object {
-              "id": "docs2-template--docs",
-              "importPath": "./src/docs2/Template.mdx",
-              "name": "docs",
-              "standalone": true,
-              "storiesImports": Array [],
-              "tags": Array [
-                "docs",
-              ],
-              "title": "docs2/Template",
               "type": "docs",
             },
             "docs2-yabbadabbadooo--docs": Object {
@@ -311,6 +302,26 @@ describe('useStoriesJson', () => {
               ],
               "title": "A",
             },
+            "a--second-docs": Object {
+              "id": "a--second-docs",
+              "importPath": "./src/docs2/SecondMetaOf.mdx",
+              "kind": "A",
+              "name": "Second Docs",
+              "parameters": Object {
+                "__id": "a--second-docs",
+                "docsOnly": true,
+                "fileName": "./src/docs2/SecondMetaOf.mdx",
+              },
+              "standalone": true,
+              "storiesImports": Array [
+                "./src/A.stories.js",
+              ],
+              "story": "Second Docs",
+              "tags": Array [
+                "docs",
+              ],
+              "title": "A",
+            },
             "a--story-one": Object {
               "id": "a--story-one",
               "importPath": "./src/A.stories.js",
@@ -379,24 +390,6 @@ describe('useStoriesJson', () => {
                 "docs",
               ],
               "title": "docs2/NoTitle",
-            },
-            "docs2-template--docs": Object {
-              "id": "docs2-template--docs",
-              "importPath": "./src/docs2/Template.mdx",
-              "kind": "docs2/Template",
-              "name": "docs",
-              "parameters": Object {
-                "__id": "docs2-template--docs",
-                "docsOnly": true,
-                "fileName": "./src/docs2/Template.mdx",
-              },
-              "standalone": true,
-              "storiesImports": Array [],
-              "story": "docs",
-              "tags": Array [
-                "docs",
-              ],
-              "title": "docs2/Template",
             },
             "docs2-yabbadabbadooo--docs": Object {
               "id": "docs2-yabbadabbadooo--docs",
