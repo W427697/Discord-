@@ -164,14 +164,17 @@ export const Loader: FC<ComponentProps<typeof PureLoader>> = (props) => {
   const [error, setError] = useState(undefined);
 
   useEffect(() => {
+    console.log('here');
     // Don't listen for progress updates in static builds
-    // Event source is not defined in IE 11
-    if (CONFIG_TYPE !== 'DEVELOPMENT' || !EventSource) return undefined;
+    // if (CONFIG_TYPE !== 'DEVELOPMENT') {
+    //   return undefined;
+    // }
 
-    const eventSource = new EventSource('/progress');
+    const eventSource = new EventSource('./progress');
     let lastProgress: Progress;
 
     eventSource.onmessage = (event: any) => {
+      console.log({ event });
       try {
         lastProgress = JSON.parse(event.data);
         setProgress(lastProgress);

@@ -4,7 +4,10 @@ export async function getManagerBuilder() {
   return import('@storybook/builder-manager');
 }
 
-export async function getPreviewBuilder(builderName: string, configDir: string) {
+export async function getPreviewBuilder(
+  builderName: string,
+  configDir: string
+): Promise<Builder<unknown>> {
   let builderPackage: string;
   if (builderName) {
     builderPackage = require.resolve(

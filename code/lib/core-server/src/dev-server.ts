@@ -118,6 +118,7 @@ export async function storybookDevServer(options: Options) {
     options,
     router,
     server,
+    channel: serverChannel,
   });
 
   let previewResult;
@@ -128,6 +129,7 @@ export async function storybookDevServer(options: Options) {
       options,
       router,
       server,
+      channel: serverChannel,
     });
   }
 

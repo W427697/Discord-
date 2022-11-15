@@ -72,7 +72,7 @@ export { StorybookLogo } from './brand/StorybookLogo';
 export { StorybookIcon } from './brand/StorybookIcon';
 
 // Loader
-export { Loader } from './Loader/Loader';
+export { Loader, PureLoader } from './Loader/Loader';
 
 // Utils
 export { getStoryHref } from './utils/getStoryHref';

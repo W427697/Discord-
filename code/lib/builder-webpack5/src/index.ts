@@ -3,14 +3,22 @@ import webpack, { ProgressPlugin } from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
 import { logger } from '@storybook/node-logger';
-import { useProgressReporting } from '@storybook/core-common';
 import type { Builder, Options } from '@storybook/types';
 import { checkWebpackVersion } from '@storybook/core-webpack';
 import { dirname, join, parse } from 'path';
 import express from 'express';
 import fs from 'fs-extra';
 
+// eslint-disable-next-line import/no-extraneous-dependencies
+import prettyTime from 'pretty-hrtime';
+
 export * from './types';
+
+export const printDuration = (startTime: [number, number]) =>
+  prettyTime(process.hrtime(startTime))
+    .replace(' ms', ' milliseconds')
+    .replace(' s', ' seconds')
+    .replace(' m', ' minutes');
 
 let compilation: ReturnType<typeof webpackDevMiddleware> | undefined;
 let reject: (reason?: any) => void;
@@ -100,6 +108,7 @@ const starter: StarterFunction = async function* starterGeneratorFn({
   startTime,
   options,
   router,
+  channel,
 }) {
   const webpackInstance = await executor.get(options);
   yield;
@@ -122,9 +131,40 @@ const starter: StarterFunction = async function* starterGeneratorFn({
     };
   }
 
-  const { handler, modulesCount } = await useProgressReporting(router, startTime, options);
   yield;
-  new ProgressPlugin({ handler, modulesCount }).apply(compiler);
+  const modulesCount = (await options.cache?.get('modulesCount').catch(() => {})) || 1000;
+  let totalModules: number;
+  let value = 0;
+
+  new ProgressPlugin({
+    handler: (newValue, message, arg3) => {
+      value = Math.max(newValue, value); // never go backwards
+      const progress = { value, message: message.charAt(0).toUpperCase() + message.slice(1) };
+      if (message === 'building') {
+        // arg3 undefined in webpack5
+        const counts = (arg3 && arg3.match(/(\d+)\/(\d+)/)) || [];
+        const complete = parseInt(counts[1], 10);
+        const total = parseInt(counts[2], 10);
+        if (!Number.isNaN(complete) && !Number.isNaN(total)) {
+          (progress as any).modules = { complete, total };
+          totalModules = total;
+        }
+      }
+
+      if (value === 1) {
+        if (options.cache) {
+          options.cache.set('modulesCount', totalModules);
+        }
+
+        if (!progress.message) {
+          progress.message = `Completed in ${printDuration(startTime)}.`;
+        }
+      }
+
+      channel.emit('preview_builder_progress', [progress]);
+    },
+    modulesCount,
+  }).apply(compiler);
 
   const middlewareOptions: Parameters<typeof webpackDevMiddleware>[1] = {
     publicPath: config.output?.publicPath as string,
