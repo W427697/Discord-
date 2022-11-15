@@ -28,11 +28,13 @@ export const OfWithMeta: Story = {
   },
 };
 
-const isBlocksOnly = import.meta.env.STORYBOOK_BLOCKS_ONLY === 'true';
+const id = `${
+  import.meta.env.STORYBOOK_BLOCKS_ONLY === 'true' ? '' : 'storybook-blocks-'
+}controls-boolean--false`;
 
 export const Id: Story = {
   args: {
-    id: `${isBlocksOnly ? '' : 'storybook-blocks-'}controls-boolean--false`,
+    id,
   },
 };
 
