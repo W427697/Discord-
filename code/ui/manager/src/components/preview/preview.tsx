@@ -5,7 +5,7 @@ import { type API, Consumer, type Combo, merge } from '@storybook/api';
 import { SET_CURRENT_STORY } from '@storybook/core-events';
 import { addons, types, type Addon } from '@storybook/addons';
 
-import { Loader, PureLoader } from '@storybook/components';
+import { PureLoader } from '@storybook/components';
 import { Location } from '@storybook/router';
 
 import * as S from './utils/components';
