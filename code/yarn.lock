@@ -6469,7 +6469,7 @@ __metadata:
     "@storybook/types": 7.0.0-alpha.49
     "@types/babel__core": ^7.0.0
     "@types/express": ^4.7.0
-    "@types/mock-fs": ^4.13.0
+    "@types/mock-fs": ^4.13.1
     "@types/node": ^16.0.0
     "@types/picomatch": ^2.3.0
     "@types/pretty-hrtime": ^1.0.0
@@ -6483,7 +6483,7 @@ __metadata:
     glob: ^7.1.6
     handlebars: ^4.7.7
     lazy-universal-dotenv: ^3.0.1
-    mock-fs: ^4.13.0
+    mock-fs: ^5.2.0
     picomatch: ^2.3.0
     pkg-dir: ^5.0.0
     pretty-hrtime: ^1.0.3
@@ -8787,7 +8787,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/mock-fs@npm:^4.13.0":
+"@types/mock-fs@npm:^4.13.1":
   version: 4.13.1
   resolution: "@types/mock-fs@npm:4.13.1"
   dependencies:
@@ -25893,10 +25893,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mock-fs@npm:^4.13.0":
-  version: 4.14.0
-  resolution: "mock-fs@npm:4.14.0"
-  checksum: a23bc2ce74f2a01d02053fb20aecc2ea359e62580cd15b5e1029b55929802e2770bbd683ccdc5c1eabb5cecbf452196bb81a0ef61c4629dc819023e10d8303c6
+"mock-fs@npm:^5.2.0":
+  version: 5.2.0
+  resolution: "mock-fs@npm:5.2.0"
+  checksum: e917e71295ee9d805c7d9ab0214a66658db0212f35731ba0c75dc1ccbb9964e6787a6d725561f05fcf569c64cf4a1176f5ce438f98b009227520f646f8abf174
   languageName: node
   linkType: hard
 
