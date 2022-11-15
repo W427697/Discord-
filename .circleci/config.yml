@@ -313,7 +313,7 @@ jobs:
             cd bench/react-vite-default-ts
             rm -rf node_modules
             mkdir node_modules
-            npx -p @storybook/bench@next sb-bench 'yarn install' --no-start --label react-vite
+            npx -p @storybook/bench@next sb-bench 'yarn install' --label react-vite
       - run:
           name: prep artifacts
           when: always
