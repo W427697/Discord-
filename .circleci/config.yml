@@ -183,6 +183,7 @@ commands:
         description: |
           Which template to report in discord. Applicable for parallel sandbox jobs
         type: string
+        default: 'none'
     steps:
       - run:
           when: on_fail

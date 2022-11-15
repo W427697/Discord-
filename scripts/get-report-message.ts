@@ -38,10 +38,10 @@ const getFooter = async (branch: Branch, workflow: Workflow, job: string) => {
 // This command is run in Circle CI on failures, to get a rich message to report to Discord
 // Usage: yarn get-report-message type workflow branch
 async function run() {
-  const [, , workflow = '', template = ''] = process.argv;
+  const [, , workflow = '', template = 'none'] = process.argv;
 
-  if (!workflow || !template) {
-    throw new Error('[get-report-message] Missing workflow or template arguments.');
+  if (!workflow) {
+    throw new Error('[get-report-message] Missing workflow argument.');
   }
 
   const { CIRCLE_BRANCH: currentBranch = '', CIRCLE_JOB: currentJob = '' } = process.env;
@@ -53,7 +53,7 @@ async function run() {
   }
 
   const title = `Oh no! The **${currentJob}** job has failed${
-    template ? ` for **${template}**.` : '.'
+    template !== 'none' ? ` for **${template}**.` : '.'
   }`;
   const body = `\n\n**Branch**: ${currentBranch}\n**Workflow:** ${workflow}`;
   const footer = await getFooter(currentBranch as Branch, workflow as Workflow, currentJob);
