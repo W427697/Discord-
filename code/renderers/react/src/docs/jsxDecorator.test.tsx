@@ -164,7 +164,7 @@ describe('renderJsx', () => {
       );
     }
 
-    expect(renderJsx(createElement(StrictModeComponent, {}, 'I am StrictMode')))
+    expect(renderJsx(createElement(StrictModeComponent, {}, 'I am StrictMode'), {}))
       .toMatchInlineSnapshot(`
         <StrictModeComponent>
           I am StrictMode
