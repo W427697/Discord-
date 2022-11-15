@@ -33,6 +33,7 @@ module.exports = {
       rules: {
         // allow expect in stories
         'jest/no-standalone-expect': ['off'],
+      },
     },
     {
       files: [
