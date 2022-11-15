@@ -26,7 +26,7 @@ import { createBabelLoader } from './babel-loader-preview';
 const storybookPaths: Record<string, string> = {
   global: dirname(require.resolve(`global/package.json`)),
   ...[
-    //
+    // these packages are not pre-bundled because of react dependencies
     'api',
     'components',
     'router',
@@ -39,7 +39,7 @@ const storybookPaths: Record<string, string> = {
     {}
   ),
   ...[
-    //
+    // these packages are pre-bundled, so they are mapped to global shims
     'channels',
     'channel-postmessage',
     'channel-websocket',
