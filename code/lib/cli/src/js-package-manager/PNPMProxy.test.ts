@@ -181,6 +181,7 @@ describe('NPM Proxy', () => {
       const writePackageSpy = jest.spyOn(pnpmProxy, 'writePackageJson').mockImplementation(jest.fn);
 
       jest.spyOn(pnpmProxy, 'retrievePackageJson').mockImplementation(
+        // @ts-expect-error (not strict)
         jest.fn(() => ({
           overrides: {
             bar: 'x.x.x',
