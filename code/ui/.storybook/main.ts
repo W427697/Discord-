@@ -56,14 +56,14 @@ const config: StorybookConfig = {
   core: {
     disableTelemetry: true,
   },
-  viteFinal: (vite, { configType }) => ({
-    ...vite,
+  viteFinal: (viteConfig, { configType }) => ({
+    ...viteConfig,
     plugins: [
-      ...(vite.plugins || []),
+      ...(viteConfig.plugins || []),
       csfPlugin({}),
-      configType === 'PRODUCTION' ? pluginTurbosnap({ rootDir: vite.root || '' }) : [],
+      // configType === 'PRODUCTION' ? pluginTurbosnap({ rootDir: viteConfig.root || '' }) : [],
     ],
-    optimizeDeps: { ...vite.optimizeDeps, force: true },
+    optimizeDeps: { ...viteConfig.optimizeDeps, force: true },
   }),
 };
 
