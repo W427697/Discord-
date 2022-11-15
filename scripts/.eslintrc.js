@@ -28,5 +28,12 @@ module.exports = {
         'import/extensions': ['error', 'always'],
       },
     },
+    {
+      files: ['*.stories.*'],
+      rules: {
+        // allow expect in stories
+        'jest/no-standalone-expect': ['off'],
+      },
+    },
   ],
 };

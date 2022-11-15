@@ -2,14 +2,14 @@ import type { Addon_ClientStoryApi, Addon_Loadable } from '@storybook/types';
 import type { App } from 'vue';
 import { start } from '@storybook/core-client';
 
-import type { VueFramework } from './types';
+import type { VueRenderer } from './types';
 import { decorateStory } from './decorateStory';
 
 import { render, renderToCanvas } from './render';
 
 const FRAMEWORK = 'vue3';
 
-interface ClientApi extends Addon_ClientStoryApi<VueFramework['storyResult']> {
+interface ClientApi extends Addon_ClientStoryApi<VueRenderer['storyResult']> {
   configure(loader: Addon_Loadable, module: NodeModule): void;
   forceReRender(): void;
   raw: () => any; // todo add type
