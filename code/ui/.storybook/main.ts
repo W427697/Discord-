@@ -2,7 +2,7 @@ import { vite as csfPlugin } from '@storybook/csf-plugin';
 import pluginTurbosnap from 'vite-plugin-turbosnap';
 import type { StorybookConfig } from '../../frameworks/react-vite/dist';
 
-const isBlocksOnly = process.env.BLOCKS_ONLY === 'true';
+const isBlocksOnly = process.env.STORYBOOK_BLOCKS_ONLY === 'true';
 
 const allStories = [
   {
@@ -55,6 +55,9 @@ const config: StorybookConfig = {
   },
   core: {
     disableTelemetry: true,
+  },
+  features: {
+    interactionsDebugger: true,
   },
   viteFinal: (viteConfig, { configType }) => ({
     ...viteConfig,
