@@ -3,7 +3,7 @@ import { command } from 'execa';
 import { readJson } from 'fs-extra';
 import { join } from 'path';
 
-type Branch = 'main' | 'next' | 'alpha';
+type Branch = 'main' | 'next' | 'alpha' | 'next-release' | 'latest-release';
 type Workflow = 'merged' | 'daily';
 
 const getFooter = async (branch: Branch, workflow: Workflow, job: string) => {
@@ -11,7 +11,8 @@ const getFooter = async (branch: Branch, workflow: Workflow, job: string) => {
     return `\n\nThis might not necessarily be a bug, it could be a visual diff that you have to review and approve. Please check it!`;
   }
 
-  if (branch === 'alpha') {
+  // The CI workflows can run on release branches and we should display the version number
+  if (branch === 'next-release' || branch === 'latest-release') {
     const packageJson = await readJson(join(__dirname, '..', 'code', 'package.json'));
 
     // running in alpha branch we should just show the version which failed
