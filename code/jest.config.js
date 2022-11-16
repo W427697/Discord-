@@ -1,21 +1,17 @@
 const os = require('os');
 
-// TODO Revisit this test later, when we have a windows machine @valentinpalkovic
+/**
+ * TODO: Some windows related tasks are still commented out, because they are behaving differently on
+ * a local Windows machine compared to the Windows Server 2022 machine running in GitHub Actions.
+ * The main issue is that path.sep is behaving differently on the two machines. Some more investagations
+ * are necessary!
+ * */
 const skipOnWindows = [
-  'lib/core-server/src/utils/stories-json.test.ts',
-  'lib/core-server/src/utils/StoryIndexGenerator.test.ts',
-  'lib/cli/src/helpers.test.ts',
   'lib/core-server/src/utils/__tests__/server-statics.test.ts',
   'lib/core-common/src/utils/__tests__/template.test.ts',
   'addons/storyshots/storyshots-core/src/frameworks/configure.test.ts',
   'lib/core-common/src/utils/__tests__/interpret-files.test.ts',
-  'lib/builder-manager/src/utils/files.test.ts',
   'lib/cli/src/helpers.test.ts',
-  'lib/core-server/src/utils/__tests__/server-statics.test.ts',
-  'lib/core-common/src/utils/__tests__/template.test.ts',
-  'addons/storyshots/storyshots-core/src/frameworks/configure.test.ts',
-  'lib/core-common/src/utils/__tests__/interpret-files.test.ts',
-  'lib/builder-manager/src/utils/files.test.ts',
 ];
 
 module.exports = {
