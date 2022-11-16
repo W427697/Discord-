@@ -332,13 +332,13 @@ __metadata:
   linkType: hard
 
 "@axe-core/puppeteer@npm:^4.2.0":
-  version: 4.5.2
-  resolution: "@axe-core/puppeteer@npm:4.5.2"
+  version: 4.5.1
+  resolution: "@axe-core/puppeteer@npm:4.5.1"
   dependencies:
-    axe-core: ^4.5.2
+    axe-core: ^4.5.1
   peerDependencies:
     puppeteer: ">=1.10.0 <= 18"
-  checksum: be626f6ac63a883e2a291490625f7dceab486c0b0753995ee1cc73473162ef581cdddb8760f8be499c9c7303712f5dded2d95f9195845cdda3f1d16b3047e94e
+  checksum: f9b815b4bce727474a60f11f437003a93c68f14b408c04fd3a69fc7582c36817319209934fe24658f11df3910db909924a722e8fce41b5febb87d93f12886d77
   languageName: node
   linkType: hard
 
@@ -5728,7 +5728,7 @@ __metadata:
   resolution: "@storybook/addon-storyshots-puppeteer@workspace:addons/storyshots/storyshots-puppeteer"
   dependencies:
     "@axe-core/puppeteer": ^4.2.0
-    "@storybook/csf": 0.0.2-next.7
+    "@storybook/csf": next
     "@storybook/node-logger": 7.0.0-alpha.49
     "@storybook/types": 7.0.0-alpha.49
     "@types/jest-image-snapshot": ^4.1.3
@@ -6058,7 +6058,7 @@ __metadata:
     "@storybook/client-logger": 7.0.0-alpha.49
     "@storybook/core-common": 7.0.0-alpha.49
     "@storybook/core-events": 7.0.0-alpha.49
-    "@storybook/csf": 0.0.2-next.7
+    "@storybook/csf": next
     "@storybook/router": 7.0.0-alpha.49
     "@storybook/theming": 7.0.0-alpha.49
     "@storybook/types": 7.0.0-alpha.49
@@ -6227,6 +6227,7 @@ __metadata:
     "@storybook/store": 7.0.0-alpha.49
     "@storybook/theming": 7.0.0-alpha.49
     "@types/node": ^16.0.0
+    "@types/pretty-hrtime": ^1.0.0
     "@types/semver": ^7.3.4
     "@types/terser-webpack-plugin": ^5.2.0
     "@types/webpack-dev-middleware": ^5.3.0
@@ -6243,6 +6244,7 @@ __metadata:
     global: ^4.4.0
     html-webpack-plugin: ^5.5.0
     path-browserify: ^1.0.1
+    pretty-hrtime: ^1.0.3
     process: ^0.11.10
     semver: ^7.3.7
     style-loader: ^3.3.1
@@ -6394,7 +6396,7 @@ __metadata:
   resolution: "@storybook/codemod@workspace:lib/codemod"
   dependencies:
     "@babel/types": ^7.12.11
-    "@storybook/csf": 0.0.2-next.7
+    "@storybook/csf": next
     "@storybook/csf-tools": 7.0.0-alpha.49
     "@storybook/node-logger": 7.0.0-alpha.49
     "@storybook/types": 7.0.0-alpha.49
@@ -6417,7 +6419,7 @@ __metadata:
   dependencies:
     "@popperjs/core": ^2.6.0
     "@storybook/client-logger": 7.0.0-alpha.49
-    "@storybook/csf": 0.0.2-next.7
+    "@storybook/csf": next
     "@storybook/theming": 7.0.0-alpha.49
     "@storybook/types": 7.0.0-alpha.49
     "@types/overlayscrollbars": ^1.12.0
@@ -6607,7 +6609,7 @@ __metadata:
     "@babel/parser": ^7.12.11
     "@babel/traverse": ^7.12.11
     "@babel/types": ^7.12.11
-    "@storybook/csf": 0.0.2-next.7
+    "@storybook/csf": next
     "@storybook/types": 7.0.0-alpha.49
     "@types/fs-extra": ^9.0.6
     fs-extra: ^9.0.1
@@ -6626,7 +6628,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@storybook/csf@npm:0.0.2-next.7, @storybook/csf@npm:next":
+"@storybook/csf@npm:^0.0.1":
+  version: 0.0.1
+  resolution: "@storybook/csf@npm:0.0.1"
+  dependencies:
+    lodash: ^4.17.15
+  checksum: 7b0f75763415f9147692a460b44417ee56ea9639433716a1fd4d1df4c8b0221cbc71b8da0fbed4dcecb3ccd6c7ed64be39f5c255c713539a6088a1d6488aaa24
+  languageName: node
+  linkType: hard
+
+"@storybook/csf@npm:next":
   version: 0.0.2-next.7
   resolution: "@storybook/csf@npm:0.0.2-next.7"
   dependencies:
@@ -6634,15 +6645,6 @@ __metadata:
     lodash: ^4.17.15
     type-fest: ^2.19.0
   checksum: 3920626fdd6dc4875ba95ae46fa0776051f544a479029ee7d561b87602511010161750a42b0d5e1371ec336b47262e1098524c834805ca686d9bc2de5cae0e4e
-  languageName: node
-  linkType: hard
-
-"@storybook/csf@npm:^0.0.1":
-  version: 0.0.1
-  resolution: "@storybook/csf@npm:0.0.1"
-  dependencies:
-    lodash: ^4.17.15
-  checksum: 7b0f75763415f9147692a460b44417ee56ea9639433716a1fd4d1df4c8b0221cbc71b8da0fbed4dcecb3ccd6c7ed64be39f5c255c713539a6088a1d6488aaa24
   languageName: node
   linkType: hard
 
@@ -7433,7 +7435,7 @@ __metadata:
     "@storybook/core-events": "workspace:*"
     "@storybook/core-server": "workspace:*"
     "@storybook/core-webpack": "workspace:*"
-    "@storybook/csf": 0.0.2-next.7
+    "@storybook/csf": next
     "@storybook/csf-plugin": "workspace:*"
     "@storybook/csf-tools": "workspace:*"
     "@storybook/docs-tools": "workspace:*"
@@ -7717,7 +7719,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/source-loader@workspace:lib/source-loader"
   dependencies:
-    "@storybook/csf": 0.0.2-next.7
+    "@storybook/csf": next
     "@storybook/types": 7.0.0-alpha.49
     estraverse: ^5.2.0
     jest-specific-snapshot: ^4.0.0
@@ -7886,7 +7888,7 @@ __metadata:
   dependencies:
     "@babel/core": ^7.12.10
     "@storybook/channels": 7.0.0-alpha.49
-    "@storybook/csf": 0.0.2-next.7
+    "@storybook/csf": next
     "@types/babel__core": ^7.0.0
     "@types/express": ^4.7.0
     "@types/node": ^16.0.0
@@ -11173,7 +11175,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axe-core@npm:^4.2.0, axe-core@npm:^4.4.3, axe-core@npm:^4.5.2":
+"axe-core@npm:^4.2.0, axe-core@npm:^4.4.3, axe-core@npm:^4.5.1":
   version: 4.5.2
   resolution: "axe-core@npm:4.5.2"
   checksum: 8f6e12fe08daacb875d471a6860eaf93dcac0e08bd26438b0c52751b826c130288f03b18b1e71ed6e15a9318df6d7a7e9522501ea50433c85a383b1e4dc9cdbc
@@ -36963,9 +36965,9 @@ __metadata:
   linkType: hard
 
 "zwitch@npm:^2.0.0":
-  version: 2.0.4
-  resolution: "zwitch@npm:2.0.4"
-  checksum: 3c7830cdd3378667e058ffdb4cf2bb78ac5711214e2725900873accb23f3dfe5f9e7e5a06dcdc5f29605da976fc45c26d9a13ca334d6eea2245a15e77b8fc06e
+  version: 2.0.3
+  resolution: "zwitch@npm:2.0.3"
+  checksum: a9db84df2919cdb3e5b019e893bb574f7d65977373c4fdfe29b2e8776b513dac970bfb0def8592693b0d25446bf52ff67e21056c9efa897d6245e7670cb705a0
   languageName: node
   linkType: hard
 

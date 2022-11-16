@@ -1,11 +1,12 @@
-import React, { Fragment, useMemo, useEffect, useRef } from 'react';
+import React, { Fragment, useMemo, useEffect, useRef, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
+import global from 'global';
 
 import { type API, Consumer, type Combo, merge } from '@storybook/api';
 import { SET_CURRENT_STORY } from '@storybook/core-events';
 import { addons, types, type Addon } from '@storybook/addons';
 
-import { Loader } from '@storybook/components';
+import { PureLoader } from '@storybook/components';
 import { Location } from '@storybook/router';
 
 import * as S from './utils/components';
@@ -59,9 +60,23 @@ const createCanvas = (id: string, baseUrl = 'iframe.html', withLoader = true): A
             [getElements, ...defaultWrappers]
           );
 
+          const [progress, setProgress] = useState(undefined);
+
+          useEffect(() => {
+            if (global.CONFIG_TYPE === 'DEVELOPMENT') {
+              const channel = addons.getServerChannel();
+
+              channel.on('preview_builder_progress', (options) => {
+                setProgress(options);
+              });
+            }
+          }, []);
+
+          const refLoading = !!refs[refId] && !refs[refId].ready;
+          const rootLoading = !refId && !(progress?.value === 1 || progress === undefined);
           const isLoading = entry
-            ? !!refs[refId] && !refs[refId].ready
-            : !storiesFailed && !storiesConfigured;
+            ? refLoading || rootLoading
+            : (!storiesFailed && !storiesConfigured) || rootLoading;
 
           return (
             <ZoomConsumer>
@@ -70,7 +85,7 @@ const createCanvas = (id: string, baseUrl = 'iframe.html', withLoader = true): A
                   <>
                     {withLoader && isLoading && (
                       <S.LoaderWrapper>
-                        <Loader id="preview-loader" role="progressbar" />
+                        <PureLoader id="preview-loader" role="progressbar" progress={progress} />
                       </S.LoaderWrapper>
                     )}
                     <ApplyWrappers
@@ -145,6 +160,8 @@ const Preview = React.memo<PreviewProps>(function Preview(props) {
   const { getElements } = api;
 
   const tabs = useTabs(previewId, baseUrl, withLoader, getElements, entry);
+
+  console.log('tabs', { tabs });
 
   const shouldScale = viewMode === 'story';
   const { showToolbar, showTabs = true } = options;
