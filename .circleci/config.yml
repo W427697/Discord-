@@ -405,6 +405,8 @@ jobs:
     executor:
       class: medium+
       name: sb_node_16_browsers
+    environment:
+        NODE_OPTIONS: --max_old_space_size=6144
     steps:
       # switched this to the CircleCI helper to get the full git history for TurboSnap
       - checkout
