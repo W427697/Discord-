@@ -47,7 +47,7 @@
     "file-system-cache": "^2.0.0"
   },
   "devDependencies": {
-    "@storybook/csf": "0.0.2-next.5",
+    "@storybook/csf": "0.0.2-next.7",
     "@types/node": "^16.0.0",
     "synchronous-promise": "^2.0.15",
     "typescript": "~4.6.3"
