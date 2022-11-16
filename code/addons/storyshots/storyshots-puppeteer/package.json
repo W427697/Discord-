@@ -34,7 +34,7 @@
   },
   "dependencies": {
     "@axe-core/puppeteer": "^4.2.0",
-    "@storybook/csf": "0.0.2-next.5",
+    "@storybook/csf": "0.0.2-next.7",
     "@storybook/node-logger": "7.0.0-alpha.49",
     "@storybook/types": "7.0.0-alpha.49",
     "@types/jest-image-snapshot": "^4.1.3",

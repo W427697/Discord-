@@ -79,7 +79,7 @@
     "@storybook/addons": "7.0.0-alpha.49",
     "@storybook/client-logger": "7.0.0-alpha.49",
     "@storybook/core-events": "7.0.0-alpha.49",
-    "@storybook/csf": "0.0.2-next.5",
+    "@storybook/csf": "0.0.2-next.7",
     "@storybook/router": "7.0.0-alpha.49",
     "@storybook/types": "7.0.0-alpha.49",
     "global": "^4.4.0",

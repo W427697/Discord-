@@ -3,10 +3,15 @@ import type {
   Args,
   ComponentAnnotations,
   StoryAnnotations,
+  DecoratorFunction,
+  LoaderFunction,
+  StoryContext as GenericStoryContext,
+  StrictArgs,
 } from '@storybook/types';
 import type { PreactRenderer } from './types';
 
-export type { Args, ArgTypes, Parameters, StoryContext } from '@storybook/types';
+export type { Args, ArgTypes, Parameters, StrictArgs } from '@storybook/types';
+export type { PreactRenderer };
 
 /**
  * Metadata to configure the stories for a component.
@@ -39,3 +44,7 @@ export type StoryObj<TArgs = Args> = StoryAnnotations<PreactRenderer, TArgs>;
  * @see [Named Story exports](https://storybook.js.org/docs/formats/component-story-format/#named-story-exports)
  */
 export type Story<TArgs = Args> = StoryFn<TArgs>;
+
+export type Decorator<TArgs = StrictArgs> = DecoratorFunction<PreactRenderer, TArgs>;
+export type Loader<TArgs = StrictArgs> = LoaderFunction<PreactRenderer, TArgs>;
+export type StoryContext<TArgs = StrictArgs> = GenericStoryContext<PreactRenderer, TArgs>;
