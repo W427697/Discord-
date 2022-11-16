@@ -67,6 +67,11 @@ const config: StorybookConfig = {
       configType === 'PRODUCTION' ? pluginTurbosnap({ rootDir: viteConfig.root || '' }) : [],
     ],
     optimizeDeps: { ...viteConfig.optimizeDeps, force: true },
+    build: {
+      ...viteConfig.build,
+      // disable sourcemaps in CI to not run out of memory
+      sourcemap: process.env.CI !== 'true',
+    },
   }),
 };
 
