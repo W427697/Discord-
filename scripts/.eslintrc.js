@@ -29,6 +29,13 @@ module.exports = {
       },
     },
     {
+      files: ['*.stories.*'],
+      rules: {
+        // allow expect in stories
+        'jest/no-standalone-expect': ['off'],
+      },
+    },
+    {
       files: [
         '*.js',
         '*.jsx',
