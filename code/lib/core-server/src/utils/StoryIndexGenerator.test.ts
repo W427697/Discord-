@@ -1176,30 +1176,6 @@ describe('StoryIndexGenerator', () => {
         expect(Object.keys((await generator.getIndex()).entries)).not.toContain('notitle--docs');
       });
 
-      it('errors on dependency deletion', async () => {
-        const storiesSpecifier: CoreCommon_NormalizedStoriesSpecifier = normalizeStoriesEntry(
-          './src/A.stories.(ts|js|jsx)',
-          options
-        );
-        const docsSpecifier: CoreCommon_NormalizedStoriesSpecifier = normalizeStoriesEntry(
-          './src/docs2/*.mdx',
-          options
-        );
-
-        const generator = new StoryIndexGenerator([docsSpecifier, storiesSpecifier], options);
-        await generator.initialize();
-        await generator.getIndex();
-        expect(toId).toHaveBeenCalledTimes(5);
-
-        expect(Object.keys((await generator.getIndex()).entries)).toContain('a--story-one');
-
-        generator.invalidate(storiesSpecifier, './src/A.stories.js', true);
-
-        await expect(() => generator.getIndex()).rejects.toThrowError(
-          /Could not find "..\/A.stories" for docs file/
-        );
-      });
-
       it('cleans up properly on dependent docs deletion', async () => {
         const storiesSpecifier: CoreCommon_NormalizedStoriesSpecifier = normalizeStoriesEntry(
           './src/A.stories.(ts|js|jsx)',

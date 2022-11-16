@@ -5,7 +5,7 @@ import { SynchronousPromise } from 'synchronous-promise';
 import { toId, isExportStory, storyNameFromExport } from '@storybook/csf';
 import type {
   Addon_IndexEntry,
-  Framework,
+  Renderer,
   ComponentId,
   DocsOptions,
   Parameters,
@@ -21,8 +21,8 @@ import type { StoryStore } from '@storybook/store';
 import { userOrAutoTitle, sortStoriesV6 } from '@storybook/store';
 import { logger } from '@storybook/client-logger';
 
-export class StoryStoreFacade<TFramework extends Framework> {
-  projectAnnotations: Store_NormalizedProjectAnnotations<TFramework>;
+export class StoryStoreFacade<TRenderer extends Renderer> {
+  projectAnnotations: Store_NormalizedProjectAnnotations<TRenderer>;
 
   entries: Record<StoryId, Addon_IndexEntry & { componentId?: ComponentId }>;
 
@@ -54,22 +54,22 @@ export class StoryStoreFacade<TFramework extends Framework> {
     });
   }
 
-  getStoryIndex(store: StoryStore<TFramework>) {
+  getStoryIndex(store: StoryStore<TRenderer>) {
     const fileNameOrder = Object.keys(this.csfExports);
     const storySortParameter = this.projectAnnotations.parameters?.options?.storySort;
 
     const storyEntries = Object.entries(this.entries);
     // Add the kind parameters and global parameters to each entry
-    const sortableV6: [StoryId, Store_Story<TFramework>, Parameters, Parameters][] =
+    const sortableV6: [StoryId, Store_Story<TRenderer>, Parameters, Parameters][] =
       storyEntries.map(([storyId, { type, importPath, ...entry }]) => {
         const exports = this.csfExports[importPath];
-        const csfFile = store.processCSFFileWithCache<TFramework>(
+        const csfFile = store.processCSFFileWithCache<TRenderer>(
           exports,
           importPath,
           exports.default.title
         );
 
-        let storyLike: Store_Story<TFramework>;
+        let storyLike: Store_Story<TRenderer>;
         if (type === 'story') {
           storyLike = store.storyFromCSFFile({ storyId, csfFile });
         } else {

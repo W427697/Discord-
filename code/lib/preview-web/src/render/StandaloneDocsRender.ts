@@ -1,6 +1,6 @@
 import type {
   Addon_IndexEntry,
-  Framework,
+  Renderer,
   Store_CSFFile,
   Store_ModuleExports,
   StoryId,
@@ -24,7 +24,7 @@ import { DocsContext } from '../docs-context/DocsContext';
  *  - *.mdx file that may or may not reference a specific CSF file with `<Meta of={} />`
  */
 
-export class StandaloneDocsRender<TFramework extends Framework> implements Render<TFramework> {
+export class StandaloneDocsRender<TRenderer extends Renderer> implements Render<TRenderer> {
   public readonly type: RenderType = 'docs';
 
   public readonly id: StoryId;
@@ -41,11 +41,11 @@ export class StandaloneDocsRender<TFramework extends Framework> implements Rende
 
   public preparing = false;
 
-  private csfFiles?: Store_CSFFile<TFramework>[];
+  private csfFiles?: Store_CSFFile<TRenderer>[];
 
   constructor(
     protected channel: Channel,
-    protected store: StoryStore<TFramework>,
+    protected store: StoryStore<TRenderer>,
     public entry: Addon_IndexEntry
   ) {
     this.id = entry.id;
@@ -66,22 +66,22 @@ export class StandaloneDocsRender<TFramework extends Framework> implements Rende
     this.preparing = false;
   }
 
-  isEqual(other: Render<TFramework>): boolean {
+  isEqual(other: Render<TRenderer>): boolean {
     return !!(
       this.id === other.id &&
       this.exports &&
-      this.exports === (other as StandaloneDocsRender<TFramework>).exports
+      this.exports === (other as StandaloneDocsRender<TRenderer>).exports
     );
   }
 
   async renderToElement(
-    canvasElement: TFramework['canvasElement'],
+    canvasElement: TRenderer['canvasElement'],
     renderStoryToElement: DocsContextProps['renderStoryToElement']
   ) {
     if (!this.exports || !this.csfFiles || !this.store.projectAnnotations)
       throw new Error('Cannot render docs before preparing');
 
-    const docsContext = new DocsContext<TFramework>(
+    const docsContext = new DocsContext<TRenderer>(
       this.channel,
       this.store,
       renderStoryToElement,
@@ -98,7 +98,7 @@ export class StandaloneDocsRender<TFramework extends Framework> implements Rende
 
     const docsParameter = { ...docs, page: this.exports.default };
     const renderer = await docs.renderer();
-    const { render } = renderer as { render: DocsRenderFunction<TFramework> };
+    const { render } = renderer as { render: DocsRenderFunction<TRenderer> };
     const renderDocs = async () => {
       await new Promise<void>((r) =>
         // NOTE: it isn't currently possible to use a docs renderer outside of "web" mode.

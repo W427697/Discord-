@@ -25,6 +25,7 @@ export const previewProps: PreviewProps = {
   } as any as API,
   entry: {
     type: 'story',
+    tags: [],
     id: 'story--id',
     parent: 'root',
     depth: 1,

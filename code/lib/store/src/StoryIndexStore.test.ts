@@ -32,11 +32,11 @@ const storyIndex: Store_StoryIndex = {
   },
 };
 
-const makeStoryIndex = (titlesAndNames) => {
+const makeStoryIndex = (titlesAndNames: any) => {
   return {
     v: 4,
     entries: Object.fromEntries(
-      titlesAndNames.map(([title, name]) => {
+      titlesAndNames.map(([title, name]: [any, any]) => {
         const id = `${title}--${name}`.replace('/', '-');
         return [
           id,
