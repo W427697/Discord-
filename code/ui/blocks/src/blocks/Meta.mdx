@@ -1,0 +1,47 @@
+# The `<Meta />` Block
+
+The `<Meta />` block is a special block that is used to define the meta of the stories (the stories' default export) in the file.
+It's not necessary when writing docs within Storybook (it doesn't do anything in that case),
+but it _is_ required when writing Portable Docs.
+
+As an example, let's pretend we wanted to include stories for a `<Button />` component in our docs outside of Storybook.
+The MDX file would look like this:
+
+```md
+import { Meta, Story, Canvas } from '@storybook/blocks';
+import \* as ButtonStories from '../stories/Button.stories';
+
+<Meta of={ButtonStories} />
+
+<Canvas>
+  <Story of={ButtonStories.Primary} />
+</Canvas>
+
+<Canvas>
+  <Story of={ButtonStories.Secondary} />
+</Canvas>
+```
+
+In the above example, the `<Meta />` block communicates to all the `<Story />` blocks which meta they're related to.
+
+The `<Meta />` block can be omitted if `<Story />` blocks instead have the `meta` prop explicitly set.
+This is useful in scenarios where you want to include stories from different story files in a single MDX file, like this:
+
+```md
+import { Meta, Story, Canvas } from '@storybook/blocks';
+import \* as ButtonStories from '../stories/Button.stories';
+import \* as HeadingStories from '../stories/Heading.stories';
+
+<Meta of={ButtonStories} />
+
+<Canvas>
+  <Story of={ButtonStories.Primary} meta={ButtonStories} />
+</Canvas>
+
+<Canvas>
+  <Story of={HeadingStories.H1} meta={HeadingStories} />
+</Canvas>
+```
+
+It's also possible to mix and match the `<Meta />` block with the `meta` prop on `<Story />` blocks. In that case,
+the meta referenced by the `<Meta />` block will be used as the default meta for all `<Story />` blocks that don't have the `meta` prop set.
