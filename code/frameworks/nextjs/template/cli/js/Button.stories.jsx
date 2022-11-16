@@ -1,42 +1,42 @@
 import React from 'react';
-
 import { Button } from './Button';
 
-// More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
+// More on how to set up stories at: https://storybook.js.org/docs/7.0/react/writing-stories/introduction
 export default {
   title: 'Example/Button',
   component: Button,
-  // This component will have an automatically generated docsPage entry: https://storybook.js.org/docs/react/writing-docs/docs-page
   tags: ['docsPage'],
-  // More on argTypes: https://storybook.js.org/docs/react/api/argtypes
   argTypes: {
-    backgroundColor: { control: 'color' },
+    backgroundColor: {
+      control: 'color',
+    },
   },
 };
 
-// More on component templates: https://storybook.js.org/docs/react/writing-stories/introduction#using-args
-const Template = (args) => <Button {...args} />;
-
-export const Primary = Template.bind({});
-// More on args: https://storybook.js.org/docs/react/writing-stories/args
-Primary.args = {
-  primary: true,
-  label: 'Button',
+// More on writing stories with args: https://storybook.js.org/docs/7.0/react/writing-stories/args
+export const Primary = {
+  args: {
+    primary: true,
+    label: 'Button',
+  },
 };
 
-export const Secondary = Template.bind({});
-Secondary.args = {
-  label: 'Button',
+export const Secondary = {
+  args: {
+    label: 'Button',
+  },
 };
 
-export const Large = Template.bind({});
-Large.args = {
-  size: 'large',
-  label: 'Button',
+export const Large = {
+  args: {
+    size: 'large',
+    label: 'Button',
+  },
 };
 
-export const Small = Template.bind({});
-Small.args = {
-  size: 'small',
-  label: 'Button',
+export const Small = {
+  args: {
+    size: 'small',
+    label: 'Button',
+  },
 };
