@@ -15,7 +15,6 @@ import {
 import { start as realStart } from './start';
 
 jest.mock('global', () => ({
-  // @ts-expect-error (jest is not happy with this)
   ...jest.requireActual('global'),
   history: { replaceState: jest.fn() },
   document: {

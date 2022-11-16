@@ -1,7 +1,7 @@
 import { describe, test } from '@jest/globals';
 
 import { satisfies } from '@storybook/core-common';
-import type { StoryAnnotations } from '@storybook/types';
+import type { Args, StoryAnnotations, StrictArgs } from '@storybook/types';
 import { expectTypeOf } from 'expect-type';
 import type { KeyboardEventHandler, ReactNode } from 'react';
 import React from 'react';
@@ -11,7 +11,7 @@ import type { SetOptional } from 'type-fest';
 import type { Decorator, Meta, StoryObj } from './public-types';
 import type { ReactRenderer } from './types';
 
-type ReactStory<Args, RequiredArgs> = StoryAnnotations<ReactRenderer, Args, RequiredArgs>;
+type ReactStory<TArgs, TRequiredArgs> = StoryAnnotations<ReactRenderer, TArgs, TRequiredArgs>;
 
 type ButtonProps = { label: string; disabled: boolean };
 const Button: (props: ButtonProps) => JSX.Element = () => <></>;
@@ -172,10 +172,24 @@ describe('Story args can be inferred', () => {
       </>
     );
 
+    // decorator is not using args
+    const thirdDecorator: Decorator<Args> = (Story) => (
+      <>
+        <Story />
+      </>
+    );
+
+    // decorator is not using args
+    const fourthDecorator: Decorator<StrictArgs> = (Story) => (
+      <>
+        <Story />
+      </>
+    );
+
     const meta = satisfies<Meta<Props>>()({
       component: Button,
       args: { disabled: false },
-      decorators: [withDecorator, secondDecorator],
+      decorators: [withDecorator, secondDecorator, thirdDecorator, fourthDecorator],
     });
 
     const Basic: StoryObj<typeof meta> = {
