@@ -377,7 +377,7 @@ jobs:
           name: Test
           command: |
             cd code
-            yarn test --coverage --ci
+            yarn test --coverage --ci --runInBand
       - store_test_results:
           path: code/junit.xml
       - persist_to_workspace:
