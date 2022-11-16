@@ -4,7 +4,6 @@ module.exports = {
     '<rootDir>/frameworks/!(angular)*',
     '<rootDir>/lib/*',
     '<rootDir>/renderers/!(vue)*',
-    '<rootDir>/renderers/vue3',
     '<rootDir>/ui/*',
   ],
 };
