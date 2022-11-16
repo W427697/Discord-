@@ -871,13 +871,16 @@ In 6.x you could import the type `DecoratorFn`:
 
 ```ts
 import type { DecoratorFn } from '@storybook/react';
-// etc.
 ```
 
-This type is deprecated in 7.0, instead you can use the type `Decorator`:
+This type is deprecated in 7.0, instead you can use the type `Decorator`, which is now available for all renderers:
 
 ```ts
 import type { Decorator } from '@storybook/react';
+// or
+import type { Decorator } from '@storybook/vue';
+// or
+import type { Decorator } from '@storybook/svelte';
 // etc.
 ```
 
@@ -885,11 +888,12 @@ The type `Decorator` accepts a generic parameter `TArgs`. This can be used like 
 
 ```tsx
 import type { Decorator } from '@storybook/react';
+import { LocaleProvider } from './locale';
 
-const withTheme: Decorator<{ theme: 'light' | 'dark' }> = (Story, { args }) => (
-  <ThemeProvider theme={args.theme}>
+const withLocale: Decorator<{ locale: 'en' | 'es' }> = (Story, { args }) => (
+  <LocaleProvider lang={args.locale}>
     <Story />
-  </ThemeProvider>
+  </LocaleProvider>
 );
 ```
 
@@ -899,7 +903,7 @@ If you want to use `Decorator` in a backwards compatible way to `DecoratorFn`, y
 import type { Args, Decorator } from '@storybook/react';
 
 // Decorator<Args> behaves the same as DecoratorFn (without generic)
-const withTheme: Decorator<Args> = (Story, {args}) => // args has type { [name: string]: any }
+const withLocale: Decorator<Args> = (Story, { args }) => // args has type { [name: string]: any }
 ```
 
 ## From version 6.4.x to 6.5.0
