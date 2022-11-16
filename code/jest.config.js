@@ -3,7 +3,8 @@ module.exports = {
     '<rootDir>/addons/*',
     '<rootDir>/frameworks/!(angular)*',
     '<rootDir>/lib/*',
-    '<rootDir>/renderers/!(vue3)*',
+    '<rootDir>/renderers/!(vue)*',
+    '<rootDir>/renderers/vue3',
     '<rootDir>/ui/*',
   ],
 };
