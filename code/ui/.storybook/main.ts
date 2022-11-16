@@ -1,5 +1,5 @@
 import { vite as csfPlugin } from '@storybook/csf-plugin';
-import pluginTurbosnap from 'vite-plugin-turbosnap';
+// import pluginTurbosnap from 'vite-plugin-turbosnap';
 import type { StorybookConfig } from '../../frameworks/react-vite/dist';
 
 const isBlocksOnly = process.env.BLOCKS_ONLY === 'true';
