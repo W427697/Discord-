@@ -176,30 +176,22 @@ commands:
             echo "Canceling workflow as previous step resulted in failure."
             echo "To execute all checks locally, please run yarn ci-tests"
             curl -X POST --header "Content-Type: application/json" "https://circleci.com/api/v2/workflow/${CIRCLE_WORKFLOW_ID}/cancel?circle-token=${WORKFLOW_CANCELER}"
-  list-recent-merges:
-    description: 'Lists the merge commits from the past 24 hours'
-    steps:
-      - run:
-          name: Listing merge commits from the past 24 hours
-          when: on_fail
-          command: |
-            git log --merges --since="24 hours ago" --pretty=format:"\`%h\` %<(12)%ar | %s [%an]" | grep "Merge pull request" | sed "s/Merge pull request #/https:\/\/github.com\/storybookjs\/storybook\/pull\//g"
   report-workflow-on-failure:
     description: 'Reports failures to discord'
     parameters:
       template:
         description: |
-          Which template to report in discord
+          Which template to report in discord. Applicable for parallel sandbox jobs
         type: string
+        default: 'none'
     steps:
       - run:
           when: on_fail
           command: git fetch --unshallow
-      - list-recent-merges
       - discord/status:
-          only_for_branches: next,alpha
+          only_for_branches: main,next,next-release,latest-release
           fail_only: true
-          failure_message: 'Oh no! The **$CIRCLE_JOB** job has failed for **<< parameters.template >>**.\n\n**Relevant PRs of the last 24h:**\n$(git log --merges --since="24 hours ago" --pretty=format:"\`%h\` %<(12)%ar %s [%an]" | grep "Merge pull request" | sed "s/Merge pull request #/https:\/\/github.com\/storybookjs\/storybook\/pull\//g" | tr "\\n" "\\\\n" | sed "s/\\\\/\\\\n/g")'
+          failure_message: $(yarn get-report-message << pipeline.parameters.workflow >> << parameters.template >>)
 jobs:
   build:
     executor:
@@ -222,6 +214,7 @@ jobs:
           command: |
             cd code
             yarn local-registry --publish
+      - report-workflow-on-failure
       - save_cache:
           name: Save Yarn cache
           key: build-yarn-2-cache-v4--{{ checksum "code/yarn.lock" }}--{{ checksum "scripts/yarn.lock" }}
@@ -274,6 +267,7 @@ jobs:
             rm -rf node_modules
             mkdir node_modules
             npx -p @storybook/bench@next sb-bench 'yarn install' --label cra
+      - report-workflow-on-failure
       - run:
           name: prep artifacts
           when: always
@@ -314,6 +308,7 @@ jobs:
             rm -rf node_modules
             mkdir node_modules
             npx -p @storybook/bench@next sb-bench 'yarn install' --label react-vite
+      - report-workflow-on-failure
       - run:
           name: prep artifacts
           when: always
@@ -335,6 +330,7 @@ jobs:
           command: |
             cd code
             yarn lint
+      - report-workflow-on-failure
       - cancel-workflow-on-failure
   check:
     executor:
@@ -350,6 +346,7 @@ jobs:
           command: |
             yarn task --task check --start-from=auto --no-link --debug
             git diff --exit-code
+      - report-workflow-on-failure
       - cancel-workflow-on-failure
   script-unit-tests:
     executor: sb_node_16_browsers
@@ -365,6 +362,7 @@ jobs:
             yarn test --coverage --ci
       - store_test_results:
           path: scripts/junit.xml
+      - report-workflow-on-failure
       - cancel-workflow-on-failure
   unit-tests:
     executor:
@@ -386,6 +384,7 @@ jobs:
           root: .
           paths:
             - code/coverage
+      - report-workflow-on-failure
       - cancel-workflow-on-failure
   coverage:
     executor:
@@ -401,6 +400,7 @@ jobs:
           command: |
             cd code
             yarn coverage
+      - report-workflow-on-failure
   chromatic-internal-storybooks:
     executor:
       class: medium
@@ -416,6 +416,7 @@ jobs:
             cd code
             yarn storybook:ui:chromatic
             yarn storybook:blocks:chromatic
+      - report-workflow-on-failure
       - store_test_results:
           path: test-results
   ## new workflow
@@ -527,6 +528,8 @@ jobs:
       - run:
           name: Running Chromatic
           command: yarn task --task chromatic --template $(yarn get-template << pipeline.parameters.workflow >> chromatic) --no-link --start-from=never --junit
+      - report-workflow-on-failure:
+          template: $(yarn get-template << pipeline.parameters.workflow >> chromatic)
       - store_test_results:
           path: test-results
   e2e-sandboxes:
