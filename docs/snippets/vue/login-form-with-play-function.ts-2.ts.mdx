@@ -7,16 +7,19 @@ import { expect } from '@storybook/jest';
 
 import LoginForm from './LoginForm.vue';
 
-import type { Meta, Story } from '@storybook/vue';
+import type { Meta, StoryObj } from '@storybook/vue';
 
-export default {
+const meta: Meta<typeof LoginForm> = {
   /* 👇 The title prop is optional.
    * See https://storybook.js.org/docs/7.0/vue/configure/overview#configure-story-loading
    * to learn how to generate automatic titles
    */
   title: 'Form',
   component: LoginForm,
-} as Meta<typeof LoginForm>;
+};
+
+export default meta;
+type Story = StoryObj<typeof LoginForm>;
 
 /*
  *👇 Render functions are a framework specific feature to allow you control on how the component renders.

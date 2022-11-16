@@ -7,7 +7,7 @@ import { Button } from './button.component';
 
 import { Parent } from './parent.component'; // Parent contains ng-content
 
-export default {
+const meta: Meta<Button> = {
   /* 👇 The title prop is optional.
    * See https://storybook.js.org/docs/7.0/angular/configure/overview#configure-story-loading
    * to learn how to generate automatic titles
@@ -23,5 +23,7 @@ export default {
     // With component which contains ng-content
     componentWrapperDecorator(Parent),
   ],
-} as Meta;
+};
+
+export default meta;
 ```

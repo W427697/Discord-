@@ -1,20 +1,23 @@
 ```ts
 // RegistrationForm.stories.ts
 
-import type { Meta, Story } from '@storybook/angular';
+import type { Meta, StoryObj } from '@storybook/angular';
 
 import { screen, userEvent } from '@storybook/testing-library';
 
 import { RegistrationForm } from './RegistrationForm.component';
 
-export default {
+const meta: Meta<RegistrationForm> = {
   /* 👇 The title prop is optional.
    * See https://storybook.js.org/docs/7.0/angular/configure/overview#configure-story-loading
    * to learn how to generate automatic titles
    */
   title: 'RegistrationForm',
   component: RegistrationForm,
-} as Meta;
+};
+
+export default meta;
+type Story = StoryObj<RegistrationForm>;
 
 export const FilledForm: Story = {
   play: async () => {

@@ -1,11 +1,11 @@
 ```ts
 // Button.stories.ts
 
-import type { Meta, Story } from '@storybook/html';
+import type { Meta, StoryObj } from '@storybook/html';
 
 import { createButton, ButtonArgs } from './Button';
 
-export default {
+const meta: Meta<ButtonArgs> = {
   /* 👇 The title prop is optional.
    * See https://storybook.js.org/docs/html/configure/overview#configure-story-loading
    * to learn how to generate automatic titles
@@ -17,7 +17,10 @@ export default {
     decorator.appendChild(story());
     return decorator;
   }],
-} as Meta<ButtonArgs>;
+};
+
+export default meta;
+type Story = StoryObj<ButtonArgs>;
 
 export const Primary: Story = {
   render: (args) => createButton(args),
