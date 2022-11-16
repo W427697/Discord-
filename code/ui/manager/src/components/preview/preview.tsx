@@ -1,5 +1,6 @@
 import React, { Fragment, useMemo, useEffect, useRef, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
+import global from 'global';
 
 import { type API, Consumer, type Combo, merge } from '@storybook/api';
 import { SET_CURRENT_STORY } from '@storybook/core-events';
@@ -62,11 +63,13 @@ const createCanvas = (id: string, baseUrl = 'iframe.html', withLoader = true): A
           const [progress, setProgress] = useState(undefined);
 
           useEffect(() => {
-            const channel = addons.getServerChannel();
+            if (global.CONFIG_TYPE === 'DEVELOPMENT') {
+              const channel = addons.getServerChannel();
 
-            channel.on('preview_builder_progress', (options) => {
-              setProgress(options);
-            });
+              channel.on('preview_builder_progress', (options) => {
+                setProgress(options);
+              });
+            }
           }, []);
 
           const refLoading = !!refs[refId] && !refs[refId].ready;
