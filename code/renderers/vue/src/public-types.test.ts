@@ -5,7 +5,7 @@ import type { SetOptional } from 'type-fest';
 import type { Component } from 'vue';
 import type { ExtendedVue } from 'vue/types/vue';
 import { Vue } from 'vue/types/vue';
-import type { DecoratorFn, Meta, StoryObj } from './public-types';
+import type { Decorator, Meta, StoryObj } from './public-types';
 import Button from './__tests__/Button.vue';
 import type { VueRenderer } from './types';
 
@@ -122,7 +122,7 @@ describe('Story args can be inferred', () => {
     expectTypeOf(Basic).toEqualTypeOf<Expected>();
   });
 
-  const withDecorator: DecoratorFn<{ decoratorArg: string }> = (
+  const withDecorator: Decorator<{ decoratorArg: string }> = (
     storyFn,
     { args: { decoratorArg } }
   ) =>
@@ -149,7 +149,7 @@ describe('Story args can be inferred', () => {
   test('Correct args are inferred when type is widened for multiple decorators', () => {
     type Props = ComponentProps<typeof Button> & { decoratorArg: string; decoratorArg2: string };
 
-    const secondDecorator: DecoratorFn<{ decoratorArg2: string }> = (
+    const secondDecorator: Decorator<{ decoratorArg2: string }> = (
       storyFn,
       { args: { decoratorArg2 } }
     ) => {

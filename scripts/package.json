@@ -3,6 +3,7 @@
   "version": "7.0.0-alpha.16",
   "private": true,
   "scripts": {
+    "get-report-message": "ts-node ./get-report-message.ts",
     "get-template": "ts-node ./get-template.ts",
     "lint": "yarn lint:js && yarn lint:md",
     "lint:js": "yarn lint:js:cmd .  --quiet",
