@@ -40,7 +40,7 @@ export const essentialsAddons = [
 
 export const create: Task['run'] = async (
   { key, template, sandboxDir },
-  { addon: addons, fromLocalRepro, dryRun, debug }
+  { addon: addons, fromLocalRepro, dryRun, debug, skipTemplateStories }
 ) => {
   const parentDir = resolve(sandboxDir, '..');
   await ensureDir(parentDir);
@@ -70,9 +70,11 @@ export const create: Task['run'] = async (
   }
 
   const cwd = sandboxDir;
-  for (const addon of addons) {
-    const addonName = `@storybook/addon-${addon}`;
-    await executeCLIStep(steps.add, { argument: addonName, cwd, dryRun, debug });
+  if (!skipTemplateStories) {
+    for (const addon of addons) {
+      const addonName = `@storybook/addon-${addon}`;
+      await executeCLIStep(steps.add, { argument: addonName, cwd, dryRun, debug });
+    }
   }
 
   const mainConfig = await readMainConfig({ cwd });
@@ -231,8 +233,6 @@ function setSandboxViteFinal(mainConfig: ConfigFile) {
   );
 }
 
-
-
 // Update the stories field to ensure that no TS files
 // that are linked from the renderer are picked up in non-TS projects
 function updateStoriesField(mainConfig: ConfigFile, isJs: boolean) {
@@ -243,7 +243,6 @@ function updateStoriesField(mainConfig: ConfigFile, isJs: boolean) {
   const updatedStories = isJs
     ? stories.map((specifier) => specifier.replace('js|jsx|ts|tsx', 'js|jsx'))
     : stories;
-
 
   mainConfig.setFieldValue(['stories'], [...updatedStories]);
 }
@@ -257,7 +256,7 @@ function addStoriesEntry(mainConfig: ConfigFile, path: string) {
     titlePrefix: path,
     files: '**/*.@(mdx|stories.@(js|jsx|ts|tsx))',
   };
-  
+
   mainConfig.setFieldValue(['stories'], [...stories, entry]);
 }
 
@@ -278,7 +277,7 @@ async function linkPackageStories(
     : resolve(cwd, 'template-stories', packageDir);
   await ensureSymlink(source, target);
 
-  if (!linkInDir) addStoriesEntry(mainConfig, packageDir)
+  if (!linkInDir) addStoriesEntry(mainConfig, packageDir);
 
   // Add `previewAnnotation` entries of the form
   //   './template-stories/lib/store/preview.[tj]s'
@@ -320,7 +319,6 @@ function addExtraDependencies({
   }
 }
 
-
 export const addStories: Task['run'] = async (
   { sandboxDir, template },
   { addon: extraAddons, dryRun, debug }
@@ -332,11 +330,7 @@ export const addStories: Task['run'] = async (
 
   // Ensure that we match the right stories in the stories directory
   const packageJson = await import(join(cwd, 'package.json'));
-  updateStoriesField(
-    mainConfig,
-    detectLanguage(packageJson) === SupportedLanguage.JAVASCRIPT
-  );
-
+  updateStoriesField(mainConfig, detectLanguage(packageJson) === SupportedLanguage.JAVASCRIPT);
 
   // Link in the template/components/index.js from store, the renderer and the addons
   const rendererPath = await workspacePath('renderer', template.expected.renderer);
@@ -345,7 +339,7 @@ export const addStories: Task['run'] = async (
     resolve(cwd, storiesPath, 'components')
   );
   addPreviewAnnotations(mainConfig, [`.${sep}${join(storiesPath, 'components')}`]);
-  
+
   // Add stories for the renderer. NOTE: these *do* need to be processed by the framework build system
   await linkPackageStories(rendererPath, {
     mainConfig,
