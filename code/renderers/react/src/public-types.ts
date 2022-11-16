@@ -4,15 +4,18 @@ import type {
   ArgsFromMeta,
   ArgsStoryFn,
   ComponentAnnotations,
+  DecoratorFunction,
+  LoaderFunction,
   StoryAnnotations,
+  StoryContext as GenericStoryContext,
+  StrictArgs,
 } from '@storybook/types';
-
 import type { ComponentProps, ComponentType, JSXElementConstructor } from 'react';
 import type { SetOptional, Simplify } from 'type-fest';
-
 import type { ReactRenderer } from './types';
 
-export { ReactRenderer };
+export type { Args, ArgTypes, Parameters, StrictArgs } from '@storybook/types';
+export type { ReactRenderer };
 
 type JSXElement = keyof JSX.IntrinsicElements | JSXElementConstructor<any>;
 
@@ -124,3 +127,11 @@ export type Story<TArgs = Args> = StoryFn<TArgs>;
  * ```
  */
 export type ComponentStory<T extends JSXElement> = ComponentStoryFn<T>;
+
+/**
+ * @deprecated Use Decorator instead.
+ */
+export type DecoratorFn = DecoratorFunction<ReactRenderer>;
+export type Decorator<TArgs = StrictArgs> = DecoratorFunction<ReactRenderer, TArgs>;
+export type Loader<TArgs = StrictArgs> = LoaderFunction<ReactRenderer, TArgs>;
+export type StoryContext<TArgs = StrictArgs> = GenericStoryContext<ReactRenderer, TArgs>;
