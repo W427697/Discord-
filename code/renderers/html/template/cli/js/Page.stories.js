@@ -5,7 +5,7 @@ export default {
   title: 'Example/Page',
   render: () => createPage(),
   parameters: {
-    // More on Story layout: https://storybook.js.org/docs/7.0/html/configure/story-layout
+    // More on how to position stories at: https://storybook.js.org/docs/7.0/html/configure/story-layout
     layout: 'fullscreen',
   },
 };

@@ -11,7 +11,7 @@ const meta: Meta<Page> = {
   title: 'Example/Page',
   component: Page,
   parameters: {
-    // More on Story layout: https://storybook.js.org/docs/7.0/angular/configure/story-layout
+    // More on how to position stories at: https://storybook.js.org/docs/7.0/angular/configure/story-layout
     layout: 'fullscreen',
   },
   decorators: [

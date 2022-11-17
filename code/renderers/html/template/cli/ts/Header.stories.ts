@@ -8,7 +8,7 @@ const meta: Meta<HeaderProps> = {
   tags: ['docsPage'],
   render: (args) => createHeader(args),
   parameters: {
-    // More on Story layout: https://storybook.js.org/docs/7.0/html/configure/story-layout
+    // More on how to position stories at: https://storybook.js.org/docs/7.0/html/configure/story-layout
     layout: 'fullscreen',
   },
   // More on argTypes: https://storybook.js.org/docs/7.0/html/api/argtypes

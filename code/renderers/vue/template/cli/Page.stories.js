@@ -9,7 +9,7 @@ export default {
     template: '<my-page />',
   }),
   parameters: {
-    // More on Story layout: https://storybook.js.org/docs/7.0/vue/configure/story-layout
+    // More on how to position stories at: https://storybook.js.org/docs/7.0/vue/configure/story-layout
     layout: 'fullscreen',
   },
 };
