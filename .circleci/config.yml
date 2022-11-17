@@ -318,7 +318,7 @@ jobs:
           destination: react-vite-default-ts-bench.tar.gz
   lint:
     executor:
-      class: medium
+      class: large
       name: sb_node_16_classic
     steps:
       - checkout_advanced:

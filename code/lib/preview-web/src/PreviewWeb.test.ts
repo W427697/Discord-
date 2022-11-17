@@ -29,7 +29,12 @@ import {
 } from '@storybook/core-events';
 import { logger } from '@storybook/client-logger';
 import { addons, mockChannel as createMockChannel } from '@storybook/addons';
-import type { Renderer, Store_ModuleImportFn, ProjectAnnotations } from '@storybook/types';
+import type {
+  DecoratorFunction,
+  Renderer,
+  Store_ModuleImportFn,
+  ProjectAnnotations,
+} from '@storybook/types';
 
 import { PreviewWeb } from './PreviewWeb';
 import {
@@ -3104,7 +3109,7 @@ describe('PreviewWeb', () => {
     describe('when a standalone docs file changes', () => {
       const newStandaloneDocsExports = { default: jest.fn() };
 
-      const newImportFn = jest.fn(async (path) => {
+      const newImportFn = jest.fn(async (path: string) => {
         return path === './src/Introduction.mdx' ? newStandaloneDocsExports : importFn(path);
       });
 
@@ -3216,7 +3221,7 @@ describe('PreviewWeb', () => {
       expect(mockChannel.emit).toHaveBeenCalledWith(CONFIG_ERROR, err);
     });
 
-    const newGlobalDecorator = jest.fn((s) => s());
+    const newGlobalDecorator = jest.fn<DecoratorFunction>((s) => s());
     const newGetProjectAnnotations = () => {
       return {
         ...projectAnnotations,
