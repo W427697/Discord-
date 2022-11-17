@@ -1,11 +1,10 @@
 /* eslint-disable global-require */
-import type { StorybookConfig, TypescriptOptions } from '@storybook/builder-vite';
-import { hasPlugin, readPackageJson } from './utils';
-
-export const addons: StorybookConfig['addons'] = ['@storybook/react'];
+import type { StorybookConfig } from '@storybook/builder-vite';
+import { hasPlugin } from './utils';
 
 export const core: StorybookConfig['core'] = {
   builder: '@storybook/builder-vite',
+  renderer: '@storybook/react',
 };
 
 export const viteFinal: StorybookConfig['viteFinal'] = async (config, { presets }) => {
@@ -18,26 +17,39 @@ export const viteFinal: StorybookConfig['viteFinal'] = async (config, { presets 
   }
 
   // Add docgen plugin
-  const { reactDocgen, reactDocgenTypescriptOptions } = await presets.apply<any>(
+  const { reactDocgen: reactDocgenOption, reactDocgenTypescriptOptions } = await presets.apply<any>(
     'typescript',
-    {} as TypescriptOptions
+    {}
   );
   let typescriptPresent;
+
   try {
-    const pkgJson = readPackageJson();
-    typescriptPresent =
-      pkgJson && (pkgJson.devDependencies?.typescript || pkgJson.dependencies?.typescript);
+    require.resolve('typescript');
+    typescriptPresent = true;
   } catch (e) {
     typescriptPresent = false;
   }
-  if (reactDocgen === 'react-docgen-typescript' && typescriptPresent) {
+
+  if (reactDocgenOption === 'react-docgen-typescript' && typescriptPresent) {
     plugins.push(
-      require('@joshwooding/vite-plugin-react-docgen-typescript')(reactDocgenTypescriptOptions)
+      require('@joshwooding/vite-plugin-react-docgen-typescript')({
+        ...reactDocgenTypescriptOptions,
+        // We *need* this set so that RDT returns default values in the same format as react-docgen
+        savePropValueAsString: true,
+      })
     );
-  } else if (reactDocgen) {
-    const { reactDocgen: docgenPlugin } = await import('./plugins/react-docgen');
+  }
+
+  // Add react-docgen so long as the option is not false
+  if (typeof reactDocgenOption === 'string') {
+    const { reactDocgen } = await import('./plugins/react-docgen');
     // Needs to run before the react plugin, so add to the front
-    plugins.unshift(docgenPlugin());
+    plugins.unshift(
+      // If react-docgen is specified, use it for everything, otherwise only use it for non-typescript files
+      reactDocgen({
+        include: reactDocgenOption === 'react-docgen' ? /\.(mjs|tsx?|jsx?)$/ : /\.(mjs|jsx?)$/,
+      })
+    );
   }
 
   return config;

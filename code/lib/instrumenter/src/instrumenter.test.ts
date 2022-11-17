@@ -417,7 +417,8 @@ describe('Instrumenter', () => {
   it("re-throws anything that isn't an error", () => {
     const { fn } = instrument({
       fn: () => {
-        throw 'Boom!'; // eslint-disable-line no-throw-literal
+        // eslint-disable-next-line @typescript-eslint/no-throw-literal
+        throw 'Boom!';
       },
     });
     expect(fn).toThrow('Boom!');
@@ -555,7 +556,7 @@ describe('Instrumenter', () => {
     });
 
     it.skip('starts debugging at the first non-nested interceptable call', () => {
-      const fn = (...args) => args;
+      const fn = (...args: any[]) => args;
       const { fn1, fn2, fn3 } = instrument({ fn1: fn, fn2: fn, fn3: fn }, { intercept: true });
       fn3(fn1(), fn2()); // setup the dependencies
       addons.getChannel().emit(EVENTS.START, { storyId });

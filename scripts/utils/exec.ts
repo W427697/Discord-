@@ -1,5 +1,6 @@
 /* eslint-disable no-await-in-loop, no-restricted-syntax */
-import execa, { ExecaChildProcess, Options } from 'execa';
+import type { ExecaChildProcess, Options } from 'execa';
+import execa from 'execa';
 import chalk from 'chalk';
 
 const logger = console;
@@ -28,6 +29,7 @@ export const exec = async (
   const defaultOptions: Options = {
     shell: true,
     stdout: debug ? 'inherit' : 'pipe',
+    stderr: debug ? 'inherit' : 'pipe',
   };
   let currentChild: ExecaChildProcess;
 

@@ -3,18 +3,12 @@ import AnsiToHtml from 'ansi-to-html';
 import { dedent } from 'ts-dedent';
 import qs from 'qs';
 
-import type { Story } from '@storybook/store';
+import type { Store_Story } from '@storybook/types';
+import type { View } from './View';
 
 const { document } = globalThis;
 
 const PREPARING_DELAY = 100;
-
-const layoutClassMap = {
-  centered: 'sb-main-centered',
-  fullscreen: 'sb-main-fullscreen',
-  padded: 'sb-main-padded',
-} as const;
-type Layout = keyof typeof layoutClassMap | 'none';
 
 enum Mode {
   'MAIN' = 'MAIN',
@@ -31,19 +25,27 @@ const classes: Record<Mode, string> = {
   ERROR: 'sb-show-errordisplay',
 };
 
+const layoutClassMap = {
+  centered: 'sb-main-centered',
+  fullscreen: 'sb-main-fullscreen',
+  padded: 'sb-main-padded',
+} as const;
+type Layout = keyof typeof layoutClassMap | 'none';
+
 const ansiConverter = new AnsiToHtml({
   escapeXML: true,
 });
 
-export class WebView {
-  currentLayoutClass?: typeof layoutClassMap[keyof typeof layoutClassMap] | null;
+export class WebView implements View<HTMLElement> {
+  private currentLayoutClass?: typeof layoutClassMap[keyof typeof layoutClassMap] | null;
 
-  testing = false;
+  private testing = false;
 
-  preparingTimeout?: ReturnType<typeof setTimeout>;
+  private preparingTimeout?: ReturnType<typeof setTimeout>;
 
   constructor() {
     // Special code for testing situations
+    // eslint-disable-next-line @typescript-eslint/naming-convention
     const { __SPECIAL_TEST_PARAMETER__ } = qs.parse(document.location.search, {
       ignoreQueryPrefix: true,
     });
@@ -63,7 +65,7 @@ export class WebView {
   }
 
   // Get ready to render a story, returning the element to render to
-  prepareForStory(story: Story<any>) {
+  prepareForStory(story: Store_Story<any>) {
     this.showStory();
     this.applyLayout(story.parameters.layout);
 

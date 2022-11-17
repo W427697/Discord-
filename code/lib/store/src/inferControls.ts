@@ -1,15 +1,20 @@
 import mapValues from 'lodash/mapValues';
 import { logger } from '@storybook/client-logger';
-import type { AnyFramework, SBEnumType, StrictInputType, ArgTypesEnhancer } from '@storybook/csf';
+import type {
+  Renderer,
+  ArgTypesEnhancer,
+  SBEnumType,
+  Store_ControlsMatchers,
+  StrictInputType,
+} from '@storybook/types';
 import { filterArgTypes } from './filterArgTypes';
 import { combineParameters } from './parameters';
 
-type ControlsMatchers = {
-  date: RegExp;
-  color: RegExp;
-};
-
-const inferControl = (argType: StrictInputType, name: string, matchers: ControlsMatchers): any => {
+const inferControl = (
+  argType: StrictInputType,
+  name: string,
+  matchers: Store_ControlsMatchers
+): any => {
   const { type, options } = argType;
   if (!type) {
     return undefined;
@@ -56,9 +61,10 @@ const inferControl = (argType: StrictInputType, name: string, matchers: Controls
   }
 };
 
-export const inferControls: ArgTypesEnhancer<AnyFramework> = (context) => {
+export const inferControls: ArgTypesEnhancer<Renderer> = (context) => {
   const {
     argTypes,
+    // eslint-disable-next-line @typescript-eslint/naming-convention
     parameters: { __isArgsStory, controls: { include = null, exclude = null, matchers = {} } = {} },
   } = context;
   if (!__isArgsStory) return argTypes;

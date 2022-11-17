@@ -1,3 +1,7 @@
+/**
+ * @jest-environment jsdom
+ */
+
 import { eventToShortcut, keyToSymbol } from '../lib/shortcut';
 
 const { KeyboardEvent } = globalThis;

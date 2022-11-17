@@ -3,7 +3,7 @@ import { MINIMAL_VIEWPORTS } from '@storybook/addon-viewport';
 export default {
   component: globalThis.Components.Button,
   args: {
-    children: 'Click Me!',
+    label: 'Click Me!',
   },
   parameters: {
     viewport: {
@@ -28,6 +28,7 @@ export const Selected = {
 export const Custom = {
   parameters: {
     viewport: {
+      defaultViewport: 'phone',
       viewports: {
         phone: {
           name: 'Phone Width',

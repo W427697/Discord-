@@ -1,26 +1,35 @@
-import type { AnyFramework, StoryContextForLoaders, StoryId, StoryName } from '@storybook/csf';
-import type { CSFFile, ModuleExport, ModuleExports, Story, StoryStore } from '@storybook/store';
+import type {
+  Renderer,
+  Store_CSFFile,
+  Store_ModuleExport,
+  Store_ModuleExports,
+  Store_Story,
+  StoryContextForLoaders,
+  StoryId,
+  StoryName,
+} from '@storybook/types';
+import type { StoryStore } from '@storybook/store';
 import type { Channel } from '@storybook/channels';
 
-import { DocsContextProps } from './DocsContextProps';
+import type { DocsContextProps } from './DocsContextProps';
 
-export class DocsContext<TFramework extends AnyFramework> implements DocsContextProps<TFramework> {
-  private componentStoriesValue: Story<TFramework>[];
+export class DocsContext<TRenderer extends Renderer> implements DocsContextProps<TRenderer> {
+  private componentStoriesValue: Store_Story<TRenderer>[];
 
-  private storyIdToCSFFile: Map<StoryId, CSFFile<TFramework>>;
+  private storyIdToCSFFile: Map<StoryId, Store_CSFFile<TRenderer>>;
 
-  private exportToStoryId: Map<ModuleExport, StoryId>;
+  private exportToStoryId: Map<Store_ModuleExport, StoryId>;
 
   private nameToStoryId: Map<StoryName, StoryId>;
 
-  private primaryStory?: Story<TFramework>;
+  private primaryStory?: Store_Story<TRenderer>;
 
   constructor(
     public channel: Channel,
-    protected store: StoryStore<TFramework>,
+    protected store: StoryStore<TRenderer>,
     public renderStoryToElement: DocsContextProps['renderStoryToElement'],
     /** The CSF files known (via the index) to be refererenced by this docs file */
-    csfFiles: CSFFile<TFramework>[],
+    csfFiles: Store_CSFFile<TRenderer>[],
     componentStoriesFromAllCsfFiles = true
   ) {
     this.storyIdToCSFFile = new Map();
@@ -36,7 +45,7 @@ export class DocsContext<TFramework extends AnyFramework> implements DocsContext
   // This docs entry references this CSF file and can syncronously load the stories, as well
   // as reference them by module export. If the CSF is part of the "component" stories, they
   // can also be referenced by name and are in the componentStories list.
-  referenceCSFFile(csfFile: CSFFile<TFramework>, addToComponentStories: boolean) {
+  referenceCSFFile(csfFile: Store_CSFFile<TRenderer>, addToComponentStories: boolean) {
     Object.values(csfFile.stories).forEach((annotation) => {
       this.storyIdToCSFFile.set(annotation.id, csfFile);
       this.exportToStoryId.set(annotation.moduleExport, annotation.id);
@@ -50,11 +59,11 @@ export class DocsContext<TFramework extends AnyFramework> implements DocsContext
     });
   }
 
-  setMeta(metaExports: ModuleExports) {
+  setMeta(metaExports: Store_ModuleExports) {
     // Do nothing (this is really only used by external docs)
   }
 
-  storyIdByModuleExport(storyExport: ModuleExport, metaExports?: ModuleExports) {
+  storyIdByModuleExport(storyExport: Store_ModuleExport, metaExports?: Store_ModuleExports) {
     const storyId = this.exportToStoryId.get(storyExport);
     if (storyId) return storyId;
 
@@ -87,11 +96,11 @@ export class DocsContext<TFramework extends AnyFramework> implements DocsContext
     return this.store.storyFromCSFFile({ storyId, csfFile });
   };
 
-  getStoryContext = (story: Story<TFramework>) => {
+  getStoryContext = (story: Store_Story<TRenderer>) => {
     return {
       ...this.store.getStoryContext(story),
       viewMode: 'docs',
-    } as StoryContextForLoaders<TFramework>;
+    } as StoryContextForLoaders<TRenderer>;
   };
 
   loadStory = (id: StoryId) => {

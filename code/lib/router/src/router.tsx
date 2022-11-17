@@ -1,8 +1,10 @@
-import React, { ReactNode, useCallback } from 'react';
+import type { ReactNode } from 'react';
+import React, { useCallback } from 'react';
 
 import * as R from 'react-router-dom';
 import { ToggleVisibility } from './visibility';
-import { queryFromString, parsePath, getMatch, StoryData } from './utils';
+import type { StoryData } from './utils';
+import { queryFromString, parsePath, getMatch } from './utils';
 
 const { document } = globalThis;
 
@@ -12,7 +14,7 @@ interface Other extends StoryData {
 }
 
 export type RouterData = {
-  location: Partial<Location>;
+  location: Partial<R.Location>;
   navigate: ReturnType<typeof useNavigate>;
 } & Other;
 
@@ -23,7 +25,7 @@ interface MatchingData {
 }
 
 interface LocationProps {
-  children: (renderData: RenderData) => ReactNode;
+  children: (renderData: RenderData) => any;
 }
 interface MatchProps {
   path: string;

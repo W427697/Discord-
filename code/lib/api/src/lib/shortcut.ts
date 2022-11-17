@@ -1,5 +1,4 @@
-// The shortcut is our JSON-ifiable representation of a shortcut combination
-import type { KeyCollection, Event } from '../modules/shortcuts';
+import type { API_KeyCollection } from '../modules/shortcuts';
 
 const { navigator } = globalThis;
 
@@ -12,9 +11,15 @@ export const optionOrAltSymbol = () => (isMacLike() ? '⌥' : 'alt');
 export const isShortcutTaken = (arr1: string[], arr2: string[]): boolean =>
   JSON.stringify(arr1) === JSON.stringify(arr2);
 
+// A subset of `KeyboardEvent` that's serialized over the channel, see `PreviewWeb.tsx`
+export type KeyboardEventLike = Pick<
+  KeyboardEvent,
+  'altKey' | 'ctrlKey' | 'metaKey' | 'shiftKey' | 'key' | 'code' | 'keyCode' | 'preventDefault'
+>;
+
 // Map a keyboard event to a keyboard shortcut
 // NOTE: if we change the fields on the event that we need, we'll need to update the serialization in core/preview/start.js
-export const eventToShortcut = (e: KeyboardEvent): KeyCollection | null => {
+export const eventToShortcut = (e: KeyboardEventLike): API_KeyCollection | null => {
   // Meta key only doesn't map to a shortcut
   if (['Meta', 'Alt', 'Control', 'Shift'].includes(e.key)) {
     return null;
@@ -60,8 +65,8 @@ export const eventToShortcut = (e: KeyboardEvent): KeyCollection | null => {
 };
 
 export const shortcutMatchesShortcut = (
-  inputShortcut: KeyCollection,
-  shortcut: KeyCollection
+  inputShortcut: API_KeyCollection,
+  shortcut: API_KeyCollection
 ): boolean => {
   if (!inputShortcut || !shortcut) return false;
   if (inputShortcut.join('') === 'shift/') inputShortcut.shift(); // shift is optional for `/`
@@ -70,7 +75,10 @@ export const shortcutMatchesShortcut = (
 };
 
 // Should this keyboard event trigger this keyboard shortcut?
-export const eventMatchesShortcut = (e: Event, shortcut: KeyCollection): boolean => {
+export const eventMatchesShortcut = (
+  e: KeyboardEventLike,
+  shortcut: API_KeyCollection
+): boolean => {
   return shortcutMatchesShortcut(eventToShortcut(e), shortcut);
 };
 
@@ -112,6 +120,6 @@ export const keyToSymbol = (key: string): string => {
 };
 
 // Display the shortcut as a human readable string
-export const shortcutToHumanString = (shortcut: KeyCollection): string => {
+export const shortcutToHumanString = (shortcut: API_KeyCollection): string => {
   return shortcut.map(keyToSymbol).join(' ');
 };

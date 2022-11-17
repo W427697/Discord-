@@ -1,12 +1,12 @@
-import { enableProdMode, NgModule, Component, NgModuleRef, Type, NgZone } from '@angular/core';
+import { NgModuleRef, Type, enableProdMode, NgModule, Component, NgZone } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { BrowserModule } from '@angular/platform-browser';
-import { Observable, ReplaySubject, Subscriber } from 'rxjs';
-import type { PartialStoryFn } from '@storybook/csf';
+import { Subscriber, Observable, ReplaySubject } from 'rxjs';
+import { PartialStoryFn } from '@storybook/types';
 import { AppComponent } from './app.component';
 import { STORY } from './app.token';
-import type { NgModuleMetadata, StoryFnAngularReturnType, AngularFramework } from '../types';
+import { NgModuleMetadata, StoryFnAngularReturnType, AngularRenderer } from '../types';
 
 const { document } = globalThis;
 
@@ -124,7 +124,7 @@ const getExistenceOfComponentInModules = (
   });
 };
 
-const initModule = (storyFn: PartialStoryFn<AngularFramework>) => {
+const initModule = (storyFn: PartialStoryFn<AngularRenderer>) => {
   const storyObj = storyFn();
   const { component, template, props, styles, moduleMetadata = {} } = storyObj;
 
@@ -191,7 +191,7 @@ const draw = (newModule: DynamicComponentType): void => {
   }
 };
 
-export const renderNgApp = (storyFn: PartialStoryFn<AngularFramework>, forced: boolean) => {
+export const renderNgApp = (storyFn: PartialStoryFn<AngularRenderer>, forced: boolean) => {
   if (!forced) {
     draw(initModule(storyFn));
   } else {

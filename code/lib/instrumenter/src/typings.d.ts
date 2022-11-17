@@ -1,5 +1,6 @@
+/* eslint-disable no-underscore-dangle, @typescript-eslint/naming-convention */
 import type { State } from './types';
-import { Instrumenter } from './instrumenter';
+import type { Instrumenter } from './instrumenter';
 
 declare global {
   interface Window {

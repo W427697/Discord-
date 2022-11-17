@@ -1,4 +1,4 @@
-import { PartialStoryFn, PlayFunctionContext, StoryContext } from '@storybook/csf';
+import type { PartialStoryFn, PlayFunctionContext, StoryContext } from '@storybook/types';
 import { within } from '@storybook/testing-library';
 import { expect } from '@storybook/jest';
 
@@ -13,7 +13,7 @@ export const Inheritance = {
       storyFn({ args: { object: context.globals } }),
   ],
   play: async ({ canvasElement }: PlayFunctionContext) => {
-    await expect(JSON.parse(within(canvasElement).getByTestId('pre').innerHTML)).toMatchObject({
+    await expect(JSON.parse(within(canvasElement).getByTestId('pre').innerText)).toMatchObject({
       foo: 'fooValue',
       bar: 'barDefaultValue',
     });

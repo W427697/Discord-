@@ -1,4 +1,4 @@
-import { AnyFramework, StepRunner } from '@storybook/csf';
+import type { Renderer, StepRunner } from '@storybook/types';
 
 /**
  * Compose step runners to create a single step runner that applies each step runner in order.
@@ -18,9 +18,9 @@ import { AnyFramework, StepRunner } from '@storybook/csf';
  * @param stepRunners an array of StepRunner
  * @returns a StepRunner that is the composition of the arguments
  */
-export function composeStepRunners<TFramework extends AnyFramework>(
-  stepRunners: StepRunner<TFramework>[]
-): StepRunner<TFramework> {
+export function composeStepRunners<TRenderer extends Renderer>(
+  stepRunners: StepRunner<TRenderer>[]
+): StepRunner<TRenderer> {
   return async (label, play, playContext) => {
     const composedPlay = stepRunners.reduceRight<() => Promise<void>>(
       (innerPlay, stepRunner) => async () => stepRunner(label, innerPlay, playContext),

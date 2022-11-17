@@ -1,4 +1,3 @@
-/* eslint-disable import/no-unresolved */
 import { LitElement, html, css } from 'lit-element';
 
 const { CustomEvent } = globalThis;

@@ -1,17 +1,17 @@
 import type {
+  Renderer,
   DecoratorFunction,
-  StoryContext,
-  StoryContextUpdate,
-  PartialStoryFn,
   LegacyStoryFn,
-  AnyFramework,
-} from '@storybook/csf';
+  PartialStoryFn,
+  Store_ContextStore,
+  StoryContextUpdate,
+} from '@storybook/types';
 
-export function decorateStory<TFramework extends AnyFramework>(
-  storyFn: LegacyStoryFn<TFramework>,
-  decorator: DecoratorFunction<TFramework>,
-  bindWithContext: (storyFn: LegacyStoryFn<TFramework>) => PartialStoryFn<TFramework>
-): LegacyStoryFn<TFramework> {
+export function decorateStory<TRenderer extends Renderer>(
+  storyFn: LegacyStoryFn<TRenderer>,
+  decorator: DecoratorFunction<TRenderer>,
+  bindWithContext: (storyFn: LegacyStoryFn<TRenderer>) => PartialStoryFn<TRenderer>
+): LegacyStoryFn<TRenderer> {
   // Bind the partially decorated storyFn so that when it is called it always knows about the story context,
   // no matter what it is passed directly. This is because we cannot guarantee a decorator will
   // pass the context down to the next decorated story in the chain.
@@ -19,8 +19,6 @@ export function decorateStory<TFramework extends AnyFramework>(
 
   return (context) => decorator(boundStoryFunction, context);
 }
-
-type ContextStore<TFramework extends AnyFramework> = { value?: StoryContext<TFramework> };
 
 /**
  * Currently StoryContextUpdates are allowed to have any key in the type.
@@ -44,17 +42,17 @@ export function sanitizeStoryContextUpdate({
   return update;
 }
 
-export function defaultDecorateStory<TFramework extends AnyFramework>(
-  storyFn: LegacyStoryFn<TFramework>,
-  decorators: DecoratorFunction<TFramework>[]
-): LegacyStoryFn<TFramework> {
+export function defaultDecorateStory<TRenderer extends Renderer>(
+  storyFn: LegacyStoryFn<TRenderer>,
+  decorators: DecoratorFunction<TRenderer>[]
+): LegacyStoryFn<TRenderer> {
   // We use a trick to avoid recreating the bound story function inside `decorateStory`.
   // Instead we pass it a context "getter", which is defined once (at "decoration time")
   // The getter reads a variable which is scoped to this call of `decorateStory`
   // (ie to this story), so there is no possibility of overlap.
   // This will break if you call the same story twice interleaved
   // (React might do it if you rendered the same story twice in the one ReactDom.render call, for instance)
-  const contextStore: ContextStore<TFramework> = {};
+  const contextStore: Store_ContextStore<TRenderer> = {};
 
   /**
    * When you call the story function inside a decorator, e.g.:
@@ -67,7 +65,7 @@ export function defaultDecorateStory<TFramework extends AnyFramework>(
    * merged in with the default context
    */
   const bindWithContext =
-    (decoratedStoryFn: LegacyStoryFn<TFramework>): PartialStoryFn<TFramework> =>
+    (decoratedStoryFn: LegacyStoryFn<TRenderer>): PartialStoryFn<TRenderer> =>
     (update) => {
       // This code path isn't possible because we always set `contextStore.value` before calling
       // `decoratedWithContextStore`, but TS doesn't know that.

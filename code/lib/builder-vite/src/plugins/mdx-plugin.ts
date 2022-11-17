@@ -1,23 +1,13 @@
-import type { Options } from '@storybook/core-common';
 import type { Plugin } from 'vite';
 import { createFilter } from 'vite';
 
 const isStorybookMdx = (id: string) => id.endsWith('stories.mdx') || id.endsWith('story.mdx');
 
-function injectRenderer(code: string, mdx2: boolean) {
-  if (mdx2) {
-    return `
+function injectRenderer(code: string) {
+  return `
            import React from 'react';
            ${code}
            `;
-  }
-
-  return `
-        /* @jsx mdx */
-        import React from 'react';
-        import { mdx } from '@mdx-js/react';
-        ${code}
-        `;
 }
 
 /**
@@ -28,9 +18,7 @@ function injectRenderer(code: string, mdx2: boolean) {
  *
  * @see https://github.com/storybookjs/storybook/blob/next/addons/docs/docs/recipes.md#csf-stories-with-arbitrary-mdx
  */
-export function mdxPlugin(options: Options): Plugin {
-  const { features } = options;
-
+export function mdxPlugin(): Plugin {
   let reactRefresh: Plugin | undefined;
   const include = /\.mdx?$/;
   const filter = createFilter(include);
@@ -52,17 +40,15 @@ export function mdxPlugin(options: Options): Plugin {
       );
       reactRefresh = reactRefreshPlugins.find((p) => p.transform);
     },
+
     async transform(src, id, options) {
       if (!filter(id)) return undefined;
 
-      // @ts-expect-error typescript doesn't think compile exists, but it does.
-      const { compile } = features?.previewMdx2
-        ? await import('@storybook/mdx2-csf')
-        : await import('@storybook/mdx1-csf');
+      const { compile } = await import('@storybook/mdx2-csf');
 
       const mdxCode = String(await compile(src, { skipCsf: !isStorybookMdx(id) }));
 
-      const modifiedCode = injectRenderer(mdxCode, Boolean(features?.previewMdx2));
+      const modifiedCode = injectRenderer(mdxCode);
 
       // Hooks in recent rollup versions can be functions or objects, and though react hasn't changed, the typescript defs have
       const rTransform = reactRefresh?.transform;

@@ -132,12 +132,12 @@ describe('composeConfigs', () => {
       composeConfigs([
         {
           render: 'render-1',
-          renderToDOM: 'renderToDOM-1',
+          renderToCanvas: 'renderToCanvas-1',
           applyDecorators: 'applyDecorators-1',
         },
         {
           render: 'render-2',
-          renderToDOM: 'renderToDOM-2',
+          renderToCanvas: 'renderToCanvas-2',
           applyDecorators: 'applyDecorators-2',
         },
       ])
@@ -152,7 +152,7 @@ describe('composeConfigs', () => {
       globalTypes: {},
       loaders: [],
       render: 'render-2',
-      renderToDOM: 'renderToDOM-2',
+      renderToCanvas: 'renderToCanvas-2',
       applyDecorators: 'applyDecorators-2',
       runStep: expect.any(Function),
     });
@@ -162,8 +162,11 @@ describe('composeConfigs', () => {
     const fn = jest.fn();
 
     const { runStep } = composeConfigs([
+      // @ts-expect-error (not defined)
       { runStep: (label, play, context) => fn(`${label}1`, play(context)) },
+      // @ts-expect-error (not defined)
       { runStep: (label, play, context) => fn(`${label}2`, play(context)) },
+      // @ts-expect-error (not defined)
       { runStep: (label, play, context) => fn(`${label}3`, play(context)) },
     ]);
 

@@ -1,3 +1,5 @@
+/* eslint-disable no-underscore-dangle, @typescript-eslint/naming-convention */
+
 import type {
   BuilderOptions,
   CoreConfig,

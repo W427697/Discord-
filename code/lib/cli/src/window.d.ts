@@ -1,9 +1,10 @@
-import type { AnyFramework } from '@storybook/csf';
+/* eslint-disable @typescript-eslint/naming-convention */
+import type { Renderer } from '@storybook/types';
 import type { StoryStore } from '@storybook/client-api';
 
 declare global {
   interface Window {
-    __STORYBOOK_STORY_STORE__: StoryStore<AnyFramework>;
+    __STORYBOOK_STORY_STORE__: StoryStore<Renderer>;
   }
   var __STORYBOOK_STORY_STORE__: StoryStore<AnyFramework>;
 }

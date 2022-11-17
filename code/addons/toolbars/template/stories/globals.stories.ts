@@ -1,4 +1,4 @@
-import { PartialStoryFn, StoryContext } from '@storybook/csf';
+import type { PartialStoryFn, StoryContext } from '@storybook/types';
 
 const greetingForLocale = (locale: string) => {
   switch (locale) {

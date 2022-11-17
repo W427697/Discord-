@@ -1,10 +1,8 @@
-import type { SelectionSpecifier, Selection } from '@storybook/store';
-
 import qs from 'qs';
-import deprecate from 'util-deprecate';
-import type { ViewMode } from '@storybook/addons';
+import type { ViewMode, Store_SelectionSpecifier, Store_Selection } from '@storybook/types';
 
 import { parseArgsParam } from './parseArgsParam';
+import type { SelectionStore } from './SelectionStore';
 
 const { history, document } = globalThis;
 
@@ -20,7 +18,7 @@ const getQueryString = ({
   selection,
   extraParams,
 }: {
-  selection?: Selection;
+  selection?: Store_Selection;
   extraParams?: qs.ParsedQs;
 }) => {
   const { search = '' } = document.location;
@@ -37,7 +35,7 @@ const getQueryString = ({
   );
 };
 
-export const setPath = (selection?: Selection) => {
+export const setPath = (selection?: Store_Selection) => {
   if (!selection) return;
   const query = getQueryString({ selection });
   const { hash = '' } = document.location;
@@ -65,14 +63,7 @@ const getFirstString = (v: ValueOf<qs.ParsedQs>): string | void => {
   return undefined;
 };
 
-const deprecatedLegacyQuery = deprecate(
-  () => 0,
-  `URL formats with \`selectedKind\` and \`selectedName\` query parameters are deprecated.
-Use \`id=$storyId\` instead.
-See https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#new-url-structure`
-);
-
-export const getSelectionSpecifierFromPath: () => SelectionSpecifier | null = () => {
+export const getSelectionSpecifierFromPath: () => Store_SelectionSpecifier | null = () => {
   const query = qs.parse(document.location.search, { ignoreQueryPrefix: true });
   const args = typeof query.args === 'string' ? parseArgsParam(query.args) : undefined;
   const globals = typeof query.globals === 'string' ? parseArgsParam(query.globals) : undefined;
@@ -89,27 +80,19 @@ export const getSelectionSpecifierFromPath: () => SelectionSpecifier | null = ()
     return { storySpecifier: storyId, args, globals, viewMode };
   }
 
-  // Legacy URL format
-  const title = getFirstString(query.selectedKind);
-  const name = getFirstString(query.selectedStory);
-
-  if (title && name) {
-    deprecatedLegacyQuery();
-    return { storySpecifier: { title, name }, args, globals, viewMode };
-  }
   return null;
 };
 
-export class UrlStore {
-  selectionSpecifier: SelectionSpecifier | null;
+export class UrlStore implements SelectionStore {
+  selectionSpecifier: Store_SelectionSpecifier | null;
 
-  selection?: Selection;
+  selection?: Store_Selection;
 
   constructor() {
     this.selectionSpecifier = getSelectionSpecifierFromPath();
   }
 
-  setSelection(selection: Selection) {
+  setSelection(selection: Store_Selection) {
     this.selection = selection;
     setPath(this.selection);
   }

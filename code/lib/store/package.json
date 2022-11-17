@@ -1,6 +1,6 @@
 {
   "name": "@storybook/store",
-  "version": "7.0.0-alpha.35",
+  "version": "7.0.0-alpha.49",
   "description": "",
   "keywords": [
     "storybook"
@@ -42,10 +42,11 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/addons": "7.0.0-alpha.35",
-    "@storybook/client-logger": "7.0.0-alpha.35",
-    "@storybook/core-events": "7.0.0-alpha.35",
-    "@storybook/csf": "0.0.2--canary.0899bb7.0",
+    "@storybook/addons": "7.0.0-alpha.49",
+    "@storybook/client-logger": "7.0.0-alpha.49",
+    "@storybook/core-events": "7.0.0-alpha.49",
+    "@storybook/csf": "0.0.2-next.7",
+    "@storybook/types": "7.0.0-alpha.49",
     "dequal": "^2.0.2",
     "lodash": "^4.17.21",
     "memoizerific": "^1.11.3",
@@ -70,5 +71,5 @@
     ],
     "platform": "node"
   },
-  "gitHead": "d8972df8c6c1c4716131a856751f5914acddaad1"
+  "gitHead": "d7eb433300cac55d3c7256c8181eb6fd7a47b4c8"
 }

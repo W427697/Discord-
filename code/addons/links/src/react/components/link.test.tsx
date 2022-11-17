@@ -14,10 +14,8 @@ jest.mock('global', () => ({
       search: 'search',
     },
   },
-  // @ts-expect-error (Converted from ts-ignore)
   window: global,
   __STORYBOOK_STORY_STORE__: {
-    getSelection: jest.fn(() => ({ id: 1 })),
     fromId: jest.fn(() => ({})),
   },
 }));

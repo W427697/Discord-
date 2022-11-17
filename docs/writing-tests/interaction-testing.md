@@ -58,15 +58,10 @@ The test itself is defined inside a `play` function connected to a story. Here's
   paths={[
     'react/login-form-with-play-function.js.mdx',
     'react/login-form-with-play-function.ts.mdx',
-    'react/login-form-with-play-function.mdx.mdx',
     'angular/login-form-with-play-function.ts.mdx',
-    'angular/login-form-with-play-function.mdx.mdx',
     'vue/login-form-with-play-function.2.js.mdx',
-    'vue/login-form-with-play-function.mdx-2.mdx',
     'vue/login-form-with-play-function.3.js.mdx',
-    'vue/login-form-with-play-function.mdx-3.mdx',
     'svelte/login-form-with-play-function.js.mdx',
-    'svelte/login-form-with-play-function.mdx.mdx',
   ]}
 />
 
@@ -85,7 +80,7 @@ Once the story loads in the UI, it simulates the user's behavior and verifies th
 
 Under the hood, Storybook’s interaction addon mirrors Testing Library’s [`user-events`](https://testing-library.com/docs/user-event/intro/) API. If you’re familiar with [Testing Library](https://testing-library.com/), you should be at home in Storybook.
 
-Below is an abridged API for user-event. For more, check out the [official user-event docs](https://testing-library.com/docs/ecosystem-user-event/).
+Below is an abridged API for user-event. For more, check out the [official user-event docs](https://testing-library.com/docs/user-event/utility/).
 
 | User events       | Description                                                                                                                                              |
 | ----------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -170,6 +165,10 @@ Once you're ready to push your code into a pull request, you'll want to automati
 #### What’s the difference between interaction tests and visual tests?
 
 Interaction tests can be expensive to maintain when applied wholesale to every component. We recommend combining them with other methods like visual testing for comprehensive coverage with less maintenance work.
+
+#### What's the difference between interaction tests and using Jest + Testing Library alone?
+
+Interaction tests integrate Jest and Testing Library into Storybook. The biggest benefit is the ability to view the component you're testing in a real browser. That helps you debug visually, instead of getting a dump of the (fake) DOM in the command line or hitting the limitations of how JSDOM mocks browser functionality. It's also more convenient to keep stories and tests together in one file than having them spread across files.
 
 #### Learn about other UI tests
 

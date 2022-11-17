@@ -1,11 +1,11 @@
 import { expect } from '@jest/globals';
 
+import type { Store_StoryIndex } from '@storybook/types';
 import { StoryIndexStore } from './StoryIndexStore';
-import { StoryIndex } from './types';
 
 jest.mock('@storybook/channel-websocket', () => () => ({ on: jest.fn() }));
 
-const storyIndex: StoryIndex = {
+const storyIndex: Store_StoryIndex = {
   v: 4,
   entries: {
     'component-one--a': {
@@ -32,11 +32,11 @@ const storyIndex: StoryIndex = {
   },
 };
 
-const makeStoryIndex = (titlesAndNames) => {
+const makeStoryIndex = (titlesAndNames: any) => {
   return {
     v: 4,
     entries: Object.fromEntries(
-      titlesAndNames.map(([title, name]) => {
+      titlesAndNames.map(([title, name]: [any, any]) => {
         const id = `${title}--${name}`.replace('/', '-');
         return [
           id,

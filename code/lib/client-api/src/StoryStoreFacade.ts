@@ -1,47 +1,31 @@
 /* eslint-disable no-underscore-dangle */
 import { dedent } from 'ts-dedent';
 import { SynchronousPromise } from 'synchronous-promise';
-import {
-  toId,
-  isExportStory,
-  storyNameFromExport,
-  ComponentTitle,
-  ComponentId,
-} from '@storybook/csf';
-import type { StoryId, AnyFramework, Parameters, StoryFn } from '@storybook/csf';
-import { StoryStore, userOrAutoTitle, sortStoriesV6 } from '@storybook/store';
+import { toId, isExportStory, storyNameFromExport } from '@storybook/csf';
 import type {
-  NormalizedProjectAnnotations,
+  Addon_IndexEntry,
+  Renderer,
+  ComponentId,
+  DocsOptions,
+  Parameters,
   Path,
-  StoryIndex,
-  ModuleExports,
-  Story,
-  IndexEntry,
-} from '@storybook/store';
+  Store_ModuleExports,
+  Store_NormalizedProjectAnnotations,
+  Store_NormalizedStoriesSpecifier,
+  Store_Story,
+  Store_StoryIndex,
+  StoryId,
+} from '@storybook/types';
+import type { StoryStore } from '@storybook/store';
+import { userOrAutoTitle, sortStoriesV6 } from '@storybook/store';
 import { logger } from '@storybook/client-logger';
-import deprecate from 'util-deprecate';
-import type { DocsOptions, NormalizedStoriesSpecifier } from '@storybook/core-common';
 
-export interface GetStorybookStory<TFramework extends AnyFramework> {
-  name: string;
-  render: StoryFn<TFramework>;
-}
+export class StoryStoreFacade<TRenderer extends Renderer> {
+  projectAnnotations: Store_NormalizedProjectAnnotations<TRenderer>;
 
-export interface GetStorybookKind<TFramework extends AnyFramework> {
-  kind: string;
-  fileName: string;
-  stories: GetStorybookStory<TFramework>[];
-}
+  entries: Record<StoryId, Addon_IndexEntry & { componentId?: ComponentId }>;
 
-const docs2Warning = deprecate(() => {},
-`You cannot use \`.mdx\` files without using \`storyStoreV7\`. Consider upgrading to the new store.`);
-
-export class StoryStoreFacade<TFramework extends AnyFramework> {
-  projectAnnotations: NormalizedProjectAnnotations<TFramework>;
-
-  entries: Record<StoryId, IndexEntry & { componentId?: ComponentId }>;
-
-  csfExports: Record<Path, ModuleExports>;
+  csfExports: Record<Path, Store_ModuleExports>;
 
   constructor() {
     this.projectAnnotations = {
@@ -69,22 +53,22 @@ export class StoryStoreFacade<TFramework extends AnyFramework> {
     });
   }
 
-  getStoryIndex(store: StoryStore<TFramework>) {
+  getStoryIndex(store: StoryStore<TRenderer>) {
     const fileNameOrder = Object.keys(this.csfExports);
     const storySortParameter = this.projectAnnotations.parameters?.options?.storySort;
 
     const storyEntries = Object.entries(this.entries);
     // Add the kind parameters and global parameters to each entry
-    const sortableV6: [StoryId, Story<TFramework>, Parameters, Parameters][] = storyEntries.map(
-      ([storyId, { type, importPath, ...entry }]) => {
+    const sortableV6: [StoryId, Store_Story<TRenderer>, Parameters, Parameters][] =
+      storyEntries.map(([storyId, { type, importPath, ...entry }]) => {
         const exports = this.csfExports[importPath];
-        const csfFile = store.processCSFFileWithCache<TFramework>(
+        const csfFile = store.processCSFFileWithCache<TRenderer>(
           exports,
           importPath,
           exports.default.title
         );
 
-        let storyLike: Story<TFramework>;
+        let storyLike: Store_Story<TRenderer>;
         if (type === 'story') {
           storyLike = store.storyFromCSFFile({ storyId, csfFile });
         } else {
@@ -97,11 +81,10 @@ export class StoryStoreFacade<TFramework extends AnyFramework> {
           } as any;
         }
         return [storyId, storyLike, csfFile.meta.parameters, this.projectAnnotations.parameters];
-      }
-    );
+      });
 
     // NOTE: the sortStoriesV6 version returns the v7 data format. confusing but more convenient!
-    let sortedV7: IndexEntry[];
+    let sortedV7: Addon_IndexEntry[];
 
     try {
       sortedV7 = sortStoriesV6(sortableV6, storySortParameter, fileNameOrder);
@@ -126,7 +109,7 @@ export class StoryStoreFacade<TFramework extends AnyFramework> {
       // NOTE: this doesn't actually change the story object, just the index.
       acc[s.id] = this.entries[s.id];
       return acc;
-    }, {} as StoryIndex['entries']);
+    }, {} as Store_StoryIndex['entries']);
 
     return { v: 4, entries };
   }
@@ -148,9 +131,8 @@ export class StoryStoreFacade<TFramework extends AnyFramework> {
   }
 
   // NOTE: we could potentially share some of this code with the stories.json generation
-  addStoriesFromExports(fileName: Path, fileExports: ModuleExports) {
+  addStoriesFromExports(fileName: Path, fileExports: Store_ModuleExports) {
     if (fileName.match(/\.mdx$/) && !fileName.match(/\.stories\.mdx$/)) {
-      docs2Warning();
       return;
     }
 
@@ -161,16 +143,13 @@ export class StoryStoreFacade<TFramework extends AnyFramework> {
     // OTOH, if they have changed, let's clear them out first
     this.clearFilenameExports(fileName);
 
+    // eslint-disable-next-line @typescript-eslint/naming-convention
     const { default: defaultExport, __namedExportsOrder, ...namedExports } = fileExports;
     // eslint-disable-next-line prefer-const
-    let { id: componentId, title } = defaultExport || {};
+    let { id: componentId, title, tags: componentTags = [] } = defaultExport || {};
 
-    const specifiers: NormalizedStoriesSpecifier[] = (globalThis.STORIES || []).map(
-      (
-        specifier: Omit<NormalizedStoriesSpecifier, 'importPathMatcher'> & {
-          importPathMatcher: string;
-        }
-      ) => ({
+    const specifiers = (globalThis.STORIES || []).map(
+      (specifier: Store_NormalizedStoriesSpecifier & { importPathMatcher: string }) => ({
         ...specifier,
         importPathMatcher: new RegExp(specifier.importPathMatcher),
       })
@@ -205,43 +184,53 @@ export class StoryStoreFacade<TFramework extends AnyFramework> {
       });
     }
 
-    const docsOptions = globalThis.DOCS_OPTIONS || {};
-    const seenTitles = new Set<ComponentTitle>();
-    Object.entries(sortedExports)
-      .filter(([key]) => isExportStory(key, defaultExport))
-      .forEach(([key, storyExport]: [string, any]) => {
-        const exportName = storyNameFromExport(key);
-        const id = storyExport.parameters?.__id || toId(componentId || title, exportName);
-        const name =
-          (typeof storyExport !== 'function' && storyExport.name) ||
-          storyExport.storyName ||
-          storyExport.story?.name ||
-          exportName;
+    const storyExports = Object.entries(sortedExports).filter(([key]) =>
+      isExportStory(key, defaultExport)
+    );
 
-        if (!seenTitles.has(title) && docsOptions.docsPage) {
-          const name = docsOptions.defaultName;
-          const docsId = toId(componentId || title, name);
-          seenTitles.add(title);
-          this.entries[docsId] = {
-            type: 'docs',
-            standalone: false,
-            id: docsId,
-            title,
-            name,
-            importPath: fileName,
-            storiesImports: [],
-            componentId,
-          };
-        }
+    // NOTE: this logic is equivalent to the `extractStories` function of `StoryIndexGenerator`
+    const docsOptions = (globalThis.DOCS_OPTIONS || {}) as DocsOptions;
+    const docsPageOptedIn =
+      docsOptions.docsPage === 'automatic' ||
+      (docsOptions.docsPage && componentTags.includes('docsPage'));
+    if (docsOptions.enabled && storyExports.length) {
+      if (componentTags.includes('mdx') || docsPageOptedIn) {
+        const name = docsOptions.defaultName;
+        const docsId = toId(componentId || title, name);
+        this.entries[docsId] = {
+          type: 'docs',
+          standalone: false,
+          id: docsId,
+          title,
+          name,
+          importPath: fileName,
+          ...(componentId && { componentId }),
+          tags: [...componentTags, 'docs'],
+          storiesImports: [],
+        };
+      }
+    }
 
+    storyExports.forEach(([key, storyExport]: [string, any]) => {
+      const exportName = storyNameFromExport(key);
+      const id = storyExport.parameters?.__id || toId(componentId || title, exportName);
+      const name =
+        (typeof storyExport !== 'function' && storyExport.name) ||
+        storyExport.storyName ||
+        storyExport.story?.name ||
+        exportName;
+
+      if (!storyExport.parameters?.docsOnly) {
         this.entries[id] = {
           type: 'story',
           id,
           name,
           title,
           importPath: fileName,
-          componentId,
+          ...(componentId && { componentId }),
+          tags: [...(storyExport.tags || componentTags), 'story'],
         };
-      });
+      }
+    });
   }
 }

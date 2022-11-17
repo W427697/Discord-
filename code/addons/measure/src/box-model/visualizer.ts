@@ -3,7 +3,8 @@
  * Based on https://gist.github.com/awestbro/e668c12662ad354f02a413205b65fce7
  */
 import { draw } from './canvas';
-import { labelStacks, Label, LabelStack } from './labels';
+import type { Label, LabelStack } from './labels';
+import { labelStacks } from './labels';
 
 const colors = {
   margin: '#f6b26ba8',

@@ -8,7 +8,7 @@
   export let showError;
   export let storyContext;
 
-  const {
+  let {
     /** @type {SvelteComponent} */
     Component,
     /** @type {any} */
@@ -17,13 +17,18 @@
     on,
     Wrapper,
     WrapperData = {},
-  } = storyFn(); 
+  } = storyFn();
 
-   const eventsFromArgTypes = Object.fromEntries(Object.entries(storyContext.argTypes)
+  // reactive, re-render on storyFn change
+  $: ({ Component, props = {}, on, Wrapper, WrapperData = {} } = storyFn());
+
+  const eventsFromArgTypes = Object.fromEntries(
+    Object.entries(storyContext.argTypes)
       .filter(([k, v]) => v.action && props[k] != null)
-      .map(([k, v]) => [v.action, props[k]]));
-    
-  const events = {...eventsFromArgTypes, ...on};
+      .map(([k, v]) => [v.action, props[k]])
+  );
+
+  const events = { ...eventsFromArgTypes, ...on };
 
   if (!Component) {
     showError({
@@ -36,9 +41,11 @@
     });
   }
 </script>
+
 <SlotDecorator
   decorator={Wrapper}
   decoratorProps={WrapperData}
   component={Component}
-  props={props}
-  on={events}/>
+  {props}
+  on={events}
+/>

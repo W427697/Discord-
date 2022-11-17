@@ -1,7 +1,7 @@
 import configure from '../configure';
 import hasDependency from '../hasDependency';
-import { Loader } from '../Loader';
-import { StoryshotsOptions } from '../../api/StoryshotsOptions';
+import type { Loader } from '../Loader';
+import type { StoryshotsOptions } from '../../api/StoryshotsOptions';
 
 function test(options: StoryshotsOptions): boolean {
   return options.framework === 'rax' || (!options.framework && hasDependency('@storybook/rax'));
@@ -10,9 +10,36 @@ function test(options: StoryshotsOptions): boolean {
 function load(options: StoryshotsOptions) {
   globalThis.STORYBOOK_ENV = 'rax';
 
-  const storybook = jest.requireActual('@storybook/rax');
+  let mockStartedAPI: any;
 
-  configure({ ...options, storybook });
+  jest.mock('@storybook/core-client', () => {
+    const coreClientAPI = jest.requireActual('@storybook/core-client');
+
+    return {
+      ...coreClientAPI,
+      start: (...args: any[]) => {
+        mockStartedAPI = coreClientAPI.start(...args);
+        return mockStartedAPI;
+      },
+    };
+  });
+
+  jest.mock('@storybook/rax', () => {
+    const renderAPI = jest.requireActual('@storybook/rax');
+
+    renderAPI.addDecorator = mockStartedAPI.clientApi.addDecorator;
+    renderAPI.addParameters = mockStartedAPI.clientApi.addParameters;
+
+    return renderAPI;
+  });
+
+  // eslint-disable-next-line global-require
+  const storybook = require('@storybook/rax');
+
+  configure({
+    ...options,
+    storybook,
+  });
 
   return {
     framework: 'rax' as const,

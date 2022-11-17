@@ -1,10 +1,12 @@
-import webpack, { Stats, Configuration, ProgressPlugin, StatsOptions } from 'webpack';
+import type { Stats, Configuration, StatsOptions } from 'webpack';
+import webpack, { ProgressPlugin } from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
 import { logger } from '@storybook/node-logger';
 import { useProgressReporting } from '@storybook/core-common';
-import type { Builder, Options } from '@storybook/core-common';
+import type { Builder, Options } from '@storybook/types';
 import { checkWebpackVersion } from '@storybook/core-webpack';
+import { join } from 'path';
 
 export * from './types';
 
@@ -143,6 +145,7 @@ const starter: StarterFunction = async function* starterGeneratorFn({
   }
 
   if (stats.hasErrors()) {
+    // eslint-disable-next-line @typescript-eslint/no-throw-literal
     throw stats;
   }
 
@@ -261,5 +264,5 @@ export const build = async (options: BuilderStartOptions) => {
   return result.value;
 };
 
-export const corePresets = [require.resolve('./presets/preview-preset.js')];
-export const overridePresets = [require.resolve('./presets/custom-webpack-preset.js')];
+export const corePresets = [join(__dirname, 'presets/preview-preset.js')];
+export const overridePresets = [join(__dirname, './presets/custom-webpack-preset.js')];

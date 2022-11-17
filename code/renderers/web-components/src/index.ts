@@ -1,8 +1,8 @@
 /// <reference types="webpack-env" />
 
-const { EventSource } = globalThis;
+import './globals';
 
-export * from './globals';
+const { EventSource } = globalThis;
 
 export * from './public-types';
 export * from './public-api';

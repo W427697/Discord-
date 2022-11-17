@@ -1,16 +1,20 @@
-import type { AnyFramework, ArgTypes, ProjectAnnotations } from '@storybook/csf';
+import type {
+  Renderer,
+  ArgTypes,
+  ProjectAnnotations,
+  Store_NormalizedProjectAnnotations,
+} from '@storybook/types';
 
 import { inferArgTypes } from '../inferArgTypes';
 import { inferControls } from '../inferControls';
-import type { NormalizedProjectAnnotations } from '../types';
 import { normalizeInputTypes } from './normalizeInputTypes';
 
-export function normalizeProjectAnnotations<TFramework extends AnyFramework>({
+export function normalizeProjectAnnotations<TRenderer extends Renderer>({
   argTypes,
   globalTypes,
   argTypesEnhancers,
   ...annotations
-}: ProjectAnnotations<TFramework>): NormalizedProjectAnnotations<TFramework> {
+}: ProjectAnnotations<TRenderer>): Store_NormalizedProjectAnnotations<TRenderer> {
   return {
     ...(argTypes && { argTypes: normalizeInputTypes(argTypes as ArgTypes) }),
     ...(globalTypes && { globalTypes: normalizeInputTypes(globalTypes) }),

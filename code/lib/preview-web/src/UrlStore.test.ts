@@ -21,6 +21,7 @@ describe('UrlStore', () => {
     });
     it('should error on invalid ids', () => {
       [null, '', '/whatever/story/story--id'].forEach((path) => {
+        // @ts-expect-error (invalid data)
         expect(() => pathToId(path)).toThrow(/Invalid/);
       });
     });
@@ -72,13 +73,6 @@ describe('UrlStore', () => {
       document.location.search = '?id=*';
       expect(getSelectionSpecifierFromPath()).toEqual({
         storySpecifier: '*',
-        viewMode: 'story',
-      });
-    });
-    it('should parse legacy queries', () => {
-      document.location.search = '?selectedKind=kind&selectedStory=story';
-      expect(getSelectionSpecifierFromPath()).toEqual({
-        storySpecifier: { title: 'kind', name: 'story' },
         viewMode: 'story',
       });
     });

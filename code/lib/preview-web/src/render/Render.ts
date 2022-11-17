@@ -1,4 +1,5 @@
-import { StoryId, AnyFramework } from '@storybook/csf';
+import type { StoryId, Renderer } from '@storybook/types';
+import type { StoryRenderOptions } from './StoryRender';
 
 export type RenderType = 'story' | 'docs';
 
@@ -9,15 +10,19 @@ export type RenderType = 'story' | 'docs';
  *  - Tracking the state of the rendering as it moves between preparing, rendering and tearing down.
  *  - Tracking what is rendered to know if a change requires re-rendering or teardown + recreation.
  */
-export interface Render<TFramework extends AnyFramework> {
+export interface Render<TRenderer extends Renderer> {
   type: RenderType;
   id: StoryId;
   isPreparing: () => boolean;
-  isEqual: (other: Render<TFramework>) => boolean;
+  isEqual: (other: Render<TRenderer>) => boolean;
   disableKeyListeners: boolean;
   teardown?: (options: { viewModeChanged: boolean }) => Promise<void>;
   torndown: boolean;
-  renderToElement: (canvasElement: HTMLElement, renderStoryToElement?: any) => Promise<void>;
+  renderToElement: (
+    canvasElement: TRenderer['canvasElement'],
+    renderStoryToElement?: any,
+    options?: StoryRenderOptions
+  ) => Promise<void>;
 }
 
 export const PREPARE_ABORTED = new Error('prepareAborted');

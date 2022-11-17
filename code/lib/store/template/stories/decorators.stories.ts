@@ -1,4 +1,4 @@
-import { PartialStoryFn, PlayFunctionContext, StoryContext } from '@storybook/csf';
+import type { PartialStoryFn, PlayFunctionContext, StoryContext } from '@storybook/types';
 import { within } from '@storybook/testing-library';
 import { expect } from '@storybook/jest';
 
@@ -21,6 +21,6 @@ export const Inheritance = {
   },
   play: async ({ canvasElement }: PlayFunctionContext) => {
     const canvas = within(canvasElement);
-    await expect(canvas.getByTestId('pre').innerHTML).toEqual('story component project starting');
+    await expect(canvas.getByTestId('pre').innerText).toEqual('story component project starting');
   },
 };
