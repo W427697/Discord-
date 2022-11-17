@@ -10,7 +10,9 @@
     "lint:js:cmd": "cross-env NODE_ENV=production eslint --cache --cache-location=../.cache/eslint --ext .js,.jsx,.json,.html,.ts,.tsx,.mjs --report-unused-disable-directives",
     "lint:package": "sort-package-json",
     "task": "ts-node ./task.ts",
-    "test": "jest --config ./jest.config.js"
+    "test": "jest --config ./jest.config.js",
+    "prettier:write": "cd ../docs && prettier --write ./snippets",
+    "prettier:check": "cd ../docs && prettier --check ./snippets"
   },
   "husky": {
     "hooks": {
@@ -142,7 +144,7 @@
     "npmlog": "^5.0.1",
     "nx": "14.6.1",
     "p-limit": "^3.1.0",
-    "prettier": ">=2.2.1 <=3.0.0",
+    "prettier": "^2.7.1",
     "pretty-hrtime": "^1.0.0",
     "process": "^0.11.10",
     "prompts": "^2.4.0",
