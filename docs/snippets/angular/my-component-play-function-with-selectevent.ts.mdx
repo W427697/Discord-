@@ -3,7 +3,7 @@
 
 import type { Meta, StoryObj } from '@storybook/angular';
 
-import { screen, userEvent } from '@storybook/testing-library';
+import { userEvent, within } from '@storybook/testing-library';
 
 import { MyComponent } from './MyComponent.component';
 
@@ -24,9 +24,15 @@ function sleep(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
+/*
+ * See https://storybook.js.org/docs/7.0/angular/writing-stories/play-function#working-with-the-canvas
+ * to learn more about using the canvasElement to query the DOM
+ */
 export const ExampleChangeEvent: Story = {
-  play: async () => {
-    const select = screen.getByRole('listbox');
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    const select = canvas.getByRole('listbox');
 
     await userEvent.selectOptions(select, ['One Item']);
     await sleep(2000);
