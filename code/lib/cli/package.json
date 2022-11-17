@@ -41,8 +41,8 @@
     "test": "jest test/**/*.test.js"
   },
   "dependencies": {
-    "@babel/core": "^7.12.10",
-    "@babel/preset-env": "^7.12.11",
+    "@babel/core": "^7.20.2",
+    "@babel/preset-env": "^7.20.2",
     "@storybook/codemod": "7.0.0-alpha.50",
     "@storybook/core-common": "7.0.0-alpha.50",
     "@storybook/core-server": "7.0.0-alpha.50",
@@ -87,7 +87,7 @@
     "@types/update-notifier": "^6.0.1",
     "@types/util-deprecate": "^1.0.0",
     "strip-json-comments": "^3.1.1",
-    "typescript": "~4.6.3",
+    "typescript": "^4.9.3",
     "update-notifier": "^6.0.2"
   },
   "publishConfig": {
