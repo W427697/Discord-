@@ -24,11 +24,11 @@ import \* as ButtonStories from '../stories/Button.stories';
 
 In the above example, the `<Meta />` block communicates to all the `<Story />` blocks which meta they're related to.
 
-The `<Meta />` block can be omitted if `<Story />` blocks instead have the `meta` prop explicitly set.
+The `<Meta />` block can be omitted if all `<Story />` blocks instead have the `meta` prop explicitly set.
 This is useful in scenarios where you want to include stories from different story files in a single MDX file, like this:
 
 ```md
-import { Meta, Story, Canvas } from '@storybook/blocks';
+import { Story, Canvas } from '@storybook/blocks';
 import \* as ButtonStories from '../stories/Button.stories';
 import \* as HeadingStories from '../stories/Heading.stories';
 
