@@ -32,7 +32,7 @@ export const FirstStory: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
 
-    userEvent.type(screen.getByTestId('an-element'), 'example-value');
+    userEvent.type(canvas.getByTestId('an-element'), 'example-value');
   },
 };
 
@@ -44,7 +44,7 @@ export const SecondStory: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
 
-    await userEvent.type(screen.getByTestId('other-element'), 'another value');
+    await userEvent.type(canvas.getByTestId('other-element'), 'another value');
   },
 };
 

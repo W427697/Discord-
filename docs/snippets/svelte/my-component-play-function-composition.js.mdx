@@ -38,7 +38,7 @@ export const SecondStory = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
 
-    await userEvent.type(screen.getByTestId('other-element'), 'another value');
+    await userEvent.type(canvas.getByTestId('other-element'), 'another value');
   },
 };
 
