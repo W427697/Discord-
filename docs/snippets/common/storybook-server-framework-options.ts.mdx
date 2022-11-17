@@ -3,7 +3,7 @@
 
 import { sync } from 'read-pkg-up';
 
-const meta: Meta<typeof Button> = {
+export default {
   packageJson: sync({ cwd: __dirname }).packageJson,
   framework: 'my-framework',
   frameworkPath: '@my-framework/storybook',
