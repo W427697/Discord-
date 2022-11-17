@@ -12,6 +12,7 @@ test-results
 /sandbox
 /bench
 .verdaccio-cache
+affected-templates.json
 
 # Yarn stuff
 /**/.yarn/*

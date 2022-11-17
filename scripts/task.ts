@@ -1,6 +1,6 @@
 /* eslint-disable no-await-in-loop */
 import { getJunitXml } from 'junit-xml';
-import { outputFile, readFile, pathExists } from 'fs-extra';
+import { outputFile, readFile, pathExists, readJson } from 'fs-extra';
 import { join, resolve } from 'path';
 import { prompt } from 'prompts';
 import boxen from 'boxen';
@@ -28,6 +28,7 @@ import { allTemplates as TEMPLATES } from '../code/lib/cli/src/repro-templates';
 const sandboxDir = process.env.SANDBOX_ROOT || resolve(__dirname, '../sandbox');
 const codeDir = resolve(__dirname, '../code');
 const junitDir = resolve(__dirname, '../test-results');
+const affectedTemplatesPath = resolve(__dirname, '../affected-templates.json');
 
 export const extraAddons = ['a11y', 'storysource'];
 
@@ -279,6 +280,17 @@ function writeTaskList(statusMap: Map<Task, TaskStatus>) {
   logger.info();
 }
 
+// check whether a given template is related to affected packages (via nx affected graph)
+const shouldSkipTask = async (template: TemplateKey) => {
+  try {
+    const affectTemplates = await readJson(affectedTemplatesPath);
+    return !affectTemplates.includes(template);
+  } catch (e) {
+    // return false if the file doesn't exist
+    return false;
+  }
+};
+
 async function runTask(task: Task, details: TemplateDetails, optionValues: PassedOptionValues) {
   const { junitFilename } = details;
   const startTime = new Date();
@@ -312,6 +324,14 @@ async function run() {
 
   const finalTask = tasks[taskKey];
   const { template: templateKey } = optionValues;
+
+  if (process.env.CI && templateKey && (await shouldSkipTask(templateKey))) {
+    logger.info(
+      `Skipping tasks up to "${taskKey}" for "${templateKey}" as it was not affected by the changes`
+    );
+    return 0;
+  }
+
   const template = TEMPLATES[templateKey];
   const templateSandboxDir = templateKey && join(sandboxDir, templateKey.replace('/', '-'));
   const details = {
