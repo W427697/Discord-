@@ -2473,7 +2473,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@jest/globals@npm:^28.0.0, @jest/globals@npm:^28.1.3":
+"@jest/fake-timers@npm:^29.3.1":
+  version: 29.3.1
+  resolution: "@jest/fake-timers@npm:29.3.1"
+  dependencies:
+    "@jest/types": ^29.3.1
+    "@sinonjs/fake-timers": ^9.1.2
+    "@types/node": "*"
+    jest-message-util: ^29.3.1
+    jest-mock: ^29.3.1
+    jest-util: ^29.3.1
+  checksum: b2fe1ea5d8ff3aa9ef099550d5897adba0ed53f8971e134ad589a52346b1f6914df986ef5c847264f7446a7dcae66946f4107cb1087b630a447cf13ad334b59b
+  languageName: node
+  linkType: hard
+
+"@jest/globals@npm:^28.1.3":
   version: 28.1.3
   resolution: "@jest/globals@npm:28.1.3"
   dependencies:
@@ -2484,7 +2498,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@jest/globals@npm:^29.0.0, @jest/globals@npm:^29.3.1":
+"@jest/globals@npm:^29.1.3, @jest/globals@npm:^29.3.1":
   version: 29.3.1
   resolution: "@jest/globals@npm:29.3.1"
   dependencies:
@@ -5478,7 +5492,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"babel-jest@npm:^29.0.0, babel-jest@npm:^29.3.1":
+"babel-jest@npm:^29.1.3, babel-jest@npm:^29.3.1":
   version: 29.3.1
   resolution: "babel-jest@npm:29.3.1"
   dependencies:
