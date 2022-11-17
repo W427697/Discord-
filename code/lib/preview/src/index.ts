@@ -21,19 +21,3 @@ import * as STORE from './store';
 (globalThis as any).__STORYBOOK_MODULE_CORE_EVENTS__ = CORE_EVENTS;
 (globalThis as any).__STORYBOOK_MODULE_PREVIEW_WEB__ = PREVIEW_WEB;
 (globalThis as any).__STORYBOOK_MODULE_STORE__ = STORE;
-
-const element = document.getElementById('storybook-script');
-
-if (element) {
-  const { files } = element.dataset;
-
-  if (files) {
-    const sources = files.split(',').map((file) => file.trim());
-
-    sources.forEach((source) => {
-      const imported = document.createElement('script');
-      imported.src = source;
-      document.body.append(imported);
-    });
-  }
-}

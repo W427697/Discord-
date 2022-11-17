@@ -41,7 +41,12 @@
       <% } %>
     </script>
     <% } %>
-    
-    <script id="storybook-script" type="module" src="sb-preview/index.mjs" data-files="<%= htmlWebpackPlugin.files.js.join(', ') %>"></script>
+    <script type="module">
+      import './sb-preview/index.mjs';
+
+      <% htmlWebpackPlugin.files.js.forEach(file => { %>
+      import './<%= file %>';
+      <% }); %>
+    </script>    
   </body>
 </html>
