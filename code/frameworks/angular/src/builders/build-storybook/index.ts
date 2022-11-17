@@ -11,11 +11,7 @@ import { CLIOptions } from '@storybook/types';
 import { catchError, map, mapTo, switchMap } from 'rxjs/operators';
 import { sync as findUpSync } from 'find-up';
 import { sync as readUpSync } from 'read-pkg-up';
-import {
-  BrowserBuilderOptions,
-  ExtraEntryPoint,
-  StylePreprocessorOptions,
-} from '@angular-devkit/build-angular';
+import { BrowserBuilderOptions, StylePreprocessorOptions } from '@angular-devkit/build-angular';
 
 import { buildStaticStandalone } from '@storybook/core-server';
 import { StandaloneOptions } from '../utils/standalone-options';
@@ -27,7 +23,7 @@ export type StorybookBuilderOptions = JsonObject & {
   tsConfig?: string;
   compodoc: boolean;
   compodocArgs: string[];
-  styles?: ExtraEntryPoint[];
+  styles?: BrowserBuilderOptions['styles'];
   stylePreprocessorOptions?: StylePreprocessorOptions;
 } & Pick<
     // makes sure the option exists

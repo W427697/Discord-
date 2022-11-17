@@ -6,11 +6,7 @@ import {
   targetFromTargetString,
 } from '@angular-devkit/architect';
 import { JsonObject } from '@angular-devkit/core';
-import {
-  BrowserBuilderOptions,
-  ExtraEntryPoint,
-  StylePreprocessorOptions,
-} from '@angular-devkit/build-angular';
+import { BrowserBuilderOptions, StylePreprocessorOptions } from '@angular-devkit/build-angular';
 import { from, Observable, of } from 'rxjs';
 import { CLIOptions } from '@storybook/types';
 import { map, switchMap, mapTo } from 'rxjs/operators';
@@ -27,7 +23,7 @@ export type StorybookBuilderOptions = JsonObject & {
   tsConfig?: string;
   compodoc: boolean;
   compodocArgs: string[];
-  styles?: ExtraEntryPoint[];
+  styles?: BrowserBuilderOptions['styles'];
   stylePreprocessorOptions?: StylePreprocessorOptions;
 } & Pick<
     // makes sure the option exists
