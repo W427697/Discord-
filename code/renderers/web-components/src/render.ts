@@ -10,11 +10,11 @@ import { render as litRender } from 'lit-html';
 import { isTemplateResult } from 'lit-html/directive-helpers.js';
 import { simulatePageLoad, simulateDOMContentLoaded } from '@storybook/preview-web';
 import type { Store_RenderContext, ArgsStoryFn } from '@storybook/types';
-import type { WebComponentsFramework } from './types';
+import type { WebComponentsRenderer } from './types';
 
 const { Node } = global;
 
-export const render: ArgsStoryFn<WebComponentsFramework> = (args, context) => {
+export const render: ArgsStoryFn<WebComponentsRenderer> = (args, context) => {
   const { id, component } = context;
   if (!component) {
     throw new Error(
@@ -38,8 +38,8 @@ export function renderToCanvas(
     showMain,
     showError,
     forceRemount,
-  }: Store_RenderContext<WebComponentsFramework>,
-  canvasElement: WebComponentsFramework['canvasElement']
+  }: Store_RenderContext<WebComponentsRenderer>,
+  canvasElement: WebComponentsRenderer['canvasElement']
 ) {
   const element = storyFn();
 

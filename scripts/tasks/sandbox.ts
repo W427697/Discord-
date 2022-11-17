@@ -16,9 +16,10 @@ export const sandbox: Task = {
       await remove(details.sandboxDir);
     }
     const { create, install, addStories } = await import('./sandbox-parts');
-
     await create(details, options);
     await install(details, options);
-    await addStories(details, options);
+    if (!options.skipTemplateStories) {
+      await addStories(details, options);
+    }
   },
 };
