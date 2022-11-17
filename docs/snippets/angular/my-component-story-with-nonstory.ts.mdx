@@ -19,10 +19,11 @@ const meta: Meta<MyComponent> = {
 };
 
 export default meta;
-type Story = StoryObj<MyComponent>;
 
 export const simpleData = { foo: 1, bar: 'baz' };
 export const complexData = { foo: 1, foobar: { bar: 'baz', baz: someData } };
+
+type Story = StoryObj<MyComponent>;
 
 export const SimpleStory: Story = {
   args: {
