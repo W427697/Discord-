@@ -78,17 +78,10 @@ export const start: ViteBuilder['start'] = async ({
 }) => {
   server = await createViteServer(options as ExtendedOptions, devServer);
 
-  // Just mock this endpoint (which is really Webpack-specific) so we don't get spammed with 404 in browser devtools
-  // TODO: we should either show some sort of progress from Vite, or just try to disable the whole Loader in the Manager UI.
-  router.get('/progress', (req: Request, res: Response) => {
-    res.header('Cache-Control', 'no-cache');
-    res.header('Content-Type', 'text/event-stream');
-  });
-
   const previewResolvedDir = dirname(require.resolve('@storybook/preview/package.json'));
   const previewDirOrigin = join(previewResolvedDir, 'dist');
 
-  router.use(`/sb-preview`, express.static(previewDirOrigin));
+  router.use(`/sb-preview`, express.static(previewDirOrigin, { immutable: true, maxAge: '5m' }));
 
   router.use(iframeMiddleware(options as ExtendedOptions, server));
   router.use(server.middlewares);
