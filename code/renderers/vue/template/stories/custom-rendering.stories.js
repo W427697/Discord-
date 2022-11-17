@@ -1,5 +1,3 @@
-import globalThis from 'global';
-
 const MyButton = globalThis.Components.Button;
 
 export default {

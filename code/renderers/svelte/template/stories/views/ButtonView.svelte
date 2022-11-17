@@ -3,8 +3,7 @@
    * @component Button View
    * @wrapper
    */
-  import globalThis from 'global';
-  const Button = globalThis.Components.Button;
+    const Button = globalThis.Components.Button;
 
   /**
    * Rounds the button
