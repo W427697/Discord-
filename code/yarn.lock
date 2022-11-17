@@ -7084,7 +7084,6 @@ __metadata:
     fs-extra: ^9.0.1
     github-release-from-changelog: ^2.1.1
     glob: ^7.1.6
-    global: ^4.4.0
     http-server: ^0.12.3
     husky: ^4.3.7
     jest: ^28.0.0
