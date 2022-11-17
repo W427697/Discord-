@@ -3,7 +3,6 @@ import global from 'global';
 import type { Store_RenderContext } from '@storybook/types';
 import { addons, mockChannel as createMockChannel } from '@storybook/addons';
 
-import { mocked } from 'ts-jest/utils';
 import { expect } from '@jest/globals';
 
 import { PreviewWeb } from './PreviewWeb';
@@ -62,8 +61,8 @@ beforeEach(() => {
   addons.setChannel(mockChannel as any);
   addons.setServerChannel(createMockChannel());
 
-  mocked(WebView.prototype).prepareForDocs.mockReturnValue('docs-element' as any);
-  mocked(WebView.prototype).prepareForStory.mockReturnValue('story-element' as any);
+  jest.mocked(WebView.prototype).prepareForDocs.mockReturnValue('docs-element' as any);
+  jest.mocked(WebView.prototype).prepareForStory.mockReturnValue('story-element' as any);
 });
 
 describe('PreviewWeb', () => {

@@ -1,3 +1,35 @@
+## 7.0.0-alpha.50 (November 17, 2022)
+
+#### Features
+
+-   Expose more CSF types in all renderers [#19833](https://github.com/storybooks/storybook/pull/19833)
+-   CSF: Renamed Framework to Renderer [#19802](https://github.com/storybooks/storybook/pull/19802)
+
+#### Bug Fixes
+
+-   Next.js: use file path instead of image contents for next-image-loader-stub [#19858](https://github.com/storybooks/storybook/pull/19858)
+-   TypeScript: Fix type inference bug with decorators  [#19839](https://github.com/storybooks/storybook/pull/19839)
+-   Vite: Keep using absolute path node_modules splitting [#19836](https://github.com/storybooks/storybook/pull/19836)
+-   Vite: Fix preview annotation paths on Windows [#19822](https://github.com/storybooks/storybook/pull/19822)
+-   Fix csf-plugin ignoring options [#19823](https://github.com/storybooks/storybook/pull/19823)
+-   Controls: Checkbox does not update when using useArgs hook [#19508](https://github.com/storybooks/storybook/pull/19508)
+
+#### Maintenance
+
+-   Jest: switch from Parameters to StorybookInternalParameters [#19853](https://github.com/storybooks/storybook/pull/19853)
+-   Blocks: Story stories [#19805](https://github.com/storybooks/storybook/pull/19805)
+-   Blocks: Canvas stories [#19804](https://github.com/storybooks/storybook/pull/19804)
+-   Tech: TypeScript should check stories and tests as well [#19831](https://github.com/storybooks/storybook/pull/19831)
+
+#### Build
+
+-   UI Storybook: Disable sourcemaps when building in CI [#19862](https://github.com/storybooks/storybook/pull/19862)
+-   Build: Increase max node memory for jobs [#19856](https://github.com/storybooks/storybook/pull/19856)
+-   CI: improve error reporting mechanism [#19841](https://github.com/storybooks/storybook/pull/19841)
+-   Fix tests on Windows [#19777](https://github.com/storybooks/storybook/pull/19777)
+-   Build: Fix benchmark to run on local packages [#19832](https://github.com/storybooks/storybook/pull/19832)
+-   CI: Report failures on discord [#19801](https://github.com/storybooks/storybook/pull/19801)
+
 ## 7.0.0-alpha.49 (November 13, 2022)
 
 #### Bug Fixes
