@@ -16,6 +16,8 @@
     "strictBindCallApply": true,
     "lib": ["dom", "esnext"]
   },
+  "files": ["types/globalThis.d.ts"],
+  "include": ["./**/*"],
   "exclude": ["dist", "**/dist", "node_modules", "**/node_modules", "**/setup-jest.ts"],
   "ts-node": {
     "transpileOnly": true,

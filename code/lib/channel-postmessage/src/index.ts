@@ -4,7 +4,6 @@ import type { ChannelHandler, ChannelEvent } from '@storybook/channels';
 import { logger, pretty } from '@storybook/client-logger';
 import { isJSON, parse, stringify } from 'telejson';
 import qs from 'qs';
-import '../../../globalThis';
 
 const { document, location } = globalThis;
 

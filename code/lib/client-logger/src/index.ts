@@ -1,5 +1,3 @@
-import '../../../globalThis.d';
-
 const { LOGLEVEL, console } = globalThis;
 
 type LogLevel = typeof LOGLEVEL;

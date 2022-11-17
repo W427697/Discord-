@@ -4,11 +4,12 @@ import type {
   BuilderOptions,
   CoreConfig,
   DocsOptions,
-  NormalizedStoriesSpecifier,
+  Store_NormalizedStoriesSpecifier,
   StorybookConfig,
-} from '@storybook/core-common';
-import type { AddonStore, Channel } from '@storybook/addons';
-import type { AnyFramework } from '@storybook/csf';
+  Renderer,
+} from '@storybook/types';
+import type { AddonStore } from '@storybook/addons';
+import type { Channel } from '@storybook/channels';
 import type { ClientApi, StoryStore } from '@storybook/client-api';
 import type { PreviewWeb } from 'lib/preview-web/src';
 
@@ -22,9 +23,9 @@ declare global {
   var STORYBOOK_ENV: string;
   var __STORYBOOK_ADDONS: AddonStore | undefined;
   var __STORYBOOK_ADDONS_CHANNEL__: Channel | undefined;
-  var __STORYBOOK_CLIENT_API__: ClientApi<AnyFramework> | undefined;
-  var __STORYBOOK_PREVIEW__: PreviewWeb<AnyFramework> | undefined;
-  var __STORYBOOK_STORY_STORE__: StoryStore<AnyFramework> | undefined;
+  var __STORYBOOK_CLIENT_API__: ClientApi<Renderer> | undefined;
+  var __STORYBOOK_PREVIEW__: PreviewWeb<Renderer> | undefined;
+  var __STORYBOOK_STORY_STORE__: StoryStore<Renderer> | undefined;
   var SERVER_CHANNEL_URL: string | undefined;
   var IS_STORYBOOK: true | undefined;
   var LOGLEVEL: 'trace' | 'debug' | 'info' | 'warn' | 'error' | 'silent';
@@ -38,7 +39,7 @@ declare global {
     Html?: any;
   };
   var STORIES: Array<
-    Omit<NormalizedStoriesSpecifier, 'importPathMatcher'> & {
+    Omit<Store_NormalizedStoriesSpecifier, 'importPathMatcher'> & {
       importPathMatcher: string;
     }
   >;
