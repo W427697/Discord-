@@ -1,7 +1,9 @@
 ```ts
 // Button.stories.mdx
 
-import { componentWrapperDecorator, Meta, moduleMetadata, StoryObj } from '@storybook/angular';
+import { componentWrapperDecorator, moduleMetadata } from '@storybook/angular';
+
+import type { Meta, StoryObj } from '@storybook/angular';
 
 import { Button } from './button.component';
 import { Parent } from './parent.component'; // Parent contains ng-content
@@ -17,6 +19,7 @@ const meta: Meta<Button> = {
 
 export default meta;
 type Story = StoryObj<Button>;
+
 export const Primary: Story = {
   decorators: [componentWrapperDecorator((story) => `<div style="margin: 3em">${story}</div>`)],
 };

@@ -1,7 +1,9 @@
 ```ts
 // .storybook/preview.js
 
-import { componentWrapperDecorator, Decorator } from '@storybook/angular';
+import { componentWrapperDecorator } from '@storybook/angular';
+
+import type { Decorator } from '@storybook/angular';
 
 export const decorators: Decorator[] = [
   componentWrapperDecorator((story) => `<div style="margin: 3em">${story}</div>`),

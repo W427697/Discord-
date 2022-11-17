@@ -1,7 +1,10 @@
 ```ts
 // .storybook/preview.ts
 
-import { componentWrapperDecorator, Decorator } from '@storybook/angular';
+import { componentWrapperDecorator } from '@storybook/angular';
+
+import type { Decorator } from '@storybook/angular';
+
 import { ThemeProvider } from './theme-provider.component';
 
 export const decorators: Decorator[] = [
