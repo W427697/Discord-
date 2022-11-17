@@ -82,7 +82,7 @@
     "@storybook/theming": "7.0.0-alpha.50",
     "@storybook/types": "7.0.0-alpha.50",
     "global": "^4.4.0",
-    "jest-mock": "^29.3.1",
+    "jest-mock": "^27.0.6",
     "polished": "^4.2.2",
     "ts-dedent": "^2.2.0"
   },
