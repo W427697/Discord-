@@ -1,7 +1,7 @@
 ```ts
 // LoginForm.stories.ts
 
-import type { Meta, Story } from '@storybook/angular';
+import type { Meta, StoryObj } from '@storybook/angular';
 
 import { userEvent, within } from '@storybook/testing-library';
 
@@ -9,14 +9,17 @@ import { expect } from '@storybook/jest';
 
 import { LoginForm } from './LoginForm.component';
 
-export default {
+const meta: Meta<LoginForm> = {
   /* 👇 The title prop is optional.
    * See https://storybook.js.org/docs/7.0/angular/configure/overview#configure-story-loading
    * to learn how to generate automatic titles
    */
   title: 'Form',
   component: LoginForm,
-} as Meta;
+};
+
+export default meta;
+type Story = StoryObj<LoginForm>;
 
 export const EmptyForm: Story = {};
 
