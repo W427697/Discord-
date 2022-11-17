@@ -58,12 +58,12 @@ export const FramesRenderer: FC<FramesRendererProps> = ({
   const active = getActive(refId);
 
   const styles = useMemo<CSSObject>(() => {
-    // add #storybook-root to make the selector high enough in specificity
+    // add #root to make the selector high enough in specificity
     return {
-      '#storybook-root [data-is-storybook="false"]': {
+      '#root [data-is-storybook="false"]': {
         display: 'none',
       },
-      '#storybook-root [data-is-storybook="true"]': {
+      '#root [data-is-storybook="true"]': {
         display: 'block',
       },
     };
