@@ -6007,7 +6007,6 @@ __metadata:
     "@storybook/telemetry": 7.0.0-alpha.50
     "@storybook/types": 7.0.0-alpha.50
     "@types/cross-spawn": ^6.0.2
-    "@types/degit": ^2.8.3
     "@types/prompts": ^2.0.9
     "@types/puppeteer-core": ^2.1.0
     "@types/semver": ^7.3.4
@@ -6018,7 +6017,6 @@ __metadata:
     chalk: ^4.1.0
     commander: ^6.2.1
     cross-spawn: ^7.0.3
-    degit: ^2.8.4
     detect-indent: ^6.1.0
     envinfo: ^7.7.3
     execa: ^5.0.0
@@ -6026,6 +6024,7 @@ __metadata:
     find-up: ^5.0.0
     fs-extra: ^9.0.1
     get-port: ^5.1.1
+    giget: ^1.0.0
     globby: ^11.0.2
     jscodeshift: ^0.13.1
     leven: ^3.1.0
@@ -8111,13 +8110,6 @@ __metadata:
   dependencies:
     "@types/ms": "*"
   checksum: 742b752b60e14a752d9bf172e64f28e172f630b9933e763d2b54c7c8c1f33b99b1ef067d7312665a4d0539d8df7ea3eb664a8039f900e4b8234c647a569d123a
-  languageName: node
-  linkType: hard
-
-"@types/degit@npm:^2.8.3":
-  version: 2.8.3
-  resolution: "@types/degit@npm:2.8.3"
-  checksum: 1693dc0033aa5aa5c339b76d570c462e3e0ff41e22a7cc2d0164276199ddbd6ed18813042868355bc5f60ee257c0b18bce904c193008685b790392454ec9fcbd
   languageName: node
   linkType: hard
 
@@ -12825,7 +12817,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"colorette@npm:^2.0.10, colorette@npm:^2.0.16":
+"colorette@npm:^2.0.10, colorette@npm:^2.0.16, colorette@npm:^2.0.19":
   version: 2.0.19
   resolution: "colorette@npm:2.0.19"
   checksum: 2bcc9134095750fece6e88167011499b964b78bf0ea953469130ddb1dba3c8fe6c03debb0ae181e710e2be10900d117460f980483a7df4ba4a1bac3b182ecb64
@@ -14170,12 +14162,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"degit@npm:^2.8.4":
-  version: 2.8.4
-  resolution: "degit@npm:2.8.4"
-  bin:
-    degit: degit
-  checksum: 25ae9daf8010b450ffe8307c5ca903fe8bfaa8bb8622da12f81f2b6c3b1bb24e96fe3ab0b4ec4a1a19684f674b2158a8a3a2178c481882cc4991c7a0859ec40a
+"defu@npm:^6.1.1":
+  version: 6.1.1
+  resolution: "defu@npm:6.1.1"
+  checksum: ee442ce5289b3060a6cef85fdf6a29dbf2b9b6c39ac30a6ee5c8885671cd34214aae2ebb131fb071454122d3a3ce6d304931f53a732d98938ef396e12c04aa71
   languageName: node
   linkType: hard
 
@@ -17972,6 +17962,23 @@ __metadata:
   dependencies:
     assert-plus: ^1.0.0
   checksum: c13f8530ecf16fc509f3fa5cd8dd2129ffa5d0c7ccdf5728b6022d52954c2d24be3706b4cdf15333eec52f1fbb43feb70a01dabc639d1d10071e371da8aaa52f
+  languageName: node
+  linkType: hard
+
+"giget@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "giget@npm:1.0.0"
+  dependencies:
+    colorette: ^2.0.19
+    defu: ^6.1.1
+    https-proxy-agent: ^5.0.1
+    mri: ^1.2.0
+    node-fetch-native: ^1.0.1
+    pathe: ^1.0.0
+    tar: ^6.1.12
+  bin:
+    giget: dist/cli.mjs
+  checksum: cacc0b531356bb8e494742856ee4df39bd90a1a733122e79606b0d4d1b7489532133fed7f92ccb6334478e66079534ef52e3c932e5d695a032b61b4e48c749b6
   languageName: node
   linkType: hard
 
@@ -24606,7 +24613,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mri@npm:^1.1.0":
+"mri@npm:^1.1.0, mri@npm:^1.2.0":
   version: 1.2.0
   resolution: "mri@npm:1.2.0"
   checksum: a3d32379c2554cf7351db6237ddc18dc9e54e4214953f3da105b97dc3babe0deb3ffe99cf409b38ea47cc29f9430561ba6b53b24ab8f9ce97a4b50409e4a50e7
@@ -24966,6 +24973,13 @@ __metadata:
   version: 1.0.0
   resolution: "node-domexception@npm:1.0.0"
   checksum: 5e5d63cda29856402df9472335af4bb13875e1927ad3be861dc5ebde38917aecbf9ae337923777af52a48c426b70148815e890a5d72760f1b4d758cc671b1a2b
+  languageName: node
+  linkType: hard
+
+"node-fetch-native@npm:^1.0.1":
+  version: 1.0.1
+  resolution: "node-fetch-native@npm:1.0.1"
+  checksum: 27841116388ea5309037400de7fa1003712e974dc57a048f78e5fc659fa80095403f34051c069096a9bd705c7445876d88624121365847f617520325693d67c8
   languageName: node
   linkType: hard
 
@@ -26414,6 +26428,13 @@ __metadata:
   version: 4.0.0
   resolution: "path-type@npm:4.0.0"
   checksum: 666f6973f332f27581371efaf303fd6c272cc43c2057b37aa99e3643158c7e4b2626549555d88626e99ea9e046f82f32e41bbde5f1508547e9a11b149b52387c
+  languageName: node
+  linkType: hard
+
+"pathe@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "pathe@npm:1.0.0"
+  checksum: ac075cc2cf401733e84b755920291614fb23f2b022a6c617b62f370f981980d3d2f73e5de51fb7363339ab769d35c80d3d20ae9c999e9d0b3b0c143b067f60cf
   languageName: node
   linkType: hard
 
@@ -31972,7 +31993,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tar@npm:^6.0.2, tar@npm:^6.1.0, tar@npm:^6.1.11, tar@npm:^6.1.2":
+"tar@npm:^6.0.2, tar@npm:^6.1.0, tar@npm:^6.1.11, tar@npm:^6.1.12, tar@npm:^6.1.2":
   version: 6.1.12
   resolution: "tar@npm:6.1.12"
   dependencies:
