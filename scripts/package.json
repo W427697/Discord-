@@ -5,6 +5,7 @@
   "scripts": {
     "docs:prettier:check": "cd ../docs && prettier --check ./snippets",
     "docs:prettier:write": "cd ../docs && prettier --write ./snippets",
+    "get-affected-templates": "ts-node ./get-affected-templates.ts",
     "get-report-message": "ts-node ./get-report-message.ts",
     "get-template": "ts-node ./get-template.ts",
     "lint": "yarn lint:js && yarn lint:md",

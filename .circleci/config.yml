@@ -116,6 +116,11 @@ jobs:
             cd code
             yarn local-registry --publish
       - report-workflow-on-failure
+      - run:
+          name: Generate affected templates file
+          command: |
+            yarn get-affected-templates
+      - report-workflow-on-failure
       - save_cache:
           name: Save Yarn cache
           key: build-yarn-2-cache-v4--{{ checksum "code/yarn.lock" }}--{{ checksum "scripts/yarn.lock" }}
@@ -135,6 +140,7 @@ jobs:
             - code/renderers
             - code/presets
             - .verdaccio-cache
+            - affected-templates.json
   cra-bench:
     executor:
       class: medium
