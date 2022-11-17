@@ -176,7 +176,7 @@ const starter: StarterFunction = async function* starterGeneratorFn({
   const previewResolvedDir = dirname(require.resolve('@storybook/preview/package.json'));
   const previewDirOrigin = join(previewResolvedDir, 'dist');
 
-  router.use(`/sb-preview`, express.static(previewDirOrigin));
+  router.use(`/sb-preview`, express.static(previewDirOrigin, { immutable: true, maxAge: '5m' }));
 
   router.use(compilation);
   router.use(webpackHotMiddleware(compiler as any));
