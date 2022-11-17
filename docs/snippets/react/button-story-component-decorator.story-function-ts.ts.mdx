@@ -12,7 +12,13 @@ const meta: Meta<typeof Button> = {
    */
   title: 'Button',
   component: Button,
-  decorators: [(Story) => <div style={{ margin: '3em' }}><Story/></div>],
+  decorators: [
+    (Story) => (
+      <div style={{ margin: '3em' }}>
+        <Story />
+      </div>
+    ),
+  ],
 };
 
 export default meta;
