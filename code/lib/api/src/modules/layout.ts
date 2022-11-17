@@ -183,6 +183,7 @@ export const init: ModuleFn = ({ store, provider, singleStory, fullAPI }) => {
       const element = document.getElementById(elementId);
       if (element) {
         element.focus();
+        // @ts-expect-error We're not narrowing down the type here, not all html elements have .select()
         if (select) element.select();
       }
     },

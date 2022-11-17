@@ -153,10 +153,10 @@ function hookify<TRenderer extends Renderer>(fn: AbstractFunction) {
     }
     hooks.nextHookIndex = 0;
 
-    const prevContext = globalThis.STORYBOOK_HOOKS_CONTEXT;
-    globalThis.STORYBOOK_HOOKS_CONTEXT = hooks;
+    const prevContext = (globalThis as any).STORYBOOK_HOOKS_CONTEXT;
+    (globalThis as any).STORYBOOK_HOOKS_CONTEXT = hooks;
     const result = fn(...args);
-    globalThis.STORYBOOK_HOOKS_CONTEXT = prevContext;
+    (globalThis as any).STORYBOOK_HOOKS_CONTEXT = prevContext;
 
     if (hooks.currentPhase === 'UPDATE' && hooks.getNextHook() != null) {
       throw new Error(
@@ -215,7 +215,7 @@ const invalidHooksError = () =>
   new Error('Storybook preview hooks can only be called inside decorators and story functions.');
 
 function getHooksContextOrNull<TRenderer extends Renderer>(): HooksContext<TRenderer> | null {
-  return globalThis.STORYBOOK_HOOKS_CONTEXT || null;
+  return (globalThis as any).STORYBOOK_HOOKS_CONTEXT || null;
 }
 
 function getHooksContextOrThrow<TRenderer extends Renderer>(): HooksContext<TRenderer> {

@@ -14,8 +14,6 @@ import { Symbols } from '@storybook/components';
 import type { PreviewWeb } from '@storybook/preview-web';
 import { DocsContext } from '@storybook/preview-web';
 import type { ReactRenderer } from '@storybook/react';
-import type { Channel } from '@storybook/channels';
-
 import { DocsContainer } from '../blocks/src/blocks/DocsContainer';
 
 const { document } = globalThis;
@@ -93,8 +91,9 @@ const ThemedSetRoot = () => {
 };
 
 // eslint-disable-next-line no-underscore-dangle
-const preview = (window as any).__STORYBOOK_PREVIEW__ as PreviewWeb<ReactRenderer>;
-const channel = (window as any).__STORYBOOK_ADDONS_CHANNEL__ as Channel;
+const preview = (globalThis as any).__STORYBOOK_PREVIEW__ as PreviewWeb<ReactRenderer>;
+// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+const channel = globalThis.__STORYBOOK_ADDONS_CHANNEL__!;
 export const loaders = [
   async () => ({ globalValue: 1 }),
 
@@ -104,6 +103,7 @@ export const loaders = [
     const csfFiles = await Promise.all(
       (relativeCsfPaths as string[]).map(async (relativePath) => {
         const webpackPath = `./ui/blocks/src/${relativePath.replace(/^..\//, '')}.tsx`;
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         const entry = preview.storyStore.storyIndex!.importPathToEntry(webpackPath);
 
         if (!entry) {
