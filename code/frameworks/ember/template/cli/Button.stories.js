@@ -2,20 +2,19 @@ import { hbs } from 'ember-cli-htmlbars';
 import { action } from '@storybook/addon-actions';
 import { linkTo } from '@storybook/addon-links';
 
-// More on default export: https://storybook.js.org/docs/ember/writing-stories/introduction#default-export
+// More on how to set up stories at: https://storybook.js.org/docs/7.0/ember/writing-stories/introduction
 export default {
-  title: 'Button',
+  title: 'Example/Button',
   render: (args) => ({
     template: hbs`<button {{action onClick}}>{{label}}</button>`,
     context: args,
   }),
-  // More on argTypes: https://storybook.js.org/docs/ember/api/argtypes
   argTypes: {
     label: { control: 'text' },
   },
 };
 
-// More on component templates: https://storybook.js.org/docs/ember/writing-stories/introduction#using-args
+// More on writing stories with args: https://storybook.js.org/docs/7.0/ember/writing-stories/args
 export const Text = {
   args: {
     label: 'Button',
