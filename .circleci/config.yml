@@ -377,7 +377,7 @@ jobs:
           name: Test
           command: |
             cd code
-            yarn test --coverage --ci --maxWorkers=4
+            yarn test --coverage --ci --maxWorkers=6
       - store_test_results:
           path: code/junit.xml
       - persist_to_workspace:
