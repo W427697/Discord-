@@ -4,10 +4,6 @@
     <meta charset="utf-8" />
     <title><%= htmlWebpackPlugin.options.title || 'Storybook'%></title>
 
-    <% htmlWebpackPlugin.files.js.forEach(file => { %>
-    <link href="<%= file %>" rel="preload" as="script">
-    <% }); %>
-
     <% if (htmlWebpackPlugin.files.favicon) { %>
     <link rel="shortcut icon" href="<%= htmlWebpackPlugin.files.favicon%>" />
     <% } %>
