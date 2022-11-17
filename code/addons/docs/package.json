@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-docs",
-  "version": "7.0.0-alpha.49",
+  "version": "7.0.0-alpha.50",
   "description": "Document component usage and properties in Markdown",
   "keywords": [
     "addon",
@@ -56,7 +56,7 @@
     "./angular": "./angular/index.js",
     "./angular/index.js": "./angular/index.js",
     "./web-components/index.js": "./web-components/index.js",
-    "./jest-transform-mdx.js": "./jest-transform-mdx.js",
+    "./jest-transform-mdx": "./jest-transform-mdx.js",
     "./package.json": "./package.json"
   },
   "main": "dist/index.js",
@@ -84,18 +84,18 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@babel/plugin-transform-react-jsx": "^7.12.12",
-    "@jest/transform": "^26.6.2",
+    "@babel/plugin-transform-react-jsx": "^7.19.0",
+    "@jest/transform": "^28.0.0",
     "@mdx-js/react": "^2.1.5",
-    "@storybook/blocks": "7.0.0-alpha.49",
-    "@storybook/components": "7.0.0-alpha.49",
-    "@storybook/csf-plugin": "7.0.0-alpha.49",
-    "@storybook/csf-tools": "7.0.0-alpha.49",
+    "@storybook/blocks": "7.0.0-alpha.50",
+    "@storybook/components": "7.0.0-alpha.50",
+    "@storybook/csf-plugin": "7.0.0-alpha.50",
+    "@storybook/csf-tools": "7.0.0-alpha.50",
     "@storybook/mdx2-csf": "next",
-    "@storybook/node-logger": "7.0.0-alpha.49",
-    "@storybook/postinstall": "7.0.0-alpha.49",
-    "@storybook/preview-web": "7.0.0-alpha.49",
-    "@storybook/types": "7.0.0-alpha.49",
+    "@storybook/node-logger": "7.0.0-alpha.50",
+    "@storybook/postinstall": "7.0.0-alpha.50",
+    "@storybook/preview-web": "7.0.0-alpha.50",
+    "@storybook/types": "7.0.0-alpha.50",
     "fs-extra": "^9.0.1",
     "global": "^4.4.0",
     "remark-external-links": "^8.0.0",
@@ -103,8 +103,8 @@
     "ts-dedent": "^2.0.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.12.10",
-    "typescript": "~4.6.3"
+    "@babel/core": "^7.20.2",
+    "typescript": "^4.9.3"
   },
   "peerDependencies": {
     "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
@@ -128,7 +128,7 @@
       "./src/preview.ts"
     ]
   },
-  "gitHead": "d7eb433300cac55d3c7256c8181eb6fd7a47b4c8",
+  "gitHead": "77184d039091f4782dc4540df6d271a24fb3e242",
   "storybook": {
     "displayName": "Docs",
     "icon": "https://user-images.githubusercontent.com/263385/101991672-48355c80-3c7c-11eb-82d9-95fa12438f64.png",

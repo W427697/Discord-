@@ -1,6 +1,6 @@
 {
   "name": "@storybook/source-loader",
-  "version": "7.0.0-alpha.49",
+  "version": "7.0.0-alpha.50",
   "description": "Source loader",
   "keywords": [
     "lib",
@@ -44,14 +44,14 @@
   },
   "dependencies": {
     "@storybook/csf": "0.0.2-next.7",
-    "@storybook/types": "7.0.0-alpha.49",
+    "@storybook/types": "7.0.0-alpha.50",
     "estraverse": "^5.2.0",
     "lodash": "^4.17.21",
-    "prettier": ">=2.2.1 <=3.0.0"
+    "prettier": "^2.7.1"
   },
   "devDependencies": {
-    "jest-specific-snapshot": "^4.0.0",
-    "typescript": "~4.6.3"
+    "jest-specific-snapshot": "^6.0.0",
+    "typescript": "^4.9.3"
   },
   "peerDependencies": {
     "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
@@ -66,5 +66,5 @@
     ],
     "platform": "node"
   },
-  "gitHead": "d7eb433300cac55d3c7256c8181eb6fd7a47b4c8"
+  "gitHead": "77184d039091f4782dc4540df6d271a24fb3e242"
 }

@@ -1,24 +1,25 @@
-```ts
+```tsx
 // RegistrationForm.stories.ts|tsx
 
-import React from 'react';
-
-import type { ComponentStoryObj, ComponentMeta } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react';
 
 import { screen, userEvent } from '@storybook/testing-library';
 
 import { RegistrationForm } from './RegistrationForm';
 
-export default {
+const meta: Meta<typeof RegistrationForm> = {
   /* 👇 The title prop is optional.
    * See https://storybook.js.org/docs/7.0/react/configure/overview#configure-story-loading
    * to learn how to generate automatic titles
    */
   title: 'RegistrationForm',
   component: RegistrationForm,
-} as ComponentMeta<typeof RegistrationForm>;
+};
 
-export const FilledForm: ComponentStoryObj<typeof RegistrationForm> = {
+export default meta;
+type Story = StoryObj<typeof RegistrationForm>;
+
+export const FilledForm: Story = {
   play: async () => {
     const emailInput = screen.getByLabelText('email', {
       selector: 'input',

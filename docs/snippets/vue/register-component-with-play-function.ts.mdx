@@ -1,21 +1,24 @@
 ```ts
 // RegistrationForm.stories.ts
 
-// import type { Meta, Story } from '@storybook/vue3'; for Vue 3
-import type { Meta, Story } from '@storybook/vue';
+// import type { Meta, StoryObj } from '@storybook/vue3'; for Vue 3
+import type { Meta, StoryObj } from '@storybook/vue';
 
 import { screen, userEvent } from '@storybook/testing-library';
 
 import RegistrationForm from './RegistrationForm.vue';
 
-export default {
- /* 👇 The title prop is optional.
+const meta: Meta<typeof RegistrationForm> = {
+  /* 👇 The title prop is optional.
    * See https://storybook.js.org/docs/7.0/vue/configure/overview#configure-story-loading
    * to learn how to generate automatic titles
    */
   title: 'RegistrationForm',
   component: RegistrationForm,
-} as Meta<typeof RegistrationForm>;
+};
+
+export default meta;
+type Story = StoryObj<typeof RegistrationForm>;
 
 /*
  *👇 Render functions are a framework specific feature to allow you control on how the component renders.

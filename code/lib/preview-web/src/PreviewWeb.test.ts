@@ -29,8 +29,12 @@ import {
 } from '@storybook/core-events';
 import { logger } from '@storybook/client-logger';
 import { addons, mockChannel as createMockChannel } from '@storybook/addons';
-import type { Renderer, Store_ModuleImportFn, ProjectAnnotations } from '@storybook/types';
-import { mocked } from 'ts-jest/utils';
+import type {
+  DecoratorFunction,
+  Renderer,
+  Store_ModuleImportFn,
+  ProjectAnnotations,
+} from '@storybook/types';
 
 import { PreviewWeb } from './PreviewWeb';
 import {
@@ -66,11 +70,6 @@ jest.mock('global', () => ({
       search: '?id=*',
     },
   },
-  window: {
-    location: {
-      reload: mockJest.fn(),
-    },
-  },
   FEATURES: {
     storyStoreV7: true,
     breakingChangesV7: true,
@@ -100,7 +99,8 @@ const createGate = (): [Promise<any | undefined>, (_?: any) => void] => {
 // a timer, so we need to first setImmediate (to get past the resolution), then run the timers
 // Probably jest modern timers do this but they aren't working for some bizzarre reason.
 async function waitForSetCurrentStory() {
-  await new Promise((r) => setImmediate(r));
+  jest.useFakeTimers({ doNotFake: ['setTimeout'] });
+  await new Promise((r) => setTimeout(r, 0));
   jest.runAllTimers();
 }
 
@@ -140,8 +140,8 @@ beforeEach(() => {
   addons.setServerChannel(createMockChannel());
   mockFetchResult = { status: 200, json: mockStoryIndex, text: () => 'error text' };
 
-  mocked(WebView.prototype).prepareForDocs.mockReturnValue('docs-element' as any);
-  mocked(WebView.prototype).prepareForStory.mockReturnValue('story-element' as any);
+  jest.mocked(WebView.prototype).prepareForDocs.mockReturnValue('docs-element' as any);
+  jest.mocked(WebView.prototype).prepareForStory.mockReturnValue('story-element' as any);
 });
 
 describe('PreviewWeb', () => {
@@ -196,6 +196,7 @@ describe('PreviewWeb', () => {
 
     it('SET_GLOBALS sets globals and types even when undefined', async () => {
       await createAndRenderPreview({
+        // @ts-expect-error (not strict)
         getProjectAnnotations: () => ({ renderToCanvas: jest.fn() }),
       });
 
@@ -2029,6 +2030,18 @@ describe('PreviewWeb', () => {
       });
 
       describe('while story is still rendering', () => {
+        let originalLocation = window.location;
+        beforeEach(() => {
+          originalLocation = window.location;
+          delete (window as Partial<Window>).location;
+          window.location = { ...originalLocation, reload: jest.fn() };
+        });
+
+        afterEach(() => {
+          delete (window as Partial<Window>).location;
+          window.location = { ...originalLocation, reload: originalLocation.reload };
+        });
+
         it('stops initial story after loaders if running', async () => {
           const [gate, openGate] = createGate();
           componentOneExports.default.loaders[0].mockImplementationOnce(async () => gate);
@@ -2180,10 +2193,11 @@ describe('PreviewWeb', () => {
 
           // Wait three ticks without resolving the play function
           await waitForSetCurrentStory();
-          await waitForSetCurrentStory();
-          await waitForSetCurrentStory();
+          // We can't mock setTimeout for this test, due to waitForSetCurrentStory hack,
+          // So give some (real) time for the reload to be called
+          await new Promise((r) => setTimeout(r, 100));
 
-          expect(global.window.location.reload).toHaveBeenCalled();
+          expect(window.location.reload).toHaveBeenCalled();
           expect(mockChannel.emit).not.toHaveBeenCalledWith(STORY_CHANGED, 'component-one--b');
           expect(projectAnnotations.renderToCanvas).not.toHaveBeenCalledWith(
             expect.objectContaining({
@@ -3095,8 +3109,7 @@ describe('PreviewWeb', () => {
     describe('when a standalone docs file changes', () => {
       const newStandaloneDocsExports = { default: jest.fn() };
 
-      const newImportFn = jest.fn(async (path) => {
-        // @ts-expect-error (not strict)
+      const newImportFn = jest.fn(async (path: string) => {
         return path === './src/Introduction.mdx' ? newStandaloneDocsExports : importFn(path);
       });
 
@@ -3208,8 +3221,7 @@ describe('PreviewWeb', () => {
       expect(mockChannel.emit).toHaveBeenCalledWith(CONFIG_ERROR, err);
     });
 
-    // @ts-expect-error (not strict)
-    const newGlobalDecorator = jest.fn((s) => s());
+    const newGlobalDecorator = jest.fn<DecoratorFunction>((s) => s());
     const newGetProjectAnnotations = () => {
       return {
         ...projectAnnotations,
