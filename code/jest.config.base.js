@@ -58,14 +58,6 @@ module.exports = {
     '/renderers/vue3/src/public-types.test.ts',
     ...(process.platform === 'win32' ? skipOnWindows : []),
   ],
-  collectCoverage: false,
-  collectCoverageFrom: [
-    'frameworks/*/src/**/*.{js,jsx,ts,tsx}',
-    'lib/*/src/**/*.{js,jsx,ts,tsx}',
-    'renderers/*/src/**/*.{js,jsx,ts,tsx}',
-    'addons/*/src/**/*.{js,jsx,ts,tsx}',
-    'ui/*/src/**/*.{js,jsx,ts,tsx}',
-  ],
   coveragePathIgnorePatterns: [
     '/node_modules/',
     '/cli/test/',
@@ -85,8 +77,6 @@ module.exports = {
     SNAPSHOT_OS: os.platform() === 'win32' ? 'windows' : 'posix',
   },
   snapshotSerializers: ['@emotion/jest/serializer', 'jest-serializer-html'],
-  coverageDirectory: 'coverage',
-  coverageReporters: ['lcov'],
   testEnvironmentOptions: {
     url: 'http://localhost',
   },
@@ -97,8 +87,6 @@ module.exports = {
     '/template/',
   ],
   moduleFileExtensions: ['js', 'jsx', 'ts', 'tsx', 'json', 'node'],
-  watchPlugins: ['jest-watch-typeahead/filename', 'jest-watch-typeahead/testname'],
-  reporters: ['default', 'jest-junit'],
   snapshotFormat: {
     escapeString: true,
     printBasicPrototype: true,
