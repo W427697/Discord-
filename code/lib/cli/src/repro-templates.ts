@@ -13,8 +13,6 @@ export const allTemplates = {
   'cra/default-ts': {
     name: 'Create React App (Typescript)',
     script: 'npx create-react-app . --template typescript',
-    // Re-enable once https://github.com/storybookjs/storybook/issues/19351 is fixed.
-    skipTasks: ['smoke-test'],
     expected: {
       // TODO: change this to @storybook/cra once that package is created
       framework: '@storybook/react-webpack5',
@@ -101,8 +99,6 @@ export const allTemplates = {
     // preferring community bootstrap scripts / generators instead.
     script:
       'yarn create vite . --template vanilla && yarn add --dev @vitejs/plugin-vue2 vue-template-compiler vue@2 && echo "import vue2 from \'@vitejs/plugin-vue2\';\n\nexport default {\n\tplugins: [vue2()]\n};" > vite.config.js',
-    // Re-enable once https://github.com/storybookjs/storybook/issues/19351 is fixed.
-    skipTasks: ['smoke-test'],
     expected: {
       framework: '@storybook/vue-vite',
       renderer: '@storybook/vue',
@@ -130,8 +126,6 @@ export const allTemplates = {
   'svelte-vite/default-ts': {
     name: 'Svelte Vite (TS)',
     script: 'yarn create vite . --template svelte-ts',
-    // Re-enable once https://github.com/storybookjs/storybook/issues/19351 is fixed.
-    skipTasks: ['smoke-test'],
     expected: {
       framework: '@storybook/svelte-vite',
       renderer: '@storybook/svelte',
@@ -192,8 +186,6 @@ export const allTemplates = {
   'lit-vite/default-js': {
     name: 'Lit Vite (JS)',
     script: 'yarn create vite . --template lit',
-    // Re-enable once https://github.com/storybookjs/storybook/issues/19351 is fixed.
-    skipTasks: ['smoke-test'],
     expected: {
       framework: '@storybook/web-components-vite',
       renderer: '@storybook/web-components',
@@ -203,8 +195,6 @@ export const allTemplates = {
   'lit-vite/default-ts': {
     name: 'Lit Vite (TS)',
     script: 'yarn create vite . --template lit-ts',
-    // Re-enable once https://github.com/storybookjs/storybook/issues/19351 is fixed.
-    skipTasks: ['smoke-test'],
     expected: {
       framework: '@storybook/web-components-vite',
       renderer: '@storybook/web-components',
@@ -214,10 +204,6 @@ export const allTemplates = {
   'vue-cli/default-js': {
     name: 'Vue-CLI (Default JS)',
     script: 'npx -p @vue/cli vue create . --default --packageManager=yarn --force --merge',
-    skipTasks: [
-      // Re-enable once https://github.com/storybookjs/storybook/issues/19351 is fixed.
-      'smoke-test',
-    ],
     expected: {
       framework: '@storybook/vue3-webpack5',
       renderer: '@storybook/vue3',
@@ -228,10 +214,6 @@ export const allTemplates = {
     name: 'Vue-CLI (Vue2 JS)',
     script:
       'npx -p @vue/cli vue create . --default --packageManager=yarn --force --merge --preset="Default (Vue 2)"',
-    skipTasks: [
-      // Re-enable once https://github.com/storybookjs/storybook/issues/19351 is fixed.
-      'smoke-test',
-    ],
     expected: {
       framework: '@storybook/vue-webpack5',
       renderer: '@storybook/vue',

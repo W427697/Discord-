@@ -6002,7 +6002,7 @@ __metadata:
     cross-spawn: ^7.0.3
     detect-indent: ^6.1.0
     envinfo: ^7.7.3
-    execa: ^5.0.0
+    execa: ^5.1.1
     express: ^4.17.1
     find-up: ^5.0.0
     fs-extra: ^9.0.1
@@ -7179,7 +7179,7 @@ __metadata:
     eslint-plugin-react: ^7.31.10
     eslint-plugin-storybook: ^0.6.6
     esm: ^3.2.25
-    execa: ^5.0.0
+    execa: ^5.1.1
     expect-type: ^0.14.2
     express: ^4.17.1
     fs-extra: ^9.0.1

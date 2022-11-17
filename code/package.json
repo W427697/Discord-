@@ -284,7 +284,7 @@
     "eslint-plugin-react": "^7.31.10",
     "eslint-plugin-storybook": "^0.6.6",
     "esm": "^3.2.25",
-    "execa": "^5.0.0",
+    "execa": "^5.1.1",
     "express": "^4.17.1",
     "fs-extra": "^9.0.1",
     "github-release-from-changelog": "^2.1.1",
