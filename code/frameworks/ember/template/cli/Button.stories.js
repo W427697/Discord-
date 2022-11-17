@@ -4,7 +4,7 @@ import { linkTo } from '@storybook/addon-links';
 
 // More on how to set up stories at: https://storybook.js.org/docs/7.0/ember/writing-stories/introduction
 export default {
-  title: 'Button',
+  title: 'Example/Button',
   render: (args) => ({
     template: hbs`<button {{action onClick}}>{{label}}</button>`,
     context: args,
