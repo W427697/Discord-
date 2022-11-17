@@ -1,31 +1,32 @@
-```ts
+```tsx
 // MyComponent.stories.ts|tsx
 
-import React from 'react';
-
-import type { ComponentStoryObj, ComponentMeta } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react';
 
 import { fireEvent, screen, userEvent } from '@storybook/testing-library';
 
 import { MyComponent } from './MyComponent';
 
-export default {
+const meta: Meta<typeof MyComponent> = {
   /* 👇 The title prop is optional.
    * See https://storybook.js.org/docs/7.0/react/configure/overview#configure-story-loading
    * to learn how to generate automatic titles
    */
   title: 'ClickExamples',
   component: MyComponent,
-} as ComponentMeta<typeof MyComponent>;
+};
 
-export const ClickExample: ComponentStoryObj<typeof MyComponent> = {
+export default meta;
+type Story = StoryObj<typeof MyComponent>;
+
+export const ClickExample: Story = {
   play: async () => {
     // See https://storybook.js.org/docs/7.0/react/essentials/actions#automatically-matching-args to learn how to setup logging in the Actions panel
     await userEvent.click(screen.getByRole('button'));
   },
 };
 
-export const FireEventExample: ComponentStoryObj<typeof MyComponent> = {
+export const FireEventExample: Story = {
   play: async () => {
     // See https://storybook.js.org/docs/7.0/react/essentials/actions#automatically-matching-args to learn how to setup logging in the Actions panel
     await fireEvent.click(screen.getByTestId('data-testid'));

@@ -1,21 +1,24 @@
 ```ts
 // MyComponent.stories.ts
 
-// import type { Meta, Story } from '@storybook/vue3'; for Vue 3
-import type { Meta, Story } from '@storybook/vue';
+// import type { Meta, StoryObj } from '@storybook/vue3'; for Vue 3
+import type { Meta, StoryObj } from '@storybook/vue';
 
 import { screen, userEvent } from '@storybook/testing-library';
 
-import MyComponent from './MyComponent.vue';
+import WithSelectEvent from './WithSelectEvent.vue';
 
-export default {
+const meta: Meta<typeof WithSelectEvent> = {
   /* 👇 The title prop is optional.
    * See https://storybook.js.org/docs/7.0/vue/configure/overview#configure-story-loading
    * to learn how to generate automatic titles
    */
   title: 'WithSelectEvent',
   component: WithSelectEvent,
-} as Meta<typeof MyComponent>;
+};
+
+export default meta;
+type Story = StoryObj<typeof WithSelectEvent>;
 
 // Custom function to emulate a pause
 function sleep(ms: number) {
@@ -30,8 +33,8 @@ function sleep(ms: number) {
 
 export const ExampleChangeEvent: Story = {
   render: () => ({
-    components: { MyComponent },
-    template: '<MyComponent/>',
+    components: { WithSelectEvent },
+    template: '<WithSelectEvent/>',
   }),
   play: async () => {
     const select = screen.getByRole('listbox');

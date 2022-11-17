@@ -193,6 +193,19 @@ commands:
           fail_only: true
           failure_message: $(yarn get-report-message << pipeline.parameters.workflow >> << parameters.template >>)
 jobs:
+  pretty-docs:
+    executor:
+      class: small
+      name: sb_node_16_classic
+    steps:
+      - checkout_advanced:
+          clone_options: '--depth 1 --verbose'
+      - run:
+          name: Prettier
+          command: |
+            cd scripts
+            yarn
+            yarn docs:prettier:check
   build:
     executor:
       class: large
@@ -318,7 +331,7 @@ jobs:
           destination: react-vite-default-ts-bench.tar.gz
   lint:
     executor:
-      class: medium
+      class: large
       name: sb_node_16_classic
     steps:
       - checkout_advanced:
@@ -566,6 +579,7 @@ workflows:
         - equal: [api, << pipeline.trigger_source >>]
         - equal: [ci, << pipeline.parameters.workflow >>]
     jobs:
+      - pretty-docs
       - build
       - lint:
           requires:
@@ -598,6 +612,7 @@ workflows:
     when:
       equal: [pr, << pipeline.parameters.workflow >>]
     jobs:
+      - pretty-docs
       - build
       - lint:
           requires:
@@ -647,6 +662,7 @@ workflows:
     when:
       equal: [merged, << pipeline.parameters.workflow >>]
     jobs:
+      - pretty-docs
       - build
       - lint:
           requires:

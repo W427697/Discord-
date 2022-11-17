@@ -1,22 +1,23 @@
-```ts
+```tsx
 // MyComponent.stories.ts|tsx
 
-import React from 'react';
-
-import type { ComponentStoryObj, ComponentMeta } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react';
 
 import { userEvent, screen } from '@storybook/testing-library';
 
 import { MyComponent } from './MyComponent';
 
-export default {
+const meta: Meta<typeof MyComponent> = {
   /* 👇 The title prop is optional.
    * See https://storybook.js.org/docs/7.0/react/configure/overview#configure-story-loading
    * to learn how to generate automatic titles
    */
   title: 'WithSelectEvent',
   component: MyComponent,
-} as ComponentMeta<typeof MyComponent>;
+};
+
+export default meta;
+type Story = StoryObj<typeof MyComponent>;
 
 // Function to emulate pausing between interactions
 function sleep(ms: number) {
@@ -25,7 +26,7 @@ function sleep(ms: number) {
 
 // Queries the element by it's role and fires the event
 
-export const ExampleChangeEvent: ComponentStoryObj<typeof MyComponent> = {
+export const ExampleChangeEvent: Story = {
   play: async () => {
     const select = screen.getByRole('listbox');
 
