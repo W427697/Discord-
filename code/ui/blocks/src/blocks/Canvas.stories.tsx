@@ -1,8 +1,10 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
+import dedent from 'ts-dedent';
 import { Canvas } from './Canvas';
 import { Story as StoryComponent } from './Story';
 import * as BooleanStories from '../controls/Boolean.stories';
+import { Source } from '../components';
 
 const meta: Meta<typeof Canvas> = {
   component: Canvas,
@@ -80,4 +82,42 @@ export const WithAdditionalActions: Story = {
       },
     ],
   },
+};
+
+export const ClassName: Story = {
+  name: 'ClassName',
+  args: {
+    className: 'my-custom-classname',
+  },
+  render: (args) => (
+    <>
+      <p>
+        This story sets the <code>className</code> prop on the <code>Canvas</code> to{' '}
+        <code>my-custom-classname</code>, which will propagate to the preview element. To
+        demonstrate this, it also adds a <code>style</code> tag that sets another background color
+        for that class:
+      </p>
+      <Source
+        language="jsx"
+        code={dedent`<style>
+        .my-custom-classname {
+          background-color: #fd5c9355;
+        }
+      </style>
+      <Canvas className="my-custom-classname">
+        <StoryComponent of={BooleanStories.Undefined} />
+      </Canvas>`}
+      />
+      <style>
+        {`
+    .my-custom-classname {
+      background-color: #fd5c9355;
+    }`}
+      </style>
+
+      <Canvas {...args}>
+        <StoryComponent of={BooleanStories.Undefined} />
+      </Canvas>
+    </>
+  ),
 };
