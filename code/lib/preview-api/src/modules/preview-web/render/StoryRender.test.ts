@@ -36,7 +36,6 @@ describe('StoryRender', () => {
     const render = new StoryRender(
       new Channel(),
       mockStore as unknown as StoryStore<Renderer>,
-      // @ts-expect-error jest mock
       jest.fn(),
       {} as any,
       entry.id,
