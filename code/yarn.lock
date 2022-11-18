@@ -6609,11 +6609,11 @@ __metadata:
   linkType: soft
 
 "@storybook/mdx2-csf@npm:next":
-  version: 0.1.0-next.5
-  resolution: "@storybook/mdx2-csf@npm:0.1.0-next.5"
+  version: 0.1.0-next.6
+  resolution: "@storybook/mdx2-csf@npm:0.1.0-next.6"
   dependencies:
-    loader-utils: ^2.0.0
-  checksum: 6c7050500dc6bfceb23d61cb8b2171468f7d5a2bbc7dac0a0f6a4e6515b98c013d8318b87c4b7ef2381755013cca1e5306dc50de64601e80f9c983e3604522c7
+    loader-utils: ^2.0.4
+  checksum: b3a3f0321824ca45f42524dce56d94eaab978d9f000318da4300d9448c5c7693aad70b70f6cffc39494b39c4bc6772f5765639810dfd77a18a58715b498b5e5c
   languageName: node
   linkType: hard
 
@@ -22678,7 +22678,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"loader-utils@npm:^2.0.0, loader-utils@npm:^2.0.3":
+"loader-utils@npm:^2.0.0, loader-utils@npm:^2.0.3, loader-utils@npm:^2.0.4":
   version: 2.0.4
   resolution: "loader-utils@npm:2.0.4"
   dependencies:
