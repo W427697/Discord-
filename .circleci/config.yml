@@ -81,26 +81,6 @@ commands:
           fail_only: true
           failure_message: $(yarn get-report-message << pipeline.parameters.workflow >> << parameters.template >>)
 jobs:
-  get-affected-templates:
-    executor:
-      class: small
-      name: sb_node_16_classic
-    steps:
-      - checkout_advanced:
-          clone_options: '--verbose'
-      - run:
-          name: Generate affected templates file
-          command: |
-            cd code
-            yarn
-            cd ../scripts
-            yarn
-            yarn get-affected-templates
-      - persist_to_workspace:
-          root: .
-          paths:
-            - affected-templates.json
-
   pretty-docs:
     executor:
       class: small
@@ -136,6 +116,11 @@ jobs:
             cd code
             yarn local-registry --publish
       - report-workflow-on-failure
+      - run:
+          name: Generate affected templates file
+          command: |
+            yarn get-affected-templates
+      - report-workflow-on-failure
       - save_cache:
           name: Save Yarn cache
           key: build-yarn-2-cache-v4--{{ checksum "code/yarn.lock" }}--{{ checksum "scripts/yarn.lock" }}
@@ -155,6 +140,7 @@ jobs:
             - code/renderers
             - code/presets
             - .verdaccio-cache
+            - affected-templates.json
   cra-bench:
     executor:
       class: medium
@@ -504,7 +490,6 @@ workflows:
         - equal: [api, << pipeline.trigger_source >>]
         - equal: [ci, << pipeline.parameters.workflow >>]
     jobs:
-      - get-affected-templates
       - pretty-docs
       - build
       - lint:
@@ -522,7 +507,6 @@ workflows:
       - create-sandboxes:
           requires:
             - build
-            - get-affected-templates
       - build-sandboxes:
           requires:
             - create-sandboxes
@@ -539,7 +523,6 @@ workflows:
     when:
       equal: [pr, << pipeline.parameters.workflow >>]
     jobs:
-      - get-affected-templates
       - pretty-docs
       - build
       - lint:
@@ -570,7 +553,6 @@ workflows:
           parallelism: 9
           requires:
             - build
-            - get-affected-templates
       - build-sandboxes:
           parallelism: 9
           requires:
@@ -591,7 +573,6 @@ workflows:
     when:
       equal: [merged, << pipeline.parameters.workflow >>]
     jobs:
-      - get-affected-templates
       - pretty-docs
       - build
       - lint:
@@ -622,7 +603,6 @@ workflows:
           parallelism: 15
           requires:
             - build
-            - get-affected-templates
       - build-sandboxes:
           parallelism: 15
           requires:
@@ -648,7 +628,6 @@ workflows:
           parallelism: 25
           requires:
             - build
-            - get-affected-templates
       # - smoke-test-sandboxes: # disabled for now
       #     requires:
       #       - create-sandboxes
