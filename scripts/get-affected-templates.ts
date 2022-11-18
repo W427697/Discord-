@@ -9,22 +9,29 @@ async function run() {
 
   const affectedPackages = JSON.parse(contents.stdout).projects;
 
-  const affectedTemplates = Object.entries(allTemplates).reduce((acc, [templateKey, template]) => {
-    if (
-      affectedPackages.includes(template.expected.builder) ||
-      affectedPackages.includes(template.expected.renderer) ||
-      affectedPackages.includes(template.expected.framework)
-    ) {
-      acc.push(templateKey);
-    }
-    return acc;
-  }, []);
+  const hasAddonChanges = affectedPackages.some((p: string) => p.includes('addon'));
+
+  const affectedTemplates = hasAddonChanges
+    ? Object.keys(allTemplates)
+    : Object.entries(allTemplates).reduce((acc, [templateKey, template]) => {
+        if (
+          affectedPackages.includes(template.expected.builder) ||
+          affectedPackages.includes(template.expected.renderer) ||
+          affectedPackages.includes(template.expected.framework)
+        ) {
+          acc.push(templateKey);
+        }
+        return acc;
+      }, []);
 
   if (affectedTemplates.length > 0) {
-    console.log(`Detected the affected Storybook packages: ${affectedPackages}\n`);
-    console.log(`Writing affected templates: ${affectedTemplates}`);
+    console.log(`🕵️ Detected the affected Storybook packages: ${affectedPackages}`);
+    if (hasAddonChanges) {
+      console.log('⚠️ All templates are affected because there were changes in an addon');
+    }
+    console.log(`\n📝 Writing affected templates: ${affectedTemplates}`);
   } else {
-    console.log('No templates were affected by the changes');
+    console.log('📭 No templates were affected by the changes');
   }
 
   await writeFile(
