@@ -3,7 +3,7 @@
 import fs from 'fs-extra';
 import * as path from 'path';
 import type { Builder, StorybookConfig as StorybookBaseConfig, Options } from '@storybook/types';
-import type { RequestHandler, Request, Response } from 'express';
+import type { RequestHandler } from 'express';
 import type { InlineConfig, UserConfig, ViteDevServer } from 'vite';
 import express from 'express';
 import { dirname, join, parse } from 'path';
