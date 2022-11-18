@@ -1,3 +1,7 @@
+/**
+ * @jest-environment jsdom
+ */
+
 /* global window */
 import { STORY_RENDERED, STORY_UNCHANGED, SET_INDEX } from '@storybook/core-events';
 

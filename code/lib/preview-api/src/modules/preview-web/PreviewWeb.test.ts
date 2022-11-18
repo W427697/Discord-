@@ -1,4 +1,7 @@
-/// <reference types="@types/jest" />;
+/**
+ * @jest-environment jsdom
+ */
+
 import { jest, jest as mockJest, it, describe, beforeEach, afterEach, expect } from '@jest/globals';
 import global from 'global';
 import merge from 'lodash/merge';
