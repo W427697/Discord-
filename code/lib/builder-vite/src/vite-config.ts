@@ -24,13 +24,13 @@ export type PluginConfigType = 'build' | 'development';
 const configEnvServe: ConfigEnv = {
   mode: 'development',
   command: 'serve',
-  ssrBuild: true,
+  ssrBuild: false,
 };
 
 const configEnvBuild: ConfigEnv = {
   mode: 'production',
   command: 'build',
-  ssrBuild: true,
+  ssrBuild: false,
 };
 
 // Vite config that is common to development and production mode
