@@ -118,7 +118,16 @@ jobs:
             cd code
             yarn local-registry --publish
       - report-workflow-on-failure
-      - nx/set-shas
+      - nx/set-shas:
+          main-branch-name: "next"
+      - run:
+          name: Determine target branch if in a PR
+          command: |
+            if [ -n $CIRCLE_PULL_REQUEST ]; then
+              pr=$(echo https://api.github.com/repos/${CIRCLE_PULL_REQUEST:19} | sed "s/\/pull\//\/pulls\//")
+
+              export BASE_BRANCH=$(curl -s -H "Authorization: token ${GITHUB_TOKEN}" $pr | jq '.base.ref')
+            fi
       - run:
           name: Generate affected templates file
           command: |
