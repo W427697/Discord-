@@ -34,7 +34,7 @@ function mockChannel() {
   return new Channel({ transport });
 }
 
-const mockGetEntries = jest.fn<API_StoryIndex['entries'], []>();
+const mockGetEntries = jest.fn<() => API_StoryIndex['entries']>();
 
 jest.mock('../lib/events');
 jest.mock('global', () => ({

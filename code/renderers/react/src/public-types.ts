@@ -4,15 +4,18 @@ import type {
   ArgsFromMeta,
   ArgsStoryFn,
   ComponentAnnotations,
+  DecoratorFunction,
+  LoaderFunction,
   StoryAnnotations,
+  StoryContext as GenericStoryContext,
+  StrictArgs,
 } from '@storybook/types';
-
 import type { ComponentProps, ComponentType, JSXElementConstructor } from 'react';
 import type { SetOptional, Simplify } from 'type-fest';
-
 import type { ReactRenderer } from './types';
 
-export { ReactRenderer };
+export type { Args, ArgTypes, Parameters, StrictArgs } from '@storybook/types';
+export type { ReactRenderer };
 
 type JSXElement = keyof JSX.IntrinsicElements | JSXElementConstructor<any>;
 
@@ -51,15 +54,22 @@ export type StoryObj<TMetaOrCmpOrArgs = Args> = TMetaOrCmpOrArgs extends {
     ? StoryAnnotations<
         ReactRenderer,
         TArgs,
-        SetOptional<TArgs, Extract<keyof TArgs, keyof (DefaultArgs & ActionArgs<TArgs>)>>
+        SetOptional<TArgs, keyof TArgs & keyof (DefaultArgs & ActionArgs<TArgs>)>
       >
     : never
   : TMetaOrCmpOrArgs extends ComponentType<any>
   ? StoryAnnotations<ReactRenderer, ComponentProps<TMetaOrCmpOrArgs>>
   : StoryAnnotations<ReactRenderer, TMetaOrCmpOrArgs>;
 
-type ActionArgs<RArgs> = {
-  [P in keyof RArgs as ((...args: any[]) => void) extends RArgs[P] ? P : never]: RArgs[P];
+type ActionArgs<TArgs> = {
+  // This can be read as: filter TArgs on functions where we can assign a void function to that function.
+  // The docs addon argsEnhancers can only safely provide a default value for void functions.
+  // Other kind of required functions should be provided by the user.
+  [P in keyof TArgs as TArgs[P] extends (...args: any[]) => any
+    ? ((...args: any[]) => void) extends TArgs[P]
+      ? P
+      : never
+    : never]: TArgs[P];
 };
 
 /**
@@ -124,3 +134,11 @@ export type Story<TArgs = Args> = StoryFn<TArgs>;
  * ```
  */
 export type ComponentStory<T extends JSXElement> = ComponentStoryFn<T>;
+
+/**
+ * @deprecated Use Decorator instead.
+ */
+export type DecoratorFn = DecoratorFunction<ReactRenderer>;
+export type Decorator<TArgs = StrictArgs> = DecoratorFunction<ReactRenderer, TArgs>;
+export type Loader<TArgs = StrictArgs> = LoaderFunction<ReactRenderer, TArgs>;
+export type StoryContext<TArgs = StrictArgs> = GenericStoryContext<ReactRenderer, TArgs>;
