@@ -164,8 +164,10 @@ const runGenerators = async (
         // Remove node_modules to save space and avoid GH actions failing
         // They're not uploaded to the git repros repo anyway
         if (process.env.CLEANUP_REPRO_NODE_MODULES) {
+          console.log(`🗑️ Removing ${join(beforeDir, 'node_modules')}`);
           await remove(join(beforeDir, 'node_modules'));
-          await remove(join(baseDir, 'node_modules'));
+          console.log(`🗑️ Removing ${join(baseDir, AFTER_DIR_NAME, 'node_modules')}`);
+          await remove(join(baseDir, AFTER_DIR_NAME, 'node_modules'));
         }
 
         console.log(
