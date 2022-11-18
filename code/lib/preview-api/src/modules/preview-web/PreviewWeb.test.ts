@@ -29,13 +29,7 @@ import {
 } from '@storybook/core-events';
 import { logger } from '@storybook/client-logger';
 import { addons, mockChannel as createMockChannel } from '@storybook/addons';
-import type {
-  DecoratorFunction,
-  Renderer,
-  Store_ModuleImportFn,
-  ProjectAnnotations,
-  WebRenderer,
-} from '@storybook/types';
+import type { Renderer, Store_ModuleImportFn, ProjectAnnotations } from '@storybook/types';
 
 import { PreviewWeb } from './PreviewWeb';
 import {
