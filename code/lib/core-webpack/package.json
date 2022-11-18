@@ -45,7 +45,7 @@
     "@storybook/core-common": "7.0.0-alpha.50",
     "@storybook/node-logger": "7.0.0-alpha.50",
     "@storybook/types": "7.0.0-alpha.50",
-    "@types/node": "^18.11.9",
+    "@types/node": "^16.18.3",
     "ts-dedent": "^2.0.0"
   },
   "devDependencies": {
