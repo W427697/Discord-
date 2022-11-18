@@ -30,6 +30,7 @@ export class DocsRenderer<TRenderer extends Renderer> {
       //   https://github.com/storybookjs/storybook/pull/16149
       const components = {
         ...defaultComponents,
+        ...docsParameter?.components,
       };
 
       ReactDOM.render(
