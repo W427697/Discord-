@@ -124,13 +124,25 @@ export async function storybookDevServer(options: Options) {
   let previewResult;
 
   if (!options.ignorePreview) {
-    previewResult = await previewBuilder.start({
-      startTime: process.hrtime(),
-      options,
-      router,
-      server,
-      channel: serverChannel,
-    });
+    previewResult = await previewBuilder
+      .start({
+        startTime: process.hrtime(),
+        options,
+        router,
+        server,
+        channel: serverChannel,
+      })
+      .catch(async (e: any) => {
+        await managerBuilder?.bail().catch();
+        // For some reason, even when Webpack fails e.g. wrong main.js config,
+        // the preview may continue to print to stdout, which can affect output
+        // when we catch this error and process those errors (e.g. telemetry)
+        // gets overwritten by preview progress output. Therefore, we should bail the preview too.
+        await previewBuilder?.bail().catch();
+
+        // re-throw the error
+        throw e;
+      });
   }
 
   return { previewResult, managerResult, address, networkAddress };
