@@ -212,7 +212,7 @@ jobs:
       name: sb_node_16_classic
     steps:
       - checkout_advanced:
-          clone_options: '--depth 1 --verbose'
+          clone_options: '--shallow-since "2 weeks ago" --verbose'
       - restore_cache:
           name: Restore Yarn cache
           keys:
