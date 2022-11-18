@@ -7,10 +7,7 @@ import { allTemplates } from '../code/lib/cli/src/repro-templates';
 async function run() {
   let nxCommand = 'yarn nx print-affected';
 
-  if (process.env.BASE_BRANCH) {
-    console.log(`Using Github PR target branch for NX comparison:${process.env.BASE_BRANCH}`);
-    nxCommand = `${nxCommand} --base=${process.env.BASE_BRANCH}`;
-  } else if (process.env.NX_BASE) {
+  if (process.env.NX_BASE) {
     console.log(`Using NX_BASE hash for NX comparison:${process.env.NX_BASE}`);
     nxCommand = `${nxCommand} --base=${process.env.NX_BASE}`;
   }

@@ -6,6 +6,10 @@ parameters:
     type: enum
     enum: ["ci", "pr", "merged", "daily"]
     default: "ci"
+  target-branch:
+    description: Which branch the PR is targeting
+    type: string
+    default: $CIRCLE_BRANCH
 
 executors:
   sb_node_16_classic:
@@ -108,6 +112,21 @@ jobs:
           keys:
             - build-yarn-2-cache-v4--{{ checksum "code/yarn.lock" }}--{{ checksum "scripts/yarn.lock" }}
       - run:
+          name: Determine target branch if in a PR
+          command: |
+            echo $CIRCLE_PULL_REQUEST
+            echo $CIRCLE_PR_NUMBER
+            echo "<< pipeline.parameters.target-branch >>"
+            if [[ -n ${CIRCLE_PULL_REQUEST} ]]; then
+              pr=$(echo https://api.github.com/repos/${CIRCLE_PULL_REQUEST:19} | sed "s/\/pull\//\/pulls\//")
+              echo fetching target branch for $pr
+              target_branch=$(curl -s -H "Authorization: token ${GITHUB_TOKEN}" $pr | jq '.base.ref')
+              echo the target branch is $target_branch
+              echo "export MAIN_BRANCH_NAME=\"$target_branch\";" >>$BASH_ENV
+            fi
+      - nx/set-shas:
+          main-branch-name: $MAIN_BRANCH_NAME
+      - run:
           name: Compile
           command: |
             yarn task --task compile --start-from=auto --no-link --debug
@@ -118,16 +137,6 @@ jobs:
             cd code
             yarn local-registry --publish
       - report-workflow-on-failure
-      - nx/set-shas:
-          main-branch-name: "next"
-      - run:
-          name: Determine target branch if in a PR
-          command: |
-            if [ -n $CIRCLE_PULL_REQUEST ]; then
-              pr=$(echo https://api.github.com/repos/${CIRCLE_PULL_REQUEST:19} | sed "s/\/pull\//\/pulls\//")
-
-              export BASE_BRANCH=$(curl -s -H "Authorization: token ${GITHUB_TOKEN}" $pr | jq '.base.ref')
-            fi
       - run:
           name: Generate affected templates file
           command: |
