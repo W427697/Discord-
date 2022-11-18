@@ -69,7 +69,7 @@
     "@storybook/router": "7.0.0-alpha.50",
     "@storybook/store": "7.0.0-alpha.50",
     "@storybook/theming": "7.0.0-alpha.50",
-    "@types/node": "^18.11.9",
+    "@types/node": "^16.18.3",
     "@types/semver": "^7.3.4",
     "babel-loader": "^8.3.0",
     "babel-plugin-named-exports-order": "^0.0.2",
