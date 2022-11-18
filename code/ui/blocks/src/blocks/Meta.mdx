@@ -1,10 +1,36 @@
-# The `<Meta />` Block
+# The `Meta` Block
 
-The `<Meta />` block is a special block that is used to define the meta of the stories (the stories' default export) in the file.
-It's not necessary when writing docs within Storybook (it doesn't do anything in that case),
-but it _is_ required when writing Portable Docs.
+The `Meta` block is a special block that serves two purposes, setting the title of the doc to be used in the Storybook sidebar, and in portable docs setting the meta for the stories in the doc.
 
-As an example, let's pretend we wanted to include stories for a `<Button />` component in our docs outside of Storybook.
+## Setting the title
+
+To specify what the title of the doc should be in the Storybook sidebar, include the `Meta` block in the MDX file like this:
+
+```md
+import { Story, Canvas } from '@storybook/blocks';
+import \* as ButtonStories from '../stories/Button.stories';
+
+<Meta title="TheTitle" />
+
+<Canvas>
+  <Story of={ButtonStories.Primary} />
+</Canvas>
+
+<Canvas>
+  <Story of={ButtonStories.Secondary} />
+</Canvas>
+```
+
+Note that it's not even neccessary to import the `Meta` block in this scenario as it is automatically imported when Storybook reads your doc - but it doesn't break anything to import it explicitly.
+
+## Setting meta for stories
+
+When writing MDX files to be used outside of Storybook - known as Portable Docs - `Meta` is used to set the meta (the stories' default export) for all the stories within the doc.
+
+It is _not_ necessary to do this if the doc is only used within Storybook (it doesn't do anything in that case),
+but it _is_ required when writing portable docs.
+
+As an example, let's say we wanted to include stories for a `Button` component in our docs outside of Storybook.
 The MDX file would look like this:
 
 ```md
@@ -22,9 +48,9 @@ import \* as ButtonStories from '../stories/Button.stories';
 </Canvas>
 ```
 
-In the above example, the `<Meta />` block communicates to all the `<Story />` blocks which meta they're related to.
+In the above example, the `Meta` block communicates to all the `Story` blocks which meta they're related to.
 
-The `<Meta />` block can be omitted if all `<Story />` blocks instead have the `meta` prop explicitly set.
+The `Meta` block can be omitted if all `Story` blocks instead have the `meta` prop explicitly set.
 This is useful in scenarios where you want to include stories from different story files in a single MDX file, like this:
 
 ```md
@@ -41,5 +67,5 @@ import \* as HeadingStories from '../stories/Heading.stories';
 </Canvas>
 ```
 
-It's also possible to mix and match the `<Meta />` block with the `meta` prop on `<Story />` blocks. In that case,
-the meta referenced by the `<Meta />` block will be used as the default meta for all `<Story />` blocks that don't have the `meta` prop set.
+It's also possible to mix and match the `Meta` block with the `meta` prop on `Story` blocks. In that case,
+the meta referenced by the `Meta` block will be used as the default meta for all `Story` blocks that don't have the `meta` prop set.
