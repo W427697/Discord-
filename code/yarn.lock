@@ -5302,7 +5302,7 @@ __metadata:
     "@storybook/testing-library": 0.0.14-next.0
     "@storybook/theming": 7.0.0-alpha.50
     "@storybook/types": 7.0.0-alpha.50
-    "@types/node": ^18.11.9
+    "@types/node": ^16.18.3
     formik: ^2.2.9
     global: ^4.4.0
     jest-mock: ^27.0.6
@@ -5686,7 +5686,7 @@ __metadata:
     "@storybook/node-logger": 7.0.0-alpha.50
     "@storybook/store": 7.0.0-alpha.50
     "@storybook/types": 7.0.0-alpha.50
-    "@types/node": ^18.11.9
+    "@types/node": ^16.18.3
     "@types/react": ^16.14.34
     "@types/react-dom": ^16.9.14
     "@types/rimraf": ^3.0.2
@@ -5877,7 +5877,7 @@ __metadata:
     "@storybook/source-loader": 7.0.0-alpha.50
     "@storybook/types": 7.0.0-alpha.50
     "@types/express": ^4.17.13
-    "@types/node": ^18.11.9
+    "@types/node": ^16.18.3
     "@vitejs/plugin-react": ^2.0.0
     browser-assert: ^1.2.1
     es-module-lexer: ^0.9.3
@@ -5911,7 +5911,7 @@ __metadata:
     "@storybook/router": 7.0.0-alpha.50
     "@storybook/store": 7.0.0-alpha.50
     "@storybook/theming": 7.0.0-alpha.50
-    "@types/node": ^18.11.9
+    "@types/node": ^16.18.3
     "@types/semver": ^7.3.4
     "@types/terser-webpack-plugin": ^5.2.0
     "@types/webpack-dev-middleware": ^5.3.0
@@ -6174,7 +6174,7 @@ __metadata:
     "@types/babel__core": ^7.1.20
     "@types/express": ^4.7.0
     "@types/mock-fs": ^4.13.1
-    "@types/node": ^18.11.9
+    "@types/node": ^16.18.3
     "@types/picomatch": ^2.3.0
     "@types/pretty-hrtime": ^1.0.0
     chalk: ^4.1.0
@@ -6244,7 +6244,7 @@ __metadata:
     "@storybook/types": 7.0.0-alpha.50
     "@types/compression": ^1.7.0
     "@types/ip": ^1.1.0
-    "@types/node": ^18.11.9
+    "@types/node": ^16.18.3
     "@types/node-fetch": ^2.5.7
     "@types/pretty-hrtime": ^1.0.0
     "@types/semver": ^7.3.4
@@ -6297,7 +6297,7 @@ __metadata:
     "@storybook/core-common": 7.0.0-alpha.50
     "@storybook/node-logger": 7.0.0-alpha.50
     "@storybook/types": 7.0.0-alpha.50
-    "@types/node": ^18.11.9
+    "@types/node": ^16.18.3
     ts-dedent: ^2.0.0
     typescript: ^4.9.3
     webpack: 5
@@ -6441,7 +6441,7 @@ __metadata:
     "@storybook/core-common": 7.0.0-alpha.50
     "@storybook/html": 7.0.0-alpha.50
     "@storybook/preset-html-webpack": 7.0.0-alpha.50
-    "@types/node": ^18.11.9
+    "@types/node": ^16.18.3
     global: ^4.4.0
     react: 16.14.0
     react-dom: 16.14.0
@@ -6629,7 +6629,7 @@ __metadata:
     "@storybook/node-logger": 7.0.0-alpha.50
     "@storybook/preset-react-webpack": 7.0.0-alpha.50
     "@storybook/react": 7.0.0-alpha.50
-    "@types/node": ^18.11.9
+    "@types/node": ^16.18.3
     find-up: ^5.0.0
     fs-extra: ^9.0.1
     image-size: ^1.0.0
@@ -6694,7 +6694,7 @@ __metadata:
     "@storybook/core-common": 7.0.0-alpha.50
     "@storybook/preact": 7.0.0-alpha.50
     "@storybook/preset-preact-webpack": 7.0.0-alpha.50
-    "@types/node": ^18.11.9
+    "@types/node": ^16.18.3
     preact: ^10.5.13
     react: 16.14.0
     react-dom: 16.14.0
@@ -6729,7 +6729,7 @@ __metadata:
   resolution: "@storybook/preset-html-webpack@workspace:presets/html-webpack"
   dependencies:
     "@storybook/core-webpack": 7.0.0-alpha.50
-    "@types/node": ^18.11.9
+    "@types/node": ^16.18.3
     html-loader: ^3.1.0
     react: 16.14.0
     react-dom: 16.14.0
@@ -6746,7 +6746,7 @@ __metadata:
   dependencies:
     "@babel/plugin-transform-react-jsx": ^7.19.0
     "@storybook/core-webpack": 7.0.0-alpha.50
-    "@types/node": ^18.11.9
+    "@types/node": ^16.18.3
     preact: ^10.5.13
     react: 16.14.0
     react-dom: 16.14.0
@@ -6769,7 +6769,7 @@ __metadata:
     "@storybook/node-logger": 7.0.0-alpha.50
     "@storybook/react": 7.0.0-alpha.50
     "@storybook/react-docgen-typescript-plugin": 1.0.2-canary.6.9d540b91e815f8fc2f8829189deb00553559ff63.0
-    "@types/node": ^18.11.9
+    "@types/node": ^16.18.3
     "@types/semver": ^7.3.4
     "@types/util-deprecate": ^1.0.0
     babel-plugin-add-react-displayname: ^0.0.5
@@ -6800,7 +6800,7 @@ __metadata:
     "@storybook/core-server": 7.0.0-alpha.50
     "@storybook/core-webpack": 7.0.0-alpha.50
     "@storybook/server": 7.0.0-alpha.50
-    "@types/node": ^18.11.9
+    "@types/node": ^16.18.3
     fs-extra: ^9.0.1
     global: ^4.4.0
     jest-specific-snapshot: ^6.0.0
@@ -6840,7 +6840,7 @@ __metadata:
   dependencies:
     "@storybook/core-webpack": 7.0.0-alpha.50
     "@storybook/docs-tools": 7.0.0-alpha.50
-    "@types/node": ^18.11.9
+    "@types/node": ^16.18.3
     react: 16.14.0
     react-dom: 16.14.0
     ts-loader: ^9.2.8
@@ -6867,7 +6867,7 @@ __metadata:
   dependencies:
     "@storybook/core-webpack": 7.0.0-alpha.50
     "@storybook/docs-tools": 7.0.0-alpha.50
-    "@types/node": ^18.11.9
+    "@types/node": ^16.18.3
     "@vue/compiler-sfc": ^3.2.33
     react: 16.14.0
     react-dom: 16.14.0
@@ -6894,7 +6894,7 @@ __metadata:
     "@babel/plugin-syntax-import-meta": ^7.10.4
     "@babel/preset-env": ^7.20.2
     "@storybook/core-webpack": 7.0.0-alpha.50
-    "@types/node": ^18.11.9
+    "@types/node": ^16.18.3
     babel-loader: ^8.3.0
     babel-plugin-bundled-import-meta: ^0.3.1
     lit-html: 2.0.2
@@ -6960,7 +6960,7 @@ __metadata:
     "@storybook/client-api": 7.0.0-alpha.50
     "@storybook/preview-web": 7.0.0-alpha.50
     "@storybook/react": 7.0.0-alpha.50
-    "@types/node": ^18.11.9
+    "@types/node": ^16.18.3
     "@vitejs/plugin-react": ^2.0.0
     ast-types: ^0.14.2
     magic-string: ^0.26.1
@@ -6980,7 +6980,7 @@ __metadata:
     "@storybook/builder-webpack5": 7.0.0-alpha.50
     "@storybook/preset-react-webpack": 7.0.0-alpha.50
     "@storybook/react": 7.0.0-alpha.50
-    "@types/node": ^18.11.9
+    "@types/node": ^16.18.3
     jest-specific-snapshot: ^6.0.0
     typescript: ^4.9.3
   peerDependencies:
@@ -7007,7 +7007,7 @@ __metadata:
     "@storybook/store": 7.0.0-alpha.50
     "@storybook/types": 7.0.0-alpha.50
     "@types/estree": ^0.0.51
-    "@types/node": ^18.11.9
+    "@types/node": ^16.18.3
     "@types/util-deprecate": ^1.0.0
     acorn: ^7.4.1
     acorn-jsx: ^5.3.1
@@ -7162,7 +7162,7 @@ __metadata:
     "@types/fs-extra": ^9.0.6
     "@types/js-yaml": ^3.12.6
     "@types/lodash": ^4.14.167
-    "@types/node": ^18.11.9
+    "@types/node": ^16.18.3
     "@types/node-cleanup": ^2.1.1
     "@types/prompts": 2.0.11
     "@types/react": ^16.14.34
@@ -7351,7 +7351,7 @@ __metadata:
     "@storybook/core-common": 7.0.0-alpha.50
     "@storybook/preset-server-webpack": 7.0.0-alpha.50
     "@storybook/server": 7.0.0-alpha.50
-    "@types/node": ^18.11.9
+    "@types/node": ^16.18.3
     react: 16.14.0
     react-dom: 16.14.0
     typescript: ^4.9.3
@@ -7430,7 +7430,7 @@ __metadata:
     "@storybook/preview-web": 7.0.0-alpha.50
     "@storybook/svelte": 7.0.0-alpha.50
     "@sveltejs/vite-plugin-svelte": ^1.0.0
-    "@types/node": ^18.11.9
+    "@types/node": ^16.18.3
     magic-string: ^0.26.1
     svelte: ^3.0.0
     sveltedoc-parser: ^4.2.1
@@ -7530,7 +7530,7 @@ __metadata:
     "@emotion/use-insertion-effect-with-fallbacks": ^1.0.0
     "@storybook/client-logger": 7.0.0-alpha.50
     "@types/fs-extra": ^9.0.6
-    "@types/node": ^18.11.9
+    "@types/node": ^16.18.3
     deep-object-diff: ^1.1.0
     fs-extra: ^9.0.1
     global: ^4.4.0
@@ -7567,7 +7567,7 @@ __metadata:
     "@storybook/csf": 0.0.2-next.7
     "@types/babel__core": ^7.1.20
     "@types/express": ^4.7.0
-    "@types/node": ^18.11.9
+    "@types/node": ^16.18.3
     express: ^4.17.1
     file-system-cache: ^2.0.0
     synchronous-promise: ^2.0.15
@@ -7606,7 +7606,7 @@ __metadata:
     "@storybook/core-common": 7.0.0-alpha.50
     "@storybook/preset-vue-webpack": 7.0.0-alpha.50
     "@storybook/vue": 7.0.0-alpha.50
-    "@types/node": ^18.11.9
+    "@types/node": ^16.18.3
     react: 16.14.0
     react-dom: 16.14.0
     typescript: ^4.9.3
@@ -7635,7 +7635,7 @@ __metadata:
     "@storybook/core-server": 7.0.0-alpha.50
     "@storybook/preview-web": 7.0.0-alpha.50
     "@storybook/vue3": 7.0.0-alpha.50
-    "@types/node": ^18.11.9
+    "@types/node": ^16.18.3
     "@vitejs/plugin-vue": ^3.0.0
     magic-string: ^0.26.1
     typescript: ^4.9.3
@@ -7652,7 +7652,7 @@ __metadata:
     "@storybook/core-common": 7.0.0-alpha.50
     "@storybook/preset-vue3-webpack": 7.0.0-alpha.50
     "@storybook/vue3": 7.0.0-alpha.50
-    "@types/node": ^18.11.9
+    "@types/node": ^16.18.3
     "@vue/compiler-sfc": 3.0.0
     react: 16.14.0
     react-dom: 16.14.0
@@ -7737,7 +7737,7 @@ __metadata:
     "@storybook/node-logger": 7.0.0-alpha.50
     "@storybook/preview-web": 7.0.0-alpha.50
     "@storybook/web-components": 7.0.0-alpha.50
-    "@types/node": ^18.11.9
+    "@types/node": ^16.18.3
     magic-string: ^0.26.1
     typescript: ^4.9.3
     vite: ^3.1.0
@@ -7753,7 +7753,7 @@ __metadata:
     "@storybook/core-common": 7.0.0-alpha.50
     "@storybook/preset-web-components-webpack": 7.0.0-alpha.50
     "@storybook/web-components": 7.0.0-alpha.50
-    "@types/node": ^18.11.9
+    "@types/node": ^16.18.3
     lit-html: 2.0.2
     react: 16.14.0
     react-dom: 16.14.0
@@ -8509,10 +8509,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:>= 8, @types/node@npm:^18.11.9, @types/node@npm:^18.7.20":
+"@types/node@npm:*, @types/node@npm:>= 8, @types/node@npm:^18.7.20":
   version: 18.11.9
   resolution: "@types/node@npm:18.11.9"
   checksum: aeaa925406f841c41679b32def9391a9892171e977105e025050e9f66e2830b4c50d0d974a1af0077ead3337a1f3bdf49ee7e7f402ebf2e034a3f97d9d240dba
+  languageName: node
+  linkType: hard
+
+"@types/node@npm:^16.18.3":
+  version: 16.18.3
+  resolution: "@types/node@npm:16.18.3"
+  checksum: 058ddd61a3d39f517bc9c30b82b9d6257d903e84c42ba66aae63bd13203b6deb2acf7f7e14caefd5d7cebadbe8c90604c04f9851cd41cd6a1bc2fc4dcec85f01
   languageName: node
   linkType: hard
 

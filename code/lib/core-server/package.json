@@ -46,7 +46,7 @@
     "@storybook/store": "7.0.0-alpha.50",
     "@storybook/telemetry": "7.0.0-alpha.50",
     "@storybook/types": "7.0.0-alpha.50",
-    "@types/node": "^18.11.9",
+    "@types/node": "^16.18.3",
     "@types/node-fetch": "^2.5.7",
     "@types/pretty-hrtime": "^1.0.0",
     "@types/semver": "^7.3.4",
