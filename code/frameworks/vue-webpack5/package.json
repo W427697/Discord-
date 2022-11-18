@@ -54,7 +54,7 @@
     "@storybook/core-common": "7.0.0-alpha.50",
     "@storybook/preset-vue-webpack": "7.0.0-alpha.50",
     "@storybook/vue": "7.0.0-alpha.50",
-    "@types/node": "^18.11.9",
+    "@types/node": "^16.18.3",
     "react": "16.14.0",
     "react-dom": "16.14.0"
   },
