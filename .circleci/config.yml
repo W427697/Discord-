@@ -99,8 +99,8 @@ jobs:
       class: large
       name: sb_node_16_classic
     steps:
-      - git-shallow-clone/checkout_advanced:
-          clone_options: "--depth 1 --verbose"
+      - checkout_advanced:
+          clone_options: '--shallow-since "2 weeks ago" --verbose'
       - restore_cache:
           name: Restore Yarn cache
           keys:
