@@ -40,7 +40,8 @@ jobs:
             -d '{
                   "branch": "${{ needs.get-branch.outputs.branch }}",
                   "parameters": {
-                    "workflow": "ci"
+                    "workflow": "ci",
+                    "target-branch": "${{ github.base_ref }}"
                   }
                 }'
         env:
@@ -58,7 +59,8 @@ jobs:
             -d '{
                   "branch": "${{ needs.get-branch.outputs.branch }}",
                   "parameters": {
-                    "workflow": "pr"
+                    "workflow": "pr",
+                    "target-branch": "${{ github.base_ref }}"
                   }
                 }'
         env:
@@ -76,7 +78,8 @@ jobs:
             -d '{
                   "branch": "${{ needs.get-branch.outputs.branch }}",
                   "parameters": {
-                    "workflow": "merged"
+                    "workflow": "merged",
+                    "target-branch": "${{ github.base_ref }}"
                   }
                 }'
         env:
