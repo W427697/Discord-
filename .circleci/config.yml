@@ -52,6 +52,7 @@ orbs:
   git-shallow-clone: guitarrapc/git-shallow-clone@2.4.0
   browser-tools: circleci/browser-tools@1.4.0
   discord: antonioned/discord@0.1.0
+  nx: nrwl/nx@1.6.1
 
 commands:
   # Forked off from https://github.com/guitarrapc/git-shallow-clone-orb
@@ -213,6 +214,7 @@ jobs:
     steps:
       - checkout_advanced:
           clone_options: '--verbose'
+          fetch_options: '--verbose'
       - restore_cache:
           name: Restore Yarn cache
           keys:
@@ -228,6 +230,7 @@ jobs:
             cd code
             yarn local-registry --publish
       - report-workflow-on-failure
+      - nx/set-shas
       - run:
           name: Generate affected templates file
           command: |

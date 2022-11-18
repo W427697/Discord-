@@ -5,7 +5,12 @@ import { join } from 'path';
 import { allTemplates } from '../code/lib/cli/src/repro-templates';
 
 async function run() {
-  const contents = await command('yarn nx print-affected', { cwd: join(__dirname, '..') });
+  let nxCommand = 'yarn nx print-affected';
+  if (process.env.NX_BASE) {
+    nxCommand = `${nxCommand} --base=${process.env.NX_BASE}`;
+  }
+
+  const contents = await command(nxCommand, { cwd: join(__dirname, '..') });
 
   const affectedPackages = JSON.parse(contents.stdout).projects;
 
