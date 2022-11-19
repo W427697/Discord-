@@ -1,3 +1,13 @@
+## 6.5.14-alpha.0 (November 19, 2022)
+
+#### Bug Fixes
+
+-   CLI/React native: Fix addons template to import register instead of manager [#19620](https://github.com/storybooks/storybook/pull/19620)
+
+#### Dependency Upgrades
+
+-   Upgrade loader-utils to 2.0.4 in storysource and source-loader [#19891](https://github.com/storybooks/storybook/pull/19891)
+
 ## 6.5.13 (October 24, 2022)
 
 ### Bug Fixes
