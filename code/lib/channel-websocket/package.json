@@ -50,13 +50,13 @@
   "devDependencies": {
     "typescript": "^4.9.3"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "bundler": {
     "entries": [
       "./src/index.ts"
     ]
-  },
-  "publishConfig": {
-    "access": "public"
   },
   "gitHead": "77184d039091f4782dc4540df6d271a24fb3e242"
 }

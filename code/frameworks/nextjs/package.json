@@ -59,14 +59,13 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@babel/preset-typescript": "^7.18.6",
     "@storybook/addons": "7.0.0-alpha.50",
     "@storybook/builder-webpack5": "7.0.0-alpha.50",
     "@storybook/core-common": "7.0.0-alpha.50",
     "@storybook/node-logger": "7.0.0-alpha.50",
     "@storybook/preset-react-webpack": "7.0.0-alpha.50",
     "@storybook/react": "7.0.0-alpha.50",
-    "@types/node": "^16.18.3",
+    "@types/node": "^16.0.0 || ^18.0.0",
     "find-up": "^5.0.0",
     "fs-extra": "^9.0.1",
     "image-size": "^1.0.0",
