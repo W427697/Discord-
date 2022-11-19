@@ -8,6 +8,11 @@ on:
   push:
     branches:
       - next
+      - chore/skip-tasks-based-on-nx-affected
+
+env:
+  CIRCLE_CI_TOKEN: ${{ secrets.CIRCLE_CI_TOKEN }}
+  PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: true
 
 jobs:
   get-branch:
@@ -27,9 +32,27 @@ jobs:
     outputs:
       branch: ${{ env.branch }}
 
+  get-affected-templates:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Generate affected-templates.json
+        run: |
+          cd code
+          yarn
+          cd ../scripts
+          yarn
+          yarn get-affected-templates
+      - uses: sergeysova/jq-action@v2
+      - name: Set parallelism count for each workflow
+        run: |
+          echo "CI_PARALLELISM=$(jq '.ci | length' affected-templates.json)" >> $GITHUB_ENV
+          echo "PR-PARALLELISM=$(jq '.pr | length' affected-templates.json)" >> $GITHUB_ENV
+          echo "MERGED_PARALLELISM=$(jq '.merged | length' affected-templates.json)" >> $GITHUB_ENV
+
   trigger-ci-tests:
     runs-on: ubuntu-latest
-    needs: get-branch
+    needs: [get-branch, get-affected-templates]
     if: github.event_name == 'pull_request_target' && github.event.pull_request.draft == true && !contains(github.event.pull_request.labels.*.name, 'ci:pr') && !contains(github.event.pull_request.labels.*.name, 'ci:merged') && !contains(github.event.pull_request.labels.*.name, 'ci:daily')
     steps:
       - name: Trigger draft PR tests
@@ -41,14 +64,13 @@ jobs:
                   "branch": "${{ needs.get-branch.outputs.branch }}",
                   "parameters": {
                     "workflow": "ci",
-                    "target-branch": "${{ github.base_ref }}"
+                    "target-branch": "${{ github.base_ref }}",
+                    "parallelism": $CI_PARALLELISM
                   }
                 }'
-        env:
-          CIRCLE_CI_TOKEN: ${{ secrets.CIRCLE_CI_TOKEN }}
   trigger-pr-tests:
     runs-on: ubuntu-latest
-    needs: get-branch
+    needs: [get-branch, get-affected-templates]
     if: github.event_name == 'pull_request_target' && ((github.event.pull_request.draft == false || contains(github.event.pull_request.labels.*.name, 'ci:pr')) && !contains(github.event.pull_request.labels.*.name, 'ci:merged') && !contains(github.event.pull_request.labels.*.name, 'ci:daily'))
     steps:
       - name: Trigger PR tests
@@ -60,14 +82,13 @@ jobs:
                   "branch": "${{ needs.get-branch.outputs.branch }}",
                   "parameters": {
                     "workflow": "pr",
-                    "target-branch": "${{ github.base_ref }}"
+                    "target-branch": "${{ github.base_ref }}",
+                    "parallelism": $PR_PARALLELISM
                   }
                 }'
-        env:
-          CIRCLE_CI_TOKEN: ${{ secrets.CIRCLE_CI_TOKEN }}
   trigger-merged-tests:
     runs-on: ubuntu-latest
-    needs: get-branch
+    needs: [get-branch, get-affected-templates]
     if: github.event_name == 'push' || (contains(github.event.pull_request.labels.*.name, 'ci:merged') && !contains(github.event.pull_request.labels.*.name, 'ci:daily'))
     steps:
       - name: Trigger merged tests
@@ -79,11 +100,10 @@ jobs:
                   "branch": "${{ needs.get-branch.outputs.branch }}",
                   "parameters": {
                     "workflow": "merged",
-                    "target-branch": "${{ github.base_ref }}"
+                    "target-branch": "${{ github.base_ref }}",
+                    "parallelism": $MERGED_PARALLELISM
                   }
                 }'
-        env:
-          CIRCLE_CI_TOKEN: ${{ secrets.CIRCLE_CI_TOKEN }}
   trigger-daily-tests:
     runs-on: ubuntu-latest
     needs: get-branch
@@ -100,5 +120,3 @@ jobs:
                     "workflow": "daily"
                   }
                 }'
-        env:
-          CIRCLE_CI_TOKEN: ${{ secrets.CIRCLE_CI_TOKEN }}

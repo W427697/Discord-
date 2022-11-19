@@ -10,6 +10,10 @@ parameters:
     description: Which branch the PR is targeting
     type: string
     default: $CIRCLE_BRANCH
+  parallelism:
+    description: Which parallelism to run per workflow. Comes from Github Action
+    type: integer
+    default: 2
 
 executors:
   sb_node_16_classic:
@@ -463,14 +467,10 @@ jobs:
           path: test-results
   ## new workflow
   create-sandboxes:
-    parameters:
-      parallelism:
-        type: integer
-        default: 2
     executor:
       class: medium
       name: sb_node_16_browsers
-    parallelism: << parameters.parallelism >>
+    parallelism: << pipeline.parameters.parallelism >>
     steps:
       - checkout_advanced:
           clone_options: '--depth 1 --verbose'
@@ -492,14 +492,10 @@ jobs:
       - store_test_results:
           path: test-results
   smoke-test-sandboxes:
-    parameters:
-      parallelism:
-        type: integer
-        default: 2
     executor:
       class: medium
       name: sb_node_16_browsers
-    parallelism: << parameters.parallelism >>
+    parallelism: << pipeline.parameters.parallelism >>
     steps:
       - checkout_advanced:
           clone_options: '--depth 1 --verbose'
@@ -513,14 +509,10 @@ jobs:
       - store_test_results:
           path: test-results
   build-sandboxes:
-    parameters:
-      parallelism:
-        type: integer
-        default: 2
     executor:
       class: medium+
       name: sb_node_16_browsers
-    parallelism: << parameters.parallelism >>
+    parallelism: << pipeline.parameters.parallelism >>
     steps:
       - checkout_advanced:
           clone_options: '--depth 1 --verbose'
@@ -542,14 +534,10 @@ jobs:
                 paths:
                   - sandbox/*/storybook-static
   test-runner-sandboxes:
-    parameters:
-      parallelism:
-        type: integer
-        default: 2
     executor:
       class: medium
       name: sb_playwright
-    parallelism: << parameters.parallelism >>
+    parallelism: << pipeline.parameters.parallelism >>
     steps:
       - checkout_advanced:
           clone_options: '--depth 1 --verbose'
@@ -563,14 +551,10 @@ jobs:
       - store_test_results:
           path: test-results
   chromatic-sandboxes:
-    parameters:
-      parallelism:
-        type: integer
-        default: 2
     executor:
       class: medium
       name: sb_node_16_browsers
-    parallelism: << parameters.parallelism >>
+    parallelism: << pipeline.parameters.parallelism >>
     steps:
       - checkout
       - attach_workspace:
@@ -583,14 +567,10 @@ jobs:
       - store_test_results:
           path: test-results
   e2e-sandboxes:
-    parameters:
-      parallelism:
-        type: integer
-        default: 2
     executor:
       class: medium
       name: sb_playwright
-    parallelism: << parameters.parallelism >>
+    parallelism: << pipeline.parameters.parallelism >>
     steps:
       - checkout_advanced:
           clone_options: '--depth 1 --verbose'
@@ -674,23 +654,18 @@ workflows:
           requires:
             - build
       - create-sandboxes:
-          parallelism: 9
           requires:
             - build
       - build-sandboxes:
-          parallelism: 9
           requires:
             - create-sandboxes
       - test-runner-sandboxes:
-          parallelism: 9
           requires:
             - build-sandboxes
       - chromatic-sandboxes:
-          parallelism: 9
           requires:
             - build-sandboxes
       - e2e-sandboxes:
-          parallelism: 9
           requires:
             - build-sandboxes
   merged:
@@ -724,23 +699,18 @@ workflows:
           requires:
             - build
       - create-sandboxes:
-          parallelism: 15
           requires:
             - build
       - build-sandboxes:
-          parallelism: 15
           requires:
             - create-sandboxes
       - test-runner-sandboxes:
-          parallelism: 14
           requires:
             - build-sandboxes
       - chromatic-sandboxes:
-          parallelism: 15
           requires:
             - build-sandboxes
       - e2e-sandboxes:
-          parallelism: 15
           requires:
             - build-sandboxes
   daily:
@@ -749,25 +719,20 @@ workflows:
     jobs:
       - build
       - create-sandboxes:
-          parallelism: 25
           requires:
             - build
       # - smoke-test-sandboxes: # disabled for now
       #     requires:
       #       - create-sandboxes
       - build-sandboxes:
-          parallelism: 25
           requires:
             - create-sandboxes
       - test-runner-sandboxes:
-          parallelism: 24
           requires:
             - build-sandboxes
       - chromatic-sandboxes:
-          parallelism: 25
           requires:
             - build-sandboxes
       - e2e-sandboxes:
-          parallelism: 25
           requires:
             - build-sandboxes
