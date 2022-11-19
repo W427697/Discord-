@@ -306,6 +306,9 @@ const builder: BuilderFunction = async function* builderGeneratorFn({ startTime,
 };
 
 export const start = async (options: BuilderStartOptions) => {
+  // dummy sleep to test benchmarking
+  await new Promise((r) => setTimeout(r, 10000));
+
   asyncIterator = starter(options);
   let result;
 
