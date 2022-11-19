@@ -5,6 +5,7 @@ import { pathExists } from 'fs-extra';
 import type { NextConfig } from 'next';
 import dedent from 'ts-dedent';
 import { DefinePlugin } from 'webpack';
+import { pathToFileURL } from 'node:url';
 import { addScopedAlias } from '../utils';
 
 export const configureConfig = async ({
@@ -60,7 +61,7 @@ const resolveNextConfig = async ({
     );
   }
 
-  const nextConfigExport = await import(nextConfigFile);
+  const nextConfigExport = await import(pathToFileURL(nextConfigFile).href);
 
   const nextConfig =
     typeof nextConfigExport === 'function'
