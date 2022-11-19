@@ -145,7 +145,7 @@ export const options = createOptions({
   },
   fromLocalRepro: {
     type: 'boolean',
-    description: 'Create the template from a local repro (rather than degitting it)?',
+    description: 'Create the template from a local repro (rather than downloading it)?',
     promptType: false,
   },
   dryRun: {
