@@ -1,7 +1,6 @@
 // noinspection JSUnusedGlobalSymbols
 
 import * as fs from 'fs';
-import * as path from 'path';
 import type { Builder, StorybookConfig as StorybookBaseConfig, Options } from '@storybook/types';
 import type { RequestHandler, Request, Response } from 'express';
 import type { InlineConfig, UserConfig, ViteDevServer } from 'vite';
