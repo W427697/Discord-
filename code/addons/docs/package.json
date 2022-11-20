@@ -40,16 +40,6 @@
       "import": "./dist/preset.mjs",
       "types": "./dist/preset.d.ts"
     },
-    "./dist/preview": {
-      "require": "./dist/preview.js",
-      "import": "./dist/preview.mjs",
-      "types": "./dist/preview.d.ts"
-    },
-    "./dist/preset": {
-      "require": "./dist/preset.js",
-      "import": "./dist/preset.mjs",
-      "types": "./dist/preset.d.ts"
-    },
     "./svelte/HOC.svelte": "./svelte/HOC.svelte",
     "./ember": "./ember/index.js",
     "./ember/index.js": "./ember/index.js",
@@ -62,6 +52,19 @@
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
+  "typesVersions": {
+    "*": {
+      "*": [
+        "dist/index.d.ts"
+      ],
+      "preview": [
+        "dist/preview.d.ts"
+      ],
+      "preset": [
+        "dist/preset.d.ts"
+      ]
+    }
+  },
   "files": [
     "dist/**/*",
     "angular/**/*",
