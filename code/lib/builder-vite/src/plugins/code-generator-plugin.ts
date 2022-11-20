@@ -75,11 +75,8 @@ export function codeGeneratorPlugin(options: ExtendedOptions): Plugin {
         if (isNodeError(e) && e.code === 'MODULE_NOT_FOUND') {
           config.resolve = mergeConfig(config.resolve ?? {}, {
             alias: {
-              'react-dom/client': path.resolve(
-                __dirname,
-                '../../..',
-                'input',
-                'react-dom-client-placeholder.js'
+              'react-dom/client': require.resolve(
+                '@storybook/builder-vite/input/react-dom-client-placeholder.js'
               ),
             },
           });
