@@ -21,7 +21,7 @@ import {
 } from '../virtual-file-names';
 
 export function codeGeneratorPlugin(options: ExtendedOptions): Plugin {
-  const iframePath = path.resolve(__dirname, '../../..', 'input', 'iframe.html');
+  const iframePath = path.resolve(__dirname, '../..', 'input', 'iframe.html');
   let iframeId: string;
 
   // noinspection JSUnusedGlobalSymbols
@@ -132,10 +132,7 @@ export function codeGeneratorPlugin(options: ExtendedOptions): Plugin {
       }
 
       if (id === iframeId) {
-        return fs.readFileSync(
-          path.resolve(__dirname, '../../..', 'input', 'iframe.html'),
-          'utf-8'
-        );
+        return fs.readFileSync(path.resolve(__dirname, '../..', 'input', 'iframe.html'), 'utf-8');
       }
 
       return undefined;

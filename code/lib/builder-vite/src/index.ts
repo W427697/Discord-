@@ -46,7 +46,7 @@ function iframeMiddleware(options: ExtendedOptions, server: ViteDevServer): Requ
     }
 
     const indexHtml = fs.readFileSync(
-      path.resolve(__dirname, '../..', 'input', 'iframe.html'),
+      path.resolve(__dirname, '..', 'input', 'iframe.html'),
       'utf-8'
     );
     const generated = await transformIframeHtml(indexHtml, options);
