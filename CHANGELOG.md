@@ -1,3 +1,33 @@
+## 7.0.0-alpha.51 (November 19, 2022)
+
+#### Bug Fixes
+
+-   NextJS: Fix out-of-the-box babel handling [#19842](https://github.com/storybooks/storybook/pull/19842)
+-   NextJS: Fix import url on windows [#19798](https://github.com/storybooks/storybook/pull/19798)
+-   UI: Fix panel invisible for any addon listed after the interactions panel [#19771](https://github.com/storybooks/storybook/pull/19771)
+-   Core: Bail preview builder on failure [#19849](https://github.com/storybooks/storybook/pull/19849)
+-   Core: Fix double esbuild-register register [#19852](https://github.com/storybooks/storybook/pull/19852)
+-   Composition: Fix regression in the `#root` to `#storybook-root` change [#19848](https://github.com/storybooks/storybook/pull/19848)
+-   UI: Fix `showPanel=false` doesn't work on mobile view [#19807](https://github.com/storybooks/storybook/pull/19807)
+
+#### Maintenance
+
+-   CLI: Replace degit with giget [#19870](https://github.com/storybooks/storybook/pull/19870)
+-   Build: Bundle lib/channel-websocket with tsup [#19694](https://github.com/storybooks/storybook/pull/19694)
+-   Maintenance: Upgrade monorepo to TS 4.9  [#19869](https://github.com/storybooks/storybook/pull/19869)
+
+#### Build
+
+-   Build: Downgrade @types/node [#19890](https://github.com/storybooks/storybook/pull/19890)
+-   Maintenance: Add angular 14 template and skip test runner on angular 15 for now [#19871](https://github.com/storybooks/storybook/pull/19871)
+-   Build: Upgrade Jest to 29 [#19863](https://github.com/storybooks/storybook/pull/19863)
+-   Build: Fix chromatic version to 6.11.2 in local scripts [#19889](https://github.com/storybooks/storybook/pull/19889)
+-   Build: Pin chromatic version to 6.11.2 to temporary fix flakiness [#19874](https://github.com/storybooks/storybook/pull/19874)
+
+#### Dependency Upgrades
+
+-   Bump mdx2-csf dependency [#19885](https://github.com/storybooks/storybook/pull/19885)
+
 ## 7.0.0-alpha.50 (November 17, 2022)
 
 #### Features
