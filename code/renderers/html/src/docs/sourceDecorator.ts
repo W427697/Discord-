@@ -5,7 +5,7 @@ import { addons, useEffect } from '@storybook/addons';
 import type { PartialStoryFn } from '@storybook/types';
 import { dedent } from 'ts-dedent';
 
-import type { HtmlFramework, StoryContext } from '../types';
+import type { HtmlRenderer, StoryContext } from '../types';
 
 import type { StoryFn } from '../public-types';
 
@@ -36,7 +36,7 @@ function applyTransformSource(source: string, context: StoryContext): string {
   return transformSource(source, context);
 }
 
-export function sourceDecorator(storyFn: PartialStoryFn<HtmlFramework>, context: StoryContext) {
+export function sourceDecorator(storyFn: PartialStoryFn<HtmlRenderer>, context: StoryContext) {
   const story = context?.parameters.docs?.source?.excludeDecorators
     ? (context.originalStoryFn as StoryFn)(context.args, context)
     : storyFn();

@@ -231,10 +231,15 @@
       "root": "lib/instrumenter",
       "type": "library"
     },
+    "@storybook/manager": {
+      "implicitDependencies": [],
+      "root": "ui/manager",
+      "type": "library"
+    },
     "@storybook/nextjs": {
+      "implicitDependencies": [],
       "root": "frameworks/nextjs",
-      "type": "library",
-      "implicitDependencies": []
+      "type": "library"
     },
     "@storybook/node-logger": {
       "implicitDependencies": [],
@@ -294,6 +299,11 @@
     "@storybook/preset-web-components-webpack": {
       "implicitDependencies": [],
       "root": "presets/web-components-webpack",
+      "type": "library"
+    },
+    "@storybook/preview": {
+      "implicitDependencies": [],
+      "root": "lib/preview",
       "type": "library"
     },
     "@storybook/preview-web": {
@@ -369,11 +379,6 @@
     "@storybook/types": {
       "implicitDependencies": [],
       "root": "lib/types",
-      "type": "library"
-    },
-    "@storybook/manager": {
-      "implicitDependencies": [],
-      "root": "ui/manager",
       "type": "library"
     },
     "@storybook/vue": {

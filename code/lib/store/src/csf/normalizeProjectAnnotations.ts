@@ -1,5 +1,5 @@
 import type {
-  Framework,
+  Renderer,
   ArgTypes,
   ProjectAnnotations,
   Store_NormalizedProjectAnnotations,
@@ -9,12 +9,12 @@ import { inferArgTypes } from '../inferArgTypes';
 import { inferControls } from '../inferControls';
 import { normalizeInputTypes } from './normalizeInputTypes';
 
-export function normalizeProjectAnnotations<TFramework extends Framework>({
+export function normalizeProjectAnnotations<TRenderer extends Renderer>({
   argTypes,
   globalTypes,
   argTypesEnhancers,
   ...annotations
-}: ProjectAnnotations<TFramework>): Store_NormalizedProjectAnnotations<TFramework> {
+}: ProjectAnnotations<TRenderer>): Store_NormalizedProjectAnnotations<TRenderer> {
   return {
     ...(argTypes && { argTypes: normalizeInputTypes(argTypes as ArgTypes) }),
     ...(globalTypes && { globalTypes: normalizeInputTypes(globalTypes) }),

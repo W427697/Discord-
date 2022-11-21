@@ -15,7 +15,7 @@ import { previewProps } from './preview.mockdata';
 
 const provider = new PrettyFakeProvider();
 const staticNavigator = {
-  createHref(to) {
+  createHref(to: any) {
     return typeof to === 'string' ? to : createPath(to);
   },
 
@@ -41,6 +41,7 @@ export default {
         pathname: locationProp.pathname || '/',
         search: locationProp.search || '',
         hash: locationProp.hash || '',
+        // @ts-expect-error (invalid input)
         state: null,
         key: 'default',
       };

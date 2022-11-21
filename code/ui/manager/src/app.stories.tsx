@@ -13,7 +13,7 @@ export default {
     layout: 'fullscreen',
   },
   decorators: [
-    (StoryFn) => (
+    (StoryFn: any) => (
       <HelmetProvider key="helmet.Provider">
         <LocationProvider>
           <ThemeStack>

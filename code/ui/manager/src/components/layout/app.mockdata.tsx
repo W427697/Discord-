@@ -58,7 +58,7 @@ export const panels: Addon_Collection = {
 };
 
 const realSidebarProps: SidebarProps = {
-  stories: mockDataset.withRoot,
+  stories: mockDataset.withRoot as SidebarProps['stories'],
   menu: [],
   refs: {},
   storiesConfigured: true,

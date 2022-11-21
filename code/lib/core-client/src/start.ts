@@ -2,7 +2,7 @@
 import global from 'global';
 import { ClientApi } from '@storybook/client-api';
 import { PreviewWeb } from '@storybook/preview-web';
-import type { Framework, ArgsStoryFn, Loadable, Path, ProjectAnnotations } from '@storybook/types';
+import type { Renderer, ArgsStoryFn, Loadable, Path, ProjectAnnotations } from '@storybook/types';
 import { createChannel } from '@storybook/channel-postmessage';
 import { addons } from '@storybook/addons';
 import { FORCE_RE_RENDER } from '@storybook/core-events';
@@ -15,9 +15,9 @@ const removedApi = (name: string) => () => {
   throw new Error(`@storybook/client-api:${name} was removed in storyStoreV7.`);
 };
 
-interface CoreClient_RendererImplementation<TFramework extends Framework> {
-  decorateStory?: ProjectAnnotations<TFramework>['applyDecorators'];
-  render?: ArgsStoryFn<TFramework>;
+interface CoreClient_RendererImplementation<TRenderer extends Renderer> {
+  decorateStory?: ProjectAnnotations<TRenderer>['applyDecorators'];
+  render?: ArgsStoryFn<TRenderer>;
 }
 
 interface CoreClient_ClientAPIFacade {
@@ -27,19 +27,19 @@ interface CoreClient_ClientAPIFacade {
   raw: (...args: any[]) => never;
 }
 
-interface CoreClient_StartReturnValue<TFramework extends Framework> {
+interface CoreClient_StartReturnValue<TRenderer extends Renderer> {
   /* deprecated */
   forceReRender: () => void;
   /* deprecated */
   configure: any;
   /* deprecated */
-  clientApi: ClientApi<TFramework> | CoreClient_ClientAPIFacade;
+  clientApi: ClientApi<TRenderer> | CoreClient_ClientAPIFacade;
 }
 
-export function start<TFramework extends Framework>(
-  renderToCanvas: ProjectAnnotations<TFramework>['renderToCanvas'],
-  { decorateStory, render }: CoreClient_RendererImplementation<TFramework> = {}
-): CoreClient_StartReturnValue<TFramework> {
+export function start<TRenderer extends Renderer>(
+  renderToCanvas: ProjectAnnotations<TRenderer>['renderToCanvas'],
+  { decorateStory, render }: CoreClient_RendererImplementation<TRenderer> = {}
+): CoreClient_StartReturnValue<TRenderer> {
   if (globalWindow) {
     // To enable user code to detect if it is running in Storybook
     globalWindow.IS_STORYBOOK = true;
@@ -59,8 +59,8 @@ export function start<TFramework extends Framework>(
   const channel = createChannel({ page: 'preview' });
   addons.setChannel(channel);
 
-  const clientApi = new ClientApi<TFramework>();
-  const preview = new PreviewWeb<TFramework>();
+  const clientApi = new ClientApi<TRenderer>();
+  const preview = new PreviewWeb<TRenderer>();
   let initialized = false;
 
   const importFn = (path: Path) => clientApi.importFn(path);
