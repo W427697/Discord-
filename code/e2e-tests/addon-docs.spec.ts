@@ -57,8 +57,8 @@ test.describe('addon-docs', () => {
     const sbPage = new SbPage(page);
     await sbPage.navigateToStory('addons/docs/docspage/basic', 'docs');
 
-    // The `<Primary>` block should render the "basic" story, and the `<Stories/>` block should
-    // render the "Another story"
+    // The `<Primary>` block should render the "Basic" story, and the `<Stories/>` block should
+    // render the "Another" story
     const root = sbPage.previewRoot();
     const stories = root.locator('.sbdocs-h3');
 
