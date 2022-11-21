@@ -173,9 +173,9 @@ export const waitForEvents = (
     events.forEach((event) => mockChannel.on(event, listener));
 
     // Don't wait too long
-    waitForQuiescence().then(() =>
-      reject(new Error(`Event was not emitted in time: ${debugLabel || events}`))
-    );
+    waitForQuiescence().then(() => {
+      reject(new Error(`Event was not emitted in time: ${debugLabel || events}`));
+    });
   });
 };
 

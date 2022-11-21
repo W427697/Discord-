@@ -5,12 +5,17 @@ import type {
   ArgsStoryFn,
   ComponentAnnotations,
   DecoratorFunction,
+  LoaderFunction,
   StoryAnnotations,
+  StoryContext as GenericStoryContext,
+  StrictArgs,
 } from '@storybook/types';
-
 import type { SetOptional, Simplify } from 'type-fest';
 import type { ComponentOptions, ConcreteComponent, FunctionalComponent } from 'vue';
 import type { VueRenderer } from './types';
+
+export type { Args, ArgTypes, Parameters, StrictArgs } from '@storybook/types';
+export type { VueRenderer };
 
 /**
  * Metadata to configure the stories for a component.
@@ -76,4 +81,6 @@ type ComponentPropsOrProps<TCmpOrArgs> = TCmpOrArgs extends ConcreteComponent<an
  */
 export type Story<TArgs = Args> = StoryFn<TArgs>;
 
-export type DecoratorFn<TArgs = Args> = DecoratorFunction<VueRenderer, TArgs>;
+export type Decorator<TArgs = StrictArgs> = DecoratorFunction<VueRenderer, TArgs>;
+export type Loader<TArgs = StrictArgs> = LoaderFunction<VueRenderer, TArgs>;
+export type StoryContext<TArgs = StrictArgs> = GenericStoryContext<VueRenderer, TArgs>;

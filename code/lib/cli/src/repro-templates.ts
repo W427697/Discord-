@@ -142,6 +142,17 @@ export const allTemplates = {
     name: 'Angular CLI (latest)',
     script:
       'npx -p @angular/cli ng new angular-latest --directory . --routing=true --minimal=true --style=scss --strict --skip-git --skip-install --package-manager=yarn',
+    skipTasks: ['test-runner'],
+    expected: {
+      framework: '@storybook/angular',
+      renderer: '@storybook/angular',
+      builder: '@storybook/builder-webpack5',
+    },
+  },
+  'angular-cli/14-ts': {
+    name: 'Angular CLI (Version 14)',
+    script:
+      'npx -p @angular/cli@14 ng new angular-v14 --directory . --routing=true --minimal=true --style=scss --strict --skip-git --skip-install --package-manager=yarn',
     expected: {
       framework: '@storybook/angular',
       renderer: '@storybook/angular',
@@ -252,7 +263,8 @@ type TemplateKey = keyof typeof allTemplates;
 export const ci: TemplateKey[] = ['cra/default-ts', 'react-vite/default-ts'];
 export const pr: TemplateKey[] = [
   ...ci,
-  'angular-cli/default-ts',
+  // TODO: swap with 'angular-cli/default-ts' once angular 15 fully works with Storybook
+  'angular-cli/14-ts',
   'vue3-vite/default-ts',
   'vue-cli/vue2-default-js',
   'lit-vite/default-ts',
@@ -264,6 +276,7 @@ export const merged: TemplateKey[] = [
   ...pr,
   'react-webpack/18-ts',
   'react-webpack/17-ts',
+  'angular-cli/default-ts',
   'angular-cli/13-ts',
   'preact-webpack5/default-ts',
   'html-webpack/default',

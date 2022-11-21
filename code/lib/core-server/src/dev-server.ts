@@ -159,6 +159,11 @@ export async function storybookDevServer(options: Options) {
       });
     } catch (error) {
       await managerBuilder?.bail();
+      // For some reason, even when Webpack fails e.g. wrong main.js config,
+      // the preview may continue to print to stdout, which can affect output
+      // when we catch this error and process those errors (e.g. telemetry)
+      // gets overwritten by preview progress output. Therefore, we should bail the preview too.
+      await previewBuilder?.bail().catch();
       throw error;
     }
   }

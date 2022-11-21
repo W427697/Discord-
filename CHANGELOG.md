@@ -1,3 +1,65 @@
+## 7.0.0-alpha.51 (November 19, 2022)
+
+#### Bug Fixes
+
+-   NextJS: Fix out-of-the-box babel handling [#19842](https://github.com/storybooks/storybook/pull/19842)
+-   NextJS: Fix import url on windows [#19798](https://github.com/storybooks/storybook/pull/19798)
+-   UI: Fix panel invisible for any addon listed after the interactions panel [#19771](https://github.com/storybooks/storybook/pull/19771)
+-   Core: Bail preview builder on failure [#19849](https://github.com/storybooks/storybook/pull/19849)
+-   Core: Fix double esbuild-register register [#19852](https://github.com/storybooks/storybook/pull/19852)
+-   Composition: Fix regression in the `#root` to `#storybook-root` change [#19848](https://github.com/storybooks/storybook/pull/19848)
+-   UI: Fix `showPanel=false` doesn't work on mobile view [#19807](https://github.com/storybooks/storybook/pull/19807)
+
+#### Maintenance
+
+-   CLI: Replace degit with giget [#19870](https://github.com/storybooks/storybook/pull/19870)
+-   Build: Bundle lib/channel-websocket with tsup [#19694](https://github.com/storybooks/storybook/pull/19694)
+-   Maintenance: Upgrade monorepo to TS 4.9  [#19869](https://github.com/storybooks/storybook/pull/19869)
+
+#### Build
+
+-   Build: Downgrade @types/node [#19890](https://github.com/storybooks/storybook/pull/19890)
+-   Maintenance: Add angular 14 template and skip test runner on angular 15 for now [#19871](https://github.com/storybooks/storybook/pull/19871)
+-   Build: Upgrade Jest to 29 [#19863](https://github.com/storybooks/storybook/pull/19863)
+-   Build: Fix chromatic version to 6.11.2 in local scripts [#19889](https://github.com/storybooks/storybook/pull/19889)
+-   Build: Pin chromatic version to 6.11.2 to temporary fix flakiness [#19874](https://github.com/storybooks/storybook/pull/19874)
+
+#### Dependency Upgrades
+
+-   Bump mdx2-csf dependency [#19885](https://github.com/storybooks/storybook/pull/19885)
+
+## 7.0.0-alpha.50 (November 17, 2022)
+
+#### Features
+
+-   Expose more CSF types in all renderers [#19833](https://github.com/storybooks/storybook/pull/19833)
+-   CSF: Renamed Framework to Renderer [#19802](https://github.com/storybooks/storybook/pull/19802)
+
+#### Bug Fixes
+
+-   Next.js: use file path instead of image contents for next-image-loader-stub [#19858](https://github.com/storybooks/storybook/pull/19858)
+-   TypeScript: Fix type inference bug with decorators  [#19839](https://github.com/storybooks/storybook/pull/19839)
+-   Vite: Keep using absolute path node_modules splitting [#19836](https://github.com/storybooks/storybook/pull/19836)
+-   Vite: Fix preview annotation paths on Windows [#19822](https://github.com/storybooks/storybook/pull/19822)
+-   Fix csf-plugin ignoring options [#19823](https://github.com/storybooks/storybook/pull/19823)
+-   Controls: Checkbox does not update when using useArgs hook [#19508](https://github.com/storybooks/storybook/pull/19508)
+
+#### Maintenance
+
+-   Jest: switch from Parameters to StorybookInternalParameters [#19853](https://github.com/storybooks/storybook/pull/19853)
+-   Blocks: Story stories [#19805](https://github.com/storybooks/storybook/pull/19805)
+-   Blocks: Canvas stories [#19804](https://github.com/storybooks/storybook/pull/19804)
+-   Tech: TypeScript should check stories and tests as well [#19831](https://github.com/storybooks/storybook/pull/19831)
+
+#### Build
+
+-   UI Storybook: Disable sourcemaps when building in CI [#19862](https://github.com/storybooks/storybook/pull/19862)
+-   Build: Increase max node memory for jobs [#19856](https://github.com/storybooks/storybook/pull/19856)
+-   CI: improve error reporting mechanism [#19841](https://github.com/storybooks/storybook/pull/19841)
+-   Fix tests on Windows [#19777](https://github.com/storybooks/storybook/pull/19777)
+-   Build: Fix benchmark to run on local packages [#19832](https://github.com/storybooks/storybook/pull/19832)
+-   CI: Report failures on discord [#19801](https://github.com/storybooks/storybook/pull/19801)
+
 ## 7.0.0-alpha.49 (November 13, 2022)
 
 #### Bug Fixes

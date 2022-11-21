@@ -1,4 +1,3 @@
-import global from 'global';
 import type {
   Renderer,
   Store_RenderContext,
@@ -21,7 +20,7 @@ import {
 import type { Render, RenderType } from './Render';
 import { PREPARE_ABORTED } from './Render';
 
-const { AbortController } = global;
+const { AbortController } = globalThis;
 
 export type RenderPhase =
   | 'preparing'
@@ -293,7 +292,7 @@ export class StoryRender<TRenderer extends Renderer> implements Render<TRenderer
     // If we still haven't completed, reload the page (iframe) to ensure we have a clean slate
     // for the next render. Since the reload can take a brief moment to happen, we want to stop
     // further rendering by awaiting a never-resolving promise (which is destroyed on reload).
-    global.window.location.reload();
+    window.location.reload();
     await new Promise(() => {});
   }
 }
