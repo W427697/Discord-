@@ -13,7 +13,8 @@ type AffectedResult = {
 
 async function run() {
   const baseTarget = process.env.NX_BASE || 'origin/next';
-  let nxCommand = 'npx -p @nrwl/cli nx print-affected';
+  const nxBinary = join(__dirname, 'node_modules', '.bin', 'nx');
+  let nxCommand = `${nxBinary} print-affected`;
 
   if (baseTarget) {
     console.log(`👉 Using NX_BASE hash for NX comparison:${baseTarget}`);
@@ -21,7 +22,7 @@ async function run() {
   }
 
   console.log(`⚙️ Running command: ${nxCommand}\n`);
-  const contents = await execaCommand(nxCommand, { cwd: join(__dirname, '..', '..', 'code') });
+  const contents = await execaCommand(nxCommand, { cwd: join(__dirname, '..', 'code') });
 
   const affectedPackages = JSON.parse(contents.stdout).projects as string[];
 
