@@ -40,11 +40,8 @@ jobs:
           fetch-depth: 0
       - name: Generate affected-templates.json
         run: |
-          cd code
+          cd scripts
           yarn
-          cd ../scripts
-          yarn
-          echo $(git rev-parse origin/next~1)
           yarn get-affected-templates
       - uses: sergeysova/jq-action@v2
       - name: Set parallelism count for each workflow
@@ -58,6 +55,9 @@ jobs:
     needs: [get-branch, get-affected-templates]
     if: github.event_name == 'pull_request_target' && github.event.pull_request.draft == true && !contains(github.event.pull_request.labels.*.name, 'ci:pr') && !contains(github.event.pull_request.labels.*.name, 'ci:merged') && !contains(github.event.pull_request.labels.*.name, 'ci:daily')
     steps:
+      - name: DEBUG
+        run:
+          echo $CI_PARALLELISM
       - name: Trigger draft PR tests
         run: >
           curl -X POST --location "https://circleci.com/api/v2/project/gh/storybookjs/storybook/pipeline" \
@@ -68,7 +68,7 @@ jobs:
                   "parameters": {
                     "workflow": "ci",
                     "target-branch": "${{ github.base_ref }}",
-                    "parallelism": $CI_PARALLELISM
+                    "parallelism": "$CI_PARALLELISM"
                   }
                 }'
   trigger-pr-tests:
@@ -86,7 +86,7 @@ jobs:
                   "parameters": {
                     "workflow": "pr",
                     "target-branch": "${{ github.base_ref }}",
-                    "parallelism": $PR_PARALLELISM
+                    "parallelism": "$PR_PARALLELISM"
                   }
                 }'
   trigger-merged-tests:
@@ -94,6 +94,9 @@ jobs:
     needs: [get-branch, get-affected-templates]
     if: github.event_name == 'push' || (contains(github.event.pull_request.labels.*.name, 'ci:merged') && !contains(github.event.pull_request.labels.*.name, 'ci:daily'))
     steps:
+      - name: DEBUG
+        run:
+          echo $CI_PARALLELISM
       - name: Trigger merged tests
         run: >
           curl -X POST --location "https://circleci.com/api/v2/project/gh/storybookjs/storybook/pipeline" \
@@ -104,7 +107,7 @@ jobs:
                   "parameters": {
                     "workflow": "merged",
                     "target-branch": "${{ github.base_ref }}",
-                    "parallelism": $MERGED_PARALLELISM
+                    "parallelism": "$MERGED_PARALLELISM"
                   }
                 }'
   trigger-daily-tests:

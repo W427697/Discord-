@@ -13,7 +13,7 @@ type AffectedResult = {
 
 async function run() {
   const baseTarget = process.env.NX_BASE || 'origin/next';
-  let nxCommand = 'yarn nx print-affected';
+  let nxCommand = 'npx -p @nrwl/cli nx print-affected';
 
   if (baseTarget) {
     console.log(`👉 Using NX_BASE hash for NX comparison:${baseTarget}`);
