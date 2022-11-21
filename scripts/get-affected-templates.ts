@@ -21,7 +21,7 @@ async function run() {
   }
 
   console.log(`⚙️ Running command: ${nxCommand}\n`);
-  const contents = await execaCommand(nxCommand, { cwd: join(__dirname, '..') });
+  const contents = await execaCommand(nxCommand, { cwd: join(__dirname, '..', '..', 'code') });
 
   const affectedPackages = JSON.parse(contents.stdout).projects as string[];
 
