@@ -8648,13 +8648,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/source-list-map@npm:*":
-  version: 0.1.2
-  resolution: "@types/source-list-map@npm:0.1.2"
-  checksum: 0538ce317294febf40ed3fc3a2e483fa4aee8ba85584a66e5ed9c0af9ea48a348960bc467076643cb56aeafdd7d2252e90c75e68ef664c0477ec87ea0554ffdc
-  languageName: node
-  linkType: hard
-
 "@types/stack-utils@npm:^2.0.0":
   version: 2.0.1
   resolution: "@types/stack-utils@npm:2.0.1"
@@ -8680,13 +8673,6 @@ __metadata:
   version: 1.2.0
   resolution: "@types/symlink-or-copy@npm:1.2.0"
   checksum: cbc621ee4eb1c8b67beecba205ff47383584f6f69e5dbfd13ddb9fce3e64355bd01ba456dc9a5719e527da87c0f710f352931bfdf97efa0e23fff65d87e9315a
-  languageName: node
-  linkType: hard
-
-"@types/tapable@npm:^1":
-  version: 1.0.8
-  resolution: "@types/tapable@npm:1.0.8"
-  checksum: 01f77d47bac8aaeee7ed298e8e74eb012a28f920106c3c359e1f2730512cd810f2c6165cd2cd769422ae1064e2bf1072778b27fb5ec1973e18c35e2cc1ed5c8d
   languageName: node
   linkType: hard
 
@@ -8726,15 +8712,6 @@ __metadata:
   version: 2.0.2
   resolution: "@types/trusted-types@npm:2.0.2"
   checksum: 8c5253d7a297ba375b1dff7704013fb8d31c08c681d257db9e7e0624309cbb4a1e0c916bdd5a8c378992391126af0adb731720ba7642244a2f2c1ff42aba5bcf
-  languageName: node
-  linkType: hard
-
-"@types/uglify-js@npm:*":
-  version: 3.17.1
-  resolution: "@types/uglify-js@npm:3.17.1"
-  dependencies:
-    source-map: ^0.6.1
-  checksum: c19a44017a901ab15f862e6645023bf96ffb7502b7305a15ee811667693ec66a997a42d5d0ba67814de537b562dafd26230142e26c9bb9f840ee8bb7f798cbcc
   languageName: node
   linkType: hard
 
@@ -8789,17 +8766,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/webpack-sources@npm:*":
-  version: 3.2.0
-  resolution: "@types/webpack-sources@npm:3.2.0"
-  dependencies:
-    "@types/node": "*"
-    "@types/source-list-map": "*"
-    source-map: ^0.7.3
-  checksum: 17716e9f03fa63362f92d510bb9119313bac3a7985321e0fe9326dc30ebe598cb2c85b8c7cdc4f4d34d783c4c45e74e3ec08e209f9c9dab27bf188c3def32706
-  languageName: node
-  linkType: hard
-
 "@types/webpack-virtual-modules@npm:^0.1.1":
   version: 0.1.1
   resolution: "@types/webpack-virtual-modules@npm:0.1.1"
@@ -8809,17 +8775,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/webpack@npm:^4":
-  version: 4.41.33
-  resolution: "@types/webpack@npm:4.41.33"
+"@types/webpack@npm:^5.28.0":
+  version: 5.28.0
+  resolution: "@types/webpack@npm:5.28.0"
   dependencies:
     "@types/node": "*"
-    "@types/tapable": ^1
-    "@types/uglify-js": "*"
-    "@types/webpack-sources": "*"
-    anymatch: ^3.0.0
-    source-map: ^0.6.0
-  checksum: dc6db66fa84664d8fab7ea79bd2482ea1c4500b09ed6939258e205548501b8d29c06b0fe5e869c4b59f74acf884c61a391875dadb9f7a91c8cd10c3841143729
+    tapable: ^2.2.0
+    webpack: ^5
+  checksum: 9e86e6b2bd8998c93058230d73e590fece972e8363af05d387cb966be18b648422013ec12963929a532f9c2821bbcd620dbaebc33865aefbf33056b4e3cca8b9
   languageName: node
   linkType: hard
 
@@ -10124,7 +10087,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"anymatch@npm:^3.0.0, anymatch@npm:^3.0.3, anymatch@npm:~3.1.2":
+"anymatch@npm:^3.0.3, anymatch@npm:~3.1.2":
   version: 3.1.2
   resolution: "anymatch@npm:3.1.2"
   dependencies:

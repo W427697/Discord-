@@ -110,6 +110,7 @@
   ],
   "resolutions": {
     "@nrwl/cli": "14.6.1",
+    "@types/webpack": "^5.28.0",
     "@typescript-eslint/eslint-plugin": "^5.40.1",
     "@typescript-eslint/experimental-utils": "^5.40.1",
     "@typescript-eslint/parser": "^5.40.1",
