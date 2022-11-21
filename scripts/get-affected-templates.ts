@@ -12,7 +12,7 @@ type AffectedResult = {
 };
 
 async function run() {
-  const baseTarget = process.env.NX_BASE || 'next';
+  const baseTarget = process.env.NX_BASE || 'origin/next';
   let nxCommand = 'yarn nx print-affected';
 
   if (baseTarget) {
