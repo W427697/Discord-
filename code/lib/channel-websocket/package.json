@@ -1,6 +1,6 @@
 {
   "name": "@storybook/channel-websocket",
-  "version": "7.0.0-alpha.50",
+  "version": "7.0.0-alpha.51",
   "description": "",
   "keywords": [
     "storybook"
@@ -20,9 +20,17 @@
   },
   "license": "MIT",
   "sideEffects": false,
-  "main": "dist/cjs/index.js",
-  "module": "dist/esm/index.js",
-  "types": "dist/types/index.d.ts",
+  "exports": {
+    ".": {
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.ts"
+    },
+    "./package.json": "./package.json"
+  },
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
   "files": [
     "dist/**/*",
     "README.md",
@@ -31,11 +39,11 @@
   ],
   "scripts": {
     "check": "../../../scripts/node_modules/.bin/tsc --noEmit",
-    "prep": "node ../../../scripts/prepare.js"
+    "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/channels": "7.0.0-alpha.50",
-    "@storybook/client-logger": "7.0.0-alpha.50",
+    "@storybook/channels": "7.0.0-alpha.51",
+    "@storybook/client-logger": "7.0.0-alpha.51",
     "global": "^4.4.0",
     "telejson": "^6.0.8"
   },
@@ -45,5 +53,10 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "77184d039091f4782dc4540df6d271a24fb3e242"
+  "bundler": {
+    "entries": [
+      "./src/index.ts"
+    ]
+  },
+  "gitHead": "4fec76c3f5135854d9834ebc1cf2f1f325696ded"
 }
