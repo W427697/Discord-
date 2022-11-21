@@ -1,5 +1,3 @@
-import { stringifyEnvs } from '@storybook/core-common';
-
 import type { UserConfig } from 'vite';
 import type { Builder_EnvsRaw } from '@storybook/types';
 
@@ -39,9 +37,6 @@ export function stringifyProcessEnvs(raw: Builder_EnvsRaw, envPrefix: UserConfig
       'process.env.XSTORYBOOK_EXAMPLE_APP': '""',
     }
   );
-  // support destructuring like
-  // const { foo } = import.meta.env;
-  envs['import.meta.env'] = JSON.stringify(stringifyEnvs(updatedRaw));
 
   return envs;
 }
