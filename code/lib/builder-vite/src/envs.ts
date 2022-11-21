@@ -56,5 +56,5 @@ export async function sanitizeEnvVars(options: ExtendedOptions, config: ViteConf
   return {
     ...config,
     define,
-  };
+  } as ViteConfig;
 }
