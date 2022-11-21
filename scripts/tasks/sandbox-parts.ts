@@ -4,7 +4,6 @@
 /* eslint-disable no-restricted-syntax, no-await-in-loop */
 import { copy, ensureSymlink, ensureDir, existsSync, pathExists } from 'fs-extra';
 import { join, resolve, sep } from 'path';
-import dedent from 'ts-dedent';
 
 import type { Task } from '../task';
 import { executeCLIStep, steps } from '../utils/cli-step';
@@ -40,23 +39,15 @@ export const essentialsAddons = [
 
 export const create: Task['run'] = async (
   { key, template, sandboxDir },
-  { addon: addons, fromLocalRepro, dryRun, debug, skipTemplateStories }
+  { addon: addons, dryRun, debug, skipTemplateStories }
 ) => {
   const parentDir = resolve(sandboxDir, '..');
   await ensureDir(parentDir);
 
-  if (fromLocalRepro) {
+  if ('inDevelopment' in template && template.inDevelopment) {
     const srcDir = join(reprosDir, key, 'after-storybook');
     if (!existsSync(srcDir)) {
-      throw new Error(dedent`
-          Missing repro directory '${srcDir}'!
-
-          To run sandbox against a local repro, you must have already generated
-          the repro template in the /repros directory using:
-          the repro template in the /repros directory using:
-
-          yarn generate-repros-next --template ${key}
-        `);
+      throw new Error(`Missing repro directory '${srcDir}', did the generate task run?`);
     }
     await copy(srcDir, sandboxDir);
   } else {
