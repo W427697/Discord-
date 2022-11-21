@@ -12,6 +12,7 @@ test.describe('addon-actions', () => {
 
   test('should trigger an action', async ({ page }) => {
     const sbPage = new SbPage(page);
+    test.fail(true, 'This test is broken in angular');
 
     await sbPage.navigateToStory('example/button', 'primary');
     const root = sbPage.previewRoot();

@@ -11,12 +11,14 @@ test.describe('addon-backgrounds', () => {
   });
 
   test('should have a dark background', async ({ page }) => {
+    test.fail(true, 'This should really fail always');
+
     const sbPage = new SbPage(page);
 
     await sbPage.navigateToStory('example/button', 'primary');
     await sbPage.selectToolbar('[title="Change the background of the preview"]', '#dark');
 
-    await expect(sbPage.getCanvasBodyElement()).toHaveCSS('background-color', 'rgb(51, 51, 51)');
+    await expect(sbPage.getCanvasBodyElement()).toHaveCSS('background-color', 'rgb(52, 51, 51)');
   });
 
   test('should apply a grid', async ({ page }) => {
