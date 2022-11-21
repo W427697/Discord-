@@ -11,7 +11,7 @@ import type {
 import type { AddonStore } from '@storybook/addons';
 import type { Channel } from '@storybook/channels';
 import type { ClientApi, StoryStore } from '@storybook/client-api';
-import type { PreviewWeb } from 'lib/preview-web/src';
+import type { PreviewWeb } from '@storybook/preview-web';
 
 declare global {
   var CHANNEL_OPTIONS: CoreConfig['channelOptions'];
