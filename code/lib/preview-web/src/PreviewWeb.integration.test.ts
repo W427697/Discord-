@@ -3,7 +3,6 @@ import global from 'global';
 import type { Store_RenderContext } from '@storybook/types';
 import { addons, mockChannel as createMockChannel } from '@storybook/addons';
 
-import { mocked } from 'ts-jest/utils';
 import { expect } from '@jest/globals';
 
 import { PreviewWeb } from './PreviewWeb';
@@ -20,7 +19,7 @@ import {
 } from './PreviewWeb.mockdata';
 
 // PreviewWeb.test mocks out all rendering
-//   - ie. from`renderToDOM()` (stories) or`ReactDOM.render()` (docs) in.
+//   - ie. from`renderToCanvas()` (stories) or`ReactDOM.render()` (docs) in.
 // This file lets them rip.
 
 jest.mock('@storybook/channel-postmessage', () => ({ createChannel: () => mockChannel }));
@@ -29,7 +28,6 @@ jest.mock('./WebView');
 
 const { window, document } = global;
 jest.mock('global', () => ({
-  // @ts-expect-error (Converted from ts-ignore)
   ...jest.requireActual('global'),
   history: { replaceState: jest.fn() },
   document: {
@@ -52,7 +50,7 @@ beforeEach(() => {
   componentOneExports.default.loaders[0].mockReset().mockImplementation(async () => ({ l: 7 }));
   componentOneExports.default.parameters.docs.container.mockClear();
   componentOneExports.a.play.mockReset();
-  projectAnnotations.renderToDOM.mockReset();
+  projectAnnotations.renderToCanvas.mockReset();
   projectAnnotations.render.mockClear();
   projectAnnotations.decorators[0].mockClear();
 
@@ -63,8 +61,8 @@ beforeEach(() => {
   addons.setChannel(mockChannel as any);
   addons.setServerChannel(createMockChannel());
 
-  mocked(WebView.prototype).prepareForDocs.mockReturnValue('docs-element' as any);
-  mocked(WebView.prototype).prepareForStory.mockReturnValue('story-element' as any);
+  jest.mocked(WebView.prototype).prepareForDocs.mockReturnValue('docs-element' as any);
+  jest.mocked(WebView.prototype).prepareForStory.mockReturnValue('story-element' as any);
 });
 
 describe('PreviewWeb', () => {
@@ -73,10 +71,11 @@ describe('PreviewWeb', () => {
       const { DocsRenderer } = await import('@storybook/addon-docs');
       projectAnnotations.parameters.docs.renderer = () => new DocsRenderer() as any;
 
-      projectAnnotations.renderToDOM.mockImplementationOnce(
+      projectAnnotations.renderToCanvas.mockImplementationOnce(
         ({ storyFn }: Store_RenderContext<any>) => storyFn()
       );
       document.location.search = '?id=component-one--a';
+      // @ts-expect-error (not strict)
       await new PreviewWeb().initialize({ importFn, getProjectAnnotations });
 
       await waitForRender();
@@ -100,6 +99,7 @@ describe('PreviewWeb', () => {
         React.createElement('div', {}, 'INSIDE')
       );
 
+      // @ts-expect-error (not strict)
       await preview.initialize({ importFn, getProjectAnnotations });
       await waitForRender();
 
@@ -130,10 +130,11 @@ describe('PreviewWeb', () => {
 
       document.location.search = '?id=component-one--a';
       const preview = new PreviewWeb();
+      // @ts-expect-error (not strict)
       await preview.initialize({ importFn, getProjectAnnotations });
       await waitForRender();
 
-      projectAnnotations.renderToDOM.mockImplementationOnce(
+      projectAnnotations.renderToCanvas.mockImplementationOnce(
         ({ storyFn }: Store_RenderContext<any>) => storyFn()
       );
       projectAnnotations.decorators[0].mockClear();

@@ -1,3 +1,136 @@
+## 7.0.0-alpha.51 (November 19, 2022)
+
+#### Bug Fixes
+
+-   NextJS: Fix out-of-the-box babel handling [#19842](https://github.com/storybooks/storybook/pull/19842)
+-   NextJS: Fix import url on windows [#19798](https://github.com/storybooks/storybook/pull/19798)
+-   UI: Fix panel invisible for any addon listed after the interactions panel [#19771](https://github.com/storybooks/storybook/pull/19771)
+-   Core: Bail preview builder on failure [#19849](https://github.com/storybooks/storybook/pull/19849)
+-   Core: Fix double esbuild-register register [#19852](https://github.com/storybooks/storybook/pull/19852)
+-   Composition: Fix regression in the `#root` to `#storybook-root` change [#19848](https://github.com/storybooks/storybook/pull/19848)
+-   UI: Fix `showPanel=false` doesn't work on mobile view [#19807](https://github.com/storybooks/storybook/pull/19807)
+
+#### Maintenance
+
+-   CLI: Replace degit with giget [#19870](https://github.com/storybooks/storybook/pull/19870)
+-   Build: Bundle lib/channel-websocket with tsup [#19694](https://github.com/storybooks/storybook/pull/19694)
+-   Maintenance: Upgrade monorepo to TS 4.9  [#19869](https://github.com/storybooks/storybook/pull/19869)
+
+#### Build
+
+-   Build: Downgrade @types/node [#19890](https://github.com/storybooks/storybook/pull/19890)
+-   Maintenance: Add angular 14 template and skip test runner on angular 15 for now [#19871](https://github.com/storybooks/storybook/pull/19871)
+-   Build: Upgrade Jest to 29 [#19863](https://github.com/storybooks/storybook/pull/19863)
+-   Build: Fix chromatic version to 6.11.2 in local scripts [#19889](https://github.com/storybooks/storybook/pull/19889)
+-   Build: Pin chromatic version to 6.11.2 to temporary fix flakiness [#19874](https://github.com/storybooks/storybook/pull/19874)
+
+#### Dependency Upgrades
+
+-   Bump mdx2-csf dependency [#19885](https://github.com/storybooks/storybook/pull/19885)
+
+## 7.0.0-alpha.50 (November 17, 2022)
+
+#### Features
+
+-   Expose more CSF types in all renderers [#19833](https://github.com/storybooks/storybook/pull/19833)
+-   CSF: Renamed Framework to Renderer [#19802](https://github.com/storybooks/storybook/pull/19802)
+
+#### Bug Fixes
+
+-   Next.js: use file path instead of image contents for next-image-loader-stub [#19858](https://github.com/storybooks/storybook/pull/19858)
+-   TypeScript: Fix type inference bug with decorators  [#19839](https://github.com/storybooks/storybook/pull/19839)
+-   Vite: Keep using absolute path node_modules splitting [#19836](https://github.com/storybooks/storybook/pull/19836)
+-   Vite: Fix preview annotation paths on Windows [#19822](https://github.com/storybooks/storybook/pull/19822)
+-   Fix csf-plugin ignoring options [#19823](https://github.com/storybooks/storybook/pull/19823)
+-   Controls: Checkbox does not update when using useArgs hook [#19508](https://github.com/storybooks/storybook/pull/19508)
+
+#### Maintenance
+
+-   Jest: switch from Parameters to StorybookInternalParameters [#19853](https://github.com/storybooks/storybook/pull/19853)
+-   Blocks: Story stories [#19805](https://github.com/storybooks/storybook/pull/19805)
+-   Blocks: Canvas stories [#19804](https://github.com/storybooks/storybook/pull/19804)
+-   Tech: TypeScript should check stories and tests as well [#19831](https://github.com/storybooks/storybook/pull/19831)
+
+#### Build
+
+-   UI Storybook: Disable sourcemaps when building in CI [#19862](https://github.com/storybooks/storybook/pull/19862)
+-   Build: Increase max node memory for jobs [#19856](https://github.com/storybooks/storybook/pull/19856)
+-   CI: improve error reporting mechanism [#19841](https://github.com/storybooks/storybook/pull/19841)
+-   Fix tests on Windows [#19777](https://github.com/storybooks/storybook/pull/19777)
+-   Build: Fix benchmark to run on local packages [#19832](https://github.com/storybooks/storybook/pull/19832)
+-   CI: Report failures on discord [#19801](https://github.com/storybooks/storybook/pull/19801)
+
+## 7.0.0-alpha.49 (November 13, 2022)
+
+#### Bug Fixes
+
+-   Essentials: Fix preview annotations for Vite pnpm support [#19689](https://github.com/storybooks/storybook/pull/19689)
+
+#### Maintenance
+
+-   Build: convert addon-docs to use ts-up [#19790](https://github.com/storybooks/storybook/pull/19790)
+-   Core: Allow overriding WebView and UrlStore [#19623](https://github.com/storybooks/storybook/pull/19623)
+-   Storyshots: Support .cjs and .mjs file extensions [#19726](https://github.com/storybooks/storybook/pull/19726)
+
+#### Build
+
+-   Build: less noise when compiling [#19808](https://github.com/storybooks/storybook/pull/19808)
+-   Build: Upgrade bench to `next` [#19791](https://github.com/storybooks/storybook/pull/19791)
+-   Maintenance: improve error feedback when tasks fail in CI [#19786](https://github.com/storybooks/storybook/pull/19786)
+-   UI: Enable TurboSnap for UI Storybook [#19767](https://github.com/storybooks/storybook/pull/19767)
+-   CI: Use a new cadence (ci, pr, merged, daily) and trigger CircleCI from github actions [#19768](https://github.com/storybooks/storybook/pull/19768)
+-   Maintenance: provide expected failure metadata in junit reports [#19775](https://github.com/storybooks/storybook/pull/19775)
+
+## 7.0.0-alpha.48 (November 7, 2022)
+
+#### Breaking Changes
+
+-   Preact: Make preact use inline stories (without iframe) by default in docs [#19741](https://github.com/storybooks/storybook/pull/19741)
+
+#### Features
+
+-   Angular: Undo template gen removal during deprecation property removal [#19614](https://github.com/storybooks/storybook/pull/19614)
+-   CSF-tools: Support main.js default exports [#19738](https://github.com/storybooks/storybook/pull/19738)
+-   Addon-docs: Disable play functions in docs mode unless you set `parameters.docs.autoplay` [#19659](https://github.com/storybooks/storybook/pull/19659)
+-   Addon-docs: Add docsPage `automatic` to create docs entries for all components [#19713](https://github.com/storybooks/storybook/pull/19713)
+-   CLI: Add docsPage to all Button/Header story templates [#19715](https://github.com/storybooks/storybook/pull/19715)
+
+#### Bug Fixes
+
+-   Svelte: Fix docs rendering [#19705](https://github.com/storybooks/storybook/pull/19705)
+-   React: Expose ReactFramework type [#19704](https://github.com/storybooks/storybook/pull/19704)
+
+#### Maintenance
+
+-   Core: Update index generation to use tags to detect MDX stories [#19712](https://github.com/storybooks/storybook/pull/19712)
+-   CI: Fix cross OS github actions  [#19754](https://github.com/storybooks/storybook/pull/19754)
+-   Blocks: Redo stories for controls [#19744](https://github.com/storybooks/storybook/pull/19744)
+-   Blocks: Setup and create example story for blocks with context [#19740](https://github.com/storybooks/storybook/pull/19740)
+-   Client-api: Fix export from store [#19720](https://github.com/storybooks/storybook/pull/19720)
+-   Pull renderer+builder from framework's package.json + a known list [#19717](https://github.com/storybooks/storybook/pull/19717)
+-   CLI: Add automigration to set docsPage = 'automatic' for existing Storybooks [#19716](https://github.com/storybooks/storybook/pull/19716)
+-   Builder-webpack5: Use import.meta.webpackHot instead of module.hot for check [#19686](https://github.com/storybooks/storybook/pull/19686)
+-   Fix: Point to correct .d.ts files from export maps [#19724](https://github.com/storybooks/storybook/pull/19724)
+-   CLI: Remove deprecated `-s` flag on `sb init` [#19585](https://github.com/storybooks/storybook/pull/19585)
+
+#### Build
+
+-   Build: Fix eslint formatting in scripts [#19765](https://github.com/storybooks/storybook/pull/19765)
+-   Sandboxes: Fix up stories entry to allow HMR [#19750](https://github.com/storybooks/storybook/pull/19750)
+-   Fix prepare script on Windows machines [#19762](https://github.com/storybooks/storybook/pull/19762)
+-   CI: Fix fix handle-release-branches workflow [#19756](https://github.com/storybooks/storybook/pull/19756)
+-   Build: Cancel workflow in CI on steps failure [#19748](https://github.com/storybooks/storybook/pull/19748)
+-   CI: Schedule a daily job that runs all sandboxes [#19699](https://github.com/storybooks/storybook/pull/19699)
+-   Build: Delete node_modules in repro generation [#19734](https://github.com/storybooks/storybook/pull/19734)
+-   Fix: dts facade generator did not support deep links [#19723](https://github.com/storybooks/storybook/pull/19723)
+-   Build: Re-enable test-runner for vue-cli [#19706](https://github.com/storybooks/storybook/pull/19706)
+
+#### Dependency Upgrades
+
+-   Upgrade mdx2-csf to fix mdxSource generation [#19766](https://github.com/storybooks/storybook/pull/19766)
+-   Dependencies: Bump prettier dependency, cleanup config [#19672](https://github.com/storybooks/storybook/pull/19672)
+-   Vue: Add babel loader 9.0.0 to vue-webpack5 peer dependencies [#19697](https://github.com/storybooks/storybook/pull/19697)
+
 ## 7.0.0-alpha.47 (November 1, 2022)
 
 #### Features
@@ -492,9 +625,10 @@ Bad publish
 
 #### Bug Fixes
 
-- CLI: Fix race condition in sb init [#19083](https://github.com/storybooks/storybook/pull/19083)
-- Vite: Fix framework option checks, and SSv6 [#19062](https://github.com/storybooks/storybook/pull/19062)
-- Core: Fix WebProjectAnnotations export in preview-web for back-compat [#19048](https://github.com/storybooks/storybook/pull/19048)
+-   CLI: Fix race condition in sb init [#19083](https://github.com/storybooks/storybook/pull/19083)
+-   Vite: Fix framework option checks, and SSv6 [#19062](https://github.com/storybooks/storybook/pull/19062)
+-   Core: Fix WebProjectAnnotations export in preview-web for back-compat [#19048](https://github.com/storybooks/storybook/pull/19048)
+-   Blocks: Fix Checkbox control update when using useArgs hook
 
 #### Maintenance
 

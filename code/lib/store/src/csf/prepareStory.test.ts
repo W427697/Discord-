@@ -4,7 +4,7 @@ import global from 'global';
 import { expect } from '@jest/globals';
 import { addons, HooksContext } from '@storybook/addons';
 import type {
-  AnyFramework,
+  Renderer,
   ArgsEnhancer,
   PlayFunctionContext,
   SBObjectType,
@@ -234,11 +234,11 @@ describe('prepareStory', () => {
     describe('argsEnhancers', () => {
       it('are applied in the right order', () => {
         const run: number[] = [];
-        const enhancerOne: ArgsEnhancer<AnyFramework> = () => {
+        const enhancerOne: ArgsEnhancer<Renderer> = () => {
           run.push(1);
           return {};
         };
-        const enhancerTwo: ArgsEnhancer<AnyFramework> = () => {
+        const enhancerTwo: ArgsEnhancer<Renderer> = () => {
           run.push(2);
           return {};
         };

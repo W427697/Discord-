@@ -1,7 +1,7 @@
 import program from 'commander';
 import { join } from 'path';
 import { existsSync } from 'fs';
-import { command } from 'execa';
+import { execaCommand } from '../utils/exec';
 import * as tempy from 'tempy';
 import { copy, emptyDir, readdir, remove, stat, writeFile } from 'fs-extra';
 
@@ -27,8 +27,8 @@ const publish = async (options: PublishOptions & { tmpFolder: string }) => {
   const templatesData = await getTemplatesData();
 
   logger.log(`👯‍♂️ Cloning the repository ${remote} in branch ${gitBranch}`);
-  await command(`git clone ${remote} .`, { cwd: tmpFolder });
-  await command(`git checkout ${gitBranch}`, { cwd: tmpFolder });
+  await execaCommand(`git clone ${remote} .`, { cwd: tmpFolder });
+  await execaCommand(`git checkout ${gitBranch}`, { cwd: tmpFolder });
 
   // otherwise old files will stick around and result inconsistent states
   logger.log(`🗑 Delete existing template dirs from clone`);
@@ -67,7 +67,7 @@ const publish = async (options: PublishOptions & { tmpFolder: string }) => {
     `);
 
   if (push) {
-    await command(`git push --set-upstream origin ${gitBranch}`, {
+    await execaCommand(`git push --set-upstream origin ${gitBranch}`, {
       cwd: tmpFolder,
     });
     const remoteRepoUrl = `${remote.replace('.git', '')}/tree/${gitBranch}`;

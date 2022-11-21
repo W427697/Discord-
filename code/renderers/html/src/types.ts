@@ -1,4 +1,8 @@
-import type { ArgsStoryFn, StoryContext as DefaultStoryContext } from '@storybook/types';
+import type {
+  ArgsStoryFn,
+  StoryContext as DefaultStoryContext,
+  WebRenderer,
+} from '@storybook/types';
 
 import type { parameters } from './config';
 
@@ -11,11 +15,15 @@ export interface ShowErrorArgs {
   description: string;
 }
 
-export type HtmlFramework = {
-  component: string | HTMLElement | ArgsStoryFn<HtmlFramework>;
+/**
+ * @deprecated Use `HtmlRenderer` instead.
+ */
+export type HtmlFramework = HtmlRenderer;
+export interface HtmlRenderer extends WebRenderer {
+  component: string | HTMLElement | ArgsStoryFn<HtmlRenderer>;
   storyResult: StoryFnHtmlReturnType;
-};
+}
 
-export type StoryContext = DefaultStoryContext<HtmlFramework> & {
-  parameters: DefaultStoryContext<HtmlFramework>['parameters'] & typeof parameters;
+export type StoryContext = DefaultStoryContext<HtmlRenderer> & {
+  parameters: DefaultStoryContext<HtmlRenderer>['parameters'] & typeof parameters;
 };

@@ -1,5 +1,5 @@
 import type {
-  AnyFramework,
+  Renderer,
   Store_ModuleExport,
   Store_ModuleExports,
   Store_Story,
@@ -8,8 +8,9 @@ import type {
   StoryName,
 } from '@storybook/types';
 import type { Channel } from '@storybook/channels';
+import type { StoryRenderOptions } from '../render/StoryRender';
 
-export interface DocsContextProps<TFramework extends AnyFramework = AnyFramework> {
+export interface DocsContextProps<TRenderer extends Renderer = Renderer> {
   /**
    * Register the CSF file that this docs entry represents.
    * Used by the `<Meta of={} />` block.
@@ -34,27 +35,28 @@ export interface DocsContextProps<TFramework extends AnyFramework = AnyFramework
    * Syncronously find a story by id (if the id is not provided, this will look up the primary
    * story in the CSF file, if such a file exists).
    */
-  storyById: (id?: StoryId) => Store_Story<TFramework>;
+  storyById: (id?: StoryId) => Store_Story<TRenderer>;
   /**
    * Syncronously find all stories of the component referenced by the CSF file.
    */
-  componentStories: () => Store_Story<TFramework>[];
+  componentStories: () => Store_Story<TRenderer>[];
 
   /**
    * Get the story context of the referenced story.
    */
-  getStoryContext: (story: Store_Story<TFramework>) => StoryContextForLoaders<TFramework>;
+  getStoryContext: (story: Store_Story<TRenderer>) => StoryContextForLoaders<TRenderer>;
   /**
    * Asyncronously load an arbitrary story by id.
    */
-  loadStory: (id: StoryId) => Promise<Store_Story<TFramework>>;
+  loadStory: (id: StoryId) => Promise<Store_Story<TRenderer>>;
 
   /**
    * Render a story to a given HTML element and keep it up to date across context changes
    */
   renderStoryToElement: (
-    story: Store_Story<TFramework>,
-    element: HTMLElement
+    story: Store_Story<TRenderer>,
+    element: HTMLElement,
+    options: StoryRenderOptions
   ) => () => Promise<void>;
 
   /**

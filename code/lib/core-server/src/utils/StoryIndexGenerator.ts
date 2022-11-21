@@ -227,9 +227,10 @@ export class StoryIndexGenerator {
         const { docsPage } = this.options.docs;
         const docsPageOptedIn =
           docsPage === 'automatic' || (docsPage && componentTags.includes('docsPage'));
-        // We always add a template for *.stories.mdx, but only if docs page is enabled for
-        // regular CSF files
-        if (storyIndexer.addDocsTemplate || docsPageOptedIn) {
+        // We need a docs entry attached to the CSF file if either:
+        //  a) it is a stories.mdx transpiled to CSF, OR
+        //  b) we have docs page enabled for this file
+        if (componentTags.includes('mdx') || docsPageOptedIn) {
           const name = this.options.docs.defaultName;
           const id = toId(csf.meta.title, name);
           entries.unshift({
@@ -303,7 +304,12 @@ export class StoryIndexGenerator {
         dependencies.forEach((dep) => {
           if (dep.entries.length > 0) {
             const first = dep.entries[0];
-            if (path.resolve(this.options.workingDir, first.importPath).startsWith(absoluteOf)) {
+
+            if (
+              path
+                .normalize(path.resolve(this.options.workingDir, first.importPath))
+                .startsWith(path.normalize(absoluteOf))
+            ) {
               ofTitle = first.title;
             }
           }
@@ -484,11 +490,6 @@ export class StoryIndexGenerator {
           }
         });
       });
-
-      const notFound = dependents.filter((dep) => !invalidated.has(dep));
-      if (notFound.length > 0) {
-        throw new Error(`Could not invalidate ${notFound.length} deps: ${notFound.join(', ')}`);
-      }
     }
 
     if (removed) {
