@@ -127,6 +127,7 @@ describe('useStoriesJson', () => {
               ],
               "tags": Array [
                 "docs",
+                "mdx",
               ],
               "title": "A",
               "type": "docs",
@@ -141,6 +142,7 @@ describe('useStoriesJson', () => {
               ],
               "tags": Array [
                 "docs",
+                "mdx",
               ],
               "title": "A",
               "type": "docs",
@@ -186,6 +188,7 @@ describe('useStoriesJson', () => {
               "storiesImports": Array [],
               "tags": Array [
                 "docs",
+                "mdx",
               ],
               "title": "docs2/NoTitle",
               "type": "docs",
@@ -198,6 +201,7 @@ describe('useStoriesJson', () => {
               "storiesImports": Array [],
               "tags": Array [
                 "docs",
+                "mdx",
               ],
               "title": "docs2/Yabbadabbadooo",
               "type": "docs",
@@ -299,6 +303,7 @@ describe('useStoriesJson', () => {
               "story": "docs",
               "tags": Array [
                 "docs",
+                "mdx",
               ],
               "title": "A",
             },
@@ -319,6 +324,7 @@ describe('useStoriesJson', () => {
               "story": "Second Docs",
               "tags": Array [
                 "docs",
+                "mdx",
               ],
               "title": "A",
             },
@@ -388,6 +394,7 @@ describe('useStoriesJson', () => {
               "story": "docs",
               "tags": Array [
                 "docs",
+                "mdx",
               ],
               "title": "docs2/NoTitle",
             },
@@ -406,6 +413,7 @@ describe('useStoriesJson', () => {
               "story": "docs",
               "tags": Array [
                 "docs",
+                "mdx",
               ],
               "title": "docs2/Yabbadabbadooo",
             },

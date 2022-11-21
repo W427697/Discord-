@@ -286,7 +286,7 @@ export class StoryIndexGenerator {
 
       // Go through the cache and collect all of the cache entries that this docs file depends on.
       // We'll use this to make sure this docs cache entry is invalidated when any of its dependents
-      // are invalidated.
+      // are invalidated.f
       const dependencies = this.findDependencies(absoluteImports);
 
       // Also, if `result.of` is set, it means that we're using the `<Meta of={XStories} />` syntax,
@@ -328,7 +328,7 @@ export class StoryIndexGenerator {
         importPath,
         storiesImports: dependencies.map((dep) => dep.entries[0].importPath),
         type: 'docs',
-        tags: [...(result.tags || []), 'docs'],
+        tags: [...(result.tags || []), 'docs', 'mdx'],
         standalone: true,
       };
       return docsEntry;
