@@ -27,20 +27,6 @@ jest.mock('@storybook/csf', () => {
   };
 });
 
-// FIXME: can't figure out how to import ESM
-jest.mock('@storybook/docs-mdx', async () => ({
-  analyze(content: string) {
-    const importMatches = content.matchAll(/'(.[^']*\.stories)'/g);
-    const imports = Array.from(importMatches).map((match) => match[1]);
-    const title = content.match(/title=['"](.*)['"]/)?.[1];
-    const name = content.match(/name=['"](.*)['"]/)?.[1];
-    const ofMatch = content.match(/of=\{(.*)\}/)?.[1];
-    const isTemplate = content.match(/isTemplate/);
-    const tags = ['mdx'];
-    return { title, name, tags, imports, of: ofMatch && imports.length && imports[0], isTemplate };
-  },
-}));
-
 jest.mock('@storybook/node-logger');
 
 const toIdMock = toId as jest.Mock<ReturnType<typeof toId>>;
@@ -507,8 +493,8 @@ describe('StoryIndexGenerator', () => {
                   "./src/A.stories.js",
                 ],
                 "tags": Array [
-                  "mdx",
                   "docs",
+                  "mdx",
                 ],
                 "title": "A",
                 "type": "docs",
@@ -621,8 +607,8 @@ describe('StoryIndexGenerator', () => {
                   "./src/A.stories.js",
                 ],
                 "tags": Array [
-                  "mdx",
                   "docs",
+                  "mdx",
                 ],
                 "title": "A",
                 "type": "docs",
@@ -636,8 +622,8 @@ describe('StoryIndexGenerator', () => {
                   "./src/A.stories.js",
                 ],
                 "tags": Array [
-                  "mdx",
                   "docs",
+                  "mdx",
                 ],
                 "title": "A",
                 "type": "docs",
@@ -660,8 +646,8 @@ describe('StoryIndexGenerator', () => {
                 "standalone": true,
                 "storiesImports": Array [],
                 "tags": Array [
-                  "mdx",
                   "docs",
+                  "mdx",
                 ],
                 "title": "docs2/Yabbadabbadooo",
                 "type": "docs",
@@ -673,8 +659,8 @@ describe('StoryIndexGenerator', () => {
                 "standalone": true,
                 "storiesImports": Array [],
                 "tags": Array [
-                  "mdx",
                   "docs",
+                  "mdx",
                 ],
                 "title": "NoTitle",
                 "type": "docs",
@@ -764,8 +750,8 @@ describe('StoryIndexGenerator', () => {
                   "./src/A.stories.js",
                 ],
                 "tags": Array [
-                  "mdx",
                   "docs",
+                  "mdx",
                 ],
                 "title": "A",
                 "type": "docs",
@@ -779,8 +765,8 @@ describe('StoryIndexGenerator', () => {
                   "./src/A.stories.js",
                 ],
                 "tags": Array [
-                  "mdx",
                   "docs",
+                  "mdx",
                 ],
                 "title": "A",
                 "type": "docs",
@@ -803,8 +789,8 @@ describe('StoryIndexGenerator', () => {
                 "standalone": true,
                 "storiesImports": Array [],
                 "tags": Array [
-                  "mdx",
                   "docs",
+                  "mdx",
                 ],
                 "title": "docs2/Yabbadabbadooo",
                 "type": "docs",
@@ -816,8 +802,8 @@ describe('StoryIndexGenerator', () => {
                 "standalone": true,
                 "storiesImports": Array [],
                 "tags": Array [
-                  "mdx",
                   "docs",
+                  "mdx",
                 ],
                 "title": "NoTitle",
                 "type": "docs",
