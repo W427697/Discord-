@@ -3,19 +3,42 @@
   "version": "7.0.0-alpha.52",
   "description": "A plugin to run and build Storybooks with Vite",
   "homepage": "https://github.com/storybookjs/storybook/tree/main/code/lib/builder-vite/#readme",
+  "bugs": {
+    "url": "https://github.com/storybookjs/storybook/issues"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/storybookjs/storybook.git",
     "directory": "code/lib/builder-vite"
   },
+  "funding": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/storybook"
+  },
   "license": "MIT",
   "author": "Eirik Sletteberg",
-  "main": "dist/cjs/index.js",
-  "module": "dist/esm/index.js",
-  "types": "dist/types/index.d.ts",
+  "exports": {
+    ".": {
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.ts"
+    },
+    "./input/iframe.html": "./input/iframe.html",
+    "./input/react-dom-client-placeholder.js": "./input/react-dom-client-placeholder.js",
+    "./package.json": "./package.json"
+  },
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist/**/*",
+    "input/**/*",
+    "*.js",
+    "*.d.ts"
+  ],
   "scripts": {
     "check": "../../../scripts/node_modules/.bin/tsc --noEmit",
-    "prep": "node ../../../scripts/prepare.js"
+    "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
     "@joshwooding/vite-plugin-react-docgen-typescript": "0.0.5",
@@ -42,8 +65,26 @@
     "typescript": "^4.9.3",
     "vite": "^3.1.3"
   },
+  "peerDependencies": {
+    "@preact/preset-vite": "*",
+    "vite-plugin-glimmerx": "*"
+  },
+  "peerDependenciesMeta": {
+    "@preact/preset-vite": {
+      "optional": true
+    },
+    "vite-plugin-glimmerx": {
+      "optional": true
+    }
+  },
   "publishConfig": {
     "access": "public"
+  },
+  "bundler": {
+    "entries": [
+      "./src/index.ts"
+    ],
+    "platform": "node"
   },
   "gitHead": "d2494e3f51ce0f55bcb1ef693a6477c669fbe666"
 }
