@@ -28,15 +28,19 @@ class HTMLElement {
   }
 }
 
+// Prevent real reloads
 delete globalThis.location;
+// @ts-expect-error we don't care about the other location attributes
 globalThis.location = { reload: jest.fn() };
 
+// @ts-expect-error don't need a real HTMLElement
 jest.spyOn(globalThis, 'HTMLElement').mockImplementation(() => new HTMLElement());
 
 const storyId = 'kind--story';
 jest
   .spyOn(globalThis, '__STORYBOOK_PREVIEW__', 'get')
-  .mockImplementation(() => ({ urlStore: { selection: { storyId } } }));
+  // @ts-expect-error Not creating a full implementation here
+  .mockImplementation(() => ({ selectionStore: { selection: { storyId } } }));
 
 const setRenderPhase = (newPhase: string) =>
   addons.getChannel().emit(STORY_RENDER_PHASE_CHANGED, { newPhase, storyId });
