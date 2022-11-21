@@ -1,5 +1,7 @@
-import type { UserConfig } from 'vite';
+import { stringifyEnvs } from '@storybook/core-common';
+import type { UserConfig, UserConfig as ViteConfig } from 'vite';
 import type { Builder_EnvsRaw } from '@storybook/types';
+import type { ExtendedOptions } from './types';
 
 // Allowed env variables on the client
 const allowedEnvVariables = [
@@ -31,6 +33,28 @@ export function stringifyProcessEnvs(raw: Builder_EnvsRaw, envPrefix: UserConfig
     }
     return acc;
   }, {});
+  // support destructuring like
+  // const { foo } = import.meta.env;
+  envs['import.meta.env'] = JSON.stringify(stringifyEnvs(updatedRaw));
 
   return envs;
+}
+
+// Sanitize environment variables if needed
+export async function sanitizeEnvVars(options: ExtendedOptions, config: ViteConfig) {
+  const { presets } = options;
+  const envsRaw = await presets.apply<Promise<Builder_EnvsRaw>>('env');
+  let { define } = config;
+  if (Object.keys(envsRaw).length) {
+    // Stringify env variables after getting `envPrefix` from the  config
+    const envs = stringifyProcessEnvs(envsRaw, config.envPrefix);
+    define = {
+      ...define,
+      ...envs,
+    };
+  }
+  return {
+    ...config,
+    define,
+  };
 }
