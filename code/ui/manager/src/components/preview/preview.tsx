@@ -161,8 +161,6 @@ const Preview = React.memo<PreviewProps>(function Preview(props) {
 
   const tabs = useTabs(previewId, baseUrl, withLoader, getElements, entry);
 
-  console.log('tabs', { tabs });
-
   const shouldScale = viewMode === 'story';
   const { showToolbar, showTabs = true } = options;
   const visibleTabsInToolbar = showTabs ? tabs : [];

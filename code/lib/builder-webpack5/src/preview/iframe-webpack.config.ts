@@ -38,28 +38,6 @@ const storybookPaths: Record<string, string> = {
     }),
     {}
   ),
-  ...[
-    // these packages are pre-bundled, so they are mapped to global shims
-    'channels',
-    'channel-postmessage',
-    'channel-websocket',
-    'core-events',
-    'client-logger',
-    'addons',
-    'store',
-    'preview-web',
-    'client-api',
-    'core-client',
-  ].reduce(
-    (acc, sbPackage) => ({
-      ...acc,
-      [`@storybook/${sbPackage}`]: join(
-        dirname(require.resolve(`@storybook/preview/package.json`)),
-        `dist/global/${sbPackage}.mjs`
-      ),
-    }),
-    {}
-  ),
 };
 
 export default async (
@@ -212,6 +190,29 @@ export default async (
     },
     watchOptions: {
       ignored: /node_modules/,
+    },
+    externals: {
+      ...[
+        // these packages are pre-bundled, so they are mapped to global shims
+        'channels',
+        'channel-postmessage',
+        'channel-websocket',
+        'core-events',
+        'client-logger',
+        'addons',
+        'store',
+        'preview-web',
+        'client-api',
+        'core-client',
+      ].reduce(
+        (acc, sbPackage) => ({
+          ...acc,
+          [`@storybook/${sbPackage}`]: `__STORYBOOK_MODULE_${sbPackage
+            .toUpperCase()
+            .replaceAll('-', '_')}__`,
+        }),
+        {}
+      ),
     },
     ignoreWarnings: [
       {
