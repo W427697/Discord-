@@ -58,5 +58,5 @@ renderStorybookUI(rootEl, new ReactProvider());
 
 // Apply all the globals
 Object.keys(Keys).forEach((key: keyof typeof Keys) => {
-  global[Keys[key]] = values[key];
+  (globalThis as any)[Keys[key]] = values[key];
 });
