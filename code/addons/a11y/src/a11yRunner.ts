@@ -68,7 +68,7 @@ const run = async (storyId: string) => {
 const getParams = async (storyId: string): Promise<A11yParameters> => {
   const { parameters } = (await globalThis.__STORYBOOK_STORY_STORE__?.loadStory({ storyId })) || {};
   return (
-    parameters.a11y || {
+    parameters?.a11y || {
       config: {},
       options: {},
     }
