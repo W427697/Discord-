@@ -37,13 +37,14 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          fetch-depth: 100
+          fetch-depth: 0
       - name: Generate affected-templates.json
         run: |
           cd code
           yarn
           cd ../scripts
           yarn
+          echo $(git rev-parse origin/next~1)
           yarn get-affected-templates
       - uses: sergeysova/jq-action@v2
       - name: Set parallelism count for each workflow
