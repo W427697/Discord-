@@ -1,2 +1,1 @@
-/* eslint-disable import/export */
-export * from '@storybook/addon-docs/dist/preset';
+export * from '@storybook/addon-docs/preset';
