@@ -1,12 +1,12 @@
 /* eslint-disable no-console */
 import { join, relative } from 'path';
-import { command } from 'execa';
 import type { Options as ExecaOptions } from 'execa';
 import pLimit from 'p-limit';
 import prettyTime from 'pretty-hrtime';
 import { copy, emptyDir, ensureDir, move, remove, rename, writeFile } from 'fs-extra';
 import { program } from 'commander';
 import { directory } from 'tempy';
+import { execaCommand } from '../utils/exec';
 
 import type { OptionValues } from '../utils/options';
 import { createOptions } from '../utils/options';
@@ -85,7 +85,11 @@ export const runCommand = async (script: string, options: ExecaOptions) => {
     console.log(`Running command: ${script}`);
   }
 
-  return command(script, { stdout: shouldDebug ? 'inherit' : 'ignore', shell: true, ...options });
+  return execaCommand(script, {
+    stdout: shouldDebug ? 'inherit' : 'ignore',
+    shell: true,
+    ...options,
+  });
 };
 
 const addDocumentation = async (
