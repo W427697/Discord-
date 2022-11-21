@@ -56,21 +56,42 @@ export default async (
     serverChannelUrl,
   } = options;
 
-  const frameworkOptions = await presets.apply('frameworkOptions');
-
   const isProd = configType === 'PRODUCTION';
-  const envs = await presets.apply<Record<string, string>>('env');
-  const logLevel = await presets.apply('logLevel', undefined);
+  const workingDir = process.cwd();
 
-  const headHtmlSnippet = await presets.apply('previewHead');
-  const bodyHtmlSnippet = await presets.apply('previewBody');
-  const template = await presets.apply<string>('previewMainTemplate');
-  const coreOptions = await presets.apply<CoreConfig>('core');
+  const [
+    coreOptions,
+    frameworkOptions,
+    envs,
+    logLevel,
+    headHtmlSnippet,
+    bodyHtmlSnippet,
+    template,
+    docsOptions,
+    entries,
+    nonNormalizedStories,
+  ] = await Promise.all([
+    presets.apply<CoreConfig>('core'),
+    presets.apply('frameworkOptions'),
+    presets.apply<Record<string, string>>('env'),
+    presets.apply('logLevel', undefined),
+    presets.apply('previewHead'),
+    presets.apply('previewBody'),
+    presets.apply<string>('previewMainTemplate'),
+    presets.apply<DocsOptions>('docs'),
+    presets.apply<string[]>('entries', [], options),
+    presets.apply('stories', [], options),
+  ]);
+
+  const stories = normalizeStories(nonNormalizedStories, {
+    configDir: options.configDir,
+    workingDir,
+  });
+
   const builderOptions: BuilderOptions =
     typeof coreOptions.builder === 'string'
       ? {}
       : coreOptions.builder?.options || ({} as BuilderOptions);
-  const docsOptions = await presets.apply<DocsOptions>('docs');
 
   const previewAnnotations = [
     ...(await presets.apply<PreviewAnnotation[]>('previewAnnotations', [], options)).map(
@@ -87,12 +108,6 @@ export default async (
     ),
     loadPreviewOrConfigFile(options),
   ].filter(Boolean);
-  const entries = (await presets.apply('entries', [], options)) as string[];
-  const workingDir = process.cwd();
-  const stories = normalizeStories(await presets.apply('stories', [], options), {
-    configDir: options.configDir,
-    workingDir,
-  });
 
   const virtualModuleMapping: Record<string, string> = {};
   if (features?.storyStoreV7) {
