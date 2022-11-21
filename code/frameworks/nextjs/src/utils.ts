@@ -6,6 +6,7 @@ import { pathExists } from 'fs-extra';
 import dedent from 'ts-dedent';
 import type { Configuration as WebpackConfig } from 'webpack';
 import type { NextConfig } from 'next';
+import { pathToFileURL } from 'node:url';
 
 export const configureRuntimeNextjsVersionResolution = (baseConfig: WebpackConfig): void => {
   baseConfig.plugins?.push(
@@ -53,7 +54,7 @@ export const resolveNextConfig = async ({
     );
   }
 
-  const nextConfigExport = await import(nextConfigFile);
+  const nextConfigExport = await import(pathToFileURL(nextConfigFile).href);
 
   const nextConfig =
     typeof nextConfigExport === 'function'
