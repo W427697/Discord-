@@ -19,24 +19,18 @@ const allowedEnvVariables = [
  */
 export function stringifyProcessEnvs(raw: Builder_EnvsRaw, envPrefix: UserConfig['envPrefix']) {
   const updatedRaw: Builder_EnvsRaw = {};
-  const envs = Object.entries(raw).reduce(
-    (acc: Builder_EnvsRaw, [key, value]) => {
-      // Only add allowed values OR values from array OR string started with allowed prefixes
-      if (
-        allowedEnvVariables.includes(key) ||
-        (Array.isArray(envPrefix) && !!envPrefix.find((prefix) => key.startsWith(prefix))) ||
-        (typeof envPrefix === 'string' && key.startsWith(envPrefix))
-      ) {
-        acc[`import.meta.env.${key}`] = JSON.stringify(value);
-        updatedRaw[key] = value;
-      }
-      return acc;
-    },
-    {
-      // Default fallback
-      'process.env.XSTORYBOOK_EXAMPLE_APP': '""',
+  const envs = Object.entries(raw).reduce((acc: Builder_EnvsRaw, [key, value]) => {
+    // Only add allowed values OR values from array OR string started with allowed prefixes
+    if (
+      allowedEnvVariables.includes(key) ||
+      (Array.isArray(envPrefix) && !!envPrefix.find((prefix) => key.startsWith(prefix))) ||
+      (typeof envPrefix === 'string' && key.startsWith(envPrefix))
+    ) {
+      acc[`import.meta.env.${key}`] = JSON.stringify(value);
+      updatedRaw[key] = value;
     }
-  );
+    return acc;
+  }, {});
 
   return envs;
 }
