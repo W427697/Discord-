@@ -33,6 +33,9 @@ export const InitialCanvas = ({ props }: { props: MobileProps }) => (
 export const InitialAddons = ({ props }: { props: MobileProps }) => (
   <Mobile {...props} options={{ ...props.options, initialActive: ActiveTabs.ADDONS }} />
 );
+export const NoPanel = ({ props }: { props: MobileProps }) => (
+  <Mobile {...props} options={{ ...props.options, showPanel: false }} />
+);
 
 export const Fullscreen = ({ props }: { props: MobileProps }) => (
   <Mobile

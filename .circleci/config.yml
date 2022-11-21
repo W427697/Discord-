@@ -193,6 +193,19 @@ commands:
           fail_only: true
           failure_message: $(yarn get-report-message << pipeline.parameters.workflow >> << parameters.template >>)
 jobs:
+  pretty-docs:
+    executor:
+      class: small
+      name: sb_node_16_classic
+    steps:
+      - checkout_advanced:
+          clone_options: '--depth 1 --verbose'
+      - run:
+          name: Prettier
+          command: |
+            cd scripts
+            yarn
+            yarn docs:prettier:check
   build:
     executor:
       class: large
@@ -318,7 +331,7 @@ jobs:
           destination: react-vite-default-ts-bench.tar.gz
   lint:
     executor:
-      class: medium
+      class: large
       name: sb_node_16_classic
     steps:
       - checkout_advanced:
@@ -377,7 +390,7 @@ jobs:
           name: Test
           command: |
             cd code
-            yarn test --coverage --ci --runInBand
+            yarn test --coverage --ci --maxWorkers=6
       - store_test_results:
           path: code/junit.xml
       - persist_to_workspace:
@@ -566,6 +579,7 @@ workflows:
         - equal: [api, << pipeline.trigger_source >>]
         - equal: [ci, << pipeline.parameters.workflow >>]
     jobs:
+      - pretty-docs
       - build
       - lint:
           requires:
@@ -598,6 +612,7 @@ workflows:
     when:
       equal: [pr, << pipeline.parameters.workflow >>]
     jobs:
+      - pretty-docs
       - build
       - lint:
           requires:
@@ -647,6 +662,7 @@ workflows:
     when:
       equal: [merged, << pipeline.parameters.workflow >>]
     jobs:
+      - pretty-docs
       - build
       - lint:
           requires:
@@ -673,11 +689,11 @@ workflows:
           requires:
             - build
       - create-sandboxes:
-          parallelism: 14
+          parallelism: 15
           requires:
             - build
       - build-sandboxes:
-          parallelism: 14
+          parallelism: 15
           requires:
             - create-sandboxes
       - test-runner-sandboxes:
@@ -685,11 +701,11 @@ workflows:
           requires:
             - build-sandboxes
       - chromatic-sandboxes:
-          parallelism: 14
+          parallelism: 15
           requires:
             - build-sandboxes
       - e2e-sandboxes:
-          parallelism: 14
+          parallelism: 15
           requires:
             - build-sandboxes
   daily:
@@ -698,14 +714,14 @@ workflows:
     jobs:
       - build
       - create-sandboxes:
-          parallelism: 24
+          parallelism: 25
           requires:
             - build
       # - smoke-test-sandboxes: # disabled for now
       #     requires:
       #       - create-sandboxes
       - build-sandboxes:
-          parallelism: 24
+          parallelism: 25
           requires:
             - create-sandboxes
       - test-runner-sandboxes:
@@ -713,10 +729,10 @@ workflows:
           requires:
             - build-sandboxes
       - chromatic-sandboxes:
-          parallelism: 24
+          parallelism: 25
           requires:
             - build-sandboxes
       - e2e-sandboxes:
-          parallelism: 24
+          parallelism: 25
           requires:
             - build-sandboxes
