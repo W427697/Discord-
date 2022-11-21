@@ -127,6 +127,8 @@ export const allTemplates = {
       renderer: '@storybook/html',
       builder: '@storybook/builder-vite',
     },
+    // TODO: remove this once html-vite framework is released
+    inDevelopment: true,
   },
   'html-vite/default-ts': {
     name: 'HTML Vite TS',
@@ -137,6 +139,8 @@ export const allTemplates = {
       renderer: '@storybook/html',
       builder: '@storybook/builder-vite',
     },
+    // TODO: remove this once html-vite framework is released
+    inDevelopment: true,
   },
   'svelte-vite/default-js': {
     name: 'Svelte Vite (JS)',
