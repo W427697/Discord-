@@ -1,8 +1,8 @@
 /* eslint-disable no-console */
 import { writeFile } from 'fs-extra';
 import { yellow, bold } from 'chalk';
-import { command } from 'execa';
 import { join } from 'path';
+import { execaCommand } from './utils/exec';
 import { allTemplates, templatesByCadence } from '../code/lib/cli/src/repro-templates';
 
 type TemplatesByCadence = typeof templatesByCadence;
@@ -21,7 +21,7 @@ async function run() {
   }
 
   console.log(`⚙️ Running command: ${nxCommand}\n`);
-  const contents = await command(nxCommand, { cwd: join(__dirname, '..') });
+  const contents = await execaCommand(nxCommand, { cwd: join(__dirname, '..') });
 
   const affectedPackages = JSON.parse(contents.stdout).projects as string[];
 
