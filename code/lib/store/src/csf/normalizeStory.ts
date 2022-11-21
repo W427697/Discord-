@@ -1,5 +1,5 @@
 import type {
-  Framework,
+  Renderer,
   ArgTypes,
   LegacyStoryAnnotationsOrFn,
   Store_NormalizedComponentAnnotations,
@@ -23,13 +23,13 @@ See https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#hoisted-csf-
 
 const deprecatedStoryAnnotationWarning = deprecate(() => {}, deprecatedStoryAnnotation);
 
-export function normalizeStory<TFramework extends Framework>(
+export function normalizeStory<TRenderer extends Renderer>(
   key: StoryId,
-  storyAnnotations: LegacyStoryAnnotationsOrFn<TFramework>,
-  meta: Store_NormalizedComponentAnnotations<TFramework>
-): Store_NormalizedStoryAnnotations<TFramework> {
-  const storyObject: StoryAnnotations<TFramework> = storyAnnotations;
-  const userStoryFn: StoryFn<TFramework> | null =
+  storyAnnotations: LegacyStoryAnnotationsOrFn<TRenderer>,
+  meta: Store_NormalizedComponentAnnotations<TRenderer>
+): Store_NormalizedStoryAnnotations<TRenderer> {
+  const storyObject: StoryAnnotations<TRenderer> = storyAnnotations;
+  const userStoryFn: StoryFn<TRenderer> | null =
     typeof storyAnnotations === 'function' ? storyAnnotations : null;
 
   const { story } = storyObject;

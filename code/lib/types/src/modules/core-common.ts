@@ -462,11 +462,13 @@ export interface CoreCommon_ResolvedAddonPreset {
   name: string;
 }
 
+export type PreviewAnnotation = string | { bare: string; absolute: string };
+
 export interface CoreCommon_ResolvedAddonVirtual {
   type: 'virtual';
   name: string;
   managerEntries?: string[];
-  previewAnnotations?: string[];
+  previewAnnotations?: PreviewAnnotation[];
   presets?: (string | { name: string; options?: any })[];
 }
 

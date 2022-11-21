@@ -1,11 +1,10 @@
-import type { Framework, ProjectAnnotations } from '@storybook/types';
+import type { Renderer, ProjectAnnotations, Store_StoryIndex } from '@storybook/types';
 import global from 'global';
 import { expect } from '@jest/globals';
 
 import { prepareStory } from './csf/prepareStory';
 import { processCSFFile } from './csf/processCSFFile';
 import { StoryStore } from './StoryStore';
-import type { StoryIndex } from './types';
 import type { HooksContext } from './hooks';
 
 // Spy on prepareStory/processCSFFile
@@ -43,7 +42,7 @@ const projectAnnotations: ProjectAnnotations<any> = {
   render: jest.fn(),
 };
 
-const storyIndex: StoryIndex = {
+const storyIndex: Store_StoryIndex = {
   v: 4,
   entries: {
     'component-one--a': {
@@ -444,7 +443,7 @@ describe('StoryStore', () => {
 
       const story = await store.loadStory({ storyId: 'component-one--a' });
 
-      const { hooks } = store.getStoryContext(story) as { hooks: HooksContext<Framework> };
+      const { hooks } = store.getStoryContext(story) as { hooks: HooksContext<Renderer> };
       hooks.clean = jest.fn();
       store.cleanupStory(story);
       expect(hooks.clean).toHaveBeenCalled();
@@ -631,11 +630,12 @@ describe('StoryStore', () => {
     });
 
     it('does not include (modern) docs entries ever', async () => {
-      const docsOnlyStoryIndex: StoryIndex = {
+      const docsOnlyStoryIndex: Store_StoryIndex = {
         v: 4,
         entries: {
           ...storyIndex.entries,
           'introduction--docs': {
+            standalone: true,
             type: 'docs',
             id: 'introduction--docs',
             title: 'Introduction',
