@@ -1,6 +1,5 @@
 import { pathExists, remove } from 'fs-extra';
 import { join, resolve } from 'path';
-import { generate as generateRepro } from '../next-repro-generators/generate-repros';
 
 import type { Task } from '../task';
 
@@ -19,6 +18,10 @@ export const generate: Task = {
       logger.info('🗑  Removing old repro dir');
       await remove(reproDir);
     }
+
+    // This uses an async import as it depends on `lib/cli` which requires `code` to be installed.
+    const { generate: generateRepro } = await import('../next-repro-generators/generate-repros');
+
     await generateRepro({
       template: details.key,
       localRegistry: true,
