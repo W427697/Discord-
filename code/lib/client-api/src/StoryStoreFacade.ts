@@ -148,12 +148,10 @@ export class StoryStoreFacade<TRenderer extends Renderer> {
     // eslint-disable-next-line prefer-const
     let { id: componentId, title, tags: componentTags = [] } = defaultExport || {};
 
-    const specifiers = (globalThis.STORIES || []).map(
-      (specifier: Store_NormalizedStoriesSpecifier & { importPathMatcher: string }) => ({
-        ...specifier,
-        importPathMatcher: new RegExp(specifier.importPathMatcher),
-      })
-    );
+    const specifiers = (globalThis.STORIES || []).map((specifier) => ({
+      ...specifier,
+      importPathMatcher: new RegExp(specifier.importPathMatcher),
+    }));
 
     title = userOrAutoTitle(fileName, specifiers, title);
 

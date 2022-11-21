@@ -4,7 +4,7 @@ import type {
   BuilderOptions,
   CoreConfig,
   DocsOptions,
-  Store_NormalizedStoriesSpecifier,
+  Store_NormalizedStoriesSpecifierEntry,
   StorybookConfig,
   Renderer,
 } from '@storybook/types';
@@ -39,7 +39,7 @@ declare global {
     Html?: any;
   };
   var STORIES: Array<
-    Omit<Store_NormalizedStoriesSpecifier, 'importPathMatcher'> & {
+    Omit<Store_NormalizedStoriesSpecifierEntry, 'importPathMatcher'> & {
       importPathMatcher: string;
     }
   >;
