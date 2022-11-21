@@ -456,7 +456,6 @@ async function run() {
           );
         }
 
-        console.log('exiting 1');
         controllers.forEach((controller) => {
           controller.abort();
         });
@@ -471,7 +470,6 @@ async function run() {
       }
     }
   }
-  console.log('exiting 0');
   controllers.forEach((controller) => {
     controller.abort();
   });
