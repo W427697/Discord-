@@ -10,7 +10,6 @@ import type {
   StoryId,
   StoryKind,
   StoryName,
-  Conditional,
   Globals,
   GlobalTypes,
   Path,
@@ -236,22 +235,6 @@ export interface API_StoryIndex {
 export type API_OptionsData = {
   docsOptions: DocsOptions;
 };
-
-export interface API_Args {
-  [key: string]: any;
-}
-
-export interface API_ArgType {
-  name?: string;
-  description?: string;
-  defaultValue?: any;
-  if?: Conditional;
-  [key: string]: any;
-}
-
-export interface API_ArgTypes {
-  [key: string]: API_ArgType;
-}
 
 export interface API_ReleaseNotes {
   success?: boolean;

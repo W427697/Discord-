@@ -18,7 +18,7 @@ import { logger } from '@storybook/client-logger';
 
 import type {
   StoryId,
-  API_Args,
+  Args,
   API_ComposedRef,
   API_HashEntry,
   API_LeafEntry,
@@ -78,7 +78,7 @@ export interface SubAPI {
     parameterName?: ParameterName
   ) => API_StoryEntry['parameters'] | any;
   getCurrentParameter<S>(parameterName?: ParameterName): S;
-  updateStoryArgs(story: API_StoryEntry, newArgs: API_Args): void;
+  updateStoryArgs(story: API_StoryEntry, newArgs: Args): void;
   resetStoryArgs: (story: API_StoryEntry, argNames?: string[]) => void;
   findLeafEntry(StoriesHash: API_StoriesHash, storyId: StoryId): API_LeafEntry;
   findLeafStoryId(StoriesHash: API_StoriesHash, storyId: StoryId): StoryId;
@@ -493,7 +493,7 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
 
     fullAPI.on(
       STORY_ARGS_UPDATED,
-      function handleStoryArgsUpdated({ storyId, args }: { storyId: StoryId; args: API_Args }) {
+      function handleStoryArgsUpdated({ storyId, args }: { storyId: StoryId; args: Args }) {
         const { ref } = getEventMetadata(this, fullAPI);
         fullAPI.updateStory(storyId, { args }, ref);
       }

@@ -1,5 +1,5 @@
 import { Type } from '@angular/core';
-import { API_ArgType, API_ArgTypes } from '@storybook/types';
+import { ArgTypes } from '@storybook/types';
 import { ICollection } from '../types';
 import {
   ComponentInputsOutputs,
@@ -71,9 +71,11 @@ const createAngularInputProperty = ({
 }: {
   propertyName: string;
   value: any;
-  argType?: API_ArgType;
+  argType?: ArgTypes[string];
 }) => {
-  const { name: type = null, summary = null } = argType?.type || {};
+  // @ts-expect-error summary is not on the type, but it may be there in practice, need to find out
+  const { name: type = null, summary = null } =
+    (typeof argType?.type === 'object' && argType?.type) || {};
   let templateValue = type === 'enum' && !!summary ? `${summary}.${value}` : value;
 
   const actualType = type === 'enum' && summary ? 'enum' : typeof value;
@@ -97,7 +99,7 @@ const createAngularInputProperty = ({
 export const computesTemplateSourceFromComponent = (
   component: Type<unknown>,
   initialProps?: ICollection,
-  argTypes?: API_ArgTypes
+  argTypes?: ArgTypes
 ) => {
   const ngComponentMetadata = getComponentDecoratorMetadata(component);
   if (!ngComponentMetadata) {
