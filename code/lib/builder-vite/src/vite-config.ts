@@ -5,10 +5,12 @@ import type {
   InlineConfig as ViteInlineConfig,
   PluginOption,
   UserConfig as ViteConfig,
+  InlineConfig,
 } from 'vite';
 import viteReact from '@vitejs/plugin-react';
 import { isPreservingSymlinks, getFrameworkName } from '@storybook/core-common';
 import type { Builder_EnvsRaw } from '@storybook/types';
+import { dirname, join } from 'path';
 import { stringifyProcessEnvs } from './envs';
 import {
   codeGeneratorPlugin,
@@ -42,17 +44,40 @@ export async function commonConfig(
 
   const { config: userConfig = {} } = (await loadConfigFromFile(configEnv)) ?? {};
 
-  const sbConfig = {
+  const sbConfig: InlineConfig = {
     configFile: false,
     cacheDir: 'node_modules/.cache/.vite-storybook',
     root: path.resolve(options.configDir, '..'),
     // Allow storybook deployed as subfolder.  See https://github.com/storybookjs/builder-vite/issues/238
     base: './',
+
     plugins: await pluginConfig(options),
     resolve: {
       preserveSymlinks: isPreservingSymlinks(),
       alias: {
         assert: require.resolve('browser-assert'),
+        ...[
+          // these packages are pre-bundled, so they are mapped to global shims
+          'channels',
+          'channel-postmessage',
+          'channel-websocket',
+          'core-events',
+          'client-logger',
+          'addons',
+          'store',
+          'preview-web',
+          'client-api',
+          'core-client',
+        ].reduce(
+          (acc, sbPackage) => ({
+            ...acc,
+            [`@storybook/${sbPackage}`]: join(
+              dirname(require.resolve(`@storybook/preview/package.json`)),
+              `dist/global/${sbPackage}.mjs`
+            ),
+          }),
+          {}
+        ),
       },
     },
     // If an envPrefix is specified in the vite config, add STORYBOOK_ to it,

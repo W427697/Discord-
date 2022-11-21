@@ -116,6 +116,9 @@ export async function getOptimizeDeps(config: ViteInlineConfig, options: Extende
   return {
     // We don't need to resolve the glob since vite supports globs for entries.
     entries: stories,
+
+    // exclude: ['sb-preview/index.mjs'],
+
     // We need Vite to precompile these dependencies, because they contain non-ESM code that would break
     // if we served it directly to the browser.
     include,
