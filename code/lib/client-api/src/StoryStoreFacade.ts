@@ -11,7 +11,6 @@ import type {
   Path,
   Store_ModuleExports,
   Store_NormalizedProjectAnnotations,
-  Store_NormalizedStoriesSpecifier,
   Store_Story,
   Store_StoryIndex,
   StoryId,

@@ -1,4 +1,3 @@
-import global from 'global';
 import { simulatePageLoad } from './simulate-pageload';
 
 const { document } = globalThis;
