@@ -722,6 +722,8 @@ export const MyDocsContainer = (props) => (
 );
 ```
 
+**_NOTE_**: due to breaking changes in MDX2, such override will _only_ apply to elements you create via the MDX syntax, not pure HTML -- ie. `## content` not `<h2>content</h2>`.
+
 #### External Docs
 
 Storybook 7.0 can be used in the above way in externally created projects (i.e. custom docs sites). Your `.mdx` files defined as above should be portable to other contexts. You simply need to render them in an `ExternalDocs` component:

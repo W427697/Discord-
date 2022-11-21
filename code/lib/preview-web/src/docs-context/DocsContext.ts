@@ -49,14 +49,15 @@ export class DocsContext<TRenderer extends Renderer> implements DocsContextProps
     Object.values(csfFile.stories).forEach((annotation) => {
       this.storyIdToCSFFile.set(annotation.id, csfFile);
       this.exportToStoryId.set(annotation.moduleExport, annotation.id);
+    });
 
-      if (addToComponentStories) {
-        this.nameToStoryId.set(annotation.name, annotation.id);
-        const story = this.storyById(annotation.id);
+    if (addToComponentStories) {
+      this.store.componentStoriesFromCSFFile({ csfFile }).forEach((story) => {
+        this.nameToStoryId.set(story.name, story.id);
         this.componentStoriesValue.push(story);
         if (!this.primaryStory) this.primaryStory = story;
-      }
-    });
+      });
+    }
   }
 
   setMeta(metaExports: Store_ModuleExports) {

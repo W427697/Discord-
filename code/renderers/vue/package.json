@@ -1,6 +1,6 @@
 {
   "name": "@storybook/vue",
-  "version": "7.0.0-alpha.51",
+  "version": "7.0.0-alpha.52",
   "description": "Storybook Vue renderer",
   "keywords": [
     "storybook"
@@ -51,12 +51,12 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/addons": "7.0.0-alpha.51",
-    "@storybook/client-logger": "7.0.0-alpha.51",
-    "@storybook/core-client": "7.0.0-alpha.51",
-    "@storybook/docs-tools": "7.0.0-alpha.51",
-    "@storybook/store": "7.0.0-alpha.51",
-    "@storybook/types": "7.0.0-alpha.51",
+    "@storybook/addons": "7.0.0-alpha.52",
+    "@storybook/client-logger": "7.0.0-alpha.52",
+    "@storybook/core-client": "7.0.0-alpha.52",
+    "@storybook/docs-tools": "7.0.0-alpha.52",
+    "@storybook/store": "7.0.0-alpha.52",
+    "@storybook/types": "7.0.0-alpha.52",
     "global": "^4.4.0",
     "react": "16.14.0",
     "react-dom": "16.14.0",
@@ -92,5 +92,5 @@
     ],
     "platform": "browser"
   },
-  "gitHead": "4fec76c3f5135854d9834ebc1cf2f1f325696ded"
+  "gitHead": "d2494e3f51ce0f55bcb1ef693a6477c669fbe666"
 }

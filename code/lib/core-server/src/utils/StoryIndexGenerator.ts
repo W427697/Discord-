@@ -24,6 +24,7 @@ import { normalizeStoryPath } from '@storybook/core-common';
 import { logger } from '@storybook/node-logger';
 import { getStorySortParameter, NoMetaError } from '@storybook/csf-tools';
 import { toId } from '@storybook/csf';
+import { analyze } from '@storybook/docs-mdx';
 
 /** A .mdx file will produce a "standalone" docs entry */
 type DocsCacheEntry = Addon_StandaloneDocsIndexEntry;
@@ -266,14 +267,6 @@ export class StoryIndexGenerator {
       const normalizedPath = normalizeStoryPath(relativePath);
       const importPath = slash(normalizedPath);
 
-      // This `await require(...)` is a bit of a hack. It's necessary because
-      // `docs-mdx` depends on ESM code, which must be asynchronously imported
-      // to be used in CJS. Unfortunately, we cannot use `import()` here, because
-      // it will be transpiled down to `require()` by Babel. So instead, we require
-      // a CJS export from `@storybook/docs-mdx` that does the `async import` for us.
-
-      // eslint-disable-next-line global-require
-      const { analyze } = await require('@storybook/docs-mdx');
       const content = await fs.readFile(absolutePath, 'utf8');
       const result: {
         title?: ComponentTitle;
@@ -293,7 +286,7 @@ export class StoryIndexGenerator {
 
       // Go through the cache and collect all of the cache entries that this docs file depends on.
       // We'll use this to make sure this docs cache entry is invalidated when any of its dependents
-      // are invalidated.
+      // are invalidated.f
       const dependencies = this.findDependencies(absoluteImports);
 
       // Also, if `result.of` is set, it means that we're using the `<Meta of={XStories} />` syntax,
@@ -335,7 +328,7 @@ export class StoryIndexGenerator {
         importPath,
         storiesImports: dependencies.map((dep) => dep.entries[0].importPath),
         type: 'docs',
-        tags: [...(result.tags || []), 'docs'],
+        tags: [...(result.tags || []), 'docs', 'mdx'],
         standalone: true,
       };
       return docsEntry;

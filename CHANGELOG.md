@@ -1,3 +1,20 @@
+## 7.0.0-alpha.52 (November 21, 2022)
+
+#### Bug Fixes
+
+-   NextJS: Fix v13 `next/link` [#19834](https://github.com/storybooks/storybook/pull/19834)
+-   Docs: Fix ordering of entries in `Stories` block [#19907](https://github.com/storybooks/storybook/pull/19907)
+
+#### Build
+
+-   Maintenance: fix execa usage in build and check scripts [#19909](https://github.com/storybooks/storybook/pull/19909)
+-   Use execa 6.x in `scripts` [#19759](https://github.com/storybooks/storybook/pull/19759)
+-   Build: Create a generate task and use in the sandbox process [#19840](https://github.com/storybooks/storybook/pull/19840)
+
+#### Dependency Upgrades
+
+-   Upgrade docs-mdx to fix yarn pnp [#19835](https://github.com/storybooks/storybook/pull/19835)
+
 ## 7.0.0-alpha.51 (November 19, 2022)
 
 #### Bug Fixes
