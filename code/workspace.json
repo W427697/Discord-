@@ -2,7 +2,7 @@
   "version": 2,
   "projects": {
     "@storybook/addon-a11y": {
-      "implicitDependencies": [],
+      "implicitDependencies": ["@storybook/core-client"],
       "root": "addons/a11y",
       "type": "library"
     },
@@ -127,7 +127,12 @@
       "type": "library"
     },
     "@storybook/channel-websocket": {
-      "implicitDependencies": [],
+      "implicitDependencies": [
+        "@storybook/types",
+        "@storybook/addons",
+        "@storybook/client-api",
+        "@storybook/preview-web"
+      ],
       "root": "lib/channel-websocket",
       "type": "library"
     },
@@ -187,7 +192,12 @@
       "type": "library"
     },
     "@storybook/csf-plugin": {
-      "implicitDependencies": [],
+      "implicitDependencies": [
+        "@storybook/types",
+        "@storybook/addons",
+        "@storybook/client-api",
+        "@storybook/preview-web"
+      ],
       "root": "lib/csf-plugin",
       "type": "library"
     },
