@@ -9,7 +9,6 @@ import type {
   ProjectAnnotations,
   Store_BoundStory,
   Store_CSFFile,
-  Store_ExtractOptions,
   Store_ModuleExports,
   Store_ModuleImportFn,
   Store_NormalizedProjectAnnotations,
@@ -263,7 +262,7 @@ export class StoryStore<TRenderer extends Renderer> {
   }
 
   extract(
-    options: Store_ExtractOptions = { includeDocsOnly: false }
+    options: { includeDocsOnly?: boolean } = { includeDocsOnly: false }
   ): Record<StoryId, StoryContextForEnhancers<TRenderer>> {
     if (!this.storyIndex) throw new Error(`extract called before initialization`);
 

@@ -152,20 +152,12 @@ export interface Store_NormalizedStoriesSpecifier {
   specifier?: Store_StoriesSpecifier;
 }
 
-export type Store_ExtractOptions = {
-  includeDocsOnly?: boolean;
-};
-
 export interface Store_NormalizedStoriesSpecifierEntry {
   titlePrefix?: string;
   directory: string;
   files?: string;
   importPathMatcher: RegExp;
 }
-
-export type Store_ContextStore<TRenderer extends Renderer> = {
-  value?: StoryContext<TRenderer>;
-};
 
 export type Store_PropDescriptor = string[] | RegExp;
 
