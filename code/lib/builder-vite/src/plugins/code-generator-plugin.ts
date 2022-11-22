@@ -101,6 +101,9 @@ export function codeGeneratorPlugin(options: ExtendedOptions): Plugin {
       if (source === virtualAddonSetupFile) {
         return virtualAddonSetupFile;
       }
+      if (source === '/sb-preview/index.mjs') {
+        return '/sb-preview/index.mjs';
+      }
 
       return undefined;
     },
@@ -126,6 +129,11 @@ export function codeGeneratorPlugin(options: ExtendedOptions): Plugin {
           return generateModernIframeScriptCode(options);
         }
         return generateIframeScriptCode(options);
+      }
+
+      // This is handled by the express router, not vite
+      if (id === '/sb-preview/index.mjs') {
+        return '';
       }
 
       if (id === iframeId) {

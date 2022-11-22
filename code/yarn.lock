@@ -5867,6 +5867,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/builder-vite@workspace:lib/builder-vite"
   dependencies:
+    "@fal-works/esbuild-plugin-global-externals": ^2.1.2
     "@joshwooding/vite-plugin-react-docgen-typescript": 0.0.5
     "@storybook/client-api": 7.0.0-alpha.52
     "@storybook/client-logger": 7.0.0-alpha.52
@@ -5923,7 +5924,7 @@ __metadata:
     "@storybook/router": 7.0.0-alpha.52
     "@storybook/store": 7.0.0-alpha.52
     "@storybook/theming": 7.0.0-alpha.52
-    "@types/node": ^16.18.3
+    "@types/node": ^16.0.0 || ^18.0.0
     "@types/pretty-hrtime": ^1.0.0
     "@types/semver": ^7.3.4
     "@types/terser-webpack-plugin": ^5.2.0
@@ -6259,7 +6260,7 @@ __metadata:
     "@storybook/types": 7.0.0-alpha.52
     "@types/compression": ^1.7.0
     "@types/ip": ^1.1.0
-    "@types/node": ^16.18.3
+    "@types/node": ^16.0.0 || ^18.0.0
     "@types/node-fetch": ^2.5.7
     "@types/pretty-hrtime": ^1.0.0
     "@types/semver": ^7.3.4
@@ -6961,14 +6962,17 @@ __metadata:
     "@storybook/theming": 7.0.0-alpha.52
     "@storybook/types": 7.0.0-alpha.52
     "@types/qs": ^6.9.5
+    "@types/shelljs": ^0.8.7
     "@types/webpack-env": ^1.16.4
     ansi-to-html: ^0.6.11
     dequal: ^2.0.2
+    fs-extra: ^9.0.1
     global: ^4.4.0
     lodash: ^4.17.21
     memoizerific: ^1.11.3
     qs: ^6.10.0
     react: 16.14.0
+    shelljs: ^0.8.5
     slash: ^3.0.0
     synchronous-promise: ^2.0.15
     ts-dedent: ^2.0.0
@@ -7616,7 +7620,7 @@ __metadata:
     "@storybook/csf": next
     "@types/babel__core": ^7.1.20
     "@types/express": ^4.7.0
-    "@types/node": ^16.18.3
+    "@types/node": ^16.0.0 || ^18.0.0
     express: ^4.17.1
     file-system-cache: ^2.0.0
     synchronous-promise: ^2.0.15
@@ -8555,13 +8559,6 @@ __metadata:
   version: 18.11.9
   resolution: "@types/node@npm:18.11.9"
   checksum: aeaa925406f841c41679b32def9391a9892171e977105e025050e9f66e2830b4c50d0d974a1af0077ead3337a1f3bdf49ee7e7f402ebf2e034a3f97d9d240dba
-  languageName: node
-  linkType: hard
-
-"@types/node@npm:^16.18.3":
-  version: 16.18.3
-  resolution: "@types/node@npm:16.18.3"
-  checksum: 058ddd61a3d39f517bc9c30b82b9d6257d903e84c42ba66aae63bd13203b6deb2acf7f7e14caefd5d7cebadbe8c90604c04f9851cd41cd6a1bc2fc4dcec85f01
   languageName: node
   linkType: hard
 

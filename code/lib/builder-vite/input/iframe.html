@@ -26,9 +26,9 @@
     <div id="storybook-root"></div>
     <div id="storybook-docs"></div>
     <script type="module">
-      /* eslint-disable import/no-absolute-path, import/extensions */
+      /* eslint-disable import/no-absolute-path, import/extensions, import/no-unresolved */
       
-      // import 'sb-preview/index.mjs';
+      import '/sb-preview/index.mjs';
       import '/virtual:/@storybook/builder-vite/vite-app.js';
     </script>
   </body>

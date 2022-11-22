@@ -1,6 +1,6 @@
 // noinspection JSUnusedGlobalSymbols
 
-import * as fs from 'fs';
+import * as fs from 'fs-extra';
 import type { Builder, StorybookConfig as StorybookBaseConfig, Options } from '@storybook/types';
 import type { RequestHandler } from 'express';
 import type { InlineConfig, UserConfig, ViteDevServer } from 'vite';
@@ -46,7 +46,7 @@ function iframeMiddleware(options: ExtendedOptions, server: ViteDevServer): Requ
       return;
     }
 
-    const indexHtml = fs.readFileSync(
+    const indexHtml = await fs.readFile(
       require.resolve('@storybook/builder-vite/input/iframe.html'),
       'utf-8'
     );
