@@ -51,7 +51,7 @@
     "@storybook/types": "7.0.0-alpha.52",
     "@types/babel__core": "^7.1.20",
     "@types/express": "^4.7.0",
-    "@types/node": "^16.0.0 || ^18.0.0",
+    "@types/node": "^16.0.0",
     "@types/pretty-hrtime": "^1.0.0",
     "chalk": "^4.1.0",
     "esbuild": "^0.14.48",

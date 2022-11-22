@@ -54,7 +54,7 @@
     "@storybook/builder-webpack5": "7.0.0-alpha.52",
     "@storybook/preset-react-webpack": "7.0.0-alpha.52",
     "@storybook/react": "7.0.0-alpha.52",
-    "@types/node": "^16.0.0 || ^18.0.0"
+    "@types/node": "^16.0.0"
   },
   "devDependencies": {
     "jest-specific-snapshot": "^6.0.0",

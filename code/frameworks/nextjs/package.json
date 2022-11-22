@@ -65,7 +65,7 @@
     "@storybook/node-logger": "7.0.0-alpha.52",
     "@storybook/preset-react-webpack": "7.0.0-alpha.52",
     "@storybook/react": "7.0.0-alpha.52",
-    "@types/node": "^16.0.0 || ^18.0.0",
+    "@types/node": "^16.0.0",
     "find-up": "^5.0.0",
     "fs-extra": "^9.0.1",
     "image-size": "^1.0.0",
