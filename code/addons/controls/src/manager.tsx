@@ -9,7 +9,9 @@ addons.register(ADDON_ID, (api: API) => {
   addons.addPanel(ADDON_ID, {
     title() {
       const rows = useArgTypes();
-      const controlsCount = Object.values(rows).filter((argType) => argType?.control).length;
+      const controlsCount = Object.values(rows).filter(
+        (argType) => argType?.control && !argType?.table?.disable
+      ).length;
       const suffix = controlsCount === 0 ? '' : ` (${controlsCount})`;
       return `Controls${suffix}`;
     },
