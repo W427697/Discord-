@@ -10,10 +10,10 @@ import type {
   DocsOptions,
   Parameters,
   Path,
-  Store_ModuleExports,
-  Store_NormalizedProjectAnnotations,
+  ModuleExports,
+  NormalizedProjectAnnotations,
   NormalizedStoriesSpecifier,
-  Store_Story,
+  PreparedStory,
   StoryIndex,
   StoryId,
 } from '@storybook/types';
@@ -22,11 +22,11 @@ import type { StoryStore } from '../../store';
 import { userOrAutoTitle, sortStoriesV6 } from '../../store';
 
 export class StoryStoreFacade<TRenderer extends Renderer> {
-  projectAnnotations: Store_NormalizedProjectAnnotations<TRenderer>;
+  projectAnnotations: NormalizedProjectAnnotations<TRenderer>;
 
   entries: Record<StoryId, IndexEntry & { componentId?: ComponentId }>;
 
-  csfExports: Record<Path, Store_ModuleExports>;
+  csfExports: Record<Path, ModuleExports>;
 
   constructor() {
     this.projectAnnotations = {
@@ -60,28 +60,34 @@ export class StoryStoreFacade<TRenderer extends Renderer> {
 
     const storyEntries = Object.entries(this.entries);
     // Add the kind parameters and global parameters to each entry
-    const sortableV6 = storyEntries.map(([storyId, { type, importPath, ...entry }]) => {
-      const exports = this.csfExports[importPath];
-      const csfFile = store.processCSFFileWithCache<TRenderer>(
-        exports,
-        importPath,
-        exports.default.title
-      );
+    const sortableV6: [StoryId, PreparedStory<TRenderer>, Parameters, Parameters][] =
+      storyEntries.map(([storyId, { type, importPath, ...entry }]) => {
+        const exports = this.csfExports[importPath];
+        const csfFile = store.processCSFFileWithCache<TRenderer>(
+          exports,
+          importPath,
+          exports.default.title
+        );
 
-      let storyLike: Store_Story<TRenderer>;
-      if (type === 'story') {
-        storyLike = store.storyFromCSFFile({ storyId, csfFile });
-      } else {
-        storyLike = {
-          ...entry,
-          story: entry.name,
-          kind: entry.title,
-          componentId: toId(entry.componentId || entry.title),
-          parameters: { fileName: importPath },
-        } as any;
-      }
-      return [storyId, storyLike, csfFile.meta.parameters, this.projectAnnotations.parameters];
-    }) as [StoryId, Store_Story<TRenderer>, Parameters, Parameters][];
+        let storyLike: PreparedStory<TRenderer>;
+        if (type === 'story') {
+          storyLike = store.storyFromCSFFile({ storyId, csfFile });
+        } else {
+          storyLike = {
+            ...entry,
+            story: entry.name,
+            kind: entry.title,
+            componentId: toId(entry.componentId || entry.title),
+            parameters: { fileName: importPath },
+          } as any;
+        }
+        return [
+          storyId,
+          storyLike,
+          csfFile.meta.parameters,
+          this.projectAnnotations.parameters || {},
+        ];
+      });
 
     // NOTE: the sortStoriesV6 version returns the v7 data format. confusing but more convenient!
     let sortedV7: IndexEntry[];
@@ -131,7 +137,7 @@ export class StoryStoreFacade<TRenderer extends Renderer> {
   }
 
   // NOTE: we could potentially share some of this code with the stories.json generation
-  addStoriesFromExports(fileName: Path, fileExports: Store_ModuleExports) {
+  addStoriesFromExports(fileName: Path, fileExports: ModuleExports) {
     if (fileName.match(/\.mdx$/) && !fileName.match(/\.stories\.mdx$/)) {
       return;
     }

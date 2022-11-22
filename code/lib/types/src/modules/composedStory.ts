@@ -12,7 +12,7 @@ import type {
   StoryFn,
 } from './csf';
 
-import type { ProjectAnnotations } from './store';
+import type { ProjectAnnotations } from './story';
 
 export type Store_CSFExports<TRenderer extends Renderer = Renderer> = {
   default: ComponentAnnotations<TRenderer, Args>;
@@ -27,7 +27,7 @@ export type Store_ComposedStoryPlayFn = (
   context: Store_ComposedStoryPlayContext
 ) => Promise<void> | void;
 
-export type Store_StoryFn<TRenderer extends Renderer = Renderer, TArgs = Args> = AnnotatedStoryFn<
+export type PreparedStoryFn<TRenderer extends Renderer = Renderer, TArgs = Args> = AnnotatedStoryFn<
   TRenderer,
   TArgs
 > & { play: Store_ComposedStoryPlayFn };

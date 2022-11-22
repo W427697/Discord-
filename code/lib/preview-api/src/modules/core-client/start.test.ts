@@ -5,7 +5,7 @@
 /* global window */
 import { STORY_RENDERED, STORY_UNCHANGED, SET_INDEX } from '@storybook/core-events';
 
-import type { Store_ModuleExports, Path, Loadable } from '@storybook/types';
+import type { Addon_Loadable, ModuleExports, Path } from '@storybook/types';
 import global from 'global';
 import { setGlobalRender } from '../../client-api';
 import {
@@ -81,7 +81,7 @@ const start: typeof realStart = (...args) => {
 
   const configure: typeof result['configure'] = (
     framework: string,
-    loadable: Loadable,
+    loadable: Addon_Loadable,
     m?: NodeModule,
     disableBackwardCompatibility = false
   ) => result.configure(framework, loadable, m, disableBackwardCompatibility);
@@ -96,7 +96,7 @@ afterEach(() => {
   mockChannel.emit.mockClear();
 });
 
-function makeRequireContext(importMap: Record<Path, Store_ModuleExports>) {
+function makeRequireContext(importMap: Record<Path, ModuleExports>) {
   const req = (path: Path) => importMap[path];
   req.keys = () => Object.keys(importMap);
   return req;

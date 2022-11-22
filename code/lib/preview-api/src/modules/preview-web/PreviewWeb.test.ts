@@ -32,7 +32,7 @@ import {
 } from '@storybook/core-events';
 import { logger } from '@storybook/client-logger';
 import { addons, mockChannel as createMockChannel } from '@storybook/addons';
-import type { Renderer, Store_ModuleImportFn, ProjectAnnotations } from '@storybook/types';
+import type { Renderer, ModuleImportFn, ProjectAnnotations } from '@storybook/types';
 
 import { PreviewWeb } from './PreviewWeb';
 import {
@@ -107,7 +107,7 @@ async function createAndRenderPreview({
   importFn: inputImportFn = importFn,
   getProjectAnnotations: inputGetProjectAnnotations = getProjectAnnotations,
 }: {
-  importFn?: Store_ModuleImportFn;
+  importFn?: ModuleImportFn;
   getProjectAnnotations?: () => ProjectAnnotations<Renderer>;
 } = {}) {
   const preview = new PreviewWeb();

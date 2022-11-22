@@ -4,14 +4,14 @@ import type {
   ComponentTitle,
   Path,
   ProjectAnnotations,
-  Store_ModuleExports,
+  ModuleExports,
   StoryIndex,
 } from '@storybook/types';
 import { Channel } from '@storybook/channels';
 
 import { ExternalDocsContext } from './ExternalDocsContext';
 
-type MetaExports = Store_ModuleExports;
+type MetaExports = ModuleExports;
 
 class ConstantMap<TKey, TValue extends string> {
   entries = new Map<TKey, TValue>();
@@ -33,7 +33,7 @@ export class ExternalPreview<TRenderer extends Renderer = Renderer> extends Prev
 
   private storyIndex: StoryIndex = { v: 4, entries: {} };
 
-  private moduleExportsByImportPath: Record<Path, Store_ModuleExports> = {};
+  private moduleExportsByImportPath: Record<Path, ModuleExports> = {};
 
   constructor(public projectAnnotations: ProjectAnnotations<TRenderer>) {
     super(new Channel());

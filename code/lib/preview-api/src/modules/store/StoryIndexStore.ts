@@ -1,5 +1,11 @@
 import { dedent } from 'ts-dedent';
-import type { IndexEntry, Path, StoryIndex, Store_StorySpecifier, StoryId } from '@storybook/types';
+import type {
+  IndexEntry,
+  Path,
+  StoryIndex,
+  PreparedStorySpecifier,
+  StoryId,
+} from '@storybook/types';
 import memoize from 'memoizerific';
 
 const getImportPathMap = memoize(1)((entries: StoryIndex['entries']) =>
@@ -16,7 +22,7 @@ export class StoryIndexStore {
     this.entries = entries;
   }
 
-  entryFromSpecifier(specifier: Store_StorySpecifier) {
+  entryFromSpecifier(specifier: PreparedStorySpecifier) {
     const entries = Object.values(this.entries);
     if (specifier === '*') {
       // '*' means select the first entry. If there is none, we have no selection.

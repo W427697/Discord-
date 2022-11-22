@@ -1,5 +1,5 @@
 /* eslint-disable no-param-reassign */
-import type { Store_RenderContext, ArgsStoryFn } from '@storybook/types';
+import type { RenderContext, ArgsStoryFn } from '@storybook/types';
 import type { SvelteComponentTyped } from 'svelte';
 
 // eslint-disable-next-line import/no-extraneous-dependencies
@@ -29,7 +29,7 @@ export function renderToCanvas(
     showError,
     storyContext,
     forceRemount,
-  }: Store_RenderContext<SvelteRenderer>,
+  }: RenderContext<SvelteRenderer>,
   canvasElement: SvelteRenderer['canvasElement']
 ) {
   const existingComponent = componentsByDomElement.get(canvasElement);

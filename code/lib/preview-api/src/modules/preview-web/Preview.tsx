@@ -20,10 +20,10 @@ import type {
   Renderer,
   Args,
   Globals,
-  Store_ModuleImportFn,
+  ModuleImportFn,
   Store_PromiseLike,
   RenderToCanvas,
-  Store_Story,
+  PreparedStory,
   StoryIndex,
   ProjectAnnotations,
   StoryId,
@@ -48,7 +48,7 @@ export class Preview<TFramework extends Renderer> {
 
   getStoryIndex?: () => StoryIndex;
 
-  importFn?: Store_ModuleImportFn;
+  importFn?: ModuleImportFn;
 
   renderToCanvas?: RenderToCanvas<TFramework>;
 
@@ -79,7 +79,7 @@ export class Preview<TFramework extends Renderer> {
     // In the case of the v6 store, we can only get the index from the facade *after*
     // getProjectAnnotations has been run, thus this slightly awkward approach
     getStoryIndex?: () => StoryIndex;
-    importFn: Store_ModuleImportFn;
+    importFn: ModuleImportFn;
     getProjectAnnotations: () => MaybePromise<ProjectAnnotations<TFramework>>;
   }) {
     // We save these two on initialization in case `getProjectAnnotations` errors,
@@ -239,7 +239,7 @@ export class Preview<TFramework extends Renderer> {
     importFn,
     storyIndex,
   }: {
-    importFn?: Store_ModuleImportFn;
+    importFn?: ModuleImportFn;
     storyIndex?: StoryIndex;
   }) {
     await this.storyStore.onStoriesChanged({ importFn, storyIndex });
@@ -308,7 +308,7 @@ export class Preview<TFramework extends Renderer> {
   // we will change it to go ahead and load the story, which will end up being
   // "instant", although async.
   renderStoryToElement(
-    story: Store_Story<TFramework>,
+    story: PreparedStory<TFramework>,
     element: TFramework['canvasElement'],
     options: StoryRenderOptions
   ) {

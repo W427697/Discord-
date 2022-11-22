@@ -1,10 +1,4 @@
-import type {
-  IndexEntry,
-  Renderer,
-  Store_CSFFile,
-  Store_ModuleExports,
-  StoryId,
-} from '@storybook/types';
+import type { IndexEntry, Renderer, CSFFile, ModuleExports, StoryId } from '@storybook/types';
 import type { Channel } from '@storybook/channels';
 import { DOCS_RENDERED } from '@storybook/core-events';
 import type { StoryStore } from '../../store';
@@ -29,7 +23,7 @@ export class StandaloneDocsRender<TRenderer extends Renderer> implements Render<
 
   public readonly id: StoryId;
 
-  private exports?: Store_ModuleExports;
+  private exports?: ModuleExports;
 
   public rerender?: () => Promise<void>;
 
@@ -41,7 +35,7 @@ export class StandaloneDocsRender<TRenderer extends Renderer> implements Render<
 
   public preparing = false;
 
-  private csfFiles?: Store_CSFFile<TRenderer>[];
+  private csfFiles?: CSFFile<TRenderer>[];
 
   constructor(
     protected channel: Channel,

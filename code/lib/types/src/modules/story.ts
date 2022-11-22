@@ -23,21 +23,21 @@ import type {
 
 // Internal to preview, exported until preview package consolidation
 export type Store_PromiseLike<T> = Promise<T> | SynchronousPromise<T>;
-export type Store_StorySpecifier = StoryId | { name: StoryName; title: ComponentTitle } | '*';
+export type PreparedStorySpecifier = StoryId | { name: StoryName; title: ComponentTitle } | '*';
 
 // Store Types
 export interface WebRenderer extends Renderer {
   canvasElement: HTMLElement;
 }
 
-export type Store_ModuleExport = any;
-export type Store_ModuleExports = Record<string, Store_ModuleExport>;
-export type Store_ModuleImportFn = (path: Path) => Store_PromiseLike<Store_ModuleExports>;
+export type ModuleExport = any;
+export type ModuleExports = Record<string, ModuleExport>;
+export type ModuleImportFn = (path: Path) => Store_PromiseLike<ModuleExports>;
 
 type MaybePromise<T> = Promise<T> | T;
 export type TeardownRenderToCanvas = () => MaybePromise<void>;
 export type RenderToCanvas<TRenderer extends Renderer> = (
-  context: Store_RenderContext<TRenderer>,
+  context: RenderContext<TRenderer>,
   element: TRenderer['canvasElement']
 ) => MaybePromise<void | TeardownRenderToCanvas>;
 
@@ -48,13 +48,13 @@ export type ProjectAnnotations<TRenderer extends Renderer> = CsfProjectAnnotatio
   renderToDOM?: RenderToCanvas<TRenderer>;
 };
 
-export type Store_NormalizedProjectAnnotations<TRenderer extends Renderer = Renderer> =
+export type NormalizedProjectAnnotations<TRenderer extends Renderer = Renderer> =
   ProjectAnnotations<TRenderer> & {
     argTypes?: StrictArgTypes;
     globalTypes?: StrictGlobalTypes;
   };
 
-export type Store_NormalizedComponentAnnotations<TRenderer extends Renderer = Renderer> =
+export type NormalizedComponentAnnotations<TRenderer extends Renderer = Renderer> =
   ComponentAnnotations<TRenderer> & {
     // Useful to guarantee that id & title exists
     id: ComponentId;
@@ -62,11 +62,11 @@ export type Store_NormalizedComponentAnnotations<TRenderer extends Renderer = Re
     argTypes?: StrictArgTypes;
   };
 
-export type Store_NormalizedStoryAnnotations<TRenderer extends Renderer = Renderer> = Omit<
+export type NormalizedStoryAnnotations<TRenderer extends Renderer = Renderer> = Omit<
   StoryAnnotations<TRenderer>,
   'storyName' | 'story'
 > & {
-  moduleExport: Store_ModuleExport;
+  moduleExport: ModuleExport;
   // You cannot actually set id on story annotations, but we normalize it to be there for convience
   id: StoryId;
   argTypes?: StrictArgTypes;
@@ -74,14 +74,14 @@ export type Store_NormalizedStoryAnnotations<TRenderer extends Renderer = Render
   userStoryFn?: StoryFn<TRenderer>;
 };
 
-export type Store_CSFFile<TRenderer extends Renderer = Renderer> = {
-  meta: Store_NormalizedComponentAnnotations<TRenderer>;
-  stories: Record<StoryId, Store_NormalizedStoryAnnotations<TRenderer>>;
+export type CSFFile<TRenderer extends Renderer = Renderer> = {
+  meta: NormalizedComponentAnnotations<TRenderer>;
+  stories: Record<StoryId, NormalizedStoryAnnotations<TRenderer>>;
 };
 
-export type Store_Story<TRenderer extends Renderer = Renderer> =
+export type PreparedStory<TRenderer extends Renderer = Renderer> =
   StoryContextForEnhancers<TRenderer> & {
-    moduleExport: Store_ModuleExport;
+    moduleExport: ModuleExport;
     originalStoryFn: StoryFn<TRenderer>;
     undecoratedStoryFn: LegacyStoryFn<TRenderer>;
     unboundStoryFn: LegacyStoryFn<TRenderer>;
@@ -91,11 +91,11 @@ export type Store_Story<TRenderer extends Renderer = Renderer> =
     playFunction?: (context: StoryContext<TRenderer>) => Promise<void> | void;
   };
 
-export type Store_BoundStory<TRenderer extends Renderer = Renderer> = Store_Story<TRenderer> & {
+export type BoundStory<TRenderer extends Renderer = Renderer> = PreparedStory<TRenderer> & {
   storyFn: PartialStoryFn<TRenderer>;
 };
 
-export declare type Store_RenderContext<TRenderer extends Renderer = Renderer> = StoryIdentifier & {
+export declare type RenderContext<TRenderer extends Renderer = Renderer> = StoryIdentifier & {
   showMain: () => void;
   showError: (error: { title: string; description: string }) => void;
   showException: (err: Error) => void;
@@ -104,5 +104,3 @@ export declare type Store_RenderContext<TRenderer extends Renderer = Renderer> =
   storyFn: PartialStoryFn<TRenderer>;
   unboundStoryFn: LegacyStoryFn<TRenderer>;
 };
-
-export type Store_PropDescriptor = string[] | RegExp;

@@ -7,13 +7,13 @@ import type {
   Parameters,
   Path,
   ProjectAnnotations,
-  Store_BoundStory,
-  Store_CSFFile,
-  Store_ModuleExports,
-  Store_ModuleImportFn,
-  Store_NormalizedProjectAnnotations,
+  BoundStory,
+  CSFFile,
+  ModuleExports,
+  ModuleImportFn,
+  NormalizedProjectAnnotations,
   Store_PromiseLike,
-  Store_Story,
+  PreparedStory,
   StoryIndex,
   StoryIndexV3,
   V2CompatIndexEntry,
@@ -39,9 +39,9 @@ const STORY_CACHE_SIZE = 10000;
 export class StoryStore<TRenderer extends Renderer> {
   storyIndex?: StoryIndexStore;
 
-  importFn?: Store_ModuleImportFn;
+  importFn?: ModuleImportFn;
 
-  projectAnnotations?: Store_NormalizedProjectAnnotations<TRenderer>;
+  projectAnnotations?: NormalizedProjectAnnotations<TRenderer>;
 
   globals?: GlobalsStore;
 
@@ -49,7 +49,7 @@ export class StoryStore<TRenderer extends Renderer> {
 
   hooks: Record<StoryId, HooksContext<TRenderer>>;
 
-  cachedCSFFiles?: Record<Path, Store_CSFFile<TRenderer>>;
+  cachedCSFFiles?: Record<Path, CSFFile<TRenderer>>;
 
   processCSFFileWithCache: typeof processCSFFile;
 
@@ -94,7 +94,7 @@ export class StoryStore<TRenderer extends Renderer> {
     cache = false,
   }: {
     storyIndex?: StoryIndex;
-    importFn: Store_ModuleImportFn;
+    importFn: ModuleImportFn;
     cache?: boolean;
   }): Store_PromiseLike<void> {
     this.storyIndex = new StoryIndexStore(storyIndex);
@@ -114,7 +114,7 @@ export class StoryStore<TRenderer extends Renderer> {
     importFn,
     storyIndex,
   }: {
-    importFn?: Store_ModuleImportFn;
+    importFn?: ModuleImportFn;
     storyIndex?: StoryIndex;
   }) {
     await this.initializationPromise;
@@ -133,7 +133,7 @@ export class StoryStore<TRenderer extends Renderer> {
   }
 
   // To load a single CSF file to service a story we need to look up the importPath in the index
-  loadCSFFileByStoryId(storyId: StoryId): Store_PromiseLike<Store_CSFFile<TRenderer>> {
+  loadCSFFileByStoryId(storyId: StoryId): Store_PromiseLike<CSFFile<TRenderer>> {
     if (!this.storyIndex || !this.importFn)
       throw new Error(`loadCSFFileByStoryId called before initialization`);
 
@@ -163,7 +163,7 @@ export class StoryStore<TRenderer extends Renderer> {
       list.reduce((acc, { importPath, csfFile }) => {
         acc[importPath] = csfFile;
         return acc;
-      }, {} as Record<Path, Store_CSFFile<TRenderer>>)
+      }, {} as Record<Path, CSFFile<TRenderer>>)
     );
   }
 
@@ -176,7 +176,7 @@ export class StoryStore<TRenderer extends Renderer> {
   }
 
   // Load the CSF file for a story and prepare the story from it and the project annotations.
-  async loadStory({ storyId }: { storyId: StoryId }): Promise<Store_Story<TRenderer>> {
+  async loadStory({ storyId }: { storyId: StoryId }): Promise<PreparedStory<TRenderer>> {
     await this.initializationPromise;
     const csfFile = await this.loadCSFFileByStoryId(storyId);
     return this.storyFromCSFFile({ storyId, csfFile });
@@ -189,8 +189,8 @@ export class StoryStore<TRenderer extends Renderer> {
     csfFile,
   }: {
     storyId: StoryId;
-    csfFile: Store_CSFFile<TRenderer>;
-  }): Store_Story<TRenderer> {
+    csfFile: CSFFile<TRenderer>;
+  }): PreparedStory<TRenderer> {
     if (!this.projectAnnotations) throw new Error(`storyFromCSFFile called before initialization`);
 
     const storyAnnotations = csfFile.stories[storyId];
@@ -213,8 +213,8 @@ export class StoryStore<TRenderer extends Renderer> {
   componentStoriesFromCSFFile({
     csfFile,
   }: {
-    csfFile: Store_CSFFile<TRenderer>;
-  }): Store_Story<TRenderer>[] {
+    csfFile: CSFFile<TRenderer>;
+  }): PreparedStory<TRenderer>[] {
     if (!this.storyIndex)
       throw new Error(`componentStoriesFromCSFFile called before initialization`);
 
@@ -237,7 +237,7 @@ export class StoryStore<TRenderer extends Renderer> {
         const firstStoryEntry = storyIndex.importPathToEntry(storyImportPath);
         return this.loadCSFFileByStoryId(firstStoryEntry.id);
       }),
-    ])) as [Store_ModuleExports, ...Store_CSFFile<TRenderer>[]];
+    ])) as [ModuleExports, ...CSFFile<TRenderer>[]];
 
     return { entryExports, csfFiles };
   }
@@ -245,7 +245,7 @@ export class StoryStore<TRenderer extends Renderer> {
   // A prepared story does not include args, globals or hooks. These are stored in the story store
   // and updated separtely to the (immutable) story.
   getStoryContext(
-    story: Store_Story<TRenderer>
+    story: PreparedStory<TRenderer>
   ): Omit<StoryContextForLoaders<TRenderer>, 'viewMode'> {
     if (!this.globals) throw new Error(`getStoryContext called before initialization`);
 
@@ -257,7 +257,7 @@ export class StoryStore<TRenderer extends Renderer> {
     };
   }
 
-  cleanupStory(story: Store_Story<TRenderer>): void {
+  cleanupStory(story: PreparedStory<TRenderer>): void {
     this.hooks[story.id].clean();
   }
 
@@ -379,13 +379,13 @@ export class StoryStore<TRenderer extends Renderer> {
     };
   }
 
-  raw(): Store_BoundStory<TRenderer>[] {
+  raw(): BoundStory<TRenderer>[] {
     return Object.values(this.extract())
       .map(({ id }: { id: StoryId }) => this.fromId(id))
-      .filter(Boolean) as Store_BoundStory<TRenderer>[];
+      .filter(Boolean) as BoundStory<TRenderer>[];
   }
 
-  fromId(storyId: StoryId): Store_BoundStory<TRenderer> | null {
+  fromId(storyId: StoryId): BoundStory<TRenderer> | null {
     if (!this.storyIndex) throw new Error(`fromId called before initialization`);
 
     if (!this.cachedCSFFiles)

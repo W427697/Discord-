@@ -1,4 +1,4 @@
-import type { IndexEntry, Renderer, Store_CSFFile, Store_Story, StoryId } from '@storybook/types';
+import type { IndexEntry, Renderer, CSFFile, PreparedStory, StoryId } from '@storybook/types';
 import type { Channel } from '@storybook/channels';
 import { DOCS_RENDERED } from '@storybook/core-events';
 import type { StoryStore } from '../../../store';
@@ -26,7 +26,7 @@ export class TemplateDocsRender<TRenderer extends Renderer> implements Render<TR
 
   public readonly id: StoryId;
 
-  public story?: Store_Story<TRenderer>;
+  public story?: PreparedStory<TRenderer>;
 
   public rerender?: () => Promise<void>;
 
@@ -38,7 +38,7 @@ export class TemplateDocsRender<TRenderer extends Renderer> implements Render<TR
 
   public preparing = false;
 
-  private csfFiles?: Store_CSFFile<TRenderer>[];
+  private csfFiles?: CSFFile<TRenderer>[];
 
   constructor(
     protected channel: Channel,

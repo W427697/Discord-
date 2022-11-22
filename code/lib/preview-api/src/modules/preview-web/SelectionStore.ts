@@ -1,7 +1,7 @@
-import type { Store_StorySpecifier, ViewMode, Args, StoryId } from '@storybook/types';
+import type { PreparedStorySpecifier, ViewMode, Args, StoryId } from '@storybook/types';
 
 export interface SelectionSpecifier {
-  storySpecifier: Store_StorySpecifier;
+  storySpecifier: PreparedStorySpecifier;
   viewMode: ViewMode;
   args?: Args;
   globals?: Args;

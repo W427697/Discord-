@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import type { Addon_StoryApi, Addon_Type } from './addons';
-import type { Store_RenderContext } from './store';
+import type { RenderContext } from './story';
 import type {
   Args,
   ArgTypes,
@@ -66,7 +66,7 @@ export interface ClientAPI_ClientApiAddons<StoryFnReturnType> {
   [key: string]: ClientAPI_ClientApiAddon<StoryFnReturnType>;
 }
 
-export type ClientAPI_RenderContextWithoutStoryContext = Omit<Store_RenderContext, 'storyContext'>;
+export type ClientAPI_RenderContextWithoutStoryContext = Omit<RenderContext, 'storyContext'>;
 
 export interface ClientAPI_GetStorybookStory<TRenderer extends Renderer> {
   name: string;

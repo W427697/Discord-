@@ -22,9 +22,9 @@ import type {
   Renderer,
   Args,
   Globals,
-  Store_ModuleImportFn,
+  ModuleImportFn,
   StoryIndex,
-  Store_StorySpecifier,
+  PreparedStorySpecifier,
   ProjectAnnotations,
   StoryId,
   ViewMode,
@@ -175,7 +175,7 @@ export class PreviewWithSelection<TFramework extends Renderer> extends Preview<T
     importFn,
     storyIndex,
   }: {
-    importFn?: Store_ModuleImportFn;
+    importFn?: ModuleImportFn;
     storyIndex?: StoryIndex;
   }) {
     await super.onStoriesChanged({ importFn, storyIndex });
@@ -447,7 +447,7 @@ export class PreviewWithSelection<TFramework extends Renderer> extends Preview<T
     this.channel.emit(STORY_MISSING);
   }
 
-  renderStoryLoadingException(storySpecifier: Store_StorySpecifier, err: Error) {
+  renderStoryLoadingException(storySpecifier: PreparedStorySpecifier, err: Error) {
     // logger.error(`Unable to load story '${storySpecifier}':`);
     logger.error(err);
     this.view.showErrorDisplay(err);
