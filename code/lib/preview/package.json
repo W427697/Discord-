@@ -81,11 +81,26 @@
       "require": "./dist/store.js",
       "types": "./dist/store.d.ts"
     },
+    "./definitions": {
+      "import": "./dist/definitions.mjs",
+      "require": "./dist/definitions.js",
+      "types": "./dist/definitions.d.ts"
+    },
     "./package.json": "./package.json"
   },
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
+  "typesVersions": {
+    "*": {
+      "*": [
+        "dist/index.d.ts"
+      ],
+      "definitions": [
+        "dist/definitions.d.ts"
+      ]
+    }
+  },
   "files": [
     "dist/**/*",
     "README.md",
@@ -95,6 +110,11 @@
   "scripts": {
     "check": "../../../scripts/node_modules/.bin/tsc --noEmit",
     "prep": "../../../scripts/prepare/bundle.ts"
+  },
+  "dependencies": {
+    "@types/shelljs": "^0.8.7",
+    "fs-extra": "^9.0.1",
+    "shelljs": "^0.8.5"
   },
   "devDependencies": {
     "@storybook/api": "7.0.0-alpha.50",
@@ -130,8 +150,10 @@
     "access": "public"
   },
   "bundler": {
+    "pre": "./scripts/generate-exports-file.ts",
     "entries": [
-      "./src/index.ts"
+      "./src/index.ts",
+      "./src/definitions.ts"
     ],
     "untypedEntries": [
       "./src/global/addons.ts",

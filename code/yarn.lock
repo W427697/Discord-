@@ -7145,14 +7145,17 @@ __metadata:
     "@storybook/theming": 7.0.0-alpha.50
     "@storybook/types": 7.0.0-alpha.50
     "@types/qs": ^6.9.5
+    "@types/shelljs": ^0.8.7
     "@types/webpack-env": ^1.16.4
     ansi-to-html: ^0.6.11
     dequal: ^2.0.2
+    fs-extra: ^10.1.0
     global: ^4.4.0
     lodash: ^4.17.21
     memoizerific: ^1.11.3
     qs: ^6.10.0
     react: 16.14.0
+    shelljs: ^0.8.5
     slash: ^3.0.0
     synchronous-promise: ^2.0.15
     ts-dedent: ^2.0.0
