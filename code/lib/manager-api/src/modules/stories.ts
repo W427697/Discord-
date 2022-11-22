@@ -23,7 +23,7 @@ import type {
   API_HashEntry,
   API_LeafEntry,
   API_PreparedStoryIndex,
-  API_SetStoriesPayload,
+  SetStoriesPayload,
   API_StoriesHash,
   API_StoryEntry,
   StoryIndex,
@@ -457,7 +457,7 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
     });
 
     // For composition back-compatibilty
-    fullAPI.on(SET_STORIES, function handler(data: API_SetStoriesPayload) {
+    fullAPI.on(SET_STORIES, function handler(data: SetStoriesPayload) {
       const { ref } = getEventMetadata(this, fullAPI);
       const setStoriesData = data.v ? denormalizeStoryParameters(data) : data.stories;
 

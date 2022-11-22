@@ -12,3 +12,4 @@ export * from './modules/api-stories';
 
 export * from './modules/storyIndex';
 export * from './modules/composedStory';
+export * from './modules/channelApi';

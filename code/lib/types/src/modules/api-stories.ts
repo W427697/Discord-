@@ -1,14 +1,11 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import type { API_ViewMode } from './api';
 import type { DocsOptions } from './core-common';
 import type {
   Args,
   ArgTypes,
-  ComponentId,
   Parameters,
   ComponentTitle,
   StoryId,
-  StoryKind,
   Globals,
   GlobalTypes,
   Path,
@@ -136,53 +133,6 @@ export type API_Story = API_LeafEntry;
 export interface API_StoriesHash {
   [id: string]: API_HashEntry;
 }
-
-// The data received on the (legacy) `setStories` event
-export interface API_SetStoriesStory {
-  id: StoryId;
-  name: string;
-  refId?: string;
-  componentId?: ComponentId;
-  kind: StoryKind;
-  parameters: {
-    fileName: string;
-    options: {
-      [optionName: string]: any;
-    };
-    docsOnly?: boolean;
-    viewMode?: API_ViewMode;
-    [parameterName: string]: any;
-  };
-  argTypes?: ArgTypes;
-  args?: Args;
-  initialArgs?: Args;
-}
-
-export interface API_SetStoriesStoryData {
-  [id: string]: API_SetStoriesStory;
-}
-
-export interface API_StoryKey {
-  id: StoryId;
-  refId?: string;
-}
-
-export type API_SetStoriesPayload =
-  | {
-      v: 2;
-      error?: Error;
-      globals: Args;
-      globalParameters: Parameters;
-      stories: API_SetStoriesStoryData;
-      kindParameters: {
-        [kind: string]: Parameters;
-      };
-    }
-  | ({
-      v?: number;
-      stories: API_SetStoriesStoryData;
-    } & Record<string, never>);
-
 // We used to received a bit more data over the channel on the SET_STORIES event, including
 // the full parameters for each story.
 type API_PreparedIndexEntry = IndexEntry & {
@@ -208,11 +158,6 @@ export interface API_ReleaseNotes {
 
 export interface API_Settings {
   lastTrackedStoryId: string;
-}
-
-export interface API_SetGlobalsPayload {
-  globals: Globals;
-  globalTypes: GlobalTypes;
 }
 
 export interface API_Version {
