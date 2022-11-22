@@ -104,7 +104,7 @@ interface LoaderProps {
   size?: number;
 }
 
-export const PureLoader: FC<LoaderProps & ComponentProps<typeof ProgressWrapper>> = ({
+export const Loader: FC<LoaderProps & ComponentProps<typeof ProgressWrapper>> = ({
   progress,
   error,
   size,
@@ -155,5 +155,3 @@ export const PureLoader: FC<LoaderProps & ComponentProps<typeof ProgressWrapper>
     />
   );
 };
-
-export const Loader = PureLoader;

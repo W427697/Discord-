@@ -18,8 +18,8 @@ import type { Definitions } from './types';
  *
  * If you forget to do either, TypeScript will complain.
  *
- * This `definitions.ts` file is consumed by the `builder-manager` package,
- * The `runtime.ts` file is used inside the manager's browser code runtime.
+ * This `definitions.ts` file is consumed by the `builder-*` package,
+ * The `runtime.ts` file is used inside the preview's browser code runtime.
  */
 
 const createModuleInfo = (m: keyof typeof Keys): Required<ModuleInfo> => ({
