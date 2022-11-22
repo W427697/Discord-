@@ -56,28 +56,6 @@ export async function commonConfig(
       preserveSymlinks: isPreservingSymlinks(),
       alias: {
         assert: require.resolve('browser-assert'),
-        ...[
-          // these packages are pre-bundled, so they are mapped to global shims
-          'channels',
-          'channel-postmessage',
-          'channel-websocket',
-          'core-events',
-          'client-logger',
-          'addons',
-          'store',
-          'preview-web',
-          'client-api',
-          'core-client',
-        ].reduce(
-          (acc, sbPackage) => ({
-            ...acc,
-            [`@storybook/${sbPackage}`]: join(
-              dirname(require.resolve(`@storybook/preview/package.json`)),
-              `dist/global/${sbPackage}.mjs`
-            ),
-          }),
-          {}
-        ),
       },
     },
     // If an envPrefix is specified in the vite config, add STORYBOOK_ to it,

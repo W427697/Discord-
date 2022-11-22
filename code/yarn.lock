@@ -5888,6 +5888,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/builder-vite@workspace:lib/builder-vite"
   dependencies:
+    "@fal-works/esbuild-plugin-global-externals": ^2.1.2
     "@joshwooding/vite-plugin-react-docgen-typescript": 0.0.5
     "@storybook/client-api": 7.0.0-alpha.52
     "@storybook/client-logger": 7.0.0-alpha.52
@@ -7149,7 +7150,7 @@ __metadata:
     "@types/webpack-env": ^1.16.4
     ansi-to-html: ^0.6.11
     dequal: ^2.0.2
-    fs-extra: ^10.1.0
+    fs-extra: ^9.0.1
     global: ^4.4.0
     lodash: ^4.17.21
     memoizerific: ^1.11.3
