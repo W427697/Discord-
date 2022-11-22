@@ -8,6 +8,7 @@ import { checkWebpackVersion } from '@storybook/core-webpack';
 import { dirname, join, parse } from 'path';
 import express from 'express';
 import fs from 'fs-extra';
+import { PREVIEW_BUILDER_PROGRESS } from '@storybook/core-events';
 
 // eslint-disable-next-line import/no-extraneous-dependencies
 import prettyTime from 'pretty-hrtime';
@@ -161,7 +162,7 @@ const starter: StarterFunction = async function* starterGeneratorFn({
         }
       }
 
-      channel.emit('preview_builder_progress', [progress]);
+      channel.emit(PREVIEW_BUILDER_PROGRESS, [progress]);
     },
     modulesCount,
   }).apply(compiler);

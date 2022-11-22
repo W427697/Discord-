@@ -38,29 +38,6 @@ const storybookPaths: Record<string, string> = {
     }),
     {}
   ),
-  ...[
-    // these packages are pre-bundled, so they are mapped to global shims
-    'addons',
-    'channel-postmessage',
-    'channel-websocket',
-    'channels',
-    'client-api',
-    'client-logger',
-    'core-client',
-    'core-events',
-    'preview-api',
-    'preview-web',
-    'store',
-  ].reduce(
-    (acc, sbPackage) => ({
-      ...acc,
-      [`@storybook/${sbPackage}`]: join(
-        dirname(require.resolve(`@storybook/preview/package.json`)),
-        `dist/global/${sbPackage}`
-      ),
-    }),
-    {}
-  ),
 };
 
 export default async (
@@ -79,21 +56,42 @@ export default async (
     serverChannelUrl,
   } = options;
 
-  const frameworkOptions = await presets.apply('frameworkOptions');
-
   const isProd = configType === 'PRODUCTION';
-  const envs = await presets.apply<Record<string, string>>('env');
-  const logLevel = await presets.apply('logLevel', undefined);
+  const workingDir = process.cwd();
 
-  const headHtmlSnippet = await presets.apply('previewHead');
-  const bodyHtmlSnippet = await presets.apply('previewBody');
-  const template = await presets.apply<string>('previewMainTemplate');
-  const coreOptions = await presets.apply<CoreConfig>('core');
+  const [
+    coreOptions,
+    frameworkOptions,
+    envs,
+    logLevel,
+    headHtmlSnippet,
+    bodyHtmlSnippet,
+    template,
+    docsOptions,
+    entries,
+    nonNormalizedStories,
+  ] = await Promise.all([
+    presets.apply<CoreConfig>('core'),
+    presets.apply('frameworkOptions'),
+    presets.apply<Record<string, string>>('env'),
+    presets.apply('logLevel', undefined),
+    presets.apply('previewHead'),
+    presets.apply('previewBody'),
+    presets.apply<string>('previewMainTemplate'),
+    presets.apply<DocsOptions>('docs'),
+    presets.apply<string[]>('entries', [], options),
+    presets.apply('stories', [], options),
+  ]);
+
+  const stories = normalizeStories(nonNormalizedStories, {
+    configDir: options.configDir,
+    workingDir,
+  });
+
   const builderOptions: BuilderOptions =
     typeof coreOptions.builder === 'string'
       ? {}
       : coreOptions.builder?.options || ({} as BuilderOptions);
-  const docsOptions = await presets.apply<DocsOptions>('docs');
 
   const previewAnnotations = [
     ...(await presets.apply<PreviewAnnotation[]>('previewAnnotations', [], options)).map(
@@ -110,12 +108,6 @@ export default async (
     ),
     loadPreviewOrConfigFile(options),
   ].filter(Boolean);
-  const entries = (await presets.apply('entries', [], options)) as string[];
-  const workingDir = process.cwd();
-  const stories = normalizeStories(await presets.apply('stories', [], options), {
-    configDir: options.configDir,
-    workingDir,
-  });
 
   const virtualModuleMapping: Record<string, string> = {};
   if (features?.storyStoreV7) {
@@ -213,6 +205,30 @@ export default async (
     },
     watchOptions: {
       ignored: /node_modules/,
+    },
+    externals: {
+      ...[
+        // these packages are pre-bundled, so they are mapped to global shims
+        'channels',
+        'channel-postmessage',
+        'channel-websocket',
+        'core-events',
+        'preview-api',
+        'client-logger',
+        'addons',
+        'store',
+        'preview-web',
+        'client-api',
+        'core-client',
+      ].reduce(
+        (acc, sbPackage) => ({
+          ...acc,
+          [`@storybook/${sbPackage}`]: `__STORYBOOK_MODULE_${sbPackage
+            .toUpperCase()
+            .replaceAll('-', '_')}__`,
+        }),
+        {}
+      ),
     },
     ignoreWarnings: [
       {
