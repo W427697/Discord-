@@ -1,6 +1,6 @@
 import memoize from 'memoizerific';
 import type {
-  Addon_IndexEntry,
+  IndexEntry,
   Renderer,
   API_PreparedStoryIndex,
   ComponentTitle,
@@ -14,9 +14,9 @@ import type {
   Store_NormalizedProjectAnnotations,
   Store_PromiseLike,
   Store_Story,
-  Store_StoryIndex,
-  Store_StoryIndexV3,
-  Store_V2CompatIndexEntry,
+  StoryIndex,
+  StoryIndexV3,
+  V2CompatIndexEntry,
   StoryContext,
   StoryContextForEnhancers,
   StoryContextForLoaders,
@@ -93,7 +93,7 @@ export class StoryStore<TRenderer extends Renderer> {
     importFn,
     cache = false,
   }: {
-    storyIndex?: Store_StoryIndex;
+    storyIndex?: StoryIndex;
     importFn: Store_ModuleImportFn;
     cache?: boolean;
   }): Store_PromiseLike<void> {
@@ -115,7 +115,7 @@ export class StoryStore<TRenderer extends Renderer> {
     storyIndex,
   }: {
     importFn?: Store_ModuleImportFn;
-    storyIndex?: Store_StoryIndex;
+    storyIndex?: StoryIndex;
   }) {
     await this.initializationPromise;
 
@@ -126,7 +126,7 @@ export class StoryStore<TRenderer extends Renderer> {
   }
 
   // Get an entry from the index, waiting on initialization if necessary
-  async storyIdToEntry(storyId: StoryId): Promise<Addon_IndexEntry> {
+  async storyIdToEntry(storyId: StoryId): Promise<IndexEntry> {
     await this.initializationPromise;
     // The index will always be set before the initialization promise returns
     return this.storyIndex!.storyIdToEntry(storyId);
@@ -325,14 +325,14 @@ export class StoryStore<TRenderer extends Renderer> {
   // NOTE: this is legacy `stories.json` data for the `extract` script.
   // It is used to allow v7 Storybooks to be composed in v6 Storybooks, which expect a
   // `stories.json` file with legacy fields (`kind` etc).
-  getStoriesJsonData = (): Store_StoryIndexV3 => {
+  getStoriesJsonData = (): StoryIndexV3 => {
     const { storyIndex } = this;
     if (!storyIndex) throw new Error(`getStoriesJsonData called before initialization`);
 
     const value = this.getSetStoriesPayload();
     const allowedParameters = ['fileName', 'docsOnly', 'framework', '__id', '__isArgsStory'];
 
-    const stories: Record<StoryId, Store_V2CompatIndexEntry> = mapValues(value.stories, (story) => {
+    const stories: Record<StoryId, V2CompatIndexEntry> = mapValues(value.stories, (story) => {
       const { importPath } = storyIndex.entries[story.id];
       return {
         ...pick(story, ['id', 'name', 'title']),

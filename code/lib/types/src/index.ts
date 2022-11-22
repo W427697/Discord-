@@ -11,3 +11,6 @@ export * from './modules/builder';
 export * from './modules/api';
 export * from './modules/docs';
 export * from './modules/api-stories';
+
+export * from './modules/storyIndex';
+export * from './modules/composedStory';

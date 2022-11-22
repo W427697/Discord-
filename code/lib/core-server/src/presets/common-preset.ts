@@ -4,7 +4,7 @@ import { getPreviewBodyTemplate, getPreviewHeadTemplate, loadEnvs } from '@story
 import type {
   CLIOptions,
   CoreCommon_IndexerOptions,
-  CoreCommon_StoryIndexer,
+  StoryIndexer,
   CoreConfig,
   Options,
   StorybookConfig,
@@ -104,7 +104,7 @@ export const features = async (
   argTypeTargetsV7: true,
 });
 
-export const storyIndexers = async (indexers?: CoreCommon_StoryIndexer[]) => {
+export const storyIndexers = async (indexers?: StoryIndexer[]) => {
   const csfIndexer = async (fileName: string, opts: CoreCommon_IndexerOptions) => {
     const code = (await fs.readFile(fileName, 'utf-8')).toString();
     return loadCsf(code, { ...opts, fileName }).parse();

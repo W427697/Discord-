@@ -9,12 +9,12 @@ import type {
   ComponentTitle,
   StoryId,
   StoryKind,
-  StoryName,
   Globals,
   GlobalTypes,
   Path,
   Tag,
 } from './csf';
+import type { IndexEntry } from './storyIndex';
 
 export interface API_BaseEntry {
   id: StoryId;
@@ -183,40 +183,9 @@ export type API_SetStoriesPayload =
       stories: API_SetStoriesStoryData;
     } & Record<string, never>);
 
-interface API_BaseIndexEntry {
-  id: StoryId;
-  name: StoryName;
-  title: ComponentTitle;
-  importPath: Path;
-}
-
-export type API_StoryIndexEntry = API_BaseIndexEntry & {
-  type?: 'story';
-};
-
-interface API_V3IndexEntry extends API_BaseIndexEntry {
-  parameters?: Parameters;
-}
-
-export interface API_StoryIndexV3 {
-  v: 3;
-  stories: Record<StoryId, API_V3IndexEntry>;
-}
-
-export type API_DocsIndexEntry = API_BaseIndexEntry & {
-  storiesImports: Path[];
-  type: 'docs';
-};
-
-export type API_IndexEntry = API_StoryIndexEntry | API_DocsIndexEntry;
-export interface StoryIndex {
-  v: number;
-  entries: Record<StoryId, API_IndexEntry>;
-}
-
 // We used to received a bit more data over the channel on the SET_STORIES event, including
 // the full parameters for each story.
-type API_PreparedIndexEntry = API_IndexEntry & {
+type API_PreparedIndexEntry = IndexEntry & {
   parameters?: Parameters;
   argTypes?: ArgTypes;
   args?: Args;
@@ -225,11 +194,6 @@ type API_PreparedIndexEntry = API_IndexEntry & {
 export interface API_PreparedStoryIndex {
   v: number;
   entries: Record<StoryId, API_PreparedIndexEntry>;
-}
-
-export interface API_StoryIndex {
-  v: number;
-  entries: Record<StoryId, API_IndexEntry>;
 }
 
 export type API_OptionsData = {

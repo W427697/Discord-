@@ -1,10 +1,4 @@
-import type {
-  Addon_IndexEntry,
-  Renderer,
-  Store_CSFFile,
-  Store_Story,
-  StoryId,
-} from '@storybook/types';
+import type { IndexEntry, Renderer, Store_CSFFile, Store_Story, StoryId } from '@storybook/types';
 import type { Channel } from '@storybook/channels';
 import { DOCS_RENDERED } from '@storybook/core-events';
 import type { StoryStore } from '../../../store';
@@ -49,7 +43,7 @@ export class TemplateDocsRender<TRenderer extends Renderer> implements Render<TR
   constructor(
     protected channel: Channel,
     protected store: StoryStore<TRenderer>,
-    public entry: Addon_IndexEntry
+    public entry: IndexEntry
   ) {
     this.id = entry.id;
   }

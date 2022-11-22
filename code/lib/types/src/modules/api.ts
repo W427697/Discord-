@@ -10,9 +10,9 @@ import type {
   API_SetStoriesStory,
   API_SetStoriesStoryData,
   API_StoriesHash,
-  API_StoryIndex,
 } from './api-stories';
 import type { Addon_Types } from './addons';
+import type { StoryIndex } from './storyIndex';
 
 export type API_ViewMode = 'story' | 'info' | 'settings' | 'page' | undefined | string;
 
@@ -141,7 +141,7 @@ type API_Versions = Record<string, string>;
 export type API_SetRefData = Partial<
   API_ComposedRef & {
     setStoriesData: API_SetStoriesStoryData;
-    storyIndex: API_StoryIndex;
+    storyIndex: StoryIndex;
   }
 >;
 

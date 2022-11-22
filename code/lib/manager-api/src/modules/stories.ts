@@ -26,7 +26,7 @@ import type {
   API_SetStoriesPayload,
   API_StoriesHash,
   API_StoryEntry,
-  API_StoryIndex,
+  StoryIndex,
 } from '@storybook/types';
 // eslint-disable-next-line import/no-cycle
 import { getEventMetadata } from '../lib/events';
@@ -315,7 +315,7 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
         const result = await fetch(STORY_INDEX_PATH);
         if (result.status !== 200) throw new Error(await result.text());
 
-        const storyIndex = (await result.json()) as API_StoryIndex;
+        const storyIndex = (await result.json()) as StoryIndex;
 
         // We can only do this if the stories.json is a proper storyIndex
         if (storyIndex.v < 3) {

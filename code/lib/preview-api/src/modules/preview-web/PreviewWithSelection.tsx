@@ -23,8 +23,7 @@ import type {
   Args,
   Globals,
   Store_ModuleImportFn,
-  Store_Selection,
-  Store_StoryIndex,
+  StoryIndex,
   Store_StorySpecifier,
   ProjectAnnotations,
   StoryId,
@@ -38,7 +37,7 @@ import { PREPARE_ABORTED } from './render/Render';
 import { StoryRender } from './render/StoryRender';
 import { TemplateDocsRender } from './render/TemplateDocsRender';
 import { StandaloneDocsRender } from './render/StandaloneDocsRender';
-import type { SelectionStore } from './SelectionStore';
+import type { Selection, SelectionStore } from './SelectionStore';
 import type { View } from './View';
 
 const globalWindow = globalThis;
@@ -60,7 +59,7 @@ function isStoryRender<TFramework extends Renderer>(
 }
 
 export class PreviewWithSelection<TFramework extends Renderer> extends Preview<TFramework> {
-  currentSelection?: Store_Selection;
+  currentSelection?: Selection;
 
   currentRender?: PossibleRender<TFramework>;
 
@@ -99,7 +98,7 @@ export class PreviewWithSelection<TFramework extends Renderer> extends Preview<T
   }
 
   // If initialization gets as far as the story index, this function runs.
-  initializeWithStoryIndex(storyIndex: Store_StoryIndex): PromiseLike<void> {
+  initializeWithStoryIndex(storyIndex: StoryIndex): PromiseLike<void> {
     return super.initializeWithStoryIndex(storyIndex).then(() => {
       if (!global.FEATURES?.storyStoreV7) {
         this.channel.emit(SET_INDEX, this.storyStore.getSetIndexPayload());
@@ -177,7 +176,7 @@ export class PreviewWithSelection<TFramework extends Renderer> extends Preview<T
     storyIndex,
   }: {
     importFn?: Store_ModuleImportFn;
-    storyIndex?: Store_StoryIndex;
+    storyIndex?: StoryIndex;
   }) {
     await super.onStoriesChanged({ importFn, storyIndex });
 

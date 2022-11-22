@@ -5,7 +5,7 @@ import { dedent } from 'ts-dedent';
 
 import type {
   CoreCommon_IndexerOptions,
-  CoreCommon_StoryIndexer,
+  StoryIndexer,
   DocsOptions,
   Options,
 } from '@storybook/types';
@@ -157,7 +157,7 @@ async function webpack(
   return result;
 }
 
-const storyIndexers = (indexers: CoreCommon_StoryIndexer[] | null) => {
+const storyIndexers = (indexers: StoryIndexer[] | null) => {
   const mdxIndexer = async (fileName: string, opts: CoreCommon_IndexerOptions) => {
     let code = (await fs.readFile(fileName, 'utf-8')).toString();
     const { compile } = await import('@storybook/mdx2-csf');

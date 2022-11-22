@@ -1,9 +1,9 @@
 import { dedent } from 'ts-dedent';
 import type {
   Addon_Comparator,
-  Addon_IndexEntry,
-  Addon_IndexEntryLegacy,
-  Addon_StoryIndexEntry,
+  IndexEntry,
+  IndexEntryLegacy,
+  StoryIndexEntry,
   Addon_StorySortParameter,
   Addon_StorySortParameterV7,
   Parameters,
@@ -13,7 +13,7 @@ import type {
 import { storySort } from './storySort';
 
 const sortStoriesCommon = (
-  stories: Addon_IndexEntry[],
+  stories: IndexEntry[],
   storySortParameter: Addon_StorySortParameterV7,
   fileNameOrder: Path[]
 ) => {
@@ -24,7 +24,7 @@ const sortStoriesCommon = (
     } else {
       sortFn = storySort(storySortParameter);
     }
-    stories.sort(sortFn as (a: Addon_IndexEntry, b: Addon_IndexEntry) => number);
+    stories.sort(sortFn as (a: IndexEntry, b: IndexEntry) => number);
   } else {
     stories.sort(
       (s1, s2) => fileNameOrder.indexOf(s1.importPath) - fileNameOrder.indexOf(s2.importPath)
@@ -34,7 +34,7 @@ const sortStoriesCommon = (
 };
 
 export const sortStoriesV7 = (
-  stories: Addon_IndexEntry[],
+  stories: IndexEntry[],
   storySortParameter: Addon_StorySortParameterV7,
   fileNameOrder: Path[]
 ) => {
@@ -53,7 +53,7 @@ export const sortStoriesV7 = (
   }
 };
 
-const toIndexEntry = (story: any): Addon_StoryIndexEntry => {
+const toIndexEntry = (story: any): StoryIndexEntry => {
   const { id, title, name, parameters, type } = story;
   return { id, title, name, importPath: parameters.fileName, type };
 };
@@ -64,9 +64,7 @@ export const sortStoriesV6 = (
   fileNameOrder: Path[]
 ) => {
   if (storySortParameter && typeof storySortParameter === 'function') {
-    stories.sort(
-      storySortParameter as (a: Addon_IndexEntryLegacy, b: Addon_IndexEntryLegacy) => number
-    );
+    stories.sort(storySortParameter as (a: IndexEntryLegacy, b: IndexEntryLegacy) => number);
     return stories.map((s) => toIndexEntry(s[1]));
   }
 

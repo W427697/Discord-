@@ -9,8 +9,8 @@ import type {
   API_Provider,
   API_SetStoriesStoryData,
   API_PreparedStoryIndex,
-  API_StoryIndexV3,
-  API_IndexEntry,
+  StoryIndexV3,
+  IndexEntry,
   API_RootEntry,
   API_GroupEntry,
   API_ComponentEntry,
@@ -69,6 +69,7 @@ const transformSetStoriesStoryDataToPreparedStoryIndex = (
       if (docsOnly) {
         acc[id] = {
           type: 'docs',
+          standalone: false,
           storiesImports: [],
           ...base,
         };
@@ -91,12 +92,12 @@ const transformSetStoriesStoryDataToPreparedStoryIndex = (
   return { v: 4, entries };
 };
 
-const transformStoryIndexV3toV4 = (index: API_StoryIndexV3): API_PreparedStoryIndex => {
+const transformStoryIndexV3toV4 = (index: StoryIndexV3): API_PreparedStoryIndex => {
   const countByTitle = countBy(Object.values(index.stories), 'title');
   return {
     v: 4,
     entries: Object.values(index.stories).reduce((acc, entry) => {
-      let type: API_IndexEntry['type'] = 'story';
+      let type: IndexEntry['type'] = 'story';
       if (
         entry.parameters?.docsOnly ||
         (entry.name === 'Page' && countByTitle[entry.title] === 1)
@@ -105,7 +106,7 @@ const transformStoryIndexV3toV4 = (index: API_StoryIndexV3): API_PreparedStoryIn
       }
       acc[entry.id] = {
         type,
-        ...(type === 'docs' && { storiesImports: [] }),
+        ...(type === 'docs' && { standalone: false, storiesImports: [] }),
         ...entry,
       };
       return acc;

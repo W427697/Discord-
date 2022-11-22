@@ -4,7 +4,7 @@ import { dedent } from 'ts-dedent';
 import { SynchronousPromise } from 'synchronous-promise';
 import { toId, isExportStory, storyNameFromExport } from '@storybook/csf';
 import type {
-  Addon_IndexEntry,
+  IndexEntry,
   Renderer,
   ComponentId,
   DocsOptions,
@@ -12,9 +12,9 @@ import type {
   Path,
   Store_ModuleExports,
   Store_NormalizedProjectAnnotations,
-  Store_NormalizedStoriesSpecifier,
+  NormalizedStoriesSpecifier,
   Store_Story,
-  Store_StoryIndex,
+  StoryIndex,
   StoryId,
 } from '@storybook/types';
 import { logger } from '@storybook/client-logger';
@@ -24,7 +24,7 @@ import { userOrAutoTitle, sortStoriesV6 } from '../../store';
 export class StoryStoreFacade<TRenderer extends Renderer> {
   projectAnnotations: Store_NormalizedProjectAnnotations<TRenderer>;
 
-  entries: Record<StoryId, Addon_IndexEntry & { componentId?: ComponentId }>;
+  entries: Record<StoryId, IndexEntry & { componentId?: ComponentId }>;
 
   csfExports: Record<Path, Store_ModuleExports>;
 
@@ -84,7 +84,7 @@ export class StoryStoreFacade<TRenderer extends Renderer> {
     }) as [StoryId, Store_Story<TRenderer>, Parameters, Parameters][];
 
     // NOTE: the sortStoriesV6 version returns the v7 data format. confusing but more convenient!
-    let sortedV7: Addon_IndexEntry[];
+    let sortedV7: IndexEntry[];
 
     try {
       sortedV7 = sortStoriesV6(sortableV6, storySortParameter, fileNameOrder);
@@ -109,7 +109,7 @@ export class StoryStoreFacade<TRenderer extends Renderer> {
       // NOTE: this doesn't actually change the story object, just the index.
       acc[s.id] = this.entries[s.id];
       return acc;
-    }, {} as Store_StoryIndex['entries']);
+    }, {} as StoryIndex['entries']);
 
     return { v: 4, entries };
   }
@@ -149,7 +149,7 @@ export class StoryStoreFacade<TRenderer extends Renderer> {
     let { id: componentId, title, tags: componentTags = [] } = defaultExport || {};
 
     const specifiers = (global.STORIES || []).map(
-      (specifier: Store_NormalizedStoriesSpecifier & { importPathMatcher: string }) => ({
+      (specifier: NormalizedStoriesSpecifier & { importPathMatcher: string }) => ({
         ...specifier,
         importPathMatcher: new RegExp(specifier.importPathMatcher),
       })

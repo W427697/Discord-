@@ -2,16 +2,11 @@
 import type { SynchronousPromise } from 'synchronous-promise';
 import type { Renderer, ProjectAnnotations as CsfProjectAnnotations } from '@storybook/csf';
 
-import type { Addon_IndexEntry, Addon_StoryIndexEntry } from './addons';
 import type {
-  AnnotatedStoryFn,
-  Args,
   ComponentAnnotations,
   ComponentId,
   ComponentTitle,
-  DecoratorFunction,
   LegacyStoryFn,
-  Parameters,
   PartialStoryFn,
   Path,
   StoryAnnotations,
@@ -24,25 +19,27 @@ import type {
   StoryName,
   StrictArgTypes,
   StrictGlobalTypes,
-  ViewMode,
 } from './csf';
 
+// Internal to preview, exported until preview package consolidation
+export type Store_PromiseLike<T> = Promise<T> | SynchronousPromise<T>;
+export type Store_StorySpecifier = StoryId | { name: StoryName; title: ComponentTitle } | '*';
+
+// Store Types
 export interface WebRenderer extends Renderer {
   canvasElement: HTMLElement;
 }
 
 export type Store_ModuleExport = any;
 export type Store_ModuleExports = Record<string, Store_ModuleExport>;
-export type Store_PromiseLike<T> = Promise<T> | SynchronousPromise<T>;
 export type Store_ModuleImportFn = (path: Path) => Store_PromiseLike<Store_ModuleExports>;
 
-type Store_MaybePromise<T> = Promise<T> | T;
-
-export type TeardownRenderToCanvas = () => Store_MaybePromise<void>;
+type MaybePromise<T> = Promise<T> | T;
+export type TeardownRenderToCanvas = () => MaybePromise<void>;
 export type RenderToCanvas<TRenderer extends Renderer> = (
   context: Store_RenderContext<TRenderer>,
   element: TRenderer['canvasElement']
-) => Store_MaybePromise<void | TeardownRenderToCanvas>;
+) => MaybePromise<void | TeardownRenderToCanvas>;
 
 export type ProjectAnnotations<TRenderer extends Renderer> = CsfProjectAnnotations<TRenderer> & {
   renderToCanvas?: RenderToCanvas<TRenderer>;
@@ -108,114 +105,4 @@ export declare type Store_RenderContext<TRenderer extends Renderer = Renderer> =
   unboundStoryFn: LegacyStoryFn<TRenderer>;
 };
 
-export interface Store_V2CompatIndexEntry extends Omit<Addon_StoryIndexEntry, 'type'> {
-  kind: Addon_StoryIndexEntry['title'];
-  story: Addon_StoryIndexEntry['name'];
-  parameters: Parameters;
-}
-
-export interface Store_StoryIndexV3 {
-  v: number;
-  stories: Record<StoryId, Store_V2CompatIndexEntry>;
-}
-
-export interface Store_StoryIndex {
-  v: number;
-  entries: Record<StoryId, Addon_IndexEntry>;
-}
-
-export type Store_StorySpecifier = StoryId | { name: StoryName; title: ComponentTitle } | '*';
-
-export interface Store_SelectionSpecifier {
-  storySpecifier: Store_StorySpecifier;
-  viewMode: ViewMode;
-  args?: Args;
-  globals?: Args;
-}
-
-export interface Store_Selection {
-  storyId: StoryId;
-  viewMode: ViewMode;
-}
-
-export type Store_DecoratorApplicator<TRenderer extends Renderer = Renderer> = (
-  storyFn: LegacyStoryFn<TRenderer>,
-  decorators: DecoratorFunction<TRenderer>[]
-) => LegacyStoryFn<TRenderer>;
-
-export interface Store_StoriesSpecifier {
-  directory: string;
-  titlePrefix?: string;
-}
-export interface Store_NormalizedStoriesSpecifier {
-  glob?: string;
-  specifier?: Store_StoriesSpecifier;
-}
-
-export interface Store_NormalizedStoriesSpecifierEntry {
-  titlePrefix?: string;
-  directory: string;
-  files?: string;
-  importPathMatcher: RegExp;
-}
-
 export type Store_PropDescriptor = string[] | RegExp;
-
-export type Store_CSFExports<TRenderer extends Renderer = Renderer> = {
-  default: ComponentAnnotations<TRenderer, Args>;
-  __esModule?: boolean;
-  __namedExportsOrder?: string[];
-};
-
-export type Store_ComposedStoryPlayContext = Partial<StoryContext> &
-  Pick<StoryContext, 'canvasElement'>;
-
-export type Store_ComposedStoryPlayFn = (
-  context: Store_ComposedStoryPlayContext
-) => Promise<void> | void;
-
-export type Store_StoryFn<TRenderer extends Renderer = Renderer, TArgs = Args> = AnnotatedStoryFn<
-  TRenderer,
-  TArgs
-> & { play: Store_ComposedStoryPlayFn };
-
-export type Store_ComposedStory<TRenderer extends Renderer = Renderer, TArgs = Args> =
-  | StoryFn<TRenderer, TArgs>
-  | StoryAnnotations<TRenderer, TArgs>;
-
-/**
- * T represents the whole ES module of a stories file. K of T means named exports (basically the Story type)
- * 1. pick the keys K of T that have properties that are Story<AnyProps>
- * 2. infer the actual prop type for each Story
- * 3. reconstruct Story with Partial. Story<Props> -> Story<Partial<Props>>
- */
-export type Store_StoriesWithPartialProps<TRenderer extends Renderer, TModule> = {
-  // @TODO once we can use Typescript 4.0 do this to exclude nonStory exports:
-  // replace [K in keyof TModule] with [K in keyof TModule as TModule[K] extends ComposedStory<any> ? K : never]
-  [K in keyof TModule]: TModule[K] extends Store_ComposedStory<infer _, infer TProps>
-    ? AnnotatedStoryFn<TRenderer, Partial<TProps>>
-    : unknown;
-};
-
-export type Store_ControlsMatchers = {
-  date: RegExp;
-  color: RegExp;
-};
-
-export interface Store_ComposeStory<
-  TRenderer extends Renderer = Renderer,
-  TArgs extends Args = Args
-> {
-  (
-    storyAnnotations: AnnotatedStoryFn<TRenderer, TArgs> | StoryAnnotations<TRenderer, TArgs>,
-    componentAnnotations: ComponentAnnotations<TRenderer, TArgs>,
-    projectAnnotations: ProjectAnnotations<TRenderer>,
-    exportsName?: string
-  ): {
-    (extraArgs: Partial<TArgs>): TRenderer['storyResult'];
-    storyName: string;
-    args: Args;
-    play: Store_ComposedStoryPlayFn;
-    parameters: Parameters;
-  };
-}

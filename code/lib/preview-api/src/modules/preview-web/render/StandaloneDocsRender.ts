@@ -1,5 +1,5 @@
 import type {
-  Addon_IndexEntry,
+  IndexEntry,
   Renderer,
   Store_CSFFile,
   Store_ModuleExports,
@@ -46,7 +46,7 @@ export class StandaloneDocsRender<TRenderer extends Renderer> implements Render<
   constructor(
     protected channel: Channel,
     protected store: StoryStore<TRenderer>,
-    public entry: Addon_IndexEntry
+    public entry: IndexEntry
   ) {
     this.id = entry.id;
   }

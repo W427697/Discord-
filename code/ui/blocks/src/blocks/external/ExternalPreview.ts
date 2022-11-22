@@ -5,7 +5,7 @@ import type {
   Path,
   ProjectAnnotations,
   Store_ModuleExports,
-  Store_StoryIndex,
+  StoryIndex,
 } from '@storybook/types';
 import { Channel } from '@storybook/channels';
 
@@ -31,7 +31,7 @@ export class ExternalPreview<TRenderer extends Renderer = Renderer> extends Prev
 
   private titles = new ConstantMap<MetaExports, ComponentTitle>('title-');
 
-  private storyIndex: Store_StoryIndex = { v: 4, entries: {} };
+  private storyIndex: StoryIndex = { v: 4, entries: {} };
 
   private moduleExportsByImportPath: Record<Path, Store_ModuleExports> = {};
 

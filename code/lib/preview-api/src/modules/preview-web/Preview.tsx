@@ -24,7 +24,7 @@ import type {
   Store_PromiseLike,
   RenderToCanvas,
   Store_Story,
-  Store_StoryIndex,
+  StoryIndex,
   ProjectAnnotations,
   StoryId,
   StoryRenderOptions,
@@ -46,7 +46,7 @@ export class Preview<TFramework extends Renderer> {
 
   storyStore: StoryStore<TFramework>;
 
-  getStoryIndex?: () => Store_StoryIndex;
+  getStoryIndex?: () => StoryIndex;
 
   importFn?: Store_ModuleImportFn;
 
@@ -78,7 +78,7 @@ export class Preview<TFramework extends Renderer> {
   }: {
     // In the case of the v6 store, we can only get the index from the facade *after*
     // getProjectAnnotations has been run, thus this slightly awkward approach
-    getStoryIndex?: () => Store_StoryIndex;
+    getStoryIndex?: () => StoryIndex;
     importFn: Store_ModuleImportFn;
     getProjectAnnotations: () => MaybePromise<ProjectAnnotations<TFramework>>;
   }) {
@@ -139,7 +139,7 @@ export class Preview<TFramework extends Renderer> {
 
     this.setInitialGlobals();
 
-    let storyIndexPromise: Store_PromiseLike<Store_StoryIndex>;
+    let storyIndexPromise: Store_PromiseLike<StoryIndex>;
     if (global.FEATURES?.storyStoreV7) {
       storyIndexPromise = this.getStoryIndexFromServer();
     } else {
@@ -150,7 +150,7 @@ export class Preview<TFramework extends Renderer> {
     }
 
     return storyIndexPromise
-      .then((storyIndex: Store_StoryIndex) => this.initializeWithStoryIndex(storyIndex))
+      .then((storyIndex: StoryIndex) => this.initializeWithStoryIndex(storyIndex))
       .catch((err) => {
         this.renderPreviewEntryError('Error loading story index:', err);
         throw err;
@@ -172,13 +172,13 @@ export class Preview<TFramework extends Renderer> {
 
   async getStoryIndexFromServer() {
     const result = await fetch(STORY_INDEX_PATH);
-    if (result.status === 200) return result.json() as Store_StoryIndex;
+    if (result.status === 200) return result.json() as StoryIndex;
 
     throw new Error(await result.text());
   }
 
   // If initialization gets as far as the story index, this function runs.
-  initializeWithStoryIndex(storyIndex: Store_StoryIndex): PromiseLike<void> {
+  initializeWithStoryIndex(storyIndex: StoryIndex): PromiseLike<void> {
     if (!this.importFn)
       throw new Error(`Cannot call initializeWithStoryIndex before initialization`);
 
@@ -240,7 +240,7 @@ export class Preview<TFramework extends Renderer> {
     storyIndex,
   }: {
     importFn?: Store_ModuleImportFn;
-    storyIndex?: Store_StoryIndex;
+    storyIndex?: StoryIndex;
   }) {
     await this.storyStore.onStoriesChanged({ importFn, storyIndex });
   }
