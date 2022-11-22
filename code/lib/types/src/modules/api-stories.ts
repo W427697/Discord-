@@ -1,16 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import type { DocsOptions } from './core-common';
-import type {
-  Args,
-  ArgTypes,
-  Parameters,
-  ComponentTitle,
-  StoryId,
-  Globals,
-  GlobalTypes,
-  Path,
-  Tag,
-} from './csf';
+import type { Args, ArgTypes, Parameters, ComponentTitle, StoryId, Path, Tag } from './csf';
 import type { IndexEntry } from './storyIndex';
 
 export interface API_BaseEntry {

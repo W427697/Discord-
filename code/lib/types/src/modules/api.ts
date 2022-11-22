@@ -5,12 +5,8 @@ import type { Channel } from '../../../channels/src';
 import type { ThemeVars } from '../../../theming/src/types';
 import type { ViewMode } from './csf';
 import type { DocsOptions } from './core-common';
-import type {
-  API_HashEntry,
-  API_SetStoriesStory,
-  API_SetStoriesStoryData,
-  API_StoriesHash,
-} from './api-stories';
+import type { API_HashEntry, API_StoriesHash } from './api-stories';
+import type { SetStoriesStory, SetStoriesStoryData } from './channelApi';
 import type { Addon_Types } from './addons';
 import type { StoryIndex } from './storyIndex';
 
@@ -140,15 +136,12 @@ type API_Versions = Record<string, string>;
 
 export type API_SetRefData = Partial<
   API_ComposedRef & {
-    setStoriesData: API_SetStoriesStoryData;
+    setStoriesData: SetStoriesStoryData;
     storyIndex: StoryIndex;
   }
 >;
 
-export type API_StoryMapper = (
-  ref: API_ComposedRef,
-  story: API_SetStoriesStory
-) => API_SetStoriesStory;
+export type API_StoryMapper = (ref: API_ComposedRef, story: SetStoriesStory) => SetStoriesStory;
 export interface API_ComposedRef {
   id: string;
   title?: string;

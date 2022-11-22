@@ -28,6 +28,7 @@ import type {
   ProjectAnnotations,
   StoryId,
   StoryRenderOptions,
+  SetGlobalsPayload,
 } from '@storybook/types';
 import { StoryStore } from '../../store';
 
@@ -164,10 +165,12 @@ export class Preview<TFramework extends Renderer> {
   emitGlobals() {
     if (!this.storyStore.globals || !this.storyStore.projectAnnotations)
       throw new Error(`Cannot emit before initialization`);
-    this.channel.emit(SET_GLOBALS, {
+
+    const payload: SetGlobalsPayload = {
       globals: this.storyStore.globals.get() || {},
       globalTypes: this.storyStore.projectAnnotations.globalTypes || {},
-    });
+    };
+    this.channel.emit(SET_GLOBALS, payload);
   }
 
   async getStoryIndexFromServer() {
