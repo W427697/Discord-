@@ -101,8 +101,8 @@ export function codeGeneratorPlugin(options: ExtendedOptions): Plugin {
       if (source === virtualAddonSetupFile) {
         return virtualAddonSetupFile;
       }
-      if (source === '/sb-preview/index.mjs') {
-        return '/sb-preview/index.mjs';
+      if (source === '/sb-preview/runtime.mjs') {
+        return '/sb-preview/runtime.mjs';
       }
 
       return undefined;
@@ -132,7 +132,7 @@ export function codeGeneratorPlugin(options: ExtendedOptions): Plugin {
       }
 
       // This is handled by the express router, not vite
-      if (id === '/sb-preview/index.mjs') {
+      if (id === '/sb-preview/runtime.mjs') {
         return '';
       }
 

@@ -22,69 +22,14 @@
   "sideEffects": false,
   "exports": {
     ".": {
-      "import": "./dist/index.mjs",
-      "require": "./dist/index.js",
-      "types": "./dist/index.d.ts"
+      "import": "./dist/runtime.mjs",
+      "require": "./dist/runtime.js",
+      "types": "./dist/runtime.d.ts"
     },
-    "./dist/addons": {
-      "import": "./dist/addons.mjs",
-      "require": "./dist/addons.js",
-      "types": "./dist/addons.d.ts"
-    },
-    "./dist/client-api": {
-      "import": "./dist/client-api.mjs",
-      "require": "./dist/client-api.js",
-      "types": "./dist/client-api.d.ts"
-    },
-    "./dist/core-client": {
-      "import": "./dist/core-client.mjs",
-      "require": "./dist/core-client.js",
-      "types": "./dist/core-client.d.ts"
-    },
-    "./dist/global/addons": {
-      "import": "./dist/global/addons.mjs",
-      "require": "./dist/global/addons.js",
-      "types": "./dist/global/addons.d.ts"
-    },
-    "./dist/global/blocks": {
-      "import": "./dist/global/blocks.mjs",
-      "require": "./dist/global/blocks.js",
-      "types": "./dist/global/blocks.d.ts"
-    },
-    "./dist/global/client-api": {
-      "import": "./dist/global/client-api.mjs",
-      "require": "./dist/global/client-api.js",
-      "types": "./dist/global/client-api.d.ts"
-    },
-    "./dist/global/core-client": {
-      "import": "./dist/global/core-client.mjs",
-      "require": "./dist/global/core-client.js",
-      "types": "./dist/global/core-client.d.ts"
-    },
-    "./dist/global/preview-web": {
-      "import": "./dist/global/preview-web.mjs",
-      "require": "./dist/global/preview-web.js",
-      "types": "./dist/global/preview-web.d.ts"
-    },
-    "./dist/global/store": {
-      "import": "./dist/global/store.mjs",
-      "require": "./dist/global/store.js",
-      "types": "./dist/global/store.d.ts"
-    },
-    "./dist/preview-web": {
-      "import": "./dist/preview-web.mjs",
-      "require": "./dist/preview-web.js",
-      "types": "./dist/preview-web.d.ts"
-    },
-    "./dist/store": {
-      "import": "./dist/store.mjs",
-      "require": "./dist/store.js",
-      "types": "./dist/store.d.ts"
-    },
-    "./definitions": {
-      "import": "./dist/definitions.mjs",
-      "require": "./dist/definitions.js",
-      "types": "./dist/definitions.d.ts"
+    "./globals": {
+      "import": "./dist/globals.mjs",
+      "require": "./dist/globals.js",
+      "types": "./dist/globals.d.ts"
     },
     "./package.json": "./package.json"
   },
@@ -94,10 +39,10 @@
   "typesVersions": {
     "*": {
       "*": [
-        "dist/index.d.ts"
+        "dist/runtime.d.ts"
       ],
-      "definitions": [
-        "dist/definitions.d.ts"
+      "globals": [
+        "dist/globals.d.ts"
       ]
     }
   },
@@ -152,20 +97,8 @@
   "bundler": {
     "pre": "./scripts/generate-exports-file.ts",
     "entries": [
-      "./src/index.ts",
-      "./src/definitions.ts"
-    ],
-    "untypedEntries": [
-      "./src/global/addons.ts",
-      "./src/global/channel-postmessage.ts",
-      "./src/global/channel-websocket.ts",
-      "./src/global/channels.ts",
-      "./src/global/client-api.ts",
-      "./src/global/client-logger.ts",
-      "./src/global/core-client.ts",
-      "./src/global/core-events.ts",
-      "./src/global/preview-web.ts",
-      "./src/global/store.ts"
+      "./src/runtime.ts",
+      "./src/globals.ts"
     ]
   },
   "gitHead": "d2494e3f51ce0f55bcb1ef693a6477c669fbe666"

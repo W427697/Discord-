@@ -2,7 +2,7 @@ import * as path from 'path';
 import { normalizePath, resolveConfig } from 'vite';
 import type { InlineConfig as ViteInlineConfig, UserConfig } from 'vite';
 import { globalExternals } from '@fal-works/esbuild-plugin-global-externals';
-import { definitions } from '@storybook/preview/definitions';
+import { definitions } from '@storybook/preview/globals';
 import { listStories } from './list-stories';
 
 import type { ExtendedOptions } from './types';
