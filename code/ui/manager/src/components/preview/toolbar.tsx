@@ -4,8 +4,15 @@ import React, { Fragment, useMemo } from 'react';
 import { styled } from '@storybook/theming';
 
 import { FlexBar, IconButton, Icons, Separator, TabButton, TabBar } from '@storybook/components';
-import { Consumer, type Combo, type API, type State, merge, type LeafEntry } from '@storybook/api';
-import { shortcutToHumanString } from '@storybook/api/shortcut';
+import {
+  shortcutToHumanString,
+  Consumer,
+  type Combo,
+  type API,
+  type State,
+  merge,
+  type LeafEntry,
+} from '@storybook/api';
 import { addons, type Addon, types } from '@storybook/addons';
 
 import { Location, type RenderData } from '@storybook/router';

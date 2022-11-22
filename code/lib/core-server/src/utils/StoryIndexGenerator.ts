@@ -268,6 +268,7 @@ export class StoryIndexGenerator {
       const importPath = slash(normalizedPath);
 
       const content = await fs.readFile(absolutePath, 'utf8');
+
       const result: {
         title?: ComponentTitle;
         of?: Path;

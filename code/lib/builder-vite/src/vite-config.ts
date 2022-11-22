@@ -5,6 +5,7 @@ import type {
   InlineConfig as ViteInlineConfig,
   PluginOption,
   UserConfig as ViteConfig,
+  InlineConfig,
 } from 'vite';
 import viteReact from '@vitejs/plugin-react';
 import { isPreservingSymlinks, getFrameworkName } from '@storybook/core-common';
@@ -42,12 +43,13 @@ export async function commonConfig(
 
   const { config: userConfig = {} } = (await loadConfigFromFile(configEnv)) ?? {};
 
-  const sbConfig = {
+  const sbConfig: InlineConfig = {
     configFile: false,
     cacheDir: 'node_modules/.cache/.vite-storybook',
     root: path.resolve(options.configDir, '..'),
     // Allow storybook deployed as subfolder.  See https://github.com/storybookjs/builder-vite/issues/238
     base: './',
+
     plugins: await pluginConfig(options),
     resolve: {
       preserveSymlinks: isPreservingSymlinks(),

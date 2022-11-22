@@ -899,7 +899,7 @@ describe('useStoriesJson', () => {
     });
 
     it('debounces invalidation events', async () => {
-      (debounce as jest.Mock).mockImplementation(jest.requireActual('lodash/debounce'));
+      (debounce as jest.Mock).mockImplementation(jest.requireActual('lodash/debounce') as any);
 
       const mockServerChannel = { emit: jest.fn() } as any as ServerChannel;
       useStoriesJson({
