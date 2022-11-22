@@ -14,25 +14,24 @@ import type {
 
 import type { ProjectAnnotations } from './story';
 
+// TODO -- I think the name "CSFExports" overlaps here a bit with the types in csfFile.ts
+// we might want to reconcile @yannbf
 export type Store_CSFExports<TRenderer extends Renderer = Renderer> = {
   default: ComponentAnnotations<TRenderer, Args>;
   __esModule?: boolean;
   __namedExportsOrder?: string[];
 };
 
-export type Store_ComposedStoryPlayContext = Partial<StoryContext> &
-  Pick<StoryContext, 'canvasElement'>;
+export type ComposedStoryPlayContext = Partial<StoryContext> & Pick<StoryContext, 'canvasElement'>;
 
-export type Store_ComposedStoryPlayFn = (
-  context: Store_ComposedStoryPlayContext
-) => Promise<void> | void;
+export type ComposedStoryPlayFn = (context: ComposedStoryPlayContext) => Promise<void> | void;
 
 export type PreparedStoryFn<TRenderer extends Renderer = Renderer, TArgs = Args> = AnnotatedStoryFn<
   TRenderer,
   TArgs
-> & { play: Store_ComposedStoryPlayFn };
+> & { play: ComposedStoryPlayFn };
 
-export type Store_ComposedStory<TRenderer extends Renderer = Renderer, TArgs = Args> =
+export type ComposedStory<TRenderer extends Renderer = Renderer, TArgs = Args> =
   | StoryFn<TRenderer, TArgs>
   | StoryAnnotations<TRenderer, TArgs>;
 
@@ -42,23 +41,15 @@ export type Store_ComposedStory<TRenderer extends Renderer = Renderer, TArgs = A
  * 2. infer the actual prop type for each Story
  * 3. reconstruct Story with Partial. Story<Props> -> Story<Partial<Props>>
  */
-export type Store_StoriesWithPartialProps<TRenderer extends Renderer, TModule> = {
+export type StoriesWithPartialProps<TRenderer extends Renderer, TModule> = {
   // @TODO once we can use Typescript 4.0 do this to exclude nonStory exports:
   // replace [K in keyof TModule] with [K in keyof TModule as TModule[K] extends ComposedStory<any> ? K : never]
-  [K in keyof TModule]: TModule[K] extends Store_ComposedStory<infer _, infer TProps>
+  [K in keyof TModule]: TModule[K] extends ComposedStory<infer _, infer TProps>
     ? AnnotatedStoryFn<TRenderer, Partial<TProps>>
     : unknown;
 };
 
-export type Store_ControlsMatchers = {
-  date: RegExp;
-  color: RegExp;
-};
-
-export interface Store_ComposeStory<
-  TRenderer extends Renderer = Renderer,
-  TArgs extends Args = Args
-> {
+export interface ComposeStory<TRenderer extends Renderer = Renderer, TArgs extends Args = Args> {
   (
     storyAnnotations: AnnotatedStoryFn<TRenderer, TArgs> | StoryAnnotations<TRenderer, TArgs>,
     componentAnnotations: ComponentAnnotations<TRenderer, TArgs>,
@@ -68,7 +59,7 @@ export interface Store_ComposeStory<
     (extraArgs: Partial<TArgs>): TRenderer['storyResult'];
     storyName: string;
     args: Args;
-    play: Store_ComposedStoryPlayFn;
+    play: ComposedStoryPlayFn;
     parameters: Parameters;
   };
 }
