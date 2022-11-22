@@ -10,7 +10,6 @@ import type {
 import viteReact from '@vitejs/plugin-react';
 import { isPreservingSymlinks, getFrameworkName } from '@storybook/core-common';
 import type { Builder_EnvsRaw } from '@storybook/types';
-import { dirname, join } from 'path';
 import { stringifyProcessEnvs } from './envs';
 import {
   codeGeneratorPlugin,
