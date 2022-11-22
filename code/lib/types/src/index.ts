@@ -4,7 +4,6 @@
 export * from './modules/csf';
 export * from './modules/addons';
 export * from './modules/story';
-export * from './modules/client-api';
 export * from './modules/core-common';
 export * from './modules/builder';
 export * from './modules/api';
