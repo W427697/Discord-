@@ -78,7 +78,6 @@ export default {
     'P',
     'Placeholder',
     'Pre',
-    'PureLoader',
     'ResetWrapper',
     'ScrollArea',
     'Separator',

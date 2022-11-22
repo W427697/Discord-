@@ -6,7 +6,7 @@ import { type API, Consumer, type Combo, merge } from '@storybook/api';
 import { PREVIEW_BUILDER_PROGRESS, SET_CURRENT_STORY } from '@storybook/core-events';
 import { addons, types, type Addon } from '@storybook/addons';
 
-import { PureLoader } from '@storybook/components';
+import { Loader } from '@storybook/components';
 import { Location } from '@storybook/router';
 
 import * as S from './utils/components';
@@ -85,7 +85,7 @@ const createCanvas = (id: string, baseUrl = 'iframe.html', withLoader = true): A
                   <>
                     {withLoader && isLoading && (
                       <S.LoaderWrapper>
-                        <PureLoader id="preview-loader" role="progressbar" progress={progress} />
+                        <Loader id="preview-loader" role="progressbar" progress={progress} />
                       </S.LoaderWrapper>
                     )}
                     <ApplyWrappers
