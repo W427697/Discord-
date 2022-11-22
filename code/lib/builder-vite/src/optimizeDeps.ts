@@ -24,6 +24,7 @@ const INCLUDE_CANDIDATES = [
   '@storybook/core/client',
   '@storybook/types',
   '@storybook/preview-api',
+  '@storybook/preview-api',
   '@storybook/preview-web',
   '@storybook/react > acorn-jsx',
   '@storybook/react',

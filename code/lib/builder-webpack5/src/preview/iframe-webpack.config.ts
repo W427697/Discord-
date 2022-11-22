@@ -218,6 +218,7 @@ export default async (
         'addons',
         'store',
         'preview-web',
+        'preview-api',
         'client-api',
         'core-client',
       ].reduce(
