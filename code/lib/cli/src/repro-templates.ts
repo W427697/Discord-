@@ -273,7 +273,6 @@ export const merged: TemplateKey[] = [
   ...pr,
   'react-webpack/18-ts',
   'react-webpack/17-ts',
-  'angular-cli/default-ts',
   'angular-cli/14-ts',
   'angular-cli/13-ts',
   'preact-webpack5/default-ts',
