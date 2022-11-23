@@ -1,4 +1,4 @@
-const PLUGIN_NAME = 'normalize-angular-entry-plugin';
+const PLUGIN_NAME = 'storybook-normalize-angular-entry-plugin';
 
 /**
  * Angular's webpack plugin @angular-devkit/build-angular/src/webpack/plugins/styles-webpack-plugin.js
@@ -19,7 +19,7 @@ const PLUGIN_NAME = 'normalize-angular-entry-plugin';
  * Storybook throws an __webpack_require__.nmd is not a function error, when another runtime bundle (styles~runtime.iframe.bundle.js) is loaded.
  * To prevent this error, we have to normalize the entry point to only generate one runtime bundle (main~runtime.iframe.bundle.js).
  */
-export default class NormalizeAngularEntryPlugin {
+export default class StorybookNormalizeAngularEntryPlugin {
   constructor(options) {
     this.options = options;
   }

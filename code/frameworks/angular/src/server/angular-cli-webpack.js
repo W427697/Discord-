@@ -11,8 +11,8 @@ const {
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const { filterOutStylingRules } = require('./utils/filter-out-styling-rules');
 const {
-  default: NormalizeAngularEntryPlugin,
-} = require('./plugins/normalize-angular-entry-plugin');
+  default: StorybookNormalizeAngularEntryPlugin,
+} = require('./plugins/storybook-normalize-angular-entry-plugin');
 
 /**
  * Extract webpack config from angular-cli 13.x.x
@@ -71,7 +71,7 @@ exports.getWebpackConfig = async (baseConfig, { builderOptions, builderContext }
   const plugins = [
     ...(cliConfig.plugins ?? []),
     ...baseConfig.plugins,
-    new NormalizeAngularEntryPlugin(),
+    new StorybookNormalizeAngularEntryPlugin(),
   ];
 
   const resolve = {

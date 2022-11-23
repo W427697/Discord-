@@ -82,9 +82,13 @@ const validateArgs = (key = '', value: unknown): boolean => {
       COLOR_REGEXP.test(value)
     );
   }
-  if (Array.isArray(value)) return value.every((v) => validateArgs(key, v));
-  if (isPlainObject(value))
+  if (Array.isArray(value)) {
+    return value.every((v) => validateArgs(key, v));
+  }
+
+  if (isPlainObject(value)) {
     return Object.entries(value as Record<string, any>).every(([k, v]) => validateArgs(k, v));
+  }
   return false;
 };
 
