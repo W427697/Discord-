@@ -54,10 +54,10 @@
   },
   "dependencies": {
     "@storybook/addons": "7.0.0-alpha.52",
-    "@storybook/api": "7.0.0-alpha.52",
     "@storybook/client-logger": "7.0.0-alpha.52",
     "@storybook/core-client": "7.0.0-alpha.52",
     "@storybook/docs-tools": "7.0.0-alpha.52",
+    "@storybook/manager-api": "7.0.0-alpha.52",
     "@storybook/preview-api": "7.0.0-alpha.52",
     "@storybook/types": "7.0.0-alpha.52",
     "global": "^4.4.0",
