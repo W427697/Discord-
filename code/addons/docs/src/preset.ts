@@ -3,12 +3,7 @@ import remarkSlug from 'remark-slug';
 import remarkExternalLinks from 'remark-external-links';
 import { dedent } from 'ts-dedent';
 
-import type {
-  CoreCommon_IndexerOptions,
-  StoryIndexer,
-  DocsOptions,
-  Options,
-} from '@storybook/types';
+import type { IndexerOptions, StoryIndexer, DocsOptions, Options } from '@storybook/types';
 import type { CsfPluginOptions } from '@storybook/csf-plugin';
 import { loadCsf } from '@storybook/csf-tools';
 
@@ -158,7 +153,7 @@ async function webpack(
 }
 
 const storyIndexers = (indexers: StoryIndexer[] | null) => {
-  const mdxIndexer = async (fileName: string, opts: CoreCommon_IndexerOptions) => {
+  const mdxIndexer = async (fileName: string, opts: IndexerOptions) => {
     let code = (await fs.readFile(fileName, 'utf-8')).toString();
     const { compile } = await import('@storybook/mdx2-csf');
     code = await compile(code, {});
