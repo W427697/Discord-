@@ -5483,7 +5483,6 @@ __metadata:
     "@storybook/angular": 7.0.0-alpha.52
     "@storybook/babel-plugin-require-context-hook": 1.0.1
     "@storybook/client-api": 7.0.0-alpha.52
-    "@storybook/core-client": 7.0.0-alpha.52
     "@storybook/core-common": 7.0.0-alpha.52
     "@storybook/core-webpack": 7.0.0-alpha.52
     "@storybook/preview-api": 7.0.0-alpha.52
@@ -6409,9 +6408,9 @@ __metadata:
   resolution: "@storybook/ember@workspace:frameworks/ember"
   dependencies:
     "@storybook/builder-webpack5": 7.0.0-alpha.52
-    "@storybook/core-client": 7.0.0-alpha.52
     "@storybook/core-common": 7.0.0-alpha.52
     "@storybook/docs-tools": 7.0.0-alpha.52
+    "@storybook/preview-api": 7.0.0-alpha.52
     "@storybook/types": 7.0.0-alpha.52
     ember-source: ~3.28.1
     global: ^4.4.0
