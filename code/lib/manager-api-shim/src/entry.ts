@@ -1,7 +1,7 @@
 import { deprecate } from '@storybook/client-logger';
 
 deprecate(
-  'importing from @storybook/client-api is deprecated and will be removed in 8.0, please import canvas related modules from @storybook/preview-api'
+  'importing from @storybook/api is deprecated and will be removed in 8.0, please import canvas related modules from @storybook/manager-api'
 );
 
-export * from '@storybook/preview-api/dist/client-api';
+export * from '@storybook/manager-api';
