@@ -54,7 +54,7 @@ exports.getWebpackConfig = async (baseConfig, { builderOptions, builderContext }
   /**
    * Merge baseConfig Webpack with angular-cli Webpack
    */
-   const entry = [
+  const entry = [
     ...baseConfig.entry,
     ...(cliConfig.entry.styles ?? []),
     ...(cliConfig.entry.polyfills ?? []),
