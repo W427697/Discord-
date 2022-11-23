@@ -1,4 +1,4 @@
-import fse, { readJSON, writeJSON } from 'fs-extra';
+import fse from 'fs-extra';
 import path from 'path';
 import { sync as spawnSync } from 'cross-spawn';
 import { logger } from '@storybook/node-logger';
@@ -50,12 +50,6 @@ export const link = async ({ target, local, start }: LinkOptions) => {
 
   logger.info(`Linking ${reproDir}`);
   await exec(`yarn link --all ${storybookDir}`, { cwd: reproDir });
-
-  // TODO remove this once https://github.com/webpack/enhanced-resolve/issues/362 is resolved
-  const packageJsonPath = path.join(reproDir, 'package.json');
-  const packageJson = await readJSON(packageJsonPath);
-  packageJson.resolutions = { ...packageJson.resolutions, 'enhanced-resolve': '~5.10.0' };
-  await writeJSON(packageJsonPath, packageJson, { spaces: 2 });
 
   logger.info(`Installing ${reproName}`);
   await exec(`yarn install`, { cwd: reproDir });
