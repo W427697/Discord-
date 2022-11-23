@@ -209,18 +209,14 @@ export default async (
     externals: {
       ...[
         // these packages are pre-bundled, so they are mapped to global shims
-        'channels',
+        // at some point this should only be a single package: preview-api
+        'addons',
         'channel-postmessage',
         'channel-websocket',
+        'channels',
+        'client-logger',
         'core-events',
         'preview-api',
-        'client-logger',
-        'addons',
-        'store',
-        'preview-web',
-        'preview-api',
-        'client-api',
-        'core-client',
       ].reduce(
         (acc, sbPackage) => ({
           ...acc,
