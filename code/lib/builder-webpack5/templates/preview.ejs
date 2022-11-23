@@ -36,8 +36,13 @@
           <% } %>
       <% } %>
     </script>
-    <% } %> <% htmlWebpackPlugin.files.js.forEach(file => { %>
-    <script src="<%= file %>"></script>
-    <% }); %>
+    <% } %>
+    <script type="module">
+      import './sb-preview/runtime.mjs';
+
+      <% htmlWebpackPlugin.files.js.forEach(file => { %>
+      import './<%= file %>';
+      <% }); %>
+    </script>    
   </body>
 </html>
