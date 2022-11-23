@@ -6100,6 +6100,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/client-api@workspace:lib/client-api"
   dependencies:
+    "@storybook/client-logger": 7.0.0-alpha.52
     "@storybook/preview-api": 7.0.0-alpha.52
   languageName: unknown
   linkType: soft
@@ -6179,6 +6180,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/core-client@workspace:lib/core-client"
   dependencies:
+    "@storybook/client-logger": 7.0.0-alpha.52
     "@storybook/preview-api": 7.0.0-alpha.52
   languageName: unknown
   linkType: soft
@@ -6951,6 +6953,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/preview-web@workspace:lib/preview-web"
   dependencies:
+    "@storybook/client-logger": 7.0.0-alpha.52
     "@storybook/preview-api": 7.0.0-alpha.52
   languageName: unknown
   linkType: soft
@@ -7459,6 +7462,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/store@workspace:lib/store"
   dependencies:
+    "@storybook/client-logger": 7.0.0-alpha.52
     "@storybook/preview-api": 7.0.0-alpha.52
   languageName: unknown
   linkType: soft
