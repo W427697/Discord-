@@ -279,7 +279,10 @@ export default genDefault({
 })
 ```
 
-This is no longer possible in SB 7.0, as story titles are parsed at build time. Titles cannot depend on variables or functions, and cannot be dynamically computed even with local variables. All stories must have a static `title` property, or a static `component` property from which an automatic title will be derived.
+This is no longer possible in SB 7.0, as story titles are parsed at build time. In SB 6, titles were mostly produced manually. Now that [CSF3 auto-title](#csf3-auto-title-improvements) is available, optimisations were made that constrain how `id` and `title` can be defined manually.
+
+
+As a result, titles cannot depend on variables or functions, and cannot be dynamically computed (even with local variables). Stories must have a static `title` property, or a static `component` property used by the [CSF3 auto-title](#csf3-auto-title-improvements) feature to compute a title.
 
 Likewise, the `id` property must be statically defined. The URL defined for a story in the sidebar will be statically computed, so if you dynamically add an `id` through a function call like above, the story URL will not match the one in the sidebar and the story will be unreachable.
 
