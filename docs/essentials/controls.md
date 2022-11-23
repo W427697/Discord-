@@ -84,7 +84,7 @@ This replaces the input with a radio group for a more intuitive experience.
 
 ## Custom control type matchers
 
-For a few types, Controls can automatically be infered with [regex](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/RegExp). If you've used the Storybook CLI to setup the configuration it will automatically have created the following defaults in `.storybook/preview.js`:
+For a few types, Controls can automatically be inferred with [regex](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/RegExp). If you've used the Storybook CLI to setup your project it should have automatically created the following defaults in `.storybook/preview.js`:
 
 | Data type |       Default regex       |                        Description                        |
 | :-------: | :-----------------------: | :-------------------------------------------------------: |
