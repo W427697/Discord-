@@ -9,8 +9,10 @@ const {
   getTypeScriptConfig,
 } = require('@angular-devkit/build-angular/src/webpack/configs');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
-
 const { filterOutStylingRules } = require('./utils/filter-out-styling-rules');
+const {
+  default: NormalizeAngularEntryPlugin,
+} = require('./plugins/normalize-angular-entry-plugin');
 
 /**
  * Extract webpack config from angular-cli 13.x.x
@@ -52,11 +54,7 @@ exports.getWebpackConfig = async (baseConfig, { builderOptions, builderContext }
   /**
    * Merge baseConfig Webpack with angular-cli Webpack
    */
-  const entry = [
-    ...baseConfig.entry,
-    ...(cliConfig.entry.styles ?? []),
-    ...(cliConfig.entry.polyfills ?? []),
-  ];
+  const entry = [...baseConfig.entry, ...(cliConfig.entry.polyfills ?? [])];
 
   // Don't use storybooks styling rules because we have to use rules created by @angular-devkit/build-angular
   // because @angular-devkit/build-angular created rules have include/exclude for global style files.
@@ -66,7 +64,11 @@ exports.getWebpackConfig = async (baseConfig, { builderOptions, builderContext }
     rules: [...cliConfig.module.rules, ...rulesExcludingStyles],
   };
 
-  const plugins = [...(cliConfig.plugins ?? []), ...baseConfig.plugins];
+  const plugins = [
+    ...(cliConfig.plugins ?? []),
+    ...baseConfig.plugins,
+    new NormalizeAngularEntryPlugin(),
+  ];
 
   const resolve = {
     ...baseConfig.resolve,
