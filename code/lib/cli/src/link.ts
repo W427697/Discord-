@@ -1,4 +1,4 @@
-import fse, { readJSON, writeJSON } from 'fs-extra';
+import fse from 'fs-extra';
 import path from 'path';
 import { sync as spawnSync } from 'cross-spawn';
 import { logger } from '@storybook/node-logger';
