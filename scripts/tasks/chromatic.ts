@@ -14,6 +14,7 @@ export const chromatic: Task = {
 
     await exec(
       `npx chromatic@6.11.2 \
+          --debug \
           --exit-zero-on-changes \
           --storybook-build-dir=${builtSandboxDir} \
           --junit-report=${junitFilename} \
