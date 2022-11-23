@@ -689,23 +689,23 @@ workflows:
           requires:
             - build
       - create-sandboxes:
-          parallelism: 15
+          parallelism: 16
           requires:
             - build
       - build-sandboxes:
-          parallelism: 15
+          parallelism: 16
           requires:
             - create-sandboxes
       - test-runner-sandboxes:
-          parallelism: 14
+          parallelism: 16
           requires:
             - build-sandboxes
       - chromatic-sandboxes:
-          parallelism: 15
+          parallelism: 16
           requires:
             - build-sandboxes
       - e2e-sandboxes:
-          parallelism: 15
+          parallelism: 16
           requires:
             - build-sandboxes
   daily:
@@ -714,25 +714,25 @@ workflows:
     jobs:
       - build
       - create-sandboxes:
-          parallelism: 25
+          parallelism: 26
           requires:
             - build
       # - smoke-test-sandboxes: # disabled for now
       #     requires:
       #       - create-sandboxes
       - build-sandboxes:
-          parallelism: 25
+          parallelism: 26
           requires:
             - create-sandboxes
       - test-runner-sandboxes:
-          parallelism: 24
+          parallelism: 26
           requires:
             - build-sandboxes
       - chromatic-sandboxes:
-          parallelism: 25
+          parallelism: 26
           requires:
             - build-sandboxes
       - e2e-sandboxes:
-          parallelism: 25
+          parallelism: 26
           requires:
             - build-sandboxes
