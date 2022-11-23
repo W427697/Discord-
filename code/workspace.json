@@ -96,11 +96,6 @@
       "root": "frameworks/angular",
       "type": "library"
     },
-    "@storybook/manager-api": {
-      "implicitDependencies": [],
-      "root": "lib/manager-api",
-      "type": "library"
-    },
     "@storybook/api": {
       "implicitDependencies": [],
       "root": "lib/manager-api-shim",
@@ -229,6 +224,11 @@
     "@storybook/manager": {
       "implicitDependencies": [],
       "root": "ui/manager",
+      "type": "library"
+    },
+    "@storybook/manager-api": {
+      "implicitDependencies": [],
+      "root": "lib/manager-api",
       "type": "library"
     },
     "@storybook/nextjs": {
