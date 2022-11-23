@@ -41,7 +41,6 @@
     "@storybook/addons": "7.0.0-alpha.52",
     "@storybook/babel-plugin-require-context-hook": "1.0.1",
     "@storybook/client-api": "7.0.0-alpha.52",
-    "@storybook/core-client": "7.0.0-alpha.52",
     "@storybook/core-common": "7.0.0-alpha.52",
     "@storybook/core-webpack": "7.0.0-alpha.52",
     "@storybook/preview-api": "7.0.0-alpha.52",
