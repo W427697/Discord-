@@ -2,7 +2,6 @@ export const allTemplates = {
   'cra/default-js': {
     name: 'Create React App (Javascript)',
     script: 'npx create-react-app .',
-    inDevelopment: true,
     expected: {
       // TODO: change this to @storybook/cra once that package is created
       framework: '@storybook/react-webpack5',
