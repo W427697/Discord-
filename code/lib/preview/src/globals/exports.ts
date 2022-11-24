@@ -163,6 +163,7 @@ export default {
     'getQueryParams',
     'inferControls',
     'makeDecorator',
+    'mockChannel',
     'normalizeStory',
     'prepareStory',
     'sanitizeStoryContextUpdate',
