@@ -74,7 +74,6 @@
     "@storybook/csf": "next",
     "@storybook/types": "7.0.0-alpha.53",
     "@types/qs": "^6.9.5",
-    "@types/webpack-env": "^1.16.4",
     "dequal": "^2.0.2",
     "global": "^4.4.0",
     "lodash": "^4.17.21",
@@ -87,7 +86,9 @@
   },
   "devDependencies": {
     "@jest/globals": "^26.6.2",
-    "ansi-to-html": "^0.6.11"
+    "@storybook/core-common": "7.0.0-alpha.53",
+    "ansi-to-html": "^0.6.11",
+    "react": "^16.14.0"
   },
   "publishConfig": {
     "access": "public"

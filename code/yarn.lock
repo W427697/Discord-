@@ -6171,11 +6171,9 @@ __metadata:
     pretty-hrtime: ^1.0.3
     resolve-from: ^5.0.0
     slash: ^3.0.0
-    telejson: ^6.0.8
     ts-dedent: ^2.0.0
     type-fest: ^2.19.0
     typescript: ^4.9.3
-    util-deprecate: ^1.0.2
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
@@ -6538,9 +6536,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/manager-api@workspace:lib/manager-api"
   dependencies:
+    "@jest/globals": ^29.3.1
     "@storybook/channels": 7.0.0-alpha.53
     "@storybook/client-logger": 7.0.0-alpha.53
-    "@storybook/core-common": 7.0.0-alpha.53
     "@storybook/core-events": 7.0.0-alpha.53
     "@storybook/csf": next
     "@storybook/router": 7.0.0-alpha.53
@@ -6559,7 +6557,6 @@ __metadata:
     telejson: ^6.0.8
     ts-dedent: ^2.0.0
     typescript: ^4.9.3
-    util-deprecate: ^1.0.2
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
@@ -6913,17 +6910,18 @@ __metadata:
     "@storybook/channel-postmessage": 7.0.0-alpha.53
     "@storybook/channels": 7.0.0-alpha.53
     "@storybook/client-logger": 7.0.0-alpha.53
+    "@storybook/core-common": 7.0.0-alpha.53
     "@storybook/core-events": 7.0.0-alpha.53
     "@storybook/csf": next
     "@storybook/types": 7.0.0-alpha.53
     "@types/qs": ^6.9.5
-    "@types/webpack-env": ^1.16.4
     ansi-to-html: ^0.6.11
     dequal: ^2.0.2
     global: ^4.4.0
     lodash: ^4.17.21
     memoizerific: ^1.11.3
     qs: ^6.10.0
+    react: ^16.14.0
     slash: ^3.0.0
     synchronous-promise: ^2.0.15
     ts-dedent: ^2.0.0
@@ -6944,36 +6942,18 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/preview@workspace:lib/preview"
   dependencies:
+    "@fal-works/esbuild-plugin-global-externals": ^2.1.2
     "@storybook/channel-postmessage": 7.0.0-alpha.53
     "@storybook/channel-websocket": 7.0.0-alpha.53
     "@storybook/channels": 7.0.0-alpha.53
     "@storybook/client-logger": 7.0.0-alpha.53
-    "@storybook/core-common": 7.0.0-alpha.53
     "@storybook/core-events": 7.0.0-alpha.53
-    "@storybook/csf": next
-    "@storybook/manager-api": 7.0.0-alpha.53
     "@storybook/preview-api": 7.0.0-alpha.53
-    "@storybook/router": 7.0.0-alpha.53
-    "@storybook/theming": 7.0.0-alpha.53
-    "@storybook/types": 7.0.0-alpha.53
-    "@types/qs": ^6.9.5
     "@types/shelljs": ^0.8.7
-    "@types/webpack-env": ^1.16.4
-    ansi-to-html: ^0.6.11
-    dequal: ^2.0.2
     fs-extra: ^9.0.1
-    global: ^4.4.0
-    lodash: ^4.17.21
-    memoizerific: ^1.11.3
-    qs: ^6.10.0
-    react: 16.14.0
     shelljs: ^0.8.5
-    slash: ^3.0.0
-    synchronous-promise: ^2.0.15
     ts-dedent: ^2.0.0
-    ts-jest: ^28.0.8
     typescript: ~4.6.3
-    util-deprecate: ^1.0.2
   languageName: unknown
   linkType: soft
 
@@ -8895,7 +8875,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/webpack-env@npm:^1.16.0, @types/webpack-env@npm:^1.16.4, @types/webpack-env@npm:^1.17.0, @types/webpack-env@npm:^1.18.0":
+"@types/webpack-env@npm:^1.16.0, @types/webpack-env@npm:^1.17.0, @types/webpack-env@npm:^1.18.0":
   version: 1.18.0
   resolution: "@types/webpack-env@npm:1.18.0"
   checksum: ac2e91b025ea31b98b0271ccb40da789c5b54693c1efb18265a54c03b303b750501f080a44e99d7ce0a5422d68d535e600e851df4b8f2240444eca7ac3159719
@@ -31882,7 +31862,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ts-jest@npm:^28.0.0, ts-jest@npm:^28.0.8":
+"ts-jest@npm:^28.0.0":
   version: 28.0.8
   resolution: "ts-jest@npm:28.0.8"
   dependencies:
