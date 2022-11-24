@@ -116,7 +116,7 @@ export class AddonStore {
 }
 
 // Enforce addons store to be a singleton
-const KEY = '__STORYBOOK_ADDONS';
+const KEY = '__STORYBOOK_ADDONS_MANAGER';
 
 function getAddonsStore(): AddonStore {
   if (!global[KEY]) {
