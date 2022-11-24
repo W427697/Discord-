@@ -51,7 +51,6 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/addons": "7.0.0-alpha.53",
     "@storybook/core-client": "7.0.0-alpha.53",
     "@storybook/preview-api": "7.0.0-alpha.53",
     "@storybook/types": "7.0.0-alpha.53",

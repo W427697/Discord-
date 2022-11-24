@@ -38,7 +38,6 @@
   },
   "dependencies": {
     "@jest/transform": "^29.3.1",
-    "@storybook/addons": "7.0.0-alpha.53",
     "@storybook/babel-plugin-require-context-hook": "1.0.1",
     "@storybook/client-api": "7.0.0-alpha.53",
     "@storybook/core-common": "7.0.0-alpha.53",

@@ -67,7 +67,6 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/addons": "7.0.0-alpha.53",
     "@storybook/client-logger": "7.0.0-alpha.53",
     "@storybook/components": "7.0.0-alpha.53",
     "@storybook/manager-api": "7.0.0-alpha.53",
