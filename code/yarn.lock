@@ -5124,7 +5124,6 @@ __metadata:
   resolution: "@storybook/addon-a11y@workspace:addons/a11y"
   dependencies:
     "@storybook/addon-highlight": 7.0.0-alpha.53
-    "@storybook/addons": 7.0.0-alpha.53
     "@storybook/channels": 7.0.0-alpha.53
     "@storybook/client-logger": 7.0.0-alpha.53
     "@storybook/components": 7.0.0-alpha.53
@@ -5860,6 +5859,7 @@ __metadata:
   dependencies:
     "@fal-works/esbuild-plugin-global-externals": ^2.1.2
     "@joshwooding/vite-plugin-react-docgen-typescript": 0.0.5
+    "@storybook/addons": 7.0.0-alpha.53
     "@storybook/client-api": 7.0.0-alpha.53
     "@storybook/client-logger": 7.0.0-alpha.53
     "@storybook/core-common": 7.0.0-alpha.53
@@ -6568,7 +6568,6 @@ __metadata:
   resolution: "@storybook/manager@workspace:ui/manager"
   dependencies:
     "@fal-works/esbuild-plugin-global-externals": ^2.1.2
-    "@storybook/addons": 7.0.0-alpha.53
     "@storybook/channel-postmessage": 7.0.0-alpha.53
     "@storybook/channel-websocket": 7.0.0-alpha.53
     "@storybook/channels": 7.0.0-alpha.53

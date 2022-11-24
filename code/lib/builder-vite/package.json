@@ -43,6 +43,7 @@
   "dependencies": {
     "@fal-works/esbuild-plugin-global-externals": "^2.1.2",
     "@joshwooding/vite-plugin-react-docgen-typescript": "0.0.5",
+    "@storybook/addons": "7.0.0-alpha.53",
     "@storybook/client-api": "7.0.0-alpha.53",
     "@storybook/client-logger": "7.0.0-alpha.53",
     "@storybook/core-common": "7.0.0-alpha.53",

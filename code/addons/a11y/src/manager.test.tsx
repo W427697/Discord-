@@ -3,7 +3,6 @@ import { PANEL_ID } from './constants';
 import './manager';
 
 jest.mock('@storybook/manager-api');
-jest.mock('@storybook/addons');
 const mockedApi = api as unknown as jest.Mocked<api.API>;
 mockedApi.getAddonState = jest.fn();
 const mockedAddons = api.addons as jest.Mocked<typeof api.addons>;
