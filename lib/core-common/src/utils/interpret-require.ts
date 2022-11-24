@@ -20,7 +20,17 @@ function registerCompiler(moduleDescriptor: Extension): number {
 
   if (typeof moduleDescriptor === 'string') {
     // eslint-disable-next-line import/no-dynamic-require,global-require
-    require(moduleDescriptor);
+    if (moduleDescriptor === 'ts-node/register') {
+      const { register } = require('ts-node');
+      register({
+        compilerOptions: {
+          module: 'commonjs',
+        },
+      })
+    } else {
+      require(moduleDescriptor);
+    }
+
     compilersState.set(moduleDescriptor, 1);
     return 1;
   }
