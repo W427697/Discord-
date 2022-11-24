@@ -2,7 +2,7 @@ import {
   composeStory as originalComposeStory,
   composeStories as originalComposeStories,
   setProjectAnnotations as originalSetProjectAnnotations,
-} from '@storybook/store';
+} from '@storybook/preview-api';
 import type {
   Args,
   ProjectAnnotations,
@@ -80,7 +80,7 @@ const defaultProjectAnnotations: ProjectAnnotations<ReactRenderer> = {
  * @param [projectAnnotations] - e.g. (import * as projectAnnotations from '../.storybook/preview') this can be applied automatically if you use `setProjectAnnotations` in your setup files.
  * @param [exportsName] - in case your story does not contain a name and you want it to have a name.
  */
-export function composeStory<TArgs = Args>(
+export function composeStory<TArgs extends Args = Args>(
   story: Store_ComposedStory<ReactRenderer, TArgs>,
   componentAnnotations: Meta<TArgs | any>,
   projectAnnotations?: ProjectAnnotations<ReactRenderer>,

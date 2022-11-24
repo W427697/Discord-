@@ -25,13 +25,14 @@ class ReactProvider extends Provider {
   constructor() {
     super();
 
-    const channel = postMessage.createChannel({ page: 'manager' });
+    const postMessageChannel = postMessage.createChannel({ page: 'manager' });
 
-    addons.setChannel(channel);
-    channel.emit(CHANNEL_CREATED);
+    addons.setChannel(postMessageChannel);
+
+    postMessageChannel.emit(CHANNEL_CREATED);
 
     this.addons = addons;
-    this.channel = channel;
+    this.channel = postMessageChannel;
 
     if (FEATURES?.storyStoreV7 && SERVER_CHANNEL_URL) {
       const serverChannel = webSocket.createChannel({ url: SERVER_CHANNEL_URL });

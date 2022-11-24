@@ -3,10 +3,10 @@ import type {
   Store_CSFFile,
   Store_ModuleExport,
   Store_ModuleExports,
+  DocsContextProps,
 } from '@storybook/types';
-import { DocsContext } from '@storybook/preview-web';
-import type { StoryStore } from '@storybook/store';
-import type { DocsContextProps } from '@storybook/preview-web';
+import { DocsContext } from '@storybook/preview-api';
+import type { StoryStore } from '@storybook/preview-api';
 import type { Channel } from '@storybook/channels';
 
 export class ExternalDocsContext<TRenderer extends Renderer> extends DocsContext<TRenderer> {

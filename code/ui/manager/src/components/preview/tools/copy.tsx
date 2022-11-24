@@ -2,7 +2,7 @@ import global from 'global';
 import React from 'react';
 import copy from 'copy-to-clipboard';
 import { getStoryHref, IconButton, Icons } from '@storybook/components';
-import { Consumer, type Combo } from '@storybook/api';
+import { Consumer, type Combo } from '@storybook/manager-api';
 import type { Addon } from '@storybook/addons';
 
 const { PREVIEW_URL, document } = global;

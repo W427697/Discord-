@@ -1,6 +1,6 @@
 {
   "name": "@storybook/nextjs",
-  "version": "7.0.0-alpha.49",
+  "version": "7.0.0-alpha.53",
   "description": "Storybook for Next.js",
   "keywords": [
     "storybook",
@@ -59,14 +59,14 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@babel/preset-typescript": "^7.18.6",
-    "@storybook/addons": "7.0.0-alpha.49",
-    "@storybook/builder-webpack5": "7.0.0-alpha.49",
-    "@storybook/core-common": "7.0.0-alpha.49",
-    "@storybook/node-logger": "7.0.0-alpha.49",
-    "@storybook/preset-react-webpack": "7.0.0-alpha.49",
-    "@storybook/react": "7.0.0-alpha.49",
-    "@types/node": "^14.14.20 || ^16.0.0",
+    "@storybook/addons": "7.0.0-alpha.53",
+    "@storybook/builder-webpack5": "7.0.0-alpha.53",
+    "@storybook/core-common": "7.0.0-alpha.53",
+    "@storybook/node-logger": "7.0.0-alpha.53",
+    "@storybook/preset-react-webpack": "7.0.0-alpha.53",
+    "@storybook/preview-api": "7.0.0-alpha.53",
+    "@storybook/react": "7.0.0-alpha.53",
+    "@types/node": "^16.0.0",
     "find-up": "^5.0.0",
     "fs-extra": "^9.0.1",
     "image-size": "^1.0.0",
@@ -81,15 +81,15 @@
     "tsconfig-paths-webpack-plugin": "^3.5.2"
   },
   "devDependencies": {
-    "@storybook/addon-actions": "7.0.0-alpha.49",
+    "@storybook/addon-actions": "7.0.0-alpha.53",
     "next": "^12.2.4",
-    "typescript": "~4.6.3",
+    "typescript": "^4.9.3",
     "webpack": "^5.65.0"
   },
   "peerDependencies": {
     "@babel/core": "^7.11.5",
     "@storybook/addon-actions": "7.0.0-alpha.43",
-    "next": "^9.0.0 || ^10.0.0 || ^11.0.0 || ^12.0.0",
+    "next": "^9.0.0 || ^10.0.0 || ^11.0.0 || ^12.0.0 || ^13.0.0",
     "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
     "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0",
     "webpack": "^5.0.0"
@@ -120,5 +120,5 @@
     ],
     "platform": "node"
   },
-  "gitHead": "d7eb433300cac55d3c7256c8181eb6fd7a47b4c8"
+  "gitHead": "fd1cf81615a5ddac3369e7bb567a1a43081fdc23"
 }

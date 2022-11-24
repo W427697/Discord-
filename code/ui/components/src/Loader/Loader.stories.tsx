@@ -1,5 +1,5 @@
 import React from 'react';
-import { PureLoader as Loader } from './Loader';
+import { Loader } from './Loader';
 
 const withBackground = (storyFn: any) => (
   <div

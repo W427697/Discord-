@@ -1,7 +1,7 @@
 import React from 'react';
 import { addons, types } from '@storybook/addons';
 import { AddonPanel } from '@storybook/components';
-import { type API, useArgTypes } from '@storybook/api';
+import { type API, useArgTypes } from '@storybook/manager-api';
 import { ControlsPanel } from './ControlsPanel';
 import { ADDON_ID, PARAM_KEY } from './constants';
 
@@ -9,7 +9,9 @@ addons.register(ADDON_ID, (api: API) => {
   addons.addPanel(ADDON_ID, {
     title() {
       const rows = useArgTypes();
-      const controlsCount = Object.values(rows).filter((argType) => argType?.control).length;
+      const controlsCount = Object.values(rows).filter(
+        (argType) => argType?.control && !argType?.table?.disable
+      ).length;
       const suffix = controlsCount === 0 ? '' : ` (${controlsCount})`;
       return `Controls${suffix}`;
     },

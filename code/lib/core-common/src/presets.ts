@@ -244,10 +244,6 @@ async function loadPresets(
     return [];
   }
 
-  if (!level) {
-    logger.info('=> Loading presets');
-  }
-
   return (
     await Promise.all(presets.map(async (preset) => loadPreset(preset, level, storybookOptions)))
   ).reduce((acc, loaded) => {
