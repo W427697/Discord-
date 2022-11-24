@@ -26,6 +26,11 @@
       "require": "./dist/index.js",
       "types": "./dist/index.d.ts"
     },
+    "./dist/addons": {
+      "import": "./dist/addons.mjs",
+      "require": "./dist/addons.js",
+      "types": "./dist/addons.d.ts"
+    },
     "./dist/store": {
       "import": "./dist/store.mjs",
       "require": "./dist/store.js",
