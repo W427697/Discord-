@@ -56,8 +56,8 @@ export const withActions = makeDecorator({
   parameterName: PARAM_KEY,
   skipIfNoParametersOrOptions: true,
   wrapper: (getStory, context, { parameters }) => {
-    if (parameters?.handles) {
-      applyEventHandlers(actions, ...parameters.handles);
+    if (parameters?.['handles']) {
+      applyEventHandlers(actions, ...parameters['handles']);
     }
 
     return getStory(context);
