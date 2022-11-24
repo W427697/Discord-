@@ -73,9 +73,7 @@ const createAngularInputProperty = ({
   value: any;
   argType?: ArgTypes[string];
 }) => {
-  // @ts-expect-error summary is not on the type, but it may be there in practice, need to find out
-  const { name: type = null, summary = null } =
-    (typeof argType?.type === 'object' && argType?.type) || {};
+  const { name: type = null } = (typeof argType?.type === 'object' && argType?.type) || {};
   let templateValue = type === 'enum' && !!summary ? `${summary}.${value}` : value;
 
   const actualType = type === 'enum' && summary ? 'enum' : typeof value;

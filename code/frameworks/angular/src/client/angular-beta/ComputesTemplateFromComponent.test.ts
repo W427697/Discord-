@@ -325,8 +325,6 @@ describe('angular source decorator', () => {
             name: 'enum',
             required: true,
             value: [],
-            // Not allowed on the type
-            // summary: 'ButtonAccent',
           },
         },
       };
