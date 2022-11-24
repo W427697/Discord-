@@ -1,3 +1,23 @@
+## 7.0.0-alpha.53 (November 24, 2022)
+
+#### Bug Fixes
+
+-   Angular: Fix "__webpack_require__.nmd is not a function" in v15 [#19937](https://github.com/storybooks/storybook/pull/19937)
+-   Controls: Exclude `{ table: { disable: true } }` from panel count [#19877](https://github.com/storybooks/storybook/pull/19877)
+
+#### Maintenance
+
+-   Core: Prebundle the preview [#19718](https://github.com/storybooks/storybook/pull/19718)
+-   Builder-vite: Build with tsup [#19895](https://github.com/storybooks/storybook/pull/19895)
+-   Components: Fix missing export [#19923](https://github.com/storybooks/storybook/pull/19923)
+
+#### Build
+
+-   Remove the fix we added when enhanced-resolve was broken [#19942](https://github.com/storybooks/storybook/pull/19942)
+-   Fix CI which was broken by enhanced-resolve [#19936](https://github.com/storybooks/storybook/pull/19936)
+-   Drop `inDevelopment` from `cra/default-js` [#19934](https://github.com/storybooks/storybook/pull/19934)
+-   Fix execa import in get-report-message [#19913](https://github.com/storybooks/storybook/pull/19913)
+
 ## 7.0.0-alpha.52 (November 21, 2022)
 
 #### Bug Fixes
