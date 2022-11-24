@@ -5,7 +5,7 @@
 /* global window */
 import { STORY_RENDERED, STORY_UNCHANGED, SET_INDEX } from '@storybook/core-events';
 
-import type { Addon_Loadable, ModuleExports, Path } from '@storybook/types';
+import type { ModuleExports, Path } from '@storybook/types';
 import global from 'global';
 import { setGlobalRender } from '../../client-api';
 import {
@@ -17,6 +17,7 @@ import {
 } from './PreviewWeb.mockdata';
 
 import { start as realStart } from './start';
+import type { Loadable } from './executeLoadable';
 
 jest.mock('global', () => ({
   ...jest.requireActual('global'),
@@ -81,7 +82,7 @@ const start: typeof realStart = (...args) => {
 
   const configure: typeof result['configure'] = (
     framework: string,
-    loadable: Addon_Loadable,
+    loadable: Loadable,
     m?: NodeModule,
     disableBackwardCompatibility = false
   ) => result.configure(framework, loadable, m, disableBackwardCompatibility);
