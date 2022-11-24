@@ -17,9 +17,9 @@ function load(options: StoryshotsOptions) {
     const previewAPI = jest.requireActual('@storybook/preview-api');
 
     return {
-      ...coreClientAPI,
+      ...previewAPI,
       start: (...args: any[]) => {
-        mockStartedAPI = coreClientAPI.start(...args);
+        mockStartedAPI = previewAPI.start(...args);
         return mockStartedAPI;
       },
     };

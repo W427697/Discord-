@@ -18,7 +18,7 @@ function load(options: StoryshotsOptions) {
     return {
       ...previewAPI,
       start: (...args: any[]) => {
-        mockStartedAPI = coreClientAPI.start(...args);
+        mockStartedAPI = previewAPI.start(...args);
         return mockStartedAPI;
       },
     };
