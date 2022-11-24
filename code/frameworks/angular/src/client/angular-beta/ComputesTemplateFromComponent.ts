@@ -74,9 +74,9 @@ const createAngularInputProperty = ({
   argType?: ArgTypes[string];
 }) => {
   const { name: type = null } = (typeof argType?.type === 'object' && argType?.type) || {};
-  let templateValue = type === 'enum' && !!summary ? `${summary}.${value}` : value;
+  let templateValue = type === 'enum' && value;
 
-  const actualType = type === 'enum' && summary ? 'enum' : typeof value;
+  const actualType = type === 'enum' && typeof value;
   const requiresBrackets = ['object', 'any', 'boolean', 'enum', 'number'].includes(actualType);
 
   if (typeof value === 'object') {
