@@ -62,6 +62,7 @@
   "dependencies": {
     "@storybook/addons": "7.0.0-alpha.53",
     "@storybook/core-events": "7.0.0-alpha.53",
+    "@storybook/preview-api": "7.0.0-alpha.53",
     "global": "^4.4.0"
   },
   "devDependencies": {

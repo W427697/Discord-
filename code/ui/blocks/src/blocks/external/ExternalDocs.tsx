@@ -1,7 +1,7 @@
 import type { FunctionComponent } from 'react';
 import React, { useRef } from 'react';
 import type { Renderer, ProjectAnnotations } from '@storybook/types';
-import { composeConfigs } from '@storybook/store';
+import { composeConfigs } from '@storybook/preview-api';
 
 import { Docs } from '../Docs';
 import { ExternalPreview } from './ExternalPreview';

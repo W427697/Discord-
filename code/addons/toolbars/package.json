@@ -71,6 +71,7 @@
     "@storybook/api": "7.0.0-alpha.53",
     "@storybook/client-logger": "7.0.0-alpha.53",
     "@storybook/components": "7.0.0-alpha.53",
+    "@storybook/preview-api": "7.0.0-alpha.53",
     "@storybook/theming": "7.0.0-alpha.53"
   },
   "devDependencies": {

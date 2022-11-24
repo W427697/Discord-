@@ -11,6 +11,7 @@ export enum Keys {
   '@storybook/core-client' = '__STORYBOOK_MODULE_CORE_CLIENT__',
   '@storybook/core-events' = '__STORYBOOK_MODULE_CORE_EVENTS__',
   '@storybook/preview-web' = '__STORYBOOK_MODULE_PREVIEW_WEB__',
+  '@storybook/preview-api' = '__STORYBOOK_MODULE_PREVIEW_API__',
   '@storybook/store' = '__STORYBOOK_MODULE_STORE__',
 }
 

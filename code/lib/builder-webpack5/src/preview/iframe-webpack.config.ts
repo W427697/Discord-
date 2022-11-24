@@ -143,7 +143,7 @@ export default async (
 
     previewAnnotations.forEach((previewAnnotationFilename: string | undefined) => {
       if (!previewAnnotationFilename) return;
-      const clientApi = storybookPaths['@storybook/client-api'];
+      const previewApi = storybookPaths['@storybook/preview-api'];
       const clientLogger = storybookPaths['@storybook/client-logger'];
 
       // Ensure that relative paths end up mapped to a filename in the cwd, so a later import
@@ -155,7 +155,7 @@ export default async (
       // file, see https://github.com/storybookjs/storybook/pull/16727#issuecomment-986485173
       virtualModuleMapping[entryFilename] = interpolate(entryTemplate, {
         previewAnnotationFilename,
-        clientApi,
+        previewApi,
         clientLogger,
       });
       entries.push(entryFilename);
@@ -209,16 +209,14 @@ export default async (
     externals: {
       ...[
         // these packages are pre-bundled, so they are mapped to global shims
-        'channels',
+        // at some point this should only be a single package: preview-api
+        'addons',
         'channel-postmessage',
         'channel-websocket',
-        'core-events',
+        'channels',
         'client-logger',
-        'addons',
-        'store',
-        'preview-web',
-        'client-api',
-        'core-client',
+        'core-events',
+        'preview-api',
       ].reduce(
         (acc, sbPackage) => ({
           ...acc,

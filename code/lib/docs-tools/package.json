@@ -42,9 +42,9 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@babel/core": "^7.20.2",
+    "@babel/core": "^7.12.10",
     "@storybook/core-common": "7.0.0-alpha.53",
-    "@storybook/store": "7.0.0-alpha.53",
+    "@storybook/preview-api": "7.0.0-alpha.53",
     "@storybook/types": "7.0.0-alpha.53",
     "doctrine": "^3.0.0",
     "lodash": "^4.17.21"

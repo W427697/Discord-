@@ -124,6 +124,7 @@
     "@storybook/api": "7.0.0-alpha.53",
     "@storybook/core-common": "7.0.0-alpha.53",
     "@storybook/node-logger": "7.0.0-alpha.53",
+    "@storybook/preview-api": "7.0.0-alpha.53",
     "ts-dedent": "^2.0.0"
   },
   "devDependencies": {
