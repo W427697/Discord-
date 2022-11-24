@@ -195,7 +195,7 @@ export default {
     'useTheme',
     'withTheme',
   ],
-  '@storybook/api': [
+  '@storybook/manager-api': [
     'ActiveTabs',
     'Consumer',
     'ManagerContext',

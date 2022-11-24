@@ -78,10 +78,10 @@
   },
   "dependencies": {
     "@storybook/addons": "7.0.0-alpha.53",
-    "@storybook/api": "7.0.0-alpha.53",
     "@storybook/client-logger": "7.0.0-alpha.53",
     "@storybook/components": "7.0.0-alpha.53",
     "@storybook/core-events": "7.0.0-alpha.53",
+    "@storybook/manager-api": "7.0.0-alpha.53",
     "@storybook/preview-api": "7.0.0-alpha.53",
     "@storybook/types": "7.0.0-alpha.53",
     "global": "^4.4.0",

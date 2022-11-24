@@ -121,8 +121,8 @@
     "@storybook/addon-toolbars": "7.0.0-alpha.53",
     "@storybook/addon-viewport": "7.0.0-alpha.53",
     "@storybook/addons": "7.0.0-alpha.53",
-    "@storybook/api": "7.0.0-alpha.53",
     "@storybook/core-common": "7.0.0-alpha.53",
+    "@storybook/manager-api": "7.0.0-alpha.53",
     "@storybook/node-logger": "7.0.0-alpha.53",
     "@storybook/preview-api": "7.0.0-alpha.53",
     "ts-dedent": "^2.0.0"

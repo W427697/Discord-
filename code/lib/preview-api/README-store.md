@@ -1,10 +1,10 @@
 # Storybook Store
 
-The store is reponsible for loading a story from a CSF file and preparing into a `Story` type, which is our internal format.
+The store is responsible for loading a story from a CSF file and preparing into a `Story` type, which is our internal format.
 
 ## Story vs StoryContext
 
-Story functions and decorators recieve a `StoryContext<Framework>` object (parameterized by their framework).
+Story functions and decorators receive a `StoryContext<Framework>` object (parameterized by their framework).
 
 The `Story` type that we pass around in our code includes all of those fields apart from the `args`, `globals`, `hooks` and `viewMode`, which are mutable and stored separately in the store.
 
@@ -81,10 +81,10 @@ Args need to be serializable -- so currently cannot include callbacks (this may 
 
 Note that arg values are passed directly to a story -- you should only store the actual value that the story needs to render in the arg. If you need more complex information supporting that, use parameters or addon state.
 
-Both `@storybook/client-api` (preview) and `@storybook/api` (manager) export a `useArgs()` hook that you can use to access args in decorators or addon panels. The API is as follows:
+Both `@storybook/preview-api` and `@storybook/manager-api` export a `useArgs()` hook that you can use to access args in decorators or addon panels. The API is as follows:
 
 ```js
-import { useArgs } from '@storybook/client-api'; // or '@storybook/api'
+import { useArgs } from '@storybook/preview-api'; // or '@storybook/manager-api'
 
 // `args` is the args of the currently rendered story
 // `updateArgs` will update its args. You can pass a subset of the args; other args will not be changed.
@@ -116,7 +116,7 @@ To set initial values of globals, `export const globals = {...}` from `preview.j
 Similar to args, globals are synchronized to the manager and can be accessed via the `useGlobals` hook.
 
 ```js
-import { useGlobals } from '@storybook/addons'; // or '@storybook/api'
+import { useGlobals } from '@storybook/preview-api'; // or '@storybook/manager-api'
 
 const [globals, updateGlobals] = useGlobals();
 ```

@@ -6,7 +6,7 @@ import * as STORYBOOKCHANNELS from '@storybook/channels';
 import * as STORYBOOKEVENTS from '@storybook/core-events';
 import * as STORYBOOKROUTER from '@storybook/router';
 import * as STORYBOOKTHEMING from '@storybook/theming';
-import * as STORYBOOKAPI from '@storybook/api';
+import * as STORYBOOKAPI from '@storybook/manager-api';
 import * as STORYBOOKADDONS from '@storybook/preview-api';
 import * as STORYBOOKCLIENTLOGGER from '@storybook/client-logger';
 
@@ -21,7 +21,7 @@ export const values: Required<Record<keyof typeof Keys, any>> = {
   '@storybook/core-events': STORYBOOKEVENTS,
   '@storybook/router': STORYBOOKROUTER,
   '@storybook/theming': STORYBOOKTHEMING,
-  '@storybook/api': STORYBOOKAPI,
+  '@storybook/manager-api': STORYBOOKAPI,
   '@storybook/preview-api': STORYBOOKADDONS,
   '@storybook/client-logger': STORYBOOKCLIENTLOGGER,
 };

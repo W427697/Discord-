@@ -68,11 +68,11 @@
   },
   "dependencies": {
     "@storybook/addons": "7.0.0-alpha.53",
-    "@storybook/api": "7.0.0-alpha.53",
     "@storybook/blocks": "7.0.0-alpha.53",
     "@storybook/client-logger": "7.0.0-alpha.53",
     "@storybook/components": "7.0.0-alpha.53",
     "@storybook/core-common": "7.0.0-alpha.53",
+    "@storybook/manager-api": "7.0.0-alpha.53",
     "@storybook/node-logger": "7.0.0-alpha.53",
     "@storybook/preview-api": "7.0.0-alpha.53",
     "@storybook/theming": "7.0.0-alpha.53",

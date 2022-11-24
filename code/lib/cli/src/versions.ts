@@ -19,7 +19,7 @@ export default {
   '@storybook/addon-viewport': '7.0.0-alpha.53',
   '@storybook/addons': '7.0.0-alpha.53',
   '@storybook/angular': '7.0.0-alpha.53',
-  '@storybook/api': '7.0.0-alpha.53',
+  '@storybook/manager-api': '7.0.0-alpha.53',
   '@storybook/blocks': '7.0.0-alpha.53',
   '@storybook/builder-manager': '7.0.0-alpha.53',
   '@storybook/builder-vite': '7.0.0-alpha.53',

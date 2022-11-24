@@ -98,7 +98,7 @@
     },
     "@storybook/api": {
       "implicitDependencies": [],
-      "root": "lib/api",
+      "root": "lib/manager-api-shim",
       "type": "library"
     },
     "@storybook/blocks": {
@@ -224,6 +224,11 @@
     "@storybook/manager": {
       "implicitDependencies": [],
       "root": "ui/manager",
+      "type": "library"
+    },
+    "@storybook/manager-api": {
+      "implicitDependencies": [],
+      "root": "lib/manager-api",
       "type": "library"
     },
     "@storybook/nextjs": {

@@ -2,7 +2,7 @@ import React, { Fragment, useMemo, useEffect, useRef, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import global from 'global';
 
-import { type API, Consumer, type Combo, merge } from '@storybook/api';
+import { type API, Consumer, type Combo, merge } from '@storybook/manager-api';
 import { PREVIEW_BUILDER_PROGRESS, SET_CURRENT_STORY } from '@storybook/core-events';
 import { addons, types, type Addon } from '@storybook/addons';
 
