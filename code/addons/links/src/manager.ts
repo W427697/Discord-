@@ -1,4 +1,4 @@
-import { addons } from '@storybook/preview-api';
+import { addons } from '@storybook/addons';
 
 import EVENTS, { ADDON_ID } from './constants';
 
