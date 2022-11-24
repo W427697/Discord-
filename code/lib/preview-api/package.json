@@ -62,7 +62,6 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/addons": "7.0.0-alpha.53",
     "@storybook/channel-postmessage": "7.0.0-alpha.53",
     "@storybook/channels": "7.0.0-alpha.53",
     "@storybook/client-logger": "7.0.0-alpha.53",
@@ -91,10 +90,11 @@
   "bundler": {
     "entries": [
       "./src/index.ts",
-      "./src/store.ts",
+      "./src/addons.ts",
       "./src/client-api.ts",
       "./src/core-client.ts",
-      "./src/preview-web.ts"
+      "./src/preview-web.ts",
+      "./src/store.ts"
     ]
   },
   "gitHead": "3ef14366115c56c1d45c0359ff681cc47ed50532"
