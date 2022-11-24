@@ -12,7 +12,7 @@ import type {
   Parameters,
 } from '@storybook/types';
 
-import { HooksContext } from '@storybook/addons';
+import { HooksContext } from '../../../addons';
 import { composeConfigs } from '../composeConfigs';
 import { prepareStory } from '../prepareStory';
 import { normalizeStory } from '../normalizeStory';

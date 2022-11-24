@@ -6935,7 +6935,6 @@ __metadata:
   resolution: "@storybook/preview-api@workspace:lib/preview-api"
   dependencies:
     "@jest/globals": ^26.6.2
-    "@storybook/addons": 7.0.0-alpha.53
     "@storybook/channel-postmessage": 7.0.0-alpha.53
     "@storybook/channels": 7.0.0-alpha.53
     "@storybook/client-logger": 7.0.0-alpha.53
