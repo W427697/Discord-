@@ -1,11 +1,12 @@
 import program from 'commander';
 import { join } from 'path';
 import { existsSync } from 'fs';
-import { execaCommand } from '../utils/exec';
 import * as tempy from 'tempy';
 import { copy, emptyDir, readdir, remove, stat, writeFile } from 'fs-extra';
+import { execaCommand } from '../utils/exec';
 
 import { getTemplatesData, renderTemplate } from './utils/template';
+// eslint-disable-next-line import/no-cycle
 import { commitAllToGit } from './utils/git';
 
 export const logger = console;

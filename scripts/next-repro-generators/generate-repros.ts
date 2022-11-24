@@ -16,6 +16,7 @@ import { JsPackageManagerFactory } from '../../code/lib/cli/src/js-package-manag
 
 import { maxConcurrentTasks } from '../utils/maxConcurrentTasks';
 
+// eslint-disable-next-line import/no-cycle
 import { localizeYarnConfigFiles, setupYarn } from './utils/yarn';
 import type { GeneratorConfig } from './utils/types';
 import { getStackblitzUrl, renderTemplate } from './utils/template';
