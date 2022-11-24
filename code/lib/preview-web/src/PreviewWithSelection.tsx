@@ -41,7 +41,7 @@ import { StandaloneDocsRender } from './render/StandaloneDocsRender';
 import type { SelectionStore } from './SelectionStore';
 import type { View } from './View';
 
-const { window: globalWindow } = global;
+const globalWindow = globalThis;
 
 function focusInInput(event: Event) {
   const target = event.target as Element;
