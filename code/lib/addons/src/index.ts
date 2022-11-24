@@ -6,7 +6,9 @@
 //
 // See main.ts
 
-import { addons } from './main';
+import { type Addon_Type, Addon_TypesEnum } from '@storybook/types';
+
+export { type Addon_Type as Addon, Addon_TypesEnum as types };
 
 export * from './make-decorator';
 
@@ -14,5 +16,3 @@ export * from './main';
 export * from './storybook-channel-mock';
 // eslint-disable-next-line import/no-cycle
 export * from './hooks';
-
-export default addons;

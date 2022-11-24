@@ -26,7 +26,7 @@ export { makeDecorator } from './addons';
  * ADDON API
  * @deprecated
  */
-export { addons } from './addons';
+export { addons, mockChannel } from './addons';
 
 /**
  * DOCS API

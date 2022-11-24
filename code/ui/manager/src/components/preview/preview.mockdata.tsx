@@ -1,4 +1,4 @@
-import { types, type Addon } from '@storybook/addons';
+import { types, type Addon } from '@storybook/manager-api';
 import type { API, State } from '@storybook/manager-api';
 import type { PreviewProps } from './utils/types';
 
