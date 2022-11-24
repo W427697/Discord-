@@ -419,7 +419,7 @@ jobs:
       class: medium+
       name: sb_node_16_browsers
     environment:
-        NODE_OPTIONS: --max_old_space_size=6144
+      NODE_OPTIONS: --max_old_space_size=6144
     steps:
       # switched this to the CircleCI helper to get the full git history for TurboSnap
       - checkout
@@ -496,8 +496,16 @@ jobs:
       - attach_workspace:
           at: .
       - run:
+          name: Starting Event Collector
+          command: yarn ts-node ./event-log-collector.ts
+          working_directory: scripts
+      - run:
           name: Building Sandboxes
           command: yarn task --task build --template $(yarn get-template << pipeline.parameters.workflow >> build) --no-link --start-from=never --junit
+      - run:
+          name: Verifying Telemetry
+          command: yarn ts-node ./event-log-checker build $(yarn get-template << pipeline.parameters.workflow >> build)
+          working_directory: scripts
       - report-workflow-on-failure:
           template: $(yarn get-template << pipeline.parameters.workflow >> build)
       - store_test_results:
