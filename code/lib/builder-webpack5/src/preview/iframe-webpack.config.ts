@@ -28,6 +28,7 @@ const storybookPaths: Record<string, string> = {
   ...[
     // these packages are not pre-bundled because of react dependencies
     'api',
+    'manager-api',
     'components',
     'router',
     'theming',

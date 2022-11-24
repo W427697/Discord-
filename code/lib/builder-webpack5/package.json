@@ -55,6 +55,7 @@
   "dependencies": {
     "@babel/core": "^7.12.10",
     "@storybook/addons": "7.0.0-alpha.52",
+    "@storybook/api": "7.0.0-alpha.52",
     "@storybook/channel-postmessage": "7.0.0-alpha.52",
     "@storybook/channel-websocket": "7.0.0-alpha.52",
     "@storybook/channels": "7.0.0-alpha.52",

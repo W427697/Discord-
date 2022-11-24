@@ -5773,6 +5773,15 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@storybook/api@7.0.0-alpha.52, @storybook/api@workspace:*, @storybook/api@workspace:lib/manager-api-shim":
+  version: 0.0.0-use.local
+  resolution: "@storybook/api@workspace:lib/manager-api-shim"
+  dependencies:
+    "@storybook/client-logger": 7.0.0-alpha.52
+    "@storybook/manager-api": 7.0.0-alpha.52
+  languageName: unknown
+  linkType: soft
+
 "@storybook/api@npm:6.5.13":
   version: 6.5.13
   resolution: "@storybook/api@npm:6.5.13"
@@ -5800,15 +5809,6 @@ __metadata:
   checksum: c30816e95845876694ccca3cc6e37fe2493027447fc607e56709bd55d610ae6b925233566150f09c891ecd1ba04bb6b0d7c0ad928f676b0aa4ca5cf2b11f3f4c
   languageName: node
   linkType: hard
-
-"@storybook/api@workspace:*, @storybook/api@workspace:lib/manager-api-shim":
-  version: 0.0.0-use.local
-  resolution: "@storybook/api@workspace:lib/manager-api-shim"
-  dependencies:
-    "@storybook/client-logger": 7.0.0-alpha.52
-    "@storybook/manager-api": 7.0.0-alpha.52
-  languageName: unknown
-  linkType: soft
 
 "@storybook/babel-plugin-require-context-hook@npm:1.0.1":
   version: 1.0.1
@@ -5919,6 +5919,7 @@ __metadata:
   dependencies:
     "@babel/core": ^7.12.10
     "@storybook/addons": 7.0.0-alpha.52
+    "@storybook/api": 7.0.0-alpha.52
     "@storybook/channel-postmessage": 7.0.0-alpha.52
     "@storybook/channel-websocket": 7.0.0-alpha.52
     "@storybook/channels": 7.0.0-alpha.52
