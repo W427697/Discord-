@@ -7851,15 +7851,15 @@ __metadata:
   linkType: hard
 
 "@sveltejs/vite-plugin-svelte@npm:^1.0.0":
-  version: 1.2.0
-  resolution: "@sveltejs/vite-plugin-svelte@npm:1.2.0"
+  version: 1.3.1
+  resolution: "@sveltejs/vite-plugin-svelte@npm:1.3.1"
   dependencies:
     debug: ^4.3.4
     deepmerge: ^4.2.2
     kleur: ^4.1.5
     magic-string: ^0.26.7
     svelte-hmr: ^0.15.1
-    vitefu: ^0.2.1
+    vitefu: ^0.2.2
   peerDependencies:
     diff-match-patch: ^1.0.5
     svelte: ^3.44.0
@@ -7867,7 +7867,7 @@ __metadata:
   peerDependenciesMeta:
     diff-match-patch:
       optional: true
-  checksum: 48611772657a77c9f762bc6712d343f090e407178a114d144b76b90cad6073dcd7c4f247eac4586306e15caa7ff6a0bcf0a7423e3ec7f211634f43a7282ed453
+  checksum: c10695e84a057d96d056082cd77f2c0ae0e88b309cce38fcab76f807674bf0b8b982d805f0c0c5b9dd29996336750c2d414d89cc173de46f6e023384423aaee0
   languageName: node
   linkType: hard
 
@@ -8441,9 +8441,9 @@ __metadata:
   linkType: hard
 
 "@types/lodash@npm:^4.14.167":
-  version: 4.14.189
-  resolution: "@types/lodash@npm:4.14.189"
-  checksum: af4a0178e52e55682c7fc5b7376eed1e64ce3879800940b1e608e14e97566fcdc9c830bf0db3c19052bfdf17129062fa02044ed4b8a30381fe16384de6ca307e
+  version: 4.14.190
+  resolution: "@types/lodash@npm:4.14.190"
+  checksum: 512ce560e96bf1090c80bacfcb1b472311a549283efd6009b96c7b9284d8cfaed3950489d0e6ea136930d590dcef65869fe4e9ea94437b2753502fa77fcfd2e6
   languageName: node
   linkType: hard
 
@@ -9026,11 +9026,11 @@ __metadata:
   linkType: hard
 
 "@types/yargs@npm:^17.0.8":
-  version: 17.0.13
-  resolution: "@types/yargs@npm:17.0.13"
+  version: 17.0.14
+  resolution: "@types/yargs@npm:17.0.14"
   dependencies:
     "@types/yargs-parser": "*"
-  checksum: 5005e1e7408b9fea96c356becf19256f1a9bca02120852d3c0089ba7123528b0b6891185e9c92bac25cb5c04090a7a714b201523a6bf4a8a226852205c631208
+  checksum: e7a5980bfcee2087a81af7e1dd0b561fe7837051c579aa644e09abc798c6a7456a56062d52cf3217d30e715156ce696b6eaf66539ea56d276e15ee7522a4bf40
   languageName: node
   linkType: hard
 
@@ -12086,17 +12086,17 @@ __metadata:
   linkType: hard
 
 "cacheable-request@npm:^10.2.1":
-  version: 10.2.2
-  resolution: "cacheable-request@npm:10.2.2"
+  version: 10.2.3
+  resolution: "cacheable-request@npm:10.2.3"
   dependencies:
     "@types/http-cache-semantics": ^4.0.1
     get-stream: ^6.0.1
     http-cache-semantics: ^4.1.0
-    keyv: ^4.5.0
+    keyv: ^4.5.2
     mimic-response: ^4.0.0
-    normalize-url: ^7.2.0
+    normalize-url: ^8.0.0
     responselike: ^3.0.0
-  checksum: 52ee7cb316b05a03a5e959d26bff724c1b669351a7386bf31603467d3e57b60be9716347b327c8ae1860fcdf40d88377d0af99ef536dfb732a0b1bafebd83ee9
+  checksum: 437570efb4fdc511497a6379d801c003ab6aa7e10605fec425177c95fb597c43ceb5fb3614d1f2f56bbe5d7d0467ada7ebbe0f39b4c174f27f1ac296f0db1e46
   languageName: node
   linkType: hard
 
@@ -12478,9 +12478,9 @@ __metadata:
   linkType: hard
 
 "ci-info@npm:^3.2.0":
-  version: 3.6.1
-  resolution: "ci-info@npm:3.6.1"
-  checksum: 7d5147d627590157b340a795e97b23e20b9633ea34ccc943ef4dfae4ab5cc50b9a83b7e6c513b99f864dc5cca60b4d5fdbfc063381a02730b2bf6cd514af3949
+  version: 3.6.2
+  resolution: "ci-info@npm:3.6.2"
+  checksum: 1ed4294b0a02f69622d32247c833db73e5562776d50fda20f9a9c76fe023bf8f428f1dbddb8fe29a17cefd8eccb5a66d4c6fa762b6b0a9414af0f676d051c1ef
   languageName: node
   linkType: hard
 
@@ -15043,12 +15043,12 @@ __metadata:
   linkType: hard
 
 "enhanced-resolve@npm:^5.0.0, enhanced-resolve@npm:^5.10.0, enhanced-resolve@npm:^5.7.0":
-  version: 5.10.0
-  resolution: "enhanced-resolve@npm:5.10.0"
+  version: 5.12.0
+  resolution: "enhanced-resolve@npm:5.12.0"
   dependencies:
     graceful-fs: ^4.2.4
     tapable: ^2.2.0
-  checksum: 697c066552dadde9ea8ec7068677711dd5d6c49434b5ff96b2de2068a65060ffca32629abb899a86cca5fcb6b067d88119d1a69c7c2082e3a09c1165f760ad87
+  checksum: 5738924cfe3641d04b89c2856fee3d109d7bd71bbe234fb7f54843dda65f293e5f3eee6d5970ced70dbb09016085b961e60d1eb26cac72a21044479954b6cdfd
   languageName: node
   linkType: hard
 
@@ -22048,7 +22048,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"keyv@npm:^4.5.0":
+"keyv@npm:^4.5.2":
   version: 4.5.2
   resolution: "keyv@npm:4.5.2"
   dependencies:
@@ -24636,10 +24636,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"normalize-url@npm:^7.2.0":
-  version: 7.2.0
-  resolution: "normalize-url@npm:7.2.0"
-  checksum: d7f76bdd2b9a2ad06036a591cee2ca68794a0cfdc466b0be36f1b26c16963a6fa1627f97c852ef1d933c4ec3361473ea2a37cb8695a930e43f8b443953a2e415
+"normalize-url@npm:^8.0.0":
+  version: 8.0.0
+  resolution: "normalize-url@npm:8.0.0"
+  checksum: 09582d56acd562d89849d9239852c2aff225c72be726556d6883ff36de50006803d32a023c10e917bcc1c55f73f3bb16434f67992fe9b61906a3db882192753c
   languageName: node
   linkType: hard
 
@@ -26706,12 +26706,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prettier@npm:2.7.1, prettier@npm:^1.18.2 || ^2.0.0, prettier@npm:^2.7.1":
+"prettier@npm:2.7.1":
   version: 2.7.1
   resolution: "prettier@npm:2.7.1"
   bin:
     prettier: bin-prettier.js
   checksum: 359d2b7ecf36bd52924a48331cae506d335f18637fde6c686212f952b9ce678ce9f554a80571049b36ec2897a8a6c40094b776dea371cc5c04c481cf5b78504b
+  languageName: node
+  linkType: hard
+
+"prettier@npm:^1.18.2 || ^2.0.0, prettier@npm:^2.7.1":
+  version: 2.8.0
+  resolution: "prettier@npm:2.8.0"
+  bin:
+    prettier: bin-prettier.js
+  checksum: bfb843c82d74e4f79945b7f29c9d5de483bc0f1de8c9f41bbafd7e08dbe71f81e446cbe293681edea60ebec6609d8d0c7e7b7dff52972b54e77784eb687dad1a
   languageName: node
   linkType: hard
 
@@ -33250,15 +33259,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vitefu@npm:^0.2.1":
-  version: 0.2.1
-  resolution: "vitefu@npm:0.2.1"
+"vitefu@npm:^0.2.2":
+  version: 0.2.2
+  resolution: "vitefu@npm:0.2.2"
   peerDependencies:
     vite: ^3.0.0
   peerDependenciesMeta:
     vite:
       optional: true
-  checksum: 0258962eecf8261129ad8b6323b96a87f1d9c088715a9c8ecc1fbacdc5539d7b0f1d37548c1bb120c01dd8d49d450524bbfdd97b2fe4b115e04f1c4aecd20a66
+  checksum: 0016b133eb78eea71004c4848260848d5c95ec57deba0264f7a49df97753d1850f6ce6846586acb1b1ac3e8dfbd52f5cb6ed42b38fe98293dc0dda7f71242d05
   languageName: node
   linkType: hard
 

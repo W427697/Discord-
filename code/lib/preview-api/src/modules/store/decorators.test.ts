@@ -92,7 +92,7 @@ describe('client-api.decorators', () => {
   // the same story twice at the same time.
   it('does not interleave contexts if two decorated stories are call simultaneously', async () => {
     const contexts: StoryContext[] = [];
-    let resolve: (value: unknown) => void;
+    let resolve: (value?: unknown) => void = () => {};
     const fence = new Promise((r) => {
       resolve = r;
     });
