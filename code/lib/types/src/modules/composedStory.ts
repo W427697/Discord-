@@ -49,7 +49,7 @@ export type StoriesWithPartialProps<TRenderer extends Renderer, TModule> = {
     : unknown;
 };
 
-export interface ComposeStory<TRenderer extends Renderer = Renderer, TArgs extends Args = Args> {
+export interface ComposeStoryFn<TRenderer extends Renderer = Renderer, TArgs extends Args = Args> {
   (
     storyAnnotations: AnnotatedStoryFn<TRenderer, TArgs> | StoryAnnotations<TRenderer, TArgs>,
     componentAnnotations: ComponentAnnotations<TRenderer, TArgs>,

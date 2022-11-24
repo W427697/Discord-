@@ -6,7 +6,7 @@ import type {
   LegacyStoryAnnotationsOrFn,
   ProjectAnnotations,
   ComposedStoryPlayFn,
-  ComposeStory,
+  ComposeStoryFn,
   Store_CSFExports,
   StoryContext,
   Parameters,
@@ -94,7 +94,7 @@ export function composeStory<TRenderer extends Renderer = Renderer, TArgs extend
 export function composeStories<TModule extends Store_CSFExports>(
   storiesImport: TModule,
   globalConfig: ProjectAnnotations<Renderer>,
-  composeStoryFn: ComposeStory
+  composeStoryFn: ComposeStoryFn
 ) {
   // eslint-disable-next-line @typescript-eslint/naming-convention
   const { default: meta, __esModule, __namedExportsOrder, ...stories } = storiesImport;
