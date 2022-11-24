@@ -6,7 +6,6 @@ import type { TransformOptions } from '@babel/core';
 import type { Router } from 'express';
 import type { Server } from 'http';
 import type { PackageJson as PackageJsonFromTypeFest } from 'type-fest';
-import type { Parameters, Tag } from './csf';
 import type { StoriesEntry, StoryIndexer } from './storyIndex';
 
 /**
