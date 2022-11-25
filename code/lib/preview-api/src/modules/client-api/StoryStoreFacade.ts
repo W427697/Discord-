@@ -60,34 +60,33 @@ export class StoryStoreFacade<TRenderer extends Renderer> {
 
     const storyEntries = Object.entries(this.entries);
     // Add the kind parameters and global parameters to each entry
-    const sortableV6: [StoryId, PreparedStory<TRenderer>, Parameters, Parameters][] =
-      storyEntries.map(([storyId, { type, importPath, ...entry }]) => {
-        const exports = this.csfExports[importPath];
-        const csfFile = store.processCSFFileWithCache<TRenderer>(
-          exports,
-          importPath,
-          exports.default.title
-        );
+    const sortableV6 = storyEntries.map(([storyId, { type, importPath, ...entry }]) => {
+      const exports = this.csfExports[importPath];
+      const csfFile = store.processCSFFileWithCache<TRenderer>(
+        exports,
+        importPath,
+        exports.default.title
+      );
 
-        let storyLike: PreparedStory<TRenderer>;
-        if (type === 'story') {
-          storyLike = store.storyFromCSFFile({ storyId, csfFile });
-        } else {
-          storyLike = {
-            ...entry,
-            story: entry.name,
-            kind: entry.title,
-            componentId: toId(entry.componentId || entry.title),
-            parameters: { fileName: importPath },
-          } as any;
-        }
-        return [
-          storyId,
-          storyLike,
-          csfFile.meta.parameters,
-          this.projectAnnotations.parameters || {},
-        ];
-      });
+      let storyLike: PreparedStory<TRenderer>;
+      if (type === 'story') {
+        storyLike = store.storyFromCSFFile({ storyId, csfFile });
+      } else {
+        storyLike = {
+          ...entry,
+          story: entry.name,
+          kind: entry.title,
+          componentId: toId(entry.componentId || entry.title),
+          parameters: { fileName: importPath },
+        } as any;
+      }
+      return [
+        storyId,
+        storyLike,
+        csfFile.meta.parameters,
+        this.projectAnnotations.parameters || {},
+      ] as [StoryId, PreparedStory<TRenderer>, Parameters, Parameters];
+    });
 
     // NOTE: the sortStoriesV6 version returns the v7 data format. confusing but more convenient!
     let sortedV7: IndexEntry[];
