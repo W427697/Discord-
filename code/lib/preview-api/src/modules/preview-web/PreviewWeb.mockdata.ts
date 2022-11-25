@@ -10,7 +10,7 @@ import {
   STORY_THREW_EXCEPTION,
 } from '@storybook/core-events';
 
-import type { Store_ModuleImportFn, StoryIndex, TeardownRenderToCanvas } from '@storybook/types';
+import type { ModuleImportFn, StoryIndex, TeardownRenderToCanvas } from '@storybook/types';
 import type { RenderPhase } from './render/StoryRender';
 
 export const componentOneExports = {
@@ -44,7 +44,7 @@ export const extraComponentOneExports = {
   },
   e: {},
 };
-export const importFn: jest.Mocked<Store_ModuleImportFn> = jest.fn(
+export const importFn: jest.Mocked<ModuleImportFn> = jest.fn(
   async (path: string) =>
     ({
       './src/ComponentOne.stories.js': componentOneExports,
