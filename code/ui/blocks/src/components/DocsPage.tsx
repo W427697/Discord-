@@ -45,16 +45,52 @@ export const DocsContent = styled.div({
   width: '100%',
 });
 
-export const DocsWrapper = styled.div(({ theme }) => ({
-  background: theme.background.content,
-  display: 'flex',
-  justifyContent: 'center',
-  padding: '4rem 20px',
-  minHeight: '100vh',
-  boxSizing: 'border-box',
+export const DocsWrapper = styled.div(({ theme }) => {
+  const reset = {
+    fontFamily: theme.typography.fonts.base,
+    fontSize: theme.typography.size.s3,
+    margin: 0,
 
-  [`@media (min-width: ${breakpoint}px)`]: {},
-}));
+    WebkitFontSmoothing: 'antialiased',
+    MozOsxFontSmoothing: 'grayscale',
+    WebkitTapHighlightColor: 'rgba(0, 0, 0, 0)',
+    WebkitOverflowScrolling: 'touch',
+  };
+
+  return {
+    background: theme.background.content,
+    display: 'flex',
+    justifyContent: 'center',
+    padding: '4rem 20px',
+    minHeight: '100vh',
+    boxSizing: 'border-box',
+
+    [`@media (min-width: ${breakpoint}px)`]: {},
+    ...reset,
+    'div:not(.sb-story > div)': reset,
+    'a:not(.sb-story > a)': {
+      ...reset,
+      fontSize: 'inherit',
+      lineHeight: '24px',
+
+      color: theme.color.secondary,
+      textDecoration: 'none',
+      '&.absent': {
+        color: '#cc0000',
+      },
+      '&.anchor': {
+        display: 'block',
+        paddingLeft: 30,
+        marginLeft: -30,
+        cursor: 'pointer',
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        bottom: 0,
+      },
+    },
+  };
+});
 
 interface DocsPageWrapperProps {
   children?: React.ReactNode;
