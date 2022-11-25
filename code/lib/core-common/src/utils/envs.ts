@@ -50,16 +50,10 @@ export const stringifyEnvs = (raw: Record<string, string>): Record<string, strin
   }, {});
 
 export const stringifyProcessEnvs = (raw: Record<string, string>): Record<string, string> => {
-  const envs = Object.entries(raw).reduce<Record<string, string>>(
-    (acc, [key, value]) => {
-      acc[`process.env.${key}`] = JSON.stringify(value);
-      return acc;
-    },
-    {
-      // Default fallback
-      'process.env.XSTORYBOOK_EXAMPLE_APP': '""',
-    }
-  );
+  const envs = Object.entries(raw).reduce<Record<string, string>>((acc, [key, value]) => {
+    acc[`process.env.${key}`] = JSON.stringify(value);
+    return acc;
+  }, {});
   // FIXME: something like this is necessary to support destructuring like:
   //
   // const { foo } = process.env;
