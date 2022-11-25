@@ -1,3 +1,25 @@
+## 7.0.0-alpha.54 (November 25, 2022)
+
+#### Bug Fixes
+
+-   Vite: Support environment variables in viteFinal define config [#19905](https://github.com/storybooks/storybook/pull/19905)
+
+#### Maintenance
+
+-   Build: split `lib/addons` into manager & preview part, move code to `manager-api` [#19952](https://github.com/storybooks/storybook/pull/19952)
+-   TypeScript: Satisfy stricter compilerOption rules [#19953](https://github.com/storybooks/storybook/pull/19953)
+-   API: Rename `api` to `manager-api` [#19944](https://github.com/storybooks/storybook/pull/19944)
+-   API: Add `preview-api` package [#19749](https://github.com/storybooks/storybook/pull/19749)
+
+#### Build
+
+-   Build: Improve security in Github actions [#19949](https://github.com/storybooks/storybook/pull/19949)
+
+#### Dependencies
+
+-   NextJS: Add Next13 peer dependency [#19932](https://github.com/storybooks/storybook/pull/19932)
+
+
 ## 7.0.0-alpha.53 (November 24, 2022)
 
 #### Bug Fixes
