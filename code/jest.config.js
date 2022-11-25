@@ -1,6 +1,7 @@
 module.exports = {
   projects: [
     '<rootDir>/addons/*',
+    '<rootDir>/builders/*',
     '<rootDir>/frameworks/!(angular)*',
     '<rootDir>/lib/*',
     '<rootDir>/renderers/*',
@@ -8,10 +9,11 @@ module.exports = {
   ],
   collectCoverage: false,
   collectCoverageFrom: [
+    'addons/*/src/**/*.{js,jsx,ts,tsx}',
+    'builders/*/src/**/*.{js,jsx,ts,tsx}',
     'frameworks/*/src/**/*.{js,jsx,ts,tsx}',
     'lib/*/src/**/*.{js,jsx,ts,tsx}',
     'renderers/*/src/**/*.{js,jsx,ts,tsx}',
-    'addons/*/src/**/*.{js,jsx,ts,tsx}',
     'ui/*/src/**/*.{js,jsx,ts,tsx}',
   ],
   coverageDirectory: 'coverage',
