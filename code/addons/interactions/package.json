@@ -72,7 +72,6 @@
   },
   "dependencies": {
     "@devtools-ds/object-inspector": "^1.1.2",
-    "@storybook/addons": "7.0.0-alpha.53",
     "@storybook/client-logger": "7.0.0-alpha.53",
     "@storybook/components": "7.0.0-alpha.53",
     "@storybook/core-common": "7.0.0-alpha.53",

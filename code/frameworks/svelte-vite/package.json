@@ -52,7 +52,6 @@
   },
   "dependencies": {
     "@storybook/addon-svelte-csf": "^2.0.0",
-    "@storybook/addons": "7.0.0-alpha.53",
     "@storybook/builder-vite": "7.0.0-alpha.53",
     "@storybook/channel-postmessage": "7.0.0-alpha.53",
     "@storybook/channel-websocket": "7.0.0-alpha.53",

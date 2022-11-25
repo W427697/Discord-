@@ -34,7 +34,6 @@
     "prep": "rimraf dist && ../../../scripts/node_modules/.bin/tsc --project tsconfig.build.json && echo \"Preventing passing flags to tsc\""
   },
   "dependencies": {
-    "@storybook/addons": "7.0.0-alpha.53",
     "@storybook/builder-webpack5": "7.0.0-alpha.53",
     "@storybook/client-logger": "7.0.0-alpha.53",
     "@storybook/core-client": "7.0.0-alpha.53",

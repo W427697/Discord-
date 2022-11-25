@@ -1,7 +1,7 @@
 /// <reference types="@types/jest" />;
 /* eslint-disable no-underscore-dangle */
 
-import { addons, mockChannel } from '@storybook/addons';
+import { addons, mockChannel } from '@storybook/preview-api';
 import { logger } from '@storybook/client-logger';
 import {
   FORCE_REMOUNT,

@@ -5124,7 +5124,6 @@ __metadata:
   resolution: "@storybook/addon-a11y@workspace:addons/a11y"
   dependencies:
     "@storybook/addon-highlight": 7.0.0-alpha.53
-    "@storybook/addons": 7.0.0-alpha.53
     "@storybook/channels": 7.0.0-alpha.53
     "@storybook/client-logger": 7.0.0-alpha.53
     "@storybook/components": 7.0.0-alpha.53
@@ -5154,7 +5153,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/addon-actions@workspace:addons/actions"
   dependencies:
-    "@storybook/addons": 7.0.0-alpha.53
     "@storybook/client-logger": 7.0.0-alpha.53
     "@storybook/components": 7.0.0-alpha.53
     "@storybook/core-events": 7.0.0-alpha.53
@@ -5188,7 +5186,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/addon-backgrounds@workspace:addons/backgrounds"
   dependencies:
-    "@storybook/addons": 7.0.0-alpha.53
     "@storybook/client-logger": 7.0.0-alpha.53
     "@storybook/components": 7.0.0-alpha.53
     "@storybook/core-events": 7.0.0-alpha.53
@@ -5215,7 +5212,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/addon-controls@workspace:addons/controls"
   dependencies:
-    "@storybook/addons": 7.0.0-alpha.53
     "@storybook/blocks": 7.0.0-alpha.53
     "@storybook/client-logger": 7.0.0-alpha.53
     "@storybook/components": 7.0.0-alpha.53
@@ -5287,7 +5283,6 @@ __metadata:
     "@storybook/addon-outline": 7.0.0-alpha.53
     "@storybook/addon-toolbars": 7.0.0-alpha.53
     "@storybook/addon-viewport": 7.0.0-alpha.53
-    "@storybook/addons": 7.0.0-alpha.53
     "@storybook/core-common": 7.0.0-alpha.53
     "@storybook/manager-api": 7.0.0-alpha.53
     "@storybook/node-logger": 7.0.0-alpha.53
@@ -5304,7 +5299,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/addon-highlight@workspace:addons/highlight"
   dependencies:
-    "@storybook/addons": 7.0.0-alpha.53
     "@storybook/core-events": 7.0.0-alpha.53
     "@storybook/preview-api": 7.0.0-alpha.53
     "@types/webpack-env": ^1.16.0
@@ -5318,7 +5312,6 @@ __metadata:
   resolution: "@storybook/addon-interactions@workspace:addons/interactions"
   dependencies:
     "@devtools-ds/object-inspector": ^1.1.2
-    "@storybook/addons": 7.0.0-alpha.53
     "@storybook/client-logger": 7.0.0-alpha.53
     "@storybook/components": 7.0.0-alpha.53
     "@storybook/core-common": 7.0.0-alpha.53
@@ -5352,7 +5345,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/addon-jest@workspace:addons/jest"
   dependencies:
-    "@storybook/addons": 7.0.0-alpha.53
     "@storybook/client-logger": 7.0.0-alpha.53
     "@storybook/components": 7.0.0-alpha.53
     "@storybook/core-events": 7.0.0-alpha.53
@@ -5378,10 +5370,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/addon-links@workspace:addons/links"
   dependencies:
-    "@storybook/addons": 7.0.0-alpha.53
     "@storybook/client-logger": 7.0.0-alpha.53
     "@storybook/core-events": 7.0.0-alpha.53
     "@storybook/csf": next
+    "@storybook/manager-api": 7.0.0-alpha.53
     "@storybook/preview-api": 7.0.0-alpha.53
     "@storybook/router": 7.0.0-alpha.53
     "@storybook/types": 7.0.0-alpha.53
@@ -5404,7 +5396,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/addon-measure@workspace:addons/measure"
   dependencies:
-    "@storybook/addons": 7.0.0-alpha.53
     "@storybook/client-logger": 7.0.0-alpha.53
     "@storybook/components": 7.0.0-alpha.53
     "@storybook/core-events": 7.0.0-alpha.53
@@ -5428,7 +5419,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/addon-outline@workspace:addons/outline"
   dependencies:
-    "@storybook/addons": 7.0.0-alpha.53
     "@storybook/client-logger": 7.0.0-alpha.53
     "@storybook/components": 7.0.0-alpha.53
     "@storybook/core-events": 7.0.0-alpha.53
@@ -5479,7 +5469,6 @@ __metadata:
     "@emotion/jest": ^11.8.0
     "@jest/transform": ^29.3.1
     "@storybook/addon-docs": 7.0.0-alpha.53
-    "@storybook/addons": 7.0.0-alpha.53
     "@storybook/angular": 7.0.0-alpha.53
     "@storybook/babel-plugin-require-context-hook": 1.0.1
     "@storybook/client-api": 7.0.0-alpha.53
@@ -5563,7 +5552,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/addon-storysource@workspace:addons/storysource"
   dependencies:
-    "@storybook/addons": 7.0.0-alpha.53
     "@storybook/client-logger": 7.0.0-alpha.53
     "@storybook/components": 7.0.0-alpha.53
     "@storybook/manager-api": 7.0.0-alpha.53
@@ -5608,7 +5596,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/addon-toolbars@workspace:addons/toolbars"
   dependencies:
-    "@storybook/addons": 7.0.0-alpha.53
     "@storybook/client-logger": 7.0.0-alpha.53
     "@storybook/components": 7.0.0-alpha.53
     "@storybook/manager-api": 7.0.0-alpha.53
@@ -5630,7 +5617,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/addon-viewport@workspace:addons/viewport"
   dependencies:
-    "@storybook/addons": 7.0.0-alpha.53
     "@storybook/client-logger": 7.0.0-alpha.53
     "@storybook/components": 7.0.0-alpha.53
     "@storybook/core-events": 7.0.0-alpha.53
@@ -5656,14 +5642,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/addons@workspace:lib/addons"
   dependencies:
-    "@storybook/channels": 7.0.0-alpha.53
-    "@storybook/client-logger": 7.0.0-alpha.53
-    "@storybook/core-events": 7.0.0-alpha.53
     "@storybook/manager-api": 7.0.0-alpha.53
-    "@storybook/router": 7.0.0-alpha.53
-    "@storybook/theming": 7.0.0-alpha.53
+    "@storybook/preview-api": 7.0.0-alpha.53
     "@storybook/types": 7.0.0-alpha.53
-    global: ^4.4.0
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
@@ -5708,7 +5689,6 @@ __metadata:
     "@angular/platform-browser": ^13.3.6
     "@angular/platform-browser-dynamic": ^13.3.6
     "@nrwl/workspace": 14.6.1
-    "@storybook/addons": 7.0.0-alpha.53
     "@storybook/builder-webpack5": 7.0.0-alpha.53
     "@storybook/client-logger": 7.0.0-alpha.53
     "@storybook/core-client": 7.0.0-alpha.53
@@ -5822,7 +5802,6 @@ __metadata:
   resolution: "@storybook/blocks@workspace:ui/blocks"
   dependencies:
     "@storybook/addon-actions": 7.0.0-alpha.53
-    "@storybook/addons": 7.0.0-alpha.53
     "@storybook/channels": 7.0.0-alpha.53
     "@storybook/client-logger": 7.0.0-alpha.53
     "@storybook/components": 7.0.0-alpha.53
@@ -5880,6 +5859,7 @@ __metadata:
   dependencies:
     "@fal-works/esbuild-plugin-global-externals": ^2.1.2
     "@joshwooding/vite-plugin-react-docgen-typescript": 0.0.5
+    "@storybook/addons": 7.0.0-alpha.53
     "@storybook/client-api": 7.0.0-alpha.53
     "@storybook/client-logger": 7.0.0-alpha.53
     "@storybook/core-common": 7.0.0-alpha.53
@@ -6191,11 +6171,9 @@ __metadata:
     pretty-hrtime: ^1.0.3
     resolve-from: ^5.0.0
     slash: ^3.0.0
-    telejson: ^6.0.8
     ts-dedent: ^2.0.0
     type-fest: ^2.19.0
     typescript: ^4.9.3
-    util-deprecate: ^1.0.2
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
@@ -6446,7 +6424,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/html@workspace:renderers/html"
   dependencies:
-    "@storybook/addons": 7.0.0-alpha.53
     "@storybook/core-client": 7.0.0-alpha.53
     "@storybook/docs-tools": 7.0.0-alpha.53
     "@storybook/preview-api": 7.0.0-alpha.53
@@ -6465,7 +6442,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/instrumenter@workspace:lib/instrumenter"
   dependencies:
-    "@storybook/addons": 7.0.0-alpha.53
     "@storybook/channels": 7.0.0-alpha.53
     "@storybook/client-logger": 7.0.0-alpha.53
     "@storybook/core-events": 7.0.0-alpha.53
@@ -6560,9 +6536,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/manager-api@workspace:lib/manager-api"
   dependencies:
+    "@jest/globals": ^29.3.1
     "@storybook/channels": 7.0.0-alpha.53
     "@storybook/client-logger": 7.0.0-alpha.53
-    "@storybook/core-common": 7.0.0-alpha.53
     "@storybook/core-events": 7.0.0-alpha.53
     "@storybook/csf": next
     "@storybook/router": 7.0.0-alpha.53
@@ -6581,7 +6557,6 @@ __metadata:
     telejson: ^6.0.8
     ts-dedent: ^2.0.0
     typescript: ^4.9.3
-    util-deprecate: ^1.0.2
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
@@ -6593,7 +6568,6 @@ __metadata:
   resolution: "@storybook/manager@workspace:ui/manager"
   dependencies:
     "@fal-works/esbuild-plugin-global-externals": ^2.1.2
-    "@storybook/addons": 7.0.0-alpha.53
     "@storybook/channel-postmessage": 7.0.0-alpha.53
     "@storybook/channel-websocket": 7.0.0-alpha.53
     "@storybook/channels": 7.0.0-alpha.53
@@ -6601,7 +6575,6 @@ __metadata:
     "@storybook/components": 7.0.0-alpha.53
     "@storybook/core-events": 7.0.0-alpha.53
     "@storybook/manager-api": 7.0.0-alpha.53
-    "@storybook/preview-api": 7.0.0-alpha.53
     "@storybook/router": 7.0.0-alpha.53
     "@storybook/theming": 7.0.0-alpha.53
     "@storybook/types": 7.0.0-alpha.53
@@ -6646,7 +6619,6 @@ __metadata:
   resolution: "@storybook/nextjs@workspace:frameworks/nextjs"
   dependencies:
     "@storybook/addon-actions": 7.0.0-alpha.53
-    "@storybook/addons": 7.0.0-alpha.53
     "@storybook/builder-webpack5": 7.0.0-alpha.53
     "@storybook/core-common": 7.0.0-alpha.53
     "@storybook/node-logger": 7.0.0-alpha.53
@@ -6733,7 +6705,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/preact@workspace:renderers/preact"
   dependencies:
-    "@storybook/addons": 7.0.0-alpha.53
     "@storybook/core-client": 7.0.0-alpha.53
     "@storybook/preview-api": 7.0.0-alpha.53
     "@storybook/types": 7.0.0-alpha.53
@@ -6935,21 +6906,21 @@ __metadata:
   resolution: "@storybook/preview-api@workspace:lib/preview-api"
   dependencies:
     "@jest/globals": ^26.6.2
-    "@storybook/addons": 7.0.0-alpha.53
     "@storybook/channel-postmessage": 7.0.0-alpha.53
     "@storybook/channels": 7.0.0-alpha.53
     "@storybook/client-logger": 7.0.0-alpha.53
+    "@storybook/core-common": 7.0.0-alpha.53
     "@storybook/core-events": 7.0.0-alpha.53
     "@storybook/csf": next
     "@storybook/types": 7.0.0-alpha.53
     "@types/qs": ^6.9.5
-    "@types/webpack-env": ^1.16.4
     ansi-to-html: ^0.6.11
     dequal: ^2.0.2
     global: ^4.4.0
     lodash: ^4.17.21
     memoizerific: ^1.11.3
     qs: ^6.10.0
+    react: ^16.14.0
     slash: ^3.0.0
     synchronous-promise: ^2.0.15
     ts-dedent: ^2.0.0
@@ -6970,36 +6941,18 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/preview@workspace:lib/preview"
   dependencies:
+    "@fal-works/esbuild-plugin-global-externals": ^2.1.2
     "@storybook/channel-postmessage": 7.0.0-alpha.53
     "@storybook/channel-websocket": 7.0.0-alpha.53
     "@storybook/channels": 7.0.0-alpha.53
     "@storybook/client-logger": 7.0.0-alpha.53
-    "@storybook/core-common": 7.0.0-alpha.53
     "@storybook/core-events": 7.0.0-alpha.53
-    "@storybook/csf": next
-    "@storybook/manager-api": 7.0.0-alpha.53
     "@storybook/preview-api": 7.0.0-alpha.53
-    "@storybook/router": 7.0.0-alpha.53
-    "@storybook/theming": 7.0.0-alpha.53
-    "@storybook/types": 7.0.0-alpha.53
-    "@types/qs": ^6.9.5
     "@types/shelljs": ^0.8.7
-    "@types/webpack-env": ^1.16.4
-    ansi-to-html: ^0.6.11
-    dequal: ^2.0.2
     fs-extra: ^9.0.1
-    global: ^4.4.0
-    lodash: ^4.17.21
-    memoizerific: ^1.11.3
-    qs: ^6.10.0
-    react: 16.14.0
     shelljs: ^0.8.5
-    slash: ^3.0.0
-    synchronous-promise: ^2.0.15
     ts-dedent: ^2.0.0
-    ts-jest: ^28.0.8
     typescript: ~4.6.3
-    util-deprecate: ^1.0.2
   languageName: unknown
   linkType: soft
 
@@ -7027,7 +6980,6 @@ __metadata:
   dependencies:
     "@joshwooding/vite-plugin-react-docgen-typescript": ^0.0.5
     "@rollup/pluginutils": ^4.2.0
-    "@storybook/addons": 7.0.0-alpha.53
     "@storybook/builder-vite": 7.0.0-alpha.53
     "@storybook/channel-postmessage": 7.0.0-alpha.53
     "@storybook/channel-websocket": 7.0.0-alpha.53
@@ -7073,7 +7025,6 @@ __metadata:
   resolution: "@storybook/react@workspace:renderers/react"
   dependencies:
     "@babel/core": ^7.20.2
-    "@storybook/addons": 7.0.0-alpha.53
     "@storybook/client-logger": 7.0.0-alpha.53
     "@storybook/core-client": 7.0.0-alpha.53
     "@storybook/docs-tools": 7.0.0-alpha.53
@@ -7438,7 +7389,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/server@workspace:renderers/server"
   dependencies:
-    "@storybook/addons": 7.0.0-alpha.53
     "@storybook/core-client": 7.0.0-alpha.53
     "@storybook/preview-api": 7.0.0-alpha.53
     "@storybook/types": 7.0.0-alpha.53
@@ -7481,7 +7431,6 @@ __metadata:
   resolution: "@storybook/svelte-vite@workspace:frameworks/svelte-vite"
   dependencies:
     "@storybook/addon-svelte-csf": ^2.0.0
-    "@storybook/addons": 7.0.0-alpha.53
     "@storybook/builder-vite": 7.0.0-alpha.53
     "@storybook/channel-postmessage": 7.0.0-alpha.53
     "@storybook/channel-websocket": 7.0.0-alpha.53
@@ -7527,7 +7476,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/svelte@workspace:renderers/svelte"
   dependencies:
-    "@storybook/addons": 7.0.0-alpha.53
     "@storybook/client-logger": 7.0.0-alpha.53
     "@storybook/core-client": 7.0.0-alpha.53
     "@storybook/docs-tools": 7.0.0-alpha.53
@@ -7639,7 +7587,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/vue-vite@workspace:frameworks/vue-vite"
   dependencies:
-    "@storybook/addons": 7.0.0-alpha.53
     "@storybook/builder-vite": 7.0.0-alpha.53
     "@storybook/channel-postmessage": 7.0.0-alpha.53
     "@storybook/channel-websocket": 7.0.0-alpha.53
@@ -7686,7 +7633,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/vue3-vite@workspace:frameworks/vue3-vite"
   dependencies:
-    "@storybook/addons": 7.0.0-alpha.53
     "@storybook/builder-vite": 7.0.0-alpha.53
     "@storybook/channel-postmessage": 7.0.0-alpha.53
     "@storybook/channel-websocket": 7.0.0-alpha.53
@@ -7729,7 +7675,6 @@ __metadata:
   resolution: "@storybook/vue3@workspace:renderers/vue3"
   dependencies:
     "@digitak/esrun": ^3.2.2
-    "@storybook/addons": 7.0.0-alpha.53
     "@storybook/core-client": 7.0.0-alpha.53
     "@storybook/docs-tools": 7.0.0-alpha.53
     "@storybook/preview-api": 7.0.0-alpha.53
@@ -7757,7 +7702,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/vue@workspace:renderers/vue"
   dependencies:
-    "@storybook/addons": 7.0.0-alpha.53
     "@storybook/client-logger": 7.0.0-alpha.53
     "@storybook/core-client": 7.0.0-alpha.53
     "@storybook/docs-tools": 7.0.0-alpha.53
@@ -7786,7 +7730,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/web-components-vite@workspace:frameworks/web-components-vite"
   dependencies:
-    "@storybook/addons": 7.0.0-alpha.53
     "@storybook/builder-vite": 7.0.0-alpha.53
     "@storybook/channel-postmessage": 7.0.0-alpha.53
     "@storybook/channel-websocket": 7.0.0-alpha.53
@@ -7824,7 +7767,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/web-components@workspace:renderers/web-components"
   dependencies:
-    "@storybook/addons": 7.0.0-alpha.53
     "@storybook/client-logger": 7.0.0-alpha.53
     "@storybook/core-client": 7.0.0-alpha.53
     "@storybook/docs-tools": 7.0.0-alpha.53
@@ -8932,7 +8874,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/webpack-env@npm:^1.16.0, @types/webpack-env@npm:^1.16.4, @types/webpack-env@npm:^1.17.0, @types/webpack-env@npm:^1.18.0":
+"@types/webpack-env@npm:^1.16.0, @types/webpack-env@npm:^1.17.0, @types/webpack-env@npm:^1.18.0":
   version: 1.18.0
   resolution: "@types/webpack-env@npm:1.18.0"
   checksum: ac2e91b025ea31b98b0271ccb40da789c5b54693c1efb18265a54c03b303b750501f080a44e99d7ce0a5422d68d535e600e851df4b8f2240444eca7ac3159719
@@ -31919,7 +31861,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ts-jest@npm:^28.0.0, ts-jest@npm:^28.0.8":
+"ts-jest@npm:^28.0.0":
   version: 28.0.8
   resolution: "ts-jest@npm:28.0.8"
   dependencies:

@@ -104,10 +104,16 @@ export const WithDefaultInteractions: Story = {
   args: {
     of: BooleanStories.Toggling,
   },
+  parameters: {
+    chromatic: { delay: 500 },
+  },
 };
 export const WithInteractionsAutoplayInStory: Story = {
   args: {
     of: BooleanStories.TogglingInDocs,
+  },
+  parameters: {
+    chromatic: { delay: 500 },
   },
 };
 

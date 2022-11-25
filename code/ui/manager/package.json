@@ -53,7 +53,6 @@
   },
   "devDependencies": {
     "@fal-works/esbuild-plugin-global-externals": "^2.1.2",
-    "@storybook/addons": "7.0.0-alpha.53",
     "@storybook/channel-postmessage": "7.0.0-alpha.53",
     "@storybook/channel-websocket": "7.0.0-alpha.53",
     "@storybook/channels": "7.0.0-alpha.53",
@@ -61,7 +60,6 @@
     "@storybook/components": "7.0.0-alpha.53",
     "@storybook/core-events": "7.0.0-alpha.53",
     "@storybook/manager-api": "7.0.0-alpha.53",
-    "@storybook/preview-api": "7.0.0-alpha.53",
     "@storybook/router": "7.0.0-alpha.53",
     "@storybook/theming": "7.0.0-alpha.53",
     "@storybook/types": "7.0.0-alpha.53",

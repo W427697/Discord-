@@ -2,7 +2,6 @@ import global from 'global';
 
 import type { Channel } from '@storybook/channels';
 import { SET_CONFIG } from '@storybook/core-events';
-import type { API } from '@storybook/manager-api';
 import type {
   Addon_Collection,
   Addon_Config,
@@ -13,6 +12,7 @@ import type {
 } from '@storybook/types';
 import { Addon_TypesEnum } from '@storybook/types';
 import { logger } from '@storybook/client-logger';
+import type { API } from '../index';
 import { mockChannel } from './storybook-channel-mock';
 
 export { Addon_Type as Addon, Addon_TypesEnum as types };
@@ -116,7 +116,7 @@ export class AddonStore {
 }
 
 // Enforce addons store to be a singleton
-const KEY = '__STORYBOOK_ADDONS';
+const KEY = '__STORYBOOK_ADDONS_MANAGER';
 
 function getAddonsStore(): AddonStore {
   if (!global[KEY]) {
@@ -125,9 +125,6 @@ function getAddonsStore(): AddonStore {
   return global[KEY];
 }
 
-// Exporting this twice in order to to be able to import it like { addons } instead of 'addons'
-// prefer import { addons } from '@storybook/addons' over import addons from '@storybook/addons'
-//
-// See public_api.ts
-
 export const addons = getAddonsStore();
+
+export { mockChannel };
