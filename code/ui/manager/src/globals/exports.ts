@@ -202,6 +202,7 @@ export default {
     'Provider',
     'addons',
     'combineParameters',
+    'controlOrMetaKey',
     'eventToShortcut',
     'merge',
     'mockChannel',

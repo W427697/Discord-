@@ -64,7 +64,12 @@ import * as url from './modules/url';
 import * as version from './modules/versions';
 // eslint-disable-next-line import/no-cycle
 import * as globals from './modules/globals';
-import { controlOrMetaKey, eventToShortcut, shortcutMatchesShortcut, shortcutToHumanString } from './lib/shortcut';
+import {
+  controlOrMetaKey,
+  eventToShortcut,
+  shortcutMatchesShortcut,
+  shortcutToHumanString,
+} from './lib/shortcut';
 
 const { ActiveTabs } = layout;
 
