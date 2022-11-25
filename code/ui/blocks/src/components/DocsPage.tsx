@@ -1,4 +1,5 @@
 import { withReset } from '@storybook/components';
+import type { CSSObject } from '@storybook/theming';
 import { styled } from '@storybook/theming';
 import { transparentize } from 'polished';
 import type { FC } from 'react';
@@ -54,7 +55,7 @@ export const DocsWrapper = styled.div(({ theme }) => {
     WebkitFontSmoothing: 'antialiased',
     MozOsxFontSmoothing: 'grayscale',
     WebkitTapHighlightColor: 'rgba(0, 0, 0, 0)',
-    WebkitOverflowScrolling: 'touch',
+    WebkitOverflowScrolling: 'touch' as CSSObject['WebkitOverflowScrolling'],
   };
 
   return {
