@@ -8692,7 +8692,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react-syntax-highlighter@npm:11.0.5, @types/react@npm:^16, @types/react@npm:^16.14.34":
+"@types/react-syntax-highlighter@npm:11.0.5":
+  version: 11.0.5
+  resolution: "@types/react-syntax-highlighter@npm:11.0.5"
+  dependencies:
+    "@types/react": "*"
+  checksum: f4aa5ae5d1e877946fd7667aa9fa27c1cbba23bbe2b4301933df70d7b5ee9c207c6ecdb19681916b57bf190e4c0f7803fce4e5359fa9a3548f7b100ee4508311
+  languageName: node
+  linkType: hard
+
+"@types/react@npm:*, @types/react@npm:>=16, @types/react@npm:^16, @types/react@npm:^16.14.34":
   version: 16.14.34
   resolution: "@types/react@npm:16.14.34"
   dependencies:
@@ -8700,17 +8709,6 @@ __metadata:
     "@types/scheduler": "*"
     csstype: ^3.0.2
   checksum: 0cc204f87badeabd4641beb415e82b574152596e65304f5e63cd41948b23036f3e7ae658a86aa5357c2ab4f0f4f9402dfd5077c3df0c5294130a45d92add9bac
-  languageName: node
-  linkType: hard
-
-"@types/react@npm:*, @types/react@npm:>=16":
-  version: 18.0.25
-  resolution: "@types/react@npm:18.0.25"
-  dependencies:
-    "@types/prop-types": "*"
-    "@types/scheduler": "*"
-    csstype: ^3.0.2
-  checksum: 5d30dbf46124a63ee832864bf38ce42de2e8924dc53470f14742343503a2cf1851b6b4f8b892ef661e1a670561f4c9052d782e419d314912e54626f3296e49b6
   languageName: node
   linkType: hard
 
