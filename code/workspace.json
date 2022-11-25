@@ -106,17 +106,17 @@
       "root": "ui/blocks",
       "type": "library"
     },
-    "@storybook/builder-manager (moved)": {
+    "@storybook/builder-manager": {
       "implicitDependencies": [],
       "root": "builders/builder-manager",
       "type": "library"
     },
-    "@storybook/builder-vite (moved)": {
+    "@storybook/builder-vite": {
       "implicitDependencies": [],
       "root": "builders/builder-vite",
       "type": "library"
     },
-    "@storybook/builder-webpack5 (moved)": {
+    "@storybook/builder-webpack5": {
       "implicitDependencies": [],
       "root": "builders/builder-webpack5",
       "type": "library"
