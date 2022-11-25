@@ -4,7 +4,7 @@ import React, { createElement } from 'react';
 import type { Options } from 'react-element-to-jsx-string';
 import reactElementToJSXString from 'react-element-to-jsx-string';
 
-import { addons, useEffect } from '@storybook/addons';
+import { addons, useEffect } from '@storybook/preview-api';
 import type { StoryContext, ArgsStoryFn, PartialStoryFn } from '@storybook/types';
 import { SourceType, SNIPPET_RENDERED, getDocgenSection } from '@storybook/docs-tools';
 import { logger } from '@storybook/client-logger';

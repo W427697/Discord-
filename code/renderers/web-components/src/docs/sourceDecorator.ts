@@ -2,7 +2,7 @@
 /* global window */
 import { render } from 'lit-html';
 import type { ArgsStoryFn, PartialStoryFn, StoryContext } from '@storybook/types';
-import { addons, useEffect } from '@storybook/addons';
+import { addons, useEffect } from '@storybook/preview-api';
 import { SNIPPET_RENDERED, SourceType } from '@storybook/docs-tools';
 
 import type { WebComponentsRenderer } from '../types';

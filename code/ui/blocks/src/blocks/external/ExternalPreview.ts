@@ -1,4 +1,4 @@
-import { Preview } from '@storybook/preview-web';
+import { Preview, composeConfigs } from '@storybook/preview-api';
 import type {
   Renderer,
   ComponentTitle,
@@ -7,7 +7,6 @@ import type {
   Store_ModuleExports,
   Store_StoryIndex,
 } from '@storybook/types';
-import { composeConfigs } from '@storybook/store';
 import { Channel } from '@storybook/channels';
 
 import { ExternalDocsContext } from './ExternalDocsContext';

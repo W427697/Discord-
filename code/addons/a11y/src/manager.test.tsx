@@ -1,9 +1,9 @@
 import { addons } from '@storybook/addons';
-import * as api from '@storybook/api';
+import * as api from '@storybook/manager-api';
 import { PANEL_ID } from './constants';
 import './manager';
 
-jest.mock('@storybook/api');
+jest.mock('@storybook/manager-api');
 jest.mock('@storybook/addons');
 const mockedApi = api as unknown as jest.Mocked<api.API>;
 mockedApi.getAddonState = jest.fn();

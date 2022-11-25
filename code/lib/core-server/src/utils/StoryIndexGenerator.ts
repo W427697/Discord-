@@ -19,7 +19,7 @@ import type {
   StoryId,
   StoryName,
 } from '@storybook/types';
-import { userOrAutoTitleFromSpecifier, sortStoriesV7 } from '@storybook/store';
+import { userOrAutoTitleFromSpecifier, sortStoriesV7 } from '@storybook/preview-api';
 import { normalizeStoryPath } from '@storybook/core-common';
 import { logger } from '@storybook/node-logger';
 import { getStorySortParameter, NoMetaError } from '@storybook/csf-tools';

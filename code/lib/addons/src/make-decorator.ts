@@ -1,8 +1,8 @@
 import type { Addon_StoryWrapper, Addon_LegacyStoryFn, Addon_StoryContext } from '@storybook/types';
 
-type MakeDecoratorResult = (...args: any) => any;
+export type MakeDecoratorResult = (...args: any) => any;
 
-interface MakeDecoratorOptions {
+export interface MakeDecoratorOptions {
   name: string;
   parameterName: string;
   skipIfNoParametersOrOptions?: boolean;
