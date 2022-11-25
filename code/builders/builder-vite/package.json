@@ -2,7 +2,7 @@
   "name": "@storybook/builder-vite",
   "version": "7.0.0-alpha.54",
   "description": "A plugin to run and build Storybooks with Vite",
-  "homepage": "https://github.com/storybookjs/storybook/tree/main/code/lib/builder-vite/#readme",
+  "homepage": "https://github.com/storybookjs/storybook/tree/main/code/builders/builder-vite/#readme",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },
