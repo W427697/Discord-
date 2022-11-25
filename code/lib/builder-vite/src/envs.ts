@@ -1,5 +1,5 @@
 import { stringifyEnvs } from '@storybook/core-common';
-import type { UserConfig, UserConfig as ViteConfig } from 'vite';
+import type { UserConfig as ViteConfig } from 'vite';
 import type { Builder_EnvsRaw } from '@storybook/types';
 import type { ExtendedOptions } from './types';
 
@@ -19,7 +19,7 @@ const allowedEnvVariables = [
  * Customized version of stringifyProcessEnvs from @storybook/core-common which
  * uses import.meta.env instead of process.env and checks for allowed variables.
  */
-export function stringifyProcessEnvs(raw: Builder_EnvsRaw, envPrefix: UserConfig['envPrefix']) {
+export function stringifyProcessEnvs(raw: Builder_EnvsRaw, envPrefix: ViteConfig['envPrefix']) {
   const updatedRaw: Builder_EnvsRaw = {};
   const envs = Object.entries(raw).reduce((acc: Builder_EnvsRaw, [key, value]) => {
     // Only add allowed values OR values from array OR string started with allowed prefixes
