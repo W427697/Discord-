@@ -217,6 +217,7 @@ jobs:
           name: Restore Yarn cache
           keys:
             - build-yarn-2-cache-v4--{{ checksum "code/yarn.lock" }}--{{ checksum "scripts/yarn.lock" }}
+            - build-yarn-2-cache-v4--
       - run:
           name: Compile
           command: |
