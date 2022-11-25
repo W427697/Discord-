@@ -1,6 +1,6 @@
 import type { ComponentType, FC, ReactNode } from 'react';
 import React, { Component, Children } from 'react';
-import { type State, ActiveTabs } from '@storybook/api';
+import { type State, ActiveTabs } from '@storybook/manager-api';
 import { styled } from '@storybook/theming';
 
 import { TabButton } from '@storybook/components';

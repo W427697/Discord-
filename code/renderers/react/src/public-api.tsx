@@ -1,5 +1,5 @@
 /* eslint-disable prefer-destructuring */
-import { start } from '@storybook/core-client';
+import { start } from '@storybook/preview-api';
 import type { Addon_ClientStoryApi, Addon_Loadable } from '@storybook/types';
 
 import { render, renderToCanvas } from './render';

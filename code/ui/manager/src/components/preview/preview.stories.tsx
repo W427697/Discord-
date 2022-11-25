@@ -1,8 +1,8 @@
 import React from 'react';
 
 import { parsePath, createPath } from 'history';
-import type { Combo, StoryEntry } from '@storybook/api';
-import { Provider as ManagerProvider, Consumer } from '@storybook/api';
+import type { Combo, StoryEntry } from '@storybook/manager-api';
+import { Provider as ManagerProvider, Consumer } from '@storybook/manager-api';
 import { Location, BaseLocationProvider } from '@storybook/router';
 
 import { ThemeProvider, ensure as ensureTheme, themes } from '@storybook/theming';

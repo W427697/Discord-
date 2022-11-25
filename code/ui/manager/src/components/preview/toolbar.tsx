@@ -12,7 +12,7 @@ import {
   type State,
   merge,
   type LeafEntry,
-} from '@storybook/api';
+} from '@storybook/manager-api';
 import { addons, type Addon, types } from '@storybook/addons';
 
 import { Location, type RenderData } from '@storybook/router';

@@ -4,7 +4,7 @@ import global from 'global';
 
 import { dedent } from 'ts-dedent';
 import type { Store_RenderContext } from '@storybook/types';
-import { simulatePageLoad, simulateDOMContentLoaded } from '@storybook/preview-web';
+import { simulatePageLoad, simulateDOMContentLoaded } from '@storybook/preview-api';
 import type { StoryFn, Args, ArgTypes } from './public-types';
 import type { FetchStoryHtmlType, ServerRenderer } from './types';
 

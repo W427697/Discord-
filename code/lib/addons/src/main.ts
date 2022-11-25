@@ -2,7 +2,7 @@ import global from 'global';
 
 import type { Channel } from '@storybook/channels';
 import { SET_CONFIG } from '@storybook/core-events';
-import type { API } from '@storybook/api';
+import type { API } from '@storybook/manager-api';
 import type {
   Addon_Collection,
   Addon_Config,

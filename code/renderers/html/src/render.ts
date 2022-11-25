@@ -3,7 +3,7 @@
 import global from 'global';
 
 import { dedent } from 'ts-dedent';
-import { simulatePageLoad, simulateDOMContentLoaded } from '@storybook/preview-web';
+import { simulatePageLoad, simulateDOMContentLoaded } from '@storybook/preview-api';
 import type { Store_RenderContext, ArgsStoryFn } from '@storybook/types';
 import type { HtmlRenderer } from './types';
 
