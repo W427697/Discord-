@@ -1,14 +1,15 @@
-import { command } from 'execa';
-import { logger } from '../publish';
+import { execaCommand } from '../../utils/exec';
+
+export const logger = console;
 
 export async function commitAllToGit(cwd: string) {
   try {
     logger.log(`💪 Committing everything to the repository`);
 
-    await command('git add .', { cwd });
+    await execaCommand('git add .', { cwd });
 
-    const currentCommitSHA = await command('git rev-parse HEAD');
-    await command(
+    const currentCommitSHA = await execaCommand('git rev-parse HEAD');
+    await execaCommand(
       `git commit -m "Update examples - ${new Date().toDateString()} - ${currentCommitSHA.stdout
         .toString()
         .slice(0, 12)}"`,

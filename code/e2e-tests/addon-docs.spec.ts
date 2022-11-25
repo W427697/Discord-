@@ -40,4 +40,29 @@ test.describe('addon-docs', () => {
       await expect(text).not.toMatch(/^\(args\) => /);
     }
   });
+
+  test('should not run autoplay stories without parameter', async ({ page }) => {
+    const sbPage = new SbPage(page);
+    await sbPage.navigateToStory('addons/docs/docspage/autoplay', 'docs');
+
+    const root = sbPage.previewRoot();
+    const autoplayPre = root.locator('#story--addons-docs-docspage-autoplay--autoplay pre');
+    await expect(autoplayPre).toHaveText('Play has run');
+
+    const noAutoplayPre = root.locator('#story--addons-docs-docspage-autoplay--no-autoplay pre');
+    await expect(noAutoplayPre).toHaveText('Play has not run');
+  });
+
+  test('should order entries correctly', async ({ page }) => {
+    const sbPage = new SbPage(page);
+    await sbPage.navigateToStory('addons/docs/docspage/basic', 'docs');
+
+    // The `<Primary>` block should render the "Basic" story, and the `<Stories/>` block should
+    // render the "Another" story
+    const root = sbPage.previewRoot();
+    const stories = root.locator('.sbdocs-h3');
+
+    await expect(await stories.count()).toBe(1);
+    await expect(stories.first()).toHaveText('Another');
+  });
 });

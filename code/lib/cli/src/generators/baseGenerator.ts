@@ -1,3 +1,4 @@
+import path from 'path';
 import fse from 'fs-extra';
 import { dedent } from 'ts-dedent';
 import type { NpmOptions } from '../NpmOptions';
@@ -192,9 +193,11 @@ export async function baseGenerator(
 
   await configureMain({
     framework: { name: frameworkInclude, options: options.framework || {} },
+    docs: { docsPage: true },
     addons: pnp ? addons.map(wrapForPnp) : addons,
     extensions,
     commonJs,
+    ...(staticDir ? { staticDirs: [path.join('..', staticDir)] } : null),
     ...extraMain,
     ...(type !== 'framework'
       ? {
@@ -235,7 +238,6 @@ export async function baseGenerator(
   if (addScripts) {
     packageManager.addStorybookCommandInScripts({
       port: 6006,
-      staticFolder: staticDir,
     });
   }
 

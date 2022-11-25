@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-outline",
-  "version": "7.0.0-alpha.47",
+  "version": "7.0.0-alpha.53",
   "description": "Outline all elements with CSS to help with layout placement and alignment",
   "keywords": [
     "storybook-addons",
@@ -39,8 +39,8 @@
       "types": "./dist/manager.d.ts"
     },
     "./preview": {
-      "require": "./dist/preset/preview.js",
-      "import": "./dist/preset/preview.mjs",
+      "require": "./dist/preview.js",
+      "import": "./dist/preview.mjs",
       "types": "./dist/preview.d.ts"
     },
     "./register": {
@@ -53,6 +53,19 @@
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
+  "typesVersions": {
+    "*": {
+      "*": [
+        "dist/index.d.ts"
+      ],
+      "manager": [
+        "dist/manager.d.ts"
+      ],
+      "preview": [
+        "dist/preview.d.ts"
+      ]
+    }
+  },
   "files": [
     "dist/**/*",
     "README.md",
@@ -64,12 +77,13 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/addons": "7.0.0-alpha.47",
-    "@storybook/api": "7.0.0-alpha.47",
-    "@storybook/client-logger": "7.0.0-alpha.47",
-    "@storybook/components": "7.0.0-alpha.47",
-    "@storybook/core-events": "7.0.0-alpha.47",
-    "@storybook/types": "7.0.0-alpha.47",
+    "@storybook/addons": "7.0.0-alpha.53",
+    "@storybook/client-logger": "7.0.0-alpha.53",
+    "@storybook/components": "7.0.0-alpha.53",
+    "@storybook/core-events": "7.0.0-alpha.53",
+    "@storybook/manager-api": "7.0.0-alpha.53",
+    "@storybook/preview-api": "7.0.0-alpha.53",
+    "@storybook/types": "7.0.0-alpha.53",
     "global": "^4.4.0",
     "ts-dedent": "^2.0.0"
   },
@@ -95,10 +109,10 @@
     "entries": [
       "./src/index.ts",
       "./src/manager.tsx",
-      "./src/preset/preview.tsx"
+      "./src/preview.tsx"
     ]
   },
-  "gitHead": "1c706a4a778831e012343c905f86225fa71491a7",
+  "gitHead": "fd1cf81615a5ddac3369e7bb567a1a43081fdc23",
   "storybook": {
     "displayName": "Outline",
     "unsupportedFrameworks": [

@@ -39,9 +39,13 @@
     - [MDX2 upgrade](#mdx2-upgrade)
     - [Dropped source loader / storiesOf static snippets](#dropped-source-loader--storiesof-static-snippets)
     - [Dropped addon-docs manual configuration](#dropped-addon-docs-manual-configuration)
+    - [Autoplay in docs](#autoplay-in-docs)
   - [7.0 Deprecations](#70-deprecations)
     - [`Story` type deprecated](#story-type-deprecated)
     - [`ComponentStory`, `ComponentStoryObj`, `ComponentStoryFn` and `ComponentMeta` types are deprecated](#componentstory-componentstoryobj-componentstoryfn-and-componentmeta-types-are-deprecated)
+    - [Renamed `renderToDOM` to `renderToCanvas`](#renamed-rendertodom-to-rendertocanvas)
+    - [Renamed `XFramework` to `XRenderer`](#renamed-xframework-to-xrenderer)
+    - [Renamed `DecoratorFn` to `Decorator`](#renamed-decoratorfn-to-decorator)
 - [From version 6.4.x to 6.5.0](#from-version-64x-to-650)
   - [Vue 3 upgrade](#vue-3-upgrade)
   - [React18 new root API](#react18-new-root-api)
@@ -360,7 +364,7 @@ Each addon is imported into the manager as an ESM module that's bundled separate
 
 SB6.x framework packages shipped binaries called `start-storybook` and `build-storybook`.
 
-In SB7.0, we've removed these binaries and replaced them with new commands in Storybook's CLI: `sb dev` and `sb build`. These commands will look for the `framework` field in your `.storybook/main.js` config--[which is now required](#framework-field-mandatory)--and use that to determine how to start/build your storybook. The benefit of this change is that it is now possible to install multiple frameworks in a project without having to worry about hoisting issues.
+In SB7.0, we've removed these binaries and replaced them with new commands in Storybook's CLI: `storybook dev` and `storybook build`. These commands will look for the `framework` field in your `.storybook/main.js` config--[which is now required](#framework-field-mandatory)--and use that to determine how to start/build your storybook. The benefit of this change is that it is now possible to install multiple frameworks in a project without having to worry about hoisting issues.
 
 A typical storybook project includes two scripts in your projects `package.json`:
 
@@ -463,8 +467,8 @@ module.exports = {
   framework: {
     name: '@storybook/react-webpack5',
     options: { fastRefresh: true },
-  }
-}
+  },
+};
 ```
 
 #### Framework standalone build moved
@@ -657,11 +661,23 @@ You can configure Docs Page in `main.js`:
 ```js
 module.exports = {
   docs: {
-    docsPage: true, // set to false to disable docs page entirely
+    docsPage: 'automatic', // see below for alternatives
     defaultName: 'Docs', // set to change the name of generated docs entries
   },
 };
 ```
+
+If you are migrating from 6.x your `docs.docsPage` option will have been set to `'automatic'`, which has the effect of enabling docs page for _every_ CSF file. However, as of 7.0, the new default is `true`, which requires opting into DocsPage per-CSF file, with the `docsPage` **tag** on your component export:
+
+```ts
+export default {
+  component: MyComponent
+  // Tags are a new feature coming in 7.1, that we are using to drive this behaviour.
+  tags: ['docsPage']
+}
+```
+
+You can also set `docsPage: false` to opt-out of docs page entirely.
 
 You can change the default template in the same way as in 6.x, using the `docs.page` parameter.
 
@@ -705,6 +721,8 @@ export const MyDocsContainer = (props) => (
   </MDXProvider>
 );
 ```
+
+**_NOTE_**: due to breaking changes in MDX2, such override will _only_ apply to elements you create via the MDX syntax, not pure HTML -- ie. `## content` not `<h2>content</h2>`.
 
 #### External Docs
 
@@ -754,20 +772,25 @@ module.exports = {
       use: [
         {
           loader: require.resolve('@storybook/source-loader'),
-          options: {} /* your sourceLoaderOptions here */
+          options: {} /* your sourceLoaderOptions here */,
         },
       ],
       enforce: 'pre',
-    })
+    });
     return config;
-  }
-}
+  },
+};
 ```
-
 
 #### Dropped addon-docs manual configuration
 
 Storybook Docs 5.x shipped with instructions for how to manually configure webpack and storybook without the use of Storybook's "presets" feature. Over time, these docs went out of sync. Now in Storybook 7 we have removed support for manual configuration entirely.
+
+#### Autoplay in docs
+
+Running play functions in docs is generally tricky, as they can steal focus and cause the window to scroll. Consequently, we've disabled play functions in docs by default.
+
+If your story depends on a play function to render correctly, _and_ you are confident the function autoplaying won't mess up your docs, you can set `parameters.docs.autoplay = true` to have it auto play.
 
 ### 7.0 Deprecations
 
@@ -816,6 +839,73 @@ export const CSF3Story: StoryObj<ButtonProps> = { args: { label: 'Label' } };
 
 export const CSF2Story: StoryFn<ButtonProps> = (args) => <Button {...args} />;
 CSF2Story.args = { label: 'Label' };
+```
+
+#### Renamed `renderToDOM` to `renderToCanvas`
+
+The "rendering" function that renderers (ex-frameworks) must export (`renderToDOM`) has been renamed to `renderToCanvas` to acknowledge that some consumers of frameworks/the preview do not work with DOM elements.
+
+#### Renamed `XFramework` to `XRenderer`
+
+In 6.x you could import XFramework types:
+
+```ts
+import type { ReactFramework } from '@storybook/react';
+import type { VueFramework } from '@storybook/vue';
+import type { SvelteFramework } from '@storybook/svelte';
+
+// etc.
+```
+
+Those are deprecated in 7.0 as they are renamed to:
+
+```ts
+import type { ReactRenderer } from '@storybook/react';
+import type { VueRenderer } from '@storybook/vue';
+import type { SvelteRenderer } from '@storybook/svelte';
+
+// etc.
+```
+
+#### Renamed `DecoratorFn` to `Decorator`
+
+In 6.x you could import the type `DecoratorFn`:
+
+```ts
+import type { DecoratorFn } from '@storybook/react';
+```
+
+This type is deprecated in 7.0, instead you can use the type `Decorator`, which is now available for all renderers:
+
+```ts
+import type { Decorator } from '@storybook/react';
+// or
+import type { Decorator } from '@storybook/vue';
+// or
+import type { Decorator } from '@storybook/svelte';
+// etc.
+```
+
+The type `Decorator` accepts a generic parameter `TArgs`. This can be used like this:
+
+```tsx
+import type { Decorator } from '@storybook/react';
+import { LocaleProvider } from './locale';
+
+const withLocale: Decorator<{ locale: 'en' | 'es' }> = (Story, { args }) => (
+  <LocaleProvider lang={args.locale}>
+    <Story />
+  </LocaleProvider>
+);
+```
+
+If you want to use `Decorator` in a backwards compatible way to `DecoratorFn`, you can use:
+
+```tsx
+import type { Args, Decorator } from '@storybook/react';
+
+// Decorator<Args> behaves the same as DecoratorFn (without generic)
+const withLocale: Decorator<Args> = (Story, { args }) => // args has type { [name: string]: any }
 ```
 
 ## From version 6.4.x to 6.5.0

@@ -16,12 +16,11 @@ import { loadCsf } from '@storybook/csf-tools';
 // the jsx to transpile mdx, for now there will be a flag for that
 // for more complex solutions we can find alone that we need to add '@babel/plugin-transform-react-jsx'
 type BabelParams = {
-  babelOptions?: any;
   mdxBabelOptions?: any;
   configureJSX?: boolean;
 };
-function createBabelOptions({ babelOptions, mdxBabelOptions, configureJSX }: BabelParams) {
-  const babelPlugins = mdxBabelOptions?.plugins || babelOptions?.plugins || [];
+function createBabelOptions({ mdxBabelOptions, configureJSX }: BabelParams) {
+  const babelPlugins = mdxBabelOptions?.plugins || [];
 
   const filteredBabelPlugins = babelPlugins.filter((p: any) => {
     const name = Array.isArray(p) ? p[0] : p;
@@ -40,13 +39,12 @@ function createBabelOptions({ babelOptions, mdxBabelOptions, configureJSX }: Bab
     // don't use the root babelrc by default (users can override this in mdxBabelOptions)
     babelrc: false,
     configFile: false,
-    ...babelOptions,
     ...mdxBabelOptions,
     plugins,
   };
 }
 
-export async function webpack(
+async function webpack(
   webpackConfig: any = {},
   options: Options &
     BabelParams & {
@@ -65,7 +63,6 @@ export async function webpack(
   // it will reuse babel options that are already in use in storybook
   // also, these babel options are chained with other presets.
   const {
-    babelOptions,
     mdxBabelOptions,
     configureJSX = true,
     csfPluginOptions = {},
@@ -100,7 +97,7 @@ export async function webpack(
         use: [
           {
             loader: resolvedBabelLoader,
-            options: createBabelOptions({ babelOptions, mdxBabelOptions, configureJSX }),
+            options: createBabelOptions({ mdxBabelOptions, configureJSX }),
           },
           {
             loader: mdxLoader,
@@ -128,7 +125,7 @@ export async function webpack(
           use: [
             {
               loader: resolvedBabelLoader,
-              options: createBabelOptions({ babelOptions, mdxBabelOptions, configureJSX }),
+              options: createBabelOptions({ mdxBabelOptions, configureJSX }),
             },
             {
               loader: mdxLoader,
@@ -145,7 +142,7 @@ export async function webpack(
           use: [
             {
               loader: resolvedBabelLoader,
-              options: createBabelOptions({ babelOptions, mdxBabelOptions, configureJSX }),
+              options: createBabelOptions({ mdxBabelOptions, configureJSX }),
             },
             {
               loader: mdxLoader,
@@ -160,10 +157,9 @@ export async function webpack(
   return result;
 }
 
-export const storyIndexers = async (indexers: CoreCommon_StoryIndexer[] | null) => {
+const storyIndexers = (indexers: CoreCommon_StoryIndexer[] | null) => {
   const mdxIndexer = async (fileName: string, opts: CoreCommon_IndexerOptions) => {
     let code = (await fs.readFile(fileName, 'utf-8')).toString();
-    // @ts-expect-error (Converted from ts-ignore)
     const { compile } = await import('@storybook/mdx2-csf');
     code = await compile(code, {});
     return loadCsf(code, { ...opts, fileName }).parse();
@@ -172,13 +168,12 @@ export const storyIndexers = async (indexers: CoreCommon_StoryIndexer[] | null) 
     {
       test: /(stories|story)\.mdx$/,
       indexer: mdxIndexer,
-      addDocsTemplate: true,
     },
     ...(indexers || []),
   ];
 };
 
-export const docs = (docsOptions: DocsOptions) => {
+const docs = (docsOptions: DocsOptions) => {
   return {
     ...docsOptions,
     enabled: true,
@@ -186,3 +181,13 @@ export const docs = (docsOptions: DocsOptions) => {
     docsPage: true,
   };
 };
+
+/*
+ * This is a workaround for https://github.com/Swatinem/rollup-plugin-dts/issues/162
+ * something down the dependency chain is using typescript namespaces, which are not supported by rollup-plugin-dts
+ */
+const webpackX = webpack as any;
+const storyIndexersX = storyIndexers as any;
+const docsX = docs as any;
+
+export { webpackX as webpack, storyIndexersX as storyIndexers, docsX as docs };

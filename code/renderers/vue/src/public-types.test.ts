@@ -4,9 +4,9 @@ import type { SetOptional } from 'type-fest';
 import type { Component } from 'vue';
 import type { ExtendedVue } from 'vue/types/vue';
 import { Vue } from 'vue/types/vue';
-import type { DecoratorFn, Meta, StoryObj } from './public-types';
+import type { Decorator, Meta, StoryObj } from './public-types';
 import Button from './__tests__/Button.vue';
-import type { VueFramework } from './types';
+import type { VueRenderer } from './types';
 
 describe('Meta', () => {
   test('Generic parameter of Meta can be a component', () => {
@@ -17,7 +17,7 @@ describe('Meta', () => {
 
     expectTypeOf(meta).toEqualTypeOf<
       ComponentAnnotations<
-        VueFramework,
+        VueRenderer,
         {
           disabled: boolean;
           label: string;
@@ -33,7 +33,7 @@ describe('Meta', () => {
     };
 
     expectTypeOf(meta).toEqualTypeOf<
-      ComponentAnnotations<VueFramework, { disabled: boolean; label: string }>
+      ComponentAnnotations<VueRenderer, { disabled: boolean; label: string }>
     >();
   });
 });
@@ -51,7 +51,7 @@ describe('StoryObj', () => {
     } satisfies Meta<typeof Button>;
 
     type Actual = StoryObj<typeof meta>;
-    type Expected = StoryAnnotations<VueFramework, ButtonProps, SetOptional<ButtonProps, 'label'>>;
+    type Expected = StoryAnnotations<VueRenderer, ButtonProps, SetOptional<ButtonProps, 'label'>>;
     expectTypeOf<Actual>().toEqualTypeOf<Expected>();
   });
 
@@ -59,7 +59,7 @@ describe('StoryObj', () => {
     {
       const meta = { component: Button } satisfies Meta<typeof Button>;
 
-      type Expected = StoryAnnotations<VueFramework, ButtonProps, ButtonProps>;
+      type Expected = StoryAnnotations<VueRenderer, ButtonProps, ButtonProps>;
       expectTypeOf<StoryObj<typeof meta>>().toEqualTypeOf<Expected>();
     }
     {
@@ -70,11 +70,7 @@ describe('StoryObj', () => {
       // @ts-expect-error disabled not provided ❌
       const Basic: StoryObj<typeof meta> = {};
 
-      type Expected = StoryAnnotations<
-        VueFramework,
-        ButtonProps,
-        SetOptional<ButtonProps, 'label'>
-      >;
+      type Expected = StoryAnnotations<VueRenderer, ButtonProps, SetOptional<ButtonProps, 'label'>>;
       expectTypeOf(Basic).toEqualTypeOf<Expected>();
     }
     {
@@ -84,14 +80,14 @@ describe('StoryObj', () => {
         args: { label: 'good' },
       };
 
-      type Expected = StoryAnnotations<VueFramework, ButtonProps, ButtonProps>;
+      type Expected = StoryAnnotations<VueRenderer, ButtonProps, ButtonProps>;
       expectTypeOf(Basic).toEqualTypeOf<Expected>();
     }
   });
 
   test('Component can be used as generic parameter for StoryObj', () => {
     expectTypeOf<StoryObj<typeof Button>>().toEqualTypeOf<
-      StoryAnnotations<VueFramework, ButtonProps>
+      StoryAnnotations<VueRenderer, ButtonProps>
     >();
   });
 });
@@ -121,11 +117,11 @@ describe('Story args can be inferred', () => {
 
     const Basic: StoryObj<typeof meta> = { args: { theme: 'light', label: 'good' } };
 
-    type Expected = StoryAnnotations<VueFramework, Props, SetOptional<Props, 'disabled'>>;
+    type Expected = StoryAnnotations<VueRenderer, Props, SetOptional<Props, 'disabled'>>;
     expectTypeOf(Basic).toEqualTypeOf<Expected>();
   });
 
-  const withDecorator: DecoratorFn<{ decoratorArg: string }> = (
+  const withDecorator: Decorator<{ decoratorArg: string }> = (
     storyFn,
     { args: { decoratorArg } }
   ) =>
@@ -145,14 +141,14 @@ describe('Story args can be inferred', () => {
 
     const Basic: StoryObj<typeof meta> = { args: { decoratorArg: 'title', label: 'good' } };
 
-    type Expected = StoryAnnotations<VueFramework, Props, SetOptional<Props, 'disabled'>>;
+    type Expected = StoryAnnotations<VueRenderer, Props, SetOptional<Props, 'disabled'>>;
     expectTypeOf(Basic).toEqualTypeOf<Expected>();
   });
 
   test('Correct args are inferred when type is widened for multiple decorators', () => {
     type Props = ComponentProps<typeof Button> & { decoratorArg: string; decoratorArg2: string };
 
-    const secondDecorator: DecoratorFn<{ decoratorArg2: string }> = (
+    const secondDecorator: Decorator<{ decoratorArg2: string }> = (
       storyFn,
       { args: { decoratorArg2 } }
     ) => {
@@ -172,7 +168,7 @@ describe('Story args can be inferred', () => {
       args: { decoratorArg: '', decoratorArg2: '', label: 'good' },
     };
 
-    type Expected = StoryAnnotations<VueFramework, Props, SetOptional<Props, 'disabled'>>;
+    type Expected = StoryAnnotations<VueRenderer, Props, SetOptional<Props, 'disabled'>>;
     expectTypeOf(Basic).toEqualTypeOf<Expected>();
   });
 });

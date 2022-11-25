@@ -6,7 +6,7 @@ import { Button } from './Button';
 const meta = {
   title: 'Example/Button',
   component: Button,
-  // More on argTypes: https://storybook.js.org/docs/react/api/argtypes
+  tags: ['docsPage'],
   argTypes: {
     backgroundColor: { control: 'color' },
   },
@@ -15,9 +15,8 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-// More on component templates: https://storybook.js.org/docs/react/writing-stories/introduction#using-args
+// More on writing stories with args: https://storybook.js.org/docs/7.0/react/writing-stories/args
 export const Primary: Story = {
-  // More on args: https://storybook.js.org/docs/react/writing-stories/args
   args: {
     primary: true,
     label: 'Button',

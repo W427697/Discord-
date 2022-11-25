@@ -2,7 +2,6 @@
 
 import type {
   AnnotatedStoryFn,
-  AnyFramework,
   Args,
   ArgsEnhancer,
   ArgsFromMeta,
@@ -24,11 +23,11 @@ import type {
   LegacyStoryAnnotationsOrFn,
   LegacyStoryFn,
   LoaderFunction,
-  Parameters as ParametersBase,
+  Parameters,
   PartialStoryFn,
   PlayFunction,
   PlayFunctionContext,
-  ProjectAnnotations,
+  Renderer,
   SBArrayType,
   SBEnumType,
   SBIntersectionType,
@@ -52,6 +51,7 @@ import type {
   StoryIdentifier,
   StoryKind,
   StoryName,
+  StrictArgs,
   StrictArgTypes,
   StrictGlobalTypes,
   StrictInputType,
@@ -62,7 +62,6 @@ import type { Addon_OptionsParameter } from './addons';
 
 export type {
   AnnotatedStoryFn,
-  AnyFramework,
   Args,
   ArgsEnhancer,
   ArgsFromMeta,
@@ -76,6 +75,7 @@ export type {
   Conditional,
   DecoratorApplicator,
   DecoratorFunction,
+  Renderer,
   Globals,
   GlobalTypes,
   IncludeExcludeOptions,
@@ -84,10 +84,10 @@ export type {
   LegacyStoryAnnotationsOrFn,
   LegacyStoryFn,
   LoaderFunction,
+  Parameters,
   PartialStoryFn,
   PlayFunction,
   PlayFunctionContext,
-  ProjectAnnotations,
   SBArrayType,
   SBEnumType,
   SBIntersectionType,
@@ -111,6 +111,7 @@ export type {
   StoryIdentifier,
   StoryKind,
   StoryName,
+  StrictArgs,
   StrictArgTypes,
   StrictGlobalTypes,
   StrictInputType,
@@ -137,13 +138,15 @@ export type ViewMode = ViewModeBase | 'story' | 'info' | 'settings' | string | u
 
 type Layout = 'centered' | 'fullscreen' | 'padded' | 'none';
 
-export interface Parameters extends ParametersBase {
-  fileName?: string;
+export interface StorybookParameters {
   options?: Addon_OptionsParameter;
   /** The layout property defines basic styles added to the preview body where the story is rendered. If you pass 'none', no styles are applied. */
   layout?: Layout;
-  docsOnly?: boolean;
-  [key: string]: any;
+}
+
+export interface StorybookInternalParameters extends StorybookParameters {
+  fileName?: string;
+  docsOnly?: true;
 }
 
 export type Path = string;

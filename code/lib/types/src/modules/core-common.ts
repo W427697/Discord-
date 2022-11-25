@@ -15,6 +15,10 @@ import type { Parameters, Tag } from './csf';
 export type BuilderName = 'webpack5' | '@storybook/builder-webpack5' | string;
 export type RendererName = string;
 
+interface ServerChannel {
+  emit(type: string, args?: any): void;
+}
+
 export interface CoreConfig {
   builder?:
     | BuilderName
@@ -188,6 +192,7 @@ export interface Builder<Config, BuilderStats extends Stats = Stats> {
     startTime: ReturnType<typeof process.hrtime>;
     router: Router;
     server: Server;
+    channel: ServerChannel;
   }) => Promise<void | {
     stats?: BuilderStats;
     totalTime: ReturnType<typeof process.hrtime>;
@@ -220,7 +225,6 @@ export interface CoreCommon_StoryIndex {
 export interface CoreCommon_StoryIndexer {
   test: RegExp;
   indexer: (fileName: string, options: CoreCommon_IndexerOptions) => Promise<CoreCommon_StoryIndex>;
-  addDocsTemplate?: boolean;
 }
 
 /**
@@ -296,9 +300,10 @@ export type DocsOptions = {
    */
   defaultName?: string;
   /**
-   * Should we generate a docs entry per CSF file?
+   * Should we generate a docs entry per CSF file with the `docsPage` tag?
+   * Set to 'automatic' to generate an entry irrespective of tag.
    */
-  docsPage?: boolean;
+  docsPage?: boolean | 'automatic';
   /**
    * Only show doc entries in the side bar (usually set with the `--docs` CLI flag)
    */
@@ -462,11 +467,13 @@ export interface CoreCommon_ResolvedAddonPreset {
   name: string;
 }
 
+export type PreviewAnnotation = string | { bare: string; absolute: string };
+
 export interface CoreCommon_ResolvedAddonVirtual {
   type: 'virtual';
   name: string;
   managerEntries?: string[];
-  previewAnnotations?: string[];
+  previewAnnotations?: PreviewAnnotation[];
   presets?: (string | { name: string; options?: any })[];
 }
 
