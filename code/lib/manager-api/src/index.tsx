@@ -64,7 +64,7 @@ import * as url from './modules/url';
 import * as version from './modules/versions';
 // eslint-disable-next-line import/no-cycle
 import * as globals from './modules/globals';
-import { eventToShortcut, shortcutMatchesShortcut, shortcutToHumanString } from './lib/shortcut';
+import { controlOrMetaKey, eventToShortcut, shortcutMatchesShortcut, shortcutToHumanString } from './lib/shortcut';
 
 const { ActiveTabs } = layout;
 
@@ -482,7 +482,7 @@ export function useArgTypes(): API_ArgTypes {
   return (current?.type === 'story' && current.argTypes) || {};
 }
 
-export { eventToShortcut, shortcutToHumanString, shortcutMatchesShortcut };
+export { controlOrMetaKey, eventToShortcut, shortcutToHumanString, shortcutMatchesShortcut };
 
 export { addons } from './lib/addons';
 
