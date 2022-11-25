@@ -136,6 +136,10 @@ If you author your framework in TypeScript (recommended), you should export the 
 
 Test it in a fresh project using a Storybook set up as close as possible to your framework. For example, for `@storybook/nextjs`, which uses React and Webpack5, start with a project that uses `@storybook/react` and `@storybook/builder-webpack5`. Follow the installation instructions from your README and ensure everything works as expected. Remember to test the various versions, configs, and options for the libraries you’re supporting.
 
+### 6. Let us know!
+
+Once it's fully tested and released, please let us know about your framework by either announcing it in the `#showcase` channel of the [Storybook Discord](https://discord.gg/storybook) or tweeting it and mentioning `@storybookjs`. It's our hope that well-made community frameworks can eventually move into the Storybook codebase and be considered "official" support.
+
 ## Thank you
 
 We deeply appreciate your help in making Storybook work for more developers and the libraries in which they build. If you have any suggestions to improve this document, please use the “Edit” link below.
