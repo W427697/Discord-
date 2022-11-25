@@ -12,8 +12,8 @@ import {
 } from '@storybook/theming';
 import { useArgs } from '@storybook/addons';
 import { Symbols } from '@storybook/components';
-import type { PreviewWeb } from '@storybook/preview-web';
-import { DocsContext } from '@storybook/preview-web';
+import type { PreviewWeb } from '@storybook/preview-api';
+import { DocsContext } from '@storybook/preview-api';
 import type { ReactRenderer } from '@storybook/react';
 import type { Channel } from '@storybook/channels';
 

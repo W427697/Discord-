@@ -181,7 +181,7 @@ Note that `mapping` does not have to be exhaustive. If the arg value is not a pr
 <details>
 <summary>Using args in addons</summary>
 
-If you are [writing an addon](../addons/writing-addons.md) that wants to read or update args, use the `useArgs` hook exported by `@storybook/api`:
+If you are [writing an addon](../addons/writing-addons.md) that wants to read or update args, use the `useArgs` hook exported by `@storybook/manager-api`:
 
 <!-- prettier-ignore-start -->
 
