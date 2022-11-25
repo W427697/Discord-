@@ -70,6 +70,11 @@ export const create: Task['run'] = async (
 
   const mainConfig = await readMainConfig({ cwd });
 
+  // Enable or disable Storybook features
+  mainConfig.setFieldValue(['features'], {
+    interactionsDebugger: true,
+  });
+
   mainConfig.setFieldValue(['core', 'disableTelemetry'], true);
   if (template.expected.builder === '@storybook/builder-vite') setSandboxViteFinal(mainConfig);
   await writeConfig(mainConfig);
