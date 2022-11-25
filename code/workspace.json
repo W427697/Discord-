@@ -108,17 +108,17 @@
     },
     "@storybook/builder-manager": {
       "implicitDependencies": [],
-      "root": "lib/builder-manager",
+      "root": "builders/builder-manager",
       "type": "library"
     },
     "@storybook/builder-vite": {
       "implicitDependencies": [],
-      "root": "lib/builder-vite",
+      "root": "builders/builder-vite",
       "type": "library"
     },
     "@storybook/builder-webpack5": {
       "implicitDependencies": [],
-      "root": "lib/builder-webpack5",
+      "root": "builders/builder-webpack5",
       "type": "library"
     },
     "@storybook/channel-postmessage": {

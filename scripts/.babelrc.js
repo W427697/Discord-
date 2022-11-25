@@ -109,7 +109,7 @@ module.exports = {
         '../code/lib/core',
         '../code/lib/core-common',
         '../code/lib/core-server',
-        '../code/lib/builder-webpack5',
+        '../code/builders/builder-webpack5',
         '../code/lib/codemod',
         '../code/addons/storyshots',
         '../code/**/src/server/**',
