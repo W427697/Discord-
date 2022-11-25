@@ -11,6 +11,7 @@ import {
   useTheme,
 } from '@storybook/theming';
 import { useArgs } from '@storybook/addons';
+import { Symbols } from '@storybook/components';
 import type { PreviewWeb } from '@storybook/preview-api';
 import { DocsContext } from '@storybook/preview-api';
 import type { ReactRenderer } from '@storybook/react';
@@ -142,6 +143,16 @@ export const decorators = [
     ) : (
       <Story />
     ),
+  /**
+   * This decorator adds Symbols that the sidebar icons references.
+   * Any sidebar story that uses the icons must set the parameter withSymbols: true .
+   */
+  (Story, { parameters: { withSymbols } }) => (
+    <>
+      {withSymbols && <Symbols icons={['folder', 'component', 'document', 'bookmarkhollow']} />}
+      <Story />
+    </>
+  ),
   /**
    * This decorator renders the stories side-by-side, stacked or default based on the theme switcher in the toolbar
    */
