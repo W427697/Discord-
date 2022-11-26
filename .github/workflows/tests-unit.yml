@@ -27,17 +27,14 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node_version }}
-      - name: Get yarn cache directory path
-        id: yarn-cache-dir-path
-        run: echo "::set-output name=dir::$(yarn config get globalFolder)"
       - uses: actions/cache@v3
         with:
           path: |
-            ${{ steps.yarn-cache-dir-path.outputs.dir }}
+            code/**/node_modules
+            scripts/**/node_modules
           key: yarn-${{ runner.os }}-${{ hashFiles('code/yarn.lock') }}-${{ hashFiles('scripts/yarn.lock') }}-v1
           restore-keys: |
             yarn-${{ runner.os }}-
-            yarn-
       - name: install and compile
         run: yarn task --task compile --start-from=auto --no-link
       - name: test
