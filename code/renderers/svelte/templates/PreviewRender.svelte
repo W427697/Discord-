@@ -15,9 +15,10 @@
     props = {},
     /** @type {{[string]: () => {}}} Attach svelte event handlers */
     on,
-    Wrapper,
-    WrapperData = {},
+    decorator,
+    decoratorProps = {},
   } = storyFn();
+  console.log(storyFn());
 
   // reactive, re-render on storyFn change
   $: ({ Component, props = {}, on, Wrapper, WrapperData = {} } = storyFn());
@@ -42,10 +43,4 @@
   }
 </script>
 
-<SlotDecorator
-  decorator={Wrapper}
-  decoratorProps={WrapperData}
-  component={Component}
-  {props}
-  on={events}
-/>
+<SlotDecorator {decorator} {decoratorProps} component={Component} {props} on={events} />

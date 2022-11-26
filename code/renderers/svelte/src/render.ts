@@ -39,6 +39,7 @@ export function renderToCanvas(
   }
 
   if (!existingComponent || forceRemount) {
+    console.log('LOG: now rendering');
     const createdComponent = new PreviewRender({
       target: canvasElement,
       props: {

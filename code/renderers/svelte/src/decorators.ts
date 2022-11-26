@@ -1,6 +1,6 @@
 import type { DecoratorFunction, StoryContext, LegacyStoryFn } from '@storybook/types';
 import { sanitizeStoryContextUpdate } from '@storybook/preview-api';
-import SlotDecorator from '../templates/SlotDecorator.svelte';
+import { SvelteComponent } from 'svelte';
 import type { SvelteRenderer } from './types';
 
 /**
@@ -8,6 +8,7 @@ import type { SvelteRenderer } from './types';
  * @param obj Object
  */
 function isSvelteComponent(obj: any) {
+  return Object.prototype.isPrototypeOf.call(obj, SvelteComponent);
   return obj.prototype && obj.prototype.$destroy !== undefined;
 }
 
@@ -33,7 +34,9 @@ function unWrap(obj: any) {
  */
 function prepareStory(context: StoryContext<SvelteRenderer>, story: any, originalStory?: any) {
   let result = unWrap(story);
-  if (isSvelteComponent(result)) {
+  console.log('LOG: result', result);
+  if (!result.Component) {
+    console.log('LOG: isSvelteComponent');
     // wrap the component
     result = {
       Component: result,
@@ -41,24 +44,18 @@ function prepareStory(context: StoryContext<SvelteRenderer>, story: any, origina
   }
 
   if (originalStory) {
+    console.log('LOG: originalStory', originalStory);
     // inject the new story as a wrapper of the original story
     result = {
-      Component: SlotDecorator,
-      props: {
-        decorator: unWrap(result.Component),
-        decoratorProps: result.props,
-        component: unWrap(originalStory.Component),
-        props: originalStory.props,
-        on: originalStory.on,
-      },
+      Component: unWrap(originalStory.Component),
+      props: originalStory.props,
+      on: originalStory.on,
+      decorator: unWrap(result.Component),
+      decoratorProps: result.props,
     };
   } else {
-    let cpn = result.Component;
-    if (!cpn) {
-      // if the component is not defined, get it the context
-      cpn = context.component;
-    }
-    result.Component = unWrap(cpn);
+    console.log('LOG: NOT originalStory', result, context.component);
+    result.Component = unWrap(result.Component || context.component);
   }
   return result;
 }
