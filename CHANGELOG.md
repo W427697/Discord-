@@ -1,3 +1,9 @@
+## 6.5.14-alpha.1 (November 27, 2022)
+
+#### Maintenance
+
+-   Core: Patch preview-web and refs to support React Native [#19975](https://github.com/storybooks/storybook/pull/19975)
+
 ## 6.5.14-alpha.0 (November 19, 2022)
 
 #### Bug Fixes
