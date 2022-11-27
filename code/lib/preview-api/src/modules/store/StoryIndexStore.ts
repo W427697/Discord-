@@ -3,10 +3,13 @@ import type {
   IndexEntry,
   Path,
   StoryIndex,
-  PreparedStorySpecifier,
   StoryId,
+  StoryName,
+  ComponentTitle,
 } from '@storybook/types';
 import memoize from 'memoizerific';
+
+export type StorySpecifier = StoryId | { name: StoryName; title: ComponentTitle } | '*';
 
 const getImportPathMap = memoize(1)((entries: StoryIndex['entries']) =>
   Object.values(entries).reduce((acc, entry) => {
@@ -22,7 +25,7 @@ export class StoryIndexStore {
     this.entries = entries;
   }
 
-  entryFromSpecifier(specifier: PreparedStorySpecifier) {
+  entryFromSpecifier(specifier: StorySpecifier) {
     const entries = Object.values(this.entries);
     if (specifier === '*') {
       // '*' means select the first entry. If there is none, we have no selection.

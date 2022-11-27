@@ -24,7 +24,6 @@ import type {
   Globals,
   ModuleImportFn,
   StoryIndex,
-  PreparedStorySpecifier,
   ProjectAnnotations,
   StoryId,
   ViewMode,
@@ -39,6 +38,7 @@ import { TemplateDocsRender } from './render/TemplateDocsRender';
 import { StandaloneDocsRender } from './render/StandaloneDocsRender';
 import type { Selection, SelectionStore } from './SelectionStore';
 import type { View } from './View';
+import type { StorySpecifier } from '../store/StoryIndexStore';
 
 const globalWindow = globalThis;
 
@@ -447,7 +447,7 @@ export class PreviewWithSelection<TFramework extends Renderer> extends Preview<T
     this.channel.emit(STORY_MISSING);
   }
 
-  renderStoryLoadingException(storySpecifier: PreparedStorySpecifier, err: Error) {
+  renderStoryLoadingException(storySpecifier: StorySpecifier, err: Error) {
     // logger.error(`Unable to load story '${storySpecifier}':`);
     logger.error(err);
     this.view.showErrorDisplay(err);

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/naming-convention */
 import type { SynchronousPromise } from 'synchronous-promise';
 import type { Renderer, ProjectAnnotations as CsfProjectAnnotations } from '@storybook/csf';
 
@@ -21,10 +20,6 @@ import type {
   StrictGlobalTypes,
 } from './csf';
 
-// Internal to preview, exported until preview package consolidation
-export type Store_PromiseLike<T> = Promise<T> | SynchronousPromise<T>;
-export type PreparedStorySpecifier = StoryId | { name: StoryName; title: ComponentTitle } | '*';
-
 // Store Types
 export interface WebRenderer extends Renderer {
   canvasElement: HTMLElement;
@@ -32,7 +27,7 @@ export interface WebRenderer extends Renderer {
 
 export type ModuleExport = any;
 export type ModuleExports = Record<string, ModuleExport>;
-export type ModuleImportFn = (path: Path) => Store_PromiseLike<ModuleExports>;
+export type ModuleImportFn = (path: Path) => Promise<ModuleExports>;
 
 type MaybePromise<T> = Promise<T> | T;
 export type TeardownRenderToCanvas = () => MaybePromise<void>;
