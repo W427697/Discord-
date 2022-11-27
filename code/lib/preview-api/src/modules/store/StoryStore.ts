@@ -12,7 +12,6 @@ import type {
   ModuleExports,
   ModuleImportFn,
   NormalizedProjectAnnotations,
-  Store_PromiseLike,
   PreparedStory,
   StoryIndex,
   StoryIndexV3,
@@ -96,7 +95,7 @@ export class StoryStore<TRenderer extends Renderer> {
     storyIndex?: StoryIndex;
     importFn: ModuleImportFn;
     cache?: boolean;
-  }): Store_PromiseLike<void> {
+  }): Promise<void> {
     this.storyIndex = new StoryIndexStore(storyIndex);
     this.importFn = importFn;
 
@@ -133,7 +132,7 @@ export class StoryStore<TRenderer extends Renderer> {
   }
 
   // To load a single CSF file to service a story we need to look up the importPath in the index
-  loadCSFFileByStoryId(storyId: StoryId): Store_PromiseLike<CSFFile<TRenderer>> {
+  loadCSFFileByStoryId(storyId: StoryId): Promise<CSFFile<TRenderer>> {
     if (!this.storyIndex || !this.importFn)
       throw new Error(`loadCSFFileByStoryId called before initialization`);
 
@@ -144,7 +143,7 @@ export class StoryStore<TRenderer extends Renderer> {
     );
   }
 
-  loadAllCSFFiles(): Store_PromiseLike<StoryStore<TRenderer>['cachedCSFFiles']> {
+  loadAllCSFFiles(): Promise<StoryStore<TRenderer>['cachedCSFFiles']> {
     if (!this.storyIndex) throw new Error(`loadAllCSFFiles called before initialization`);
 
     const importPaths: Record<Path, StoryId> = {};
@@ -167,7 +166,7 @@ export class StoryStore<TRenderer extends Renderer> {
     );
   }
 
-  cacheAllCSFFiles(): Store_PromiseLike<void> {
+  cacheAllCSFFiles(): Promise<void> {
     return this.initializationPromise.then(() =>
       this.loadAllCSFFiles().then((csfFiles) => {
         this.cachedCSFFiles = csfFiles;
