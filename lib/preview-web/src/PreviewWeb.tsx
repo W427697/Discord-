@@ -58,11 +58,11 @@ export class PreviewWeb<TFramework extends AnyFramework> extends Preview<TFramew
 
   currentRender: Render<TFramework>;
 
-  constructor() {
+  constructor(urlStore: UrlStore = new UrlStore(), webview: WebView = new WebView()) {
     super();
 
-    this.view = new WebView();
-    this.urlStore = new UrlStore();
+    this.view = webview;
+    this.urlStore = urlStore;
 
     // Add deprecated APIs for back-compat
     // @ts-ignore

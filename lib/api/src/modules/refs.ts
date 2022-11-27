@@ -75,7 +75,7 @@ const findFilename = /(\/((?:[^\/]+?)\.[^\/]+?)|\/)$/;
 
 export const getSourceType = (source: string, refId: string) => {
   const { origin: localOrigin, pathname: localPathname } = location;
-  const { origin: sourceOrigin, pathname: sourcePathname } = new URL(source);
+  const { origin: sourceOrigin, pathname: sourcePathname } = new URL(source || location.origin);
 
   const localFull = `${localOrigin + localPathname}`.replace(findFilename, '');
   const sourceFull = `${sourceOrigin + sourcePathname}`.replace(findFilename, '');
