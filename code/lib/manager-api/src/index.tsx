@@ -483,3 +483,8 @@ export function useArgTypes(): ArgTypes {
 }
 
 export { eventToShortcut, shortcutToHumanString, shortcutMatchesShortcut };
+
+export { addons } from './lib/addons';
+
+/* deprecated */
+export { mockChannel, types, type Addon, type AddonStore } from './lib/addons';

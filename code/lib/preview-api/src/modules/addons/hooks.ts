@@ -16,8 +16,7 @@ import {
   RESET_STORY_ARGS,
   UPDATE_GLOBALS,
 } from '@storybook/core-events';
-// eslint-disable-next-line import/no-cycle
-import { addons } from './index';
+import { addons } from './main';
 
 interface Hook {
   name: string;
@@ -33,30 +32,32 @@ interface Effect {
 type AbstractFunction = (...args: any[]) => any;
 
 export class HooksContext<TRenderer extends Renderer> {
-  hookListsMap: WeakMap<AbstractFunction, Hook[]>;
+  hookListsMap: WeakMap<AbstractFunction, Hook[]> = undefined as any;
 
-  mountedDecorators: Set<AbstractFunction>;
+  mountedDecorators: Set<AbstractFunction> = undefined as any;
 
-  prevMountedDecorators: Set<AbstractFunction>;
+  prevMountedDecorators: Set<AbstractFunction> = undefined as any;
 
-  currentHooks: Hook[];
+  currentHooks: Hook[] = undefined as any;
 
-  nextHookIndex: number;
+  nextHookIndex: number = undefined as any;
 
-  currentPhase: 'MOUNT' | 'UPDATE' | 'NONE';
+  currentPhase: 'MOUNT' | 'UPDATE' | 'NONE' = undefined as any;
 
-  currentEffects: Effect[];
+  currentEffects: Effect[] = undefined as any;
 
-  prevEffects: Effect[];
+  prevEffects: Effect[] = undefined as any;
 
-  currentDecoratorName: string | null;
+  currentDecoratorName: string | null = undefined as any;
 
-  hasUpdates: boolean;
+  hasUpdates: boolean = undefined as any;
 
-  currentContext: StoryContext<TRenderer> | null;
+  currentContext: StoryContext<TRenderer> | null = undefined as any;
 
   renderListener = (storyId: StoryId) => {
-    if (storyId !== this.currentContext.id) return;
+    if (storyId !== this.currentContext?.id) {
+      return;
+    }
     this.triggerEffects();
     this.currentContext = null;
     this.removeRenderListeners();

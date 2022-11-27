@@ -15,13 +15,11 @@ import {
 } from '@storybook/core-events';
 import { logger, deprecate } from '@storybook/client-logger';
 import type { Channel } from '@storybook/channels';
-import { addons } from '@storybook/addons';
 import type {
   Renderer,
   Args,
   Globals,
   ModuleImportFn,
-  Store_PromiseLike,
   RenderToCanvas,
   PreparedStory,
   StoryIndex,
@@ -30,6 +28,7 @@ import type {
   StoryRenderOptions,
   SetGlobalsPayload,
 } from '@storybook/types';
+import { addons } from '../addons';
 import { StoryStore } from '../../store';
 
 import { StoryRender } from './render/StoryRender';
@@ -107,7 +106,7 @@ export class Preview<TFramework extends Renderer> {
 
   getProjectAnnotationsOrRenderError(
     getProjectAnnotations: () => MaybePromise<ProjectAnnotations<TFramework>>
-  ): Store_PromiseLike<ProjectAnnotations<TFramework>> {
+  ): Promise<ProjectAnnotations<TFramework>> {
     return SynchronousPromise.resolve()
       .then(getProjectAnnotations)
       .then((projectAnnotations) => {
@@ -140,7 +139,7 @@ export class Preview<TFramework extends Renderer> {
 
     this.setInitialGlobals();
 
-    let storyIndexPromise: Store_PromiseLike<StoryIndex>;
+    let storyIndexPromise: Promise<StoryIndex>;
     if (global.FEATURES?.storyStoreV7) {
       storyIndexPromise = this.getStoryIndexFromServer();
     } else {

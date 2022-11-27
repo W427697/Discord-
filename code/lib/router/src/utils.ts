@@ -117,7 +117,7 @@ const QS_OPTIONS: IStringifyOptions = {
   format: 'RFC1738', // encode spaces using the + sign
   serializeDate: (date: Date) => `!date(${date.toISOString()})`,
 };
-export const buildArgsParam = (initialArgs: Args, args: Args): string => {
+export const buildArgsParam = (initialArgs: Args | undefined, args: Args): string => {
   const update = deepDiff(initialArgs, args);
   if (!update || update === DEEPLY_EQUAL) return '';
 
@@ -144,7 +144,7 @@ interface Query {
 }
 
 export const queryFromString = memoize(1000)(
-  (s: string): Query => qs.parse(s, { ignoreQueryPrefix: true })
+  (s?: string): Query => (s !== undefined ? qs.parse(s, { ignoreQueryPrefix: true }) : {})
 );
 export const queryFromLocation = (location: Partial<Location>) => queryFromString(location.search);
 export const stringifyQuery = (query: Query) =>
