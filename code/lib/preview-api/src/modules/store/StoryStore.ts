@@ -27,7 +27,7 @@ import mapValues from 'lodash/mapValues';
 import pick from 'lodash/pick';
 import { SynchronousPromise } from 'synchronous-promise';
 
-import { HooksContext } from '@storybook/addons';
+import { HooksContext } from '../addons';
 import { StoryIndexStore } from './StoryIndexStore';
 import { ArgsStore } from './ArgsStore';
 import { GlobalsStore } from './GlobalsStore';

@@ -10,7 +10,7 @@ export enum Keys {
   '@storybook/router' = '__STORYBOOKROUTER__',
   '@storybook/theming' = '__STORYBOOKTHEMING__',
   '@storybook/manager-api' = '__STORYBOOKAPI__',
-  '@storybook/preview-api' = '__STORYBOOKADDONS__',
+  '@storybook/addons' = '__STORYBOOKADDONS__',
   '@storybook/client-logger' = '__STORYBOOKCLIENTLOGGER__',
 }
 

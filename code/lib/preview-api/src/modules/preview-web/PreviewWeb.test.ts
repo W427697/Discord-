@@ -31,8 +31,8 @@ import {
   UPDATE_STORY_ARGS,
 } from '@storybook/core-events';
 import { logger } from '@storybook/client-logger';
-import { addons, mockChannel as createMockChannel } from '@storybook/addons';
 import type { Renderer, Store_ModuleImportFn, ProjectAnnotations } from '@storybook/types';
+import { addons, mockChannel as createMockChannel } from '../addons';
 
 import { PreviewWeb } from './PreviewWeb';
 import {

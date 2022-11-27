@@ -5,9 +5,8 @@
 import React from 'react';
 import global from 'global';
 import type { Store_RenderContext } from '@storybook/types';
-import { addons, mockChannel as createMockChannel } from '@storybook/addons';
-
 import { expect } from '@jest/globals';
+import { addons, mockChannel as createMockChannel } from '../addons';
 
 import { PreviewWeb } from './PreviewWeb';
 import { WebView } from './WebView';
