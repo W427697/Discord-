@@ -1,4 +1,3 @@
-import type { SynchronousPromise } from 'synchronous-promise';
 import type { Renderer, ProjectAnnotations as CsfProjectAnnotations } from '@storybook/csf';
 
 import type {
