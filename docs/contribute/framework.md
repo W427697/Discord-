@@ -18,7 +18,7 @@ Remember, the goal is to make Storybook behave—out-of-the-box—as similarly a
 
 The library or libraries your framework supports may have different major versions available. Carefully consider which versions of each library your framework will support. You will need to account for the changes within those different versions or split your framework into different versions/packages itself to support each library version. To help ongoing maintenance, please consider adding integration tests for the various library versions your framework supports.
 
-### 3. Write the README
+### 3. Write the documentation
 
 Before writing any code, we advise you to write up a helpful README. It should, at minimum, contain installation instructions and a list of available features. Use the [README for `@storybook/nextjs`](https://github.com/storybookjs/storybook/blob/next/code/frameworks/nextjs/README.md) as a template. By writing the documentation first, it becomes a guide for your other work.
 
@@ -140,6 +140,11 @@ Test it in a fresh project using a Storybook set up as close as possible to your
 
 Once it's fully tested and released, please let us know about your framework by either announcing it in the `#showcase` channel of the [Storybook Discord](https://discord.gg/storybook) or tweeting it and mentioning `@storybookjs`. It's our hope that well-made community frameworks can eventually move into the Storybook codebase and be considered "official" support.
 
-## Thank you
+## Other ways to contribute
 
-We deeply appreciate your help in making Storybook work for more developers and the libraries in which they build. If you have any suggestions to improve this document, please use the “Edit” link below.
+Learn about other ways you can contribute to Storybook.
+
+- [**Overview**](./how-to-contribute.md): General guidance
+- [**Code**](./code.md): Features, bug fixes, dependency updates
+- [**Docs**](./documentation-updates.md): Typos, clarifications
+- [**Addons**](./../addons/introduction.md): Build an addon and share it with the community
