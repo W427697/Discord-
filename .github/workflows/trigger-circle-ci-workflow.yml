@@ -42,7 +42,7 @@ jobs:
             -H "Content-Type: application/json" \
             -H "Circle-Token: $CIRCLE_CI_TOKEN" \
             -d '{
-                  "branch": "$BRANCH",
+                  "branch": "'"$BRANCH"'",
                   "parameters": {
                     "workflow": "ci"
                   }
@@ -61,7 +61,7 @@ jobs:
             -H "Content-Type: application/json" \
             -H "Circle-Token: $CIRCLE_CI_TOKEN" \
             -d '{
-                  "branch": "$BRANCH",
+                  "branch": "'"$BRANCH"'",
                   "parameters": {
                     "workflow": "pr"
                   }
@@ -80,7 +80,7 @@ jobs:
             -H "Content-Type: application/json" \
             -H "Circle-Token: $CIRCLE_CI_TOKEN" \
             -d '{
-                  "branch": "$BRANCH",
+                  "branch": "'"$BRANCH"'",
                   "parameters": {
                     "workflow": "merged"
                   }
@@ -99,7 +99,7 @@ jobs:
             -H "Content-Type: application/json" \
             -H "Circle-Token: $CIRCLE_CI_TOKEN" \
             -d '{
-                  "branch": "$BRANCH",
+                  "branch": "'"$BRANCH"'",
                   "parameters": {
                     "workflow": "daily"
                   }
