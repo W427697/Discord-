@@ -25,10 +25,10 @@ export const withMeasure = (StoryFn: StoryFunction<Renderer>, context: StoryCont
       });
     };
 
-    document.addEventListener('mousemove', onMouseMove);
+    document.addEventListener('pointermove', onMouseMove);
 
     return () => {
-      document.removeEventListener('mousemove', onMouseMove);
+      document.removeEventListener('pointermove', onMouseMove);
     };
   }, []);
 
@@ -47,7 +47,7 @@ export const withMeasure = (StoryFn: StoryFunction<Renderer>, context: StoryCont
     };
 
     if (measureEnabled) {
-      document.addEventListener('mouseover', onMouseOver);
+      document.addEventListener('pointerover', onMouseOver);
       init();
       window.addEventListener('resize', onResize);
       // Draw the element below the pointer when first enabled
