@@ -1,7 +1,7 @@
 /* eslint-disable storybook/use-storybook-testing-library */
 // @TODO: use addon-interactions and remove the rule disable above
 import React from 'react';
-import type { ComponentEntry, StoriesHash } from '@storybook/api';
+import type { ComponentEntry, StoriesHash } from '@storybook/manager-api';
 import { screen } from '@testing-library/dom';
 
 import { Tree } from './Tree';
@@ -12,7 +12,7 @@ export default {
   component: Tree,
   title: 'Sidebar/Tree',
   excludeStories: /.*Data$/,
-  parameters: { layout: 'fullscreen' },
+  parameters: { layout: 'fullscreen', withSymbols: true },
   decorators: [(storyFn: any) => <div style={{ maxWidth: '230px' }}>{storyFn()}</div>],
 };
 

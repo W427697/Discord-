@@ -12,8 +12,10 @@ import {
   type State,
   merge,
   type LeafEntry,
-} from '@storybook/api';
-import { addons, type Addon, types } from '@storybook/addons';
+  addons,
+  type Addon,
+  types,
+} from '@storybook/manager-api';
 
 import { Location, type RenderData } from '@storybook/router';
 import { zoomTool } from './tools/zoom';

@@ -2,7 +2,6 @@ export const allTemplates = {
   'cra/default-js': {
     name: 'Create React App (Javascript)',
     script: 'npx create-react-app .',
-    inDevelopment: true,
     expected: {
       // TODO: change this to @storybook/cra once that package is created
       framework: '@storybook/react-webpack5',
@@ -142,7 +141,6 @@ export const allTemplates = {
     name: 'Angular CLI (latest)',
     script:
       'npx -p @angular/cli ng new angular-latest --directory . --routing=true --minimal=true --style=scss --strict --skip-git --skip-install --package-manager=yarn',
-    skipTasks: ['test-runner'],
     expected: {
       framework: '@storybook/angular',
       renderer: '@storybook/angular',
@@ -263,8 +261,7 @@ type TemplateKey = keyof typeof allTemplates;
 export const ci: TemplateKey[] = ['cra/default-ts', 'react-vite/default-ts'];
 export const pr: TemplateKey[] = [
   ...ci,
-  // TODO: swap with 'angular-cli/default-ts' once angular 15 fully works with Storybook
-  'angular-cli/14-ts',
+  'angular-cli/default-ts',
   'vue3-vite/default-ts',
   'vue-cli/vue2-default-js',
   'lit-vite/default-ts',
@@ -276,7 +273,7 @@ export const merged: TemplateKey[] = [
   ...pr,
   'react-webpack/18-ts',
   'react-webpack/17-ts',
-  'angular-cli/default-ts',
+  'angular-cli/14-ts',
   'angular-cli/13-ts',
   'preact-webpack5/default-ts',
   'html-webpack/default',

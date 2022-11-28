@@ -1,6 +1,6 @@
 /* eslint-disable prefer-destructuring */
 import type { Addon_ClientStoryApi, Addon_Loadable } from '@storybook/types';
-import { start } from '@storybook/core-client';
+import { start } from '@storybook/preview-api';
 
 import { renderToCanvas } from './render';
 import type { WebComponentsRenderer } from './types';

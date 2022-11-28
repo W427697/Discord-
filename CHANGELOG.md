@@ -1,3 +1,45 @@
+## 7.0.0-alpha.54 (November 25, 2022)
+
+#### Bug Fixes
+
+-   Vite: Support environment variables in viteFinal define config [#19905](https://github.com/storybooks/storybook/pull/19905)
+
+#### Maintenance
+
+-   Build: split `lib/addons` into manager & preview part, move code to `manager-api` [#19952](https://github.com/storybooks/storybook/pull/19952)
+-   TypeScript: Satisfy stricter compilerOption rules [#19953](https://github.com/storybooks/storybook/pull/19953)
+-   API: Rename `api` to `manager-api` [#19944](https://github.com/storybooks/storybook/pull/19944)
+-   API: Add `preview-api` package [#19749](https://github.com/storybooks/storybook/pull/19749)
+
+#### Build
+
+-   Build: Improve security in Github actions [#19949](https://github.com/storybooks/storybook/pull/19949)
+
+#### Dependencies
+
+-   NextJS: Add Next13 peer dependency [#19932](https://github.com/storybooks/storybook/pull/19932)
+
+
+## 7.0.0-alpha.53 (November 24, 2022)
+
+#### Bug Fixes
+
+-   Angular: Fix "__webpack_require__.nmd is not a function" in v15 [#19937](https://github.com/storybooks/storybook/pull/19937)
+-   Controls: Exclude `{ table: { disable: true } }` from panel count [#19877](https://github.com/storybooks/storybook/pull/19877)
+
+#### Maintenance
+
+-   Core: Prebundle the preview [#19718](https://github.com/storybooks/storybook/pull/19718)
+-   Builder-vite: Build with tsup [#19895](https://github.com/storybooks/storybook/pull/19895)
+-   Components: Fix missing export [#19923](https://github.com/storybooks/storybook/pull/19923)
+
+#### Build
+
+-   Remove the fix we added when enhanced-resolve was broken [#19942](https://github.com/storybooks/storybook/pull/19942)
+-   Fix CI which was broken by enhanced-resolve [#19936](https://github.com/storybooks/storybook/pull/19936)
+-   Drop `inDevelopment` from `cra/default-js` [#19934](https://github.com/storybooks/storybook/pull/19934)
+-   Fix execa import in get-report-message [#19913](https://github.com/storybooks/storybook/pull/19913)
+
 ## 7.0.0-alpha.52 (November 21, 2022)
 
 #### Bug Fixes

@@ -1,6 +1,6 @@
 {
   "name": "@storybook/root",
-  "version": "7.0.0-alpha.52",
+  "version": "7.0.0-alpha.54",
   "private": true,
   "description": "Storybook is an open source tool for developing UI components in isolation for React, Vue and Angular. It makes building stunning UIs organized and efficient.",
   "keywords": [
@@ -81,7 +81,7 @@
     "storybook:blocks:chromatic": "STORYBOOK_BLOCKS_ONLY=true yarn storybook:ui:chromatic --project-token=${CHROMATIC_TOKEN_STORYBOOK_BLOCKS:-MISSING_PROJECT_TOKEN}",
     "storybook:ui": "NODE_OPTIONS=\"--preserve-symlinks --preserve-symlinks-main\" ./lib/cli/bin/index.js dev --port 6006 --config-dir ./ui/.storybook --no-manager-cache",
     "storybook:ui:build": "NODE_OPTIONS=\"--preserve-symlinks --preserve-symlinks-main\" ./lib/cli/bin/index.js build --config-dir ./ui/.storybook",
-    "storybook:ui:chromatic": "yarn chromatic --build-script-name storybook:ui:build --storybook-config-dir ./ui/.storybook --storybook-base-dir ./code/ui --project-token=${CHROMATIC_TOKEN_STORYBOOK_UI:-MISSING_PROJECT_TOKEN} --only-changed --exit-zero-on-changes --exit-once-uploaded",
+    "storybook:ui:chromatic": "yarn chromatic --build-script-name storybook:ui:build --storybook-config-dir ./ui/.storybook --storybook-base-dir ./code --project-token=${CHROMATIC_TOKEN_STORYBOOK_UI:-MISSING_PROJECT_TOKEN} --only-changed --exit-zero-on-changes --exit-once-uploaded",
     "task": "cd .. && yarn task",
     "test": "NODE_OPTIONS=--max_old_space_size=4096 jest --config ./jest.config.js",
     "test:cli": "npm --prefix lib/cli run test"
@@ -196,6 +196,7 @@
     "@storybook/jest": "^0.0.10",
     "@storybook/linter-config": "^2.5.0",
     "@storybook/manager": "workspace:*",
+    "@storybook/manager-api": "workspace:*",
     "@storybook/nextjs": "workspace:*",
     "@storybook/node-logger": "workspace:*",
     "@storybook/postinstall": "workspace:*",
@@ -209,6 +210,8 @@
     "@storybook/preset-vue-webpack": "workspace:*",
     "@storybook/preset-vue3-webpack": "workspace:*",
     "@storybook/preset-web-components-webpack": "workspace:*",
+    "@storybook/preview": "workspace:*",
+    "@storybook/preview-api": "workspace:*",
     "@storybook/preview-web": "workspace:*",
     "@storybook/react": "workspace:*",
     "@storybook/react-vite": "workspace:*",
