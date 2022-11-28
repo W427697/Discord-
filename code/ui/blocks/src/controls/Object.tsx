@@ -1,5 +1,5 @@
 import global from 'global';
-import cloneDeep from 'lodash/cloneDeep';
+import { cloneDeep } from 'lodash-es';
 import type { ComponentProps, SyntheticEvent, FC, FocusEvent } from 'react';
 import React, { useCallback, useMemo, useState, useEffect, useRef } from 'react';
 import { styled, useTheme, type Theme } from '@storybook/theming';

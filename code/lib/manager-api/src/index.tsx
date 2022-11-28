@@ -9,7 +9,7 @@ import React, {
   useMemo,
   useRef,
 } from 'react';
-import mergeWith from 'lodash/mergeWith';
+import { mergeWith } from 'lodash-es';
 import type {
   Args,
   ArgTypes,

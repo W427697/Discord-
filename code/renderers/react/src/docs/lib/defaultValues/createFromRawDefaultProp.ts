@@ -1,7 +1,5 @@
 /* eslint-disable @typescript-eslint/ban-types */
-import isPlainObject from 'lodash/isPlainObject';
-import isFunction from 'lodash/isFunction';
-import isString from 'lodash/isString';
+import { isPlainObject, isFunction, isString } from 'lodash-es';
 import reactElementToJSXString from 'react-element-to-jsx-string';
 import {
   type PropDef,

@@ -1,4 +1,4 @@
-import debounce from 'lodash/debounce';
+import { debounce } from 'lodash-es';
 import { useCallback, useEffect, useMemo, useRef } from 'react';
 import store from 'store2';
 

@@ -1,5 +1,4 @@
-import mergeWith from 'lodash/mergeWith';
-import isEqual from 'lodash/isEqual';
+import { mergeWith, isEqual } from 'lodash-es';
 
 import { logger } from '@storybook/client-logger';
 

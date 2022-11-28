@@ -1,4 +1,4 @@
-import mapValues from 'lodash/mapValues';
+import { mapValues } from 'lodash-es';
 import { logger } from '@storybook/client-logger';
 import type { Renderer, ArgTypesEnhancer, SBEnumType, StrictInputType } from '@storybook/types';
 import { filterArgTypes } from './filterArgTypes';

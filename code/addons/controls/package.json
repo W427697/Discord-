@@ -76,7 +76,6 @@
     "@storybook/preview-api": "7.0.0-alpha.54",
     "@storybook/theming": "7.0.0-alpha.54",
     "@storybook/types": "7.0.0-alpha.54",
-    "lodash": "^4.17.21",
     "ts-dedent": "^2.0.0"
   },
   "peerDependencies": {

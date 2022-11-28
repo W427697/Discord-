@@ -4,7 +4,7 @@
 
 import { jest, jest as mockJest, it, describe, beforeEach, afterEach, expect } from '@jest/globals';
 import global from 'global';
-import merge from 'lodash/merge';
+import { merge } from 'lodash-es';
 import {
   CONFIG_ERROR,
   CURRENT_STORY_WAS_SET,

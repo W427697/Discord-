@@ -73,7 +73,6 @@
     "@storybook/types": "7.0.0-alpha.54",
     "axe-core": "^4.2.0",
     "global": "^4.4.0",
-    "lodash": "^4.17.21",
     "react-sizeme": "^3.0.1"
   },
   "devDependencies": {
