@@ -1,3 +1,5 @@
+#!/usr/bin/env node -r ../../../scripts/node_modules/esbuild-register
+
 /* eslint-disable no-console */
 import { readFile, writeFile } from 'fs-extra';
 import { dedent } from 'ts-dedent';

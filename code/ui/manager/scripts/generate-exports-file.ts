@@ -6,12 +6,13 @@ import path from 'path';
 import { dedent } from 'ts-dedent';
 import { exec } from '../../../../scripts/utils/exec';
 
+import { values } from '../src/globals/runtime';
+
 const removeDefault = (input: string) => input !== 'default';
 
 const location = path.join(__dirname, '..', 'src', 'globals', 'exports.ts');
 
 const run = async () => {
-  const { values } = await import('../src/globals/runtime');
   const data = Object.entries(values).reduce<Record<string, string[]>>((acc, [key, value]) => {
     acc[key] = Object.keys(value).filter(removeDefault);
     return acc;

@@ -3,6 +3,8 @@
   "version": "7.0.0-alpha.16",
   "private": true,
   "scripts": {
+    "docs:prettier:check": "cd ../docs && prettier --check ./snippets",
+    "docs:prettier:write": "cd ../docs && prettier --write ./snippets",
     "get-report-message": "ts-node ./get-report-message.ts",
     "get-template": "ts-node ./get-template.ts",
     "lint": "yarn lint:js && yarn lint:md",
@@ -10,9 +12,7 @@
     "lint:js:cmd": "cross-env NODE_ENV=production eslint --cache --cache-location=../.cache/eslint --ext .js,.jsx,.json,.html,.ts,.tsx,.mjs --report-unused-disable-directives",
     "lint:package": "sort-package-json",
     "task": "ts-node ./task.ts",
-    "test": "jest --config ./jest.config.js",
-    "docs:prettier:write": "cd ../docs && prettier --write ./snippets",
-    "docs:prettier:check": "cd ../docs && prettier --check ./snippets"
+    "test": "jest --config ./jest.config.js"
   },
   "husky": {
     "hooks": {
@@ -113,6 +113,7 @@
     "enzyme-adapter-react-16": "^1.15.5",
     "esbuild": "^0.14.48",
     "esbuild-plugin-alias": "^0.2.1",
+    "esbuild-register": "^3.3.3",
     "eslint": "^8.27.0",
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-react": "^7.31.10",

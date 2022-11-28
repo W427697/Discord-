@@ -3270,6 +3270,7 @@ __metadata:
     enzyme-adapter-react-16: ^1.15.5
     esbuild: ^0.14.48
     esbuild-plugin-alias: ^0.2.1
+    esbuild-register: ^3.3.3
     eslint: ^8.27.0
     eslint-plugin-import: ^2.26.0
     eslint-plugin-react: ^7.31.10
@@ -7685,6 +7686,17 @@ __metadata:
   version: 0.2.1
   resolution: "esbuild-plugin-alias@npm:0.2.1"
   checksum: a67bc6bc2744fc8637f7321f00c1f00e4fae86c182662421738ebfabf3ad344967b9c667185c6c34d9edd5b289807d34bfdceef94620e94e0a45683534af69e0
+  languageName: node
+  linkType: hard
+
+"esbuild-register@npm:^3.3.3":
+  version: 3.4.1
+  resolution: "esbuild-register@npm:3.4.1"
+  dependencies:
+    debug: ^4.3.4
+  peerDependencies:
+    esbuild: ">=0.12 <1"
+  checksum: 6364c96f83fc4720d907d6342605f5891986c2a30fbc0a249047195ea5b02c0f7e4e698aa262875b37088f44ca741331d35c026d2606778d114fe082d560957d
   languageName: node
   linkType: hard
 
