@@ -11,8 +11,6 @@ import viteReact from '@vitejs/plugin-react';
 import externalGlobals from 'rollup-plugin-external-globals';
 import { isPreservingSymlinks, getFrameworkName } from '@storybook/core-common';
 import { globals } from '@storybook/preview/globals';
-// eslint-disable-next-line import/no-extraneous-dependencies
-import dedent from 'ts-dedent';
 import {
   codeGeneratorPlugin,
   injectExportOrderPlugin,
@@ -47,17 +45,6 @@ export async function commonConfig(
   // If the user needs to configure the `build` they need to do so in the viteFinal function in main.js.
   const { config: { build: buildProperty = undefined, ...userConfig } = {} } =
     (await loadConfigFromFile(configEnv)) ?? {};
-
-  if (buildProperty) {
-    console.warn(
-      dedent`
-        The 'build' property in your vite config is not supported by storybook. Please use the viteFinal function in main.js to configure the build.
-        This is because storybook needs to configure the build for you.
-
-        Often the user's (your) app, needs 'build' config that is different from storybook.
-      `
-    );
-  }
 
   const sbConfig: InlineConfig = {
     configFile: false,
