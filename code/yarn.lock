@@ -5874,7 +5874,6 @@ __metadata:
   resolution: "@storybook/builder-vite@workspace:lib/builder-vite"
   dependencies:
     "@joshwooding/vite-plugin-react-docgen-typescript": 0.0.5
-    "@storybook/addons": 7.0.0-alpha.54
     "@storybook/client-api": 7.0.0-alpha.54
     "@storybook/client-logger": 7.0.0-alpha.54
     "@storybook/core-common": 7.0.0-alpha.54
@@ -6997,9 +6996,6 @@ __metadata:
     "@joshwooding/vite-plugin-react-docgen-typescript": ^0.0.5
     "@rollup/pluginutils": ^4.2.0
     "@storybook/builder-vite": 7.0.0-alpha.54
-    "@storybook/channel-postmessage": 7.0.0-alpha.54
-    "@storybook/channel-websocket": 7.0.0-alpha.54
-    "@storybook/preview-api": 7.0.0-alpha.54
     "@storybook/react": 7.0.0-alpha.54
     "@types/node": ^16.0.0
     "@vitejs/plugin-react": ^2.0.0
@@ -7448,10 +7444,7 @@ __metadata:
   dependencies:
     "@storybook/addon-svelte-csf": ^2.0.0
     "@storybook/builder-vite": 7.0.0-alpha.54
-    "@storybook/channel-postmessage": 7.0.0-alpha.54
-    "@storybook/channel-websocket": 7.0.0-alpha.54
     "@storybook/node-logger": 7.0.0-alpha.54
-    "@storybook/preview-api": 7.0.0-alpha.54
     "@storybook/svelte": 7.0.0-alpha.54
     "@sveltejs/vite-plugin-svelte": ^1.0.0
     "@types/node": ^16.0.0
@@ -7604,11 +7597,8 @@ __metadata:
   resolution: "@storybook/vue-vite@workspace:frameworks/vue-vite"
   dependencies:
     "@storybook/builder-vite": 7.0.0-alpha.54
-    "@storybook/channel-postmessage": 7.0.0-alpha.54
-    "@storybook/channel-websocket": 7.0.0-alpha.54
     "@storybook/core-common": 7.0.0-alpha.54
     "@storybook/core-server": 7.0.0-alpha.54
-    "@storybook/preview-api": 7.0.0-alpha.54
     "@storybook/vue": 7.0.0-alpha.54
     magic-string: ^0.26.1
     typescript: ^4.9.3
@@ -7650,10 +7640,7 @@ __metadata:
   resolution: "@storybook/vue3-vite@workspace:frameworks/vue3-vite"
   dependencies:
     "@storybook/builder-vite": 7.0.0-alpha.54
-    "@storybook/channel-postmessage": 7.0.0-alpha.54
-    "@storybook/channel-websocket": 7.0.0-alpha.54
     "@storybook/core-server": 7.0.0-alpha.54
-    "@storybook/preview-api": 7.0.0-alpha.54
     "@storybook/vue3": 7.0.0-alpha.54
     "@types/node": ^16.0.0
     "@vitejs/plugin-vue": ^3.0.0
@@ -7747,11 +7734,8 @@ __metadata:
   resolution: "@storybook/web-components-vite@workspace:frameworks/web-components-vite"
   dependencies:
     "@storybook/builder-vite": 7.0.0-alpha.54
-    "@storybook/channel-postmessage": 7.0.0-alpha.54
-    "@storybook/channel-websocket": 7.0.0-alpha.54
     "@storybook/core-server": 7.0.0-alpha.54
     "@storybook/node-logger": 7.0.0-alpha.54
-    "@storybook/preview-api": 7.0.0-alpha.54
     "@storybook/web-components": 7.0.0-alpha.54
     "@types/node": ^16.0.0
     magic-string: ^0.26.1

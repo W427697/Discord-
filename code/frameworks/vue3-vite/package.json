@@ -52,10 +52,7 @@
   },
   "dependencies": {
     "@storybook/builder-vite": "7.0.0-alpha.54",
-    "@storybook/channel-postmessage": "7.0.0-alpha.54",
-    "@storybook/channel-websocket": "7.0.0-alpha.54",
     "@storybook/core-server": "7.0.0-alpha.54",
-    "@storybook/preview-api": "7.0.0-alpha.54",
     "@storybook/vue3": "7.0.0-alpha.54",
     "@vitejs/plugin-vue": "^3.0.0",
     "magic-string": "^0.26.1",
