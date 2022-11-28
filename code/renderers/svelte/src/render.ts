@@ -1,7 +1,11 @@
 /* eslint-disable no-param-reassign */
 import type { Store_RenderContext, ArgsStoryFn } from '@storybook/types';
 import type { SvelteComponentTyped } from 'svelte';
-
+// ! DO NOT change this PreviewRender import to a relative path, it will break it.
+// ! A relative import will be compiled at build time, and Svelte will be unable to
+// ! render the component together with the user's Svelte components
+// ! importing from @storybook/svelte will make sure that it is compiled at runtime
+// ! with the same bundle as the user's Svelte components
 // eslint-disable-next-line import/no-extraneous-dependencies
 import PreviewRender from '@storybook/svelte/templates/PreviewRender.svelte';
 
@@ -39,7 +43,6 @@ export function renderToCanvas(
   }
 
   if (!existingComponent || forceRemount) {
-    console.log('LOG: now rendering');
     const createdComponent = new PreviewRender({
       target: canvasElement,
       props: {

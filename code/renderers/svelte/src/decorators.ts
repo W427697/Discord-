@@ -1,75 +1,83 @@
 import type { DecoratorFunction, StoryContext, LegacyStoryFn } from '@storybook/types';
 import { sanitizeStoryContextUpdate } from '@storybook/preview-api';
-import { SvelteComponent } from 'svelte';
+// ! DO NOT change this SlotDecorator import to a relative path, it will break it.
+// ! A relative import will be compiled at build time, and Svelte will be unable to
+// ! render the component together with the user's Svelte components
+// ! importing from @storybook/svelte will make sure that it is compiled at runtime
+// ! with the same bundle as the user's Svelte components
+// eslint-disable-next-line import/no-extraneous-dependencies
+import SlotDecorator from '@storybook/svelte/templates/SlotDecorator.svelte';
 import type { SvelteRenderer } from './types';
-
-/**
- * Check if an object is a svelte component.
- * @param obj Object
- */
-function isSvelteComponent(obj: any) {
-  return Object.prototype.isPrototypeOf.call(obj, SvelteComponent);
-  return obj.prototype && obj.prototype.$destroy !== undefined;
-}
 
 /**
  * Handle component loaded with esm or cjs.
  * @param obj object
  */
-function unWrap(obj: any) {
-  return obj && obj.default ? obj.default : obj;
+function unWrap<T>(obj: T): T {
+  return (obj as any)?.default || obj;
 }
 
 /**
- * Transform a story to be compatible with the PreviewRender component.
+ * Prepare a story to be compatible with the PreviewRender component.
  *
- * - `() => MyComponent` is translated to `() => ({ Component: MyComponent })`
- * - `() => ({})` is translated to `() => ({ Component: <from context.component> })`
- * - A decorator component is wrapped with SlotDecorator. The decorated component is inject through
- * a <slot/>
+ * - `() => ({ Component: MyComponent, props: ...})` is already prepared, kept as-is
+ * - `() => MyComponent` is transformed to `() => ({ Component: MyComponent })`
+ * - `() => ({})` is transformed to component from context with `() => ({ Component: context.component })`
+ * - A decorator component is wrapped with SlotDecorator, injecting the decorated component in <slot />
  *
  * @param context StoryContext
  * @param story  the current story
- * @param originalStory the story decorated by the current story
+ * @param innerStory the story decorated by the current story
  */
-function prepareStory(context: StoryContext<SvelteRenderer>, story: any, originalStory?: any) {
-  let result = unWrap(story);
-  console.log('LOG: result', result);
-  if (!result.Component) {
-    console.log('LOG: isSvelteComponent');
-    // wrap the component
-    result = {
-      Component: result,
+function prepareStory(
+  context: StoryContext<SvelteRenderer>,
+  rawStory: SvelteRenderer['storyResult'],
+  rawInnerStory?: SvelteRenderer['storyResult']
+) {
+  const story = unWrap(rawStory);
+  const innerStory = rawInnerStory && unWrap(rawInnerStory);
+
+  let preparedStory;
+
+  if (!story || Object.keys(story).length === 0) {
+    // story is empty or an empty object, use the component from the context
+    preparedStory = {
+      Component: context.component,
+    };
+  } else if (story.Component) {
+    // the story is already prepared
+    preparedStory = story;
+  } else {
+    // we must assume that the story is a Svelte component
+    preparedStory = {
+      Component: story,
     };
   }
 
-  if (originalStory) {
-    console.log('LOG: originalStory', originalStory);
-    // inject the new story as a wrapper of the original story
-    result = {
-      Component: unWrap(originalStory.Component),
-      props: originalStory.props,
-      on: originalStory.on,
-      decorator: unWrap(result.Component),
-      decoratorProps: result.props,
+  if (innerStory) {
+    // render a SlotDecorator with innerStory as it's regular component,
+    // and the prepared story as the decorating component
+    return {
+      Component: SlotDecorator,
+      props: {
+        // inner stories will already have been prepared, keep as is
+        ...innerStory,
+        decorator: preparedStory,
+      },
     };
-  } else {
-    console.log('LOG: NOT originalStory', result, context.component);
-    result.Component = unWrap(result.Component || context.component);
   }
-  return result;
+
+  return preparedStory;
 }
 
 export function decorateStory(storyFn: any, decorators: any[]) {
   return decorators.reduce(
-    (
-        previousStoryFn: LegacyStoryFn<SvelteRenderer>,
-        decorator: DecoratorFunction<SvelteRenderer>
-      ) =>
+    (decorated: LegacyStoryFn<SvelteRenderer>, decorator: DecoratorFunction<SvelteRenderer>) =>
       (context: StoryContext<SvelteRenderer>) => {
-        let story;
-        const decoratedStory = decorator((update) => {
-          story = previousStoryFn({
+        let story: SvelteRenderer['storyResult'] | undefined;
+
+        const decoratedStory: SvelteRenderer['storyResult'] = decorator((update) => {
+          story = decorated({
             ...context,
             ...sanitizeStoryContextUpdate(update),
           });
@@ -77,10 +85,10 @@ export function decorateStory(storyFn: any, decorators: any[]) {
         }, context);
 
         if (!story) {
-          story = previousStoryFn(context);
+          story = decorated(context);
         }
 
-        if (!decoratedStory || decoratedStory === story) {
+        if (decoratedStory === story) {
           return story;
         }
 
