@@ -1,24 +1,35 @@
 ```ts
-import { Meta, StoryFn } from '@storybook/html';
+// Button.stories.ts
 
-export default {
+import type { Meta, StoryObj } from '@storybook/html';
+
+const meta: Meta = {
   /* 👇 The title prop is optional.
    * See https://storybook.js.org/docs/html/configure/overview#configure-story-loading
    * to learn how to generate automatic titles
    */
   title: 'Button',
-} as Meta;
+};
 
-export const Primary: StoryFn = (): HTMLButtonElement => {
-  const btn = document.createElement('button');
-  btn.innerText = 'Button';
+export default meta;
 
-  btn.className = [
-    'storybook-button',
-    'storybook-button--medium',
-    'storybook-button--primary',
-  ].join(' ');
+/*
+ *👇 Render functions are a framework specific feature to allow you control on how the component renders.
+ * See https://storybook.js.org/docs/7.0/html/api/csf
+ * to learn how to use render functions.
+ */
+export const Primary: Story = {
+  render: () => {
+    const btn = document.createElement('button');
+    btn.innerText = 'Button';
 
-  return btn;
+    btn.className = [
+      'storybook-button',
+      'storybook-button--medium',
+      'storybook-button--primary',
+    ].join(' ');
+
+    return btn;
+  },
 };
 ```

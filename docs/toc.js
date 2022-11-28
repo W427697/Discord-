@@ -1,6 +1,11 @@
 module.exports = {
   toc: [
     {
+      title: '📕 Why Storybook?',
+      pathSegment: 'why-storybook',
+      type: 'link',
+    },
+    {
       title: '🚀 Get started',
       pathSegment: 'get-started',
       type: 'menu',
@@ -180,6 +185,11 @@ module.exports = {
           type: 'link',
         },
         {
+          pathSegment: 'test-runner',
+          title: 'Test runner',
+          type: 'link',
+        },
+        {
           pathSegment: 'visual-testing',
           title: 'Visual tests',
           type: 'link',
@@ -219,6 +229,11 @@ module.exports = {
         {
           pathSegment: 'embed',
           title: 'Embed',
+          type: 'link',
+        },
+        {
+          pathSegment: 'design-integrations',
+          title: 'Design integrations',
           type: 'link',
         },
         {
@@ -348,15 +363,15 @@ module.exports = {
           type: 'link',
         },
         {
+          pathSegment: 'telemetry',
+          title: 'Telemetry',
+          type: 'link',
+        },
+        {
           pathSegment: '',
           title: 'Integration',
           type: 'menu',
           children: [
-            {
-              pathSegment: 'webpack',
-              title: 'Webpack',
-              type: 'link',
-            },
             {
               pathSegment: 'babel',
               title: 'Babel',
@@ -419,6 +434,33 @@ module.exports = {
         {
           pathSegment: 'environment-variables',
           title: 'Environment variables',
+          type: 'link',
+        },
+      ],
+    },
+    {
+      title: '🧰 Builders',
+      pathSegment: 'builders',
+      type: 'menu',
+      children: [
+        {
+          pathSegment: 'overview',
+          title: 'Introduction',
+          type: 'link',
+        },
+        {
+          pathSegment: 'vite',
+          title: 'Vite',
+          type: 'link',
+        },
+        {
+          pathSegment: 'webpack',
+          title: 'Webpack',
+          type: 'link',
+        },
+        {
+          pathSegment: 'builder-api',
+          title: 'API',
           type: 'link',
         },
       ],

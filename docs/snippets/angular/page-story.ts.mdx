@@ -1,7 +1,9 @@
 ```ts
 // Page.stories.ts
 
-import { Meta, moduleMetadata, Story } from '@storybook/angular';
+import { moduleMetadata } from '@storybook/angular';
+
+import type { Meta, StoryObj } from '@storybook/angular';
 
 import { CommonModule } from '@angular/common';
 
@@ -12,11 +14,11 @@ import { Page } from './page.component';
 //👇 Imports all Header stories
 import * as HeaderStories from './Header.stories';
 
-export default {
+const meta: Meta<Page> = {
   /* 👇 The title prop is optional.
-  * See https://storybook.js.org/docs/angular/configure/overview#configure-story-loading
-  * to learn how to generate automatic titles
-  */
+   * See https://storybook.js.org/docs/7.0/angular/configure/overview#configure-story-loading
+   * to learn how to generate automatic titles
+   */
   title: 'Page',
   component: Page,
   decorators: [
@@ -25,13 +27,12 @@ export default {
       imports: [CommonModule],
     }),
   ],
-} as Meta;
+};
 
-const Template: Story = (args) => ({
-  props: args,
-});
+export default meta;
+type Story = StoryObj<Page>;
 
-export const LoggedIn = {
+export const LoggedIn: Story = {
   args: {
     ...HeaderStories.LoggedIn.args,
   },

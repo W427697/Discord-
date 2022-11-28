@@ -1,9 +1,9 @@
 ```js
-// /my-addon/register.js
+// /my-addon/manager.js
 
 import React from 'react';
 
-import { useParameter } from '@storybook/api';
+import { useParameter } from '@storybook/manager-api';
 
 export const Panel = () => {
   const value = useParameter('parameter-key', 'default value');

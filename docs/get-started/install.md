@@ -21,14 +21,15 @@ title: 'Install Storybook'
 
 <details>
 
-<summary><code>sb init</code> is not made for empty projects</summary>
+<summary><code>storybook init</code> is not made for empty projects</summary>
 
 Storybook needs to be installed into a project that is already set up with a framework. It will not work on an empty project. There are many ways to bootstrap an app in a given framework, including:
 
 - 📦 [Create an Angular Workspace](https://angular.io/cli/new)
 - 📦 [Create React App](https://reactjs.org/docs/create-a-new-react-app.html)
-- 📦 [Vue CLI](https://cli.vuejs.org/)
+- 📦 [Create a Vue App](https://vuejs.org/guide/quick-start.html)
 - 📦 [Ember CLI](https://guides.emberjs.com/release/getting-started/quick-start/)
+- 📦 [Vite CLI](https://vitejs.dev/guide/#scaffolding-your-first-vite-project)
 - Or any other tooling available.
 
 </details>
@@ -41,6 +42,7 @@ The command above will make the following changes to your local environment:
 - 🛠 Setup the necessary scripts to run and build Storybook.
 - 🛠 Add the default Storybook configuration.
 - 📝 Add some boilerplate stories to get you started.
+- 📡 Set up telemetry to help us improve Storybook. Read more about it [here](../configure/telemetry.md).
 
 Depending on your framework, first, build your app and then check that everything worked by running:
 
@@ -87,6 +89,12 @@ Below are some of the most common installation issues and instructions on how to
 />
 
 <!-- prettier-ignore-end -->
+
+<div class="aside">
+
+Storybook collects completely anonymous data to help us improve user experience. Participation is optional, and you may [opt-out](../configure/telemetry.md#how-to-opt-out) if you'd not like to share any information.
+
+</div>
 
 If all else fails, try asking for [help](https://storybook.js.org/support)
 

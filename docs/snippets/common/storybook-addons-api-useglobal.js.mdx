@@ -1,9 +1,9 @@
 ```js
-// /my-addon/register.js
+// /my-addon/manager.js
 
 import React from 'react';
 
-import { useGlobals } from '@storybook/api';
+import { useGlobals } from '@storybook/manager-api';
 
 export const Panel = () => {
   const [globals, updateGlobals] = useGlobals();

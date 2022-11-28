@@ -6,7 +6,7 @@ One of Storybook's main features is its robust addon ecosystem. Use addons to en
 
 ## What we're building
 
-For this example, we're going to build a bare-bones addon which:
+For this example, we're going to build a bare-bones addon that:
 
 - Adds a new panel in Storybook.
 - Retrieves a custom parameter from the stories.
@@ -50,14 +50,23 @@ Once you've gone through the prompts, your `package.json` should look like:
 
 ### Build system
 
-We'll need to add the necessary dependencies and make some adjustments. Run the following commands:
+We'll need to add the necessary dependencies and make some adjustments. Run the following command to install the required dependencies:
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'common/storybook-write-addon-install-dependencies.yarn.js.mdx',
+    'common/storybook-write-addon-install-dependencies.npm.js.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
+
+Initialize a local Storybook instance to allow you to test your addon.
 
 ```shell
-# Installs React and Babel CLI
-yarn add react react-dom @babel/cli
-
-# Adds Storybook:
-npx sb init
+npx storybook init
 ```
 
 <div class="aside">
@@ -191,7 +200,6 @@ When Storybook was initialized, it provided a small set of example stories. Chan
     'vue/button-story-with-addon-example.js.mdx',
     'angular/button-story-with-addon-example.ts.mdx',
     'svelte/button-story-with-addon-example.js.mdx',
-    'svelte/button-story-with-addon-example.native-format.mdx',
   ]}
 />
 

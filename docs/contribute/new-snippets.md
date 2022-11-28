@@ -47,7 +47,6 @@ Browse the documentation and look for the code snippets you're willing to contri
     'vue/your-component.2.js.mdx',
     'vue/your-component.3.js.mdx',
     'svelte/your-component.js.mdx',
-    'svelte/your-component.native-format.mdx',
     'web-components/your-component.js.mdx',
   ]}
 />
@@ -70,7 +69,6 @@ Create the file `ember/your-component.js.mdx`, similar to the other frameworks, 
     'vue/your-component.2.js.mdx',
     'vue/your-component.3.js.mdx',
     'svelte/your-component.js.mdx',
-    'svelte/your-component.native-format.mdx',
     'web-components/your-component.js.mdx',
     'ember/your-component.js.mdx', //👈🏼 The code snippet you created.
   ]}
@@ -80,7 +78,7 @@ Create the file `ember/your-component.js.mdx`, similar to the other frameworks, 
 ```
 
 <div class="aside">
-💡 Code snippets are divided into various file extensions, if you're contributing a TypeScript file use <code>.ts.mdx</code>, or if you're adding MDX files use <code>.mdx.mdx</code> .
+💡 Code snippets are divided into various file extensions, if you're contributing a TypeScript file use <code>.ts.mdx</code>, or if you're adding JavaScript files use <code>.js.mdx</code> .
 </div>
 
 Go through the rest of the documentation and repeat the process.
@@ -89,11 +87,15 @@ Go through the rest of the documentation and repeat the process.
 
 Before submitting your contribution, we advise you to check your work against the Storybook website. Doing this prevents last-minute issues with the documentation and is also an excellent way for the maintainers to merge faster once you submit the pull request. However, failing to do so will lead one of the maintainers to notify you that your contribution has an issue.
 
-Start by forking [frontpage repo](https://github.com/storybookjs/frontpage). Then, clone and install the dependencies with the following commands:
+Start by forking [frontpage repo](https://github.com/storybookjs/frontpage) and cloning it locally.
 
 ```shell
 git clone https://github.com/your-username/frontpage.git
-cd frontpage
+```
+
+Navigate to the `frontpage` directory and install the required dependencies with the following command:
+
+```shell
 yarn
 ```
 
@@ -110,7 +112,7 @@ yarn start:skip-addons
 ```
 
 <div class="aside">
-💡 During the start process if there's an issue with the the documentation, the process will stop and you'll get a notification.
+💡 During the start process if there's an issue with the documentation, the process will stop and you'll get a notification.
 </div>
 
 Open a browser window to `http://localhost:8000`, click the Docs link, and select your framework from the dropdown.

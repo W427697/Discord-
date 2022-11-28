@@ -1,42 +1,47 @@
 ```ts
 // MyComponent.stories.ts
 
-import { Meta, Story } from '@storybook/angular';
+import type { Meta, StoryObj } from '@storybook/angular';
 
-import { screen, userEvent, waitFor } from '@storybook/testing-library';
+import { userEvent, waitFor, within } from '@storybook/testing-library';
 
 import { MyComponent } from './MyComponent.component';
 
-export default {
+const meta: Meta<MyComponent> = {
   /* 👇 The title prop is optional.
-  * See https://storybook.js.org/docs/angular/configure/overview#configure-story-loading
-  * to learn how to generate automatic titles
-  */
+   * See https://storybook.js.org/docs/7.0/angular/configure/overview#configure-story-loading
+   * to learn how to generate automatic titles
+   */
   title: 'WithAsync',
   component: MyComponent,
-  
-} as Meta;
+};
 
-const Template: Story = (args) => ({
-  props: args,
-});
+export default meta;
+type Story = StoryObj<MyComponent>;
 
-export const ExampleAsyncStory: Story = Template.bind({});
-ExampleAsyncStory.play = async () => {
-  const Input = screen.getByLabelText('Username', {
-    selector: 'input',
-  });
+/*
+ * See https://storybook.js.org/docs/7.0/angular/writing-stories/play-function#working-with-the-canvas
+ * to learn more about using the canvasElement to query the DOM
+ */
+export const ExampleAsyncStory: Story = {
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
 
-  await userEvent.type(Input, 'WrongInput', {
-    delay: 100,
-  });
+    const Input = canvas.getByLabelText('Username', {
+      selector: 'input',
+    });
 
-  // See https://storybook.js.org/docs/angular/essentials/actions#automatically-matching-args to learn how to setup logging in the Actions panel
-  const Submit = screen.getByRole('button');
-  await userEvent.click(Submit);
+    await userEvent.type(Input, 'WrongInput', {
+      delay: 100,
+    });
 
-  await waitFor(async () => {
-    await userEvent.hover(screen.getByTestId('error'));
-  });
+    // See https://storybook.js.org/docs/7.0/react/essentials/actions#automatically-matching-args to learn how to setup logging in the Actions panel
+    const Submit = canvas.getByRole('button');
+    await userEvent.click(Submit);
+
+    await waitFor(async () => {
+      await userEvent.hover(canvas.getByTestId('error'));
+    });
+  },
 };
 ```

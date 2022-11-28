@@ -1,34 +1,36 @@
 ```ts
 // Button.stories.ts
 
-import { Meta, Story } from '@storybook/angular';
+import type { Meta, StoryObj } from '@storybook/angular';
 
 import { Button } from './Button.component';
 
-export default {
+const meta: Meta<Button> = {
   /* 👇 The title prop is optional.
-  * See https://storybook.js.org/docs/angular/configure/overview#configure-story-loading to learn how to generate automatic titles
-  */
+   * See https://storybook.js.org/docs/7.0/angular/configure/overview#configure-story-loading to learn how to generate automatic titles
+   */
   title: 'Accessibility testing',
   component: Button,
   argTypes: {
     backgroundColor: { control: 'color' },
   },
-} as Meta;
-
-const Template: Story = (args) => ({
-  props: args,
-});
-
-export const Accessible: Story = Template.bind({});
-Accessible.args = {
-  primary: false,
-  label: 'Button',
 };
 
-export const Inaccessible: Story = Template.bind({});
-Inaccessible.args = {
-  ...Accessible.args,
-  backgroundColor: 'red',
+export default meta;
+type Story = StoryObj<Button>;
+
+// This is an accessible story
+export const Accessible: Story = {
+  args: {
+    primary: false,
+    label: 'Button',
+  },
+};
+// This is not
+export const Inaccessible: Story = {
+  args: {
+    ...Accessible.args,
+    backgroundColor: 'red',
+  },
 };
 ```

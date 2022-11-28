@@ -18,7 +18,7 @@ It has three different modes:
 
 Storybook works with evergreen browsers by default.
 
-If you want to run Storybook in IE11, make sure to [disable](../essentials/introduction#disabling-addons) the docs-addon that is part of `@storybook/addon-essentials`, as this currently [causes issues in IE11](https://github.com/storybookjs/storybook/issues/8884).
+If you want to run Storybook in IE11, make sure to [disable](../essentials/introduction.md#disabling-addons) the docs-addon that is part of `@storybook/addon-essentials`, as this currently [causes issues in IE11](https://github.com/storybookjs/storybook/issues/8884).
 
 Here are some key features of Storybook's Babel configurations.
 
@@ -28,7 +28,7 @@ We have added ES2016 support with Babel for transpiling your JS code.
 
 In addition to that, we've added a few additional features, like [object spreading](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax) and [`async` `await`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function).
 
-Check out our [source](https://github.com/storybookjs/storybook/blob/next/lib/core-common/src/utils/babel.ts) to learn more about these plugins.
+Check out our [source](https://github.com/storybookjs/storybook/blob/main/lib/core-common/src/utils/babel.ts) to learn more about these plugins.
 
 ### Custom config file
 
@@ -38,7 +38,7 @@ You can also place a `.storybook/.babelrc` file to use a unique configuration fo
 
 ### Custom configuration
 
-If you need, you can customize the default Babel configuration used by Storybook. Update your [`.storybook/main.js`](./overview#configure-your-storybook-project) and add the `babel` field with the options you want to use:
+If you need, you can customize the default Babel configuration used by Storybook. Update your [`.storybook/main.js`](./overview.md#configure-your-storybook-project) and add the `babel` field with the options you want to use:
 
 <!-- prettier-ignore-start -->
 
@@ -81,7 +81,7 @@ For detailed instructions on migrating from `V6` mode, please see [MIGRATION.md]
 If your app does not include a babelrc file, and you need one, you can create it by running the following command in your project directory:
 
 ```sh
-npx sb@next babelrc
+npx storybook@next babelrc
 ```
 
 Once the command completes, you should have a `.babelrc.json` file created in the root directory of your project, similar to the following example:
@@ -151,6 +151,16 @@ Once the command completes, you should have a `.babelrc.json` file created in th
 ```
 
 Depending on your environment, you may need to install additional package dependencies.
+
+### Babelrc vs. babel config
+
+Babel has two different configuration modes: babelrc and babel config. As explained in more detail [in the docs](https://babeljs.io/docs/en/config-files):
+
+- **babelrc** configures babel for files in the same folder (or descendant folders) of the location of the babelrc
+- **babel config** configures babel globally
+
+Babel recommends to use babelrc, and it's what Storybook generates when you run `npx storybook babelrc` to migrate from v6 mode. If your stories are located in the current project directory (e.g., `stories: ['../src/**/*.stories.js']`) this approach will work well.
+However, when your Storybook refers to files outside of the current project directory (e.g., `stories: ['../../some-other-directory/**/*.stories.js']`), the babelrc will not apply to those files. However, a babel config will, and is the recommended approach in that situation.
 
 ### Troubleshooting
 

@@ -6,17 +6,20 @@ title: 'Play function'
 
 ## Setup the interactions addon
 
-We recommend installing Storybook's [`addon-interactions`](/addons/@storybook/addon-interactions/) before you start writing stories with the `play` function. It's the perfect complement for it, including a handy set of UI controls to allow you command over the execution flow. At any time, you can pause, resume, rewind, and step through each interaction. Also providing you with an easy-to-use debugger for potential issues.
+We recommend installing Storybook's [`addon-interactions`](https://storybook.js.org/addons/@storybook/addon-interactions) before you start writing stories with the `play` function. It's the perfect complement for it, including a handy set of UI controls to allow you command over the execution flow. At any time, you can pause, resume, rewind, and step through each interaction. Also providing you with an easy-to-use debugger for potential issues.
 
 Run the following command to install the addon and the required dependencies.
 
-```shell
-# With npm
-npm install @storybook/addon-interactions @storybook/testing-library --save-dev
+<!-- prettier-ignore-start -->
 
-# With yarn
-yarn add --dev @storybook/addon-interactions @storybook/testing-library
-```
+<CodeSnippets
+  paths={[
+    'common/storybook-addon-interactions-addon-full-install.yarn.js.mdx',
+    'common/storybook-addon-interactions-addon-full-install.npm.js.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
 
 Update your Storybook configuration (in `.storybook/main.js`) to include the interactions addon.
 
@@ -40,17 +43,20 @@ Storybook's `play` functions are small code snippets that run once the story fin
   paths={[
    'react/register-component-with-play-function.js.mdx',
    'react/register-component-with-play-function.ts.mdx',
-   'react/register-component-with-play-function.mdx.mdx',
    'angular/register-component-with-play-function.ts.mdx',
-   'angular/register-component-with-play-function.mdx.mdx',
    'vue/register-component-with-play-function.js.mdx',
-   'vue/register-component-with-play-function.mdx.mdx',
+   'vue/register-component-with-play-function.ts.mdx',
    'svelte/register-component-with-play-function.js.mdx',
-   'svelte/register-component-with-play-function.mdx.mdx',
   ]}
 />
 
 <!-- prettier-ignore-end -->
+
+<div class="aside">
+
+💡 See the [Interaction testing documentation](../writing-tests/interaction-testing.md#api-for-user-events) for an overview of the available API events.
+
+</div>
 
 When Storybook finishes rendering the story, it executes the steps defined within the `play` function, interacting with the component and filling the form's information. All of this without the need for user intervention. If you check your `Interactions` panel, you'll see the step-by-step flow.
 
@@ -66,6 +72,7 @@ Thanks to the [Component Story Format](../api/csf.md), an ES6 module based file 
    'react/my-component-play-function-composition.ts.mdx',
    'angular/my-component-play-function-composition.ts.mdx',
    'vue/my-component-play-function-composition.js.mdx',
+   'vue/my-component-play-function-composition.ts.mdx',
    'svelte/my-component-play-function-composition.js.mdx',
   ]}
 />
@@ -86,13 +93,10 @@ A common type of component interaction is a button click. If you need to reprodu
   paths={[
    'react/my-component-play-function-with-clickevent.js.mdx',
    'react/my-component-play-function-with-clickevent.ts.mdx',
-   'react/my-component-play-function-with-clickevent.mdx.mdx',
    'angular/my-component-play-function-with-clickevent.ts.mdx',
-   'angular/my-component-play-function-with-clickevent.mdx.mdx',
    'vue/my-component-play-function-with-clickevent.js.mdx',
-   'vue/my-component-play-function-with-clickevent.mdx.mdx',
+   'vue/my-component-play-function-with-clickevent.ts.mdx',
    'svelte/my-component-play-function-with-clickevent.js.mdx',
-   'svelte/my-component-play-function-with-clickevent.mdx.mdx',
   ]}
 />
 
@@ -108,13 +112,10 @@ Asides from click events, you can also script additional events with the `play` 
   paths={[
    'react/my-component-play-function-with-selectevent.js.mdx',
    'react/my-component-play-function-with-selectevent.ts.mdx',
-   'react/my-component-play-function-with-selectevent.mdx.mdx',
    'angular/my-component-play-function-with-selectevent.ts.mdx',
-   'angular/my-component-play-function-with-selectevent.mdx.mdx',
    'vue/my-component-play-function-with-selectevent.js.mdx',
-   'vue/my-component-play-function-with-selectevent.mdx.mdx',
+   'vue/my-component-play-function-with-selectevent.ts.mdx',
    'svelte/my-component-play-function-with-selectevent.js.mdx',
-   'svelte/my-component-play-function-with-selectevent.mdx.mdx',
   ]}
 />
 
@@ -128,13 +129,10 @@ In addition to events, you can also create interactions with the `play` function
   paths={[
    'react/my-component-play-function-with-delay.js.mdx',
    'react/my-component-play-function-with-delay.ts.mdx',
-   'react/my-component-play-function-with-delay.mdx.mdx',
    'angular/my-component-play-function-with-delay.ts.mdx',
-   'angular/my-component-play-function-with-delay.mdx.mdx',
    'vue/my-component-play-function-with-delay.js.mdx',
-   'vue/my-component-play-function-with-delay.mdx.mdx',
+   'vue/my-component-play-function-with-delay.ts.mdx',
    'svelte/my-component-play-function-with-delay.js.mdx',
-   'svelte/my-component-play-function-with-delay.mdx.mdx',
   ]}
 />
 
@@ -150,13 +148,10 @@ You can also use the `play` function to verify the existence of an element based
   paths={[
    'react/my-component-play-function-waitfor.js.mdx',
    'react/my-component-play-function-waitfor.ts.mdx',
-   'react/my-component-play-function-waitfor.mdx.mdx',
    'angular/my-component-play-function-waitfor.ts.mdx',
-   'angular/my-component-play-function-waitfor.mdx.mdx',
    'vue/my-component-play-function-waitfor.js.mdx',
-   'vue/my-component-play-function-waitfor.mdx.mdx',
+   'vue/my-component-play-function-waitfor.ts.mdx',
    'svelte/my-component-play-function-waitfor.js.mdx',
-   'svelte/my-component-play-function-waitfor.mdx.mdx',
   ]}
 />
 
@@ -172,13 +167,10 @@ If you need, you can also adjust your `play` function to find elements based on 
   paths={[
    'react/my-component-play-function-alt-queries.js.mdx',
    'react/my-component-play-function-alt-queries.ts.mdx',
-   'react/my-component-play-function-alt-queries.mdx.mdx',
    'angular/my-component-play-function-alt-queries.ts.mdx',
-   'angular/my-component-play-function-alt-queries.mdx.mdx',
    'vue/my-component-play-function-alt-queries.js.mdx',
-   'vue/my-component-play-function-alt-queries.mdx.mdx',
+   'vue/my-component-play-function-alt-queries.ts.mdx',
    'svelte/my-component-play-function-alt-queries.js.mdx',
-   'svelte/my-component-play-function-alt-queries.mdx.mdx',
   ]}
 />
 
@@ -187,6 +179,25 @@ If you need, you can also adjust your `play` function to find elements based on 
 <div class="aside">
  💡 You can read more about the querying elements in the <a href="https://testing-library.com/docs/queries/about/"> Testing library documentation</a>.
 </div>
+
+When Storybook loads the story, the `play` function starts its execution and queries the DOM tree expecting the element to be available when the story renders. In case there's a failure in your test, you'll be able to verify its root cause quickly.
+
+Otherwise, if the component is not immediately available, for instance, due to a previous step defined inside your `play` function or some asynchronous behavior, you can adjust your story and wait for the change to the DOM tree to happen before querying the element. For example:
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+   'react/my-component-play-function-query-findby.js.mdx',
+   'react/my-component-play-function-query-findby.ts.mdx',
+   'angular/my-component-play-function-query-findby.ts.mdx',
+   'vue/my-component-play-function-query-findby.js.mdx',
+   'vue/my-component-play-function-query-findby.ts.mdx',
+   'svelte/my-component-play-function-query-findby.js.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
 
 ## Working with the Canvas
 
@@ -198,16 +209,13 @@ By default, each interaction you write inside your `play` function will be execu
   paths={[
    'react/my-component-play-function-with-canvas.js.mdx',
    'react/my-component-play-function-with-canvas.ts.mdx',
-   'react/my-component-play-function-with-canvas.mdx.mdx',
    'angular/my-component-play-function-with-canvas.ts.mdx',
-   'angular/my-component-play-function-with-canvas.mdx.mdx',
    'vue/my-component-play-function-with-canvas.js.mdx',
-   'vue/my-component-play-function-with-canvas.mdx.mdx',
+   'vue/my-component-play-function-with-canvas.ts.mdx',
    'svelte/my-component-play-function-with-canvas.js.mdx',
-   'svelte/my-component-play-function-with-canvas.mdx.mdx',
   ]}
 />
 
 <!-- prettier-ignore-end -->
 
-Applying these changes to your stories can provide a performance boost and improved error handling with [`addon-interactions`](/addons/@storybook/addon-interactions/).
+Applying these changes to your stories can provide a performance boost and improved error handling with [`addon-interactions`](https://storybook.js.org/addons/@storybook/addon-interactions).

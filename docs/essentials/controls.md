@@ -11,7 +11,7 @@ Storybook Controls gives you a graphical UI to interact with a component's argum
   />
 </video>
 
-Controls does not require any modification to your components. Stories for controls are:
+Controls do not require any modification to your components. Stories for controls are:
 
 - Convenient. Auto-generate controls based on React/Vue/Angular/etc. components.
 - Portable. Reuse your interactive stories in documentation, tests, and even in designs.
@@ -51,7 +51,6 @@ For instance, suppose you have a `variant` arg on your story that should be `pri
 <CodeSnippets
   paths={[
     'common/button-story-controls-primary-variant.js.mdx',
-    'common/button-story-controls-primary-variant.mdx.mdx',
   ]}
 />
 
@@ -72,11 +71,16 @@ We can specify which controls get used by declaring a custom [argType](../api/ar
 <CodeSnippets
   paths={[
     'common/button-story-controls-radio-group.js.mdx',
-    'common/button-story-controls-radio-group.mdx.mdx',
   ]}
 />
 
 <!-- prettier-ignore-end -->
+
+<div class="aside">
+
+💡 ArgTypes are a powerful feature that can be used to customize the controls for your stories. See the documentation about [customizing controls](#annotation) with `argTypes` annotation for more information.
+
+</div>
 
 This replaces the input with a radio group for a more intuitive experience.
 
@@ -84,14 +88,14 @@ This replaces the input with a radio group for a more intuitive experience.
 
 ## Custom control type matchers
 
-For a few types, Controls will automatically infer them by using [regex](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/RegExp). You can change the matchers for a regex that suits you better.
+For a few types, Controls can automatically be inferred with [regex](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/RegExp). If you've used the Storybook CLI to setup your project it should have automatically created the following defaults in `.storybook/preview.js`:
 
 | Data type |       Default regex       |                        Description                        |
 | :-------: | :-----------------------: | :-------------------------------------------------------: |
-| **color** | `/(background\|color)$/i` | Will display a color picker UI for the args that match it |
+| **color** | `/(background|color)$/i` | Will display a color picker UI for the args that match it |
 | **date**  |         `/Date$/`         | Will display a date picker UI for the args that match it  |
 
-To do so, use the `matchers` property in the `controls` parameter:
+If you haven't used the CLI to setup the configuration, or if you want to define your own patterns, use the `matchers` property in the `controls` parameter:
 
 <!-- prettier-ignore-start -->
 
@@ -112,14 +116,9 @@ Until now, we only used auto-generated controls based on the component we're wri
 <CodeSnippets
   paths={[
     'react/table-story-fully-customize-controls.js.mdx',
-    'react/table-story-fully-customize-controls.mdx.mdx',
     'vue/table-story-fully-customize-controls.2.js.mdx',
-    'vue/table-story-fully-customize-controls.mdx-2.mdx.mdx',
     'vue/table-story-fully-customize-controls.3.js.mdx',
-    'vue/table-story-fully-customize-controls.mdx-3.mdx.mdx',
     'angular/table-story-fully-customize-controls.ts.mdx',
-    'angular/table-story-fully-customize-controls.mdx.mdx',
-    'svelte/table-story-fully-customize-controls.native-format.mdx',
   ]}
 />
 
@@ -145,13 +144,9 @@ One way to deal with this is to use primitive values (e.g., strings) as arg valu
   paths={[
     'react/component-story-custom-args-complex.js.mdx',
     'react/component-story-custom-args-complex.ts.mdx',
-    'react/component-story-custom-args-complex.mdx.mdx',
     'vue/component-story-custom-args-complex.3.js.mdx',
-    'vue/component-story-custom-args-complex.mdx-3.mdx.mdx',
     'angular/component-story-custom-args-complex.ts.mdx',
-    'angular/component-story-custom-args-complex.mdx.mdx',
     'svelte/component-story-custom-args-complex.js.mdx',
-    'svelte/component-story-custom-args-complex.native-format.mdx',
   ]}
 />
 
@@ -180,25 +175,25 @@ The Controls addon can be configured in two ways:
 
 ### Annotation
 
-As shown above, you can configure individual controls with the “control" annotation in the [argTypes](../api/argtypes) field of either a component or story. Below is a condensed example and table featuring all available controls.
+As shown above, you can configure individual controls with the “control" annotation in the [argTypes](../api/argtypes.md) field of either a component or story. Below is a condensed example and table featuring all available controls.
 
-| Data Type   | Control        | Description                                                                                                                                                                                                                |
-| ----------- | -------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **boolean** | `boolean`      | Provides a toggle for switching between possible states.<br/> `argTypes: { active: { control: 'boolean' }}`                                                                                                                |
-| **number**  | `number`       | Provides a numeric input to include the range of all possible values.<br/> `argTypes: { even: { control: { type: 'number', min:1, max:30, step: 2 } }}`                                                                    |
-|             | `range`        | Provides a range slider component to include all possible values.<br/> `argTypes: { odd: { control: { type: 'range', min: 1, max: 30, step: 3 } }}`                                                                        |
-| **object**  | `object`       | Provides a JSON-based editor component to handle the object's values.<br/> Also allows edition in raw mode.<br/> `argTypes: { user: { control: 'object' }}`                                                                |
-| **array**   | `object`       | Provides a JSON-based editor component to handle the values of the array.<br/> Also allows edition in raw mode.<br/> `argTypes: { odd: { control: 'object' }}`                                                             |
-|             | `file`         | Provides a file input component that returns an array of URLs.<br/> Can be further customized to accept specific file types.<br/> `argTypes: { avatar: { control: { type: 'file', accept: '.png' } }}`                     |
-| **enum**    | `radio`        | Provides a set of radio buttons based on the available options.<br/> `argTypes: { contact: { control: 'radio', options: ['email', 'phone', 'mail'] }}`                                                                     |
-|             | `inline-radio` | Provides a set of inlined radio buttons based on the available options.<br/> `argTypes: { contact: { control: 'inline-radio', options: ['email', 'phone', 'mail'] }}`                                                      |
-|             | `check`        | Provides a set of checkbox components for selecting multiple options.<br/> `argTypes: { contact: { control: 'check', options: ['email', 'phone', 'mail'] }}`                                                               |
-|             | `inline-check` | Provides a set of inlined checkbox components for selecting multiple options.<br/> `argTypes: { contact: { control: 'inline-check', options: ['email', 'phone', 'mail'] }}`                                                |
-|             | `select`       | Provides a drop-down list component to handle single value selection. `argTypes: { age: { control: 'select', options: [20, 30, 40, 50] }}`                                                                                 |
-|             | `multi-select` | Provides a drop-down list that allows multiple selected values. `argTypes: { countries: { control: 'multi-select', options: ['USA', 'Canada', 'Mexico'] }}`                                                                |
-| **string**  | `text`         | Provides a freeform text input. <br/> `argTypes: { label: { control: 'text' }}`                                                                                                                                            |
-|             | `color`        | Provides a color picker component to handle color values.<br/> Can be additionally configured to include a set of color presets.<br/> `argTypes: { color: { control: { type: 'color', presetsColors: ['red', 'green']} }}` |
-|             | `date`         | Provides a datepicker component to handle date selection. `argTypes: { startDate: { control: 'date' }}`                                                                                                                    |
+| Data Type   | Control        | Description                                                                                                                                                                                                               |
+| ----------- | -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **boolean** | `boolean`      | Provides a toggle for switching between possible states.<br/> `argTypes: { active: { control: 'boolean' }}`                                                                                                               |
+| **number**  | `number`       | Provides a numeric input to include the range of all possible values.<br/> `argTypes: { even: { control: { type: 'number', min:1, max:30, step: 2 } }}`                                                                   |
+|             | `range`        | Provides a range slider component to include all possible values.<br/> `argTypes: { odd: { control: { type: 'range', min: 1, max: 30, step: 3 } }}`                                                                       |
+| **object**  | `object`       | Provides a JSON-based editor component to handle the object's values.<br/> Also allows edition in raw mode.<br/> `argTypes: { user: { control: 'object' }}`                                                               |
+| **array**   | `object`       | Provides a JSON-based editor component to handle the values of the array.<br/> Also allows edition in raw mode.<br/> `argTypes: { odd: { control: 'object' }}`                                                            |
+|             | `file`         | Provides a file input component that returns an array of URLs.<br/> Can be further customized to accept specific file types.<br/> `argTypes: { avatar: { control: { type: 'file', accept: '.png' } }}`                    |
+| **enum**    | `radio`        | Provides a set of radio buttons based on the available options.<br/> `argTypes: { contact: { control: 'radio', options: ['email', 'phone', 'mail'] }}`                                                                    |
+|             | `inline-radio` | Provides a set of inlined radio buttons based on the available options.<br/> `argTypes: { contact: { control: 'inline-radio', options: ['email', 'phone', 'mail'] }}`                                                     |
+|             | `check`        | Provides a set of checkbox components for selecting multiple options.<br/> `argTypes: { contact: { control: 'check', options: ['email', 'phone', 'mail'] }}`                                                              |
+|             | `inline-check` | Provides a set of inlined checkbox components for selecting multiple options.<br/> `argTypes: { contact: { control: 'inline-check', options: ['email', 'phone', 'mail'] }}`                                               |
+|             | `select`       | Provides a drop-down list component to handle single value selection. `argTypes: { age: { control: 'select', options: [20, 30, 40, 50] }}`                                                                                |
+|             | `multi-select` | Provides a drop-down list that allows multiple selected values. `argTypes: { countries: { control: 'multi-select', options: ['USA', 'Canada', 'Mexico'] }}`                                                               |
+| **string**  | `text`         | Provides a freeform text input. <br/> `argTypes: { label: { control: 'text' }}`                                                                                                                                           |
+|             | `color`        | Provides a color picker component to handle color values.<br/> Can be additionally configured to include a set of color presets.<br/> `argTypes: { color: { control: { type: 'color', presetColors: ['red', 'green']} }}` |
+|             | `date`         | Provides a datepicker component to handle date selection. `argTypes: { startDate: { control: 'date' }}`                                                                                                                   |
 
 <div class="aside">
 💡 The <code>date</code> control will convert the date into a UNIX timestamp when the value changes. It's a known limitation that will be fixed in a future release. If you need to represent the actual date, you'll need to update the story's implementation and convert the value into a date object.
@@ -209,7 +204,6 @@ As shown above, you can configure individual controls with the “control" annot
 <CodeSnippets
   paths={[
     'common/gizmo-story-controls-customization.js.mdx',
-    'common/gizmo-story-controls-customization.mdx.mdx',
   ]}
 />
 
@@ -270,7 +264,6 @@ Suppose you want to disable Controls for a property called `foo` in a component'
 <CodeSnippets
   paths={[
     'common/component-story-disable-controls.js.mdx',
-    'common/component-story-disable-controls.mdx.mdx'
   ]}
 />
 
@@ -287,12 +280,15 @@ Resulting in the following change in Storybook UI:
 
 The previous example also removed the prop documentation from the table. In some cases, this is fine. However, sometimes you might want to render the prop documentation, but without a control. The following example illustrates how:
 
+<!-- prettier-ignore-start -->
+
 <CodeSnippets
 paths={[
-'common/component-story-disable-controls-alt.js.mdx',
-'common/component-story-disable-controls-alt.mdx.mdx'
-]}
+  'common/component-story-disable-controls-alt.js.mdx',
+ ]}
 />
+
+<!-- prettier-ignore-end -->
 
 <div class="aside">
 
@@ -302,7 +298,7 @@ paths={[
 
 ### Conditional controls
 
-In some cases, it's useful to be able to conditionally exclude a control based on the value of another control. Controls supports basic versions of these use cases with the `addIf` and `removeIf` options, which can take a boolean value, or a string which can refer to the value of another arg.
+In some cases, it's useful to be able to conditionally exclude a control based on the value of another control. Controls supports basic versions of these use cases with the `if`, which can takes a simple query object to determine whether to include the control.
 
 Consider a collection of "advanced" settings that are only visible when the user toggles an "advanced" toggle.
 
@@ -327,6 +323,24 @@ Or consider a constraint where if the user sets one control value, it doesn't ma
 />
 
 <!-- prettier-ignore-end -->
+
+The query object must contain either an `arg` or `global` target:
+
+| field  | type   | meaning                       |
+| ------ | ------ | ----------------------------- |
+| arg    | string | The ID of the arg to test.    |
+| global | string | The ID of the global to test. |
+
+It may also contain at most one of the following operators:
+
+| operator | type    | meaning                                              |
+| -------- | ------- | ---------------------------------------------------- |
+| truthy   | boolean | Is the target value truthy?                          |
+| exists   | boolean | Is the target value defined?                         |
+| eq       | any     | Is the target value equal to the provided value?     |
+| neq      | any     | Is the target value NOT equal to the provided value? |
+
+If no operator is provided, that is equivalent to `{ truthy: true }`.
 
 ## Hide NoControls warning
 
@@ -355,7 +369,6 @@ Consider the following story snippets:
 <CodeSnippets
   paths={[
     'common/component-story-disable-controls-regex.js.mdx',
-    'common/component-story-disable-controls-regex.mdx.mdx'
   ]}
 />
 
@@ -372,7 +385,6 @@ Consider the following snippet to force required args first:
 <CodeSnippets
   paths={[
     'common/component-story-sort-controls.js.mdx',
-    'common/component-story-sort-controls.mdx.mdx'
   ]}
 />
 

@@ -2,7 +2,7 @@
 title: 'Story layout'
 ---
 
-The `layout` [parameter](../writing-stories/parameters.md) allows you to configure how stories are positioned in Storybook's Canvas tab. 
+The `layout` [parameter](../writing-stories/parameters.md) allows you to configure how stories are positioned in Storybook's Canvas tab.
 
 ## Global layout
 
@@ -35,7 +35,6 @@ You can also set it at a component level like so:
 <CodeSnippets
   paths={[
     'common/storybook-component-layout-param.js.mdx',
-    'common/storybook-component-layout-param.mdx.mdx',
   ]}
 />
 
@@ -50,7 +49,6 @@ Or even apply it to specific stories like so:
 <CodeSnippets
   paths={[
     'common/storybook-story-layout-param.js.mdx',
-    'common/storybook-story-layout-param.mdx.mdx',
   ]}
 />
 

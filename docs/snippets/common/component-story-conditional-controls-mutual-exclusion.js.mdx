@@ -1,15 +1,24 @@
 ```js
 // Button.stories.js
+
 import { Button } from './Button';
+
 export default {
-  component: Button,
+  /* 👇 The title prop is optional.
+   * See https://storybook.js.org/docs/7.0/react/configure/overview#configure-story-loading
+   * to learn how to generate automatic titles
+   */
   title: 'Button',
+  component: Button,
   argTypes: {
-    // button can be passed a label or an image, not both
-    label: { control: 'text', removeIf: 'image' },
+    // Button can be passed a label or an image, not both
+    label: {
+      control: 'text',
+      if: { arg: 'image', truthy: false },
+    },
     image: {
       control: { type: 'select', options: ['foo.jpg', 'bar.jpg'] },
-      removeIf: 'label',
+      if: { arg: 'label', truthy: false },
     },
   },
 };

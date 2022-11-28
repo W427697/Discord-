@@ -2,15 +2,15 @@
 title: 'Write a preset addon'
 ---
 
-[Storybook preset addons](./addon-types.md#preset-addons) are grouped collections of `babel`, `webpack`, and `addons` configurations that support specific use cases in Storybook, such as typescript or MDX support.
+[Storybook preset addons](./addon-types.md#preset-addons) are grouped collections of `babel`, `webpack`, and `addons` configurations that support specific use cases in Storybook, such as TypeScript or MDX support.
 
 This doc covers the [presets API](#presets-api) and how to use the presets mechanism for [advanced configuration](#advanced-configuration).
 
 ## Presets API
 
-A preset is a set of hooks that is called by Storybook on initialization and can override configurations for `babel`, `webpack`, `addons`, and `entries`.
+A preset is a set of hooks that are called by Storybook on initialization and can override configurations for `babel`, `webpack`, `addons`, and `entries`.
 
-Each configuration has a similar signature, accepting a base configuration object and options, as in this webpack example:
+Each configuration has a similar signature, accepting a base configuration object and options, as in this Webpack example:
 
 <!-- prettier-ignore-start -->
 
@@ -24,7 +24,7 @@ Each configuration has a similar signature, accepting a base configuration objec
 
 ### Babel
 
-The babel functions `babel`, `babelDefault`, and `managerBabel` all configure babel in different ways.
+The babel functions `babel` and `babelDefault` all configure babel in different ways.
 
 All functions take a [Babel configuration object](https://babeljs.io/docs/en/configuration) as their argument and can modify it or return a new object.
 
@@ -42,11 +42,10 @@ For example, Storybook's Mihtril support uses plugins internally and here's how 
 
 - `babel` is applied to the preview config, after it has been initialized by storybook
 - `babelDefault` is applied to the preview config before any user presets have been applied
-- `managerBabel` is applied to the manager.
 
 ### Webpack
 
-The webpack functions `webpack`, `webpackFinal`, and `managerWebpack` configure webpack.
+The Webpack functions `webpack`, `webpackFinal`, and `managerWebpack` configure Webpack.
 
 All functions take a [webpack4 configuration object](https://webpack.js.org/configuration/).
 
@@ -62,11 +61,11 @@ For example, here is how Storybook automatically adopts `create-react-app`'s con
 
 <!-- prettier-ignore-end -->
 
-- `webpack` is applied to the preview config after it has been initialized by storybook
+- `webpack` is applied to the preview config after it has been initialized by Storybook
 - `webpackFinal` is applied to the preview config after all user presets have been applied
 - `managerWebpack` is applied to the manager config
 
-As of Storybook 6.3, Storybook can run with either `webpack4` or `webpack5` builder. If your addon needs to know which version of Webpack it's running inside, the version and the actual webpack instance itself are both available inside your preset:
+As of Storybook 6.3, Storybook can run with either `webpack4` or `webpack5` builder. If your addon needs to know which version of Webpack it's running inside, the version and the actual Webpack instance itself are both available inside your preset:
 
 <!-- prettier-ignore-start -->
 
@@ -78,10 +77,9 @@ As of Storybook 6.3, Storybook can run with either `webpack4` or `webpack5` buil
 
 <!-- prettier-ignore-end -->
 
-
 ### Manager entries
 
-The addon config `managerEntries` allows you to add addons to Storybook from within a preset. For addons that require custom webpack/babel configuration, it is easier to install the preset, and it will take care of everything.
+The addon config `managerEntries` allows you to add addons to Storybook from within a preset. For addons that require custom Webpack/Babel configuration, it is easier to install the preset, and it will take care of everything.
 
 For example, the Storysource preset contains the following code:
 
@@ -123,7 +121,6 @@ For example, the Backgrounds preset contains the following code:
 
 <!-- prettier-ignore-end -->
 
-
 Which in turn invokes:
 
 <!-- prettier-ignore-start -->
@@ -156,7 +153,7 @@ The array of values can support both references to other presets and addons that
 
 Storybook will automatically detect whether a reference to an addon is a preset or a manager entry by checking if the package contains a `./preset.js` or `./register.js` (manager entry), falling back to preset if it is unsure.
 
-If this heuristic is incorrect for an addon you are using, you can explicitly opt in to an entry being an a manager entry using the `managerEntries` key.
+If this heuristic is incorrect for an addon you are using, you can explicitly opt-in to an entry being a manager entry using the `managerEntries` key.
 
 Here's what it looks when combining presets and manager entries in the `addons` property:
 
@@ -172,13 +169,13 @@ Here's what it looks when combining presets and manager entries in the `addons` 
 
 ### Entries
 
-Entries are the place to register entry points for the preview. For example it could be used to make a basic configure-storybook preset that loads all the `*.stories.js` files into SB, instead of forcing people to copy-paste the same thing everywhere.
+Entries are the place to register entry points for the preview. For example, it could be used to make a basic configure-storybook preset that loads all the `*.stories.js` files into SB, instead of forcing people to copy-paste the same thing everywhere.
 
 ## Advanced Configuration
 
-The presets API is also more powerful than the [standard configuration options](../configure/webpack.md#extending-storybooks-webpack-config) available in Storybook, so it's also possible to use presets for more advanced configuration without actually publishing a preset yourself.
+The presets API is also more powerful than the [standard configuration options](../builders/webpack.md#extending-storybooks-webpack-config) available in Storybook, so it's also possible to use presets for more advanced configuration without actually publishing a preset yourself.
 
-For example, some users want to configure the webpack for Storybook's UI and addons ([issue](https://github.com/storybookjs/storybook/issues/4995)), but this is not possible using [standard webpack configuration](../configure/webpack.md#default-configuration) (it used to be possible before SB4.1). However, you can achieve this with a private preset.
+For example, some users want to configure the Webpack for Storybook's UI and addons ([issue](https://github.com/storybookjs/storybook/issues/4995)), but this is not possible using [standard Webpack configuration](../builders/webpack.md#default-configuration) (it used to be possible before SB4.1). However, you can achieve this with a private preset.
 
 If it doesn't exist yet, create a file `.storybook/main.js`:
 
@@ -196,7 +193,7 @@ If it doesn't exist yet, create a file `.storybook/main.js`:
 
 It's also possible to programmatically modify the preview head/body HTML using a preset, similar to the way `preview-head.html`/`preview-body.html` can be used to [configure story rendering](../configure/story-rendering.md). The `previewHead` and `previewBody` functions accept a string, which is the existing head/body, and return a modified string.
 
-For example, the following snippet adds a style tag to the preview head programatically:
+For example, the following snippet adds a style tag to the preview head programmatically:
 
 <!-- prettier-ignore-start -->
 
@@ -210,7 +207,7 @@ For example, the following snippet adds a style tag to the preview head programa
 
 Similarly, the `managerHead` can be used to modify the surrounding "manager" UI, analogous to `manager-head.html`.
 
-Finally, the preview's main page _template_ can also be overridden using the `previewMainTemplate`, which should return a reference to a file containing an `.ejs` template that gets interpolated with some environment variables. For an example, see the [Storybook's default template](https://github.com/storybookjs/storybook/blob/next/lib/core-common/src/templates/index.ejs).
+Finally, the preview's main page _template_ can also be overridden using the `previewMainTemplate`, which should return a reference to a file containing an `.ejs` template that gets interpolated with some environment variables. For an example, see the [Storybook's default template](https://github.com/storybookjs/storybook/blob/next/code/lib/core-common/templates/preview.ejs).
 
 ## Sharing advanced configuration
 

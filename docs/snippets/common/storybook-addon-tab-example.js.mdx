@@ -1,9 +1,9 @@
 ```js
-// addon-tab/register.js
+// addon-tab/manager.js
 
 import React from 'react';
 
-import { addons, types } from '@storybook/addons';
+import { addons, type types } from '@storybook/preview-api';
 
 addons.register('my/tab', () => {
   addons.add('my-panel-addon/tab', {

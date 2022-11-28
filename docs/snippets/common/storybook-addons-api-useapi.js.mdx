@@ -1,9 +1,9 @@
 ```js
-// /my-addon/register.js
+// /my-addon/manager.js
 
 import React from 'react';
 
-import { useStorybookApi } from '@storybook/api';
+import { useStorybookApi } from '@storybook/manager-api';
 
 export const Panel = () => {
   const state = useStorybookApi();
