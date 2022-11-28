@@ -10,6 +10,17 @@ Each example component has a set of stories that show the states it supports. Yo
 
 Let’s start with the `Button` component. A story is a function that describes how to render the component in question. Here’s how to render `Button` in the “primary” state and export a story called `Primary`.
 
+<details>
+<summary><h4 id="troubleshooting">Additional steps for using Native Format</h4></summary>
+
+- Install [addon-svelte-csf](https://github.com/storybookjs/addon-svelte-csf) as a dependency.
+- Update `.storybook/main.js` to include "@storybook/addon-svelte-csf" in the addons array.
+- Update `.storybook/main.js` to set `storyStoreV7` to false.
+
+If all else fails, try asking for [help](https://storybook.js.org/support)
+
+</details>
+
 <!-- prettier-ignore-start -->
 
 <CodeSnippets
@@ -28,7 +39,7 @@ Let’s start with the `Button` component. A story is a function that describes 
 
 <!-- prettier-ignore-end -->
 
-![Initial button story](./example-button-noargs.png)
+![Initial button story]ç
 
 View the rendered `Button` by clicking on it in the Storybook sidebar.
 
