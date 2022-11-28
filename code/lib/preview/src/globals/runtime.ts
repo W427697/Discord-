@@ -11,10 +11,10 @@ import * as PREVIEW_API from '../modules/preview-api';
 import * as PREVIEW_WEB from '../modules/preview-web';
 import * as STORE from '../modules/store';
 
-import type { Keys } from './types';
+import type { globals } from './types';
 
 // Here we map the name of a module to their VALUE in the global scope.
-export const values: Required<Record<keyof typeof Keys, any>> = {
+export const values: Required<Record<keyof typeof globals, any>> = {
   '@storybook/addons': ADDONS,
   '@storybook/channel-postmessage': CHANNEL_POSTMESSAGE,
   '@storybook/channel-websocket': CHANNEL_WEBSOCKET,

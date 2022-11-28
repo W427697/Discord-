@@ -9,6 +9,7 @@ import VirtualModulePlugin from 'webpack-virtual-modules';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 
 import type { Options, CoreConfig, DocsOptions, PreviewAnnotation } from '@storybook/types';
+import { globals } from '@storybook/preview/globals';
 import {
   getRendererName,
   stringifyProcessEnvs,
@@ -207,27 +208,7 @@ export default async (
     watchOptions: {
       ignored: /node_modules/,
     },
-    externals: {
-      ...[
-        // these packages are pre-bundled, so they are mapped to global shims
-        // at some point this should only be a single package: preview-api
-        'addons',
-        'channel-postmessage',
-        'channel-websocket',
-        'channels',
-        'client-logger',
-        'core-events',
-        'preview-api',
-      ].reduce(
-        (acc, sbPackage) => ({
-          ...acc,
-          [`@storybook/${sbPackage}`]: `__STORYBOOK_MODULE_${sbPackage
-            .toUpperCase()
-            .replaceAll('-', '_')}__`,
-        }),
-        {}
-      ),
-    },
+    externals: globals,
     ignoreWarnings: [
       {
         message: /export '\S+' was not found in 'global'/,

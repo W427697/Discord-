@@ -53,10 +53,7 @@
   "dependencies": {
     "@storybook/addon-svelte-csf": "^2.0.0",
     "@storybook/builder-vite": "7.0.0-alpha.54",
-    "@storybook/channel-postmessage": "7.0.0-alpha.54",
-    "@storybook/channel-websocket": "7.0.0-alpha.54",
     "@storybook/node-logger": "7.0.0-alpha.54",
-    "@storybook/preview-api": "7.0.0-alpha.54",
     "@storybook/svelte": "7.0.0-alpha.54",
     "@sveltejs/vite-plugin-svelte": "^1.0.0",
     "magic-string": "^0.26.1",
