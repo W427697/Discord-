@@ -5183,7 +5183,7 @@ __metadata:
     polished: ^4.2.2
     prop-types: ^15.7.2
     react-inspector: ^6.0.0
-    telejson: ^6.0.8
+    telejson: ^7.0.0
     ts-dedent: ^2.0.0
     typescript: ^4.9.3
     uuid-browser: ^3.1.0
@@ -5736,7 +5736,7 @@ __metadata:
     read-pkg-up: ^7.0.1
     rimraf: ^3.0.2
     semver: ^7.3.7
-    telejson: ^6.0.8
+    telejson: ^7.0.0
     tmp: ^0.2.1
     ts-dedent: ^2.0.0
     tsconfig-paths-webpack-plugin: ^3.5.2
@@ -5979,7 +5979,7 @@ __metadata:
     "@storybook/core-events": 7.0.0-alpha.54
     global: ^4.4.0
     qs: ^6.10.0
-    telejson: ^6.0.8
+    telejson: ^7.0.0
     typescript: ^4.9.3
   languageName: unknown
   linkType: soft
@@ -5991,7 +5991,7 @@ __metadata:
     "@storybook/channels": 7.0.0-alpha.54
     "@storybook/client-logger": 7.0.0-alpha.54
     global: ^4.4.0
-    telejson: ^6.0.8
+    telejson: ^7.0.0
     typescript: ^4.9.3
   languageName: unknown
   linkType: soft
@@ -6261,7 +6261,7 @@ __metadata:
     semver: ^7.3.7
     serve-favicon: ^2.5.0
     slash: ^3.0.0
-    telejson: ^6.0.8
+    telejson: ^7.0.0
     ts-dedent: ^2.0.0
     typescript: ^4.9.3
     util-deprecate: ^1.0.2
@@ -6568,7 +6568,7 @@ __metadata:
     qs: ^6.10.1
     semver: ^7.3.7
     store2: ^2.12.0
-    telejson: ^6.0.8
+    telejson: ^7.0.0
     ts-dedent: ^2.0.0
     typescript: ^4.9.3
   peerDependencies:
@@ -31346,6 +31346,13 @@ __metadata:
     lodash: ^4.17.21
     memoizerific: ^1.11.3
   checksum: b9b723259504a24eae3343ca2c1020fd74e748dc7d6e532ca8171d8c3f678418f06708e2332c452480a9c8d56f8abe01e33b9e1ca3153a7bcd7640cdbfa3317b
+  languageName: node
+  linkType: hard
+
+"telejson@npm:^7.0.0":
+  version: 7.0.0
+  resolution: "telejson@npm:7.0.0"
+  checksum: 8e0d25977319516d5d5eba3b8cd6ecd15e1abf9d9a5b62e554b39f5576b9a59bc675acf56378eda4400ac3f721187b13461134fd604503bacb8176afd21a5fb0
   languageName: node
   linkType: hard
 

@@ -54,7 +54,7 @@
     "memoizerific": "^1.11.3",
     "semver": "^7.3.7",
     "store2": "^2.12.0",
-    "telejson": "^6.0.8",
+    "telejson": "^7.0.0",
     "ts-dedent": "^2.0.0"
   },
   "devDependencies": {
