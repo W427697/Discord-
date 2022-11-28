@@ -1,5 +1,5 @@
 import type { DecoratorFunction, StoryContext, LegacyStoryFn } from '@storybook/types';
-import { sanitizeStoryContextUpdate } from '@storybook/store';
+import { sanitizeStoryContextUpdate } from '@storybook/preview-api';
 import SlotDecorator from '../templates/SlotDecorator.svelte';
 import type { SvelteRenderer } from './types';
 

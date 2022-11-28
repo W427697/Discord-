@@ -1,6 +1,6 @@
 {
   "name": "@storybook/core-server",
-  "version": "7.0.0-alpha.52",
+  "version": "7.0.0-alpha.54",
   "description": "Storybook framework-agnostic API",
   "keywords": [
     "storybook"
@@ -35,18 +35,17 @@
   "dependencies": {
     "@aw-web-design/x-default-browser": "1.4.88",
     "@discoveryjs/json-ext": "^0.5.3",
-    "@storybook/builder-manager": "7.0.0-alpha.52",
-    "@storybook/core-client": "7.0.0-alpha.52",
-    "@storybook/core-common": "7.0.0-alpha.52",
-    "@storybook/core-events": "7.0.0-alpha.52",
+    "@storybook/builder-manager": "7.0.0-alpha.54",
+    "@storybook/core-common": "7.0.0-alpha.54",
+    "@storybook/core-events": "7.0.0-alpha.54",
     "@storybook/csf": "next",
-    "@storybook/csf-tools": "7.0.0-alpha.52",
+    "@storybook/csf-tools": "7.0.0-alpha.54",
     "@storybook/docs-mdx": "next",
-    "@storybook/node-logger": "7.0.0-alpha.52",
-    "@storybook/store": "7.0.0-alpha.52",
-    "@storybook/telemetry": "7.0.0-alpha.52",
-    "@storybook/types": "7.0.0-alpha.52",
-    "@types/node": "^16.0.0 || ^18.0.0",
+    "@storybook/node-logger": "7.0.0-alpha.54",
+    "@storybook/preview-api": "7.0.0-alpha.54",
+    "@storybook/telemetry": "7.0.0-alpha.54",
+    "@storybook/types": "7.0.0-alpha.54",
+    "@types/node": "^16.0.0",
     "@types/node-fetch": "^2.5.7",
     "@types/pretty-hrtime": "^1.0.0",
     "@types/semver": "^7.3.4",
@@ -70,14 +69,14 @@
     "semver": "^7.3.7",
     "serve-favicon": "^2.5.0",
     "slash": "^3.0.0",
-    "telejson": "^6.0.8",
+    "telejson": "^7.0.3",
     "ts-dedent": "^2.0.0",
     "util-deprecate": "^1.0.2",
     "watchpack": "^2.2.0",
     "ws": "^8.2.3"
   },
   "devDependencies": {
-    "@storybook/builder-webpack5": "7.0.0-alpha.52",
+    "@storybook/builder-webpack5": "7.0.0-alpha.54",
     "@types/compression": "^1.7.0",
     "@types/ip": "^1.1.0",
     "@types/serve-favicon": "^2.5.2",
@@ -102,5 +101,5 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "d2494e3f51ce0f55bcb1ef693a6477c669fbe666"
+  "gitHead": "91177d4e27daec556a24ae6223c3cbe17a998d9b"
 }

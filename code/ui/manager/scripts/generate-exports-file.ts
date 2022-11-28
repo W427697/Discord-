@@ -1,17 +1,17 @@
 /* eslint-disable no-console */
 import fs from 'fs-extra';
 import path from 'path';
-import shelljs from 'shelljs';
 import { dedent } from 'ts-dedent';
+import { exec } from '../../../../scripts/utils/exec';
 
-const remove = () => (input: string) => input !== 'default';
+const removeDefault = (input: string) => input !== 'default';
 
 const location = path.join(__dirname, '..', 'src', 'globals', 'exports.ts');
 
 const run = async () => {
   const { values } = await import('../src/globals/runtime');
   const data = Object.entries(values).reduce<Record<string, string[]>>((acc, [key, value]) => {
-    acc[key] = Object.keys(value).filter(remove());
+    acc[key] = Object.keys(value).filter(removeDefault);
     return acc;
   }, {});
 
@@ -28,7 +28,7 @@ const run = async () => {
   );
 
   console.log('Linting...');
-  shelljs.exec(`yarn lint:js:cmd --fix ${location}`, {
+  await exec(`yarn lint:js:cmd --fix ${location}`, {
     cwd: path.join(__dirname, '..', '..', '..'),
   });
   console.log('Done!');

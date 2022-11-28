@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { ActiveTabs } from '@storybook/api';
+import { ActiveTabs } from '@storybook/manager-api';
 import type { DecoratorFn } from '@storybook/react';
 
 import type { MobileProps } from './mobile';

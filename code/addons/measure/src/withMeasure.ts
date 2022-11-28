@@ -1,5 +1,5 @@
 /* eslint-env browser */
-import { useEffect } from '@storybook/addons';
+import { useEffect } from '@storybook/preview-api';
 import type { Renderer, PartialStoryFn as StoryFunction, StoryContext } from '@storybook/types';
 import { drawSelectedElement } from './box-model/visualizer';
 import { init, rescale, destroy } from './box-model/canvas';
