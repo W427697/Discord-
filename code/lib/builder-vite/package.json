@@ -41,9 +41,7 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@fal-works/esbuild-plugin-global-externals": "^2.1.2",
     "@joshwooding/vite-plugin-react-docgen-typescript": "0.0.5",
-    "@storybook/addons": "7.0.0-alpha.54",
     "@storybook/client-api": "7.0.0-alpha.54",
     "@storybook/client-logger": "7.0.0-alpha.54",
     "@storybook/core-common": "7.0.0-alpha.54",
@@ -61,6 +59,7 @@
     "glob": "^7.2.0",
     "glob-promise": "^4.2.0",
     "magic-string": "^0.26.1",
+    "rollup-plugin-external-globals": "^0.7.1",
     "slash": "^3.0.0",
     "vite": "^3.1.3"
   },

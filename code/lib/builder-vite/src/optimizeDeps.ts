@@ -1,8 +1,6 @@
 import * as path from 'path';
 import { normalizePath, resolveConfig } from 'vite';
 import type { InlineConfig as ViteInlineConfig, UserConfig } from 'vite';
-import { globalExternals } from '@fal-works/esbuild-plugin-global-externals';
-import { definitions } from '@storybook/preview/globals';
 import { listStories } from './list-stories';
 
 import type { ExtendedOptions } from './types';
@@ -19,12 +17,9 @@ const INCLUDE_CANDIDATES = [
   '@storybook/channel-postmessage',
   '@storybook/channel-websocket',
   '@storybook/client-api',
-  '@storybook/preview-api',
   '@storybook/client-logger',
   '@storybook/core/client',
   '@storybook/types',
-  '@storybook/preview-api',
-  '@storybook/preview-api',
   '@storybook/preview-web',
   '@storybook/react > acorn-jsx',
   '@storybook/react',
@@ -124,9 +119,6 @@ export async function getOptimizeDeps(config: ViteInlineConfig, options: Extende
     // We need Vite to precompile these dependencies, because they contain non-ESM code that would break
     // if we served it directly to the browser.
     include,
-    esbuildOptions: {
-      plugins: [globalExternals(definitions)],
-    },
   };
 
   return optimizeDeps;
