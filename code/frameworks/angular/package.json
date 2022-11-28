@@ -58,7 +58,7 @@
     "react-dom": "^16.14.0",
     "read-pkg-up": "^7.0.1",
     "semver": "^7.3.7",
-    "telejson": "^7.0.2",
+    "telejson": "^7.0.3",
     "ts-dedent": "^2.0.0",
     "tsconfig-paths-webpack-plugin": "^3.5.2",
     "util-deprecate": "^1.0.2",

@@ -45,7 +45,7 @@
     "@storybook/channels": "7.0.0-alpha.54",
     "@storybook/client-logger": "7.0.0-alpha.54",
     "global": "^4.4.0",
-    "telejson": "^7.0.2"
+    "telejson": "^7.0.3"
   },
   "devDependencies": {
     "typescript": "^4.9.3"
