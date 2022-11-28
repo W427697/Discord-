@@ -67,7 +67,7 @@
     "global": "^4.4.0",
     "overlayscrollbars": "^1.13.1",
     "polished": "^4.2.2",
-    "prettier": "^2.7.1",
+    "prettier": "^2.8.0",
     "react-popper-tooltip": "^3.1.1",
     "react-syntax-highlighter": "^15.4.5",
     "react-textarea-autosize": "^8.3.0",

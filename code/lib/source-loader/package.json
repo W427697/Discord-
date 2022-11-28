@@ -47,7 +47,7 @@
     "@storybook/types": "7.0.0-alpha.54",
     "estraverse": "^5.2.0",
     "lodash": "^4.17.21",
-    "prettier": "^2.7.1"
+    "prettier": "^2.8.0"
   },
   "devDependencies": {
     "jest-specific-snapshot": "^6.0.0",
