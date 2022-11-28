@@ -20,6 +20,7 @@ const INCLUDE_CANDIDATES = [
   '@storybook/client-logger',
   '@storybook/core/client',
   '@storybook/types',
+  '@storybook/preview-api',
   '@storybook/preview-web',
   '@storybook/react > acorn-jsx',
   '@storybook/react',
