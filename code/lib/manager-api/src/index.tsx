@@ -11,8 +11,8 @@ import React, {
 } from 'react';
 import mergeWith from 'lodash/mergeWith';
 import type {
-  API_Args,
-  API_ArgTypes,
+  Args,
+  ArgTypes,
   API_ComponentEntry,
   API_ComposedRef,
   API_DocsEntry,
@@ -446,13 +446,13 @@ export function useAddonState<S>(addonId: string, defaultState?: S) {
   return useSharedState<S>(addonId, defaultState);
 }
 
-export function useArgs(): [API_Args, (newArgs: API_Args) => void, (argNames?: string[]) => void] {
+export function useArgs(): [Args, (newArgs: Args) => void, (argNames?: string[]) => void] {
   const { getCurrentStoryData, updateStoryArgs, resetStoryArgs } = useStorybookApi();
 
   const data = getCurrentStoryData();
   const args = data.type === 'story' ? data.args : {};
   const updateArgs = useCallback(
-    (newArgs: API_Args) => updateStoryArgs(data as API_StoryEntry, newArgs),
+    (newArgs: Args) => updateStoryArgs(data as API_StoryEntry, newArgs),
     [data, updateStoryArgs]
   );
   const resetArgs = useCallback(
@@ -463,12 +463,12 @@ export function useArgs(): [API_Args, (newArgs: API_Args) => void, (argNames?: s
   return [args, updateArgs, resetArgs];
 }
 
-export function useGlobals(): [API_Args, (newGlobals: API_Args) => void] {
+export function useGlobals(): [Args, (newGlobals: Args) => void] {
   const api = useStorybookApi();
   return [api.getGlobals(), api.updateGlobals];
 }
 
-export function useGlobalTypes(): API_ArgTypes {
+export function useGlobalTypes(): ArgTypes {
   return useStorybookApi().getGlobalTypes();
 }
 
@@ -478,7 +478,7 @@ function useCurrentStory(): API_StoryEntry | API_DocsEntry {
   return getCurrentStoryData();
 }
 
-export function useArgTypes(): API_ArgTypes {
+export function useArgTypes(): ArgTypes {
   const current = useCurrentStory();
   return (current?.type === 'story' && current.argTypes) || {};
 }

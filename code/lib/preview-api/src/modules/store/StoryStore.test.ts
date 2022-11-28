@@ -1,4 +1,4 @@
-import type { Renderer, ProjectAnnotations, Store_StoryIndex } from '@storybook/types';
+import type { Renderer, ProjectAnnotations, StoryIndex } from '@storybook/types';
 import global from 'global';
 import { expect } from '@jest/globals';
 
@@ -42,7 +42,7 @@ const projectAnnotations: ProjectAnnotations<any> = {
   render: jest.fn(),
 };
 
-const storyIndex: Store_StoryIndex = {
+const storyIndex: StoryIndex = {
   v: 4,
   entries: {
     'component-one--a': {
@@ -630,7 +630,7 @@ describe('StoryStore', () => {
     });
 
     it('does not include (modern) docs entries ever', async () => {
-      const docsOnlyStoryIndex: Store_StoryIndex = {
+      const docsOnlyStoryIndex: StoryIndex = {
         v: 4,
         entries: {
           ...storyIndex.entries,
