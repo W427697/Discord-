@@ -5874,7 +5874,6 @@ __metadata:
   resolution: "@storybook/builder-vite@workspace:lib/builder-vite"
   dependencies:
     "@joshwooding/vite-plugin-react-docgen-typescript": 0.0.5
-    "@storybook/client-api": 7.0.0-alpha.54
     "@storybook/client-logger": 7.0.0-alpha.54
     "@storybook/core-common": 7.0.0-alpha.54
     "@storybook/mdx2-csf": next
