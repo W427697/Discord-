@@ -1,4 +1,4 @@
-/* eslint-disable import/namespace, import/no-extraneous-dependencies */
+/* eslint-disable import/namespace */
 import * as ADDONS from '../modules/addons';
 import * as CHANNEL_POSTMESSAGE from '../modules/channel-postmessage';
 import * as CHANNEL_WEBSOCKET from '../modules/channel-websocket';
