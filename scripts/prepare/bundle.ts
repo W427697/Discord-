@@ -106,6 +106,12 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
       format: ['cjs'],
       target: 'node16',
       platform: 'node',
+      esbuildPlugins: [
+        aliasPlugin({
+          'lodash-es': require.resolve('lodash'),
+        }),
+      ],
+
       clean: !watch,
       external: [name, ...Object.keys(dependencies || {}), ...Object.keys(peerDependencies || {})],
 
