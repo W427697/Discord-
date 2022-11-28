@@ -1,16 +1,20 @@
 # The `Meta` Block
 
-The `Meta` block is a special block that serves two purposes, setting the title of the doc to be used in the Storybook sidebar, and in portable docs setting the meta for the stories in the doc.
+Storybook's Doc Blocks are essential to writing accessible documentation. The `Meta` Doc Block captures the component metadata associated with your stories.
 
-## Setting the title
+## Working with MDX
 
-To specify what the title of the doc should be in the Storybook sidebar, include the `Meta` block in the MDX file like this:
+With Storybook MDX documentation, the `Meta` Doc Block is the way to extract the story's information and position it in the sidebar. Internally, Storybook looks for the Doc Block located at the top of your document and positions it accordingly based on the `title` prop. For example:
 
-```md
+```mdx
+
+{/* Button.mdx */}
+
 import { Story, Canvas } from '@storybook/blocks';
+
 import \* as ButtonStories from '../stories/Button.stories';
 
-<Meta title="TheTitle" />
+<Meta title="Button" />
 
 <Canvas>
   <Story of={ButtonStories.Primary} />
@@ -21,40 +25,17 @@ import \* as ButtonStories from '../stories/Button.stories';
 </Canvas>
 ```
 
-Note that it's not even neccessary to import the `Meta` block in this scenario as it is automatically imported when Storybook reads your doc - but it doesn't break anything to import it explicitly.
+If you already enabled automatic documentation for your stories via the `tags` configuration property, you can omit the `Meta` Doc Block altogether. In doing so, Storybook will infer the information and position the documentation page at the root level of the component's stories.
 
-## Setting meta for stories
+### Working with multiple components
 
-When writing MDX files to be used outside of Storybook - known as Portable Docs - `Meta` is used to set the meta (the stories' default export) for all the stories within the doc.
+Additionally, you can opt-out of using the `Meta` Doc Block if all your existing MDX files already have it defined. It's helpful in scenarios where you want to include stories from different files in a single documentation source. For example:
 
-It is _not_ necessary to do this if the doc is only used within Storybook (it doesn't do anything in that case),
-but it _is_ required when writing portable docs.
+```mdx
+{/* Page.mdx */}
 
-As an example, let's say we wanted to include stories for a `Button` component in our docs outside of Storybook.
-The MDX file would look like this:
-
-```md
-import { Meta, Story, Canvas } from '@storybook/blocks';
-import \* as ButtonStories from '../stories/Button.stories';
-
-<Meta of={ButtonStories} />
-
-<Canvas>
-  <Story of={ButtonStories.Primary} />
-</Canvas>
-
-<Canvas>
-  <Story of={ButtonStories.Secondary} />
-</Canvas>
-```
-
-In the above example, the `Meta` block communicates to all the `Story` blocks which meta they're related to.
-
-The `Meta` block can be omitted if all `Story` blocks instead have the `meta` prop explicitly set.
-This is useful in scenarios where you want to include stories from different story files in a single MDX file, like this:
-
-```md
 import { Story, Canvas } from '@storybook/blocks';
+
 import \* as ButtonStories from '../stories/Button.stories';
 import \* as HeadingStories from '../stories/Heading.stories';
 
@@ -67,5 +48,4 @@ import \* as HeadingStories from '../stories/Heading.stories';
 </Canvas>
 ```
 
-It's also possible to mix and match the `Meta` block with the `meta` prop on `Story` blocks. In that case,
-the meta referenced by the `Meta` block will be used as the default meta for all `Story` blocks that don't have the `meta` prop set.
+Mixing and matching the `Meta` Doc block with the `Story` 's `meta` prop is also possible. In such cases, the `meta` prop defined at the top level will be used as the source for all other existing `Story` blocks which don't have the `meta` prop set.
