@@ -39,7 +39,7 @@ If all else fails, try asking for [help](https://storybook.js.org/support)
 
 <!-- prettier-ignore-end -->
 
-![Initial button story]ç
+![Initial button story](./example-button-noargs.png)
 
 View the rendered `Button` by clicking on it in the Storybook sidebar.
 
