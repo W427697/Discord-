@@ -1,8 +1,8 @@
 /* eslint-disable no-console */
 import fs from 'fs-extra';
 import path from 'path';
-import shelljs from 'shelljs';
 import { dedent } from 'ts-dedent';
+import { exec } from '../../../../scripts/utils/exec';
 
 const removeDefault = (input: string) => input !== 'default';
 
@@ -28,7 +28,7 @@ const run = async () => {
   );
 
   console.log('Linting...');
-  shelljs.exec(`yarn lint:js:cmd --fix ${location}`, {
+  await exec(`yarn lint:js:cmd --fix ${location}`, {
     cwd: path.join(__dirname, '..', '..', '..'),
   });
   console.log('Done!');
