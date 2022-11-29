@@ -1,4 +1,4 @@
-/* eslint-disable import/namespace, import/no-extraneous-dependencies */
+/* eslint-disable import/no-extraneous-dependencies */
 
 import * as ADDONS from '@storybook/preview-api/dist/addons';
 import * as CHANNEL_POSTMESSAGE from '@storybook/channel-postmessage';
