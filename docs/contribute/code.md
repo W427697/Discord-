@@ -245,3 +245,12 @@ Once the PR is merged, the template will be generated on a nightly cadence and y
 It's troublesome to know which packages you'll change ahead of time, and watching them can be highly demanding, even on modern machines. If you're working on a powerful enough machine, you can use `yarn build --all --watch` instead of `yarn build`.
 
 </details>
+
+## Other ways to contribute
+
+Learn about other ways you can contribute to Storybook.
+
+- [**Overview**](./how-to-contribute.md): General guidance
+- [**Docs**](./documentation-updates.md): Typos, clarifications
+- [**Addons**](./../addons/introduction.md): Build an addon and share it with the community
+- [**Frameworks**](./framework.md): Integrate Storybook with your favorite library
