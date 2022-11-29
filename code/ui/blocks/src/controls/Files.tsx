@@ -1,5 +1,5 @@
+import React, { useEffect } from 'react';
 import type { ChangeEvent, FC } from 'react';
-import React from 'react';
 import { styled } from '@storybook/theming';
 import { Form } from '@storybook/components';
 
@@ -47,6 +47,17 @@ export const FilesControl: FC<FilesControlProps> = ({
     onChange(fileUrls);
     revokeOldUrls(value);
   }
+
+  // Added useEffect hook to reset the file value when value is null
+  useEffect(() => {
+    if (value == null) {
+      const input = document.getElementById(getControlId(name));
+
+      if (input) {
+        (input as HTMLInputElement).value = null;
+      }
+    }
+  }, [value, name]);
 
   return (
     <FileInput
