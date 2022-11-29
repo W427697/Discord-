@@ -1,3 +1,29 @@
+## 7.0.0-alpha.55 (November 29, 2022)
+
+#### Bug Fixes
+
+-   Vite: Fix prebundling [#19978](https://github.com/storybooks/storybook/pull/19978)
+
+#### Maintenance
+
+-   Addon-docs: Use `.mdx` globs in templates and defaults [#19795](https://github.com/storybooks/storybook/pull/19795)
+-   Types: Rationalize story-based types and de-prefix [#19919](https://github.com/storybooks/storybook/pull/19919)
+-   API: Export the controlOrMetaKey fn from manager-api [#19972](https://github.com/storybooks/storybook/pull/19972)
+-   Blocks: Description stories [#19806](https://github.com/storybooks/storybook/pull/19806)
+
+#### Build
+
+-   Build a mechanism to E2E telemetry [#19946](https://github.com/storybooks/storybook/pull/19946)
+-   Add debug to chromatic task [#19933](https://github.com/storybooks/storybook/pull/19933)
+-   Build: Sanitise user input in github workflow [#19980](https://github.com/storybooks/storybook/pull/19980)
+-   Blocks: Add story for Canvas `className` prop, cleanup UI SB `preview.tsx [#19886](https://github.com/storybooks/storybook/pull/19886)
+-   Change export-generating script to use exec util instead of shelljs [#19979](https://github.com/storybooks/storybook/pull/19979)
+-   Regen lockfiles [#19967](https://github.com/storybooks/storybook/pull/19967)
+
+#### Dependency Upgrades
+
+-   Upgrade telejson [#19983](https://github.com/storybooks/storybook/pull/19983)
+
 ## 7.0.0-alpha.54 (November 25, 2022)
 
 #### Bug Fixes

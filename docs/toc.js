@@ -542,6 +542,11 @@ module.exports = {
           ],
         },
         {
+          pathSegment: 'framework',
+          title: 'Framework',
+          type: 'link',
+        },
+        {
           pathSegment: 'how-to-reproduce',
           title: 'Reproduce',
           type: 'link',

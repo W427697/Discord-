@@ -37,14 +37,6 @@ interface Module {
 interface Declaration {
   tagName: string;
 }
-interface Sections {
-  attributes?: any;
-  properties?: any;
-  events?: any;
-  slots?: any;
-  cssCustomProperties?: any;
-  cssShadowParts?: any;
-}
 
 function mapItem(item: TagItem, category: string): InputType {
   const type =
