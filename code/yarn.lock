@@ -5262,7 +5262,7 @@ __metadata:
     "@storybook/components": 7.0.0-alpha.54
     "@storybook/csf-plugin": 7.0.0-alpha.54
     "@storybook/csf-tools": 7.0.0-alpha.54
-    "@storybook/mdx2-csf": next
+    "@storybook/mdx2-csf": 0.0.4-canary.27.61fd4a6.0
     "@storybook/node-logger": 7.0.0-alpha.54
     "@storybook/postinstall": 7.0.0-alpha.54
     "@storybook/preview-api": 7.0.0-alpha.54
@@ -5270,18 +5270,12 @@ __metadata:
     "@storybook/types": 7.0.0-alpha.54
     fs-extra: ^9.0.1
     global: ^4.4.0
+    react: ^16.14.0
+    react-dom: ^16.8.0
     remark-external-links: ^8.0.0
     remark-slug: ^6.0.0
     ts-dedent: ^2.0.0
     typescript: ^4.9.3
-  peerDependencies:
-    react: ^16.8.0 || ^17.0.0 || ^18.0.0
-    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
-  peerDependenciesMeta:
-    react:
-      optional: true
-    react-dom:
-      optional: true
   languageName: unknown
   linkType: soft
 
@@ -5876,7 +5870,7 @@ __metadata:
     "@joshwooding/vite-plugin-react-docgen-typescript": 0.0.5
     "@storybook/client-logger": 7.0.0-alpha.54
     "@storybook/core-common": 7.0.0-alpha.54
-    "@storybook/mdx2-csf": next
+    "@storybook/mdx2-csf": 0.0.4-canary.27.61fd4a6.0
     "@storybook/node-logger": 7.0.0-alpha.54
     "@storybook/preview": 7.0.0-alpha.54
     "@storybook/preview-api": 7.0.0-alpha.54
@@ -6618,12 +6612,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/mdx2-csf@npm:next":
-  version: 0.1.0-next.6
-  resolution: "@storybook/mdx2-csf@npm:0.1.0-next.6"
+"@storybook/mdx2-csf@npm:0.0.4-canary.27.61fd4a6.0":
+  version: 0.0.4-canary.27.61fd4a6.0
+  resolution: "@storybook/mdx2-csf@npm:0.0.4-canary.27.61fd4a6.0"
   dependencies:
     loader-utils: ^2.0.4
-  checksum: b3a3f0321824ca45f42524dce56d94eaab978d9f000318da4300d9448c5c7693aad70b70f6cffc39494b39c4bc6772f5765639810dfd77a18a58715b498b5e5c
+  checksum: f6a38e88b98eefc6e1cf495c110ed53d9da8ee14549a9d9e51f568ef8bee5468752498e749735fb774a2a6d7476b845da8547078ca91b22a40cab9d95273face
   languageName: node
   linkType: hard
 

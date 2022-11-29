@@ -50,6 +50,16 @@
       "import": "./dist/preset.mjs",
       "types": "./dist/preset.d.ts"
     },
+    "./react-shim": {
+      "require": "./dist/shims/react-shim.js",
+      "import": "./dist/shims/react-shim.mjs",
+      "types": "./dist/shims/react-shim.d.ts"
+    },
+    "./mdx-react-shim": {
+      "require": "./dist/shims/mdx-react-shim.js",
+      "import": "./dist/shims/mdx-react-shim.mjs",
+      "types": "./dist/shims/mdx-react-shim.d.ts"
+    },
     "./svelte/HOC.svelte": "./svelte/HOC.svelte",
     "./ember": "./ember/index.js",
     "./ember/index.js": "./ember/index.js",
@@ -91,7 +101,7 @@
     "@storybook/components": "7.0.0-alpha.54",
     "@storybook/csf-plugin": "7.0.0-alpha.54",
     "@storybook/csf-tools": "7.0.0-alpha.54",
-    "@storybook/mdx2-csf": "next",
+    "@storybook/mdx2-csf": "0.0.4-canary.27.61fd4a6.0",
     "@storybook/node-logger": "7.0.0-alpha.54",
     "@storybook/postinstall": "7.0.0-alpha.54",
     "@storybook/preview-api": "7.0.0-alpha.54",
@@ -99,6 +109,8 @@
     "@storybook/types": "7.0.0-alpha.54",
     "fs-extra": "^9.0.1",
     "global": "^4.4.0",
+    "react": "^16.14.0",
+    "react-dom": "^16.8.0",
     "remark-external-links": "^8.0.0",
     "remark-slug": "^6.0.0",
     "ts-dedent": "^2.0.0"
@@ -107,18 +119,6 @@
     "@babel/core": "^7.20.2",
     "typescript": "^4.9.3"
   },
-  "peerDependencies": {
-    "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
-    "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0"
-  },
-  "peerDependenciesMeta": {
-    "react": {
-      "optional": true
-    },
-    "react-dom": {
-      "optional": true
-    }
-  },
   "publishConfig": {
     "access": "public"
   },
@@ -126,7 +126,9 @@
     "entries": [
       "./src/index.ts",
       "./src/preset.ts",
-      "./src/preview.ts"
+      "./src/preview.ts",
+      "./src/shims/react-shim.ts",
+      "./src/shims/mdx-react-shim.ts"
     ]
   },
   "gitHead": "91177d4e27daec556a24ae6223c3cbe17a998d9b",
