@@ -28,6 +28,15 @@ export const Step = {
   },
 };
 
+export const TypeAndClear = {
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await userEvent.type(canvas.getByTestId('value'), 'initial value');
+    await userEvent.clear(canvas.getByTestId('value'));
+    await userEvent.type(canvas.getByTestId('value'), 'final value');
+  },
+};
+
 export const Callback = {
   play: async ({ args, canvasElement, step }) => {
     const canvas = within(canvasElement);
