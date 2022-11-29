@@ -3,13 +3,13 @@ import fs from 'fs-extra';
 import path from 'path';
 import { dedent } from 'ts-dedent';
 import { ESLint } from '../../../../scripts/node_modules/eslint';
+import { values } from '../src/globals/runtime';
 
 const removeDefault = (input: string) => input !== 'default';
 
 const location = path.join(__dirname, '..', 'src', 'globals', 'exports.ts');
 
 const run = async () => {
-  const { values } = await import('../src/globals/runtime');
   const data = Object.entries(values).reduce<Record<string, string[]>>((acc, [key, value]) => {
     acc[key] = Object.keys(value).filter(removeDefault);
     return acc;
