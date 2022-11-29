@@ -2,6 +2,8 @@
 title: 'Controls'
 ---
 
+<YouTubeCallout id="vAh0KdRcXpI" title="How to connect props with Storybook controls" />
+
 Storybook Controls gives you a graphical UI to interact with a component's arguments dynamically without needing to code. It creates an addon panel next to your component examples ("stories"), so you can edit them live.
 
 <video autoPlay muted playsInline loop>
