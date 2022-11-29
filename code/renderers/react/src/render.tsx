@@ -9,7 +9,7 @@ import React, {
 import ReactDOM, { version as reactDomVersion } from 'react-dom';
 import type { Root as ReactRoot } from 'react-dom/client';
 
-import type { Store_RenderContext, ArgsStoryFn } from '@storybook/types';
+import type { RenderContext, ArgsStoryFn } from '@storybook/types';
 
 import type { ReactRenderer, StoryContext } from './types';
 
@@ -132,7 +132,7 @@ export async function renderToCanvas(
     showMain,
     showException,
     forceRemount,
-  }: Store_RenderContext<ReactRenderer>,
+  }: RenderContext<ReactRenderer>,
   canvasElement: ReactRenderer['canvasElement']
 ) {
   const Story = unboundStoryFn as FC<StoryContext<ReactRenderer>>;

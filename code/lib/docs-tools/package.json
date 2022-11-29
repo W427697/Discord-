@@ -1,6 +1,6 @@
 {
   "name": "@storybook/docs-tools",
-  "version": "7.0.0-alpha.51",
+  "version": "7.0.0-alpha.54",
   "description": "Shared utility functions for frameworks to implement docs",
   "keywords": [
     "storybook"
@@ -42,10 +42,10 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@babel/core": "^7.20.2",
-    "@storybook/core-common": "7.0.0-alpha.51",
-    "@storybook/store": "7.0.0-alpha.51",
-    "@storybook/types": "7.0.0-alpha.51",
+    "@babel/core": "^7.12.10",
+    "@storybook/core-common": "7.0.0-alpha.54",
+    "@storybook/preview-api": "7.0.0-alpha.54",
+    "@storybook/types": "7.0.0-alpha.54",
     "doctrine": "^3.0.0",
     "lodash": "^4.17.21"
   },
@@ -62,5 +62,5 @@
       "./src/index.ts"
     ]
   },
-  "gitHead": "4fec76c3f5135854d9834ebc1cf2f1f325696ded"
+  "gitHead": "91177d4e27daec556a24ae6223c3cbe17a998d9b"
 }

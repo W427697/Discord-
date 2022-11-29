@@ -1,5 +1,5 @@
 /* eslint-env browser */
-import { addons } from '@storybook/addons';
+import { addons } from '@storybook/preview-api';
 import { STORY_CHANGED } from '@storybook/core-events';
 import { HIGHLIGHT, RESET_HIGHLIGHT, HIGHLIGHT_STYLE_ID } from './constants';
 

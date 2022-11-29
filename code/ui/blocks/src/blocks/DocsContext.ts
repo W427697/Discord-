@@ -2,8 +2,7 @@
 import type { Context } from 'react';
 import { createContext } from 'react';
 
-import type { DocsContextProps } from '@storybook/preview-web';
-import type { Renderer } from '@storybook/types';
+import type { DocsContextProps, Renderer } from '@storybook/types';
 
 export type { DocsContextProps };
 

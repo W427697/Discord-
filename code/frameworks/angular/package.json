@@ -1,6 +1,6 @@
 {
   "name": "@storybook/angular",
-  "version": "7.0.0-alpha.51",
+  "version": "7.0.0-alpha.54",
   "description": "Storybook for Angular: Develop Angular components in isolation with hot reloading.",
   "keywords": [
     "storybook",
@@ -34,20 +34,19 @@
     "prep": "rimraf dist && ../../../scripts/node_modules/.bin/tsc --project tsconfig.build.json && echo \"Preventing passing flags to tsc\""
   },
   "dependencies": {
-    "@storybook/addons": "7.0.0-alpha.51",
-    "@storybook/api": "7.0.0-alpha.51",
-    "@storybook/builder-webpack5": "7.0.0-alpha.51",
-    "@storybook/client-logger": "7.0.0-alpha.51",
-    "@storybook/core-client": "7.0.0-alpha.51",
-    "@storybook/core-common": "7.0.0-alpha.51",
-    "@storybook/core-events": "7.0.0-alpha.51",
-    "@storybook/core-server": "7.0.0-alpha.51",
-    "@storybook/core-webpack": "7.0.0-alpha.51",
-    "@storybook/docs-tools": "7.0.0-alpha.51",
-    "@storybook/node-logger": "7.0.0-alpha.51",
-    "@storybook/store": "7.0.0-alpha.51",
-    "@storybook/types": "7.0.0-alpha.51",
-    "@types/node": "^16.0.0 || ^18.0.0",
+    "@storybook/builder-webpack5": "7.0.0-alpha.54",
+    "@storybook/client-logger": "7.0.0-alpha.54",
+    "@storybook/core-client": "7.0.0-alpha.54",
+    "@storybook/core-common": "7.0.0-alpha.54",
+    "@storybook/core-events": "7.0.0-alpha.54",
+    "@storybook/core-server": "7.0.0-alpha.54",
+    "@storybook/core-webpack": "7.0.0-alpha.54",
+    "@storybook/docs-tools": "7.0.0-alpha.54",
+    "@storybook/manager-api": "7.0.0-alpha.54",
+    "@storybook/node-logger": "7.0.0-alpha.54",
+    "@storybook/preview-api": "7.0.0-alpha.54",
+    "@storybook/types": "7.0.0-alpha.54",
+    "@types/node": "^16.0.0",
     "@types/react": "^16.14.34",
     "@types/react-dom": "^16.9.14",
     "@types/semver": "^7.3.4",
@@ -58,7 +57,7 @@
     "react-dom": "^16.14.0",
     "read-pkg-up": "^7.0.1",
     "semver": "^7.3.7",
-    "telejson": "^6.0.8",
+    "telejson": "^7.0.3",
     "ts-dedent": "^2.0.0",
     "tsconfig-paths-webpack-plugin": "^3.5.2",
     "util-deprecate": "^1.0.2",
@@ -122,5 +121,5 @@
     "access": "public"
   },
   "builders": "dist/builders/builders.json",
-  "gitHead": "4fec76c3f5135854d9834ebc1cf2f1f325696ded"
+  "gitHead": "91177d4e27daec556a24ae6223c3cbe17a998d9b"
 }

@@ -1,24 +1,12 @@
-import type { ReactNode } from 'react';
 import React, { useCallback } from 'react';
+import type { ReactNode } from 'react';
 
 import * as R from 'react-router-dom';
 import { ToggleVisibility } from './visibility';
-import type { StoryData } from './utils';
 import { queryFromString, parsePath, getMatch } from './utils';
+import type { LinkProps, NavigateOptions, RenderData } from './types';
 
 const { document } = globalThis;
-
-interface Other extends StoryData {
-  path: string;
-  singleStory?: boolean;
-}
-
-export type RouterData = {
-  location: Partial<R.Location>;
-  navigate: ReturnType<typeof useNavigate>;
-} & Other;
-
-export type RenderData = Pick<RouterData, 'location'> & Other;
 
 interface MatchingData {
   match: null | { path: string };
@@ -39,14 +27,7 @@ interface RouteProps {
   children: ReactNode;
 }
 
-export interface LinkProps {
-  to: string;
-  children: ReactNode;
-}
-
 const getBase = () => `${document.location.pathname}?`;
-
-export type NavigateOptions = ReturnType<typeof R.useNavigate> & { plain?: boolean };
 
 // const queryNavigate: NavigateFn = (to: string | number, options?: NavigateOptions<{}>) =>
 //   typeof to === 'number' ? navigate(to) : navigate(`${getBase()}path=${to}`, options);
@@ -54,7 +35,7 @@ export type NavigateOptions = ReturnType<typeof R.useNavigate> & { plain?: boole
 export const useNavigate = () => {
   const navigate = R.useNavigate();
 
-  return useCallback((to: string | number, { plain, ...options } = {} as NavigateOptions) => {
+  return useCallback((to: R.To | number, { plain, ...options } = {} as NavigateOptions) => {
     if (typeof to === 'string' && to.startsWith('#')) {
       document.location.hash = to;
       return undefined;

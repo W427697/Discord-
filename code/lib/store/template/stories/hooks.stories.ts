@@ -1,5 +1,5 @@
 import type { PartialStoryFn, PlayFunctionContext } from '@storybook/types';
-import { useEffect, useState } from '@storybook/addons';
+import { useEffect, useState } from '@storybook/preview-api';
 import { within, userEvent } from '@storybook/testing-library';
 
 export default {
