@@ -56,7 +56,7 @@ function prepareStory(
   }
 
   if (innerStory) {
-    // render a SlotDecorator with innerStory as it's regular component,
+    // render a SlotDecorator with innerStory as its regular component,
     // and the prepared story as the decorating component
     return {
       Component: SlotDecorator,
