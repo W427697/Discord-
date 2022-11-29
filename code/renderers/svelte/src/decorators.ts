@@ -10,11 +10,12 @@ import SlotDecorator from '@storybook/svelte/templates/SlotDecorator.svelte';
 import type { SvelteRenderer } from './types';
 
 /**
- * Handle component loaded with esm or cjs.
+ * Handle component loaded with ESM or CJS,
+ * by getting the 'default' property of the object if it exists.
  * @param obj object
  */
-function unWrap<T>(obj: T): T {
-  return (obj as any)?.default || obj;
+function unWrap<T>(obj: { default: T } | T): T {
+  return obj && typeof obj === 'object' && 'default' in obj ? obj.default : obj;
 }
 
 /**
@@ -23,7 +24,7 @@ function unWrap<T>(obj: T): T {
  * - `() => ({ Component: MyComponent, props: ...})` is already prepared, kept as-is
  * - `() => MyComponent` is transformed to `() => ({ Component: MyComponent })`
  * - `() => ({})` is transformed to component from context with `() => ({ Component: context.component })`
- * - A decorator component is wrapped with SlotDecorator, injecting the decorated component in <slot />
+ * - A decorator component is wrapped with SlotDecorator, injecting the decorated component in a <slot />
  *
  * @param context StoryContext
  * @param story  the current story
