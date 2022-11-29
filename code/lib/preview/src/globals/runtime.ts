@@ -1,15 +1,16 @@
 /* eslint-disable import/namespace, import/no-extraneous-dependencies */
-import * as PREVIEW_WEB from '@storybook/preview-api/dist/preview-web';
-import * as STORE from '@storybook/preview-api/dist/store';
-import * as PREVIEW_API from '@storybook/preview-api';
-import * as CORE_EVENTS from '@storybook/core-events';
-import * as CORE_CLIENT from '@storybook/preview-api/dist/core-client';
-import * as CLIENT_LOGGER from '@storybook/client-logger';
+
+import * as ADDONS from '@storybook/preview-api/dist/addons';
+import * as CHANNEL_POSTMESSAGE from '@storybook/channel-postmessage';
+import * as CHANNEL_WEBSOCKET from '@storybook/channel-websocket';
 import * as CHANNELS from '@storybook/channels';
 import * as CLIENT_API from '@storybook/preview-api/dist/client-api';
-import * as CHANNEL_WEBSOCKET from '@storybook/channel-websocket';
-import * as CHANNEL_POSTMESSAGE from '@storybook/channel-postmessage';
-import * as ADDONS from '@storybook/preview-api/dist/addons';
+import * as CLIENT_LOGGER from '@storybook/client-logger';
+import * as CORE_CLIENT from '@storybook/preview-api/dist/core-client';
+import * as CORE_EVENTS from '@storybook/core-events';
+import * as PREVIEW_API from '@storybook/preview-api';
+import * as PREVIEW_WEB from '@storybook/preview-api/dist/preview-web';
+import * as STORE from '@storybook/preview-api/dist/store';
 
 import type { globals } from './types';
 
