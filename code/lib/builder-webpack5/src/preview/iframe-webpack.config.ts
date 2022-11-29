@@ -41,7 +41,7 @@ const storybookPaths: Record<string, string> = {
     {}
   ),
   // deprecated, remove in 8.0
-  [`@storybook/manager`]: dirname(require.resolve(`@storybook/manager-api/package.json`)),
+  [`@storybook/api`]: dirname(require.resolve(`@storybook/manager-api/package.json`)),
 };
 
 export default async (
