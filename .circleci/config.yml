@@ -496,8 +496,17 @@ jobs:
       - attach_workspace:
           at: .
       - run:
+          name: Starting Event Collector
+          command: yarn ts-node ./event-log-collector.ts
+          working_directory: scripts
+          background: true
+      - run:
           name: Building Sandboxes
           command: yarn task --task build --template $(yarn get-template << pipeline.parameters.workflow >> build) --no-link --start-from=never --junit
+      - run:
+          name: Verifying Telemetry
+          command: yarn ts-node ./event-log-checker build $(yarn get-template << pipeline.parameters.workflow >> build)
+          working_directory: scripts
       - report-workflow-on-failure:
           template: $(yarn get-template << pipeline.parameters.workflow >> build)
       - store_test_results:
