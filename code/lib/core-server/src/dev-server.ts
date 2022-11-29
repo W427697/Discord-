@@ -173,7 +173,6 @@ async function doTelemetry(
 
 async function getStoryIndexGenerator(
   features: {
-    postcss?: boolean;
     buildStoriesJson?: boolean;
     previewCsfV3?: boolean;
     storyStoreV7?: boolean;
