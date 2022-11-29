@@ -93,10 +93,12 @@ test.describe('addon-interactions', () => {
     await rerunInteractionButton.click();
     await interactionsRow.first().isVisible();
     await expect(await interactionsRow.count()).toEqual(3);
+    await expect(interactionsTab).toContainText(/(3)/);
 
     const remountComponentButton = await page.locator('[title="Remount component"]');
     await remountComponentButton.click();
     await interactionsRow.first().isVisible();
     await expect(await interactionsRow.count()).toEqual(3);
+    await expect(interactionsTab).toContainText(/(3)/);
   });
 });
