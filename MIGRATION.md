@@ -3,6 +3,7 @@
 - [From version 6.5.x to 7.0.0](#from-version-65x-to-700)
   - [Alpha release notes](#alpha-release-notes)
   - [7.0 breaking changes](#70-breaking-changes)
+    - [Vue3 replaced app export with setup](#vue3-replaced-app-export-with-setup)
     - [removed auto injection of @storybook/addon-actions decorator](#removed-auto-injection-of-storybookaddon-actions-decorator)
     - [register.js removed](#registerjs-removed)
     - [Change of root html IDs](#change-of-root-html-ids)
@@ -258,6 +259,30 @@ Storybook 7.0 is in early alpha. During the alpha, we are making a large number 
 In the meantime, these migration notes are the best available documentation on things you should know upgrading to 7.0.
 
 ### 7.0 breaking changes
+
+#### Vue3 replaced app export with setup
+
+In 6.x `@storybook/vue3` exported a Vue application instance called `app`. In 7.0, this has been replaced by a `setup` function that can be used to initialize the application in your `.storybook/preview.js`:
+
+Before:
+
+```js
+import { app } from '@storybook/vue3';
+import Button from './Button.vue';
+
+app.component('GlobalButton', Button);
+```
+
+After:
+
+```js
+import { setup } from '@storybook/vue3';
+import Button from './Button.vue';
+
+setup((app) => {
+  app.component('GlobalButton', Button);
+});
+```
 
 #### removed auto injection of @storybook/addon-actions decorator
 
