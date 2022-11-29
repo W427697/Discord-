@@ -4,8 +4,8 @@ parameters:
   workflow:
     description: Which workflow to run
     type: enum
-    enum: ['ci', 'pr', 'merged', 'daily']
-    default: 'ci'
+    enum: ["ci", "pr", "merged", "daily"]
+    default: "ci"
 
 executors:
   sb_node_16_classic:
@@ -13,8 +13,8 @@ executors:
       class:
         description: The Resource class
         type: enum
-        enum: ['small', 'medium', 'medium+', 'large', 'xlarge']
-        default: 'small'
+        enum: ["small", "medium", "medium+", "large", "xlarge"]
+        default: "small"
     working_directory: /tmp/storybook
     docker:
       - image: cimg/node:16.17.1
@@ -26,8 +26,8 @@ executors:
       class:
         description: The Resource class
         type: enum
-        enum: ['small', 'medium', 'medium+', 'large', 'xlarge']
-        default: 'small'
+        enum: ["small", "medium", "medium+", "large", "xlarge"]
+        default: "small"
     working_directory: /tmp/storybook
     docker:
       - image: cimg/node:16.17.1-browsers
@@ -39,8 +39,8 @@ executors:
       class:
         description: The Resource class
         type: enum
-        enum: ['small', 'medium', 'medium+', 'large', 'xlarge']
-        default: 'small'
+        enum: ["small", "medium", "medium+", "large", "xlarge"]
+        default: "small"
     working_directory: /tmp/storybook
     docker:
       - image: mcr.microsoft.com/playwright:v1.28.0-focal
@@ -167,7 +167,7 @@ commands:
             git reset --hard "$CIRCLE_SHA1"
           name: Checkout code shallow
   cancel-workflow-on-failure:
-    description: 'Cancels the entire workflow in case the previous step has failed'
+    description: "Cancels the entire workflow in case the previous step has failed"
     steps:
       - run:
           name: Cancel current workflow
@@ -177,13 +177,13 @@ commands:
             echo "To execute all checks locally, please run yarn ci-tests"
             curl -X POST --header "Content-Type: application/json" "https://circleci.com/api/v2/workflow/${CIRCLE_WORKFLOW_ID}/cancel?circle-token=${WORKFLOW_CANCELER}"
   report-workflow-on-failure:
-    description: 'Reports failures to discord'
+    description: "Reports failures to discord"
     parameters:
       template:
         description: |
           Which template to report in discord. Applicable for parallel sandbox jobs
         type: string
-        default: 'none'
+        default: "none"
     steps:
       - run:
           when: on_fail
@@ -199,7 +199,7 @@ jobs:
       name: sb_node_16_classic
     steps:
       - checkout_advanced:
-          clone_options: '--depth 1 --verbose'
+          clone_options: "--depth 1 --verbose"
       - run:
           name: Prettier
           command: |
@@ -212,7 +212,7 @@ jobs:
       name: sb_node_16_classic
     steps:
       - checkout_advanced:
-          clone_options: '--depth 1 --verbose'
+          clone_options: "--depth 1 --verbose"
       - restore_cache:
           name: Restore Yarn cache
           keys:
@@ -254,7 +254,7 @@ jobs:
     working_directory: /tmp/storybook
     steps:
       - checkout_advanced:
-          clone_options: '--depth 1 --verbose'
+          clone_options: "--depth 1 --verbose"
       - attach_workspace:
           at: .
       - run:
@@ -295,7 +295,7 @@ jobs:
     working_directory: /tmp/storybook
     steps:
       - checkout_advanced:
-          clone_options: '--depth 1 --verbose'
+          clone_options: "--depth 1 --verbose"
       - attach_workspace:
           at: .
       - run:
@@ -335,7 +335,7 @@ jobs:
       name: sb_node_16_classic
     steps:
       - checkout_advanced:
-          clone_options: '--depth 1 --verbose'
+          clone_options: "--depth 1 --verbose"
       - attach_workspace:
           at: .
       - run:
@@ -351,7 +351,7 @@ jobs:
       name: sb_node_16_classic
     steps:
       - checkout_advanced:
-          clone_options: '--depth 1 --verbose'
+          clone_options: "--depth 1 --verbose"
       - attach_workspace:
           at: .
       - run:
@@ -365,7 +365,7 @@ jobs:
     executor: sb_node_16_browsers
     steps:
       - checkout_advanced:
-          clone_options: '--depth 1 --verbose'
+          clone_options: "--depth 1 --verbose"
       - attach_workspace:
           at: .
       - run:
@@ -383,7 +383,7 @@ jobs:
       name: sb_node_16_browsers
     steps:
       - checkout_advanced:
-          clone_options: '--depth 1 --verbose'
+          clone_options: "--depth 1 --verbose"
       - attach_workspace:
           at: .
       - run:
@@ -405,7 +405,7 @@ jobs:
       name: sb_node_16_browsers
     steps:
       - checkout_advanced:
-          clone_options: '--depth 1 --verbose'
+          clone_options: "--depth 1 --verbose"
       - attach_workspace:
           at: .
       - run:
@@ -419,7 +419,7 @@ jobs:
       class: medium+
       name: sb_node_16_browsers
     environment:
-        NODE_OPTIONS: --max_old_space_size=6144
+      NODE_OPTIONS: --max_old_space_size=6144
     steps:
       # switched this to the CircleCI helper to get the full git history for TurboSnap
       - checkout
@@ -446,7 +446,7 @@ jobs:
     parallelism: << parameters.parallelism >>
     steps:
       - checkout_advanced:
-          clone_options: '--depth 1 --verbose'
+          clone_options: "--depth 1 --verbose"
       - attach_workspace:
           at: .
       - run:
@@ -471,7 +471,7 @@ jobs:
     parallelism: << parameters.parallelism >>
     steps:
       - checkout_advanced:
-          clone_options: '--depth 1 --verbose'
+          clone_options: "--depth 1 --verbose"
       - attach_workspace:
           at: .
       - run:
@@ -492,12 +492,21 @@ jobs:
     parallelism: << parameters.parallelism >>
     steps:
       - checkout_advanced:
-          clone_options: '--depth 1 --verbose'
+          clone_options: "--depth 1 --verbose"
       - attach_workspace:
           at: .
       - run:
+          name: Starting Event Collector
+          command: yarn ts-node ./event-log-collector.ts
+          working_directory: scripts
+          background: true
+      - run:
           name: Building Sandboxes
           command: yarn task --task build --template $(yarn get-template << pipeline.parameters.workflow >> build) --no-link --start-from=never --junit
+      - run:
+          name: Verifying Telemetry
+          command: yarn ts-node ./event-log-checker build $(yarn get-template << pipeline.parameters.workflow >> build)
+          working_directory: scripts
       - report-workflow-on-failure:
           template: $(yarn get-template << pipeline.parameters.workflow >> build)
       - store_test_results:
@@ -517,7 +526,7 @@ jobs:
     parallelism: << parameters.parallelism >>
     steps:
       - checkout_advanced:
-          clone_options: '--depth 1 --verbose'
+          clone_options: "--depth 1 --verbose"
       - attach_workspace:
           at: .
       - run:
@@ -558,7 +567,7 @@ jobs:
     parallelism: << parameters.parallelism >>
     steps:
       - checkout_advanced:
-          clone_options: '--depth 1 --verbose'
+          clone_options: "--depth 1 --verbose"
       - attach_workspace:
           at: .
       - run:
@@ -697,7 +706,7 @@ workflows:
           requires:
             - create-sandboxes
       - test-runner-sandboxes:
-          parallelism: 14
+          parallelism: 15
           requires:
             - build-sandboxes
       - chromatic-sandboxes:
@@ -725,7 +734,7 @@ workflows:
           requires:
             - create-sandboxes
       - test-runner-sandboxes:
-          parallelism: 24
+          parallelism: 25
           requires:
             - build-sandboxes
       - chromatic-sandboxes:

@@ -8,10 +8,7 @@
 import path from 'path';
 import fs from 'fs-extra';
 import { normalizeStoriesEntry } from '@storybook/core-common';
-import type {
-  CoreCommon_NormalizedStoriesSpecifier,
-  CoreCommon_StoryIndexer,
-} from '@storybook/types';
+import type { NormalizedStoriesSpecifier, StoryIndexer } from '@storybook/types';
 import { loadCsf, getStorySortParameter } from '@storybook/csf-tools';
 import { toId } from '@storybook/csf';
 import { logger } from '@storybook/node-logger';
@@ -26,20 +23,6 @@ jest.mock('@storybook/csf', () => {
     toId: jest.fn(csf.toId),
   };
 });
-
-// FIXME: can't figure out how to import ESM
-jest.mock('@storybook/docs-mdx', async () => ({
-  analyze(content: string) {
-    const importMatches = content.matchAll(/'(.[^']*\.stories)'/g);
-    const imports = Array.from(importMatches).map((match) => match[1]);
-    const title = content.match(/title=['"](.*)['"]/)?.[1];
-    const name = content.match(/name=['"](.*)['"]/)?.[1];
-    const ofMatch = content.match(/of=\{(.*)\}/)?.[1];
-    const isTemplate = content.match(/isTemplate/);
-    const tags = ['mdx'];
-    return { title, name, tags, imports, of: ofMatch && imports.length && imports[0], isTemplate };
-  },
-}));
 
 jest.mock('@storybook/node-logger');
 
@@ -67,7 +50,7 @@ const options = {
   storyIndexers: [
     { test: /\.stories\.mdx$/, indexer: storiesMdxIndexer },
     { test: /\.stories\.(js|ts)x?$/, indexer: csfIndexer },
-  ] as CoreCommon_StoryIndexer[],
+  ] as StoryIndexer[],
   storiesV2Compatibility: false,
   storyStoreV7: true,
   docs: { enabled: true, defaultName: 'docs', docsPage: false },
@@ -80,18 +63,18 @@ describe('StoryIndexGenerator', () => {
     jest.mocked(logger.warn).mockClear();
   });
   describe('extraction', () => {
-    const storiesSpecifier: CoreCommon_NormalizedStoriesSpecifier = normalizeStoriesEntry(
+    const storiesSpecifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
       './src/A.stories.(ts|js|jsx)',
       options
     );
-    const docsSpecifier: CoreCommon_NormalizedStoriesSpecifier = normalizeStoriesEntry(
+    const docsSpecifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
       './src/docs2/*.mdx',
       options
     );
 
     describe('single file specifier', () => {
       it('extracts stories from the right files', async () => {
-        const specifier: CoreCommon_NormalizedStoriesSpecifier = normalizeStoriesEntry(
+        const specifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
           './src/A.stories.js',
           options
         );
@@ -121,7 +104,7 @@ describe('StoryIndexGenerator', () => {
     });
     describe('non-recursive specifier', () => {
       it('extracts stories from the right files', async () => {
-        const specifier: CoreCommon_NormalizedStoriesSpecifier = normalizeStoriesEntry(
+        const specifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
           './src/*/*.stories.(ts|js|jsx)',
           options
         );
@@ -162,7 +145,7 @@ describe('StoryIndexGenerator', () => {
 
     describe('recursive specifier', () => {
       it('extracts stories from the right files', async () => {
-        const specifier: CoreCommon_NormalizedStoriesSpecifier = normalizeStoriesEntry(
+        const specifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
           './src/**/*.stories.(ts|js|jsx)',
           options
         );
@@ -246,7 +229,7 @@ describe('StoryIndexGenerator', () => {
 
     describe('mdx tagged components', () => {
       it('adds docs entry with docs enabled', async () => {
-        const specifier: CoreCommon_NormalizedStoriesSpecifier = normalizeStoriesEntry(
+        const specifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
           './src/nested/Page.stories.mdx',
           options
         );
@@ -289,7 +272,7 @@ describe('StoryIndexGenerator', () => {
         `);
       });
       it('does not add docs entry with docs disabled', async () => {
-        const specifier: CoreCommon_NormalizedStoriesSpecifier = normalizeStoriesEntry(
+        const specifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
           './src/A.stories.js',
           options
         );
@@ -327,7 +310,7 @@ describe('StoryIndexGenerator', () => {
         docs: { ...options.docs, docsPage: true },
       };
       it('generates an entry per CSF file with the docsPage tag', async () => {
-        const specifier: CoreCommon_NormalizedStoriesSpecifier = normalizeStoriesEntry(
+        const specifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
           './src/**/*.stories.(ts|js|jsx)',
           options
         );
@@ -449,7 +432,7 @@ describe('StoryIndexGenerator', () => {
       });
 
       it('generates an entry for every CSF file when docsOptions.docsPage = automatic', async () => {
-        const specifier: CoreCommon_NormalizedStoriesSpecifier = normalizeStoriesEntry(
+        const specifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
           './src/**/*.stories.(ts|js|jsx)',
           options
         );
@@ -482,12 +465,12 @@ describe('StoryIndexGenerator', () => {
       });
 
       it('does not generate a docs page entry if there is a standalone entry with the same name', async () => {
-        const csfSpecifier: CoreCommon_NormalizedStoriesSpecifier = normalizeStoriesEntry(
+        const csfSpecifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
           './src/A.stories.js',
           options
         );
 
-        const docsSpecifier: CoreCommon_NormalizedStoriesSpecifier = normalizeStoriesEntry(
+        const docsSpecifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
           './src/docs2/MetaOf.mdx',
           options
         );
@@ -507,8 +490,8 @@ describe('StoryIndexGenerator', () => {
                   "./src/A.stories.js",
                 ],
                 "tags": Array [
-                  "mdx",
                   "docs",
+                  "mdx",
                 ],
                 "title": "A",
                 "type": "docs",
@@ -531,7 +514,7 @@ describe('StoryIndexGenerator', () => {
       });
 
       it('generates a combined entry if there are two stories files for the same title', async () => {
-        const specifier: CoreCommon_NormalizedStoriesSpecifier = normalizeStoriesEntry(
+        const specifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
           './duplicate/*.stories.(ts|js|jsx)',
           options
         );
@@ -587,7 +570,7 @@ describe('StoryIndexGenerator', () => {
 
       // https://github.com/storybookjs/storybook/issues/19142
       it('does not generate a docs page entry if there are no stories in the CSF file', async () => {
-        const csfSpecifier: CoreCommon_NormalizedStoriesSpecifier = normalizeStoriesEntry(
+        const csfSpecifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
           './errors/NoStories.stories.ts',
           options
         );
@@ -621,8 +604,8 @@ describe('StoryIndexGenerator', () => {
                   "./src/A.stories.js",
                 ],
                 "tags": Array [
-                  "mdx",
                   "docs",
+                  "mdx",
                 ],
                 "title": "A",
                 "type": "docs",
@@ -636,8 +619,8 @@ describe('StoryIndexGenerator', () => {
                   "./src/A.stories.js",
                 ],
                 "tags": Array [
-                  "mdx",
                   "docs",
+                  "mdx",
                 ],
                 "title": "A",
                 "type": "docs",
@@ -660,8 +643,8 @@ describe('StoryIndexGenerator', () => {
                 "standalone": true,
                 "storiesImports": Array [],
                 "tags": Array [
-                  "mdx",
                   "docs",
+                  "mdx",
                 ],
                 "title": "docs2/Yabbadabbadooo",
                 "type": "docs",
@@ -673,8 +656,8 @@ describe('StoryIndexGenerator', () => {
                 "standalone": true,
                 "storiesImports": Array [],
                 "tags": Array [
-                  "mdx",
                   "docs",
+                  "mdx",
                 ],
                 "title": "NoTitle",
                 "type": "docs",
@@ -764,8 +747,8 @@ describe('StoryIndexGenerator', () => {
                   "./src/A.stories.js",
                 ],
                 "tags": Array [
-                  "mdx",
                   "docs",
+                  "mdx",
                 ],
                 "title": "A",
                 "type": "docs",
@@ -779,8 +762,8 @@ describe('StoryIndexGenerator', () => {
                   "./src/A.stories.js",
                 ],
                 "tags": Array [
-                  "mdx",
                   "docs",
+                  "mdx",
                 ],
                 "title": "A",
                 "type": "docs",
@@ -803,8 +786,8 @@ describe('StoryIndexGenerator', () => {
                 "standalone": true,
                 "storiesImports": Array [],
                 "tags": Array [
-                  "mdx",
                   "docs",
+                  "mdx",
                 ],
                 "title": "docs2/Yabbadabbadooo",
                 "type": "docs",
@@ -816,8 +799,8 @@ describe('StoryIndexGenerator', () => {
                 "standalone": true,
                 "storiesImports": Array [],
                 "tags": Array [
-                  "mdx",
                   "docs",
+                  "mdx",
                 ],
                 "title": "NoTitle",
                 "type": "docs",
@@ -843,7 +826,7 @@ describe('StoryIndexGenerator', () => {
 
     describe('duplicates', () => {
       it('warns when two standalone entries reference the same CSF file without a name', async () => {
-        const docsErrorSpecifier: CoreCommon_NormalizedStoriesSpecifier = normalizeStoriesEntry(
+        const docsErrorSpecifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
           './errors/DuplicateMetaOf.mdx',
           options
         );
@@ -871,7 +854,7 @@ describe('StoryIndexGenerator', () => {
       });
 
       it('warns when a standalone entry has the same name as a story', async () => {
-        const docsErrorSpecifier: CoreCommon_NormalizedStoriesSpecifier = normalizeStoriesEntry(
+        const docsErrorSpecifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
           './errors/MetaOfClashingName.mdx',
           options
         );
@@ -924,11 +907,11 @@ describe('StoryIndexGenerator', () => {
 
   describe('sorting', () => {
     it('runs a user-defined sort function', async () => {
-      const storiesSpecifier: CoreCommon_NormalizedStoriesSpecifier = normalizeStoriesEntry(
+      const storiesSpecifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
         './src/**/*.stories.(ts|js|jsx)',
         options
       );
-      const docsSpecifier: CoreCommon_NormalizedStoriesSpecifier = normalizeStoriesEntry(
+      const docsSpecifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
         './src/docs2/*.mdx',
         options
       );
@@ -960,7 +943,7 @@ describe('StoryIndexGenerator', () => {
   describe('caching', () => {
     describe('no invalidation', () => {
       it('does not extract csf files a second time', async () => {
-        const specifier: CoreCommon_NormalizedStoriesSpecifier = normalizeStoriesEntry(
+        const specifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
           './src/**/*.stories.(ts|js|jsx)',
           options
         );
@@ -977,11 +960,11 @@ describe('StoryIndexGenerator', () => {
       });
 
       it('does not extract docs files a second time', async () => {
-        const storiesSpecifier: CoreCommon_NormalizedStoriesSpecifier = normalizeStoriesEntry(
+        const storiesSpecifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
           './src/A.stories.(ts|js|jsx)',
           options
         );
-        const docsSpecifier: CoreCommon_NormalizedStoriesSpecifier = normalizeStoriesEntry(
+        const docsSpecifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
           './src/docs2/*.mdx',
           options
         );
@@ -997,7 +980,7 @@ describe('StoryIndexGenerator', () => {
       });
 
       it('does not call the sort function a second time', async () => {
-        const specifier: CoreCommon_NormalizedStoriesSpecifier = normalizeStoriesEntry(
+        const specifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
           './src/**/*.stories.(ts|js|jsx)',
           options
         );
@@ -1017,7 +1000,7 @@ describe('StoryIndexGenerator', () => {
 
     describe('file changed', () => {
       it('calls extract csf file for just the one file', async () => {
-        const specifier: CoreCommon_NormalizedStoriesSpecifier = normalizeStoriesEntry(
+        const specifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
           './src/**/*.stories.(ts|js|jsx)',
           options
         );
@@ -1036,11 +1019,11 @@ describe('StoryIndexGenerator', () => {
       });
 
       it('calls extract docs file for just the one file', async () => {
-        const storiesSpecifier: CoreCommon_NormalizedStoriesSpecifier = normalizeStoriesEntry(
+        const storiesSpecifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
           './src/A.stories.(ts|js|jsx)',
           options
         );
-        const docsSpecifier: CoreCommon_NormalizedStoriesSpecifier = normalizeStoriesEntry(
+        const docsSpecifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
           './src/docs2/*.mdx',
           options
         );
@@ -1058,11 +1041,11 @@ describe('StoryIndexGenerator', () => {
       });
 
       it('calls extract for a csf file and any of its docs dependents', async () => {
-        const storiesSpecifier: CoreCommon_NormalizedStoriesSpecifier = normalizeStoriesEntry(
+        const storiesSpecifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
           './src/A.stories.(ts|js|jsx)',
           options
         );
-        const docsSpecifier: CoreCommon_NormalizedStoriesSpecifier = normalizeStoriesEntry(
+        const docsSpecifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
           './src/docs2/*.mdx',
           options
         );
@@ -1080,7 +1063,7 @@ describe('StoryIndexGenerator', () => {
       });
 
       it('does call the sort function a second time', async () => {
-        const specifier: CoreCommon_NormalizedStoriesSpecifier = normalizeStoriesEntry(
+        const specifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
           './src/**/*.stories.(ts|js|jsx)',
           options
         );
@@ -1102,7 +1085,7 @@ describe('StoryIndexGenerator', () => {
 
     describe('file removed', () => {
       it('does not extract csf files a second time', async () => {
-        const specifier: CoreCommon_NormalizedStoriesSpecifier = normalizeStoriesEntry(
+        const specifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
           './src/**/*.stories.(ts|js|jsx)',
           options
         );
@@ -1121,7 +1104,7 @@ describe('StoryIndexGenerator', () => {
       });
 
       it('does call the sort function a second time', async () => {
-        const specifier: CoreCommon_NormalizedStoriesSpecifier = normalizeStoriesEntry(
+        const specifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
           './src/**/*.stories.(ts|js|jsx)',
           options
         );
@@ -1141,7 +1124,7 @@ describe('StoryIndexGenerator', () => {
       });
 
       it('does not include the deleted stories in results', async () => {
-        const specifier: CoreCommon_NormalizedStoriesSpecifier = normalizeStoriesEntry(
+        const specifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
           './src/**/*.stories.(ts|js|jsx)',
           options
         );
@@ -1158,11 +1141,11 @@ describe('StoryIndexGenerator', () => {
       });
 
       it('does not include the deleted docs in results', async () => {
-        const storiesSpecifier: CoreCommon_NormalizedStoriesSpecifier = normalizeStoriesEntry(
+        const storiesSpecifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
           './src/A.stories.(ts|js|jsx)',
           options
         );
-        const docsSpecifier: CoreCommon_NormalizedStoriesSpecifier = normalizeStoriesEntry(
+        const docsSpecifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
           './src/docs2/*.mdx',
           options
         );
@@ -1180,11 +1163,11 @@ describe('StoryIndexGenerator', () => {
       });
 
       it('cleans up properly on dependent docs deletion', async () => {
-        const storiesSpecifier: CoreCommon_NormalizedStoriesSpecifier = normalizeStoriesEntry(
+        const storiesSpecifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
           './src/A.stories.(ts|js|jsx)',
           options
         );
-        const docsSpecifier: CoreCommon_NormalizedStoriesSpecifier = normalizeStoriesEntry(
+        const docsSpecifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
           './src/docs2/*.mdx',
           options
         );

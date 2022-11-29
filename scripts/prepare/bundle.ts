@@ -92,7 +92,7 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
         c.platform = platform || 'browser';
         c.legalComments = 'none';
         c.minifyWhitespace = optimized;
-        c.minifyIdentifiers = optimized;
+        c.minifyIdentifiers = false;
         c.minifySyntax = optimized;
         /* eslint-enable no-param-reassign */
       },

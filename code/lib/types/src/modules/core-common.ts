@@ -6,7 +6,7 @@ import type { TransformOptions } from '@babel/core';
 import type { Router } from 'express';
 import type { Server } from 'http';
 import type { PackageJson as PackageJsonFromTypeFest } from 'type-fest';
-import type { Parameters, Tag } from './csf';
+import type { StoriesEntry, StoryIndexer } from './storyIndex';
 
 /**
  * ⚠️ This file contains internal WIP types they MUST NOT be exported outside this package for now!
@@ -14,6 +14,10 @@ import type { Parameters, Tag } from './csf';
 
 export type BuilderName = 'webpack5' | '@storybook/builder-webpack5' | string;
 export type RendererName = string;
+
+interface ServerChannel {
+  emit(type: string, args?: any): void;
+}
 
 export interface CoreConfig {
   builder?:
@@ -63,7 +67,7 @@ export interface Presets {
   apply(extension: 'framework', config?: {}, args?: any): Promise<Preset>;
   apply(extension: 'babel', config?: {}, args?: any): Promise<TransformOptions>;
   apply(extension: 'entries', config?: [], args?: any): Promise<unknown>;
-  apply(extension: 'stories', config?: [], args?: any): Promise<CoreCommon_StoriesEntry[]>;
+  apply(extension: 'stories', config?: [], args?: any): Promise<StoriesEntry[]>;
   apply(extension: 'managerEntries', config: [], args?: any): Promise<string[]>;
   apply(extension: 'refs', config?: [], args?: any): Promise<unknown>;
   apply(extension: 'core', config?: {}, args?: any): Promise<CoreConfig>;
@@ -188,6 +192,7 @@ export interface Builder<Config, BuilderStats extends Stats = Stats> {
     startTime: ReturnType<typeof process.hrtime>;
     router: Router;
     server: Server;
+    channel: ServerChannel;
   }) => Promise<void | {
     stats?: BuilderStats;
     totalTime: ReturnType<typeof process.hrtime>;
@@ -200,26 +205,6 @@ export interface Builder<Config, BuilderStats extends Stats = Stats> {
   bail: (e?: Error) => Promise<void>;
   corePresets?: string[];
   overridePresets?: string[];
-}
-
-export interface CoreCommon_IndexerOptions {
-  makeTitle: (userTitle?: string) => string;
-}
-
-export interface CoreCommon_IndexedStory {
-  id: string;
-  name: string;
-  tags?: Tag[];
-  parameters?: Parameters;
-}
-export interface CoreCommon_StoryIndex {
-  meta: { title?: string; tags?: Tag[] };
-  stories: CoreCommon_IndexedStory[];
-}
-
-export interface CoreCommon_StoryIndexer {
-  test: RegExp;
-  indexer: (fileName: string, options: CoreCommon_IndexerOptions) => Promise<CoreCommon_StoryIndex>;
 }
 
 /**
@@ -239,33 +224,6 @@ export interface TypescriptOptions {
    */
   skipBabel: boolean;
 }
-
-interface CoreCommon_StoriesSpecifier {
-  /**
-   * When auto-titling, what to prefix all generated titles with (default: '')
-   */
-  titlePrefix?: string;
-  /**
-   * Where to start looking for story files
-   */
-  directory: string;
-  /**
-   * What does the filename of a story file look like?
-   * (a glob, relative to directory, no leading `./`)
-   * If unset, we use `** / *.@(mdx|stories.@(mdx|tsx|ts|jsx|js))` (no spaces)
-   */
-  files?: string;
-}
-
-export type CoreCommon_StoriesEntry = string | CoreCommon_StoriesSpecifier;
-
-export type CoreCommon_NormalizedStoriesSpecifier = Required<CoreCommon_StoriesSpecifier> & {
-  /*
-   * Match the "importPath" of a file (e.g. `./src/button/Button.stories.js')
-   * relative to the current working directory.
-   */
-  importPathMatcher: RegExp;
-};
 
 export type Preset =
   | string
@@ -378,7 +336,7 @@ export interface StorybookConfig {
    *
    * @example `['./src/*.stories.@(j|t)sx?']`
    */
-  stories: CoreCommon_StoriesEntry[];
+  stories: StoriesEntry[];
 
   /**
    * Framework, e.g. '@storybook/react', required in v7
@@ -426,10 +384,7 @@ export interface StorybookConfig {
   /**
    * Process CSF files for the story index.
    */
-  storyIndexers?: (
-    indexers: CoreCommon_StoryIndexer[],
-    options: Options
-  ) => CoreCommon_StoryIndexer[];
+  storyIndexers?: (indexers: StoryIndexer[], options: Options) => StoryIndexer[];
 
   /**
    * Docs related features in index generation

@@ -192,6 +192,50 @@ npx storybook@next link --local /path/to/local-repro-directory
 
 </div>
 
+## Developing a template
+
+The first step is to add an entry to `code/lib/cli/src/repro-templates.ts`, which is the master list of all repro templates:
+
+```ts
+'cra/default-js': {
+    name: 'Create React App (Javascript)',
+    script: 'npx create-react-app .',
+    inDevelopment: true,
+    expected: {
+      framework: '@storybook/cra',
+      renderer: '@storybook/react',
+      builder: '@storybook/builder-webpack5',
+    },
+  },
+```
+
+Add the `isDevelopment` flag until the PR is merged (you can fast-follow it with a second PR to remove the flag), as it'll make the development process much easier.
+
+The **`key`** `cra/default-js` consists of two parts:
+
+- The prefix is the tool that was used to generate the repro app
+- The suffix is options that modify the default install, e.g. a specific version or options
+
+The **`script`** field is what generates the application environment. The `.` argument is “the current working directory” which is auto-generated based on the key (e.g. `repros/cra/default-js/before-storybook`).
+
+The rest of the fields are self-explanatory:
+
+- **`name`**: Human readable name/description
+- **`cadence`:** How often this runs in CI (for now these are the same for every template)
+- **`expected`**: What framework/renderer/builder we expect `sb init` to generate
+
+### Running a sandbox
+
+If your template has a `inDevelopment` flag, it will be generated (locally) as part of the sandbox process. You can create the sandbox with:
+
+```bash
+yarn task --task dev --template cra/default-js --no-link --start-from=install
+```
+
+Make sure you pass the `--no-link` flag as it is required for the local template generation to work.
+
+Once the PR is merged, the template will be generated on a nightly cadence and you can remove the `inDevelopment` flag and the sandbox will pull the code from our templates repository.
+
 ## Troubleshooting
 
 <details>

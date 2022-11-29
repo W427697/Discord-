@@ -1,4 +1,4 @@
-import { start } from '@storybook/core-client';
+import { start } from '@storybook/preview-api';
 
 import './globals';
 import type { EmberRenderer } from './types';
