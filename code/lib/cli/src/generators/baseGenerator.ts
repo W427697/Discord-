@@ -129,7 +129,6 @@ export async function baseGenerator(
   const {
     packages: frameworkPackages,
     type,
-    renderer: rendererInclude, // deepscan-disable-line UNUSED_DECL
     rendererId,
     framework: frameworkInclude,
     builder: builderInclude,
