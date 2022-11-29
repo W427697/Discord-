@@ -6,18 +6,22 @@ import type { FC } from 'react';
 import React from 'react';
 
 /**
- * This selector styles all raw elements inside the DocsPage like this example with a `<p>`:
- * :where(p:not(:where(.sb-canvas, .sb-unstyled) p))
+ * This selector styles all raw elements inside the DocsPage like this example with a `<div/>`:
+ * :where(div:not(.sb-unstyled, .sb-canvas... :where(.sb-unstyled, .sb-canvas...) div))
  *
- * 1. first ':where' ensures this has a specificity of 0, making it easy to override.
- * 2. p:not(...) selects all p elements...
- * 3. :where(.sb-canvas, .sb-unstyled) p  ...that are not inside a .sb-canvas or .sb-unstyled, it is a shorthand for 'sb-canvas p, .sb-unstyled p'
- * 4. .sb-canvas ensures that the styles are not applied to any of the stories.
- * 5. .sb-unstyled is an escape hatch that allows the user to opt-out of the default styles
- *    by wrapping their content in an element with this class.
+ * 1. first ':where': ensures this has a specificity of 0, making it easy to override.
+ * 2. 'div:not(...)': selects all div elements that are not...
+ * 3. '.sb-unstyled, .sb-canvas...': any of the elements we don't want to style
+ * 3. ':where(.sb-unstyled, .sb-canvas...) div': or are descendants of an .sb-unstyled or .sb-canvas, etc. It is a shorthand for '.sb-unstyled div, sb-canvas div...'
+ * 4. .sb-unstyled is an escape hatch that allows the user to opt-out of the default styles
+ *    by wrapping their content in an element with this class: <Unstyled />
+ * 5. the other UNSTYLED_SELECTORS are elements we don't want the styles to bleed into, like canvas, story and source blocks.
  */
+const UNSTYLED_SELECTORS = ['.sb-unstyled', '.sb-canvas', '.sb-story', '.docblock-source'].join(
+  ', '
+);
 const toGlobalSelector = (element: string): string =>
-  `& :where(${element}:not(:where(.sb-canvas, .sb-unstyled) ${element}))`;
+  `& :where(${element}:not(${UNSTYLED_SELECTORS}, :where(${UNSTYLED_SELECTORS}) ${element}))`;
 
 const breakpoint = 600;
 
@@ -55,12 +59,7 @@ export const Subtitle = styled.h2(withReset, ({ theme }) => ({
   color: transparentize(0.25, theme.color.defaultText),
 }));
 
-export const DocsContent = styled.div({
-  maxWidth: 1000,
-  width: '100%',
-});
-
-export const DocsWrapper = styled.div(({ theme }) => {
+export const DocsContent = styled.div(({ theme }) => {
   const reset = {
     fontFamily: theme.typography.fonts.base,
     fontSize: theme.typography.size.s3,
@@ -109,14 +108,9 @@ export const DocsWrapper = styled.div(({ theme }) => {
   };
 
   return {
-    background: theme.background.content,
-    display: 'flex',
-    justifyContent: 'center',
-    padding: '4rem 20px',
-    minHeight: '100vh',
-    boxSizing: 'border-box',
+    maxWidth: 1000,
+    width: '100%',
 
-    [`@media (min-width: ${breakpoint}px)`]: {},
     ...reset,
     [toGlobalSelector('a')]: {
       ...reset,
@@ -434,6 +428,17 @@ export const DocsWrapper = styled.div(({ theme }) => {
     },
   };
 });
+
+export const DocsWrapper = styled.div(({ theme }) => ({
+  background: theme.background.content,
+  display: 'flex',
+  justifyContent: 'center',
+  padding: '4rem 20px',
+  minHeight: '100vh',
+  boxSizing: 'border-box',
+
+  [`@media (min-width: ${breakpoint}px)`]: {},
+}));
 
 interface DocsPageWrapperProps {
   children?: React.ReactNode;
