@@ -30,6 +30,7 @@
     - [Addon-backgrounds: Removed deprecated grid parameter](#addon-backgrounds-removed-deprecated-grid-parameter)
     - [Addon-docs: Removed deprecated blocks.js entry](#addon-docs-removed-deprecated-blocksjs-entry)
     - [Addon-a11y: Removed deprecated withA11y decorator](#addon-a11y-removed-deprecated-witha11y-decorator)
+    - [Stories glob matches MDX files](#stories-glob-matches-mdx-files)
   - [Docs Changes](#docs-changes)
     - [Standalone docs files](#standalone-docs-files)
     - [Referencing stories in docs files](#referencing-stories-in-docs-files)
@@ -595,6 +596,30 @@ Removed `@storybook/addon-docs/blocks` entry. Import directly from `@storybook/a
 #### Addon-a11y: Removed deprecated withA11y decorator
 
 We removed the deprecated `withA11y` decorator. This was [deprecated in 6.0](#removed-witha11y-decorator)
+
+#### Stories glob matches MDX files
+
+If you used a directory based stories glob, in 6.x it would match `.stories.js` (and other JS extensions) and `.stories.mdx` files. For instance:
+
+```js
+// in main.js
+export default {
+  stories: ['../path/to/directory']
+};
+
+// or
+export default {
+  stories: [{ directory: '../path/to/directory' }]
+};
+```
+
+In 7.0, this pattern will also match `.mdx` files (the new extension for docs files - see docs changes below). If you have `.mdx` files you don't want to appear in your storybook, either move them out of the directory, or add a `files` specifier with the old pattern (`"**/*.stories.@(mdx|tsx|ts|jsx|js)"`):
+
+```js
+export default {
+  stories: [{ directory: '../path/to/directory', files: '**/*.stories.@(mdx|tsx|ts|jsx|js)' }],
+};
+```
 
 ### Docs Changes
 
