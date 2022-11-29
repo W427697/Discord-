@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import type { ComponentProps } from 'react';
 import React from 'react';
 import { Global, css } from '@storybook/theming';
@@ -95,3 +96,28 @@ export const Markdown = () => (
     <Source {...source.JSX.args} />
   </DocsPageWrapper>
 );
+
+export const Html = {
+  name: 'HTML',
+  render: () => (
+    <DocsPageWrapper>
+      <h1>Heading 1</h1>
+      <h2>Heading 2</h2>
+      <a>A tag</a>
+      <pre>pre tag</pre>
+      <div>
+        <div>Div</div>
+        <a>Nested A tag</a>
+      </div>
+      <div className="sb-unstyled" style={{ border: '2px solid red' }}>
+        <h1>Unstyled content</h1>
+        <h2>Heading 2</h2>
+        <a>A tag</a>
+        <div>
+          <div>Div</div>
+          <a>Nested A tag</a>
+        </div>
+      </div>
+    </DocsPageWrapper>
+  ),
+};
