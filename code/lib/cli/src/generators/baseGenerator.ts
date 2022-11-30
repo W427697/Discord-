@@ -101,7 +101,7 @@ const hasInteractiveStories = (rendererId: SupportedRenderers) =>
   ['react', 'angular', 'preact', 'svelte', 'vue', 'vue3', 'html'].includes(rendererId);
 
 const hasFrameworkTemplates = (framework?: SupportedFrameworks) =>
-  ['angular', 'nextjs'].includes(framework);
+  ['angular', 'nextjs', 'svelte-kit'].includes(framework);
 
 export async function baseGenerator(
   packageManager: JsPackageManager,

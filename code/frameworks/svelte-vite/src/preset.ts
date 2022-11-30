@@ -1,4 +1,5 @@
 import { type StorybookConfig, withoutVitePlugins } from '@storybook/builder-vite';
+import { deprecate } from '@storybook/node-logger';
 import { hasPlugin } from './utils';
 import { svelteDocgen } from './plugins/svelte-docgen';
 
@@ -7,7 +8,7 @@ export const core: StorybookConfig['core'] = {
   renderer: '@storybook/svelte',
 };
 
-export const viteFinal: StorybookConfig['viteFinal'] = async (config, options) => {
+export const viteFinal: NonNullable<StorybookConfig['viteFinal']> = async (config, options) => {
   let { plugins = [] } = config;
   const { svelte, loadSvelteConfig } = await import('@sveltejs/vite-plugin-svelte');
   const svelteOptions: Record<string, any> = await options.presets.apply(
@@ -25,6 +26,12 @@ export const viteFinal: StorybookConfig['viteFinal'] = async (config, options) =
   // Add docgen plugin
   plugins.push(svelteDocgen(svelteConfig));
 
+  // TODO: better SvelteKit detection, this warns when using @storybook/svelte-kit too
+  if (hasPlugin(plugins, 'vite-plugin-svelte-kit')) {
+    deprecate(
+      'SvelteKit support in @storybook/svelte-vite is deprecated in Storybook 7.0, use the official @storybook/svelte-kit framework instead.'
+    );
+  }
   // Remove vite-plugin-svelte-kit from plugins if using SvelteKit
   // see https://github.com/storybookjs/storybook/issues/19280#issuecomment-1281204341
   plugins = withoutVitePlugins(plugins, ['vite-plugin-svelte-kit']);

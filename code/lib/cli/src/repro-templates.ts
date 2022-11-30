@@ -169,10 +169,11 @@ export const allTemplates = {
   },
   'svelte-kit/skeleton-js': {
     name: 'Svelte Kit (JS)',
+    inDevelopment: true,
     script:
       'yarn create svelte-with-args --name=svelte-kit/skeleton-js --directory=. --template=skeleton --types=null --no-prettier --no-eslint --no-playwright',
     expected: {
-      framework: '@storybook/svelte-vite',
+      framework: '@storybook/svelte-kit',
       renderer: '@storybook/svelte',
       builder: '@storybook/builder-vite',
     },
@@ -182,7 +183,7 @@ export const allTemplates = {
     script:
       'yarn create svelte-with-args --name=svelte-kit/skeleton-ts --directory=. --template=skeleton --types=typescript --no-prettier --no-eslint --no-playwright',
     expected: {
-      framework: '@storybook/svelte-vite',
+      framework: '@storybook/svelte-kit',
       renderer: '@storybook/svelte',
       builder: '@storybook/builder-vite',
     },

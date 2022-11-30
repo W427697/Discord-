@@ -7431,7 +7431,21 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/svelte-vite@workspace:frameworks/svelte-vite":
+"@storybook/svelte-kit@workspace:frameworks/svelte-kit":
+  version: 0.0.0-use.local
+  resolution: "@storybook/svelte-kit@workspace:frameworks/svelte-kit"
+  dependencies:
+    "@storybook/builder-vite": 7.0.0-alpha.54
+    "@storybook/svelte-vite": 7.0.0-alpha.54
+  peerDependencies:
+    "@storybook/addon-svelte-csf": ^2.0.0
+  peerDependenciesMeta:
+    "@storybook/addon-svelte-csf":
+      optional: true
+  languageName: unknown
+  linkType: soft
+
+"@storybook/svelte-vite@7.0.0-alpha.54, @storybook/svelte-vite@workspace:frameworks/svelte-vite":
   version: 0.0.0-use.local
   resolution: "@storybook/svelte-vite@workspace:frameworks/svelte-vite"
   dependencies:
