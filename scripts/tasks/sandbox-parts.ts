@@ -70,7 +70,6 @@ export const create: Task['run'] = async (
 
   const mainConfig = await readMainConfig({ cwd });
 
-  mainConfig.setFieldValue(['core', 'disableTelemetry'], true);
   if (template.expected.builder === '@storybook/builder-vite') setSandboxViteFinal(mainConfig);
   await writeConfig(mainConfig);
 };
@@ -109,7 +108,8 @@ export const install: Task['run'] = async ({ sandboxDir }, { link, dryRun, debug
   logger.info(`🔢 Adding package scripts:`);
   await updatePackageScripts({
     cwd,
-    prefix: 'NODE_OPTIONS="--preserve-symlinks --preserve-symlinks-main"',
+    prefix:
+      'NODE_OPTIONS="--preserve-symlinks --preserve-symlinks-main" STORYBOOK_TELEMETRY_URL="http://localhost:6007/event-log"',
   });
 };
 

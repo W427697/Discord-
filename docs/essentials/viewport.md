@@ -2,6 +2,8 @@
 title: 'Viewport'
 ---
 
+<YouTubeCallout id="uydF1ltw7-g" title="Stop resizing your browser — Storybook viewport" />
+
 The Viewport toolbar item allows you to adjust the dimensions of the iframe your story is rendered in. It makes it easy to develop responsive UIs.
 
 <video autoPlay muted playsInline loop>
