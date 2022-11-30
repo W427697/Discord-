@@ -21,7 +21,7 @@ import type {
 
 // Store Types
 export interface WebRenderer extends Renderer {
-  canvasElement: HTMLElement;
+  canvasElement: HTMLElement | ShadowRoot;
 }
 
 export type ModuleExport = any;
