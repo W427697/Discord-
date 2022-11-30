@@ -150,7 +150,7 @@ export const DocsContent = styled.div(({ theme }) => {
         marginBottom: 0,
       },
     },
-    [toGlobalSelector('div')]: { ...reset, color: 'green' },
+    [toGlobalSelector('div')]: reset,
     [toGlobalSelector('dl')]: {
       ...reset,
       margin: '16px 0',
