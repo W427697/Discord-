@@ -14,9 +14,9 @@ Storybook provides an official [test coverage addon](https://storybook.js.org/ad
 
 ### Set up the coverage addon
 
-To enable test coverage with Storybook, you'll need to take additional steps to set it up properly. We recommend you go through the [test runner documentation](./test-runner.md) before proceeding with the rest of the required configuration.
+Engineered to work alongside modern testing tools (e.g., [[Playwright](https://playwright.dev/)), the coverage addon automatically instruments your code and generates code coverage data. For an optimal experience, we recommend using the [test runner](./test-runner.md) alongside the coverage addon to run your tests.
 
-Run the following command to install the coverage addon and related dependencies:
+Run the following command to install the addon.
 
 <!-- prettier-ignore-start -->
 
