@@ -67,14 +67,7 @@
     "vue-tsc": "^1.0.8"
   },
   "peerDependencies": {
-    "@babel/core": "*",
-    "babel-loader": "^7.0.0 || ^8.0.0",
     "vue": "^3.0.0"
-  },
-  "peerDependenciesMeta": {
-    "babel-loader": {
-      "optional": true
-    }
   },
   "engines": {
     "node": ">=10.13.0"
