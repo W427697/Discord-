@@ -11,7 +11,7 @@ export const allTemplates = {
   },
   'cra/default-ts': {
     name: 'Create React App (Typescript)',
-    script: 'npx create-react-app . --template typescript',
+    script: 'yarn create next-app . --template typescript',
     // Re-enable once https://github.com/storybookjs/storybook/issues/19351 is fixed.
     skipTasks: ['smoke-test'],
     expected: {
@@ -21,9 +21,19 @@ export const allTemplates = {
       builder: '@storybook/builder-webpack5',
     },
   },
+  'nextjs/12-js': {
+    name: 'Next.js v12 (JavaScript)',
+    script:
+      'yarn create next-app {{beforeDir}} -e https://github.com/vercel/next.js/tree/next-12-3-2/examples/hello-world && cd {{beforeDir}} && npm pkg set "dependencies.next"="^12" && yarn && git add . && git commit --amend --no-edit && cd ..',
+    expected: {
+      framework: '@storybook/nextjs',
+      renderer: '@storybook/react',
+      builder: '@storybook/builder-webpack5',
+    },
+  },
   'nextjs/default-js': {
     name: 'Next.js (JavaScript)',
-    script: 'npx create-next-app {{beforeDir}}',
+    script: 'yarn create next-app {{beforeDir}}',
     expected: {
       framework: '@storybook/nextjs',
       renderer: '@storybook/react',
@@ -32,7 +42,7 @@ export const allTemplates = {
   },
   'nextjs/default-ts': {
     name: 'Next.js (TypeScript)',
-    script: 'npx create-next-app {{beforeDir}} --typescript',
+    script: 'yarn create next-app {{beforeDir}} --typescript',
     expected: {
       framework: '@storybook/nextjs',
       renderer: '@storybook/react',
