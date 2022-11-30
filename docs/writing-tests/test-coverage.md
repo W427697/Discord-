@@ -72,7 +72,7 @@ Finally, open a new terminal window and run the test-runner with:
 
 ### Configure
 
-By default, the [`@storybook/addon-coverage`](https://storybook.js.org/addons/@storybook/addon-coverage) offers zero-config support for Storybook and instruments your tests via [`babel-plugin-istanbul`](https://github.com/istanbuljs/babel-plugin-istanbul) for [Babel](https://babeljs.io/), or [`vite-plugin-istanbul`](https://github.com/iFaxity/vite-plugin-istanbul) for [Vite](https://vitejs.dev/). However, you can extend your Storybook configuration file (i.e., `.storybook/main.js|ts`) and provide additional options. Listed below are the available options and examples of how to use them.
+By default, the [`@storybook/addon-coverage`](https://storybook.js.org/addons/@storybook/addon-coverage) offers zero-config support for Storybook and instruments your code via [`babel-plugin-istanbul`](https://github.com/istanbuljs/babel-plugin-istanbul) for [Babel](https://babeljs.io/), or [`vite-plugin-istanbul`](https://github.com/iFaxity/vite-plugin-istanbul) for [Vite](https://vitejs.dev/). However, you can extend your Storybook configuration file (i.e., `.storybook/main.js|ts`) and provide additional options to the addon. Listed below are the available options and examples of how to use them.
 
 <!-- prettier-ignore-start -->
 
