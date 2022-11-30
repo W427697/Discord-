@@ -70,9 +70,6 @@ async function webpack(
     skipCsf: true,
     mdxCompileOptions: {
       providerImportSource: '@storybook/addon-docs/mdx-react-shim',
-      jsxImportSource: '@storybook/addon-docs/react-shim',
-      pragmaImportSource: '@storybook/addon-docs/react-shim',
-      jsxRuntime: 'classic',
       remarkPlugins: [remarkSlug, remarkExternalLinks],
     },
   };
