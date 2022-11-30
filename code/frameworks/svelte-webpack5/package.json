@@ -54,9 +54,7 @@
     "@storybook/builder-webpack5": "7.0.0-alpha.54",
     "@storybook/core-common": "7.0.0-alpha.54",
     "@storybook/preset-svelte-webpack": "7.0.0-alpha.54",
-    "@storybook/svelte": "7.0.0-alpha.54",
-    "react": "16.14.0",
-    "react-dom": "16.14.0"
+    "@storybook/svelte": "7.0.0-alpha.54"
   },
   "devDependencies": {
     "svelte": "^3.48.0",
@@ -65,6 +63,8 @@
   },
   "peerDependencies": {
     "@babel/core": "*",
+    "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
+    "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0",
     "svelte": "^3.48.0",
     "svelte-loader": "*"
   },

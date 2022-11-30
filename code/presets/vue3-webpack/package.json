@@ -63,8 +63,6 @@
     "@storybook/core-webpack": "7.0.0-alpha.54",
     "@storybook/docs-tools": "7.0.0-alpha.54",
     "@types/node": "^16.0.0",
-    "react": "16.14.0",
-    "react-dom": "16.14.0",
     "ts-loader": "^9.2.8",
     "vue-docgen-api": "^4.46.0",
     "vue-docgen-loader": "^1.5.1",
