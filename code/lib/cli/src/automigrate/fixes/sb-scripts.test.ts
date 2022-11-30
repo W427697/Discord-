@@ -50,11 +50,12 @@ describe('getStorybookScripts', () => {
       })
     ).toEqual({
       custom: {
-        'sb:start': 'start-storybook',
         'sb:mocked': 'MOCKS=true start-storybook',
+      },
+      official: {
+        'sb:start': 'start-storybook',
         'sb:build': 'build-storybook',
       },
-      official: {},
     });
   });
 });
@@ -115,7 +116,7 @@ describe('sb scripts fix', () => {
           'sb:build': 'build-storybook -o buid/storybook',
           'sb:build-mocked': 'MOCKS=true sb:build',
           'test-storybook:ci':
-            'concurrently -k -s first -n "SB,TEST" -c "magenta,blue" "yarn build-storybook --quiet && npx http-server storybook-static --port 6006 --silent" "wait-on tcp:6006 && yarn test-storybook"',
+            'concurrently -k -s first -n "SB,TEST" -c "magenta,blue" "yarn sb:build --quiet && npx http-server storybook-static --port 6006 --silent" "wait-on tcp:6006 && yarn test-storybook"',
         },
       };
 
@@ -127,13 +128,11 @@ describe('sb scripts fix', () => {
         ).resolves.toEqual(
           expect.objectContaining({
             storybookScripts: {
-              custom: {
-                'sb:start': 'start-storybook -p 6006',
-                'sb:build': 'build-storybook -o buid/storybook',
-                'test-storybook:ci':
-                  'concurrently -k -s first -n "SB,TEST" -c "magenta,blue" "yarn build-storybook --quiet && npx http-server storybook-static --port 6006 --silent" "wait-on tcp:6006 && yarn test-storybook"',
+              custom: {},
+              official: {
+                'sb:build': 'storybook build -o buid/storybook',
+                'sb:start': 'storybook dev -p 6006',
               },
-              official: {},
             },
             storybookVersion: '^7.0.0-alpha.0',
           })
@@ -153,7 +152,7 @@ describe('sb scripts fix', () => {
             'storybook:build': 'build-storybook -o buid/storybook',
             'storybook:build-mocked': 'MOCKS=true yarn storybook:build',
             'test-storybook:ci':
-              'concurrently -k -s first -n "SB,TEST" -c "magenta,blue" "yarn build-storybook --quiet && npx http-server storybook-static --port 6006 --silent" "wait-on tcp:6006 && yarn test-storybook"',
+              'concurrently -k -s first -n "SB,TEST" -c "magenta,blue" "yarn storybook:build-mocked --quiet && npx http-server storybook-static --port 6006 --silent" "wait-on tcp:6006 && yarn test-storybook"',
           },
         };
         it('should update scripts to new format', async () => {
@@ -164,12 +163,9 @@ describe('sb scripts fix', () => {
           ).resolves.toEqual(
             expect.objectContaining({
               storybookScripts: {
-                custom: {
-                  'storybook:build': 'build-storybook -o buid/storybook',
-                  'test-storybook:ci':
-                    'concurrently -k -s first -n "SB,TEST" -c "magenta,blue" "yarn build-storybook --quiet && npx http-server storybook-static --port 6006 --silent" "wait-on tcp:6006 && yarn test-storybook"',
-                },
+                custom: {},
                 official: {
+                  'storybook:build': 'storybook build -o buid/storybook',
                   storybook: 'storybook dev -p 6006',
                 },
               },
@@ -204,8 +200,8 @@ describe('sb scripts fix', () => {
             storybook: '^7.0.0-alpha.0',
           },
           scripts: {
-            storybook: 'npx sb dev -p 6006',
-            'build-storybook': 'npx sb build -o build/storybook',
+            storybook: 'storybook dev -p 6006',
+            'build-storybook': 'storybook build -o build/storybook',
           },
         };
         it('should no-op', async () => {

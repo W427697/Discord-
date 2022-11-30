@@ -24,7 +24,12 @@ export const getStorybookScripts = (scripts: Record<string, string>) => {
   };
 
   Object.keys(scripts).forEach((key) => {
-    if (key === 'storybook' || key === 'build-storybook') {
+    if (
+      key === 'storybook' ||
+      key === 'build-storybook' ||
+      scripts[key].startsWith('start-storybook') ||
+      scripts[key].startsWith('build-storybook')
+    ) {
       storybookScripts.official[key] = scripts[key];
     } else if (scripts[key].match(/start-storybook/) || scripts[key].match(/build-storybook/)) {
       storybookScripts.custom[key] = scripts[key];
