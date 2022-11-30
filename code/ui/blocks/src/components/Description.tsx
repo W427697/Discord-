@@ -13,6 +13,6 @@ export interface DescriptionProps {
  */
 export const Description: FC<DescriptionProps> = ({ markdown }) => (
   <ResetWrapper>
-    <Markdown options={{ forceBlock: true, overrides: components }}>{markdown}</Markdown>
+    <Markdown options={{ forceBlock: true }}>{markdown}</Markdown>
   </ResetWrapper>
 );

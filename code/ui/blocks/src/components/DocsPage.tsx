@@ -7,19 +7,23 @@ import React from 'react';
 
 /**
  * This selector styles all raw elements inside the DocsPage like this example with a `<div/>`:
- * :where(div:not(.sb-unstyled, .sb-canvas... :where(.sb-unstyled, .sb-canvas...) div))
+ * :where(div:not(.sb-unstyled, .sbdocs-preview... :where(.sb-unstyled, .sbdocs-preview...) div))
  *
  * 1. first ':where': ensures this has a specificity of 0, making it easy to override.
  * 2. 'div:not(...)': selects all div elements that are not...
- * 3. '.sb-unstyled, .sb-canvas...': any of the elements we don't want to style
- * 3. ':where(.sb-unstyled, .sb-canvas...) div': or are descendants of an .sb-unstyled or .sb-canvas, etc. It is a shorthand for '.sb-unstyled div, sb-canvas div...'
+ * 3. '.sb-unstyled, .sbdocs-preview...': any of the elements we don't want to style
+ * 3. ':where(.sb-unstyled, .sbdocs-preview...) div': or are descendants of an .sb-unstyled or .sbdocs-preview, etc. It is a shorthand for '.sb-unstyled div, sbdocs-preview div...'
  * 4. .sb-unstyled is an escape hatch that allows the user to opt-out of the default styles
  *    by wrapping their content in an element with this class: <Unstyled />
  * 5. the other UNSTYLED_SELECTORS are elements we don't want the styles to bleed into, like canvas, story and source blocks.
  */
-const UNSTYLED_SELECTORS = ['.sb-unstyled', '.sb-canvas', '.sb-story', '.docblock-source'].join(
-  ', '
-);
+const UNSTYLED_SELECTORS = [
+  '.sb-unstyled',
+  '.sbdocs-preview',
+  '.sb-story',
+  '.docblock-source',
+  '.sb-anchor',
+].join(', ');
 const toGlobalSelector = (element: string): string =>
   `& :where(${element}:not(${UNSTYLED_SELECTORS}, :where(${UNSTYLED_SELECTORS}) ${element}))`;
 
@@ -146,7 +150,7 @@ export const DocsContent = styled.div(({ theme }) => {
         marginBottom: 0,
       },
     },
-    [toGlobalSelector('div')]: reset,
+    [toGlobalSelector('div')]: { ...reset, color: 'green' },
     [toGlobalSelector('dl')]: {
       ...reset,
       margin: '16px 0',
