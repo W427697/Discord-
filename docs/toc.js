@@ -205,6 +205,11 @@ module.exports = {
           type: 'link',
         },
         {
+          pathSegment: 'test-coverage',
+          title: 'Test coverage',
+          type: 'link',
+        },
+        {
           pathSegment: 'snapshot-testing',
           title: 'Snapshot tests',
           type: 'link',
