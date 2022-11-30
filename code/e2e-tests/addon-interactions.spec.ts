@@ -66,9 +66,9 @@ test.describe('addon-interactions', () => {
     const panel = sbPage.panelContent();
     const runStatusBadge = await panel.locator('[aria-label="Status of the test run"]');
     await expect(runStatusBadge).toContainText(/Pass/);
-    await expect(panel).toContainText(/initial value/);
-    await expect(panel).toContainText(/userEvent.clear/);
-    await expect(panel).toContainText(/final value/);
+    await expect(panel).toContainText(/value: "initial value"/);
+    await expect(panel).toContainText(/value: ""/);
+    await expect(panel).toContainText(/value: "final value"/);
     await expect(panel).toBeVisible();
 
     // Test interactions debugger - Stepping through works, count is correct and values are as expected
