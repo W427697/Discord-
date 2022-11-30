@@ -12186,9 +12186,9 @@ __metadata:
   linkType: hard
 
 "caniuse-lite@npm:^1.0.30001299, caniuse-lite@npm:^1.0.30001400, caniuse-lite@npm:^1.0.30001406, caniuse-lite@npm:^1.0.30001426":
-  version: 1.0.30001434
-  resolution: "caniuse-lite@npm:1.0.30001434"
-  checksum: 3ebceec5ef7c5e8200a6f1ff24c40ec237f9d718838b0931bc670d42d4c47c446f52e80ccd9c05c84788d9fbe012a7c1afbb824374d4f357596789bc7dc83fd0
+  version: 1.0.30001435
+  resolution: "caniuse-lite@npm:1.0.30001435"
+  checksum: 8cb36babb5b33f537b86fa06274671bfd521047915a964f8106004d17c99b3d5952b0f61ae88d34aaab811b8c9e9254fabbd9184a358569872e80a0b38851332
   languageName: node
   linkType: hard
 
@@ -17154,9 +17154,9 @@ __metadata:
   linkType: hard
 
 "flow-parser@npm:0.*":
-  version: 0.193.0
-  resolution: "flow-parser@npm:0.193.0"
-  checksum: 25b2770c00a4c7ee7596fa4c2a4d5e422c6bbac96162778a37523fddbf4bf49942efd45984c6156f9b515dbad45c0927e78792ab11543b0b31b654427920858c
+  version: 0.194.0
+  resolution: "flow-parser@npm:0.194.0"
+  checksum: 5befabfd4ec9e57a0f1923226dcbe5d593f1704a5aca2208ad0590d0e832c7bf73e7b66ee1dd867b94057ac0f21c138e5ff589bfea1becd9030276bdc97e9afe
   languageName: node
   linkType: hard
 
@@ -23681,11 +23681,11 @@ __metadata:
   linkType: hard
 
 "minimatch@npm:^5.0.1, minimatch@npm:^5.1.0":
-  version: 5.1.0
-  resolution: "minimatch@npm:5.1.0"
+  version: 5.1.1
+  resolution: "minimatch@npm:5.1.1"
   dependencies:
     brace-expansion: ^2.0.1
-  checksum: 21c4877438068da0728eeb678107ea716fd3c76fcde713c9d11b01d7d15c276071aa2fecfcd353b970a290cffd572c3ed43e0a64804470ab9ae97717ed13fb18
+  checksum: 375a71b6e83b35c4c555c2fc885822bfa140c3d105e536f0e4652fdcf0872d9d70955376a39230475683f4fa7eb7bec37d29dc9ab2a1b8008e48697f52e198b1
   languageName: node
   linkType: hard
 
