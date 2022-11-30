@@ -29,7 +29,7 @@ export const viteFinal: NonNullable<StorybookConfig['viteFinal']> = async (confi
   // TODO: better SvelteKit detection, this warns when using @storybook/svelte-kit too
   if (hasPlugin(plugins, 'vite-plugin-svelte-kit')) {
     deprecate(
-      'SvelteKit support in @storybook/svelte-vite is deprecated in Storybook 7.0, use the official @storybook/svelte-kit framework instead.'
+      'SvelteKit support in @storybook/svelte-vite is deprecated in Storybook 7.0, use @storybook/svelte-kit instead.'
     );
   }
   // Remove vite-plugin-svelte-kit from plugins if using SvelteKit

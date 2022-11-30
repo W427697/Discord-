@@ -209,7 +209,11 @@ export async function baseGenerator(
   await configurePreview(rendererId);
 
   // FIXME: temporary workaround for https://github.com/storybookjs/storybook/issues/17516
-  if (frameworkPackages.find((pkg) => pkg.match(/^@storybook\/.*-vite$/))) {
+  if (
+    frameworkPackages.find(
+      (pkg) => pkg.match(/^@storybook\/.*-vite$/) || pkg === '@storybook/svelte-kit'
+    )
+  ) {
     const previewHead = dedent`
       <script>
         window.global = window;
