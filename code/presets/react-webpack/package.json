@@ -93,7 +93,7 @@
   },
   "peerDependencies": {
     "@babel/core": "^7.11.5",
-    "jest-specific-snapshot": "^6.0.0",
+    "jest-specific-snapshot": "^7.0.0",
     "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
     "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0",
     "require-from-string": "^2.0.2",
