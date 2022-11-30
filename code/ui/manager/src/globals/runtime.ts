@@ -13,7 +13,7 @@ import type { Keys } from './types';
 
 // Here we map the name of a module to their VALUE in the global scope.
 export const values: Required<Record<keyof typeof Keys, any>> = {
-  react: REACT,
+  react: REACT as any,
   'react-dom': REACTDOM,
   '@storybook/components': STORYBOOKCOMPONENTS,
   '@storybook/channels': STORYBOOKCHANNELS,

@@ -76,7 +76,7 @@
     "@babel/core": "^7.20.2",
     "@types/util-deprecate": "^1.0.0",
     "expect-type": "^0.14.2",
-    "jest-specific-snapshot": "^6.0.0",
+    "jest-specific-snapshot": "^7.0.0",
     "require-from-string": "^2.0.2",
     "typescript": "^4.9.3"
   },
