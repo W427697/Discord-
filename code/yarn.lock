@@ -6582,6 +6582,8 @@ __metadata:
   resolution: "@storybook/manager@workspace:ui/manager"
   dependencies:
     "@fal-works/esbuild-plugin-global-externals": ^2.1.2
+    "@storybook/addons": 7.0.0-alpha.54
+    "@storybook/api": 7.0.0-alpha.54
     "@storybook/channel-postmessage": 7.0.0-alpha.54
     "@storybook/channel-websocket": 7.0.0-alpha.54
     "@storybook/channels": 7.0.0-alpha.54
