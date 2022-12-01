@@ -1,6 +1,6 @@
-import { execaCommand } from './exec';
 import memoize from 'memoizerific';
 import { resolve } from 'path';
+import { execaCommand } from './exec';
 
 export type Workspace = { name: string; location: string };
 

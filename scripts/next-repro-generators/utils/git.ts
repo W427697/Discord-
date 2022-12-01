@@ -1,4 +1,5 @@
 import { execaCommand } from '../../utils/exec';
+// eslint-disable-next-line import/no-cycle
 import { logger } from '../publish';
 
 export async function commitAllToGit(cwd: string) {

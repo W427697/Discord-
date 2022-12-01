@@ -2,9 +2,9 @@ import type { FC, ComponentProps } from 'react';
 import React, { useContext, useRef, useEffect, useState } from 'react';
 import type {
   Renderer,
-  Store_ModuleExport,
-  Store_ModuleExports,
-  Store_Story as StoryType,
+  ModuleExport,
+  ModuleExports,
+  PreparedStory as StoryType,
   StoryAnnotations,
   StoryId,
 } from '@storybook/types';
@@ -29,8 +29,8 @@ type StoryDefProps = {
 
 type StoryRefProps = {
   id?: string;
-  of?: Store_ModuleExport;
-  meta?: Store_ModuleExports;
+  of?: ModuleExport;
+  meta?: ModuleExports;
 };
 
 type StoryImportProps = {
