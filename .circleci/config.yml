@@ -347,10 +347,10 @@ jobs:
           command: yarn task --task sandbox --template $(yarn get-template << pipeline.parameters.workflow >> sandbox) --no-link --start-from=never --junit
       - run:
           name: Building Sandboxes
-          command: yarn task --task build --template $(yarn get-template << pipeline.parameters.workflow >> build) --no-link --start-from=never --junit
+          command: yarn task --task build --template $(yarn get-template << pipeline.parameters.workflow >> sandbox) --no-link --start-from=never --junit
       - run:
           name: Verifying Telemetry
-          command: yarn ts-node ./event-log-checker build $(yarn get-template << pipeline.parameters.workflow >> build)
+          command: yarn ts-node ./event-log-checker build $(yarn get-template << pipeline.parameters.workflow >> sandbox)
           working_directory: scripts
       - report-workflow-on-failure:
           template: $(yarn get-template << pipeline.parameters.workflow >> sandbox)
