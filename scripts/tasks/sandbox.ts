@@ -8,8 +8,6 @@ export const sandbox: Task = {
   description: 'Create the sandbox from a template',
   dependsOn: ({ template }, { link }) => {
     if ('inDevelopment' in template && template.inDevelopment) {
-      if (link) throw new Error('Cannot link an in development template');
-
       return ['run-registry', 'generate'];
     }
 
