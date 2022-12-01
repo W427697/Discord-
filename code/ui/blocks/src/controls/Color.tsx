@@ -214,9 +214,15 @@ const useColorInput = (
   const [color, setColor] = useState(() => parseValue(value));
   const [colorSpace, setColorSpace] = useState(color?.colorSpace || ColorSpace.HEX);
 
-  // Reset state when initialValue becomes undefined (when resetting controls)
+  // Reset state when initialValue changes (when resetting controls)
   useEffect(() => {
-    if (initialValue !== undefined) return;
+    if (initialValue !== undefined) {
+      const parsed = parseValue(initialValue);
+      setValue(initialValue);
+      setColor(parsed);
+      setColorSpace(parsed.colorSpace);
+      return;
+    }
     setValue('');
     setColor(undefined);
     setColorSpace(ColorSpace.HEX);
