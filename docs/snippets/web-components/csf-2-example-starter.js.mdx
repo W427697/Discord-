@@ -1,0 +1,14 @@
+```js
+// CSF 2
+import { html } from 'lit-html';
+import './demo-button';
+
+export default {
+  title: 'components/demo-button',
+};
+
+export const Primary = ({ primary }) => html`<demo-button ?primary=${primary}></demo-button>`;
+Primary.args = {
+  primary: true,
+};
+```

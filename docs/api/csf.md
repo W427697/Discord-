@@ -253,3 +253,154 @@ For this particular example, you could achieve the same result in different ways
 - `excludeStories: ['simpleData', 'complexData']`
 
 The first option is the recommended solution if you follow the best practice of starting story exports with an uppercase letter (i.e., use UpperCamelCase).
+
+## Upgrading from CSF 2 to CSF 3
+
+In CSF 2, the named exports are always functions that instantiate a component, and those functions can be annotated with configuration options. For example:
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'react/csf-2-example-starter.js.mdx',
+    'react/csf-2-example-starter.ts.mdx',
+    'vue/csf-2-example-starter.2.js.mdx',
+    'vue/csf-2-example-starter.ts-2.ts.mdx',
+    'vue/csf-2-example-starter.3.js.mdx',
+    'vue/csf-2-example-starter.ts-3.ts.mdx',
+    'angular/csf-2-example-starter.ts.mdx',
+    'web-components/csf-2-example-starter.js.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
+
+This declares a Primary story for a Button that renders itself by spreading `{ primary: true }` into the component. The `default.title` metadata says where to place the story in a navigation hierarchy.
+
+Here's the CSF 3 equivalent:
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'common/csf-3-example-starter.js.mdx',
+    'react/csf-3-example-starter.ts.mdx',
+    'vue/csf-3-example-starter.ts-2.ts.mdx',
+    'vue/csf-3-example-starter.ts-3.ts.mdx',
+    'angular/csf-3-example-starter.ts.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
+
+Let's go through the changes individually to understand what's going on.
+
+### Spreadable story objects
+
+In CSF 3, the named exports are **objects**, not functions. This allows us to reuse stories more efficiently with the JS spread operator.
+
+Consider the following addition to the intro example, which creates a `PrimaryOnDark` story that renders against a dark background:
+
+Here's the CSF 2 implementation:
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'common/csf-2-example-primary-dark-story.js.mdx'
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
+
+`Primary.bind({})` copies the story function, but it doesn't copy the annotations hanging off the function, so we must add `PrimaryOnDark.args = Primary.args` to inherit the args.
+
+In CSF 3, we can spread the `Primary` object to carry over all its annotations:
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'common/csf-3-example-primary-dark-story.js.mdx'
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
+
+### Default render functions
+
+In CSF 3, you specify how a story renders through a `render` function. We can rewrite a CSF 2 example to CSF 3 through the following steps.
+
+Let's start with a simple CSF 2 story function:
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'react/csf-2-example-story.js.mdx',
+    'vue/csf-2-example-story.2.js.mdx',
+    'vue/csf-2-example-story.3.js.mdx',
+    'angular/csf-2-example-story.ts.mdx',
+    'web-components/csf-2-example-story.js.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
+
+Now, let's rewrite it as a story object in CSF 3 with an explicit `render` function that tells the story how to render itself. Like CSF 2, this gives us full control of how we render a component or even a collection of components.
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'react/csf-3-example-render.js.mdx',
+    'vue/csf-3-example-render.2.js.mdx',
+    'vue/csf-3-example-render.3.js.mdx',
+    'angular/csf-3-example-render.ts.mdx',
+    'web-components/csf-3-example-render.js.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
+
+But in CSF 2, a lot of story functions are identical: take the component specified in the default export and spread args into it. What's interesting about these stories is not the function, but the args passed into the function.
+
+CSF 3 provides default render functions for each renderer. If all you're doing is spreading args into your component—which is the most common case—you don't need to specify any `render` function at all:
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'common/csf-3-example-default-render.js.mdx'
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
+
+For more information, see the section on [custom render functions](#custom-render-functions).
+
+### Generate titles automatically
+
+Finally, CSF 3 can automatically generate titles.
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'common/csf-2-example-title.js.mdx'
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'common/csf-3-example-auto-title.js.mdx'
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
+
+You can still specify a title like in CSF 2, but if you don't specify one, it can be inferred from the story's path on disk. For more information, see the section on [configuring story loading](../configure/overview#configure-story-loading).
