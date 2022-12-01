@@ -9,6 +9,7 @@ import * as Preview from './Preview.stories';
 import * as argsTable from './ArgsTable/ArgsTable.stories';
 import * as source from './Source.stories';
 import * as description from './Description.stories';
+import { Unstyled } from '../blocks/Unstyled';
 
 export default {
   component: DocsPageWrapper,
@@ -109,14 +110,16 @@ export const Html = {
         <div>Div</div>
         <a>Nested A tag</a>
       </div>
-      <div className="sb-unstyled" style={{ border: '2px solid red' }}>
-        <h1>Unstyled content</h1>
-        <h2>Heading 2</h2>
-        <a>A tag</a>
-        <div>
-          <div>Div</div>
-          <a>Nested A tag</a>
-        </div>
+      <div style={{ border: '2px solid red' }}>
+        <Unstyled>
+          <h1>Unstyled content</h1>
+          <h2>Heading 2</h2>
+          <a>A tag</a>
+          <div>
+            <div>Div</div>
+            <a>Nested A tag</a>
+          </div>
+        </Unstyled>
       </div>
     </DocsPageWrapper>
   ),
