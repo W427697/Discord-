@@ -109,11 +109,4 @@ Another option that is more “data”-based is to create a special “story-gen
 
 <!-- prettier-ignore-end -->
 
-This approach is a little more complex to setup, but it means you can more easily reuse the `args` to each story in a composite component. It also means that you can alter the args to the component with the Controls addon:
-
-<video autoPlay muted playsInline loop>
-  <source
-    src="template-component-with-controls-optimized.mp4"
-    type="video/mp4"
-  />
-</video>
+This approach is a little more complex to setup, but it means you can more easily reuse the `args` to each story in a composite component. It also means that you can alter the args to the component with the Controls addon.
