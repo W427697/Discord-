@@ -36,8 +36,15 @@ type StoriesCacheEntry = {
 };
 type CacheEntry = false | StoriesCacheEntry | DocsCacheEntry;
 type SpecifierStoriesCache = Record<Path, CacheEntry>;
-interface DuplicateEntriesError extends Error {
+
+export class DuplicateEntriesError extends Error {
   entries: IndexEntry[];
+
+  constructor(message: string, entries: IndexEntry[]) {
+    super();
+    this.message = message;
+    this.entries = entries;
+  }
 }
 
 const makeAbsolute = (otherImport: Path, normalizedPath: Path, workingDir: Path) =>
@@ -355,13 +362,11 @@ export class StoryIndexGenerator {
     const changeDocsName = 'Use `<Meta of={} name="Other Name">` to distinguish them.';
 
     // This shouldn't be possible, but double check and use for typing
-    if (worseEntry.type === 'story') {
-      const duplicatedStoryError = new Error(
-        `Duplicate stories with id: ${firstEntry.id}`
-      ) as unknown as DuplicateEntriesError;
-      duplicatedStoryError.entries = [firstEntry, secondEntry];
-      throw duplicatedStoryError;
-    }
+    if (worseEntry.type === 'story')
+      throw new DuplicateEntriesError(`Duplicate stories with id: ${firstEntry.id}`, [
+        firstEntry,
+        secondEntry,
+      ]);
 
     if (betterEntry.type === 'story') {
       const worseDescriptor = worseEntry.standalone
