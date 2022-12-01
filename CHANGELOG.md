@@ -1,3 +1,18 @@
+## 6.5.14 (December 2, 2022)
+
+#### Bug Fixes
+
+-   Angular: Fix "__webpack_require__.nmd is not a function issue" in Angular 15 [#20043](https://github.com/storybooks/storybook/pull/20043)
+-   CLI/React native: Fix addons template to import register instead of manager [#19620](https://github.com/storybooks/storybook/pull/19620)
+
+#### Maintenance
+
+-   Core: Patch preview-web and refs to support React Native [#19975](https://github.com/storybooks/storybook/pull/19975)
+
+#### Dependency Upgrades
+
+-   Upgrade loader-utils to 2.0.4 in storysource and source-loader [#19891](https://github.com/storybooks/storybook/pull/19891)
+
 ## 6.5.14-alpha.2 (December 2, 2022)
 
 #### Bug Fixes
