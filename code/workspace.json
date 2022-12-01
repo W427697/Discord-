@@ -356,9 +356,9 @@
       "root": "renderers/svelte",
       "type": "library"
     },
-    "@storybook/svelte-kit": {
+    "@storybook/sveltekit": {
       "implicitDependencies": [],
-      "root": "frameworks/svelte-kit",
+      "root": "frameworks/sveltekit",
       "type": "library"
     },
     "@storybook/svelte-vite": {

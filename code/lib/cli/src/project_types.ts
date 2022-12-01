@@ -16,7 +16,7 @@ function eqMajor(versionRange: string, major: number) {
 }
 
 // Should match @storybook/<framework>
-export type SupportedFrameworks = 'nextjs' | 'angular' | 'svelte-kit';
+export type SupportedFrameworks = 'nextjs' | 'angular' | 'sveltekit';
 
 // Should match @storybook/<renderer>
 export type SupportedRenderers =
@@ -78,7 +78,7 @@ export enum ProjectType {
   RIOT = 'RIOT',
   PREACT = 'PREACT',
   SVELTE = 'SVELTE',
-  SVELTE_KIT = 'SVELTE_KIT',
+  SVELTEKIT = 'SVELTEKIT',
   RAX = 'RAX',
   AURELIA = 'AURELIA',
   SERVER = 'SERVER',
@@ -257,7 +257,7 @@ export const supportedTemplates: TemplateConfiguration[] = [
   },
   {
     // TODO: This only works because it is before the SVELTE template. could be more explicit
-    preset: ProjectType.SVELTE_KIT,
+    preset: ProjectType.SVELTEKIT,
     dependencies: ['@sveltejs/kit'],
     matcherFunction: ({ dependencies }) => {
       return dependencies.every(Boolean);

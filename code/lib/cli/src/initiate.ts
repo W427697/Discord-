@@ -26,7 +26,7 @@ import webComponentsGenerator from './generators/WEB-COMPONENTS';
 import riotGenerator from './generators/RIOT';
 import preactGenerator from './generators/PREACT';
 import svelteGenerator from './generators/SVELTE';
-import svelteKitGenerator from './generators/SVELTE_KIT';
+import svelteKitGenerator from './generators/SVELTEKIT';
 import raxGenerator from './generators/RAX';
 import serverGenerator from './generators/SERVER';
 import type { JsPackageManager } from './js-package-manager';
@@ -184,7 +184,7 @@ const installStorybook = (
           commandLog('Adding Storybook support to your "Svelte" app\n')
         );
 
-      case ProjectType.SVELTE_KIT:
+      case ProjectType.SVELTEKIT:
         return svelteKitGenerator(packageManager, npmOptions, generatorOptions).then(
           commandLog('Adding Storybook support to your "SvelteKit" app\n')
         );

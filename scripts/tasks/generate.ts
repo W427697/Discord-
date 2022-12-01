@@ -19,9 +19,9 @@ export const generate: Task = {
     }
     return isReady;
   },
-  async run(details) {
+  async run(details, options) {
     const reproDir = join(reprosDir, details.key);
-    if (await this.ready(details)) {
+    if (await this.ready(details, options)) {
       logger.info('🗑  Removing old repro dir');
       await remove(reproDir);
     }
