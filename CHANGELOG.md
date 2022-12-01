@@ -1,3 +1,15 @@
+## 7.0.0-alpha.56 (December 1, 2022)
+
+#### Bug Fixes
+
+-   Addon-interactions: Fix duplicated elements in the panel [#20004](https://github.com/storybooks/storybook/pull/20004)
+-   Core: Fix ability to use component-level play functions [#17817](https://github.com/storybooks/storybook/pull/17817)
+-   CLI: Fix `docsPage` automatic migration [#19982](https://github.com/storybooks/storybook/pull/19982)
+
+#### Build
+
+-   e2e: change onClick to click to support svelte examples [#20034](https://github.com/storybooks/storybook/pull/20034)
+
 ## 7.0.0-alpha.55 (November 30, 2022)
 
 #### Features
