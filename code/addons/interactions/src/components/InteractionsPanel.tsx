@@ -113,7 +113,7 @@ export const InteractionsPanel: React.FC<InteractionsPanelProps> = React.memo(
                 setIsRerunAnimating={setIsRerunAnimating}
               />
             )}
-          <div>
+          <div aria-label="Interactions list">
             {interactions.map((call) => (
               <Interaction
                 key={call.id}

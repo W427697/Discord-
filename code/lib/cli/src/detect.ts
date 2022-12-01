@@ -172,7 +172,8 @@ export function detectLanguage(packageJson?: PackageJson) {
         semver.gte(semver.coerce(version), '5.44.0')
       ))
   ) {
-    language = SupportedLanguage.TYPESCRIPT;
+    // TODO: switch to TYPESCRIPT once csf-tools and eslint-plugin-storybook support `satisfies` operator
+    language = SupportedLanguage.TYPESCRIPT_LEGACY;
   } else if (hasDependency(packageJson, 'typescript')) {
     language = SupportedLanguage.TYPESCRIPT_LEGACY;
   }
