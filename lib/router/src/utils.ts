@@ -81,8 +81,14 @@ const validateArgs = (key = '', value: unknown): boolean => {
       COLOR_REGEXP.test(value)
     );
   }
-  if (Array.isArray(value)) return value.every((v) => validateArgs(key, v));
-  if (isPlainObject(value)) return Object.entries(value).every(([k, v]) => validateArgs(k, v));
+  if (Array.isArray(value)) {
+    return value.every((v) => validateArgs(key, v));
+  }
+
+  if (isPlainObject(value)) {
+    return Object.entries(value as Record<string, any>).every(([k, v]) => validateArgs(k, v));
+  }
+
   return false;
 };
 
@@ -96,7 +102,7 @@ const encodeSpecialValues = (value: unknown): any => {
   }
   if (Array.isArray(value)) return value.map(encodeSpecialValues);
   if (isPlainObject(value)) {
-    return Object.entries(value).reduce(
+    return Object.entries(value as Record<string, any>).reduce(
       (acc, [key, val]) => Object.assign(acc, { [key]: encodeSpecialValues(val) }),
       {}
     );
