@@ -22,9 +22,10 @@
     - [7.0 feature flags removed](#70-feature-flags-removed)
     - [CLI option `--use-npm` deprecated](#cli-option---use-npm-deprecated)
     - [Vite builder uses vite config automatically](#vite-builder-uses-vite-config-automatically)
-    - [Vite cache moved to node_modules/.cache/.vite-storybook](#vite-cache-moved-to-node_modulescachevite-storybook)
+    - [Vite cache moved to node\_modules/.cache/.vite-storybook](#vite-cache-moved-to-node_modulescachevite-storybook)
+    - [SvelteKit needs the `@storybook/sveltekit` framework](#sveltekit-needs-the-storybooksveltekit-framework)
     - [Removed docs.getContainer and getPage parameters](#removed-docsgetcontainer-and-getpage-parameters)
-    - [Removed STORYBOOK_REACT_CLASSES global](#removed-storybook_react_classes-global)
+    - [Removed STORYBOOK\_REACT\_CLASSES global](#removed-storybook_react_classes-global)
     - [Icons API changed](#icons-api-changed)
     - ['config' preset entry replaced with 'previewAnnotations'](#config-preset-entry-replaced-with-previewannotations)
     - [Dropped support for Angular 12 and below](#dropped-support-for-angular-12-and-below)
@@ -475,6 +476,7 @@ In 7.0, frameworks also specify the builder to be used. For example, The current
 - `@storybook/server-webpack5`
 - `@storybook/svelte-webpack5`
 - `@storybook/svelte-vite`
+- `@storybook/sveltekit`
 - `@storybook/vue-webpack5`
 - `@storybook/vue-vite`
 - `@storybook/vue3-webpack5`
@@ -573,6 +575,10 @@ If you were using `viteFinal` in 6.5 to simply merge in your project's standard 
 #### Vite cache moved to node_modules/.cache/.vite-storybook
 
 Previously, Storybook's Vite builder placed cache files in node_modules/.vite-storybook. However, it's more common for tools to place cached files into `node_modules/.cache`, and putting them there makes it quick and easy to clear the cache for multiple tools at once. We don't expect this change will cause any problems, but it's something that users of Storybook Vite projects should know about. It can be configured by setting `cacheDir` in `viteFinal` within `.storybook/main.js` [Storybook Vite configuration docs](https://storybook.js.org/docs/react/builders/vite#configuration)).
+
+#### SvelteKit needs the `@storybook/sveltekit` framework
+
+SvelteKit projects need to use the `@storybook/sveltekit` framework in the `main.js` file. Previously it was enough to just setup Storybook with Svelte+Vite, but that is no longer the case.
 
 #### Removed docs.getContainer and getPage parameters
 
@@ -2267,7 +2273,7 @@ const story = data.stories[storyId];
 const parameters = combineParameters(
   data.globalParameters,
   data.kindParameters[story.kind],
-  story.parameters
+  story.parameters,
 );
 ```
 
@@ -3043,7 +3049,7 @@ addDecorator(
     url: 'https://storybook.js.org',
     goFullScreen: false,
     addonPanelInRight: true,
-  })
+  }),
 );
 ```
 
@@ -3143,7 +3149,7 @@ addDecorator(
         picked: false,
       },
     ],
-  })
+  }),
 );
 ```
 
@@ -3162,7 +3168,7 @@ addDecorator(
         picked: false,
       },
     ],
-  })
+  }),
 );
 ```
 
@@ -3547,8 +3553,8 @@ storiesOf('composition', module).add(
   withInfo('see Notes panel for composition info')(
     withNotes({ text: 'Composition: Info(Notes())' })((context) => (
       <MyComponent name={context.story} />
-    ))
-  )
+    )),
+  ),
 );
 ```
 
