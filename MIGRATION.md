@@ -3,6 +3,7 @@
 - [From version 6.5.x to 7.0.0](#from-version-65x-to-700)
   - [Alpha release notes](#alpha-release-notes)
   - [7.0 breaking changes](#70-breaking-changes)
+    - [React peer dependencies required](#react-peer-dependencies-required)
     - [Vue3 replaced app export with setup](#vue3-replaced-app-export-with-setup)
     - [removed auto injection of @storybook/addon-actions decorator](#removed-auto-injection-of-storybookaddon-actions-decorator)
     - [register.js removed](#registerjs-removed)
@@ -259,6 +260,18 @@ Storybook 7.0 is in early alpha. During the alpha, we are making a large number 
 In the meantime, these migration notes are the best available documentation on things you should know upgrading to 7.0.
 
 ### 7.0 breaking changes
+
+#### React peer dependencies required
+
+Starting in 7.0, `react` and `react-dom` are now required peer dependencies of Storybook.
+
+Storybook uses `react` in a variety of packages. In the past, we've done various trickery hide this from non-React users. However, with stricter peer dependency handling by `npm8`, `npm`, and `yarn pnp` those tricks have started to cause problems for those users. Rather than resorting to even more complicated tricks, we are making `react` and `react-dom` required peer dependencies.
+
+To upgrade manually, add any version of `react` and `react-dom` as devDependencies using your package manager of choice, e.g.
+
+```
+npm add react react-dom --dev
+```
 
 #### Vue3 replaced app export with setup
 
