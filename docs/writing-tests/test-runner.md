@@ -167,7 +167,7 @@ You can use your CI provider (for example, [GitHub Actions](https://github.com/f
 
 The test-runner is a generic testing tool that can run locally or on CI and be configured or extended to run all kinds of tests.
 
-[Chromatic](https://www.chromatic.com/) is a cloud-based service that runs [visual](./visual-testing.md) and [interaction tests](./interaction-testing.md) (and soon accessibility tests) without setting up the test runner. It also syncs with your git provider and manages access control for private projects.
+[Chromatic](https://www.chromatic.com/?utm_source=storybook_website&utm_medium=link&utm_campaign=storybook) is a cloud-based service that runs [visual](./visual-testing.md) and [interaction tests](./interaction-testing.md) (and soon accessibility tests) without setting up the test runner. It also syncs with your git provider and manages access control for private projects.
 
 However, you might want to pair the test runner and Chromatic in some cases.
 
@@ -222,6 +222,21 @@ When the test-runner executes, your existing tests will go through the following
 - The `preRender` function is executed.
 - The story is rendered, and any existing `play` functions are executed.
 - The `postRender` function is executed.
+
+### Helpers
+
+The test-runner exports a few helpers that can be used to make your tests more readable and maintainable by accessing Storybook's internals (e.g., `args`, `parameters`). Listed below are the available helpers and an overview of how to use them.
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'common/storybook-test-runner-helper-function.js.mdx',
+    'common/storybook-test-runner-helper-function.ts.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
 
 ### Stories.json mode
 

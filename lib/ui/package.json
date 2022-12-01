@@ -1,6 +1,6 @@
 {
   "name": "@storybook/ui",
-  "version": "6.5.13",
+  "version": "6.5.14-alpha.2",
   "description": "Core Storybook UI",
   "keywords": [
     "storybook"
@@ -40,15 +40,15 @@
     "prepare": "ts-node ../../scripts/prebundle.ts"
   },
   "dependencies": {
-    "@storybook/addons": "6.5.13",
-    "@storybook/api": "6.5.13",
-    "@storybook/channels": "6.5.13",
-    "@storybook/client-logger": "6.5.13",
-    "@storybook/components": "6.5.13",
-    "@storybook/core-events": "6.5.13",
-    "@storybook/router": "6.5.13",
+    "@storybook/addons": "6.5.14-alpha.2",
+    "@storybook/api": "6.5.14-alpha.2",
+    "@storybook/channels": "6.5.14-alpha.2",
+    "@storybook/client-logger": "6.5.14-alpha.2",
+    "@storybook/components": "6.5.14-alpha.2",
+    "@storybook/core-events": "6.5.14-alpha.2",
+    "@storybook/router": "6.5.14-alpha.2",
     "@storybook/semver": "^7.3.2",
-    "@storybook/theming": "6.5.13",
+    "@storybook/theming": "6.5.14-alpha.2",
     "core-js": "^3.8.2",
     "memoizerific": "^1.11.3",
     "qs": "^6.10.0",
@@ -83,6 +83,6 @@
     "access": "public"
   },
   "bundlerEntrypoint": "./src/index.tsx",
-  "gitHead": "9bc627d9b364d2ea915470dfd08cfe5cb3716dee",
+  "gitHead": "71f07c4af213258303a8513dc9a6a7c70214bcbe",
   "sbmodern": "dist/modern/index.js"
 }
