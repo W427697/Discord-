@@ -48,6 +48,8 @@ With CSF, every named export in the file represents a story object by default.
     'svelte/my-component-story-basic-and-props.js.mdx',
     'angular/my-component-story-basic-and-props.ts.mdx',
   ]}
+  usesCsf3
+  csf2Path="api/csf#snippet-my-component-story-basic-and-props"
 />
 
 <!-- prettier-ignore-end -->
@@ -74,6 +76,8 @@ Storybook's `name` configuration element is helpful in specific circumstances. C
   paths={[
     'common/my-component-story-with-storyname.js.mdx',
   ]}
+  usesCsf3
+  csf2Path="api/csf#snippet-my-component-story-with-storyname"
 />
 
 <!-- prettier-ignore-end -->
@@ -95,6 +99,8 @@ Consider Storybook’s ["Button" example](../writing-stories/introduction.md#def
     'svelte/button-story-click-handler.js.mdx',
     'angular/button-story-click-handler.ts.mdx',
   ]}
+  usesCsf3
+  csf2Path="api/csf#snippet-button-story-click-handler"
 />
 
 <!-- prettier-ignore-end -->
@@ -111,6 +117,8 @@ Now consider the same example, re-written with args:
     'angular/button-story-click-handler-args.ts.mdx',
     'svelte/button-story-click-handler-args.js.mdx',
   ]}
+  usesCsf3
+  csf2Path="api/csf#snippet-button-story-click-handler-args"
 />
 
 <!-- prettier-ignore-end -->
@@ -125,6 +133,8 @@ Or even more simply:
     'angular/button-story-click-handler-simplificated.ts.mdx',
     'vue/button-story-click-handler-simplificated.js.mdx',
   ]}
+  usesCsf3
+  csf2Path="api/csf#snippet-button-story-click-handler-simplificated"
 />
 
 <!-- prettier-ignore-end -->
@@ -150,6 +160,8 @@ A good use case for the `play` function is a form component. With previous Story
     'vue/login-form-with-play-function.3.js.mdx',
     'svelte/login-form-with-play-function.js.mdx',
   ]}
+  usesCsf3
+  csf2Path="api/csf#snippet-login-form-with-play-function"
 />
 
 <!-- prettier-ignore-end -->
@@ -172,6 +184,7 @@ Starting in Storybook 6.4, you can write your stories as JavaScript objects, red
    'preact/component-story-with-custom-render-function.js.mdx',
    'web-components/component-story-with-custom-render-function.js.mdx',
   ]}
+  usesCsf3
 />
 
 <!-- prettier-ignore-end -->
@@ -222,6 +235,8 @@ Consider the following story file:
     'svelte/my-component-story-with-nonstory.js.mdx',
     'angular/my-component-story-with-nonstory.ts.mdx'
   ]}
+  usesCsf3
+  csf2Path="api/csf#snippet-my-component-story-with-nonstory"
 />
 
 <!-- prettier-ignore-end -->
