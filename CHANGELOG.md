@@ -1,3 +1,9 @@
+## 6.5.14-alpha.2 (December 2, 2022)
+
+#### Bug Fixes
+
+-   Angular: Fix "__webpack_require__.nmd is not a function issue" in Angular 15 [#20043](https://github.com/storybooks/storybook/pull/20043)
+
 ## 6.5.14-alpha.1 (November 27, 2022)
 
 #### Maintenance
