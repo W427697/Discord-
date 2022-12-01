@@ -9,6 +9,10 @@ const meta = {
   tags: ['docsPage'],
   argTypes: {
     backgroundColor: { control: 'color' },
+    size: {
+      control: { type: 'select' },
+      options: ['small', 'medium', 'large'],
+    },
   },
 } satisfies Meta<Button>;
 
