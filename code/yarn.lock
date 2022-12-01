@@ -5507,7 +5507,7 @@ __metadata:
     jest-specific-snapshot: ^7.0.0
     jest-vue-preprocessor: ^1.7.1
     preact-render-to-string: ^5.1.19
-    pretty-format: ^28.0.0
+    pretty-format: ^29.0.0
     react-test-renderer: ^16
     read-pkg-up: ^7.0.1
     rxjs: ^6.6.3
