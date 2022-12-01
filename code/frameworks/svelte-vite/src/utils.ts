@@ -1,8 +1,7 @@
-import path from 'path';
-import fs from 'fs';
 import type { PluginOption } from 'vite';
 import { deprecate } from '@storybook/node-logger';
 import { withoutVitePlugins } from '@storybook/builder-vite';
+import type { Options } from '@storybook/types';
 
 function checkName(plugin: PluginOption, name: string) {
   return typeof plugin === 'object' && 'name' in plugin && plugin.name === name;
@@ -24,7 +23,10 @@ export function hasPlugin(plugins: PluginOption[], name: string) {
  * but warns the user that they should use the svelte-kit framework instead.
  * Should be removed when we decide to remove support completely for SvelteKit in svelte-vite
  */
-export function handleSvelteKit(plugins: PluginOption[]): PluginOption[] {
+export async function handleSvelteKit(
+  plugins: PluginOption[],
+  options: Options
+): Promise<PluginOption[]> {
   if (!hasPlugin(plugins, 'vite-plugin-svelte-kit')) {
     // this is not a SvelteKit project ✅
     return plugins;
@@ -36,26 +38,15 @@ export function handleSvelteKit(plugins: PluginOption[]): PluginOption[] {
   svelte-vite directly and not just through svelte-kit
   */
 
-  const packageJsonPath = path.resolve('package.json');
-  if (!fs.existsSync(packageJsonPath)) {
-    // we can't determine if this is using svelte-kit, let's assume it does ✅
-    return plugins;
-  }
+  const frameworkPreset = await options.presets.apply('framework', {}, options);
+  const framework = typeof frameworkPreset === 'string' ? frameworkPreset : frameworkPreset.name;
 
-  const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'));
-  const allDependencies = [
-    ...Object.keys(packageJson.dependencies || {}),
-    ...Object.keys(packageJson.devDependencies || {}),
-  ];
-  if (
-    allDependencies.includes('@storybook/svelte-kit') &&
-    !allDependencies.includes('@storybook/svelte-vite')
-  ) {
+  if (framework === '@storybook/svelte-kit') {
     // this uses @storybook/svelte-kit, so everything is fine ✅
     return plugins;
   }
 
-  // this is a SvelteKit project but uses @storybook/svelte-vite, warn user about this and remove vite-plugin-svelte-kit ❌
+  // this is a SvelteKit project but doesn't use @storybook/svelte-kit, warn user about this and remove vite-plugin-svelte-kit ❌
   deprecate(
     'SvelteKit support in @storybook/svelte-vite is deprecated in Storybook 7.0, use @storybook/svelte-kit instead.'
   );
