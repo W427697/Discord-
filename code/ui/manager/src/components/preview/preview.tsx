@@ -1,6 +1,7 @@
+import global from 'global';
+
 import React, { Fragment, useMemo, useEffect, useRef, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
-import global from 'global';
 
 import {
   type API,
@@ -23,6 +24,8 @@ import { ToolbarComp } from './toolbar';
 import { FramesRenderer } from './FramesRenderer';
 
 import type { PreviewProps } from './utils/types';
+
+const { FEATURES } = global;
 
 const getWrappers = (getFn: API['getElements']) => Object.values(getFn<Addon>(types.PREVIEW));
 const getTabs = (getFn: API['getElements']) => Object.values(getFn<Addon>(types.TAB));
@@ -70,7 +73,7 @@ const createCanvas = (id: string, baseUrl = 'iframe.html', withLoader = true): A
           const [progress, setProgress] = useState(undefined);
 
           useEffect(() => {
-            if (global.CONFIG_TYPE === 'DEVELOPMENT') {
+            if (FEATURES?.storyStoreV7 && global.CONFIG_TYPE === 'DEVELOPMENT') {
               const channel = addons.getServerChannel();
 
               channel.on(PREVIEW_BUILDER_PROGRESS, (options) => {
