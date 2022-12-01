@@ -104,7 +104,7 @@ jobs:
       class: large
       name: sb_node_16_classic
     steps:
-      - checkout_advanced:
+      - git-shallow-clone/checkout_advanced:
           clone_options: '--shallow-since "5 weeks ago" --verbose'
           fetch_options: '--shallow-since "5 weeks ago" --verbose'
       - restore_cache:
