@@ -97,7 +97,7 @@
     "@storybook/components": "7.0.0-alpha.56",
     "@storybook/csf-plugin": "7.0.0-alpha.56",
     "@storybook/csf-tools": "7.0.0-alpha.56",
-    "@storybook/mdx2-csf": "0.0.4-canary.27.61fd4a6.0",
+    "@storybook/mdx2-csf": "next",
     "@storybook/node-logger": "7.0.0-alpha.56",
     "@storybook/postinstall": "7.0.0-alpha.56",
     "@storybook/preview-api": "7.0.0-alpha.56",
