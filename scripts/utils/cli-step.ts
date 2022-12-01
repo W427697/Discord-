@@ -23,6 +23,7 @@ export const steps = {
       output: { type: 'string' },
       // TODO allow default values for strings
       branch: { type: 'string', values: ['next'] },
+      init: { type: 'boolean', inverse: true },
       debug: { type: 'boolean' },
     }),
   },
