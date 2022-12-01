@@ -169,7 +169,6 @@ export const allTemplates = {
   },
   'svelte-kit/skeleton-js': {
     name: 'Svelte Kit (JS)',
-    inDevelopment: true,
     script:
       'yarn create svelte-with-args --name=svelte-kit/skeleton-js --directory=. --template=skeleton --types=null --no-prettier --no-eslint --no-playwright',
     expected: {
