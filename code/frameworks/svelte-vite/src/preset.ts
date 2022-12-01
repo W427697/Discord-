@@ -25,7 +25,7 @@ export const viteFinal: NonNullable<StorybookConfig['viteFinal']> = async (confi
   // Add docgen plugin
   plugins.push(svelteDocgen(svelteConfig));
 
-  // temporarily support SvelteKit until
+  // temporarily support SvelteKit
   plugins = await handleSvelteKit(plugins, options);
 
   // TODO: temporary until/unless https://github.com/storybookjs/addon-svelte-csf/issues/64 is fixed
