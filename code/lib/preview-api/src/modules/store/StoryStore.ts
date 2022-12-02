@@ -133,7 +133,6 @@ export class StoryStore<TRenderer extends Renderer> {
 
   // To load a single CSF file to service a story we need to look up the importPath in the index
   loadCSFFileByStoryId(storyId: StoryId): Promise<CSFFile<TRenderer>> {
-    console.log(storyId);
     if (!this.storyIndex || !this.importFn)
       throw new Error(`loadCSFFileByStoryId called before initialization`);
 
