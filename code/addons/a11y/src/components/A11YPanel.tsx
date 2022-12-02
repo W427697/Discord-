@@ -4,14 +4,16 @@ import { styled } from '@storybook/theming';
 
 import { ActionBar, Icons, ScrollArea } from '@storybook/components';
 
-import { AxeResults } from 'axe-core';
-import { useChannel, useParameter, useStorybookState } from '@storybook/api';
+import type { AxeResults } from 'axe-core';
+import { useChannel, useParameter, useStorybookState } from '@storybook/manager-api';
+
 import { Report } from './Report';
+
 import { Tabs } from './Tabs';
 
 import { useA11yContext } from './A11yContext';
 import { EVENTS } from '../constants';
-import { A11yParameters } from '../params';
+import type { A11yParameters } from '../params';
 
 export enum RuleType {
   VIOLATION,
@@ -106,7 +108,7 @@ export const A11YPanel: React.FC = () => {
             'Rerun tests'
           ) : (
             <>
-              <Icon inline icon="check" /> Tests completed
+              <Icon icon="check" /> Tests completed
             </>
           ),
         onClick: handleManual,
@@ -162,8 +164,7 @@ export const A11YPanel: React.FC = () => {
       )}
       {status === 'running' && (
         <Centered>
-          <RotatingIcon inline icon="sync" /> Please wait while the accessibility scan is running
-          ...
+          <RotatingIcon icon="sync" /> Please wait while the accessibility scan is running ...
         </Centered>
       )}
       {(status === 'ready' || status === 'ran') && (

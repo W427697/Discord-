@@ -9,13 +9,13 @@ export default {
 };
 
 export const Basic = {
-  args: { children: 'Basic' },
+  args: { label: 'Basic' },
 };
 
 export const One = {
-  args: { children: 'One' },
+  args: { label: 'One' },
 };
 
 export const Two = {
-  args: { children: 'Two' },
+  args: { label: 'Two' },
 };

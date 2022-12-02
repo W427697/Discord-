@@ -1,6 +1,6 @@
 import globalThis from 'global';
-import { PartialStoryFn, PlayFunctionContext } from '@storybook/csf';
-import { useEffect, useState } from '@storybook/client-api';
+import type { PartialStoryFn, PlayFunctionContext } from '@storybook/types';
+import { useEffect, useState } from '@storybook/preview-api';
 import { within, userEvent } from '@storybook/testing-library';
 
 export default {
@@ -14,7 +14,7 @@ export const UseState = {
 
       return story({
         args: {
-          children: `Clicked ${count} times`,
+          label: `Clicked ${count} times`,
           onClick: () => {
             setCount(count + 1);
           },
@@ -47,7 +47,7 @@ export const UseEffect = {
 
       return story({
         args: {
-          children: count > 0 ? `useEffect worked!` : `useEffect hasn't worked yet!`,
+          label: count > 0 ? `useEffect worked!` : `useEffect hasn't worked yet!`,
           onClick: () => {},
         },
       });

@@ -7,19 +7,20 @@ import global from 'global';
 import { logger } from '@storybook/node-logger';
 import { telemetry } from '@storybook/telemetry';
 import type {
-  LoadOptions,
-  CLIOptions,
   BuilderOptions,
-  Options,
-  StorybookConfig,
+  CLIOptions,
   CoreConfig,
   DocsOptions,
-} from '@storybook/core-common';
+  LoadOptions,
+  Options,
+  StorybookConfig,
+} from '@storybook/types';
 import {
   loadAllPresets,
-  normalizeStories,
-  logConfig,
   loadMainConfig,
+  logConfig,
+  normalizeStories,
+  resolveAddonName,
 } from '@storybook/core-common';
 
 import { outputStats } from './utils/output-stats';
@@ -32,6 +33,7 @@ import { extractStoriesJson, convertToIndexV3 } from './utils/stories-json';
 import { extractStorybookMetadata } from './utils/metadata';
 import { StoryIndexGenerator } from './utils/StoryIndexGenerator';
 import { writeModulesJson } from './utils/modules-json';
+import { summarizeIndex } from './utils/summarizeIndex';
 
 export async function buildStaticStandalone(
   options: CLIOptions & LoadOptions & BuilderOptions & { outputDir: string }
@@ -78,12 +80,14 @@ export async function buildStaticStandalone(
   });
 
   const [previewBuilder, managerBuilder] = await getBuilders({ ...options, presets });
+  const { renderer } = await presets.apply<CoreConfig>('core', undefined);
 
   presets = await loadAllPresets({
     corePresets: [
       require.resolve('./presets/common-preset'),
       ...(managerBuilder.corePresets || []),
       ...(previewBuilder.corePresets || []),
+      ...(renderer ? [resolveAddonName(options.configDir, renderer, options)] : []),
       ...corePresets,
       require.resolve('./presets/babel-cache-preset'),
     ],
@@ -169,17 +173,10 @@ export async function buildStaticStandalone(
   if (!core?.disableTelemetry) {
     effects.push(
       initializedStoryIndexGenerator.then(async (generator) => {
-        if (!generator) {
-          return;
-        }
-
-        const storyIndex = await generator.getIndex();
+        const storyIndex = await generator?.getIndex();
         const payload = storyIndex
           ? {
-              storyIndex: {
-                storyCount: Object.keys(storyIndex.entries).length,
-                version: storyIndex.v,
-              },
+              storyIndex: summarizeIndex(storyIndex),
             }
           : undefined;
         await telemetry('build', payload, { configDir: options.configDir });

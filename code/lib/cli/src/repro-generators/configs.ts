@@ -1,5 +1,5 @@
-/* eslint-disable camelcase */
-import type { StorybookConfig } from '@storybook/core-common';
+/* eslint-disable @typescript-eslint/naming-convention */
+import type { StorybookConfig } from '@storybook/types';
 import type { SupportedRenderers } from '../project_types';
 
 export interface Parameters {
@@ -98,6 +98,28 @@ export const react_typescript: Parameters = {
       contents: '{ "presets": ["@babel/preset-react", "@babel/preset-typescript"] }',
     },
   ],
+};
+
+export const nextjs: Parameters = {
+  renderer: 'react',
+  name: 'nextjs',
+  version: 'latest',
+  generator: [
+    // Force npm otherwise we have a mess between Yarn 1, Yarn 2 and NPM
+    'npm_config_user_agent=npm npx -p create-next-app@{{version}} create-next-app {{appName}}',
+    'cd {{appName}}',
+  ].join(' && '),
+};
+
+export const nextjs_typescript: Parameters = {
+  renderer: 'react',
+  name: 'nextjs_typescript',
+  version: 'latest',
+  generator: [
+    // Force npm otherwise we have a mess between Yarn 1, Yarn 2 and NPM
+    'npm_config_user_agent=npm npx -p create-next-app@{{version}} create-next-app {{appName}} --typescript',
+    'cd {{appName}}',
+  ].join(' && '),
 };
 
 // export const vite_react: Parameters = {
@@ -242,5 +264,5 @@ export const svelte: Parameters = {
   renderer: 'svelte',
   name: 'svelte',
   version: 'latest',
-  generator: 'npx degit sveltejs/template {{appName}}',
+  generator: 'npx giget github:sveltejs/template#master {{appName}}',
 };

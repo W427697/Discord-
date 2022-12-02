@@ -1,10 +1,10 @@
 import global from 'global';
-import { addons, mockChannel } from '@storybook/addons';
+import { addons, mockChannel } from '@storybook/preview-api';
 import ensureOptionsDefaults from './ensureOptionsDefaults';
 import snapshotsTests from './snapshotsTestsTemplate';
 import integrityTest from './integrityTestTemplate';
 import loadFramework from '../frameworks/frameworkLoader';
-import { StoryshotsOptions } from './StoryshotsOptions';
+import type { StoryshotsOptions } from './StoryshotsOptions';
 
 const { describe, window: globalWindow } = global;
 

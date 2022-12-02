@@ -4,7 +4,7 @@ import { MINIMAL_VIEWPORTS } from '@storybook/addon-viewport';
 export default {
   component: globalThis.Components.Button,
   args: {
-    children: 'Click Me!',
+    label: 'Click Me!',
   },
   parameters: {
     viewport: {

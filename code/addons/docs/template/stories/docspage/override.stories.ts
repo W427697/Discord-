@@ -15,7 +15,8 @@ const Override = () => 'overridden';
 
 export default {
   component: globalThis.Components.Button,
-  args: { children: 'Click Me!' },
+  tags: ['docsPage'],
+  args: { label: 'Click Me!' },
   parameters: {
     chromatic: { disable: true },
     docs: { page: Override },

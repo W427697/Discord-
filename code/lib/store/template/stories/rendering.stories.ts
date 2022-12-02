@@ -1,12 +1,12 @@
 import globalThis from 'global';
-import { PlayFunctionContext } from '@storybook/csf';
+import type { PlayFunctionContext } from '@storybook/types';
 import { within, waitFor } from '@storybook/testing-library';
 import { expect } from '@storybook/jest';
 
 export default {
   component: globalThis.Components.Button,
   args: {
-    children: 'Click me',
+    label: 'Click me',
   },
 };
 
@@ -31,12 +31,12 @@ export const ChangeArgs = {
     await expect(button).toHaveFocus();
 
     // Vue3: https://github.com/storybookjs/storybook/issues/13913
-    // Svelte: https://github.com/storybookjs/storybook/issues/19205
     // Web-components: https://github.com/storybookjs/storybook/issues/19415
-    if (['vue3', 'svelte', 'web-components', 'html'].includes(globalThis.storybookRenderer)) return;
+    // Preact: https://github.com/storybookjs/storybook/issues/19504
+    if (['vue3', 'web-components', 'html', 'preact'].includes(globalThis.storybookRenderer)) return;
 
     // When we change the args to the button, it should not rerender
-    await channel.emit('updateStoryArgs', { storyId: id, updatedArgs: { children: 'New Text' } });
+    await channel.emit('updateStoryArgs', { storyId: id, updatedArgs: { label: 'New Text' } });
     await within(canvasElement).findByText(/New Text/);
     await expect(button).toHaveFocus();
 

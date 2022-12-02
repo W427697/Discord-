@@ -5,7 +5,7 @@ import { html, LitElement } from 'lit';
 const { CustomEvent, customElements } = globalThis;
 
 /**
- * @attr {string} children - Children of the button
+ * @attr {string} label - Label of the button
  * @attr {string} size - Size of the button, can be "small", "medium" or "large"; default is "medium".
  * @attr {string} backgroundColor - Color of the button's background
  *
@@ -24,7 +24,7 @@ export class SbButton extends LitElement {
   // https://github.com/Polymer/lit-html/issues/1476
   static get properties() {
     return {
-      children: { type: String, reflect: true },
+      label: { type: String, reflect: true },
       primary: { type: Boolean },
       size: { type: String },
       backgroundColor: { type: String, attribute: 'background-color' },
@@ -36,7 +36,7 @@ export class SbButton extends LitElement {
     this.primary = undefined;
     this.backgroundColor = undefined;
     this.size = 'medium';
-    this.children = '';
+    this.label = '';
   }
 
   onClick() {
@@ -56,7 +56,7 @@ export class SbButton extends LitElement {
         class=${['storybook-button', `storybook-button--${this.size ?? 'medium'}`, mode].join(' ')}
         @click="${this.onClick}"
       >
-        ${this.children}
+        ${this.label}
       </button>
     `;
   }

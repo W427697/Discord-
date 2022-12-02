@@ -5,17 +5,15 @@ import { PORT } from './serve';
 export const testRunner: Task = {
   description: 'Run the test runner against a sandbox',
   junit: true,
-  dependsOn: ['run-registry', 'serve'],
+  dependsOn: ['serve'],
   async ready() {
     return false;
   },
   async run({ sandboxDir, junitFilename }, { dryRun, debug }) {
     const execOptions = { cwd: sandboxDir };
 
-    await exec(`yarn add --dev @storybook/test-runner`, execOptions);
-
     await exec(
-      `yarn test-storybook --url http://localhost:${PORT} --junit`,
+      `yarn test-storybook --url http://localhost:${PORT} --junit --index-json --maxWorkers=2`,
       {
         ...execOptions,
         env: {

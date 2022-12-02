@@ -5,12 +5,56 @@ const scriptPath = path.join(__dirname, '..', 'scripts');
 module.exports = {
   root: true,
   extends: [path.join(scriptPath, '.eslintrc.js')],
+  parserOptions: {
+    tsconfigRootDir: __dirname,
+    project: ['./tsconfig.json'],
+  },
+  rules: {
+    'eslint-comments/disable-enable-pair': ['error', { allowWholeFile: true }],
+    'react-hooks/rules-of-hooks': 'off',
+    'jest/no-done-callback': 'off',
+    '@typescript-eslint/dot-notation': [
+      'error',
+      {
+        allowIndexSignaturePropertyAccess: true,
+      },
+    ],
+  },
   overrides: [
+    {
+      // this package depends on a lot of peerDependencies we don't want to specify, because npm would install them
+      files: ['**/frameworks/angular/template/**/*'],
+      rules: {
+        '@typescript-eslint/no-useless-constructor': 'off',
+        '@typescript-eslint/dot-notation': 'off',
+      },
+    },
     {
       // this package depends on a lot of peerDependencies we don't want to specify, because npm would install them
       files: ['**/addons/docs/**/*'],
       rules: {
         'import/no-extraneous-dependencies': 'off',
+      },
+    },
+    {
+      files: [
+        '*.js',
+        '*.jsx',
+        '*.json',
+        '*.html',
+        '**/.storybook/*.ts',
+        '**/.storybook/*.tsx',
+        'setup-jest.ts',
+      ],
+      parserOptions: {
+        project: null,
+      },
+      rules: {
+        // '@typescript-eslint/no-var-requires': 'off',
+        '@typescript-eslint/dot-notation': 'off',
+        '@typescript-eslint/no-implied-eval': 'off',
+        '@typescript-eslint/no-throw-literal': 'off',
+        '@typescript-eslint/return-await': 'off',
       },
     },
     {
@@ -26,11 +70,17 @@ module.exports = {
       files: [
         '**/lib/theming/**/*',
         '**/lib/router/**/*',
-        '**/lib/ui/**/*',
-        '**/lib/components/**/*',
+        '**/ui/manager/**/*',
+        '**/ui/components/**/*',
       ],
       rules: {
         'import/no-extraneous-dependencies': ['error', { bundledDependencies: false }],
+      },
+    },
+    {
+      files: ['**/ui/*', '**/ui/.storybook/*'],
+      rules: {
+        'import/no-extraneous-dependencies': ['error', { packageDir: __dirname }],
       },
     },
     {
@@ -104,6 +154,13 @@ module.exports = {
       files: ['**/builder-vite/input/iframe.html'],
       rules: {
         'no-undef': 'off', // ignore "window" undef errors
+      },
+    },
+    {
+      // Because those templates reference css files in other directory.
+      files: ['**/template/cli/**/*'],
+      rules: {
+        'import/no-unresolved': 'off',
       },
     },
   ],

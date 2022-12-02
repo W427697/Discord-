@@ -29,7 +29,7 @@
 
 <h1>Button view</h1>
 
-<Button {primary} on:click on:click={handleClick} children="{text}: {count}" />
+<Button {primary} on:click on:click={handleClick} label="{text}: {count}" />
 
 <p>A little text to show this is a view.</p>
 <p>If we need to test components in a Svelte environment, for instance to test slot behaviour,</p>

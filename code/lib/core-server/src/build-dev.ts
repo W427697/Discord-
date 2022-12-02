@@ -1,15 +1,18 @@
 import type {
-  CLIOptions,
-  LoadOptions,
   BuilderOptions,
+  CLIOptions,
+  CoreConfig,
+  LoadOptions,
   Options,
   StorybookConfig,
-} from '@storybook/core-common';
+} from '@storybook/types';
 import {
-  resolvePathInStorybookCache,
-  loadAllPresets,
   cache,
+  loadAllPresets,
   loadMainConfig,
+  resolveAddonName,
+  resolvePathInStorybookCache,
+  validateFrameworkName,
 } from '@storybook/core-common';
 import prompts from 'prompts';
 import global from 'global';
@@ -22,7 +25,7 @@ import { outputStats } from './utils/output-stats';
 import { outputStartupInformation } from './utils/output-startup-information';
 import { updateCheck } from './utils/update-check';
 import { getServerPort, getServerChannelUrl } from './utils/server-address';
-import { getBuilders } from './utils/get-builders';
+import { getManagerBuilder, getPreviewBuilder } from './utils/get-builders';
 
 export async function buildDevStandalone(options: CLIOptions & LoadOptions & BuilderOptions) {
   const { packageJson, versionUpdates, releaseNotes } = options;
@@ -33,7 +36,7 @@ export async function buildDevStandalone(options: CLIOptions & LoadOptions & Bui
     getServerPort(options.port),
     versionUpdates
       ? updateCheck(version)
-      : Promise.resolve({ success: false, data: {}, time: Date.now() }),
+      : Promise.resolve({ success: false, cached: false, data: {}, time: Date.now() }),
     releaseNotes
       ? getReleaseNotesData(version, cache)
       : Promise.resolve(getReleaseNotesFailedState(version)),
@@ -65,26 +68,37 @@ export async function buildDevStandalone(options: CLIOptions & LoadOptions & Bui
   const corePresets = [];
 
   const frameworkName = typeof framework === 'string' ? framework : framework?.name;
+  validateFrameworkName(frameworkName);
+
   if (frameworkName) {
     corePresets.push(join(frameworkName, 'preset'));
   } else {
     logger.warn(`you have not specified a framework in your ${options.configDir}/main.js`);
   }
 
-  logger.info('=> Loading presets');
+  // Load first pass: We need to determine the builder
+  // We need to do this because builders might introduce 'overridePresets' which we need to take into account
+  // We hope to remove this in SB8
   let presets = await loadAllPresets({
     corePresets,
     overridePresets: [],
     ...options,
   });
 
-  const [previewBuilder, managerBuilder] = await getBuilders({ ...options, presets });
+  const { renderer, builder } = await presets.apply<CoreConfig>('core', undefined);
+  const builderName = typeof builder === 'string' ? builder : builder?.name;
+  const [previewBuilder, managerBuilder] = await Promise.all([
+    getPreviewBuilder(builderName, options.configDir),
+    getManagerBuilder(),
+  ]);
 
+  // Load second pass: all presets are applied in order
   presets = await loadAllPresets({
     corePresets: [
       require.resolve('./presets/common-preset'),
       ...(managerBuilder.corePresets || []),
       ...(previewBuilder.corePresets || []),
+      ...(renderer ? [resolveAddonName(options.configDir, renderer, options)] : []),
       ...corePresets,
       require.resolve('./presets/babel-cache-preset'),
     ],

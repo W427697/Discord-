@@ -5,17 +5,19 @@ import type {
   InlineConfig as ViteInlineConfig,
   PluginOption,
   UserConfig as ViteConfig,
+  InlineConfig,
 } from 'vite';
 import viteReact from '@vitejs/plugin-react';
+import externalGlobals from 'rollup-plugin-external-globals';
 import { isPreservingSymlinks, getFrameworkName } from '@storybook/core-common';
-import { stringifyProcessEnvs } from './envs';
+import { globals } from '@storybook/preview/globals';
 import {
   codeGeneratorPlugin,
   injectExportOrderPlugin,
   mdxPlugin,
   stripStoryHMRBoundary,
 } from './plugins';
-import type { ExtendedOptions, EnvsRaw } from './types';
+import type { ExtendedOptions } from './types';
 
 export type PluginConfigType = 'build' | 'development';
 
@@ -36,15 +38,20 @@ export async function commonConfig(
   options: ExtendedOptions,
   _type: PluginConfigType
 ): Promise<ViteInlineConfig> {
-  const { presets } = options;
   const configEnv = _type === 'development' ? configEnvServe : configEnvBuild;
 
-  const { config: userConfig = {} } = (await loadConfigFromFile(configEnv)) ?? {};
+  // I destructure away the `build` property from the user's config object
+  // I do this because I can contain config that breaks storybook, such as we had in a lit project.
+  // If the user needs to configure the `build` they need to do so in the viteFinal function in main.js.
+  const { config: { build: buildProperty = undefined, ...userConfig } = {} } =
+    (await loadConfigFromFile(configEnv)) ?? {};
 
-  const sbConfig = {
+  const sbConfig: InlineConfig = {
     configFile: false,
     cacheDir: 'node_modules/.cache/.vite-storybook',
     root: path.resolve(options.configDir, '..'),
+    // Allow storybook deployed as subfolder.  See https://github.com/storybookjs/builder-vite/issues/238
+    base: './',
     plugins: await pluginConfig(options),
     resolve: {
       preserveSymlinks: isPreservingSymlinks(),
@@ -59,17 +66,6 @@ export async function commonConfig(
 
   const config: ViteConfig = mergeConfig(userConfig, sbConfig);
 
-  // Sanitize environment variables if needed
-  const envsRaw = await presets.apply<Promise<EnvsRaw>>('env');
-  if (Object.keys(envsRaw).length) {
-    // Stringify env variables after getting `envPrefix` from the  config
-    const envs = stringifyProcessEnvs(envsRaw, config.envPrefix);
-    config.define = {
-      ...config.define,
-      ...envs,
-    };
-  }
-
   return config;
 }
 
@@ -79,9 +75,23 @@ export async function pluginConfig(options: ExtendedOptions) {
   const plugins = [
     codeGeneratorPlugin(options),
     // sourceLoaderPlugin(options),
-    mdxPlugin(options),
+    mdxPlugin(),
     injectExportOrderPlugin,
     stripStoryHMRBoundary(),
+    {
+      name: 'storybook:allow-storybook-dir',
+      enforce: 'post',
+      config(config) {
+        // if there is NO allow list then Vite allows anything in the root directory
+        // if there is an allow list then Vite only allows anything in the listed directories
+        // add storybook specific directories only if there's an allow list so that we don't end up
+        // disallowing the root unless root is already disallowed
+        if (config?.server?.fs?.allow) {
+          config.server.fs.allow.push('.storybook');
+        }
+      },
+    },
+    externalGlobals(globals),
   ] as PluginOption[];
 
   // We need the react plugin here to support MDX in non-react projects.

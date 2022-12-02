@@ -21,7 +21,7 @@ export const Template = (args, { argTypes }) => ({
   <Story name="Primary">
     {{
       components: { MyButton: Button },
-      template: '<my-button :primary="true" :children="`Primary button`" />',
+      template: '<my-button :primary="true" label="Primary button" />',
     }}
   </Story>
 </Canvas>
@@ -32,7 +32,7 @@ export const Template = (args, { argTypes }) => ({
   <Story name="Secondary">
     {{
       components: { MyButton: Button },
-      template: '<my-button :primary="false" :children="`Secondary button`" />',
+      template: '<my-button :primary="false" label="Secondary button" />',
     }}
   </Story>
 </Canvas>
@@ -40,7 +40,7 @@ export const Template = (args, { argTypes }) => ({
 ## From template
 
 <Canvas>
-  <Story name="From Template" args={{ children: 'From template' }}>
+  <Story name="From Template" args={{ label: 'From template' }}>
     {Template.bind({})}
   </Story>
 </Canvas>

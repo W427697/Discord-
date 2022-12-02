@@ -19,12 +19,14 @@ export const addPackageResolutions = async ({ cwd, dryRun }: YarnOptions) => {
 
   const packageJsonPath = path.join(cwd, 'package.json');
   const packageJson = await readJSON(packageJsonPath);
-  packageJson.resolutions = storybookVersions;
+  packageJson.resolutions = { ...storybookVersions, 'enhanced-resolve': '~5.10.0' };
   await writeJSON(packageJsonPath, packageJson, { spaces: 2 });
 };
 
 export const installYarn2 = async ({ cwd, dryRun, debug }: YarnOptions) => {
   const command = [
+    `touch yarn.lock`,
+    `touch yarnrc.yml`,
     `yarn set version berry`,
     // Use the global cache so we aren't re-caching dependencies each time we run sandbox
     `yarn config set enableGlobalCache true`,
