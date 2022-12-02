@@ -5,14 +5,14 @@ import type {
   ComponentAnnotations,
   LegacyStoryAnnotationsOrFn,
   ProjectAnnotations,
-  Store_ComposedStoryPlayFn,
-  Store_ComposeStory,
+  ComposedStoryPlayFn,
+  ComposeStoryFn,
   Store_CSFExports,
   StoryContext,
   Parameters,
 } from '@storybook/types';
 
-import { HooksContext } from '@storybook/addons';
+import { HooksContext } from '../../../addons';
 import { composeConfigs } from '../composeConfigs';
 import { prepareStory } from '../prepareStory';
 import { normalizeStory } from '../normalizeStory';
@@ -85,7 +85,7 @@ export function composeStory<TRenderer extends Renderer = Renderer, TArgs extend
 
   composedStory.storyName = storyName;
   composedStory.args = story.initialArgs;
-  composedStory.play = story.playFunction as Store_ComposedStoryPlayFn;
+  composedStory.play = story.playFunction as ComposedStoryPlayFn;
   composedStory.parameters = story.parameters as Parameters;
 
   return composedStory;
@@ -94,7 +94,7 @@ export function composeStory<TRenderer extends Renderer = Renderer, TArgs extend
 export function composeStories<TModule extends Store_CSFExports>(
   storiesImport: TModule,
   globalConfig: ProjectAnnotations<Renderer>,
-  composeStoryFn: Store_ComposeStory
+  composeStoryFn: ComposeStoryFn
 ) {
   // eslint-disable-next-line @typescript-eslint/naming-convention
   const { default: meta, __esModule, __namedExportsOrder, ...stories } = storiesImport;

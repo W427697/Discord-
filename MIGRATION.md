@@ -3,6 +3,7 @@
 - [From version 6.5.x to 7.0.0](#from-version-65x-to-700)
   - [Alpha release notes](#alpha-release-notes)
   - [7.0 breaking changes](#70-breaking-changes)
+    - [Vue3 replaced app export with setup](#vue3-replaced-app-export-with-setup)
     - [removed auto injection of @storybook/addon-actions decorator](#removed-auto-injection-of-storybookaddon-actions-decorator)
     - [register.js removed](#registerjs-removed)
     - [Change of root html IDs](#change-of-root-html-ids)
@@ -30,6 +31,7 @@
     - [Addon-backgrounds: Removed deprecated grid parameter](#addon-backgrounds-removed-deprecated-grid-parameter)
     - [Addon-docs: Removed deprecated blocks.js entry](#addon-docs-removed-deprecated-blocksjs-entry)
     - [Addon-a11y: Removed deprecated withA11y decorator](#addon-a11y-removed-deprecated-witha11y-decorator)
+    - [Stories glob matches MDX files](#stories-glob-matches-mdx-files)
   - [Docs Changes](#docs-changes)
     - [Standalone docs files](#standalone-docs-files)
     - [Referencing stories in docs files](#referencing-stories-in-docs-files)
@@ -257,6 +259,30 @@ Storybook 7.0 is in early alpha. During the alpha, we are making a large number 
 In the meantime, these migration notes are the best available documentation on things you should know upgrading to 7.0.
 
 ### 7.0 breaking changes
+
+#### Vue3 replaced app export with setup
+
+In 6.x `@storybook/vue3` exported a Vue application instance called `app`. In 7.0, this has been replaced by a `setup` function that can be used to initialize the application in your `.storybook/preview.js`:
+
+Before:
+
+```js
+import { app } from '@storybook/vue3';
+import Button from './Button.vue';
+
+app.component('GlobalButton', Button);
+```
+
+After:
+
+```js
+import { setup } from '@storybook/vue3';
+import Button from './Button.vue';
+
+setup((app) => {
+  app.component('GlobalButton', Button);
+});
+```
 
 #### removed auto injection of @storybook/addon-actions decorator
 
@@ -595,6 +621,30 @@ Removed `@storybook/addon-docs/blocks` entry. Import directly from `@storybook/a
 #### Addon-a11y: Removed deprecated withA11y decorator
 
 We removed the deprecated `withA11y` decorator. This was [deprecated in 6.0](#removed-witha11y-decorator)
+
+#### Stories glob matches MDX files
+
+If you used a directory based stories glob, in 6.x it would match `.stories.js` (and other JS extensions) and `.stories.mdx` files. For instance:
+
+```js
+// in main.js
+export default {
+  stories: ['../path/to/directory']
+};
+
+// or
+export default {
+  stories: [{ directory: '../path/to/directory' }]
+};
+```
+
+In 7.0, this pattern will also match `.mdx` files (the new extension for docs files - see docs changes below). If you have `.mdx` files you don't want to appear in your storybook, either move them out of the directory, or add a `files` specifier with the old pattern (`"**/*.stories.@(mdx|tsx|ts|jsx|js)"`):
+
+```js
+export default {
+  stories: [{ directory: '../path/to/directory', files: '**/*.stories.@(mdx|tsx|ts|jsx|js)' }],
+};
+```
 
 ### Docs Changes
 

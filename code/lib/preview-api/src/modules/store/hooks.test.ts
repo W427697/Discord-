@@ -6,6 +6,7 @@ import {
   RESET_STORY_ARGS,
   UPDATE_GLOBALS,
 } from '@storybook/core-events';
+import type { DecoratorFunction, StoryContext } from '@storybook/types';
 import {
   addons,
   applyHooks,
@@ -21,8 +22,7 @@ import {
   HooksContext,
   useArgs,
   useGlobals,
-} from '@storybook/addons';
-import type { DecoratorFunction, StoryContext } from '@storybook/types';
+} from '../addons';
 
 import { defaultDecorateStory } from './decorators';
 

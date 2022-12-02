@@ -4,10 +4,9 @@
 
 import React from 'react';
 import global from 'global';
-import type { Store_RenderContext } from '@storybook/types';
-import { addons, mockChannel as createMockChannel } from '@storybook/addons';
-
+import type { RenderContext } from '@storybook/types';
 import { expect } from '@jest/globals';
+import { addons, mockChannel as createMockChannel } from '../addons';
 
 import { PreviewWeb } from './PreviewWeb';
 import { WebView } from './WebView';
@@ -75,8 +74,8 @@ describe('PreviewWeb', () => {
       const { DocsRenderer } = await import('@storybook/addon-docs');
       projectAnnotations.parameters.docs.renderer = () => new DocsRenderer() as any;
 
-      projectAnnotations.renderToCanvas.mockImplementationOnce(
-        ({ storyFn }: Store_RenderContext<any>) => storyFn()
+      projectAnnotations.renderToCanvas.mockImplementationOnce(({ storyFn }: RenderContext<any>) =>
+        storyFn()
       );
       document.location.search = '?id=component-one--a';
       await new PreviewWeb().initialize({ importFn, getProjectAnnotations });
@@ -135,8 +134,8 @@ describe('PreviewWeb', () => {
       await preview.initialize({ importFn, getProjectAnnotations });
       await waitForRender();
 
-      projectAnnotations.renderToCanvas.mockImplementationOnce(
-        ({ storyFn }: Store_RenderContext<any>) => storyFn()
+      projectAnnotations.renderToCanvas.mockImplementationOnce(({ storyFn }: RenderContext<any>) =>
+        storyFn()
       );
       projectAnnotations.decorators[0].mockClear();
       mockChannel.emit.mockClear();

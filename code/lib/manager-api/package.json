@@ -1,6 +1,6 @@
 {
   "name": "@storybook/manager-api",
-  "version": "7.0.0-alpha.53",
+  "version": "7.0.0-alpha.56",
   "description": "Core Storybook API & Context",
   "keywords": [
     "storybook"
@@ -41,25 +41,24 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/channels": "7.0.0-alpha.53",
-    "@storybook/client-logger": "7.0.0-alpha.53",
-    "@storybook/core-events": "7.0.0-alpha.53",
+    "@storybook/channels": "7.0.0-alpha.56",
+    "@storybook/client-logger": "7.0.0-alpha.56",
+    "@storybook/core-events": "7.0.0-alpha.56",
     "@storybook/csf": "next",
-    "@storybook/router": "7.0.0-alpha.53",
-    "@storybook/theming": "7.0.0-alpha.53",
-    "@storybook/types": "7.0.0-alpha.53",
+    "@storybook/router": "7.0.0-alpha.56",
+    "@storybook/theming": "7.0.0-alpha.56",
+    "@storybook/types": "7.0.0-alpha.56",
     "dequal": "^2.0.2",
     "global": "^4.4.0",
     "lodash": "^4.17.21",
     "memoizerific": "^1.11.3",
     "semver": "^7.3.7",
     "store2": "^2.12.0",
-    "telejson": "^6.0.8",
-    "ts-dedent": "^2.0.0",
-    "util-deprecate": "^1.0.2"
+    "telejson": "^7.0.3",
+    "ts-dedent": "^2.0.0"
   },
   "devDependencies": {
-    "@storybook/core-common": "7.0.0-alpha.53",
+    "@jest/globals": "^29.3.1",
     "@types/lodash": "^4.14.167",
     "@types/qs": "^6",
     "flush-promises": "^1.0.2",
@@ -78,5 +77,5 @@
       "./src/index.tsx"
     ]
   },
-  "gitHead": "fd1cf81615a5ddac3369e7bb567a1a43081fdc23"
+  "gitHead": "c8e9a862bb83c4a0d6b5975e795b4ca7f7ff7bc2"
 }

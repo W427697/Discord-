@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-essentials",
-  "version": "7.0.0-alpha.53",
+  "version": "7.0.0-alpha.56",
   "description": "Curated addons to bring out the best of Storybook",
   "keywords": [
     "addon",
@@ -111,25 +111,24 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/addon-actions": "7.0.0-alpha.53",
-    "@storybook/addon-backgrounds": "7.0.0-alpha.53",
-    "@storybook/addon-controls": "7.0.0-alpha.53",
-    "@storybook/addon-docs": "7.0.0-alpha.53",
-    "@storybook/addon-highlight": "7.0.0-alpha.53",
-    "@storybook/addon-measure": "7.0.0-alpha.53",
-    "@storybook/addon-outline": "7.0.0-alpha.53",
-    "@storybook/addon-toolbars": "7.0.0-alpha.53",
-    "@storybook/addon-viewport": "7.0.0-alpha.53",
-    "@storybook/addons": "7.0.0-alpha.53",
-    "@storybook/core-common": "7.0.0-alpha.53",
-    "@storybook/manager-api": "7.0.0-alpha.53",
-    "@storybook/node-logger": "7.0.0-alpha.53",
-    "@storybook/preview-api": "7.0.0-alpha.53",
+    "@storybook/addon-actions": "7.0.0-alpha.56",
+    "@storybook/addon-backgrounds": "7.0.0-alpha.56",
+    "@storybook/addon-controls": "7.0.0-alpha.56",
+    "@storybook/addon-docs": "7.0.0-alpha.56",
+    "@storybook/addon-highlight": "7.0.0-alpha.56",
+    "@storybook/addon-measure": "7.0.0-alpha.56",
+    "@storybook/addon-outline": "7.0.0-alpha.56",
+    "@storybook/addon-toolbars": "7.0.0-alpha.56",
+    "@storybook/addon-viewport": "7.0.0-alpha.56",
+    "@storybook/core-common": "7.0.0-alpha.56",
+    "@storybook/manager-api": "7.0.0-alpha.56",
+    "@storybook/node-logger": "7.0.0-alpha.56",
+    "@storybook/preview-api": "7.0.0-alpha.56",
     "ts-dedent": "^2.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.2",
-    "@storybook/vue": "7.0.0-alpha.53",
+    "@storybook/vue": "7.0.0-alpha.56",
     "typescript": "^4.9.3"
   },
   "peerDependencies": {
@@ -158,5 +157,5 @@
     ],
     "platform": "node"
   },
-  "gitHead": "fd1cf81615a5ddac3369e7bb567a1a43081fdc23"
+  "gitHead": "c8e9a862bb83c4a0d6b5975e795b4ca7f7ff7bc2"
 }

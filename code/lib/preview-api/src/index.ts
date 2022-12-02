@@ -15,18 +15,18 @@ export {
   useStoryContext,
   applyHooks,
   HooksContext,
-} from '@storybook/addons';
+} from './addons';
 
 /**
  * DECORATORS API
  */
-export { makeDecorator } from '@storybook/addons';
+export { makeDecorator } from './addons';
 
 /**
  * ADDON API
  * @deprecated
  */
-export { addons } from '@storybook/addons';
+export { addons, mockChannel } from './addons';
 
 /**
  * DOCS API
@@ -72,6 +72,8 @@ export {
   userOrAutoTitleFromSpecifier,
   sortStoriesV7,
 } from './store';
+
+export type { PropDescriptor } from './store';
 
 /**
  * STORIES API

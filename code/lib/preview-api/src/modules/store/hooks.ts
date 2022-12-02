@@ -15,7 +15,7 @@ import {
   useParameter,
   useArgs,
   useGlobals,
-} from '@storybook/addons';
+} from '../addons';
 
 export {
   HooksContext,
