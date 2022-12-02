@@ -189,12 +189,12 @@ program
   .option('-n --dry-run', 'Only check for fixes, do not actually run them')
   .option('--package-manager <npm|pnpm|yarn1|yarn2>', 'Force package manager')
   .option('-N --use-npm', 'Use npm as package manager (deprecated)')
-  .action((fixId, options) =>
-    automigrate({ fixId, ...options }).catch((e) => {
+  .action(async (fixId, options) => {
+    await automigrate({ fixId, ...options }).catch((e) => {
       logger.error(e);
       process.exit(1);
-    })
-  );
+    });
+  });
 
 program
   .command('dev')
