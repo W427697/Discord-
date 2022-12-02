@@ -20,6 +20,7 @@ import React from 'react';
 const UNSTYLED_SELECTORS = [
   '.sb-unstyled',
   '.sbdocs-preview',
+  '.sbdocs-pre',
   '.sb-story',
   '.docblock-source',
   '.sb-anchor',
