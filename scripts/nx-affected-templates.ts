@@ -2,15 +2,16 @@
 import { readJson, writeFile } from 'fs-extra';
 import { join } from 'path';
 import { execaCommand } from './utils/exec';
-import { allTemplates, type TemplateKey } from '../code/lib/cli/src/repro-templates';
+import { ci, allTemplates, type TemplateKey } from '../code/lib/cli/src/repro-templates';
 
 const affectedTemplatesPath = join(__dirname, '..', 'affected-templates.json');
 
 // check whether a given template is related to affected packages (via nx affected graph)
 export const shouldSkipTask = async (template: TemplateKey) => {
   try {
-    const affectTemplates = await readJson(affectedTemplatesPath);
-    return !affectTemplates.includes(template);
+    const affectTemplates = (await readJson(affectedTemplatesPath)) as string[];
+    // we want to always test the most basic templates, for safety (coming from CI cadence)
+    return !affectTemplates.concat(ci).includes(template);
   } catch (e) {
     // return false if the file doesn't exist
     return false;
