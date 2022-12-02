@@ -42,6 +42,7 @@ export default {
   '@storybook/ember': '7.0.0-alpha.56',
   '@storybook/html': '7.0.0-alpha.56',
   '@storybook/html-webpack5': '7.0.0-alpha.56',
+  '@storybook/html-vite': '7.0.0-alpha.56',
   '@storybook/instrumenter': '7.0.0-alpha.56',
   '@storybook/nextjs': '7.0.0-alpha.56',
   '@storybook/node-logger': '7.0.0-alpha.56',

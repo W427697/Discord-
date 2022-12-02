@@ -165,7 +165,6 @@ export const allTemplates: Record<string, Template> = {
   'html-vite/default-js': {
     name: 'HTML Vite JS',
     script: 'yarn create vite . --template vanilla && echo "export default {}" > vite.config.js',
-    cadence: ['daily', 'weekly'],
     expected: {
       framework: '@storybook/html-vite',
       renderer: '@storybook/html',
@@ -177,7 +176,6 @@ export const allTemplates: Record<string, Template> = {
   'html-vite/default-ts': {
     name: 'HTML Vite TS',
     script: 'yarn create vite . --template vanilla-ts && echo "export default {}" > vite.config.js',
-    cadence: ['ci', 'daily', 'weekly'],
     expected: {
       framework: '@storybook/html-vite',
       renderer: '@storybook/html',
@@ -335,7 +333,6 @@ export const pr: TemplateKey[] = [
   'svelte-vite/default-ts',
   'svelte-kit/skeleton-ts',
   'nextjs/default-ts',
-  'html-vite/default-ts',
 ];
 export const merged: TemplateKey[] = [
   ...pr,
@@ -358,7 +355,6 @@ export const daily: TemplateKey[] = [
   'svelte-vite/default-js',
   'nextjs/default-js',
   'preact-webpack5/default-js',
-  'html-vite/default-js',
 ];
 
 export const templatesByCadence = { ci, pr, merged, daily };
