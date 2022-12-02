@@ -8,6 +8,8 @@ export function configureNextImport(baseConfig: WebpackConfig) {
 
   const isNext12 = semver.satisfies(nextJSVersion, '~12');
   const isNext13 = semver.satisfies(nextJSVersion, '~13');
+  const isNextVersionSmallerThan13 = semver.lt(nextJSVersion, '13.0.0');
+  const isNextVersionSmallerThan12 = semver.lt(nextJSVersion, '12.0.0');
 
   baseConfig.plugins = baseConfig.plugins ?? [];
 
@@ -23,6 +25,22 @@ export function configureNextImport(baseConfig: WebpackConfig) {
     baseConfig.plugins.push(
       new IgnorePlugin({
         resourceRegExp: /next\/future\/image$/,
+      })
+    );
+  }
+
+  if (isNextVersionSmallerThan13) {
+    baseConfig.plugins.push(
+      new IgnorePlugin({
+        resourceRegExp: /next\/dist\/shared\/lib\/hooks-client-context$/,
+      })
+    );
+  }
+
+  if (isNextVersionSmallerThan12) {
+    baseConfig.plugins.push(
+      new IgnorePlugin({
+        resourceRegExp: /next\/dist\/shared\/lib\/app-router-context$/,
       })
     );
   }
