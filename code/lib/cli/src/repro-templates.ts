@@ -256,7 +256,7 @@ export const allTemplates = {
   },
 };
 
-type TemplateKey = keyof typeof allTemplates;
+export type TemplateKey = keyof typeof allTemplates;
 
 export const ci: TemplateKey[] = ['cra/default-ts', 'react-vite/default-ts'];
 export const pr: TemplateKey[] = [
