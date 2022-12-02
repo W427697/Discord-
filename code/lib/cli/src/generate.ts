@@ -25,14 +25,15 @@ import { parseList, getEnvConfig } from './utils';
 const pkg = readUpSync({ cwd: __dirname }).packageJson;
 const consoleLogger = console;
 
-program.option(
-  '--disable-telemetry',
-  'disable sending telemetry data',
-  // default value is false, but if the user sets STORYBOOK_DISABLE_TELEMETRY, it can be true
-  process.env.STORYBOOK_DISABLE_TELEMETRY && process.env.STORYBOOK_DISABLE_TELEMETRY !== 'false'
-);
-
-program.option('--enable-crash-reports', 'enable sending crash reports to telemetry data');
+program
+  .option(
+    '--disable-telemetry',
+    'disable sending telemetry data',
+    // default value is false, but if the user sets STORYBOOK_DISABLE_TELEMETRY, it can be true
+    process.env.STORYBOOK_DISABLE_TELEMETRY && process.env.STORYBOOK_DISABLE_TELEMETRY !== 'false'
+  )
+  .option('--debug', 'Get more logs in debug mode', false)
+  .option('--enable-crash-reports', 'enable sending crash reports to telemetry data');
 
 program
   .command('init')

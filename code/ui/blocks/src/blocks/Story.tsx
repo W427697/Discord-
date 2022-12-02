@@ -112,7 +112,7 @@ const Story: FC<StoryProps> = (props) => {
     // FIXME: height/style/etc. lifted from PureStory
     const { height } = storyProps;
     return (
-      <div id={storyBlockIdFromId(story.id)}>
+      <div id={storyBlockIdFromId(story.id)} className="sb-story">
         {height ? (
           <style>{`#story--${story.id} { min-height: ${height}; transform: translateZ(0); overflow: auto }`}</style>
         ) : null}

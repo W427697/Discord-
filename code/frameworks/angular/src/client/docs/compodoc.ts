@@ -251,7 +251,6 @@ export const extractArgTypesFromData = (componentData: Class | Directive | Injec
       const argType = {
         name: item.name,
         description: item.rawdescription || item.description,
-        defaultValue,
         type,
         ...action,
         table: {
