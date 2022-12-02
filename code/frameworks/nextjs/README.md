@@ -299,7 +299,7 @@ export const parameters = {
 
 [Next.js's router](https://nextjs.org/docs/routing/introduction) is automatically stubbed for you so that when the router is interacted with, all of its interactions are automatically logged to the [Storybook actions tab](https://storybook.js.org/docs/react/essentials/actions) if you have the actions addon.
 
-You should only use `next/router` in the `pages` directory of Next.js v13 or higher. In the `app` directory it is necessary to use `next/navigation`.
+You should only use `next/router` in the `pages` directory of Next.js v13 or higher. In the `app` directory, it is necessary to use `next/navigation`.
 
 #### Overriding defaults
 
