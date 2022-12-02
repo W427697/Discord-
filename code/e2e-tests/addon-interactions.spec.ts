@@ -95,14 +95,18 @@ test.describe('addon-interactions', () => {
     const rerunInteractionButton = await panel.locator('[aria-label="Rerun"]');
     await rerunInteractionButton.click();
     await interactionsRow.first().isVisible();
-    await expect(await interactionsRow.count()).toEqual(3);
+    await interactionsRow.nth(1).isVisible();
+    await interactionsRow.nth(2).isVisible();
     await expect(interactionsTab).toContainText(/(3)/);
+    await expect(interactionsTab).toBeVisible();
 
     // Test remount state (from toolbar) - Interactions have rerun, count is correct and values are as expected
     const remountComponentButton = await page.locator('[title="Remount component"]');
     await remountComponentButton.click();
     await interactionsRow.first().isVisible();
-    await expect(await interactionsRow.count()).toEqual(3);
+    await interactionsRow.nth(1).isVisible();
+    await interactionsRow.nth(2).isVisible();
     await expect(interactionsTab).toContainText(/(3)/);
+    await expect(interactionsTab).toBeVisible();
   });
 });

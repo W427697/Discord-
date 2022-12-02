@@ -1,5 +1,5 @@
 import React from 'react';
-import Image from 'next/image';
+import Image from 'next/future/image';
 // eslint-disable-next-line import/extensions
 import StackAlt from '../../assets/colors.svg';
 
