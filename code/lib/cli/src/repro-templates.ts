@@ -68,7 +68,7 @@ export const allTemplates: Record<string, Template> = {
   },
   'nextjs/default-js': {
     name: 'Next.js (JavaScript)',
-    script: 'yarn create next-app {{beforeDir}}',
+    script: 'yarn create next-app {{beforeDir}} --javascript --eslint',
     expected: {
       framework: '@storybook/nextjs',
       renderer: '@storybook/react',
@@ -77,7 +77,7 @@ export const allTemplates: Record<string, Template> = {
   },
   'nextjs/default-ts': {
     name: 'Next.js (TypeScript)',
-    script: 'yarn create next-app {{beforeDir}} --typescript',
+    script: 'yarn create next-app {{beforeDir}} --typescript --eslint',
     expected: {
       framework: '@storybook/nextjs',
       renderer: '@storybook/react',
