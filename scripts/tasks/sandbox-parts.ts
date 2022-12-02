@@ -53,7 +53,7 @@ export const create: Task['run'] = async (
   } else {
     await executeCLIStep(steps.repro, {
       argument: keyExtends || key,
-      optionValues: { output: sandboxDir, branch: 'next' },
+      optionValues: { output: sandboxDir, branch: 'next', debug },
       cwd: parentDir,
       dryRun,
       debug,

@@ -17,6 +17,7 @@ import type { ReactRenderer } from '@storybook/react';
 import type { Channel } from '@storybook/channels';
 
 import { DocsContainer } from '../blocks/src/blocks/DocsContainer';
+import { DocsContent, DocsWrapper } from '../blocks/src/components';
 
 const { document } = global;
 
@@ -139,6 +140,19 @@ export const decorators = [
       <DocsContainer context={docsContext}>
         <Story />
       </DocsContainer>
+    ) : (
+      <Story />
+    ),
+  /**
+   * This decorator adds wrappers that contains global styles for stories to be targeted by.
+   * Activated with parameters.docsStyles = true
+   */ (Story, { parameters: { docsStyles } }) =>
+    docsStyles ? (
+      <DocsWrapper className="sbdocs sbdocs-wrapper">
+        <DocsContent className="sbdocs sbdocs-content">
+          <Story />
+        </DocsContent>
+      </DocsWrapper>
     ) : (
       <Story />
     ),
