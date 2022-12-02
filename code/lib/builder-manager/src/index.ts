@@ -41,6 +41,7 @@ export const getConfig: ManagerBuilder['getConfig'] = async (options) => {
     outdir: join(options.outputDir || './', 'sb-addons'),
     format: 'esm',
     write: false,
+    resolveExtensions: ['.ts', '.tsx', '.mjs', '.js', '.jsx'],
     outExtension: { '.js': '.mjs' },
     loader: {
       '.js': 'jsx',
@@ -57,6 +58,7 @@ export const getConfig: ManagerBuilder['getConfig'] = async (options) => {
     bundle: true,
     minify: false,
     sourcemap: true,
+    conditions: ['browser', 'module', 'default'],
 
     jsxFactory: 'React.createElement',
     jsxFragment: 'React.Fragment',
