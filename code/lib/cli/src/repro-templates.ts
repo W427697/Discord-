@@ -84,6 +84,16 @@ export const allTemplates: Record<string, Template> = {
       builder: '@storybook/builder-webpack5',
     },
   },
+  'new-framework/default-js': {
+    name: 'Just testing',
+    inDevelopment: true,
+    script: 'yarn create next-app {{beforeDir}} --javascript --eslint',
+    expected: {
+      framework: '@storybook/nextjs',
+      renderer: '@storybook/react',
+      builder: '@storybook/builder-webpack5',
+    },
+  },
   'react-vite/default-js': {
     name: 'React Vite (JS)',
     script: 'yarn create vite . --template react',
