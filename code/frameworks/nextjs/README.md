@@ -199,7 +199,7 @@ export const Example = {
 },
 ```
 
-If your Next.js project doesn't have a `pages` directory, you can set the parameter `nextAppDirectory` to `true` in the [preview.js](https://storybook.js.org/docs/react/configure/overview#configure-story-rendering) file. Then the parameter is not needed in the stories.
+If your Next.js project uses the `app` directory for every page (in other words, it does not have a `pages` directory), you can set the parameter `nextAppDirectory` to `true` in the [preview.js](https://storybook.js.org/docs/react/configure/overview#configure-story-rendering) file to apply it to all stories.
 
 ```js
 // .storybook/preview.js
