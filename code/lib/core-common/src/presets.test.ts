@@ -543,7 +543,7 @@ describe('loadPreset', () => {
         name: 'addon-foo/register.js',
         options: {},
         preset: {
-          managerEntries: ['addon-foo/register.js'],
+          managerEntries: ['addon-foo/register'],
         },
       },
       {
@@ -565,7 +565,7 @@ describe('loadPreset', () => {
         name: 'addon-baz/register.js',
         options: {},
         preset: {
-          managerEntries: ['addon-baz/register.js'],
+          managerEntries: ['addon-baz/register'],
         },
       },
       {
