@@ -14,7 +14,7 @@ export type Template = {
   script: string;
   /**
    * Used to assert various things about the generated template.
-   * If the template is generated with a different expected framework, it will fail.
+   * If the template is generated with a different expected framework, it will fail, detecting a possible regression.
    */
   expected: {
     framework: string;

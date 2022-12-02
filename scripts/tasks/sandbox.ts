@@ -20,7 +20,7 @@ export const sandbox: Task = {
   async run(details, options) {
     if (options.link && details.template.inDevelopment) {
       logger.log(
-        `The ${options.template} has inDevelopment property enabled, thefore the sandbox for that template cannot be linked. Enabling --no-link mode..`
+        `The ${options.template} has inDevelopment property enabled, therefore the sandbox for that template cannot be linked. Enabling --no-link mode..`
       );
       // eslint-disable-next-line no-param-reassign
       options.link = false;
