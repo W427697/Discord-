@@ -26,4 +26,4 @@ export const raw: ClientApi['raw'] = api.clientApi.raw;
 
 // I added this temporarily, it should be removed, I only added it to debug the vite singleton module problem when running storybook in dev-mode
 // eslint-disable-next-line no-underscore-dangle, @typescript-eslint/naming-convention
-export const __DO_NOT_USE_OR_YOU_WILL_BE_FIRED_STORYSTOREV6_API__ = api;
+export const __DO_NOT_USE_OR_YOU_WILL_BE_FIRED_STORYSTOREV6_API__ = api as any;
