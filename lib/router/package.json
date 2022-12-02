@@ -1,6 +1,6 @@
 {
   "name": "@storybook/router",
-  "version": "6.5.14-alpha.2",
+  "version": "6.5.14",
   "description": "Core Storybook Router",
   "keywords": [
     "storybook"
@@ -40,7 +40,7 @@
     "prepare": "ts-node ../../scripts/prebundle.ts"
   },
   "dependencies": {
-    "@storybook/client-logger": "6.5.14-alpha.2",
+    "@storybook/client-logger": "6.5.14",
     "core-js": "^3.8.2",
     "memoizerific": "^1.11.3",
     "qs": "^6.10.0",
