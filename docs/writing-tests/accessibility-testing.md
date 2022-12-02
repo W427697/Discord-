@@ -246,5 +246,6 @@ Browser-based accessibility tests, like those found in Storybook, evaluate the r
 - [Visual tests](./visual-testing.md) for appearance
 - Accessibility tests for accessibility
 - [Interaction tests](./interaction-testing.md) for user behavior simulation
+- [Coverage tests](./test-coverage.md) for measuring code coverage
 - [Snapshot tests](./snapshot-testing.md) for rendering errors and warnings
 - [Import stories in other tests](./importing-stories-in-tests.md) for other tools
