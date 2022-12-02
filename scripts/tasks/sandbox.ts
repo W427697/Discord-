@@ -18,12 +18,12 @@ export const sandbox: Task = {
     return pathExists(sandboxDir);
   },
   async run(details, options) {
-    if (!options.link && details.template.inDevelopment) {
+    if (options.link && details.template.inDevelopment) {
       logger.log(
         `The ${options.template} has inDevelopment property enabled, thefore the sandbox for that template cannot be linked. Enabling --no-link mode..`
       );
       // eslint-disable-next-line no-param-reassign
-      options.link = true;
+      options.link = false;
     }
     if (await this.ready(details)) {
       logger.info('🗑  Removing old sandbox dir');
