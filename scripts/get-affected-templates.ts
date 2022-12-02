@@ -1,18 +1,19 @@
 /* eslint-disable no-console */
 import { writeFile } from 'fs-extra';
-import { command } from 'execa';
 import { join } from 'path';
+import { execaCommand } from './utils/exec';
 import { allTemplates } from '../code/lib/cli/src/repro-templates';
 
 async function run() {
+  const baseTarget = process.env.NX_BASE || 'origin/next';
   let nxCommand = 'yarn nx print-affected';
 
-  if (process.env.NX_BASE) {
-    console.log(`Using NX_BASE hash for NX comparison:${process.env.NX_BASE}`);
-    nxCommand = `${nxCommand} --base=${process.env.NX_BASE}`;
+  if (baseTarget) {
+    console.log(`Using NX_BASE hash for NX comparison:${baseTarget}`);
+    nxCommand = `${nxCommand} --base=${baseTarget}`;
   }
 
-  const contents = await command(nxCommand, { cwd: join(__dirname, '..') });
+  const contents = await execaCommand(nxCommand, { cwd: join(__dirname, '..') });
 
   const affectedPackages = JSON.parse(contents.stdout).projects;
 
