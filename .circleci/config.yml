@@ -140,7 +140,7 @@ jobs:
       - run:
           name: Generate affected templates file
           command: |
-            yarn get-affected-templates
+            yarn nx-affected-templates
       - report-workflow-on-failure
       - save_cache:
           name: Save Yarn cache

@@ -1,6 +1,8 @@
+/* eslint-disable no-console */
 import assert from 'assert';
 import fetch from 'node-fetch';
-import { allTemplates } from '../code/lib/cli/src/repro-templates';
+import { allTemplates, type TemplateKey } from '../code/lib/cli/src/repro-templates';
+import { shouldSkipTask } from './nx-affected-templates';
 
 const PORT = process.env.PORT || 6007;
 
@@ -9,9 +11,14 @@ const eventTypeExpectations = {
 };
 
 async function run() {
-  const [eventType, templateName] = process.argv.slice(2);
+  const [eventType, templateKey] = process.argv.slice(2) as [string, TemplateKey];
 
-  if (!eventType || !templateName) {
+  if (await shouldSkipTask(templateKey)) {
+    console.log(`Skipping checks for "${templateKey}" as it was not affected by the changes`);
+    return;
+  }
+
+  if (!eventType || !templateKey) {
     throw new Error(
       `Need eventType and templateName; call with ./event-log-checker <eventType> <templateName>`
     );
@@ -20,8 +27,8 @@ async function run() {
   const expectation = eventTypeExpectations[eventType as keyof typeof eventTypeExpectations];
   if (!expectation) throw new Error(`Unexpected eventType '${eventType}'`);
 
-  const template = allTemplates[templateName as keyof typeof allTemplates];
-  if (!template) throw new Error(`Unexpected template '${templateName}'`);
+  const template = allTemplates[templateKey as keyof typeof allTemplates];
+  if (!template) throw new Error(`Unexpected template '${templateKey}'`);
 
   const events = await (await fetch(`http://localhost:${PORT}/event-log`)).json();
 

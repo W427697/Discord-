@@ -1,8 +1,21 @@
 /* eslint-disable no-console */
-import { writeFile } from 'fs-extra';
+import { readJson, writeFile } from 'fs-extra';
 import { join } from 'path';
 import { execaCommand } from './utils/exec';
-import { allTemplates } from '../code/lib/cli/src/repro-templates';
+import { allTemplates, type TemplateKey } from '../code/lib/cli/src/repro-templates';
+
+const affectedTemplatesPath = join(__dirname, '..', 'affected-templates.json');
+
+// check whether a given template is related to affected packages (via nx affected graph)
+export const shouldSkipTask = async (template: TemplateKey) => {
+  try {
+    const affectTemplates = await readJson(affectedTemplatesPath);
+    return !affectTemplates.includes(template);
+  } catch (e) {
+    // return false if the file doesn't exist
+    return false;
+  }
+};
 
 async function run() {
   const baseTarget = process.env.NX_BASE || 'origin/next';

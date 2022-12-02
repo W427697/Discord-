@@ -24,11 +24,11 @@ import { chromatic } from './tasks/chromatic';
 import { e2eTests } from './tasks/e2e-tests';
 
 import { allTemplates as TEMPLATES } from '../code/lib/cli/src/repro-templates';
+import { shouldSkipTask } from './nx-affected-templates';
 
 const sandboxDir = process.env.SANDBOX_ROOT || resolve(__dirname, '../sandbox');
 const codeDir = resolve(__dirname, '../code');
 const junitDir = resolve(__dirname, '../test-results');
-const affectedTemplatesPath = resolve(__dirname, '../affected-templates.json');
 
 export const extraAddons = ['a11y', 'storysource'];
 
@@ -279,17 +279,6 @@ function writeTaskList(statusMap: Map<Task, TaskStatus>) {
   );
   logger.info();
 }
-
-// check whether a given template is related to affected packages (via nx affected graph)
-const shouldSkipTask = async (template: TemplateKey) => {
-  try {
-    const affectTemplates = await readJson(affectedTemplatesPath);
-    return !affectTemplates.includes(template);
-  } catch (e) {
-    // return false if the file doesn't exist
-    return false;
-  }
-};
 
 async function runTask(task: Task, details: TemplateDetails, optionValues: PassedOptionValues) {
   const { junitFilename } = details;
