@@ -21,34 +21,28 @@ export async function generateIframeScriptCode(options: ExtendedOptions) {
   const importArray = (name: string, length: number) =>
     new Array(length).fill(0).map((_, i) => `${name}_${i}`);
 
+  // the "__DO_NOT_USE_OR_YOU_WILL_BE_FIRED_STORYSTOREV6_API__" is a experiment I tried to fix the vite-builder in dev mode.
+  // it should be removed, if this is the only way to make things work (oof), then it likely mean we have to add more, and add it to all renderers
+  // but I'm really hoping we do not have to do that.
+
   // noinspection UnnecessaryLocalVariableJS
   /** @todo Inline variable and remove `noinspection` */
   // language=JavaScript
   const code = `
     // Ensure that the client API is initialized by the framework before any other iframe code
     // is loaded. That way our client-apis can assume the existence of the API+store
-    import { configure } from '${rendererName}';
-
+    import { configure, __DO_NOT_USE_OR_YOU_WILL_BE_FIRED_STORYSTOREV6_API__ } from '${rendererName}';
     
     import { logger } from '@storybook/client-logger';
-    import {
-      addDecorator,
-      addParameters,
-      addLoader,
-      addArgs,
-      addArgTypes,
-      addStepRunner,
-      addArgTypesEnhancer,
-      addArgsEnhancer,
-      setGlobalRender,
-    } from "@storybook/preview-api";
+
+    const { clientApi } = __DO_NOT_USE_OR_YOU_WILL_BE_FIRED_STORYSTOREV6_API__;
+
     ${filesToImport(configEntries, 'config')}
     
     import * as preview from '${virtualPreviewFile}';
+    import * as previewApi from '@storybook/preview-api';
     import { configStories } from '${virtualStoriesFile}';
-    
-    console.log('${rendererName}');
-    
+        
     const configs = [${importArray('config', configEntries.length)
       .concat('preview.default')
       .join(',')}].filter(Boolean)
@@ -58,34 +52,34 @@ export async function generateIframeScriptCode(options: ExtendedOptions) {
         const value = config[key];
         switch (key) {
           case 'args': {
-            return addArgs(value);
+            return clientApi.addArgs(value);
           }
           case 'argTypes': {
-            return addArgTypes(value);
+            return clientApi.addArgTypes(value);
           }
           case 'decorators': {
-            return value.forEach((decorator) => addDecorator(decorator, false));
+            return value.forEach((decorator) => clientApi.addDecorator(decorator, false));
           }
           case 'loaders': {
-            return value.forEach((loader) => addLoader(loader, false));
+            return value.forEach((loader) => clientApi.addLoader(loader, false));
           }
           case 'parameters': {
-            return addParameters({ ...value }, false);
+            return clientApi.addParameters({ ...value }, false);
           }
           case 'argTypesEnhancers': {
-            return value.forEach((enhancer) => addArgTypesEnhancer(enhancer));
+            return value.forEach((enhancer) => clientApi.addArgTypesEnhancer(enhancer));
           }
           case 'argsEnhancers': {
-            return value.forEach((enhancer) => addArgsEnhancer(enhancer))
+            return value.forEach((enhancer) => clientApi.addArgsEnhancer(enhancer))
           }
           case 'render': {
-            return setGlobalRender(value)
+            return previewApi.setGlobalRender(value)
           }
           case 'globals':
           case 'globalTypes': {
             const v = {};
             v[key] = value;
-            return addParameters(v, false);
+            return clientApi.addParameters(v, false);
           }
           case 'decorateStory':
           case 'applyDecorators':
@@ -94,7 +88,7 @@ export async function generateIframeScriptCode(options: ExtendedOptions) {
             return null; // This key is not handled directly in v6 mode.
           }
           case 'runStep': {
-            return addStepRunner(value);
+            return previewApi.addStepRunner(value);
           }
           default: {
             // eslint-disable-next-line prefer-template

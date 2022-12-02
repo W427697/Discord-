@@ -29,6 +29,10 @@ import { combineParameters, composeStepRunners, normalizeInputTypes } from '../.
 
 import { StoryStoreFacade } from './StoryStoreFacade';
 
+console.log(
+  'CLIENT_API_MODULE, you should only see this log, exactly ONCE, in the browser console'
+);
+
 // ClientApi (and StoreStore) are really singletons. However they are not created until the
 // relevant framework instanciates them via `start.js`. The good news is this happens right away.
 let singleton: ClientApi<Renderer>;

@@ -19,6 +19,10 @@ import {
 } from './plugins';
 import type { ExtendedOptions } from './types';
 
+const globalPluginInstance = externalGlobals(globals);
+
+console.log({ globalPluginInstance, fn: globalPluginInstance.transform.toString() });
+
 export type PluginConfigType = 'build' | 'development';
 
 const configEnvServe: ConfigEnv = {
@@ -74,6 +78,14 @@ export async function pluginConfig(options: ExtendedOptions) {
 
   const plugins = [
     codeGeneratorPlugin(options),
+    {
+      name: 'ians-cool-plugin',
+      enforce: 'post',
+      transform: (code, id) => {
+        console.log({ id });
+        return code;
+      },
+    },
     // sourceLoaderPlugin(options),
     mdxPlugin(),
     injectExportOrderPlugin,
@@ -91,7 +103,7 @@ export async function pluginConfig(options: ExtendedOptions) {
         }
       },
     },
-    externalGlobals(globals),
+    globalPluginInstance,
   ] as PluginOption[];
 
   // We need the react plugin here to support MDX in non-react projects.
