@@ -2273,7 +2273,7 @@ const story = data.stories[storyId];
 const parameters = combineParameters(
   data.globalParameters,
   data.kindParameters[story.kind],
-  story.parameters,
+  story.parameters
 );
 ```
 
@@ -3049,7 +3049,7 @@ addDecorator(
     url: 'https://storybook.js.org',
     goFullScreen: false,
     addonPanelInRight: true,
-  }),
+  })
 );
 ```
 
@@ -3149,7 +3149,7 @@ addDecorator(
         picked: false,
       },
     ],
-  }),
+  })
 );
 ```
 
@@ -3168,7 +3168,7 @@ addDecorator(
         picked: false,
       },
     ],
-  }),
+  })
 );
 ```
 
@@ -3553,8 +3553,8 @@ storiesOf('composition', module).add(
   withInfo('see Notes panel for composition info')(
     withNotes({ text: 'Composition: Info(Notes())' })((context) => (
       <MyComponent name={context.story} />
-    )),
-  ),
+    ))
+  )
 );
 ```
 
