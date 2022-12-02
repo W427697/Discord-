@@ -12,7 +12,7 @@ interface StoriesSpecifier {
   /**
    * What does the filename of a story file look like?
    * (a glob, relative to directory, no leading `./`)
-   * If unset, we use `** / *.stories.@(mdx|tsx|ts|jsx|js)` (no spaces)
+   * If unset, we use `** / *.@(mdx|stories.@(mdx|tsx|ts|jsx|js))` (no spaces)
    */
   files?: string;
 }

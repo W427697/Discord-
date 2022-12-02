@@ -208,7 +208,7 @@ describe('StoryStore', () => {
       store.setProjectAnnotations(projectAnnotations);
       store.initialize({ storyIndex, importFn, cache: false });
 
-      const story = await store.loadStory({ storyId: 'component-one--a' });
+      await store.loadStory({ storyId: 'component-one--a' });
       expect(processCSFFile).toHaveBeenCalledTimes(1);
       expect(prepareStory).toHaveBeenCalledTimes(1);
 

@@ -8,12 +8,12 @@
 import path from 'path';
 import fs from 'fs-extra';
 import { normalizeStoriesEntry } from '@storybook/core-common';
-import type { NormalizedStoriesSpecifier, StoryIndexer } from '@storybook/types';
+import type { NormalizedStoriesSpecifier, StoryIndexer, StoryIndexEntry } from '@storybook/types';
 import { loadCsf, getStorySortParameter } from '@storybook/csf-tools';
 import { toId } from '@storybook/csf';
 import { logger } from '@storybook/node-logger';
 
-import { StoryIndexGenerator } from './StoryIndexGenerator';
+import { StoryIndexGenerator, DuplicateEntriesError } from './StoryIndexGenerator';
 
 jest.mock('@storybook/csf-tools');
 jest.mock('@storybook/csf', () => {
@@ -900,6 +900,27 @@ describe('StoryIndexGenerator', () => {
         expect(logger.warn).toHaveBeenCalledTimes(1);
         expect(jest.mocked(logger.warn).mock.calls[0][0]).toMatchInlineSnapshot(
           `"🚨 You have a story for A with the same name as your default docs entry name (Story One), so the docs page is being dropped. Consider changing the story name."`
+        );
+      });
+      it('warns when two duplicate stories exists, with duplicated entries details', async () => {
+        const generator = new StoryIndexGenerator([storiesSpecifier, docsSpecifier], {
+          ...options,
+        });
+        await generator.initialize();
+        const mockEntry: StoryIndexEntry = {
+          id: 'StoryId',
+          name: 'StoryName',
+          title: 'ComponentTitle',
+          importPath: 'Path',
+          type: 'story',
+        };
+        expect(() => {
+          generator.chooseDuplicate(mockEntry, mockEntry);
+        }).toThrow(
+          new DuplicateEntriesError(`Duplicate stories with id: ${mockEntry.id}`, [
+            mockEntry,
+            mockEntry,
+          ])
         );
       });
     });

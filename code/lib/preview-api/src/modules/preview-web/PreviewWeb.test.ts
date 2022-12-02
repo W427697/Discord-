@@ -775,7 +775,7 @@ describe('PreviewWeb', () => {
 
     it('passes globals in context to renderToCanvas', async () => {
       document.location.search = '?id=component-one--a';
-      const preview = await createAndRenderPreview();
+      await createAndRenderPreview();
 
       mockChannel.emit.mockClear();
       projectAnnotations.renderToCanvas.mockClear();
