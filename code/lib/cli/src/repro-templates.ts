@@ -1,4 +1,39 @@
-export const allTemplates = {
+export type SkippableTask = 'smoke-test' | 'test-runner' | 'chromatic' | 'e2e-tests';
+export type TemplateKey = keyof typeof allTemplates;
+export type Cadence = keyof typeof templatesByCadence;
+export type Template = {
+  /**
+   * Readable name for the template, which will be used for feedback and the status page
+   */
+  name: string;
+  /**
+   * Script used to generate the base project of a template.
+   * The Storybook CLI will then initialize Storybook on top of that template.
+   * This is used to generate projects which are pushed to https://github.com/storybookjs/repro-templates-temp
+   */
+  script: string;
+  /**
+   * Used to assert various things about the generated template.
+   * If the template is generated with a different expected framework, it will fail.
+   */
+  expected: {
+    framework: string;
+    renderer: string;
+    builder: string;
+  };
+  /**
+   * Some sandboxes might not work properly in specific tasks temporarily, but we might
+   * still want to run the other tasks. Set the ones to skip in this property.
+   */
+  skipTasks?: SkippableTask[];
+  /**
+   * Set this only while developing a newly created framework, to avoid using it in CI.
+   * NOTE: Make sure to always add a TODO comment to remove this flag in a subsequent PR.
+   */
+  inDevelopment?: boolean;
+};
+
+export const allTemplates: Record<string, Template> = {
   'cra/default-js': {
     name: 'Create React App (Javascript)',
     script: 'npx create-react-app .',
@@ -265,8 +300,6 @@ export const allTemplates = {
     },
   },
 };
-
-type TemplateKey = keyof typeof allTemplates;
 
 export const ci: TemplateKey[] = ['cra/default-ts', 'react-vite/default-ts'];
 export const pr: TemplateKey[] = [
