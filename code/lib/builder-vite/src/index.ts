@@ -35,7 +35,7 @@ export type StorybookConfig = StorybookBaseConfig & {
 /**
  * @deprecated
  *
- * Use `import { StorybookConfig } from '@storybook/build-vite';`
+ * Use `import { StorybookConfig } from '@storybook/builder-vite';`
  *
  * Or better yet, import from your framework.
  */
