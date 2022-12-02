@@ -31,9 +31,9 @@ import { ArgsStore } from './ArgsStore';
 import { GlobalsStore } from './GlobalsStore';
 import { processCSFFile, prepareStory, normalizeProjectAnnotations } from './csf';
 
-// TODO -- what are reasonable values for these?
 const CSF_CACHE_SIZE = 1000;
 const STORY_CACHE_SIZE = 10000;
+const EXTRACT_BATCH_SIZE = 100;
 
 export class StoryStore<TRenderer extends Renderer> {
   storyIndex?: StoryIndexStore;
@@ -133,6 +133,7 @@ export class StoryStore<TRenderer extends Renderer> {
 
   // To load a single CSF file to service a story we need to look up the importPath in the index
   loadCSFFileByStoryId(storyId: StoryId): Promise<CSFFile<TRenderer>> {
+    console.log(storyId);
     if (!this.storyIndex || !this.importFn)
       throw new Error(`loadCSFFileByStoryId called before initialization`);
 
@@ -146,19 +147,33 @@ export class StoryStore<TRenderer extends Renderer> {
   loadAllCSFFiles(): Promise<StoryStore<TRenderer>['cachedCSFFiles']> {
     if (!this.storyIndex) throw new Error(`loadAllCSFFiles called before initialization`);
 
-    const importPaths: Record<Path, StoryId> = {};
-    Object.entries(this.storyIndex.entries).forEach(([storyId, { importPath }]) => {
-      importPaths[importPath] = storyId;
-    });
+    const importPaths = Object.entries(this.storyIndex.entries).map(([storyId, { importPath }]) => [
+      importPath,
+      storyId,
+    ]);
 
-    const csfFilePromiseList = Object.entries(importPaths).map(([importPath, storyId]) =>
-      this.loadCSFFileByStoryId(storyId).then((csfFile) => ({
-        importPath,
-        csfFile,
-      }))
-    );
+    const loadInBatches = (
+      remainingImportPaths: typeof importPaths
+    ): Promise<{ importPath: Path; csfFile: CSFFile<TRenderer> }[]> => {
+      if (remainingImportPaths.length === 0) return Promise.resolve([]);
 
-    return SynchronousPromise.all(csfFilePromiseList).then((list) =>
+      const csfFilePromiseList = remainingImportPaths
+        .slice(0, EXTRACT_BATCH_SIZE)
+        .map(([importPath, storyId]) =>
+          this.loadCSFFileByStoryId(storyId).then((csfFile) => ({
+            importPath,
+            csfFile,
+          }))
+        );
+
+      return SynchronousPromise.all(csfFilePromiseList).then((firstResults) =>
+        loadInBatches(remainingImportPaths.slice(EXTRACT_BATCH_SIZE)).then((restResults) =>
+          firstResults.concat(restResults)
+        )
+      );
+    };
+
+    return loadInBatches(importPaths).then((list) =>
       list.reduce((acc, { importPath, csfFile }) => {
         acc[importPath] = csfFile;
         return acc;
