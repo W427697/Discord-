@@ -21,6 +21,15 @@ export const allTemplates = {
       builder: '@storybook/builder-webpack5',
     },
   },
+  'cra/ssv6-default-ts': {
+    name: 'Create React App (Typescript, StoryStore v6)',
+    extends: 'cra/default-ts',
+    mainConfig: {
+      features: {
+        storyStoreV7: false,
+      },
+    },
+  },
   'nextjs/12-js': {
     name: 'Next.js v12 (JavaScript)',
     script:
