@@ -101,7 +101,7 @@ export const AddonPanelPure: React.FC<InteractionsPanelProps> = React.memo(
         <Placeholder>
           No interactions found
           <Link
-            href="https://github.com/storybookjs/storybook/blob/next/addons/interactions/README.md"
+            href="https://storybook.js.org/docs/react/writing-stories/play-function"
             target="_blank"
             withArrow
           >
