@@ -136,7 +136,6 @@ jobs:
           command: |
             cd code
             yarn local-registry --publish
-      - report-workflow-on-failure
       - run:
           name: Generate affected templates file
           command: |
