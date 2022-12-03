@@ -33,7 +33,7 @@ import { processCSFFile, prepareStory, normalizeProjectAnnotations } from './csf
 
 const CSF_CACHE_SIZE = 1000;
 const STORY_CACHE_SIZE = 10000;
-const EXTRACT_BATCH_SIZE = 100;
+const EXTRACT_BATCH_SIZE = 20;
 
 export class StoryStore<TRenderer extends Renderer> {
   storyIndex?: StoryIndexStore;
@@ -143,7 +143,9 @@ export class StoryStore<TRenderer extends Renderer> {
     );
   }
 
-  loadAllCSFFiles(): Promise<StoryStore<TRenderer>['cachedCSFFiles']> {
+  loadAllCSFFiles({ batchSize = EXTRACT_BATCH_SIZE } = {}): Promise<
+    StoryStore<TRenderer>['cachedCSFFiles']
+  > {
     if (!this.storyIndex) throw new Error(`loadAllCSFFiles called before initialization`);
 
     const importPaths = Object.entries(this.storyIndex.entries).map(([storyId, { importPath }]) => [
@@ -157,7 +159,7 @@ export class StoryStore<TRenderer extends Renderer> {
       if (remainingImportPaths.length === 0) return Promise.resolve([]);
 
       const csfFilePromiseList = remainingImportPaths
-        .slice(0, EXTRACT_BATCH_SIZE)
+        .slice(0, batchSize)
         .map(([importPath, storyId]) =>
           this.loadCSFFileByStoryId(storyId).then((csfFile) => ({
             importPath,
@@ -166,7 +168,7 @@ export class StoryStore<TRenderer extends Renderer> {
         );
 
       return SynchronousPromise.all(csfFilePromiseList).then((firstResults) =>
-        loadInBatches(remainingImportPaths.slice(EXTRACT_BATCH_SIZE)).then((restResults) =>
+        loadInBatches(remainingImportPaths.slice(batchSize)).then((restResults) =>
           firstResults.concat(restResults)
         )
       );
