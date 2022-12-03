@@ -582,6 +582,13 @@ Previously, Storybook's Vite builder placed cache files in node_modules/.vite-st
 
 SvelteKit projects need to use the `@storybook/sveltekit` framework in the `main.js` file. Previously it was enough to just setup Storybook with Svelte+Vite, but that is no longer the case.
 
+```js
+// .storybook/main.js
+export default {
+  framework: '@storybook/sveltekit',
+};
+```
+
 #### Removed docs.getContainer and getPage parameters
 
 It is no longer possible to set `parameters.docs.getContainer()` and `getPage()`. Instead use `parameters.docs.container` or `parameters.docs.page` directly.
