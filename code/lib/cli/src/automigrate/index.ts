@@ -96,6 +96,6 @@ export const automigrate = async ({ fixId, dryRun, yes, useNpm, force }: FixOpti
   logger.info();
   logger.info('✅ migration check successfully ran');
   logger.info();
-  
+
   return fixResults;
 };
