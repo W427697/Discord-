@@ -180,7 +180,7 @@ Please consider, that [next/navigation](https://beta.nextjs.org/docs/upgrade-gui
 
 #### Set `nextAppDirectory` to `app`
 
-If your story imports components, which uses `next/navigation`, you need to set the parameter `nextAppDirectory` to `true` in your Story:
+If your story imports components that use `next/navigation`, you need to set the parameter `nextAppDirectory` to `true` in your Story:
 
 ```js
 // SomeComponentThatUsesTheRouter.stories.js
