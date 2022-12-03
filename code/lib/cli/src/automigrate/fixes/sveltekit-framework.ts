@@ -14,7 +14,7 @@ const logger = console;
 interface SvelteKitFrameworkRunOptions {
   main: ConfigFile;
   packageJson: PackageJsonWithDepsAndDevDeps;
-  frameworkOptions: Record<string, any>;
+  frameworkOptions: Record<string, any> | undefined;
 }
 
 const fixId = 'sveltekitFramework';
@@ -45,8 +45,8 @@ export const sveltekitFramework: Fix<SvelteKitFrameworkRunOptions> = {
       return null;
     }
 
-    const storybookCoerced = storybookVersion && semver.coerce(storybookVersion)?.version;
-    if (!storybookCoerced) {
+    const sbVersionCoerced = storybookVersion && semver.coerce(storybookVersion)?.version;
+    if (!sbVersionCoerced) {
       logger.warn(dedent`
         ❌ Unable to determine Storybook version, skipping ${chalk.cyan(fixId)} fix.
         🤔 Are you running automigrate from your project directory?
@@ -54,7 +54,7 @@ export const sveltekitFramework: Fix<SvelteKitFrameworkRunOptions> = {
       return null;
     }
 
-    if (!semver.gte(storybookCoerced, '7.0.0')) {
+    if (!semver.gte(sbVersionCoerced, '7.0.0')) {
       return null;
     }
 
@@ -63,6 +63,7 @@ export const sveltekitFramework: Fix<SvelteKitFrameworkRunOptions> = {
     const frameworkPackage = main.getFieldValue(['framework']);
 
     if (!frameworkPackage) {
+      // TODO: warn something here?
       return null;
     }
 
@@ -71,7 +72,7 @@ export const sveltekitFramework: Fix<SvelteKitFrameworkRunOptions> = {
 
     // we only migrate from svelte-vite projects
     if (frameworkPackageName !== '@storybook/svelte-vite') {
-      logger.info(dedent`
+      logger.warn(dedent`
         We've detected you are using Storybook in a SvelteKit project.
 
         In Storybook 7, we introduced a new framework package for SvelteKit projects: @storybook/sveltekit.
@@ -86,7 +87,7 @@ export const sveltekitFramework: Fix<SvelteKitFrameworkRunOptions> = {
       return null;
     }
 
-    const frameworkOptions = main.getFieldValue(['framework', 'options']) || {};
+    const frameworkOptions = main.getFieldValue(['framework', 'options']);
 
     return {
       main,
@@ -95,61 +96,44 @@ export const sveltekitFramework: Fix<SvelteKitFrameworkRunOptions> = {
     };
   },
 
-  prompt({ addonsToRemove }) {
-    const addonsMessage = '';
-
+  prompt() {
     return dedent`
-      We've detected you are using Storybook in a Next.js project.
+      We've detected you are using Storybook in a SvelteKit project.
 
-      In Storybook 7, we introduced a new framework package for Next.js projects: @storybook/nextjs.
+      In Storybook 7, we introduced a new framework package for SvelteKit projects: @storybook/sveltekit
+      This package is a replacement for @storybook/svelte-vite and provides a better experience for SvelteKit users.
 
-      This package is a replacement for @storybook/react-webpack5 and provides a better experience for Next.js users.
-      ${addonsMessage}
+      We can automatically migrate your project to use the new SvelteKit framework package.
+
       To learn more about this change, see: ${chalk.yellow(
-        'https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#nextjs-framework'
+        'https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#sveltekit-needs-the-storybooksveltekit-framework'
       )}
     `;
   },
 
-  async run({
-    result: { addonsToRemove, main, frameworkOptions, packageJson },
-    packageManager,
-    dryRun,
-  }) {
-    const dependenciesToRemove = [...addonsToRemove, '@storybook/react-webpack5'];
-    if (dependenciesToRemove.length > 0) {
-      logger.info(`✅ Removing redundant packages: ${dependenciesToRemove.join(', ')}`);
-      if (!dryRun) {
-        packageManager.removeDependencies({ skipInstall: true, packageJson }, dependenciesToRemove);
-
-        const existingAddons = main.getFieldValue(['addons']) as Addon[];
-        const updatedAddons = existingAddons.filter((addon) => {
-          if (typeof addon === 'string') {
-            return !addonsToRemove.includes(addon);
-          }
-
-          if (addon.name) {
-            return !addonsToRemove.includes(addon.name);
-          }
-
-          return false;
-        });
-        main.setFieldValue(['addons'], updatedAddons);
-      }
+  async run({ result: { main, frameworkOptions, packageJson }, packageManager, dryRun }) {
+    const dependenciesToRemove = ['@storybook/svelte-vite'];
+    logger.info(`✅ Removing redundant packages: ${dependenciesToRemove.join(', ')}`);
+    if (!dryRun) {
+      packageManager.removeDependencies({ skipInstall: true, packageJson }, dependenciesToRemove);
     }
 
-    logger.info(`✅ Installing new dependencies: @storybook/nextjs`);
+    logger.info(`✅ Installing new dependencies: @storybook/sveltekit`);
     if (!dryRun) {
       const versionToInstall = getStorybookVersionSpecifier(packageJson);
       packageManager.addDependencies({ installAsDevDependencies: true, packageJson }, [
-        `@storybook/nextjs@${versionToInstall}`,
+        `@storybook/sveltekit@${versionToInstall}`,
       ]);
     }
 
     logger.info(`✅ Updating framework field in main.js`);
     if (!dryRun) {
-      main.setFieldValue(['framework', 'options'], frameworkOptions);
-      main.setFieldValue(['framework', 'name'], '@storybook/nextjs');
+      if (frameworkOptions) {
+        main.setFieldValue(['framework', 'options'], frameworkOptions);
+        main.setFieldValue(['framework', 'name'], '@storybook/sveltekit');
+      } else {
+        main.setFieldValue(['framework'], '@storybook/sveltekit');
+      }
 
       await writeConfig(main);
     }

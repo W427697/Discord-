@@ -13,7 +13,7 @@ import { newFrameworks } from './new-frameworks';
 import { removedGlobalClientAPIs } from './remove-global-client-apis';
 import { mdx1to2 } from './mdx-1-to-2';
 import { docsPageAutomatic } from './docsPage-automatic';
-import { sveltekitFramework } from './sveltekit';
+import { sveltekitFramework } from './sveltekit-framework';
 
 export * from '../types';
 
