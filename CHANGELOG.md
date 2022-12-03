@@ -1,3 +1,32 @@
+## 7.0.0-alpha.57 (December 3, 2022)
+
+#### Bug Fixes
+
+-   Vite: Reinstate (deprecated) `StorybookViteConfig` [#20057](https://github.com/storybooks/storybook/pull/20057)
+-   Docs: using targeted styles, not components to style MDX [#19958](https://github.com/storybooks/storybook/pull/19958)
+-   Docs: Return to filtering toolbars in docs mode, but don't filter menu [#19959](https://github.com/storybooks/storybook/pull/19959)
+-   Angular: Don't set `argType.defaultValue` in angular/compodoc [#19935](https://github.com/storybooks/storybook/pull/19935)
+-   NextJS: Support next/image component in v12/13 properly [#20028](https://github.com/storybooks/storybook/pull/20028)
+-   Svelte: Use JSDocs in JS CLI templates and put manual enum arg type back as it is not inferred [#20042](https://github.com/storybooks/storybook/pull/20042)
+
+#### Maintenance
+
+-   CLI: Add a new `version-update` check telemetry event [#20074](https://github.com/storybooks/storybook/pull/20074)
+-   CLI: Add upgrade telemetry details [#20064](https://github.com/storybooks/storybook/pull/20064)
+-   Core: added .entries property to error thrown when duplicate stories are present [#20038](https://github.com/storybooks/storybook/pull/20038)
+
+#### Build
+
+-   Improve framework version specific story handling [#20027](https://github.com/storybooks/storybook/pull/20027)
+-   Fix repro templates script [#20063](https://github.com/storybooks/storybook/pull/20063)
+-   Build: replace image placeholder url in example stories for nextjs [#20069](https://github.com/storybooks/storybook/pull/20069)
+-   Build: improve inDevelopment mode for yarn task [#20067](https://github.com/storybooks/storybook/pull/20067)
+-   Build: revamp interactions e2e test [#20060](https://github.com/storybooks/storybook/pull/20060)
+
+#### Dependency Upgrades
+
+-   Build: Update jest pretty-format to 29 [#20047](https://github.com/storybooks/storybook/pull/20047)
+
 ## 7.0.0-alpha.56 (December 1, 2022)
 
 #### Bug Fixes
