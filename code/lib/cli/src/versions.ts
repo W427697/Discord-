@@ -68,6 +68,7 @@ export default {
   '@storybook/source-loader': '7.0.0-alpha.57',
   '@storybook/store': '7.0.0-alpha.57',
   '@storybook/svelte': '7.0.0-alpha.57',
+  '@storybook/sveltekit': '7.0.0-alpha.57',
   '@storybook/svelte-vite': '7.0.0-alpha.57',
   '@storybook/svelte-webpack5': '7.0.0-alpha.57',
   '@storybook/telemetry': '7.0.0-alpha.57',
