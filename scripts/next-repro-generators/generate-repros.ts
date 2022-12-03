@@ -150,7 +150,7 @@ const runGenerators = async (
         // where as others are very picky about what directories can be called. So we need to
         // handle different modes of operation.
         if (script.includes('{{beforeDir}}')) {
-          const scriptWithBeforeDir = script.replace('{{beforeDir}}', BEFORE_DIR_NAME);
+          const scriptWithBeforeDir = script.replaceAll('{{beforeDir}}', BEFORE_DIR_NAME);
           await runCommand(
             scriptWithBeforeDir,
             {
