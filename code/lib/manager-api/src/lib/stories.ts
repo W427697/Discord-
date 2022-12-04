@@ -1,6 +1,6 @@
 import memoize from 'memoizerific';
 import { dedent } from 'ts-dedent';
-import countBy from 'lodash/countBy';
+import countBy from 'lodash/countBy.js';
 import { sanitize } from '@storybook/csf';
 import type {
   StoryId,
@@ -21,7 +21,7 @@ import type {
   SetStoriesPayload,
 } from '@storybook/types';
 
-import mapValues from 'lodash/mapValues';
+import mapValues from 'lodash/mapValues.js';
 // eslint-disable-next-line import/no-cycle
 import { type API, combineParameters } from '../index';
 import merge from './merge';

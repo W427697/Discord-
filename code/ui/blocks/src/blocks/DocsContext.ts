@@ -1,11 +1,13 @@
 /* eslint-disable no-underscore-dangle */
 import type { Context } from 'react';
 import { createContext } from 'react';
-import { window as globalWindow } from 'global';
+import * as global from 'global';
 
 import type { DocsContextProps, Renderer } from '@storybook/types';
 
 export type { DocsContextProps };
+
+const { window: globalWindow } = global;
 
 // We add DocsContext to window. The reason is that in case DocsContext.ts is
 // imported multiple times (maybe once directly, and another time from a minified bundle)
