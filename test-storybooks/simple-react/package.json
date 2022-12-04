@@ -1,7 +1,12 @@
 {
   "name": "simple-react",
   "packageManager": "yarn@3.3.0",
+  "scripts": {
+    "dev": "NODE_OPTIONS=\"--preserve-symlinks --preserve-symlinks-main\" node index.js",
+    "dev-esm": "NODE_OPTIONS=\"--preserve-symlinks --preserve-symlinks-main\" node index.mjs"
+  },
   "dependencies": {
+    "@storybook/addon-docs": "7.0.0-alpha.43",
     "@storybook/blocks": "7.0.0-alpha.43",
     "@storybook/react": "7.0.0-alpha.43",
     "react": "^18.2.0",
