@@ -101,7 +101,7 @@ const hasInteractiveStories = (rendererId: SupportedRenderers) =>
   ['react', 'angular', 'preact', 'svelte', 'vue', 'vue3', 'html'].includes(rendererId);
 
 const hasFrameworkTemplates = (framework?: SupportedFrameworks) =>
-  ['angular', 'nextjs'].includes(framework);
+  ['angular', 'nextjs', 'sveltekit'].includes(framework);
 
 export async function baseGenerator(
   packageManager: JsPackageManager,
@@ -209,7 +209,11 @@ export async function baseGenerator(
   await configurePreview(rendererId);
 
   // FIXME: temporary workaround for https://github.com/storybookjs/storybook/issues/17516
-  if (frameworkPackages.find((pkg) => pkg.match(/^@storybook\/.*-vite$/))) {
+  if (
+    frameworkPackages.find(
+      (pkg) => pkg.match(/^@storybook\/.*-vite$/) || pkg === '@storybook/sveltekit'
+    )
+  ) {
     const previewHead = dedent`
       <script>
         window.global = window;
