@@ -104,6 +104,7 @@ Using the example above, you can modify any story to retrieve the **Locale** `gl
   paths={[
     'react/my-component-story-use-globaltype.js.mdx',
     'vue/my-component-story-use-globaltype.js.mdx',
+    'vue/my-component-story-use-globaltype.ts.mdx',
     'angular/my-component-story-use-globaltype.ts.mdx',
     'svelte/my-component-story-use-globaltype.js.mdx',
     'web-components/my-component-story-use-globaltype.js.mdx',

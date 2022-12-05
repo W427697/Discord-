@@ -145,8 +145,8 @@ Refine this pattern by introducing `args` for your component's stories. It reduc
     'react/button-story-using-args.js.mdx',
     'react/button-story-using-args.ts.mdx',
     'vue/button-story-using-args.2.js.mdx',
-    'vue/button-story-using-args.3.js.mdx',
     'vue/button-story-using-args.ts-2.ts.mdx',
+    'vue/button-story-using-args.3.js.mdx',
     'vue/button-story-using-args.ts-3.ts.mdx',
     'angular/button-story-using-args.ts.mdx',
     'svelte/button-story-using-args.js.mdx',
@@ -170,13 +170,14 @@ What’s more, you can import `args` to reuse when writing stories for other com
     'react/button-group-story.ts.mdx',
     'angular/button-group-story.ts.mdx',
     'vue/button-group-story.2.js.mdx',
-    'vue/button-group-story.3.js.mdx',
     'vue/button-group-story.ts-2.ts.mdx',
+    'vue/button-group-story.3.js.mdx',
     'vue/button-group-story.ts-3.ts.mdx',
     'svelte/button-group-story.js.mdx',
     'web-components/button-group-story.js.mdx',
   ]}
 />
+
 
 <!-- prettier-ignore-end -->
 
@@ -246,7 +247,12 @@ For instance, suppose you wanted to test your Button component against a differe
 
 <!-- prettier-ignore-end -->
 
-![Background colors parameter](./parameters-background-colors.png)
+<video autoPlay muted playsInline loop>
+  <source
+    src="storybook-story-parameters-demo-optimized.mp4"
+    type="video/mp4"
+  />
+</video>
 
 This parameter would instruct the backgrounds addon to reconfigure itself whenever a Button story is selected. Most addons are configured via a parameter-based API and can be influenced at a [global](./parameters.md#global-parameters), [component](./parameters.md#component-parameters) and [story](./parameters.md#story-parameters) level.
 
