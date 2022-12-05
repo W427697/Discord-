@@ -62,6 +62,11 @@
       "import": "./dist/docs/preset.mjs",
       "types": "./dist/docs/preset.d.ts"
     },
+    "./docs/mdx-react-shim": {
+      "require": "./dist/docs/mdx-react-shim.js",
+      "import": "./dist/docs/mdx-react-shim.mjs",
+      "types": "./dist/docs/mdx-react-shim.d.ts"
+    },
     "./highlight/preview": {
       "require": "./dist/highlight/preview.js",
       "import": "./dist/highlight/preview.mjs",
@@ -147,6 +152,7 @@
       "./src/controls/manager.ts",
       "./src/docs/preview.ts",
       "./src/docs/preset.ts",
+      "./src/docs/mdx-react-shim.ts",
       "./src/highlight/preview.ts",
       "./src/measure/preview.ts",
       "./src/measure/manager.ts",
