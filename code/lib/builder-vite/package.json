@@ -44,7 +44,7 @@
     "@joshwooding/vite-plugin-react-docgen-typescript": "0.0.5",
     "@storybook/client-logger": "7.0.0-alpha.58",
     "@storybook/core-common": "7.0.0-alpha.58",
-    "@storybook/mdx2-csf": "0.0.4-canary.27.61fd4a6.0",
+    "@storybook/mdx2-csf": "next",
     "@storybook/node-logger": "7.0.0-alpha.58",
     "@storybook/preview": "7.0.0-alpha.58",
     "@storybook/preview-api": "7.0.0-alpha.58",

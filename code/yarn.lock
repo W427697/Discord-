@@ -5873,7 +5873,7 @@ __metadata:
     "@joshwooding/vite-plugin-react-docgen-typescript": 0.0.5
     "@storybook/client-logger": 7.0.0-alpha.58
     "@storybook/core-common": 7.0.0-alpha.58
-    "@storybook/mdx2-csf": 0.0.4-canary.27.61fd4a6.0
+    "@storybook/mdx2-csf": next
     "@storybook/node-logger": 7.0.0-alpha.58
     "@storybook/preview": 7.0.0-alpha.58
     "@storybook/preview-api": 7.0.0-alpha.58
@@ -6633,15 +6633,6 @@ __metadata:
     typescript: ^4.9.3
   languageName: unknown
   linkType: soft
-
-"@storybook/mdx2-csf@npm:0.0.4-canary.27.61fd4a6.0":
-  version: 0.0.4-canary.27.61fd4a6.0
-  resolution: "@storybook/mdx2-csf@npm:0.0.4-canary.27.61fd4a6.0"
-  dependencies:
-    loader-utils: ^2.0.4
-  checksum: f6a38e88b98eefc6e1cf495c110ed53d9da8ee14549a9d9e51f568ef8bee5468752498e749735fb774a2a6d7476b845da8547078ca91b22a40cab9d95273face
-  languageName: node
-  linkType: hard
 
 "@storybook/mdx2-csf@npm:next":
   version: 0.1.0-next.7
