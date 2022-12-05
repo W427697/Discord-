@@ -1,4 +1,3 @@
-import * as path from 'path';
 import type { JsPackageManager, PackageJson } from '../../js-package-manager';
 import { addReact } from './add-react';
 
