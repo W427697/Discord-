@@ -5,6 +5,7 @@ import type { StorybookConfig } from '../../frameworks/react-vite/dist';
 const isBlocksOnly = process.env.STORYBOOK_BLOCKS_ONLY === 'true';
 
 const allStories = [
+  '../../lib/cli/rendererAssets/common/Introduction.stories.mdx',
   {
     directory: '../manager/src',
     titlePrefix: '@storybook-manager',
