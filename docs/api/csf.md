@@ -325,6 +325,8 @@ In CSF 3, we can spread the `Primary` object to carry over all its annotations:
   ]}
 />
 
+Learn more about [named story exports](#named-story-exports).
+
 <!-- prettier-ignore-end -->
 
 ### Default render functions
@@ -360,6 +362,8 @@ Now, let's rewrite it as a story object in CSF 3 with an explicit `render` funct
     'web-components/csf-3-example-render.js.mdx',
   ]}
 />
+
+Learn more about [render functions](#custom-render-functions).
 
 <!-- prettier-ignore-end -->
 
