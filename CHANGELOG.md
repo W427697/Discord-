@@ -1,3 +1,160 @@
+## 7.0.0-alpha.58 (December 5, 2022)
+
+#### Features
+
+-   Add `--tag` option to `upgrade` script [#20075](https://github.com/storybooks/storybook/pull/20075)
+-   HTML: Add `html-vite` framework [#19698](https://github.com/storybooks/storybook/pull/19698)
+-   SvelteKit: Create framework [#20039](https://github.com/storybooks/storybook/pull/20039)
+
+#### Maintenance
+
+-   Core: Remove postcss feature flag [#20003](https://github.com/storybooks/storybook/pull/20003)
+-   Telemetry: Add precedingUpgrade data to dev/build events [#20084](https://github.com/storybooks/storybook/pull/20084)
+-   Core: make managerEntries load as ESM, for improved tree-shaking [#20070](https://github.com/storybooks/storybook/pull/20070)
+
+## 7.0.0-alpha.57 (December 3, 2022)
+
+#### Bug Fixes
+
+-   Vite: Reinstate (deprecated) `StorybookViteConfig` [#20057](https://github.com/storybooks/storybook/pull/20057)
+-   Docs: using targeted styles, not components to style MDX [#19958](https://github.com/storybooks/storybook/pull/19958)
+-   Docs: Return to filtering toolbars in docs mode, but don't filter menu [#19959](https://github.com/storybooks/storybook/pull/19959)
+-   Angular: Don't set `argType.defaultValue` in angular/compodoc [#19935](https://github.com/storybooks/storybook/pull/19935)
+-   NextJS: Support next/image component in v12/13 properly [#20028](https://github.com/storybooks/storybook/pull/20028)
+-   Svelte: Use JSDocs in JS CLI templates and put manual enum arg type back as it is not inferred [#20042](https://github.com/storybooks/storybook/pull/20042)
+
+#### Maintenance
+
+-   CLI: Add a new `version-update` check telemetry event [#20074](https://github.com/storybooks/storybook/pull/20074)
+-   CLI: Add upgrade telemetry details [#20064](https://github.com/storybooks/storybook/pull/20064)
+-   Core: added .entries property to error thrown when duplicate stories are present [#20038](https://github.com/storybooks/storybook/pull/20038)
+
+#### Build
+
+-   Improve framework version specific story handling [#20027](https://github.com/storybooks/storybook/pull/20027)
+-   Fix repro templates script [#20063](https://github.com/storybooks/storybook/pull/20063)
+-   Build: replace image placeholder url in example stories for nextjs [#20069](https://github.com/storybooks/storybook/pull/20069)
+-   Build: improve inDevelopment mode for yarn task [#20067](https://github.com/storybooks/storybook/pull/20067)
+-   Build: revamp interactions e2e test [#20060](https://github.com/storybooks/storybook/pull/20060)
+
+#### Dependency Upgrades
+
+-   Build: Update jest pretty-format to 29 [#20047](https://github.com/storybooks/storybook/pull/20047)
+
+## 7.0.0-alpha.56 (December 1, 2022)
+
+#### Bug Fixes
+
+-   Addon-interactions: Fix duplicated elements in the panel [#20004](https://github.com/storybooks/storybook/pull/20004)
+-   Core: Fix ability to use component-level play functions [#17817](https://github.com/storybooks/storybook/pull/17817)
+-   CLI: Fix `docsPage` automatic migration [#19982](https://github.com/storybooks/storybook/pull/19982)
+
+#### Build
+
+-   e2e: change onClick to click to support svelte examples [#20034](https://github.com/storybooks/storybook/pull/20034)
+
+## 7.0.0-alpha.55 (November 30, 2022)
+
+#### Features
+
+-   CLI: Add TS 4.9 CLI templates [#19986](https://github.com/storybooks/storybook/pull/19986)
+-   CLI: Remove render functions and infer argTypes for svelte CLI templates [#20007](https://github.com/storybooks/storybook/pull/20007)
+
+#### Bug Fixes
+
+-   Svelte: Fix decorators with slots [#19987](https://github.com/storybooks/storybook/pull/19987)
+-   Core: Open browser after manager is ready [#20005](https://github.com/storybooks/storybook/pull/20005)
+-   Core: Add backwards support for manager-api package rename [#20006](https://github.com/storybooks/storybook/pull/20006)
+-   Vite: Fix prebundling [#19978](https://github.com/storybooks/storybook/pull/19978)
+
+#### Maintenance
+
+-   Maintenance: Use typescript legacy templates until our ecosystem fully supports ts 4.9 [#20032](https://github.com/storybooks/storybook/pull/20032)
+-   CLI: Rollback next TS 4.9 templates as the next babel preset doesn't support satisfies [#20029](https://github.com/storybooks/storybook/pull/20029)
+-   Addon-docs: Use `.mdx` globs in templates and defaults [#19795](https://github.com/storybooks/storybook/pull/19795)
+-   Types: Rationalize story-based types and de-prefix [#19919](https://github.com/storybooks/storybook/pull/19919)
+-   API: Export the controlOrMetaKey fn from manager-api [#19972](https://github.com/storybooks/storybook/pull/19972)
+-   Blocks: Description stories [#19806](https://github.com/storybooks/storybook/pull/19806)
+
+#### Build
+
+-   Upgrade yarn [#20025](https://github.com/storybooks/storybook/pull/20025)
+-   Build: Add a retry mechanism for exports file generation [#20018](https://github.com/storybooks/storybook/pull/20018)
+-   Build: Rollback forking off git-shallow-clone-orb [#20020](https://github.com/storybooks/storybook/pull/20020)
+-   Build: Clean up @storybook/preview dependencies [#19997](https://github.com/storybooks/storybook/pull/19997)
+-   No unused locals in tsconfig to disable deepscan [#20012](https://github.com/storybooks/storybook/pull/20012)
+-   Build: generate the `exports.ts` file in a single pass without `exec` [#20002](https://github.com/storybooks/storybook/pull/20002)
+-   Build a mechanism to E2E telemetry [#19946](https://github.com/storybooks/storybook/pull/19946)
+-   Add debug to chromatic task [#19933](https://github.com/storybooks/storybook/pull/19933)
+-   Build: Sanitise user input in github workflow [#19980](https://github.com/storybooks/storybook/pull/19980)
+-   Blocks: Add story for Canvas `className` prop, cleanup UI SB `preview.tsx [#19886](https://github.com/storybooks/storybook/pull/19886)
+-   Change export-generating script to use exec util instead of shelljs [#19979](https://github.com/storybooks/storybook/pull/19979)
+-   Regen lockfiles [#19967](https://github.com/storybooks/storybook/pull/19967)
+
+#### Dependency Upgrades
+
+-   Build: Upgrade jest-specific-snapshot [#19996](https://github.com/storybooks/storybook/pull/19996)
+-   Upgrade telejson [#19983](https://github.com/storybooks/storybook/pull/19983)
+
+## 7.0.0-alpha.54 (November 25, 2022)
+
+#### Bug Fixes
+
+-   Vite: Support environment variables in viteFinal define config [#19905](https://github.com/storybooks/storybook/pull/19905)
+
+#### Maintenance
+
+-   Build: split `lib/addons` into manager & preview part, move code to `manager-api` [#19952](https://github.com/storybooks/storybook/pull/19952)
+-   TypeScript: Satisfy stricter compilerOption rules [#19953](https://github.com/storybooks/storybook/pull/19953)
+-   API: Rename `api` to `manager-api` [#19944](https://github.com/storybooks/storybook/pull/19944)
+-   API: Add `preview-api` package [#19749](https://github.com/storybooks/storybook/pull/19749)
+
+#### Build
+
+-   Build: Improve security in Github actions [#19949](https://github.com/storybooks/storybook/pull/19949)
+
+#### Dependencies
+
+-   NextJS: Add Next13 peer dependency [#19932](https://github.com/storybooks/storybook/pull/19932)
+
+
+## 7.0.0-alpha.53 (November 24, 2022)
+
+#### Bug Fixes
+
+-   Angular: Fix "__webpack_require__.nmd is not a function" in v15 [#19937](https://github.com/storybooks/storybook/pull/19937)
+-   Controls: Exclude `{ table: { disable: true } }` from panel count [#19877](https://github.com/storybooks/storybook/pull/19877)
+
+#### Maintenance
+
+-   Core: Prebundle the preview [#19718](https://github.com/storybooks/storybook/pull/19718)
+-   Builder-vite: Build with tsup [#19895](https://github.com/storybooks/storybook/pull/19895)
+-   Components: Fix missing export [#19923](https://github.com/storybooks/storybook/pull/19923)
+
+#### Build
+
+-   Remove the fix we added when enhanced-resolve was broken [#19942](https://github.com/storybooks/storybook/pull/19942)
+-   Fix CI which was broken by enhanced-resolve [#19936](https://github.com/storybooks/storybook/pull/19936)
+-   Drop `inDevelopment` from `cra/default-js` [#19934](https://github.com/storybooks/storybook/pull/19934)
+-   Fix execa import in get-report-message [#19913](https://github.com/storybooks/storybook/pull/19913)
+
+## 7.0.0-alpha.52 (November 21, 2022)
+
+#### Bug Fixes
+
+-   NextJS: Fix v13 `next/link` [#19834](https://github.com/storybooks/storybook/pull/19834)
+-   Docs: Fix ordering of entries in `Stories` block [#19907](https://github.com/storybooks/storybook/pull/19907)
+
+#### Build
+
+-   Maintenance: fix execa usage in build and check scripts [#19909](https://github.com/storybooks/storybook/pull/19909)
+-   Use execa 6.x in `scripts` [#19759](https://github.com/storybooks/storybook/pull/19759)
+-   Build: Create a generate task and use in the sandbox process [#19840](https://github.com/storybooks/storybook/pull/19840)
+
+#### Dependency Upgrades
+
+-   Upgrade docs-mdx to fix yarn pnp [#19835](https://github.com/storybooks/storybook/pull/19835)
+
 ## 7.0.0-alpha.51 (November 19, 2022)
 
 #### Bug Fixes

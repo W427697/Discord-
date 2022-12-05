@@ -1,4 +1,39 @@
-export const allTemplates = {
+export type SkippableTask = 'smoke-test' | 'test-runner' | 'chromatic' | 'e2e-tests';
+export type TemplateKey = keyof typeof allTemplates;
+export type Cadence = keyof typeof templatesByCadence;
+export type Template = {
+  /**
+   * Readable name for the template, which will be used for feedback and the status page
+   */
+  name: string;
+  /**
+   * Script used to generate the base project of a template.
+   * The Storybook CLI will then initialize Storybook on top of that template.
+   * This is used to generate projects which are pushed to https://github.com/storybookjs/repro-templates-temp
+   */
+  script: string;
+  /**
+   * Used to assert various things about the generated template.
+   * If the template is generated with a different expected framework, it will fail, detecting a possible regression.
+   */
+  expected: {
+    framework: string;
+    renderer: string;
+    builder: string;
+  };
+  /**
+   * Some sandboxes might not work properly in specific tasks temporarily, but we might
+   * still want to run the other tasks. Set the ones to skip in this property.
+   */
+  skipTasks?: SkippableTask[];
+  /**
+   * Set this only while developing a newly created framework, to avoid using it in CI.
+   * NOTE: Make sure to always add a TODO comment to remove this flag in a subsequent PR.
+   */
+  inDevelopment?: boolean;
+};
+
+export const allTemplates: Record<string, Template> = {
   'cra/default-js': {
     name: 'Create React App (Javascript)',
     script: 'npx create-react-app .',
@@ -21,9 +56,19 @@ export const allTemplates = {
       builder: '@storybook/builder-webpack5',
     },
   },
+  'nextjs/12-js': {
+    name: 'Next.js v12 (JavaScript)',
+    script:
+      'yarn create next-app {{beforeDir}} -e https://github.com/vercel/next.js/tree/next-12-3-2/examples/hello-world && cd {{beforeDir}} && npm pkg set "dependencies.next"="^12" && yarn && git add . && git commit --amend --no-edit && cd ..',
+    expected: {
+      framework: '@storybook/nextjs',
+      renderer: '@storybook/react',
+      builder: '@storybook/builder-webpack5',
+    },
+  },
   'nextjs/default-js': {
     name: 'Next.js (JavaScript)',
-    script: 'npx create-next-app {{beforeDir}}',
+    script: 'yarn create next-app {{beforeDir}} --javascript --eslint',
     expected: {
       framework: '@storybook/nextjs',
       renderer: '@storybook/react',
@@ -32,7 +77,7 @@ export const allTemplates = {
   },
   'nextjs/default-ts': {
     name: 'Next.js (TypeScript)',
-    script: 'npx create-next-app {{beforeDir}} --typescript',
+    script: 'yarn create next-app {{beforeDir}} --typescript --eslint',
     expected: {
       framework: '@storybook/nextjs',
       renderer: '@storybook/react',
@@ -117,6 +162,28 @@ export const allTemplates = {
       builder: '@storybook/builder-webpack5',
     },
   },
+  'html-vite/default-js': {
+    name: 'HTML Vite JS',
+    script: 'yarn create vite . --template vanilla && echo "export default {}" > vite.config.js',
+    expected: {
+      framework: '@storybook/html-vite',
+      renderer: '@storybook/html',
+      builder: '@storybook/builder-vite',
+    },
+    // TODO: remove this once html-vite framework is released
+    inDevelopment: true,
+  },
+  'html-vite/default-ts': {
+    name: 'HTML Vite TS',
+    script: 'yarn create vite . --template vanilla-ts && echo "export default {}" > vite.config.js',
+    expected: {
+      framework: '@storybook/html-vite',
+      renderer: '@storybook/html',
+      builder: '@storybook/builder-vite',
+    },
+    // TODO: remove this once html-vite framework is released
+    inDevelopment: true,
+  },
   'svelte-vite/default-js': {
     name: 'Svelte Vite (JS)',
     script: 'yarn create vite . --template svelte',
@@ -141,7 +208,6 @@ export const allTemplates = {
     name: 'Angular CLI (latest)',
     script:
       'npx -p @angular/cli ng new angular-latest --directory . --routing=true --minimal=true --style=scss --strict --skip-git --skip-install --package-manager=yarn',
-    skipTasks: ['test-runner'],
     expected: {
       framework: '@storybook/angular',
       renderer: '@storybook/angular',
@@ -169,21 +235,23 @@ export const allTemplates = {
     },
   },
   'svelte-kit/skeleton-js': {
+    inDevelopment: true,
     name: 'Svelte Kit (JS)',
     script:
       'yarn create svelte-with-args --name=svelte-kit/skeleton-js --directory=. --template=skeleton --types=null --no-prettier --no-eslint --no-playwright',
     expected: {
-      framework: '@storybook/svelte-vite',
+      framework: '@storybook/sveltekit',
       renderer: '@storybook/svelte',
       builder: '@storybook/builder-vite',
     },
   },
   'svelte-kit/skeleton-ts': {
+    inDevelopment: true,
     name: 'Svelte Kit (TS)',
     script:
       'yarn create svelte-with-args --name=svelte-kit/skeleton-ts --directory=. --template=skeleton --types=typescript --no-prettier --no-eslint --no-playwright',
     expected: {
-      framework: '@storybook/svelte-vite',
+      framework: '@storybook/sveltekit',
       renderer: '@storybook/svelte',
       builder: '@storybook/builder-vite',
     },
@@ -257,13 +325,10 @@ export const allTemplates = {
   },
 };
 
-type TemplateKey = keyof typeof allTemplates;
-
 export const ci: TemplateKey[] = ['cra/default-ts', 'react-vite/default-ts'];
 export const pr: TemplateKey[] = [
   ...ci,
-  // TODO: swap with 'angular-cli/default-ts' once angular 15 fully works with Storybook
-  'angular-cli/14-ts',
+  'angular-cli/default-ts',
   'vue3-vite/default-ts',
   'vue-cli/vue2-default-js',
   'lit-vite/default-ts',
@@ -275,7 +340,7 @@ export const merged: TemplateKey[] = [
   ...pr,
   'react-webpack/18-ts',
   'react-webpack/17-ts',
-  'angular-cli/default-ts',
+  'angular-cli/14-ts',
   'angular-cli/13-ts',
   'preact-webpack5/default-ts',
   'html-webpack/default',

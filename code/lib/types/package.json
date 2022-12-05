@@ -1,6 +1,6 @@
 {
   "name": "@storybook/types",
-  "version": "7.0.0-alpha.51",
+  "version": "7.0.0-alpha.58",
   "description": "Core Storybook Types",
   "keywords": [
     "storybook"
@@ -40,17 +40,17 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@babel/core": "^7.20.2",
-    "@types/babel__core": "^7.1.20",
+    "@babel/core": "^7.12.10",
+    "@storybook/channels": "7.0.0-alpha.58",
+    "@types/babel__core": "^7.0.0",
     "@types/express": "^4.7.0",
     "express": "^4.17.1",
     "file-system-cache": "^2.0.0"
   },
   "devDependencies": {
     "@storybook/csf": "next",
-    "@types/node": "^16.0.0 || ^18.0.0",
-    "synchronous-promise": "^2.0.15",
-    "typescript": "^4.9.3"
+    "@types/node": "^16.0.0",
+    "typescript": "~4.9.3"
   },
   "publishConfig": {
     "access": "public"
@@ -60,5 +60,5 @@
       "./src/index.ts"
     ]
   },
-  "gitHead": "4fec76c3f5135854d9834ebc1cf2f1f325696ded"
+  "gitHead": "c7f8e3e8486ab5caf3da0ef016acfd2065f0dc05"
 }

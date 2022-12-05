@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-docs",
-  "version": "7.0.0-alpha.51",
+  "version": "7.0.0-alpha.58",
   "description": "Document component usage and properties in Markdown",
   "keywords": [
     "addon",
@@ -26,6 +26,7 @@
   "license": "MIT",
   "exports": {
     ".": {
+      "node": "./dist/index.js",
       "require": "./dist/index.js",
       "import": "./dist/index.mjs",
       "types": "./dist/index.d.ts"
@@ -87,15 +88,16 @@
     "@babel/plugin-transform-react-jsx": "^7.19.0",
     "@jest/transform": "^29.3.1",
     "@mdx-js/react": "^2.1.5",
-    "@storybook/blocks": "7.0.0-alpha.51",
-    "@storybook/components": "7.0.0-alpha.51",
-    "@storybook/csf-plugin": "7.0.0-alpha.51",
-    "@storybook/csf-tools": "7.0.0-alpha.51",
+    "@storybook/blocks": "7.0.0-alpha.58",
+    "@storybook/components": "7.0.0-alpha.58",
+    "@storybook/csf-plugin": "7.0.0-alpha.58",
+    "@storybook/csf-tools": "7.0.0-alpha.58",
     "@storybook/mdx2-csf": "next",
-    "@storybook/node-logger": "7.0.0-alpha.51",
-    "@storybook/postinstall": "7.0.0-alpha.51",
-    "@storybook/preview-web": "7.0.0-alpha.51",
-    "@storybook/types": "7.0.0-alpha.51",
+    "@storybook/node-logger": "7.0.0-alpha.58",
+    "@storybook/postinstall": "7.0.0-alpha.58",
+    "@storybook/preview-api": "7.0.0-alpha.58",
+    "@storybook/theming": "7.0.0-alpha.58",
+    "@storybook/types": "7.0.0-alpha.58",
     "fs-extra": "^9.0.1",
     "global": "^4.4.0",
     "remark-external-links": "^8.0.0",
@@ -104,7 +106,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.20.2",
-    "typescript": "^4.9.3"
+    "typescript": "~4.9.3"
   },
   "peerDependencies": {
     "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
@@ -128,7 +130,7 @@
       "./src/preview.ts"
     ]
   },
-  "gitHead": "4fec76c3f5135854d9834ebc1cf2f1f325696ded",
+  "gitHead": "c7f8e3e8486ab5caf3da0ef016acfd2065f0dc05",
   "storybook": {
     "displayName": "Docs",
     "icon": "https://user-images.githubusercontent.com/263385/101991672-48355c80-3c7c-11eb-82d9-95fa12438f64.png",

@@ -34,11 +34,8 @@ describe('framework-preset-angular-cli', () => {
   });
 
   describe('without angular.json', () => {
-    let consoleErrorSpy: jest.SpyInstance;
-
     beforeEach(() => {
       initMockWorkspace('');
-      consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation();
     });
     it('should return webpack base config and display log error', async () => {
       const webpackBaseConfig = newWebpackConfiguration();
@@ -421,10 +418,6 @@ describe('framework-preset-angular-cli', () => {
     it('should set webpack "module.rules"', async () => {
       const baseWebpackConfig = newWebpackConfiguration();
       const webpackFinalConfig = await webpackFinal(baseWebpackConfig, options);
-      const stylePaths = [
-        path.join(workspaceRoot, 'src', 'styles.css'),
-        path.join(workspaceRoot, 'src', 'styles.scss'),
-      ];
 
       const expectedRules: any = [
         {
@@ -507,10 +500,6 @@ describe('framework-preset-angular-cli', () => {
     it('should set webpack "module.rules"', async () => {
       const baseWebpackConfig = newWebpackConfiguration();
       const webpackFinalConfig = await webpackFinal(baseWebpackConfig, options);
-      const stylePaths = [
-        path.join(workspaceRoot, 'src', 'styles.css'),
-        path.join(workspaceRoot, 'src', 'styles.scss'),
-      ];
 
       const expectedRules: any = [
         {
@@ -815,8 +804,8 @@ const newWebpackConfiguration = (
       modules: ['node_modules'],
       mainFields: ['browser', 'main'],
       alias: {
-        '@storybook/addons': '/Users/joe/storybook/lib/addons',
-        '@storybook/api': '/Users/joe/storybook/lib/api',
+        '@storybook/preview-api': '/Users/joe/storybook/lib/addons',
+        '@storybook/manager-api': '/Users/joe/storybook/lib/api',
         '@storybook/channels': '/Users/joe/storybook/lib/channels',
         '@storybook/channel-postmessage': '/Users/joe/storybook/lib/channel-postmessage',
         '@storybook/components': '/Users/joe/storybook/ui/components',

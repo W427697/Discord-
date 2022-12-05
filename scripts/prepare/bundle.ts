@@ -18,10 +18,8 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
     bundler: { entries = [], untypedEntries = [], platform, pre, post },
   } = await fs.readJson(join(cwd, 'package.json'));
 
-  const tsnodePath = join(__dirname, '..', 'node_modules', '.bin', 'ts-node');
-
   if (pre) {
-    await exec(`${tsnodePath} ${pre}`, { cwd });
+    await exec(`node -r ${__dirname}/../node_modules/esbuild-register/register.js ${pre}`, { cwd });
   }
 
   const reset = hasFlag(flags, 'reset');
@@ -92,7 +90,7 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
         c.platform = platform || 'browser';
         c.legalComments = 'none';
         c.minifyWhitespace = optimized;
-        c.minifyIdentifiers = optimized;
+        c.minifyIdentifiers = false;
         c.minifySyntax = optimized;
         /* eslint-enable no-param-reassign */
       },
@@ -125,7 +123,11 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
   ]);
 
   if (post) {
-    await exec(`${tsnodePath} ${post}`, { cwd }, { debug: true });
+    await exec(
+      `node -r ${__dirname}/../node_modules/esbuild-register/register.js ${post}`,
+      { cwd },
+      { debug: true }
+    );
   }
 };
 

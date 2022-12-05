@@ -8,8 +8,8 @@ import { render as litRender } from 'lit-html';
 // Keep `.js` extension to avoid issue with Webpack (related to export map?)
 // eslint-disable-next-line import/extensions
 import { isTemplateResult } from 'lit-html/directive-helpers.js';
-import { simulatePageLoad, simulateDOMContentLoaded } from '@storybook/preview-web';
-import type { Store_RenderContext, ArgsStoryFn } from '@storybook/types';
+import { simulatePageLoad, simulateDOMContentLoaded } from '@storybook/preview-api';
+import type { RenderContext, ArgsStoryFn } from '@storybook/types';
 import type { WebComponentsRenderer } from './types';
 
 const { Node } = global;
@@ -31,14 +31,7 @@ export const render: ArgsStoryFn<WebComponentsRenderer> = (args, context) => {
 };
 
 export function renderToCanvas(
-  {
-    storyFn,
-    kind,
-    name,
-    showMain,
-    showError,
-    forceRemount,
-  }: Store_RenderContext<WebComponentsRenderer>,
+  { storyFn, kind, name, showMain, showError, forceRemount }: RenderContext<WebComponentsRenderer>,
   canvasElement: WebComponentsRenderer['canvasElement']
 ) {
   const element = storyFn();

@@ -1,5 +1,5 @@
 import React from 'react';
-import { ManagerContext } from '@storybook/api';
+import { ManagerContext } from '@storybook/manager-api';
 
 import { Ref } from './Refs';
 import { standardData as standardHeaderData } from './Heading.stories';
@@ -10,7 +10,7 @@ export default {
   component: Ref,
   title: 'Sidebar/Refs',
   excludeStories: /.*Data$/,
-  parameters: { layout: 'fullscreen' },
+  parameters: { layout: 'fullscreen', withSymbols: true },
   decorators: [
     (storyFn: any) => (
       <ManagerContext.Provider value={{ state: { docsOptions: {} } } as any}>

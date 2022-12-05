@@ -1,5 +1,5 @@
-import type { Parameters, Store_Story } from '@storybook/types';
-import { combineParameters } from '@storybook/store';
+import type { Parameters, PreparedStory } from '@storybook/types';
+import { combineParameters } from '@storybook/preview-api';
 
 // ============================================================
 // START @storybook/source-loader/extract-source
@@ -76,7 +76,7 @@ const extract = (targetId: string, { source, locationsMap }: StorySource) => {
   return extractSource(location, lines);
 };
 
-export const enhanceSource = (story: Store_Story<any>): Parameters => {
+export const enhanceSource = (story: PreparedStory<any>): Parameters => {
   const { id, parameters } = story;
   const { storySource, docs = {} } = parameters;
   const { transformSource } = docs;

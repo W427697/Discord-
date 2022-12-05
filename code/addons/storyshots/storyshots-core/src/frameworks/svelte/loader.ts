@@ -15,13 +15,13 @@ function load(options: StoryshotsOptions) {
 
   let mockStartedAPI: any;
 
-  jest.mock('@storybook/core-client', () => {
-    const coreClientAPI = jest.requireActual('@storybook/core-client');
+  jest.mock('@storybook/preview-api', () => {
+    const previewAPI = jest.requireActual('@storybook/preview-api');
 
     return {
-      ...coreClientAPI,
+      ...previewAPI,
       start: (...args: any[]) => {
-        mockStartedAPI = coreClientAPI.start(...args);
+        mockStartedAPI = previewAPI.start(...args);
         return mockStartedAPI;
       },
     };

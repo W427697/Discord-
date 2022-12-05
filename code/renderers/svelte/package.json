@@ -1,6 +1,6 @@
 {
   "name": "@storybook/svelte",
-  "version": "7.0.0-alpha.51",
+  "version": "7.0.0-alpha.58",
   "description": "Storybook Svelte renderer",
   "keywords": [
     "storybook"
@@ -55,12 +55,11 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/addons": "7.0.0-alpha.51",
-    "@storybook/client-logger": "7.0.0-alpha.51",
-    "@storybook/core-client": "7.0.0-alpha.51",
-    "@storybook/docs-tools": "7.0.0-alpha.51",
-    "@storybook/store": "7.0.0-alpha.51",
-    "@storybook/types": "7.0.0-alpha.51",
+    "@storybook/client-logger": "7.0.0-alpha.58",
+    "@storybook/core-client": "7.0.0-alpha.58",
+    "@storybook/docs-tools": "7.0.0-alpha.58",
+    "@storybook/preview-api": "7.0.0-alpha.58",
+    "@storybook/types": "7.0.0-alpha.58",
     "global": "^4.4.0",
     "react": "16.14.0",
     "react-dom": "16.14.0",
@@ -71,7 +70,7 @@
     "expect-type": "^0.14.2",
     "svelte": "^3.31.2",
     "svelte-check": "^2.9.2",
-    "typescript": "^4.9.3"
+    "typescript": "~4.9.3"
   },
   "peerDependencies": {
     "@babel/core": "*",
@@ -90,5 +89,5 @@
     ],
     "platform": "browser"
   },
-  "gitHead": "4fec76c3f5135854d9834ebc1cf2f1f325696ded"
+  "gitHead": "c7f8e3e8486ab5caf3da0ef016acfd2065f0dc05"
 }

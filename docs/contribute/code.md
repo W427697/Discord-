@@ -192,6 +192,52 @@ npx storybook@next link --local /path/to/local-repro-directory
 
 </div>
 
+## Developing a template
+
+The first step is to add an entry to `code/lib/cli/src/repro-templates.ts`, which is the master list of all repro templates:
+
+```ts
+'cra/default-js': {
+    name: 'Create React App (Javascript)',
+    script: 'npx create-react-app .',
+    inDevelopment: true,
+    expected: {
+      framework: '@storybook/cra',
+      renderer: '@storybook/react',
+      builder: '@storybook/builder-webpack5',
+    },
+  },
+```
+
+Add the `isDevelopment` flag until the PR is merged (you can fast-follow it with a second PR to remove the flag), as it'll make the development process much easier.
+
+The **`key`** `cra/default-js` consists of two parts:
+
+- The prefix is the tool that was used to generate the repro app
+- The suffix is options that modify the default install, e.g. a specific version or options
+
+The **`script`** field is what generates the application environment. The `.` argument is “the current working directory” which is auto-generated based on the key (e.g. `repros/cra/default-js/before-storybook`). The `{{beforeDir}}` key can also be used, which will be replaced by the path of that directory.
+
+The rest of the fields are self-explanatory:
+
+The **`skipTasks`** field exists because some sandboxes might not work properly in specific tasks temporarily, but we might still want to run the other tasks. For instance, a bug was introduced outside of our control, which fails only in the `test-runner` task.
+
+The **`name`** field should contain a human readable name/description of the template.
+
+The **`expected`** field reflects what framework/renderer/builder we expect `sb init` to generate. This is useful for assertions while generating sandboxes. If the template is generated with a different expected framework, for instance, it will fail, serving as a way to detect regressions.
+
+### Running a sandbox
+
+If your template has a `inDevelopment` flag, it will be generated (locally) as part of the sandbox process. You can create the sandbox with the following command, where `<template-key>` is replaced by the id of the selected template e.g. `cra/default-js`:
+
+```bash
+yarn task --task dev --template <template-key> --start-from=install
+```
+
+Templates with `inDevelopment` will automatically run with `--no-link` flag as it is required for the local template generation to work.
+
+Once the PR is merged, the template will be generated on a nightly cadence and you can remove the `inDevelopment` flag and the sandbox will pull the code from our templates repository.
+
 ## Troubleshooting
 
 <details>
@@ -201,3 +247,12 @@ npx storybook@next link --local /path/to/local-repro-directory
 It's troublesome to know which packages you'll change ahead of time, and watching them can be highly demanding, even on modern machines. If you're working on a powerful enough machine, you can use `yarn build --all --watch` instead of `yarn build`.
 
 </details>
+
+## Other ways to contribute
+
+Learn about other ways you can contribute to Storybook.
+
+- [**Overview**](./how-to-contribute.md): General guidance
+- [**Docs**](./documentation-updates.md): Typos, clarifications
+- [**Addons**](./../addons/introduction.md): Build an addon and share it with the community
+- [**Frameworks**](./framework.md): Integrate Storybook with your favorite library

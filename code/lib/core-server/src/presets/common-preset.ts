@@ -1,15 +1,10 @@
 import fs from 'fs-extra';
 import { deprecate } from '@storybook/node-logger';
-import {
-  getPreviewBodyTemplate,
-  getPreviewHeadTemplate,
-  getPreviewMainTemplate,
-  loadEnvs,
-} from '@storybook/core-common';
+import { getPreviewBodyTemplate, getPreviewHeadTemplate, loadEnvs } from '@storybook/core-common';
 import type {
   CLIOptions,
-  CoreCommon_IndexerOptions,
-  CoreCommon_StoryIndexer,
+  IndexerOptions,
+  StoryIndexer,
   CoreConfig,
   Options,
   StorybookConfig,
@@ -40,8 +35,6 @@ export const previewBody = async (base: any, { configDir, presets }: Options) =>
   const interpolations = await presets.apply<Record<string, string>>('env');
   return getPreviewBodyTemplate(configDir, interpolations);
 };
-
-export const previewMainTemplate = () => getPreviewMainTemplate();
 
 export const typescript = () => ({
   check: false,
@@ -101,7 +94,6 @@ export const features = async (
   existing: StorybookConfig['features']
 ): Promise<StorybookConfig['features']> => ({
   ...existing,
-  postcss: true,
   warnOnLegacyHierarchySeparator: true,
   buildStoriesJson: false,
   storyStoreV7: true,
@@ -111,8 +103,8 @@ export const features = async (
   argTypeTargetsV7: true,
 });
 
-export const storyIndexers = async (indexers?: CoreCommon_StoryIndexer[]) => {
-  const csfIndexer = async (fileName: string, opts: CoreCommon_IndexerOptions) => {
+export const storyIndexers = async (indexers?: StoryIndexer[]) => {
+  const csfIndexer = async (fileName: string, opts: IndexerOptions) => {
     const code = (await fs.readFile(fileName, 'utf-8')).toString();
     return loadCsf(code, { ...opts, fileName }).parse();
   };

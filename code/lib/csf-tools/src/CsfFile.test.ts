@@ -221,6 +221,28 @@ describe('CsfFile', () => {
       `);
     });
 
+    it('typescript satisfies', () => {
+      expect(
+        parse(
+          dedent`
+          import type { Meta, StoryFn } from '@storybook/react';
+          type PropTypes = {};
+          export default { title: 'foo/bar/baz' } as Meta<PropTypes>;
+          export const A: StoryFn<PropTypes> = () => <>A</>;
+          export const B: StoryFn<PropTypes> = () => <>B</>;
+        `
+        )
+      ).toMatchInlineSnapshot(`
+        meta:
+          title: foo/bar/baz
+        stories:
+          - id: foo-bar-baz--a
+            name: A
+          - id: foo-bar-baz--b
+            name: B
+      `);
+    });
+
     it('typescript meta var', () => {
       expect(
         parse(
@@ -228,6 +250,29 @@ describe('CsfFile', () => {
           import type { Meta, StoryFn } from '@storybook/react';
           type PropTypes = {};
           const meta = { title: 'foo/bar/baz' } as Meta<PropTypes>;
+          export default meta;
+          export const A: StoryFn<PropTypes> = () => <>A</>;
+          export const B: StoryFn<PropTypes> = () => <>B</>;
+        `
+        )
+      ).toMatchInlineSnapshot(`
+        meta:
+          title: foo/bar/baz
+        stories:
+          - id: foo-bar-baz--a
+            name: A
+          - id: foo-bar-baz--b
+            name: B
+      `);
+    });
+
+    it('typescript satisfies meta var', () => {
+      expect(
+        parse(
+          dedent`
+          import type { Meta, StoryFn } from '@storybook/react';
+          type PropTypes = {};
+          const meta = { title: 'foo/bar/baz' } satisfies Meta<PropTypes>;
           export default meta;
           export const A: StoryFn<PropTypes> = () => <>A</>;
           export const B: StoryFn<PropTypes> = () => <>B</>;
