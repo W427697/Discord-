@@ -43,6 +43,7 @@ export const allTemplates: Record<string, Template> = {
       renderer: '@storybook/react',
       builder: '@storybook/builder-webpack5',
     },
+    inDevelopment: true,
   },
   'cra/default-ts': {
     name: 'Create React App (Typescript)',
@@ -55,6 +56,7 @@ export const allTemplates: Record<string, Template> = {
       renderer: '@storybook/react',
       builder: '@storybook/builder-webpack5',
     },
+    inDevelopment: true,
   },
   'nextjs/12-js': {
     name: 'Next.js v12 (JavaScript)',
@@ -65,6 +67,7 @@ export const allTemplates: Record<string, Template> = {
       renderer: '@storybook/react',
       builder: '@storybook/builder-webpack5',
     },
+    inDevelopment: true,
   },
   'nextjs/default-js': {
     name: 'Next.js (JavaScript)',
@@ -74,6 +77,7 @@ export const allTemplates: Record<string, Template> = {
       renderer: '@storybook/react',
       builder: '@storybook/builder-webpack5',
     },
+    inDevelopment: true,
   },
   'nextjs/default-ts': {
     name: 'Next.js (TypeScript)',
@@ -83,6 +87,7 @@ export const allTemplates: Record<string, Template> = {
       renderer: '@storybook/react',
       builder: '@storybook/builder-webpack5',
     },
+    inDevelopment: true,
   },
   'react-vite/default-js': {
     name: 'React Vite (JS)',
@@ -92,6 +97,7 @@ export const allTemplates: Record<string, Template> = {
       renderer: '@storybook/react',
       builder: '@storybook/builder-vite',
     },
+    inDevelopment: true,
   },
   'react-vite/default-ts': {
     name: 'React Vite (TS)',
@@ -101,6 +107,7 @@ export const allTemplates: Record<string, Template> = {
       renderer: '@storybook/react',
       builder: '@storybook/builder-vite',
     },
+    inDevelopment: true,
   },
   'react-webpack/18-ts': {
     name: 'React Webpack5 (TS)',
@@ -110,6 +117,7 @@ export const allTemplates: Record<string, Template> = {
       renderer: '@storybook/react',
       builder: '@storybook/builder-webpack5',
     },
+    inDevelopment: true,
   },
   'react-webpack/17-ts': {
     name: 'React Webpack5 (TS)',
@@ -119,6 +127,7 @@ export const allTemplates: Record<string, Template> = {
       renderer: '@storybook/react',
       builder: '@storybook/builder-webpack5',
     },
+    inDevelopment: true,
   },
   'vue3-vite/default-js': {
     name: 'Vue3 Vite (JS)',
@@ -128,6 +137,7 @@ export const allTemplates: Record<string, Template> = {
       renderer: '@storybook/vue3',
       builder: '@storybook/builder-vite',
     },
+    inDevelopment: true,
   },
   'vue3-vite/default-ts': {
     name: 'Vue3 Vite (TS)',
@@ -137,6 +147,7 @@ export const allTemplates: Record<string, Template> = {
       renderer: '@storybook/vue3',
       builder: '@storybook/builder-vite',
     },
+    inDevelopment: true,
   },
   'vue2-vite/2.7-js': {
     name: 'Vue2 Vite (vue 2.7 JS)',
@@ -152,6 +163,7 @@ export const allTemplates: Record<string, Template> = {
       renderer: '@storybook/vue',
       builder: '@storybook/builder-vite',
     },
+    inDevelopment: true,
   },
   'html-webpack/default': {
     name: 'HTML Webpack5',
@@ -161,6 +173,7 @@ export const allTemplates: Record<string, Template> = {
       renderer: '@storybook/html',
       builder: '@storybook/builder-webpack5',
     },
+    inDevelopment: true,
   },
   'html-vite/default-js': {
     name: 'HTML Vite JS',
@@ -192,6 +205,7 @@ export const allTemplates: Record<string, Template> = {
       renderer: '@storybook/svelte',
       builder: '@storybook/builder-vite',
     },
+    inDevelopment: true,
   },
   'svelte-vite/default-ts': {
     name: 'Svelte Vite (TS)',
@@ -203,6 +217,7 @@ export const allTemplates: Record<string, Template> = {
       renderer: '@storybook/svelte',
       builder: '@storybook/builder-vite',
     },
+    inDevelopment: true,
   },
   'angular-cli/default-ts': {
     name: 'Angular CLI (latest)',
@@ -213,6 +228,7 @@ export const allTemplates: Record<string, Template> = {
       renderer: '@storybook/angular',
       builder: '@storybook/builder-webpack5',
     },
+    inDevelopment: true,
   },
   'angular-cli/14-ts': {
     name: 'Angular CLI (Version 14)',
@@ -223,6 +239,7 @@ export const allTemplates: Record<string, Template> = {
       renderer: '@storybook/angular',
       builder: '@storybook/builder-webpack5',
     },
+    inDevelopment: true,
   },
   'angular-cli/13-ts': {
     name: 'Angular CLI (Version 13)',
@@ -233,9 +250,9 @@ export const allTemplates: Record<string, Template> = {
       renderer: '@storybook/angular',
       builder: '@storybook/builder-webpack5',
     },
+    inDevelopment: true,
   },
   'svelte-kit/skeleton-js': {
-    inDevelopment: true,
     name: 'Svelte Kit (JS)',
     script:
       'yarn create svelte-with-args --name=svelte-kit/skeleton-js --directory=. --template=skeleton --types=null --no-prettier --no-eslint --no-playwright',
@@ -244,9 +261,9 @@ export const allTemplates: Record<string, Template> = {
       renderer: '@storybook/svelte',
       builder: '@storybook/builder-vite',
     },
+    inDevelopment: true,
   },
   'svelte-kit/skeleton-ts': {
-    inDevelopment: true,
     name: 'Svelte Kit (TS)',
     script:
       'yarn create svelte-with-args --name=svelte-kit/skeleton-ts --directory=. --template=skeleton --types=typescript --no-prettier --no-eslint --no-playwright',
@@ -255,6 +272,7 @@ export const allTemplates: Record<string, Template> = {
       renderer: '@storybook/svelte',
       builder: '@storybook/builder-vite',
     },
+    inDevelopment: true,
   },
   'lit-vite/default-js': {
     name: 'Lit Vite (JS)',
@@ -266,6 +284,7 @@ export const allTemplates: Record<string, Template> = {
       renderer: '@storybook/web-components',
       builder: '@storybook/builder-vite',
     },
+    inDevelopment: true,
   },
   'lit-vite/default-ts': {
     name: 'Lit Vite (TS)',
@@ -277,6 +296,7 @@ export const allTemplates: Record<string, Template> = {
       renderer: '@storybook/web-components',
       builder: '@storybook/builder-vite',
     },
+    inDevelopment: true,
   },
   'vue-cli/default-js': {
     name: 'Vue-CLI (Default JS)',
@@ -290,6 +310,7 @@ export const allTemplates: Record<string, Template> = {
       renderer: '@storybook/vue3',
       builder: '@storybook/builder-webpack5',
     },
+    inDevelopment: true,
   },
   'vue-cli/vue2-default-js': {
     name: 'Vue-CLI (Vue2 JS)',
@@ -304,6 +325,7 @@ export const allTemplates: Record<string, Template> = {
       renderer: '@storybook/vue',
       builder: '@storybook/builder-webpack5',
     },
+    inDevelopment: true,
   },
   'preact-webpack5/default-js': {
     name: 'Preact CLI (Default JS)',
@@ -313,6 +335,7 @@ export const allTemplates: Record<string, Template> = {
       renderer: '@storybook/preact',
       builder: '@storybook/builder-webpack5',
     },
+    inDevelopment: true,
   },
   'preact-webpack5/default-ts': {
     name: 'Preact CLI (Default TS)',
@@ -322,6 +345,7 @@ export const allTemplates: Record<string, Template> = {
       renderer: '@storybook/preact',
       builder: '@storybook/builder-webpack5',
     },
+    inDevelopment: true,
   },
 };
 
