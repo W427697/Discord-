@@ -114,27 +114,23 @@ export const sbScripts: Fix<SbScriptsRunOptions> = {
       return acc;
     }, []);
 
-    const explanationMessage = [
-      `Starting in Storybook 7, the ${chalk.yellow('start-storybook')} and ${chalk.yellow(
-        'build-storybook'
-      )} binaries have changed to ${chalk.magenta('storybook dev')} and ${chalk.magenta(
-        'storybook build'
-      )} respectively.`,
-      `In order to work with ${sbFormatted}, Storybook's ${chalk.magenta(
-        'storybook'
-      )} binary has to be installed and your storybook scripts have to be adjusted to use the binary. We can install the storybook binary and adjust your scripts for you:\n`,
-      newScriptsMessage.join('\n\n'),
-    ].join('\n');
+    return dedent`
+      We've detected you are using ${sbFormatted} with scripts from previous versions of Storybook.
+      Starting in Storybook 7, the ${chalk.yellow('start-storybook')} and ${chalk.yellow(
+      'build-storybook'
+    )} binaries have changed to ${chalk.magenta('storybook dev')} and ${chalk.magenta(
+      'storybook build'
+    )} respectively.
+      In order to work with ${sbFormatted}, Storybook's ${chalk.magenta(
+      'storybook'
+    )} binary has to be installed and your storybook scripts have to be adjusted to use the binary. We can install the storybook binary and adjust your scripts for you:
 
-    return [
-      `We've detected you are using ${sbFormatted} with scripts from previous versions of Storybook.`,
-      explanationMessage,
-      `In case this migration did not cover all of your scripts, or you'd like more info: ${chalk.yellow(
+      ${newScriptsMessage.join('\n\n')}
+
+      In case this migration did not cover all of your scripts, or you'd like more info: ${chalk.yellow(
         'https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#start-storybook--build-storybook-binaries-removed'
-      )}`,
-    ]
-      .filter(Boolean)
-      .join('\n\n');
+      )}
+      `;
   },
 
   async run({ result: { storybookScripts, packageJson }, packageManager, dryRun }) {
