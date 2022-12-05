@@ -269,7 +269,7 @@ export class CsfFile {
             metaNode = decl;
           } else if (
             // export default { ... } as Meta<...>
-            t.isTSAsExpression(decl) &&
+            (t.isTSAsExpression(decl) || t.isTSSatisfiesExpression(decl)) &&
             t.isObjectExpression(decl.expression)
           ) {
             metaNode = decl.expression;
