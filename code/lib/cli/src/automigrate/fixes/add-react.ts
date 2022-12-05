@@ -8,7 +8,7 @@ interface AddReactOptions {
 }
 
 /**
- * Is the user using npm7+? If so create a .npmrc with legacy-peer-deps=true
+ * is the user missing a dependency on react?
  */
 export const addReact: Fix<AddReactOptions> = {
   id: 'addReact',
