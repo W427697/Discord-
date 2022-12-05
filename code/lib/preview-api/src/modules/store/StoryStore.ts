@@ -156,7 +156,7 @@ export class StoryStore<TRenderer extends Renderer> {
     const loadInBatches = (
       remainingImportPaths: typeof importPaths
     ): Promise<{ importPath: Path; csfFile: CSFFile<TRenderer> }[]> => {
-      if (remainingImportPaths.length === 0) return Promise.resolve([]);
+      if (remainingImportPaths.length === 0) return SynchronousPromise.resolve([]);
 
       const csfFilePromiseList = remainingImportPaths
         .slice(0, batchSize)
