@@ -50,7 +50,7 @@
   "devDependencies": {
     "@storybook/csf": "next",
     "@types/node": "^16.0.0",
-    "typescript": "^4.9.3"
+    "typescript": "~4.9.3"
   },
   "publishConfig": {
     "access": "public"
