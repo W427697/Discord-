@@ -162,6 +162,28 @@ export const allTemplates: Record<string, Template> = {
       builder: '@storybook/builder-webpack5',
     },
   },
+  'html-vite/default-js': {
+    name: 'HTML Vite JS',
+    script: 'yarn create vite . --template vanilla && echo "export default {}" > vite.config.js',
+    expected: {
+      framework: '@storybook/html-vite',
+      renderer: '@storybook/html',
+      builder: '@storybook/builder-vite',
+    },
+    // TODO: remove this once html-vite framework is released
+    inDevelopment: true,
+  },
+  'html-vite/default-ts': {
+    name: 'HTML Vite TS',
+    script: 'yarn create vite . --template vanilla-ts && echo "export default {}" > vite.config.js',
+    expected: {
+      framework: '@storybook/html-vite',
+      renderer: '@storybook/html',
+      builder: '@storybook/builder-vite',
+    },
+    // TODO: remove this once html-vite framework is released
+    inDevelopment: true,
+  },
   'svelte-vite/default-js': {
     name: 'Svelte Vite (JS)',
     script: 'yarn create vite . --template svelte',
@@ -213,21 +235,23 @@ export const allTemplates: Record<string, Template> = {
     },
   },
   'svelte-kit/skeleton-js': {
+    inDevelopment: true,
     name: 'Svelte Kit (JS)',
     script:
       'yarn create svelte-with-args --name=svelte-kit/skeleton-js --directory=. --template=skeleton --types=null --no-prettier --no-eslint --no-playwright',
     expected: {
-      framework: '@storybook/svelte-vite',
+      framework: '@storybook/sveltekit',
       renderer: '@storybook/svelte',
       builder: '@storybook/builder-vite',
     },
   },
   'svelte-kit/skeleton-ts': {
+    inDevelopment: true,
     name: 'Svelte Kit (TS)',
     script:
       'yarn create svelte-with-args --name=svelte-kit/skeleton-ts --directory=. --template=skeleton --types=typescript --no-prettier --no-eslint --no-playwright',
     expected: {
-      framework: '@storybook/svelte-vite',
+      framework: '@storybook/sveltekit',
       renderer: '@storybook/svelte',
       builder: '@storybook/builder-vite',
     },
