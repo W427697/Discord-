@@ -74,7 +74,7 @@ export const resolveAddonName = (
         type: 'virtual',
         name,
         // we remove the extension
-        // this is a bit of a hack to try en be able to find .mjs files
+        // this is a bit of a hack to try to find .mjs files
         // node can only ever resolve .js files; it does not look at the exports field in package.json
         managerEntries: [join(fdir, fname)],
       };
@@ -120,7 +120,7 @@ export const resolveAddonName = (
 
     if (managerFile) {
       // we remove the extension
-      // this is a bit of a hack to try en be able to find .mjs files
+      // this is a bit of a hack to try to find .mjs files
       // node can only ever resolve .js files; it does not look at the exports field in package.json
       const { dir: fdir, name: fname } = parse(managerFile);
       managerEntries.push(join(fdir, fname));
@@ -128,7 +128,7 @@ export const resolveAddonName = (
     // register file is the old way of registering addons
     if (!managerFile && registerFile && !presetFile) {
       // we remove the extension
-      // this is a bit of a hack to try en be able to find .mjs files
+      // this is a bit of a hack to try to find .mjs files
       // node can only ever resolve .js files; it does not look at the exports field in package.json
       const { dir: fdir, name: fname } = parse(registerFile);
       managerEntries.push(join(fdir, fname));

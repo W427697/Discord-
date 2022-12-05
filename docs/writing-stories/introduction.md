@@ -247,7 +247,12 @@ For instance, suppose you wanted to test your Button component against a differe
 
 <!-- prettier-ignore-end -->
 
-![Background colors parameter](./parameters-background-colors.png)
+<video autoPlay muted playsInline loop>
+  <source
+    src="storybook-story-parameters-demo-optimized.mp4"
+    type="video/mp4"
+  />
+</video>
 
 This parameter would instruct the backgrounds addon to reconfigure itself whenever a Button story is selected. Most addons are configured via a parameter-based API and can be influenced at a [global](./parameters.md#global-parameters), [component](./parameters.md#component-parameters) and [story](./parameters.md#story-parameters) level.
 

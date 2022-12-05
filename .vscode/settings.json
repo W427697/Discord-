@@ -17,4 +17,5 @@
     "editor.defaultFormatter": "dbaeumer.vscode-eslint",
     "editor.formatOnSave": true
   },
+  "prettier.ignorePath": "./code/.prettierignore"
 }
