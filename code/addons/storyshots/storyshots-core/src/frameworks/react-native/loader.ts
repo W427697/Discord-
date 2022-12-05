@@ -1,8 +1,8 @@
 /* eslint-disable global-require */
 import path from 'path';
 import hasDependency from '../hasDependency';
-import { Loader } from '../Loader';
-import { StoryshotsOptions } from '../../api/StoryshotsOptions';
+import type { Loader } from '../Loader';
+import type { StoryshotsOptions } from '../../api/StoryshotsOptions';
 
 function test(options: StoryshotsOptions): boolean {
   return (

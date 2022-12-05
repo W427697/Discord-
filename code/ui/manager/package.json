@@ -1,6 +1,6 @@
 {
-  "name": "@storybook/ui",
-  "version": "7.0.0-alpha.37",
+  "name": "@storybook/manager",
+  "version": "7.0.0-alpha.58",
   "description": "Core Storybook UI",
   "keywords": [
     "storybook"
@@ -53,17 +53,16 @@
   },
   "devDependencies": {
     "@fal-works/esbuild-plugin-global-externals": "^2.1.2",
-    "@storybook/addons": "7.0.0-alpha.37",
-    "@storybook/api": "7.0.0-alpha.37",
-    "@storybook/channel-postmessage": "7.0.0-alpha.37",
-    "@storybook/channel-websocket": "7.0.0-alpha.37",
-    "@storybook/channels": "7.0.0-alpha.37",
-    "@storybook/client-logger": "7.0.0-alpha.37",
-    "@storybook/components": "7.0.0-alpha.37",
-    "@storybook/core-events": "7.0.0-alpha.37",
-    "@storybook/csf": "0.0.2--canary.49.258942b.0",
-    "@storybook/router": "7.0.0-alpha.37",
-    "@storybook/theming": "7.0.0-alpha.37",
+    "@storybook/channel-postmessage": "7.0.0-alpha.58",
+    "@storybook/channel-websocket": "7.0.0-alpha.58",
+    "@storybook/channels": "7.0.0-alpha.58",
+    "@storybook/client-logger": "7.0.0-alpha.58",
+    "@storybook/components": "7.0.0-alpha.58",
+    "@storybook/core-events": "7.0.0-alpha.58",
+    "@storybook/manager-api": "7.0.0-alpha.58",
+    "@storybook/router": "7.0.0-alpha.58",
+    "@storybook/theming": "7.0.0-alpha.58",
+    "@storybook/types": "7.0.0-alpha.58",
     "@testing-library/react": "^11.2.2",
     "@types/semver": "^7.3.4",
     "copy-to-clipboard": "^3.3.1",
@@ -77,17 +76,16 @@
     "memoizerific": "^1.11.3",
     "polished": "^4.2.2",
     "qs": "^6.10.0",
-    "react": "^16.8.0",
+    "react": "^16.14.0",
     "react-dom": "^16.8.0",
     "react-draggable": "^4.4.3",
     "react-helmet-async": "^1.0.7",
     "react-sizeme": "^3.0.1",
     "resolve-from": "^5.0.0",
     "semver": "^7.3.7",
-    "shelljs": "^0.8.5",
     "store2": "^2.12.0",
     "ts-dedent": "^2.0.0",
-    "typescript": "~4.6.3"
+    "typescript": "^4.9.3"
   },
   "publishConfig": {
     "access": "public"
@@ -100,5 +98,5 @@
       "./src/runtime.ts"
     ]
   },
-  "gitHead": "82667a655108283aafc828427f00bb3590a334e5"
+  "gitHead": "c7f8e3e8486ab5caf3da0ef016acfd2065f0dc05"
 }

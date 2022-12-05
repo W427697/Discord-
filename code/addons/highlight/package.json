@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-highlight",
-  "version": "7.0.0-alpha.37",
+  "version": "7.0.0-alpha.58",
   "description": "Highlight DOM nodes within your stories",
   "keywords": [
     "storybook-addons",
@@ -23,9 +23,32 @@
   },
   "license": "MIT",
   "author": "winkerVSbecks",
-  "main": "dist/cjs/index.js",
-  "module": "dist/esm/index.js",
-  "types": "dist/types/index.d.ts",
+  "exports": {
+    ".": {
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.ts"
+    },
+    "./preview": {
+      "require": "./dist/preview.js",
+      "import": "./dist/preview.mjs",
+      "types": "./dist/preview.d.ts"
+    },
+    "./package.json": "./package.json"
+  },
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "typesVersions": {
+    "*": {
+      "*": [
+        "dist/index.d.ts"
+      ],
+      "preview": [
+        "dist/preview.d.ts"
+      ]
+    }
+  },
   "files": [
     "dist/**/*",
     "README.md",
@@ -34,21 +57,27 @@
   ],
   "scripts": {
     "check": "../../../scripts/node_modules/.bin/tsc --noEmit",
-    "prep": "node ../../../scripts/prepare.js"
+    "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/addons": "7.0.0-alpha.37",
-    "@storybook/core-events": "7.0.0-alpha.37",
+    "@storybook/core-events": "7.0.0-alpha.58",
+    "@storybook/preview-api": "7.0.0-alpha.58",
     "global": "^4.4.0"
   },
   "devDependencies": {
     "@types/webpack-env": "^1.16.0",
-    "typescript": "~4.6.3"
+    "typescript": "^4.9.3"
   },
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "82667a655108283aafc828427f00bb3590a334e5",
+  "bundler": {
+    "entries": [
+      "./src/index.ts",
+      "./src/preview.ts"
+    ]
+  },
+  "gitHead": "c7f8e3e8486ab5caf3da0ef016acfd2065f0dc05",
   "sbmodern": "dist/modern/index.js",
   "storybook": {
     "displayName": "Highlight",

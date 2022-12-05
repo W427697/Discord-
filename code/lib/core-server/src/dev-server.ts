@@ -1,105 +1,61 @@
 import express, { Router } from 'express';
 import compression from 'compression';
 
-import {
+import type {
   CoreConfig,
   DocsOptions,
   Options,
   StorybookConfig,
-  normalizeStories,
-  logConfig,
-} from '@storybook/core-common';
+  VersionCheck,
+} from '@storybook/types';
 
-import { telemetry } from '@storybook/telemetry';
+import { normalizeStories, logConfig } from '@storybook/core-common';
+
+import { telemetry, getPrecedingUpgrade } from '@storybook/telemetry';
 import { getMiddleware } from './utils/middleware';
 import { getServerAddresses } from './utils/server-address';
 import { getServer } from './utils/server-init';
 import { useStatics } from './utils/server-statics';
 import { useStoriesJson } from './utils/stories-json';
 import { useStorybookMetadata } from './utils/metadata';
+import type { ServerChannel } from './utils/get-server-channel';
 import { getServerChannel } from './utils/get-server-channel';
 
 import { openInBrowser } from './utils/open-in-browser';
-import { getBuilders } from './utils/get-builders';
+import { getManagerBuilder, getPreviewBuilder } from './utils/get-builders';
 import { StoryIndexGenerator } from './utils/StoryIndexGenerator';
+import { summarizeIndex } from './utils/summarizeIndex';
 
 // @ts-expect-error (Converted from ts-ignore)
 export const router: Router = new Router();
 
 export const DEBOUNCE = 100;
 
+const versionStatus = (versionCheck: VersionCheck) => {
+  if (versionCheck.error) return 'error';
+  if (versionCheck.cached) return 'cached';
+  return 'success';
+};
+
 export async function storybookDevServer(options: Options) {
-  const startTime = process.hrtime();
   const app = express();
-  const server = await getServer(app, options);
+
+  const [server, features, core] = await Promise.all([
+    getServer(app, options),
+    options.presets.apply<StorybookConfig['features']>('features'),
+    options.presets.apply<CoreConfig>('core'),
+  ]);
+
   const serverChannel = getServerChannel(server);
 
-  const features = await options.presets.apply<StorybookConfig['features']>('features');
-  const core = await options.presets.apply<CoreConfig>('core');
   // try get index generator, if failed, send telemetry without storyCount, then rethrow the error
-  let initializedStoryIndexGenerator: Promise<StoryIndexGenerator> = Promise.resolve(undefined);
-  if (features?.buildStoriesJson || features?.storyStoreV7) {
-    try {
-      const workingDir = process.cwd();
-      const directories = {
-        configDir: options.configDir,
-        workingDir,
-      };
-      const normalizedStories = normalizeStories(
-        await options.presets.apply('stories'),
-        directories
-      );
-      const storyIndexers = await options.presets.apply('storyIndexers', []);
-      const docsOptions = await options.presets.apply<DocsOptions>('docs', {});
+  const initializedStoryIndexGenerator: Promise<StoryIndexGenerator> = getStoryIndexGenerator(
+    features,
+    options,
+    serverChannel
+  );
 
-      const generator = new StoryIndexGenerator(normalizedStories, {
-        ...directories,
-        storyIndexers,
-        docs: docsOptions,
-        workingDir,
-        storiesV2Compatibility: !features?.breakingChangesV7 && !features?.storyStoreV7,
-        storyStoreV7: features?.storyStoreV7,
-      });
-
-      initializedStoryIndexGenerator = generator.initialize().then(() => generator);
-
-      useStoriesJson({
-        router,
-        initializedStoryIndexGenerator,
-        normalizedStories,
-        serverChannel,
-        workingDir,
-      });
-    } catch (err) {
-      if (!core?.disableTelemetry) {
-        telemetry('start');
-      }
-      throw err;
-    }
-  }
-
-  if (!core?.disableTelemetry) {
-    initializedStoryIndexGenerator.then(async (generator) => {
-      if (!generator) {
-        return;
-      }
-
-      const storyIndex = await generator.getIndex();
-      const payload = storyIndex
-        ? {
-            storyIndex: {
-              storyCount: Object.keys(storyIndex.entries).length,
-              version: storyIndex.v,
-            },
-          }
-        : undefined;
-      telemetry('start', payload, { configDir: options.configDir });
-    });
-  }
-
-  if (!core?.disableProjectJson) {
-    useStorybookMetadata(router, options.configDir);
-  }
+  doTelemetry(core, initializedStoryIndexGenerator, options);
 
   app.use(compression({ level: 1 }));
 
@@ -126,7 +82,7 @@ export async function storybookDevServer(options: Options) {
   }
 
   // User's own static files
-  await useStatics(router, options);
+  const usingStatics = useStatics(router, options);
 
   getMiddleware(options.configDir)(router);
   app.use(router);
@@ -135,44 +91,134 @@ export async function storybookDevServer(options: Options) {
   const proto = options.https ? 'https' : 'http';
   const { address, networkAddress } = getServerAddresses(port, host, proto);
 
-  await new Promise<void>((resolve, reject) => {
-    // FIXME: Following line doesn't match TypeScript signature at all 🤔
-    // @ts-expect-error (Converted from ts-ignore)
+  const listening = new Promise<void>((resolve, reject) => {
+    // @ts-expect-error (Following line doesn't match TypeScript signature at all 🤔)
     server.listen({ port, host }, (error: Error) => (error ? reject(error) : resolve()));
   });
 
-  const [previewBuilder, managerBuilder] = await getBuilders(options);
+  const builderName = typeof core?.builder === 'string' ? core.builder : core?.builder?.name;
+
+  const [previewBuilder, managerBuilder] = await Promise.all([
+    getPreviewBuilder(builderName, options.configDir),
+    getManagerBuilder(),
+  ]);
 
   if (options.debugWebpack) {
     logConfig('Preview webpack config', await previewBuilder.getConfig(options));
   }
 
   const managerResult = await managerBuilder.start({
-    startTime,
+    startTime: process.hrtime(),
     options,
     router,
     server,
+    channel: serverChannel,
+  });
+
+  Promise.all([initializedStoryIndexGenerator, listening, usingStatics]).then(async () => {
+    if (!options.ci && !options.smokeTest && options.open) {
+      openInBrowser(host ? networkAddress : address);
+    }
   });
 
   let previewResult;
+
   if (!options.ignorePreview) {
-    try {
-      previewResult = await previewBuilder.start({
-        startTime,
+    previewResult = await previewBuilder
+      .start({
+        startTime: process.hrtime(),
         options,
         router,
         server,
-      });
-    } catch (error) {
-      await managerBuilder?.bail();
-      throw error;
-    }
-  }
+        channel: serverChannel,
+      })
+      .catch(async (e: any) => {
+        await managerBuilder?.bail().catch();
+        // For some reason, even when Webpack fails e.g. wrong main.js config,
+        // the preview may continue to print to stdout, which can affect output
+        // when we catch this error and process those errors (e.g. telemetry)
+        // gets overwritten by preview progress output. Therefore, we should bail the preview too.
+        await previewBuilder?.bail().catch();
 
-  // TODO #13083 Move this to before starting the previewBuilder - when compiling the preview is so fast that it will be done before the browser is done opening
-  if (!options.ci && !options.smokeTest && options.open) {
-    openInBrowser(host ? networkAddress : address);
+        // re-throw the error
+        throw e;
+      });
   }
 
   return { previewResult, managerResult, address, networkAddress };
+}
+async function doTelemetry(
+  core: CoreConfig,
+  initializedStoryIndexGenerator: Promise<StoryIndexGenerator>,
+  options: Options
+) {
+  if (!core?.disableTelemetry) {
+    initializedStoryIndexGenerator.then(async (generator) => {
+      const storyIndex = await generator?.getIndex();
+      const { versionCheck, versionUpdates } = options;
+      const payload = {
+        precedingUpgrade: await getPrecedingUpgrade('dev'),
+      };
+      if (storyIndex) {
+        Object.assign(payload, {
+          versionStatus: versionUpdates ? versionStatus(versionCheck) : 'disabled',
+          storyIndex: summarizeIndex(storyIndex),
+        });
+      }
+
+      telemetry('dev', payload, { configDir: options.configDir });
+    });
+  }
+
+  if (!core?.disableProjectJson) {
+    useStorybookMetadata(router, options.configDir);
+  }
+}
+
+async function getStoryIndexGenerator(
+  features: {
+    buildStoriesJson?: boolean;
+    previewCsfV3?: boolean;
+    storyStoreV7?: boolean;
+    breakingChangesV7?: boolean;
+    interactionsDebugger?: boolean;
+    babelModeV7?: boolean;
+    argTypeTargetsV7?: boolean;
+    warnOnLegacyHierarchySeparator?: boolean;
+  },
+  options: Options,
+  serverChannel: ServerChannel
+) {
+  let initializedStoryIndexGenerator: Promise<StoryIndexGenerator> = Promise.resolve(undefined);
+  if (features?.buildStoriesJson || features?.storyStoreV7) {
+    const workingDir = process.cwd();
+    const directories = {
+      configDir: options.configDir,
+      workingDir,
+    };
+    const stories = options.presets.apply('stories');
+    const storyIndexers = options.presets.apply('storyIndexers', []);
+    const docsOptions = options.presets.apply<DocsOptions>('docs', {});
+    const normalizedStories = normalizeStories(await stories, directories);
+
+    const generator = new StoryIndexGenerator(normalizedStories, {
+      ...directories,
+      storyIndexers: await storyIndexers,
+      docs: await docsOptions,
+      workingDir,
+      storiesV2Compatibility: !features?.breakingChangesV7 && !features?.storyStoreV7,
+      storyStoreV7: features?.storyStoreV7,
+    });
+
+    initializedStoryIndexGenerator = generator.initialize().then(() => generator);
+
+    useStoriesJson({
+      router,
+      initializedStoryIndexGenerator,
+      normalizedStories,
+      serverChannel,
+      workingDir,
+    });
+  }
+  return initializedStoryIndexGenerator;
 }

@@ -1,7 +1,8 @@
 import chalk from 'chalk';
 import dedent from 'ts-dedent';
 import semver from 'semver';
-import { ConfigFile, readConfig, writeConfig } from '@storybook/csf-tools';
+import type { ConfigFile } from '@storybook/csf-tools';
+import { readConfig, writeConfig } from '@storybook/csf-tools';
 import { getStorybookInfo } from '@storybook/core-common';
 
 import type { Fix } from '../types';
@@ -43,6 +44,7 @@ const packagesMap: Record<string, { webpack5?: string; vite?: string }> = {
   },
   '@storybook/html': {
     webpack5: '@storybook/html-webpack5',
+    vite: '@storybook/html-vite',
   },
 };
 

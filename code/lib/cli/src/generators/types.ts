@@ -1,6 +1,7 @@
-import { NpmOptions } from '../NpmOptions';
-import { SupportedLanguage, Builder, ProjectType } from '../project_types';
-import { JsPackageManager } from '../js-package-manager/JsPackageManager';
+import type { NpmOptions } from '../NpmOptions';
+import type { SupportedLanguage, Builder, ProjectType } from '../project_types';
+import type { JsPackageManager } from '../js-package-manager/JsPackageManager';
+import { type PackageManagerName } from '../js-package-manager/JsPackageManager';
 
 export type GeneratorOptions = {
   language: SupportedLanguage;
@@ -31,6 +32,7 @@ export type Generator = (
 ) => Promise<void>;
 
 export type CommandOptions = {
+  packageManager: PackageManagerName;
   useNpm?: boolean;
   usePnp?: boolean;
   type?: ProjectType;

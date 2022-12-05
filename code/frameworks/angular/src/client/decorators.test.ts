@@ -1,17 +1,17 @@
-import { addons, mockChannel } from '@storybook/addons';
-import type { StoryContext } from '@storybook/addons';
+import { Addon_StoryContext } from '@storybook/types';
 
 import { Component } from '@angular/core';
 import { moduleMetadata } from './decorators';
-import { addDecorator, storiesOf, clearDecorators, getStorybook, configure } from '.';
+import { AngularRenderer } from './types';
 
-const defaultContext: StoryContext = {
+const defaultContext: Addon_StoryContext<AngularRenderer> = {
   componentId: 'unspecified',
   kind: 'unspecified',
   title: 'unspecified',
   id: 'unspecified',
   name: 'unspecified',
   story: 'unspecified',
+  tags: [],
   parameters: {},
   initialArgs: {},
   args: {},
@@ -105,35 +105,5 @@ describe('moduleMetadata', () => {
         providers: [MockService],
       },
     });
-  });
-
-  it('should work when added globally', () => {
-    const metadata = {
-      declarations: [MockComponent],
-      providers: [MockService],
-      entryComponents: [MockComponent],
-      imports: [MockModule],
-    };
-
-    addons.setChannel(mockChannel());
-
-    configure(() => {
-      addDecorator(moduleMetadata(metadata));
-      storiesOf('Test', module).add('Default', () => ({
-        component: MockComponent,
-      }));
-    }, {} as NodeModule);
-
-    const [storybook] = getStorybook();
-
-    expect(storybook.stories[0].render({}).moduleMetadata).toEqual({
-      declarations: [MockComponent],
-      providers: [MockService],
-      entryComponents: [MockComponent],
-      imports: [MockModule],
-      schemas: [],
-    });
-
-    clearDecorators();
   });
 });

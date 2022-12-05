@@ -1,6 +1,6 @@
 {
   "name": "@storybook/html",
-  "version": "7.0.0-alpha.37",
+  "version": "7.0.0-alpha.58",
   "description": "Storybook HTML renderer",
   "keywords": [
     "storybook"
@@ -41,6 +41,7 @@
   "types": "dist/index.d.ts",
   "files": [
     "dist/**/*",
+    "template/**/*",
     "README.md",
     "*.js",
     "*.d.ts"
@@ -50,19 +51,17 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/addons": "7.0.0-alpha.37",
-    "@storybook/core-client": "7.0.0-alpha.37",
-    "@storybook/csf": "0.0.2--canary.49.258942b.0",
-    "@storybook/docs-tools": "7.0.0-alpha.37",
-    "@storybook/preview-web": "7.0.0-alpha.37",
-    "@storybook/store": "7.0.0-alpha.37",
+    "@storybook/core-client": "7.0.0-alpha.58",
+    "@storybook/docs-tools": "7.0.0-alpha.58",
+    "@storybook/preview-api": "7.0.0-alpha.58",
+    "@storybook/types": "7.0.0-alpha.58",
     "global": "^4.4.0",
     "react": "16.14.0",
     "react-dom": "16.14.0",
     "ts-dedent": "^2.0.0"
   },
   "devDependencies": {
-    "typescript": "~4.6.3"
+    "typescript": "^4.9.3"
   },
   "peerDependencies": {
     "@babel/core": "*"
@@ -80,5 +79,5 @@
     ],
     "platform": "browser"
   },
-  "gitHead": "82667a655108283aafc828427f00bb3590a334e5"
+  "gitHead": "c7f8e3e8486ab5caf3da0ef016acfd2065f0dc05"
 }
