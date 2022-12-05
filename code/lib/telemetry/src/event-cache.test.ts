@@ -6,10 +6,9 @@ expect.addSnapshotSerializer({
 });
 
 describe('event-cache', () => {
-  const init = { body: { eventType: 'init', eventId: 1 }, timestamp: 1 };
-  const upgrade = { body: { eventType: 'upgrade', eventId: 2 }, timestamp: 2 };
-  const dev = { body: { eventType: 'dev', eventId: 3 }, timestamp: 3 };
-  const secondUpgrade = { body: { eventType: 'upgrade', eventId: 4 }, timestamp: 4 };
+  const init = { body: { eventType: 'init', eventId: 'init' }, timestamp: 1 };
+  const upgrade = { body: { eventType: 'upgrade', eventId: 'upgrade' }, timestamp: 2 };
+  const dev = { body: { eventType: 'dev', eventId: 'dev' }, timestamp: 3 };
 
   describe('data handling', () => {
     it('errors', async () => {
@@ -20,7 +19,7 @@ describe('event-cache', () => {
         {
           "timestamp": 1,
           "eventType": "init",
-          "eventId": 1
+          "eventId": "init"
         }
       `);
     });
@@ -33,7 +32,7 @@ describe('event-cache', () => {
         {
           "timestamp": 1,
           "eventType": "init",
-          "eventId": 1,
+          "eventId": "init",
           "sessionId": 100
         }
       `);
@@ -47,7 +46,7 @@ describe('event-cache', () => {
         {
           "timestamp": 1,
           "eventType": "init",
-          "eventId": 1
+          "eventId": "init"
         }
       `);
     });
@@ -65,7 +64,7 @@ describe('event-cache', () => {
         {
           "timestamp": 1,
           "eventType": "init",
-          "eventId": 1
+          "eventId": "init"
         }
       `);
     });
@@ -76,7 +75,7 @@ describe('event-cache', () => {
         {
           "timestamp": 2,
           "eventType": "upgrade",
-          "eventId": 2
+          "eventId": "upgrade"
         }
       `);
     });
@@ -87,7 +86,7 @@ describe('event-cache', () => {
         {
           "timestamp": 2,
           "eventType": "upgrade",
-          "eventId": 2
+          "eventId": "upgrade"
         }
       `);
     });
@@ -109,18 +108,37 @@ describe('event-cache', () => {
       expect(preceding).toBeUndefined();
     });
 
-    it('both init and upgrade', async () => {
+    it('init followed by upgrade', async () => {
       const preceding = await getPrecedingUpgrade('dev', { init, upgrade, dev });
       expect(preceding).toBeUndefined();
     });
 
     it('both init and upgrade with intervening dev', async () => {
+      const secondUpgrade = {
+        body: { eventType: 'upgrade', eventId: 'secondUpgrade' },
+        timestamp: 4,
+      };
       const preceding = await getPrecedingUpgrade('dev', { init, dev, upgrade: secondUpgrade });
       expect(preceding).toMatchInlineSnapshot(`
         {
           "timestamp": 4,
           "eventType": "upgrade",
-          "eventId": 4
+          "eventId": "secondUpgrade"
+        }
+      `);
+    });
+
+    it('both init and upgrade with non-intervening dev', async () => {
+      const earlyDev = {
+        body: { eventType: 'dev', eventId: 'earlyDev' },
+        timestamp: -1,
+      };
+      const preceding = await getPrecedingUpgrade('dev', { dev: earlyDev, init, upgrade });
+      expect(preceding).toMatchInlineSnapshot(`
+        {
+          "timestamp": 2,
+          "eventType": "upgrade",
+          "eventId": "upgrade"
         }
       `);
     });

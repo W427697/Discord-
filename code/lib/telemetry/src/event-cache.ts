@@ -24,17 +24,16 @@ const upgradeFields = (event: any) => {
 
 export const getPrecedingUpgrade = async (eventType: EventType, events: any = undefined) => {
   const lastEvents = events || (await cache.get('lastEvents'));
-  console.log({ lastEvents });
   const init = lastEvents?.init;
-  let precedingEvent = init;
+  let precedingUpgrade = init;
   const upgrade = lastEvents?.upgrade;
-  if (upgrade && (!precedingEvent || upgrade.timestamp > precedingEvent?.timestamp)) {
-    precedingEvent = upgrade;
+  if (upgrade && (!precedingUpgrade || upgrade.timestamp > precedingUpgrade?.timestamp)) {
+    precedingUpgrade = upgrade;
   }
-  const precedingThis = lastEvents?.[eventType];
-  if (!precedingThis?.timestamp) return precedingEvent && upgradeFields(precedingEvent);
-  if (!precedingEvent?.timestamp) return undefined;
-  return precedingEvent?.timestamp > precedingThis.timestamp
-    ? upgradeFields(precedingEvent)
+  if (!precedingUpgrade) return undefined;
+
+  const lastEventOfType = lastEvents?.[eventType];
+  return !lastEventOfType?.timestamp || precedingUpgrade.timestamp > lastEventOfType.timestamp
+    ? upgradeFields(precedingUpgrade)
     : undefined;
 };
