@@ -386,7 +386,7 @@ describe('start', () => {
     it('re-emits SET_INDEX when a story is added', async () => {
       const renderToCanvas = jest.fn(({ storyFn }) => storyFn());
 
-      const { configure, clientApi, forceReRender } = start(renderToCanvas);
+      const { configure, clientApi } = start(renderToCanvas);
 
       let disposeCallback: () => void = () => {};
       const module = {
