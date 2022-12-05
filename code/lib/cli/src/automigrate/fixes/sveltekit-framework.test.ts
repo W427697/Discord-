@@ -78,7 +78,7 @@ describe('SvelteKit framework fix', () => {
       await expect(checkSvelteKitFramework({ packageJson, main })).resolves.toMatchObject({
         packageJson,
         main: expect.objectContaining({}),
-        frameworkOptions: {},
+        frameworkOptions: undefined,
       });
     });
 
