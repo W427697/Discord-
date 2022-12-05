@@ -343,9 +343,6 @@ jobs:
           working_directory: scripts
           background: true
       - run:
-          name: Creating Sandboxes
-          command: yarn task --task sandbox --template $(yarn get-template << pipeline.parameters.workflow >> sandbox) --no-link --start-from=never --junit
-      - run:
           name: Building Sandboxes
           command: yarn task --task build --template $(yarn get-template << pipeline.parameters.workflow >> sandbox) --no-link --start-from=never --junit
       - run:
