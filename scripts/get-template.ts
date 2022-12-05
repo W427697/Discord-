@@ -47,10 +47,7 @@ export async function getTemplate(
 
   potentialTemplateKeys = potentialTemplateKeys.filter((t) => {
     const currentTemplate = allTemplates[t] as Template;
-    return (
-      currentTemplate.inDevelopment !== true &&
-      !currentTemplate.skipTasks?.includes(scriptName as SkippableTask)
-    );
+    return !currentTemplate.skipTasks?.includes(scriptName as SkippableTask);
   });
 
   if (potentialTemplateKeys.length !== total) {
