@@ -1,8 +1,8 @@
 ---
-title: 'Add to the Integration catalog'
+title: 'Add to the integration catalog'
 ---
 
-Storybook has two types of integrations, addons and recipes, and are listed in the [integration catalog](https://storybook.js.org/integrations/).
+Storybook has two types of integrations, addons and recipes, which are listed in the [integration catalog](https://storybook.js.org/integrations/).
 
 ## Addons
 
@@ -92,14 +92,14 @@ Once you publish the addon, it will appear in the catalog. There may be a delay 
 
 ## Recipes
 
-Recipes are a set of instructions to integrate your favorite libraries into Storybook in cases where an addon does not exist or the integration requires some manual effort.
+Recipes are a set of instructions to integrate third-party libraries into Storybook in cases where an addon does not exist or the integration requires some manual effort.
 
 ### Who owns them?
 
 Recipes are written and maintained by the Storybook team. We create recipes based on community popularity, tool maturity, and stability of the integration. Our goal is to ensure that recipes continue to work over time.
 
-Not finding the recipe that you want? If it's popular in the community, our docs team will write one. In the mean time, try googling for a solution — it's likely that someone has the same requirements as you do. You can also help us out by writing recipes on your own site which speeds up the research process.
+Not finding the recipe that you want? If it's popular in the community, our docs team will write one. In the mean time, try searching for a solution — it's likely that someone has the same requirements as you do. You can also help us out by writing recipes on your own site which speeds up the research process.
 
 ### Request a recipe
 
-If you'd like to request a recipe, head over to the [#maintenance channel](https://discord.com/channels/486522875931656193/490070912448724992) of our community discord and ask
+If you'd like to request a recipe, head over to the [#maintenance channel](https://discord.com/channels/486522875931656193/490070912448724992) of our community Discord and ask.
