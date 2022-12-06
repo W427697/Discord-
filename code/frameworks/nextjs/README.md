@@ -219,7 +219,7 @@ Please consider, that parameters are not deep merged. If you set `nextjs.appDire
 
 #### Default Navigation Context
 
-The default values on the stubbed navigation context are as follows (see [globals](https://storybook.js.org/docs/react/essentials/toolbars-and-globals#globals) for more details on how globals work)
+The default values on the stubbed navigation context are as follows:
 
 ```ts
 const defaultNavigationContext = {
@@ -248,7 +248,7 @@ const defaultNavigationContext = {
 
 #### Global Defaults
 
-Global defaults can be set in [preview.js](https://storybook.js.org/docs/react/configure/overview#configure-story-rendering) and will be shallowly merged with the default router.
+Global defaults can be set in [preview.js](https://storybook.js.org/docs/react/configure/overview#configure-story-rendering) and will be shallowly merged with the default navigation context.
 
 ```js
 // .storybook/preview.js
