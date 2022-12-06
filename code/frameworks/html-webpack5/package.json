@@ -55,15 +55,15 @@
     "@storybook/html": "7.0.0-alpha.59",
     "@storybook/preset-html-webpack": "7.0.0-alpha.59",
     "@types/node": "^16.0.0",
-    "global": "^4.4.0",
-    "react": "16.14.0",
-    "react-dom": "16.14.0"
+    "global": "^4.4.0"
   },
   "devDependencies": {
     "typescript": "~4.9.3"
   },
   "peerDependencies": {
-    "@babel/core": "*"
+    "@babel/core": "*",
+    "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
+    "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0"
   },
   "engines": {
     "node": ">=10.13.0"

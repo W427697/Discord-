@@ -57,16 +57,16 @@
     "@storybook/core-common": "7.0.0-alpha.59",
     "@storybook/preset-web-components-webpack": "7.0.0-alpha.59",
     "@storybook/web-components": "7.0.0-alpha.59",
-    "@types/node": "^16.0.0",
-    "react": "16.14.0",
-    "react-dom": "16.14.0"
+    "@types/node": "^16.0.0"
   },
   "devDependencies": {
     "lit-html": "2.0.2",
     "typescript": "~4.9.3"
   },
   "peerDependencies": {
-    "lit-html": "^1.4.1 || ^2.0.0"
+    "lit-html": "^1.4.1 || ^2.0.0",
+    "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
+    "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0"
   },
   "engines": {
     "node": ">=10.13.0"

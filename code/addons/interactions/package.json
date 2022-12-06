@@ -71,7 +71,6 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@devtools-ds/object-inspector": "^1.1.2",
     "@storybook/client-logger": "7.0.0-alpha.59",
     "@storybook/components": "7.0.0-alpha.59",
     "@storybook/core-common": "7.0.0-alpha.59",
@@ -87,6 +86,7 @@
     "ts-dedent": "^2.2.0"
   },
   "devDependencies": {
+    "@devtools-ds/object-inspector": "^1.1.2",
     "@storybook/jest": "^0.0.10",
     "@storybook/testing-library": "0.0.14-next.0",
     "@types/node": "^16.0.0",

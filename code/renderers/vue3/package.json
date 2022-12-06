@@ -56,8 +56,6 @@
     "@storybook/preview-api": "7.0.0-alpha.59",
     "@storybook/types": "7.0.0-alpha.59",
     "global": "^4.4.0",
-    "react": "16.14.0",
-    "react-dom": "16.14.0",
     "ts-dedent": "^2.0.0",
     "type-fest": "2.19.0"
   },
@@ -69,14 +67,7 @@
     "vue-tsc": "^1.0.8"
   },
   "peerDependencies": {
-    "@babel/core": "*",
-    "babel-loader": "^7.0.0 || ^8.0.0",
     "vue": "^3.0.0"
-  },
-  "peerDependenciesMeta": {
-    "babel-loader": {
-      "optional": true
-    }
   },
   "engines": {
     "node": ">=10.13.0"

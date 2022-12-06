@@ -67,8 +67,6 @@
   "dependencies": {
     "@storybook/core-webpack": "7.0.0-alpha.59",
     "@storybook/node-logger": "7.0.0-alpha.59",
-    "react": "16.14.0",
-    "react-dom": "16.14.0",
     "sveltedoc-parser": "^4.2.1",
     "ts-dedent": "^2.0.0"
   },
