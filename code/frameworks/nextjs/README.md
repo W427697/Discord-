@@ -178,7 +178,7 @@ This format is not supported by this framework yet. Feel free to [open up an iss
 
 Please note that [next/navigation](https://beta.nextjs.org/docs/upgrade-guide#step-5-migrating-routing-hooks) can only be used in components/pages of the `app` directory of Next.js v13 or higher.
 
-#### Set `nextjs.appDirectory` to `app`
+#### Set `nextjs.appDirectory` to `true`
 
 If your story imports components that use `next/navigation`, you need to set the parameter `nextjs.appDirectory` to `true` in your Story:
 
