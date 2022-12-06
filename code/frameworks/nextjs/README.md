@@ -178,9 +178,9 @@ This format is not supported by this framework yet. Feel free to [open up an iss
 
 Please note that [next/navigation](https://beta.nextjs.org/docs/upgrade-guide#step-5-migrating-routing-hooks) can only be used in components/pages of the `app` directory of Next.js v13 or higher.
 
-#### Set `nextAppDirectory` to `app`
+#### Set `nextjs.appDirectory` to `app`
 
-If your story imports components that use `next/navigation`, you need to set the parameter `nextAppDirectory` to `true` in your Story:
+If your story imports components that use `next/navigation`, you need to set the parameter `nextjs.appDirectory` to `true` in your Story:
 
 ```js
 // SomeComponentThatUsesTheRouter.stories.js
@@ -194,22 +194,28 @@ export default {
 // you can click the links and see the route change events there
 export const Example = {
   parameters: {
-    nextAppDirectory: true,
+    nextjs: {
+      appDirectory: true,
+    },
   },
 },
 ```
 
-If your Next.js project uses the `app` directory for every page (in other words, it does not have a `pages` directory), you can set the parameter `nextAppDirectory` to `true` in the [preview.js](https://storybook.js.org/docs/react/configure/overview#configure-story-rendering) file to apply it to all stories.
+If your Next.js project uses the `app` directory for every page (in other words, it does not have a `pages` directory), you can set the parameter `nextjs.appDirectory` to `true` in the [preview.js](https://storybook.js.org/docs/react/configure/overview#configure-story-rendering) file to apply it to all stories.
 
 ```js
 // .storybook/preview.js
 
 export const parameters = {
-  nextAppDirectory: true,
+  nextjs: {
+    appDirectory: true,
+  },
 };
 ```
 
-The parameter `nextAppDirectory` defaults to `false` if not set.
+The parameter `nextjs.appDirectory` defaults to `false` if not set.
+
+Please consider, that parameters are not deep merged. If you set `nextjs.appDirectory` to `true` in the [preview.js](https://storybook.js.org/docs/react/configure/overview#configure-story-rendering) file, you need to set it as well in your story, as soon as you want to set other options on the nextjs parameter.
 
 #### Default Navigation Context
 
@@ -248,11 +254,13 @@ Global defaults can be set in [preview.js](https://storybook.js.org/docs/react/c
 // .storybook/preview.js
 
 export const parameters = {
-  nextAppDirectory: true,
-  nextNavigation: {
-    pathname: '/some-default-path',
-    query: {
-      foo: 'bar',
+  nextjs: {
+    appDirectory: true,
+    navigation: {
+      pathname: '/some-default-path',
+      query: {
+        foo: 'bar',
+      },
     },
   },
 };
@@ -266,10 +274,12 @@ If you override a function, you lose the automatic action tab integration and ha
 // .storybook/preview.js
 
 export const parameters = {
-  nextAppDirectory: true,
-  nextNavigation: {
-    push() {
-      // The default implementation that logs the action into the action tab is lost
+  nextjs: {
+    appDirectory: true,
+    navigation: {
+      push() {
+        // The default implementation that logs the action into the action tab is lost
+      },
     },
   },
 };
@@ -282,14 +292,16 @@ Doing this yourself looks something like this (make sure you install the `@story
 import { action } from '@storybook/addon-actions';
 
 export const parameters = {
-  nextAppDirectory: true,
-  nextNavigation: {
-    push(...args) {
-      // custom logic can go here
-      // this logs to the actions tab
-      action('nextNavigation.push')(...args);
-      // return whatever you want here
-      return Promise.resolve(true);
+  nextjs: {
+    appDirectory: true,
+    navigation: {
+      push(...args) {
+        // custom logic can go here
+        // this logs to the actions tab
+        action('nextNavigation.push')(...args);
+        // return whatever you want here
+        return Promise.resolve(true);
+      },
     },
   },
 };
@@ -317,11 +329,13 @@ export default {
 // you can click the links and see the route change events there
 export const Example = {
   parameters: {
-    nextRouter: {
-      path: '/profile/[id]',
-      asPath: '/profile/ryanclementshax',
-      query: {
-        id: 'ryanclementshax',
+    nextjs: {
+      router: {
+        path: '/profile/[id]',
+        asPath: '/profile/ryanclementshax',
+        query: {
+          id: 'ryanclementshax',
+        },
       },
     },
   },
@@ -336,10 +350,12 @@ Global defaults can be set in [preview.js](https://storybook.js.org/docs/react/c
 // .storybook/preview.js
 
 export const parameters = {
-  nextRouter: {
-    path: '/some-default-path',
-    asPath: '/some-default-path',
-    query: {},
+  nextjs: {
+    router: {
+      path: '/some-default-path',
+      asPath: '/some-default-path',
+      query: {},
+    },
   },
 };
 ```
@@ -406,9 +422,11 @@ If you override a function, you lose the automatic action tab integration and ha
 // .storybook/preview.js
 
 export const parameters = {
-  nextRouter: {
-    push() {
-      // The default implementation that logs the action into the action tab is lost
+  nextjs: {
+    router: {
+      push() {
+        // The default implementation that logs the action into the action tab is lost
+      },
     },
   },
 };
@@ -421,13 +439,15 @@ Doing this yourself looks something like this (make sure you install the `@story
 import { action } from '@storybook/addon-actions';
 
 export const parameters = {
-  nextRouter: {
-    push(...args) {
-      // custom logic can go here
-      // this logs to the actions tab
-      action('nextRouter.push')(...args);
-      // return whatever you want here
-      return Promise.resolve(true);
+  nextjs: {
+    router: {
+      push(...args) {
+        // custom logic can go here
+        // this logs to the actions tab
+        action('nextRouter.push')(...args);
+        // return whatever you want here
+        return Promise.resolve(true);
+      },
     },
   },
 };

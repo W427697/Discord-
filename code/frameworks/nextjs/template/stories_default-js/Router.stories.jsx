@@ -55,10 +55,12 @@ function Component() {
 export default {
   component: Component,
   parameters: {
-    nextRouter: {
-      pathname: '/hello',
-      query: {
-        foo: 'bar',
+    nextjs: {
+      router: {
+        pathname: '/hello',
+        query: {
+          foo: 'bar',
+        },
       },
     },
   },

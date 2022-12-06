@@ -31,7 +31,8 @@ export const RouterDecorator = (
   Story: React.FC,
   { globals, parameters }: Addon_StoryContext
 ): React.ReactNode => {
-  const nextAppDirectory = (parameters.nextAppDirectory as NextAppDirectory | undefined) ?? false;
+  const nextAppDirectory =
+    (parameters.nextjs?.appDirectory as NextAppDirectory | undefined) ?? false;
 
   if (nextAppDirectory) {
     return (
@@ -39,7 +40,7 @@ export const RouterDecorator = (
         action={action}
         routeParams={{
           ...defaultRouterParams,
-          ...parameters.nextNavigation,
+          ...parameters.nextjs?.navigation,
         }}
       >
         <Story />
@@ -53,7 +54,7 @@ export const RouterDecorator = (
       globals={globals}
       routeParams={{
         ...defaultRouterParams,
-        ...parameters.nextRouter,
+        ...parameters.nextjs?.router,
       }}
     >
       <Story />

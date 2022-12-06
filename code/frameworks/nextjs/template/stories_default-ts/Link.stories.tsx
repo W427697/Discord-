@@ -78,6 +78,8 @@ export const Default: StoryObj<typeof Component> = {};
 
 export const InAppDir: StoryObj<typeof Component> = {
   parameters: {
-    nextAppDirectory: true,
+    nextjs: {
+      appDirectory: true,
+    },
   },
 };

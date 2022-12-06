@@ -75,6 +75,8 @@ export const Default = {};
 
 export const InAppDir = {
   parameters: {
-    nextAppDirectory: true,
+    nextjs: {
+      appDirectory: true,
+    },
   },
 };

@@ -62,11 +62,13 @@ function Component() {
 export default {
   component: Component,
   parameters: {
-    nextAppDirectory: true,
-    nextNavigation: {
-      pathname: '/hello',
-      query: {
-        foo: 'bar',
+    nextjs: {
+      appDirectory: true,
+      navigation: {
+        pathname: '/hello',
+        query: {
+          foo: 'bar',
+        },
       },
     },
   },
