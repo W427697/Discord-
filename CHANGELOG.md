@@ -1,3 +1,31 @@
+## 7.0.0-alpha.59 (December 6, 2022)
+
+#### Features
+
+-   CSF: Add satisfies support to csf-tools [#20088](https://github.com/storybooks/storybook/pull/20088)
+
+#### Bug Fixes
+
+-   Next.js: only set next/future/image mocks from version 12.2 [#20098](https://github.com/storybooks/storybook/pull/20098)
+-   Core: Batch the loading of CSF files for `extract()` etc [#20055](https://github.com/storybooks/storybook/pull/20055)
+-   Fix SSR in external docs via `node` exports [#20083](https://github.com/storybooks/storybook/pull/20083)
+-   CLI: Improve sb-scripts automigration logic [#20035](https://github.com/storybooks/storybook/pull/20035)
+
+#### Maintenance
+
+-   Revert "Telemetry: Add precedingUpgrade data to dev/build events" [#20105](https://github.com/storybooks/storybook/pull/20105)
+-   Telemetry: Instrument init event [#20097](https://github.com/storybooks/storybook/pull/20097)
+
+#### Build
+
+-   Fix next [#20106](https://github.com/storybooks/storybook/pull/20106)
+-   Build: Run sb init locally in sandbox creation [#20100](https://github.com/storybooks/storybook/pull/20100)
+-   Build: Add missing dependencies to manager, unify TS to ~4.9.3 [#20021](https://github.com/storybooks/storybook/pull/20021)
+
+#### Dependency Upgrades
+
+-   Bump store2 to 2.14.2 license clarification [#19899](https://github.com/storybooks/storybook/pull/19899)
+
 ## 7.0.0-alpha.58 (December 5, 2022)
 
 #### Features

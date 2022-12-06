@@ -1,6 +1,6 @@
 {
   "name": "@storybook/web-components",
-  "version": "7.0.0-alpha.58",
+  "version": "7.0.0-alpha.59",
   "description": "Storybook web-components renderer",
   "keywords": [
     "lit-html",
@@ -53,12 +53,12 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/client-logger": "7.0.0-alpha.58",
-    "@storybook/core-client": "7.0.0-alpha.58",
-    "@storybook/docs-tools": "7.0.0-alpha.58",
-    "@storybook/manager-api": "7.0.0-alpha.58",
-    "@storybook/preview-api": "7.0.0-alpha.58",
-    "@storybook/types": "7.0.0-alpha.58",
+    "@storybook/client-logger": "7.0.0-alpha.59",
+    "@storybook/core-client": "7.0.0-alpha.59",
+    "@storybook/docs-tools": "7.0.0-alpha.59",
+    "@storybook/manager-api": "7.0.0-alpha.59",
+    "@storybook/preview-api": "7.0.0-alpha.59",
+    "@storybook/types": "7.0.0-alpha.59",
     "global": "^4.4.0",
     "ts-dedent": "^2.0.0"
   },
@@ -83,5 +83,5 @@
     ],
     "platform": "browser"
   },
-  "gitHead": "c7f8e3e8486ab5caf3da0ef016acfd2065f0dc05"
+  "gitHead": "8d3068344b96cb740635b6fbb7a9052108a984bc"
 }
