@@ -91,8 +91,9 @@ export const install: Task['run'] = async ({ sandboxDir, template }, { link, dry
 
     await exec(
       'yarn install',
-      { cwd, stdout: debug ? 'inherit' : 'ignore' },
+      { cwd },
       {
+        debug,
         dryRun,
         startMessage: `⬇️ Installing local dependencies`,
         errorMessage: `🚨 Installing local dependencies failed`,
