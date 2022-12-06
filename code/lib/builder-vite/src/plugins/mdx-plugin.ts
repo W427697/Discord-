@@ -1,5 +1,7 @@
 import type { Plugin } from 'vite';
 import { createFilter } from 'vite';
+import type { StorybookConfig } from '@storybook/types';
+import type { ExtendedOptions } from '../types';
 
 const isStorybookMdx = (id: string) => id.endsWith('stories.mdx') || id.endsWith('story.mdx');
 
@@ -18,7 +20,8 @@ function injectRenderer(code: string) {
  *
  * @see https://github.com/storybookjs/storybook/blob/next/addons/docs/docs/recipes.md#csf-stories-with-arbitrary-mdx
  */
-export function mdxPlugin(): Plugin {
+export function mdxPlugin(config: ExtendedOptions): Plugin {
+  const { presets } = config;
   let reactRefresh: Plugin | undefined;
   const include = /\.mdx?$/;
   const filter = createFilter(include);
@@ -45,8 +48,14 @@ export function mdxPlugin(): Plugin {
       if (!filter(id)) return undefined;
 
       const { compile } = await import('@storybook/mdx2-csf');
+      const addons = await presets.apply('addons', [] as StorybookConfig['addons']);
+      const docsOptions =
+        // @ts-expect-error - not sure what type to use here
+        addons.find((a) => [a, a.name].includes('@storybook/addon-docs'))?.options ?? {};
 
-      const mdxCode = String(await compile(src, { skipCsf: !isStorybookMdx(id) }));
+      const mdxCode = String(
+        await compile(src, { skipCsf: !isStorybookMdx(id), ...docsOptions.mdxPluginOptions })
+      );
 
       const modifiedCode = injectRenderer(mdxCode);
 

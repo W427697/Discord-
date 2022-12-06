@@ -6641,11 +6641,11 @@ __metadata:
   linkType: soft
 
 "@storybook/mdx2-csf@npm:next":
-  version: 0.1.0-next.6
-  resolution: "@storybook/mdx2-csf@npm:0.1.0-next.6"
+  version: 0.1.0-next.7
+  resolution: "@storybook/mdx2-csf@npm:0.1.0-next.7"
   dependencies:
     loader-utils: ^2.0.4
-  checksum: b3a3f0321824ca45f42524dce56d94eaab978d9f000318da4300d9448c5c7693aad70b70f6cffc39494b39c4bc6772f5765639810dfd77a18a58715b498b5e5c
+  checksum: c0d3b6c5d2261079ac8db0e2bb8e773ab11f6f363c60f4d4b76332c1361c981d5abffd49ea6f2e1b67f5d1fbdfc121e207044fe52b8be1e8322cacc42e41f747
   languageName: node
   linkType: hard
 

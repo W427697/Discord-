@@ -5,6 +5,7 @@ import { dedent } from 'ts-dedent';
 
 import type { IndexerOptions, StoryIndexer, DocsOptions, Options } from '@storybook/types';
 import type { CsfPluginOptions } from '@storybook/csf-plugin';
+import type { CompileOptions } from '@storybook/mdx2-csf';
 import { loadCsf } from '@storybook/csf-tools';
 
 // for frameworks that are not working with react, we need to configure
@@ -46,6 +47,7 @@ async function webpack(
       /** @deprecated */
       sourceLoaderOptions: any;
       csfPluginOptions: CsfPluginOptions | null;
+      mdxPluginOptions?: CompileOptions;
       transcludeMarkdown: boolean;
     } /* & Parameters<
       typeof createCompiler
@@ -61,14 +63,16 @@ async function webpack(
     mdxBabelOptions,
     configureJSX = true,
     csfPluginOptions = {},
+    mdxPluginOptions = {},
     sourceLoaderOptions = null,
     transcludeMarkdown = false,
   } = options;
 
-  const mdxLoaderOptions = {
+  const mdxLoaderOptions: CompileOptions = {
     // whether to skip storybook files, useful for docs only mdx or md files
     skipCsf: true,
-    remarkPlugins: [remarkSlug, remarkExternalLinks],
+    mdxCompileOptions: { remarkPlugins: [remarkSlug, remarkExternalLinks] },
+    ...mdxPluginOptions,
   };
 
   if (sourceLoaderOptions) {
