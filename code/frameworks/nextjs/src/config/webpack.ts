@@ -35,20 +35,22 @@ const setupRuntimeConfig = (baseConfig: WebpackConfig, nextConfig: NextConfig): 
   };
 
   /**
-   * In Next12.2, the `newNextLinkBehavior` option was introduced, defaulted to
+   * In Next 12.2, the `newNextLinkBehavior` option was introduced, defaulted to
    * falsy in the Next app (`undefined` in the config itself), and `next/link`
    * was engineered to opt *in* to it
    *
-   * In Next13, the `newNextLinkBehavior` option now defaults to truthy (still
+   * In Next 13.0.0, the `newNextLinkBehavior` option now defaults to truthy (still
    * `undefined` in the config), and `next/link` was engineered to opt *out*
    * of it
    *
-   * TODO: Revisit logic as soon as the changes in https://github.com/vercel/next.js/pull/42623
-   * were released in the next version of Next.js
+   * In Next 13.0.6 the `next/link` updated the default newNextLinkBehavior condition check
+   * to be `true` if the `newNextLinkBehavior` is not `false`
    */
   const newNextLinkBehavior = nextConfig.experimental?.newNextLinkBehavior;
   if (
-    (semver.gte(version, '13.0.0') && newNextLinkBehavior !== false) ||
+    (semver.gte(version, '13.0.0') &&
+      semver.lt(version, '13.0.6') &&
+      newNextLinkBehavior !== false) ||
     (semver.gte(version, '12.2.0') && newNextLinkBehavior)
   ) {
     definePluginConfig['process.env.__NEXT_NEW_LINK_BEHAVIOR'] = true;
