@@ -19,6 +19,9 @@ const checkSvelteKitFramework = async ({
     require('fs-extra').__setMockFiles({
       [path.join('.storybook', 'main.js')]: `module.exports = ${JSON.stringify(main)};`,
     });
+  } else {
+    // eslint-disable-next-line global-require
+    require('fs-extra').__setMockFiles({});
   }
   const packageManager = {
     retrievePackageJson: () => ({ dependencies: {}, devDependencies: {}, ...packageJson }),
@@ -29,42 +32,122 @@ const checkSvelteKitFramework = async ({
 
 describe('SvelteKit framework fix', () => {
   describe('should no-op', () => {
-    it('in sb < 7', async () => {
-      const packageJson = { dependencies: { '@storybook/svelte': '^6.2.0' } };
+    it('in SB < v7.0.0', async () => {
+      const packageJson = {
+        dependencies: { '@sveltejs/kit': '^1.0.0-next.571', '@storybook/svelte': '^6.2.0' },
+      };
       const main = { framework: '@storybook/svelte-vite' };
       await expect(checkSvelteKitFramework({ packageJson, main })).resolves.toBeFalsy();
     });
 
-    it('in sb 7 with no main', async () => {
-      const packageJson = { dependencies: { '@storybook/svelte': '^7.0.0' } };
-      await expect(checkSvelteKitFramework({ packageJson })).resolves.toBeFalsy();
-    });
+    describe('in SB > v7.0.0', () => {
+      it('in non-SvelteKit projects', async () => {
+        const packageJson = {
+          dependencies: { svelte: '^3.53.1', '@storybook/svelte-vite': '^7.0.0' },
+        };
+        const main = {
+          framework: '@storybook/svelte-vite',
+        };
+        await expect(checkSvelteKitFramework({ packageJson, main })).resolves.toBeFalsy();
+      });
 
-    it('in sb 7 with no framework field in main', async () => {
-      const packageJson = { dependencies: { '@storybook/sve{te': '^7.0.0' } };
-      const main = {};
-      await expect(checkSvelteKitFramework({ packageJson, main })).resolves.toBeFalsy();
-    });
+      it('without main', async () => {
+        const packageJson = {
+          dependencies: { '@sveltejs/kit': '^1.0.0-next.571', '@storybook/svelte': '^7.0.0' },
+        };
+        await expect(
+          checkSvelteKitFramework({ packageJson })
+        ).rejects.toThrowErrorMatchingInlineSnapshot(
+          `"warn: Unable to find storybook main.js config, skipping"`
+        );
+      });
 
-    it('in sb 7 in non-SvelteKit projects', async () => {
-      const packageJson = { dependencies: { '@storybook/svelte-vite': '^7.0.0' } };
-      const main = {
-        framework: '@storybook/svelte-vite',
-      };
-      await expect(checkSvelteKitFramework({ packageJson, main })).resolves.toBeFalsy();
-    });
+      it('without framework field in main', async () => {
+        const packageJson = {
+          dependencies: { '@sveltejs/kit': '^1.0.0-next.571', '@storybook/svelte': '^7.0.0' },
+        };
+        const main = {};
+        await expect(checkSvelteKitFramework({ packageJson, main })).rejects
+          .toThrowErrorMatchingInlineSnapshot(`
+          "warn: ❌ Unable to determine Storybook framework, skipping [36msveltekitFramework[39m fix.
+          🤔 Are you running automigrate from your project directory?"
+        `);
+      });
 
-    it('in sb 7 with unsupported builder', async () => {
-      const packageJson = { dependencies: { '@storybook/svelte-webpack5': '^7.0.0' } };
-      const main = {
-        framework: '@storybook/svelte-webpack5',
-      };
-      await expect(checkSvelteKitFramework({ packageJson, main })).resolves.toBeFalsy();
+      it('with unsupported framework', async () => {
+        const packageJson = {
+          dependencies: {
+            '@sveltejs/kit': '^1.0.0-next.571',
+            '@storybook/svelte-vite': '^7.0.0',
+            '@storybook/html': '^7.0.0',
+          },
+        };
+        const main = {
+          framework: '@storybook/html',
+        };
+        await expect(checkSvelteKitFramework({ packageJson, main })).rejects
+          .toThrowErrorMatchingInlineSnapshot(`
+          "warn:       We've detected you are using Storybook in a SvelteKit project.
+
+                In Storybook 7, we introduced a new framework package for SvelteKit projects: @storybook/sveltekit.
+
+                This package provides a better experience for SvelteKit users, however it is only compatible with the Svelte framework and the Vite builder, so we can't automigrate for you, as you are using another framework and builder combination.
+                
+                If you are interested in using this package, see: [33mhttps://github.com/storybookjs/storybook/blob/next/MIGRATION.md#sveltekit-needs-the-storybooksveltekit-framework[39m"
+        `);
+      });
+
+      it('with unsupported framework+builder from SB 6.5', async () => {
+        const packageJson = {
+          dependencies: {
+            '@sveltejs/kit': '^1.0.0-next.571',
+            '@storybook/svelte-webpack5': '^7.0.0',
+            '@storybook/svelte': '^7.0.0',
+          },
+        };
+        const main = {
+          framework: '@storybook/svelte',
+          core: { builder: '@storybook/builder-webpack5' },
+        };
+        await expect(checkSvelteKitFramework({ packageJson, main })).rejects
+          .toThrowErrorMatchingInlineSnapshot(`
+          "warn:       We've detected you are using Storybook in a SvelteKit project.
+
+                In Storybook 7, we introduced a new framework package for SvelteKit projects: @storybook/sveltekit.
+
+                This package provides a better experience for SvelteKit users, however it is only compatible with the Vite builder, so we can't automigrate for you, as you are using another builder.
+                
+                If you are interested in using this package, see: [33mhttps://github.com/storybookjs/storybook/blob/next/MIGRATION.md#sveltekit-needs-the-storybooksveltekit-framework[39m"
+        `);
+      });
+
+      it('with @storybook/svelte-webpack5 framework should warn', async () => {
+        const packageJson = {
+          dependencies: {
+            '@storybook/svelte': '^7.0.0',
+            '@storybook/svelte-webpack5': '^7.0.0',
+            '@sveltejs/kit': '^1.0.0-next.571',
+          },
+        };
+        const main = {
+          framework: '@storybook/svelte-webpack5',
+        };
+        await expect(checkSvelteKitFramework({ packageJson, main })).rejects
+          .toThrowErrorMatchingInlineSnapshot(`
+          "warn:       We've detected you are using Storybook in a SvelteKit project.
+
+                In Storybook 7, we introduced a new framework package for SvelteKit projects: @storybook/sveltekit.
+
+                This package provides a better experience for SvelteKit users, however it is only compatible with the Svelte framework and the Vite builder, so we can't automigrate for you, as you are using another framework and builder combination.
+                
+                If you are interested in using this package, see: [33mhttps://github.com/storybookjs/storybook/blob/next/MIGRATION.md#sveltekit-needs-the-storybooksveltekit-framework[39m"
+        `);
+      });
     });
   });
 
-  describe('sb > 7', () => {
-    it('should update from @storybook/svelte-vite to @storybook/sveltekit', async () => {
+  describe('should migrate', () => {
+    it('from @storybook/svelte-vite', async () => {
       const packageJson = {
         dependencies: {
           '@storybook/svelte': '^7.0.0',
@@ -79,30 +162,47 @@ describe('SvelteKit framework fix', () => {
         packageJson,
         main: expect.objectContaining({}),
         frameworkOptions: undefined,
+        dependenciesToRemove: ['@storybook/svelte-vite'],
       });
     });
 
-    it('should warn for @storybook/svelte-webpack5 users', async () => {
+    it('from @storybook/svelte framework and @storybook/builder-vite builder', async () => {
       const packageJson = {
         dependencies: {
           '@storybook/svelte': '^7.0.0',
-          '@storybook/svelte-webpack5': '^7.0.0',
+          '@storybook/builder-vite': '^7.0.0',
           '@sveltejs/kit': '^1.0.0-next.571',
         },
       };
       const main = {
-        framework: '@storybook/svelte-webpack5',
+        framework: '@storybook/svelte',
+        core: { builder: '@storybook/builder-vite' },
       };
-      await expect(checkSvelteKitFramework({ packageJson, main })).rejects
-        .toThrowErrorMatchingInlineSnapshot(`
-        "warn: We've detected you are using Storybook in a SvelteKit project.
-
-        In Storybook 7, we introduced a new framework package for SvelteKit projects: @storybook/sveltekit.
-
-        This package provides a better experience for SvelteKit users, however it is only compatible with the Vite builder, so we can't automigrate for you, as you are using another builder.
-
-        If you are interested in using this package, see: [33mhttps://github.com/storybookjs/storybook/blob/next/MIGRATION.md#sveltekit-needs-the-storybooksveltekit-framework[39m"
-      `);
+      await expect(checkSvelteKitFramework({ packageJson, main })).resolves.toMatchObject({
+        packageJson,
+        main: expect.objectContaining({}),
+        frameworkOptions: undefined,
+        dependenciesToRemove: ['@storybook/builder-vite', '@storybook/svelte'],
+      });
+    });
+    it('from @storybook/svelte framework and storybook-builder-vite builder', async () => {
+      const packageJson = {
+        dependencies: {
+          '@storybook/svelte': '^7.0.0',
+          'storybook-builder-vite': '^0.2.5',
+          '@sveltejs/kit': '^1.0.0-next.571',
+        },
+      };
+      const main = {
+        framework: '@storybook/svelte',
+        core: { builder: 'storybook-builder-vite' },
+      };
+      await expect(checkSvelteKitFramework({ packageJson, main })).resolves.toMatchObject({
+        packageJson,
+        main: expect.objectContaining({}),
+        frameworkOptions: undefined,
+        dependenciesToRemove: ['storybook-builder-vite', '@storybook/svelte'],
+      });
     });
   });
 });

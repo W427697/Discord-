@@ -15,6 +15,7 @@ interface SvelteKitFrameworkRunOptions {
   main: ConfigFile;
   packageJson: PackageJsonWithDepsAndDevDeps;
   frameworkOptions: Record<string, any> | undefined;
+  dependenciesToRemove: string[];
 }
 
 const fixId = 'sveltekitFramework';
@@ -59,40 +60,70 @@ export const sveltekitFramework: Fix<SvelteKitFrameworkRunOptions> = {
     }
 
     const main = await readConfig(mainConfig);
+    const frameworkConfig = main.getFieldValue(['framework']);
 
-    const frameworkPackage = main.getFieldValue(['framework']);
-
-    if (!frameworkPackage) {
-      // TODO: warn something here?
-      return null;
-    }
-
-    const frameworkPackageName =
-      typeof frameworkPackage === 'string' ? frameworkPackage : frameworkPackage.name;
-
-    // we only migrate from svelte-vite projects
-    if (frameworkPackageName !== '@storybook/svelte-vite') {
+    if (!frameworkConfig) {
       logger.warn(dedent`
-        We've detected you are using Storybook in a SvelteKit project.
-
-        In Storybook 7, we introduced a new framework package for SvelteKit projects: @storybook/sveltekit.
-
-        This package provides a better experience for SvelteKit users, however it is only compatible with the Vite builder, so we can't automigrate for you, as you are using another builder.
-        
-        If you are interested in using this package, see: ${chalk.yellow(
-          'https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#sveltekit-needs-the-storybooksveltekit-framework'
-        )}
-      `);
-
+      ❌ Unable to determine Storybook framework, skipping ${chalk.cyan(fixId)} fix.
+      🤔 Are you running automigrate from your project directory?
+    `);
       return null;
     }
 
+    const framework = typeof frameworkConfig === 'string' ? frameworkConfig : frameworkConfig.name;
     const frameworkOptions = main.getFieldValue(['framework', 'options']);
 
+    if (framework === '@storybook/svelte-vite') {
+      // direct migration from svelte-vite projects
+      return {
+        main,
+        frameworkOptions,
+        packageJson,
+        dependenciesToRemove: ['@storybook/svelte-vite'],
+      };
+    }
+
+    if (framework !== '@storybook/svelte') {
+      // migration from projects using Svelte but with an unrecognized framework+builder setup - not supported
+      logger.warn(dedent`
+            We've detected you are using Storybook in a SvelteKit project.
+      
+            In Storybook 7, we introduced a new framework package for SvelteKit projects: @storybook/sveltekit.
+      
+            This package provides a better experience for SvelteKit users, however it is only compatible with the Svelte framework and the Vite builder, so we can't automigrate for you, as you are using another framework and builder combination.
+            
+            If you are interested in using this package, see: ${chalk.yellow(
+              'https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#sveltekit-needs-the-storybooksveltekit-framework'
+            )}
+          `);
+      return null;
+    }
+
+    const builder = main.getFieldValue(['core', 'builder']);
+
+    if (!['@storybook/builder-vite', 'storybook-builder-vite'].includes(builder)) {
+      // migration from 6.x projects using Svelte with the Webpack builder - not supported
+      logger.warn(dedent`
+          We've detected you are using Storybook in a SvelteKit project.
+    
+          In Storybook 7, we introduced a new framework package for SvelteKit projects: @storybook/sveltekit.
+    
+          This package provides a better experience for SvelteKit users, however it is only compatible with the Vite builder, so we can't automigrate for you, as you are using another builder.
+          
+          If you are interested in using this package, see: ${chalk.yellow(
+            'https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#sveltekit-needs-the-storybooksveltekit-framework'
+          )}
+        `);
+
+      return null;
+    }
+
+    // migration from 6.x projects using Svelte with the Vite builder
     return {
       main,
       frameworkOptions,
       packageJson,
+      dependenciesToRemove: [builder, framework],
     };
   },
 
@@ -111,8 +142,15 @@ export const sveltekitFramework: Fix<SvelteKitFrameworkRunOptions> = {
     `;
   },
 
-  async run({ result: { main, frameworkOptions, packageJson }, packageManager, dryRun }) {
-    const dependenciesToRemove = ['@storybook/svelte-vite'];
+  async run({
+    result: { main, frameworkOptions, packageJson, dependenciesToRemove },
+    packageManager,
+    dryRun,
+  }) {
+    // TODO: handle 6.5
+    // - remove core.builder configuration
+    // - remove svelteOptions config?
+    // - does the svelte framework even support options?
     logger.info(`✅ Removing redundant packages: ${dependenciesToRemove.join(', ')}`);
     if (!dryRun) {
       packageManager.removeDependencies({ skipInstall: true, packageJson }, dependenciesToRemove);
