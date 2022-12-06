@@ -101,14 +101,13 @@ export const install: Task['run'] = async ({ sandboxDir, template }, { link, dry
     );
   }
 
-  const flags = template.expected.renderer === '@storybook/html' ? '--type html' : undefined;
+  const extra = template.expected.renderer === '@storybook/html' ? { type: 'html' } : {};
 
   await executeCLIStep(steps.init, {
     cwd,
-    optionValues: { debug, yes: true },
+    optionValues: { debug, yes: true, ...extra },
     dryRun,
     debug,
-    argument: flags,
   });
 
   const mainConfig = await readMainConfig({ cwd });

@@ -33,6 +33,7 @@ export const steps = {
     icon: '⚙️',
     options: createOptions({
       yes: { type: 'boolean', inverse: true },
+      type: { type: 'string' },
       debug: { type: 'boolean' },
     }),
   },
