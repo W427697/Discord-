@@ -26,7 +26,6 @@ const fixId = 'sveltekitFramework';
  * If so:
  * - Remove the dependencies (@storybook/svelte-vite, @storybook/builder-vite, storybook-builder-vite)
  * - Add the dependencies (@storybook/sveltekit)
- * - Update StorybookConfig type import (if it exists) from svelte-vite to sveltekit
  * - Update the main config to use the new framework
  */
 export const sveltekitFramework: Fix<SvelteKitFrameworkRunOptions> = {
