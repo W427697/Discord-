@@ -101,7 +101,14 @@ export const install: Task['run'] = async ({ sandboxDir, template }, { link, dry
     );
   }
 
-  await executeCLIStep(steps.init, { cwd, optionValues: { debug, yes: true }, dryRun, debug });
+  const extra = template.expected.renderer === '@storybook/html' ? { type: 'html' } : {};
+
+  await executeCLIStep(steps.init, {
+    cwd,
+    optionValues: { debug, yes: true, ...extra },
+    dryRun,
+    debug,
+  });
 
   const mainConfig = await readMainConfig({ cwd });
   // Enable or disable Storybook features
