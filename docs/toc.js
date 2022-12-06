@@ -377,6 +377,11 @@ module.exports = {
           title: 'Integration',
           type: 'menu',
           children: [
+           {
+              pathSegment: 'frameworks',
+              title: 'Frameworks',
+              type: 'link',
+            },
             {
               pathSegment: 'babel',
               title: 'Babel',
