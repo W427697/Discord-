@@ -1,7 +1,7 @@
 import type { Package } from 'update-notifier';
 import chalk from 'chalk';
 import prompts from 'prompts';
-import { telemetry } from '@storybook/telemetry';
+import { telemetry, getStorybookCoreVersion } from '@storybook/telemetry';
 import { withTelemetry } from '@storybook/core-server';
 
 import { installableProjectTypes, ProjectType } from './project_types';
@@ -274,10 +274,6 @@ async function doInitiate(options: CommandOptions, pkg: Package): Promise<void> 
   const welcomeMessage = 'storybook init - the simplest way to add a Storybook to your project.';
   logger.log(chalk.inverse(`\n ${welcomeMessage} \n`));
 
-  if (!options.disableTelemetry) {
-    telemetry('init', {}, { stripMetadata: true });
-  }
-
   // Update notify code.
   const { default: updateNotifier } = await import('update-notifier');
   updateNotifier({
@@ -325,6 +321,11 @@ async function doInitiate(options: CommandOptions, pkg: Package): Promise<void> 
 
   if (!options.skipInstall) {
     packageManager.installDependencies();
+  }
+
+  if (!options.disableTelemetry) {
+    const version = await getStorybookCoreVersion();
+    telemetry('init', { projectType, version });
   }
 
   await automigrate({ yes: options.yes || process.env.CI === 'true', useNpm, force: pkgMgr });
