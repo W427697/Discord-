@@ -1,7 +1,7 @@
 import type { Package } from 'update-notifier';
 import chalk from 'chalk';
 import prompts from 'prompts';
-import { telemetry, getStorybookCoreVersion } from '@storybook/telemetry';
+import { telemetry } from '@storybook/telemetry';
 import { withTelemetry } from '@storybook/core-server';
 
 import { installableProjectTypes, ProjectType } from './project_types';
@@ -324,8 +324,7 @@ async function doInitiate(options: CommandOptions, pkg: Package): Promise<void> 
   }
 
   if (!options.disableTelemetry) {
-    const version = await getStorybookCoreVersion();
-    telemetry('init', { projectType, version });
+    telemetry('init', { projectType });
   }
 
   await automigrate({ yes: options.yes || process.env.CI === 'true', useNpm, force: pkgMgr });
