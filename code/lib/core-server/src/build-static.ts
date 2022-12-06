@@ -5,7 +5,7 @@ import { dedent } from 'ts-dedent';
 import global from 'global';
 
 import { logger } from '@storybook/node-logger';
-import { telemetry, getPrecedingUpgrade } from '@storybook/telemetry';
+import { telemetry } from '@storybook/telemetry';
 import type {
   BuilderOptions,
   CLIOptions,
@@ -173,14 +173,11 @@ export async function buildStaticStandalone(
     effects.push(
       initializedStoryIndexGenerator.then(async (generator) => {
         const storyIndex = await generator?.getIndex();
-        const payload = {
-          precedingUpgrade: await getPrecedingUpgrade('build'),
-        };
-        if (storyIndex) {
-          Object.assign(payload, {
-            storyIndex: summarizeIndex(storyIndex),
-          });
-        }
+        const payload = storyIndex
+          ? {
+              storyIndex: summarizeIndex(storyIndex),
+            }
+          : undefined;
         await telemetry('build', payload, { configDir: options.configDir });
       })
     );

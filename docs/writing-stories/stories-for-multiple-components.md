@@ -16,6 +16,8 @@ It's useful to write stories that [render two or more components](../writing-sto
     'vue/list-story-with-sub-components.3.js.mdx',
     'vue/list-story-with-sub-components.ts-3.ts.mdx',
   ]}
+  usesCsf3
+  csf2Path="writing-stories/stories-for-multiple-components#snippet-list-story-with-subcomponents"
 />
 
 <!-- prettier-ignore-end -->
@@ -49,6 +51,8 @@ The simplest change we can make to the above is to reuse the stories of the `Lis
     'web-components/list-story-unchecked.js.mdx',
     'web-components/list-story-unchecked.ts.mdx',
   ]}
+  usesCsf3
+  csf2Path="writing-stories/stories-for-multiple-components#snippet-list-story-unchecked"
 />
 
 <!-- prettier-ignore-end -->
@@ -68,6 +72,8 @@ One way we improve that situation is by pulling the rendered subcomponent out in
     'react/list-story-with-unchecked-children.js.mdx',
     'react/list-story-with-unchecked-children.ts.mdx',
   ]}
+  usesCsf3
+  csf2Path="writing-stories/stories-for-multiple-components#snippet-list-story-with-unchecked-children"
 />
 
 <!-- prettier-ignore-end -->
@@ -105,6 +111,8 @@ Another option that is more “data”-based is to create a special “story-gen
     'vue/list-story-template.ts-3.ts.mdx',
     'angular/list-story-template.ts.mdx',
   ]}
+  usesCsf3
+  csf2Path="writing-stories/stories-for-multiple-components#snippet-list-story-template"
 />
 
 <!-- prettier-ignore-end -->
