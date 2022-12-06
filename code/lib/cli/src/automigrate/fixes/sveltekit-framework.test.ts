@@ -121,7 +121,7 @@ describe('SvelteKit framework fix', () => {
         `);
       });
 
-      it('with @storybook/svelte-webpack5 framework should warn', async () => {
+      it('with @storybook/svelte-webpack5 framework', async () => {
         const packageJson = {
           dependencies: {
             '@storybook/svelte': '^7.0.0',

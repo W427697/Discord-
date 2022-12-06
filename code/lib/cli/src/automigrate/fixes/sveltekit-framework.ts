@@ -147,10 +147,6 @@ export const sveltekitFramework: Fix<SvelteKitFrameworkRunOptions> = {
     packageManager,
     dryRun,
   }) {
-    // TODO: handle 6.5
-    // - remove core.builder configuration
-    // - remove svelteOptions config?
-    // - does the svelte framework even support options?
     logger.info(`✅ Removing redundant packages: ${dependenciesToRemove.join(', ')}`);
     if (!dryRun) {
       packageManager.removeDependencies({ skipInstall: true, packageJson }, dependenciesToRemove);
@@ -165,14 +161,27 @@ export const sveltekitFramework: Fix<SvelteKitFrameworkRunOptions> = {
     }
 
     logger.info(`✅ Updating framework field in main.js`);
-    if (!dryRun) {
-      if (frameworkOptions) {
-        main.setFieldValue(['framework', 'options'], frameworkOptions);
-        main.setFieldValue(['framework', 'name'], '@storybook/sveltekit');
-      } else {
-        main.setFieldValue(['framework'], '@storybook/sveltekit');
-      }
+    if (frameworkOptions) {
+      main.setFieldValue(['framework', 'options'], frameworkOptions);
+      main.setFieldValue(['framework', 'name'], '@storybook/sveltekit');
+    } else {
+      main.setFieldValue(['framework'], '@storybook/sveltekit');
+    }
 
+    const core = main.getFieldValue(['core']);
+    if (core.builder) {
+      logger.info(`✅ Updating core field in main.js`);
+      delete core.builder;
+
+      if (Object.keys(core).length === 0) {
+        // TODO: this should delete the field instead
+        main.setFieldValue(['core'], {});
+      } else {
+        main.setFieldValue(['core'], core);
+      }
+    }
+
+    if (!dryRun) {
       await writeConfig(main);
     }
   },
