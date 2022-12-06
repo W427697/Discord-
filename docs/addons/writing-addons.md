@@ -201,6 +201,8 @@ When Storybook was initialized, it provided a small set of example stories. Chan
     'angular/button-story-with-addon-example.ts.mdx',
     'svelte/button-story-with-addon-example.js.mdx',
   ]}
+  usesCsf3
+  csf2Path="addons/writing-addons#snippet-button-story-with-addon-example"
 />
 
 <!-- prettier-ignore-end -->

@@ -11,7 +11,7 @@ import type {
 
 import { normalizeStories, logConfig } from '@storybook/core-common';
 
-import { telemetry, getPrecedingUpgrade } from '@storybook/telemetry';
+import { telemetry } from '@storybook/telemetry';
 import { getMiddleware } from './utils/middleware';
 import { getServerAddresses } from './utils/server-address';
 import { getServer } from './utils/server-init';
@@ -156,16 +156,12 @@ async function doTelemetry(
     initializedStoryIndexGenerator.then(async (generator) => {
       const storyIndex = await generator?.getIndex();
       const { versionCheck, versionUpdates } = options;
-      const payload = {
-        precedingUpgrade: await getPrecedingUpgrade('dev'),
-      };
-      if (storyIndex) {
-        Object.assign(payload, {
-          versionStatus: versionUpdates ? versionStatus(versionCheck) : 'disabled',
-          storyIndex: summarizeIndex(storyIndex),
-        });
-      }
-
+      const payload = storyIndex
+        ? {
+            versionStatus: versionUpdates ? versionStatus(versionCheck) : 'disabled',
+            storyIndex: summarizeIndex(storyIndex),
+          }
+        : undefined;
       telemetry('dev', payload, { configDir: options.configDir });
     });
   }

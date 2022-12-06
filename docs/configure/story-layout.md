@@ -52,6 +52,8 @@ Or even apply it to specific stories like so:
     'common/storybook-story-layout-param.js.mdx',
     'common/storybook-story-layout-param.ts.mdx',
   ]}
+  usesCsf3
+  csf2Path="configure/story-layout#snippet-storybook-story-layout-param"
 />
 
 <!-- prettier-ignore-end -->
