@@ -6,7 +6,7 @@ const TELEMETRY_KEY_NOTIFY_DATE = 'telemetry-notification-date';
 const logger = console;
 
 export const notify = async () => {
-  const telemetryNotifyDate = await cache.get(TELEMETRY_KEY_NOTIFY_DATE, null);
+  const telemetryNotifyDate = await cache.get(TELEMETRY_KEY_NOTIFY_DATE, null).catch(() => null);
   // The end-user has already been notified about our telemetry integration. We
   // don't need to constantly annoy them about it.
   // We will re-inform users about the telemetry if significant changes are

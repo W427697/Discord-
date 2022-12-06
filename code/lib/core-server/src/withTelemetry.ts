@@ -47,7 +47,8 @@ async function shouldSendError({ cliOptions, presetOptions }: TelemetryOptions) 
 
   // Deal with typo, remove in future version (7.1?)
   const valueFromCache =
-    (await cache.get('enableCrashReports')) ?? (await cache.get('enableCrashreports'));
+    (await cache.get('enableCrashReports').catch(() => null)) ??
+    (await cache.get('enableCrashreports').catch(() => null));
   if (valueFromCache !== undefined) return valueFromCache;
 
   const valueFromPrompt = await promptCrashReports();

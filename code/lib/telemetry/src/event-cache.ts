@@ -2,13 +2,13 @@ import { cache } from '@storybook/core-common';
 import type { EventType } from './types';
 
 export const set = async (eventType: EventType, body: any) => {
-  const lastEvents = (await cache.get('lastEvents')) || {};
+  const lastEvents = (await cache.get('lastEvents')).catch(() => null) || {};
   lastEvents[eventType] = { body, timestamp: Date.now() };
   await cache.set('lastEvents', lastEvents);
 };
 
 export const get = async (eventType: EventType) => {
-  const lastEvents = await cache.get('lastEvents');
+  const lastEvents = await cache.get('lastEvents').catch(() => null);
   return lastEvents?.[eventType];
 };
 
@@ -23,7 +23,7 @@ const upgradeFields = (event: any) => {
 };
 
 export const getPrecedingUpgrade = async (eventType: EventType, events: any = undefined) => {
-  const lastEvents = events || (await cache.get('lastEvents'));
+  const lastEvents = events || (await cache.get('lastEvents')).catch(() => null);
   const init = lastEvents?.init;
   let precedingUpgrade = init;
   const upgrade = lastEvents?.upgrade;

@@ -12,7 +12,9 @@ export const updateCheck = async (version: string): Promise<VersionCheck> => {
   let result;
   const time = Date.now();
   try {
-    const fromCache = await cache.get('lastUpdateCheck', { success: false, time: 0 });
+    const fromCache = await cache
+      .get('lastUpdateCheck', { success: false, time: 0 })
+      .catch(() => ({ time: 0, success: false }));
 
     // if last check was more then 24h ago
     if (time - 86400000 > fromCache.time && !CI) {
