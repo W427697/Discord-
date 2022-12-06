@@ -3,6 +3,7 @@
 - [From version 6.5.x to 7.0.0](#from-version-65x-to-700)
   - [Alpha release notes](#alpha-release-notes)
   - [7.0 breaking changes](#70-breaking-changes)
+    - [Postcss removed](#postcss-removed)
     - [Vue3 replaced app export with setup](#vue3-replaced-app-export-with-setup)
     - [removed auto injection of @storybook/addon-actions decorator](#removed-auto-injection-of-storybookaddon-actions-decorator)
     - [register.js removed](#registerjs-removed)
@@ -23,6 +24,7 @@
     - [CLI option `--use-npm` deprecated](#cli-option---use-npm-deprecated)
     - [Vite builder uses vite config automatically](#vite-builder-uses-vite-config-automatically)
     - [Vite cache moved to node\_modules/.cache/.vite-storybook](#vite-cache-moved-to-node_modulescachevite-storybook)
+    - [SvelteKit needs the `@storybook/sveltekit` framework](#sveltekit-needs-the-storybooksveltekit-framework)
     - [Removed docs.getContainer and getPage parameters](#removed-docsgetcontainer-and-getpage-parameters)
     - [Removed STORYBOOK\_REACT\_CLASSES global](#removed-storybook_react_classes-global)
     - [Icons API changed](#icons-api-changed)
@@ -262,6 +264,10 @@ In the meantime, these migration notes are the best available documentation on t
 
 ### 7.0 breaking changes
 
+#### Postcss removed
+
+Storybook 6.x installed postcss by default. In 7.0 built-in support has been removed. IF you need it, you can add it back using [`@storybook/addon-postcss`](https://github.com/storybookjs/addon-postcss).
+
 #### Vue3 replaced app export with setup
 
 In 6.x `@storybook/vue3` exported a Vue application instance called `app`. In 7.0, this has been replaced by a `setup` function that can be used to initialize the application in your `.storybook/preview.js`:
@@ -477,6 +483,7 @@ In 7.0, frameworks also specify the builder to be used. For example, The current
 - `@storybook/server-webpack5`
 - `@storybook/svelte-webpack5`
 - `@storybook/svelte-vite`
+- `@storybook/sveltekit`
 - `@storybook/vue-webpack5`
 - `@storybook/vue-vite`
 - `@storybook/vue3-webpack5`
@@ -575,6 +582,17 @@ If you were using `viteFinal` in 6.5 to simply merge in your project's standard 
 #### Vite cache moved to node_modules/.cache/.vite-storybook
 
 Previously, Storybook's Vite builder placed cache files in node_modules/.vite-storybook. However, it's more common for tools to place cached files into `node_modules/.cache`, and putting them there makes it quick and easy to clear the cache for multiple tools at once. We don't expect this change will cause any problems, but it's something that users of Storybook Vite projects should know about. It can be configured by setting `cacheDir` in `viteFinal` within `.storybook/main.js` [Storybook Vite configuration docs](https://storybook.js.org/docs/react/builders/vite#configuration)).
+
+#### SvelteKit needs the `@storybook/sveltekit` framework
+
+SvelteKit projects need to use the `@storybook/sveltekit` framework in the `main.js` file. Previously it was enough to just setup Storybook with Svelte+Vite, but that is no longer the case.
+
+```js
+// .storybook/main.js
+export default {
+  framework: '@storybook/sveltekit',
+};
+```
 
 #### Removed docs.getContainer and getPage parameters
 

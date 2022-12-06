@@ -20,7 +20,6 @@ const config = {
     channelOptions: { allowFunction: false, maxDepth: 10 },
   },
   features: {
-    postcss: false,
     storyStoreV7: !global.navigator?.userAgent?.match?.('jsdom'),
     buildStoriesJson: true,
     babelModeV7: true,
