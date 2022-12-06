@@ -54,9 +54,7 @@
     "@storybook/core-common": "7.0.0-alpha.58",
     "@storybook/preset-vue3-webpack": "7.0.0-alpha.58",
     "@storybook/vue3": "7.0.0-alpha.58",
-    "@types/node": "^16.0.0",
-    "react": "16.14.0",
-    "react-dom": "16.14.0"
+    "@types/node": "^16.0.0"
   },
   "devDependencies": {
     "@vue/compiler-sfc": "3.0.0",
@@ -67,6 +65,8 @@
     "@babel/core": "*",
     "@vue/compiler-sfc": "^3.0.0",
     "babel-loader": "^7.0.0 || ^8.0.0",
+    "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
+    "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0",
     "vue": "^3.0.0"
   },
   "engines": {

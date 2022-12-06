@@ -60,8 +60,6 @@
     "@storybook/preview-api": "7.0.0-alpha.58",
     "@storybook/types": "7.0.0-alpha.58",
     "global": "^4.4.0",
-    "react": "16.14.0",
-    "react-dom": "16.14.0",
     "ts-dedent": "^2.0.0"
   },
   "devDependencies": {

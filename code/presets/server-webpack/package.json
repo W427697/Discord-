@@ -60,8 +60,6 @@
     "@storybook/server": "7.0.0-alpha.58",
     "@types/node": "^16.0.0",
     "global": "^4.4.0",
-    "react": "16.14.0",
-    "react-dom": "16.14.0",
     "safe-identifier": "^0.4.1",
     "ts-dedent": "^2.0.0",
     "yaml-loader": "^0.8.0"

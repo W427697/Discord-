@@ -54,9 +54,7 @@
     "@storybook/core-common": "7.0.0-alpha.58",
     "@storybook/preact": "7.0.0-alpha.58",
     "@storybook/preset-preact-webpack": "7.0.0-alpha.58",
-    "@types/node": "^16.0.0",
-    "react": "16.14.0",
-    "react-dom": "16.14.0"
+    "@types/node": "^16.0.0"
   },
   "devDependencies": {
     "preact": "^10.5.13",
@@ -64,7 +62,9 @@
   },
   "peerDependencies": {
     "@babel/core": "*",
-    "preact": "^8.0.0||^10.0.0"
+    "preact": "^8.0.0||^10.0.0",
+    "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
+    "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0"
   },
   "engines": {
     "node": ">=10.13.0"
