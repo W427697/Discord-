@@ -17,10 +17,14 @@ Afterward, you can use any asset in your stories:
     'react/component-story-static-asset-with-import.js.mdx',
     'react/component-story-static-asset-with-import.ts.mdx',
     'vue/component-story-static-asset-with-import.2.js.mdx',
+    'vue/component-story-static-asset-with-import.ts-2.ts.mdx',
     'vue/component-story-static-asset-with-import.3.js.mdx',
+    'vue/component-story-static-asset-with-import.ts-3.ts.mdx',
     'angular/component-story-static-asset-with-import.ts.mdx',
     'svelte/component-story-static-asset-with-import.js.mdx',
   ]}
+  usesCsf3
+  csf2Path="configure/images-and-assets#snippet-component-story-static-asset-with-import"
 />
 
 <!-- prettier-ignore-end -->
@@ -50,9 +54,12 @@ Here `../public` is your static directory. Now use it in a component or story li
     'react/component-story-static-asset-without-import.js.mdx',
     'react/component-story-static-asset-without-import.ts.mdx',
     'vue/component-story-static-asset-without-import.js.mdx',
+    'vue/component-story-static-asset-without-import.ts.mdx',
     'angular/component-story-static-asset-without-import.ts.mdx',
     'svelte/component-story-static-asset-without-import.js.mdx',
   ]}
+  usesCsf3
+  csf2Path="configure/images-and-assets#snippet-component-story-static-asset-without-import"
 />
 
 <!-- prettier-ignore-end -->
@@ -96,9 +103,12 @@ Upload your files to an online CDN and reference them. In this example, we’re 
     'react/component-story-static-asset-cdn.js.mdx',
     'react/component-story-static-asset-cdn.ts.mdx',
     'vue/component-story-static-asset-cdn.js.mdx',
+    'vue/component-story-static-asset-cdn.ts.mdx',
     'angular/component-story-static-asset-cdn.ts.mdx',
     'svelte/component-story-static-asset-cdn.js.mdx',
   ]}
+  usesCsf3
+  csf2Path="configure/images-and-assets#snippet-component-story-static-asset-cdn"
 />
 
 <!-- prettier-ignore-end -->

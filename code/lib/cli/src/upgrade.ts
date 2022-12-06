@@ -136,6 +136,7 @@ export const addExtraFlags = (
 };
 
 export interface UpgradeOptions {
+  tag: string;
   prerelease: boolean;
   skipCheck: boolean;
   useNpm: boolean;
@@ -146,6 +147,7 @@ export interface UpgradeOptions {
 }
 
 export const doUpgrade = async ({
+  tag,
   prerelease,
   skipCheck,
   useNpm,
@@ -163,10 +165,23 @@ export const doUpgrade = async ({
 
   commandLog(`Checking for latest versions of '@storybook/*' packages`);
 
+  if (tag && prerelease) {
+    throw new Error(
+      `Cannot set both --tag and --prerelease. Use --tag next to get the latest prereleae`
+    );
+  }
+
+  let target = 'latest';
+  if (prerelease) {
+    target = 'greatest';
+  } else if (tag) {
+    target = `@${tag}`;
+  }
+
   let flags = [];
   if (!dryRun) flags.push('--upgrade');
   flags.push('--target');
-  flags.push(prerelease ? 'greatest' : 'latest');
+  flags.push(target);
   flags = addExtraFlags(EXTRA_FLAGS, flags, packageManager.retrievePackageJson());
   const check = spawnSync('npx', ['npm-check-updates@latest', '/storybook/', ...flags], {
     stdio: 'pipe',
@@ -187,7 +202,7 @@ export const doUpgrade = async ({
 
   if (!options.disableTelemetry) {
     const afterVersion = await getStorybookCoreVersion();
-    telemetry('upgrade', { prerelease, automigrationResults, beforeVersion, afterVersion });
+    telemetry('upgrade', { prerelease, tag, automigrationResults, beforeVersion, afterVersion });
   }
 };
 

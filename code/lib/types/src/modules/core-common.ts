@@ -283,11 +283,6 @@ export interface StorybookConfig {
   logLevel?: string;
   features?: {
     /**
-     * Allows to disable deprecated implicit PostCSS loader. (will be removed in 7.0)
-     */
-    postcss?: boolean;
-
-    /**
      * Build stories.json automatically on start/build
      */
     buildStoriesJson?: boolean;
