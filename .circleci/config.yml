@@ -160,7 +160,7 @@ jobs:
           name: set up cra repro, skip tests
           command: |
             cd code
-            SANDBOX_ROOT=../bench yarn task --task sandbox --template cra/default-ts --skip-template-stories --start-from=auto  --no-link
+            SANDBOX_ROOT=../bench yarn task --task sandbox --template cra/default-ts --skip-template-stories --start-from=never  --no-link
       - run:
           name: Run @storybook/bench on repro
           command: |
@@ -201,7 +201,7 @@ jobs:
           name: set up react-vite repro, skip tests
           command: |
             cd code
-            SANDBOX_ROOT=../bench yarn task --task sandbox --template react-vite/default-ts --skip-template-stories --start-from=auto  --no-link
+            SANDBOX_ROOT=../bench yarn task --task sandbox --template react-vite/default-ts --skip-template-stories --start-from=never  --no-link
       - run:
           name: Run @storybook/bench on repro
           command: |
@@ -339,7 +339,7 @@ jobs:
           at: .
       - run:
           name: Creating Sandboxes
-          command: yarn task --task sandbox --template $(yarn get-template << pipeline.parameters.workflow >> sandbox) --no-link --start-from=auto --junit
+          command: yarn task --task sandbox --template $(yarn get-template << pipeline.parameters.workflow >> sandbox) --no-link --start-from=never --junit
       - report-workflow-on-failure:
           template: $(yarn get-template << pipeline.parameters.workflow >> sandbox)
       - persist_to_workspace:

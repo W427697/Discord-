@@ -27,7 +27,7 @@ export type Template = {
    */
   skipTasks?: SkippableTask[];
   /**
-   * Set this only while developing a newly created framework, to ensure when generating it uses locally generated repro with @storybook/cli.
+   * Set this only while developing a newly created framework, to avoid using it in CI.
    * NOTE: Make sure to always add a TODO comment to remove this flag in a subsequent PR.
    */
   inDevelopment?: boolean;
