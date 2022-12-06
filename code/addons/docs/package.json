@@ -51,7 +51,7 @@
       "import": "./dist/preset.mjs",
       "types": "./dist/preset.d.ts"
     },
-    "./dist/mdx-react-shim": {
+    "./dist/shims/mdx-react-shim": {
       "require": "./dist/shims/mdx-react-shim.js",
       "import": "./dist/shims/mdx-react-shim.mjs",
       "types": "./dist/shims/mdx-react-shim.d.ts"
