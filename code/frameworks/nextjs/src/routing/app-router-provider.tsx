@@ -14,22 +14,22 @@ const AppRouterProvider: React.FC<AppRouterProviderProps> = ({ children, action,
     <AppRouterContext.Provider
       value={{
         push(...args) {
-          action('nextRouter.push')(...args);
+          action('nextNavigation.push')(...args);
         },
         replace(...args) {
-          action('nextRouter.replace')(...args);
+          action('nextNavigation.replace')(...args);
         },
         forward(...args) {
-          action('nextRouter.forward')(...args);
+          action('nextNavigation.forward')(...args);
         },
         back(...args) {
-          action('nextRouter.back')(...args);
+          action('nextNavigation.back')(...args);
         },
         prefetch(...args) {
-          action('nextRouter.prefetch')(...args);
+          action('nextNavigation.prefetch')(...args);
         },
         refresh: () => {
-          action('nextRouter.refresh')();
+          action('nextNavigation.refresh')();
         },
         ...restRouteParams,
       }}
