@@ -1,3 +1,4 @@
+import mockedGlobal from 'global';
 import { getQueryParams, getQueryParam } from './queryparams';
 
 // Mock the global module to control the value of the global object
@@ -13,8 +14,7 @@ describe('query-params', () => {
   describe('getQueryParams', () => {
     it('should parse query parameters from the document location search string', () => {
       // Set up the global mock object with a mocked document.location.search property
-      global.document = {
-        // @ts-expect-error (not a valid location object)
+      mockedGlobal.document = {
         location: {
           search: '?foo=bar&baz=qux',
         },
@@ -29,8 +29,7 @@ describe('query-params', () => {
 
     it('should return an empty object if the document location search string is not defined', () => {
       // Set up the global mock object with a mocked document.location object that does not have a search property
-      global.document = {
-        // @ts-expect-error (not a valid location object)
+      mockedGlobal.document = {
         location: {},
       };
 
@@ -42,8 +41,7 @@ describe('query-params', () => {
   describe('getQueryParam', () => {
     it('should return the value of a specific query parameter with the specified key', () => {
       // Set up the global mock object with a mocked document.location.search property
-      global.document = {
-        // @ts-expect-error (not a valid location object)
+      mockedGlobal.document = {
         location: {
           search: '?foo=bar&baz=qux',
         },
@@ -56,8 +54,7 @@ describe('query-params', () => {
 
     it('should return undefined if the specified query parameter does not exist', () => {
       // Set up the global mock object with a mocked document.location.search property
-      global.document = {
-        // @ts-expect-error (not a valid location object)
+      mockedGlobal.document = {
         location: {
           search: '?foo=bar&baz=qux',
         },
