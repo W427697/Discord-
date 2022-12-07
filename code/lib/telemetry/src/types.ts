@@ -49,7 +49,6 @@ export type StorybookMetadata = {
   hasStaticDirs?: boolean;
   hasCustomWebpack?: boolean;
   hasCustomBabel?: boolean;
-  hasChromatic?: boolean;
   features?: StorybookConfig['features'];
   refCount?: number;
 };
