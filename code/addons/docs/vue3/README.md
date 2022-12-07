@@ -140,7 +140,7 @@ However, you can render stories in an iframe, with a default height of `60px` (c
 To do so for all stories, update `.storybook/preview.js`:
 
 ```js
-export const parameters = { docs: { inlineStories: true } };
+export const parameters = { docs: { inlineStories: false } };
 ```
 
 ## More resources
