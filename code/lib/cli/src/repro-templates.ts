@@ -1,6 +1,10 @@
+import type { StorybookConfig } from '@storybook/types';
+import { satisfies } from '@storybook/core-common';
+
 export type SkippableTask = 'smoke-test' | 'test-runner' | 'chromatic' | 'e2e-tests';
-export type TemplateKey = keyof typeof allTemplates;
+export type TemplateKey = keyof typeof baseTemplates | keyof typeof extendedTemplates;
 export type Cadence = keyof typeof templatesByCadence;
+
 export type Template = {
   /**
    * Readable name for the template, which will be used for feedback and the status page
@@ -31,9 +35,10 @@ export type Template = {
    * NOTE: Make sure to always add a TODO comment to remove this flag in a subsequent PR.
    */
   inDevelopment?: boolean;
+  mainConfig?: Partial<StorybookConfig>;
 };
 
-export const allTemplates: Record<string, Template> = {
+const baseTemplates = satisfies<Record<string, Template>>()({
   'cra/default-js': {
     name: 'Create React App (Javascript)',
     script: 'npx create-react-app .',
@@ -54,15 +59,6 @@ export const allTemplates: Record<string, Template> = {
       framework: '@storybook/react-webpack5',
       renderer: '@storybook/react',
       builder: '@storybook/builder-webpack5',
-    },
-  },
-  'cra/ssv6-default-ts': {
-    name: 'Create React App (Typescript, StoryStore v6)',
-    extends: 'cra/default-ts',
-    mainConfig: {
-      features: {
-        storyStoreV7: false,
-      },
     },
   },
   'nextjs/12-js': {
@@ -332,6 +328,24 @@ export const allTemplates: Record<string, Template> = {
       builder: '@storybook/builder-webpack5',
     },
   },
+});
+
+const extendedTemplates = satisfies<Record<string, Template>>()({
+  'nextjs/ssv6-default-ts': {
+    ...baseTemplates['nextjs/default-ts'],
+    inDevelopment: true,
+    name: 'Next (Typescript, StoryStore v6)',
+    mainConfig: {
+      features: {
+        storyStoreV7: false,
+      },
+    },
+  },
+});
+
+export const allTemplates: Record<TemplateKey, Template> = {
+  ...baseTemplates,
+  ...extendedTemplates,
 };
 
 export const ci: TemplateKey[] = ['cra/default-ts', 'react-vite/default-ts'];

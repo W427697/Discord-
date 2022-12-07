@@ -39,8 +39,6 @@ export type Path = string;
 export type TemplateDetails = {
   key: TemplateKey;
   template: Template;
-  keyExtends?: TemplateKey;
-  templateExtends?: Template;
   codeDir: Path;
   sandboxDir: Path;
   builtSandboxDir: Path;
@@ -317,15 +315,11 @@ async function run() {
   const finalTask = tasks[taskKey];
   const { template: templateKey } = optionValues;
   const template = TEMPLATES[templateKey];
-  const keyExtends: TemplateKey | null =
-    'extends' in template ? (template.extends as TemplateKey) : null;
-  const templateExtends = keyExtends && TEMPLATES[keyExtends as TemplateKey];
+
   const templateSandboxDir = templateKey && join(sandboxDir, templateKey.replace('/', '-'));
   const details = {
     key: templateKey,
     template,
-    keyExtends,
-    templateExtends,
     codeDir,
     sandboxDir: templateSandboxDir,
     builtSandboxDir: templateKey && join(templateSandboxDir, 'storybook-static'),

@@ -30,7 +30,6 @@ export const reproNext = async ({
   // get value from template and reduce through TEMPLATES to filter out the correct template
   const choices = keys.reduce<Choice[]>((acc, group) => {
     const current = TEMPLATES[group];
-    const extended = current.extends && TEMPLATES[current.extends];
 
     const filterRegex = new RegExp(filterValue, 'i');
     if (!filterValue) {
@@ -38,13 +37,12 @@ export const reproNext = async ({
       return acc;
     }
 
-    const { expected } = extended || current;
     if (
       current.name.match(filterRegex) ||
       group.match(filterRegex) ||
-      expected.builder.match(filterRegex) ||
-      expected.framework.match(filterRegex) ||
-      expected.renderer.match(filterRegex)
+      current.expected.builder.match(filterRegex) ||
+      current.expected.framework.match(filterRegex) ||
+      current.expected.renderer.match(filterRegex)
     ) {
       acc.push(group);
       return acc;
