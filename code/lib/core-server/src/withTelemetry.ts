@@ -1,7 +1,7 @@
 import prompts from 'prompts';
 import type { CLIOptions, CoreConfig } from '@storybook/types';
 import { loadAllPresets, cache } from '@storybook/core-common';
-import { telemetry } from '@storybook/telemetry';
+import { telemetry, getPrecedingUpgrade } from '@storybook/telemetry';
 import type { EventType } from '@storybook/telemetry';
 
 type TelemetryOptions = {
@@ -26,7 +26,7 @@ const promptCrashReports = async () => {
   return enableCrashReports;
 };
 
-async function shouldSendError({ cliOptions, presetOptions }: TelemetryOptions) {
+async function shouldSendFullError({ cliOptions, presetOptions }: TelemetryOptions) {
   if (cliOptions?.disableTelemetry) return false;
 
   // If we are running init or similar, we just have to go with true here
@@ -67,17 +67,18 @@ export async function withTelemetry(
     await run();
   } catch (error) {
     try {
-      if (await shouldSendError(options)) {
-        await telemetry(
-          'error',
-          { eventType, error },
-          {
-            immediate: true,
-            configDir: options.cliOptions?.configDir || options.presetOptions?.configDir,
-            enableCrashReports: true,
-          }
-        );
-      }
+      const enableCrashReports = await shouldSendFullError(options);
+      const precedingUpgrade = await getPrecedingUpgrade();
+
+      await telemetry(
+        'error',
+        { eventType, precedingUpgrade, error: enableCrashReports ? error : undefined },
+        {
+          immediate: true,
+          configDir: options.cliOptions?.configDir || options.presetOptions?.configDir,
+          enableCrashReports,
+        }
+      );
     } catch (err) {
       // if this throws an error, we just move on
     }
