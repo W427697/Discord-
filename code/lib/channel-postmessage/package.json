@@ -1,6 +1,6 @@
 {
   "name": "@storybook/channel-postmessage",
-  "version": "7.0.0-alpha.59",
+  "version": "7.0.0-alpha.60",
   "description": "",
   "keywords": [
     "storybook"
@@ -42,9 +42,9 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/channels": "7.0.0-alpha.59",
-    "@storybook/client-logger": "7.0.0-alpha.59",
-    "@storybook/core-events": "7.0.0-alpha.59",
+    "@storybook/channels": "7.0.0-alpha.60",
+    "@storybook/client-logger": "7.0.0-alpha.60",
+    "@storybook/core-events": "7.0.0-alpha.60",
     "global": "^4.4.0",
     "qs": "^6.10.0",
     "telejson": "^7.0.3"
