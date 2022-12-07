@@ -140,8 +140,8 @@ export async function storybookDevServer(options: Options) {
       });
   }
 
-  app.use('iframe.html', (req, res, next) => {
-    previewStarted.then(() => next());
+  router.get('/iframe.html', (req, res, next) => {
+    previewStarted.then(next);
   });
 
   Promise.all([initializedStoryIndexGenerator, listening, usingStatics]).then(async () => {
