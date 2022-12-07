@@ -38,7 +38,7 @@
   "types": "dist/index.d.ts",
   "files": [
     "dist/**/*",
-    "types/**/*",
+    "template/**/*",
     "README.md",
     "*.js",
     "*.d.ts"

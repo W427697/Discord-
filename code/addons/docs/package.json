@@ -87,8 +87,7 @@
     "lit/**/*",
     "README.md",
     "*.js",
-    "*.d.ts",
-    "!__testfixtures__"
+    "*.d.ts"
   ],
   "scripts": {
     "check": "../../../scripts/node_modules/.bin/tsc --noEmit",

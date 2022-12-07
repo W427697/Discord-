@@ -39,7 +39,6 @@
   "files": [
     "dist/**/*",
     "template/**/*",
-    "types/**/*",
     "README.md",
     "*.js",
     "*.d.ts"
