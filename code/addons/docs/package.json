@@ -135,7 +135,7 @@
       "./src/shims/mdx-react-shim.ts"
     ]
   },
-  "gitHead": "ec1df6fe1b11ad6084b9f3ea4b5f6bee3fca58be",
+  "gitHead": "27a91217b1e30d56af667a4e1f587ed1ac173e70",
   "storybook": {
     "displayName": "Docs",
     "icon": "https://user-images.githubusercontent.com/263385/101991672-48355c80-3c7c-11eb-82d9-95fa12438f64.png",
