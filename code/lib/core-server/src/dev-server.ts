@@ -85,6 +85,7 @@ export async function storybookDevServer(options: Options) {
   const usingStatics = useStatics(router, options);
 
   getMiddleware(options.configDir)(router);
+
   app.use(router);
 
   const { port, host } = options;
@@ -115,16 +116,10 @@ export async function storybookDevServer(options: Options) {
     channel: serverChannel,
   });
 
-  Promise.all([initializedStoryIndexGenerator, listening, usingStatics]).then(async () => {
-    if (!options.ci && !options.smokeTest && options.open) {
-      openInBrowser(host ? networkAddress : address);
-    }
-  });
-
-  let previewResult;
+  let previewStarted: Promise<any> = Promise.resolve();
 
   if (!options.ignorePreview) {
-    previewResult = await previewBuilder
+    previewStarted = previewBuilder
       .start({
         startTime: process.hrtime(),
         options,
@@ -145,7 +140,17 @@ export async function storybookDevServer(options: Options) {
       });
   }
 
-  return { previewResult, managerResult, address, networkAddress };
+  app.use('iframe.html', (req, res, next) => {
+    previewStarted.then(() => next());
+  });
+
+  Promise.all([initializedStoryIndexGenerator, listening, usingStatics]).then(async () => {
+    if (!options.ci && !options.smokeTest && options.open) {
+      openInBrowser(host ? networkAddress : address);
+    }
+  });
+
+  return { previewResult: await previewStarted, managerResult, address, networkAddress };
 }
 async function doTelemetry(
   core: CoreConfig,
