@@ -217,6 +217,55 @@ The parameter `nextjs.appDirectory` defaults to `false` if not set.
 
 Please consider, that parameters are not deep merged. If you set `nextjs.appDirectory` to `true` in the [preview.js](https://storybook.js.org/docs/react/configure/overview#configure-story-rendering) file, you need to set it as well in your story, as soon as you want to set other options on the nextjs parameter.
 
+#### Overriding defaults
+
+Per-story overrides can be done by adding a `nextjs.navigation` property onto the story [parameters](https://storybook.js.org/docs/react/writing-stories/parameters). The framework will shallowly merge whatever you put here into the router.
+
+```js
+// SomeComponentThatUsesTheNavigation.stories.js
+import SomeComponentThatUsesTheNavigation from './SomeComponentThatUsesTheNavigation';
+
+export default {
+  component: SomeComponentThatUsesTheNavigation,
+};
+
+// if you have the actions addon
+// you can click the links and see the route change events there
+export const Example = {
+  parameters: {
+    nextjs: {
+      appDirectory: true,
+      navigation: {
+        pathname: '/some-default-path',
+        query: {
+          foo: 'bar',
+        },
+      },
+    },
+  },
+};
+```
+
+#### Global Defaults
+
+Global defaults can be set in [preview.js](https://storybook.js.org/docs/react/configure/overview#configure-story-rendering) and will be shallowly merged with the default router.
+
+```js
+// .storybook/preview.js
+
+export const parameters = {
+  nextjs: {
+    appDirectory: true,
+    navigation: {
+      pathname: '/some-default-path',
+      query: {
+        foo: 'bar',
+      },
+    },
+  },
+};
+```
+
 #### Default Navigation Context
 
 The default values on the stubbed navigation context are as follows:
@@ -243,26 +292,6 @@ const defaultNavigationContext = {
   },
   pathname: '/',
   query: {},
-};
-```
-
-#### Global Defaults
-
-Global defaults can be set in [preview.js](https://storybook.js.org/docs/react/configure/overview#configure-story-rendering) and will be shallowly merged with the default navigation context.
-
-```js
-// .storybook/preview.js
-
-export const parameters = {
-  nextjs: {
-    appDirectory: true,
-    navigation: {
-      pathname: '/some-default-path',
-      query: {
-        foo: 'bar',
-      },
-    },
-  },
 };
 ```
 
@@ -401,6 +430,7 @@ const defaultRouter = {
       action('nextRouter.events.emit')(...args);
     },
   },
+  // The locale should be configured [globally](https://storybook.js.org/docs/react/essentials/toolbars-and-globals#globals)
   locale: globals?.locale,
   asPath: '/',
   basePath: '/',
