@@ -1,6 +1,6 @@
 {
   "name": "@storybook/source-loader",
-  "version": "7.0.0-alpha.60",
+  "version": "7.0.0-alpha.61",
   "description": "Source loader",
   "keywords": [
     "lib",
@@ -44,7 +44,7 @@
   },
   "dependencies": {
     "@storybook/csf": "next",
-    "@storybook/types": "7.0.0-alpha.60",
+    "@storybook/types": "7.0.0-alpha.61",
     "estraverse": "^5.2.0",
     "lodash": "^4.17.21",
     "prettier": "^2.8.0"
