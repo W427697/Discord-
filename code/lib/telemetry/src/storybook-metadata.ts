@@ -13,6 +13,7 @@ import { getActualPackageVersion, getActualPackageVersions } from './package-jso
 import { getMonorepoType } from './get-monorepo-type';
 import { cleanPaths } from './sanitize';
 import { getFrameworkInfo } from './get-framework-info';
+import { hasChromatic } from './has-chromatic';
 
 export const metaFrameworks = {
   next: 'Next',
@@ -157,6 +158,7 @@ export const computeStorybookMetadata = async ({
     ...frameworkInfo,
     storybookVersion,
     storybookVersionSpecifier: storybookInfo.version,
+    hasChromatic: hasChromatic(packageJson),
     language,
     storybookPackages,
     addons,
