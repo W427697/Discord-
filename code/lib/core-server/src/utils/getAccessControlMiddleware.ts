@@ -1,4 +1,6 @@
-export function getAccessControlMiddleware(crossOriginIsolated: boolean) {
+import type { RequestHandler } from 'express';
+
+export function getAccessControlMiddleware(crossOriginIsolated: boolean): RequestHandler {
   return (req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
