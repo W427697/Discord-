@@ -173,7 +173,10 @@ export const doUpgrade = async ({
 
   let target = 'latest';
   if (prerelease) {
-    target = 'greatest';
+    // '@next' is storybook's convention for the latest prerelease tag.
+    // This used to be 'greatest', but that was not reliable and could pick canaries, etc.
+    // and random releases of other packages with storybook in their name.
+    target = '@next';
   } else if (tag) {
     target = `@${tag}`;
   }

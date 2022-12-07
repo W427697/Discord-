@@ -1,3 +1,14 @@
+## 7.0.0-alpha.61 (December 7, 2022)
+
+#### Features
+
+-   NextJS: Support next/navigation in Next.js v13 [#20065](https://github.com/storybooks/storybook/pull/20065)
+
+#### Maintenance
+
+-   Vite/MDX: Fix mdx compiler for vite [#20121](https://github.com/storybooks/storybook/pull/20121)
+-   Fix more peerDependencies issues [#20120](https://github.com/storybooks/storybook/pull/20120)
+
 ## 7.0.0-alpha.60 (December 7, 2022)
 
 #### Bug Fixes
