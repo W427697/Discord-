@@ -215,8 +215,6 @@ export const parameters = {
 
 The parameter `nextjs.appDirectory` defaults to `false` if not set.
 
-Please consider, that parameters are not deep merged. If you set `nextjs.appDirectory` to `true` in the [preview.js](https://storybook.js.org/docs/react/configure/overview#configure-story-rendering) file, you need to set it as well in your story, as soon as you want to set other options on the nextjs parameter.
-
 #### Overriding defaults
 
 Per-story overrides can be done by adding a `nextjs.navigation` property onto the story [parameters](https://storybook.js.org/docs/react/writing-stories/parameters). The framework will shallowly merge whatever you put here into the router.
