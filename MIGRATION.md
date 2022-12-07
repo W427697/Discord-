@@ -3,6 +3,7 @@
 - [From version 6.5.x to 7.0.0](#from-version-65x-to-700)
   - [Alpha release notes](#alpha-release-notes)
   - [7.0 breaking changes](#70-breaking-changes)
+    - [React peer dependencies required](#react-peer-dependencies-required)
     - [Postcss removed](#postcss-removed)
     - [Vue3 replaced app export with setup](#vue3-replaced-app-export-with-setup)
     - [removed auto injection of @storybook/addon-actions decorator](#removed-auto-injection-of-storybookaddon-actions-decorator)
@@ -14,12 +15,11 @@
     - [start-storybook / build-storybook binaries removed](#start-storybook--build-storybook-binaries-removed)
     - [storyStoreV7 enabled by default](#storystorev7-enabled-by-default)
     - [Webpack4 support discontinued](#webpack4-support-discontinued)
-    - [Modern ESM / IE11 support discontinued](#modern-esm--ie11-support-discontinued)
     - [Framework field mandatory](#framework-field-mandatory)
     - [frameworkOptions renamed](#frameworkoptions-renamed)
     - [Framework standalone build moved](#framework-standalone-build-moved)
     - [Docs modern inline rendering by default](#docs-modern-inline-rendering-by-default)
-    - [Babel mode v7 by default](#babel-mode-v7-by-default)
+    - [Babel mode v7 exclusively](#babel-mode-v7-exclusively)
     - [7.0 feature flags removed](#70-feature-flags-removed)
     - [CLI option `--use-npm` deprecated](#cli-option---use-npm-deprecated)
     - [Vite builder uses vite config automatically](#vite-builder-uses-vite-config-automatically)
@@ -264,6 +264,17 @@ In the meantime, these migration notes are the best available documentation on t
 
 ### 7.0 breaking changes
 
+#### React peer dependencies required
+
+Starting in 7.0, `react` and `react-dom` are now required peer dependencies of Storybook.
+
+Storybook uses `react` in a variety of packages. In the past, we've done various trickery hide this from non-React users. However, with stricter peer dependency handling by `npm8`, `npm`, and `yarn pnp` those tricks have started to cause problems for those users. Rather than resorting to even more complicated tricks, we are making `react` and `react-dom` required peer dependencies.
+
+To upgrade manually, add any version of `react` and `react-dom` as devDependencies using your package manager of choice, e.g.
+
+```
+npm add react react-dom --dev
+```
 #### Postcss removed
 
 Storybook 6.x installed postcss by default. In 7.0 built-in support has been removed. IF you need it, you can add it back using [`@storybook/addon-postcss`](https://github.com/storybookjs/addon-postcss).
@@ -462,10 +473,6 @@ To upgrade:
 
 During the 7.0 dev cycle we will be updating this section with useful resources as we run across them.
 
-#### Modern ESM / IE11 support discontinued
-
-SB7.0 compiles to modern ESM, meaning that IE11 is no longer supported. Over the course of the 7.0 dev cycle we will create recommendations for users who still require IE support.
-
 #### Framework field mandatory
 
 In 6.4 we introduced a new `main.js` field called [`framework`](#mainjs-framework-field). Starting in 7.0, this field is mandatory.
@@ -538,17 +545,17 @@ module.exports = {
 };
 ```
 
-#### Babel mode v7 by default
+#### Babel mode v7 exclusively
 
-Storybook now uses your project babel configuration differently as [described below in Babel Mode v7](#babel-mode-v7). This is now the default. To opt-out:
+Storybook now uses [Babel mode v7](#babel-mode-v7) exclusively. In 6.x, Storybook provided its own babel settings out of the box. Now, Storybook's uses your project's babel settings (`.babelrc`, `babel.config.js`, etc.) instead.
 
-```js
-module.exports = {
-  features: {
-    babelModeV7: false,
-  },
-};
+In the new mode, Storybook expects you to provide a configuration file. If you want a configuration file that's equivalent to the 6.x default, you can run the following command in your project directory:
+
+```sh
+npx sb@next babelrc
 ```
+
+This will create a `.babelrc.json` file. This file includes a bunch of babel plugins, so you may need to add new package devDependencies accordingly.
 
 #### 7.0 feature flags removed
 
