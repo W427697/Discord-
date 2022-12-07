@@ -42,11 +42,7 @@
       "import": "./dist/framework-preset-vue.mjs",
       "types": "./dist/framework-preset-vue.d.ts"
     },
-    "./package.json": {
-      "require": "./package.json",
-      "import": "./package.json",
-      "types": "./package.json"
-    }
+    "./package.json": "./package.json"
   },
   "main": "dist/index.js",
   "module": "dist/index.mjs",

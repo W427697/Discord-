@@ -31,11 +31,7 @@
       "import": "./dist/config.mjs",
       "types": "./dist/config.d.ts"
     },
-    "./package.json": {
-      "require": "./package.json",
-      "import": "./package.json",
-      "types": "./package.json"
-    },
+    "./package.json": "./package.json",
     "./templates/HOC.svelte": "./templates/HOC.svelte",
     "./templates/PreviewRender.svelte": "./templates/PreviewRender.svelte",
     "./templates/SlotDecorator.svelte": "./templates/SlotDecorator.svelte"

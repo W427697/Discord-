@@ -52,11 +52,7 @@
       "import": "./dist/framework-preset-react.mjs",
       "types": "./dist/framework-preset-react.d.ts"
     },
-    "./package.json": {
-      "require": "./package.json",
-      "import": "./package.json",
-      "types": "./package.json"
-    }
+    "./package.json": "./package.json"
   },
   "main": "dist/index.js",
   "module": "dist/index.mjs",

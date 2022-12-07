@@ -47,11 +47,7 @@
       "import": "./dist/svelte-docgen-loader.mjs",
       "types": "./dist/svelte-docgen-loader.d.ts"
     },
-    "./package.json": {
-      "require": "./package.json",
-      "import": "./package.json",
-      "types": "./package.json"
-    }
+    "./package.json": "./package.json"
   },
   "main": "dist/index.js",
   "module": "dist/index.mjs",
