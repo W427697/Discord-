@@ -12,10 +12,10 @@ You start by [installing](../get-started/install.md) Storybook into an existing 
 
 Storybook provides support for the leading industry builders and frameworks. However, that doesn't mean you can't use Storybook with other frameworks. Below is a list of currently supported frameworks divided by their builders.
 
-| Builder | Framework                                                           |
-| ------- | ------------------------------------------------------------------- |
-| Webpack | React, Angular, Vue, HTML, Web Components, Ember, Preact            |
-| Vite    | React, Vue, Web Components, HTML, Web Components, Svelte, SvelteKit |
+| Builder | Framework                                                                |
+| ------- | ------------------------------------------------------------------------ |
+| Webpack | React, Angular, Vue, Web Components, NextJS, HTML, Ember, Preact, Svelte |
+| Vite    | React, Vue, Web Components, HTML, Svelte, SvelteKit                      |
 
 ## Configure
 
