@@ -6427,7 +6427,6 @@ __metadata:
     "@types/node": ^16.0.0
     magic-string: ^0.26.1
     typescript: ~4.9.3
-    vite: ^3.1.0
   languageName: unknown
   linkType: soft
 
@@ -7502,7 +7501,6 @@ __metadata:
     "@storybook/svelte-vite": 7.0.0-alpha.62
     "@types/node": ^16.0.0
     typescript: ^4.9.3
-    vite: ^3.1.3
   peerDependencies:
     "@storybook/addon-svelte-csf": ^2.0.0
   peerDependenciesMeta:
@@ -7741,7 +7739,6 @@ __metadata:
     "@types/node": ^16.0.0
     magic-string: ^0.26.1
     typescript: ~4.9.3
-    vite: ^3.1.0
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
@@ -33174,7 +33171,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vite@npm:^3.1.0, vite@npm:^3.1.3, vite@npm:^3.1.7":
+"vite@npm:^3.1.3, vite@npm:^3.1.7":
   version: 3.2.4
   resolution: "vite@npm:3.2.4"
   dependencies:
