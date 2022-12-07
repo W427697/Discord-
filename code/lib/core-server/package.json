@@ -1,6 +1,6 @@
 {
   "name": "@storybook/core-server",
-  "version": "7.0.0-alpha.61",
+  "version": "7.0.0-alpha.62",
   "description": "Storybook framework-agnostic API",
   "keywords": [
     "storybook"
@@ -26,6 +26,18 @@
       "import": "./dist/index.mjs",
       "types": "./dist/index.d.ts"
     },
+    "./dist/presets/babel-cache-preset": {
+      "node": "./dist/presets/babel-cache-preset.js",
+      "require": "./dist/presets/babel-cache-preset.js",
+      "import": "./dist/presets/babel-cache-preset.mjs",
+      "types": "./dist/presets/babel-cache-preset.d.ts"
+    },
+    "./dist/presets/common-preset": {
+      "node": "./dist/presets/common-preset.js",
+      "require": "./dist/presets/common-preset.js",
+      "import": "./dist/presets/common-preset.mjs",
+      "types": "./dist/presets/common-preset.d.ts"
+    },
     "./public/favicon.svg": "./public/favicon.svg",
     "./package.json": "./package.json"
   },
@@ -46,16 +58,16 @@
   "dependencies": {
     "@aw-web-design/x-default-browser": "1.4.88",
     "@discoveryjs/json-ext": "^0.5.3",
-    "@storybook/builder-manager": "7.0.0-alpha.61",
-    "@storybook/core-common": "7.0.0-alpha.61",
-    "@storybook/core-events": "7.0.0-alpha.61",
+    "@storybook/builder-manager": "7.0.0-alpha.62",
+    "@storybook/core-common": "7.0.0-alpha.62",
+    "@storybook/core-events": "7.0.0-alpha.62",
     "@storybook/csf": "next",
-    "@storybook/csf-tools": "7.0.0-alpha.61",
+    "@storybook/csf-tools": "7.0.0-alpha.62",
     "@storybook/docs-mdx": "next",
-    "@storybook/node-logger": "7.0.0-alpha.61",
-    "@storybook/preview-api": "7.0.0-alpha.61",
-    "@storybook/telemetry": "7.0.0-alpha.61",
-    "@storybook/types": "7.0.0-alpha.61",
+    "@storybook/node-logger": "7.0.0-alpha.62",
+    "@storybook/preview-api": "7.0.0-alpha.62",
+    "@storybook/telemetry": "7.0.0-alpha.62",
+    "@storybook/types": "7.0.0-alpha.62",
     "@types/node": "^16.0.0",
     "@types/node-fetch": "^2.5.7",
     "@types/pretty-hrtime": "^1.0.0",
@@ -87,7 +99,7 @@
     "ws": "^8.2.3"
   },
   "devDependencies": {
-    "@storybook/builder-webpack5": "7.0.0-alpha.61",
+    "@storybook/builder-webpack5": "7.0.0-alpha.62",
     "@types/compression": "^1.7.0",
     "@types/ip": "^1.1.0",
     "@types/serve-favicon": "^2.5.2",
@@ -114,9 +126,11 @@
   },
   "bundler": {
     "entries": [
-      "./src/index.ts"
+      "./src/index.ts",
+      "./src/presets/babel-cache-preset.ts",
+      "./src/presets/common-preset.ts"
     ],
     "platform": "node"
   },
-  "gitHead": "ec1df6fe1b11ad6084b9f3ea4b5f6bee3fca58be"
+  "gitHead": "27a91217b1e30d56af667a4e1f587ed1ac173e70"
 }

@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-outline",
-  "version": "7.0.0-alpha.61",
+  "version": "7.0.0-alpha.62",
   "description": "Outline all elements with CSS to help with layout placement and alignment",
   "keywords": [
     "storybook-addons",
@@ -29,6 +29,7 @@
   "author": "winkerVSbecks",
   "exports": {
     ".": {
+      "node": "./dist/index.js",
       "require": "./dist/index.js",
       "import": "./dist/index.mjs",
       "types": "./dist/index.d.ts"
@@ -77,12 +78,12 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/client-logger": "7.0.0-alpha.61",
-    "@storybook/components": "7.0.0-alpha.61",
-    "@storybook/core-events": "7.0.0-alpha.61",
-    "@storybook/manager-api": "7.0.0-alpha.61",
-    "@storybook/preview-api": "7.0.0-alpha.61",
-    "@storybook/types": "7.0.0-alpha.61",
+    "@storybook/client-logger": "7.0.0-alpha.62",
+    "@storybook/components": "7.0.0-alpha.62",
+    "@storybook/core-events": "7.0.0-alpha.62",
+    "@storybook/manager-api": "7.0.0-alpha.62",
+    "@storybook/preview-api": "7.0.0-alpha.62",
+    "@storybook/types": "7.0.0-alpha.62",
     "global": "^4.4.0",
     "ts-dedent": "^2.0.0"
   },
@@ -111,7 +112,7 @@
       "./src/preview.tsx"
     ]
   },
-  "gitHead": "ec1df6fe1b11ad6084b9f3ea4b5f6bee3fca58be",
+  "gitHead": "27a91217b1e30d56af667a4e1f587ed1ac173e70",
   "storybook": {
     "displayName": "Outline",
     "unsupportedFrameworks": [

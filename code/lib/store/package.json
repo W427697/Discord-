@@ -1,6 +1,6 @@
 {
   "name": "@storybook/store",
-  "version": "7.0.0-alpha.61",
+  "version": "7.0.0-alpha.62",
   "description": "",
   "keywords": [
     "storybook"
@@ -42,8 +42,8 @@
     "prep": "../../../scripts/prepare/facade.ts"
   },
   "dependencies": {
-    "@storybook/client-logger": "7.0.0-alpha.61",
-    "@storybook/preview-api": "7.0.0-alpha.61"
+    "@storybook/client-logger": "7.0.0-alpha.62",
+    "@storybook/preview-api": "7.0.0-alpha.62"
   },
   "publishConfig": {
     "access": "public"
@@ -55,5 +55,5 @@
     "platform": "node",
     "shim": "@storybook/preview-api/dist/store"
   },
-  "gitHead": "ec1df6fe1b11ad6084b9f3ea4b5f6bee3fca58be"
+  "gitHead": "27a91217b1e30d56af667a4e1f587ed1ac173e70"
 }

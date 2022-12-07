@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-links",
-  "version": "7.0.0-alpha.61",
+  "version": "7.0.0-alpha.62",
   "description": "Link stories together to build demos and prototypes with your UI components",
   "keywords": [
     "addon",
@@ -23,6 +23,7 @@
   "license": "MIT",
   "exports": {
     ".": {
+      "node": "./dist/index.js",
       "require": "./dist/index.js",
       "import": "./dist/index.mjs",
       "types": "./dist/index.d.ts"
@@ -76,13 +77,13 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/client-logger": "7.0.0-alpha.61",
-    "@storybook/core-events": "7.0.0-alpha.61",
+    "@storybook/client-logger": "7.0.0-alpha.62",
+    "@storybook/core-events": "7.0.0-alpha.62",
     "@storybook/csf": "next",
-    "@storybook/manager-api": "7.0.0-alpha.61",
-    "@storybook/preview-api": "7.0.0-alpha.61",
-    "@storybook/router": "7.0.0-alpha.61",
-    "@storybook/types": "7.0.0-alpha.61",
+    "@storybook/manager-api": "7.0.0-alpha.62",
+    "@storybook/preview-api": "7.0.0-alpha.62",
+    "@storybook/router": "7.0.0-alpha.62",
+    "@storybook/types": "7.0.0-alpha.62",
     "global": "^4.4.0",
     "prop-types": "^15.7.2",
     "ts-dedent": "^2.0.0"
@@ -113,7 +114,7 @@
       "./src/react/index.ts"
     ]
   },
-  "gitHead": "ec1df6fe1b11ad6084b9f3ea4b5f6bee3fca58be",
+  "gitHead": "27a91217b1e30d56af667a4e1f587ed1ac173e70",
   "storybook": {
     "displayName": "Links",
     "icon": "https://user-images.githubusercontent.com/263385/101991673-48355c80-3c7c-11eb-9b6e-b627c96a75f6.png",

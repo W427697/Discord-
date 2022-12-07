@@ -1,3 +1,19 @@
+## 7.0.0-alpha.62 (December 8, 2022)
+
+#### Bug Fixes
+
+-   Fix new-frameworks automigration failing to read frameworkOptions field [#20128](https://github.com/storybooks/storybook/pull/20128)
+-   Fix Next.js lower than 12.2.0 [#20129](https://github.com/storybooks/storybook/pull/20129)
+-   Fix iframe.html not available upon early browser opening [#20123](https://github.com/storybooks/storybook/pull/20123)
+
+#### Maintenance
+
+-   Add args generic to CSFExports [#20135](https://github.com/storybooks/storybook/pull/20135)
+-   Modernize favicon [#20130](https://github.com/storybooks/storybook/pull/20130)
+-   Telemetry: Add precedingUpgrade data to dev/build/error events [#20136](https://github.com/storybooks/storybook/pull/20136)
+-   CLI: Replace addon-docs Meta with blocks and add blocks dep [#20133](https://github.com/storybooks/storybook/pull/20133)
+-   CLI: Fix upgrade --prerelease to upgrade to the next tag [#20126](https://github.com/storybooks/storybook/pull/20126)
+
 ## 7.0.0-alpha.61 (December 7, 2022)
 
 #### Features
