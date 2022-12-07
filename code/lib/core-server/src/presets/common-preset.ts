@@ -99,7 +99,6 @@ export const features = async (
   storyStoreV7: true,
   breakingChangesV7: true,
   interactionsDebugger: false,
-  babelModeV7: true,
   argTypeTargetsV7: true,
 });
 
