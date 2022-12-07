@@ -1,3 +1,46 @@
+## 7.0.0-alpha.62 (December 8, 2022)
+
+#### Bug Fixes
+
+-   Fix new-frameworks automigration failing to read frameworkOptions field [#20128](https://github.com/storybooks/storybook/pull/20128)
+-   Fix Next.js lower than 12.2.0 [#20129](https://github.com/storybooks/storybook/pull/20129)
+-   Fix iframe.html not available upon early browser opening [#20123](https://github.com/storybooks/storybook/pull/20123)
+
+#### Maintenance
+
+-   Add args generic to CSFExports [#20135](https://github.com/storybooks/storybook/pull/20135)
+-   Modernize favicon [#20130](https://github.com/storybooks/storybook/pull/20130)
+-   Telemetry: Add precedingUpgrade data to dev/build/error events [#20136](https://github.com/storybooks/storybook/pull/20136)
+-   CLI: Replace addon-docs Meta with blocks and add blocks dep [#20133](https://github.com/storybooks/storybook/pull/20133)
+-   CLI: Fix upgrade --prerelease to upgrade to the next tag [#20126](https://github.com/storybooks/storybook/pull/20126)
+
+## 7.0.0-alpha.61 (December 7, 2022)
+
+#### Features
+
+-   NextJS: Support next/navigation in Next.js v13 [#20065](https://github.com/storybooks/storybook/pull/20065)
+
+#### Maintenance
+
+-   Vite/MDX: Fix mdx compiler for vite [#20121](https://github.com/storybooks/storybook/pull/20121)
+-   Fix more peerDependencies issues [#20120](https://github.com/storybooks/storybook/pull/20120)
+
+## 7.0.0-alpha.60 (December 7, 2022)
+
+#### Bug Fixes
+
+-   Deal with a lot of different edge cases for git URLs [#20115](https://github.com/storybooks/storybook/pull/20115)
+
+#### Maintenance
+
+-   Clean up babelModeV7 migration and code [#20117](https://github.com/storybooks/storybook/pull/20117)
+-   Fix peer dependencies for npm8/pnpm/yarn pnp [#20110](https://github.com/storybooks/storybook/pull/20110)
+-   Remove peer deps from core-common [#20109](https://github.com/storybooks/storybook/pull/20109)
+
+#### Build
+
+-   Add more linting config to vs-code settings.json [#20101](https://github.com/storybooks/storybook/pull/20101)
+
 ## 7.0.0-alpha.59 (December 6, 2022)
 
 #### Features
