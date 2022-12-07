@@ -26,6 +26,7 @@
       "import": "./dist/index.mjs",
       "types": "./dist/index.d.ts"
     },
+    "./public/favicon.svg": "./public/favicon.svg",
     "./package.json": "./package.json"
   },
   "main": "dist/index.js",
