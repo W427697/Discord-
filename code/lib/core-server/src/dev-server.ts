@@ -178,7 +178,6 @@ async function getStoryIndexGenerator(
     storyStoreV7?: boolean;
     breakingChangesV7?: boolean;
     interactionsDebugger?: boolean;
-    babelModeV7?: boolean;
     argTypeTargetsV7?: boolean;
     warnOnLegacyHierarchySeparator?: boolean;
   },

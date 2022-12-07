@@ -1,3 +1,19 @@
+## 7.0.0-alpha.60 (December 7, 2022)
+
+#### Bug Fixes
+
+-   Deal with a lot of different edge cases for git URLs [#20115](https://github.com/storybooks/storybook/pull/20115)
+
+#### Maintenance
+
+-   Clean up babelModeV7 migration and code [#20117](https://github.com/storybooks/storybook/pull/20117)
+-   Fix peer dependencies for npm8/pnpm/yarn pnp [#20110](https://github.com/storybooks/storybook/pull/20110)
+-   Remove peer deps from core-common [#20109](https://github.com/storybooks/storybook/pull/20109)
+
+#### Build
+
+-   Add more linting config to vs-code settings.json [#20101](https://github.com/storybooks/storybook/pull/20101)
+
 ## 7.0.0-alpha.59 (December 6, 2022)
 
 #### Features
