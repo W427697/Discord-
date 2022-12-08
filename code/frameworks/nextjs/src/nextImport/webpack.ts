@@ -21,7 +21,7 @@ export function configureNextImport(baseConfig: WebpackConfig) {
     );
   }
 
-  if (isNext12 && isNextVersionSmallerThan12dot2) {
+  if (!isNext12 || isNextVersionSmallerThan12dot2) {
     baseConfig.plugins.push(
       new IgnorePlugin({
         resourceRegExp: /next\/future\/image$/,
