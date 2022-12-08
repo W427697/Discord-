@@ -13,6 +13,7 @@ import { isPreservingSymlinks, getFrameworkName } from '@storybook/core-common';
 import { globals } from '@storybook/preview/globals';
 import {
   codeGeneratorPlugin,
+  csfPlugin,
   injectExportOrderPlugin,
   mdxPlugin,
   stripStoryHMRBoundary,
@@ -74,7 +75,7 @@ export async function pluginConfig(options: ExtendedOptions) {
 
   const plugins = [
     codeGeneratorPlugin(options),
-    // sourceLoaderPlugin(options),
+    await csfPlugin(options),
     mdxPlugin(options),
     injectExportOrderPlugin,
     stripStoryHMRBoundary(),
