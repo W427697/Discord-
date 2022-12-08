@@ -5873,11 +5873,11 @@ __metadata:
     "@joshwooding/vite-plugin-react-docgen-typescript": 0.0.5
     "@storybook/client-logger": 7.0.0-alpha.62
     "@storybook/core-common": 7.0.0-alpha.62
+    "@storybook/csf-plugin": 7.0.0-alpha.62
     "@storybook/mdx2-csf": next
     "@storybook/node-logger": 7.0.0-alpha.62
     "@storybook/preview": 7.0.0-alpha.62
     "@storybook/preview-api": 7.0.0-alpha.62
-    "@storybook/source-loader": 7.0.0-alpha.62
     "@storybook/types": 7.0.0-alpha.62
     "@types/express": ^4.17.13
     "@types/node": ^16.0.0
