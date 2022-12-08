@@ -124,14 +124,19 @@ export const computeStorybookMetadata = async ({
     });
   }
 
+  const chromaticVersionSpecifier = getChromaticVersionSpecifier(packageJson);
+  if (chromaticVersionSpecifier) {
+    addons.chromatic = {
+      version: undefined,
+      versionSpecifier: chromaticVersionSpecifier,
+      options: undefined,
+    };
+  }
+
   const addonVersions = await getActualPackageVersions(addons);
   addonVersions.forEach(({ name, version }) => {
     addons[name].version = version;
   });
-
-  const chromaticVersionSpecifier = getChromaticVersionSpecifier(packageJson);
-  if (chromaticVersionSpecifier)
-    addons.chromatic = { version: chromaticVersionSpecifier, options: undefined };
 
   const addonNames = Object.keys(addons);
 
