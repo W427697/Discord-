@@ -1,4 +1,3 @@
-import { vite as csfPlugin } from '@storybook/csf-plugin';
 import pluginTurbosnap from 'vite-plugin-turbosnap';
 import type { StorybookConfig } from '../../frameworks/react-vite/dist';
 
@@ -65,7 +64,6 @@ const config: StorybookConfig = {
     ...viteConfig,
     plugins: [
       ...(viteConfig.plugins || []),
-      csfPlugin({}),
       configType === 'PRODUCTION' ? pluginTurbosnap({ rootDir: viteConfig.root || '' }) : [],
     ],
     optimizeDeps: { ...viteConfig.optimizeDeps, force: true },

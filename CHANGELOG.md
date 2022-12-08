@@ -1,3 +1,17 @@
+## 7.0.0-beta.0 (December 8, 2022)
+
+We made it to beta, folks! 🎉
+
+SB7 overhauls our build architecture, modernizes our output to ESM only, promotes Vite to a first-class peer to Webpack, rethinks our Docs addon, cleans up the UI, and contains hundreds of improvements at every level of the stack. We've been sharing some of these changes on [the Storybook blog](https://storybook.js.org/blog/) and will share more over the coming weeks.
+
+Beta means that we don't have any more major changes on the radar for 7.0 and it's mostly stabilization from here on out. The core team is doing some basic testing now, and once we have a good QA plan, we'd love your help to make that happen. Please keep an eye out on the blog and on our [Twitter](https://twitter.com/storybookjs) or Mastadon (coming soon!) or [Discord](https://discord.gg/storybook) if you're interested in helping.
+
+#### Bug Fixes
+
+-   Extend Angular Zone.js peer dependency range [#20107](https://github.com/storybooks/storybook/pull/20107)
+-   Vite: Fix static source handling for addon-docs [#20147](https://github.com/storybooks/storybook/pull/20147)
+-   Controls: Arrow keys don't work on number controls [#19954](https://github.com/storybooks/storybook/pull/19954)
+
 ## 7.0.0-alpha.62 (December 8, 2022)
 
 #### Bug Fixes
