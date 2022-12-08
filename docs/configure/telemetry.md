@@ -151,7 +151,7 @@ You may opt-out of the telemetry by setting Storybook's configuration element `d
 <!-- prettier-ignore-end -->
 
 <div class="aside">
-  💡 There is a single <code>boot</code> event that contains no metadata at all (simply used to ensure the telemetry is working) that is sent prior to evaluating your <code>main.js</code>, so unaffected by the <code>disableTelemetry</code> option. If you want to ensure that event is not sent either, be sure to use the <code>STORYBOOK_DISABLE_TELEMETRY</code> environment variable.
+  💡 There is a <code>boot</code> event that contains no metadata at all (simply used to ensure the telemetry is working). It is sent prior to evaluating your <code>main.js</code>, so it is unaffected by the <code>disableTelemetry</code> option. If you want to ensure that event is not sent, be sure to use the <code>STORYBOOK_DISABLE_TELEMETRY</code> environment variable.
 </div>
 
 
