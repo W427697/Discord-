@@ -55,7 +55,7 @@ describe('eventToShortcut', () => {
     expect(output).toEqual(['alt', '1']);
     // on macos
     const outputMacOs = eventToShortcut(ev({ altKey: true, key: '√', code: 'KeyV' }));
-    expect(outputMacOs).toEqual(['alt', 'V']);
+    expect(outputMacOs).toEqual(['alt', ['√', 'V']]);
   });
 });
 
