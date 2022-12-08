@@ -1,6 +1,6 @@
 {
   "name": "@storybook/root",
-  "version": "7.0.0-alpha.62",
+  "version": "7.0.0-beta.0",
   "private": true,
   "description": "Storybook is an open source tool for developing UI components in isolation for React, Vue and Angular. It makes building stunning UIs organized and efficient.",
   "keywords": [
@@ -62,12 +62,12 @@
     "github-release": "github-release-from-changelog",
     "linear-export": "../scripts/node_modules/.bin/ts-node --project=../scripts/tsconfig.json ../scripts/linear-export.ts",
     "lint": "yarn lint:js && yarn lint:md",
-    "lint:ejs": "ejslint **/*.ejs",
-    "lint:js": "yarn lint:js:cmd .  --quiet",
-    "lint:js:cmd": "cross-env NODE_ENV=production eslint --cache --cache-location=../.cache/eslint --ext .js,.jsx,.json,.html,.ts,.tsx,.mjs --report-unused-disable-directives",
-    "lint:md": "remark -q .",
-    "lint:other": "prettier --write '**/*.{css,html,json,md,yml}'",
-    "lint:package": "sort-package-json",
+    "lint:ejs": "../scripts/node_modules/.bin/ejslint **/*.ejs",
+    "lint:js": "yarn lint:js:cmd . --quiet",
+    "lint:js:cmd": "cross-env NODE_ENV=production ../scripts/node_modules/.bin/eslint --cache --cache-location=../.cache/eslint --ext .js,.jsx,.json,.html,.ts,.tsx,.mjs --report-unused-disable-directives",
+    "lint:md": "../scripts/node_modules/.bin/remark -q .",
+    "lint:other": "../scripts/node_modules/.bin/prettier --write '**/*.{css,html,json,md,yml}'",
+    "lint:package": "../scripts/node_modules/.bin/sort-package-json",
     "local-registry": "../scripts/node_modules/.bin/ts-node --project=../scripts/tsconfig.json ../scripts/run-registry.ts --port 6001",
     "publish-repros": "../scripts/node_modules/.bin/ts-node ../scripts/next-repro-generators/publish.ts",
     "publish:debug": "npm run publish:latest -- --npm-tag=debug --no-push",
@@ -96,10 +96,10 @@
       "yarn lint:package"
     ],
     "*.ejs": [
-      "ejslint"
+      "../scripts/node_modules/.bin/ejslint"
     ],
     "*.{css,html,json,md,yml}": [
-      "prettier --write"
+      "../scripts/node_modules/.bin/prettier --write"
     ]
   },
   "browserslist": [
@@ -264,8 +264,7 @@
     "eslint-plugin-react": "^7.31.10",
     "eslint-plugin-storybook": "^0.6.6",
     "execa": "^5.0.0",
-    "expect-type": "^0.14.2",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "fs-extra": "^9.0.1",
     "github-release-from-changelog": "^2.1.1",
     "glob": "^7.1.6",
