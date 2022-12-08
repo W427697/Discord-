@@ -164,8 +164,7 @@ export const allTemplates: Record<string, Template> = {
   },
   'html-vite/default-js': {
     name: 'HTML Vite JS',
-    script:
-      'yarn create vite . --template vanilla && echo "export default {}" > vite.config.js',
+    script: 'yarn create vite . --template vanilla && echo "export default {}" > vite.config.js',
     expected: {
       framework: '@storybook/html-vite',
       renderer: '@storybook/html',
@@ -176,8 +175,7 @@ export const allTemplates: Record<string, Template> = {
   },
   'html-vite/default-ts': {
     name: 'HTML Vite TS',
-    script:
-      'yarn create vite . --template vanilla-ts && echo "export default {}" > vite.config.js',
+    script: 'yarn create vite . --template vanilla-ts && echo "export default {}" > vite.config.js',
     expected: {
       framework: '@storybook/html-vite',
       renderer: '@storybook/html',
