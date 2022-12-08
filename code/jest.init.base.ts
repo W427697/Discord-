@@ -22,8 +22,6 @@ const localStorageMock = {
 };
 // @ts-expect-error (Converted from ts-ignore)
 global.localStorage = localStorageMock;
-// @ts-expect-error (Converted from ts-ignore)
-global.regeneratorRuntime = regeneratorRuntime;
 
 configure({ adapter: new Adapter() });
 
