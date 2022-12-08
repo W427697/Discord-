@@ -7189,7 +7189,6 @@ __metadata:
     serve-static: ^1.14.1
     shelljs: ^0.8.5
     shx: ^0.3.2
-    sort-package-json: ^1.48.1
     terser-webpack-plugin: ^5.3.1
     trash: ^7.0.0
     ts-dedent: ^2.0.0
@@ -29830,7 +29829,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"sort-package-json@npm:^1.22.1, sort-package-json@npm:^1.48.1":
+"sort-package-json@npm:^1.22.1":
   version: 1.57.0
   resolution: "sort-package-json@npm:1.57.0"
   dependencies:
