@@ -56,6 +56,12 @@
     "entries": [
       "./src/index.ts"
     ],
+    "externals": [
+      "webpack",
+      "vite",
+      "rollup",
+      "esbuild"
+    ],
     "platform": "node"
   },
   "gitHead": "27a91217b1e30d56af667a4e1f587ed1ac173e70"
