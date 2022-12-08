@@ -86,7 +86,7 @@ export const allTemplates: Record<string, Template> = {
   },
   'react-vite/default-js': {
     name: 'React Vite (JS)',
-    script: 'yarn create vite@beta . --template react',
+    script: 'yarn create vite . --template react',
     expected: {
       framework: '@storybook/react-vite',
       renderer: '@storybook/react',
@@ -95,7 +95,7 @@ export const allTemplates: Record<string, Template> = {
   },
   'react-vite/default-ts': {
     name: 'React Vite (TS)',
-    script: 'yarn create vite@beta . --template react-ts',
+    script: 'yarn create vite . --template react-ts',
     expected: {
       framework: '@storybook/react-vite',
       renderer: '@storybook/react',
@@ -122,7 +122,7 @@ export const allTemplates: Record<string, Template> = {
   },
   'vue3-vite/default-js': {
     name: 'Vue3 Vite (JS)',
-    script: 'yarn create vite@beta . --template vue',
+    script: 'yarn create vite . --template vue',
     expected: {
       framework: '@storybook/vue3-vite',
       renderer: '@storybook/vue3',
@@ -131,7 +131,7 @@ export const allTemplates: Record<string, Template> = {
   },
   'vue3-vite/default-ts': {
     name: 'Vue3 Vite (TS)',
-    script: 'yarn create vite@beta . --template vue-ts',
+    script: 'yarn create vite . --template vue-ts',
     expected: {
       framework: '@storybook/vue3-vite',
       renderer: '@storybook/vue3',
@@ -144,7 +144,7 @@ export const allTemplates: Record<string, Template> = {
     // We don't really want to maintain weird custom scripts like this,
     // preferring community bootstrap scripts / generators instead.
     script:
-      'yarn create vite@beta . --template vanilla && yarn add --dev @vitejs/plugin-vue2 vue-template-compiler vue@2 && echo "import vue2 from \'@vitejs/plugin-vue2\';\n\nexport default {\n\tplugins: [vue2()]\n};" > vite.config.js',
+      'yarn create vite . --template vanilla && yarn add --dev @vitejs/plugin-vue2 vue-template-compiler vue@2 && echo "import vue2 from \'@vitejs/plugin-vue2\';\n\nexport default {\n\tplugins: [vue2()]\n};" > vite.config.js',
     // Re-enable once https://github.com/storybookjs/storybook/issues/19351 is fixed.
     skipTasks: ['smoke-test'],
     expected: {
@@ -165,7 +165,7 @@ export const allTemplates: Record<string, Template> = {
   'html-vite/default-js': {
     name: 'HTML Vite JS',
     script:
-      'yarn create vite@beta . --template vanilla && echo "export default {}" > vite.config.js',
+      'yarn create vite . --template vanilla && echo "export default {}" > vite.config.js',
     expected: {
       framework: '@storybook/html-vite',
       renderer: '@storybook/html',
@@ -177,7 +177,7 @@ export const allTemplates: Record<string, Template> = {
   'html-vite/default-ts': {
     name: 'HTML Vite TS',
     script:
-      'yarn create vite@beta . --template vanilla-ts && echo "export default {}" > vite.config.js',
+      'yarn create vite . --template vanilla-ts && echo "export default {}" > vite.config.js',
     expected: {
       framework: '@storybook/html-vite',
       renderer: '@storybook/html',
@@ -188,7 +188,7 @@ export const allTemplates: Record<string, Template> = {
   },
   'svelte-vite/default-js': {
     name: 'Svelte Vite (JS)',
-    script: 'yarn create vite@beta . --template svelte',
+    script: 'yarn create vite . --template svelte',
     expected: {
       framework: '@storybook/svelte-vite',
       renderer: '@storybook/svelte',
@@ -197,7 +197,7 @@ export const allTemplates: Record<string, Template> = {
   },
   'svelte-vite/default-ts': {
     name: 'Svelte Vite (TS)',
-    script: 'yarn create vite@beta . --template svelte-ts',
+    script: 'yarn create vite . --template svelte-ts',
     // Re-enable once https://github.com/storybookjs/storybook/issues/19351 is fixed.
     skipTasks: ['smoke-test'],
     expected: {
@@ -260,7 +260,7 @@ export const allTemplates: Record<string, Template> = {
   },
   'lit-vite/default-js': {
     name: 'Lit Vite (JS)',
-    script: 'yarn create vite@beta . --template lit',
+    script: 'yarn create vite . --template lit',
     // Re-enable once https://github.com/storybookjs/storybook/issues/19351 is fixed.
     skipTasks: ['smoke-test'],
     expected: {
@@ -271,7 +271,7 @@ export const allTemplates: Record<string, Template> = {
   },
   'lit-vite/default-ts': {
     name: 'Lit Vite (TS)',
-    script: 'yarn create vite@beta . --template lit-ts',
+    script: 'yarn create vite . --template lit-ts',
     // Re-enable once https://github.com/storybookjs/storybook/issues/19351 is fixed.
     skipTasks: ['smoke-test'],
     expected: {
