@@ -58,7 +58,7 @@
     "detect-indent": "^6.1.0",
     "envinfo": "^7.7.3",
     "execa": "^5.0.0",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "find-up": "^5.0.0",
     "fs-extra": "^9.0.1",
     "get-port": "^5.1.1",
@@ -98,5 +98,5 @@
     ],
     "platform": "node"
   },
-  "gitHead": "27a91217b1e30d56af667a4e1f587ed1ac173e70"
+  "gitHead": "2e4ddde6a0a291266d91fe6a5ecda767bf119e70"
 }

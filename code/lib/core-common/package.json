@@ -56,7 +56,7 @@
     "chalk": "^4.1.0",
     "esbuild": "^0.14.48",
     "esbuild-register": "^3.3.3",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "file-system-cache": "^2.0.0",
     "find-up": "^5.0.0",
     "fs-extra": "^9.0.1",
@@ -91,5 +91,5 @@
     ],
     "platform": "node"
   },
-  "gitHead": "27a91217b1e30d56af667a4e1f587ed1ac173e70"
+  "gitHead": "2e4ddde6a0a291266d91fe6a5ecda767bf119e70"
 }
