@@ -1,6 +1,8 @@
 module.exports = {
   compact: false,
   presets: [
+    '@babel/preset-typescript',
+    '@babel/preset-react',
     [
       '@babel/preset-env',
       {
@@ -10,10 +12,5 @@ module.exports = {
         targets: { node: '16' },
       },
     ],
-  ],
-  plugins: [
-    '@storybook/babel-plugin-require-context-hook',
-    'babel-plugin-dynamic-import-node',
-    '@babel/plugin-transform-runtime',
   ],
 };
