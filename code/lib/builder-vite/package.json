@@ -1,6 +1,6 @@
 {
   "name": "@storybook/builder-vite",
-  "version": "7.0.0-alpha.62",
+  "version": "7.0.0-beta.0",
   "description": "A plugin to run and build Storybooks with Vite",
   "homepage": "https://github.com/storybookjs/storybook/tree/main/code/lib/builder-vite/#readme",
   "bugs": {
@@ -44,18 +44,18 @@
   },
   "dependencies": {
     "@joshwooding/vite-plugin-react-docgen-typescript": "0.0.5",
-    "@storybook/client-logger": "7.0.0-alpha.62",
-    "@storybook/core-common": "7.0.0-alpha.62",
+    "@storybook/client-logger": "7.0.0-beta.0",
+    "@storybook/core-common": "7.0.0-beta.0",
+    "@storybook/csf-plugin": "7.0.0-beta.0",
     "@storybook/mdx2-csf": "next",
-    "@storybook/node-logger": "7.0.0-alpha.62",
-    "@storybook/preview": "7.0.0-alpha.62",
-    "@storybook/preview-api": "7.0.0-alpha.62",
-    "@storybook/source-loader": "7.0.0-alpha.62",
-    "@storybook/types": "7.0.0-alpha.62",
+    "@storybook/node-logger": "7.0.0-beta.0",
+    "@storybook/preview": "7.0.0-beta.0",
+    "@storybook/preview-api": "7.0.0-beta.0",
+    "@storybook/types": "7.0.0-beta.0",
     "@vitejs/plugin-react": "^2.0.0",
     "browser-assert": "^1.2.1",
     "es-module-lexer": "^0.9.3",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "fs-extra": "^9.0.1",
     "glob": "^7.2.0",
     "glob-promise": "^4.2.0",
@@ -93,5 +93,5 @@
     ],
     "platform": "node"
   },
-  "gitHead": "27a91217b1e30d56af667a4e1f587ed1ac173e70"
+  "gitHead": "2e4ddde6a0a291266d91fe6a5ecda767bf119e70"
 }
