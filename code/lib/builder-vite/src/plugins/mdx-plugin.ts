@@ -1,3 +1,4 @@
+import type { Options } from '@storybook/types';
 import type { Plugin } from 'vite';
 import { createFilter } from 'vite';
 
@@ -18,7 +19,7 @@ function injectRenderer(code: string) {
  *
  * @see https://github.com/storybookjs/storybook/blob/next/addons/docs/docs/recipes.md#csf-stories-with-arbitrary-mdx
  */
-export function mdxPlugin(): Plugin {
+export function mdxPlugin(options: Options): Plugin {
   let reactRefresh: Plugin | undefined;
   const include = /\.mdx?$/;
   const filter = createFilter(include);
@@ -41,12 +42,23 @@ export function mdxPlugin(): Plugin {
       reactRefresh = reactRefreshPlugins.find((p) => p.transform);
     },
 
-    async transform(src, id, options) {
+    async transform(src, id, transformOptions) {
       if (!filter(id)) return undefined;
 
       const { compile } = await import('@storybook/mdx2-csf');
 
-      const mdxCode = String(await compile(src, { skipCsf: !isStorybookMdx(id) }));
+      const mdxLoaderOptions = await options.presets.apply('mdxLoaderOptions', {
+        mdxCompileOptions: {
+          providerImportSource: '@storybook/addon-docs/mdx-react-shim',
+        },
+      });
+
+      const mdxCode = String(
+        await compile(src, {
+          skipCsf: !isStorybookMdx(id),
+          ...mdxLoaderOptions,
+        })
+      );
 
       const modifiedCode = injectRenderer(mdxCode);
 
@@ -56,7 +68,7 @@ export function mdxPlugin(): Plugin {
 
       // It's safe to disable this, because we know it'll be there, since we added it ourselves.
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      const result = await transform!.call(this, modifiedCode, `${id}.jsx`, options);
+      const result = await transform!.call(this, modifiedCode, `${id}.jsx`, transformOptions);
 
       if (!result) return modifiedCode;
 

@@ -1,8 +1,12 @@
 ---
-title: 'Add to the addon catalog'
+title: 'Add to the integration catalog'
 ---
 
-Storybook addons are listed in the [catalog](https://storybook.js.org/addons/) and distributed via npm. The catalog is populated by querying npm's registry for Storybook-specific metadata in `package.json`.
+Storybook has two types of integrations, addons and recipes, which are listed in the [integration catalog](https://storybook.js.org/integrations/).
+
+## Addons
+
+Storybook addons are distributed via npm. The catalog is populated by querying npm's registry for Storybook-specific metadata in `package.json`.
 
 Add your addon to the catalog by publishing a npm package that follows these requirements:
 
@@ -17,7 +21,7 @@ Get a refresher on how to [write a Storybook addon](./writing-addons.md).
 
 </div>
 
-## Addon metadata
+### Addon metadata
 
 We rely on metadata to organize your addon in the catalog. You must add the <code>storybook-addons</code> as the first keyword, followed by your addon's category. Additional keywords will be used in search and as tags.
 
@@ -85,3 +89,17 @@ The `package.json` above appears like below in the catalog. See an example of a 
 #### How long does it take for my addon to show up in the catalog?
 
 Once you publish the addon, it will appear in the catalog. There may be a delay between the time you publish your addon and when it's listed in the catalog. If your addon doesn't show up within 24 hours, [open an issue](https://github.com/storybookjs/frontpage/issues).
+
+## Recipes
+
+Recipes are a set of instructions to integrate third-party libraries into Storybook in cases where an addon does not exist or the integration requires some manual effort.
+
+### Who owns them?
+
+Recipes are written and maintained by the Storybook team. We create recipes based on community popularity, tool maturity, and stability of the integration. Our goal is to ensure that recipes continue to work over time.
+
+Not finding the recipe that you want? If it's popular in the community, our docs team will write one. In the mean time, try searching for a solution — it's likely that someone has the same requirements as you do. You can also help us out by writing recipes on your own site which speeds up the research process.
+
+### Request a recipe
+
+If you'd like to request a recipe, head over to the [#maintenance channel](https://discord.com/channels/486522875931656193/490070912448724992) of our community Discord and ask.

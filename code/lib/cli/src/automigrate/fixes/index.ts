@@ -7,12 +7,12 @@ import { vue3 } from './vue3';
 import { mainjsFramework } from './mainjsFramework';
 import { eslintPlugin } from './eslint-plugin';
 import { builderVite } from './builder-vite';
-import { npm7 } from './npm7';
 import { sbScripts } from './sb-scripts';
 import { newFrameworks } from './new-frameworks';
 import { removedGlobalClientAPIs } from './remove-global-client-apis';
 import { mdx1to2 } from './mdx-1-to-2';
 import { docsPageAutomatic } from './docsPage-automatic';
+import { addReact } from './add-react';
 
 export * from '../types';
 
@@ -24,10 +24,10 @@ export const fixes: Fix[] = [
   mainjsFramework,
   eslintPlugin,
   builderVite,
-  npm7,
   sbScripts,
   newFrameworks,
   removedGlobalClientAPIs,
   mdx1to2,
   docsPageAutomatic,
+  addReact,
 ];

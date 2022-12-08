@@ -1,3 +1,131 @@
+## 7.0.0-beta.0 (December 8, 2022)
+
+We made it to beta, folks! 🎉
+
+SB7 overhauls our build architecture, modernizes our output to ESM only, promotes Vite to a first-class peer to Webpack, rethinks our Docs addon, cleans up the UI, and contains hundreds of improvements at every level of the stack. We've been sharing some of these changes on [the Storybook blog](https://storybook.js.org/blog/) and will share more over the coming weeks.
+
+Beta means that we don't have any more major changes on the radar for 7.0 and it's mostly stabilization from here on out. The core team is doing some basic testing now, and once we have a good QA plan, we'd love your help to make that happen. Please keep an eye out on the blog and on our [Twitter](https://twitter.com/storybookjs) or Mastadon (coming soon!) or [Discord](https://discord.gg/storybook) if you're interested in helping.
+
+#### Bug Fixes
+
+-   Extend Angular Zone.js peer dependency range [#20107](https://github.com/storybooks/storybook/pull/20107)
+-   Vite: Fix static source handling for addon-docs [#20147](https://github.com/storybooks/storybook/pull/20147)
+-   Controls: Arrow keys don't work on number controls [#19954](https://github.com/storybooks/storybook/pull/19954)
+
+## 7.0.0-alpha.62 (December 8, 2022)
+
+#### Bug Fixes
+
+-   Fix new-frameworks automigration failing to read frameworkOptions field [#20128](https://github.com/storybooks/storybook/pull/20128)
+-   Fix Next.js lower than 12.2.0 [#20129](https://github.com/storybooks/storybook/pull/20129)
+-   Fix iframe.html not available upon early browser opening [#20123](https://github.com/storybooks/storybook/pull/20123)
+
+#### Maintenance
+
+-   Add args generic to CSFExports [#20135](https://github.com/storybooks/storybook/pull/20135)
+-   Modernize favicon [#20130](https://github.com/storybooks/storybook/pull/20130)
+-   Telemetry: Add precedingUpgrade data to dev/build/error events [#20136](https://github.com/storybooks/storybook/pull/20136)
+-   CLI: Replace addon-docs Meta with blocks and add blocks dep [#20133](https://github.com/storybooks/storybook/pull/20133)
+-   CLI: Fix upgrade --prerelease to upgrade to the next tag [#20126](https://github.com/storybooks/storybook/pull/20126)
+
+## 7.0.0-alpha.61 (December 7, 2022)
+
+#### Features
+
+-   NextJS: Support next/navigation in Next.js v13 [#20065](https://github.com/storybooks/storybook/pull/20065)
+
+#### Maintenance
+
+-   Vite/MDX: Fix mdx compiler for vite [#20121](https://github.com/storybooks/storybook/pull/20121)
+-   Fix more peerDependencies issues [#20120](https://github.com/storybooks/storybook/pull/20120)
+
+## 7.0.0-alpha.60 (December 7, 2022)
+
+#### Bug Fixes
+
+-   Deal with a lot of different edge cases for git URLs [#20115](https://github.com/storybooks/storybook/pull/20115)
+
+#### Maintenance
+
+-   Clean up babelModeV7 migration and code [#20117](https://github.com/storybooks/storybook/pull/20117)
+-   Fix peer dependencies for npm8/pnpm/yarn pnp [#20110](https://github.com/storybooks/storybook/pull/20110)
+-   Remove peer deps from core-common [#20109](https://github.com/storybooks/storybook/pull/20109)
+
+#### Build
+
+-   Add more linting config to vs-code settings.json [#20101](https://github.com/storybooks/storybook/pull/20101)
+
+## 7.0.0-alpha.59 (December 6, 2022)
+
+#### Features
+
+-   CSF: Add satisfies support to csf-tools [#20088](https://github.com/storybooks/storybook/pull/20088)
+
+#### Bug Fixes
+
+-   Next.js: only set next/future/image mocks from version 12.2 [#20098](https://github.com/storybooks/storybook/pull/20098)
+-   Core: Batch the loading of CSF files for `extract()` etc [#20055](https://github.com/storybooks/storybook/pull/20055)
+-   Fix SSR in external docs via `node` exports [#20083](https://github.com/storybooks/storybook/pull/20083)
+-   CLI: Improve sb-scripts automigration logic [#20035](https://github.com/storybooks/storybook/pull/20035)
+
+#### Maintenance
+
+-   Revert "Telemetry: Add precedingUpgrade data to dev/build events" [#20105](https://github.com/storybooks/storybook/pull/20105)
+-   Telemetry: Instrument init event [#20097](https://github.com/storybooks/storybook/pull/20097)
+
+#### Build
+
+-   Fix next [#20106](https://github.com/storybooks/storybook/pull/20106)
+-   Build: Run sb init locally in sandbox creation [#20100](https://github.com/storybooks/storybook/pull/20100)
+-   Build: Add missing dependencies to manager, unify TS to ~4.9.3 [#20021](https://github.com/storybooks/storybook/pull/20021)
+
+#### Dependency Upgrades
+
+-   Bump store2 to 2.14.2 license clarification [#19899](https://github.com/storybooks/storybook/pull/19899)
+
+## 7.0.0-alpha.58 (December 5, 2022)
+
+#### Features
+
+-   Add `--tag` option to `upgrade` script [#20075](https://github.com/storybooks/storybook/pull/20075)
+-   HTML: Add `html-vite` framework [#19698](https://github.com/storybooks/storybook/pull/19698)
+-   SvelteKit: Create framework [#20039](https://github.com/storybooks/storybook/pull/20039)
+
+#### Maintenance
+
+-   Core: Remove postcss feature flag [#20003](https://github.com/storybooks/storybook/pull/20003)
+-   Telemetry: Add precedingUpgrade data to dev/build events [#20084](https://github.com/storybooks/storybook/pull/20084)
+-   Core: make managerEntries load as ESM, for improved tree-shaking [#20070](https://github.com/storybooks/storybook/pull/20070)
+
+## 7.0.0-alpha.57 (December 3, 2022)
+
+#### Bug Fixes
+
+-   Vite: Reinstate (deprecated) `StorybookViteConfig` [#20057](https://github.com/storybooks/storybook/pull/20057)
+-   Docs: using targeted styles, not components to style MDX [#19958](https://github.com/storybooks/storybook/pull/19958)
+-   Docs: Return to filtering toolbars in docs mode, but don't filter menu [#19959](https://github.com/storybooks/storybook/pull/19959)
+-   Angular: Don't set `argType.defaultValue` in angular/compodoc [#19935](https://github.com/storybooks/storybook/pull/19935)
+-   NextJS: Support next/image component in v12/13 properly [#20028](https://github.com/storybooks/storybook/pull/20028)
+-   Svelte: Use JSDocs in JS CLI templates and put manual enum arg type back as it is not inferred [#20042](https://github.com/storybooks/storybook/pull/20042)
+
+#### Maintenance
+
+-   CLI: Add a new `version-update` check telemetry event [#20074](https://github.com/storybooks/storybook/pull/20074)
+-   CLI: Add upgrade telemetry details [#20064](https://github.com/storybooks/storybook/pull/20064)
+-   Core: added .entries property to error thrown when duplicate stories are present [#20038](https://github.com/storybooks/storybook/pull/20038)
+
+#### Build
+
+-   Improve framework version specific story handling [#20027](https://github.com/storybooks/storybook/pull/20027)
+-   Fix repro templates script [#20063](https://github.com/storybooks/storybook/pull/20063)
+-   Build: replace image placeholder url in example stories for nextjs [#20069](https://github.com/storybooks/storybook/pull/20069)
+-   Build: improve inDevelopment mode for yarn task [#20067](https://github.com/storybooks/storybook/pull/20067)
+-   Build: revamp interactions e2e test [#20060](https://github.com/storybooks/storybook/pull/20060)
+
+#### Dependency Upgrades
+
+-   Build: Update jest pretty-format to 29 [#20047](https://github.com/storybooks/storybook/pull/20047)
+
 ## 7.0.0-alpha.56 (December 1, 2022)
 
 #### Bug Fixes

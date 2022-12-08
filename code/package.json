@@ -1,6 +1,6 @@
 {
   "name": "@storybook/root",
-  "version": "7.0.0-alpha.56",
+  "version": "7.0.0-beta.0",
   "private": true,
   "description": "Storybook is an open source tool for developing UI components in isolation for React, Vue and Angular. It makes building stunning UIs organized and efficient.",
   "keywords": [
@@ -191,6 +191,7 @@
     "@storybook/ember": "workspace:*",
     "@storybook/eslint-config-storybook": "^3.1.2",
     "@storybook/html": "workspace:*",
+    "@storybook/html-vite": "workspace:*",
     "@storybook/html-webpack5": "workspace:*",
     "@storybook/instrumenter": "workspace:*",
     "@storybook/jest": "^0.0.10",
@@ -288,7 +289,7 @@
     "eslint-plugin-storybook": "^0.6.6",
     "esm": "^3.2.25",
     "execa": "^5.0.0",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "fs-extra": "^9.0.1",
     "github-release-from-changelog": "^2.1.1",
     "glob": "^7.1.6",
@@ -335,7 +336,7 @@
     "ts-dedent": "^2.0.0",
     "ts-node": "^10.4.0",
     "tsup": "^6.2.2",
-    "typescript": "^4.9.3",
+    "typescript": "~4.9.3",
     "util": "^0.12.4",
     "vite": "^3.1.7",
     "vite-plugin-turbosnap": "^1.0.1",
