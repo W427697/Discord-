@@ -65,11 +65,13 @@ async function webpack(
     transcludeMarkdown = false,
   } = options;
 
-  const mdxLoaderOptions = {
-    // whether to skip storybook files, useful for docs only mdx or md files
+  const mdxLoaderOptions = await options.presets.apply('mdxLoaderOptions', {
     skipCsf: true,
-    remarkPlugins: [remarkSlug, remarkExternalLinks],
-  };
+    mdxCompileOptions: {
+      providerImportSource: '@storybook/addon-docs/mdx-react-shim',
+      remarkPlugins: [remarkSlug, remarkExternalLinks],
+    },
+  });
 
   if (sourceLoaderOptions) {
     throw new Error(dedent`

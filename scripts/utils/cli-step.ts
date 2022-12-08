@@ -23,6 +23,18 @@ export const steps = {
       output: { type: 'string' },
       // TODO allow default values for strings
       branch: { type: 'string', values: ['next'] },
+      init: { type: 'boolean', inverse: true },
+      debug: { type: 'boolean' },
+    }),
+  },
+  init: {
+    command: 'init',
+    description: 'Initializing Storybook',
+    icon: '⚙️',
+    options: createOptions({
+      yes: { type: 'boolean', inverse: true },
+      type: { type: 'string' },
+      debug: { type: 'boolean' },
     }),
   },
   add: {

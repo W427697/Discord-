@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-docs",
-  "version": "7.0.0-alpha.54",
+  "version": "7.0.0-alpha.62",
   "description": "Document component usage and properties in Markdown",
   "keywords": [
     "addon",
@@ -26,6 +26,7 @@
   "license": "MIT",
   "exports": {
     ".": {
+      "node": "./dist/index.js",
       "require": "./dist/index.js",
       "import": "./dist/index.mjs",
       "types": "./dist/index.d.ts"
@@ -49,6 +50,16 @@
       "require": "./dist/preset.js",
       "import": "./dist/preset.mjs",
       "types": "./dist/preset.d.ts"
+    },
+    "./dist/shims/mdx-react-shim": {
+      "require": "./dist/shims/mdx-react-shim.js",
+      "import": "./dist/shims/mdx-react-shim.mjs",
+      "types": "./dist/shims/mdx-react-shim.d.ts"
+    },
+    "./mdx-react-shim": {
+      "require": "./dist/shims/mdx-react-shim.js",
+      "import": "./dist/shims/mdx-react-shim.mjs",
+      "types": "./dist/shims/mdx-react-shim.d.ts"
     },
     "./svelte/HOC.svelte": "./svelte/HOC.svelte",
     "./ember": "./ember/index.js",
@@ -84,19 +95,20 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
+    "@babel/core": "^7.20.2",
     "@babel/plugin-transform-react-jsx": "^7.19.0",
     "@jest/transform": "^29.3.1",
     "@mdx-js/react": "^2.1.5",
-    "@storybook/blocks": "7.0.0-alpha.54",
-    "@storybook/components": "7.0.0-alpha.54",
-    "@storybook/csf-plugin": "7.0.0-alpha.54",
-    "@storybook/csf-tools": "7.0.0-alpha.54",
+    "@storybook/blocks": "7.0.0-alpha.62",
+    "@storybook/components": "7.0.0-alpha.62",
+    "@storybook/csf-plugin": "7.0.0-alpha.62",
+    "@storybook/csf-tools": "7.0.0-alpha.62",
     "@storybook/mdx2-csf": "next",
-    "@storybook/node-logger": "7.0.0-alpha.54",
-    "@storybook/postinstall": "7.0.0-alpha.54",
-    "@storybook/preview-api": "7.0.0-alpha.54",
-    "@storybook/theming": "7.0.0-alpha.54",
-    "@storybook/types": "7.0.0-alpha.54",
+    "@storybook/node-logger": "7.0.0-alpha.62",
+    "@storybook/postinstall": "7.0.0-alpha.62",
+    "@storybook/preview-api": "7.0.0-alpha.62",
+    "@storybook/theming": "7.0.0-alpha.62",
+    "@storybook/types": "7.0.0-alpha.62",
     "fs-extra": "^9.0.1",
     "global": "^4.4.0",
     "remark-external-links": "^8.0.0",
@@ -104,20 +116,13 @@
     "ts-dedent": "^2.0.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.20.2",
-    "typescript": "^4.9.3"
+    "react": "^16.14.0",
+    "react-dom": "^16.8.0",
+    "typescript": "~4.9.3"
   },
   "peerDependencies": {
     "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
     "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0"
-  },
-  "peerDependenciesMeta": {
-    "react": {
-      "optional": true
-    },
-    "react-dom": {
-      "optional": true
-    }
   },
   "publishConfig": {
     "access": "public"
@@ -126,10 +131,11 @@
     "entries": [
       "./src/index.ts",
       "./src/preset.ts",
-      "./src/preview.ts"
+      "./src/preview.ts",
+      "./src/shims/mdx-react-shim.ts"
     ]
   },
-  "gitHead": "91177d4e27daec556a24ae6223c3cbe17a998d9b",
+  "gitHead": "27a91217b1e30d56af667a4e1f587ed1ac173e70",
   "storybook": {
     "displayName": "Docs",
     "icon": "https://user-images.githubusercontent.com/263385/101991672-48355c80-3c7c-11eb-82d9-95fa12438f64.png",

@@ -14,13 +14,17 @@ Pick a simple component from your project, like a Button, and write a `.stories.
     'react/your-component.ts.mdx',
     'angular/your-component.ts.mdx',
     'vue/your-component.2.js.mdx',
+    'vue/your-component.ts-2.ts.mdx',
     'vue/your-component.3.js.mdx',
+    'vue/your-component.ts-3.ts.mdx',
     'svelte/your-component.js.mdx',
     'web-components/your-component.js.mdx',
     'html/your-component.js.mdx',
     'html/your-component.ts.mdx',
     'preact/your-component.js.mdx',
   ]}
+  usesCsf3
+  csf2Path="get-started/setup#snippet-your-component"
 />
 
 <!-- prettier-ignore-end -->

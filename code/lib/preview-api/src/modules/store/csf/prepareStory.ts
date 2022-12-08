@@ -201,7 +201,9 @@ export function prepareStory<TRenderer extends Renderer>(
 
     return decoratedStoryFn(finalContext);
   };
-  const { play } = storyAnnotations;
+
+  const play = storyAnnotations.play || componentAnnotations.play;
+
   const playFunction =
     play &&
     (async (storyContext: StoryContext<TRenderer>) => {

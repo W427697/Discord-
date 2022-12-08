@@ -21,7 +21,7 @@ export const metaFrameworks = {
   '@nuxtjs/storybook': 'nuxt',
   '@nrwl/storybook': 'nx',
   '@vue/cli-service': 'vue-cli',
-  '@sveltejs/kit': 'svelte-kit',
+  '@sveltejs/kit': 'sveltekit',
 } as Record<string, string>;
 
 export const sanitizeAddonName = (name: string) => {
@@ -150,13 +150,13 @@ export const computeStorybookMetadata = async ({
   const hasStorybookEslint = !!allDependencies['eslint-plugin-storybook'];
 
   const storybookInfo = getStorybookInfo(packageJson);
-  const storybookVersion =
-    storybookPackages[storybookInfo.frameworkPackage]?.version || storybookInfo.version;
+  const storybookVersion = storybookPackages[storybookInfo.frameworkPackage]?.version;
 
   return {
     ...metadata,
     ...frameworkInfo,
     storybookVersion,
+    storybookVersionSpecifier: storybookInfo.version,
     language,
     storybookPackages,
     addons,

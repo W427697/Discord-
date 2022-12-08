@@ -1,6 +1,6 @@
 {
   "name": "@storybook/vue-webpack5",
-  "version": "7.0.0-alpha.54",
+  "version": "7.0.0-alpha.62",
   "description": "Storybook for Vue: Develop Vue Component in isolation with Hot Reloading.",
   "keywords": [
     "storybook"
@@ -50,16 +50,14 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/builder-webpack5": "7.0.0-alpha.54",
-    "@storybook/core-common": "7.0.0-alpha.54",
-    "@storybook/preset-vue-webpack": "7.0.0-alpha.54",
-    "@storybook/vue": "7.0.0-alpha.54",
-    "@types/node": "^16.0.0",
-    "react": "16.14.0",
-    "react-dom": "16.14.0"
+    "@storybook/builder-webpack5": "7.0.0-alpha.62",
+    "@storybook/core-common": "7.0.0-alpha.62",
+    "@storybook/preset-vue-webpack": "7.0.0-alpha.62",
+    "@storybook/vue": "7.0.0-alpha.62",
+    "@types/node": "^16.0.0"
   },
   "devDependencies": {
-    "typescript": "^4.9.3",
+    "typescript": "~4.9.3",
     "vue": "^2.6.12",
     "vue-loader": "^15.7.0",
     "vue-template-compiler": "^2.6.14"
@@ -68,6 +66,8 @@
     "@babel/core": "*",
     "babel-loader": "^7.0.0 || ^8.0.0 || ^9.0.0",
     "css-loader": "*",
+    "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
+    "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0",
     "vue": "^2.6.8",
     "vue-loader": "^15.7.0",
     "vue-template-compiler": "^2.6.8"
@@ -85,5 +85,5 @@
     ],
     "platform": "node"
   },
-  "gitHead": "91177d4e27daec556a24ae6223c3cbe17a998d9b"
+  "gitHead": "27a91217b1e30d56af667a4e1f587ed1ac173e70"
 }

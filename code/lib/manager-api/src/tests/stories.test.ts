@@ -876,7 +876,6 @@ describe('stories API', () => {
 
       const {
         api: { setIndex, jumpToStory },
-        state,
       } = initStories({ store, navigate, provider } as any);
       setIndex({ v: 4, entries: navigationEntries });
 

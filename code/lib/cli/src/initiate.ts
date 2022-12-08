@@ -26,6 +26,7 @@ import webComponentsGenerator from './generators/WEB-COMPONENTS';
 import riotGenerator from './generators/RIOT';
 import preactGenerator from './generators/PREACT';
 import svelteGenerator from './generators/SVELTE';
+import svelteKitGenerator from './generators/SVELTEKIT';
 import raxGenerator from './generators/RAX';
 import serverGenerator from './generators/SERVER';
 import type { JsPackageManager } from './js-package-manager';
@@ -183,6 +184,11 @@ const installStorybook = (
           commandLog('Adding Storybook support to your "Svelte" app\n')
         );
 
+      case ProjectType.SVELTEKIT:
+        return svelteKitGenerator(packageManager, npmOptions, generatorOptions).then(
+          commandLog('Adding Storybook support to your "SvelteKit" app\n')
+        );
+
       case ProjectType.RAX:
         return raxGenerator(packageManager, npmOptions, generatorOptions).then(
           commandLog('Adding Storybook support to your "Rax" app\n')
@@ -268,10 +274,6 @@ async function doInitiate(options: CommandOptions, pkg: Package): Promise<void> 
   const welcomeMessage = 'storybook init - the simplest way to add a Storybook to your project.';
   logger.log(chalk.inverse(`\n ${welcomeMessage} \n`));
 
-  if (!options.disableTelemetry) {
-    telemetry('init', {}, { stripMetadata: true });
-  }
-
   // Update notify code.
   const { default: updateNotifier } = await import('update-notifier');
   updateNotifier({
@@ -319,6 +321,10 @@ async function doInitiate(options: CommandOptions, pkg: Package): Promise<void> 
 
   if (!options.skipInstall) {
     packageManager.installDependencies();
+  }
+
+  if (!options.disableTelemetry) {
+    telemetry('init', { projectType });
   }
 
   await automigrate({ yes: options.yes || process.env.CI === 'true', useNpm, force: pkgMgr });
