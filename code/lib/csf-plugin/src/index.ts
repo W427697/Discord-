@@ -30,4 +30,7 @@ export const unplugin = createUnplugin<CsfPluginOptions>((options) => {
   };
 });
 
-export const { vite, rollup, webpack, esbuild } = unplugin;
+export const { esbuild } = unplugin;
+export const { webpack } = unplugin;
+export const { rollup } = unplugin;
+export const { vite } = unplugin;

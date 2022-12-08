@@ -15,7 +15,14 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
     name,
     dependencies,
     peerDependencies,
-    bundler: { entries = [], untypedEntries = [], platform, pre, post },
+    bundler: {
+      entries = [],
+      // these are extra packages to externalize, dispute them not being in the package.json
+      externals = [],
+      platform = undefined,
+      pre = undefined,
+      post = undefined,
+    } = {},
   } = await fs.readJson(join(cwd, 'package.json'));
 
   if (pre) {
@@ -60,7 +67,7 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
     // BROWSER EMS
     build({
       silent: true,
-      entry: [...entries, ...untypedEntries].map((e: string) => slash(join(cwd, e))),
+      entry: entries.map((e: string) => slash(join(cwd, e))),
       watch,
       ...(tsConfigExists ? { tsconfig: tsConfigPath } : {}),
       outDir: join(process.cwd(), 'dist'),
@@ -74,7 +81,12 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
           util: path.resolve('../node_modules/util/util.js'),
         }),
       ],
-      external: [name, ...Object.keys(dependencies || {}), ...Object.keys(peerDependencies || {})],
+      external: [
+        name,
+        ...Object.keys(dependencies || {}),
+        ...Object.keys(peerDependencies || {}),
+        ...externals,
+      ],
 
       dts:
         optimized && tsConfigExists
@@ -99,7 +111,7 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
     // NODE CJS
     build({
       silent: true,
-      entry: [...entries, ...untypedEntries].map((e: string) => slash(join(cwd, e))),
+      entry: entries.map((e: string) => slash(join(cwd, e))),
       watch,
       outDir: join(process.cwd(), 'dist'),
       ...(tsConfigExists ? { tsconfig: tsConfigPath } : {}),
@@ -107,7 +119,12 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
       target: 'node16',
       platform: 'node',
       clean: !watch,
-      external: [name, ...Object.keys(dependencies || {}), ...Object.keys(peerDependencies || {})],
+      external: [
+        name,
+        ...Object.keys(dependencies || {}),
+        ...Object.keys(peerDependencies || {}),
+        ...externals,
+      ],
 
       esbuildOptions: (c) => {
         /* eslint-disable no-param-reassign */
