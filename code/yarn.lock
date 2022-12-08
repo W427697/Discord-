@@ -5464,6 +5464,7 @@ __metadata:
     "@types/puppeteer": ^5.4.0
     jest-image-snapshot: ^6.0.0
     puppeteer: ^2.0.0 || ^3.0.0
+    rimraf: ^3.0.2
   peerDependencies:
     "@storybook/addon-storyshots": 7.0.0-alpha.62
     puppeteer: ">=2.0.0"
@@ -5507,6 +5508,7 @@ __metadata:
     pretty-format: ^29.0.0
     react-test-renderer: ^16
     read-pkg-up: ^7.0.1
+    rimraf: ^3.0.2
     rxjs: ^6.6.3
     ts-dedent: ^2.0.0
     vue-jest: ^5.0.0-alpha.8

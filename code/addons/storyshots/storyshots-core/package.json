@@ -31,10 +31,7 @@
     "*.d.ts"
   ],
   "scripts": {
-    "build-storybook": "sb build",
-    "example": "jest storyshot.test",
-    "prep": "node ../../../../scripts/prepare.js",
-    "storybook": "yarn sb dev -p 6006"
+    "prep": "rimraf dist && ../../../../scripts/node_modules/.bin/tsc --project tsconfig.build.json && echo \"Preventing passing flags to tsc\""
   },
   "dependencies": {
     "@jest/transform": "^29.3.1",
@@ -71,6 +68,7 @@
     "jest-preset-angular": "^8.3.2",
     "jest-vue-preprocessor": "^1.7.1",
     "react-test-renderer": "^16",
+    "rimraf": "^3.0.2",
     "rxjs": "^6.6.3",
     "vue-jest": "^5.0.0-alpha.8"
   },
