@@ -5857,7 +5857,7 @@ __metadata:
     ejs: ^3.1.8
     esbuild: ^0.14.48
     esbuild-plugin-alias: ^0.2.1
-    express: ^4.17.1
+    express: ^4.17.3
     fs-extra: ^9.0.1
     process: ^0.11.10
     slash: ^3.0.0
@@ -5884,7 +5884,7 @@ __metadata:
     "@vitejs/plugin-react": ^2.0.0
     browser-assert: ^1.2.1
     es-module-lexer: ^0.9.3
-    express: ^4.17.1
+    express: ^4.17.3
     fs-extra: ^9.0.1
     glob: ^7.2.0
     glob-promise: ^4.2.0
@@ -5940,7 +5940,7 @@ __metadata:
     browser-assert: ^1.2.1
     case-sensitive-paths-webpack-plugin: ^2.4.0
     css-loader: ^6.7.1
-    express: ^4.17.1
+    express: ^4.17.3
     fork-ts-checker-webpack-plugin: ^7.2.8
     fs-extra: ^9.0.1
     global: ^4.4.0
@@ -6041,7 +6041,7 @@ __metadata:
     detect-indent: ^6.1.0
     envinfo: ^7.7.3
     execa: ^5.0.0
-    express: ^4.17.1
+    express: ^4.17.3
     find-up: ^5.0.0
     fs-extra: ^9.0.1
     get-port: ^5.1.1
@@ -6170,7 +6170,7 @@ __metadata:
     chalk: ^4.1.0
     esbuild: ^0.14.48
     esbuild-register: ^3.3.3
-    express: ^4.17.1
+    express: ^4.17.3
     file-system-cache: ^2.0.0
     find-up: ^5.0.0
     fs-extra: ^9.0.1
@@ -6240,7 +6240,7 @@ __metadata:
     cli-table3: ^0.6.1
     compression: ^1.7.4
     detect-port: ^1.3.0
-    express: ^4.17.1
+    express: ^4.17.3
     fs-extra: ^9.0.1
     global: ^4.4.0
     globby: ^11.0.2
@@ -6578,7 +6578,7 @@ __metadata:
     global: ^4.4.0
     lodash: ^4.17.21
     memoizerific: ^1.11.3
-    qs: ^6.10.1
+    qs: ^6.10.0
     semver: ^7.3.7
     store2: ^2.14.2
     telejson: ^7.0.3
@@ -7234,7 +7234,7 @@ __metadata:
     esm: ^3.2.25
     execa: ^5.0.0
     expect-type: ^0.14.2
-    express: ^4.17.1
+    express: ^4.17.3
     fs-extra: ^9.0.1
     github-release-from-changelog: ^2.1.1
     glob: ^7.1.6
@@ -7591,7 +7591,7 @@ __metadata:
     "@types/babel__core": ^7.0.0
     "@types/express": ^4.7.0
     "@types/node": ^16.0.0
-    express: ^4.17.1
+    express: ^4.17.3
     file-system-cache: ^2.0.0
     typescript: ~4.9.3
   languageName: unknown
@@ -16550,7 +16550,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"express@npm:^4.17.1":
+"express@npm:^4.17.1, express@npm:^4.17.3":
   version: 4.18.2
   resolution: "express@npm:4.18.2"
   dependencies:
@@ -27242,7 +27242,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"qs@npm:6.11.0, qs@npm:^6.10.0, qs@npm:^6.10.1, qs@npm:^6.4.0, qs@npm:^6.9.4":
+"qs@npm:6.11.0, qs@npm:^6.10.0, qs@npm:^6.4.0, qs@npm:^6.9.4":
   version: 6.11.0
   resolution: "qs@npm:6.11.0"
   dependencies:

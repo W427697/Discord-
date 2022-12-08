@@ -79,7 +79,7 @@
     "browser-assert": "^1.2.1",
     "case-sensitive-paths-webpack-plugin": "^2.4.0",
     "css-loader": "^6.7.1",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "fork-ts-checker-webpack-plugin": "^7.2.8",
     "fs-extra": "^9.0.1",
     "global": "^4.4.0",

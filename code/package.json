@@ -289,7 +289,7 @@
     "eslint-plugin-storybook": "^0.6.6",
     "esm": "^3.2.25",
     "execa": "^5.0.0",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "fs-extra": "^9.0.1",
     "github-release-from-changelog": "^2.1.1",
     "glob": "^7.1.6",
