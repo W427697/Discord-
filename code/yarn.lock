@@ -29438,7 +29438,6 @@ __metadata:
   resolution: "sb@workspace:lib/cli-sb"
   dependencies:
     "@storybook/cli": 7.0.0-alpha.62
-    typescript: ~4.9.3
   bin:
     sb: ./index.js
   languageName: unknown
@@ -30547,7 +30546,6 @@ __metadata:
   resolution: "storybook@workspace:lib/cli-storybook"
   dependencies:
     "@storybook/cli": 7.0.0-alpha.62
-    typescript: ~4.9.3
   bin:
     sb: ./index.js
     storybook: ./index.js
