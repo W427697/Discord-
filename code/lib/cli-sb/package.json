@@ -20,14 +20,8 @@
   },
   "license": "MIT",
   "bin": "./index.js",
-  "scripts": {
-    "prep": "node ../../../scripts/prepare.js"
-  },
   "dependencies": {
     "@storybook/cli": "7.0.0-alpha.62"
-  },
-  "devDependencies": {
-    "typescript": "~4.9.3"
   },
   "publishConfig": {
     "access": "public"
