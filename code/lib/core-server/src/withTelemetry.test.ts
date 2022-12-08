@@ -63,10 +63,10 @@ describe('when command fails', () => {
       withTelemetry('dev', { presetOptions: {} as any }, run)
     ).rejects.toThrow(error);
 
-    expect(telemetry).toHaveBeenCalledTimes(1);
-    expect(telemetry).not.toHaveBeenCalledWith(
+    expect(telemetry).toHaveBeenCalledTimes(2);
+    expect(telemetry).toHaveBeenCalledWith(
       'error',
-      { eventType: 'dev', error },
+      { eventType: 'dev' },
       expect.objectContaining({})
     );
   });
@@ -88,7 +88,7 @@ describe('when command fails', () => {
     );
   });
 
-  it('does not send error message when telemetry is disabled', async () => {
+  it('does not send full error message when telemetry is disabled', async () => {
     jest.mocked(loadAllPresets).mockResolvedValueOnce({
       apply: async () => ({ disableTelemetry: true } as any),
     });
@@ -132,10 +132,10 @@ describe('when command fails', () => {
       withTelemetry('dev', { presetOptions: {} as any }, run)
     ).rejects.toThrow(error);
 
-    expect(telemetry).toHaveBeenCalledTimes(1);
-    expect(telemetry).not.toHaveBeenCalledWith(
+    expect(telemetry).toHaveBeenCalledTimes(2);
+    expect(telemetry).toHaveBeenCalledWith(
       'error',
-      { eventType: 'dev', error },
+      { eventType: 'dev' },
       expect.objectContaining({})
     );
   });
@@ -169,10 +169,10 @@ describe('when command fails', () => {
       withTelemetry('dev', { presetOptions: {} as any }, run)
     ).rejects.toThrow(error);
 
-    expect(telemetry).toHaveBeenCalledTimes(1);
-    expect(telemetry).not.toHaveBeenCalledWith(
+    expect(telemetry).toHaveBeenCalledTimes(2);
+    expect(telemetry).toHaveBeenCalledWith(
       'error',
-      { eventType: 'dev', error },
+      { eventType: 'dev' },
       expect.objectContaining({})
     );
   });
