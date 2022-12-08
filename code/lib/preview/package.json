@@ -1,6 +1,6 @@
 {
   "name": "@storybook/preview",
-  "version": "7.0.0-alpha.54",
+  "version": "7.0.0-beta.0",
   "description": "",
   "keywords": [
     "storybook"
@@ -57,18 +57,13 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "devDependencies": {
-    "@storybook/addons": "7.0.0-alpha.54",
-    "@storybook/channel-postmessage": "7.0.0-alpha.54",
-    "@storybook/channel-websocket": "7.0.0-alpha.54",
-    "@storybook/channels": "7.0.0-alpha.54",
-    "@storybook/client-api": "7.0.0-alpha.54",
-    "@storybook/client-logger": "7.0.0-alpha.54",
-    "@storybook/core-client": "7.0.0-alpha.54",
-    "@storybook/core-events": "7.0.0-alpha.54",
-    "@storybook/preview-api": "7.0.0-alpha.54",
-    "@storybook/preview-web": "7.0.0-alpha.54",
-    "@storybook/store": "7.0.0-alpha.54",
-    "typescript": "~4.6.3"
+    "@storybook/channel-postmessage": "7.0.0-beta.0",
+    "@storybook/channel-websocket": "7.0.0-beta.0",
+    "@storybook/channels": "7.0.0-beta.0",
+    "@storybook/client-logger": "7.0.0-beta.0",
+    "@storybook/core-events": "7.0.0-beta.0",
+    "@storybook/preview-api": "7.0.0-beta.0",
+    "typescript": "~4.9.3"
   },
   "publishConfig": {
     "access": "public"
@@ -79,5 +74,5 @@
       "./src/globals.ts"
     ]
   },
-  "gitHead": "91177d4e27daec556a24ae6223c3cbe17a998d9b"
+  "gitHead": "27a91217b1e30d56af667a4e1f587ed1ac173e70"
 }

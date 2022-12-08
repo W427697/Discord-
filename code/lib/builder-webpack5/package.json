@@ -1,6 +1,6 @@
 {
   "name": "@storybook/builder-webpack5",
-  "version": "7.0.0-alpha.54",
+  "version": "7.0.0-beta.0",
   "description": "Storybook framework-agnostic API",
   "keywords": [
     "storybook"
@@ -54,24 +54,24 @@
   },
   "dependencies": {
     "@babel/core": "^7.12.10",
-    "@storybook/addons": "7.0.0-alpha.54",
-    "@storybook/api": "7.0.0-alpha.54",
-    "@storybook/channel-postmessage": "7.0.0-alpha.54",
-    "@storybook/channel-websocket": "7.0.0-alpha.54",
-    "@storybook/channels": "7.0.0-alpha.54",
-    "@storybook/client-api": "7.0.0-alpha.54",
-    "@storybook/client-logger": "7.0.0-alpha.54",
-    "@storybook/components": "7.0.0-alpha.54",
-    "@storybook/core-common": "7.0.0-alpha.54",
-    "@storybook/core-events": "7.0.0-alpha.54",
-    "@storybook/core-webpack": "7.0.0-alpha.54",
-    "@storybook/manager-api": "7.0.0-alpha.54",
-    "@storybook/node-logger": "7.0.0-alpha.54",
-    "@storybook/preview": "7.0.0-alpha.54",
-    "@storybook/preview-api": "7.0.0-alpha.54",
-    "@storybook/router": "7.0.0-alpha.54",
-    "@storybook/store": "7.0.0-alpha.54",
-    "@storybook/theming": "7.0.0-alpha.54",
+    "@storybook/addons": "7.0.0-beta.0",
+    "@storybook/api": "7.0.0-beta.0",
+    "@storybook/channel-postmessage": "7.0.0-beta.0",
+    "@storybook/channel-websocket": "7.0.0-beta.0",
+    "@storybook/channels": "7.0.0-beta.0",
+    "@storybook/client-api": "7.0.0-beta.0",
+    "@storybook/client-logger": "7.0.0-beta.0",
+    "@storybook/components": "7.0.0-beta.0",
+    "@storybook/core-common": "7.0.0-beta.0",
+    "@storybook/core-events": "7.0.0-beta.0",
+    "@storybook/core-webpack": "7.0.0-beta.0",
+    "@storybook/manager-api": "7.0.0-beta.0",
+    "@storybook/node-logger": "7.0.0-beta.0",
+    "@storybook/preview": "7.0.0-beta.0",
+    "@storybook/preview-api": "7.0.0-beta.0",
+    "@storybook/router": "7.0.0-beta.0",
+    "@storybook/store": "7.0.0-beta.0",
+    "@storybook/theming": "7.0.0-beta.0",
     "@types/node": "^16.0.0",
     "@types/semver": "^7.3.4",
     "babel-loader": "^8.3.0",
@@ -104,7 +104,7 @@
     "@types/webpack-hot-middleware": "^2.25.6",
     "@types/webpack-virtual-modules": "^0.1.1",
     "pretty-hrtime": "^1.0.3",
-    "typescript": "^4.9.3"
+    "typescript": "~4.9.3"
   },
   "peerDependencies": {
     "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
@@ -126,5 +126,5 @@
     ],
     "platform": "node"
   },
-  "gitHead": "91177d4e27daec556a24ae6223c3cbe17a998d9b"
+  "gitHead": "27a91217b1e30d56af667a4e1f587ed1ac173e70"
 }
