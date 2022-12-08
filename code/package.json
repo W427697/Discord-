@@ -41,11 +41,8 @@
     "packages": [
       "addons/*",
       "addons/storyshots/*",
-      "examples/*",
-      "examples-native/*",
       "frameworks/*",
       "lib/*",
-      "lib/cli/test/run/*",
       "ui/*",
       "presets/*",
       "renderers/*"
