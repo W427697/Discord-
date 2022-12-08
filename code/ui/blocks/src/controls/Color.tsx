@@ -216,16 +216,11 @@ const useColorInput = (
 
   // Reset state when initialValue changes (when resetting controls)
   useEffect(() => {
-    if (initialValue !== undefined) {
-      const parsed = parseValue(initialValue);
-      setValue(initialValue);
-      setColor(parsed);
-      setColorSpace(parsed.colorSpace);
-      return;
-    }
-    setValue('');
-    setColor(undefined);
-    setColorSpace(ColorSpace.HEX);
+    const nextValue = initialValue || '';
+    const nextColor = parseValue(nextValue);
+    setValue(nextValue);
+    setColor(nextColor);
+    setColorSpace(nextColor?.colorSpace || ColorSpace.HEX);
   }, [initialValue]);
 
   const realValue = useMemo(
