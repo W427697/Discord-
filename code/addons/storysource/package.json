@@ -91,7 +91,7 @@
       "./src/preset.ts"
     ]
   },
-  "gitHead": "27a91217b1e30d56af667a4e1f587ed1ac173e70",
+  "gitHead": "2e4ddde6a0a291266d91fe6a5ecda767bf119e70",
   "storybook": {
     "displayName": "Storysource",
     "icon": "https://user-images.githubusercontent.com/263385/101991675-48cdf300-3c7c-11eb-9400-58de5ac6daa7.png",
