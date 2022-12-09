@@ -6,7 +6,7 @@ import { logger, pretty } from '@storybook/client-logger';
 import { isJSON, parse, stringify } from 'telejson';
 import qs from 'qs';
 
-const { window: globalWindow, document, location } = global;
+const { document, location } = global;
 
 interface Config {
   page: 'manager' | 'preview';
@@ -36,8 +36,8 @@ export class PostmsgTransport {
   constructor(private readonly config: Config) {
     this.buffer = [];
     this.handler = null;
-    if (globalWindow) {
-      globalWindow.addEventListener('message', this.handleEvent.bind(this), false);
+    if (global) {
+      global.addEventListener('message', this.handleEvent.bind(this), false);
     }
 
     // Check whether the config.page parameter has a valid value
@@ -157,8 +157,8 @@ export class PostmsgTransport {
 
       return list.length ? list : this.getCurrentFrames();
     }
-    if (globalWindow && globalWindow.parent && globalWindow.parent !== globalWindow) {
-      return [globalWindow.parent];
+    if (global && global.parent && global.parent !== global.self) {
+      return [global.parent];
     }
 
     return [];
@@ -171,8 +171,8 @@ export class PostmsgTransport {
       );
       return list.map((e) => e.contentWindow);
     }
-    if (globalWindow && globalWindow.parent) {
-      return [globalWindow.parent];
+    if (global && global.parent) {
+      return [global.parent];
     }
 
     return [];
@@ -185,8 +185,8 @@ export class PostmsgTransport {
       );
       return list.map((e) => e.contentWindow);
     }
-    if (globalWindow && globalWindow.parent) {
-      return [globalWindow.parent];
+    if (global && global.parent) {
+      return [global.parent];
     }
 
     return [];
