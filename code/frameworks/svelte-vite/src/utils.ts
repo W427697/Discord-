@@ -30,8 +30,14 @@ export async function handleSvelteKit(plugins: PluginOption[], options: Options)
   const frameworkPreset = await options.presets.apply('framework', {}, options);
   const framework = typeof frameworkPreset === 'string' ? frameworkPreset : frameworkPreset.name;
 
-  if (hasPlugin(plugins, 'vite-plugin-svelte-kit') && framework !== '@storybook/sveltekit') {
-    throw new Error(`
+  const hasSvelteKitPlugins =
+    hasPlugin(plugins, 'vite-plugin-svelte-kit') ||
+    hasPlugin(plugins, 'vite-plugin-sveltekit-build') ||
+    hasPlugin(plugins, 'vite-plugin-sveltekit-middleware');
+
+  if (hasSvelteKitPlugins && framework !== '@storybook/sveltekit') {
+    throw new Error(
+      `
       We've detected a SvelteKit project using the @storybook/svelte-vite framework, which is not supported in Storybook 7.0
       Please use the @storybook/sveltekit framework instead.
       You can migrate automatically by running
@@ -39,6 +45,7 @@ export async function handleSvelteKit(plugins: PluginOption[], options: Options)
       npx sb@next automigrate sveltekitFramework
 
       See https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#sveltekit-needs-the-storybooksveltekit-framework
-      `);
+      `
+    );
   }
 }
