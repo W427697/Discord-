@@ -643,7 +643,7 @@ Starting in 7.0 the `grid.cellSize` parameter should now be `backgrounds.grid.ce
 
 #### Addon-docs: Removed deprecated blocks.js entry
 
-Removed `@storybook/addon-docs/blocks` entry. Import directly from `@storybook/addon-docs` instead. This was [deprecated in SB 6.3](#deprecated-scoped-blocks-imports).
+Removed `@storybook/addon-docs/blocks` entry. Import directly from `@storybook/blocks` instead. This was [deprecated in SB 6.3](#deprecated-scoped-blocks-imports).
 
 #### Addon-a11y: Removed deprecated withA11y decorator
 
