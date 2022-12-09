@@ -26,7 +26,7 @@ export const DocsContainer: FunctionComponent<DocsContainerProps> = ({
   useEffect(() => {
     let url;
     try {
-      url = new URL(globalWindow.parent.location);
+      url = new URL(globalWindow.parent.location.toString());
       if (url.hash) {
         const element = document.getElementById(url.hash.substring(1));
         if (element) {

@@ -217,7 +217,7 @@ export const init: ModuleFn = ({ store, fullAPI }) => {
         }
 
         case 'focusIframe': {
-          const element = document.getElementById('storybook-preview-iframe');
+          const element = document.getElementById('storybook-preview-iframe') as HTMLIFrameElement;
 
           if (element) {
             try {

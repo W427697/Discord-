@@ -37,7 +37,12 @@ const run = async (storyId: string) => {
       const axe = (await import('axe-core')).default;
 
       const { element = '#storybook-root', config, options = {} } = input;
-      const htmlElement = document.querySelector(element);
+      const htmlElement = document.querySelector(element as string);
+
+      if (!htmlElement) {
+        return;
+      }
+
       axe.reset();
       if (config) {
         axe.configure(config);

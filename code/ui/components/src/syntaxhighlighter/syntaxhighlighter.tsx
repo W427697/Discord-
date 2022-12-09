@@ -56,8 +56,8 @@ export function createCopyToClipboardFunction() {
     return (text: string) => navigator.clipboard.writeText(text);
   }
   return async (text: string) => {
-    const tmp = document.createElement('TEXTAREA');
-    const focus = document.activeElement;
+    const tmp = document.createElement('TEXTAREA') as HTMLTextAreaElement;
+    const focus = document.activeElement as HTMLTextAreaElement;
 
     tmp.value = text;
 

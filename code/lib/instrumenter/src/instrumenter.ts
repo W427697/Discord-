@@ -101,6 +101,7 @@ export class Instrumenter {
     this.channel = addons.getChannel();
 
     // Restore state from the parent window in case the iframe was reloaded.
+    // @ts-expect-error (TS doesn't know about this global variable)
     this.state = global.window.parent.__STORYBOOK_ADDON_INTERACTIONS_INSTRUMENTER_STATE__ || {};
 
     // When called from `start`, isDebugging will be true.
@@ -241,6 +242,7 @@ export class Instrumenter {
     const patch = typeof update === 'function' ? update(state) : update;
     this.state = { ...this.state, [storyId]: { ...state, ...patch } };
     // Track state on the parent window so we can reload the iframe without losing state.
+    // @ts-expect-error (TS doesn't know about this global variable)
     global.window.parent.__STORYBOOK_ADDON_INTERACTIONS_INSTRUMENTER_STATE__ = this.state;
   }
 
@@ -254,6 +256,7 @@ export class Instrumenter {
     }, {} as Record<StoryId, State>);
     const payload: SyncPayload = { controlStates: controlsDisabled, logItems: [] };
     this.channel.emit(EVENTS.SYNC, payload);
+    // @ts-expect-error (TS doesn't know about this global variable)
     global.window.parent.__STORYBOOK_ADDON_INTERACTIONS_INSTRUMENTER_STATE__ = this.state;
   }
 

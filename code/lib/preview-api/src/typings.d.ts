@@ -14,6 +14,8 @@ type Features = {
 };
 
 var FEATURES: Features | undefined;
+var STORIES: any;
+var DOCS_OPTIONS: any;
 
 // ClientApi (and StoreStore) are really singletons. However they are not created until the
 // relevant framework instantiates them via `start.js`. The good news is this happens right away.
@@ -28,6 +30,7 @@ var __STORYBOOK_ADDONS_CHANNEL__: any;
 var __STORYBOOK_PREVIEW__: any;
 var __STORYBOOK_STORY_STORE__: any;
 var __STORYBOOK_ADDONS_PREVIEW: any;
+var STORYBOOK_HOOKS_CONTEXT: any;
 
 declare module 'global' {
   export default globalThis;

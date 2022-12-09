@@ -9,6 +9,8 @@ declare module '@storybook/manager';
 declare module '@discoveryjs/json-ext';
 declare module 'watchpack';
 
+declare var FEATURES: any;
+
 declare module 'global' {
   export default globalThis;
 }
