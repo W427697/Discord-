@@ -71,7 +71,7 @@
     "entries": [
       "./src/index.js",
       "./src/transforms/add-component-parameters.js",
-      "./src/transforms/csf-2-to-3.js",
+      "./src/transforms/csf-2-to-3.ts",
       "./src/transforms/csf-hoist-story-annotations.js",
       "./src/transforms/csf-to-mdx.js",
       "./src/transforms/move-builtin-addons.js",
