@@ -167,14 +167,13 @@ export const sveltekitFramework: Fix<SvelteKitFrameworkRunOptions> = {
       main.setFieldValue(['framework'], '@storybook/sveltekit');
     }
 
-    const core = main.getFieldValue(['core']);
-    if (core.builder) {
+    const currentCore = main.getFieldValue(['core']);
+    if (currentCore.builder) {
       logger.info(`✅ Updating core field in main.js`);
-      delete core.builder;
+      const { builder, ...core } = currentCore;
 
       if (Object.keys(core).length === 0) {
-        // TODO: this should delete the field instead
-        main.setFieldValue(['core'], {});
+        main.removeField(['core']);
       } else {
         main.setFieldValue(['core'], core);
       }
