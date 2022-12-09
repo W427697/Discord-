@@ -1,4 +1,6 @@
-declare module 'global';
+declare module 'global' {
+  export default globalThis;
+}
 
 interface Margin {
   top: number;

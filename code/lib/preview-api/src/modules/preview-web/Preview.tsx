@@ -174,7 +174,9 @@ export class Preview<TFramework extends Renderer> {
 
   async getStoryIndexFromServer() {
     const result = await fetch(STORY_INDEX_PATH);
-    if (result.status === 200) return result.json() as StoryIndex;
+    if (result.status === 200) {
+      return result.json() as any as StoryIndex;
+    }
 
     throw new Error(await result.text());
   }

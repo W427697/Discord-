@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable no-underscore-dangle, @typescript-eslint/naming-convention */
 import global from 'global';
 import type { Renderer, ArgsStoryFn, Path, ProjectAnnotations } from '@storybook/types';
 import { createChannel } from '@storybook/channel-postmessage';
@@ -10,11 +10,11 @@ import { ClientApi } from '../../client-api';
 import { executeLoadableForChanges } from './executeLoadable';
 import type { Loadable } from './executeLoadable';
 
-const { window: globalWindow, FEATURES } = global;
-
 const removedApi = (name: string) => () => {
   throw new Error(`@storybook/client-api:${name} was removed in storyStoreV7.`);
 };
+
+const { FEATURES } = global;
 
 interface CoreClient_RendererImplementation<TRenderer extends Renderer> {
   decorateStory?: ProjectAnnotations<TRenderer>['applyDecorators'];
@@ -41,9 +41,9 @@ export function start<TRenderer extends Renderer>(
   renderToCanvas: ProjectAnnotations<TRenderer>['renderToCanvas'],
   { decorateStory, render }: CoreClient_RendererImplementation<TRenderer> = {}
 ): CoreClient_StartReturnValue<TRenderer> {
-  if (globalWindow) {
+  if (global.window) {
     // To enable user code to detect if it is running in Storybook
-    globalWindow.IS_STORYBOOK = true;
+    global.IS_STORYBOOK = true;
   }
 
   if (FEATURES?.storyStoreV7) {
@@ -60,8 +60,8 @@ export function start<TRenderer extends Renderer>(
   const channel = createChannel({ page: 'preview' });
   addons.setChannel(channel);
 
-  const clientApi = new ClientApi<TRenderer>();
-  const preview = new PreviewWeb<TRenderer>();
+  const clientApi = global.__STORYBOOK_CLIENTAPI_INSTANCE__ || new ClientApi<TRenderer>();
+  const preview = global.__STORYBOOK_PREVIEWWEB_INSTANCE__ || new PreviewWeb<TRenderer>();
   let initialized = false;
 
   const importFn = (path: Path) => clientApi.importFn(path);
@@ -75,12 +75,11 @@ export function start<TRenderer extends Renderer>(
   clientApi.onImportFnChanged = onStoriesChanged;
   clientApi.storyStore = preview.storyStore;
 
-  if (globalWindow) {
-    globalWindow.__STORYBOOK_CLIENT_API__ = clientApi;
-    globalWindow.__STORYBOOK_ADDONS_CHANNEL__ = channel;
-    // eslint-disable-next-line no-underscore-dangle
-    globalWindow.__STORYBOOK_PREVIEW__ = preview;
-    globalWindow.__STORYBOOK_STORY_STORE__ = preview.storyStore;
+  if (global.window) {
+    global.window.__STORYBOOK_CLIENT_API__ = clientApi;
+    global.window.__STORYBOOK_ADDONS_CHANNEL__ = channel;
+    global.window.__STORYBOOK_PREVIEW__ = preview;
+    global.window.__STORYBOOK_STORY_STORE__ = preview.storyStore;
   }
 
   return {
@@ -105,7 +104,6 @@ export function start<TRenderer extends Renderer>(
       // function in case it throws. So we also need to process its output there also
       const getProjectAnnotations = () => {
         const { added, removed } = executeLoadableForChanges(loadable, m);
-        // eslint-disable-next-line no-underscore-dangle
         clientApi._loadAddedExports();
 
         Array.from(added.entries()).forEach(([fileName, fileExports]) =>

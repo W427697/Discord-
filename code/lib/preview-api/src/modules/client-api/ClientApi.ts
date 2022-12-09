@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 /// <reference types="webpack-env" />
 
 import { dedent } from 'ts-dedent';
@@ -29,10 +30,6 @@ import { combineParameters, composeStepRunners, normalizeInputTypes } from '../.
 
 import { StoryStoreFacade } from './StoryStoreFacade';
 
-// ClientApi (and StoreStore) are really singletons. However they are not created until the
-// relevant framework instanciates them via `start.js`. The good news is this happens right away.
-let singleton: ClientApi<Renderer>;
-
 const warningAlternatives = {
   addDecorator: `Instead, use \`export const decorators = [];\` in your \`preview.js\`.`,
   addParameters: `Instead, use \`export const parameters = {};\` in your \`preview.js\`.`,
@@ -55,61 +52,61 @@ const checkMethod = (method: keyof typeof warningAlternatives) => {
     );
   }
 
-  if (!singleton) {
+  if (!global.__STORYBOOK_CLIENTAPI_INSTANCE__) {
     throw new Error(`Singleton client API not yet initialized, cannot call \`${method}\`.`);
   }
 };
 
 export const addDecorator = (decorator: DecoratorFunction<Renderer>) => {
   checkMethod('addDecorator');
-  singleton.addDecorator(decorator);
+  global.__STORYBOOK_CLIENTAPI_INSTANCE__?.addDecorator(decorator);
 };
 
 export const addParameters = (parameters: Parameters) => {
   checkMethod('addParameters');
-  singleton.addParameters(parameters);
+  global.__STORYBOOK_CLIENTAPI_INSTANCE__?.addParameters(parameters);
 };
 
 export const addLoader = (loader: LoaderFunction<Renderer>) => {
   checkMethod('addLoader');
-  singleton.addLoader(loader);
+  global.__STORYBOOK_CLIENTAPI_INSTANCE__?.addLoader(loader);
 };
 
 export const addArgs = (args: Args) => {
   checkMethod('addArgs');
-  singleton.addArgs(args);
+  global.__STORYBOOK_CLIENTAPI_INSTANCE__?.addArgs(args);
 };
 
 export const addArgTypes = (argTypes: ArgTypes) => {
   checkMethod('addArgTypes');
-  singleton.addArgTypes(argTypes);
+  global.__STORYBOOK_CLIENTAPI_INSTANCE__?.addArgTypes(argTypes);
 };
 
 export const addArgsEnhancer = (enhancer: ArgsEnhancer<Renderer>) => {
   checkMethod('addArgsEnhancer');
-  singleton.addArgsEnhancer(enhancer);
+  global.__STORYBOOK_CLIENTAPI_INSTANCE__?.addArgsEnhancer(enhancer);
 };
 
 export const addArgTypesEnhancer = (enhancer: ArgTypesEnhancer<Renderer>) => {
   checkMethod('addArgTypesEnhancer');
-  singleton.addArgTypesEnhancer(enhancer);
+  global.__STORYBOOK_CLIENTAPI_INSTANCE__?.addArgTypesEnhancer(enhancer);
 };
 
 export const addStepRunner = (stepRunner: StepRunner) => {
   checkMethod('addStepRunner');
-  singleton.addStepRunner(stepRunner);
+  global.__STORYBOOK_CLIENTAPI_INSTANCE__?.addStepRunner(stepRunner);
 };
 
 export const getGlobalRender = () => {
   checkMethod('getGlobalRender');
-  return singleton.facade.projectAnnotations.render;
+  return global.__STORYBOOK_CLIENTAPI_INSTANCE__?.facade.projectAnnotations.render;
 };
 
-export const setGlobalRender = (
-  render: typeof singleton['facade']['projectAnnotations']['render']
-) => {
+export const setGlobalRender = (render: StoryStoreFacade<any>['projectAnnotations']['render']) => {
   checkMethod('setGlobalRender');
-  singleton.facade.projectAnnotations.render = render;
+  if (global.__STORYBOOK_CLIENTAPI_INSTANCE__) {
+    global.__STORYBOOK_CLIENTAPI_INSTANCE__.facade.projectAnnotations.render = render;
+  }
 };
 
 const invalidStoryTypes = new Set(['string', 'number', 'boolean', 'symbol']);
@@ -133,7 +130,7 @@ export class ClientApi<TRenderer extends Renderer> {
 
     this.storyStore = storyStore;
 
-    singleton = this as any;
+    global.__STORYBOOK_CLIENTAPI_INSTANCE__ = this;
   }
 
   importFn(path: Path) {
@@ -213,7 +210,6 @@ export class ClientApi<TRenderer extends Renderer> {
   _addedExports = {} as Record<Path, ModuleExports>;
 
   _loadAddedExports() {
-    // eslint-disable-next-line no-underscore-dangle
     Object.entries(this._addedExports).forEach(([fileName, fileExports]) =>
       this.facade.addStoriesFromExports(fileName, fileExports)
     );
@@ -247,7 +243,7 @@ export class ClientApi<TRenderer extends Renderer> {
     let i = 1;
     // Deal with `storiesOf()` being called twice in the same file.
     // On HMR, we clear _addedExports[fileName] below.
-    // eslint-disable-next-line no-underscore-dangle
+
     while (this._addedExports[fileName]) {
       i += 1;
       fileName = `${baseFilename}-${i}`;
@@ -259,7 +255,7 @@ export class ClientApi<TRenderer extends Renderer> {
       m.hot.accept();
       m.hot.dispose(() => {
         this.facade.clearFilenameExports(fileName);
-        // eslint-disable-next-line no-underscore-dangle
+
         delete this._addedExports[fileName];
 
         // We need to update the importFn as soon as the module re-evaluates
@@ -268,7 +264,6 @@ export class ClientApi<TRenderer extends Renderer> {
         // debounce it somehow for initial startup. Instead, we'll take advantage of
         // the fact that the evaluation of the module happens immediately in the same tick
         setTimeout(() => {
-          // eslint-disable-next-line no-underscore-dangle
           this._loadAddedExports();
           this.onImportFnChanged?.({ importFn: this.importFn.bind(this) });
         }, 0);
@@ -301,7 +296,7 @@ export class ClientApi<TRenderer extends Renderer> {
       parameters: {},
     };
     // We map these back to a simple default export, even though we have type guarantees at this point
-    // eslint-disable-next-line no-underscore-dangle
+
     this._addedExports[fileName] = { default: meta };
 
     let counter = 0;
@@ -320,10 +315,8 @@ export class ClientApi<TRenderer extends Renderer> {
 
       const { decorators, loaders, component, args, argTypes, ...storyParameters } = parameters;
 
-      // eslint-disable-next-line no-underscore-dangle
       const storyId = parameters.__id || toId(kind, storyName);
 
-      // eslint-disable-next-line no-underscore-dangle
       const csfExports = this._addedExports[fileName];
       // Whack a _ on the front incase it is "default"
       csfExports[`story${counter}`] = {

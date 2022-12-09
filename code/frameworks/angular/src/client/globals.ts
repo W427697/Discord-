@@ -68,6 +68,4 @@ import 'zone.js/dist/zone'; // Included with Angular CLI.
  */
 // import 'intl/locale-data/jsonp/en';
 
-const { window: globalWindow } = global;
-
-globalWindow.STORYBOOK_ENV = 'angular';
+global.STORYBOOK_ENV = 'angular';
