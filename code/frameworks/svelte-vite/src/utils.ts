@@ -1,5 +1,7 @@
 import type { PluginOption } from 'vite';
 import type { Options } from '@storybook/types';
+import dedent from 'ts-dedent';
+import { logger } from '@storybook/node-logger';
 
 function checkName(plugin: PluginOption, name: string) {
   return typeof plugin === 'object' && 'name' in plugin && plugin.name === name;
@@ -36,8 +38,8 @@ export async function handleSvelteKit(plugins: PluginOption[], options: Options)
     hasPlugin(plugins, 'vite-plugin-sveltekit-middleware');
 
   if (hasSvelteKitPlugins && framework !== '@storybook/sveltekit') {
-    throw new Error(
-      `
+    logger.error(
+      dedent`
       We've detected a SvelteKit project using the @storybook/svelte-vite framework, which is not supported in Storybook 7.0
       Please use the @storybook/sveltekit framework instead.
       You can migrate automatically by running
@@ -47,5 +49,6 @@ export async function handleSvelteKit(plugins: PluginOption[], options: Options)
       See https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#sveltekit-needs-the-storybooksveltekit-framework
       `
     );
+    throw new Error();
   }
 }
