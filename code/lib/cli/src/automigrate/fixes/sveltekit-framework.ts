@@ -122,7 +122,7 @@ export const sveltekitFramework: Fix<SvelteKitFrameworkRunOptions> = {
       main,
       frameworkOptions,
       packageJson,
-      dependenciesToRemove: [builder, framework],
+      dependenciesToRemove: [builder],
     };
   },
 

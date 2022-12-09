@@ -147,9 +147,10 @@ describe('SvelteKit framework fix', () => {
         packageJson,
         main: expect.objectContaining({}),
         frameworkOptions: undefined,
-        dependenciesToRemove: ['@storybook/builder-vite', '@storybook/svelte'],
+        dependenciesToRemove: ['@storybook/builder-vite'],
       });
     });
+
     it('from @storybook/svelte framework and storybook-builder-vite builder', async () => {
       const packageJson = {
         dependencies: {
@@ -166,7 +167,7 @@ describe('SvelteKit framework fix', () => {
         packageJson,
         main: expect.objectContaining({}),
         frameworkOptions: undefined,
-        dependenciesToRemove: ['storybook-builder-vite', '@storybook/svelte'],
+        dependenciesToRemove: ['storybook-builder-vite'],
       });
     });
   });
