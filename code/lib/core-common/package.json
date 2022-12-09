@@ -1,6 +1,6 @@
 {
   "name": "@storybook/core-common",
-  "version": "7.0.0-beta.1",
+  "version": "7.0.0-beta.2",
   "description": "Storybook framework-agnostic API",
   "keywords": [
     "storybook"
@@ -47,8 +47,8 @@
   },
   "dependencies": {
     "@babel/core": "^7.20.2",
-    "@storybook/node-logger": "7.0.0-beta.1",
-    "@storybook/types": "7.0.0-beta.1",
+    "@storybook/node-logger": "7.0.0-beta.2",
+    "@storybook/types": "7.0.0-beta.2",
     "@types/babel__core": "^7.1.20",
     "@types/express": "^4.7.0",
     "@types/node": "^16.0.0",
@@ -91,5 +91,5 @@
     ],
     "platform": "node"
   },
-  "gitHead": "42c08678ac06d9c2c8e7a4c31a91e0a14bf5c2cd"
+  "gitHead": "66a0d588184add900c48d49f3a62743fa9cc5185"
 }

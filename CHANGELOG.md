@@ -1,3 +1,18 @@
+## 7.0.0-beta.2 (December 9, 2022)
+
+#### Bug Fixes
+
+-   Core: Catch and do nothing to avoid triggering unhandled exception problems [#20177](https://github.com/storybooks/storybook/pull/20177)
+-   Controls: Fix color control not resetting when initial value is defined [#20049](https://github.com/storybooks/storybook/pull/20049)
+-   Core: Fix typescript.checkOptions not a valid interface [#20166](https://github.com/storybooks/storybook/pull/20166)
+-   NextJS: Fixlogic around `next/future/image` [#20173](https://github.com/storybooks/storybook/pull/20173)
+
+#### Maintenance
+
+-   Revert "Revert "Telemetry: Add precedingUpgrade data to dev/build/error events"" [#20176](https://github.com/storybooks/storybook/pull/20176)
+-   Telemetry: Add `chromatic` to addons list [#20143](https://github.com/storybooks/storybook/pull/20143)
+-   Vite: Support vite 4 [#20139](https://github.com/storybooks/storybook/pull/20139)
+
 ## 7.0.0-beta.1 (December 9, 2022)
 
 #### Bug Fixes
