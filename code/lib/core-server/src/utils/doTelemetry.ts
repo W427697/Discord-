@@ -1,5 +1,5 @@
 import type { CoreConfig, Options } from '@storybook/types';
-import { telemetry } from '@storybook/telemetry';
+import { telemetry, getPrecedingUpgrade } from '@storybook/telemetry';
 import { useStorybookMetadata } from './metadata';
 import type { StoryIndexGenerator } from './StoryIndexGenerator';
 import { summarizeIndex } from './summarizeIndex';
@@ -15,12 +15,15 @@ export async function doTelemetry(
     initializedStoryIndexGenerator.then(async (generator) => {
       const storyIndex = await generator?.getIndex();
       const { versionCheck, versionUpdates } = options;
-      const payload = storyIndex
-        ? {
-            versionStatus: versionUpdates ? versionStatus(versionCheck) : 'disabled',
-            storyIndex: summarizeIndex(storyIndex),
-          }
-        : undefined;
+      const payload = {
+        precedingUpgrade: await getPrecedingUpgrade(),
+      };
+      if (storyIndex) {
+        Object.assign(payload, {
+          versionStatus: versionUpdates ? versionStatus(versionCheck) : 'disabled',
+          storyIndex: summarizeIndex(storyIndex),
+        });
+      }
       telemetry('dev', payload, { configDir: options.configDir });
     });
   }
