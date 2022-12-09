@@ -4,5 +4,6 @@
     "skipLibCheck": true,
     "allowJs": true
   },
-  "include": ["src/**/*"]
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "__testfixtures__", "__tests__"]
 }
