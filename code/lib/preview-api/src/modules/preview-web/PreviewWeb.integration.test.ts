@@ -29,21 +29,23 @@ jest.mock('@storybook/channel-postmessage', () => ({ createChannel: () => mockCh
 
 jest.mock('./WebView');
 
-const { window, document } = global;
+const { document } = global;
 jest.mock('@storybook/global', () => ({
-  ...jest.requireActual('@storybook/global'),
-  history: { replaceState: jest.fn() },
-  document: {
-    ...jest.requireActual('@storybook/global').document,
-    location: {
-      pathname: 'pathname',
-      search: '?id=*',
+  global: {
+    ...globalThis,
+    history: { replaceState: jest.fn() },
+    document: {
+      createElement: globalThis.document.createElement.bind(globalThis.document),
+      location: {
+        pathname: 'pathname',
+        search: '?id=*',
+      },
     },
+    FEATURES: {
+      storyStoreV7: true,
+    },
+    fetch: async () => ({ status: 200, json: async () => mockStoryIndex }),
   },
-  FEATURES: {
-    storyStoreV7: true,
-  },
-  fetch: async () => ({ status: 200, json: async () => mockStoryIndex }),
 }));
 
 beforeEach(() => {
@@ -93,7 +95,7 @@ describe('PreviewWeb', () => {
       document.location.search = '?id=component-one--docs&viewMode=docs';
       const preview = new PreviewWeb();
 
-      const docsRoot = window.document.createElement('div');
+      const docsRoot = document.createElement('div');
       (
         preview.view.prepareForDocs as any as jest.Mock<typeof preview.view.prepareForDocs>
       ).mockReturnValue(docsRoot as any);

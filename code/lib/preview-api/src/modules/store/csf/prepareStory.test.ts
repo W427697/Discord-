@@ -15,9 +15,11 @@ import { NO_TARGET_NAME } from '../args';
 import { prepareStory } from './prepareStory';
 
 jest.mock('@storybook/global', () => ({
-  ...(jest.requireActual('@storybook/global') as any),
-  FEATURES: {
-    breakingChangesV7: true,
+  global: {
+    ...(jest.requireActual('@storybook/global') as any),
+    FEATURES: {
+      breakingChangesV7: true,
+    },
   },
 }));
 

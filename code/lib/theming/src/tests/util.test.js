@@ -80,7 +80,7 @@ describe('utils', () => {
 
   describe('getPreferredColorScheme', () => {
     it('should return "light" if "window" is unavailable', () => {
-      jest.mock('@storybook/global', () => ({ window: undefined }));
+      jest.mock('@storybook/global', () => ({ global: { window: undefined } }));
 
       const colorScheme = getPreferredColorScheme();
       expect(colorScheme).toBe('light');

@@ -1,6 +1,6 @@
 import { logger } from '.';
 
-jest.mock('@storybook/global', () => ({ ...global, LOGLEVEL: 'debug' }));
+jest.mock('@storybook/global', () => ({ global: { ...global, LOGLEVEL: 'debug' } }));
 
 describe('client-logger default LOGLEVEL', () => {
   const initialConsole = { ...global.console };

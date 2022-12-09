@@ -29,7 +29,7 @@ jest.mock('@storybook/global', () => {
         .mockReturnValue(lastLocation),
     },
   });
-  return globalMock;
+  return { global: globalMock };
 });
 
 const provider = {

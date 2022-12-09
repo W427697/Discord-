@@ -5,8 +5,10 @@ import { linkTo, hrefTo } from './utils';
 
 jest.mock('@storybook/preview-api');
 jest.mock('@storybook/global', () => ({
-  document: global.document,
-  window: global,
+  global: {
+    document: global.document,
+    window: global,
+  },
 }));
 
 const mockAddons = addons as unknown as jest.Mocked<typeof addons>;

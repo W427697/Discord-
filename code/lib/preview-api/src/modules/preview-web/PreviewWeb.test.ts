@@ -60,20 +60,22 @@ const mockStoryIndex = jest.fn(() => storyIndex);
 
 let mockFetchResult: any;
 jest.mock('@storybook/global', () => ({
-  ...(mockJest.requireActual('@storybook/global') as any),
-  history: { replaceState: mockJest.fn() },
-  document: {
-    location: {
-      pathname: 'pathname',
-      search: '?id=*',
+  global: {
+    ...(mockJest.requireActual('@storybook/global') as any),
+    history: { replaceState: mockJest.fn() },
+    document: {
+      location: {
+        pathname: 'pathname',
+        search: '?id=*',
+      },
     },
+    FEATURES: {
+      storyStoreV7: true,
+      breakingChangesV7: true,
+      // xxx
+    },
+    fetch: async () => mockFetchResult,
   },
-  FEATURES: {
-    storyStoreV7: true,
-    breakingChangesV7: true,
-    // xxx
-  },
-  fetch: async () => mockFetchResult,
 }));
 
 jest.mock('@storybook/client-logger');

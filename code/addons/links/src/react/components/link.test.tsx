@@ -7,16 +7,18 @@ import LinkTo from './link';
 
 jest.mock('@storybook/preview-api');
 jest.mock('@storybook/global', () => ({
-  document: {
-    location: {
-      origin: 'origin',
-      pathname: 'pathname',
-      search: 'search',
+  global: {
+    document: {
+      location: {
+        origin: 'origin',
+        pathname: 'pathname',
+        search: 'search',
+      },
     },
-  },
-  window: global,
-  __STORYBOOK_STORY_STORE__: {
-    fromId: jest.fn(() => ({})),
+    window: global,
+    __STORYBOOK_STORY_STORE__: {
+      fromId: jest.fn(() => ({})),
+    },
   },
 }));
 

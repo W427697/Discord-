@@ -5,18 +5,20 @@ jest.mock('../version', () => ({
 }));
 
 jest.mock('@storybook/global', () => ({
-  VERSIONCHECK: JSON.stringify({
-    success: true,
-    data: {
-      latest: {
-        version: '5.2.3',
+  global: {
+    VERSIONCHECK: JSON.stringify({
+      success: true,
+      data: {
+        latest: {
+          version: '5.2.3',
+        },
+        next: {
+          version: '5.3.0-alpha.15',
+        },
       },
-      next: {
-        version: '5.3.0-alpha.15',
-      },
-    },
-    time: 1571565216284,
-  }),
+      time: 1571565216284,
+    }),
+  },
 }));
 
 jest.mock('@storybook/client-logger');

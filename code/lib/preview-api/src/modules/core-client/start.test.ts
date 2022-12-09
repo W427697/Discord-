@@ -22,20 +22,22 @@ import { start as realStart } from './start';
 import type { Loadable } from './executeLoadable';
 
 jest.mock('@storybook/global', () => ({
-  ...globalThis,
-  window: globalThis,
-  history: { replaceState: jest.fn() },
-  document: {
-    location: {
-      pathname: 'pathname',
-      search: '?id=*',
+  global: {
+    ...globalThis,
+    window: globalThis,
+    history: { replaceState: jest.fn() },
+    document: {
+      location: {
+        pathname: 'pathname',
+        search: '?id=*',
+      },
     },
-  },
-  FEATURES: {
-    breakingChangesV7: true,
-  },
-  DOCS_OPTIONS: {
-    enabled: true,
+    FEATURES: {
+      breakingChangesV7: true,
+    },
+    DOCS_OPTIONS: {
+      enabled: true,
+    },
   },
 }));
 

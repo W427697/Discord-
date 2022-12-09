@@ -16,9 +16,11 @@ jest.mock('./csf/processCSFFile', () => ({
 }));
 
 jest.mock('@storybook/global', () => ({
-  ...(jest.requireActual('@storybook/global') as any),
-  FEATURES: {
-    breakingChangesV7: true,
+  global: {
+    ...(jest.requireActual('@storybook/global') as any),
+    FEATURES: {
+      breakingChangesV7: true,
+    },
   },
 }));
 

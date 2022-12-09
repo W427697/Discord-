@@ -2,7 +2,9 @@ import { getEventMetadata } from '../lib/events';
 import type { API } from '../index';
 
 jest.mock('@storybook/global', () => ({
-  location: { origin: 'http://localhost:6006', pathname: '/' },
+  global: {
+    location: { origin: 'http://localhost:6006', pathname: '/' },
+  },
 }));
 
 describe('getEventMetadata', () => {
