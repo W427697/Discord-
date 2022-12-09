@@ -1,10 +1,10 @@
-import global from 'global';
+import { global } from '@storybook/global';
 
 import { pathToId, setPath, getSelectionSpecifierFromPath } from './UrlStore';
 
 const { history, document } = global;
 
-jest.mock('global', () => ({
+jest.mock('@storybook/global', () => ({
   history: { replaceState: jest.fn() },
   document: {
     location: {

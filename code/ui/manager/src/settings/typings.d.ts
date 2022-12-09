@@ -15,7 +15,3 @@ declare var __STORYBOOKTHEMING__: any;
 declare var __STORYBOOKAPI__: any;
 declare var __STORYBOOKADDONS__: any;
 declare var __STORYBOOKCLIENTLOGGER__: any;
-
-declare module 'global' {
-  export default globalThis;
-}

@@ -8,7 +8,7 @@ import {
   SET_CURRENT_STORY,
   STORY_RENDER_PHASE_CHANGED,
 } from '@storybook/core-events';
-import global from 'global';
+import { global } from '@storybook/global';
 
 import { EVENTS, Instrumenter } from './instrumenter';
 import type { Options } from './types';

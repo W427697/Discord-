@@ -3,7 +3,7 @@
  */
 
 import { jest, jest as mockJest, it, describe, beforeEach, afterEach, expect } from '@jest/globals';
-import global from 'global';
+import { global } from '@storybook/global';
 import merge from 'lodash/merge';
 import {
   CONFIG_ERROR,
@@ -59,8 +59,8 @@ const { history, document } = global;
 const mockStoryIndex = jest.fn(() => storyIndex);
 
 let mockFetchResult: any;
-jest.mock('global', () => ({
-  ...(mockJest.requireActual('global') as any),
+jest.mock('@storybook/global', () => ({
+  ...(mockJest.requireActual('@storybook/global') as any),
   history: { replaceState: mockJest.fn() },
   document: {
     location: {

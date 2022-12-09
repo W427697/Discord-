@@ -1,6 +1,6 @@
 import React, { Fragment, useMemo, useEffect, useRef, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
-import global from 'global';
+import { global } from '@storybook/global';
 
 import {
   type API,

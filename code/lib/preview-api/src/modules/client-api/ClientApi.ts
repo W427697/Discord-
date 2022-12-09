@@ -1,8 +1,9 @@
 /* eslint-disable no-underscore-dangle */
-/// <reference types="webpack-env" />
+/* eslint-disable @typescript-eslint/triple-slash-reference */
+/// <reference path="../../typings.d.ts" />
 
 import { dedent } from 'ts-dedent';
-import global from 'global';
+import { global } from '@storybook/global';
 import { logger } from '@storybook/client-logger';
 import { toId, sanitize } from '@storybook/csf';
 import type {

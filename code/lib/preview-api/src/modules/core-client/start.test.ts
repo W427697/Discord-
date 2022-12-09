@@ -8,7 +8,7 @@
 import { STORY_RENDERED, STORY_UNCHANGED, SET_INDEX } from '@storybook/core-events';
 
 import type { ModuleExports, Path } from '@storybook/types';
-import global from 'global';
+import { global } from '@storybook/global';
 import { setGlobalRender } from '../../client-api';
 import {
   waitForRender,
@@ -21,9 +21,8 @@ import {
 import { start as realStart } from './start';
 import type { Loadable } from './executeLoadable';
 
-jest.mock('global', () => ({
+jest.mock('@storybook/global', () => ({
   ...globalThis,
-  // ...jest.requireActual('global'),
   window: globalThis,
   history: { replaceState: jest.fn() },
   document: {

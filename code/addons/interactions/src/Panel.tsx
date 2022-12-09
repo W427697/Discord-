@@ -1,4 +1,4 @@
-import global from 'global';
+import { global } from '@storybook/global';
 import * as React from 'react';
 import { useChannel, useParameter } from '@storybook/manager-api';
 import {

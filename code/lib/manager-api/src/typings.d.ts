@@ -4,7 +4,3 @@ declare var __STORYBOOK_ADDONS_MANAGER: any;
 declare var FEATURES: { storyStoreV7?: boolean } | undefined;
 declare var REFS: any;
 declare var VERSIONCHECK: any;
-
-declare module 'global' {
-  export default globalThis;
-}

@@ -18,7 +18,3 @@ declare var __STORYBOOK_ADDONS_CHANNEL__: any;
 declare var __STORYBOOK_PREVIEWWEB_INSTANCE__: any;
 declare var __STORYBOOK_CLIENTAPI_INSTANCE__: any;
 declare var __STORYBOOK_CLIENT_API__: any;
-
-declare module 'global' {
-  export default globalThis;
-}

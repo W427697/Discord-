@@ -8,6 +8,3 @@ declare module 'vue/dist/vue';
 declare module 'sveltedoc-parser' {
   export function parse(options: any): Promise<any>;
 }
-declare module 'global' {
-  export default globalThis;
-}

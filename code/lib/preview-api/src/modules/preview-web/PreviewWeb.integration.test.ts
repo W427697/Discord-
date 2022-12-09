@@ -3,7 +3,7 @@
  */
 
 import React from 'react';
-import global from 'global';
+import { global } from '@storybook/global';
 import type { RenderContext } from '@storybook/types';
 import { expect } from '@jest/globals';
 import { addons, mockChannel as createMockChannel } from '../addons';
@@ -30,11 +30,11 @@ jest.mock('@storybook/channel-postmessage', () => ({ createChannel: () => mockCh
 jest.mock('./WebView');
 
 const { window, document } = global;
-jest.mock('global', () => ({
-  ...jest.requireActual('global'),
+jest.mock('@storybook/global', () => ({
+  ...jest.requireActual('@storybook/global'),
   history: { replaceState: jest.fn() },
   document: {
-    ...jest.requireActual('global').document,
+    ...jest.requireActual('@storybook/global').document,
     location: {
       pathname: 'pathname',
       search: '?id=*',
@@ -96,7 +96,7 @@ describe('PreviewWeb', () => {
       const docsRoot = window.document.createElement('div');
       (
         preview.view.prepareForDocs as any as jest.Mock<typeof preview.view.prepareForDocs>
-      ).mockReturnValue(docsRoot);
+      ).mockReturnValue(docsRoot as any);
       componentOneExports.default.parameters.docs.container.mockImplementationOnce(() =>
         React.createElement('div', {}, 'INSIDE')
       );

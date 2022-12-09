@@ -14,7 +14,7 @@ import {
   SET_INDEX,
 } from '@storybook/core-events';
 import { EventEmitter } from 'events';
-import global from 'global';
+import { global } from '@storybook/global';
 
 import { Channel } from '@storybook/channels';
 
@@ -37,8 +37,8 @@ function mockChannel() {
 const mockGetEntries = jest.fn<() => StoryIndex['entries']>();
 
 jest.mock('../lib/events');
-jest.mock('global', () => ({
-  ...(mockJest.requireActual('global') as Record<string, any>),
+jest.mock('@storybook/global', () => ({
+  ...(mockJest.requireActual('@storybook/global') as Record<string, any>),
   fetch: mockJest.fn(() => ({ json: () => ({ v: 4, entries: mockGetEntries() }) })),
   FEATURES: { storyStoreV7: true },
   CONFIG_TYPE: 'DEVELOPMENT',

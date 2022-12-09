@@ -1,4 +1,4 @@
-import global from 'global';
+import { global } from '@storybook/global';
 import * as EVENTS from '@storybook/core-events';
 import { Channel } from '@storybook/channels';
 import type { ChannelHandler, ChannelEvent } from '@storybook/channels';

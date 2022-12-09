@@ -5,7 +5,3 @@ declare module '*.md';
 
 declare var __DOCS_CONTEXT__: any;
 declare var PREVIEW_URL: any;
-
-declare module 'global' {
-  export default globalThis;
-}

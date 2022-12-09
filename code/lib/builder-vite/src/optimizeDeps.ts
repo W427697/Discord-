@@ -39,6 +39,7 @@ const INCLUDE_CANDIDATES = [
   'estraverse',
   'fast-deep-equal',
   'global',
+  '@storybook/global',
   'html-tags',
   'isobject',
   'jest-mock',

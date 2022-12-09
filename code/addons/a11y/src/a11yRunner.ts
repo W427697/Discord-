@@ -1,4 +1,4 @@
-import global from 'global';
+import { global } from '@storybook/global';
 import { addons } from '@storybook/preview-api';
 import { EVENTS } from './constants';
 import type { A11yParameters } from './params';

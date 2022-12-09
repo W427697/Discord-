@@ -32,10 +32,6 @@ var __STORYBOOK_STORY_STORE__: any;
 var __STORYBOOK_ADDONS_PREVIEW: any;
 var STORYBOOK_HOOKS_CONTEXT: any;
 
-declare module 'global' {
-  export default globalThis;
-}
-
 declare module 'ansi-to-html';
 declare class AnsiToHtml {
   constructor(options: { escapeHtml: boolean });

@@ -52,10 +52,10 @@
   "dependencies": {
     "@storybook/builder-webpack5": "7.0.0-beta.2",
     "@storybook/core-common": "7.0.0-beta.2",
+    "@storybook/global": "^5.0.0",
     "@storybook/html": "7.0.0-beta.2",
     "@storybook/preset-html-webpack": "7.0.0-beta.2",
-    "@types/node": "^16.0.0",
-    "global": "^4.4.0"
+    "@types/node": "^16.0.0"
   },
   "devDependencies": {
     "typescript": "~4.9.3"

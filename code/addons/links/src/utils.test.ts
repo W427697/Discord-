@@ -4,7 +4,7 @@ import { SELECT_STORY } from '@storybook/core-events';
 import { linkTo, hrefTo } from './utils';
 
 jest.mock('@storybook/preview-api');
-jest.mock('global', () => ({
+jest.mock('@storybook/global', () => ({
   document: global.document,
   window: global,
 }));

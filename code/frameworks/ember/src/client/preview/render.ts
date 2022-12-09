@@ -1,4 +1,4 @@
-import global from 'global';
+import { global } from '@storybook/global';
 import { dedent } from 'ts-dedent';
 import type { RenderContext } from '@storybook/types';
 // @ts-expect-error (Converted from ts-ignore)

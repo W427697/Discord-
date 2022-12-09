@@ -215,6 +215,9 @@ export default async (
       {
         message: /export '\S+' was not found in 'global'/,
       },
+      {
+        message: /export '\S+' was not found in '@storybook\/global'/,
+      },
     ],
     plugins: [
       Object.keys(virtualModuleMapping).length > 0

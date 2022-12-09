@@ -1,5 +1,4 @@
+/* eslint-disable no-underscore-dangle, @typescript-eslint/naming-convention */
 declare var STORYBOOK_ENV: 'web-components';
-
-declare module 'global' {
-  export default globalThis;
-}
+declare var __STORYBOOK_CUSTOM_ELEMENTS_MANIFEST__: any;
+declare var __STORYBOOK_CUSTOM_ELEMENTS__: any;

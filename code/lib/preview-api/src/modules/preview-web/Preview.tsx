@@ -1,5 +1,5 @@
 import { dedent } from 'ts-dedent';
-import global from 'global';
+import { global } from '@storybook/global';
 import { SynchronousPromise } from 'synchronous-promise';
 import {
   CONFIG_ERROR,

@@ -1,4 +1,4 @@
-import global from 'global';
+import { global } from '@storybook/global';
 
 /**
  * This file includes polyfills needed by Angular and is loaded before the app.

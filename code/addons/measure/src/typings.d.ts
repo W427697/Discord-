@@ -1,7 +1,3 @@
-declare module 'global' {
-  export default globalThis;
-}
-
 interface Margin {
   top: number;
   bottom: number;

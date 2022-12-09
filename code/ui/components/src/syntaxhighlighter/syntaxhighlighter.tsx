@@ -2,7 +2,7 @@ import type { ComponentProps, FC, MouseEvent } from 'react';
 import React, { useCallback, useState } from 'react';
 import { logger } from '@storybook/client-logger';
 import { styled } from '@storybook/theming';
-import global from 'global';
+import { global } from '@storybook/global';
 import memoize from 'memoizerific';
 
 import jsx from 'react-syntax-highlighter/dist/esm/languages/prism/jsx';

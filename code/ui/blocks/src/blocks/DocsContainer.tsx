@@ -1,6 +1,6 @@
 import type { FunctionComponent, ReactNode } from 'react';
 import React, { useEffect } from 'react';
-import global from 'global';
+import { global } from '@storybook/global';
 import type { ThemeVars } from '@storybook/theming';
 import { ThemeProvider, ensure as ensureTheme } from '@storybook/theming';
 import type { Renderer } from '@storybook/types';

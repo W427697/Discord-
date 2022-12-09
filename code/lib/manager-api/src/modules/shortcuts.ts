@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import global from 'global';
+import { global } from '@storybook/global';
 import { PREVIEW_KEYDOWN } from '@storybook/core-events';
 
 import type { ModuleFn } from '../index';
