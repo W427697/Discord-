@@ -1,8 +1,10 @@
+/* eslint-disable no-underscore-dangle */
 /**
  * @jest-environment jsdom
  */
 
 /* global window */
+// import { describe, it, beforeAll, beforeEach, afterAll, afterEach, jest } from '@jest/globals';
 import { STORY_RENDERED, STORY_UNCHANGED, SET_INDEX } from '@storybook/core-events';
 
 import type { ModuleExports, Path } from '@storybook/types';
@@ -20,7 +22,9 @@ import { start as realStart } from './start';
 import type { Loadable } from './executeLoadable';
 
 jest.mock('global', () => ({
-  ...jest.requireActual('global'),
+  ...globalThis,
+  // ...jest.requireActual('global'),
+  window: globalThis,
   history: { replaceState: jest.fn() },
   document: {
     location: {
@@ -35,6 +39,8 @@ jest.mock('global', () => ({
     enabled: true,
   },
 }));
+
+// console.log(global);
 
 jest.mock('@storybook/channel-postmessage', () => ({ createChannel: () => mockChannel }));
 jest.mock('react-dom');
@@ -106,6 +112,12 @@ function makeRequireContext(importMap: Record<Path, ModuleExports>) {
 describe('start', () => {
   beforeEach(() => {
     global.DOCS_OPTIONS = { enabled: false };
+    // @ts-expect-error (setting this to undefined is indeed what we want to do)
+    global.__STORYBOOK_CLIENTAPI_INSTANCE__ = undefined;
+    // @ts-expect-error (setting this to undefined is indeed what we want to do)
+    global.__STORYBOOK_PREVIEWWEB_INSTANCE__ = undefined;
+    // @ts-expect-error (setting this to undefined is indeed what we want to do)
+    global.IS_STORYBOOK = undefined;
   });
   describe('when configure is called with storiesOf only', () => {
     it('loads and renders the first story correctly', async () => {
@@ -325,7 +337,7 @@ describe('start', () => {
         'story-root'
       );
 
-      expect((window as any).IS_STORYBOOK).toBe(true);
+      expect(global.IS_STORYBOOK).toBe(true);
     });
 
     it('supports forceRerender()', async () => {
