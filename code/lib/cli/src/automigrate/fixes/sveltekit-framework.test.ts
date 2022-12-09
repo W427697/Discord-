@@ -40,7 +40,7 @@ describe('SvelteKit framework fix', () => {
       await expect(checkSvelteKitFramework({ packageJson, main })).resolves.toBeFalsy();
     });
 
-    describe('in SB > v7.0.0', () => {
+    describe('in SB >= v7.0.0', () => {
       it('in non-SvelteKit projects', async () => {
         const packageJson = {
           dependencies: { svelte: '^3.53.1', '@storybook/svelte-vite': '^7.0.0' },
