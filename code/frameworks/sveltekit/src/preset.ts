@@ -19,6 +19,7 @@ export const viteFinal: NonNullable<StorybookConfig['viteFinal']> = async (confi
     // pre @sveltejs/kit@1.0.0-next.574
     'vite-plugin-svelte-kit',
     // @sveltejs/kit@1.0.0-next.574 and later
+    'vite-plugin-sveltekit-build',
     'vite-plugin-sveltekit-middleware',
   ]);
 
