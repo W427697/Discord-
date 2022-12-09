@@ -1,6 +1,6 @@
 /// <reference types="@types/jest" />;
 // Need to import jest as mockJest for annoying jest reasons. Is there a better way?
-import { jest, jest as mockJest, it, describe, expect, beforeEach } from '@jest/globals';
+import { jest, it, describe, expect, beforeEach } from '@jest/globals';
 
 import {
   STORY_ARGS_UPDATED,
@@ -39,8 +39,8 @@ const mockGetEntries = jest.fn<() => StoryIndex['entries']>();
 jest.mock('../lib/events');
 jest.mock('@storybook/global', () => ({
   global: {
-    ...(mockJest.requireActual('@storybook/global') as Record<string, any>),
-    fetch: mockJest.fn(() => ({ json: () => ({ v: 4, entries: mockGetEntries() }) })),
+    ...globalThis,
+    fetch: jest.fn(() => ({ json: () => ({ v: 4, entries: mockGetEntries() }) })),
     FEATURES: { storyStoreV7: true },
     CONFIG_TYPE: 'DEVELOPMENT',
   },
@@ -89,9 +89,14 @@ beforeEach(() => {
   provider.getConfig.mockReset().mockReturnValue({});
   provider.serverChannel = mockChannel();
   mockGetEntries.mockReset().mockReturnValue(mockEntries);
-  global.fetch
-    .mockReset()
-    .mockReturnValue({ status: 200, json: () => ({ v: 4, entries: mockGetEntries() }) });
+
+  (global.fetch as ReturnType<typeof jest.fn<typeof global.fetch>>).mockReset().mockReturnValue(
+    Promise.resolve({
+      status: 200,
+      ok: true,
+      json: () => ({ v: 4, entries: mockGetEntries() }),
+    } as any as Response)
+  );
 
   getEventMetadataMock.mockReturnValue({ sourceType: 'local' } as any);
   getEventMetadataMock.mockReturnValue({ sourceType: 'local' } as any);
@@ -562,7 +567,12 @@ describe('stories API', () => {
       const store = createMockStore({});
       const fullAPI = Object.assign(new EventEmitter(), {});
 
-      global.fetch.mockReturnValue({ status: 500, text: async () => new Error('sorting error') });
+      (global.fetch as ReturnType<typeof jest.fn<typeof global.fetch>>).mockReturnValue(
+        Promise.resolve({
+          status: 500,
+          text: async () => new Error('sorting error'),
+        } as any as Response)
+      );
       const { api, init } = initStories({ store, navigate, provider, fullAPI } as any);
       Object.assign(fullAPI, api);
 
@@ -583,11 +593,13 @@ describe('stories API', () => {
       const { api, init } = initStories({ store, navigate, provider, fullAPI } as any);
       Object.assign(fullAPI, api);
 
-      global.fetch.mockClear();
+      (global.fetch as ReturnType<typeof jest.fn<typeof global.fetch>>).mockClear();
       await init();
-      expect(global.fetch).toHaveBeenCalledTimes(1);
+      expect(global.fetch as ReturnType<typeof jest.fn<typeof global.fetch>>).toHaveBeenCalledTimes(
+        1
+      );
 
-      global.fetch.mockClear();
+      (global.fetch as ReturnType<typeof jest.fn<typeof global.fetch>>).mockClear();
       mockGetEntries.mockReturnValueOnce({
         'component-a--story-1': {
           type: 'story',
