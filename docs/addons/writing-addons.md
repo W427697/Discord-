@@ -245,7 +245,7 @@ Now that you've seen how to create a bare-bones addon let's see how to share it 
 
 Reference the [storybook-addon-outline](https://www.npmjs.com/package/storybook-addon-outline) to see a project that meets these requirements.
 
-Learn how to [add to the addon catalog](./addon-catalog.md).
+Learn how to [add to the addon catalog](../addons/integration-catalog.md#addons).
 
 ### More guides and tutorials
 
