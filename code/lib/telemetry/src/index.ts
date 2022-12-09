@@ -11,8 +11,6 @@ export * from './types';
 
 export { getStorybookCoreVersion } from './package-json';
 
-export { getPrecedingUpgrade } from './event-cache';
-
 export const telemetry = async (
   eventType: EventType,
   payload: Payload = {},

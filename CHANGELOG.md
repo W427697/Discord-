@@ -1,3 +1,14 @@
+## 7.0.0-beta.1 (December 9, 2022)
+
+#### Bug Fixes
+
+-   Revert "Telemetry: Add precedingUpgrade data to dev/build/error events" [#20168](https://github.com/storybooks/storybook/pull/20168)
+-   Controls: Fix file controls not resetting [#19998](https://github.com/storybooks/storybook/pull/19998)
+
+#### Dependency Upgrades
+
+-   Upgrade express to fix security warning [#20152](https://github.com/storybooks/storybook/pull/20152)
+
 ## 7.0.0-beta.0 (December 8, 2022)
 
 We made it to beta, folks! 🎉

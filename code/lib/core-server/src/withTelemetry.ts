@@ -1,7 +1,7 @@
 import prompts from 'prompts';
 import type { CLIOptions, CoreConfig } from '@storybook/types';
 import { loadAllPresets, cache } from '@storybook/core-common';
-import { telemetry, getPrecedingUpgrade } from '@storybook/telemetry';
+import { telemetry } from '@storybook/telemetry';
 import type { EventType } from '@storybook/telemetry';
 
 type TelemetryOptions = {
@@ -26,13 +26,11 @@ const promptCrashReports = async () => {
   return enableCrashReports;
 };
 
-type ErrorLevel = 'none' | 'error' | 'full';
-
-async function getErrorLevel({ cliOptions, presetOptions }: TelemetryOptions): Promise<ErrorLevel> {
-  if (cliOptions?.disableTelemetry) return 'none';
+async function shouldSendError({ cliOptions, presetOptions }: TelemetryOptions) {
+  if (cliOptions?.disableTelemetry) return false;
 
   // If we are running init or similar, we just have to go with true here
-  if (!presetOptions) return 'full';
+  if (!presetOptions) return true;
 
   // should we load the preset?
   const presets = await loadAllPresets({
@@ -44,18 +42,18 @@ async function getErrorLevel({ cliOptions, presetOptions }: TelemetryOptions): P
   // If the user has chosen to enable/disable crash reports in main.js
   // or disabled telemetry, we can return that
   const core = await presets.apply<CoreConfig>('core');
-  if (core?.enableCrashReports !== undefined) return core.enableCrashReports ? 'full' : 'error';
-  if (core?.disableTelemetry) return 'none';
+  if (core?.enableCrashReports !== undefined) return core.enableCrashReports;
+  if (core?.disableTelemetry) return false;
 
   // Deal with typo, remove in future version (7.1?)
   const valueFromCache =
     (await cache.get('enableCrashReports')) ?? (await cache.get('enableCrashreports'));
-  if (valueFromCache !== undefined) return valueFromCache ? 'full' : 'error';
+  if (valueFromCache !== undefined) return valueFromCache;
 
   const valueFromPrompt = await promptCrashReports();
-  if (valueFromPrompt !== undefined) return valueFromPrompt ? 'full' : 'error';
+  if (valueFromPrompt !== undefined) return valueFromPrompt;
 
-  return 'full';
+  return true;
 }
 
 export async function withTelemetry(
@@ -69,17 +67,14 @@ export async function withTelemetry(
     await run();
   } catch (error) {
     try {
-      const errorLevel = await getErrorLevel(options);
-      if (errorLevel !== 'none') {
-        const precedingUpgrade = await getPrecedingUpgrade();
-
+      if (await shouldSendError(options)) {
         await telemetry(
           'error',
-          { eventType, precedingUpgrade, error: errorLevel === 'full' ? error : undefined },
+          { eventType, error },
           {
             immediate: true,
             configDir: options.cliOptions?.configDir || options.presetOptions?.configDir,
-            enableCrashReports: errorLevel === 'full',
+            enableCrashReports: true,
           }
         );
       }
