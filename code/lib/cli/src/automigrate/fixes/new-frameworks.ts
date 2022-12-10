@@ -262,8 +262,7 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
 
       if (currentCore) {
         if (Object.keys(currentCore).length === 0) {
-          // TODO: this should delete the field instead
-          main.setFieldValue(['core'], {});
+          main.removeField(['core']);
         } else {
           main.setFieldValue(['core'], currentCore);
         }

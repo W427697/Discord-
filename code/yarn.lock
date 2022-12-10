@@ -7498,6 +7498,7 @@ __metadata:
   resolution: "@storybook/sveltekit@workspace:frameworks/sveltekit"
   dependencies:
     "@storybook/builder-vite": 7.0.0-beta.2
+    "@storybook/svelte": 7.0.0-beta.2
     "@storybook/svelte-vite": 7.0.0-beta.2
     "@types/node": ^16.0.0
     typescript: ^4.9.3

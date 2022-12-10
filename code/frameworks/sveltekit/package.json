@@ -52,6 +52,7 @@
   },
   "dependencies": {
     "@storybook/builder-vite": "7.0.0-beta.2",
+    "@storybook/svelte": "7.0.0-beta.2",
     "@storybook/svelte-vite": "7.0.0-beta.2"
   },
   "devDependencies": {
