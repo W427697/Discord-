@@ -331,7 +331,7 @@ module.exports = {
           type: 'link',
         },
         {
-          pathSegment: 'addon-catalog',
+          pathSegment: 'integration-catalog',
           title: 'Add to catalog',
           type: 'link',
         },

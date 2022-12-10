@@ -14,12 +14,12 @@
     - [Remote Images](#remote-images)
     - [Optimization](#optimization)
     - [AVIF](#avif)
-  - [Next.js Navigation](#nextjs-navigation)
   - [Next.js Routing](#nextjs-routing)
     - [Overriding defaults](#overriding-defaults)
     - [Global Defaults](#global-defaults)
     - [Default Router](#default-router)
     - [Actions Integration Caveats](#actions-integration-caveats)
+  - [Next.js Navigation](#nextjs-navigation)
   - [Sass/Scss](#sassscss)
   - [Css/Sass/Scss Modules](#csssassscss-modules)
   - [Styled JSX](#styled-jsx)
@@ -30,7 +30,7 @@
   - [Typescript](#typescript)
   - [Notes for Yarn v2 and v3 users](#notes-for-yarn-v2-and-v3-users)
   - [FAQ](#faq)
-    - [Stories for pages](#stories-for-pages)
+    - [Stories for pages](#stories-for-pages-components-which-fetch-data)
     - [Statically imported images won't load](#statically-imported-images-wont-load)
     - [Module not found: Error: Can't resolve [package name]](#module-not-found-error-cant-resolve-package-name)
 - [Acknowledgements](#acknowledgements)
@@ -71,29 +71,52 @@
 Follow the prompts after running this command in your Next.js project's root directory:
 
 ```bash
-npx storybook init
+npx storybook@next init
 ```
 
-[More on getting started with Storybook](https://storybook.js.org/docs/react/get-started/introduction)
+[More on getting started with Storybook](https://storybook.js.org/docs/react/get-started/install)
 
 ### In a project with Storybook
 
-Update your `main.js` to look something like this:
+This framework is designed to work with Storybook 7. If you’re not already using v7, upgrade with this command:
+
+```bash
+npx storybook@next upgrade --prerelease
+```
 
 Install the framework:
 
 ```bash
-yarn install @storybook/nextjs
+yarn install -D @storybook/nextjs@next
 ```
+
+Update your `main.js` to change the framework property:
 
 ```js
 // .storybook/main.js
 module.exports = {
+  // ...
   framework: {
-    name: '@storybook/nextjs',
-    options: {};
-  }
-}
+    // name: '@storybook/react-webpack5', // Remove this
+    name: '@storybook/nextjs', // Add this
+    options: {},
+  },
+};
+```
+
+If you were using Storybook plugins to integrate with Next.js, those are no longer necessary when using this framework and can be removed:
+
+```js
+// .storybook/main.js
+module.exports = {
+  // ...
+  addons: [
+    // ...
+    // These can both be removed
+    // 'storybook-addon-next',
+    // 'storybook-addon-next-router',
+  ],
+};
 ```
 
 ## Documentation
@@ -109,14 +132,13 @@ For example:
 const path = require('path');
 
 module.exports = {
-  // other config ommited for brevity
+  // ...
   framework: {
     name: '@storybook/nextjs',
     options: {
       nextConfigPath: path.resolve(__dirname, '../next.config.js'),
     },
   },
-  // ...
 };
 ```
 
@@ -174,175 +196,15 @@ export default function Home() {
 
 This format is not supported by this framework yet. Feel free to [open up an issue](https://github.com/storybookjs/storybook/issues) if this is something you want to see.
 
-### Next.js Navigation
-
-Please note that [next/navigation](https://beta.nextjs.org/docs/upgrade-guide#step-5-migrating-routing-hooks) can only be used in components/pages of the `app` directory of Next.js v13 or higher.
-
-#### Set `nextjs.appDirectory` to `true`
-
-If your story imports components that use `next/navigation`, you need to set the parameter `nextjs.appDirectory` to `true` in your Story:
-
-```js
-// SomeComponentThatUsesTheRouter.stories.js
-import SomeComponentThatUsesTheNavigation from './SomeComponentThatUsesTheNavigation';
-
-export default {
-  component: SomeComponentThatUsesTheNavigation,
-};
-
-// if you have the actions addon
-// you can click the links and see the route change events there
-export const Example = {
-  parameters: {
-    nextjs: {
-      appDirectory: true,
-    },
-  },
-},
-```
-
-If your Next.js project uses the `app` directory for every page (in other words, it does not have a `pages` directory), you can set the parameter `nextjs.appDirectory` to `true` in the [preview.js](https://storybook.js.org/docs/react/configure/overview#configure-story-rendering) file to apply it to all stories.
-
-```js
-// .storybook/preview.js
-
-export const parameters = {
-  nextjs: {
-    appDirectory: true,
-  },
-};
-```
-
-The parameter `nextjs.appDirectory` defaults to `false` if not set.
-
-#### Overriding defaults
-
-Per-story overrides can be done by adding a `nextjs.navigation` property onto the story [parameters](https://storybook.js.org/docs/react/writing-stories/parameters). The framework will shallowly merge whatever you put here into the router.
-
-```js
-// SomeComponentThatUsesTheNavigation.stories.js
-import SomeComponentThatUsesTheNavigation from './SomeComponentThatUsesTheNavigation';
-
-export default {
-  component: SomeComponentThatUsesTheNavigation,
-};
-
-// if you have the actions addon
-// you can click the links and see the route change events there
-export const Example = {
-  parameters: {
-    nextjs: {
-      appDirectory: true,
-      navigation: {
-        pathname: '/some-default-path',
-        query: {
-          foo: 'bar',
-        },
-      },
-    },
-  },
-};
-```
-
-#### Global Defaults
-
-Global defaults can be set in [preview.js](https://storybook.js.org/docs/react/configure/overview#configure-story-rendering) and will be shallowly merged with the default router.
-
-```js
-// .storybook/preview.js
-
-export const parameters = {
-  nextjs: {
-    appDirectory: true,
-    navigation: {
-      pathname: '/some-default-path',
-      query: {
-        foo: 'bar',
-      },
-    },
-  },
-};
-```
-
-#### Default Navigation Context
-
-The default values on the stubbed navigation context are as follows:
-
-```ts
-const defaultNavigationContext = {
-  push(...args) {
-    action('nextNavigation.push')(...args);
-  },
-  replace(...args) {
-    action('nextNavigation.replace')(...args);
-  },
-  forward(...args) {
-    action('nextNavigation.forward')(...args);
-  },
-  back(...args) {
-    action('nextNavigation.back')(...args);
-  },
-  prefetch(...args) {
-    action('nextNavigation.prefetch')(...args);
-  },
-  refresh: () => {
-    action('nextNavigation.refresh')();
-  },
-  pathname: '/',
-  query: {},
-};
-```
-
-#### Actions Integration Caveats
-
-If you override a function, you lose the automatic action tab integration and have to build it out yourself.
-
-```js
-// .storybook/preview.js
-
-export const parameters = {
-  nextjs: {
-    appDirectory: true,
-    navigation: {
-      push() {
-        // The default implementation that logs the action into the action tab is lost
-      },
-    },
-  },
-};
-```
-
-Doing this yourself looks something like this (make sure you install the `@storybook/addon-actions` package):
-
-```js
-// .storybook/preview.js
-import { action } from '@storybook/addon-actions';
-
-export const parameters = {
-  nextjs: {
-    appDirectory: true,
-    navigation: {
-      push(...args) {
-        // custom logic can go here
-        // this logs to the actions tab
-        action('nextNavigation.push')(...args);
-        // return whatever you want here
-        return Promise.resolve(true);
-      },
-    },
-  },
-};
-```
-
 ### Next.js Routing
 
-[Next.js's router](https://nextjs.org/docs/routing/introduction) is automatically stubbed for you so that when the router is interacted with, all of its interactions are automatically logged to the [Storybook actions tab](https://storybook.js.org/docs/react/essentials/actions) if you have the actions addon.
+[Next.js's router](https://nextjs.org/docs/routing/introduction) is automatically stubbed for you so that when the router is interacted with, all of its interactions are automatically logged to the Actions ctions panel if you have the [Storybook actions addon](https://storybook.js.org/docs/react/essentials/actions).
 
-You should only use `next/router` in the `pages` directory of Next.js v13 or higher. In the `app` directory, it is necessary to use `next/navigation`.
+> When using Next.js 13+, you should only use `next/router` in the `pages` directory. In the `app` directory, it is necessary to use `next/navigation`.
 
 #### Overriding defaults
 
-Per-story overrides can be done by adding a `nextRouter` property onto the story [parameters](https://storybook.js.org/docs/react/writing-stories/parameters). The framework will shallowly merge whatever you put here into the router.
+Per-story overrides can be done by adding a `nextjs.router` property onto the story [parameters](https://storybook.js.org/docs/react/writing-stories/parameters). The framework will shallowly merge whatever you put here into the router.
 
 ```js
 // SomeComponentThatUsesTheRouter.stories.js
@@ -352,16 +214,16 @@ export default {
   component: SomeComponentThatUsesTheRouter,
 };
 
-// if you have the actions addon
-// you can click the links and see the route change events there
+// If you have the actions addon,
+// you can interact with the links and see the route change events there
 export const Example = {
   parameters: {
     nextjs: {
       router: {
         path: '/profile/[id]',
-        asPath: '/profile/ryanclementshax',
+        asPath: '/profile/1',
         query: {
-          id: 'ryanclementshax',
+          id: '1',
         },
       },
     },
@@ -444,7 +306,7 @@ const defaultRouter = {
 
 #### Actions Integration Caveats
 
-If you override a function, you lose the automatic action tab integration and have to build it out yourself.
+If you override a function, you lose the automatic actions integration and have to build it out yourself.
 
 ```js
 // .storybook/preview.js
@@ -453,7 +315,7 @@ export const parameters = {
   nextjs: {
     router: {
       push() {
-        // The default implementation that logs the action into the action tab is lost
+        // The default implementation that logs the action into the Actions panel is lost
       },
     },
   },
@@ -470,10 +332,165 @@ export const parameters = {
   nextjs: {
     router: {
       push(...args) {
-        // custom logic can go here
-        // this logs to the actions tab
+        // Custom logic can go here
+        // This logs to the Actions panel
         action('nextRouter.push')(...args);
-        // return whatever you want here
+        // Return whatever you want here
+        return Promise.resolve(true);
+      },
+    },
+  },
+};
+```
+
+### Next.js Navigation
+
+> Please note that [next/navigation](https://beta.nextjs.org/docs/upgrade-guide#step-5-migrating-routing-hooks) can only be used in components/pages in the `app` directory of Next.js 13+.
+
+#### Set `nextjs.appDirectory` to `true`
+
+If your story imports components that use `next/navigation`, you need to set the parameter `nextjs.appDirectory` to `true` in your Story:
+
+```js
+// SomeComponentThatUsesTheRouter.stories.js
+import SomeComponentThatUsesTheNavigation from './SomeComponentThatUsesTheNavigation';
+
+export default {
+  component: SomeComponentThatUsesTheNavigation,
+};
+
+export const Example = {
+  parameters: {
+    nextjs: {
+      appDirectory: true,
+    },
+  },
+},
+```
+
+If your Next.js project uses the `app` directory for every page (in other words, it does not have a `pages` directory), you can set the parameter `nextjs.appDirectory` to `true` in the [preview.js](https://storybook.js.org/docs/react/configure/overview#configure-story-rendering) file to apply it to all stories.
+
+```js
+// .storybook/preview.js
+
+export const parameters = {
+  nextjs: {
+    appDirectory: true,
+  },
+};
+```
+
+The parameter `nextjs.appDirectory` defaults to `false` if not set.
+
+#### Overriding defaults
+
+Per-story overrides can be done by adding a `nextjs.navigation` property onto the story [parameters](https://storybook.js.org/docs/react/writing-stories/parameters). The framework will shallowly merge whatever you put here into the router.
+
+```js
+// SomeComponentThatUsesTheNavigation.stories.js
+import SomeComponentThatUsesTheNavigation from './SomeComponentThatUsesTheNavigation';
+
+export default {
+  component: SomeComponentThatUsesTheNavigation,
+};
+
+// If you have the actions addon,
+// you can interact with the links and see the route change events there
+export const Example = {
+  parameters: {
+    nextjs: {
+      appDirectory: true,
+      navigation: {
+        pathname: '/profile',
+        query: {
+          user: '1',
+        },
+      },
+    },
+  },
+};
+```
+
+#### Global Defaults
+
+Global defaults can be set in [preview.js](https://storybook.js.org/docs/react/configure/overview#configure-story-rendering) and will be shallowly merged with the default router.
+
+```js
+// .storybook/preview.js
+
+export const parameters = {
+  nextjs: {
+    appDirectory: true,
+    navigation: {
+      pathname: '/some-default-path',
+    },
+  },
+};
+```
+
+#### Default Navigation Context
+
+The default values on the stubbed navigation context are as follows:
+
+```ts
+const defaultNavigationContext = {
+  push(...args) {
+    action('nextNavigation.push')(...args);
+  },
+  replace(...args) {
+    action('nextNavigation.replace')(...args);
+  },
+  forward(...args) {
+    action('nextNavigation.forward')(...args);
+  },
+  back(...args) {
+    action('nextNavigation.back')(...args);
+  },
+  prefetch(...args) {
+    action('nextNavigation.prefetch')(...args);
+  },
+  refresh: () => {
+    action('nextNavigation.refresh')();
+  },
+  pathname: '/',
+  query: {},
+};
+```
+
+#### Actions Integration Caveats
+
+If you override a function, you lose the automatic action tab integration and have to build it out yourself.
+
+```js
+// .storybook/preview.js
+
+export const parameters = {
+  nextjs: {
+    appDirectory: true,
+    navigation: {
+      push() {
+        // The default implementation that logs the action into the Actions panel is lost
+      },
+    },
+  },
+};
+```
+
+Doing this yourself looks something like this (make sure you install the `@storybook/addon-actions` package):
+
+```js
+// .storybook/preview.js
+import { action } from '@storybook/addon-actions';
+
+export const parameters = {
+  nextjs: {
+    appDirectory: true,
+    navigation: {
+      push(...args) {
+        // Custom logic can go here
+        // This logs to the Actions panel
+        action('nextNavigation.push')(...args);
+        // Return whatever you want here
         return Promise.resolve(true);
       },
     },
@@ -496,7 +513,7 @@ This will automatically include any of your [custom sass configurations](https:/
 const path = require('path');
 
 module.exports = {
-  // any options here are included in sass compilation for your stories
+  // Any options here are included in Sass compilation for your stories
   sassOptions: {
     includePaths: [path.join(__dirname, 'styles')],
   },
@@ -508,7 +525,7 @@ module.exports = {
 [css modules](https://nextjs.org/docs/basic-features/built-in-css-support#adding-component-level-css) work as expected.
 
 ```js
-// this import works just fine in Storybook now
+// This import works just fine in Storybook now
 import styles from './Button.module.css';
 // sass/scss is also supported
 // import styles from './Button.module.scss'
@@ -603,10 +620,11 @@ export default function HomePage() {
 }
 ```
 
-```js
-// preview.js
+Also OK for global styles in `preview.js`!
 
-// Also ok in preview.js!
+```js
+// .storybook/preview.js
+
 import 'styles/globals.scss';
 
 // ...
@@ -659,14 +677,14 @@ Below is an example of how to add svgr support to Storybook with this framework.
 ```js
 // .storybook/main.js
 module.exports = {
-  // other config omitted for brevity
+  // ...
   webpackFinal: async (config) => {
-    // this modifies the existing image rule to exclude .svg files
+    // This modifies the existing image rule to exclude .svg files
     // since you want to handle those files with @svgr/webpack
     const imageRule = config.module.rules.find((rule) => rule.test.test('.svg'));
     imageRule.exclude = /\.svg$/;
 
-    // configure .svg files to be loaded with @svgr/webpack
+    // Configure .svg files to be loaded with @svgr/webpack
     config.module.rules.push({
       test: /\.svg$/,
       use: ['@svgr/webpack'],
@@ -703,9 +721,9 @@ This is because those versions of Yarn have different package resolution rules t
 
 ### FAQ
 
-#### Stories for pages
+#### Stories for pages/components which fetch data
 
-Next.js page files can contain imports to modules meant to run in a node environment (for use in data fetching functions). If you import from a Next.js page file containing those node module imports in your stories, your Storybook's Webpack will crash because those modules will not run in a browser. To get around this, you can extract the component in your page file into a separate file and import that component in your stories. Or, if that's not feasible for some reason, you can [polyfill those modules](https://webpack.js.org/configuration/node/) in your Storybook's [`webpackFinal` configuration](https://storybook.js.org/docs/react/builders/webpack#extending-storybooks-webpack-config).
+Next.js page files can contain imports to modules meant to run in a node environment (for use in data fetching functions). If you import from a Next.js page file containing those node module imports in your stories, your Storybook's Webpack will crash because those modules will not run in a browser. To get around this, you can extract the component in your page file into a separate file and import that pure component in your stories. Or, if that's not feasible for some reason, you can [polyfill those modules](https://webpack.js.org/configuration/node/) in your Storybook's [`webpackFinal` configuration](https://storybook.js.org/docs/react/builders/webpack#extending-storybooks-webpack-config).
 
 **Before**
 
@@ -713,9 +731,10 @@ Next.js page files can contain imports to modules meant to run in a node environ
 // ./pages/my-page.jsx
 import fs from 'fs';
 
-export default MyPage = (props) => (
-  // ...
-);
+// Using this component in your stories will break the Storybook build
+export default function Page(props) {
+  return; // ...
+}
 
 export const getStaticProps = async () => {
   // Logic that uses `fs`
@@ -728,13 +747,55 @@ export const getStaticProps = async () => {
 // ./pages/my-page.jsx
 import fs from 'fs';
 
+// Use this pure component in your stories instead
 import MyPage from 'components/MyPage';
 
-export default MyPage;
+export default function Page(props) {
+  return <MyPage {...props} />;
+}
 
 export const getStaticProps = async () => {
   // Logic that uses `fs`
 };
+```
+
+Starting with Next.js 13, you can also fetch data directly within server components in the `app` directory. This does not (currently) work within Storybook for similar reasons as above. It can be worked around similarly as well, by extracting a pure component to a separate file and importing that component in your stories.
+
+**Before**
+
+```jsx
+// ./app/my-page/index.jsx
+async function getData() {
+  const res = await fetch(...);
+  // ...
+}
+
+// Using this component in your stories will break the Storybook build
+export default async function Page() {
+  const data = await getData();
+
+  return // ...
+}
+```
+
+**After**
+
+```jsx
+// ./app/my-page/index.jsx
+
+// Use this component in your stories
+import MyPage from './components/MyPage';
+
+async function getData() {
+  const res = await fetch(...);
+  // ...
+}
+
+export default async function Page() {
+  const data = await getData();
+
+  return <MyPage {...data} />;
+}
 ```
 
 #### Statically imported images won't load

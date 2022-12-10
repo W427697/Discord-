@@ -1,6 +1,6 @@
 {
   "name": "@storybook/preset-svelte-webpack",
-  "version": "7.0.0-alpha.62",
+  "version": "7.0.0-beta.2",
   "description": "Storybook for Svelte: Develop Svelte Component in isolation with Hot Reloading.",
   "keywords": [
     "storybook"
@@ -65,8 +65,8 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/core-webpack": "7.0.0-alpha.62",
-    "@storybook/node-logger": "7.0.0-alpha.62",
+    "@storybook/core-webpack": "7.0.0-beta.2",
+    "@storybook/node-logger": "7.0.0-beta.2",
     "sveltedoc-parser": "^4.2.1",
     "ts-dedent": "^2.0.0"
   },
@@ -81,7 +81,7 @@
     "svelte-loader": "*"
   },
   "engines": {
-    "node": ">=10.13.0"
+    "node": ">=16.0.0"
   },
   "publishConfig": {
     "access": "public"
@@ -95,5 +95,5 @@
     ],
     "platform": "node"
   },
-  "gitHead": "27a91217b1e30d56af667a4e1f587ed1ac173e70"
+  "gitHead": "66a0d588184add900c48d49f3a62743fa9cc5185"
 }
