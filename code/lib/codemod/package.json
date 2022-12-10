@@ -26,11 +26,19 @@
       "import": "./dist/index.mjs",
       "types": "./dist/index.d.ts"
     },
+    "./dist/transforms/add-component-parameters.js": "./dist/transforms/add-component-parameters.js",
+    "./dist/transforms/csf-2-to-3.js": "./dist/transforms/csf-2-to-3.js",
+    "./dist/transforms/csf-hoist-story-annotations.js": "./dist/transforms/csf-hoist-story-annotations.js",
+    "./dist/transforms/csf-to-mdx.js": "./dist/transforms/csf-to-mdx.js",
+    "./dist/transforms/move-builtin-addons.js": "./dist/transforms/move-builtin-addons.js",
+    "./dist/transforms/storiesof-to-csf.js": "./dist/transforms/storiesof-to-csf.js",
+    "./dist/transforms/update-addon-info.js": "./dist/transforms/update-addon-info.js",
+    "./dist/transforms/update-organisation-name.js": "./dist/transforms/update-organisation-name.js",
+    "./dist/transforms/upgrade-hierarchy-separators.js": "./dist/transforms/upgrade-hierarchy-separators.js",
     "./package.json": "./package.json"
   },
   "main": "dist/index.js",
   "module": "dist/index.mjs",
-  "jsnext:main": "src/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
     "check": "../../../scripts/node_modules/.bin/tsc --noEmit",
@@ -61,7 +69,16 @@
   "bundler": {
     "platform": "node",
     "entries": [
-      "./src/index.js"
+      "./src/index.js",
+      "./src/transforms/add-component-parameters.js",
+      "./src/transforms/csf-2-to-3.ts",
+      "./src/transforms/csf-hoist-story-annotations.js",
+      "./src/transforms/csf-to-mdx.js",
+      "./src/transforms/move-builtin-addons.js",
+      "./src/transforms/storiesof-to-csf.js",
+      "./src/transforms/update-addon-info.js",
+      "./src/transforms/update-organisation-name.js",
+      "./src/transforms/upgrade-hierarchy-separators.js"
     ]
   },
   "gitHead": "66a0d588184add900c48d49f3a62743fa9cc5185"
