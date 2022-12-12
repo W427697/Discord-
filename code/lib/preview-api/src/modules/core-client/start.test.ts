@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 /**
  * @jest-environment jsdom
  */
@@ -106,6 +107,9 @@ function makeRequireContext(importMap: Record<Path, ModuleExports>) {
 describe('start', () => {
   beforeEach(() => {
     global.DOCS_OPTIONS = { enabled: false };
+    global.__STORYBOOK_CLIENT_API__ = undefined;
+    global.__STORYBOOK_PREVIEW__ = undefined;
+    global.IS_STORYBOOK = undefined;
   });
   describe('when configure is called with storiesOf only', () => {
     it('loads and renders the first story correctly', async () => {
@@ -325,7 +329,7 @@ describe('start', () => {
         'story-root'
       );
 
-      expect((window as any).IS_STORYBOOK).toBe(true);
+      expect(global.IS_STORYBOOK).toBe(true);
     });
 
     it('supports forceRerender()', async () => {
