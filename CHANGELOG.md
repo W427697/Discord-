@@ -1,3 +1,15 @@
+## 7.0.0-beta.3 (December 10, 2022)
+
+#### Bug Fixes
+
+-   CLI: Fix sb migrate codemods [#20191](https://github.com/storybooks/storybook/pull/20191)
+-   Measure: Fix measure not working on disabled elements [#19985](https://github.com/storybooks/storybook/pull/19985)
+
+#### Maintenance
+
+-   SvelteKit: Automigration [#20094](https://github.com/storybooks/storybook/pull/20094)
+-   Tech: change `package.json` engines fields, set to minimal node16 and up [#20170](https://github.com/storybooks/storybook/pull/20170)
+
 ## 7.0.0-beta.2 (December 9, 2022)
 
 #### Bug Fixes
