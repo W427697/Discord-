@@ -1,3 +1,9 @@
+## 6.5.15-alpha.0 (December 12, 2022)
+
+#### Maintenance
+
+-   Ember: Remove global Ember usage [#17843](https://github.com/storybooks/storybook/pull/17843)
+
 ## 6.5.14 (December 2, 2022)
 
 #### Bug Fixes
