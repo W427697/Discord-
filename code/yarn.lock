@@ -3404,7 +3404,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@jridgewell/sourcemap-codec@npm:1.4.14, @jridgewell/sourcemap-codec@npm:^1.4.10, @jridgewell/sourcemap-codec@npm:^1.4.13":
+"@jridgewell/sourcemap-codec@npm:1.4.14, @jridgewell/sourcemap-codec@npm:^1.4.10":
   version: 1.4.14
   resolution: "@jridgewell/sourcemap-codec@npm:1.4.14"
   checksum: 3fbaff1387c1338b097eeb6ff92890d7838f7de0dde259e4983763b44540bfd5ca6a1f7644dc8ad003a57f7e80670d5b96a8402f1386ba9aee074743ae9bad51
@@ -7434,7 +7434,7 @@ __metadata:
     "@storybook/builder-vite": 7.0.0-beta.3
     "@storybook/node-logger": 7.0.0-beta.3
     "@storybook/svelte": 7.0.0-beta.3
-    "@sveltejs/vite-plugin-svelte": ^2.0.0
+    "@sveltejs/vite-plugin-svelte": ^1.0.0
     "@types/node": ^16.0.0
     magic-string: ^0.26.1
     svelte: ^3.0.0
@@ -7793,20 +7793,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sveltejs/vite-plugin-svelte@npm:^2.0.0":
-  version: 2.0.2
-  resolution: "@sveltejs/vite-plugin-svelte@npm:2.0.2"
+"@sveltejs/vite-plugin-svelte@npm:^1.0.0":
+  version: 1.4.0
+  resolution: "@sveltejs/vite-plugin-svelte@npm:1.4.0"
   dependencies:
     debug: ^4.3.4
     deepmerge: ^4.2.2
     kleur: ^4.1.5
-    magic-string: ^0.27.0
+    magic-string: ^0.26.7
     svelte-hmr: ^0.15.1
-    vitefu: ^0.2.3
+    vitefu: ^0.2.2
   peerDependencies:
-    svelte: ^3.54.0
-    vite: ^4.0.0
-  checksum: 467fbb99dc3f94c37e94ae062eb049ff264828fc09f03facce9ef5948867eec342dd9a852d92ad1c8fc4ac116d91f1c8327628c8c4409949aa8969754a2e70da
+    svelte: ^3.44.0
+    vite: ^3.0.0
+  checksum: ce3019189c94577ec3fd33853053f5258da6d7a6bf676e412fbf7ec17861f4f09b1ffbe823805496b165f857dfe671e80501b4a7b5d00215ef19635bc367c599
   languageName: node
   linkType: hard
 
@@ -23034,15 +23034,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"magic-string@npm:^0.27.0":
-  version: 0.27.0
-  resolution: "magic-string@npm:0.27.0"
-  dependencies:
-    "@jridgewell/sourcemap-codec": ^1.4.13
-  checksum: cddacfea14441ca57ae8a307bc3cf90bac69efaa4138dd9a80804cffc2759bf06f32da3a293fb13eaa96334b7d45b7768a34f1d226afae25d2f05b05a3bb37d8
-  languageName: node
-  linkType: hard
-
 "make-dir@npm:^1.0.0":
   version: 1.3.0
   resolution: "make-dir@npm:1.3.0"
@@ -33216,7 +33207,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vitefu@npm:^0.2.3":
+"vitefu@npm:^0.2.2":
   version: 0.2.3
   resolution: "vitefu@npm:0.2.3"
   peerDependencies:
