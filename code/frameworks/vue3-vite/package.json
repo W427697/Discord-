@@ -54,7 +54,7 @@
     "@storybook/builder-vite": "7.0.0-beta.3",
     "@storybook/core-server": "7.0.0-beta.3",
     "@storybook/vue3": "7.0.0-beta.3",
-    "@vitejs/plugin-vue": "^3.0.0",
+    "@vitejs/plugin-vue": "^4.0.0",
     "magic-string": "^0.26.1",
     "vite": "^3.0.0||^4.0.0",
     "vue-docgen-api": "^4.40.0"
