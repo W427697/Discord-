@@ -125,6 +125,10 @@ export class ClientApi<TRenderer extends Renderer> {
   private lastFileName = 0;
 
   constructor({ storyStore }: { storyStore?: StoryStore<TRenderer> } = {}) {
+    console.log(
+      'CLIENT_API_MODULE, you should only see this log, exactly ONCE, in the browser console'
+    );
+
     this.facade = new StoryStoreFacade();
 
     this.addons = {};
