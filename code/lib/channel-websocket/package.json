@@ -1,6 +1,6 @@
 {
   "name": "@storybook/channel-websocket",
-  "version": "7.0.0-beta.1",
+  "version": "7.0.0-beta.3",
   "description": "",
   "keywords": [
     "storybook"
@@ -42,8 +42,8 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/channels": "7.0.0-beta.1",
-    "@storybook/client-logger": "7.0.0-beta.1",
+    "@storybook/channels": "7.0.0-beta.3",
+    "@storybook/client-logger": "7.0.0-beta.3",
     "global": "^4.4.0",
     "telejson": "^7.0.3"
   },
@@ -58,5 +58,5 @@
       "./src/index.ts"
     ]
   },
-  "gitHead": "42c08678ac06d9c2c8e7a4c31a91e0a14bf5c2cd"
+  "gitHead": "9a57b4788c8b2817db516d799057d8295b187880"
 }
