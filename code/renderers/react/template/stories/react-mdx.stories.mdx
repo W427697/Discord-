@@ -7,18 +7,18 @@ import { Meta, Story, Canvas } from '@storybook/addon-docs';
 
 export const Button = globalThis.Components.Button;
 
+export const Primary = (args) => <Button label="Primary" />;
+
+export const Secondary = (args) => <Button label="Secondary" />;
+
 export const Template = (args) => <Button label="From template" />;
 
 <Canvas>
-  <Story name="Primary">
-    <Button label="Primary" />
-  </Story>
+  <Story name="Primary">{Primary.bind({})}</Story>
 </Canvas>
 
 <Canvas>
-  <Story name="Secondary">
-    <Button label="Secondary" />
-  </Story>
+  <Story name="Secondary">{Secondary.bind({})}</Story>
 </Canvas>
 
 <Canvas>
