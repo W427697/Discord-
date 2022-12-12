@@ -78,7 +78,7 @@ describe('when command fails', () => {
       apply: async () => ({ enableCrashReports: false } as any),
     });
     await expect(async () =>
-      withTelemetry('dev', { presetOptions: {} as any }, run)
+      withTelemetry('dev', { cliOptions: {} as any, presetOptions: {} as any }, run)
     ).rejects.toThrow(error);
 
     expect(telemetry).toHaveBeenCalledTimes(2);
@@ -95,7 +95,7 @@ describe('when command fails', () => {
     });
 
     await expect(async () =>
-      withTelemetry('dev', { presetOptions: {} as any }, run)
+      withTelemetry('dev', { cliOptions: {} as any, presetOptions: {} as any }, run)
     ).rejects.toThrow(error);
 
     expect(telemetry).toHaveBeenCalledTimes(2);
@@ -112,7 +112,7 @@ describe('when command fails', () => {
     });
 
     await expect(async () =>
-      withTelemetry('dev', { presetOptions: {} as any }, run)
+      withTelemetry('dev', { cliOptions: {} as any, presetOptions: {} as any }, run)
     ).rejects.toThrow(error);
 
     expect(telemetry).toHaveBeenCalledTimes(1);
@@ -129,7 +129,7 @@ describe('when command fails', () => {
     });
 
     await expect(async () =>
-      withTelemetry('dev', { presetOptions: {} as any }, run)
+      withTelemetry('dev', { cliOptions: {} as any, presetOptions: {} as any }, run)
     ).rejects.toThrow(error);
 
     expect(telemetry).toHaveBeenCalledTimes(2);
@@ -147,7 +147,7 @@ describe('when command fails', () => {
     jest.mocked(cache.get).mockResolvedValueOnce(false);
 
     await expect(async () =>
-      withTelemetry('dev', { presetOptions: {} as any }, run)
+      withTelemetry('dev', { cliOptions: {} as any, presetOptions: {} as any }, run)
     ).rejects.toThrow(error);
 
     expect(telemetry).toHaveBeenCalledTimes(2);
@@ -165,7 +165,7 @@ describe('when command fails', () => {
     jest.mocked(cache.get).mockResolvedValueOnce(true);
 
     await expect(async () =>
-      withTelemetry('dev', { presetOptions: {} as any }, run)
+      withTelemetry('dev', { cliOptions: {} as any, presetOptions: {} as any }, run)
     ).rejects.toThrow(error);
 
     expect(telemetry).toHaveBeenCalledTimes(2);
@@ -184,7 +184,7 @@ describe('when command fails', () => {
     jest.mocked(prompts).mockResolvedValueOnce({ enableCrashReports: false });
 
     await expect(async () =>
-      withTelemetry('dev', { presetOptions: {} as any }, run)
+      withTelemetry('dev', { cliOptions: {} as any, presetOptions: {} as any }, run)
     ).rejects.toThrow(error);
 
     expect(telemetry).toHaveBeenCalledTimes(2);
@@ -203,7 +203,7 @@ describe('when command fails', () => {
     jest.mocked(prompts).mockResolvedValueOnce({ enableCrashReports: true });
 
     await expect(async () =>
-      withTelemetry('dev', { presetOptions: {} as any }, run)
+      withTelemetry('dev', { cliOptions: {} as any, presetOptions: {} as any }, run)
     ).rejects.toThrow(error);
 
     expect(telemetry).toHaveBeenCalledTimes(2);
@@ -219,7 +219,7 @@ describe('when command fails', () => {
     jest.mocked(loadAllPresets).mockRejectedValueOnce(error);
 
     await expect(async () =>
-      withTelemetry('dev', { presetOptions: {} as any }, run)
+      withTelemetry('dev', { cliOptions: {} as any, presetOptions: {} as any }, run)
     ).rejects.toThrow(error);
 
     expect(telemetry).toHaveBeenCalledTimes(1);
