@@ -10,6 +10,6 @@ export class PreviewWeb<TFramework extends Renderer> extends PreviewWithSelectio
   constructor() {
     super(new UrlStore(), new WebView());
 
-    global.__STORYBOOK_PREVIEWWEB_INSTANCE__ = this;
+    global.__STORYBOOK_PREVIEW__ = this;
   }
 }

@@ -114,9 +114,9 @@ describe('start', () => {
   beforeEach(() => {
     global.DOCS_OPTIONS = { enabled: false };
     // @ts-expect-error (setting this to undefined is indeed what we want to do)
-    global.__STORYBOOK_CLIENTAPI_INSTANCE__ = undefined;
+    global.__STORYBOOK_CLIENT_API__ = undefined;
     // @ts-expect-error (setting this to undefined is indeed what we want to do)
-    global.__STORYBOOK_PREVIEWWEB_INSTANCE__ = undefined;
+    global.__STORYBOOK_PREVIEW__ = undefined;
     // @ts-expect-error (setting this to undefined is indeed what we want to do)
     global.IS_STORYBOOK = undefined;
   });

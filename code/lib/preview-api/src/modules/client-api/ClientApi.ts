@@ -53,60 +53,60 @@ const checkMethod = (method: keyof typeof warningAlternatives) => {
     );
   }
 
-  if (!global.__STORYBOOK_CLIENTAPI_INSTANCE__) {
+  if (!global.__STORYBOOK_CLIENT_API__) {
     throw new Error(`Singleton client API not yet initialized, cannot call \`${method}\`.`);
   }
 };
 
 export const addDecorator = (decorator: DecoratorFunction<Renderer>) => {
   checkMethod('addDecorator');
-  global.__STORYBOOK_CLIENTAPI_INSTANCE__?.addDecorator(decorator);
+  global.__STORYBOOK_CLIENT_API__?.addDecorator(decorator);
 };
 
 export const addParameters = (parameters: Parameters) => {
   checkMethod('addParameters');
-  global.__STORYBOOK_CLIENTAPI_INSTANCE__?.addParameters(parameters);
+  global.__STORYBOOK_CLIENT_API__?.addParameters(parameters);
 };
 
 export const addLoader = (loader: LoaderFunction<Renderer>) => {
   checkMethod('addLoader');
-  global.__STORYBOOK_CLIENTAPI_INSTANCE__?.addLoader(loader);
+  global.__STORYBOOK_CLIENT_API__?.addLoader(loader);
 };
 
 export const addArgs = (args: Args) => {
   checkMethod('addArgs');
-  global.__STORYBOOK_CLIENTAPI_INSTANCE__?.addArgs(args);
+  global.__STORYBOOK_CLIENT_API__?.addArgs(args);
 };
 
 export const addArgTypes = (argTypes: ArgTypes) => {
   checkMethod('addArgTypes');
-  global.__STORYBOOK_CLIENTAPI_INSTANCE__?.addArgTypes(argTypes);
+  global.__STORYBOOK_CLIENT_API__?.addArgTypes(argTypes);
 };
 
 export const addArgsEnhancer = (enhancer: ArgsEnhancer<Renderer>) => {
   checkMethod('addArgsEnhancer');
-  global.__STORYBOOK_CLIENTAPI_INSTANCE__?.addArgsEnhancer(enhancer);
+  global.__STORYBOOK_CLIENT_API__?.addArgsEnhancer(enhancer);
 };
 
 export const addArgTypesEnhancer = (enhancer: ArgTypesEnhancer<Renderer>) => {
   checkMethod('addArgTypesEnhancer');
-  global.__STORYBOOK_CLIENTAPI_INSTANCE__?.addArgTypesEnhancer(enhancer);
+  global.__STORYBOOK_CLIENT_API__?.addArgTypesEnhancer(enhancer);
 };
 
 export const addStepRunner = (stepRunner: StepRunner) => {
   checkMethod('addStepRunner');
-  global.__STORYBOOK_CLIENTAPI_INSTANCE__?.addStepRunner(stepRunner);
+  global.__STORYBOOK_CLIENT_API__?.addStepRunner(stepRunner);
 };
 
 export const getGlobalRender = () => {
   checkMethod('getGlobalRender');
-  return global.__STORYBOOK_CLIENTAPI_INSTANCE__?.facade.projectAnnotations.render;
+  return global.__STORYBOOK_CLIENT_API__?.facade.projectAnnotations.render;
 };
 
 export const setGlobalRender = (render: StoryStoreFacade<any>['projectAnnotations']['render']) => {
   checkMethod('setGlobalRender');
-  if (global.__STORYBOOK_CLIENTAPI_INSTANCE__) {
-    global.__STORYBOOK_CLIENTAPI_INSTANCE__.facade.projectAnnotations.render = render;
+  if (global.__STORYBOOK_CLIENT_API__) {
+    global.__STORYBOOK_CLIENT_API__.facade.projectAnnotations.render = render;
   }
 };
 
@@ -135,7 +135,7 @@ export class ClientApi<TRenderer extends Renderer> {
 
     this.storyStore = storyStore;
 
-    global.__STORYBOOK_CLIENTAPI_INSTANCE__ = this;
+    global.__STORYBOOK_CLIENT_API__ = this;
   }
 
   importFn(path: Path) {

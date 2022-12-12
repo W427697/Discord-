@@ -17,19 +17,16 @@ var FEATURES: Features | undefined;
 var STORIES: any;
 var DOCS_OPTIONS: any;
 
-// ClientApi (and StoreStore) are really singletons. However they are not created until the
-// relevant framework instantiates them via `start.js`. The good news is this happens right away.
-var __STORYBOOK_CLIENTAPI_INSTANCE__: import('./modules/client-api/ClientApi').ClientApi<any>;
-var __STORYBOOK_PREVIEWWEB_INSTANCE__: import('./modules/preview-web/PreviewWeb').PreviewWeb<any>;
-
 // To enable user code to detect if it is running in Storybook
 var IS_STORYBOOK: boolean;
 
-var __STORYBOOK_CLIENT_API__: any;
+// ClientApi (and StoreStore) are really singletons. However they are not created until the
+// relevant framework instantiates them via `start.js`. The good news is this happens right away.
 var __STORYBOOK_ADDONS_CHANNEL__: any;
-var __STORYBOOK_PREVIEW__: any;
-var __STORYBOOK_STORY_STORE__: any;
 var __STORYBOOK_ADDONS_PREVIEW: any;
+var __STORYBOOK_CLIENT_API__: import('./modules/client-api/ClientApi').ClientApi<any>;
+var __STORYBOOK_PREVIEW__: import('./modules/preview-web/PreviewWeb').PreviewWeb<any>;
+var __STORYBOOK_STORY_STORE__: any;
 var STORYBOOK_HOOKS_CONTEXT: any;
 
 declare module 'ansi-to-html';

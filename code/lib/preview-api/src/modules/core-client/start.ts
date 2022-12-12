@@ -60,8 +60,8 @@ export function start<TRenderer extends Renderer>(
   const channel = createChannel({ page: 'preview' });
   addons.setChannel(channel);
 
-  const clientApi = global.__STORYBOOK_CLIENTAPI_INSTANCE__ || new ClientApi<TRenderer>();
-  const preview = global.__STORYBOOK_PREVIEWWEB_INSTANCE__ || new PreviewWeb<TRenderer>();
+  const clientApi = global.__STORYBOOK_CLIENT_API__ || new ClientApi<TRenderer>();
+  const preview = global.__STORYBOOK_PREVIEW__ || new PreviewWeb<TRenderer>();
   let initialized = false;
 
   const importFn = (path: Path) => clientApi.importFn(path);
