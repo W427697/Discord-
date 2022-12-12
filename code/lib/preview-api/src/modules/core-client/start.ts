@@ -10,11 +10,11 @@ import { ClientApi } from '../../client-api';
 import { executeLoadableForChanges } from './executeLoadable';
 import type { Loadable } from './executeLoadable';
 
+const { FEATURES } = global;
+
 const removedApi = (name: string) => () => {
   throw new Error(`@storybook/client-api:${name} was removed in storyStoreV7.`);
 };
-
-const { FEATURES } = global;
 
 interface CoreClient_RendererImplementation<TRenderer extends Renderer> {
   decorateStory?: ProjectAnnotations<TRenderer>['applyDecorators'];
@@ -41,7 +41,7 @@ export function start<TRenderer extends Renderer>(
   renderToCanvas: ProjectAnnotations<TRenderer>['renderToCanvas'],
   { decorateStory, render }: CoreClient_RendererImplementation<TRenderer> = {}
 ): CoreClient_StartReturnValue<TRenderer> {
-  if (global.window) {
+  if (global) {
     // To enable user code to detect if it is running in Storybook
     global.IS_STORYBOOK = true;
   }
@@ -60,8 +60,8 @@ export function start<TRenderer extends Renderer>(
   const channel = createChannel({ page: 'preview' });
   addons.setChannel(channel);
 
-  const clientApi = global.__STORYBOOK_CLIENT_API__ || new ClientApi<TRenderer>();
-  const preview = global.__STORYBOOK_PREVIEW__ || new PreviewWeb<TRenderer>();
+  const clientApi = global?.__STORYBOOK_CLIENT_API__ || new ClientApi<TRenderer>();
+  const preview = global?.__STORYBOOK_PREVIEW__ || new PreviewWeb<TRenderer>();
   let initialized = false;
 
   const importFn = (path: Path) => clientApi.importFn(path);
@@ -75,11 +75,11 @@ export function start<TRenderer extends Renderer>(
   clientApi.onImportFnChanged = onStoriesChanged;
   clientApi.storyStore = preview.storyStore;
 
-  if (global.window) {
-    global.window.__STORYBOOK_CLIENT_API__ = clientApi;
-    global.window.__STORYBOOK_ADDONS_CHANNEL__ = channel;
-    global.window.__STORYBOOK_PREVIEW__ = preview;
-    global.window.__STORYBOOK_STORY_STORE__ = preview.storyStore;
+  if (global) {
+    global.__STORYBOOK_CLIENT_API__ = clientApi;
+    global.__STORYBOOK_ADDONS_CHANNEL__ = channel;
+    global.__STORYBOOK_PREVIEW__ = preview;
+    global.__STORYBOOK_STORY_STORE__ = preview.storyStore;
   }
 
   return {

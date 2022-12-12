@@ -1,6 +1,4 @@
 /* eslint-disable no-underscore-dangle */
-/* eslint-disable @typescript-eslint/triple-slash-reference */
-/// <reference path="../../typings.d.ts" />
 
 import { dedent } from 'ts-dedent';
 import { global } from '@storybook/global';
