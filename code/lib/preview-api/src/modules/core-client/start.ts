@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable @typescript-eslint/naming-convention */
 import global from 'global';
 import type { Renderer, ArgsStoryFn, Path, ProjectAnnotations } from '@storybook/types';
@@ -60,8 +61,8 @@ export function start<TRenderer extends Renderer>(
   const channel = createChannel({ page: 'preview' });
   addons.setChannel(channel);
 
-  const clientApi = new ClientApi<TRenderer>();
-  const preview = new PreviewWeb<TRenderer>();
+  const clientApi = globalWindow?.__STORYBOOK_CLIENT_API__ || new ClientApi<TRenderer>();
+  const preview = globalWindow?.__STORYBOOK_PREVIEW__ || new PreviewWeb<TRenderer>();
   let initialized = false;
 
   const importFn = (path: Path) => clientApi.importFn(path);
@@ -78,7 +79,6 @@ export function start<TRenderer extends Renderer>(
   if (globalWindow) {
     globalWindow.__STORYBOOK_CLIENT_API__ = clientApi;
     globalWindow.__STORYBOOK_ADDONS_CHANNEL__ = channel;
-    // eslint-disable-next-line no-underscore-dangle
     globalWindow.__STORYBOOK_PREVIEW__ = preview;
     globalWindow.__STORYBOOK_STORY_STORE__ = preview.storyStore;
   }
@@ -105,7 +105,6 @@ export function start<TRenderer extends Renderer>(
       // function in case it throws. So we also need to process its output there also
       const getProjectAnnotations = () => {
         const { added, removed } = executeLoadableForChanges(loadable, m);
-        // eslint-disable-next-line no-underscore-dangle
         clientApi._loadAddedExports();
 
         Array.from(added.entries()).forEach(([fileName, fileExports]) =>
