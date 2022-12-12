@@ -67,10 +67,8 @@ export async function generateModernIframeScriptCode(options: ExtendedOptions) {
 
     window.__STORYBOOK_PREVIEW__ = window.__STORYBOOK_PREVIEW__ || new PreviewWeb();
     
-    window.__STORYBOOK_PREVIEW__ = window.__STORYBOOK_PREVIEW__ || preview;
-    window.__STORYBOOK_STORY_STORE__ = window.__STORYBOOK_STORY_STORE__ || preview.storyStore;
-    window.__STORYBOOK_CLIENT_API__ = window.__STORYBOOK_CLIENT_API__ || new ClientApi({ storyStore: preview.storyStore });
-
+    window.__STORYBOOK_STORY_STORE__ = window.__STORYBOOK_STORY_STORE__ || window.__STORYBOOK_PREVIEW__.storyStore;
+    window.__STORYBOOK_CLIENT_API__ = window.__STORYBOOK_CLIENT_API__ || new ClientApi({ storyStore: window.__STORYBOOK_PREVIEW__.storyStore });
     window.__STORYBOOK_PREVIEW__.initialize({ importFn, getProjectAnnotations });
     
     ${generateHMRHandler(frameworkName)};
