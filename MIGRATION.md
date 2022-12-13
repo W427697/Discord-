@@ -23,10 +23,10 @@
     - [7.0 feature flags removed](#70-feature-flags-removed)
     - [CLI option `--use-npm` deprecated](#cli-option---use-npm-deprecated)
     - [Vite builder uses vite config automatically](#vite-builder-uses-vite-config-automatically)
-    - [Vite cache moved to node\_modules/.cache/.vite-storybook](#vite-cache-moved-to-node_modulescachevite-storybook)
+    - [Vite cache moved to node_modules/.cache/.vite-storybook](#vite-cache-moved-to-node_modulescachevite-storybook)
     - [SvelteKit needs the `@storybook/sveltekit` framework](#sveltekit-needs-the-storybooksveltekit-framework)
     - [Removed docs.getContainer and getPage parameters](#removed-docsgetcontainer-and-getpage-parameters)
-    - [Removed STORYBOOK\_REACT\_CLASSES global](#removed-storybook_react_classes-global)
+    - [Removed STORYBOOK_REACT_CLASSES global](#removed-storybook_react_classes-global)
     - [Icons API changed](#icons-api-changed)
     - ['config' preset entry replaced with 'previewAnnotations'](#config-preset-entry-replaced-with-previewannotations)
     - [Dropped support for Angular 12 and below](#dropped-support-for-angular-12-and-below)
@@ -275,6 +275,7 @@ To upgrade manually, add any version of `react` and `react-dom` as devDependenci
 ```
 npm add react react-dom --dev
 ```
+
 #### Postcss removed
 
 Storybook 6.x installed postcss by default. In 7.0 built-in support has been removed. IF you need it, you can add it back using [`@storybook/addon-postcss`](https://github.com/storybookjs/addon-postcss).
@@ -586,7 +587,7 @@ When using a [Vite-based framework](#framework-field-mandatory), Storybook will 
 Some settings will be overridden by storybook so that it can function properly, and the merged settings can be modified using `viteFinal` in `.storybook/main.js` (see the [Storybook Vite configuration docs](https://storybook.js.org/docs/react/builders/vite#configuration)).  
 If you were using `viteFinal` in 6.5 to simply merge in your project's standard vite config, you can now remove it.
 
-For Svelte projects this means that the `svelteOptions` property in the `main.js` config can be omitted in most cases, as it will be loaded automatically via the project's `vite.config.js`. An exception to this is when the project needs different Svelte options for Storybook than the Vite config provides for the application itself.
+For Svelte projects this means that the `svelteOptions` property in the `main.js` config should be omitted in, as it will be loaded automatically via the project's `vite.config.js`. An exception to this is when the project needs different Svelte options for Storybook than the Vite config provides for the application itself.
 
 #### Vite cache moved to node_modules/.cache/.vite-storybook
 
