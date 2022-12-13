@@ -46,7 +46,7 @@ This is just the beginning. We're planning on making it an even better experienc
 
 ### In a project without Storybook
 
-Run the follwoing command in your SvelteKit project's root directory, and follow the prompts:
+Run the following command in your SvelteKit project's root directory, and follow the prompts:
 
 ```bash
 npx storybook@next init
@@ -77,8 +77,9 @@ yarn add -D @storybook/sveltekit@next
 Update your `main.cjs` to change the framework property:
 
 ```js
-// .storybook/main.js
+// .storybook/main.cjs
 module.exports = {
+  ...
   // shorthand
   framework: '@storybook/sveltekit',
   // or if you need options
