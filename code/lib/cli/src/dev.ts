@@ -17,7 +17,9 @@ export const dev = async (cliOptions: any) => {
       cache,
       packageJson: readUpSync({ cwd: __dirname }).packageJson,
     };
-    await withTelemetry('dev', { presetOptions: options }, () => buildDevStandalone(options));
+    await withTelemetry('dev', { cliOptions, presetOptions: options }, () =>
+      buildDevStandalone(options)
+    );
   } catch (error) {
     // this is a weird bugfix, somehow 'node-pre-gyp' is polluting the npmLog header
     npmLog.heading = '';
