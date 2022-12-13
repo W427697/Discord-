@@ -80,13 +80,7 @@ Update your `main.cjs` to change the framework property:
 // .storybook/main.cjs
 module.exports = {
   ...
-  // shorthand
   framework: '@storybook/sveltekit',
-  // or if you need options
-  framework: {
-    name: '@storybook/sveltekit',
-    options: {...},
-  },
 };
 ```
 
