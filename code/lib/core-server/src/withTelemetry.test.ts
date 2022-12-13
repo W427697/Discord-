@@ -65,7 +65,7 @@ describe('when command fails', () => {
       withTelemetry('dev', { cliOptions: { disableTelemetry: true } }, run)
     ).rejects.toThrow(error);
 
-    expect(telemetry).toHaveBeenCalledTimes(1);
+    expect(telemetry).toHaveBeenCalledTimes(0);
     expect(telemetry).not.toHaveBeenCalledWith(
       'error',
       { eventType: 'dev', error },
