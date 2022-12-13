@@ -14,8 +14,11 @@ function injectRenderer(code: string) {
 
 // HACK: find a better way to do this, ideally avoiding @vitejs/plugin-react entirely.
 // We're just using it to run the mdx with jsx through babel
-// @ts-expect-error we know these have names, and what the shape will be
-const viteBabel: Plugin | undefined = reactVite().find((p) => p.name === 'vite:react-babel');
+// @ts-expect-error We're forcing the plugin shape here
+const viteBabel: Plugin | undefined = reactVite({ fastRefresh: false }).find(
+  // @ts-expect-error we know these have names, and what the shape will be
+  (p) => p.name === 'vite:react-babel'
+);
 
 /**
  * Storybook uses two different loaders when dealing with MDX:
