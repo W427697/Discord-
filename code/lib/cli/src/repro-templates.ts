@@ -235,7 +235,6 @@ export const allTemplates: Record<string, Template> = {
     },
   },
   'svelte-kit/skeleton-js': {
-    inDevelopment: true,
     name: 'Svelte Kit (JS)',
     script:
       'yarn create svelte-with-args --name=svelte-kit/skeleton-js --directory=. --template=skeleton --types=null --no-prettier --no-eslint --no-playwright --no-vitest',
@@ -246,7 +245,6 @@ export const allTemplates: Record<string, Template> = {
     },
   },
   'svelte-kit/skeleton-ts': {
-    inDevelopment: true,
     name: 'Svelte Kit (TS)',
     script:
       'yarn create svelte-with-args --name=svelte-kit/skeleton-ts --directory=. --template=skeleton --types=typescript --no-prettier --no-eslint --no-playwright --no-vitest',

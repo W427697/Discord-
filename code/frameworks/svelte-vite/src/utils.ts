@@ -2,21 +2,7 @@ import type { PluginOption } from 'vite';
 import type { Options } from '@storybook/types';
 import dedent from 'ts-dedent';
 import { logger } from '@storybook/node-logger';
-
-function checkName(plugin: PluginOption, name: string) {
-  return typeof plugin === 'object' && 'name' in plugin && plugin.name === name;
-}
-
-export function hasPlugin(plugins: PluginOption[], name: string) {
-  return Boolean(
-    plugins.find((p): boolean => {
-      if (Array.isArray(p)) {
-        return Boolean(hasPlugin(p, name));
-      }
-      return checkName(p, name);
-    })
-  );
-}
+import { hasVitePlugins } from '@storybook/builder-vite';
 
 /**
  * A migration step that ensures the svelte-vite framework still supports SvelteKit,
@@ -32,10 +18,11 @@ export async function handleSvelteKit(plugins: PluginOption[], options: Options)
   const frameworkPreset = await options.presets.apply('framework', {}, options);
   const framework = typeof frameworkPreset === 'string' ? frameworkPreset : frameworkPreset.name;
 
-  const hasSvelteKitPlugins =
-    hasPlugin(plugins, 'vite-plugin-svelte-kit') ||
-    hasPlugin(plugins, 'vite-plugin-sveltekit-build') ||
-    hasPlugin(plugins, 'vite-plugin-sveltekit-middleware');
+  const hasSvelteKitPlugins = await hasVitePlugins(plugins, [
+    'vite-plugin-svelte-kit',
+    'vite-plugin-sveltekit-setup',
+    'vite-plugin-sveltekit-compile',
+  ]);
 
   if (hasSvelteKitPlugins && framework !== '@storybook/sveltekit') {
     logger.error(

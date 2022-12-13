@@ -12,6 +12,7 @@ import { build as viteBuild } from './build';
 import type { ExtendedOptions } from './types';
 
 export { withoutVitePlugins } from './utils/without-vite-plugins';
+export { hasVitePlugins } from './utils/has-vite-plugins';
 
 // TODO remove
 export type { TypescriptOptions } from '@storybook/types';
