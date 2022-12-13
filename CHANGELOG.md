@@ -1,3 +1,73 @@
+## 7.0.0-beta.4 (December 13, 2022)
+
+#### Features
+
+-   Re-enable TS 4.9 CLI templates [#20159](https://github.com/storybooks/storybook/pull/20159)
+
+#### Bug Fixes
+
+-   CLI: execute automigrations when pressing enter in the prompts [#20208](https://github.com/storybooks/storybook/pull/20208)
+-   Interactions: Fix storyId access in instrumenter [#20201](https://github.com/storybooks/storybook/pull/20201)
+-   Typescript: Fix bug with meta not working well as generic parameter for StoryObj [#20165](https://github.com/storybooks/storybook/pull/20165)
+-   SvelteKit: Support `v1.0.0-next.574` and above [#20181](https://github.com/storybooks/storybook/pull/20181)
+
+#### Build
+
+-   Svelte: Fix argTypes inference in Button component [#20212](https://github.com/storybooks/storybook/pull/20212)
+-   React-Vite: Ignore React MDX stories in sandbox [#20210](https://github.com/storybooks/storybook/pull/20210)
+
+## 7.0.0-beta.3 (December 10, 2022)
+
+#### Bug Fixes
+
+-   CLI: Fix sb migrate codemods [#20191](https://github.com/storybooks/storybook/pull/20191)
+-   Measure: Fix measure not working on disabled elements [#19985](https://github.com/storybooks/storybook/pull/19985)
+
+#### Maintenance
+
+-   SvelteKit: Automigration [#20094](https://github.com/storybooks/storybook/pull/20094)
+-   Tech: change `package.json` engines fields, set to minimal node16 and up [#20170](https://github.com/storybooks/storybook/pull/20170)
+
+## 7.0.0-beta.2 (December 9, 2022)
+
+#### Bug Fixes
+
+-   Core: Catch and do nothing to avoid triggering unhandled exception problems [#20177](https://github.com/storybooks/storybook/pull/20177)
+-   Controls: Fix color control not resetting when initial value is defined [#20049](https://github.com/storybooks/storybook/pull/20049)
+-   Core: Fix typescript.checkOptions not a valid interface [#20166](https://github.com/storybooks/storybook/pull/20166)
+-   NextJS: Fixlogic around `next/future/image` [#20173](https://github.com/storybooks/storybook/pull/20173)
+
+#### Maintenance
+
+-   Revert "Revert "Telemetry: Add precedingUpgrade data to dev/build/error events"" [#20176](https://github.com/storybooks/storybook/pull/20176)
+-   Telemetry: Add `chromatic` to addons list [#20143](https://github.com/storybooks/storybook/pull/20143)
+-   Vite: Support vite 4 [#20139](https://github.com/storybooks/storybook/pull/20139)
+
+## 7.0.0-beta.1 (December 9, 2022)
+
+#### Bug Fixes
+
+-   Revert "Telemetry: Add precedingUpgrade data to dev/build/error events" [#20168](https://github.com/storybooks/storybook/pull/20168)
+-   Controls: Fix file controls not resetting [#19998](https://github.com/storybooks/storybook/pull/19998)
+
+#### Dependency Upgrades
+
+-   Upgrade express to fix security warning [#20152](https://github.com/storybooks/storybook/pull/20152)
+
+## 7.0.0-beta.0 (December 8, 2022)
+
+We made it to beta, folks! 🎉
+
+SB7 overhauls our build architecture, modernizes our output to ESM only, promotes Vite to a first-class peer to Webpack, rethinks our Docs addon, cleans up the UI, and contains hundreds of improvements at every level of the stack. We've been sharing some of these changes on [the Storybook blog](https://storybook.js.org/blog/) and will share more over the coming weeks.
+
+Beta means that we don't have any more major changes on the radar for 7.0 and it's mostly stabilization from here on out. The core team is doing some basic testing now, and once we have a good QA plan, we'd love your help to make that happen. Please keep an eye out on the blog and on our [Twitter](https://twitter.com/storybookjs) or Mastadon (coming soon!) or [Discord](https://discord.gg/storybook) if you're interested in helping.
+
+#### Bug Fixes
+
+-   Extend Angular Zone.js peer dependency range [#20107](https://github.com/storybooks/storybook/pull/20107)
+-   Vite: Fix static source handling for addon-docs [#20147](https://github.com/storybooks/storybook/pull/20147)
+-   Controls: Arrow keys don't work on number controls [#19954](https://github.com/storybooks/storybook/pull/19954)
+
 ## 7.0.0-alpha.62 (December 8, 2022)
 
 #### Bug Fixes

@@ -1,6 +1,6 @@
 {
   "name": "@storybook/cli",
-  "version": "7.0.0-alpha.62",
+  "version": "7.0.0-beta.4",
   "description": "Storybook's CLI - easiest method of adding storybook to your projects",
   "keywords": [
     "cli",
@@ -43,13 +43,13 @@
   "dependencies": {
     "@babel/core": "^7.20.2",
     "@babel/preset-env": "^7.20.2",
-    "@storybook/codemod": "7.0.0-alpha.62",
-    "@storybook/core-common": "7.0.0-alpha.62",
-    "@storybook/core-server": "7.0.0-alpha.62",
-    "@storybook/csf-tools": "7.0.0-alpha.62",
-    "@storybook/node-logger": "7.0.0-alpha.62",
-    "@storybook/telemetry": "7.0.0-alpha.62",
-    "@storybook/types": "7.0.0-alpha.62",
+    "@storybook/codemod": "7.0.0-beta.4",
+    "@storybook/core-common": "7.0.0-beta.4",
+    "@storybook/core-server": "7.0.0-beta.4",
+    "@storybook/csf-tools": "7.0.0-beta.4",
+    "@storybook/node-logger": "7.0.0-beta.4",
+    "@storybook/telemetry": "7.0.0-beta.4",
+    "@storybook/types": "7.0.0-beta.4",
     "@types/semver": "^7.3.4",
     "boxen": "^5.1.2",
     "chalk": "^4.1.0",
@@ -58,7 +58,7 @@
     "detect-indent": "^6.1.0",
     "envinfo": "^7.7.3",
     "execa": "^5.0.0",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "find-up": "^5.0.0",
     "fs-extra": "^9.0.1",
     "get-port": "^5.1.1",
@@ -77,7 +77,7 @@
     "util-deprecate": "^1.0.2"
   },
   "devDependencies": {
-    "@storybook/client-api": "7.0.0-alpha.62",
+    "@storybook/client-api": "7.0.0-beta.4",
     "@types/cross-spawn": "^6.0.2",
     "@types/prompts": "^2.0.9",
     "@types/puppeteer-core": "^2.1.0",
@@ -98,5 +98,5 @@
     ],
     "platform": "node"
   },
-  "gitHead": "27a91217b1e30d56af667a4e1f587ed1ac173e70"
+  "gitHead": "4d869ed6f7166e0d06f2bef5a1b872fa77a0cf2d"
 }

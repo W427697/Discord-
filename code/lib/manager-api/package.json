@@ -1,6 +1,6 @@
 {
   "name": "@storybook/manager-api",
-  "version": "7.0.0-alpha.62",
+  "version": "7.0.0-beta.4",
   "description": "Core Storybook API & Context",
   "keywords": [
     "storybook"
@@ -41,13 +41,13 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/channels": "7.0.0-alpha.62",
-    "@storybook/client-logger": "7.0.0-alpha.62",
-    "@storybook/core-events": "7.0.0-alpha.62",
+    "@storybook/channels": "7.0.0-beta.4",
+    "@storybook/client-logger": "7.0.0-beta.4",
+    "@storybook/core-events": "7.0.0-beta.4",
     "@storybook/csf": "next",
-    "@storybook/router": "7.0.0-alpha.62",
-    "@storybook/theming": "7.0.0-alpha.62",
-    "@storybook/types": "7.0.0-alpha.62",
+    "@storybook/router": "7.0.0-beta.4",
+    "@storybook/theming": "7.0.0-beta.4",
+    "@storybook/types": "7.0.0-beta.4",
     "dequal": "^2.0.2",
     "global": "^4.4.0",
     "lodash": "^4.17.21",
@@ -62,7 +62,7 @@
     "@types/lodash": "^4.14.167",
     "@types/qs": "^6",
     "flush-promises": "^1.0.2",
-    "qs": "^6.10.1",
+    "qs": "^6.10.0",
     "typescript": "~4.9.3"
   },
   "peerDependencies": {
@@ -77,5 +77,5 @@
       "./src/index.tsx"
     ]
   },
-  "gitHead": "27a91217b1e30d56af667a4e1f587ed1ac173e70"
+  "gitHead": "4d869ed6f7166e0d06f2bef5a1b872fa77a0cf2d"
 }

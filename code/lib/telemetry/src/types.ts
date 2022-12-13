@@ -15,6 +15,7 @@ export type EventType =
 
 export interface Dependency {
   version: string | undefined;
+  versionSpecifier?: string;
 }
 
 export interface StorybookAddon extends Dependency {

@@ -1,6 +1,6 @@
 {
   "name": "@storybook/web-components-vite",
-  "version": "7.0.0-alpha.62",
+  "version": "7.0.0-beta.4",
   "description": "Storybook for web-components and Vite: Develop Web Components in isolation with Hot Reloading.",
   "keywords": [
     "storybook"
@@ -51,17 +51,15 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/builder-vite": "7.0.0-alpha.62",
-    "@storybook/core-server": "7.0.0-alpha.62",
-    "@storybook/node-logger": "7.0.0-alpha.62",
-    "@storybook/web-components": "7.0.0-alpha.62",
-    "magic-string": "^0.26.1",
-    "vite": "3"
+    "@storybook/builder-vite": "7.0.0-beta.4",
+    "@storybook/core-server": "7.0.0-beta.4",
+    "@storybook/node-logger": "7.0.0-beta.4",
+    "@storybook/web-components": "7.0.0-beta.4",
+    "magic-string": "^0.26.1"
   },
   "devDependencies": {
     "@types/node": "^16.0.0",
-    "typescript": "~4.9.3",
-    "vite": "^3.1.0"
+    "typescript": "~4.9.3"
   },
   "peerDependencies": {
     "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
@@ -80,5 +78,5 @@
     ],
     "platform": "node"
   },
-  "gitHead": "27a91217b1e30d56af667a4e1f587ed1ac173e70"
+  "gitHead": "4d869ed6f7166e0d06f2bef5a1b872fa77a0cf2d"
 }
