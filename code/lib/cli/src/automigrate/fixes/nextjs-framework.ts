@@ -96,7 +96,7 @@ export const nextjsFramework: Fix<NextjsFrameworkRunOptions> = {
         This package provides a better experience for Next.js users, however it is only compatible with the webpack 5 builder, so we can't automigrate for you, as you are using the Vite builder.
         
         If you are interested in using this package, see: ${chalk.yellow(
-          'https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#nextjs-framework'
+          'https://github.com/storybookjs/storybook/blob/next/code/frameworks/nextjs/README.md'
         )}
       `);
 
@@ -137,14 +137,18 @@ export const nextjsFramework: Fix<NextjsFrameworkRunOptions> = {
     }
 
     return dedent`
-      We've detected you are using Storybook in a Next.js project.
+      We've detected you are using Storybook in a ${chalk.bold('Next.js')} project.
 
-      In Storybook 7, we introduced a new framework package for Next.js projects: @storybook/nextjs.
+      In Storybook 7, we introduced a new framework package for Next.js projects: ${chalk.magenta(
+        '@storybook/nextjs'
+      )}.
 
-      This package is a replacement for @storybook/react-webpack5 and provides a better experience for Next.js users.
+      This package is a replacement for ${chalk.magenta(
+        '@storybook/react-webpack5'
+      )} and provides a better experience for Next.js users.
       ${addonsMessage}
-      To learn more about this change, see: ${chalk.yellow(
-        'https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#nextjs-framework'
+      To learn more about it, see: ${chalk.yellow(
+        'https://github.com/storybookjs/storybook/blob/next/code/frameworks/nextjs/README.md'
       )}
     `;
   },
