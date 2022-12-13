@@ -1,3 +1,22 @@
+## 7.0.0-beta.5 (December 13, 2022)
+
+#### Features
+
+-   CLI: Split sb-scripts into two different migrations [#20223](https://github.com/storybooks/storybook/pull/20223)
+
+#### Bug Fixes
+
+-   Vite: Support async Vite plugins [#20194](https://github.com/storybooks/storybook/pull/20194)
+-   Telemetry: Don't send boot event when cliOptions.disableTelemetry is passed [#20144](https://github.com/storybooks/storybook/pull/20144)
+
+#### Maintenance
+
+-   CLI: Add React peer dep runtime check [#20206](https://github.com/storybooks/storybook/pull/20206)
+
+#### Dependency Upgrades
+
+-   Upgrade esbuild [#20199](https://github.com/storybooks/storybook/pull/20199)
+
 ## 7.0.0-beta.4 (December 13, 2022)
 
 #### Features
