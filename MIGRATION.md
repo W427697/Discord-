@@ -587,7 +587,7 @@ When using a [Vite-based framework](#framework-field-mandatory), Storybook will 
 Some settings will be overridden by storybook so that it can function properly, and the merged settings can be modified using `viteFinal` in `.storybook/main.js` (see the [Storybook Vite configuration docs](https://storybook.js.org/docs/react/builders/vite#configuration)).  
 If you were using `viteFinal` in 6.5 to simply merge in your project's standard vite config, you can now remove it.
 
-For Svelte projects this means that the `svelteOptions` property in the `main.js` config should be omitted in, as it will be loaded automatically via the project's `vite.config.js`. An exception to this is when the project needs different Svelte options for Storybook than the Vite config provides for the application itself.
+For Svelte projects this means that the `svelteOptions` property in the `main.js` config should be omitted, as it will be loaded automatically via the project's `vite.config.js`. An exception to this is when the project needs different Svelte options for Storybook than the Vite config provides for the application itself.
 
 #### Vite cache moved to node_modules/.cache/.vite-storybook
 
