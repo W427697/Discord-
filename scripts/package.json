@@ -33,7 +33,7 @@
     "@typescript-eslint/experimental-utils": "^5.45.0",
     "@typescript-eslint/parser": "^5.45.0",
     "boxen": "^5.1.2",
-    "esbuild": "^0.14.48",
+    "esbuild": "^0.16.4",
     "eslint": "^8.28.0",
     "serialize-javascript": "^3.1.0"
   },
@@ -111,7 +111,7 @@
     "ejs": "^3.1.8",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.5",
-    "esbuild": "^0.14.48",
+    "esbuild": "^0.16.4",
     "esbuild-plugin-alias": "^0.2.1",
     "esbuild-register": "^3.4.1",
     "eslint": "^8.28.0",
