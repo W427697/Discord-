@@ -33,6 +33,8 @@ const storybookPaths: Record<string, string> = {
     'components',
     'router',
     'theming',
+    'preview-api',
+    'client-logger',
   ].reduce(
     (acc, sbPackage) => ({
       ...acc,
