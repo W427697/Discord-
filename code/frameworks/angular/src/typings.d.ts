@@ -5,6 +5,7 @@ declare var NODE_ENV: string | undefined;
 
 declare var __STORYBOOK_ADDONS_CHANNEL__: any;
 declare var __STORYBOOK_ADDONS_PREVIEW: any;
+declare var __STORYBOOK_COMPODOC_JSON__: any;
 declare var __STORYBOOK_CLIENT_API__: any;
 declare var __STORYBOOK_PREVIEW__: any;
 declare var __STORYBOOK_STORY_STORE__: any;

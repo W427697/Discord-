@@ -3,7 +3,6 @@
  * @jest-environment jsdom
  */
 
-/* global window */
 // import { describe, it, beforeAll, beforeEach, afterAll, afterEach, jest } from '@jest/globals';
 import { STORY_RENDERED, STORY_UNCHANGED, SET_INDEX } from '@storybook/core-events';
 
