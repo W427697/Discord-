@@ -1,5 +1,5 @@
-import { type StorybookConfig } from '@storybook/builder-vite';
-import { handleSvelteKit, hasPlugin } from './utils';
+import { type StorybookConfig, hasVitePlugins } from '@storybook/builder-vite';
+import { handleSvelteKit } from './utils';
 import { svelteDocgen } from './plugins/svelte-docgen';
 
 export const core: StorybookConfig['core'] = {
@@ -18,7 +18,7 @@ export const viteFinal: NonNullable<StorybookConfig['viteFinal']> = async (confi
   const svelteConfig = { ...(await loadSvelteConfig()), ...svelteOptions };
 
   // Add svelte plugin if not present
-  if (!hasPlugin(plugins, 'vite-plugin-svelte')) {
+  if (!(await hasVitePlugins(plugins, ['vite-plugin-svelte']))) {
     plugins.push(svelte());
   }
 

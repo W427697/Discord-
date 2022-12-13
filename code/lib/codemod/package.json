@@ -1,6 +1,6 @@
 {
   "name": "@storybook/codemod",
-  "version": "7.0.0-beta.4",
+  "version": "7.0.0-beta.6",
   "description": "A collection of codemod scripts written with JSCodeshift",
   "keywords": [
     "storybook"
@@ -47,9 +47,9 @@
   "dependencies": {
     "@babel/types": "^7.20.2",
     "@storybook/csf": "next",
-    "@storybook/csf-tools": "7.0.0-beta.4",
-    "@storybook/node-logger": "7.0.0-beta.4",
-    "@storybook/types": "7.0.0-beta.4",
+    "@storybook/csf-tools": "7.0.0-beta.6",
+    "@storybook/node-logger": "7.0.0-beta.6",
+    "@storybook/types": "7.0.0-beta.6",
     "cross-spawn": "^7.0.3",
     "globby": "^11.0.2",
     "jscodeshift": "^0.13.1",
@@ -81,5 +81,5 @@
       "./src/transforms/upgrade-hierarchy-separators.js"
     ]
   },
-  "gitHead": "4d869ed6f7166e0d06f2bef5a1b872fa77a0cf2d"
+  "gitHead": "edcda9c064bcb77c903263fafcaee2bd369f429a"
 }

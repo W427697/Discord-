@@ -128,8 +128,6 @@ export class ClientApi<TRenderer extends Renderer> {
     this.addons = {};
 
     this.storyStore = storyStore;
-
-    global.__STORYBOOK_CLIENT_API__ = this;
   }
 
   importFn(path: Path) {

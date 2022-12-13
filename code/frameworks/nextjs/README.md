@@ -12,7 +12,6 @@
   - [Next.js's Image Component](#nextjss-image-component)
     - [Local Images](#local-images)
     - [Remote Images](#remote-images)
-    - [Optimization](#optimization)
     - [AVIF](#avif)
   - [Next.js Routing](#nextjs-routing)
     - [Overriding defaults](#overriding-defaults)
@@ -20,6 +19,11 @@
     - [Default Router](#default-router)
     - [Actions Integration Caveats](#actions-integration-caveats)
   - [Next.js Navigation](#nextjs-navigation)
+    - [Set `nextjs.appDirectory` to `true`](#set-nextjsappdirectory-to-true)
+    - [Overriding defaults](#overriding-defaults-1)
+    - [Global Defaults](#global-defaults-1)
+    - [Default Navigation Context](#default-navigation-context)
+    - [Actions Integration Caveats](#actions-integration-caveats-1)
   - [Sass/Scss](#sassscss)
   - [Css/Sass/Scss Modules](#csssassscss-modules)
   - [Styled JSX](#styled-jsx)
@@ -30,9 +34,9 @@
   - [Typescript](#typescript)
   - [Notes for Yarn v2 and v3 users](#notes-for-yarn-v2-and-v3-users)
   - [FAQ](#faq)
-    - [Stories for pages](#stories-for-pages-components-which-fetch-data)
+    - [Stories for pages/components which fetch data](#stories-for-pagescomponents-which-fetch-data)
     - [Statically imported images won't load](#statically-imported-images-wont-load)
-    - [Module not found: Error: Can't resolve [package name]](#module-not-found-error-cant-resolve-package-name)
+    - [Module not found: Error: Can't resolve \[package name\]](#module-not-found-error-cant-resolve-package-name)
 - [Acknowledgements](#acknowledgements)
 
 ## Supported Features
@@ -87,7 +91,7 @@ npx storybook@next upgrade --prerelease
 Install the framework:
 
 ```bash
-yarn install -D @storybook/nextjs@next
+yarn add --dev @storybook/nextjs@next
 ```
 
 Update your `main.js` to change the framework property:
