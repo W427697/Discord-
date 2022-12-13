@@ -72,6 +72,11 @@ export const sveltekitFramework: Fix<SvelteKitFrameworkRunOptions> = {
     const framework = typeof frameworkConfig === 'string' ? frameworkConfig : frameworkConfig.name;
     const frameworkOptions = main.getFieldValue(['framework', 'options']);
 
+    if (framework === '@storybook/sveltekit') {
+      // already using the new framework
+      return null;
+    }
+
     if (framework === '@storybook/svelte-vite') {
       // direct migration from svelte-vite projects
       return {
