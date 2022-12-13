@@ -59,12 +59,11 @@
     "ast-types": "^0.14.2",
     "magic-string": "^0.26.1",
     "react-docgen": "^6.0.0-alpha.3",
-    "vite": "^3.0.0||^4.0.0"
+    "vite": "^3.0.0"
   },
   "devDependencies": {
     "@types/node": "^16.0.0",
-    "typescript": "~4.9.3",
-    "vite": "^4.0.0-beta.2"
+    "typescript": "~4.9.3"
   },
   "peerDependencies": {
     "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
