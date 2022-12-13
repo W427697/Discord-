@@ -36,7 +36,8 @@ export class PostmsgTransport {
   constructor(private readonly config: Config) {
     this.buffer = [];
     this.handler = null;
-    if (global) {
+
+    if (typeof global?.addEventListener === 'function') {
       global.addEventListener('message', this.handleEvent.bind(this), false);
     }
 
