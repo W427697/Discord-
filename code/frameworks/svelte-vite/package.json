@@ -55,22 +55,22 @@
     "@storybook/builder-vite": "7.0.0-beta.4",
     "@storybook/node-logger": "7.0.0-beta.4",
     "@storybook/svelte": "7.0.0-beta.4",
-    "@sveltejs/vite-plugin-svelte": "^1.0.0",
     "magic-string": "^0.26.1",
     "svelte": "^3.0.0",
     "sveltedoc-parser": "^4.2.1",
-    "ts-dedent": "^2.2.0",
-    "vite": "^3.0.0||^4.0.0"
+    "ts-dedent": "^2.2.0"
   },
   "devDependencies": {
     "@types/node": "^16.0.0",
     "typescript": "~4.9.3",
-    "vite": "^4.0.0-beta.2"
+    "vite": "^4.0.0"
   },
   "peerDependencies": {
     "@storybook/addon-svelte-csf": "^2.0.0",
+    "@sveltejs/vite-plugin-svelte": "1 - 2",
     "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
-    "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0"
+    "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0",
+    "vite": "3 - 4"
   },
   "peerDependenciesMeta": {
     "@storybook/addon-svelte-csf": {
