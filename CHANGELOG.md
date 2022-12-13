@@ -1,3 +1,9 @@
+## 7.0.0-beta.6 (December 14, 2022)
+
+#### Dependency Upgrades
+
+-   Vite: Use Vite 3 (temporarily) [#20216](https://github.com/storybooks/storybook/pull/20216)
+
 ## 7.0.0-beta.5 (December 13, 2022)
 
 #### Features
