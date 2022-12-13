@@ -2,7 +2,7 @@
 
 Our goal is to help you use the tools you love together with Storybook. That’s why Storybook has zero-config support for SvelteKit with the `@storybook/sveltekit` package.
 
-Check out our [Frameworks API](https://storybook.js.org/blog/framework-api/) announcement for what this all means for you and our continuos efforts to make Storybook a seamless integration into any project.
+Check out our [Frameworks API](https://storybook.js.org/blog/framework-api/) announcement for what this all means for you and our continued efforts to make Storybook a seamless integration for any project.
 
 ## Table of Contents <!-- omit in toc -->
 
