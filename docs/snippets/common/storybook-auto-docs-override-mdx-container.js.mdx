@@ -1,0 +1,20 @@
+```js
+// CustomPageProvider.js
+
+import { MDXProvider } from '@mdx-js/react';
+
+import { DocsContainer } from '@storybook/blocks';
+
+import * as DesignSystem from 'your-design-system';
+
+export const MyDocsContainer = (props) => (
+  <MDXProvider
+    components={{
+      h1: DesignSystem.H1,
+      h2: DesignSystem.H2,
+    }}
+  >
+    <DocsContainer {...props} />
+  </MDXProvider>
+);
+```

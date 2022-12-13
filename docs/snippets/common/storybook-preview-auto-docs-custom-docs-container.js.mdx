@@ -1,0 +1,31 @@
+```js
+// .storybook/preview.js
+
+import { DocsContainer } from '@storybook/blocks';
+
+const ExampleContainer = (props) => {
+  const { children } = props;
+  return (
+    <DocsContainer {...props}>
+      <div>
+        <h1>Starter documentation</h1>
+        <h2>Storybook's auto-generated documentation page uses this custom container.</h2>
+        <div>{children}</div>
+      </div>
+    </DocsContainer>
+  );
+};
+
+export const parameters = {
+  actions: { argTypesRegex: '^on[A-Z].*' },
+  controls: {
+    matchers: {
+      color: /(background|color)$/i,
+      date: /Date$/,
+    },
+  },
+  docs: {
+    container: (props) => <ExampleContainer {...props} />,
+  },
+};
+```

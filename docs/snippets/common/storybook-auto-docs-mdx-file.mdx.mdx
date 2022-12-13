@@ -1,0 +1,34 @@
+```mdx
+{/* Page.mdx */}
+
+import { Canvas, Meta, Story } from '@storybook/blocks';
+
+import * as ButtonStories from './Button.stories';
+import * as PageStories from './Page.stories';
+
+<Meta of={ButtonStories} />
+
+# Definition
+
+Button is a clickable interactive element that triggers a response.
+
+You can place text and icons inside of a button.
+
+Buttons are often used for form submissions and to toggle elements into view.
+
+## Usage
+
+<Canvas withToolbar>
+  <Story of={ButtonStories.Basic} />
+</Canvas>
+
+## Definition
+
+Page is a layout container that is used to position children in predetermined areas.
+
+It's often used to apply consistent positioning for content across pages in an application.
+
+## Usage
+
+<Story of={PageStories.Basic} meta={PageStories} />
+```

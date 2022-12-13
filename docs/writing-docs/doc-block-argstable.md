@@ -30,9 +30,9 @@ This is extremely useful, but it can be further expanded. Additional information
 
 The args tables will be updated accordingly by including the additional information (e.g., JSDocs comments), offering a richer experience for any stakeholders involved.
 
-## Working with the DocsPage
+## Working with Docs
 
-To use the `ArgsTable` in [DocsPage](./docs-page.md#component-parameter), export a component property on your stories metadata:
+To use the `ArgsTable` in Storybook's Docs, export a component property on your stories metadata:
 
 <!-- prettier-ignore-start -->
 
