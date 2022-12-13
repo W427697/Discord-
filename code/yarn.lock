@@ -6335,13 +6335,13 @@ __metadata:
   linkType: hard
 
 "@storybook/csf@npm:next":
-  version: 0.0.2-next.7
-  resolution: "@storybook/csf@npm:0.0.2-next.7"
+  version: 0.0.2-next.8
+  resolution: "@storybook/csf@npm:0.0.2-next.8"
   dependencies:
     expect-type: ^0.14.2
     lodash: ^4.17.15
     type-fest: ^2.19.0
-  checksum: 3920626fdd6dc4875ba95ae46fa0776051f544a479029ee7d561b87602511010161750a42b0d5e1371ec336b47262e1098524c834805ca686d9bc2de5cae0e4e
+  checksum: 86f5599c030b87cbab6fa5e4b4a9ef1aeed5e838b993b2bae5f0fc50d79ae80d5cfbf2590a05bae0a95068ef77eec88d8c102072d63c77745afe74f91cfa03a3
   languageName: node
   linkType: hard
 
@@ -7794,8 +7794,8 @@ __metadata:
   linkType: hard
 
 "@sveltejs/vite-plugin-svelte@npm:^1.0.0":
-  version: 1.3.1
-  resolution: "@sveltejs/vite-plugin-svelte@npm:1.3.1"
+  version: 1.4.0
+  resolution: "@sveltejs/vite-plugin-svelte@npm:1.4.0"
   dependencies:
     debug: ^4.3.4
     deepmerge: ^4.2.2
@@ -7804,13 +7804,9 @@ __metadata:
     svelte-hmr: ^0.15.1
     vitefu: ^0.2.2
   peerDependencies:
-    diff-match-patch: ^1.0.5
     svelte: ^3.44.0
     vite: ^3.0.0
-  peerDependenciesMeta:
-    diff-match-patch:
-      optional: true
-  checksum: c10695e84a057d96d056082cd77f2c0ae0e88b309cce38fcab76f807674bf0b8b982d805f0c0c5b9dd29996336750c2d414d89cc173de46f6e023384423aaee0
+  checksum: ce3019189c94577ec3fd33853053f5258da6d7a6bf676e412fbf7ec17861f4f09b1ffbe823805496b165f857dfe671e80501b4a7b5d00215ef19635bc367c599
   languageName: node
   linkType: hard
 
@@ -33212,14 +33208,14 @@ __metadata:
   linkType: hard
 
 "vitefu@npm:^0.2.2":
-  version: 0.2.2
-  resolution: "vitefu@npm:0.2.2"
+  version: 0.2.3
+  resolution: "vitefu@npm:0.2.3"
   peerDependencies:
-    vite: ^3.0.0
+    vite: ^3.0.0 || ^4.0.0
   peerDependenciesMeta:
     vite:
       optional: true
-  checksum: 0016b133eb78eea71004c4848260848d5c95ec57deba0264f7a49df97753d1850f6ce6846586acb1b1ac3e8dfbd52f5cb6ed42b38fe98293dc0dda7f71242d05
+  checksum: e21a543e5d75ef45369456d6f8aa72c4b3e0c6ee4f3afb9eac66f7a6a00e8e4294918f6fb2f6e468e9c22d45f9b7fe4c38b99c2a6737cbebf6ad38d5184b76f1
   languageName: node
   linkType: hard
 
