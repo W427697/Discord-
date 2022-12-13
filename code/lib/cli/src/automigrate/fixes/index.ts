@@ -8,6 +8,7 @@ import { mainjsFramework } from './mainjsFramework';
 import { eslintPlugin } from './eslint-plugin';
 import { builderVite } from './builder-vite';
 import { sbScripts } from './sb-scripts';
+import { sbBinary } from './sb-binary';
 import { newFrameworks } from './new-frameworks';
 import { removedGlobalClientAPIs } from './remove-global-client-apis';
 import { mdx1to2 } from './mdx-1-to-2';
@@ -26,6 +27,7 @@ export const fixes: Fix[] = [
   eslintPlugin,
   sveltekitFramework,
   builderVite,
+  sbBinary,
   sbScripts,
   newFrameworks,
   removedGlobalClientAPIs,
