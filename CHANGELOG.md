@@ -1,3 +1,21 @@
+## 7.0.0-beta.4 (December 13, 2022)
+
+#### Features
+
+-   Re-enable TS 4.9 CLI templates [#20159](https://github.com/storybooks/storybook/pull/20159)
+
+#### Bug Fixes
+
+-   CLI: execute automigrations when pressing enter in the prompts [#20208](https://github.com/storybooks/storybook/pull/20208)
+-   Interactions: Fix storyId access in instrumenter [#20201](https://github.com/storybooks/storybook/pull/20201)
+-   Typescript: Fix bug with meta not working well as generic parameter for StoryObj [#20165](https://github.com/storybooks/storybook/pull/20165)
+-   SvelteKit: Support `v1.0.0-next.574` and above [#20181](https://github.com/storybooks/storybook/pull/20181)
+
+#### Build
+
+-   Svelte: Fix argTypes inference in Button component [#20212](https://github.com/storybooks/storybook/pull/20212)
+-   React-Vite: Ignore React MDX stories in sandbox [#20210](https://github.com/storybooks/storybook/pull/20210)
+
 ## 7.0.0-beta.3 (December 10, 2022)
 
 #### Bug Fixes
