@@ -2,6 +2,7 @@ import { writeFile, pathExists } from 'fs-extra';
 import { logger } from '@storybook/node-logger';
 import path from 'path';
 import prompts from 'prompts';
+import { JsPackageManagerFactory } from './js-package-manager';
 
 export const generateStorybookBabelConfigInCWD = async () => {
   const target = process.cwd();
@@ -80,8 +81,8 @@ export const generateStorybookBabelConfig = async ({ target }: { target: string 
   if (runInstall) {
     logger.info(`Installing dependencies...`);
 
-    logger.info(`TODO, not implemented yet`);
+    const packageManager = JsPackageManagerFactory.getPackageManager();
 
-    console.log({ added });
+    packageManager.addDependencies({ installAsDevDependencies: true }, added);
   }
 };
