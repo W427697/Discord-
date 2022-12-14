@@ -171,6 +171,11 @@ export const sveltekitFramework: Fix<SvelteKitFrameworkRunOptions> = {
       }
     }
 
+    if (main.getFieldNode(['svelteOptions'])) {
+      logger.info(`✅ Removing svelteOptions field in main.js`);
+      main.removeField(['svelteOptions']);
+    }
+
     if (!dryRun) {
       await writeConfig(main);
     }
