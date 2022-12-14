@@ -1,3 +1,49 @@
+## 7.0.0-beta.8 (December 14, 2022)
+
+#### Features
+
+-   Addon-docs: Use jsxOptions instead of mdxBabelOptions [#20271](https://github.com/storybooks/storybook/pull/20271)
+
+#### Maintenance
+
+-   Svelte-vite: remove `svelteOptions` in automigration [#20270](https://github.com/storybooks/storybook/pull/20270)
+
+#### Build
+
+-   Fix handling of inverted yes flag in `task` steps [#20268](https://github.com/storybooks/storybook/pull/20268)
+
+## 7.0.0-beta.7 (December 14, 2022)
+
+#### Features
+
+-   CLI: Add Next.js framework automigration [#19574](https://github.com/storybooks/storybook/pull/19574)
+
+#### Bug Fixes
+
+-   Don't export renderer from framework [#20259](https://github.com/storybooks/storybook/pull/20259)
+-   Upgrade sb dep as well in sb upgrade [#20258](https://github.com/storybooks/storybook/pull/20258)
+-   Vite: Make the bail function work if the server fails to start [#20243](https://github.com/storybooks/storybook/pull/20243)
+-   Csf-tools: Fix local vars handling in MDX-generated CSF [#20255](https://github.com/storybooks/storybook/pull/20255)
+-   Csf-plugin: Fix spurious storiesOf warnings [#20256](https://github.com/storybooks/storybook/pull/20256)
+-   Core: Remove unnecessary peer deps [#20231](https://github.com/storybooks/storybook/pull/20231)
+-   Fix issues with running SSv6 [#20253](https://github.com/storybooks/storybook/pull/20253)
+-   Core: Fix config.base relative paths [#20232](https://github.com/storybooks/storybook/pull/20232)
+-   Fix: vite devmode with storyStoreV6 by ensuring singleton via global [#20207](https://github.com/storybooks/storybook/pull/20207)
+
+#### Maintenance
+
+-   Addon-docs: Upgrade mdx2-csf and use its JSX handling [#20261](https://github.com/storybooks/storybook/pull/20261)
+-   Vite: Use mdx2 babel pre-processing [#20241](https://github.com/storybooks/storybook/pull/20241)
+-   Addon-docs: Restore deprecated blocks entry point [#20246](https://github.com/storybooks/storybook/pull/20246)
+
+#### Build
+
+-   Add Next 12 sandbox [#20092](https://github.com/storybooks/storybook/pull/20092)
+
+#### Dependency Upgrades
+
+-   Add optional TypeScript peer dependency [#20244](https://github.com/storybooks/storybook/pull/20244)
+
 ## 7.0.0-beta.6 (December 14, 2022)
 
 #### Dependency Upgrades

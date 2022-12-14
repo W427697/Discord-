@@ -163,7 +163,9 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
       return null;
     }
 
-    const frameworkOptions = getFrameworkOptions(framework, main);
+    const frameworkOptions =
+      // svelte-vite doesn't support svelteOptions so there's no need to move them
+      newFrameworkPackage === '@storybook/svelte-vite' ? {} : getFrameworkOptions(framework, main);
 
     const dependenciesToRemove = [
       '@storybook/builder-webpack5',
@@ -254,6 +256,11 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
 
       if (currentCore?.builder) {
         delete currentCore.builder;
+      }
+
+      if (frameworkPackage === '@storybook/svelte-vite' && main.getFieldNode(['svelteOptions'])) {
+        logger.info(`✅ Removing svelteOptions field in main.js`);
+        main.removeField(['svelteOptions']);
       }
 
       if (Object.keys(builderInfo.options).length > 0) {
