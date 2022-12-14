@@ -72,12 +72,16 @@ const createCanvas = (id: string, baseUrl = 'iframe.html', withLoader = true): A
           const [progress, setProgress] = useState(undefined);
 
           useEffect(() => {
-            if (FEATURES?.storyStoreV7 && global.CONFIG_TYPE === 'DEVELOPMENT') {
-              const channel = addons.getServerChannel();
+if (FEATURES?.storyStoreV7 && global.CONFIG_TYPE === 'DEVELOPMENT') {
+  try {
+                const channel = addons.getServerChannel();
 
-              channel.on(PREVIEW_BUILDER_PROGRESS, (options) => {
-                setProgress(options);
-              });
+                channel.on(PREVIEW_BUILDER_PROGRESS, (options) => {
+                  setProgress(options);
+                });
+              } catch {
+                //
+              }
             }
           }, []);
 

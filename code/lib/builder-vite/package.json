@@ -1,6 +1,6 @@
 {
   "name": "@storybook/builder-vite",
-  "version": "7.0.0-beta.6",
+  "version": "7.0.0-beta.8",
   "description": "A plugin to run and build Storybooks with Vite",
   "homepage": "https://github.com/storybookjs/storybook/tree/main/code/lib/builder-vite/#readme",
   "bugs": {
@@ -42,15 +42,14 @@
   },
   "dependencies": {
     "@joshwooding/vite-plugin-react-docgen-typescript": "0.0.5",
-    "@storybook/client-logger": "7.0.0-beta.6",
-    "@storybook/core-common": "7.0.0-beta.6",
-    "@storybook/csf-plugin": "7.0.0-beta.6",
+    "@storybook/client-logger": "7.0.0-beta.8",
+    "@storybook/core-common": "7.0.0-beta.8",
+    "@storybook/csf-plugin": "7.0.0-beta.8",
     "@storybook/mdx2-csf": "next",
-    "@storybook/node-logger": "7.0.0-beta.6",
-    "@storybook/preview": "7.0.0-beta.6",
-    "@storybook/preview-api": "7.0.0-beta.6",
-    "@storybook/types": "7.0.0-beta.6",
-    "@vitejs/plugin-react": "^2.0.0",
+    "@storybook/node-logger": "7.0.0-beta.8",
+    "@storybook/preview": "7.0.0-beta.8",
+    "@storybook/preview-api": "7.0.0-beta.8",
+    "@storybook/types": "7.0.0-beta.8",
     "browser-assert": "^1.2.1",
     "es-module-lexer": "^0.9.3",
     "express": "^4.17.3",
@@ -71,10 +70,14 @@
   },
   "peerDependencies": {
     "@preact/preset-vite": "*",
+    "typescript": ">= 4.3.x",
     "vite-plugin-glimmerx": "*"
   },
   "peerDependenciesMeta": {
     "@preact/preset-vite": {
+      "optional": true
+    },
+    "typescript": {
       "optional": true
     },
     "vite-plugin-glimmerx": {
@@ -90,5 +93,5 @@
     ],
     "platform": "node"
   },
-  "gitHead": "edcda9c064bcb77c903263fafcaee2bd369f429a"
+  "gitHead": "5340574d89a799ec10959edc16ca140852cf355c"
 }
