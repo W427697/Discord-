@@ -5,16 +5,8 @@ import { dedent } from 'ts-dedent';
 
 import type { IndexerOptions, StoryIndexer, DocsOptions, Options } from '@storybook/types';
 import type { CsfPluginOptions } from '@storybook/csf-plugin';
+import type { JSXOptions } from '@storybook/mdx2-csf';
 import { loadCsf } from '@storybook/csf-tools';
-
-// TODO: expose/import this from @storybook/mdx2-csf
-type JSXOptions = {
-  pragma?: string;
-  pragmaFrag?: string;
-  throwIfNamespace?: false;
-  runtime?: 'classic' | 'automatic';
-  importSource?: string;
-};
 
 async function webpack(
   webpackConfig: any = {},
