@@ -213,12 +213,14 @@ export const init: ModuleFn = ({ store, provider, singleStory, fullAPI }) => {
       if (options) {
         const updatedLayout = {
           ...layout,
+          ...options.layout,
           ...pick(options, Object.keys(layout)),
           ...(singleStory && { showNav: false }),
         };
 
         const updatedUi = {
           ...ui,
+          ...options.ui,
           ...pick(options, Object.keys(ui)),
         };
 
@@ -255,9 +257,11 @@ export const init: ModuleFn = ({ store, provider, singleStory, fullAPI }) => {
     api,
     state: merge(api.getInitialOptions(), persisted),
     init: () => {
-      api.setOptions(merge(api.getInitialOptions(), persisted));
+      const r = merge(api.getInitialOptions(), persisted);
+      api.setOptions(r);
       fullAPI.on(SET_CONFIG, () => {
-        api.setOptions(merge(api.getInitialOptions(), persisted));
+        const value = api.getInitialOptions();
+        api.setOptions(merge(value, persisted));
       });
     },
   };
