@@ -12,32 +12,9 @@ import { loadCsf } from '@storybook/csf-tools';
 // for more complex solutions we can find alone that we need to add '@babel/plugin-transform-react-jsx'
 type BabelParams = {
   mdxBabelOptions?: any;
+  /** @deprecated */
   configureJSX?: boolean;
 };
-function createBabelOptions({ mdxBabelOptions, configureJSX }: BabelParams) {
-  const babelPlugins = mdxBabelOptions?.plugins || [];
-
-  const filteredBabelPlugins = babelPlugins.filter((p: any) => {
-    const name = Array.isArray(p) ? p[0] : p;
-    if (typeof name === 'string') {
-      return !name.includes('plugin-transform-react-jsx');
-    }
-    return true;
-  });
-
-  const jsxPlugin = [
-    require.resolve('@babel/plugin-transform-react-jsx'),
-    { pragma: 'React.createElement', pragmaFrag: 'React.Fragment' },
-  ];
-  const plugins = configureJSX ? [...filteredBabelPlugins, jsxPlugin] : babelPlugins;
-  return {
-    // don't use the root babelrc by default (users can override this in mdxBabelOptions)
-    babelrc: false,
-    configFile: false,
-    ...mdxBabelOptions,
-    plugins,
-  };
-}
 
 async function webpack(
   webpackConfig: any = {},
@@ -59,7 +36,6 @@ async function webpack(
   // also, these babel options are chained with other presets.
   const {
     mdxBabelOptions,
-    configureJSX = true,
     csfPluginOptions = {},
     sourceLoaderOptions = null,
     transcludeMarkdown = false,
@@ -69,6 +45,7 @@ async function webpack(
     skipCsf: true,
     mdxCompileOptions: {
       providerImportSource: '@storybook/addon-docs/mdx-react-shim',
+
       remarkPlugins: [remarkSlug, remarkExternalLinks],
     },
   });
@@ -92,10 +69,6 @@ async function webpack(
       {
         test: /\.md$/,
         use: [
-          {
-            loader: resolvedBabelLoader,
-            options: createBabelOptions({ mdxBabelOptions, configureJSX }),
-          },
           {
             loader: mdxLoader,
             options: mdxLoaderOptions,
@@ -121,13 +94,10 @@ async function webpack(
           test: /(stories|story)\.mdx$/,
           use: [
             {
-              loader: resolvedBabelLoader,
-              options: createBabelOptions({ mdxBabelOptions, configureJSX }),
-            },
-            {
               loader: mdxLoader,
               options: {
                 ...mdxLoaderOptions,
+                mdxBabelOptions,
                 skipCsf: false,
               },
             },
@@ -137,10 +107,6 @@ async function webpack(
           test: /\.mdx$/,
           exclude: /(stories|story)\.mdx$/,
           use: [
-            {
-              loader: resolvedBabelLoader,
-              options: createBabelOptions({ mdxBabelOptions, configureJSX }),
-            },
             {
               loader: mdxLoader,
               options: mdxLoaderOptions,
