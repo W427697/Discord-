@@ -3,7 +3,6 @@ import { DefinePlugin } from 'webpack';
 import { PHASE_DEVELOPMENT_SERVER } from 'next/constants';
 import findUp from 'find-up';
 import { pathExists } from 'fs-extra';
-import dedent from 'ts-dedent';
 import type { Configuration as WebpackConfig } from 'webpack';
 import type { NextConfig } from 'next';
 import { pathToFileURL } from 'node:url';
