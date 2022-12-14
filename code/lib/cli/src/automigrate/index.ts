@@ -119,7 +119,7 @@ function getMigrationSummary(fixResults: Record<string, FixStatus>, fixSummary: 
   let failedFixesMessage = Object.keys(fixSummary.failed).length > 0
     ? `
     ${chalk.bold('Migrations that failed:')}\n ${Object.entries(fixSummary.failed).reduce((acc, [id, error]) => {
-      return acc + `\n${chalk.redBright(id)}:\n${error}`;
+      return acc + `\n${chalk.redBright(id)}:\n${error}\n`;
     }, '')}
     \n`
     : '';
