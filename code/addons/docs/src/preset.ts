@@ -28,8 +28,6 @@ async function webpack(
       typeof createCompiler
     >[0] */
 ) {
-  const resolvedBabelLoader = await options.presets.apply('babelLoaderRef');
-
   const { module = {} } = webpackConfig;
 
   // it will reuse babel options that are already in use in storybook
