@@ -89,9 +89,6 @@ export const automigrate = async ({ fixId, dryRun, yes, useNpm, force }: FixOpti
         fixStatus = FixStatus.SKIPPED;
         logger.info(`Skipping the ${chalk.cyan(f.id)} migration.`);
         logger.info();
-        logger.info(
-          `If you change your mind, run '${chalk.cyan('npx storybook@next automigrate')}'`
-        );
       }
     }
 
