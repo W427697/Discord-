@@ -32,6 +32,7 @@ export function getPackageDetails(pkg: string): [string, string?] {
 
 interface JsPackageManagerOptions {
   cwd?: string;
+  silent?: boolean;
 }
 export abstract class JsPackageManager {
   public abstract readonly type: PackageManagerName;
@@ -58,9 +59,11 @@ export abstract class JsPackageManager {
   }
 
   public readonly cwd?: string;
+  public readonly silent?: boolean;
 
   constructor(options?: JsPackageManagerOptions) {
     this.cwd = options?.cwd;
+    this.silent = options?.silent;
   }
 
   /**

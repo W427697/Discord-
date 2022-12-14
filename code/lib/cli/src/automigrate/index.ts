@@ -29,7 +29,7 @@ enum FixStatus {
 }
 
 export const automigrate = async ({ fixId, dryRun, yes, useNpm, force }: FixOptions = {}) => {
-  const packageManager = JsPackageManagerFactory.getPackageManager({ useNpm, force });
+  const packageManager = JsPackageManagerFactory.getPackageManager({ useNpm, force, silent: true });
   const filtered = fixId ? fixes.filter((f) => f.id === fixId) : fixes;
 
   logger.info('🔎 checking possible migrations..');

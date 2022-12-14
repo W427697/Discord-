@@ -33,8 +33,16 @@ export class PNPMProxy extends JsPackageManager {
     };
   }
 
+  getInstallArgs(): string[] {
+    if (!this.installArgs) {
+      this.installArgs = ['install'];
+    }
+    
+    return this.silent ? ['--reporter=silent'].concat(this.installArgs) : this.installArgs;
+  }
+
   protected runInstall(): void {
-    this.executeCommand('pnpm', ['install'], 'inherit');
+    this.executeCommand('pnpm', this.getInstallArgs(), 'inherit');
   }
 
   protected runAddDeps(dependencies: string[], installAsDevDependencies: boolean): void {
@@ -44,13 +52,13 @@ export class PNPMProxy extends JsPackageManager {
       args = ['-D', ...args];
     }
 
-    this.executeCommand('pnpm', ['add', ...args], 'inherit');
+    this.executeCommand('pnpm', ['add', ...this.getInstallArgs(), ...args], 'inherit');
   }
 
   protected runRemoveDeps(dependencies: string[]): void {
     const args = [...dependencies];
 
-    this.executeCommand('pnpm', ['remove', ...args], 'inherit');
+    this.executeCommand('pnpm', ['remove', ...this.getInstallArgs(), ...args], 'inherit');
   }
 
   protected runGetVersions<T extends boolean>(

@@ -14,17 +14,17 @@ import { Yarn1Proxy } from './Yarn1Proxy';
 
 export class JsPackageManagerFactory {
   public static getPackageManager(
-    { force, useNpm }: { force?: PackageManagerName; useNpm?: boolean } = {},
+    { force, useNpm, silent }: { force?: PackageManagerName; useNpm?: boolean; silent?: boolean } = {},
     cwd?: string
   ): JsPackageManager {
     if (useNpm || force === 'npm') {
-      return new NPMProxy({ cwd });
+      return new NPMProxy({ cwd, silent });
     }
     if (force === 'pnpm') {
-      return new PNPMProxy({ cwd });
+      return new PNPMProxy({ cwd, silent });
     }
     if (force === 'yarn1') {
-      return new Yarn1Proxy({ cwd });
+      return new Yarn1Proxy({ cwd, silent });
     }
     if (force === 'yarn2') {
       return new Yarn2Proxy({ cwd });
@@ -38,15 +38,15 @@ export class JsPackageManagerFactory {
     const hasPNPMCommand = hasPNPM(cwd);
 
     if (yarnVersion && (hasYarnLockFile || (!hasNPMCommand && !hasPNPMCommand))) {
-      return yarnVersion === 1 ? new Yarn1Proxy({ cwd }) : new Yarn2Proxy({ cwd });
+      return yarnVersion === 1 ? new Yarn1Proxy({ cwd, silent }) : new Yarn2Proxy({ cwd });
     }
 
     if (hasPNPMCommand && hasPNPMLockFile) {
-      return new PNPMProxy({ cwd });
+      return new PNPMProxy({ cwd, silent });
     }
 
     if (hasNPMCommand) {
-      return new NPMProxy({ cwd });
+      return new NPMProxy({ cwd, silent });
     }
 
     throw new Error('Unable to find a usable package manager within NPM, PNPM, Yarn and Yarn 2');

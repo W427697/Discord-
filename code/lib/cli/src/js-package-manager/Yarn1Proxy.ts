@@ -4,6 +4,8 @@ import type { PackageJson } from './PackageJson';
 export class Yarn1Proxy extends JsPackageManager {
   readonly type = 'yarn1';
 
+  installArgs: string[] | undefined;
+
   initPackageJson() {
     return this.executeCommand('yarn', ['init', '-y']);
   }
@@ -25,8 +27,16 @@ export class Yarn1Proxy extends JsPackageManager {
     };
   }
 
+  getInstallArgs(): string[] {
+    if (!this.installArgs) {
+      this.installArgs = [];
+    }
+
+    return this.silent ? ['--silent', '--no-progress'].concat(this.installArgs) : this.installArgs;
+  }
+
   protected runInstall(): void {
-    this.executeCommand('yarn', [], 'inherit');
+    this.executeCommand('yarn', this.getInstallArgs(), 'inherit');
   }
 
   protected runAddDeps(dependencies: string[], installAsDevDependencies: boolean): void {
@@ -36,13 +46,13 @@ export class Yarn1Proxy extends JsPackageManager {
       args = ['-D', ...args];
     }
 
-    this.executeCommand('yarn', ['add', ...args], 'inherit');
+    this.executeCommand('yarn', ['add', ...this.getInstallArgs(), ...args], 'inherit');
   }
 
   protected runRemoveDeps(dependencies: string[]): void {
     const args = ['--ignore-workspace-root-check', ...dependencies];
 
-    this.executeCommand('yarn', ['remove', ...args], 'inherit');
+    this.executeCommand('yarn', ['remove', ...this.getInstallArgs(), ...args], 'inherit');
   }
 
   protected runGetVersions<T extends boolean>(

@@ -50,7 +50,8 @@ export class NPMProxy extends JsPackageManager {
         ? ['install', '--legacy-peer-deps']
         : ['install'];
     }
-    return this.installArgs;
+
+    return this.silent ? ['--silent', '--no-progress'].concat(this.installArgs) : this.installArgs;
   }
 
   getUninstallArgs(): string[] {
@@ -59,7 +60,8 @@ export class NPMProxy extends JsPackageManager {
         ? ['uninstall', '--legacy-peer-deps']
         : ['uninstall'];
     }
-    return this.uninstallArgs;
+    
+    return this.silent ? ['--silent', '--no-progress'].concat(this.installArgs) : this.installArgs;
   }
 
   protected getResolutions(packageJson: PackageJson, versions: Record<string, string>) {
