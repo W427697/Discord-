@@ -3474,6 +3474,7 @@ __metadata:
     ts-loader: ^9.2.8
     ts-node: ^10.4.0
     tsup: ^6.2.2
+    type-fest: ^3.4.0
     typescript: ~4.9.3
     util: ^0.12.4
     verdaccio: ^4.10.0
@@ -17347,6 +17348,13 @@ __metadata:
   version: 3.2.0
   resolution: "type-fest@npm:3.2.0"
   checksum: 075596e804faf646e68c15916642726b96a1848a4e91f1818b94dc1805c28235d6514ab086c87d5314787411b13d0950d7165312619857ad7dce5e134b702698
+  languageName: node
+  linkType: hard
+
+"type-fest@npm:^3.4.0":
+  version: 3.4.0
+  resolution: "type-fest@npm:3.4.0"
+  checksum: 68e9c9db8df9e7310f6f4a4711bf743905522fb741cfe2746e3d412671e9b9e11e47ceb01973f765d5ee2774ce2655792562e1678e5d341f93f404a64660f943
   languageName: node
   linkType: hard
 
