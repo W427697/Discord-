@@ -13,6 +13,8 @@ Check out our [Frameworks API](https://storybook.js.org/blog/framework-api/) ann
   - [In a project with Storybook](#in-a-project-with-storybook)
     - [Automatic migration](#automatic-migration)
     - [Manual migration](#manual-migration)
+- [Troubleshooting](#troubleshooting)
+  - [Error: `ERR! SyntaxError: Identifier '__esbuild_register_import_meta_url__' has already been declared` when starting Storybook](#error-err-syntaxerror-identifier-__esbuild_register_import_meta_url__-has-already-been-declared-when-starting-storybook)
 - [Acknowledgements](#acknowledgements)
 
 ## Supported features
@@ -66,6 +68,8 @@ npx storybook@next upgrade --prerelease
 
 When running the `upgrade` command above you should get a prompt asking you to migrate to `@storybook/sveltekit`, which should handle everything for you. In some cases it can't migrate for you, eg. if your existing Storybook setup is based on Webpack. In such cases, refer to the manual migration below.
 
+Storybook 7.0 automatically loads your Vite config, and by extension your Svelte config. If you have a `svelteOptions` property in `.storybook/main.cjs` you need to remove that. See [Troubleshooting](#error-about-__esbuild_register_import_meta_url__-when-starting-storybook) below. We're working on doing this automatically soon.
+
 #### Manual migration
 
 Install the framework:
@@ -84,7 +88,7 @@ module.exports = {
 };
 ```
 
-Storybook 7.0 automatically loads your Vite config, and by extension your Svelte config. If you have a `svelteOptions` property in `main.cjs` you should remove that, unless you explicitly want different options between your app and Storybook.
+Storybook 7.0 automatically loads your Vite config, and by extension your Svelte config. If you have a `svelteOptions` property in `.storybook/main.cjs` you need to remove that. See [Troubleshooting](#error-about-__esbuild_register_import_meta_url__-when-starting-storybook) below.
 
 Remove any redundant dependencies, if you have them:
 
@@ -94,6 +98,18 @@ yarn remove @storybook/svelte-webpack5
 yarn remove storybook-builder-vite
 yarn remove @storybook/builder-vite
 ```
+
+## Troubleshooting
+
+### Error: `ERR! SyntaxError: Identifier '__esbuild_register_import_meta_url__' has already been declared` when starting Storybook
+
+> When starting Storybook after upgrading to v7.0, it breaks with the following error:
+>
+> ```
+> ERR! SyntaxError: Identifier '__esbuild_register_import_meta_url__' has already been declared
+> ```
+
+You'll get this error when upgrading from 6.5 to 7.0. You need to remove the `svelteOptions` property in `.storybook/main.cjs`, as that is not supported by Storybook 7.0 + SvelteKit. The property is also not necessary anymore because the Vite and Svelte configurations are loaded automatically in Storybook 7.0.
 
 ## Acknowledgements
 

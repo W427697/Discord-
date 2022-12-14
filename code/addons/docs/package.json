@@ -41,6 +41,11 @@
       "import": "./dist/preset.mjs",
       "types": "./dist/preset.d.ts"
     },
+    "./blocks": {
+      "require": "./dist/blocks.js",
+      "import": "./dist/blocks.mjs",
+      "types": "./dist/blocks.d.ts"
+    },
     "./dist/preview": {
       "require": "./dist/preview.js",
       "import": "./dist/preview.mjs",
@@ -132,6 +137,7 @@
       "./src/index.ts",
       "./src/preset.ts",
       "./src/preview.ts",
+      "./src/blocks.ts",
       "./src/shims/mdx-react-shim.ts"
     ]
   },

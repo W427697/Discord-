@@ -6043,9 +6043,12 @@ __metadata:
     vite: ^3.0.0
   peerDependencies:
     "@preact/preset-vite": "*"
+    typescript: ">= 4.3.x"
     vite-plugin-glimmerx: "*"
   peerDependenciesMeta:
     "@preact/preset-vite":
+      optional: true
+    typescript:
       optional: true
     vite-plugin-glimmerx:
       optional: true
@@ -6333,9 +6336,6 @@ __metadata:
     ts-dedent: ^2.0.0
     type-fest: ^2.19.0
     typescript: ~4.9.3
-  peerDependenciesMeta:
-    typescript:
-      optional: true
   languageName: unknown
   linkType: soft
 
@@ -6363,7 +6363,6 @@ __metadata:
     "@aw-web-design/x-default-browser": 1.4.88
     "@discoveryjs/json-ext": ^0.5.3
     "@storybook/builder-manager": 7.0.0-beta.6
-    "@storybook/builder-webpack5": 7.0.0-beta.6
     "@storybook/core-common": 7.0.0-beta.6
     "@storybook/core-events": 7.0.0-beta.6
     "@storybook/csf": next
@@ -6408,16 +6407,10 @@ __metadata:
     typescript: ~4.9.3
     util-deprecate: ^1.0.2
     watchpack: ^2.2.0
-    webpack: 5
     ws: ^8.2.3
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
-  peerDependenciesMeta:
-    "@storybook/builder-webpack5":
-      optional: true
-    typescript:
-      optional: true
   languageName: unknown
   linkType: soft
 
@@ -6493,9 +6486,9 @@ __metadata:
   linkType: hard
 
 "@storybook/docs-mdx@npm:next":
-  version: 0.0.1-next.4
-  resolution: "@storybook/docs-mdx@npm:0.0.1-next.4"
-  checksum: 111cc2948feb94800b3b245689c6595049f8a0dcc7bcc17d33676cbb48759bee9470980224d8f4a9600c840ae908f2f95f44c79f1b53f4a41990344ab32be545
+  version: 0.0.1-next.5
+  resolution: "@storybook/docs-mdx@npm:0.0.1-next.5"
+  checksum: ef2a477fc9a23e6d8b27af365510d5a4a4f2a71ce89f12562eaf8d12df5393faad6f6e35673fc183aa117f61c068beea6f323f3f7a4cdf7d67d12f064340e151
   languageName: node
   linkType: hard
 
