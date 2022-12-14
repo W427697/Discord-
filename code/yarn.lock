@@ -6247,6 +6247,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/codemod@workspace:lib/codemod"
   dependencies:
+    "@babel/preset-env": ^7.20.2
     "@babel/types": ^7.20.2
     "@storybook/csf": next
     "@storybook/csf-tools": 7.0.0-beta.8
@@ -6408,9 +6409,6 @@ __metadata:
     util-deprecate: ^1.0.2
     watchpack: ^2.2.0
     ws: ^8.2.3
-  peerDependencies:
-    react: ^16.8.0 || ^17.0.0 || ^18.0.0
-    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
   languageName: unknown
   linkType: soft
 

@@ -45,6 +45,7 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
+    "@babel/preset-env": "^7.20.2",
     "@babel/types": "^7.20.2",
     "@storybook/csf": "next",
     "@storybook/csf-tools": "7.0.0-beta.8",
