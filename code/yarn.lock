@@ -6043,9 +6043,12 @@ __metadata:
     vite: ^3.0.0
   peerDependencies:
     "@preact/preset-vite": "*"
+    typescript: ">= 4.3.x"
     vite-plugin-glimmerx: "*"
   peerDependenciesMeta:
     "@preact/preset-vite":
+      optional: true
+    typescript:
       optional: true
     vite-plugin-glimmerx:
       optional: true
