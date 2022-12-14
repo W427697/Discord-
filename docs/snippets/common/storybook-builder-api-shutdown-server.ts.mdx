@@ -6,7 +6,7 @@ import { createViteServer } from './vite-server';
 
 let server: ViteDevServer;
 export async function bail(): Promise<void> {
-  return await server?.close();
+  return server?.close();
 }
 
 export const start: ViteBuilder['start'] = async ({ options, server: devServer }) => {
