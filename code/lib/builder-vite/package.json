@@ -50,7 +50,6 @@
     "@storybook/preview": "7.0.0-beta.6",
     "@storybook/preview-api": "7.0.0-beta.6",
     "@storybook/types": "7.0.0-beta.6",
-    "@vitejs/plugin-react": "^2.0.0",
     "browser-assert": "^1.2.1",
     "es-module-lexer": "^0.9.3",
     "express": "^4.17.3",
@@ -71,10 +70,14 @@
   },
   "peerDependencies": {
     "@preact/preset-vite": "*",
+    "typescript": ">= 4.3.x",
     "vite-plugin-glimmerx": "*"
   },
   "peerDependenciesMeta": {
     "@preact/preset-vite": {
+      "optional": true
+    },
+    "typescript": {
       "optional": true
     },
     "vite-plugin-glimmerx": {
