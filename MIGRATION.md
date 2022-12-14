@@ -45,6 +45,7 @@
     - [Default docs styles will leak into non-story user components](#default-docs-styles-will-leak-into-non-story-user-components)
     - [Explicit `<code>` elements are no longer syntax highlighted](#explicit-code-elements-are-no-longer-syntax-highlighted)
     - [Dropped source loader / storiesOf static snippets](#dropped-source-loader--storiesof-static-snippets)
+    - [Dropped addon-docs manual babel configuration](#dropped-addon-docs-manual-babel-configuration)
     - [Dropped addon-docs manual configuration](#dropped-addon-docs-manual-configuration)
     - [Autoplay in docs](#autoplay-in-docs)
   - [7.0 Deprecations](#70-deprecations)
@@ -911,6 +912,10 @@ module.exports = {
   },
 };
 ```
+
+#### Dropped addon-docs manual babel configuration
+
+Addon-docs previously accepted `configureJsx` and `mdxBabelOptions` options, which allowed full customization of the babel options used to process markdown and mdx files. This has been simplified in 7.0, with a new option, `jsxOptions`, which can be used to customize the behavior of `@babel/preset-react`.
 
 #### Dropped addon-docs manual configuration
 

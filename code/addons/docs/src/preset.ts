@@ -7,24 +7,34 @@ import type { IndexerOptions, StoryIndexer, DocsOptions, Options } from '@storyb
 import type { CsfPluginOptions } from '@storybook/csf-plugin';
 import { loadCsf } from '@storybook/csf-tools';
 
-// for frameworks that are not working with react, we need to configure
-// the jsx to transpile mdx, for now there will be a flag for that
-// for more complex solutions we can find alone that we need to add '@babel/plugin-transform-react-jsx'
-type BabelParams = {
-  mdxBabelOptions?: any;
-  /** @deprecated */
-  configureJSX?: boolean;
+// TODO: expose/import this from @storybook/mdx2-csf
+type JSXOptions = {
+  pragma?: string;
+  pragmaFrag?: string;
+  throwIfNamespace?: false;
+  runtime?: 'classic' | 'automatic';
+  importSource?: string;
 };
 
 async function webpack(
   webpackConfig: any = {},
-  options: Options &
-    BabelParams & {
-      /** @deprecated */
-      sourceLoaderOptions: any;
-      csfPluginOptions: CsfPluginOptions | null;
-      transcludeMarkdown: boolean;
-    } /* & Parameters<
+  options: Options & {
+    /**
+     * @deprecated
+     * Use `jsxOptions` to customize options used by @babel/preset-react
+     */
+    configureJsx: boolean;
+    /**
+     * @deprecated
+     * Use `jsxOptions` to customize options used by @babel/preset-react
+     */
+    mdxBabelOptions?: any;
+    /** @deprecated */
+    sourceLoaderOptions: any;
+    csfPluginOptions: CsfPluginOptions | null;
+    transcludeMarkdown: boolean;
+    jsxOptions?: JSXOptions;
+  } /* & Parameters<
       typeof createCompiler
     >[0] */
 ) {
@@ -33,19 +43,21 @@ async function webpack(
   // it will reuse babel options that are already in use in storybook
   // also, these babel options are chained with other presets.
   const {
-    mdxBabelOptions,
     csfPluginOptions = {},
-    sourceLoaderOptions = null,
+    jsxOptions = {},
     transcludeMarkdown = false,
+    sourceLoaderOptions = null,
+    configureJsx,
+    mdxBabelOptions,
   } = options;
 
   const mdxLoaderOptions = await options.presets.apply('mdxLoaderOptions', {
     skipCsf: true,
     mdxCompileOptions: {
       providerImportSource: '@storybook/addon-docs/mdx-react-shim',
-
       remarkPlugins: [remarkSlug, remarkExternalLinks],
     },
+    jsxOptions,
   });
 
   if (sourceLoaderOptions) {
@@ -55,6 +67,16 @@ async function webpack(
       To update your configuration, please see migration instructions here:
 
       https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#dropped-source-loader--storiesof-static-snippets
+    `);
+  }
+
+  if (mdxBabelOptions || configureJsx) {
+    throw new Error(dedent`
+      Addon-docs no longer uses configureJsx or mdxBabelOptions in 7.0.
+
+      To update your configuration, please see migration instructions here:
+
+      https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#dropped-addon-docs-manual-babel-configuration
     `);
   }
 
@@ -95,7 +117,6 @@ async function webpack(
               loader: mdxLoader,
               options: {
                 ...mdxLoaderOptions,
-                mdxBabelOptions,
                 skipCsf: false,
               },
             },
