@@ -6496,9 +6496,9 @@ __metadata:
   linkType: hard
 
 "@storybook/docs-mdx@npm:next":
-  version: 0.0.1-next.4
-  resolution: "@storybook/docs-mdx@npm:0.0.1-next.4"
-  checksum: 111cc2948feb94800b3b245689c6595049f8a0dcc7bcc17d33676cbb48759bee9470980224d8f4a9600c840ae908f2f95f44c79f1b53f4a41990344ab32be545
+  version: 0.0.1-next.5
+  resolution: "@storybook/docs-mdx@npm:0.0.1-next.5"
+  checksum: ef2a477fc9a23e6d8b27af365510d5a4a4f2a71ce89f12562eaf8d12df5393faad6f6e35673fc183aa117f61c068beea6f323f3f7a4cdf7d67d12f064340e151
   languageName: node
   linkType: hard
 
