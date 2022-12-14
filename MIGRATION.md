@@ -34,6 +34,7 @@
     - [Addon-docs: Removed deprecated blocks.js entry](#addon-docs-removed-deprecated-blocksjs-entry)
     - [Addon-a11y: Removed deprecated withA11y decorator](#addon-a11y-removed-deprecated-witha11y-decorator)
     - [Stories glob matches MDX files](#stories-glob-matches-mdx-files)
+    - [Add strict mode](#add-strict-mode)
   - [Docs Changes](#docs-changes)
     - [Standalone docs files](#standalone-docs-files)
     - [Referencing stories in docs files](#referencing-stories-in-docs-files)
@@ -677,6 +678,12 @@ export default {
   stories: [{ directory: '../path/to/directory', files: '**/*.stories.@(mdx|tsx|ts|jsx|js)' }],
 };
 ```
+
+#### Add strict mode
+
+Starting in 7.0, Storybook's build tools add [`"use strict"`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode) to the compiled JS output.
+
+If user code in `.storybook/preview.js` or stories relies on "sloppy" mode behavior, it will need to be updated. As a workaround, it is sometimes possible to move the sloppy mode code inside a script tag in `.storybook/preview-head.html`.
 
 ### Docs Changes
 
