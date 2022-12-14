@@ -683,7 +683,7 @@ export default {
 
 Starting in 7.0, Storybook's build tools add [`"use strict"`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode) to the compiled JS output.
 
-If user code in `.storybook/preview.js` or stories relies on "sloppy" mode behavior, it will need to be updated.
+If user code in `.storybook/preview.js` or stories relies on "sloppy" mode behavior, it will need to be updated. As a workaround, it is sometimes possible to move the sloppy mode code inside a script tag in `.storybook/preview-head.html`.
 
 ### Docs Changes
 
