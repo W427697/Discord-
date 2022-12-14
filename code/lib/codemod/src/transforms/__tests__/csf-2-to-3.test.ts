@@ -230,22 +230,40 @@ describe('csf-2-to-3', () => {
     it('should replace function exports with objects', () => {
       expect(
         tsTransform(dedent`
-          export default { title: 'Cat' } as Meta<CatProps>;
+          export default { title: 'Cat', component: Cat } as Meta<CatProps>;
           export const A: Story<CatProps> = (args) => <Cat {...args} />;
+          A.args = { name: "Fluffy" };
           export const B: any = (args) => <Button {...args} />;
           export const C: Story<CatProps> = () => <Cat />;
+          export const D: StoryFn<CatProps> = (args) => <Cat {...args} />;
+          D.args = { name: "Fluffy" };
+          export const E: ComponentStory<Cat> = (args) => <Cat {...args} />;
+          E.args = { name: "Fluffy" };
         `)
       ).toMatchInlineSnapshot(`
         export default {
           title: 'Cat',
+          component: Cat,
         } as Meta<CatProps>;
-        export const A: Story<CatProps> = {
-          render: (args) => <Cat {...args} />,
+        export const A: StoryObj<CatProps> = {
+          args: {
+            name: 'Fluffy',
+          },
         };
         export const B: any = {
           render: (args) => <Button {...args} />,
         };
-        export const C: Story<CatProps> = () => <Cat />;
+        export const C: StoryFn<CatProps> = () => <Cat />;
+        export const D: StoryObj<CatProps> = {
+          args: {
+            name: 'Fluffy',
+          },
+        };
+        export const E: StoryObj<Cat> = {
+          args: {
+            name: 'Fluffy',
+          },
+        };
       `);
     });
   });
