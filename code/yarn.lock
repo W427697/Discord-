@@ -6772,11 +6772,11 @@ __metadata:
   linkType: soft
 
 "@storybook/mdx2-csf@npm:next":
-  version: 1.0.0-next.0
-  resolution: "@storybook/mdx2-csf@npm:1.0.0-next.0"
+  version: 1.0.0-next.1
+  resolution: "@storybook/mdx2-csf@npm:1.0.0-next.1"
   dependencies:
     loader-utils: ^2.0.4
-  checksum: 520b26977bce390e4a5a3e0f81dec3a99497f13950e0726f7da62087041df715903ef92121ee568f1cac5f8d422f96a95d0bd24fbe6ffc7d76f5a81c05f21e3b
+  checksum: dc38ca9fb93b90308b6d6e1bbab4192c59ef7a7f02a1af50df29ca7d6445de7fce1e4be4ffb09ab98571303f0b022e027aa754039c35d038f584d7ac6039ca67
   languageName: node
   linkType: hard
 
