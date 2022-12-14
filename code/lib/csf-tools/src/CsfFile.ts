@@ -458,7 +458,10 @@ export class CsfFile {
       if (isExportStory(key, self._meta)) {
         const id = toId(self._meta.id || self._meta.title, storyNameFromExport(key));
         const parameters: Record<string, any> = { ...story.parameters, __id: id };
-        if (entries.length === 1 && key === '__page') {
+        if (
+          (entries.length === 1 || self._meta?.includeStories?.length === 1) &&
+          key === '__page'
+        ) {
           parameters.docsOnly = true;
         }
         acc[key] = { ...story, id, parameters };

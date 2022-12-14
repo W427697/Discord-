@@ -378,6 +378,36 @@ describe('CsfFile', () => {
       `);
     });
 
+    it('docs-only story with local vars', () => {
+      expect(
+        parse(
+          dedent`
+            export const TestControl = () => _jsx("p", {
+              children: "Hello"
+            });
+            export default { title: 'foo/bar', tags: ['mdx'], includeStories: ["__page"] };
+            export const __page = () => {};
+            __page.parameters = { docsOnly: true };
+          `,
+          true
+        )
+      ).toMatchInlineSnapshot(`
+        meta:
+          title: foo/bar
+          tags:
+            - mdx
+          includeStories:
+            - __page
+        stories:
+          - id: foo-bar--page
+            name: Page
+            parameters:
+              __isArgsStory: false
+              __id: foo-bar--page
+              docsOnly: true
+      `);
+    });
+
     it('title variable', () => {
       expect(
         parse(
