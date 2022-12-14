@@ -458,9 +458,10 @@ export class CsfFile {
       if (isExportStory(key, self._meta)) {
         const id = toId(self._meta.id || self._meta.title, storyNameFromExport(key));
         const parameters: Record<string, any> = { ...story.parameters, __id: id };
+        const { includeStories } = self._meta || {};
         if (
-          (entries.length === 1 || self._meta?.includeStories?.length === 1) &&
-          key === '__page'
+          key === '__page' &&
+          (entries.length === 1 || (Array.isArray(includeStories) && includeStories.length === 1))
         ) {
           parameters.docsOnly = true;
         }
