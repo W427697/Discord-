@@ -331,7 +331,7 @@ module.exports = {
           type: 'link',
         },
         {
-          pathSegment: 'addon-catalog',
+          pathSegment: 'integration-catalog',
           title: 'Add to catalog',
           type: 'link',
         },
@@ -377,6 +377,11 @@ module.exports = {
           title: 'Integration',
           type: 'menu',
           children: [
+           {
+              pathSegment: 'frameworks',
+              title: 'Frameworks',
+              type: 'link',
+            },
             {
               pathSegment: 'babel',
               title: 'Babel',

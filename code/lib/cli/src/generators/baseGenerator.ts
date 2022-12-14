@@ -101,7 +101,7 @@ const hasInteractiveStories = (rendererId: SupportedRenderers) =>
   ['react', 'angular', 'preact', 'svelte', 'vue', 'vue3', 'html'].includes(rendererId);
 
 const hasFrameworkTemplates = (framework?: SupportedFrameworks) =>
-  ['angular', 'nextjs', 'sveltekit'].includes(framework);
+  ['angular', 'nextjs'].includes(framework);
 
 export async function baseGenerator(
   packageManager: JsPackageManager,
@@ -144,6 +144,7 @@ export async function baseGenerator(
   const addonPackages = [
     '@storybook/addon-links',
     '@storybook/addon-essentials',
+    '@storybook/blocks',
     ...extraAddonPackages,
   ];
 
@@ -151,8 +152,6 @@ export async function baseGenerator(
     addons.push('@storybook/addon-interactions');
     addonPackages.push('@storybook/addon-interactions', '@storybook/testing-library');
   }
-
-  const yarn2ExtraPackages = packageManager.type === 'yarn2' ? ['@storybook/addon-docs'] : [];
 
   const files = await fse.readdir(process.cwd());
 
@@ -187,7 +186,6 @@ export async function baseGenerator(
     ...frameworkPackages,
     ...addonPackages,
     ...extraPackages,
-    ...yarn2ExtraPackages,
   ]
     .filter(Boolean)
     .filter(

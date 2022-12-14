@@ -70,7 +70,20 @@ export const getBuilder = (builder: string | { name: string }) => {
 };
 
 export const getFrameworkOptions = (framework: string, main: ConfigFile) => {
-  const frameworkOptions = main.getFieldValue([`${framework}Options`]);
+  let frameworkOptions = {};
+  try {
+    frameworkOptions = main.getFieldValue([`${framework}Options`]);
+  } catch (e) {
+    logger.warn(dedent`
+      Unable to get the ${framework}Options field.
+      
+      Please review the changes made to your main.js config and make any necessary changes.
+      The ${framework}Options should be moved to the framework.options field.
+
+      The following error occurred when we tried to get the ${framework}Options field:
+    `);
+    console.log(e);
+  }
   return frameworkOptions || {};
 };
 
@@ -249,8 +262,7 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
 
       if (currentCore) {
         if (Object.keys(currentCore).length === 0) {
-          // TODO: this should delete the field instead
-          main.setFieldValue(['core'], {});
+          main.removeField(['core']);
         } else {
           main.setFieldValue(['core'], currentCore);
         }

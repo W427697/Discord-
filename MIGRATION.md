@@ -23,10 +23,10 @@
     - [7.0 feature flags removed](#70-feature-flags-removed)
     - [CLI option `--use-npm` deprecated](#cli-option---use-npm-deprecated)
     - [Vite builder uses vite config automatically](#vite-builder-uses-vite-config-automatically)
-    - [Vite cache moved to node\_modules/.cache/.vite-storybook](#vite-cache-moved-to-node_modulescachevite-storybook)
+    - [Vite cache moved to node_modules/.cache/.vite-storybook](#vite-cache-moved-to-node_modulescachevite-storybook)
     - [SvelteKit needs the `@storybook/sveltekit` framework](#sveltekit-needs-the-storybooksveltekit-framework)
     - [Removed docs.getContainer and getPage parameters](#removed-docsgetcontainer-and-getpage-parameters)
-    - [Removed STORYBOOK\_REACT\_CLASSES global](#removed-storybook_react_classes-global)
+    - [Removed STORYBOOK_REACT_CLASSES global](#removed-storybook_react_classes-global)
     - [Icons API changed](#icons-api-changed)
     - ['config' preset entry replaced with 'previewAnnotations'](#config-preset-entry-replaced-with-previewannotations)
     - [Dropped support for Angular 12 and below](#dropped-support-for-angular-12-and-below)
@@ -34,6 +34,7 @@
     - [Addon-docs: Removed deprecated blocks.js entry](#addon-docs-removed-deprecated-blocksjs-entry)
     - [Addon-a11y: Removed deprecated withA11y decorator](#addon-a11y-removed-deprecated-witha11y-decorator)
     - [Stories glob matches MDX files](#stories-glob-matches-mdx-files)
+    - [Add strict mode](#add-strict-mode)
   - [Docs Changes](#docs-changes)
     - [Standalone docs files](#standalone-docs-files)
     - [Referencing stories in docs files](#referencing-stories-in-docs-files)
@@ -275,6 +276,7 @@ To upgrade manually, add any version of `react` and `react-dom` as devDependenci
 ```
 npm add react react-dom --dev
 ```
+
 #### Postcss removed
 
 Storybook 6.x installed postcss by default. In 7.0 built-in support has been removed. IF you need it, you can add it back using [`@storybook/addon-postcss`](https://github.com/storybookjs/addon-postcss).
@@ -586,6 +588,8 @@ When using a [Vite-based framework](#framework-field-mandatory), Storybook will 
 Some settings will be overridden by storybook so that it can function properly, and the merged settings can be modified using `viteFinal` in `.storybook/main.js` (see the [Storybook Vite configuration docs](https://storybook.js.org/docs/react/builders/vite#configuration)).  
 If you were using `viteFinal` in 6.5 to simply merge in your project's standard vite config, you can now remove it.
 
+For Svelte projects this means that the `svelteOptions` property in the `main.js` config should be omitted, as it will be loaded automatically via the project's `vite.config.js`. An exception to this is when the project needs different Svelte options for Storybook than the Vite config provides for the application itself.
+
 #### Vite cache moved to node_modules/.cache/.vite-storybook
 
 Previously, Storybook's Vite builder placed cache files in node_modules/.vite-storybook. However, it's more common for tools to place cached files into `node_modules/.cache`, and putting them there makes it quick and easy to clear the cache for multiple tools at once. We don't expect this change will cause any problems, but it's something that users of Storybook Vite projects should know about. It can be configured by setting `cacheDir` in `viteFinal` within `.storybook/main.js` [Storybook Vite configuration docs](https://storybook.js.org/docs/react/builders/vite#configuration)).
@@ -600,6 +604,8 @@ export default {
   framework: '@storybook/sveltekit',
 };
 ```
+
+Also see the note in [Vite builder uses vite config automatically](#vite-builder-uses-vite-config-automatically) about removing `svelteOptions`.
 
 #### Removed docs.getContainer and getPage parameters
 
@@ -643,7 +649,7 @@ Starting in 7.0 the `grid.cellSize` parameter should now be `backgrounds.grid.ce
 
 #### Addon-docs: Removed deprecated blocks.js entry
 
-Removed `@storybook/addon-docs/blocks` entry. Import directly from `@storybook/addon-docs` instead. This was [deprecated in SB 6.3](#deprecated-scoped-blocks-imports).
+Removed `@storybook/addon-docs/blocks` entry. Import directly from `@storybook/blocks` instead. This was [deprecated in SB 6.3](#deprecated-scoped-blocks-imports).
 
 #### Addon-a11y: Removed deprecated withA11y decorator
 
@@ -672,6 +678,12 @@ export default {
   stories: [{ directory: '../path/to/directory', files: '**/*.stories.@(mdx|tsx|ts|jsx|js)' }],
 };
 ```
+
+#### Add strict mode
+
+Starting in 7.0, Storybook's build tools add [`"use strict"`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode) to the compiled JS output.
+
+If user code in `.storybook/preview.js` or stories relies on "sloppy" mode behavior, it will need to be updated. As a workaround, it is sometimes possible to move the sloppy mode code inside a script tag in `.storybook/preview-head.html`.
 
 ### Docs Changes
 

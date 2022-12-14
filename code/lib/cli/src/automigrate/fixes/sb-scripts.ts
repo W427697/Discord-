@@ -3,7 +3,6 @@ import { dedent } from 'ts-dedent';
 import semver from 'semver';
 import { getStorybookInfo } from '@storybook/core-common';
 import type { Fix } from '../types';
-import { getStorybookVersionSpecifier } from '../../helpers';
 import type { PackageJsonWithDepsAndDevDeps } from '../../js-package-manager';
 
 interface SbScriptsRunOptions {
@@ -29,7 +28,10 @@ export const getStorybookScripts = (allScripts: Record<string, string>) => {
         const previousWord = allWordsFromScript[index - 1];
 
         // full word check, rather than regex which could be faulty
-        const isSbBinary = currentWord === 'build-storybook' || currentWord === 'start-storybook';
+        const isSbBinary =
+          currentWord === 'build-storybook' ||
+          currentWord === 'start-storybook' ||
+          currentWord === 'sb';
 
         // in case people have scripts like `yarn start-storybook`
         const isPrependedByPkgManager =
@@ -38,6 +40,7 @@ export const getStorybookScripts = (allScripts: Record<string, string>) => {
         if (isSbBinary && !isPrependedByPkgManager) {
           isStorybookScript = true;
           return currentWord
+            .replace('sb', 'storybook')
             .replace('start-storybook', 'storybook dev')
             .replace('build-storybook', 'storybook build');
         }
@@ -58,32 +61,30 @@ export const getStorybookScripts = (allScripts: Record<string, string>) => {
 };
 
 /**
- * Is the user using start-storybook
+ * Is the user using start-storybook or build-storybook in its scripts
  *
  * If so:
- * - Add storybook dependency
- * - Change start-storybook and build-storybook scripts
+ * - Change start-storybook and build-storybook scripts to storybook dev and storybook build
+ * - Change sb to storybook if they are using sb
  */
 export const sbScripts: Fix<SbScriptsRunOptions> = {
   id: 'sb-scripts',
 
   async check({ packageManager }) {
     const packageJson = packageManager.retrievePackageJson();
-    const { scripts = {}, devDependencies, dependencies } = packageJson;
+    const { scripts = {} } = packageJson;
     const { version: storybookVersion } = getStorybookInfo(packageJson);
-
-    const allDeps = { ...dependencies, ...devDependencies };
 
     const storybookCoerced = storybookVersion && semver.coerce(storybookVersion)?.version;
     if (!storybookCoerced) {
       logger.warn(dedent`
-        ❌ Unable to determine storybook version, skipping ${chalk.cyan('sb-scripts')} fix.
+        ❌ Unable to determine storybook version, skipping ${chalk.cyan(this.id)} fix.
         🤔 Are you running automigrate from your project directory?
       `);
       return null;
     }
 
-    if (allDeps.sb || allDeps.storybook) {
+    if (semver.lt(storybookCoerced, '7.0.0')) {
       return null;
     }
 
@@ -93,9 +94,7 @@ export const sbScripts: Fix<SbScriptsRunOptions> = {
       return null;
     }
 
-    return semver.gte(storybookCoerced, '7.0.0')
-      ? { packageJson, storybookScripts, storybookVersion }
-      : null;
+    return { packageJson, storybookScripts, storybookVersion };
   },
 
   prompt({ storybookVersion, storybookScripts }) {
@@ -121,9 +120,7 @@ export const sbScripts: Fix<SbScriptsRunOptions> = {
     )} binaries have changed to ${chalk.magenta('storybook dev')} and ${chalk.magenta(
       'storybook build'
     )} respectively.
-      In order to work with ${sbFormatted}, Storybook's ${chalk.magenta(
-      'storybook'
-    )} binary has to be installed and your storybook scripts have to be adjusted to use the binary. We can install the storybook binary and adjust your scripts for you:
+      In order to work with ${sbFormatted}, your storybook scripts have to be adjusted to use the binary. We can adjust them for you:
 
       ${newScriptsMessage.join('\n\n')}
 
@@ -133,19 +130,8 @@ export const sbScripts: Fix<SbScriptsRunOptions> = {
       `;
   },
 
-  async run({ result: { storybookScripts, packageJson }, packageManager, dryRun }) {
-    logger.log();
-    logger.info(`Adding 'storybook' as dev dependency`);
-    logger.log();
-
-    if (!dryRun) {
-      const versionToInstall = getStorybookVersionSpecifier(packageJson);
-      packageManager.addDependencies({ installAsDevDependencies: true }, [
-        `storybook@${versionToInstall}`,
-      ]);
-    }
-
-    logger.info(`Updating scripts in package.json`);
+  async run({ result: { storybookScripts }, packageManager, dryRun }) {
+    logger.info(`✅ Updating scripts in package.json`);
     logger.log();
     if (!dryRun) {
       const newScripts = Object.keys(storybookScripts).reduce((acc, scriptKey) => {
