@@ -8,7 +8,7 @@ In Storybook, this workflow happens automatically. When you write stories for yo
 
 ## How does documentation work in Storybook?
 
-You start by writing a [**story**](../writing-stories/introduction) for your component to define the different states it can be in. Then generate the baseline **documentation** for your story via `tags`. Finally, customize the documentation with [MDX](./mdx.md) and Storybook's **Doc Blocks** to fully control how the content gets rendered.
+You start by writing a [**story**](../writing-stories/introduction) for your component to define the different states it can be in. Then generate the baseline **documentation** for your story via `tags`. Finally, customize the documentation with [MDX](./mdx.md) or optionally with Storybook's **Doc Blocks** to fully control how the content gets rendered.
 
 ## Setup automated documentation
 
@@ -36,7 +36,7 @@ To enable auto-generated documentation for your stories, you'll need to add the 
   />
 </video>
 
-Once the story loads, Storybook infers the relevant metadata (e.g., [`args`](../writing-stories/args.md), [`argTypes`](../api/argtypes.md), [`parameters`](../writing-stories/parameters.md)) and automatically generates a documentation page with this information positioned at the root-level.
+Once the story loads, Storybook infers the relevant metadata (e.g., [`args`](../writing-stories/args.md), [`argTypes`](../api/argtypes.md), [`parameters`](../writing-stories/parameters.md)) and automatically generates a documentation page with this information positioned at the root-level of your component tree in the sidebar.
 
 ### Configure
 
@@ -53,11 +53,12 @@ By default, Storybook offers zero-config support for documentation and automatic
 
 <!-- prettier-ignore-end -->
 
-| Option        | Description                                                                                       |
-| ------------- | ------------------------------------------------------------------------------------------------- |
-| `enabled`     | Disables auto-generated documentation pages<br/> `docs: { enabled:false }`                        |
-| `docsPage`    | Disables auto-generated documentation pages created via `tags` <br/> `docs: { docsPages: false }` |
-| `defaultName` | Renames the auto-generated documentation page<br/> `docs: { defaultName: 'Documentation' }`       |
+| Option        | Description                                                                                            |
+| ------------- | ------------------------------------------------------------------------------------------------------ |
+| `enabled`     | Toggles support for auto-generated documentation pages <br/> `docs: { enabled:false }`                 |
+| `docsPage`    | Disables auto-generated documentation pages created via `tags` <br/> `docs: { docsPage: false }`       |
+| `automatic`   | Enables auto-generated documentation pages for every component <br/> `docs: { docsPage: 'automatic' }` |
+| `defaultName` | Renames the auto-generated documentation page<br/> `docs: { defaultName: 'Documentation' }`            |
 
 ### Write a custom template
 
@@ -95,7 +96,7 @@ Storybook provides support for MDX 2, an open standard markup language, combinin
 
 <!-- prettier-ignore-end -->
 
-Create an MDX file for your component in the same directory as your stories and components to add your custom documentation. The file should match your component's name (e.g., `Button.mdx`).
+Create an MDX file for your component in the same directory as your stories and components to add your custom documentation. We recommend naming the file similar to your component (e.g., `Button.mdx`) for easy reference.
 
 <!-- prettier-ignore-start -->
 
