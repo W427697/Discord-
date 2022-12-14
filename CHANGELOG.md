@@ -1,3 +1,17 @@
+## 7.0.0-beta.8 (December 14, 2022)
+
+#### Features
+
+-   Addon-docs: Use jsxOptions instead of mdxBabelOptions [#20271](https://github.com/storybooks/storybook/pull/20271)
+
+#### Maintenance
+
+-   Svelte-vite: remove `svelteOptions` in automigration [#20270](https://github.com/storybooks/storybook/pull/20270)
+
+#### Build
+
+-   Fix handling of inverted yes flag in `task` steps [#20268](https://github.com/storybooks/storybook/pull/20268)
+
 ## 7.0.0-beta.7 (December 14, 2022)
 
 #### Features
