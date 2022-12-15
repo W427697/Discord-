@@ -5429,7 +5429,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/addon-essentials@workspace:*, @storybook/addon-essentials@workspace:addons/essentials":
+"@storybook/addon-essentials@7.0.0-beta.8, @storybook/addon-essentials@workspace:*, @storybook/addon-essentials@workspace:addons/essentials":
   version: 0.0.0-use.local
   resolution: "@storybook/addon-essentials@workspace:addons/essentials"
   dependencies:
@@ -6168,12 +6168,14 @@ __metadata:
   dependencies:
     "@babel/core": ^7.20.2
     "@babel/preset-env": ^7.20.2
+    "@storybook/addon-essentials": 7.0.0-beta.8
     "@storybook/client-api": 7.0.0-beta.8
     "@storybook/codemod": 7.0.0-beta.8
     "@storybook/core-common": 7.0.0-beta.8
     "@storybook/core-server": 7.0.0-beta.8
     "@storybook/csf-tools": 7.0.0-beta.8
     "@storybook/node-logger": 7.0.0-beta.8
+    "@storybook/react-vite": 7.0.0-beta.8
     "@storybook/telemetry": 7.0.0-beta.8
     "@storybook/types": 7.0.0-beta.8
     "@types/cross-spawn": ^6.0.2
@@ -6183,6 +6185,7 @@ __metadata:
     "@types/shelljs": ^0.8.7
     "@types/update-notifier": ^6.0.1
     "@types/util-deprecate": ^1.0.0
+    ansi-html: ^0.0.9
     boxen: ^5.1.2
     chalk: ^4.1.0
     commander: ^6.2.1
@@ -6198,16 +6201,21 @@ __metadata:
     globby: ^11.0.2
     jscodeshift: ^0.13.1
     leven: ^3.1.0
+    os-browserify: ^0.3.0
     prompts: ^2.4.0
     puppeteer-core: ^2.1.1
+    react: ^18.0.0
+    react-dom: ^18.0.0
     read-pkg-up: ^7.0.1
     semver: ^7.3.7
     shelljs: ^0.8.5
+    storybook: 7.0.0-beta.8
     strip-json-comments: ^3.1.1
     ts-dedent: ^2.0.0
     typescript: ~4.9.3
     update-notifier: ^6.0.2
     util-deprecate: ^1.0.2
+    vite-plugin-turbosnap: ^1.0.1
   bin:
     getstorybook: ./bin/index.js
     sb: ./bin/index.js
@@ -7114,7 +7122,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@storybook/react-vite@workspace:*, @storybook/react-vite@workspace:frameworks/react-vite":
+"@storybook/react-vite@7.0.0-beta.8, @storybook/react-vite@workspace:*, @storybook/react-vite@workspace:frameworks/react-vite":
   version: 0.0.0-use.local
   resolution: "@storybook/react-vite@workspace:frameworks/react-vite"
   dependencies:
@@ -10285,6 +10293,15 @@ __metadata:
   bin:
     ansi-html: bin/ansi-html
   checksum: 45d3a6f0b4f10b04fdd44bef62972e2470bfd917bf00439471fa7473d92d7cbe31369c73db863cc45dda115cb42527f39e232e9256115534b8ee5806b0caeed4
+  languageName: node
+  linkType: hard
+
+"ansi-html@npm:^0.0.9":
+  version: 0.0.9
+  resolution: "ansi-html@npm:0.0.9"
+  bin:
+    ansi-html: bin/ansi-html
+  checksum: 4a5de9802fb50193e32b51a9ea48dc0d7e4436b860cb819d7110c62f2bfb1410288e1a2f9a848269f5eab8f903797a7f0309fe4c552f92a92b61a5b759ed52bd
   languageName: node
   linkType: hard
 
@@ -25162,6 +25179,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"os-browserify@npm:^0.3.0":
+  version: 0.3.0
+  resolution: "os-browserify@npm:0.3.0"
+  checksum: 6ff32cb1efe2bc6930ad0fd4c50e30c38010aee909eba8d65be60af55efd6cbb48f0287e3649b4e3f3a63dce5a667b23c187c4293a75e557f0d5489d735bcf52
+  languageName: node
+  linkType: hard
+
 "os-homedir@npm:^1.0.0":
   version: 1.0.2
   resolution: "os-homedir@npm:1.0.2"
@@ -27507,6 +27531,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-dom@npm:^18.0.0":
+  version: 18.2.0
+  resolution: "react-dom@npm:18.2.0"
+  dependencies:
+    loose-envify: ^1.1.0
+    scheduler: ^0.23.0
+  peerDependencies:
+    react: ^18.2.0
+  checksum: 66dfc5f93e13d0674e78ef41f92ed21dfb80f9c4ac4ac25a4b51046d41d4d2186abc915b897f69d3d0ebbffe6184e7c5876f2af26bfa956f179225d921be713a
+  languageName: node
+  linkType: hard
+
 "react-draggable@npm:^4.4.3":
   version: 4.4.5
   resolution: "react-draggable@npm:4.4.5"
@@ -27736,6 +27772,15 @@ __metadata:
     object-assign: ^4.1.1
     prop-types: ^15.6.2
   checksum: df8faae43e01387013900e8f8fb3c4ce9935b7edbcbaa77e12999c913eb958000a0a8750bf9a0886dae0ad768dd4a4ee983752d5bade8d840adbe0ce890a2438
+  languageName: node
+  linkType: hard
+
+"react@npm:^18.0.0":
+  version: 18.2.0
+  resolution: "react@npm:18.2.0"
+  dependencies:
+    loose-envify: ^1.1.0
+  checksum: b562d9b569b0cb315e44b48099f7712283d93df36b19a39a67c254c6686479d3980b7f013dc931f4a5a3ae7645eae6386b4aa5eea933baa54ecd0f9acb0902b8
   languageName: node
   linkType: hard
 
@@ -29449,6 +29494,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"scheduler@npm:^0.23.0":
+  version: 0.23.0
+  resolution: "scheduler@npm:0.23.0"
+  dependencies:
+    loose-envify: ^1.1.0
+  checksum: b777f7ca0115e6d93e126ac490dbd82642d14983b3079f58f35519d992fa46260be7d6e6cede433a92db70306310c6f5f06e144f0e40c484199e09c1f7be53dd
+  languageName: node
+  linkType: hard
+
 "schema-utils@npm:^2.6.5":
   version: 2.7.1
   resolution: "schema-utils@npm:2.7.1"
@@ -30537,7 +30591,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"storybook@workspace:lib/cli-storybook":
+"storybook@7.0.0-beta.8, storybook@workspace:lib/cli-storybook":
   version: 0.0.0-use.local
   resolution: "storybook@workspace:lib/cli-storybook"
   dependencies:
