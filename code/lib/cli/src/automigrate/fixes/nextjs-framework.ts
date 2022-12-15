@@ -65,11 +65,10 @@ export const nextjsFramework: Fix<NextjsFrameworkRunOptions> = {
 
     const storybookCoerced = storybookVersion && semver.coerce(storybookVersion)?.version;
     if (!storybookCoerced) {
-      logger.warn(dedent`
-        ❌ Unable to determine storybook version, skipping ${chalk.cyan('nextjsFramework')} fix.
+      throw new Error(dedent`
+        ❌ Unable to determine storybook version.
         🤔 Are you running automigrate from your project directory?
       `);
-      return null;
     }
 
     if (!semver.gte(storybookCoerced, '7.0.0')) {
