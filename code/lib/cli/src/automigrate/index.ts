@@ -2,11 +2,11 @@
 import prompts from 'prompts';
 import chalk from 'chalk';
 import boxen from 'boxen';
+import dedent from 'ts-dedent';
 import { JsPackageManagerFactory, type PackageManagerName } from '../js-package-manager';
 
 import type { Fix } from './fixes';
 import { fixes } from './fixes';
-import dedent from 'ts-dedent';
 
 const logger = console;
 
@@ -34,13 +34,16 @@ export const automigrate = async ({ fixId, dryRun, yes, useNpm, force }: FixOpti
 
   logger.info('🔎 checking possible migrations..');
   const fixResults = {} as Record<FixId, FixStatus>;
-  const fixSummary = { succeeded: [], failed: {} } as { succeeded: FixId[], failed: Record<FixId, string>};
+  const fixSummary = { succeeded: [], failed: {} } as {
+    succeeded: FixId[];
+    failed: Record<FixId, string>;
+  };
 
   for (let i = 0; i < filtered.length; i += 1) {
     const f = fixes[i] as Fix;
     let result;
     let fixStatus = FixStatus.UNNECESSARY;
-    
+
     try {
       result = await f.check({ packageManager });
     } catch (error) {
@@ -53,9 +56,7 @@ export const automigrate = async ({ fixId, dryRun, yes, useNpm, force }: FixOpti
       logger.info(`\n🔎 found a '${chalk.cyan(f.id)}' migration:`);
       const message = f.prompt(result);
 
-      logger.info(
-        boxen(message, { borderStyle: 'round', padding: 1, borderColor: '#F1618C' })
-      );
+      logger.info(boxen(message, { borderStyle: 'round', padding: 1, borderColor: '#F1618C' }));
 
       let runAnswer: { fix: boolean };
 
@@ -92,46 +93,71 @@ export const automigrate = async ({ fixId, dryRun, yes, useNpm, force }: FixOpti
       }
     }
 
-    fixResults[f.id] = fixStatus
+    fixResults[f.id] = fixStatus;
   }
 
-  logger.info()
+  logger.info();
   logger.info(getMigrationSummary(fixResults, fixSummary));
-  logger.info()
+  logger.info();
 
   return fixResults;
 };
 
-function getMigrationSummary(fixResults: Record<string, FixStatus>, fixSummary: { succeeded: FixId[]; failed: Record<FixId, string>; }) {
+function getMigrationSummary(
+  fixResults: Record<string, FixStatus>,
+  fixSummary: { succeeded: FixId[]; failed: Record<FixId, string> }
+) {
   const hasNoFixes = Object.values(fixResults).every((r) => r === FixStatus.UNNECESSARY);
-  const hasFailures = Object.values(fixResults).some((r) => r === FixStatus.FAILED || r === FixStatus.CHECK_FAILED);
-  let title = hasNoFixes ? 'No migrations were applicable to your project' : hasFailures ? 'Migration check ran with failures' : 'Migration check ran successfully';
+  const hasFailures = Object.values(fixResults).some(
+    (r) => r === FixStatus.FAILED || r === FixStatus.CHECK_FAILED
+  );
+  // eslint-disable-next-line no-nested-ternary
+  const title = hasNoFixes
+    ? 'No migrations were applicable to your project'
+    : hasFailures
+    ? 'Migration check ran with failures'
+    : 'Migration check ran successfully';
 
-  let successfulFixesMessage = fixSummary.succeeded.length > 0
-    ? `
-      ${chalk.bold('Migrations that succeeded:')}\n\n ${fixSummary.succeeded.map(m => chalk.green(m)).join(', ')}
+  const successfulFixesMessage =
+    fixSummary.succeeded.length > 0
+      ? `
+      ${chalk.bold('Migrations that succeeded:')}\n\n ${fixSummary.succeeded
+          .map((m) => chalk.green(m))
+          .join(', ')}
     `
-    : '';
+      : '';
 
-  let failedFixesMessage = Object.keys(fixSummary.failed).length > 0
-    ? `
-    ${chalk.bold('Migrations that failed:')}\n ${Object.entries(fixSummary.failed).reduce((acc, [id, error]) => {
-      return acc + `\n${chalk.redBright(id)}:\n${error}\n`;
-    }, '')}
+  const failedFixesMessage =
+    Object.keys(fixSummary.failed).length > 0
+      ? `
+    ${chalk.bold('Migrations that failed:')}\n ${Object.entries(fixSummary.failed).reduce(
+          (acc, [id, error]) => {
+            return `${acc}\n${chalk.redBright(id)}:\n${error}\n`;
+          },
+          ''
+        )}
     \n`
-    : '';
+      : '';
 
   const divider = hasNoFixes ? '' : '\n─────────────────────────────────────────────────\n\n';
 
-  let summaryMessage = dedent`
-    ${successfulFixesMessage}${failedFixesMessage}${divider}If you'd like to run the migrations again, you can do so by running '${chalk.cyan('npx storybook@next automigrate')}'
+  const summaryMessage = dedent`
+    ${successfulFixesMessage}${failedFixesMessage}${divider}If you'd like to run the migrations again, you can do so by running '${chalk.cyan(
+    'npx storybook@next automigrate'
+  )}'
     
     The automigrations try to migrate common patterns in your project, but might not contain everything needed to migrate to the latest version of Storybook.
     
-    Please check the changelog and migration guide for manual migrations and more information: ${chalk.yellow('https://storybook.js.org/migration-guides/7.0')}
+    Please check the changelog and migration guide for manual migrations and more information: ${chalk.yellow(
+      'https://storybook.js.org/migration-guides/7.0'
+    )}
     And reach out on Discord if you need help: ${chalk.yellow('https://discord.gg/storybook')}
   `;
 
-  return boxen(summaryMessage, { borderStyle: 'round', padding: 1, title, borderColor: hasFailures ? 'red' : 'green' });
+  return boxen(summaryMessage, {
+    borderStyle: 'round',
+    padding: 1,
+    title,
+    borderColor: hasFailures ? 'red' : 'green',
+  });
 }
-
