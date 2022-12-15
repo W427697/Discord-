@@ -1,19 +1,12 @@
 ```js
 // .storybook/preview.js
 
+import * as React from "react";
+
 import { DocsContainer } from '@storybook/blocks';
 
-const ExampleContainer = (props) => {
-  const { children } = props;
-  return (
-    <DocsContainer {...props}>
-      <div>
-        <h1>Starter documentation</h1>
-        <h2>Storybook's auto-generated documentation page uses this custom container.</h2>
-        <div>{children}</div>
-      </div>
-    </DocsContainer>
-  );
+const ExampleContainer = ({ children, ...props }) => {
+  return <DocsContainer {...props}>{children}</DocsContainer>;
 };
 
 export const parameters = {
@@ -25,7 +18,7 @@ export const parameters = {
     },
   },
   docs: {
-    container: (props) => <ExampleContainer {...props} />,
+    container: ExampleContainer,
   },
 };
 ```
