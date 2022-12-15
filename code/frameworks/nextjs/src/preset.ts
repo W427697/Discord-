@@ -13,6 +13,7 @@ import { configureImages } from './images/webpack';
 import { configureRuntimeNextjsVersionResolution } from './utils';
 import type { FrameworkOptions, StorybookConfig } from './types';
 import { configureNextImport } from './nextImport/webpack';
+import TransformFontImports from './font/babel';
 
 export const addons: PresetProperty<'addons', StorybookConfig> = [
   dirname(require.resolve(join('@storybook/preset-react-webpack', 'package.json'))),
@@ -103,8 +104,11 @@ export const babel = async (baseConfig: TransformOptions): Promise<TransformOpti
       )
   );
 
+  const plugins = [...(options?.plugins ?? []), TransformFontImports];
+
   return {
     ...options,
+    plugins,
     presets,
     babelrc: false,
     configFile: false,

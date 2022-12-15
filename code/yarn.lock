@@ -4429,6 +4429,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@next/font@npm:^13.0.6":
+  version: 13.0.6
+  resolution: "@next/font@npm:13.0.6"
+  checksum: 45d3722c2ae7724f74df29ba0ca59eb2766e6e68453b963f0c8b5bbb63646cf32bd1bac6ee847ac7dde3ac87b0dd3569a98e94a09778eae76c9f454df91cedad
+  languageName: node
+  linkType: hard
+
 "@next/swc-android-arm-eabi@npm:13.0.7":
   version: 13.0.7
   resolution: "@next/swc-android-arm-eabi@npm:13.0.7"
@@ -6766,6 +6773,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/nextjs@workspace:frameworks/nextjs"
   dependencies:
+    "@babel/core": ^7.20.5
+    "@babel/types": ^7.20.5
+    "@next/font": ^13.0.6
     "@storybook/addon-actions": 7.0.0-beta.12
     "@storybook/builder-webpack5": 7.0.0-beta.12
     "@storybook/core-common": 7.0.0-beta.12
@@ -6773,6 +6783,7 @@ __metadata:
     "@storybook/preset-react-webpack": 7.0.0-beta.12
     "@storybook/preview-api": 7.0.0-beta.12
     "@storybook/react": 7.0.0-beta.12
+    "@types/babel__core": ^7
     "@types/node": ^16.0.0
     find-up: ^5.0.0
     fs-extra: ^9.0.1
@@ -8191,7 +8202,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/babel__core@npm:^7.0.0, @types/babel__core@npm:^7.1.14, @types/babel__core@npm:^7.1.20":
+"@types/babel__core@npm:^7, @types/babel__core@npm:^7.0.0, @types/babel__core@npm:^7.1.14, @types/babel__core@npm:^7.1.20":
   version: 7.1.20
   resolution: "@types/babel__core@npm:7.1.20"
   dependencies:
