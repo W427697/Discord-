@@ -6040,7 +6040,7 @@ __metadata:
     rollup-plugin-external-globals: ^0.7.1
     slash: ^3.0.0
     typescript: ~4.9.3
-    vite: ^3.0.0
+    vite: ^3.0.0 || ^4.0.0
   peerDependencies:
     "@preact/preset-vite": "*"
     typescript: ">= 4.3.x"
@@ -7127,7 +7127,7 @@ __metadata:
     magic-string: ^0.26.1
     react-docgen: ^6.0.0-alpha.3
     typescript: ~4.9.3
-    vite: ^3.0.0
+    vite: ^3.0.0 || ^4.0.0
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
@@ -7422,7 +7422,7 @@ __metadata:
     util: ^0.12.4
     verdaccio: ^4.10.0
     verdaccio-auth-memory: ^9.7.2
-    vite: ^3.0.0
+    vite: ^3.0.0 || ^4.0.0
     vite-plugin-turbosnap: ^1.0.1
     wait-on: ^5.2.1
     web-component-analyzer: ^1.1.6
@@ -7577,7 +7577,7 @@ __metadata:
     sveltedoc-parser: ^4.2.1
     ts-dedent: ^2.2.0
     typescript: ~4.9.3
-    vite: ^3.0.0
+    vite: ^3.0.0 || ^4.0.0
   peerDependencies:
     "@storybook/addon-svelte-csf": ^2.0.0
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
@@ -7743,7 +7743,7 @@ __metadata:
     "@storybook/vue": 7.0.0-beta.9
     magic-string: ^0.26.1
     typescript: ~4.9.3
-    vite: ^3.0.0
+    vite: ^3.0.0 || ^4.0.0
     vue: ^2.7.10
     vue-docgen-api: ^4.40.0
   peerDependencies:
@@ -7789,7 +7789,7 @@ __metadata:
     "@vitejs/plugin-vue": ^3.0.0
     magic-string: ^0.26.1
     typescript: ~4.9.3
-    vite: ^3.0.0
+    vite: ^3.0.0 || ^4.0.0
     vue-docgen-api: ^4.40.0
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
@@ -26632,7 +26632,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"postcss@npm:^8.1.10, postcss@npm:^8.2.14, postcss@npm:^8.2.15, postcss@npm:^8.3.7, postcss@npm:^8.4.14, postcss@npm:^8.4.18, postcss@npm:^8.4.19":
+"postcss@npm:^8.1.10, postcss@npm:^8.2.14, postcss@npm:^8.2.15, postcss@npm:^8.3.7, postcss@npm:^8.4.14, postcss@npm:^8.4.19, postcss@npm:^8.4.20":
   version: 8.4.20
   resolution: "postcss@npm:8.4.20"
   dependencies:
@@ -29175,21 +29175,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rollup@npm:^2.79.1":
-  version: 2.79.1
-  resolution: "rollup@npm:2.79.1"
-  dependencies:
-    fsevents: ~2.3.2
-  dependenciesMeta:
-    fsevents:
-      optional: true
-  bin:
-    rollup: dist/bin/rollup
-  checksum: 421418687f5dcd7324f4387f203c6bfc7118b7ace789e30f5da022471c43e037a76f5fd93837052754eeeae798a4fb266ac05ccee1e594406d912a59af98dde9
-  languageName: node
-  linkType: hard
-
-"rollup@npm:^3.0.0, rollup@npm:^3.2.5":
+"rollup@npm:^3.0.0, rollup@npm:^3.2.5, rollup@npm:^3.7.0":
   version: 3.7.4
   resolution: "rollup@npm:3.7.4"
   dependencies:
@@ -33195,15 +33181,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vite@npm:^3.0.0":
-  version: 3.2.5
-  resolution: "vite@npm:3.2.5"
+"vite@npm:^3.0.0 || ^4.0.0":
+  version: 4.0.1
+  resolution: "vite@npm:4.0.1"
   dependencies:
-    esbuild: ^0.15.9
+    esbuild: ^0.16.3
     fsevents: ~2.3.2
-    postcss: ^8.4.18
+    postcss: ^8.4.20
     resolve: ^1.22.1
-    rollup: ^2.79.1
+    rollup: ^3.7.0
   peerDependencies:
     "@types/node": ">= 14"
     less: "*"
@@ -33229,7 +33215,7 @@ __metadata:
       optional: true
   bin:
     vite: bin/vite.js
-  checksum: 108efc1086b4913185864d87ab05f1cec847275e254c552c537415fd19093c77cc5155c17829d735855c9b073c55c67c4d4fe1b93e1d66b08f13cbd5a17f5a68
+  checksum: 545839e860b357d75defcba2d6f06eaca2069d9ed0f2a9d39cd714901799a6747b9a11189ea1e56627d7407f8210313ca5fdf4bd2b43b54a561ae71ebd4d9a3f
   languageName: node
   linkType: hard
 
