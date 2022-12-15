@@ -60,7 +60,7 @@
     "svelte": "^3.0.0",
     "sveltedoc-parser": "^4.2.1",
     "ts-dedent": "^2.2.0",
-    "vite": "^3.0.0"
+    "vite": "^3.0.0 || ^4.0.0"
   },
   "devDependencies": {
     "@types/node": "^16.0.0",
