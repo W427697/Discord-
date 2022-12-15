@@ -1,5 +1,5 @@
 ```js
-// CustomPageProvider.js
+// .storybook/preview.js
 
 import { MDXProvider } from '@mdx-js/react';
 
@@ -17,4 +17,17 @@ export const MyDocsContainer = (props) => (
     <DocsContainer {...props} />
   </MDXProvider>
 );
+
+export const parameters = {
+	  actions: { argTypesRegex: '^on[A-Z].*' },
+	  controls: {
+	    matchers: {
+	      color: /(background|color)$/i,
+	      date: /Date$/,
+	    },
+	  },
+	  docs: {
+	    container: MyDocsContainer,
+	  },
+	};
 ```

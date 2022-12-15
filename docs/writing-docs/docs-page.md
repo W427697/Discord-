@@ -176,7 +176,7 @@ Out of the box, Storybook has a set of components that you can use to customize 
 
 <CodeSnippets
   paths={[
-    'common/storybook-auto-docs-override-mdx-container.js.mdx',
+    'common/storybook-preview-auto-docs-override-mdx-container.js.mdx',
   ]}
 />
 
