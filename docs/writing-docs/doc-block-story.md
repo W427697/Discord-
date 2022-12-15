@@ -7,7 +7,7 @@ In Storybook Docs, stories are rendered in the `Story` block.
 
 ![Docs blocks with stories](./docblock-story.png)
 
-## Working with Docs
+## Working with Automatic Docs
 
 With each story you write, Storybook will automatically generate a new `Story` Doc Block, wrapped inside a [`Canvas`](./doc-block-canvas.md)(with a toolbar if it's the first "primary" story) alongside a [source code](./doc-block-source.md) preview underneath it. Below is a condensed table of the available configuration options.
 

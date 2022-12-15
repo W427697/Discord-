@@ -2,7 +2,11 @@
 // .storybook/main.js
 
 module.exports = {
-  stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|ts)'],
+  stories: [
+    //👇 Your documentation written in MDX along with your stories goes here
+    '../src/**/*.mdx',
+    '../src/**/*.stories.@(js|ts)'
+  ],
   addons: [
     '@storybook/addon-links',
     '@storybook/addon-essentials',

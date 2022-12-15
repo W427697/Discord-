@@ -55,14 +55,14 @@ By default, Storybook offers zero-config support for documentation and automatic
 
 | Option        | Description                                                                                            |
 | ------------- | ------------------------------------------------------------------------------------------------------ |
-| `enabled`     | Toggles support for auto-generated documentation pages <br/> `docs: { enabled:false }`                 |
+| `enabled`     | Toggles support for all documentation pages <br/> `docs: { enabled:false }`                            |
 | `docsPage`    | Disables auto-generated documentation pages created via `tags` <br/> `docs: { docsPage: false }`       |
 | `automatic`   | Enables auto-generated documentation pages for every component <br/> `docs: { docsPage: 'automatic' }` |
 | `defaultName` | Renames the auto-generated documentation page<br/> `docs: { defaultName: 'Documentation' }`            |
 
 ### Write a custom template
 
-To replace the default documentation templated used by Storybook, you can create your own template written in MDX and update your UI configuration file (i.e., `.storybook/preview.js`) to point to it.
+To replace the default documentation template used by Storybook, you can create your own template written in MDX and update your UI configuration file (i.e., `.storybook/preview.js`) to point to it.
 
 <!-- prettier-ignore-start -->
 

@@ -6,7 +6,7 @@ Storybook's `Source` Doc Block displays the story's source code. It supports syn
 
 ![Docs blocks with source](./docblock-source.png)
 
-## Working with Docs
+## Working with Automatic Docs
 
 Storybook automatically generates a `Source` Doc Block within the [Canvas](./doc-block-canvas.md) to display the story's code snippet.
 It includes additional customization via parameters. Below is a condensed example and tables featuring all the available options.

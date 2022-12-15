@@ -3,18 +3,19 @@
 
 import { Canvas, Meta, Story } from '@storybook/blocks';
 
-import * as ButtonStories from './Button.stories';
+import * as ListStories from './List.stories';
+
+import * as ListItemStories from './ListItem.stories';
+
 import * as PageStories from './Page.stories';
 
-<Meta of={ButtonStories} />
+<Meta of={PageStories} />
 
-# Definition
+# Page
 
-Button is a clickable interactive element that triggers a response.
+Page is a layout container that is used to position children in predetermined areas. 
 
-You can place text and icons inside of a button.
-
-Buttons are often used for form submissions and to toggle elements into view.
+It's often used to apply consistent positioning for content across pages in an application
 
 ## Usage
 
@@ -22,13 +23,19 @@ Buttons are often used for form submissions and to toggle elements into view.
   <Story of={ButtonStories.Basic} />
 </Canvas>
 
-## Definition
+# List
 
-Page is a layout container that is used to position children in predetermined areas.
-
-It's often used to apply consistent positioning for content across pages in an application.
+List is a grouping of related items. List can be ordered with multiple levels of nesting.
 
 ## Usage
 
-<Story of={PageStories.Basic} meta={PageStories} />
+<Story of={ListStories.Filled} />
+
+# List Item
+
+List items are used to group related content in a list. They must be nested within a List component.
+
+## Usage
+
+<Story of={ListItemStories.Starter} meta={ListItemStories} />
 ```
