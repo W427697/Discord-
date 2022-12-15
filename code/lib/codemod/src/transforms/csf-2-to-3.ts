@@ -181,4 +181,6 @@ function transform({ source }: { source: string }, api: any, options: { parser?:
   });
 }
 
+export const parser = 'tsx';
+
 export default transform;
