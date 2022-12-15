@@ -72,6 +72,9 @@ it('await all pending telemetry when passing in immediate = true', async () => {
     payload: { foo: 'bar' },
   });
 
+  expect(fetch).toHaveBeenCalledTimes(2);
+  expect(numberOfResolvedTasks).toBe(0);
+
   // here we await
   await sendTelemetry(
     {
