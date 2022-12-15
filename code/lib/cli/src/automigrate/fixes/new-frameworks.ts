@@ -172,9 +172,13 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
 
     if (allDeps.vite && semver.lt(semver.coerce(allDeps.vite).version, '3.0.0')) {
       throw new Error(dedent`
-        ❌ Your project should be upgraded to use the framework package ${chalk.bold(newFrameworkPackage)}, but we detected that you are using Vite ${
-          chalk.bold(allDeps.vite)
-        }, which is unsupported in ${chalk.bold('Storybook 7.0')}. Please upgrade Vite to ${chalk.bold('3.0.0 or higher')} and rerun this migration.
+        ❌ Your project should be upgraded to use the framework package ${chalk.bold(
+          newFrameworkPackage
+        )}, but we detected that you are using Vite ${chalk.bold(
+        allDeps.vite
+      )}, which is unsupported in ${chalk.bold(
+        'Storybook 7.0'
+      )}. Please upgrade Vite to ${chalk.bold('3.0.0 or higher')} and rerun this migration.
       `);
     }
 
@@ -195,7 +199,9 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
 
       In Storybook 7, frameworks also specify the builder to be used.
 
-      We can remove the dependencies that are no longer needed: ${chalk.yellow(dependenciesToRemove.join(', '))}
+      We can remove the dependencies that are no longer needed: ${chalk.yellow(
+        dependenciesToRemove.join(', ')
+      )}
       
       And set up the ${chalk.magenta(frameworkPackage)} framework that already includes the builder.
 
