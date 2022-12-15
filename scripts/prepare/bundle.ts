@@ -1,4 +1,4 @@
-#!/usr/bin/env ../../node_modules/.bin/ts-node --swc
+#!/usr/bin/env -S ../../node_modules/.bin/ts-node --swc
 
 import fs from 'fs-extra';
 import path, { dirname, join, relative } from 'path';
