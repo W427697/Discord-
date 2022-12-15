@@ -9,7 +9,7 @@
 
 -   UI: Fix `enableShortcuts` support in `manager.ts` [#20264](https://github.com/storybooks/storybook/pull/20264)
 -   UI: Ensure manager entries load even if preceding ones failed [#20286](https://github.com/storybooks/storybook/pull/20286)
--   Addon-iewport: Fix composition support [#20289](https://github.com/storybooks/storybook/pull/20289)
+-   Addon-viewport: Fix composition support [#20289](https://github.com/storybooks/storybook/pull/20289)
 -   Support Angular 15.0.4 [#20287](https://github.com/storybooks/storybook/pull/20287)
 -   Fix: peerDependencies issues reported [#20279](https://github.com/storybooks/storybook/pull/20279)
 
