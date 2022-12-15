@@ -4,7 +4,7 @@ import * as t from '@babel/types';
 import { isIdentifier, isTSTypeAnnotation, isTSTypeReference } from '@babel/types';
 import type { CsfFile } from '@storybook/csf-tools';
 import { formatCsf, loadCsf } from '@storybook/csf-tools';
-import type { API, FileInfo, Options } from 'jscodeshift';
+import type { API, FileInfo } from 'jscodeshift';
 
 const logger = console;
 
@@ -110,18 +110,18 @@ function updateTypeTo(id: t.LVal, type: string): t.LVal {
   return { ...id };
 }
 
-
-export default function transform({ source }: { source: string }, api: any, options: { parser?: string }) {
+export default function transform(info: FileInfo, api: API, options: { parser?: string }) {
+  const j = api.jscodeshift;
   const makeTitle = (userTitle?: string) => {
     return userTitle || 'FIXME';
   };
-  const csf = loadCsf(source, { makeTitle });
+  const csf = loadCsf(info.source, { makeTitle });
 
   try {
     csf.parse();
   } catch (err) {
     logger.log(`Error ${err}, skipping`);
-    return source;
+    return info.source;
   }
 
   const objectExports: Record<string, t.Statement> = {};
@@ -185,8 +185,19 @@ export default function transform({ source }: { source: string }, api: any, opti
     acc.push(stmt);
     return acc;
   }, []);
+
   csf._ast.program.body = updatedBody;
+
   let output = formatCsf(csf);
+
+  // rewrite Story imports to StoryObj
+  output = j(output)
+    .find(j.ImportDeclaration)
+    .filter((path) => path.node.source.value.toString().startsWith('@storybook/'))
+    .find(j.ImportSpecifier)
+    .filter((path) => path.node.imported.name === 'Story')
+    .replaceWith(j.importSpecifier(j.identifier('StoryObj')))
+    .toSource();
 
   try {
     const prettierConfig = prettier.resolveConfig.sync('.', { editorconfig: true }) || {
@@ -200,10 +211,10 @@ export default function transform({ source }: { source: string }, api: any, opti
     output = prettier.format(output, {
       ...prettierConfig,
       // This will infer the parser from the filename.
-      filepath: path,
+      filepath: info.path,
     });
   } catch (e) {
-    logger.log(`Failed applying prettier to ${path}.`);
+    logger.log(`Failed applying prettier to ${info.path}.`);
   }
 
   return output;

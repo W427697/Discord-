@@ -7,6 +7,7 @@ import * as t from '@babel/types';
 import * as generate from '@babel/generator';
 
 import * as traverse from '@babel/traverse';
+import * as recast from 'recast';
 import { toId, isExportStory, storyNameFromExport } from '@storybook/csf';
 import type { Tag, StoryAnnotations, ComponentAnnotations } from '@storybook/types';
 import { babelParse } from './babelParse';
@@ -523,7 +524,7 @@ export const loadCsf = (code: string, options: CsfOptions) => {
 };
 
 export const formatCsf = (csf: CsfFile) => {
-  const { code } = generate.default(csf._ast, {});
+  const { code } = recast.print(csf._ast, {});
   return code;
 };
 

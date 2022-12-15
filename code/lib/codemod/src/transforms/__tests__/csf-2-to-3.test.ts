@@ -1,5 +1,7 @@
-// import { describe, it, expect } from '@jest/globals';
+import { describe, it, expect } from '@jest/globals';
 import { dedent } from 'ts-dedent';
+import type { API } from 'jscodeshift';
+import jscodeshift from 'jscodeshift';
 import _transform from '../csf-2-to-3';
 
 expect.addSnapshotSerializer({
@@ -8,9 +10,17 @@ expect.addSnapshotSerializer({
 });
 
 const jsTransform = (source: string) =>
-  _transform({ source, path: 'Component.stories.js' }, null, {}).trim();
+  _transform(
+    { source, path: 'Component.stories.js' },
+    { jscodeshift: jscodeshift.withParser('tsx') } as API,
+    {}
+  ).trim();
 const tsTransform = (source: string) =>
-  _transform({ source, path: 'Component.stories.ts' }, null, { parser: 'tsx' }).trim();
+  _transform(
+    { source, path: 'Component.stories.ts' },
+    { jscodeshift: jscodeshift.withParser('tsx') } as API,
+    { parser: 'tsx' }
+  ).trim();
 
 describe('csf-2-to-3', () => {
   describe('javascript', () => {
@@ -230,39 +240,58 @@ describe('csf-2-to-3', () => {
     it('should replace function exports with objects', () => {
       expect(
         tsTransform(dedent`
-          export default { title: 'Cat', component: Cat } as Meta<CatProps>;
+          import { Story, StoryFn, ComponentStory } from '@storybook/react';
+
+          // some extra whitespace to test
+
+          export default { 
+            title: 'Cat', 
+            component: Cat,
+          } as Meta<CatProps>;
+
           export const A: Story<CatProps> = (args) => <Cat {...args} />;
           A.args = { name: "Fluffy" };
+
           export const B: any = (args) => <Button {...args} />;
+
           export const C: Story<CatProps> = () => <Cat />;
+
           export const D: StoryFn<CatProps> = (args) => <Cat {...args} />;
-          D.args = { name: "Fluffy" };
+          D.args = { 
+            name: "Fluffy"
+          };
+          
           export const E: ComponentStory<Cat> = (args) => <Cat {...args} />;
           E.args = { name: "Fluffy" };
         `)
       ).toMatchInlineSnapshot(`
+        import { StoryObj, StoryFn, ComponentStory } from '@storybook/react';
+
+        // some extra whitespace to test
+
         export default {
           title: 'Cat',
           component: Cat,
         } as Meta<CatProps>;
+
         export const A: StoryObj<CatProps> = {
-          args: {
-            name: 'Fluffy',
-          },
+          args: { name: 'Fluffy' },
         };
+
         export const B: any = {
           render: (args) => <Button {...args} />,
         };
+
         export const C: StoryFn<CatProps> = () => <Cat />;
+
         export const D: StoryObj<CatProps> = {
           args: {
             name: 'Fluffy',
           },
         };
+
         export const E: StoryObj<Cat> = {
-          args: {
-            name: 'Fluffy',
-          },
+          args: { name: 'Fluffy' },
         };
       `);
     });
