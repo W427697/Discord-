@@ -180,13 +180,14 @@ We’ve created an automigration to make this easier, and are including things t
 npx storybook@next automigrate --fixId mdx1to2
 ```
 
-<!-- We’ll be documenting the most disruptive changes that we can’t automigrate as they are reported by the community. So far, the list of top offenders include. -->
-
 ## Documentation-only MDX
 
 MDX documents do not have to reference stories. If the `<Meta>` only has a `title` and no `of` prop, (for example, `<Meta title="Intro" />`) and if you use no `<Story>` blocks, that document will be considered "documentation-only" and appear differently in the sidebar navigation menu:
 
 ![MDX docs only story](./mdx-documentation-only.png)
+
+<!--
+TODO: Uncomment once support for `transcludeMarkdown` is confirmed
 
 ### Creating a Changelog story
 
@@ -194,7 +195,7 @@ One common use case for documentation-only MDX is importing a project's `CHANGEL
 
 First, ensure that `transcludeMarkdown` is set to `true` in `main.js`:
 
-<!-- prettier-ignore-start -->
+<!-- prettier-ignore-start - ->
 
 <CodeSnippets
   paths={[
@@ -202,7 +203,7 @@ First, ensure that `transcludeMarkdown` is set to `true` in `main.js`:
   ]}
 />
 
-<!-- prettier-ignore-end -->
+<!-- prettier-ignore-end - ->
 
 Then, import the markdown and treat the imported file as a component in the MDX file:
 
@@ -215,6 +216,7 @@ import Changelog from '../CHANGELOG.md';
 
 <Changelog />
 ```
+-->
 
 ![Changelog markdown in an MDX story](./changelog-mdx-md-transcludemarkdown-optimized.png)
 
@@ -245,47 +247,3 @@ You can also use anchors to target a specific section of a page:
 </div>
 
 ![MDX anchor example](./mdx-anchor.webp)
-
-## Syntax highlighting
-
-When writing your documentation with Storybook and MDX, you get syntax highlighting out of the box for a handful of popular languages (Javascript, Markdown, CSS, HTML, Typescript, GraphQL). For other formats, for instance, SCSS, you'll need to extend the syntax highlighter manually:
-
-<!-- prettier-ignore-start -->
-
-<CodeSnippets
-  paths={[
-   'common/my-component-with-custom-syntax-highlight.mdx.mdx',
-  ]}
-/>
-
-<!-- prettier-ignore-end -->
-
-<div class="aside">
-💡 For a list of available languages, check <code>react-syntax-highlighter</code>'s <a href="https://github.com/react-syntax-highlighter/react-syntax-highlighter">documentation</a>.
-</div>
-
-Once you've updated your documentation, you'll see the code block properly highlighted. You can also apply the same principle to other unsupported formats (i.e., `diff`, `hbs`).
-
-You can also update your [`.storybook/preview.js`](../configure/overview.md#configure-story-rendering) and enable syntax highlighting globally. For example, to add support for SCSS, update your configuration to the following:
-
-<!-- prettier-ignore-start -->
-
-<CodeSnippets
-  paths={[
-   'common/storybook-preview-register-language-globally.js.mdx',
-  ]}
-/>
-
-<!-- prettier-ignore-end -->
-
-Write your documentation as you usually would, and your existing SCSS code blocks will automatically be highlighted when Storybook reloads. For example:
-
-<!-- prettier-ignore-start -->
-
-<CodeSnippets
-  paths={[
-   'common/my-component-with-global-syntax-highlight.mdx.mdx',
-  ]}
-/>
-
-<!-- prettier-ignore-end -->
