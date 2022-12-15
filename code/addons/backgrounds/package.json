@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-backgrounds",
-  "version": "7.0.0-beta.8",
+  "version": "7.0.0-beta.9",
   "description": "Switch backgrounds to view components in different settings",
   "keywords": [
     "addon",
@@ -75,13 +75,13 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/client-logger": "7.0.0-beta.8",
-    "@storybook/components": "7.0.0-beta.8",
-    "@storybook/core-events": "7.0.0-beta.8",
-    "@storybook/manager-api": "7.0.0-beta.8",
-    "@storybook/preview-api": "7.0.0-beta.8",
-    "@storybook/theming": "7.0.0-beta.8",
-    "@storybook/types": "7.0.0-beta.8",
+    "@storybook/client-logger": "7.0.0-beta.9",
+    "@storybook/components": "7.0.0-beta.9",
+    "@storybook/core-events": "7.0.0-beta.9",
+    "@storybook/manager-api": "7.0.0-beta.9",
+    "@storybook/preview-api": "7.0.0-beta.9",
+    "@storybook/theming": "7.0.0-beta.9",
+    "@storybook/types": "7.0.0-beta.9",
     "global": "^4.4.0",
     "memoizerific": "^1.11.3",
     "ts-dedent": "^2.0.0"
