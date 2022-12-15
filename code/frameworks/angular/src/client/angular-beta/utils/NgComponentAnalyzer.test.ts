@@ -268,11 +268,56 @@ describe('isStandaloneComponent', () => {
     expect(isStandaloneComponent(FooPipe)).toEqual(false);
   });
 
-  it('should return false with Directive', () => {
+  it('should return true with a Directive with "standalone: true"', () => {
+    // TODO: `standalone` is only available in Angular v14. Remove cast to `any` once
+    // Angular deps are updated to v14.x.x.
+    @Directive({ standalone: true } as any)
+    class FooDirective {}
+
+    expect(isStandaloneComponent(FooDirective)).toEqual(true);
+  });
+
+  it('should return false with a Directive with "standalone: false"', () => {
+    // TODO: `standalone` is only available in Angular v14. Remove cast to `any` once
+    // Angular deps are updated to v14.x.x.
+    @Directive({ standalone: false } as any)
+    class FooDirective {}
+
+    expect(isStandaloneComponent(FooDirective)).toEqual(false);
+  });
+
+  it('should return false with Directive without the "standalone" property', () => {
     @Directive()
     class FooDirective {}
 
     expect(isStandaloneComponent(FooDirective)).toEqual(false);
+  });
+
+  it('should return true with a Pipe with "standalone: true"', () => {
+    // TODO: `standalone` is only available in Angular v14. Remove cast to `any` once
+    // Angular deps are updated to v14.x.x.
+    @Pipe({ standalone: true } as any)
+    class FooPipe {}
+
+    expect(isStandaloneComponent(FooPipe)).toEqual(true);
+  });
+
+  it('should return false with a Pipe with "standalone: false"', () => {
+    // TODO: `standalone` is only available in Angular v14. Remove cast to `any` once
+    // Angular deps are updated to v14.x.x.
+    @Pipe({ standalone: false } as any)
+    class FooPipe {}
+
+    expect(isStandaloneComponent(FooPipe)).toEqual(false);
+  });
+
+  it('should return false with Pipe without the "standalone" property', () => {
+    @Pipe({
+      name: 'fooPipe',
+    })
+    class FooPipe {}
+
+    expect(isStandaloneComponent(FooPipe)).toEqual(false);
   });
 });
 
