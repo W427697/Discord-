@@ -38,7 +38,7 @@ However SvelteKit has some [Kit-specific modules](https://kit.svelte.dev/docs/mo
 | [`$service-worker`](https://kit.svelte.dev/docs/modules#$service-worker)           | ⛔ Not supported                                                                                  | They are only meant to be used in service workers                                                                       |
 | [`@sveltejs/kit/*`](https://kit.svelte.dev/docs/modules#sveltejs-kit)              | ✅ Supported                                                                                      |                                                                                                                         |
 
-This is just the beginning. We're planning on making it an even better experience to [build](https://storybook.js.org/docs/7.0/react/writing-stories/introduction), [test](https://storybook.js.org/docs/7.0/react/writing-tests/introduction) and [document](https://storybook.js.org/docs/7.0/react/writing-docs/introduction) all the SvelteKit goodies like [pages](https://kit.svelte.dev/docs/routing), [forms](https://kit.svelte.dev/docs/form-actions) and [layouts](https://kit.svelte.dev/docs/routing#layout) in Storybook, while still integrating with all the addons and workflows you know and love.
+This is just the beginning. We're close to adding basic support for many of the SvelteKit features. Longer term we're planning on making it an even better experience to [build](https://storybook.js.org/docs/7.0/react/writing-stories/introduction), [test](https://storybook.js.org/docs/7.0/react/writing-tests/introduction) and [document](https://storybook.js.org/docs/7.0/react/writing-docs/introduction) all the SvelteKit goodies like [pages](https://kit.svelte.dev/docs/routing), [forms](https://kit.svelte.dev/docs/form-actions) and [layouts](https://kit.svelte.dev/docs/routing#layout) in Storybook, while still integrating with all the addons and workflows you know and love.
 
 ## Requirements
 
@@ -69,7 +69,7 @@ npx storybook@next upgrade --prerelease
 
 When running the `upgrade` command above you should get a prompt asking you to migrate to `@storybook/sveltekit`, which should handle everything for you. In some cases it can't migrate for you, eg. if your existing Storybook setup is based on Webpack. In such cases, refer to the manual migration below.
 
-Storybook 7.0 automatically loads your Vite config, and by extension your Svelte config. If you have a `svelteOptions` property in `.storybook/main.cjs` you need to remove that. See [Troubleshooting](#error-about-__esbuild_register_import_meta_url__-when-starting-storybook) below. We're working on doing this automatically soon.
+Storybook 7.0 automatically loads your Vite config, and by extension your Svelte config. If you had a `svelteOptions` property in `.storybook/main.cjs` the automigration will have removed it, as it is no longer supported.
 
 #### Manual migration
 
@@ -110,7 +110,7 @@ yarn remove @storybook/builder-vite
 > ERR! SyntaxError: Identifier '__esbuild_register_import_meta_url__' has already been declared
 > ```
 
-You'll get this error when upgrading from 6.5 to 7.0. You need to remove the `svelteOptions` property in `.storybook/main.cjs`, as that is not supported by Storybook 7.0 + SvelteKit. The property is also not necessary anymore because the Vite and Svelte configurations are loaded automatically in Storybook 7.0.
+You'll get this error when manually upgrading from 6.5 to 7.0. You need to remove the `svelteOptions` property in `.storybook/main.cjs`, as that is not supported by Storybook 7.0 + SvelteKit. The property is also not necessary anymore because the Vite and Svelte configurations are loaded automatically in Storybook 7.0.
 
 ### Error: `Cannot read properties of undefined (reading 'disable_scroll_handling')` in preview
 

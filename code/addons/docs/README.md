@@ -140,8 +140,7 @@ module.exports = {
     {
       name: '@storybook/addon-docs',
       options: {
-        configureJSX: true,
-        babelOptions: {},
+        jsxOptions: {},
         csfPluginOptions: null,
         transcludeMarkdown: true,
       },
@@ -150,7 +149,7 @@ module.exports = {
 };
 ```
 
-The `configureJSX` option is useful when you're writing your docs in MDX and your project's babel config isn't already set up to handle JSX files. `babelOptions` is a way to further configure the babel processor when you're using `configureJSX`.
+`jsxOptions` are options that will be passed to `@babel/preset-react` for `.md` and `.mdx` files.
 
 `csfPluginOptions` is an object for configuring `@storybook/csf-plugin`. When set to `null` it tells docs not to run the `csf-plugin` at all, which can be used as an optimization, or if you're already using `csf-plugin` in your `main.js`.
 
