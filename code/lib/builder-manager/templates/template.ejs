@@ -38,9 +38,20 @@
     <script type="module">
       import './sb-manager/runtime.mjs';
 
-      <% files.js.forEach(file => { %>
-      import './<%= file %>';
-      <% }); %>
+      const addons = [
+        <% files.js.forEach(file => { %>
+        './<%= file %>',
+        <% }); %>
+      ];
+
+      /* error handling of manager-addons being broken */
+      const results = await Promise.allSettled(addons.map(addon => import(addon))).then(results => {
+        results.forEach((result, index) => {
+          if(result.status =='rejected'){
+            console.error(`loading ${addons[index]} failed to load correctly`);
+          }
+        })
+      });
     </script>    
   </body>
 </html>
