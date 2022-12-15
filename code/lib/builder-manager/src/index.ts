@@ -77,6 +77,14 @@ export const getConfig: ManagerBuilder['getConfig'] = async (options) => {
       globalExternals(definitions),
       pnpPlugin(),
     ],
+
+    banner: {
+      js: 'try{',
+    },
+    footer: {
+      js: '}catch(e){ console.log("ONE OF YOUR MANAGER-ENTRIES FAILED: " + import.meta.url) }',
+    },
+
     define: {
       'process.env.NODE_ENV': "'production'",
       'process.env': '{}',
