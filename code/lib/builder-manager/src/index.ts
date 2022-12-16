@@ -82,7 +82,7 @@ export const getConfig: ManagerBuilder['getConfig'] = async (options) => {
       js: 'try{',
     },
     footer: {
-      js: '}catch(e){ console.log("ONE OF YOUR MANAGER-ENTRIES FAILED: " + import.meta.url) }',
+      js: '}catch(e){ console.error("[Storybook] One of your manager-entries failed: " + import.meta.url); throw e; }',
     },
 
     define: {
