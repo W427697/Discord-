@@ -22,9 +22,9 @@ const randomObj = {}
 it('should transform AST properly', () => {
   const { code } = transform(example, { plugins: [TransformFontImports] })!;
   expect(code).toMatchInlineSnapshot(`
-    "import inter from \\"storybook-nextjs-font-loader?{\\\\\\"source\\\\\\":\\\\\\"@next/font/google\\\\\\",\\\\\\"props\\\\\\":{\\\\\\"subsets\\\\\\":[\\\\\\"latin\\\\\\"]},\\\\\\"fontFamily\\\\\\":\\\\\\"Inter\\\\\\"}!@next/font/google\\";
-    import roboto from \\"storybook-nextjs-font-loader?{\\\\\\"source\\\\\\":\\\\\\"@next/font/google\\\\\\",\\\\\\"props\\\\\\":{\\\\\\"weight\\\\\\":\\\\\\"400\\\\\\"},\\\\\\"fontFamily\\\\\\":\\\\\\"Roboto\\\\\\"}!@next/font/google\\";
-    import myFont from \\"storybook-nextjs-font-loader?{\\\\\\"source\\\\\\":\\\\\\"@next/font/local\\\\\\",\\\\\\"props\\\\\\":{\\\\\\"src\\\\\\":\\\\\\"./my-font.woff2\\\\\\"},\\\\\\"fontFamily\\\\\\":\\\\\\"localFont\\\\\\"}!@next/font/local\\";
+    "import inter from \\"storybook-nextjs-font-loader?{\\\\\\"source\\\\\\":\\\\\\"@next/font/google\\\\\\",\\\\\\"props\\\\\\":{\\\\\\"subsets\\\\\\":[\\\\\\"latin\\\\\\"]},\\\\\\"fontFamily\\\\\\":\\\\\\"Inter\\\\\\",\\\\\\"filename\\\\\\":\\\\\\"\\\\\\"}!@next/font/google\\";
+    import roboto from \\"storybook-nextjs-font-loader?{\\\\\\"source\\\\\\":\\\\\\"@next/font/google\\\\\\",\\\\\\"props\\\\\\":{\\\\\\"weight\\\\\\":\\\\\\"400\\\\\\"},\\\\\\"fontFamily\\\\\\":\\\\\\"Roboto\\\\\\",\\\\\\"filename\\\\\\":\\\\\\"\\\\\\"}!@next/font/google\\";
+    import myFont from \\"storybook-nextjs-font-loader?{\\\\\\"source\\\\\\":\\\\\\"@next/font/local\\\\\\",\\\\\\"props\\\\\\":{\\\\\\"src\\\\\\":\\\\\\"./my-font.woff2\\\\\\"},\\\\\\"fontFamily\\\\\\":\\\\\\"localFont\\\\\\",\\\\\\"filename\\\\\\":\\\\\\"\\\\\\"}!@next/font/local\\";
     const randomObj = {};"
   `);
 });
