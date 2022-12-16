@@ -1,22 +1,19 @@
-import path from 'path';
+import path, { join } from 'path';
 import { createFilter } from '@rollup/pluginutils';
 import {
   parse,
-  handlers as docgenHandlers,
-  resolver as docgenResolver,
-  importers as docgenImporters,
+  makeFsImporter,
+  builtinHandlers as docgenHandlers,
+  builtinResolvers as docgenResolver,
 } from 'react-docgen';
-import type { DocumentationObject } from 'react-docgen/dist/Documentation';
 import MagicString from 'magic-string';
 import type { PluginOption } from 'vite';
 import actualNameHandler from './docgen-handlers/actualNameHandler';
 
-type DocObj = DocumentationObject & { actualName: string };
-
 // TODO: None of these are able to be overridden, so `default` is aspirational here.
 const defaultHandlers = Object.values(docgenHandlers).map((handler) => handler);
 const defaultResolver = docgenResolver.findAllExportedComponentDefinitions;
-const defaultImporter = docgenImporters.makeFsImporter();
+const defaultImporter = makeFsImporter();
 const handlers = [...defaultHandlers, actualNameHandler];
 
 type Options = {
@@ -35,16 +32,24 @@ export function reactDocgen({
     name: 'storybook:react-docgen-plugin',
     enforce: 'pre',
     async transform(src: string, id: string) {
-      const relPath = path.relative(cwd, id);
-      if (!filter(relPath)) return;
+      const relPath = `.${path.sep}${path.relative(cwd, id)}`;
+
+      if (!filter(relPath)) {
+        return;
+      }
 
       try {
+        console.log('TRY', relPath);
         // Since we're using `findAllExportedComponentDefinitions`, this will always be an array.
-        const docgenResults = parse(src, defaultResolver, handlers, {
-          importer: defaultImporter,
+        const docgenResults = parse(src, {
+          handlers: [].concat(handlers),
           filename: id,
-        }) as DocObj[];
+          importer: defaultImporter,
+          resolver: defaultResolver,
+        });
         const s = new MagicString(src);
+
+        console.log({ docgenResults });
 
         docgenResults.forEach((info) => {
           const { actualName, ...docgenInfo } = info;
@@ -62,7 +67,7 @@ export function reactDocgen({
       } catch (e) {
         // Usually this is just an error from react-docgen that it couldn't find a component
         // Only uncomment for troubleshooting
-        // console.error(e);
+        console.error(e);
       }
     },
   };

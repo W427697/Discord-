@@ -11,9 +11,8 @@
 
 import { namedTypes as t } from 'ast-types';
 import type { NodePath } from 'ast-types/lib/node-path';
-import { getNameOrValue, isReactForwardRefCall } from 'react-docgen/dist/utils';
-import type { Importer } from 'react-docgen/dist/parse';
-import type Documentation from 'react-docgen/dist/Documentation';
+import { utils } from 'react-docgen';
+import type { Importer, Documentation } from 'react-docgen';
 
 export default function actualNameHandler(
   documentation: Documentation,
@@ -21,22 +20,22 @@ export default function actualNameHandler(
   importer: Importer
 ): void {
   if (t.ClassDeclaration.check(path.node) || t.FunctionDeclaration.check(path.node)) {
-    documentation.set('actualName', getNameOrValue(path.get('id')));
+    documentation.set('actualName', utils.getNameOrValue(path.get('id')));
   } else if (
     t.ArrowFunctionExpression.check(path.node) ||
     t.FunctionExpression.check(path.node) ||
-    isReactForwardRefCall(path, importer)
+    utils.isReactForwardRefCall(path)
   ) {
     let currentPath = path;
     while (currentPath.parent) {
       if (t.VariableDeclarator.check(currentPath.parent.node)) {
-        documentation.set('actualName', getNameOrValue(currentPath.parent.get('id')));
+        documentation.set('actualName', utils.getNameOrValue(currentPath.parent.get('id')));
         return;
       }
       if (t.AssignmentExpression.check(currentPath.parent.node)) {
         const leftPath = currentPath.parent.get('left');
         if (t.Identifier.check(leftPath.node) || t.Literal.check(leftPath.node)) {
-          documentation.set('actualName', getNameOrValue(leftPath));
+          documentation.set('actualName', utils.getNameOrValue(leftPath));
           return;
         }
       }
