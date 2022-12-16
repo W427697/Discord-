@@ -1,3 +1,13 @@
+## 7.0.0-beta.10 (December 16, 2022)
+
+#### Build
+
+-   Build: compile detection was using a non-conforming package, causing cache to miss always. [#20297](https://github.com/storybooks/storybook/pull/20297)
+
+#### Dependency Upgrades
+
+-   React-vite: Pin react-docgen version [#20300](https://github.com/storybooks/storybook/pull/20300)
+
 ## 7.0.0-beta.9 (December 16, 2022)
 
 #### Features
