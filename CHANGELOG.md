@@ -1,3 +1,34 @@
+## 7.0.0-beta.10 (December 16, 2022)
+
+#### Build
+
+-   Build: compile detection was using a non-conforming package, causing cache to miss always. [#20297](https://github.com/storybooks/storybook/pull/20297)
+
+#### Dependency Upgrades
+
+-   React-vite: Pin react-docgen version [#20300](https://github.com/storybooks/storybook/pull/20300)
+
+## 7.0.0-beta.9 (December 16, 2022)
+
+#### Features
+
+-   CLI: Add interactive babel config file generation [#20234](https://github.com/storybooks/storybook/pull/20234)
+-   CLI: Add automigration summary [#20276](https://github.com/storybooks/storybook/pull/20276)
+
+#### Bug Fixes
+
+-   UI: Fix `enableShortcuts` support in `manager.ts` [#20264](https://github.com/storybooks/storybook/pull/20264)
+-   UI: Ensure manager entries load even if preceding ones failed [#20286](https://github.com/storybooks/storybook/pull/20286)
+-   Addon-viewport: Fix composition support [#20289](https://github.com/storybooks/storybook/pull/20289)
+-   Support Angular 15.0.4 [#20287](https://github.com/storybooks/storybook/pull/20287)
+-   Fix: peerDependencies issues reported [#20279](https://github.com/storybooks/storybook/pull/20279)
+
+#### Build
+
+-   Build: ui/.storybook should not import from dist [#20284](https://github.com/storybooks/storybook/pull/20284)
+-   Build: bundle script a bit less repetitive, add a completion indicator [#20277](https://github.com/storybooks/storybook/pull/20277)
+-   Build: regen lockfiles [#20278](https://github.com/storybooks/storybook/pull/20278)
+
 ## 7.0.0-beta.8 (December 14, 2022)
 
 #### Features
