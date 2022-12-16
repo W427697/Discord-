@@ -437,8 +437,7 @@ async function run() {
 
         if (process.env.CI) {
           logger.error(
-            boxen(
-              dedent`
+            dedent`
                 To reproduce this error locally, run:
 
                   ${getCommand('yarn task', options, {
@@ -453,8 +452,7 @@ async function run() {
                     ...allOptionValues,
                     startFrom: 'auto',
                   })}`,
-              { borderStyle: 'round', padding: 1, borderColor: '#F1618C' } as any
-            )
+            { borderStyle: 'round', padding: 1, borderColor: '#F1618C' }
           );
         }
 
