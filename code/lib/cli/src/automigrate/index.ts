@@ -23,10 +23,19 @@ interface FixOptions {
 enum FixStatus {
   CHECK_FAILED = 'check_failed',
   UNNECESSARY = 'unnecessary',
+  MANUAL_SUCCEEDED = 'manual_succeeded',
+  MANUAL_SKIPPED = 'manual_skipped',
   SKIPPED = 'skipped',
   SUCCEEDED = 'succeeded',
   FAILED = 'failed',
 }
+
+type FixSummary = {
+  skipped: FixId[];
+  manual: FixId[];
+  succeeded: FixId[];
+  failed: Record<FixId, string>;
+};
 
 export const automigrate = async ({ fixId, dryRun, yes, useNpm, force }: FixOptions = {}) => {
   const packageManager = JsPackageManagerFactory.getPackageManager({ useNpm, force });
@@ -34,66 +43,109 @@ export const automigrate = async ({ fixId, dryRun, yes, useNpm, force }: FixOpti
 
   logger.info('🔎 checking possible migrations..');
   const fixResults = {} as Record<FixId, FixStatus>;
-  const fixSummary = { succeeded: [], failed: {} } as {
-    succeeded: FixId[];
-    failed: Record<FixId, string>;
-  };
+  const fixSummary: FixSummary = { succeeded: [], failed: {}, manual: [], skipped: [] };
 
   for (let i = 0; i < filtered.length; i += 1) {
     const f = fixes[i] as Fix;
     let result;
-    let fixStatus = FixStatus.UNNECESSARY;
 
     try {
       result = await f.check({ packageManager });
     } catch (error) {
       logger.info(`⚠️  failed to check fix ${chalk.bold(f.id)}`);
-      fixStatus = FixStatus.CHECK_FAILED;
       fixSummary.failed[f.id] = error.message;
+      fixResults[f.id] = FixStatus.CHECK_FAILED;
     }
 
     if (result) {
       logger.info(`\n🔎 found a '${chalk.cyan(f.id)}' migration:`);
       const message = f.prompt(result);
 
-      logger.info(boxen(message, { borderStyle: 'round', padding: 1, borderColor: '#F1618C' }));
+      logger.info(
+        boxen(message, {
+          borderStyle: 'round',
+          padding: 1,
+          borderColor: '#F1618C',
+          title: f.promptOnly ? 'Manual migration detected' : 'Automigration detected',
+        })
+      );
 
       let runAnswer: { fix: boolean };
 
-      if (dryRun) {
-        runAnswer = { fix: false };
-      } else if (yes) {
-        runAnswer = { fix: true };
-      } else {
-        runAnswer = await prompts({
-          type: 'confirm',
-          name: 'fix',
-          message: `Do you want to run the '${chalk.cyan(f.id)}' migration on your project?`,
-          initial: true,
-        });
-      }
+      try {
+        if (dryRun) {
+          runAnswer = { fix: false };
+        } else if (yes) {
+          runAnswer = { fix: true };
+        } else if (f.promptOnly) {
+          fixResults[f.id] = FixStatus.MANUAL_SUCCEEDED;
+          fixSummary.manual.push(f.id);
 
-      if (runAnswer.fix) {
-        try {
-          await f.run({ result, packageManager, dryRun });
-          logger.info(`✅ ran ${chalk.cyan(f.id)} migration`);
-          fixStatus = FixStatus.SUCCEEDED;
-          fixSummary.succeeded.push(f.id);
-        } catch (error) {
-          fixStatus = FixStatus.FAILED;
-          fixSummary.failed[f.id] = error.message;
-          logger.info(`❌ error when running ${chalk.cyan(f.id)} migration:`);
-          logger.info(error);
           logger.info();
-        }
-      } else {
-        fixStatus = FixStatus.SKIPPED;
-        logger.info(`Skipping the ${chalk.cyan(f.id)} migration.`);
-        logger.info();
-      }
-    }
+          const { shouldContinue } = await prompts(
+            {
+              type: 'toggle',
+              name: 'shouldContinue',
+              message:
+                'Select continue once you have made the required changes, or quit to exit the migration process',
+              initial: true,
+              active: 'continue',
+              inactive: 'quit',
+            },
+            {
+              onCancel: () => {
+                throw new Error();
+              },
+            }
+          );
 
-    fixResults[f.id] = fixStatus;
+          if (!shouldContinue) {
+            fixResults[f.id] = FixStatus.MANUAL_SKIPPED;
+            break;
+          }
+        } else {
+          runAnswer = await prompts(
+            {
+              type: 'confirm',
+              name: 'fix',
+              message: `Do you want to run the '${chalk.cyan(f.id)}' migration on your project?`,
+              initial: true,
+            },
+            {
+              onCancel: () => {
+                throw new Error();
+              },
+            }
+          );
+        }
+      } catch (err) {
+        break;
+      }
+
+      if (!f.promptOnly) {
+        if (runAnswer.fix) {
+          try {
+            await f.run({ result, packageManager, dryRun });
+            logger.info(`✅ ran ${chalk.cyan(f.id)} migration`);
+
+            fixResults[f.id] = FixStatus.SUCCEEDED;
+            fixSummary.succeeded.push(f.id);
+          } catch (error) {
+            fixResults[f.id] = FixStatus.FAILED;
+            fixSummary.failed[f.id] = error.message;
+
+            logger.info(`❌ error when running ${chalk.cyan(f.id)} migration`);
+            logger.info(error);
+            logger.info();
+          }
+        } else {
+          fixResults[f.id] = FixStatus.SKIPPED;
+          fixSummary.skipped.push(f.id);
+        }
+      }
+    } else {
+      fixResults[f.id] ||= FixStatus.UNNECESSARY;
+    }
   }
 
   logger.info();
@@ -103,10 +155,7 @@ export const automigrate = async ({ fixId, dryRun, yes, useNpm, force }: FixOpti
   return fixResults;
 };
 
-function getMigrationSummary(
-  fixResults: Record<string, FixStatus>,
-  fixSummary: { succeeded: FixId[]; failed: Record<FixId, string> }
-) {
+function getMigrationSummary(fixResults: Record<string, FixStatus>, fixSummary: FixSummary) {
   const hasNoFixes = Object.values(fixResults).every((r) => r === FixStatus.UNNECESSARY);
   const hasFailures = Object.values(fixResults).some(
     (r) => r === FixStatus.FAILED || r === FixStatus.CHECK_FAILED
@@ -121,7 +170,7 @@ function getMigrationSummary(
   const successfulFixesMessage =
     fixSummary.succeeded.length > 0
       ? `
-      ${chalk.bold('Migrations that succeeded:')}\n\n ${fixSummary.succeeded
+      ${chalk.bold('Successful migrations:')}\n\n ${fixSummary.succeeded
           .map((m) => chalk.green(m))
           .join(', ')}
     `
@@ -130,19 +179,39 @@ function getMigrationSummary(
   const failedFixesMessage =
     Object.keys(fixSummary.failed).length > 0
       ? `
-    ${chalk.bold('Migrations that failed:')}\n ${Object.entries(fixSummary.failed).reduce(
+    ${chalk.bold('Failed migrations:')}\n ${Object.entries(fixSummary.failed).reduce(
           (acc, [id, error]) => {
             return `${acc}\n${chalk.redBright(id)}:\n${error}\n`;
           },
           ''
         )}
-    \n`
+    `
+      : '';
+
+  const manualFixesMessage =
+    fixSummary.manual.length > 0
+      ? `
+      ${chalk.bold('Manual migrations:')}\n\n ${fixSummary.manual
+          .map((m) =>
+            fixResults[m] === FixStatus.MANUAL_SUCCEEDED ? chalk.green(m) : chalk.blue(m)
+          )
+          .join(', ')}
+    `
+      : '';
+
+  const skippedFixesMessage =
+    fixSummary.skipped.length > 0
+      ? `
+      ${chalk.bold('Skipped migrations:')}\n\n ${fixSummary.skipped
+          .map((m) => chalk.cyan(m))
+          .join(', ')}
+    `
       : '';
 
   const divider = hasNoFixes ? '' : '\n─────────────────────────────────────────────────\n\n';
 
   const summaryMessage = dedent`
-    ${successfulFixesMessage}${failedFixesMessage}${divider}If you'd like to run the migrations again, you can do so by running '${chalk.cyan(
+    ${successfulFixesMessage}${manualFixesMessage}${failedFixesMessage}${skippedFixesMessage}${divider}If you'd like to run the migrations again, you can do so by running '${chalk.cyan(
     'npx storybook@next automigrate'
   )}'
     
