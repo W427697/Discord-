@@ -1,3 +1,5 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-expect-error
 import loaderUtils from 'next/dist/compiled/loader-utils3';
 import { validateData } from '@next/font/dist/local/utils';
 import path from 'path';

@@ -1,10 +1,12 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-expect-error
+import loaderUtils from 'next/dist/compiled/loader-utils3';
 import {
   fetchCSSFromGoogleFonts,
   getFontAxes,
   getUrl,
   validateData,
 } from '@next/font/dist/google/utils';
-import loaderUtils from 'next/dist/compiled/loader-utils3';
 
 import type { LoaderOptions } from '../types';
 
