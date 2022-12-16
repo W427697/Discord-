@@ -242,9 +242,11 @@ import Changelog from '../CHANGELOG.md';
 
 <Changelog />
 ```
--->
+
 
 ![Changelog markdown in an MDX story](./changelog-mdx-md-transcludemarkdown-optimized.png)
+
+-->
 
 ## Linking to other stories and pages
 
@@ -273,3 +275,9 @@ You can also use anchors to target a specific section of a page:
 </div>
 
 ![MDX anchor example](./mdx-anchor.webp)
+
+#### Learn more about Storybook documentation
+
+- [Docs](./docs-page.md) for creating documentation for your stories
+- MDX for customizing your documentation
+- [Publishing docs](./build-documentation.md) to automate the process of publishing your documentation
