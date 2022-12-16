@@ -58,7 +58,7 @@
     "@vitejs/plugin-react": "^3.0.0",
     "ast-types": "^0.14.2",
     "magic-string": "^0.26.1",
-    "react-docgen": "^6.0.0-alpha.3"
+    "react-docgen": "6.0.0-alpha.3"
   },
   "devDependencies": {
     "@types/node": "^16.0.0",
