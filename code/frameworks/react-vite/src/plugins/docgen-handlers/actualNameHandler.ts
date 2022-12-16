@@ -12,13 +12,9 @@
 import { namedTypes as t } from 'ast-types';
 import type { NodePath } from 'ast-types/lib/node-path';
 import { utils } from 'react-docgen';
-import type { Importer, Documentation } from 'react-docgen';
+import type { Documentation } from 'react-docgen';
 
-export default function actualNameHandler(
-  documentation: Documentation,
-  path: NodePath,
-  importer: Importer
-): void {
+export default function actualNameHandler(documentation: Documentation, path: NodePath): void {
   if (t.ClassDeclaration.check(path.node) || t.FunctionDeclaration.check(path.node)) {
     documentation.set('actualName', utils.getNameOrValue(path.get('id')));
   } else if (
