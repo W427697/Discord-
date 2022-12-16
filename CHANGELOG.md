@@ -1,3 +1,9 @@
+## 7.0.0-beta.12 (December 16, 2022)
+
+#### Other
+
+-   Revert "Core: Wrap manager entries to handle exports" [#20311](https://github.com/storybooks/storybook/pull/20311)
+
 ## 7.0.0-beta.11 (December 16, 2022)
 
 #### Features
