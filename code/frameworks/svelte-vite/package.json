@@ -51,7 +51,6 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/addon-svelte-csf": "^3.0.0-next.0",
     "@storybook/builder-vite": "7.0.0-beta.10",
     "@storybook/node-logger": "7.0.0-beta.10",
     "@storybook/svelte": "7.0.0-beta.10",
@@ -67,14 +66,8 @@
     "typescript": "~4.9.3"
   },
   "peerDependencies": {
-    "@storybook/addon-svelte-csf": "^3.0.0-next.0",
     "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
     "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0"
-  },
-  "peerDependenciesMeta": {
-    "@storybook/addon-svelte-csf": {
-      "optional": true
-    }
   },
   "engines": {
     "node": "^14.18 || >=16"
