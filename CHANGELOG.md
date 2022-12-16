@@ -1,3 +1,25 @@
+## 7.0.0-beta.11 (December 16, 2022)
+
+#### Features
+
+-   CLI: Improve automigration to show prompt-only migrations [#20292](https://github.com/storybooks/storybook/pull/20292)
+
+#### Bug Fixes
+
+-   Angular: Fix webpackStatsJson types in angular-builder [#20296](https://github.com/storybooks/storybook/pull/20296)
+-   Fix: addon-storysource has no managerEntry, but defines a register and preset [#20304](https://github.com/storybooks/storybook/pull/20304)
+
+#### Maintenance
+
+-   Core: Wrap manager entries to handle exports [#20308](https://github.com/storybooks/storybook/pull/20308)
+-   Core: improve manager-entries failure message [#20306](https://github.com/storybooks/storybook/pull/20306)
+-   Telemetry: Fix flakey test [#20282](https://github.com/storybooks/storybook/pull/20282)
+
+#### Dependency Upgrades
+
+-   Vite: Make vite a peer dependency, update plugins [#20281](https://github.com/storybooks/storybook/pull/20281)
+-   Vite/Svelte: Remove addon-svelte-csf dep [#20280](https://github.com/storybooks/storybook/pull/20280)
+
 ## 7.0.0-beta.10 (December 16, 2022)
 
 #### Build
