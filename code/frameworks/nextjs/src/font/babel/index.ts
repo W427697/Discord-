@@ -5,13 +5,14 @@ import {
   isDefined,
   removeTransformedVariableDeclarations,
   replaceImportWithParamterImport,
-} from './babel.helpers';
+} from './helpers';
 
 type Babel = typeof BabelCoreNamespace;
 
 /**
  * Transforms "@next/font" imports and usages to a webpack loader friendly format with parameters
  * @example
+ * // src/example.js
  * // Turns this code:
  * import { Inter, Roboto } from '@next/font/google'
  * import localFont from '@next/font/local'
@@ -26,9 +27,9 @@ type Babel = typeof BabelCoreNamespace;
  * });
  *
  * // Into this code:
- * import inter from "@next/font/google?Inter;{\"subsets\":[\"latin\"]}";
- * import roboto from "@next/font/google?Roboto;{\"weight\":\"400\"}";
- * import myFont from "@next/font/local?localFont;{\"src\":\"./my-font.woff2\"}";
+ * import inter from 'storybook-nextjs-font-loader?{filename: "src/example.js", source: "@next/font/google", fontFamily: "Inter", props: {"subsets":["latin"]}}!@next/font/google'
+ * import roboto from 'storybook-nextjs-font-loader?{filename: "src/example.js", source: "@next/font/google", fontFamily: "Roboto", props: {"weight": "400"}}!@next/font/google'
+ * import myFont from 'storybook-nextjs-font-loader?{filename: "src/example.js", source: "@next/font/local", props: {"src": "./my-font.woff2"}}!@next/font/local'
  *
  * This Plugin tries to adopt the functionality which is provided by the nextjs swc plugin
  * https://github.com/vercel/next.js/pull/40221
@@ -37,9 +38,10 @@ export default function TransformFontImports({ types }: Babel): BabelCoreNamespa
   return {
     name: 'storybook-nextjs-font-imports',
     visitor: {
-      ImportDeclaration(path) {
+      ImportDeclaration(path, state) {
         const { node } = path;
         const { source } = node;
+        const { filename = '' } = state;
 
         if (source.value === '@next/font/local') {
           const { specifiers } = node;
@@ -56,7 +58,7 @@ export default function TransformFontImports({ types }: Babel): BabelCoreNamespa
           const variableMetas = getVariableMetasBySpecifier(program, types, specifier);
 
           removeTransformedVariableDeclarations(path, types, variableMetas);
-          replaceImportWithParamterImport(path, types, source, variableMetas);
+          replaceImportWithParamterImport(path, types, source, variableMetas, filename);
         }
 
         if (source.value === '@next/font/google') {
@@ -75,7 +77,7 @@ export default function TransformFontImports({ types }: Babel): BabelCoreNamespa
             .filter(isDefined);
 
           removeTransformedVariableDeclarations(path, types, variableMetas);
-          replaceImportWithParamterImport(path, types, source, variableMetas);
+          replaceImportWithParamterImport(path, types, source, variableMetas, filename);
         }
       },
     },

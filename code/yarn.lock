@@ -4429,10 +4429,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@next/font@npm:^13.0.6":
-  version: 13.0.6
-  resolution: "@next/font@npm:13.0.6"
-  checksum: 45d3722c2ae7724f74df29ba0ca59eb2766e6e68453b963f0c8b5bbb63646cf32bd1bac6ee847ac7dde3ac87b0dd3569a98e94a09778eae76c9f454df91cedad
+"@next/font@npm:^13.0.7":
+  version: 13.0.7
+  resolution: "@next/font@npm:13.0.7"
+  checksum: 16969448435900703df9ee9847ff26d00dd27dd26464786e291b13343cb22f11e394f0a7311ea4d3638dd14cac5ffb98a6f90aea0b75d56f5fc0b8e22c35740f
   languageName: node
   linkType: hard
 
@@ -6775,7 +6775,7 @@ __metadata:
   dependencies:
     "@babel/core": ^7.20.5
     "@babel/types": ^7.20.5
-    "@next/font": ^13.0.6
+    "@next/font": ^13.0.7
     "@storybook/addon-actions": 7.0.0-beta.12
     "@storybook/builder-webpack5": 7.0.0-beta.12
     "@storybook/core-common": 7.0.0-beta.12

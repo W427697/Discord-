@@ -150,7 +150,7 @@ export function removeTransformedVariableDeclarations(
 /**
  * Replaces `@next/font` import with a parameterized import
  * @example
- * // AST
+ * // AST of src/example.js
  * import { Roboto, Inter } from '@next/font/google'
  * const interName = Inter({
  *  subsets: ['latin'],
@@ -160,8 +160,8 @@ export function removeTransformedVariableDeclarations(
  * })
  *
  * // Result
- * import interName from '@next/font/google?Inter;{"subsets":["latin"]}'
- * import robotoName from '@next/font/google?Roboto;{"weight":"400"}'
+ * import interName from 'storybook-nextjs-font-loader?{filename: "src/example.js", source: "@next/font/google", fontFamily: "Inter", props: {"subsets":["latin"]}}!@next/font/google'
+ * import robotoName from 'storybook-nextjs-font-loader?{filename: "src/example.js", source: "@next/font/google", fontFamily: "Roboto", props: {"weight": "400"}}!@next/font/google'
  *
  * // Following code will be removed from removeUnusedVariableDeclarations function
  * const interName = Inter({
@@ -176,7 +176,8 @@ export function replaceImportWithParamterImport(
   path: BabelCoreNamespace.NodePath<BabelCoreNamespace.types.ImportDeclaration>,
   types: BabelTypes,
   source: BabelCoreNamespace.types.StringLiteral,
-  metas: Array<VariableMeta>
+  metas: Array<VariableMeta>,
+  filename: string
 ) {
   // Add an import for each specifier with parameters
   path.replaceWithMultiple([
@@ -184,11 +185,12 @@ export function replaceImportWithParamterImport(
       return types.importDeclaration(
         [types.importDefaultSpecifier(types.identifier(meta.identifierName))],
         types.stringLiteral(
-          // TODO
-          `${source.value}?${meta.functionName};${JSON.stringify(meta.properties).replace(
-            '\\"',
-            "'"
-          )}`
+          `storybook-nextjs-font-loader?${JSON.stringify({
+            source: source.value,
+            props: meta.properties,
+            fontFamily: meta.functionName,
+            filename,
+          })}!${source.value}`
         )
       );
     }),
