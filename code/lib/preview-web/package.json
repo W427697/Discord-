@@ -1,6 +1,6 @@
 {
   "name": "@storybook/preview-web",
-  "version": "7.0.0-beta.8",
+  "version": "7.0.0-beta.9",
   "description": "",
   "keywords": [
     "storybook"
@@ -42,8 +42,8 @@
     "prep": "../../../scripts/prepare/facade.ts"
   },
   "dependencies": {
-    "@storybook/client-logger": "7.0.0-beta.8",
-    "@storybook/preview-api": "7.0.0-beta.8"
+    "@storybook/client-logger": "7.0.0-beta.9",
+    "@storybook/preview-api": "7.0.0-beta.9"
   },
   "publishConfig": {
     "access": "public"
@@ -54,5 +54,5 @@
     ],
     "shim": "@storybook/preview-api/dist/preview-web"
   },
-  "gitHead": "5340574d89a799ec10959edc16ca140852cf355c"
+  "gitHead": "c466d4f77c3e8b99f28aaf508acdb9fd863550fd"
 }
