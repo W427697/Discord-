@@ -23,6 +23,7 @@ import type {
 import { getData } from './utils/data';
 import { safeResolve } from './utils/safeResolve';
 import { readOrderedFiles } from './utils/files';
+import { wrapManagerEntries } from './utils/managerEntries';
 
 let compilation: Compilation;
 let asyncIterator: ReturnType<StarterFunction> | ReturnType<BuilderFunction>;
@@ -34,10 +35,14 @@ export const getConfig: ManagerBuilder['getConfig'] = async (options) => {
     getTemplatePath('addon.tsconfig.json'),
   ]);
 
+  const entryPoints = customManagerEntryPoint
+    ? [...addonsEntryPoints, customManagerEntryPoint]
+    : addonsEntryPoints;
+
+  const realEntryPoints = await wrapManagerEntries(entryPoints);
+
   return {
-    entryPoints: customManagerEntryPoint
-      ? [...addonsEntryPoints, customManagerEntryPoint]
-      : addonsEntryPoints,
+    entryPoints: realEntryPoints,
     outdir: join(options.outputDir || './', 'sb-addons'),
     format: 'esm',
     write: false,
