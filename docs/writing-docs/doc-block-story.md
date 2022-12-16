@@ -19,16 +19,33 @@ With each story you write, Storybook will automatically generate a new `Story` D
 
 With MDX, the `Story` block is not only a way of rendering stories, but how you define them. Internally, Storybook looks for named `Story` instances located at the top of your document, or inside a [Canvas](./doc-block-canvas.md). Below is an abridged example and table featuring all the available options.
 
-| Option       | Description                                                                                                                                                                                                                                                    |
-| ------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `args`       | Provide the required component inputs (e.g., props). <br/> `<Story args={{ text: 'Button' }}/>` <br/> Read the [documentation](../writing-stories/args.md) to learn more.                                                                                      |
-| `decorators` | Provide additional markup or mock a data provider to allow proper story rendering. <br/> `<Story decorators={[(Story) => ( <div style={{ margin: '3em' }}><Story/></div>)]}/>` <br/> Read the [documentation](../writing-stories/decorators.md) to learn more. |
-| `id`         | Storybook's internal story identifier. Used for embedding Storybook stories inside Docs. <br/> `<Story id="example-mycomponent--starter"/>` <br/> Read the [documentation](../api/mdx.md#embedding-stories) to learn more.                                     |
-| `inline`     | Enables Storybook's inline renderer. <br/> `<Story inline={false}/>`                                                                                                                                                                                           |
-| `loaders`    | (Experimental) Asynchronous function for data fetching with stories. <br/> `<Story loaders={[async () => ({ data: await (await fetch('your-endpoint'))}) ]}/>` <br/> Read the [documentation](../writing-stories/loaders.md) to learn more.                    |
-| `name`       | Adds a name to the component story. <br/> `<Story name="Example"/>` .                                                                                                                                                                                          |
-| `parameters` | Provides the necessary static named metadata related to the story. <br/> `Story parameters={{ backgrounds: { values: [{ name:'red', value:'#f00' }] } }} />` <br/> Read the [documentation](../writing-stories/parameters.md) to learn more.                   |
-| `play`       | Generate component interactions. <br/> `<Story play={async () => { await userEvent.click(screen.getByRole('button')) }}/>` <br/> Read the [documentation](../writing-stories/play-function.md) to learn more.                                                  |
+| Option       | Description                                                                                                                                                                                                                                                                     |
+| ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `args`       | Provide the required component inputs (e.g., props). <br/> `<Story args={{ text: 'Button' }}/>` <br/> Read the [documentation](../writing-stories/args.md) to learn more.                                                                                                       |
+| `decorators` | Provide additional markup or mock a data provider to allow proper story rendering. <br/> `<Story decorators={[(Story) => ( <div style={{ margin: '3em' }}><Story/></div>)]}/>` <br/> Read the [documentation](../writing-stories/decorators.md) to learn more.                  |
+| `id`         | Storybook's internal story identifier. Used for embedding Storybook stories inside Docs. <br/> `<Story id="example-mycomponent--starter"/>` <br/> Read the <LinkWithVersion version="6.5" href="../api/mdx.md#embedding-stories">documentation</LinkWithVersion> to learn more. |
+| `inline`     | Enables Storybook's inline renderer. <br/> `<Story inline={false}/>` <br/> Read the [documentation](./docs-page.md#inline-stories-vs-iframe-stories) to learn more.                                                                                                             |
+| `loaders`    | (Experimental) Asynchronous function for data fetching with stories. <br/> `<Story loaders={[async () => ({ data: await (await fetch('your-endpoint'))}) ]}/>` <br/> Read the [documentation](../writing-stories/loaders.md) to learn more.                                     |
+| `name`       | Adds a name to the component story. <br/> `<Story name="Example"/>` .                                                                                                                                                                                                           |
+| `parameters` | Provides the necessary static named metadata related to the story. <br/> `Story parameters={{ backgrounds: { values: [{ name:'red', value:'#f00' }] } }} />` <br/> Read the [documentation](../writing-stories/parameters.md) to learn more.                                    |
+| `play`       | Generate component interactions. <br/> `<Story play={async () => { await userEvent.click(screen.getByRole('button')) }}/>` <br/> Read the [documentation](../writing-stories/play-function.md) to learn more.                                                                   |
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'react/component-story-mdx-story-by-name.mdx.mdx',
+    'angular/component-story-mdx-story-by-name.mdx.mdx',
+    'vue/component-story-mdx-story-by-name.mdx-2.mdx.mdx',
+    'vue/component-story-mdx-story-by-name.mdx-3.mdx.mdx',
+    'svelte/component-story-mdx-story-by-name.mdx.mdx',
+    'common/component-story-mdx-reference-storyid.mdx.mdx',
+  ]}
+  usesCsf3
+  csf2Path="writing-docs/doc-block-story#snippet-component-story-mdx-story-by-name"
+/>
+
+<!-- prettier-ignore-end -->
 
 ### Inline rendering
 

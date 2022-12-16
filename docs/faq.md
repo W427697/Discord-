@@ -266,7 +266,7 @@ We're only covering versions 5.3 and 5.0 as they were important milestones for S
 |                  | Types of addons                           | [See current documentation](./addons/addon-types.md)                                                       | Non existing feature or undocumented                                                                                                                                                                                                                                 | Non existing feature or undocumented                                                                                                                     |
 |                  | Addons API                                | [See current documentation](./addons/addons-api.md)                                                        | [See versioned documentation](https://github.com/storybookjs/storybook/tree/release/5.3/docs/src/pages/addons/api)                                                                                                                                                   | [See versioned documentation](https://github.com/storybookjs/storybook/tree/release/5.0/docs/src/pages/addons/api)                                       |
 | API              | Stories/Component Story Format            | [See current documentation](./api/csf.md)                                                                  | [See versioned documentation](https://github.com/storybookjs/storybook/tree/release/5.3/docs/src/pages/formats/component-story-format)                                                                                                                               | Non existing feature or undocumented                                                                                                                     |
-|                  | Stories/MDX syntax                        | [See current documentation](./api/mdx.md)                                                                  | [See versioned documentation](https://github.com/storybookjs/storybook/tree/release/5.3/docs/src/pages/formats/mdx-syntax)                                                                                                                                           | Non existing feature or undocumented                                                                                                                     |
+|                  | Stories/MDX syntax                        | [See current documentation](./writing-docs/mdx.md)                                                         | [See versioned documentation](https://github.com/storybookjs/storybook/tree/release/5.3/docs/src/pages/formats/mdx-syntax)                                                                                                                                           | Non existing feature or undocumented                                                                                                                     |
 |                  | Stories/StoriesOF format (see note below) | [See current documentation](https://github.com/storybookjs/storybook/blob/main/lib/core/docs/storiesOf.md) | [See versioned documentation](https://github.com/storybookjs/storybook/tree/release/5.3/docs/src/pages/formats/storiesof-api)                                                                                                                                        | Non existing feature or undocumented                                                                                                                     |
 |                  | Frameworks                                | [See current documentation](./api/new-frameworks.md)                                                       | Non existing feature or undocumented                                                                                                                                                                                                                                 | Non existing feature or undocumented                                                                                                                     |
 |                  | CLI options                               | [See current documentation](./api/cli-options.md)                                                          | [See versioned documentation](https://github.com/storybookjs/storybook/tree/release/5.3/docs/src/pages/configurations/cli-options)                                                                                                                                   | [See versioned documentation](https://github.com/storybookjs/storybook/tree/release/5.0/docs/src/pages/configurations/cli-options)                       |
@@ -327,6 +327,30 @@ Out of the box, Storybook provides syntax highlighting for a set of languages (e
 </div>
 
 Applying this small change will enable you to add syntax highlight for SCSS or any other language available.
+
+You can also update your [`.storybook/preview.js`](../configure/overview.md#configure-story-rendering) and enable syntax highlighting globally. For example, to add support for SCSS, update your configuration to the following:
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+   'common/storybook-preview-register-language-globally.js.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
+
+Write your documentation as you usually would, and your existing SCSS code blocks will automatically be highlighted when Storybook reloads. For example:
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+   'common/my-component-with-global-syntax-highlight.mdx.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
 
 ### Why aren't my MDX 2 stories working in Storybook?
 

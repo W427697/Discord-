@@ -491,11 +491,6 @@ module.exports = {
               type: 'link',
             },
             {
-              pathSegment: 'mdx',
-              title: 'MDX syntax',
-              type: 'link',
-            },
-            {
               pathSegment: 'argtypes',
               title: 'ArgTypes',
               type: 'link',
