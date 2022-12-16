@@ -15,6 +15,10 @@
     - [Local Images](#local-images)
     - [Remote Images](#remote-images)
     - [AVIF](#avif)
+  - [Next.js Font Optimization](#nextjs-font-optimization)
+    - [@next/font/google](#nextfontgoogle)
+    - [@next/font/local](#nextfontlocal)
+    - [Not supported features of @next/font](#not-supported-features-of-nextfont)
   - [Next.js Routing](#nextjs-routing)
     - [Overriding defaults](#overriding-defaults)
     - [Global Defaults](#global-defaults)
@@ -44,6 +48,8 @@
 ## Supported Features
 
 👉 [Next.js's Image Component](#nextjss-image-component)
+
+👉 [Next.js Font Optimization](#nextjs-font-optimization)
 
 👉 [Next.js Routing (next/router)](#nextjs-routing)
 
@@ -207,6 +213,54 @@ export default function Home() {
 #### AVIF
 
 This format is not supported by this framework yet. Feel free to [open up an issue](https://github.com/storybookjs/storybook/issues) if this is something you want to see.
+
+### Next.js Font Optimization
+
+[@next/font](https://nextjs.org/docs/basic-features/font-optimization) is partially supported in Storybook. The packages `@next/font/google` and `@next/font/local` are supported.
+
+#### @next/font/google
+
+You don't have to do anything. `@next/font/google` is supported out of the box.
+
+#### @next/font/local
+
+For local fonts you have to define the [src](https://nextjs.org/docs/api-reference/next/font#src) property.
+The path is relative to the directory where the font loader function is called.
+
+If the following component defines your localFont like this:
+
+```js
+// src/components/MyComponent.js
+import localFont from '@next/font/local';
+
+const localRubikStorm = localFont({ src: './fonts/RubikStorm-Regular.ttf' });
+```
+
+You have to tell Storybook where the `fonts` directory is located:
+
+```js
+// .storybook/main.js
+module.exports = {
+  ...
+  "staticDirs": [
+    {
+      from: '../src/components/fonts',
+      to: 'src/components/fonts'
+    }
+  ],
+}
+```
+
+#### Not supported features of @next/font
+
+The following features are not supported (yet). Support for these features might be planned for the future:
+
+- [Support font loaders configuration in next.config.js](https://nextjs.org/docs/basic-features/font-optimization#specifying-a-subset)
+- [fallback](https://nextjs.org/docs/api-reference/next/font#fallback) option
+- [adjustFontFallback](https://nextjs.org/docs/api-reference/next/font#adjustfontfallback) option
+- [declarations](https://nextjs.org/docs/api-reference/next/font#declarations) option
+- [preload](https://nextjs.org/docs/api-reference/next/font#preload) option gets ignored. Storybook handles Font loading its own way.
+- [display](https://nextjs.org/docs/api-reference/next/font#display) option gets ignored. All fonts are loaded with display set to "block" to make Storybook load the font properly.
 
 ### Next.js Routing
 
