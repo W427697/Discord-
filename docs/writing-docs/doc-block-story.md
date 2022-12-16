@@ -7,13 +7,13 @@ In Storybook Docs, stories are rendered in the `Story` block.
 
 ![Docs blocks with stories](./docblock-story.png)
 
-## Working with the DocsPage
+## Working with Automatic Docs
 
-With each story you write, Storybook will automatically generate a new `Story` Doc Block, wrapped inside a [`Canvas`](./doc-block-canvas.md)(with a toolbar if it's the first "primary" story) alongside a [source code ](./doc-block-source.md) preview underneath it. Below is a condensed table of the available configuration options.
+With each story you write, Storybook will automatically generate a new `Story` Doc Block, wrapped inside a [`Canvas`](./doc-block-canvas.md)(with a toolbar if it's the first "primary" story) alongside a [source code](./doc-block-source.md) preview underneath it. Below is a condensed table of the available configuration options.
 
-| Option          | Description                                                                                                                                                                                                   |
-| --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `inlineStories` | Configures Storybook to render stories inline. <br/> `docs: { inlineStories: false }` <br/> Read the [documentation](./docs-page.md#inline-stories-vs-iframe-stories) for inline rendering framework support. |
+| Option          | Description                                                                           |
+| --------------- | ------------------------------------------------------------------------------------- |
+| `inlineStories` | Configures Storybook to render stories inline. <br/> `docs: { inlineStories: false }` |
 
 ## Working with MDX
 
@@ -49,4 +49,4 @@ With MDX, the `Story` block is not only a way of rendering stories, but how you 
 
 ### Inline rendering
 
-All stories are rendered in the Preview iframe for isolated development in Storybook's Canvas. With Docs, if your framework supports [inline rendering](./docs-page.md#inline-stories-vs-iframe-stories), it will be used by default for both performance and convenience. However, you can force this feature by providing the required configuration option (see tables above).
+All stories are rendered in the Preview iframe for isolated development in Storybook's Canvas. With Docs, if your framework supports inline rendering, it will be used by default for both performance and convenience. However, you can force this feature by providing the required configuration option (see tables above).

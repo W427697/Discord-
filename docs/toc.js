@@ -112,7 +112,7 @@ module.exports = {
         },
         {
           pathSegment: 'docs-page',
-          title: 'DocsPage',
+          title: 'Docs',
           type: 'link',
         },
         {

@@ -46,11 +46,10 @@ export const sveltekitFramework: Fix<SvelteKitFrameworkRunOptions> = {
 
     const sbVersionCoerced = storybookVersion && semver.coerce(storybookVersion)?.version;
     if (!sbVersionCoerced) {
-      logger.warn(dedent`
-        ❌ Unable to determine Storybook version, skipping ${chalk.cyan(fixId)} fix.
+      throw new Error(dedent`
+        ❌ Unable to determine storybook version.
         🤔 Are you running automigrate from your project directory?
       `);
-      return null;
     }
 
     if (!semver.gte(sbVersionCoerced, '7.0.0')) {

@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-storyshots",
-  "version": "7.0.0-beta.8",
+  "version": "7.0.0-beta.10",
   "description": "Take a code snapshot of every story automatically with Jest",
   "keywords": [
     "addon",
@@ -39,11 +39,11 @@
   "dependencies": {
     "@jest/transform": "^29.3.1",
     "@storybook/babel-plugin-require-context-hook": "1.0.1",
-    "@storybook/client-api": "7.0.0-beta.8",
-    "@storybook/core-common": "7.0.0-beta.8",
-    "@storybook/core-webpack": "7.0.0-beta.8",
-    "@storybook/preview-api": "7.0.0-beta.8",
-    "@storybook/types": "7.0.0-beta.8",
+    "@storybook/client-api": "7.0.0-beta.10",
+    "@storybook/core-common": "7.0.0-beta.10",
+    "@storybook/core-webpack": "7.0.0-beta.10",
+    "@storybook/preview-api": "7.0.0-beta.10",
+    "@storybook/types": "7.0.0-beta.10",
     "@types/glob": "^7.1.3",
     "@types/jest-specific-snapshot": "^0.5.6",
     "core-js": "^3.8.2",
@@ -60,11 +60,11 @@
     "@angular/core": "^13.3.6",
     "@angular/platform-browser-dynamic": "^13.3.6",
     "@emotion/jest": "^11.8.0",
-    "@storybook/addon-docs": "7.0.0-beta.8",
-    "@storybook/angular": "7.0.0-beta.8",
-    "@storybook/react": "7.0.0-beta.8",
-    "@storybook/vue": "7.0.0-beta.8",
-    "@storybook/vue3": "7.0.0-beta.8",
+    "@storybook/addon-docs": "7.0.0-beta.10",
+    "@storybook/angular": "7.0.0-beta.10",
+    "@storybook/react": "7.0.0-beta.10",
+    "@storybook/vue": "7.0.0-beta.10",
+    "@storybook/vue3": "7.0.0-beta.10",
     "babel-loader": "^8.3.0",
     "enzyme": "^3.11.0",
     "enzyme-to-json": "^3.6.1",
@@ -142,7 +142,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "5340574d89a799ec10959edc16ca140852cf355c",
+  "gitHead": "e0ac32774403f7b73348cb1a4ebdabce0c641d86",
   "storybook": {
     "displayName": "Storyshots",
     "icon": "https://user-images.githubusercontent.com/263385/101991676-48cdf300-3c7c-11eb-8aa1-944dab6ab29b.png",
