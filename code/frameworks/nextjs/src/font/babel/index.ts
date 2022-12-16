@@ -1,4 +1,3 @@
-/* eslint-disable import/no-duplicates */
 import type * as BabelCoreNamespace from '@babel/core';
 import {
   getVariableMetasBySpecifier,
