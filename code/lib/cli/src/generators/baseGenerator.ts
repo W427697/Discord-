@@ -153,7 +153,6 @@ export async function baseGenerator(
     addonPackages.push('@storybook/addon-interactions', '@storybook/testing-library');
   }
 
-  // TODO: add vite and plugins somehow here
   const files = await fse.readdir(process.cwd());
 
   const packageJson = packageManager.retrievePackageJson();
