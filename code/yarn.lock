@@ -5737,22 +5737,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/addon-svelte-csf@npm:^2.0.0":
-  version: 2.0.10
-  resolution: "@storybook/addon-svelte-csf@npm:2.0.10"
-  dependencies:
-    ts-dedent: ^2.0.0
-  peerDependencies:
-    "@storybook/svelte": ">=6.4.20"
-    svelte: ^3.46.6
-    svelte-loader: ^3.1.2
-  peerDependenciesMeta:
-    svelte-loader:
-      optional: true
-  checksum: fc128896f0d7416fd671d7e392a11ced20f150dbddbac39a2e9f9948145409fdba1380d800a40ffc663a664829e01cffa71d2ec1ec4845c18f804117025a9d85
-  languageName: node
-  linkType: hard
-
 "@storybook/addon-toolbars@7.0.0-beta.10, @storybook/addon-toolbars@workspace:*, @storybook/addon-toolbars@workspace:addons/toolbars":
   version: 0.0.0-use.local
   resolution: "@storybook/addon-toolbars@workspace:addons/toolbars"
@@ -7568,7 +7552,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/svelte-vite@workspace:frameworks/svelte-vite"
   dependencies:
-    "@storybook/addon-svelte-csf": ^2.0.0
     "@storybook/builder-vite": 7.0.0-beta.10
     "@storybook/node-logger": 7.0.0-beta.10
     "@storybook/svelte": 7.0.0-beta.10
@@ -7581,13 +7564,9 @@ __metadata:
     typescript: ~4.9.3
     vite: ^4.0.0
   peerDependencies:
-    "@storybook/addon-svelte-csf": ^2.0.0
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
     vite: ^3.0.0 || ^4.0.0
-  peerDependenciesMeta:
-    "@storybook/addon-svelte-csf":
-      optional: true
   languageName: unknown
   linkType: soft
 
@@ -7644,11 +7623,7 @@ __metadata:
     typescript: ^4.9.3
     vite: ^4.0.0
   peerDependencies:
-    "@storybook/addon-svelte-csf": ^2.0.0
     vite: ^4.0.0
-  peerDependenciesMeta:
-    "@storybook/addon-svelte-csf":
-      optional: true
   languageName: unknown
   linkType: soft
 

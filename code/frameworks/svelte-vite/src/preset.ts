@@ -29,19 +29,6 @@ export const viteFinal: NonNullable<StorybookConfig['viteFinal']> = async (confi
 
   await handleSvelteKit(plugins, options);
 
-  // TODO: temporary until/unless https://github.com/storybookjs/addon-svelte-csf/issues/64 is fixed
-  // Wrapping in try-catch in case `@storybook/addon-svelte-csf is not installed
-  try {
-    const { default: svelteCsfPlugin } = await import('./plugins/csf-plugin');
-    plugins.push(svelteCsfPlugin(svelteConfig));
-  } catch (err) {
-    // Not all projects use `.stories.svelte` for stories, and by default 6.5+ does not auto-install @storybook/addon-svelte-csf.
-    // If it's any other kind of error, re-throw.
-    if ((err as NodeJS.ErrnoException).code !== 'MODULE_NOT_FOUND') {
-      throw err;
-    }
-  }
-
   return {
     ...config,
     plugins,
