@@ -7,6 +7,8 @@
 - [Getting Started](#getting-started)
   - [In a project without Storybook](#in-a-project-without-storybook)
   - [In a project with Storybook](#in-a-project-with-storybook)
+    - [Automatic migration](#automatic-migration)
+    - [Manual migration](#manual-migration)
 - [Documentation](#documentation)
   - [Options](#options)
   - [Next.js's Image Component](#nextjss-image-component)
@@ -87,6 +89,12 @@ This framework is designed to work with Storybook 7. If you’re not already usi
 ```bash
 npx storybook@next upgrade --prerelease
 ```
+
+#### Automatic migration
+
+When running the `upgrade` command above, you should get a prompt asking you to migrate to `@storybook/nextjs`, which should handle everything for you. In case that auto-migration does not work for your project, refer to the manual migration below.
+
+#### Manual migration
 
 Install the framework:
 
