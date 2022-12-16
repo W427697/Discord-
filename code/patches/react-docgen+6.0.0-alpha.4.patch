@@ -1,0 +1,26 @@
+diff --git a/node_modules/react-docgen/dist/FileState.js b/node_modules/react-docgen/dist/FileState.js
+index ed5f2de..9dabf8f 100644
+--- a/node_modules/react-docgen/dist/FileState.js
++++ b/node_modules/react-docgen/dist/FileState.js
+@@ -10,8 +10,11 @@ var __classPrivateFieldGet = (this && this.__classPrivateFieldGet) || function (
+     return kind === "m" ? f : kind === "a" ? f.call(receiver) : f ? f.value : state.get(receiver);
+ };
+ var _FileState_importer;
+-import traverse, { NodePath } from '@babel/traverse';
++import * as babelraverse from '@babel/traverse';
+ import babelParse from './babelParser.js';
++
++const { default: traverse, NodePath } = babelraverse
++
+ export default class FileState {
+     constructor(options, { code, ast, importer }) {
+         _FileState_importer.set(this, void 0);
+@@ -68,7 +71,7 @@ export default class FileState {
+      * Traverse the current file
+      */
+     traverse(visitors, state) {
+-        traverse.default(this.ast, visitors, this.scope, state);
++        traverse(this.ast, visitors, this.scope, state);
+     }
+ }
+ _FileState_importer = new WeakMap();

@@ -7397,6 +7397,7 @@ __metadata:
     npmlog: ^5.0.1
     nx: 14.6.1
     p-limit: ^3.1.0
+    patch-package: ^6.5.0
     playwright: 1.28.0
     prettier: 2.8.0
     process: ^0.11.10
@@ -9976,7 +9977,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@yarnpkg/lockfile@npm:1.1.0":
+"@yarnpkg/lockfile@npm:1.1.0, @yarnpkg/lockfile@npm:^1.1.0":
   version: 1.1.0
   resolution: "@yarnpkg/lockfile@npm:1.1.0"
   checksum: 0bfa50a3d756623d1f3409bc23f225a1d069424dbc77c6fd2f14fb377390cd57ec703dc70286e081c564be9051ead9ba85d81d66a3e68eeb6eb506d4e0c0fbda
@@ -13670,7 +13671,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cross-spawn@npm:^6.0.0":
+"cross-spawn@npm:^6.0.0, cross-spawn@npm:^6.0.5":
   version: 6.0.5
   resolution: "cross-spawn@npm:6.0.5"
   dependencies:
@@ -17256,6 +17257,15 @@ __metadata:
   dependencies:
     semver-regex: ^3.1.2
   checksum: 4ed736f0604e9249104fb8679850ad8bfb9262142e79f86bc88e1e731e6958616a1dd6b0d6814634e993e7a59efaa1546a92e0d47a22534c6e79ec382ea60950
+  languageName: node
+  linkType: hard
+
+"find-yarn-workspace-root@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "find-yarn-workspace-root@npm:2.0.0"
+  dependencies:
+    micromatch: ^4.0.2
+  checksum: b0d3843013fbdaf4e57140e0165889d09fa61745c9e85da2af86e54974f4cc9f1967e40f0d8fc36a79d53091f0829c651d06607d552582e53976f3cd8f4e5689
   languageName: node
   linkType: hard
 
@@ -22206,6 +22216,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"klaw-sync@npm:^6.0.0":
+  version: 6.0.0
+  resolution: "klaw-sync@npm:6.0.0"
+  dependencies:
+    graceful-fs: ^4.1.11
+  checksum: 00d8e4c48d0d699b743b3b028e807295ea0b225caf6179f51029e19783a93ad8bb9bccde617d169659fbe99559d73fb35f796214de031d0023c26b906cecd70a
+  languageName: node
+  linkType: hard
+
 "kleur@npm:4.1.4":
   version: 4.1.4
   resolution: "kleur@npm:4.1.4"
@@ -25262,7 +25281,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"open@npm:^7.0.3":
+"open@npm:^7.0.3, open@npm:^7.4.2":
   version: 7.4.2
   resolution: "open@npm:7.4.2"
   dependencies:
@@ -25851,6 +25870,30 @@ __metadata:
   version: 0.1.1
   resolution: "pascalcase@npm:0.1.1"
   checksum: 48dfe90618e33810bf58211d8f39ad2c0262f19ad6354da1ba563935b5f429f36409a1fb9187c220328f7a4dc5969917f8e3e01ee089b5f1627b02aefe39567b
+  languageName: node
+  linkType: hard
+
+"patch-package@npm:^6.5.0":
+  version: 6.5.0
+  resolution: "patch-package@npm:6.5.0"
+  dependencies:
+    "@yarnpkg/lockfile": ^1.1.0
+    chalk: ^4.1.2
+    cross-spawn: ^6.0.5
+    find-yarn-workspace-root: ^2.0.0
+    fs-extra: ^7.0.1
+    is-ci: ^2.0.0
+    klaw-sync: ^6.0.0
+    minimist: ^1.2.6
+    open: ^7.4.2
+    rimraf: ^2.6.3
+    semver: ^5.6.0
+    slash: ^2.0.0
+    tmp: ^0.0.33
+    yaml: ^1.10.2
+  bin:
+    patch-package: index.js
+  checksum: 14b5d73fa48d299ba93f78a884ec8d366388950aa71fcc663a78c658eca956b8374ccff9bcd68ee351d1b14fd3adf60a4a14c05f95ed6854cbb440bc6ae83434
   languageName: node
   linkType: hard
 
