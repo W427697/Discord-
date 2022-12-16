@@ -6321,7 +6321,7 @@ __metadata:
     "@types/pretty-hrtime": ^1.0.0
     chalk: ^4.1.0
     esbuild: ^0.16.4
-    esbuild-register: ^3.3.3
+    esbuild-register: ^3.4.2
     express: ^4.17.3
     file-system-cache: ^2.0.0
     find-up: ^5.0.0
@@ -15682,14 +15682,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"esbuild-register@npm:^3.3.3":
-  version: 3.4.1
-  resolution: "esbuild-register@npm:3.4.1"
+"esbuild-register@npm:^3.4.2":
+  version: 3.4.2
+  resolution: "esbuild-register@npm:3.4.2"
   dependencies:
     debug: ^4.3.4
   peerDependencies:
     esbuild: ">=0.12 <1"
-  checksum: 6364c96f83fc4720d907d6342605f5891986c2a30fbc0a249047195ea5b02c0f7e4e698aa262875b37088f44ca741331d35c026d2606778d114fe082d560957d
+  checksum: a7cb278126cf46fee04dad05e362c47e586aaa4bbaa43fc74931f85929b756077a01ee30ebec05c4096c915a980d2d2e75ec7df55685de5a58fa90595a0a1153
   languageName: node
   linkType: hard
 
