@@ -88,6 +88,10 @@ jobs:
     steps:
       - git-shallow-clone/checkout_advanced:
           clone_options: '--depth 1 --verbose'
+      - restore_cache:
+          name: Restore Yarn cache
+          keys:
+            - build-yarn-2-cache-v4--{{ checksum "code/yarn.lock" }}--{{ checksum "scripts/yarn.lock" }}
       - run:
           name: Prettier
           command: |
