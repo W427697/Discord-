@@ -129,6 +129,30 @@ export function removeTransformedVariableDeclarations(
   metas: VariableMeta[]
 ) {
   path.parentPath.traverse({
+    ExportNamedDeclaration(declaratorPath) {
+      if (!declaratorPath.parentPath?.isProgram()) {
+        return;
+      }
+
+      metas.forEach((meta) => {
+        if (
+          types.isVariableDeclaration(declaratorPath.node.declaration) &&
+          declaratorPath.node.declaration.declarations.length === 1 &&
+          types.isVariableDeclarator(declaratorPath.node.declaration.declarations[0]) &&
+          types.isIdentifier(declaratorPath.node.declaration.declarations[0].id) &&
+          meta.identifierName === declaratorPath.node.declaration.declarations[0].id.name
+        ) {
+          declaratorPath.replaceWith(
+            types.exportNamedDeclaration(null, [
+              types.exportSpecifier(
+                types.identifier(meta.identifierName),
+                types.identifier(meta.identifierName)
+              ),
+            ])
+          );
+        }
+      });
+    },
     VariableDeclarator(declaratorPath) {
       if (!declaratorPath.parentPath.parentPath?.isProgram()) {
         return;
@@ -230,11 +254,24 @@ export function getVariableMetasBySpecifier(
 ) {
   return program.node.body
     .map((statement) => {
-      if (!types.isVariableDeclaration(statement)) {
+      if (!types.isVariableDeclaration(statement) && !types.isExportNamedDeclaration(statement)) {
         return undefined;
       }
 
-      const declaration = statement.declarations[0];
+      const exportedNamedDeclaration =
+        !types.isVariableDeclaration(statement) &&
+        types.isVariableDeclaration(statement.declaration) &&
+        statement.declaration.declarations.length === 1
+          ? statement.declaration.declarations[0]
+          : null;
+
+      const declaration = types.isVariableDeclaration(statement)
+        ? statement.declarations[0]
+        : exportedNamedDeclaration;
+
+      if (!declaration) {
+        return undefined;
+      }
 
       if (!types.isIdentifier(declaration.id)) {
         return undefined;
