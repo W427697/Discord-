@@ -32,6 +32,7 @@ export const viteFinal: StorybookConfig['viteFinal'] = async (config, { presets 
 
   if (reactDocgenOption === 'react-docgen-typescript' && typescriptPresent) {
     plugins.push(
+      // eslint-disable-next-line import/no-extraneous-dependencies
       require('@joshwooding/vite-plugin-react-docgen-typescript')({
         ...reactDocgenTypescriptOptions,
         // We *need* this set so that RDT returns default values in the same format as react-docgen
