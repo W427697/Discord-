@@ -257,12 +257,8 @@ export class StoryIndexGenerator {
         }
       }
     } catch (err) {
-      if (err instanceof NoMetaError) {
-        logger.info(`💡 Skipping ${relativePath}: ${err}`);
-      } else {
-        logger.warn(`🚨 Extraction error on ${relativePath}: ${err}`);
-        throw err;
-      }
+      logger.warn(`🚨 Extraction error on ${relativePath}: ${err}`);
+      throw err;
     }
     return { entries, type: 'stories', dependents: [] } as StoriesCacheEntry;
   }
