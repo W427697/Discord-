@@ -78,6 +78,7 @@
   },
   "devDependencies": {
     "@testing-library/react": "^11.2.2",
+    "resize-observer-polyfill": "^1.5.1",
     "typescript": "~4.9.3"
   },
   "peerDependencies": {

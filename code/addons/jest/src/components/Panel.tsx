@@ -3,9 +3,9 @@ import React, { Fragment } from 'react';
 import { styled, themes, convert } from '@storybook/theming';
 import { ScrollArea, TabsState, Link, Placeholder } from '@storybook/components';
 import ResizeObserver from 'react-resize-detector';
-import Result from './Result';
+import { Result } from './Result';
 import type { Test } from '../hoc/provideJestResult';
-import provideJestResult from '../hoc/provideJestResult';
+import { provideTests as provideJestResult } from '../hoc/provideJestResult';
 
 const StatusTypes = {
   PASSED_TYPE: 'passed',
