@@ -41,7 +41,6 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@joshwooding/vite-plugin-react-docgen-typescript": "0.0.5",
     "@storybook/client-logger": "7.0.0-beta.12",
     "@storybook/core-common": "7.0.0-beta.12",
     "@storybook/csf-plugin": "7.0.0-beta.12",
