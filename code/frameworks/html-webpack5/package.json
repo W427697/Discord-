@@ -1,6 +1,6 @@
 {
   "name": "@storybook/html-webpack5",
-  "version": "7.0.0-beta.11",
+  "version": "7.0.0-beta.12",
   "description": "Storybook for HTML: View HTML snippets in isolation with Hot Reloading.",
   "keywords": [
     "storybook"
@@ -50,10 +50,10 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/builder-webpack5": "7.0.0-beta.11",
-    "@storybook/core-common": "7.0.0-beta.11",
-    "@storybook/html": "7.0.0-beta.11",
-    "@storybook/preset-html-webpack": "7.0.0-beta.11",
+    "@storybook/builder-webpack5": "7.0.0-beta.12",
+    "@storybook/core-common": "7.0.0-beta.12",
+    "@storybook/html": "7.0.0-beta.12",
+    "@storybook/preset-html-webpack": "7.0.0-beta.12",
     "@types/node": "^16.0.0",
     "global": "^4.4.0"
   },
@@ -78,5 +78,5 @@
     ],
     "platform": "node"
   },
-  "gitHead": "f488007ad9e0ff9c4ade4837f584db87fa0d46eb"
+  "gitHead": "dd52c7e8853bc40791deb55e36473c0c18ab5957"
 }
