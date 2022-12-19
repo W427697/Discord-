@@ -236,7 +236,7 @@ import localFont from '@next/font/local';
 const localRubikStorm = localFont({ src: './fonts/RubikStorm-Regular.ttf' });
 ```
 
-You have to tell Storybook where the `fonts` directory is located:
+You have to tell Storybook where the `fonts` directory is located. The `from` value is relative to the `.storybook` directory. The `to` value is relative to the execution context of Storybook. Very likely it is the root of your project.
 
 ```js
 // .storybook/main.js
