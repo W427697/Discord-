@@ -69,14 +69,8 @@ function iframeMiddleware(options: ExtendedOptions, server: ViteDevServer): Requ
 
 let server: ViteDevServer;
 
-export async function bail(e?: Error): Promise<void> {
-  try {
-    return await server.close();
-  } catch (err) {
-    console.warn('unable to close vite server');
-  }
-
-  throw e;
+export async function bail(): Promise<void> {
+  return server?.close();
 }
 
 export const start: ViteBuilder['start'] = async ({

@@ -14,7 +14,6 @@ const logger = console;
 interface SvelteKitFrameworkRunOptions {
   main: ConfigFile;
   packageJson: PackageJsonWithDepsAndDevDeps;
-  frameworkOptions: Record<string, any> | undefined;
   dependenciesToRemove: string[];
 }
 
@@ -47,11 +46,10 @@ export const sveltekitFramework: Fix<SvelteKitFrameworkRunOptions> = {
 
     const sbVersionCoerced = storybookVersion && semver.coerce(storybookVersion)?.version;
     if (!sbVersionCoerced) {
-      logger.warn(dedent`
-        ❌ Unable to determine Storybook version, skipping ${chalk.cyan(fixId)} fix.
+      throw new Error(dedent`
+        ❌ Unable to determine storybook version.
         🤔 Are you running automigrate from your project directory?
       `);
-      return null;
     }
 
     if (!semver.gte(sbVersionCoerced, '7.0.0')) {
@@ -70,7 +68,6 @@ export const sveltekitFramework: Fix<SvelteKitFrameworkRunOptions> = {
     }
 
     const framework = typeof frameworkConfig === 'string' ? frameworkConfig : frameworkConfig.name;
-    const frameworkOptions = main.getFieldValue(['framework', 'options']);
 
     if (framework === '@storybook/sveltekit') {
       // already using the new framework
@@ -81,7 +78,6 @@ export const sveltekitFramework: Fix<SvelteKitFrameworkRunOptions> = {
       // direct migration from svelte-vite projects
       return {
         main,
-        frameworkOptions,
         packageJson,
         dependenciesToRemove: ['@storybook/svelte-vite'],
       };
@@ -125,7 +121,6 @@ export const sveltekitFramework: Fix<SvelteKitFrameworkRunOptions> = {
     // migration from 6.x projects using Svelte with the Vite builder
     return {
       main,
-      frameworkOptions,
       packageJson,
       dependenciesToRemove: [builder],
     };
@@ -146,11 +141,7 @@ export const sveltekitFramework: Fix<SvelteKitFrameworkRunOptions> = {
     `;
   },
 
-  async run({
-    result: { main, frameworkOptions, packageJson, dependenciesToRemove },
-    packageManager,
-    dryRun,
-  }) {
+  async run({ result: { main, packageJson, dependenciesToRemove }, packageManager, dryRun }) {
     logger.info(`✅ Removing redundant packages: ${dependenciesToRemove.join(', ')}`);
     if (!dryRun) {
       packageManager.removeDependencies({ skipInstall: true, packageJson }, dependenciesToRemove);
@@ -165,12 +156,7 @@ export const sveltekitFramework: Fix<SvelteKitFrameworkRunOptions> = {
     }
 
     logger.info(`✅ Updating framework field in main.js`);
-    if (frameworkOptions) {
-      main.setFieldValue(['framework', 'options'], frameworkOptions);
-      main.setFieldValue(['framework', 'name'], '@storybook/sveltekit');
-    } else {
-      main.setFieldValue(['framework'], '@storybook/sveltekit');
-    }
+    main.setFieldValue(['framework'], '@storybook/sveltekit');
 
     const currentCore = main.getFieldValue(['core']);
     if (currentCore.builder) {
@@ -182,6 +168,11 @@ export const sveltekitFramework: Fix<SvelteKitFrameworkRunOptions> = {
       } else {
         main.setFieldValue(['core'], core);
       }
+    }
+
+    if (main.getFieldNode(['svelteOptions'])) {
+      logger.info(`✅ Removing svelteOptions field in main.js`);
+      main.removeField(['svelteOptions']);
     }
 
     if (!dryRun) {
