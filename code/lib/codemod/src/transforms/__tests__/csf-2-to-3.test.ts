@@ -7,8 +7,10 @@ expect.addSnapshotSerializer({
   test: () => true,
 });
 
-const jsTransform = (source: string) => _transform({ source }, null, {}).trim();
-const tsTransform = (source: string) => _transform({ source }, null, { parser: 'tsx' }).trim();
+const jsTransform = (source: string) =>
+  _transform({ source, path: 'Component.stories.js' }, null, {}).trim();
+const tsTransform = (source: string) =>
+  _transform({ source, path: 'Component.stories.ts' }, null, { parser: 'tsx' }).trim();
 
 describe('csf-2-to-3', () => {
   describe('javascript', () => {
