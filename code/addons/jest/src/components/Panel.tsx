@@ -2,7 +2,7 @@ import type { FC } from 'react';
 import React, { Fragment } from 'react';
 import { styled, themes, convert } from '@storybook/theming';
 import { ScrollArea, TabsState, Link, Placeholder } from '@storybook/components';
-import { SizeMe } from 'react-sizeme';
+import ResizeObserver from 'react-resize-detector';
 import Result from './Result';
 import type { Test } from '../hoc/provideJestResult';
 import provideJestResult from '../hoc/provideJestResult';
@@ -134,8 +134,8 @@ const Content = styled(({ tests, className }: ContentProps) => (
       const sortedTestsByCount = [...entries].sort((a, b) => a[1].length - b[1].length);
 
       return (
-        <SizeMe refreshMode="debounce" key={name}>
-          {({ size }: { size: any }) => {
+        <ResizeObserver refreshMode="debounce" key={name}>
+          {(size) => {
             const { width } = size;
             return (
               <section>
@@ -259,7 +259,7 @@ const Content = styled(({ tests, className }: ContentProps) => (
               </section>
             );
           }}
-        </SizeMe>
+        </ResizeObserver>
       );
     })}
   </div>

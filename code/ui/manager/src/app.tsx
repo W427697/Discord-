@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 import React, { useMemo } from 'react';
-import sizeMe from 'react-sizeme';
+import ResizeObserver from 'react-resize-detector';
 
 import { type State } from '@storybook/manager-api';
 import { Symbols } from '@storybook/components';
@@ -27,14 +27,12 @@ export interface AppProps {
   viewMode: State['viewMode'];
   layout: State['layout'];
   panelCount: number;
-  size: {
-    width: number;
-    height: number;
-  };
+  width: number;
+  height: number;
 }
 
 const App = React.memo<AppProps>(
-  ({ viewMode, layout, panelCount, size: { width, height } }) => {
+  ({ viewMode, layout, panelCount, width, height }) => {
     let content;
 
     const props = useMemo(
@@ -109,7 +107,11 @@ const App = React.memo<AppProps>(
   }
 );
 
-const SizedApp = sizeMe({ monitorHeight: true })(App);
+const SizedApp = (props: Omit<AppProps, 'width' | 'height'>) => (
+  <ResizeObserver>
+    {({ width, height }) => <App {...props} {...{ width, height }} />}
+  </ResizeObserver>
+);
 
 App.displayName = 'App';
 
