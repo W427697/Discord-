@@ -14,6 +14,7 @@ type FixId = string;
 
 interface FixOptions {
   fixId?: FixId;
+  list?: boolean;
   yes?: boolean;
   dryRun?: boolean;
   useNpm?: boolean;
@@ -37,21 +38,26 @@ type FixSummary = {
   failed: Record<FixId, string>;
 };
 
-export const automigrate = async ({ fixId, dryRun, yes, useNpm, force }: FixOptions = {}) => {
-  const packageManager = JsPackageManagerFactory.getPackageManager({ useNpm, force });
+const logAvailableMigrations = () => {
+  const availableFixes = allFixes.map((f) => chalk.yellow(f.id)).join(', ');
+  logger.info(`\nThe following migrations are available: ${availableFixes}`);
+};
+
+export const automigrate = async ({ fixId, dryRun, yes, useNpm, force, list }: FixOptions = {}) => {
+  if (list) {
+    logAvailableMigrations();
+    return null;
+  }
+
   const fixes = fixId ? allFixes.filter((f) => f.id === fixId) : allFixes;
 
   if (fixId && fixes.length === 0) {
-    const availableFixes = allFixes.map((f) => chalk.yellow(f.id)).join(', ');
-    logger.info(
-      dedent`
-        📭 No migrations found for ${chalk.magenta(fixId)}.
-
-        The following migrations are available: ${availableFixes}
-      `
-    );
-    return;
+    logger.info(`📭 No migrations found for ${chalk.magenta(fixId)}.`);
+    logAvailableMigrations();
+    return null;
   }
+
+  const packageManager = JsPackageManagerFactory.getPackageManager({ useNpm, force });
 
   logger.info('🔎 checking possible migrations..');
   const fixResults = {} as Record<FixId, FixStatus>;
