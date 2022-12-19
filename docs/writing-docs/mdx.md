@@ -289,7 +289,7 @@ In Storybook 7.0 MDX2 (https://mdxjs.com/blog/v2/) is used, which contains break
 When you run `npx storybook upgrade` to upgrade your storybook, part of that script will help you upgrade your MDX files to MDX2; or take you part of the way there. Some manual work might be required, depending on your own needs.
 We suggest you do read this MDX2 migration guide here: https://mdxjs.com/migrating/v2/#update-mdx-files
 
-In MDX1 storybook automatically added "Github Flavoured Markdown" support (GFM for short). In Storybook 7.0 this is no longer the case, and therefore if you want this, you need to modify your storybook's `mina.js` config file to add it.
+In MDX1 storybook automatically added "Github Flavoured Markdown" support (GFM for short). In Storybook 7.0 this is no longer the case, and therefore if you want this, you need to modify your storybook's `main.js` config file to add it.
 It will look something like this:
 
 ```js
