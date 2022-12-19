@@ -22,7 +22,7 @@ import type {
 import { userOrAutoTitleFromSpecifier, sortStoriesV7 } from '@storybook/preview-api';
 import { normalizeStoryPath } from '@storybook/core-common';
 import { logger } from '@storybook/node-logger';
-import { getStorySortParameter, NoMetaError } from '@storybook/csf-tools';
+import { getStorySortParameter } from '@storybook/csf-tools';
 import { toId } from '@storybook/csf';
 import { analyze } from '@storybook/docs-mdx';
 
