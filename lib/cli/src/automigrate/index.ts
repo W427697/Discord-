@@ -43,6 +43,7 @@ export const automigrate = async ({ fixId, dryRun, yes }: FixOptions = {}) => {
           type: 'confirm',
           name: 'fix',
           message: `Do you want to run the '${chalk.cyan(f.id)}' migration on your project?`,
+          initial: true,
         });
       }
 
