@@ -1,4 +1,4 @@
-import globalThis from 'global';
+import { global as globalThis } from '@storybook/global';
 import { userEvent, within } from '@storybook/testing-library';
 import { PREVIEW_KEYDOWN } from '@storybook/core-events';
 import { jest, expect } from '@storybook/jest';
