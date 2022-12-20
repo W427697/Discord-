@@ -85,9 +85,9 @@ export const automigrate = async ({ fixId, dryRun, yes, useNpm, force, list }: F
     logAvailableMigrations();
     return null;
   }
-  
+
   augmentLogsToFile();
-  
+
   const packageManager = JsPackageManagerFactory.getPackageManager({ useNpm, force });
 
   logger.info('🔎 checking possible migrations..');
