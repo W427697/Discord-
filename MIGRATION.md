@@ -269,7 +269,7 @@ In the meantime, these migration notes are the best available documentation on t
 
 #### Dropped support for Node 15 and below
 
-Storybook 7.0 requires Node 16 or above. If you are using an older version of Node, you will need to upgrade or keep using Storybook 6 in the meantime.
+Storybook 7.0 requires **Node 16** or above. If you are using an older version of Node, you will need to upgrade or keep using Storybook 6 in the meantime.
 
 #### React peer dependencies required
 
@@ -362,10 +362,10 @@ The named export has been available since 6.0 or earlier, so your updated code w
 #### Modern browser support
 
 Starting in storybook 7.0, storybook will no longer support IE11, amongst other legacy browser versions.
-We now transpile our code with a target of `chrome >= 100` and node code is transpiled with a target of `node >= 14`.
+We now transpile our code with a target of `chrome >= 100` and node code is transpiled with a target of `node >= 16`.
 
-This means code-features such as (but not limited to) `async/await`, arrow-functions, `const`,`let`, etc will exists in the code at runtime, and thus the runtime environment must support it.
-Not just the runtime needs to support it, but some legacy loaders for webpack or other transpilation tools might need to be updated as well. For example certain versions of webpack 4 had parsers that could not parse the new syntax (e.g. optional chaining).
+This means code-features such as (but not limited to) `async/await`, arrow-functions, `const`,`let`, etc will exist in the code at runtime, and thus the runtime environment must support it.
+Not just the runtime needs to support it, but some legacy loaders for webpack or other transpilation tools might need to be updated as well. For example, certain versions of webpack 4 had parsers that could not parse the new syntax (e.g. optional chaining).
 
 Some addons or libraries might depended on this legacy browser support, and thus might break. You might get an error like:
 
