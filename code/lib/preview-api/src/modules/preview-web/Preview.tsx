@@ -89,9 +89,10 @@ export class Preview<TFramework extends Renderer> {
 
     this.setupListeners();
 
-    return this.getProjectAnnotationsOrRenderError(getProjectAnnotations).then(
-      (projectAnnotations) => this.initializeWithProjectAnnotations(projectAnnotations)
-    );
+    return SynchronousPromise.all([
+      this.prepareProjectAnnotationsOrRenderError(getProjectAnnotations),
+      this.prepareStoryIndex(),
+    ]).then(() => {});
   }
 
   setupListeners() {
@@ -104,9 +105,9 @@ export class Preview<TFramework extends Renderer> {
     this.channel.on(FORCE_REMOUNT, this.onForceRemount.bind(this));
   }
 
-  getProjectAnnotationsOrRenderError(
+  prepareProjectAnnotationsOrRenderError(
     getProjectAnnotations: () => MaybePromise<ProjectAnnotations<TFramework>>
-  ): Promise<ProjectAnnotations<TFramework>> {
+  ) {
     return SynchronousPromise.resolve()
       .then(getProjectAnnotations)
       .then((projectAnnotations) => {
@@ -136,9 +137,25 @@ export class Preview<TFramework extends Renderer> {
   // If initialization gets as far as project annotations, this function runs.
   initializeWithProjectAnnotations(projectAnnotations: ProjectAnnotations<TFramework>) {
     this.storyStore.setProjectAnnotations(projectAnnotations);
-
     this.setInitialGlobals();
+  }
 
+  async setInitialGlobals() {
+    this.emitGlobals();
+  }
+
+  emitGlobals() {
+    if (!this.storyStore.globals || !this.storyStore.projectAnnotations)
+      throw new Error(`Cannot emit before initialization`);
+
+    const payload: SetGlobalsPayload = {
+      globals: this.storyStore.globals.get() || {},
+      globalTypes: this.storyStore.projectAnnotations.globalTypes || {},
+    };
+    this.channel.emit(SET_GLOBALS, payload);
+  }
+
+  prepareStoryIndex() {
     let storyIndexPromise: Promise<StoryIndex>;
     if (global.FEATURES?.storyStoreV7) {
       storyIndexPromise = this.getStoryIndexFromServer();
@@ -155,21 +172,6 @@ export class Preview<TFramework extends Renderer> {
         this.renderPreviewEntryError('Error loading story index:', err);
         throw err;
       });
-  }
-
-  async setInitialGlobals() {
-    this.emitGlobals();
-  }
-
-  emitGlobals() {
-    if (!this.storyStore.globals || !this.storyStore.projectAnnotations)
-      throw new Error(`Cannot emit before initialization`);
-
-    const payload: SetGlobalsPayload = {
-      globals: this.storyStore.globals.get() || {},
-      globalTypes: this.storyStore.projectAnnotations.globalTypes || {},
-    };
-    this.channel.emit(SET_GLOBALS, payload);
   }
 
   async getStoryIndexFromServer() {

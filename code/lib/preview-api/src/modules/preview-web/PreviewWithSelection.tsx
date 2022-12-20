@@ -70,6 +70,16 @@ export class PreviewWithSelection<TFramework extends Renderer> extends Preview<T
     super();
   }
 
+  initialize(options: Parameters<Preview<TFramework>['initialize']>[0]) {
+    return super.initialize(options).then(() => {
+      if (!global.FEATURES?.storyStoreV7) {
+        this.channel.emit(SET_INDEX, this.storyStore.getSetIndexPayload());
+      }
+
+      return this.selectSpecifiedStory();
+    });
+  }
+
   setupListeners() {
     super.setupListeners();
 
@@ -80,12 +90,6 @@ export class PreviewWithSelection<TFramework extends Renderer> extends Preview<T
     this.channel.on(PRELOAD_ENTRIES, this.onPreloadStories.bind(this));
   }
 
-  initializeWithProjectAnnotations(projectAnnotations: ProjectAnnotations<TFramework>) {
-    return super
-      .initializeWithProjectAnnotations(projectAnnotations)
-      .then(() => this.setInitialGlobals());
-  }
-
   async setInitialGlobals() {
     if (!this.storyStore.globals)
       throw new Error(`Cannot call setInitialGlobals before initialization`);
@@ -94,18 +98,8 @@ export class PreviewWithSelection<TFramework extends Renderer> extends Preview<T
     if (globals) {
       this.storyStore.globals.updateFromPersisted(globals);
     }
-    this.emitGlobals();
-  }
 
-  // If initialization gets as far as the story index, this function runs.
-  initializeWithStoryIndex(storyIndex: StoryIndex): PromiseLike<void> {
-    return super.initializeWithStoryIndex(storyIndex).then(() => {
-      if (!global.FEATURES?.storyStoreV7) {
-        this.channel.emit(SET_INDEX, this.storyStore.getSetIndexPayload());
-      }
-
-      return this.selectSpecifiedStory();
-    });
+    super.setInitialGlobals();
   }
 
   // Use the selection specifier to choose a story, then render it
