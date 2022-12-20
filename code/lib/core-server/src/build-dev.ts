@@ -15,7 +15,7 @@ import {
   validateFrameworkName,
 } from '@storybook/core-common';
 import prompts from 'prompts';
-import global from 'global';
+import { global } from '@storybook/global';
 import { telemetry } from '@storybook/telemetry';
 
 import { join, resolve } from 'path';
