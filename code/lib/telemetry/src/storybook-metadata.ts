@@ -13,6 +13,7 @@ import { getActualPackageVersion, getActualPackageVersions } from './package-jso
 import { getMonorepoType } from './get-monorepo-type';
 import { cleanPaths } from './sanitize';
 import { getFrameworkInfo } from './get-framework-info';
+import { getChromaticVersionSpecifier } from './get-chromatic-version';
 
 export const metaFrameworks = {
   next: 'Next',
@@ -121,6 +122,15 @@ export const computeStorybookMetadata = async ({
         version: undefined,
       };
     });
+  }
+
+  const chromaticVersionSpecifier = getChromaticVersionSpecifier(packageJson);
+  if (chromaticVersionSpecifier) {
+    addons.chromatic = {
+      version: undefined,
+      versionSpecifier: chromaticVersionSpecifier,
+      options: undefined,
+    };
   }
 
   const addonVersions = await getActualPackageVersions(addons);
