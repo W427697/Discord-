@@ -1,6 +1,4 @@
 /// <reference types="@types/jest" />;
-// Need to import jest as mockJest for annoying jest reasons. Is there a better way?
-import { jest, jest as mockJest, it, describe, expect, beforeEach } from '@jest/globals';
 
 import {
   STORY_ARGS_UPDATED,
@@ -34,12 +32,12 @@ function mockChannel() {
   return new Channel({ transport });
 }
 
-const mockGetEntries = jest.fn<() => StoryIndex['entries']>();
+const mockGetEntries = jest.fn();
 
 jest.mock('../lib/events');
 jest.mock('global', () => ({
-  ...(mockJest.requireActual('global') as Record<string, any>),
-  fetch: mockJest.fn(() => ({ json: () => ({ v: 4, entries: mockGetEntries() }) })),
+  ...(jest.requireActual('global') as Record<string, any>),
+  fetch: jest.fn(() => ({ json: () => ({ v: 4, entries: mockGetEntries() }) })),
   FEATURES: { storyStoreV7: true },
   CONFIG_TYPE: 'DEVELOPMENT',
 }));
