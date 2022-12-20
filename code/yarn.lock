@@ -5283,7 +5283,8 @@ __metadata:
     axe-core: ^4.2.0
     global: ^4.4.0
     lodash: ^4.17.21
-    react-sizeme: ^3.0.1
+    react-resize-detector: ^7.1.2
+    resize-observer-polyfill: ^1.5.1
     typescript: ~4.9.3
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
@@ -5496,7 +5497,7 @@ __metadata:
     "@storybook/preview-api": 7.0.0-beta.12
     "@storybook/theming": 7.0.0-beta.12
     global: ^4.4.0
-    react-sizeme: ^3.0.1
+    react-resize-detector: ^7.1.2
     typescript: ~4.9.3
     upath: ^1.2.0
   peerDependencies:
@@ -6728,7 +6729,7 @@ __metadata:
     react-dom: ^16.8.0
     react-draggable: ^4.4.3
     react-helmet-async: ^1.0.7
-    react-sizeme: ^3.0.1
+    react-resize-detector: ^7.1.2
     resolve-from: ^5.0.0
     semver: ^7.3.7
     store2: ^2.14.2
@@ -11462,13 +11463,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"batch-processor@npm:1.0.0":
-  version: 1.0.0
-  resolution: "batch-processor@npm:1.0.0"
-  checksum: 048b868811bed4cd03a0eec35264055f0f3fe4ab62f501809dce4a8a7b845d905fa5051b4af8b3c5123181116b1e2b6dfabf608829043b60cf61f4da3a359b60
-  languageName: node
-  linkType: hard
-
 "batch@npm:0.6.1":
   version: 0.6.1
   resolution: "batch@npm:0.6.1"
@@ -14868,15 +14862,6 @@ __metadata:
   version: 1.4.284
   resolution: "electron-to-chromium@npm:1.4.284"
   checksum: 33a7509755efbc0e13e81cdf0486ed37ea354857213b92a987a81e229083c1b2ee5f663c1103db9e5ec142a611e0daeeee02f757f7184833866f8aecb7046c2b
-  languageName: node
-  linkType: hard
-
-"element-resize-detector@npm:^1.2.2":
-  version: 1.2.4
-  resolution: "element-resize-detector@npm:1.2.4"
-  dependencies:
-    batch-processor: 1.0.0
-  checksum: 8c180c8c2a6d5b83678f994e937890f06db6355009cce2bde3c690a45510c92f53f927431926b27db416739aa7b661c7d3afe237d17cd16491ecccfa740cda08
   languageName: node
   linkType: hard
 
@@ -27476,6 +27461,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-resize-detector@npm:^7.1.2":
+  version: 7.1.2
+  resolution: "react-resize-detector@npm:7.1.2"
+  dependencies:
+    lodash: ^4.17.21
+  peerDependencies:
+    react: ^16.0.0 || ^17.0.0 || ^18.0.0
+    react-dom: ^16.0.0 || ^17.0.0 || ^18.0.0
+  checksum: 2285b0024bcc736c7d5e80279e819835a5e8bef0899778100d2434b1c4b10971e6ae253df073ca96a20cacc47b3c249bc675479e5fc4ec1f6652fcca7f48ec22
+  languageName: node
+  linkType: hard
+
 "react-router-dom@npm:6.0.2":
   version: 6.0.2
   resolution: "react-router-dom@npm:6.0.2"
@@ -27497,18 +27494,6 @@ __metadata:
   peerDependencies:
     react: ">=16.8"
   checksum: 60f9b079c03b6d213740cda937ba7265c2b6ce31d3e9cd9155fa64fb5b62fa5b15cfa9a487fb272809d935e4238697833d5910bb9aaed89b948c0071e3e5c399
-  languageName: node
-  linkType: hard
-
-"react-sizeme@npm:^3.0.1":
-  version: 3.0.2
-  resolution: "react-sizeme@npm:3.0.2"
-  dependencies:
-    element-resize-detector: ^1.2.2
-    invariant: ^2.2.4
-    shallowequal: ^1.1.0
-    throttle-debounce: ^3.0.1
-  checksum: e6b336bbc1e9de78de5c7177afd398f6ea14c4284af698475f08d34389e9307cbc36c0125a61b158e026f182ae4dd17b13c28683bbc1a371792bccd1e51cccff
   languageName: node
   linkType: hard
 
@@ -28630,6 +28615,13 @@ __metadata:
   version: 3.0.1
   resolution: "reselect@npm:3.0.1"
   checksum: b4bced93369e33832befc245253e2ce2f64ac007bbdf013a260c7b29e23dff8cf82e0415b0d05b85279bc8fc8af4a5f92bd261d3e0e9cbe4e5c1869f8b0ec5a6
+  languageName: node
+  linkType: hard
+
+"resize-observer-polyfill@npm:^1.5.1":
+  version: 1.5.1
+  resolution: "resize-observer-polyfill@npm:1.5.1"
+  checksum: 5e882475067f0b97dc07e0f37c3e335ac5bc3520d463f777cec7e894bb273eddbfecb857ae668e6fb6881fd6f6bb7148246967172139302da50fa12ea3a15d95
   languageName: node
   linkType: hard
 
@@ -31281,13 +31273,6 @@ __metadata:
   dependencies:
     any-promise: ^1.0.0
   checksum: f375aeb2b05c100a456a30bc3ed07ef03a39cbdefe02e0403fb714b8c7e57eeaad1a2f5c4ecfb9ce554ce3db9c2b024eba144843cd9e344566d9fcee73b04767
-  languageName: node
-  linkType: hard
-
-"throttle-debounce@npm:^3.0.1":
-  version: 3.0.1
-  resolution: "throttle-debounce@npm:3.0.1"
-  checksum: c8e558479463b7ed8bac30d6b10cc87abd1c9fc64edfce2db4109be1a04acaef5d2d0557f49c1a3845ea07d9f79e6e0389b1b60db0a77c44e5b7a1216596f285
   languageName: node
   linkType: hard
 
