@@ -26,7 +26,7 @@ module.exports = {
     '\\.(md)$': path.resolve('./__mocks__/htmlMock.js'),
   },
   transform: {
-    '^.+\\.(t|j)sx?$': ['@swc/jest'],
+    '^.+\\.(t|j)sx?$': '@swc/jest',
     '^.+\\.mdx$': '@storybook/addon-docs/jest-transform-mdx',
   },
   transformIgnorePatterns: ['/node_modules/(?!@angular|rxjs|nanoid|uuid|lit-html|@mdx-js)'],
