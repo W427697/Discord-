@@ -6,7 +6,7 @@ Storybook's `Description` Doc Block displays the component's description obtaine
 
 ![Docs blocks with description](./docblock-description.png)
 
-## Working with the DocsPage
+## Working with Automatic Docs
 
 Storybook extracts the component's description and renders it at the top of the page. It is automatically generated from the docgen component for the [supported frameworks](../api/frameworks-feature-support.md) based on the component's source code. Below is an abridged example and available options.
 

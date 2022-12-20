@@ -437,24 +437,21 @@ async function run() {
 
         if (process.env.CI) {
           logger.error(
-            boxen(
-              dedent`
-                To reproduce this error locally, run:
+            dedent`
+              To reproduce this error locally, run:
 
-                  ${getCommand('yarn task', options, {
-                    ...allOptionValues,
-                    link: true,
-                    startFrom: 'auto',
-                  })}
-                
-                Note this uses locally linking which in rare cases behaves differently to CI. For a closer match, run:
-                
-                  ${getCommand('yarn task', options, {
-                    ...allOptionValues,
-                    startFrom: 'auto',
-                  })}`,
-              { borderStyle: 'round', padding: 1, borderColor: '#F1618C' } as any
-            )
+              ${getCommand('yarn task', options, {
+                ...allOptionValues,
+                link: true,
+                startFrom: 'auto',
+              })}
+              
+              Note this uses locally linking which in rare cases behaves differently to CI. For a closer match, run:
+              
+              ${getCommand('yarn task', options, {
+                ...allOptionValues,
+                startFrom: 'auto',
+              })}`
           );
         }
 

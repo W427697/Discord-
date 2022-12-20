@@ -109,7 +109,9 @@ export async function storybookDevServer(options: Options) {
   // this is a preview route, the builder has to be started before we can serve it
   // this handler keeps request to that route pending until the builder is ready to serve it, preventing a 404
   router.get('/iframe.html', (req, res, next) => {
-    previewStarted.then(() => next());
+    // We need to catch here or node will treat any errors thrown by `previewStarted` as
+    // unhandled and exit (even though they are very much handled below)
+    previewStarted.catch(() => {}).then(() => next());
   });
 
   Promise.all([initializedStoryIndexGenerator, listening, usingStatics]).then(async () => {
