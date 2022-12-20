@@ -1,3 +1,10 @@
+## 6.5.15-alpha.1 (December 20, 2022)
+
+#### Bug Fixes
+
+-   Support Angular 15.0.4 [#20287](https://github.com/storybooks/storybook/pull/20287)
+-   CLI: execute automigrations when pressing enter in the prompts [#20208](https://github.com/storybooks/storybook/pull/20208)
+
 ## 6.5.15-alpha.0 (December 12, 2022)
 
 #### Maintenance
