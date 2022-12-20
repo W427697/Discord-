@@ -1,4 +1,4 @@
-import globalThis from 'global';
+import { global as globalThis } from '@storybook/global';
 import { expect } from '@storybook/jest';
 import { within } from '@storybook/testing-library';
 
