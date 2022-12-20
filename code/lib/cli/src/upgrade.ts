@@ -192,6 +192,12 @@ export const doUpgrade = async ({
   }).output.toString();
   logger.info(check);
 
+  const checkSb = spawnSync('npx', ['npm-check-updates@latest', 'sb', ...flags], {
+    stdio: 'pipe',
+    shell: true,
+  }).output.toString();
+  logger.info(checkSb);
+
   if (!dryRun) {
     commandLog(`Installing upgrades`);
     packageManager.installDependencies();

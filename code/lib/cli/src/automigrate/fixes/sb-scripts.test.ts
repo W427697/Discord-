@@ -12,6 +12,7 @@ describe('getStorybookScripts', () => {
   it('detects default storybook scripts', () => {
     expect(
       getStorybookScripts({
+        'sb:upgrade': 'sb upgrade',
         storybook: 'start-storybook',
         'build-storybook': 'build-storybook',
       })
@@ -23,6 +24,10 @@ describe('getStorybookScripts', () => {
       storybook: {
         before: 'start-storybook',
         after: 'storybook dev',
+      },
+      'sb:upgrade': {
+        before: 'sb upgrade',
+        after: 'storybook upgrade',
       },
     });
   });
@@ -135,27 +140,10 @@ describe('sb-scripts fix', () => {
       const packageJson = {
         dependencies: {
           '@storybook/react': '^7.0.0-alpha.0',
-          storybook: '^7.0.0-alpha.0',
         },
         scripts: {
           storybook: 'storybook dev -p 6006',
           'build-storybook': 'storybook build -o build/storybook',
-        },
-      };
-      it('should no-op', async () => {
-        await expect(
-          checkSbScripts({
-            packageJson,
-          })
-        ).resolves.toBeFalsy();
-      });
-    });
-
-    describe('with storybook lib installed', () => {
-      const packageJson = {
-        dependencies: {
-          '@storybook/react': '^7.0.0-alpha.0',
-          storybook: '^7.0.0-alpha.0',
         },
       };
       it('should no-op', async () => {

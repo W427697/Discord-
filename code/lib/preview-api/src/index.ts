@@ -70,6 +70,7 @@ export {
   setProjectAnnotations,
   inferControls,
   userOrAutoTitleFromSpecifier,
+  userOrAutoTitle,
   sortStoriesV7,
 } from './store';
 
