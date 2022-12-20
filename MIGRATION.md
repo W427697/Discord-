@@ -269,7 +269,7 @@ In the meantime, these migration notes are the best available documentation on t
 
 #### Dropped support for Node 15 and below
 
-Storybook 7.0 requires Node 16 or above. If you are using olders version of Node, you will need to upgrade, or keep using Storybook 6 in the meantime.
+Storybook 7.0 requires Node 16 or above. If you are using an older version of Node, you will need to upgrade or keep using Storybook 6 in the meantime.
 
 #### React peer dependencies required
 
