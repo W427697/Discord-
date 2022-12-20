@@ -1,5 +1,5 @@
 /* eslint-disable no-underscore-dangle */
-import global from 'global';
+import { global } from '@storybook/global';
 import { dedent } from 'ts-dedent';
 import { SynchronousPromise } from 'synchronous-promise';
 import { toId, isExportStory, storyNameFromExport } from '@storybook/csf';

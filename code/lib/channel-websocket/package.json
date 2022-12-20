@@ -44,7 +44,7 @@
   "dependencies": {
     "@storybook/channels": "7.0.0-beta.12",
     "@storybook/client-logger": "7.0.0-beta.12",
-    "global": "^4.4.0",
+    "@storybook/global": "^5.0.0",
     "telejson": "^7.0.3"
   },
   "devDependencies": {

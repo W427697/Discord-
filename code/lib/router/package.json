@@ -52,8 +52,8 @@
     "qs": "^6.10.0"
   },
   "devDependencies": {
+    "@storybook/global": "^5.0.0",
     "dequal": "^2.0.2",
-    "global": "^4.4.0",
     "lodash": "^4.17.21",
     "react-router-dom": "6.0.2",
     "ts-dedent": "^2.0.0",

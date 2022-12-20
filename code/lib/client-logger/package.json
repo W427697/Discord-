@@ -42,7 +42,7 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "global": "^4.4.0"
+    "@storybook/global": "^5.0.0"
   },
   "devDependencies": {
     "typescript": "~4.9.3"
