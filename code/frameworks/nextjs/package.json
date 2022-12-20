@@ -59,6 +59,7 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
+    "@storybook/addon-actions": "7.0.0-beta.12",
     "@storybook/builder-webpack5": "7.0.0-beta.12",
     "@storybook/core-common": "7.0.0-beta.12",
     "@storybook/node-logger": "7.0.0-beta.12",
@@ -87,7 +88,6 @@
   },
   "peerDependencies": {
     "@babel/core": "^7.11.5",
-    "@storybook/addon-actions": "^7.0.0-beta.12",
     "next": "^9.0.0 || ^10.0.0 || ^11.0.0 || ^12.0.0 || ^13.0.0",
     "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
     "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0",
