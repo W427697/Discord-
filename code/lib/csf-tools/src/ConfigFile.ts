@@ -1,8 +1,11 @@
 /* eslint-disable no-underscore-dangle */
 import fs from 'fs-extra';
+
 import * as t from '@babel/types';
-import generate from '@babel/generator';
-import traverse from '@babel/traverse';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import * as generate from '@babel/generator';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import * as traverse from '@babel/traverse';
 import { babelParse } from './babelParse';
 
 const logger = console;
@@ -13,6 +16,7 @@ const propKey = (p: t.ObjectProperty) => {
   return null;
 };
 
+// eslint-disable-next-line @typescript-eslint/naming-convention
 const _getPath = (path: string[], node: t.Node): t.Node | undefined => {
   if (path.length === 0) {
     return node;
@@ -27,6 +31,28 @@ const _getPath = (path: string[], node: t.Node): t.Node | undefined => {
   return undefined;
 };
 
+// eslint-disable-next-line @typescript-eslint/naming-convention
+const _getPathProperties = (path: string[], node: t.Node): t.ObjectProperty[] | undefined => {
+  if (path.length === 0) {
+    if (t.isObjectExpression(node)) {
+      return node.properties as t.ObjectProperty[];
+    }
+    throw new Error('Expected object expression');
+  }
+  if (t.isObjectExpression(node)) {
+    const [first, ...rest] = path;
+    const field = node.properties.find((p: t.ObjectProperty) => propKey(p) === first);
+    if (field) {
+      // FXIME handle spread etc.
+      if (rest.length === 0) return node.properties as t.ObjectProperty[];
+
+      return _getPathProperties(rest, (field as t.ObjectProperty).value);
+    }
+  }
+  return undefined;
+};
+
+// eslint-disable-next-line @typescript-eslint/naming-convention
 const _findVarInitialization = (identifier: string, program: t.Program) => {
   let init: t.Expression | null | undefined = null;
   let declarations: t.VariableDeclarator[] | null = null;
@@ -55,6 +81,7 @@ const _findVarInitialization = (identifier: string, program: t.Program) => {
   return init;
 };
 
+// eslint-disable-next-line @typescript-eslint/naming-convention
 const _makeObjectExpression = (path: string[], value: t.Expression): t.Expression => {
   if (path.length === 0) return value;
   const [first, ...rest] = path;
@@ -62,6 +89,7 @@ const _makeObjectExpression = (path: string[], value: t.Expression): t.Expressio
   return t.objectExpression([t.objectProperty(t.identifier(first), innerExpression)]);
 };
 
+// eslint-disable-next-line @typescript-eslint/naming-convention
 const _updateExportNode = (path: string[], expr: t.Expression, existing: t.ObjectExpression) => {
   const [first, ...rest] = path;
   const existingField = existing.properties.find(
@@ -100,7 +128,31 @@ export class ConfigFile {
   parse() {
     // eslint-disable-next-line @typescript-eslint/no-this-alias
     const self = this;
-    traverse(this._ast, {
+    traverse.default(this._ast, {
+      ExportDefaultDeclaration: {
+        enter({ node, parent }) {
+          const decl =
+            t.isIdentifier(node.declaration) && t.isProgram(parent)
+              ? _findVarInitialization(node.declaration.name, parent)
+              : node.declaration;
+
+          if (t.isObjectExpression(decl)) {
+            self._exportsObject = decl;
+            decl.properties.forEach((p: t.ObjectProperty) => {
+              const exportName = propKey(p);
+              if (exportName) {
+                let exportVal = p.value;
+                if (t.isIdentifier(exportVal)) {
+                  exportVal = _findVarInitialization(exportVal.name, parent as t.Program);
+                }
+                self._exports[exportName] = exportVal as t.Expression;
+              }
+            });
+          } else {
+            logger.warn(`Unexpected ${JSON.stringify(node)}`);
+          }
+        },
+      },
       ExportNamedDeclaration: {
         enter({ node, parent }) {
           if (t.isVariableDeclaration(node.declaration)) {
@@ -165,10 +217,17 @@ export class ConfigFile {
     return _getPath(rest, exported);
   }
 
+  getFieldProperties(path: string[]) {
+    const [root, ...rest] = path;
+    const exported = this._exports[root];
+    if (!exported) return undefined;
+    return _getPathProperties(rest, exported);
+  }
+
   getFieldValue(path: string[]) {
     const node = this.getFieldNode(path);
     if (node) {
-      const { code } = generate(node, {});
+      const { code } = generate.default(node, {});
       // eslint-disable-next-line no-eval
       const value = (0, eval)(`(() => (${code}))()`);
       return value;
@@ -195,6 +254,63 @@ export class ConfigFile {
     }
   }
 
+  removeField(path: string[]) {
+    const removeProperty = (properties: t.ObjectProperty[], prop: string) => {
+      const index = properties.findIndex(
+        (p) =>
+          (t.isIdentifier(p.key) && p.key.name === prop) ||
+          (t.isStringLiteral(p.key) && p.key.value === prop)
+      );
+      if (index >= 0) {
+        properties.splice(index, 1);
+      }
+    };
+    // the structure of this._exports doesn't work for this use case
+    // so we have to manually bypass it here
+    if (path.length === 1) {
+      let removedRootProperty = false;
+      // removing the root export
+      this._ast.program.body.forEach((node) => {
+        // named export
+        if (t.isExportNamedDeclaration(node) && t.isVariableDeclaration(node.declaration)) {
+          const decl = node.declaration.declarations[0];
+          if (t.isIdentifier(decl.id) && decl.id.name === path[0]) {
+            this._ast.program.body.splice(this._ast.program.body.indexOf(node), 1);
+            removedRootProperty = true;
+          }
+        }
+        // default export
+        if (t.isExportDefaultDeclaration(node) && t.isObjectExpression(node.declaration)) {
+          const properties = node.declaration.properties as t.ObjectProperty[];
+          removeProperty(properties, path[0]);
+          removedRootProperty = true;
+        }
+        // module.exports
+        if (
+          t.isExpressionStatement(node) &&
+          t.isAssignmentExpression(node.expression) &&
+          t.isMemberExpression(node.expression.left) &&
+          t.isIdentifier(node.expression.left.object) &&
+          node.expression.left.object.name === 'module' &&
+          t.isIdentifier(node.expression.left.property) &&
+          node.expression.left.property.name === 'exports' &&
+          t.isObjectExpression(node.expression.right)
+        ) {
+          const properties = node.expression.right.properties as t.ObjectProperty[];
+          removeProperty(properties, path[0]);
+          removedRootProperty = true;
+        }
+      });
+      if (removedRootProperty) return;
+    }
+
+    const properties = this.getFieldProperties(path) as t.ObjectProperty[];
+    if (properties) {
+      const lastPath = path.at(-1);
+      removeProperty(properties, lastPath);
+    }
+  }
+
   _inferQuotes() {
     if (!this._quotes) {
       // first 500 tokens for efficiency
@@ -218,9 +334,9 @@ export class ConfigFile {
     // we do this rather than t.valueToNode because apparently
     // babel only preserves quotes if they are parsed from the original code.
     if (quotes === 'single') {
-      const { code } = generate(t.valueToNode(value), { jsescOption: { quotes } });
+      const { code } = generate.default(t.valueToNode(value), { jsescOption: { quotes } });
       const program = babelParse(`const __x = ${code}`);
-      traverse(program, {
+      traverse.default(program, {
         VariableDeclaration: {
           enter({ node }) {
             if (
@@ -251,7 +367,7 @@ export const loadConfig = (code: string, fileName?: string) => {
 };
 
 export const formatConfig = (config: ConfigFile) => {
-  const { code } = generate(config._ast, {});
+  const { code } = generate.default(config._ast, {});
   return code;
 };
 

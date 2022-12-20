@@ -1,5 +1,7 @@
 import path from 'path';
-import initStoryshots, { multiSnapshotWithOptions, Stories2SnapsConverter } from '../dist/types';
+import initStoryshots, { multiSnapshotWithOptions, Stories2SnapsConverter } from '../src';
+
+/* deprecated and will be removed in Storybook 8.0 */
 
 class AnotherStories2SnapsConverter extends Stories2SnapsConverter {
   getSnapshotFileName(context) {
@@ -36,9 +38,13 @@ initStoryshots({
   integrityOptions: { cwd: __dirname },
   stories2snapsConverter: new AnotherStories2SnapsConverter({ snapshotExtension: '.boo' }),
   config: ({ configure }) =>
-    configure(() => {
-      // eslint-disable-next-line global-require
-      require('./directly_required');
-    }, module),
+    configure(
+      () => {
+        // eslint-disable-next-line global-require
+        require('./exported_metadata/Extra.stories.jsx');
+      },
+      module,
+      false
+    ),
   test: multiSnapshotWithOptions(),
 });

@@ -1,7 +1,7 @@
 import global from 'global';
-import { addons } from '@storybook/addons';
+import { addons } from '@storybook/preview-api';
 import { EVENTS } from './constants';
-import { A11yParameters } from './params';
+import type { A11yParameters } from './params';
 
 const { document, window: globalWindow } = global;
 
@@ -69,9 +69,7 @@ const getParams = async (storyId: string): Promise<A11yParameters> => {
   return (
     parameters.a11y || {
       config: {},
-      options: {
-        restoreScroll: true,
-      },
+      options: {},
     }
   );
 };

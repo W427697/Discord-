@@ -97,8 +97,9 @@ async function run() {
 
   selection?.filter(Boolean).forEach(async (v) => {
     const commmand = (await readJSON(resolve(v.location, 'package.json'))).scripts.check;
-    const cwd = resolve(__dirname, '..', v.location);
-    const sub = require('execa').command(`yarn ${commmand}${watchMode ? ' --watch' : ''}`, {
+    const cwd = resolve(__dirname, '..', 'code', v.location);
+    const { execaCommand } = await import('execa');
+    const sub = execaCommand(`${commmand}${watchMode ? ' --watch' : ''}`, {
       cwd,
       buffer: false,
       shell: true,

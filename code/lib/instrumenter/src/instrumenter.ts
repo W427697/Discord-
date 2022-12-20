@@ -1,7 +1,8 @@
 /* eslint-disable no-underscore-dangle */
-import { addons, Channel } from '@storybook/addons';
-import type { StoryId } from '@storybook/addons';
-import { logger, once } from '@storybook/client-logger';
+import type { Channel } from '@storybook/channels';
+import { addons } from '@storybook/preview-api';
+import type { StoryId } from '@storybook/types';
+import { once, logger } from '@storybook/client-logger';
 import {
   FORCE_REMOUNT,
   IGNORED_EXCEPTION,
@@ -10,16 +11,8 @@ import {
 } from '@storybook/core-events';
 import global from 'global';
 
-import {
-  Call,
-  CallRef,
-  CallStates,
-  ControlStates,
-  LogItem,
-  Options,
-  State,
-  SyncPayload,
-} from './types';
+import type { Call, CallRef, ControlStates, LogItem, Options, State, SyncPayload } from './types';
+import { CallStates } from './types';
 
 export const EVENTS = {
   CALL: 'storybook/instrumenter/call',
@@ -340,7 +333,8 @@ export class Instrumenter {
   // returns the original result.
   track(method: string, fn: Function, args: any[], options: Options) {
     const storyId: StoryId =
-      args?.[0]?.__storyId__ || global.window.__STORYBOOK_PREVIEW__?.urlStore?.selection?.storyId;
+      args?.[0]?.__storyId__ ||
+      global.window.__STORYBOOK_PREVIEW__?.selectionStore?.selection?.storyId;
     const { cursor, ancestors } = this.getState(storyId);
     this.setState(storyId, { cursor: cursor + 1 });
     const id = `${ancestors.slice(-1)[0] || storyId} [${cursor}] ${method}`;
@@ -373,6 +367,7 @@ export class Instrumenter {
       }));
     }).then(() => {
       this.setState(call.storyId, (state) => {
+        // eslint-disable-next-line @typescript-eslint/naming-convention
         const { [call.id]: _, ...resolvers } = state.resolvers;
         return { isLocked: true, resolvers };
       });
@@ -497,13 +492,19 @@ export class Instrumenter {
           this.setState(call.storyId, { cursor: 0, ancestors: [...ancestors, call.id] });
           const restore = () => this.setState(call.storyId, { cursor, ancestors });
 
-          // Invoke the actual callback function.
-          const res = arg(...args);
-
-          // Reset cursor and ancestors to their original values before we entered the callback.
-          if (res instanceof Promise) return res.then(restore, restore);
-          restore();
-          return res;
+          // Invoke the actual callback function, taking care to reset the cursor and ancestors
+          // to their original values before we entered the callback, once the callback completes.
+          let willRestore = false;
+          try {
+            const res = arg(...args);
+            if (res instanceof Promise) {
+              willRestore = true; // We need to wait for the promise to finish before restoring
+              return res.finally(restore);
+            }
+            return res;
+          } finally {
+            if (!willRestore) restore();
+          }
         };
       });
 

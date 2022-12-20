@@ -1,15 +1,16 @@
-import { describe } from '@jest/globals';
+import { describe, it, expect } from '@jest/globals';
 import { dedent } from 'ts-dedent';
 import _transform from '../csf-2-to-3';
 
-// @ts-expect-error (Converted from ts-ignore)
 expect.addSnapshotSerializer({
   print: (val: any) => val,
-  test: (val) => true,
+  test: () => true,
 });
 
-const jsTransform = (source: string) => _transform({ source }, null, {}).trim();
-const tsTransform = (source: string) => _transform({ source }, null, { parser: 'tsx' }).trim();
+const jsTransform = (source: string) =>
+  _transform({ source, path: 'Component.stories.js' }, null, {}).trim();
+const tsTransform = (source: string) =>
+  _transform({ source, path: 'Component.stories.ts' }, null, { parser: 'tsx' }).trim();
 
 describe('csf-2-to-3', () => {
   describe('javascript', () => {
@@ -72,7 +73,6 @@ describe('csf-2-to-3', () => {
           render: (args) => <Apple {...args} />,
         };
         export const B = (args) => <Banana {...args} />;
-
         const C = (args) => <Cherry {...args} />;
       `);
     });

@@ -1,10 +1,11 @@
 import * as React from 'react';
 
 import { styled } from '@storybook/theming';
-import { NodeResult, Result } from 'axe-core';
+import type { NodeResult, Result } from 'axe-core';
 import { SizeMe } from 'react-sizeme';
 import HighlightToggle from './Report/HighlightToggle';
-import { RuleType } from './A11YPanel';
+
+import type { RuleType } from './A11YPanel';
 import { useA11yContext } from './A11yContext';
 
 // TODO: reuse the Tabs component from @storybook/theming instead of re-building identical functionality
@@ -78,7 +79,7 @@ const TabsWrapper = styled.div({});
 
 const List = styled.div(({ theme }) => ({
   boxShadow: `${theme.appBorderColor} 0 -1px 0 0 inset`,
-  background: 'rgba(0, 0, 0, .05)',
+  background: theme.background.app,
   display: 'flex',
   justifyContent: 'space-between',
   whiteSpace: 'nowrap',

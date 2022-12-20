@@ -21,6 +21,7 @@ const runCompodoc = (inputPath: string) => {
   // (and screwed around with relative paths as well, but couldn't get it working)
   spawnSync('yarn', ['compodoc', '-p', `${testDir}/tsconfig.json`, '-e', 'json', '-d', tmpDir], {
     stdio: 'inherit',
+    shell: true,
   });
   const output = fs.readFileSync(`${tmpDir}/documentation.json`, 'utf8');
   try {
@@ -38,7 +39,7 @@ describe('angular component properties', () => {
       const testDir = path.join(fixturesDir, testEntry.name);
       const testFile = fs.readdirSync(testDir).find((fileName) => inputRegExp.test(fileName));
       if (testFile) {
-        it(testEntry.name, () => {
+        it(`${testEntry.name}`, () => {
           const inputPath = path.join(testDir, testFile);
 
           // snapshot the output of compodoc

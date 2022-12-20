@@ -1,6 +1,6 @@
 {
   "name": "@storybook/client-api",
-  "version": "7.0.0-alpha.31",
+  "version": "7.0.0-beta.12",
   "description": "Storybook Client API",
   "keywords": [
     "storybook"
@@ -20,9 +20,17 @@
   },
   "license": "MIT",
   "sideEffects": false,
-  "main": "dist/cjs/index.js",
-  "module": "dist/esm/index.js",
-  "types": "dist/types/index.d.ts",
+  "exports": {
+    ".": {
+      "require": "./dist/entry.js",
+      "import": "./dist/entry.mjs",
+      "types": "./dist/entry.d.ts"
+    },
+    "./package.json": "./package.json"
+  },
+  "main": "dist/entry.js",
+  "module": "dist/entry.mjs",
+  "types": "dist/entry.d.ts",
   "files": [
     "dist/**/*",
     "README.md",
@@ -30,32 +38,21 @@
     "*.d.ts"
   ],
   "scripts": {
-    "check": "tsc --noEmit",
-    "prep": "node ../../../scripts/prepare.js"
+    "check": "../../../scripts/node_modules/.bin/tsc --noEmit",
+    "prep": "../../../scripts/prepare/facade.ts"
   },
   "dependencies": {
-    "@storybook/addons": "7.0.0-alpha.31",
-    "@storybook/client-logger": "7.0.0-alpha.31",
-    "@storybook/csf": "0.0.2--canary.0899bb7.0",
-    "@storybook/store": "7.0.0-alpha.31",
-    "@types/qs": "^6.9.5",
-    "@types/webpack-env": "^1.16.4",
-    "global": "^4.4.0",
-    "qs": "^6.10.0",
-    "synchronous-promise": "^2.0.15",
-    "ts-dedent": "^2.0.0",
-    "util-deprecate": "^1.0.2"
-  },
-  "devDependencies": {
-    "@storybook/core-common": "7.0.0-alpha.31",
-    "typescript": "~4.6.3"
-  },
-  "peerDependencies": {
-    "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
-    "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0"
+    "@storybook/client-logger": "7.0.0-beta.12",
+    "@storybook/preview-api": "7.0.0-beta.12"
   },
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "02c013c33186479017098d532a18ff8654b91f1f"
+  "bundler": {
+    "entries": [
+      "./src/entry.ts"
+    ],
+    "shim": "@storybook/preview-api/dist/client-api"
+  },
+  "gitHead": "dd52c7e8853bc40791deb55e36473c0c18ab5957"
 }

@@ -1,12 +1,19 @@
 /* eslint-disable no-underscore-dangle */
-import path from 'path';
-import { JsPackageManager } from '../../js-package-manager';
+import * as path from 'path';
+import type { StorybookConfig } from '@storybook/types';
+import type { JsPackageManager, PackageJson } from '../../js-package-manager';
 import { newFrameworks } from './new-frameworks';
 
 // eslint-disable-next-line global-require, jest/no-mocks-import
 jest.mock('fs-extra', () => require('../../../../../__mocks__/fs-extra'));
 
-const checkNewFrameworks = async ({ packageJson, main }) => {
+const checkNewFrameworks = async ({
+  packageJson,
+  main,
+}: {
+  packageJson: PackageJson;
+  main: Partial<StorybookConfig> & Record<string, unknown>;
+}) => {
   if (main) {
     // eslint-disable-next-line global-require
     require('fs-extra').__setMockFiles({
@@ -64,7 +71,7 @@ describe('new-frameworks fix', () => {
         expect.objectContaining({
           frameworkPackage: '@storybook/vue-webpack5',
           dependenciesToAdd: ['@storybook/vue-webpack5'],
-          dependenciesToRemove: ['@storybook/vue'],
+          dependenciesToRemove: [],
         })
       );
     });
@@ -159,11 +166,7 @@ describe('new-frameworks fix', () => {
           expect.objectContaining({
             frameworkPackage: '@storybook/react-webpack5',
             dependenciesToAdd: ['@storybook/react-webpack5'],
-            dependenciesToRemove: [
-              '@storybook/builder-webpack5',
-              '@storybook/manager-webpack5',
-              '@storybook/react',
-            ],
+            dependenciesToRemove: ['@storybook/builder-webpack5', '@storybook/manager-webpack5'],
             frameworkOptions: {
               fastRefresh: true,
             },
@@ -200,6 +203,7 @@ describe('new-frameworks fix', () => {
               },
               angularOptions: {
                 enableIvy: true,
+                enableNgcc: true,
               },
             },
           })
@@ -210,6 +214,7 @@ describe('new-frameworks fix', () => {
             dependenciesToRemove: ['@storybook/builder-webpack5', '@storybook/manager-webpack5'],
             frameworkOptions: {
               enableIvy: true,
+              enableNgcc: true,
             },
             builderInfo: {
               name: 'webpack5',
@@ -243,7 +248,7 @@ describe('new-frameworks fix', () => {
           expect.objectContaining({
             frameworkPackage: '@storybook/react-vite',
             dependenciesToAdd: ['@storybook/react-vite'],
-            dependenciesToRemove: ['@storybook/builder-vite', '@storybook/react'],
+            dependenciesToRemove: ['@storybook/builder-vite'],
           })
         );
       });

@@ -1,10 +1,10 @@
 import path from 'path';
-import type { Configuration } from 'webpack';
+import { Configuration } from 'webpack';
 import { logger } from '@storybook/node-logger';
 import { normalize, getSystemPath } from '@angular-devkit/core';
 import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin';
 import { webpackFinal } from './framework-preset-angular-cli';
-import type { PresetOptions } from './preset-options';
+import { PresetOptions } from './preset-options';
 
 const testPath = __dirname;
 
@@ -34,11 +34,8 @@ describe('framework-preset-angular-cli', () => {
   });
 
   describe('without angular.json', () => {
-    let consoleErrorSpy: jest.SpyInstance;
-
     beforeEach(() => {
       initMockWorkspace('');
-      consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation();
     });
     it('should return webpack base config and display log error', async () => {
       const webpackBaseConfig = newWebpackConfiguration();
@@ -421,10 +418,6 @@ describe('framework-preset-angular-cli', () => {
     it('should set webpack "module.rules"', async () => {
       const baseWebpackConfig = newWebpackConfiguration();
       const webpackFinalConfig = await webpackFinal(baseWebpackConfig, options);
-      const stylePaths = [
-        path.join(workspaceRoot, 'src', 'styles.css'),
-        path.join(workspaceRoot, 'src', 'styles.scss'),
-      ];
 
       const expectedRules: any = [
         {
@@ -507,10 +500,6 @@ describe('framework-preset-angular-cli', () => {
     it('should set webpack "module.rules"', async () => {
       const baseWebpackConfig = newWebpackConfiguration();
       const webpackFinalConfig = await webpackFinal(baseWebpackConfig, options);
-      const stylePaths = [
-        path.join(workspaceRoot, 'src', 'styles.css'),
-        path.join(workspaceRoot, 'src', 'styles.scss'),
-      ];
 
       const expectedRules: any = [
         {
@@ -786,7 +775,6 @@ const newWebpackConfiguration = (
     devtool: 'cheap-module-source-map',
     entry: [
       '/Users/joe/storybook/lib/core-server/dist/esm/globals/polyfills.js',
-      '/Users/joe/storybook/lib/core-server/dist/esm/globals/globals.js',
       '/Users/joe/storybook/examples/angular-cli/.storybook/storybook-init-framework-entry.js',
       '/Users/joe/storybook/addons/docs/dist/esm/frameworks/common/config.js-generated-other-entry.js',
       '/Users/joe/storybook/addons/docs/dist/esm/frameworks/angular/config.js-generated-other-entry.js',
@@ -816,15 +804,14 @@ const newWebpackConfiguration = (
       modules: ['node_modules'],
       mainFields: ['browser', 'main'],
       alias: {
-        '@storybook/addons': '/Users/joe/storybook/lib/addons',
-        '@storybook/api': '/Users/joe/storybook/lib/api',
+        '@storybook/preview-api': '/Users/joe/storybook/lib/addons',
+        '@storybook/manager-api': '/Users/joe/storybook/lib/api',
         '@storybook/channels': '/Users/joe/storybook/lib/channels',
         '@storybook/channel-postmessage': '/Users/joe/storybook/lib/channel-postmessage',
-        '@storybook/components': '/Users/joe/storybook/lib/components',
+        '@storybook/components': '/Users/joe/storybook/ui/components',
         '@storybook/core-events': '/Users/joe/storybook/lib/core-events',
         '@storybook/router': '/Users/joe/storybook/lib/router',
         '@storybook/theming': '/Users/joe/storybook/lib/theming',
-        '@storybook/semver': '/Users/joe/storybook/node_modules/@storybook/semver',
         '@storybook/client-api': '/Users/joe/storybook/lib/client-api',
         '@storybook/client-logger': '/Users/joe/storybook/lib/client-logger',
         react: '/Users/joe/storybook/node_modules/react',

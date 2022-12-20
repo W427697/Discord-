@@ -17,15 +17,41 @@ Start by [forking](https://docs.github.com/en/github/getting-started-with-github
 git clone https://github.com/your-username/storybook.git
 ```
 
-Navigate to the `storybook/code` directory and install the required dependencies with the following commands:
+## Run your first sandbox
+
+Storybook development happens in a set of _sandboxes_ which are templated Storybook environments corresponding to different user setups. Within each sandbox, we inject a set of generalized stories that allow us to test core features and addons in all such environments.
+
+To run a sandbox locally, you can use the `start` command:
 
 ```shell
-yarn && yarn bootstrap --core
+yarn start
 ```
 
-## Run tests & examples
+It will install the required prerequisites, build the code, create and link a starter example based on a Vite React setup and finally start the Storybook server.
 
-Once you've completed the [initial setup](#initial-setup), you should have a fully functional version of Storybook built on your local machine. Before making any code changes, it's helpful to verify that everything is working as it should. More specifically, the test suite and examples.
+If all goes well, you should see the sandbox running.
+
+![Storybook Sandbox Running](./storybook-sandbox.png)
+
+## Running a different sandbox template
+
+By default, the `start` command is configured to initialize a Vite-based React template. If you're planning on working on a different renderer instead, you can do so as well. Start by running the `task` command as follows:
+
+```shell
+yarn task
+```
+
+When prompted, answer the questions as accurately as possible to allow Storybook to determine your goals. After answering these questions, you should see the entire command with the options you've selected should you require to re-run it.
+
+<div class="aside">
+
+💡 The `yarn task` command takes a few development shortcuts that can catch you off guard when switching branches and may require you to re-run both the `install` and `compile` tasks. You can speed up the process by running the command with the `start-from=install` flag.
+
+</div>
+
+## Running tests
+
+After successfully running your [first sandbox](#run-your-first-sandbox), you should have a fully functional Storybook version built on your local machine. Before jumping onto any code changes, verifying everything is working is essential—specifically, the test suite.
 
 Run the following command to execute the tests:
 
@@ -33,41 +59,27 @@ Run the following command to execute the tests:
 yarn test
 ```
 
-Once the tests finish, check if the examples are working with the following commands:
-
-```shell
-cd examples/cra-ts-essentials && yarn storybook
-```
-
-<div class="aside">
-💡 The Storybook monorepo contains various example projects, each corresponding to a different framework and environment, and they are commonly used as additional tooling to test new features.
-</div>
-
-If everything is working as it should, you should see the `example/cra-ts-essentials` Storybook running.
-
-![Example Storybook running](./storybook-cra-examples-optimized.png)
-
 ## Start developing
 
-Now that you've [verified your setup](#sanity-check), it's time to jump into code. The simplest way to do this is to run one of the examples in one terminal window and the interactive build process in a separate terminal.
+Now that you've [verified your setup](#running-tests), it's time to jump into code. The simplest way is to run one of the sandboxes in one terminal window and the interactive build process in a separate terminal.
 
-Assuming you're still running the `examples/cra-ts-essentials` from the previous step, open a new terminal and navigate to the root of the Storybook monorepo. Then, create a new branch with the following command:
+Assuming you're still running the Vite-based React sandbox initialized after running the `yarn start` command, open a new terminal window and navigate to the `code` directory of the Storybook monorepo. Then, create a new branch for your contribution by running the following command:
 
 ```shell
 git checkout -b my-first-storybook-contribution
 ```
 
-Run the build process with:
+Lastly, run the build process with the following:
 
 ```shell
 yarn build
 ```
 
-When asked if you want to start the build in `watch` mode, answer **yes** to develop in interactive mode. Afterward, choose which packages you want to build. For example, if you're going to work on a feature for `@storybook/addon-docs`, you might want to select `@storybook/addon-docs` and `@storybook/components`.
+When prompted to start the build process in `watch` mode, answer **yes** to develop in interactive mode. Afterward, choose which packages you want to build. For example, if you're going to work on a feature for `@storybook/addon-docs`, you might want to select both `@storybook/addon-docs` and `@storybook/components`.
 
 <div class="aside">
 
-💡 Build's `watch` mode is great for interactive development. However, for performance reasons it only transpiles your code and doesn't execute the TypeScript compiler. If something isn't working as expected, try running `build` <b>WITHOUT</b> watch mode: it will re-generate TypeScript types and also perform type checking for you.
+💡 Build's `watch` mode is great for interactive development. However, for performance reasons, it only transpiles your code and doesn't execute the TypeScript compiler. If something isn't working as expected, try running the `build` command <b>WITHOUT</b> enabling watch mode: it will re-generate TypeScript types and perform automatic type checking for you.
 
 </div>
 
@@ -85,15 +97,15 @@ When you're done coding, add documentation and tests as appropriate. That simpli
 
 ### Add stories
 
-Adding a story or set of stories to our suite of example apps helps you test your work.
+Adding a story or set of generic stories to our suite helps you test your work.
 
-If you're modifying part of Storybook's core, or one of the essential addons, there's probably an existing set of stories in the [`official-storybook`](../../examples/official-storybook) that documents how the feature is supposed to work. Add your stories there.
+Assuming you're working on one of the [Essential addons](../essentials/introduction.md), there's a chance that a complete set of stories already exists. Check the addon's `template/stories` directory that documents how it's supposed to work and add your stories there.
 
-If you're modifying something related to a specific framework, the framework will have its own examples in the monorepo. For instance, [`examples/vue-kitchen-sink`](../../examples/vue-kitchen-sink) is a natural place to add stories for `@storybook/vue` while [`examples/angular-cli`](../../examples/angular-cli) is the place for `@storybook/angular`.
+If you're modifying something related to a specific renderer (e.g., React, Vue, etc.), it will also have a similar `template/stories` directory in which you'll need to add your stories.
 
 ### Add tests
 
-Unit tests ensure that Storybook doesn't break accidentally. If your code can regress in non-obvious ways, include unit tests with your PR. Use the following naming convention:
+Unit tests ensure that Storybook doesn't break accidentally. If your code can regress in non-obvious ways, include unit tests with your pull request. Use the following naming convention:
 
 ```
 +-- parentFolder
@@ -103,36 +115,58 @@ Unit tests ensure that Storybook doesn't break accidentally. If your code can re
 
 ### End-to-end tests (e2e)
 
-Storybook's monorepo is set up to rely on end-to-end testing with [Cypress](https://www.cypress.io/) during CI. To help with testing, we encourage running this test suite before submitting your contribution. Detailed below are some steps you can take:
+Storybook's monorepo is set up to rely on end-to-end testing with [Playwright](https://playwright.dev) during CI. To help with testing, we encourage running this test suite before submitting your contribution.
 
-1. Ensure you have Storybook successfully built in your local branch (i.e., run `yarn bootstrap --core`)
-2. Open a terminal and run `yarn local-registry --port 6001 --open --publish` to publish Storybook's packages into a local registry.
-3. In a second terminal, set up a reproduction using the local registry and run the Cypress tests with `yarn test:e2e-framework`.
+To run an e2e test against a sandbox, you can use the `e2e-tests` task:
+
+```shell
+yarn task --task e2e-tests --template=react-vite/default-ts --start-from=auto
+```
 
 ## Submit a pull request
 
-Before submitting your contribution, run the test suite one last time with:
+Before submitting your contribution, run the test suite one last time with the following:
 
 ```shell
 yarn test
 ```
 
 <div class="aside">
-💡  Storybook uses <a href="https://jestjs.io/"><code>jest</code></a> as part of the testing suite, if you notice that the snapshot tests fail you can re-run and update them with <code>yarn test -u</code>.
+
+💡 Storybook relies on [Jest](https://jestjs.io/) as part of it's testing suite. During the test run, if you spot that snapshot tests are failing, re-run the command with the `-u` flag to update them.
+
 </div>
 
-Doing this prevents last-minute bugs and is also a great way to get your contribution merged faster once you submit your pull request. Failing to do so will lead to one of the maintainers mark the pull request with the **Work in Progress** label until all tests pass.
+Doing this prevents last-minute bugs and is a great way to merge your contribution faster once you submit your pull request. Failing to do so will lead to one of the maintainers mark the pull request with the **Work in Progress** label until all tests pass.
 
 ### Target `next` branch
 
-Once the test suite finishes, it's time to commit, push and open a pull request against Storybook's `next` (default) branch. This branch is where all active development happens and is associated with the latest prerelease version (e.g., `6.3.0-alpha.25`).
+Once the test suite finishes, it's time to commit, push and open a pull request against Storybook's `next` (default) branch. This branch is where all active development happens and is associated with the latest prerelease version (e.g., `7.0.0-alpha.47`).
 
-If your contribution focuses on a bugfix and you want it featured in the next stable release, mention it in the pull request description. We'll try to patch it in if it appears to be non-disruptive and fixes a critical bug.
+If your contribution focuses on a bugfix and you want it featured in the next stable release, mention it in the pull request description. We'll try to patch it if it appears non-disruptive and fixes a critical bug.
 
 #### Useful resources when working with forks
 
 - [Sync a fork](https://docs.github.com/en/github/collaborating-with-issues-and-pull-requests/working-with-forks/syncing-a-fork)
 - [Merge an upstream repository into your fork](https://docs.github.com/en/github/collaborating-with-issues-and-pull-requests/working-with-forks/merging-an-upstream-repository-into-your-fork)
+
+### Reproducing job failures
+
+After creating your PR, if one of the CI jobs failed, when checking the logs of that job, you will see that it printed a message explaining how to reproduce the task locally. Typically that involves running the task against the right template:
+
+```shell
+yarn task --task e2e-tests --template=react-vite/default-ts --start-from=install
+```
+
+Typically it is a good idea to start from the `install` task to ensure your local code is completely up to date. If you reproduce the failure, you can try and make fixes, [compile them](#start-developing) with `build`, then rerun the task with `--start-from=auto`.
+
+<div class="aside">
+
+💡 The default instructions run the code in "linked" mode, meaning built changes to Storybook library code will be reflected in the sandbox immediately (the next time you run the task). However, CI runs in "unlinked" mode, which in rare cases, will behave differently.<br />
+
+If you are having trouble reproducing, try rerunning the command with the `--no-link` flag. If you need to do that, you'll need to run it with `--start-from=compile` after each code change.
+
+</div>
 
 ## How to work with reproductions
 
@@ -153,8 +187,56 @@ npx storybook@next link --local /path/to/local-repro-directory
 ```
 
 <div class="aside">
-💡  The <code>storybook link</code> command relies on <code>yarn 2</code> linking under the hood. It requires that the local repro is using <code>yarn 2</code>, which will be the case if you're using the [<code>storybook repro</code> command](./how-to-reproduce) per our contributing guidelines. If you are trying to link to a non-<code>yarn 2</code> project, linking will fail.
+
+💡 The `storybook link` command relies on [Yarn 2 linking](https://yarnpkg.com/cli/link/) under the hood. It requires your local reproduction to be using [Yarn 2](https://yarnpkg.com/) as well, which is the case if you're already enabled it with the [`storybook repro`](./how-to-reproduce.md) command per our contribution guidelines. The process will fail if you're trying to link a non-Yarn 2 project.
+
 </div>
+
+## Developing a template
+
+The first step is to add an entry to `code/lib/cli/src/repro-templates.ts`, which is the master list of all repro templates:
+
+```ts
+'cra/default-js': {
+    name: 'Create React App (Javascript)',
+    script: 'npx create-react-app .',
+    inDevelopment: true,
+    expected: {
+      framework: '@storybook/cra',
+      renderer: '@storybook/react',
+      builder: '@storybook/builder-webpack5',
+    },
+  },
+```
+
+Add the `isDevelopment` flag until the PR is merged (you can fast-follow it with a second PR to remove the flag), as it'll make the development process much easier.
+
+The **`key`** `cra/default-js` consists of two parts:
+
+- The prefix is the tool that was used to generate the repro app
+- The suffix is options that modify the default install, e.g. a specific version or options
+
+The **`script`** field is what generates the application environment. The `.` argument is “the current working directory” which is auto-generated based on the key (e.g. `repros/cra/default-js/before-storybook`). The `{{beforeDir}}` key can also be used, which will be replaced by the path of that directory.
+
+The rest of the fields are self-explanatory:
+
+The **`skipTasks`** field exists because some sandboxes might not work properly in specific tasks temporarily, but we might still want to run the other tasks. For instance, a bug was introduced outside of our control, which fails only in the `test-runner` task.
+
+The **`name`** field should contain a human readable name/description of the template.
+
+The **`expected`** field reflects what framework/renderer/builder we expect `sb init` to generate. This is useful for assertions while generating sandboxes. If the template is generated with a different expected framework, for instance, it will fail, serving as a way to detect regressions.
+
+### Running a sandbox
+
+If your template has a `inDevelopment` flag, it will be generated (locally) as part of the sandbox process. You can create the sandbox with the following command, where `<template-key>` is replaced by the id of the selected template e.g. `cra/default-js`:
+
+```bash
+yarn task --task dev --template <template-key> --start-from=install
+```
+
+Templates with `inDevelopment` will automatically run with `--no-link` flag as it is required for the local template generation to work.
+
+Once the PR is merged, the template will be generated on a nightly cadence and you can remove the `inDevelopment` flag and the sandbox will pull the code from our templates repository.
 
 ## Troubleshooting
 
@@ -162,6 +244,15 @@ npx storybook@next link --local /path/to/local-repro-directory
 
 <summary><code>yarn build --all --watch</code> watches everything but is resource-intensive</summary>
 
-It's troublesome to know which packages you're going to change ahead of time, and watching all of them can be highly demanding, even on modern machines. If you're working on a powerful enough machine, you can use `yarn build --all --watch` instead of `yarn build`.
+It's troublesome to know which packages you'll change ahead of time, and watching them can be highly demanding, even on modern machines. If you're working on a powerful enough machine, you can use `yarn build --all --watch` instead of `yarn build`.
 
 </details>
+
+## Other ways to contribute
+
+Learn about other ways you can contribute to Storybook.
+
+- [**Overview**](./how-to-contribute.md): General guidance
+- [**Docs**](./documentation-updates.md): Typos, clarifications
+- [**Addons**](./../addons/introduction.md): Build an addon and share it with the community
+- [**Frameworks**](./framework.md): Integrate Storybook with your favorite library

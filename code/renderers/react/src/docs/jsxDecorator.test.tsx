@@ -1,11 +1,12 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events */
-import React, { createElement, FC, PropsWithChildren } from 'react';
+import type { FC, PropsWithChildren } from 'react';
+import React, { createElement, Profiler } from 'react';
 import PropTypes from 'prop-types';
-import { addons, useEffect } from '@storybook/addons';
+import { addons, useEffect } from '@storybook/preview-api';
 import { SNIPPET_RENDERED } from '@storybook/docs-tools';
 import { renderJsx, jsxDecorator } from './jsxDecorator';
 
-jest.mock('@storybook/addons');
+jest.mock('@storybook/preview-api');
 const mockedAddons = addons as jest.Mocked<typeof addons>;
 const mockedUseEffect = useEffect as jest.Mocked<typeof useEffect>;
 
@@ -119,10 +120,10 @@ describe('renderJsx', () => {
 
     expect(renderJsx(createElement(MyExoticComponent, {}, 'I am forwardRef!'), {}))
       .toMatchInlineSnapshot(`
-        <MyExoticComponent>
-          I'm forwardRef!
-        </MyExoticComponent>
-      `);
+      <MyExoticComponent>
+        I am forwardRef!
+      </MyExoticComponent>
+    `);
   });
 
   it('memo component', () => {
@@ -132,8 +133,25 @@ describe('renderJsx', () => {
 
     expect(renderJsx(createElement(MyMemoComponent, {}, 'I am memo!'), {})).toMatchInlineSnapshot(`
       <MyMemoComponent>
-        I'm memo!
+        I am memo!
       </MyMemoComponent>
+    `);
+  });
+
+  it('Profiler', () => {
+    function ProfilerComponent(props: any) {
+      return (
+        <Profiler id="profiler-test" onRender={() => {}}>
+          <div>{props.children}</div>
+        </Profiler>
+      );
+    }
+
+    expect(renderJsx(createElement(ProfilerComponent, {}, 'I am Profiler'), {}))
+      .toMatchInlineSnapshot(`
+        <ProfilerComponent>
+          I am Profiler
+        </ProfilerComponent>
     `);
   });
 
@@ -174,7 +192,7 @@ describe('jsxDecorator', () => {
   beforeEach(() => {
     mockedAddons.getChannel.mockReset();
     // @ts-expect-error (Converted from ts-ignore)
-    mockedUseEffect.mockImplementation((cb) => setTimeout(cb, 0));
+    mockedUseEffect.mockImplementation((cb) => setTimeout(() => cb(), 0));
 
     mockChannel = { on: jest.fn(), emit: jest.fn() };
     mockedAddons.getChannel.mockReturnValue(mockChannel as any);
@@ -229,22 +247,6 @@ describe('jsxDecorator', () => {
     expect(mockChannel.emit).not.toHaveBeenCalled();
   });
 
-  // This is deprecated, but still test it
-  it('allows the snippet output to be modified by onBeforeRender', async () => {
-    const storyFn = (args: any) => <div>args story</div>;
-    const onBeforeRender = (dom: string) => `<p>${dom}</p>`;
-    const jsx = { onBeforeRender };
-    const context = makeContext('args', { __isArgsStory: true, jsx }, {});
-    jsxDecorator(storyFn, context);
-    await new Promise((r) => setTimeout(r, 0));
-
-    expect(mockChannel.emit).toHaveBeenCalledWith(
-      SNIPPET_RENDERED,
-      'jsx-test--args',
-      '<p><div>\n  args story\n</div></p>'
-    );
-  });
-
   it('allows the snippet output to be modified by transformSource', async () => {
     const storyFn = (args: any) => <div>args story</div>;
     const transformSource = (dom: string) => `<p>${dom}</p>`;
@@ -297,6 +299,7 @@ describe('jsxDecorator', () => {
     const storyFn = jest.fn();
     storyFn
       .mockImplementationOnce(() => {
+        // eslint-disable-next-line @typescript-eslint/no-throw-literal
         throw Promise.resolve();
       })
       .mockImplementation(() => {

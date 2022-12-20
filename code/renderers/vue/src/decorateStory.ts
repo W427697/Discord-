@@ -1,8 +1,9 @@
-import Vue, { VueConstructor, ComponentOptions } from 'vue';
-import type { DecoratorFunction, StoryContext, LegacyStoryFn } from '@storybook/csf';
-import { sanitizeStoryContextUpdate } from '@storybook/store';
+import type { VueConstructor, ComponentOptions } from 'vue';
+import Vue from 'vue';
+import type { DecoratorFunction, StoryContext, LegacyStoryFn } from '@storybook/types';
+import { sanitizeStoryContextUpdate } from '@storybook/preview-api';
 
-import type { StoryFnVueReturnType, VueFramework } from './types';
+import type { StoryFnVueReturnType, VueRenderer } from './types';
 import { extractProps } from './util';
 import { VALUES } from './render';
 
@@ -10,7 +11,8 @@ export const WRAPS = 'STORYBOOK_WRAPS';
 
 function prepare(
   rawStory: StoryFnVueReturnType,
-  innerStory?: VueConstructor
+  innerStory?: StoryFnVueReturnType,
+  context?: StoryContext<VueRenderer>
 ): VueConstructor | null {
   let story: ComponentOptions<Vue> | VueConstructor;
 
@@ -37,8 +39,13 @@ function prepare(
   return Vue.extend({
     // @ts-expect-error // https://github.com/storybookjs/storybook/pull/7578#discussion_r307985279
     [WRAPS]: story,
-    // @ts-expect-error // https://github.com/storybookjs/storybook/pull/7578#discussion_r307984824
-    [VALUES]: { ...(innerStory ? innerStory.options[VALUES] : {}), ...extractProps(story) },
+    [VALUES]: {
+      // @ts-expect-error // https://github.com/storybookjs/storybook/pull/7578#discussion_r307984824
+      ...(innerStory ? innerStory.options[VALUES] : {}),
+      // @ts-expect-error // https://github.com/storybookjs/storybook/pull/7578#discussion_r307984824
+      ...extractProps(story),
+      ...(context?.args || {}),
+    },
     functional: true,
     render(h, { data, parent, children }) {
       return h(
@@ -55,12 +62,12 @@ function prepare(
 }
 
 export function decorateStory(
-  storyFn: LegacyStoryFn<VueFramework>,
-  decorators: DecoratorFunction<VueFramework>[]
-): LegacyStoryFn<VueFramework> {
+  storyFn: LegacyStoryFn<VueRenderer>,
+  decorators: DecoratorFunction<VueRenderer>[]
+) {
   return decorators.reduce(
-    (decorated: LegacyStoryFn<VueFramework>, decorator) => (context: StoryContext<VueFramework>) => {
-      let story;
+    (decorated: LegacyStoryFn<VueRenderer>, decorator) => (context: StoryContext<VueRenderer>) => {
+      let story: VueRenderer['storyResult'] | undefined;
 
       const decoratedStory = decorator((update) => {
         story = decorated({ ...context, ...sanitizeStoryContextUpdate(update) });
@@ -75,8 +82,10 @@ export function decorateStory(
         return story;
       }
 
-      return prepare(decoratedStory, story as any);
+      return prepare(decoratedStory, story) as VueRenderer['storyResult'];
     },
-    (context) => prepare(storyFn(context))
+    (context) => {
+      return prepare(storyFn(context), undefined, context) as VueRenderer['storyResult'];
+    }
   );
 }

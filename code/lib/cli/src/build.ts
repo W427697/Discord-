@@ -1,11 +1,14 @@
 import { sync as readUpSync } from 'read-pkg-up';
 import { logger } from '@storybook/node-logger';
-import { buildStaticStandalone } from '@storybook/core-server';
+import { buildStaticStandalone, withTelemetry } from '@storybook/core-server';
 import { cache } from '@storybook/core-common';
+import { ensureReactPeerDeps } from './ensure-react-peer-deps';
 
 export const build = async (cliOptions: any) => {
+  ensureReactPeerDeps();
+
   try {
-    await buildStaticStandalone({
+    const options = {
       ...cliOptions,
       configDir: cliOptions.configDir || './.storybook',
       outputDir: cliOptions.outputDir || './storybook-static',
@@ -14,9 +17,12 @@ export const build = async (cliOptions: any) => {
       configType: 'PRODUCTION',
       cache,
       packageJson: readUpSync({ cwd: __dirname }).packageJson,
-    });
-  } catch (e) {
-    logger.error(e);
+    };
+    await withTelemetry('build', { cliOptions, presetOptions: options }, () =>
+      buildStaticStandalone(options)
+    );
+  } catch (err) {
+    logger.error(err);
     process.exit(1);
   }
 };
