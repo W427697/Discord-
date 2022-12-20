@@ -1,4 +1,4 @@
-import globalThis from 'global';
+import { global as globalThis } from '@storybook/global';
 
 // FIXME: do this using basic React functions for multi-framework
 //        once sandbox linking is working
