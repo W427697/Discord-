@@ -162,7 +162,7 @@ export const automigrate = async ({ fixId, dryRun, yes, useNpm, force, list }: F
         }
       }
     } else {
-      fixResults[f.id] ||= FixStatus.UNNECESSARY;
+      fixResults[f.id] = fixResults[f.id] || FixStatus.UNNECESSARY;
     }
   }
 
