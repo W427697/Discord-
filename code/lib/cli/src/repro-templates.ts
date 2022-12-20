@@ -235,10 +235,9 @@ export const allTemplates: Record<string, Template> = {
     },
   },
   'svelte-kit/skeleton-js': {
-    inDevelopment: true,
     name: 'Svelte Kit (JS)',
     script:
-      'yarn create svelte-with-args --name=svelte-kit/skeleton-js --directory=. --template=skeleton --types=null --no-prettier --no-eslint --no-playwright',
+      'yarn create svelte-with-args --name=svelte-kit/skeleton-js --directory=. --template=skeleton --types=null --no-prettier --no-eslint --no-playwright --no-vitest',
     expected: {
       framework: '@storybook/sveltekit',
       renderer: '@storybook/svelte',
@@ -246,10 +245,9 @@ export const allTemplates: Record<string, Template> = {
     },
   },
   'svelte-kit/skeleton-ts': {
-    inDevelopment: true,
     name: 'Svelte Kit (TS)',
     script:
-      'yarn create svelte-with-args --name=svelte-kit/skeleton-ts --directory=. --template=skeleton --types=typescript --no-prettier --no-eslint --no-playwright',
+      'yarn create svelte-with-args --name=svelte-kit/skeleton-ts --directory=. --template=skeleton --types=typescript --no-prettier --no-eslint --no-playwright --no-vitest',
     expected: {
       framework: '@storybook/sveltekit',
       renderer: '@storybook/svelte',
@@ -355,6 +353,7 @@ export const daily: TemplateKey[] = [
   'lit-vite/default-js',
   'svelte-kit/skeleton-js',
   'svelte-vite/default-js',
+  'nextjs/12-js',
   'nextjs/default-js',
   'preact-webpack5/default-js',
 ];
