@@ -3,7 +3,7 @@ import React from 'react';
 import { styled } from '@storybook/theming';
 import { Badge } from '@storybook/components';
 import type { CheckResult } from 'axe-core';
-import { SizeMe } from 'react-sizeme';
+import ReactResizeDetector from 'react-resize-detector';
 
 const List = styled.div({
   display: 'flex',
@@ -71,14 +71,14 @@ const Rule: FC<RuleProps> = ({ rule }) => {
       break;
   }
   return (
-    <SizeMe refreshMode="debounce">
-      {({ size }) => (
+    <ReactResizeDetector handleWidth handleHeight refreshMode="debounce">
+      {(size) => (
         <Item elementWidth={size.width || 0}>
           <StyledBadge status={badgeType}>{formatSeverityText(rule.impact)}</StyledBadge>
           <Message>{rule.message}</Message>
         </Item>
       )}
-    </SizeMe>
+    </ReactResizeDetector>
   );
 };
 

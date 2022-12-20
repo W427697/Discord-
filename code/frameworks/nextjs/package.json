@@ -59,6 +59,7 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
+    "@next/font": "^13.0.7",
     "@storybook/addon-actions": "7.0.0-beta.12",
     "@storybook/builder-webpack5": "7.0.0-beta.12",
     "@storybook/core-common": "7.0.0-beta.12",
@@ -81,7 +82,10 @@
     "tsconfig-paths-webpack-plugin": "^3.5.2"
   },
   "devDependencies": {
+    "@babel/core": "^7.20.5",
+    "@babel/types": "^7.20.5",
     "@storybook/addon-actions": "7.0.0-beta.12",
+    "@types/babel__core": "^7",
     "next": "^13.0.5",
     "typescript": "^4.9.3",
     "webpack": "^5.65.0"
@@ -115,7 +119,8 @@
       "./src/index.ts",
       "./src/preset.ts",
       "./src/preview.tsx",
-      "./src/next-image-loader-stub.ts"
+      "./src/next-image-loader-stub.ts",
+      "./src/font/webpack/loader/storybook-nextjs-font-loader.ts"
     ],
     "platform": "node"
   },
