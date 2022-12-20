@@ -6,7 +6,7 @@ import dedent from 'ts-dedent';
 import { JsPackageManagerFactory, type PackageManagerName } from '../js-package-manager';
 
 import type { Fix } from './fixes';
-import { fixes } from './fixes';
+import { fixes as allFixes } from './fixes';
 
 const logger = console;
 
@@ -14,6 +14,7 @@ type FixId = string;
 
 interface FixOptions {
   fixId?: FixId;
+  list?: boolean;
   yes?: boolean;
   dryRun?: boolean;
   useNpm?: boolean;
@@ -37,15 +38,32 @@ type FixSummary = {
   failed: Record<FixId, string>;
 };
 
-export const automigrate = async ({ fixId, dryRun, yes, useNpm, force }: FixOptions = {}) => {
+const logAvailableMigrations = () => {
+  const availableFixes = allFixes.map((f) => chalk.yellow(f.id)).join(', ');
+  logger.info(`\nThe following migrations are available: ${availableFixes}`);
+};
+
+export const automigrate = async ({ fixId, dryRun, yes, useNpm, force, list }: FixOptions = {}) => {
+  if (list) {
+    logAvailableMigrations();
+    return null;
+  }
+
+  const fixes = fixId ? allFixes.filter((f) => f.id === fixId) : allFixes;
+
+  if (fixId && fixes.length === 0) {
+    logger.info(`📭 No migrations found for ${chalk.magenta(fixId)}.`);
+    logAvailableMigrations();
+    return null;
+  }
+
   const packageManager = JsPackageManagerFactory.getPackageManager({ useNpm, force });
-  const filtered = fixId ? fixes.filter((f) => f.id === fixId) : fixes;
 
   logger.info('🔎 checking possible migrations..');
   const fixResults = {} as Record<FixId, FixStatus>;
   const fixSummary: FixSummary = { succeeded: [], failed: {}, manual: [], skipped: [] };
 
-  for (let i = 0; i < filtered.length; i += 1) {
+  for (let i = 0; i < fixes.length; i += 1) {
     const f = fixes[i] as Fix;
     let result;
 

@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import { styled } from '@storybook/theming';
 import type { NodeResult, Result } from 'axe-core';
-import { SizeMe } from 'react-sizeme';
+import ReactResizeDetector from 'react-resize-detector';
 import HighlightToggle from './Report/HighlightToggle';
 
 import type { RuleType } from './A11YPanel';
@@ -111,8 +111,8 @@ export const Tabs: React.FC<TabsProps> = ({ tabs }) => {
   const highlightToggleId = `${tabs[activeTab].type}-global-checkbox`;
   const highlightLabel = `Highlight results`;
   return (
-    <SizeMe refreshMode="debounce">
-      {({ size }) => (
+    <ReactResizeDetector handleWidth handleHeight refreshMode="debounce">
+      {(size) => (
         <Container>
           <List>
             <TabsWrapper>
@@ -143,6 +143,6 @@ export const Tabs: React.FC<TabsProps> = ({ tabs }) => {
           {tabs[activeTab].panel}
         </Container>
       )}
-    </SizeMe>
+    </ReactResizeDetector>
   );
 };
