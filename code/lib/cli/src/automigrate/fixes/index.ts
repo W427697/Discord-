@@ -16,10 +16,12 @@ import { mdx1to2 } from './mdx-1-to-2';
 import { docsPageAutomatic } from './docsPage-automatic';
 import { sveltekitFramework } from './sveltekit-framework';
 import { addReact } from './add-react';
+import { nodeJsRequirement } from './nodejs-requirement';
 
 export * from '../types';
 
 export const fixes: Fix[] = [
+  nodeJsRequirement,
   cra5,
   webpack5,
   angular12,

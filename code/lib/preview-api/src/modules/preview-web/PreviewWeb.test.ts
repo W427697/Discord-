@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 
-import global from 'global';
+import { global } from '@storybook/global';
 import merge from 'lodash/merge';
 import {
   CONFIG_ERROR,
@@ -58,21 +58,23 @@ const { history, document } = global;
 const mockStoryIndex = jest.fn(() => storyIndex);
 
 let mockFetchResult: any;
-jest.mock('global', () => ({
-  ...(jest.requireActual('global') as any),
-  history: { replaceState: jest.fn() },
-  document: {
-    location: {
-      pathname: 'pathname',
-      search: '?id=*',
+jest.mock('@storybook/global', () => ({
+  global: {
+    ...(jest.requireActual('@storybook/global') as any),
+    history: { replaceState: jest.fn() },
+    document: {
+      location: {
+        pathname: 'pathname',
+        search: '?id=*',
+      },
     },
+    FEATURES: {
+      storyStoreV7: true,
+      breakingChangesV7: true,
+      // xxx
+    },
+    fetch: async () => mockFetchResult,
   },
-  FEATURES: {
-    storyStoreV7: true,
-    breakingChangesV7: true,
-    // xxx
-  },
-  fetch: async () => mockFetchResult,
 }));
 
 jest.mock('@storybook/client-logger');

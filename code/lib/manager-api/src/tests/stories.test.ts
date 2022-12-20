@@ -12,7 +12,7 @@ import {
   SET_INDEX,
 } from '@storybook/core-events';
 import { EventEmitter } from 'events';
-import global from 'global';
+import { global } from '@storybook/global';
 
 import { Channel } from '@storybook/channels';
 
@@ -35,11 +35,13 @@ function mockChannel() {
 const mockGetEntries = jest.fn();
 
 jest.mock('../lib/events');
-jest.mock('global', () => ({
-  ...(jest.requireActual('global') as Record<string, any>),
-  fetch: jest.fn(() => ({ json: () => ({ v: 4, entries: mockGetEntries() }) })),
-  FEATURES: { storyStoreV7: true },
-  CONFIG_TYPE: 'DEVELOPMENT',
+jest.mock('@storybook/global', () => ({
+  global: {
+    ...globalThis,
+    fetch: jest.fn(() => ({ json: () => ({ v: 4, entries: mockGetEntries() }) })),
+    FEATURES: { storyStoreV7: true },
+    CONFIG_TYPE: 'DEVELOPMENT',
+  },
 }));
 
 const getEventMetadataMock = getEventMetadata as ReturnType<typeof jest.fn>;
@@ -85,9 +87,14 @@ beforeEach(() => {
   provider.getConfig.mockReset().mockReturnValue({});
   provider.serverChannel = mockChannel();
   mockGetEntries.mockReset().mockReturnValue(mockEntries);
-  global.fetch
-    .mockReset()
-    .mockReturnValue({ status: 200, json: () => ({ v: 4, entries: mockGetEntries() }) });
+
+  (global.fetch as jest.Mock<ReturnType<typeof global.fetch>>).mockReset().mockReturnValue(
+    Promise.resolve({
+      status: 200,
+      ok: true,
+      json: () => ({ v: 4, entries: mockGetEntries() }),
+    } as any as Response)
+  );
 
   getEventMetadataMock.mockReturnValue({ sourceType: 'local' } as any);
   getEventMetadataMock.mockReturnValue({ sourceType: 'local' } as any);
@@ -558,7 +565,12 @@ describe('stories API', () => {
       const store = createMockStore({});
       const fullAPI = Object.assign(new EventEmitter(), {});
 
-      global.fetch.mockReturnValue({ status: 500, text: async () => new Error('sorting error') });
+      (global.fetch as jest.Mock<ReturnType<typeof global.fetch>>).mockReturnValue(
+        Promise.resolve({
+          status: 500,
+          text: async () => new Error('sorting error'),
+        } as any as Response)
+      );
       const { api, init } = initStories({ store, navigate, provider, fullAPI } as any);
       Object.assign(fullAPI, api);
 
@@ -579,11 +591,11 @@ describe('stories API', () => {
       const { api, init } = initStories({ store, navigate, provider, fullAPI } as any);
       Object.assign(fullAPI, api);
 
-      global.fetch.mockClear();
+      (global.fetch as jest.Mock<ReturnType<typeof global.fetch>>).mockClear();
       await init();
-      expect(global.fetch).toHaveBeenCalledTimes(1);
+      expect(global.fetch as jest.Mock<ReturnType<typeof global.fetch>>).toHaveBeenCalledTimes(1);
 
-      global.fetch.mockClear();
+      (global.fetch as jest.Mock<ReturnType<typeof global.fetch>>).mockClear();
       mockGetEntries.mockReturnValueOnce({
         'component-a--story-1': {
           type: 'story',
