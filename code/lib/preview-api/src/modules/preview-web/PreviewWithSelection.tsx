@@ -233,6 +233,29 @@ export class PreviewWithSelection<TFramework extends Renderer> extends Preview<T
   }
 
   // RENDERING
+  async prepareSelection() {
+    const { selection } = this.selectionStore;
+    if (!selection) throw new Error('Cannot call prepareSelection as no selection was made');
+
+    const { storyId } = selection;
+    let entry;
+    try {
+      entry = await this.storyStore.storyIdToEntry(storyId);
+    } catch (err) {
+      if (this.currentRender) await this.teardownRender(this.currentRender);
+      this.renderStoryLoadingException(storyId, err as Error);
+      return false;
+    }
+
+    // Show a spinner while we load the next story
+    if (entry.type === 'story') {
+      this.view.showPreparingStory({ immediate: this.currentRender?.type !== entry.type });
+    } else {
+      this.view.showPreparingDocs();
+    }
+
+    return entry;
+  }
 
   // We can either have:
   // - a story selected in "story" viewMode,
@@ -242,28 +265,12 @@ export class PreviewWithSelection<TFramework extends Renderer> extends Preview<T
   async renderSelection({ persistedArgs }: { persistedArgs?: Args } = {}) {
     const { renderToCanvas } = this;
     if (!renderToCanvas) throw new Error('Cannot call renderSelection before initialization');
-    const { selection } = this.selectionStore;
-    if (!selection) throw new Error('Cannot call renderSelection as no selection was made');
 
-    const { storyId } = selection;
-    let entry;
-    try {
-      entry = await this.storyStore.storyIdToEntry(storyId);
-    } catch (err) {
-      if (this.currentRender) await this.teardownRender(this.currentRender);
-      this.renderStoryLoadingException(storyId, err as Error);
-      return;
-    }
+    const entry = await this.prepareSelection();
+    if (!entry) return;
 
-    const storyIdChanged = this.currentSelection?.storyId !== storyId;
+    const storyIdChanged = this.currentSelection?.storyId !== entry.id;
     const viewModeChanged = this.currentRender?.type !== entry.type;
-
-    // Show a spinner while we load the next story
-    if (entry.type === 'story') {
-      this.view.showPreparingStory({ immediate: viewModeChanged });
-    } else {
-      this.view.showPreparingDocs();
-    }
 
     // If the last render is still preparing, let's drop it right now. Either
     //   (a) it is a different story, which means we would drop it later, OR
@@ -285,8 +292,8 @@ export class PreviewWithSelection<TFramework extends Renderer> extends Preview<T
           this.view.showStoryDuringRender();
           return renderToCanvas(...args);
         },
-        this.mainStoryCallbacks(storyId),
-        storyId,
+        this.mainStoryCallbacks(entry.id),
+        entry.id,
         'story'
       );
     } else if (entry.standalone) {
@@ -298,7 +305,7 @@ export class PreviewWithSelection<TFramework extends Renderer> extends Preview<T
     // We need to store this right away, so if the story changes during
     // the async `.prepare()` below, we can (potentially) cancel it
     const lastSelection = this.currentSelection;
-    this.currentSelection = selection;
+    this.currentSelection = this.selectionStore.selection;
 
     const lastRender = this.currentRender;
     this.currentRender = render;
@@ -310,7 +317,7 @@ export class PreviewWithSelection<TFramework extends Renderer> extends Preview<T
         // We are about to render an error so make sure the previous story is
         // no longer rendered.
         if (lastRender) await this.teardownRender(lastRender);
-        this.renderStoryLoadingException(storyId, err as Error);
+        this.renderStoryLoadingException(entry.id, err as Error);
       }
       return;
     }
@@ -331,7 +338,7 @@ export class PreviewWithSelection<TFramework extends Renderer> extends Preview<T
       !viewModeChanged
     ) {
       this.currentRender = lastRender;
-      this.channel.emit(STORY_UNCHANGED, storyId);
+      this.channel.emit(STORY_UNCHANGED, entry.id);
       this.view.showMain();
       return;
     }
@@ -342,7 +349,7 @@ export class PreviewWithSelection<TFramework extends Renderer> extends Preview<T
 
     // If we are rendering something new (as opposed to re-rendering the same or first story), emit
     if (lastSelection && (storyIdChanged || viewModeChanged)) {
-      this.channel.emit(STORY_CHANGED, storyId);
+      this.channel.emit(STORY_CHANGED, entry.id);
     }
 
     if (isStoryRender(render)) {
@@ -353,7 +360,7 @@ export class PreviewWithSelection<TFramework extends Renderer> extends Preview<T
 
       if (global.FEATURES?.storyStoreV7) {
         this.channel.emit(STORY_PREPARED, {
-          id: storyId,
+          id: entry.id,
           parameters,
           initialArgs,
           argTypes,
@@ -365,7 +372,7 @@ export class PreviewWithSelection<TFramework extends Renderer> extends Preview<T
       // If the implementation changed, or args were persisted, the args may have changed,
       // and the STORY_PREPARED event above may not be respected.
       if (implementationChanged || persistedArgs) {
-        this.channel.emit(STORY_ARGS_UPDATED, { storyId, args });
+        this.channel.emit(STORY_ARGS_UPDATED, { storyId: entry.id, args });
       }
     }
 
