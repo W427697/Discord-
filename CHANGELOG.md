@@ -1,3 +1,45 @@
+## 6.5.15 (December 20, 2022)
+
+#### Bug Fixes
+
+-   Support Angular 15.0.4 [#20287](https://github.com/storybooks/storybook/pull/20287)
+-   CLI: execute automigrations when pressing enter in the prompts [#20208](https://github.com/storybooks/storybook/pull/20208)
+
+## 7.0.0-beta.13 (December 20, 2022)
+
+#### Features
+
+-   Angular: Support compodoc output arg [#20338](https://github.com/storybooks/storybook/pull/20338)
+-   NextJS: Support @next/font [#20291](https://github.com/storybooks/storybook/pull/20291)
+-   NextJS: Support useSelectedLayoutSegment and useSelectedLayoutSegments [#20330](https://github.com/storybooks/storybook/pull/20330)
+-   Preview Api: export `userOrAutoTitle` function [#20325](https://github.com/storybooks/storybook/pull/20325)
+
+#### Bug Fixes
+
+-   Fix: peer dependency warning for `vite-react` [#20328](https://github.com/storybooks/storybook/pull/20328)
+-   UI: swap `react-sizeme` for `react-resize-detector` [#20333](https://github.com/storybooks/storybook/pull/20333)
+-   Vite: Detect React SWC plugin [#20335](https://github.com/storybooks/storybook/pull/20335)
+-   CLI: Fix automigrate filtering [#20329](https://github.com/storybooks/storybook/pull/20329)
+-   Vite: Include user config `optimizeDeps` in final `optimizeDeps` [#20313](https://github.com/storybooks/storybook/pull/20313)
+
+#### Maintenance
+
+-   Tech: improve global types [#20184](https://github.com/storybooks/storybook/pull/20184)
+-   CLI: Fix sb migrate csf-2-to-3 for multiple file extensions [#20290](https://github.com/storybooks/storybook/pull/20290)
+-   CLI: Replace `update-notifier` with `simple-update-notifier` [#20266](https://github.com/storybooks/storybook/pull/20266)
+
+#### Build
+
+-   Build: remove borders in task error message [#20305](https://github.com/storybooks/storybook/pull/20305)
+-   Build: Fix pretty-docs CI job [#20319](https://github.com/storybooks/storybook/pull/20319)
+-   Build: Update Playwright to 1.29 [#20318](https://github.com/storybooks/storybook/pull/20318)
+
+#### Dependencies
+
+-   NextJS: Make addon-actions a regular dependency [#20324](https://github.com/storybooks/storybook/pull/20324)
+-   NextJS: Fix addon-actions peerdependency [#20324](https://github.com/storybooks/storybook/pull/20324)
+-   Vite-react: Fix peer dependency warning [#20328](https://github.com/storybooks/storybook/pull/20328)
+
 ## 7.0.0-beta.12 (December 16, 2022)
 
 #### Other

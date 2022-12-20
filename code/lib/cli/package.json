@@ -1,6 +1,6 @@
 {
   "name": "@storybook/cli",
-  "version": "7.0.0-beta.12",
+  "version": "7.0.0-beta.13",
   "description": "Storybook's CLI - easiest method of adding storybook to your projects",
   "keywords": [
     "cli",
@@ -43,13 +43,13 @@
   "dependencies": {
     "@babel/core": "^7.20.2",
     "@babel/preset-env": "^7.20.2",
-    "@storybook/codemod": "7.0.0-beta.12",
-    "@storybook/core-common": "7.0.0-beta.12",
-    "@storybook/core-server": "7.0.0-beta.12",
-    "@storybook/csf-tools": "7.0.0-beta.12",
-    "@storybook/node-logger": "7.0.0-beta.12",
-    "@storybook/telemetry": "7.0.0-beta.12",
-    "@storybook/types": "7.0.0-beta.12",
+    "@storybook/codemod": "7.0.0-beta.13",
+    "@storybook/core-common": "7.0.0-beta.13",
+    "@storybook/core-server": "7.0.0-beta.13",
+    "@storybook/csf-tools": "7.0.0-beta.13",
+    "@storybook/node-logger": "7.0.0-beta.13",
+    "@storybook/telemetry": "7.0.0-beta.13",
+    "@storybook/types": "7.0.0-beta.13",
     "@types/semver": "^7.3.4",
     "boxen": "^5.1.2",
     "chalk": "^4.1.0",
@@ -73,11 +73,12 @@
     "shelljs": "^0.8.5",
     "simple-update-notifier": "^1.0.0",
     "strip-json-comments": "^3.0.1",
+    "tempy": "^1.0.1",
     "ts-dedent": "^2.0.0",
     "util-deprecate": "^1.0.2"
   },
   "devDependencies": {
-    "@storybook/client-api": "7.0.0-beta.12",
+    "@storybook/client-api": "7.0.0-beta.13",
     "@types/cross-spawn": "^6.0.2",
     "@types/prompts": "^2.0.9",
     "@types/puppeteer-core": "^2.1.0",
@@ -96,5 +97,5 @@
     ],
     "platform": "node"
   },
-  "gitHead": "dd52c7e8853bc40791deb55e36473c0c18ab5957"
+  "gitHead": "ddf86bd126ede0c019d7c9494f99f24a5cad9908"
 }
