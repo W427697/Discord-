@@ -25,6 +25,7 @@ import type { BuilderOptions, TypescriptOptions } from '../types';
 import { createBabelLoader } from './babel-loader-preview';
 
 const storybookPaths: Record<string, string> = {
+  global: dirname(require.resolve('@storybook/global/package.json')),
   ...[
     // these packages are not pre-bundled because of react dependencies
     'api',
