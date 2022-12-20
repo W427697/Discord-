@@ -28,6 +28,7 @@
     - [Set `nextjs.appDirectory` to `true`](#set-nextjsappdirectory-to-true)
     - [Overriding defaults](#overriding-defaults-1)
     - [Global Defaults](#global-defaults-1)
+    - [`useSelectedLayoutSegment` and `useSelectedLayoutSegments` hook](#useselectedlayoutsegment-and-useselectedlayoutsegments-hook)
     - [Default Navigation Context](#default-navigation-context)
     - [Actions Integration Caveats](#actions-integration-caveats-1)
   - [Sass/Scss](#sassscss)
@@ -493,6 +494,40 @@ export const parameters = {
   },
 };
 ```
+
+#### `useSelectedLayoutSegment` and `useSelectedLayoutSegments` hook
+
+The `useSelectedLayoutSegment` and `useSelectedLayoutSegments` hooks are supported in Storybook. You have to set the `nextjs.navigation.segments` parameter to return the segments you want to use.
+
+```js
+// SomeComponentThatUsesTheNavigation.stories.js
+import SomeComponentThatUsesTheNavigation from './SomeComponentThatUsesTheNavigation';
+
+export default {
+  component: SomeComponentThatUsesTheNavigation,
+  parameters: {
+    nextjs: {
+      appDirectory: true,
+      navigation: {
+        segments: ['dashboard', 'analytics']
+      },
+    },
+  },
+};
+
+export const Example = {};
+
+// SomeComponentThatUsesTheNavigation.js
+import { useSelectedLayoutSegment, useSelectedLayoutSegments } from 'next/navigation';
+
+export default function SomeComponentThatUsesTheNavigation() {
+  const segment = useSelectedLayoutSegment(); // dashboard
+  const segments = useSelectedLayoutSegments(); // ["dashboard", "analytics"]
+  ...
+}
+```
+
+The default value of `nextjs.navigation.segments` is `[]` if not set.
 
 #### Default Navigation Context
 
