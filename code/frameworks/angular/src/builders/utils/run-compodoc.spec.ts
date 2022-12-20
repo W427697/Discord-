@@ -80,7 +80,6 @@ describe('runCompodoc', () => {
     );
   });
 
-
   it('should run compodoc with default output folder.', async () => {
     runCompodoc(
       {
@@ -149,5 +148,4 @@ describe('runCompodoc', () => {
       }
     );
   });
-
 });
