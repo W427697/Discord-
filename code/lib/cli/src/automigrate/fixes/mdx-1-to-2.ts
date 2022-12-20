@@ -5,17 +5,24 @@ import fse from 'fs-extra';
 import globby from 'globby';
 import type { Fix } from '../types';
 
-const MDX1_SCRIPT_START = /<style>{`/g;
-const MDX1_SCRIPT_END = /`}<\/style>/g;
+const MDX1_STYLE_START = /<style>{`/g;
+const MDX1_STYLE_END = /`}<\/style>/g;
+const MDX1_COMMENT = /<!--(.+)-->/g;
 
-export const fixMdxScript = (mdx: string) => {
-  return mdx.replace(MDX1_SCRIPT_START, '<style>\n  {`').replace(MDX1_SCRIPT_END, '  `}\n</style>');
+export const fixMdxStyleTags = (mdx: string) => {
+  return mdx.replace(MDX1_STYLE_START, '<style>\n  {`').replace(MDX1_STYLE_END, '  `}\n</style>');
+};
+
+export const fixMdxComments = (mdx: string) => {
+  return mdx.replace(MDX1_COMMENT, (original, group) => `{/*${group}*/}`);
 };
 
 const logger = console;
 
 interface Mdx1to2Options {
   storiesMdxFiles: string[];
+  allMdxFiles: string[];
+  nonStoriesMdx1Files: string[];
 }
 
 /**
@@ -30,7 +37,13 @@ export const mdx1to2: Fix<Mdx1to2Options> = {
 
   async check() {
     const storiesMdxFiles = await globby('./!(node_modules)**/*.(story|stories).mdx');
-    return storiesMdxFiles.length ? { storiesMdxFiles } : undefined;
+    const allMdxFiles = await globby('./!(node_modules)**/*.mdx');
+
+    const nonStoriesMdx1Files = allMdxFiles.filter((fname) => !storiesMdxFiles.includes(fname));
+
+    return storiesMdxFiles.length
+      ? { storiesMdxFiles, allMdxFiles, nonStoriesMdx1Files }
+      : undefined;
   },
 
   prompt({ storiesMdxFiles }) {
@@ -47,11 +60,11 @@ export const mdx1to2: Fix<Mdx1to2Options> = {
     `;
   },
 
-  async run({ result: { storiesMdxFiles }, dryRun }) {
-    await Promise.all(
-      storiesMdxFiles.map(async (fname) => {
+  async run({ result: { storiesMdxFiles, nonStoriesMdx1Files }, dryRun }) {
+    await Promise.all([
+      ...storiesMdxFiles.map(async (fname) => {
         const contents = await fse.readFile(fname, 'utf-8');
-        const updated = fixMdxScript(contents);
+        const updated = fixMdxComments(fixMdxStyleTags(contents));
         if (updated === contents) {
           logger.info(`🆗 Unmodified ${basename(fname)}`);
         } else {
@@ -60,7 +73,19 @@ export const mdx1to2: Fix<Mdx1to2Options> = {
             await fse.writeFile(fname, updated);
           }
         }
-      })
-    );
+      }),
+      ...nonStoriesMdx1Files.map(async (fname) => {
+        const contents = await fse.readFile(fname, 'utf-8');
+        const updated = fixMdxComments(contents);
+        if (updated === contents) {
+          logger.info(`🆗 Unmodified ${basename(fname)}`);
+        } else {
+          logger.info(`✅ Modified ${basename(fname)}`);
+          if (!dryRun) {
+            await fse.writeFile(fname, updated);
+          }
+        }
+      }),
+    ]);
   },
 };
