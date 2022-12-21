@@ -53,7 +53,7 @@ const options = {
   ] as StoryIndexer[],
   storiesV2Compatibility: false,
   storyStoreV7: true,
-  docs: { disabled: false, defaultName: 'docs', docsPage: false },
+  docs: { disabled: false, defaultName: 'docs', autodocs: false },
 };
 
 describe('StoryIndexGenerator', () => {
@@ -172,7 +172,7 @@ describe('StoryIndexGenerator', () => {
                 "importPath": "./src/B.stories.ts",
                 "name": "Story One",
                 "tags": Array [
-                  "docsPage",
+                  "autodocs",
                   "story",
                 ],
                 "title": "B",
@@ -183,7 +183,7 @@ describe('StoryIndexGenerator', () => {
                 "importPath": "./src/D.stories.jsx",
                 "name": "Story One",
                 "tags": Array [
-                  "docsPage",
+                  "autodocs",
                   "story",
                 ],
                 "title": "D",
@@ -304,18 +304,18 @@ describe('StoryIndexGenerator', () => {
       });
     });
 
-    describe('docsPage', () => {
-      const docsPageOptions = {
+    describe('autodocs', () => {
+      const autodocsOptions = {
         ...options,
-        docs: { ...options.docs, docsPage: true },
+        docs: { ...options.docs, autodocs: 'tag' as const },
       };
-      it('generates an entry per CSF file with the docsPage tag', async () => {
+      it('generates an entry per CSF file with the autodocs tag', async () => {
         const specifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
           './src/**/*.stories.(ts|js|jsx)',
           options
         );
 
-        const generator = new StoryIndexGenerator([specifier], docsPageOptions);
+        const generator = new StoryIndexGenerator([specifier], autodocsOptions);
         await generator.initialize();
 
         expect(await generator.getIndex()).toMatchInlineSnapshot(`
@@ -329,7 +329,7 @@ describe('StoryIndexGenerator', () => {
                 "storiesImports": Array [],
                 "tags": Array [
                   "component-tag",
-                  "docsPage",
+                  "autodocs",
                   "docs",
                 ],
                 "title": "A",
@@ -353,7 +353,7 @@ describe('StoryIndexGenerator', () => {
                 "standalone": false,
                 "storiesImports": Array [],
                 "tags": Array [
-                  "docsPage",
+                  "autodocs",
                   "docs",
                 ],
                 "title": "B",
@@ -364,7 +364,7 @@ describe('StoryIndexGenerator', () => {
                 "importPath": "./src/B.stories.ts",
                 "name": "Story One",
                 "tags": Array [
-                  "docsPage",
+                  "autodocs",
                   "story",
                 ],
                 "title": "B",
@@ -377,7 +377,7 @@ describe('StoryIndexGenerator', () => {
                 "standalone": false,
                 "storiesImports": Array [],
                 "tags": Array [
-                  "docsPage",
+                  "autodocs",
                   "docs",
                 ],
                 "title": "D",
@@ -388,7 +388,7 @@ describe('StoryIndexGenerator', () => {
                 "importPath": "./src/D.stories.jsx",
                 "name": "Story One",
                 "tags": Array [
-                  "docsPage",
+                  "autodocs",
                   "story",
                 ],
                 "title": "D",
@@ -431,17 +431,17 @@ describe('StoryIndexGenerator', () => {
         `);
       });
 
-      it('generates an entry for every CSF file when docsOptions.docsPage = automatic', async () => {
+      it('generates an entry for every CSF file when docsOptions.autodocs = true', async () => {
         const specifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
           './src/**/*.stories.(ts|js|jsx)',
           options
         );
 
         const generator = new StoryIndexGenerator([specifier], {
-          ...docsPageOptions,
+          ...autodocsOptions,
           docs: {
-            ...docsPageOptions.docs,
-            docsPage: 'automatic',
+            ...autodocsOptions.docs,
+            autodocs: true,
           },
         });
         await generator.initialize();
@@ -475,7 +475,7 @@ describe('StoryIndexGenerator', () => {
           options
         );
 
-        const generator = new StoryIndexGenerator([csfSpecifier, docsSpecifier], docsPageOptions);
+        const generator = new StoryIndexGenerator([csfSpecifier, docsSpecifier], autodocsOptions);
         await generator.initialize();
 
         expect(await generator.getIndex()).toMatchInlineSnapshot(`
@@ -519,7 +519,7 @@ describe('StoryIndexGenerator', () => {
           options
         );
 
-        const generator = new StoryIndexGenerator([specifier], docsPageOptions);
+        const generator = new StoryIndexGenerator([specifier], autodocsOptions);
         await generator.initialize();
 
         expect(await generator.getIndex()).toMatchInlineSnapshot(`
@@ -534,7 +534,7 @@ describe('StoryIndexGenerator', () => {
                   "./duplicate/SecondA.stories.js",
                 ],
                 "tags": Array [
-                  "docsPage",
+                  "autodocs",
                   "docs",
                 ],
                 "title": "duplicate/A",
@@ -545,7 +545,7 @@ describe('StoryIndexGenerator', () => {
                 "importPath": "./duplicate/A.stories.js",
                 "name": "Story One",
                 "tags": Array [
-                  "docsPage",
+                  "autodocs",
                   "story",
                 ],
                 "title": "duplicate/A",
@@ -556,7 +556,7 @@ describe('StoryIndexGenerator', () => {
                 "importPath": "./duplicate/SecondA.stories.js",
                 "name": "Story Two",
                 "tags": Array [
-                  "docsPage",
+                  "autodocs",
                   "story",
                 ],
                 "title": "duplicate/A",
@@ -575,7 +575,7 @@ describe('StoryIndexGenerator', () => {
           options
         );
 
-        const generator = new StoryIndexGenerator([csfSpecifier], docsPageOptions);
+        const generator = new StoryIndexGenerator([csfSpecifier], autodocsOptions);
         await generator.initialize();
 
         expect(await generator.getIndex()).toMatchInlineSnapshot(`

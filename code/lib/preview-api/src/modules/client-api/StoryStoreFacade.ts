@@ -195,11 +195,11 @@ export class StoryStoreFacade<TRenderer extends Renderer> {
 
     // NOTE: this logic is equivalent to the `extractStories` function of `StoryIndexGenerator`
     const docsOptions = (global.DOCS_OPTIONS || {}) as DocsOptions;
-    const docsPageOptedIn =
-      docsOptions.docsPage === 'automatic' ||
-      (docsOptions.docsPage && componentTags.includes('docsPage'));
+    const autodocsOptedIn =
+      docsOptions.autodocs === true ||
+      (docsOptions.autodocs === 'tag' && componentTags.includes('autodocs'));
     if (!docsOptions.disable && storyExports.length) {
-      if (componentTags.includes('mdx') || docsPageOptedIn) {
+      if (componentTags.includes('mdx') || autodocsOptedIn) {
         const name = docsOptions.defaultName;
         const docsId = toId(componentId || title, name);
         this.entries[docsId] = {

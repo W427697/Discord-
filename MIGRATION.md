@@ -40,7 +40,7 @@
   - [Docs Changes](#docs-changes)
     - [Standalone docs files](#standalone-docs-files)
     - [Referencing stories in docs files](#referencing-stories-in-docs-files)
-    - [Docs Page](#docs-page)
+    - [Autodocs](#autodocs)
     - [Configuring the Docs Container](#configuring-the-docs-container)
     - [External Docs](#external-docs)
     - [MDX2 upgrade](#mdx2-upgrade)
@@ -754,32 +754,32 @@ import * as SecondComponentStories from './second-component.stories';
 <Story of={SecondComponentStories.standard} meta={SecondComponentStories} />
 ```
 
-#### Docs Page
+#### Autodocs
 
-In 7.0, rather than rendering each story in "docs view mode", Docs Page operates by adding additional sidebar entries for each component. By default it uses the same template as was used in 6.x, and the entries are entitled `Docs`.
+In 7.0, rather than rendering each story in "docs view mode", Autodocs (ex. "Docs Page") operates by adding additional sidebar entries for each component. By default it uses the same template as was used in 6.x, and the entries are entitled `Docs`.
 
-You can configure Docs Page in `main.js`:
+You can configure Autodocs in `main.js`:
 
 ```js
 module.exports = {
   docs: {
-    docsPage: 'automatic', // see below for alternatives
+    autodocs: true, // see below for alternatives
     defaultName: 'Docs', // set to change the name of generated docs entries
   },
 };
 ```
 
-If you are migrating from 6.x your `docs.docsPage` option will have been set to `'automatic'`, which has the effect of enabling docs page for _every_ CSF file. However, as of 7.0, the new default is `true`, which requires opting into DocsPage per-CSF file, with the `docsPage` **tag** on your component export:
+If you are migrating from 6.x your `docs.autodocs` option will have been set to `true`, which has the effect of enabling docs page for _every_ CSF file. However, as of 7.0, the new default is `'tag'`, which requires opting into Autodocs per-CSF file, with the `autodocs` **tag** on your component export:
 
 ```ts
 export default {
   component: MyComponent
   // Tags are a new feature coming in 7.1, that we are using to drive this behaviour.
-  tags: ['docsPage']
+  tags: ['autodocs']
 }
 ```
 
-You can also set `docsPage: false` to opt-out of docs page entirely.
+You can also set `autodocs: false` to opt-out of Autodocs entirely.
 
 You can change the default template in the same way as in 6.x, using the `docs.page` parameter.
 

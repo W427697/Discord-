@@ -13,7 +13,7 @@ import { nextjsFramework } from './nextjs-framework';
 import { newFrameworks } from './new-frameworks';
 import { removedGlobalClientAPIs } from './remove-global-client-apis';
 import { mdx1to2 } from './mdx-1-to-2';
-import { docsPageAutomatic } from './docsPage-automatic';
+import { autodocsTrue } from './autodocs-true';
 import { sveltekitFramework } from './sveltekit-framework';
 import { addReact } from './add-react';
 import { nodeJsRequirement } from './nodejs-requirement';
@@ -36,6 +36,6 @@ export const fixes: Fix[] = [
   nextjsFramework,
   removedGlobalClientAPIs,
   mdx1to2,
-  docsPageAutomatic,
+  autodocsTrue,
   addReact,
 ];
