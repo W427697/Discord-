@@ -53,7 +53,7 @@ const options = {
   ] as StoryIndexer[],
   storiesV2Compatibility: false,
   storyStoreV7: true,
-  docs: { enabled: true, defaultName: 'docs', docsPage: false },
+  docs: { disabled: false, defaultName: 'docs', docsPage: false },
 };
 
 describe('StoryIndexGenerator', () => {
@@ -279,7 +279,7 @@ describe('StoryIndexGenerator', () => {
 
         const generator = new StoryIndexGenerator([specifier], {
           ...options,
-          docs: { enabled: false },
+          docs: { disable: true },
         });
         await generator.initialize();
 
@@ -700,7 +700,7 @@ describe('StoryIndexGenerator', () => {
           ...options,
           docs: {
             ...options.docs,
-            enabled: false,
+            disable: true,
           },
         });
         await generator.initialize();

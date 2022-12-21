@@ -198,7 +198,7 @@ export class StoryStoreFacade<TRenderer extends Renderer> {
     const docsPageOptedIn =
       docsOptions.docsPage === 'automatic' ||
       (docsOptions.docsPage && componentTags.includes('docsPage'));
-    if (docsOptions.enabled && storyExports.length) {
+    if (!docsOptions.disable && storyExports.length) {
       if (componentTags.includes('mdx') || docsPageOptedIn) {
         const name = docsOptions.defaultName;
         const docsId = toId(componentId || title, name);

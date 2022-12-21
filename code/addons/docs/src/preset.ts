@@ -150,7 +150,7 @@ const storyIndexers = (indexers: StoryIndexer[] | null) => {
 const docs = (docsOptions: DocsOptions) => {
   return {
     ...docsOptions,
-    enabled: true,
+    disable: true,
     defaultName: 'Docs',
     docsPage: true,
   };

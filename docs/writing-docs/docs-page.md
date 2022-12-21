@@ -55,7 +55,7 @@ By default, Storybook offers zero-config support for documentation and automatic
 
 | Option        | Description                                                                                            |
 | ------------- | ------------------------------------------------------------------------------------------------------ |
-| `enabled`     | Toggles support for all documentation pages <br/> `docs: { enabled:false }`                            |
+| `disable`     | Toggles support for all documentation pages <br/> `docs: { disable:true }`                            |
 | `docsPage`    | Disables auto-generated documentation pages created via `tags` <br/> `docs: { docsPage: false }`       |
 | `automatic`   | Enables auto-generated documentation pages for every component <br/> `docs: { docsPage: 'automatic' }` |
 | `defaultName` | Renames the auto-generated documentation page<br/> `docs: { defaultName: 'Documentation' }`            |
