@@ -3491,21 +3491,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@joshwooding/vite-plugin-react-docgen-typescript@npm:0.0.0-20221218231544":
-  version: 0.0.0-20221218231544
-  resolution: "@joshwooding/vite-plugin-react-docgen-typescript@npm:0.0.0-20221218231544"
+"@joshwooding/vite-plugin-react-docgen-typescript@npm:^0.2.0":
+  version: 0.2.0
+  resolution: "@joshwooding/vite-plugin-react-docgen-typescript@npm:0.2.0"
   dependencies:
     glob: ^7.2.0
     glob-promise: ^4.2.0
-    magic-string: ^0.26.1
-    react-docgen-typescript: ^2.1.1
+    magic-string: ^0.27.0
+    react-docgen-typescript: ^2.2.2
   peerDependencies:
     typescript: ">= 4.3.x"
-    vite: ^3.0.0
+    vite: ^3.0.0 || ^4.0.0
   peerDependenciesMeta:
     typescript:
       optional: true
-  checksum: 98e96b97f3020ce56924d0fea3fbab728bdda92b7958c54cbfe508e996fc59020ac5b4a865603cc11ed876e5366133e75875f8664ac2d962aeedf62e732a9e3d
+  checksum: a9812d1ac5b2d29065157bff820033f725792ffa221fc275e0b089e0b010580341a711e669822221ec34c6e80df4b0088713a5a35d913f93079eb3238d5c53d9
   languageName: node
   linkType: hard
 
@@ -7214,7 +7214,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/react-vite@workspace:frameworks/react-vite"
   dependencies:
-    "@joshwooding/vite-plugin-react-docgen-typescript": 0.0.0-20221218231544
+    "@joshwooding/vite-plugin-react-docgen-typescript": ^0.2.0
     "@rollup/pluginutils": ^4.2.0
     "@storybook/builder-vite": 7.0.0-beta.13
     "@storybook/react": 7.0.0-beta.13
@@ -27380,7 +27380,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-docgen-typescript@npm:^2.1.1":
+"react-docgen-typescript@npm:^2.1.1, react-docgen-typescript@npm:^2.2.2":
   version: 2.2.2
   resolution: "react-docgen-typescript@npm:2.2.2"
   peerDependencies:
