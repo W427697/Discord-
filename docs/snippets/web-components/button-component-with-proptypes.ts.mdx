@@ -1,0 +1,20 @@
+```ts
+// Button.ts
+
+import { html } from 'lit-html';
+
+export interface ButtonProps {
+  /**
+   Checks if the button should be disabled
+  */
+  isDisabled?: boolean;
+  /**
+  The display content of the button
+  */
+  content: string;
+}
+
+export const Button = ({ isDisabled, content }: ButtonProps) => {
+  return html` <button type="button" ?disabled=${isDisabled}>${label}</button> `;
+};
+```

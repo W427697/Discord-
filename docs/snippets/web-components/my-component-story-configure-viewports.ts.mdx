@@ -1,11 +1,15 @@
-```js
-// MyComponent.stories.js
+```ts
+// MyComponent.stories.ts
 
-import { MyComponent } from './MyComponent';
+import type { Meta, StoryObj } from '@storybook/web-components';
 
 import { INITIAL_VIEWPORTS } from '@storybook/addon-viewport';
 
-export default {
+import type { MyComponentProps } from './MyComponent';
+
+import { MyComponent } from './MyComponent';
+
+const meta: Meta<MyComponentProps> = {
   title: 'MyComponent',
   parameters: {
     //👇 The viewports object from the Essentials addon
@@ -17,6 +21,9 @@ export default {
     },
   },
 };
+
+export default meta;
+type Story = StoryObj<MyComponentProps>;
 
 /*
  *👇 Render functions are a framework specific feature to allow you control on how the component renders.

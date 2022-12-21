@@ -1,0 +1,29 @@
+```ts
+// MyComponent.stories.ts
+
+import type { Meta, StoryObj } from '@storybook/web-components';
+
+import { withDesign } from 'storybook-addon-designs';
+
+import type { MyComponentProps } from './MyComponent';
+
+import { MyComponent } from './MyComponent';
+
+const meta: Meta<MyComponentProps> = {
+  title: 'FigmaExample',
+  render: (args) => MyComponent(args),
+  decorators: [withDesign],
+};
+
+export default meta;
+type Story = StoryObj<MyComponentProps>;
+
+export const Example: Story = {
+  parameters: {
+    design: {
+      type: 'figma',
+      url: 'https://www.figma.com/file/Sample-File',
+    },
+  },
+};
+```
