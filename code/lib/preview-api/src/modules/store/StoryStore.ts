@@ -75,6 +75,10 @@ export class StoryStore<TRenderer extends Renderer> {
     });
   }
 
+  setStoryIndex(storyIndex: StoryIndex) {
+    this.storyIndex = new StoryIndexStore(storyIndex);
+  }
+
   setProjectAnnotations(projectAnnotations: ProjectAnnotations<TRenderer>) {
     // By changing `this.projectAnnotations, we implicitly invalidate the `prepareStoryWithCache`
     this.projectAnnotations = normalizeProjectAnnotations(projectAnnotations);
@@ -88,16 +92,18 @@ export class StoryStore<TRenderer extends Renderer> {
   }
 
   initialize({
-    storyIndex,
     importFn,
     cache = false,
   }: {
-    storyIndex?: StoryIndex;
     importFn: ModuleImportFn;
     cache?: boolean;
   }): Promise<void> {
-    this.storyIndex = new StoryIndexStore(storyIndex);
     this.importFn = importFn;
+
+    // These two are loaded separately and initialize should be called once they are complete.
+    if (!this.storyIndex) throw new Error('Cannot initialize store until index is ready');
+    if (!this.projectAnnotations)
+      throw new Error('Cannot initialize store until project annotations are ready');
 
     // We don't need the cache to be loaded to call `loadStory`, we just need the index ready
     this.resolveInitializationPromise();
@@ -125,8 +131,7 @@ export class StoryStore<TRenderer extends Renderer> {
   }
 
   // Get an entry from the index, waiting on initialization if necessary
-  async storyIdToEntry(storyId: StoryId): Promise<IndexEntry> {
-    await this.initializationPromise;
+  storyIdToEntry(storyId: StoryId): IndexEntry {
     // The index will always be set before the initialization promise returns
     return this.storyIndex!.storyIdToEntry(storyId);
   }
@@ -239,7 +244,9 @@ export class StoryStore<TRenderer extends Renderer> {
   }
 
   async loadEntry(id: StoryId) {
-    const entry = await this.storyIdToEntry(id);
+    await this.initializationPromise;
+
+    const entry = this.storyIdToEntry(id);
 
     const { importFn, storyIndex } = this;
     if (!storyIndex || !importFn) throw new Error(`loadEntry called before initialization`);

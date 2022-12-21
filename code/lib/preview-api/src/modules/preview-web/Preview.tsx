@@ -92,7 +92,9 @@ export class Preview<TFramework extends Renderer> {
     return SynchronousPromise.all([
       this.prepareProjectAnnotationsOrRenderError(getProjectAnnotations),
       this.prepareStoryIndex(),
-    ]).then(() => {});
+    ]).then(() => {
+      this.storyStore.initialize({ importFn });
+    });
   }
 
   setupListeners() {
@@ -203,7 +205,9 @@ export class Preview<TFramework extends Renderer> {
   }) {
     delete this.previewEntryError;
 
-    const projectAnnotations = await this.getProjectAnnotationsOrRenderError(getProjectAnnotations);
+    const projectAnnotations = await this.prepareProjectAnnotationsOrRenderError(
+      getProjectAnnotations
+    );
     if (!this.storyStore.projectAnnotations) {
       await this.initializeWithProjectAnnotations(projectAnnotations);
       return;
