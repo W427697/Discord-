@@ -349,9 +349,11 @@ class Layout extends Component<LayoutProps, LayoutState> {
     viewMode: undefined,
   };
 
+  handleRef: React.RefObject<HTMLDivElement>;
+
   constructor(props: LayoutProps) {
     super(props);
-
+    this.handleRef = React.createRef();
     const { bounds, options } = props;
 
     const { resizerNav, resizerPanel } = persistence.get();
@@ -533,8 +535,9 @@ class Layout extends Component<LayoutProps, LayoutState> {
             onStart={this.setDragNav}
             onDrag={this.resizeNav}
             onStop={this.unsetDrag}
+            nodeRef={this.handleRef}
           >
-            <Handle axis="x" isDragging={isDragging === 'nav'} />
+            <Handle ref={this.handleRef} axis="x" isDragging={isDragging === 'nav'} />
           </Draggable>
         )}
 
