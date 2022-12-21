@@ -2,12 +2,13 @@ import path, { join } from 'path';
 import semver from 'semver';
 import {
   checkForProjects,
+  editAngularConfig,
   editStorybookTsConfig,
   getAngularAppTsConfigJson,
   getAngularAppTsConfigPath,
-  getBaseTsConfigName,
+  getDefaultProjectName,
 } from './angular-helpers';
-import { writeFileAsJson, copyTemplate } from '../../helpers';
+import { writeFileAsJson, copyTemplate, readFileAsJson } from '../../helpers';
 import { getCliDir } from '../../dirs';
 import { baseGenerator } from '../baseGenerator';
 import type { Generator } from '../types';
@@ -35,7 +36,7 @@ const generator: Generator = async (packageManager, npmOptions, options) => {
   const angularVersion = semver.coerce(
     packageManager.retrievePackageJson().dependencies['@angular/core']
   )?.version;
-  const isWebpack5 = semver.gte(angularVersion, '12.0.0');
+  const isWebpack5 = semver.gte(angularVersion, '13.0.0');
   const updatedOptions = isWebpack5 ? { ...options, builder: CoreBuilder.Webpack5 } : options;
 
   await baseGenerator(
@@ -54,43 +55,14 @@ const generator: Generator = async (packageManager, npmOptions, options) => {
   copyTemplate(templateDir);
 
   editAngularAppTsConfig();
-
-  // TODO: we need to add the following:
-
-  /*
-  "storybook": {
-    "builder": "@storybook/angular:start-storybook",
-    "options": {
-      "browserTarget": "angular-cli:build",
-      "port": 4400
-    }
-  },
-  "build-storybook": {
-    "builder": "@storybook/angular:build-storybook",
-    "options": {
-      "browserTarget": "angular-cli:build"
-    }
-  }
-  */
-
-  // to the user's angular.json file. see: https://github.com/storybookjs/storybook/blob/next/examples/angular-cli/angular.json#L78
-
-  // then we want to add these scripts to package.json
-  // packageManager.addScripts({
-  //   storybook: 'ng storybook',
-  //   'build-storybook': 'ng build-storybook',
-  // });
-
   editStorybookTsConfig(path.resolve('./.storybook/tsconfig.json'));
+  editAngularConfig();
 
-  // edit scripts to generate docs
-  const tsConfigFile = await getBaseTsConfigName();
+  const angularJson = readFileAsJson('angular.json', true);
+  const defaultProject = getDefaultProjectName(angularJson);
   packageManager.addScripts({
-    'docs:json': `compodoc -p ./${tsConfigFile} -e json -d .`,
-  });
-  packageManager.addStorybookCommandInScripts({
-    port: 6006,
-    preCommand: 'docs:json',
+    storybook: `ng run ${defaultProject}:storybook`,
+    'build-storybook': `ng run ${defaultProject}:build-storybook`,
   });
 };
 

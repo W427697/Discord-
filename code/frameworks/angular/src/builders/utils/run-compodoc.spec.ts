@@ -99,6 +99,7 @@ describe('runCompodoc', () => {
       ['compodoc', '-p', 'path/to/tsconfig.json', '-d', 'path/to/project'],
       {
         cwd: 'path/to/project',
+        shell: true,
       }
     );
   });
@@ -122,6 +123,7 @@ describe('runCompodoc', () => {
       ['compodoc', '-p', 'path/to/tsconfig.json', '--output', 'path/to/customFolder'],
       {
         cwd: 'path/to/project',
+        shell: true,
       }
     );
   });
@@ -145,6 +147,7 @@ describe('runCompodoc', () => {
       ['compodoc', '-p', 'path/to/tsconfig.json', '-d', 'path/to/customFolder'],
       {
         cwd: 'path/to/project',
+        shell: true,
       }
     );
   });

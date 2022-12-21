@@ -104,8 +104,8 @@ describe('extractType', () => {
       ['number', { name: 'number' }],
       ['object', { name: 'object' }],
       ['foo', { name: 'object' }],
-      [null, { name: 'void' }],
-      [undefined, { name: 'void' }],
+      [null, { name: 'other', value: 'void' }],
+      [undefined, { name: 'other', value: 'void' }],
       ['T[]', { name: 'object' }],
       ['[]', { name: 'object' }],
       ['"primary" | "secondary"', { name: 'enum', value: ['primary', 'secondary'] }],
@@ -126,7 +126,7 @@ describe('extractType', () => {
       [10, { name: 'number' }],
       [['abc'], { name: 'object' }],
       [{ foo: 1 }, { name: 'object' }],
-      [undefined, { name: 'void' }],
+      [undefined, { name: 'other', value: 'void' }],
     ])('%s', (defaultValue, expected) => {
       expect(extractType(makeProperty(null), defaultValue)).toEqual(expected);
     });

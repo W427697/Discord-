@@ -22,7 +22,10 @@ const {
  * @param {*} baseConfig Previous webpack config from storybook
  * @param {*} options { builderOptions, builderContext }
  */
-exports.getWebpackConfig = async (baseConfig, { builderOptions, builderContext }) => {
+export const getWebpackConfig = async (
+  baseConfig: any,
+  { builderOptions, builderContext }: any
+) => {
   /**
    * Get angular-cli Webpack config
    */
@@ -44,7 +47,7 @@ exports.getWebpackConfig = async (baseConfig, { builderOptions, builderContext }
       aot: false,
     },
     builderContext,
-    (wco) => [
+    (wco: any) => [
       getCommonConfig(wco),
       getStylesConfig(wco),
       getTypeScriptConfig ? getTypeScriptConfig(wco) : getDevServerConfig(wco),

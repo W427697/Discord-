@@ -168,7 +168,7 @@ like <strong>bold</strong>, <em>italic</em>, and <code>inline code</code>.</p>
           "name": "click",
         },
       ],
-      "id": "component-InputComponent-d145da25329b094ee29610c45a9e46387cb39eddb2a67b4c9fadb84bcec76eacd60d131e48d98b2ee5725dedd25f2eb299b704e8e0a34307d6e84f6e57d57044",
+      "id": "component-InputComponent-c41715855a5502298a7371896051b0eb7ece5dd69a5ed627e33d70af5f3fb5c01ee7696471d891de9c989d746e24d5b58180ae67f596b0e4db7c25b189b17e98",
       "inputs": Array [],
       "inputsClass": Array [
         Object {
@@ -725,13 +725,13 @@ like **bold**, _italic_, and \`inline code\`.
       "selector": "doc-button",
       "sourceCode": "import {
   Component,
-  ElementRef,
   EventEmitter,
   HostBinding,
   HostListener,
   Input,
   Output,
   ViewChild,
+  ElementRef,
 } from '@angular/core';
 
 export const exportedConstant = 'An exported constant';
@@ -974,7 +974,7 @@ export class InputComponent<T> {
       "deprecated": false,
       "deprecationMessage": "",
       "file": "frameworks/angular/src/client/docs/__testfixtures__/doc-button/input.ts",
-      "id": "interface-ISomeInterface-d145da25329b094ee29610c45a9e46387cb39eddb2a67b4c9fadb84bcec76eacd60d131e48d98b2ee5725dedd25f2eb299b704e8e0a34307d6e84f6e57d57044",
+      "id": "interface-ISomeInterface-c41715855a5502298a7371896051b0eb7ece5dd69a5ed627e33d70af5f3fb5c01ee7696471d891de9c989d746e24d5b58180ae67f596b0e4db7c25b189b17e98",
       "indexSignatures": Array [],
       "kind": 165,
       "methods": Array [],
@@ -1010,13 +1010,13 @@ export class InputComponent<T> {
       ],
       "sourceCode": "import {
   Component,
-  ElementRef,
   EventEmitter,
   HostBinding,
   HostListener,
   Input,
   Output,
   ViewChild,
+  ElementRef,
 } from '@angular/core';
 
 export const exportedConstant = 'An exported constant';

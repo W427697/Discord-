@@ -3,7 +3,6 @@
 exports[`angular component properties doc-button 1`] = `
 Object {
   "_inputValue": Object {
-    "defaultValue": "some value",
     "description": "",
     "name": "_inputValue",
     "table": Object {
@@ -21,7 +20,6 @@ Object {
     },
   },
   "_value": Object {
-    "defaultValue": "Private hello",
     "description": "
 Private value.",
     "name": "_value",
@@ -40,7 +38,6 @@ Private value.",
     },
   },
   "accent": Object {
-    "defaultValue": undefined,
     "description": "
 Specify the accent-type of the button",
     "name": "accent",
@@ -55,11 +52,11 @@ Specify the accent-type of the button",
       },
     },
     "type": Object {
-      "name": "object",
+      "name": "other",
+      "value": "empty-enum",
     },
   },
   "appearance": Object {
-    "defaultValue": "secondary",
     "description": "
 Appearance style of the button.",
     "name": "appearance",
@@ -82,7 +79,6 @@ Appearance style of the button.",
     },
   },
   "buttonRef": Object {
-    "defaultValue": undefined,
     "description": "",
     "name": "buttonRef",
     "table": Object {
@@ -96,11 +92,11 @@ Appearance style of the button.",
       },
     },
     "type": Object {
-      "name": "void",
+      "name": "other",
+      "value": "void",
     },
   },
   "calc": Object {
-    "defaultValue": undefined,
     "description": "
 
 An internal calculation method which adds \`x\` and \`y\` together.
@@ -118,11 +114,11 @@ An internal calculation method which adds \`x\` and \`y\` together.
       },
     },
     "type": Object {
-      "name": "void",
+      "name": "other",
+      "value": "void",
     },
   },
   "focus": Object {
-    "defaultValue": false,
     "description": "",
     "name": "focus",
     "table": Object {
@@ -140,7 +136,6 @@ An internal calculation method which adds \`x\` and \`y\` together.
     },
   },
   "inputValue": Object {
-    "defaultValue": undefined,
     "description": "
 Setter for \`inputValue\` that is also an \`@Input\`.",
     "name": "inputValue",
@@ -159,7 +154,6 @@ Setter for \`inputValue\` that is also an \`@Input\`.",
     },
   },
   "internalProperty": Object {
-    "defaultValue": "Public hello",
     "description": "
 Public value.",
     "name": "internalProperty",
@@ -178,7 +172,6 @@ Public value.",
     },
   },
   "isDisabled": Object {
-    "defaultValue": false,
     "description": "
 Sets the button to a disabled state.",
     "name": "isDisabled",
@@ -197,7 +190,6 @@ Sets the button to a disabled state.",
     },
   },
   "item": Object {
-    "defaultValue": undefined,
     "description": undefined,
     "name": "item",
     "table": Object {
@@ -211,11 +203,11 @@ Sets the button to a disabled state.",
       },
     },
     "type": Object {
-      "name": "object",
+      "name": "other",
+      "value": "empty-enum",
     },
   },
   "label": Object {
-    "defaultValue": undefined,
     "description": "
 
 The inner text of the button.
@@ -238,7 +230,6 @@ The inner text of the button.
   },
   "onClick": Object {
     "action": "onClick",
-    "defaultValue": undefined,
     "description": "
 
 Handler to be called when the button is clicked by a user.
@@ -257,11 +248,11 @@ Will also block the emission of the event if \`isDisabled\` is true.
       },
     },
     "type": Object {
-      "name": "void",
+      "name": "other",
+      "value": "void",
     },
   },
   "onClickListener": Object {
-    "defaultValue": undefined,
     "description": undefined,
     "name": "onClickListener",
     "table": Object {
@@ -275,11 +266,11 @@ Will also block the emission of the event if \`isDisabled\` is true.
       },
     },
     "type": Object {
-      "name": "void",
+      "name": "other",
+      "value": "void",
     },
   },
   "privateMethod": Object {
-    "defaultValue": undefined,
     "description": "
 
 A private method.
@@ -297,11 +288,11 @@ A private method.
       },
     },
     "type": Object {
-      "name": "void",
+      "name": "other",
+      "value": "void",
     },
   },
   "processedItem": Object {
-    "defaultValue": undefined,
     "description": "",
     "name": "processedItem",
     "table": Object {
@@ -315,11 +306,11 @@ A private method.
       },
     },
     "type": Object {
-      "name": "object",
+      "name": "other",
+      "value": "empty-enum",
     },
   },
   "protectedMethod": Object {
-    "defaultValue": undefined,
     "description": "
 
 A protected method.
@@ -337,11 +328,11 @@ A protected method.
       },
     },
     "type": Object {
-      "name": "void",
+      "name": "other",
+      "value": "void",
     },
   },
   "publicMethod": Object {
-    "defaultValue": undefined,
     "description": "
 A public method using an interface.",
     "name": "publicMethod",
@@ -356,11 +347,11 @@ A public method using an interface.",
       },
     },
     "type": Object {
-      "name": "void",
+      "name": "other",
+      "value": "void",
     },
   },
   "showKeyAlias": Object {
-    "defaultValue": undefined,
     "description": undefined,
     "name": "showKeyAlias",
     "table": Object {
@@ -374,11 +365,11 @@ A public method using an interface.",
       },
     },
     "type": Object {
-      "name": "void",
+      "name": "other",
+      "value": "void",
     },
   },
   "size": Object {
-    "defaultValue": "medium",
     "description": "
 Size of the button.",
     "name": "size",
@@ -393,11 +384,11 @@ Size of the button.",
       },
     },
     "type": Object {
-      "name": "object",
+      "name": "other",
+      "value": "empty-enum",
     },
   },
   "someDataObject": Object {
-    "defaultValue": undefined,
     "description": "
 Specifies some arbitrary object",
     "name": "someDataObject",
@@ -412,11 +403,11 @@ Specifies some arbitrary object",
       },
     },
     "type": Object {
-      "name": "object",
+      "name": "other",
+      "value": "empty-enum",
     },
   },
   "somethingYouShouldNotUse": Object {
-    "defaultValue": false,
     "description": "
 
 Some input you shouldn't use.

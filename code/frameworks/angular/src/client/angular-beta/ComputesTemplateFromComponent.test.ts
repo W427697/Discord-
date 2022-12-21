@@ -311,20 +311,20 @@ describe('angular source decorator', () => {
         label: 'Hello world',
         accent: ButtonAccent.High,
       };
-      const argTypes: ArgTypes = {
+      const argTypes: any /* ArgTypes */ = {
         accent: {
           control: {
             options: ['Normal', 'High'],
             type: 'radio',
           },
-          defaultValue: undefined,
           table: {
             category: 'inputs',
           },
           type: {
             name: 'enum',
             required: true,
-            value: [],
+            // value: [],
+            summary: 'ButtonAccent',
           },
         },
       };
@@ -347,7 +347,6 @@ describe('angular source decorator', () => {
             options: ['Normal', 'High'],
             type: 'radio',
           },
-          defaultValue: undefined,
           table: {
             category: 'inputs',
           },

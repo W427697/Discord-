@@ -18,5 +18,15 @@
     "listEmittedFiles": false,
     "noUnusedLocals": false
   },
-  "include": ["src/**/*", "src/**/*.json"]
+  "include": ["src/**/*", "src/**/*.json"],
+  "exclude": [
+    "src/**/*.test.*",
+    "src/**/*.spec.*",
+    "src/**/tests/**/*",
+    "src/**/__tests__/**/*",
+    "src/**/*.stories.*",
+    "src/**/*.mockdata.*",
+    "src/**/__testfixtures__/**",
+    "src/**/__mocks-ng-workspace__/**"
+  ]
 }

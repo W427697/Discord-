@@ -1,6 +1,7 @@
 import * as path from 'path';
 import * as fs from 'fs';
 import { pathExists } from 'fs-extra';
+import * as jju from 'jju';
 
 import { readFileAsJson, writeFileAsJson } from '../../helpers';
 
@@ -48,6 +49,45 @@ export function editStorybookTsConfig(tsconfigPath: string) {
   }
   tsConfigJson = setStorybookTsconfigExtendsPath(tsConfigJson);
   writeFileAsJson(tsconfigPath, tsConfigJson);
+}
+
+export function readAngularJsonSource() {
+  const filePath = path.resolve('angular.json');
+  if (!fs.existsSync(filePath)) {
+    throw new Error(`angular.json file not found.`);
+  }
+
+  return fs.readFileSync(filePath, 'utf8');
+}
+
+export function writeAngularJsonSource(source: string) {
+  const filePath = path.resolve('angular.json');
+  fs.writeFileSync(filePath, source, 'utf8');
+}
+
+export function editAngularConfig() {
+  const angularJsonSource = readAngularJsonSource();
+  const defaultProject = getDefaultProjectName(jju.parse(angularJsonSource));
+  const modifiedSource = addBuilderToAngularJsonProject(angularJsonSource, defaultProject);
+  writeAngularJsonSource(modifiedSource);
+}
+
+export function addBuilderToAngularJsonProject(angularJsonSource: string, projectName: string) {
+  const angularJson = jju.parse(angularJsonSource);
+  angularJson.projects[projectName].architect.storybook = {
+    builder: '@storybook/angular:start-storybook',
+    options: {
+      browserTarget: `${projectName}:build`,
+      port: 6006,
+    },
+  };
+  angularJson.projects[projectName].architect['build-storybook'] = {
+    builder: '@storybook/angular:build-storybook',
+    options: {
+      browserTarget: `${projectName}:build`,
+    },
+  };
+  return jju.update(angularJsonSource, angularJson, { no_trailing_comma: true });
 }
 
 export function getDefaultProjectName(angularJson: any): string | undefined {
