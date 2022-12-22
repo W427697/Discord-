@@ -1,0 +1,31 @@
+```ts
+// Button.stories.ts
+
+import type { Meta, StoryObj } from '@storybook/web-components';
+
+import type { ButtonProps } from './Button';
+import { Button } from './Button';
+
+const meta: Meta<ButtonProps> = {
+  title: 'Button',
+  render: (args) => Button(args),
+  //👇 Creates specific parameters for the story
+  parameters: {
+    myAddon: {
+      data: 'This data is passed to the addon',
+    },
+  },
+};
+
+export default meta;
+type Story = StoryObj<ButtonProps>;
+
+/*
+ *👇 Render functions are a framework specific feature to allow you control on how the component renders.
+ * See https://storybook.js.org/docs/7.0/web-components/api/csf
+ * to learn how to use render functions.
+ */
+export const Basic: Story = {
+  render: () => Button({ label: 'Hello' }),
+};
+```
