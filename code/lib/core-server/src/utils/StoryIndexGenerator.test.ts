@@ -451,7 +451,7 @@ describe('StoryIndexGenerator', () => {
         `);
       });
 
-      it.skip('throws an error if you attach a MetaOf entry to a tagged autodocs entry', async () => {
+      it('throws an error if you attach a MetaOf entry to a tagged autodocs entry', async () => {
         const csfSpecifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
           './src/B.stories.ts',
           options
@@ -465,7 +465,9 @@ describe('StoryIndexGenerator', () => {
         const generator = new StoryIndexGenerator([csfSpecifier, docsSpecifier], autodocsOptions);
         await generator.initialize();
 
-        await expect(generator.getIndex()).rejects.toThrowError(/tagged entry/);
+        await expect(generator.getIndex()).rejects.toThrowError(
+          `You created a component docs page for B:docs, but also tagged the CSF file with 'autodocs'. This is probably a mistake.`
+        );
       });
 
       it('allows you to override autodocs with MetaOf if it is automatic', async () => {
