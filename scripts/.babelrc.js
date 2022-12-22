@@ -134,7 +134,6 @@ module.exports = {
         'babel-plugin-macros',
         '@babel/plugin-transform-arrow-functions',
         '@babel/plugin-transform-shorthand-properties',
-        '@babel/plugin-transform-block-scoping',
         '@babel/plugin-transform-destructuring',
         ['@babel/plugin-proposal-private-property-in-object', { loose: true }],
         ['@babel/plugin-proposal-class-properties', { loose: true }],
