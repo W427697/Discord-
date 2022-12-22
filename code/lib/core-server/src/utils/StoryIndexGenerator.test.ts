@@ -321,20 +321,6 @@ describe('StoryIndexGenerator', () => {
         expect(await generator.getIndex()).toMatchInlineSnapshot(`
           Object {
             "entries": Object {
-              "a--docs": Object {
-                "id": "a--docs",
-                "importPath": "./src/A.stories.js",
-                "name": "docs",
-                "standalone": false,
-                "storiesImports": Array [],
-                "tags": Array [
-                  "component-tag",
-                  "autodocs",
-                  "docs",
-                ],
-                "title": "A",
-                "type": "docs",
-              },
               "a--story-one": Object {
                 "id": "a--story-one",
                 "importPath": "./src/A.stories.js",
@@ -431,19 +417,20 @@ describe('StoryIndexGenerator', () => {
         `);
       });
 
+      const autodocsTrueOptions = {
+        ...autodocsOptions,
+        docs: {
+          ...autodocsOptions.docs,
+          autodocs: true,
+        },
+      };
       it('generates an entry for every CSF file when docsOptions.autodocs = true', async () => {
         const specifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
           './src/**/*.stories.(ts|js|jsx)',
           options
         );
 
-        const generator = new StoryIndexGenerator([specifier], {
-          ...autodocsOptions,
-          docs: {
-            ...autodocsOptions.docs,
-            autodocs: true,
-          },
-        });
+        const generator = new StoryIndexGenerator([specifier], autodocsTrueOptions);
         await generator.initialize();
 
         expect(Object.keys((await generator.getIndex()).entries)).toMatchInlineSnapshot(`
@@ -464,7 +451,24 @@ describe('StoryIndexGenerator', () => {
         `);
       });
 
-      it('does not generate a docs page entry if there is a standalone entry with the same name', async () => {
+      it.skip('throws an error if you attach a MetaOf entry to a tagged autodocs entry', async () => {
+        const csfSpecifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
+          './src/B.stories.ts',
+          options
+        );
+
+        const docsSpecifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
+          './errors/MetaOfAutodocs.mdx',
+          options
+        );
+
+        const generator = new StoryIndexGenerator([csfSpecifier, docsSpecifier], autodocsOptions);
+        await generator.initialize();
+
+        await expect(generator.getIndex()).rejects.toThrowError(/tagged entry/);
+      });
+
+      it('allows you to override autodocs with MetaOf if it is automatic', async () => {
         const csfSpecifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
           './src/A.stories.js',
           options
@@ -475,7 +479,10 @@ describe('StoryIndexGenerator', () => {
           options
         );
 
-        const generator = new StoryIndexGenerator([csfSpecifier, docsSpecifier], autodocsOptions);
+        const generator = new StoryIndexGenerator(
+          [csfSpecifier, docsSpecifier],
+          autodocsTrueOptions
+        );
         await generator.initialize();
 
         expect(await generator.getIndex()).toMatchInlineSnapshot(`
