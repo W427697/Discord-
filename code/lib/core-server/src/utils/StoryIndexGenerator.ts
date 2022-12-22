@@ -388,9 +388,14 @@ export class StoryIndexGenerator {
           `🚨 You have two component docs pages with the same name ${betterEntry.title}:${betterEntry.name}. ${changeDocsName}`
         );
       }
-      // If one entry is standalone (i.e. .mdx of={}) we are OK with it overriding a template
-      //   - docs page templates, this is totally fine and expected
-      //   - not sure if it is even possible to have a .mdx of={} pointing at a stories.mdx file
+
+      // If you link a file to a tagged CSF file, you have probably made a mistake
+      if (worseEntry.tags?.includes('autodocs'))
+        throw new Error(
+          `You created a component docs page for ${worseEntry.title} (${betterEntry.importPath}), but also tagged the CSF file (${worseEntry.importPath}) with 'autodocs'. This is probably a mistake.`
+        );
+
+      // Otherwise the existing entry is created by `autodocs=true` which allowed to be overridden.
     } else {
       // If both entries are templates (e.g. you have two CSF files with the same title), then
       //   we need to merge the entries. We'll use the the first one's name and importPath,
