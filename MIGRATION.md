@@ -756,7 +756,7 @@ import * as SecondComponentStories from './second-component.stories';
 
 #### Autodocs
 
-In 7.0, rather than rendering each story in "docs view mode", Autodocs (ex. "Docs Page") operates by adding additional sidebar entries for each component. By default it uses the same template as was used in 6.x, and the entries are entitled `Docs`.
+In 7.0, rather than rendering each story in "docs view mode", Autodocs (formerly known as "Docs Page") operates by adding additional sidebar entries for each component. By default it uses the same template as was used in 6.x, and the entries are entitled `Docs`.
 
 You can configure Autodocs in `main.js`:
 
