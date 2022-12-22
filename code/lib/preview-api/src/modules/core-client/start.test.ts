@@ -35,7 +35,7 @@ jest.mock('@storybook/global', () => ({
       breakingChangesV7: true,
     },
     DOCS_OPTIONS: {
-      enabled: true,
+      disable: false,
     },
   },
 }));
@@ -111,7 +111,7 @@ function makeRequireContext(importMap: Record<Path, ModuleExports>) {
 
 describe('start', () => {
   beforeEach(() => {
-    global.DOCS_OPTIONS = { enabled: false };
+    global.DOCS_OPTIONS = { disable: true };
     // @ts-expect-error (setting this to undefined is indeed what we want to do)
     global.__STORYBOOK_CLIENT_API__ = undefined;
     // @ts-expect-error (setting this to undefined is indeed what we want to do)
@@ -962,7 +962,7 @@ describe('start', () => {
 
     describe('docs', () => {
       beforeEach(() => {
-        global.DOCS_OPTIONS = { enabled: true };
+        global.DOCS_OPTIONS = { disable: false };
       });
 
       // NOTE: MDX files are only ever passed as CSF
@@ -1150,7 +1150,7 @@ describe('start', () => {
 
     describe('docsPage', () => {
       beforeEach(() => {
-        global.DOCS_OPTIONS = { enabled: true, docsPage: true, defaultName: 'Docs' };
+        global.DOCS_OPTIONS = { disable: false, docsPage: true, defaultName: 'Docs' };
       });
 
       it('adds stories for each component with docsPage tag', async () => {
@@ -1312,7 +1312,7 @@ describe('start', () => {
     });
     describe('when docsOptions.docsPage = automatic', () => {
       beforeEach(() => {
-        global.DOCS_OPTIONS = { enabled: true, docsPage: 'automatic', defaultName: 'Docs' };
+        global.DOCS_OPTIONS = { disable: false, docsPage: 'automatic', defaultName: 'Docs' };
       });
 
       it('adds stories for each component with docsPage tag', async () => {

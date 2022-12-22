@@ -165,7 +165,7 @@ export class StoryIndexGenerator {
       this.isDocsMdx(absolutePath) ? false : this.extractStories(specifier, absolutePath)
     );
 
-    if (this.options.docs.enabled) {
+    if (!this.options.docs.disable) {
       await this.updateExtracted(async (specifier, absolutePath) =>
         this.extractDocs(specifier, absolutePath)
       );
@@ -234,7 +234,7 @@ export class StoryIndexGenerator {
         }
       });
 
-      if (this.options.docs.enabled && csf.stories.length) {
+      if (!this.options.docs.disable && csf.stories.length) {
         const { docsPage } = this.options.docs;
         const docsPageOptedIn =
           docsPage === 'automatic' || (docsPage && componentTags.includes('docsPage'));

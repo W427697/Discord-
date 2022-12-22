@@ -245,9 +245,9 @@ type CoreCommon_StorybookRefs = Record<
 
 export type DocsOptions = {
   /**
-   * Should we generate docs entries at all under any circumstances? (i.e. can they be rendered)
+   * Should we disable generate docs entries at all under any circumstances? (i.e. can they be rendered)
    */
-  enabled?: boolean;
+  disable?: boolean;
   /**
    * What should we call the generated docs entries?
    */
