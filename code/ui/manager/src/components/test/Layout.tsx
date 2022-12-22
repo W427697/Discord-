@@ -1,5 +1,7 @@
 import type { ViewMode } from '@storybook/types';
+import { styled } from '@storybook/theming';
 import React, { useEffect, useRef, useState } from 'react';
+import { TabButton } from '@storybook/components';
 
 const getGridTemplate = ({
   panel,
@@ -46,6 +48,25 @@ const getGridTemplate = ({
         "a sSidebar b b b"; 
     }`;
 };
+
+const Bar = styled.nav(
+  {
+    position: 'fixed',
+    bottom: 0,
+    left: 0,
+    width: '100vw',
+    height: 40,
+    display: 'flex',
+    boxShadow: '0 1px 5px 0 rgba(0, 0, 0, 0.1)',
+
+    '& > *': {
+      flex: 1,
+    },
+  },
+  ({ theme }) => ({
+    background: theme.barBg,
+  })
+);
 
 const MARGIN = 10;
 
@@ -182,7 +203,7 @@ const MOBILE = `
   position: absolute;
   top: 0;
   left: 0;
-  bottom: 50px;
+  bottom: 40px;
   right: 30%;
   transform: translateX(0%);
   transition: transform 0.3s;
@@ -197,7 +218,7 @@ const MOBILE = `
   position: absolute;
   top: 0;
   left: 0;
-  bottom: 50px;
+  bottom: 40px;
   right: 0;
   z-index: 1;
 }
@@ -206,7 +227,7 @@ const MOBILE = `
   position: absolute;
   top: 0;
   left: 0;
-  bottom: 50px;
+  bottom: 40px;
   right: 0;
   z-index: 1;
 }
@@ -223,7 +244,7 @@ const MOBILE = `
   position: absolute;
   top: 0;
   left: 30%;
-  bottom: 50px;
+  bottom: 40px;
   right: 0;
   transform: translateX(0%);
   transition: transform 0.3s;
@@ -238,7 +259,7 @@ const MOBILE = `
   left: 0;
   bottom: 0;
   right: 0;
-  height: 50px;
+  height: 40px;
   z-index: 4;
 
   display: flex;
@@ -461,21 +482,24 @@ export const Layout = ({
           <div className="sb-shade" />
         </div>
 
-        <div className="sb-mobile-control">
-          <button type="button" onClick={() => setMobileNavShown()}>
-            sidebar {mobileNavShown ? '*' : ''}
-          </button>
-          <button type="button" onClick={() => setMobileContentShown()}>
-            content {!mobileNavShown && !mobilePanelShown ? '*' : ''}
-          </button>
-          <button
-            type="button"
+        <Bar className="sb-mobile-control">
+          <TabButton onClick={() => setMobileNavShown()} active={mobileNavShown}>
+            Sidebar
+          </TabButton>
+          <TabButton
+            onClick={() => setMobileContentShown()}
+            active={!mobileNavShown && !mobilePanelShown}
+          >
+            {viewMode ? 'Canvas' : 'Page'}
+          </TabButton>
+          <TabButton
             onClick={() => setMobilePanelShown()}
+            active={mobilePanelShown}
             hidden={viewMode !== 'story' || (panel !== 'right' && panel !== 'bottom')}
           >
-            panel {mobilePanelShown ? '*' : ''}
-          </button>
-        </div>
+            Addons
+          </TabButton>
+        </Bar>
 
         {isDragging ? <div className="sb-hoverblock" /> : null}
       </div>
