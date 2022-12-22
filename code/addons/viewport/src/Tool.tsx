@@ -208,25 +208,10 @@ export const ViewportTool: FC = memo(
             <Global
               styles={{
                 [`iframe[data-is-storybook="true"]`]: {
-                  margin: `auto`,
-                  transition: 'width .3s, height .3s',
-                  position: 'relative',
-                  border: `1px solid black`,
-                  boxShadow: '0 0 100px 100vw rgba(0,0,0,0.5)',
-
-                  ...styles,
-                },
-                [`#${wrapperId}`]: {
-                  padding: theme.layoutMargin,
-                  alignContent: 'center',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  justifyItems: 'center',
-                  overflow: 'auto',
-
-                  display: 'grid',
-                  gridTemplateColumns: '100%',
-                  gridTemplateRows: '100%',
+                  ...(styles || {
+                    width: '100%',
+                    height: '100%',
+                  }),
                 },
               }}
             />

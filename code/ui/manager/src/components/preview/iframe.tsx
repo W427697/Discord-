@@ -3,8 +3,10 @@ import React from 'react';
 import { styled } from '@storybook/theming';
 import { Zoom } from '@storybook/components';
 
+console.log('new');
+
 const StyledIframe = styled.iframe({
-  position: 'absolute',
+  position: 'relative',
   display: 'block',
   boxSizing: 'content-box',
   height: '100%',
@@ -12,6 +14,11 @@ const StyledIframe = styled.iframe({
   border: '0 none',
   transition: 'all .3s, background-position 0s, visibility 0s',
   backgroundPosition: '-1px -1px, -1px -1px, -1px -1px, -1px -1px',
+
+  margin: `auto`,
+  // transition: 'width .3s, height .3s, top .3s, left .3s',
+  // position: 'relative',
+  boxShadow: '0 0 100px 100vw rgba(0,0,0,0.5)',
 });
 
 export interface IFrameProps {

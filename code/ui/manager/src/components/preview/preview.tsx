@@ -66,7 +66,7 @@ const createCanvas = (id: string, baseUrl = 'iframe.html', withLoader = true): A
         }) => {
           const wrappers = useMemo(
             () => [...defaultWrappers, ...getWrappers(getElements)],
-            [getElements, ...defaultWrappers]
+            [getElements, getWrappers(getElements).length, ...defaultWrappers]
           );
 
           const [progress, setProgress] = useState(undefined);
@@ -147,7 +147,7 @@ const useTabs = (
 
   const tabsFromConfig = useMemo(() => {
     return getTabs(getElements);
-  }, [getElements]);
+  }, [getElements, getTabs(getElements).length]);
 
   return useMemo(() => {
     if (entry?.type === 'story' && entry.parameters) {

@@ -128,10 +128,11 @@ const useTools = (
   location: PreviewProps['location'],
   path: PreviewProps['path']
 ) => {
-  const toolsFromConfig = useMemo(() => getTools(getElements), [getElements]);
+  const toolsFromConfig = useMemo(
+    () => getTools(getElements),
+    [getElements, getTools(getElements).length]
+  );
   const toolsExtraFromConfig = useMemo(() => getToolsExtra(getElements), [getElements]);
-
-  console.log(getElements(types.TOOL));
 
   const tools = useMemo(
     () => [...defaultTools, ...toolsFromConfig],
