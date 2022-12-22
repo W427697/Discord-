@@ -3491,21 +3491,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@joshwooding/vite-plugin-react-docgen-typescript@npm:0.0.0-20221218231544":
-  version: 0.0.0-20221218231544
-  resolution: "@joshwooding/vite-plugin-react-docgen-typescript@npm:0.0.0-20221218231544"
+"@joshwooding/vite-plugin-react-docgen-typescript@npm:^0.2.1":
+  version: 0.2.1
+  resolution: "@joshwooding/vite-plugin-react-docgen-typescript@npm:0.2.1"
   dependencies:
     glob: ^7.2.0
     glob-promise: ^4.2.0
-    magic-string: ^0.26.1
-    react-docgen-typescript: ^2.1.1
+    magic-string: ^0.27.0
+    react-docgen-typescript: ^2.2.2
   peerDependencies:
     typescript: ">= 4.3.x"
-    vite: ^3.0.0
+    vite: ^3.0.0 || ^4.0.0
   peerDependenciesMeta:
     typescript:
       optional: true
-  checksum: 98e96b97f3020ce56924d0fea3fbab728bdda92b7958c54cbfe508e996fc59020ac5b4a865603cc11ed876e5366133e75875f8664ac2d962aeedf62e732a9e3d
+  checksum: 506fea864748cce273d19c628c69ef529c4ec4b3d3a5f0d8fb9ab430dc45a0155a2ac52881410f5a475ddb6c34bc8a344b64f4edd9f738c02d43275e991906ee
   languageName: node
   linkType: hard
 
@@ -5098,15 +5098,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@playwright/test@npm:1.29.0":
-  version: 1.29.0
-  resolution: "@playwright/test@npm:1.29.0"
+"@playwright/test@npm:1.29.1":
+  version: 1.29.1
+  resolution: "@playwright/test@npm:1.29.1"
   dependencies:
     "@types/node": "*"
-    playwright-core: 1.29.0
+    playwright-core: 1.29.1
   bin:
     playwright: cli.js
-  checksum: 272a7d230ba939ee4718d37c83c922af092138eb95605dd4c14c83a90e5f46b4392dbfdca81e53a7192a9f6f0703f99bff6d907a2c780727c5c1af14fc3f3b5f
+  checksum: a0ae293b92b6a2591938ec45a4eb78c84b066fcb2c772859b8cbf2e60dc733cb0bb5cf772fe99d624c41c94c7d039cba37dc073815b2d294ab278fbf3bd9d5ff
   languageName: node
   linkType: hard
 
@@ -7214,7 +7214,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/react-vite@workspace:frameworks/react-vite"
   dependencies:
-    "@joshwooding/vite-plugin-react-docgen-typescript": 0.0.0-20221218231544
+    "@joshwooding/vite-plugin-react-docgen-typescript": ^0.2.1
     "@rollup/pluginutils": ^4.2.0
     "@storybook/builder-vite": 7.0.0-beta.13
     "@storybook/react": 7.0.0-beta.13
@@ -7321,7 +7321,7 @@ __metadata:
     "@nrwl/cli": 14.6.1
     "@nrwl/nx-cloud": 14.6.0
     "@nrwl/workspace": 14.6.1
-    "@playwright/test": 1.29.0
+    "@playwright/test": 1.29.1
     "@storybook/addon-a11y": "workspace:*"
     "@storybook/addon-actions": "workspace:*"
     "@storybook/addon-backgrounds": "workspace:*"
@@ -7493,7 +7493,7 @@ __metadata:
     npmlog: ^5.0.1
     nx: 14.6.1
     p-limit: ^3.1.0
-    playwright: 1.29.0
+    playwright: 1.29.1
     prettier: 2.8.0
     process: ^0.11.10
     prompts: ^2.4.0
@@ -8863,9 +8863,9 @@ __metadata:
   linkType: hard
 
 "@types/prettier@npm:^2.1.5":
-  version: 2.7.1
-  resolution: "@types/prettier@npm:2.7.1"
-  checksum: 1acbc69eb6f36cf04256ab2a7a05737b670a81d96de9f5f4d765d8c1f5f68978a6a5800dc059968075ef2492a26a39f6ccdff72a4d8639144297235548b789cc
+  version: 2.7.2
+  resolution: "@types/prettier@npm:2.7.2"
+  checksum: 16ffbd1135c10027f118517d3b12aaaf3936be1f3c6e4c6c9c03d26d82077c2d86bf0dcad545417896f29e7d90faf058aae5c9db2e868be64298c644492ea29e
   languageName: node
   linkType: hard
 
@@ -17280,9 +17280,9 @@ __metadata:
   linkType: hard
 
 "flow-parser@npm:0.*":
-  version: 0.196.1
-  resolution: "flow-parser@npm:0.196.1"
-  checksum: d725af6e9b7796bcd823e64b0672427dc4af1cbddd5ba5c6f47e8dde3bf2ebf0591ee42e1d7c9eb06c59694a979aa02cca3f93ca1dfbc1358a0a60b75ae89240
+  version: 0.196.2
+  resolution: "flow-parser@npm:0.196.2"
+  checksum: 2d8675cdfed378f4bd402ca2003b76c9868d1fa3797de122607b1428fe1217da6b8c0a315fe8c00e0a9099e3ec719e687806559b6bc7fbcc4f02777fdc1241c9
   languageName: node
   linkType: hard
 
@@ -21545,9 +21545,9 @@ __metadata:
   linkType: hard
 
 "jquery@npm:^3.5.1":
-  version: 3.6.2
-  resolution: "jquery@npm:3.6.2"
-  checksum: 4746ca404f56ab5abe21ba49d05fe809491d618ed2b2a37ed0a745f0744af88fe34e525bdb85335d239425f87161acef7b8ea917727f5fa9f9700e9e72047f3e
+  version: 3.6.3
+  resolution: "jquery@npm:3.6.3"
+  checksum: e507b74e078761464620f8dd407fc9cc576892ffb8852a94c22b2f3371f028c97c8fb2ceaea895a4dbc0dd97106b3c35ab3e552c36516bf6cfd6ec84489fcef6
   languageName: node
   linkType: hard
 
@@ -23662,11 +23662,11 @@ __metadata:
   linkType: hard
 
 "minimatch@npm:^5.0.1, minimatch@npm:^5.1.1":
-  version: 5.1.1
-  resolution: "minimatch@npm:5.1.1"
+  version: 5.1.2
+  resolution: "minimatch@npm:5.1.2"
   dependencies:
     brace-expansion: ^2.0.1
-  checksum: 375a71b6e83b35c4c555c2fc885822bfa140c3d105e536f0e4652fdcf0872d9d70955376a39230475683f4fa7eb7bec37d29dc9ab2a1b8008e48697f52e198b1
+  checksum: 1376e34455e8eb1a493ea648571a0c449b99c44753aa3a562204b68dfea3ebd40193b9132d67c0e4adddeb9311a53173252664aafeba6516e5101c99fb6d0171
   languageName: node
   linkType: hard
 
@@ -25958,23 +25958,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"playwright-core@npm:1.29.0":
-  version: 1.29.0
-  resolution: "playwright-core@npm:1.29.0"
+"playwright-core@npm:1.29.1":
+  version: 1.29.1
+  resolution: "playwright-core@npm:1.29.1"
   bin:
     playwright: cli.js
-  checksum: 9fc6260985b71f99fc701c0411ab76cb7a67a381623ccb518a4ac67d116d7dd9d72de6ed3f8fb0a7f951c7ba3b5c521b9762677f9c052a1c084925f493356ac1
+  checksum: b4c0c93f9b12d540296b262da574f83708f68c2434d9f6622045b9a9eeb61b694c5a1616cce78e70887ab7559d0604fae8ef17f9fa38272d8400669ea7f4794e
   languageName: node
   linkType: hard
 
-"playwright@npm:1.29.0":
-  version: 1.29.0
-  resolution: "playwright@npm:1.29.0"
+"playwright@npm:1.29.1":
+  version: 1.29.1
+  resolution: "playwright@npm:1.29.1"
   dependencies:
-    playwright-core: 1.29.0
+    playwright-core: 1.29.1
   bin:
     playwright: cli.js
-  checksum: 3c93fa1f80de5de37600dbe7dc76e2d10718a67a65a209c04fab9367d87c68b1caf14c1cdb44e7edc15f289aa32e469c38c019eceb67a839b43044517f1b9437
+  checksum: db049c6f72fe329d1c5b5daf2b4f212fbe1f57dba075bdffc4b71a473149bf20af36528cc3819c250bbef1f0366c105b3c63e66fb82524310061a1cca99437ae
   languageName: node
   linkType: hard
 
@@ -27380,7 +27380,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-docgen-typescript@npm:^2.1.1":
+"react-docgen-typescript@npm:^2.1.1, react-docgen-typescript@npm:^2.2.2":
   version: 2.2.2
   resolution: "react-docgen-typescript@npm:2.2.2"
   peerDependencies:
@@ -30964,8 +30964,8 @@ __metadata:
   linkType: hard
 
 "svelte-check@npm:^2.9.2":
-  version: 2.10.2
-  resolution: "svelte-check@npm:2.10.2"
+  version: 2.10.3
+  resolution: "svelte-check@npm:2.10.3"
   dependencies:
     "@jridgewell/trace-mapping": ^0.3.9
     chokidar: ^3.4.1
@@ -30979,7 +30979,7 @@ __metadata:
     svelte: ^3.24.0
   bin:
     svelte-check: bin/svelte-check
-  checksum: 568401af63080517ec91d91d16e51ed33acba9953c3e6e56336c6ec13bfcff3ce8e6e17cadc064f15e6ff24b060c0ff5b41e3307f204ecd5a732ef072450984a
+  checksum: a327d1b5621af17e717f5353410f91e20031682c10ff0c0fa4d3692e617aacd0190895da0664efa21fae5c76c3c9e1efcb5d52860c04fcaedc39cfefa3dd6066
   languageName: node
   linkType: hard
 
