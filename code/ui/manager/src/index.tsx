@@ -32,13 +32,11 @@ export interface RootProps {
 }
 
 export const Root: FC<RootProps> = ({ provider }) => (
-  <React.StrictMode key="container">
-    <HelmetProvider key="helmet.Provider">
-      <LocationProvider key="location.provider">
-        <Main provider={provider} />
-      </LocationProvider>
-    </HelmetProvider>
-  </React.StrictMode>
+  <HelmetProvider key="helmet.Provider">
+    <LocationProvider key="location.provider">
+      <Main provider={provider} />
+    </LocationProvider>
+  </HelmetProvider>
 );
 
 const Main: FC<{ provider: Provider }> = ({ provider }) => {

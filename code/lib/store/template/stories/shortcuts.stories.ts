@@ -6,7 +6,7 @@ import type { PlayFunctionContext } from '@storybook/csf';
 
 export default {
   component: globalThis.Components.Form,
-  tags: ['docsPage'],
+  tags: ['autodocs'],
 };
 
 export const KeydownDuringPlay = {

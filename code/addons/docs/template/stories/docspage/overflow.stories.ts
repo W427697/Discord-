@@ -2,7 +2,7 @@ import { global as globalThis } from '@storybook/global';
 
 export default {
   component: globalThis.Components.Pre,
-  tags: ['docsPage'],
+  tags: ['autodocs'],
   args: {
     text: 'Demonstrates overflow',
     style: { width: 2000, height: 500, background: 'hotpink' },
