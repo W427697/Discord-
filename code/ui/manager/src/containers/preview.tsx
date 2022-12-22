@@ -41,13 +41,10 @@ const mapper = ({ api, state }: Combo) => {
   };
 };
 
-const PreviewConnected = React.memo(function PreviewConnected(props: {
-  id: string;
-  withLoader: boolean;
-}) {
+function PreviewConnected() {
   return (
-    <Consumer filter={mapper}>{(fromState) => <Preview {...props} {...fromState} />}</Consumer>
+    <Consumer filter={mapper}>{(fromState) => <Preview withLoader {...fromState} />}</Consumer>
   );
-});
+}
 
 export default PreviewConnected;

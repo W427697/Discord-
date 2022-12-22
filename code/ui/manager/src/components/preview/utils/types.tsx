@@ -15,7 +15,7 @@ export interface PreviewProps {
     showTabs: boolean;
     showToolbar: boolean;
   };
-  id: string;
+  id?: string;
   path: string;
   location: State['location'];
   queryParams: State['customQueryParams'];

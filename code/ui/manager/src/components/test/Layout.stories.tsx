@@ -1,4 +1,9 @@
+import React from 'react';
+
+import { mockProps } from '../layout/app.mockdata';
 import { Layout } from './Layout';
+
+const { Preview, Sidebar, Panel, pages } = mockProps;
 
 export default {
   title: 'Layout/New',
@@ -6,10 +11,14 @@ export default {
   args: {
     sidebar: true,
     panel: 'bottom',
-    mainContent: 'Main Content',
-    sidebarContent: 'Sidebar Content',
-    panelContent: 'Panel Content',
-    customContent: 'Custom Content',
+    slotMain: <Preview />,
+    slotSidebar: <Sidebar />,
+    slotPanel: <Panel />,
+    slotCustom: pages.map(({ key, route: RouteX, render: Content }) => (
+      <RouteX key={key}>
+        <Content />
+      </RouteX>
+    )),
   },
 };
 

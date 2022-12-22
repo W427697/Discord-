@@ -4,6 +4,8 @@ import React, { useMemo } from 'react';
 import { type State } from '@storybook/manager-api';
 import { Route } from '@storybook/router';
 
+import { Global, createGlobal } from '@storybook/theming';
+import { Symbols } from '@storybook/components';
 import Sidebar from './containers/sidebar';
 import Preview from './containers/preview';
 import Panel from './containers/panel';
@@ -41,19 +43,23 @@ const App = ({ viewMode, layout }: AppProps) => {
   );
 
   return (
-    <Layout
-      viewMode={viewMode}
-      panel={layout.panelPosition}
-      sidebar={layout.showNav}
-      mainContent={<Preview id="1" withLoader />}
-      sidebarContent={<Sidebar />}
-      panelContent={<Panel />}
-      customContent={props.pages.map(({ key, route: RouteX, render: Content }) => (
-        <RouteX key={key}>
-          <Content />
-        </RouteX>
-      ))}
-    />
+    <>
+      <Global styles={createGlobal} />
+      <Symbols icons={['folder', 'component', 'document', 'bookmarkhollow']} />
+      <Layout
+        viewMode={viewMode}
+        panel={layout.showPanel === false ? false : layout.panelPosition}
+        sidebar={layout.showNav}
+        slotMain={<Preview />}
+        slotSidebar={<Sidebar />}
+        slotPanel={<Panel />}
+        slotCustom={props.pages.map(({ key, route: RouteX, render: Content }) => (
+          <RouteX key={key}>
+            <Content />
+          </RouteX>
+        ))}
+      />
+    </>
   );
 };
 

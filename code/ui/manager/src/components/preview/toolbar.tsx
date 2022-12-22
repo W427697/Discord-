@@ -131,6 +131,8 @@ const useTools = (
   const toolsFromConfig = useMemo(() => getTools(getElements), [getElements]);
   const toolsExtraFromConfig = useMemo(() => getToolsExtra(getElements), [getElements]);
 
+  console.log(getElements(types.TOOL));
+
   const tools = useMemo(
     () => [...defaultTools, ...toolsFromConfig],
     [defaultTools, toolsFromConfig]

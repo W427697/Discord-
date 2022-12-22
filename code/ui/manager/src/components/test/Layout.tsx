@@ -49,11 +49,14 @@ const getGridTemplate = ({
 
 const MARGIN = 10;
 
-const DESKTOP = `
-body{
+const SHARED = `
+body, html {
   margin: 0;
-
   padding: 0;
+  overflow: hidden;
+  position: fixed;
+  height: 100vh;
+  width: 100vw;
 }
 
 .sb-layout {
@@ -62,32 +65,43 @@ body{
   left: 0;
   bottom: 0;
   right: 0;
+  z-index: 0;
+}
+`;
 
+const DESKTOP = `
+
+.sb-layout {
   display: grid; 
   gap: 0; 
 }
 
+.sb-hoverblock {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 2;
+  height: 100vh;
+  width: 100vw;
+}
+
 .sb-aside { 
   grid-area: a;
-  background: blue;
   position: relative;
   z-index: 3;
 }
 .sb-content { 
   grid-area: c;
-  background: green;
   position: relative;
   z-index: 1;
 }
 .sb-custom { 
   grid-area: o;
-  background: red;
   position: relative;
   z-index: 1;
 }
 .sb-panel { 
   grid-area: b;
-  background: yellow;
   position: relative;
   z-index: 2;
 }
@@ -135,7 +149,7 @@ body{
 .sb-sVertical {
   grid-area: sVertical;
   height: ${MARGIN * 2}px;
-  margin-top: -${MARGIN}px;
+    margin-top: -${MARGIN}px;
   cursor: row-resize;
   left: 100px;
   right: 100px;
@@ -164,27 +178,12 @@ body{
 `;
 
 const MOBILE = `
-body{
-  margin: 0;
-  padding: 0;
-}
-
-.sb-layout {
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  z-index: 1;
-}
-
 .sb-aside { 
   position: absolute;
   top: 0;
   left: 0;
   bottom: 50px;
   right: 30%;
-  background: blue;
   transform: translateX(0%);
   transition: transform 0.3s;
   z-index: 3;
@@ -200,7 +199,6 @@ body{
   left: 0;
   bottom: 50px;
   right: 0;
-  background: green;
   z-index: 1;
 }
 
@@ -210,10 +208,12 @@ body{
   left: 0;
   bottom: 50px;
   right: 0;
-  background: orange;
   z-index: 1;
 }
 
+.sb-hoverblock {
+  display: none;
+}
 
 .sb-aside:not([hidden]) + .sb-panel {
   display: block;
@@ -225,7 +225,6 @@ body{
   left: 30%;
   bottom: 50px;
   right: 0;
-  background: yellow;
   transform: translateX(0%);
   transition: transform 0.3s;
   z-index: 2;
@@ -240,7 +239,6 @@ body{
   bottom: 0;
   right: 0;
   height: 50px;
-  background: red;
   z-index: 4;
 
   display: flex;
@@ -254,37 +252,64 @@ body{
 interface Props {
   panel?: 'bottom' | 'right' | false;
   sidebar?: boolean;
-  mainContent?: React.ReactNode;
-  sidebarContent?: React.ReactNode;
-  panelContent?: React.ReactNode;
-  customContent?: React.ReactNode;
+  slotMain?: React.ReactNode;
+  slotSidebar?: React.ReactNode;
+  slotPanel?: React.ReactNode;
+  slotCustom?: React.ReactNode;
   viewMode?: ViewMode;
 }
 
 export const Layout = ({
   panel,
   sidebar,
-  mainContent,
-  sidebarContent,
-  panelContent,
-  customContent,
+  slotMain,
+  slotSidebar,
+  slotPanel,
+  slotCustom,
   viewMode = 'story',
 }: Props) => {
-  const resizer0 = useRef<HTMLDivElement>(null);
-  const resizer1 = useRef<HTMLDivElement>(null);
-  const resizer2 = useRef<HTMLDivElement>(null);
+  const sHorizontalRef = useRef<HTMLDivElement>(null);
+  const sVerticalRef = useRef<HTMLDivElement>(null);
+  const sSidebarRef = useRef<HTMLDivElement>(null);
 
+  const [isDragging, setDragging] = useState(false);
   const [sidebarWidth, setSidebarWidth] = useState(sidebar ? 20 : 0);
-  const [bottomHeight, setBottomHeight] = useState(panel === 'bottom' ? 20 : 0);
-  const [columnWidth, setColumnWidth] = useState(panel === 'right' ? 20 : 0);
+  const [panelHeight, setPanelHeight] = useState(panel === 'bottom' ? 20 : 0);
+  const [panelWidth, setPanelWidth] = useState(panel === 'right' ? 20 : 0);
+
+  const x = useRef({ sidebarWidth, bottomHeight: panelHeight, columnWidth: panelWidth });
+  x.current.bottomHeight = panelHeight;
+  x.current.columnWidth = panelWidth;
+  x.current.sidebarWidth = sidebarWidth;
 
   useEffect(() => {
-    const sHorizontal = resizer0.current;
-    const sVertical = resizer1.current;
-    const sSidebar = resizer2.current;
+    if (panel === 'bottom' && x.current.bottomHeight === 0) {
+      setPanelHeight(20);
+    }
+    if (panel === 'right' && x.current.columnWidth === 0) {
+      setPanelWidth(20);
+    }
+    if (!panel) {
+      setPanelWidth(0);
+      setPanelHeight(0);
+    }
+
+    if (sidebar && x.current.sidebarWidth === 0) {
+      setSidebarWidth(20);
+    }
+    if (!sidebar && x.current.sidebarWidth !== 0) {
+      setSidebarWidth(0);
+    }
+  }, [panel, sidebar]);
+
+  useEffect(() => {
+    const sHorizontal = sHorizontalRef.current;
+    const sVertical = sVerticalRef.current;
+    const sSidebar = sSidebarRef.current;
     let current: typeof sHorizontal | typeof sVertical | typeof sSidebar | null = null;
 
     const onDragStart = (e: MouseEvent) => {
+      setDragging(true);
       e.preventDefault();
       if (e.currentTarget === sHorizontal) {
         current = sHorizontal;
@@ -298,6 +323,7 @@ export const Layout = ({
     };
 
     const onDragEnd = (e: MouseEvent) => {
+      setDragging(false);
       window.removeEventListener('mousemove', onDrag);
       window.removeEventListener('mouseup', onDragEnd);
     };
@@ -310,7 +336,7 @@ export const Layout = ({
 
       if (current === sSidebar) {
         const value = Math.round((e.clientX / e.view.innerWidth) * 100);
-        if (value + columnWidth > 70) {
+        if (value + panelWidth > 70) {
           // preserve space for content
           return;
         }
@@ -328,21 +354,21 @@ export const Layout = ({
         }
 
         if (value < 5) {
-          setColumnWidth(0);
+          setPanelWidth(0);
           return;
         }
 
-        setColumnWidth(value);
+        setPanelWidth(value);
       } else if (current === sVertical) {
         const value = 100 - Math.round((e.clientY / e.view.innerHeight) * 100);
         if (value > 70) {
           return;
         }
         if (value < 5) {
-          setBottomHeight(0);
+          setPanelHeight(0);
           return;
         }
-        setBottomHeight(value);
+        setPanelHeight(value);
       }
     };
 
@@ -357,29 +383,30 @@ export const Layout = ({
     };
   });
 
-  const k = panel === 'bottom' ? bottomHeight : columnWidth;
+  const k = panel === 'bottom' ? panelHeight : panelWidth;
   const mobileNavShown = sidebarWidth !== 0;
   const mobilePanelShown = k !== 0 && mobileNavShown === false;
 
   const setMobileNavShown = () => {
     setSidebarWidth(30);
-    setColumnWidth(0);
-    setBottomHeight(0);
+    setPanelWidth(0);
+    setPanelHeight(0);
   };
 
   const setMobilePanelShown = () => {
-    setColumnWidth(30);
-    setBottomHeight(30);
+    setPanelWidth(30);
+    setPanelHeight(30);
     setSidebarWidth(0);
   };
   const setMobileContentShown = () => {
-    setColumnWidth(0);
-    setBottomHeight(0);
+    setPanelWidth(0);
+    setPanelHeight(0);
     setSidebarWidth(0);
   };
 
   return (
     <>
+      <style dangerouslySetInnerHTML={{ __html: SHARED }} />
       <style media="(min-width: 600px)" dangerouslySetInnerHTML={{ __html: DESKTOP }} />
       <style media="(max-width: 599px)" dangerouslySetInnerHTML={{ __html: MOBILE }} />
       <style
@@ -389,48 +416,48 @@ export const Layout = ({
       <div
         className="sb-layout"
         style={{
-          gridTemplateColumns: `${sidebarWidth}% 0px 1fr 0 ${columnWidth}%`,
-          gridTemplateRows: `1fr 0px ${bottomHeight}%`,
+          gridTemplateColumns: `${sidebarWidth}% 0px 1fr 0 ${panelWidth}%`,
+          gridTemplateRows: `1fr 0px ${panelHeight}%`,
         }}
       >
         <div className="sb-content" hidden={viewMode !== 'story' && viewMode !== 'docs'}>
-          {mainContent}
+          {slotMain}
         </div>
 
         <div className="sb-custom" hidden={!(viewMode !== 'story' && viewMode !== 'docs')}>
-          {customContent}
+          {slotCustom}
         </div>
 
         <div className="sb-aside" hidden={sidebarWidth === 0}>
-          {sidebarContent}
+          {slotSidebar}
         </div>
         <div
           className="sb-panel"
           hidden={
             viewMode !== 'story' ||
-            (panel === 'bottom' && bottomHeight === 0) ||
-            (panel === 'right' && columnWidth === 0) ||
+            (panel === 'bottom' && panelHeight === 0) ||
+            (panel === 'right' && panelWidth === 0) ||
             (panel !== 'right' && panel !== 'bottom')
           }
         >
-          {panelContent}
+          {slotPanel}
         </div>
 
         <div
           className="sb-sizer sb-sHorizontal"
-          ref={resizer0}
+          ref={sHorizontalRef}
           hidden={panel !== 'right' || viewMode !== 'story'}
         >
           <div className="sb-shade" />
         </div>
         <div
           className="sb-sizer sb-sVertical"
-          ref={resizer1}
+          ref={sVerticalRef}
           hidden={panel !== 'bottom' || viewMode !== 'story'}
         >
           <div className="sb-shade" />
         </div>
-        <div className="sb-sizer sb-sSidebar" ref={resizer2}>
+        <div className="sb-sizer sb-sSidebar" ref={sSidebarRef}>
           <div className="sb-shade" />
         </div>
 
@@ -449,6 +476,8 @@ export const Layout = ({
             panel {mobilePanelShown ? '*' : ''}
           </button>
         </div>
+
+        {isDragging ? <div className="sb-hoverblock" /> : null}
       </div>
     </>
   );
