@@ -392,7 +392,7 @@ export class StoryIndexGenerator {
       // If you link a file to a tagged CSF file, you have probably made a mistake
       if (worseEntry.tags?.includes('autodocs'))
         throw new Error(
-          `You created a component docs page for ${betterEntry.title}:${betterEntry.name}, but also tagged the CSF file with 'autodocs'. This is probably a mistake.`
+          `You created a component docs page for ${worseEntry.title} (${betterEntry.importPath}), but also tagged the CSF file (${worseEntry.importPath}) with 'autodocs'. This is probably a mistake.`
         );
 
       // Otherwise the existing entry is created by `autodocs=true` which allowed to be overridden.

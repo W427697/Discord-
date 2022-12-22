@@ -466,7 +466,7 @@ describe('StoryIndexGenerator', () => {
         await generator.initialize();
 
         await expect(generator.getIndex()).rejects.toThrowError(
-          `You created a component docs page for B:docs, but also tagged the CSF file with 'autodocs'. This is probably a mistake.`
+          `You created a component docs page for B (./errors/MetaOfAutodocs.mdx), but also tagged the CSF file (./src/B.stories.ts) with 'autodocs'. This is probably a mistake.`
         );
       });
 
