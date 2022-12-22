@@ -152,7 +152,7 @@ const docs = (docsOptions: DocsOptions) => {
     ...docsOptions,
     disable: false,
     defaultName: 'Docs',
-    docsPage: true,
+    autodocs: 'tag',
   };
 };
 

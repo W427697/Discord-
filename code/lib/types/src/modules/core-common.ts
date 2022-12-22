@@ -253,10 +253,11 @@ export type DocsOptions = {
    */
   defaultName?: string;
   /**
-   * Should we generate a docs entry per CSF file with the `docsPage` tag?
-   * Set to 'automatic' to generate an entry irrespective of tag.
+   * Should we generate a docs entry per CSF file?
+   * Set to 'tag' (the default) to generate an entry for every CSF file with the
+   * 'autodocs' tag.
    */
-  docsPage?: boolean | 'automatic';
+  autodocs?: boolean | 'tag';
   /**
    * Only show doc entries in the side bar (usually set with the `--docs` CLI flag)
    */

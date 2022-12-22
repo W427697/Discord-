@@ -67,7 +67,7 @@ const makeAbsolute = (otherImport: Path, normalizedPath: Path, workingDir: Path)
  *
  * A stories file is indexed by an indexer (passed in), which produces a list of stories.
  *   - If the stories have the `parameters.docsOnly` setting, they are disregarded.
- *   - If the indexer is a "docs template" indexer, OR docsPage is enabled,
+ *   - If the indexer is a "docs template" indexer, OR autodocs is enabled,
  *       a templated docs entry is added pointing to the story file.
  *
  * A (modern) docs file is indexed, a standalone docs entry is added.
@@ -235,13 +235,13 @@ export class StoryIndexGenerator {
       });
 
       if (!this.options.docs.disable && csf.stories.length) {
-        const { docsPage } = this.options.docs;
-        const docsPageOptedIn =
-          docsPage === 'automatic' || (docsPage && componentTags.includes('docsPage'));
+        const { autodocs } = this.options.docs;
+        const autodocsOptedIn =
+          autodocs === true || (autodocs === 'tag' && componentTags.includes('autodocs'));
         // We need a docs entry attached to the CSF file if either:
         //  a) it is a stories.mdx transpiled to CSF, OR
         //  b) we have docs page enabled for this file
-        if (componentTags.includes('mdx') || docsPageOptedIn) {
+        if (componentTags.includes('mdx') || autodocsOptedIn) {
           const name = this.options.docs.defaultName;
           const id = toId(csf.meta.title, name);
           entries.unshift({
