@@ -91,13 +91,18 @@ jobs:
       - restore_cache:
           name: Restore Yarn cache
           keys:
-            - build-yarn-2-cache-v4--{{ checksum "code/yarn.lock" }}--{{ checksum "scripts/yarn.lock" }}
+            - prettydocs-yarn-2-cache-v4--{{ checksum "code/yarn.lock" }}--{{ checksum "scripts/yarn.lock" }}
       - run:
           name: Prettier
           command: |
             cd scripts
             yarn
             yarn docs:prettier:check
+      - save_cache:
+          name: Save Yarn cache
+          key: prettydocs-yarn-2-cache-v4--{{ checksum "code/yarn.lock" }}--{{ checksum "scripts/yarn.lock" }}
+          paths:
+            - ~/.yarn/berry/cache
   build:
     executor:
       class: large
@@ -637,3 +642,5 @@ workflows:
           parallelism: 26
           requires:
             - build-sandboxes
+
+# VS Code Extension Version: 1.5.0
