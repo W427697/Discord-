@@ -53,7 +53,7 @@ const options = {
   ] as StoryIndexer[],
   storiesV2Compatibility: false,
   storyStoreV7: true,
-  docs: { disabled: false, defaultName: 'docs', autodocs: false },
+  docs: { disable: false, defaultName: 'docs', autodocs: false },
 };
 
 describe('StoryIndexGenerator', () => {
