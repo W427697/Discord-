@@ -334,6 +334,7 @@ export const allTemplates = {
   'preact-vite/default-js': {
     name: 'Preact Vite (JS)',
     script: 'yarn create vite . --template preact',
+    inDevelopment: true,
     expected: {
       framework: '@storybook/preact-vite',
       renderer: '@storybook/preact',
@@ -343,6 +344,7 @@ export const allTemplates = {
   'preact-vite/default-ts': {
     name: 'Preact Vite (TS)',
     script: 'yarn create vite . --template preact-ts',
+    inDevelopment: true,
     expected: {
       framework: '@storybook/preact-vite',
       renderer: '@storybook/preact',

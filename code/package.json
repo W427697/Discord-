@@ -204,6 +204,7 @@
     "@storybook/postinstall": "workspace:*",
     "@storybook/preact": "workspace:*",
     "@storybook/preact-webpack5": "workspace:*",
+    "@storybook/preact-vite": "workspace:*",
     "@storybook/preset-html-webpack": "workspace:*",
     "@storybook/preset-preact-webpack": "workspace:*",
     "@storybook/preset-react-webpack": "workspace:*",
