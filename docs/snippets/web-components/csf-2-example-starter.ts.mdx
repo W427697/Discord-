@@ -12,7 +12,8 @@ export default {
   component: 'custom-button',
 } as Meta;
 
-export const Primary: Story = ({ primary }) => html`<custom-button ?primary=${primary}></custom-button>`;
+export const Primary: Story = ({ primary }) =>
+  html`<custom-button ?primary=${primary}></custom-button>`;
 Primary.args = {
   primary: true,
 };
