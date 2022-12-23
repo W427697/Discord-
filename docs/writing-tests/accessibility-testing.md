@@ -65,6 +65,8 @@ Storybook's a11y addon runs [Axe](https://github.com/dequelabs/axe-core) on the 
     'vue/component-story-with-accessibility.2.js.mdx',
     'vue/component-story-with-accessibility.3.js.mdx',
     'svelte/component-story-with-accessibility.js.mdx',
+    'web-components/component-story-with-accessibility.js.mdx',
+    'web-components/component-story-with-accessibility.ts.mdx',
   ]}
   usesCsf3
   csf2Path="writing-tests/accessibility-testing#snippet-component-story-with-accessibility"
@@ -121,6 +123,8 @@ Customize the a11y ruleset at the story level by updating your story to include 
     'angular/storybook-addon-a11y-story-config.ts.mdx',
     'vue/storybook-addon-a11y-story-config.js.mdx',
     'svelte/storybook-addon-a11y-story-config.js.mdx',
+    'web-components/storybook-addon-a11y-story-config.js.mdx',
+    'web-components/storybook-addon-a11y-story-config.ts.mdx',
   ]}
   usesCsf3
   csf2Path="writing-tests/accessibility-testing#snippet-storybook-addon-a11y-story-config"
@@ -141,6 +145,8 @@ Disable accessibility testing for stories or components by adding the following 
    'angular/storybook-addon-a11y-disable.ts.mdx',
    'vue/storybook-addon-a11y-disable.js.mdx',
    'svelte/storybook-addon-a11y-disable.js.mdx',
+   'web-components/storybook-addon-a11y-disable.js.mdx',
+   'web-components/storybook-addon-a11y-disable.ts.mdx',
   ]}
   usesCsf3
   csf2Path="writing-tests/accessibility-testing#snippet-storybook-addon-a11y-disable"

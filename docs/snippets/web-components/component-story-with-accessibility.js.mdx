@@ -1,0 +1,29 @@
+```js
+// Button.stories.js
+
+import { Button } from './Button';
+
+export default {
+  title: 'Accessibility testing',
+  render: (args) => Button(args),
+  argTypes: {
+    backgroundColor: { control: 'color' },
+  },
+};
+
+// This is an accessible story
+export const Accessible = {
+  args: {
+    primary: false,
+    label: 'Button',
+  },
+};
+
+// This is not
+export const Inaccessible = {
+  args: {
+    ...Accessible.args,
+    backgroundColor: 'red',
+  },
+};
+```

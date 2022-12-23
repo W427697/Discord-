@@ -1,0 +1,25 @@
+```ts
+// MyComponent.stories.ts
+
+import type { Meta, StoryObj } from '@storybook/web-components';
+
+import type { MyComponent } from './MyComponent';
+import { MyComponent } from './MyComponent';
+
+const meta: Meta<MyComponent> = {
+  title: 'Disable a11y addon',
+  render: (args) => MyComponent(args),
+};
+
+export default meta;
+type Story = StoryObj<MyComponent>;
+
+export const ExampleStory: Story = {
+  parameters: {
+    a11y: {
+      // This option disables all a11y checks on this story
+      disable: true,
+    },
+  },
+};
+```

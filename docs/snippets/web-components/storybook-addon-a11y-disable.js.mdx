@@ -1,0 +1,19 @@
+```js
+// MyComponent.stories.js
+
+import { MyComponent } from './MyComponent';
+
+export default {
+  title: 'Disable a11y addon',
+  render: (args) => MyComponent(args),
+};
+
+export const ExampleStory = {
+  parameters: {
+    a11y: {
+      // This option disables all a11y checks on this story
+      disable: true,
+    },
+  },
+};
+```
