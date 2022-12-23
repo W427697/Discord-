@@ -4,7 +4,7 @@ import { within } from '@storybook/testing-library';
 
 export default {
   component: globalThis.Components.Pre,
-  tags: ['docsPage'],
+  tags: ['autodocs'],
   args: { text: 'Play has not run' },
   parameters: { chromatic: { disable: true } },
 };
