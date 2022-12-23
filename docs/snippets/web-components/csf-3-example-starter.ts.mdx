@@ -1,0 +1,15 @@
+```ts
+// CSF 3
+
+import type { Meta, StoryObj } from '@storybook/web-components';
+
+import type { ButtonProps } from './Button';
+import { Button } from './Button';
+
+const meta: Meta<ButtonProps> = { title: 'Button', render: (args) => Button(args) };
+
+export default meta;
+type Story = StoryObj<ButtonProps>;
+
+export const Primary: Story = { args: { primary: true } };
+```

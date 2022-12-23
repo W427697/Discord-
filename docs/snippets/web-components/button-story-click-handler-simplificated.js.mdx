@@ -1,0 +1,17 @@
+```js
+// Button.stories.js
+
+import { Button } from './Button';
+
+export default {
+  title: 'Button',
+  render: (args) => Button(args),
+  argTypes: {
+    onClick: { action: 'onClick' },
+  },
+};
+
+export const Text = {
+  args: {...},
+};
+```
