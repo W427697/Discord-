@@ -12,7 +12,12 @@ export const viteFinal: StorybookConfig['viteFinal'] = async (config) => {
 
   // Add Preact plugin if not present
   if (
-    !hasVitePlugins(plugins, ['vite:preact-jsx', 'preact:config', 'preact:devtools', 'prefresh'])
+    !(await hasVitePlugins(plugins, [
+      'vite:preact-jsx',
+      'preact:config',
+      'preact:devtools',
+      'prefresh',
+    ]))
   ) {
     plugins.push(preact({ prefreshEnabled: true }));
   }
