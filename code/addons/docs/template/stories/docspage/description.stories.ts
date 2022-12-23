@@ -6,7 +6,7 @@ export default {
   subcomponents: {
     Pre: globalThis.Components.Pre,
   },
-  tags: ['docsPage'],
+  tags: ['autodocs'],
   args: { label: 'Click Me!' },
   parameters: {
     docs: {
