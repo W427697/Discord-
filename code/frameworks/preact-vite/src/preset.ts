@@ -7,7 +7,7 @@ export const core: StorybookConfig['core'] = {
   renderer: '@storybook/preact',
 };
 
-export const viteFinal: StorybookConfig['viteFinal'] = async (config, { presets }) => {
+export const viteFinal: StorybookConfig['viteFinal'] = async (config) => {
   const { plugins = [] } = config;
 
   // Add Preact plugin if not present
