@@ -4,10 +4,10 @@ import React, { useEffect, useRef, useState } from 'react';
 import { TabButton } from '@storybook/components';
 
 const getGridTemplate = ({
-  panel,
+  panelPosition,
   viewMode,
 }: {
-  panel: 'bottom' | 'right' | false;
+  panelPosition: LayoutState['panelPosition'];
   viewMode: ViewMode;
 }) => {
   if (viewMode !== 'story' && viewMode !== 'docs') {
@@ -30,7 +30,7 @@ const getGridTemplate = ({
     }`;
   }
 
-  if (panel === 'right') {
+  if (panelPosition === 'right') {
     return `
     .sb-layout {
       grid-template-areas: 
@@ -270,44 +270,51 @@ const MOBILE = `
 
 `;
 
+interface LayoutState {
+  panelPosition: 'bottom' | 'right';
+  panel: boolean;
+  sidebar: boolean;
+  viewMode: ViewMode;
+}
+
 interface Props {
-  panel?: 'bottom' | 'right' | false;
-  sidebar?: boolean;
+  state: LayoutState;
+  setState: (state: Partial<Omit<LayoutState, 'viewMode'>>) => void;
+
   slotMain?: React.ReactNode;
   slotSidebar?: React.ReactNode;
   slotPanel?: React.ReactNode;
   slotCustom?: React.ReactNode;
-  viewMode?: ViewMode;
 }
 
-export const Layout = ({
-  panel,
-  sidebar,
-  slotMain,
-  slotSidebar,
-  slotPanel,
-  slotCustom,
-  viewMode = 'story',
-}: Props) => {
+export const Layout = ({ state, setState, ...slots }: Props) => {
   const sHorizontalRef = useRef<HTMLDivElement>(null);
   const sVerticalRef = useRef<HTMLDivElement>(null);
   const sSidebarRef = useRef<HTMLDivElement>(null);
 
+  const sidebar = state.sidebar === undefined ? true : state.sidebar;
+  const panelPosition = state.panelPosition === undefined ? 'bottom' : state.panelPosition;
+  const panel = state.panel === undefined ? true : state.panel;
+  const viewMode = state.viewMode === undefined ? 'story' : state.viewMode;
+
   const [isDragging, setDragging] = useState(false);
   const [sidebarWidth, setSidebarWidth] = useState(sidebar ? 20 : 0);
-  const [panelHeight, setPanelHeight] = useState(panel === 'bottom' ? 20 : 0);
-  const [panelWidth, setPanelWidth] = useState(panel === 'right' ? 20 : 0);
+  const [panelHeight, setPanelHeight] = useState(panelPosition === 'bottom' ? 20 : 0);
+  const [panelWidth, setPanelWidth] = useState(panelPosition === 'right' ? 20 : 0);
 
-  const x = useRef({ sidebarWidth, bottomHeight: panelHeight, columnWidth: panelWidth });
-  x.current.bottomHeight = panelHeight;
-  x.current.columnWidth = panelWidth;
+  const x = useRef({ sidebarWidth, panelHeight, panelWidth });
+  x.current.panelHeight = panelHeight;
+  x.current.panelWidth = panelWidth;
   x.current.sidebarWidth = sidebarWidth;
 
+  // respond to state changes upstream
   useEffect(() => {
-    if (panel === 'bottom' && x.current.bottomHeight === 0) {
+    if (panel && panelPosition === 'bottom' && x.current.panelHeight === 0) {
+      // TODO: take from some preference
       setPanelHeight(20);
     }
-    if (panel === 'right' && x.current.columnWidth === 0) {
+    if (panel && panelPosition === 'right' && x.current.panelWidth === 0) {
+      // TODO: take from some preference
       setPanelWidth(20);
     }
     if (!panel) {
@@ -316,12 +323,13 @@ export const Layout = ({
     }
 
     if (sidebar && x.current.sidebarWidth === 0) {
+      // TODO: take from some preference
       setSidebarWidth(20);
     }
     if (!sidebar && x.current.sidebarWidth !== 0) {
       setSidebarWidth(0);
     }
-  }, [panel, sidebar]);
+  }, [panel, panelPosition, sidebar]);
 
   useEffect(() => {
     const sHorizontal = sHorizontalRef.current;
@@ -357,26 +365,40 @@ export const Layout = ({
 
       if (current === sSidebar) {
         const value = Math.round((e.clientX / e.view.innerWidth) * 100);
-        if (value + panelWidth > 70) {
+        if (value + x.current.panelWidth > 70) {
           // preserve space for content
           return;
         }
 
         if (value < 5) {
-          setSidebarWidth(0);
+          if (x.current.sidebarWidth !== 0) {
+            setState({ sidebar: false });
+            setSidebarWidth(0);
+          }
           return;
         }
+
+        if (x.current.sidebarWidth === 0) {
+          setState({ sidebar: true });
+        }
+
         setSidebarWidth(value);
       } else if (current === sHorizontal) {
         const value = 100 - Math.round((e.clientX / e.view.innerWidth) * 100);
-        if (value + sidebarWidth > 70) {
+        if (value + x.current.sidebarWidth > 70) {
           // preserve space for content
           return;
         }
 
         if (value < 5) {
-          setPanelWidth(0);
+          if (x.current.panelWidth !== 0) {
+            setState({ panel: false });
+            setPanelWidth(0);
+          }
           return;
+        }
+        if (x.current.panelWidth === 0) {
+          setState({ panel: true });
         }
 
         setPanelWidth(value);
@@ -386,9 +408,17 @@ export const Layout = ({
           return;
         }
         if (value < 5) {
-          setPanelHeight(0);
+          if (x.current.panelHeight !== 0) {
+            setState({ panel: false });
+            setPanelHeight(0);
+          }
           return;
         }
+
+        if (x.current.panelHeight === 0) {
+          setState({ panel: true });
+        }
+
         setPanelHeight(value);
       }
     };
@@ -404,22 +434,28 @@ export const Layout = ({
     };
   });
 
-  const k = panel === 'bottom' ? panelHeight : panelWidth;
+  const k = panelPosition === 'bottom' ? panelHeight : panelWidth;
   const mobileNavShown = sidebarWidth !== 0;
   const mobilePanelShown = k !== 0 && mobileNavShown === false;
 
   const setMobileNavShown = () => {
+    // TODO: 30 is an assumption
     setSidebarWidth(30);
+    setState({ sidebar: true, panel: false });
     setPanelWidth(0);
     setPanelHeight(0);
   };
 
   const setMobilePanelShown = () => {
+    // TODO: 30 is an assumption
     setPanelWidth(30);
     setPanelHeight(30);
+    setState({ sidebar: false, panel: true });
     setSidebarWidth(0);
   };
   const setMobileContentShown = () => {
+    // TODO: bottom panel is an assumption
+    setState({ sidebar: false, panel: false });
     setPanelWidth(0);
     setPanelHeight(0);
     setSidebarWidth(0);
@@ -432,7 +468,7 @@ export const Layout = ({
       <style media="(max-width: 599px)" dangerouslySetInnerHTML={{ __html: MOBILE }} />
       <style
         media="(min-width: 600px)"
-        dangerouslySetInnerHTML={{ __html: getGridTemplate({ panel, viewMode }) }}
+        dangerouslySetInnerHTML={{ __html: getGridTemplate({ panelPosition, viewMode }) }}
       />
       <div
         className="sb-layout"
@@ -442,39 +478,39 @@ export const Layout = ({
         }}
       >
         <div className="sb-content" hidden={viewMode !== 'story' && viewMode !== 'docs'}>
-          {slotMain}
+          {slots.slotMain}
         </div>
 
         <div className="sb-custom" hidden={!(viewMode !== 'story' && viewMode !== 'docs')}>
-          {slotCustom}
+          {slots.slotCustom}
         </div>
 
         <div className="sb-aside" hidden={sidebarWidth === 0}>
-          {slotSidebar}
+          {slots.slotSidebar}
         </div>
         <div
           className="sb-panel"
           hidden={
             viewMode !== 'story' ||
-            (panel === 'bottom' && panelHeight === 0) ||
-            (panel === 'right' && panelWidth === 0) ||
-            (panel !== 'right' && panel !== 'bottom')
+            (panelPosition === 'bottom' && panelHeight === 0) ||
+            (panelPosition === 'right' && panelWidth === 0) ||
+            (panelPosition !== 'right' && panelPosition !== 'bottom')
           }
         >
-          {slotPanel}
+          {slots.slotPanel}
         </div>
 
         <div
           className="sb-sizer sb-sHorizontal"
           ref={sHorizontalRef}
-          hidden={panel !== 'right' || viewMode !== 'story'}
+          hidden={!(panelPosition === 'right' && viewMode === 'story')}
         >
           <div className="sb-shade" />
         </div>
         <div
           className="sb-sizer sb-sVertical"
           ref={sVerticalRef}
-          hidden={panel !== 'bottom' || viewMode !== 'story'}
+          hidden={!(panelPosition === 'bottom' && viewMode === 'story')}
         >
           <div className="sb-shade" />
         </div>
@@ -495,7 +531,9 @@ export const Layout = ({
           <TabButton
             onClick={() => setMobilePanelShown()}
             active={mobilePanelShown}
-            hidden={viewMode !== 'story' || (panel !== 'right' && panel !== 'bottom')}
+            hidden={
+              viewMode !== 'story' || (panelPosition !== 'right' && panelPosition !== 'bottom')
+            }
           >
             Addons
           </TabButton>

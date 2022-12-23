@@ -1,43 +1,45 @@
+import { action } from '@storybook/addon-actions';
 import React from 'react';
 
-import { mockProps } from '../layout/app.mockdata';
+import { mockProps, MockPage } from '../layout/app.mockdata';
 import { Layout } from './Layout';
 
-const { Preview, Sidebar, Panel, pages } = mockProps;
+const { Preview, Sidebar, Panel } = mockProps;
 
 export default {
   title: 'Layout/New',
   component: Layout,
   args: {
-    sidebar: true,
-    panel: 'bottom',
+    state: {
+      sidebar: true,
+      panel: true,
+      panelPosition: 'bottom',
+      viewMode: 'story',
+    },
+    setState: action('setState'),
     slotMain: <Preview />,
     slotSidebar: <Sidebar />,
     slotPanel: <Panel />,
-    slotCustom: pages.map(({ key, route: RouteX, render: Content }) => (
-      <RouteX key={key}>
-        <Content />
-      </RouteX>
-    )),
+    slotCustom: <MockPage />,
   },
 };
 
 export const Desktop = {};
 export const DesktopHorizontal = {
   args: {
-    panel: 'right',
+    state: { panelPosition: 'right' },
   },
 };
 
 export const DesktopDocs = {
   args: {
-    viewMode: 'docs',
+    state: { viewMode: 'docs' },
   },
 };
 
 export const DesktopCustom = {
   args: {
-    viewMode: 'custom',
+    state: { viewMode: 'custom' },
   },
 };
 
@@ -50,7 +52,7 @@ export const Mobile = {
 };
 export const MobileHorizontal = {
   args: {
-    panel: 'right',
+    state: { panelPosition: 'right' },
   },
   parameters: {
     viewport: {
@@ -61,7 +63,7 @@ export const MobileHorizontal = {
 
 export const MobileDocs = {
   args: {
-    viewMode: 'docs',
+    state: { viewMode: 'docs' },
   },
   parameters: {
     viewport: {
@@ -72,7 +74,7 @@ export const MobileDocs = {
 
 export const MobileCustom = {
   args: {
-    viewMode: 'custom',
+    state: { viewMode: 'custom' },
   },
   parameters: {
     viewport: {

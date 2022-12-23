@@ -1,7 +1,6 @@
-import type { FC } from 'react';
+import type { ComponentProps, FC } from 'react';
 import React, { useMemo } from 'react';
 
-import { type State } from '@storybook/manager-api';
 import { Route } from '@storybook/router';
 
 import { Global, createGlobal } from '@storybook/theming';
@@ -14,13 +13,11 @@ import Notifications from './containers/notifications';
 import SettingsPages from './settings';
 import { Layout } from './components/test/Layout';
 
-export interface AppProps {
-  viewMode: State['viewMode'];
-  layout: State['layout'];
-  panelCount: number;
-}
+type Props = ComponentProps<typeof Layout>['state'] & {
+  updater: ComponentProps<typeof Layout>['setState'];
+};
 
-const App = ({ viewMode, layout }: AppProps) => {
+export const App = ({ updater, ...state }: Props) => {
   const props = useMemo(
     () => ({
       Sidebar,
@@ -47,9 +44,8 @@ const App = ({ viewMode, layout }: AppProps) => {
       <Global styles={createGlobal} />
       <Symbols icons={['folder', 'component', 'document', 'bookmarkhollow']} />
       <Layout
-        viewMode={viewMode}
-        panel={layout.showPanel === false ? false : layout.panelPosition}
-        sidebar={layout.showNav}
+        state={state}
+        setState={updater}
         slotMain={<Preview />}
         slotSidebar={<Sidebar />}
         slotPanel={<Panel />}
@@ -62,5 +58,3 @@ const App = ({ viewMode, layout }: AppProps) => {
     </>
   );
 };
-
-export default App;

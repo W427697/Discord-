@@ -106,6 +106,7 @@ export const init: ModuleFn = ({ store, provider, singleStory, fullAPI }) => {
           (state: State) => ({
             layout: {
               ...state.layout,
+              showPanel: true,
               panelPosition: position,
             },
           }),
@@ -117,6 +118,7 @@ export const init: ModuleFn = ({ store, provider, singleStory, fullAPI }) => {
         (state: State) => ({
           layout: {
             ...state.layout,
+            showPanel: true,
             panelPosition: state.layout.panelPosition === 'right' ? 'bottom' : 'right',
           },
         }),
