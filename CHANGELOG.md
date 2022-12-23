@@ -1,3 +1,33 @@
+## 7.0.0-beta.14 (December 23, 2022)
+
+#### Features
+
+-   CLI: Write into a log file if automigrations fail [#20310](https://github.com/storybooks/storybook/pull/20310)
+-   CLI: Add nodejs check in automigrations [#20342](https://github.com/storybooks/storybook/pull/20342)
+
+#### Bug Fixes
+
+-   UI: Disable React.strictmode to avoid findNode deprecation warnings [#20345](https://github.com/storybooks/storybook/pull/20345)
+-   Vite: Fix peerDep warning by updating `@joshwooding/vite-plugin-react-docgen-typescript` [#20359](https://github.com/storybooks/storybook/pull/20359)
+
+#### Maintenance
+
+-   Don't allow setting `Meta of={X}` if `X` is tagged with `'autodocs'` [#20373](https://github.com/storybooks/storybook/pull/20373)
+-   Rename `docsPage` => `autodocs` [#20364](https://github.com/storybooks/storybook/pull/20364)
+-   Rename `docsOptions.enabled` to `docsOptions.disable` [#20363](https://github.com/storybooks/storybook/pull/20363)
+-   Angular: Switch to default to inlineStories=true [#20118](https://github.com/storybooks/storybook/pull/20118)
+-   Types: Add Addon_OptionsParameterV7 type [#20384](https://github.com/storybooks/storybook/pull/20384)
+
+#### Build
+
+-   Build: regen lockfiles [#20386](https://github.com/storybooks/storybook/pull/20386)
+-   Build: fix prettydocs CI flakyness [#20385](https://github.com/storybooks/storybook/pull/20385)
+-   Build: Update Playwright to 1.29.1 [#20372](https://github.com/storybooks/storybook/pull/20372)
+-   Build: store extra metadata for each sandbox test [#20365](https://github.com/storybooks/storybook/pull/20365)
+-   Build: Remove the non-cross-platform dash-S option [#20360](https://github.com/storybooks/storybook/pull/20360)
+-   Build: sync issues of `next` packages [#20354](https://github.com/storybooks/storybook/pull/20354)
+
+
 ## 6.5.15 (December 20, 2022)
 
 #### Bug Fixes
