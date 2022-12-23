@@ -87,7 +87,7 @@ beforeEach(() => {
   provider.serverChannel = mockChannel();
   mockGetEntries.mockReset().mockReturnValue(mockEntries);
 
-  (global.fetch as ReturnType<typeof jest.fn<typeof global.fetch>>).mockReset().mockReturnValue(
+  (global.fetch as jest.Mock<ReturnType<typeof global.fetch>>).mockReset().mockReturnValue(
     Promise.resolve({
       status: 200,
       ok: true,
