@@ -12,7 +12,7 @@ export const viteFinal: StorybookConfig['viteFinal'] = async (config, { presets 
 
   // Add preact plugin if not present
   // FIXME: check vite plugins for presence of preact plugin
-  plugins.push(preact());
+  plugins.push(preact({ prefreshEnabled: true }));
 
   // TODO: Add docgen plugin per issue https://github.com/storybookjs/storybook/issues/19739
 
