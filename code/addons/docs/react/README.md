@@ -98,7 +98,6 @@ Some **markdown** description, or whatever you want.
 
 ## Inline stories
 
-
 Storybook Docs renders all React stories inline by default.
 
 However, you can render stories in an iframe, with a default height of `60px` (configurable using the `docs.iframeHeight` story parameter), by using the `docs.inlineStories` parameter.
