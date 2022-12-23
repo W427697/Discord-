@@ -49,6 +49,7 @@ export default {
   '@storybook/postinstall': '7.0.0-beta.14',
   '@storybook/preact': '7.0.0-beta.14',
   '@storybook/preact-webpack5': '7.0.0-beta.14',
+  '@storybook/preact-vite': '7.0.0-beta.14',
   '@storybook/preset-html-webpack': '7.0.0-beta.14',
   '@storybook/preset-preact-webpack': '7.0.0-beta.14',
   '@storybook/preset-react-webpack': '7.0.0-beta.14',
