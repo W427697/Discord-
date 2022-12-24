@@ -1,6 +1,6 @@
 import type { ViewMode } from '@storybook/types';
 import { styled } from '@storybook/theming';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { TabButton } from '@storybook/components';
 
 const getGridTemplate = ({
@@ -438,28 +438,36 @@ export const Layout = ({ state, setState, ...slots }: Props) => {
   const mobileNavShown = sidebarWidth !== 0;
   const mobilePanelShown = k !== 0 && mobileNavShown === false;
 
-  const setMobileNavShown = () => {
-    // TODO: 30 is an assumption
-    setSidebarWidth(30);
-    setState({ sidebar: true, panel: false });
-    setPanelWidth(0);
-    setPanelHeight(0);
-  };
+  const mobileActions = useMemo(() => {
+    const setNavShown = () => {
+      // TODO: 30 is an assumption
+      setSidebarWidth(30);
+      setState({ sidebar: true, panel: false });
+      setPanelWidth(0);
+      setPanelHeight(0);
+    };
 
-  const setMobilePanelShown = () => {
-    // TODO: 30 is an assumption
-    setPanelWidth(30);
-    setPanelHeight(30);
-    setState({ sidebar: false, panel: true });
-    setSidebarWidth(0);
-  };
-  const setMobileContentShown = () => {
-    // TODO: bottom panel is an assumption
-    setState({ sidebar: false, panel: false });
-    setPanelWidth(0);
-    setPanelHeight(0);
-    setSidebarWidth(0);
-  };
+    const setPanelShown = () => {
+      // TODO: 30 is an assumption
+      setPanelWidth(30);
+      setPanelHeight(30);
+      setState({ sidebar: false, panel: true });
+      setSidebarWidth(0);
+    };
+    const setContentShown = () => {
+      // TODO: bottom panel is an assumption
+      setState({ sidebar: false, panel: false });
+      setPanelWidth(0);
+      setPanelHeight(0);
+      setSidebarWidth(0);
+    };
+
+    return {
+      setNavShown,
+      setPanelShown,
+      setContentShown,
+    };
+  }, [setState]);
 
   return (
     <>
@@ -519,21 +527,21 @@ export const Layout = ({ state, setState, ...slots }: Props) => {
         </div>
 
         <Bar className="sb-mobile-control">
-          <TabButton onClick={() => setMobileNavShown()} active={mobileNavShown}>
+          <TabButton onClick={mobileActions.setNavShown} active={mobileNavShown}>
             Sidebar
           </TabButton>
           <TabButton
-            onClick={() => setMobileContentShown()}
+            onClick={mobileActions.setContentShown}
             active={!mobileNavShown && !mobilePanelShown}
           >
-            {viewMode ? 'Canvas' : 'Page'}
+            {viewMode === 'story' ? 'Canvas' : null}
+            {viewMode === 'docs' ? 'Docs' : null}
+            {viewMode !== 'docs' && viewMode !== 'story' ? 'Page' : null}
           </TabButton>
           <TabButton
-            onClick={() => setMobilePanelShown()}
+            onClick={mobileActions.setPanelShown}
             active={mobilePanelShown}
-            hidden={
-              viewMode !== 'story' || (panelPosition !== 'right' && panelPosition !== 'bottom')
-            }
+            hidden={viewMode !== 'story'}
           >
             Addons
           </TabButton>

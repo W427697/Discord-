@@ -1,6 +1,6 @@
 import { global } from '@storybook/global';
 import type { ComponentProps, FC } from 'react';
-import React from 'react';
+import React, { useCallback } from 'react';
 import ReactDOM from 'react-dom';
 
 import { Location, LocationProvider, useNavigate } from '@storybook/router';
@@ -45,16 +45,18 @@ const appFilter = ({ api, state }: Combo, isLoading: boolean) => {
     panel: isLoading ? false : state.layout.showPanel,
     panelPosition: state.layout.panelPosition || 'bottom',
     sidebar: state.layout.showNav,
-    updater: (s) => {
-      console.log('updater', s);
-      api.setOptions({
-        layout: {
-          ...(typeof s.panel !== 'undefined' ? { showPanel: s.panel } : {}),
-          // ...(typeof s.panel === 'string' ? { panelPosition: s.panel } : {}),
-          ...(typeof s.sidebar !== 'undefined' ? { showNav: s.sidebar } : {}),
-        },
-      });
-    },
+    updater: useCallback(
+      (s) => {
+        api.setOptions({
+          layout: {
+            ...(typeof s.panel !== 'undefined' ? { showPanel: s.panel } : {}),
+            // ...(typeof s.panel === 'string' ? { panelPosition: s.panel } : {}),
+            ...(typeof s.sidebar !== 'undefined' ? { showNav: s.sidebar } : {}),
+          },
+        });
+      },
+      [api]
+    ),
   };
 
   return result;

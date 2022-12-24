@@ -6,8 +6,6 @@ const Block = styled.span({
   display: 'inline-block',
   height: 40,
   width: 40,
-  marginTop: 5,
-  marginRight: 5,
   border: '1px solid silver',
   lineHeight: '40px',
   textAlign: 'center',
@@ -59,6 +57,19 @@ export const Horizontal = () => (
 
 export const Both = () => (
   <ScrollArea horizontal vertical>
+    {list((i) => (
+      <Fragment key={i}>
+        {list((ii) => (
+          <Block key={ii}>{ii * i}</Block>
+        ))}
+        <br />
+      </Fragment>
+    ))}
+  </ScrollArea>
+);
+
+export const Neither = () => (
+  <ScrollArea>
     {list((i) => (
       <Fragment key={i}>
         {list((ii) => (

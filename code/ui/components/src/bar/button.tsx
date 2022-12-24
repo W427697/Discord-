@@ -41,6 +41,9 @@ export const TabButton = styled(ButtonOrLink, { shouldForwardProp: isPropValid }
     '&:empty': {
       display: 'none',
     },
+    '&[hidden]': {
+      display: 'none',
+    },
   },
   ({ theme }) => ({
     padding: '0 15px',
