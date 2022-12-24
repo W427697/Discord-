@@ -19,18 +19,41 @@
     "url": "https://opencollective.com/storybook"
   },
   "license": "MIT",
-  "main": "dist/cjs/index.js",
-  "module": "dist/esm/index.js",
-  "types": "dist/types/index.d.ts",
+  "exports": {
+    ".": {
+      "node": "./dist/index.js",
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.ts"
+    },
+    "./dist/presets/babel-cache-preset": {
+      "node": "./dist/presets/babel-cache-preset.js",
+      "require": "./dist/presets/babel-cache-preset.js",
+      "import": "./dist/presets/babel-cache-preset.mjs",
+      "types": "./dist/presets/babel-cache-preset.d.ts"
+    },
+    "./dist/presets/common-preset": {
+      "node": "./dist/presets/common-preset.js",
+      "require": "./dist/presets/common-preset.js",
+      "import": "./dist/presets/common-preset.mjs",
+      "types": "./dist/presets/common-preset.d.ts"
+    },
+    "./public/favicon.svg": "./public/favicon.svg",
+    "./package.json": "./package.json"
+  },
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
   "files": [
     "dist/**/*",
     "public/**/*",
+    "README.md",
     "*.js",
     "*.d.ts"
   ],
   "scripts": {
     "check": "../../../scripts/node_modules/.bin/tsc --noEmit",
-    "prep": "node ../../../scripts/prepare.js"
+    "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
     "@aw-web-design/x-default-browser": "1.4.88",
@@ -86,6 +109,14 @@
   },
   "publishConfig": {
     "access": "public"
+  },
+  "bundler": {
+    "entries": [
+      "./src/index.ts",
+      "./src/presets/babel-cache-preset.ts",
+      "./src/presets/common-preset.ts"
+    ],
+    "platform": "node"
   },
   "gitHead": "c3b2e8fe2517ba2d7630e260de0fd1ad86cafeb6"
 }

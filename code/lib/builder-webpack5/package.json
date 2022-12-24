@@ -21,16 +21,19 @@
   "license": "MIT",
   "exports": {
     ".": {
+      "node": "./dist/index.js",
       "require": "./dist/index.js",
       "import": "./dist/index.mjs",
       "types": "./dist/index.d.ts"
     },
     "./presets/custom-webpack-preset": {
+      "node": "./dist/presets/custom-webpack-preset.js",
       "require": "./dist/presets/custom-webpack-preset.js",
       "import": "./dist/presets/custom-webpack-preset.mjs",
       "types": "./dist/presets/custom-webpack-preset.d.ts"
     },
     "./presets/preview-preset": {
+      "node": "./dist/presets/preview-preset.js",
       "require": "./dist/presets/preview-preset.js",
       "import": "./dist/presets/preview-preset.mjs",
       "types": "./dist/presets/preview-preset.d.ts"
@@ -45,6 +48,7 @@
   "files": [
     "dist/**/*",
     "templates/**/*",
+    "README.md",
     "*.js",
     "*.d.ts"
   ],
