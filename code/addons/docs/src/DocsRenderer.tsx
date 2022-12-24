@@ -66,8 +66,7 @@ export class DocsRenderer<TRenderer extends Renderer> {
 
         if (root) {
           root.render(content);
-          // Add a timeout to ensure the callback is called after the render has completed.
-          setTimeout(callback, 0);
+          callback();
         } else {
           ReactDOM.render(content, element, callback);
         }
