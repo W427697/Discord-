@@ -4,7 +4,7 @@ import React from 'react';
 import { Provider as ManagerProvider } from '@storybook/manager-api';
 import { LocationProvider } from '@storybook/router';
 import { HelmetProvider } from 'react-helmet-async';
-import { App } from './App_renamed';
+import { App } from './App';
 import { PrettyFakeProvider, FakeProvider } from './FakeProvider';
 
 export default {

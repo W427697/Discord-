@@ -4,7 +4,7 @@ import React from 'react';
 import type { Combo } from '@storybook/manager-api';
 import { Consumer } from '@storybook/manager-api';
 
-import NotificationList from '../components/notifications_renamed/NotificationList';
+import NotificationList from '../components/notifications/NotificationList';
 
 const mapper = ({ state, api }: Combo) => {
   return {

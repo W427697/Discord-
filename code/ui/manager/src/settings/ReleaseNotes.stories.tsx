@@ -1,7 +1,7 @@
 import React from 'react';
 import { actions as makeActions } from '@storybook/addon-actions';
 
-import { PureReleaseNotesScreen } from './release_notes';
+import { PureReleaseNotesScreen } from './ReleaseNotes';
 
 export default {
   component: PureReleaseNotesScreen,

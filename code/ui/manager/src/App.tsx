@@ -11,8 +11,8 @@ import Panel from './container/Panel';
 import Notifications from './container/Notifications';
 
 import SettingsPages from './settings';
-import { Layout } from './components/layout_renamed/Layout';
-import { usePersistence } from './components/layout_renamed/Layout.persistence';
+import { Layout } from './components/layout/Layout';
+import { usePersistence } from './components/layout/Layout.persistence';
 
 type Props = ComponentProps<typeof Layout>['state'] & {
   updater: ComponentProps<typeof Layout>['setState'];

@@ -2,7 +2,7 @@ import { useStorybookApi } from '@storybook/manager-api';
 import type { FC } from 'react';
 import React, { useEffect } from 'react';
 
-import { ReleaseNotesScreen } from './release_notes';
+import { ReleaseNotesScreen } from './ReleaseNotes';
 
 const ReleaseNotesPage: FC = () => {
   const api = useStorybookApi();

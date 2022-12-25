@@ -6,9 +6,9 @@ import { global } from '@storybook/global';
 import type { FC, SyntheticEvent } from 'react';
 import React, { Fragment } from 'react';
 
-import { AboutPage } from './about_page';
-import { ReleaseNotesPage } from './release_notes_page';
-import { ShortcutsPage } from './shortcuts_page';
+import { AboutPage } from './About.page';
+import { ReleaseNotesPage } from './ReleaseNotes.page';
+import { ShortcutsPage } from './Shortcuts.page';
 import { matchesModifiers, matchesKeyCode } from '../keybinding';
 
 const { document } = global;

@@ -14,7 +14,7 @@ import {
 } from '@storybook/theming';
 import { HelmetProvider } from 'react-helmet-async';
 
-import { App } from './App_renamed';
+import { App } from './App';
 
 import Provider from './provider';
 

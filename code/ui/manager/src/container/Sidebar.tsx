@@ -3,7 +3,7 @@ import React from 'react';
 import type { Combo, StoriesHash } from '@storybook/manager-api';
 import { Consumer } from '@storybook/manager-api';
 
-import { Sidebar as SidebarComponent } from '../components/sidebar_renamed/Sidebar';
+import { Sidebar as SidebarComponent } from '../components/sidebar/Sidebar';
 import { useMenu } from './Menu';
 
 export type Item = StoriesHash[keyof StoriesHash];
