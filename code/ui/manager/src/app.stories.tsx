@@ -1,10 +1,11 @@
+import { action } from '@storybook/addon-actions';
 import React from 'react';
 
 import { Provider as ManagerProvider } from '@storybook/manager-api';
 import { LocationProvider } from '@storybook/router';
 import { HelmetProvider } from 'react-helmet-async';
 import { styled } from '@storybook/theming';
-import App from './app';
+import { App } from './app';
 import { PrettyFakeProvider, FakeProvider } from './FakeProvider';
 
 export default {
@@ -50,16 +51,10 @@ export const Default = () => (
     <App
       key="app"
       viewMode="story"
-      layout={{
-        initialActive: 'addons',
-        isFullscreen: false,
-        showToolbar: true,
-        panelPosition: 'right',
-        showNav: true,
-        showPanel: true,
-        showTabs: true,
-      }}
-      panelCount={0}
+      panel
+      sidebar
+      panelPosition="right"
+      updater={action('updater')}
     />
   </ManagerProvider>
 );
@@ -77,16 +72,10 @@ export const LoadingState = () => (
     <App
       key="app"
       viewMode="story"
-      layout={{
-        initialActive: 'addons',
-        isFullscreen: false,
-        showToolbar: true,
-        panelPosition: 'right',
-        showNav: true,
-        showPanel: true,
-        showTabs: true,
-      }}
-      panelCount={0}
+      panel
+      sidebar
+      panelPosition="right"
+      updater={action('updater')}
     />
   </ManagerProvider>
 );

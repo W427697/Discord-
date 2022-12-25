@@ -58,8 +58,6 @@ const toLinks = memoize(50)((list: ViewportItem[], active: LinkBase, set, state,
     .filter(Boolean);
 });
 
-const wrapperId = 'storybook-preview-wrapper';
-
 interface LinkBase {
   id: string;
   title: string;
