@@ -10,8 +10,20 @@ export const Layout = ({ state: incomingState, setState, ...slots }: Props) => {
   const [state, updateState] = useImmerReducer<LayoutState, Partial<LayoutState>>(
     (draft, action) => {
       if ('panel' in action || 'sidebar' in action) {
-        // sync these changes upstream
-        setState({ panel: action.panel || draft.panel, sidebar: action.sidebar || draft.sidebar });
+        // sync changes upstream
+        if (
+          (action.panel !== undefined && action.panel !== draft.panel) ||
+          (action.sidebar !== undefined && action.sidebar !== draft.sidebar)
+        ) {
+          const { panel: draftPanel, sidebar: draftSidebar } = draft;
+          const { panel: actionPanel, sidebar: actionSidebar } = action;
+          const update = {
+            panel: actionPanel === undefined ? draftPanel : actionPanel,
+            sidebar: actionSidebar === undefined ? draftSidebar : actionSidebar,
+          };
+          // this upstream sync should not happen whilst react is already in the render phase
+          setTimeout(setState, 16, update);
+        }
       }
 
       Object.assign(draft, action);
@@ -30,7 +42,7 @@ export const Layout = ({ state: incomingState, setState, ...slots }: Props) => {
 
   // keep a ref to the state so we can get the latest state in the event handlers
   const stateRef = useRef<LayoutState>(state);
-  Object.assign(stateRef.current, state);
+  Object.assign(stateRef.current, state, incomingState);
 
   // respond to state changes upstream
   useUpstreamState(stateRef, updateState, incomingState);
@@ -90,29 +102,32 @@ export const Layout = ({ state: incomingState, setState, ...slots }: Props) => {
 function useUpstreamState(
   stateRef: MutableRefObject<LayoutState>,
   updateState: Dispatch<Partial<LayoutState>>,
-  state: ExposedLayoutState
+  incomingState: ExposedLayoutState
 ) {
+  const { panel, panelPosition, sidebar } = incomingState;
   useEffect(() => {
-    const { panel, panelPosition, panelHeight, sidebar, sidebarWidth, panelWidth } =
-      stateRef.current;
+    const { panelHeight, sidebarWidth, panelWidth } = stateRef.current;
     if (panel && panelPosition === 'bottom' && panelHeight === 0) {
       // TODO: take from some preference
-      updateState({ panelHeight: 20 });
+      updateState({ panelHeight: 20, panel, panelPosition, sidebar });
+      return;
     }
     if (panel && panelPosition === 'right' && panelWidth === 0) {
       // TODO: take from some preference
-      updateState({ panelWidth: 20 });
+      updateState({ panelWidth: 20, panel, panelPosition, sidebar });
+      return;
     }
     if (!panel) {
-      updateState({ panelHeight: 0, panelWidth: 0 });
+      updateState({ panelHeight: 0, panelWidth: 0, panel, panelPosition, sidebar });
+      return;
     }
-
     if (sidebar && sidebarWidth === 0) {
       // TODO: take from some preference
-      updateState({ sidebarWidth: 20 });
+      updateState({ sidebarWidth: 20, panel, panelPosition, sidebar });
+      return;
     }
     if (!sidebar && sidebarWidth !== 0) {
-      updateState({ sidebarWidth: 0 });
+      updateState({ sidebarWidth: 0, panel, panelPosition, sidebar });
     }
-  }, [updateState, state.panel, state.panelPosition, state.sidebar, stateRef]);
+  }, [updateState, panel, panelPosition, sidebar, stateRef]);
 }

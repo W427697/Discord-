@@ -33,7 +33,7 @@ export const DesktopControls = ({
         <div className="sb-shade" />
       </div>
 
-      {state.isDragging ? <div className="sb-hoverblock" /> : null}
+      <div className="sb-hoverblock" hidden={!state.isDragging} />
     </>
   );
 };
@@ -96,11 +96,12 @@ function useDragging(
               sidebarWidth: 0,
             });
           }
-          return;
+        } else if (value !== stateRef.current.sidebarWidth) {
+          updateState({ sidebar: true, sidebarWidth: value });
         }
-
-        updateState({ sidebar: true, sidebarWidth: value });
-      } else if (draggedElement === sHorizontal) {
+        return;
+      }
+      if (draggedElement === sHorizontal) {
         const value = 100 - Math.round((e.clientX / e.view.innerWidth) * 100);
         if (value + stateRef.current.sidebarWidth > 70) {
           // preserve space for content
@@ -111,11 +112,12 @@ function useDragging(
           if (stateRef.current.panelWidth !== 0) {
             updateState({ panel: false, panelWidth: 0 });
           }
-          return;
+        } else if (value !== stateRef.current.panelWidth) {
+          updateState({ panel: true, panelWidth: value });
         }
-
-        updateState({ panel: true, panelWidth: value });
-      } else if (draggedElement === sVertical) {
+        return;
+      }
+      if (draggedElement === sVertical) {
         const value = 100 - Math.round((e.clientY / e.view.innerHeight) * 100);
         if (value > 70) {
           return;
@@ -124,10 +126,9 @@ function useDragging(
           if (stateRef.current.panelHeight !== 0) {
             updateState({ panel: false, panelHeight: 0 });
           }
-          return;
+        } else if (value !== stateRef.current.panelHeight) {
+          updateState({ panel: true, panelHeight: value });
         }
-
-        updateState({ panel: true, panelHeight: value });
       }
     };
 
@@ -140,7 +141,7 @@ function useDragging(
       sVertical?.removeEventListener('mousedown', onDragStart);
       sSidebar?.removeEventListener('mousedown', onDragStart);
     };
-  });
+  }, [stateRef, updateState]);
 
   return { sHorizontalRef, sVerticalRef, sSidebarRef };
 }
