@@ -5,7 +5,7 @@ import { Consumer } from '@storybook/manager-api';
 import { Button, getStoryHref } from '@storybook/components';
 import { Global, styled } from '@storybook/theming';
 import type { CSSObject } from '@storybook/theming';
-import { IFrame } from './iframe';
+import { IFrame } from './Iframe';
 import type { FramesRendererProps } from './utils/types';
 import { stringifyQueryParams } from './utils/stringifyQueryParams';
 

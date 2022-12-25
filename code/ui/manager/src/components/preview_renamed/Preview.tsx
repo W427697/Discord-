@@ -18,8 +18,8 @@ import { Location } from '@storybook/router';
 
 import * as S from './utils/components';
 import { ZoomProvider, ZoomConsumer } from './tools/zoom';
-import { defaultWrappers, ApplyWrappers } from './wrappers';
-import { ToolbarComp } from './toolbar';
+import { defaultWrappers, ApplyWrappers } from './Wrappers';
+import { ToolbarComp } from './Toolbar';
 import { FramesRenderer } from './FramesRenderer';
 
 import type { PreviewProps } from './utils/types';

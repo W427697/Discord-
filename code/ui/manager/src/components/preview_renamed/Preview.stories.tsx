@@ -8,10 +8,10 @@ import { Location, BaseLocationProvider } from '@storybook/router';
 import { ThemeProvider, ensure as ensureTheme, themes } from '@storybook/theming';
 
 import type { DecoratorFn } from '@storybook/react';
-import { Preview } from './preview';
+import { Preview } from './Preview';
 
 import { PrettyFakeProvider } from '../../FakeProvider';
-import { previewProps } from './preview.mockdata';
+import { previewProps } from './Preview.mockdata';
 
 const provider = new PrettyFakeProvider();
 const staticNavigator = {

@@ -1,7 +1,7 @@
 import React from 'react';
 import { actions as createActions } from '@storybook/addon-actions';
 
-import { AboutScreen } from './About_renamed';
+import { AboutScreen } from './About';
 
 const info = {
   plain: `- upgrade webpack & babel to latest\n- new addParameters and third argument to .add to pass data to addons\n- added the ability to theme storybook\n- improved ui for mobile devices\n- improved performance of addon-knobs`,
