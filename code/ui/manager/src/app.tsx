@@ -11,7 +11,8 @@ import Panel from './containers/panel';
 import Notifications from './containers/notifications';
 
 import SettingsPages from './settings';
-import { Layout } from './components/test/Layout';
+import { Layout } from './components/layout/Layout';
+import { usePersistence } from './components/layout/Layout.persistence';
 
 type Props = ComponentProps<typeof Layout>['state'] & {
   updater: ComponentProps<typeof Layout>['setState'];
@@ -44,6 +45,7 @@ export const App = ({ updater, ...state }: Props) => {
       <Global styles={createGlobal} />
       <Symbols icons={['folder', 'component', 'document', 'bookmarkhollow']} />
       <Layout
+        persistence={usePersistence()}
         state={state}
         setState={updater}
         slotMain={<Preview />}

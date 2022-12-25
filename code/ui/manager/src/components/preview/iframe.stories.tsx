@@ -20,7 +20,22 @@ export const WorkingStory = () => (
     active
     id="iframe"
     title="Missing"
-    src="/iframe.html?id=ui-panel--default"
+    src="/iframe.html?id=storybook-components-brand-storybookicon--default"
+    allowFullScreen
+    style={style}
+    scale={1.0}
+  />
+);
+WorkingStory.parameters = {
+  chromatic: { disable: true },
+};
+
+export const WorkingDocs = () => (
+  <IFrame
+    active
+    id="iframe"
+    title="Missing"
+    src="/iframe.html?id=storybook-components-colorpalette--docs"
     allowFullScreen
     style={style}
     scale={1.0}

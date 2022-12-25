@@ -6,7 +6,7 @@ import type { Props, LayoutState, ExposedLayoutState } from './Layout.types';
 import { MobileControls } from './Layout.MobileControls';
 import { DesktopControls } from './Layout.DesktopControls';
 
-export const Layout = ({ state: incomingState, setState, ...slots }: Props) => {
+export const Layout = ({ state: incomingState, persistence, setState, ...slots }: Props) => {
   const [state, updateState] = useImmerReducer<LayoutState, Partial<LayoutState>>(
     (draft, action) => {
       if ('panel' in action || 'sidebar' in action) {
@@ -26,6 +26,15 @@ export const Layout = ({ state: incomingState, setState, ...slots }: Props) => {
         }
       }
 
+      if (action.isDragging === false) {
+        persistence.current.set({
+          panelHeight: draft.panelHeight,
+          panelPosition: draft.panelPosition,
+          panelWidth: draft.panelWidth,
+          sidebarWidth: draft.sidebarWidth,
+        });
+      }
+
       Object.assign(draft, action);
     },
     {
@@ -33,10 +42,12 @@ export const Layout = ({ state: incomingState, setState, ...slots }: Props) => {
       sidebar: incomingState.sidebar || false,
       panel: incomingState.panel || false,
       viewMode: incomingState.viewMode || 'story',
-      panelPosition: incomingState.panelPosition || 'bottom',
-      sidebarWidth: incomingState.sidebar === true ? 20 : 0,
-      panelHeight: incomingState.panelPosition === 'bottom' ? 20 : 0,
-      panelWidth: incomingState.panelPosition === 'right' ? 20 : 0,
+      panelPosition: incomingState.panelPosition || persistence.current.value.panelPosition,
+      sidebarWidth: incomingState.sidebar === true ? persistence.current.value.sidebarWidth : 0,
+      panelHeight:
+        incomingState.panelPosition === 'bottom' ? persistence.current.value.panelHeight : 0,
+      panelWidth:
+        incomingState.panelPosition === 'right' ? persistence.current.value.panelWidth : 0,
     } satisfies LayoutState
   );
 

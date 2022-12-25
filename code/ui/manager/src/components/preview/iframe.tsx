@@ -3,8 +3,6 @@ import React from 'react';
 import { styled } from '@storybook/theming';
 import { Zoom } from '@storybook/components';
 
-console.log('new');
-
 const StyledIframe = styled.iframe({
   position: 'relative',
   display: 'block',
