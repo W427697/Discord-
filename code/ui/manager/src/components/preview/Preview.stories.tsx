@@ -33,6 +33,10 @@ const staticNavigator = {
 export default {
   title: 'Preview',
   component: Preview,
+  parameters: {
+    layout: 'fullscreen',
+    theme: 'light',
+  },
   decorators: [
     ((StoryFn, c) => {
       const locationProp = parsePath('/?path=/story/story--id');
@@ -160,3 +164,8 @@ export const WithTabsHidden = () => (
     }}
   </Consumer>
 );
+
+export const Dark = () => <Preview {...previewProps} />;
+Dark.parameters = {
+  theme: 'dark',
+};
