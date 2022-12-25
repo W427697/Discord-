@@ -164,8 +164,3 @@ export const WithTabsHidden = () => (
     }}
   </Consumer>
 );
-
-export const Dark = () => <Preview {...previewProps} />;
-Dark.parameters = {
-  theme: 'dark',
-};
