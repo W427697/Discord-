@@ -4,41 +4,27 @@ import React from 'react';
 import { Provider as ManagerProvider } from '@storybook/manager-api';
 import { LocationProvider } from '@storybook/router';
 import { HelmetProvider } from 'react-helmet-async';
-import { styled } from '@storybook/theming';
-import { App } from './app';
+import { App } from './App_renamed';
 import { PrettyFakeProvider, FakeProvider } from './FakeProvider';
 
 export default {
   component: App,
   parameters: {
     layout: 'fullscreen',
+    theme: 'light',
   },
   decorators: [
     (StoryFn: any) => (
       <HelmetProvider key="helmet.Provider">
         <LocationProvider>
-          <ThemeStack>
-            <StoryFn />
-          </ThemeStack>
+          <StoryFn />
         </LocationProvider>
       </HelmetProvider>
     ),
   ],
 };
 
-const ThemeStack = styled.div(
-  {
-    position: 'relative',
-    minHeight: '50vh',
-    height: '100%',
-  },
-  ({ theme }) => ({
-    background: theme.background.app,
-    color: theme.color.defaultText,
-  })
-);
-
-export const Default = () => (
+export const Light = () => (
   <ManagerProvider
     key="manager"
     provider={new FakeProvider()}
@@ -59,7 +45,7 @@ export const Default = () => (
   </ManagerProvider>
 );
 
-export const LoadingState = () => (
+export const Dark = () => (
   <ManagerProvider
     key="manager"
     provider={new PrettyFakeProvider()}
@@ -79,3 +65,6 @@ export const LoadingState = () => (
     />
   </ManagerProvider>
 );
+Dark.parameters = {
+  theme: 'dark',
+};

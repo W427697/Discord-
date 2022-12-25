@@ -6,7 +6,7 @@ import type { API } from '@storybook/manager-api';
 import { styled, useTheme } from '@storybook/theming';
 
 import { shortcutToHumanString } from '@storybook/manager-api';
-import { MenuItemIcon } from '../components/sidebar/Menu';
+import { MenuItemIcon } from '../components/sidebar_renamed/Menu';
 
 const focusableUIElements = {
   storySearchField: 'storybook-explorer-searchfield',

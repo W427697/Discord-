@@ -3,7 +3,7 @@ import React from 'react';
 import memoize from 'memoizerific';
 import { Consumer, type Combo } from '@storybook/manager-api';
 
-import AddonPanel from '../components/panel/panel';
+import AddonPanel from '../components/panel_renamed/Panel';
 
 const createPanelActions = memoize(1)((api) => ({
   onSelect: (panel: string) => api.setSelectedPanel(panel),

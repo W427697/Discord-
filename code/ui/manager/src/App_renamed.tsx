@@ -5,14 +5,14 @@ import { Route } from '@storybook/router';
 
 import { Global, createGlobal } from '@storybook/theming';
 import { Symbols } from '@storybook/components';
-import Sidebar from './containers/sidebar';
-import Preview from './containers/preview';
-import Panel from './containers/panel';
-import Notifications from './containers/notifications';
+import Sidebar from './container/Sidebar';
+import Preview from './container/Preview';
+import Panel from './container/Panel';
+import Notifications from './container/Notifications';
 
 import SettingsPages from './settings';
-import { Layout } from './components/layout/Layout';
-import { usePersistence } from './components/layout/Layout.persistence';
+import { Layout } from './components/layout_renamed/Layout';
+import { usePersistence } from './components/layout_renamed/Layout.persistence';
 
 type Props = ComponentProps<typeof Layout>['state'] & {
   updater: ComponentProps<typeof Layout>['setState'];

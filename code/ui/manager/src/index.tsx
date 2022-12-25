@@ -14,7 +14,7 @@ import {
 } from '@storybook/theming';
 import { HelmetProvider } from 'react-helmet-async';
 
-import { App } from './app';
+import { App } from './App_renamed';
 
 import Provider from './provider';
 
@@ -50,7 +50,6 @@ const appFilter = ({ api, state }: Combo, isLoading: boolean) => {
         api.setOptions({
           layout: {
             ...(typeof s.panel !== 'undefined' ? { showPanel: s.panel } : {}),
-            // ...(typeof s.panel === 'string' ? { panelPosition: s.panel } : {}),
             ...(typeof s.sidebar !== 'undefined' ? { showNav: s.sidebar } : {}),
           },
         });

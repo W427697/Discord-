@@ -2,7 +2,7 @@ import React from 'react';
 import { action } from '@storybook/addon-actions';
 import type { State } from '@storybook/manager-api';
 import type { Addon_Collection } from '@storybook/types';
-import Panel from './panel';
+import Panel from './Panel';
 
 const shortcuts: State['shortcuts'] = {
   fullScreen: ['F'],

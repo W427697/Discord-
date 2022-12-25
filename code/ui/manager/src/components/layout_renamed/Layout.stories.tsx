@@ -87,9 +87,16 @@ export default {
     slotPanel: <MockPanel />,
     slotCustom: <MockPage />,
   },
+  parameters: {
+    theme: 'light',
+    layout: 'fullscreen',
+  },
 };
 
 export const Desktop = {};
+export const Dark = {
+  parameters: { theme: 'dark' },
+};
 export const DesktopHorizontal = {
   args: {
     state: { panelPosition: 'right' },
@@ -113,6 +120,7 @@ export const Mobile = {
     viewport: {
       defaultViewport: 'mobile1',
     },
+    chromatic: { viewports: [320, 900] },
   },
 };
 export const MobileHorizontal = {
@@ -123,6 +131,7 @@ export const MobileHorizontal = {
     viewport: {
       defaultViewport: 'mobile1',
     },
+    chromatic: { viewports: [320, 900] },
   },
 };
 
@@ -134,6 +143,7 @@ export const MobileDocs = {
     viewport: {
       defaultViewport: 'mobile1',
     },
+    chromatic: { viewports: [320, 900] },
   },
 };
 
@@ -145,5 +155,6 @@ export const MobileCustom = {
     viewport: {
       defaultViewport: 'mobile1',
     },
+    chromatic: { viewports: [320, 900] },
   },
 };

@@ -6,7 +6,7 @@ import { TooltipLinkList } from '@storybook/components';
 import { styled } from '@storybook/theming';
 import { within, userEvent, screen } from '@storybook/testing-library';
 import { MenuItemIcon, SidebarMenu, ToolbarMenu } from './Menu';
-import { useMenu } from '../../containers/menu';
+import { useMenu } from '../../container/Menu';
 
 export default {
   component: MenuItemIcon,
