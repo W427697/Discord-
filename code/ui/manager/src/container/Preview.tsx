@@ -4,7 +4,7 @@ import React from 'react';
 import type { Combo, StoriesHash } from '@storybook/manager-api';
 import { Consumer } from '@storybook/manager-api';
 
-import { Preview } from '../components/preview_renamed/Preview';
+import { Preview } from '../components/preview/Preview';
 
 const { PREVIEW_URL } = global;
 
