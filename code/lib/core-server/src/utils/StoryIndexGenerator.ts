@@ -250,7 +250,11 @@ export class StoryIndexGenerator {
             name,
             importPath,
             type: 'docs',
-            tags: [...componentTags, 'docs'],
+            tags: [
+              ...componentTags,
+              'docs',
+              ...(autodocsOptedIn && !componentTags.includes('autodocs') ? ['autodocs'] : []),
+            ],
             storiesImports: [],
             standalone: false,
           });
@@ -390,7 +394,7 @@ export class StoryIndexGenerator {
       }
 
       // If you link a file to a tagged CSF file, you have probably made a mistake
-      if (worseEntry.tags?.includes('autodocs'))
+      if (worseEntry.tags?.includes('autodocs') && this.options.docs.autodocs !== true)
         throw new Error(
           `You created a component docs page for ${worseEntry.title} (${betterEntry.importPath}), but also tagged the CSF file (${worseEntry.importPath}) with 'autodocs'. This is probably a mistake.`
         );

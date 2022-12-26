@@ -210,7 +210,11 @@ export class StoryStoreFacade<TRenderer extends Renderer> {
           name,
           importPath: fileName,
           ...(componentId && { componentId }),
-          tags: [...componentTags, 'docs'],
+          tags: [
+            ...componentTags,
+            'docs',
+            ...(autodocsOptedIn && !componentTags.includes('autodocs') ? ['autodocs'] : []),
+          ],
           storiesImports: [],
         };
       }

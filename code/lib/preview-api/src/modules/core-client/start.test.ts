@@ -993,7 +993,7 @@ describe('start', () => {
                 "standalone": false,
                 "storiesImports": Array [],
                 "tags": Array [
-                  "mdx",
+                  "stories-mdx",
                   "docs",
                 ],
                 "title": "Introduction",
