@@ -37,8 +37,8 @@ export const Light = () => (
     <App
       key="app"
       viewMode="story"
-      panel
-      sidebar
+      showPanel
+      showSidebar
       panelPosition="right"
       updater={action('updater')}
     />
@@ -58,8 +58,8 @@ export const Dark = () => (
     <App
       key="app"
       viewMode="story"
-      panel
-      sidebar
+      showPanel
+      showSidebar
       panelPosition="right"
       updater={action('updater')}
     />

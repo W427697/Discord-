@@ -41,16 +41,16 @@ export const Root: FC<RootProps> = ({ provider }) => (
 
 const appFilter = ({ api, state }: Combo, isLoading: boolean) => {
   const result: ComponentProps<typeof App> = {
-    viewMode: state.viewMode,
-    panel: isLoading ? false : state.layout.showPanel,
     panelPosition: state.layout.panelPosition || 'bottom',
-    sidebar: state.layout.showNav,
+    showPanel: isLoading ? false : state.layout.showPanel,
+    showSidebar: state.layout.showNav,
+    viewMode: state.viewMode,
     updater: useCallback(
       (s) => {
         api.setOptions({
           layout: {
-            ...(typeof s.panel !== 'undefined' ? { showPanel: s.panel } : {}),
-            ...(typeof s.sidebar !== 'undefined' ? { showNav: s.sidebar } : {}),
+            ...(typeof s.showPanel !== 'undefined' ? { showPanel: s.showPanel } : {}),
+            ...(typeof s.showSidebar !== 'undefined' ? { showNav: s.showSidebar } : {}),
           },
         });
       },

@@ -75,8 +75,8 @@ export default {
   component: Layout,
   args: {
     state: {
-      sidebar: true,
-      panel: true,
+      showSidebar: true,
+      showPanel: true,
       panelPosition: 'bottom',
       viewMode: 'story',
     },

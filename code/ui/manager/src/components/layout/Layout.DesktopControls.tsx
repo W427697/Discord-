@@ -92,12 +92,12 @@ function useDragging(
         if (value < 5) {
           if (stateRef.current.sidebarWidth !== 0) {
             updateState({
-              sidebar: false,
+              showSidebar: false,
               sidebarWidth: 0,
             });
           }
         } else if (value !== stateRef.current.sidebarWidth) {
-          updateState({ sidebar: true, sidebarWidth: value });
+          updateState({ showSidebar: true, sidebarWidth: value });
         }
         return;
       }
@@ -110,10 +110,10 @@ function useDragging(
 
         if (value < 5) {
           if (stateRef.current.panelWidth !== 0) {
-            updateState({ panel: false, panelWidth: 0 });
+            updateState({ showPanel: false, panelWidth: 0 });
           }
         } else if (value !== stateRef.current.panelWidth) {
-          updateState({ panel: true, panelWidth: value });
+          updateState({ showPanel: true, panelWidth: value });
         }
         return;
       }
@@ -124,10 +124,10 @@ function useDragging(
         }
         if (value < 5) {
           if (stateRef.current.panelHeight !== 0) {
-            updateState({ panel: false, panelHeight: 0 });
+            updateState({ showPanel: false, panelHeight: 0 });
           }
         } else if (value !== stateRef.current.panelHeight) {
-          updateState({ panel: true, panelHeight: value });
+          updateState({ showPanel: true, panelHeight: value });
         }
       }
     };

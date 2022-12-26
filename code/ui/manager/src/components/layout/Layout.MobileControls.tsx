@@ -38,21 +38,33 @@ export const MobileControls = ({
   const mobileActions = useMemo(() => {
     const setNavShown = () => {
       // TODO: 30 is an assumption
-      updateState({ sidebar: true, panel: false, sidebarWidth: 30, panelWidth: 0, panelHeight: 0 });
+      updateState({
+        showSidebar: true,
+        showPanel: false,
+        sidebarWidth: 30,
+        panelWidth: 0,
+        panelHeight: 0,
+      });
     };
 
     const setPanelShown = () => {
       // TODO: 30 is an assumption
       updateState({
-        sidebar: false,
-        panel: true,
+        showSidebar: false,
+        showPanel: true,
         panelWidth: 30,
         panelHeight: 30,
         sidebarWidth: 0,
       });
     };
     const setContentShown = () => {
-      updateState({ sidebar: false, panel: false, panelWidth: 0, panelHeight: 0, sidebarWidth: 0 });
+      updateState({
+        showSidebar: false,
+        showPanel: false,
+        panelWidth: 0,
+        panelHeight: 0,
+        sidebarWidth: 0,
+      });
     };
 
     return {

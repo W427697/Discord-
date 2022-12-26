@@ -10,17 +10,17 @@ import { DesktopControls } from './Layout.DesktopControls';
 export const Layout = ({ state: incomingState, persistence, setState, ...slots }: Props) => {
   const [state, updateState] = useImmerReducer<LayoutState, Partial<LayoutState>>(
     (draft, action) => {
-      if ('panel' in action || 'sidebar' in action) {
+      if ('showPanel' in action || 'showSidebar' in action) {
         // sync changes upstream
         if (
-          (action.panel !== undefined && action.panel !== draft.panel) ||
-          (action.sidebar !== undefined && action.sidebar !== draft.sidebar)
+          (action.showPanel !== undefined && action.showPanel !== draft.showPanel) ||
+          (action.showSidebar !== undefined && action.showSidebar !== draft.showSidebar)
         ) {
-          const { panel: draftPanel, sidebar: draftSidebar } = draft;
-          const { panel: actionPanel, sidebar: actionSidebar } = action;
+          const { showPanel: draftPanel, showSidebar: draftSidebar } = draft;
+          const { showPanel: actionPanel, showSidebar: actionSidebar } = action;
           const update = {
-            panel: actionPanel === undefined ? draftPanel : actionPanel,
-            sidebar: actionSidebar === undefined ? draftSidebar : actionSidebar,
+            showPanel: actionPanel === undefined ? draftPanel : actionPanel,
+            showSidebar: actionSidebar === undefined ? draftSidebar : actionSidebar,
           };
           // this upstream sync should not happen whilst react is already in the render phase
           setTimeout(setState, 16, update);
@@ -40,11 +40,11 @@ export const Layout = ({ state: incomingState, persistence, setState, ...slots }
     },
     {
       isDragging: false,
-      sidebar: incomingState.sidebar || false,
-      panel: incomingState.panel || false,
+      showSidebar: incomingState.showSidebar || false,
+      showPanel: incomingState.showPanel || false,
       viewMode: incomingState.viewMode || 'story',
       panelPosition: incomingState.panelPosition || persistence.current.value.panelPosition,
-      sidebarWidth: incomingState.sidebar === true ? persistence.current.value.sidebarWidth : 0,
+      sidebarWidth: incomingState.showSidebar === true ? persistence.current.value.sidebarWidth : 0,
       panelHeight:
         incomingState.panelPosition === 'bottom' ? persistence.current.value.panelHeight : 0,
       panelWidth:
@@ -111,39 +111,65 @@ export const Layout = ({ state: incomingState, persistence, setState, ...slots }
   );
 };
 
-const PanelContainer = styled.div(({ theme }) => ({ bacgroundColor: theme.background.app }));
-const SidebarContainer = styled.div(({ theme }) => ({ bacgroundColor: theme.background.app }));
-const ContentContainer = styled.div(({ theme }) => ({ bacgroundColor: theme.background.content }));
+const PanelContainer = styled.div(({ theme }) => ({ backgroundColor: theme.background.app }));
+const SidebarContainer = styled.div(({ theme }) => ({ backgroundColor: theme.background.app }));
+const ContentContainer = styled.div(({ theme }) => ({ backgroundColor: theme.background.content }));
 
 function useUpstreamState(
   stateRef: MutableRefObject<LayoutState>,
   updateState: Dispatch<Partial<LayoutState>>,
   incomingState: ExposedLayoutState
 ) {
-  const { panel, panelPosition, sidebar } = incomingState;
+  const { showPanel, panelPosition, showSidebar } = incomingState;
   useEffect(() => {
     const { panelHeight, sidebarWidth, panelWidth } = stateRef.current;
-    if (panel && panelPosition === 'bottom' && panelHeight === 0) {
+    if (showPanel && panelPosition === 'bottom' && panelHeight === 0) {
       // TODO: take from some preference
-      updateState({ panelHeight: 20, panel, panelPosition, sidebar });
+      updateState({
+        panelHeight: 20,
+        showPanel,
+        panelPosition,
+        showSidebar,
+      });
       return;
     }
-    if (panel && panelPosition === 'right' && panelWidth === 0) {
+    if (showPanel && panelPosition === 'right' && panelWidth === 0) {
       // TODO: take from some preference
-      updateState({ panelWidth: 20, panel, panelPosition, sidebar });
+      updateState({
+        panelWidth: 20,
+        showPanel,
+        panelPosition,
+        showSidebar,
+      });
       return;
     }
-    if (!panel) {
-      updateState({ panelHeight: 0, panelWidth: 0, panel, panelPosition, sidebar });
+    if (!showPanel) {
+      updateState({
+        panelHeight: 0,
+        panelWidth: 0,
+        showPanel,
+        panelPosition,
+        showSidebar,
+      });
       return;
     }
-    if (sidebar && sidebarWidth === 0) {
+    if (showSidebar && sidebarWidth === 0) {
       // TODO: take from some preference
-      updateState({ sidebarWidth: 20, panel, panelPosition, sidebar });
+      updateState({
+        sidebarWidth: 20,
+        showPanel,
+        panelPosition,
+        showSidebar,
+      });
       return;
     }
-    if (!sidebar && sidebarWidth !== 0) {
-      updateState({ sidebarWidth: 0, panel, panelPosition, sidebar });
+    if (!showSidebar && sidebarWidth !== 0) {
+      updateState({
+        sidebarWidth: 0,
+        showPanel,
+        panelPosition,
+        showSidebar,
+      });
     }
-  }, [updateState, panel, panelPosition, sidebar, stateRef]);
+  }, [updateState, showPanel, panelPosition, showSidebar, stateRef]);
 }

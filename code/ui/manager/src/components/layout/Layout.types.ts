@@ -4,8 +4,8 @@ import type { usePersistence } from './Layout.persistence';
 
 export interface ExposedLayoutState {
   panelPosition: API_PanelPositions;
-  panel: boolean;
-  sidebar: boolean;
+  showPanel: boolean;
+  showSidebar: boolean;
   viewMode: ViewMode;
 }
 export interface InternalLayoutState {
