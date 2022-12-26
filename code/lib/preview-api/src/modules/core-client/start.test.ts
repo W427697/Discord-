@@ -975,7 +975,7 @@ describe('start', () => {
           'test',
           makeRequireContext({
             './Introduction.stories.mdx': {
-              default: { title: 'Introduction', tags: ['mdx'] },
+              default: { title: 'Introduction', tags: ['stories-mdx'] },
               _Page: { name: 'Page', parameters: { docsOnly: true } },
             },
           })

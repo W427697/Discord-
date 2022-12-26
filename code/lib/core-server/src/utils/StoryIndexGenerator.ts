@@ -241,7 +241,7 @@ export class StoryIndexGenerator {
         // We need a docs entry attached to the CSF file if either:
         //  a) it is a stories.mdx transpiled to CSF, OR
         //  b) we have docs page enabled for this file
-        if (componentTags.includes('mdx') || autodocsOptedIn) {
+        if (componentTags.includes('stories-mdx') || autodocsOptedIn) {
           const name = this.options.docs.defaultName;
           const id = toId(csf.meta.title, name);
           entries.unshift({
@@ -339,7 +339,7 @@ export class StoryIndexGenerator {
         importPath,
         storiesImports: dependencies.map((dep) => dep.entries[0].importPath),
         type: 'docs',
-        tags: [...(result.tags || []), 'docs', 'mdx'],
+        tags: [...(result.tags || []), 'docs'],
         standalone: true,
       };
       return docsEntry;
