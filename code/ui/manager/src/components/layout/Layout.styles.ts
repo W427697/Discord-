@@ -38,7 +38,7 @@ export const DESKTOP = `
   width: 100vw;
 }
 
-.sb-aside { 
+.sb-sidebar { 
   grid-area: a;
   position: relative;
   z-index: 3;
@@ -133,7 +133,7 @@ export const DESKTOP = `
 }
 `;
 export const MOBILE = `
-.sb-aside { 
+.sb-sidebar { 
   position: absolute;
   top: 0;
   left: 0;
@@ -143,7 +143,7 @@ export const MOBILE = `
   transition: transform 0.3s;
   z-index: 4;
 }
-.sb-aside[hidden] { 
+.sb-sidebar[hidden] { 
   display: block;
   transform: translateX(-100%);
 }
@@ -179,7 +179,7 @@ export const MOBILE = `
   width: 100vw;
 }
 
-.sb-aside:not([hidden]) + .sb-panel {
+.sb-sidebar:not([hidden]) + .sb-panel {
   display: block;
   transform: translateX(100%);
 }

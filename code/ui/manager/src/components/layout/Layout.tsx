@@ -1,6 +1,7 @@
 import { useImmerReducer } from 'use-immer';
 import type { Dispatch, MutableRefObject } from 'react';
 import React, { useEffect, useRef } from 'react';
+import { styled } from '@storybook/theming';
 import { DESKTOP, getGridTemplate, MOBILE, SHARED } from './Layout.styles';
 import type { Props, LayoutState, ExposedLayoutState } from './Layout.types';
 import { MobileControls } from './Layout.MobileControls';
@@ -74,24 +75,24 @@ export const Layout = ({ state: incomingState, persistence, setState, ...slots }
           gridTemplateRows: `1fr 0px ${state.panelHeight}%`,
         }}
       >
-        <div
+        <ContentContainer
           className="sb-content"
           hidden={state.viewMode !== 'story' && state.viewMode !== 'docs'}
         >
           {slots.slotMain}
-        </div>
+        </ContentContainer>
 
-        <div
+        <ContentContainer
           className="sb-custom"
           hidden={!(state.viewMode !== 'story' && state.viewMode !== 'docs')}
         >
           {slots.slotCustom}
-        </div>
+        </ContentContainer>
 
-        <div className="sb-aside" hidden={state.sidebarWidth === 0}>
+        <SidebarContainer className="sb-sidebar" hidden={state.sidebarWidth === 0}>
           {slots.slotSidebar}
-        </div>
-        <div
+        </SidebarContainer>
+        <PanelContainer
           className="sb-panel"
           hidden={
             state.viewMode !== 'story' ||
@@ -101,7 +102,7 @@ export const Layout = ({ state: incomingState, persistence, setState, ...slots }
           }
         >
           {slots.slotPanel}
-        </div>
+        </PanelContainer>
 
         <DesktopControls {...{ state, stateRef, updateState }} />
         <MobileControls updateState={updateState} state={state} />
@@ -109,6 +110,10 @@ export const Layout = ({ state: incomingState, persistence, setState, ...slots }
     </>
   );
 };
+
+const PanelContainer = styled.div(({ theme }) => ({ bacgroundColor: theme.background.app }));
+const SidebarContainer = styled.div(({ theme }) => ({ bacgroundColor: theme.background.app }));
+const ContentContainer = styled.div(({ theme }) => ({ bacgroundColor: theme.background.content }));
 
 function useUpstreamState(
   stateRef: MutableRefObject<LayoutState>,
