@@ -249,7 +249,7 @@ describe('StoryIndexGenerator', () => {
                 "standalone": false,
                 "storiesImports": Array [],
                 "tags": Array [
-                  "mdx",
+                  "stories-mdx",
                   "docs",
                 ],
                 "title": "Page",
@@ -500,7 +500,6 @@ describe('StoryIndexGenerator', () => {
                 ],
                 "tags": Array [
                   "docs",
-                  "mdx",
                 ],
                 "title": "A",
                 "type": "docs",
@@ -614,7 +613,6 @@ describe('StoryIndexGenerator', () => {
                 ],
                 "tags": Array [
                   "docs",
-                  "mdx",
                 ],
                 "title": "A",
                 "type": "docs",
@@ -629,7 +627,6 @@ describe('StoryIndexGenerator', () => {
                 ],
                 "tags": Array [
                   "docs",
-                  "mdx",
                 ],
                 "title": "A",
                 "type": "docs",
@@ -653,7 +650,6 @@ describe('StoryIndexGenerator', () => {
                 "storiesImports": Array [],
                 "tags": Array [
                   "docs",
-                  "mdx",
                 ],
                 "title": "docs2/Yabbadabbadooo",
                 "type": "docs",
@@ -666,7 +662,6 @@ describe('StoryIndexGenerator', () => {
                 "storiesImports": Array [],
                 "tags": Array [
                   "docs",
-                  "mdx",
                 ],
                 "title": "NoTitle",
                 "type": "docs",
@@ -757,7 +752,6 @@ describe('StoryIndexGenerator', () => {
                 ],
                 "tags": Array [
                   "docs",
-                  "mdx",
                 ],
                 "title": "A",
                 "type": "docs",
@@ -772,7 +766,6 @@ describe('StoryIndexGenerator', () => {
                 ],
                 "tags": Array [
                   "docs",
-                  "mdx",
                 ],
                 "title": "A",
                 "type": "docs",
@@ -796,7 +789,6 @@ describe('StoryIndexGenerator', () => {
                 "storiesImports": Array [],
                 "tags": Array [
                   "docs",
-                  "mdx",
                 ],
                 "title": "docs2/Yabbadabbadooo",
                 "type": "docs",
@@ -809,7 +801,6 @@ describe('StoryIndexGenerator', () => {
                 "storiesImports": Array [],
                 "tags": Array [
                   "docs",
-                  "mdx",
                 ],
                 "title": "NoTitle",
                 "type": "docs",
