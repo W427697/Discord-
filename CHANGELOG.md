@@ -1,3 +1,20 @@
+## 7.0.0-beta.15 (December 24, 2022)
+
+#### Bug Fixes
+
+-   Codemods: Fix peer dependency issue [#20399](https://github.com/storybooks/storybook/pull/20399)
+-   Core: Wrap manager entries to handle exports using a cache directory [#20331](https://github.com/storybooks/storybook/pull/20331)
+-   UI: fix deprecated ReactDOM.findDOMNode calls [#20368](https://github.com/storybooks/storybook/pull/20368)
+
+#### Maintenance
+
+-   Build: Use tsup for core-server [#20134](https://github.com/storybooks/storybook/pull/20134)
+
+#### Build
+
+-   Build: Make tests use SWC, not babel [#20397](https://github.com/storybooks/storybook/pull/20397)
+-   Build: Fix trim vulnerability [#20371](https://github.com/storybooks/storybook/pull/20371)
+
 ## 7.0.0-beta.14 (December 23, 2022)
 
 #### Features

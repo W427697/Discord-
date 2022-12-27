@@ -112,7 +112,6 @@ For a full example see the [web-components-kitchen-sink/custom-elements.json](..
 
 ## Stories not inline
 
-
 Storybook Docs renders all web components stories inline by default.
 
 However, you can render stories in an iframe, with a default height of `60px` (configurable using the `docs.iframeHeight` story parameter), by using the `docs.inlineStories` parameter.

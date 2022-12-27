@@ -1,7 +1,4 @@
 /// <reference types="@types/jest" />;
-// Need to import jest as mockJest for annoying jest reasons. Is there a better way?
-import { jest, it, describe, expect, beforeEach } from '@jest/globals';
-
 import {
   STORY_ARGS_UPDATED,
   UPDATE_STORY_ARGS,
@@ -34,7 +31,7 @@ function mockChannel() {
   return new Channel({ transport });
 }
 
-const mockGetEntries = jest.fn<() => StoryIndex['entries']>();
+const mockGetEntries = jest.fn();
 
 jest.mock('../lib/events');
 jest.mock('@storybook/global', () => ({
@@ -90,7 +87,7 @@ beforeEach(() => {
   provider.serverChannel = mockChannel();
   mockGetEntries.mockReset().mockReturnValue(mockEntries);
 
-  (global.fetch as ReturnType<typeof jest.fn<typeof global.fetch>>).mockReset().mockReturnValue(
+  (global.fetch as jest.Mock<ReturnType<typeof global.fetch>>).mockReset().mockReturnValue(
     Promise.resolve({
       status: 200,
       ok: true,
@@ -567,7 +564,7 @@ describe('stories API', () => {
       const store = createMockStore({});
       const fullAPI = Object.assign(new EventEmitter(), {});
 
-      (global.fetch as ReturnType<typeof jest.fn<typeof global.fetch>>).mockReturnValue(
+      (global.fetch as jest.Mock<ReturnType<typeof global.fetch>>).mockReturnValue(
         Promise.resolve({
           status: 500,
           text: async () => new Error('sorting error'),
@@ -593,13 +590,11 @@ describe('stories API', () => {
       const { api, init } = initStories({ store, navigate, provider, fullAPI } as any);
       Object.assign(fullAPI, api);
 
-      (global.fetch as ReturnType<typeof jest.fn<typeof global.fetch>>).mockClear();
+      (global.fetch as jest.Mock<ReturnType<typeof global.fetch>>).mockClear();
       await init();
-      expect(global.fetch as ReturnType<typeof jest.fn<typeof global.fetch>>).toHaveBeenCalledTimes(
-        1
-      );
+      expect(global.fetch as jest.Mock<ReturnType<typeof global.fetch>>).toHaveBeenCalledTimes(1);
 
-      (global.fetch as ReturnType<typeof jest.fn<typeof global.fetch>>).mockClear();
+      (global.fetch as jest.Mock<ReturnType<typeof global.fetch>>).mockClear();
       mockGetEntries.mockReturnValueOnce({
         'component-a--story-1': {
           type: 'story',
