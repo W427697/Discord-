@@ -378,10 +378,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/compat-data@npm:^7.16.8, @babel/compat-data@npm:^7.17.7, @babel/compat-data@npm:^7.20.1, @babel/compat-data@npm:^7.20.5":
+"@babel/compat-data@npm:^7.16.8, @babel/compat-data@npm:^7.17.7, @babel/compat-data@npm:^7.20.1":
   version: 7.20.5
   resolution: "@babel/compat-data@npm:7.20.5"
   checksum: 4a8a4566ce32103c03675e77b375ef365db1c3142df4267ffa8de23630b93ed9c85304906cc05bfa70e6fca40a70f94985f8b8553aff8ca90179d793082366ba
+  languageName: node
+  linkType: hard
+
+"@babel/compat-data@npm:^7.20.5":
+  version: 7.20.10
+  resolution: "@babel/compat-data@npm:7.20.10"
+  checksum: 5394197084af5118287e20ea8e4942c43bb4047943ddb12cb19d44c19eeeaf038459b087adb2e6b7d46780543d10b3a1a415441fc8fb98f6dc9d7e902a19e325
   languageName: node
   linkType: hard
 
@@ -431,7 +438,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/core@npm:^7.11.6, @babel/core@npm:^7.12.0, @babel/core@npm:^7.12.10, @babel/core@npm:^7.12.3, @babel/core@npm:^7.13.16, @babel/core@npm:^7.17.2, @babel/core@npm:^7.17.5, @babel/core@npm:^7.19.6, @babel/core@npm:^7.20.2, @babel/core@npm:^7.20.5, @babel/core@npm:^7.3.4, @babel/core@npm:^7.7.5":
+"@babel/core@npm:^7.11.6, @babel/core@npm:^7.12.0, @babel/core@npm:^7.12.10, @babel/core@npm:^7.12.3, @babel/core@npm:^7.13.16, @babel/core@npm:^7.17.2, @babel/core@npm:^7.17.5, @babel/core@npm:^7.19.6, @babel/core@npm:^7.20.2, @babel/core@npm:^7.20.5, @babel/core@npm:^7.3.4, @babel/core@npm:^7.7.5, @babel/core@npm:^7.9.6":
   version: 7.20.7
   resolution: "@babel/core@npm:7.20.7"
   dependencies:
@@ -1587,7 +1594,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/plugin-transform-react-jsx-development@npm:^7.18.6":
+"@babel/plugin-transform-react-jsx-development@npm:^7.16.7, @babel/plugin-transform-react-jsx-development@npm:^7.18.6":
   version: 7.18.6
   resolution: "@babel/plugin-transform-react-jsx-development@npm:7.18.6"
   dependencies:
@@ -1620,7 +1627,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/plugin-transform-react-jsx@npm:^7.18.6, @babel/plugin-transform-react-jsx@npm:^7.19.0":
+"@babel/plugin-transform-react-jsx@npm:^7.14.9, @babel/plugin-transform-react-jsx@npm:^7.18.6, @babel/plugin-transform-react-jsx@npm:^7.19.0":
   version: 7.20.7
   resolution: "@babel/plugin-transform-react-jsx@npm:7.20.7"
   dependencies:
@@ -2133,7 +2140,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/traverse@npm:^7.1.6, @babel/traverse@npm:^7.16.10, @babel/traverse@npm:^7.20.1, @babel/traverse@npm:^7.20.5, @babel/traverse@npm:^7.20.7, @babel/traverse@npm:^7.4.5, @babel/traverse@npm:^7.7.0, @babel/traverse@npm:^7.7.2, @babel/traverse@npm:^7.8.6":
+"@babel/traverse@npm:^7.1.6, @babel/traverse@npm:^7.16.10, @babel/traverse@npm:^7.20.1, @babel/traverse@npm:^7.20.5, @babel/traverse@npm:^7.4.5, @babel/traverse@npm:^7.7.0, @babel/traverse@npm:^7.7.2, @babel/traverse@npm:^7.8.6":
   version: 7.20.8
   resolution: "@babel/traverse@npm:7.20.8"
   dependencies:
@@ -2148,6 +2155,24 @@ __metadata:
     debug: ^4.1.0
     globals: ^11.1.0
   checksum: aef74e2b334b5c92a224dbe68357ba2383d43804fb7a5c6e76ca477d6640ddd3f428280687fdd413d6729a00d3f61f6ba86acd91a18d75126e107d9db91f008c
+  languageName: node
+  linkType: hard
+
+"@babel/traverse@npm:^7.20.7":
+  version: 7.20.10
+  resolution: "@babel/traverse@npm:7.20.10"
+  dependencies:
+    "@babel/code-frame": ^7.18.6
+    "@babel/generator": ^7.20.7
+    "@babel/helper-environment-visitor": ^7.18.9
+    "@babel/helper-function-name": ^7.19.0
+    "@babel/helper-hoist-variables": ^7.18.6
+    "@babel/helper-split-export-declaration": ^7.18.6
+    "@babel/parser": ^7.20.7
+    "@babel/types": ^7.20.7
+    debug: ^4.1.0
+    globals: ^11.1.0
+  checksum: a712402374c2e1cdd7e7880deda0f0051123c09abc9a110e4594bf90c858211e678185b927dffe8780de981ff87ac98bcffdc3fbf46c262bd21b6d64cd1d3b58
   languageName: node
   linkType: hard
 
@@ -5168,7 +5193,65 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@rollup/pluginutils@npm:^4.2.0":
+"@preact/preset-vite@npm:^2.5.0":
+  version: 2.5.0
+  resolution: "@preact/preset-vite@npm:2.5.0"
+  dependencies:
+    "@babel/plugin-transform-react-jsx": ^7.14.9
+    "@babel/plugin-transform-react-jsx-development": ^7.16.7
+    "@prefresh/vite": ^2.2.8
+    "@rollup/pluginutils": ^4.1.1
+    babel-plugin-transform-hook-names: ^1.0.2
+    debug: ^4.3.1
+    kolorist: ^1.2.10
+    resolve: ^1.20.0
+  peerDependencies:
+    "@babel/core": 7.x
+    vite: 2.x || 3.x || 4.x
+  checksum: 109f2a64717357f76685cd45ec1f709c2ba83e88a8dc485b39dec8cb1178eda765fe929b47d83690cbee1fa6181209f79ba4f7cbec15bcaa1cbb45730af8946a
+  languageName: node
+  linkType: hard
+
+"@prefresh/babel-plugin@npm:0.4.4":
+  version: 0.4.4
+  resolution: "@prefresh/babel-plugin@npm:0.4.4"
+  checksum: a05b009e3ebc24cc0f68862282564890a5e15a0c88c4dbc207bc765e75c20977373744f11af98a0f5b15023616b27a2d1831d82b611c0df0028333e2e786219f
+  languageName: node
+  linkType: hard
+
+"@prefresh/core@npm:^1.3.3":
+  version: 1.4.1
+  resolution: "@prefresh/core@npm:1.4.1"
+  peerDependencies:
+    preact: ^10.0.0
+  checksum: 08dfe7f8b41e09a5cac0250757d79f08865998892e205196cf6fa1b9e3ad4778cb7cb06d3e4513de1f4bdfaa5ded0a73f72e189ebc11e4f545a2d40288c3d709
+  languageName: node
+  linkType: hard
+
+"@prefresh/utils@npm:^1.1.2":
+  version: 1.1.3
+  resolution: "@prefresh/utils@npm:1.1.3"
+  checksum: 718dca5803e0d7a561dc1cf8f6e2e14987dd2436173e4c8c5268d87b093c8cef08de106e0f1513638bf48e2173fe6607f3eb558c8a459abcb697706ab7cea306
+  languageName: node
+  linkType: hard
+
+"@prefresh/vite@npm:^2.2.8":
+  version: 2.2.9
+  resolution: "@prefresh/vite@npm:2.2.9"
+  dependencies:
+    "@babel/core": ^7.9.6
+    "@prefresh/babel-plugin": 0.4.4
+    "@prefresh/core": ^1.3.3
+    "@prefresh/utils": ^1.1.2
+    "@rollup/pluginutils": ^4.1.0
+  peerDependencies:
+    preact: ^10.4.0
+    vite: ">=2.0.0-beta.3"
+  checksum: 0c3b59a44d013a00935e027926ffd0bc47892350e98d3639a28e72b3cea4d045a5b2148854da6b32f1ba38230cb068811702d700e2a7da1b697a353c7b330682
+  languageName: node
+  linkType: hard
+
+"@rollup/pluginutils@npm:^4.1.0, @rollup/pluginutils@npm:^4.1.1, @rollup/pluginutils@npm:^4.2.0":
   version: 4.2.1
   resolution: "@rollup/pluginutils@npm:4.2.1"
   dependencies:
@@ -6119,6 +6202,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@storybook/channels@npm:7.0.0-beta.14":
+  version: 7.0.0-beta.14
+  resolution: "@storybook/channels@npm:7.0.0-beta.14"
+  checksum: b2695b694cbc0447d670c86705e11dc92416d7daea8dad414faba7a567892a86325d74f5fd96533d90c67facaff5c91902179d67dea1034fc979d62ff94af06a
+  languageName: node
+  linkType: hard
+
 "@storybook/channels@npm:7.0.0-beta.8":
   version: 7.0.0-beta.8
   resolution: "@storybook/channels@npm:7.0.0-beta.8"
@@ -6797,6 +6887,25 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@storybook/preact-vite@workspace:*, @storybook/preact-vite@workspace:frameworks/preact-vite":
+  version: 0.0.0-use.local
+  resolution: "@storybook/preact-vite@workspace:frameworks/preact-vite"
+  dependencies:
+    "@preact/preset-vite": ^2.5.0
+    "@rollup/pluginutils": ^4.2.0
+    "@storybook/builder-vite": 7.0.0-beta.15
+    "@storybook/preact": 7.0.0-beta.15
+    "@types/node": ^16.0.0
+    ast-types: ^0.14.2
+    magic-string: ^0.26.1
+    typescript: ~4.9.3
+    vite: ^4.0.0
+  peerDependencies:
+    preact: ">=10"
+    vite: ^3.0.0 || ^4.0.0
+  languageName: unknown
+  linkType: soft
+
 "@storybook/preact-webpack5@workspace:*, @storybook/preact-webpack5@workspace:frameworks/preact-webpack5":
   version: 0.0.0-use.local
   resolution: "@storybook/preact-webpack5@workspace:frameworks/preact-webpack5"
@@ -7034,7 +7143,7 @@ __metadata:
     "@storybook/core-events": 7.0.0-beta.13
     "@storybook/csf": next
     "@storybook/global": ^5.0.0
-    "@storybook/types": 7.0.0-beta.13
+    "@storybook/types": 7.0.0-beta.14
     "@types/qs": ^6.9.5
     dequal: ^2.0.2
     lodash: ^4.17.21
@@ -7282,6 +7391,7 @@ __metadata:
     "@storybook/node-logger": "workspace:*"
     "@storybook/postinstall": "workspace:*"
     "@storybook/preact": "workspace:*"
+    "@storybook/preact-vite": "workspace:*"
     "@storybook/preact-webpack5": "workspace:*"
     "@storybook/preset-html-webpack": "workspace:*"
     "@storybook/preset-preact-webpack": "workspace:*"
@@ -7685,17 +7795,17 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/types@npm:7.0.0-beta.13":
-  version: 7.0.0-beta.13
-  resolution: "@storybook/types@npm:7.0.0-beta.13"
+"@storybook/types@npm:7.0.0-beta.14":
+  version: 7.0.0-beta.14
+  resolution: "@storybook/types@npm:7.0.0-beta.14"
   dependencies:
     "@babel/core": ^7.12.10
-    "@storybook/channels": 7.0.0-beta.13
+    "@storybook/channels": 7.0.0-beta.14
     "@types/babel__core": ^7.0.0
     "@types/express": ^4.7.0
     express: ^4.17.3
     file-system-cache: ^2.0.0
-  checksum: 59414ddb0e4a531ed78e7fb7dbab7b4f5008ecd338d3c9b474a2c936926d60e4e0c570ac59ffd483789d133b04f17958affd8aef24781ebf2f54a3bc78990d58
+  checksum: 4cc0840dfa39b5f817a24a12e57e0ecd3e02543d83d4d5fee76a2b045e45e6df64ad6c17f5f4bb92fc0560bdd9ab44d5946ab71074908a6bf4ebc7e1b675a3e6
   languageName: node
   linkType: hard
 
@@ -11353,6 +11463,15 @@ __metadata:
     lodash: ^4.17.15
     react-docgen: ^5.0.0
   checksum: 9f7af20e6ebd794beae14aa1ffe4f1c1c5855821a5a9f205099602c89b557e33b9cb3dc3fe0b3a2f2ca35007c6ab45f52da9695a681d8495ad0f5494ef78ec34
+  languageName: node
+  linkType: hard
+
+"babel-plugin-transform-hook-names@npm:^1.0.2":
+  version: 1.0.2
+  resolution: "babel-plugin-transform-hook-names@npm:1.0.2"
+  peerDependencies:
+    "@babel/core": ^7.12.10
+  checksum: 517b85fe0611d742b3fffad5d0e119fcbd29bf69f95c6970b9ede4cb66453c7106a2d3bf048b35255b78a9d6a9565ad37e73b46c0be1fe557e941c792fad79f0
   languageName: node
   linkType: hard
 
@@ -21903,6 +22022,13 @@ __metadata:
   version: 2.0.5
   resolution: "klona@npm:2.0.5"
   checksum: 5b752c11ca8e2996612386699f52cc5aed802aa4116663d26239ac0b054fae25191dacb95587ecf1a167b039daa9fc3fa2da17dfd5d0821f3037de3821d9a9e5
+  languageName: node
+  linkType: hard
+
+"kolorist@npm:^1.2.10":
+  version: 1.6.0
+  resolution: "kolorist@npm:1.6.0"
+  checksum: 19572fe2a98620e792003aaed7e53c0a1f1820c3b68dbaf18c8e715861b59321c5a069857d2a299a9b2b12bb24c27411887289fd0fd6484fc95e99e6c27294e8
   languageName: node
   linkType: hard
 

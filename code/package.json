@@ -203,6 +203,7 @@
     "@storybook/node-logger": "workspace:*",
     "@storybook/postinstall": "workspace:*",
     "@storybook/preact": "workspace:*",
+    "@storybook/preact-vite": "workspace:*",
     "@storybook/preact-webpack5": "workspace:*",
     "@storybook/preset-html-webpack": "workspace:*",
     "@storybook/preset-preact-webpack": "workspace:*",

@@ -48,6 +48,7 @@ export default {
   '@storybook/node-logger': '7.0.0-beta.15',
   '@storybook/postinstall': '7.0.0-beta.15',
   '@storybook/preact': '7.0.0-beta.15',
+  '@storybook/preact-vite': '7.0.0-beta.15',
   '@storybook/preact-webpack5': '7.0.0-beta.15',
   '@storybook/preset-html-webpack': '7.0.0-beta.15',
   '@storybook/preset-preact-webpack': '7.0.0-beta.15',
