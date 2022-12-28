@@ -107,6 +107,7 @@ describe('stories API', () => {
     } as ModuleArgs);
 
     expect(state).toEqual({
+      storySpecified: false,
       storiesConfigured: false,
       storiesHash: {},
       storyId: 'id',
@@ -617,6 +618,23 @@ describe('stories API', () => {
 
   // Can't currently run these tests as cannot set this on the events
   describe('STORY_SPECIFIED event', () => {
+    it('sets the storySpecified state', async () => {
+      const navigate = jest.fn();
+      const fullAPI = Object.assign(new EventEmitter(), {
+        isSettingsScreenActive() {
+          return false;
+        },
+      });
+      const store = createMockStore({});
+      const { init, api } = initStories({ store, navigate, provider, fullAPI } as any);
+
+      Object.assign(fullAPI, api);
+      init();
+      fullAPI.emit(STORY_SPECIFIED, { storyId: 'a--1', viewMode: 'story' });
+
+      expect(store.getState().storySpecified).toBe(true);
+    });
+
     it('navigates to the story', async () => {
       const navigate = jest.fn();
       const fullAPI = Object.assign(new EventEmitter(), {

@@ -54,6 +54,7 @@ export interface SubState {
   storiesHash: API_StoriesHash;
   storyId: StoryId;
   viewMode: ViewMode;
+  storySpecified: boolean;
   storiesConfigured: boolean;
   storiesFailed?: Error;
 }
@@ -387,9 +388,11 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
       }) {
         const { sourceType } = getEventMetadata(this, fullAPI);
 
-        if (fullAPI.isSettingsScreenActive()) return;
-
         if (sourceType === 'local') {
+          store.setState({ storySpecified: true });
+
+          if (fullAPI.isSettingsScreenActive()) return;
+
           // Special case -- if we are already at the story being specified (i.e. the user started at a given story),
           // we don't need to change URL. See https://github.com/storybookjs/storybook/issues/11677
           const state = store.getState();
@@ -518,6 +521,7 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
       storiesHash: {},
       storyId: initialStoryId,
       viewMode: initialViewMode,
+      storySpecified: false,
       storiesConfigured: false,
       hasCalledSetOptions: false,
     },

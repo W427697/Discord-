@@ -37,6 +37,7 @@ const canvasMapper = ({ state, api }: Combo) => ({
   queryParams: state.customQueryParams,
   getElements: api.getElements,
   entry: api.getData(state.storyId, state.refId),
+  storySpecified: state.storySpecified,
   storiesConfigured: state.storiesConfigured,
   storiesFailed: state.storiesFailed,
   refs: state.refs,
@@ -60,6 +61,7 @@ const createCanvas = (id: string, baseUrl = 'iframe.html', withLoader = true): A
           viewMode,
           queryParams,
           getElements,
+          storySpecified,
           storiesConfigured,
           storiesFailed,
           active,
@@ -90,15 +92,21 @@ const createCanvas = (id: string, baseUrl = 'iframe.html', withLoader = true): A
           const isLoading = entry
             ? refLoading || rootLoading
             : (!storiesFailed && !storiesConfigured) || rootLoading;
+          const isBooting = !storySpecified && !storiesFailed;
 
+          console.log({ withLoader, isLoading, isBooting, progress });
           return (
             <ZoomConsumer>
               {({ value: scale }) => {
                 return (
                   <>
-                    {withLoader && isLoading && (
+                    {withLoader && (isLoading || isBooting) && (
                       <S.LoaderWrapper>
-                        <Loader id="preview-loader" role="progressbar" progress={progress} />
+                        <Loader
+                          id="preview-loader"
+                          role="progressbar"
+                          progress={progress || { value: 1, message: 'Booting' }}
+                        />
                       </S.LoaderWrapper>
                     )}
                     <ApplyWrappers
