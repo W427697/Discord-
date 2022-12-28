@@ -16,12 +16,6 @@ findUpSyncMock.mockReturnValue(undefined);
 describe('JsPackageManagerFactory', () => {
   describe('getPackageManager', () => {
     describe('return an NPM proxy', () => {
-      it('when `useNpm` option is used', () => {
-        expect(JsPackageManagerFactory.getPackageManager({ useNpm: true })).toBeInstanceOf(
-          NPMProxy
-        );
-      });
-
       it('when `force` option is `npm`', () => {
         expect(JsPackageManagerFactory.getPackageManager({ force: 'npm' })).toBeInstanceOf(
           NPMProxy
