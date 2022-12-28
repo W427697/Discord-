@@ -41,7 +41,7 @@ export const mdx1to2: Fix<Mdx1to2Options> = {
       We can try to automatically upgrade your MDX files to MDX2 format using some common patterns.
       
       Some steps might require manual intervention. You can find a full guide for how to manually upgrade your files here:
-      ${chalk.cyan('https://storybook.js.org/docs/react/writing-docs/mdx#upgrading-to-mdx2')}
+      ${chalk.cyan('https://storybook.js.org/docs/7.0/react/writing-docs/mdx#breaking-changes')}
     `;
   },
 
