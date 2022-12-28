@@ -5425,38 +5425,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/addon-actions@npm:7.0.0-beta.14":
-  version: 7.0.0-beta.14
-  resolution: "@storybook/addon-actions@npm:7.0.0-beta.14"
-  dependencies:
-    "@storybook/client-logger": 7.0.0-beta.14
-    "@storybook/components": 7.0.0-beta.14
-    "@storybook/core-events": 7.0.0-beta.14
-    "@storybook/global": ^5.0.0
-    "@storybook/manager-api": 7.0.0-beta.14
-    "@storybook/preview-api": 7.0.0-beta.14
-    "@storybook/theming": 7.0.0-beta.14
-    "@storybook/types": 7.0.0-beta.14
-    dequal: ^2.0.2
-    lodash: ^4.17.21
-    polished: ^4.2.2
-    prop-types: ^15.7.2
-    react-inspector: ^6.0.0
-    telejson: ^7.0.3
-    ts-dedent: ^2.0.0
-    uuid-browser: ^3.1.0
-  peerDependencies:
-    react: ^16.8.0 || ^17.0.0 || ^18.0.0
-    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
-  peerDependenciesMeta:
-    react:
-      optional: true
-    react-dom:
-      optional: true
-  checksum: 2e451d5757ff9f2cd7f56dce73dd470965d09d552dcc87f6ab55a4de676c76876450d64e376d799df6e7057e35e6f52ff79577a15b129e08011d57a2f411c330
-  languageName: node
-  linkType: hard
-
 "@storybook/addon-backgrounds@7.0.0-beta.15, @storybook/addon-backgrounds@workspace:*, @storybook/addon-backgrounds@workspace:addons/backgrounds":
   version: 0.0.0-use.local
   resolution: "@storybook/addon-backgrounds@workspace:addons/backgrounds"
@@ -6193,20 +6161,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@storybook/channel-postmessage@npm:7.0.0-beta.14":
-  version: 7.0.0-beta.14
-  resolution: "@storybook/channel-postmessage@npm:7.0.0-beta.14"
-  dependencies:
-    "@storybook/channels": 7.0.0-beta.14
-    "@storybook/client-logger": 7.0.0-beta.14
-    "@storybook/core-events": 7.0.0-beta.14
-    "@storybook/global": ^5.0.0
-    qs: ^6.10.0
-    telejson: ^7.0.3
-  checksum: e8ea9f7d0b872bb69c9cecd5ceb11725f722c269b764f5193a5903c38f1b50c79c5d90f3d4e9b80358febbc568df6333ffb8808f91a467f4f8f74de0d2150190
-  languageName: node
-  linkType: hard
-
 "@storybook/channel-postmessage@npm:7.0.0-beta.8":
   version: 7.0.0-beta.8
   resolution: "@storybook/channel-postmessage@npm:7.0.0-beta.8"
@@ -6341,15 +6295,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@storybook/client-logger@npm:7.0.0-beta.14":
-  version: 7.0.0-beta.14
-  resolution: "@storybook/client-logger@npm:7.0.0-beta.14"
-  dependencies:
-    "@storybook/global": ^5.0.0
-  checksum: 70da6bf9e42146e38f89833ced241cc27d9c1f5308711c7fbad99323b36c844d0c605866191b14c3146561c1ba40b2ed5ce6b27815c0a0d2448f523cba7de304
-  languageName: node
-  linkType: hard
-
 "@storybook/client-logger@npm:7.0.0-beta.8":
   version: 7.0.0-beta.8
   resolution: "@storybook/client-logger@npm:7.0.0-beta.8"
@@ -6414,24 +6359,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/components@npm:7.0.0-beta.14":
-  version: 7.0.0-beta.14
-  resolution: "@storybook/components@npm:7.0.0-beta.14"
-  dependencies:
-    "@storybook/client-logger": 7.0.0-beta.14
-    "@storybook/csf": next
-    "@storybook/global": ^5.0.0
-    "@storybook/theming": 7.0.0-beta.14
-    "@storybook/types": 7.0.0-beta.14
-    memoizerific: ^1.11.3
-    util-deprecate: ^1.0.2
-  peerDependencies:
-    react: ^16.8.0 || ^17.0.0 || ^18.0.0
-    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
-  checksum: 99dc3fd713f4b3a3555ea7dc482a6cdb9ce439a64a4900addc398615c37cb69ba96e46b4d6728b51b7bc1454a072b40408c3d9aded8664d23cac37f4690b7cc0
-  languageName: node
-  linkType: hard
-
 "@storybook/core-client@7.0.0-beta.15, @storybook/core-client@workspace:*, @storybook/core-client@workspace:lib/core-client":
   version: 0.0.0-use.local
   resolution: "@storybook/core-client@workspace:lib/core-client"
@@ -6488,13 +6415,6 @@ __metadata:
   version: 7.0.0-beta.13
   resolution: "@storybook/core-events@npm:7.0.0-beta.13"
   checksum: d186f5be6e761ae5e1c82a422fc2a6d39baca8be8e5acf7a65974935e33acdc3891e9f814f8d71031caaee12ba059f24d074f9725af684e8af07acfa105fcd43
-  languageName: node
-  linkType: hard
-
-"@storybook/core-events@npm:7.0.0-beta.14":
-  version: 7.0.0-beta.14
-  resolution: "@storybook/core-events@npm:7.0.0-beta.14"
-  checksum: 681360eb354fcc267b1ae508d1b3b7453166223c39a4dc132142909e089af4fe70546f00e1370600c2d1d49ea6bf0ef79f868a5f5ae9f1ba0122ba42e4574ebd
   languageName: node
   linkType: hard
 
@@ -6846,32 +6766,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/manager-api@npm:7.0.0-beta.14":
-  version: 7.0.0-beta.14
-  resolution: "@storybook/manager-api@npm:7.0.0-beta.14"
-  dependencies:
-    "@storybook/channels": 7.0.0-beta.14
-    "@storybook/client-logger": 7.0.0-beta.14
-    "@storybook/core-events": 7.0.0-beta.14
-    "@storybook/csf": next
-    "@storybook/global": ^5.0.0
-    "@storybook/router": 7.0.0-beta.14
-    "@storybook/theming": 7.0.0-beta.14
-    "@storybook/types": 7.0.0-beta.14
-    dequal: ^2.0.2
-    lodash: ^4.17.21
-    memoizerific: ^1.11.3
-    semver: ^7.3.7
-    store2: ^2.14.2
-    telejson: ^7.0.3
-    ts-dedent: ^2.0.0
-  peerDependencies:
-    react: ^16.8.0 || ^17.0.0 || ^18.0.0
-    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
-  checksum: 983e371ea9f15bd954f03ba84985e5863e1a86e0c636d0508e2ba32e64d808fac1f3ac9daa970dc1adf33a0b0acf7847735ab21ed7fe0b8d9118c61d995e6be0
-  languageName: node
-  linkType: hard
-
 "@storybook/manager@7.0.0-beta.15, @storybook/manager@workspace:*, @storybook/manager@workspace:ui/manager":
   version: 0.0.0-use.local
   resolution: "@storybook/manager@workspace:ui/manager"
@@ -6929,7 +6823,7 @@ __metadata:
     "@babel/core": ^7.20.5
     "@babel/types": ^7.20.5
     "@next/font": ^13.0.7
-    "@storybook/addon-actions": 7.0.0-beta.14
+    "@storybook/addon-actions": 7.0.0-beta.15
     "@storybook/builder-webpack5": 7.0.0-beta.15
     "@storybook/core-common": 7.0.0-beta.15
     "@storybook/node-logger": 7.0.0-beta.15
@@ -7260,30 +7154,6 @@ __metadata:
     ts-dedent: ^2.0.0
     util-deprecate: ^1.0.2
   checksum: faa4cce65d03b21ce7802838fa7e000ab28ab2674e0d82185c58c54ad1d79eff00a5d1ac059d5a0aab50af205e83b0f43bcd53538ae5f8285fbe0ff2a0a301c5
-  languageName: node
-  linkType: hard
-
-"@storybook/preview-api@npm:7.0.0-beta.14":
-  version: 7.0.0-beta.14
-  resolution: "@storybook/preview-api@npm:7.0.0-beta.14"
-  dependencies:
-    "@storybook/channel-postmessage": 7.0.0-beta.14
-    "@storybook/channels": 7.0.0-beta.14
-    "@storybook/client-logger": 7.0.0-beta.14
-    "@storybook/core-events": 7.0.0-beta.14
-    "@storybook/csf": next
-    "@storybook/global": ^5.0.0
-    "@storybook/types": 7.0.0-beta.14
-    "@types/qs": ^6.9.5
-    dequal: ^2.0.2
-    lodash: ^4.17.21
-    memoizerific: ^1.11.3
-    qs: ^6.10.0
-    slash: ^3.0.0
-    synchronous-promise: ^2.0.15
-    ts-dedent: ^2.0.0
-    util-deprecate: ^1.0.2
-  checksum: 325720f553448922f8e45312c3fa3a6fb900901eec2a2a05a015ed66fe3256b549e7811b93b5244004a5854c1c770577ae7b4d3ccccc9ea6e908175ea02d8b46
   languageName: node
   linkType: hard
 
@@ -7720,20 +7590,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/router@npm:7.0.0-beta.14":
-  version: 7.0.0-beta.14
-  resolution: "@storybook/router@npm:7.0.0-beta.14"
-  dependencies:
-    "@storybook/client-logger": 7.0.0-beta.14
-    memoizerific: ^1.11.3
-    qs: ^6.10.0
-  peerDependencies:
-    react: ^16.8.0 || ^17.0.0 || ^18.0.0
-    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
-  checksum: 179a25c51dcd4693386eeea0bd4ed2a100db3ea2db0ceb1c5b9dff532c1925e545b76488fcba389ddf0733b1e398ba82e831a33dfe19354076dfcbdacc23a4a2
-  languageName: node
-  linkType: hard
-
 "@storybook/server-webpack5@workspace:*, @storybook/server-webpack5@workspace:frameworks/server-webpack5":
   version: 0.0.0-use.local
   resolution: "@storybook/server-webpack5@workspace:frameworks/server-webpack5"
@@ -7922,21 +7778,6 @@ __metadata:
     react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
   languageName: unknown
   linkType: soft
-
-"@storybook/theming@npm:7.0.0-beta.14":
-  version: 7.0.0-beta.14
-  resolution: "@storybook/theming@npm:7.0.0-beta.14"
-  dependencies:
-    "@emotion/use-insertion-effect-with-fallbacks": ^1.0.0
-    "@storybook/client-logger": 7.0.0-beta.14
-    "@storybook/global": ^5.0.0
-    memoizerific: ^1.11.3
-  peerDependencies:
-    react: ^16.8.0 || ^17.0.0 || ^18.0.0
-    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
-  checksum: 5943e34d7e4527181a2a04c50de7a3e157e3fc8bad9b88ad2d267d054d980c7717187f23fc53f7e6ef5284f366b0876f6ba39ad0d91fcf3f1759b7a9c97fcaa2
-  languageName: node
-  linkType: hard
 
 "@storybook/types@7.0.0-beta.15, @storybook/types@workspace:*, @storybook/types@workspace:lib/types":
   version: 0.0.0-use.local
