@@ -6061,7 +6061,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/builder-vite@7.0.0-beta.15, @storybook/builder-vite@^7.0.0-beta.14, @storybook/builder-vite@workspace:*, @storybook/builder-vite@workspace:lib/builder-vite":
+"@storybook/builder-vite@7.0.0-beta.15, @storybook/builder-vite@workspace:*, @storybook/builder-vite@workspace:lib/builder-vite":
   version: 0.0.0-use.local
   resolution: "@storybook/builder-vite@workspace:lib/builder-vite"
   dependencies:
@@ -6999,8 +6999,8 @@ __metadata:
   dependencies:
     "@preact/preset-vite": ^2.5.0
     "@rollup/pluginutils": ^4.2.0
-    "@storybook/builder-vite": ^7.0.0-beta.14
-    "@storybook/preact": ^7.0.0-beta.14
+    "@storybook/builder-vite": 7.0.0-beta.15
+    "@storybook/preact": 7.0.0-beta.15
     "@types/node": ^16.0.0
     ast-types: ^0.14.2
     magic-string: ^0.26.1
@@ -7031,7 +7031,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/preact@7.0.0-beta.15, @storybook/preact@^7.0.0-beta.14, @storybook/preact@workspace:*, @storybook/preact@workspace:renderers/preact":
+"@storybook/preact@7.0.0-beta.15, @storybook/preact@workspace:*, @storybook/preact@workspace:renderers/preact":
   version: 0.0.0-use.local
   resolution: "@storybook/preact@workspace:renderers/preact"
   dependencies:
