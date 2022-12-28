@@ -246,7 +246,6 @@ describe('StoryIndexGenerator', () => {
                 "id": "page--docs",
                 "importPath": "./src/nested/Page.stories.mdx",
                 "name": "docs",
-                "standalone": false,
                 "storiesImports": Array [],
                 "tags": Array [
                   "stories-mdx",
@@ -336,7 +335,6 @@ describe('StoryIndexGenerator', () => {
                 "id": "b--docs",
                 "importPath": "./src/B.stories.ts",
                 "name": "docs",
-                "standalone": false,
                 "storiesImports": Array [],
                 "tags": Array [
                   "autodocs",
@@ -360,7 +358,6 @@ describe('StoryIndexGenerator', () => {
                 "id": "d--docs",
                 "importPath": "./src/D.stories.jsx",
                 "name": "docs",
-                "standalone": false,
                 "storiesImports": Array [],
                 "tags": Array [
                   "autodocs",
@@ -509,7 +506,6 @@ describe('StoryIndexGenerator', () => {
                 "id": "a--docs",
                 "importPath": "./src/docs2/MetaOf.mdx",
                 "name": "docs",
-                "standalone": true,
                 "storiesImports": Array [
                   "./src/A.stories.js",
                 ],
@@ -552,7 +548,6 @@ describe('StoryIndexGenerator', () => {
                 "id": "duplicate-a--docs",
                 "importPath": "./duplicate/A.stories.js",
                 "name": "docs",
-                "standalone": false,
                 "storiesImports": Array [
                   "./duplicate/SecondA.stories.js",
                 ],
@@ -622,7 +617,6 @@ describe('StoryIndexGenerator', () => {
                 "id": "a--docs",
                 "importPath": "./src/docs2/MetaOf.mdx",
                 "name": "docs",
-                "standalone": true,
                 "storiesImports": Array [
                   "./src/A.stories.js",
                 ],
@@ -636,7 +630,6 @@ describe('StoryIndexGenerator', () => {
                 "id": "a--second-docs",
                 "importPath": "./src/docs2/SecondMetaOf.mdx",
                 "name": "Second Docs",
-                "standalone": true,
                 "storiesImports": Array [
                   "./src/A.stories.js",
                 ],
@@ -661,7 +654,6 @@ describe('StoryIndexGenerator', () => {
                 "id": "docs2-yabbadabbadooo--docs",
                 "importPath": "./src/docs2/Title.mdx",
                 "name": "docs",
-                "standalone": true,
                 "storiesImports": Array [],
                 "tags": Array [
                   "docs",
@@ -673,7 +665,6 @@ describe('StoryIndexGenerator', () => {
                 "id": "notitle--docs",
                 "importPath": "./src/docs2/NoTitle.mdx",
                 "name": "docs",
-                "standalone": true,
                 "storiesImports": Array [],
                 "tags": Array [
                   "docs",
@@ -761,7 +752,6 @@ describe('StoryIndexGenerator', () => {
                 "id": "a--info",
                 "importPath": "./src/docs2/MetaOf.mdx",
                 "name": "Info",
-                "standalone": true,
                 "storiesImports": Array [
                   "./src/A.stories.js",
                 ],
@@ -775,7 +765,6 @@ describe('StoryIndexGenerator', () => {
                 "id": "a--second-docs",
                 "importPath": "./src/docs2/SecondMetaOf.mdx",
                 "name": "Second Docs",
-                "standalone": true,
                 "storiesImports": Array [
                   "./src/A.stories.js",
                 ],
@@ -800,7 +789,6 @@ describe('StoryIndexGenerator', () => {
                 "id": "docs2-yabbadabbadooo--info",
                 "importPath": "./src/docs2/Title.mdx",
                 "name": "Info",
-                "standalone": true,
                 "storiesImports": Array [],
                 "tags": Array [
                   "docs",
@@ -812,7 +800,6 @@ describe('StoryIndexGenerator', () => {
                 "id": "notitle--info",
                 "importPath": "./src/docs2/NoTitle.mdx",
                 "name": "Info",
-                "standalone": true,
                 "storiesImports": Array [],
                 "tags": Array [
                   "docs",
@@ -840,7 +827,7 @@ describe('StoryIndexGenerator', () => {
     });
 
     describe('duplicates', () => {
-      it('warns when two standalone entries reference the same CSF file without a name', async () => {
+      it('warns when two MDX entries reference the same CSF file without a name', async () => {
         const docsErrorSpecifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
           './errors/DuplicateMetaOf.mdx',
           options
@@ -868,7 +855,7 @@ describe('StoryIndexGenerator', () => {
         );
       });
 
-      it('warns when a standalone entry has the same name as a story', async () => {
+      it('warns when a MDX entry has the same name as a story', async () => {
         const docsErrorSpecifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
           './errors/MetaOfClashingName.mdx',
           options

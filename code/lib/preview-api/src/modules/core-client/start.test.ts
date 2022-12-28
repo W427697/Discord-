@@ -15,7 +15,7 @@ import {
   waitForQuiescence,
   emitter,
   mockChannel,
-} from './PreviewWeb.mockdata';
+} from '../preview-web/PreviewWeb.mockdata';
 
 import { start as realStart } from './start';
 import type { Loadable } from './executeLoadable';
@@ -990,7 +990,6 @@ describe('start', () => {
                 "id": "introduction",
                 "importPath": "./Introduction.stories.mdx",
                 "name": undefined,
-                "standalone": false,
                 "storiesImports": Array [],
                 "tags": Array [
                   "stories-mdx",
@@ -1221,7 +1220,6 @@ describe('start', () => {
                 "id": "component-b--docs",
                 "importPath": "file2",
                 "name": "Docs",
-                "standalone": false,
                 "storiesImports": Array [],
                 "tags": Array [
                   "autodocs",
@@ -1255,7 +1253,6 @@ describe('start', () => {
                 "id": "component-c--docs",
                 "importPath": "exports-map-0",
                 "name": "Docs",
-                "standalone": false,
                 "storiesImports": Array [],
                 "tags": Array [
                   "component-tag",
