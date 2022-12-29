@@ -1,7 +1,5 @@
-/* eslint-disable jest/no-standalone-expect */
 import React from 'react';
-import { action } from '@storybook/addon-actions';
-import type { ComponentStoryObj, ComponentMeta } from '@storybook/react';
+import type { StoryObj, Meta } from '@storybook/react';
 import { CallStates } from '@storybook/instrumenter';
 import { styled } from '@storybook/theming';
 import { userEvent, within, waitFor } from '@storybook/testing-library';
@@ -26,7 +24,7 @@ const StyledWrapper = styled.div(({ theme }) => ({
 
 const interactions = getInteractions(CallStates.DONE);
 
-export default {
+const meta = {
   title: 'Addons/Interactions/InteractionsPanel',
   component: InteractionsPanel,
   decorators: [
@@ -48,14 +46,16 @@ export default {
     fileName: 'addon-interactions.stories.tsx',
     hasException: false,
     isPlaying: false,
-    onScrollToEnd: action('onScrollToEnd'),
+    onScrollToEnd: () => {},
     endRef: null,
     // prop for the AddonPanel used as wrapper of Panel
     active: true,
   },
-} as ComponentMeta<typeof InteractionsPanel>;
+} as Meta<typeof InteractionsPanel>;
 
-type Story = ComponentStoryObj<typeof InteractionsPanel>;
+export default meta;
+
+type Story = StoryObj<typeof meta>;
 
 export const Passing: Story = {
   args: {
@@ -122,7 +122,7 @@ export const Failed: Story = {
   },
 };
 
-export const WithDebuggingDisabled: Story = {
+export const NoDebugger: Story = {
   args: { controlStates: { ...SubnavStories.args.controlStates, debugger: false } },
 };
 

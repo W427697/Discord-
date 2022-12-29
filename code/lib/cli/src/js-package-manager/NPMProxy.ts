@@ -1,5 +1,7 @@
-import semver from '@storybook/semver';
+import semver from 'semver';
+
 import { JsPackageManager } from './JsPackageManager';
+import type { PackageJson } from './PackageJson';
 
 export class NPMProxy extends JsPackageManager {
   readonly type = 'npm';
@@ -58,6 +60,15 @@ export class NPMProxy extends JsPackageManager {
         : ['uninstall'];
     }
     return this.uninstallArgs;
+  }
+
+  protected getResolutions(packageJson: PackageJson, versions: Record<string, string>) {
+    return {
+      overrides: {
+        ...packageJson.overrides,
+        ...versions,
+      },
+    };
   }
 
   protected runInstall(): void {

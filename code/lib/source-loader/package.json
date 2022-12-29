@@ -1,6 +1,6 @@
 {
   "name": "@storybook/source-loader",
-  "version": "7.0.0-alpha.18",
+  "version": "7.0.0-beta.16",
   "description": "Source loader",
   "keywords": [
     "lib",
@@ -21,9 +21,18 @@
   },
   "license": "MIT",
   "sideEffects": false,
-  "main": "dist/cjs/index.js",
-  "module": "dist/esm/index.js",
-  "types": "dist/types/index.d.ts",
+  "exports": {
+    ".": {
+      "node": "./dist/index.js",
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.ts"
+    },
+    "./package.json": "./package.json"
+  },
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
   "files": [
     "dist/**/*",
     "README.md",
@@ -31,21 +40,19 @@
     "*.d.ts"
   ],
   "scripts": {
-    "check": "tsc --noEmit",
-    "prepare": "node ../../../scripts/prepare.js"
+    "check": "../../../scripts/node_modules/.bin/tsc --noEmit",
+    "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/addons": "7.0.0-alpha.18",
-    "@storybook/client-logger": "7.0.0-alpha.18",
-    "@storybook/csf": "0.0.2--canary.0899bb7.0",
-    "core-js": "^3.8.2",
+    "@storybook/csf": "next",
+    "@storybook/types": "7.0.0-beta.16",
     "estraverse": "^5.2.0",
-    "global": "^4.4.0",
     "lodash": "^4.17.21",
-    "prettier": ">=2.2.1 <=2.3.0"
+    "prettier": "^2.8.0"
   },
   "devDependencies": {
-    "typescript": "~4.6.3"
+    "jest-specific-snapshot": "^7.0.0",
+    "typescript": "~4.9.3"
   },
   "peerDependencies": {
     "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
@@ -54,5 +61,11 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "bd59f1eef0f644175abdb0d9873ed0553f431f53"
+  "bundler": {
+    "entries": [
+      "./src/index.ts"
+    ],
+    "platform": "node"
+  },
+  "gitHead": "7ca5d329ef50ec4cded3c6586761a25a8e79e67c"
 }

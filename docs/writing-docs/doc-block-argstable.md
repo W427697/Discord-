@@ -30,9 +30,9 @@ This is extremely useful, but it can be further expanded. Additional information
 
 The args tables will be updated accordingly by including the additional information (e.g., JSDocs comments), offering a richer experience for any stakeholders involved.
 
-## Working with the DocsPage
+## Working with Automatic Docs
 
-To use the `ArgsTable` in [DocsPage](./docs-page.md#component-parameter), export a component property on your stories metadata:
+To use the `ArgsTable` Doc Block with Storybook's automatically generated documentation ([AutoDocs](./docs-page.md) for short), export a component property on your stories metadata:
 
 <!-- prettier-ignore-start -->
 
@@ -73,8 +73,8 @@ Below is an abridged table and example featuring the available options.
 
 | Field                          | Description                                                                                                                                                                                         |
 |--------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `name`                         | The name of the property. <br/> `argTypes: { label: {} }`                                                                                                                                           |
-| `type.name`                    | Sets a type for the property. <br/> `argTypes: { label: { name: 'number' } }`                                                                                                                       |
+| `name`                         | The name of the property. <br/> `argTypes: { label: { name: 'Something' } }`                                                                                                                                           |
+| `type.name`                    | Sets a type for the property. <br/> `argTypes: { label: { type: { name: 'number' } } }`                                                                                                                       |
 | `type.required`                | Sets the property as optional or required. <br/> `argTypes: { label: { type: { required: true } }`                                                                                                  |
 | `description`                  | Sets a Markdown description for the property. <br/> `argTypes: { label: { description: 'Something' } }`                                                                                             |
 | `table.type.summary`         | Provide a  short version of the type. <br/> `argTypes: { label: { table: { type: { summary: 'a short summary' } }}}`                                                                                |

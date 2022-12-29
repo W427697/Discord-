@@ -58,16 +58,13 @@ The test itself is defined inside a `play` function connected to a story. Here's
   paths={[
     'react/login-form-with-play-function.js.mdx',
     'react/login-form-with-play-function.ts.mdx',
-    'react/login-form-with-play-function.mdx.mdx',
     'angular/login-form-with-play-function.ts.mdx',
-    'angular/login-form-with-play-function.mdx.mdx',
     'vue/login-form-with-play-function.2.js.mdx',
-    'vue/login-form-with-play-function.mdx-2.mdx',
     'vue/login-form-with-play-function.3.js.mdx',
-    'vue/login-form-with-play-function.mdx-3.mdx',
     'svelte/login-form-with-play-function.js.mdx',
-    'svelte/login-form-with-play-function.mdx.mdx',
   ]}
+  usesCsf3
+  csf2Path="writing-tests/interaction-testing#snippet-login-form-with-play-function"
 />
 
 <!-- prettier-ignore-end -->
@@ -81,11 +78,11 @@ Once the story loads in the UI, it simulates the user's behavior and verifies th
   />
 </video>
 
-## API for user-events
+### API for user-events
 
 Under the hood, Storybook’s interaction addon mirrors Testing Library’s [`user-events`](https://testing-library.com/docs/user-event/intro/) API. If you’re familiar with [Testing Library](https://testing-library.com/), you should be at home in Storybook.
 
-Below is an abridged API for user-event. For more, check out the [official user-event docs](https://testing-library.com/docs/ecosystem-user-event/).
+Below is an abridged API for user-event. For more, check out the [official user-event docs](https://testing-library.com/docs/user-event/utility/).
 
 | User events       | Description                                                                                                                                              |
 | ----------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -98,6 +95,26 @@ Below is an abridged API for user-event. For more, check out the [official user-
 | `selectOptions`   | Selects the specified option, or options of a select element <br/>`userEvent.selectOptions(await within(canvasElement).getByRole('listbox'),['1','2']);` |
 | `type`            | Writes text inside inputs, or textareas <br/>`userEvent.type(await within(canvasElement).getByRole('my-input'),'Some text');`                            |
 | `unhover`         | Unhovers out of element <br/>`userEvent.unhover(await within(canvasElement).getByLabelText(/Example/i));`                                                |
+
+### Group interactions with the `step` function
+
+For complex flows, it can be worthwhile to group sets of related interactions together using the `step` function. This allows you to provide a custom label that describes a set of interactions:
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'common/storybook-interactions-step-function.js.mdx',
+  ]}
+  usesCsf3
+  csf2Path="writing-tests/interaction-testing#snippet-storybook-interactions-step-function"
+/>
+
+<!-- prettier-ignore-end -->
+
+This will show your interactions nested in a collapsible group:
+
+![Interaction testing with labeled steps](./storybook-addon-interactions-steps.png)
 
 ### Interactive debugger
 
@@ -153,11 +170,16 @@ Once you're ready to push your code into a pull request, you'll want to automati
 
 Interaction tests can be expensive to maintain when applied wholesale to every component. We recommend combining them with other methods like visual testing for comprehensive coverage with less maintenance work.
 
+#### What's the difference between interaction tests and using Jest + Testing Library alone?
+
+Interaction tests integrate Jest and Testing Library into Storybook. The biggest benefit is the ability to view the component you're testing in a real browser. That helps you debug visually, instead of getting a dump of the (fake) DOM in the command line or hitting the limitations of how JSDOM mocks browser functionality. It's also more convenient to keep stories and tests together in one file than having them spread across files.
+
 #### Learn about other UI tests
 
 - [Test runner](./test-runner.md) to automate test execution
 - [Visual tests](./visual-testing.md) for appearance
 - [Accessibility tests](./accessibility-testing.md) for accessibility
 - Interaction tests for user behavior simulation
+- [Coverage tests](./test-coverage.md) for measuring code coverage
 - [Snapshot tests](./snapshot-testing.md) for rendering errors and warnings
 - [Import stories in other tests](./importing-stories-in-tests.md) for other tools

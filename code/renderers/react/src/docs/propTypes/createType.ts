@@ -16,13 +16,8 @@ import {
   generateObjectCode,
   generateCode,
 } from '../lib';
-import {
-  InspectionType,
-  inspectValue,
-  InspectionElement,
-  InspectionObject,
-  InspectionArray,
-} from '../lib/inspection';
+import type { InspectionElement, InspectionObject, InspectionArray } from '../lib/inspection';
+import { InspectionType, inspectValue } from '../lib/inspection';
 
 const MAX_FUNC_LENGTH = 150;
 
@@ -183,10 +178,10 @@ function generateFunc(extractedProp: ExtractedProp): TypeDef {
     if (jsDocTags.params != null || jsDocTags.returns != null) {
       return createTypeDef({
         name: PropTypesType.FUNC,
-        // @ts-ignore
+        // @ts-expect-error (Converted from ts-ignore)
         short: generateShortFuncSignature(jsDocTags.params, jsDocTags.returns),
         compact: null,
-        // @ts-ignore
+        // @ts-expect-error (Converted from ts-ignore)
         full: generateFuncSignature(jsDocTags.params, jsDocTags.returns),
       });
     }

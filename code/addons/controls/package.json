@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-controls",
-  "version": "7.0.0-alpha.18",
+  "version": "7.0.0-beta.16",
   "description": "Interact with component inputs dynamically in the Storybook UI",
   "keywords": [
     "addon",
@@ -27,6 +27,7 @@
   "license": "MIT",
   "exports": {
     ".": {
+      "node": "./dist/index.js",
       "require": "./dist/index.js",
       "import": "./dist/index.mjs",
       "types": "./dist/index.d.ts"
@@ -36,7 +37,7 @@
       "import": "./dist/manager.mjs",
       "types": "./dist/manager.d.ts"
     },
-    "./register.js": {
+    "./register": {
       "require": "./dist/manager.js",
       "import": "./dist/manager.mjs",
       "types": "./dist/manager.d.ts"
@@ -46,6 +47,16 @@
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
+  "typesVersions": {
+    "*": {
+      "*": [
+        "dist/index.d.ts"
+      ],
+      "manager": [
+        "dist/manager.d.ts"
+      ]
+    }
+  },
   "files": [
     "dist/**/*",
     "README.md",
@@ -53,21 +64,19 @@
     "*.d.ts"
   ],
   "scripts": {
-    "check": "tsc --noEmit",
-    "prepare": "../../../scripts/prepare/bundle.ts"
+    "check": "../../../scripts/node_modules/.bin/tsc --noEmit",
+    "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/addons": "7.0.0-alpha.18",
-    "@storybook/api": "7.0.0-alpha.18",
-    "@storybook/blocks": "7.0.0-alpha.18",
-    "@storybook/client-logger": "7.0.0-alpha.18",
-    "@storybook/components": "7.0.0-alpha.18",
-    "@storybook/core-common": "7.0.0-alpha.18",
-    "@storybook/csf": "0.0.2--canary.0899bb7.0",
-    "@storybook/node-logger": "7.0.0-alpha.18",
-    "@storybook/store": "7.0.0-alpha.18",
-    "@storybook/theming": "7.0.0-alpha.18",
-    "core-js": "^3.8.2",
+    "@storybook/blocks": "7.0.0-beta.16",
+    "@storybook/client-logger": "7.0.0-beta.16",
+    "@storybook/components": "7.0.0-beta.16",
+    "@storybook/core-common": "7.0.0-beta.16",
+    "@storybook/manager-api": "7.0.0-beta.16",
+    "@storybook/node-logger": "7.0.0-beta.16",
+    "@storybook/preview-api": "7.0.0-beta.8",
+    "@storybook/theming": "7.0.0-beta.16",
+    "@storybook/types": "7.0.0-beta.16",
     "lodash": "^4.17.21",
     "ts-dedent": "^2.0.0"
   },
@@ -93,7 +102,7 @@
     ],
     "platform": "browser"
   },
-  "gitHead": "bd59f1eef0f644175abdb0d9873ed0553f431f53",
+  "gitHead": "7ca5d329ef50ec4cded3c6586761a25a8e79e67c",
   "storybook": {
     "displayName": "Controls",
     "icon": "https://user-images.githubusercontent.com/263385/101991669-479cc600-3c7c-11eb-93d9-38b67e8371f2.png",

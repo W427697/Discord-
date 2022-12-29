@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-outline",
-  "version": "7.0.0-alpha.18",
+  "version": "7.0.0-beta.16",
   "description": "Outline all elements with CSS to help with layout placement and alignment",
   "keywords": [
     "storybook-addons",
@@ -29,6 +29,7 @@
   "author": "winkerVSbecks",
   "exports": {
     ".": {
+      "node": "./dist/index.js",
       "require": "./dist/index.js",
       "import": "./dist/index.mjs",
       "types": "./dist/index.d.ts"
@@ -39,11 +40,11 @@
       "types": "./dist/manager.d.ts"
     },
     "./preview": {
-      "require": "./dist/preset/preview.js",
-      "import": "./dist/preset/preview.mjs",
+      "require": "./dist/preview.js",
+      "import": "./dist/preview.mjs",
       "types": "./dist/preview.d.ts"
     },
-    "./register.js": {
+    "./register": {
       "require": "./dist/manager.js",
       "import": "./dist/manager.mjs",
       "types": "./dist/manager.d.ts"
@@ -53,6 +54,19 @@
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
+  "typesVersions": {
+    "*": {
+      "*": [
+        "dist/index.d.ts"
+      ],
+      "manager": [
+        "dist/manager.d.ts"
+      ],
+      "preview": [
+        "dist/preview.d.ts"
+      ]
+    }
+  },
   "files": [
     "dist/**/*",
     "README.md",
@@ -60,22 +74,21 @@
     "*.d.ts"
   ],
   "scripts": {
-    "check": "tsc --noEmit",
-    "prepare": "../../../scripts/prepare/bundle.ts"
+    "check": "../../../scripts/node_modules/.bin/tsc --noEmit",
+    "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/addons": "7.0.0-alpha.18",
-    "@storybook/api": "7.0.0-alpha.18",
-    "@storybook/client-logger": "7.0.0-alpha.18",
-    "@storybook/components": "7.0.0-alpha.18",
-    "@storybook/core-events": "7.0.0-alpha.18",
-    "@storybook/csf": "0.0.2--canary.0899bb7.0",
-    "core-js": "^3.8.2",
-    "global": "^4.4.0",
+    "@storybook/client-logger": "7.0.0-beta.16",
+    "@storybook/components": "7.0.0-beta.16",
+    "@storybook/core-events": "7.0.0-beta.16",
+    "@storybook/global": "^5.0.0",
+    "@storybook/manager-api": "7.0.0-beta.16",
+    "@storybook/preview-api": "7.0.0-beta.16",
+    "@storybook/types": "7.0.0-beta.16",
     "ts-dedent": "^2.0.0"
   },
   "devDependencies": {
-    "typescript": "~4.6.3"
+    "typescript": "~4.9.3"
   },
   "peerDependencies": {
     "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
@@ -96,10 +109,10 @@
     "entries": [
       "./src/index.ts",
       "./src/manager.tsx",
-      "./src/preset/preview.tsx"
+      "./src/preview.tsx"
     ]
   },
-  "gitHead": "bd59f1eef0f644175abdb0d9873ed0553f431f53",
+  "gitHead": "7ca5d329ef50ec4cded3c6586761a25a8e79e67c",
   "storybook": {
     "displayName": "Outline",
     "unsupportedFrameworks": [

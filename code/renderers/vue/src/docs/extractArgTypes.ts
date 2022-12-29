@@ -1,4 +1,4 @@
-import type { StrictArgTypes } from '@storybook/csf';
+import type { StrictArgTypes } from '@storybook/types';
 import type { ArgTypesExtractor, DocgenInfo, PropDef } from '@storybook/docs-tools';
 import { hasDocgen, extractComponentProps, convert } from '@storybook/docs-tools';
 
@@ -11,7 +11,7 @@ const SECTIONS = ['props', 'events', 'slots', 'methods'];
 function isEnum(propDef: PropDef, docgenInfo: DocgenInfo): false | PropDef {
   // cast as any, since "values" doesn't exist in DocgenInfo type
   const { type, values } = docgenInfo as any;
-  const matched = Array.isArray(values) && values.length && type?.name !== 'enum';
+  const matched = Array.isArray(values) && values.length && type?.name === 'enum';
 
   if (!matched) {
     return false;

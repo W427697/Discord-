@@ -1,4 +1,6 @@
-import { addons } from '@storybook/addons';
+/// <reference types="webpack-env" />
+
+import { addons } from '@storybook/preview-api';
 import { normalize, sep } from 'upath';
 import { ADD_TESTS, defineJestParameter } from './shared';
 

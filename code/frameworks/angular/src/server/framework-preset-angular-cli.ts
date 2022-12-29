@@ -1,17 +1,14 @@
-/* eslint-disable camelcase */
 import webpack from 'webpack';
 import { logger } from '@storybook/node-logger';
-import { targetFromTargetString, BuilderContext, Target } from '@angular-devkit/architect';
+import { BuilderContext, Target, targetFromTargetString } from '@angular-devkit/architect';
 import { sync as findUpSync } from 'find-up';
-import semver from '@storybook/semver';
+import semver from 'semver';
 import { dedent } from 'ts-dedent';
 
-import { logging, JsonObject } from '@angular-devkit/core';
+import { JsonObject, logging } from '@angular-devkit/core';
+import { getWebpackConfig as getCustomWebpackConfig } from './angular-cli-webpack';
 import { moduleIsAvailable } from './utils/module-is-available';
-import { getWebpackConfig as getWebpackConfig12_2_x } from './angular-cli-webpack-12.2.x';
-import { getWebpackConfig as getWebpackConfig13_x_x } from './angular-cli-webpack-13.x.x';
-import { getWebpackConfig as getWebpackConfigOlder } from './angular-cli-webpack-older';
-import type { PresetOptions } from './preset-options';
+import { PresetOptions } from './preset-options';
 import {
   getDefaultProjectName,
   findAngularProjectTarget,
@@ -45,7 +42,7 @@ export async function webpackFinal(baseConfig: webpack.Configuration, options: P
         const builderOptions = await getBuilderOptions(_options, builderContext);
         const legacyDefaultOptions = await getLegacyDefaultBuildOptions(_options);
 
-        return getWebpackConfig13_x_x(_baseConfig, {
+        return getCustomWebpackConfig(_baseConfig, {
           builderOptions: {
             watch: options.configType === 'DEVELOPMENT',
             ...legacyDefaultOptions,
@@ -54,24 +51,6 @@ export async function webpackFinal(baseConfig: webpack.Configuration, options: P
           builderContext,
         });
       },
-    },
-    {
-      info: '=> Loading angular-cli config for angular 12.2.x',
-      condition: semver.satisfies(angularCliVersion, '12.2.x') && options.angularBuilderContext,
-      getWebpackConfig: async (_baseConfig, _options) => {
-        const builderContext = getBuilderContext(_options);
-        const builderOptions = await getBuilderOptions(_options, builderContext);
-
-        return getWebpackConfig12_2_x(_baseConfig, {
-          builderOptions,
-          builderContext,
-        });
-      },
-    },
-    {
-      info: '=> Loading angular-cli config for angular lower than 12.2.0',
-      condition: true,
-      getWebpackConfig: getWebpackConfigOlder,
     },
   ];
 

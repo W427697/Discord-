@@ -31,7 +31,7 @@ packages:
     access: $all
     publish: $all
     proxy: npmjs
-  '@storybook/semver':
+  '@storybook/global':
     access: $all
     publish: $all
     proxy: npmjs
@@ -63,6 +63,10 @@ packages:
     access: $all
     publish: $all
     proxy: npmjs
+  '@storybook/create-svelte-with-args':
+    access: $all
+    publish: $all
+    proxy: npmjs
   '@storybook/react-docgen-typescript-plugin':
     access: $all
     publish: $all
@@ -83,10 +87,6 @@ packages:
     access: $all
     publish: $all
     proxy: npmjs
-  '@storybook/builder-vite':
-    access: $all
-    publish: $all
-    proxy: npmjs
   '@storybook/expect':
     access: $all
     publish: $all
@@ -96,6 +96,15 @@ packages:
     publish: $all
     proxy: npmjs
   '@storybook/docs-mdx':
+    access: $all
+    publish: $all
+    proxy: npmjs
+  '@storybook/babel-plugin-require-context-hook':
+    access: $all
+    publish: $all
+    proxy: npmjs
+  '@storybook/semver':
+    # TODO: remove this when new versions of all dependents have been published and updated. It is not used anymore but still referenced in the latest packages
     access: $all
     publish: $all
     proxy: npmjs

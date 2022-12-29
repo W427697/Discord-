@@ -1,11 +1,11 @@
 /** @jsxRuntime classic */
 /** @jsx h */
 
-import global from 'global';
+import { global } from '@storybook/global';
 import configure from '../configure';
 import hasDependency from '../hasDependency';
-import { Loader } from '../Loader';
-import { StoryshotsOptions } from '../../api/StoryshotsOptions';
+import type { Loader } from '../Loader';
+import type { StoryshotsOptions } from '../../api/StoryshotsOptions';
 
 function test(options: StoryshotsOptions): boolean {
   return (
@@ -16,9 +16,36 @@ function test(options: StoryshotsOptions): boolean {
 function load(options: StoryshotsOptions) {
   global.STORYBOOK_ENV = 'preact';
 
-  const storybook = jest.requireActual('@storybook/preact');
+  let mockStartedAPI: any;
 
-  configure({ ...options, storybook });
+  jest.mock('@storybook/preview-api', () => {
+    const previewAPI = jest.requireActual('@storybook/preview-api');
+
+    return {
+      ...previewAPI,
+      start: (...args: any[]) => {
+        mockStartedAPI = previewAPI.start(...args);
+        return mockStartedAPI;
+      },
+    };
+  });
+
+  jest.mock('@storybook/preact', () => {
+    const renderAPI = jest.requireActual('@storybook/preact');
+
+    renderAPI.addDecorator = mockStartedAPI.clientApi.addDecorator;
+    renderAPI.addParameters = mockStartedAPI.clientApi.addParameters;
+
+    return renderAPI;
+  });
+
+  // eslint-disable-next-line global-require
+  const storybook = require('@storybook/preact');
+
+  configure({
+    ...options,
+    storybook,
+  });
 
   return {
     framework: 'preact' as const,

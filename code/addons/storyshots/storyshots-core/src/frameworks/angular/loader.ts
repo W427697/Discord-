@@ -2,8 +2,8 @@ import 'core-js';
 import 'core-js/es/reflect';
 import hasDependency from '../hasDependency';
 import configure from '../configure';
-import { Loader } from '../Loader';
-import { StoryshotsOptions } from '../../api/StoryshotsOptions';
+import type { Loader } from '../Loader';
+import type { StoryshotsOptions } from '../../api/StoryshotsOptions';
 
 function setupAngularJestPreset() {
   // Needed to prevent "Zone.js has detected that ZoneAwarePromise `(window|global).Promise` has been overwritten."
@@ -33,9 +33,36 @@ function test(options: StoryshotsOptions): boolean {
 function load(options: StoryshotsOptions) {
   setupAngularJestPreset();
 
-  const storybook = jest.requireActual('@storybook/angular');
+  let mockStartedAPI: any;
 
-  configure({ ...options, storybook });
+  jest.mock('@storybook/preview-api', () => {
+    const previewAPI = jest.requireActual('@storybook/preview-api');
+
+    return {
+      ...previewAPI,
+      start: (...args: any[]) => {
+        mockStartedAPI = previewAPI.start(...args);
+        return mockStartedAPI;
+      },
+    };
+  });
+
+  jest.mock('@storybook/angular', () => {
+    const renderAPI = jest.requireActual('@storybook/angular');
+
+    renderAPI.addDecorator = mockStartedAPI.clientApi.addDecorator;
+    renderAPI.addParameters = mockStartedAPI.clientApi.addParameters;
+
+    return renderAPI;
+  });
+
+  // eslint-disable-next-line global-require
+  const storybook = require('@storybook/angular');
+
+  configure({
+    ...options,
+    storybook,
+  });
 
   return {
     framework: 'angular' as const,

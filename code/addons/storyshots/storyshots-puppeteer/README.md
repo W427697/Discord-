@@ -107,6 +107,26 @@ initStoryshots({
 });
 ```
 
+### Customizing browser launch options (Puppeteer API)
+
+You might use the `browserLaunchOptions` to specify options for the default browser instance. Will be passed to [puppeteer.launch()](https://pptr.dev/api/puppeteer.puppeteernode.launch)
+
+```js
+import initStoryshots from '@storybook/addon-storyshots';
+import { puppeteerTest } from '@storybook/addon-storyshots-puppeteer';
+
+initStoryshots({
+  suite: 'Puppeteer storyshots',
+  test: puppeteerTest({
+    storybookUrl: 'https://some-local-ssl-url:7777',
+    browserLaunchOptions: {
+      // For ignoring self-signed certificates
+      ignoreHTTPSErrors: true,
+    },
+  }),
+});
+```
+
 ### Specifying custom Chrome executable path (Puppeteer API)
 
 You might use `chromeExecutablePath` to specify the path to a different version of Chrome, without downloading Chromium. Will be passed to [Runs a bundled version of Chromium](https://github.com/GoogleChrome/puppeteer#default-runtime-settings)
@@ -179,7 +199,6 @@ Those can be customized with `setupTimeout` and `testTimeout` parameters.
 ### Integrate Puppeteer storyshots with regular app
 
 You may want to use another Jest project to run your Puppeteer storyshots as they require more resources: Chrome and Storybook built/served.
-You can find a working example of this in the [official-storybook](https://github.com/storybookjs/storybook/tree/main/examples/official-storybook) example.
 
 ### Integrate Puppeteer storyshots with [Create React App](https://github.com/facebookincubator/create-react-app)
 
@@ -333,7 +352,7 @@ To create a screenshot of just a single element (with its children), rather than
 import initStoryshots from '@storybook/addon-storyshots';
 import { imageSnapshot } from '@storybook/addon-storyshots-puppeteer';
 
-const beforeScreenshot = (page) => page.$('#root > *');
+const beforeScreenshot = (page) => page.$('#storybook-root > *');
 
 initStoryshots({
   suite: 'Image storyshots',
