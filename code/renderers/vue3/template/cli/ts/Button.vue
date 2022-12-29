@@ -41,7 +41,7 @@ export default {
         [`storybook-button--${props.size || 'medium'}`]: true,
       })),
       style: computed(() => ({
-        backgroundColor: props.primary ?props.backgroundColor :'',
+        backgroundColor: props.backgroundColor
       })),
       onClick() {
         emit('click');

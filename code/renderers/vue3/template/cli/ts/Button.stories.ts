@@ -11,11 +11,10 @@ export default {
   argTypes: {
     size: { control: 'select', options: ['small', 'medium', 'large'] },
     backgroundColor: { control: 'color' },
+    onClick: { action: 'clicked' },
   },
   // This component will have an automatically generated docsPage entry: https://storybook.js.org/docs/7.0/vue/writing-docs/docs-page
   tags: ['autodocs'],
-  // default args apply on all stories
-  args: { backgroundColor: '#059cfd' },
 };
 type Story = StoryObj<typeof Button>;
 /*
@@ -26,14 +25,14 @@ type Story = StoryObj<typeof Button>;
 export const Primary: Story = {
   args: {
     primary: true,
-    label: ' 👍😍 Button 😍👍 ',
+    label: 'Button',
   },
 };
 
 export const Secondary: Story = {
   args: {
     primary: false,
-    label: ' 👍😍 Button 😍👍 ',
+    label: '👍😍 Button 😍👍',
   },
 };
 
