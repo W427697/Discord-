@@ -34,7 +34,6 @@ export default {
     user: {
       type: Object,
     },
-    country: String
   },
 
   emits: ['login', 'logout', 'createAccount'],

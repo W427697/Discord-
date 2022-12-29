@@ -28,17 +28,8 @@ export const LoggedIn: Story = {
   },
 };
 
-export const LoggedInWithLongName: Story = {
-  args: {
-    user: {
-      name: 'Jean Jack Pierro-Rosso',
-    },
-  },
-};
-
 export const LoggedOut: Story = {
   args: {
     user: undefined,
-    country: undefined,
   },
 };
