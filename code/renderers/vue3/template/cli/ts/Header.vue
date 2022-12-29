@@ -21,17 +21,14 @@
   </header>
 </template>
 
-
 <script lang="ts" >
-
 import './header.css';
-import Button from './Button.vue';
-
+import MyButton from './Button.vue';
 
 export default {
   name: 'my-header',
 
-  components: { Button },
+  components: { MyButton },
 
   props: {
     user: {
@@ -41,9 +38,6 @@ export default {
   },
 
   emits: ['login', 'logout', 'createAccount'],
-
-  
-
 };
 </script>
 
