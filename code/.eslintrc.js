@@ -67,15 +67,14 @@ module.exports = {
       },
     },
     {
-      // this package uses pre-bundling, dependencies will be bundled, and will be in devDepenencies
-      files: [
-        '**/lib/theming/**/*',
-        '**/lib/router/**/*',
-        '**/ui/manager/**/*',
-        '**/ui/components/**/*',
-      ],
+      // these packages use pre-bundling, dependencies will be bundled, and will be in devDepenencies
+      files: ['addons/**/*', 'frameworks/**/*', 'lib/**/*', 'renderers/**/*', 'ui/**/*'],
+      excludedFiles: ['frameworks/angular/**/*', 'frameworks/ember/**/*', 'lib/core-server/**/*'],
       rules: {
-        'import/no-extraneous-dependencies': ['error', { bundledDependencies: false }],
+        'import/no-extraneous-dependencies': [
+          'error',
+          { bundledDependencies: false, devDependencies: true },
+        ],
       },
     },
     {
