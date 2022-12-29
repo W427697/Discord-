@@ -1,8 +1,8 @@
 <template>
-  <button type="button" :class="classes" @click="onClick" :style="style">{{ label }}</button>
+  <button type="button" :class="classes" @click="onClick" :style="style">{{ label }} </button>
 </template>
 
-<script>
+<script lang="ts">
 import './button.css';
 import { reactive, computed } from 'vue';
 
@@ -20,7 +20,7 @@ export default {
     },
     size: {
       type: String,
-      validator: function (value) {
+      validator: function (value:string) {
         return ['small', 'medium', 'large'].indexOf(value) !== -1;
       },
     },
@@ -31,7 +31,7 @@ export default {
 
   emits: ['click'],
 
-  setup(props, { emit }) {
+  setup(props:any, { emit }:any) {
     props = reactive(props);
     return {
       classes: computed(() => ({

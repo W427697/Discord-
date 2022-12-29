@@ -5,15 +5,15 @@ export default {
   title: 'Example/Button',
   component: MyButton,
   tags: ['autodocs'],
-  render: (args, { argTypes }) => ({
-    props: Object.keys(argTypes),
-    components: { MyButton },
-    template: '<my-button @onClick="onClick" v-bind="$props" />',
-  }),
   argTypes: {
-    backgroundColor: { control: 'color' },
+    backgroundColor: {
+      control: 'color',
+    },
+    onClick: {},
     size: {
-      control: { type: 'select' },
+      control: {
+        type: 'select',
+      },
       options: ['small', 'medium', 'large'],
     },
   },

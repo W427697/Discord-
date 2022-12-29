@@ -1,13 +1,32 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
+    "target": "ESNext",
+    "useDefineForClassFields": true,
+    "module": "ESNext",
+    "moduleResolution": "Node",
     "strict": true,
+    "jsx": "preserve",
+    "isolatedModules": true,
     "skipLibCheck": true,
     "resolveJsonModule": true,
-    "allowJs": true
+    "noEmit": true,
+    "allowJs": false
   },
   "vueCompilerOptions": {
     "target": 2
   },
   "include": ["src/**/*", "src/**/*.vue", "template/**/*", "template/**/*.vue"]
 }
+// "target": "ESNext",
+// "useDefineForClassFields": true,
+// "module": "ESNext",
+// "moduleResolution": "Node",
+// "strict": true,
+// "jsx": "preserve",
+// "resolveJsonModule": true,
+// "isolatedModules": true,
+// "esModuleInterop": true,
+// "lib": ["ESNext", "DOM"],
+// "skipLibCheck": true,
+// "noEmit": true
