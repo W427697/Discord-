@@ -86,9 +86,9 @@ const createCanvas = (id: string, baseUrl = 'iframe.html', withLoader = true): A
             }
           }, []);
 
+          const isBooting = !storySpecified && !storiesFailed;
           const refLoading = !!refs[refId] && !refs[refId].ready;
           const rootLoading = !refId && !(progress?.value === 1 || progress === undefined);
-          const isBooting = !storySpecified && !storiesFailed;
           const isLoading = entry
             ? isBooting || refLoading || rootLoading
             : isBooting || rootLoading;
@@ -98,7 +98,7 @@ const createCanvas = (id: string, baseUrl = 'iframe.html', withLoader = true): A
               {({ value: scale }) => {
                 return (
                   <>
-                    {withLoader && (isLoading || isBooting) && (
+                    {withLoader && isLoading && (
                       <S.LoaderWrapper>
                         <Loader id="preview-loader" role="progressbar" progress={progress} />
                       </S.LoaderWrapper>
