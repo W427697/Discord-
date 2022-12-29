@@ -1,6 +1,6 @@
 import { global as globalThis } from '@storybook/global';
 import { html, LitElement } from 'lit';
-import { styleMap } from 'lit-html/directives/style-map.js';
+import { styleMap } from 'lit-html/directives/style-map';
 
 const { customElements } = globalThis;
 
