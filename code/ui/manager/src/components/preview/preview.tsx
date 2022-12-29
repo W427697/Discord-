@@ -94,7 +94,6 @@ const createCanvas = (id: string, baseUrl = 'iframe.html', withLoader = true): A
             : (!storiesFailed && !storiesConfigured) || rootLoading;
           const isBooting = !storySpecified && !storiesFailed;
 
-          console.log({ withLoader, isLoading, isBooting, progress });
           return (
             <ZoomConsumer>
               {({ value: scale }) => {
@@ -105,7 +104,7 @@ const createCanvas = (id: string, baseUrl = 'iframe.html', withLoader = true): A
                         <Loader
                           id="preview-loader"
                           role="progressbar"
-                          progress={progress || { value: 1, message: 'Booting' }}
+                          progress={progress || { value: 1, message: 'Loading' }}
                         />
                       </S.LoaderWrapper>
                     )}
