@@ -120,7 +120,7 @@ For additional help, join us in the [Storybook Discord](https://discord.gg/story
 | [a11y](code/addons/a11y/)                                                 | Test components for user accessibility in Storybook                        |
 | [actions](code/addons/actions/)                                           | Log actions as users interact with components in the Storybook UI          |
 | [backgrounds](code/addons/backgrounds/)                                   | Let users choose backgrounds in the Storybook UI                           |
-| [cssresources](https://github.com/storybookjs/addon-cssresources)         | Dynamically add/remove css resources to the component iframe               |
+| [cssresources](https://github.com/storybookjs/addon-cssresources)         | Dynamically add/remove CSS resources to the component iframe               |
 | [design assets](https://github.com/storybookjs/addon-design-assets)       | View images, videos, weblinks alongside your story                         |
 | [docs](code/addons/docs/)                                                 | Add high quality documentation to your components                          |
 | [events](https://github.com/storybookjs/addon-events)                     | Interactively fire events to components that respond to EventEmitter       |
@@ -183,7 +183,7 @@ We welcome contributions to Storybook!
 Looking for a first issue to tackle?
 
 - We tag issues with [![Good First Issue](https://img.shields.io/github/issues/storybookjs/storybook/good%20first%20issue.svg)](https://github.com/storybookjs/storybook/issues?q=is%3Aopen+is%3Aissue+label%3A%22good+first+issue%22) when we think they are well suited for people who are new to the codebase or OSS in general.
-- [Talk to us](https://discord.gg/storybook), we'll find something to suits your skills and learning interest.
+- [Talk to us](https://discord.gg/storybook), we'll find something to suit your skills and learning interest.
 
 ### Development scripts
 
