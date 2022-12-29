@@ -88,10 +88,10 @@ const createCanvas = (id: string, baseUrl = 'iframe.html', withLoader = true): A
 
           const refLoading = !!refs[refId] && !refs[refId].ready;
           const rootLoading = !refId && !(progress?.value === 1 || progress === undefined);
-          const isLoading = entry
-            ? refLoading || rootLoading
-            : (!storiesFailed && !storiesConfigured) || rootLoading;
           const isBooting = !storySpecified && !storiesFailed;
+          const isLoading = entry
+            ? isBooting || refLoading || rootLoading
+            : isBooting || rootLoading;
 
           return (
             <ZoomConsumer>
