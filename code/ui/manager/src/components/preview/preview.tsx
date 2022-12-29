@@ -38,7 +38,6 @@ const canvasMapper = ({ state, api }: Combo) => ({
   getElements: api.getElements,
   entry: api.getData(state.storyId, state.refId),
   storySpecified: state.storySpecified,
-  storiesConfigured: state.storiesConfigured,
   storiesFailed: state.storiesFailed,
   refs: state.refs,
   active: !!(state.viewMode && state.viewMode.match(/^(story|docs)$/)),
@@ -62,7 +61,6 @@ const createCanvas = (id: string, baseUrl = 'iframe.html', withLoader = true): A
           queryParams,
           getElements,
           storySpecified,
-          storiesConfigured,
           storiesFailed,
           active,
         }) => {
