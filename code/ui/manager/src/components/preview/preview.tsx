@@ -72,7 +72,6 @@ const createCanvas = (id: string, baseUrl = 'iframe.html', withLoader = true): A
           );
 
           const [progress, setProgress] = useState(undefined);
-
           useEffect(() => {
             if (FEATURES?.storyStoreV7 && global.CONFIG_TYPE === 'DEVELOPMENT') {
               try {
@@ -101,11 +100,7 @@ const createCanvas = (id: string, baseUrl = 'iframe.html', withLoader = true): A
                   <>
                     {withLoader && (isLoading || isBooting) && (
                       <S.LoaderWrapper>
-                        <Loader
-                          id="preview-loader"
-                          role="progressbar"
-                          progress={progress || { value: 1, message: 'Loading' }}
-                        />
+                        <Loader id="preview-loader" role="progressbar" progress={progress} />
                       </S.LoaderWrapper>
                     )}
                     <ApplyWrappers
