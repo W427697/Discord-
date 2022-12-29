@@ -1,4 +1,3 @@
-import type { StoryObj } from '@storybook/vue3';
 import { within, userEvent } from '@storybook/testing-library';
 import MyPage from './Page.vue';
 
@@ -14,15 +13,15 @@ export default {
     layout: 'fullscreen',
   },
 };
-type Story = StoryObj<typeof MyPage>;
-export const LoggedOut: Story = {};
+export const LoggedOut = {};
+
 // More on interaction testing: https://storybook.js.org/docs/7.0/vue/writing-tests/interaction-testing
-export const LoggedIn: Story = {
-  play: async ({ canvasElement }: any) => {
+export const LoggedIn = {
+  play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const loginButton = canvas.getByRole('button', {
+    const loginButton = await canvas.getByRole('button', {
       name: /Log in/i,
     });
-    userEvent.click(loginButton);
+    await userEvent.click(loginButton);
   },
 };
