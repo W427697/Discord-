@@ -241,7 +241,7 @@ describe('useStoriesJson', () => {
               "importPath": "./src/nested/Page.stories.mdx",
               "name": "StoryOne",
               "tags": Array [
-                "mdx",
+                "stories-mdx",
                 "story",
               ],
               "title": "nested/Page",
@@ -473,7 +473,7 @@ describe('useStoriesJson', () => {
               },
               "story": "StoryOne",
               "tags": Array [
-                "mdx",
+                "stories-mdx",
                 "story",
               ],
               "title": "nested/Page",
@@ -617,7 +617,7 @@ describe('useStoriesJson', () => {
               },
               "story": "StoryOne",
               "tags": Array [
-                "mdx",
+                "stories-mdx",
                 "story",
               ],
               "title": "nested/Page",
