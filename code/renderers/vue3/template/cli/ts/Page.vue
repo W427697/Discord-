@@ -1,6 +1,6 @@
 <template>
   <article>
-    <my-header :user="user" @onLogin="onLogin" @onLogout="onLogout" @onCreateAccount="onCreateAccount" />
+    <my-header :user="user" @login="onLogin" @logout="onLogout" @create-account="onCreateAccount" />
 
     <section>
       <h2>Pages in Storybook</h2>

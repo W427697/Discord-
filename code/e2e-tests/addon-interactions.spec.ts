@@ -27,7 +27,7 @@ test.describe('addon-interactions', () => {
     await sbPage.viewAddonPanel('Interactions');
 
     const welcome = await sbPage.previewRoot().locator('.welcome');
-    await expect(welcome).toContainText('Welcome, Jane Doe!');
+    expect(welcome).toContainText('Welcome, Jane Doe!');
 
     const interactionsTab = await page.locator('#tabbutton-interactions');
     await expect(interactionsTab).toContainText(/(1)/);

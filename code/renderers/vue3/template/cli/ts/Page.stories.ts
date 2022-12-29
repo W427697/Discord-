@@ -22,9 +22,9 @@ export const LoggedOut: Story = {};
 export const LoggedIn: Story = {
   play: async ({ canvasElement }: any) => {
     const canvas = within(canvasElement);
-    const loginButton = canvas.getByRole('button', {
+    const loginButton = await canvas.getByRole('button', {
       name: /Log in/i,
     });
-    userEvent.click(loginButton);
+    await userEvent.click(loginButton);
   },
 };

@@ -1,5 +1,5 @@
 import type { StoryObj } from '@storybook/vue3';
-import Header from './Header.vue';
+import MyHeader from './Header.vue';
 
 export default {
   /* 👇 The title prop is optional.
@@ -7,20 +7,24 @@ export default {
    * to learn how to generate automatic titles
    */
   title: 'Example/Header',
-  component: Header,
-  // This component will have an automatically generated docsPage entry: https://storybook.js.org/docs/7.0/vue/writing-docs/docs-page
-  tags: ['autodocs'],
-};
-type Story = StoryObj<typeof Header>;
-export const LoggedIn: Story = {
-  name: 'Logged In',
+  component: MyHeader,
   render: (args: any) => ({
-    components: { Header },
+    components: { MyHeader },
     setup() {
       return { args };
     },
-    template: '<Header :user="args.user" />',
+    template: '<my-header :user="args.user" />',
   }),
+  parameters: {
+    // More on how to position stories at: https://storybook.js.org/docs/7.0/react/configure/story-layout
+    layout: 'fullscreen',
+  },
+  // This component will have an automatically generated docsPage entry: https://storybook.js.org/docs/7.0/vue/writing-docs/docs-page
+  tags: ['autodocs'],
+};
+
+type Story = StoryObj<typeof MyHeader>;
+export const LoggedIn: Story = {
   args: {
     user: {
       name: 'Jane Doe',
