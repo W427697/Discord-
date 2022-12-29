@@ -9,11 +9,11 @@ export default {
   title: 'Example/Header',
   component: Header,
   // This component will have an automatically generated docsPage entry: https://storybook.js.org/docs/7.0/vue/writing-docs/docs-page
-  tags: ['autodocs'],
+  tags: ['docsPage'],
 };
 type Story = StoryObj<typeof Header>;
 export const LoggedIn: Story = {
-  name: 'Logged In',
+  storyName: 'Logged In Story',
   render: (args: any) => ({
     components: { Header },
     setup() {

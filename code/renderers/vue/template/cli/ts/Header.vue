@@ -12,7 +12,7 @@
         <h1>Acme</h1>
       </div>
       <div>
-        <span class="welcome" v-if="user">Welcome, <b>{{ user.name }}</b>!</span>
+       <span class="welcome" v-if="user" >Welcome, <b>{{ user?.name }}</b> </span>
         <my-button size="small" @click="$emit('logout')" label="Log out" v-if="user" />
         <my-button size="small" @click="$emit('login')" label="Log in" v-if="!user" />
         <my-button primary size="small" @click="$emit('createAccount')" label="Sign up" v-if="!user" />
@@ -21,21 +21,29 @@
   </header>
 </template>
 
-<script>
+
+<script lang="ts" >
+
 import './header.css';
-import MyButton from './Button.vue';
+import Button from './Button.vue';
+
 
 export default {
   name: 'my-header',
 
-  components: { MyButton },
+  components: { Button },
 
   props: {
     user: {
       type: Object,
     },
+    country: String
   },
 
   emits: ['login', 'logout', 'createAccount'],
+
+  
+
 };
 </script>
+

@@ -13,6 +13,8 @@ export default {
     // More on how to position stories at: https://storybook.js.org/docs/7.0/vue/configure/story-layout
     layout: 'fullscreen',
   },
+  // This component will have an automatically generated docsPage entry: https://storybook.js.org/docs/7.0/vue/writing-docs/docs-page
+  tags: ['autodocs'],
 };
 type Story = StoryObj<typeof MyPage>;
 export const LoggedOut: Story = {};

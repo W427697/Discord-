@@ -13,9 +13,7 @@ export default {
     backgroundColor: { control: 'color' },
   },
   // This component will have an automatically generated docsPage entry: https://storybook.js.org/docs/7.0/vue/writing-docs/docs-page
-  tags: ['autodocs'],
-  // default args apply on all stories
-  args: { backgroundColor: '#059cfd' },
+  tags: ['docsPage'],
 };
 type Story = StoryObj<typeof Button>;
 /*
@@ -32,28 +30,19 @@ export const Primary: Story = {
 
 export const Secondary: Story = {
   args: {
-    primary: false,
     label: ' 👍😍 Button 😍👍 ',
   },
 };
 
 export const Large: Story = {
   args: {
-    ...Primary.args,
     size: 'large',
+    label: ' 👍😍 Button 😍👍 ',
   },
 };
-
-export const Medium: Story = {
-  args: {
-    ...Primary.args,
-    size: 'medium',
-  },
-};
-
 export const Small: Story = {
   args: {
-    ...Primary.args,
     size: 'small',
+    label: ' 👍😍 Button 😍👍 ',
   },
 };
