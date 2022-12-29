@@ -53,7 +53,7 @@ export const autodocsTrue: Fix<AutodocsTrueFrameworkRunOptions> = {
   },
 
   prompt({ value }) {
-    const AutodocsTrueFormatted = chalk.cyan(
+    const autodocsFormatted = chalk.cyan(
       `docs: { autodocs: ${JSON.stringify(value ?? true)} }`
     );
 
@@ -66,7 +66,7 @@ export const autodocsTrue: Fix<AutodocsTrueFrameworkRunOptions> = {
 
       Based on your prior configuration,  we can set the \`docs.autodocs\` to keep your old behaviour:
 
-      ${AutodocsTrueFormatted}
+      ${autodocsFormatted}
 
       ${
         value === 'tag' &&
