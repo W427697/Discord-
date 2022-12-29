@@ -11,6 +11,7 @@ module.exports = {
   },
   rules: {
     'eslint-comments/disable-enable-pair': ['error', { allowWholeFile: true }],
+    'eslint-comments/no-unused-disable': 'error',
     'react-hooks/rules-of-hooks': 'off',
     'jest/no-done-callback': 'off',
     '@typescript-eslint/dot-notation': [
