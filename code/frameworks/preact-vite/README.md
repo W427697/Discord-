@@ -9,7 +9,7 @@
 
 ### In a project without Storybook
 
-Follow the prompts after running this command in your Next.js project's root directory:
+Follow the prompts after running this command in your Preact project's root directory:
 
 ```bash
 npx storybook@next init
@@ -40,8 +40,7 @@ Update your `main.js` to change the framework property:
 module.exports = {
   // ...
   framework: {
-    // name: '@storybook/react-webpack5', // Remove this
-    name: '@storybook/preact-vite', // Add this
+    name: '@storybook/preact-vite', // <- Change this
     options: {},
   },
 };
