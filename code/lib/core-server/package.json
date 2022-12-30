@@ -91,7 +91,7 @@
     "read-pkg-up": "^7.0.1",
     "semver": "^7.3.7",
     "serve-favicon": "^2.5.0",
-    "slash": "^3.0.0",
+    "slash": "^5.0.0",
     "telejson": "^7.0.3",
     "ts-dedent": "^2.0.0",
     "util-deprecate": "^1.0.2",

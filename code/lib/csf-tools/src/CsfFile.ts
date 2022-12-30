@@ -128,7 +128,7 @@ const sortExports = (exportByName: Record<string, any>, order: string[]) => {
 
 export interface CsfOptions {
   fileName?: string;
-  makeTitle: (userTitle: string) => string;
+  makeTitle: (userTitle: string) => string | Promise<string>;
 }
 
 export class NoMetaError extends Error {
@@ -159,7 +159,7 @@ export class CsfFile {
 
   _fileName: string;
 
-  _makeTitle: (title: string) => string;
+  _makeTitle: (title: string) => string | Promise<string>;
 
   _meta?: StaticMeta;
 
@@ -252,7 +252,7 @@ export class CsfFile {
     return node;
   }
 
-  parse() {
+  async parse() {
     // eslint-disable-next-line @typescript-eslint/no-this-alias
     const self = this;
     traverse.default(this._ast, {
@@ -453,7 +453,7 @@ export class CsfFile {
 
     // default export can come at any point in the file, so we do this post processing last
     const entries = Object.entries(self._stories);
-    self._meta.title = this._makeTitle(self._meta.title);
+    self._meta.title = await this._makeTitle(self._meta.title);
     self._stories = entries.reduce((acc, [key, story]) => {
       if (isExportStory(key, self._meta)) {
         const id = toId(self._meta.id || self._meta.title, storyNameFromExport(key));

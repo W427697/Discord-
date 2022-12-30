@@ -1,7 +1,6 @@
 import path from 'path';
 import fs from 'fs-extra';
 import glob from 'globby';
-import slash from 'slash';
 
 import type {
   IndexEntry,
@@ -24,6 +23,7 @@ import { logger } from '@storybook/node-logger';
 import { getStorySortParameter, NoMetaError } from '@storybook/csf-tools';
 import { toId } from '@storybook/csf';
 import { analyze } from '@storybook/docs-mdx';
+import { dynamicImport } from './dynamicImport';
 
 /** A .mdx file will produce a docs entry */
 type DocsCacheEntry = DocsIndexEntry;
@@ -54,8 +54,9 @@ export class DuplicateEntriesError extends Error {
   }
 }
 
-const makeAbsolute = (otherImport: Path, normalizedPath: Path, workingDir: Path) =>
-  otherImport.startsWith('.')
+const makeAbsolute = async (otherImport: Path, normalizedPath: Path, workingDir: Path) => {
+  const slash = (await dynamicImport('slash')).default as (path: string) => string;
+  return otherImport.startsWith('.')
     ? slash(
         path.resolve(
           workingDir,
@@ -63,6 +64,7 @@ const makeAbsolute = (otherImport: Path, normalizedPath: Path, workingDir: Path)
         )
       )
     : otherImport;
+};
 
 /**
  * The StoryIndexGenerator extracts stories and docs entries for each file matching
@@ -115,6 +117,8 @@ export class StoryIndexGenerator {
     await Promise.all(
       this.specifiers.map(async (specifier) => {
         const pathToSubIndex = {} as SpecifierStoriesCache;
+
+        const slash = (await dynamicImport('slash')).default as (path: string) => string;
 
         const fullGlob = slash(
           path.join(this.options.workingDir, specifier.directory, specifier.files)
@@ -223,9 +227,11 @@ export class StoryIndexGenerator {
   async extractStories(specifier: NormalizedStoriesSpecifier, absolutePath: Path) {
     const relativePath = path.relative(this.options.workingDir, absolutePath);
     const entries = [] as IndexEntry[];
+    const slash = (await dynamicImport('slash')).default as (path: string) => string;
+
     try {
       const importPath = slash(normalizeStoryPath(relativePath));
-      const makeTitle = (userTitle?: string) => {
+      const makeTitle = async (userTitle?: string) => {
         return userOrAutoTitleFromSpecifier(importPath, specifier, userTitle);
       };
 
@@ -283,6 +289,7 @@ export class StoryIndexGenerator {
 
   async extractDocs(specifier: NormalizedStoriesSpecifier, absolutePath: Path) {
     const relativePath = path.relative(this.options.workingDir, absolutePath);
+    const slash = (await dynamicImport('slash')).default as (path: string) => string;
     try {
       if (!this.options.storyStoreV7) {
         throw new Error(`You cannot use \`.mdx\` files without using \`storyStoreV7\`.`);
@@ -312,13 +319,13 @@ export class StoryIndexGenerator {
       // Go through the cache and collect all of the cache entries that this docs file depends on.
       // We'll use this to make sure this docs cache entry is invalidated when any of its dependents
       // are invalidated.f
-      const dependencies = this.findDependencies(absoluteImports);
+      const dependencies = this.findDependencies(await Promise.all(absoluteImports));
 
       // Also, if `result.of` is set, it means that we're using the `<Meta of={XStories} />` syntax,
       // so find the `title` defined the file that `meta` points to.
       let ofTitle: string;
       if (result.of) {
-        const absoluteOf = makeAbsolute(result.of, normalizedPath, this.options.workingDir);
+        const absoluteOf = await makeAbsolute(result.of, normalizedPath, this.options.workingDir);
         dependencies.forEach((dep) => {
           if (dep.entries.length > 0) {
             const first = dep.entries[0];
@@ -342,7 +349,8 @@ export class StoryIndexGenerator {
         dep.dependents.push(absolutePath);
       });
 
-      const title = ofTitle || userOrAutoTitleFromSpecifier(importPath, specifier, result.title);
+      const title =
+        ofTitle || (await userOrAutoTitleFromSpecifier(importPath, specifier, result.title));
       const name = result.name || this.options.docs.defaultName;
       const id = toId(title, name);
 
@@ -497,7 +505,8 @@ export class StoryIndexGenerator {
     return this.lastIndex;
   }
 
-  invalidate(specifier: NormalizedStoriesSpecifier, importPath: Path, removed: boolean) {
+  async invalidate(specifier: NormalizedStoriesSpecifier, importPath: Path, removed: boolean) {
+    const slash = (await dynamicImport('slash')).default as (path: string) => string;
     const absolutePath = slash(path.resolve(this.options.workingDir, importPath));
     const cache = this.specifierToCache.get(specifier);
 

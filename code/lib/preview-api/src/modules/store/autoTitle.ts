@@ -1,7 +1,7 @@
-import slash from 'slash';
 import { dedent } from 'ts-dedent';
 import { once } from '@storybook/client-logger';
 import type { NormalizedStoriesSpecifier } from '@storybook/types';
+import { dynamicImport } from './dynamicImport';
 
 // FIXME: types duplicated type from `core-common', to be
 // removed when we remove v6 back-compat.
@@ -45,7 +45,7 @@ function pathJoin(paths: string[]): string {
   return paths.join('/').replace(slashes, '/');
 }
 
-export const userOrAutoTitleFromSpecifier = (
+export const userOrAutoTitleFromSpecifier = async (
   fileName: string | number,
   entry: NormalizedStoriesSpecifier,
   userTitle?: string
@@ -61,6 +61,8 @@ export const userOrAutoTitleFromSpecifier = (
       filenames, set optimization.moduleIds = "named" in your webpack config.
     `);
   }
+
+  const slash = (await dynamicImport('slash')).default as (path: string) => string;
 
   const normalizedFileName = slash(String(fileName));
 

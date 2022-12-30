@@ -28,7 +28,7 @@ export type NormalizedStoriesSpecifier = Required<StoriesSpecifier> & {
 };
 
 export interface IndexerOptions {
-  makeTitle: (userTitle?: string) => string;
+  makeTitle: (userTitle?: string) => string | Promise<string>;
 }
 
 export interface IndexedStory {

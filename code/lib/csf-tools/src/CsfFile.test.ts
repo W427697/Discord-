@@ -14,8 +14,8 @@ const makeTitle = (userTitle?: string) => {
   return userTitle || 'Default Title';
 };
 
-const parse = (code: string, includeParameters?: boolean) => {
-  const { stories, meta } = loadCsf(code, { makeTitle }).parse();
+const parse = async (code: string, includeParameters?: boolean) => {
+  const { stories, meta } = await loadCsf(code, { makeTitle }).parse();
   const filtered = includeParameters
     ? stories
     : stories.map(({ id, name, parameters, ...rest }) => ({ id, name, ...rest }));
@@ -582,15 +582,15 @@ describe('CsfFile', () => {
 
   // NOTE: this does not have a public API, but we can still test it
   describe('indexed annotations', () => {
-    it('meta annotations', () => {
+    it('meta annotations', async () => {
       const input = dedent`
         export default { title: 'foo/bar', x: 1, y: 2 };
       `;
-      const csf = loadCsf(input, { makeTitle }).parse();
+      const csf = await loadCsf(input, { makeTitle }).parse();
       expect(Object.keys(csf._metaAnnotations)).toEqual(['title', 'x', 'y']);
     });
 
-    it('story annotations', () => {
+    it('story annotations', async () => {
       const input = dedent`
         export default { title: 'foo/bar' };
         export const A = () => {};
@@ -599,12 +599,12 @@ describe('CsfFile', () => {
         export const B = () => {};
         B.z = 3;
     `;
-      const csf = loadCsf(input, { makeTitle }).parse();
+      const csf = await loadCsf(input, { makeTitle }).parse();
       expect(Object.keys(csf._storyAnnotations.A)).toEqual(['x', 'y']);
       expect(Object.keys(csf._storyAnnotations.B)).toEqual(['z']);
     });
 
-    it('v1-style story annotations', () => {
+    it('v1-style story annotations', async () => {
       const input = dedent`
         export default { title: 'foo/bar' };
         export const A = () => {};
@@ -617,7 +617,7 @@ describe('CsfFile', () => {
           z: 3,
         }
     `;
-      const csf = loadCsf(input, { makeTitle }).parse();
+      const csf = await loadCsf(input, { makeTitle }).parse();
       expect(Object.keys(csf._storyAnnotations.A)).toEqual(['x', 'y']);
       expect(Object.keys(csf._storyAnnotations.B)).toEqual(['z']);
     });
@@ -735,34 +735,34 @@ describe('CsfFile', () => {
   });
 
   describe('import handling', () => {
-    it('imports', () => {
+    it('imports', async () => {
       const input = dedent`
         import Button from './Button';
         import { Check } from './Check';
         export default { title: 'foo/bar', x: 1, y: 2 };
       `;
-      const csf = loadCsf(input, { makeTitle }).parse();
+      const csf = await loadCsf(input, { makeTitle }).parse();
       expect(csf.imports).toMatchInlineSnapshot(`
         - ./Button
         - ./Check
       `);
     });
     // eslint-disable-next-line jest/no-disabled-tests
-    it.skip('dynamic imports', () => {
+    it.skip('dynamic imports', async () => {
       const input = dedent`
         const Button = await import('./Button');
         export default { title: 'foo/bar', x: 1, y: 2 };
       `;
-      const csf = loadCsf(input, { makeTitle }).parse();
+      const csf = await loadCsf(input, { makeTitle }).parse();
       expect(csf.imports).toMatchInlineSnapshot();
     });
     // eslint-disable-next-line jest/no-disabled-tests
-    it.skip('requires', () => {
+    it.skip('requires', async () => {
       const input = dedent`
         const Button = require('./Button');
         export default { title: 'foo/bar', x: 1, y: 2 };
       `;
-      const csf = loadCsf(input, { makeTitle }).parse();
+      const csf = await loadCsf(input, { makeTitle }).parse();
       expect(csf.imports).toMatchInlineSnapshot();
     });
   });

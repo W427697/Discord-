@@ -19,7 +19,9 @@ export const unplugin = createUnplugin<CsfPluginOptions>((options) => {
     async load(fname) {
       const code = await fs.readFile(fname, 'utf-8');
       try {
-        const csf = loadCsf(code, { makeTitle: (userTitle) => userTitle || 'default' }).parse();
+        const csf = await loadCsf(code, {
+          makeTitle: (userTitle) => userTitle || 'default',
+        }).parse();
         enrichCsf(csf, options);
         return formatCsf(csf);
       } catch (err: any) {

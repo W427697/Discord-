@@ -1,11 +1,11 @@
 import fs from 'fs';
 import path from 'path';
 import * as pico from 'picomatch';
-import slash from 'slash';
 
 import type { StoriesEntry, NormalizedStoriesSpecifier } from '@storybook/types';
 import { normalizeStoryPath } from './paths';
 import { globToRegexp } from './glob-to-regexp';
+import { dynamicImport } from './dynamicImport';
 
 const DEFAULT_TITLE_PREFIX = '';
 const DEFAULT_FILES = '**/*.@(mdx|stories.@(tsx|ts|jsx|js))';
@@ -31,10 +31,10 @@ export const getDirectoryFromWorkingDir = ({
   return normalizeStoryPath(directoryFromWorking);
 };
 
-export const normalizeStoriesEntry = (
+export const normalizeStoriesEntry = async (
   entry: StoriesEntry,
   { configDir, workingDir }: NormalizeOptions
-): NormalizedStoriesSpecifier => {
+): Promise<NormalizedStoriesSpecifier> => {
   let specifierWithoutMatcher: Omit<NormalizedStoriesSpecifier, 'importPathMatcher'>;
 
   if (typeof entry === 'string') {
@@ -69,6 +69,8 @@ export const normalizeStoriesEntry = (
     };
   }
 
+  const slash = (await dynamicImport('slash')).default as (path: string) => string;
+
   // We are going to be doing everything with node importPaths which use
   // URL format, i.e. `/` as a separator, so let's make sure we've normalized
   const files = slash(specifierWithoutMatcher.files);
@@ -100,5 +102,8 @@ interface NormalizeOptions {
   workingDir: string;
 }
 
-export const normalizeStories = (entries: StoriesEntry[], options: NormalizeOptions) =>
-  entries.map((entry) => normalizeStoriesEntry(entry, options));
+export const normalizeStories = async (
+  entries: StoriesEntry[],
+  options: NormalizeOptions
+): Promise<NormalizedStoriesSpecifier[]> =>
+  Promise.all(entries.map((entry) => normalizeStoriesEntry(entry, options)));

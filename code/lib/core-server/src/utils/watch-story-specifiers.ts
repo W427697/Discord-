@@ -1,11 +1,11 @@
 import Watchpack from 'watchpack';
-import slash from 'slash';
 import fs from 'fs';
 import path from 'path';
 import glob from 'globby';
 import uniq from 'lodash/uniq';
 
 import type { NormalizedStoriesSpecifier, Path } from '@storybook/types';
+import { dynamicImport } from './dynamicImport';
 
 const isDirectory = (directory: Path) => {
   try {
@@ -42,6 +42,7 @@ export function watchStorySpecifiers(
     // Watchpack passes paths either with no leading './' - e.g. `src/Foo.stories.js`,
     // or with a leading `../` (etc), e.g. `../src/Foo.stories.js`.
     // We want to deal in importPaths relative to the working dir, or absolute paths.
+    const slash = (await dynamicImport('slash')).default as (path: string) => string;
     const importPath = slash(watchpackPath.startsWith('.') ? watchpackPath : `./${watchpackPath}`);
 
     const matchingSpecifier = specifiers.find((ns) => ns.importPathMatcher.exec(importPath));

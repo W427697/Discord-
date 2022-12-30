@@ -11,19 +11,19 @@ expect.addSnapshotSerializer({
   test: (val) => true,
 });
 
-const enrich = (code: string, options?: EnrichCsfOptions) => {
+const enrich = async (code: string, options?: EnrichCsfOptions) => {
   // we don't actually care about the title
 
-  const csf = loadCsf(code, { makeTitle: (userTitle) => userTitle || 'default' }).parse();
+  const csf = await loadCsf(code, { makeTitle: (userTitle) => userTitle || 'default' }).parse();
   enrichCsf(csf, options);
   return formatCsf(csf);
 };
 
 describe('enrichCsf', () => {
   describe('source', () => {
-    it('csf1', () => {
+    it('csf1', async () => {
       expect(
-        enrich(dedent`
+        await enrich(dedent`
           export default {
            title: 'Button',
           }
@@ -43,9 +43,9 @@ describe('enrichCsf', () => {
         };
       `);
     });
-    it('csf2', () => {
+    it('csf2', async () => {
       expect(
-        enrich(dedent`
+        await enrich(dedent`
           export default {
             title: 'Button',
           }
@@ -71,9 +71,9 @@ describe('enrichCsf', () => {
         };
       `);
     });
-    it('csf3', () => {
+    it('csf3', async () => {
       expect(
-        enrich(dedent`
+        await enrich(dedent`
           export default {
             title: 'Button',
           }
@@ -99,9 +99,9 @@ describe('enrichCsf', () => {
         };
       `);
     });
-    it('multiple stories', () => {
+    it('multiple stories', async () => {
       expect(
-        enrich(dedent`
+        await enrich(dedent`
           export default {
             title: 'Button',
           }
@@ -133,9 +133,9 @@ describe('enrichCsf', () => {
   });
 
   describe('descriptions', () => {
-    it('skips inline comments', () => {
+    it('skips inline comments', async () => {
       expect(
-        enrich(dedent`
+        await enrich(dedent`
           export default {
            title: 'Button',
           }
@@ -158,9 +158,9 @@ describe('enrichCsf', () => {
       `);
     });
 
-    it('skips blocks without jsdoc', () => {
+    it('skips blocks without jsdoc', async () => {
       expect(
-        enrich(dedent`
+        await enrich(dedent`
           export default {
            title: 'Button',
           }
@@ -183,9 +183,9 @@ describe('enrichCsf', () => {
       `);
     });
 
-    it('JSDoc single-line', () => {
+    it('JSDoc single-line', async () => {
       expect(
-        enrich(dedent`
+        await enrich(dedent`
           export default {
            title: 'Button',
           }
@@ -215,9 +215,9 @@ describe('enrichCsf', () => {
       `);
     });
 
-    it('JSDoc multi-line', () => {
+    it('JSDoc multi-line', async () => {
       expect(
-        enrich(dedent`
+        await enrich(dedent`
           export default {
            title: 'Button',
           }
@@ -255,9 +255,9 @@ describe('enrichCsf', () => {
       `);
     });
 
-    it('preserves indentation', () => {
+    it('preserves indentation', async () => {
       expect(
-        enrich(dedent`
+        await enrich(dedent`
           export default {
            title: 'Button',
           }
@@ -297,9 +297,9 @@ describe('enrichCsf', () => {
   });
 
   describe('options', () => {
-    it('disableSource', () => {
+    it('disableSource', async () => {
       expect(
-        enrich(
+        await enrich(
           dedent`
           export default {
            title: 'Button',
@@ -328,9 +328,9 @@ describe('enrichCsf', () => {
       `);
     });
 
-    it('disableDescription', () => {
+    it('disableDescription', async () => {
       expect(
-        enrich(
+        await enrich(
           dedent`
           export default {
            title: 'Button',
@@ -356,9 +356,9 @@ describe('enrichCsf', () => {
       `);
     });
 
-    it('disable all', () => {
+    it('disable all', async () => {
       expect(
-        enrich(
+        await enrich(
           dedent`
           export default {
            title: 'Button',
@@ -379,34 +379,34 @@ describe('enrichCsf', () => {
   });
 });
 
-const source = (csfExport: string) => {
+const source = async (csfExport: string) => {
   const code = dedent`
     export default { title: 'Button' }
     ${csfExport}
   `;
-  const csf = loadCsf(code, { makeTitle: (userTitle) => userTitle }).parse();
+  const csf = await loadCsf(code, { makeTitle: (userTitle) => userTitle }).parse();
   const exportNode = Object.values(csf._storyExports)[0];
   return extractSource(exportNode);
 };
 
 describe('extractSource', () => {
-  it('csf1', () => {
+  it('csf1', async () => {
     expect(
-      source(dedent`
+      await source(dedent`
         export const Basic = () => <Button />
       `)
     ).toMatchInlineSnapshot(`() => <Button />`);
   });
-  it('csf2', () => {
+  it('csf2', async () => {
     expect(
-      source(dedent`
+      await source(dedent`
         export const Basic =  (args) => <Button {...args} />;
       `)
     ).toMatchInlineSnapshot(`args => <Button {...args} />`);
   });
-  it('csf3', () => {
+  it('csf3', async () => {
     expect(
-      source(dedent`
+      await source(dedent`
         export const Basic = {
           parameters: { foo: 'bar' }
         }

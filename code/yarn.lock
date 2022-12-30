@@ -6024,7 +6024,7 @@ __metadata:
     find-cache-dir: ^4.0.0
     fs-extra: ^9.0.1
     process: ^0.11.10
-    slash: ^3.0.0
+    slash: ^5.0.0
     typescript: ~4.9.3
     util: ^0.12.4
   languageName: unknown
@@ -6053,7 +6053,7 @@ __metadata:
     magic-string: ^0.26.1
     rollup: ^3.0.0
     rollup-plugin-external-globals: ^0.7.1
-    slash: ^3.0.0
+    slash: ^5.0.0
     typescript: ~4.9.3
     vite: ^4.0.0
   peerDependencies:
@@ -6398,7 +6398,7 @@ __metadata:
     pkg-dir: ^5.0.0
     pretty-hrtime: ^1.0.3
     resolve-from: ^5.0.0
-    slash: ^3.0.0
+    slash: ^5.0.0
     ts-dedent: ^2.0.0
     type-fest: ^2.19.0
     typescript: ~4.9.3
@@ -6472,7 +6472,7 @@ __metadata:
     read-pkg-up: ^7.0.1
     semver: ^7.3.7
     serve-favicon: ^2.5.0
-    slash: ^3.0.0
+    slash: ^5.0.0
     telejson: ^7.0.3
     ts-dedent: ^2.0.0
     typescript: ~4.9.3
@@ -7125,7 +7125,7 @@ __metadata:
     memoizerific: ^1.11.3
     qs: ^6.10.0
     react: ^16.14.0
-    slash: ^3.0.0
+    slash: ^5.0.0
     synchronous-promise: ^2.0.15
     ts-dedent: ^2.0.0
     util-deprecate: ^1.0.2
@@ -7528,7 +7528,7 @@ __metadata:
     ts-dedent: ^2.0.0
     ts-loader: ^9.2.8
     ts-node: ^10.9.1
-    tsup: ^6.2.2
+    tsup: ^6.5.0
     typescript: ~4.9.3
     util: ^0.12.4
     verdaccio: ^4.10.0
@@ -31767,7 +31767,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tsup@npm:^6.2.2":
+"tsup@npm:^6.5.0":
   version: 6.5.0
   resolution: "tsup@npm:6.5.0"
   dependencies:

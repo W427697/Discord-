@@ -4,7 +4,7 @@ import { join, parse } from 'path';
 import fs from 'fs-extra';
 import dedent from 'ts-dedent';
 import { build } from 'tsup';
-import slash from 'slash';
+import { dynamicImport } from '../utils/dynamicImport';
 import { exec } from '../utils/exec';
 
 const hasFlag = (flags: string[], name: string) => !!flags.find((s) => s.startsWith(`--${name}`));
@@ -23,6 +23,8 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
   if (pre) {
     await exec(`${tsnodePath} ${pre}`, { cwd });
   }
+
+  const slash = (await dynamicImport('slash')).default as (path: string) => string;
 
   await Promise.all([
     ...entries.map(async (file: string) => {

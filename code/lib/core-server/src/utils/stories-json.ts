@@ -39,7 +39,7 @@ export function useStoriesJson({
   });
   watchStorySpecifiers(normalizedStories, { workingDir }, async (specifier, path, removed) => {
     const generator = await initializedStoryIndexGenerator;
-    generator.invalidate(specifier, path, removed);
+    await generator.invalidate(specifier, path, removed);
     maybeInvalidate();
   });
 

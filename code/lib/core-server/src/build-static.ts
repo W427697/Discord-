@@ -150,7 +150,7 @@ export async function buildStaticStandalone(
       configDir: options.configDir,
       workingDir,
     };
-    const normalizedStories = normalizeStories(stories, directories);
+    const normalizedStories = await normalizeStories(stories, directories);
     const generator = new StoryIndexGenerator(normalizedStories, {
       ...directories,
       storyIndexers,

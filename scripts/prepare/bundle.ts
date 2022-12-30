@@ -7,7 +7,7 @@ import type { PackageJson } from 'type-fest';
 import { build } from 'tsup';
 import aliasPlugin from 'esbuild-plugin-alias';
 import dedent from 'ts-dedent';
-import slash from 'slash';
+import { dynamicImport } from '../utils/dynamicImport';
 import { exec } from '../utils/exec';
 
 /* TYPES */
@@ -56,6 +56,7 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
     ...Object.keys(dependencies || {}),
     ...Object.keys(peerDependencies || {}),
   ];
+  const slash = (await dynamicImport('slash')).default as (path: string) => string;
   const allEntries = [...entries, ...untypedEntries].map((e: string) => slash(join(cwd, e)));
 
   const { dtsBuild, dtsConfig, tsConfigExists } = await getDTSConfigs({
