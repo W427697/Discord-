@@ -395,7 +395,7 @@ describe('CsfFile', () => {
         meta:
           title: foo/bar
           tags:
-            - mdx
+            - stories-mdx
           includeStories:
             - __page
         stories:
