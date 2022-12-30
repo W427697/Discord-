@@ -259,7 +259,7 @@ describe('StoryIndexGenerator', () => {
                 "importPath": "./src/nested/Page.stories.mdx",
                 "name": "StoryOne",
                 "tags": Array [
-                  "mdx",
+                  "stories-mdx",
                   "story",
                 ],
                 "title": "Page",

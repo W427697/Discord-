@@ -236,7 +236,7 @@ describe('useStoriesJson', () => {
               "importPath": "./src/nested/Page.stories.mdx",
               "name": "StoryOne",
               "tags": Array [
-                "mdx",
+                "stories-mdx",
                 "story",
               ],
               "title": "nested/Page",
@@ -463,7 +463,7 @@ describe('useStoriesJson', () => {
               },
               "story": "StoryOne",
               "tags": Array [
-                "mdx",
+                "stories-mdx",
                 "story",
               ],
               "title": "nested/Page",
@@ -607,7 +607,7 @@ describe('useStoriesJson', () => {
               },
               "story": "StoryOne",
               "tags": Array [
-                "mdx",
+                "stories-mdx",
                 "story",
               ],
               "title": "nested/Page",
@@ -965,7 +965,6 @@ describe('convertToIndexV3', () => {
               "docsOnly": true,
               "fileName": "./src/docs2/MetaOf.mdx",
             },
-            "standalone": true,
             "storiesImports": Array [
               "./src/A.stories.js",
             ],
