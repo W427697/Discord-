@@ -1,3 +1,13 @@
+## 7.0.0-beta.16 (December 29, 2022)
+
+#### Features
+
+-   Preact-Vite: Add framework [#20390](https://github.com/storybooks/storybook/pull/20390)
+
+#### Maintenance
+
+-   NextJS: Fix unnecessary addon-actions dev dep [#20426](https://github.com/storybooks/storybook/pull/20426)
+
 ## 7.0.0-beta.15 (December 24, 2022)
 
 #### Bug Fixes
