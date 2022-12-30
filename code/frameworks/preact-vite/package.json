@@ -30,11 +30,7 @@
       "import": "./dist/preset.mjs",
       "types": "./dist/preset.d.ts"
     },
-    "./package.json": {
-      "require": "./package.json",
-      "import": "./package.json",
-      "types": "./package.json"
-    }
+    "./package.json": "./package.json"
   },
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -51,12 +47,9 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@preact/preset-vite": "^2.5.0",
-    "@rollup/pluginutils": "^4.2.0",
+    "@preact/preset-vite": "^2.0.0",
     "@storybook/builder-vite": "7.0.0-beta.16",
-    "@storybook/preact": "7.0.0-beta.16",
-    "ast-types": "^0.14.2",
-    "magic-string": "^0.26.1"
+    "@storybook/preact": "7.0.0-beta.16"
   },
   "devDependencies": {
     "@types/node": "^16.0.0",
@@ -68,7 +61,7 @@
     "vite": "^3.0.0 || ^4.0.0"
   },
   "engines": {
-    "node": "^14.18 || >=16"
+    "node": ">=16"
   },
   "publishConfig": {
     "access": "public"
