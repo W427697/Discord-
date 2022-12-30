@@ -205,16 +205,13 @@ export async function copyComponents(
       assetsDir,
       languageFolderMapping[SupportedLanguage.TYPESCRIPT_LEGACY]
     );
-    const assetsTS = join(assetsDir, languageFolderMapping[SupportedLanguage.TYPESCRIPT]);
 
     if (await fse.pathExists(assetsLanguage)) {
       return assetsLanguage;
     }
+    // Use fallback legacy typescript assets if new ones aren't available
     if (language === SupportedLanguage.TYPESCRIPT && (await fse.pathExists(assetsTSLegacy))) {
       return assetsTSLegacy;
-    }
-    if (language === SupportedLanguage.TYPESCRIPT_LEGACY && (await fse.pathExists(assetsTS))) {
-      return assetsTS;
     }
     if (await fse.pathExists(assetsJS)) {
       return assetsJS;

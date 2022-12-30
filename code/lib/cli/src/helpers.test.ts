@@ -60,12 +60,14 @@ describe('Helpers', () => {
   });
 
   it.each`
-    language        | exists          | expected
-    ${'javascript'} | ${['js', 'ts']} | ${'/js'}
-    ${'typescript'} | ${['js', 'ts']} | ${'/ts'}
-    ${'typescript'} | ${['js']}       | ${'/js'}
-    ${'javascript'} | ${[]}           | ${''}
-    ${'typescript'} | ${[]}           | ${''}
+    language               | exists                       | expected
+    ${'javascript'}        | ${['js', 'ts']}              | ${'/js'}
+    ${'typescript'}        | ${['js', 'ts']}              | ${'/ts'}
+    ${'typescript-legacy'} | ${['js', 'ts', 'ts-legacy']} | ${'/ts-legacy'}
+    ${'typescript-legacy'} | ${['js', 'ts']}              | ${'/js'}
+    ${'typescript'}        | ${['js']}                    | ${'/js'}
+    ${'javascript'}        | ${[]}                        | ${''}
+    ${'typescript'}        | ${[]}                        | ${''}
   `(
     `should copy $expected when folder $exists exists for language $language`,
     async ({ language, exists, expected }) => {
