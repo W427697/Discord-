@@ -199,7 +199,7 @@ export class StoryStoreFacade<TRenderer extends Renderer> {
       docsOptions.autodocs === true ||
       (docsOptions.autodocs === 'tag' && componentTags.includes('autodocs'));
     if (!docsOptions.disable && storyExports.length) {
-      if (componentTags.includes('mdx') || autodocsOptedIn) {
+      if (componentTags.includes('stories-mdx') || autodocsOptedIn) {
         const name = docsOptions.defaultName;
         const docsId = toId(componentId || title, name);
         this.entries[docsId] = {

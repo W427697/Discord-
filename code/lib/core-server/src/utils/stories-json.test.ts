@@ -127,7 +127,6 @@ describe('useStoriesJson', () => {
               ],
               "tags": Array [
                 "docs",
-                "mdx",
               ],
               "title": "A",
               "type": "docs",
@@ -142,7 +141,6 @@ describe('useStoriesJson', () => {
               ],
               "tags": Array [
                 "docs",
-                "mdx",
               ],
               "title": "A",
               "type": "docs",
@@ -188,7 +186,6 @@ describe('useStoriesJson', () => {
               "storiesImports": Array [],
               "tags": Array [
                 "docs",
-                "mdx",
               ],
               "title": "docs2/NoTitle",
               "type": "docs",
@@ -201,7 +198,6 @@ describe('useStoriesJson', () => {
               "storiesImports": Array [],
               "tags": Array [
                 "docs",
-                "mdx",
               ],
               "title": "docs2/Yabbadabbadooo",
               "type": "docs",
@@ -234,7 +230,7 @@ describe('useStoriesJson', () => {
               "standalone": false,
               "storiesImports": Array [],
               "tags": Array [
-                "mdx",
+                "stories-mdx",
                 "docs",
               ],
               "title": "nested/Page",
@@ -245,7 +241,7 @@ describe('useStoriesJson', () => {
               "importPath": "./src/nested/Page.stories.mdx",
               "name": "StoryOne",
               "tags": Array [
-                "mdx",
+                "stories-mdx",
                 "story",
               ],
               "title": "nested/Page",
@@ -303,7 +299,6 @@ describe('useStoriesJson', () => {
               "story": "docs",
               "tags": Array [
                 "docs",
-                "mdx",
               ],
               "title": "A",
             },
@@ -324,7 +319,6 @@ describe('useStoriesJson', () => {
               "story": "Second Docs",
               "tags": Array [
                 "docs",
-                "mdx",
               ],
               "title": "A",
             },
@@ -394,7 +388,6 @@ describe('useStoriesJson', () => {
               "story": "docs",
               "tags": Array [
                 "docs",
-                "mdx",
               ],
               "title": "docs2/NoTitle",
             },
@@ -413,7 +406,6 @@ describe('useStoriesJson', () => {
               "story": "docs",
               "tags": Array [
                 "docs",
-                "mdx",
               ],
               "title": "docs2/Yabbadabbadooo",
             },
@@ -464,7 +456,7 @@ describe('useStoriesJson', () => {
               "storiesImports": Array [],
               "story": "docs",
               "tags": Array [
-                "mdx",
+                "stories-mdx",
                 "docs",
               ],
               "title": "nested/Page",
@@ -481,7 +473,7 @@ describe('useStoriesJson', () => {
               },
               "story": "StoryOne",
               "tags": Array [
-                "mdx",
+                "stories-mdx",
                 "story",
               ],
               "title": "nested/Page",
@@ -625,7 +617,7 @@ describe('useStoriesJson', () => {
               },
               "story": "StoryOne",
               "tags": Array [
-                "mdx",
+                "stories-mdx",
                 "story",
               ],
               "title": "nested/Page",

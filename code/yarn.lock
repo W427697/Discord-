@@ -6812,9 +6812,9 @@ __metadata:
   linkType: soft
 
 "@storybook/mdx2-csf@npm:next":
-  version: 1.0.0-next.2
-  resolution: "@storybook/mdx2-csf@npm:1.0.0-next.2"
-  checksum: ebf285ee9bb27912c7e3795ef2d155d555c0f7ade15fa38b2c9e15cd590143299b890663bb2e22438ba806aaba232ead1e025ba566540d6f86047c1c2b2b44ec
+  version: 1.0.0-next.3
+  resolution: "@storybook/mdx2-csf@npm:1.0.0-next.3"
+  checksum: b56a458570fbe8cfdd67e2626a845b854e01b9160dc9dbcf26ed61f01b9187dbbb53c1cc4e3303d3fdb58dce7a47caf9ba2c5f83afa3284ca22ba25fecadd15c
   languageName: node
   linkType: hard
 
