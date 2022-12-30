@@ -2,8 +2,9 @@ import { Addon_StoryContext } from '@storybook/types';
 
 import { Component } from '@angular/core';
 import { moduleMetadata } from './decorators';
+import { AngularRenderer } from './types';
 
-const defaultContext: Addon_StoryContext = {
+const defaultContext: Addon_StoryContext<AngularRenderer> = {
   componentId: 'unspecified',
   kind: 'unspecified',
   title: 'unspecified',

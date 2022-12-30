@@ -1,7 +1,12 @@
 <p align="center">
   <a href="https://storybook.js.org/">
-    <img src="https://user-images.githubusercontent.com/321738/63501763-88dbf600-c4cc-11e9-96cd-94adadc2fd72.png" alt="Storybook" width="400" />
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="https://user-images.githubusercontent.com/263385/199832481-bbbf5961-6a26-481d-8224-51258cce9b33.png">
+      <img src="https://user-images.githubusercontent.com/321738/63501763-88dbf600-c4cc-11e9-96cd-94adadc2fd72.png" alt="Storybook" width="400" />
+    </picture>
+    
   </a>
+  
 </p>
 
 <p align="center">Build bulletproof UI components faster</p>
@@ -178,7 +183,7 @@ We welcome contributions to Storybook!
 Looking for a first issue to tackle?
 
 - We tag issues with [![Good First Issue](https://img.shields.io/github/issues/storybookjs/storybook/good%20first%20issue.svg)](https://github.com/storybookjs/storybook/issues?q=is%3Aopen+is%3Aissue+label%3A%22good+first+issue%22) when we think they are well suited for people who are new to the codebase or OSS in general.
-- [Talk to us](https://discord.gg/storybook), we'll find something to suits your skills and learning interest.
+- [Talk to us](https://discord.gg/storybook), we'll find something to suit your skills and learning interest.
 
 ### Development scripts
 

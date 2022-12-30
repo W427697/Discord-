@@ -1,11 +1,11 @@
 import type { FC } from 'react';
 import React, { useContext } from 'react';
-import type { BaseAnnotations, Store_ModuleExports } from '@storybook/types';
+import type { BaseAnnotations, ModuleExports } from '@storybook/types';
 
 import { Anchor } from './Anchor';
 import { DocsContext } from './DocsContext';
 
-type MetaProps = BaseAnnotations & { of?: Store_ModuleExports };
+type MetaProps = BaseAnnotations & { of?: ModuleExports };
 
 /**
  * This component is used to declare component metadata in docs
@@ -21,7 +21,7 @@ export const Meta: FC<MetaProps> = ({ of }) => {
     const primary = context.storyById();
     return <Anchor storyId={primary.id} />;
   } catch (err) {
-    // It is possible to use <Meta> in a standalone entry without referencing any story file
+    // It is possible to use <Meta> in a unnattached MDX file
     return null;
   }
 };

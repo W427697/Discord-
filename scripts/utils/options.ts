@@ -2,8 +2,8 @@
  * Use commander and prompts to gather a list of options for a script
  */
 
-import prompts, { Falsy, PrevCaller, PromptType } from 'prompts';
-import type { PromptObject } from 'prompts';
+import prompts from 'prompts';
+import type { PromptObject, Falsy, PrevCaller, PromptType } from 'prompts';
 import program from 'commander';
 import dedent from 'ts-dedent';
 import chalk from 'chalk';
@@ -29,7 +29,8 @@ export type BaseOption = {
 export type BooleanOption = BaseOption & {
   type: 'boolean';
   /**
-   * Does this option default true?
+   * If this option is set to true and the option value is false or undefined, the flag `--no-option` will be set.
+   * If the option value is true, the flag `--no-option` is not set.
    */
   inverse?: boolean;
 };

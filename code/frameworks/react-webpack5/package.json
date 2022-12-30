@@ -1,6 +1,6 @@
 {
   "name": "@storybook/react-webpack5",
-  "version": "7.0.0-alpha.47",
+  "version": "7.0.0-beta.17",
   "description": "Storybook for React: Develop React Component in isolation with Hot Reloading.",
   "keywords": [
     "storybook"
@@ -21,6 +21,7 @@
   "license": "MIT",
   "exports": {
     ".": {
+      "node": "./dist/index.js",
       "require": "./dist/index.js",
       "import": "./dist/index.mjs",
       "types": "./dist/index.d.ts"
@@ -30,18 +31,14 @@
       "import": "./dist/preset.mjs",
       "types": "./dist/preset.d.ts"
     },
-    "./package.json": {
-      "require": "./package.json",
-      "import": "./package.json",
-      "types": "./package.json"
-    }
+    "./package.json": "./package.json"
   },
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "files": [
     "dist/**/*",
-    "types/**/*",
+    "template/**/*",
     "README.md",
     "*.js",
     "*.d.ts"
@@ -51,14 +48,14 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/builder-webpack5": "7.0.0-alpha.47",
-    "@storybook/preset-react-webpack": "7.0.0-alpha.47",
-    "@storybook/react": "7.0.0-alpha.47",
+    "@storybook/builder-webpack5": "7.0.0-beta.17",
+    "@storybook/preset-react-webpack": "7.0.0-beta.17",
+    "@storybook/react": "7.0.0-beta.17",
     "@types/node": "^16.0.0"
   },
   "devDependencies": {
-    "jest-specific-snapshot": "^4.0.0",
-    "typescript": "~4.6.3"
+    "jest-specific-snapshot": "^7.0.0",
+    "typescript": "~4.9.3"
   },
   "peerDependencies": {
     "@babel/core": "^7.11.5",
@@ -74,7 +71,7 @@
     }
   },
   "engines": {
-    "node": ">=10.13.0"
+    "node": ">=16.0.0"
   },
   "publishConfig": {
     "access": "public"
@@ -86,5 +83,5 @@
     ],
     "platform": "node"
   },
-  "gitHead": "1c706a4a778831e012343c905f86225fa71491a7"
+  "gitHead": "6559b419625c2dcf76bad1a12fcf75e3dd7c4187"
 }

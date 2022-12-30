@@ -1,10 +1,12 @@
+/// <reference types="@types/jest" />;
+
 import fs from 'fs-extra';
 import type { Router, Request, Response } from 'express';
 import Watchpack from 'watchpack';
 import path from 'path';
 import debounce from 'lodash/debounce';
 import { STORY_INDEX_INVALIDATED } from '@storybook/core-events';
-import type { StoryIndex } from '@storybook/store';
+import type { StoryIndex, StoryIndexer } from '@storybook/types';
 import { loadCsf } from '@storybook/csf-tools';
 import { normalizeStoriesEntry } from '@storybook/core-common';
 
@@ -14,17 +16,6 @@ import { StoryIndexGenerator } from './StoryIndexGenerator';
 
 jest.mock('watchpack');
 jest.mock('lodash/debounce');
-
-// FIXME: can't figure out how to import ESM
-jest.mock('@storybook/docs-mdx', async () => ({
-  analyze(content: string) {
-    const importMatches = content.matchAll(/'(.[^']*\.stories)'/g);
-    const imports = Array.from(importMatches).map((match) => match[1]);
-    const title = content.match(/title=['"](.*)['"]/)?.[1];
-    const ofMatch = content.match(/of=\{(.*)\}/)?.[1];
-    return { title, imports, of: ofMatch && imports.length && imports[0] };
-  },
-}));
 
 const workingDir = path.join(__dirname, '__mockdata__');
 const normalizedStories = [
@@ -51,17 +42,27 @@ const csfIndexer = async (fileName: string, opts: any) => {
   return loadCsf(code, { ...opts, fileName }).parse();
 };
 
+const storiesMdxIndexer = async (fileName: string, opts: any) => {
+  let code = (await fs.readFile(fileName, 'utf-8')).toString();
+  const { compile } = await import('@storybook/mdx2-csf');
+  code = await compile(code, {});
+  return loadCsf(code, { ...opts, fileName }).parse();
+};
+
 const getInitializedStoryIndexGenerator = async (
   overrides: any = {},
   inputNormalizedStories = normalizedStories
 ) => {
   const generator = new StoryIndexGenerator(inputNormalizedStories, {
-    storyIndexers: [{ test: /\.stories\..*$/, indexer: csfIndexer }],
+    storyIndexers: [
+      { test: /\.stories\.mdx$/, indexer: storiesMdxIndexer },
+      { test: /\.stories\.(js|ts)x?$/, indexer: csfIndexer },
+    ] as StoryIndexer[],
     configDir: workingDir,
     workingDir,
     storiesV2Compatibility: false,
     storyStoreV7: true,
-    docs: { enabled: true, defaultName: 'docs', docsPage: false },
+    docs: { disable: false, defaultName: 'docs', autodocs: false },
     ...overrides,
   });
   await generator.initialize();
@@ -120,7 +121,19 @@ describe('useStoriesJson', () => {
               "id": "a--docs",
               "importPath": "./src/docs2/MetaOf.mdx",
               "name": "docs",
-              "standalone": true,
+              "storiesImports": Array [
+                "./src/A.stories.js",
+              ],
+              "tags": Array [
+                "docs",
+              ],
+              "title": "A",
+              "type": "docs",
+            },
+            "a--second-docs": Object {
+              "id": "a--second-docs",
+              "importPath": "./src/docs2/SecondMetaOf.mdx",
+              "name": "Second Docs",
               "storiesImports": Array [
                 "./src/A.stories.js",
               ],
@@ -146,7 +159,7 @@ describe('useStoriesJson', () => {
               "importPath": "./src/B.stories.ts",
               "name": "Story One",
               "tags": Array [
-                "docsPage",
+                "autodocs",
                 "story",
               ],
               "title": "B",
@@ -157,7 +170,7 @@ describe('useStoriesJson', () => {
               "importPath": "./src/D.stories.jsx",
               "name": "Story One",
               "tags": Array [
-                "docsPage",
+                "autodocs",
                 "story",
               ],
               "title": "D",
@@ -167,7 +180,6 @@ describe('useStoriesJson', () => {
               "id": "docs2-notitle--docs",
               "importPath": "./src/docs2/NoTitle.mdx",
               "name": "docs",
-              "standalone": true,
               "storiesImports": Array [],
               "tags": Array [
                 "docs",
@@ -175,23 +187,10 @@ describe('useStoriesJson', () => {
               "title": "docs2/NoTitle",
               "type": "docs",
             },
-            "docs2-template--docs": Object {
-              "id": "docs2-template--docs",
-              "importPath": "./src/docs2/Template.mdx",
-              "name": "docs",
-              "standalone": true,
-              "storiesImports": Array [],
-              "tags": Array [
-                "docs",
-              ],
-              "title": "docs2/Template",
-              "type": "docs",
-            },
             "docs2-yabbadabbadooo--docs": Object {
               "id": "docs2-yabbadabbadooo--docs",
               "importPath": "./src/docs2/Title.mdx",
               "name": "docs",
-              "standalone": true,
               "storiesImports": Array [],
               "tags": Array [
                 "docs",
@@ -218,6 +217,29 @@ describe('useStoriesJson', () => {
                 "story",
               ],
               "title": "nested/Button",
+              "type": "story",
+            },
+            "nested-page--docs": Object {
+              "id": "nested-page--docs",
+              "importPath": "./src/nested/Page.stories.mdx",
+              "name": "docs",
+              "storiesImports": Array [],
+              "tags": Array [
+                "stories-mdx",
+                "docs",
+              ],
+              "title": "nested/Page",
+              "type": "docs",
+            },
+            "nested-page--story-one": Object {
+              "id": "nested-page--story-one",
+              "importPath": "./src/nested/Page.stories.mdx",
+              "name": "StoryOne",
+              "tags": Array [
+                "stories-mdx",
+                "story",
+              ],
+              "title": "nested/Page",
               "type": "story",
             },
             "second-nested-g--story-one": Object {
@@ -265,11 +287,29 @@ describe('useStoriesJson', () => {
                 "docsOnly": true,
                 "fileName": "./src/docs2/MetaOf.mdx",
               },
-              "standalone": true,
               "storiesImports": Array [
                 "./src/A.stories.js",
               ],
               "story": "docs",
+              "tags": Array [
+                "docs",
+              ],
+              "title": "A",
+            },
+            "a--second-docs": Object {
+              "id": "a--second-docs",
+              "importPath": "./src/docs2/SecondMetaOf.mdx",
+              "kind": "A",
+              "name": "Second Docs",
+              "parameters": Object {
+                "__id": "a--second-docs",
+                "docsOnly": true,
+                "fileName": "./src/docs2/SecondMetaOf.mdx",
+              },
+              "storiesImports": Array [
+                "./src/A.stories.js",
+              ],
+              "story": "Second Docs",
               "tags": Array [
                 "docs",
               ],
@@ -304,7 +344,7 @@ describe('useStoriesJson', () => {
               },
               "story": "Story One",
               "tags": Array [
-                "docsPage",
+                "autodocs",
                 "story",
               ],
               "title": "B",
@@ -321,7 +361,7 @@ describe('useStoriesJson', () => {
               },
               "story": "Story One",
               "tags": Array [
-                "docsPage",
+                "autodocs",
                 "story",
               ],
               "title": "D",
@@ -336,31 +376,12 @@ describe('useStoriesJson', () => {
                 "docsOnly": true,
                 "fileName": "./src/docs2/NoTitle.mdx",
               },
-              "standalone": true,
               "storiesImports": Array [],
               "story": "docs",
               "tags": Array [
                 "docs",
               ],
               "title": "docs2/NoTitle",
-            },
-            "docs2-template--docs": Object {
-              "id": "docs2-template--docs",
-              "importPath": "./src/docs2/Template.mdx",
-              "kind": "docs2/Template",
-              "name": "docs",
-              "parameters": Object {
-                "__id": "docs2-template--docs",
-                "docsOnly": true,
-                "fileName": "./src/docs2/Template.mdx",
-              },
-              "standalone": true,
-              "storiesImports": Array [],
-              "story": "docs",
-              "tags": Array [
-                "docs",
-              ],
-              "title": "docs2/Template",
             },
             "docs2-yabbadabbadooo--docs": Object {
               "id": "docs2-yabbadabbadooo--docs",
@@ -372,7 +393,6 @@ describe('useStoriesJson', () => {
                 "docsOnly": true,
                 "fileName": "./src/docs2/Title.mdx",
               },
-              "standalone": true,
               "storiesImports": Array [],
               "story": "docs",
               "tags": Array [
@@ -412,6 +432,41 @@ describe('useStoriesJson', () => {
                 "story",
               ],
               "title": "nested/Button",
+            },
+            "nested-page--docs": Object {
+              "id": "nested-page--docs",
+              "importPath": "./src/nested/Page.stories.mdx",
+              "kind": "nested/Page",
+              "name": "docs",
+              "parameters": Object {
+                "__id": "nested-page--docs",
+                "docsOnly": true,
+                "fileName": "./src/nested/Page.stories.mdx",
+              },
+              "storiesImports": Array [],
+              "story": "docs",
+              "tags": Array [
+                "stories-mdx",
+                "docs",
+              ],
+              "title": "nested/Page",
+            },
+            "nested-page--story-one": Object {
+              "id": "nested-page--story-one",
+              "importPath": "./src/nested/Page.stories.mdx",
+              "kind": "nested/Page",
+              "name": "StoryOne",
+              "parameters": Object {
+                "__id": "nested-page--story-one",
+                "docsOnly": false,
+                "fileName": "./src/nested/Page.stories.mdx",
+              },
+              "story": "StoryOne",
+              "tags": Array [
+                "stories-mdx",
+                "story",
+              ],
+              "title": "nested/Page",
             },
             "second-nested-g--story-one": Object {
               "id": "second-nested-g--story-one",
@@ -485,7 +540,7 @@ describe('useStoriesJson', () => {
               },
               "story": "Story One",
               "tags": Array [
-                "docsPage",
+                "autodocs",
                 "story",
               ],
               "title": "B",
@@ -502,7 +557,7 @@ describe('useStoriesJson', () => {
               },
               "story": "Story One",
               "tags": Array [
-                "docsPage",
+                "autodocs",
                 "story",
               ],
               "title": "D",
@@ -539,6 +594,23 @@ describe('useStoriesJson', () => {
                 "story",
               ],
               "title": "nested/Button",
+            },
+            "nested-page--story-one": Object {
+              "id": "nested-page--story-one",
+              "importPath": "./src/nested/Page.stories.mdx",
+              "kind": "nested/Page",
+              "name": "StoryOne",
+              "parameters": Object {
+                "__id": "nested-page--story-one",
+                "docsOnly": false,
+                "fileName": "./src/nested/Page.stories.mdx",
+              },
+              "story": "StoryOne",
+              "tags": Array [
+                "stories-mdx",
+                "story",
+              ],
+              "title": "nested/Page",
             },
             "second-nested-g--story-one": Object {
               "id": "second-nested-g--story-one",
@@ -636,7 +708,7 @@ describe('useStoriesJson', () => {
               },
               "story": "Story One",
               "tags": Array [
-                "docsPage",
+                "autodocs",
                 "story",
               ],
               "title": "B",
@@ -653,7 +725,7 @@ describe('useStoriesJson', () => {
               },
               "story": "Story One",
               "tags": Array [
-                "docsPage",
+                "autodocs",
                 "story",
               ],
               "title": "D",
@@ -809,7 +881,7 @@ describe('useStoriesJson', () => {
     });
 
     it('debounces invalidation events', async () => {
-      (debounce as jest.Mock).mockImplementation(jest.requireActual('lodash/debounce'));
+      (debounce as jest.Mock).mockImplementation(jest.requireActual('lodash/debounce') as any);
 
       const mockServerChannel = { emit: jest.fn() } as any as ServerChannel;
       useStoriesJson({
@@ -862,7 +934,6 @@ describe('convertToIndexV3', () => {
           storiesImports: ['./src/A.stories.js'],
           title: 'A',
           type: 'docs',
-          standalone: true,
         },
         'a--story-one': {
           id: 'a--story-one',
@@ -894,7 +965,6 @@ describe('convertToIndexV3', () => {
               "docsOnly": true,
               "fileName": "./src/docs2/MetaOf.mdx",
             },
-            "standalone": true,
             "storiesImports": Array [
               "./src/A.stories.js",
             ],

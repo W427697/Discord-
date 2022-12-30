@@ -1,6 +1,6 @@
 {
   "name": "@storybook/core-server",
-  "version": "7.0.0-alpha.47",
+  "version": "7.0.0-beta.17",
   "description": "Storybook framework-agnostic API",
   "keywords": [
     "storybook"
@@ -19,33 +19,56 @@
     "url": "https://opencollective.com/storybook"
   },
   "license": "MIT",
-  "main": "dist/cjs/index.js",
-  "module": "dist/esm/index.js",
-  "types": "dist/types/index.d.ts",
+  "exports": {
+    ".": {
+      "node": "./dist/index.js",
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.ts"
+    },
+    "./dist/presets/babel-cache-preset": {
+      "node": "./dist/presets/babel-cache-preset.js",
+      "require": "./dist/presets/babel-cache-preset.js",
+      "import": "./dist/presets/babel-cache-preset.mjs",
+      "types": "./dist/presets/babel-cache-preset.d.ts"
+    },
+    "./dist/presets/common-preset": {
+      "node": "./dist/presets/common-preset.js",
+      "require": "./dist/presets/common-preset.js",
+      "import": "./dist/presets/common-preset.mjs",
+      "types": "./dist/presets/common-preset.d.ts"
+    },
+    "./public/favicon.svg": "./public/favicon.svg",
+    "./package.json": "./package.json"
+  },
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
   "files": [
     "dist/**/*",
     "public/**/*",
+    "README.md",
     "*.js",
     "*.d.ts"
   ],
   "scripts": {
     "check": "../../../scripts/node_modules/.bin/tsc --noEmit",
-    "prep": "node ../../../scripts/prepare.js"
+    "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
     "@aw-web-design/x-default-browser": "1.4.88",
     "@discoveryjs/json-ext": "^0.5.3",
-    "@storybook/builder-manager": "7.0.0-alpha.47",
-    "@storybook/core-client": "7.0.0-alpha.47",
-    "@storybook/core-common": "7.0.0-alpha.47",
-    "@storybook/core-events": "7.0.0-alpha.47",
+    "@storybook/builder-manager": "7.0.0-beta.17",
+    "@storybook/core-common": "7.0.0-beta.17",
+    "@storybook/core-events": "7.0.0-beta.17",
     "@storybook/csf": "next",
-    "@storybook/csf-tools": "7.0.0-alpha.47",
-    "@storybook/docs-mdx": "0.0.1-canary.12433cf.0",
-    "@storybook/node-logger": "7.0.0-alpha.47",
-    "@storybook/store": "7.0.0-alpha.47",
-    "@storybook/telemetry": "7.0.0-alpha.47",
-    "@storybook/types": "7.0.0-alpha.47",
+    "@storybook/csf-tools": "7.0.0-beta.17",
+    "@storybook/docs-mdx": "next",
+    "@storybook/global": "^5.0.0",
+    "@storybook/node-logger": "7.0.0-beta.17",
+    "@storybook/preview-api": "7.0.0-beta.17",
+    "@storybook/telemetry": "7.0.0-beta.17",
+    "@storybook/types": "7.0.0-beta.17",
     "@types/node": "^16.0.0",
     "@types/node-fetch": "^2.5.7",
     "@types/pretty-hrtime": "^1.0.0",
@@ -56,9 +79,8 @@
     "cli-table3": "^0.6.1",
     "compression": "^1.7.4",
     "detect-port": "^1.3.0",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "fs-extra": "^9.0.1",
-    "global": "^4.4.0",
     "globby": "^11.0.2",
     "ip": "^2.0.0",
     "lodash": "^4.17.21",
@@ -70,38 +92,31 @@
     "semver": "^7.3.7",
     "serve-favicon": "^2.5.0",
     "slash": "^3.0.0",
-    "telejson": "^6.0.8",
+    "telejson": "^7.0.3",
     "ts-dedent": "^2.0.0",
     "util-deprecate": "^1.0.2",
     "watchpack": "^2.2.0",
     "ws": "^8.2.3"
   },
   "devDependencies": {
-    "@storybook/builder-webpack5": "7.0.0-alpha.47",
     "@types/compression": "^1.7.0",
     "@types/ip": "^1.1.0",
     "@types/serve-favicon": "^2.5.2",
     "@types/ws": "^8",
     "jest-os-detection": "^1.3.1",
-    "jest-specific-snapshot": "^4.0.0",
-    "ts-jest": "^26.4.4",
-    "typescript": "~4.6.3",
-    "webpack": "5"
-  },
-  "peerDependencies": {
-    "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
-    "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0"
-  },
-  "peerDependenciesMeta": {
-    "@storybook/builder-webpack5": {
-      "optional": true
-    },
-    "typescript": {
-      "optional": true
-    }
+    "jest-specific-snapshot": "^7.0.0",
+    "typescript": "~4.9.3"
   },
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "1c706a4a778831e012343c905f86225fa71491a7"
+  "bundler": {
+    "entries": [
+      "./src/index.ts",
+      "./src/presets/babel-cache-preset.ts",
+      "./src/presets/common-preset.ts"
+    ],
+    "platform": "node"
+  },
+  "gitHead": "6559b419625c2dcf76bad1a12fcf75e3dd7c4187"
 }

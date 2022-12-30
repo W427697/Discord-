@@ -1,6 +1,6 @@
 {
   "name": "@storybook/csf-tools",
-  "version": "7.0.0-alpha.47",
+  "version": "7.0.0-beta.17",
   "description": "",
   "keywords": [
     "storybook"
@@ -22,6 +22,7 @@
   "sideEffects": false,
   "exports": {
     ".": {
+      "node": "./dist/index.js",
       "require": "./dist/index.js",
       "import": "./dist/index.mjs",
       "types": "./dist/index.d.ts"
@@ -42,19 +43,19 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@babel/types": "^7.12.11",
+    "@babel/types": "^7.20.2",
     "@storybook/csf": "next",
-    "@storybook/types": "7.0.0-alpha.47",
+    "@storybook/types": "7.0.0-beta.17",
     "fs-extra": "^9.0.1",
     "ts-dedent": "^2.0.0"
   },
   "devDependencies": {
-    "@babel/generator": "^7.12.11",
-    "@babel/parser": "^7.12.11",
-    "@babel/traverse": "^7.12.11",
+    "@babel/generator": "^7.20.4",
+    "@babel/parser": "^7.20.3",
+    "@babel/traverse": "^7.20.1",
     "@types/fs-extra": "^9.0.6",
     "js-yaml": "^3.14.1",
-    "typescript": "~4.6.3"
+    "typescript": "~4.9.3"
   },
   "publishConfig": {
     "access": "public"
@@ -64,5 +65,5 @@
       "./src/index.ts"
     ]
   },
-  "gitHead": "1c706a4a778831e012343c905f86225fa71491a7"
+  "gitHead": "6559b419625c2dcf76bad1a12fcf75e3dd7c4187"
 }

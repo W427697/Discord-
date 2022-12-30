@@ -1,9 +1,9 @@
 import type { FunctionComponent, ReactNode } from 'react';
 import React, { useEffect } from 'react';
-import global from 'global';
+import { global } from '@storybook/global';
 import type { ThemeVars } from '@storybook/theming';
 import { ThemeProvider, ensure as ensureTheme } from '@storybook/theming';
-import type { AnyFramework } from '@storybook/types';
+import type { Renderer } from '@storybook/types';
 import { DocsWrapper, DocsContent } from '../components';
 import type { DocsContextProps } from './DocsContext';
 import { DocsContext } from './DocsContext';
@@ -12,7 +12,7 @@ import { scrollToElement } from './utils';
 
 const { document, window: globalWindow } = global;
 
-export interface DocsContainerProps<TFramework extends AnyFramework = AnyFramework> {
+export interface DocsContainerProps<TFramework extends Renderer = Renderer> {
   context: DocsContextProps<TFramework>;
   theme?: ThemeVars;
   children?: ReactNode;
@@ -26,7 +26,7 @@ export const DocsContainer: FunctionComponent<DocsContainerProps> = ({
   useEffect(() => {
     let url;
     try {
-      url = new URL(globalWindow.parent.location);
+      url = new URL(globalWindow.parent.location.toString());
       if (url.hash) {
         const element = document.getElementById(url.hash.substring(1));
         if (element) {

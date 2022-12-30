@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-controls",
-  "version": "7.0.0-alpha.47",
+  "version": "7.0.0-beta.17",
   "description": "Interact with component inputs dynamically in the Storybook UI",
   "keywords": [
     "addon",
@@ -27,6 +27,7 @@
   "license": "MIT",
   "exports": {
     ".": {
+      "node": "./dist/index.js",
       "require": "./dist/index.js",
       "import": "./dist/index.mjs",
       "types": "./dist/index.d.ts"
@@ -46,6 +47,16 @@
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
+  "typesVersions": {
+    "*": {
+      "*": [
+        "dist/index.d.ts"
+      ],
+      "manager": [
+        "dist/manager.d.ts"
+      ]
+    }
+  },
   "files": [
     "dist/**/*",
     "README.md",
@@ -57,16 +68,15 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/addons": "7.0.0-alpha.47",
-    "@storybook/api": "7.0.0-alpha.47",
-    "@storybook/blocks": "7.0.0-alpha.47",
-    "@storybook/client-logger": "7.0.0-alpha.47",
-    "@storybook/components": "7.0.0-alpha.47",
-    "@storybook/core-common": "7.0.0-alpha.47",
-    "@storybook/node-logger": "7.0.0-alpha.47",
-    "@storybook/store": "7.0.0-alpha.47",
-    "@storybook/theming": "7.0.0-alpha.47",
-    "@storybook/types": "7.0.0-alpha.47",
+    "@storybook/blocks": "7.0.0-beta.17",
+    "@storybook/client-logger": "7.0.0-beta.17",
+    "@storybook/components": "7.0.0-beta.17",
+    "@storybook/core-common": "7.0.0-beta.17",
+    "@storybook/manager-api": "7.0.0-beta.17",
+    "@storybook/node-logger": "7.0.0-beta.17",
+    "@storybook/preview-api": "7.0.0-beta.8",
+    "@storybook/theming": "7.0.0-beta.17",
+    "@storybook/types": "7.0.0-beta.17",
     "lodash": "^4.17.21",
     "ts-dedent": "^2.0.0"
   },
@@ -92,7 +102,7 @@
     ],
     "platform": "browser"
   },
-  "gitHead": "1c706a4a778831e012343c905f86225fa71491a7",
+  "gitHead": "6559b419625c2dcf76bad1a12fcf75e3dd7c4187",
   "storybook": {
     "displayName": "Controls",
     "icon": "https://user-images.githubusercontent.com/263385/101991669-479cc600-3c7c-11eb-93d9-38b67e8371f2.png",

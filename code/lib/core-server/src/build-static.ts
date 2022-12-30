@@ -2,10 +2,10 @@ import chalk from 'chalk';
 import { copy, emptyDir, ensureDir } from 'fs-extra';
 import { dirname, isAbsolute, join, resolve } from 'path';
 import { dedent } from 'ts-dedent';
-import global from 'global';
+import { global } from '@storybook/global';
 
 import { logger } from '@storybook/node-logger';
-import { telemetry } from '@storybook/telemetry';
+import { telemetry, getPrecedingUpgrade } from '@storybook/telemetry';
 import type {
   BuilderOptions,
   CLIOptions,
@@ -73,7 +73,10 @@ export async function buildStaticStandalone(
 
   logger.info('=> Loading presets');
   let presets = await loadAllPresets({
-    corePresets: [require.resolve('./presets/common-preset'), ...corePresets],
+    corePresets: [
+      require.resolve('@storybook/core-server/dist/presets/common-preset'),
+      ...corePresets,
+    ],
     overridePresets: [],
     ...options,
   });
@@ -83,12 +86,12 @@ export async function buildStaticStandalone(
 
   presets = await loadAllPresets({
     corePresets: [
-      require.resolve('./presets/common-preset'),
+      require.resolve('@storybook/core-server/dist/presets/common-preset'),
       ...(managerBuilder.corePresets || []),
       ...(previewBuilder.corePresets || []),
       ...(renderer ? [resolveAddonName(options.configDir, renderer, options)] : []),
       ...corePresets,
-      require.resolve('./presets/babel-cache-preset'),
+      require.resolve('@storybook/core-server/dist/presets/babel-cache-preset'),
     ],
     overridePresets: previewBuilder.overridePresets || [],
     ...options,
@@ -173,11 +176,14 @@ export async function buildStaticStandalone(
     effects.push(
       initializedStoryIndexGenerator.then(async (generator) => {
         const storyIndex = await generator?.getIndex();
-        const payload = storyIndex
-          ? {
-              storyIndex: summarizeIndex(storyIndex),
-            }
-          : undefined;
+        const payload = {
+          precedingUpgrade: await getPrecedingUpgrade(),
+        };
+        if (storyIndex) {
+          Object.assign(payload, {
+            storyIndex: summarizeIndex(storyIndex),
+          });
+        }
         await telemetry('build', payload, { configDir: options.configDir });
       })
     );

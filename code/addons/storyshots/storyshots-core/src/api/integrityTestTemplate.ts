@@ -1,7 +1,7 @@
 /* eslint-disable jest/no-export */
 import fs from 'fs';
 import glob from 'glob';
-import global from 'global';
+import { global } from '@storybook/global';
 import { dedent } from 'ts-dedent';
 
 const { describe, it } = global;
@@ -52,7 +52,6 @@ function integrityTest(integrityOptions: any, stories2snapsConverter: any) {
       const snapshotExtension = stories2snapsConverter.getSnapshotExtension();
       const storyshots = glob.sync(`**/*${snapshotExtension}`, integrityOptions);
 
-      // @ts-expect-error (Converted from ts-ignore)
       expect(storyshots).notToBeAbandoned(stories2snapsConverter);
     });
   });

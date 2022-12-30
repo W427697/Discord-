@@ -3,10 +3,10 @@ import path from 'path';
 import chalk from 'chalk';
 import boxen from 'boxen';
 import { dedent } from 'ts-dedent';
-import degit from 'degit';
+import { downloadTemplate } from 'giget';
 
 import { existsSync } from 'fs-extra';
-import TEMPLATES from './repro-templates';
+import { allTemplates as TEMPLATES } from './repro-templates';
 
 const logger = console;
 
@@ -26,12 +26,13 @@ export const reproNext = async ({
   branch,
   init,
 }: ReproOptions) => {
+  const filterRegex = new RegExp(`^${filterValue || ''}`, 'i');
+
   const keys = Object.keys(TEMPLATES) as Choice[];
   // get value from template and reduce through TEMPLATES to filter out the correct template
   const choices = keys.reduce<Choice[]>((acc, group) => {
     const current = TEMPLATES[group];
 
-    const filterRegex = new RegExp(filterValue, 'i');
     if (!filterValue) {
       acc.push(group);
       return acc;
@@ -56,7 +57,7 @@ export const reproNext = async ({
       boxen(
         dedent`
           🔎 You filtered out all templates. 🔍
-          
+
           After filtering all the templates with "${chalk.yellow(
             filterValue
           )}", we found no results. Please try again with a different filter.
@@ -78,13 +79,13 @@ export const reproNext = async ({
     logger.info(
       boxen(
         dedent`
-          🤗 Welcome to ${chalk.yellow('sb repro NEXT')}! 🤗 
-  
+          🤗 Welcome to ${chalk.yellow('sb repro NEXT')}! 🤗
+
           Create a ${chalk.green('new project')} to minimally reproduce Storybook issues.
-          
+
           1. select an environment that most closely matches your project setup.
           2. select a location for the reproduction, outside of your project.
-          
+
           After the reproduction is ready, we'll guide you through the next steps.
           `.trim(),
         { borderStyle: 'round', padding: 1, borderColor: '#F1618C' } as any
@@ -137,19 +138,20 @@ export const reproNext = async ({
     try {
       const templateType = init ? 'after-storybook' : 'before-storybook';
       // Download the repro based on subfolder "after-storybook" and selected branch
-      await degit(
-        `storybookjs/repro-templates-temp/${selectedTemplate}/${templateType}#${branch}`,
+      await downloadTemplate(
+        `github:storybookjs/repro-templates-temp/${selectedTemplate}/${templateType}#${branch}`,
         {
           force: true,
+          dir: templateDestination,
         }
-      ).clone(templateDestination);
+      );
     } catch (err) {
       logger.error(`🚨 Failed to download repro template: ${err.message}`);
       throw err;
     }
 
     const initMessage = init
-      ? chalk.yellow(`yarn storybook`)
+      ? chalk.yellow(`yarn install\nyarn storybook`)
       : `Recreate your setup, then ${chalk.yellow(`run npx storybook init`)}`;
 
     logger.info(
@@ -161,7 +163,7 @@ export const reproNext = async ({
         ${initMessage}
 
         Once you've recreated the problem you're experiencing, please:
-        
+
         1. Document any additional steps in ${chalk.cyan('README.md')}
         2. Publish the repository to github
         3. Link to the repro repository in your issue

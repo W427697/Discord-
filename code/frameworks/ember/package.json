@@ -1,6 +1,6 @@
 {
   "name": "@storybook/ember",
-  "version": "7.0.0-alpha.47",
+  "version": "7.0.0-beta.17",
   "description": "Storybook for Ember: Develop Ember Component in isolation with Hot Reloading.",
   "homepage": "https://github.com/storybookjs/storybook/tree/main/frameworks/ember",
   "bugs": {
@@ -31,34 +31,33 @@
     "prep": "node ../../../scripts/prepare.js"
   },
   "dependencies": {
-    "@storybook/builder-webpack5": "7.0.0-alpha.47",
-    "@storybook/core-client": "7.0.0-alpha.47",
-    "@storybook/core-common": "7.0.0-alpha.47",
-    "@storybook/docs-tools": "7.0.0-alpha.47",
-    "@storybook/store": "7.0.0-alpha.47",
-    "@storybook/types": "7.0.0-alpha.47",
-    "global": "^4.4.0",
-    "react": "16.14.0",
-    "react-dom": "16.14.0",
+    "@storybook/builder-webpack5": "7.0.0-beta.17",
+    "@storybook/core-common": "7.0.0-beta.17",
+    "@storybook/docs-tools": "7.0.0-beta.17",
+    "@storybook/global": "^5.0.0",
+    "@storybook/preview-api": "7.0.0-beta.17",
+    "@storybook/types": "7.0.0-beta.17",
     "read-pkg-up": "^7.0.1",
     "ts-dedent": "^2.0.0"
   },
   "devDependencies": {
     "ember-source": "~3.28.1",
-    "typescript": "~4.6.3"
+    "typescript": "~4.9.3"
   },
   "peerDependencies": {
     "@babel/core": "*",
     "@types/ember__component": "4.0.8",
     "babel-plugin-ember-modules-api-polyfill": "^2.12.0",
     "babel-plugin-htmlbars-inline-precompile": "2 || 3",
-    "ember-source": "~3.28.1"
+    "ember-source": "~3.28.1",
+    "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
+    "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0"
   },
   "engines": {
-    "node": ">=10.13.0"
+    "node": ">=16.0.0"
   },
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "1c706a4a778831e012343c905f86225fa71491a7"
+  "gitHead": "6559b419625c2dcf76bad1a12fcf75e3dd7c4187"
 }

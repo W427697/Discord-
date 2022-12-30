@@ -1,26 +1,28 @@
-import type { Store_StoryIndex } from '@storybook/types';
+import type { StoryIndex } from '@storybook/types';
 
-export function summarizeIndex(storyIndex: Store_StoryIndex) {
+import { STORIES_MDX_TAG, isMdxEntry, AUTODOCS_TAG } from './StoryIndexGenerator';
+
+export function summarizeIndex(storyIndex: StoryIndex) {
   let storyCount = 0;
-  let docsPageCount = 0;
+  let autodocsCount = 0;
   let storiesMdxCount = 0;
   let mdxCount = 0;
   Object.values(storyIndex.entries).forEach((entry) => {
     if (entry.type === 'story') {
       storyCount += 1;
     } else if (entry.type === 'docs') {
-      if (entry.standalone) {
+      if (isMdxEntry(entry)) {
         mdxCount += 1;
-      } else if (entry.importPath.endsWith('.mdx')) {
+      } else if (entry.tags.includes(STORIES_MDX_TAG)) {
         storiesMdxCount += 1;
-      } else {
-        docsPageCount += 1;
+      } else if (entry.tags.includes(AUTODOCS_TAG)) {
+        autodocsCount += 1;
       }
     }
   });
   return {
     storyCount,
-    docsPageCount,
+    autodocsCount,
     storiesMdxCount,
     mdxCount,
     version: storyIndex.v,

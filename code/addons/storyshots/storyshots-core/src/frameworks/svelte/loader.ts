@@ -1,4 +1,4 @@
-import global from 'global';
+import { global } from '@storybook/global';
 import hasDependency from '../hasDependency';
 import configure from '../configure';
 import type { Loader } from '../Loader';
@@ -13,26 +13,43 @@ function test(options: StoryshotsOptions): boolean {
 function load(options: StoryshotsOptions) {
   global.STORYBOOK_ENV = 'svelte';
 
-  const storybook = jest.requireActual('@storybook/svelte');
-  const clientAPI = jest.requireActual('@storybook/client-api');
+  let mockStartedAPI: any;
 
-  const api = {
-    ...clientAPI,
-    ...storybook,
-  };
+  jest.mock('@storybook/preview-api', () => {
+    const previewAPI = jest.requireActual('@storybook/preview-api');
+
+    return {
+      ...previewAPI,
+      start: (...args: any[]) => {
+        mockStartedAPI = previewAPI.start(...args);
+        return mockStartedAPI;
+      },
+    };
+  });
+
+  jest.mock('@storybook/svelte', () => {
+    const renderAPI = jest.requireActual('@storybook/svelte');
+
+    renderAPI.addDecorator = mockStartedAPI.clientApi.addDecorator;
+    renderAPI.addParameters = mockStartedAPI.clientApi.addParameters;
+
+    return renderAPI;
+  });
+
+  // eslint-disable-next-line global-require
+  const storybook = require('@storybook/svelte');
 
   configure({
     ...options,
-    storybook: api,
+    storybook,
   });
-
   return {
     framework: 'svelte' as const,
     renderTree: jest.requireActual('./renderTree').default,
     renderShallowTree: () => {
       throw new Error('Shallow renderer is not supported for svelte');
     },
-    storybook: api,
+    storybook,
   };
 }
 

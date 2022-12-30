@@ -1,6 +1,5 @@
 import { dedent } from 'ts-dedent';
 import { logger } from '@storybook/node-logger';
-import { dirname } from 'path';
 import type {
   BuilderOptions,
   CLIOptions,
@@ -11,6 +10,7 @@ import type {
   PresetConfig,
   Presets,
 } from '@storybook/types';
+import { join, parse } from 'path';
 import { loadCustomPresets } from './utils/load-custom-presets';
 import { safeResolve, safeResolveFrom } from './utils/safeResolve';
 import { interopRequireDefault } from './utils/interpret-require';
@@ -67,14 +67,19 @@ export const resolveAddonName = (
   const resolved = resolve(name);
 
   if (resolved) {
-    if (name.match(/\/(manager|register(-panel)?)(\.(js|ts|tsx|jsx))?$/)) {
+    const { dir: fdir, name: fname } = parse(resolved);
+
+    if (name.match(/\/(manager|register(-panel)?)(\.(js|mjs|ts|tsx|jsx))?$/)) {
       return {
         type: 'virtual',
         name,
-        managerEntries: [resolved],
+        // we remove the extension
+        // this is a bit of a hack to try to find .mjs files
+        // node can only ever resolve .js files; it does not look at the exports field in package.json
+        managerEntries: [join(fdir, fname)],
       };
     }
-    if (name.match(/\/(preset)(\.(js|ts|tsx|jsx))?$/)) {
+    if (name.match(/\/(preset)(\.(js|mjs|ts|tsx|jsx))?$/)) {
       return {
         type: 'presets',
         name: resolved,
@@ -82,35 +87,26 @@ export const resolveAddonName = (
     }
   }
 
-  const absolutePackageJson = resolved && resolve(`${name}/package.json`);
-
-  // We want to absolutize the package name part to a path on disk
-  //   (i.e. '/Users/foo/.../node_modules/@addons/foo') as otherwise
-  // we may not be able to import the package in certain module systems (eg. pnpm, yarn pnp)
-  const absoluteDir = absolutePackageJson && dirname(absolutePackageJson);
-
-  // If the package has an export (e.g. `/preview`), absolutize it, eg. to
-  //    /Users/foo/.../node_modules/@addons/foo/preview
-  // NOTE: this looks like the path of an absolute file, but it DOES NOT exist.
-  //  - However it is importable by webpack.
-  //  - Vite needs to strip off the absolute part to import it though
-  //     (vite cannot import absolute files: https://github.com/vitejs/vite/issues/5494
-  //      this also means vite suffers issues with pnpm etc)
-  const absolutizeExport = (exportName: string) => {
-    if (resolve(`${name}${exportName}`)) return `${absoluteDir}${exportName}`;
+  const checkExists = (exportName: string) => {
+    if (resolve(`${name}${exportName}`)) return `${name}${exportName}`;
     return undefined;
   };
 
-  const path = name;
+  // This is used to maintain back-compat with community addons that do not
+  // re-export their sub-addons but reference the sub-addon name directly.
+  //  We need to turn it into an absolute path so that webpack can
+  // serve it up correctly  when yarn pnp or pnpm is being used.
+  // Vite will be broken in such cases, because it does not process absolute paths,
+  // and it will try to import from the bare import, breaking in pnp/pnpm.
+  const absolutizeExport = (exportName: string) => {
+    return resolve(`${name}${exportName}`);
+  };
 
-  // We don't want to resolve an import path (e.g. '@addons/foo/preview') to the file on disk,
-  // because you are not allowed to import arbitrary files in packages in Vite.
-  // Instead we check if the export exists and "absolutize" it.
   const managerFile = absolutizeExport(`/manager`);
   const registerFile = absolutizeExport(`/register`) || absolutizeExport(`/register-panel`);
-  const previewFile = absolutizeExport(`/preview`);
-  // Presets are imported by node, so therefore fine to be a path on disk (at this stage anyway)
-  const presetFile = resolve(`${path}/preset`);
+  const previewFile = checkExists(`/preview`);
+  const previewFileAbsolute = absolutizeExport('/preview');
+  const presetFile = absolutizeExport(`/preset`);
 
   if (!(managerFile || previewFile) && presetFile) {
     return {
@@ -123,18 +119,34 @@ export const resolveAddonName = (
     const managerEntries = [];
 
     if (managerFile) {
-      managerEntries.push(managerFile);
+      // we remove the extension
+      // this is a bit of a hack to try to find .mjs files
+      // node can only ever resolve .js files; it does not look at the exports field in package.json
+      const { dir: fdir, name: fname } = parse(managerFile);
+      managerEntries.push(join(fdir, fname));
     }
     // register file is the old way of registering addons
     if (!managerFile && registerFile && !presetFile) {
-      managerEntries.push(registerFile);
+      // we remove the extension
+      // this is a bit of a hack to try to find .mjs files
+      // node can only ever resolve .js files; it does not look at the exports field in package.json
+      const { dir: fdir, name: fname } = parse(registerFile);
+      managerEntries.push(join(fdir, fname));
     }
 
     return {
       type: 'virtual',
-      name: path,
+      name,
       ...(managerEntries.length ? { managerEntries } : {}),
-      ...(previewFile ? { previewAnnotations: [previewFile] } : {}),
+      ...(previewFile
+        ? {
+            previewAnnotations: [
+              previewFileAbsolute
+                ? { bare: previewFile, absolute: previewFileAbsolute }
+                : previewFile,
+            ],
+          }
+        : {}),
       ...(presetFile ? { presets: [{ name: presetFile, options }] } : {}),
     };
   }
@@ -152,8 +164,8 @@ export const resolveAddonName = (
 const map =
   ({ configDir }: InterPresetOptions) =>
   (item: any) => {
-    const options = isObject(item) ? item.options || undefined : undefined;
-    const name = isObject(item) ? item.name : item;
+    const options = isObject(item) ? item['options'] || undefined : undefined;
+    const name = isObject(item) ? item['name'] : item;
     try {
       const resolved = resolveAddonName(configDir, name, options);
       return {
@@ -233,7 +245,6 @@ export async function loadPreset(
 
     logger.warn(warning);
     logger.error(e);
-
     return [];
   }
 }
@@ -245,10 +256,6 @@ async function loadPresets(
 ): Promise<LoadedPreset[]> {
   if (!presets || !Array.isArray(presets) || !presets.length) {
     return [];
-  }
-
-  if (!level) {
-    logger.info('=> Loading presets');
   }
 
   return (

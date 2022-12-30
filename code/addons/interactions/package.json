@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-interactions",
-  "version": "7.0.0-alpha.47",
+  "version": "7.0.0-beta.17",
   "description": "Automate, test and debug user interactions",
   "keywords": [
     "storybook-addons",
@@ -23,6 +23,7 @@
   "license": "MIT",
   "exports": {
     ".": {
+      "node": "./dist/index.js",
       "require": "./dist/index.js",
       "import": "./dist/index.mjs",
       "types": "./dist/index.d.ts"
@@ -33,9 +34,9 @@
       "types": "./dist/manager.d.ts"
     },
     "./preview": {
-      "require": "./dist/preset/preview.js",
-      "import": "./dist/preset/preview.mjs",
-      "types": "./dist/preset/preview.d.ts"
+      "require": "./dist/preview.js",
+      "import": "./dist/preview.mjs",
+      "types": "./dist/preview.d.ts"
     },
     "./register.js": {
       "require": "./dist/manager.js",
@@ -47,6 +48,19 @@
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
+  "typesVersions": {
+    "*": {
+      "*": [
+        "dist/index.d.ts"
+      ],
+      "manager": [
+        "dist/manager.d.ts"
+      ],
+      "preview": [
+        "dist/preview.d.ts"
+      ]
+    }
+  },
   "files": [
     "dist/**/*",
     "README.md",
@@ -58,27 +72,27 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@devtools-ds/object-inspector": "^1.1.2",
-    "@storybook/addons": "7.0.0-alpha.47",
-    "@storybook/api": "7.0.0-alpha.47",
-    "@storybook/client-logger": "7.0.0-alpha.47",
-    "@storybook/components": "7.0.0-alpha.47",
-    "@storybook/core-common": "7.0.0-alpha.47",
-    "@storybook/core-events": "7.0.0-alpha.47",
-    "@storybook/instrumenter": "7.0.0-alpha.47",
-    "@storybook/theming": "7.0.0-alpha.47",
-    "@storybook/types": "7.0.0-alpha.47",
-    "global": "^4.4.0",
+    "@storybook/client-logger": "7.0.0-beta.17",
+    "@storybook/components": "7.0.0-beta.17",
+    "@storybook/core-common": "7.0.0-beta.17",
+    "@storybook/core-events": "7.0.0-beta.17",
+    "@storybook/global": "^5.0.0",
+    "@storybook/instrumenter": "7.0.0-beta.17",
+    "@storybook/manager-api": "7.0.0-beta.17",
+    "@storybook/preview-api": "7.0.0-beta.17",
+    "@storybook/theming": "7.0.0-beta.17",
+    "@storybook/types": "7.0.0-beta.17",
     "jest-mock": "^27.0.6",
     "polished": "^4.2.2",
     "ts-dedent": "^2.2.0"
   },
   "devDependencies": {
-    "@storybook/jest": "^0.0.10",
-    "@storybook/testing-library": "0.0.14-next.0",
+    "@devtools-ds/object-inspector": "^1.1.2",
+    "@storybook/jest": "next",
+    "@storybook/testing-library": "next",
     "@types/node": "^16.0.0",
     "formik": "^2.2.9",
-    "typescript": "~4.6.3"
+    "typescript": "~4.9.3"
   },
   "peerDependencies": {
     "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
@@ -99,12 +113,12 @@
     "entries": [
       "./src/index.ts",
       "./src/manager.tsx",
-      "./src/preset/preview.ts",
+      "./src/preview.ts",
       "./src/preset/checkActionsLoaded.ts"
     ],
     "platform": "node"
   },
-  "gitHead": "1c706a4a778831e012343c905f86225fa71491a7",
+  "gitHead": "6559b419625c2dcf76bad1a12fcf75e3dd7c4187",
   "storybook": {
     "displayName": "Interactions",
     "unsupportedFrameworks": [
