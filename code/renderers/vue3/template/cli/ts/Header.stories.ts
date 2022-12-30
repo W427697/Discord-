@@ -37,6 +37,6 @@ export const LoggedIn: Story = {
 
 export const LoggedOut: Story = {
   args: {
-    user: undefined,
+    user: null,
   },
 };

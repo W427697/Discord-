@@ -55,13 +55,13 @@ import MyHeader from './Header.vue';
 
 import { ref } from 'vue';
 
-const user = ref<{ name: string } | undefined>(undefined)
+const user = ref<{ name: string } | null>(null)
 
 const onLogin = () => {
   user.value = { name: 'Jane Doe' };
 };
 const onLogout = () => {
-  user.value = undefined;
+  user.value = null;
 };
 const onCreateAccount = () => {
   user.value = { name: 'Jane Doe' };

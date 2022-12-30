@@ -25,7 +25,7 @@
 import './header.css';
 import MyButton from './Button.vue';
 
-defineProps<{ user: { name: string } }>();
+defineProps<{ user: { name: string } | null }>();
 
 defineEmits<{
   (event: 'createAccount'): void;
