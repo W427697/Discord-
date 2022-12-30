@@ -108,7 +108,7 @@
     "@storybook/csf-plugin": "7.0.0-beta.15",
     "@storybook/csf-tools": "7.0.0-beta.15",
     "@storybook/global": "^5.0.0",
-    "@storybook/mdx2-csf": "next",
+    "@storybook/mdx2-csf": "0.0.4-canary.ab2d92c.0",
     "@storybook/node-logger": "7.0.0-beta.15",
     "@storybook/postinstall": "7.0.0-beta.15",
     "@storybook/preview-api": "7.0.0-beta.15",
