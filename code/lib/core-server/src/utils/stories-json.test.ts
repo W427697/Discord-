@@ -121,7 +121,6 @@ describe('useStoriesJson', () => {
               "id": "a--docs",
               "importPath": "./src/docs2/MetaOf.mdx",
               "name": "docs",
-              "standalone": true,
               "storiesImports": Array [
                 "./src/A.stories.js",
               ],
@@ -135,7 +134,6 @@ describe('useStoriesJson', () => {
               "id": "a--second-docs",
               "importPath": "./src/docs2/SecondMetaOf.mdx",
               "name": "Second Docs",
-              "standalone": true,
               "storiesImports": Array [
                 "./src/A.stories.js",
               ],
@@ -182,7 +180,6 @@ describe('useStoriesJson', () => {
               "id": "docs2-notitle--docs",
               "importPath": "./src/docs2/NoTitle.mdx",
               "name": "docs",
-              "standalone": true,
               "storiesImports": Array [],
               "tags": Array [
                 "docs",
@@ -194,7 +191,6 @@ describe('useStoriesJson', () => {
               "id": "docs2-yabbadabbadooo--docs",
               "importPath": "./src/docs2/Title.mdx",
               "name": "docs",
-              "standalone": true,
               "storiesImports": Array [],
               "tags": Array [
                 "docs",
@@ -227,7 +223,6 @@ describe('useStoriesJson', () => {
               "id": "nested-page--docs",
               "importPath": "./src/nested/Page.stories.mdx",
               "name": "docs",
-              "standalone": false,
               "storiesImports": Array [],
               "tags": Array [
                 "stories-mdx",
@@ -292,7 +287,6 @@ describe('useStoriesJson', () => {
                 "docsOnly": true,
                 "fileName": "./src/docs2/MetaOf.mdx",
               },
-              "standalone": true,
               "storiesImports": Array [
                 "./src/A.stories.js",
               ],
@@ -312,7 +306,6 @@ describe('useStoriesJson', () => {
                 "docsOnly": true,
                 "fileName": "./src/docs2/SecondMetaOf.mdx",
               },
-              "standalone": true,
               "storiesImports": Array [
                 "./src/A.stories.js",
               ],
@@ -383,7 +376,6 @@ describe('useStoriesJson', () => {
                 "docsOnly": true,
                 "fileName": "./src/docs2/NoTitle.mdx",
               },
-              "standalone": true,
               "storiesImports": Array [],
               "story": "docs",
               "tags": Array [
@@ -401,7 +393,6 @@ describe('useStoriesJson', () => {
                 "docsOnly": true,
                 "fileName": "./src/docs2/Title.mdx",
               },
-              "standalone": true,
               "storiesImports": Array [],
               "story": "docs",
               "tags": Array [
@@ -452,7 +443,6 @@ describe('useStoriesJson', () => {
                 "docsOnly": true,
                 "fileName": "./src/nested/Page.stories.mdx",
               },
-              "standalone": false,
               "storiesImports": Array [],
               "story": "docs",
               "tags": Array [
@@ -944,7 +934,6 @@ describe('convertToIndexV3', () => {
           storiesImports: ['./src/A.stories.js'],
           title: 'A',
           type: 'docs',
-          standalone: true,
         },
         'a--story-one': {
           id: 'a--story-one',
@@ -976,7 +965,6 @@ describe('convertToIndexV3', () => {
               "docsOnly": true,
               "fileName": "./src/docs2/MetaOf.mdx",
             },
-            "standalone": true,
             "storiesImports": Array [
               "./src/A.stories.js",
             ],
