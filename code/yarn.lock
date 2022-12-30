@@ -5439,7 +5439,7 @@ __metadata:
     "@storybook/csf-plugin": 7.0.0-beta.15
     "@storybook/csf-tools": 7.0.0-beta.15
     "@storybook/global": ^5.0.0
-    "@storybook/mdx2-csf": 0.0.4-canary.ab2d92c.0
+    "@storybook/mdx2-csf": next
     "@storybook/node-logger": 7.0.0-beta.15
     "@storybook/postinstall": 7.0.0-beta.15
     "@storybook/preview-api": 7.0.0-beta.15
@@ -5985,7 +5985,7 @@ __metadata:
     "@storybook/client-logger": 7.0.0-beta.15
     "@storybook/core-common": 7.0.0-beta.15
     "@storybook/csf-plugin": 7.0.0-beta.15
-    "@storybook/mdx2-csf": 0.0.4-canary.ab2d92c.0
+    "@storybook/mdx2-csf": next
     "@storybook/node-logger": 7.0.0-beta.15
     "@storybook/preview": 7.0.0-beta.15
     "@storybook/preview-api": 7.0.0-beta.15
@@ -6832,10 +6832,10 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/mdx2-csf@npm:0.0.4-canary.ab2d92c.0":
-  version: 0.0.4-canary.ab2d92c.0
-  resolution: "@storybook/mdx2-csf@npm:0.0.4-canary.ab2d92c.0"
-  checksum: c7b2a8286f65b8d349ef480759c642c09faf7a4d7bea3ac3ebdd4c8138477c7580af1ef7817a634109b6c82279de96329b2b87b50be9533c1c38d06a16031f47
+"@storybook/mdx2-csf@npm:next":
+  version: 1.0.0-next.3
+  resolution: "@storybook/mdx2-csf@npm:1.0.0-next.3"
+  checksum: b56a458570fbe8cfdd67e2626a845b854e01b9160dc9dbcf26ed61f01b9187dbbb53c1cc4e3303d3fdb58dce7a47caf9ba2c5f83afa3284ca22ba25fecadd15c
   languageName: node
   linkType: hard
 
