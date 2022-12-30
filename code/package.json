@@ -222,6 +222,7 @@
     "@storybook/router": "workspace:*",
     "@storybook/server": "workspace:*",
     "@storybook/server-webpack5": "workspace:*",
+    "@storybook/solid-vite": "workspace:*",
     "@storybook/source-loader": "workspace:*",
     "@storybook/store": "workspace:*",
     "@storybook/svelte": "workspace:*",

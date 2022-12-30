@@ -8,6 +8,7 @@ import { installableProjectTypes, ProjectType } from './project_types';
 import { detect, isStorybookInstalled, detectLanguage, detectBuilder } from './detect';
 import { commandLog, codeLog, paddedLog } from './helpers';
 import angularGenerator from './generators/ANGULAR';
+import solidGenerator from './generators/SOLID';
 import aureliaGenerator from './generators/AURELIA';
 import emberGenerator from './generators/EMBER';
 import reactGenerator from './generators/REACT';
@@ -137,6 +138,11 @@ const installStorybook = (
       case ProjectType.ANGULAR:
         return angularGenerator(packageManager, npmOptions, generatorOptions).then(
           commandLog('Adding Storybook support to your "Angular" app\n')
+        );
+
+      case ProjectType.SOLID:
+        return solidGenerator(packageManager, npmOptions, generatorOptions).then(
+          commandLog('Adding Storybook support to your "Solid" app\n')
         );
 
       case ProjectType.EMBER:

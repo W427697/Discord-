@@ -259,6 +259,20 @@ export const preact_vite: Parameters = {
   generator: 'yarn create vite@{{version}} {{appName}} --template preact',
 };
 
+export const solid: Parameters = {
+  renderer: 'html',
+  name: 'solid',
+  version: 'latest',
+  generator: 'npx degit solidjs/templates/js {{appName}}',
+};
+
+export const solid_typescript: Parameters = {
+  renderer: 'html',
+  name: 'solid_typescript',
+  version: 'latest',
+  generator: 'npx degit solidjs/templates/ts {{appName}}',
+};
+
 export const sfcVue: Parameters = {
   renderer: 'vue',
   name: 'sfcVue',

@@ -351,6 +351,26 @@ export const allTemplates = {
       builder: '@storybook/builder-vite',
     },
   },
+  'solid-vite/default-js': {
+    name: 'Solid Vite (JS)',
+    script: 'npx degit solidjs/templates/js {{beforeDir}}',
+    inDevelopment: true,
+    expected: {
+      framework: '@storybook/solid-vite',
+      renderer: '@storybook/html',
+      builder: '@storybook/builder-vite',
+    },
+  },
+  'solid-vite/default-ts': {
+    name: 'Solid Vite (TS)',
+    script: 'npx degit solidjs/templates/ts {{beforeDir}}',
+    inDevelopment: true,
+    expected: {
+      framework: '@storybook/solid-vite',
+      renderer: '@storybook/html',
+      builder: '@storybook/builder-vite',
+    },
+  },
 } satisfies Record<string, Template>;
 
 export const ci: TemplateKey[] = ['cra/default-ts', 'react-vite/default-ts'];
@@ -373,6 +393,7 @@ export const merged: TemplateKey[] = [
   'preact-webpack5/default-ts',
   'preact-vite/default-ts',
   'html-webpack/default',
+  'solid-vite/default-ts',
 ];
 export const daily: TemplateKey[] = [
   ...merged,
@@ -388,6 +409,7 @@ export const daily: TemplateKey[] = [
   'nextjs/default-js',
   'preact-webpack5/default-js',
   'preact-vite/default-js',
+  'solid-vite/default-js',
 ];
 
 export const templatesByCadence = { ci, pr, merged, daily };

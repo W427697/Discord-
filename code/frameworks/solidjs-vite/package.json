@@ -1,0 +1,84 @@
+{
+  "name": "@storybook/solid-vite",
+  "version": "7.0.0-beta.16",
+  "description": "Storybook for Solid and Vite: Develop Solid components in isolation with Hot Reloading.",
+  "keywords": [
+    "storybook"
+  ],
+  "homepage": "https://github.com/storybookjs/storybook/tree/main/frameworks/solid-vite",
+  "bugs": {
+    "url": "https://github.com/storybookjs/storybook/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/storybookjs/storybook.git",
+    "directory": "frameworks/solid-vite"
+  },
+  "funding": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/storybook"
+  },
+  "license": "MIT",
+  "exports": {
+    ".": {
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.ts"
+    },
+    "./preset": {
+      "require": "./dist/preset.js",
+      "import": "./dist/preset.mjs",
+      "types": "./dist/preset.d.ts"
+    },
+    "./package.json": {
+      "require": "./package.json",
+      "import": "./package.json",
+      "types": "./package.json"
+    }
+  },
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist/**/*",
+    "types/**/*",
+    "README.md",
+    "*.js",
+    "*.d.ts"
+  ],
+  "scripts": {
+    "check": "../../../scripts/node_modules/.bin/tsc --noEmit",
+    "prep": "../../../scripts/prepare/bundle.ts"
+  },
+  "dependencies": {
+    "@rollup/pluginutils": "^4.2.0",
+    "@storybook/builder-vite": "7.0.0-beta.16",
+    "@storybook/html": "7.0.0-beta.16",
+    "ast-types": "^0.14.2",
+    "magic-string": "^0.26.1",
+    "vite-plugin-solid": "^2.5.0"
+  },
+  "devDependencies": {
+    "@types/node": "^16.0.0",
+    "typescript": "~4.9.3",
+    "vite": "^4.0.0"
+  },
+  "peerDependencies": {
+    "solid": ">=1",
+    "vite": "^3.0.0 || ^4.0.0"
+  },
+  "engines": {
+    "node": "^14.18 || >=16"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "bundler": {
+    "entries": [
+      "./src/index.ts",
+      "./src/preset.ts"
+    ],
+    "platform": "node"
+  },
+  "gitHead": "7ca5d329ef50ec4cded3c6586761a25a8e79e67c"
+}

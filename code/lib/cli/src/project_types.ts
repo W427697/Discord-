@@ -16,7 +16,7 @@ function eqMajor(versionRange: string, major: number) {
 }
 
 // Should match @storybook/<framework>
-export type SupportedFrameworks = 'nextjs' | 'angular' | 'sveltekit';
+export type SupportedFrameworks = 'nextjs' | 'angular' | 'sveltekit' | 'solid-vite';
 
 // Should match @storybook/<renderer>
 export type SupportedRenderers =
@@ -81,6 +81,7 @@ export enum ProjectType {
   SVELTEKIT = 'SVELTEKIT',
   RAX = 'RAX',
   AURELIA = 'AURELIA',
+  SOLID = 'SOLID',
   SERVER = 'SERVER',
 }
 
@@ -280,6 +281,13 @@ export const supportedTemplates: TemplateConfiguration[] = [
   {
     preset: ProjectType.AURELIA,
     dependencies: ['aurelia-bootstrapper'],
+    matcherFunction: ({ dependencies }) => {
+      return dependencies.every(Boolean);
+    },
+  },
+  {
+    preset: ProjectType.SOLID,
+    dependencies: ['solid-js'],
     matcherFunction: ({ dependencies }) => {
       return dependencies.every(Boolean);
     },
