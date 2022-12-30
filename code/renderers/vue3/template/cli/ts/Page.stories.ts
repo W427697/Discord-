@@ -1,8 +1,8 @@
-import type { StoryObj } from '@storybook/vue3';
+import type { Meta, StoryObj } from '@storybook/vue3';
 import { within, userEvent } from '@storybook/testing-library';
 import MyPage from './Page.vue';
 
-export default {
+const meta = {
   title: 'Example/Page',
   component: MyPage,
   render: () => ({
@@ -15,9 +15,11 @@ export default {
   },
   // This component will have an automatically generated docsPage entry: https://storybook.js.org/docs/7.0/vue/writing-docs/docs-page
   tags: ['autodocs'],
-};
-type Story = StoryObj<typeof MyPage>;
-export const LoggedOut: Story = {};
+} satisfies Meta<typeof MyPage>;
+
+export default meta;
+type Story = StoryObj<typeof meta>;
+
 // More on interaction testing: https://storybook.js.org/docs/7.0/vue/writing-tests/interaction-testing
 export const LoggedIn: Story = {
   play: async ({ canvasElement }: any) => {
@@ -28,3 +30,5 @@ export const LoggedIn: Story = {
     await userEvent.click(loginButton);
   },
 };
+
+export const LoggedOut: Story = {};

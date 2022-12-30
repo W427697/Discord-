@@ -2,51 +2,34 @@
   <button type="button" :class="classes" @click="onClick" :style="style">{{ label }} </button>
 </template>
 
-<script lang="ts">
-import './button.css';
-import { reactive, computed } from 'vue';
+<script lang="ts" setup>
+import { computed } from 'vue';
+type Props = {
+  label: string,
+  primary: boolean,
+  size?: 'small' | 'medium' | 'large',
+  backgroundColor?: string,
+}
 
-export default {
-  name: 'my-button',
+const props = withDefaults(defineProps<Props>(), { primary: false });
 
-  props: {
-    label: {
-      type: String,
-      required: true,
-    },
-    primary: {
-      type: Boolean,
-      default: false,
-    },
-    size: {
-      type: String,
-      validator: function (value:string) {
-        return ['small', 'medium', 'large'].indexOf(value) !== -1;
-      },
-    },
-    backgroundColor: {
-      type: String,
-    },
-  },
+const emit = defineEmits<{
+  (e: 'click', id: number): void;
+}>();
 
-  emits: ['click'],
+const classes = computed(() => ({
+  'storybook-button': true,
+  'storybook-button--primary': props.primary,
+  'storybook-button--secondary': !props.primary,
+  [`storybook-button--${props.size || 'medium'}`]: true,
+}));
 
-  setup(props:any, { emit }:any) {
-    props = reactive(props);
-    return {
-      classes: computed(() => ({
-        'storybook-button': true,
-        'storybook-button--primary': props.primary,
-        'storybook-button--secondary': !props.primary,
-        [`storybook-button--${props.size || 'medium'}`]: true,
-      })),
-      style: computed(() => ({
-        backgroundColor: props.backgroundColor
-      })),
-      onClick() {
-        emit('click');
-      }
-    }
-  },
+const style = computed(() => ({
+  backgroundColor: props.backgroundColor
+}));
+
+const onClick = () => {
+  emit("click", 1)
 };
+
 </script>

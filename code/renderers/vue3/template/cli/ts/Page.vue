@@ -49,29 +49,22 @@
   </article>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import './page.css';
 import MyHeader from './Header.vue';
 
 import { ref } from 'vue';
 
-export default {
-  name: 'my-page',
-  components: { MyHeader },
+const user = ref<{ name: string } | undefined>(undefined)
 
-  setup(props) {
-    const user = ref<{ name: string } | undefined>(undefined)
-
-    const onLogin = () => {
-      user.value = { name: 'Jane Doe' };
-    };
-    const onLogout = () => {
-      user.value = undefined;
-    };
-    const onCreateAccount = () => {
-      user.value = { name: 'Jane Doe' };
-    };
-    return { user, onLogin, onLogout, onCreateAccount }
-  }
+const onLogin = () => {
+  user.value = { name: 'Jane Doe' };
 };
+const onLogout = () => {
+  user.value = undefined;
+};
+const onCreateAccount = () => {
+  user.value = { name: 'Jane Doe' };
+};
+
 </script>
