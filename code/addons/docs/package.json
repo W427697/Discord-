@@ -104,6 +104,7 @@
     "@jest/transform": "^29.3.1",
     "@mdx-js/react": "^2.1.5",
     "@storybook/blocks": "7.0.0-beta.16",
+    "@storybook/client-logger": "7.0.0-beta.16",
     "@storybook/components": "7.0.0-beta.16",
     "@storybook/csf-plugin": "7.0.0-beta.16",
     "@storybook/csf-tools": "7.0.0-beta.16",
