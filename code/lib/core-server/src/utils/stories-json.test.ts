@@ -4,7 +4,7 @@ import fs from 'fs-extra';
 import type { Router, Request, Response } from 'express';
 import Watchpack from 'watchpack';
 import path from 'path';
-import debounce from 'lodash/debounce';
+import debounce from 'lodash/debounce.js';
 import { STORY_INDEX_INVALIDATED } from '@storybook/core-events';
 import type { StoryIndex, StoryIndexer } from '@storybook/types';
 import { loadCsf } from '@storybook/csf-tools';
@@ -899,7 +899,7 @@ describe('useStoriesJson', () => {
     });
 
     it('debounces invalidation events', async () => {
-      (debounce as jest.Mock).mockImplementation(jest.requireActual('lodash/debounce') as any);
+      (debounce as jest.Mock).mockImplementation(jest.requireActual('lodash/debounce.js') as any);
 
       const mockServerChannel = { emit: jest.fn() } as any as ServerChannel;
       useStoriesJson({
