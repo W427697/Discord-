@@ -1,5 +1,3 @@
-import semver from 'semver';
-
 import { JsPackageManager } from './JsPackageManager';
 import type { PackageJson } from './PackageJson';
 
