@@ -1,3 +1,22 @@
+## 7.0.0-beta.17 (December 30, 2022)
+
+#### Bug Fixes
+
+-   Svelte: Do not warn about .svelte files in storyStoreV7 [#20442](https://github.com/storybooks/storybook/pull/20442)
+-   Core: Fix import paths on Windows [#20430](https://github.com/storybooks/storybook/pull/20430)
+-   UI: Set min-height relative to the viewport and the zoom level. [#20352](https://github.com/storybooks/storybook/pull/20352)
+
+#### Maintenance
+
+-   Docs: Use `stories-mdx` and `autodocs` tags instead of `standalone: false` in index [#20424](https://github.com/storybooks/storybook/pull/20424)
+-   Docs: Use `'stories-mdx'` tag to indicate story defined in MDX file [#20417](https://github.com/storybooks/storybook/pull/20417)
+-   Preact-Vite: Minor readme and dependency cleanups [#20432](https://github.com/storybooks/storybook/pull/20432)
+
+#### Build
+
+-   Tech: ESLint allow devDependencies imports in prebundled packages [#20440](https://github.com/storybooks/storybook/pull/20440)
+-   Fix yarn task command on Windows machines [#20431](https://github.com/storybooks/storybook/pull/20431)
+
 ## 7.0.0-beta.16 (December 29, 2022)
 
 #### Features
