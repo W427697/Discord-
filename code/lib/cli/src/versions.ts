@@ -85,6 +85,7 @@ export default {
   '@storybook/web-components': '7.0.0-beta.16',
   '@storybook/web-components-webpack5': '7.0.0-beta.16',
   '@storybook/web-components-vite': '7.0.0-beta.16',
+  '@storybook/solid-vite': '7.0.0-beta.16',
   sb: '7.0.0-beta.16',
   storybook: '7.0.0-beta.16',
 };
