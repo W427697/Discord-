@@ -77,7 +77,7 @@ Visit [Storybook's website](https://storybook.js.org) to learn more about Storyb
 
 ### Documentation
 
-Documentation can be found [Storybook's docs site](https://storybook.js.org/docs).
+Documentation can be found on [Storybook's docs site](https://storybook.js.org/docs).
 
 ### Examples
 
@@ -121,7 +121,7 @@ For additional help, join us in the [Storybook Discord](https://discord.gg/story
 | [actions](code/addons/actions/)                                           | Log actions as users interact with components in the Storybook UI          |
 | [backgrounds](code/addons/backgrounds/)                                   | Let users choose backgrounds in the Storybook UI                           |
 | [cssresources](https://github.com/storybookjs/addon-cssresources)         | Dynamically add/remove CSS resources to the component iframe               |
-| [design assets](https://github.com/storybookjs/addon-design-assets)       | View images, videos, weblinks alongside your story                         |
+| [design assets](https://github.com/storybookjs/addon-design-assets)       | View images, videos, and weblinks alongside your story                     |
 | [docs](code/addons/docs/)                                                 | Add high quality documentation to your components                          |
 | [events](https://github.com/storybookjs/addon-events)                     | Interactively fire events to components that respond to EventEmitter       |
 | [google-analytics](https://github.com/storybookjs/addon-google-analytics) | Reports google analytics on stories                                        |
@@ -149,9 +149,9 @@ See [Addon / Framework Support Table](https://storybook.js.org/docs/react/api/fr
 
 In order to continue improving your experience, we have to eventually deprecate certain addons in favor of new, better tools.
 
-If you're using info/notes, we highly recommend you to migrate to [docs](code/addons/docs/) instead, and [here is a guide](code/addons/docs/docs/recipes.md#migrating-from-notesinfo-addons) to help you.
+If you're using info/notes, we highly recommend you migrate to [docs](code/addons/docs/) instead, and [here is a guide](code/addons/docs/docs/recipes.md#migrating-from-notesinfo-addons) to help you.
 
-If you're using contexts, we highly recommend you to migrate to [toolbars](https://github.com/storybookjs/storybook/tree/next/code/addons/toolbars) and [here is a guide](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#deprecated-addon-contexts) to help you.
+If you're using contexts, we highly recommend you migrate to [toolbars](https://github.com/storybookjs/storybook/tree/next/code/addons/toolbars) and [here is a guide](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#deprecated-addon-contexts) to help you.
 
 ## Badges & Presentation materials
 

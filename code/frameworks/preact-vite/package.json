@@ -1,6 +1,6 @@
 {
   "name": "@storybook/preact-vite",
-  "version": "7.0.0-beta.16",
+  "version": "7.0.0-beta.17",
   "description": "Storybook for Preact and Vite: Develop Preact components in isolation with Hot Reloading.",
   "keywords": [
     "storybook"
@@ -30,11 +30,7 @@
       "import": "./dist/preset.mjs",
       "types": "./dist/preset.d.ts"
     },
-    "./package.json": {
-      "require": "./package.json",
-      "import": "./package.json",
-      "types": "./package.json"
-    }
+    "./package.json": "./package.json"
   },
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -51,12 +47,9 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@preact/preset-vite": "^2.5.0",
-    "@rollup/pluginutils": "^4.2.0",
-    "@storybook/builder-vite": "7.0.0-beta.16",
-    "@storybook/preact": "7.0.0-beta.16",
-    "ast-types": "^0.14.2",
-    "magic-string": "^0.26.1"
+    "@preact/preset-vite": "^2.0.0",
+    "@storybook/builder-vite": "7.0.0-beta.17",
+    "@storybook/preact": "7.0.0-beta.17"
   },
   "devDependencies": {
     "@types/node": "^16.0.0",
@@ -68,7 +61,7 @@
     "vite": "^3.0.0 || ^4.0.0"
   },
   "engines": {
-    "node": "^14.18 || >=16"
+    "node": ">=16"
   },
   "publishConfig": {
     "access": "public"
@@ -80,5 +73,5 @@
     ],
     "platform": "node"
   },
-  "gitHead": "7ca5d329ef50ec4cded3c6586761a25a8e79e67c"
+  "gitHead": "6559b419625c2dcf76bad1a12fcf75e3dd7c4187"
 }
