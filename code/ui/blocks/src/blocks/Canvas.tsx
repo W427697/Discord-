@@ -15,10 +15,11 @@ export { SourceState };
 type CanvasProps = Omit<PurePreviewProps, 'isExpanded' | 'isLoading'> & {
   withSource?: SourceState;
   mdxSource?: string;
+  children?: ReactNode;
 };
 
 const usePreviewProps = (
-  { withSource, mdxSource, children, ...props }: CanvasProps & { children?: ReactNode },
+  { withSource, mdxSource, children, ...props }: CanvasProps,
   docsContext: DocsContextProps<Renderer>,
   sourceContext: SourceContextProps
 ) => {
