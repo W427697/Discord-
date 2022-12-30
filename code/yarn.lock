@@ -7529,7 +7529,7 @@ __metadata:
     ts-loader: ^9.2.8
     ts-node: ^10.9.1
     tsup: ^6.2.2
-    typescript: ~4.9.3
+    typescript: ~4.8.4
     util: ^0.12.4
     verdaccio: ^4.10.0
     verdaccio-auth-memory: ^9.7.2
@@ -31985,6 +31985,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"typescript@npm:~4.8.4":
+  version: 4.8.4
+  resolution: "typescript@npm:4.8.4"
+  bin:
+    tsc: bin/tsc
+    tsserver: bin/tsserver
+  checksum: 663bf455b21ac024e719bb8c6a07bcaaa027a9943abfb58a694b59789e7d08578badb5556170267ad480e31786b8b4c8ab3c9c0e597d3b8df39af800e43c6ed5
+  languageName: node
+  linkType: hard
+
 "typescript@patch:typescript@*#~builtin<compat/typescript>, typescript@patch:typescript@^4.0.3#~builtin<compat/typescript>, typescript@patch:typescript@^4.9.3#~builtin<compat/typescript>, typescript@patch:typescript@~4.9.3#~builtin<compat/typescript>":
   version: 4.9.4
   resolution: "typescript@patch:typescript@npm%3A4.9.4#~builtin<compat/typescript>::version=4.9.4&hash=d73830"
@@ -32002,6 +32012,16 @@ __metadata:
     tsc: bin/tsc
     tsserver: bin/tsserver
   checksum: 9041fb3886e7d6a560f985227b8c941d17a750f2edccb5f9b3a15a2480574654d9be803ad4a14aabcc2f2553c4d272a25fd698a7c42692f03f66b009fb46883c
+  languageName: node
+  linkType: hard
+
+"typescript@patch:typescript@~4.8.4#~builtin<compat/typescript>":
+  version: 4.8.4
+  resolution: "typescript@patch:typescript@npm%3A4.8.4#~builtin<compat/typescript>::version=4.8.4&hash=0102e9"
+  bin:
+    tsc: bin/tsc
+    tsserver: bin/tsserver
+  checksum: bfba046abb25c2f417899ad724e41034433094fb25bbbec401291bf7f6f11f5b7de0e4b2a5bcb6c8af4e62615482a3a0b1160763a3f478896a06f9851186f4fb
   languageName: node
   linkType: hard
 
