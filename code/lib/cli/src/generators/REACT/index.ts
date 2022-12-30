@@ -5,11 +5,8 @@ import type { Generator } from '../types';
 
 const generator: Generator = async (packageManager, npmOptions, options) => {
   // Add prop-types dependency if not using TypeScript
-  const extraPackages = [];
   const language = detectLanguage();
-  if (language === SupportedLanguage.JAVASCRIPT) {
-    extraPackages.push('prop-types');
-  }
+  const extraPackages = language === SupportedLanguage.JAVASCRIPT ? ['prop-types'] : [];
 
   await baseGenerator(packageManager, npmOptions, options, 'react', {
     extraPackages,
