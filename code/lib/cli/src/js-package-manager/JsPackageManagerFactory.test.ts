@@ -220,6 +220,41 @@ describe('JsPackageManagerFactory', () => {
 
         expect(JsPackageManagerFactory.getPackageManager()).toBeInstanceOf(Yarn1Proxy);
       });
+
+      it('when multiple lockfiles are in a project, prefers yarn', () => {
+        // Allow find-up to work as normal, we'll set the cwd to our fixture package
+        findUpSyncMock.mockImplementation(jest.requireActual('find-up').sync);
+
+        spawnSyncMock.mockImplementation((command) => {
+          // Yarn is ok
+          if (command === 'yarn') {
+            return {
+              status: 0,
+              output: '1.22.4',
+            };
+          }
+          // NPM is ok
+          if (command === 'npm') {
+            return {
+              status: 0,
+              output: '6.5.12',
+            };
+          }
+          // PNPM is ok
+          if (command === 'pnpm') {
+            return {
+              status: 0,
+              output: '7.9.5',
+            };
+          }
+          // Unknown package manager is ko
+          return {
+            status: 1,
+          };
+        });
+        const fixture = path.join(__dirname, 'fixtures', 'multiple-lockfiles');
+        expect(JsPackageManagerFactory.getPackageManager({}, fixture)).toBeInstanceOf(Yarn1Proxy);
+      });
     });
 
     describe('return a Yarn 2 proxy', () => {
