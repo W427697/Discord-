@@ -2,7 +2,7 @@ import { hasVitePlugins, StorybookConfig } from '@storybook/builder-vite';
 
 export const core: StorybookConfig['core'] = {
   builder: '@storybook/builder-vite',
-  renderer: '@storybook/html',
+  renderer: '@storybook/solid',
 };
 
 export const viteFinal: StorybookConfig['viteFinal'] = async (config, { presets }) => {
