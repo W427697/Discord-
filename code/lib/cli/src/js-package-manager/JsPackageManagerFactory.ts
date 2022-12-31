@@ -14,10 +14,10 @@ import { Yarn1Proxy } from './Yarn1Proxy';
 
 export class JsPackageManagerFactory {
   public static getPackageManager(
-    { force, useNpm }: { force?: PackageManagerName; useNpm?: boolean } = {},
+    { force }: { force?: PackageManagerName } = {},
     cwd?: string
   ): JsPackageManager {
-    if (useNpm || force === 'npm') {
+    if (force === 'npm') {
       return new NPMProxy({ cwd });
     }
     if (force === 'pnpm') {
