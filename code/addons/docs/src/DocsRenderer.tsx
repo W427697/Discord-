@@ -66,7 +66,8 @@ export class DocsRenderer<TRenderer extends Renderer> {
 
         if (root) {
           root.render(content);
-          callback();
+          // Delay the callback until the next tick, so that the `render` function returns before the callback is called
+          setTimeout(callback);
         } else {
           ReactDOM.render(content, element, callback);
         }
