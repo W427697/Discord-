@@ -19,6 +19,7 @@ const rendererPackages: Record<string, string> = {
   '@storybook/preact': 'preact',
   '@storybook/rax': 'rax',
   '@storybook/server': 'server',
+  '@storybook/solid': 'solid',
 };
 
 const logger = console;

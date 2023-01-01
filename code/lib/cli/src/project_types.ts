@@ -287,6 +287,13 @@ export const supportedTemplates: TemplateConfiguration[] = [
       return dependencies.every(Boolean);
     },
   },
+  {
+    preset: ProjectType.SOLID,
+    dependencies: ['solid-js'],
+    matcherFunction: ({ dependencies }) => {
+      return dependencies.every(Boolean);
+    },
+  },
 ];
 
 // A TemplateConfiguration that matches unsupported frameworks
