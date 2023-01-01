@@ -36,7 +36,8 @@ export type SupportedRenderers =
   | 'aurelia'
   | 'html'
   | 'web-components'
-  | 'server';
+  | 'server'
+  | 'solid';
 
 export const SUPPORTED_RENDERERS: SupportedRenderers[] = [
   'react',
@@ -53,6 +54,7 @@ export const SUPPORTED_RENDERERS: SupportedRenderers[] = [
   'svelte',
   'rax',
   'aurelia',
+  'solid'
 ];
 
 export enum ProjectType {
@@ -82,6 +84,7 @@ export enum ProjectType {
   RAX = 'RAX',
   AURELIA = 'AURELIA',
   SERVER = 'SERVER',
+  SOLID = 'SOLID',
 }
 
 export enum CoreBuilder {

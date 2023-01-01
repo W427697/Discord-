@@ -369,6 +369,7 @@ export const pr: TemplateKey[] = [
   'vue3-vite/default-ts',
   'vue-cli/vue2-default-js',
   'lit-vite/default-ts',
+  'solid-vite/default-ts',
   'svelte-vite/default-ts',
   'svelte-kit/skeleton-ts',
   'nextjs/default-ts',

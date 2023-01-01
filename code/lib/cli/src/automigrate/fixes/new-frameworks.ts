@@ -46,6 +46,9 @@ const packagesMap: Record<string, { webpack5?: string; vite?: string }> = {
     webpack5: '@storybook/html-webpack5',
     vite: '@storybook/html-vite',
   },
+  '@storybook/solid': {   
+    vite: '@storybook/solid',
+  },
 };
 
 interface NewFrameworkRunOptions {

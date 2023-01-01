@@ -29,6 +29,7 @@ import svelteGenerator from './generators/SVELTE';
 import svelteKitGenerator from './generators/SVELTEKIT';
 import raxGenerator from './generators/RAX';
 import serverGenerator from './generators/SERVER';
+import solidGenerator from './generators/SOLID';
 import type { JsPackageManager } from './js-package-manager';
 import { JsPackageManagerFactory, useNpmWarning } from './js-package-manager';
 import type { NpmOptions } from './NpmOptions';
@@ -202,6 +203,11 @@ const installStorybook = (
       case ProjectType.SERVER:
         return serverGenerator(packageManager, npmOptions, generatorOptions).then(
           commandLog('Adding Storybook support to your "Server" app\n')
+        );
+
+      case ProjectType.SOLID:
+        return solidGenerator(packageManager, npmOptions, generatorOptions).then(
+          commandLog('Adding Storybook support to your "SolidJS" app\n')
         );
 
       case ProjectType.UNSUPPORTED:
