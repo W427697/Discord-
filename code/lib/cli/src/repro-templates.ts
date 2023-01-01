@@ -138,6 +138,8 @@ export const allTemplates = {
       renderer: '@storybook/solid',
       builder: '@storybook/builder-vite',
     },
+    // TODO: remove this once solid-vite framework is released
+    inDevelopment: true
   },
   'vue3-vite/default-js': {
     name: 'Vue3 Vite (JS)',
