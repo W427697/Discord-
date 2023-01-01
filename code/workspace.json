@@ -351,6 +351,16 @@
       "root": "frameworks/server-webpack5",
       "type": "library"
     },
+    "@storybook/solid": {
+      "implicitDependencies": [],
+      "root": "renderers/solid",
+      "type": "library"
+    },
+    "@storybook/solid-vite": {
+      "implicitDependencies": [],
+      "root": "frameworks/solid-vite",
+      "type": "library"
+    },
     "@storybook/source-loader": {
       "implicitDependencies": [],
       "root": "lib/source-loader",

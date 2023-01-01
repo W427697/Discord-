@@ -1,1 +1,1 @@
-# Storybook HTML Renderer
+# Storybook SolidJS Renderer

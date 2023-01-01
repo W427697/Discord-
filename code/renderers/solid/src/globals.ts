@@ -2,4 +2,4 @@ import { global } from '@storybook/global';
 
 const { window: globalWindow } = global;
 
-globalWindow.STORYBOOK_ENV = 'HTML';
+globalWindow.STORYBOOK_ENV = 'solid';

@@ -130,6 +130,15 @@ export const allTemplates = {
       builder: '@storybook/builder-webpack5',
     },
   },
+  'solid-vite/default-ts': {
+    name: 'SolidJS Vite (TS)',
+    script: 'npx degit solidjs/templates/ts .',
+    expected: {
+      framework: '@storybook/solid-vite',
+      renderer: '@storybook/solid',
+      builder: '@storybook/builder-vite',
+    },
+  },
   'vue3-vite/default-js': {
     name: 'Vue3 Vite (JS)',
     script: 'yarn create vite . --template vue',

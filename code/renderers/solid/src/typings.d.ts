@@ -1,1 +1,1 @@
-declare var STORYBOOK_ENV: 'HTML';
+declare var STORYBOOK_ENV: 'solid';

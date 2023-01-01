@@ -5,7 +5,7 @@ import type { HtmlRenderer } from './types';
 
 import { renderToCanvas, render } from './render';
 
-const FRAMEWORK = 'html';
+const FRAMEWORK = 'solid';
 
 interface ClientApi extends Addon_ClientStoryApi<HtmlRenderer['storyResult']> {
   configure(loader: Addon_Loadable, module: NodeModule): void;
