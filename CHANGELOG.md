@@ -1,4 +1,4 @@
-## 7.0.0-beta.18 (January 1, 2023)
+## 7.0.0-beta.19 (January 1, 2023)
 
 #### Features
 
@@ -20,6 +20,10 @@
 #### Build
 
 -   Build: Add extensions to lodash imports [#20443](https://github.com/storybooks/storybook/pull/20443)
+
+## 7.0.0-beta.18 (January 1, 2023)
+
+Bad npm publish
 
 ## 7.0.0-beta.17 (December 30, 2022)
 
