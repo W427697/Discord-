@@ -7651,6 +7651,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/solid@workspace:renderers/solid"
   dependencies:
+    "@babel/core": ^7.20.2
     "@storybook/core-client": 7.0.0-beta.17
     "@storybook/docs-tools": 7.0.0-beta.17
     "@storybook/global": ^5.0.0

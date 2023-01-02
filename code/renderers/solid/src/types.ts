@@ -1,29 +1,21 @@
-import type {
-  ArgsStoryFn,
-  StoryContext as DefaultStoryContext,
-  WebRenderer,
-} from '@storybook/types';
-
-import type { parameters } from './config';
+import type { Component, JSXElement } from 'solid-js';
+import type { WebRenderer } from '@storybook/types';
 
 export type { RenderContext } from '@storybook/types';
+export type { StoryContext } from '@storybook/types';
 
-export type StoryFnHtmlReturnType = string | Node;
+/**
+ * @deprecated Use `SolidRenderer` instead.
+ */
+export type SolidFramework = SolidRenderer;
+export interface SolidRenderer extends WebRenderer {
+  component: Component<this['T']>;
+  storyResult: StoryFnSolidReturnType;
+}
 
 export interface ShowErrorArgs {
   title: string;
   description: string;
 }
 
-/**
- * @deprecated Use `HtmlRenderer` instead.
- */
-export type HtmlFramework = HtmlRenderer;
-export interface HtmlRenderer extends WebRenderer {
-  component: string | HTMLElement | ArgsStoryFn<HtmlRenderer>;
-  storyResult: StoryFnHtmlReturnType;
-}
-
-export type StoryContext = DefaultStoryContext<HtmlRenderer> & {
-  parameters: DefaultStoryContext<HtmlRenderer>['parameters'] & typeof parameters;
-};
+export type StoryFnSolidReturnType = JSXElement;
