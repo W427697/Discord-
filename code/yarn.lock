@@ -7656,6 +7656,7 @@ __metadata:
     "@storybook/global": ^5.0.0
     "@storybook/preview-api": 7.0.0-beta.17
     "@storybook/types": 7.0.0-beta.17
+    solid-js: ^1.6.6
     ts-dedent: ^2.0.0
     typescript: ~4.9.3
   peerDependencies:
@@ -29831,6 +29832,15 @@ __metadata:
     ip: 1.1.5
     smart-buffer: ^4.1.0
   checksum: c006c063f42724fdb25c1d6f4a04526b71023a0b15dd0386d4f33823a4d934ec30205da49f0381850398a3027a1b472f447ea16e840a0f2e2c90af2d30cd38b8
+  languageName: node
+  linkType: hard
+
+"solid-js@npm:^1.6.6":
+  version: 1.6.6
+  resolution: "solid-js@npm:1.6.6"
+  dependencies:
+    csstype: ^3.1.0
+  checksum: bc2d1dbc621de0c981d4e129311df05977be1959a593cf7ff5e4ec0c74d568ef4619170f5d6119df1f10e5d2a072556602d890f968d48ba7d65d89e292808a61
   languageName: node
   linkType: hard
 
