@@ -35,7 +35,7 @@ export const autodocsTrue: Fix<AutodocsTrueFrameworkRunOptions> = {
     const docs = main.getFieldValue(['docs']);
 
     const docsPageToAutodocsMapping = {
-      true: 'tag',
+      true: 'tag' as const,
       automatic: true,
       false: false,
     };
@@ -53,9 +53,7 @@ export const autodocsTrue: Fix<AutodocsTrueFrameworkRunOptions> = {
   },
 
   prompt({ value }) {
-    const autodocsFormatted = chalk.cyan(
-      `docs: { autodocs: ${JSON.stringify(value ?? true)} }`
-    );
+    const autodocsFormatted = chalk.cyan(`docs: { autodocs: ${JSON.stringify(value ?? true)} }`);
 
     if (value) {
       return dedent`
@@ -84,7 +82,7 @@ export const autodocsTrue: Fix<AutodocsTrueFrameworkRunOptions> = {
       we defaulted to having a autodocs for every story, in 7.x you need to opt in per-component.
       However, we can set the \`docs.autodocs\` to true to approximate the old behaviour:
 
-      ${AutodocsTrueFormatted}
+      ${autodocsFormatted}
 
       More info: ${chalk.yellow(
         'https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#autodocs'
