@@ -13,6 +13,7 @@ module.exports = {
     'eslint-comments/disable-enable-pair': ['error', { allowWholeFile: true }],
     'eslint-comments/no-unused-disable': 'error',
     'react-hooks/rules-of-hooks': 'off',
+    'import/extensions': 'off', // for mjs, we sometimes need extensions
     'jest/no-done-callback': 'off',
     '@typescript-eslint/dot-notation': [
       'error',

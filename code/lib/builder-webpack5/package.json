@@ -1,6 +1,6 @@
 {
   "name": "@storybook/builder-webpack5",
-  "version": "7.0.0-beta.17",
+  "version": "7.0.0-beta.19",
   "description": "Storybook framework-agnostic API",
   "keywords": [
     "storybook"
@@ -58,25 +58,25 @@
   },
   "dependencies": {
     "@babel/core": "^7.12.10",
-    "@storybook/addons": "7.0.0-beta.17",
-    "@storybook/api": "7.0.0-beta.17",
-    "@storybook/channel-postmessage": "7.0.0-beta.17",
-    "@storybook/channel-websocket": "7.0.0-beta.17",
-    "@storybook/channels": "7.0.0-beta.17",
-    "@storybook/client-api": "7.0.0-beta.17",
-    "@storybook/client-logger": "7.0.0-beta.17",
-    "@storybook/components": "7.0.0-beta.17",
-    "@storybook/core-common": "7.0.0-beta.17",
-    "@storybook/core-events": "7.0.0-beta.17",
-    "@storybook/core-webpack": "7.0.0-beta.17",
+    "@storybook/addons": "7.0.0-beta.19",
+    "@storybook/api": "7.0.0-beta.19",
+    "@storybook/channel-postmessage": "7.0.0-beta.19",
+    "@storybook/channel-websocket": "7.0.0-beta.19",
+    "@storybook/channels": "7.0.0-beta.19",
+    "@storybook/client-api": "7.0.0-beta.19",
+    "@storybook/client-logger": "7.0.0-beta.19",
+    "@storybook/components": "7.0.0-beta.19",
+    "@storybook/core-common": "7.0.0-beta.19",
+    "@storybook/core-events": "7.0.0-beta.19",
+    "@storybook/core-webpack": "7.0.0-beta.19",
     "@storybook/global": "^5.0.0",
-    "@storybook/manager-api": "7.0.0-beta.17",
-    "@storybook/node-logger": "7.0.0-beta.17",
-    "@storybook/preview": "7.0.0-beta.17",
-    "@storybook/preview-api": "7.0.0-beta.17",
-    "@storybook/router": "7.0.0-beta.17",
-    "@storybook/store": "7.0.0-beta.17",
-    "@storybook/theming": "7.0.0-beta.17",
+    "@storybook/manager-api": "7.0.0-beta.19",
+    "@storybook/node-logger": "7.0.0-beta.19",
+    "@storybook/preview": "7.0.0-beta.19",
+    "@storybook/preview-api": "7.0.0-beta.19",
+    "@storybook/router": "7.0.0-beta.19",
+    "@storybook/store": "7.0.0-beta.19",
+    "@storybook/theming": "7.0.0-beta.19",
     "@types/node": "^16.0.0",
     "@types/semver": "^7.3.4",
     "babel-loader": "^8.3.0",
@@ -131,5 +131,5 @@
     ],
     "platform": "node"
   },
-  "gitHead": "6559b419625c2dcf76bad1a12fcf75e3dd7c4187"
+  "gitHead": "da902f312eb354d20aa83bf0f0035b9744f93791"
 }
