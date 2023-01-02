@@ -84,8 +84,13 @@ const createCanvas = (id: string, baseUrl = 'iframe.html', withLoader = true): A
             }
           }, []);
 
+          // Booting here means the preview is still booting up and hasn't rendered anything
+          // (including a spinner during preparation) yet.
+          // We are done booting when a story is selected.
           const isBooting = !storySpecified && !storiesFailed;
+          // A ref is ready when it emits STORY_PREPARED
           const refLoading = !!refs[refId] && !refs[refId].ready;
+          // The root is ready when it no longer is waiting on webpack
           const rootLoading = !refId && !(progress?.value === 1 || progress === undefined);
           const isLoading = entry
             ? isBooting || refLoading || rootLoading
