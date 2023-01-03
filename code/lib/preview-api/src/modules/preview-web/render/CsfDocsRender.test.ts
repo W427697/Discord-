@@ -1,10 +1,9 @@
-import { jest, describe, it, expect } from '@jest/globals';
 import { Channel } from '@storybook/channels';
-import type { Renderer, TemplateDocsIndexEntry } from '@storybook/types';
+import type { Renderer, DocsIndexEntry } from '@storybook/types';
 import type { StoryStore } from '../../store';
 import { PREPARE_ABORTED } from './Render';
 
-import { TemplateDocsRender } from './TemplateDocsRender';
+import { CsfDocsRender } from './CsfDocsRender';
 
 const entry = {
   type: 'docs',
@@ -13,8 +12,8 @@ const entry = {
   title: 'Component',
   importPath: './Component.stories.ts',
   storiesImports: [],
-  standalone: false,
-} as TemplateDocsIndexEntry;
+  tags: ['autodocs'],
+} as DocsIndexEntry;
 
 const createGate = (): [Promise<any | undefined>, (_?: any) => void] => {
   let openGate = (_?: any) => {};
@@ -24,7 +23,7 @@ const createGate = (): [Promise<any | undefined>, (_?: any) => void] => {
   return [gate, openGate];
 };
 
-describe('TemplateDocsRender', () => {
+describe('CsfDocsRender', () => {
   it('throws PREPARE_ABORTED if torndown during prepare', async () => {
     const [importGate, openImportGate] = createGate();
     const mockStore = {
@@ -34,7 +33,7 @@ describe('TemplateDocsRender', () => {
       }),
     };
 
-    const render = new TemplateDocsRender(
+    const render = new CsfDocsRender(
       new Channel(),
       mockStore as unknown as StoryStore<Renderer>,
       entry

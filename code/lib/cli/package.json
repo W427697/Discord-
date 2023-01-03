@@ -1,6 +1,6 @@
 {
   "name": "@storybook/cli",
-  "version": "7.0.0-beta.13",
+  "version": "7.0.0-beta.19",
   "description": "Storybook's CLI - easiest method of adding storybook to your projects",
   "keywords": [
     "cli",
@@ -43,13 +43,13 @@
   "dependencies": {
     "@babel/core": "^7.20.2",
     "@babel/preset-env": "^7.20.2",
-    "@storybook/codemod": "7.0.0-beta.13",
-    "@storybook/core-common": "7.0.0-beta.13",
-    "@storybook/core-server": "7.0.0-beta.13",
-    "@storybook/csf-tools": "7.0.0-beta.13",
-    "@storybook/node-logger": "7.0.0-beta.13",
-    "@storybook/telemetry": "7.0.0-beta.13",
-    "@storybook/types": "7.0.0-beta.13",
+    "@storybook/codemod": "7.0.0-beta.19",
+    "@storybook/core-common": "7.0.0-beta.19",
+    "@storybook/core-server": "7.0.0-beta.19",
+    "@storybook/csf-tools": "7.0.0-beta.19",
+    "@storybook/node-logger": "7.0.0-beta.19",
+    "@storybook/telemetry": "7.0.0-beta.19",
+    "@storybook/types": "7.0.0-beta.19",
     "@types/semver": "^7.3.4",
     "boxen": "^5.1.2",
     "chalk": "^4.1.0",
@@ -79,7 +79,7 @@
     "util-deprecate": "^1.0.2"
   },
   "devDependencies": {
-    "@storybook/client-api": "7.0.0-beta.13",
+    "@storybook/client-api": "7.0.0-beta.19",
     "@types/cross-spawn": "^6.0.2",
     "@types/jju": "^1",
     "@types/prompts": "^2.0.9",
@@ -90,6 +90,10 @@
     "strip-json-comments": "^3.1.1",
     "typescript": "~4.9.3"
   },
+  "peerDependencies": {
+    "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
+    "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0"
+  },
   "publishConfig": {
     "access": "public"
   },
@@ -99,5 +103,5 @@
     ],
     "platform": "node"
   },
-  "gitHead": "ddf86bd126ede0c019d7c9494f99f24a5cad9908"
+  "gitHead": "da902f312eb354d20aa83bf0f0035b9744f93791"
 }

@@ -1,6 +1,6 @@
 {
   "name": "@storybook/preset-svelte-webpack",
-  "version": "7.0.0-beta.13",
+  "version": "7.0.0-beta.19",
   "description": "Storybook for Svelte: Develop Svelte Component in isolation with Hot Reloading.",
   "keywords": [
     "storybook"
@@ -21,11 +21,13 @@
   "license": "MIT",
   "exports": {
     ".": {
+      "node": "./dist/index.js",
       "require": "./dist/index.js",
       "import": "./dist/index.mjs",
       "types": "./dist/index.d.ts"
     },
     "./preset": {
+      "node": "./dist/index.js",
       "require": "./dist/index.js",
       "import": "./dist/index.mjs",
       "types": "./dist/index.d.ts"
@@ -45,11 +47,7 @@
       "import": "./dist/svelte-docgen-loader.mjs",
       "types": "./dist/svelte-docgen-loader.d.ts"
     },
-    "./package.json": {
-      "require": "./package.json",
-      "import": "./package.json",
-      "types": "./package.json"
-    }
+    "./package.json": "./package.json"
   },
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -65,8 +63,8 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/core-webpack": "7.0.0-beta.13",
-    "@storybook/node-logger": "7.0.0-beta.13",
+    "@storybook/core-webpack": "7.0.0-beta.19",
+    "@storybook/node-logger": "7.0.0-beta.19",
     "sveltedoc-parser": "^4.2.1",
     "ts-dedent": "^2.0.0"
   },
@@ -95,5 +93,5 @@
     ],
     "platform": "node"
   },
-  "gitHead": "ddf86bd126ede0c019d7c9494f99f24a5cad9908"
+  "gitHead": "da902f312eb354d20aa83bf0f0035b9744f93791"
 }

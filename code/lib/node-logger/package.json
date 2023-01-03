@@ -1,6 +1,6 @@
 {
   "name": "@storybook/node-logger",
-  "version": "7.0.0-beta.13",
+  "version": "7.0.0-beta.19",
   "description": "",
   "keywords": [
     "storybook"
@@ -22,6 +22,7 @@
   "sideEffects": false,
   "exports": {
     ".": {
+      "node": "./dist/index.js",
       "require": "./dist/index.js",
       "import": "./dist/index.mjs",
       "types": "./dist/index.d.ts"
@@ -59,5 +60,5 @@
       "./src/index.ts"
     ]
   },
-  "gitHead": "ddf86bd126ede0c019d7c9494f99f24a5cad9908"
+  "gitHead": "da902f312eb354d20aa83bf0f0035b9744f93791"
 }

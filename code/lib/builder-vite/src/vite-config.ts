@@ -95,14 +95,8 @@ export async function pluginConfig(options: ExtendedOptions) {
   ] as PluginOption[];
 
   // TODO: framework doesn't exist, should move into framework when/if built
-  if (frameworkName === '@storybook/preact-vite') {
-    // eslint-disable-next-line global-require
-    plugins.push(require('@preact/preset-vite').default());
-  }
-
-  // TODO: framework doesn't exist, should move into framework when/if built
   if (frameworkName === '@storybook/glimmerx-vite') {
-    // eslint-disable-next-line global-require, import/extensions
+    // eslint-disable-next-line global-require
     const plugin = require('vite-plugin-glimmerx/index.cjs');
     plugins.push(plugin.default());
   }
