@@ -166,9 +166,13 @@ export class WebView implements View<HTMLElement> {
     }
   }
 
-  showPreparingDocs() {
+  showPreparingDocs({ immediate = false } = {}) {
     clearTimeout(this.preparingTimeout);
-    this.preparingTimeout = setTimeout(() => this.showMode(Mode.PREPARING_DOCS), PREPARING_DELAY);
+    if (immediate) {
+      this.showMode(Mode.PREPARING_DOCS);
+    } else {
+      this.preparingTimeout = setTimeout(() => this.showMode(Mode.PREPARING_DOCS), PREPARING_DELAY);
+    }
   }
 
   showMain() {
