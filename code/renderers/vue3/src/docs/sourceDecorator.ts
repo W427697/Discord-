@@ -199,13 +199,11 @@ function createNamedSlots(
   slotProps: string[] | null | undefined,
   slotValues: { [key: string]: any }
 ) {
-  console.log('slotValues', slotValues);
   if (!slotProps) return '';
   let template = '';
   if (slotProps.length === 1 && slotProps[0] === 'default') return `{{ default }}`;
   // eslint-disable-next-line no-restricted-syntax
   for (const slotProp of slotProps) {
-    console.log(`slotValues[${slotProp}]`, slotValues[slotProps.indexOf(slotProp)]);
     if (slotValues[slotProps.indexOf(slotProp)])
       template += `<template #${slotProp}> {{ ${slotProp} }}</template>`;
   }
@@ -226,7 +224,7 @@ export const sourceDecorator = (storyFn: any, context: StoryContext<Renderer>) =
 
   useEffect(() => {
     if (!skip && source) {
-      channel.emit(SNIPPET_RENDERED, (context || {}).id, source, 'html');
+      channel.emit(SNIPPET_RENDERED, (context || {}).id, source);
     }
   });
 
@@ -241,9 +239,7 @@ export const sourceDecorator = (storyFn: any, context: StoryContext<Renderer>) =
 
   const cWrap: any = ctxtComponent;
 
-  const slotProps: string[] = cWrap.__docgenInfo?.slots
-    .filter((slot: any) => slot.name)
-    .map((slot: { name: string }) => slot.name);
+  const slotProps: string[] = cWrap.__docgenInfo?.slots?.map((slot: { name: string }) => slot.name);
 
   const generatedTemplate = generateSource(renderedComponent, args, context?.argTypes, slotProps);
   const generatedScript = generateSetupScript(args, context?.argTypes);
@@ -252,7 +248,7 @@ export const sourceDecorator = (storyFn: any, context: StoryContext<Renderer>) =
     source = format(`${generatedScript}\n<template>\n ${generatedTemplate} \n</template>`, {
       vueIndentScriptAndStyle: true,
       parser: 'vue',
-      plugins: [parserTypescript, parserHTML],
+      plugins: [parserHTML, parserTypescript],
     });
   }
 
