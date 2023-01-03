@@ -147,7 +147,7 @@ export const init: ModuleFn<SubAPI, SubState, void> = (
       const query = version ? `?version=${version}` : '';
       const credentials = isPublic ? 'omit' : 'include';
 
-      let headers: unknown;
+      let headers: HeadersInit;
       let cleanUrl = url;
       const credentialsRegex = /https?:\/\/(.+:.+)@/;
       const [, urlCredentials] = url.match(credentialsRegex) || [];
