@@ -4,6 +4,14 @@ import type { ArgTypes, Args, StoryContext, Renderer } from '@storybook/types';
 
 import { SourceType, SNIPPET_RENDERED } from '@storybook/docs-tools';
 
+import { format } from 'prettier';
+// eslint-disable-next-line import/extensions
+import parserTypescript from 'prettier/parser-typescript.js';
+// eslint-disable-next-line import/extensions
+import parserHTML from 'prettier/parser-html.js';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { isArray } from '@vue/shared';
+
 /**
  * Check if the sourcecode should be generated.
  *
@@ -29,25 +37,113 @@ const skipSourceRender = (context: StoryContext<Renderer>) => {
  * @param component Component
  */
 function getComponentName(component: any): string | null {
-  if (component == null) {
-    return null;
-  }
-  return component.name || component.__name || component.__docgenInfo?.__name;
+  return component?.name || component?.__name || component.__docgenInfo?.__name;
 }
-
-function argsToSource(args: any): string {
+/**
+ * Transform args to props string
+ * @param args
+ * @param argTypes
+ * @param slotProp prop used to simulate slot
+ */
+function argsToSource(args: any, argTypes: ArgTypes, slotProp?: string | null): string {
   const argsKeys = Object.keys(args);
   const srouce = argsKeys
-    .map((key) => propToDynamicSource(key, args[key]))
+    .map((key) => propToDynamicSource(key, args[key], argTypes, slotProp))
     .filter((item) => item !== '')
     .join(' ');
 
   return srouce;
 }
 
-function propToDynamicSource(key: string, val: string | boolean | object) {
-  if (key.startsWith('slotArgs.')) return '';
+function propToDynamicSource(
+  key: string,
+  val: string | boolean | object,
+  argTypes: ArgTypes,
+  slotProp?: string | null
+): string {
+  // slot Args or default value
+  if (key === slotProp || (argTypes[key] && argTypes[key].defaultValue === val)) return '';
   return `:${key}="${key}"`;
+}
+
+function generateSetupScript(args: any, argTypes: ArgTypes): string {
+  const argsKeys = args ? Object.keys(args) : [];
+  let scriptBody = '';
+  // eslint-disable-next-line no-restricted-syntax
+  for (const key of argsKeys) {
+    if (
+      !key.startsWith('slotArgs.') &&
+      !(argTypes[key] && argTypes[key].defaultValue === args[key])
+    )
+      if (typeof args[key] !== 'function')
+        scriptBody += `\n const ${key} = ref(${propValueToSource(args[key])})`;
+      else scriptBody += `\n const ${key} = ()=>{}`;
+  }
+  return `<script lang="ts" setup>${scriptBody}\n</script>`;
+}
+
+function propValueToSource(val: string | boolean | object | undefined) {
+  const type = typeof val;
+  switch (type) {
+    case 'boolean':
+      return val;
+    case 'object':
+      return `${JSON.stringify(val as object)}`;
+    case 'undefined':
+      return `${val}`;
+    default:
+      return `"${val}"`;
+  }
+}
+
+function getTemplates(renderFunc: any): [] {
+  const ast = parserHTML.parsers.vue.parse(
+    renderFunc.toString(),
+    { vue: parserHTML.parsers.vue },
+    {
+      locStart(node: any): number {
+        throw new Error('Function not implemented.');
+      },
+      locEnd(node: any): number {
+        throw new Error('Function not implemented.');
+      },
+      originalText: '',
+      semi: false,
+      singleQuote: false,
+      jsxSingleQuote: false,
+      trailingComma: 'none',
+      bracketSpacing: false,
+      bracketSameLine: false,
+      jsxBracketSameLine: false,
+      rangeStart: 0,
+      rangeEnd: 0,
+      parser: 'vue',
+      filepath: '',
+      requirePragma: false,
+      insertPragma: false,
+      proseWrap: 'always',
+      arrowParens: 'always',
+      plugins: [],
+      pluginSearchDirs: false,
+      htmlWhitespaceSensitivity: 'css',
+      endOfLine: 'auto',
+      quoteProps: 'preserve',
+      vueIndentScriptAndStyle: false,
+      embeddedLanguageFormatting: 'auto',
+      singleAttributePerLine: false,
+      printWidth: 0,
+      tabWidth: 0,
+      useTabs: false,
+    }
+  );
+
+  let components = ast.children?.filter((element: any) => element.name);
+  components = components.map((element: any) => {
+    const { attrs: att = [] } = element;
+    const att3 = att?.filter((el: any) => el.name !== 'v-bind'); //  as Array<any>).push(props);
+    return { name: element.name, attrs: att3 };
+  });
+  return components;
 }
 
 /**
@@ -59,30 +155,41 @@ function propToDynamicSource(key: string, val: string | boolean | object) {
  * @param slotProp Prop used to simulate a slot
  */
 export function generateSource(
-  component: any,
+  compOrComps: any,
   args: Args,
   argTypes: ArgTypes,
   slotProp?: string | null
 ): string | null {
-  const name = getComponentName(component);
+  const generateComponentSource = (component: any): string | null => {
+    const name = getComponentName(component);
 
-  if (!name) {
-    return null;
+    if (!name) {
+      return null;
+    }
+
+    const props = argsToSource(args, argTypes, slotProp);
+
+    const slotValue = slotProp ? args[slotProp] : null;
+
+    if (slotValue) {
+      return `<${name} ${props}>\n {{ ${slotProp} }} \n</${name}>`;
+    }
+
+    return `<${name} ${props}/>`;
+  };
+  // handle one component or multiple
+  const components = isArray(compOrComps) ? compOrComps : [compOrComps];
+  let source = '';
+  // eslint-disable-next-line no-restricted-syntax
+  for (const comp of components) {
+    source += `${generateComponentSource(comp)}\n`;
   }
 
-  const props = argsToSource(args);
-
-  const slotValue = slotProp ? args[slotProp] : null;
-
-  if (slotValue) {
-    return `<${name} ${props}>\n    ${slotValue}\n</${name}>`;
-  }
-
-  return `<${name} ${props}/>`;
+  return source;
 }
 
 /**
- * Svelte source decorator.
+ *  source decorator.
  * @param storyFn Fn
  * @param context  StoryContext
  */
@@ -92,10 +199,10 @@ export const sourceDecorator = (storyFn: any, context: StoryContext<Renderer>) =
   const story = storyFn();
 
   let source: string;
-  console.log('sourceDecorator ()storyFn', storyFn, 'context ', context);
+
   useEffect(() => {
     if (!skip && source) {
-      channel.emit(SNIPPET_RENDERED, (context || {}).id, source);
+      channel.emit(SNIPPET_RENDERED, (context || {}).id, source, 'html');
     }
   });
 
@@ -103,16 +210,25 @@ export const sourceDecorator = (storyFn: any, context: StoryContext<Renderer>) =
     return story;
   }
 
-  const { parameters = {}, args = {}, component: ctxtComponent } = context || {};
-  const { Component: component = {} } = story;
+  const { args = {}, component: ctxtComponent, originalStoryFn: render } = context || {};
+  const components = getTemplates(render);
 
-  const slotProp = null;
+  const renderedComponent = components.length ? components : ctxtComponent;
 
-  const generated = generateSource(component, args, context?.argTypes, slotProp);
-  if (generated) {
-    source = generated;
+  const cWrap: any = ctxtComponent;
+
+  const { name: slotProp } = cWrap.__docgenInfo?.slots.find((slot: { name: string }) => slot.name);
+
+  const generatedTemplate = generateSource(renderedComponent, args, context?.argTypes, slotProp);
+  const generatedScript = generateSetupScript(args, context?.argTypes);
+
+  if (generatedTemplate) {
+    source = format(`${generatedScript}\n<template>\n ${generatedTemplate} \n</template>`, {
+      vueIndentScriptAndStyle: true,
+      parser: 'vue',
+      plugins: [parserTypescript, parserHTML],
+    });
   }
-  console.log(' source generated ', generated);
 
   return story;
 };
