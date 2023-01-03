@@ -72,9 +72,9 @@ export const missingBabelRc: Fix<MissingBabelRcOptions> = {
         chalk.red('Attention')
       )}: We could not automatically make this change. You'll need to do it manually.
 
-      Storybook now uses Babel mode v7 exclusively. In 6.x, Storybook provided its own babel settings out of the box. Now, Storybook's uses your project's babel settings (.babelrc, babel.config.js, etc.) instead.
+      In Storybook 6, it provided its own babel settings out of the box. Now, Storybook's uses your project's babel settings (.babelrc, babel.config.js, etc.) instead.
 
-      In the new mode, Storybook expects you to provide a configuration file. If you want a configuration file that's equivalent to the 6.x default, you can run the following command in your project directory:
+      Storybook now expects you to provide a babel configuration file yourself. If you want a configuration file that's equivalent to the 6.x default, you can run the following command in your project directory:
 
       ${chalk.blue('npx sb@next babelrc')}
 
