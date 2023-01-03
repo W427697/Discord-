@@ -34,7 +34,6 @@ export const WithSourceClosed: Story = {
   },
 };
 
-// TODO: what is the purpose of mdxSource exactly?
 export const WithMdxSource: Story = {
   name: 'With MDX Source',
   args: {
