@@ -147,10 +147,27 @@ export const init: ModuleFn<SubAPI, SubState, void> = (
       const query = version ? `?version=${version}` : '';
       const credentials = isPublic ? 'omit' : 'include';
 
+      let headers: unknown;
+      let cleanUrl = url;
+      const credentialsRegex = /https?:\/\/(.+:.+)@/;
+      const [, urlCredentials] = url.match(credentialsRegex) || [];
+      if (urlCredentials) {
+        cleanUrl = url.replace(`${urlCredentials}@`, '');
+        const base64Auth = btoa(`${urlCredentials}`);
+        headers = {
+          Accept: 'application/json',
+          Authorization: `Basic ${base64Auth}`,
+        };
+      } else {
+        headers = {
+          Accept: 'application/json',
+        };
+      }
+
       const [indexFetch, storiesFetch] = await Promise.all(
         ['index.json', 'stories.json'].map(async (file) =>
-          fetch(`${url}/${file}${query}`, {
-            headers: { Accept: 'application/json' },
+          fetch(`${cleanUrl}/${file}${query}`, {
+            headers,
             credentials,
           })
         )
@@ -160,10 +177,8 @@ export const init: ModuleFn<SubAPI, SubState, void> = (
         const [index, metadata] = await Promise.all([
           indexFetch.ok ? handleRequest(indexFetch) : handleRequest(storiesFetch),
           handleRequest(
-            fetch(`${url}/metadata.json${query}`, {
-              headers: {
-                Accept: 'application/json',
-              },
+            fetch(`${cleanUrl}/metadata.json${query}`, {
+              headers,
               credentials,
               cache: 'no-cache',
             }).catch(() => false)
@@ -180,7 +195,7 @@ export const init: ModuleFn<SubAPI, SubState, void> = (
             Error: Loading of ref failed
               at fetch (lib/api/src/modules/refs.ts)
 
-            URL: ${url}
+            URL: ${cleanUrl}
 
             We weren't able to load the above URL,
             it's possible a CORS error happened.
@@ -195,7 +210,7 @@ export const init: ModuleFn<SubAPI, SubState, void> = (
 
       await api.setRef(id, {
         id,
-        url,
+        url: cleanUrl,
         ...loadedData,
         ...(versions ? { versions } : {}),
         type: !loadedData.storyIndex ? 'auto-inject' : 'lazy',
