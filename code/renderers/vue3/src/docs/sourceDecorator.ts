@@ -45,10 +45,10 @@ function getComponentName(component: any): string | null {
  * @param argTypes
  * @param slotProp prop used to simulate slot
  */
-function argsToSource(args: any, argTypes: ArgTypes, slotProp?: string | null): string {
+function argsToSource(args: any, argTypes: ArgTypes, slotProps?: string[] | null): string {
   const argsKeys = Object.keys(args);
   const srouce = argsKeys
-    .map((key) => propToDynamicSource(key, args[key], argTypes, slotProp))
+    .map((key) => propToDynamicSource(key, args[key], argTypes, slotProps))
     .filter((item) => item !== '')
     .join(' ');
 
@@ -59,10 +59,14 @@ function propToDynamicSource(
   key: string,
   val: string | boolean | object,
   argTypes: ArgTypes,
-  slotProp?: string | null
+  slotProps?: string[] | null
 ): string {
   // slot Args or default value
-  if (key === slotProp || (argTypes[key] && argTypes[key].defaultValue === val)) return '';
+  if (
+    (slotProps && slotProps.indexOf(key) > -1) ||
+    (argTypes[key] && argTypes[key].defaultValue === val)
+  )
+    return '';
   return `:${key}="${key}"`;
 }
 
@@ -71,10 +75,7 @@ function generateSetupScript(args: any, argTypes: ArgTypes): string {
   let scriptBody = '';
   // eslint-disable-next-line no-restricted-syntax
   for (const key of argsKeys) {
-    if (
-      !key.startsWith('slotArgs.') &&
-      !(argTypes[key] && argTypes[key].defaultValue === args[key])
-    )
+    if (!(argTypes[key] && argTypes[key].defaultValue === args[key]))
       if (typeof args[key] !== 'function')
         scriptBody += `\n const ${key} = ref(${propValueToSource(args[key])})`;
       else scriptBody += `\n const ${key} = ()=>{}`;
@@ -158,7 +159,7 @@ export function generateSource(
   compOrComps: any,
   args: Args,
   argTypes: ArgTypes,
-  slotProp?: string | null
+  slotProps?: string[] | null
 ): string | null {
   const generateComponentSource = (component: any): string | null => {
     const name = getComponentName(component);
@@ -167,12 +168,13 @@ export function generateSource(
       return null;
     }
 
-    const props = argsToSource(args, argTypes, slotProp);
+    const props = argsToSource(args, argTypes, slotProps);
 
-    const slotValue = slotProp ? args[slotProp] : null;
+    const slotValues = slotProps?.map((slotProp) => args[slotProp]); // slotProp ? args[slotProp] : null;
 
-    if (slotValue) {
-      return `<${name} ${props}>\n {{ ${slotProp} }} \n</${name}>`;
+    if (slotValues) {
+      const namedSlotContents = createNamedSlots(slotProps, slotValues);
+      return `<${name} ${props}>\n  ${namedSlotContents}  \n</${name}>`;
     }
 
     return `<${name} ${props}/>`;
@@ -186,6 +188,28 @@ export function generateSource(
   }
 
   return source;
+}
+/**
+ * create Named Slots content in source
+ * @param slotProps
+ * @param slotValues
+ */
+
+function createNamedSlots(
+  slotProps: string[] | null | undefined,
+  slotValues: { [key: string]: any }
+) {
+  console.log('slotValues', slotValues);
+  if (!slotProps) return '';
+  let template = '';
+  if (slotProps.length === 1 && slotProps[0] === 'default') return `{{ default }}`;
+  // eslint-disable-next-line no-restricted-syntax
+  for (const slotProp of slotProps) {
+    console.log(`slotValues[${slotProp}]`, slotValues[slotProps.indexOf(slotProp)]);
+    if (slotValues[slotProps.indexOf(slotProp)])
+      template += `<template #${slotProp}> {{ ${slotProp} }}</template>`;
+  }
+  return template;
 }
 
 /**
@@ -217,9 +241,11 @@ export const sourceDecorator = (storyFn: any, context: StoryContext<Renderer>) =
 
   const cWrap: any = ctxtComponent;
 
-  const { name: slotProp } = cWrap.__docgenInfo?.slots.find((slot: { name: string }) => slot.name);
+  const slotProps: string[] = cWrap.__docgenInfo?.slots
+    .filter((slot: any) => slot.name)
+    .map((slot: { name: string }) => slot.name);
 
-  const generatedTemplate = generateSource(renderedComponent, args, context?.argTypes, slotProp);
+  const generatedTemplate = generateSource(renderedComponent, args, context?.argTypes, slotProps);
   const generatedScript = generateSetupScript(args, context?.argTypes);
 
   if (generatedTemplate) {
