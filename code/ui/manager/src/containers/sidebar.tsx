@@ -17,8 +17,7 @@ const Sidebar = React.memo(function Sideber() {
       refId,
       layout: { showToolbar, isFullscreen, showPanel, showNav },
       storiesHash,
-      storiesConfigured,
-      storiesFailed,
+      ready,
       refs,
     } = state;
 
@@ -28,8 +27,7 @@ const Sidebar = React.memo(function Sideber() {
       title: name,
       url,
       stories: storiesHash,
-      storiesFailed,
-      storiesConfigured,
+      ready,
       refs,
       storyId,
       refId,

@@ -37,8 +37,7 @@ const canvasMapper = ({ state, api }: Combo) => ({
   queryParams: state.customQueryParams,
   getElements: api.getElements,
   entry: api.getData(state.storyId, state.refId),
-  storySpecified: state.storySpecified,
-  storiesFailed: state.storiesFailed,
+  ready: state.ready,
   refs: state.refs,
   active: !!(state.viewMode && state.viewMode.match(/^(story|docs)$/)),
 });
@@ -60,8 +59,7 @@ const createCanvas = (id: string, baseUrl = 'iframe.html', withLoader = true): A
           viewMode,
           queryParams,
           getElements,
-          storySpecified,
-          storiesFailed,
+          ready,
           active,
         }) => {
           const wrappers = useMemo(
@@ -83,18 +81,12 @@ const createCanvas = (id: string, baseUrl = 'iframe.html', withLoader = true): A
               }
             }
           }, []);
-
-          // Booting here means the preview is still booting up and hasn't rendered anything
-          // (including a spinner during preparation) yet.
-          // We are done booting when a story is selected.
-          const isBooting = !storySpecified && !storiesFailed;
-          // A ref is ready when it emits STORY_PREPARED
+          // A ref simply depends on its readiness
           const refLoading = !!refs[refId] && !refs[refId].ready;
-          // The root is ready when it no longer is waiting on webpack
-          const rootLoading = !refId && !(progress?.value === 1 || progress === undefined);
-          const isLoading = entry
-            ? isBooting || refLoading || rootLoading
-            : isBooting || rootLoading;
+          // The root also might need to wait on webpack
+          const isBuilding = !(progress?.value === 1 || progress === undefined);
+          const rootLoading = !refId && (!ready || isBuilding);
+          const isLoading = entry ? refLoading || rootLoading : rootLoading;
 
           return (
             <ZoomConsumer>

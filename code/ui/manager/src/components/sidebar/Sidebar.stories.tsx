@@ -38,45 +38,24 @@ const refs: Record<string, RefType> = {
 };
 
 export const Simple = () => (
-  <Sidebar
-    storiesConfigured
-    menu={menu}
-    stories={stories as any}
-    storyId={storyId}
-    refId={refId}
-    refs={{}}
-  />
+  <Sidebar ready menu={menu} stories={stories as any} storyId={storyId} refId={refId} refs={{}} />
 );
 
 export const Loading = () => (
-  <Sidebar
-    storiesConfigured={false}
-    menu={menu}
-    stories={{}}
-    storyId={storyId}
-    refId={refId}
-    refs={{}}
-  />
+  <Sidebar ready={false} menu={menu} stories={{}} storyId={storyId} refId={refId} refs={{}} />
 );
 
 export const Empty = () => (
-  <Sidebar storiesConfigured menu={menu} stories={{}} storyId={storyId} refId={refId} refs={{}} />
+  <Sidebar ready menu={menu} stories={{}} storyId={storyId} refId={refId} refs={{}} />
 );
 
 export const WithRefs = () => (
-  <Sidebar
-    storiesConfigured
-    menu={menu}
-    stories={stories as any}
-    storyId={storyId}
-    refId={refId}
-    refs={refs}
-  />
+  <Sidebar ready menu={menu} stories={stories as any} storyId={storyId} refId={refId} refs={refs} />
 );
 
 export const LoadingWithRefs = () => (
   <Sidebar
-    storiesConfigured={false}
+    ready={false}
     menu={menu}
     stories={stories as any}
     storyId={storyId}

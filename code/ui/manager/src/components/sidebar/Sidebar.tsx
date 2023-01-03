@@ -58,12 +58,7 @@ const Swap = React.memo(function Swap({
   );
 });
 
-const useCombination = (
-  stories: StoriesHash,
-  ready: boolean,
-  error: Error | undefined,
-  refs: Refs
-): CombinedDataset => {
+const useCombination = (stories: StoriesHash, ready: boolean, refs: Refs): CombinedDataset => {
   const hash = useMemo(
     () => ({
       [DEFAULT_REF_ID]: {
@@ -72,7 +67,6 @@ const useCombination = (
         id: DEFAULT_REF_ID,
         url: 'iframe.html',
         ready,
-        error,
       },
       ...refs,
     }),
@@ -83,8 +77,7 @@ const useCombination = (
 
 export interface SidebarProps {
   stories: StoriesHash;
-  storiesConfigured: boolean;
-  storiesFailed?: Error;
+  ready: boolean;
   refs: State['refs'];
   menu: any[];
   storyId?: string;
@@ -97,8 +90,7 @@ export const Sidebar = React.memo(function Sidebar({
   storyId = null,
   refId = DEFAULT_REF_ID,
   stories,
-  storiesConfigured,
-  storiesFailed,
+  ready,
   menu,
   menuHighlighted = false,
   enableShortcuts = true,
@@ -106,8 +98,8 @@ export const Sidebar = React.memo(function Sidebar({
 }: SidebarProps) {
   const selected: Selection = useMemo(() => storyId && { storyId, refId }, [storyId, refId]);
 
-  const dataset = useCombination(stories, storiesConfigured, storiesFailed, refs);
-  const isLoading = !dataset.hash[DEFAULT_REF_ID].ready;
+  const dataset = useCombination(stories, ready, refs);
+  const isLoading = !ready;
   const lastViewedProps = useLastViewed(selected);
 
   return (

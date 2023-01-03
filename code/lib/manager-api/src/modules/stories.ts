@@ -13,6 +13,7 @@ import {
   STORY_SPECIFIED,
   STORY_INDEX_INVALIDATED,
   CONFIG_ERROR,
+  CURRENT_STORY_WAS_SET,
 } from '@storybook/core-events';
 import { logger } from '@storybook/client-logger';
 
@@ -54,9 +55,7 @@ export interface SubState {
   storiesHash: API_StoriesHash;
   storyId: StoryId;
   viewMode: ViewMode;
-  storySpecified: boolean;
-  storiesConfigured: boolean;
-  storiesFailed?: Error;
+  ready: boolean;
 }
 
 export interface SubAPI {
@@ -326,10 +325,7 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
 
         await fullAPI.setIndex(storyIndex);
       } catch (err) {
-        store.setState({
-          storiesConfigured: true,
-          storiesFailed: err,
-        });
+        store.setState({ ready: true });
       }
     },
     // The story index we receive on SET_INDEX is "prepared" in that it has parameters
@@ -346,8 +342,7 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
 
       await store.setState({
         storiesHash: addPreparedStories(newHash, oldHash),
-        storiesConfigured: true,
-        storiesFailed: null,
+        ready: true,
       });
     },
     updateStory: async (
@@ -389,8 +384,6 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
         const { sourceType } = getEventMetadata(this, fullAPI);
 
         if (sourceType === 'local') {
-          store.setState({ storySpecified: true });
-
           if (fullAPI.isSettingsScreenActive()) return;
 
           // Special case -- if we are already at the story being specified (i.e. the user started at a given story),
@@ -402,6 +395,20 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
         }
       }
     );
+
+    // The CURRENT_STORY_WAS_SET event is the best event to use to tell if a ref is ready.
+    // Until the ref has a selection, it will not render anything (e.g. while waiting for
+    // the preview.js file or the index to load). Once it has a selection, it will render its own
+    // preparing spinner.
+    fullAPI.on(CURRENT_STORY_WAS_SET, function handler() {
+      const { ref } = getEventMetadata(this, fullAPI);
+
+      if (!ref) {
+        store.setState({ ready: true });
+      } else {
+        fullAPI.updateRef(ref.id, { ready: true });
+      }
+    });
 
     fullAPI.on(STORY_CHANGED, function handler() {
       const { sourceType } = getEventMetadata(this, fullAPI);
@@ -425,8 +432,6 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
           fullAPI.setOptions(removeRemovedOptions(options));
           store.setState({ hasCalledSetOptions: true });
         }
-      } else {
-        fullAPI.updateRef(ref.id, { ready: true });
       }
 
       if (sourceType === 'local') {
@@ -503,10 +508,13 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
     );
 
     fullAPI.on(CONFIG_ERROR, function handleConfigError(err) {
-      store.setState({
-        storiesConfigured: true,
-        storiesFailed: err,
-      });
+      const { ref } = getEventMetadata(this, fullAPI);
+
+      if (!ref) {
+        store.setState({ ready: true });
+      } else {
+        fullAPI.updateRef(ref.id, { ready: true });
+      }
     });
 
     if (FEATURES?.storyStoreV7) {
@@ -521,8 +529,7 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
       storiesHash: {},
       storyId: initialStoryId,
       viewMode: initialViewMode,
-      storySpecified: false,
-      storiesConfigured: false,
+      ready: false,
       hasCalledSetOptions: false,
     },
     init: initModule,
