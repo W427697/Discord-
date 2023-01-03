@@ -1,10 +1,9 @@
-import { jest, describe, it, expect } from '@jest/globals';
 import { Channel } from '@storybook/channels';
-import type { Renderer, StandaloneDocsIndexEntry } from '@storybook/types';
+import type { Renderer, DocsIndexEntry } from '@storybook/types';
 import type { StoryStore } from '../../store';
 import { PREPARE_ABORTED } from './Render';
 
-import { StandaloneDocsRender } from './StandaloneDocsRender';
+import { MdxDocsRender } from './MdxDocsRender';
 
 const entry = {
   type: 'docs',
@@ -13,8 +12,7 @@ const entry = {
   title: 'Introduction',
   importPath: './Introduction.mdx',
   storiesImports: [],
-  standalone: true,
-} as StandaloneDocsIndexEntry;
+} as DocsIndexEntry;
 
 const createGate = (): [Promise<any | undefined>, (_?: any) => void] => {
   let openGate = (_?: any) => {};
@@ -24,7 +22,7 @@ const createGate = (): [Promise<any | undefined>, (_?: any) => void] => {
   return [gate, openGate];
 };
 
-describe('StandaloneDocsRender', () => {
+describe('MdxDocsRender', () => {
   it('throws PREPARE_ABORTED if torndown during prepare', async () => {
     const [importGate, openImportGate] = createGate();
     const mockStore = {
@@ -34,7 +32,7 @@ describe('StandaloneDocsRender', () => {
       }),
     };
 
-    const render = new StandaloneDocsRender(
+    const render = new MdxDocsRender(
       new Channel(),
       mockStore as unknown as StoryStore<Renderer>,
       entry

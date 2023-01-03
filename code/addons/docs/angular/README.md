@@ -207,7 +207,7 @@ And for `MDX` you can modify it as an attribute on the `Story` element:
 
 ## Inline Stories
 
-Storybook Docs renders all Angular stories inline by default. 
+Storybook Docs renders all Angular stories inline by default.
 
 However, you can render stories in an iframe, with a default height of `60px` (configurable using the `docs.iframeHeight` story parameter), by using the `docs.inlineStories` parameter.
 

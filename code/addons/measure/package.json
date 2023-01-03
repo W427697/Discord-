@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-measure",
-  "version": "7.0.0-beta.13",
+  "version": "7.0.0-beta.19",
   "description": "Inspect layouts by visualizing the box model",
   "keywords": [
     "storybook-addons",
@@ -26,6 +26,7 @@
   "author": "winkerVSbecks",
   "exports": {
     ".": {
+      "node": "./dist/index.js",
       "require": "./dist/index.js",
       "import": "./dist/index.mjs",
       "types": "./dist/index.d.ts"
@@ -74,13 +75,13 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/client-logger": "7.0.0-beta.13",
-    "@storybook/components": "7.0.0-beta.13",
-    "@storybook/core-events": "7.0.0-beta.13",
+    "@storybook/client-logger": "7.0.0-beta.19",
+    "@storybook/components": "7.0.0-beta.19",
+    "@storybook/core-events": "7.0.0-beta.19",
     "@storybook/global": "^5.0.0",
-    "@storybook/manager-api": "7.0.0-beta.13",
-    "@storybook/preview-api": "7.0.0-beta.13",
-    "@storybook/types": "7.0.0-beta.13"
+    "@storybook/manager-api": "7.0.0-beta.19",
+    "@storybook/preview-api": "7.0.0-beta.19",
+    "@storybook/types": "7.0.0-beta.19"
   },
   "devDependencies": {
     "typescript": "~4.9.3"
@@ -107,7 +108,7 @@
       "./src/preview.tsx"
     ]
   },
-  "gitHead": "ddf86bd126ede0c019d7c9494f99f24a5cad9908",
+  "gitHead": "da902f312eb354d20aa83bf0f0035b9744f93791",
   "storybook": {
     "displayName": "Measure",
     "unsupportedFrameworks": [
