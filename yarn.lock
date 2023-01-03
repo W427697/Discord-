@@ -7406,7 +7406,7 @@ __metadata:
     get-port: ^5.1.1
     globby: ^11.0.2
     jscodeshift: ^0.13.1
-    json5: ^2.1.3
+    json5: ^2.2.2
     leven: ^3.1.0
     prompts: ^2.4.0
     puppeteer-core: ^2.1.1
@@ -7613,7 +7613,7 @@ __metadata:
     glob: ^7.1.6
     handlebars: ^4.7.7
     interpret: ^2.2.0
-    json5: ^2.1.3
+    json5: ^2.2.2
     lazy-universal-dotenv: ^3.0.1
     mock-fs: ^4.13.0
     picomatch: ^2.3.0
@@ -29312,7 +29312,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"json5@npm:2.x, json5@npm:^2.0.0, json5@npm:^2.1.0, json5@npm:^2.1.2, json5@npm:^2.1.3, json5@npm:^2.2.0":
+"json5@npm:2.x, json5@npm:^2.0.0, json5@npm:^2.1.0, json5@npm:^2.1.2, json5@npm:^2.2.0":
   version: 2.2.0
   resolution: "json5@npm:2.2.0"
   dependencies:
@@ -29340,6 +29340,15 @@ __metadata:
   bin:
     json5: lib/cli.js
   checksum: 7f75dd797151680a4e14c4224c1343b32a43272aa6e6333ddec2b0822df4ea116971689b251879a1248592da24f7929902c13f83d7390c3f3d44f18e8e9719f5
+  languageName: node
+  linkType: hard
+
+"json5@npm:^2.2.2":
+  version: 2.2.3
+  resolution: "json5@npm:2.2.3"
+  bin:
+    json5: lib/cli.js
+  checksum: 5a04eed94810fa55c5ea138b2f7a5c12b97c3750bc63d11e511dcecbfef758003861522a070c2272764ee0f4e3e323862f386945aeb5b85b87ee43f084ba586c
   languageName: node
   linkType: hard
 

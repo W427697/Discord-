@@ -65,7 +65,7 @@
     "get-port": "^5.1.1",
     "globby": "^11.0.2",
     "jscodeshift": "^0.13.1",
-    "json5": "^2.1.3",
+    "json5": "^2.2.2",
     "leven": "^3.1.0",
     "prompts": "^2.4.0",
     "puppeteer-core": "^2.1.1",
