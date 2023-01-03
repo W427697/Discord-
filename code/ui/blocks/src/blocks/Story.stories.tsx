@@ -40,7 +40,7 @@ export const Id: Story = {
 
 export const Name: Story = {
   args: {
-    name: 'True',
+    name: 'Secondary',
   },
 };
 
