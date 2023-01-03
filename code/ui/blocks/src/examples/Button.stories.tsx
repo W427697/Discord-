@@ -6,7 +6,6 @@ import { RESET_STORY_ARGS, STORY_ARGS_UPDATED } from '@storybook/core-events';
 import React from 'react';
 import { Button } from './Button';
 
-// More on how to set up stories at: https://storybook.js.org/docs/7.0/react/writing-stories/introduction
 const meta = {
   title: 'Example/Button',
   component: Button,
@@ -25,7 +24,9 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-// More on writing stories with args: https://storybook.js.org/docs/7.0/react/writing-stories/args
+/**
+ * This is the primary mode for the button
+ */
 export const Primary: Story = {
   args: {
     primary: true,
@@ -37,12 +38,29 @@ export const Secondary: Story = {
   args: {
     label: 'Button',
   },
+  parameters: {
+    docs: { description: { story: 'This is the secondary - or default - mode for the button' } },
+  },
 };
 
+/**
+ * This is the large button
+ * __this description was written as a comment above the story__
+ */
 export const Large: Story = {
   args: {
     size: 'large',
     label: 'Button',
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: `
+This is the large button
+__this description was written as a string in parameters.docs.description.story__
+`,
+      },
+    },
   },
 };
 
