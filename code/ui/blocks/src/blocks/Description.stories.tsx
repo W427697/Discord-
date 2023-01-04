@@ -9,12 +9,6 @@ import * as ButtonStoriesWithMetaDescriptionAsBoth from '../examples/ButtonWithM
 const meta: Meta<typeof Description> = {
   component: Description,
   parameters: {
-    relativeCsfPaths: [
-      '../examples/Button.stories',
-      '../examples/ButtonWithMetaDescriptionAsParameter.stories',
-      '../examples/ButtonWithMetaDescriptionAsComment.stories',
-      '../examples/ButtonWithMetaDescriptionAsBoth.stories',
-    ],
     controls: {
       include: [],
       hideNoControlsWarning: true,
@@ -29,25 +23,34 @@ export const OfComponentAsComponentComment: Story = {
   args: {
     of: ButtonComponent,
   },
+  parameters: { relativeCsfPaths: ['../examples/Button.stories'] },
 };
 export const OfMetaAsComponentComment: Story = {
   args: {
     of: DefaultButtonStories.default,
   },
+  parameters: { relativeCsfPaths: ['../examples/Button.stories'] },
 };
 export const OfMetaAsMetaComment: Story = {
   args: {
     of: ButtonStoriesWithMetaDescriptionAsComment.default,
   },
+  parameters: { relativeCsfPaths: ['../examples/ButtonWithMetaDescriptionAsComment.stories'] },
 };
 export const OfMetaAsParameter: Story = {
   args: {
     of: ButtonStoriesWithMetaDescriptionAsParameter.default,
   },
+  parameters: {
+    relativeCsfPaths: ['../examples/ButtonWithMetaDescriptionAsParameter.stories'],
+  },
 };
 export const OfMetaAsMetaCommentAndParameter: Story = {
   args: {
     of: ButtonStoriesWithMetaDescriptionAsBoth.default,
+  },
+  parameters: {
+    relativeCsfPaths: ['../examples/ButtonWithMetaDescriptionAsBoth.stories'],
   },
 };
 
@@ -55,14 +58,17 @@ export const OfStoryAsComment: Story = {
   args: {
     of: DefaultButtonStories.Primary,
   },
+  parameters: { relativeCsfPaths: ['../examples/Button.stories'] },
 };
 export const OfStoryAsParameter: Story = {
   args: {
     of: DefaultButtonStories.Secondary,
   },
+  parameters: { relativeCsfPaths: ['../examples/Button.stories'] },
 };
 export const OfStoryAsStoryCommentAndParameter: Story = {
   args: {
     of: DefaultButtonStories.Large,
   },
+  parameters: { relativeCsfPaths: ['../examples/Button.stories'] },
 };
