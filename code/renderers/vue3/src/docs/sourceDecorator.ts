@@ -37,7 +37,7 @@ const skipSourceRender = (context: StoryContext<Renderer>) => {
  * @param component Component
  */
 function getComponentName(component: any): string | null {
-  return component?.name || component?.__name || component.__docgenInfo?.__name;
+  return component?.name || component?.__name || component?.__docgenInfo?.__name || null;
 }
 /**
  * Transform args to props string
@@ -161,16 +161,16 @@ export function generateSource(
   argTypes: ArgTypes,
   slotProps?: string[] | null
 ): string | null {
+  if (!compOrComps) return null;
   const generateComponentSource = (component: any): string | null => {
     const name = getComponentName(component);
 
     if (!name) {
-      return null;
+      return '';
     }
 
     const props = argsToSource(args, argTypes, slotProps);
-
-    const slotValues = slotProps?.map((slotProp) => args[slotProp]); // slotProp ? args[slotProp] : null;
+    const slotValues = slotProps?.map((slotProp) => args[slotProp]);
 
     if (slotValues) {
       const namedSlotContents = createNamedSlots(slotProps, slotValues);
@@ -184,7 +184,7 @@ export function generateSource(
   let source = '';
   // eslint-disable-next-line no-restricted-syntax
   for (const comp of components) {
-    source += `${generateComponentSource(comp)}\n`;
+    source += `${generateComponentSource(comp)}`;
   }
 
   return source;
@@ -201,11 +201,11 @@ function createNamedSlots(
 ) {
   if (!slotProps) return '';
   let template = '';
-  if (slotProps.length === 1 && slotProps[0] === 'default') return `{{ default }}`;
+  if (slotProps.length === 1) return `{{ ${slotProps[0]} }}`;
   // eslint-disable-next-line no-restricted-syntax
   for (const slotProp of slotProps) {
     if (slotValues[slotProps.indexOf(slotProp)])
-      template += `<template #${slotProp}> {{ ${slotProp} }}</template>`;
+      template += `<template #${slotProp}> {{ ${slotProp} }} </template>`;
   }
   return template;
 }
