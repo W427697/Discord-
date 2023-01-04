@@ -16,7 +16,7 @@ export const render: ArgsStoryFn<SolidRenderer> = (args, context) => {
   return <Component {...args} />;
 };
 
-const [store, setStore] = createStore({name: ""});
+const [store, setStore] = createStore({ storyContext: {} as any });
 let disposeStory: (() => void) | undefined;
 
 export async function renderToCanvas(
@@ -42,22 +42,21 @@ export async function renderToCanvas(
    * the component state when a property from controls is changed.
    */
   if (!forceRemount) {
-    setStore("name", storyContext.args.children);
+    setStore("storyContext", storyContext);
     return;
   }
 
   const Story = unboundStoryFn as Component<StoryContext<SolidRenderer>>;
 
-  const FakeStory: Component = () => {
+  const FakeStory: Component<{children?: JSXElement}> = (props) => {
     console.log("Rendered!");
     return <div style="color: yellow">
-      {store.name}
+      {props.children}
     </div>
   }
 
-  const Wrapper: Component = () => {
-    console.log(JSON.stringify(storyContext));
-    setStore("name", storyContext.args.children);
+  const Wrapper: Component = () => {        
+    setStore("storyContext", storyContext);
 
     onMount(() => {
       showMain();
@@ -67,7 +66,7 @@ export async function renderToCanvas(
       showException(err);
       return err
     }}>      
-      <FakeStory />
+      <FakeStory {...store.storyContext.args} />
     </ErrorBoundary>
   }
 
