@@ -1,6 +1,6 @@
 import { global as globalThis } from '@storybook/global';
 import { html, LitElement } from 'lit';
-// eslint-disable-next-line import/extensions
+
 import { styleMap } from 'lit-html/directives/style-map.js';
 
 const { customElements } = globalThis;

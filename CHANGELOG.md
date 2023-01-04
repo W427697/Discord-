@@ -1,3 +1,30 @@
+## 7.0.0-beta.19 (January 1, 2023)
+
+#### Features
+
+-   NextJS: Add next/head support [#20436](https://github.com/storybooks/storybook/pull/20436)
+
+#### Bug Fixes
+
+-   CLI: Do not use legacy-peer-deps for npm [#20456](https://github.com/storybooks/storybook/pull/20456)
+-   CLI: Use closest lockfile to determine package manager [#20464](https://github.com/storybooks/storybook/pull/20464)
+-   CLI: Use correct package manager for automigrate [#20428](https://github.com/storybooks/storybook/pull/20428)
+-   CLI: Add prop-types dependency if not using TypeScript [#20449](https://github.com/storybooks/storybook/pull/20449)
+-   CLI: Add peer dependency on react [#20459](https://github.com/storybooks/storybook/pull/20459)
+
+#### Maintenance
+
+-   Vue3: Add TS / legacy TS CLI templates [#20434](https://github.com/storybooks/storybook/pull/20434)
+-   Core: Delete outdated onerror handler [#20462](https://github.com/storybooks/storybook/pull/20462)
+
+#### Build
+
+-   Build: Add extensions to lodash imports [#20443](https://github.com/storybooks/storybook/pull/20443)
+
+## 7.0.0-beta.18 (January 1, 2023)
+
+Bad npm publish
+
 ## 7.0.0-beta.17 (December 30, 2022)
 
 #### Bug Fixes
