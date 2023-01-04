@@ -217,6 +217,15 @@ function prettierFormat(source: string): string {
     plugins: [parserHTML, parserTypescript],
   });
 }
+/**
+ * get slots from vue component
+ * @param ctxtComponent Vue Component
+ */
+
+function getComponentSlots(ctxtComponent: any): string[] {
+  if (!ctxtComponent) return [];
+  return ctxtComponent?.__docgenInfo?.slots?.map((slot: { name: string }) => slot.name) || [];
+}
 
 /**
  *  source decorator.
@@ -245,9 +254,7 @@ export const sourceDecorator = (storyFn: any, context: StoryContext<Renderer>) =
 
   const renderedComponent = components.length ? components : ctxtComponent;
 
-  const cWrap: any = ctxtComponent;
-
-  const slotProps: string[] = cWrap.__docgenInfo?.slots?.map((slot: { name: string }) => slot.name);
+  const slotProps: string[] = getComponentSlots(ctxtComponent);
 
   const generatedTemplate = generateSource(renderedComponent, args, context?.argTypes, slotProps);
   const generatedScript = generateSetupScript(args, context?.argTypes);
