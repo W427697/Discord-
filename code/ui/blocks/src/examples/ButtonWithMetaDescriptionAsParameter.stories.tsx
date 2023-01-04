@@ -12,8 +12,8 @@ const meta = {
       description: {
         component: `
 These are the stories for the Button component
-__this description was written as a string in parameters.docs.description.component__
-__and should override the comment above the default export__
+
+_this description was written as a string in \`parameters.docs.description.component\`_
    `,
       },
     },

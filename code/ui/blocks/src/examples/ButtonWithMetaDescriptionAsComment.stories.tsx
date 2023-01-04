@@ -3,7 +3,8 @@ import { Button } from './Button';
 
 /**
  * These are the stories for the Button component
- * __this description was written as a comment above the default export__
+ *
+ * _this description was written as a comment above the default export_
  */
 const meta = {
   title: 'Blocks/Description/Button',

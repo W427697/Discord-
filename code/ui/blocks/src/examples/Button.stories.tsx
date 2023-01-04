@@ -26,6 +26,8 @@ type Story = StoryObj<typeof meta>;
 
 /**
  * This is the primary mode for the button
+ *
+ * _this description was written as a comment above the story_
  */
 export const Primary: Story = {
   args: {
@@ -39,13 +41,20 @@ export const Secondary: Story = {
     label: 'Button',
   },
   parameters: {
-    docs: { description: { story: 'This is the secondary - or default - mode for the button' } },
+    docs: {
+      description: {
+        story: `
+This is the secondary - or default - mode for the button
+
+_this description was written as a string in \`parameters.docs.description.story\`_`,
+      },
+    },
   },
 };
 
 /**
  * This is the large button
- * __this description was written as a comment above the story__
+ * _this description was written as a comment above the story, and should never be shown because it should be overriden by the description in the parameters_
  */
 export const Large: Story = {
   args: {
@@ -57,7 +66,8 @@ export const Large: Story = {
       description: {
         story: `
 This is the large button
-__this description was written as a string in parameters.docs.description.story__
+
+_this description was written as a string in \`parameters.docs.description.story\`, and overrides the comment above the story_
 `,
       },
     },
