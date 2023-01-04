@@ -624,26 +624,26 @@ workflows:
     jobs:
       - build
       - create-sandboxes:
-          parallelism: 27
+          parallelism: 28
           requires:
             - build
       # - smoke-test-sandboxes: # disabled for now
       #     requires:
       #       - create-sandboxes
       - build-sandboxes:
-          parallelism: 27
+          parallelism: 28
           requires:
             - create-sandboxes
       - test-runner-sandboxes:
-          parallelism: 27
+          parallelism: 28
           requires:
             - build-sandboxes
       - chromatic-sandboxes:
-          parallelism: 27
+          parallelism: 28
           requires:
             - build-sandboxes
       - e2e-sandboxes:
-          parallelism: 27
+          parallelism: 28
           requires:
             - build-sandboxes
 
