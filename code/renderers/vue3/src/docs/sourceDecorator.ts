@@ -174,7 +174,7 @@ export function generateSource(
 
     if (slotValues) {
       const namedSlotContents = createNamedSlots(slotProps, slotValues);
-      return `<${name} ${props}>\n  ${namedSlotContents}  \n</${name}>`;
+      return `<${name} ${props}>\n${namedSlotContents}\n</${name}>`;
     }
 
     return `<${name} ${props}/>`;
@@ -200,14 +200,24 @@ function createNamedSlots(
   slotValues: { [key: string]: any }
 ) {
   if (!slotProps) return '';
-  let template = '';
   if (slotProps.length === 1) return `{{ ${slotProps[0]} }}`;
-  // eslint-disable-next-line no-restricted-syntax
-  for (const slotProp of slotProps) {
-    if (slotValues[slotProps.indexOf(slotProp)])
-      template += `<template #${slotProp}> {{ ${slotProp} }} </template>`;
-  }
-  return template;
+
+  return slotProps
+    .filter((slotProp) => slotValues[slotProps.indexOf(slotProp)])
+    .map((slotProp) => `  <template #${slotProp}> {{ ${slotProp} }} </template>`)
+    .join('\n');
+}
+/**
+ * format prettier for vue
+ * @param source
+ */
+
+function prettierFormat(source: string): string {
+  return format(source, {
+    vueIndentScriptAndStyle: true,
+    parser: 'vue',
+    plugins: [parserHTML, parserTypescript],
+  });
 }
 
 /**
@@ -245,11 +255,7 @@ export const sourceDecorator = (storyFn: any, context: StoryContext<Renderer>) =
   const generatedScript = generateSetupScript(args, context?.argTypes);
 
   if (generatedTemplate) {
-    source = format(`${generatedScript}\n<template>\n ${generatedTemplate} \n</template>`, {
-      vueIndentScriptAndStyle: true,
-      parser: 'vue',
-      plugins: [parserHTML, parserTypescript],
-    });
+    source = prettierFormat(`${generatedScript}\n <template>\n ${generatedTemplate} \n</template>`);
   }
 
   return story;
