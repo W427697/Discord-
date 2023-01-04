@@ -7923,7 +7923,7 @@ __metadata:
     "@storybook/global": ^5.0.0
     "@storybook/preview-api": 7.0.0-beta.19
     "@storybook/types": 7.0.0-beta.19
-    "@types/prettier": ^2
+    "@types/prettier": ^2.1.5
     "@vue/vue3-jest": 29
     prettier: 2.8.0
     ts-dedent: ^2.0.0
@@ -8870,7 +8870,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/prettier@npm:^2, @types/prettier@npm:^2.1.5":
+"@types/prettier@npm:^2.1.5":
   version: 2.7.2
   resolution: "@types/prettier@npm:2.7.2"
   checksum: 16ffbd1135c10027f118517d3b12aaaf3936be1f3c6e4c6c9c03d26d82077c2d86bf0dcad545417896f29e7d90faf058aae5c9db2e868be64298c644492ea29e

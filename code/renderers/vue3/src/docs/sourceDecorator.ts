@@ -5,9 +5,7 @@ import type { ArgTypes, Args, StoryContext, Renderer } from '@storybook/types';
 import { SourceType, SNIPPET_RENDERED } from '@storybook/docs-tools';
 
 import { format } from 'prettier';
-// eslint-disable-next-line import/extensions
 import parserTypescript from 'prettier/parser-typescript.js';
-// eslint-disable-next-line import/extensions
 import parserHTML from 'prettier/parser-html.js';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { isArray } from '@vue/shared';
