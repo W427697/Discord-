@@ -2,7 +2,7 @@ import React from 'react';
 import { action } from '@storybook/addon-actions';
 import type { State } from '@storybook/manager-api';
 import type { Addon_Collection } from '@storybook/types';
-import Panel from './Panel';
+import { AddonPanel } from './Panel';
 
 const shortcuts: State['shortcuts'] = {
   fullScreen: ['F'],
@@ -51,11 +51,11 @@ const togglePosition = action('togglePosition');
 
 export default {
   title: 'Panel',
-  component: Panel,
+  component: AddonPanel,
 };
 
 export const Default = () => (
-  <Panel
+  <AddonPanel
     absolute={false}
     panels={panels}
     actions={{ onSelect, toggleVisibility, togglePosition }}
@@ -65,7 +65,7 @@ export const Default = () => (
 );
 
 export const NoPanels = () => (
-  <Panel
+  <AddonPanel
     panels={{}}
     actions={{ onSelect, toggleVisibility, togglePosition }}
     shortcuts={shortcuts}
