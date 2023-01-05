@@ -23,14 +23,8 @@
     "sb": "./index.js",
     "storybook": "./index.js"
   },
-  "scripts": {
-    "prep": "node ../../../scripts/prepare.js"
-  },
   "dependencies": {
     "@storybook/cli": "7.0.0-beta.19"
-  },
-  "devDependencies": {
-    "typescript": "~4.9.3"
   },
   "publishConfig": {
     "access": "public"
