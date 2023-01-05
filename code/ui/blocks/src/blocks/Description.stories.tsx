@@ -13,6 +13,8 @@ const meta: Meta<typeof Description> = {
       include: [],
       hideNoControlsWarning: true,
     },
+    // workaround for https://github.com/storybookjs/storybook/issues/20505
+    docs: { source: { type: 'code' } },
   },
 };
 export default meta;
@@ -27,7 +29,7 @@ export const OfComponentAsComponentComment: Story = {
 };
 export const OfMetaAsComponentComment: Story = {
   args: {
-    of: DefaultButtonStories.default,
+    of: DefaultButtonStories,
   },
   parameters: { relativeCsfPaths: ['../examples/Button.stories'] },
 };
@@ -35,11 +37,13 @@ export const OfMetaAsMetaComment: Story = {
   args: {
     of: ButtonStoriesWithMetaDescriptionAsComment,
   },
-  parameters: { relativeCsfPaths: ['../examples/ButtonWithMetaDescriptionAsComment.stories'] },
+  parameters: {
+    relativeCsfPaths: ['../examples/ButtonWithMetaDescriptionAsComment.stories'],
+  },
 };
 export const OfMetaAsParameter: Story = {
   args: {
-    of: ButtonStoriesWithMetaDescriptionAsParameter.default,
+    of: ButtonStoriesWithMetaDescriptionAsParameter,
   },
   parameters: {
     relativeCsfPaths: ['../examples/ButtonWithMetaDescriptionAsParameter.stories'],
@@ -47,7 +51,7 @@ export const OfMetaAsParameter: Story = {
 };
 export const OfMetaAsMetaCommentAndParameter: Story = {
   args: {
-    of: ButtonStoriesWithMetaDescriptionAsBoth.default,
+    of: ButtonStoriesWithMetaDescriptionAsBoth,
   },
   parameters: {
     relativeCsfPaths: ['../examples/ButtonWithMetaDescriptionAsBoth.stories'],
