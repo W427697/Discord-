@@ -1,6 +1,6 @@
 {
   "name": "@storybook/core-server",
-  "version": "7.0.0-beta.13",
+  "version": "7.0.0-beta.19",
   "description": "Storybook framework-agnostic API",
   "keywords": [
     "storybook"
@@ -19,33 +19,56 @@
     "url": "https://opencollective.com/storybook"
   },
   "license": "MIT",
-  "main": "dist/cjs/index.js",
-  "module": "dist/esm/index.js",
-  "types": "dist/types/index.d.ts",
+  "exports": {
+    ".": {
+      "node": "./dist/index.js",
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.ts"
+    },
+    "./dist/presets/babel-cache-preset": {
+      "node": "./dist/presets/babel-cache-preset.js",
+      "require": "./dist/presets/babel-cache-preset.js",
+      "import": "./dist/presets/babel-cache-preset.mjs",
+      "types": "./dist/presets/babel-cache-preset.d.ts"
+    },
+    "./dist/presets/common-preset": {
+      "node": "./dist/presets/common-preset.js",
+      "require": "./dist/presets/common-preset.js",
+      "import": "./dist/presets/common-preset.mjs",
+      "types": "./dist/presets/common-preset.d.ts"
+    },
+    "./public/favicon.svg": "./public/favicon.svg",
+    "./package.json": "./package.json"
+  },
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
   "files": [
     "dist/**/*",
     "public/**/*",
+    "README.md",
     "*.js",
     "*.d.ts"
   ],
   "scripts": {
     "check": "../../../scripts/node_modules/.bin/tsc --noEmit",
-    "prep": "node ../../../scripts/prepare.js"
+    "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
     "@aw-web-design/x-default-browser": "1.4.88",
     "@discoveryjs/json-ext": "^0.5.3",
-    "@storybook/builder-manager": "7.0.0-beta.13",
-    "@storybook/core-common": "7.0.0-beta.13",
-    "@storybook/core-events": "7.0.0-beta.13",
+    "@storybook/builder-manager": "7.0.0-beta.19",
+    "@storybook/core-common": "7.0.0-beta.19",
+    "@storybook/core-events": "7.0.0-beta.19",
     "@storybook/csf": "next",
-    "@storybook/csf-tools": "7.0.0-beta.13",
+    "@storybook/csf-tools": "7.0.0-beta.19",
     "@storybook/docs-mdx": "next",
     "@storybook/global": "^5.0.0",
-    "@storybook/node-logger": "7.0.0-beta.13",
-    "@storybook/preview-api": "7.0.0-beta.13",
-    "@storybook/telemetry": "7.0.0-beta.13",
-    "@storybook/types": "7.0.0-beta.13",
+    "@storybook/node-logger": "7.0.0-beta.19",
+    "@storybook/preview-api": "7.0.0-beta.19",
+    "@storybook/telemetry": "7.0.0-beta.19",
+    "@storybook/types": "7.0.0-beta.19",
     "@types/node": "^16.0.0",
     "@types/node-fetch": "^2.5.7",
     "@types/pretty-hrtime": "^1.0.0",
@@ -87,5 +110,13 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "ddf86bd126ede0c019d7c9494f99f24a5cad9908"
+  "bundler": {
+    "entries": [
+      "./src/index.ts",
+      "./src/presets/babel-cache-preset.ts",
+      "./src/presets/common-preset.ts"
+    ],
+    "platform": "node"
+  },
+  "gitHead": "da902f312eb354d20aa83bf0f0035b9744f93791"
 }

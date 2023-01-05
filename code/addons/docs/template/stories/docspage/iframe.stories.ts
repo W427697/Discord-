@@ -2,7 +2,7 @@ import { global as globalThis } from '@storybook/global';
 
 export default {
   component: globalThis.Components.Button,
-  tags: ['docsPage'],
+  tags: ['autodocs'],
   args: { label: 'Rendered in iframe' },
   parameters: {
     chromatic: { disable: true },

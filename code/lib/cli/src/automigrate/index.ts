@@ -2,13 +2,46 @@
 import prompts from 'prompts';
 import chalk from 'chalk';
 import boxen from 'boxen';
+import { createWriteStream, move, remove } from 'fs-extra';
+import tempy from 'tempy';
 import dedent from 'ts-dedent';
-import { JsPackageManagerFactory, type PackageManagerName } from '../js-package-manager';
+
+import { join } from 'path';
+import {
+  JsPackageManagerFactory,
+  useNpmWarning,
+  type PackageManagerName,
+} from '../js-package-manager';
 
 import type { Fix } from './fixes';
 import { fixes as allFixes } from './fixes';
+import { cleanLog } from './helpers/cleanLog';
 
 const logger = console;
+const LOG_FILE_NAME = 'migration-storybook.log';
+const LOG_FILE_PATH = join(process.cwd(), LOG_FILE_NAME);
+let TEMP_LOG_FILE_PATH = '';
+
+const originalStdOutWrite = process.stdout.write.bind(process.stdout);
+const originalStdErrWrite = process.stderr.write.bind(process.stdout);
+
+const augmentLogsToFile = () => {
+  TEMP_LOG_FILE_PATH = tempy.file({ name: LOG_FILE_NAME });
+  const logStream = createWriteStream(TEMP_LOG_FILE_PATH);
+
+  process.stdout.write = (d: string) => {
+    originalStdOutWrite(d);
+    return logStream.write(cleanLog(d));
+  };
+  process.stderr.write = (d: string) => {
+    return logStream.write(cleanLog(d));
+  };
+};
+
+const cleanup = () => {
+  process.stdout.write = originalStdOutWrite;
+  process.stderr.write = originalStdErrWrite;
+};
 
 type FixId = string;
 
@@ -18,7 +51,7 @@ interface FixOptions {
   yes?: boolean;
   dryRun?: boolean;
   useNpm?: boolean;
-  force?: PackageManagerName;
+  packageManager?: PackageManagerName;
 }
 
 enum FixStatus {
@@ -43,10 +76,23 @@ const logAvailableMigrations = () => {
   logger.info(`\nThe following migrations are available: ${availableFixes}`);
 };
 
-export const automigrate = async ({ fixId, dryRun, yes, useNpm, force, list }: FixOptions = {}) => {
+export const automigrate = async ({
+  fixId,
+  dryRun,
+  yes,
+  useNpm,
+  packageManager: pkgMgr,
+  list,
+}: FixOptions = {}) => {
   if (list) {
     logAvailableMigrations();
     return null;
+  }
+
+  if (useNpm) {
+    useNpmWarning();
+    // eslint-disable-next-line no-param-reassign
+    pkgMgr = 'npm';
   }
 
   const fixes = fixId ? allFixes.filter((f) => f.id === fixId) : allFixes;
@@ -57,7 +103,9 @@ export const automigrate = async ({ fixId, dryRun, yes, useNpm, force, list }: F
     return null;
   }
 
-  const packageManager = JsPackageManagerFactory.getPackageManager({ useNpm, force });
+  augmentLogsToFile();
+
+  const packageManager = JsPackageManagerFactory.getPackageManager({ force: pkgMgr });
 
   logger.info('🔎 checking possible migrations..');
   const fixResults = {} as Record<FixId, FixStatus>;
@@ -71,6 +119,7 @@ export const automigrate = async ({ fixId, dryRun, yes, useNpm, force, list }: F
       result = await f.check({ packageManager });
     } catch (error) {
       logger.info(`⚠️  failed to check fix ${chalk.bold(f.id)}`);
+      logger.error(`\n${error.stack}`);
       fixSummary.failed[f.id] = error.message;
       fixResults[f.id] = FixStatus.CHECK_FAILED;
     }
@@ -95,6 +144,10 @@ export const automigrate = async ({ fixId, dryRun, yes, useNpm, force, list }: F
           runAnswer = { fix: false };
         } else if (yes) {
           runAnswer = { fix: true };
+          if (f.promptOnly) {
+            fixResults[f.id] = FixStatus.MANUAL_SUCCEEDED;
+            fixSummary.manual.push(f.id);
+          }
         } else if (f.promptOnly) {
           fixResults[f.id] = FixStatus.MANUAL_SUCCEEDED;
           fixSummary.manual.push(f.id);
@@ -162,18 +215,35 @@ export const automigrate = async ({ fixId, dryRun, yes, useNpm, force, list }: F
         }
       }
     } else {
-      fixResults[f.id] ||= FixStatus.UNNECESSARY;
+      fixResults[f.id] = fixResults[f.id] || FixStatus.UNNECESSARY;
     }
   }
 
+  const hasFailures = Object.values(fixResults).some(
+    (r) => r === FixStatus.FAILED || r === FixStatus.CHECK_FAILED
+  );
+
+  // if migration failed, display a log file in the users cwd
+  if (hasFailures) {
+    await move(TEMP_LOG_FILE_PATH, join(process.cwd(), LOG_FILE_NAME), { overwrite: true });
+  } else {
+    await remove(TEMP_LOG_FILE_PATH);
+  }
+
   logger.info();
-  logger.info(getMigrationSummary(fixResults, fixSummary));
+  logger.info(getMigrationSummary(fixResults, fixSummary, LOG_FILE_PATH));
   logger.info();
+
+  cleanup();
 
   return fixResults;
 };
 
-function getMigrationSummary(fixResults: Record<string, FixStatus>, fixSummary: FixSummary) {
+function getMigrationSummary(
+  fixResults: Record<string, FixStatus>,
+  fixSummary: FixSummary,
+  logFile?: string
+) {
   const hasNoFixes = Object.values(fixResults).every((r) => r === FixStatus.UNNECESSARY);
   const hasFailures = Object.values(fixResults).some(
     (r) => r === FixStatus.FAILED || r === FixStatus.CHECK_FAILED
@@ -203,7 +273,7 @@ function getMigrationSummary(fixResults: Record<string, FixStatus>, fixSummary: 
           },
           ''
         )}
-    `
+    \nYou can find the full logs in ${chalk.cyan(logFile)}\n`
       : '';
 
   const manualFixesMessage =
