@@ -33,7 +33,7 @@ export const OfMetaAsComponentComment: Story = {
 };
 export const OfMetaAsMetaComment: Story = {
   args: {
-    of: ButtonStoriesWithMetaDescriptionAsComment.default,
+    of: ButtonStoriesWithMetaDescriptionAsComment,
   },
   parameters: { relativeCsfPaths: ['../examples/ButtonWithMetaDescriptionAsComment.stories'] },
 };
