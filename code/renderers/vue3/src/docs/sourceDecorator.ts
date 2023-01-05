@@ -43,29 +43,58 @@ function getComponentName(component: any): string | null {
  * @param argTypes
  * @param slotProp prop used to simulate slot
  */
-function argsToSource(args: any, argTypes: ArgTypes, slotProps?: string[] | null): string {
-  const argsKeys = Object.keys(args);
-  const srouce = argsKeys
-    .map((key) => propToDynamicSource(key, args[key], argTypes, slotProps))
+function argsToSource(
+  args: Args,
+  argTypes: ArgTypes,
+  slotProps?: string[] | null,
+  byRef?: boolean
+): string {
+  const argsKeys = Object.keys(args).filter(
+    (key: any) => !(slotProps && slotProps.indexOf(key) > -1)
+  );
+  const source = argsKeys
+    .map((key) =>
+      propToDynamicSource(byRef ? `:${key}` : key, byRef ? key : args[key], argTypes, slotProps)
+    )
     .filter((item) => item !== '')
     .join(' ');
 
-  return srouce;
+  return source;
 }
 
 function propToDynamicSource(
   key: string,
-  val: string | boolean | object,
+  value: string | boolean | object,
   argTypes: ArgTypes,
   slotProps?: string[] | null
 ): string {
   // slot Args or default value
+  // default value ?
   if (
+    !value ||
     (slotProps && slotProps.indexOf(key) > -1) ||
-    (argTypes[key] && argTypes[key].defaultValue === val)
-  )
+    (argTypes[key] && argTypes[key].defaultValue === value)
+  ) {
     return '';
-  return `:${key}="${key}"`;
+  }
+
+  if (value === true) {
+    return key;
+  }
+
+  if (typeof value === 'string') {
+    return `${key}=${JSON.stringify(value)}`;
+  }
+
+  if (typeof value === 'function') {
+    return `:${key}="()=>{}"`;
+  }
+
+  if (typeof value === 'object') {
+    return `:${key}='${JSON.stringify(value)}'`;
+  }
+
+  return `:${key}='${JSON.stringify(value)}'`;
 }
 
 function generateSetupScript(args: any, argTypes: ArgTypes): string {
@@ -157,7 +186,8 @@ export function generateSource(
   compOrComps: any,
   args: Args,
   argTypes: ArgTypes,
-  slotProps?: string[] | null
+  slotProps?: string[] | null,
+  byRef?: boolean | undefined
 ): string | null {
   if (!compOrComps) return null;
   const generateComponentSource = (component: any): string | null => {
@@ -167,11 +197,11 @@ export function generateSource(
       return '';
     }
 
-    const props = argsToSource(args, argTypes, slotProps);
+    const props = argsToSource(args, argTypes, slotProps, byRef);
     const slotValues = slotProps?.map((slotProp) => args[slotProp]);
 
     if (slotValues) {
-      const namedSlotContents = createNamedSlots(slotProps, slotValues);
+      const namedSlotContents = createNamedSlots(slotProps, slotValues, byRef);
       return `<${name} ${props}>\n${namedSlotContents}\n</${name}>`;
     }
 
@@ -195,14 +225,20 @@ export function generateSource(
 
 function createNamedSlots(
   slotProps: string[] | null | undefined,
-  slotValues: { [key: string]: any }
+  slotValues: { [key: string]: any },
+  byReference?: boolean | undefined
 ) {
   if (!slotProps) return '';
-  if (slotProps.length === 1) return `{{ ${slotProps[0]} }}`;
+  if (slotProps.length === 1) return byReference ? slotValues[0] : `{{ ${slotProps[0]} }}`;
 
   return slotProps
     .filter((slotProp) => slotValues[slotProps.indexOf(slotProp)])
-    .map((slotProp) => `  <template #${slotProp}> {{ ${slotProp} }} </template>`)
+    .map(
+      (slotProp) =>
+        `  <template #${slotProp}> ${
+          !byReference ? JSON.stringify(slotValues[slotProps.indexOf(slotProp)]) : `{{${slotProp}}}`
+        } </template>`
+    )
     .join('\n');
 }
 /**
@@ -249,15 +285,15 @@ export const sourceDecorator = (storyFn: any, context: StoryContext<Renderer>) =
     return story;
   }
 
-  const { args = {}, component: ctxtComponent, originalStoryFn: render } = context || {};
-  const components = getTemplates(render);
+  const { args = {}, component: ctxtComponent, argTypes = {} } = context || {};
+  const components = getTemplates(context?.originalStoryFn);
 
-  const renderedComponent = components.length ? components : ctxtComponent;
+  const storyComponent = components.length ? components : ctxtComponent;
 
   const slotProps: string[] = getComponentSlots(ctxtComponent);
-
-  const generatedTemplate = generateSource(renderedComponent, args, context?.argTypes, slotProps);
-  const generatedScript = generateSetupScript(args, context?.argTypes);
+  const withScript = context?.parameters?.docs?.source?.withSetupScript;
+  const generatedScript = withScript ? generateSetupScript(args, argTypes) : '';
+  const generatedTemplate = generateSource(storyComponent, args, argTypes, slotProps, withScript);
 
   if (generatedTemplate) {
     source = prettierFormat(`${generatedScript}\n <template>\n ${generatedTemplate} \n</template>`);
