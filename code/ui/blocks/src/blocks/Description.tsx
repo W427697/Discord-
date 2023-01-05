@@ -2,7 +2,7 @@ import type { FC } from 'react';
 import React, { useContext } from 'react';
 import { str } from '@storybook/docs-tools';
 import { deprecate } from '@storybook/client-logger';
-import type { DescriptionProps as PureDescriptionProps } from '../components';
+import type { Meta, Story } from '@storybook/types';
 import { Description } from '../components';
 
 import type { DocsContextProps } from './DocsContext';
@@ -21,7 +21,7 @@ type Notes = string | any;
 type Info = string | any;
 
 interface DescriptionProps {
-  of?: '.' | Component;
+  of?: any;
   /**
    * @deprecated Manually specifying description type is deprecated. In the future all descriptions will be extracted from JSDocs on the meta, story or component.
    */
@@ -43,13 +43,55 @@ const getInfo = (info?: Info) => info && (typeof info === 'string' ? info : str(
 
 const noDescription = (component?: Component): string | null => null;
 
-export const useDescriptionProps = (
-  { of, type, markdown, children }: DescriptionProps,
+const getDescriptionFromModuleExport = (
+  of: DescriptionProps['of'],
+  docsContext: DocsContextProps<any>
+): string => {
+  try {
+    const storyId = docsContext.storyIdByModuleExport(of);
+    console.log('LOG: storyId', storyId);
+    // storyIdByModuleExport throws an error if 'of' doesn't reference a story
+    // so we know that 'of' references a story, and we'll use that story's description
+    const story = docsContext.storyById(storyId);
+    console.log('LOG: story', story);
+    return story.parameters.docs?.description?.story || '';
+  } catch {
+    // continue regardless of error
+  }
+  const primaryStory = docsContext.storyById();
+  console.log('LOG: primaryStory', primaryStory);
+  const { component, parameters } = primaryStory;
+
+  const metaDescription = parameters.docs?.description?.component;
+
+  // eslint-disable-next-line no-underscore-dangle
+  if (of.__docgenInfo !== undefined || !metaDescription) {
+    console.log('LOG: with __docgenInfo or not metaDescription');
+    console.log('LOG: of', of);
+    console.log('LOG: metaDescription', metaDescription);
+    // 'of' references a component, or there's no description on meta, so we'll use the component's description
+    const extractComponentDescription =
+      parameters.docs?.extractComponentDescription || noDescription;
+    return extractComponentDescription(component, {
+      component,
+      ...primaryStory.parameters,
+    });
+  }
+
+  // 'of' references a meta and it has a description
+  console.log('LOG: without __docgenInfo and metaDescription');
+  console.log('LOG: of', of);
+  console.log('LOG: metaDescription', metaDescription);
+  return metaDescription;
+};
+
+const getDescriptionFromDeprecatedProps = (
+  { type, markdown, children }: DescriptionProps,
   { storyById }: DocsContextProps<any>
-): PureDescriptionProps => {
+): string => {
   const { component, parameters } = storyById();
   if (children || markdown) {
-    return { markdown: children || markdown };
+    return children || markdown;
   }
   const { notes, info, docs } = parameters;
   if (Boolean(notes) || Boolean(info)) {
@@ -59,32 +101,39 @@ export const useDescriptionProps = (
   }
 
   const { extractComponentDescription = noDescription, description } = docs || {};
-  const target = [PRIMARY_STORY].includes(of) ? component : of;
 
   // override component description
   const componentDescriptionParameter = description?.component;
   if (componentDescriptionParameter) {
-    return { markdown: componentDescriptionParameter };
+    return componentDescriptionParameter;
   }
 
   switch (type) {
     case DescriptionType.INFO:
-      return { markdown: getInfo(info) };
+      return getInfo(info);
     case DescriptionType.NOTES:
-      return { markdown: getNotes(notes) };
+      return getNotes(notes);
     case DescriptionType.DOCGEN:
     case DescriptionType.AUTO:
     default:
-      return { markdown: extractComponentDescription(target, { component, ...parameters }) };
+      return extractComponentDescription(component, { component, ...parameters });
   }
 };
 
 const DescriptionContainer: FC<DescriptionProps> = (props = { of: PRIMARY_STORY }) => {
   const context = useContext(DocsContext);
-  const { markdown } = useDescriptionProps(props, context);
+  let markdown;
+  if (props.of && !(props.type || props.markdown || props.children)) {
+    // 7.0 mode with new 'of' prop
+    // pre 7.0 with only 'of' prop only supported referencing a component, which 7.0 supports as well here
+    markdown = getDescriptionFromModuleExport(props.of, context);
+  } else {
+    // pre 7.0 mode with deprecated props
+    markdown = getDescriptionFromDeprecatedProps(props, context);
+  }
   if (props.type) {
     deprecate(
-      'Manually specifying description type is deprecated. In the future all descriptions will be extracted from JSDocs on the meta, story or component.'
+      'Manually specifying description type is deprecated. In 7.0 all descriptions will be extracted from JSDocs on the meta, story or component.'
     );
   }
   if (props.markdown) {
