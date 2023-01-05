@@ -8,10 +8,10 @@ expect.addSnapshotSerializer({
 });
 
 function generateForArgs(args: Args, slotProps: string[] | null = null) {
-  return generateSource({ name: 'Component' }, args, {}, slotProps);
+  return generateSource({ name: 'Component' }, args, {}, slotProps, true);
 }
 function generateMultiComponentForArgs(args: Args, slotProps: string[] | null = null) {
-  return generateSource([{ name: 'Component' }, { name: 'Component' }], args, {}, slotProps);
+  return generateSource([{ name: 'Component' }, { name: 'Component' }], args, {}, slotProps, true);
 }
 
 describe('generateSource Vue3', () => {

@@ -229,14 +229,16 @@ function createNamedSlots(
   byReference?: boolean | undefined
 ) {
   if (!slotProps) return '';
-  if (slotProps.length === 1) return byReference ? slotValues[0] : `{{ ${slotProps[0]} }}`;
+  if (slotProps.length === 1) return !byReference ? slotValues[0] : `{{ ${slotProps[0]} }}`;
 
   return slotProps
     .filter((slotProp) => slotValues[slotProps.indexOf(slotProp)])
     .map(
       (slotProp) =>
         `  <template #${slotProp}> ${
-          !byReference ? JSON.stringify(slotValues[slotProps.indexOf(slotProp)]) : `{{${slotProp}}}`
+          !byReference
+            ? JSON.stringify(slotValues[slotProps.indexOf(slotProp)])
+            : `{{ ${slotProp} }}`
         } </template>`
     )
     .join('\n');
