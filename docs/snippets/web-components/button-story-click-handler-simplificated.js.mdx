@@ -1,11 +1,9 @@
 ```js
 // Button.stories.js
 
-import { Button } from './Button';
-
 export default {
   title: 'Button',
-  render: (args) => Button(args),
+  component: 'custom-button',
   argTypes: {
     onClick: { action: 'onClick' },
   },

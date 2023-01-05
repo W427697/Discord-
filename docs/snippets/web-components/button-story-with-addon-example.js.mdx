@@ -1,11 +1,11 @@
 ```js
 // Button.stories.js
 
-import { Button } from './Button';
+import { html } from 'lit-html';
 
 export default {
   title: 'Button',
-  render: (args) => Button(args),
+  component: 'custom-button',
   //👇 Creates specific parameters for the story
   parameters: {
     myAddon: {
@@ -20,6 +20,6 @@ export default {
  * to learn how to use render functions.
  */
 export const Basic = {
-  render: () => Button({ label: 'Hello' }),
+  render: () => html`<custom-button label="Hello"></custom-button>`,
 };
 ```

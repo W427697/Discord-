@@ -3,13 +3,11 @@
 
 import { html } from 'lit-html';
 
-import { MyComponent } from './MyComponent';
-
 import imageFile from './static/image.png';
 
 export default {
   title: 'img',
-  render: (args) => MyComponent(args),
+  component: 'my-component',
 };
 
 const image = {

@@ -7,19 +7,17 @@ import type { Meta, StoryObj } from '@storybook/web-components';
 
 import { action } from '@storybook/addon-actions';
 
-import type { ButtonProps } from './Button';
-import { Button } from './Button';
-
-const meta: Meta<ButtonProps> = {
+const meta: Meta = {
   title: 'Button',
-  render: (args) => Button(args),
+  component: 'custom-button',
 };
 
 export default meta;
-type Story = StoryObj<ButtonProps>;
+type Story = StoryObj;
 
 export const Text: Story = {
-  render: ({ label, onClick }) => html`<button label="${label}" @click=${onClick}></button>`,
+  render: ({ label, onClick }) =>
+    html`<custom-button label="${label}" @click=${onClick}></custom-button>`,
   args: {
     label: 'Hello',
     onClick: action('clicked'),

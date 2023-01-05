@@ -5,14 +5,11 @@ import { html } from 'lit-html';
 
 import type { Meta, StoryObj } from '@storybook/web-components';
 
-import type { MyComponentProps } from './MyComponent';
-import { MyComponent } from './MyComponent';
-
 import imageFile from './static/image.png';
 
-const meta: Meta<MyComponentProps> = {
+const meta: Meta = {
   title: 'img',
-  render: (args) => MyComponent(args),
+  component: 'my-component',
 };
 
 const image = {
@@ -21,7 +18,7 @@ const image = {
 };
 
 export default meta;
-type Story = StoryObj<MyComponentProps>;
+type Story = StoryObj;
 
 /*
  *👇 Render functions are a framework specific feature to allow you control on how the component renders.

@@ -3,16 +3,13 @@
 
 import type { Meta, StoryObj } from '@storybook/web-components';
 
-import type { MyComponentProps } from './MyComponent';
-import { MyComponent } from './MyComponent';
-
-export default {
+const meta: Meta = {
   title: 'MyComponent',
-  render: (args) => MyComponent(args),
+  component: 'my-component',
 };
 
 export default meta;
-type Story = StoryObj<MyComponentProps>;
+type Story = StoryObj;
 
 export const ExampleStory: Story = {
   args: {

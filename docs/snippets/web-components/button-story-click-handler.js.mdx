@@ -3,16 +3,14 @@
 
 import { html } from 'lit-html';
 
-import { Button } from './Button';
-
 import { action } from '@storybook/addon-actions';
 
 export default {
   title: 'Button',
-  render: (args) => Button(args),
+  component: 'custom-button',
 };
 
 export const Text = {
-  render: () => html`<button label="Hello" @click=${action('clicked')}></button>`,
+  render: () => html`<custom-button label="Hello" @click=${action('clicked')}></custom-button>`,
 };
 ```

@@ -3,13 +3,10 @@
 
 import type { Meta, StoryObj } from '@storybook/web-components';
 
-import type { ButtonProps } from './Button';
-import { Button } from './Button';
-
-const meta: Meta<ButtonProps> = { title: 'Button', render: (args) => Button(args) };
+const meta: Meta = { title: 'Button', component: 'custom-button', };
 
 export default meta;
-type Story = StoryObj<ButtonProps>;
+type Story = StoryObj;
 
 export const Primary: Story = { args: { primary: true } };
 ```

@@ -3,16 +3,13 @@
 
 import type { Meta, StoryObj } from '@storybook/web-components';
 
-import type { MyComponent } from './MyComponent';
-import { MyComponent } from './MyComponent';
-
-const meta: Meta<MyComponent> = {
+const meta: Meta = {
   title: 'Disable a11y addon',
-  render: (args) => MyComponent(args),
+  component: 'my-component',
 };
 
 export default meta;
-type Story = StoryObj<MyComponent>;
+type Story = StoryObj;
 
 export const ExampleStory: Story = {
   parameters: {

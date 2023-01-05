@@ -3,12 +3,11 @@
 
 import type { Meta, StoryObj } from '@storybook/web-components';
 
-import type { ButtonProps } from './Button';
-import { Button } from './Button';
+import { html } from 'lit-html';
 
-const meta: Meta<ButtonProps> = {
+const meta: Meta = {
   title: 'Button',
-  render: (args) => Button(args),
+  component: 'custom-button',
   //👇 Creates specific parameters for the story
   parameters: {
     myAddon: {
@@ -18,7 +17,7 @@ const meta: Meta<ButtonProps> = {
 };
 
 export default meta;
-type Story = StoryObj<ButtonProps>;
+type Story = StoryObj;
 
 /*
  *👇 Render functions are a framework specific feature to allow you control on how the component renders.
@@ -26,6 +25,6 @@ type Story = StoryObj<ButtonProps>;
  * to learn how to use render functions.
  */
 export const Basic: Story = {
-  render: () => Button({ label: 'Hello' }),
+  render: () => html`<custom-button label="Hello"></custom-button>`,
 };
 ```

@@ -1,11 +1,9 @@
 ```js
 // MyComponent.stories.js
 
-import { MyComponent } from './MyComponent';
-
 export default {
   title: 'MyComponent',
-  render: (args) => MyComponent(args),
+  component: 'my-component',
   includeStories: ['SimpleStory', 'ComplexStory'], // 👈 Storybook loads these stories
   excludeStories: /.*Data$/, // 👈 Storybook ignores anything that contains Data
 };

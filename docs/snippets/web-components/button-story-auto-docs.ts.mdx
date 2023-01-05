@@ -2,12 +2,10 @@
 // Button.stories.ts
 
 import type { Meta, StoryObj } from '@storybook/web-components';
-import type { ButtonProps } from './Button';
-import { Button } from './Button';
 
-const Meta: Meta<ButtonProps> = {
+const Meta: Meta = {
   title: 'Button',
-  render: (args) => Button(args),
+  component: 'custom-button',
   //👇 Enables auto-generated documentation for the component story
   tags: ['docsPage'],
   argTypes: {
@@ -16,7 +14,7 @@ const Meta: Meta<ButtonProps> = {
 };
 
 export default meta;
-type Story = StoryObj<ButtonProps>;
+type Story = StoryObj;
 
 export const Primary: Story = {
   args: {

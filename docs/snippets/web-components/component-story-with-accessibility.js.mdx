@@ -1,11 +1,9 @@
 ```js
 // Button.stories.js
 
-import { Button } from './Button';
-
 export default {
   title: 'Accessibility testing',
-  render: (args) => Button(args),
+  component: 'custom-button',
   argTypes: {
     backgroundColor: { control: 'color' },
   },

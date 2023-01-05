@@ -5,20 +5,13 @@ import { html } from 'lit-html';
 
 import type { Meta, StoryObj } from '@storybook/web-components';
 
-import type { MyComponentProps } from './MyComponent';
-import type { LayoutProps } from './Layout';
-
-import { MyComponent } from './MyComponent';
-
-import { Layout } from './Layout';
-
-const meta: Meta<MyComponentProps> = {
+const meta: Meta = {
   title: 'MyComponent',
-  render: (args) => MyComponent(args),
+  component: 'my-component',
 };
 
 export default meta;
-type Story = StoryObj<MyComponentProps>;
+type Story = StoryObj;
 
 // This story uses a render function to fully control how the component renders.
 export const Example: Story = {

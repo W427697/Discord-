@@ -5,12 +5,9 @@ import type { Meta, StoryObj } from '@storybook/web-components';
 
 import { INITIAL_VIEWPORTS } from '@storybook/addon-viewport';
 
-import type { MyComponentProps } from './MyComponent';
-
-import { MyComponent } from './MyComponent';
-
-const meta: Meta<MyComponentProps> = {
+const meta: Meta = {
   title: 'MyComponent',
+  component: 'my-component',
   parameters: {
     //👇 The viewports object from the Essentials addon
     viewport: {
@@ -23,15 +20,14 @@ const meta: Meta<MyComponentProps> = {
 };
 
 export default meta;
-type Story = StoryObj<MyComponentProps>;
+type Story = StoryObj;
 
 /*
  *👇 Render functions are a framework specific feature to allow you control on how the component renders.
  * See https://storybook.js.org/docs/7.0/web-components/api/csf
  * to learn how to use render functions.
  */
-export const MyStory = {
-  render: () => MyComponent(),
+export const MyStory: Story = {
   parameters: {
     viewport: {
       defaultViewport: 'iphonex',

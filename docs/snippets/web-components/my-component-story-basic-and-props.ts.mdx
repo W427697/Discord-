@@ -5,16 +5,13 @@ import { html } from 'lit-html';
 
 import type { Meta, StoryObj } from '@storybook/web-components';
 
-import type { MyComponentProps } from './MyComponent';
-import { MyComponent } from './MyComponent';
-
-const meta: Meta<MyComponentProps> = {
+const meta: Meta = {
   title: 'Path/To/MyComponent',
-  render: (args) => MyComponent(args),
+  component: 'my-component',
 };
 
 export default meta;
-type Story = StoryObj<MyComponentProps>;
+type Story = StoryObj;
 
 export const Basic: Story = {};
 

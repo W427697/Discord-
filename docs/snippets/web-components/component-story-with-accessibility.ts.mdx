@@ -3,19 +3,16 @@
 
 import type { Meta, StoryObj } from '@storybook/web-components';
 
-import type { ButtonProps } from './Button';
-import { Button } from './Button';
-
-const meta: Meta<ButtonProps> = {
+const meta: Meta = {
   title: 'Accessibility testing',
-  render: (args) => Button(args),
+  component: 'custom-button',
   argTypes: {
     backgroundColor: { control: 'color' },
   },
 };
 
 export default meta;
-type Story = StoryObj<ButtonProps>;
+type Story = StoryObj;
 
 // This is an accessible story
 export const Accessible: Story = {

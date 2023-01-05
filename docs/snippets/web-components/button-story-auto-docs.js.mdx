@@ -1,11 +1,9 @@
 ```js
 // Button.stories.js
 
-import { Button } from './Button';
-
 export default {
   title: 'Button',
-  render: (args) => Button(args),
+  component: 'custom-button',
   //👇 Enables auto-generated documentation for the component story
   tags: ['docsPage'],
   argTypes: {

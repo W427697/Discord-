@@ -1,12 +1,11 @@
 ```js
 // MyComponent.stories.js
 
-import { MyComponent } from './MyComponent';
-
 import { INITIAL_VIEWPORTS } from '@storybook/addon-viewport';
 
 export default {
   title: 'MyComponent',
+  component: 'my-component',
   parameters: {
     //👇 The viewports object from the Essentials addon
     viewport: {
@@ -24,7 +23,6 @@ export default {
  * to learn how to use render functions.
  */
 export const MyStory = {
-  render: () => MyComponent(),
   parameters: {
     viewport: {
       defaultViewport: 'iphonex',

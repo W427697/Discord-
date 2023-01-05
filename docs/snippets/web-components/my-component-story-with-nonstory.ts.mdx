@@ -3,12 +3,9 @@
 
 import type { Meta, StoryObj } from '@storybook/web-components';
 
-import type { MyComponentProps } from './MyComponent';
-import { MyComponent } from './MyComponent';
-
-const meta: Meta<MyComponentProps> = {
+const meta: Meta = {
   title: 'MyComponent',
-  render: (args) => MyComponent(args),
+  component: 'my-component',
   includeStories: ['SimpleStory', 'ComplexStory'], // 👈 Storybook loads these stories
   excludeStories: /.*Data$/, // 👈 Storybook ignores anything that contains Data
 };
@@ -17,7 +14,7 @@ export const simpleData = { foo: 1, bar: 'baz' };
 export const complexData = { foo: 1, foobar: { bar: 'baz', baz: someData } };
 
 export default meta;
-type Story = StoryObj<MyComponentProps>;
+type Story = StoryObj;
 
 export const SimpleStory: Story = {
   args: {
