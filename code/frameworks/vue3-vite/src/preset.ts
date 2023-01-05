@@ -12,7 +12,6 @@ export const viteFinal: StorybookConfig['viteFinal'] = async (config, { presets 
 
   // Add vue plugin if not present
   if (!(await hasVitePlugins(plugins, ['vite:vue']))) {
-    // eslint-disable-next-line import/no-extraneous-dependencies
     const { default: vue } = await import('@vitejs/plugin-vue');
     plugins.push(vue());
   }
