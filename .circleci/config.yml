@@ -646,5 +646,3 @@ workflows:
           parallelism: 28
           requires:
             - build-sandboxes
-
-# VS Code Extension Version: 1.5.0
