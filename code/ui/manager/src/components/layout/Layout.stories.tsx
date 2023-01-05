@@ -70,16 +70,18 @@ const MockPage: FC<any> = (props) => (
   </PlaceholderClock>
 );
 
+const defaultState = {
+  isSidebarShown: true,
+  isPanelShown: true,
+  panelPosition: 'bottom',
+  viewMode: 'story',
+};
+
 export default {
   title: 'Layout',
   component: Layout,
   args: {
-    state: {
-      showSidebar: true,
-      showPanel: true,
-      panelPosition: 'bottom',
-      viewMode: 'story',
-    },
+    state: defaultState,
     setState: action('setState'),
     persistence: { current: { value: DEFAULTS, set: action('setPersistence') } },
     slotMain: <MockPreview />,
@@ -99,19 +101,19 @@ export const Dark = {
 };
 export const DesktopHorizontal = {
   args: {
-    state: { panelPosition: 'right' },
+    state: { ...defaultState, panelPosition: 'right' },
   },
 };
 
 export const DesktopDocs = {
   args: {
-    state: { viewMode: 'docs' },
+    state: { ...defaultState, viewMode: 'docs' },
   },
 };
 
 export const DesktopCustom = {
   args: {
-    state: { viewMode: 'custom' },
+    state: { ...defaultState, viewMode: 'custom' },
   },
 };
 
@@ -125,7 +127,7 @@ export const Mobile = {
 };
 export const MobileHorizontal = {
   args: {
-    state: { panelPosition: 'right' },
+    state: { ...defaultState, panelPosition: 'right' },
   },
   parameters: {
     viewport: {
@@ -137,7 +139,7 @@ export const MobileHorizontal = {
 
 export const MobileDocs = {
   args: {
-    state: { viewMode: 'docs' },
+    state: { ...defaultState, viewMode: 'docs' },
   },
   parameters: {
     viewport: {
@@ -149,7 +151,7 @@ export const MobileDocs = {
 
 export const MobileCustom = {
   args: {
-    state: { viewMode: 'custom' },
+    state: { ...defaultState, viewMode: 'custom' },
   },
   parameters: {
     viewport: {

@@ -6814,7 +6814,6 @@ __metadata:
     enzyme: ^3.11.0
     fs-extra: ^9.0.1
     fuse.js: ^3.6.1
-    immer: ^9.0.16
     lodash: ^4.17.21
     markdown-to-jsx: ^7.1.3
     memoizerific: ^1.11.3
@@ -6830,7 +6829,6 @@ __metadata:
     store2: ^2.14.2
     ts-dedent: ^2.0.0
     typescript: ~4.9.3
-    use-immer: ^0.8.1
   languageName: unknown
   linkType: soft
 
@@ -19391,13 +19389,6 @@ __metadata:
   version: 3.2.3
   resolution: "immediate@npm:3.2.3"
   checksum: e2affb7f1a1335a3d0404073bcec5e6b09cdd15f0a4ec82b9a0f0496add2e0b020843123c021238934c3eac8792f8d48f523c48e7c3c0cd45b540dc9d149adae
-  languageName: node
-  linkType: hard
-
-"immer@npm:^9.0.16":
-  version: 9.0.16
-  resolution: "immer@npm:9.0.16"
-  checksum: 38f3b463051b0be66e786bdb313eb3fc5b801efbf83deb64729a032ebf64fda91b44e3ad1401dcc0f6a1fcabf285ca860fbc98c136731dfddf9695277108f4f3
   languageName: node
   linkType: hard
 
@@ -32548,16 +32539,6 @@ __metadata:
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
   checksum: e64ce52f4b18c020407636784192726807404a2552609acf7497b66a2b7070674fb5d2b950d426c4aa85f353e2bbecb02ebf9c5b865cd06797938c70bcbf5d26
-  languageName: node
-  linkType: hard
-
-"use-immer@npm:^0.8.1":
-  version: 0.8.1
-  resolution: "use-immer@npm:0.8.1"
-  peerDependencies:
-    immer: ">=2.0.0"
-    react: ^16.8.0 || ^17.0.1 || ^18.0.0
-  checksum: d09f48688209dea69507632d9e858ac7599601d93222d35cb8c36aa608843ee414cf9f17a60af4b1f20038477df2ad6106865568168e993ec6fc9d68a5018dd8
   languageName: node
   linkType: hard
 

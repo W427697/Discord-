@@ -39,8 +39,8 @@ export const MobileControls = ({
     const setNavShown = () => {
       // TODO: 30 is an assumption
       updateState({
-        showSidebar: true,
-        showPanel: false,
+        isSidebarShown: true,
+        isPanelShown: false,
         sidebarWidth: 30,
         panelWidth: 0,
         panelHeight: 0,
@@ -50,8 +50,8 @@ export const MobileControls = ({
     const setPanelShown = () => {
       // TODO: 30 is an assumption
       updateState({
-        showSidebar: false,
-        showPanel: true,
+        isSidebarShown: false,
+        isPanelShown: true,
         panelWidth: 30,
         panelHeight: 30,
         sidebarWidth: 0,
@@ -59,8 +59,8 @@ export const MobileControls = ({
     };
     const setContentShown = () => {
       updateState({
-        showSidebar: false,
-        showPanel: false,
+        isSidebarShown: false,
+        isPanelShown: false,
         panelWidth: 0,
         panelHeight: 0,
         sidebarWidth: 0,

@@ -1,6 +1,5 @@
-import { useImmerReducer } from 'use-immer';
-import type { Dispatch, MutableRefObject } from 'react';
-import React, { useEffect, useRef } from 'react';
+import type { Dispatch, MutableRefObject, Reducer } from 'react';
+import React, { useReducer, useEffect, useRef } from 'react';
 import { styled } from '@storybook/theming';
 import { DESKTOP, getGridTemplate, MOBILE, SHARED } from './Layout.styles';
 import type { Props, LayoutState, ExposedLayoutState } from './Layout.types';
@@ -8,16 +7,16 @@ import { MobileControls } from './Layout.MobileControls';
 import { DesktopControls } from './Layout.DesktopControls';
 
 export const Layout = ({ state: incomingState, persistence, setState, ...slots }: Props) => {
-  const [state, updateState] = useImmerReducer<LayoutState, Partial<LayoutState>>(
+  const [state, updateState] = useReducer<Reducer<LayoutState, Partial<LayoutState>>>(
     (draft, action) => {
-      if ('showPanel' in action || 'showSidebar' in action) {
+      if ('isPanelShown' in action || 'isSidebarShown' in action) {
         // sync changes upstream
         if (
-          (action.showPanel !== undefined && action.showPanel !== draft.showPanel) ||
-          (action.showSidebar !== undefined && action.showSidebar !== draft.showSidebar)
+          (action.isPanelShown !== undefined && action.isPanelShown !== draft.isPanelShown) ||
+          (action.isSidebarShown !== undefined && action.isSidebarShown !== draft.isSidebarShown)
         ) {
-          const { showPanel: draftPanel, showSidebar: draftSidebar } = draft;
-          const { showPanel: actionPanel, showSidebar: actionSidebar } = action;
+          const { isPanelShown: draftPanel, isSidebarShown: draftSidebar } = draft;
+          const { isPanelShown: actionPanel, isSidebarShown: actionSidebar } = action;
           const update = {
             showPanel: actionPanel === undefined ? draftPanel : actionPanel,
             showSidebar: actionSidebar === undefined ? draftSidebar : actionSidebar,
@@ -36,15 +35,16 @@ export const Layout = ({ state: incomingState, persistence, setState, ...slots }
         });
       }
 
-      Object.assign(draft, action);
+      return { ...draft, ...action };
     },
     {
       isDragging: false,
-      showSidebar: incomingState.showSidebar || false,
-      showPanel: incomingState.showPanel || false,
+      isSidebarShown: incomingState.isSidebarShown || false,
+      isPanelShown: incomingState.isPanelShown || false,
       viewMode: incomingState.viewMode || 'story',
       panelPosition: incomingState.panelPosition || persistence.current.value.panelPosition,
-      sidebarWidth: incomingState.showSidebar === true ? persistence.current.value.sidebarWidth : 0,
+      sidebarWidth:
+        incomingState.isSidebarShown === true ? persistence.current.value.sidebarWidth : 0,
       panelHeight:
         incomingState.panelPosition === 'bottom' ? persistence.current.value.panelHeight : 0,
       panelWidth:
@@ -120,16 +120,16 @@ function useUpstreamState(
   updateState: Dispatch<Partial<LayoutState>>,
   incomingState: ExposedLayoutState
 ) {
-  const { showPanel, panelPosition, showSidebar } = incomingState;
+  const { isPanelShown: showPanel, panelPosition, isSidebarShown: showSidebar } = incomingState;
   useEffect(() => {
     const { panelHeight, sidebarWidth, panelWidth } = stateRef.current;
     if (showPanel && panelPosition === 'bottom' && panelHeight === 0) {
       // TODO: take from some preference
       updateState({
         panelHeight: 20,
-        showPanel,
+        isPanelShown: showPanel,
         panelPosition,
-        showSidebar,
+        isSidebarShown: showSidebar,
       });
       return;
     }
@@ -137,9 +137,9 @@ function useUpstreamState(
       // TODO: take from some preference
       updateState({
         panelWidth: 20,
-        showPanel,
+        isPanelShown: showPanel,
         panelPosition,
-        showSidebar,
+        isSidebarShown: showSidebar,
       });
       return;
     }
@@ -147,9 +147,9 @@ function useUpstreamState(
       updateState({
         panelHeight: 0,
         panelWidth: 0,
-        showPanel,
+        isPanelShown: showPanel,
         panelPosition,
-        showSidebar,
+        isSidebarShown: showSidebar,
       });
       return;
     }
@@ -157,18 +157,18 @@ function useUpstreamState(
       // TODO: take from some preference
       updateState({
         sidebarWidth: 20,
-        showPanel,
+        isPanelShown: showPanel,
         panelPosition,
-        showSidebar,
+        isSidebarShown: showSidebar,
       });
       return;
     }
     if (!showSidebar && sidebarWidth !== 0) {
       updateState({
         sidebarWidth: 0,
-        showPanel,
+        isPanelShown: showPanel,
         panelPosition,
-        showSidebar,
+        isSidebarShown: showSidebar,
       });
     }
   }, [updateState, showPanel, panelPosition, showSidebar, stateRef]);
