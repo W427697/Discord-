@@ -48,7 +48,7 @@ class SafeTab extends Component<SafeTabProps, { hasError: boolean }> {
   }
 }
 
-const AddonPanel = React.memo<{
+export const AddonPanel = React.memo<{
   selectedPanel?: string;
   actions: { onSelect: (id: string) => void } & Record<string, any>;
   panels: Record<string, any>;
@@ -98,5 +98,3 @@ const AddonPanel = React.memo<{
 );
 
 AddonPanel.displayName = 'AddonPanel';
-
-export default AddonPanel;
