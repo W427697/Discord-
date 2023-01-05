@@ -1,15 +1,20 @@
-```js
-// MyComponent.stories.js
+```ts
+// MyComponent.stories.ts
 
 import { html } from 'lit-html';
 
-export default {
+import type { Meta, StoryObj } from '@storybook/web-components';
+
+const meta: Meta = {
   title: 'MyComponent',
   component: 'my-component',
 };
 
+export default meta;
+type Story = StoryObj;
+
 // This story uses a render function to fully control how the component renders.
-export const Example = {
+export const Example: Story = {
   render: () => html`
     <layout>
       <header>

@@ -1,9 +1,11 @@
-```js
-// MyComponent.stories.js
+```ts
+// MyComponent.stories.ts
+
+import type { Meta, StoryObj } from '@storybook/web-components';
 
 import { INITIAL_VIEWPORTS } from '@storybook/addon-viewport';
 
-export default {
+const meta: Meta = {
   title: 'MyComponent',
   component: 'my-component',
   parameters: {
@@ -17,12 +19,15 @@ export default {
   },
 };
 
+export default meta;
+type Story = StoryObj;
+
 /*
  *👇 Render functions are a framework specific feature to allow you control on how the component renders.
  * See https://storybook.js.org/docs/7.0/web-components/api/csf
  * to learn how to use render functions.
  */
-export const MyStory = {
+export const MyStory: Story = {
   parameters: {
     viewport: {
       defaultViewport: 'iphonex',
