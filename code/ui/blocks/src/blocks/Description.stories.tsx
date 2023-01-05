@@ -57,7 +57,14 @@ export const OfMetaAsMetaCommentAndParameter: Story = {
     relativeCsfPaths: ['../examples/ButtonWithMetaDescriptionAsBoth.stories'],
   },
 };
-
+export const OfMetaUnattached: Story = {
+  args: {
+    of: DefaultButtonStories,
+  },
+  parameters: {
+    relativeCsfPaths: [],
+  },
+};
 export const OfStoryAsComment: Story = {
   args: {
     of: DefaultButtonStories.Primary,
@@ -75,4 +82,12 @@ export const OfStoryAsStoryCommentAndParameter: Story = {
     of: DefaultButtonStories.Large,
   },
   parameters: { relativeCsfPaths: ['../examples/Button.stories'] },
+};
+export const OfStoryUnattached: Story = {
+  args: {
+    of: DefaultButtonStories.Primary,
+  },
+  parameters: {
+    relativeCsfPaths: [],
+  },
 };

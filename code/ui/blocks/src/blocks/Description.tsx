@@ -58,6 +58,7 @@ const getDescriptionFromModuleExport = (
   } catch {
     // continue regardless of error
   }
+  // TODO: getting the primary story doesn't work in unattached mode
   const primaryStory = docsContext.storyById();
   console.log('LOG: primaryStory', primaryStory);
   const { component, parameters } = primaryStory;
@@ -69,6 +70,8 @@ const getDescriptionFromModuleExport = (
     console.log('LOG: with __docgenInfo or not metaDescription');
     console.log('LOG: of', of);
     console.log('LOG: metaDescription', metaDescription);
+    // eslint-disable-next-line no-underscore-dangle
+    console.log('LOG: of.__docgenInfo', of.__docgenInfo);
     // 'of' references a component, or there's no description on meta, so we'll use the component's description
     const extractComponentDescription =
       parameters.docs?.extractComponentDescription || noDescription;
@@ -123,6 +126,7 @@ const getDescriptionFromDeprecatedProps = (
 const DescriptionContainer: FC<DescriptionProps> = (props = { of: PRIMARY_STORY }) => {
   const context = useContext(DocsContext);
   let markdown;
+  console.log('LOG: props', props);
   if (props.of && !(props.type || props.markdown || props.children)) {
     // 7.0 mode with new 'of' prop
     // pre 7.0 with only 'of' prop only supported referencing a component, which 7.0 supports as well here
