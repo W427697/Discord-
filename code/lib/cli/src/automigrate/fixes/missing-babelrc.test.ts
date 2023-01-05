@@ -26,13 +26,12 @@ const babelContent = JSON.stringify({
 });
 
 const check = async ({ packageJson = {}, main = {}, extraFiles }: any) => {
-  if (extraFiles) {
-    // eslint-disable-next-line global-require
-    require('fs-extra').__setMockFiles({
-      [path.join('.storybook', 'main.js')]: `module.exports = ${JSON.stringify(main)};`,
-      ...extraFiles,
-    });
-  }
+  // eslint-disable-next-line global-require
+  require('fs-extra').__setMockFiles({
+    [path.join('.storybook', 'main.js')]: `module.exports = ${JSON.stringify(main)};`,
+    ...(extraFiles || {}),
+  });
+
   const packageManager = {
     retrievePackageJson: () => ({ dependencies: {}, devDependencies: {}, ...packageJson }),
   } as JsPackageManager;
@@ -84,7 +83,9 @@ describe('missing-babelrc fix', () => {
       },
     };
 
-    await expect(check({ packageJson })).resolves.toBe({
+    await expect(
+      check({ main: { framework: '@storybook/react-webpack5' }, packageJson })
+    ).resolves.toEqual({
       needsBabelRc: true,
     });
   });

@@ -58,8 +58,11 @@ export const missingBabelRc: Fix<MissingBabelRcOptions> = {
       typeof frameworkField === 'string' ? frameworkField : frameworkField?.name;
 
     if (frameworksThatNeedBabelConfig.includes(frameworkPackage)) {
-      const config = await loadPartialConfigAsync();
-      if (!config.config && !packageJson.babel) {
+      const config = await loadPartialConfigAsync({
+        babelrc: true,
+      });
+
+      if (!config.config && !config.babelrc && !packageJson.babel) {
         return { needsBabelRc: true };
       }
     }
