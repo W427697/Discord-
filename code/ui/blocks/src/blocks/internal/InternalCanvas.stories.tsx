@@ -12,6 +12,7 @@ const meta: Meta<typeof Canvas> = {
   title: 'Blocks/Internal/Canvas',
   component: Canvas,
   parameters: {
+    theme: 'light',
     relativeCsfPaths: ['../examples/Button.stories'],
   },
   render: (args) => {
@@ -43,7 +44,7 @@ const expectAmountOfStoriesInSource =
 
     // Assert - check that the correct amount of stories' source is shown
     await waitFor(async () => {
-      const booleanControlNodes = await canvas.findAllByText('BooleanControl');
+      const booleanControlNodes = await canvas.findAllByText('Button');
       expect(booleanControlNodes).toHaveLength(amount);
     });
   };
