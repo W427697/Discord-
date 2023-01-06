@@ -40,7 +40,7 @@ const expectAmountOfStoriesInSource =
     await userEvent.click(showCodeButton);
 
     // Assert - check that the correct amount of stories' source is shown
-    const booleanControlNodes = await canvas.findAllByText('Button');
+    const booleanControlNodes = await canvas.findAllByText('onClick');
     await expect(booleanControlNodes).toHaveLength(amount);
   };
 
@@ -111,6 +111,6 @@ export const MixedChildrenStories: Story = {
     const canvas = within(args.canvasElement);
 
     // Assert - only find two headlines, those in the story, and none in the source code
-    expect(canvas.queryAllByText(/Headline for Boolean Controls/i)).toHaveLength(2);
+    expect(canvas.queryAllByText(/Headline for /i)).toHaveLength(2);
   },
 };
