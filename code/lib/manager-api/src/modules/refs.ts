@@ -169,16 +169,14 @@ export const init: ModuleFn<SubAPI, SubState, void> = (
       const credentials = isPublic ? 'omit' : 'include';
       const urlParseResult = parseUrl(url);
 
-      let headers: HeadersInit;
+      const headers: HeadersInit = {
+        Accept: 'application/json',
+      };
+
       if (urlParseResult.authorization) {
-        headers = {
-          Accept: 'application/json',
+        Object.assign(headers, {
           Authorization: `Basic ${urlParseResult.authorization}`,
-        };
-      } else {
-        headers = {
-          Accept: 'application/json',
-        };
+        });
       }
 
       const [indexFetch, storiesFetch] = await Promise.all(
