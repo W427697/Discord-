@@ -9,6 +9,7 @@ import parserTypescript from 'prettier/parser-typescript.js';
 import parserHTML from 'prettier/parser-html.js';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { isArray } from '@vue/shared';
+import { Utils } from 'handlebars';
 /**
  * Check if the sourcecode should be generated.
  *
@@ -89,10 +90,6 @@ function propToDynamicSource(
     return `:${key}='()=>{}'`;
   }
 
-  if (typeof value === 'object') {
-    return `:${key}='${JSON.stringify(value)}'`;
-  }
-
   return `:${key}='${JSON.stringify(value)}'`;
 }
 
@@ -119,7 +116,7 @@ function propValueToSource(val: string | boolean | object | undefined) {
     case 'undefined':
       return `${val}`;
     default:
-      return `"${val}"`;
+      return `'${val}'`;
   }
 }
 
@@ -234,10 +231,9 @@ function createNamedSlots(
     .filter((slotProp) => slotValues[slotProps.indexOf(slotProp)])
     .map(
       (slotProp) =>
-        `  <template #${slotProp}> ${
-          !byReference
-            ? JSON.stringify(slotValues[slotProps.indexOf(slotProp)])
-            : `{{ ${slotProp} }}`
+        `  <template #${slotProp}> ${!byReference
+          ? JSON.stringify(slotValues[slotProps.indexOf(slotProp)])
+          : `{{ ${slotProp} }}`
         } </template>`
     )
     .join('\n');
