@@ -88,6 +88,27 @@ async function handleRequest(
   }
 }
 
+interface UrlParseResult {
+  url: string;
+  authorization: string | undefined;
+}
+
+const parseUrl = (url: string): UrlParseResult => {
+  const credentialsRegex = /https?:\/\/(.+:.+)@/;
+  let cleanUrl = url;
+  let authorization;
+  const [, credentials] = url.match(credentialsRegex) || [];
+
+  if (credentials) {
+    cleanUrl = url.replace(`${credentials}@`, '');
+    authorization = btoa(`${credentials}`);
+  }
+  return {
+    url: cleanUrl,
+    authorization,
+  };
+};
+
 const map = (
   input: SetStoriesStoryData,
   ref: API_ComposedRef,
@@ -146,17 +167,13 @@ export const init: ModuleFn<SubAPI, SubState, void> = (
       const loadedData: API_SetRefData = {};
       const query = version ? `?version=${version}` : '';
       const credentials = isPublic ? 'omit' : 'include';
+      const urlParseResult = parseUrl(url);
 
       let headers: HeadersInit;
-      let cleanUrl = url;
-      const credentialsRegex = /https?:\/\/(.+:.+)@/;
-      const [, urlCredentials] = url.match(credentialsRegex) || [];
-      if (urlCredentials) {
-        cleanUrl = url.replace(`${urlCredentials}@`, '');
-        const base64Auth = btoa(`${urlCredentials}`);
+      if (urlParseResult.authorization) {
         headers = {
           Accept: 'application/json',
-          Authorization: `Basic ${base64Auth}`,
+          Authorization: `Basic ${urlParseResult.authorization}`,
         };
       } else {
         headers = {
@@ -166,7 +183,7 @@ export const init: ModuleFn<SubAPI, SubState, void> = (
 
       const [indexFetch, storiesFetch] = await Promise.all(
         ['index.json', 'stories.json'].map(async (file) =>
-          fetch(`${cleanUrl}/${file}${query}`, {
+          fetch(`${urlParseResult.url}/${file}${query}`, {
             headers,
             credentials,
           })
@@ -177,7 +194,7 @@ export const init: ModuleFn<SubAPI, SubState, void> = (
         const [index, metadata] = await Promise.all([
           indexFetch.ok ? handleRequest(indexFetch) : handleRequest(storiesFetch),
           handleRequest(
-            fetch(`${cleanUrl}/metadata.json${query}`, {
+            fetch(`${urlParseResult.url}/metadata.json${query}`, {
               headers,
               credentials,
               cache: 'no-cache',
@@ -195,7 +212,7 @@ export const init: ModuleFn<SubAPI, SubState, void> = (
             Error: Loading of ref failed
               at fetch (lib/api/src/modules/refs.ts)
 
-            URL: ${cleanUrl}
+            URL: ${urlParseResult.url}
 
             We weren't able to load the above URL,
             it's possible a CORS error happened.
@@ -210,7 +227,7 @@ export const init: ModuleFn<SubAPI, SubState, void> = (
 
       await api.setRef(id, {
         id,
-        url: cleanUrl,
+        url: urlParseResult.url,
         ...loadedData,
         ...(versions ? { versions } : {}),
         type: !loadedData.storyIndex ? 'auto-inject' : 'lazy',
