@@ -21,17 +21,19 @@
   },
   "license": "MIT",
   "main": "dist/index.js",
+  "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "files": [
     "dist/**/*",
     "template/**/*",
     "README.md",
     "*.js",
+    "*.mjs",
     "*.d.ts"
   ],
   "scripts": {
     "check": "../../../scripts/node_modules/.bin/tsc",
-    "prep": "rimraf dist && ../../../scripts/node_modules/.bin/tsc --project tsconfig.build.json && echo \"Preventing passing flags to tsc\""
+    "prep": "../../../scripts/prepare/tsc.ts"
   },
   "dependencies": {
     "@storybook/builder-webpack5": "7.0.0-beta.19",
@@ -122,5 +124,8 @@
     "access": "public"
   },
   "builders": "dist/builders/builders.json",
+  "bundler": {
+    "tsConfig": "tsconfig.build.json"
+  },
   "gitHead": "da902f312eb354d20aa83bf0f0035b9744f93791"
 }
