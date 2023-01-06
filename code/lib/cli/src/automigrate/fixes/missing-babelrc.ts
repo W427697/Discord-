@@ -57,7 +57,14 @@ export const missingBabelRc: Fix<MissingBabelRcOptions> = {
     const frameworkPackage =
       typeof frameworkField === 'string' ? frameworkField : frameworkField?.name;
 
-    if (frameworksThatNeedBabelConfig.includes(frameworkPackage)) {
+    const addons: any[] = main.getFieldValue(['addons']) || [];
+
+    const hasCraPreset = addons.find((addon) => {
+      const name = typeof addon === 'string' ? addon : addon.name;
+      return name === '@storybook/preset-create-react-app';
+    });
+
+    if (frameworksThatNeedBabelConfig.includes(frameworkPackage) && !hasCraPreset) {
       const config = await loadPartialConfigAsync({
         babelrc: true,
       });

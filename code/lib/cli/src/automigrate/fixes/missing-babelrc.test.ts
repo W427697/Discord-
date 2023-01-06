@@ -75,6 +75,19 @@ describe('missing-babelrc fix', () => {
     await expect(check({ packageJson })).resolves.toBeNull();
   });
 
+  it('skips when using CRA preset', async () => {
+    const packageJson = {
+      devDependencies: {
+        '@storybook/react': '^7.0.0',
+        '@storybook/react-webpack5': '^7.0.0',
+      },
+    };
+
+    await expect(
+      check({ packageJson, main: { addons: ['@storybook/preset-create-react-app'] } })
+    ).resolves.toBeNull();
+  });
+
   it('prompts when babelrc file is missing and framework does not provide babel config', async () => {
     const packageJson = {
       devDependencies: {
