@@ -6,31 +6,32 @@
     "addon",
     "storybook"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/main/addons/storyshots/storyshots-puppeteer",
+  "homepage": "https://github.com/storybookjs/storybook/tree/main/addons/storyshots-puppeteer",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/storybookjs/storybook.git",
-    "directory": "addons/storyshots/storyshots-puppeteer"
+    "directory": "addons/storyshots-puppeteer"
   },
   "funding": {
     "type": "opencollective",
     "url": "https://opencollective.com/storybook"
   },
   "license": "MIT",
-  "main": "dist/types/index.js",
-  "module": "dist/types/index.js",
-  "types": "dist/types/index.d.ts",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
   "files": [
     "dist/**/*",
     "README.md",
     "*.js",
+    "*.mjs",
     "*.d.ts"
   ],
   "scripts": {
-    "prep": "node ../../../../scripts/prepare.js"
+    "prep": "../../../scripts/prepare/tsc.ts"
   },
   "dependencies": {
     "@axe-core/puppeteer": "^4.2.0",
@@ -56,5 +57,6 @@
   "publishConfig": {
     "access": "public"
   },
+  "bundler": {},
   "gitHead": "22701aedf564e467511887eb041f32ae0c96bcde"
 }
