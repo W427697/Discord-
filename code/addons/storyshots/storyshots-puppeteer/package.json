@@ -30,7 +30,7 @@
     "*.d.ts"
   ],
   "scripts": {
-    "prep": "node ../../../../scripts/prepare.js"
+    "prep": "../../../../scripts/prepare/tsc.ts"
   },
   "dependencies": {
     "@axe-core/puppeteer": "^4.2.0",
