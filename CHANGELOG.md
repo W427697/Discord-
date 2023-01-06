@@ -1,3 +1,24 @@
+## 7.0.0-beta.20 (January 6, 2023)
+
+#### Bug Fixes
+
+-   Telemetry: Move 'dev'/'build' events to the end of the process [#20380](https://github.com/storybooks/storybook/pull/20380)
+-   Blocks: Export Unstyled block in index.ts [#20489](https://github.com/storybooks/storybook/pull/20489)
+-   Vite: Fix missing await in builder [#20409](https://github.com/storybooks/storybook/pull/20409)
+
+#### Maintenance
+
+-   Build: use tsup for csf-plugin [#20150](https://github.com/storybooks/storybook/pull/20150)
+-   Migration: Update autodocs migration to deal with `docs.docsPage` [#20379](https://github.com/storybooks/storybook/pull/20379)
+
+#### Build
+
+-   Blocks: Use example Button for stories [#20483](https://github.com/storybooks/storybook/pull/20483)
+-   Build: cleanup prep script where possible [#20151](https://github.com/storybooks/storybook/pull/20151)
+-   cleanup CI config [#20510](https://github.com/storybooks/storybook/pull/20510)
+-   Build: Fix CI parallelism [#20476](https://github.com/storybooks/storybook/pull/20476)
+-   Web-components: Restore missing script stories [#20477](https://github.com/storybooks/storybook/pull/20477)
+
 ## 7.0.0-beta.19 (January 1, 2023)
 
 #### Features
