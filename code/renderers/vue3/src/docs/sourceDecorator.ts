@@ -9,7 +9,6 @@ import parserTypescript from 'prettier/parser-typescript.js';
 import parserHTML from 'prettier/parser-html.js';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { isArray } from '@vue/shared';
-
 /**
  * Check if the sourcecode should be generated.
  *
@@ -83,11 +82,11 @@ function propToDynamicSource(
   }
 
   if (typeof value === 'string') {
-    return `${key}=${JSON.stringify(value)}`;
+    return `${key}='${value}'`;
   }
 
   if (typeof value === 'function') {
-    return `:${key}="()=>{}"`;
+    return `:${key}='()=>{}'`;
   }
 
   if (typeof value === 'object') {
@@ -249,11 +248,18 @@ function createNamedSlots(
  */
 
 function prettierFormat(source: string): string {
-  return format(source, {
-    vueIndentScriptAndStyle: true,
-    parser: 'vue',
-    plugins: [parserHTML, parserTypescript],
-  });
+  try {
+    return format(source, {
+      vueIndentScriptAndStyle: true,
+      parser: 'vue',
+      plugins: [parserHTML, parserTypescript],
+      singleQuote: true,
+      quoteProps: 'preserve',
+    });
+  } catch (e: any) {
+    console.error(e.toString());
+  }
+  return source;
 }
 /**
  * get slots from vue component
