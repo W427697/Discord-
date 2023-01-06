@@ -24,6 +24,8 @@ To enable auto-generated documentation for your stories, you'll need to add the 
     'vue/button-story-auto-docs.ts.mdx',
     'angular/button-story-auto-docs.ts.mdx',
     'svelte/button-story-auto-docs.js.mdx',
+    'web-components/button-story-auto-docs.js.mdx',
+    'web-components/button-story-auto-docs.ts.mdx',
   ]}
 />
 
@@ -55,9 +57,9 @@ By default, Storybook offers zero-config support for documentation and automatic
 
 | Option        | Description                                                                                            |
 | ------------- | ------------------------------------------------------------------------------------------------------ |
-| `enabled`     | Toggles support for all documentation pages <br/> `docs: { enabled:false }`                            |
-| `docsPage`    | Disables auto-generated documentation pages created via `tags` <br/> `docs: { docsPage: false }`       |
-| `automatic`   | Enables auto-generated documentation pages for every component <br/> `docs: { docsPage: 'automatic' }` |
+| `disable`     | Toggles support for all documentation pages <br/> `docs: { disable:true }`                            |
+| `autodocs`    | Disables auto-generated documentation pages created via `tags` <br/> `docs: { autodocs: false }`       |
+| true   | Enables auto-generated documentation pages for every component <br/> `docs: { autodocs: true }` |
 | `defaultName` | Renames the auto-generated documentation page<br/> `docs: { defaultName: 'Documentation' }`            |
 
 ### Write a custom template

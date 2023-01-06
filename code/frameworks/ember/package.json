@@ -1,6 +1,6 @@
 {
   "name": "@storybook/ember",
-  "version": "7.0.0-beta.13",
+  "version": "7.0.0-beta.20",
   "description": "Storybook for Ember: Develop Ember Component in isolation with Hot Reloading.",
   "homepage": "https://github.com/storybookjs/storybook/tree/main/frameworks/ember",
   "bugs": {
@@ -16,21 +16,6 @@
     "url": "https://opencollective.com/storybook"
   },
   "license": "MIT",
-  "exports": {
-    ".": {
-      "node": "./dist/index.js",
-      "require": "./dist/index.js",
-      "import": "./dist/index.mjs",
-      "types": "./dist/index.d.ts"
-    },
-    "./preset": {
-      "node": "./dist/preset.js",
-      "require": "./dist/preset.js",
-      "import": "./dist/preset.mjs",
-      "types": "./dist/preset.d.ts"
-    },
-    "./package.json": "./package.json"
-  },
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
@@ -43,15 +28,15 @@
   ],
   "scripts": {
     "check": "../../../scripts/node_modules/.bin/tsc --noEmit",
-    "prep": "../../../scripts/prepare/bundle.ts"
+    "prep": "../../../scripts/prepare/tsc.ts"
   },
   "dependencies": {
-    "@storybook/builder-webpack5": "7.0.0-beta.13",
-    "@storybook/core-common": "7.0.0-beta.13",
-    "@storybook/docs-tools": "7.0.0-beta.13",
+    "@storybook/builder-webpack5": "7.0.0-beta.20",
+    "@storybook/core-common": "7.0.0-beta.20",
+    "@storybook/docs-tools": "7.0.0-beta.20",
     "@storybook/global": "^5.0.0",
-    "@storybook/preview-api": "7.0.0-beta.13",
-    "@storybook/types": "7.0.0-beta.13",
+    "@storybook/preview-api": "7.0.0-beta.20",
+    "@storybook/types": "7.0.0-beta.20",
     "read-pkg-up": "^7.0.1",
     "ts-dedent": "^2.0.0"
   },
@@ -74,15 +59,6 @@
   "publishConfig": {
     "access": "public"
   },
-  "bundler": {
-    "entries": [
-      "./src/index.ts",
-      "./src/preset.ts"
-    ],
-    "externals": [
-      "@ember/component"
-    ],
-    "platform": "node"
-  },
-  "gitHead": "ddf86bd126ede0c019d7c9494f99f24a5cad9908"
+  "bundler": {},
+  "gitHead": "22701aedf564e467511887eb041f32ae0c96bcde"
 }
