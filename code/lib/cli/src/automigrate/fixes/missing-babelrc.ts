@@ -13,17 +13,11 @@ interface MissingBabelRcOptions {
 const logger = console;
 
 const frameworksThatNeedBabelConfig = [
-  '@storybook/angular',
   '@storybook/react-webpack5',
   '@storybook/vue-webpack5',
   '@storybook/vue3-webpack5',
   '@storybook/preact-webpack5',
   '@storybook/html-webpack5',
-  '@storybook/react-vite',
-  '@storybook/vue-vite',
-  '@storybook/vue3-vite',
-  '@storybook/preact-vite',
-  '@storybook/html-vite',
 ];
 
 export const missingBabelRc: Fix<MissingBabelRcOptions> = {
