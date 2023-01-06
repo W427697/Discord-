@@ -1,9 +1,12 @@
-```js
-// Button.stories.js
+```ts
+// Button.stories.ts
+
+// For Vue 3 use import type { Meta, StoryObj } from '@storybook/vue3';
+import type { Meta, StoryObj } from '@storybook/vue';
 
 import Button from './Button.vue';
 
-export default {
+const meta: Meta<typeof Button> = {
   /* 👇 The title prop is optional.
    * See https://storybook.js.org/docs/7.0/vue/configure/overview#configure-story-loading
    * to learn how to generate automatic titles
@@ -18,7 +21,15 @@ export default {
   },
 };
 
-export const Basic = {
+export default meta;
+type Story = StoryObj<typeof Button>;
+
+/*
+ *👇 Render functions are a framework specific feature to allow you control on how the component renders.
+ * See https://storybook.js.org/docs/7.0/vue/api/csf
+ * to learn how to use render functions.
+ */
+export const Basic: Story = {
   render: () => ({
     components: { Button },
     template: '<Button label="Hello" />',

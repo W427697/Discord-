@@ -1,9 +1,12 @@
-```js
-// Button.stories.js|jsx
+```ts
+// Button.stories.ts|tsx
 
 import { Button } from './Button';
 
-export default {
+// Replace your-framework with the name of your framework
+import type { Meta } from '@storybook/your-framework';
+
+const meta: Meta<typeof Button> = {
   /* 👇 The title prop is optional.
    * See https://storybook.js.org/docs/7.0/react/configure/overview#configure-story-loading
    * to learn how to generate automatic titles
@@ -14,4 +17,6 @@ export default {
     myAddon: { disable: true }, // Disables the addon
   },
 };
+
+export default meta;
 ```

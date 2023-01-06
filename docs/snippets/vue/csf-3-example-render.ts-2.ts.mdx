@@ -1,8 +1,8 @@
-```js
+```ts
 // CSF 3 - explicit render function
 
 // Other imports and story implementation
-export const Default = {
+export const Default: Story = {
   render: (args, { argTypes }) => ({
     props: Object.keys(argTypes),
     components: { Button },

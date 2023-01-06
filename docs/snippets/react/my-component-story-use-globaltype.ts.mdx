@@ -1,9 +1,11 @@
-```js
-// MyComponent.stories.js|jsx
+```tsx
+// MyComponent.stories.ts|tsx
+
+import type { Meta, StoryObj } from '@storybook/react';
 
 import { MyComponent } from './MyComponent';
 
-export default {
+const meta: Meta<typeof MyComponent> = {
   /* 👇 The title prop is optional.
    * See https://storybook.js.org/docs/7.0/react/configure/overview#configure-story-loading
    * to learn how to generate automatic titles
@@ -11,6 +13,9 @@ export default {
   title: 'MyComponent',
   component: MyComponent,
 };
+
+export default meta;
+type Story = StoryObj<typeof MyComponent>;
 
 const getCaptionForLocale = (locale) => {
   switch (locale) {
