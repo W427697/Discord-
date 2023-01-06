@@ -75,15 +75,17 @@ export const missingBabelRc: Fix<MissingBabelRcOptions> = {
         chalk.red('Attention')
       )}: We could not automatically make this change. You'll need to do it manually.
 
-      In Storybook 6, it provided its own babel settings out of the box. Now, Storybook's uses your project's babel settings (.babelrc, babel.config.js, etc.) instead.
+      We detected that your project does not have a babel configuration (.babelrc, babel.config.js, etc.).
 
-      Storybook now expects you to provide a babel configuration file yourself. If you want a configuration file that's equivalent to the 6.x default, you can run the following command in your project directory:
+      In version 6.x, Storybook provided its own babel settings out of the box. Now, Storybook re-uses your project's babel configuration, with small, incremental updates from Storybook addons.
 
-      ${chalk.blue('npx sb@next babelrc')}
+      If your project does not have a babel configuration file, you can generate one that's equivalent to the 6.x defaults with the following command in your project directory:
+
+      ${chalk.blue('npx storybook@next babelrc')}
 
       This will create a ${chalk.blue(
         '.babelrc.json'
-      )} file with some basic configuration and add new package devDependencies accordingly.
+      )} file with some basic configuration and add any necessary package devDependencies.
 
       Please see the migration guide for more information:
       ${chalk.yellow(
