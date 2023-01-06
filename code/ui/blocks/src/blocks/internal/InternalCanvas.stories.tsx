@@ -6,18 +6,18 @@ import { userEvent, waitFor, within } from '@storybook/testing-library';
 import { expect } from '@storybook/jest';
 import { Canvas } from '../Canvas';
 import { Story as StoryComponent } from '../Story';
-import * as BooleanStories from '../../controls/Boolean.stories';
+import * as ButtonStories from '../../examples/Button.stories';
 
 const meta: Meta<typeof Canvas> = {
   title: 'Blocks/Internal/Canvas',
   component: Canvas,
   parameters: {
-    relativeCsfPaths: ['../controls/Boolean.stories'],
+    relativeCsfPaths: ['../examples/Button.stories'],
   },
   render: (args) => {
     return (
       <Canvas {...args}>
-        <StoryComponent of={BooleanStories.Undefined} />
+        <StoryComponent of={ButtonStories.Primary} />
       </Canvas>
     );
   },
@@ -52,8 +52,8 @@ export const MultipleChildren: Story = {
   render: (args) => {
     return (
       <Canvas {...args}>
-        <StoryComponent of={BooleanStories.True} />
-        <StoryComponent of={BooleanStories.False} />
+        <StoryComponent of={ButtonStories.Secondary} />
+        <StoryComponent of={ButtonStories.Large} />
       </Canvas>
     );
   },
@@ -67,8 +67,8 @@ export const MultipleChildrenColumns: Story = {
   render: (args) => {
     return (
       <Canvas {...args}>
-        <StoryComponent of={BooleanStories.True} />
-        <StoryComponent of={BooleanStories.False} />
+        <StoryComponent of={ButtonStories.Secondary} />
+        <StoryComponent of={ButtonStories.Large} />
       </Canvas>
     );
   },
@@ -82,15 +82,15 @@ export const MultipleChildrenThreeColumns: Story = {
   render: (args) => {
     return (
       <Canvas {...args}>
-        <StoryComponent of={BooleanStories.True} />
-        <StoryComponent of={BooleanStories.True} />
-        <StoryComponent of={BooleanStories.True} />
-        <StoryComponent of={BooleanStories.False} />
-        <StoryComponent of={BooleanStories.False} />
-        <StoryComponent of={BooleanStories.False} />
-        <StoryComponent of={BooleanStories.Undefined} />
-        <StoryComponent of={BooleanStories.Undefined} />
-        <StoryComponent of={BooleanStories.Undefined} />
+        <StoryComponent of={ButtonStories.Secondary} />
+        <StoryComponent of={ButtonStories.Secondary} />
+        <StoryComponent of={ButtonStories.Secondary} />
+        <StoryComponent of={ButtonStories.Large} />
+        <StoryComponent of={ButtonStories.Large} />
+        <StoryComponent of={ButtonStories.Large} />
+        <StoryComponent of={ButtonStories.Primary} />
+        <StoryComponent of={ButtonStories.Primary} />
+        <StoryComponent of={ButtonStories.Primary} />
       </Canvas>
     );
   },
@@ -102,10 +102,10 @@ export const MixedChildrenStories: Story = {
   render: (args) => {
     return (
       <Canvas {...args}>
-        <h1>Headline for Boolean Controls true</h1>
-        <StoryComponent of={BooleanStories.True} />
-        <h1>Headline for Boolean Controls undefined</h1>
-        <StoryComponent of={BooleanStories.Undefined} />
+        <h1>Headline for secondary Button</h1>
+        <StoryComponent of={ButtonStories.Secondary} />
+        <h1>Headline for primary Button</h1>
+        <StoryComponent of={ButtonStories.Primary} />
       </Canvas>
     );
   },
