@@ -40,7 +40,6 @@
   "workspaces": {
     "packages": [
       "addons/*",
-      "addons/storyshots/*",
       "examples/*",
       "examples-native/*",
       "frameworks/*",

@@ -5663,9 +5663,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/addon-storyshots-puppeteer@workspace:*, @storybook/addon-storyshots-puppeteer@workspace:addons/storyshots/storyshots-puppeteer":
+"@storybook/addon-storyshots-puppeteer@workspace:*, @storybook/addon-storyshots-puppeteer@workspace:addons/storyshots-puppeteer":
   version: 0.0.0-use.local
-  resolution: "@storybook/addon-storyshots-puppeteer@workspace:addons/storyshots/storyshots-puppeteer"
+  resolution: "@storybook/addon-storyshots-puppeteer@workspace:addons/storyshots-puppeteer"
   dependencies:
     "@axe-core/puppeteer": ^4.2.0
     "@storybook/csf": next
@@ -5684,9 +5684,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/addon-storyshots@workspace:*, @storybook/addon-storyshots@workspace:addons/storyshots/storyshots-core":
+"@storybook/addon-storyshots@workspace:*, @storybook/addon-storyshots@workspace:addons/storyshots-core":
   version: 0.0.0-use.local
-  resolution: "@storybook/addon-storyshots@workspace:addons/storyshots/storyshots-core"
+  resolution: "@storybook/addon-storyshots@workspace:addons/storyshots-core"
   dependencies:
     "@angular/core": ^13.3.6
     "@angular/platform-browser-dynamic": ^13.3.6
