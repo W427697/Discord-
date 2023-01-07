@@ -7916,10 +7916,14 @@ __metadata:
     "@storybook/manager-api": 7.0.0-beta.20
     "@storybook/preview-api": 7.0.0-beta.20
     "@storybook/types": 7.0.0-beta.20
+    "@types/cross-spawn": ^6.0.2
+    "@types/node": ^16.0.0
+    cross-spawn: ^7.0.3
     lit: 2.3.1
     lit-html: 2.0.2
     ts-dedent: ^2.0.0
     typescript: ~4.9.3
+    web-component-analyzer: ^1.1.6
   peerDependencies:
     lit-html: ^1.4.1 || ^2.0.0
   languageName: unknown
@@ -12474,6 +12478,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"cliui@npm:^6.0.0":
+  version: 6.0.0
+  resolution: "cliui@npm:6.0.0"
+  dependencies:
+    string-width: ^4.2.0
+    strip-ansi: ^6.0.0
+    wrap-ansi: ^6.2.0
+  checksum: 35229b1bb48647e882104cac374c9a18e34bbf0bace0e2cf03000326b6ca3050d6b59545d91e17bfe3705f4a0e2988787aa5cde6331bf5cbbf0164732cef6492
+  languageName: node
+  linkType: hard
+
 "cliui@npm:^7.0.2":
   version: 7.0.4
   resolution: "cliui@npm:7.0.4"
@@ -16059,7 +16074,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fast-glob@npm:^3.0.3, fast-glob@npm:^3.2.11, fast-glob@npm:^3.2.7, fast-glob@npm:^3.2.9":
+"fast-glob@npm:^3.0.3, fast-glob@npm:^3.2.11, fast-glob@npm:^3.2.2, fast-glob@npm:^3.2.7, fast-glob@npm:^3.2.9":
   version: 3.2.12
   resolution: "fast-glob@npm:3.2.12"
   dependencies:
@@ -29820,6 +29835,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"ts-simple-type@npm:~1.0.5":
+  version: 1.0.7
+  resolution: "ts-simple-type@npm:1.0.7"
+  checksum: 8bf559eba56c8328cebdbfd07fee57a4cb319ea19983cafbb078b1d86087e63fa14f6f9b4a7bfff1e7eaae32e21b3ea986a1ded405ed7efec5cc3ff53e322548
+  languageName: node
+  linkType: hard
+
 "tsconfig-paths-webpack-plugin@npm:^3.5.2":
   version: 3.5.2
   resolution: "tsconfig-paths-webpack-plugin@npm:3.5.2"
@@ -30063,6 +30085,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"typescript@npm:^3.8.3":
+  version: 3.9.10
+  resolution: "typescript@npm:3.9.10"
+  bin:
+    tsc: bin/tsc
+    tsserver: bin/tsserver
+  checksum: 863cc06070fa18a0f9c6a83265fb4922a8b51bf6f2c6760fb0b73865305ce617ea4bc6477381f9f4b7c3a8cb4a455b054f5469e6e41307733fe6a2bd9aae82f8
+  languageName: node
+  linkType: hard
+
 "typescript@patch:typescript@*#~builtin<compat/typescript>, typescript@patch:typescript@^3 || ^4#~builtin<compat/typescript>, typescript@patch:typescript@^4.9.3#~builtin<compat/typescript>, typescript@patch:typescript@~4.9.3#~builtin<compat/typescript>":
   version: 4.9.4
   resolution: "typescript@patch:typescript@npm%3A4.9.4#~builtin<compat/typescript>::version=4.9.4&hash=d73830"
@@ -30070,6 +30102,16 @@ __metadata:
     tsc: bin/tsc
     tsserver: bin/tsserver
   checksum: b8cba6ab3ee30218578663352bcd74220ef20c42544fd1cc1382f24dee385002e784702b176c451da9c14c39965c035815902ef43b06eeefd5faae18ee700cea
+  languageName: node
+  linkType: hard
+
+"typescript@patch:typescript@^3.8.3#~builtin<compat/typescript>":
+  version: 3.9.10
+  resolution: "typescript@patch:typescript@npm%3A3.9.10#~builtin<compat/typescript>::version=3.9.10&hash=3bd3d3"
+  bin:
+    tsc: bin/tsc
+    tsserver: bin/tsserver
+  checksum: 9041fb3886e7d6a560f985227b8c941d17a750f2edccb5f9b3a15a2480574654d9be803ad4a14aabcc2f2553c4d272a25fd698a7c42692f03f66b009fb46883c
   languageName: node
   linkType: hard
 
@@ -31293,6 +31335,21 @@ __metadata:
   languageName: node
   linkType: hard
 
+"web-component-analyzer@npm:^1.1.6":
+  version: 1.1.6
+  resolution: "web-component-analyzer@npm:1.1.6"
+  dependencies:
+    fast-glob: ^3.2.2
+    ts-simple-type: ~1.0.5
+    typescript: ^3.8.3
+    yargs: ^15.3.1
+  bin:
+    wca: cli.js
+    web-component-analyzer: cli.js
+  checksum: d76361f973a925e84b4aa9ddfe2ffa11d5e97b2afedd61dabef1070ca89c31259871043dc9cb356a101f7481b33752d5281afd18ca4cfd0fddb9e8cf2d072446
+  languageName: node
+  linkType: hard
+
 "web-streams-polyfill@npm:^3.0.3":
   version: 3.2.1
   resolution: "web-streams-polyfill@npm:3.2.1"
@@ -32079,6 +32136,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"yargs-parser@npm:^18.1.2":
+  version: 18.1.3
+  resolution: "yargs-parser@npm:18.1.3"
+  dependencies:
+    camelcase: ^5.0.0
+    decamelize: ^1.2.0
+  checksum: 25df918833592a83f52e7e4f91ba7d7bfaa2b891ebf7fe901923c2ee797534f23a176913ff6ff7ebbc1cc1725a044cc6a6539fed8bfd4e13b5b16376875f9499
+  languageName: node
+  linkType: hard
+
 "yargs@npm:^13.3.0":
   version: 13.3.2
   resolution: "yargs@npm:13.3.2"
@@ -32094,6 +32161,25 @@ __metadata:
     y18n: ^4.0.0
     yargs-parser: ^13.1.2
   checksum: 6612f9f0ffeee07fff4c85f153d10eba4072bf5c11e1acba96153169f9d771409dfb63253dbb0841ace719264b663cd7b18c75c0eba91af7740e76094239d386
+  languageName: node
+  linkType: hard
+
+"yargs@npm:^15.3.1":
+  version: 15.4.1
+  resolution: "yargs@npm:15.4.1"
+  dependencies:
+    cliui: ^6.0.0
+    decamelize: ^1.2.0
+    find-up: ^4.1.0
+    get-caller-file: ^2.0.1
+    require-directory: ^2.1.1
+    require-main-filename: ^2.0.0
+    set-blocking: ^2.0.0
+    string-width: ^4.2.0
+    which-module: ^2.0.0
+    y18n: ^4.0.0
+    yargs-parser: ^18.1.2
+  checksum: f1ca680c974333a5822732825cca7e95306c5a1e7750eb7b973ce6dc4f97a6b0a8837203c8b194f461969bfe1fb1176d1d423036635285f6010b392fa498ab2d
   languageName: node
   linkType: hard
 
