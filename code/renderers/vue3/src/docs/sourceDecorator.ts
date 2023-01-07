@@ -9,7 +9,6 @@ import parserTypescript from 'prettier/parser-typescript.js';
 import parserHTML from 'prettier/parser-html.js';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { isArray } from '@vue/shared';
-import { Utils } from 'handlebars';
 /**
  * Check if the sourcecode should be generated.
  *
@@ -231,9 +230,10 @@ function createNamedSlots(
     .filter((slotProp) => slotValues[slotProps.indexOf(slotProp)])
     .map(
       (slotProp) =>
-        `  <template #${slotProp}> ${!byReference
-          ? JSON.stringify(slotValues[slotProps.indexOf(slotProp)])
-          : `{{ ${slotProp} }}`
+        `  <template #${slotProp}> ${
+          !byReference
+            ? JSON.stringify(slotValues[slotProps.indexOf(slotProp)])
+            : `{{ ${slotProp} }}`
         } </template>`
     )
     .join('\n');
