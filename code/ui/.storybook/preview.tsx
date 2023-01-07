@@ -127,7 +127,7 @@ export const loaders = [
       preview.renderStoryToElement.bind(preview),
       csfFiles
     );
-    if (!attached && csfFiles[0]) {
+    if (attached && csfFiles[0]) {
       docsContext.attachCSFFile(csfFiles[0]);
     }
     return { docsContext };
