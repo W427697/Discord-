@@ -1,17 +1,23 @@
 import type { Channel } from '@storybook/channels';
-import type {
-  Renderer,
-  StoryContextForLoaders,
-  StoryId,
-  StoryName,
-  Parameters,
-  ComponentId,
-} from './csf';
-import type { ModuleExport, ModuleExports, PreparedStory } from './story';
+import type { Renderer, StoryContextForLoaders, StoryId, StoryName, Parameters } from './csf';
+import type { ModuleExport, ModuleExports, CSFFile, PreparedStory } from './story';
 
 export type StoryRenderOptions = {
   autoplay?: boolean;
 };
+
+/**
+ * What do we know about an of={} call?
+ *
+ * Technically, the type names aren't super accurate:
+ *   - meta === `CSFFile`
+ *   - story === `PreparedStory`
+ * But these shorthands capture the idea of what is being talked about
+ */
+export type ResolvedModuleExport<TRenderer extends Renderer = Renderer> =
+  | { type: 'component'; component: TRenderer['component'] }
+  | { type: 'meta'; csfFile: CSFFile<TRenderer> }
+  | { type: 'story'; story: PreparedStory<TRenderer> };
 
 export interface DocsContextProps<TRenderer extends Renderer = Renderer> {
   /**
@@ -21,13 +27,14 @@ export interface DocsContextProps<TRenderer extends Renderer = Renderer> {
   setMeta: (metaExports: ModuleExports) => void;
 
   /**
-   * Find a component or story's id from the direct export(s) from the CSF file.
+   * Find a component, meta or story object from the direct export(s) from the CSF file.
    * This is the API that drives the `of={}` syntax.
    */
-  componentOrStoryIdByModuleExport: (
+  resolveModuleExport: (
     moduleExport: ModuleExport,
     metaExports?: ModuleExports
-  ) => { type: 'component'; id: ComponentId } | { type: 'story'; id: StoryId };
+  ) => ResolvedModuleExport<TRenderer>;
+
   /**
    * Find a story's id from the name of the story.
    * This is primarily used by the `<Story name={} /> block.

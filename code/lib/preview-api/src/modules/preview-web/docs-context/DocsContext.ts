@@ -19,9 +19,9 @@ export class DocsContext<TRenderer extends Renderer> implements DocsContextProps
 
   private storyIdToCSFFile: Map<StoryId, CSFFile<TRenderer>>;
 
-  private exportToStoryId: Map<ModuleExport, StoryId>;
+  private exportToStory: Map<ModuleExport, PreparedStory<TRenderer>>;
 
-  private exportsToComponentId: Map<ModuleExports, ComponentId>;
+  private exportsToCSFFile: Map<ModuleExports, CSFFile<TRenderer>>;
 
   private nameToStoryId: Map<StoryName, StoryId>;
 
@@ -36,8 +36,8 @@ export class DocsContext<TRenderer extends Renderer> implements DocsContextProps
     componentStoriesFromAllCsfFiles = true
   ) {
     this.storyIdToCSFFile = new Map();
-    this.exportToStoryId = new Map();
-    this.exportsToComponentId = new Map();
+    this.exportToStory = new Map();
+    this.exportsToCSFFile = new Map();
     this.nameToStoryId = new Map();
     this.componentStoriesValue = [];
 
@@ -50,18 +50,23 @@ export class DocsContext<TRenderer extends Renderer> implements DocsContextProps
   // as reference them by module export. If the CSF is part of the "component" stories, they
   // can also be referenced by name and are in the componentStories list.
   referenceCSFFile(csfFile: CSFFile<TRenderer>, addToComponentStories: boolean) {
-    this.exportsToComponentId.set(csfFile.moduleExports, csfFile.meta.id);
+    this.exportsToCSFFile.set(csfFile.moduleExports, csfFile);
     // Also set the default export as the component's exports,
     // to allow `import ButtonStories from './Button.stories'`
-    this.exportsToComponentId.set(csfFile.moduleExports.default, csfFile.meta.id);
+    this.exportsToCSFFile.set(csfFile.moduleExports.default, csfFile);
+
+    const stories = this.store.componentStoriesFromCSFFile({ csfFile });
 
     Object.values(csfFile.stories).forEach((annotation) => {
       this.storyIdToCSFFile.set(annotation.id, csfFile);
-      this.exportToStoryId.set(annotation.moduleExport, annotation.id);
+      const story = stories.find((s) => s.id === annotation.id);
+      if (!story)
+        throw new Error(`Unexpected missing story ${annotation.id} from referenced CSF file.`);
+      this.exportToStory.set(annotation.moduleExport, story);
     });
 
     if (addToComponentStories) {
-      this.store.componentStoriesFromCSFFile({ csfFile }).forEach((story) => {
+      stories.forEach((story) => {
         this.nameToStoryId.set(story.name, story.id);
         this.componentStoriesValue.push(story);
         if (!this.primaryStory) this.primaryStory = story;
@@ -73,24 +78,28 @@ export class DocsContext<TRenderer extends Renderer> implements DocsContextProps
     // Do nothing (this is really only used by external docs)
   }
 
-  componentOrStoryIdByModuleExport(moduleExport: ModuleExport, metaExports?: ModuleExports) {
-    const componentId = this.exportsToComponentId.get(moduleExport);
-    if (componentId) {
+  resolveModuleExport(moduleExport: ModuleExport, metaExports?: ModuleExports) {
+    const csfFile = this.exportsToCSFFile.get(moduleExport);
+    if (csfFile) {
       return {
-        type: 'component',
-        id: componentId,
+        type: 'meta',
+        csfFile,
       } as const;
     }
 
-    const storyId = this.exportToStoryId.get(moduleExport);
-    if (storyId) {
+    const story = this.exportToStory.get(moduleExport);
+    if (story) {
       return {
         type: 'story',
-        id: storyId,
+        story,
       } as const;
     }
 
-    throw new Error(`No story or component found with that export: ${moduleExport}`);
+    // If the export isn't a module, default or story export, we assume it is a component
+    return {
+      type: 'component',
+      component: moduleExport,
+    } as const;
   }
 
   storyIdByName = (storyName: StoryName) => {
