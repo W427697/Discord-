@@ -43,7 +43,11 @@ export const getStoryId = (props: StoryProps, context: DocsContextProps): StoryI
   const { id, of, meta } = props as StoryRefProps;
 
   if (of) {
-    return context.storyIdByModuleExport(of, meta);
+    const { type, id: storyId } = context.componentOrStoryIdByModuleExport(of, meta);
+    if (type === 'component') {
+      throw new Error('Unexpected module/meta exports passed to `Story` block.');
+    }
+    return storyId;
   }
 
   const { name } = props as StoryDefProps;

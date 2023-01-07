@@ -7,6 +7,7 @@ import type {
   StoryContextForLoaders,
   StoryId,
   StoryName,
+  ComponentId,
 } from '@storybook/types';
 import type { Channel } from '@storybook/channels';
 import type { StoryStore } from '../../store';
@@ -19,6 +20,8 @@ export class DocsContext<TRenderer extends Renderer> implements DocsContextProps
   private storyIdToCSFFile: Map<StoryId, CSFFile<TRenderer>>;
 
   private exportToStoryId: Map<ModuleExport, StoryId>;
+
+  private exportsToComponentId: Map<ModuleExports, ComponentId>;
 
   private nameToStoryId: Map<StoryName, StoryId>;
 
@@ -34,6 +37,7 @@ export class DocsContext<TRenderer extends Renderer> implements DocsContextProps
   ) {
     this.storyIdToCSFFile = new Map();
     this.exportToStoryId = new Map();
+    this.exportsToComponentId = new Map();
     this.nameToStoryId = new Map();
     this.componentStoriesValue = [];
 
@@ -46,6 +50,11 @@ export class DocsContext<TRenderer extends Renderer> implements DocsContextProps
   // as reference them by module export. If the CSF is part of the "component" stories, they
   // can also be referenced by name and are in the componentStories list.
   referenceCSFFile(csfFile: CSFFile<TRenderer>, addToComponentStories: boolean) {
+    this.exportsToComponentId.set(csfFile.moduleExports, csfFile.meta.id);
+    // Also set the default export as the component's exports,
+    // to allow `import ButtonStories from './Button.stories'`
+    this.exportsToComponentId.set(csfFile.moduleExports.default, csfFile.meta.id);
+
     Object.values(csfFile.stories).forEach((annotation) => {
       this.storyIdToCSFFile.set(annotation.id, csfFile);
       this.exportToStoryId.set(annotation.moduleExport, annotation.id);
@@ -64,11 +73,24 @@ export class DocsContext<TRenderer extends Renderer> implements DocsContextProps
     // Do nothing (this is really only used by external docs)
   }
 
-  storyIdByModuleExport(storyExport: ModuleExport, metaExports?: ModuleExports) {
-    const storyId = this.exportToStoryId.get(storyExport);
-    if (storyId) return storyId;
+  componentOrStoryIdByModuleExport(moduleExport: ModuleExport, metaExports?: ModuleExports) {
+    const componentId = this.exportsToComponentId.get(moduleExport);
+    if (componentId) {
+      return {
+        type: 'component',
+        id: componentId,
+      } as const;
+    }
 
-    throw new Error(`No story found with that export: ${storyExport}`);
+    const storyId = this.exportToStoryId.get(moduleExport);
+    if (storyId) {
+      return {
+        type: 'story',
+        id: storyId,
+      } as const;
+    }
+
+    throw new Error(`No story or component found with that export: ${moduleExport}`);
   }
 
   storyIdByName = (storyName: StoryName) => {

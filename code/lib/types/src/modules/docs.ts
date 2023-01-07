@@ -1,5 +1,12 @@
 import type { Channel } from '@storybook/channels';
-import type { Renderer, StoryContextForLoaders, StoryId, StoryName, Parameters } from './csf';
+import type {
+  Renderer,
+  StoryContextForLoaders,
+  StoryId,
+  StoryName,
+  Parameters,
+  ComponentId,
+} from './csf';
 import type { ModuleExport, ModuleExports, PreparedStory } from './story';
 
 export type StoryRenderOptions = {
@@ -14,10 +21,13 @@ export interface DocsContextProps<TRenderer extends Renderer = Renderer> {
   setMeta: (metaExports: ModuleExports) => void;
 
   /**
-   * Find a story's id from the direct export from the CSF file.
-   * This is primarily used by the `<Story of={} /> block.
+   * Find a component or story's id from the direct export(s) from the CSF file.
+   * This is the API that drives the `of={}` syntax.
    */
-  storyIdByModuleExport: (storyExport: ModuleExport, metaExports?: ModuleExports) => StoryId;
+  componentOrStoryIdByModuleExport: (
+    moduleExport: ModuleExport,
+    metaExports?: ModuleExports
+  ) => { type: 'component'; id: ComponentId } | { type: 'story'; id: StoryId };
   /**
    * Find a story's id from the name of the story.
    * This is primarily used by the `<Story name={} /> block.
