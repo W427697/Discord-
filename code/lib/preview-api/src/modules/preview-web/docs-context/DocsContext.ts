@@ -7,7 +7,6 @@ import type {
   StoryContextForLoaders,
   StoryId,
   StoryName,
-  ComponentId,
 } from '@storybook/types';
 import type { Channel } from '@storybook/channels';
 import type { StoryStore } from '../../store';
