@@ -3050,7 +3050,6 @@ __metadata:
     semver: ^7.3.7
     serve-static: ^1.14.1
     shelljs: ^0.8.5
-    shx: ^0.3.2
     slash: ^3.0.0
     sort-package-json: ^1.48.1
     tempy: ^1.0.0
@@ -12073,7 +12072,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"minimist@npm:^1.1.0, minimist@npm:^1.2.0, minimist@npm:^1.2.3, minimist@npm:^1.2.5, minimist@npm:^1.2.6":
+"minimist@npm:^1.1.0, minimist@npm:^1.2.0, minimist@npm:^1.2.5, minimist@npm:^1.2.6":
   version: 1.2.7
   resolution: "minimist@npm:1.2.7"
   checksum: 8808da67ca50ee19ab2d69051d77ee78572e67297fd8a1635ecc757a15106ccdfb5b8c4d11d84750120142f1684e5329a141295728c755e5d149eedd73cc6572
@@ -14751,18 +14750,6 @@ __metadata:
   bin:
     shjs: bin/shjs
   checksum: feb25289a12e4bcd04c40ddfab51aff98a3729f5c2602d5b1a1b95f6819ec7804ac8147ebd8d9a85dfab69d501bcf92d7acef03247320f51c1552cec8d8e2382
-  languageName: node
-  linkType: hard
-
-"shx@npm:^0.3.2":
-  version: 0.3.4
-  resolution: "shx@npm:0.3.4"
-  dependencies:
-    minimist: ^1.2.3
-    shelljs: ^0.8.5
-  bin:
-    shx: lib/cli.js
-  checksum: 83251fb09314682f5a192f0249a4be68c755933313a41b5152b11c19fc0a68311954d3ca971a0cbae05815786a893c59b82f356484d8eeb009c84f4066b3fa31
   languageName: node
   linkType: hard
 

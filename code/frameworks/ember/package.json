@@ -37,7 +37,6 @@
     "@storybook/global": "^5.0.0",
     "@storybook/preview-api": "7.0.0-beta.20",
     "@storybook/types": "7.0.0-beta.20",
-    "read-pkg-up": "^7.0.1",
     "ts-dedent": "^2.0.0"
   },
   "devDependencies": {

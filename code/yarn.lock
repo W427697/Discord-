@@ -6329,7 +6329,6 @@ __metadata:
     "@storybook/preview-api": 7.0.0-beta.20
     "@storybook/types": 7.0.0-beta.20
     ember-source: ~3.28.1
-    read-pkg-up: ^7.0.1
     ts-dedent: ^2.0.0
     typescript: ~4.9.3
   peerDependencies:
@@ -7156,9 +7155,6 @@ __metadata:
     "@types/react-dom": ^16.9.14
     "@types/semver": ^7.3.4
     "@types/serve-static": ^1.13.8
-    "@types/shelljs": ^0.8.7
-    "@types/terser-webpack-plugin": ^5.2.0
-    "@types/webpack-dev-middleware": ^5.3.0
     "@typescript-eslint/eslint-plugin": ^5.45.0
     "@typescript-eslint/experimental-utils": ^5.45.0
     "@typescript-eslint/parser": ^5.45.0
@@ -7168,7 +7164,6 @@ __metadata:
     babel-loader: ^8.3.0
     chromatic: 6.11.2
     codecov: ^3.8.1
-    commander: ^6.2.1
     concurrently: ^5.3.0
     cross-env: ^7.0.3
     danger: ^10.6.2
@@ -7200,10 +7195,8 @@ __metadata:
     lint-staged: ^10.5.4
     lodash: ^4.17.21
     mocha-list-tests: ^1.0.5
-    node-fetch: ^2.6.1
     node-gyp: ^8.4.0
     nx: 14.6.1
-    p-limit: ^3.1.0
     playwright: 1.29.1
     prettier: 2.8.0
     process: ^0.11.10
@@ -7212,11 +7205,7 @@ __metadata:
     react: ^16.14.0
     semver: ^7.3.7
     serve-static: ^1.14.1
-    shelljs: ^0.8.5
-    shx: ^0.3.2
-    terser-webpack-plugin: ^5.3.1
     trash: ^7.0.0
-    ts-dedent: ^2.0.0
     ts-loader: ^9.2.8
     ts-node: ^10.9.1
     tsup: ^6.2.2
@@ -7228,9 +7217,6 @@ __metadata:
     vite-plugin-turbosnap: ^1.0.1
     wait-on: ^5.2.1
     web-component-analyzer: ^1.1.6
-    webpack: 5
-    webpack-dev-middleware: ^5.3.1
-    window-size: ^1.1.1
     zx: ^7.0.3
   dependenciesMeta:
     ejs:
@@ -22801,7 +22787,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"minimist@npm:^1.1.0, minimist@npm:^1.1.3, minimist@npm:^1.2.0, minimist@npm:^1.2.3, minimist@npm:^1.2.5, minimist@npm:^1.2.6":
+"minimist@npm:^1.1.0, minimist@npm:^1.1.3, minimist@npm:^1.2.0, minimist@npm:^1.2.5, minimist@npm:^1.2.6":
   version: 1.2.7
   resolution: "minimist@npm:1.2.7"
   checksum: 8808da67ca50ee19ab2d69051d77ee78572e67297fd8a1635ecc757a15106ccdfb5b8c4d11d84750120142f1684e5329a141295728c755e5d149eedd73cc6572
@@ -28525,18 +28511,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"shx@npm:^0.3.2":
-  version: 0.3.4
-  resolution: "shx@npm:0.3.4"
-  dependencies:
-    minimist: ^1.2.3
-    shelljs: ^0.8.5
-  bin:
-    shx: lib/cli.js
-  checksum: 83251fb09314682f5a192f0249a4be68c755933313a41b5152b11c19fc0a68311954d3ca971a0cbae05815786a893c59b82f356484d8eeb009c84f4066b3fa31
-  languageName: node
-  linkType: hard
-
 "side-channel@npm:^1.0.4":
   version: 1.0.4
   resolution: "side-channel@npm:1.0.4"
@@ -32558,18 +32532,6 @@ __metadata:
   version: 2.0.0
   resolution: "wildcard@npm:2.0.0"
   checksum: 4e22a45f4fa7f0f0d3e11860ee9ce9225246d41af6ec507e6a7d64c2692afb40d695b92c8f801deda8d3536007c2ec07981079fd0c8bb38b8521de072b33ab7a
-  languageName: node
-  linkType: hard
-
-"window-size@npm:^1.1.1":
-  version: 1.1.1
-  resolution: "window-size@npm:1.1.1"
-  dependencies:
-    define-property: ^1.0.0
-    is-number: ^3.0.0
-  bin:
-    window-size: cli.js
-  checksum: 14683aa6bd882631fb04cd1bc31b5457bdbda3ca5dc5477db57785431e13d515d48977ad396ef3b727f2a1a71a4889f528f6c30a53bef35bd9460dc7cdbf1a70
   languageName: node
   linkType: hard
 
