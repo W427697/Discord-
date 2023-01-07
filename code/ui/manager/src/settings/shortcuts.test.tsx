@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import { render } from '@testing-library/react';
+import { createRoot } from 'react-dom/client';
 
 import { ThemeProvider, themes, convert } from '@storybook/theming';
 import { ShortcutsScreen } from './shortcuts';
@@ -34,13 +34,15 @@ describe('ShortcutsScreen', () => {
   });
 
   it('handles a full mount', () => {
-    const comp = render(
+    const container = document.getElementById('themeprovider');
+    const root = createRoot(container!);
+    const comp = root.render(
       <ThemeProvider theme={convert(themes.light)}>
         <ShortcutsScreen shortcutKeys={shortcutKeys} {...makeActions()} />
       </ThemeProvider>
     );
     expect(comp).toBeDefined();
-    comp.unmount();
+    root.unmount();
   });
 
   describe('onFocus', () => {
