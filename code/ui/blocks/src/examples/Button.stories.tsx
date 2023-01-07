@@ -84,11 +84,22 @@ export const Clicking: Story = {
   },
 };
 
-export const ClickingInDocs: Story = {
+export const ClickingInDocsDeprecated: Story = {
   ...Clicking,
   parameters: {
     docs: {
       autoplay: true,
+    },
+  },
+};
+
+export const ClickingInDocs: Story = {
+  ...Clicking,
+  parameters: {
+    docs: {
+      story: {
+        autoplay: true,
+      },
     },
   },
 };

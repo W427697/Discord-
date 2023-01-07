@@ -108,9 +108,29 @@ export const WithDefaultInteractions: Story = {
     chromatic: { delay: 500 },
   },
 };
+
+export const WithInteractionsAutoplay: Story = {
+  args: {
+    of: ButtonStories.Clicking,
+    autoplay: true,
+  },
+  parameters: {
+    chromatic: { delay: 500 },
+  },
+};
+
 export const WithInteractionsAutoplayInStory: Story = {
   args: {
     of: ButtonStories.ClickingInDocs,
+  },
+  parameters: {
+    chromatic: { delay: 500 },
+  },
+};
+
+export const WithInteractionsAutoplayInStoryDeprecated: Story = {
+  args: {
+    of: ButtonStories.ClickingInDocsDeprecated,
   },
   parameters: {
     chromatic: { delay: 500 },
