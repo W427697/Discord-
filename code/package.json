@@ -2,32 +2,6 @@
   "name": "@storybook/root",
   "version": "7.0.0-beta.20",
   "private": true,
-  "description": "Storybook is an open source tool for developing UI components in isolation for React, Vue and Angular. It makes building stunning UIs organized and efficient.",
-  "keywords": [
-    "angular",
-    "angularjs",
-    "au2",
-    "aurelia",
-    "aurelia2",
-    "babel",
-    "components",
-    "documentation",
-    "frontend",
-    "jamstack",
-    "markup",
-    "mdx",
-    "react",
-    "reactjs",
-    "reuseable",
-    "storybook",
-    "storybookjs",
-    "templated",
-    "tool",
-    "ui",
-    "user interface",
-    "vue",
-    "vuejs"
-  ],
   "homepage": "https://storybook.js.org/",
   "repository": {
     "type": "git",
@@ -121,7 +95,6 @@
     "@babel/preset-react": "^7.18.6",
     "@babel/preset-typescript": "^7.18.6",
     "@babel/runtime": "^7.20.1",
-    "@compodoc/compodoc": "^1.1.18",
     "@emotion/jest": "^11.10.0",
     "@jest/globals": "^29.3.1",
     "@linear/sdk": "^1.21.0",
@@ -314,9 +287,6 @@
     "zx": "^7.0.3"
   },
   "dependenciesMeta": {
-    "@compodoc/compodoc": {
-      "built": false
-    },
     "ejs": {
       "built": false
     },
@@ -341,7 +311,6 @@
     }
   },
   "optionalDependencies": {
-    "puppeteer": "^2.1.1",
     "ts-loader": "^9.2.8",
     "verdaccio": "^4.10.0",
     "verdaccio-auth-memory": "^9.7.2"
