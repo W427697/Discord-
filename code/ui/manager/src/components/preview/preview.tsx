@@ -88,6 +88,7 @@ const createCanvas = (id: string, baseUrl = 'iframe.html', withLoader = true): A
           const rootLoading = !refId && (!ready || isBuilding);
           const isLoading = entry ? refLoading || rootLoading : rootLoading;
 
+          console.log({ ready, isBuilding, rootLoading, isLoading });
           return (
             <ZoomConsumer>
               {({ value: scale }) => {

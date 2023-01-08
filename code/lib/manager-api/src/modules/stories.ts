@@ -325,7 +325,7 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
 
         await fullAPI.setIndex(storyIndex);
       } catch (err) {
-        store.setState({ ready: true });
+        // Probably we should set the error here... TODO
       }
     },
     // The story index we receive on SET_INDEX is "prepared" in that it has parameters
@@ -342,7 +342,6 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
 
       await store.setState({
         storiesHash: addPreparedStories(newHash, oldHash),
-        ready: true,
       });
     },
     updateStory: async (
@@ -403,6 +402,7 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
     fullAPI.on(CURRENT_STORY_WAS_SET, function handler() {
       const { ref } = getEventMetadata(this, fullAPI);
 
+      console.log(CURRENT_STORY_WAS_SET, 'ready');
       if (!ref) {
         store.setState({ ready: true });
       } else {
@@ -511,6 +511,7 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
       const { ref } = getEventMetadata(this, fullAPI);
 
       if (!ref) {
+        console.log(CONFIG_ERROR, 'ready');
         store.setState({ ready: true });
       } else {
         fullAPI.updateRef(ref.id, { ready: true });

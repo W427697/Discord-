@@ -118,6 +118,7 @@ export class WebView implements View<HTMLElement> {
   }
 
   showMode(mode: Mode) {
+    console.log('showMode', mode);
     clearTimeout(this.preparingTimeout);
     Object.keys(Mode).forEach((otherMode) => {
       if (otherMode === mode) {
@@ -167,6 +168,7 @@ export class WebView implements View<HTMLElement> {
   }
 
   showPreparingDocs({ immediate = false } = {}) {
+    console.log('showPreparingDocs', immediate);
     clearTimeout(this.preparingTimeout);
     if (immediate) {
       this.showMode(Mode.PREPARING_DOCS);
