@@ -32,10 +32,7 @@
     "*.d.ts"
   ],
   "scripts": {
-    "build-storybook": "sb build",
-    "example": "jest storyshot.test",
-    "prep": "../../../scripts/prepare/tsc.ts",
-    "storybook": "yarn sb dev -p 6006"
+    "prep": "../../../scripts/prepare/tsc.ts"
   },
   "dependencies": {
     "@jest/transform": "^29.3.1",
@@ -72,6 +69,7 @@
     "jest-preset-angular": "^8.3.2",
     "jest-vue-preprocessor": "^1.7.1",
     "react-test-renderer": "^16",
+    "rimraf": "^3.0.2",
     "rxjs": "^6.6.3",
     "vue-jest": "^5.0.0-alpha.8"
   },
