@@ -5729,6 +5729,8 @@ __metadata:
     "@storybook/types": 7.0.0-beta.20
     "@types/jest-image-snapshot": ^5.1.0
     "@types/puppeteer": ^5.4.0
+    enzyme: ^3.11.0
+    enzyme-to-json: ^3.6.1
     jest-image-snapshot: ^6.0.0
     puppeteer: ^2.0.0 || ^3.0.0
     rimraf: ^3.0.2
@@ -5766,6 +5768,7 @@ __metadata:
     babel-loader: ^8.3.0
     core-js: ^3.8.2
     enzyme: ^3.11.0
+    enzyme-adapter-react-16: ^1.15.5
     enzyme-to-json: ^3.6.1
     glob: ^7.1.6
     jest-preset-angular: ^8.3.2
@@ -6801,7 +6804,6 @@ __metadata:
     "@types/semver": ^7.3.4
     copy-to-clipboard: ^3.3.1
     downshift: ^6.0.15
-    enzyme: ^3.11.0
     fs-extra: ^9.0.1
     fuse.js: ^3.6.1
     lodash: ^4.17.21
@@ -7405,7 +7407,6 @@ __metadata:
     "@testing-library/jest-dom": ^5.11.9
     "@testing-library/react": ^11.2.2
     "@testing-library/user-event": ^13.2.1
-    "@types/enzyme": ^3.10.8
     "@types/express": ^4.17.11
     "@types/fs-extra": ^9.0.6
     "@types/lodash": ^4.14.167
@@ -7426,8 +7427,6 @@ __metadata:
     concurrently: ^5.3.0
     cross-env: ^7.0.3
     danger: ^10.6.2
-    enzyme: ^3.11.0
-    enzyme-adapter-react-16: ^1.15.5
     esbuild: ^0.16.4
     esbuild-loader: ^2.19.0
     esbuild-plugin-alias: ^0.2.1
@@ -8272,7 +8271,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/cheerio@npm:*, @types/cheerio@npm:^0.22.22":
+"@types/cheerio@npm:^0.22.22":
   version: 0.22.31
   resolution: "@types/cheerio@npm:0.22.31"
   dependencies:
@@ -8352,16 +8351,6 @@ __metadata:
   version: 3.1.1
   resolution: "@types/ejs@npm:3.1.1"
   checksum: 922083d5bb5ae290856ea334d85e20765b588987bcdf3a2e81aa724503cb127acb2bd63fddf91bdafa24b46768fe402a6acaa47ab7a4ae520efb162a5757abca
-  languageName: node
-  linkType: hard
-
-"@types/enzyme@npm:^3.10.8":
-  version: 3.10.12
-  resolution: "@types/enzyme@npm:3.10.12"
-  dependencies:
-    "@types/cheerio": "*"
-    "@types/react": "*"
-  checksum: a2b1e8c8f0d41b732de100b2a09a975cfaa73935516754e3fc7267ea05607343af958601fd5f1746c2a8a2464eaec6e2557a9d5e85afa14abcd8feb0c574a465
   languageName: node
   linkType: hard
 
