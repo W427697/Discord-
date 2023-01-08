@@ -1,8 +1,8 @@
-```js
+```ts
 // CSF 2
 
 // Other imports and story implementation
-export const Default = (args) => ({
+export const Default: StoryFn<typeof Button> = (args) => ({
   components: { Button },
   setup() {
     return { args };

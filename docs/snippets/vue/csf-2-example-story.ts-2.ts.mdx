@@ -1,8 +1,8 @@
-```js
+```ts
 // CSF 2
 
 // Other imports and story implementation
-export const Default = (args, { argTypes }) => ({
+export const Default: StoryFn<typeof Button> = (args, { argTypes }) => ({
   props: Object.keys(argTypes),
   components: { Button },
   template: `<Button v-bind="$props" />`,
