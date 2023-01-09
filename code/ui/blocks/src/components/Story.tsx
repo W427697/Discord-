@@ -9,10 +9,6 @@ import { ZoomContext } from './ZoomContext';
 const { PREVIEW_URL } = global;
 const BASE_URL = PREVIEW_URL || 'iframe.html';
 
-export enum StoryError {
-  NO_STORY = 'No component or story to display',
-}
-
 interface CommonProps {
   story: PreparedStory;
   inline: boolean;
@@ -29,7 +25,7 @@ interface IFrameStoryProps extends CommonProps {
   inline: false;
 }
 
-type StoryProps = InlineStoryProps | IFrameStoryProps;
+export type StoryProps = InlineStoryProps | IFrameStoryProps;
 
 const InlineStory: FunctionComponent<InlineStoryProps> = ({
   story,

@@ -1,26 +1,58 @@
-import React, { useState } from 'react';
-import { Button } from '@storybook/components';
-import { Story, StorySkeleton, StoryError } from './Story';
+import React from 'react';
+import type { StoryObj, Meta } from '@storybook/react';
+import type { StoryProps } from './Story';
+import { Story as StoryComponent, StorySkeleton } from './Story';
+import type { DocsContextProps } from '../blocks';
+import * as ButtonStories from '../examples/Button.stories';
 
-export default {
-  component: Story,
+const preview = __STORYBOOK_PREVIEW__;
+const renderStoryToElement = preview.renderStoryToElement.bind(preview);
+
+// TODO: can't quite figure out types here.
+// type OverriddenStoryProps = StoryProps & {
+//   story: typeof ButtonStories.Primary;
+// };
+
+const meta: Meta<typeof StoryComponent> = {
+  component: StoryComponent,
+  parameters: {
+    relativeCsfPaths: ['../examples/Button.stories'],
+  },
+  args: {
+    height: '100px',
+    // NOTE: the real story arg is a PreparedStory, which we'll get in the render function below
+    story: ButtonStories.Primary as any,
+  },
+  render(args, { loaded }) {
+    const docsContext = loaded.docsContext as DocsContextProps;
+    const storyId = docsContext.storyIdByModuleExport(args.story);
+    const story = docsContext.storyById(storyId);
+    return <StoryComponent {...args} story={story} />;
+  },
 };
-
-const buttonFn = () => <Button secondary>Inline story</Button>;
-
-const buttonHookFn = () => {
-  const [count, setCount] = useState(0);
-  return (
-    <Button secondary onClick={() => setCount(count + 1)}>
-      {`count: ${count}`}
-    </Button>
-  );
-};
+export default meta;
 
 export const Loading = () => <StorySkeleton />;
 
-export const Inline = () => <Story id="id" inline storyFn={buttonFn} title="hello button" />;
+export const Inline = {
+  args: {
+    inline: true,
+    autoplay: false,
+    renderStoryToElement,
+  },
+};
 
-export const Error = () => <Story id="id" error={StoryError.NO_STORY} />;
+export const IFrame = {
+  args: {
+    inline: false,
+  },
+};
 
-export const ReactHook = () => <Story id="id" inline storyFn={buttonHookFn} title="hello button" />;
+export const Autoplay = {
+  args: {
+    story: ButtonStories.Clicking,
+    inline: true,
+    autoplay: true,
+    renderStoryToElement,
+  },
+};
