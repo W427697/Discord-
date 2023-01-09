@@ -1,3 +1,20 @@
+## 7.0.0-beta.21 (January 9, 2023)
+
+#### Maintenance
+
+-   Ember: Build with tsc [#20524](https://github.com/storybooks/storybook/pull/20524)
+-   Storyshots: Build with tsc [#20523](https://github.com/storybooks/storybook/pull/20523)
+
+#### Dependencies
+
+-   Downgrade find-cache-dir [#20532](https://github.com/storybooks/storybook/pull/20532)
+
+#### Build
+
+-   Build: Cleanup babel prepare related code & dependencies [#20156](https://github.com/storybooks/storybook/pull/20156)
+-   Build: Create a tsc prepare script, use it for angular framework, add ESM to angular dist [#20516](https://github.com/storybooks/storybook/pull/20516)
+-   Build: Fix InternalCanvas story tests [#20521](https://github.com/storybooks/storybook/pull/20521)
+
 ## 7.0.0-beta.20 (January 6, 2023)
 
 #### Bug Fixes
