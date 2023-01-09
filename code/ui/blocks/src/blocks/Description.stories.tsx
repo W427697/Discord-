@@ -27,13 +27,13 @@ export const OfComponentAsComponentComment: Story = {
   },
   parameters: { relativeCsfPaths: ['../examples/Button.stories'] },
 };
-export const OfMetaAsComponentComment: Story = {
+export const OfCSFFileAsComponentComment: Story = {
   args: {
     of: DefaultButtonStories,
   },
   parameters: { relativeCsfPaths: ['../examples/Button.stories'] },
 };
-export const OfMetaAsMetaComment: Story = {
+export const OfCSFFileAsMetaComment: Story = {
   args: {
     of: ButtonStoriesWithMetaDescriptionAsComment,
   },
@@ -41,7 +41,7 @@ export const OfMetaAsMetaComment: Story = {
     relativeCsfPaths: ['../examples/ButtonWithMetaDescriptionAsComment.stories'],
   },
 };
-export const OfMetaAsParameter: Story = {
+export const OfCSFFileAsParameter: Story = {
   args: {
     of: ButtonStoriesWithMetaDescriptionAsParameter,
   },
@@ -49,7 +49,7 @@ export const OfMetaAsParameter: Story = {
     relativeCsfPaths: ['../examples/ButtonWithMetaDescriptionAsParameter.stories'],
   },
 };
-export const OfMetaAsMetaCommentAndParameter: Story = {
+export const OfCSFFileAsMetaCommentAndParameter: Story = {
   args: {
     of: ButtonStoriesWithMetaDescriptionAsBoth,
   },
@@ -57,9 +57,47 @@ export const OfMetaAsMetaCommentAndParameter: Story = {
     relativeCsfPaths: ['../examples/ButtonWithMetaDescriptionAsBoth.stories'],
   },
 };
-export const OfMetaUnattached: Story = {
+export const UnattachedOfCSFFile: Story = {
   args: {
     of: DefaultButtonStories,
+  },
+  parameters: {
+    relativeCsfPaths: [],
+  },
+};
+export const OfMetaAsComponentComment: Story = {
+  args: {
+    of: DefaultButtonStories.default,
+  },
+  parameters: { relativeCsfPaths: ['../examples/Button.stories'] },
+};
+export const OfMetaAsMetaComment: Story = {
+  args: {
+    of: ButtonStoriesWithMetaDescriptionAsComment.default,
+  },
+  parameters: {
+    relativeCsfPaths: ['../examples/ButtonWithMetaDescriptionAsComment.stories'],
+  },
+};
+export const OfMetaAsParameter: Story = {
+  args: {
+    of: ButtonStoriesWithMetaDescriptionAsParameter.default,
+  },
+  parameters: {
+    relativeCsfPaths: ['../examples/ButtonWithMetaDescriptionAsParameter.stories'],
+  },
+};
+export const OfMetaAsMetaCommentAndParameter: Story = {
+  args: {
+    of: ButtonStoriesWithMetaDescriptionAsBoth.default,
+  },
+  parameters: {
+    relativeCsfPaths: ['../examples/ButtonWithMetaDescriptionAsBoth.stories'],
+  },
+};
+export const UnattachedOfMeta: Story = {
+  args: {
+    of: DefaultButtonStories.default,
   },
   parameters: {
     relativeCsfPaths: [],
@@ -83,7 +121,7 @@ export const OfStoryAsStoryCommentAndParameter: Story = {
   },
   parameters: { relativeCsfPaths: ['../examples/Button.stories'] },
 };
-export const OfStoryUnattached: Story = {
+export const UnattachedOfStory: Story = {
   args: {
     of: DefaultButtonStories.Primary,
   },
