@@ -68,7 +68,7 @@ export function renderToCanvas(
 function getSlots(props: Args, context: StoryContext<VueRenderer, Args>) {
   const { argTypes } = context;
   const slots = Object.entries(props)
-    .filter(([key, value]) => argTypes[key].table?.category === 'slots')
+    .filter(([key, value]) => argTypes[key]?.table?.category === 'slots')
     .map(([key, value]) => [key, () => h('span', JSON.stringify(value))]);
 
   return Object.fromEntries(slots);
