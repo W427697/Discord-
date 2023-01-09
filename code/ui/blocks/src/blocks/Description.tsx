@@ -2,13 +2,13 @@ import type { FC } from 'react';
 import React, { useContext } from 'react';
 import { str } from '@storybook/docs-tools';
 import { deprecate } from '@storybook/client-logger';
-import type { Meta, Story } from '@storybook/types';
 import { Description } from '../components';
 
 import type { DocsContextProps } from './DocsContext';
 import { DocsContext } from './DocsContext';
 import type { Component } from './types';
 import { PRIMARY_STORY } from './types';
+import { useOf } from './useOf';
 
 export enum DescriptionType {
   INFO = 'info',
@@ -47,6 +47,60 @@ const getDescriptionFromModuleExport = (
   of: DescriptionProps['of'],
   docsContext: DocsContextProps<any>
 ): string => {
+  const resolvedModule = useOf(of);
+  console.log('LOG resolvedModule:', resolvedModule);
+  switch (resolvedModule.type) {
+    case 'story': {
+      console.log('LOG story:', resolvedModule.story.parameters.docs?.description?.story);
+      return resolvedModule.story.parameters.docs?.description?.story || '';
+    }
+    case 'meta': {
+      const {
+        meta: { component, parameters },
+      } = resolvedModule.csfFile;
+      console.log('LOG: meta', resolvedModule.csfFile);
+      const metaDescription = parameters.docs?.description?.component;
+      if (metaDescription) {
+        console.log('LOG: meta desc', metaDescription);
+        return metaDescription;
+      }
+      // TODO: this is a workaround, doesn't work in unattached mode
+      const primaryStory = docsContext.storyById();
+      console.log('LOG: component', component);
+      console.log('LOG: primaryStory', primaryStory);
+      console.log('LOG: primaryStory', primaryStory);
+      console.log(
+        'LOG extract primary:',
+        primaryStory.parameters.docs?.extractComponentDescription
+      );
+      console.log('LOG extract meta:', parameters.docs?.extractComponentDescription);
+      return (
+        primaryStory.parameters.docs?.extractComponentDescription(component, {
+          component,
+          ...primaryStory.parameters,
+        }) || null
+      );
+    }
+    case 'component': {
+      // TODO: this is a workaround, doesn't work in unattached mode
+      const primaryStory = docsContext.storyById();
+      const { component } = resolvedModule;
+      console.log('LOG: component', component);
+      console.log('LOG: primaryStory', primaryStory);
+      return (
+        primaryStory.parameters.docs?.extractComponentDescription(component, {
+          component,
+          ...primaryStory.parameters,
+        }) || null
+      );
+    }
+    default: {
+      throw new Error(
+        `Unrecognized module type resolved from 'useOf', got: ${(resolvedModule as any).type}`
+      );
+    }
+  }
+  /*
   try {
     const storyId = docsContext.storyIdByModuleExport(of);
     console.log('LOG: storyId', storyId);
@@ -86,6 +140,7 @@ const getDescriptionFromModuleExport = (
   console.log('LOG: of', of);
   console.log('LOG: metaDescription', metaDescription);
   return metaDescription;
+  */
 };
 
 const getDescriptionFromDeprecatedProps = (

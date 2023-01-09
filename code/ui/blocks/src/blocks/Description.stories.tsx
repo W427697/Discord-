@@ -61,9 +61,7 @@ export const UnattachedOfCSFFile: Story = {
   args: {
     of: DefaultButtonStories,
   },
-  parameters: {
-    relativeCsfPaths: [],
-  },
+  parameters: { relativeCsfPaths: ['../examples/Button.stories'], attached: false },
 };
 export const OfMetaAsComponentComment: Story = {
   args: {
@@ -99,9 +97,7 @@ export const UnattachedOfMeta: Story = {
   args: {
     of: DefaultButtonStories.default,
   },
-  parameters: {
-    relativeCsfPaths: [],
-  },
+  parameters: { relativeCsfPaths: ['../examples/Button.stories'], attached: false },
 };
 export const OfStoryAsComment: Story = {
   args: {
@@ -125,7 +121,5 @@ export const UnattachedOfStory: Story = {
   args: {
     of: DefaultButtonStories.Primary,
   },
-  parameters: {
-    relativeCsfPaths: [],
-  },
+  parameters: { relativeCsfPaths: ['../examples/Button.stories'], attached: false },
 };
