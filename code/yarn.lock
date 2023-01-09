@@ -30069,6 +30069,9 @@ __metadata:
   resolution: "storybook@workspace:lib/cli-storybook"
   dependencies:
     "@storybook/cli": 7.0.0-beta.21
+  peerDependencies:
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0
+    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
   bin:
     sb: ./index.js
     storybook: ./index.js
