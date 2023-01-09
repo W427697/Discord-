@@ -68,3 +68,37 @@ it('fixMdxComments fixes all comments', () => {
     {/* This is another comment */}"
   `);
 });
+
+it('fixMdxComments keeps html comments in codeblocks', () => {
+  expect(
+    fixMdxComments(dedent`
+      # Hello
+      
+      ~~~html
+      <!-- This is a comment -->
+      ~~~
+
+      ~~~html
+      <!-- This is a comment -->
+      ~~~
+
+      and this is not
+
+      <!-- This is another comment -->
+    `)
+  ).toMatchInlineSnapshot(`
+    "# Hello
+
+    ~~~html
+    <!-- This is a comment -->
+    ~~~
+
+    ~~~html
+    <!-- This is a comment -->
+    ~~~
+
+    and this is not
+
+    {/* This is another comment */}"
+  `);
+});
