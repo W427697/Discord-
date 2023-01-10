@@ -1,6 +1,6 @@
 {
   "name": "@storybook/ember",
-  "version": "7.0.0-beta.20",
+  "version": "7.0.0-beta.21",
   "description": "Storybook for Ember: Develop Ember Component in isolation with Hot Reloading.",
   "homepage": "https://github.com/storybookjs/storybook/tree/main/frameworks/ember",
   "bugs": {
@@ -31,12 +31,12 @@
     "prep": "../../../scripts/prepare/tsc.ts"
   },
   "dependencies": {
-    "@storybook/builder-webpack5": "7.0.0-beta.20",
-    "@storybook/core-common": "7.0.0-beta.20",
-    "@storybook/docs-tools": "7.0.0-beta.20",
+    "@storybook/builder-webpack5": "7.0.0-beta.21",
+    "@storybook/core-common": "7.0.0-beta.21",
+    "@storybook/docs-tools": "7.0.0-beta.21",
     "@storybook/global": "^5.0.0",
-    "@storybook/preview-api": "7.0.0-beta.20",
-    "@storybook/types": "7.0.0-beta.20",
+    "@storybook/preview-api": "7.0.0-beta.21",
+    "@storybook/types": "7.0.0-beta.21",
     "read-pkg-up": "^7.0.1",
     "ts-dedent": "^2.0.0"
   },
@@ -60,5 +60,5 @@
     "access": "public"
   },
   "bundler": {},
-  "gitHead": "22701aedf564e467511887eb041f32ae0c96bcde"
+  "gitHead": "fb45d854842e10fa119a65c628333e3a5d495e77"
 }

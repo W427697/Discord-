@@ -72,7 +72,7 @@ export class MdxDocsRender<TRenderer extends Renderer> implements Render<TRender
   docsContext(renderStoryToElement: DocsContextProps['renderStoryToElement']) {
     if (!this.csfFiles) throw new Error('Cannot render docs before preparing');
 
-    // NOTE we do *not* attach any CSF file yet. We wait for `setMeta`
+    // NOTE we do *not* attach any CSF file yet. We wait for `referenceMeta(..., true)`
     // ie the CSF file is attached via `<Meta of={} />`
     return new DocsContext<TRenderer>(
       this.channel,

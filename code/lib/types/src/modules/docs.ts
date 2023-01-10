@@ -21,18 +21,17 @@ export type ResolvedModuleExport<TRenderer extends Renderer = Renderer> =
 
 export interface DocsContextProps<TRenderer extends Renderer = Renderer> {
   /**
-   * Register the CSF file that this docs entry represents.
-   * Used by the `<Meta of={} />` block.
+   * Register a CSF file that this docs entry uses.
+   * Used by the `<Meta of={} />` block to attach, and the `<Story meta={} />` bloc to reference
    */
-  setMeta: (metaExports: ModuleExports) => void;
+  referenceMeta: (metaExports: ModuleExports, attach: boolean) => void;
 
   /**
    * Find a component, meta or story object from the direct export(s) from the CSF file.
    * This is the API that drives the `of={}` syntax.
    */
   resolveModuleExport: (
-    moduleExport: ModuleExport,
-    metaExports?: ModuleExports
+    moduleExport: ModuleExport | ResolvedModuleExport<TRenderer>['type']
   ) => ResolvedModuleExport<TRenderer>;
 
   /**

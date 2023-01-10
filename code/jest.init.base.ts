@@ -4,8 +4,6 @@ import '@testing-library/jest-dom';
 import { configure } from 'enzyme';
 // @ts-expect-error (Converted from ts-ignore)
 import Adapter from 'enzyme-adapter-react-16';
-// @ts-expect-error (Converted from ts-ignore)
-import regeneratorRuntime from 'regenerator-runtime';
 import registerRequireContextHook from '@storybook/babel-plugin-require-context-hook/register';
 
 registerRequireContextHook();
@@ -24,8 +22,6 @@ const localStorageMock = {
 };
 // @ts-expect-error (Converted from ts-ignore)
 global.localStorage = localStorageMock;
-// @ts-expect-error (Converted from ts-ignore)
-global.regeneratorRuntime = regeneratorRuntime;
 
 configure({ adapter: new Adapter() });
 
