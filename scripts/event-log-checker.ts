@@ -32,6 +32,10 @@ async function run() {
   assert.equal(bootEvent.eventType, 'boot');
   assert.equal(bootEvent.payload?.eventType, eventType);
 
+  const { exampleStoryCount, exampleDocsCount } = mainEvent.payload?.storyIndex || {};
+  assert.equal(exampleStoryCount, 8);
+  assert.equal(exampleDocsCount, 3);
+
   assert.equal(mainEvent.eventType, eventType);
   assert.notEqual(mainEvent.eventId, bootEvent.eventId);
   assert.equal(mainEvent.sessionId, bootEvent.sessionId);
