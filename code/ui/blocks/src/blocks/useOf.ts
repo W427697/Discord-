@@ -2,7 +2,7 @@ import type {
   DocsContextProps,
   NormalizedProjectAnnotations,
   ResolvedModuleExport,
-} from 'lib/types/src';
+} from '@storybook/types';
 import { useContext } from 'react';
 import { DocsContext } from './DocsContext';
 
