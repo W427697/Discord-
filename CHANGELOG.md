@@ -1,4 +1,4 @@
-## 7.0.0-beta.22 (January 10, 2023)
+## 7.0.0-beta.23 (January 10, 2023)
 
 #### Features
 
@@ -25,6 +25,10 @@
 #### Other
 
 -   Update GH action to use "linear-ghaction" label for sync [#20546](https://github.com/storybooks/storybook/pull/20546)
+
+## 7.0.0-beta.22 (January 10, 2023)
+
+Failed publish
 
 ## 7.0.0-beta.21 (January 9, 2023)
 
