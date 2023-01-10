@@ -7,10 +7,10 @@ expect.addSnapshotSerializer({
   test: (val: unknown) => typeof val === 'string',
 });
 
-function generateForArgs(args: Args, slotProps: string[] | null = null) {
+function generateForArgs(args: Args, slotProps: string[] | undefined = undefined) {
   return generateSource({ name: 'Component' }, args, {}, slotProps, true);
 }
-function generateMultiComponentForArgs(args: Args, slotProps: string[] | null = null) {
+function generateMultiComponentForArgs(args: Args, slotProps: string[] | undefined = undefined) {
   return generateSource([{ name: 'Component' }, { name: 'Component' }], args, {}, slotProps, true);
 }
 
@@ -26,9 +26,7 @@ describe('generateSource Vue3', () => {
     );
   });
   test('null property', () => {
-    expect(generateForArgs({ nullProp: null })).toMatchInlineSnapshot(
-      `<Component :nullProp='nullProp'/>`
-    );
+    expect(generateForArgs({ nullProp: null })).toMatchInlineSnapshot(`<Component />`);
   });
   test('string property', () => {
     expect(generateForArgs({ stringProp: 'mystr' })).toMatchInlineSnapshot(
@@ -41,16 +39,14 @@ describe('generateSource Vue3', () => {
     );
   });
   test('object property', () => {
-    expect(generateForArgs({ objProp: { x: true } })).toMatchInlineSnapshot(
-      `<Component :objProp='objProp'/>`
-    );
+    expect(generateForArgs({ objProp: { x: true } })).toMatchInlineSnapshot(`<Component />`);
   });
   test('multiple properties', () => {
     expect(generateForArgs({ a: 1, b: 2 })).toMatchInlineSnapshot(`<Component :a='a' :b='b'/>`);
   });
   test('1 slot property', () => {
     expect(generateForArgs({ content: 'xyz', myProp: 'abc' }, ['content'])).toMatchInlineSnapshot(`
-      <Component :myProp='myProp'>
+      <Component :content='content' :myProp='myProp'>
       {{ content }}
       </Component>
     `);
@@ -58,27 +54,34 @@ describe('generateSource Vue3', () => {
   test('multiple slot property with second slot value not set', () => {
     expect(generateForArgs({ content: 'xyz', myProp: 'abc' }, ['content', 'footer']))
       .toMatchInlineSnapshot(`
-      <Component :myProp='myProp'>
-        <template #content> {{ content }} </template>
+      <Component :content='content' :myProp='myProp'>
+        <template #content>
+              {{ content }}
+              </template>
       </Component>
     `);
   });
   test('multiple slot property with second slot value is set', () => {
     expect(generateForArgs({ content: 'xyz', footer: 'foo', myProp: 'abc' }, ['content', 'footer']))
       .toMatchInlineSnapshot(`
-      <Component :myProp='myProp'>
-        <template #content> {{ content }} </template>
-        <template #footer> {{ footer }} </template>
+      <Component :content='content' :footer='footer' :myProp='myProp'>
+        <template #content>
+              {{ content }}
+              </template>
+        <template #footer>
+              {{ footer }}
+              </template>
       </Component>
     `);
   });
   // test mutil components
-  test('mutil component with boolean true', () => {
-    expect(generateMultiComponentForArgs({ booleanProp: true })).toMatchInlineSnapshot(
-      `<Component :booleanProp='booleanProp'/><Component :booleanProp='booleanProp'/>`
-    );
+  test('multi component with boolean true', () => {
+    expect(generateMultiComponentForArgs({ booleanProp: true })).toMatchInlineSnapshot(`
+      <Component :booleanProp='booleanProp'/>
+      <Component :booleanProp='booleanProp'/>
+    `);
   });
   test('component is not set', () => {
-    expect(generateSource(null, {}, {}, null)).toBeNull();
+    expect(generateSource(null, {}, {})).toBeNull();
   });
 });

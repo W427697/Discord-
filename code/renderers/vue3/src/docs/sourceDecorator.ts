@@ -5,7 +5,7 @@ import type { ArgTypes, Args, StoryContext, Renderer } from '@storybook/types';
 import { SourceType, SNIPPET_RENDERED } from '@storybook/docs-tools';
 
 import { format } from 'prettier';
-import parserTypescript from 'prettier/parser-typescript.js';
+import parserTypescript from 'prettier/parser-typescript';
 import parserHTML from 'prettier/parser-html.js';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { isArray } from '@vue/shared';
@@ -33,8 +33,11 @@ const skipSourceRender = (context: StoryContext<Renderer>) => {
  *
  * @param component Component
  */
-function getComponentName(component: any): string | null {
-  return component?.name || component?.__name || component?.__docgenInfo?.__name || null;
+function getComponentNameAndChildren(component: any): { name: string | null; children: any } {
+  return {
+    name: component?.name || component?.__name || component?.__docgenInfo?.__name || null,
+    children: component?.children || null,
+  };
 }
 /**
  * Transform args to props string
@@ -45,11 +48,11 @@ function getComponentName(component: any): string | null {
 function argsToSource(
   args: Args,
   argTypes: ArgTypes,
-  slotProps?: string[] | null,
+  slotProps?: string[],
   byRef?: boolean
 ): string {
   const argsKeys = Object.keys(args).filter(
-    (key: any) => !(slotProps && slotProps.indexOf(key) > -1)
+    (key: any) => !isArray(args[key]) && typeof args[key] !== 'object' && !slotProps?.includes(key)
   );
   const source = argsKeys
     .map((key) =>
@@ -63,9 +66,9 @@ function argsToSource(
 
 function propToDynamicSource(
   key: string,
-  value: string | boolean | object,
+  value: any,
   argTypes: ArgTypes,
-  slotProps?: string[] | null
+  slotProps?: string[]
 ): string {
   // slot Args or default value
   // default value ?
@@ -91,82 +94,51 @@ function propToDynamicSource(
 
   return `:${key}='${JSON.stringify(value)}'`;
 }
-
-function generateSetupScript(args: any, argTypes: ArgTypes): string {
-  const argsKeys = args ? Object.keys(args) : [];
-  let scriptBody = '';
-  // eslint-disable-next-line no-restricted-syntax
-  for (const key of argsKeys) {
-    if (!(argTypes[key] && argTypes[key].defaultValue === args[key]))
-      if (typeof args[key] !== 'function')
-        scriptBody += `\n const ${key} = ref(${propValueToSource(args[key])})`;
-      else scriptBody += `\n const ${key} = ()=>{}`;
-  }
-  return `<script lang="ts" setup>${scriptBody}\n</script>`;
-}
-
-function propValueToSource(val: string | boolean | object | undefined) {
-  const type = typeof val;
-  switch (type) {
-    case 'boolean':
-      return val;
-    case 'object':
-      return `${JSON.stringify(val as object)}`;
-    case 'undefined':
-      return `${val}`;
-    default:
-      return `'${val}'`;
-  }
-}
-
-function getTemplates(renderFunc: any): [] {
-  const ast = parserHTML.parsers.vue.parse(
-    renderFunc.toString(),
-    { vue: parserHTML.parsers.vue },
-    {
-      locStart(node: any): number {
-        throw new Error('Function not implemented.');
-      },
-      locEnd(node: any): number {
-        throw new Error('Function not implemented.');
-      },
-      originalText: '',
-      semi: false,
-      singleQuote: false,
-      jsxSingleQuote: false,
-      trailingComma: 'none',
-      bracketSpacing: false,
-      bracketSameLine: false,
-      jsxBracketSameLine: false,
-      rangeStart: 0,
-      rangeEnd: 0,
-      parser: 'vue',
-      filepath: '',
-      requirePragma: false,
-      insertPragma: false,
-      proseWrap: 'always',
-      arrowParens: 'always',
-      plugins: [],
-      pluginSearchDirs: false,
-      htmlWhitespaceSensitivity: 'css',
-      endOfLine: 'auto',
-      quoteProps: 'preserve',
-      vueIndentScriptAndStyle: false,
-      embeddedLanguageFormatting: 'auto',
-      singleAttributePerLine: false,
-      printWidth: 0,
-      tabWidth: 0,
-      useTabs: false,
-    }
+/**
+ *
+ * @param args generate script setup from args
+ * @param argTypes
+ */
+function generateScriptSetup(args: Args, argTypes: ArgTypes, components: any[]): string {
+  const scriptLines = Object.keys(args).map(
+    (key: any) =>
+      `const ${key} = ${typeof args[key] === 'function' ? `()=>{}` : `ref(${JSON.stringify(args[key])})`
+      }`
   );
+  scriptLines.unshift(`import { ref } from "vue"`);
 
-  let components = ast.children?.filter((element: any) => element.name);
-  components = components.map((element: any) => {
-    const { attrs: att = [] } = element;
-    const att3 = att?.filter((el: any) => el.name !== 'v-bind'); //  as Array<any>).push(props);
-    return { name: element.name, attrs: att3 };
-  });
-  return components;
+  return `<script setup>${scriptLines.join('\n')}</script>`;
+}
+/**
+ * get component templates one or more
+ * @param renderFn
+ */
+function getTemplates(renderFn: any): [] {
+  try {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    const ast = parserHTML.parsers.vue.parse(renderFn.toString());
+    let components = ast.children?.filter(
+      ({ name: _name = '', type: _type = '' }) =>
+        _name && !['template', 'script', 'style', 'slot'].includes(_name) && _type === 'element'
+    );
+    if (!isArray(components)) {
+      return [];
+    }
+    components = components.map(
+      ({ attrs: attributes = [], name: Name = '', children: Children = [] }) => {
+        return {
+          name: Name,
+          attrs: attributes?.filter((el: any) => el.name !== 'v-bind'),
+          children: Children,
+        };
+      }
+    );
+    return components;
+  } catch (e) {
+    console.error(e);
+  }
+  return [];
 }
 
 /**
@@ -181,61 +153,79 @@ export function generateSource(
   compOrComps: any,
   args: Args,
   argTypes: ArgTypes,
-  slotProps?: string[] | null,
+  slotProps?: string[],
   byRef?: boolean | undefined
 ): string | null {
   if (!compOrComps) return null;
   const generateComponentSource = (component: any): string | null => {
-    const name = getComponentName(component);
+    const { name, children } = getComponentNameAndChildren(component);
 
     if (!name) {
       return '';
     }
 
     const props = argsToSource(args, argTypes, slotProps, byRef);
-    const slotValues = slotProps?.map((slotProp) => args[slotProp]);
+    const slotArgs = Object.fromEntries(
+      Object.entries(args).filter(([key, value]) => slotProps && slotProps.indexOf(key) > -1)
+    );
 
-    if (slotValues) {
-      const namedSlotContents = createNamedSlots(slotProps, slotValues, byRef);
+    if (slotArgs && Object.keys(slotArgs).length > 0) {
+      const namedSlotContents = createNamedSlots(slotProps, slotArgs, byRef);
       return `<${name} ${props}>\n${namedSlotContents}\n</${name}>`;
+    }
+
+    if (children && children.length > 0) {
+      const childrenSource = children.map((child: any) => {
+        return generateSource(
+          typeof child.value === 'string' ? getTemplates(child.value) : child.value,
+          args,
+          argTypes,
+          slotProps,
+          byRef
+        );
+      });
+
+      if (childrenSource.join('').trim() === '') return `<${name} ${props}/>`;
+
+      const isNativeTag =
+        name.includes('template') ||
+        name.match(/^[a-z]/) ||
+        (name === 'Fragment' && !name.includes('-'));
+
+      return `<${name} ${isNativeTag ? '' : props}>\n${childrenSource}\n</${name}>`;
     }
 
     return `<${name} ${props}/>`;
   };
-  // handle one component or multiple
+  // get one component or multiple
   const components = isArray(compOrComps) ? compOrComps : [compOrComps];
-  let source = '';
-  // eslint-disable-next-line no-restricted-syntax
-  for (const comp of components) {
-    source += `${generateComponentSource(comp)}`;
-  }
 
+  const source = Object.keys(components)
+    .map((key: any) => `${generateComponentSource(components[key])}`)
+    .join(`\n`);
   return source;
 }
+
 /**
  * create Named Slots content in source
  * @param slotProps
- * @param slotValues
+ * @param slotArgs
  */
 
 function createNamedSlots(
   slotProps: string[] | null | undefined,
-  slotValues: { [key: string]: any },
-  byReference?: boolean | undefined
+  slotArgs: Args,
+  byRef?: boolean | undefined
 ) {
   if (!slotProps) return '';
-  if (slotProps.length === 1) return !byReference ? slotValues[0] : `{{ ${slotProps[0]} }}`;
+  if (slotProps.length === 1) return !byRef ? slotArgs[slotProps[0]] : `{{ ${slotProps[0]} }}`;
 
-  return slotProps
-    .filter((slotProp) => slotValues[slotProps.indexOf(slotProp)])
-    .map(
-      (slotProp) =>
-        `  <template #${slotProp}> ${
-          !byReference
-            ? JSON.stringify(slotValues[slotProps.indexOf(slotProp)])
-            : `{{ ${slotProp} }}`
-        } </template>`
-    )
+  return Object.entries(slotArgs)
+    .map(([key, value]) => {
+      return `  <template #${key}>
+        ${!byRef ? JSON.stringify(value) : `{{ ${key} }}`}
+        </template>`;
+    })
     .join('\n');
 }
 /**
@@ -295,8 +285,8 @@ export const sourceDecorator = (storyFn: any, context: StoryContext<Renderer>) =
   const storyComponent = components.length ? components : ctxtComponent;
 
   const slotProps: string[] = getComponentSlots(ctxtComponent);
-  const withScript = context?.parameters?.docs?.source?.withSetupScript;
-  const generatedScript = withScript ? generateSetupScript(args, argTypes) : '';
+  const withScript = context?.parameters?.docs?.source?.withScriptSetup || false;
+  const generatedScript = withScript ? generateScriptSetup(args, argTypes, components) : '';
   const generatedTemplate = generateSource(storyComponent, args, argTypes, slotProps, withScript);
 
   if (generatedTemplate) {
