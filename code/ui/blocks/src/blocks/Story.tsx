@@ -108,11 +108,7 @@ export const getStoryProps = <TFramework extends Renderer>(
   // and optionally overridden by users
 
   // Deprecated parameters
-  const {
-    inlineStories,
-    iframeHeight,
-    autoplay: docsAutoplay,
-  } = docs as {
+  const { inlineStories, iframeHeight } = docs as {
     inlineStories?: boolean;
     iframeHeight?: string;
     autoplay?: boolean;
@@ -121,7 +117,7 @@ export const getStoryProps = <TFramework extends Renderer>(
 
   const height = getProp(props.height, storyParameters.height, iframeHeight) || '100px';
   if (inline) {
-    const autoplay = getProp(props.autoplay, storyParameters.autoplay, docsAutoplay) || false;
+    const autoplay = getProp(props.autoplay, storyParameters.autoplay) || false;
     return {
       story,
       inline: true,

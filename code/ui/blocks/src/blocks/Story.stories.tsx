@@ -76,7 +76,8 @@ export const Inline: Story = {
     inline: true,
   },
 };
-export const InlineWithHeight: Story = {
+
+export const InlineWithHeightProps: Story = {
   ...Inline,
   args: {
     of: SimpleSizeTest,
@@ -84,19 +85,57 @@ export const InlineWithHeight: Story = {
     height: '300px',
   },
 };
-export const Iframe: Story = {
+
+export const SimpleSizeTestWithHeightParameter = {
+  ...SimpleSizeTest,
+  parameters: { docs: { story: { height: '300px' } } },
+};
+
+export const InlineWithHeightParameter: Story = {
+  ...Inline,
+  args: {
+    of: SimpleSizeTestWithHeightParameter,
+  },
+};
+
+export const IframeProps: Story = {
   ...Inline,
   args: {
     of: SimpleSizeTest,
     inline: false,
   },
 };
-export const IframeWithHeight: Story = {
+
+export const SimpleSizeTestWithIFrameParameter = {
+  ...SimpleSizeTest,
+  parameters: { docs: { story: { inline: false } } },
+};
+
+export const IframeWithParameter: Story = {
+  ...Inline,
+  args: {
+    of: SimpleSizeTestWithIFrameParameter,
+  },
+};
+
+export const IframeWithHeightProps: Story = {
   ...Inline,
   args: {
     of: SimpleSizeTest,
     inline: false,
     height: '300px',
+  },
+};
+
+export const SimpleSizeTestWithIFrameHeightParameter = {
+  ...SimpleSizeTest,
+  parameters: { docs: { story: { inline: false, height: '300px' } } },
+};
+
+export const IframeWithHeightParameter: Story = {
+  ...Inline,
+  args: {
+    of: SimpleSizeTestWithIFrameHeightParameter,
   },
 };
 
@@ -109,7 +148,7 @@ export const WithDefaultInteractions: Story = {
   },
 };
 
-export const WithInteractionsAutoplay: Story = {
+export const WithInteractionsAutoplayInProps: Story = {
   args: {
     of: ButtonStories.Clicking,
     autoplay: true,
@@ -122,15 +161,6 @@ export const WithInteractionsAutoplay: Story = {
 export const WithInteractionsAutoplayInStory: Story = {
   args: {
     of: ButtonStories.ClickingInDocs,
-  },
-  parameters: {
-    chromatic: { delay: 500 },
-  },
-};
-
-export const WithInteractionsAutoplayInStoryDeprecated: Story = {
-  args: {
-    of: ButtonStories.ClickingInDocsDeprecated,
   },
   parameters: {
     chromatic: { delay: 500 },
