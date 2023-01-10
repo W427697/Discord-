@@ -11,11 +11,11 @@ export const render: ArgsStoryFn<VueRenderer> = (props, context) => {
       `Unable to render story ${id} as the component annotation is missing from the default export`
     );
   }
-
+  console.log(' render ', context, ' props', props);
   return h(Component, props);
 };
 
-let setupFunction = (app: any) => {};
+let setupFunction = (app: any) => { };
 export const setup = (fn: (app: any) => void) => {
   setupFunction = fn;
 };
@@ -34,7 +34,6 @@ export function renderToCanvas(
     },
     render() {
       map.set(canvasElement, storybookApp);
-      setupFunction(storybookApp);
       return h(element);
     },
   });
