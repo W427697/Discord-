@@ -8,6 +8,12 @@ import { DocsContext } from './DocsContext';
 
 export type Of = Parameters<DocsContextProps['resolveModuleExport']>[0];
 
+/**
+ * A hook to resolve the `of` prop passed to a block.
+ * will return the resolved module as well as project annotations
+ * project annotations are handy because if the resolved module is a meta,
+ * it will be the meta as-is from the CSF file, and it won't inherit the global annotations.
+ */
 export const useOf = (
   of: Of,
   validTypes: ResolvedModuleExport['type'][] = []
@@ -21,7 +27,6 @@ type ResolveOfPropParams = {
   of: Of;
   validTypes?: ResolvedModuleExport['type'][];
 };
-
 export const resolveOfProp = ({
   context,
   of,
