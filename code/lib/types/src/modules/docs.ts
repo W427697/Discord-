@@ -30,7 +30,9 @@ export interface DocsContextProps<TRenderer extends Renderer = Renderer> {
    * Find a component, meta or story object from the direct export(s) from the CSF file.
    * This is the API that drives the `of={}` syntax.
    */
-  resolveModuleExport: (moduleExport: ModuleExport) => ResolvedModuleExport<TRenderer>;
+  resolveModuleExport: (
+    moduleExport: ModuleExport | ResolvedModuleExport<TRenderer>['type']
+  ) => ResolvedModuleExport<TRenderer>;
 
   /**
    * Find a story's id from the name of the story.

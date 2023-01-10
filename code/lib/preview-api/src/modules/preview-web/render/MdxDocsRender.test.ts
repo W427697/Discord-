@@ -68,12 +68,12 @@ describe('attaching', () => {
     expect(context.storyById).toThrow('No primary story defined');
   });
 
-  it('is attached if you call setMeta', async () => {
+  it('is attached if you call referenceMeta with attach=true', async () => {
     const render = new MdxDocsRender(new Channel(), store, entry);
     await render.prepare();
 
     const context = render.docsContext(jest.fn());
-    context.setMeta(moduleExports);
+    context.referenceMeta(moduleExports, true);
 
     expect(context.storyById()).toEqual(story);
   });

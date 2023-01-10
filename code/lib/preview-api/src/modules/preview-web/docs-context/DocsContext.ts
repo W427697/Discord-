@@ -7,6 +7,7 @@ import type {
   StoryContextForLoaders,
   StoryId,
   StoryName,
+  ResolvedModuleExport,
 } from '@storybook/types';
 import type { Channel } from '@storybook/channels';
 import type { StoryStore } from '../../store';
@@ -23,6 +24,8 @@ export class DocsContext<TRenderer extends Renderer> implements DocsContextProps
   private exportsToCSFFile: Map<ModuleExports, CSFFile<TRenderer>>;
 
   private nameToStoryId: Map<StoryName, StoryId>;
+
+  private attachedCSFFile?: CSFFile<TRenderer>;
 
   private primaryStory?: PreparedStory<TRenderer>;
 
@@ -69,6 +72,8 @@ export class DocsContext<TRenderer extends Renderer> implements DocsContextProps
       throw new Error('Cannot attach a CSF file that has not been referenced');
     }
 
+    this.attachedCSFFile = csfFile;
+
     const stories = this.store.componentStoriesFromCSFFile({ csfFile });
     stories.forEach((story) => {
       this.nameToStoryId.set(story.name, story.id);
@@ -85,28 +90,46 @@ export class DocsContext<TRenderer extends Renderer> implements DocsContextProps
     if (attach) this.attachCSFFile(resolved.csfFile);
   }
 
-  resolveModuleExport(moduleExport: ModuleExport) {
-    const csfFile = this.exportsToCSFFile.get(moduleExport);
-    if (csfFile) {
-      return {
-        type: 'meta',
-        csfFile,
-      } as const;
+  resolveModuleExport(moduleExportOrType: ModuleExport | ResolvedModuleExport<TRenderer>['type']) {
+    // If passed a type, we return the attached file, component or primary story
+    if (moduleExportOrType === 'story') {
+      if (!this.primaryStory)
+        throw new Error(
+          `No primary story attached to this docs file, did you forget to use <Meta of={} />?`
+        );
+
+      return { type: 'story', story: this.primaryStory } as const;
+    }
+    if (moduleExportOrType === 'meta') {
+      if (!this.attachedCSFFile)
+        throw new Error(
+          `No CSF file attached to this docs file, did you forget to use <Meta of={} />?`
+        );
+
+      return { type: 'meta', csfFile: this.attachedCSFFile } as const;
+    }
+    if (moduleExportOrType === 'component') {
+      if (!this.attachedCSFFile)
+        throw new Error(
+          `No CSF file attached to this docs file, did you forget to use <Meta of={} />?`
+        );
+
+      const { component } = this.attachedCSFFile.meta;
+      if (!component)
+        throw new Error(
+          `Attached CSF file does not defined a component, did you forget to export one?`
+        );
+      return { type: 'component', component } as const;
     }
 
-    const story = this.exportToStory.get(moduleExport);
-    if (story) {
-      return {
-        type: 'story',
-        story,
-      } as const;
-    }
+    const csfFile = this.exportsToCSFFile.get(moduleExportOrType);
+    if (csfFile) return { type: 'meta', csfFile } as const;
+
+    const story = this.exportToStory.get(moduleExportOrType);
+    if (story) return { type: 'story', story } as const;
 
     // If the export isn't a module, default or story export, we assume it is a component
-    return {
-      type: 'component',
-      component: moduleExport,
-    } as const;
+    return { type: 'component', component: moduleExportOrType } as const;
   }
 
   storyIdByName = (storyName: StoryName) => {
