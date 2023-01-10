@@ -16,18 +16,19 @@ export class ExternalDocsContext<TRenderer extends Renderer> extends DocsContext
     public renderStoryToElement: DocsContextProps['renderStoryToElement'],
     private processMetaExports: (metaExports: ModuleExports) => CSFFile<TRenderer>
   ) {
-    super(channel, store, renderStoryToElement, [], true);
+    super(channel, store, renderStoryToElement, []);
   }
 
   setMeta = (metaExports: ModuleExports) => {
     const csfFile = this.processMetaExports(metaExports);
-    this.referenceCSFFile(csfFile, true);
+    this.referenceCSFFile(csfFile);
+    super.setMeta(metaExports);
   };
 
   resolveModuleExport(moduleExport: ModuleExport, metaExports?: ModuleExports) {
     if (metaExports) {
       const csfFile = this.processMetaExports(metaExports);
-      this.referenceCSFFile(csfFile, false);
+      this.referenceCSFFile(csfFile);
     }
 
     // This will end up looking up the story/component id in the CSF file referenced above or via setMeta()

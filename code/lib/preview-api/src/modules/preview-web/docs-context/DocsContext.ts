@@ -31,8 +31,7 @@ export class DocsContext<TRenderer extends Renderer> implements DocsContextProps
     protected store: StoryStore<TRenderer>,
     public renderStoryToElement: DocsContextProps['renderStoryToElement'],
     /** The CSF files known (via the index) to be refererenced by this docs file */
-    csfFiles: CSFFile<TRenderer>[],
-    componentStoriesFromAllCsfFiles = true
+    csfFiles: CSFFile<TRenderer>[]
   ) {
     this.storyIdToCSFFile = new Map();
     this.exportToStory = new Map();
@@ -41,14 +40,14 @@ export class DocsContext<TRenderer extends Renderer> implements DocsContextProps
     this.componentStoriesValue = [];
 
     csfFiles.forEach((csfFile, index) => {
-      this.referenceCSFFile(csfFile, componentStoriesFromAllCsfFiles || index === 0);
+      this.referenceCSFFile(csfFile);
     });
   }
 
   // This docs entry references this CSF file and can syncronously load the stories, as well
   // as reference them by module export. If the CSF is part of the "component" stories, they
   // can also be referenced by name and are in the componentStories list.
-  referenceCSFFile(csfFile: CSFFile<TRenderer>, addToComponentStories: boolean) {
+  referenceCSFFile(csfFile: CSFFile<TRenderer>) {
     this.exportsToCSFFile.set(csfFile.moduleExports, csfFile);
     // Also set the default export as the component's exports,
     // to allow `import ButtonStories from './Button.stories'`
@@ -63,18 +62,26 @@ export class DocsContext<TRenderer extends Renderer> implements DocsContextProps
         throw new Error(`Unexpected missing story ${annotation.id} from referenced CSF file.`);
       this.exportToStory.set(annotation.moduleExport, story);
     });
+  }
 
-    if (addToComponentStories) {
-      stories.forEach((story) => {
-        this.nameToStoryId.set(story.name, story.id);
-        this.componentStoriesValue.push(story);
-        if (!this.primaryStory) this.primaryStory = story;
-      });
+  attachCSFFile(csfFile: CSFFile<TRenderer>) {
+    if (!this.exportsToCSFFile.has(csfFile.moduleExports)) {
+      throw new Error('Cannot attach a CSF file that has not been referenced');
     }
+
+    const stories = this.store.componentStoriesFromCSFFile({ csfFile });
+    stories.forEach((story) => {
+      this.nameToStoryId.set(story.name, story.id);
+      this.componentStoriesValue.push(story);
+      if (!this.primaryStory) this.primaryStory = story;
+    });
   }
 
   setMeta(metaExports: ModuleExports) {
-    // Do nothing (this is really only used by external docs)
+    const resolved = this.resolveModuleExport(metaExports);
+    if (resolved.type !== 'meta')
+      throw new Error('Cannot reference a non-meta or module export in <Meta of={} />');
+    this.attachCSFFile(resolved.csfFile);
   }
 
   resolveModuleExport(moduleExport: ModuleExport, metaExports?: ModuleExports) {

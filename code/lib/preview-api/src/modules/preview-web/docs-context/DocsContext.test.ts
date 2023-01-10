@@ -1,31 +1,15 @@
 import { Channel } from '@storybook/channels';
-import type { Renderer, CSFFile, PreparedStory } from '@storybook/types';
+import type { Renderer } from '@storybook/types';
 import type { StoryStore } from '../../store';
 
 import { DocsContext } from './DocsContext';
+import { csfFileParts } from './test-utils';
 
 const channel = new Channel();
 const renderStoryToElement = jest.fn();
 
 describe('resolveModuleExport', () => {
-  // These compose the raw exports of the CSF file
-  const component = {};
-  const metaExport = { component };
-  const storyExport = {};
-  const moduleExports = { default: metaExport, story: storyExport };
-
-  // This is the prepared story + CSF file after SB has processed them
-  const storyAnnotations = {
-    id: 'meta--story',
-    moduleExport: storyExport,
-  } as CSFFile['stories'][string];
-  const story = { id: 'meta--story', moduleExport: storyExport } as PreparedStory;
-  const meta = { id: 'meta', title: 'Meta', component, moduleExports } as CSFFile['meta'];
-  const csfFile = {
-    stories: { story: storyAnnotations },
-    meta,
-    moduleExports,
-  } as CSFFile;
+  const { story, csfFile, storyExport, metaExport, moduleExports, component } = csfFileParts();
 
   const store = {
     componentStoriesFromCSFFile: () => [story],
