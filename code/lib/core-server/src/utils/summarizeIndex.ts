@@ -1,6 +1,6 @@
 import type { StoryIndex } from '@storybook/types';
 
-import { STORIES_MDX_TAG, isMdxEntry, AUTODOCS_TAG } from './StoryIndexGenerator';
+import { STORIES_MDX_TAG, isMdxEntry, AUTODOCS_TAG, PLAY_FN_TAG } from './StoryIndexGenerator';
 
 const PAGE_REGEX = /(page|screen)/i;
 
@@ -9,6 +9,7 @@ export const isPageStory = (storyId: string) => PAGE_REGEX.test(storyId);
 export function summarizeIndex(storyIndex: StoryIndex) {
   let storyCount = 0;
   let pageStoryCount = 0;
+  let playStoryCount = 0;
   let autodocsCount = 0;
   let storiesMdxCount = 0;
   let mdxCount = 0;
@@ -18,12 +19,15 @@ export function summarizeIndex(storyIndex: StoryIndex) {
       if (isPageStory(entry.title)) {
         pageStoryCount += 1;
       }
+      if (entry.tags?.includes(PLAY_FN_TAG)) {
+        playStoryCount += 1;
+      }
     } else if (entry.type === 'docs') {
       if (isMdxEntry(entry)) {
         mdxCount += 1;
-      } else if (entry.tags.includes(STORIES_MDX_TAG)) {
+      } else if (entry.tags?.includes(STORIES_MDX_TAG)) {
         storiesMdxCount += 1;
-      } else if (entry.tags.includes(AUTODOCS_TAG)) {
+      } else if (entry.tags?.includes(AUTODOCS_TAG)) {
         autodocsCount += 1;
       }
     }
@@ -31,6 +35,7 @@ export function summarizeIndex(storyIndex: StoryIndex) {
   return {
     storyCount,
     pageStoryCount,
+    playStoryCount,
     autodocsCount,
     storiesMdxCount,
     mdxCount,
