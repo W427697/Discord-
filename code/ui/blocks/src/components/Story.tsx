@@ -12,17 +12,18 @@ const BASE_URL = PREVIEW_URL || 'iframe.html';
 interface CommonProps {
   story: PreparedStory;
   inline: boolean;
-  height: string;
 }
 
 interface InlineStoryProps extends CommonProps {
   inline: true;
+  height?: string;
   autoplay: boolean;
   renderStoryToElement: DocsContextProps['renderStoryToElement'];
 }
 
 interface IFrameStoryProps extends CommonProps {
   inline: false;
+  height: string;
 }
 
 export type StoryProps = InlineStoryProps | IFrameStoryProps;

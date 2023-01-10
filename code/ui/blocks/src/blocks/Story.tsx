@@ -99,7 +99,7 @@ export const getStoryProps = <TFramework extends Renderer>(
 ): PureStoryProps => {
   const { parameters = {} } = story || {};
   const { docs = {} } = parameters;
-  const storyParameters = (docs.story || {}) as StoryParameters;
+  const storyParameters = (docs.story || {}) as StoryParameters & { iframeHeight?: string };
 
   if (docs.disable) {
     return null;
@@ -119,9 +119,12 @@ export const getStoryProps = <TFramework extends Renderer>(
   const inline = getProp(props.inline, storyParameters.inline, inlineStories) || false;
 
   if (typeof iframeHeight !== 'undefined')
-    deprecate('The `docs.iframeHeight` parameter is deprecated, use `docs.story.height` instead');
-  const height = getProp(props.height, storyParameters.height, iframeHeight) || '100px';
+    deprecate(
+      'The `docs.iframeHeight` parameter is deprecated, use `docs.story.iframeHeight` instead'
+    );
+
   if (inline) {
+    const height = getProp(props.height, storyParameters.height);
     const autoplay = getProp(props.autoplay, storyParameters.autoplay) || false;
     return {
       story,
@@ -131,6 +134,10 @@ export const getStoryProps = <TFramework extends Renderer>(
       renderStoryToElement: context.renderStoryToElement,
     };
   }
+
+  const height =
+    getProp(props.height, storyParameters.height, storyParameters.iframeHeight, iframeHeight) ||
+    '100px';
   return {
     story,
     inline: false,

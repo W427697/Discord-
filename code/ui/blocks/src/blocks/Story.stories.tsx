@@ -51,7 +51,7 @@ export const SimpleSizeTest: Story = {
         style={{
           background: '#fd5c9355',
           padding: '3rem',
-          height: '1000px',
+          height: '500px',
           width: '800px',
           // a global decorator is applying a default padding that we want to negate here
           margin: '-4rem -20px',
@@ -62,8 +62,8 @@ export const SimpleSizeTest: Story = {
           conditions (inline/iframe/fixed height) when used in a <code>{'<Story />'}</code> block.
         </p>
         <p>
-          It has a fixed <code>height</code> of <code>1000px</code> and a fixed <code>width</code>{' '}
-          of <code>800px</code>
+          It has a fixed <code>height</code> of <code>500px</code> and a fixed <code>width</code> of{' '}
+          <code>800px</code>
         </p>
       </div>
     );
@@ -82,13 +82,13 @@ export const InlineWithHeightProps: Story = {
   args: {
     of: SimpleSizeTest,
     inline: true,
-    height: '300px',
+    height: '600px',
   },
 };
 
 export const SimpleSizeTestWithHeightParameter = {
   ...SimpleSizeTest,
-  parameters: { docs: { story: { height: '300px' } } },
+  parameters: { docs: { story: { height: '600px' } } },
 };
 
 export const InlineWithHeightParameter: Story = {
@@ -98,7 +98,7 @@ export const InlineWithHeightParameter: Story = {
   },
 };
 
-export const IframeProps: Story = {
+export const IFrameProps: Story = {
   ...Inline,
   args: {
     of: SimpleSizeTest,
@@ -127,15 +127,27 @@ export const IframeWithHeightProps: Story = {
   },
 };
 
-export const SimpleSizeTestWithIFrameHeightParameter = {
+export const SimpleSizeTestWithIFrameAndIFrameHeightParameter = {
+  ...SimpleSizeTest,
+  parameters: { docs: { story: { inline: false, iframeHeight: '300px' } } },
+};
+
+export const IFrameWithIFrameHeightParameter: Story = {
+  ...Inline,
+  args: {
+    of: SimpleSizeTestWithIFrameAndIFrameHeightParameter,
+  },
+};
+
+export const SimpleSizeTestWithIFrameAndHeightParameter = {
   ...SimpleSizeTest,
   parameters: { docs: { story: { inline: false, height: '300px' } } },
 };
 
-export const IframeWithHeightParameter: Story = {
+export const IFrameWithHeightParameter: Story = {
   ...Inline,
   args: {
-    of: SimpleSizeTestWithIFrameHeightParameter,
+    of: SimpleSizeTestWithIFrameAndHeightParameter,
   },
 };
 

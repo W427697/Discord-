@@ -187,7 +187,7 @@ Storybook Docs renders all Angular stories inside IFrames, with a default height
 To update the global default, modify `.storybook/preview.ts`:
 
 ```ts
-export const parameters = { docs: { story: { height: '400px' } } };
+export const parameters = { docs: { story: { iframeHeight: '400px' } } };
 ```
 
 For `DocsPage`, you need to update the parameter locally in a story:
@@ -195,7 +195,7 @@ For `DocsPage`, you need to update the parameter locally in a story:
 ```ts
 export const basic = () => ...
 basic.parameters = {
-  docs: { story: { height: '400px' } },
+  docs: { story: { iframeHeight: '400px' } },
 }
 ```
 
@@ -209,7 +209,7 @@ And for `MDX` you can modify it as an attribute on the `Story` element:
 
 Storybook Docs renders all Angular stories inline by default.
 
-However, you can render stories in an iframe, with a default height of `100px` (configurable using the `docs.story.height` story parameter), by using the `docs.story.inline` parameter.
+However, you can render stories in an iframe, with a default height of `100px` (configurable using the `docs.story.iframeHeight` story parameter), by using the `docs.story.inline` parameter.
 
 To do so for all stories, update `.storybook/preview.js`:
 

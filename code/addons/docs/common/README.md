@@ -71,7 +71,7 @@ In the "common" setup, Storybook Docs renders stories inside `iframe`s, with a d
 To update the global default, modify `.storybook/preview.js`:
 
 ```ts
-export const parameters = { docs: { story: { height: '400px' } } };
+export const parameters = { docs: { story: { iframeHeight: '400px' } } };
 ```
 
 For `DocsPage`, you need to update the parameter locally in a story:
@@ -79,7 +79,7 @@ For `DocsPage`, you need to update the parameter locally in a story:
 ```ts
 export const basic = () => ...
 basic.parameters = {
-  docs: { story: { height: '400px' } }
+  docs: { story: { iframeHeight: '400px' } }
 }
 ```
 

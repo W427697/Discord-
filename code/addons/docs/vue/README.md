@@ -135,7 +135,7 @@ Yes, it's redundant to declare `component` twice. [Coming soon](https://github.c
 
 Storybook Docs renders all Vue stories inline by default.
 
-However, you can render stories in an iframe, with a default height of `60px` (configurable using the `docs.story.height` story parameter), by using the `docs.stories.inline` parameter.
+However, you can render stories in an iframe, with a default height of `60px` (configurable using the `docs.story.iframeHeight` story parameter), by using the `docs.stories.inline` parameter.
 
 To do so for all stories, update `.storybook/preview.js`:
 
