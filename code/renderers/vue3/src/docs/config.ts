@@ -3,7 +3,7 @@ import { extractArgTypes } from './extractArgTypes';
 
 export const parameters = {
   docs: {
-    inlineStories: true,
+    story: { inline: true },
     extractArgTypes,
     extractComponentDescription,
   },

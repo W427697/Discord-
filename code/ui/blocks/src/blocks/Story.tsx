@@ -8,6 +8,7 @@ import type {
   StoryAnnotations,
   StoryId,
 } from '@storybook/types';
+import { deprecate } from '@storybook/client-logger';
 
 import { Story as PureStory, StorySkeleton } from '../components';
 import type { DocsContextProps } from './DocsContext';
@@ -113,8 +114,12 @@ export const getStoryProps = <TFramework extends Renderer>(
     iframeHeight?: string;
     autoplay?: boolean;
   };
+  if (typeof inlineStories !== 'undefined')
+    deprecate('The `docs.inlineStories` parameter is deprecated, use `docs.story.inline` instead');
   const inline = getProp(props.inline, storyParameters.inline, inlineStories) || false;
 
+  if (typeof iframeHeight !== 'undefined')
+    deprecate('The `docs.iframeHeight` parameter is deprecated, use `docs.story.height` instead');
   const height = getProp(props.height, storyParameters.height, iframeHeight) || '100px';
   if (inline) {
     const autoplay = getProp(props.autoplay, storyParameters.autoplay) || false;
