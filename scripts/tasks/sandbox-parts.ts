@@ -5,7 +5,7 @@
 import { copy, ensureSymlink, ensureDir, existsSync, pathExists } from 'fs-extra';
 import { join, resolve, sep } from 'path';
 
-import type { Task } from '../task';
+import type { Task, TemplateDetails } from '../task';
 import { executeCLIStep, steps } from '../utils/cli-step';
 import { installYarn2, configureYarn2ForVerdaccio, addPackageResolutions } from '../utils/yarn';
 import { exec } from '../utils/exec';
@@ -20,6 +20,7 @@ import { addPreviewAnnotations, readMainConfig } from '../utils/main-js';
 import { JsPackageManagerFactory } from '../../code/lib/cli/src/js-package-manager';
 import { workspacePath } from '../utils/workspace';
 import { babelParse } from '../../code/lib/csf-tools/src/babelParse';
+import type { Template } from '../../code/lib/cli/src/repro-templates';
 
 const reprosDir = resolve(__dirname, '../../repros');
 const codeDir = resolve(__dirname, '../../code');
@@ -41,6 +42,7 @@ export const create: Task['run'] = async (
   { key, template, sandboxDir },
   { addon: addons, dryRun, debug, skipTemplateStories }
 ) => {
+  console.log('running create');
   const parentDir = resolve(sandboxDir, '..');
   await ensureDir(parentDir);
 
@@ -49,8 +51,10 @@ export const create: Task['run'] = async (
     if (!existsSync(srcDir)) {
       throw new Error(`Missing repro directory '${srcDir}', did the generate task run?`);
     }
+    console.log('copying', { srcDir, sandboxDir });
     await copy(srcDir, sandboxDir);
   } else {
+    console.log('running repro');
     await executeCLIStep(steps.repro, {
       argument: key,
       optionValues: { output: sandboxDir, branch: 'next', init: false, debug },
@@ -67,20 +71,11 @@ export const create: Task['run'] = async (
       await executeCLIStep(steps.add, { argument: addonName, cwd, dryRun, debug });
     }
   }
-
-  const mainConfig = await readMainConfig({ cwd });
-  // Enable or disable Storybook features
-  mainConfig.setFieldValue(['features'], {
-    interactionsDebugger: true,
-  });
-
-  if (template.expected.builder === '@storybook/builder-vite') setSandboxViteFinal(mainConfig);
-  await writeConfig(mainConfig);
 };
 
 export const install: Task['run'] = async ({ sandboxDir, template }, { link, dryRun, debug }) => {
   const cwd = sandboxDir;
-
+  console.log('running install');
   await installYarn2({ cwd, dryRun, debug });
 
   if (link) {
@@ -118,15 +113,6 @@ export const install: Task['run'] = async ({ sandboxDir, template }, { link, dry
     dryRun,
     debug,
   });
-
-  const mainConfig = await readMainConfig({ cwd });
-  // Enable or disable Storybook features
-  mainConfig.setFieldValue(['features'], {
-    interactionsDebugger: true,
-  });
-
-  if (template.expected.builder === '@storybook/builder-vite') setSandboxViteFinal(mainConfig);
-  await writeConfig(mainConfig);
 
   logger.info(`🔢 Adding package scripts:`);
   await updatePackageScripts({
@@ -349,6 +335,7 @@ export const addStories: Task['run'] = async (
   { sandboxDir, template, key },
   { addon: extraAddons, dryRun, debug }
 ) => {
+  console.log('addStories');
   const cwd = sandboxDir;
   const storiesPath = await findFirstPath([join('src', 'stories'), 'stories'], { cwd });
 
@@ -435,11 +422,23 @@ export const addStories: Task['run'] = async (
   // Some addon stories require extra dependencies
   addExtraDependencies({ cwd, dryRun, debug });
 
-  if (template.mainConfig) {
-    Object.entries(template.mainConfig).forEach(([field, value]) =>
-      mainConfig.setFieldValue([field], value)
-    );
-  }
+  await writeConfig(mainConfig);
+};
 
+export const extendMain: Task['run'] = async ({ template, sandboxDir }) => {
+  logger.log('📝 Extending main.js');
+  const mainConfig = await readMainConfig({ cwd: sandboxDir });
+  const templateConfig = template.mainConfig || {};
+  const configToAdd = {
+    ...templateConfig,
+    features: {
+      interactionsDebugger: true,
+      ...templateConfig.features,
+    },
+  };
+
+  Object.entries(configToAdd).forEach(([field, value]) => mainConfig.setFieldValue([field], value));
+
+  if (template.expected.builder === '@storybook/builder-vite') setSandboxViteFinal(mainConfig);
   await writeConfig(mainConfig);
 };
