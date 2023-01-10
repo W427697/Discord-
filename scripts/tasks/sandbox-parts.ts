@@ -38,14 +38,14 @@ export const essentialsAddons = [
 ];
 
 export const create: Task['run'] = async (
-  { key, template, keyExtends, templateExtends, sandboxDir },
+  { key, template, sandboxDir },
   { addon: addons, dryRun, debug, skipTemplateStories }
 ) => {
   const parentDir = resolve(sandboxDir, '..');
   await ensureDir(parentDir);
 
   if ('inDevelopment' in template && template.inDevelopment) {
-    const srcDir = join(reprosDir, keyExtends || key, 'after-storybook');
+    const srcDir = join(reprosDir, key, 'after-storybook');
     if (!existsSync(srcDir)) {
       throw new Error(`Missing repro directory '${srcDir}', did the generate task run?`);
     }
@@ -67,6 +67,15 @@ export const create: Task['run'] = async (
       await executeCLIStep(steps.add, { argument: addonName, cwd, dryRun, debug });
     }
   }
+
+  const mainConfig = await readMainConfig({ cwd });
+  // Enable or disable Storybook features
+  mainConfig.setFieldValue(['features'], {
+    interactionsDebugger: true,
+  });
+
+  if (template.expected.builder === '@storybook/builder-vite') setSandboxViteFinal(mainConfig);
+  await writeConfig(mainConfig);
 };
 
 export const install: Task['run'] = async ({ sandboxDir, template }, { link, dryRun, debug }) => {
@@ -337,7 +346,7 @@ function addExtraDependencies({
 }
 
 export const addStories: Task['run'] = async (
-  { sandboxDir, template, templateExtends, key },
+  { sandboxDir, template, key },
   { addon: extraAddons, dryRun, debug }
 ) => {
   const cwd = sandboxDir;
@@ -350,10 +359,7 @@ export const addStories: Task['run'] = async (
   updateStoriesField(mainConfig, detectLanguage(packageJson) === SupportedLanguage.JAVASCRIPT);
 
   // Link in the template/components/index.js from store, the renderer and the addons
-  const rendererPath = await workspacePath(
-    'renderer',
-    (templateExtends || template).expected.renderer
-  );
+  const rendererPath = await workspacePath('renderer', template.expected.renderer);
   await ensureSymlink(
     join(codeDir, rendererPath, 'template', 'components'),
     resolve(cwd, storiesPath, 'components')
@@ -367,10 +373,7 @@ export const addStories: Task['run'] = async (
     linkInDir: resolve(cwd, storiesPath),
   });
 
-  const frameworkPath = await workspacePath(
-    'frameworks',
-    (templateExtends || template).expected.framework
-  );
+  const frameworkPath = await workspacePath('frameworks', template.expected.framework);
 
   // Add stories for the framework if it has one. NOTE: these *do* need to be processed by the framework build system
   if (await pathExists(resolve(codeDir, frameworkPath, join('template', 'stories')))) {
@@ -426,7 +429,7 @@ export const addStories: Task['run'] = async (
   );
 
   // Add some extra settings (see above for what these do)
-  if ((templateExtends || template).expected.builder === '@storybook/builder-webpack5')
+  if (template.expected.builder === '@storybook/builder-webpack5')
     addEsbuildLoaderToStories(mainConfig);
 
   // Some addon stories require extra dependencies

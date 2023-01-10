@@ -5,7 +5,7 @@ import boxen from 'boxen';
 import { dedent } from 'ts-dedent';
 import { downloadTemplate } from 'giget';
 
-import { existsSync } from 'fs-extra';
+import { existsSync, readdir } from 'fs-extra';
 import { allTemplates as TEMPLATES } from './repro-templates';
 
 const logger = console;
@@ -32,20 +32,18 @@ export const reproNext = async ({
   // get value from template and reduce through TEMPLATES to filter out the correct template
   const choices = keys.reduce<Choice[]>((acc, group) => {
     const current = TEMPLATES[group];
-    const extended = current.extends && TEMPLATES[current.extends];
 
     if (!filterValue) {
       acc.push(group);
       return acc;
     }
 
-    const { expected } = extended || current;
     if (
       current.name.match(filterRegex) ||
       group.match(filterRegex) ||
-      expected.builder.match(filterRegex) ||
-      expected.framework.match(filterRegex) ||
-      expected.renderer.match(filterRegex)
+      current.expected.builder.match(filterRegex) ||
+      current.expected.framework.match(filterRegex) ||
+      current.expected.renderer.match(filterRegex)
     ) {
       acc.push(group);
       return acc;
@@ -140,13 +138,20 @@ export const reproNext = async ({
     try {
       const templateType = init ? 'after-storybook' : 'before-storybook';
       // Download the repro based on subfolder "after-storybook" and selected branch
-      await downloadTemplate(
-        `github:storybookjs/repro-templates-temp/${selectedTemplate}/${templateType}#${branch}`,
-        {
-          force: true,
-          dir: templateDestination,
-        }
-      );
+      const gitPath = `github:storybookjs/repro-templates-temp/${selectedTemplate}/${templateType}#${branch}`;
+      await downloadTemplate(gitPath, {
+        force: true,
+        dir: templateDestination,
+      });
+      // throw an error if templateDestination is an empty directory using fs-extra
+      if ((await readdir(templateDestination)).length === 0) {
+        throw new Error(
+          dedent`Template downloaded from ${chalk.blue(gitPath)} is empty.
+          Are you use it exists? Or did you want to set ${chalk.yellow(
+            selectedTemplate
+          )} to inDevelopment first?`
+        );
+      }
     } catch (err) {
       logger.error(`🚨 Failed to download repro template: ${err.message}`);
       throw err;
