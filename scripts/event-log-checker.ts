@@ -33,8 +33,10 @@ async function run() {
   assert.equal(bootEvent.payload?.eventType, eventType);
 
   const { exampleStoryCount, exampleDocsCount } = mainEvent.payload?.storyIndex || {};
-  assert.equal(exampleStoryCount, 8);
-  assert.equal(exampleDocsCount, 3);
+  if (['build', 'dev'].includes(eventType)) {
+    assert.equal(exampleStoryCount, 8);
+    assert.equal(exampleDocsCount, 3);
+  }
 
   assert.equal(mainEvent.eventType, eventType);
   assert.notEqual(mainEvent.eventId, bootEvent.eventId);
