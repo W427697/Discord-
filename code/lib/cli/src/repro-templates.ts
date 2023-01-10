@@ -44,7 +44,15 @@ export type Template = {
    * NOTE: Make sure to always add a TODO comment to remove this flag in a subsequent PR.
    */
   inDevelopment?: boolean;
+  /**
+   * Some sandboxes might need to extend main.js, such as setting specifi feature flags like storyStoreV7, etc.
+   */
   mainConfig?: Partial<StorybookConfig>;
+  /**
+   * Flag to indicate that this template is a secondary template, which is used to test rather specific features.
+   * This means the template might be hidden from the Storybook status page or the repro CLI command.
+   * */
+  secondary?: boolean;
 };
 
 const baseTemplates = {
@@ -356,10 +364,11 @@ const baseTemplates = {
 } satisfies Record<string, Template>;
 
 const extendedTemplates = {
-  'nextjs/ssv6-default-ts': {
-    ...baseTemplates['nextjs/default-ts'],
-    name: 'Next.js (Typescript, StoryStore v6)',
+  'react-webpack/18-ts-ssv6': {
+    ...baseTemplates['react-webpack/18-ts'],
+    name: 'React 18 (Typescript, StoryStore v6)',
     inDevelopment: true,
+    secondary: true,
     mainConfig: {
       features: {
         storyStoreV7: false,
