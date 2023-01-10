@@ -4,7 +4,7 @@ import { sourceDecorator } from './sourceDecorator';
 
 export const parameters = {
   docs: {
-    story: { inline: true, height: '120px' },
+    story: { inline: true, iframeHeight: '120px' },
     extractArgTypes,
     extractComponentDescription,
   },

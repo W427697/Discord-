@@ -8,7 +8,7 @@ export default {
     chromatic: { disable: true },
     docs: {
       story: {
-        height: '120px',
+        iframeHeight: '120px',
         inline: true,
       },
     },
