@@ -2751,7 +2751,6 @@ __metadata:
     "@types/escodegen": ^0.0.6
     "@types/express": ^4.17.11
     "@types/fs-extra": ^9.0.6
-    "@types/js-yaml": ^3.12.6
     "@types/lodash": ^4
     "@types/node": ^16.0.0
     "@types/node-fetch": ^2.5.7
@@ -2764,6 +2763,7 @@ __metadata:
     "@typescript-eslint/eslint-plugin": ^5.45.0
     "@typescript-eslint/experimental-utils": ^5.45.0
     "@typescript-eslint/parser": ^5.45.0
+    "@verdaccio/types": ^10.2.0
     babel-eslint: ^10.1.0
     babel-loader: ^8.3.0
     boxen: ^5.1.2
@@ -2798,7 +2798,6 @@ __metadata:
     jest-os-detection: ^1.3.1
     jest-serializer-html: ^7.1.0
     jest-watch-typeahead: ^2.2.1
-    js-yaml: ^3.14.1
     junit-xml: ^1.2.0
     lint-staged: ^10.5.4
     lodash: ^4.17.21
@@ -2839,6 +2838,8 @@ __metadata:
     window-size: ^1.1.1
     zx: ^7.0.3
   dependenciesMeta:
+    "@verdaccio/types":
+      optional: true
     ts-loader:
       optional: true
     verdaccio:
@@ -3287,13 +3288,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/js-yaml@npm:^3.12.6":
-  version: 3.12.7
-  resolution: "@types/js-yaml@npm:3.12.7"
-  checksum: 7df8078fb1783e04f6b24b97378ec396359d81bda4fe9cf352ec35bb055b3d4034854582f9b337d5d7a946c622265f422aca7f61bf872e2acaed07f317bedb06
-  languageName: node
-  linkType: hard
-
 "@types/jsdom@npm:^20.0.0":
   version: 20.0.1
   resolution: "@types/jsdom@npm:20.0.1"
@@ -3733,6 +3727,13 @@ __metadata:
   version: 10.2.0
   resolution: "@verdaccio/streams@npm:10.2.0"
   checksum: b2f2b30b1c8442308d0a51944d019722bc5f4b3b8814377765c9e20bfac7e7878411fe20e8f9c14a51fa3e80795cd186c84d13325d7041e7896e24028135c968
+  languageName: node
+  linkType: hard
+
+"@verdaccio/types@npm:^10.2.0":
+  version: 10.7.0
+  resolution: "@verdaccio/types@npm:10.7.0"
+  checksum: 3930ebe912221d58f300d17e50b1a874e72c9b0b3518cb5abfd30419b241afd7a36c6c751c60c24c1ba1de5c396b486bfb90b6891ff3d5ad22416fc832191280
   languageName: node
   linkType: hard
 
@@ -9615,7 +9616,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"js-yaml@npm:3.14.1, js-yaml@npm:^3.10.0, js-yaml@npm:^3.13.1, js-yaml@npm:^3.14.1, js-yaml@npm:^3.6.1":
+"js-yaml@npm:3.14.1, js-yaml@npm:^3.10.0, js-yaml@npm:^3.13.1, js-yaml@npm:^3.6.1":
   version: 3.14.1
   resolution: "js-yaml@npm:3.14.1"
   dependencies:
