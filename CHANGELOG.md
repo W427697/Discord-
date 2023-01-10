@@ -1,3 +1,15 @@
+## 7.0.0-beta.24 (January 11, 2023)
+
+#### Maintenance
+
+-   Migrations: Add `preact-vite` to new frameworks automigration [#20542](https://github.com/storybooks/storybook/pull/20542)
+
+#### Build
+
+-   Build: remove unneeded dependencies & upgrades [#20533](https://github.com/storybooks/storybook/pull/20533)
+-   Build: upgrade verdaccio [#20561](https://github.com/storybooks/storybook/pull/20561)
+-   Build: remove usage of enzyme [#20534](https://github.com/storybooks/storybook/pull/20534)
+
 ## 7.0.0-beta.23 (January 10, 2023)
 
 #### Features
