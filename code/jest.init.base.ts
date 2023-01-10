@@ -1,9 +1,6 @@
 import '@testing-library/jest-dom';
 
 // setup file
-import { configure } from 'enzyme';
-// @ts-expect-error (Converted from ts-ignore)
-import Adapter from 'enzyme-adapter-react-16';
 import registerRequireContextHook from '@storybook/babel-plugin-require-context-hook/register';
 
 registerRequireContextHook();
@@ -22,8 +19,6 @@ const localStorageMock = {
 };
 // @ts-expect-error (Converted from ts-ignore)
 global.localStorage = localStorageMock;
-
-configure({ adapter: new Adapter() });
 
 /* Fail tests on PropType warnings
  This allows us to throw an error in tests environments when there are prop-type warnings.
