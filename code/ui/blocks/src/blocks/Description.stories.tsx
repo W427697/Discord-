@@ -109,3 +109,24 @@ export const OfStoryAsStoryCommentAndParameter: Story = {
 export const OfUndefinedAttached: Story = {
   parameters: { relativeCsfPaths: ['../examples/Button.stories'], attached: true },
 };
+export const OfStringComponentAttached: Story = {
+  name: 'Of "component" Attached',
+  args: {
+    of: 'component',
+  },
+  parameters: { relativeCsfPaths: ['../examples/Button.stories'], attached: true },
+};
+export const OfStringMetaAttached: Story = {
+  name: 'Of "meta" Attached',
+  args: {
+    of: 'meta',
+  },
+  parameters: { relativeCsfPaths: ['../examples/Button.stories'], attached: true },
+};
+export const OfStringStoryAttached: Story = {
+  name: 'Of "story" Attached',
+  args: {
+    of: 'story',
+  },
+  parameters: { relativeCsfPaths: ['../examples/Button.stories'], attached: true },
+};
