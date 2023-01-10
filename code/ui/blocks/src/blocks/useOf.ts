@@ -6,7 +6,7 @@ import type {
 import { useContext } from 'react';
 import { DocsContext } from './DocsContext';
 
-type Of = Parameters<DocsContextProps['resolveModuleExport']>[0];
+export type Of = Parameters<DocsContextProps['resolveModuleExport']>[0];
 
 export const useOf = (
   of: Of,

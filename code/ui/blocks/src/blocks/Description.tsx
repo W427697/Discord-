@@ -7,7 +7,7 @@ import { Description } from '../components';
 import type { DocsContextProps } from './DocsContext';
 import { DocsContext } from './DocsContext';
 import type { Component } from './types';
-import { PRIMARY_STORY } from './types';
+import type { Of } from './useOf';
 import { useOf } from './useOf';
 
 export enum DescriptionType {
@@ -21,7 +21,11 @@ type Notes = string | any;
 type Info = string | any;
 
 interface DescriptionProps {
-  of?: any;
+  /**
+   * Specify where to get the description from. Can be a component, a CSF file or a story.
+   * If not specified, the description will be extracted from the meta of the attached CSF file.
+   */
+  of?: Of;
   /**
    * @deprecated Manually specifying description type is deprecated. In the future all descriptions will be extracted from JSDocs on the meta, story or component.
    */
@@ -43,31 +47,18 @@ const getInfo = (info?: Info) => info && (typeof info === 'string' ? info : str(
 
 const noDescription = (component?: Component): string | null => null;
 
-const getDescriptionFromModuleExport = (
-  of: DescriptionProps['of'] = 'meta',
-  docsContext: DocsContextProps<any>
-): string => {
+const getDescriptionFromModuleExport = (of: DescriptionProps['of'] = 'meta'): string | null => {
   const { projectAnnotations, ...resolvedModule } = useOf(of);
-  console.log('LOG resolvedModule:', resolvedModule);
-  console.log('LOG projectAnnotations:', projectAnnotations);
   switch (resolvedModule.type) {
     case 'story': {
-      console.log('LOG story:', resolvedModule.story.parameters.docs?.description?.story);
-      return resolvedModule.story.parameters.docs?.description?.story || '';
+      return resolvedModule.story.parameters.docs?.description?.story || null;
     }
     case 'meta': {
       const { meta } = resolvedModule.csfFile;
-      console.log('LOG: meta', resolvedModule.csfFile);
       const metaDescription = meta.parameters.docs?.description?.component;
       if (metaDescription) {
-        console.log('LOG: meta desc', metaDescription);
         return metaDescription;
       }
-      console.log('LOG: component', meta.component);
-      console.log(
-        'LOG extract project:',
-        projectAnnotations.parameters.docs?.extractComponentDescription
-      );
       return (
         projectAnnotations.parameters.docs?.extractComponentDescription(meta.component, {
           component: meta.component,
@@ -78,10 +69,6 @@ const getDescriptionFromModuleExport = (
     }
     case 'component': {
       const { component } = resolvedModule;
-      console.log(
-        'LOG extract project:',
-        projectAnnotations.parameters.docs?.extractComponentDescription
-      );
       return (
         projectAnnotations.parameters.docs?.extractComponentDescription(component, {
           component,
@@ -132,29 +119,29 @@ const getDescriptionFromDeprecatedProps = (
   }
 };
 
-const DescriptionContainer: FC<DescriptionProps> = (props = { of: PRIMARY_STORY }) => {
+const DescriptionContainer: FC<DescriptionProps> = (props) => {
   const context = useContext(DocsContext);
   let markdown;
-  console.log('LOG: props', props);
-  if (props.type || props.markdown || props.children) {
+  const { of, type, markdown: markdownProp, children } = props;
+  if (type || markdownProp || children) {
     // pre 7.0 mode with deprecated props
     markdown = getDescriptionFromDeprecatedProps(props, context);
   } else {
     // 7.0 mode with new 'of' prop
     // pre 7.0 with only 'of' prop only supported referencing a component, which 7.0 supports as well here
-    markdown = getDescriptionFromModuleExport(props.of, context);
+    markdown = getDescriptionFromModuleExport(of);
   }
-  if (props.type) {
+  if (type) {
     deprecate(
       'Manually specifying description type is deprecated. In 7.0 all descriptions will be extracted from JSDocs on the meta, story or component.'
     );
   }
-  if (props.markdown) {
+  if (markdownProp) {
     deprecate(
       "The 'markdown' prop on the Description block is deprecated. Write the markdown directly in the .mdx file instead"
     );
   }
-  if (props.children) {
+  if (children) {
     deprecate(
       "The 'children' prop on the Description block is deprecated. Write the markdown directly in the .mdx file instead."
     );
