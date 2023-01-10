@@ -41,7 +41,7 @@
     "lint:md": "../scripts/node_modules/.bin/remark -q .",
     "lint:other": "prettier --write '**/*.{css,html,json,md,yml}'",
     "lint:package": "sort-package-json",
-    "local-registry": "ts-node --swc --project=../scripts/tsconfig.json ../scripts/run-registry.ts --port 6001",
+    "local-registry": "ts-node --swc --project=../scripts/tsconfig.json ../scripts/run-registry.ts",
     "publish-repros": "ts-node --swc ../scripts/next-repro-generators/publish.ts",
     "publish:debug": "npm run publish:latest -- --npm-tag=debug --no-push",
     "publish:latest": "lerna publish --exact --concurrency 1 --force-publish",
@@ -281,11 +281,6 @@
     "yorkie": {
       "built": false
     }
-  },
-  "optionalDependencies": {
-    "ts-loader": "^9.2.8",
-    "verdaccio": "^4.10.0",
-    "verdaccio-auth-memory": "^9.7.2"
   },
   "packageManager": "yarn@3.3.0",
   "engines": {
