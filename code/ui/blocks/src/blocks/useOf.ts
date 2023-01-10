@@ -1,12 +1,33 @@
-import type { ModuleExport, ResolvedModuleExport } from 'lib/types/src';
+import type {
+  DocsContextProps,
+  ModuleExport,
+  NormalizedProjectAnnotations,
+  ResolvedModuleExport,
+} from 'lib/types/src';
 import { useContext } from 'react';
 import { DocsContext } from './DocsContext';
 
 export const useOf = (
   of?: ModuleExport,
   validTypes: ResolvedModuleExport['type'][] = []
-): ResolvedModuleExport => {
+): ReturnType<typeof resolveOfProp> => {
   const context = useContext(DocsContext);
+  return resolveOfProp({ context, of, validTypes });
+};
+
+type ResolveOfPropParams = {
+  context: DocsContextProps;
+  of?: ModuleExport;
+  validTypes?: ResolvedModuleExport['type'][];
+};
+
+export const resolveOfProp = ({
+  context,
+  of,
+  validTypes = [],
+}: ResolveOfPropParams): ResolvedModuleExport & {
+  projectAnnotations: NormalizedProjectAnnotations;
+} => {
   const resolved = context.resolveModuleExport(of);
 
   if (validTypes.length && !validTypes.includes(resolved.type)) {
@@ -17,5 +38,5 @@ export const useOf = (
       )}`
     );
   }
-  return resolved;
+  return { ...resolved, projectAnnotations: context.projectAnnotations };
 };
