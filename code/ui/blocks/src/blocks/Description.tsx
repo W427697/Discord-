@@ -47,50 +47,45 @@ const getDescriptionFromModuleExport = (
   of: DescriptionProps['of'],
   docsContext: DocsContextProps<any>
 ): string => {
-  const resolvedModule = useOf(of);
+  const { projectAnnotations, ...resolvedModule } = useOf(of);
   console.log('LOG resolvedModule:', resolvedModule);
+  console.log('LOG projectAnnotations:', projectAnnotations);
   switch (resolvedModule.type) {
     case 'story': {
       console.log('LOG story:', resolvedModule.story.parameters.docs?.description?.story);
       return resolvedModule.story.parameters.docs?.description?.story || '';
     }
     case 'meta': {
-      const {
-        meta: { component, parameters },
-      } = resolvedModule.csfFile;
+      const { meta } = resolvedModule.csfFile;
       console.log('LOG: meta', resolvedModule.csfFile);
-      const metaDescription = parameters.docs?.description?.component;
+      const metaDescription = meta.parameters.docs?.description?.component;
       if (metaDescription) {
         console.log('LOG: meta desc', metaDescription);
         return metaDescription;
       }
-      // TODO: this is a workaround, doesn't work in unattached mode
-      const primaryStory = docsContext.storyById();
-      console.log('LOG: component', component);
-      console.log('LOG: primaryStory', primaryStory);
-      console.log('LOG: primaryStory', primaryStory);
+      console.log('LOG: component', meta.component);
       console.log(
-        'LOG extract primary:',
-        primaryStory.parameters.docs?.extractComponentDescription
+        'LOG extract project:',
+        projectAnnotations.parameters.docs?.extractComponentDescription
       );
-      console.log('LOG extract meta:', parameters.docs?.extractComponentDescription);
       return (
-        primaryStory.parameters.docs?.extractComponentDescription(component, {
-          component,
-          ...primaryStory.parameters,
+        projectAnnotations.parameters.docs?.extractComponentDescription(meta.component, {
+          component: meta.component,
+          ...projectAnnotations.parameters,
+          ...meta.parameters, // TODO: better merge?
         }) || null
       );
     }
     case 'component': {
-      // TODO: this is a workaround, doesn't work in unattached mode
-      const primaryStory = docsContext.storyById();
       const { component } = resolvedModule;
-      console.log('LOG: component', component);
-      console.log('LOG: primaryStory', primaryStory);
+      console.log(
+        'LOG extract project:',
+        projectAnnotations.parameters.docs?.extractComponentDescription
+      );
       return (
-        primaryStory.parameters.docs?.extractComponentDescription(component, {
+        projectAnnotations.parameters.docs?.extractComponentDescription(component, {
           component,
-          ...primaryStory.parameters,
+          ...projectAnnotations.parameters,
         }) || null
       );
     }

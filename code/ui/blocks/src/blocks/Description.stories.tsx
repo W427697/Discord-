@@ -15,6 +15,7 @@ const meta: Meta<typeof Description> = {
     },
     // workaround for https://github.com/storybookjs/storybook/issues/20505
     docs: { source: { type: 'code' } },
+    attached: false,
   },
 };
 export default meta;
@@ -57,12 +58,6 @@ export const OfCSFFileAsMetaCommentAndParameter: Story = {
     relativeCsfPaths: ['../examples/ButtonWithMetaDescriptionAsBoth.stories'],
   },
 };
-export const UnattachedOfCSFFile: Story = {
-  args: {
-    of: DefaultButtonStories,
-  },
-  parameters: { relativeCsfPaths: ['../examples/Button.stories'], attached: false },
-};
 export const OfMetaAsComponentComment: Story = {
   args: {
     of: DefaultButtonStories.default,
@@ -93,12 +88,6 @@ export const OfMetaAsMetaCommentAndParameter: Story = {
     relativeCsfPaths: ['../examples/ButtonWithMetaDescriptionAsBoth.stories'],
   },
 };
-export const UnattachedOfMeta: Story = {
-  args: {
-    of: DefaultButtonStories.default,
-  },
-  parameters: { relativeCsfPaths: ['../examples/Button.stories'], attached: false },
-};
 export const OfStoryAsComment: Story = {
   args: {
     of: DefaultButtonStories.Primary,
@@ -116,10 +105,4 @@ export const OfStoryAsStoryCommentAndParameter: Story = {
     of: DefaultButtonStories.Large,
   },
   parameters: { relativeCsfPaths: ['../examples/Button.stories'] },
-};
-export const UnattachedOfStory: Story = {
-  args: {
-    of: DefaultButtonStories.Primary,
-  },
-  parameters: { relativeCsfPaths: ['../examples/Button.stories'], attached: false },
 };
