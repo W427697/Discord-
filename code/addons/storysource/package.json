@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-storysource",
-  "version": "7.0.0-alpha.59",
+  "version": "7.0.0-beta.23",
   "description": "View a story’s source code to see how it works and paste into your app",
   "keywords": [
     "addon",
@@ -23,6 +23,7 @@
   "license": "MIT",
   "exports": {
     ".": {
+      "node": "./dist/index.js",
       "require": "./dist/index.js",
       "import": "./dist/index.mjs",
       "types": "./dist/index.d.ts"
@@ -32,7 +33,7 @@
       "import": "./dist/preset.mjs",
       "types": "./dist/preset.d.ts"
     },
-    "./register": {
+    "./manager": {
       "require": "./dist/manager.js",
       "import": "./dist/manager.mjs",
       "types": "./dist/manager.d.ts"
@@ -53,13 +54,13 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/client-logger": "7.0.0-alpha.59",
-    "@storybook/components": "7.0.0-alpha.59",
-    "@storybook/manager-api": "7.0.0-alpha.59",
-    "@storybook/preview-api": "7.0.0-alpha.59",
-    "@storybook/router": "7.0.0-alpha.59",
-    "@storybook/source-loader": "7.0.0-alpha.59",
-    "@storybook/theming": "7.0.0-alpha.59",
+    "@storybook/client-logger": "7.0.0-beta.23",
+    "@storybook/components": "7.0.0-beta.23",
+    "@storybook/manager-api": "7.0.0-beta.23",
+    "@storybook/preview-api": "7.0.0-beta.23",
+    "@storybook/router": "7.0.0-beta.23",
+    "@storybook/source-loader": "7.0.0-beta.23",
+    "@storybook/theming": "7.0.0-beta.23",
     "estraverse": "^5.2.0",
     "prop-types": "^15.7.2",
     "react-syntax-highlighter": "^15.5.0"
@@ -91,7 +92,7 @@
       "./src/preset.ts"
     ]
   },
-  "gitHead": "8d3068344b96cb740635b6fbb7a9052108a984bc",
+  "gitHead": "540859f1e7daeb25a03b2095e4223effc7f590b8",
   "storybook": {
     "displayName": "Storysource",
     "icon": "https://user-images.githubusercontent.com/263385/101991675-48cdf300-3c7c-11eb-9400-58de5ac6daa7.png",

@@ -1,6 +1,6 @@
 {
   "name": "@storybook/react",
-  "version": "7.0.0-alpha.59",
+  "version": "7.0.0-beta.23",
   "description": "Storybook React renderer",
   "keywords": [
     "storybook"
@@ -21,6 +21,7 @@
   "license": "MIT",
   "exports": {
     ".": {
+      "node": "./dist/index.js",
       "require": "./dist/index.js",
       "import": "./dist/index.mjs",
       "types": "./dist/index.d.ts"
@@ -30,11 +31,7 @@
       "import": "./dist/config.mjs",
       "types": "./dist/config.d.ts"
     },
-    "./package.json": {
-      "require": "./package.json",
-      "import": "./package.json",
-      "types": "./package.json"
-    }
+    "./package.json": "./package.json"
   },
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -42,7 +39,6 @@
   "files": [
     "dist/**/*",
     "template/**/*",
-    "types/**/*",
     "README.md",
     "*.js",
     "*.d.ts"
@@ -52,18 +48,19 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/client-logger": "7.0.0-alpha.59",
-    "@storybook/core-client": "7.0.0-alpha.59",
-    "@storybook/docs-tools": "7.0.0-alpha.59",
-    "@storybook/preview-api": "7.0.0-alpha.59",
-    "@storybook/types": "7.0.0-alpha.59",
+    "@storybook/client-logger": "7.0.0-beta.23",
+    "@storybook/core-client": "7.0.0-beta.23",
+    "@storybook/docs-tools": "7.0.0-beta.23",
+    "@storybook/global": "^5.0.0",
+    "@storybook/preview-api": "7.0.0-beta.23",
+    "@storybook/types": "7.0.0-beta.23",
+    "@types/escodegen": "^0.0.6",
     "@types/estree": "^0.0.51",
     "@types/node": "^16.0.0",
     "acorn": "^7.4.1",
     "acorn-jsx": "^5.3.1",
     "acorn-walk": "^7.2.0",
     "escodegen": "^2.0.0",
-    "global": "^4.4.0",
     "html-tags": "^3.1.0",
     "lodash": "^4.17.21",
     "prop-types": "^15.7.2",
@@ -90,7 +87,7 @@
     }
   },
   "engines": {
-    "node": ">=10.13.0"
+    "node": ">=16.0.0"
   },
   "publishConfig": {
     "access": "public"
@@ -102,5 +99,5 @@
     ],
     "platform": "browser"
   },
-  "gitHead": "8d3068344b96cb740635b6fbb7a9052108a984bc"
+  "gitHead": "540859f1e7daeb25a03b2095e4223effc7f590b8"
 }

@@ -143,7 +143,7 @@ function addEsbuildLoaderToStories(mainConfig: ConfigFile) {
   (config) => ({
     ...config,
     module: {
-      ...config.modules,
+      ...config.module,
       rules: [
         // Ensure esbuild-loader applies to all files in ./template-stories
         {

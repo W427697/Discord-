@@ -22,6 +22,8 @@ Afterward, you can use any asset in your stories:
     'vue/component-story-static-asset-with-import.ts-3.ts.mdx',
     'angular/component-story-static-asset-with-import.ts.mdx',
     'svelte/component-story-static-asset-with-import.js.mdx',
+    'web-components/component-story-static-asset-with-import.js.mdx',
+    'web-components/component-story-static-asset-with-import.ts.mdx',
   ]}
   usesCsf3
   csf2Path="configure/images-and-assets#snippet-component-story-static-asset-with-import"
@@ -33,7 +35,7 @@ Afterward, you can use any asset in your stories:
 
 We recommend serving static files via Storybook to ensure that your components always have the assets they need to load. We recommend this technique for assets that your components often use, like logos, fonts, and icons.
 
-Configure a directory (or a list of directories) where your assets live when starting Storybook. Use the`staticDirs` configuration element in your main Storybook configuration file (i.e., `.storybook/main.js`) to specify the directories:
+Configure a directory (or a list of directories) where your assets live when starting Storybook. Use the `staticDirs` configuration element in your main Storybook configuration file (i.e., `.storybook/main.js`) to specify the directories:
 
 <!-- prettier-ignore-start -->
 
@@ -57,6 +59,8 @@ Here `../public` is your static directory. Now use it in a component or story li
     'vue/component-story-static-asset-without-import.ts.mdx',
     'angular/component-story-static-asset-without-import.ts.mdx',
     'svelte/component-story-static-asset-without-import.js.mdx',
+    'web-components/component-story-static-asset-without-import.js.mdx',
+    'web-components/component-story-static-asset-without-import.ts.mdx',
   ]}
   usesCsf3
   csf2Path="configure/images-and-assets#snippet-component-story-static-asset-without-import"
@@ -106,6 +110,8 @@ Upload your files to an online CDN and reference them. In this example, we’re 
     'vue/component-story-static-asset-cdn.ts.mdx',
     'angular/component-story-static-asset-cdn.ts.mdx',
     'svelte/component-story-static-asset-cdn.js.mdx',
+    'web-components/component-story-static-asset-cdn.js.mdx',
+    'web-components/component-story-static-asset-cdn.ts.mdx',
   ]}
   usesCsf3
   csf2Path="configure/images-and-assets#snippet-component-story-static-asset-cdn"

@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-interactions",
-  "version": "7.0.0-alpha.59",
+  "version": "7.0.0-beta.23",
   "description": "Automate, test and debug user interactions",
   "keywords": [
     "storybook-addons",
@@ -23,6 +23,7 @@
   "license": "MIT",
   "exports": {
     ".": {
+      "node": "./dist/index.js",
       "require": "./dist/index.js",
       "import": "./dist/index.mjs",
       "types": "./dist/index.d.ts"
@@ -71,24 +72,24 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@devtools-ds/object-inspector": "^1.1.2",
-    "@storybook/client-logger": "7.0.0-alpha.59",
-    "@storybook/components": "7.0.0-alpha.59",
-    "@storybook/core-common": "7.0.0-alpha.59",
-    "@storybook/core-events": "7.0.0-alpha.59",
-    "@storybook/instrumenter": "7.0.0-alpha.59",
-    "@storybook/manager-api": "7.0.0-alpha.59",
-    "@storybook/preview-api": "7.0.0-alpha.59",
-    "@storybook/theming": "7.0.0-alpha.59",
-    "@storybook/types": "7.0.0-alpha.59",
-    "global": "^4.4.0",
+    "@storybook/client-logger": "7.0.0-beta.23",
+    "@storybook/components": "7.0.0-beta.23",
+    "@storybook/core-common": "7.0.0-beta.23",
+    "@storybook/core-events": "7.0.0-beta.23",
+    "@storybook/global": "^5.0.0",
+    "@storybook/instrumenter": "7.0.0-beta.23",
+    "@storybook/manager-api": "7.0.0-beta.23",
+    "@storybook/preview-api": "7.0.0-beta.23",
+    "@storybook/theming": "7.0.0-beta.23",
+    "@storybook/types": "7.0.0-beta.23",
     "jest-mock": "^27.0.6",
     "polished": "^4.2.2",
     "ts-dedent": "^2.2.0"
   },
   "devDependencies": {
-    "@storybook/jest": "^0.0.10",
-    "@storybook/testing-library": "0.0.14-next.0",
+    "@devtools-ds/object-inspector": "^1.1.2",
+    "@storybook/jest": "next",
+    "@storybook/testing-library": "next",
     "@types/node": "^16.0.0",
     "formik": "^2.2.9",
     "typescript": "~4.9.3"
@@ -117,7 +118,7 @@
     ],
     "platform": "node"
   },
-  "gitHead": "8d3068344b96cb740635b6fbb7a9052108a984bc",
+  "gitHead": "540859f1e7daeb25a03b2095e4223effc7f590b8",
   "storybook": {
     "displayName": "Interactions",
     "unsupportedFrameworks": [

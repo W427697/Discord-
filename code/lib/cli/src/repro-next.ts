@@ -26,13 +26,14 @@ export const reproNext = async ({
   branch,
   init,
 }: ReproOptions) => {
+  const filterRegex = new RegExp(`^${filterValue || ''}`, 'i');
+
   const keys = Object.keys(TEMPLATES) as Choice[];
   // get value from template and reduce through TEMPLATES to filter out the correct template
   const choices = keys.reduce<Choice[]>((acc, group) => {
     const current = TEMPLATES[group];
     const extended = current.extends && TEMPLATES[current.extends];
 
-    const filterRegex = new RegExp(filterValue, 'i');
     if (!filterValue) {
       acc.push(group);
       return acc;
@@ -58,7 +59,7 @@ export const reproNext = async ({
       boxen(
         dedent`
           🔎 You filtered out all templates. 🔍
-          
+
           After filtering all the templates with "${chalk.yellow(
             filterValue
           )}", we found no results. Please try again with a different filter.
@@ -80,13 +81,13 @@ export const reproNext = async ({
     logger.info(
       boxen(
         dedent`
-          🤗 Welcome to ${chalk.yellow('sb repro NEXT')}! 🤗 
-  
+          🤗 Welcome to ${chalk.yellow('sb repro NEXT')}! 🤗
+
           Create a ${chalk.green('new project')} to minimally reproduce Storybook issues.
-          
+
           1. select an environment that most closely matches your project setup.
           2. select a location for the reproduction, outside of your project.
-          
+
           After the reproduction is ready, we'll guide you through the next steps.
           `.trim(),
         { borderStyle: 'round', padding: 1, borderColor: '#F1618C' } as any
@@ -164,7 +165,7 @@ export const reproNext = async ({
         ${initMessage}
 
         Once you've recreated the problem you're experiencing, please:
-        
+
         1. Document any additional steps in ${chalk.cyan('README.md')}
         2. Publish the repository to github
         3. Link to the repro repository in your issue
