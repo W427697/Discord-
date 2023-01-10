@@ -17,23 +17,10 @@ export type Of = Parameters<DocsContextProps['resolveModuleExport']>[0];
 export const useOf = (
   of: Of,
   validTypes: ResolvedModuleExport['type'][] = []
-): ReturnType<typeof resolveOfProp> => {
-  const context = useContext(DocsContext);
-  return resolveOfProp({ context, of, validTypes });
-};
-
-type ResolveOfPropParams = {
-  context: DocsContextProps;
-  of: Of;
-  validTypes?: ResolvedModuleExport['type'][];
-};
-export const resolveOfProp = ({
-  context,
-  of,
-  validTypes = [],
-}: ResolveOfPropParams): ResolvedModuleExport & {
+): ResolvedModuleExport & {
   projectAnnotations: NormalizedProjectAnnotations;
 } => {
+  const context = useContext(DocsContext);
   const resolved = context.resolveModuleExport(of);
 
   if (validTypes.length && !validTypes.includes(resolved.type)) {

@@ -62,8 +62,9 @@ const getDescriptionFromModuleExport = (of: DescriptionProps['of'] = 'meta'): st
       return (
         projectAnnotations.parameters.docs?.extractComponentDescription(meta.component, {
           component: meta.component,
+          // TODO: this is a very naive merge of parameters, but no known extractComponentDescription implementation even use this second argument anyway
           ...projectAnnotations.parameters,
-          ...meta.parameters, // TODO: better merge?
+          ...meta.parameters,
         }) || null
       );
     }
