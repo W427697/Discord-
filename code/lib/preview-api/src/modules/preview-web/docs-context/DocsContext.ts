@@ -90,6 +90,14 @@ export class DocsContext<TRenderer extends Renderer> implements DocsContextProps
     if (attach) this.attachCSFFile(resolved.csfFile);
   }
 
+  get projectAnnotations() {
+    const { projectAnnotations } = this.store;
+    if (!projectAnnotations) {
+      throw new Error("Can't get projectAnnotations from DocsContext before they are initialized");
+    }
+    return projectAnnotations;
+  }
+
   resolveModuleExport(moduleExportOrType: ModuleExport | ResolvedModuleExport<TRenderer>['type']) {
     // If passed a type, we return the attached file, component or primary story
     if (moduleExportOrType === 'story') {

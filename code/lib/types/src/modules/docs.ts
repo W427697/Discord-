@@ -1,6 +1,12 @@
 import type { Channel } from '@storybook/channels';
 import type { Renderer, StoryContextForLoaders, StoryId, StoryName, Parameters } from './csf';
-import type { ModuleExport, ModuleExports, CSFFile, PreparedStory } from './story';
+import type {
+  ModuleExport,
+  ModuleExports,
+  CSFFile,
+  PreparedStory,
+  NormalizedProjectAnnotations,
+} from './story';
 
 export type StoryRenderOptions = {
   autoplay?: boolean;
@@ -72,6 +78,11 @@ export interface DocsContextProps<TRenderer extends Renderer = Renderer> {
    * Storybook channel -- use for low level event watching/emitting
    */
   channel: Channel;
+
+  /**
+   * Project annotations -- can be read to get the project's global annotations
+   */
+  projectAnnotations: NormalizedProjectAnnotations<TRenderer>;
 }
 
 export type DocsRenderFunction<TRenderer extends Renderer> = (
