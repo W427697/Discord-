@@ -41,7 +41,7 @@
     "lint:md": "../scripts/node_modules/.bin/remark -q .",
     "lint:other": "prettier --write '**/*.{css,html,json,md,yml}'",
     "lint:package": "sort-package-json",
-    "local-registry": "ts-node --swc --project=../scripts/tsconfig.json ../scripts/run-registry.ts --port 6001",
+    "local-registry": "ts-node --swc --project=../scripts/tsconfig.json ../scripts/run-registry.ts",
     "publish-repros": "ts-node --swc ../scripts/next-repro-generators/publish.ts",
     "publish:debug": "npm run publish:latest -- --npm-tag=debug --no-push",
     "publish:latest": "lerna publish --exact --concurrency 1 --force-publish",
