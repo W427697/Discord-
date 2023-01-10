@@ -14,7 +14,7 @@ export async function renderTemplate(templatePath: string, templateData: Record<
 }
 
 export const getStackblitzUrl = (path: string, branch = 'next') => {
-  return `https://stackblitz.com/github/storybookjs/repro-templates-temp/tree/${branch}/${path}/after-storybook?preset=node`;
+  return `https://stackblitz.com/github/storybookjs/repro-sandboxes/tree/${branch}/${path}/after-storybook?preset=node`;
 };
 
 export async function getTemplatesData() {
