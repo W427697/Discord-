@@ -282,11 +282,6 @@
       "built": false
     }
   },
-  "optionalDependencies": {
-    "ts-loader": "^9.2.8",
-    "verdaccio": "^4.10.0",
-    "verdaccio-auth-memory": "^9.7.2"
-  },
   "packageManager": "yarn@3.3.0",
   "engines": {
     "node": ">=16.0.0"

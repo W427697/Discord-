@@ -148,9 +148,9 @@
     "@types/lodash": "^4"
   },
   "optionalDependencies": {
-    "ts-loader": "^9.2.8",
-    "verdaccio": "^4.10.0",
-    "verdaccio-auth-memory": "^9.7.2"
+    "ts-loader": "^9.4.2",
+    "verdaccio": "^5.19.1",
+    "verdaccio-auth-memory": "^10.2.0"
   },
   "packageManager": "yarn@3.3.0",
   "engines": {
