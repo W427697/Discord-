@@ -218,13 +218,13 @@ function createNamedSlots(
   byRef?: boolean | undefined
 ) {
   if (!slotProps) return '';
-  if (slotProps.length === 1) return !byRef ? slotArgs[slotProps[0]] : `{{ ${slotProps[0]} }}`;
+  if (slotProps.length === 1) return !byRef ? slotArgs[slotProps[0]] : ` {{ ${slotProps[0]} }}`;
 
   return Object.entries(slotArgs)
     .map(([key, value]) => {
       return `  <template #${key}>
-        ${!byRef ? JSON.stringify(value) : `{{ ${key} }}`}
-        </template>`;
+    ${!byRef ? JSON.stringify(value) : `{{ ${key} }}`}
+  </template>`;
     })
     .join('\n');
 }

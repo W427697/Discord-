@@ -46,31 +46,31 @@ describe('generateSource Vue3', () => {
   });
   test('1 slot property', () => {
     expect(generateForArgs({ content: 'xyz', myProp: 'abc' }, ['content'])).toMatchInlineSnapshot(`
-      <Component :content='content' :myProp='myProp'>
-      {{ content }}
+      <Component :myProp='myProp'>
+       {{ content }}
       </Component>
     `);
   });
   test('multiple slot property with second slot value not set', () => {
     expect(generateForArgs({ content: 'xyz', myProp: 'abc' }, ['content', 'footer']))
       .toMatchInlineSnapshot(`
-      <Component :content='content' :myProp='myProp'>
+      <Component :myProp='myProp'>
         <template #content>
-              {{ content }}
-              </template>
+          {{ content }}
+        </template>
       </Component>
     `);
   });
   test('multiple slot property with second slot value is set', () => {
     expect(generateForArgs({ content: 'xyz', footer: 'foo', myProp: 'abc' }, ['content', 'footer']))
       .toMatchInlineSnapshot(`
-      <Component :content='content' :footer='footer' :myProp='myProp'>
+      <Component :myProp='myProp'>
         <template #content>
-              {{ content }}
-              </template>
+          {{ content }}
+        </template>
         <template #footer>
-              {{ footer }}
-              </template>
+          {{ footer }}
+        </template>
       </Component>
     `);
   });
