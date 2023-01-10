@@ -106,3 +106,6 @@ export const OfStoryAsStoryCommentAndParameter: Story = {
   },
   parameters: { relativeCsfPaths: ['../examples/Button.stories'] },
 };
+export const OfUndefinedAttached: Story = {
+  parameters: { relativeCsfPaths: ['../examples/Button.stories'], attached: true },
+};

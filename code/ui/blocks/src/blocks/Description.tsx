@@ -44,7 +44,7 @@ const getInfo = (info?: Info) => info && (typeof info === 'string' ? info : str(
 const noDescription = (component?: Component): string | null => null;
 
 const getDescriptionFromModuleExport = (
-  of: DescriptionProps['of'],
+  of: DescriptionProps['of'] = 'meta',
   docsContext: DocsContextProps<any>
 ): string => {
   const { projectAnnotations, ...resolvedModule } = useOf(of);
@@ -95,47 +95,6 @@ const getDescriptionFromModuleExport = (
       );
     }
   }
-  /*
-  try {
-    const storyId = docsContext.storyIdByModuleExport(of);
-    console.log('LOG: storyId', storyId);
-    // storyIdByModuleExport throws an error if 'of' doesn't reference a story
-    // so we know that 'of' references a story, and we'll use that story's description
-    const story = docsContext.storyById(storyId);
-    console.log('LOG: story', story);
-    return story.parameters.docs?.description?.story || '';
-  } catch {
-    // continue regardless of error
-  }
-  // TODO: getting the primary story doesn't work in unattached mode
-  const primaryStory = docsContext.storyById();
-  console.log('LOG: primaryStory', primaryStory);
-  const { component, parameters } = primaryStory;
-
-  const metaDescription = parameters.docs?.description?.component;
-
-  // eslint-disable-next-line no-underscore-dangle
-  if (of.__docgenInfo !== undefined || !metaDescription) {
-    console.log('LOG: with __docgenInfo or not metaDescription');
-    console.log('LOG: of', of);
-    console.log('LOG: metaDescription', metaDescription);
-    // eslint-disable-next-line no-underscore-dangle
-    console.log('LOG: of.__docgenInfo', of.__docgenInfo);
-    // 'of' references a component, or there's no description on meta, so we'll use the component's description
-    const extractComponentDescription =
-      parameters.docs?.extractComponentDescription || noDescription;
-    return extractComponentDescription(component, {
-      component,
-      ...primaryStory.parameters,
-    });
-  }
-
-  // 'of' references a meta and it has a description
-  console.log('LOG: without __docgenInfo and metaDescription');
-  console.log('LOG: of', of);
-  console.log('LOG: metaDescription', metaDescription);
-  return metaDescription;
-  */
 };
 
 const getDescriptionFromDeprecatedProps = (
@@ -177,13 +136,13 @@ const DescriptionContainer: FC<DescriptionProps> = (props = { of: PRIMARY_STORY 
   const context = useContext(DocsContext);
   let markdown;
   console.log('LOG: props', props);
-  if (props.of && !(props.type || props.markdown || props.children)) {
+  if (props.type || props.markdown || props.children) {
+    // pre 7.0 mode with deprecated props
+    markdown = getDescriptionFromDeprecatedProps(props, context);
+  } else {
     // 7.0 mode with new 'of' prop
     // pre 7.0 with only 'of' prop only supported referencing a component, which 7.0 supports as well here
     markdown = getDescriptionFromModuleExport(props.of, context);
-  } else {
-    // pre 7.0 mode with deprecated props
-    markdown = getDescriptionFromDeprecatedProps(props, context);
   }
   if (props.type) {
     deprecate(
