@@ -77,14 +77,15 @@ export class DocsContext<TRenderer extends Renderer> implements DocsContextProps
     });
   }
 
-  setMeta(metaExports: ModuleExports) {
+  referenceMeta(metaExports: ModuleExports, attach: boolean) {
     const resolved = this.resolveModuleExport(metaExports);
     if (resolved.type !== 'meta')
       throw new Error('Cannot reference a non-meta or module export in <Meta of={} />');
-    this.attachCSFFile(resolved.csfFile);
+
+    if (attach) this.attachCSFFile(resolved.csfFile);
   }
 
-  resolveModuleExport(moduleExport: ModuleExport, metaExports?: ModuleExports) {
+  resolveModuleExport(moduleExport: ModuleExport) {
     const csfFile = this.exportsToCSFFile.get(moduleExport);
     if (csfFile) {
       return {
