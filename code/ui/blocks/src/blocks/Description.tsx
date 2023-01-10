@@ -20,6 +20,9 @@ export enum DescriptionType {
 type Notes = string | any;
 type Info = string | any;
 
+const DEPRECATION_MIGRATION_LINK =
+  'https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#description-block-parametersnotes-and-parametersinfo';
+
 interface DescriptionProps {
   /**
    * Specify where to get the description from. Can be a component, a CSF file or a story.
@@ -27,15 +30,15 @@ interface DescriptionProps {
    */
   of?: Of;
   /**
-   * @deprecated Manually specifying description type is deprecated. In the future all descriptions will be extracted from JSDocs on the meta, story or component.
+   * @deprecated Manually specifying description type is deprecated. See https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#description-block-parametersnotes-and-parametersinfo
    */
   type?: DescriptionType;
   /**
-   * @deprecated The 'markdown' prop on the Description block is deprecated. Write the markdown directly in the .mdx file instead
+   * @deprecated The 'markdown' prop on the Description block is deprecated. See https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#description-block-parametersnotes-and-parametersinfo
    */
   markdown?: string;
   /**
-   * @deprecated The 'children' prop on the Description block is deprecated. Write the markdown directly in the .mdx file instead
+   * @deprecated The 'children' prop on the Description block is deprecated. See https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#description-block-parametersnotes-and-parametersinfo
    */
   children?: string;
 }
@@ -96,7 +99,7 @@ const getDescriptionFromDeprecatedProps = (
   const { notes, info, docs } = parameters;
   if (Boolean(notes) || Boolean(info)) {
     deprecate(
-      "Using 'parameters.notes' or 'parameters.info' properties to describe stories is deprecated. Write JSDocs directly at the meta, story or component instead."
+      `Using 'parameters.notes' or 'parameters.info' properties to describe stories is deprecated. See ${DEPRECATION_MIGRATION_LINK}`
     );
   }
 
@@ -134,17 +137,17 @@ const DescriptionContainer: FC<DescriptionProps> = (props) => {
   }
   if (type) {
     deprecate(
-      'Manually specifying description type is deprecated. In 7.0 all descriptions will be extracted from JSDocs on the meta, story or component.'
+      `Manually specifying description type is deprecated. See ${DEPRECATION_MIGRATION_LINK}`
     );
   }
   if (markdownProp) {
     deprecate(
-      "The 'markdown' prop on the Description block is deprecated. Write the markdown directly in the .mdx file instead"
+      `The 'markdown' prop on the Description block is deprecated. See ${DEPRECATION_MIGRATION_LINK}`
     );
   }
   if (children) {
     deprecate(
-      "The 'children' prop on the Description block is deprecated. Write the markdown directly in the .mdx file instead."
+      `The 'children' prop on the Description block is deprecated. See ${DEPRECATION_MIGRATION_LINK}`
     );
   }
   return markdown ? <Description markdown={markdown} /> : null;
