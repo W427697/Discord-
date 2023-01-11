@@ -369,7 +369,18 @@ const baseTemplates = {
  * They will be hidden by default in the Storybook status page.
  */
 const internalTemplates = {
-  'internal/ssv6': {
+  'internal/ssv6-vite': {
+    ...baseTemplates['react-vite/default-ts'],
+    name: 'StoryStore v6 (react-vite/default-ts)',
+    inDevelopment: true,
+    isInternal: true,
+    mainConfig: {
+      features: {
+        storyStoreV7: false,
+      },
+    },
+  },
+  'internal/ssv6-webpack': {
     ...baseTemplates['react-webpack/18-ts'],
     name: 'StoryStore v6 (react-webpack/18-ts)',
     inDevelopment: true,
@@ -407,7 +418,8 @@ export const merged: TemplateKey[] = [
   'preact-webpack5/default-ts',
   'preact-vite/default-ts',
   'html-webpack/default',
-  'internal/ssv6',
+  'internal/ssv6-vite',
+  'internal/ssv6-webpack',
 ];
 export const daily: TemplateKey[] = [
   ...merged,
