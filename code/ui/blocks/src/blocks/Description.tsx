@@ -51,7 +51,7 @@ const getInfo = (info?: Info) => info && (typeof info === 'string' ? info : str(
 
 const noDescription = (component?: Component): string | null => null;
 
-const getDescriptionFromModuleExport = (resolvedOf: ReturnType<typeof useOf>): string | null => {
+const getDescriptionFromResolvedOf = (resolvedOf: ReturnType<typeof useOf>): string | null => {
   const { projectAnnotations, ...resolvedModule } = resolvedOf;
   switch (resolvedModule.type) {
     case 'story': {
