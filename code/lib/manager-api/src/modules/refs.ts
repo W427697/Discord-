@@ -33,7 +33,7 @@ export interface SubAPI {
   getRefs: () => API_Refs;
   checkRef: (ref: API_SetRefData) => Promise<void>;
   changeRefVersion: (id: string, url: string) => void;
-  changeRefState: (id: string, ready: boolean) => void;
+  changeRefState: (id: string, previewInitialized: boolean) => void;
 }
 
 export const getSourceType = (source: string, refId: string) => {
@@ -83,8 +83,8 @@ async function handleRequest(
     }
 
     return json as API_SetRefData;
-  } catch (error) {
-    return { error };
+  } catch (err) {
+    return { indexError: err };
   }
 }
 
@@ -118,10 +118,10 @@ export const init: ModuleFn<SubAPI, SubState, void> = (
 
       api.checkRef(ref);
     },
-    changeRefState: (id, ready) => {
+    changeRefState: (id, previewInitialized) => {
       const { [id]: ref, ...updated } = api.getRefs();
 
-      updated[id] = { ...ref, ready };
+      updated[id] = { ...ref, previewInitialized };
 
       store.setState({
         refs: updated,
@@ -175,7 +175,7 @@ export const init: ModuleFn<SubAPI, SubState, void> = (
         // In theory the `/iframe.html` could be private and the `stories.json` could not exist, but in practice
         // the only private servers we know about (Chromatic) always include `stories.json`. So we can tell
         // if the ref actually exists by simply checking `stories.json` w/ credentials.
-        loadedData.error = {
+        loadedData.indexError = {
           message: dedent`
             Error: Loading of ref failed
               at fetch (lib/api/src/modules/refs.ts)
@@ -226,7 +226,7 @@ export const init: ModuleFn<SubAPI, SubState, void> = (
       }
       if (storiesHash) storiesHash = addRefIds(storiesHash, ref);
 
-      api.updateRef(id, { stories: storiesHash, ...rest, ready });
+      api.updateRef(id, { stories: storiesHash, ...rest });
     },
 
     updateRef: (id, data) => {

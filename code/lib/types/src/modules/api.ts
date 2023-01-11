@@ -142,18 +142,22 @@ export type API_SetRefData = Partial<
 >;
 
 export type API_StoryMapper = (ref: API_ComposedRef, story: SetStoriesStory) => SetStoriesStory;
-export interface API_ComposedRef {
+
+export interface API_LoadedRefData {
+  stories?: API_StoriesHash;
+  indexError?: Error;
+  previewInitialized: boolean;
+}
+
+export interface API_ComposedRef extends API_LoadedRefData {
   id: string;
   title?: string;
   url: string;
   type?: 'auto-inject' | 'unknown' | 'lazy' | 'server-checked';
   expanded?: boolean;
-  stories: API_StoriesHash;
   versions?: API_Versions;
   loginUrl?: string;
   version?: string;
-  ready?: boolean;
-  error?: any;
 }
 
 export type API_ComposedRefUpdate = Partial<
@@ -166,8 +170,8 @@ export type API_ComposedRefUpdate = Partial<
     | 'versions'
     | 'loginUrl'
     | 'version'
-    | 'ready'
-    | 'error'
+    | 'indexError'
+    | 'previewInitialized'
   >
 >;
 

@@ -28,6 +28,7 @@ import type {
   API_StoriesHash,
   API_StoryEntry,
   StoryIndex,
+  API_LoadedRefData,
 } from '@storybook/types';
 // eslint-disable-next-line import/no-cycle
 import { getEventMetadata } from '../lib/events';
@@ -51,11 +52,9 @@ type ParameterName = string;
 type ViewMode = 'story' | 'info' | 'settings' | string | undefined;
 type StoryUpdate = Pick<API_StoryEntry, 'parameters' | 'initialArgs' | 'argTypes' | 'args'>;
 
-export interface SubState {
-  storiesHash: API_StoriesHash;
+export interface SubState extends API_LoadedRefData {
   storyId: StoryId;
   viewMode: ViewMode;
-  ready: boolean;
 }
 
 export interface SubAPI {
@@ -132,11 +131,11 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
       return data.type === 'story' ? data.prepared : true;
     },
     resolveStory: (storyId, refId) => {
-      const { refs, storiesHash } = store.getState();
+      const { refs, stories } = store.getState();
       if (refId) {
         return refs[refId].stories ? refs[refId].stories[storyId] : undefined;
       }
-      return storiesHash ? storiesHash[storyId] : undefined;
+      return stories ? stories[storyId] : undefined;
     },
     getCurrentStoryData: () => {
       const { storyId, refId } = store.getState();
@@ -168,7 +167,7 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
       return parameters || undefined;
     },
     jumpToComponent: (direction) => {
-      const { storiesHash, storyId, refs, refId } = store.getState();
+      const { stories, storyId, refs, refId } = store.getState();
       const story = api.getData(storyId, refId);
 
       // cannot navigate when there's no current selection
@@ -176,7 +175,7 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
         return;
       }
 
-      const hash = refId ? refs[refId].stories || {} : storiesHash;
+      const hash = refId ? refs[refId].stories || {} : stories;
       const result = api.findSiblingStoryId(storyId, hash, direction, true);
 
       if (result) {
@@ -184,7 +183,7 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
       }
     },
     jumpToStory: (direction) => {
-      const { storiesHash, storyId, refs, refId } = store.getState();
+      const { stories, storyId, refs, refId } = store.getState();
       const story = api.getData(storyId, refId);
 
       // cannot navigate when there's no current selection
@@ -192,7 +191,7 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
         return;
       }
 
-      const hash = story.refId ? refs[story.refId].stories : storiesHash;
+      const hash = story.refId ? refs[story.refId].stories : stories;
       const result = api.findSiblingStoryId(storyId, hash, direction, false);
 
       if (result) {
@@ -200,8 +199,8 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
       }
     },
     selectFirstStory: () => {
-      const { storiesHash } = store.getState();
-      const firstStory = Object.keys(storiesHash).find((id) => storiesHash[id].type === 'story');
+      const { stories } = store.getState();
+      const firstStory = Object.keys(stories).find((id) => stories[id].type === 'story');
 
       if (firstStory) {
         api.selectStory(firstStory);
@@ -212,9 +211,9 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
     },
     selectStory: (titleOrId = undefined, name = undefined, options = {}) => {
       const { ref } = options;
-      const { storyId, storiesHash, refs } = store.getState();
+      const { storyId, stories, refs } = store.getState();
 
-      const hash = ref ? refs[ref].stories : storiesHash;
+      const hash = ref ? refs[ref].stories : stories;
 
       const kindSlug = storyId?.split('--', 2)[0];
 
@@ -249,17 +248,17 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
         }
       }
     },
-    findLeafEntry(storiesHash, storyId) {
-      const entry = storiesHash[storyId];
+    findLeafEntry(stories, storyId) {
+      const entry = stories[storyId];
       if (entry.type === 'docs' || entry.type === 'story') {
         return entry;
       }
 
       const childStoryId = entry.children[0];
-      return api.findLeafEntry(storiesHash, childStoryId);
+      return api.findLeafEntry(stories, childStoryId);
     },
-    findLeafStoryId(storiesHash, storyId) {
-      return api.findLeafEntry(storiesHash, storyId)?.id;
+    findLeafStoryId(stories, storyId) {
+      return api.findLeafEntry(stories, storyId)?.id;
     },
     findSiblingStoryId(storyId, hash, direction, toSiblingGroup) {
       if (toSiblingGroup) {
@@ -311,6 +310,7 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
       });
     },
     fetchIndex: async () => {
+      console.log('fetch index');
       try {
         const result = await fetch(STORY_INDEX_PATH);
         if (result.status !== 200) throw new Error(await result.text());
@@ -323,9 +323,11 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
           return;
         }
 
+        console.log('set index');
         await fullAPI.setIndex(storyIndex);
       } catch (err) {
-        // Probably we should set the error here... TODO
+        console.log('index error');
+        await store.setState({ indexError: err });
       }
     },
     // The story index we receive on SET_INDEX is "prepared" in that it has parameters
@@ -338,11 +340,11 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
       });
 
       // Now we need to patch in the existing prepared stories
-      const oldHash = store.getState().storiesHash;
+      const oldHash = store.getState().stories;
 
-      await store.setState({
-        storiesHash: addPreparedStories(newHash, oldHash),
-      });
+      console.log('setState');
+      await store.setState({ stories: addPreparedStories(newHash, oldHash) });
+      console.log(store.getState());
     },
     updateStory: async (
       storyId: StoryId,
@@ -350,12 +352,12 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
       ref?: API_ComposedRef
     ): Promise<void> => {
       if (!ref) {
-        const { storiesHash } = store.getState();
-        storiesHash[storyId] = {
-          ...storiesHash[storyId],
+        const { stories } = store.getState();
+        stories[storyId] = {
+          ...stories[storyId],
           ...update,
         } as API_StoryEntry;
-        await store.setState({ storiesHash });
+        await store.setState({ stories });
       } else {
         const { id: refId, stories } = ref;
         stories[storyId] = {
@@ -402,11 +404,10 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
     fullAPI.on(CURRENT_STORY_WAS_SET, function handler() {
       const { ref } = getEventMetadata(this, fullAPI);
 
-      console.log(CURRENT_STORY_WAS_SET, 'ready');
       if (!ref) {
-        store.setState({ ready: true });
+        store.setState({ previewInitialized: true });
       } else {
-        fullAPI.updateRef(ref.id, { ready: true });
+        fullAPI.updateRef(ref.id, { previewInitialized: true });
       }
     });
 
@@ -435,13 +436,13 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
       }
 
       if (sourceType === 'local') {
-        const { storyId, storiesHash, refId } = store.getState();
+        const { storyId, stories, refId } = store.getState();
 
         // create a list of related stories to be preloaded
         const toBePreloaded = Array.from(
           new Set([
-            api.findSiblingStoryId(storyId, storiesHash, 1, true),
-            api.findSiblingStoryId(storyId, storiesHash, -1, true),
+            api.findSiblingStoryId(storyId, stories, 1, true),
+            api.findSiblingStoryId(storyId, stories, -1, true),
           ])
         ).filter(Boolean);
 
@@ -507,14 +508,13 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
       }
     );
 
+    // When there's a preview error, we don't show it in the manager, but simply
     fullAPI.on(CONFIG_ERROR, function handleConfigError(err) {
       const { ref } = getEventMetadata(this, fullAPI);
-
       if (!ref) {
-        console.log(CONFIG_ERROR, 'ready');
-        store.setState({ ready: true });
+        store.setState({ previewInitialized: true });
       } else {
-        fullAPI.updateRef(ref.id, { ready: true });
+        fullAPI.updateRef(ref.id, { previewInitialized: true });
       }
     });
 
@@ -527,11 +527,10 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
   return {
     api,
     state: {
-      storiesHash: {},
       storyId: initialStoryId,
       viewMode: initialViewMode,
-      ready: false,
       hasCalledSetOptions: false,
+      previewInitialized: false,
     },
     init: initModule,
   };

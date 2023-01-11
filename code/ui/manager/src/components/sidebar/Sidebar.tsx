@@ -4,6 +4,7 @@ import { styled } from '@storybook/theming';
 import { ScrollArea, Spaced } from '@storybook/components';
 import type { StoriesHash, State } from '@storybook/manager-api';
 
+import type { API_LoadedRefData } from 'lib/types/src';
 import { Heading } from './Heading';
 
 // eslint-disable-next-line import/no-cycle
@@ -58,26 +59,23 @@ const Swap = React.memo(function Swap({
   );
 });
 
-const useCombination = (stories: StoriesHash, ready: boolean, refs: Refs): CombinedDataset => {
+const useCombination = (defaultRefData: API_LoadedRefData, refs: Refs): CombinedDataset => {
   const hash = useMemo(
     () => ({
       [DEFAULT_REF_ID]: {
-        stories,
+        ...defaultRefData,
         title: null,
         id: DEFAULT_REF_ID,
         url: 'iframe.html',
-        ready,
       },
       ...refs,
     }),
-    [refs, stories]
+    [refs, defaultRefData]
   );
   return useMemo(() => ({ hash, entries: Object.entries(hash) }), [hash]);
 };
 
-export interface SidebarProps {
-  stories: StoriesHash;
-  ready: boolean;
+export interface SidebarProps extends API_LoadedRefData {
   refs: State['refs'];
   menu: any[];
   storyId?: string;
@@ -90,7 +88,8 @@ export const Sidebar = React.memo(function Sidebar({
   storyId = null,
   refId = DEFAULT_REF_ID,
   stories,
-  ready,
+  indexError,
+  previewInitialized,
   menu,
   menuHighlighted = false,
   enableShortcuts = true,
@@ -98,8 +97,8 @@ export const Sidebar = React.memo(function Sidebar({
 }: SidebarProps) {
   const selected: Selection = useMemo(() => storyId && { storyId, refId }, [storyId, refId]);
 
-  const dataset = useCombination(stories, ready, refs);
-  const isLoading = !ready;
+  const dataset = useCombination({ stories, indexError, previewInitialized }, refs);
+  const isLoading = !stories && !indexError;
   const lastViewedProps = useLastViewed(selected);
 
   return (

@@ -15,7 +15,7 @@ const factory = (props: Partial<SidebarProps>): RenderResult => {
 
   return render(
     <ThemeProvider theme={theme}>
-      <Sidebar ready menu={[]} stories={{}} refs={{}} {...props} />
+      <Sidebar menu={[]} stories={{}} previewInitialized refs={{}} {...props} />
     </ThemeProvider>
   );
 };
@@ -78,7 +78,7 @@ describe('Sidebar', () => {
       [refId]: {
         stories: refStories,
         id: refId,
-        ready: true,
+        previewInitialized: true,
         title: refId,
         url: 'https://ref.url',
       },
