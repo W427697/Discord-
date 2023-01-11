@@ -32,9 +32,7 @@ describe('csf-2-to-3', () => {
           export const B = (args) => <Button {...args} />;
         `)
       ).toMatchInlineSnapshot(`
-        export default {
-          title: 'Cat',
-        };
+        export default { title: 'Cat' };
         export const A = () => <Cat />;
         export const B = {
           render: (args) => <Button {...args} />,
@@ -46,21 +44,19 @@ describe('csf-2-to-3', () => {
       expect(
         jsTransform(dedent`
           export default { title: 'Cat' };
+
           export const A = () => <Cat />;
           A.storyName = 'foo';
           A.parameters = { bar: 2 };
           A.play = () => {};
         `)
       ).toMatchInlineSnapshot(`
-        export default {
-          title: 'Cat',
-        };
+        export default { title: 'Cat' };
+
         export const A = {
           render: () => <Cat />,
           name: 'foo',
-          parameters: {
-            bar: 2,
-          },
+          parameters: { bar: 2 },
           play: () => {},
         };
       `);
@@ -70,19 +66,22 @@ describe('csf-2-to-3', () => {
       expect(
         jsTransform(dedent`
           export default { title: 'components/Fruit', includeStories: ['A'] };
+
           export const A = (args) => <Apple {...args} />;
+
           export const B = (args) => <Banana {...args} />;
+
           const C = (args) => <Cherry {...args} />;
         `)
       ).toMatchInlineSnapshot(`
-        export default {
-          title: 'components/Fruit',
-          includeStories: ['A'],
-        };
+        export default { title: 'components/Fruit', includeStories: ['A'] };
+
         export const A = {
           render: (args) => <Apple {...args} />,
         };
+
         export const B = (args) => <Banana {...args} />;
+
         const C = (args) => <Cherry {...args} />;
       `);
     });
@@ -91,10 +90,12 @@ describe('csf-2-to-3', () => {
       expect(
         jsTransform(dedent`
           export const A = () => <Apple />;
+
           export const B = (args) => <Banana {...args} />;
         `)
       ).toMatchInlineSnapshot(`
         export const A = () => <Apple />;
+
         export const B = (args) => <Banana {...args} />;
       `);
     });
@@ -107,10 +108,7 @@ describe('csf-2-to-3', () => {
           export const B = (args) => <Banana {...args} />;
         `)
       ).toMatchInlineSnapshot(`
-        export default {
-          title: 'Cat',
-          component: Cat,
-        };
+        export default { title: 'Cat', component: Cat };
         export const A = {};
         export const B = {
           render: (args) => <Banana {...args} />,
@@ -122,15 +120,14 @@ describe('csf-2-to-3', () => {
       expect(
         jsTransform(dedent`
           export default { title: 'Cat', component: Cat };
+
           export const A = {
             render: (args) => <Cat {...args} />
           };
         `)
       ).toMatchInlineSnapshot(`
-        export default {
-          title: 'Cat',
-          component: Cat,
-        };
+        export default { title: 'Cat', component: Cat };
+
         export const A = {
           render: (args) => <Cat {...args} />,
         };
@@ -146,14 +143,11 @@ describe('csf-2-to-3', () => {
           A.args = { isPrimary: false };
         `)
       ).toMatchInlineSnapshot(`
-        export default {
-          title: 'Cat',
-        };
+        export default { title: 'Cat' };
+
         export const A = {
           render: (args) => <Cat {...args} />,
-          args: {
-            isPrimary: false,
-          },
+          args: { isPrimary: false },
         };
       `);
     });
@@ -162,28 +156,27 @@ describe('csf-2-to-3', () => {
       expect(
         jsTransform(dedent`
           export default { title: 'Cat', component: Cat };
+
           const Template = (args) => <Cat {...args} />;
+
           export const A = Template.bind({});
           A.args = { isPrimary: false };
+
           const Template2 = (args) => <Banana {...args} />;
+
           export const B = Template2.bind({});
           B.args = { isPrimary: true };
         `)
       ).toMatchInlineSnapshot(`
-        export default {
-          title: 'Cat',
-          component: Cat,
-        };
+        export default { title: 'Cat', component: Cat };
+
         export const A = {
-          args: {
-            isPrimary: false,
-          },
+          args: { isPrimary: false },
         };
+
         export const B = {
           render: (args) => <Banana {...args} />,
-          args: {
-            isPrimary: true,
-          },
+          args: { isPrimary: true },
         };
       `);
     });
@@ -192,23 +185,21 @@ describe('csf-2-to-3', () => {
       expect(
         jsTransform(dedent`
           export default { title: 'Cat', component: Cat };
+
           export const A = (args) => <Cat {...args} />;
           export const B = () => <Cat name="frisky" />;
           export const C = () => <Cat name="fluffy" />;
           C.parameters = { foo: 2 };
         `)
       ).toMatchInlineSnapshot(`
-        export default {
-          title: 'Cat',
-          component: Cat,
-        };
+        export default { title: 'Cat', component: Cat };
+
         export const A = {};
         export const B = () => <Cat name="frisky" />;
+
         export const C = {
           render: () => <Cat name="fluffy" />,
-          parameters: {
-            foo: 2,
-          },
+          parameters: { foo: 2 },
         };
       `);
     });
@@ -223,14 +214,11 @@ describe('csf-2-to-3', () => {
           };
         `)
       ).toMatchInlineSnapshot(`
-        export default {
-          title: 'Cat',
-        };
+        export default { title: 'Cat' };
+
         export const A = {
           render: (args) => <Cat {...args} />,
-          parameters: {
-            foo: 2,
-          },
+          parameters: { foo: 2 },
         };
       `);
     });
