@@ -310,7 +310,6 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
       });
     },
     fetchIndex: async () => {
-      console.log('fetch index');
       try {
         const result = await fetch(STORY_INDEX_PATH);
         if (result.status !== 200) throw new Error(await result.text());
@@ -323,10 +322,8 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
           return;
         }
 
-        console.log('set index');
         await fullAPI.setIndex(storyIndex);
       } catch (err) {
-        console.log('index error');
         await store.setState({ indexError: err });
       }
     },
@@ -342,9 +339,7 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
       // Now we need to patch in the existing prepared stories
       const oldHash = store.getState().stories;
 
-      console.log('setState');
       await store.setState({ stories: addPreparedStories(newHash, oldHash) });
-      console.log(store.getState());
     },
     updateStory: async (
       storyId: StoryId,
