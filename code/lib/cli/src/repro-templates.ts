@@ -365,8 +365,8 @@ const baseTemplates = {
 
 /**
  * Internal templates reuse config from other templates and add extra config on top.
- * Consider adding "isInternal: true" to templates you add here so they are hidden by default
- * in the status page, unless you feel it's important to have it there by default.
+ * They must contain an id that starts with 'internal/' and contain "isInternal: true".
+ * They will be hidden by default in the Storybook status page.
  */
 const internalTemplates = {
   'internal/ssv6': {
@@ -380,7 +380,7 @@ const internalTemplates = {
       },
     },
   },
-} satisfies Record<string, Template & { isInternal: true }>;
+} satisfies Record<`internal/${string}`, Template & { isInternal: true }>;
 
 export const allTemplates: Record<TemplateKey, Template> = {
   ...baseTemplates,
