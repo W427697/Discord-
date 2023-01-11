@@ -133,7 +133,7 @@ const DescriptionContainer: FC<DescriptionProps> = (props) => {
   } else {
     // 7.0 mode with new 'of' prop
     // pre 7.0 with only 'of' prop only supported referencing a component, which 7.0 supports as well here
-    markdown = getDescriptionFromModuleExport(resolvedOf);
+    markdown = getDescriptionFromResolvedOf(resolvedOf);
   }
   if (type) {
     deprecate(
