@@ -1,7 +1,7 @@
 import type { StorybookConfig } from '@storybook/types';
 
 export type SkippableTask = 'smoke-test' | 'test-runner' | 'chromatic' | 'e2e-tests';
-export type TemplateKey = keyof typeof baseTemplates | keyof typeof extendedTemplates;
+export type TemplateKey = keyof typeof baseTemplates | keyof typeof internalTemplates;
 export type Cadence = keyof typeof templatesByCadence;
 
 export type Template = {
@@ -52,7 +52,7 @@ export type Template = {
    * Flag to indicate that this template is a secondary template, which is used mainly to test rather specific features.
    * This means the template might be hidden from the Storybook status page or the repro CLI command.
    * */
-  testOnly?: boolean;
+  isInternal?: boolean;
 };
 
 const baseTemplates = {
@@ -364,27 +364,27 @@ const baseTemplates = {
 } satisfies Record<string, Template>;
 
 /**
- * Extended templates reuse config from other templates and add extra config on top.
- * Consider adding "testOnly: true" to templates you add here so they are hidden by default
+ * Internal templates reuse config from other templates and add extra config on top.
+ * Consider adding "isInternal: true" to templates you add here so they are hidden by default
  * in the status page, unless you feel it's important to have it there by default.
  */
-const extendedTemplates = {
-  'react-webpack/18-ts-ssv6': {
+const internalTemplates = {
+  'internal/ssv6': {
     ...baseTemplates['react-webpack/18-ts'],
-    name: 'React 18 (Typescript, StoryStore v6)',
+    name: 'StoryStore v6 (react-webpack/18-ts)',
     inDevelopment: true,
-    testOnly: true,
+    isInternal: true,
     mainConfig: {
       features: {
         storyStoreV7: false,
       },
     },
   },
-} satisfies Record<string, Template>;
+} satisfies Record<string, Template & { isInternal: true }>;
 
 export const allTemplates: Record<TemplateKey, Template> = {
   ...baseTemplates,
-  ...extendedTemplates,
+  ...internalTemplates,
 };
 
 export const ci: TemplateKey[] = ['cra/default-ts', 'react-vite/default-ts'];
@@ -407,7 +407,7 @@ export const merged: TemplateKey[] = [
   'preact-webpack5/default-ts',
   'preact-vite/default-ts',
   'html-webpack/default',
-  'react-webpack/18-ts-ssv6',
+  'internal/ssv6',
 ];
 export const daily: TemplateKey[] = [
   ...merged,
