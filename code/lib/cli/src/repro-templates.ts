@@ -49,10 +49,10 @@ export type Template = {
    */
   mainConfig?: Partial<StorybookConfig>;
   /**
-   * Flag to indicate that this template is a secondary template, which is used to test rather specific features.
+   * Flag to indicate that this template is a secondary template, which is used mainly to test rather specific features.
    * This means the template might be hidden from the Storybook status page or the repro CLI command.
    * */
-  secondary?: boolean;
+  testOnly?: boolean;
 };
 
 const baseTemplates = {
@@ -363,12 +363,17 @@ const baseTemplates = {
   },
 } satisfies Record<string, Template>;
 
+/**
+ * Extended templates reuse config from other templates and add extra config on top.
+ * Consider adding "testOnly: true" to templates you add here so they are hidden by default
+ * in the status page, unless you feel it's important to have it there by default.
+ */
 const extendedTemplates = {
   'react-webpack/18-ts-ssv6': {
     ...baseTemplates['react-webpack/18-ts'],
     name: 'React 18 (Typescript, StoryStore v6)',
     inDevelopment: true,
-    secondary: true,
+    testOnly: true,
     mainConfig: {
       features: {
         storyStoreV7: false,
@@ -402,7 +407,7 @@ export const merged: TemplateKey[] = [
   'preact-webpack5/default-ts',
   'preact-vite/default-ts',
   'html-webpack/default',
-  'nextjs/ssv6-default-ts',
+  'react-webpack/18-ts-ssv6',
 ];
 export const daily: TemplateKey[] = [
   ...merged,
