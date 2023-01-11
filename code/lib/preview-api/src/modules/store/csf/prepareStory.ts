@@ -183,6 +183,16 @@ export function prepareStory<TRenderer extends Renderer>(
 
     const includedContext = { ...context, args: includedArgs };
     const { passArgsFirst: renderTimePassArgsFirst = true } = context.parameters;
+
+    // Experimental custom render function.
+    // It's defined at framework renderer render.tsx file. The purpose of this
+    // function is to wrap the originalStoryFn inside a custom render function,
+    // useful when args needs to be handled as a proxy for fine grained updates.
+    // TODO: We need a proper api to initialize a custom render instead of injecting it
+    // directly through the story context. Not tested with argTypes.
+    if (context.customRender) {
+      return context.customRender();
+    }
     return renderTimePassArgsFirst
       ? (render as ArgsStoryFn<TRenderer>)(includedContext.args, includedContext)
       : (render as LegacyStoryFn<TRenderer>)(includedContext);
