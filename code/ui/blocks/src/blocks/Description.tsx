@@ -50,8 +50,8 @@ const getInfo = (info?: Info) => info && (typeof info === 'string' ? info : str(
 
 const noDescription = (component?: Component): string | null => null;
 
-const getDescriptionFromModuleExport = (of: DescriptionProps['of'] = 'meta'): string | null => {
-  const { projectAnnotations, ...resolvedModule } = useOf(of);
+const getDescriptionFromModuleExport = (resolvedOf: ReturnType<typeof useOf>): string | null => {
+  const { projectAnnotations, ...resolvedModule } = resolvedOf;
   switch (resolvedModule.type) {
     case 'story': {
       return resolvedModule.story.parameters.docs?.description?.story || null;
@@ -124,16 +124,17 @@ const getDescriptionFromDeprecatedProps = (
 };
 
 const DescriptionContainer: FC<DescriptionProps> = (props) => {
-  const context = useContext(DocsContext);
-  let markdown;
   const { of, type, markdown: markdownProp, children } = props;
+  const context = useContext(DocsContext);
+  const resolvedOf = useOf(of || 'meta');
+  let markdown;
   if (type || markdownProp || children) {
     // pre 7.0 mode with deprecated props
     markdown = getDescriptionFromDeprecatedProps(props, context);
   } else {
     // 7.0 mode with new 'of' prop
     // pre 7.0 with only 'of' prop only supported referencing a component, which 7.0 supports as well here
-    markdown = getDescriptionFromModuleExport(of);
+    markdown = getDescriptionFromModuleExport(resolvedOf);
   }
   if (type) {
     deprecate(
