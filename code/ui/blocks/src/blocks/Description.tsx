@@ -2,6 +2,7 @@ import type { FC } from 'react';
 import React, { useContext } from 'react';
 import { str } from '@storybook/docs-tools';
 import { deprecate } from '@storybook/client-logger';
+import { combineParameters } from '@storybook/preview-api';
 import { Description } from '../components';
 
 import type { DocsContextProps } from './DocsContext';
@@ -65,9 +66,7 @@ const getDescriptionFromModuleExport = (resolvedOf: ReturnType<typeof useOf>): s
       return (
         projectAnnotations.parameters.docs?.extractComponentDescription(meta.component, {
           component: meta.component,
-          // TODO: this is a very naive merge of parameters, but no known extractComponentDescription implementation even use this second argument anyway
-          ...projectAnnotations.parameters,
-          ...meta.parameters,
+          ...combineParameters(projectAnnotations.parameters, meta.parameters),
         }) || null
       );
     }
