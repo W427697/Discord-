@@ -44,6 +44,7 @@
     "*.d.ts"
   ],
   "scripts": {
+    "build": "tsup --config solidTsup.config.ts",
     "check": "../../../scripts/node_modules/.bin/tsc --noEmit",
     "prep": "../../../scripts/prepare/bundle.ts"
   },
@@ -57,11 +58,16 @@
   },
   "devDependencies": {
     "@babel/core": "^7.20.2",
+    "@babel/plugin-syntax-dynamic-import": "^7.8.3",
+    "esbuild-plugin-alias": "^0.2.1",
+    "esbuild-plugin-solid": "^0.4.2",
     "solid-js": "^1.6.6",
+    "tsup": "^6.5.0",
     "typescript": "~4.9.3"
   },
   "peerDependencies": {
-    "@babel/core": "*"
+    "babel-preset-solid": "^1.6.6",
+    "solid-js": "^1.6.6"
   },
   "engines": {
     "node": ">=16.0.0"
