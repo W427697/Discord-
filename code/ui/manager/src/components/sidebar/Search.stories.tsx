@@ -9,7 +9,7 @@ import { DEFAULT_REF_ID } from './Sidebar';
 import type { Selection } from './types';
 
 const refId = DEFAULT_REF_ID;
-const data = { [refId]: { id: refId, url: '/', stories } };
+const data = { [refId]: { id: refId, url: '/', stories, previewInitialized: true } };
 const dataset = { hash: data, entries: Object.entries(data) };
 const getLastViewed = () =>
   Object.values(stories)

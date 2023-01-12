@@ -28,7 +28,7 @@ const storyId = '1-12-121';
 export const simpleData = { menu, stories, storyId };
 export const loadingData = { menu, stories: {} };
 
-const error: Error = (() => {
+const indexError: Error = (() => {
   try {
     throw new Error('There was a severe problem');
   } catch (e) {
@@ -41,7 +41,7 @@ const refs: Record<string, RefType> = {
     id: 'optimized',
     title: 'It is optimized',
     url: 'https://example.com',
-    ready: false,
+    previewInitialized: false,
     type: 'lazy',
     // @ts-expect-error (invalid input)
     stories,
@@ -50,16 +50,16 @@ const refs: Record<string, RefType> = {
     id: 'empty',
     title: 'It is empty because no stories were loaded',
     url: 'https://example.com',
-    ready: false,
     type: 'lazy',
     stories: {},
+    previewInitialized: false,
   },
   startInjected_unknown: {
     id: 'startInjected_unknown',
     title: 'It started injected and is unknown',
     url: 'https://example.com',
     type: 'unknown',
-    ready: false,
+    previewInitialized: false,
     // @ts-expect-error (invalid input)
     stories,
   },
@@ -68,7 +68,7 @@ const refs: Record<string, RefType> = {
     title: 'It started injected and is loading',
     url: 'https://example.com',
     type: 'auto-inject',
-    ready: false,
+    previewInitialized: false,
     // @ts-expect-error (invalid input)
     stories,
   },
@@ -77,7 +77,7 @@ const refs: Record<string, RefType> = {
     title: 'It started injected and is ready',
     url: 'https://example.com',
     type: 'auto-inject',
-    ready: true,
+    previewInitialized: true,
     // @ts-expect-error (invalid input)
     stories,
   },
@@ -89,6 +89,7 @@ const refs: Record<string, RefType> = {
     // @ts-expect-error (invalid input)
     stories,
     versions: { '1.0.0': 'https://example.com/v1', '2.0.0': 'https://example.com' },
+    previewInitialized: true,
   },
   versionsMissingCurrent: {
     id: 'versions_missing_current',
@@ -98,22 +99,23 @@ const refs: Record<string, RefType> = {
     // @ts-expect-error (invalid input)
     stories,
     versions: { '1.0.0': 'https://example.com/v1', '2.0.0': 'https://example.com/v2' },
+    previewInitialized: true,
   },
   error: {
     id: 'error',
     title: 'This has problems',
     url: 'https://example.com',
     type: 'lazy',
-    stories: {},
-    error,
+    indexError,
+    previewInitialized: true,
   },
   auth: {
     id: 'Authentication',
     title: 'This requires a login',
     url: 'https://example.com',
     type: 'lazy',
-    stories: {},
     loginUrl: 'https://example.com',
+    previewInitialized: true,
   },
   long: {
     id: 'long',
@@ -126,6 +128,7 @@ const refs: Record<string, RefType> = {
       '111.111.888-new': 'https://example.com/new',
       '111.111.888': 'https://example.com',
     },
+    previewInitialized: true,
   },
 };
 
