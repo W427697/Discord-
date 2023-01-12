@@ -9,6 +9,8 @@ import parserTypescript from 'prettier/parser-typescript';
 import parserHTML from 'prettier/parser-html.js';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { isArray } from '@vue/shared';
+
+type ArgEntries = [string, any][];
 /**
  * Check if the sourcecode should be generated.
  *
@@ -45,18 +47,13 @@ function getComponentNameAndChildren(component: any): { name: string | null; chi
  * @param argTypes
  * @param slotProp prop used to simulate slot
  */
-function argsToSource(
-  args: Args,
-  argTypes: ArgTypes,
-  slotProps?: string[],
-  byRef?: boolean
-): string {
+function argsToSource(args: Args, argTypes: ArgTypes, byRef?: boolean): string {
   const argsKeys = Object.keys(args).filter(
-    (key: any) => !isArray(args[key]) && typeof args[key] !== 'object' && !slotProps?.includes(key)
+    (key: any) => ['props', 'events'].indexOf(argTypes[key]?.table?.category) !== -1 // remove slots and children
   );
   const source = argsKeys
     .map((key) =>
-      propToDynamicSource(byRef ? `:${key}` : key, byRef ? key : args[key], argTypes, slotProps)
+      propToDynamicSource(byRef ? `:${key}` : key, byRef ? key : args[key], argTypes[key])
     )
     .filter((item) => item !== '')
     .join(' ');
@@ -66,17 +63,12 @@ function argsToSource(
 
 function propToDynamicSource(
   key: string,
-  value: any,
-  argTypes: ArgTypes,
-  slotProps?: string[]
+  value: Args[keyof Args],
+  argType: ArgTypes[keyof ArgTypes]
 ): string {
   // slot Args or default value
   // default value ?
-  if (
-    !value ||
-    (slotProps && slotProps.indexOf(key) > -1) ||
-    (argTypes[key] && argTypes[key].defaultValue === value)
-  ) {
+  if (!value) {
     return '';
   }
 
@@ -88,8 +80,8 @@ function propToDynamicSource(
     return `${key}='${value}'`;
   }
 
-  if (typeof value === 'function') {
-    return `:${key}='()=>{}'`;
+  if (typeof value === 'function' || argType?.table?.category === 'events') {
+    return `@${key}='()=>{}'`;
   }
 
   return `:${key}='${JSON.stringify(value)}'`;
@@ -102,7 +94,8 @@ function propToDynamicSource(
 function generateScriptSetup(args: Args, argTypes: ArgTypes, components: any[]): string {
   const scriptLines = Object.keys(args).map(
     (key: any) =>
-      `const ${key} = ${typeof args[key] === 'function' ? `()=>{}` : `ref(${JSON.stringify(args[key])})`
+      `const ${key} = ${
+        typeof args[key] === 'function' ? `()=>{}` : `ref(${JSON.stringify(args[key])})`
       }`
   );
   scriptLines.unshift(`import { ref } from "vue"`);
@@ -153,7 +146,6 @@ export function generateSource(
   compOrComps: any,
   args: Args,
   argTypes: ArgTypes,
-  slotProps?: string[],
   byRef?: boolean | undefined
 ): string | null {
   if (!compOrComps) return null;
@@ -164,13 +156,16 @@ export function generateSource(
       return '';
     }
 
-    const props = argsToSource(args, argTypes, slotProps, byRef);
-    const slotArgs = Object.fromEntries(
-      Object.entries(args).filter(([key, value]) => slotProps && slotProps.indexOf(key) > -1)
+    const props = argsToSource(args, argTypes, byRef);
+    const slotArgs = Object.entries(args).filter(
+      ([arg]) => argTypes[arg]?.table?.category === 'slots'
     );
-
-    if (slotArgs && Object.keys(slotArgs).length > 0) {
-      const namedSlotContents = createNamedSlots(slotProps, slotArgs, byRef);
+    const slotProps = Object.entries(argTypes).filter(
+      ([arg]) => argTypes[arg]?.table?.category === 'slots'
+    );
+    console.log('slotProps ', slotProps);
+    if (slotArgs && slotArgs.length > 0) {
+      const namedSlotContents = createNamedSlots(slotArgs, slotProps, byRef);
       return `<${name} ${props}>\n${namedSlotContents}\n</${name}>`;
     }
 
@@ -180,7 +175,6 @@ export function generateSource(
           typeof child.value === 'string' ? getTemplates(child.value) : child.value,
           args,
           argTypes,
-          slotProps,
           byRef
         );
       });
@@ -212,22 +206,17 @@ export function generateSource(
  * @param slotArgs
  */
 
-function createNamedSlots(
-  slotProps: string[] | null | undefined,
-  slotArgs: Args,
-  byRef?: boolean | undefined
-) {
-  if (!slotProps) return '';
-  if (slotProps.length === 1) return !byRef ? slotArgs[slotProps[0]] : ` {{ ${slotProps[0]} }}`;
-
-  return Object.entries(slotArgs)
+function createNamedSlots(slotArgs: ArgEntries, slotProps: ArgEntries, byRef?: boolean) {
+  if (!slotArgs) return '';
+  const many = slotProps.length > 1;
+  return slotArgs
     .map(([key, value]) => {
-      return `  <template #${key}>
-    ${!byRef ? JSON.stringify(value) : `{{ ${key} }}`}
-  </template>`;
+      const content = !byRef ? JSON.stringify(value) : `{{ ${key} }}`;
+      return many ? `  <template #${key}>${content}</template>` : `  ${content}`;
     })
     .join('\n');
 }
+
 /**
  * format prettier for vue
  * @param source
@@ -246,15 +235,6 @@ function prettierFormat(source: string): string {
     console.error(e.toString());
   }
   return source;
-}
-/**
- * get slots from vue component
- * @param ctxtComponent Vue Component
- */
-
-function getComponentSlots(ctxtComponent: any): string[] {
-  if (!ctxtComponent) return [];
-  return ctxtComponent?.__docgenInfo?.slots?.map((slot: { name: string }) => slot.name) || [];
 }
 
 /**
@@ -284,10 +264,9 @@ export const sourceDecorator = (storyFn: any, context: StoryContext<Renderer>) =
 
   const storyComponent = components.length ? components : ctxtComponent;
 
-  const slotProps: string[] = getComponentSlots(ctxtComponent);
   const withScript = context?.parameters?.docs?.source?.withScriptSetup || false;
   const generatedScript = withScript ? generateScriptSetup(args, argTypes, components) : '';
-  const generatedTemplate = generateSource(storyComponent, args, argTypes, slotProps, withScript);
+  const generatedTemplate = generateSource(storyComponent, args, argTypes, withScript);
 
   if (generatedTemplate) {
     source = prettierFormat(`${generatedScript}\n <template>\n ${generatedTemplate} \n</template>`);

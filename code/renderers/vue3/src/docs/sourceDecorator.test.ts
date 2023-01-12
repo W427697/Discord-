@@ -6,12 +6,22 @@ expect.addSnapshotSerializer({
   print: (val: any) => val,
   test: (val: unknown) => typeof val === 'string',
 });
-
+function generateArgTypes(args: Args, slotProps: string[] | undefined) {
+  return Object.keys(args).reduce((acc, prop) => {
+    acc[prop] = { table: { category: slotProps?.includes(prop) ? 'slots' : 'props' } };
+    return acc;
+  }, {} as Record<string, any>);
+}
 function generateForArgs(args: Args, slotProps: string[] | undefined = undefined) {
-  return generateSource({ name: 'Component' }, args, {}, slotProps, true);
+  return generateSource({ name: 'Component' }, args, generateArgTypes(args, slotProps), true);
 }
 function generateMultiComponentForArgs(args: Args, slotProps: string[] | undefined = undefined) {
-  return generateSource([{ name: 'Component' }, { name: 'Component' }], args, {}, slotProps, true);
+  return generateSource(
+    [{ name: 'Component' }, { name: 'Component' }],
+    args,
+    generateArgTypes(args, slotProps),
+    true
+  );
 }
 
 describe('generateSource Vue3', () => {
@@ -26,7 +36,9 @@ describe('generateSource Vue3', () => {
     );
   });
   test('null property', () => {
-    expect(generateForArgs({ nullProp: null })).toMatchInlineSnapshot(`<Component />`);
+    expect(generateForArgs({ nullProp: null })).toMatchInlineSnapshot(
+      `<Component :nullProp='nullProp'/>`
+    );
   });
   test('string property', () => {
     expect(generateForArgs({ stringProp: 'mystr' })).toMatchInlineSnapshot(
@@ -39,7 +51,9 @@ describe('generateSource Vue3', () => {
     );
   });
   test('object property', () => {
-    expect(generateForArgs({ objProp: { x: true } })).toMatchInlineSnapshot(`<Component />`);
+    expect(generateForArgs({ objProp: { x: true } })).toMatchInlineSnapshot(
+      `<Component :objProp='objProp'/>`
+    );
   });
   test('multiple properties', () => {
     expect(generateForArgs({ a: 1, b: 2 })).toMatchInlineSnapshot(`<Component :a='a' :b='b'/>`);
@@ -47,7 +61,7 @@ describe('generateSource Vue3', () => {
   test('1 slot property', () => {
     expect(generateForArgs({ content: 'xyz', myProp: 'abc' }, ['content'])).toMatchInlineSnapshot(`
       <Component :myProp='myProp'>
-       {{ content }}
+        {{ content }}
       </Component>
     `);
   });
@@ -55,9 +69,7 @@ describe('generateSource Vue3', () => {
     expect(generateForArgs({ content: 'xyz', myProp: 'abc' }, ['content', 'footer']))
       .toMatchInlineSnapshot(`
       <Component :myProp='myProp'>
-        <template #content>
-          {{ content }}
-        </template>
+        {{ content }}
       </Component>
     `);
   });
@@ -65,12 +77,8 @@ describe('generateSource Vue3', () => {
     expect(generateForArgs({ content: 'xyz', footer: 'foo', myProp: 'abc' }, ['content', 'footer']))
       .toMatchInlineSnapshot(`
       <Component :myProp='myProp'>
-        <template #content>
-          {{ content }}
-        </template>
-        <template #footer>
-          {{ footer }}
-        </template>
+        <template #content>{{ content }}</template>
+        <template #footer>{{ footer }}</template>
       </Component>
     `);
   });
