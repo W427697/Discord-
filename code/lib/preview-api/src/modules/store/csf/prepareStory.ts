@@ -50,19 +50,38 @@ export function prepareStory<TRenderer extends Renderer>(
   // anything at render time. The assumption is that as we don't load all the stories at once, this
   // will have a limited cost. If this proves misguided, we can refactor it.
 
-  const { moduleExport, id, name } = storyAnnotations;
+  return prepareAnnotations(storyAnnotations, componentAnnotations, projectAnnotations);
+}
+
+export function prepareMeta<TRenderer extends Renderer>(
+  componentAnnotations: NormalizedComponentAnnotations<TRenderer>,
+  projectAnnotations: NormalizedProjectAnnotations<TRenderer>
+): PreparedStory<TRenderer> {
+  return prepareAnnotations(undefined, componentAnnotations, projectAnnotations);
+}
+
+function prepareAnnotations<TRenderer extends Renderer>(
+  storyAnnotations: NormalizedStoryAnnotations<TRenderer> | undefined,
+  componentAnnotations: NormalizedComponentAnnotations<TRenderer>,
+  projectAnnotations: NormalizedProjectAnnotations<TRenderer>
+): PreparedStory<TRenderer> {
+  // NOTE: in the current implementation we are doing everything once, up front, rather than doing
+  // anything at render time. The assumption is that as we don't load all the stories at once, this
+  // will have a limited cost. If this proves misguided, we can refactor it.
+
+  const { moduleExport, id, name } = storyAnnotations || {};
   const { title } = componentAnnotations;
 
-  const tags = [...(storyAnnotations.tags || componentAnnotations.tags || []), 'story'];
+  const tags = [...(storyAnnotations?.tags || componentAnnotations.tags || []), 'story'];
 
   const parameters: Parameters = combineParameters(
     projectAnnotations.parameters,
     componentAnnotations.parameters,
-    storyAnnotations.parameters
+    storyAnnotations?.parameters
   );
 
   const decorators = [
-    ...(storyAnnotations.decorators || []),
+    ...(storyAnnotations?.decorators || []),
     ...(componentAnnotations.decorators || []),
     ...(projectAnnotations.decorators || []),
   ];
@@ -78,14 +97,14 @@ export function prepareStory<TRenderer extends Renderer>(
   const loaders = [
     ...(projectAnnotations.loaders || []),
     ...(componentAnnotations.loaders || []),
-    ...(storyAnnotations.loaders || []),
+    ...(storyAnnotations?.loaders || []),
   ];
 
   // The render function on annotations *has* to be an `ArgsStoryFn`, so when we normalize
   // CSFv1/2, we use a new field called `userStoryFn` so we know that it can be a LegacyStoryFn
   const render =
-    storyAnnotations.userStoryFn ||
-    storyAnnotations.render ||
+    storyAnnotations?.userStoryFn ||
+    storyAnnotations?.render ||
     componentAnnotations.render ||
     projectAnnotations.render;
 
@@ -93,7 +112,7 @@ export function prepareStory<TRenderer extends Renderer>(
   const passedArgTypes: StrictArgTypes = combineParameters(
     projectAnnotations.argTypes,
     componentAnnotations.argTypes,
-    storyAnnotations.argTypes
+    storyAnnotations?.argTypes
   ) as StrictArgTypes;
 
   const { passArgsFirst = true } = parameters;
@@ -104,16 +123,16 @@ export function prepareStory<TRenderer extends Renderer>(
   const passedArgs: Args = {
     ...projectAnnotations.args,
     ...componentAnnotations.args,
-    ...storyAnnotations.args,
+    ...storyAnnotations?.args,
   } as Args;
 
   const contextForEnhancers: StoryContextForEnhancers<TRenderer> = {
     componentId: componentAnnotations.id,
     title,
     kind: title, // Back compat
-    id,
-    name,
-    story: name, // Back compat
+    id: id || `${componentAnnotations.id}--__meta`,
+    name: name || '__meta',
+    story: name || '__meta', // Back compat
     component: componentAnnotations.component,
     subcomponents: componentAnnotations.subcomponents,
     tags,
@@ -203,7 +222,7 @@ export function prepareStory<TRenderer extends Renderer>(
     return decoratedStoryFn(finalContext);
   };
 
-  const play = storyAnnotations.play || componentAnnotations.play;
+  const play = storyAnnotations?.play || componentAnnotations.play;
 
   const playFunction =
     play &&

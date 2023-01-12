@@ -12,7 +12,7 @@ import type {
 import { addons, HooksContext } from '../../addons';
 
 import { NO_TARGET_NAME } from '../args';
-import { prepareStory } from './prepareStory';
+import { prepareStory, prepareMeta } from './prepareStory';
 
 jest.mock('@storybook/global', () => ({
   global: {
@@ -702,5 +702,42 @@ describe('moduleExport', () => {
     const storyObj = {};
     const story = prepareStory({ id, name, moduleExport: storyObj }, { id, title }, { render });
     expect(story.moduleExport).toBe(storyObj);
+  });
+});
+
+describe('prepareMeta', () => {
+  it('returns the same as prepareStory', () => {
+    const meta = {
+      id,
+      title,
+      moduleExport,
+      tags: ['some-tag'],
+      parameters: {
+        a: { name: 'component' },
+        b: { name: 'component' },
+        nested: { z: { name: 'component' }, y: { name: 'component' } },
+      },
+      args: {
+        a: 'component',
+        b: 'component',
+        nested: { z: 'component', y: 'component' },
+      },
+    };
+    const preparedStory = prepareStory({ id, name, moduleExport }, meta, { render });
+    const preparedMeta = prepareMeta(meta, { render });
+
+    expect(preparedMeta).toMatchObject({
+      ...preparedStory,
+      // properties that are actually different between prepareMeta and prepareStory
+      moduleExport: undefined,
+      id: 'id--__meta',
+      name: '__meta',
+      story: '__meta',
+      // jest doesn't think two functions are equal, so we have assert that it's just any function
+      applyLoaders: expect.any(Function),
+      originalStoryFn: expect.any(Function),
+      unboundStoryFn: expect.any(Function),
+      undecoratedStoryFn: expect.any(Function),
+    });
   });
 });
