@@ -163,7 +163,6 @@ export function generateSource(
     const slotProps = Object.entries(argTypes).filter(
       ([arg]) => argTypes[arg]?.table?.category === 'slots'
     );
-    console.log('slotProps ', slotProps);
     if (slotArgs && slotArgs.length > 0) {
       const namedSlotContents = createNamedSlots(slotArgs, slotProps, byRef);
       return `<${name} ${props}>\n${namedSlotContents}\n</${name}>`;
