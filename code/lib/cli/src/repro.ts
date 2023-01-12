@@ -6,8 +6,8 @@ import { dedent } from 'ts-dedent';
 import { downloadTemplate } from 'giget';
 
 import { existsSync, readdir } from 'fs-extra';
-import type { Template, TemplateKey } from './repro-templates';
-import { allTemplates as TEMPLATES } from './repro-templates';
+import type { Template, TemplateKey } from './sandbox-templates';
+import { allTemplates as TEMPLATES } from './sandbox-templates';
 
 const logger = console;
 

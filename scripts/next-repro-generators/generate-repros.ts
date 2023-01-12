@@ -10,7 +10,7 @@ import { execaCommand } from '../utils/exec';
 
 import type { OptionValues } from '../utils/options';
 import { createOptions } from '../utils/options';
-import { allTemplates as reproTemplates } from '../../code/lib/cli/src/repro-templates';
+import { allTemplates as reproTemplates } from '../../code/lib/cli/src/sandbox-templates';
 import storybookVersions from '../../code/lib/cli/src/versions';
 import { JsPackageManagerFactory } from '../../code/lib/cli/src/js-package-manager/JsPackageManagerFactory';
 
