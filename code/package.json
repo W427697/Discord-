@@ -30,7 +30,7 @@
     "ci-tests": "yarn task --task check --no-link --start-from=install && yarn lint && yarn test && cd ../scripts && yarn test",
     "coverage": "codecov",
     "danger": "danger",
-    "generate-sandboxes": "ts-node --swc ../scripts/sandbox-generators/generate-repros.ts",
+    "generate-sandboxes": "ts-node --swc ../scripts/sandbox-generators/generate-sandboxes.ts",
     "github-release": "github-release-from-changelog",
     "linear-export": "ts-node --swc --project=../scripts/tsconfig.json ../scripts/linear-export.ts",
     "lint": "yarn lint:js && yarn lint:md",
