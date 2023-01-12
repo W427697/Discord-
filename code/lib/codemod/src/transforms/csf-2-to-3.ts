@@ -204,7 +204,7 @@ class StorybookImportHelper {
 
   private sbImportDeclarations: NodePath<t.ImportDeclaration>[];
 
-  private getAllSbImportDeclarations(file: BabelFile) {
+  private getAllSbImportDeclarations = (file: BabelFile) => {
     const found: NodePath<t.ImportDeclaration>[] = [];
 
     file.path.traverse({
@@ -237,7 +237,7 @@ class StorybookImportHelper {
       },
     });
     return found;
-  }
+  };
 
   getOrAddImport = (type: string): string | undefined => {
     // prefer type import
@@ -275,7 +275,7 @@ class StorybookImportHelper {
       .map((it) => it.node.local.name);
   };
 
-  updateTypeTo(id: t.LVal, type: string): t.LVal {
+  updateTypeTo = (id: t.LVal, type: string): t.LVal => {
     if (
       isIdentifier(id) &&
       isTSTypeAnnotation(id.typeAnnotation) &&
@@ -297,7 +297,7 @@ class StorybookImportHelper {
       }
     }
     return id;
-  }
+  };
 }
 
 export const parser = 'tsx';
