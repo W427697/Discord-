@@ -120,7 +120,7 @@ You'll get this error when manually upgrading from 6.5 to 7.0. You need to remov
 > Cannot read properties of undefined (reading 'disable_scroll_handling')
 > ```
 
-You'll experience this if anything in your story is importing from `$app/forms` or `$app/navigaiton`, which is currently not supported. To get around this, separate your component into a shallow parent component that imports what's needed and passes it to a child component via props. This way you can write stories for your child component and mock any of the necessary modules by passing props in.
+You'll experience this if anything in your story is importing from `$app/forms` or `$app/navigation`, which is currently not supported. To get around this, separate your component into a shallow parent component that imports what's needed and passes it to a child component via props. This way you can write stories for your child component and mock any of the necessary modules by passing props in.
 
 ## Acknowledgements
 
