@@ -1,8 +1,5 @@
-import type {
-  DocsContextProps,
-  NormalizedProjectAnnotations,
-  ResolvedModuleExport,
-} from '@storybook/types';
+import type { DocsContextProps, ResolvedModuleExport } from '@storybook/types';
+import { prepareMeta } from '@storybook/preview-api';
 import { useContext } from 'react';
 import { DocsContext } from './DocsContext';
 
@@ -10,16 +7,11 @@ export type Of = Parameters<DocsContextProps['resolveModuleExport']>[0];
 
 /**
  * A hook to resolve the `of` prop passed to a block.
- * will return the resolved module as well as project annotations
- * project annotations are handy because if the resolved module is a meta,
- * it will be the meta as-is from the CSF file, and it won't inherit the global annotations.
+ * will return the resolved module
+ * if the resolved module is a meta it will include a preparedMeta property similar to a preparedStory
+ * if the resolved module is a component it will include the project annotations
  */
-export const useOf = (
-  of: Of,
-  validTypes: ResolvedModuleExport['type'][] = []
-): ResolvedModuleExport & {
-  projectAnnotations: NormalizedProjectAnnotations;
-} => {
+export const useOf = (of: Of, validTypes: ResolvedModuleExport['type'][] = []) => {
   const context = useContext(DocsContext);
   const resolved = context.resolveModuleExport(of);
 
@@ -31,5 +23,19 @@ export const useOf = (
       )}`
     );
   }
-  return { ...resolved, projectAnnotations: context.projectAnnotations };
+  switch (resolved.type) {
+    case 'component': {
+      return { ...resolved, projectAnnotations: context.projectAnnotations };
+    }
+    case 'meta': {
+      return {
+        ...resolved,
+        preparedMeta: prepareMeta(resolved.csfFile.meta, context.projectAnnotations),
+      };
+    }
+    case 'story':
+    default: {
+      return resolved;
+    }
+  }
 };
