@@ -2,7 +2,6 @@ import type { FC } from 'react';
 import React, { useContext } from 'react';
 import { str } from '@storybook/docs-tools';
 import { deprecate } from '@storybook/client-logger';
-import { combineParameters } from '@storybook/preview-api';
 import { Description } from '../components';
 
 import type { DocsContextProps } from './DocsContext';
@@ -63,7 +62,7 @@ const getDescriptionFromResolvedOf = (resolvedOf: ReturnType<typeof useOf>): str
         return metaDescription;
       }
       return (
-        parameters.docs?.extractComponentDescription(component, {
+        parameters.docs?.extractComponentDescription?.(component, {
           component,
           parameters,
         }) || null
@@ -75,7 +74,7 @@ const getDescriptionFromResolvedOf = (resolvedOf: ReturnType<typeof useOf>): str
         projectAnnotations: { parameters },
       } = resolvedOf;
       return (
-        parameters.docs?.extractComponentDescription(component, {
+        parameters.docs?.extractComponentDescription?.(component, {
           component,
           parameters,
         }) || null
