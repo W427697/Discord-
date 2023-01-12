@@ -127,7 +127,6 @@ function getTemplates(renderFn: any): [] {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     const ast = parserHTML.parsers.vue.parse(renderFn.toString());
-    console.log(ast);
     let components = ast.children?.filter(
       ({ name: _name = '', type: _type = '' }) =>
         _name && !['template', 'script', 'style', 'slot'].includes(_name) && _type === 'element'
@@ -137,7 +136,6 @@ function getTemplates(renderFn: any): [] {
     }
     components = components.map(
       ({ attrs: attributes = [], name: Name = '', children: Children = [] }) => {
-        console.log(' attributes ', attributes);
         return {
           name: Name,
           attrs: attributes?.filter((el: any) => el.name !== 'vvv-bind'),
@@ -173,8 +171,7 @@ export function generateSource(
     if (!name) {
       return '';
     }
-    console.log(attributes, ' ---- attributes');
-    console.log(args, '------ args');
+
     const argsIn = attributes ? getArgsInAttrs(args, attributes) : args; // keep only args that are in attributes
     const props = argsToSource(argsIn, argTypes, byRef);
     const slotArgs = Object.entries(argsIn).filter(
@@ -297,8 +294,7 @@ export const sourceDecorator = (storyFn: any, context: StoryContext<Renderer>) =
   const components = getTemplates(context?.originalStoryFn);
 
   const storyComponent = components.length ? components : ctxtComponent;
-  console.log('--->context', context);
-  console.log('storyComponent', storyComponent);
+
   const withScript = context?.parameters?.docs?.source?.withScriptSetup || false;
   const generatedScript = withScript ? generateScriptSetup(args, argTypes, components) : '';
   const generatedTemplate = generateSource(storyComponent, args, argTypes, withScript);
