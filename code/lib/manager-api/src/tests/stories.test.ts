@@ -108,8 +108,7 @@ describe('stories API', () => {
     } as ModuleArgs);
 
     expect(state).toEqual({
-      ready: false,
-      storiesHash: {},
+      previewInitialized: false,
       storyId: 'id',
       viewMode: 'story',
       hasCalledSetOptions: false,
@@ -126,7 +125,7 @@ describe('stories API', () => {
       Object.assign(fullAPI, api);
 
       api.setIndex({ v: 4, entries: mockEntries });
-      const { storiesHash: storedStoriesHash } = store.getState();
+      const { stories: storedStoriesHash } = store.getState();
 
       // We need exact key ordering, even if in theory JS doesn't guarantee it
       expect(Object.keys(storedStoriesHash)).toEqual([
@@ -175,7 +174,7 @@ describe('stories API', () => {
           },
         },
       });
-      const { storiesHash: storedStoriesHash } = store.getState();
+      const { stories: storedStoriesHash } = store.getState();
 
       // We need exact key ordering, even if in theory JS doesn't guarantee it
       expect(Object.keys(storedStoriesHash)).toEqual([
@@ -219,7 +218,7 @@ describe('stories API', () => {
           ...mockEntries,
         },
       });
-      const { storiesHash: storedStoriesHash } = store.getState();
+      const { stories: storedStoriesHash } = store.getState();
 
       // We need exact key ordering, even if in theory JS doesn't guarantee it
       expect(Object.keys(storedStoriesHash)).toEqual([
@@ -261,7 +260,7 @@ describe('stories API', () => {
         },
       });
 
-      const { storiesHash: storedStoriesHash } = store.getState();
+      const { stories: storedStoriesHash } = store.getState();
 
       // We need exact key ordering, even if in theory JS doens't guarantee it
       expect(Object.keys(storedStoriesHash)).toEqual(['a', 'a-b', 'a-b--1']);
@@ -307,7 +306,7 @@ describe('stories API', () => {
         },
       });
 
-      const { storiesHash: storedStoriesHash } = store.getState();
+      const { stories: storedStoriesHash } = store.getState();
 
       // We need exact key ordering, even if in theory JS doens't guarantee it
       expect(Object.keys(storedStoriesHash)).toEqual(['a', 'a--1']);
@@ -345,7 +344,7 @@ describe('stories API', () => {
         },
       });
 
-      const { storiesHash: storedStoriesHash } = store.getState();
+      const { stories: storedStoriesHash } = store.getState();
 
       // We need exact key ordering, even if in theory JS doens't guarantee it
       expect(Object.keys(storedStoriesHash)).toEqual(['a', 'a--1', 'a--2', 'b', 'b--1']);
@@ -386,7 +385,7 @@ describe('stories API', () => {
         },
       });
 
-      const { storiesHash: storedStoriesHash } = store.getState();
+      const { stories: storedStoriesHash } = store.getState();
 
       expect(storedStoriesHash['prepared--story']).toMatchObject({
         type: 'story',
@@ -418,7 +417,7 @@ describe('stories API', () => {
       });
       // Let the promise/await chain resolve
       await new Promise((r) => setTimeout(r, 0));
-      expect(store.getState().storiesHash['component-a--story-1'] as API_StoryEntry).toMatchObject({
+      expect(store.getState().stories['component-a--story-1'] as API_StoryEntry).toMatchObject({
         prepared: true,
         parameters: { a: 'b' },
         args: { c: 'd' },
@@ -428,7 +427,7 @@ describe('stories API', () => {
 
       // Let the promise/await chain resolve
       await new Promise((r) => setTimeout(r, 0));
-      expect(store.getState().storiesHash['component-a--story-1'] as API_StoryEntry).toMatchObject({
+      expect(store.getState().stories['component-a--story-1'] as API_StoryEntry).toMatchObject({
         prepared: true,
         parameters: { a: 'b' },
         args: { c: 'd' },
@@ -479,7 +478,7 @@ describe('stories API', () => {
 
         api.setIndex({ v: 4, entries: docsEntries });
 
-        const { storiesHash: storedStoriesHash } = store.getState();
+        const { stories: storedStoriesHash } = store.getState();
 
         // We need exact key ordering, even if in theory JS doesn't guarantee it
         expect(Object.keys(storedStoriesHash)).toEqual([
@@ -514,7 +513,7 @@ describe('stories API', () => {
 
           api.setIndex({ v: 4, entries: docsEntries });
 
-          const { storiesHash: storedStoriesHash } = store.getState();
+          const { stories: storedStoriesHash } = store.getState();
 
           expect(Object.keys(storedStoriesHash)).toEqual(['component-b', 'component-b--docs']);
         });
@@ -576,8 +575,8 @@ describe('stories API', () => {
 
       await init();
 
-      const { ready } = store.getState();
-      expect(ready).toBe(true);
+      const { indexError } = store.getState();
+      expect(indexError).toBeDefined();
     });
 
     it('watches for the INVALIDATE event and refetches -- and resets the hash', async () => {
@@ -609,7 +608,7 @@ describe('stories API', () => {
 
       // Let the promise/await chain resolve
       await new Promise((r) => setTimeout(r, 0));
-      const { storiesHash: storedStoriesHash } = store.getState();
+      const { stories: storedStoriesHash } = store.getState();
 
       expect(Object.keys(storedStoriesHash)).toEqual(['component-a', 'component-a--story-1']);
     });
@@ -665,7 +664,7 @@ describe('stories API', () => {
   });
 
   describe('CURRENT_STORY_WAS_SET event', () => {
-    it('sets the local ready state', async () => {
+    it('sets previewInitialized', async () => {
       const navigate = jest.fn();
       const fullAPI = Object.assign(new EventEmitter());
       const store = createMockStore({});
@@ -675,10 +674,10 @@ describe('stories API', () => {
       await init();
       fullAPI.emit(CURRENT_STORY_WAS_SET, { id: 'a--1' });
 
-      expect(store.getState().ready).toBe(true);
+      expect(store.getState().previewInitialized).toBe(true);
     });
 
-    it('sets a ref to ready', async () => {
+    it('sets a ref to previewInitialized', async () => {
       const navigate = jest.fn();
       const fullAPI = Object.assign(new EventEmitter(), { updateRef: jest.fn() });
       const store = createMockStore();
@@ -696,7 +695,7 @@ describe('stories API', () => {
       expect(fullAPI.updateRef.mock.calls.length).toBe(1);
 
       expect(fullAPI.updateRef.mock.calls[0][1]).toEqual({
-        ready: true,
+        previewInitialized: true,
       });
     });
   });
@@ -734,14 +733,14 @@ describe('stories API', () => {
       const { setIndex } = Object.assign(fullAPI, api);
       setIndex({ v: 4, entries: preparedEntries });
 
-      const { storiesHash: initialStoriesHash } = store.getState();
+      const { stories: initialStoriesHash } = store.getState();
       expect((initialStoriesHash['a--1'] as API_StoryEntry).args).toEqual({ a: 'b' });
       expect((initialStoriesHash['b--1'] as API_StoryEntry).args).toEqual({ x: 'y' });
 
       init();
       fullAPI.emit(STORY_ARGS_UPDATED, { storyId: 'a--1', args: { foo: 'bar' } });
 
-      const { storiesHash: changedStoriesHash } = store.getState();
+      const { stories: changedStoriesHash } = store.getState();
       expect((changedStoriesHash['a--1'] as API_StoryEntry).args).toEqual({ foo: 'bar' });
       expect((changedStoriesHash['b--1'] as API_StoryEntry).args).toEqual({ x: 'y' });
     });
@@ -789,7 +788,7 @@ describe('stories API', () => {
         },
       });
 
-      const { storiesHash: changedStoriesHash } = store.getState();
+      const { stories: changedStoriesHash } = store.getState();
       expect((changedStoriesHash['a--1'] as API_StoryEntry).args).toEqual({ a: 'b' });
       expect((changedStoriesHash['b--1'] as API_StoryEntry).args).toEqual({ x: 'y' });
     });
@@ -840,7 +839,7 @@ describe('stories API', () => {
         },
       });
 
-      const { storiesHash: changedStoriesHash } = store.getState();
+      const { stories: changedStoriesHash } = store.getState();
       expect((changedStoriesHash['a--1'] as API_StoryEntry).args).toEqual({ a: 'b' });
       expect((changedStoriesHash['b--1'] as API_StoryEntry).args).toEqual({ x: 'y' });
     });
@@ -1001,7 +1000,7 @@ describe('stories API', () => {
       store.setState(state);
       setIndex({ v: 4, entries: navigationEntries });
 
-      const result = findSiblingStoryId(storyId, store.getState().storiesHash, 1, false);
+      const result = findSiblingStoryId(storyId, store.getState().stories, 1, false);
       expect(result).toBe('a--2');
     });
     it('works forward toSiblingGroup', () => {
@@ -1016,7 +1015,7 @@ describe('stories API', () => {
       store.setState(state);
       setIndex({ v: 4, entries: navigationEntries });
 
-      const result = findSiblingStoryId(storyId, store.getState().storiesHash, 1, true);
+      const result = findSiblingStoryId(storyId, store.getState().stories, 1, true);
       expect(result).toBe('b-c--1');
     });
   });
@@ -1280,7 +1279,7 @@ describe('stories API', () => {
         args: { c: 'd' },
       });
 
-      const { storiesHash: storedStoriesHash } = store.getState();
+      const { stories: storedStoriesHash } = store.getState();
       expect(storedStoriesHash['component-a--story-1']).toMatchObject({
         type: 'story',
         id: 'component-a--story-1',
@@ -1323,7 +1322,7 @@ describe('stories API', () => {
   });
 
   describe('CONFIG_ERROR', () => {
-    it('sets ready to true, local', async () => {
+    it('sets previewInitialized to true, local', async () => {
       const navigate = jest.fn();
       const store = createMockStore();
       const fullAPI = Object.assign(new EventEmitter(), {});
@@ -1335,11 +1334,11 @@ describe('stories API', () => {
 
       fullAPI.emit(CONFIG_ERROR, { message: 'Failed to run configure' });
 
-      const { ready } = store.getState();
-      expect(ready).toBe(true);
+      const { previewInitialized } = store.getState();
+      expect(previewInitialized).toBe(true);
     });
 
-    it('sets ready to true, ref', async () => {
+    it('sets previewInitialized to true, ref', async () => {
       const navigate = jest.fn();
       const fullAPI = Object.assign(new EventEmitter(), { updateRef: jest.fn() });
       const store = createMockStore();
@@ -1356,7 +1355,7 @@ describe('stories API', () => {
 
       expect(fullAPI.updateRef.mock.calls.length).toBe(1);
       expect(fullAPI.updateRef.mock.calls[0][1]).toEqual({
-        ready: true,
+        previewInitialized: true,
       });
     });
   });
