@@ -35,6 +35,7 @@ export function renderToCanvas(
     },
     render() {
       map.set(canvasElement, storybookApp);
+      setupFunction(storybookApp);
       return h(element);
     },
   });
