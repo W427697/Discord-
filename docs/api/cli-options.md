@@ -21,7 +21,7 @@ Usage: start-storybook [options]
 | Options                         | Description                                                                                                                                                                 |
 | ------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `--help`                        | Output usage information <br/>`start-storybook --help`                                                                                                                      |
-| `-V`, `--version`               | Output the version number <br/>`start-storybook -V`                                                                                                                         |
+| `-V`, `--version`               | Output the version number <br/>`start-storybook cp-V`                                                                                                                         |
 | `-p`, `--port [number]`         | Port to run Storybook <br/>`start-storybook -p 9009`                                                                                                                        |
 | `-h`, `--host [string]`         | Host to run Storybook <br/>`start-storybook -h my-host.com`                                                                                                                 |
 | `-s`, `--static-dir`            | **Deprecated** [see note](#static-dir-deprecation). Directory where to load static files from, comma-separated list<br/>`start-storybook -s public`                         |
@@ -34,7 +34,6 @@ Usage: start-storybook [options]
 | `--ci`                          | CI mode (skip interactive prompts, don't open browser)<br/>`start-storybook --ci`                                                                                           |
 | `--no-open`                     | Do not open Storybook automatically in the browser<br/>`start-storybook --no-open`                                                                                          |
 | `--quiet`                       | Suppress verbose build output<br/>`start-storybook --quiet`                                                                                                                 |
-| `--no-dll`                      | Do not use dll reference (no-op)<br/>`start-storybook --no-dll`                                                                                                             |
 | `--debug-webpack`               | Display final webpack configurations for debugging purposes<br/>`start-storybook --debug-webpack`                                                                           |
 | `--webpack-stats-json`          | Write Webpack Stats JSON to disk<br/>`start-storybook --webpack-stats-json /tmp/webpack-stats`                                                                              |
 | `--docs`                        | Starts Storybook in documentation mode. Learn more about it in [here](../writing-docs/build-documentation.md#preview-storybooks-documentation)<br/>`start-storybook --docs` |
