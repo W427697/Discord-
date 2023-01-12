@@ -82,6 +82,14 @@ it('fixMdxComments keeps html comments in codeblocks', () => {
       <!-- This is a comment -->
       ~~~
 
+      \`\`\`html
+      <!-- This is a comment -->
+      \`\`\`
+
+      \`\`\`html
+      <!-- This is a comment -->
+      \`\`\`
+
       and this is not
 
       <!-- This is another comment -->
@@ -96,6 +104,14 @@ it('fixMdxComments keeps html comments in codeblocks', () => {
     ~~~html
     <!-- This is a comment -->
     ~~~
+
+    \`\`\`html
+    <!-- This is a comment -->
+    \`\`\`
+
+    \`\`\`html
+    <!-- This is a comment -->
+    \`\`\`
 
     and this is not
 
