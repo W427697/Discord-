@@ -21,7 +21,7 @@ Usage: start-storybook [options]
 | Options                         | Description                                                                                                                                                                 |
 | ------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `--help`                        | Output usage information <br/>`start-storybook --help`                                                                                                                      |
-| `-V`, `--version`               | Output the version number <br/>`start-storybook cp-V`                                                                                                                         |
+| `-V`, `--version`               | Output the version number <br/>`start-storybook -V`                                                                                                                         |
 | `-p`, `--port [number]`         | Port to run Storybook <br/>`start-storybook -p 9009`                                                                                                                        |
 | `-h`, `--host [string]`         | Host to run Storybook <br/>`start-storybook -h my-host.com`                                                                                                                 |
 | `-s`, `--static-dir`            | **Deprecated** [see note](#static-dir-deprecation). Directory where to load static files from, comma-separated list<br/>`start-storybook -s public`                         |
