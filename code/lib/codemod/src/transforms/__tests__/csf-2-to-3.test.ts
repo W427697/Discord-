@@ -2,6 +2,7 @@ import { describe, it, expect } from '@jest/globals';
 import { dedent } from 'ts-dedent';
 import type { API } from 'jscodeshift';
 import jscodeshift from 'jscodeshift';
+import noColorSerializer from 'jest-serializer-ansi';
 import _transform from '../csf-2-to-3';
 
 expect.addSnapshotSerializer({
@@ -225,7 +226,70 @@ describe('csf-2-to-3', () => {
   });
 
   describe('typescript', () => {
-    it('should replace function exports with objects', () => {
+    it('should error with namespace imports', () => {
+      expect.addSnapshotSerializer(noColorSerializer);
+      expect(() =>
+        tsTransform(dedent`
+          import * as SB from '@storybook/react';
+          import { CatProps } from './Cat';
+
+          const meta = { title: 'Cat', component: Cat } as Meta<CatProps>
+          export default meta;
+
+          export const A: SB.StoryFn<CatProps> = () => <Cat />;
+        `)
+      ).toThrowErrorMatchingInlineSnapshot(`
+        "This codemod does not support namespace imports for a @storybook/react package.
+                    Replace the namespace import with named imports and try again.
+        > 1 | import * as SB from '@storybook/react';
+            | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+          2 | import { CatProps } from './Cat';
+          3 |
+          4 | const meta = { title: 'Cat', component: Cat } as Meta<CatProps>"
+      `);
+    });
+    it('should keep local names', () => {
+      expect(
+        tsTransform(dedent`
+          import { Meta, StoryObj as CSF3, StoryFn as CSF2 } from '@storybook/react';
+          import { CatProps } from './Cat';
+
+          const meta = { title: 'Cat', component: Cat } satisfies Meta<CatProps>
+          export default meta;
+
+          export const A: CSF2<CatProps> = () => <Cat />;
+          
+          export const B: CSF3<CatProps> = {
+            args: { name: "already csf3" }
+          };
+
+          export const C: CSF2<CatProps> = (args) => <Cat {...args} />;
+          C.args = { 
+            name: "Fluffy"
+          };
+        `)
+      ).toMatchInlineSnapshot(`
+        import { Meta, StoryObj as CSF3, StoryFn as CSF2 } from '@storybook/react';
+        import { CatProps } from './Cat';
+
+        const meta = { title: 'Cat', component: Cat } satisfies Meta<CatProps>;
+        export default meta;
+
+        export const A: CSF2<CatProps> = () => <Cat />;
+
+        export const B: CSF3<CatProps> = {
+          args: { name: 'already csf3' },
+        };
+
+        export const C: CSF3<CatProps> = {
+          args: {
+            name: 'Fluffy',
+          },
+        };
+      `);
+    });
+
+    it('should replace function exports with objects and update type', () => {
       expect(
         tsTransform(dedent`
           import { Story, StoryFn, ComponentStory } from '@storybook/react';
@@ -251,6 +315,12 @@ describe('csf-2-to-3', () => {
           
           export const E: ComponentStory<Cat> = (args) => <Cat {...args} />;
           E.args = { name: "Fluffy" };
+          
+          export const F: Story = (args) => <Cat {...args} />;
+          F.args = { 
+            name: "Fluffy"
+          };
+          
         `)
       ).toMatchInlineSnapshot(`
         import { StoryObj, StoryFn, ComponentStory } from '@storybook/react';
@@ -280,6 +350,12 @@ describe('csf-2-to-3', () => {
 
         export const E: StoryObj<Cat> = {
           args: { name: 'Fluffy' },
+        };
+
+        export const F: StoryObj = {
+          args: {
+            name: 'Fluffy',
+          },
         };
       `);
     });
