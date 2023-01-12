@@ -1,3 +1,61 @@
+## 7.0.0-beta.25 (January 12, 2023)
+
+#### Features
+
+-   Vue3: Rendering slots passed from controls [#20536](https://github.com/storybooks/storybook/pull/20536)
+
+#### Bug Fixes
+
+-   Core: Export build from core-server instead of standalone [#20574](https://github.com/storybooks/storybook/pull/20574)
+
+#### Maintenance
+
+-   Blocks: New Description API, introduce useOf [#20563](https://github.com/storybooks/storybook/pull/20563)
+
+## 7.0.0-beta.24 (January 11, 2023)
+
+#### Maintenance
+
+-   Migrations: Add `preact-vite` to new frameworks automigration [#20542](https://github.com/storybooks/storybook/pull/20542)
+
+#### Build
+
+-   Build: remove unneeded dependencies & upgrades [#20533](https://github.com/storybooks/storybook/pull/20533)
+-   Build: upgrade verdaccio [#20561](https://github.com/storybooks/storybook/pull/20561)
+-   Build: remove usage of enzyme [#20534](https://github.com/storybooks/storybook/pull/20534)
+
+## 7.0.0-beta.23 (January 10, 2023)
+
+#### Features
+
+-   Composition: Add basic auth support [#20488](https://github.com/storybooks/storybook/pull/20488)
+
+#### Bug Fixes
+
+-   UI: Fix managerEntries containing long paths with hidden folders [#20550](https://github.com/storybooks/storybook/pull/20550)
+-   Addon-docs: Fix attachment logic [#20531](https://github.com/storybooks/storybook/pull/20531)
+
+#### Maintenance
+
+-   Addon-docs: Move reactPeerCheck to docs package [#20560](https://github.com/storybooks/storybook/pull/20560)
+-   Addon-docs: Rename `storyByModuleExport` to `resolveModuleExport` [#20517](https://github.com/storybooks/storybook/pull/20517)
+-   Telemetry: Filter out example stories/docs from summary [#20553](https://github.com/storybooks/storybook/pull/20553)
+-   Telemetry: Count play function usage [#20541](https://github.com/storybooks/storybook/pull/20541)
+-   Telemetry: Add pageStoryCount [#20539](https://github.com/storybooks/storybook/pull/20539)
+-   Vite/Vue3: Pre-bundle @vitejs/plugin-vue [#20343](https://github.com/storybooks/storybook/pull/20343)
+
+#### Build
+
+-   Build: downgrade slash to non-ESM [#20543](https://github.com/storybooks/storybook/pull/20543)
+
+#### Other
+
+-   Update GH action to use "linear-ghaction" label for sync [#20546](https://github.com/storybooks/storybook/pull/20546)
+
+## 7.0.0-beta.22 (January 10, 2023)
+
+Failed publish
+
 ## 7.0.0-beta.21 (January 9, 2023)
 
 #### Maintenance
