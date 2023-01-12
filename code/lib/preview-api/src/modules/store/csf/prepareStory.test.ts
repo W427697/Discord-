@@ -722,6 +722,10 @@ describe('prepareMeta', () => {
         b: 'component',
         nested: { z: 'component', y: 'component' },
       },
+      argTypes: {
+        a: { name: 'a-story', type: booleanType },
+        nested: { name: 'nested', type: booleanType, a: 'story' },
+      },
     };
     const preparedStory = prepareStory({ id, name, moduleExport }, meta, { render });
     const preparedMeta = prepareMeta(meta, { render });
