@@ -252,7 +252,8 @@ describe('Refs API', () => {
         Object {
           "refs": Object {
             "fake": Object {
-              "error": Object {
+              "id": "fake",
+              "indexError": Object {
                 "message": "Error: Loading of ref failed
           at fetch (lib/api/src/modules/refs.ts)
 
@@ -263,8 +264,6 @@ describe('Refs API', () => {
 
         Please check your dev-tools network tab.",
               },
-              "id": "fake",
-              "ready": false,
               "stories": undefined,
               "title": "Fake",
               "type": "auto-inject",
@@ -340,7 +339,6 @@ describe('Refs API', () => {
           "refs": Object {
             "fake": Object {
               "id": "fake",
-              "ready": false,
               "stories": Object {},
               "title": "Fake",
               "type": "lazy",
@@ -418,7 +416,6 @@ describe('Refs API', () => {
           "refs": Object {
             "fake": Object {
               "id": "fake",
-              "ready": false,
               "stories": Object {},
               "title": "Fake",
               "type": "lazy",
@@ -497,7 +494,6 @@ describe('Refs API', () => {
             "fake": Object {
               "id": "fake",
               "loginUrl": "https://example.com/login",
-              "ready": false,
               "stories": undefined,
               "title": "Fake",
               "type": "auto-inject",
@@ -577,7 +573,6 @@ describe('Refs API', () => {
             "fake": Object {
               "id": "fake",
               "loginUrl": "https://example.com/login",
-              "ready": false,
               "stories": undefined,
               "title": "Fake",
               "type": "auto-inject",
@@ -658,7 +653,6 @@ describe('Refs API', () => {
           "refs": Object {
             "fake": Object {
               "id": "fake",
-              "ready": false,
               "stories": Object {},
               "title": "Fake",
               "type": "lazy",
@@ -736,7 +730,6 @@ describe('Refs API', () => {
           "refs": Object {
             "fake": Object {
               "id": "fake",
-              "ready": false,
               "stories": Object {},
               "title": "Fake",
               "type": "lazy",
