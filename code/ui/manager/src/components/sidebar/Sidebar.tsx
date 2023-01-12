@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 
 import { styled } from '@storybook/theming';
 import { ScrollArea, Spaced } from '@storybook/components';
-import type { StoriesHash, State } from '@storybook/manager-api';
+import type { State } from '@storybook/manager-api';
 
 import type { API_LoadedRefData } from 'lib/types/src';
 import { Heading } from './Heading';
