@@ -5,6 +5,7 @@ import { global } from '@storybook/global';
 import type {
   Renderer,
   Args,
+  ArgsMapper,
   ArgsStoryFn,
   LegacyStoryFn,
   Parameters,
@@ -66,6 +67,8 @@ export function prepareStory<TRenderer extends Renderer>(
     ...(componentAnnotations.decorators || []),
     ...(projectAnnotations.decorators || []),
   ];
+
+  const argsMappers: ArgsMapper[] = [];
 
   // Currently it is only possible to set these globally
   const {
@@ -184,19 +187,19 @@ export function prepareStory<TRenderer extends Renderer>(
     const includedContext = { ...context, args: includedArgs };
     const { passArgsFirst: renderTimePassArgsFirst = true } = context.parameters;
 
-    // Experimental custom render function.
-    // It's defined at framework renderer render.tsx file. The purpose of this
-    // function is to wrap the originalStoryFn inside a custom render function,
-    // useful when args needs to be handled as a proxy for fine grained updates.
-    // TODO: We need a proper api to initialize a custom render instead of injecting it
-    // directly through the story context. Not tested with argTypes.
-    if (context.customRender) {
-      return context.customRender();
-    }
     return renderTimePassArgsFirst
-      ? (render as ArgsStoryFn<TRenderer>)(includedContext.args, includedContext)
+      ? (render as ArgsStoryFn<TRenderer>)(applyArgsMappers(includedContext.args), includedContext)
       : (render as LegacyStoryFn<TRenderer>)(includedContext);
   };
+
+  const setArgsMappers = (mappers: ArgsMapper[]) => {
+    argsMappers.push(...mappers);
+  };
+
+  const applyArgsMappers = (args: Args) => {
+    return argsMappers.reduceRight((currentArgs, mapper) => mapper(currentArgs), args);
+  };
+
   const decoratedStoryFn = applyHooks<TRenderer>(applyDecorators)(undecoratedStoryFn, decorators);
   const unboundStoryFn = (context: StoryContext<TRenderer>) => {
     let finalContext: StoryContext<TRenderer> = context;
@@ -232,6 +235,7 @@ export function prepareStory<TRenderer extends Renderer>(
     ...contextForEnhancers,
     moduleExport,
     originalStoryFn: render,
+    setArgsMappers,
     undecoratedStoryFn,
     unboundStoryFn,
     applyLoaders,

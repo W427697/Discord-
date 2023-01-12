@@ -1,6 +1,7 @@
 import type { Renderer, ProjectAnnotations as CsfProjectAnnotations } from '@storybook/csf';
 
 import type {
+  Args,
   ComponentAnnotations,
   ComponentId,
   ComponentTitle,
@@ -27,6 +28,8 @@ export interface WebRenderer extends Renderer {
 export type ModuleExport = any;
 export type ModuleExports = Record<string, ModuleExport>;
 export type ModuleImportFn = (path: Path) => Promise<ModuleExports>;
+export type ArgsMapper = (args: Args) => Args;
+export type ArgsMappersSetter = (mappers: ArgsMapper[]) => void;
 
 type MaybePromise<T> = Promise<T> | T;
 export type TeardownRenderToCanvas = () => MaybePromise<void>;
@@ -84,6 +87,7 @@ export type PreparedStory<TRenderer extends Renderer = Renderer> =
       context: StoryContextForLoaders<TRenderer>
     ) => Promise<StoryContextForLoaders<TRenderer> & { loaded: StoryContext<TRenderer>['loaded'] }>;
     playFunction?: (context: StoryContext<TRenderer>) => Promise<void> | void;
+    setArgsMappers: ArgsMappersSetter;
   };
 
 export type BoundStory<TRenderer extends Renderer = Renderer> = PreparedStory<TRenderer> & {
@@ -98,4 +102,5 @@ export declare type RenderContext<TRenderer extends Renderer = Renderer> = Story
   storyContext: StoryContext<TRenderer>;
   storyFn: PartialStoryFn<TRenderer>;
   unboundStoryFn: LegacyStoryFn<TRenderer>;
+  setArgsMappers: ArgsMappersSetter;
 };

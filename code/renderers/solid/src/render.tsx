@@ -53,25 +53,10 @@ export async function renderToCanvas(
     showMain,
     showException,
     forceRemount,
+    setArgsMappers,
   }: RenderContext<SolidRenderer>,
   canvasElement: SolidRenderer['canvasElement']
 ) {
-  /**
-   * The originalStoryFn is the render function taken from the csf file
-   * using the story identifier (storyId). The storyId refers to the story name.
-   * If no render function is provided, the default render function is used as fallback.
-   * ```typescript
-   * export const StoryName = {
-   *  args: {
-   *    disabled: true,
-   *    children: "Hello World",
-   *    render: (props) => <Button {...props}/>
-   *  },
-   * };
-   * ```
-   */
-  const { originalStoryFn } = storyContext;
-
   /**
    * forceRemount occurs when loading by first time the story, it
    * will dispose the story (clear the root node) for rendering the
@@ -92,19 +77,12 @@ export async function renderToCanvas(
   const Story = unboundStoryFn as Component<StoryContext<SolidRenderer>>;
 
   const App: Component = () => {
-    setStore('args', storyContext.args);
-
-    const StoryContent = () => originalStoryFn(store.args as any, storyContext);
-    const Wrapper: Component = () => {
-      return <StoryContent />;
-    };
-
-    /**
-     * This custom render function is for shipping fine grained
-     * updates inside the render function (originalStoryFn)
-     * taken from csf file.
-     */
-    storyContext.customRender = () => <Wrapper />;
+    setArgsMappers([
+      (args) => {
+        setStore('args', args);
+        return store.args;
+      },
+    ]);
 
     onMount(() => {
       showMain();

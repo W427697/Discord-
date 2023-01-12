@@ -2,9 +2,6 @@
   "rules": {
     "import/extensions": "off",
     "react/react-in-jsx-scope": "off",
-    "import/no-extraneous-dependencies": "off",
-    //Rule added provisionally while is defined a better api for
-    //storyContext.customRender inside render.tsx.
-    "no-param-reassign": 0
+    "import/no-extraneous-dependencies": "off"
   }
 }

@@ -154,8 +154,17 @@ export class StoryRender<TRenderer extends Renderer> implements Render<TRenderer
     if (!this.story) throw new Error('cannot render when not prepared');
     if (!canvasElement) throw new Error('cannot render when canvasElement is unset');
 
-    const { id, componentId, title, name, tags, applyLoaders, unboundStoryFn, playFunction } =
-      this.story;
+    const {
+      id,
+      componentId,
+      title,
+      name,
+      tags,
+      applyLoaders,
+      unboundStoryFn,
+      playFunction,
+      setArgsMappers,
+    } = this.story;
 
     if (forceRemount && !initial) {
       // NOTE: we don't check the cancel actually worked here, so the previous
@@ -211,6 +220,7 @@ export class StoryRender<TRenderer extends Renderer> implements Render<TRenderer
         storyContext: renderStoryContext,
         storyFn: () => unboundStoryFn(renderStoryContext),
         unboundStoryFn,
+        setArgsMappers,
       };
 
       await this.runPhase(abortSignal, 'rendering', async () => {
