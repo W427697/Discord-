@@ -12,7 +12,7 @@ export type Template = {
   /**
    * Script used to generate the base project of a template.
    * The Storybook CLI will then initialize Storybook on top of that template.
-   * This is used to generate projects which are pushed to https://github.com/storybookjs/repro-sandboxes
+   * This is used to generate projects which are pushed to https://github.com/storybookjs/sandboxes
    */
   script: string;
   /**

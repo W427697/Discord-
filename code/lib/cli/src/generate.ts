@@ -13,7 +13,7 @@ import { add } from './add';
 import { migrate } from './migrate';
 import { extract } from './extract';
 import { upgrade, type UpgradeOptions } from './upgrade';
-import { repro } from './repro';
+import { sandbox } from './sandbox';
 import { link } from './link';
 import { automigrate } from './automigrate';
 import { generateStorybookBabelConfigInCWD } from './babel-config';
@@ -141,13 +141,14 @@ program
   );
 
 program
-  .command('repro [filterValue]')
-  .description('Create a reproduction from a set of possible templates')
+  .command('sandbox [filterValue]')
+  .alias('repro') // for retrocompatibility purposes
+  .description('Create a sandbox from a set of possible templates')
   .option('-o --output <outDir>', 'Define an output directory')
   .option('-b --branch <branch>', 'Define the branch to download from', 'next')
   .option('--no-init', 'Whether to download a template without an initialized Storybook', false)
   .action((filterValue, options) =>
-    repro({ filterValue, ...options }).catch((e) => {
+    sandbox({ filterValue, ...options }).catch((e) => {
       logger.error(e);
       process.exit(1);
     })

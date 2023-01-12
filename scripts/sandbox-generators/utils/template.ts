@@ -2,7 +2,7 @@ import { render } from 'ejs';
 import { readFile } from 'fs-extra';
 import { format } from 'prettier';
 import type { GeneratorConfig } from './types';
-import { allTemplates as reproTemplates } from '../../../code/lib/cli/src/sandbox-templates';
+import { allTemplates as sandboxTemplates } from '../../../code/lib/cli/src/sandbox-templates';
 
 export async function renderTemplate(templatePath: string, templateData: Record<string, any>) {
   const template = await readFile(templatePath, 'utf8');
@@ -14,7 +14,7 @@ export async function renderTemplate(templatePath: string, templateData: Record<
 }
 
 export const getStackblitzUrl = (path: string, branch = 'next') => {
-  return `https://stackblitz.com/github/storybookjs/repro-sandboxes/tree/${branch}/${path}/after-storybook?preset=node`;
+  return `https://stackblitz.com/github/storybookjs/sandboxes/tree/${branch}/${path}/after-storybook?preset=node`;
 };
 
 export async function getTemplatesData() {
@@ -28,12 +28,12 @@ export async function getTemplatesData() {
     >
   >;
 
-  const templatesData = Object.keys(reproTemplates).reduce<TemplatesData>(
-    (acc, curr: keyof typeof reproTemplates) => {
+  const templatesData = Object.keys(sandboxTemplates).reduce<TemplatesData>(
+    (acc, curr: keyof typeof sandboxTemplates) => {
       const [dirName, templateName] = curr.split('/');
       const groupName =
         dirName === 'cra' ? 'CRA' : dirName.slice(0, 1).toUpperCase() + dirName.slice(1);
-      const generatorData = reproTemplates[curr];
+      const generatorData = sandboxTemplates[curr];
       acc[groupName] = acc[groupName] || {};
       acc[groupName][templateName] = {
         ...generatorData,

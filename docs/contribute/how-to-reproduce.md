@@ -21,11 +21,11 @@ Make sure you have:
 First, open a terminal and run the following command:
 
 ```shell
-npx storybook@next repro
+npx storybook@next sandbox
 ```
 
 <div class="aside">
-💡 You can append a template name in the command to get filtered results e.g. <code>npx storybook@next repro react</code>
+💡 You can append a template name in the command to get filtered results e.g. <code>npx storybook@next sandbox react</code>
 </div>
 
 Next, choose the template you want to work with:

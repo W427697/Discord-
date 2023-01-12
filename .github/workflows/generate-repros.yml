@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       YARN_ENABLE_IMMUTABLE_INSTALLS: false
-      CLEANUP_REPRO_NODE_MODULES: true
+      CLEANUP_SANDBOX_NODE_MODULES: true
     steps:
       - uses: actions/setup-node@v3
         with:
@@ -35,8 +35,8 @@ jobs:
         run: yarn wait-on http://localhost:6001
         working-directory: ./code
       - name: Generate repros
-        run: yarn generate-repros --local-registry
+        run: yarn generate-sandboxes --local-registry
         working-directory: ./code
-      - name: Publish repros to GitHub
-        run: yarn publish-repros --remote=https://storybook-bot:${{ secrets.PAT_STORYBOOK_BOT}}@github.com/storybookjs/repro-sandboxes.git --push
+      - name: Publish sandboxes to GitHub
+        run: yarn publish-sandboxes --remote=https://storybook-bot:${{ secrets.PAT_STORYBOOK_BOT}}@github.com/storybookjs/sandboxes.git --push
         working-directory: ./code
