@@ -2,7 +2,7 @@ import type { Component } from 'solid-js';
 import { ErrorBoundary, onMount } from 'solid-js';
 import { createStore } from 'solid-js/store';
 import { render as solidRender } from 'solid-js/web';
-import type { RenderContext, ArgsStoryFn, Args } from '@storybook/types';
+import type { RenderContext, ArgsStoryFn, Args, StoryFn } from '@storybook/types';
 import type { SolidRenderer, StoryContext } from './types';
 
 /**
@@ -10,8 +10,21 @@ import type { SolidRenderer, StoryContext } from './types';
  * of the story args.
  */
 const [store, setStore] = createStore({
-  args: {} as Args,
+  args: {} as Args & StoryContext<SolidRenderer>,
 });
+
+/**
+ * Decorator for intercepting context args for converting them into
+ * a reactive store for fine grained updates.
+ */
+export const solidReactivityDecorator = (
+  storyFn: StoryFn<SolidRenderer, Args>,
+  context: StoryContext<SolidRenderer>
+) => {
+  setStore('args', context!.args);
+  context.args = store.args;
+  return storyFn(context.args as Args & StoryContext<SolidRenderer>, context);
+};
 
 /**
  * Default render function for a story definition (inside a csf file) without
@@ -27,13 +40,15 @@ const [store, setStore] = createStore({
  */
 export const render: ArgsStoryFn<SolidRenderer> = (args, context) => {
   const { id, component: Component } = context;
+  setStore('args', args);
+
   if (!Component) {
     throw new Error(
       `Unable to render story ${id} as the component annotation is missing from the default export`
     );
   }
 
-  return <Component {...args} />;
+  return <Component {...store.args} />;
 };
 
 /**
@@ -53,7 +68,6 @@ export async function renderToCanvas(
     showMain,
     showException,
     forceRemount,
-    setArgsMappers,
   }: RenderContext<SolidRenderer>,
   canvasElement: SolidRenderer['canvasElement']
 ) {
@@ -77,13 +91,6 @@ export async function renderToCanvas(
   const Story = unboundStoryFn as Component<StoryContext<SolidRenderer>>;
 
   const App: Component = () => {
-    setArgsMappers([
-      (args) => {
-        setStore('args', args);
-        return store.args;
-      },
-    ]);
-
     onMount(() => {
       showMain();
     });

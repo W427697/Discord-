@@ -5,7 +5,6 @@ import { global } from '@storybook/global';
 import type {
   Renderer,
   Args,
-  ArgsMapper,
   ArgsStoryFn,
   LegacyStoryFn,
   Parameters,
@@ -67,8 +66,6 @@ export function prepareStory<TRenderer extends Renderer>(
     ...(componentAnnotations.decorators || []),
     ...(projectAnnotations.decorators || []),
   ];
-
-  const argsMappers: ArgsMapper[] = [];
 
   // Currently it is only possible to set these globally
   const {
@@ -172,6 +169,26 @@ export function prepareStory<TRenderer extends Renderer>(
   };
 
   const undecoratedStoryFn: LegacyStoryFn<TRenderer> = (context: StoryContext<TRenderer>) => {
+    const { passArgsFirst: renderTimePassArgsFirst = true } = context.parameters;
+    return renderTimePassArgsFirst
+      ? (render as ArgsStoryFn<TRenderer>)(context.args, context)
+      : (render as LegacyStoryFn<TRenderer>)(context);
+  };
+
+  const decoratedStoryFn = applyHooks<TRenderer>(applyDecorators)(undecoratedStoryFn, decorators);
+  const unboundStoryFn = (context: StoryContext<TRenderer>) => {
+    let finalContext: StoryContext<TRenderer> = context;
+
+    if (global.FEATURES?.argTypeTargetsV7) {
+      const argsByTarget = groupArgsByTarget(context);
+      finalContext = {
+        ...context,
+        allArgs: context.args,
+        argsByTarget,
+        args: argsByTarget[NO_TARGET_NAME] || {},
+      };
+    }
+
     const mappedArgs = Object.entries(context.args).reduce((acc, [key, val]) => {
       const mapping = context.argTypes[key]?.mapping;
       acc[key] = mapping && val in mapping ? mapping[val] : val;
@@ -185,35 +202,8 @@ export function prepareStory<TRenderer extends Renderer>(
     }, {} as Args);
 
     const includedContext = { ...context, args: includedArgs };
-    const { passArgsFirst: renderTimePassArgsFirst = true } = context.parameters;
 
-    return renderTimePassArgsFirst
-      ? (render as ArgsStoryFn<TRenderer>)(applyArgsMappers(includedContext.args), includedContext)
-      : (render as LegacyStoryFn<TRenderer>)(includedContext);
-  };
-
-  const setArgsMappers = (mappers: ArgsMapper[]) => {
-    argsMappers.push(...mappers);
-  };
-
-  const applyArgsMappers = (args: Args) => {
-    return argsMappers.reduceRight((currentArgs, mapper) => mapper(currentArgs), args);
-  };
-
-  const decoratedStoryFn = applyHooks<TRenderer>(applyDecorators)(undecoratedStoryFn, decorators);
-  const unboundStoryFn = (context: StoryContext<TRenderer>) => {
-    let finalContext: StoryContext<TRenderer> = context;
-    if (global.FEATURES?.argTypeTargetsV7) {
-      const argsByTarget = groupArgsByTarget(context);
-      finalContext = {
-        ...context,
-        allArgs: context.args,
-        argsByTarget,
-        args: argsByTarget[NO_TARGET_NAME] || {},
-      };
-    }
-
-    return decoratedStoryFn(finalContext);
+    return decoratedStoryFn(includedContext);
   };
 
   const play = storyAnnotations.play || componentAnnotations.play;
@@ -235,7 +225,6 @@ export function prepareStory<TRenderer extends Renderer>(
     ...contextForEnhancers,
     moduleExport,
     originalStoryFn: render,
-    setArgsMappers,
     undecoratedStoryFn,
     unboundStoryFn,
     applyLoaders,
