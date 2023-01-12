@@ -1,5 +1,5 @@
 import { dedent } from 'ts-dedent';
-import global from 'global';
+import { global } from '@storybook/global';
 import { SynchronousPromise } from 'synchronous-promise';
 import {
   CONFIG_ERROR,
@@ -32,8 +32,8 @@ import { addons } from '../addons';
 import { StoryStore } from '../../store';
 
 import { StoryRender } from './render/StoryRender';
-import type { TemplateDocsRender } from './render/TemplateDocsRender';
-import type { StandaloneDocsRender } from './render/StandaloneDocsRender';
+import type { CsfDocsRender } from './render/CsfDocsRender';
+import type { MdxDocsRender } from './render/MdxDocsRender';
 
 const { fetch } = global;
 
@@ -174,7 +174,9 @@ export class Preview<TFramework extends Renderer> {
 
   async getStoryIndexFromServer() {
     const result = await fetch(STORY_INDEX_PATH);
-    if (result.status === 200) return result.json() as StoryIndex;
+    if (result.status === 200) {
+      return result.json() as any as StoryIndex;
+    }
 
     throw new Error(await result.text());
   }
@@ -337,10 +339,7 @@ export class Preview<TFramework extends Renderer> {
   }
 
   async teardownRender(
-    render:
-      | StoryRender<TFramework>
-      | TemplateDocsRender<TFramework>
-      | StandaloneDocsRender<TFramework>,
+    render: StoryRender<TFramework> | CsfDocsRender<TFramework> | MdxDocsRender<TFramework>,
     { viewModeChanged }: { viewModeChanged?: boolean } = {}
   ) {
     this.storyRenders = this.storyRenders.filter((r) => r !== render);
