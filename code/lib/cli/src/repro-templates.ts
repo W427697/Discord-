@@ -45,9 +45,12 @@ export type Template = {
    */
   inDevelopment?: boolean;
   /**
-   * Some sandboxes might need to extend main.js, such as setting specifi feature flags like storyStoreV7, etc.
+   * Some sandboxes might need extra modifications in the initialized Storybook,
+   * such as extend main.js, for setting specific feature flags like storyStoreV7, etc.
    */
-  mainConfig?: Partial<StorybookConfig>;
+  modifications?: {
+    mainConfig?: Partial<StorybookConfig>;
+  };
   /**
    * Flag to indicate that this template is a secondary template, which is used mainly to test rather specific features.
    * This means the template might be hidden from the Storybook status page or the repro CLI command.
@@ -374,9 +377,11 @@ const internalTemplates = {
     name: 'StoryStore v6 (react-vite/default-ts)',
     inDevelopment: true,
     isInternal: true,
-    mainConfig: {
-      features: {
-        storyStoreV7: false,
+    modifications: {
+      mainConfig: {
+        features: {
+          storyStoreV7: false,
+        },
       },
     },
   },
@@ -385,9 +390,11 @@ const internalTemplates = {
     name: 'StoryStore v6 (react-webpack/18-ts)',
     inDevelopment: true,
     isInternal: true,
-    mainConfig: {
-      features: {
-        storyStoreV7: false,
+    modifications: {
+      mainConfig: {
+        features: {
+          storyStoreV7: false,
+        },
       },
     },
   },

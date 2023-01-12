@@ -422,7 +422,7 @@ export const addStories: Task['run'] = async (
 export const extendMain: Task['run'] = async ({ template, sandboxDir }) => {
   logger.log('📝 Extending main.js');
   const mainConfig = await readMainConfig({ cwd: sandboxDir });
-  const templateConfig = template.mainConfig || {};
+  const templateConfig = template.modifications.mainConfig || {};
   const configToAdd = {
     ...templateConfig,
     features: {
