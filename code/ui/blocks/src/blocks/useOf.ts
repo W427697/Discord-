@@ -30,7 +30,11 @@ export const useOf = (of: Of, validTypes: ResolvedModuleExport['type'][] = []) =
     case 'meta': {
       return {
         ...resolved,
-        preparedMeta: prepareMeta(resolved.csfFile.meta, context.projectAnnotations),
+        preparedMeta: prepareMeta(
+          resolved.csfFile.meta,
+          context.projectAnnotations,
+          resolved.csfFile.moduleExports.default
+        ),
       };
     }
     case 'story':

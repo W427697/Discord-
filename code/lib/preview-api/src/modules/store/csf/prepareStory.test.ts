@@ -728,20 +728,21 @@ describe('prepareMeta', () => {
       },
     };
     const preparedStory = prepareStory({ id, name, moduleExport }, meta, { render });
-    const preparedMeta = prepareMeta(meta, { render });
+    const preparedMeta = prepareMeta(meta, { render }, {});
 
-    expect(preparedMeta).toMatchObject({
-      ...preparedStory,
-      // properties that are actually different between prepareMeta and prepareStory
-      moduleExport: undefined,
-      id: 'id--__meta',
-      name: '__meta',
-      story: '__meta',
-      // jest doesn't think two functions are equal, so we have assert that it's just any function
-      applyLoaders: expect.any(Function),
-      originalStoryFn: expect.any(Function),
-      unboundStoryFn: expect.any(Function),
-      undecoratedStoryFn: expect.any(Function),
-    });
+    // omitting the properties from preparedStory that are not in preparedMeta
+    const {
+      name: storyName,
+      story,
+      applyLoaders,
+      originalStoryFn,
+      unboundStoryFn,
+      undecoratedStoryFn,
+      playFunction,
+      ...expectedPreparedMeta
+    } = preparedStory;
+
+    expect(preparedMeta).toMatchObject(expectedPreparedMeta);
+    expect(Object.keys(preparedMeta)).toHaveLength(Object.keys(expectedPreparedMeta).length);
   });
 });
