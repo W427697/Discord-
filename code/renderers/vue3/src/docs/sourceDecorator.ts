@@ -5,12 +5,23 @@ import type { ArgTypes, Args, StoryContext, Renderer } from '@storybook/types';
 import { SourceType, SNIPPET_RENDERED } from '@storybook/docs-tools';
 
 import { format } from 'prettier';
-import parserTypescript from 'prettier/parser-typescript';
+// import parserTypescript from 'prettier/parser-typescript';
 import parserHTML from 'prettier/parser-html.js';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { isArray } from '@vue/shared';
 
 type ArgEntries = [string, any][];
+type Attribute = {
+  name: string;
+  value: string;
+  sourceSpan?: any;
+  valueSpan?: any;
+  nameSpan?: any;
+  i18n?: any;
+  type: string;
+  namespace: any;
+  hasExplicitNamespace: boolean;
+} & Record<string, any>;
 /**
  * Check if the sourcecode should be generated.
  *
@@ -35,10 +46,15 @@ const skipSourceRender = (context: StoryContext<Renderer>) => {
  *
  * @param component Component
  */
-function getComponentNameAndChildren(component: any): { name: string | null; children: any } {
+function getComponentNameAndChildren(component: any): {
+  name: string | null;
+  children: any;
+  attributes: any;
+} {
   return {
     name: component?.name || component?.__name || component?.__docgenInfo?.__name || null,
     children: component?.children || null,
+    attributes: component?.attributes || component?.attrs || null,
   };
 }
 /**
@@ -111,6 +127,7 @@ function getTemplates(renderFn: any): [] {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     const ast = parserHTML.parsers.vue.parse(renderFn.toString());
+    console.log(ast);
     let components = ast.children?.filter(
       ({ name: _name = '', type: _type = '' }) =>
         _name && !['template', 'script', 'style', 'slot'].includes(_name) && _type === 'element'
@@ -120,9 +137,10 @@ function getTemplates(renderFn: any): [] {
     }
     components = components.map(
       ({ attrs: attributes = [], name: Name = '', children: Children = [] }) => {
+        console.log(' attributes ', attributes);
         return {
           name: Name,
-          attrs: attributes?.filter((el: any) => el.name !== 'v-bind'),
+          attrs: attributes?.filter((el: any) => el.name !== 'vvv-bind'),
           children: Children,
         };
       }
@@ -150,14 +168,16 @@ export function generateSource(
 ): string | null {
   if (!compOrComps) return null;
   const generateComponentSource = (component: any): string | null => {
-    const { name, children } = getComponentNameAndChildren(component);
+    const { name, children, attributes } = getComponentNameAndChildren(component);
 
     if (!name) {
       return '';
     }
-
-    const props = argsToSource(args, argTypes, byRef);
-    const slotArgs = Object.entries(args).filter(
+    console.log(attributes, ' ---- attributes');
+    console.log(args, '------ args');
+    const argsIn = attributes ? getArgsInAttrs(args, attributes) : args; // keep only args that are in attributes
+    const props = argsToSource(argsIn, argTypes, byRef);
+    const slotArgs = Object.entries(argsIn).filter(
       ([arg]) => argTypes[arg]?.table?.category === 'slots'
     );
     const slotProps = Object.entries(argTypes).filter(
@@ -216,6 +236,21 @@ function createNamedSlots(slotArgs: ArgEntries, slotProps: ArgEntries, byRef?: b
     .join('\n');
 }
 
+function getArgsInAttrs(args: Args, attributes: Attribute[]) {
+  return Object.keys(args).reduce((acc, prop) => {
+    if (attributes?.find((attr: any) => attr.name === 'v-bind')) {
+      acc[prop] = args[prop];
+    }
+    const attribute = attributes?.find(
+      (attr: any) => attr.name === prop || attr.name === `:${prop}`
+    );
+    if (attribute) {
+      acc[prop] = attribute.name === `:${prop}` ? args[prop] : attribute.value;
+    }
+    return acc;
+  }, {} as Record<string, any>);
+}
+
 /**
  * format prettier for vue
  * @param source
@@ -226,7 +261,7 @@ function prettierFormat(source: string): string {
     return format(source, {
       vueIndentScriptAndStyle: true,
       parser: 'vue',
-      plugins: [parserHTML, parserTypescript],
+      plugins: [parserHTML],
       singleQuote: true,
       quoteProps: 'preserve',
     });
@@ -262,7 +297,8 @@ export const sourceDecorator = (storyFn: any, context: StoryContext<Renderer>) =
   const components = getTemplates(context?.originalStoryFn);
 
   const storyComponent = components.length ? components : ctxtComponent;
-
+  console.log('--->context', context);
+  console.log('storyComponent', storyComponent);
   const withScript = context?.parameters?.docs?.source?.withScriptSetup || false;
   const generatedScript = withScript ? generateScriptSetup(args, argTypes, components) : '';
   const generatedTemplate = generateSource(storyComponent, args, argTypes, withScript);
