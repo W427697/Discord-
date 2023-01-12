@@ -198,7 +198,10 @@ class StorybookImportHelper {
   constructor(csf: CsfFile, info: FileInfo) {
     // This allows for showing buildCodeFrameError messages
     // @ts-expect-error File is not yet exposed, see https://github.com/babel/babel/issues/11350#issuecomment-644118606
-    const file = new babel.File({ filename: info.path }, { code: info.source, ast: csf._ast });
+    const file: BabelFile = new babel.File(
+      { filename: info.path },
+      { code: info.source, ast: csf._ast }
+    );
     this.sbImportDeclarations = this.getAllSbImportDeclarations(file);
   }
 
