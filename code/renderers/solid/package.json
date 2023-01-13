@@ -1,6 +1,6 @@
 {
   "name": "@storybook/solid",
-  "version": "7.0.0-beta.17",
+  "version": "7.0.0-beta.25",
   "description": "Storybook SolidJS renderer",
   "keywords": [
     "storybook"
