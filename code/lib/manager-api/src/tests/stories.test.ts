@@ -81,6 +81,18 @@ function createMockStore(initialState = {}) {
   } as any as Store;
 }
 
+function initStoriesAndSetState({ store, ...options }: any) {
+  const { state, ...result } = initStories({ store, ...options } as any);
+
+  // Remove deprecated fields (which would trigger warnings)
+  delete state.storiesHash;
+  delete state.storiesConfigured;
+  delete state.storiesFailed;
+  store?.setState(state);
+
+  return { state, ...result };
+}
+
 const provider = { getConfig: jest.fn().mockReturnValue({}), serverChannel: mockChannel() };
 
 beforeEach(() => {
@@ -102,10 +114,15 @@ beforeEach(() => {
 
 describe('stories API', () => {
   it('sets a sensible initialState', () => {
-    const { state } = initStories({
+    const { state } = initStoriesAndSetState({
       storyId: 'id',
       viewMode: 'story',
     } as ModuleArgs);
+
+    // Remove deprecated fields (which would trigger warnings)
+    delete state.storiesHash;
+    delete state.storiesConfigured;
+    delete state.storiesFailed;
 
     expect(state).toEqual({
       previewInitialized: false,
@@ -121,27 +138,27 @@ describe('stories API', () => {
       const store = createMockStore();
       const fullAPI = Object.assign(new EventEmitter());
 
-      const { api } = initStories({ store, navigate, provider, fullAPI } as any);
+      const { api } = initStoriesAndSetState({ store, navigate, provider, fullAPI } as any);
       Object.assign(fullAPI, api);
 
       api.setIndex({ v: 4, entries: mockEntries });
-      const { stories: storedStoriesHash } = store.getState();
+      const { index } = store.getState();
 
       // We need exact key ordering, even if in theory JS doesn't guarantee it
-      expect(Object.keys(storedStoriesHash)).toEqual([
+      expect(Object.keys(index)).toEqual([
         'component-a',
         'component-a--story-1',
         'component-a--story-2',
         'component-b',
         'component-b--story-3',
       ]);
-      expect(storedStoriesHash['component-a']).toMatchObject({
+      expect(index['component-a']).toMatchObject({
         type: 'component',
         id: 'component-a',
         children: ['component-a--story-1', 'component-a--story-2'],
       });
 
-      expect(storedStoriesHash['component-a--story-1']).toMatchObject({
+      expect(index['component-a--story-1']).toMatchObject({
         type: 'story',
         id: 'component-a--story-1',
         parent: 'component-a',
@@ -150,7 +167,7 @@ describe('stories API', () => {
         prepared: false,
       });
       expect(
-        (storedStoriesHash['component-a--story-1'] as API_StoryEntry as API_StoryEntry).args
+        (index['component-a--story-1'] as API_StoryEntry as API_StoryEntry).args
       ).toBeUndefined();
     });
 
@@ -159,7 +176,7 @@ describe('stories API', () => {
       const store = createMockStore();
       const fullAPI = Object.assign(new EventEmitter());
 
-      const { api } = initStories({ store, navigate, provider, fullAPI } as any);
+      const { api } = initStoriesAndSetState({ store, navigate, provider, fullAPI } as any);
       Object.assign(fullAPI, api);
 
       api.setIndex({
@@ -174,23 +191,23 @@ describe('stories API', () => {
           },
         },
       });
-      const { stories: storedStoriesHash } = store.getState();
+      const { index } = store.getState();
 
       // We need exact key ordering, even if in theory JS doesn't guarantee it
-      expect(Object.keys(storedStoriesHash)).toEqual([
+      expect(Object.keys(index)).toEqual([
         'design-system',
         'design-system-some-component',
         'design-system-some-component--my-story',
       ]);
-      expect(storedStoriesHash['design-system']).toMatchObject({
+      expect(index['design-system']).toMatchObject({
         type: 'root',
         name: 'Design System', // root name originates from `kind`, so it gets trimmed
       });
-      expect(storedStoriesHash['design-system-some-component']).toMatchObject({
+      expect(index['design-system-some-component']).toMatchObject({
         type: 'component',
         name: 'Some Component', // component name originates from `kind`, so it gets trimmed
       });
-      expect(storedStoriesHash['design-system-some-component--my-story']).toMatchObject({
+      expect(index['design-system-some-component--my-story']).toMatchObject({
         type: 'story',
         title: '  Design System  /  Some Component  ', // title is kept as-is, because it may be used as identifier
         name: '  My Story  ', // story name is kept as-is, because it's set directly on the story
@@ -202,7 +219,7 @@ describe('stories API', () => {
       const store = createMockStore();
       const fullAPI = Object.assign(new EventEmitter());
 
-      const { api } = initStories({ store, navigate, provider, fullAPI } as any);
+      const { api } = initStoriesAndSetState({ store, navigate, provider, fullAPI } as any);
       Object.assign(fullAPI, api);
 
       api.setIndex({
@@ -218,10 +235,10 @@ describe('stories API', () => {
           ...mockEntries,
         },
       });
-      const { stories: storedStoriesHash } = store.getState();
+      const { index } = store.getState();
 
       // We need exact key ordering, even if in theory JS doesn't guarantee it
-      expect(Object.keys(storedStoriesHash)).toEqual([
+      expect(Object.keys(index)).toEqual([
         'component-a',
         'component-a--story-1',
         'component-a--story-2',
@@ -231,7 +248,7 @@ describe('stories API', () => {
         'root-first',
         'root-first--story-1',
       ]);
-      expect(storedStoriesHash.root).toMatchObject({
+      expect(index.root).toMatchObject({
         type: 'root',
         id: 'root',
         children: ['root-first'],
@@ -243,7 +260,7 @@ describe('stories API', () => {
       const store = createMockStore();
       const fullAPI = Object.assign(new EventEmitter());
 
-      const { api } = initStories({ store, navigate, provider, fullAPI } as any);
+      const { api } = initStoriesAndSetState({ store, navigate, provider, fullAPI } as any);
       Object.assign(fullAPI, api);
 
       provider.getConfig.mockReturnValue({ sidebar: { showRoots: true } });
@@ -260,22 +277,22 @@ describe('stories API', () => {
         },
       });
 
-      const { stories: storedStoriesHash } = store.getState();
+      const { index } = store.getState();
 
       // We need exact key ordering, even if in theory JS doens't guarantee it
-      expect(Object.keys(storedStoriesHash)).toEqual(['a', 'a-b', 'a-b--1']);
-      expect(storedStoriesHash.a).toMatchObject({
+      expect(Object.keys(index)).toEqual(['a', 'a-b', 'a-b--1']);
+      expect(index.a).toMatchObject({
         type: 'root',
         id: 'a',
         children: ['a-b'],
       });
-      expect(storedStoriesHash['a-b']).toMatchObject({
+      expect(index['a-b']).toMatchObject({
         type: 'component',
         id: 'a-b',
         parent: 'a',
         children: ['a-b--1'],
       });
-      expect(storedStoriesHash['a-b--1']).toMatchObject({
+      expect(index['a-b--1']).toMatchObject({
         type: 'story',
         id: 'a-b--1',
         parent: 'a-b',
@@ -289,7 +306,7 @@ describe('stories API', () => {
       const store = createMockStore();
       const fullAPI = Object.assign(new EventEmitter());
 
-      const { api } = initStories({ store, navigate, provider, fullAPI } as any);
+      const { api } = initStoriesAndSetState({ store, navigate, provider, fullAPI } as any);
       Object.assign(fullAPI, api);
 
       provider.getConfig.mockReturnValue({ sidebar: { showRoots: true } });
@@ -306,16 +323,16 @@ describe('stories API', () => {
         },
       });
 
-      const { stories: storedStoriesHash } = store.getState();
+      const { index } = store.getState();
 
       // We need exact key ordering, even if in theory JS doens't guarantee it
-      expect(Object.keys(storedStoriesHash)).toEqual(['a', 'a--1']);
-      expect(storedStoriesHash.a).toMatchObject({
+      expect(Object.keys(index)).toEqual(['a', 'a--1']);
+      expect(index.a).toMatchObject({
         type: 'component',
         id: 'a',
         children: ['a--1'],
       });
-      expect(storedStoriesHash['a--1']).toMatchObject({
+      expect(index['a--1']).toMatchObject({
         type: 'story',
         id: 'a--1',
         parent: 'a',
@@ -331,7 +348,7 @@ describe('stories API', () => {
       const store = createMockStore();
       const fullAPI = Object.assign(new EventEmitter());
 
-      const { api } = initStories({ store, navigate, provider, fullAPI } as any);
+      const { api } = initStoriesAndSetState({ store, navigate, provider, fullAPI } as any);
       Object.assign(fullAPI, api);
 
       provider.getConfig.mockReturnValue({ sidebar: { showRoots: true } });
@@ -344,17 +361,17 @@ describe('stories API', () => {
         },
       });
 
-      const { stories: storedStoriesHash } = store.getState();
+      const { index } = store.getState();
 
       // We need exact key ordering, even if in theory JS doens't guarantee it
-      expect(Object.keys(storedStoriesHash)).toEqual(['a', 'a--1', 'a--2', 'b', 'b--1']);
-      expect(storedStoriesHash.a).toMatchObject({
+      expect(Object.keys(index)).toEqual(['a', 'a--1', 'a--2', 'b', 'b--1']);
+      expect(index.a).toMatchObject({
         type: 'component',
         id: 'a',
         children: ['a--1', 'a--2'],
       });
 
-      expect(storedStoriesHash.b).toMatchObject({
+      expect(index.b).toMatchObject({
         type: 'component',
         id: 'b',
         children: ['b--1'],
@@ -367,7 +384,7 @@ describe('stories API', () => {
       const store = createMockStore();
       const fullAPI = Object.assign(new EventEmitter());
 
-      const { api } = initStories({ store, navigate, provider, fullAPI } as any);
+      const { api } = initStoriesAndSetState({ store, navigate, provider, fullAPI } as any);
       Object.assign(fullAPI, api);
 
       api.setIndex({
@@ -385,9 +402,9 @@ describe('stories API', () => {
         },
       });
 
-      const { stories: storedStoriesHash } = store.getState();
+      const { index } = store.getState();
 
-      expect(storedStoriesHash['prepared--story']).toMatchObject({
+      expect(index['prepared--story']).toMatchObject({
         type: 'story',
         id: 'prepared--story',
         parent: 'prepared',
@@ -404,7 +421,7 @@ describe('stories API', () => {
       const store = createMockStore();
       const fullAPI = Object.assign(new EventEmitter(), { setOptions: jest.fn() });
 
-      const { api, init } = initStories({ store, navigate, provider, fullAPI } as any);
+      const { api, init } = initStoriesAndSetState({ store, navigate, provider, fullAPI } as any);
       Object.assign(fullAPI, api);
       init();
 
@@ -417,7 +434,7 @@ describe('stories API', () => {
       });
       // Let the promise/await chain resolve
       await new Promise((r) => setTimeout(r, 0));
-      expect(store.getState().stories['component-a--story-1'] as API_StoryEntry).toMatchObject({
+      expect(store.getState().index['component-a--story-1'] as API_StoryEntry).toMatchObject({
         prepared: true,
         parameters: { a: 'b' },
         args: { c: 'd' },
@@ -427,7 +444,7 @@ describe('stories API', () => {
 
       // Let the promise/await chain resolve
       await new Promise((r) => setTimeout(r, 0));
-      expect(store.getState().stories['component-a--story-1'] as API_StoryEntry).toMatchObject({
+      expect(store.getState().index['component-a--story-1'] as API_StoryEntry).toMatchObject({
         prepared: true,
         parameters: { a: 'b' },
         args: { c: 'd' },
@@ -473,15 +490,15 @@ describe('stories API', () => {
         const store = createMockStore();
         const fullAPI = Object.assign(new EventEmitter());
 
-        const { api } = initStories({ store, navigate, provider, fullAPI } as any);
+        const { api } = initStoriesAndSetState({ store, navigate, provider, fullAPI } as any);
         Object.assign(fullAPI, api);
 
         api.setIndex({ v: 4, entries: docsEntries });
 
-        const { stories: storedStoriesHash } = store.getState();
+        const { index } = store.getState();
 
         // We need exact key ordering, even if in theory JS doesn't guarantee it
-        expect(Object.keys(storedStoriesHash)).toEqual([
+        expect(Object.keys(index)).toEqual([
           'component-a',
           'component-a--page',
           'component-a--story-2',
@@ -490,10 +507,10 @@ describe('stories API', () => {
           'component-c',
           'component-c--story-4',
         ]);
-        expect(storedStoriesHash['component-a--page'].type).toBe('story');
-        expect(storedStoriesHash['component-a--story-2'].type).toBe('story');
-        expect(storedStoriesHash['component-b--docs'].type).toBe('docs');
-        expect(storedStoriesHash['component-c--story-4'].type).toBe('story');
+        expect(index['component-a--page'].type).toBe('story');
+        expect(index['component-a--story-2'].type).toBe('story');
+        expect(index['component-b--docs'].type).toBe('docs');
+        expect(index['component-c--story-4'].type).toBe('story');
       });
 
       describe('when DOCS_MODE = true', () => {
@@ -502,7 +519,7 @@ describe('stories API', () => {
           const store = createMockStore();
           const fullAPI = Object.assign(new EventEmitter());
 
-          const { api } = initStories({
+          const { api } = initStoriesAndSetState({
             store,
             navigate,
             provider,
@@ -513,9 +530,9 @@ describe('stories API', () => {
 
           api.setIndex({ v: 4, entries: docsEntries });
 
-          const { stories: storedStoriesHash } = store.getState();
+          const { index } = store.getState();
 
-          expect(Object.keys(storedStoriesHash)).toEqual(['component-b', 'component-b--docs']);
+          expect(Object.keys(index)).toEqual(['component-b', 'component-b--docs']);
         });
       });
     });
@@ -527,7 +544,7 @@ describe('stories API', () => {
       const navigate = jest.fn();
       const store = createMockStore();
 
-      const { init, api } = initStories({ store, navigate, provider, fullAPI } as any);
+      const { init, api } = initStoriesAndSetState({ store, navigate, provider, fullAPI } as any);
       Object.assign(fullAPI, api, {
         setIndex: jest.fn(),
         setOptions: jest.fn(),
@@ -544,7 +561,7 @@ describe('stories API', () => {
       const navigate = jest.fn();
       const store = createMockStore();
 
-      const { init, api } = initStories({ store, navigate, provider, fullAPI } as any);
+      const { init, api } = initStoriesAndSetState({ store, navigate, provider, fullAPI } as any);
       Object.assign(fullAPI, api, {
         setIndex: jest.fn(),
         setOptions: jest.fn(),
@@ -570,7 +587,7 @@ describe('stories API', () => {
           text: async () => new Error('sorting error'),
         } as any as Response)
       );
-      const { api, init } = initStories({ store, navigate, provider, fullAPI } as any);
+      const { api, init } = initStoriesAndSetState({ store, navigate, provider, fullAPI } as any);
       Object.assign(fullAPI, api);
 
       await init();
@@ -586,7 +603,7 @@ describe('stories API', () => {
         setIndex: jest.fn(),
       });
 
-      const { api, init } = initStories({ store, navigate, provider, fullAPI } as any);
+      const { api, init } = initStoriesAndSetState({ store, navigate, provider, fullAPI } as any);
       Object.assign(fullAPI, api);
 
       (global.fetch as jest.Mock<ReturnType<typeof global.fetch>>).mockClear();
@@ -608,9 +625,9 @@ describe('stories API', () => {
 
       // Let the promise/await chain resolve
       await new Promise((r) => setTimeout(r, 0));
-      const { stories: storedStoriesHash } = store.getState();
+      const { index } = store.getState();
 
-      expect(Object.keys(storedStoriesHash)).toEqual(['component-a', 'component-a--story-1']);
+      expect(Object.keys(index)).toEqual(['component-a', 'component-a--story-1']);
     });
   });
 
@@ -623,7 +640,7 @@ describe('stories API', () => {
         },
       });
       const store = createMockStore({});
-      const { init, api } = initStories({ store, navigate, provider, fullAPI } as any);
+      const { init, api } = initStoriesAndSetState({ store, navigate, provider, fullAPI } as any);
 
       Object.assign(fullAPI, api);
       init();
@@ -640,7 +657,7 @@ describe('stories API', () => {
         },
       });
       const store = createMockStore({ viewMode: 'story', storyId: 'a--1' });
-      initStories({ store, navigate, provider, fullAPI } as any);
+      initStoriesAndSetState({ store, navigate, provider, fullAPI } as any);
 
       fullAPI.emit(STORY_SPECIFIED, { storyId: 'a--1', viewMode: 'story' });
 
@@ -655,7 +672,7 @@ describe('stories API', () => {
         },
       });
       const store = createMockStore({ viewMode: 'settings', storyId: 'about' });
-      initStories({ store, navigate, provider, fullAPI } as any);
+      initStoriesAndSetState({ store, navigate, provider, fullAPI } as any);
 
       fullAPI.emit(STORY_SPECIFIED, { storyId: 'a--1', viewMode: 'story' });
 
@@ -668,7 +685,7 @@ describe('stories API', () => {
       const navigate = jest.fn();
       const fullAPI = Object.assign(new EventEmitter());
       const store = createMockStore({});
-      const { init, api } = initStories({ store, navigate, provider, fullAPI } as any);
+      const { init, api } = initStoriesAndSetState({ store, navigate, provider, fullAPI } as any);
 
       Object.assign(fullAPI, api);
       await init();
@@ -681,13 +698,13 @@ describe('stories API', () => {
       const navigate = jest.fn();
       const fullAPI = Object.assign(new EventEmitter(), { updateRef: jest.fn() });
       const store = createMockStore();
-      const { api, init } = initStories({ store, navigate, provider, fullAPI } as any);
+      const { api, init } = initStoriesAndSetState({ store, navigate, provider, fullAPI } as any);
 
       Object.assign(fullAPI, api);
 
       getEventMetadataMock.mockReturnValueOnce({
         sourceType: 'external',
-        ref: { id: 'refId', stories: { 'a--1': { args: { a: 'b' } } } },
+        ref: { id: 'refId', index: { 'a--1': { args: { a: 'b' } } } },
       } as any);
       await init();
       fullAPI.emit(CURRENT_STORY_WAS_SET, { id: 'a--1' });
@@ -728,21 +745,21 @@ describe('stories API', () => {
       const store = createMockStore();
       const fullAPI = new EventEmitter();
 
-      const { api, init } = initStories({ store, navigate, provider, fullAPI } as any);
+      const { api, init } = initStoriesAndSetState({ store, navigate, provider, fullAPI } as any);
 
       const { setIndex } = Object.assign(fullAPI, api);
       setIndex({ v: 4, entries: preparedEntries });
 
-      const { stories: initialStoriesHash } = store.getState();
-      expect((initialStoriesHash['a--1'] as API_StoryEntry).args).toEqual({ a: 'b' });
-      expect((initialStoriesHash['b--1'] as API_StoryEntry).args).toEqual({ x: 'y' });
+      const { index } = store.getState();
+      expect((index['a--1'] as API_StoryEntry).args).toEqual({ a: 'b' });
+      expect((index['b--1'] as API_StoryEntry).args).toEqual({ x: 'y' });
 
       init();
       fullAPI.emit(STORY_ARGS_UPDATED, { storyId: 'a--1', args: { foo: 'bar' } });
 
-      const { stories: changedStoriesHash } = store.getState();
-      expect((changedStoriesHash['a--1'] as API_StoryEntry).args).toEqual({ foo: 'bar' });
-      expect((changedStoriesHash['b--1'] as API_StoryEntry).args).toEqual({ x: 'y' });
+      const { index: changedIndex } = store.getState();
+      expect((changedIndex['a--1'] as API_StoryEntry).args).toEqual({ foo: 'bar' });
+      expect((changedIndex['b--1'] as API_StoryEntry).args).toEqual({ x: 'y' });
     });
 
     it('changes reffed args properly, per story when receiving STORY_ARGS_UPDATED', () => {
@@ -750,7 +767,7 @@ describe('stories API', () => {
       const store = createMockStore();
       const fullAPI = new EventEmitter();
 
-      const { init, api } = initStories({ store, navigate, provider, fullAPI } as any);
+      const { init, api } = initStoriesAndSetState({ store, navigate, provider, fullAPI } as any);
       Object.assign(fullAPI, api, {
         updateRef: jest.fn(),
       });
@@ -758,11 +775,11 @@ describe('stories API', () => {
       init();
       getEventMetadataMock.mockReturnValueOnce({
         sourceType: 'external',
-        ref: { id: 'refId', stories: { 'a--1': { args: { a: 'b' } } } },
+        ref: { id: 'refId', index: { 'a--1': { args: { a: 'b' } } } },
       } as any);
       fullAPI.emit(STORY_ARGS_UPDATED, { storyId: 'a--1', args: { foo: 'bar' } });
       expect((fullAPI as any).updateRef).toHaveBeenCalledWith('refId', {
-        stories: { 'a--1': { args: { foo: 'bar' } } },
+        index: { 'a--1': { args: { foo: 'bar' } } },
       });
     });
 
@@ -773,7 +790,7 @@ describe('stories API', () => {
       const fullAPI = { emit, on };
       const store = createMockStore();
 
-      const { api, init } = initStories({ store, navigate, provider, fullAPI } as any);
+      const { api, init } = initStoriesAndSetState({ store, navigate, provider, fullAPI } as any);
       const { setIndex } = Object.assign(fullAPI, api);
       setIndex({ v: 4, entries: preparedEntries });
 
@@ -788,9 +805,9 @@ describe('stories API', () => {
         },
       });
 
-      const { stories: changedStoriesHash } = store.getState();
-      expect((changedStoriesHash['a--1'] as API_StoryEntry).args).toEqual({ a: 'b' });
-      expect((changedStoriesHash['b--1'] as API_StoryEntry).args).toEqual({ x: 'y' });
+      const { index } = store.getState();
+      expect((index['a--1'] as API_StoryEntry).args).toEqual({ a: 'b' });
+      expect((index['b--1'] as API_StoryEntry).args).toEqual({ x: 'y' });
     });
 
     it('updateStoryArgs emits UPDATE_STORY_ARGS to the right frame', () => {
@@ -800,7 +817,7 @@ describe('stories API', () => {
       const fullAPI = { emit, on };
       const store = createMockStore();
 
-      const { api, init } = initStories({ store, navigate, provider, fullAPI } as any);
+      const { api, init } = initStoriesAndSetState({ store, navigate, provider, fullAPI } as any);
 
       const { setIndex } = Object.assign(fullAPI, api);
       setIndex({ v: 4, entries: preparedEntries });
@@ -824,7 +841,7 @@ describe('stories API', () => {
       const fullAPI = { emit, on };
       const store = createMockStore();
 
-      const { api, init } = initStories({ store, navigate, provider, fullAPI } as any);
+      const { api, init } = initStoriesAndSetState({ store, navigate, provider, fullAPI } as any);
 
       const { setIndex } = Object.assign(fullAPI, api);
       setIndex({ v: 4, entries: preparedEntries });
@@ -839,9 +856,9 @@ describe('stories API', () => {
         },
       });
 
-      const { stories: changedStoriesHash } = store.getState();
-      expect((changedStoriesHash['a--1'] as API_StoryEntry).args).toEqual({ a: 'b' });
-      expect((changedStoriesHash['b--1'] as API_StoryEntry).args).toEqual({ x: 'y' });
+      const { index } = store.getState();
+      expect((index['a--1'] as API_StoryEntry).args).toEqual({ a: 'b' });
+      expect((index['b--1'] as API_StoryEntry).args).toEqual({ x: 'y' });
     });
 
     it('resetStoryArgs emits RESET_STORY_ARGS to the right frame', () => {
@@ -851,7 +868,7 @@ describe('stories API', () => {
       const fullAPI = { emit, on };
       const store = createMockStore();
 
-      const { api, init } = initStories({ store, navigate, provider, fullAPI } as any);
+      const { api, init } = initStoriesAndSetState({ store, navigate, provider, fullAPI } as any);
 
       const { setIndex } = Object.assign(fullAPI, api);
       setIndex({ v: 4, entries: preparedEntries });
@@ -916,11 +933,17 @@ describe('stories API', () => {
   describe('jumpToStory', () => {
     it('works forward', () => {
       const navigate = jest.fn();
-      const store = createMockStore({ storyId: 'a--1', viewMode: 'story' });
+      const store = createMockStore();
 
       const {
         api: { setIndex, jumpToStory },
-      } = initStories({ store, navigate, provider } as any);
+      } = initStoriesAndSetState({
+        store,
+        storyId: 'a--1',
+        viewMode: 'story',
+        navigate,
+        provider,
+      } as any);
       setIndex({ v: 4, entries: navigationEntries });
 
       jumpToStory(1);
@@ -929,11 +952,17 @@ describe('stories API', () => {
 
     it('works backwards', () => {
       const navigate = jest.fn();
-      const store = createMockStore({ storyId: 'a--2', viewMode: 'story' });
+      const store = createMockStore();
 
       const {
         api: { setIndex, jumpToStory },
-      } = initStories({ store, navigate, provider } as any);
+      } = initStoriesAndSetState({
+        store,
+        storyId: 'a--2',
+        viewMode: 'story',
+        navigate,
+        provider,
+      } as any);
       setIndex({ v: 4, entries: navigationEntries });
 
       jumpToStory(-1);
@@ -942,15 +971,14 @@ describe('stories API', () => {
 
     it('does nothing if you are at the last story and go forward', () => {
       const navigate = jest.fn();
-      const store = createMockStore({
-        storyId: 'custom-id--1',
-        viewMode: 'story',
-      });
+      const store = createMockStore();
 
       const {
         api: { setIndex, jumpToStory },
-      } = initStories({
+      } = initStoriesAndSetState({
         store,
+        storyId: 'custom-id--1',
+        viewMode: 'story',
         navigate,
         provider,
       } as any);
@@ -962,11 +990,17 @@ describe('stories API', () => {
 
     it('does nothing if you are at the first story and go backward', () => {
       const navigate = jest.fn();
-      const store = createMockStore({ storyId: 'a--1', viewMode: 'story' });
+      const store = createMockStore();
 
       const {
         api: { setIndex, jumpToStory },
-      } = initStories({ store, navigate, provider } as any);
+      } = initStoriesAndSetState({
+        store,
+        storyId: 'a--1',
+        viewMode: 'story',
+        navigate,
+        provider,
+      } as any);
       setIndex({ v: 4, entries: navigationEntries });
 
       jumpToStory(-1);
@@ -979,7 +1013,7 @@ describe('stories API', () => {
 
       const {
         api: { setIndex, jumpToStory },
-      } = initStories({ store, navigate, provider } as any);
+      } = initStoriesAndSetState({ store, navigate, provider } as any);
       setIndex({ v: 4, entries: navigationEntries });
 
       jumpToStory(1);
@@ -995,12 +1029,10 @@ describe('stories API', () => {
       const storyId = 'a--1';
       const {
         api: { setIndex, findSiblingStoryId },
-        state,
-      } = initStories({ store, navigate, storyId, viewMode: 'story', provider } as any);
-      store.setState(state);
+      } = initStoriesAndSetState({ store, navigate, storyId, viewMode: 'story', provider } as any);
       setIndex({ v: 4, entries: navigationEntries });
 
-      const result = findSiblingStoryId(storyId, store.getState().stories, 1, false);
+      const result = findSiblingStoryId(storyId, store.getState().index, 1, false);
       expect(result).toBe('a--2');
     });
     it('works forward toSiblingGroup', () => {
@@ -1010,12 +1042,10 @@ describe('stories API', () => {
       const storyId = 'a--1';
       const {
         api: { setIndex, findSiblingStoryId },
-        state,
-      } = initStories({ store, navigate, storyId, viewMode: 'story', provider } as any);
-      store.setState(state);
+      } = initStoriesAndSetState({ store, navigate, storyId, viewMode: 'story', provider } as any);
       setIndex({ v: 4, entries: navigationEntries });
 
-      const result = findSiblingStoryId(storyId, store.getState().stories, 1, true);
+      const result = findSiblingStoryId(storyId, store.getState().index, 1, true);
       expect(result).toBe('b-c--1');
     });
   });
@@ -1026,9 +1056,13 @@ describe('stories API', () => {
 
       const {
         api: { setIndex, jumpToComponent },
-        state,
-      } = initStories({ store, navigate, storyId: 'a--1', viewMode: 'story', provider } as any);
-      store.setState(state);
+      } = initStoriesAndSetState({
+        store,
+        navigate,
+        storyId: 'a--1',
+        viewMode: 'story',
+        provider,
+      } as any);
       setIndex({ v: 4, entries: navigationEntries });
 
       jumpToComponent(1);
@@ -1041,9 +1075,13 @@ describe('stories API', () => {
 
       const {
         api: { setIndex, jumpToComponent },
-        state,
-      } = initStories({ store, navigate, storyId: 'b-c--1', viewMode: 'story', provider } as any);
-      store.setState(state);
+      } = initStoriesAndSetState({
+        store,
+        navigate,
+        storyId: 'b-c--1',
+        viewMode: 'story',
+        provider,
+      } as any);
       setIndex({ v: 4, entries: navigationEntries });
 
       jumpToComponent(-1);
@@ -1056,15 +1094,13 @@ describe('stories API', () => {
 
       const {
         api: { setIndex, jumpToComponent },
-        state,
-      } = initStories({
+      } = initStoriesAndSetState({
         store,
         navigate,
         storyId: 'custom-id--1',
         viewMode: 'story',
         provider,
       } as any);
-      store.setState(state);
       setIndex({ v: 4, entries: navigationEntries });
 
       jumpToComponent(1);
@@ -1077,9 +1113,13 @@ describe('stories API', () => {
 
       const {
         api: { setIndex, jumpToComponent },
-        state,
-      } = initStories({ store, navigate, storyId: 'a--2', viewMode: 'story', provider } as any);
-      store.setState(state);
+      } = initStoriesAndSetState({
+        store,
+        navigate,
+        storyId: 'a--2',
+        viewMode: 'story',
+        provider,
+      } as any);
       setIndex({ v: 4, entries: navigationEntries });
 
       jumpToComponent(-1);
@@ -1093,7 +1133,7 @@ describe('stories API', () => {
       const store = createMockStore({ storyId: 'a--1', viewMode: 'story' });
       const {
         api: { setIndex, selectStory },
-      } = initStories({ store, navigate, provider } as any);
+      } = initStoriesAndSetState({ store, navigate, provider } as any);
       setIndex({ v: 4, entries: navigationEntries });
 
       selectStory('a--2');
@@ -1105,7 +1145,7 @@ describe('stories API', () => {
       const store = createMockStore({ storyId: 'a--1', viewMode: 'docs' });
       const {
         api: { setIndex, selectStory },
-      } = initStories({ store, navigate, provider } as any);
+      } = initStoriesAndSetState({ store, navigate, provider } as any);
       setIndex({
         v: 4,
         entries: {
@@ -1128,10 +1168,16 @@ describe('stories API', () => {
     describe('legacy api', () => {
       it('allows navigating to a combination of title + name', () => {
         const navigate = jest.fn();
-        const store = createMockStore({ storyId: 'a--1', viewMode: 'story' });
+        const store = createMockStore();
         const {
           api: { setIndex, selectStory },
-        } = initStories({ store, navigate, provider } as any);
+        } = initStoriesAndSetState({
+          store,
+          storyId: 'a--1',
+          viewMode: 'story',
+          navigate,
+          provider,
+        } as any);
         setIndex({ v: 4, entries: navigationEntries });
 
         selectStory('a', '2');
@@ -1140,10 +1186,16 @@ describe('stories API', () => {
 
       it('allows navigating to a given name (in the current component)', () => {
         const navigate = jest.fn();
-        const store = createMockStore({ storyId: 'a--1', viewMode: 'story' });
+        const store = createMockStore();
         const {
           api: { setIndex, selectStory },
-        } = initStories({ store, navigate, provider } as any);
+        } = initStoriesAndSetState({
+          store,
+          storyId: 'a--1',
+          viewMode: 'story',
+          navigate,
+          provider,
+        } as any);
         setIndex({ v: 4, entries: navigationEntries });
 
         selectStory(undefined, '2');
@@ -1156,7 +1208,7 @@ describe('stories API', () => {
       const store = createMockStore({ storyId: 'a--1', viewMode: 'settings' });
       const {
         api: { setIndex, selectStory },
-      } = initStories({ store, navigate, provider } as any);
+      } = initStoriesAndSetState({ store, navigate, provider } as any);
       setIndex({ v: 4, entries: navigationEntries });
 
       selectStory('a--2');
@@ -1165,10 +1217,16 @@ describe('stories API', () => {
 
     it('allows navigating to first story in component on call by component id', () => {
       const navigate = jest.fn();
-      const store = createMockStore({ storyId: 'a--1', viewMode: 'story' });
+      const store = createMockStore();
       const {
         api: { setIndex, selectStory },
-      } = initStories({ store, navigate, provider } as any);
+      } = initStoriesAndSetState({
+        store,
+        storyId: 'a--1',
+        viewMode: 'story',
+        navigate,
+        provider,
+      } as any);
       setIndex({ v: 4, entries: navigationEntries });
 
       selectStory('a');
@@ -1177,10 +1235,16 @@ describe('stories API', () => {
 
     it('allows navigating to first story in group on call by group id', () => {
       const navigate = jest.fn();
-      const store = createMockStore({ storyId: 'a--1', viewMode: 'story' });
+      const store = createMockStore();
       const {
         api: { setIndex, selectStory },
-      } = initStories({ store, navigate, provider } as any);
+      } = initStoriesAndSetState({
+        store,
+        storyId: 'a--1',
+        viewMode: 'story',
+        navigate,
+        provider,
+      } as any);
       setIndex({ v: 4, entries: navigationEntries });
 
       selectStory('b');
@@ -1189,10 +1253,16 @@ describe('stories API', () => {
 
     it('allows navigating to first story in component on call by title', () => {
       const navigate = jest.fn();
-      const store = createMockStore({ storyId: 'a--1', viewMode: 'story' });
+      const store = createMockStore();
       const {
         api: { setIndex, selectStory },
-      } = initStories({ store, navigate, provider } as any);
+      } = initStoriesAndSetState({
+        store,
+        storyId: 'a--1',
+        viewMode: 'story',
+        navigate,
+        provider,
+      } as any);
       setIndex({ v: 4, entries: navigationEntries });
 
       selectStory('A');
@@ -1201,10 +1271,16 @@ describe('stories API', () => {
 
     it('allows navigating to the first story of the current component if passed nothing', () => {
       const navigate = jest.fn();
-      const store = createMockStore({ storyId: 'a--2', viewMode: 'story' });
+      const store = createMockStore();
       const {
         api: { setIndex, selectStory },
-      } = initStories({ store, navigate, provider } as any);
+      } = initStoriesAndSetState({
+        store,
+        storyId: 'a--2',
+        viewMode: 'story',
+        navigate,
+        provider,
+      } as any);
       setIndex({ v: 4, entries: navigationEntries });
 
       selectStory();
@@ -1218,9 +1294,7 @@ describe('stories API', () => {
 
         const {
           api: { selectStory, setIndex },
-          state,
-        } = initStories({ store, navigate, provider } as any);
-        store.setState(state);
+        } = initStoriesAndSetState({ store, navigate, provider } as any);
         setIndex({ v: 4, entries: navigationEntries });
 
         selectStory('b/e', '1');
@@ -1233,9 +1307,7 @@ describe('stories API', () => {
 
         const {
           api: { selectStory, setIndex },
-          state,
-        } = initStories({ store, navigate, provider } as any);
-        store.setState(state);
+        } = initStoriesAndSetState({ store, navigate, provider } as any);
         setIndex({ v: 4, entries: navigationEntries });
 
         selectStory('custom-id', '1');
@@ -1248,9 +1320,7 @@ describe('stories API', () => {
 
         const {
           api: { selectStory, setIndex },
-          state,
-        } = initStories({ store, navigate, provider } as any);
-        store.setState(state);
+        } = initStoriesAndSetState({ store, navigate, provider } as any);
         setIndex({ v: 4, entries: navigationEntries });
 
         selectStory('b/e');
@@ -1268,7 +1338,7 @@ describe('stories API', () => {
         setOptions: jest.fn(),
       });
 
-      const { api, init } = initStories({ store, navigate, provider, fullAPI } as any);
+      const { api, init } = initStoriesAndSetState({ store, navigate, provider, fullAPI } as any);
       Object.assign(fullAPI, api);
 
       await init();
@@ -1278,8 +1348,8 @@ describe('stories API', () => {
         args: { c: 'd' },
       });
 
-      const { stories: storedStoriesHash } = store.getState();
-      expect(storedStoriesHash['component-a--story-1']).toMatchObject({
+      const { index } = store.getState();
+      expect(index['component-a--story-1']).toMatchObject({
         type: 'story',
         id: 'component-a--story-1',
         parent: 'component-a',
@@ -1299,7 +1369,7 @@ describe('stories API', () => {
         setOptions: jest.fn(),
       });
 
-      const { api, init } = initStories({ store, navigate, provider, fullAPI } as any);
+      const { api, init } = initStoriesAndSetState({ store, navigate, provider, fullAPI } as any);
       Object.assign(fullAPI, api);
 
       await init();
@@ -1326,7 +1396,7 @@ describe('stories API', () => {
       const store = createMockStore();
       const fullAPI = Object.assign(new EventEmitter(), {});
 
-      const { api, init } = initStories({ store, navigate, provider, fullAPI } as any);
+      const { api, init } = initStoriesAndSetState({ store, navigate, provider, fullAPI } as any);
       Object.assign(fullAPI, api);
 
       await init();
@@ -1341,7 +1411,7 @@ describe('stories API', () => {
       const navigate = jest.fn();
       const fullAPI = Object.assign(new EventEmitter(), { updateRef: jest.fn() });
       const store = createMockStore();
-      const { api, init } = initStories({ store, navigate, provider, fullAPI } as any);
+      const { api, init } = initStoriesAndSetState({ store, navigate, provider, fullAPI } as any);
 
       Object.assign(fullAPI, api);
 
@@ -1365,7 +1435,7 @@ describe('stories API', () => {
       const navigate = jest.fn();
       const store = createMockStore();
 
-      const { init, api } = initStories({ store, navigate, provider, fullAPI } as any);
+      const { init, api } = initStoriesAndSetState({ store, navigate, provider, fullAPI } as any);
       Object.assign(fullAPI, api, {
         setIndex: jest.fn(),
         findRef: jest.fn(),
@@ -1404,7 +1474,7 @@ describe('stories API', () => {
       const navigate = jest.fn();
       const store = createMockStore();
 
-      const { init, api } = initStories({ store, navigate, provider, fullAPI } as any);
+      const { init, api } = initStoriesAndSetState({ store, navigate, provider, fullAPI } as any);
       Object.assign(fullAPI, api, {
         setIndex: jest.fn(),
         findRef: jest.fn(),

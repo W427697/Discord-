@@ -6,7 +6,7 @@ import type {
   API_Refs,
   API_SetRefData,
   SetStoriesStoryData,
-  API_StoriesHash,
+  API_IndexHash,
   API_StoryMapper,
 } from '@storybook/types';
 // eslint-disable-next-line import/no-cycle
@@ -56,10 +56,10 @@ export const defaultStoryMapper: API_StoryMapper = (b, a) => {
   return { ...a, kind: a.kind.replace('|', '/') };
 };
 
-const addRefIds = (input: API_StoriesHash, ref: API_ComposedRef): API_StoriesHash => {
+const addRefIds = (input: API_IndexHash, ref: API_ComposedRef): API_IndexHash => {
   return Object.entries(input).reduce((acc, [id, item]) => {
     return { ...acc, [id]: { ...item, refId: ref.id } };
-  }, {} as API_StoriesHash);
+  }, {} as API_IndexHash);
 };
 
 async function handleRequest(
@@ -245,18 +245,18 @@ export const init: ModuleFn<SubAPI, SubState, void> = (
       const { storyMapper = defaultStoryMapper } = provider.getConfig();
       const ref = api.getRefs()[id];
 
-      let storiesHash: API_StoriesHash;
+      let index: API_IndexHash;
       if (setStoriesData) {
-        storiesHash = transformSetStoriesStoryDataToStoriesHash(
+        index = transformSetStoriesStoryDataToStoriesHash(
           map(setStoriesData, ref, { storyMapper }),
           { provider, docsOptions }
         );
       } else if (storyIndex) {
-        storiesHash = transformStoryIndexToStoriesHash(storyIndex, { provider, docsOptions });
+        index = transformStoryIndexToStoriesHash(storyIndex, { provider, docsOptions });
       }
-      if (storiesHash) storiesHash = addRefIds(storiesHash, ref);
+      if (index) index = addRefIds(index, ref);
 
-      api.updateRef(id, { stories: storiesHash, ...rest });
+      api.updateRef(id, { index, ...rest });
     },
 
     updateRef: (id, data) => {
