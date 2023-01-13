@@ -1,17 +1,19 @@
 /// <reference types="@types/jest" />;
 
-import global from 'global';
+import { global } from '@storybook/global';
 import { expect } from '@jest/globals';
 import type { Renderer, ArgsEnhancer, PlayFunctionContext, SBScalarType } from '@storybook/types';
 import { addons, HooksContext } from '../../addons';
 
 import { NO_TARGET_NAME } from '../args';
-import { prepareStory } from './prepareStory';
+import { prepareStory, prepareMeta } from './prepareStory';
 
-jest.mock('global', () => ({
-  ...(jest.requireActual('global') as any),
-  FEATURES: {
-    breakingChangesV7: true,
+jest.mock('@storybook/global', () => ({
+  global: {
+    ...(jest.requireActual('@storybook/global') as any),
+    FEATURES: {
+      breakingChangesV7: true,
+    },
   },
 }));
 
@@ -642,5 +644,47 @@ describe('moduleExport', () => {
     const storyObj = {};
     const story = prepareStory({ id, name, moduleExport: storyObj }, { id, title }, { render });
     expect(story.moduleExport).toBe(storyObj);
+  });
+});
+
+describe('prepareMeta', () => {
+  it('returns the same as prepareStory', () => {
+    const meta = {
+      id,
+      title,
+      moduleExport,
+      tags: ['some-tag'],
+      parameters: {
+        a: { name: 'component' },
+        b: { name: 'component' },
+        nested: { z: { name: 'component' }, y: { name: 'component' } },
+      },
+      args: {
+        a: 'component',
+        b: 'component',
+        nested: { z: 'component', y: 'component' },
+      },
+      argTypes: {
+        a: { name: 'a-story', type: booleanType },
+        nested: { name: 'nested', type: booleanType, a: 'story' },
+      },
+    };
+    const preparedStory = prepareStory({ id, name, moduleExport }, meta, { render });
+    const preparedMeta = prepareMeta(meta, { render }, {});
+
+    // omitting the properties from preparedStory that are not in preparedMeta
+    const {
+      name: storyName,
+      story,
+      applyLoaders,
+      originalStoryFn,
+      unboundStoryFn,
+      undecoratedStoryFn,
+      playFunction,
+      ...expectedPreparedMeta
+    } = preparedStory;
+
+    expect(preparedMeta).toMatchObject(expectedPreparedMeta);
+    expect(Object.keys(preparedMeta)).toHaveLength(Object.keys(expectedPreparedMeta).length);
   });
 });

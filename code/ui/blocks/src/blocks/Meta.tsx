@@ -14,14 +14,14 @@ type MetaProps = BaseAnnotations & { of?: ModuleExports };
 export const Meta: FC<MetaProps> = ({ of }) => {
   const context = useContext(DocsContext);
   if (of) {
-    context.setMeta(of);
+    context.referenceMeta(of, true);
   }
 
   try {
     const primary = context.storyById();
     return <Anchor storyId={primary.id} />;
   } catch (err) {
-    // It is possible to use <Meta> in a standalone entry without referencing any story file
+    // It is possible to use <Meta> in a unnattached MDX file
     return null;
   }
 };

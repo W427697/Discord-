@@ -158,8 +158,10 @@ export const doUpgrade = async ({
 }: UpgradeOptions) => {
   if (useNpm) {
     useNpmWarning();
+    // eslint-disable-next-line no-param-reassign
+    pkgMgr = 'npm';
   }
-  const packageManager = JsPackageManagerFactory.getPackageManager({ useNpm, force: pkgMgr });
+  const packageManager = JsPackageManagerFactory.getPackageManager({ force: pkgMgr });
 
   const beforeVersion = await getStorybookCoreVersion();
 
@@ -173,7 +175,10 @@ export const doUpgrade = async ({
 
   let target = 'latest';
   if (prerelease) {
-    target = 'greatest';
+    // '@next' is storybook's convention for the latest prerelease tag.
+    // This used to be 'greatest', but that was not reliable and could pick canaries, etc.
+    // and random releases of other packages with storybook in their name.
+    target = '@next';
   } else if (tag) {
     target = `@${tag}`;
   }
@@ -189,6 +194,12 @@ export const doUpgrade = async ({
   }).output.toString();
   logger.info(check);
 
+  const checkSb = spawnSync('npx', ['npm-check-updates@latest', 'sb', ...flags], {
+    stdio: 'pipe',
+    shell: true,
+  }).output.toString();
+  logger.info(checkSb);
+
   if (!dryRun) {
     commandLog(`Installing upgrades`);
     packageManager.installDependencies();
@@ -197,7 +208,7 @@ export const doUpgrade = async ({
   let automigrationResults;
   if (!skipCheck) {
     checkVersionConsistency();
-    automigrationResults = await automigrate({ dryRun, yes, useNpm, force: pkgMgr });
+    automigrationResults = await automigrate({ dryRun, yes, packageManager: pkgMgr });
   }
 
   if (!options.disableTelemetry) {

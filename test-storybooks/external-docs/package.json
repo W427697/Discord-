@@ -38,7 +38,7 @@
     "eslint": "8.7.0",
     "eslint-config-next": "12.0.8",
     "storybook": "7.0.0-alpha.43",
-    "typescript": "~4.6.3",
+    "typescript": "~4.9.3",
     "webpack": "5"
   },
   "resolutions": {
@@ -54,8 +54,8 @@
     "@storybook/addon-links": "portal:../../code/addons/links",
     "@storybook/addon-measure": "portal:../../code/addons/measure",
     "@storybook/addon-outline": "portal:../../code/addons/outline",
-    "@storybook/addon-storyshots": "portal:../../code/addons/storyshots/storyshots-core",
-    "@storybook/addon-storyshots-puppeteer": "portal:../../code/addons/storyshots/storyshots-puppeteer",
+    "@storybook/addon-storyshots": "portal:../../code/addons/storyshots-core",
+    "@storybook/addon-storyshots-puppeteer": "portal:../../code/addons/storyshots-puppeteer",
     "@storybook/addon-storysource": "portal:../../code/addons/storysource",
     "@storybook/addon-toolbars": "portal:../../code/addons/toolbars",
     "@storybook/addon-viewport": "portal:../../code/addons/viewport",

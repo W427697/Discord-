@@ -1,6 +1,5 @@
-import { vite as csfPlugin } from '@storybook/csf-plugin';
 import pluginTurbosnap from 'vite-plugin-turbosnap';
-import type { StorybookConfig } from '../../frameworks/react-vite/dist';
+import type { StorybookConfig } from '../../frameworks/react-vite';
 
 const isBlocksOnly = process.env.STORYBOOK_BLOCKS_ONLY === 'true';
 
@@ -21,7 +20,7 @@ const allStories = [
 ];
 
 /**
- * match all stories in blocks/src/blocks and blocks/src/controls EXCEPT blocks/src/blocks/internal
+ * match all stories in blocks/src/blocks, blocks/src/controls and blocks/src/examples EXCEPT blocks/src/blocks/internal
  * Examples:
  *
  * src/blocks/Canvas.stories.tsx - MATCH
@@ -39,8 +38,8 @@ const allStories = [
  * src/components/ColorPalette.tsx - IGNORED, not story
  */
 const blocksOnlyStories = [
-  '../blocks/src/@(blocks|controls)/!(internal)/**/*.@(mdx|stories.@(tsx|ts|jsx|js))',
-  '../blocks/src/@(blocks|controls)/*.@(mdx|stories.@(tsx|ts|jsx|js))',
+  '../blocks/src/@(blocks|controls|examples)/!(internal)/**/*.@(mdx|stories.@(tsx|ts|jsx|js))',
+  '../blocks/src/@(blocks|controls|examples)/*.@(mdx|stories.@(tsx|ts|jsx|js))',
 ];
 
 const config: StorybookConfig = {
@@ -65,7 +64,6 @@ const config: StorybookConfig = {
     ...viteConfig,
     plugins: [
       ...(viteConfig.plugins || []),
-      csfPlugin({}),
       configType === 'PRODUCTION' ? pluginTurbosnap({ rootDir: viteConfig.root || '' }) : [],
     ],
     optimizeDeps: { ...viteConfig.optimizeDeps, force: true },

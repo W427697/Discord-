@@ -53,7 +53,7 @@ const options = {
   ] as StoryIndexer[],
   storiesV2Compatibility: false,
   storyStoreV7: true,
-  docs: { enabled: true, defaultName: 'docs', docsPage: false },
+  docs: { disable: false, defaultName: 'docs', autodocs: false },
 };
 
 describe('StoryIndexGenerator', () => {
@@ -172,7 +172,7 @@ describe('StoryIndexGenerator', () => {
                 "importPath": "./src/B.stories.ts",
                 "name": "Story One",
                 "tags": Array [
-                  "docsPage",
+                  "autodocs",
                   "story",
                 ],
                 "title": "B",
@@ -183,7 +183,7 @@ describe('StoryIndexGenerator', () => {
                 "importPath": "./src/D.stories.jsx",
                 "name": "Story One",
                 "tags": Array [
-                  "docsPage",
+                  "autodocs",
                   "story",
                 ],
                 "title": "D",
@@ -246,10 +246,9 @@ describe('StoryIndexGenerator', () => {
                 "id": "page--docs",
                 "importPath": "./src/nested/Page.stories.mdx",
                 "name": "docs",
-                "standalone": false,
                 "storiesImports": Array [],
                 "tags": Array [
-                  "mdx",
+                  "stories-mdx",
                   "docs",
                 ],
                 "title": "Page",
@@ -260,7 +259,7 @@ describe('StoryIndexGenerator', () => {
                 "importPath": "./src/nested/Page.stories.mdx",
                 "name": "StoryOne",
                 "tags": Array [
-                  "mdx",
+                  "stories-mdx",
                   "story",
                 ],
                 "title": "Page",
@@ -279,7 +278,7 @@ describe('StoryIndexGenerator', () => {
 
         const generator = new StoryIndexGenerator([specifier], {
           ...options,
-          docs: { enabled: false },
+          docs: { disable: true },
         });
         await generator.initialize();
 
@@ -304,37 +303,23 @@ describe('StoryIndexGenerator', () => {
       });
     });
 
-    describe('docsPage', () => {
-      const docsPageOptions = {
+    describe('autodocs', () => {
+      const autodocsOptions = {
         ...options,
-        docs: { ...options.docs, docsPage: true },
+        docs: { ...options.docs, autodocs: 'tag' as const },
       };
-      it('generates an entry per CSF file with the docsPage tag', async () => {
+      it('generates an entry per CSF file with the autodocs tag', async () => {
         const specifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
           './src/**/*.stories.(ts|js|jsx)',
           options
         );
 
-        const generator = new StoryIndexGenerator([specifier], docsPageOptions);
+        const generator = new StoryIndexGenerator([specifier], autodocsOptions);
         await generator.initialize();
 
         expect(await generator.getIndex()).toMatchInlineSnapshot(`
           Object {
             "entries": Object {
-              "a--docs": Object {
-                "id": "a--docs",
-                "importPath": "./src/A.stories.js",
-                "name": "docs",
-                "standalone": false,
-                "storiesImports": Array [],
-                "tags": Array [
-                  "component-tag",
-                  "docsPage",
-                  "docs",
-                ],
-                "title": "A",
-                "type": "docs",
-              },
               "a--story-one": Object {
                 "id": "a--story-one",
                 "importPath": "./src/A.stories.js",
@@ -350,10 +335,9 @@ describe('StoryIndexGenerator', () => {
                 "id": "b--docs",
                 "importPath": "./src/B.stories.ts",
                 "name": "docs",
-                "standalone": false,
                 "storiesImports": Array [],
                 "tags": Array [
-                  "docsPage",
+                  "autodocs",
                   "docs",
                 ],
                 "title": "B",
@@ -364,7 +348,7 @@ describe('StoryIndexGenerator', () => {
                 "importPath": "./src/B.stories.ts",
                 "name": "Story One",
                 "tags": Array [
-                  "docsPage",
+                  "autodocs",
                   "story",
                 ],
                 "title": "B",
@@ -374,10 +358,9 @@ describe('StoryIndexGenerator', () => {
                 "id": "d--docs",
                 "importPath": "./src/D.stories.jsx",
                 "name": "docs",
-                "standalone": false,
                 "storiesImports": Array [],
                 "tags": Array [
-                  "docsPage",
+                  "autodocs",
                   "docs",
                 ],
                 "title": "D",
@@ -388,7 +371,7 @@ describe('StoryIndexGenerator', () => {
                 "importPath": "./src/D.stories.jsx",
                 "name": "Story One",
                 "tags": Array [
-                  "docsPage",
+                  "autodocs",
                   "story",
                 ],
                 "title": "D",
@@ -431,19 +414,20 @@ describe('StoryIndexGenerator', () => {
         `);
       });
 
-      it('generates an entry for every CSF file when docsOptions.docsPage = automatic', async () => {
+      const autodocsTrueOptions = {
+        ...autodocsOptions,
+        docs: {
+          ...autodocsOptions.docs,
+          autodocs: true,
+        },
+      };
+      it('generates an entry for every CSF file when docsOptions.autodocs = true', async () => {
         const specifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
           './src/**/*.stories.(ts|js|jsx)',
           options
         );
 
-        const generator = new StoryIndexGenerator([specifier], {
-          ...docsPageOptions,
-          docs: {
-            ...docsPageOptions.docs,
-            docsPage: 'automatic',
-          },
-        });
+        const generator = new StoryIndexGenerator([specifier], autodocsTrueOptions);
         await generator.initialize();
 
         expect(Object.keys((await generator.getIndex()).entries)).toMatchInlineSnapshot(`
@@ -464,7 +448,41 @@ describe('StoryIndexGenerator', () => {
         `);
       });
 
-      it('does not generate a docs page entry if there is a standalone entry with the same name', async () => {
+      it('adds the autodocs tag to the autogenerated docs entries', async () => {
+        const specifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
+          './src/**/*.stories.(ts|js|jsx)',
+          options
+        );
+
+        const generator = new StoryIndexGenerator([specifier], autodocsTrueOptions);
+        await generator.initialize();
+
+        const index = await generator.getIndex();
+        expect(index.entries['first-nested-deeply-f--docs'].tags).toEqual(
+          expect.arrayContaining(['autodocs'])
+        );
+      });
+
+      it('throws an error if you attach a MetaOf entry to a tagged autodocs entry', async () => {
+        const csfSpecifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
+          './src/B.stories.ts',
+          options
+        );
+
+        const docsSpecifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
+          './errors/MetaOfAutodocs.mdx',
+          options
+        );
+
+        const generator = new StoryIndexGenerator([csfSpecifier, docsSpecifier], autodocsOptions);
+        await generator.initialize();
+
+        await expect(generator.getIndex()).rejects.toThrowError(
+          `You created a component docs page for B (./errors/MetaOfAutodocs.mdx), but also tagged the CSF file (./src/B.stories.ts) with 'autodocs'. This is probably a mistake.`
+        );
+      });
+
+      it('allows you to override autodocs with MetaOf if it is automatic', async () => {
         const csfSpecifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
           './src/A.stories.js',
           options
@@ -475,7 +493,10 @@ describe('StoryIndexGenerator', () => {
           options
         );
 
-        const generator = new StoryIndexGenerator([csfSpecifier, docsSpecifier], docsPageOptions);
+        const generator = new StoryIndexGenerator(
+          [csfSpecifier, docsSpecifier],
+          autodocsTrueOptions
+        );
         await generator.initialize();
 
         expect(await generator.getIndex()).toMatchInlineSnapshot(`
@@ -485,13 +506,11 @@ describe('StoryIndexGenerator', () => {
                 "id": "a--docs",
                 "importPath": "./src/docs2/MetaOf.mdx",
                 "name": "docs",
-                "standalone": true,
                 "storiesImports": Array [
                   "./src/A.stories.js",
                 ],
                 "tags": Array [
                   "docs",
-                  "mdx",
                 ],
                 "title": "A",
                 "type": "docs",
@@ -519,7 +538,7 @@ describe('StoryIndexGenerator', () => {
           options
         );
 
-        const generator = new StoryIndexGenerator([specifier], docsPageOptions);
+        const generator = new StoryIndexGenerator([specifier], autodocsOptions);
         await generator.initialize();
 
         expect(await generator.getIndex()).toMatchInlineSnapshot(`
@@ -529,12 +548,11 @@ describe('StoryIndexGenerator', () => {
                 "id": "duplicate-a--docs",
                 "importPath": "./duplicate/A.stories.js",
                 "name": "docs",
-                "standalone": false,
                 "storiesImports": Array [
                   "./duplicate/SecondA.stories.js",
                 ],
                 "tags": Array [
-                  "docsPage",
+                  "autodocs",
                   "docs",
                 ],
                 "title": "duplicate/A",
@@ -545,7 +563,7 @@ describe('StoryIndexGenerator', () => {
                 "importPath": "./duplicate/A.stories.js",
                 "name": "Story One",
                 "tags": Array [
-                  "docsPage",
+                  "autodocs",
                   "story",
                 ],
                 "title": "duplicate/A",
@@ -556,7 +574,7 @@ describe('StoryIndexGenerator', () => {
                 "importPath": "./duplicate/SecondA.stories.js",
                 "name": "Story Two",
                 "tags": Array [
-                  "docsPage",
+                  "autodocs",
                   "story",
                 ],
                 "title": "duplicate/A",
@@ -575,7 +593,7 @@ describe('StoryIndexGenerator', () => {
           options
         );
 
-        const generator = new StoryIndexGenerator([csfSpecifier], docsPageOptions);
+        const generator = new StoryIndexGenerator([csfSpecifier], autodocsOptions);
         await generator.initialize();
 
         expect(await generator.getIndex()).toMatchInlineSnapshot(`
@@ -599,13 +617,11 @@ describe('StoryIndexGenerator', () => {
                 "id": "a--docs",
                 "importPath": "./src/docs2/MetaOf.mdx",
                 "name": "docs",
-                "standalone": true,
                 "storiesImports": Array [
                   "./src/A.stories.js",
                 ],
                 "tags": Array [
                   "docs",
-                  "mdx",
                 ],
                 "title": "A",
                 "type": "docs",
@@ -614,13 +630,11 @@ describe('StoryIndexGenerator', () => {
                 "id": "a--second-docs",
                 "importPath": "./src/docs2/SecondMetaOf.mdx",
                 "name": "Second Docs",
-                "standalone": true,
                 "storiesImports": Array [
                   "./src/A.stories.js",
                 ],
                 "tags": Array [
                   "docs",
-                  "mdx",
                 ],
                 "title": "A",
                 "type": "docs",
@@ -640,11 +654,9 @@ describe('StoryIndexGenerator', () => {
                 "id": "docs2-yabbadabbadooo--docs",
                 "importPath": "./src/docs2/Title.mdx",
                 "name": "docs",
-                "standalone": true,
                 "storiesImports": Array [],
                 "tags": Array [
                   "docs",
-                  "mdx",
                 ],
                 "title": "docs2/Yabbadabbadooo",
                 "type": "docs",
@@ -653,11 +665,9 @@ describe('StoryIndexGenerator', () => {
                 "id": "notitle--docs",
                 "importPath": "./src/docs2/NoTitle.mdx",
                 "name": "docs",
-                "standalone": true,
                 "storiesImports": Array [],
                 "tags": Array [
                   "docs",
-                  "mdx",
                 ],
                 "title": "NoTitle",
                 "type": "docs",
@@ -700,7 +710,7 @@ describe('StoryIndexGenerator', () => {
           ...options,
           docs: {
             ...options.docs,
-            enabled: false,
+            disable: true,
           },
         });
         await generator.initialize();
@@ -742,13 +752,11 @@ describe('StoryIndexGenerator', () => {
                 "id": "a--info",
                 "importPath": "./src/docs2/MetaOf.mdx",
                 "name": "Info",
-                "standalone": true,
                 "storiesImports": Array [
                   "./src/A.stories.js",
                 ],
                 "tags": Array [
                   "docs",
-                  "mdx",
                 ],
                 "title": "A",
                 "type": "docs",
@@ -757,13 +765,11 @@ describe('StoryIndexGenerator', () => {
                 "id": "a--second-docs",
                 "importPath": "./src/docs2/SecondMetaOf.mdx",
                 "name": "Second Docs",
-                "standalone": true,
                 "storiesImports": Array [
                   "./src/A.stories.js",
                 ],
                 "tags": Array [
                   "docs",
-                  "mdx",
                 ],
                 "title": "A",
                 "type": "docs",
@@ -783,11 +789,9 @@ describe('StoryIndexGenerator', () => {
                 "id": "docs2-yabbadabbadooo--info",
                 "importPath": "./src/docs2/Title.mdx",
                 "name": "Info",
-                "standalone": true,
                 "storiesImports": Array [],
                 "tags": Array [
                   "docs",
-                  "mdx",
                 ],
                 "title": "docs2/Yabbadabbadooo",
                 "type": "docs",
@@ -796,11 +800,9 @@ describe('StoryIndexGenerator', () => {
                 "id": "notitle--info",
                 "importPath": "./src/docs2/NoTitle.mdx",
                 "name": "Info",
-                "standalone": true,
                 "storiesImports": Array [],
                 "tags": Array [
                   "docs",
-                  "mdx",
                 ],
                 "title": "NoTitle",
                 "type": "docs",
@@ -825,7 +827,7 @@ describe('StoryIndexGenerator', () => {
     });
 
     describe('duplicates', () => {
-      it('warns when two standalone entries reference the same CSF file without a name', async () => {
+      it('warns when two MDX entries reference the same CSF file without a name', async () => {
         const docsErrorSpecifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
           './errors/DuplicateMetaOf.mdx',
           options
@@ -853,7 +855,7 @@ describe('StoryIndexGenerator', () => {
         );
       });
 
-      it('warns when a standalone entry has the same name as a story', async () => {
+      it('warns when a MDX entry has the same name as a story', async () => {
         const docsErrorSpecifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
           './errors/MetaOfClashingName.mdx',
           options

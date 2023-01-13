@@ -156,10 +156,7 @@ export interface CLIOptions {
   quiet?: boolean;
   versionUpdates?: boolean;
   releaseNotes?: boolean;
-  dll?: boolean;
   docs?: boolean;
-  docsDll?: boolean;
-  uiDll?: boolean;
   debugWebpack?: boolean;
   webpackStatsJson?: string | boolean;
   outputDir?: string;
@@ -245,18 +242,19 @@ type CoreCommon_StorybookRefs = Record<
 
 export type DocsOptions = {
   /**
-   * Should we generate docs entries at all under any circumstances? (i.e. can they be rendered)
+   * Should we disable generate docs entries at all under any circumstances? (i.e. can they be rendered)
    */
-  enabled?: boolean;
+  disable?: boolean;
   /**
    * What should we call the generated docs entries?
    */
   defaultName?: string;
   /**
-   * Should we generate a docs entry per CSF file with the `docsPage` tag?
-   * Set to 'automatic' to generate an entry irrespective of tag.
+   * Should we generate a docs entry per CSF file?
+   * Set to 'tag' (the default) to generate an entry for every CSF file with the
+   * 'autodocs' tag.
    */
-  docsPage?: boolean | 'automatic';
+  autodocs?: boolean | 'tag';
   /**
    * Only show doc entries in the side bar (usually set with the `--docs` CLI flag)
    */
@@ -310,11 +308,6 @@ export interface StorybookConfig {
     interactionsDebugger?: boolean;
 
     /**
-     * Use Storybook 7.0 babel config scheme
-     */
-    babelModeV7?: boolean;
-
-    /**
      * Filter args with a "target" on the type from the render function (EXPERIMENTAL)
      */
     argTypeTargetsV7?: boolean;
@@ -346,7 +339,7 @@ export interface StorybookConfig {
   /**
    * References external Storybooks
    */
-  refs?: CoreCommon_StorybookRefs | ((config: any, options: Options) => CoreCommon_StorybookRefs);
+  refs?: PresetValue<CoreCommon_StorybookRefs>;
 
   /**
    * Modify or return babel config.
@@ -369,17 +362,17 @@ export interface StorybookConfig {
    *
    * @deprecated use `previewAnnotations` or `/preview.js` file instead
    */
-  config?: (entries: Entry[], options: Options) => Entry[];
+  config?: PresetValue<Entry[]>;
 
   /**
    * Add additional scripts to run in the preview a la `.storybook/preview.js`
    */
-  previewAnnotations?: (entries: Entry[], options: Options) => Entry[];
+  previewAnnotations?: PresetValue<Entry[]>;
 
   /**
    * Process CSF files for the story index.
    */
-  storyIndexers?: (indexers: StoryIndexer[], options: Options) => StoryIndexer[];
+  storyIndexers?: PresetValue<StoryIndexer[]>;
 
   /**
    * Docs related features in index generation
@@ -391,10 +384,12 @@ export interface StorybookConfig {
    * The previewHead and previewBody functions accept a string,
    * which is the existing head/body, and return a modified string.
    */
-  previewHead?: (head: string, options: Options) => string;
+  previewHead?: PresetValue<string>;
 
-  previewBody?: (body: string, options: Options) => string;
+  previewBody?: PresetValue<string>;
 }
+
+export type PresetValue<T> = T | ((config: T, options: Options) => T | Promise<T>);
 
 export type PresetProperty<K, TStorybookConfig = StorybookConfig> =
   | TStorybookConfig[K extends keyof TStorybookConfig ? K : never]
