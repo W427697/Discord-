@@ -76,18 +76,14 @@ const extract = (targetId: string, { source, locationsMap }: StorySource) => {
   return extractSource(location, lines);
 };
 
-export const enhanceSource = (story: PreparedStory<any>): Parameters => {
-  const { id, parameters } = story;
-  const { storySource, docs = {} } = parameters;
-  const { transformSource } = docs;
+export const enhanceSource = (story: PreparedStory<any>): string => {
+  const {
+    id,
+    parameters: { storySource },
+  } = story;
 
-  // no input or user has manually overridden the output
-  if (!storySource?.source || docs.source?.code) {
-    return null;
-  }
+  // If there's no input, return nothing
+  if (!storySource?.source) return '';
 
-  const input = extract(id, storySource);
-  const code = transformSource ? transformSource(input, story) : input;
-
-  return { docs: combineParameters(docs, { source: { code } }) };
+  return extract(id, storySource);
 };

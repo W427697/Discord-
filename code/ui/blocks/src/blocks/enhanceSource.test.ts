@@ -15,44 +15,9 @@ const emptyContext: StoryContext = {
 describe('addon-docs enhanceSource', () => {
   describe('no source loaded', () => {
     const baseContext = emptyContext;
-    it('no transformSource', () => {
+    it('works', () => {
       // @ts-expect-error (not correct)
-      expect(enhanceSource(baseContext)).toBeNull();
-    });
-    it('transformSource', () => {
-      const transformSource = (src?: string) => (src ? `formatted: ${src}` : 'no src');
-      const parameters = { ...baseContext.parameters, docs: { transformSource } };
-      // @ts-expect-error (not correct)
-      expect(enhanceSource({ ...baseContext, parameters })).toBeNull();
-    });
-  });
-  describe('custom/mdx source loaded', () => {
-    const source = 'storySource.source';
-    const baseContext = {
-      ...emptyContext,
-      parameters: { storySource: { source } },
-    };
-    it('no transformSource', () => {
-      // @ts-expect-error (not correct)
-      expect(enhanceSource(baseContext)).toEqual({
-        docs: { source: { code: 'storySource.source' } },
-      });
-    });
-    it('transformSource', () => {
-      const transformSource = (src?: string) => (src ? `formatted: ${src}` : 'no src');
-      const parameters = { ...baseContext.parameters, docs: { transformSource } };
-      // @ts-expect-error (not correct)
-      expect(enhanceSource({ ...baseContext, parameters }).docs.source).toEqual({
-        code: 'formatted: storySource.source',
-      });
-    });
-    it('receives context as 2nd argument', () => {
-      const transformSource = jest.fn();
-      const parameters = { ...baseContext.parameters, docs: { transformSource } };
-      const context = { ...baseContext, parameters };
-      // @ts-expect-error (not correct)
-      enhanceSource(context);
-      expect(transformSource).toHaveBeenCalledWith(source, context);
+      expect(enhanceSource(baseContext)).toEqual('');
     });
   });
   describe('storysource source loaded w/ locationsMap', () => {
@@ -67,45 +32,9 @@ describe('addon-docs enhanceSource', () => {
         },
       },
     };
-    it('no transformSource', () => {
+    it('works', () => {
       // @ts-expect-error (not correct)
-      expect(enhanceSource(baseContext)).toEqual({ docs: { source: { code: 'Source' } } });
-    });
-    it('transformSource', () => {
-      const transformSource = (src?: string) => (src ? `formatted: ${src}` : 'no src');
-      const parameters = { ...baseContext.parameters, docs: { transformSource } };
-      // @ts-expect-error (not correct)
-      expect(enhanceSource({ ...baseContext, parameters }).docs.source).toEqual({
-        code: 'formatted: Source',
-      });
-    });
-    it('receives context as 2nd argument', () => {
-      const transformSource = jest.fn();
-      const parameters = { ...baseContext.parameters, docs: { transformSource } };
-      const context = { ...baseContext, parameters };
-      // @ts-expect-error (not correct)
-      enhanceSource(context);
-      expect(transformSource).toHaveBeenCalledWith('Source', context);
-    });
-  });
-  describe('custom docs.source provided', () => {
-    const baseContext = {
-      ...emptyContext,
-      parameters: {
-        storySource: { source: 'storySource.source' },
-        docs: { source: { code: 'docs.source.code' } },
-      },
-    };
-    it('no transformSource', () => {
-      // @ts-expect-error (not correct)
-      expect(enhanceSource(baseContext)).toBeNull();
-    });
-    it('transformSource', () => {
-      const transformSource = (src?: string) => (src ? `formatted: ${src}` : 'no src');
-      const { source } = baseContext.parameters.docs;
-      const parameters = { ...baseContext.parameters, docs: { source, transformSource } };
-      // @ts-expect-error (not correct)
-      expect(enhanceSource({ ...baseContext, parameters })).toBeNull();
+      expect(enhanceSource(baseContext)).toEqual('Source');
     });
   });
 });

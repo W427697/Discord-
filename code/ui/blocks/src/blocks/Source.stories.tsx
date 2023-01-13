@@ -1,4 +1,5 @@
 import React from 'react';
+import { SourceType } from '@storybook/docs-tools';
 import type { Meta, StoryObj } from '@storybook/react';
 
 import { Source } from './Source';
@@ -9,10 +10,14 @@ const meta: Meta<typeof Source> = {
   component: Source,
   parameters: {
     relativeCsfPaths: ['../examples/Button.stories', '../blocks/Source.stories'],
+    snippets: {
+      'storybook-blocks-example-button--primary': { code: `const emitted = 'source';` },
+      'storybook-blocks-blocks-source--type-story': { code: `const emitted = 'source';` },
+    },
   },
   decorators: [
-    (Story, { parameters: { sources = {} } }) => (
-      <SourceContext.Provider value={{ sources }}>
+    (Story, { parameters: { snippets = {} } }) => (
+      <SourceContext.Provider value={{ sources: snippets }}>
         <Story />
       </SourceContext.Provider>
     ),
@@ -20,35 +25,6 @@ const meta: Meta<typeof Source> = {
 };
 export default meta;
 type Story = StoryObj<typeof meta>;
-
-export const DefaultAttached = {};
-
-// Still working on this
-// export const Of: Story = {
-//   args: {
-//     of: ButtonStories.Primary,
-//   },
-//   parameters: {
-//     sources: {
-//       'storybook-blocks-example-button--primary': `
-//         const emitted = 'source';
-//       `,
-//     },
-//   },
-// };
-
-export const OfNoSnippet: Story = {
-  args: {
-    of: ButtonStories.Primary,
-  },
-};
-
-export const OfUnattached: Story = {
-  args: {
-    of: ButtonStories.Primary,
-  },
-  parameters: { attached: false },
-};
 
 const code = `query HeroNameAndFriends($episode: Episode) {
           hero(episode: $episode) {
@@ -59,6 +35,53 @@ const code = `query HeroNameAndFriends($episode: Episode) {
           }
         }
 `;
+const render = () => <div>Story for reference</div>;
+
+export const DefaultAttached = {};
+
+export const Of: Story = {
+  args: {
+    of: ButtonStories.Primary,
+  },
+};
+
+export const OfTypeProp: Story = {
+  args: {
+    of: ButtonStories.Primary,
+    type: SourceType.CODE,
+  },
+};
+
+// Render doesn't look at args so wouldn't render the dynamic snippet by default
+export const TypeStory = {
+  render,
+  parameters: { docs: { source: { type: SourceType.DYNAMIC } } },
+};
+
+export const OfTypeParameter: Story = {
+  args: {
+    of: TypeStory,
+  },
+};
+
+export const TransformSourceStory = {
+  render,
+  parameters: { docs: { source: { transformSource: () => `const transformed = "source";` } } },
+};
+
+export const OfTransformSourceParameter: Story = {
+  args: {
+    of: TransformSourceStory,
+  },
+};
+
+export const OfUnattached: Story = {
+  args: {
+    of: ButtonStories.Primary,
+  },
+  parameters: { attached: false },
+};
+
 export const Code: Story = {
   args: { code },
 };
@@ -83,7 +106,7 @@ export const Dark: Story = {
 };
 
 export const CodeStory = {
-  render: () => <div>Story for reference</div>,
+  render,
   parameters: { docs: { source: { code } } },
 };
 
@@ -92,7 +115,7 @@ export const CodeParameters: Story = {
 };
 
 export const CodeFormatStory = {
-  ...CodeStory,
+  render,
   parameters: { docs: { source: { code, format: true } } },
 };
 
@@ -101,7 +124,7 @@ export const CodeFormatParameters: Story = {
 };
 
 export const CodeLanguageStory = {
-  ...CodeStory,
+  render,
   parameters: { docs: { source: { code, format: true, language: 'graphql' } } },
 };
 
@@ -110,7 +133,6 @@ export const CodeLanguageParameters: Story = {
 };
 
 export const CodeDarkStory = {
-  ...CodeStory,
   parameters: { docs: { source: { code, dark: true } } },
 };
 

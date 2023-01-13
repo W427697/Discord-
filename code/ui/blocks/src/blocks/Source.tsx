@@ -19,8 +19,18 @@ export enum SourceState {
   NONE = 'none',
 }
 
-type SourceParameters = SourceCodeProps;
-type SourceProps = SourceParameters & {
+type SourceParameters = SourceCodeProps & {
+  /**
+   * Where to read the source code from, see `SourceType`
+   */
+  type: SourceType;
+  /**
+   * Transform the detected source for display
+   */
+  transformSource: (code: string, story: PreparedStory) => string;
+};
+
+type SourceProps = Omit<SourceParameters, 'transformSource'> & {
   /**
    * Pass the export defining a story to render its source
    *
@@ -54,35 +64,31 @@ const getStorySource = (storyId: StoryId, sourceContext: SourceContextProps): So
   return sources?.[storyId] || { code: '', format: false };
 };
 
-const getSnippet = (snippet: string, story?: PreparedStory<any>): string => {
-  if (!story) {
-    return snippet;
-  }
+const getSnippet = (
+  snippet: string,
+  story: PreparedStory<any>,
+  typeFromProps: SourceType
+): string => {
+  const { __isArgsStory: isArgsStory } = story.parameters;
+  const sourceParameters = (story.parameters.docs?.source || {}) as SourceParameters;
 
-  const { parameters } = story;
-  // eslint-disable-next-line no-underscore-dangle
-  const isArgsStory = parameters.__isArgsStory;
-  const type = parameters.docs?.source?.type || SourceType.AUTO;
+  const type = typeFromProps || sourceParameters.type || SourceType.AUTO;
 
   // if user has hard-coded the snippet, that takes precedence
-  const userCode = parameters.docs?.source?.code;
-  if (userCode !== undefined) {
-    return userCode;
+  if (sourceParameters.code !== undefined) {
+    return sourceParameters.code;
   }
 
-  // if user has explicitly set this as dynamic, use snippet
-  if (type === SourceType.DYNAMIC) {
-    return parameters.docs?.transformSource?.(snippet, story) || snippet;
-  }
+  const useSnippet =
+    // if user has explicitly set this as dynamic, use snippet
+    type === SourceType.DYNAMIC ||
+    // if this is an args story and there's a snippet
+    (type === SourceType.AUTO && snippet && isArgsStory);
+  console.log({ type, snippet, isArgsStory, useSnippet });
 
-  // if this is an args story and there's a snippet
-  if (type === SourceType.AUTO && snippet && isArgsStory) {
-    return parameters.docs?.transformSource?.(snippet, story) || snippet;
-  }
+  const code = useSnippet ? snippet : enhanceSource(story);
 
-  // otherwise, use the source code logic
-  const enhanced = enhanceSource(story) || parameters;
-  return enhanced?.docs?.source?.code || '';
+  return sourceParameters.transformSource?.(code, story) || code;
 };
 
 // state is used by the Canvas block, which also calls useSourceProps
@@ -112,7 +118,7 @@ export const useSourceProps = (
   }
 
   const sourceParameters = (stories[0].parameters.docs?.source || {}) as SourceParameters;
-  let code = props.code ?? sourceParameters.code;
+  let { code } = props; // We will fall back to `sourceParameters.code`, but per story below
   let format = props.format ?? sourceParameters.format;
   const language = props.language ?? sourceParameters.language ?? 'jsx';
   const dark = props.dark ?? sourceParameters.dark ?? false;
@@ -125,7 +131,7 @@ export const useSourceProps = (
           // Take the format from the first story
           format = source.format;
         }
-        return getSnippet(source.code, story);
+        return getSnippet(source.code, story, props.type);
       })
       .join('\n\n');
   }
