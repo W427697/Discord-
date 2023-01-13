@@ -1,44 +1,50 @@
 ```js
 // RegistrationForm.stories.js
 
-import { screen, userEvent } from '@storybook/testing-library';
+import { userEvent, within } from '@storybook/testing-library';
 
 import RegistrationForm from './RegistrationForm.svelte';
 
 export default {
   /* 👇 The title prop is optional.
-  * See https://storybook.js.org/docs/svelte/configure/overview#configure-story-loading
-  * to learn how to generate automatic titles
-  */
+   * See https://storybook.js.org/docs/7.0/svelte/configure/overview#configure-story-loading
+   * to learn how to generate automatic titles
+   */
   title: 'RegistrationForm',
   component: RegistrationForm,
 };
 
-const Template = (args) => ({
-  Component: RegistrationForm,
-  props: args,
-});
+/*
+ * See https://storybook.js.org/docs/7.0/svelte/writing-stories/play-function#working-with-the-canvas
+ * to learn more about using the canvasElement to query the DOM
+ */
+export const FilledForm = {
+  render: (args) => ({
+    Component: RegistrationForm,
+    props: args,
+  }),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
 
-export const FilledForm = Template.bind({});
-FilledForm.play = async () => {
-  const emailInput = screen.getByLabelText('email', {
-    selector: 'input',
-  });
+    const emailInput = canvas.getByLabelText('email', {
+      selector: 'input',
+    });
 
-  await userEvent.type(emailInput, 'example-email@email.com', {
-    delay: 100,
-  });
+    await userEvent.type(emailInput, 'example-email@email.com', {
+      delay: 100,
+    });
 
-  const passwordInput = screen.getByLabelText('password', {
-    selector: 'input',
-  });
+    const passwordInput = canvas.getByLabelText('password', {
+      selector: 'input',
+    });
 
-  await userEvent.type(passwordInput, 'ExamplePassword', {
-    delay: 100,
-  });
-  // See https://storybook.js.org/docs/svelte/essentials/actions#automatically-matching-args to learn how to setup logging in the Actions panel
-  const submitButton = screen.getByRole('button');
+    await userEvent.type(passwordInput, 'ExamplePassword', {
+      delay: 100,
+    });
+    // See https://storybook.js.org/docs/7.0/svelte/essentials/actions#automatically-matching-args to learn how to setup logging in the Actions panel
+    const submitButton = canvas.getByRole('button');
 
-  await userEvent.click(submitButton);
+    await userEvent.click(submitButton);
+  },
 };
 ```

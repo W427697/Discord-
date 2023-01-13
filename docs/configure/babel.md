@@ -28,7 +28,7 @@ We have added ES2016 support with Babel for transpiling your JS code.
 
 In addition to that, we've added a few additional features, like [object spreading](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax) and [`async` `await`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function).
 
-Check out our [source](https://github.com/storybookjs/storybook/blob/next/lib/core-common/src/utils/babel.ts) to learn more about these plugins.
+Check out our [source](https://github.com/storybookjs/storybook/blob/main/lib/core-common/src/utils/babel.ts) to learn more about these plugins.
 
 ### Custom config file
 
@@ -151,6 +151,16 @@ Once the command completes, you should have a `.babelrc.json` file created in th
 ```
 
 Depending on your environment, you may need to install additional package dependencies.
+
+### Babelrc vs. babel config
+
+Babel has two different configuration modes: babelrc and babel config. As explained in more detail [in the docs](https://babeljs.io/docs/en/config-files):
+
+- **babelrc** configures babel for files in the same folder (or descendant folders) of the location of the babelrc
+- **babel config** configures babel globally
+
+Babel recommends to use babelrc, and it's what Storybook generates when you run `npx storybook babelrc` to migrate from v6 mode. If your stories are located in the current project directory (e.g., `stories: ['../src/**/*.stories.js']`) this approach will work well.
+However, when your Storybook refers to files outside of the current project directory (e.g., `stories: ['../../some-other-directory/**/*.stories.js']`), the babelrc will not apply to those files. However, a babel config will, and is the recommended approach in that situation.
 
 ### Troubleshooting
 

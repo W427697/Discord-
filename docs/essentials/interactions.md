@@ -14,9 +14,11 @@ For example, clicking a button to open/close a dialog box, dragging a list item 
 
 The interactions are written using a Storybook-instrumented version of [Testing Library](https://testing-library.com/) and [Jest](https://jestjs.io/). That gives you a familiar developer-friendly syntax to interact with the DOM and make assertions, but with extra telemetry to help with debugging.
 
-## Installation
+## Set up the interactions addon
 
-Since Interactions is still experimental, it doesn't yet ship with Storybook by default. As such, you'll have to install it. You may also want to add our wrappers for Testing Library and Jest.
+By default, the [`@storybook/addon-interactions`](https://storybook.js.org/addons/@storybook/addon-interactions/) is already installed and configured if you're adding Storybook for new projects. If you're migrating from a previous version of Storybook, you'll need to install it manually.
+
+Run the following command to install the interactions addon and related dependencies.
 
 <!-- prettier-ignore-start -->
 
@@ -47,12 +49,11 @@ Next, update [`.storybook/main.js`](../configure/overview.md#configure-story-ren
 
 </div>
 
-
 Now when you run Storybook, the Interactions addon will be enabled.
 
 ![Storybook Interactions installed and registered](./addon-interactions-installed-registered.png)
 
-## Writing interactions
+## Write an interaction test
 
 Interactions run as part of the `play` function of your stories. We rely on Testing Library to do the heavy lifting.
 
@@ -60,15 +61,20 @@ Make sure to import the Storybook wrappers for Jest and Testing Library rather t
 
 <!-- prettier-ignore-start -->
 
+<!-- this is for the common database -->
+
 <CodeSnippets
   paths={[
     'common/storybook-interactions-play-function.js.mdx',
+    'common/storybook-interactions-play-function.ts.mdx',
   ]}
+  usesCsf3
+  csf2Path="essentials/interactions#snippet-storybook-interactions-play-function"
 />
 
 <!-- prettier-ignore-end -->
 
-The above example uses the `canvasElement` to scope your element queries to the current story. It's essential if you want your play functions to eventually be compatible with Storybook Docs, which renders multiple components on the same page.
+The above example uses the `canvasElement` to scope your element queries to the current story. It's essential if you want your play functions to eventually be compatible with Storybook Docs, which renders multiple components on the same page. Additionally, the `step` function can be used to create labeled groups of interactions.
 
 While you can refer to the [Testing Library documentation](https://testing-library.com/docs/) for details on how to use it, there's an important detail that's different when using the Storybook wrapper: **method invocations must be `await`-ed**. It allows you to step back and forth through your interactions using the debugger.
 

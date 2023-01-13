@@ -73,7 +73,7 @@ Will generate the following output:
   "metadata": {
     "generatedAt": 1648233198722,
     "builder": {
-      "name": "webpack4"
+      "name": "webpack5"
     },
     "hasCustomBabel": false,
     "hasCustomWebpack": true,
@@ -87,7 +87,7 @@ Will generate the following output:
     },
     "packageManager": {
       "name": "yarn",
-      "version": "3.1.1",
+      "version": "3.1.1"
     },
     "monorepo": "Nx",
     "features": {
@@ -99,7 +99,7 @@ Will generate the following output:
       "@storybook/addons": {
         "version": "6.5.0"
       },
-      "@storybook/builder-webpack4": {
+      "@storybook/builder-webpack5": {
         "version": "6.5.0"
       },
       "@storybook/react": {
@@ -149,6 +149,12 @@ You may opt-out of the telemetry by setting Storybook's configuration element `d
 />
 
 <!-- prettier-ignore-end -->
+
+<div class="aside">
+  💡 There is a <code>boot</code> event that contains no metadata at all (simply used to ensure the telemetry is working). It is sent prior to evaluating your <code>main.js</code>, so it is unaffected by the <code>disableTelemetry</code> option. If you want to ensure that event is not sent, be sure to use the <code>STORYBOOK_DISABLE_TELEMETRY</code> environment variable.
+</div>
+
+
 
 ## Crash reports (disabled by default)
 

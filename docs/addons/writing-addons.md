@@ -6,7 +6,7 @@ One of Storybook's main features is its robust addon ecosystem. Use addons to en
 
 ## What we're building
 
-For this example, we're going to build a bare-bones addon which:
+For this example, we're going to build a bare-bones addon that:
 
 - Adds a new panel in Storybook.
 - Retrieves a custom parameter from the stories.
@@ -197,11 +197,16 @@ When Storybook was initialized, it provided a small set of example stories. Chan
   paths={[
     'react/button-story-with-addon-example.js.mdx',
     'react/button-story-with-addon-example.ts.mdx',
+    'react/button-story-with-addon-example.ts.mdx',
     'vue/button-story-with-addon-example.js.mdx',
+    'vue/button-story-with-addon-example.ts.mdx',
     'angular/button-story-with-addon-example.ts.mdx',
     'svelte/button-story-with-addon-example.js.mdx',
-    'svelte/button-story-with-addon-example.native-format.mdx',
+    'web-components/button-story-with-addon-example.js.mdx',
+    'web-components/button-story-with-addon-example.ts.mdx',
   ]}
+  usesCsf3
+  csf2Path="addons/writing-addons#snippet-button-story-with-addon-example"
 />
 
 <!-- prettier-ignore-end -->
@@ -245,7 +250,7 @@ Now that you've seen how to create a bare-bones addon let's see how to share it 
 
 Reference the [storybook-addon-outline](https://www.npmjs.com/package/storybook-addon-outline) to see a project that meets these requirements.
 
-Learn how to [add to the addon catalog](./addon-catalog.md).
+Learn how to [add to the addon catalog](../addons/integration-catalog.md#addons).
 
 ### More guides and tutorials
 

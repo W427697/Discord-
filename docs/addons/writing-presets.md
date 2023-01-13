@@ -8,7 +8,7 @@ This doc covers the [presets API](#presets-api) and how to use the presets mecha
 
 ## Presets API
 
-A preset is a set of hooks that is called by Storybook on initialization and can override configurations for `babel`, `webpack`, `addons`, and `entries`.
+A preset is a set of hooks that are called by Storybook on initialization and can override configurations for `babel`, `webpack`, `addons`, and `entries`.
 
 Each configuration has a similar signature, accepting a base configuration object and options, as in this Webpack example:
 
@@ -24,7 +24,7 @@ Each configuration has a similar signature, accepting a base configuration objec
 
 ### Babel
 
-The babel functions `babel`, `babelDefault`, and `managerBabel` all configure babel in different ways.
+The babel functions `babel` and `babelDefault` all configure babel in different ways.
 
 All functions take a [Babel configuration object](https://babeljs.io/docs/en/configuration) as their argument and can modify it or return a new object.
 
@@ -42,7 +42,6 @@ For example, Storybook's Mihtril support uses plugins internally and here's how 
 
 - `babel` is applied to the preview config, after it has been initialized by storybook
 - `babelDefault` is applied to the preview config before any user presets have been applied
-- `managerBabel` is applied to the manager.
 
 ### Webpack
 
@@ -77,7 +76,6 @@ As of Storybook 6.3, Storybook can run with either `webpack4` or `webpack5` buil
 />
 
 <!-- prettier-ignore-end -->
-
 
 ### Manager entries
 
@@ -123,7 +121,6 @@ For example, the Backgrounds preset contains the following code:
 
 <!-- prettier-ignore-end -->
 
-
 Which in turn invokes:
 
 <!-- prettier-ignore-start -->
@@ -156,7 +153,7 @@ The array of values can support both references to other presets and addons that
 
 Storybook will automatically detect whether a reference to an addon is a preset or a manager entry by checking if the package contains a `./preset.js` or `./register.js` (manager entry), falling back to preset if it is unsure.
 
-If this heuristic is incorrect for an addon you are using, you can explicitly opt in to an entry being an a manager entry using the `managerEntries` key.
+If this heuristic is incorrect for an addon you are using, you can explicitly opt-in to an entry being a manager entry using the `managerEntries` key.
 
 Here's what it looks when combining presets and manager entries in the `addons` property:
 
@@ -172,7 +169,7 @@ Here's what it looks when combining presets and manager entries in the `addons` 
 
 ### Entries
 
-Entries are the place to register entry points for the preview. For example it could be used to make a basic configure-storybook preset that loads all the `*.stories.js` files into SB, instead of forcing people to copy-paste the same thing everywhere.
+Entries are the place to register entry points for the preview. For example, it could be used to make a basic configure-storybook preset that loads all the `*.stories.js` files into SB, instead of forcing people to copy-paste the same thing everywhere.
 
 ## Advanced Configuration
 
@@ -210,7 +207,7 @@ For example, the following snippet adds a style tag to the preview head programm
 
 Similarly, the `managerHead` can be used to modify the surrounding "manager" UI, analogous to `manager-head.html`.
 
-Finally, the preview's main page _template_ can also be overridden using the `previewMainTemplate`, which should return a reference to a file containing an `.ejs` template that gets interpolated with some environment variables. For an example, see the [Storybook's default template](https://github.com/storybookjs/storybook/blob/next/lib/core-common/templates/index.ejs).
+Finally, the preview's main page _template_ can also be overridden using the `previewMainTemplate`, which should return a reference to a file containing an `.ejs` template that gets interpolated with some environment variables. For an example, see the [Storybook's default template](https://github.com/storybookjs/storybook/blob/next/code/lib/core-common/templates/preview.ejs).
 
 ## Sharing advanced configuration
 
