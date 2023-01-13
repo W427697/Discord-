@@ -1,3 +1,31 @@
+## 7.0.0-beta.26 (January 14, 2023)
+
+#### Features
+
+-   Core: Expose port from buildDevStandalone [#20575](https://github.com/storybooks/storybook/pull/20575)
+-   CLI: Add auto-migration for MDX html-type comments to JS-type comments [#20349](https://github.com/storybooks/storybook/pull/20349)
+
+#### Bug Fixes
+
+-   API: Fix typing on useArgs [#20610](https://github.com/storybooks/storybook/pull/20610)
+-   Addon-docs: Fix docs crash by simplifying element before stringify [#19188](https://github.com/storybooks/storybook/pull/19188)
+-   Vite: Fix duplicate code in preview [#20594](https://github.com/storybooks/storybook/pull/20594)
+-   Addons: Warn when addon is not installed [#20455](https://github.com/storybooks/storybook/pull/20455)
+-   Blocks: Handle undefined extractComponentDescription [#20590](https://github.com/storybooks/storybook/pull/20590)
+
+#### Maintenance
+
+-   CLI: Fix removal of --no-dll flag [#20589](https://github.com/storybooks/storybook/pull/20589)
+-   SvelteKit: Automatically support Kit-specific features [#20239](https://github.com/storybooks/storybook/pull/20239)
+
+#### Build
+
+-   Build: Fix issue with jest projects matching `ui/node_modules` [#20601](https://github.com/storybooks/storybook/pull/20601)
+-   TypeScript: Fix typings files to ensure check command succeeds [#20605](https://github.com/storybooks/storybook/pull/20605)
+-   CLI: Fix repros creation not working on windows [#20606](https://github.com/storybooks/storybook/pull/20606)
+-   Build: Fix template stories to make them work with stricter Typescript settings [#20591](https://github.com/storybooks/storybook/pull/20591)
+-   Build: Allow creating internal templates that extend others and pass `main.js` options [#20054](https://github.com/storybooks/storybook/pull/20054)
+
 ## 7.0.0-beta.25 (January 12, 2023)
 
 #### Features
