@@ -1,5 +1,4 @@
-import type { Parameters, PreparedStory } from '@storybook/types';
-import { combineParameters } from '@storybook/preview-api';
+import type { PreparedStory } from '@storybook/types';
 
 // ============================================================
 // START @storybook/source-loader/extract-source
