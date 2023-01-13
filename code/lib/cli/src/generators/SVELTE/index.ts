@@ -6,7 +6,6 @@ const generator: Generator = async (packageManager, npmOptions, options) => {
   const extraPackages = options.builder === CoreBuilder.Webpack5 ? ['svelte'] : [];
 
   await baseGenerator(packageManager, npmOptions, options, 'svelte', {
-    extraPackages,
     extensions: ['js', 'jsx', 'ts', 'tsx', 'svelte'],
     commonJs: true,
   });
