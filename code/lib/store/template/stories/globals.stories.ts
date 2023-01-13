@@ -1,5 +1,5 @@
-import globalThis from 'global';
-import { PartialStoryFn, PlayFunctionContext, StoryContext } from '@storybook/csf';
+import { global as globalThis } from '@storybook/global';
+import type { PartialStoryFn, PlayFunctionContext, StoryContext } from '@storybook/types';
 import { within } from '@storybook/testing-library';
 import { expect } from '@storybook/jest';
 
@@ -13,8 +13,8 @@ export const Inheritance = {
     (storyFn: PartialStoryFn, context: StoryContext) =>
       storyFn({ args: { object: context.globals } }),
   ],
-  play: async ({ canvasElement }: PlayFunctionContext) => {
-    await expect(JSON.parse(within(canvasElement).getByTestId('pre').innerHTML)).toMatchObject({
+  play: async ({ canvasElement }: PlayFunctionContext<any>) => {
+    await expect(JSON.parse(within(canvasElement).getByTestId('pre').innerText)).toMatchObject({
       foo: 'fooValue',
       bar: 'barDefaultValue',
     });
@@ -25,9 +25,9 @@ export const Events = {
   // Just pass the "foo" global to the pre
   decorators: [
     (storyFn: PartialStoryFn, context: StoryContext) =>
-      storyFn({ args: { text: context.globals.foo } }),
+      storyFn({ args: { text: context.globals['foo'] } }),
   ],
-  play: async ({ canvasElement }: PlayFunctionContext) => {
+  play: async ({ canvasElement }: PlayFunctionContext<any>) => {
     const channel = globalThis.__STORYBOOK_ADDONS_CHANNEL__;
     await within(canvasElement).findByText('fooValue');
 

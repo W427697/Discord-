@@ -1,34 +1,42 @@
-```js
-// MyComponent.stories.js
+```ts
+// MyComponent.stories.ts
 
-// import { Meta, StoryFn } from '@storybook/vue3'; for Vue 3
-import { Meta, StoryFn } from '@storybook/vue';
+// import type { Meta, StoryObj } from '@storybook/vue3'; for Vue 3
+import type { Meta, StoryObj } from '@storybook/vue';
 
-import { screen, userEvent } from '@storybook/testing-library';
+import { getByRole, userEvent, within } from '@storybook/testing-library';
 
 import MyComponent from './MyComponent.vue';
 
-export default {
+const meta: Meta<typeof MyComponent> = {
   /* 👇 The title prop is optional.
-   * See https://storybook.js.org/docs/vue/configure/overview#configure-story-loading
+   * See https://storybook.js.org/docs/7.0/vue/configure/overview#configure-story-loading
    * to learn how to generate automatic titles
    */
-  title: 'Async Query Methods',
+  title: 'WithCanvasElement',
   component: MyComponent,
-} as Meta<typeof MyComponent>;
+};
 
-const Template: StoryFn<typeof MyComponent> = () => ({
-  components: { MyComponent },
-  template: '<MyComponent />',
-});
+export default meta;
+type Story = StoryObj<typeof MyComponent>;
 
-export const ExampleStory = Template.bind({});
-ExampleStory.play = async ({ canvasElement }) => {
-  /// Assigns canvas to the component root element
-  const canvas = within(canvasElement);
+/*
+ *👇 Render functions are a framework specific feature to allow you control on how the component renders.
+ * See https://storybook.js.org/docs/7.0/vue/api/csf
+ * to learn how to use render functions.
+ */
+export const ExampleStory: Story = {
+  render: () => ({
+    components: { MyComponent },
+    template: '<MyComponent />',
+  }),
+  play: async ({ canvasElement }) => {
+    // Assigns canvas to the component root element
+    const canvas = within(canvasElement);
 
-  // Starts querying from the component's root element
-  await userEvent.type(canvas.getByTestId('example-element'), 'something');
-  await userEvent.click(canvas.getByRole('another-element'));
+    // Starts querying from the component's root element
+    await userEvent.type(canvas.getByTestId('example-element'), 'something');
+    await userEvent.click(canvas.getByRole('another-element'));
+  },
 };
 ```

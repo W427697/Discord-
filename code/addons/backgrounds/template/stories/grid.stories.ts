@@ -1,9 +1,9 @@
-import globalThis from 'global';
+import { global as globalThis } from '@storybook/global';
 
 export default {
   component: globalThis.Components.Button,
   args: {
-    children: 'Click Me!',
+    label: 'Click Me!',
   },
   parameters: {
     backgrounds: {

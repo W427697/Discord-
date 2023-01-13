@@ -1,9 +1,9 @@
-import globalThis from 'global';
+import { global as globalThis } from '@storybook/global';
 
 export default {
   component: globalThis.Components.Html,
   args: {
-    contents: '',
+    content: '',
   },
   parameters: {
     chromatic: { disable: true },
@@ -12,7 +12,7 @@ export default {
 
 export const Violations = {
   args: {
-    contents: `
+    content: `
       <div>
         <p>empty heading</p>
         <h1></h1>
@@ -39,7 +39,7 @@ export const Violations = {
 
 export const Passes = {
   args: {
-    contents: `
+    content: `
       <div>
         <p>heading</p>
         <h1>heading 1</h1>

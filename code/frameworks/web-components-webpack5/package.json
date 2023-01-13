@@ -1,6 +1,6 @@
 {
   "name": "@storybook/web-components-webpack5",
-  "version": "7.0.0-alpha.33",
+  "version": "7.0.0-beta.25",
   "description": "Storybook for web-components: View web components snippets in isolation with Hot Reloading.",
   "keywords": [
     "lit-html",
@@ -23,6 +23,7 @@
   "license": "MIT",
   "exports": {
     ".": {
+      "node": "./dist/index.js",
       "require": "./dist/index.js",
       "import": "./dist/index.mjs",
       "types": "./dist/index.d.ts"
@@ -32,17 +33,14 @@
       "import": "./dist/preset.mjs",
       "types": "./dist/preset.d.ts"
     },
-    "./package.json": {
-      "require": "./package.json",
-      "import": "./package.json",
-      "types": "./package.json"
-    }
+    "./package.json": "./package.json"
   },
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "files": [
     "dist/**/*",
+    "template/**/*",
     "README.md",
     "*.js",
     "*.d.ts"
@@ -52,24 +50,24 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@babel/preset-env": "^7.12.11",
-    "@storybook/builder-webpack5": "7.0.0-alpha.33",
-    "@storybook/core-common": "7.0.0-alpha.33",
-    "@storybook/preset-web-components-webpack": "7.0.0-alpha.33",
-    "@storybook/web-components": "7.0.0-alpha.33",
-    "@types/node": "^14.14.20 || ^16.0.0",
-    "react": "16.14.0",
-    "react-dom": "16.14.0"
+    "@babel/preset-env": "^7.20.2",
+    "@storybook/builder-webpack5": "7.0.0-beta.25",
+    "@storybook/core-common": "7.0.0-beta.25",
+    "@storybook/preset-web-components-webpack": "7.0.0-beta.25",
+    "@storybook/web-components": "7.0.0-beta.25",
+    "@types/node": "^16.0.0"
   },
   "devDependencies": {
     "lit-html": "2.0.2",
-    "typescript": "~4.6.3"
+    "typescript": "~4.9.3"
   },
   "peerDependencies": {
-    "lit-html": "^1.4.1 || ^2.0.0"
+    "lit-html": "^1.4.1 || ^2.0.0",
+    "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
+    "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0"
   },
   "engines": {
-    "node": ">=10.13.0"
+    "node": ">=16.0.0"
   },
   "publishConfig": {
     "access": "public"
@@ -81,5 +79,5 @@
     ],
     "platform": "node"
   },
-  "gitHead": "5da5b0fabd04cc5cd5771e8242a960f05d03234a"
+  "gitHead": "2109ab8d7c0667e686db757abf5afcbf3d48a6ec"
 }

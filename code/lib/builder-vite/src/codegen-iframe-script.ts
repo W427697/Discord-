@@ -1,22 +1,22 @@
-import { isAbsolute, resolve } from 'path';
-import { getFrameworkName } from '@storybook/core-common';
+import { getRendererName } from '@storybook/core-common';
+import type { PreviewAnnotation } from '@storybook/types';
 import { virtualPreviewFile, virtualStoriesFile } from './virtual-file-names';
-import { transformAbsPath } from './utils/transform-abs-path';
 import type { ExtendedOptions } from './types';
+import { processPreviewAnnotation } from './utils/process-preview-annotation';
 
 export async function generateIframeScriptCode(options: ExtendedOptions) {
   const { presets } = options;
-  const frameworkName = await getFrameworkName(options);
-  const previewAnnotations = await presets.apply('previewAnnotations', [], options);
-  const resolvedPreviewAnnotations = previewAnnotations.map((entry) =>
-    isAbsolute(entry) ? entry : resolve(entry)
-  );
-  const configEntries = [...resolvedPreviewAnnotations].filter(Boolean);
+  const rendererName = await getRendererName(options);
 
-  const absoluteFilesToImport = (files: string[], name: string) =>
-    files
-      .map((el, i) => `import ${name ? `* as ${name}_${i} from ` : ''}'${transformAbsPath(el)}'`)
-      .join('\n');
+  const previewAnnotations = await presets.apply<PreviewAnnotation[]>(
+    'previewAnnotations',
+    [],
+    options
+  );
+  const configEntries = [...previewAnnotations].filter(Boolean).map(processPreviewAnnotation);
+
+  const filesToImport = (files: string[], name: string) =>
+    files.map((el, i) => `import ${name ? `* as ${name}_${i} from ` : ''}'${el}'`).join('\n');
 
   const importArray = (name: string, length: number) =>
     new Array(length).fill(0).map((_, i) => `${name}_${i}`);
@@ -27,11 +27,12 @@ export async function generateIframeScriptCode(options: ExtendedOptions) {
   const code = `
     // Ensure that the client API is initialized by the framework before any other iframe code
     // is loaded. That way our client-apis can assume the existence of the API+store
-    import { configure } from '${frameworkName}';
+    import { configure } from '${rendererName}';
 
-    import * as clientApi from "@storybook/client-api";
     import { logger } from '@storybook/client-logger';
-    ${absoluteFilesToImport(configEntries, 'config')}
+    import * as previewApi from "@storybook/preview-api";
+    ${filesToImport(configEntries, 'config')}
+
     import * as preview from '${virtualPreviewFile}';
     import { configStories } from '${virtualStoriesFile}';
 
@@ -39,10 +40,13 @@ export async function generateIframeScriptCode(options: ExtendedOptions) {
       addDecorator,
       addParameters,
       addLoader,
+      addArgs,
+      addArgTypes,
+      addStepRunner,
       addArgTypesEnhancer,
       addArgsEnhancer,
       setGlobalRender,
-    } = clientApi;
+    } = previewApi;
 
     const configs = [${importArray('config', configEntries.length)
       .concat('preview.default')
@@ -53,22 +57,10 @@ export async function generateIframeScriptCode(options: ExtendedOptions) {
         const value = config[key];
         switch (key) {
           case 'args': {
-            if (typeof clientApi.addArgs !== "undefined") {
-              return clientApi.addArgs(value);
-            } else {
-              return logger.warn(
-                "Could not add global args. Please open an issue in storybookjs/builder-vite."
-              );
-            }
+            return addArgs(value);
           }
           case 'argTypes': {
-            if (typeof clientApi.addArgTypes !== "undefined") {
-              return clientApi.addArgTypes(value);
-            } else {
-              return logger.warn(
-                "Could not add global argTypes. Please open an issue in storybookjs/builder-vite."
-              );
-            }
+            return addArgTypes(value);
           }
           case 'decorators': {
             return value.forEach((decorator) => addDecorator(decorator, false));
@@ -96,8 +88,12 @@ export async function generateIframeScriptCode(options: ExtendedOptions) {
           }
           case 'decorateStory':
           case 'applyDecorators':
-          case 'renderToDOM': {
+          case 'renderToDOM': // deprecated
+          case 'renderToCanvas': {
             return null; // This key is not handled directly in v6 mode.
+          }
+          case 'runStep': {
+            return addStepRunner(value);
           }
           default: {
             // eslint-disable-next-line prefer-template

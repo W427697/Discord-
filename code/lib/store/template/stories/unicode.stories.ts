@@ -1,4 +1,4 @@
-import globalThis from 'global';
+import { global as globalThis } from '@storybook/global';
 
 export default {
   component: globalThis.Components.Button,
@@ -6,9 +6,9 @@ export default {
 };
 
 export const Кнопки = {
-  args: { children: 'Кнопки' },
+  args: { label: 'Кнопки' },
 };
 
 export const 바보 = {
-  args: { children: '바보' },
+  args: { label: '바보' },
 };

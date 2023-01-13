@@ -28,3 +28,6 @@ export const babel = async (config: any, options: any) => ({
     },
   ],
 });
+
+export const previewMainTemplate = () =>
+  require.resolve('@storybook/builder-webpack5/templates/preview.ejs');

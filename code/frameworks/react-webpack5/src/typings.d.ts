@@ -1,10 +1,8 @@
-declare module '@storybook/semver';
-declare module 'global';
-
 // TODO: Replace, as soon as @types/react-dom 17.0.14 is used
 // Source: https://github.com/DefinitelyTyped/DefinitelyTyped/blob/fb0f14b7a35cde26ffaa82e7536c062e593e9ae6/types/react-dom/client.d.ts
 declare module 'react-dom/client' {
   import React = require('react');
+
   export interface HydrationOptions {
     onHydrated?(suspenseInstance: Comment): void;
     onDeleted?(suspenseInstance: Comment): void;

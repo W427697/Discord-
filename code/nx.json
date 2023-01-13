@@ -1,4 +1,5 @@
 {
+  "$schema": "./node_modules/nx/schemas/nx-schema.json",
   "npmScope": "storybook",
   "implicitDependencies": {
     "package.json": {
@@ -10,7 +11,7 @@
     "default": {
       "runner": "@nrwl/nx-cloud",
       "options": {
-        "cacheableOperations": ["build", "test", "lint", "package", "prep"],
+        "cacheableOperations": ["build", "test", "lint", "package", "prep", "check"],
         "accessToken": "NGVmYTkxMmItYzY3OS00MjkxLTk1ZDktZDFmYTFmNmVlNGY4fHJlYWQ=",
         "canTrackAnalytics": false,
         "showUsageWarnings": true,
@@ -21,28 +22,15 @@
   "affected": {
     "defaultBase": "next"
   },
-  "targetDependencies": {
-    "build": [
-      {
-        "target": "build",
-        "projects": "dependencies"
-      }
-    ],
-    "package": [
-      {
-        "target": "package",
-        "projects": "dependencies"
-      }
-    ],
-    "prep": [
-      {
-        "target": "prep",
-        "projects": "dependencies"
-      }
-    ]
-  },
   "targetDefaults": {
+    "build": {
+      "dependsOn": [{ "projects": "dependencies", "target": "build" }]
+    },
+    "package": {
+      "dependsOn": [{ "projects": "dependencies", "target": "package" }]
+    },
     "prep": {
+      "dependsOn": [{ "projects": "dependencies", "target": "prep", "params": "forward" }],
       "outputs": ["{projectRoot}/dist"]
     }
   }

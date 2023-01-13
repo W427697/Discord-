@@ -1,8 +1,9 @@
-import globalThis from 'global';
+import { global as globalThis } from '@storybook/global';
 
 export default {
   component: globalThis.Components.Button,
-  args: { children: 'Click Me!' },
+  tags: ['autodocs'],
+  args: { label: 'Click Me!' },
   parameters: {
     docs: {
       // FIXME: this is typically provided by the renderer preset to extract

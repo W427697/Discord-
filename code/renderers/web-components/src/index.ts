@@ -1,9 +1,10 @@
-// @ts-expect-error (Converted from ts-ignore)
-import global from 'global';
+/// <reference types="webpack-env" />
+
+import { global } from '@storybook/global';
+
+import './globals';
 
 const { window, EventSource } = global;
-
-export * from './globals';
 
 export * from './public-types';
 export * from './public-api';

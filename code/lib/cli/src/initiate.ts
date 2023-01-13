@@ -1,7 +1,9 @@
-import { UpdateNotifier, Package } from 'update-notifier';
+import type { PackageJson } from 'read-pkg-up';
 import chalk from 'chalk';
 import prompts from 'prompts';
 import { telemetry } from '@storybook/telemetry';
+import { withTelemetry } from '@storybook/core-server';
+
 import { installableProjectTypes, ProjectType } from './project_types';
 import { detect, isStorybookInstalled, detectLanguage, detectBuilder } from './detect';
 import { commandLog, codeLog, paddedLog } from './helpers';
@@ -11,6 +13,7 @@ import emberGenerator from './generators/EMBER';
 import reactGenerator from './generators/REACT';
 import reactNativeGenerator from './generators/REACT_NATIVE';
 import reactScriptsGenerator from './generators/REACT_SCRIPTS';
+import nextjsGenerator from './generators/NEXTJS';
 import sfcVueGenerator from './generators/SFC_VUE';
 import vueGenerator from './generators/VUE';
 import vue3Generator from './generators/VUE3';
@@ -23,12 +26,14 @@ import webComponentsGenerator from './generators/WEB-COMPONENTS';
 import riotGenerator from './generators/RIOT';
 import preactGenerator from './generators/PREACT';
 import svelteGenerator from './generators/SVELTE';
+import svelteKitGenerator from './generators/SVELTEKIT';
 import raxGenerator from './generators/RAX';
 import serverGenerator from './generators/SERVER';
-import { JsPackageManagerFactory, JsPackageManager } from './js-package-manager';
-import { NpmOptions } from './NpmOptions';
+import type { JsPackageManager } from './js-package-manager';
+import { JsPackageManagerFactory, useNpmWarning } from './js-package-manager';
+import type { NpmOptions } from './NpmOptions';
 import { automigrate } from './automigrate';
-import { CommandOptions } from './generators/types';
+import type { CommandOptions } from './generators/types';
 
 const logger = console;
 
@@ -109,6 +114,11 @@ const installStorybook = (
           commandLog('Adding Storybook support to your "React" library\n')
         );
 
+      case ProjectType.NEXTJS:
+        return nextjsGenerator(packageManager, npmOptions, generatorOptions).then(
+          commandLog('Adding Storybook support to your "Next" app\n')
+        );
+
       case ProjectType.SFC_VUE:
         return sfcVueGenerator(packageManager, npmOptions, generatorOptions).then(
           commandLog('Adding Storybook support to your "Single File Components Vue" app\n')
@@ -174,6 +184,11 @@ const installStorybook = (
           commandLog('Adding Storybook support to your "Svelte" app\n')
         );
 
+      case ProjectType.SVELTEKIT:
+        return svelteKitGenerator(packageManager, npmOptions, generatorOptions).then(
+          commandLog('Adding Storybook support to your "SvelteKit" app\n')
+        );
+
       case ProjectType.RAX:
         return raxGenerator(packageManager, npmOptions, generatorOptions).then(
           commandLog('Adding Storybook support to your "Rax" app\n')
@@ -220,7 +235,7 @@ const installStorybook = (
 };
 
 const projectTypeInquirer = async (
-  options: { yes?: boolean },
+  options: CommandOptions & { yes?: boolean },
   packageManager: JsPackageManager
 ) => {
   const manualAnswer = options.yes
@@ -250,20 +265,23 @@ const projectTypeInquirer = async (
   return Promise.resolve();
 };
 
-export async function initiate(options: CommandOptions, pkg: Package): Promise<void> {
-  const packageManager = JsPackageManagerFactory.getPackageManager(options.useNpm);
+async function doInitiate(options: CommandOptions, pkg: PackageJson): Promise<void> {
+  let { packageManager: pkgMgr } = options;
+  if (options.useNpm) {
+    useNpmWarning();
+
+    pkgMgr = 'npm';
+  }
+  const packageManager = JsPackageManagerFactory.getPackageManager({ force: pkgMgr });
   const welcomeMessage = 'storybook init - the simplest way to add a Storybook to your project.';
   logger.log(chalk.inverse(`\n ${welcomeMessage} \n`));
 
-  if (!options.disableTelemetry) {
-    telemetry('init');
-  }
-
   // Update notify code.
-  new UpdateNotifier({
-    pkg,
+  const { default: updateNotifier } = await import('simple-update-notifier');
+  await updateNotifier({
+    pkg: pkg as any,
     updateCheckInterval: 1000 * 60 * 60, // every hour (we could increase this later on.)
-  }).notify();
+  });
 
   let projectType;
   const projectTypeProvided = options.type;
@@ -307,7 +325,11 @@ export async function initiate(options: CommandOptions, pkg: Package): Promise<v
     packageManager.installDependencies();
   }
 
-  await automigrate({ yes: options.yes || process.env.CI === 'true' });
+  if (!options.disableTelemetry) {
+    telemetry('init', { projectType });
+  }
+
+  await automigrate({ yes: options.yes || process.env.CI === 'true', packageManager: pkgMgr });
 
   logger.log('\nTo run your Storybook, type:\n');
   codeLog([packageManager.getRunStorybookCommand()]);
@@ -327,4 +349,8 @@ export async function initiate(options: CommandOptions, pkg: Package): Promise<v
 
   // Add a new line for the clear visibility.
   logger.log();
+}
+
+export async function initiate(options: CommandOptions, pkg: PackageJson): Promise<void> {
+  await withTelemetry('init', { cliOptions: options }, () => doInitiate(options, pkg));
 }

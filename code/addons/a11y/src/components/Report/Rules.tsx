@@ -1,8 +1,9 @@
-import React, { FC } from 'react';
+import type { FC } from 'react';
+import React from 'react';
 import { styled } from '@storybook/theming';
 import { Badge } from '@storybook/components';
-import { CheckResult } from 'axe-core';
-import { SizeMe } from 'react-sizeme';
+import type { CheckResult } from 'axe-core';
+import { useResizeDetector } from 'react-resize-detector';
 
 const List = styled.div({
   display: 'flex',
@@ -52,6 +53,11 @@ const formatSeverityText = (severity: string) => {
 };
 
 const Rule: FC<RuleProps> = ({ rule }) => {
+  const { ref, width } = useResizeDetector({
+    refreshMode: 'debounce',
+    handleHeight: false,
+    handleWidth: true,
+  });
   let badgeType: any = null;
   switch (rule.impact) {
     case ImpactValue.CRITICAL:
@@ -70,14 +76,10 @@ const Rule: FC<RuleProps> = ({ rule }) => {
       break;
   }
   return (
-    <SizeMe refreshMode="debounce">
-      {({ size }) => (
-        <Item elementWidth={size.width || 0}>
-          <StyledBadge status={badgeType}>{formatSeverityText(rule.impact)}</StyledBadge>
-          <Message>{rule.message}</Message>
-        </Item>
-      )}
-    </SizeMe>
+    <Item ref={ref} elementWidth={width || 0}>
+      <StyledBadge status={badgeType}>{formatSeverityText(rule.impact)}</StyledBadge>
+      <Message>{rule.message}</Message>
+    </Item>
   );
 };
 

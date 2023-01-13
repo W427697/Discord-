@@ -1,7 +1,5 @@
-// @ts-expect-error (Converted from ts-ignore)
-import global from 'global';
+import { global } from '@storybook/global';
 
 const { window: globalWindow } = global;
 
-globalWindow.STORYBOOK_REACT_CLASSES = {};
 globalWindow.STORYBOOK_ENV = 'vue3';

@@ -1,5 +1,5 @@
-import globalThis from 'global';
-import { PartialStoryFn, PlayFunctionContext, StoryContext } from '@storybook/csf';
+import { global as globalThis } from '@storybook/global';
+import type { PartialStoryFn, PlayFunctionContext, StoryContext } from '@storybook/types';
 import { within } from '@storybook/testing-library';
 import { expect } from '@storybook/jest';
 
@@ -31,9 +31,9 @@ export const Inheritance = {
       a: 'story',
     },
   },
-  play: async ({ canvasElement }: PlayFunctionContext) => {
+  play: async ({ canvasElement }: PlayFunctionContext<any>) => {
     const canvas = within(canvasElement);
-    await expect(JSON.parse(canvas.getByTestId('pre').innerHTML)).toEqual({
+    await expect(JSON.parse(canvas.getByTestId('pre').innerText)).toEqual({
       projectParameter: 'projectParameter',
       componentParameter: 'componentParameter',
       storyParameter: 'storyParameter',

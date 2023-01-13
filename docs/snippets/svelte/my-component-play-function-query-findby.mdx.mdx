@@ -9,19 +9,22 @@ import MyComponent from './MyComponent.svelte';
 
 <Meta title="Async Query Methods" component={MyComponent} />
 
-export const Template = (args) => ({
-  Component: MyComponent,
-  props: args,
-});
+<!--
+ 👇 Render functions are a framework specific feature to allow you control on how the component renders.
+  See https://storybook.js.org/docs/7.0/svelte/api/csf
+  to learn how to use render functions.
+-->
 
 <Story
   name="AsyncExample"
-  play={async () => {
+  play={ async () => {
     // Other steps
 
     // Waits for the component to be rendered before querying the element
     await screen.findByRole('button', { name: / button label/i }));
-  }}>
-  {Template.bind({})}
-</Story>
+  }}
+  render={(args) => ({
+    Component: MyComponent,
+    props: args,
+  })} />
 ```

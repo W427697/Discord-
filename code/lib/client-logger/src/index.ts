@@ -1,6 +1,8 @@
-import global from 'global';
+import { global } from '@storybook/global';
 
-const { LOGLEVEL, console } = global;
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+const { LOGLEVEL } = global;
 
 type LogLevel = 'trace' | 'debug' | 'info' | 'warn' | 'error' | 'silent';
 
@@ -19,18 +21,36 @@ const currentLogLevelNumber: number = levels[currentLogLevelString] || levels.in
 type LoggingFn = (message: any, ...args: any[]) => void;
 
 export const logger = {
-  trace: (message: any, ...rest: any[]): void =>
-    currentLogLevelNumber <= levels.trace && console.trace(message, ...rest),
-  debug: (message: any, ...rest: any[]): void =>
-    currentLogLevelNumber <= levels.debug && console.debug(message, ...rest),
-  info: (message: any, ...rest: any[]): void =>
-    currentLogLevelNumber <= levels.info && console.info(message, ...rest),
-  warn: (message: any, ...rest: any[]): void =>
-    currentLogLevelNumber <= levels.warn && console.warn(message, ...rest),
-  error: (message: any, ...rest: any[]): void =>
-    currentLogLevelNumber <= levels.error && console.error(message, ...rest),
-  log: (message: any, ...rest: any[]): void =>
-    currentLogLevelNumber < levels.silent && console.log(message, ...rest),
+  trace: (message: any, ...rest: any[]): void => {
+    if (currentLogLevelNumber <= levels.trace) {
+      console.trace(message, ...rest);
+    }
+  },
+  debug: (message: any, ...rest: any[]): void => {
+    if (currentLogLevelNumber <= levels.debug) {
+      console.debug(message, ...rest);
+    }
+  },
+  info: (message: any, ...rest: any[]): void => {
+    if (currentLogLevelNumber <= levels.info) {
+      console.info(message, ...rest);
+    }
+  },
+  warn: (message: any, ...rest: any[]): void => {
+    if (currentLogLevelNumber <= levels.warn) {
+      console.warn(message, ...rest);
+    }
+  },
+  error: (message: any, ...rest: any[]): void => {
+    if (currentLogLevelNumber <= levels.error) {
+      console.error(message, ...rest);
+    }
+  },
+  log: (message: any, ...rest: any[]): void => {
+    if (currentLogLevelNumber < levels.silent) {
+      console.log(message, ...rest);
+    }
+  },
 } as const;
 
 const logged = new Set();
@@ -49,6 +69,8 @@ once.info = once('info');
 once.warn = once('warn');
 once.error = once('error');
 once.log = once('log');
+
+export const deprecate = once('warn');
 
 export const pretty =
   (type: keyof typeof logger) =>

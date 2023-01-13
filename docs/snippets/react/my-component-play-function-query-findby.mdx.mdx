@@ -9,8 +9,6 @@ import { MyComponent } from './MyComponent';
 
 <Meta title="Async Query Methods" component={MyComponent} />
 
-export const Template = (args) => <MyComponent {...args} />;
-
 <Story
   name="AsyncExample"
   play={async () => {
@@ -19,6 +17,6 @@ export const Template = (args) => <MyComponent {...args} />;
     // Waits for the component to be rendered before querying the element
     await screen.findByRole('button', { name: / button label/i }));
   }}>
-  {Template.bind({})}
+  <MyComponent />
 </Story>
 ```

@@ -1,8 +1,6 @@
 ```md
 <!-- MyComponent.stories.mdx -->
 
-<!-- MyComponent.stories.mdx -->
-
 import { Meta, Story } from '@storybook/addon-docs';
 
 import { screen, userEvent } from '@storybook/testing-library';
@@ -11,10 +9,11 @@ import MyComponent from './MyComponent.vue';
 
 <Meta title="Async Query Methods" component={MyComponent} />
 
-export const Template = () => ({
-  components: { MyComponent },
-  template: '<MyComponent />',
-});
+<!--
+ 👇 Render functions are a framework specific feature to allow you control on how the component renders.
+  See https://storybook.js.org/docs/7.0/vue/api/csf
+  to learn how to use render functions.
+-->
 
 <Story
   name="AsyncExample"
@@ -23,7 +22,9 @@ export const Template = () => ({
 
     // Waits for the component to be rendered before querying the element
     await screen.findByRole('button', { name: / button label/i }));
-  }}>
-  {Template.bind({})}
-</Story>
+  }}
+  render={() => ({
+    components: { MyComponent },
+    template: '<MyComponent />',
+  })} />
 ```
