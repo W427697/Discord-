@@ -1,25 +1,25 @@
-```ts
+```tsx
 // MyComponent.stories.ts| tsx
 
-import React from 'react';
-
-import { ComponentStory, ComponentMeta } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react';
 
 import { MyComponent } from './MyComponent';
 
-export default {
+const meta: Meta<typeof MyComponent> = {
   /* 👇 The title prop is optional.
-  * See https://storybook.js.org/docs/react/configure/overview#configure-story-loading
-  * to learn how to generate automatic titles
-  */
+   * See https://storybook.js.org/docs/7.0/react/configure/overview#configure-story-loading
+   * to learn how to generate automatic titles
+   */
   title: 'MyComponent',
   component: MyComponent,
-} as ComponentMeta<typeof MyComponent>;
+};
 
-const Template: ComponentStory<typeof MyComponent> = (args) => <MyComponent {...args} />;
+export default meta;
+type Story = StoryObj<typeof MyComponent>;
 
-export const ExampleStory = Template.bind({});
-ExampleStory.args = {
-  propertyA: process.env.STORYBOOK_DATA_KEY,
+export const ExampleStory: Story = {
+  args: {
+    propertyA: process.env.STORYBOOK_DATA_KEY,
+  },
 };
 ```

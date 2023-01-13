@@ -11,10 +11,11 @@ A major strength of Storybook are [addons](https://storybook.js.org/addons) that
 - [Backgrounds](./backgrounds.md)
 - [Toolbars & globals](./toolbars-and-globals.md)
 - [Measure & outline](./measure-and-outline.md)
+- [Highlight](./highlight.md)
 
 ### Installation
 
-If you ran `sb init` to include Storybook in your project, the Essentials addon ([`@storybook/addon-essentials`](https://storybook.js.org/addons/tag/essentials)) is already installed and configured for you. You can skip the rest of this section.
+If you ran `storybook init` to include Storybook in your project, the Essentials addon ([`@storybook/addon-essentials`](https://storybook.js.org/addons/tag/essentials)) is already installed and configured for you. You can skip the rest of this section.
 
 If you're upgrading from a previous Storybook version, you'll need to run the following command in your terminal:
 
@@ -80,18 +81,18 @@ Below is an abridged configuration and table with all the available options for 
 
 <!-- prettier-ignore-end -->
 
-| Addon                          | Configuration element | Description                                                                                                                                                                                                             |
-| ------------------------------ | --------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `@storybook/addon-actions`     | N/A                   | N/A                                                                                                                                                                                                                     |
-| `@storybook/addon-viewport`    | N/A                   | N/A                                                                                                                                                                                                                     |
-| `@storybook/addon-docs`        | `configureJSX`        | Enables JSX support in MDX for projects that aren't configured to handle the format. <br/> `configureJSX: true`                                                                                                         |
-|                                | `babelOptions`        | Provides additional Babel configurations for file transpilation. <br/> `babelOptions: { plugins: [], presets: []}` <br/> Extends `configureJSX`.                                                                        |
-|                                | `sourceLoaderOptions` | Provides additional configuration for Storybook's source loader. <br/> `sourceLoaderOptions: null` . <br/> Required for [`@storybook/addon-storysource`](https://storybook.js.org/addons/@storybook/addon-storysource). |
-|                                | `transcludeMarkdown`  | Enables Markdown file support into MDX and render them as components. <br/> `transcludeMarkdown: true`                                                                                                                  |
-| `@storybook/addon-controls`    | N/A                   | N/A                                                                                                                                                                                                                     |
-| `@storybook/addon-backgrounds` | N/A                   | N/A                                                                                                                                                                                                                     |
-| `@storybook/addon-toolbars`    | N/A                   | N/A                                                                                                                                                                                                                     |
-| `@storybook/addon-measure`     | N/A                   | N/A                                                                                                                                                                                                                     |
+| Addon                          | Configuration element | Description                                                                                                                                      |
+| ------------------------------ | --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `@storybook/addon-actions`     | N/A                   | N/A                                                                                                                                              |
+| `@storybook/addon-viewport`    | N/A                   | N/A                                                                                                                                              |
+| `@storybook/addon-docs`        | `configureJSX`        | Enables JSX support in MDX for projects that aren't configured to handle the format. <br/> `configureJSX: true`                                  |
+|                                | `babelOptions`        | Provides additional Babel configurations for file transpilation. <br/> `babelOptions: { plugins: [], presets: []}` <br/> Extends `configureJSX`. |
+|                                | `csfPluginOptions`    | Provides additional configuration for Storybook's CSF plugin. Can be disabled with `null`                                                        |
+|                                | `transcludeMarkdown`  | Enables Markdown file support into MDX and render them as components. <br/> `transcludeMarkdown: true`                                           |
+| `@storybook/addon-controls`    | N/A                   | N/A                                                                                                                                              |
+| `@storybook/addon-backgrounds` | N/A                   | N/A                                                                                                                                              |
+| `@storybook/addon-toolbars`    | N/A                   | N/A                                                                                                                                              |
+| `@storybook/addon-measure`     | N/A                   | N/A                                                                                                                                              |
 
 When you start Storybook, your custom configuration will override the default.
 
@@ -113,6 +114,6 @@ For example, if you wanted to disable the [backgrounds addon](./backgrounds.md),
 
 <div class="aside">
 
-💡 You can use the following keys for each individual addon: `actions`, `backgrounds`, `controls`, `docs`, `viewport`, `toolbars`, `measure`, `outline`.
+💡 You can use the following keys for each individual addon: `actions`, `backgrounds`, `controls`, `docs`, `viewport`, `toolbars`, `measure`, `outline`, `highlight`.
 
 </div>

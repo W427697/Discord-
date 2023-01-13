@@ -37,10 +37,18 @@ The _default_ export metadata controls how Storybook lists your stories and prov
     'angular/button-story-default-export-with-component.ts.mdx',
     'svelte/button-story-default-export-with-component.js.mdx',
     'web-components/button-story-default-export-with-component.js.mdx',
+    'html/button-story-default-export.js.mdx',
+    'html/button-story-default-export.ts.mdx',
   ]}
 />
 
 <!-- prettier-ignore-end -->
+
+<div class="aside">
+
+Starting with Storybook version 7.0, story titles are analyzed statically as part of the build process. The _default_ export must contain a `title` property that can be read statically or a `component` property from which an automatic title can be computed. Using the `id` property to customize your story URL must also be statically readable.
+
+</div>
 
 ### Defining stories
 
@@ -57,9 +65,12 @@ Use the _named_ exports of a CSF file to define your component’s stories. We r
     'vue/button-story.ts-3.ts.mdx',
     'angular/button-story.ts.mdx',
     'svelte/button-story.js.mdx',
-    'svelte/button-story.native-format.mdx',
     'web-components/button-story.js.mdx',
+    'html/button-story.js.mdx',
+    'html/button-story.ts.mdx',
   ]}
+  usesCsf3
+  csf2Path="writing-stories/introduction#snippet-button-story"
 />
 
 <!-- prettier-ignore-end -->
@@ -73,14 +84,15 @@ Use the _named_ exports of a CSF file to define your component’s stories. We r
 <CodeSnippets
   paths={[
     'react/button-story.with-hooks.js.mdx',
-    'react/button-story.mdx-with-hooks.mdx.mdx',
   ]}
+  usesCsf3
+  csf2Path="writing-stories/introduction#snippet-button-story-with-hooks"
 />
 
 <!-- prettier-ignore-end -->
 
 <div class="aside">
-💡 The recommendation mentioned above also applies to other frameworks not only React.
+💡 The recommendation mentioned above also applies to other frameworks, not only React.
 </div>
 
 ### Rename stories
@@ -94,12 +106,15 @@ You can rename any particular story you need. For instance, to give it a more ac
     'react/button-story-rename-story.js.mdx',
     'react/button-story-rename-story.ts.mdx',
     'vue/button-story-rename-story.js.mdx',
-    'vue/button-story-rename-story.ts-2.ts.mdx',
-    'vue/button-story-rename-story.ts-3.ts.mdx',
+    'vue/button-story-rename-story.ts.mdx',
     'angular/button-story-rename-story.ts.mdx',
     'svelte/button-story-rename-story.js.mdx',
     'web-components/button-story-rename-story.js.mdx',
+    'html/button-story-rename-story.js.mdx',
+    'html/button-story-rename-story.ts.mdx',
   ]}
+  usesCsf3
+  csf2Path="writing-stories/introduction#snippet-button-story-rename-story"
 />
 
 <!-- prettier-ignore-end -->
@@ -116,18 +131,17 @@ A story is a function that describes how to render a component. You can have mul
   paths={[
     'react/button-story-with-emojis.js.mdx',
     'react/button-story-with-emojis.ts.mdx',
-    'react/button-story-with-emojis.mdx.mdx',
     'vue/button-story-with-emojis.js.mdx',
     'vue/button-story-with-emojis.ts-2.ts.mdx',
     'vue/button-story-with-emojis.ts-3.ts.mdx',
-    'vue/button-story-with-emojis.mdx.mdx',
     'angular/button-story-with-emojis.ts.mdx',
-    'angular/button-story-with-emojis.mdx.mdx',
     'svelte/button-story-with-emojis.js.mdx',
-    'svelte/button-story-with-emojis.native-format.mdx',
-    'svelte/button-story-with-emojis.mdx.mdx',
     'web-components/button-story-with-emojis.js.mdx',
+    'html/button-story-with-emojis.js.mdx',
+    'html/button-story-with-emojis.ts.mdx',
   ]}
+  usesCsf3
+  csf2Path="writing-stories/introduction#snippet-button-story-with-emojis"
 />
 
 <!-- prettier-ignore-end -->
@@ -145,23 +159,20 @@ Refine this pattern by introducing `args` for your component's stories. It reduc
     'react/button-story-using-args.js.mdx',
     'react/button-story-using-args.ts.mdx',
     'vue/button-story-using-args.2.js.mdx',
-    'vue/button-story-using-args.3.js.mdx',
     'vue/button-story-using-args.ts-2.ts.mdx',
+    'vue/button-story-using-args.3.js.mdx',
     'vue/button-story-using-args.ts-3.ts.mdx',
     'angular/button-story-using-args.ts.mdx',
     'svelte/button-story-using-args.js.mdx',
-    'svelte/button-story-using-args.native-format.mdx',
     'web-components/button-story-using-args.js.mdx',
+    'html/button-story-using-args.js.mdx',
+    'html/button-story-using-args.ts.mdx',
   ]}
+  usesCsf3
+  csf2Path="writing-stories/introduction#snippet-button-story-using-args"
 />
 
 <!-- prettier-ignore-end -->
-
-<div class="aside">
-
-💡 `Template.bind({})` is a [standard JavaScript technique](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/bind) for making a copy of a function. We copy the `Template` so each exported story can set its own properties on it.
-
-</div>
 
 By introducing args into your component's stories, you're not only reducing the amount of code you need to write, but you're also decreasing data duplication, as shown by spreading the `Primary` story's args into the other stories.
 
@@ -175,13 +186,16 @@ What’s more, you can import `args` to reuse when writing stories for other com
     'react/button-group-story.ts.mdx',
     'angular/button-group-story.ts.mdx',
     'vue/button-group-story.2.js.mdx',
-    'vue/button-group-story.3.js.mdx',
     'vue/button-group-story.ts-2.ts.mdx',
+    'vue/button-group-story.3.js.mdx',
     'vue/button-group-story.ts-3.ts.mdx',
     'svelte/button-group-story.js.mdx',
     'web-components/button-group-story.js.mdx',
   ]}
+  usesCsf3
+  csf2Path="writing-stories/introduction#snippet-button-group-story"
 />
+
 
 <!-- prettier-ignore-end -->
 
@@ -215,18 +229,15 @@ Storybook's `play` function and the [`@storybook/addon-interactions`](https://st
   paths={[
     'react/login-form-with-play-function.js.mdx',
     'react/login-form-with-play-function.ts.mdx',
-    'react/login-form-with-play-function.mdx.mdx',
     'angular/login-form-with-play-function.ts.mdx',
-    'angular/login-form-with-play-function.mdx.mdx',
     'vue/login-form-with-play-function.2.js.mdx',
     'vue/login-form-with-play-function.ts-2.ts.mdx',
-    'vue/login-form-with-play-function.mdx-2.mdx',
     'vue/login-form-with-play-function.3.js.mdx',
     'vue/login-form-with-play-function.ts-3.ts.mdx',
-    'vue/login-form-with-play-function.mdx-3.mdx',
     'svelte/login-form-with-play-function.js.mdx',
-    'svelte/login-form-with-play-function.mdx.mdx',
   ]}
+  usesCsf3
+  csf2Path="writing-stories/introduction#snippet-login-form-with-play-function"
 />
 
 Without the help of the `play` function and the `@storybook/addon-interactions`, you had to write your own stories and manually interact with the component to test out each use case scenario possible. 
@@ -243,23 +254,25 @@ For instance, suppose you wanted to test your Button component against a differe
   paths={[
     'react/button-story-with-blue-args.js.mdx',
     'react/button-story-with-blue-args.ts.mdx',
-    'react/button-story-with-blue-args.mdx.mdx',
     'vue/button-story-with-blue-args.js.mdx',
     'vue/button-story-with-blue-args.ts-2.ts.mdx',
     'vue/button-story-with-blue-args.ts-3.ts.mdx',
-    'vue/button-story-with-blue-args.mdx.mdx',
     'angular/button-story-with-blue-args.ts.mdx',
-    'angular/button-story-with-blue-args.mdx.mdx',
     'svelte/button-story-with-blue-args.js.mdx',
-    'svelte/button-story-with-blue-args.native-format.mdx',
-    'svelte/button-story-with-blue-args.mdx.mdx',
     'web-components/button-story-with-blue-args.js.mdx',
+    'html/button-story-with-blue-args.js.mdx',
+    'html/button-story-with-blue-args.ts.mdx',
   ]}
 />
 
 <!-- prettier-ignore-end -->
 
-![Background colors parameter](./parameters-background-colors.png)
+<video autoPlay muted playsInline loop>
+  <source
+    src="storybook-story-parameters-demo-optimized.mp4"
+    type="video/mp4"
+  />
+</video>
 
 This parameter would instruct the backgrounds addon to reconfigure itself whenever a Button story is selected. Most addons are configured via a parameter-based API and can be influenced at a [global](./parameters.md#global-parameters), [component](./parameters.md#component-parameters) and [story](./parameters.md#story-parameters) level.
 
@@ -275,17 +288,14 @@ A simple example is adding padding to a component’s stories. Accomplish this u
   paths={[
     'react/button-story-component-decorator.js.mdx',
     'react/button-story-component-decorator.ts.mdx',
-    'react/button-story-component-decorator.mdx.mdx',
     'vue/button-story-component-decorator.js.mdx',
     'vue/button-story-component-decorator.ts-2.ts.mdx',
     'vue/button-story-component-decorator.ts-3.ts.mdx',
-    'vue/button-story-component-decorator.mdx.mdx',
     'angular/button-story-component-decorator.ts.mdx',
-    'angular/button-story-component-decorator.mdx.mdx',
     'svelte/button-story-component-decorator.js.mdx',
-    'svelte/button-story-component-decorator.native-format.mdx',
-    'svelte/button-story-component-decorator.mdx.mdx',
     'web-components/button-story-component-decorator.js.mdx',
+    'html/button-story-component-decorator.js.mdx',
+    'html/button-story-component-decorator.ts.mdx',
   ]}
 />
 
@@ -308,9 +318,12 @@ When building design systems or component libraries, you may have two or more co
     'vue/list-story-starter.ts-2.ts.mdx',
     'vue/list-story-starter.3.js.mdx',
     'vue/list-story-starter.ts-3.ts.mdx',
-    'svelte/list-story-starter.native-format.mdx',
     'web-components/list-story-starter.js.mdx',
+    'html/list-story-starter.js.mdx',
+    'html/list-story-starter.ts.mdx',
   ]}
+  usesCsf3
+  csf2Path="writing-stories/introduction#snippet-list-story-starter"
 />
 
 <!-- prettier-ignore-end -->
@@ -328,9 +341,12 @@ In such cases, it makes sense to render a different function for each story:
     'vue/list-story-expanded.ts-2.ts.mdx',
     'vue/list-story-expanded.3.js.mdx',
     'vue/list-story-expanded.ts-3.ts.mdx',
-    'svelte/list-story-expanded.native-format.mdx',
     'web-components/list-story-expanded.js.mdx',
+    'html/list-story-expanded.js.mdx',
+    'html/list-story-expanded.ts.mdx',
   ]}
+  usesCsf3
+  csf2Path="writing-stories/introduction#snippet-list-story-expanded"
 />
 
 <!-- prettier-ignore-end -->
@@ -349,7 +365,11 @@ You can also reuse stories from the child `ListItem` in your `List` component. T
     'vue/list-story-reuse-data.3.js.mdx',
     'vue/list-story-reuse-data.ts-3.ts.mdx',
     'web-components/list-story-reuse-data.js.mdx',
+    'html/list-story-reuse-data.js.mdx',
+    'html/list-story-reuse-data.ts.mdx',
   ]}
+  usesCsf3
+  csf2Path="writing-stories/introduction#snippet-list-story-reuse-data"
 />
 
 <!-- prettier-ignore-end -->

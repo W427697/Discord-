@@ -1,29 +1,28 @@
-```ts
+```tsx
 // MyComponent.stories.ts|tsx
 
-import React from 'react';
-
-import { ComponentStory, ComponentMeta } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react';
 
 import { withDesign } from 'storybook-addon-designs';
 
 import { MyComponent } from './MyComponent';
 
-// More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
-export default {
+// More on default export: https://storybook.js.org/docs/7.0/react/writing-stories/introduction#default-export
+const meta: Meta<typeof MyComponent> = {
   title: 'FigmaExample',
   component: MyComponent,
   decorators: [withDesign],
-} as ComponentMeta<typeof YourComponent>;
+};
 
-// More on component templates: https://storybook.js.org/docs/react/writing-stories/introduction#using-args
-const Template: ComponentStory<typeof MyComponent> = () => <MyComponent />;
+export default meta;
+type Story = StoryObj<typeof MyComponent>;
 
-export const Example = Template.bind({});
-Example.parameters = {
-  design: {
-    type: 'figma',
-    url: 'https://www.figma.com/file/Sample-File',
+export const Example: Story = {
+  parameters: {
+    design: {
+      type: 'figma',
+      url: 'https://www.figma.com/file/Sample-File',
+    },
   },
 };
 ```

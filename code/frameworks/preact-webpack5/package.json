@@ -1,0 +1,81 @@
+{
+  "name": "@storybook/preact-webpack5",
+  "version": "7.0.0-beta.26",
+  "description": "Storybook for Preact: Develop Preact Component in isolation.",
+  "keywords": [
+    "storybook"
+  ],
+  "homepage": "https://github.com/storybookjs/storybook/tree/main/frameworks/preact-webpack5",
+  "bugs": {
+    "url": "https://github.com/storybookjs/storybook/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/storybookjs/storybook.git",
+    "directory": "frameworks/preact-webpack5"
+  },
+  "funding": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/storybook"
+  },
+  "license": "MIT",
+  "exports": {
+    ".": {
+      "node": "./dist/index.js",
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.ts"
+    },
+    "./preset": {
+      "require": "./dist/preset.js",
+      "import": "./dist/preset.mjs",
+      "types": "./dist/preset.d.ts"
+    },
+    "./package.json": "./package.json"
+  },
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist/**/*",
+    "template/**/*",
+    "README.md",
+    "*.js",
+    "*.d.ts"
+  ],
+  "scripts": {
+    "check": "../../../scripts/node_modules/.bin/tsc --noEmit",
+    "prep": "../../../scripts/prepare/bundle.ts"
+  },
+  "dependencies": {
+    "@storybook/builder-webpack5": "7.0.0-beta.26",
+    "@storybook/core-common": "7.0.0-beta.26",
+    "@storybook/preact": "7.0.0-beta.26",
+    "@storybook/preset-preact-webpack": "7.0.0-beta.26",
+    "@types/node": "^16.0.0"
+  },
+  "devDependencies": {
+    "preact": "^10.5.13",
+    "typescript": "~4.9.3"
+  },
+  "peerDependencies": {
+    "@babel/core": "*",
+    "preact": "^8.0.0||^10.0.0",
+    "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
+    "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "bundler": {
+    "entries": [
+      "./src/index.ts",
+      "./src/preset.ts"
+    ],
+    "platform": "node"
+  },
+  "gitHead": "4d3ed5ec2eb8db3e688955e2820001def09621c1"
+}

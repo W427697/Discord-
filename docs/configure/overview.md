@@ -28,9 +28,9 @@ The `main.js` configuration file is a [preset](../addons/addon-types.md) and, as
 
 - `stories` - an array of globs that indicates the [location of your story files](#configure-story-loading), relative to `main.js`.
 - `addons` - a list of the [addons](https://storybook.js.org/addons/) you are using.
-- `webpackFinal` - custom [webpack configuration](./webpack.md#extending-storybooks-webpack-config).
+- `webpackFinal` - custom [webpack configuration](../builders/webpack.md#extending-storybooks-webpack-config).
 - `babel` - custom [babel configuration](./babel.md).
-- `framework` - framework specific configurations to help the loading and building process.
+- `framework` - [framework specific configurations](./frameworks.md) to help the loading and building process.
 
 <div class="aside">
  💡 Tip: Customize your default story by referencing it first in the `stories` array.
@@ -146,9 +146,7 @@ This feature is experimental, and it has some limitations on what you can and ca
 
 ## Configure your project with TypeScript
 
-If you need, you can also configure your Storybook using TypeScript. To get started, add a `.babelrc` file inside your project and include the following Babel presets:
-
-Rename your `.storybook/main.js` to `.storybook/main.ts` and restart your Storybook.
+If you would like, you can also write your Storybook configuration using TypeScript. To get started, add a `.babelrc` file inside your project and include the following Babel presets:
 
 <!-- prettier-ignore-start -->
 
@@ -160,9 +158,15 @@ Rename your `.storybook/main.js` to `.storybook/main.ts` and restart your Storyb
 
 <!-- prettier-ignore-end -->
 
-### Using Storybook API
+This babel config will be used to process your stories, as well as your config files.
 
-You can also use Storybook's API to configure your project with TypeScript. Under the hood, it mirrors the exact configuration you get by default. Below is an abridged Storybook configuration with TypeScript and additional information about each configuration element.
+Alternatively, you can install [`ts-node`](https://typestrong.org/ts-node/) in your project, which will be used to process your config files without the need for a `.babelrc`.
+
+Rename your `.storybook/main.js` to `.storybook/main.ts` and restart your Storybook.
+
+### Using Storybook Types in Your Configuration
+
+You can also use Storybook's TypeScript types to ensure you are using valid options and get autocompletion in your editor. Below is an abridged Storybook configuration with TypeScript types and additional information about each configuration element.
 
 <!-- prettier-ignore-start -->
 
@@ -172,20 +176,24 @@ You can also use Storybook's API to configure your project with TypeScript. Unde
   ]}
 />
 
+See the vite builder [TypeScript documentation](https://github.com/storybookjs/builder-vite#typescript) if using `@storybook/builder-vite`.
+
 <!-- prettier-ignore-end -->
 
-| Configuration element | Description                                                                                                                                                                      |
-| --------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `stories`             | The array of globs that indicates the [location of your story files](#configure-story-loading), relative to `main.ts`                                                            |
-| `staticDirs`          | Sets a list of directories of [static files](./images-and-assets.md#serving-static-files-via-storybook-configuration) to be loaded by Storybook <br/> `staticDirs:['../public']` |
-| `addons`              | Sets the list of [addons](https://storybook.js.org/addons/) loaded by Storybook <br/> `addons:['@storybook/addon-essentials']`                                                                            |
-| `typescript`          | Configures how Storybook handles [TypeScript files](./typescript.md) <br/> `typescript: { check: false, checkOptions: {} }`                                                      |
-| `framework`           | Configures Storybook based on a set of framework-specific settings <br/> `framework:'@storybook/svelte'`                                                                         |
-| `core`                | Configures Storybook's internal features.<br/> `core: { builder: 'webpack5' }`                                                                                                   |
-| `features`            | Enables Storybook's additional features.<br/> See table below for a list of available features `features: { storyStoreV7: true }`                                                |
-| `refs`                | Configures [Storybook composition](../sharing/storybook-composition.md) <br/> `refs:{ example: { title: 'ExampleStorybook', url:'https://your-url.com' } }`                      |
-| `logLevel`            | Configures Storybook's logs in the browser terminal. Useful for debugging <br/> `logLevel: 'debug'`                                                                              |
-| `webpackFinal`        | Customize Storybook's [Webpack](./webpack.md) setup <br/> `webpackFinal: async (config:any) => { return config; }`                                                               |
+| Configuration element | Description                                                                                                                                                                                              |
+| --------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `stories`             | The array of globs that indicates the [location of your story files](#configure-story-loading), relative to `main.ts`                                                                                    |
+| `staticDirs`          | Sets a list of directories of [static files](./images-and-assets.md#serving-static-files-via-storybook-configuration) to be loaded by Storybook <br/> `staticDirs:['../public']`                         |
+| `addons`              | Sets the list of [addons](https://storybook.js.org/addons/) loaded by Storybook <br/> `addons:['@storybook/addon-essentials']`                                                                           |
+| `typescript`          | Configures how Storybook handles [TypeScript files](./typescript.md) <br/> `typescript: { check: false, checkOptions: {} }`                                                                              |
+| `framework`           | Configures Storybook based on a set of framework-specific settings <br/> `framework:'@storybook/svelte'`                                                                                                 |
+| `core`                | Configures Storybook's internal features.<br/> `core: { builder: 'webpack5' }`                                                                                                                           |
+| `features`            | Enables Storybook's additional features.<br/> See table below for a list of available features `features: { storyStoreV7: true }`                                                                        |
+| `refs`                | Configures [Storybook composition](../sharing/storybook-composition.md) <br/> `refs:{ example: { title: 'ExampleStorybook', url:'https://your-url.com' } }`                                              |
+| `logLevel`            | Configures Storybook's logs in the browser terminal. Useful for debugging <br/> `logLevel: 'debug'`                                                                                                      |
+| `webpackFinal`        | Customize Storybook's [Webpack](../builders/webpack.md) setup <br/> `webpackFinal: async (config:any) => { return config; }`                                                                             |
+| `viteFinal`           | Customize Storybook's Vite setup when using the [vite builder](https://github.com/storybookjs/builder-vite) <br/> `viteFinal: async (config: Vite.InlineConfig, options: Options) => { return config; }` |
+| `env`                 | Defines custom Storybook [environment variables](./environment-variables.md#using-storybook-configuration). <br/> `env: (config) => ({...config, EXAMPLE_VAR: 'Example var' }),`                         |
 
 ## Configure story rendering
 

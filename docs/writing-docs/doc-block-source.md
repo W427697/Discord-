@@ -6,7 +6,7 @@ Storybook's `Source` Doc Block displays the story's source code. It supports syn
 
 ![Docs blocks with source](./docblock-source.png)
 
-## Working with the DocsPage
+## Working with Automatic Docs
 
 Storybook automatically generates a `Source` Doc Block within the [Canvas](./doc-block-canvas.md) to display the story's code snippet.
 It includes additional customization via parameters. Below is a condensed example and tables featuring all the available options.
@@ -17,6 +17,8 @@ It includes additional customization via parameters. Below is a condensed exampl
   paths={[
     'common/component-story-custom-source.js.mdx',
   ]}
+  usesCsf3
+  csf2Path="writing-docs/doc-block-source#snippet-component-story-custom-source"
 />
 
 <!-- prettier-ignore-end -->
@@ -36,11 +38,11 @@ It includes additional customization via parameters. Below is a condensed exampl
 | `format`   | Formats the code snippet. <br/> `docs: { source: { format:false } }`                                                                                               |
 | `type`     | Sets how the story source snippet is auto-generated. See table below for available values.                                                                         |
 
-| Value              | Description                                                                                                                                                   | Support                                      |
-| ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------- |
-| **auto** (default) | Use `dynamic` snippets if the story is written using [Args](../writing-stories/args.md) and the framework supports it.<br/> `docs: { source: { type: 'auto' } }` | All                                          |
-| **dynamic**        | Dynamically generated code snippet based on the output of the story function (e.g, JSX code for React). <br/> `docs: { source: { type: 'dynamic' } }`         | [Limited](../api/frameworks-feature-support.md) |
-| **code**           | Use the raw story source as written in the story file. <br/> `docs: { source: { type: 'code' } }`                                                             | All                                          |
+| Value              | Description                                                                                                                                                      | Support                                         |
+| ------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------- |
+| **auto** (default) | Use `dynamic` snippets if the story is written using [Args](../writing-stories/args.md) and the framework supports it.<br/> `docs: { source: { type: 'auto' } }` | All                                             |
+| **dynamic**        | Dynamically generated code snippet based on the output of the story function (e.g, JSX code for React). <br/> `docs: { source: { type: 'dynamic' } }`            | [Limited](../api/frameworks-feature-support.md) |
+| **code**           | Use the raw story source as written in the story file. <br/> `docs: { source: { type: 'code' } }`                                                                | All                                             |
 
 ## Working with MDX
 

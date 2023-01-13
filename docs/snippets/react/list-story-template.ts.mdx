@@ -1,9 +1,7 @@
-```js
+```tsx
 // List.stories.ts|tsx
 
-import React from 'react';
-
-import { ComponentStory, ComponentMeta } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react';
 
 import { List } from './List';
 import { ListItem } from './ListItem';
@@ -11,34 +9,42 @@ import { ListItem } from './ListItem';
 //👇 Imports a specific story from ListItem stories
 import { Unchecked } from './ListItem.stories';
 
-export default {
+const meta: Meta<typeof List> = {
   /* 👇 The title prop is optional.
-  * See https://storybook.js.org/docs/react/configure/overview#configure-story-loading
-  * to learn how to generate automatic titles
-  */
+   * Seehttps://storybook.js.org/docs/7.0/react/configure/overview#configure-story-loading
+   * to learn how to generate automatic titles
+   */
   title: 'List',
   component: List,
-} as ComponentMeta<typeof List>;
+};
 
-const ListTemplate: ComponentStory<typeof ButtonGroup> = (args) => {
-  const { items } = args;
-  return (
-    <List>
-      {items.map((item) => (
-        <ListItem {...item} />
-      ))}
-  </List>
-)};
+export default meta;
+type Story = StoryObj<typeof List>;
 
-export const Empty = ListTemplate.bind({});
-Empty.args = { items: [] };
+//👇 The ListTemplate construct will be spread to the existing stories.
+const ListTemplate: Story = {
+  render: ({ items, ...args }) => {
+    return (
+      <List>
+        {items.map((item) => (
+          <ListItem {...item} />
+        ))}
+      </List>
+    );
+  },
+};
 
-export const OneItem = ListTemplate.bind({});
-OneItem.args = {
-  items: [
-    {
-      ...Unchecked.args,
-    },
-  ],
+export const Empty = {
+  ...ListTemplate,
+  args: {
+    items: [],
+  },
+};
+
+export const OneItem = {
+  ...ListTemplate,
+  args: {
+    items: [{ ...Unchecked.args }],
+  },
 };
 ```
