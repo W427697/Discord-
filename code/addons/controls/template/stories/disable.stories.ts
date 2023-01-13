@@ -1,4 +1,4 @@
-import globalThis from 'global';
+import { global as globalThis } from '@storybook/global';
 import type { PartialStoryFn, StoryContext } from '@storybook/types';
 
 export default {
@@ -18,5 +18,7 @@ export const DisableTable = {
 
 export const DisableControl = {
   args: { a: 'a', b: 'b' },
-  b: { control: { disable: true } },
+  argTypes: {
+    b: { control: { disable: true } },
+  },
 };

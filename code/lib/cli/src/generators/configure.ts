@@ -6,13 +6,14 @@ interface ConfigureMainOptions {
   addons: string[];
   extensions?: string[];
   commonJs?: boolean;
+  staticDirs?: string[];
   /**
    * Extra values for main.js
    *
    * In order to provide non-serializable data like functions, you can use
    * { value: '%%yourFunctionCall()%%' }
    *
-   * '%% and %%' will be replace.
+   * '%% and %%' will be replaced.
    *
    */
   [key: string]: any;
@@ -27,7 +28,7 @@ export async function configureMain({
   const prefix = (await fse.pathExists('./src')) ? '../src' : '../stories';
 
   const config = {
-    stories: [`${prefix}/**/*.stories.mdx`, `${prefix}/**/*.stories.@(${extensions.join('|')})`],
+    stories: [`${prefix}/**/*.mdx`, `${prefix}/**/*.stories.@(${extensions.join('|')})`],
     addons,
     ...custom,
   };
@@ -60,7 +61,6 @@ const frameworkToPreviewParts: Partial<Record<SupportedFrameworks | SupportedRen
       setCompodocJson(docJson);
       
       `.trimStart(),
-    extraParameters: 'docs: { inlineStories: true },',
   },
 };
 

@@ -86,6 +86,18 @@ const Label = styled.label(({ theme }) => ({
 const parse = (value: string | null): boolean => value === 'true';
 
 export type BooleanProps = ControlProps<BooleanValue> & BooleanConfig;
+/**
+ * # Boolean Control
+ * Renders a switch toggle with "True" or "False".
+ * or if the value is `undefined`, renders a button to set the boolean.
+ *
+ * ## Example usage
+ *
+ * ```
+ *
+ * <BooleanControl name="isTrue" value={value} onChange={handleValueChange}/>
+ * ```
+ */
 export const BooleanControl: FC<BooleanProps> = ({ name, value, onChange, onBlur, onFocus }) => {
   const onSetFalse = useCallback(() => onChange(false), [onChange]);
   if (value === undefined) {
@@ -95,13 +107,14 @@ export const BooleanControl: FC<BooleanProps> = ({ name, value, onChange, onBlur
       </Form.Button>
     );
   }
+  const controlId = getControlId(name);
 
   const parsedValue = typeof value === 'string' ? parse(value) : value;
 
   return (
-    <Label htmlFor={name} title={parsedValue ? 'Change to false' : 'Change to true'}>
+    <Label htmlFor={controlId} title={parsedValue ? 'Change to false' : 'Change to true'}>
       <input
-        id={getControlId(name)}
+        id={controlId}
         type="checkbox"
         onChange={(e) => onChange(e.target.checked)}
         checked={parsedValue}

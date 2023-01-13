@@ -5,7 +5,6 @@ import { dedent } from 'ts-dedent';
 import yaml from 'js-yaml';
 import { loadCsf } from './CsfFile';
 
-// @ts-expect-error (Converted from ts-ignore)
 expect.addSnapshotSerializer({
   print: (val: any) => yaml.dump(val).trimEnd(),
   test: (val) => typeof val !== 'string',
@@ -222,6 +221,28 @@ describe('CsfFile', () => {
       `);
     });
 
+    it('typescript satisfies', () => {
+      expect(
+        parse(
+          dedent`
+          import type { Meta, StoryFn } from '@storybook/react';
+          type PropTypes = {};
+          export default { title: 'foo/bar/baz' } as Meta<PropTypes>;
+          export const A: StoryFn<PropTypes> = () => <>A</>;
+          export const B: StoryFn<PropTypes> = () => <>B</>;
+        `
+        )
+      ).toMatchInlineSnapshot(`
+        meta:
+          title: foo/bar/baz
+        stories:
+          - id: foo-bar-baz--a
+            name: A
+          - id: foo-bar-baz--b
+            name: B
+      `);
+    });
+
     it('typescript meta var', () => {
       expect(
         parse(
@@ -229,6 +250,29 @@ describe('CsfFile', () => {
           import type { Meta, StoryFn } from '@storybook/react';
           type PropTypes = {};
           const meta = { title: 'foo/bar/baz' } as Meta<PropTypes>;
+          export default meta;
+          export const A: StoryFn<PropTypes> = () => <>A</>;
+          export const B: StoryFn<PropTypes> = () => <>B</>;
+        `
+        )
+      ).toMatchInlineSnapshot(`
+        meta:
+          title: foo/bar/baz
+        stories:
+          - id: foo-bar-baz--a
+            name: A
+          - id: foo-bar-baz--b
+            name: B
+      `);
+    });
+
+    it('typescript satisfies meta var', () => {
+      expect(
+        parse(
+          dedent`
+          import type { Meta, StoryFn } from '@storybook/react';
+          type PropTypes = {};
+          const meta = { title: 'foo/bar/baz' } satisfies Meta<PropTypes>;
           export default meta;
           export const A: StoryFn<PropTypes> = () => <>A</>;
           export const B: StoryFn<PropTypes> = () => <>B</>;
@@ -324,6 +368,36 @@ describe('CsfFile', () => {
       ).toMatchInlineSnapshot(`
         meta:
           title: foo/bar
+        stories:
+          - id: foo-bar--page
+            name: Page
+            parameters:
+              __isArgsStory: false
+              __id: foo-bar--page
+              docsOnly: true
+      `);
+    });
+
+    it('docs-only story with local vars', () => {
+      expect(
+        parse(
+          dedent`
+            export const TestControl = () => _jsx("p", {
+              children: "Hello"
+            });
+            export default { title: 'foo/bar', tags: ['stories-mdx'], includeStories: ["__page"] };
+            export const __page = () => {};
+            __page.parameters = { docsOnly: true };
+          `,
+          true
+        )
+      ).toMatchInlineSnapshot(`
+        meta:
+          title: foo/bar
+          tags:
+            - stories-mdx
+          includeStories:
+            - __page
         stories:
           - id: foo-bar--page
             name: Page
@@ -790,6 +864,106 @@ describe('CsfFile', () => {
           `
         )
       ).toThrow('CSF: Expected tag to be string literal');
+    });
+  });
+
+  describe('play functions', () => {
+    it('story csf2', () => {
+      expect(
+        parse(
+          dedent`
+          export default { title: 'foo/bar', tags: ['X'] };
+          export const A = () => {};
+          A.play = () => {};
+          A.tags = ['Y'];
+        `
+        )
+      ).toMatchInlineSnapshot(`
+        meta:
+          title: foo/bar
+          tags:
+            - X
+        stories:
+          - id: foo-bar--a
+            name: A
+            tags:
+              - 'Y'
+              - play-fn
+      `);
+    });
+
+    it('story csf3', () => {
+      expect(
+        parse(
+          dedent`
+          export default { title: 'foo/bar', tags: ['X'] };
+          export const A = {
+            render: () => {},
+            play: () => {},
+            tags: ['Y'],
+          };
+        `
+        )
+      ).toMatchInlineSnapshot(`
+        meta:
+          title: foo/bar
+          tags:
+            - X
+        stories:
+          - id: foo-bar--a
+            name: A
+            tags:
+              - 'Y'
+              - play-fn
+      `);
+    });
+
+    it('meta csf2', () => {
+      expect(
+        parse(
+          dedent`
+          export default { title: 'foo/bar', play: () => {}, tags: ['X'] };
+          export const A = {
+            render: () => {},
+            tags: ['Y'],
+          };
+        `
+        )
+      ).toMatchInlineSnapshot(`
+        meta:
+          title: foo/bar
+          tags:
+            - X
+            - play-fn
+        stories:
+          - id: foo-bar--a
+            name: A
+            tags:
+              - 'Y'
+      `);
+    });
+
+    it('meta csf3', () => {
+      expect(
+        parse(
+          dedent`
+          export default { title: 'foo/bar', play: () => {}, tags: ['X'] };
+          export const A = () => {};
+          A.tags = ['Y'];
+        `
+        )
+      ).toMatchInlineSnapshot(`
+        meta:
+          title: foo/bar
+          tags:
+            - X
+            - play-fn
+        stories:
+          - id: foo-bar--a
+            name: A
+            tags:
+              - 'Y'
+      `);
     });
   });
 });

@@ -1,7 +1,12 @@
 <p align="center">
   <a href="https://storybook.js.org/">
-    <img src="https://user-images.githubusercontent.com/321738/63501763-88dbf600-c4cc-11e9-96cd-94adadc2fd72.png" alt="Storybook" width="400" />
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="https://user-images.githubusercontent.com/263385/199832481-bbbf5961-6a26-481d-8224-51258cce9b33.png">
+      <img src="https://user-images.githubusercontent.com/321738/63501763-88dbf600-c4cc-11e9-96cd-94adadc2fd72.png" alt="Storybook" width="400" />
+    </picture>
+    
   </a>
+  
 </p>
 
 <p align="center">Build bulletproof UI components faster</p>
@@ -33,6 +38,9 @@
   </a>
   <a href="https://twitter.com/intent/follow?screen_name=storybookjs">
     <img src="https://badgen.net/twitter/follow/storybookjs?icon=twitter&label=%40storybookjs" alt="Official Twitter Handle" />
+  </a>
+  <a href="https://api.securityscorecards.dev/projects/github.com/storybookjs/storybook">
+    <img src="https://api.securityscorecards.dev/projects/github.com/storybookjs/storybook/badge" alt="OpenSSF Scorecard"/>
   </a>
 </p>
 
@@ -72,7 +80,7 @@ Visit [Storybook's website](https://storybook.js.org) to learn more about Storyb
 
 ### Documentation
 
-Documentation can be found [Storybook's docs site](https://storybook.js.org/docs).
+Documentation can be found on [Storybook's docs site](https://storybook.js.org/docs).
 
 ### Examples
 
@@ -115,8 +123,8 @@ For additional help, join us in the [Storybook Discord](https://discord.gg/story
 | [a11y](code/addons/a11y/)                                                 | Test components for user accessibility in Storybook                        |
 | [actions](code/addons/actions/)                                           | Log actions as users interact with components in the Storybook UI          |
 | [backgrounds](code/addons/backgrounds/)                                   | Let users choose backgrounds in the Storybook UI                           |
-| [cssresources](https://github.com/storybookjs/addon-cssresources)         | Dynamically add/remove css resources to the component iframe               |
-| [design assets](https://github.com/storybookjs/addon-design-assets)       | View images, videos, weblinks alongside your story                         |
+| [cssresources](https://github.com/storybookjs/addon-cssresources)         | Dynamically add/remove CSS resources to the component iframe               |
+| [design assets](https://github.com/storybookjs/addon-design-assets)       | View images, videos, and weblinks alongside your story                     |
 | [docs](code/addons/docs/)                                                 | Add high quality documentation to your components                          |
 | [events](https://github.com/storybookjs/addon-events)                     | Interactively fire events to components that respond to EventEmitter       |
 | [google-analytics](https://github.com/storybookjs/addon-google-analytics) | Reports google analytics on stories                                        |
@@ -142,11 +150,11 @@ See [Addon / Framework Support Table](https://storybook.js.org/docs/react/api/fr
 | [notes](https://github.com/storybookjs/deprecated-addons/tree/master/addons/notes) | Annotate Storybook stories with notes                      |
 | [options](https://www.npmjs.com/package/@storybook/addon-options)                  | Customize the Storybook UI in code                         |
 
-In order to continue improving your experience, we have to eventually deprecate certain addons in favor of new, better tools.
+To continue improving your experience, we have to eventually deprecate certain addons in favor of new and better tools.
 
-If you're using info/notes, we highly recommend you to migrate to [docs](code/addons/docs/) instead, and [here is a guide](code/addons/docs/docs/recipes.md#migrating-from-notesinfo-addons) to help you.
+If you're using info/notes, we highly recommend you migrate to [docs](code/addons/docs/) instead, and [here is a guide](code/addons/docs/docs/recipes.md#migrating-from-notesinfo-addons) to help you.
 
-If you're using contexts, we highly recommend you to migrate to [toolbars](https://github.com/storybookjs/storybook/tree/next/code/addons/toolbars) and [here is a guide](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#deprecated-addon-contexts) to help you.
+If you're using contexts, we highly recommend you migrate to [toolbars](https://github.com/storybookjs/storybook/tree/next/code/addons/toolbars) and [here is a guide](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#deprecated-addon-contexts) to help you.
 
 ## Badges & Presentation materials
 
@@ -158,7 +166,7 @@ We have a badge! Link it to your live Storybook example.
 [![Storybook](https://cdn.jsdelivr.net/gh/storybookjs/brand@main/badge/badge-storybook.svg)](link to site)
 ```
 
-If you're looking for material to use in your presentation about storybook, like logo's video material and the colors we use etc, you can find all of that at our [brand repo](https://github.com/storybookjs/brand).
+If you're looking for material to use in your Storybook presentation, such as logos, video material, and the colors we use, you can find it all on our [brand repo](https://github.com/storybookjs/brand).
 
 ## Community
 
@@ -169,7 +177,7 @@ If you're looking for material to use in your presentation about storybook, like
 
 ## Contributing
 
-We welcome contributions to Storybook!
+Contributions to Storybook are always welcome!
 
 - 📥 Pull requests and 🌟 Stars are always welcome.
 - Read our [contributing guide](CONTRIBUTING.md) to get started,
@@ -178,7 +186,7 @@ We welcome contributions to Storybook!
 Looking for a first issue to tackle?
 
 - We tag issues with [![Good First Issue](https://img.shields.io/github/issues/storybookjs/storybook/good%20first%20issue.svg)](https://github.com/storybookjs/storybook/issues?q=is%3Aopen+is%3Aissue+label%3A%22good+first+issue%22) when we think they are well suited for people who are new to the codebase or OSS in general.
-- [Talk to us](https://discord.gg/storybook), we'll find something to suits your skills and learning interest.
+- [Talk to us](https://discord.gg/storybook), we'll find something that suits your skills and learning interest.
 
 ### Development scripts
 
@@ -208,7 +216,7 @@ Storybook is organized as a monorepo using [Lerna](https://lerna.js.org/). Usefu
 
 ### Sponsors
 
-Become a sponsor and get your logo on our README on Github with a link to your site. \[[Become a sponsor](https://opencollective.com/storybook#sponsor)]
+Become a sponsor to have your logo and website URL on our README on Github. \[[Become a sponsor](https://opencollective.com/storybook#sponsor)]
 
 <a href="https://opencollective.com/storybook/sponsor/0/website" target="_blank"><img src="https://opencollective.com/storybook/sponsor/0/avatar.svg"></a>
 <a href="https://opencollective.com/storybook/sponsor/1/website" target="_blank"><img src="https://opencollective.com/storybook/sponsor/1/avatar.svg"></a>
@@ -243,7 +251,7 @@ Become a sponsor and get your logo on our README on Github with a link to your s
 
 ### Backers
 
-Support us with a monthly donation and help us continue our activities. \[[Become a backer](https://opencollective.com/storybook#backer)]
+By making a recurring donation, you can support us and our work. \[[Become a backer](https://opencollective.com/storybook#backer)]
 
 <a href="https://opencollective.com/storybook/backer/0/website" target="_blank"><img src="https://opencollective.com/storybook/backer/0/avatar.svg"></a>
 <a href="https://opencollective.com/storybook/backer/1/website" target="_blank"><img src="https://opencollective.com/storybook/backer/1/avatar.svg"></a>

@@ -1,7 +1,7 @@
 import type { FC, ReactNode } from 'react';
 import React, { useCallback, useState, useEffect } from 'react';
 import { styled } from '@storybook/theming';
-import global from 'global';
+import { global } from '@storybook/global';
 
 import TooltipTrigger from 'react-popper-tooltip';
 import type { Modifier, Placement } from '@popperjs/core';
@@ -124,8 +124,8 @@ const WithToolTipState: FC<
   WithTooltipPureProps & {
     startOpen?: boolean;
   }
-> = ({ startOpen, onVisibilityChange: onChange, ...rest }) => {
-  const [tooltipShown, setTooltipShown] = useState(startOpen || false);
+> = ({ startOpen = false, onVisibilityChange: onChange, ...rest }) => {
+  const [tooltipShown, setTooltipShown] = useState(startOpen);
   const onVisibilityChange: (visibility: boolean) => void = useCallback(
     (visibility) => {
       if (onChange && onChange(visibility) === false) return;

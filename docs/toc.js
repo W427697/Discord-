@@ -112,7 +112,7 @@ module.exports = {
         },
         {
           pathSegment: 'docs-page',
-          title: 'DocsPage',
+          title: 'Docs',
           type: 'link',
         },
         {
@@ -202,6 +202,11 @@ module.exports = {
         {
           pathSegment: 'interaction-testing',
           title: 'Interaction tests',
+          type: 'link',
+        },
+        {
+          pathSegment: 'test-coverage',
+          title: 'Test coverage',
           type: 'link',
         },
         {
@@ -326,7 +331,7 @@ module.exports = {
           type: 'link',
         },
         {
-          pathSegment: 'addon-catalog',
+          pathSegment: 'integration-catalog',
           title: 'Add to catalog',
           type: 'link',
         },
@@ -372,6 +377,11 @@ module.exports = {
           title: 'Integration',
           type: 'menu',
           children: [
+           {
+              pathSegment: 'frameworks',
+              title: 'Frameworks',
+              type: 'link',
+            },
             {
               pathSegment: 'babel',
               title: 'Babel',
@@ -481,11 +491,6 @@ module.exports = {
               type: 'link',
             },
             {
-              pathSegment: 'mdx',
-              title: 'MDX syntax',
-              type: 'link',
-            },
-            {
               pathSegment: 'argtypes',
               title: 'ArgTypes',
               type: 'link',
@@ -540,6 +545,11 @@ module.exports = {
               type: 'link',
             },
           ],
+        },
+        {
+          pathSegment: 'framework',
+          title: 'Framework',
+          type: 'link',
         },
         {
           pathSegment: 'how-to-reproduce',

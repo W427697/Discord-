@@ -3,12 +3,12 @@ import fs from 'fs-extra';
 import { dedent } from 'ts-dedent';
 
 import * as t from '@babel/types';
-// eslint-disable-next-line import/no-extraneous-dependencies
+
 import * as generate from '@babel/generator';
-// eslint-disable-next-line import/no-extraneous-dependencies
+
 import * as traverse from '@babel/traverse';
 import { toId, isExportStory, storyNameFromExport } from '@storybook/csf';
-import type { CSF_Meta, CSF_Story, Tag } from '@storybook/types';
+import type { Tag, StoryAnnotations, ComponentAnnotations } from '@storybook/types';
 import { babelParse } from './babelParse';
 
 const logger = console;
@@ -141,6 +141,19 @@ export class NoMetaError extends Error {
     this.name = this.constructor.name;
   }
 }
+
+export interface StaticMeta
+  extends Pick<
+    ComponentAnnotations,
+    'id' | 'title' | 'includeStories' | 'excludeStories' | 'tags'
+  > {
+  component?: string;
+}
+
+export interface StaticStory extends Pick<StoryAnnotations, 'name' | 'parameters' | 'tags'> {
+  id: string;
+}
+
 export class CsfFile {
   _ast: t.File;
 
@@ -148,13 +161,15 @@ export class CsfFile {
 
   _makeTitle: (title: string) => string;
 
-  _meta?: CSF_Meta;
+  _meta?: StaticMeta;
 
-  _stories: Record<string, CSF_Story> = {};
+  _stories: Record<string, StaticStory> = {};
 
   _metaAnnotations: Record<string, t.Node> = {};
 
   _storyExports: Record<string, t.VariableDeclarator | t.FunctionDeclaration> = {};
+
+  _storyStatements: Record<string, t.ExportNamedDeclaration> = {};
 
   _storyAnnotations: Record<string, Record<string, t.Node>> = {};
 
@@ -184,7 +199,7 @@ export class CsfFile {
   }
 
   _parseMeta(declaration: t.ObjectExpression, program: t.Program) {
-    const meta: CSF_Meta = {};
+    const meta: StaticMeta = {};
     declaration.properties.forEach((p: t.ObjectProperty) => {
       if (t.isIdentifier(p.key)) {
         this._metaAnnotations[p.key.name] = p.value;
@@ -215,6 +230,28 @@ export class CsfFile {
     this._meta = meta;
   }
 
+  getStoryExport(key: string) {
+    let node = this._storyExports[key] as t.Node;
+    node = t.isVariableDeclarator(node) ? node.init : node;
+    if (t.isCallExpression(node)) {
+      const { callee, arguments: bindArguments } = node;
+      if (
+        t.isMemberExpression(callee) &&
+        t.isIdentifier(callee.object) &&
+        t.isIdentifier(callee.property) &&
+        callee.property.name === 'bind' &&
+        (bindArguments.length === 0 ||
+          (bindArguments.length === 1 &&
+            t.isObjectExpression(bindArguments[0]) &&
+            bindArguments[0].properties.length === 0))
+      ) {
+        const { name } = callee.object;
+        node = this._templates[name];
+      }
+    }
+    return node;
+  }
+
   parse() {
     // eslint-disable-next-line @typescript-eslint/no-this-alias
     const self = this;
@@ -232,7 +269,7 @@ export class CsfFile {
             metaNode = decl;
           } else if (
             // export default { ... } as Meta<...>
-            t.isTSAsExpression(decl) &&
+            (t.isTSAsExpression(decl) || t.isTSSatisfiesExpression(decl)) &&
             t.isObjectExpression(decl.expression)
           ) {
             metaNode = decl.expression;
@@ -261,6 +298,7 @@ export class CsfFile {
                   return;
                 }
                 self._storyExports[exportName] = decl;
+                self._storyStatements[exportName] = node;
                 let name = storyNameFromExport(exportName);
                 if (self._storyAnnotations[exportName]) {
                   logger.warn(
@@ -416,24 +454,34 @@ export class CsfFile {
     // default export can come at any point in the file, so we do this post processing last
     const entries = Object.entries(self._stories);
     self._meta.title = this._makeTitle(self._meta.title);
+    if (self._metaAnnotations.play) {
+      self._meta.tags = [...(self._meta.tags || []), 'play-fn'];
+    }
     self._stories = entries.reduce((acc, [key, story]) => {
       if (isExportStory(key, self._meta)) {
         const id = toId(self._meta.id || self._meta.title, storyNameFromExport(key));
         const parameters: Record<string, any> = { ...story.parameters, __id: id };
-        if (entries.length === 1 && key === '__page') {
+        const { includeStories } = self._meta || {};
+        if (
+          key === '__page' &&
+          (entries.length === 1 || (Array.isArray(includeStories) && includeStories.length === 1))
+        ) {
           parameters.docsOnly = true;
         }
         acc[key] = { ...story, id, parameters };
-        const { tags } = self._storyAnnotations[key];
+        const { tags, play } = self._storyAnnotations[key];
         if (tags) {
           const node = t.isIdentifier(tags)
             ? findVarInitialization(tags.name, this._ast.program)
             : tags;
           acc[key].tags = parseTags(node);
         }
+        if (play) {
+          acc[key].tags = [...(acc[key].tags || []), 'play-fn'];
+        }
       }
       return acc;
-    }, {} as Record<string, CSF_Story>);
+    }, {} as Record<string, StaticStory>);
 
     Object.keys(self._storyExports).forEach((key) => {
       if (!isExportStory(key, self._meta)) {

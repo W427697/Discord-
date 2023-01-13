@@ -1,22 +1,22 @@
 /* eslint-disable prefer-destructuring */
 import { Addon_ClientStoryApi, Addon_Loadable } from '@storybook/types';
 import { start } from '@storybook/core-client';
-import { renderToDOM, render } from './render';
+import { renderToCanvas, render } from './render';
 import decorateStory from './decorateStory';
-import { AngularFramework } from './types';
+import { AngularRenderer } from './types';
 
 export * from './public-types';
 
 const FRAMEWORK = 'angular';
 
-interface ClientApi extends Addon_ClientStoryApi<AngularFramework['storyResult']> {
+interface ClientApi extends Addon_ClientStoryApi<AngularRenderer['storyResult']> {
   configure(loader: Addon_Loadable, module: NodeModule): void;
   forceReRender(): void;
   raw: () => any; // todo add type
   load: (...args: any[]) => void;
 }
 
-const api = start(renderToDOM, { decorateStory, render });
+const api = start<AngularRenderer>(renderToCanvas, { decorateStory, render });
 
 export const storiesOf: ClientApi['storiesOf'] = (kind, m) => {
   return (api.clientApi.storiesOf(kind, m) as ReturnType<ClientApi['storiesOf']>).addParameters({

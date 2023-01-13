@@ -3,11 +3,11 @@
   "compilerOptions": {
     "strict": true,
     "skipLibCheck": true,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "allowJs": true
   },
   "vueCompilerOptions": {
     "target": 2
   },
-  "include": ["src/**/*", "src/**/*.vue"],
-  "exclude": []
+  "include": ["src/**/*", "src/**/*.vue", "template/**/*", "template/**/*.vue"]
 }

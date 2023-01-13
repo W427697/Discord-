@@ -1,6 +1,6 @@
-import global from 'global';
+import { global } from '@storybook/global';
 import * as React from 'react';
-import { useChannel, useParameter } from '@storybook/api';
+import { useChannel, useParameter } from '@storybook/manager-api';
 import {
   FORCE_REMOUNT,
   IGNORED_EXCEPTION,
@@ -102,10 +102,10 @@ export const Panel: React.FC<{ active: boolean }> = (props) => {
   const endRef = React.useRef();
   React.useEffect(() => {
     let observer: IntersectionObserver;
-    if (global.window.IntersectionObserver) {
-      observer = new global.window.IntersectionObserver(
+    if (global.IntersectionObserver) {
+      observer = new global.IntersectionObserver(
         ([end]: any) => setScrollTarget(end.isIntersecting ? undefined : end.target),
-        { root: global.window.document.querySelector('#panel-tab-content') }
+        { root: global.document.querySelector('#panel-tab-content') }
       );
       if (endRef.current) observer.observe(endRef.current);
     }

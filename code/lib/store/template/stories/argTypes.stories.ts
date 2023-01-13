@@ -1,4 +1,4 @@
-import globalThis from 'global';
+import { global as globalThis } from '@storybook/global';
 import type { PartialStoryFn, PlayFunctionContext, StoryContext } from '@storybook/types';
 import { within } from '@storybook/testing-library';
 import { expect } from '@storybook/jest';
@@ -22,7 +22,7 @@ export const Inheritance = {
     storyArg: { type: 'number' },
     composedArg: { options: ['a', 'b'] },
   },
-  play: async ({ canvasElement }: PlayFunctionContext) => {
+  play: async ({ canvasElement }: PlayFunctionContext<any>) => {
     // NOTE: these stories don't test project-level argTypes inheritance as it is too problematic
     // to have an argType floating around that will apply too *all* other stories in our sandboxes.
     await expect(JSON.parse(within(canvasElement).getByTestId('pre').innerText)).toMatchObject({
@@ -42,7 +42,7 @@ export const ArgTypeInference = {
     d: { a: 'b' },
     e: ['a', 'b'],
   },
-  play: async ({ canvasElement }: PlayFunctionContext) => {
+  play: async ({ canvasElement }: PlayFunctionContext<any>) => {
     await expect(JSON.parse(within(canvasElement).getByTestId('pre').innerText)).toMatchObject({
       a: { type: { name: 'number' } },
       b: { type: { name: 'string' } },
