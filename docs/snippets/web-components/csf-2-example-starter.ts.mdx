@@ -10,7 +10,8 @@ export default {
   component: 'demo-button',
 } as Meta;
 
-export const Primary: Story = ({ primary }) => html`<demo-button ?primary=${primary}></demo-button>`;
+export const Primary: Story = ({ primary }) =>
+  html`<demo-button ?primary=${primary}></demo-button>`;
 Primary.args = {
   primary: true,
 };
