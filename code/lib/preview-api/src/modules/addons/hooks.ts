@@ -31,7 +31,7 @@ interface Effect {
 
 type AbstractFunction = (...args: any[]) => any;
 
-export class HooksContext<TRenderer extends Renderer, TArgs = Args> {
+export class HooksContext<TRenderer extends Renderer, TArgs extends Args = Args> {
   hookListsMap: WeakMap<AbstractFunction, Hook[]> = undefined as any;
 
   mountedDecorators: Set<AbstractFunction> = undefined as any;
