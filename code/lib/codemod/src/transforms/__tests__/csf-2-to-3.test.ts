@@ -234,7 +234,7 @@ describe('csf-2-to-3', () => {
         `)
       ).toThrowErrorMatchingInlineSnapshot(`
         This codemod does not support namespace imports for a @storybook/react package.
-                    Replace the namespace import with named imports and try again.
+        Replace the namespace import with named imports and try again.
         > 1 | import * as SB from '@storybook/react';
             | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
           2 | import { CatProps } from './Cat';
@@ -286,7 +286,7 @@ describe('csf-2-to-3', () => {
     it('should replace function exports with objects and update type', () => {
       expect(
         tsTransform(dedent`
-          import { Story, StoryFn, ComponentStory } from '@storybook/react';
+          import { Story, StoryFn, ComponentStory, ComponentStoryObj } from '@storybook/react';
 
           // some extra whitespace to test
 
@@ -315,9 +315,14 @@ describe('csf-2-to-3', () => {
             name: "Fluffy"
           };
           
+          export const G: ComponentStoryObj<typeof Cat> = {
+            args: {
+              name: 'Fluffy',
+            },
+          };
         `)
       ).toMatchInlineSnapshot(`
-        import { StoryObj, StoryFn, ComponentStory } from '@storybook/react';
+        import { StoryObj, StoryFn } from '@storybook/react';
 
         // some extra whitespace to test
 
@@ -347,6 +352,12 @@ describe('csf-2-to-3', () => {
         };
 
         export const F: StoryObj = {
+          args: {
+            name: 'Fluffy',
+          },
+        };
+
+        export const G: StoryObj<typeof Cat> = {
           args: {
             name: 'Fluffy',
           },

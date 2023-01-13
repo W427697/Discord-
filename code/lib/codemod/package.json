@@ -34,6 +34,7 @@
     "./dist/transforms/storiesof-to-csf.js": "./dist/transforms/storiesof-to-csf.js",
     "./dist/transforms/update-addon-info.js": "./dist/transforms/update-addon-info.js",
     "./dist/transforms/update-organisation-name.js": "./dist/transforms/update-organisation-name.js",
+    "./dist/transforms/upgrade-deprecated-types.js": "./dist/transforms/upgrade-deprecated-types.js",
     "./dist/transforms/upgrade-hierarchy-separators.js": "./dist/transforms/upgrade-hierarchy-separators.js",
     "./package.json": "./package.json"
   },
@@ -81,6 +82,7 @@
       "./src/transforms/storiesof-to-csf.js",
       "./src/transforms/update-addon-info.js",
       "./src/transforms/update-organisation-name.js",
+      "./src/transforms/upgrade-deprecated-types.ts",
       "./src/transforms/upgrade-hierarchy-separators.js"
     ]
   },
