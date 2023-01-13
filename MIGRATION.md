@@ -42,6 +42,7 @@
     - [Removed DLL flags](#removed-dll-flags)
     - [Angular: Drop support for Angular \< 14](#angular-drop-support-for-angular--14)
     - [Angular: Drop support for calling storybook directly](#angular-drop-support-for-calling-storybook-directly)
+    - [Angular: Removed legacy renderer](#angular-removed-legacy-renderer)
   - [Docs Changes](#docs-changes)
     - [Standalone docs files](#standalone-docs-files)
     - [Referencing stories in docs files](#referencing-stories-in-docs-files)
@@ -775,6 +776,10 @@ Starting in 7.0, we drop support for Angular < 14
 
 In Storybook 6.4 we have deprecated calling Storybook directly (`npm run storybook`) and removed support for it in Storybook 7.0 entirely. Instead you have to set up
 the Storybook builder in your `angular.json` and execute `ng run <your-project>:storybook` to start Storybook. Please visit https://github.com/storybookjs/storybook/tree/next/code/frameworks/angular to set up Storybook for Angular correctly.
+
+#### Angular: Removed legacy renderer
+
+The `parameters.angularLegacyRendering` option is removed. You cannot use the old legacy renderer anymore.
 
 ### Docs Changes
 
