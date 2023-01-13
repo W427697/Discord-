@@ -63,12 +63,12 @@
     },
     "@storybook/addon-storyshots": {
       "implicitDependencies": [],
-      "root": "addons/storyshots/storyshots-core",
+      "root": "addons/storyshots-core",
       "type": "library"
     },
     "@storybook/addon-storyshots-puppeteer": {
       "implicitDependencies": [],
-      "root": "addons/storyshots/storyshots-puppeteer",
+      "root": "addons/storyshots-puppeteer",
       "type": "library"
     },
     "@storybook/addon-storysource": {
@@ -98,7 +98,7 @@
     },
     "@storybook/api": {
       "implicitDependencies": [],
-      "root": "lib/api",
+      "root": "lib/manager-api-shim",
       "type": "library"
     },
     "@storybook/blocks": {
@@ -206,19 +206,14 @@
       "root": "frameworks/ember",
       "type": "library"
     },
-    "@storybook/example-doc-blocks": {
-      "implicitDependencies": [],
-      "root": "examples/doc-blocks",
-      "type": "library"
-    },
-    "@storybook/external-docs": {
-      "implicitDependencies": [],
-      "root": "examples/external-docs",
-      "type": "library"
-    },
     "@storybook/html": {
       "implicitDependencies": [],
       "root": "renderers/html",
+      "type": "library"
+    },
+    "@storybook/html-vite": {
+      "implicitDependencies": [],
+      "root": "frameworks/html-vite",
       "type": "library"
     },
     "@storybook/html-webpack5": {
@@ -234,6 +229,11 @@
     "@storybook/manager": {
       "implicitDependencies": [],
       "root": "ui/manager",
+      "type": "library"
+    },
+    "@storybook/manager-api": {
+      "implicitDependencies": [],
+      "root": "lib/manager-api",
       "type": "library"
     },
     "@storybook/nextjs": {
@@ -259,6 +259,11 @@
     "@storybook/preact-webpack5": {
       "implicitDependencies": [],
       "root": "frameworks/preact-webpack5",
+      "type": "library"
+    },
+    "@storybook/preact-vite": {
+      "implicitDependencies": [],
+      "root": "frameworks/preact-vite",
       "type": "library"
     },
     "@storybook/preset-html-webpack": {
@@ -304,6 +309,11 @@
     "@storybook/preview": {
       "implicitDependencies": [],
       "root": "lib/preview",
+      "type": "library"
+    },
+    "@storybook/preview-api": {
+      "implicitDependencies": [],
+      "root": "lib/preview-api",
       "type": "library"
     },
     "@storybook/preview-web": {
@@ -354,6 +364,11 @@
     "@storybook/svelte": {
       "implicitDependencies": [],
       "root": "renderers/svelte",
+      "type": "library"
+    },
+    "@storybook/sveltekit": {
+      "implicitDependencies": [],
+      "root": "frameworks/sveltekit",
       "type": "library"
     },
     "@storybook/svelte-vite": {
@@ -426,34 +441,14 @@
       "root": "frameworks/web-components-webpack5",
       "type": "library"
     },
-    "ember-example": {
-      "implicitDependencies": [],
-      "root": "examples/ember-cli",
-      "type": "library"
-    },
     "sb": {
       "implicitDependencies": [],
       "root": "lib/cli-sb",
       "type": "library"
     },
-    "server-kitchen-sink": {
-      "implicitDependencies": [],
-      "root": "examples/server-kitchen-sink",
-      "type": "library"
-    },
-    "standalone-preview": {
-      "implicitDependencies": [],
-      "root": "examples/standalone-preview",
-      "type": "library"
-    },
     "storybook": {
       "implicitDependencies": [],
       "root": "lib/cli-storybook",
-      "type": "library"
-    },
-    "vue-3-cli-example": {
-      "implicitDependencies": [],
-      "root": "examples/vue-3-cli",
       "type": "library"
     }
   }

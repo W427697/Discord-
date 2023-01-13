@@ -1,4 +1,4 @@
-import { start } from '@storybook/core-client';
+import { start } from '@storybook/preview-api';
 import { decorateStory } from './decorators';
 
 import type { SvelteRenderer } from './types';

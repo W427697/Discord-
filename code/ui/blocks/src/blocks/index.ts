@@ -23,7 +23,9 @@ export * from './Story';
 export * from './Subheading';
 export * from './Subtitle';
 export * from './Title';
+export * from './Unstyled';
 export * from './Wrapper';
 
+export * from './useOf';
 export * from './types';
 export * from './mdx';

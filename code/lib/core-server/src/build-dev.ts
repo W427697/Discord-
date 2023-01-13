@@ -15,7 +15,8 @@ import {
   validateFrameworkName,
 } from '@storybook/core-common';
 import prompts from 'prompts';
-import global from 'global';
+import { global } from '@storybook/global';
+import { telemetry } from '@storybook/telemetry';
 
 import { join, resolve } from 'path';
 import { logger } from '@storybook/node-logger';
@@ -25,9 +26,11 @@ import { outputStats } from './utils/output-stats';
 import { outputStartupInformation } from './utils/output-startup-information';
 import { updateCheck } from './utils/update-check';
 import { getServerPort, getServerChannelUrl } from './utils/server-address';
-import { getBuilders } from './utils/get-builders';
+import { getManagerBuilder, getPreviewBuilder } from './utils/get-builders';
 
-export async function buildDevStandalone(options: CLIOptions & LoadOptions & BuilderOptions) {
+export async function buildDevStandalone(
+  options: CLIOptions & LoadOptions & BuilderOptions
+): Promise<{ port: number }> {
   const { packageJson, versionUpdates, releaseNotes } = options;
   const { version } = packageJson;
 
@@ -76,24 +79,41 @@ export async function buildDevStandalone(options: CLIOptions & LoadOptions & Bui
     logger.warn(`you have not specified a framework in your ${options.configDir}/main.js`);
   }
 
-  logger.info('=> Loading presets');
+  // Load first pass: We need to determine the builder
+  // We need to do this because builders might introduce 'overridePresets' which we need to take into account
+  // We hope to remove this in SB8
   let presets = await loadAllPresets({
     corePresets,
     overridePresets: [],
     ...options,
   });
 
-  const [previewBuilder, managerBuilder] = await getBuilders({ ...options, presets });
-  const { renderer } = await presets.apply<CoreConfig>('core', undefined);
+  const { renderer, builder, disableTelemetry } = await presets.apply<CoreConfig>(
+    'core',
+    undefined
+  );
 
+  if (!options.disableTelemetry && !disableTelemetry) {
+    if (versionCheck.success && !versionCheck.cached) {
+      telemetry('version-update');
+    }
+  }
+
+  const builderName = typeof builder === 'string' ? builder : builder?.name;
+  const [previewBuilder, managerBuilder] = await Promise.all([
+    getPreviewBuilder(builderName, options.configDir),
+    getManagerBuilder(),
+  ]);
+
+  // Load second pass: all presets are applied in order
   presets = await loadAllPresets({
     corePresets: [
-      require.resolve('./presets/common-preset'),
+      require.resolve('@storybook/core-server/dist/presets/common-preset'),
       ...(managerBuilder.corePresets || []),
       ...(previewBuilder.corePresets || []),
       ...(renderer ? [resolveAddonName(options.configDir, renderer, options)] : []),
       ...corePresets,
-      require.resolve('./presets/babel-cache-preset'),
+      require.resolve('@storybook/core-server/dist/presets/babel-cache-preset'),
     ],
     overridePresets: previewBuilder.overridePresets,
     ...options,
@@ -138,21 +158,21 @@ export async function buildDevStandalone(options: CLIOptions & LoadOptions & Bui
     // eslint-disable-next-line no-console
     console.log(problems.map((p) => p.stack));
     process.exit(problems.length > 0 ? 1 : 0);
-    return;
+  } else {
+    const name =
+      frameworkName.split('@storybook/').length > 1
+        ? frameworkName.split('@storybook/')[1]
+        : frameworkName;
+
+    outputStartupInformation({
+      updateInfo: versionCheck,
+      version,
+      name,
+      address,
+      networkAddress,
+      managerTotalTime,
+      previewTotalTime,
+    });
   }
-
-  const name =
-    frameworkName.split('@storybook/').length > 1
-      ? frameworkName.split('@storybook/')[1]
-      : frameworkName;
-
-  outputStartupInformation({
-    updateInfo: versionCheck,
-    version,
-    name,
-    address,
-    networkAddress,
-    managerTotalTime,
-    previewTotalTime,
-  });
+  return { port };
 }

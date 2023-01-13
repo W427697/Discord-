@@ -1,16 +1,16 @@
-import global from 'global';
+import { global } from '@storybook/global';
 import { dedent } from 'ts-dedent';
-import type { Store_RenderContext } from '@storybook/types';
+import type { RenderContext } from '@storybook/types';
 // @ts-expect-error (Converted from ts-ignore)
 import Component from '@ember/component'; // eslint-disable-line import/no-unresolved
 import type { OptionsArgs, EmberRenderer } from './types';
 
-const { window: globalWindow, document } = global;
+const { document } = global;
 
 const rootEl = document.getElementById('storybook-root');
 
-const config = globalWindow.require(`${globalWindow.STORYBOOK_NAME}/config/environment`);
-const app = globalWindow.require(`${globalWindow.STORYBOOK_NAME}/app`).default.create({
+const config = global.require(`${global.STORYBOOK_NAME}/config/environment`);
+const app = global.require(`${global.STORYBOOK_NAME}/app`).default.create({
   autoboot: false,
   rootElement: rootEl,
   ...config.APP,
@@ -61,7 +61,7 @@ function render(options: OptionsArgs, el: EmberRenderer['canvasElement']) {
 }
 
 export function renderToCanvas(
-  { storyFn, kind, name, showMain, showError }: Store_RenderContext<EmberRenderer>,
+  { storyFn, kind, name, showMain, showError }: RenderContext<EmberRenderer>,
   canvasElement: EmberRenderer['canvasElement']
 ) {
   const element = storyFn();

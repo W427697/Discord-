@@ -1,6 +1,6 @@
 import type { ComponentProps, FC } from 'react';
 import React, { useContext } from 'react';
-import type { StoryId, Store_Story } from '@storybook/types';
+import type { StoryId, PreparedStory } from '@storybook/types';
 import { SourceType } from '@storybook/docs-tools';
 
 import { Source as PureSource, SourceError } from '../components';
@@ -41,7 +41,7 @@ type NoneProps = CommonProps;
 
 type SourceProps = SingleSourceProps | MultiSourceProps | CodeProps | NoneProps;
 
-const getSourceState = (stories: Store_Story[]) => {
+const getSourceState = (stories: PreparedStory[]) => {
   const states = stories.map((story) => story.parameters.docs?.source?.state).filter(Boolean);
   if (states.length === 0) return SourceState.CLOSED;
   // FIXME: handling multiple stories is a pain
@@ -55,7 +55,7 @@ const getStorySource = (storyId: StoryId, sourceContext: SourceContextProps): So
   return sources?.[storyId] || { code: '', format: false };
 };
 
-const getSnippet = (snippet: string, story?: Store_Story<any>): string => {
+const getSnippet = (snippet: string, story?: PreparedStory<any>): string => {
   if (!story) {
     return snippet;
   }
@@ -89,7 +89,7 @@ const getSnippet = (snippet: string, story?: Store_Story<any>): string => {
 type SourceStateProps = { state: SourceState };
 type PureSourceProps = ComponentProps<typeof PureSource>;
 
-export const getSourceProps = (
+export const useSourceProps = (
   props: SourceProps,
   docsContext: DocsContextProps<any>,
   sourceContext: SourceContextProps
@@ -100,8 +100,7 @@ export const getSourceProps = (
   const singleProps = props as SingleSourceProps;
   const multiProps = props as MultiSourceProps;
 
-  let source = codeProps.code; // prefer user-specified code
-  let { format } = codeProps; // prefer user-specified code
+  let { format, code: source } = codeProps; // prefer user-specified code
 
   const targetIds = multiProps.ids || [singleProps.id || primaryId];
   const storyIds = targetIds.map((targetId) => {
@@ -120,13 +119,13 @@ export const getSourceProps = (
     source = storyIds
       .map((storyId, idx) => {
         const { code: storySource } = getStorySource(storyId, sourceContext);
-        const storyObj = stories[idx] as Store_Story;
+        const storyObj = stories[idx] as PreparedStory;
         return getSnippet(storySource, storyObj);
       })
       .join('\n\n');
   }
 
-  const state = getSourceState(stories as Store_Story[]);
+  const state = getSourceState(stories as PreparedStory[]);
 
   const { docs: docsParameters = {} } = parameters;
   const { source: sourceParameters = {} } = docsParameters;
@@ -151,6 +150,6 @@ export const getSourceProps = (
 export const Source: FC<PureSourceProps> = (props) => {
   const sourceContext = useContext(SourceContext);
   const docsContext = useContext(DocsContext);
-  const sourceProps = getSourceProps(props, docsContext, sourceContext);
+  const sourceProps = useSourceProps(props, docsContext, sourceContext);
   return <PureSource {...sourceProps} />;
 };

@@ -3,10 +3,14 @@ import type {
   Args,
   ComponentAnnotations,
   StoryAnnotations,
+  StoryContext as GenericStoryContext,
+  DecoratorFunction,
+  LoaderFunction,
+  StrictArgs,
 } from '@storybook/types';
 import type { ServerRenderer } from './types';
 
-export type { Args, ArgTypes, Parameters, StoryContext } from '@storybook/types';
+export type { Args, ArgTypes, Parameters, StrictArgs } from '@storybook/types';
 
 /**
  * Metadata to configure the stories for a component.
@@ -39,3 +43,8 @@ export type StoryObj<TArgs = Args> = StoryAnnotations<ServerRenderer, TArgs>;
  * @see [Named Story exports](https://storybook.js.org/docs/formats/component-story-format/#named-story-exports)
  */
 export type Story<TArgs = Args> = StoryFn<TArgs>;
+
+export type { ServerRenderer };
+export type Decorator<TArgs = StrictArgs> = DecoratorFunction<ServerRenderer, TArgs>;
+export type Loader<TArgs = StrictArgs> = LoaderFunction<ServerRenderer, TArgs>;
+export type StoryContext<TArgs = StrictArgs> = GenericStoryContext<ServerRenderer, TArgs>;

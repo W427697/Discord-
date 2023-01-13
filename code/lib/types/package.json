@@ -1,6 +1,6 @@
 {
   "name": "@storybook/types",
-  "version": "7.0.0-alpha.49",
+  "version": "7.0.0-beta.25",
   "description": "Core Storybook Types",
   "keywords": [
     "storybook"
@@ -22,6 +22,7 @@
   "sideEffects": false,
   "exports": {
     ".": {
+      "node": "./dist/index.js",
       "require": "./dist/index.js",
       "import": "./dist/index.mjs",
       "types": "./dist/index.d.ts"
@@ -33,7 +34,9 @@
   "types": "dist/index.d.ts",
   "files": [
     "dist/**/*",
-    "README.md"
+    "README.md",
+    "*.js",
+    "*.d.ts"
   ],
   "scripts": {
     "check": "../../../scripts/node_modules/.bin/tsc --noEmit",
@@ -41,16 +44,16 @@
   },
   "dependencies": {
     "@babel/core": "^7.12.10",
+    "@storybook/channels": "7.0.0-beta.25",
     "@types/babel__core": "^7.0.0",
     "@types/express": "^4.7.0",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "file-system-cache": "^2.0.0"
   },
   "devDependencies": {
-    "@storybook/csf": "0.0.2-next.5",
+    "@storybook/csf": "next",
     "@types/node": "^16.0.0",
-    "synchronous-promise": "^2.0.15",
-    "typescript": "~4.6.3"
+    "typescript": "~4.9.3"
   },
   "publishConfig": {
     "access": "public"
@@ -60,5 +63,5 @@
       "./src/index.ts"
     ]
   },
-  "gitHead": "d7eb433300cac55d3c7256c8181eb6fd7a47b4c8"
+  "gitHead": "2109ab8d7c0667e686db757abf5afcbf3d48a6ec"
 }

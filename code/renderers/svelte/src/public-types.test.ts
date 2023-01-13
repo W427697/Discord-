@@ -4,10 +4,10 @@ import type { ComponentAnnotations, StoryAnnotations } from '@storybook/types';
 import { expectTypeOf } from 'expect-type';
 import type { ComponentProps, SvelteComponentTyped } from 'svelte';
 import Button from './__test__/Button.svelte';
-import Decorator from './__test__/Decorator.svelte';
+import Decorator1 from './__test__/Decorator.svelte';
 import Decorator2 from './__test__/Decorator2.svelte';
 
-import type { DecoratorFn, Meta, StoryObj } from './public-types';
+import type { Decorator, Meta, StoryObj } from './public-types';
 import type { SvelteRenderer } from './types';
 
 type SvelteStory<Component extends SvelteComponentTyped, Args, RequiredArgs> = StoryAnnotations<
@@ -59,6 +59,7 @@ describe('Meta', () => {
         },
       }),
     };
+    expectTypeOf(meta).toMatchTypeOf<Meta<Button>>();
   });
 
   test('Events fallback to custom events when no component is specified', () => {
@@ -75,6 +76,7 @@ describe('Meta', () => {
         },
       }),
     };
+    expectTypeOf(meta).toMatchTypeOf<Meta<Button>>();
   });
 });
 
@@ -172,11 +174,11 @@ describe('Story args can be inferred', () => {
     expectTypeOf(Basic).toEqualTypeOf<Expected>();
   });
 
-  const withDecorator: DecoratorFn<{ decoratorArg: string }> = (
+  const withDecorator: Decorator<{ decoratorArg: string }> = (
     storyFn,
     { args: { decoratorArg } }
   ) => ({
-    Component: Decorator,
+    Component: Decorator1,
     props: { decoratorArg },
   });
 
@@ -202,7 +204,7 @@ describe('Story args can be inferred', () => {
   test('Correct args are inferred when type is widened for multiple decorators', () => {
     type Props = ComponentProps<Button> & { decoratorArg: string; decoratorArg2: string };
 
-    const secondDecorator: DecoratorFn<{ decoratorArg2: string }> = (
+    const secondDecorator: Decorator<{ decoratorArg2: string }> = (
       storyFn,
       { args: { decoratorArg2 } }
     ) => ({

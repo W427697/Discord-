@@ -1,4 +1,4 @@
-import { addons, useEffect } from '@storybook/addons';
+import { addons, useEffect } from '@storybook/preview-api';
 import { PartialStoryFn } from '@storybook/types';
 import { SNIPPET_RENDERED, SourceType } from '@storybook/docs-tools';
 import { StoryContext, AngularRenderer } from '../types';

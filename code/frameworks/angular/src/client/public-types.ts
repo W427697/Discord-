@@ -1,7 +1,18 @@
-import { AnnotatedStoryFn, Args, ComponentAnnotations, StoryAnnotations } from '@storybook/types';
+import {
+  AnnotatedStoryFn,
+  Args,
+  ComponentAnnotations,
+  DecoratorFunction,
+  LoaderFunction,
+  StoryAnnotations,
+  StoryContext as GenericStoryContext,
+  StrictArgs,
+} from '@storybook/types';
 import { AngularRenderer } from './types';
 
-export type { Args, ArgTypes } from '@storybook/types';
+export type { Args, ArgTypes, Parameters, StrictArgs } from '@storybook/types';
+export type { Parameters as AngularParameters } from './types';
+export type { AngularRenderer };
 
 /**
  * Metadata to configure the stories for a component.
@@ -34,3 +45,7 @@ export type StoryObj<TArgs = Args> = StoryAnnotations<AngularRenderer, TArgs>;
  * @see [Named Story exports](https://storybook.js.org/docs/formats/component-story-format/#named-story-exports)
  */
 export type Story<TArgs = Args> = StoryFn<TArgs>;
+
+export type Decorator<TArgs = StrictArgs> = DecoratorFunction<AngularRenderer, TArgs>;
+export type Loader<TArgs = StrictArgs> = LoaderFunction<AngularRenderer, TArgs>;
+export type StoryContext<TArgs = StrictArgs> = GenericStoryContext<AngularRenderer, TArgs>;

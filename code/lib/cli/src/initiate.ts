@@ -1,4 +1,4 @@
-import type { Package } from 'update-notifier';
+import type { PackageJson } from 'read-pkg-up';
 import chalk from 'chalk';
 import prompts from 'prompts';
 import { telemetry } from '@storybook/telemetry';
@@ -26,6 +26,7 @@ import webComponentsGenerator from './generators/WEB-COMPONENTS';
 import riotGenerator from './generators/RIOT';
 import preactGenerator from './generators/PREACT';
 import svelteGenerator from './generators/SVELTE';
+import svelteKitGenerator from './generators/SVELTEKIT';
 import raxGenerator from './generators/RAX';
 import serverGenerator from './generators/SERVER';
 import type { JsPackageManager } from './js-package-manager';
@@ -183,6 +184,11 @@ const installStorybook = (
           commandLog('Adding Storybook support to your "Svelte" app\n')
         );
 
+      case ProjectType.SVELTEKIT:
+        return svelteKitGenerator(packageManager, npmOptions, generatorOptions).then(
+          commandLog('Adding Storybook support to your "SvelteKit" app\n')
+        );
+
       case ProjectType.RAX:
         return raxGenerator(packageManager, npmOptions, generatorOptions).then(
           commandLog('Adding Storybook support to your "Rax" app\n')
@@ -259,25 +265,23 @@ const projectTypeInquirer = async (
   return Promise.resolve();
 };
 
-async function doInitiate(options: CommandOptions, pkg: Package): Promise<void> {
-  const { useNpm, packageManager: pkgMgr } = options;
-  if (useNpm) {
+async function doInitiate(options: CommandOptions, pkg: PackageJson): Promise<void> {
+  let { packageManager: pkgMgr } = options;
+  if (options.useNpm) {
     useNpmWarning();
+
+    pkgMgr = 'npm';
   }
-  const packageManager = JsPackageManagerFactory.getPackageManager({ useNpm, force: pkgMgr });
+  const packageManager = JsPackageManagerFactory.getPackageManager({ force: pkgMgr });
   const welcomeMessage = 'storybook init - the simplest way to add a Storybook to your project.';
   logger.log(chalk.inverse(`\n ${welcomeMessage} \n`));
 
-  if (!options.disableTelemetry) {
-    telemetry('init', {}, { stripMetadata: true });
-  }
-
   // Update notify code.
-  const { default: updateNotifier } = await import('update-notifier');
-  updateNotifier({
-    pkg,
+  const { default: updateNotifier } = await import('simple-update-notifier');
+  await updateNotifier({
+    pkg: pkg as any,
     updateCheckInterval: 1000 * 60 * 60, // every hour (we could increase this later on.)
-  }).notify();
+  });
 
   let projectType;
   const projectTypeProvided = options.type;
@@ -321,7 +325,11 @@ async function doInitiate(options: CommandOptions, pkg: Package): Promise<void> 
     packageManager.installDependencies();
   }
 
-  await automigrate({ yes: options.yes || process.env.CI === 'true', useNpm, force: pkgMgr });
+  if (!options.disableTelemetry) {
+    telemetry('init', { projectType });
+  }
+
+  await automigrate({ yes: options.yes || process.env.CI === 'true', packageManager: pkgMgr });
 
   logger.log('\nTo run your Storybook, type:\n');
   codeLog([packageManager.getRunStorybookCommand()]);
@@ -343,6 +351,6 @@ async function doInitiate(options: CommandOptions, pkg: Package): Promise<void> 
   logger.log();
 }
 
-export async function initiate(options: CommandOptions, pkg: Package): Promise<void> {
+export async function initiate(options: CommandOptions, pkg: PackageJson): Promise<void> {
   await withTelemetry('init', { cliOptions: options }, () => doInitiate(options, pkg));
 }

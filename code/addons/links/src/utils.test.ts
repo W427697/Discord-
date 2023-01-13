@@ -1,12 +1,14 @@
-import { addons } from '@storybook/addons';
+import { addons } from '@storybook/preview-api';
 import { SELECT_STORY } from '@storybook/core-events';
 
 import { linkTo, hrefTo } from './utils';
 
-jest.mock('@storybook/addons');
-jest.mock('global', () => ({
-  document: global.document,
-  window: global,
+jest.mock('@storybook/preview-api');
+jest.mock('@storybook/global', () => ({
+  global: {
+    document: global.document,
+    window: global,
+  },
 }));
 
 const mockAddons = addons as unknown as jest.Mocked<typeof addons>;

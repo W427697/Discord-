@@ -24,16 +24,11 @@
     "strict": false,
     "strictNullChecks": false,
     "forceConsistentCasingInFileNames": true,
-    "noUnusedLocals": false,
+    "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
     "resolveJsonModule": true,
-    "paths": {
-      "verdaccio": [
-        "./typings.d.ts"
-      ]
-    }
   },
   "exclude": [
     "dist",

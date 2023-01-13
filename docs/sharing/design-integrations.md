@@ -102,15 +102,15 @@ In Storybook, add a new [parameter](../writing-stories/parameters.md) named `des
   paths={[
     'react/component-story-figma-integration.js.mdx',
     'react/component-story-figma-integration.ts.mdx',
-    'react/component-story-figma-integration.mdx.mdx',
     'vue/component-story-figma-integration.js.mdx',
     'vue/component-story-figma-integration.ts.mdx',
-    'vue/component-story-figma-integration.mdx.mdx',
     'angular/component-story-figma-integration.ts.mdx',
-    'angular/component-story-figma-integration.mdx.mdx',
     'svelte/component-story-figma-integration.js.mdx',
-    'svelte/component-story-figma-integration.mdx.mdx',
+    'web-components/component-story-figma-integration.js.mdx',
+    'web-components/component-story-figma-integration.ts.mdx',
   ]}
+  usesCsf3
+  csf2Path="sharing/design-integrations#snippet-component-story-figma-integration"
 />
 
 <!-- prettier-ignore-end -->

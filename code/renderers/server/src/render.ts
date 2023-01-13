@@ -1,10 +1,9 @@
 /* eslint-disable no-param-reassign */
-// @ts-expect-error (Converted from ts-ignore)
-import global from 'global';
+import { global } from '@storybook/global';
 
 import { dedent } from 'ts-dedent';
-import type { Store_RenderContext } from '@storybook/types';
-import { simulatePageLoad, simulateDOMContentLoaded } from '@storybook/preview-web';
+import type { RenderContext } from '@storybook/types';
+import { simulatePageLoad, simulateDOMContentLoaded } from '@storybook/preview-api';
 import type { StoryFn, Args, ArgTypes } from './public-types';
 import type { FetchStoryHtmlType, ServerRenderer } from './types';
 
@@ -55,7 +54,7 @@ export async function renderToCanvas(
     storyFn,
     storyContext,
     storyContext: { parameters, args, argTypes },
-  }: Store_RenderContext<ServerRenderer>,
+  }: RenderContext<ServerRenderer>,
   canvasElement: ServerRenderer['canvasElement']
 ) {
   // Some addons wrap the storyFn so we need to call it even though Server doesn't need the answer

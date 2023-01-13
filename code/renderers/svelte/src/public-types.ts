@@ -5,12 +5,17 @@ import type {
   ArgsStoryFn,
   ComponentAnnotations,
   DecoratorFunction,
+  LoaderFunction,
   StoryAnnotations,
+  StoryContext as GenericStoryContext,
+  StrictArgs,
 } from '@storybook/types';
 
 import type { ComponentProps, ComponentType, SvelteComponentTyped } from 'svelte';
 import type { SetOptional, Simplify } from 'type-fest';
 import type { SvelteRenderer } from './types';
+
+export type { Args, ArgTypes, Parameters, StrictArgs } from '@storybook/types';
 
 /**
  * Metadata to configure the stories for a component.
@@ -52,4 +57,7 @@ export type StoryObj<MetaOrCmpOrArgs = Args> = MetaOrCmpOrArgs extends {
   ? StoryAnnotations<SvelteRenderer<MetaOrCmpOrArgs>, ComponentProps<MetaOrCmpOrArgs>>
   : StoryAnnotations<SvelteRenderer, MetaOrCmpOrArgs>;
 
-export type DecoratorFn<TArgs = Args> = DecoratorFunction<SvelteRenderer, TArgs>;
+export type { SvelteRenderer };
+export type Decorator<TArgs = StrictArgs> = DecoratorFunction<SvelteRenderer, TArgs>;
+export type Loader<TArgs = StrictArgs> = LoaderFunction<SvelteRenderer, TArgs>;
+export type StoryContext<TArgs = StrictArgs> = GenericStoryContext<SvelteRenderer, TArgs>;

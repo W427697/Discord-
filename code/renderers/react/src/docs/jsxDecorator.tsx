@@ -1,15 +1,35 @@
 /* eslint-disable no-underscore-dangle */
-import type { ReactElement } from 'react';
-import React, { createElement } from 'react';
+import type { ReactElement, ReactNode } from 'react';
+import React, { isValidElement, createElement } from 'react';
 import type { Options } from 'react-element-to-jsx-string';
 import reactElementToJSXString from 'react-element-to-jsx-string';
 
-import { addons, useEffect } from '@storybook/addons';
+import { addons, useEffect } from '@storybook/preview-api';
 import type { StoryContext, ArgsStoryFn, PartialStoryFn } from '@storybook/types';
 import { SourceType, SNIPPET_RENDERED, getDocgenSection } from '@storybook/docs-tools';
 import { logger } from '@storybook/client-logger';
 
 import type { ReactRenderer } from '../types';
+
+// Recursively remove "_owner" property from elements to avoid crash on docs page when passing components as an array prop (#17482)
+// Note: It may be better to use this function only in development environment.
+function simplifyNodeForStringify(node: ReactNode): ReactNode {
+  if (isValidElement(node)) {
+    const props = Object.keys(node.props).reduce<{ [key: string]: any }>((acc, cur) => {
+      acc[cur] = simplifyNodeForStringify(node.props[cur]);
+      return acc;
+    }, {});
+    return {
+      ...node,
+      props,
+      _owner: null,
+    };
+  }
+  if (Array.isArray(node)) {
+    return node.map(simplifyNodeForStringify);
+  }
+  return node;
+}
 
 type JSXOptions = Options & {
   /** How many wrappers to skip when rendering the jsx */
@@ -110,7 +130,7 @@ export const renderJsx = (code: React.ReactElement, options: JSXOptions) => {
         ? reactElementToJSXString
         : // @ts-expect-error (Converted from ts-ignore)
           reactElementToJSXString.default;
-    let string: string = toJSXString(child, opts as Options);
+    let string: string = toJSXString(simplifyNodeForStringify(child), opts as Options);
 
     if (string.indexOf('&quot;') > -1) {
       const matches = string.match(/\S+=\\"([^"]*)\\"/g);
