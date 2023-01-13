@@ -3,10 +3,11 @@ import prettier from 'prettier';
 import * as t from '@babel/types';
 import { isIdentifier, isTSTypeAnnotation, isTSTypeReference } from '@babel/types';
 import type { CsfFile } from '@storybook/csf-tools';
-import { formatCsf, loadCsf } from '@storybook/csf-tools';
+import { loadCsf } from '@storybook/csf-tools';
 import type { API, FileInfo } from 'jscodeshift';
 import type { BabelFile, NodePath } from '@babel/core';
 import * as babel from '@babel/core';
+import * as recast from 'recast';
 
 const logger = console;
 
@@ -171,7 +172,7 @@ export default function transform(info: FileInfo, api: API, options: { parser?: 
     return acc;
   }, []);
 
-  let output = formatCsf(csf);
+  let output = recast.print(csf._ast, {}).code;
 
   try {
     const prettierConfig = prettier.resolveConfig.sync('.', { editorconfig: true }) || {
