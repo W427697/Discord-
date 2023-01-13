@@ -1,11 +1,11 @@
 import { styled } from '@storybook/theming';
 import { Icons } from '@storybook/components';
-import global from 'global';
+import { global } from '@storybook/global';
 import type { FC, MouseEventHandler, ReactNode } from 'react';
 import React, { useCallback, useEffect } from 'react';
 import type { ControllerStateAndHelpers } from 'downshift';
 
-import { useStorybookApi } from '@storybook/api';
+import { useStorybookApi } from '@storybook/manager-api';
 import { PRELOAD_ENTRIES } from '@storybook/core-events';
 import { ComponentNode, DocumentNode, Path, RootNode, StoryNode } from './TreeNode';
 import type { Match, DownshiftItem, SearchResult } from './types';
@@ -199,7 +199,7 @@ export const SearchResults: FC<{
 
     document.addEventListener('keydown', handleEscape);
     return () => document.removeEventListener('keydown', handleEscape);
-  }, [enableShortcuts, isLoading]);
+  }, [closeMenu, enableShortcuts, isLoading]);
 
   const mouseOverHandler = useCallback((event: MouseEvent) => {
     const currentTarget = event.currentTarget as HTMLElement;

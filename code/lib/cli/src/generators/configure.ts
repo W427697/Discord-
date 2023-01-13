@@ -28,7 +28,7 @@ export async function configureMain({
   const prefix = (await fse.pathExists('./src')) ? '../src' : '../stories';
 
   const config = {
-    stories: [`${prefix}/**/*.stories.mdx`, `${prefix}/**/*.stories.@(${extensions.join('|')})`],
+    stories: [`${prefix}/**/*.mdx`, `${prefix}/**/*.stories.@(${extensions.join('|')})`],
     addons,
     ...custom,
   };
@@ -61,7 +61,6 @@ const frameworkToPreviewParts: Partial<Record<SupportedFrameworks | SupportedRen
       setCompodocJson(docJson);
       
       `.trimStart(),
-    extraParameters: 'docs: { inlineStories: true },',
   },
 };
 

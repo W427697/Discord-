@@ -1,6 +1,6 @@
 /// <reference types="node" />
 
-import { addons } from '@storybook/addons';
+import { addons } from '@storybook/preview-api';
 import { FORCE_REMOUNT, STORY_RENDER_PHASE_CHANGED } from '@storybook/core-events';
 import type {
   Renderer,
@@ -58,7 +58,10 @@ const addActionsFromArgTypes: ArgsEnhancer<Renderer> = ({ id, initialArgs }) =>
 export const argsEnhancers = [addActionsFromArgTypes];
 
 export const { step: runStep } = instrument(
-  { step: (label: StepLabel, play: PlayFunction, context: PlayFunctionContext) => play(context) },
+  {
+    step: (label: StepLabel, play: PlayFunction, context: PlayFunctionContext<any>) =>
+      play(context),
+  },
   { intercept: true }
 );
 

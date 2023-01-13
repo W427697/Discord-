@@ -1,7 +1,7 @@
-import global from 'global';
+import { global } from '@storybook/global';
 import type { Dispatch, MutableRefObject, SetStateAction } from 'react';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { useStorybookApi } from '@storybook/api';
+import { useStorybookApi } from '@storybook/manager-api';
 import { PRELOAD_ENTRIES } from '@storybook/core-events';
 import { matchesKeyCode, matchesModifiers } from '../../keybinding';
 
@@ -85,7 +85,6 @@ export const useHighlighted = ({
       const isArrowUp = matchesKeyCode('ArrowUp', event);
       const isArrowDown = matchesKeyCode('ArrowDown', event);
       if (!(isArrowUp || isArrowDown)) return;
-      event.preventDefault();
 
       const requestId = globalWindow.requestAnimationFrame(() => {
         globalWindow.cancelAnimationFrame(lastRequestId);

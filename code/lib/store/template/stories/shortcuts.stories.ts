@@ -1,4 +1,4 @@
-import globalThis from 'global';
+import { global as globalThis } from '@storybook/global';
 import { userEvent, within } from '@storybook/testing-library';
 import { PREVIEW_KEYDOWN } from '@storybook/core-events';
 import { jest, expect } from '@storybook/jest';
@@ -6,11 +6,11 @@ import type { PlayFunctionContext } from '@storybook/csf';
 
 export default {
   component: globalThis.Components.Form,
-  tags: ['docsPage'],
+  tags: ['autodocs'],
 };
 
 export const KeydownDuringPlay = {
-  play: async ({ canvasElement }: PlayFunctionContext) => {
+  play: async ({ canvasElement }: PlayFunctionContext<any>) => {
     const channel = globalThis.__STORYBOOK_ADDONS_CHANNEL__;
 
     const previewKeydown = jest.fn();

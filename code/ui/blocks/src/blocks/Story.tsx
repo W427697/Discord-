@@ -2,9 +2,9 @@ import type { FC, ComponentProps } from 'react';
 import React, { useContext, useRef, useEffect, useState } from 'react';
 import type {
   Renderer,
-  Store_ModuleExport,
-  Store_ModuleExports,
-  Store_Story as StoryType,
+  ModuleExport,
+  ModuleExports,
+  PreparedStory as StoryType,
   StoryAnnotations,
   StoryId,
 } from '@storybook/types';
@@ -29,8 +29,8 @@ type StoryDefProps = {
 
 type StoryRefProps = {
   id?: string;
-  of?: Store_ModuleExport;
-  meta?: Store_ModuleExports;
+  of?: ModuleExport;
+  meta?: ModuleExports;
 };
 
 type StoryImportProps = {
@@ -43,7 +43,12 @@ export const getStoryId = (props: StoryProps, context: DocsContextProps): StoryI
   const { id, of, meta } = props as StoryRefProps;
 
   if (of) {
-    return context.storyIdByModuleExport(of, meta);
+    if (meta) context.referenceMeta(meta, false);
+    const resolved = context.resolveModuleExport(of);
+    if (resolved.type !== 'story') {
+      throw new Error('Unexpected component/module/meta exports passed to `Story` block.');
+    }
+    return resolved.story.id;
   }
 
   const { name } = props as StoryDefProps;
@@ -112,7 +117,7 @@ const Story: FC<StoryProps> = (props) => {
     // FIXME: height/style/etc. lifted from PureStory
     const { height } = storyProps;
     return (
-      <div id={storyBlockIdFromId(story.id)}>
+      <div id={storyBlockIdFromId(story.id)} className="sb-story">
         {height ? (
           <style>{`#story--${story.id} { min-height: ${height}; transform: translateZ(0); overflow: auto }`}</style>
         ) : null}

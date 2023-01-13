@@ -51,6 +51,7 @@ describe('runCompodoc', () => {
       ['compodoc', '-p', 'path/to/tsconfig.json', '-d', 'path/to/project'],
       {
         cwd: 'path/to/project',
+        shell: true,
       }
     );
   });
@@ -72,6 +73,76 @@ describe('runCompodoc', () => {
     expect(cpSpawnMock.spawn).toHaveBeenCalledWith(
       'npx',
       ['compodoc', '-d', 'path/to/project', '-p', 'path/to/tsconfig.stories.json'],
+      {
+        cwd: 'path/to/project',
+        shell: true,
+      }
+    );
+  });
+
+  it('should run compodoc with default output folder.', async () => {
+    runCompodoc(
+      {
+        compodocArgs: [],
+        tsconfig: 'path/to/tsconfig.json',
+      },
+      {
+        workspaceRoot: 'path/to/project',
+        logger: builderContextLoggerMock,
+      } as BuilderContext
+    )
+      .pipe(take(1))
+      .subscribe();
+
+    expect(cpSpawnMock.spawn).toHaveBeenCalledWith(
+      'npx',
+      ['compodoc', '-p', 'path/to/tsconfig.json', '-d', 'path/to/project'],
+      {
+        cwd: 'path/to/project',
+      }
+    );
+  });
+
+  it('should run with custom output folder specified with --output compodocArgs', async () => {
+    runCompodoc(
+      {
+        compodocArgs: ['--output', 'path/to/customFolder'],
+        tsconfig: 'path/to/tsconfig.json',
+      },
+      {
+        workspaceRoot: 'path/to/project',
+        logger: builderContextLoggerMock,
+      } as BuilderContext
+    )
+      .pipe(take(1))
+      .subscribe();
+
+    expect(cpSpawnMock.spawn).toHaveBeenCalledWith(
+      'npx',
+      ['compodoc', '-p', 'path/to/tsconfig.json', '--output', 'path/to/customFolder'],
+      {
+        cwd: 'path/to/project',
+      }
+    );
+  });
+
+  it('should run with custom output folder specified with -d compodocArgs', async () => {
+    runCompodoc(
+      {
+        compodocArgs: ['-d', 'path/to/customFolder'],
+        tsconfig: 'path/to/tsconfig.json',
+      },
+      {
+        workspaceRoot: 'path/to/project',
+        logger: builderContextLoggerMock,
+      } as BuilderContext
+    )
+      .pipe(take(1))
+      .subscribe();
+
+    expect(cpSpawnMock.spawn).toHaveBeenCalledWith(
+      'npx',
+      ['compodoc', '-p', 'path/to/tsconfig.json', '-d', 'path/to/customFolder'],
       {
         cwd: 'path/to/project',
       }

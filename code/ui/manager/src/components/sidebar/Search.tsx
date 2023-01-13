@@ -1,11 +1,11 @@
-import { useStorybookApi } from '@storybook/api';
+import { useStorybookApi } from '@storybook/manager-api';
 import { styled } from '@storybook/theming';
 import { Icons } from '@storybook/components';
 import type { DownshiftState, StateChangeOptions } from 'downshift';
 import Downshift from 'downshift';
 import type { FuseOptions } from 'fuse.js';
 import Fuse from 'fuse.js';
-import global from 'global';
+import { global } from '@storybook/global';
 import React, { useMemo, useRef, useState, useCallback } from 'react';
 
 // eslint-disable-next-line import/no-cycle

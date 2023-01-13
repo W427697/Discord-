@@ -1,10 +1,9 @@
 /* eslint-disable no-param-reassign */
-// @ts-expect-error (Converted from ts-ignore)
-import global from 'global';
+import { global } from '@storybook/global';
 
 import { dedent } from 'ts-dedent';
-import { simulatePageLoad, simulateDOMContentLoaded } from '@storybook/preview-web';
-import type { Store_RenderContext, ArgsStoryFn } from '@storybook/types';
+import { simulatePageLoad, simulateDOMContentLoaded } from '@storybook/preview-api';
+import type { RenderContext, ArgsStoryFn } from '@storybook/types';
 import type { HtmlRenderer } from './types';
 
 const { Node } = global;
@@ -42,7 +41,7 @@ export const render: ArgsStoryFn<HtmlRenderer> = (args, context) => {
 };
 
 export function renderToCanvas(
-  { storyFn, kind, name, showMain, showError, forceRemount }: Store_RenderContext<HtmlRenderer>,
+  { storyFn, kind, name, showMain, showError, forceRemount }: RenderContext<HtmlRenderer>,
   canvasElement: HtmlRenderer['canvasElement']
 ) {
   const element = storyFn();
