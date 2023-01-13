@@ -260,7 +260,7 @@ function preparePartialAnnotations<TRenderer extends Renderer>(
   if (!global.FEATURES?.breakingChangesV7) {
     contextForEnhancers.parameters = {
       ...contextForEnhancers.parameters,
-      id,
+      __id: id,
       globals: projectAnnotations.globals,
       globalTypes: projectAnnotations.globalTypes,
       args: contextForEnhancers.initialArgs,
