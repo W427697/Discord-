@@ -13,6 +13,26 @@ const [store, setStore] = createStore({
   args: {} as Args & StoryContext<SolidRenderer>,
 });
 
+let globals: StoryContext<SolidRenderer>['globals'];
+
+/**
+ * Checks when the story requires to be remounted.
+ * Elements outside the story requires a whole re-render.
+ * e.g. dark theme, show grid, etc...
+ */
+const remount = (force: boolean, context: StoryContext<SolidRenderer>) => {
+  let flag = false;
+
+  if (force) {
+    flag = true;
+  } else if (!Object.is(globals, context.globals)) {
+    // Globals refers to storybook visualization options.
+    globals = context.globals;
+    flag = true;
+  }
+  return flag;
+};
+
 /**
  * Decorator for intercepting context args for converting them into
  * a reactive store for fine grained updates.
@@ -21,7 +41,6 @@ export const solidReactivityDecorator = (
   storyFn: StoryFn<SolidRenderer, Args>,
   context: StoryContext<SolidRenderer>
 ) => {
-  setStore('args', context!.args);
   context.args = store.args;
   return storyFn(context.args as Args & StoryContext<SolidRenderer>, context);
 };
@@ -38,9 +57,8 @@ export const solidReactivityDecorator = (
  * };
  * ```
  */
-export const render: ArgsStoryFn<SolidRenderer> = (args, context) => {
+export const render: ArgsStoryFn<SolidRenderer> = (_, context) => {
   const { id, component: Component } = context;
-  setStore('args', args);
 
   if (!Component) {
     throw new Error(
@@ -48,7 +66,7 @@ export const render: ArgsStoryFn<SolidRenderer> = (args, context) => {
     );
   }
 
-  return <Component {...store.args} />;
+  return <Component {...context.args} />;
 };
 
 /**
@@ -72,19 +90,17 @@ export async function renderToCanvas(
   canvasElement: SolidRenderer['canvasElement']
 ) {
   /**
-   * forceRemount occurs when loading by first time the story, it
-   * will dispose the story (clear the root node) for rendering the
-   * new loaded story.
+   * Store is updated for fine grained updates.
    */
-  if (forceRemount && disposeStory) disposeStory();
+  setStore('args', storyContext.args);
 
   /**
-   * If the story is not forced to be re-mounted (re-rendered)
-   * The storyContext is handled by a solid store for manipulating
-   * the component state when a property from controls is changed.
+   * If remount is required, the whole root node is re-rendered.
    */
-  if (!forceRemount) {
-    setStore('args', storyContext.args);
+  if (remount(forceRemount, storyContext)) {
+    disposeStory?.();
+  } else {
+    // Fine grained updates are passed from the store.
     return;
   }
 
