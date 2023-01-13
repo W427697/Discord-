@@ -6,9 +6,9 @@
     <title><%= typeof title !== 'undefined'? title : 'Storybook'%></title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <% if (favicon.endsWidth('.svg')) {%>
+    <% if (favicon.endWith('.svg')) {%>
       <link rel="icon" type="image/svg+xml" href="./<%= favicon %>">
-    <% } else if (favicon.endsWidth('.ico')) { %>
+    <% } else if (favicon.endWith('.ico')) { %>
       <link rel="icon" type="image/x-icon" href="./<%= favicon %>">
     <% } %>
 
