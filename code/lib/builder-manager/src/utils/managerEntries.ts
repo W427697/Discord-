@@ -1,6 +1,18 @@
-import { join, parse, relative } from 'path';
-import fs from 'fs-extra';
 import findCacheDirectory from 'find-cache-dir';
+import fs from 'fs-extra';
+import { join, parse, relative, sep } from 'node:path';
+import slash from 'slash';
+
+const sanitizeBase = (path: string) => {
+  return path.replaceAll('.', '').replaceAll('@', '').replaceAll(sep, '-').replaceAll('/', '-');
+};
+
+const sanitizeFinal = (path: string) => {
+  const sections = path.split(/-?node_modules-?/);
+
+  return sections[sections.length - 1].replaceAll('storybook-addon-', '').replaceAll('dist-', '');
+};
+
 /**
  * Manager entries should be **self-invoking** bits of code.
  * They can of-course import from modules, and ESbuild will bundle all of that into a single file.
@@ -19,7 +31,7 @@ import findCacheDirectory from 'find-cache-dir';
  */
 export async function wrapManagerEntries(entrypoints: string[]) {
   return Promise.all(
-    entrypoints.map(async (entry) => {
+    entrypoints.map(async (entry, i) => {
       const { name, dir } = parse(entry);
       const cacheLocation = findCacheDirectory({ name: 'sb-manager' });
 
@@ -27,9 +39,14 @@ export async function wrapManagerEntries(entrypoints: string[]) {
         throw new Error('Could not create/find cache directory');
       }
 
-      const location = join(cacheLocation, relative(process.cwd(), dir), `${name}-bundle.mjs`);
+      const base = relative(process.cwd(), dir);
+      const location = join(
+        cacheLocation,
+        sanitizeFinal(join(`${sanitizeBase(base)}-${i}`, `${sanitizeBase(name)}-bundle.mjs`))
+      );
+
       await fs.ensureFile(location);
-      await fs.writeFile(location, `import '${entry}';`);
+      await fs.writeFile(location, `import '${slash(entry)}';`);
 
       return location;
     })
