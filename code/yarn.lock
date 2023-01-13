@@ -6348,7 +6348,7 @@ __metadata:
     jscodeshift: ^0.13.1
     lodash: ^4.17.21
     prettier: ^2.8.0
-    recast: ^0.19.0
+    recast: ^0.23.1
     typescript: ~4.9.3
     util: ^0.12.4
   languageName: unknown
@@ -6544,7 +6544,7 @@ __metadata:
     "@types/js-yaml": ^3.12.6
     fs-extra: ^9.0.1
     js-yaml: ^3.14.1
-    recast: ^0.22.0
+    recast: ^0.23.1
     ts-dedent: ^2.0.0
     typescript: ~4.9.3
   languageName: unknown
@@ -10678,6 +10678,15 @@ __metadata:
   dependencies:
     tslib: ^2.0.1
   checksum: 5b26e3656e9e8d1db8c8d14971d0cb88ca0138aacce72171cb4cd4555fc8dc53c07e821c568e57fe147366931708fefd25cb9d7e880d42ce9cb569947844c962
+  languageName: node
+  linkType: hard
+
+"ast-types@npm:^0.16.1":
+  version: 0.16.1
+  resolution: "ast-types@npm:0.16.1"
+  dependencies:
+    tslib: ^2.0.1
+  checksum: abcc49e42eb921a7ebc013d5bec1154651fb6dbc3f497541d488859e681256901b2990b954d530ba0da4d0851271d484f7057d5eff5e07cb73e8b10909f711bf
   languageName: node
   linkType: hard
 
@@ -25464,18 +25473,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"recast@npm:^0.19.0":
-  version: 0.19.1
-  resolution: "recast@npm:0.19.1"
-  dependencies:
-    ast-types: 0.13.3
-    esprima: ~4.0.0
-    private: ^0.1.8
-    source-map: ~0.6.1
-  checksum: 2d5b9c43ee1f9a885bd8b98be6cd2fe76a173cf58b454175c6fbbaf3678df52cecabba81fd71cf79d10c52e1c3737743c294977635b72310a782c03a4e4cf567
-  languageName: node
-  linkType: hard
-
 "recast@npm:^0.20.3, recast@npm:^0.20.4":
   version: 0.20.5
   resolution: "recast@npm:0.20.5"
@@ -25488,16 +25485,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"recast@npm:^0.22.0":
-  version: 0.22.0
-  resolution: "recast@npm:0.22.0"
+"recast@npm:^0.23.1":
+  version: 0.23.1
+  resolution: "recast@npm:0.23.1"
   dependencies:
     assert: ^2.0.0
-    ast-types: 0.15.2
+    ast-types: ^0.16.1
     esprima: ~4.0.0
     source-map: ~0.6.1
     tslib: ^2.0.1
-  checksum: ceed6a3a26223fefb985c0165a2d19141aa5566a1c9010752c73cb5c83e15e5caf85b609cb60cfeedb377026dfa6048ca1908efa19b595b3778ccb9453d9dbc6
+  checksum: ce3f239721f56ef0773683eb1de774fb4c748f9aa3b81a935a06726226d27a2f884fd0f716f5ca17b96072061d72577e3a5e3a4883e2ce0c11c22a536dd2139a
   languageName: node
   linkType: hard
 

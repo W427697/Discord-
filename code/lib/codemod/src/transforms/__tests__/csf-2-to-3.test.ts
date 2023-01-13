@@ -1,7 +1,6 @@
 import { describe, it, expect } from '@jest/globals';
 import { dedent } from 'ts-dedent';
 import type { API } from 'jscodeshift';
-import jscodeshift from 'jscodeshift';
 import noColorSerializer from 'jest-serializer-ansi';
 import _transform from '../csf-2-to-3';
 
@@ -11,17 +10,9 @@ expect.addSnapshotSerializer({
 });
 
 const jsTransform = (source: string) =>
-  _transform(
-    { source, path: 'Component.stories.js' },
-    { jscodeshift: jscodeshift.withParser('tsx') } as API,
-    {}
-  ).trim();
+  _transform({ source, path: 'Component.stories.js' }, {} as API, {}).trim();
 const tsTransform = (source: string) =>
-  _transform(
-    { source, path: 'Component.stories.ts' },
-    { jscodeshift: jscodeshift.withParser('tsx') } as API,
-    { parser: 'tsx' }
-  ).trim();
+  _transform({ source, path: 'Component.stories.ts' }, {} as API, { parser: 'tsx' }).trim();
 
 describe('csf-2-to-3', () => {
   describe('javascript', () => {

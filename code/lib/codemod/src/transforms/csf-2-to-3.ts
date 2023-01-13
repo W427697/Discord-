@@ -212,7 +212,8 @@ class StorybookImportHelper {
 
     file.path.traverse({
       ImportDeclaration: (path) => {
-        if (!path.node.source.value.startsWith('@storybook')) return;
+        const source = path.node.source.value;
+        if (source.startsWith('@storybook/csf') || !source.startsWith('@storybook')) return;
         const isRendererImport = path.get('specifiers').some((specifier) => {
           if (specifier.isImportNamespaceSpecifier()) {
             throw path.buildCodeFrameError(
