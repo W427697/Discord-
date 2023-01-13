@@ -5,12 +5,6 @@ import { LitElement, html } from 'lit-element';
 
 @customElement('demo-document-screen')
 class DocumentScreen extends LitElement {
-  static get properties() {
-    return {
-      data: { type: Object },
-    }
-  }
-
   @property({ type: Object })
   data: {
     user: Record<string, unknown>;
