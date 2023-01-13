@@ -176,9 +176,9 @@ export const Search = React.memo<{
   );
 
   const list: SearchItem[] = useMemo(() => {
-    return dataset.entries.reduce((acc: SearchItem[], [refId, { stories }]) => {
-      if (stories) {
-        acc.push(...Object.values(stories).map((item) => searchItem(item, dataset.hash[refId])));
+    return dataset.entries.reduce((acc: SearchItem[], [refId, { index }]) => {
+      if (index) {
+        acc.push(...Object.values(index).map((item) => searchItem(item, dataset.hash[refId])));
       }
       return acc;
     }, []);

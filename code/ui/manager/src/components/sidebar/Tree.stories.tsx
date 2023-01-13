@@ -1,7 +1,7 @@
 /* eslint-disable storybook/use-storybook-testing-library */
 // @TODO: use addon-interactions and remove the rule disable above
 import React from 'react';
-import type { ComponentEntry, StoriesHash } from '@storybook/manager-api';
+import type { ComponentEntry, IndexHash } from '@storybook/manager-api';
 import { screen } from '@testing-library/dom';
 
 import { Tree } from './Tree';
@@ -56,9 +56,9 @@ const tooltipStories = Object.keys(index).reduce((acc, key) => {
   }
   if (key.startsWith('tooltip')) acc[key] = index[key];
   return acc;
-}, {} as StoriesHash);
+}, {} as IndexHash);
 
-const singleStoryComponent: StoriesHash = {
+const singleStoryComponent: IndexHash = {
   // @ts-expect-error (invalid input)
   single: {
     type: 'component',
@@ -102,7 +102,7 @@ export const SingleStoryComponents = () => {
   );
 };
 
-const docsOnlySinglesStoryComponent: StoriesHash = {
+const docsOnlySinglesStoryComponent: IndexHash = {
   // @ts-expect-error (invalid input)
   single: {
     type: 'component',
@@ -147,7 +147,7 @@ export const SkipToCanvasLinkFocused = {
     isBrowsing: true,
     isMain: true,
     refId,
-    data: stories,
+    data: index,
     highlightedRef: { current: { itemId: 'tooltip-tooltipbuildlist--default', refId } },
     setHighlightedItemId: log,
     selectedStoryId: 'tooltip-tooltipbuildlist--default',

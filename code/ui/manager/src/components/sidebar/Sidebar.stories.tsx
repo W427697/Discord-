@@ -1,6 +1,7 @@
 import React from 'react';
 
 import type { StoriesHash } from 'lib/manager-api/src';
+import type { API_IndexHash } from 'lib/types/src';
 import { Sidebar, DEFAULT_REF_ID } from './Sidebar';
 import { standardData as standardHeaderData } from './Heading.stories';
 import * as ExplorerStories from './Explorer.stories';
@@ -19,7 +20,7 @@ export default {
 };
 
 const { menu } = standardHeaderData;
-const index = mockDataset.withRoot;
+const index = mockDataset.withRoot as API_IndexHash;
 const refId = DEFAULT_REF_ID;
 const storyId = 'root-1-child-a2--grandchild-a1-1';
 
