@@ -1,7 +1,7 @@
 import { describe, it, expect } from '@jest/globals';
 import { dedent } from 'ts-dedent';
 import type { API } from 'jscodeshift';
-import stripAnsi from 'strip-ansi';
+import ansiRegex from 'ansi-regex';
 import _transform from '../csf-2-to-3';
 
 expect.addSnapshotSerializer({
@@ -219,7 +219,7 @@ describe('csf-2-to-3', () => {
   describe('typescript', () => {
     it('should error with namespace imports', () => {
       expect.addSnapshotSerializer({
-        serialize: (value) => stripAnsi(value),
+        serialize: (value) => value.replace(ansiRegex(), ''),
         test: () => true,
       });
       expect(() =>
@@ -233,13 +233,13 @@ describe('csf-2-to-3', () => {
           export const A: SB.StoryFn<CatProps> = () => <Cat />;
         `)
       ).toThrowErrorMatchingInlineSnapshot(`
-        "This codemod does not support namespace imports for a @storybook/react package.
+        This codemod does not support namespace imports for a @storybook/react package.
                     Replace the namespace import with named imports and try again.
         > 1 | import * as SB from '@storybook/react';
             | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
           2 | import { CatProps } from './Cat';
           3 |
-          4 | const meta = { title: 'Cat', component: Cat } as Meta<CatProps>"
+          4 | const meta = { title: 'Cat', component: Cat } as Meta<CatProps>
       `);
     });
     it('should keep local names', () => {
