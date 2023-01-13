@@ -14,6 +14,7 @@ import {
   STORY_INDEX_INVALIDATED,
   CONFIG_ERROR,
   CURRENT_STORY_WAS_SET,
+  STORY_MISSING,
 } from '@storybook/core-events';
 import { deprecate, logger } from '@storybook/client-logger';
 
@@ -522,11 +523,12 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
     // When there's a preview error, we don't show it in the manager, but simply
     fullAPI.on(CONFIG_ERROR, function handleConfigError(err) {
       const { ref } = getEventMetadata(this, fullAPI);
-      if (!ref) {
-        store.setState({ previewInitialized: true });
-      } else {
-        fullAPI.updateRef(ref.id, { previewInitialized: true });
-      }
+      fullAPI.setPreviewInitialized(ref);
+    });
+
+    fullAPI.on(STORY_MISSING, function handleConfigError(err) {
+      const { ref } = getEventMetadata(this, fullAPI);
+      fullAPI.setPreviewInitialized(ref);
     });
 
     if (FEATURES?.storyStoreV7) {

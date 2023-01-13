@@ -10,6 +10,7 @@ import {
   CONFIG_ERROR,
   SET_INDEX,
   CURRENT_STORY_WAS_SET,
+  STORY_MISSING,
 } from '@storybook/core-events';
 import { EventEmitter } from 'events';
 import { global } from '@storybook/global';
@@ -1421,6 +1422,45 @@ describe('stories API', () => {
       } as any);
       await init();
       fullAPI.emit(CONFIG_ERROR, { message: 'Failed to run configure' });
+
+      expect(fullAPI.updateRef.mock.calls.length).toBe(1);
+      expect(fullAPI.updateRef.mock.calls[0][1]).toEqual({
+        previewInitialized: true,
+      });
+    });
+  });
+
+  describe('STORY_MISSING', () => {
+    it('sets previewInitialized to true, local', async () => {
+      const navigate = jest.fn();
+      const store = createMockStore();
+      const fullAPI = Object.assign(new EventEmitter(), {});
+
+      const { api, init } = initStoriesAndSetState({ store, navigate, provider, fullAPI } as any);
+      Object.assign(fullAPI, api);
+
+      await init();
+
+      fullAPI.emit(STORY_MISSING, { message: 'Failed to run configure' });
+
+      const { previewInitialized } = store.getState();
+      expect(previewInitialized).toBe(true);
+    });
+
+    it('sets previewInitialized to true, ref', async () => {
+      const navigate = jest.fn();
+      const fullAPI = Object.assign(new EventEmitter(), { updateRef: jest.fn() });
+      const store = createMockStore();
+      const { api, init } = initStoriesAndSetState({ store, navigate, provider, fullAPI } as any);
+
+      Object.assign(fullAPI, api);
+
+      getEventMetadataMock.mockReturnValueOnce({
+        sourceType: 'external',
+        ref: { id: 'refId', stories: { 'a--1': { args: { a: 'b' } } } },
+      } as any);
+      await init();
+      fullAPI.emit(STORY_MISSING, { message: 'Failed to run configure' });
 
       expect(fullAPI.updateRef.mock.calls.length).toBe(1);
       expect(fullAPI.updateRef.mock.calls[0][1]).toEqual({
