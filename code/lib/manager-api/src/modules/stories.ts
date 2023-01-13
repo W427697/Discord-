@@ -41,7 +41,7 @@ import {
   addPreparedStories,
 } from '../lib/stories';
 
-import type { ModuleFn } from '../index';
+import type { ComposedRef, ModuleFn } from '../index';
 
 const { FEATURES, fetch } = global;
 const STORY_INDEX_PATH = './index.json';
@@ -102,6 +102,7 @@ export interface SubAPI {
   ): StoryId;
   fetchIndex: () => Promise<void>;
   updateStory: (storyId: StoryId, update: StoryUpdate, ref?: API_ComposedRef) => Promise<void>;
+  setPreviewInitialized: (ref?: ComposedRef) => Promise<void>;
 }
 
 const removedOptions = ['enableShortcuts', 'theme', 'showRoots'];
@@ -375,6 +376,13 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
         await fullAPI.updateRef(refId, { index });
       }
     },
+    setPreviewInitialized: async (ref?: ComposedRef): Promise<void> => {
+      if (!ref) {
+        store.setState({ previewInitialized: true });
+      } else {
+        fullAPI.updateRef(ref.id, { previewInitialized: true });
+      }
+    },
   };
 
   const initModule = async () => {
@@ -411,12 +419,7 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
     // preparing spinner.
     fullAPI.on(CURRENT_STORY_WAS_SET, function handler() {
       const { ref } = getEventMetadata(this, fullAPI);
-
-      if (!ref) {
-        store.setState({ previewInitialized: true });
-      } else {
-        fullAPI.updateRef(ref.id, { previewInitialized: true });
-      }
+      fullAPI.setPreviewInitialized(ref);
     });
 
     fullAPI.on(STORY_CHANGED, function handler() {

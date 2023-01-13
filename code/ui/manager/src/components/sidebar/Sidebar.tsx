@@ -97,7 +97,6 @@ export const Sidebar = React.memo(function Sidebar({
 }: SidebarProps) {
   const selected: Selection = useMemo(() => storyId && { storyId, refId }, [storyId, refId]);
 
-  console.log({ index, indexError, previewInitialized });
   const dataset = useCombination({ index, indexError, previewInitialized }, refs);
   const isLoading = !index && !indexError;
   const lastViewedProps = useLastViewed(selected);
