@@ -18,6 +18,7 @@ const packagesMap: Record<string, { webpack5?: string; vite?: string }> = {
   },
   '@storybook/preact': {
     webpack5: '@storybook/preact-webpack5',
+    vite: '@storybook/preact-vite',
   },
   '@storybook/server': {
     webpack5: '@storybook/server-webpack5',
@@ -113,11 +114,10 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
 
     const storybookCoerced = storybookVersion && semver.coerce(storybookVersion)?.version;
     if (!storybookCoerced) {
-      logger.warn(dedent`
-        ❌ Unable to determine storybook version, skipping ${chalk.cyan('newFrameworks')} fix.
+      throw new Error(dedent`
+        ❌ Unable to determine storybook version.
         🤔 Are you running automigrate from your project directory?
       `);
-      return null;
     }
 
     if (!semver.gte(storybookCoerced, '7.0.0')) {
@@ -151,19 +151,9 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
       return null;
     }
 
-    if (allDeps.vite && semver.lt(semver.coerce(allDeps.vite).version, '3.0.0')) {
-      logger.warn(dedent`
-        ❌ Detected Vite ${
-          allDeps.vite
-        }, which is unsupported in Storybook 7.0, so the ${chalk.cyan(
-        'newFrameworks'
-      )} fix will be skipped.
-      Please upgrade vite to 3.0.0 or higher and rerun this automigration with "npx storybook@future automigrate".
-      `);
-      return null;
-    }
-
-    const frameworkOptions = getFrameworkOptions(framework, main);
+    const frameworkOptions =
+      // svelte-vite doesn't support svelteOptions so there's no need to move them
+      newFrameworkPackage === '@storybook/svelte-vite' ? {} : getFrameworkOptions(framework, main);
 
     const dependenciesToRemove = [
       '@storybook/builder-webpack5',
@@ -181,6 +171,18 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
       dependenciesToAdd.push(newFrameworkPackage);
     }
 
+    if (allDeps.vite && semver.lt(semver.coerce(allDeps.vite).version, '3.0.0')) {
+      throw new Error(dedent`
+        ❌ Your project should be upgraded to use the framework package ${chalk.bold(
+          newFrameworkPackage
+        )}, but we detected that you are using Vite ${chalk.bold(
+        allDeps.vite
+      )}, which is unsupported in ${chalk.bold(
+        'Storybook 7.0'
+      )}. Please upgrade Vite to ${chalk.bold('3.0.0 or higher')} and rerun this migration.
+      `);
+    }
+
     return {
       main,
       dependenciesToAdd,
@@ -192,13 +194,17 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
     };
   },
 
-  prompt() {
+  prompt({ frameworkPackage, dependenciesToRemove }) {
     return dedent`
       We've detected you are using an older format of Storybook frameworks and builders.
 
       In Storybook 7, frameworks also specify the builder to be used.
 
-      We can remove the dependencies that are no longer needed and install the new framework that already includes the builder.
+      We can remove the dependencies that are no longer needed: ${chalk.yellow(
+        dependenciesToRemove.join(', ')
+      )}
+      
+      And set up the ${chalk.magenta(frameworkPackage)} framework that already includes the builder.
 
       To learn more about the framework field, see: ${chalk.yellow(
         'https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#framework-field-mandatory'
@@ -209,7 +215,7 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
       Unless you're using Storybook's Vite builder, this automigration will install a Webpack5-based framework.
       
       If you were using Storybook's Webpack4 builder (default in 6.x, discontinued in 7.0), this could be a breaking
-      change--especially if your project has a custom webpack configuration.
+      change -- especially if your project has a custom webpack configuration.
       
       To learn more about migrating from Webpack4, see: ${chalk.yellow(
         'https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#webpack4-support-discontinued'
@@ -254,6 +260,11 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
 
       if (currentCore?.builder) {
         delete currentCore.builder;
+      }
+
+      if (frameworkPackage === '@storybook/svelte-vite' && main.getFieldNode(['svelteOptions'])) {
+        logger.info(`✅ Removing svelteOptions field in main.js`);
+        main.removeField(['svelteOptions']);
       }
 
       if (Object.keys(builderInfo.options).length > 0) {

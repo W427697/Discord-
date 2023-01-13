@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-measure",
-  "version": "7.0.0-beta.6",
+  "version": "7.0.0-beta.26",
   "description": "Inspect layouts by visualizing the box model",
   "keywords": [
     "storybook-addons",
@@ -26,6 +26,7 @@
   "author": "winkerVSbecks",
   "exports": {
     ".": {
+      "node": "./dist/index.js",
       "require": "./dist/index.js",
       "import": "./dist/index.mjs",
       "types": "./dist/index.d.ts"
@@ -74,13 +75,13 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/client-logger": "7.0.0-beta.6",
-    "@storybook/components": "7.0.0-beta.6",
-    "@storybook/core-events": "7.0.0-beta.6",
-    "@storybook/manager-api": "7.0.0-beta.6",
-    "@storybook/preview-api": "7.0.0-beta.6",
-    "@storybook/types": "7.0.0-beta.6",
-    "global": "^4.4.0"
+    "@storybook/client-logger": "7.0.0-beta.26",
+    "@storybook/components": "7.0.0-beta.26",
+    "@storybook/core-events": "7.0.0-beta.26",
+    "@storybook/global": "^5.0.0",
+    "@storybook/manager-api": "7.0.0-beta.26",
+    "@storybook/preview-api": "7.0.0-beta.26",
+    "@storybook/types": "7.0.0-beta.26"
   },
   "devDependencies": {
     "typescript": "~4.9.3"
@@ -107,7 +108,7 @@
       "./src/preview.tsx"
     ]
   },
-  "gitHead": "edcda9c064bcb77c903263fafcaee2bd369f429a",
+  "gitHead": "4d3ed5ec2eb8db3e688955e2820001def09621c1",
   "storybook": {
     "displayName": "Measure",
     "unsupportedFrameworks": [

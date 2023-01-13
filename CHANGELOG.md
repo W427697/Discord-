@@ -1,3 +1,377 @@
+## 7.0.0-beta.26 (January 14, 2023)
+
+#### Features
+
+-   Core: Expose port from buildDevStandalone [#20575](https://github.com/storybooks/storybook/pull/20575)
+-   CLI: Add auto-migration for MDX html-type comments to JS-type comments [#20349](https://github.com/storybooks/storybook/pull/20349)
+
+#### Bug Fixes
+
+-   API: Fix typing on useArgs [#20610](https://github.com/storybooks/storybook/pull/20610)
+-   Addon-docs: Fix docs crash by simplifying element before stringify [#19188](https://github.com/storybooks/storybook/pull/19188)
+-   Vite: Fix duplicate code in preview [#20594](https://github.com/storybooks/storybook/pull/20594)
+-   Addons: Warn when addon is not installed [#20455](https://github.com/storybooks/storybook/pull/20455)
+-   Blocks: Handle undefined extractComponentDescription [#20590](https://github.com/storybooks/storybook/pull/20590)
+
+#### Maintenance
+
+-   CLI: Fix removal of --no-dll flag [#20589](https://github.com/storybooks/storybook/pull/20589)
+-   SvelteKit: Automatically support Kit-specific features [#20239](https://github.com/storybooks/storybook/pull/20239)
+
+#### Build
+
+-   Build: Fix issue with jest projects matching `ui/node_modules` [#20601](https://github.com/storybooks/storybook/pull/20601)
+-   TypeScript: Fix typings files to ensure check command succeeds [#20605](https://github.com/storybooks/storybook/pull/20605)
+-   CLI: Fix repros creation not working on windows [#20606](https://github.com/storybooks/storybook/pull/20606)
+-   Build: Fix template stories to make them work with stricter Typescript settings [#20591](https://github.com/storybooks/storybook/pull/20591)
+-   Build: Allow creating internal templates that extend others and pass `main.js` options [#20054](https://github.com/storybooks/storybook/pull/20054)
+
+## 7.0.0-beta.25 (January 12, 2023)
+
+#### Features
+
+-   Vue3: Rendering slots passed from controls [#20536](https://github.com/storybooks/storybook/pull/20536)
+
+#### Bug Fixes
+
+-   Core: Export build from core-server instead of standalone [#20574](https://github.com/storybooks/storybook/pull/20574)
+
+#### Maintenance
+
+-   Blocks: New Description API, introduce useOf [#20563](https://github.com/storybooks/storybook/pull/20563)
+
+## 7.0.0-beta.24 (January 11, 2023)
+
+#### Maintenance
+
+-   Migrations: Add `preact-vite` to new frameworks automigration [#20542](https://github.com/storybooks/storybook/pull/20542)
+
+#### Build
+
+-   Build: remove unneeded dependencies & upgrades [#20533](https://github.com/storybooks/storybook/pull/20533)
+-   Build: upgrade verdaccio [#20561](https://github.com/storybooks/storybook/pull/20561)
+-   Build: remove usage of enzyme [#20534](https://github.com/storybooks/storybook/pull/20534)
+
+## 7.0.0-beta.23 (January 10, 2023)
+
+#### Features
+
+-   Composition: Add basic auth support [#20488](https://github.com/storybooks/storybook/pull/20488)
+
+#### Bug Fixes
+
+-   UI: Fix managerEntries containing long paths with hidden folders [#20550](https://github.com/storybooks/storybook/pull/20550)
+-   Addon-docs: Fix attachment logic [#20531](https://github.com/storybooks/storybook/pull/20531)
+
+#### Maintenance
+
+-   Addon-docs: Move reactPeerCheck to docs package [#20560](https://github.com/storybooks/storybook/pull/20560)
+-   Addon-docs: Rename `storyByModuleExport` to `resolveModuleExport` [#20517](https://github.com/storybooks/storybook/pull/20517)
+-   Telemetry: Filter out example stories/docs from summary [#20553](https://github.com/storybooks/storybook/pull/20553)
+-   Telemetry: Count play function usage [#20541](https://github.com/storybooks/storybook/pull/20541)
+-   Telemetry: Add pageStoryCount [#20539](https://github.com/storybooks/storybook/pull/20539)
+-   Vite/Vue3: Pre-bundle @vitejs/plugin-vue [#20343](https://github.com/storybooks/storybook/pull/20343)
+
+#### Build
+
+-   Build: downgrade slash to non-ESM [#20543](https://github.com/storybooks/storybook/pull/20543)
+
+#### Other
+
+-   Update GH action to use "linear-ghaction" label for sync [#20546](https://github.com/storybooks/storybook/pull/20546)
+
+## 7.0.0-beta.22 (January 10, 2023)
+
+Failed publish
+
+## 7.0.0-beta.21 (January 9, 2023)
+
+#### Maintenance
+
+-   Ember: Build with tsc [#20524](https://github.com/storybooks/storybook/pull/20524)
+-   Storyshots: Build with tsc [#20523](https://github.com/storybooks/storybook/pull/20523)
+
+#### Dependencies
+
+-   Downgrade find-cache-dir [#20532](https://github.com/storybooks/storybook/pull/20532)
+
+#### Build
+
+-   Build: Cleanup babel prepare related code & dependencies [#20156](https://github.com/storybooks/storybook/pull/20156)
+-   Build: Create a tsc prepare script, use it for angular framework, add ESM to angular dist [#20516](https://github.com/storybooks/storybook/pull/20516)
+-   Build: Fix InternalCanvas story tests [#20521](https://github.com/storybooks/storybook/pull/20521)
+
+## 7.0.0-beta.20 (January 6, 2023)
+
+#### Bug Fixes
+
+-   Telemetry: Move 'dev'/'build' events to the end of the process [#20380](https://github.com/storybooks/storybook/pull/20380)
+-   Blocks: Export Unstyled block in index.ts [#20489](https://github.com/storybooks/storybook/pull/20489)
+-   Vite: Fix missing await in builder [#20409](https://github.com/storybooks/storybook/pull/20409)
+
+#### Maintenance
+
+-   Build: use tsup for csf-plugin [#20150](https://github.com/storybooks/storybook/pull/20150)
+-   Migration: Update autodocs migration to deal with `docs.docsPage` [#20379](https://github.com/storybooks/storybook/pull/20379)
+
+#### Build
+
+-   Blocks: Use example Button for stories [#20483](https://github.com/storybooks/storybook/pull/20483)
+-   Build: cleanup prep script where possible [#20151](https://github.com/storybooks/storybook/pull/20151)
+-   cleanup CI config [#20510](https://github.com/storybooks/storybook/pull/20510)
+-   Build: Fix CI parallelism [#20476](https://github.com/storybooks/storybook/pull/20476)
+-   Web-components: Restore missing script stories [#20477](https://github.com/storybooks/storybook/pull/20477)
+
+## 7.0.0-beta.19 (January 1, 2023)
+
+#### Features
+
+-   NextJS: Add next/head support [#20436](https://github.com/storybooks/storybook/pull/20436)
+
+#### Bug Fixes
+
+-   CLI: Do not use legacy-peer-deps for npm [#20456](https://github.com/storybooks/storybook/pull/20456)
+-   CLI: Use closest lockfile to determine package manager [#20464](https://github.com/storybooks/storybook/pull/20464)
+-   CLI: Use correct package manager for automigrate [#20428](https://github.com/storybooks/storybook/pull/20428)
+-   CLI: Add prop-types dependency if not using TypeScript [#20449](https://github.com/storybooks/storybook/pull/20449)
+-   CLI: Add peer dependency on react [#20459](https://github.com/storybooks/storybook/pull/20459)
+
+#### Maintenance
+
+-   Vue3: Add TS / legacy TS CLI templates [#20434](https://github.com/storybooks/storybook/pull/20434)
+-   Core: Delete outdated onerror handler [#20462](https://github.com/storybooks/storybook/pull/20462)
+
+#### Build
+
+-   Build: Add extensions to lodash imports [#20443](https://github.com/storybooks/storybook/pull/20443)
+
+## 7.0.0-beta.18 (January 1, 2023)
+
+Bad npm publish
+
+## 7.0.0-beta.17 (December 30, 2022)
+
+#### Bug Fixes
+
+-   Svelte: Do not warn about .svelte files in storyStoreV7 [#20442](https://github.com/storybooks/storybook/pull/20442)
+-   Core: Fix import paths on Windows [#20430](https://github.com/storybooks/storybook/pull/20430)
+-   UI: Set min-height relative to the viewport and the zoom level. [#20352](https://github.com/storybooks/storybook/pull/20352)
+
+#### Maintenance
+
+-   Docs: Use `stories-mdx` and `autodocs` tags instead of `standalone: false` in index [#20424](https://github.com/storybooks/storybook/pull/20424)
+-   Docs: Use `'stories-mdx'` tag to indicate story defined in MDX file [#20417](https://github.com/storybooks/storybook/pull/20417)
+-   Preact-Vite: Minor readme and dependency cleanups [#20432](https://github.com/storybooks/storybook/pull/20432)
+
+#### Build
+
+-   Tech: ESLint allow devDependencies imports in prebundled packages [#20440](https://github.com/storybooks/storybook/pull/20440)
+-   Fix yarn task command on Windows machines [#20431](https://github.com/storybooks/storybook/pull/20431)
+
+## 7.0.0-beta.16 (December 29, 2022)
+
+#### Features
+
+-   Preact-Vite: Add framework [#20390](https://github.com/storybooks/storybook/pull/20390)
+
+#### Maintenance
+
+-   NextJS: Fix unnecessary addon-actions dev dep [#20426](https://github.com/storybooks/storybook/pull/20426)
+
+## 7.0.0-beta.15 (December 24, 2022)
+
+#### Bug Fixes
+
+-   Codemods: Fix peer dependency issue [#20399](https://github.com/storybooks/storybook/pull/20399)
+-   Core: Wrap manager entries to handle exports using a cache directory [#20331](https://github.com/storybooks/storybook/pull/20331)
+-   UI: fix deprecated ReactDOM.findDOMNode calls [#20368](https://github.com/storybooks/storybook/pull/20368)
+
+#### Maintenance
+
+-   Build: Use tsup for core-server [#20134](https://github.com/storybooks/storybook/pull/20134)
+
+#### Build
+
+-   Build: Make tests use SWC, not babel [#20397](https://github.com/storybooks/storybook/pull/20397)
+-   Build: Fix trim vulnerability [#20371](https://github.com/storybooks/storybook/pull/20371)
+
+## 7.0.0-beta.14 (December 23, 2022)
+
+#### Features
+
+-   CLI: Write into a log file if automigrations fail [#20310](https://github.com/storybooks/storybook/pull/20310)
+-   CLI: Add nodejs check in automigrations [#20342](https://github.com/storybooks/storybook/pull/20342)
+
+#### Bug Fixes
+
+-   UI: Disable React.strictmode to avoid findNode deprecation warnings [#20345](https://github.com/storybooks/storybook/pull/20345)
+-   Vite: Fix peerDep warning by updating `@joshwooding/vite-plugin-react-docgen-typescript` [#20359](https://github.com/storybooks/storybook/pull/20359)
+
+#### Maintenance
+
+-   Don't allow setting `Meta of={X}` if `X` is tagged with `'autodocs'` [#20373](https://github.com/storybooks/storybook/pull/20373)
+-   Rename `docsPage` => `autodocs` [#20364](https://github.com/storybooks/storybook/pull/20364)
+-   Rename `docsOptions.enabled` to `docsOptions.disable` [#20363](https://github.com/storybooks/storybook/pull/20363)
+-   Angular: Switch to default to inlineStories=true [#20118](https://github.com/storybooks/storybook/pull/20118)
+-   Types: Add Addon_OptionsParameterV7 type [#20384](https://github.com/storybooks/storybook/pull/20384)
+
+#### Build
+
+-   Build: regen lockfiles [#20386](https://github.com/storybooks/storybook/pull/20386)
+-   Build: fix prettydocs CI flakyness [#20385](https://github.com/storybooks/storybook/pull/20385)
+-   Build: Update Playwright to 1.29.1 [#20372](https://github.com/storybooks/storybook/pull/20372)
+-   Build: store extra metadata for each sandbox test [#20365](https://github.com/storybooks/storybook/pull/20365)
+-   Build: Remove the non-cross-platform dash-S option [#20360](https://github.com/storybooks/storybook/pull/20360)
+-   Build: sync issues of `next` packages [#20354](https://github.com/storybooks/storybook/pull/20354)
+
+
+## 6.5.15 (December 20, 2022)
+
+#### Bug Fixes
+
+-   Support Angular 15.0.4 [#20287](https://github.com/storybooks/storybook/pull/20287)
+-   CLI: execute automigrations when pressing enter in the prompts [#20208](https://github.com/storybooks/storybook/pull/20208)
+
+## 7.0.0-beta.13 (December 20, 2022)
+
+#### Features
+
+-   Angular: Support compodoc output arg [#20338](https://github.com/storybooks/storybook/pull/20338)
+-   NextJS: Support @next/font [#20291](https://github.com/storybooks/storybook/pull/20291)
+-   NextJS: Support useSelectedLayoutSegment and useSelectedLayoutSegments [#20330](https://github.com/storybooks/storybook/pull/20330)
+-   Preview Api: export `userOrAutoTitle` function [#20325](https://github.com/storybooks/storybook/pull/20325)
+
+#### Bug Fixes
+
+-   Fix: peer dependency warning for `vite-react` [#20328](https://github.com/storybooks/storybook/pull/20328)
+-   UI: swap `react-sizeme` for `react-resize-detector` [#20333](https://github.com/storybooks/storybook/pull/20333)
+-   Vite: Detect React SWC plugin [#20335](https://github.com/storybooks/storybook/pull/20335)
+-   CLI: Fix automigrate filtering [#20329](https://github.com/storybooks/storybook/pull/20329)
+-   Vite: Include user config `optimizeDeps` in final `optimizeDeps` [#20313](https://github.com/storybooks/storybook/pull/20313)
+
+#### Maintenance
+
+-   Tech: improve global types [#20184](https://github.com/storybooks/storybook/pull/20184)
+-   CLI: Fix sb migrate csf-2-to-3 for multiple file extensions [#20290](https://github.com/storybooks/storybook/pull/20290)
+-   CLI: Replace `update-notifier` with `simple-update-notifier` [#20266](https://github.com/storybooks/storybook/pull/20266)
+
+#### Build
+
+-   Build: remove borders in task error message [#20305](https://github.com/storybooks/storybook/pull/20305)
+-   Build: Fix pretty-docs CI job [#20319](https://github.com/storybooks/storybook/pull/20319)
+-   Build: Update Playwright to 1.29 [#20318](https://github.com/storybooks/storybook/pull/20318)
+
+#### Dependencies
+
+-   NextJS: Make addon-actions a regular dependency [#20324](https://github.com/storybooks/storybook/pull/20324)
+-   NextJS: Fix addon-actions peerdependency [#20324](https://github.com/storybooks/storybook/pull/20324)
+-   Vite-react: Fix peer dependency warning [#20328](https://github.com/storybooks/storybook/pull/20328)
+
+## 7.0.0-beta.12 (December 16, 2022)
+
+#### Other
+
+-   Revert "Core: Wrap manager entries to handle exports" [#20311](https://github.com/storybooks/storybook/pull/20311)
+
+## 7.0.0-beta.11 (December 16, 2022)
+
+#### Features
+
+-   CLI: Improve automigration to show prompt-only migrations [#20292](https://github.com/storybooks/storybook/pull/20292)
+
+#### Bug Fixes
+
+-   Angular: Fix webpackStatsJson types in angular-builder [#20296](https://github.com/storybooks/storybook/pull/20296)
+-   Fix: addon-storysource has no managerEntry, but defines a register and preset [#20304](https://github.com/storybooks/storybook/pull/20304)
+
+#### Maintenance
+
+-   Core: Wrap manager entries to handle exports [#20308](https://github.com/storybooks/storybook/pull/20308)
+-   Core: improve manager-entries failure message [#20306](https://github.com/storybooks/storybook/pull/20306)
+-   Telemetry: Fix flakey test [#20282](https://github.com/storybooks/storybook/pull/20282)
+
+#### Dependency Upgrades
+
+-   Vite: Make vite a peer dependency, update plugins [#20281](https://github.com/storybooks/storybook/pull/20281)
+-   Vite/Svelte: Remove addon-svelte-csf dep [#20280](https://github.com/storybooks/storybook/pull/20280)
+
+## 7.0.0-beta.10 (December 16, 2022)
+
+#### Build
+
+-   Build: compile detection was using a non-conforming package, causing cache to miss always. [#20297](https://github.com/storybooks/storybook/pull/20297)
+
+#### Dependency Upgrades
+
+-   React-vite: Pin react-docgen version [#20300](https://github.com/storybooks/storybook/pull/20300)
+
+## 7.0.0-beta.9 (December 16, 2022)
+
+#### Features
+
+-   CLI: Add interactive babel config file generation [#20234](https://github.com/storybooks/storybook/pull/20234)
+-   CLI: Add automigration summary [#20276](https://github.com/storybooks/storybook/pull/20276)
+
+#### Bug Fixes
+
+-   UI: Fix `enableShortcuts` support in `manager.ts` [#20264](https://github.com/storybooks/storybook/pull/20264)
+-   UI: Ensure manager entries load even if preceding ones failed [#20286](https://github.com/storybooks/storybook/pull/20286)
+-   Addon-viewport: Fix composition support [#20289](https://github.com/storybooks/storybook/pull/20289)
+-   Support Angular 15.0.4 [#20287](https://github.com/storybooks/storybook/pull/20287)
+-   Fix: peerDependencies issues reported [#20279](https://github.com/storybooks/storybook/pull/20279)
+
+#### Build
+
+-   Build: ui/.storybook should not import from dist [#20284](https://github.com/storybooks/storybook/pull/20284)
+-   Build: bundle script a bit less repetitive, add a completion indicator [#20277](https://github.com/storybooks/storybook/pull/20277)
+-   Build: regen lockfiles [#20278](https://github.com/storybooks/storybook/pull/20278)
+
+## 7.0.0-beta.8 (December 14, 2022)
+
+#### Features
+
+-   Addon-docs: Use jsxOptions instead of mdxBabelOptions [#20271](https://github.com/storybooks/storybook/pull/20271)
+
+#### Maintenance
+
+-   Svelte-vite: remove `svelteOptions` in automigration [#20270](https://github.com/storybooks/storybook/pull/20270)
+
+#### Build
+
+-   Fix handling of inverted yes flag in `task` steps [#20268](https://github.com/storybooks/storybook/pull/20268)
+
+## 7.0.0-beta.7 (December 14, 2022)
+
+#### Features
+
+-   CLI: Add Next.js framework automigration [#19574](https://github.com/storybooks/storybook/pull/19574)
+
+#### Bug Fixes
+
+-   Don't export renderer from framework [#20259](https://github.com/storybooks/storybook/pull/20259)
+-   Upgrade sb dep as well in sb upgrade [#20258](https://github.com/storybooks/storybook/pull/20258)
+-   Vite: Make the bail function work if the server fails to start [#20243](https://github.com/storybooks/storybook/pull/20243)
+-   Csf-tools: Fix local vars handling in MDX-generated CSF [#20255](https://github.com/storybooks/storybook/pull/20255)
+-   Csf-plugin: Fix spurious storiesOf warnings [#20256](https://github.com/storybooks/storybook/pull/20256)
+-   Core: Remove unnecessary peer deps [#20231](https://github.com/storybooks/storybook/pull/20231)
+-   Fix issues with running SSv6 [#20253](https://github.com/storybooks/storybook/pull/20253)
+-   Core: Fix config.base relative paths [#20232](https://github.com/storybooks/storybook/pull/20232)
+-   Fix: vite devmode with storyStoreV6 by ensuring singleton via global [#20207](https://github.com/storybooks/storybook/pull/20207)
+
+#### Maintenance
+
+-   Addon-docs: Upgrade mdx2-csf and use its JSX handling [#20261](https://github.com/storybooks/storybook/pull/20261)
+-   Vite: Use mdx2 babel pre-processing [#20241](https://github.com/storybooks/storybook/pull/20241)
+-   Addon-docs: Restore deprecated blocks entry point [#20246](https://github.com/storybooks/storybook/pull/20246)
+
+#### Build
+
+-   Add Next 12 sandbox [#20092](https://github.com/storybooks/storybook/pull/20092)
+
+#### Dependency Upgrades
+
+-   Add optional TypeScript peer dependency [#20244](https://github.com/storybooks/storybook/pull/20244)
+
 ## 7.0.0-beta.6 (December 14, 2022)
 
 #### Dependency Upgrades

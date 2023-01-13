@@ -1,6 +1,6 @@
 {
   "name": "@storybook/codemod",
-  "version": "7.0.0-beta.6",
+  "version": "7.0.0-beta.26",
   "description": "A collection of codemod scripts written with JSCodeshift",
   "keywords": [
     "storybook"
@@ -22,6 +22,7 @@
   "sideEffects": false,
   "exports": {
     ".": {
+      "node": "./dist/index.js",
       "require": "./dist/index.js",
       "import": "./dist/index.mjs",
       "types": "./dist/index.d.ts"
@@ -45,11 +46,13 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
+    "@babel/core": "^7.20.2",
+    "@babel/preset-env": "^7.20.2",
     "@babel/types": "^7.20.2",
     "@storybook/csf": "next",
-    "@storybook/csf-tools": "7.0.0-beta.6",
-    "@storybook/node-logger": "7.0.0-beta.6",
-    "@storybook/types": "7.0.0-beta.6",
+    "@storybook/csf-tools": "7.0.0-beta.26",
+    "@storybook/node-logger": "7.0.0-beta.26",
+    "@storybook/types": "7.0.0-beta.26",
     "cross-spawn": "^7.0.3",
     "globby": "^11.0.2",
     "jscodeshift": "^0.13.1",
@@ -59,6 +62,7 @@
     "util": "^0.12.4"
   },
   "devDependencies": {
+    "@types/jscodeshift": "^0.11.6",
     "jest": "^29.3.1",
     "jest-specific-snapshot": "^7.0.0",
     "typescript": "~4.9.3"
@@ -81,5 +85,5 @@
       "./src/transforms/upgrade-hierarchy-separators.js"
     ]
   },
-  "gitHead": "edcda9c064bcb77c903263fafcaee2bd369f429a"
+  "gitHead": "4d3ed5ec2eb8db3e688955e2820001def09621c1"
 }

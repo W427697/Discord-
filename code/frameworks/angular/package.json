@@ -1,6 +1,6 @@
 {
   "name": "@storybook/angular",
-  "version": "7.0.0-beta.6",
+  "version": "7.0.0-beta.26",
   "description": "Storybook for Angular: Develop Angular components in isolation with hot reloading.",
   "keywords": [
     "storybook",
@@ -21,31 +21,34 @@
   },
   "license": "MIT",
   "main": "dist/index.js",
+  "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "files": [
     "dist/**/*",
     "template/**/*",
     "README.md",
     "*.js",
+    "*.mjs",
     "*.d.ts"
   ],
   "scripts": {
     "check": "../../../scripts/node_modules/.bin/tsc",
-    "prep": "rimraf dist && ../../../scripts/node_modules/.bin/tsc --project tsconfig.build.json && echo \"Preventing passing flags to tsc\""
+    "prep": "../../../scripts/prepare/tsc.ts"
   },
   "dependencies": {
-    "@storybook/builder-webpack5": "7.0.0-beta.6",
-    "@storybook/client-logger": "7.0.0-beta.6",
-    "@storybook/core-client": "7.0.0-beta.6",
-    "@storybook/core-common": "7.0.0-beta.6",
-    "@storybook/core-events": "7.0.0-beta.6",
-    "@storybook/core-server": "7.0.0-beta.6",
-    "@storybook/core-webpack": "7.0.0-beta.6",
-    "@storybook/docs-tools": "7.0.0-beta.6",
-    "@storybook/manager-api": "7.0.0-beta.6",
-    "@storybook/node-logger": "7.0.0-beta.6",
-    "@storybook/preview-api": "7.0.0-beta.6",
-    "@storybook/types": "7.0.0-beta.6",
+    "@storybook/builder-webpack5": "7.0.0-beta.26",
+    "@storybook/client-logger": "7.0.0-beta.26",
+    "@storybook/core-client": "7.0.0-beta.26",
+    "@storybook/core-common": "7.0.0-beta.26",
+    "@storybook/core-events": "7.0.0-beta.26",
+    "@storybook/core-server": "7.0.0-beta.26",
+    "@storybook/core-webpack": "7.0.0-beta.26",
+    "@storybook/docs-tools": "7.0.0-beta.26",
+    "@storybook/global": "^5.0.0",
+    "@storybook/manager-api": "7.0.0-beta.26",
+    "@storybook/node-logger": "7.0.0-beta.26",
+    "@storybook/preview-api": "7.0.0-beta.26",
+    "@storybook/types": "7.0.0-beta.26",
     "@types/node": "^16.0.0",
     "@types/react": "^16.14.34",
     "@types/react-dom": "^16.9.14",
@@ -53,7 +56,6 @@
     "@types/webpack-env": "^1.18.0",
     "core-js": "^3.8.2",
     "find-up": "^5.0.0",
-    "global": "^4.4.0",
     "read-pkg-up": "^7.0.1",
     "semver": "^7.3.7",
     "telejson": "^7.0.3",
@@ -122,5 +124,8 @@
     "access": "public"
   },
   "builders": "dist/builders/builders.json",
-  "gitHead": "edcda9c064bcb77c903263fafcaee2bd369f429a"
+  "bundler": {
+    "tsConfig": "tsconfig.build.json"
+  },
+  "gitHead": "4d3ed5ec2eb8db3e688955e2820001def09621c1"
 }

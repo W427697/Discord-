@@ -126,7 +126,6 @@ describe('SvelteKit framework fix', () => {
       await expect(checkSvelteKitFramework({ packageJson, main })).resolves.toMatchObject({
         packageJson,
         main: expect.objectContaining({}),
-        frameworkOptions: undefined,
         dependenciesToRemove: ['@storybook/svelte-vite'],
       });
     });
@@ -146,7 +145,6 @@ describe('SvelteKit framework fix', () => {
       await expect(checkSvelteKitFramework({ packageJson, main })).resolves.toMatchObject({
         packageJson,
         main: expect.objectContaining({}),
-        frameworkOptions: undefined,
         dependenciesToRemove: ['@storybook/builder-vite'],
       });
     });
@@ -166,7 +164,6 @@ describe('SvelteKit framework fix', () => {
       await expect(checkSvelteKitFramework({ packageJson, main })).resolves.toMatchObject({
         packageJson,
         main: expect.objectContaining({}),
-        frameworkOptions: undefined,
         dependenciesToRemove: ['storybook-builder-vite'],
       });
     });

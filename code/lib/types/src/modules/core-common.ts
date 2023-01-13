@@ -156,10 +156,7 @@ export interface CLIOptions {
   quiet?: boolean;
   versionUpdates?: boolean;
   releaseNotes?: boolean;
-  dll?: boolean;
   docs?: boolean;
-  docsDll?: boolean;
-  uiDll?: boolean;
   debugWebpack?: boolean;
   webpackStatsJson?: string | boolean;
   outputDir?: string;
@@ -245,18 +242,19 @@ type CoreCommon_StorybookRefs = Record<
 
 export type DocsOptions = {
   /**
-   * Should we generate docs entries at all under any circumstances? (i.e. can they be rendered)
+   * Should we disable generate docs entries at all under any circumstances? (i.e. can they be rendered)
    */
-  enabled?: boolean;
+  disable?: boolean;
   /**
    * What should we call the generated docs entries?
    */
   defaultName?: string;
   /**
-   * Should we generate a docs entry per CSF file with the `docsPage` tag?
-   * Set to 'automatic' to generate an entry irrespective of tag.
+   * Should we generate a docs entry per CSF file?
+   * Set to 'tag' (the default) to generate an entry for every CSF file with the
+   * 'autodocs' tag.
    */
-  docsPage?: boolean | 'automatic';
+  autodocs?: boolean | 'tag';
   /**
    * Only show doc entries in the side bar (usually set with the `--docs` CLI flag)
    */

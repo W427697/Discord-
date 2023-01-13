@@ -1,6 +1,6 @@
 {
   "name": "@storybook/web-components-vite",
-  "version": "7.0.0-beta.6",
+  "version": "7.0.0-beta.26",
   "description": "Storybook for web-components and Vite: Develop Web Components in isolation with Hot Reloading.",
   "keywords": [
     "storybook"
@@ -21,6 +21,7 @@
   "license": "MIT",
   "exports": {
     ".": {
+      "node": "./dist/index.js",
       "require": "./dist/index.js",
       "import": "./dist/index.mjs",
       "types": "./dist/index.d.ts"
@@ -30,18 +31,14 @@
       "import": "./dist/preset.mjs",
       "types": "./dist/preset.d.ts"
     },
-    "./package.json": {
-      "require": "./package.json",
-      "import": "./package.json",
-      "types": "./package.json"
-    }
+    "./package.json": "./package.json"
   },
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "files": [
     "dist/**/*",
-    "types/**/*",
+    "template/**/*",
     "README.md",
     "*.js",
     "*.d.ts"
@@ -51,10 +48,10 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/builder-vite": "7.0.0-beta.6",
-    "@storybook/core-server": "7.0.0-beta.6",
-    "@storybook/node-logger": "7.0.0-beta.6",
-    "@storybook/web-components": "7.0.0-beta.6",
+    "@storybook/builder-vite": "7.0.0-beta.26",
+    "@storybook/core-server": "7.0.0-beta.26",
+    "@storybook/node-logger": "7.0.0-beta.26",
+    "@storybook/web-components": "7.0.0-beta.26",
     "magic-string": "^0.26.1"
   },
   "devDependencies": {
@@ -78,5 +75,5 @@
     ],
     "platform": "node"
   },
-  "gitHead": "edcda9c064bcb77c903263fafcaee2bd369f429a"
+  "gitHead": "4d3ed5ec2eb8db3e688955e2820001def09621c1"
 }

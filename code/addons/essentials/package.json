@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-essentials",
-  "version": "7.0.0-beta.6",
+  "version": "7.0.0-beta.26",
   "description": "Curated addons to bring out the best of Storybook",
   "keywords": [
     "addon",
@@ -23,6 +23,7 @@
   "license": "MIT",
   "exports": {
     ".": {
+      "node": "./dist/index.js",
       "require": "./dist/index.js",
       "import": "./dist/index.mjs",
       "types": "./dist/index.d.ts"
@@ -109,30 +110,32 @@
   "types": "dist/index.d.ts",
   "files": [
     "dist/**/*",
-    "README.md"
+    "README.md",
+    "*.js",
+    "*.d.ts"
   ],
   "scripts": {
     "check": "../../../scripts/node_modules/.bin/tsc --noEmit",
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/addon-actions": "7.0.0-beta.6",
-    "@storybook/addon-backgrounds": "7.0.0-beta.6",
-    "@storybook/addon-controls": "7.0.0-beta.6",
-    "@storybook/addon-docs": "7.0.0-beta.6",
-    "@storybook/addon-highlight": "7.0.0-beta.6",
-    "@storybook/addon-measure": "7.0.0-beta.6",
-    "@storybook/addon-outline": "7.0.0-beta.6",
-    "@storybook/addon-toolbars": "7.0.0-beta.6",
-    "@storybook/addon-viewport": "7.0.0-beta.6",
-    "@storybook/core-common": "7.0.0-beta.6",
-    "@storybook/manager-api": "7.0.0-beta.6",
-    "@storybook/node-logger": "7.0.0-beta.6",
-    "@storybook/preview-api": "7.0.0-beta.6",
+    "@storybook/addon-actions": "7.0.0-beta.26",
+    "@storybook/addon-backgrounds": "7.0.0-beta.26",
+    "@storybook/addon-controls": "7.0.0-beta.26",
+    "@storybook/addon-docs": "7.0.0-beta.26",
+    "@storybook/addon-highlight": "7.0.0-beta.26",
+    "@storybook/addon-measure": "7.0.0-beta.26",
+    "@storybook/addon-outline": "7.0.0-beta.26",
+    "@storybook/addon-toolbars": "7.0.0-beta.26",
+    "@storybook/addon-viewport": "7.0.0-beta.26",
+    "@storybook/core-common": "7.0.0-beta.26",
+    "@storybook/manager-api": "7.0.0-beta.26",
+    "@storybook/node-logger": "7.0.0-beta.26",
+    "@storybook/preview-api": "7.0.0-beta.26",
     "ts-dedent": "^2.0.0"
   },
   "devDependencies": {
-    "@storybook/vue": "7.0.0-beta.6",
+    "@storybook/vue": "7.0.0-beta.26",
     "typescript": "^4.9.3"
   },
   "peerDependencies": {
@@ -163,5 +166,5 @@
     ],
     "platform": "node"
   },
-  "gitHead": "edcda9c064bcb77c903263fafcaee2bd369f429a"
+  "gitHead": "4d3ed5ec2eb8db3e688955e2820001def09621c1"
 }

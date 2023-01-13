@@ -1,6 +1,6 @@
 {
   "name": "@storybook/core-events",
-  "version": "7.0.0-beta.6",
+  "version": "7.0.0-beta.26",
   "description": "Event names used in storybook core",
   "keywords": [
     "storybook"
@@ -22,6 +22,7 @@
   "sideEffects": false,
   "exports": {
     ".": {
+      "node": "./dist/index.js",
       "require": "./dist/index.js",
       "import": "./dist/index.mjs",
       "types": "./dist/index.d.ts"
@@ -52,5 +53,5 @@
       "./src/index.ts"
     ]
   },
-  "gitHead": "edcda9c064bcb77c903263fafcaee2bd369f429a"
+  "gitHead": "4d3ed5ec2eb8db3e688955e2820001def09621c1"
 }

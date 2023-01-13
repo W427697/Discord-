@@ -1,6 +1,6 @@
 {
   "name": "@storybook/core-common",
-  "version": "7.0.0-beta.6",
+  "version": "7.0.0-beta.26",
   "description": "Storybook framework-agnostic API",
   "keywords": [
     "storybook"
@@ -21,23 +21,20 @@
   "license": "MIT",
   "exports": {
     ".": {
+      "node": "./dist/index.js",
       "require": "./dist/index.js",
       "import": "./dist/index.mjs",
       "types": "./dist/index.d.ts"
     },
-    "./package.json": {
-      "require": "./package.json",
-      "import": "./package.json",
-      "types": "./package.json"
-    }
+    "./package.json": "./package.json"
   },
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "files": [
     "dist/**/*",
-    "types/**/*",
     "templates/**/*",
+    "README.md",
     "*.js",
     "*.d.ts"
   ],
@@ -47,8 +44,8 @@
   },
   "dependencies": {
     "@babel/core": "^7.20.2",
-    "@storybook/node-logger": "7.0.0-beta.6",
-    "@storybook/types": "7.0.0-beta.6",
+    "@storybook/node-logger": "7.0.0-beta.26",
+    "@storybook/types": "7.0.0-beta.26",
     "@types/babel__core": "^7.1.20",
     "@types/express": "^4.7.0",
     "@types/node": "^16.0.0",
@@ -86,5 +83,5 @@
     ],
     "platform": "node"
   },
-  "gitHead": "edcda9c064bcb77c903263fafcaee2bd369f429a"
+  "gitHead": "4d3ed5ec2eb8db3e688955e2820001def09621c1"
 }

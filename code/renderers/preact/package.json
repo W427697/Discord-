@@ -1,6 +1,6 @@
 {
   "name": "@storybook/preact",
-  "version": "7.0.0-beta.6",
+  "version": "7.0.0-beta.26",
   "description": "Storybook Preact renderer",
   "keywords": [
     "storybook"
@@ -21,6 +21,7 @@
   "license": "MIT",
   "exports": {
     ".": {
+      "node": "./dist/index.js",
       "require": "./dist/index.js",
       "import": "./dist/index.mjs",
       "types": "./dist/index.d.ts"
@@ -30,11 +31,7 @@
       "import": "./dist/config.mjs",
       "types": "./dist/config.d.ts"
     },
-    "./package.json": {
-      "require": "./package.json",
-      "import": "./package.json",
-      "types": "./package.json"
-    }
+    "./package.json": "./package.json"
   },
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -51,10 +48,10 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/core-client": "7.0.0-beta.6",
-    "@storybook/preview-api": "7.0.0-beta.6",
-    "@storybook/types": "7.0.0-beta.6",
-    "global": "^4.4.0",
+    "@storybook/core-client": "7.0.0-beta.26",
+    "@storybook/global": "^5.0.0",
+    "@storybook/preview-api": "7.0.0-beta.26",
+    "@storybook/types": "7.0.0-beta.26",
     "ts-dedent": "^2.0.0"
   },
   "devDependencies": {
@@ -77,5 +74,5 @@
     ],
     "platform": "browser"
   },
-  "gitHead": "edcda9c064bcb77c903263fafcaee2bd369f429a"
+  "gitHead": "4d3ed5ec2eb8db3e688955e2820001def09621c1"
 }

@@ -158,8 +158,10 @@ export const doUpgrade = async ({
 }: UpgradeOptions) => {
   if (useNpm) {
     useNpmWarning();
+    // eslint-disable-next-line no-param-reassign
+    pkgMgr = 'npm';
   }
-  const packageManager = JsPackageManagerFactory.getPackageManager({ useNpm, force: pkgMgr });
+  const packageManager = JsPackageManagerFactory.getPackageManager({ force: pkgMgr });
 
   const beforeVersion = await getStorybookCoreVersion();
 
@@ -192,6 +194,12 @@ export const doUpgrade = async ({
   }).output.toString();
   logger.info(check);
 
+  const checkSb = spawnSync('npx', ['npm-check-updates@latest', 'sb', ...flags], {
+    stdio: 'pipe',
+    shell: true,
+  }).output.toString();
+  logger.info(checkSb);
+
   if (!dryRun) {
     commandLog(`Installing upgrades`);
     packageManager.installDependencies();
@@ -200,7 +208,7 @@ export const doUpgrade = async ({
   let automigrationResults;
   if (!skipCheck) {
     checkVersionConsistency();
-    automigrationResults = await automigrate({ dryRun, yes, useNpm, force: pkgMgr });
+    automigrationResults = await automigrate({ dryRun, yes, packageManager: pkgMgr });
   }
 
   if (!options.disableTelemetry) {
