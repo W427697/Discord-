@@ -176,7 +176,11 @@ export function prepareStory<TRenderer extends Renderer>(
   };
 
   const decoratedStoryFn = applyHooks<TRenderer>(applyDecorators)(undecoratedStoryFn, decorators);
-  const unboundStoryFn = (context: StoryContext<TRenderer>) => {
+  const unboundStoryFn = (context: StoryContext<TRenderer>) => decoratedStoryFn(context);
+
+  // This function is invoked at StoryRender.ts, with this
+  // the context is prepared before invoking the render function.
+  const prepareContext = (context: StoryContext<TRenderer>) => {
     let finalContext: StoryContext<TRenderer> = context;
 
     if (global.FEATURES?.argTypeTargetsV7) {
@@ -189,21 +193,19 @@ export function prepareStory<TRenderer extends Renderer>(
       };
     }
 
-    const mappedArgs = Object.entries(context.args).reduce((acc, [key, val]) => {
-      const mapping = context.argTypes[key]?.mapping;
+    const mappedArgs = Object.entries(finalContext.args).reduce((acc, [key, val]) => {
+      const mapping = finalContext.argTypes[key]?.mapping;
       acc[key] = mapping && val in mapping ? mapping[val] : val;
       return acc;
     }, {} as Args);
 
     const includedArgs = Object.entries(mappedArgs).reduce((acc, [key, val]) => {
-      const argType = context.argTypes[key] || {};
-      if (includeConditionalArg(argType, mappedArgs, context.globals)) acc[key] = val;
+      const argType = finalContext.argTypes[key] || {};
+      if (includeConditionalArg(argType, mappedArgs, finalContext.globals)) acc[key] = val;
       return acc;
     }, {} as Args);
 
-    const includedContext = { ...context, args: includedArgs };
-
-    return decoratedStoryFn(includedContext);
+    return { ...finalContext, args: includedArgs };
   };
 
   const play = storyAnnotations.play || componentAnnotations.play;
@@ -229,5 +231,6 @@ export function prepareStory<TRenderer extends Renderer>(
     unboundStoryFn,
     applyLoaders,
     playFunction,
+    prepareContext,
   });
 }
