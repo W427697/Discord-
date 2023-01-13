@@ -99,7 +99,7 @@ export const Ref: FC<RefType & RefProps> = React.memo(function Ref(props) {
   const { docsOptions } = useStorybookState();
   const api = useStorybookApi();
   const {
-    stories,
+    index,
     id: refId,
     title = refId,
     isLoading: isLoadingMain,
@@ -113,7 +113,7 @@ export const Ref: FC<RefType & RefProps> = React.memo(function Ref(props) {
     indexError,
     previewInitialized,
   } = props;
-  const length = useMemo(() => (stories ? Object.keys(stories).length : 0), [stories]);
+  const length = useMemo(() => (index ? Object.keys(index).length : 0), [index]);
   const indicatorRef = useRef<HTMLElement>(null);
 
   const isMain = refId === DEFAULT_REF_ID;
@@ -161,7 +161,7 @@ export const Ref: FC<RefType & RefProps> = React.memo(function Ref(props) {
               isBrowsing={isBrowsing}
               isMain={isMain}
               refId={refId}
-              data={stories}
+              data={index}
               docsMode={docsOptions.docsMode}
               selectedStoryId={selectedStoryId}
               onSelectStoryId={onSelectStoryId}
