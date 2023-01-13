@@ -1,6 +1,6 @@
 {
   "name": "@storybook/core-common",
-  "version": "7.0.0-alpha.41",
+  "version": "7.0.0-beta.25",
   "description": "Storybook framework-agnostic API",
   "keywords": [
     "storybook"
@@ -21,23 +21,20 @@
   "license": "MIT",
   "exports": {
     ".": {
+      "node": "./dist/index.js",
       "require": "./dist/index.js",
       "import": "./dist/index.mjs",
       "types": "./dist/index.d.ts"
     },
-    "./package.json": {
-      "require": "./package.json",
-      "import": "./package.json",
-      "types": "./package.json"
-    }
+    "./package.json": "./package.json"
   },
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "files": [
     "dist/**/*",
-    "types/**/*",
     "templates/**/*",
+    "README.md",
     "*.js",
     "*.d.ts"
   ],
@@ -46,17 +43,17 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@babel/core": "^7.12.10",
-    "@storybook/csf": "0.0.2--canary.49.258942b.0",
-    "@storybook/node-logger": "7.0.0-alpha.41",
-    "@types/babel__core": "^7.0.0",
+    "@babel/core": "^7.20.2",
+    "@storybook/node-logger": "7.0.0-beta.25",
+    "@storybook/types": "7.0.0-beta.25",
+    "@types/babel__core": "^7.1.20",
     "@types/express": "^4.7.0",
     "@types/node": "^16.0.0",
     "@types/pretty-hrtime": "^1.0.0",
     "chalk": "^4.1.0",
-    "esbuild": "^0.14.48",
+    "esbuild": "^0.16.4",
     "esbuild-register": "^3.3.3",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "file-system-cache": "^2.0.0",
     "find-up": "^5.0.0",
     "fs-extra": "^9.0.1",
@@ -68,25 +65,14 @@
     "pretty-hrtime": "^1.0.3",
     "resolve-from": "^5.0.0",
     "slash": "^3.0.0",
-    "telejson": "^6.0.8",
-    "ts-dedent": "^2.0.0",
-    "util-deprecate": "^1.0.2"
+    "ts-dedent": "^2.0.0"
   },
   "devDependencies": {
-    "@types/mock-fs": "^4.13.0",
+    "@types/mock-fs": "^4.13.1",
     "@types/picomatch": "^2.3.0",
-    "mock-fs": "^4.13.0",
-    "type-fest": "^2.17.0",
-    "typescript": "~4.6.3"
-  },
-  "peerDependencies": {
-    "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
-    "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0"
-  },
-  "peerDependenciesMeta": {
-    "typescript": {
-      "optional": true
-    }
+    "mock-fs": "^5.2.0",
+    "type-fest": "^2.19.0",
+    "typescript": "~4.9.3"
   },
   "publishConfig": {
     "access": "public"
@@ -97,5 +83,5 @@
     ],
     "platform": "node"
   },
-  "gitHead": "7ec6f916eb875bd2e3cf3aa6b1afcd1fe25d1637"
+  "gitHead": "2109ab8d7c0667e686db757abf5afcbf3d48a6ec"
 }

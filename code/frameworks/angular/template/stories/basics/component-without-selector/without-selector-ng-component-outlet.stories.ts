@@ -1,5 +1,5 @@
-import { Component, Injector, Input, OnInit, Type } from '@angular/core';
-import { componentWrapperDecorator, moduleMetadata, StoryFn, Meta } from '@storybook/angular';
+import { OnInit, Type, Component, Injector, Input } from '@angular/core';
+import { StoryFn, Meta, componentWrapperDecorator, moduleMetadata } from '@storybook/angular';
 import { WithoutSelectorComponent, WITHOUT_SELECTOR_DATA } from './without-selector.component';
 
 export default {
@@ -37,7 +37,6 @@ class NgComponentOutletWrapperComponent implements OnInit {
     [document.createTextNode('https://angular.io/api/common/NgComponentOutlet')],
   ];
 
-  // eslint-disable-next-line no-useless-constructor
   constructor(private readonly injector: Injector) {}
 
   ngOnInit(): void {
@@ -60,14 +59,14 @@ WithCustomNgComponentOutletWrapper.argTypes = {
   name: { control: 'text' },
   color: { control: 'color' },
 };
-WithCustomNgComponentOutletWrapper.args = { name: 'Dixie Normous', color: 'green' };
+WithCustomNgComponentOutletWrapper.args = { name: 'Color', color: 'green' };
 WithCustomNgComponentOutletWrapper.decorators = [
   moduleMetadata({
     declarations: [NgComponentOutletWrapperComponent],
   }),
   componentWrapperDecorator(NgComponentOutletWrapperComponent, (args) => ({
     name: args.name,
-    // eslint-disable-next-line dot-notation
+
     color: args['color'],
     componentOutlet: WithoutSelectorComponent,
   })),

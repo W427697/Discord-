@@ -1,6 +1,6 @@
-import globalThis from 'global';
+import { global as globalThis } from '@storybook/global';
 import { expect } from '@storybook/jest';
-import { PlayFunctionContext } from '@storybook/csf';
+import type { PlayFunctionContext } from '@storybook/types';
 
 export default {
   component: globalThis.Components.Pre,
@@ -11,13 +11,13 @@ export default {
 // Repro for https://github.com/storybookjs/storybook/issues/11571
 
 export const PrefixAndName = {
-  play: async ({ name }: PlayFunctionContext) => {
+  play: async ({ name }: PlayFunctionContext<any>) => {
     await expect(name).toBe('Prefix And Name');
   },
 };
 
 export const Prefix = {
-  play: async ({ name }: PlayFunctionContext) => {
+  play: async ({ name }: PlayFunctionContext<any>) => {
     await expect(name).toBe('Prefix');
   },
 };

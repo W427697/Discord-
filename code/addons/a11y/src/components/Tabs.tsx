@@ -1,10 +1,11 @@
 import * as React from 'react';
 
 import { styled } from '@storybook/theming';
-import { NodeResult, Result } from 'axe-core';
-import { SizeMe } from 'react-sizeme';
+import type { NodeResult, Result } from 'axe-core';
+import { useResizeDetector } from 'react-resize-detector';
 import HighlightToggle from './Report/HighlightToggle';
-import { RuleType } from './A11YPanel';
+
+import type { RuleType } from './A11YPanel';
 import { useA11yContext } from './A11yContext';
 
 // TODO: reuse the Tabs component from @storybook/theming instead of re-building identical functionality
@@ -98,6 +99,11 @@ function retrieveAllNodesFromResults(items: Result[]): NodeResult[] {
 }
 
 export const Tabs: React.FC<TabsProps> = ({ tabs }) => {
+  const { ref, width } = useResizeDetector({
+    refreshMode: 'debounce',
+    handleHeight: false,
+    handleWidth: true,
+  });
   const { tab: activeTab, setTab } = useA11yContext();
 
   const handleToggle = React.useCallback(
@@ -110,38 +116,32 @@ export const Tabs: React.FC<TabsProps> = ({ tabs }) => {
   const highlightToggleId = `${tabs[activeTab].type}-global-checkbox`;
   const highlightLabel = `Highlight results`;
   return (
-    <SizeMe refreshMode="debounce">
-      {({ size }) => (
-        <Container>
-          <List>
-            <TabsWrapper>
-              {tabs.map((tab, index) => (
-                <Item
-                  /* eslint-disable-next-line react/no-array-index-key */
-                  key={index}
-                  data-index={index}
-                  active={activeTab === index}
-                  onClick={handleToggle}
-                >
-                  {tab.label}
-                </Item>
-              ))}
-            </TabsWrapper>
-          </List>
-          {tabs[activeTab].items.length > 0 ? (
-            <GlobalToggle elementWidth={size.width || 0}>
-              <HighlightToggleLabel htmlFor={highlightToggleId}>
-                {highlightLabel}
-              </HighlightToggleLabel>
-              <HighlightToggle
-                toggleId={highlightToggleId}
-                elementsToHighlight={retrieveAllNodesFromResults(tabs[activeTab].items)}
-              />
-            </GlobalToggle>
-          ) : null}
-          {tabs[activeTab].panel}
-        </Container>
-      )}
-    </SizeMe>
+    <Container ref={ref}>
+      <List>
+        <TabsWrapper>
+          {tabs.map((tab, index) => (
+            <Item
+              /* eslint-disable-next-line react/no-array-index-key */
+              key={index}
+              data-index={index}
+              active={activeTab === index}
+              onClick={handleToggle}
+            >
+              {tab.label}
+            </Item>
+          ))}
+        </TabsWrapper>
+      </List>
+      {tabs[activeTab].items.length > 0 ? (
+        <GlobalToggle elementWidth={width || 0}>
+          <HighlightToggleLabel htmlFor={highlightToggleId}>{highlightLabel}</HighlightToggleLabel>
+          <HighlightToggle
+            toggleId={highlightToggleId}
+            elementsToHighlight={retrieveAllNodesFromResults(tabs[activeTab].items)}
+          />
+        </GlobalToggle>
+      ) : null}
+      {tabs[activeTab].panel}
+    </Container>
   );
 };

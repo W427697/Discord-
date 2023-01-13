@@ -1,10 +1,11 @@
 import chalk from 'chalk';
 import { dedent } from 'ts-dedent';
 import semver from 'semver';
-import { ConfigFile, readConfig, writeConfig } from '@storybook/csf-tools';
+import type { ConfigFile } from '@storybook/csf-tools';
+import { readConfig, writeConfig } from '@storybook/csf-tools';
 import { getStorybookInfo } from '@storybook/core-common';
-import { Fix } from '../types';
-import { PackageJsonWithDepsAndDevDeps } from '../../js-package-manager';
+import type { Fix } from '../types';
+import type { PackageJsonWithDepsAndDevDeps } from '../../js-package-manager';
 
 const logger = console;
 
@@ -38,11 +39,10 @@ export const webpack5: Fix<Webpack5RunOptions> & CheckBuilder = {
 
     const storybookCoerced = storybookVersion && semver.coerce(storybookVersion)?.version;
     if (!storybookCoerced) {
-      logger.warn(dedent`
-        ❌ Unable to determine storybook version, skipping ${chalk.cyan('webpack5')} fix.
+      throw new Error(dedent`
+        ❌ Unable to determine storybook version.
         🤔 Are you running automigrate from your project directory?
       `);
-      return null;
     }
 
     if (semver.lt(storybookCoerced, '6.3.0')) {

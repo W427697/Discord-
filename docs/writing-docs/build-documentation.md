@@ -11,7 +11,7 @@ At any point during your development, you can preview the documentation you've w
 ```json
 {
   "scripts": {
-    "storybook-docs": "start-storybook --docs --no-manager-cache"
+    "storybook-docs": "storybook dev --docs --no-manager-cache"
   }
 }
 ```
@@ -39,7 +39,7 @@ You can also publish your documentation, the same you would [publish](../sharing
 ```json
 {
   "scripts": {
-    "build-storybook-docs": "build-storybook --docs"
+    "build-storybook-docs": "storybook build --docs"
   }
 }
 ```
@@ -53,3 +53,9 @@ You can use any hosting provider to deploy your documentation, for instance:
 - [Vercel](https://vercel.com/)
 - [Netlify](https://www.netlify.com/)
 - [S3](https://aws.amazon.com/en/s3/)
+
+#### Learn more about Storybook documentation
+
+- [Docs](./docs-page.md) for creating documentation for your stories
+- [MDX](./mdx.md) for customizing your documentation
+- Publishing docs to automate the process of publishing your documentation

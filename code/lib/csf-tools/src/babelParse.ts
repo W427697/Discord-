@@ -1,7 +1,7 @@
-import { parse } from '@babel/parser';
+import * as parser from '@babel/parser';
 
 export const babelParse = (code: string) =>
-  parse(code, {
+  parser.parse(code, {
     sourceType: 'module',
     // FIXME: we should get this from the project config somehow?
     plugins: [

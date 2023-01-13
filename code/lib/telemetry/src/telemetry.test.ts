@@ -1,4 +1,5 @@
-/* eslint-disable no-plusplus */
+/// <reference types="@types/jest" />;
+
 import fetch from 'isomorphic-unfetch';
 
 import { sendTelemetry } from './telemetry';
@@ -13,12 +14,12 @@ beforeEach(() => {
 
 it('makes a fetch request with name and data', async () => {
   fetchMock.mockClear();
-  await sendTelemetry({ eventType: 'start', payload: { foo: 'bar' } });
+  await sendTelemetry({ eventType: 'dev', payload: { foo: 'bar' } });
 
   expect(fetch).toHaveBeenCalledTimes(1);
   const body = JSON.parse(fetchMock.mock.calls[0][1].body);
   expect(body).toMatchObject({
-    eventType: 'start',
+    eventType: 'dev',
     payload: { foo: 'bar' },
   });
 });
@@ -27,7 +28,7 @@ it('retries if fetch fails with a 503', async () => {
   fetchMock.mockClear().mockResolvedValueOnce({ status: 503 });
   await sendTelemetry(
     {
-      eventType: 'start',
+      eventType: 'dev',
       payload: { foo: 'bar' },
     },
     { retryDelay: 0 }
@@ -40,7 +41,7 @@ it('gives up if fetch repeatedly fails', async () => {
   fetchMock.mockClear().mockResolvedValue({ status: 503 });
   await sendTelemetry(
     {
-      eventType: 'start',
+      eventType: 'dev',
       payload: { foo: 'bar' },
     },
     { retryDelay: 0 }
@@ -52,6 +53,12 @@ it('gives up if fetch repeatedly fails', async () => {
 it('await all pending telemetry when passing in immediate = true', async () => {
   let numberOfResolvedTasks = 0;
 
+  fetchMock.mockImplementation(async () => {
+    await Promise.resolve(null);
+    numberOfResolvedTasks += 1;
+    return { status: 200 };
+  });
+
   // when we call sendTelemetry with immediate = true
   // all pending tasks will be awaited
   // to test this we add a few telemetry tasks that will be in the 'queue'
@@ -59,26 +66,23 @@ it('await all pending telemetry when passing in immediate = true', async () => {
   sendTelemetry({
     eventType: 'init',
     payload: { foo: 'bar' },
-  }).then(() => {
-    numberOfResolvedTasks++;
   });
   sendTelemetry({
-    eventType: 'start',
+    eventType: 'dev',
     payload: { foo: 'bar' },
-  }).then(() => {
-    numberOfResolvedTasks++;
   });
+
+  expect(fetch).toHaveBeenCalledTimes(2);
+  expect(numberOfResolvedTasks).toBe(0);
 
   // here we await
   await sendTelemetry(
     {
-      eventType: 'error-dev',
+      eventType: 'error',
       payload: { foo: 'bar' },
     },
     { retryDelay: 0, immediate: true }
-  ).then(() => {
-    numberOfResolvedTasks++;
-  });
+  );
 
   expect(fetch).toHaveBeenCalledTimes(3);
   expect(numberOfResolvedTasks).toBe(3);

@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-backgrounds",
-  "version": "7.0.0-alpha.41",
+  "version": "7.0.0-beta.25",
   "description": "Switch backgrounds to view components in different settings",
   "keywords": [
     "addon",
@@ -27,6 +27,7 @@
   "author": "jbaxleyiii",
   "exports": {
     ".": {
+      "node": "./dist/index.js",
       "require": "./dist/index.js",
       "import": "./dist/index.mjs",
       "types": "./dist/index.d.ts"
@@ -51,6 +52,19 @@
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
+  "typesVersions": {
+    "*": {
+      "*": [
+        "dist/index.d.ts"
+      ],
+      "manager": [
+        "dist/manager.d.ts"
+      ],
+      "preview": [
+        "dist/preview.d.ts"
+      ]
+    }
+  },
   "files": [
     "dist/**/*",
     "README.md",
@@ -62,19 +76,19 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/addons": "7.0.0-alpha.41",
-    "@storybook/api": "7.0.0-alpha.41",
-    "@storybook/client-logger": "7.0.0-alpha.41",
-    "@storybook/components": "7.0.0-alpha.41",
-    "@storybook/core-events": "7.0.0-alpha.41",
-    "@storybook/csf": "0.0.2--canary.49.258942b.0",
-    "@storybook/theming": "7.0.0-alpha.41",
-    "global": "^4.4.0",
+    "@storybook/client-logger": "7.0.0-beta.25",
+    "@storybook/components": "7.0.0-beta.25",
+    "@storybook/core-events": "7.0.0-beta.25",
+    "@storybook/global": "^5.0.0",
+    "@storybook/manager-api": "7.0.0-beta.25",
+    "@storybook/preview-api": "7.0.0-beta.25",
+    "@storybook/theming": "7.0.0-beta.25",
+    "@storybook/types": "7.0.0-beta.25",
     "memoizerific": "^1.11.3",
     "ts-dedent": "^2.0.0"
   },
   "devDependencies": {
-    "typescript": "~4.6.3"
+    "typescript": "~4.9.3"
   },
   "peerDependencies": {
     "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
@@ -98,7 +112,7 @@
       "./src/preview.tsx"
     ]
   },
-  "gitHead": "7ec6f916eb875bd2e3cf3aa6b1afcd1fe25d1637",
+  "gitHead": "2109ab8d7c0667e686db757abf5afcbf3d48a6ec",
   "storybook": {
     "displayName": "Backgrounds",
     "icon": "https://user-images.githubusercontent.com/263385/101991667-479cc600-3c7c-11eb-96d3-410e936252e7.png",

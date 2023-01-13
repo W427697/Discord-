@@ -1,6 +1,7 @@
 /* eslint-disable no-underscore-dangle */
-import { addons, Channel } from '@storybook/addons';
-import type { StoryId } from '@storybook/addons';
+import type { Channel } from '@storybook/channels';
+import { addons } from '@storybook/preview-api';
+import type { StoryId } from '@storybook/types';
 import { once, logger } from '@storybook/client-logger';
 import {
   FORCE_REMOUNT,
@@ -8,18 +9,10 @@ import {
   SET_CURRENT_STORY,
   STORY_RENDER_PHASE_CHANGED,
 } from '@storybook/core-events';
-import global from 'global';
+import { global } from '@storybook/global';
 
-import {
-  Call,
-  CallRef,
-  CallStates,
-  ControlStates,
-  LogItem,
-  Options,
-  State,
-  SyncPayload,
-} from './types';
+import type { Call, CallRef, ControlStates, LogItem, Options, State, SyncPayload } from './types';
+import { CallStates } from './types';
 
 export const EVENTS = {
   CALL: 'storybook/instrumenter/call',
@@ -108,6 +101,7 @@ export class Instrumenter {
     this.channel = addons.getChannel();
 
     // Restore state from the parent window in case the iframe was reloaded.
+    // @ts-expect-error (TS doesn't know about this global variable)
     this.state = global.window.parent.__STORYBOOK_ADDON_INTERACTIONS_INSTRUMENTER_STATE__ || {};
 
     // When called from `start`, isDebugging will be true.
@@ -248,6 +242,7 @@ export class Instrumenter {
     const patch = typeof update === 'function' ? update(state) : update;
     this.state = { ...this.state, [storyId]: { ...state, ...patch } };
     // Track state on the parent window so we can reload the iframe without losing state.
+    // @ts-expect-error (TS doesn't know about this global variable)
     global.window.parent.__STORYBOOK_ADDON_INTERACTIONS_INSTRUMENTER_STATE__ = this.state;
   }
 
@@ -261,6 +256,7 @@ export class Instrumenter {
     }, {} as Record<StoryId, State>);
     const payload: SyncPayload = { controlStates: controlsDisabled, logItems: [] };
     this.channel.emit(EVENTS.SYNC, payload);
+    // @ts-expect-error (TS doesn't know about this global variable)
     global.window.parent.__STORYBOOK_ADDON_INTERACTIONS_INSTRUMENTER_STATE__ = this.state;
   }
 
@@ -340,7 +336,7 @@ export class Instrumenter {
   // returns the original result.
   track(method: string, fn: Function, args: any[], options: Options) {
     const storyId: StoryId =
-      args?.[0]?.__storyId__ || global.window.__STORYBOOK_PREVIEW__?.urlStore?.selection?.storyId;
+      args?.[0]?.__storyId__ || global.__STORYBOOK_PREVIEW__?.selectionStore?.selection?.storyId;
     const { cursor, ancestors } = this.getState(storyId);
     this.setState(storyId, { cursor: cursor + 1 });
     const id = `${ancestors.slice(-1)[0] || storyId} [${cursor}] ${method}`;
@@ -373,6 +369,7 @@ export class Instrumenter {
       }));
     }).then(() => {
       this.setState(call.storyId, (state) => {
+        // eslint-disable-next-line @typescript-eslint/naming-convention
         const { [call.id]: _, ...resolvers } = state.resolvers;
         return { isLocked: true, resolvers };
       });

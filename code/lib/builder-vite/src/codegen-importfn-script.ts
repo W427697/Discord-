@@ -1,6 +1,6 @@
 import * as path from 'path';
 import { normalizePath } from 'vite';
-import type { Options } from '@storybook/core-common';
+import type { Options } from '@storybook/types';
 import { logger } from '@storybook/node-logger';
 
 import { listStories } from './list-stories';
@@ -29,7 +29,7 @@ async function toImportFn(stories: string[]) {
   const objectEntries = stories.map((file) => {
     const ext = path.extname(file);
     const relativePath = normalizePath(path.relative(process.cwd(), file));
-    if (!['.js', '.jsx', '.ts', '.tsx', '.mdx'].includes(ext)) {
+    if (!['.js', '.jsx', '.ts', '.tsx', '.mdx', '.svelte'].includes(ext)) {
       logger.warn(`Cannot process ${ext} file with storyStoreV7: ${relativePath}`);
     }
 

@@ -1,14 +1,11 @@
 import { sync as spawnSync } from 'cross-spawn';
-import { telemetry } from '@storybook/telemetry';
+import { telemetry, getStorybookCoreVersion } from '@storybook/telemetry';
 import semver from 'semver';
 import { logger } from '@storybook/node-logger';
-import {
-  getPackageDetails,
-  JsPackageManagerFactory,
-  PackageJsonWithMaybeDeps,
-  PackageManagerName,
-  useNpmWarning,
-} from './js-package-manager';
+import { withTelemetry } from '@storybook/core-server';
+
+import type { PackageJsonWithMaybeDeps, PackageManagerName } from './js-package-manager';
+import { getPackageDetails, JsPackageManagerFactory, useNpmWarning } from './js-package-manager';
 import { commandLog } from './helpers';
 import { automigrate } from './automigrate';
 
@@ -139,6 +136,7 @@ export const addExtraFlags = (
 };
 
 export interface UpgradeOptions {
+  tag: string;
   prerelease: boolean;
   skipCheck: boolean;
   useNpm: boolean;
@@ -148,7 +146,8 @@ export interface UpgradeOptions {
   disableTelemetry: boolean;
 }
 
-export const upgrade = async ({
+export const doUpgrade = async ({
+  tag,
   prerelease,
   skipCheck,
   useNpm,
@@ -159,18 +158,35 @@ export const upgrade = async ({
 }: UpgradeOptions) => {
   if (useNpm) {
     useNpmWarning();
+    // eslint-disable-next-line no-param-reassign
+    pkgMgr = 'npm';
   }
-  const packageManager = JsPackageManagerFactory.getPackageManager({ useNpm, force: pkgMgr });
+  const packageManager = JsPackageManagerFactory.getPackageManager({ force: pkgMgr });
+
+  const beforeVersion = await getStorybookCoreVersion();
 
   commandLog(`Checking for latest versions of '@storybook/*' packages`);
-  if (!options.disableTelemetry) {
-    telemetry('upgrade', { prerelease });
+
+  if (tag && prerelease) {
+    throw new Error(
+      `Cannot set both --tag and --prerelease. Use --tag next to get the latest prereleae`
+    );
+  }
+
+  let target = 'latest';
+  if (prerelease) {
+    // '@next' is storybook's convention for the latest prerelease tag.
+    // This used to be 'greatest', but that was not reliable and could pick canaries, etc.
+    // and random releases of other packages with storybook in their name.
+    target = '@next';
+  } else if (tag) {
+    target = `@${tag}`;
   }
 
   let flags = [];
   if (!dryRun) flags.push('--upgrade');
   flags.push('--target');
-  flags.push(prerelease ? 'greatest' : 'latest');
+  flags.push(target);
   flags = addExtraFlags(EXTRA_FLAGS, flags, packageManager.retrievePackageJson());
   const check = spawnSync('npx', ['npm-check-updates@latest', '/storybook/', ...flags], {
     stdio: 'pipe',
@@ -178,13 +194,29 @@ export const upgrade = async ({
   }).output.toString();
   logger.info(check);
 
+  const checkSb = spawnSync('npx', ['npm-check-updates@latest', 'sb', ...flags], {
+    stdio: 'pipe',
+    shell: true,
+  }).output.toString();
+  logger.info(checkSb);
+
   if (!dryRun) {
     commandLog(`Installing upgrades`);
     packageManager.installDependencies();
   }
 
+  let automigrationResults;
   if (!skipCheck) {
     checkVersionConsistency();
-    await automigrate({ dryRun, yes, useNpm, force: pkgMgr });
+    automigrationResults = await automigrate({ dryRun, yes, packageManager: pkgMgr });
+  }
+
+  if (!options.disableTelemetry) {
+    const afterVersion = await getStorybookCoreVersion();
+    telemetry('upgrade', { prerelease, tag, automigrationResults, beforeVersion, afterVersion });
   }
 };
+
+export async function upgrade(options: UpgradeOptions): Promise<void> {
+  await withTelemetry('upgrade', { cliOptions: options }, () => doUpgrade(options));
+}
