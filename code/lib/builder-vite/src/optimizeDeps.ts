@@ -1,6 +1,6 @@
 import * as path from 'path';
 import { normalizePath, resolveConfig } from 'vite';
-import type { InlineConfig as ViteInlineConfig } from 'vite';
+import type { InlineConfig as ViteInlineConfig, UserConfig } from 'vite';
 import { listStories } from './list-stories';
 
 import type { ExtendedOptions } from './types';
@@ -13,17 +13,18 @@ const INCLUDE_CANDIDATES = [
   '@mdx-js/react',
   '@storybook/addon-docs > acorn-jsx',
   '@storybook/addon-docs',
-  '@storybook/addons',
   '@storybook/channel-postmessage',
   '@storybook/channel-websocket',
   '@storybook/client-api',
   '@storybook/client-logger',
   '@storybook/core/client',
-  '@storybook/types',
+  '@storybook/global',
+  '@storybook/preview-api',
   '@storybook/preview-web',
   '@storybook/react > acorn-jsx',
   '@storybook/react',
   '@storybook/svelte',
+  '@storybook/types',
   '@storybook/vue3',
   'acorn-jsx',
   'acorn-walk',
@@ -38,7 +39,6 @@ const INCLUDE_CANDIDATES = [
   'escodegen',
   'estraverse',
   'fast-deep-equal',
-  'global',
   'html-tags',
   'isobject',
   'jest-mock',
@@ -113,11 +113,14 @@ export async function getOptimizeDeps(config: ViteInlineConfig, options: Extende
   const resolve = resolvedConfig.createResolver({ asSrc: false });
   const include = await asyncFilter(INCLUDE_CANDIDATES, async (id) => Boolean(await resolve(id)));
 
-  return {
+  const optimizeDeps: UserConfig['optimizeDeps'] = {
+    ...config.optimizeDeps,
     // We don't need to resolve the glob since vite supports globs for entries.
     entries: stories,
     // We need Vite to precompile these dependencies, because they contain non-ESM code that would break
     // if we served it directly to the browser.
-    include,
+    include: [...include, ...(config.optimizeDeps?.include || [])],
   };
+
+  return optimizeDeps;
 }

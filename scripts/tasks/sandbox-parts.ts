@@ -4,7 +4,6 @@
 /* eslint-disable no-restricted-syntax, no-await-in-loop */
 import { copy, ensureSymlink, ensureDir, existsSync, pathExists } from 'fs-extra';
 import { join, resolve, sep } from 'path';
-import dedent from 'ts-dedent';
 
 import type { Task } from '../task';
 import { executeCLIStep, steps } from '../utils/cli-step';
@@ -40,29 +39,21 @@ export const essentialsAddons = [
 
 export const create: Task['run'] = async (
   { key, template, sandboxDir },
-  { addon: addons, fromLocalRepro, dryRun, debug }
+  { addon: addons, dryRun, debug, skipTemplateStories }
 ) => {
   const parentDir = resolve(sandboxDir, '..');
   await ensureDir(parentDir);
 
-  if (fromLocalRepro) {
+  if ('inDevelopment' in template && template.inDevelopment) {
     const srcDir = join(reprosDir, key, 'after-storybook');
     if (!existsSync(srcDir)) {
-      throw new Error(dedent`
-          Missing repro directory '${srcDir}'!
-
-          To run sandbox against a local repro, you must have already generated
-          the repro template in the /repros directory using:
-          the repro template in the /repros directory using:
-
-          yarn generate-repros-next --template ${key}
-        `);
+      throw new Error(`Missing repro directory '${srcDir}', did the generate task run?`);
     }
     await copy(srcDir, sandboxDir);
   } else {
     await executeCLIStep(steps.repro, {
       argument: key,
-      optionValues: { output: sandboxDir, branch: 'next' },
+      optionValues: { output: sandboxDir, branch: 'next', init: false, debug },
       cwd: parentDir,
       dryRun,
       debug,
@@ -70,21 +61,16 @@ export const create: Task['run'] = async (
   }
 
   const cwd = sandboxDir;
-  for (const addon of addons) {
-    const addonName = `@storybook/addon-${addon}`;
-    await executeCLIStep(steps.add, { argument: addonName, cwd, dryRun, debug });
+  if (!skipTemplateStories) {
+    for (const addon of addons) {
+      const addonName = `@storybook/addon-${addon}`;
+      await executeCLIStep(steps.add, { argument: addonName, cwd, dryRun, debug });
+    }
   }
-
-  const mainConfig = await readMainConfig({ cwd });
-
-  mainConfig.setFieldValue(['core', 'disableTelemetry'], true);
-  if (template.expected.builder === '@storybook/builder-vite') setSandboxViteFinal(mainConfig);
-  await writeConfig(mainConfig);
 };
 
-export const install: Task['run'] = async ({ sandboxDir }, { link, dryRun, debug }) => {
+export const install: Task['run'] = async ({ sandboxDir, template }, { link, dryRun, debug }) => {
   const cwd = sandboxDir;
-
   await installYarn2({ cwd, dryRun, debug });
 
   if (link) {
@@ -106,6 +92,7 @@ export const install: Task['run'] = async ({ sandboxDir }, { link, dryRun, debug
       'yarn install',
       { cwd },
       {
+        debug,
         dryRun,
         startMessage: `⬇️ Installing local dependencies`,
         errorMessage: `🚨 Installing local dependencies failed`,
@@ -113,10 +100,20 @@ export const install: Task['run'] = async ({ sandboxDir }, { link, dryRun, debug
     );
   }
 
+  const extra = template.expected.renderer === '@storybook/html' ? { type: 'html' } : {};
+
+  await executeCLIStep(steps.init, {
+    cwd,
+    optionValues: { debug, yes: true, ...extra },
+    dryRun,
+    debug,
+  });
+
   logger.info(`🔢 Adding package scripts:`);
   await updatePackageScripts({
     cwd,
-    prefix: 'NODE_OPTIONS="--preserve-symlinks --preserve-symlinks-main"',
+    prefix:
+      'NODE_OPTIONS="--preserve-symlinks --preserve-symlinks-main" STORYBOOK_TELEMETRY_URL="http://localhost:6007/event-log"',
   });
 };
 
@@ -136,7 +133,7 @@ function addEsbuildLoaderToStories(mainConfig: ConfigFile) {
   (config) => ({
     ...config,
     module: {
-      ...config.modules,
+      ...config.module,
       rules: [
         // Ensure esbuild-loader applies to all files in ./template-stories
         {
@@ -231,8 +228,6 @@ function setSandboxViteFinal(mainConfig: ConfigFile) {
   );
 }
 
-
-
 // Update the stories field to ensure that no TS files
 // that are linked from the renderer are picked up in non-TS projects
 function updateStoriesField(mainConfig: ConfigFile, isJs: boolean) {
@@ -243,7 +238,6 @@ function updateStoriesField(mainConfig: ConfigFile, isJs: boolean) {
   const updatedStories = isJs
     ? stories.map((specifier) => specifier.replace('js|jsx|ts|tsx', 'js|jsx'))
     : stories;
-
 
   mainConfig.setFieldValue(['stories'], [...updatedStories]);
 }
@@ -257,16 +251,22 @@ function addStoriesEntry(mainConfig: ConfigFile, path: string) {
     titlePrefix: path,
     files: '**/*.@(mdx|stories.@(js|jsx|ts|tsx))',
   };
-  
+
   mainConfig.setFieldValue(['stories'], [...stories, entry]);
+}
+
+function addVariantToFolder(variant?: string, folder = 'stories') {
+  return variant ? `${folder}_${variant}` : folder;
 }
 
 // packageDir is eg 'renderers/react', 'addons/actions'
 async function linkPackageStories(
   packageDir: string,
-  { mainConfig, cwd, linkInDir }: { mainConfig: ConfigFile; cwd: string; linkInDir?: string }
+  { mainConfig, cwd, linkInDir }: { mainConfig: ConfigFile; cwd: string; linkInDir?: string },
+  frameworkVariant?: string
 ) {
-  const source = join(codeDir, packageDir, 'template', 'stories');
+  const storiesFolderName = frameworkVariant ? addVariantToFolder(frameworkVariant) : 'stories';
+  const source = join(codeDir, packageDir, 'template', storiesFolderName);
   // By default we link `stories` directories
   //   e.g '../../../code/lib/store/template/stories' to 'template-stories/lib/store'
   // if the directory <code>/lib/store/template/stories exists
@@ -274,11 +274,15 @@ async function linkPackageStories(
   // The files must be linked in the cwd, in order to ensure that any dependencies they
   // reference are resolved in the cwd. In particular 'react' resolved by MDX files.
   const target = linkInDir
-    ? resolve(linkInDir, packageDir)
+    ? resolve(
+        linkInDir,
+        frameworkVariant ? addVariantToFolder(frameworkVariant, packageDir) : packageDir
+      )
     : resolve(cwd, 'template-stories', packageDir);
+
   await ensureSymlink(source, target);
 
-  if (!linkInDir) addStoriesEntry(mainConfig, packageDir)
+  if (!linkInDir) addStoriesEntry(mainConfig, packageDir);
 
   // Add `previewAnnotation` entries of the form
   //   './template-stories/lib/store/preview.[tj]s'
@@ -286,11 +290,13 @@ async function linkPackageStories(
   await Promise.all(
     ['js', 'ts'].map(async (ext) => {
       const previewFile = `preview.${ext}`;
-      const previewPath = join(codeDir, packageDir, 'template', 'stories', previewFile);
+      const previewPath = join(codeDir, packageDir, 'template', storiesFolderName, previewFile);
       if (await pathExists(previewPath)) {
         let storiesDir = 'template-stories';
         if (linkInDir) {
-          storiesDir = (await pathExists(join(cwd, 'src/stories'))) ? 'src/stories' : 'stories';
+          storiesDir = (await pathExists(join(cwd, `src/${storiesFolderName}`)))
+            ? `src/${storiesFolderName}`
+            : storiesFolderName;
         }
         addPreviewAnnotations(mainConfig, [`./${join(storiesDir, packageDir, previewFile)}`]);
       }
@@ -320,9 +326,8 @@ function addExtraDependencies({
   }
 }
 
-
 export const addStories: Task['run'] = async (
-  { sandboxDir, template },
+  { sandboxDir, template, key },
   { addon: extraAddons, dryRun, debug }
 ) => {
   const cwd = sandboxDir;
@@ -332,11 +337,7 @@ export const addStories: Task['run'] = async (
 
   // Ensure that we match the right stories in the stories directory
   const packageJson = await import(join(cwd, 'package.json'));
-  updateStoriesField(
-    mainConfig,
-    detectLanguage(packageJson) === SupportedLanguage.JAVASCRIPT
-  );
-
+  updateStoriesField(mainConfig, detectLanguage(packageJson) === SupportedLanguage.JAVASCRIPT);
 
   // Link in the template/components/index.js from store, the renderer and the addons
   const rendererPath = await workspacePath('renderer', template.expected.renderer);
@@ -345,7 +346,7 @@ export const addStories: Task['run'] = async (
     resolve(cwd, storiesPath, 'components')
   );
   addPreviewAnnotations(mainConfig, [`.${sep}${join(storiesPath, 'components')}`]);
-  
+
   // Add stories for the renderer. NOTE: these *do* need to be processed by the framework build system
   await linkPackageStories(rendererPath, {
     mainConfig,
@@ -354,6 +355,7 @@ export const addStories: Task['run'] = async (
   });
 
   const frameworkPath = await workspacePath('frameworks', template.expected.framework);
+
   // Add stories for the framework if it has one. NOTE: these *do* need to be processed by the framework build system
   if (await pathExists(resolve(codeDir, frameworkPath, join('template', 'stories')))) {
     await linkPackageStories(frameworkPath, {
@@ -361,6 +363,21 @@ export const addStories: Task['run'] = async (
       cwd,
       linkInDir: resolve(cwd, storiesPath),
     });
+  }
+
+  const frameworkVariant = key.split('/')[1];
+  const storiesVariantFolder = addVariantToFolder(frameworkVariant);
+
+  if (await pathExists(resolve(codeDir, frameworkPath, join('template', storiesVariantFolder)))) {
+    await linkPackageStories(
+      frameworkPath,
+      {
+        mainConfig,
+        cwd,
+        linkInDir: resolve(cwd, storiesPath),
+      },
+      frameworkVariant
+    );
   }
 
   // Add stories for lib/store (and addons below). NOTE: these stories will be in the
@@ -399,5 +416,23 @@ export const addStories: Task['run'] = async (
   // Some addon stories require extra dependencies
   addExtraDependencies({ cwd, dryRun, debug });
 
+  await writeConfig(mainConfig);
+};
+
+export const extendMain: Task['run'] = async ({ template, sandboxDir }) => {
+  logger.log('📝 Extending main.js');
+  const mainConfig = await readMainConfig({ cwd: sandboxDir });
+  const templateConfig = template.modifications?.mainConfig || {};
+  const configToAdd = {
+    ...templateConfig,
+    features: {
+      interactionsDebugger: true,
+      ...templateConfig.features,
+    },
+  };
+
+  Object.entries(configToAdd).forEach(([field, value]) => mainConfig.setFieldValue([field], value));
+
+  if (template.expected.builder === '@storybook/builder-vite') setSandboxViteFinal(mainConfig);
   await writeConfig(mainConfig);
 };

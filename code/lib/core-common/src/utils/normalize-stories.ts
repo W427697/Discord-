@@ -1,17 +1,14 @@
 import fs from 'fs';
 import path from 'path';
-import { scan } from 'picomatch';
+import * as pico from 'picomatch';
 import slash from 'slash';
 
-import type {
-  CoreCommon_StoriesEntry,
-  CoreCommon_NormalizedStoriesSpecifier,
-} from '@storybook/types';
+import type { StoriesEntry, NormalizedStoriesSpecifier } from '@storybook/types';
 import { normalizeStoryPath } from './paths';
 import { globToRegexp } from './glob-to-regexp';
 
 const DEFAULT_TITLE_PREFIX = '';
-const DEFAULT_FILES = '**/*.@(mdx|stories.mdx|stories.tsx|stories.ts|stories.jsx|stories.js)';
+const DEFAULT_FILES = '**/*.@(mdx|stories.@(tsx|ts|jsx|js))';
 
 const isDirectory = (configDir: string, entry: string) => {
   try {
@@ -35,13 +32,13 @@ export const getDirectoryFromWorkingDir = ({
 };
 
 export const normalizeStoriesEntry = (
-  entry: CoreCommon_StoriesEntry,
+  entry: StoriesEntry,
   { configDir, workingDir }: NormalizeOptions
-): CoreCommon_NormalizedStoriesSpecifier => {
-  let specifierWithoutMatcher: Omit<CoreCommon_NormalizedStoriesSpecifier, 'importPathMatcher'>;
+): NormalizedStoriesSpecifier => {
+  let specifierWithoutMatcher: Omit<NormalizedStoriesSpecifier, 'importPathMatcher'>;
 
   if (typeof entry === 'string') {
-    const globResult = scan(entry);
+    const globResult = pico.scan(entry);
     if (globResult.isGlob) {
       const directory = globResult.prefix + globResult.base;
       const files = globResult.glob;
@@ -103,5 +100,5 @@ interface NormalizeOptions {
   workingDir: string;
 }
 
-export const normalizeStories = (entries: CoreCommon_StoriesEntry[], options: NormalizeOptions) =>
+export const normalizeStories = (entries: StoriesEntry[], options: NormalizeOptions) =>
   entries.map((entry) => normalizeStoriesEntry(entry, options));

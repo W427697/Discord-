@@ -1,14 +1,14 @@
 /// <reference types="@types/jest" />;
 /* eslint-disable no-underscore-dangle */
 
-import { addons, mockChannel } from '@storybook/addons';
+import { addons, mockChannel } from '@storybook/preview-api';
 import { logger } from '@storybook/client-logger';
 import {
   FORCE_REMOUNT,
   SET_CURRENT_STORY,
   STORY_RENDER_PHASE_CHANGED,
 } from '@storybook/core-events';
-import global from 'global';
+import { global } from '@storybook/global';
 
 import { EVENTS, Instrumenter } from './instrumenter';
 import type { Options } from './types';
@@ -29,12 +29,14 @@ class HTMLElement {
   }
 }
 
-delete global.window.location;
-global.window.location = { reload: jest.fn() };
-global.window.HTMLElement = HTMLElement;
+delete global.location;
+// @ts-expect-error (global scope type conflicts)
+global.location = { reload: jest.fn() };
+// @ts-expect-error (global scope type conflicts)
+global.HTMLElement = HTMLElement;
 
 const storyId = 'kind--story';
-global.window.__STORYBOOK_PREVIEW__ = { urlStore: { selection: { storyId } } };
+global.window.__STORYBOOK_PREVIEW__ = { selectionStore: { selection: { storyId } } };
 
 const setRenderPhase = (newPhase: string) =>
   addons.getChannel().emit(STORY_RENDER_PHASE_CHANGED, { newPhase, storyId });
@@ -554,7 +556,7 @@ describe('Instrumenter', () => {
     });
 
     it.skip('starts debugging at the first non-nested interceptable call', () => {
-      const fn = (...args) => args;
+      const fn = (...args: any[]) => args;
       const { fn1, fn2, fn3 } = instrument({ fn1: fn, fn2: fn, fn3: fn }, { intercept: true });
       fn3(fn1(), fn2()); // setup the dependencies
       addons.getChannel().emit(EVENTS.START, { storyId });

@@ -1,14 +1,19 @@
 /* eslint-disable no-param-reassign */
-import type { Store_RenderContext, ArgsStoryFn } from '@storybook/types';
+import type { RenderContext, ArgsStoryFn } from '@storybook/types';
 import type { SvelteComponentTyped } from 'svelte';
+// ! DO NOT change this PreviewRender import to a relative path, it will break it.
+// ! A relative import will be compiled at build time, and Svelte will be unable to
+// ! render the component together with the user's Svelte components
+// ! importing from @storybook/svelte will make sure that it is compiled at runtime
+// ! with the same bundle as the user's Svelte components
 // eslint-disable-next-line import/no-extraneous-dependencies
 import PreviewRender from '@storybook/svelte/templates/PreviewRender.svelte';
 
-import type { SvelteFramework } from './types';
+import type { SvelteRenderer } from './types';
 
-const componentsByDomElement = new Map<SvelteFramework['canvasElement'], SvelteComponentTyped>();
+const componentsByDomElement = new Map<SvelteRenderer['canvasElement'], SvelteComponentTyped>();
 
-function teardown(canvasElement: SvelteFramework['canvasElement']) {
+function teardown(canvasElement: SvelteRenderer['canvasElement']) {
   if (!componentsByDomElement.has(canvasElement)) {
     return;
   }
@@ -28,8 +33,8 @@ export function renderToCanvas(
     showError,
     storyContext,
     forceRemount,
-  }: Store_RenderContext<SvelteFramework>,
-  canvasElement: SvelteFramework['canvasElement']
+  }: RenderContext<SvelteRenderer>,
+  canvasElement: SvelteRenderer['canvasElement']
 ) {
   const existingComponent = componentsByDomElement.get(canvasElement);
 
@@ -67,7 +72,7 @@ export function renderToCanvas(
   };
 }
 
-export const render: ArgsStoryFn<SvelteFramework> = (args, context) => {
+export const render: ArgsStoryFn<SvelteRenderer> = (args, context) => {
   const { id, component: Component } = context;
   if (!Component) {
     throw new Error(

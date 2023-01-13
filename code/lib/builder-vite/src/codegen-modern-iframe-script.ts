@@ -1,21 +1,22 @@
-import { isAbsolute, resolve } from 'path';
 import { loadPreviewOrConfigFile, getFrameworkName } from '@storybook/core-common';
+import type { PreviewAnnotation } from '@storybook/types';
 import { virtualStoriesFile, virtualAddonSetupFile } from './virtual-file-names';
-import { transformAbsPath } from './utils/transform-abs-path';
 import type { ExtendedOptions } from './types';
+import { processPreviewAnnotation } from './utils/process-preview-annotation';
 
 export async function generateModernIframeScriptCode(options: ExtendedOptions) {
   const { presets, configDir } = options;
   const frameworkName = await getFrameworkName(options);
 
   const previewOrConfigFile = loadPreviewOrConfigFile({ configDir });
-  const previewAnnotations = await presets.apply('previewAnnotations', [], options);
-  const resolvedPreviewAnnotations = [...previewAnnotations].map((entry) =>
-    isAbsolute(entry) ? entry : resolve(entry)
+  const previewAnnotations = await presets.apply<PreviewAnnotation[]>(
+    'previewAnnotations',
+    [],
+    options
   );
-  const relativePreviewAnnotations = [...resolvedPreviewAnnotations, previewOrConfigFile]
+  const relativePreviewAnnotations = [...previewAnnotations, previewOrConfigFile]
     .filter(Boolean)
-    .map((configEntry) => transformAbsPath(configEntry as string));
+    .map(processPreviewAnnotation);
 
   // eslint-disable-next-line @typescript-eslint/no-shadow
   const generateHMRHandler = (frameworkName: string): string => {
@@ -31,7 +32,7 @@ export async function generateModernIframeScriptCode(options: ExtendedOptions) {
     if (import.meta.hot) {
       import.meta.hot.accept('${virtualStoriesFile}', (newModule) => {
       // importFn has changed so we need to patch the new one in
-      preview.onStoriesChanged({ importFn: newModule.importFn });
+      window.__STORYBOOK_PREVIEW__.onStoriesChanged({ importFn: newModule.importFn });
       });
 
     import.meta.hot.accept(${JSON.stringify(
@@ -40,7 +41,7 @@ export async function generateModernIframeScriptCode(options: ExtendedOptions) {
       const newGetProjectAnnotations =  () => composeConfigs(newConfigEntries);
 
       // getProjectAnnotations has changed so we need to patch the new one in
-      preview.onGetProjectAnnotationsChanged({ getProjectAnnotations: newGetProjectAnnotations });
+      window.__STORYBOOK_PREVIEW__.onGetProjectAnnotationsChanged({ getProjectAnnotations: newGetProjectAnnotations });
     });
   }`.trim();
   };
@@ -52,11 +53,10 @@ export async function generateModernIframeScriptCode(options: ExtendedOptions) {
    * @todo Inline variable and remove `noinspection`
    */
   const code = `
-    import { ClientApi, composeConfigs, PreviewWeb } from '${frameworkName}';
-
-    import '${virtualAddonSetupFile}';
-    import { importFn } from '${virtualStoriesFile}';
-
+  import { composeConfigs, PreviewWeb, ClientApi } from '@storybook/preview-api';
+  import '${virtualAddonSetupFile}';
+  import { importFn } from '${virtualStoriesFile}';
+  
     const getProjectAnnotations = async () => {
       const configs = await Promise.all([${relativePreviewAnnotations
         .map((previewAnnotation) => `import('${previewAnnotation}')`)
@@ -64,13 +64,12 @@ export async function generateModernIframeScriptCode(options: ExtendedOptions) {
       return composeConfigs(configs);
     }
 
-    const preview = new PreviewWeb();
 
-    window.__STORYBOOK_PREVIEW__ = preview;
-    window.__STORYBOOK_STORY_STORE__ = preview.storyStore;
-    window.__STORYBOOK_CLIENT_API__ = new ClientApi({ storyStore: preview.storyStore });
-
-    preview.initialize({ importFn, getProjectAnnotations });
+    window.__STORYBOOK_PREVIEW__ = window.__STORYBOOK_PREVIEW__ || new PreviewWeb();
+    
+    window.__STORYBOOK_STORY_STORE__ = window.__STORYBOOK_STORY_STORE__ || window.__STORYBOOK_PREVIEW__.storyStore;
+    window.__STORYBOOK_CLIENT_API__ = window.__STORYBOOK_CLIENT_API__ || new ClientApi({ storyStore: window.__STORYBOOK_PREVIEW__.storyStore });
+    window.__STORYBOOK_PREVIEW__.initialize({ importFn, getProjectAnnotations });
     
     ${generateHMRHandler(frameworkName)};
     `.trim();
