@@ -49,7 +49,6 @@ const getSourceState = (stories: PreparedStory[]) => {
 
 const getStorySource = (storyId: StoryId, sourceContext: SourceContextProps): SourceItem => {
   const { sources } = sourceContext;
-  console.log(sources, storyId);
   // source rendering is async so source is unavailable at the start of the render cycle,
   // so we fail gracefully here without warning
   return sources?.[storyId] || { code: '', format: false };
