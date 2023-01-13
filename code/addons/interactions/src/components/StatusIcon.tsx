@@ -1,13 +1,15 @@
 import React from 'react';
-import { Icons, IconsProps } from '@storybook/components';
-import { Call, CallStates } from '@storybook/instrumenter';
+import { Icons, type IconsProps } from '@storybook/components';
+import { type Call, CallStates } from '@storybook/instrumenter';
 import { styled } from '@storybook/theming';
 
 import { transparentize } from 'polished';
 import localTheme from '../theme';
 
-export interface StatusIconProps extends IconsProps {
+export interface StatusIconProps {
   status: Call['status'];
+  useSymbol?: IconsProps['useSymbol'];
+  className?: string;
 }
 
 const {

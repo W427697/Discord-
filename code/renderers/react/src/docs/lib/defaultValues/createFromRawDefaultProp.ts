@@ -1,17 +1,17 @@
 /* eslint-disable @typescript-eslint/ban-types */
-import isPlainObject from 'lodash/isPlainObject';
-import isFunction from 'lodash/isFunction';
-import isString from 'lodash/isString';
-// @ts-ignore
+import isPlainObject from 'lodash/isPlainObject.js';
+import isFunction from 'lodash/isFunction.js';
+import isString from 'lodash/isString.js';
 import reactElementToJSXString from 'react-element-to-jsx-string';
 import {
-  PropDef,
+  type PropDef,
   createSummaryValue,
   isTooLongForDefaultValueSummary,
-  PropDefaultValue,
+  type PropDefaultValue,
 } from '@storybook/docs-tools';
 
-import { inspectValue, InspectionFunction } from '../inspection';
+import type { InspectionFunction } from '../inspection';
+import { inspectValue } from '../inspection';
 import { generateObject } from './generateObject';
 import { generateArray } from './generateArray';
 import { getPrettyElementIdentifier, getPrettyFuncIdentifier } from './prettyIdentifier';
@@ -138,7 +138,7 @@ const functionResolver: TypeResolver = (rawDefaultProp, propDef) => {
       inspectionResult = inspectValue(rawDefaultProp.toString());
     }
 
-    // @ts-ignore
+    // @ts-expect-error (Converted from ts-ignore)
     const { hasParams } = inspectionResult.inferredType as InspectionFunction;
 
     return createSummaryValue(getPrettyFuncIdentifier(funcName, hasParams));

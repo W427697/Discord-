@@ -1,24 +1,19 @@
 import path from 'path';
 import fs from 'fs';
 import findUp from 'find-up';
+import semver from 'semver';
 
+import type { TemplateConfiguration, TemplateMatcher } from './project_types';
 import {
   ProjectType,
   supportedTemplates,
   SUPPORTED_RENDERERS,
   SupportedLanguage,
-  TemplateConfiguration,
-  TemplateMatcher,
   unsupportedTemplate,
   CoreBuilder,
 } from './project_types';
 import { getBowerJson, paddedLog } from './helpers';
-import {
-  PackageJson,
-  readPackageJson,
-  JsPackageManager,
-  PackageJsonWithMaybeDeps,
-} from './js-package-manager';
+import type { JsPackageManager, PackageJson, PackageJsonWithMaybeDeps } from './js-package-manager';
 import { detectNextJS } from './detect-nextjs';
 
 const viteConfigFiles = ['vite.config.ts', 'vite.config.js', 'vite.config.mjs'];
@@ -153,33 +148,46 @@ export function isStorybookInstalled(
   return false;
 }
 
-export function detectLanguage() {
+export function detectLanguage(packageJson?: PackageJson) {
   let language = SupportedLanguage.JAVASCRIPT;
-  let packageJson;
-  try {
-    packageJson = readPackageJson();
-  } catch (err) {
-    //
-  }
-  const bowerJson = getBowerJson();
-  if (!packageJson && !bowerJson) {
+
+  if (!packageJson) {
     return language;
   }
 
-  if (hasDependency(packageJson || bowerJson, 'typescript')) {
+  if (
+    hasDependency(packageJson, 'typescript', (version) =>
+      semver.gte(semver.coerce(version), '4.9.0')
+    ) &&
+    (!hasDependency(packageJson, 'prettier') ||
+      hasDependency(packageJson, 'prettier', (version) =>
+        semver.gte(semver.coerce(version), '2.8.0')
+      )) &&
+    (!hasDependency(packageJson, '@babel/plugin-transform-typescript') ||
+      hasDependency(packageJson, '@babel/plugin-transform-typescript', (version) =>
+        semver.gte(semver.coerce(version), '7.20.0')
+      )) &&
+    (!hasDependency(packageJson, '@typescript-eslint/parser') ||
+      hasDependency(packageJson, '@typescript-eslint/parser', (version) =>
+        semver.gte(semver.coerce(version), '5.44.0')
+      )) &&
+    (!hasDependency(packageJson, 'eslint-plugin-storybook') ||
+      hasDependency(packageJson, 'eslint-plugin-storybook', (version) =>
+        semver.gte(semver.coerce(version), '0.6.8')
+      ))
+  ) {
     language = SupportedLanguage.TYPESCRIPT;
+  } else if (hasDependency(packageJson, 'typescript')) {
+    language = SupportedLanguage.TYPESCRIPT_LEGACY;
   }
 
   return language;
 }
 
-export function detect(options: { force?: boolean; html?: boolean } = {}) {
-  let packageJson;
-  try {
-    packageJson = readPackageJson();
-  } catch (err) {
-    //
-  }
+export function detect(
+  packageJson: PackageJson,
+  options: { force?: boolean; html?: boolean } = {}
+) {
   const bowerJson = getBowerJson();
 
   if (!packageJson && !bowerJson) {

@@ -1,11 +1,11 @@
 import { SourceType, enhanceArgTypes } from '@storybook/docs-tools';
+import { Parameters, DecoratorFunction, ArgTypesEnhancer } from '@storybook/types';
 import { extractArgTypes, extractComponentDescription } from './compodoc';
 import { sourceDecorator } from './sourceDecorator';
 
-export const parameters = {
+export const parameters: Parameters = {
   docs: {
-    // probably set this to true by default once it's battle-tested
-    inlineStories: false,
+    inlineStories: true,
     extractArgTypes,
     extractComponentDescription,
     source: {
@@ -15,6 +15,6 @@ export const parameters = {
   },
 };
 
-export const decorators = [sourceDecorator];
+export const decorators: DecoratorFunction[] = [sourceDecorator];
 
-export const argTypesEnhancers = [enhanceArgTypes];
+export const argTypesEnhancers: ArgTypesEnhancer[] = [enhanceArgTypes];

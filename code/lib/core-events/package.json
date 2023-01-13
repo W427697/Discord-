@@ -1,6 +1,6 @@
 {
   "name": "@storybook/core-events",
-  "version": "7.0.0-alpha.18",
+  "version": "7.0.0-beta.26",
   "description": "Event names used in storybook core",
   "keywords": [
     "storybook"
@@ -22,6 +22,7 @@
   "sideEffects": false,
   "exports": {
     ".": {
+      "node": "./dist/index.js",
       "require": "./dist/index.js",
       "import": "./dist/index.mjs",
       "types": "./dist/index.d.ts"
@@ -38,22 +39,19 @@
     "*.d.ts"
   ],
   "scripts": {
-    "check": "tsc --noEmit",
-    "prepare": "../../../scripts/prepare/bundle.ts"
+    "check": "../../../scripts/node_modules/.bin/tsc --noEmit",
+    "prep": "../../../scripts/prepare/bundle.ts"
+  },
+  "devDependencies": {
+    "typescript": "~4.9.3"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "bundler": {
     "entries": [
       "./src/index.ts"
     ]
   },
-  "dependencies": {
-    "core-js": "^3.8.2"
-  },
-  "devDependencies": {
-    "typescript": "~4.6.3"
-  },
-  "publishConfig": {
-    "access": "public"
-  },
-  "gitHead": "bd59f1eef0f644175abdb0d9873ed0553f431f53"
+  "gitHead": "4d3ed5ec2eb8db3e688955e2820001def09621c1"
 }

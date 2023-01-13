@@ -1,5 +1,7 @@
 import { JsPackageManager } from './JsPackageManager';
+import type { PackageJson } from './PackageJson';
 
+// This encompasses both yarn 2 and yarn 3
 export class Yarn2Proxy extends JsPackageManager {
   readonly type = 'yarn2';
 
@@ -15,6 +17,15 @@ export class Yarn2Proxy extends JsPackageManager {
     return `yarn ${command}`;
   }
 
+  protected getResolutions(packageJson: PackageJson, versions: Record<string, string>) {
+    return {
+      resolutions: {
+        ...packageJson.resolutions,
+        ...versions,
+      },
+    };
+  }
+
   protected runInstall(): void {
     this.executeCommand('yarn', [], 'inherit');
   }
@@ -27,6 +38,12 @@ export class Yarn2Proxy extends JsPackageManager {
     }
 
     this.executeCommand('yarn', ['add', ...args], 'inherit');
+  }
+
+  protected runRemoveDeps(dependencies: string[]): void {
+    const args = [...dependencies];
+
+    this.executeCommand('yarn', ['remove', ...args], 'inherit');
   }
 
   protected runGetVersions<T extends boolean>(

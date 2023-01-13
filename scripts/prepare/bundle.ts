@@ -1,25 +1,50 @@
 #!/usr/bin/env ../../node_modules/.bin/ts-node
 
 import fs from 'fs-extra';
-import path, { join } from 'path';
+import path, { dirname, join, relative } from 'path';
+import type { Options } from 'tsup';
+import type { PackageJson } from 'type-fest';
 import { build } from 'tsup';
 import aliasPlugin from 'esbuild-plugin-alias';
-import shelljs from 'shelljs';
+import dedent from 'ts-dedent';
+import slash from 'slash';
+import { exec } from '../utils/exec';
 
-const hasFlag = (flags: string[], name: string) => !!flags.find((s) => s.startsWith(`--${name}`));
+/* TYPES */
+
+type Formats = 'esm' | 'cjs';
+type BundlerConfig = {
+  entries: string[];
+  externals: string[];
+  platform: Options['platform'];
+  pre: string;
+  post: string;
+  formats: Formats[];
+};
+type PackageJsonWithBundlerConfig = PackageJson & {
+  bundler: BundlerConfig;
+};
+type DtsConfigSection = Pick<Options, 'dts' | 'tsconfig'>;
+
+/* MAIN */
 
 const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
   const {
     name,
     dependencies,
     peerDependencies,
-    bundler: { entries, platform, pre },
-  } = await fs.readJson(join(cwd, 'package.json'));
-
-  const isThemingPackage = name === '@storybook/theming';
+    bundler: {
+      entries = [],
+      externals: extraExternals = [],
+      platform,
+      pre,
+      post,
+      formats = ['esm', 'cjs'],
+    },
+  } = (await fs.readJson(join(cwd, 'package.json'))) as PackageJsonWithBundlerConfig;
 
   if (pre) {
-    shelljs.exec(`esrun ${pre}`, { cwd: join(__dirname, '..') });
+    await exec(`node -r ${__dirname}/../node_modules/esbuild-register/register.js ${pre}`, { cwd });
   }
 
   const reset = hasFlag(flags, 'reset');
@@ -30,109 +55,163 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
     await fs.emptyDir(join(process.cwd(), 'dist'));
   }
 
-  if (!optimized) {
-    await Promise.all(
-      entries.map(async (file: string) => {
-        console.log(`skipping generating types for ${file}`);
-        const { name: entryName } = path.parse(file);
+  const tasks: Promise<any>[] = [];
 
-        const pathName = join(process.cwd(), 'dist', `${entryName}.d.ts`);
-        // throw new Error('test');
-        await fs.ensureFile(pathName);
-        const footer = isThemingPackage
-          ? `export { StorybookTheme as Theme } from '../src/${entryName}';\n`
-          : '';
-        await fs.writeFile(pathName, `export * from '../src/${entryName}';\n${footer}`);
+  const outDir = join(process.cwd(), 'dist');
+  const externals = [
+    name,
+    ...extraExternals,
+    ...Object.keys(dependencies || {}),
+    ...Object.keys(peerDependencies || {}),
+  ];
+  const allEntries = entries.map((e: string) => slash(join(cwd, e)));
+
+  const { dtsBuild, dtsConfig, tsConfigExists } = await getDTSConfigs({
+    formats,
+    entries,
+    optimized,
+  });
+
+  if (formats.includes('esm')) {
+    tasks.push(
+      build({
+        silent: true,
+        entry: allEntries,
+        watch,
+        outDir,
+        format: ['esm'],
+        target: 'chrome100',
+        clean: !watch,
+        ...(dtsBuild === 'esm' ? dtsConfig : {}),
+        platform: platform || 'browser',
+        esbuildPlugins: [
+          aliasPlugin({
+            process: path.resolve('../node_modules/process/browser.js'),
+            util: path.resolve('../node_modules/util/util.js'),
+          }),
+        ],
+        external: externals,
+
+        esbuildOptions: (c) => {
+          /* eslint-disable no-param-reassign */
+          c.conditions = ['module'];
+          c.platform = platform || 'browser';
+          Object.assign(c, getESBuildOptions(optimized));
+          /* eslint-enable no-param-reassign */
+        },
       })
     );
   }
 
+  if (formats.includes('cjs')) {
+    tasks.push(
+      build({
+        silent: true,
+        entry: allEntries,
+        watch,
+        outDir,
+        format: ['cjs'],
+        target: 'node16',
+        ...(dtsBuild === 'cjs' ? dtsConfig : {}),
+        platform: 'node',
+        clean: !watch,
+        external: externals,
+
+        esbuildOptions: (c) => {
+          /* eslint-disable no-param-reassign */
+          c.platform = 'node';
+          Object.assign(c, getESBuildOptions(optimized));
+          /* eslint-enable no-param-reassign */
+        },
+      })
+    );
+  }
+
+  if (tsConfigExists && !optimized) {
+    tasks.push(...entries.map(generateDTSMapperFile));
+  }
+
+  await Promise.all(tasks);
+
+  if (post) {
+    await exec(
+      `node -r ${__dirname}/../node_modules/esbuild-register/register.js ${post}`,
+      { cwd },
+      { debug: true }
+    );
+  }
+
+  console.log('done');
+};
+
+/* UTILS */
+
+async function getDTSConfigs({
+  formats,
+  entries,
+  optimized,
+}: {
+  formats: Formats[];
+  entries: string[];
+  optimized: boolean;
+}) {
   const tsConfigPath = join(cwd, 'tsconfig.json');
   const tsConfigExists = await fs.pathExists(tsConfigPath);
-  await Promise.all([
-    build({
-      entry: entries.map((e: string) => join(cwd, e)),
-      watch,
-      ...(tsConfigExists ? { tsconfig: tsConfigPath } : {}),
-      outDir: join(process.cwd(), 'dist'),
-      // sourcemap: optimized,
-      format: ['esm'],
-      target: 'chrome100',
-      clean: !watch,
-      platform: platform || 'browser',
-      // shims: true,
-      esbuildPlugins: [
-        aliasPlugin({
-          process: path.resolve(
-            '../node_modules/rollup-plugin-node-polyfills/polyfills/process-es6.js'
-          ),
-          util: path.resolve('../node_modules/rollup-plugin-node-polyfills/polyfills/util.js'),
-        }),
-      ],
-      external: [name, ...Object.keys(dependencies || {}), ...Object.keys(peerDependencies || {})],
 
-      dts:
-        optimized && tsConfigExists
-          ? {
-              entry: entries,
-              resolve: true,
-              footer: isThemingPackage
-                ? `interface Theme extends StorybookTheme {};\nexport type { Theme };`
-                : '',
-            }
-          : false,
-      esbuildOptions: (c) => {
-        /* eslint-disable no-param-reassign */
-        c.define = optimized
-          ? {
-              'process.env.NODE_ENV': "'production'",
-              'process.env': '{}',
-              global: 'window',
-            }
-          : {
-              'process.env.NODE_ENV': "'development'",
-              'process.env': '{}',
-              global: 'window',
-            };
-        c.platform = platform || 'browser';
-        c.legalComments = 'none';
-        c.minifyWhitespace = optimized;
-        c.minifyIdentifiers = optimized;
-        c.minifySyntax = optimized;
-        /* eslint-enable no-param-reassign */
-      },
-    }),
-    build({
-      entry: entries.map((e: string) => join(cwd, e)),
-      watch,
-      outDir: join(process.cwd(), 'dist'),
-      ...(tsConfigExists ? { tsconfig: tsConfigPath } : {}),
-      format: ['cjs'],
-      target: 'node14',
-      platform: 'node',
-      clean: !watch,
-      external: [name, ...Object.keys(dependencies || {}), ...Object.keys(peerDependencies || {})],
+  const dtsBuild = optimized && formats[0] && tsConfigExists ? formats[0] : undefined;
 
-      esbuildOptions: (c) => {
-        /* eslint-disable no-param-reassign */
-        // c.define = optimized
-        //   ? { 'process.env.NODE_ENV': "'production'", 'process.env': '{}' }
-        //   : { 'process.env.NODE_ENV': "'development'", 'process.env': '{}' };
-        c.platform = 'node';
-        c.legalComments = 'none';
-        c.minifyWhitespace = optimized;
-        c.minifyIdentifiers = optimized;
-        c.minifySyntax = optimized;
-        /* eslint-enable no-param-reassign */
-      },
-    }),
-  ]);
-};
+  const dtsConfig: DtsConfigSection = {
+    tsconfig: tsConfigPath,
+    dts: {
+      entry: entries,
+      resolve: true,
+    },
+  };
+
+  return { dtsBuild, dtsConfig, tsConfigExists };
+}
+
+function getESBuildOptions(optimized: boolean) {
+  return {
+    logLevel: 'error',
+    legalComments: 'none',
+    minifyWhitespace: optimized,
+    minifyIdentifiers: false,
+    minifySyntax: optimized,
+  };
+}
+
+async function generateDTSMapperFile(file: string) {
+  const { name: entryName, dir } = path.parse(file);
+
+  const pathName = join(process.cwd(), dir.replace('./src', 'dist'), `${entryName}.d.ts`);
+  const srcName = join(process.cwd(), file);
+
+  const rel = relative(dirname(pathName), dirname(srcName)).split(path.sep).join(path.posix.sep);
+
+  await fs.ensureFile(pathName);
+  await fs.writeFile(
+    pathName,
+    dedent`
+      // dev-mode
+      export * from '${rel}/${entryName}';
+    `
+  );
+}
+
+const hasFlag = (flags: string[], name: string) => !!flags.find((s) => s.startsWith(`--${name}`));
+
+/* SELF EXECUTION */
 
 const flags = process.argv.slice(2);
 const cwd = process.cwd();
 
-run({ cwd, flags }).catch((err) => {
-  console.error(err.stack);
+run({ cwd, flags }).catch((err: unknown) => {
+  // We can't let the stack try to print, it crashes in a way that sets the exit code to 0.
+  // Seems to have something to do with running JSON.parse() on binary / base64 encoded sourcemaps
+  // in @cspotcode/source-map-support
+  if (err instanceof Error) {
+    console.error(err.stack);
+  }
   process.exit(1);
 });

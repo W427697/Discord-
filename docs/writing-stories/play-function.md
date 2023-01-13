@@ -2,6 +2,8 @@
 title: 'Play function'
 ---
 
+<YouTubeCallout id="dcuzwCHI940" title="Component testing in Storybook with play functions" />
+
 `Play` functions are small snippets of code executed after the story renders. Enabling you to interact with your components and test scenarios that otherwise required user intervention.
 
 ## Setup the interactions addon
@@ -41,16 +43,13 @@ Storybook's `play` functions are small code snippets that run once the story fin
 
 <CodeSnippets
   paths={[
-   'react/register-component-with-play-function.js.mdx',
-   'react/register-component-with-play-function.ts.mdx',
-   'react/register-component-with-play-function.mdx.mdx',
-   'angular/register-component-with-play-function.ts.mdx',
-   'angular/register-component-with-play-function.mdx.mdx',
-   'vue/register-component-with-play-function.js.mdx',
-   'vue/register-component-with-play-function.mdx.mdx',
-   'svelte/register-component-with-play-function.js.mdx',
-   'svelte/register-component-with-play-function.mdx.mdx',
+   'common/register-component-with-play-function.js.mdx',
+   'common/register-component-with-play-function.ts.mdx',
+   'web-components/register-component-with-play-function.js.mdx',
+   'web-components/register-component-with-play-function.ts.mdx',
   ]}
+  usesCsf3
+  csf2Path="writing-stories/play-function#snippet-register-component-with-play-function"
 />
 
 <!-- prettier-ignore-end -->
@@ -71,12 +70,13 @@ Thanks to the [Component Story Format](../api/csf.md), an ES6 module based file 
 
 <CodeSnippets
   paths={[
-   'react/my-component-play-function-composition.js.mdx',
-   'react/my-component-play-function-composition.ts.mdx',
-   'angular/my-component-play-function-composition.ts.mdx',
-   'vue/my-component-play-function-composition.js.mdx',
-   'svelte/my-component-play-function-composition.js.mdx',
+   'common/my-component-play-function-composition.js.mdx',
+   'common/my-component-play-function-composition.ts.mdx',
+   'web-components/my-component-play-function-composition.js.mdx',
+   'web-components/my-component-play-function-composition.ts.mdx',
   ]}
+  usesCsf3
+  csf2Path="writing-stories/play-function#snippet-my-component-play-function-composition"
 />
 
 <!-- prettier-ignore-end -->
@@ -93,16 +93,13 @@ A common type of component interaction is a button click. If you need to reprodu
 
 <CodeSnippets
   paths={[
-   'react/my-component-play-function-with-clickevent.js.mdx',
-   'react/my-component-play-function-with-clickevent.ts.mdx',
-   'react/my-component-play-function-with-clickevent.mdx.mdx',
-   'angular/my-component-play-function-with-clickevent.ts.mdx',
-   'angular/my-component-play-function-with-clickevent.mdx.mdx',
-   'vue/my-component-play-function-with-clickevent.js.mdx',
-   'vue/my-component-play-function-with-clickevent.mdx.mdx',
-   'svelte/my-component-play-function-with-clickevent.js.mdx',
-   'svelte/my-component-play-function-with-clickevent.mdx.mdx',
+   'common/my-component-play-function-with-clickevent.js.mdx',
+   'common/my-component-play-function-with-clickevent.ts.mdx',
+   'web-components/my-component-play-function-with-clickevent.js.mdx',
+   'web-components/my-component-play-function-with-clickevent.ts.mdx',
   ]}
+  usesCsf3
+  csf2Path="writing-stories/play-function#snippet-my-component-play-function-with-clickevent"
 />
 
 <!-- prettier-ignore-end -->
@@ -115,16 +112,13 @@ Asides from click events, you can also script additional events with the `play` 
 
 <CodeSnippets
   paths={[
-   'react/my-component-play-function-with-selectevent.js.mdx',
-   'react/my-component-play-function-with-selectevent.ts.mdx',
-   'react/my-component-play-function-with-selectevent.mdx.mdx',
-   'angular/my-component-play-function-with-selectevent.ts.mdx',
-   'angular/my-component-play-function-with-selectevent.mdx.mdx',
-   'vue/my-component-play-function-with-selectevent.js.mdx',
-   'vue/my-component-play-function-with-selectevent.mdx.mdx',
-   'svelte/my-component-play-function-with-selectevent.js.mdx',
-   'svelte/my-component-play-function-with-selectevent.mdx.mdx',
+   'common/my-component-play-function-with-selectevent.js.mdx',
+   'common/my-component-play-function-with-selectevent.ts.mdx',
+   'web-components/my-component-play-function-with-selectevent.js.mdx',
+   'web-components/my-component-play-function-with-selectevent.ts.mdx',
   ]}
+  usesCsf3
+  csf2Path="writing-stories/play-function#snippet-my-component-play-function-with-selectevent"
 />
 
 <!-- prettier-ignore-end -->
@@ -135,16 +129,13 @@ In addition to events, you can also create interactions with the `play` function
 
 <CodeSnippets
   paths={[
-   'react/my-component-play-function-with-delay.js.mdx',
-   'react/my-component-play-function-with-delay.ts.mdx',
-   'react/my-component-play-function-with-delay.mdx.mdx',
-   'angular/my-component-play-function-with-delay.ts.mdx',
-   'angular/my-component-play-function-with-delay.mdx.mdx',
-   'vue/my-component-play-function-with-delay.js.mdx',
-   'vue/my-component-play-function-with-delay.mdx.mdx',
-   'svelte/my-component-play-function-with-delay.js.mdx',
-   'svelte/my-component-play-function-with-delay.mdx.mdx',
+   'common/my-component-play-function-with-delay.js.mdx',
+   'common/my-component-play-function-with-delay.ts.mdx',
+   'web-components/my-component-play-function-with-delay.js.mdx',
+   'web-components/my-component-play-function-with-delay.ts.mdx',
   ]}
+  usesCsf3
+  csf2Path="writing-stories/play-function#snippet-my-component-play-function-with-delay"
 />
 
 <!-- prettier-ignore-end -->
@@ -157,16 +148,13 @@ You can also use the `play` function to verify the existence of an element based
 
 <CodeSnippets
   paths={[
-   'react/my-component-play-function-waitfor.js.mdx',
-   'react/my-component-play-function-waitfor.ts.mdx',
-   'react/my-component-play-function-waitfor.mdx.mdx',
-   'angular/my-component-play-function-waitfor.ts.mdx',
-   'angular/my-component-play-function-waitfor.mdx.mdx',
-   'vue/my-component-play-function-waitfor.js.mdx',
-   'vue/my-component-play-function-waitfor.mdx.mdx',
-   'svelte/my-component-play-function-waitfor.js.mdx',
-   'svelte/my-component-play-function-waitfor.mdx.mdx',
+   'common/my-component-play-function-waitfor.js.mdx',
+   'common/my-component-play-function-waitfor.ts.mdx',
+   'web-components/my-component-play-function-waitfor.js.mdx',
+   'web-components/my-component-play-function-waitfor.ts.mdx',
   ]}
+  usesCsf3
+  csf2Path="writing-stories/play-function#snippet-my-component-play-function-waitfor"
 />
 
 <!-- prettier-ignore-end -->
@@ -179,16 +167,13 @@ If you need, you can also adjust your `play` function to find elements based on 
 
 <CodeSnippets
   paths={[
-   'react/my-component-play-function-alt-queries.js.mdx',
-   'react/my-component-play-function-alt-queries.ts.mdx',
-   'react/my-component-play-function-alt-queries.mdx.mdx',
-   'angular/my-component-play-function-alt-queries.ts.mdx',
-   'angular/my-component-play-function-alt-queries.mdx.mdx',
-   'vue/my-component-play-function-alt-queries.js.mdx',
-   'vue/my-component-play-function-alt-queries.mdx.mdx',
-   'svelte/my-component-play-function-alt-queries.js.mdx',
-   'svelte/my-component-play-function-alt-queries.mdx.mdx',
+   'common/my-component-play-function-alt-queries.js.mdx',
+   'common/my-component-play-function-alt-queries.ts.mdx',
+   'web-components/my-component-play-function-alt-queries.js.mdx',
+   'web-components/my-component-play-function-alt-queries.ts.mdx',
   ]}
+  usesCsf3
+  csf2Path="writing-stories/play-function#snippet-my-component-play-function-alt-queries"
 />
 
 <!-- prettier-ignore-end -->
@@ -196,6 +181,25 @@ If you need, you can also adjust your `play` function to find elements based on 
 <div class="aside">
  💡 You can read more about the querying elements in the <a href="https://testing-library.com/docs/queries/about/"> Testing library documentation</a>.
 </div>
+
+When Storybook loads the story, the `play` function starts its execution and queries the DOM tree expecting the element to be available when the story renders. In case there's a failure in your test, you'll be able to verify its root cause quickly.
+
+Otherwise, if the component is not immediately available, for instance, due to a previous step defined inside your `play` function or some asynchronous behavior, you can adjust your story and wait for the change to the DOM tree to happen before querying the element. For example:
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+   'common/my-component-play-function-query-findby.js.mdx',
+   'common/my-component-play-function-query-findby.ts.mdx',
+   'web-components/my-component-play-function-query-findby.js.mdx',
+   'web-components/my-component-play-function-query-findby.ts.mdx',
+  ]}
+  usesCsf3
+  csf2Path="writing-stories/play-function#snippet-my-component-play-function-query-findby"
+/>
+
+<!-- prettier-ignore-end -->
 
 ## Working with the Canvas
 
@@ -205,16 +209,13 @@ By default, each interaction you write inside your `play` function will be execu
 
 <CodeSnippets
   paths={[
-   'react/my-component-play-function-with-canvas.js.mdx',
-   'react/my-component-play-function-with-canvas.ts.mdx',
-   'react/my-component-play-function-with-canvas.mdx.mdx',
-   'angular/my-component-play-function-with-canvas.ts.mdx',
-   'angular/my-component-play-function-with-canvas.mdx.mdx',
-   'vue/my-component-play-function-with-canvas.js.mdx',
-   'vue/my-component-play-function-with-canvas.mdx.mdx',
-   'svelte/my-component-play-function-with-canvas.js.mdx',
-   'svelte/my-component-play-function-with-canvas.mdx.mdx',
+   'common/my-component-play-function-with-canvas.js.mdx',
+   'common/my-component-play-function-with-canvas.ts.mdx',
+   'web-components/my-component-play-function-with-canvas.js.mdx',
+   'web-components/my-component-play-function-with-canvas.ts.mdx',
   ]}
+  usesCsf3
+  csf2Path="writing-stories/play-function#snippet-my-component-play-function-with-canvas"
 />
 
 <!-- prettier-ignore-end -->

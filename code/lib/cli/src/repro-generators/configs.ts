@@ -1,5 +1,5 @@
-/* eslint-disable camelcase */
-import type { StorybookConfig } from '@storybook/core-common';
+/* eslint-disable @typescript-eslint/naming-convention */
+import type { StorybookConfig } from '@storybook/types';
 import type { SupportedRenderers } from '../project_types';
 
 export interface Parameters {
@@ -23,6 +23,8 @@ export interface Parameters {
   typescript?: boolean;
   /** Merge configurations to main.js before running the tests */
   mainOverrides?: Partial<StorybookConfig> & Record<string, any>;
+  /** Environment variables to inject while running generator */
+  envs?: Record<string, string>;
 }
 
 const fromDeps = (...args: string[]): string =>
@@ -45,11 +47,12 @@ export const cra: Parameters = {
   version: 'latest',
   generator: [
     // Force npm otherwise we have a mess between Yarn 1, Yarn 2 and NPM
-    'npm_config_user_agent=npm npx -p create-react-app@{{version}} create-react-app {{appName}}',
+    'npx -p create-react-app@{{version}} create-react-app {{appName}}',
     'cd {{appName}}',
     'echo "FAST_REFRESH=true" > .env',
     'echo "SKIP_PREFLIGHT_CHECK=true" > .env',
   ].join(' && '),
+  envs: { npm_config_user_agent: 'npm' },
 };
 
 export const cra_typescript: Parameters = {
@@ -58,8 +61,9 @@ export const cra_typescript: Parameters = {
   version: 'latest',
   generator: [
     // Force npm otherwise we have a mess between Yarn 1, Yarn 2 and NPM
-    'npm_config_user_agent=npm npx -p create-react-app@{{version}} create-react-app {{appName}} --template typescript',
+    'npx -p create-react-app@{{version}} create-react-app {{appName}} --template typescript',
   ].join(' && '),
+  envs: { npm_config_user_agent: 'npm' },
 };
 
 export const react: Parameters = {
@@ -98,6 +102,28 @@ export const react_typescript: Parameters = {
       contents: '{ "presets": ["@babel/preset-react", "@babel/preset-typescript"] }',
     },
   ],
+};
+
+export const nextjs: Parameters = {
+  renderer: 'react',
+  name: 'nextjs',
+  version: 'latest',
+  generator: [
+    // Force npm otherwise we have a mess between Yarn 1, Yarn 2 and NPM
+    'npm_config_user_agent=npm npx -p create-next-app@{{version}} create-next-app {{appName}}',
+    'cd {{appName}}',
+  ].join(' && '),
+};
+
+export const nextjs_typescript: Parameters = {
+  renderer: 'react',
+  name: 'nextjs_typescript',
+  version: 'latest',
+  generator: [
+    // Force npm otherwise we have a mess between Yarn 1, Yarn 2 and NPM
+    'npm_config_user_agent=npm npx -p create-next-app@{{version}} create-next-app {{appName}} --typescript',
+    'cd {{appName}}',
+  ].join(' && '),
 };
 
 // export const vite_react: Parameters = {
@@ -148,17 +174,6 @@ export const angular13: Parameters = {
   version: '13.1.x',
 };
 
-export const angular_modern_inline_rendering: Parameters = {
-  ...baseAngular,
-  name: 'angular_modern_inline_rendering',
-  additionalDeps: ['jest@27', '@storybook/test-runner'],
-  mainOverrides: {
-    features: {
-      storyStoreV7: true,
-    },
-  },
-};
-
 export const angular: Parameters = baseAngular;
 // #endregion
 
@@ -205,11 +220,10 @@ export const web_components_lit2: Parameters = {
 export const vue: Parameters = {
   renderer: 'vue',
   name: 'vue',
-  // Be careful here, the latest versions of vue cli are bootstrapping a vue 3  project
-  version: '4',
+  version: 'latest',
   generator: [
-    // Force npm otherwise we have a mess between Yarn 1 and Yarn 2
-    `npx -p @vue/cli@{{version}} vue create {{appName}} --default --packageManager=npm --no-git --force`,
+    // vue2 with webpack5
+    `npx -p @vue/cli vue create {{appName}} --default --packageManager=yarn --force --merge --preset="Default (Vue 2)"`,
   ].join(' && '),
 };
 
@@ -242,6 +256,13 @@ export const preact: Parameters = {
     'npx preact-cli@{{version}} create preactjs-templates/default {{appName}} --install=false --git=false',
 };
 
+export const preact_vite: Parameters = {
+  renderer: 'preact',
+  name: 'preact',
+  version: 'latest',
+  generator: 'yarn create vite@{{version}} {{appName}} --template preact',
+};
+
 export const sfcVue: Parameters = {
   renderer: 'vue',
   name: 'sfcVue',
@@ -254,5 +275,13 @@ export const svelte: Parameters = {
   renderer: 'svelte',
   name: 'svelte',
   version: 'latest',
-  generator: 'npx degit sveltejs/template {{appName}}',
+  generator: 'npx giget github:sveltejs/template#master {{appName}}',
+};
+
+export const svelteKit: Parameters = {
+  renderer: 'svelte',
+  name: 'svelteKit',
+  version: 'latest',
+  generator:
+    'yarn create svelte-with-args --name={{appName}} --directory=. --template=skeleton --types=null --no-prettier --no-eslint --no-playwright',
 };

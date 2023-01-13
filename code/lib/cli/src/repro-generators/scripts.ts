@@ -1,7 +1,7 @@
-/* eslint-disable camelcase */
 import path from 'path';
 import { readJSON, writeJSON, outputFile } from 'fs-extra';
-import shell, { ExecOptions } from 'shelljs';
+import type { ExecOptions } from 'shelljs';
+import shell from 'shelljs';
 import chalk from 'chalk';
 import { command } from 'execa';
 import { cra, cra_typescript } from './configs';
@@ -31,6 +31,8 @@ export interface Parameters {
   }[];
   /** Add typescript dependency and creates a tsconfig.json file */
   typescript?: boolean;
+  /** Environment variables to inject while running generator */
+  envs?: Record<string, string>;
 }
 
 interface Configuration {
@@ -49,6 +51,7 @@ export interface Options extends Parameters {
 }
 
 export const exec = async (
+  // eslint-disable-next-line @typescript-eslint/no-shadow
   command: string,
   options: ExecOptions = {},
   {
@@ -119,6 +122,7 @@ const addLocalPackageResolutions = async ({ cwd }: Options) => {
 };
 
 const installYarn2 = async ({ cwd, pnp, name }: Options) => {
+  // eslint-disable-next-line @typescript-eslint/no-shadow
   const command = [
     `yarn set version berry`,
     `yarn config set enableGlobalCache true`,
@@ -142,9 +146,10 @@ const installYarn2 = async ({ cwd, pnp, name }: Options) => {
 };
 
 const configureYarn2ForE2E = async ({ cwd }: Options) => {
+  // eslint-disable-next-line @typescript-eslint/no-shadow
   const command = [
     // ⚠️ Need to set registry because Yarn 2 is not using the conf of Yarn 1 (URL is hardcoded in CircleCI config.yml)
-    `yarn config set npmScopes --json '{ "storybook": { "npmRegistryServer": "http://localhost:6000/" } }'`,
+    `yarn config set npmScopes --json '{ "storybook": { "npmRegistryServer": "http://localhost:6001/" } }'`,
     // Some required magic to be able to fetch deps from local registry
     `yarn config set unsafeHttpWhitelist --json '["localhost"]'`,
     // Disable fallback mode to make sure everything is required correctly
@@ -162,12 +167,13 @@ const configureYarn2ForE2E = async ({ cwd }: Options) => {
   );
 };
 
-const generate = async ({ cwd, name, appName, version, generator }: Options) => {
+const generate = async ({ cwd, name, appName, version, generator, envs }: Options) => {
+  // eslint-disable-next-line @typescript-eslint/no-shadow
   const command = generator.replace(/{{appName}}/g, appName).replace(/{{version}}/g, version);
 
   await exec(
     command,
-    { cwd },
+    { cwd, env: { ...process.env, ...envs } },
     {
       startMessage: `🏗 Bootstrapping ${name} project (this might take a few minutes)`,
       errorMessage: `🚨 Bootstrapping ${name} failed`,
@@ -198,8 +204,10 @@ const initStorybook = async ({ cwd, autoDetect = true, name, e2e, pnp }: Options
     flags.push('--use-pnp');
   }
 
-  const sbCLICommand = `node ${path.join(__dirname, '../../cjs/generate')}`;
+  // This is bundled into a single javascript file.
+  const sbCLICommand = `node ${__filename}`;
 
+  // eslint-disable-next-line @typescript-eslint/no-shadow
   const command = `${sbCLICommand} init ${flags.join(' ')}`;
 
   await exec(
@@ -216,6 +224,7 @@ const addRequiredDeps = async ({ cwd, additionalDeps }: Options) => {
   // Remove any lockfile generated without Yarn 2
   shell.rm('-f', path.join(cwd, 'package-lock.json'), path.join(cwd, 'yarn.lock'));
 
+  // eslint-disable-next-line @typescript-eslint/no-shadow
   const command =
     additionalDeps && additionalDeps.length > 0
       ? `yarn add -D ${additionalDeps.join(' ')}`

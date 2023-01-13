@@ -2,15 +2,18 @@
  * Use commander and prompts to gather a list of options for a script
  */
 
-import prompts, { Falsy, PrevCaller, PromptType } from 'prompts';
-import type { PromptObject } from 'prompts';
+import prompts from 'prompts';
+import type { PromptObject, Falsy, PrevCaller, PromptType } from 'prompts';
 import program from 'commander';
-import kebabCase from 'lodash/kebabCase';
+import dedent from 'ts-dedent';
+import chalk from 'chalk';
+import kebabCase from 'lodash/kebabCase.js';
 
 // Option types
 
 export type OptionId = string;
 export type BaseOption = {
+  type: 'boolean' | 'string' | 'string[]';
   description?: string;
   /**
    * By default the one-char version of the option key will be used as short flag. Override here,
@@ -24,47 +27,61 @@ export type BaseOption = {
 };
 
 export type BooleanOption = BaseOption & {
+  type: 'boolean';
   /**
-   * Does this option default true?
+   * If this option is set to true and the option value is false or undefined, the flag `--no-option` will be set.
+   * If the option value is true, the flag `--no-option` is not set.
    */
   inverse?: boolean;
 };
 
 export type StringOption = BaseOption & {
+  type: 'string';
   /**
    * What values are allowed for this option?
    */
-  values: string[];
+  values?: readonly string[];
+  /**
+   * How to describe the values when selecting them
+   */
+  valueDescriptions?: readonly string[];
   /**
    * Is a value required for this option?
    */
-  required?: boolean;
+  required?: boolean | ((previous: Record<string, any>) => boolean);
 };
 
 export type StringArrayOption = BaseOption & {
+  type: 'string[]';
   /**
    * What values are allowed for this option?
    */
-  values: string[];
+  values?: readonly string[];
   /**
-   * This must be set to true
+   * How to describe the values when selecting them
    */
-  multiple: true;
+  valueDescriptions?: readonly string[];
 };
 
-type StringArrayOptionMatch = Omit<StringArrayOption, 'multiple'> & { multiple: true };
-
 export type Option = BooleanOption | StringOption | StringArrayOption;
-export type MaybeOptionValue<TOption extends Option> = TOption extends StringArrayOptionMatch
-  ? string[]
+export type MaybeOptionValue<TOption extends Option> = TOption extends StringArrayOption
+  ? TOption extends { values: infer TValues }
+    ? TValues extends readonly string[]
+      ? TValues[number][]
+      : never // It isn't possible for values to not be a readonly string[], but TS can't work it out
+    : string[]
   : TOption extends StringOption
-  ? string | undefined
+  ? TOption extends { values: infer TValues }
+    ? TValues extends readonly string[]
+      ? TValues[number] | undefined
+      : never // It isn't possible for values to not be a readonly string[], but TS can't work it out
+    : string | undefined
   : TOption extends BooleanOption
   ? boolean
   : never;
 
 export type OptionValue<TOption extends Option> = TOption extends { required: true }
-  ? string
+  ? NonNullable<MaybeOptionValue<TOption>>
   : MaybeOptionValue<TOption>;
 
 export type OptionSpecifier = Record<OptionId, Option>;
@@ -76,20 +93,14 @@ export type OptionValues<TOptions extends OptionSpecifier = OptionSpecifier> = {
   [TKey in keyof TOptions]: OptionValue<TOptions[TKey]>;
 };
 
-export function isStringOption(option: Option): option is StringOption {
-  return 'values' in option && !('multiple' in option);
+export function createOptions<TOptions extends OptionSpecifier>(options: TOptions) {
+  return options;
 }
 
-export function isBooleanOption(option: Option): option is BooleanOption {
-  return !('values' in option);
-}
-
-export function isStringArrayOption(option: Option): option is StringArrayOption {
-  return 'values' in option && 'multiple' in option;
-}
+const logger = console;
 
 function shortFlag(key: OptionId, option: Option) {
-  const inverse = isBooleanOption(option) && option.inverse;
+  const inverse = option.type === 'boolean' && option.inverse;
   const defaultShortFlag = inverse ? key.substring(0, 1).toUpperCase() : key.substring(0, 1);
   const short = option.shortFlag || defaultShortFlag;
   if (short.length !== 1) {
@@ -101,13 +112,13 @@ function shortFlag(key: OptionId, option: Option) {
 }
 
 function longFlag(key: OptionId, option: Option) {
-  const inverse = isBooleanOption(option) && option.inverse;
+  const inverse = option.type === 'boolean' && option.inverse;
   return inverse ? `no-${kebabCase(key)}` : kebabCase(key);
 }
 
 function optionFlags(key: OptionId, option: Option) {
   const base = `-${shortFlag(key, option)}, --${longFlag(key, option)}`;
-  if (isStringOption(option) || isStringArrayOption(option)) {
+  if (option.type === 'string' || option.type === 'string[]') {
     return `${base} <${key}>`;
   }
   return base;
@@ -122,18 +133,24 @@ export function getOptions<TOptions extends OptionSpecifier>(
     .reduce((acc, [key, option]) => {
       const flags = optionFlags(key, option);
 
-      if (isBooleanOption(option)) return acc.option(flags, option.description, !!option.inverse);
+      if (option.type === 'boolean') return acc.option(flags, option.description, !!option.inverse);
 
       const checkStringValue = (raw: string) => {
-        if (!option.values.includes(raw))
-          throw new Error(`Unexpected value '${raw}' for option '${key}'`);
+        if (option.values && !option.values.includes(raw)) {
+          const possibleOptions = chalk.cyan(option.values.join(', '));
+          throw new Error(
+            dedent`Unexpected value '${chalk.yellow(raw)}' for option '${chalk.magenta(key)}'.
+            
+            These are the possible options: ${possibleOptions}\n\n`
+          );
+        }
         return raw;
       };
 
-      if (isStringOption(option))
+      if (option.type === 'string')
         return acc.option(flags, option.description, (raw) => checkStringValue(raw));
 
-      if (isStringArrayOption(option)) {
+      if (option.type === 'string[]') {
         return acc.option(
           flags,
           option.description,
@@ -151,12 +168,38 @@ export function getOptions<TOptions extends OptionSpecifier>(
   return command.opts() as MaybeOptionValues<TOptions>;
 }
 
+// Boolean values will have a default, usually `false`, `true` if they are "inverse".
+// String arrays default to []
+// Currently it isn't possible to have a default for string
+export function getDefaults<TOptions extends OptionSpecifier>(options: TOptions) {
+  return Object.fromEntries(
+    Object.entries(options)
+      .filter(([, { type }]) => type === 'boolean' || type === 'string[]')
+      .map(([key, option]) => {
+        if (option.type === 'boolean') return [key, !!option.inverse];
+        if (option.type === 'string[]') return [key, []];
+        throw new Error('Not reachable');
+      })
+  );
+}
+
+function checkRequired<TOptions extends OptionSpecifier>(
+  option: TOptions[keyof TOptions],
+  values: MaybeOptionValues<TOptions>
+) {
+  if (option.type !== 'string' || !option.required) return false;
+
+  if (typeof option.required === 'boolean') return option.required;
+
+  return option.required(values);
+}
+
 export function areOptionsSatisfied<TOptions extends OptionSpecifier>(
   options: TOptions,
   values: MaybeOptionValues<TOptions>
 ) {
   return !Object.entries(options)
-    .filter(([, option]) => isStringOption(option) && option.required)
+    .filter(([, option]) => checkRequired(option as TOptions[keyof TOptions], values))
     .find(([key]) => !values[key]);
 }
 
@@ -166,8 +209,13 @@ export async function promptOptions<TOptions extends OptionSpecifier>(
 ): Promise<OptionValues<TOptions>> {
   const questions = Object.entries(options).map(([key, option]): PromptObject => {
     let defaultType: PromptType = 'toggle';
-    if (!isBooleanOption(option))
-      defaultType = isStringArrayOption(option) ? 'autocompleteMultiselect' : 'select';
+    if (option.type !== 'boolean') {
+      if (option.type === 'string[]') {
+        defaultType = option.values ? 'autocompleteMultiselect' : 'list';
+      } else {
+        defaultType = option.values ? 'select' : 'text';
+      }
+    }
 
     const passedType = option.promptType;
     let type: PromptObject['type'] = defaultType;
@@ -177,24 +225,22 @@ export async function promptOptions<TOptions extends OptionSpecifier>(
         const chosenType = passedType(...args);
         return chosenType === true ? defaultType : chosenType;
       };
-    } else if (passedType) {
+    } else if (typeof passedType !== 'undefined') {
       type = passedType;
     }
 
-    if (!isBooleanOption(option)) {
-      const currentValue = values[key];
+    if (option.type !== 'boolean') {
+      if (values[key]) {
+        return { name: key, type: false };
+      }
+
       return {
+        name: key,
         type,
         message: option.description,
-        name: key,
-        // warn: ' ',
-        // pageSize: Object.keys(tasks).length + Object.keys(groups).length,
-        choices: option.values.map((value) => ({
-          title: value,
+        choices: option.values?.map((value, index) => ({
+          title: option.valueDescriptions?.[index] || value,
           value,
-          selected:
-            currentValue === value ||
-            (Array.isArray(currentValue) && currentValue.includes?.(value)),
         })),
       };
     }
@@ -208,9 +254,14 @@ export async function promptOptions<TOptions extends OptionSpecifier>(
     };
   });
 
-  const selection = await prompts(questions);
+  const selection = await prompts(questions, {
+    onCancel: () => {
+      logger.log('Command cancelled by the user. Exiting...');
+      process.exit(1);
+    },
+  });
   // Again the structure of the questions guarantees we get responses of the type we need
-  return selection as OptionValues<TOptions>;
+  return { ...values, ...selection } as OptionValues<TOptions>;
 }
 
 function getFlag<TOption extends Option>(
@@ -218,21 +269,21 @@ function getFlag<TOption extends Option>(
   option: TOption,
   value?: OptionValue<TOption>
 ) {
-  if (isBooleanOption(option)) {
+  if (option.type === 'boolean') {
     const toggled = option.inverse ? !value : value;
     return toggled ? `--${longFlag(key, option)}` : '';
   }
 
-  if (isStringArrayOption(option)) {
+  if (option.type === 'string[]') {
     // I'm not sure why TS isn't able to infer that OptionValue<TOption> is a
     // OptionValue<StringArrayOption> (i.e. a string[]), given that it knows
     // option is a StringArrayOption
-    return ((value || []) as OptionValue<typeof option>)
+    return ((value || []) as OptionValue<StringArrayOption>)
       .map((v) => `--${longFlag(key, option)} ${v}`)
       .join(' ');
   }
 
-  if (isStringOption(option)) {
+  if (option.type === 'string') {
     if (value) {
       return `--${longFlag(key, option)} ${value}`;
     }
@@ -265,10 +316,13 @@ export async function getOptionsOrPrompt<TOptions extends OptionSpecifier>(
     return cliValues as OptionValues<TOptions>;
   }
 
+  if (process.env.CI)
+    throw new Error(`${commandPrefix} needed to prompt for options, this is not possible in CI!`);
+
   const finalValues = await promptOptions(options, cliValues);
 
   const command = getCommand(commandPrefix, options, finalValues);
-  console.log(`\nTo run this directly next time, use:\n  ${command}\n`);
+  logger.log(`\nTo run this directly next time, use:\n  ${command}\n`);
 
   return finalValues;
 }

@@ -1,6 +1,6 @@
 import * as webpackReal from 'webpack';
 import { logger } from '@storybook/node-logger';
-import type { Options, CoreConfig } from '@storybook/core-common';
+import type { Options, CoreConfig } from '@storybook/types';
 import type { Configuration } from 'webpack';
 import deprecate from 'util-deprecate';
 import { dedent } from 'ts-dedent';
@@ -8,7 +8,7 @@ import { loadCustomWebpackConfig } from '@storybook/core-webpack';
 import { createDefaultWebpackConfig } from '../preview/base-webpack.config';
 
 export async function webpack(config: Configuration, options: Options) {
-  // @ts-ignore
+  // @ts-expect-error (Converted from ts-ignore)
   const { configDir, configType, presets, webpackConfig } = options;
 
   const coreOptions = await presets.apply<CoreConfig>('core');

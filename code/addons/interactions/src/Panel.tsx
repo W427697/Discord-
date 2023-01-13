@@ -1,6 +1,6 @@
-import global from 'global';
+import { global } from '@storybook/global';
 import * as React from 'react';
-import { useChannel, useParameter, StoryId } from '@storybook/api';
+import { useChannel, useParameter } from '@storybook/manager-api';
 import {
   FORCE_REMOUNT,
   IGNORED_EXCEPTION,
@@ -8,14 +8,22 @@ import {
   STORY_THREW_EXCEPTION,
   PLAY_FUNCTION_THREW_EXCEPTION,
 } from '@storybook/core-events';
-import { EVENTS, Call, CallStates, ControlStates, LogItem } from '@storybook/instrumenter';
+import {
+  EVENTS,
+  type Call,
+  CallStates,
+  type ControlStates,
+  type LogItem,
+} from '@storybook/instrumenter';
 
+import type { StoryId } from '@storybook/types';
 import { InteractionsPanel } from './components/InteractionsPanel';
 import { TabIcon, TabStatus } from './components/TabStatus';
 
 interface Interaction extends Call {
   status: Call['status'];
   childCallIds: Call['id'][];
+  isHidden: boolean;
   isCollapsed: boolean;
   toggleCollapsed: () => void;
 }
@@ -43,16 +51,18 @@ export const getInteractions = ({
   const callsById = new Map<Call['id'], Call>();
   const childCallMap = new Map<Call['id'], Call['id'][]>();
   return log
-    .filter(({ callId, parentId }) => {
-      if (!parentId) return true;
-      childCallMap.set(parentId, (childCallMap.get(parentId) || []).concat(callId));
-      return !collapsed.has(parentId);
+    .map<Call & { isHidden: boolean }>(({ callId, ancestors, status }) => {
+      let isHidden = false;
+      ancestors.forEach((ancestor) => {
+        if (collapsed.has(ancestor)) isHidden = true;
+        childCallMap.set(ancestor, (childCallMap.get(ancestor) || []).concat(callId));
+      });
+      return { ...calls.get(callId), status, isHidden };
     })
-    .map(({ callId, status }) => ({ ...calls.get(callId), status } as Call))
     .map<Interaction>((call) => {
       const status =
         call.status === CallStates.ERROR &&
-        callsById.get(call.parentId)?.status === CallStates.ACTIVE
+        callsById.get(call.ancestors.slice(-1)[0])?.status === CallStates.ACTIVE
           ? CallStates.ACTIVE
           : call.status;
       callsById.set(call.id, { ...call, status });
@@ -84,17 +94,18 @@ export const Panel: React.FC<{ active: boolean }> = (props) => {
   const [interactions, setInteractions] = React.useState<Interaction[]>([]);
   const [interactionsCount, setInteractionsCount] = React.useState<number>();
 
-  // Calls are tracked in a ref so we don't needlessly rerender.
+  // Log and calls are tracked in a ref so we don't needlessly rerender.
+  const log = React.useRef<LogItem[]>([]);
   const calls = React.useRef<Map<Call['id'], Omit<Call, 'status'>>>(new Map());
   const setCall = ({ status, ...call }: Call) => calls.current.set(call.id, call);
 
   const endRef = React.useRef();
   React.useEffect(() => {
     let observer: IntersectionObserver;
-    if (global.window.IntersectionObserver) {
-      observer = new global.window.IntersectionObserver(
+    if (global.IntersectionObserver) {
+      observer = new global.IntersectionObserver(
         ([end]: any) => setScrollTarget(end.isIntersecting ? undefined : end.target),
-        { root: global.window.document.querySelector('#panel-tab-content') }
+        { root: global.document.querySelector('#panel-tab-content') }
       );
       if (endRef.current) observer.observe(endRef.current);
     }
@@ -110,6 +121,7 @@ export const Panel: React.FC<{ active: boolean }> = (props) => {
         setInteractions(
           getInteractions({ log: payload.logItems, calls: calls.current, collapsed, setCollapsed })
         );
+        log.current = payload.logItems;
       },
       [STORY_RENDER_PHASE_CHANGED]: (event) => {
         setStoryId(event.storyId);
@@ -124,7 +136,6 @@ export const Panel: React.FC<{ active: boolean }> = (props) => {
         setErrored(true);
       },
       [PLAY_FUNCTION_THREW_EXCEPTION]: (e) => {
-        console.log('PLAY_FUNCTION_THREW_EXCEPTION');
         if (e?.message !== IGNORED_EXCEPTION.message) setCaughtException(e);
         else setCaughtException(undefined);
       },
@@ -133,8 +144,14 @@ export const Panel: React.FC<{ active: boolean }> = (props) => {
   );
 
   React.useEffect(() => {
+    setInteractions(
+      getInteractions({ log: log.current, calls: calls.current, collapsed, setCollapsed })
+    );
+  }, [collapsed]);
+
+  React.useEffect(() => {
     if (isPlaying || isRerunAnimating) return;
-    setInteractionsCount(interactions.length);
+    setInteractionsCount(interactions.filter(({ method }) => method !== 'step').length);
   }, [interactions, isPlaying, isRerunAnimating]);
 
   const controls = React.useMemo(

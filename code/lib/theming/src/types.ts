@@ -1,6 +1,6 @@
-import { easing, animation } from './animation';
+import type { easing, animation } from './animation';
 
-import { color, background, typography } from './base';
+import type { color, background, typography } from './base';
 
 export interface ThemeVars {
   base: 'light' | 'dark';
@@ -29,6 +29,10 @@ export interface ThemeVars {
   barBg?: string;
 
   // Form colors
+  buttonBg?: string;
+  buttonBorder?: string;
+  booleanBg?: string;
+  booleanSelectedBg?: string;
   inputBg?: string;
   inputBorder?: string;
   inputTextColor?: string;
