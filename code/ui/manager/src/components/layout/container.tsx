@@ -1,10 +1,12 @@
-import React, { Component, Fragment, FC, CSSProperties, ReactNode } from 'react';
+import type { FC, CSSProperties, ReactNode } from 'react';
+import React, { Component, Fragment } from 'react';
 import { styled, withTheme } from '@storybook/theming';
 import type { Theme } from '@storybook/theming';
-import type { State } from '@storybook/api';
+import type { State } from '@storybook/manager-api';
 import * as persistence from './persist';
 
-import { Draggable, Handle, DraggableData, DraggableEvent } from './draggers';
+import type { DraggableData, DraggableEvent } from './draggers';
+import { Draggable, Handle } from './draggers';
 
 const MIN_NAV_WIDTH = 200; // visually there's an additional 10px due to the canvas' left margin
 const MIN_CANVAS_WIDTH = 200;
@@ -347,9 +349,14 @@ class Layout extends Component<LayoutProps, LayoutState> {
     viewMode: undefined,
   };
 
+  navRef: React.RefObject<HTMLDivElement>;
+
+  panelRef: React.RefObject<HTMLDivElement>;
+
   constructor(props: LayoutProps) {
     super(props);
-
+    this.navRef = React.createRef();
+    this.panelRef = React.createRef();
     const { bounds, options } = props;
 
     const { resizerNav, resizerPanel } = persistence.get();
@@ -531,8 +538,9 @@ class Layout extends Component<LayoutProps, LayoutState> {
             onStart={this.setDragNav}
             onDrag={this.resizeNav}
             onStop={this.unsetDrag}
+            nodeRef={this.navRef}
           >
-            <Handle axis="x" isDragging={isDragging === 'nav'} />
+            <Handle ref={this.navRef} axis="x" isDragging={isDragging === 'nav'} />
           </Draggable>
         )}
 
@@ -558,8 +566,10 @@ class Layout extends Component<LayoutProps, LayoutState> {
             onStart={this.setDragPanel}
             onDrag={this.resizePanel}
             onStop={this.unsetDrag}
+            nodeRef={this.panelRef}
           >
             <Handle
+              ref={this.panelRef}
               isDragging={isDragging === 'panel'}
               style={
                 isPanelBottom

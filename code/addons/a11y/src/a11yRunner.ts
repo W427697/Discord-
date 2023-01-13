@@ -1,7 +1,7 @@
-import global from 'global';
-import { addons } from '@storybook/addons';
+import { global } from '@storybook/global';
+import { addons } from '@storybook/preview-api';
 import { EVENTS } from './constants';
-import { A11yParameters } from './params';
+import type { A11yParameters } from './params';
 
 const { document, window: globalWindow } = global;
 
@@ -37,7 +37,12 @@ const run = async (storyId: string) => {
       const axe = (await import('axe-core')).default;
 
       const { element = '#storybook-root', config, options = {} } = input;
-      const htmlElement = document.querySelector(element);
+      const htmlElement = document.querySelector(element as string);
+
+      if (!htmlElement) {
+        return;
+      }
+
       axe.reset();
       if (config) {
         axe.configure(config);

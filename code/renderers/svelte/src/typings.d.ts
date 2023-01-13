@@ -1,3 +1,2 @@
-declare module '@storybook/svelte/templates/SlotDecorator.svelte';
-declare module '@storybook/svelte/templates/PreviewRender.svelte';
-declare module '@storybook/svelte/templates/HOC.svelte';
+declare var STORYBOOK_ENV: 'svelte';
+declare var LOGLEVEL: 'trace' | 'debug' | 'info' | 'warn' | 'error' | 'silent' | undefined;

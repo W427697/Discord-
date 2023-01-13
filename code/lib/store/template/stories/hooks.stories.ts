@@ -1,6 +1,6 @@
-import globalThis from 'global';
-import { PartialStoryFn, PlayFunctionContext } from '@storybook/csf';
-import { useEffect, useState } from '@storybook/client-api';
+import { global as globalThis } from '@storybook/global';
+import type { PartialStoryFn, PlayFunctionContext } from '@storybook/types';
+import { useEffect, useState } from '@storybook/preview-api';
 import { within, userEvent } from '@storybook/testing-library';
 
 export default {
@@ -22,7 +22,7 @@ export const UseState = {
       });
     },
   ],
-  play: async ({ canvasElement }: PlayFunctionContext) => {
+  play: async ({ canvasElement }: PlayFunctionContext<any>) => {
     const button = await within(canvasElement).findByText('Clicked 0 times');
     // FIXME: onClick does not properly register in vue2
     // https://github.com/storybookjs/storybook/issues/19318

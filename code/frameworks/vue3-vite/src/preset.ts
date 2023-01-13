@@ -1,18 +1,17 @@
 import type { StorybookConfig } from '@storybook/builder-vite';
+import { hasVitePlugins } from '@storybook/builder-vite';
 import { vueDocgen } from './plugins/vue-docgen';
-import { hasPlugin } from './utils';
-
-export const addons: StorybookConfig['addons'] = ['@storybook/vue3'];
 
 export const core: StorybookConfig['core'] = {
   builder: '@storybook/builder-vite',
+  renderer: '@storybook/vue3',
 };
 
 export const viteFinal: StorybookConfig['viteFinal'] = async (config, { presets }) => {
   const { plugins = [] } = config;
 
   // Add vue plugin if not present
-  if (!hasPlugin(plugins, 'vite:vue')) {
+  if (!(await hasVitePlugins(plugins, ['vite:vue']))) {
     const { default: vue } = await import('@vitejs/plugin-vue');
     plugins.push(vue());
   }

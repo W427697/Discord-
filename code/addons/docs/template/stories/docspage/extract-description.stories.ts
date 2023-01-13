@@ -1,7 +1,8 @@
-import globalThis from 'global';
+import { global as globalThis } from '@storybook/global';
 
 export default {
   component: globalThis.Components.Button,
+  tags: ['autodocs'],
   args: { label: 'Click Me!' },
   parameters: {
     docs: {

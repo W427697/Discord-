@@ -1,5 +1,3 @@
-declare module '@mdx-js/react';
-declare module 'global';
 declare module '@egoist/vue-to-react';
 declare module 'remark-slug';
 declare module 'remark-external-links';
@@ -10,3 +8,5 @@ declare module 'vue/dist/vue';
 declare module 'sveltedoc-parser' {
   export function parse(options: any): Promise<any>;
 }
+
+declare var LOGLEVEL: 'trace' | 'debug' | 'info' | 'warn' | 'error' | 'silent' | undefined;

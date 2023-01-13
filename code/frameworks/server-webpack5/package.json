@@ -1,6 +1,6 @@
 {
   "name": "@storybook/server-webpack5",
-  "version": "7.0.0-alpha.38",
+  "version": "7.0.0-beta.25",
   "description": "Storybook for Server: View HTML snippets from a server in isolation with Hot Reloading.",
   "keywords": [
     "storybook"
@@ -21,6 +21,7 @@
   "license": "MIT",
   "exports": {
     ".": {
+      "node": "./dist/index.js",
       "require": "./dist/index.js",
       "import": "./dist/index.mjs",
       "types": "./dist/index.d.ts"
@@ -30,17 +31,14 @@
       "import": "./dist/preset.mjs",
       "types": "./dist/preset.d.ts"
     },
-    "./package.json": {
-      "require": "./package.json",
-      "import": "./package.json",
-      "types": "./package.json"
-    }
+    "./package.json": "./package.json"
   },
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "files": [
     "dist/**/*",
+    "template/**/*",
     "README.md",
     "*.js",
     "*.d.ts"
@@ -50,19 +48,21 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/builder-webpack5": "7.0.0-alpha.38",
-    "@storybook/core-common": "7.0.0-alpha.38",
-    "@storybook/preset-server-webpack": "7.0.0-alpha.38",
-    "@storybook/server": "7.0.0-alpha.38",
-    "@types/node": "^16.0.0",
-    "react": "16.14.0",
-    "react-dom": "16.14.0"
+    "@storybook/builder-webpack5": "7.0.0-beta.25",
+    "@storybook/core-common": "7.0.0-beta.25",
+    "@storybook/preset-server-webpack": "7.0.0-beta.25",
+    "@storybook/server": "7.0.0-beta.25",
+    "@types/node": "^16.0.0"
   },
   "devDependencies": {
-    "typescript": "~4.6.3"
+    "typescript": "~4.9.3"
+  },
+  "peerDependencies": {
+    "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
+    "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0"
   },
   "engines": {
-    "node": ">=10.13.0"
+    "node": ">=16.0.0"
   },
   "publishConfig": {
     "access": "public"
@@ -74,5 +74,5 @@
     ],
     "platform": "node"
   },
-  "gitHead": "438114fcf62a763f0e8c07e2c34890dd987ca431"
+  "gitHead": "2109ab8d7c0667e686db757abf5afcbf3d48a6ec"
 }

@@ -1,19 +1,19 @@
-import { start } from '@storybook/core-client';
+import { start } from '@storybook/preview-api';
 import { decorateStory } from './decorators';
 
-import { render, renderToDOM } from './render';
+import type { SvelteRenderer } from './types';
+import { render, renderToCanvas } from './render';
 
 const {
   configure: coreConfigure,
   clientApi,
   forceReRender,
-} = start(renderToDOM, {
+} = start<SvelteRenderer>(renderToCanvas, {
   decorateStory,
   render,
 });
 
-export const { setAddon, addDecorator, addParameters, clearDecorators, getStorybook, raw } =
-  clientApi;
+export const { raw } = clientApi;
 
 const FRAMEWORK = 'svelte';
 export const storiesOf = (kind: string, m: any) =>

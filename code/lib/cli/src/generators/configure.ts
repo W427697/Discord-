@@ -1,18 +1,19 @@
 import fse from 'fs-extra';
 import { dedent } from 'ts-dedent';
-import { SupportedRenderers } from '../project_types';
+import type { SupportedRenderers, SupportedFrameworks } from '../project_types';
 
 interface ConfigureMainOptions {
   addons: string[];
   extensions?: string[];
   commonJs?: boolean;
+  staticDirs?: string[];
   /**
    * Extra values for main.js
    *
    * In order to provide non-serializable data like functions, you can use
    * { value: '%%yourFunctionCall()%%' }
    *
-   * '%% and %%' will be replace.
+   * '%% and %%' will be replaced.
    *
    */
   [key: string]: any;
@@ -27,7 +28,7 @@ export async function configureMain({
   const prefix = (await fse.pathExists('./src')) ? '../src' : '../stories';
 
   const config = {
-    stories: [`${prefix}/**/*.stories.mdx`, `${prefix}/**/*.stories.@(${extensions.join('|')})`],
+    stories: [`${prefix}/**/*.mdx`, `${prefix}/**/*.stories.@(${extensions.join('|')})`],
     addons,
     ...custom,
   };
@@ -52,7 +53,7 @@ export async function configureMain({
   );
 }
 
-const frameworkToPreviewParts: Partial<Record<SupportedRenderers, any>> = {
+const frameworkToPreviewParts: Partial<Record<SupportedFrameworks | SupportedRenderers, any>> = {
   angular: {
     prefix: dedent`
       import { setCompodocJson } from "@storybook/addon-docs/angular";
@@ -60,11 +61,10 @@ const frameworkToPreviewParts: Partial<Record<SupportedRenderers, any>> = {
       setCompodocJson(docJson);
       
       `.trimStart(),
-    extraParameters: 'docs: { inlineStories: true },',
   },
 };
 
-export async function configurePreview(framework: SupportedRenderers) {
+export async function configurePreview(framework: SupportedFrameworks | SupportedRenderers) {
   const { prefix = '', extraParameters = '' } = frameworkToPreviewParts[framework] || {};
   const previewPath = `./.storybook/preview.js`;
 

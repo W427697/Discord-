@@ -1,4 +1,4 @@
-import { PartialStoryFn, StoryContext } from '@storybook/csf';
+import type { PartialStoryFn, StoryContext } from '@storybook/types';
 
 export const parameters = {
   projectParameter: 'projectParameter',
@@ -13,7 +13,7 @@ export const loaders = [async () => ({ projectValue: 2 })];
 
 export const decorators = [
   (storyFn: PartialStoryFn, context: StoryContext) => {
-    if (context.parameters.useProjectDecorator)
+    if (context.parameters['useProjectDecorator'])
       return storyFn({ args: { ...context.args, text: `project ${context.args.text}` } });
     return storyFn();
   },
