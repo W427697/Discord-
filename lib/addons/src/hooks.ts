@@ -433,7 +433,7 @@ export function useParameter<S>(parameterKey: string, defaultValue?: S): S | und
 }
 
 /* Returns current value of story args */
-export function useArgs<TArgs = Args>(): [
+export function useArgs<TArgs extends Args = Args>(): [
   TArgs,
   (newArgs: Partial<TArgs>) => void,
   (argNames?: (keyof TArgs)[]) => void
