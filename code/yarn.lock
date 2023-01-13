@@ -6810,6 +6810,7 @@ __metadata:
     "@storybook/theming": 7.0.0-beta.26
     "@storybook/types": 7.0.0-beta.26
     "@testing-library/react": ^11.2.2
+    "@types/react-dom": ^18.0.10
     "@types/semver": ^7.3.4
     copy-to-clipboard: ^3.3.1
     downshift: ^6.0.15
@@ -8886,6 +8887,15 @@ __metadata:
   dependencies:
     "@types/react": ^16
   checksum: c9c36d071f5e7480a74948ceed0cf2080194f9e0922de69a3c877629b1e7cb5f87e47afaea7d095a2dccfcf273746416f7780dd68830ea89dba68499758db10b
+  languageName: node
+  linkType: hard
+
+"@types/react-dom@npm:^18.0.10":
+  version: 18.0.10
+  resolution: "@types/react-dom@npm:18.0.10"
+  dependencies:
+    "@types/react": "*"
+  checksum: a07b900a2d5559830f88b3e525cf279f9f04b4893f4d17e64f5adb08d8abe0e3151e0d3c0ea17d836104ae47594be577529a004265600e4304a43a93b0d5d61e
   languageName: node
   linkType: hard
 
