@@ -1,10 +1,11 @@
 import { dedent } from 'ts-dedent';
 import { createApp, h } from 'vue';
-import type { Store_RenderContext, ArgsStoryFn } from '@storybook/types';
+import type { RenderContext, ArgsStoryFn } from '@storybook/types';
 
-import type { StoryFnVueReturnType, VueFramework } from './types';
+import type { Args, StoryContext } from '@storybook/csf';
+import type { StoryFnVueReturnType, VueRenderer } from './types';
 
-export const render: ArgsStoryFn<VueFramework> = (props, context) => {
+export const render: ArgsStoryFn<VueRenderer> = (props, context) => {
   const { id, component: Component } = context;
   if (!Component) {
     throw new Error(
@@ -12,19 +13,19 @@ export const render: ArgsStoryFn<VueFramework> = (props, context) => {
     );
   }
 
-  return h(Component, props);
+  return h(Component, props, getSlots(props, context));
 };
 
-let setupFunction = (app: any) => {};
+let setupFunction = (_app: any) => {};
 export const setup = (fn: (app: any) => void) => {
   setupFunction = fn;
 };
 
-const map = new Map<VueFramework['canvasElement'], ReturnType<typeof createApp>>();
+const map = new Map<VueRenderer['canvasElement'], ReturnType<typeof createApp>>();
 
 export function renderToCanvas(
-  { title, name, storyFn, showMain, showError, showException }: Store_RenderContext<VueFramework>,
-  canvasElement: VueFramework['canvasElement']
+  { title, name, storyFn, showMain, showError, showException }: RenderContext<VueRenderer>,
+  canvasElement: VueRenderer['canvasElement']
 ) {
   // TODO: explain cyclical nature of these app => story => mount
   let element: StoryFnVueReturnType;
@@ -57,4 +58,18 @@ export function renderToCanvas(
   map.get(canvasElement)?.unmount();
 
   storybookApp.mount(canvasElement);
+}
+/**
+ * get the slots as functions to be rendered
+ * @param props
+ * @param context
+ */
+
+function getSlots(props: Args, context: StoryContext<VueRenderer, Args>) {
+  const { argTypes } = context;
+  const slots = Object.entries(props)
+    .filter(([key, value]) => argTypes[key]?.table?.category === 'slots')
+    .map(([key, value]) => [key, () => h('span', JSON.stringify(value))]);
+
+  return Object.fromEntries(slots);
 }

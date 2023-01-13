@@ -1,7 +1,7 @@
-import type { StoryContext as StoryContextBase, WebFramework } from '@storybook/types';
+import type { StoryContext as StoryContextBase, WebRenderer } from '@storybook/types';
 import type { ComponentConstructorOptions, ComponentEvents, SvelteComponentTyped } from 'svelte';
 
-export type StoryContext = StoryContextBase<SvelteFramework>;
+export type StoryContext = StoryContextBase<SvelteRenderer>;
 
 export interface ShowErrorArgs {
   title: string;
@@ -31,8 +31,8 @@ type ComponentType<
     : P]: SvelteComponentTyped<Props, Events>[P];
 };
 
-export interface SvelteFramework<C extends SvelteComponentTyped = SvelteComponentTyped>
-  extends WebFramework {
+export interface SvelteRenderer<C extends SvelteComponentTyped = SvelteComponentTyped>
+  extends WebRenderer {
   component: ComponentType<this['T'] extends Record<string, any> ? this['T'] : any>;
   storyResult: this['T'] extends Record<string, any>
     ? SvelteStoryResult<this['T'], ComponentEvents<C>>
@@ -48,4 +48,5 @@ export interface SvelteStoryResult<
     ? Record<string, (event: CustomEvent) => void>
     : { [K in keyof Events as string extends K ? never : K]?: (event: Events[K]) => void };
   props?: Props;
+  decorator?: ComponentType<Props>;
 }

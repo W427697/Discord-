@@ -1,18 +1,17 @@
-import { Preview } from '@storybook/preview-web';
+import { Preview, composeConfigs } from '@storybook/preview-api';
 import type {
-  Framework,
+  Renderer,
   ComponentTitle,
   Path,
   ProjectAnnotations,
-  Store_ModuleExports,
-  Store_StoryIndex,
+  ModuleExports,
+  StoryIndex,
 } from '@storybook/types';
-import { composeConfigs } from '@storybook/store';
 import { Channel } from '@storybook/channels';
 
 import { ExternalDocsContext } from './ExternalDocsContext';
 
-type MetaExports = Store_ModuleExports;
+type MetaExports = ModuleExports;
 
 class ConstantMap<TKey, TValue extends string> {
   entries = new Map<TKey, TValue>();
@@ -27,16 +26,16 @@ class ConstantMap<TKey, TValue extends string> {
   }
 }
 
-export class ExternalPreview<TFramework extends Framework = Framework> extends Preview<TFramework> {
+export class ExternalPreview<TRenderer extends Renderer = Renderer> extends Preview<TRenderer> {
   private importPaths = new ConstantMap<MetaExports, Path>('./importPath/');
 
   private titles = new ConstantMap<MetaExports, ComponentTitle>('title-');
 
-  private storyIndex: Store_StoryIndex = { v: 4, entries: {} };
+  private storyIndex: StoryIndex = { v: 4, entries: {} };
 
-  private moduleExportsByImportPath: Record<Path, Store_ModuleExports> = {};
+  private moduleExportsByImportPath: Record<Path, ModuleExports> = {};
 
-  constructor(public projectAnnotations: ProjectAnnotations) {
+  constructor(public projectAnnotations: ProjectAnnotations<TRenderer>) {
     super(new Channel());
 
     this.initialize({
@@ -58,7 +57,7 @@ export class ExternalPreview<TFramework extends Framework = Framework> extends P
 
     const title = metaExports.default.title || this.titles.get(metaExports);
 
-    const csfFile = this.storyStore.processCSFFileWithCache<TFramework>(
+    const csfFile = this.storyStore.processCSFFileWithCache<TRenderer>(
       metaExports,
       importPath,
       title

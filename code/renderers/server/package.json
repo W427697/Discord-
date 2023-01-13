@@ -1,6 +1,6 @@
 {
   "name": "@storybook/server",
-  "version": "7.0.0-alpha.48",
+  "version": "7.0.0-beta.26",
   "description": "Storybook Server renderer",
   "keywords": [
     "storybook"
@@ -21,6 +21,7 @@
   "license": "MIT",
   "exports": {
     ".": {
+      "node": "./dist/index.js",
       "require": "./dist/index.js",
       "import": "./dist/index.mjs",
       "types": "./dist/index.d.ts"
@@ -30,11 +31,7 @@
       "import": "./dist/config.mjs",
       "types": "./dist/config.d.ts"
     },
-    "./package.json": {
-      "require": "./package.json",
-      "import": "./package.json",
-      "types": "./package.json"
-    }
+    "./package.json": "./package.json"
   },
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -51,21 +48,17 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/addons": "7.0.0-alpha.48",
-    "@storybook/core-client": "7.0.0-alpha.48",
-    "@storybook/preview-web": "7.0.0-alpha.48",
-    "@storybook/store": "7.0.0-alpha.48",
-    "@storybook/types": "7.0.0-alpha.48",
-    "global": "^4.4.0",
-    "react": "16.14.0",
-    "react-dom": "16.14.0",
+    "@storybook/core-client": "7.0.0-beta.26",
+    "@storybook/global": "^5.0.0",
+    "@storybook/preview-api": "7.0.0-beta.26",
+    "@storybook/types": "7.0.0-beta.26",
     "ts-dedent": "^2.0.0"
   },
   "devDependencies": {
-    "typescript": "~4.6.3"
+    "typescript": "~4.9.3"
   },
   "engines": {
-    "node": ">=10.13.0"
+    "node": ">=16.0.0"
   },
   "publishConfig": {
     "access": "public"
@@ -77,5 +70,5 @@
     ],
     "platform": "browser"
   },
-  "gitHead": "b58a29b785462f8a8b711b6bb2d7223fd6dc17fd"
+  "gitHead": "4d3ed5ec2eb8db3e688955e2820001def09621c1"
 }

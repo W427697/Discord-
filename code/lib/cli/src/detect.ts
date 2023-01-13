@@ -151,18 +151,33 @@ export function isStorybookInstalled(
 export function detectLanguage(packageJson?: PackageJson) {
   let language = SupportedLanguage.JAVASCRIPT;
 
-  const bowerJson = getBowerJson();
-  if (!packageJson && !bowerJson) {
+  if (!packageJson) {
     return language;
   }
 
   if (
-    hasDependency(packageJson || bowerJson, 'typescript', (version) =>
+    hasDependency(packageJson, 'typescript', (version) =>
       semver.gte(semver.coerce(version), '4.9.0')
-    )
+    ) &&
+    (!hasDependency(packageJson, 'prettier') ||
+      hasDependency(packageJson, 'prettier', (version) =>
+        semver.gte(semver.coerce(version), '2.8.0')
+      )) &&
+    (!hasDependency(packageJson, '@babel/plugin-transform-typescript') ||
+      hasDependency(packageJson, '@babel/plugin-transform-typescript', (version) =>
+        semver.gte(semver.coerce(version), '7.20.0')
+      )) &&
+    (!hasDependency(packageJson, '@typescript-eslint/parser') ||
+      hasDependency(packageJson, '@typescript-eslint/parser', (version) =>
+        semver.gte(semver.coerce(version), '5.44.0')
+      )) &&
+    (!hasDependency(packageJson, 'eslint-plugin-storybook') ||
+      hasDependency(packageJson, 'eslint-plugin-storybook', (version) =>
+        semver.gte(semver.coerce(version), '0.6.8')
+      ))
   ) {
     language = SupportedLanguage.TYPESCRIPT;
-  } else if (hasDependency(packageJson || bowerJson, 'typescript')) {
+  } else if (hasDependency(packageJson, 'typescript')) {
     language = SupportedLanguage.TYPESCRIPT_LEGACY;
   }
 

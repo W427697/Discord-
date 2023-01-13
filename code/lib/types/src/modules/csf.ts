@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/naming-convention */
-
 import type {
   AnnotatedStoryFn,
   Args,
@@ -15,7 +13,6 @@ import type {
   Conditional,
   DecoratorApplicator,
   DecoratorFunction,
-  Framework,
   Globals,
   GlobalTypes,
   IncludeExcludeOptions,
@@ -24,10 +21,11 @@ import type {
   LegacyStoryAnnotationsOrFn,
   LegacyStoryFn,
   LoaderFunction,
-  Parameters as ParametersBase,
+  Parameters,
   PartialStoryFn,
   PlayFunction,
   PlayFunctionContext,
+  Renderer,
   SBArrayType,
   SBEnumType,
   SBIntersectionType,
@@ -51,6 +49,7 @@ import type {
   StoryIdentifier,
   StoryKind,
   StoryName,
+  StrictArgs,
   StrictArgTypes,
   StrictGlobalTypes,
   StrictInputType,
@@ -74,7 +73,7 @@ export type {
   Conditional,
   DecoratorApplicator,
   DecoratorFunction,
-  Framework,
+  Renderer,
   Globals,
   GlobalTypes,
   IncludeExcludeOptions,
@@ -83,6 +82,7 @@ export type {
   LegacyStoryAnnotationsOrFn,
   LegacyStoryFn,
   LoaderFunction,
+  Parameters,
   PartialStoryFn,
   PlayFunction,
   PlayFunctionContext,
@@ -109,39 +109,26 @@ export type {
   StoryIdentifier,
   StoryKind,
   StoryName,
+  StrictArgs,
   StrictArgTypes,
   StrictGlobalTypes,
   StrictInputType,
   Tag,
 };
 
-export interface CSF_Meta {
-  id?: string;
-  title?: string;
-  component?: string;
-  includeStories?: string[] | RegExp;
-  excludeStories?: string[] | RegExp;
-  tags?: Tag[];
-}
-
-export interface CSF_Story {
-  id: string;
-  name: string;
-  parameters: Parameters;
-  tags?: Tag[];
-}
-
 export type ViewMode = ViewModeBase | 'story' | 'info' | 'settings' | string | undefined;
 
 type Layout = 'centered' | 'fullscreen' | 'padded' | 'none';
 
-export interface Parameters extends ParametersBase {
-  fileName?: string;
+export interface StorybookParameters {
   options?: Addon_OptionsParameter;
   /** The layout property defines basic styles added to the preview body where the story is rendered. If you pass 'none', no styles are applied. */
   layout?: Layout;
-  docsOnly?: boolean;
-  [key: string]: any;
+}
+
+export interface StorybookInternalParameters extends StorybookParameters {
+  fileName?: string;
+  docsOnly?: true;
 }
 
 export type Path = string;
