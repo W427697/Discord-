@@ -1,17 +1,15 @@
 ```js
 // MyComponent.stories.js|jsx
 
-import React from 'react';
-
-import { userEvent, screen } from '@storybook/testing-library';
+import { userEvent, within } from '@storybook/testing-library';
 
 import { MyComponent } from './MyComponent';
 
 export default {
   /* 👇 The title prop is optional.
-  * See https://storybook.js.org/docs/react/configure/overview#configure-story-loading
-  * to learn how to generate automatic titles
-  */
+   * See https://storybook.js.org/docs/7.0/react/configure/overview#configure-story-loading
+   * to learn how to generate automatic titles
+   */
   title: 'WithSelectEvent',
   component: MyComponent,
 };
@@ -21,18 +19,22 @@ function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-const Template = (args) => <MyComponent {...args} />;
+/* See https://storybook.js.org/docs/7.0/react/writing-stories/play-function#working-with-the-canvas
+ * to learn more about using the canvasElement to query the DOM
+ */
+export const ExampleChangeEvent = {
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
 
-export const ExampleChangeEvent = Template.bind({});
-ExampleChangeEvent.play = async () => {
-  const select = screen.getByRole('listbox');
+    const select = canvas.getByRole('listbox');
 
-  await userEvent.selectOptions(select, ['One Item']);
-  await sleep(2000);
+    await userEvent.selectOptions(select, ['One Item']);
+    await sleep(2000);
 
-  await userEvent.selectOptions(select, ['Another Item']);
-  await sleep(2000);
+    await userEvent.selectOptions(select, ['Another Item']);
+    await sleep(2000);
 
-  await userEvent.selectOptions(select, ['Yet another item']);
+    await userEvent.selectOptions(select, ['Yet another item']);
+  },
 };
 ```
