@@ -1,4 +1,4 @@
-import type { ComponentProps, FC } from 'react';
+import type { ComponentProps } from 'react';
 import React from 'react';
 import { styled } from '@storybook/theming';
 import { global } from '@storybook/global';
@@ -16,7 +16,8 @@ export default {
   },
 };
 
-const preview = __STORYBOOK_PREVIEW__;
+// eslint-disable-next-line no-underscore-dangle
+const preview = (window as any).__STORYBOOK_PREVIEW__;
 const renderStoryToElement = preview.renderStoryToElement.bind(preview);
 
 const getPreparedStory = (docsContext: DocsContextProps, moduleExport: ModuleExport) => {

@@ -6,7 +6,8 @@ import { Story as StoryComponent, StorySkeleton } from './Story';
 import type { DocsContextProps } from '../blocks';
 import * as ButtonStories from '../examples/Button.stories';
 
-const preview = __STORYBOOK_PREVIEW__;
+// eslint-disable-next-line no-underscore-dangle
+const preview = (window as any).__STORYBOOK_PREVIEW__;
 const renderStoryToElement = preview.renderStoryToElement.bind(preview);
 
 type ExtendedStoryProps = Omit<StoryProps, 'story'> & {
