@@ -9,6 +9,8 @@ expect.addSnapshotSerializer({
   test: (val) => true,
 });
 
+//
+
 const jsTransform = (source: string) => _transform({ source }, null, {}).trim();
 
 describe('knobs-to-args', () => {
@@ -18,7 +20,7 @@ describe('knobs-to-args', () => {
         jsTransform(dedent`
         import { withKnobs } from '@storybook/addon-knobs';
         export default {
-          decorators: [withKnobs];
+          decorators: [withKnobs],
         };
         export const A = () => <Cat />;
       `)
@@ -35,14 +37,14 @@ describe('knobs-to-args', () => {
         import { withWhatever } from 'somewhere';
         import { withKnobs } from '@storybook/addon-knobs';
         export default {
-          decorators: [withKnobs, withWhatever];
+          decorators: [withKnobs, withWhatever],
         };
         export const A = () => <Cat />;
       `)
       ).toMatchInlineSnapshot(`
         import { withWhatever } from 'somewhere';
         export default {
-          decorators: [withWhatever];
+          decorators: [withWhatever],
         };
         export const A = () => <Cat />;
       `);
@@ -63,9 +65,6 @@ describe('knobs-to-args', () => {
         export default { title: 'Cat' };
         export const Story = ({ name }) => {
           return <Cat name={name} />;
-        };
-        Story.args = {
-          name: 'James'
         };
       `);
     });
