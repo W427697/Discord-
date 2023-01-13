@@ -114,7 +114,7 @@
       "./src/react/index.ts"
     ]
   },
-  "gitHead": "2109ab8d7c0667e686db757abf5afcbf3d48a6ec",
+  "gitHead": "4d3ed5ec2eb8db3e688955e2820001def09621c1",
   "storybook": {
     "displayName": "Links",
     "icon": "https://user-images.githubusercontent.com/263385/101991673-48355c80-3c7c-11eb-9b6e-b627c96a75f6.png",
