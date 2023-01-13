@@ -71,6 +71,7 @@ export type NormalizedStoryAnnotations<TRenderer extends Renderer = Renderer> = 
 export type CSFFile<TRenderer extends Renderer = Renderer> = {
   meta: NormalizedComponentAnnotations<TRenderer>;
   stories: Record<StoryId, NormalizedStoryAnnotations<TRenderer>>;
+  moduleExports: ModuleExports;
 };
 
 export type PreparedStory<TRenderer extends Renderer = Renderer> =
@@ -84,6 +85,13 @@ export type PreparedStory<TRenderer extends Renderer = Renderer> =
     ) => Promise<StoryContextForLoaders<TRenderer> & { loaded: StoryContext<TRenderer>['loaded'] }>;
     playFunction?: (context: StoryContext<TRenderer>) => Promise<void> | void;
   };
+
+export type PreparedMeta<TRenderer extends Renderer = Renderer> = Omit<
+  StoryContextForEnhancers<TRenderer>,
+  'name' | 'story'
+> & {
+  moduleExport: ModuleExport;
+};
 
 export type BoundStory<TRenderer extends Renderer = Renderer> = PreparedStory<TRenderer> & {
   storyFn: PartialStoryFn<TRenderer>;

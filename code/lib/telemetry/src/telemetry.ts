@@ -35,7 +35,6 @@ export async function sendTelemetry(
   const eventId = nanoid();
   const body = { ...rest, eventType, eventId, sessionId, metadata, payload, context };
   let request: Promise<any>;
-  let cache: Promise<any>;
 
   try {
     request = fetch(URL, {
@@ -50,19 +49,18 @@ export async function sendTelemetry(
           ? options.retryDelay
           : 1000),
     });
-    tasks.push(request);
-    cache = saveToCache(eventType, body);
-    tasks.push(cache);
 
+    tasks.push(request);
     if (options.immediate) {
       await Promise.all(tasks);
     } else {
       await request;
-      await cache;
     }
+
+    await saveToCache(eventType, body);
   } catch (err) {
     //
   } finally {
-    tasks = tasks.filter((task) => task !== request && task !== cache);
+    tasks = tasks.filter((task) => task !== request);
   }
 }

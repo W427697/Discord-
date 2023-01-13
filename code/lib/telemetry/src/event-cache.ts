@@ -1,10 +1,25 @@
 import { cache } from '@storybook/core-common';
 import type { EventType } from './types';
 
-export const set = async (eventType: EventType, body: any) => {
+interface UpgradeSummary {
+  timestamp: number;
+  eventType?: EventType;
+  eventId?: string;
+  sessionId?: string;
+}
+
+let operation: Promise<any> = Promise.resolve();
+
+const setHelper = async (eventType: EventType, body: any) => {
   const lastEvents = (await cache.get('lastEvents')) || {};
   lastEvents[eventType] = { body, timestamp: Date.now() };
   await cache.set('lastEvents', lastEvents);
+};
+
+export const set = async (eventType: EventType, body: any) => {
+  await operation;
+  operation = setHelper(eventType, body);
+  return operation;
 };
 
 export const get = async (eventType: EventType) => {
@@ -12,7 +27,7 @@ export const get = async (eventType: EventType) => {
   return lastEvents?.[eventType];
 };
 
-const upgradeFields = (event: any) => {
+const upgradeFields = (event: any): UpgradeSummary => {
   const { body, timestamp } = event;
   return {
     timestamp,
@@ -22,18 +37,25 @@ const upgradeFields = (event: any) => {
   };
 };
 
-export const getPrecedingUpgrade = async (eventType: EventType, events: any = undefined) => {
-  const lastEvents = events || (await cache.get('lastEvents'));
-  const init = lastEvents?.init;
-  let precedingUpgrade = init;
-  const upgrade = lastEvents?.upgrade;
-  if (upgrade && (!precedingUpgrade || upgrade.timestamp > precedingUpgrade?.timestamp)) {
-    precedingUpgrade = upgrade;
-  }
-  if (!precedingUpgrade) return undefined;
+const UPGRADE_EVENTS: EventType[] = ['init', 'upgrade'];
+const RUN_EVENTS: EventType[] = ['build', 'dev', 'error'];
 
-  const lastEventOfType = lastEvents?.[eventType];
-  return !lastEventOfType?.timestamp || precedingUpgrade.timestamp > lastEventOfType.timestamp
-    ? upgradeFields(precedingUpgrade)
+const lastEvent = (lastEvents: Record<EventType, any>, eventTypes: EventType[]) => {
+  const descendingEvents = eventTypes
+    .map((eventType) => lastEvents?.[eventType])
+    .filter(Boolean)
+    .sort((a, b) => b.timestamp - a.timestamp);
+  return descendingEvents.length > 0 ? descendingEvents[0] : undefined;
+};
+
+export const getPrecedingUpgrade = async (events: any = undefined) => {
+  const lastEvents = events || (await cache.get('lastEvents')) || {};
+  const lastUpgradeEvent = lastEvent(lastEvents, UPGRADE_EVENTS);
+  const lastRunEvent = lastEvent(lastEvents, RUN_EVENTS);
+
+  if (!lastUpgradeEvent) return undefined;
+
+  return !lastRunEvent?.timestamp || lastUpgradeEvent.timestamp > lastRunEvent.timestamp
+    ? upgradeFields(lastUpgradeEvent)
     : undefined;
 };

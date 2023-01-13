@@ -6,9 +6,9 @@ Storybook's `Canvas` Doc Block is a wrapper featuring a toolbar that allows you 
 
 ![Docs block with a story preview](./docblock-preview.png)
 
-## Working with the DocsPage
+## Working with Automatic Docs
 
-Storybook's [DocsPage](./docs-page.md) wraps each story inside a `Canvas` Doc Block. The first story rendered in the DocsPage is automatically configured with a toolbar and set as _primary_. All other existing stories will not feature the toolbar. It also includes a [Source](./doc-block-source.md) Doc Block to visualize the story code snippet.
+Storybook's [AutoDocs](./docs-page.md) wraps each story inside a `Canvas` Doc Block. The first story rendered in the DocsPage is automatically configured with a toolbar and set as _primary_. All other existing stories will not feature the toolbar. It also includes a [Source](./doc-block-source.md) Doc Block to visualize the story code snippet.
 
 ## Working with MDX
 

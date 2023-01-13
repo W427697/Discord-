@@ -1,6 +1,6 @@
 {
   "name": "@storybook/preset-vue3-webpack",
-  "version": "7.0.0-alpha.58",
+  "version": "7.0.0-beta.26",
   "description": "Storybook for Vue 3: Develop Vue 3 Components in isolation with Hot Reloading.",
   "keywords": [
     "storybook"
@@ -21,11 +21,13 @@
   "license": "MIT",
   "exports": {
     ".": {
+      "node": "./dist/index.js",
       "require": "./dist/index.js",
       "import": "./dist/index.mjs",
       "types": "./dist/index.d.ts"
     },
     "./preset": {
+      "node": "./dist/index.js",
       "require": "./dist/index.js",
       "import": "./dist/index.mjs",
       "types": "./dist/index.d.ts"
@@ -40,11 +42,7 @@
       "import": "./dist/framework-preset-vue3.mjs",
       "types": "./dist/framework-preset-vue3.d.ts"
     },
-    "./package.json": {
-      "require": "./package.json",
-      "import": "./package.json",
-      "types": "./package.json"
-    }
+    "./package.json": "./package.json"
   },
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -60,11 +58,9 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/core-webpack": "7.0.0-alpha.58",
-    "@storybook/docs-tools": "7.0.0-alpha.58",
+    "@storybook/core-webpack": "7.0.0-beta.26",
+    "@storybook/docs-tools": "7.0.0-beta.26",
     "@types/node": "^16.0.0",
-    "react": "16.14.0",
-    "react-dom": "16.14.0",
     "ts-loader": "^9.2.8",
     "vue-docgen-api": "^4.46.0",
     "vue-docgen-loader": "^1.5.1",
@@ -83,7 +79,7 @@
     "vue": "^3.0.0"
   },
   "engines": {
-    "node": ">=10.13.0"
+    "node": ">=16.0.0"
   },
   "publishConfig": {
     "access": "public"
@@ -96,5 +92,5 @@
     ],
     "platform": "node"
   },
-  "gitHead": "c7f8e3e8486ab5caf3da0ef016acfd2065f0dc05"
+  "gitHead": "4d3ed5ec2eb8db3e688955e2820001def09621c1"
 }
