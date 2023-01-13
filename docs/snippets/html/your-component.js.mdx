@@ -12,11 +12,15 @@ export default {
   title: 'YourComponent',
 };
 
-// 👇 We create a “template” of how args map to rendering
-const Template = (args) => createYourComponent(args);
-
-export const FirstStory = Template.bind({});
-FirstStory.args = {
-  // 👇 The args you need here will depend on your component
+/*
+ *👇 Render functions are a framework specific feature to allow you control on how the component renders.
+ * See https://storybook.js.org/docs/7.0/html/api/csf
+ * to learn how to use render functions.
+ */
+export const FirstStory = {
+  render: (args) => createYourComponent(args),
+  args: {
+    // 👇 The args you need here will depend on your component
+  },
 };
 ```

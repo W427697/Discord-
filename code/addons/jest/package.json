@@ -1,0 +1,116 @@
+{
+  "name": "@storybook/addon-jest",
+  "version": "7.0.0-beta.25",
+  "description": "React storybook addon that show component jest report",
+  "keywords": [
+    "addon",
+    "jest",
+    "react",
+    "report",
+    "results",
+    "storybook",
+    "unit-testing",
+    "test"
+  ],
+  "homepage": "https://github.com/storybookjs/storybook/tree/main/addons/jest",
+  "bugs": {
+    "url": "https://github.com/storybookjs/storybook/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/storybookjs/storybook.git",
+    "directory": "addons/jest"
+  },
+  "funding": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/storybook"
+  },
+  "license": "MIT",
+  "author": "Renaud Tertrais <renaud.tertrais@gmail.com> (https://github.com/renaudtertrais)",
+  "exports": {
+    ".": {
+      "node": "./dist/index.js",
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.ts"
+    },
+    "./manager": {
+      "require": "./dist/manager.js",
+      "import": "./dist/manager.mjs",
+      "types": "./dist/manager.d.ts"
+    },
+    "./register": {
+      "require": "./dist/manager.js",
+      "import": "./dist/manager.mjs",
+      "types": "./dist/manager.d.ts"
+    },
+    "./package.json": "./package.json"
+  },
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "typesVersions": {
+    "*": {
+      "*": [
+        "dist/index.d.ts"
+      ],
+      "manager": [
+        "dist/manager.d.ts"
+      ]
+    }
+  },
+  "files": [
+    "dist/**/*",
+    "README.md",
+    "*.js",
+    "*.d.ts"
+  ],
+  "scripts": {
+    "check": "../../../scripts/node_modules/.bin/tsc --noEmit",
+    "prep": "../../../scripts/prepare/bundle.ts"
+  },
+  "dependencies": {
+    "@storybook/client-logger": "7.0.0-beta.25",
+    "@storybook/components": "7.0.0-beta.25",
+    "@storybook/core-events": "7.0.0-beta.25",
+    "@storybook/global": "^5.0.0",
+    "@storybook/manager-api": "7.0.0-beta.25",
+    "@storybook/preview-api": "7.0.0-beta.25",
+    "@storybook/theming": "7.0.0-beta.25",
+    "react-resize-detector": "^7.1.2",
+    "upath": "^1.2.0"
+  },
+  "devDependencies": {
+    "typescript": "~4.9.3"
+  },
+  "peerDependencies": {
+    "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
+    "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    },
+    "react-dom": {
+      "optional": true
+    }
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "bundler": {
+    "entries": [
+      "./src/index.ts",
+      "./src/manager.tsx"
+    ],
+    "platform": "browser"
+  },
+  "gitHead": "2109ab8d7c0667e686db757abf5afcbf3d48a6ec",
+  "storybook": {
+    "displayName": "Jest",
+    "icon": "https://pbs.twimg.com/profile_images/821713465245102080/mMtKIMax_400x400.jpg",
+    "unsupportedFrameworks": [
+      "react-native"
+    ]
+  }
+}

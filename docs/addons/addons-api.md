@@ -232,11 +232,16 @@ Let's say you've got a story like this:
 <CodeSnippets
   paths={[
     'react/button-story-with-addon-example.js.mdx',
+    'react/button-story-with-addon-example.ts.mdx',
     'vue/button-story-with-addon-example.js.mdx',
+    'vue/button-story-with-addon-example.ts.mdx',
     'angular/button-story-with-addon-example.ts.mdx',
     'svelte/button-story-with-addon-example.js.mdx',
-    'svelte/button-story-with-addon-example.native-format.mdx',
+    'web-components/button-story-with-addon-example.js.mdx',
+    'web-components/button-story-with-addon-example.ts.mdx',
   ]}
+  usesCsf3
+  csf2Path="addons/addons-api#snippet-button-story-with-addon-example"
 />
 
 <!-- prettier-ignore-end -->

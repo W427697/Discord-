@@ -1,19 +1,17 @@
-```ts
+```tsx
 // MyComponent.stories.ts|tsx
 
-import React from 'react';
-
-import { ComponentStory, ComponentMeta } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react';
 
 import { INITIAL_VIEWPORTS } from '@storybook/addon-viewport';
 
 import { MyComponent } from './MyComponent';
 
-export default {
+const meta: Meta<typeof MyComponent> = {
   /* 👇 The title prop is optional.
-  * See https://storybook.js.org/docs/react/configure/overview#configure-story-loading
-  * to learn how to generate automatic titles
-  */
+   * See https://storybook.js.org/docs/7.0/react/configure/overview#configure-story-loading
+   * to learn how to generate automatic titles
+   */
   title: 'MyComponent',
   component: MyComponent,
   parameters: {
@@ -25,12 +23,16 @@ export default {
       defaultViewport: 'iphone6',
     },
   },
-} as ComponentMeta<typeof MyComponent>;
+};
 
-export const MyStory: ComponentStory<typeof MyComponent> = () => <MyComponent />;
-MyStory.parameters = {
-  viewport: {
-    defaultViewport: 'iphonex',
+export default meta;
+type Story = StoryObj<typeof MyComponent>;
+
+export const MyStory: Story = {
+  parameters: {
+    viewport: {
+      defaultViewport: 'iphonex',
+    },
   },
 };
 ```
