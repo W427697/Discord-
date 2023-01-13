@@ -41,6 +41,7 @@
   - [Docs Changes](#docs-changes)
     - [Standalone docs files](#standalone-docs-files)
     - [Referencing stories in docs files](#referencing-stories-in-docs-files)
+    - [Description block, `parameters.notes` and `parameters.info`](#description-block-parametersnotes-and-parametersinfo)
     - [Autodocs](#autodocs)
     - [Configuring the Docs Container](#configuring-the-docs-container)
     - [External Docs](#external-docs)
@@ -306,8 +307,8 @@ To opt-out of the old behavior you can set the `storyStoreV7` feature flag to `f
 module.exports = {
   features: {
     storyStoreV7: false,
-  }
-}
+  },
+};
 ```
 
 #### Removed global client APIs
@@ -795,6 +796,13 @@ import * as SecondComponentStories from './second-component.stories';
 
 <Story of={SecondComponentStories.standard} meta={SecondComponentStories} />
 ```
+
+#### Description block, `parameters.notes` and `parameters.info`
+
+In 6.5 the Description doc block accepted a range of different props, `markdown`, `type` and `children` as a way to customize the content.
+The props have been simplified and the block now only accepts an `of` prop, which can be a reference to either a CSF file, a default export (meta) or a story export, depending on which description you want to be shown. See TDB DOCS LINK for a deeper explanation of the new prop.
+
+`parameters.notes` and `parameters.info` have been deprecated as a way to specify descriptions. Instead use JSDoc comments above the default export or story export, or use `parameters.docs.description.story | component` directly. See TDB DOCS LINK for a deeper explanation on how to write descriptions.
 
 #### Autodocs
 
@@ -1558,10 +1566,12 @@ In 6.4 the behavior of loaders when arg changes occurred was tweaked so loaders 
 
 #### SB Angular builder
 
-Since SB6.3, Storybook for Angular supports a builder configuration in your project's `angular.json`. This provides an Angular-style configuration for running and building your Storybook. The full builder documentation will be shown in the [main documentation page](https://storybook.js.org/docs/angular) soon, but for now you can check out an example here:
+Since SB6.3, Storybook for Angular supports a builder configuration in your project's `angular.json`. This provides an Angular-style configuration for running and building your Storybook. An example builder configuration is now part of the [get started documentation page](https://storybook.js.org/docs/angular/get-started/install).
 
-- `start-storybook`: [example](https://github.com/storybookjs/storybook/blob/next/examples/angular-cli/angular.json#L78) [schema](https://github.com/storybookjs/storybook/blob/next/app/angular/src/builders/start-storybook/schema.json)
-- `build-storybook`: [example](https://github.com/storybookjs/storybook/blob/next/examples/angular-cli/angular.json#L86) [schema](https://github.com/storybookjs/storybook/blob/next/app/angular/src/builders/build-storybook/schema.json)
+If you want to know all the available options, please checks the builders' validation schemas :
+
+- `start-storybook`: [schema](https://github.com/storybookjs/storybook/blob/next/code/frameworks/angular/src/builders/start-storybook/schema.json)
+- `build-storybook`: [schema](https://github.com/storybookjs/storybook/blob/next/code/frameworks/angular/src/builders/build-storybook/schema.json)
 
 #### Angular13
 
@@ -3810,4 +3820,3 @@ If you **are** using these addons, it takes two steps to migrate:
   ```
 
   <!-- markdown-link-check-enable -->
-
