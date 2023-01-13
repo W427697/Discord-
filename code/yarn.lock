@@ -6332,7 +6332,6 @@ __metadata:
   resolution: "@storybook/codemod@workspace:lib/codemod"
   dependencies:
     "@babel/core": ^7.20.2
-    "@babel/helper-module-imports": ^7.18.6
     "@babel/preset-env": ^7.20.2
     "@babel/types": ^7.20.7
     "@storybook/csf": next
@@ -8252,7 +8251,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/babel__core@npm:*, @types/babel__core@npm:^7, @types/babel__core@npm:^7.0.0, @types/babel__core@npm:^7.1.14, @types/babel__core@npm:^7.1.20":
+"@types/babel__core@npm:^7, @types/babel__core@npm:^7.0.0, @types/babel__core@npm:^7.1.14, @types/babel__core@npm:^7.1.20":
   version: 7.1.20
   resolution: "@types/babel__core@npm:7.1.20"
   dependencies:
@@ -8271,16 +8270,6 @@ __metadata:
   dependencies:
     "@babel/types": ^7.0.0
   checksum: e0051b450e4ba2df0a7e386f08df902a4e920f6f8d6f185d69ddbe9b0e2e2d3ae434bb51e437bc0fca2a9a0f5dc4ca44d3a1941ef75e74371e8be5bf64416fe4
-  languageName: node
-  linkType: hard
-
-"@types/babel__helper-module-imports@npm:^7.18.0":
-  version: 7.18.0
-  resolution: "@types/babel__helper-module-imports@npm:7.18.0"
-  dependencies:
-    "@types/babel__core": "*"
-    "@types/babel__traverse": "*"
-  checksum: 343ce91e6544ea1b836d1ab5a5ed2756f3e710d83a44c7d4b080946859736a53c1ef44e8abb2da7a63a1c232a7a5a51eea7948577b887e01114eb2ab8d146a2e
   languageName: node
   linkType: hard
 
