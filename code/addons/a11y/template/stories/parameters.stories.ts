@@ -1,4 +1,4 @@
-import globalThis from 'global';
+import { global as globalThis } from '@storybook/global';
 
 export default {
   component: globalThis.Components.Html,
@@ -29,7 +29,7 @@ export const Options = {
 
 export const Config = {
   args: {
-    contents:
+    content:
       '<button style="color: rgb(255, 255, 255); background-color: rgb(76, 175, 80);">Click me!</button>',
   },
   parameters: {
@@ -45,7 +45,7 @@ export const Config = {
 
 export const Targetted = {
   args: {
-    contents: '<button class="custom-target">Click Me!</button>',
+    content: '<button class="custom-target">Click Me!</button>',
   },
   parameters: {
     a11y: {

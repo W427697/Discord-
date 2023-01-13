@@ -1,4 +1,4 @@
-import globalThis from 'global';
+import { global as globalThis } from '@storybook/global';
 
 const COLORS = [
   { name: 'red', value: '#FB001D' },
@@ -12,7 +12,7 @@ const COLORS = [
 export default {
   component: globalThis.Components.Button,
   args: {
-    children: 'Click Me!',
+    label: 'Click Me!',
   },
   parameters: {
     backgrounds: {

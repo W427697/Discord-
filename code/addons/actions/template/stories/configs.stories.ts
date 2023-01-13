@@ -1,4 +1,4 @@
-import globalThis from 'global';
+import { global as globalThis } from '@storybook/global';
 
 import { actions, configureActions } from '@storybook/addon-actions';
 
@@ -7,7 +7,7 @@ const configs = actions('actionA', 'actionB', 'actionC');
 export default {
   component: globalThis.Components.Button,
   args: {
-    children: 'Click Me!',
+    label: 'Click Me!',
   },
   parameters: {
     chromatic: { disable: true },

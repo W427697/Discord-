@@ -1,6 +1,6 @@
 {
   "name": "@storybook/web-components",
-  "version": "7.0.0-alpha.34",
+  "version": "7.0.0-beta.25",
   "description": "Storybook web-components renderer",
   "keywords": [
     "lit-html",
@@ -23,6 +23,7 @@
   "license": "MIT",
   "exports": {
     ".": {
+      "node": "./dist/index.js",
       "require": "./dist/index.js",
       "import": "./dist/index.mjs",
       "types": "./dist/index.d.ts"
@@ -32,17 +33,14 @@
       "import": "./dist/config.mjs",
       "types": "./dist/config.d.ts"
     },
-    "./package.json": {
-      "require": "./package.json",
-      "import": "./package.json",
-      "types": "./package.json"
-    }
+    "./package.json": "./package.json"
   },
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "files": [
     "dist/**/*",
+    "template/**/*",
     "README.md",
     "*.js",
     "*.d.ts"
@@ -52,28 +50,29 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/addons": "7.0.0-alpha.34",
-    "@storybook/api": "7.0.0-alpha.34",
-    "@storybook/client-logger": "7.0.0-alpha.34",
-    "@storybook/core-client": "7.0.0-alpha.34",
-    "@storybook/csf": "0.0.2--canary.0899bb7.0",
-    "@storybook/docs-tools": "7.0.0-alpha.34",
-    "@storybook/preview-web": "7.0.0-alpha.34",
-    "@storybook/store": "7.0.0-alpha.34",
-    "global": "^4.4.0",
-    "react": "16.14.0",
-    "react-dom": "16.14.0",
+    "@storybook/client-logger": "7.0.0-beta.25",
+    "@storybook/core-client": "7.0.0-beta.25",
+    "@storybook/docs-tools": "7.0.0-beta.25",
+    "@storybook/global": "^5.0.0",
+    "@storybook/manager-api": "7.0.0-beta.25",
+    "@storybook/preview-api": "7.0.0-beta.25",
+    "@storybook/types": "7.0.0-beta.25",
     "ts-dedent": "^2.0.0"
   },
   "devDependencies": {
+    "@types/cross-spawn": "^6.0.2",
+    "@types/node": "^16.0.0",
+    "cross-spawn": "^7.0.3",
+    "lit": "2.3.1",
     "lit-html": "2.0.2",
-    "typescript": "~4.6.3"
+    "typescript": "~4.9.3",
+    "web-component-analyzer": "^1.1.6"
   },
   "peerDependencies": {
     "lit-html": "^1.4.1 || ^2.0.0"
   },
   "engines": {
-    "node": ">=10.13.0"
+    "node": ">=16.0.0"
   },
   "publishConfig": {
     "access": "public"
@@ -85,5 +84,5 @@
     ],
     "platform": "browser"
   },
-  "gitHead": "fc90fc875462421c1faa35862ac4bc436de8e75f"
+  "gitHead": "2109ab8d7c0667e686db757abf5afcbf3d48a6ec"
 }

@@ -2,12 +2,12 @@
  * Use commander and prompts to gather a list of options for a script
  */
 
-import prompts, { Falsy, PrevCaller, PromptType } from 'prompts';
-import type { PromptObject } from 'prompts';
+import prompts from 'prompts';
+import type { PromptObject, Falsy, PrevCaller, PromptType } from 'prompts';
 import program from 'commander';
 import dedent from 'ts-dedent';
 import chalk from 'chalk';
-import kebabCase from 'lodash/kebabCase';
+import kebabCase from 'lodash/kebabCase.js';
 
 // Option types
 
@@ -29,7 +29,8 @@ export type BaseOption = {
 export type BooleanOption = BaseOption & {
   type: 'boolean';
   /**
-   * Does this option default true?
+   * If this option is set to true and the option value is false or undefined, the flag `--no-option` will be set.
+   * If the option value is true, the flag `--no-option` is not set.
    */
   inverse?: boolean;
 };
@@ -41,9 +42,13 @@ export type StringOption = BaseOption & {
    */
   values?: readonly string[];
   /**
+   * How to describe the values when selecting them
+   */
+  valueDescriptions?: readonly string[];
+  /**
    * Is a value required for this option?
    */
-  required?: boolean;
+  required?: boolean | ((previous: Record<string, any>) => boolean);
 };
 
 export type StringArrayOption = BaseOption & {
@@ -52,6 +57,10 @@ export type StringArrayOption = BaseOption & {
    * What values are allowed for this option?
    */
   values?: readonly string[];
+  /**
+   * How to describe the values when selecting them
+   */
+  valueDescriptions?: readonly string[];
 };
 
 export type Option = BooleanOption | StringOption | StringArrayOption;
@@ -87,6 +96,8 @@ export type OptionValues<TOptions extends OptionSpecifier = OptionSpecifier> = {
 export function createOptions<TOptions extends OptionSpecifier>(options: TOptions) {
   return options;
 }
+
+const logger = console;
 
 function shortFlag(key: OptionId, option: Option) {
   const inverse = option.type === 'boolean' && option.inverse;
@@ -172,12 +183,23 @@ export function getDefaults<TOptions extends OptionSpecifier>(options: TOptions)
   );
 }
 
+function checkRequired<TOptions extends OptionSpecifier>(
+  option: TOptions[keyof TOptions],
+  values: MaybeOptionValues<TOptions>
+) {
+  if (option.type !== 'string' || !option.required) return false;
+
+  if (typeof option.required === 'boolean') return option.required;
+
+  return option.required(values);
+}
+
 export function areOptionsSatisfied<TOptions extends OptionSpecifier>(
   options: TOptions,
   values: MaybeOptionValues<TOptions>
 ) {
   return !Object.entries(options)
-    .filter(([, option]) => option.type === 'string' && option.required)
+    .filter(([, option]) => checkRequired(option as TOptions[keyof TOptions], values))
     .find(([key]) => !values[key]);
 }
 
@@ -203,24 +225,22 @@ export async function promptOptions<TOptions extends OptionSpecifier>(
         const chosenType = passedType(...args);
         return chosenType === true ? defaultType : chosenType;
       };
-    } else if (passedType) {
+    } else if (typeof passedType !== 'undefined') {
       type = passedType;
     }
 
     if (option.type !== 'boolean') {
-      const currentValue = values[key];
+      if (values[key]) {
+        return { name: key, type: false };
+      }
+
       return {
+        name: key,
         type,
         message: option.description,
-        name: key,
-        // warn: ' ',
-        // pageSize: Object.keys(tasks).length + Object.keys(groups).length,
-        choices: option.values.map((value) => ({
-          title: value,
+        choices: option.values?.map((value, index) => ({
+          title: option.valueDescriptions?.[index] || value,
           value,
-          selected:
-            currentValue === value ||
-            (Array.isArray(currentValue) && currentValue.includes?.(value)),
         })),
       };
     }
@@ -236,12 +256,12 @@ export async function promptOptions<TOptions extends OptionSpecifier>(
 
   const selection = await prompts(questions, {
     onCancel: () => {
-      console.log('Command cancelled by the user. Exiting...');
+      logger.log('Command cancelled by the user. Exiting...');
       process.exit(1);
     },
   });
   // Again the structure of the questions guarantees we get responses of the type we need
-  return selection as OptionValues<TOptions>;
+  return { ...values, ...selection } as OptionValues<TOptions>;
 }
 
 function getFlag<TOption extends Option>(
@@ -302,7 +322,7 @@ export async function getOptionsOrPrompt<TOptions extends OptionSpecifier>(
   const finalValues = await promptOptions(options, cliValues);
 
   const command = getCommand(commandPrefix, options, finalValues);
-  console.log(`\nTo run this directly next time, use:\n  ${command}\n`);
+  logger.log(`\nTo run this directly next time, use:\n  ${command}\n`);
 
   return finalValues;
 }

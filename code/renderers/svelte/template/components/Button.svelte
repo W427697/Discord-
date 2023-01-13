@@ -9,19 +9,21 @@
   /**
    * What background color to use
    */
-  export let backgroundColor;
+  export let backgroundColor = undefined;
+
   /**
    * How large should the button be?
    */
   export let size = 'medium';
+
   /**
    * Button contents
    */
-  export let children = '';
+  export let label = '';
 
-  let mode = primary ? 'storybook-button--primary' : 'storybook-button--secondary';
+  $: mode = primary ? 'storybook-button--primary' : 'storybook-button--secondary';
 
-  let style = backgroundColor ? `background-color: ${backgroundColor}` : '';
+  $: style = backgroundColor ? `background-color: ${backgroundColor}` : '';
 
   const dispatch = createEventDispatcher();
 
@@ -39,5 +41,5 @@
   {style}
   on:click={onClick}
 >
-  {children}
+  {label}
 </button>

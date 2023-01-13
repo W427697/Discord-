@@ -1,6 +1,6 @@
 {
   "name": "@storybook/core-webpack",
-  "version": "7.0.0-alpha.34",
+  "version": "7.0.0-beta.25",
   "description": "Storybook framework-agnostic API",
   "keywords": [
     "storybook"
@@ -21,6 +21,7 @@
   "license": "MIT",
   "exports": {
     ".": {
+      "node": "./dist/index.js",
       "require": "./dist/index.js",
       "import": "./dist/index.mjs",
       "types": "./dist/index.d.ts"
@@ -32,8 +33,8 @@
   "types": "dist/index.d.ts",
   "files": [
     "dist/**/*",
-    "types/**/*",
     "templates/**/*",
+    "README.md",
     "*.js",
     "*.d.ts"
   ],
@@ -42,13 +43,14 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/core-common": "7.0.0-alpha.34",
-    "@storybook/node-logger": "7.0.0-alpha.34",
-    "@types/node": "^14.0.10 || ^16.0.0",
+    "@storybook/core-common": "7.0.0-beta.25",
+    "@storybook/node-logger": "7.0.0-beta.25",
+    "@storybook/types": "7.0.0-beta.25",
+    "@types/node": "^16.0.0",
     "ts-dedent": "^2.0.0"
   },
   "devDependencies": {
-    "typescript": "~4.6.3",
+    "typescript": "~4.9.3",
     "webpack": "5"
   },
   "publishConfig": {
@@ -60,5 +62,5 @@
     ],
     "platform": "node"
   },
-  "gitHead": "fc90fc875462421c1faa35862ac4bc436de8e75f"
+  "gitHead": "2109ab8d7c0667e686db757abf5afcbf3d48a6ec"
 }

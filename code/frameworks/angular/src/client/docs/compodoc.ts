@@ -1,9 +1,9 @@
 /* eslint-disable no-underscore-dangle */
-/* global window */
+import { global } from '@storybook/global';
 
-import type { ArgType, ArgTypes } from '@storybook/api';
+import { InputType, ArgTypes, SBType } from '@storybook/types';
 import { logger } from '@storybook/client-logger';
-import type {
+import {
   Argument,
   Class,
   CompodocJson,
@@ -21,12 +21,10 @@ export const isMethod = (methodOrProp: Method | Property): methodOrProp is Metho
 };
 
 export const setCompodocJson = (compodocJson: CompodocJson) => {
-  // @ts-expect-error (Converted from ts-ignore)
-  window.__STORYBOOK_COMPODOC_JSON__ = compodocJson;
+  global.__STORYBOOK_COMPODOC_JSON__ = compodocJson;
 };
 
-// @ts-expect-error (Converted from ts-ignore)
-export const getCompodocJson = (): CompodocJson => window.__STORYBOOK_COMPODOC_JSON__;
+export const getCompodocJson = (): CompodocJson => global.__STORYBOOK_COMPODOC_JSON__;
 
 export const checkValidComponentOrDirective = (component: Component | Directive) => {
   if (!component.name) {
@@ -137,7 +135,7 @@ const extractEnumValues = (compodocType: any) => {
   }
 };
 
-export const extractType = (property: Property, defaultValue: any) => {
+export const extractType = (property: Property, defaultValue: any): SBType => {
   const compodocType = property.type || extractTypeFromValue(defaultValue);
   switch (compodocType) {
     case 'string':
@@ -146,11 +144,13 @@ export const extractType = (property: Property, defaultValue: any) => {
       return { name: compodocType };
     case undefined:
     case null:
-      return { name: 'void' };
+      return { name: 'other', value: 'void' };
     default: {
       const resolvedType = resolveTypealias(compodocType);
       const enumValues = extractEnumValues(resolvedType);
-      return enumValues ? { name: 'enum', value: enumValues } : { name: 'object' };
+      return enumValues
+        ? { name: 'enum', value: enumValues }
+        : { name: 'other', value: 'empty-enum' };
     }
   }
 };
@@ -191,7 +191,7 @@ const extractDefaultValueFromComments = (property: Property, value: any) => {
   let commentValue = value;
   property.jsdoctags.forEach((tag: JsDocTag) => {
     if (['default', 'defaultvalue'].includes(tag.tagName.escapedText)) {
-      const dom = new window.DOMParser().parseFromString(tag.comment, 'text/html');
+      const dom = new global.DOMParser().parseFromString(tag.comment, 'text/html');
       commentValue = dom.body.textContent;
     }
   });
@@ -221,10 +221,11 @@ const resolveTypealias = (compodocType: string): string => {
 };
 
 export const extractArgTypesFromData = (componentData: Class | Directive | Injectable | Pipe) => {
-  const sectionToItems: Record<string, ArgType[]> = {};
+  const sectionToItems: Record<string, InputType[]> = {};
   const compodocClasses = ['component', 'directive'].includes(componentData.type)
     ? ['propertiesClass', 'methodsClass', 'inputsClass', 'outputsClass']
     : ['properties', 'methods'];
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   type COMPODOC_CLASS =
     | 'properties'
     | 'methods'
@@ -239,16 +240,15 @@ export const extractArgTypesFromData = (componentData: Class | Directive | Injec
       const section = mapItemToSection(key, item);
       const defaultValue = isMethod(item) ? undefined : extractDefaultValue(item as Property);
 
-      const type =
+      const type: SBType =
         isMethod(item) || (section !== 'inputs' && section !== 'properties')
-          ? { name: 'void' }
+          ? { name: 'other', value: 'void' }
           : extractType(item as Property, defaultValue);
       const action = section === 'outputs' ? { action: item.name } : {};
 
       const argType = {
         name: item.name,
         description: item.rawdescription || item.description,
-        defaultValue,
         type,
         ...action,
         table: {
