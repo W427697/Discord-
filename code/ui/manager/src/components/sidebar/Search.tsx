@@ -314,9 +314,9 @@ export const Search = React.memo<{
         if (lastViewed && lastViewed.length) {
           results = lastViewed.reduce((acc, { storyId, refId }) => {
             const data = dataset.hash[refId];
-            if (data && data.stories && data.stories[storyId]) {
-              const story = data.stories[storyId];
-              const item = story.type === 'story' ? data.stories[story.parent] : story;
+            if (data && data.index && data.index[storyId]) {
+              const story = data.index[storyId];
+              const item = story.type === 'story' ? data.index[story.parent] : story;
               // prevent duplicates
               if (!acc.some((res) => res.item.refId === refId && res.item.id === item.id)) {
                 acc.push({ item: searchItem(item, dataset.hash[refId]), matches: [], score: 0 });
