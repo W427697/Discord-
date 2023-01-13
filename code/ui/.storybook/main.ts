@@ -73,6 +73,7 @@ const config: StorybookConfig = {
       sourcemap: process.env.CI !== 'true',
     },
   }),
+  logLevel: 'debug',
 };
 
 export default config;
