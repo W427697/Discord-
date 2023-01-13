@@ -1,5 +1,5 @@
-import path from 'path';
-import semver from '@storybook/semver';
+import path, { join } from 'path';
+import semver from 'semver';
 import {
   checkForProjects,
   editStorybookTsConfig,
@@ -8,8 +8,9 @@ import {
   getBaseTsConfigName,
 } from './angular-helpers';
 import { writeFileAsJson, copyTemplate } from '../../helpers';
+import { getCliDir } from '../../dirs';
 import { baseGenerator } from '../baseGenerator';
-import { Generator } from '../types';
+import type { Generator } from '../types';
 import { CoreBuilder } from '../../project_types';
 
 function editAngularAppTsConfig() {
@@ -43,11 +44,20 @@ const generator: Generator = async (packageManager, npmOptions, options) => {
   const isWebpack5 = semver.gte(angularVersion, '12.0.0');
   const updatedOptions = isWebpack5 ? { ...options, builder: CoreBuilder.Webpack5 } : options;
 
-  await baseGenerator(packageManager, npmOptions, updatedOptions, 'angular', {
-    extraPackages: ['@compodoc/compodoc'],
-    addScripts: false,
-  });
-  copyTemplate(__dirname);
+  await baseGenerator(
+    packageManager,
+    npmOptions,
+    updatedOptions,
+    'angular',
+    {
+      extraPackages: ['@compodoc/compodoc'],
+      addScripts: false,
+    },
+    'angular'
+  );
+
+  const templateDir = join(getCliDir(), 'templates', 'angular');
+  copyTemplate(templateDir);
 
   editAngularAppTsConfig();
 
@@ -69,7 +79,7 @@ const generator: Generator = async (packageManager, npmOptions, options) => {
   }
   */
 
-  // to the user's angular.json file. see: https://github.com/storybookjs/storybook/blob/next/examples/angular-cli/angular.json#L78
+  // to the user's angular.json file.
 
   // then we want to add these scripts to package.json
   // packageManager.addScripts({

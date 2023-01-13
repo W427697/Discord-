@@ -1,14 +1,26 @@
-import webpack, { Stats, Configuration, ProgressPlugin, StatsOptions } from 'webpack';
+import type { Stats, Configuration, StatsOptions } from 'webpack';
+import webpack, { ProgressPlugin } from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
 import { logger } from '@storybook/node-logger';
-import { useProgressReporting } from '@storybook/core-common';
-import type { Builder, Options } from '@storybook/core-common';
+import type { Builder, Options } from '@storybook/types';
 import { checkWebpackVersion } from '@storybook/core-webpack';
+import { dirname, join, parse } from 'path';
+import express from 'express';
+import fs from 'fs-extra';
+import { PREVIEW_BUILDER_PROGRESS } from '@storybook/core-events';
+
+import prettyTime from 'pretty-hrtime';
 
 export * from './types';
 
-let compilation: ReturnType<typeof webpackDevMiddleware>;
+export const printDuration = (startTime: [number, number]) =>
+  prettyTime(process.hrtime(startTime))
+    .replace(' ms', ' milliseconds')
+    .replace(' s', ' seconds')
+    .replace(' m', ' minutes');
+
+let compilation: ReturnType<typeof webpackDevMiddleware> | undefined;
 let reject: (reason?: any) => void;
 
 type WebpackBuilder = Builder<Configuration, Stats>;
@@ -41,7 +53,7 @@ export const getConfig: WebpackBuilder['getConfig'] = async (options) => {
   const { presets } = options;
   const typescriptOptions = await presets.apply('typescript', {}, options);
   const babelOptions = await presets.apply('babel', {}, { ...options, typescriptOptions });
-  const framework = await presets.apply<any>('framework', {}, options);
+  const frameworkOptions = await presets.apply<any>('frameworkOptions');
 
   return presets.apply(
     'webpack',
@@ -50,7 +62,7 @@ export const getConfig: WebpackBuilder['getConfig'] = async (options) => {
       ...options,
       babelOptions,
       typescriptOptions,
-      frameworkOptions: typeof framework === 'string' ? {} : framework?.options,
+      frameworkOptions,
     }
   ) as any;
 };
@@ -72,7 +84,6 @@ export const bail: WebpackBuilder['bail'] = async () => {
   }
   // we wait for the compiler to finish it's work, so it's command-line output doesn't interfere
   return new Promise((res, rej) => {
-    // @ts-ignore
     if (process && compilation) {
       try {
         compilation.close(() => res());
@@ -97,6 +108,7 @@ const starter: StarterFunction = async function* starterGeneratorFn({
   startTime,
   options,
   router,
+  channel,
 }) {
   const webpackInstance = await executor.get(options);
   yield;
@@ -119,9 +131,40 @@ const starter: StarterFunction = async function* starterGeneratorFn({
     };
   }
 
-  const { handler, modulesCount } = await useProgressReporting(router, startTime, options);
   yield;
-  new ProgressPlugin({ handler, modulesCount }).apply(compiler);
+  const modulesCount = (await options.cache?.get('modulesCount').catch(() => {})) || 1000;
+  let totalModules: number;
+  let value = 0;
+
+  new ProgressPlugin({
+    handler: (newValue, message, arg3) => {
+      value = Math.max(newValue, value); // never go backwards
+      const progress = { value, message: message.charAt(0).toUpperCase() + message.slice(1) };
+      if (message === 'building') {
+        // arg3 undefined in webpack5
+        const counts = (arg3 && arg3.match(/(\d+)\/(\d+)/)) || [];
+        const complete = parseInt(counts[1], 10);
+        const total = parseInt(counts[2], 10);
+        if (!Number.isNaN(complete) && !Number.isNaN(total)) {
+          (progress as any).modules = { complete, total };
+          totalModules = total;
+        }
+      }
+
+      if (value === 1) {
+        if (options.cache) {
+          options.cache.set('modulesCount', totalModules);
+        }
+
+        if (!progress.message) {
+          progress.message = `Completed in ${printDuration(startTime)}.`;
+        }
+      }
+
+      channel.emit(PREVIEW_BUILDER_PROGRESS, [progress]);
+    },
+    modulesCount,
+  }).apply(compiler);
 
   const middlewareOptions: Parameters<typeof webpackDevMiddleware>[1] = {
     publicPath: config.output?.publicPath as string,
@@ -130,11 +173,16 @@ const starter: StarterFunction = async function* starterGeneratorFn({
 
   compilation = webpackDevMiddleware(compiler, middlewareOptions);
 
+  const previewResolvedDir = dirname(require.resolve('@storybook/preview/package.json'));
+  const previewDirOrigin = join(previewResolvedDir, 'dist');
+
+  router.use(`/sb-preview`, express.static(previewDirOrigin, { immutable: true, maxAge: '5m' }));
+
   router.use(compilation);
   router.use(webpackHotMiddleware(compiler as any));
 
   const stats = await new Promise<Stats>((ready, stop) => {
-    compilation.waitUntilValid(ready as any);
+    compilation?.waitUntilValid(ready as any);
     reject = stop;
   });
   yield;
@@ -144,6 +192,7 @@ const starter: StarterFunction = async function* starterGeneratorFn({
   }
 
   if (stats.hasErrors()) {
+    // eslint-disable-next-line @typescript-eslint/no-throw-literal
     throw stats;
   }
 
@@ -179,7 +228,7 @@ const builder: BuilderFunction = async function* builderGeneratorFn({ startTime,
     } as any as Stats;
   }
 
-  return new Promise<Stats>((succeed, fail) => {
+  const webpackCompilation = new Promise<Stats>((succeed, fail) => {
     compiler.run((error, stats) => {
       if (error || !stats || stats.hasErrors()) {
         logger.error('=> Failed to build the preview');
@@ -219,10 +268,10 @@ const builder: BuilderFunction = async function* builderGeneratorFn({ startTime,
 
       logger.trace({ message: '=> Preview built', time: process.hrtime(startTime) });
       if (stats && stats.hasWarnings()) {
-        // @ts-ignore
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- we know it has warnings because of hasWarnings()
         stats
           .toJson({ warnings: true } as StatsOptions)
-          .warnings.forEach((e) => logger.warn(e.message));
+          .warnings!.forEach((e) => logger.warn(e.message));
       }
 
       // https://webpack.js.org/api/node/#run
@@ -236,6 +285,24 @@ const builder: BuilderFunction = async function* builderGeneratorFn({ startTime,
       });
     });
   });
+
+  const previewResolvedDir = dirname(require.resolve('@storybook/preview/package.json'));
+  const previewDirOrigin = join(previewResolvedDir, 'dist');
+  const previewDirTarget = join(options.outputDir || '', `sb-preview`);
+
+  const previewFiles = fs.copy(previewDirOrigin, previewDirTarget, {
+    filter: (src) => {
+      const { ext } = parse(src);
+      if (ext) {
+        return ext === '.mjs';
+      }
+      return true;
+    },
+  });
+
+  const [webpackCompilationOutput] = await Promise.all([webpackCompilation, previewFiles]);
+
+  return webpackCompilationOutput;
 };
 
 export const start = async (options: BuilderStartOptions) => {
@@ -262,5 +329,5 @@ export const build = async (options: BuilderStartOptions) => {
   return result.value;
 };
 
-export const corePresets = [require.resolve('./presets/preview-preset.js')];
-export const overridePresets = [require.resolve('./presets/custom-webpack-preset.js')];
+export const corePresets = [join(__dirname, 'presets/preview-preset.js')];
+export const overridePresets = [join(__dirname, './presets/custom-webpack-preset.js')];

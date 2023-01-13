@@ -1,4 +1,4 @@
-import global from 'global';
+import { global } from '@storybook/global';
 import { Channel } from '@storybook/channels';
 import type { ChannelHandler } from '@storybook/channels';
 import { logger } from '@storybook/client-logger';
@@ -85,3 +85,6 @@ export function createChannel({
   const transport = new WebsocketTransport({ url, onError });
   return new Channel({ transport, async });
 }
+
+// backwards compat with builder-vite
+export default createChannel;

@@ -1,12 +1,13 @@
-import React, { FC, Fragment } from 'react';
+import type { FC } from 'react';
+import React, { Fragment } from 'react';
 import { styled, withTheme } from '@storybook/theming';
 import type { Theme } from '@storybook/theming';
 
-import Inspector from 'react-inspector';
+import { Inspector } from 'react-inspector';
 import { ActionBar, ScrollArea } from '@storybook/components';
 
 import { Action, InspectorContainer, Counter } from './style';
-import { ActionDisplay } from '../../models';
+import type { ActionDisplay } from '../../models';
 
 const UnstyledWrapped: FC<{ className?: string }> = ({ children, className }) => (
   <ScrollArea horizontal vertical className={className}>
@@ -19,7 +20,7 @@ export const Wrapper = styled(UnstyledWrapped)({
 });
 
 interface InspectorProps {
-  theme: Theme;
+  theme: Theme & { addonActionsTheme?: string };
   sortObjectKeys: boolean;
   showNonenumerable: boolean;
   name: any;
@@ -27,7 +28,7 @@ interface InspectorProps {
 }
 
 const ThemedInspector = withTheme(({ theme, ...props }: InspectorProps) => (
-  <Inspector theme={theme.addonActionsTheme || 'chromeLight'} {...props} />
+  <Inspector theme={theme.addonActionsTheme || 'chromeLight'} table={false} {...props} />
 ));
 
 interface ActionLoggerProps {

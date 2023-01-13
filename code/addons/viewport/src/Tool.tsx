@@ -1,16 +1,17 @@
 /* eslint-disable no-fallthrough */
-import React, { Fragment, ReactNode, useEffect, useRef, FC, memo } from 'react';
+import type { ReactNode, FC } from 'react';
+import React, { Fragment, useEffect, useRef, memo } from 'react';
 import memoize from 'memoizerific';
 
-import { styled, Global, Theme, withTheme } from '@storybook/theming';
+import { styled, Global, type Theme, withTheme } from '@storybook/theming';
 
 import { Icons, IconButton, WithTooltip, TooltipLinkList } from '@storybook/components';
 
-import { useStorybookApi, useParameter, useAddonState } from '@storybook/api';
+import { useStorybookApi, useParameter, useAddonState } from '@storybook/manager-api';
 import { registerShortcuts } from './shortcuts';
 import { PARAM_KEY, ADDON_ID } from './constants';
 import { MINIMAL_VIEWPORTS } from './defaults';
-import { ViewportAddonParameter, ViewportMap, ViewportStyles, Styles } from './models';
+import type { ViewportAddonParameter, ViewportMap, ViewportStyles, Styles } from './models';
 
 interface ViewportItem {
   id: string;
@@ -57,7 +58,6 @@ const toLinks = memoize(50)((list: ViewportItem[], active: LinkBase, set, state,
     .filter(Boolean);
 });
 
-const iframeId = 'storybook-preview-iframe';
 const wrapperId = 'storybook-preview-wrapper';
 
 interface LinkBase {
@@ -207,7 +207,7 @@ export const ViewportTool: FC = memo(
           <ActiveViewportSize>
             <Global
               styles={{
-                [`#${iframeId}`]: {
+                [`iframe[data-is-storybook="true"]`]: {
                   margin: `auto`,
                   transition: 'width .3s, height .3s',
                   position: 'relative',

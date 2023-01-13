@@ -2,16 +2,17 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
+
     <title><%= typeof title !== 'undefined'? title : 'Storybook'%></title>
 
-    <link rel="shortcut icon" href="./favicon.ico" />
+    <link rel="icon" type="image/svg+xml" href="./favicon.svg">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
+
     <% if (typeof head !== 'undefined') { %> <%- head %> <% } %>
-    
+
     <style>
-      #root[hidden],
-      #docs-root[hidden] {
+      #storybook-root[hidden]{
         display: none !important;
       }
     </style>
@@ -19,11 +20,9 @@
     <% files.css.forEach(file => { %>
     <link href="<%= file %>" rel="stylesheet" />
     <% }); %>
-
   </head>
   <body>
     <div id="root"></div>
-    <div id="docs-root"></div>
 
     <% if (typeof globals !== 'undefined' && Object.keys(globals).length) { %>
     <script>
@@ -34,11 +33,15 @@
       <% } %>
     </script>
     <% } %>
-    
-    <script src="./sb-manager/runtime.mjs" type="module"></script>
 
-    <% files.js.forEach(file => { %>
-      <script src="<%= file %>" type="module"></script>
-    <% }); %>
+    <script type="module">
+      import './sb-manager/runtime.mjs';
+
+      <% files.js.forEach(file => { %>
+      import '<%= file %>';
+      <% }); %>     
+    </script>    
+
+    <link href="./sb-preview/runtime.mjs" rel="preload" as="script">
   </body>
 </html>

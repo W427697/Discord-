@@ -1,6 +1,6 @@
 {
   "name": "@storybook/react-webpack5",
-  "version": "7.0.0-alpha.20",
+  "version": "7.0.0-beta.25",
   "description": "Storybook for React: Develop React Component in isolation with Hot Reloading.",
   "keywords": [
     "storybook"
@@ -21,6 +21,7 @@
   "license": "MIT",
   "exports": {
     ".": {
+      "node": "./dist/index.js",
       "require": "./dist/index.js",
       "import": "./dist/index.mjs",
       "types": "./dist/index.d.ts"
@@ -30,36 +31,31 @@
       "import": "./dist/preset.mjs",
       "types": "./dist/preset.d.ts"
     },
-    "./package.json": {
-      "require": "./package.json",
-      "import": "./package.json",
-      "types": "./package.json"
-    }
+    "./package.json": "./package.json"
   },
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "files": [
     "dist/**/*",
-    "types/**/*",
+    "template/**/*",
     "README.md",
     "*.js",
     "*.d.ts"
   ],
   "scripts": {
-    "check": "tsc --noEmit",
-    "prepare": "../../../scripts/prepare/bundle.ts"
+    "check": "../../../scripts/node_modules/.bin/tsc --noEmit",
+    "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/builder-webpack5": "7.0.0-alpha.20",
-    "@storybook/preset-react-webpack": "7.0.0-alpha.20",
-    "@storybook/react": "7.0.0-alpha.20",
-    "@types/node": "^14.14.20 || ^16.0.0",
-    "core-js": "^3.8.2"
+    "@storybook/builder-webpack5": "7.0.0-beta.25",
+    "@storybook/preset-react-webpack": "7.0.0-beta.25",
+    "@storybook/react": "7.0.0-beta.25",
+    "@types/node": "^16.0.0"
   },
   "devDependencies": {
-    "jest-specific-snapshot": "^4.0.0",
-    "typescript": "~4.6.3"
+    "jest-specific-snapshot": "^7.0.0",
+    "typescript": "~4.9.3"
   },
   "peerDependencies": {
     "@babel/core": "^7.11.5",
@@ -75,7 +71,7 @@
     }
   },
   "engines": {
-    "node": ">=10.13.0"
+    "node": ">=16.0.0"
   },
   "publishConfig": {
     "access": "public"
@@ -87,5 +83,5 @@
     ],
     "platform": "node"
   },
-  "gitHead": "a6c00d2ebed21da54b4772b4a4f7fed9258f0ab4"
+  "gitHead": "2109ab8d7c0667e686db757abf5afcbf3d48a6ec"
 }

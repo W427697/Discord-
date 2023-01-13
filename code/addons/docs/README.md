@@ -4,13 +4,13 @@
 
 # Storybook Docs
 
-> migration guide: This page documents the method to configure storybook introduced recently in 5.3.0, consult the [migration guide](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md) if you want to migrate to this format of configuring storybook.
+> migration guide: This page documents the method to configure Storybook introduced recently in 7.0.0, consult the [migration guide](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md) if you want to migrate to this format of configuring Storybook.
 
 Storybook Docs transforms your Storybook stories into world-class component documentation.
 
 **DocsPage.** Out of the box, all your stories get a `DocsPage`. `DocsPage` is a zero-config aggregation of your component stories, text descriptions, docgen comments, props tables, and code examples into clean, readable pages.
 
-**MDX.** If you want more control, `MDX` allows you to write long-form markdown documentation and stories in one file. You can also use it to write pure documentation pages and embed them inside your Storybook alongside your stories.
+**MDX.** If you want more control, `MDX` allows you to write long-form markdown documentation and include stories in one file. You can also use it to write pure documentation pages and embed them inside your Storybook alongside your stories.
 
 Just like Storybook, Docs supports every major view layer including React, Vue, Angular, HTML, Web components, Svelte, and many more.
 
@@ -23,7 +23,6 @@ Read on to learn more:
   - [Installation](#installation)
     - [Be sure to check framework specific installation needs](#be-sure-to-check-framework-specific-installation-needs)
   - [Preset options](#preset-options)
-  - [Manual configuration](#manual-configuration)
   - [TypeScript configuration](#typescript-configuration)
   - [More resources](#more-resources)
 
@@ -41,31 +40,29 @@ For more information on how it works, see the [`DocsPage` reference](https://git
 
 ## MDX
 
-`MDX` is a syntax for writing long-form documentation and stories side-by-side in the same file. In contrast to `DocsPage`, which provides smart documentation out of the box, `MDX` gives you full control over your component documentation.
+`MDX` is a syntax for writing long-form documentation with stories side-by-side in the same file. In contrast to `DocsPage`, which provides smart documentation out of the box, `MDX` gives you full control over your component documentation.
 
 Here's an example file:
 
-```md
-import { Meta, Story, Canvas } from '@storybook/addon-docs';
-import { Checkbox } from './Checkbox';
+<!-- prettier-ignore-start -->
 
-<Meta title="MDX/Checkbox" component={Checkbox} />
+```md
+import { Meta, Story, Canvas } from '@storybook/blocks';
+import * as CheckboxStories from './Checkbox.stories';
+
+<Meta title="MDX/Checkbox" of={CheckboxStories} />
 
 # Checkbox
 
-With `MDX` we can define a story for `Checkbox` right in the middle of our
+With `MDX` we can include a story for `Checkbox` right in the middle of our
 markdown documentation.
 
 <Canvas>
-  <Story name="all checkboxes">
-    <form>
-      <Checkbox id="Unchecked" label="Unchecked" />
-      <Checkbox id="Checked" label="Checked" checked />
-      <Checkbox appearance="secondary" id="second" label="Secondary" checked />
-    </form>
-  </Story>
+  <Story of={CheckboxStories.Unchecked} />
 </Canvas>
 ```
+
+<!-- prettier-ignore-end -->
 
 And here's how that's rendered in Storybook:
 
@@ -103,8 +100,13 @@ Then add the following to your `.storybook/main.js`:
 
 ```js
 module.exports = {
-  stories: ['../src/**/*.stories.@(js|mdx)'],
-  addons: ['@storybook/addon-docs'],
+  stories: [
+    '../src/**/*.mdx)', // 👈 Add this, to match your project's structure
+    '../src/**/*.stories.@(js|jsx|ts|tsx)',
+  ],
+  addons: [
+    '@storybook/addon-docs', // 👈 Also add this
+  ],
 };
 ```
 
@@ -141,9 +143,8 @@ module.exports = {
     {
       name: '@storybook/addon-docs',
       options: {
-        configureJSX: true,
-        babelOptions: {},
-        sourceLoaderOptions: null,
+        jsxOptions: {},
+        csfPluginOptions: null,
         transcludeMarkdown: true,
       },
     },
@@ -151,9 +152,9 @@ module.exports = {
 };
 ```
 
-The `configureJSX` option is useful when you're writing your docs in MDX and your project's babel config isn't already set up to handle JSX files. `babelOptions` is a way to further configure the babel processor when you're using `configureJSX`.
+`jsxOptions` are options that will be passed to `@babel/preset-react` for `.md` and `.mdx` files.
 
-`sourceLoaderOptions` is an object for configuring `@storybook/source-loader`. When set to `null` it tells docs not to run the `source-loader` at all, which can be used as an optimization, or if you're already using `source-loader` in your `main.js`.
+`csfPluginOptions` is an object for configuring `@storybook/csf-plugin`. When set to `null` it tells docs not to run the `csf-plugin` at all, which can be used as an optimization, or if you're already using `csf-plugin` in your `main.js`.
 
 The `transcludeMarkdown` option enables mdx files to import `.md` files and render them as a component.
 
@@ -164,67 +165,6 @@ import Changelog from '../CHANGELOG.md';
 <Meta title="Changelog" />
 
 <Changelog />
-```
-
-## Manual configuration
-
-We recommend using the preset, which should work out of the box. If you don't want to use the preset, and prefer to configure "the long way" add the following configuration to `.storybook/main.js` (see comments inline for explanation):
-
-```js
-const createCompiler = require('@storybook/addon-docs/mdx-compiler-plugin');
-
-module.exports = {
-  // 1. register the docs panel (as opposed to '@storybook/addon-docs' which
-  //    will configure everything with a preset)
-  addons: ['@storybook/addon-docs/register'],
-  // 2. manually configure webpack, since you're not using the preset
-  webpackFinal: async (config) => {
-    config.module.rules.push({
-      // 2a. Load `.stories.mdx` / `.story.mdx` files as CSF and generate
-      //     the docs page from the markdown
-      test: /\.(stories|story)\.mdx$/,
-      use: [
-        {
-          // Need to add babel-loader as dependency: `yarn add -D babel-loader`
-          loader: require.resolve('babel-loader'),
-          // may or may not need this line depending on your app's setup
-          options: {
-            plugins: ['@babel/plugin-transform-react-jsx'],
-          },
-        },
-        {
-          loader: '@mdx-js/loader',
-          options: {
-            compilers: [createCompiler({})],
-          },
-        },
-      ],
-    });
-    // 2b. Run `source-loader` on story files to show their source code
-    //     automatically in `DocsPage` or the `Source` doc block.
-    config.module.rules.push({
-      test: /\.(stories|story)\.[tj]sx?$/,
-      loader: require.resolve('@storybook/source-loader'),
-      exclude: [/node_modules/],
-      enforce: 'pre',
-    });
-    return config;
-  },
-};
-```
-
-You'll also need to set up the docs parameter in `.storybook/preview.js`. This includes the `DocsPage` for rendering the page, a container, and various configuration options, such as `extractComponentDescription` for manually extracting a component description:
-
-```js
-import { addParameters } from '@storybook/react';
-import { DocsPage, DocsContainer } from '@storybook/addon-docs';
-
-addParameters({
-  docs: {
-    container: DocsContainer,
-    page: DocsPage,
-  },
-});
 ```
 
 ## TypeScript configuration

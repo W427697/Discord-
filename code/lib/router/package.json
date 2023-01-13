@@ -1,6 +1,6 @@
 {
   "name": "@storybook/router",
-  "version": "7.0.0-alpha.20",
+  "version": "7.0.0-beta.25",
   "description": "Core Storybook Router",
   "keywords": [
     "storybook"
@@ -20,9 +20,23 @@
   },
   "license": "MIT",
   "sideEffects": false,
-  "main": "dist/cjs/index.js",
-  "module": "dist/esm/index.js",
-  "types": "dist/types/index.d.ts",
+  "exports": {
+    ".": {
+      "node": "./dist/index.js",
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.ts"
+    },
+    "./utils": {
+      "require": "./dist/utils.js",
+      "import": "./dist/utils.mjs",
+      "types": "./dist/utils.d.ts"
+    },
+    "./package.json": "./package.json"
+  },
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
   "files": [
     "dist/**/*",
     "README.md",
@@ -30,25 +44,21 @@
     "*.d.ts"
   ],
   "scripts": {
-    "check": "tsc --noEmit",
-    "prepare": "ts-node ../../../scripts/prebundle.ts"
+    "check": "../../../scripts/node_modules/.bin/tsc --noEmit",
+    "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/client-logger": "7.0.0-alpha.20",
-    "core-js": "^3.8.2",
+    "@storybook/client-logger": "7.0.0-beta.25",
     "memoizerific": "^1.11.3",
     "qs": "^6.10.0"
   },
   "devDependencies": {
+    "@storybook/global": "^5.0.0",
     "dequal": "^2.0.2",
-    "global": "^4.4.0",
-    "history": "5.0.0",
     "lodash": "^4.17.21",
-    "react-router": "6.0.2",
     "react-router-dom": "6.0.2",
     "ts-dedent": "^2.0.0",
-    "ts-node": "^10.4.0",
-    "typescript": "~4.6.3"
+    "typescript": "~4.9.3"
   },
   "peerDependencies": {
     "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
@@ -57,6 +67,12 @@
   "publishConfig": {
     "access": "public"
   },
-  "bundlerEntrypoint": "./src/index.ts",
-  "gitHead": "a6c00d2ebed21da54b4772b4a4f7fed9258f0ab4"
+  "bundler": {
+    "platform": "browser",
+    "entries": [
+      "./src/index.ts",
+      "./src/utils.ts"
+    ]
+  },
+  "gitHead": "2109ab8d7c0667e686db757abf5afcbf3d48a6ec"
 }
