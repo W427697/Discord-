@@ -6342,12 +6342,12 @@ __metadata:
     cross-spawn: ^7.0.3
     globby: ^11.0.2
     jest: ^29.3.1
-    jest-serializer-ansi: ^1.0.3
     jest-specific-snapshot: ^7.0.0
     jscodeshift: ^0.13.1
     lodash: ^4.17.21
     prettier: ^2.8.0
     recast: ^0.23.1
+    strip-ansi: ^7.0.1
     typescript: ~4.9.3
     util: ^0.12.4
   languageName: unknown
@@ -10263,13 +10263,6 @@ __metadata:
   bin:
     ansi-html: bin/ansi-html
   checksum: 45d3a6f0b4f10b04fdd44bef62972e2470bfd917bf00439471fa7473d92d7cbe31369c73db863cc45dda115cb42527f39e232e9256115534b8ee5806b0caeed4
-  languageName: node
-  linkType: hard
-
-"ansi-regex@npm:^3.0.0":
-  version: 3.0.1
-  resolution: "ansi-regex@npm:3.0.1"
-  checksum: d108a7498b8568caf4a46eea4f1784ab4e0dfb2e3f3938c697dee21443d622d765c958f2b7e2b9f6b9e55e2e2af0584eaa9915d51782b89a841c28e744e7a167
   languageName: node
   linkType: hard
 
@@ -17023,15 +17016,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"has-ansi@npm:^3.0.0":
-  version: 3.0.0
-  resolution: "has-ansi@npm:3.0.0"
-  dependencies:
-    ansi-regex: ^3.0.0
-  checksum: 120575cd37fbdb4553f201563448d93181f39c28aed083bc0fb1df2d0758c3aac86480e67252c05d34a9f6452503a74d3d6c6ed8fd52a554f2a7439acd8a201f
-  languageName: node
-  linkType: hard
-
 "has-bigints@npm:^1.0.1, has-bigints@npm:^1.0.2":
   version: 1.0.2
   resolution: "has-bigints@npm:1.0.2"
@@ -19578,17 +19562,6 @@ __metadata:
     slash: ^3.0.0
     strip-bom: ^4.0.0
   checksum: 585cfbfc45280c673ff4137f432f7713284d976a7b769a0a2b520527a93bc15ee59e166255fcbc518387f073019d05eff3b373e33e8d94117ffc98d8ec700ff0
-  languageName: node
-  linkType: hard
-
-"jest-serializer-ansi@npm:^1.0.3":
-  version: 1.0.3
-  resolution: "jest-serializer-ansi@npm:1.0.3"
-  dependencies:
-    has-ansi: ^3.0.0
-    lodash: ^4.17.4
-    strip-ansi: ^4.0.0
-  checksum: 4360df6ec209250bc962118bbbb7a9ab460c86fb012128af1dc44db0ae469dcf4219e30536a6122ed9a88c3863a9e10f63865ba5a8b036fff94ae1f1f7f7aa89
   languageName: node
   linkType: hard
 
@@ -27594,15 +27567,6 @@ __metadata:
     is-obj: ^1.0.1
     is-regexp: ^1.0.0
   checksum: ba8078f84128979ee24b3de9a083489cbd3c62cb8572a061b47d4d82601a8ae4b4d86fa8c54dd955593da56bb7c16a6de51c27221fdc6b7139bb4f29d815f35b
-  languageName: node
-  linkType: hard
-
-"strip-ansi@npm:^4.0.0":
-  version: 4.0.0
-  resolution: "strip-ansi@npm:4.0.0"
-  dependencies:
-    ansi-regex: ^3.0.0
-  checksum: d75d9681e0637ea316ddbd7d4d3be010b1895a17e885155e0ed6a39755ae0fd7ef46e14b22162e66a62db122d3a98ab7917794e255532ab461bb0a04feb03e7d
   languageName: node
   linkType: hard
 

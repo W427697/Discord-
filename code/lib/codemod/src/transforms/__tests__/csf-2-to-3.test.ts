@@ -1,7 +1,7 @@
 import { describe, it, expect } from '@jest/globals';
 import { dedent } from 'ts-dedent';
 import type { API } from 'jscodeshift';
-import noColorSerializer from 'jest-serializer-ansi';
+import stripAnsi from 'strip-ansi';
 import _transform from '../csf-2-to-3';
 
 expect.addSnapshotSerializer({
@@ -218,7 +218,10 @@ describe('csf-2-to-3', () => {
 
   describe('typescript', () => {
     it('should error with namespace imports', () => {
-      expect.addSnapshotSerializer(noColorSerializer);
+      expect.addSnapshotSerializer({
+        serialize: (value) => stripAnsi(value),
+        test: () => true,
+      });
       expect(() =>
         tsTransform(dedent`
           import * as SB from '@storybook/react';
