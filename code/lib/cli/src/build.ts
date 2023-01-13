@@ -15,7 +15,9 @@ export const build = async (cliOptions: any) => {
       cache,
       packageJson: readUpSync({ cwd: __dirname }).packageJson,
     };
-    await withTelemetry('build', { presetOptions: options }, () => buildStaticStandalone(options));
+    await withTelemetry('build', { cliOptions, presetOptions: options }, () =>
+      buildStaticStandalone(options)
+    );
   } catch (err) {
     logger.error(err);
     process.exit(1);

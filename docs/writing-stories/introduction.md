@@ -44,6 +44,12 @@ The _default_ export metadata controls how Storybook lists your stories and prov
 
 <!-- prettier-ignore-end -->
 
+<div class="aside">
+
+Starting with Storybook version 7.0, story titles are analyzed statically as part of the build process. The _default_ export must contain a `title` property that can be read statically or a `component` property from which an automatic title can be computed. Using the `id` property to customize your story URL must also be statically readable.
+
+</div>
+
 ### Defining stories
 
 Use the _named_ exports of a CSF file to define your component’s stories. We recommend you use UpperCamelCase for your story exports. Here’s how to render `Button` in the “primary” state and export a story called `Primary`.
@@ -63,6 +69,8 @@ Use the _named_ exports of a CSF file to define your component’s stories. We r
     'html/button-story.js.mdx',
     'html/button-story.ts.mdx',
   ]}
+  usesCsf3
+  csf2Path="writing-stories/introduction#snippet-button-story"
 />
 
 <!-- prettier-ignore-end -->
@@ -77,6 +85,8 @@ Use the _named_ exports of a CSF file to define your component’s stories. We r
   paths={[
     'react/button-story.with-hooks.js.mdx',
   ]}
+  usesCsf3
+  csf2Path="writing-stories/introduction#snippet-button-story-with-hooks"
 />
 
 <!-- prettier-ignore-end -->
@@ -103,6 +113,8 @@ You can rename any particular story you need. For instance, to give it a more ac
     'html/button-story-rename-story.js.mdx',
     'html/button-story-rename-story.ts.mdx',
   ]}
+  usesCsf3
+  csf2Path="writing-stories/introduction#snippet-button-story-rename-story"
 />
 
 <!-- prettier-ignore-end -->
@@ -128,6 +140,8 @@ A story is a function that describes how to render a component. You can have mul
     'html/button-story-with-emojis.js.mdx',
     'html/button-story-with-emojis.ts.mdx',
   ]}
+  usesCsf3
+  csf2Path="writing-stories/introduction#snippet-button-story-with-emojis"
 />
 
 <!-- prettier-ignore-end -->
@@ -145,8 +159,8 @@ Refine this pattern by introducing `args` for your component's stories. It reduc
     'react/button-story-using-args.js.mdx',
     'react/button-story-using-args.ts.mdx',
     'vue/button-story-using-args.2.js.mdx',
-    'vue/button-story-using-args.3.js.mdx',
     'vue/button-story-using-args.ts-2.ts.mdx',
+    'vue/button-story-using-args.3.js.mdx',
     'vue/button-story-using-args.ts-3.ts.mdx',
     'angular/button-story-using-args.ts.mdx',
     'svelte/button-story-using-args.js.mdx',
@@ -154,6 +168,8 @@ Refine this pattern by introducing `args` for your component's stories. It reduc
     'html/button-story-using-args.js.mdx',
     'html/button-story-using-args.ts.mdx',
   ]}
+  usesCsf3
+  csf2Path="writing-stories/introduction#snippet-button-story-using-args"
 />
 
 <!-- prettier-ignore-end -->
@@ -170,13 +186,16 @@ What’s more, you can import `args` to reuse when writing stories for other com
     'react/button-group-story.ts.mdx',
     'angular/button-group-story.ts.mdx',
     'vue/button-group-story.2.js.mdx',
-    'vue/button-group-story.3.js.mdx',
     'vue/button-group-story.ts-2.ts.mdx',
+    'vue/button-group-story.3.js.mdx',
     'vue/button-group-story.ts-3.ts.mdx',
     'svelte/button-group-story.js.mdx',
     'web-components/button-group-story.js.mdx',
   ]}
+  usesCsf3
+  csf2Path="writing-stories/introduction#snippet-button-group-story"
 />
+
 
 <!-- prettier-ignore-end -->
 
@@ -217,6 +236,8 @@ Storybook's `play` function and the [`@storybook/addon-interactions`](https://st
     'vue/login-form-with-play-function.ts-3.ts.mdx',
     'svelte/login-form-with-play-function.js.mdx',
   ]}
+  usesCsf3
+  csf2Path="writing-stories/introduction#snippet-login-form-with-play-function"
 />
 
 Without the help of the `play` function and the `@storybook/addon-interactions`, you had to write your own stories and manually interact with the component to test out each use case scenario possible. 
@@ -246,7 +267,12 @@ For instance, suppose you wanted to test your Button component against a differe
 
 <!-- prettier-ignore-end -->
 
-![Background colors parameter](./parameters-background-colors.png)
+<video autoPlay muted playsInline loop>
+  <source
+    src="storybook-story-parameters-demo-optimized.mp4"
+    type="video/mp4"
+  />
+</video>
 
 This parameter would instruct the backgrounds addon to reconfigure itself whenever a Button story is selected. Most addons are configured via a parameter-based API and can be influenced at a [global](./parameters.md#global-parameters), [component](./parameters.md#component-parameters) and [story](./parameters.md#story-parameters) level.
 
@@ -296,6 +322,8 @@ When building design systems or component libraries, you may have two or more co
     'html/list-story-starter.js.mdx',
     'html/list-story-starter.ts.mdx',
   ]}
+  usesCsf3
+  csf2Path="writing-stories/introduction#snippet-list-story-starter"
 />
 
 <!-- prettier-ignore-end -->
@@ -317,6 +345,8 @@ In such cases, it makes sense to render a different function for each story:
     'html/list-story-expanded.js.mdx',
     'html/list-story-expanded.ts.mdx',
   ]}
+  usesCsf3
+  csf2Path="writing-stories/introduction#snippet-list-story-expanded"
 />
 
 <!-- prettier-ignore-end -->
@@ -338,6 +368,8 @@ You can also reuse stories from the child `ListItem` in your `List` component. T
     'html/list-story-reuse-data.js.mdx',
     'html/list-story-reuse-data.ts.mdx',
   ]}
+  usesCsf3
+  csf2Path="writing-stories/introduction#snippet-list-story-reuse-data"
 />
 
 <!-- prettier-ignore-end -->

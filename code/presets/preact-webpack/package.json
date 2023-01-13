@@ -1,6 +1,6 @@
 {
   "name": "@storybook/preset-preact-webpack",
-  "version": "7.0.0-alpha.51",
+  "version": "7.0.0-beta.26",
   "description": "Storybook for Preact: Develop Preact Component in isolation.",
   "keywords": [
     "storybook"
@@ -21,20 +21,18 @@
   "license": "MIT",
   "exports": {
     ".": {
+      "node": "./dist/index.js",
       "require": "./dist/index.js",
       "import": "./dist/index.mjs",
       "types": "./dist/index.d.ts"
     },
     "./preset": {
+      "node": "./dist/index.js",
       "require": "./dist/index.js",
       "import": "./dist/index.mjs",
       "types": "./dist/index.d.ts"
     },
-    "./package.json": {
-      "require": "./package.json",
-      "import": "./package.json",
-      "types": "./package.json"
-    }
+    "./package.json": "./package.json"
   },
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -51,21 +49,19 @@
   },
   "dependencies": {
     "@babel/plugin-transform-react-jsx": "^7.19.0",
-    "@storybook/core-webpack": "7.0.0-alpha.51",
-    "@types/node": "^16.0.0 || ^18.0.0",
-    "react": "16.14.0",
-    "react-dom": "16.14.0"
+    "@storybook/core-webpack": "7.0.0-beta.26",
+    "@types/node": "^16.0.0"
   },
   "devDependencies": {
     "preact": "^10.5.13",
-    "typescript": "^4.9.3"
+    "typescript": "~4.9.3"
   },
   "peerDependencies": {
     "@babel/core": "*",
     "preact": "^8.0.0||^10.0.0"
   },
   "engines": {
-    "node": ">=10.13.0"
+    "node": ">=16.0.0"
   },
   "publishConfig": {
     "access": "public"
@@ -76,5 +72,5 @@
     ],
     "platform": "node"
   },
-  "gitHead": "4fec76c3f5135854d9834ebc1cf2f1f325696ded"
+  "gitHead": "4d3ed5ec2eb8db3e688955e2820001def09621c1"
 }

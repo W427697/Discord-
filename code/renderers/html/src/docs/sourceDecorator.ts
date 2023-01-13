@@ -1,7 +1,7 @@
 /* eslint-disable no-underscore-dangle */
-/* global window */
+
 import { SNIPPET_RENDERED, SourceType } from '@storybook/docs-tools';
-import { addons, useEffect } from '@storybook/addons';
+import { addons, useEffect } from '@storybook/preview-api';
 import type { PartialStoryFn } from '@storybook/types';
 import { dedent } from 'ts-dedent';
 

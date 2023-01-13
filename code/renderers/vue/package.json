@@ -1,6 +1,6 @@
 {
   "name": "@storybook/vue",
-  "version": "7.0.0-alpha.51",
+  "version": "7.0.0-beta.26",
   "description": "Storybook Vue renderer",
   "keywords": [
     "storybook"
@@ -21,6 +21,7 @@
   "license": "MIT",
   "exports": {
     ".": {
+      "node": "./dist/index.js",
       "require": "./dist/index.js",
       "import": "./dist/index.mjs",
       "types": "./dist/index.d.ts"
@@ -30,11 +31,7 @@
       "import": "./dist/config.mjs",
       "types": "./dist/config.d.ts"
     },
-    "./package.json": {
-      "require": "./package.json",
-      "import": "./package.json",
-      "types": "./package.json"
-    }
+    "./package.json": "./package.json"
   },
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -51,20 +48,17 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/addons": "7.0.0-alpha.51",
-    "@storybook/client-logger": "7.0.0-alpha.51",
-    "@storybook/core-client": "7.0.0-alpha.51",
-    "@storybook/docs-tools": "7.0.0-alpha.51",
-    "@storybook/store": "7.0.0-alpha.51",
-    "@storybook/types": "7.0.0-alpha.51",
-    "global": "^4.4.0",
-    "react": "16.14.0",
-    "react-dom": "16.14.0",
+    "@storybook/client-logger": "7.0.0-beta.26",
+    "@storybook/core-client": "7.0.0-beta.26",
+    "@storybook/docs-tools": "7.0.0-beta.26",
+    "@storybook/global": "^5.0.0",
+    "@storybook/preview-api": "7.0.0-beta.26",
+    "@storybook/types": "7.0.0-beta.26",
     "ts-dedent": "^2.0.0",
     "type-fest": "2.19.0"
   },
   "devDependencies": {
-    "typescript": "^4.9.3",
+    "typescript": "~4.9.3",
     "vue": "2.6.14",
     "vue-tsc": "^1.0.9"
   },
@@ -80,7 +74,7 @@
     }
   },
   "engines": {
-    "node": ">=10.13.0"
+    "node": ">=16.0.0"
   },
   "publishConfig": {
     "access": "public"
@@ -92,5 +86,5 @@
     ],
     "platform": "browser"
   },
-  "gitHead": "4fec76c3f5135854d9834ebc1cf2f1f325696ded"
+  "gitHead": "4d3ed5ec2eb8db3e688955e2820001def09621c1"
 }

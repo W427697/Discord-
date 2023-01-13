@@ -1,5 +1,5 @@
 /* eslint-env browser */
-import { useEffect } from '@storybook/addons';
+import { useEffect } from '@storybook/preview-api';
 import type { Renderer, PartialStoryFn as StoryFunction, StoryContext } from '@storybook/types';
 import { drawSelectedElement } from './box-model/visualizer';
 import { init, rescale, destroy } from './box-model/canvas';
@@ -17,7 +17,7 @@ export const withMeasure = (StoryFn: StoryFunction<Renderer>, context: StoryCont
   const { measureEnabled } = context.globals;
 
   useEffect(() => {
-    const onMouseMove = (event: MouseEvent) => {
+    const onPointerMove = (event: MouseEvent) => {
       window.requestAnimationFrame(() => {
         event.stopPropagation();
         pointer.x = event.clientX;
@@ -25,15 +25,15 @@ export const withMeasure = (StoryFn: StoryFunction<Renderer>, context: StoryCont
       });
     };
 
-    document.addEventListener('mousemove', onMouseMove);
+    document.addEventListener('pointermove', onPointerMove);
 
     return () => {
-      document.removeEventListener('mousemove', onMouseMove);
+      document.removeEventListener('pointermove', onPointerMove);
     };
   }, []);
 
   useEffect(() => {
-    const onMouseOver = (event: MouseEvent) => {
+    const onPointerOver = (event: MouseEvent) => {
       window.requestAnimationFrame(() => {
         event.stopPropagation();
         findAndDrawElement(event.clientX, event.clientY);
@@ -47,7 +47,7 @@ export const withMeasure = (StoryFn: StoryFunction<Renderer>, context: StoryCont
     };
 
     if (measureEnabled) {
-      document.addEventListener('mouseover', onMouseOver);
+      document.addEventListener('pointerover', onPointerOver);
       init();
       window.addEventListener('resize', onResize);
       // Draw the element below the pointer when first enabled

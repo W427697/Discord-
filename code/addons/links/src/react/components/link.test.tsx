@@ -1,22 +1,24 @@
 import React from 'react';
-import { addons } from '@storybook/addons';
+import { addons } from '@storybook/preview-api';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { SELECT_STORY } from '@storybook/core-events';
 import LinkTo from './link';
 
-jest.mock('@storybook/addons');
-jest.mock('global', () => ({
-  document: {
-    location: {
-      origin: 'origin',
-      pathname: 'pathname',
-      search: 'search',
+jest.mock('@storybook/preview-api');
+jest.mock('@storybook/global', () => ({
+  global: {
+    document: {
+      location: {
+        origin: 'origin',
+        pathname: 'pathname',
+        search: 'search',
+      },
     },
-  },
-  window: global,
-  __STORYBOOK_STORY_STORE__: {
-    fromId: jest.fn(() => ({})),
+    window: global,
+    __STORYBOOK_STORY_STORE__: {
+      fromId: jest.fn(() => ({})),
+    },
   },
 }));
 

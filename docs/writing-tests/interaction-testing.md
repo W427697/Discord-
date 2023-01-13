@@ -63,6 +63,8 @@ The test itself is defined inside a `play` function connected to a story. Here's
     'vue/login-form-with-play-function.3.js.mdx',
     'svelte/login-form-with-play-function.js.mdx',
   ]}
+  usesCsf3
+  csf2Path="writing-tests/interaction-testing#snippet-login-form-with-play-function"
 />
 
 <!-- prettier-ignore-end -->
@@ -104,6 +106,8 @@ For complex flows, it can be worthwhile to group sets of related interactions to
   paths={[
     'common/storybook-interactions-step-function.js.mdx',
   ]}
+  usesCsf3
+  csf2Path="writing-tests/interaction-testing#snippet-storybook-interactions-step-function"
 />
 
 <!-- prettier-ignore-end -->
@@ -176,5 +180,6 @@ Interaction tests integrate Jest and Testing Library into Storybook. The biggest
 - [Visual tests](./visual-testing.md) for appearance
 - [Accessibility tests](./accessibility-testing.md) for accessibility
 - Interaction tests for user behavior simulation
+- [Coverage tests](./test-coverage.md) for measuring code coverage
 - [Snapshot tests](./snapshot-testing.md) for rendering errors and warnings
 - [Import stories in other tests](./importing-stories-in-tests.md) for other tools

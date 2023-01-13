@@ -1,12 +1,6 @@
-import type {
-  Renderer,
-  Store_CSFFile,
-  Store_ModuleExport,
-  Store_ModuleExports,
-} from '@storybook/types';
-import { DocsContext } from '@storybook/preview-web';
-import type { StoryStore } from '@storybook/store';
-import type { DocsContextProps } from '@storybook/preview-web';
+import type { Renderer, CSFFile, ModuleExports, DocsContextProps } from '@storybook/types';
+import { DocsContext } from '@storybook/preview-api';
+import type { StoryStore } from '@storybook/preview-api';
 import type { Channel } from '@storybook/channels';
 
 export class ExternalDocsContext<TRenderer extends Renderer> extends DocsContext<TRenderer> {
@@ -14,23 +8,14 @@ export class ExternalDocsContext<TRenderer extends Renderer> extends DocsContext
     public channel: Channel,
     protected store: StoryStore<TRenderer>,
     public renderStoryToElement: DocsContextProps['renderStoryToElement'],
-    private processMetaExports: (metaExports: Store_ModuleExports) => Store_CSFFile<TRenderer>
+    private processMetaExports: (metaExports: ModuleExports) => CSFFile<TRenderer>
   ) {
-    super(channel, store, renderStoryToElement, [], true);
+    super(channel, store, renderStoryToElement, []);
   }
 
-  setMeta = (metaExports: Store_ModuleExports) => {
+  referenceMeta = (metaExports: ModuleExports, attach: boolean) => {
     const csfFile = this.processMetaExports(metaExports);
-    this.referenceCSFFile(csfFile, true);
+    this.referenceCSFFile(csfFile);
+    super.referenceMeta(metaExports, attach);
   };
-
-  storyIdByModuleExport(storyExport: Store_ModuleExport, metaExports?: Store_ModuleExports) {
-    if (metaExports) {
-      const csfFile = this.processMetaExports(metaExports);
-      this.referenceCSFFile(csfFile, false);
-    }
-
-    // This will end up looking up the story id in the CSF file referenced above or via setMeta()
-    return super.storyIdByModuleExport(storyExport);
-  }
 }

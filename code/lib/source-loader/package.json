@@ -1,6 +1,6 @@
 {
   "name": "@storybook/source-loader",
-  "version": "7.0.0-alpha.51",
+  "version": "7.0.0-beta.26",
   "description": "Source loader",
   "keywords": [
     "lib",
@@ -23,6 +23,7 @@
   "sideEffects": false,
   "exports": {
     ".": {
+      "node": "./dist/index.js",
       "require": "./dist/index.js",
       "import": "./dist/index.mjs",
       "types": "./dist/index.d.ts"
@@ -44,14 +45,14 @@
   },
   "dependencies": {
     "@storybook/csf": "next",
-    "@storybook/types": "7.0.0-alpha.51",
+    "@storybook/types": "7.0.0-beta.26",
     "estraverse": "^5.2.0",
     "lodash": "^4.17.21",
-    "prettier": "^2.7.1"
+    "prettier": "^2.8.0"
   },
   "devDependencies": {
-    "jest-specific-snapshot": "^6.0.0",
-    "typescript": "^4.9.3"
+    "jest-specific-snapshot": "^7.0.0",
+    "typescript": "~4.9.3"
   },
   "peerDependencies": {
     "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
@@ -66,5 +67,5 @@
     ],
     "platform": "node"
   },
-  "gitHead": "4fec76c3f5135854d9834ebc1cf2f1f325696ded"
+  "gitHead": "4d3ed5ec2eb8db3e688955e2820001def09621c1"
 }
