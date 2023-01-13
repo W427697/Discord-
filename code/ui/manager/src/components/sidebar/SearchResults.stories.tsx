@@ -18,10 +18,10 @@ export default {
 
 const combinedDataset = (refs: Record<string, StoriesHash>): CombinedDataset => {
   const hash: Refs = Object.entries(refs).reduce(
-    (acc, [refId, stories]) =>
+    (acc, [refId, index]) =>
       Object.assign(acc, {
         [refId]: {
-          stories,
+          index,
           title: null,
           id: refId,
           url: 'iframe.html',
