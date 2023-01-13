@@ -5300,22 +5300,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@rollup/pluginutils@npm:^5.0.2":
-  version: 5.0.2
-  resolution: "@rollup/pluginutils@npm:5.0.2"
-  dependencies:
-    "@types/estree": ^1.0.0
-    estree-walker: ^2.0.2
-    picomatch: ^2.3.1
-  peerDependencies:
-    rollup: ^1.20.0||^2.0.0||^3.0.0
-  peerDependenciesMeta:
-    rollup:
-      optional: true
-  checksum: b06f73c15bb59418aa6fbfead5675bab2d6922e15663525ffc2eb8429530bc5add516600adb251cfbf9b60f3d12fb821cde155cb5103415154a476bd0f163432
-  languageName: node
-  linkType: hard
-
 "@schematics/angular@npm:13.3.10":
   version: 13.3.10
   resolution: "@schematics/angular@npm:13.3.10"
@@ -6096,10 +6080,10 @@ __metadata:
     glob-promise: ^4.2.0
     magic-string: ^0.26.1
     rollup: ^3.0.0
-    rollup-plugin-external-globals: ^0.7.1
     slash: ^3.0.0
     typescript: ~4.9.3
     vite: ^4.0.0
+    vite-plugin-externals: ^0.5.1
   peerDependencies:
     "@preact/preset-vite": "*"
     typescript: ">= 4.3.x"
@@ -8435,7 +8419,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/estree@npm:*, @types/estree@npm:^1.0.0":
+"@types/estree@npm:*":
   version: 1.0.0
   resolution: "@types/estree@npm:1.0.0"
   checksum: 4e73ff606bf7c7ccdaa66092de650c410a4ad2ecc388fdbed8242cac9dbcad72407e1ceff041b7da691babb02ff74ab885d6231fb09368fdd1eabbf1b5253d49
@@ -10045,7 +10029,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"acorn@npm:^8.1.0, acorn@npm:^8.4.1, acorn@npm:^8.5.0, acorn@npm:^8.6.0, acorn@npm:^8.7.1, acorn@npm:^8.8.0, acorn@npm:^8.8.1":
+"acorn@npm:^8.1.0, acorn@npm:^8.4.0, acorn@npm:^8.4.1, acorn@npm:^8.5.0, acorn@npm:^8.6.0, acorn@npm:^8.7.1, acorn@npm:^8.8.0, acorn@npm:^8.8.1":
   version: 8.8.1
   resolution: "acorn@npm:8.8.1"
   bin:
@@ -14581,6 +14565,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"es-module-lexer@npm:^0.4.1":
+  version: 0.4.1
+  resolution: "es-module-lexer@npm:0.4.1"
+  checksum: 6463778f04367979d7770cefb1969b6bfc277319e8437a39718b3516df16b1b496b725ceec96a2d24975837a15cf4d56838f16d9c8c7640ad13ad9c8f93ad6fc
+  languageName: node
+  linkType: hard
+
 "es-module-lexer@npm:^0.9.0, es-module-lexer@npm:^0.9.3":
   version: 0.9.3
   resolution: "es-module-lexer@npm:0.9.3"
@@ -15275,13 +15266,6 @@ __metadata:
   version: 2.0.2
   resolution: "estree-walker@npm:2.0.2"
   checksum: 53a6c54e2019b8c914dc395890153ffdc2322781acf4bd7d1a32d7aedc1710807bdcd866ac133903d5629ec601fbb50abe8c2e5553c7f5a0afdd9b6af6c945af
-  languageName: node
-  linkType: hard
-
-"estree-walker@npm:^3.0.1":
-  version: 3.0.2
-  resolution: "estree-walker@npm:3.0.2"
-  checksum: 1aca66f777e401b95c700b5bc1f1e31d02af677469d37a000153d9075694521c18a11745b38859f04a2e0107c294f19ba15f143aa888623f27198609297cfcf5
   languageName: node
   linkType: hard
 
@@ -18419,15 +18403,6 @@ __metadata:
   version: 2.2.2
   resolution: "is-promise@npm:2.2.2"
   checksum: 2dba959812380e45b3df0fb12e7cb4d4528c989c7abb03ececb1d1fd6ab1cbfee956ca9daa587b9db1d8ac3c1e5738cf217bdb3dfd99df8c691be4c00ae09069
-  languageName: node
-  linkType: hard
-
-"is-reference@npm:^3.0.0":
-  version: 3.0.1
-  resolution: "is-reference@npm:3.0.1"
-  dependencies:
-    "@types/estree": "*"
-  checksum: 003af01fd96c4300111853d68b048e2f094e27ccd70eb66fdb7bb3cd7f7a9e6ad3f633387b2b453c85134fcc1ba0473dca55349a0162312d9fd127306d9f5a9b
   languageName: node
   linkType: hard
 
@@ -26212,20 +26187,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rollup-plugin-external-globals@npm:^0.7.1":
-  version: 0.7.1
-  resolution: "rollup-plugin-external-globals@npm:0.7.1"
-  dependencies:
-    "@rollup/pluginutils": ^5.0.2
-    estree-walker: ^3.0.1
-    is-reference: ^3.0.0
-    magic-string: ^0.26.7
-  peerDependencies:
-    rollup: ^2.25.0 || ^3.3.0
-  checksum: 15726ab0ca1f1b2f64ede90566b178531770d41f7fb31b9edd5bfb560773341d0fc39c39e37afbcc02fe567f8f7a94b8285986b19e36a89ab32cf59afb92dca6
-  languageName: node
-  linkType: hard
-
 "rollup@npm:^3.0.0, rollup@npm:^3.7.0":
   version: 3.9.1
   resolution: "rollup@npm:3.9.1"
@@ -29493,6 +29454,20 @@ __metadata:
     unist-util-stringify-position: ^2.0.0
     vfile-message: ^2.0.0
   checksum: 4816aecfedc794ba4d3131abff2032ef0e825632cfa8cd20dd9d83819ef260589924f4f3e8fa30e06da2d8e60d7ec8ef7d0af93e0483df62890738258daf098a
+  languageName: node
+  linkType: hard
+
+"vite-plugin-externals@npm:^0.5.1":
+  version: 0.5.1
+  resolution: "vite-plugin-externals@npm:0.5.1"
+  dependencies:
+    acorn: ^8.4.0
+    es-module-lexer: ^0.4.1
+    fs-extra: ^10.0.0
+    magic-string: ^0.25.7
+  peerDependencies:
+    vite: ">=2.0.0"
+  checksum: a8b07fc911efb0a0ed47e12c6dc8f71280c40d222ae9b9ffa5c238aa5427bfda1b13444b378bdb649734057a53574f362f4e9af3ef96180be8901af18cab2f78
   languageName: node
   linkType: hard
 
