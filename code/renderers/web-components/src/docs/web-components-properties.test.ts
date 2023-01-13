@@ -11,9 +11,14 @@ const inputRegExp = /^input\..*$/;
 const runWebComponentsAnalyzer = (inputPath: string) => {
   const { name: tmpDir, removeCallback } = tmp.dirSync();
   const customElementsFile = `${tmpDir}/custom-elements.json`;
-  spawnSync('yarn', ['wca', 'analyze', inputPath, '--outFile', customElementsFile], {
-    stdio: 'inherit',
-  });
+  spawnSync(
+    path.join(__dirname, '../../../../node_modules/.bin/wca'),
+    ['analyze', inputPath, '--outFile', customElementsFile],
+    {
+      stdio: 'ignore',
+      shell: true,
+    }
+  );
   const output = fs.readFileSync(customElementsFile, 'utf8');
   try {
     removeCallback();
@@ -38,7 +43,7 @@ describe('web-components component properties', () => {
       const testDir = path.join(fixturesDir, testEntry.name);
       const testFile = fs.readdirSync(testDir).find((fileName) => inputRegExp.test(fileName));
       if (testFile) {
-        it(testEntry.name, () => {
+        it(`${testEntry.name}`, () => {
           const inputPath = path.join(testDir, testFile);
 
           // snapshot the output of wca

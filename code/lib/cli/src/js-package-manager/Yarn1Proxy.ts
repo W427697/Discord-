@@ -1,4 +1,5 @@
 import { JsPackageManager } from './JsPackageManager';
+import type { PackageJson } from './PackageJson';
 
 export class Yarn1Proxy extends JsPackageManager {
   readonly type = 'yarn1';
@@ -15,6 +16,15 @@ export class Yarn1Proxy extends JsPackageManager {
     return `yarn ${command}`;
   }
 
+  protected getResolutions(packageJson: PackageJson, versions: Record<string, string>) {
+    return {
+      resolutions: {
+        ...packageJson.resolutions,
+        ...versions,
+      },
+    };
+  }
+
   protected runInstall(): void {
     this.executeCommand('yarn', [], 'inherit');
   }
@@ -27,6 +37,12 @@ export class Yarn1Proxy extends JsPackageManager {
     }
 
     this.executeCommand('yarn', ['add', ...args], 'inherit');
+  }
+
+  protected runRemoveDeps(dependencies: string[]): void {
+    const args = ['--ignore-workspace-root-check', ...dependencies];
+
+    this.executeCommand('yarn', ['remove', ...args], 'inherit');
   }
 
   protected runGetVersions<T extends boolean>(

@@ -1,6 +1,6 @@
 {
   "name": "@storybook/vue3",
-  "version": "7.0.0-alpha.16",
+  "version": "7.0.0-beta.25",
   "description": "Storybook Vue 3 renderer",
   "keywords": [
     "storybook"
@@ -21,6 +21,7 @@
   "license": "MIT",
   "exports": {
     ".": {
+      "node": "./dist/index.js",
       "require": "./dist/index.js",
       "import": "./dist/index.mjs",
       "types": "./dist/index.d.ts"
@@ -30,50 +31,43 @@
       "import": "./dist/config.mjs",
       "types": "./dist/config.d.ts"
     },
-    "./package.json": {
-      "require": "./package.json",
-      "import": "./package.json",
-      "types": "./package.json"
-    }
+    "./package.json": "./package.json"
   },
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "files": [
-    "bin/**/*",
     "dist/**/*",
+    "template/**/*",
     "README.md",
     "*.js",
     "*.d.ts"
   ],
   "scripts": {
-    "check": "tsc --noEmit",
-    "prepare": "../../../scripts/prepare/bundle.ts"
+    "check": "vue-tsc --noEmit",
+    "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/addons": "7.0.0-alpha.16",
-    "@storybook/core-client": "7.0.0-alpha.16",
-    "@storybook/csf": "0.0.2--canary.4566f4d.1",
-    "@storybook/docs-tools": "7.0.0-alpha.16",
-    "@storybook/store": "7.0.0-alpha.16",
-    "core-js": "^3.8.2",
-    "global": "^4.4.0",
-    "react": "16.14.0",
-    "react-dom": "16.14.0",
-    "ts-dedent": "^2.0.0"
+    "@storybook/core-client": "7.0.0-beta.25",
+    "@storybook/docs-tools": "7.0.0-beta.25",
+    "@storybook/global": "^5.0.0",
+    "@storybook/preview-api": "7.0.0-beta.25",
+    "@storybook/types": "7.0.0-beta.25",
+    "ts-dedent": "^2.0.0",
+    "type-fest": "2.19.0"
   },
   "devDependencies": {
     "@digitak/esrun": "^3.2.2",
-    "typescript": "~4.6.3",
-    "vue": "3.0.0"
+    "@vue/vue3-jest": "29",
+    "typescript": "~4.9.3",
+    "vue": "^3.2.45",
+    "vue-tsc": "^1.0.8"
   },
   "peerDependencies": {
-    "@babel/core": "*",
-    "babel-loader": "^7.0.0 || ^8.0.0",
     "vue": "^3.0.0"
   },
   "engines": {
-    "node": ">=10.13.0"
+    "node": ">=16.0.0"
   },
   "publishConfig": {
     "access": "public"
@@ -85,5 +79,5 @@
     ],
     "platform": "browser"
   },
-  "gitHead": "df30e7db2b251418af106345e5722477f057ec36"
+  "gitHead": "2109ab8d7c0667e686db757abf5afcbf3d48a6ec"
 }

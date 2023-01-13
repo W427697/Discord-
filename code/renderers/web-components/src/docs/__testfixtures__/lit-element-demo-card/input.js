@@ -1,6 +1,4 @@
-/* eslint-disable import/no-unresolved */
-// @ts-ignore
-import global from 'global';
+import { global } from '@storybook/global';
 
 import { LitElement, html, css } from 'lit-element';
 

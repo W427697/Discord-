@@ -33,7 +33,7 @@ const Icon = styled(Icons)(({ theme }) => ({
   height: 10,
   width: 10,
   minWidth: 10,
-  color: theme.color.mediumdark,
+  color: theme.textMutedColor,
   marginRight: 10,
   transition: 'transform 0.1s ease-in-out',
   alignSelf: 'center',
@@ -65,8 +65,8 @@ export function Result(props: ResultProps) {
         <HeaderBar onClick={onToggle} role="button" status={status}>
           {status === `failed` ? (
             <Icon
-              icon="chevrondown"
-              color={convert(themes.light).color.mediumdark}
+              icon="arrowdown"
+              color={convert(themes.light).textMutedColor}
               style={{
                 transform: `rotate(${isOpen ? 0 : -90}deg)`,
               }}
@@ -86,5 +86,3 @@ export function Result(props: ResultProps) {
     </Fragment>
   );
 }
-
-export default Result;

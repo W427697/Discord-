@@ -1,10 +1,14 @@
-import type { Options, CoreConfig, Builder } from '@storybook/core-common';
+import type { Builder, CoreConfig, Options } from '@storybook/types';
+import { pathToFileURL } from 'node:url';
 
-async function getManagerBuilder() {
+export async function getManagerBuilder(): Promise<Builder<unknown>> {
   return import('@storybook/builder-manager');
 }
 
-async function getPreviewBuilder(builderName: string, configDir: string) {
+export async function getPreviewBuilder(
+  builderName: string,
+  configDir: string
+): Promise<Builder<unknown>> {
   let builderPackage: string;
   if (builderName) {
     builderPackage = require.resolve(
@@ -14,7 +18,7 @@ async function getPreviewBuilder(builderName: string, configDir: string) {
   } else {
     throw new Error('no builder configured!');
   }
-  const previewBuilder = await import(builderPackage);
+  const previewBuilder = await import(pathToFileURL(builderPackage).href);
   return previewBuilder;
 }
 

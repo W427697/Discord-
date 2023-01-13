@@ -1,0 +1,99 @@
+{
+  "name": "@storybook/builder-vite",
+  "version": "7.0.0-beta.25",
+  "description": "A plugin to run and build Storybooks with Vite",
+  "homepage": "https://github.com/storybookjs/storybook/tree/main/code/lib/builder-vite/#readme",
+  "bugs": {
+    "url": "https://github.com/storybookjs/storybook/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/storybookjs/storybook.git",
+    "directory": "code/lib/builder-vite"
+  },
+  "funding": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/storybook"
+  },
+  "license": "MIT",
+  "author": "Eirik Sletteberg",
+  "exports": {
+    ".": {
+      "node": "./dist/index.js",
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.ts"
+    },
+    "./input/iframe.html": "./input/iframe.html",
+    "./input/react-dom-client-placeholder.js": "./input/react-dom-client-placeholder.js",
+    "./package.json": "./package.json"
+  },
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist/**/*",
+    "input/**/*",
+    "README.md",
+    "*.js",
+    "*.d.ts"
+  ],
+  "scripts": {
+    "check": "../../../scripts/node_modules/.bin/tsc --noEmit",
+    "prep": "../../../scripts/prepare/bundle.ts"
+  },
+  "dependencies": {
+    "@storybook/client-logger": "7.0.0-beta.25",
+    "@storybook/core-common": "7.0.0-beta.25",
+    "@storybook/csf-plugin": "7.0.0-beta.25",
+    "@storybook/mdx2-csf": "next",
+    "@storybook/node-logger": "7.0.0-beta.25",
+    "@storybook/preview": "7.0.0-beta.25",
+    "@storybook/preview-api": "7.0.0-beta.25",
+    "@storybook/types": "7.0.0-beta.25",
+    "browser-assert": "^1.2.1",
+    "es-module-lexer": "^0.9.3",
+    "express": "^4.17.3",
+    "fs-extra": "^9.0.1",
+    "glob": "^7.2.0",
+    "glob-promise": "^4.2.0",
+    "magic-string": "^0.26.1",
+    "rollup": "^2.25.0 || ^3.3.0",
+    "slash": "^3.0.0",
+    "vite-plugin-externals": "^0.5.1"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.13",
+    "@types/node": "^16.0.0",
+    "rollup": "^3.0.0",
+    "typescript": "~4.9.3",
+    "vite": "^4.0.0"
+  },
+  "peerDependencies": {
+    "@preact/preset-vite": "*",
+    "typescript": ">= 4.3.x",
+    "vite": "^3.0.0 || ^4.0.0",
+    "vite-plugin-glimmerx": "*"
+  },
+  "peerDependenciesMeta": {
+    "@preact/preset-vite": {
+      "optional": true
+    },
+    "typescript": {
+      "optional": true
+    },
+    "vite-plugin-glimmerx": {
+      "optional": true
+    }
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "bundler": {
+    "entries": [
+      "./src/index.ts"
+    ],
+    "platform": "node"
+  },
+  "gitHead": "2109ab8d7c0667e686db757abf5afcbf3d48a6ec"
+}

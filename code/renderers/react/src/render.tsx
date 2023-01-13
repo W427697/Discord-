@@ -1,21 +1,26 @@
-// @ts-ignore
-import global from 'global';
+import { global } from '@storybook/global';
 
-import React, { Component as ReactComponent, FC, ReactElement, StrictMode, Fragment } from 'react';
+import type { FC, ReactElement } from 'react';
+import React, {
+  Component as ReactComponent,
+  StrictMode,
+  Fragment,
+  useLayoutEffect,
+  useRef,
+} from 'react';
 import ReactDOM, { version as reactDomVersion } from 'react-dom';
 import type { Root as ReactRoot } from 'react-dom/client';
 
-import type { RenderContext } from '@storybook/store';
-import { ArgsStoryFn } from '@storybook/csf';
+import type { RenderContext, ArgsStoryFn } from '@storybook/types';
 
-import type { ReactFramework, StoryContext } from './types';
+import type { ReactRenderer, StoryContext } from './types';
 
 const { FRAMEWORK_OPTIONS } = global;
 
 // A map of all rendered React 18 nodes
 const nodes = new Map<Element, ReactRoot>();
 
-export const render: ArgsStoryFn<ReactFramework> = (args, context) => {
+export const render: ArgsStoryFn<ReactRenderer> = (args, context) => {
   const { id, component: Component } = context;
   if (!Component) {
     throw new Error(
@@ -26,16 +31,28 @@ export const render: ArgsStoryFn<ReactFramework> = (args, context) => {
   return <Component {...args} />;
 };
 
+const WithCallback: FC<{ callback: () => void; children: ReactElement }> = ({
+  callback,
+  children,
+}) => {
+  // See https://github.com/reactwg/react-18/discussions/5#discussioncomment-2276079
+  const once = useRef<() => void>();
+  useLayoutEffect(() => {
+    if (once.current === callback) return;
+    once.current = callback;
+    callback();
+  }, [callback]);
+
+  return children;
+};
+
 const renderElement = async (node: ReactElement, el: Element) => {
   // Create Root Element conditionally for new React 18 Root Api
   const root = await getReactRoot(el);
 
   return new Promise((resolve) => {
     if (root) {
-      root.render(node);
-      setTimeout(() => {
-        resolve(null);
-      }, 0);
+      root.render(<WithCallback callback={() => resolve(null)}>{node}</WithCallback>);
     } else {
       ReactDOM.render(node, el, () => resolve(null));
     }
@@ -110,17 +127,17 @@ class ErrorBoundary extends ReactComponent<{
 
 const Wrapper = FRAMEWORK_OPTIONS?.strictMode ? StrictMode : Fragment;
 
-export async function renderToDOM(
+export async function renderToCanvas(
   {
     storyContext,
     unboundStoryFn,
     showMain,
     showException,
     forceRemount,
-  }: RenderContext<ReactFramework>,
-  domElement: Element
+  }: RenderContext<ReactRenderer>,
+  canvasElement: ReactRenderer['canvasElement']
 ) {
-  const Story = unboundStoryFn as FC<StoryContext<ReactFramework>>;
+  const Story = unboundStoryFn as FC<StoryContext<ReactRenderer>>;
 
   const content = (
     <ErrorBoundary showMain={showMain} showException={showException}>
@@ -137,10 +154,10 @@ export async function renderToDOM(
   // https://github.com/storybookjs/react-storybook/issues/81
   // (This is not the case when we change args or globals to the story however)
   if (forceRemount) {
-    unmountElement(domElement);
+    unmountElement(canvasElement);
   }
 
-  await renderElement(element, domElement);
+  await renderElement(element, canvasElement);
 
-  return () => unmountElement(domElement);
+  return () => unmountElement(canvasElement);
 }

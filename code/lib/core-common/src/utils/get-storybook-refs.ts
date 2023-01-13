@@ -4,7 +4,7 @@ import findUp from 'find-up';
 
 import resolveFrom from 'resolve-from';
 import { logger } from '@storybook/node-logger';
-import { Options, Ref } from '../types';
+import type { Options, Ref } from '@storybook/types';
 
 export const getAutoRefs = async (options: Options): Promise<Record<string, Ref>> => {
   const location = await findUp('package.json', { cwd: options.configDir });
@@ -26,7 +26,12 @@ export const getAutoRefs = async (options: Options): Promise<Record<string, Ref>
         if (storybook?.url) {
           return { id: name, ...storybook, version };
         }
-      } catch {
+      } catch (error) {
+        if ((error as any).code === 'ERR_PACKAGE_PATH_NOT_EXPORTED') {
+          // silent warning because user can't do anything about it
+          // "package.json" is not part of the package's "exports" field in its package.json
+          return undefined;
+        }
         logger.warn(`unable to find package.json for ${d}`);
         return undefined;
       }
@@ -50,7 +55,23 @@ export const getAutoRefs = async (options: Options): Promise<Record<string, Ref>
 
 const checkRef = (url: string) =>
   fetch(`${url}/iframe.html`).then(
-    ({ ok }) => ok,
+    async ({ ok, status }) => {
+      if (ok) {
+        if (status !== 200) {
+          return false;
+        }
+
+        // so the status is ok, but if we'd ask for JSON we might get a response saying we need to authenticate.
+        const data = await fetch(`${url}/iframe.html`, {
+          headers: { Accept: 'application/json' },
+        });
+        // we might receive non-JSON as a response, because the service ignored our request for JSON response type.
+        if (data.ok && (await data.json().catch((e) => ({}))).loginUrl) {
+          return false;
+        }
+      }
+      return ok;
+    },
     () => false
   );
 

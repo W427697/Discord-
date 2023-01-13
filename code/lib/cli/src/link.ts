@@ -7,13 +7,16 @@ import { exec } from './repro-generators/scripts';
 interface LinkOptions {
   target: string;
   local?: boolean;
+  start: boolean;
 }
 
-export const link = async ({ target, local }: LinkOptions) => {
+export const link = async ({ target, local, start }: LinkOptions) => {
   const storybookDir = process.cwd();
   try {
-    const packageJson = JSON.parse(fse.readFileSync('package.json', 'utf8'));
-    if (packageJson.name !== '@storybook/root') throw new Error();
+    const packageJson = await fse.readJSON('package.json');
+    if (packageJson.name !== '@storybook/root') {
+      throw new Error();
+    }
   } catch {
     throw new Error('Expected to run link from the root of the storybook monorepo');
   }
@@ -24,7 +27,7 @@ export const link = async ({ target, local }: LinkOptions) => {
   if (!local) {
     const reprosDir = path.join(storybookDir, '../storybook-repros');
     logger.info(`Ensuring directory ${reprosDir}`);
-    fse.ensureDirSync(reprosDir);
+    await fse.ensureDir(reprosDir);
 
     logger.info(`Cloning ${target}`);
     await exec(`git clone ${target}`, { cwd: reprosDir });
@@ -33,9 +36,12 @@ export const link = async ({ target, local }: LinkOptions) => {
     reproDir = path.join(reprosDir, reproName);
   }
 
+  const reproPackageJson = await fse.readJSON(path.join(reproDir, 'package.json'));
+
   const version = spawnSync('yarn', ['--version'], {
     cwd: reproDir,
     stdio: 'pipe',
+    shell: true,
   }).stdout.toString();
 
   if (!/^[23]\./.test(version)) {
@@ -56,8 +62,16 @@ export const link = async ({ target, local }: LinkOptions) => {
   logger.info(
     `Magic stuff related to @storybook/preset-create-react-app, we need to fix peerDependencies`
   );
-  await exec(`yarn add -D webpack-hot-middleware`, { cwd: reproDir });
 
-  logger.info(`Running ${reproName} storybook`);
-  await exec(`yarn run storybook`, { cwd: reproDir });
+  if (!reproPackageJson.devDependencies?.vite) {
+    await exec(`yarn add -D webpack-hot-middleware`, { cwd: reproDir });
+  }
+
+  // ensure that linking is possible
+  await exec(`yarn add @types/node@16`, { cwd: reproDir });
+
+  if (start) {
+    logger.info(`Running ${reproName} storybook`);
+    await exec(`yarn run storybook`, { cwd: reproDir });
+  }
 };

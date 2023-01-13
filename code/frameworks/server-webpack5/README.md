@@ -14,7 +14,7 @@ So you can develop UI components in isolation without worrying about app specifi
 
 ```sh
 cd my-app
-npx sb init -t server
+npx storybook init -t server
 ```
 
 To configure the server that Storybook will connect to, export a global parameter `parameters.server.url` in `.storybook/preview.js`:
@@ -92,7 +92,7 @@ In particular the [View Component::Storybook](https://github.com/jonspalmer/view
 
 ## Server rendering
 
-The server rendering side of things is relatively straightfoward. When you browse to a story in the sidebar, Storybook will make a `fetch` request to `${parameters.server.url}/{parameters.server.id}` and display the HTML that is returned.
+The server rendering side of things is relatively straightforward. When you browse to a story in the sidebar, Storybook will make a `fetch` request to `${parameters.server.url}/{parameters.server.id}` and display the HTML that is returned.
 
 You need to ensure the route in your server app renders the appropriate HTML when called in that fashion.
 

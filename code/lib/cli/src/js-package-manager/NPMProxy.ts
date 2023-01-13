@@ -1,10 +1,12 @@
-import semver from '@storybook/semver';
 import { JsPackageManager } from './JsPackageManager';
+import type { PackageJson } from './PackageJson';
 
 export class NPMProxy extends JsPackageManager {
   readonly type = 'npm';
 
   installArgs: string[] | undefined;
+
+  uninstallArgs: string[] | undefined;
 
   initPackageJson() {
     return this.executeCommand('npm', ['init', '-y']);
@@ -22,31 +24,27 @@ export class NPMProxy extends JsPackageManager {
     return this.executeCommand('npm', ['--version']);
   }
 
-  hasLegacyPeerDeps() {
-    const result = this.executeCommand('npm', [
-      'config',
-      'get',
-      'legacy-peer-deps',
-      '--location=project',
-    ]);
-    return result.trim() === 'true';
-  }
-
-  setLegacyPeerDeps() {
-    this.executeCommand('npm', ['config', 'set', 'legacy-peer-deps=true', '--location=project']);
-  }
-
-  needsLegacyPeerDeps(version: string) {
-    return semver.gte(version, '7.0.0') && !this.hasLegacyPeerDeps();
-  }
-
   getInstallArgs(): string[] {
     if (!this.installArgs) {
-      this.installArgs = this.needsLegacyPeerDeps(this.getNpmVersion())
-        ? ['install', '--legacy-peer-deps']
-        : ['install'];
+      this.installArgs = ['install'];
     }
     return this.installArgs;
+  }
+
+  getUninstallArgs(): string[] {
+    if (!this.uninstallArgs) {
+      this.uninstallArgs = ['uninstall'];
+    }
+    return this.uninstallArgs;
+  }
+
+  protected getResolutions(packageJson: PackageJson, versions: Record<string, string>) {
+    return {
+      overrides: {
+        ...packageJson.overrides,
+        ...versions,
+      },
+    };
   }
 
   protected runInstall(): void {
@@ -61,6 +59,12 @@ export class NPMProxy extends JsPackageManager {
     }
 
     this.executeCommand('npm', [...this.getInstallArgs(), ...args], 'inherit');
+  }
+
+  protected runRemoveDeps(dependencies: string[]): void {
+    const args = [...dependencies];
+
+    this.executeCommand('npm', [...this.getUninstallArgs(), ...args], 'inherit');
   }
 
   protected runGetVersions<T extends boolean>(

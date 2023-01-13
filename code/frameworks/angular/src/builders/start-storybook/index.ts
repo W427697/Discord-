@@ -1,9 +1,9 @@
 import {
   BuilderContext,
   BuilderOutput,
+  Target,
   createBuilder,
   targetFromTargetString,
-  Target,
 } from '@angular-devkit/architect';
 import { JsonObject } from '@angular-devkit/core';
 import {
@@ -12,13 +12,13 @@ import {
   StylePreprocessorOptions,
 } from '@angular-devkit/build-angular';
 import { from, Observable, of } from 'rxjs';
-import type { CLIOptions } from '@storybook/core-common';
+import { CLIOptions } from '@storybook/types';
 import { map, switchMap, mapTo } from 'rxjs/operators';
 import { sync as findUpSync } from 'find-up';
 import { sync as readUpSync } from 'read-pkg-up';
 
 import { buildDevStandalone } from '@storybook/core-server';
-import type { StandaloneOptions } from '../utils/standalone-options';
+import { StandaloneOptions } from '../utils/standalone-options';
 import { runCompodoc } from '../utils/run-compodoc';
 import { buildStandaloneErrorHandler } from '../utils/build-standalone-errors-handler';
 
@@ -106,8 +106,8 @@ function commandBuilder(
       return standaloneOptions;
     }),
     switchMap((standaloneOptions) => runInstance(standaloneOptions)),
-    map(() => {
-      return { success: true };
+    map((port: number) => {
+      return { success: true, info: { port } };
     })
   );
 }
@@ -132,10 +132,10 @@ async function setup(options: StorybookBuilderOptions, context: BuilderContext) 
   };
 }
 function runInstance(options: StandaloneOptions) {
-  return new Observable<void>((observer) => {
+  return new Observable<number>((observer) => {
     // This Observable intentionally never complete, leaving the process running ;)
     buildDevStandalone(options as any).then(
-      () => observer.next(),
+      ({ port }) => observer.next(port),
       (error) => observer.error(buildStandaloneErrorHandler(error))
     );
   });

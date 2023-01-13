@@ -1,12 +1,16 @@
 import chalk from 'chalk';
-import { gt, satisfies } from '@storybook/semver';
+import { gt, satisfies } from 'semver';
 import { sync as spawnSync } from 'cross-spawn';
+import path from 'path';
+import fs from 'fs';
+
 import { commandLog } from '../helpers';
-import { PackageJson, PackageJsonWithDepsAndDevDeps } from './PackageJson';
-import { readPackageJson, writePackageJson } from './PackageJsonHelper';
+import type { PackageJson, PackageJsonWithDepsAndDevDeps } from './PackageJson';
 import storybookPackagesVersions from '../versions';
 
 const logger = console;
+
+export type PackageManagerName = 'npm' | 'yarn1' | 'yarn2' | 'pnpm';
 
 /**
  * Extract package name and version from input
@@ -26,14 +30,38 @@ export function getPackageDetails(pkg: string): [string, string?] {
   return [packageName, packageVersion];
 }
 
+interface JsPackageManagerOptions {
+  cwd?: string;
+}
 export abstract class JsPackageManager {
-  public abstract readonly type: 'npm' | 'yarn1' | 'yarn2';
+  public abstract readonly type: PackageManagerName;
 
   public abstract initPackageJson(): void;
 
   public abstract getRunStorybookCommand(): string;
 
   public abstract getRunCommand(command: string): string;
+
+  // NOTE: for some reason yarn prefers the npm registry in
+  // local development, so always use npm
+  setRegistryURL(url: string) {
+    if (url) {
+      this.executeCommand('npm', ['config', 'set', 'registry', url]);
+    } else {
+      this.executeCommand('npm', ['config', 'delete', 'registry']);
+    }
+  }
+
+  getRegistryURL() {
+    const url = this.executeCommand('npm', ['config', 'get', 'registry']).trim();
+    return url === 'undefined' ? undefined : url;
+  }
+
+  public readonly cwd?: string;
+
+  constructor(options?: JsPackageManagerOptions) {
+    this.cwd = options?.cwd;
+  }
 
   /**
    * Install dependencies listed in `package.json`
@@ -55,6 +83,25 @@ export abstract class JsPackageManager {
     done();
   }
 
+  packageJsonPath(): string {
+    return this.cwd ? path.resolve(this.cwd, 'package.json') : path.resolve('package.json');
+  }
+
+  readPackageJson(): PackageJson {
+    const packageJsonPath = this.packageJsonPath();
+    if (!fs.existsSync(packageJsonPath)) {
+      throw new Error(`Could not read package.json file at ${packageJsonPath}`);
+    }
+
+    const jsonContent = fs.readFileSync(packageJsonPath, 'utf8');
+    return JSON.parse(jsonContent);
+  }
+
+  writePackageJson(packageJson: PackageJson) {
+    const content = `${JSON.stringify(packageJson, null, 2)}\n`;
+    fs.writeFileSync(this.packageJsonPath(), content, 'utf8');
+  }
+
   /**
    * Read the `package.json` file available in the directory the command was call from
    * If there is no `package.json` it will create one.
@@ -62,10 +109,10 @@ export abstract class JsPackageManager {
   public retrievePackageJson(): PackageJsonWithDepsAndDevDeps {
     let packageJson;
     try {
-      packageJson = readPackageJson();
+      packageJson = this.readPackageJson();
     } catch (err) {
       this.initPackageJson();
-      packageJson = readPackageJson();
+      packageJson = this.readPackageJson();
     }
 
     return {
@@ -85,7 +132,7 @@ export abstract class JsPackageManager {
    *   `@storybook/react@${storybookVersion}`,
    *   `@storybook/addon-actions@${actionsVersion}`,
    *   `@storybook/addon-links@${linksVersion}`,
-   *   `@storybook/addons@${addonsVersion}`,
+   *   `@storybook/preview-api@${addonsVersion}`,
    * ]);
    */
   public addDependencies(
@@ -118,12 +165,56 @@ export abstract class JsPackageManager {
         };
       }
 
-      writePackageJson(packageJson);
+      this.writePackageJson(packageJson);
     } else {
       try {
         this.runAddDeps(dependencies, options.installAsDevDependencies);
       } catch (e) {
         logger.error('An error occurred while installing dependencies.');
+        logger.log(e.message);
+        process.exit(1);
+      }
+    }
+  }
+
+  /**
+   * Remove dependencies from a project using `yarn remove` or `npm uninstall`.
+   *
+   * @param {Object} options contains `skipInstall`, `packageJson` and `installAsDevDependencies` which we use to determine how we install packages.
+   * @param {Array} dependencies contains a list of packages to remove.
+   * @example
+   * removeDependencies(options, [
+   *   `@storybook/react`,
+   *   `@storybook/addon-actions`,
+   * ]);
+   */
+  public removeDependencies(
+    options: {
+      skipInstall?: boolean;
+      packageJson?: PackageJson;
+    },
+    dependencies: string[]
+  ): void {
+    const { skipInstall } = options;
+
+    if (skipInstall) {
+      const { packageJson } = options;
+
+      dependencies.forEach((dep) => {
+        if (packageJson.devDependencies) {
+          delete packageJson.devDependencies[dep];
+        }
+        if (packageJson.dependencies) {
+          delete packageJson.dependencies[dep];
+        }
+      });
+
+      this.writePackageJson(packageJson);
+    } else {
+      try {
+        this.runRemoveDeps(dependencies);
+      } catch (e) {
+        logger.error('An error occurred while removing dependencies.');
         logger.log(e.message);
         process.exit(1);
       }
@@ -171,7 +262,7 @@ export abstract class JsPackageManager {
     let current: string;
 
     if (/(@storybook|^sb$|^storybook$)/.test(packageName)) {
-      // @ts-ignore
+      // @ts-expect-error (Converted from ts-ignore)
       current = storybookPackagesVersions[packageName];
     }
 
@@ -213,19 +304,11 @@ export abstract class JsPackageManager {
     return versions.reverse().find((version) => satisfies(version, constraint));
   }
 
-  public addStorybookCommandInScripts(options?: {
-    port: number;
-    staticFolder?: string;
-    preCommand?: string;
-  }) {
+  public addStorybookCommandInScripts(options?: { port: number; preCommand?: string }) {
     const sbPort = options?.port ?? 6006;
-    const storybookCmd = options?.staticFolder
-      ? `npx storybook dev -p ${sbPort} -s ${options.staticFolder}`
-      : `npx storybook dev -p ${sbPort}`;
+    const storybookCmd = `storybook dev -p ${sbPort}`;
 
-    const buildStorybookCmd = options?.staticFolder
-      ? `npx storybook build -s ${options.staticFolder}`
-      : `npx storybook build`;
+    const buildStorybookCmd = `storybook build`;
 
     const preCommand = options?.preCommand ? this.getRunCommand(options.preCommand) : undefined;
     this.addScripts({
@@ -236,7 +319,7 @@ export abstract class JsPackageManager {
 
   public addESLintConfig() {
     const packageJson = this.retrievePackageJson();
-    writePackageJson({
+    this.writePackageJson({
       ...packageJson,
       eslintConfig: {
         ...packageJson.eslintConfig,
@@ -255,7 +338,7 @@ export abstract class JsPackageManager {
 
   public addScripts(scripts: Record<string, string>) {
     const packageJson = this.retrievePackageJson();
-    writePackageJson({
+    this.writePackageJson({
       ...packageJson,
       scripts: {
         ...packageJson.scripts,
@@ -264,9 +347,22 @@ export abstract class JsPackageManager {
     });
   }
 
+  public addPackageResolutions(versions: Record<string, string>) {
+    const packageJson = this.retrievePackageJson();
+    const resolutions = this.getResolutions(packageJson, versions);
+    this.writePackageJson({ ...packageJson, ...resolutions });
+  }
+
   protected abstract runInstall(): void;
 
   protected abstract runAddDeps(dependencies: string[], installAsDevDependencies: boolean): void;
+
+  protected abstract runRemoveDeps(dependencies: string[]): void;
+
+  protected abstract getResolutions(
+    packageJson: PackageJson,
+    versions: Record<string, string>
+  ): Record<string, any>;
 
   /**
    * Get the latest or all versions of the input package available on npmjs.com
@@ -282,8 +378,10 @@ export abstract class JsPackageManager {
 
   public executeCommand(command: string, args: string[], stdio?: 'pipe' | 'inherit'): string {
     const commandResult = spawnSync(command, args, {
+      cwd: this.cwd,
       stdio: stdio ?? 'pipe',
       encoding: 'utf-8',
+      shell: true,
     });
 
     if (commandResult.status !== 0) {

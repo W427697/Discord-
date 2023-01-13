@@ -1,13 +1,11 @@
-// @ts-ignore
 import Watchpack from 'watchpack';
 import slash from 'slash';
 import fs from 'fs';
 import path from 'path';
 import glob from 'globby';
-import uniq from 'lodash/uniq';
+import uniq from 'lodash/uniq.js';
 
-import type { NormalizedStoriesSpecifier } from '@storybook/core-common';
-import type { Path } from '@storybook/store';
+import type { NormalizedStoriesSpecifier, Path } from '@storybook/types';
 
 const isDirectory = (directory: Path) => {
   try {

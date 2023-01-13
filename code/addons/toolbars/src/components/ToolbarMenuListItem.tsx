@@ -1,6 +1,7 @@
-import React, { ReactNode } from 'react';
+import type { ReactNode } from 'react';
+import React from 'react';
 import { Icons } from '@storybook/components';
-import { ToolbarItem } from '../types';
+import type { ToolbarItem } from '../types';
 
 interface ListItem {
   id: string;
@@ -26,7 +27,7 @@ export const ToolbarMenuListItem = ({
   onClick,
   currentValue,
 }: ToolbarMenuListItemProps) => {
-  const Icon = <Icons style={{ opacity: 1 }} icon={icon} />;
+  const Icon = icon && <Icons style={{ opacity: 1 }} icon={icon} />;
   const hasContent = left || right || title;
 
   const Item: ListItem = {

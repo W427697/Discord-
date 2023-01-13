@@ -1,6 +1,7 @@
-import type { PackageJson, StorybookConfig } from '@storybook/core-common';
+import type { PackageJson, StorybookConfig } from '@storybook/types';
 
-import { computeStorybookMetadata, metaFrameworks } from './storybook-metadata';
+import path from 'path';
+import { computeStorybookMetadata, metaFrameworks, sanitizeAddonName } from './storybook-metadata';
 
 const packageJsonMock: PackageJson = {
   name: 'some-user-project',
@@ -11,7 +12,7 @@ const mainJsMock: StorybookConfig = {
   stories: [],
 };
 
-jest.mock('./package-versions', () => {
+jest.mock('./package-json', () => {
   const getActualPackageVersion = jest.fn((name) =>
     Promise.resolve({
       name,
@@ -23,9 +24,17 @@ jest.mock('./package-versions', () => {
     Promise.all(Object.keys(packages).map(getActualPackageVersion))
   );
 
+  const getActualPackageJson = jest.fn((name) => ({
+    dependencies: {
+      '@storybook/react': 'x.x.x',
+      '@storybook/builder-vite': 'x.x.x',
+    },
+  }));
+
   return {
     getActualPackageVersions,
     getActualPackageVersion,
+    getActualPackageJson,
   };
 });
 
@@ -38,41 +47,98 @@ jest.mock('detect-package-manager', () => ({
   getNpmVersion: () => '3.1.1',
 }));
 
+describe('sanitizeAddonName', () => {
+  const originalSep = path.sep;
+  beforeEach(() => {
+    // @ts-expect-error the property is read only but we can change it for testing purposes
+    path.sep = originalSep;
+  });
+
+  test('special addon names', () => {
+    const addonNames = [
+      '@storybook/preset-create-react-app',
+      'storybook-addon-deprecated/register',
+      'storybook-addon-ends-with-js/register.js',
+      '@storybook/addon-knobs/preset',
+      '@storybook/addon-ends-with-js/preset.js',
+      '@storybook/addon-postcss/dist/index.js',
+      '../local-addon/register.js',
+      '../../',
+    ].map(sanitizeAddonName);
+
+    expect(addonNames).toEqual([
+      '@storybook/preset-create-react-app',
+      'storybook-addon-deprecated',
+      'storybook-addon-ends-with-js',
+      '@storybook/addon-knobs',
+      '@storybook/addon-ends-with-js',
+      '@storybook/addon-postcss',
+      '../local-addon',
+      '../../',
+    ]);
+  });
+
+  test('Windows paths', () => {
+    // @ts-expect-error the property is read only but we can change it for testing purposes
+    path.sep = '\\';
+    const cwdMockPath = `C:\\Users\\username\\storybook-app`;
+    jest.spyOn(process, `cwd`).mockImplementationOnce(() => cwdMockPath);
+
+    expect(sanitizeAddonName(`${cwdMockPath}\\local-addon\\themes.js`)).toEqual(
+      '$SNIP\\local-addon\\themes'
+    );
+  });
+
+  test('Linux paths', () => {
+    // @ts-expect-error the property is read only but we can change it for testing purposes
+    path.sep = '/';
+    const cwdMockPath = `/Users/username/storybook-app`;
+    jest.spyOn(process, `cwd`).mockImplementationOnce(() => cwdMockPath);
+
+    expect(sanitizeAddonName(`${cwdMockPath}/local-addon/themes.js`)).toEqual(
+      '$SNIP/local-addon/themes'
+    );
+  });
+});
+
 describe('await computeStorybookMetadata', () => {
   test('should return frameworkOptions from mainjs', async () => {
     const reactResult = await computeStorybookMetadata({
-      packageJson: {
-        ...packageJsonMock,
-        devDependencies: {
-          '@storybook/react': 'x.x.x',
-        },
-      },
+      packageJson: packageJsonMock,
       mainConfig: {
         ...mainJsMock,
-        reactOptions: {
-          fastRefresh: false,
+        framework: {
+          name: '@storybook/react-vite',
+          options: {
+            fastRefresh: false,
+          },
         },
       },
     });
 
-    expect(reactResult.framework).toEqual({ name: 'react', options: { fastRefresh: false } });
+    expect(reactResult.framework).toEqual({
+      name: '@storybook/react-vite',
+      options: { fastRefresh: false },
+    });
 
     const angularResult = await computeStorybookMetadata({
-      packageJson: {
-        ...packageJsonMock,
-        devDependencies: {
-          '@storybook/angular': 'x.x.x',
-        },
-      },
+      packageJson: packageJsonMock,
       mainConfig: {
         ...mainJsMock,
-        angularOptions: {
-          enableIvy: true,
+        framework: {
+          name: '@storybook/angular',
+          options: {
+            enableIvy: true,
+            enableNgcc: true,
+          },
         },
       },
     });
 
-    expect(angularResult.framework).toEqual({ name: 'angular', options: { enableIvy: true } });
+    expect(angularResult.framework).toEqual({
+      name: '@storybook/angular',
+      options: { enableIvy: true, enableNgcc: true },
+    });
   });
 
   test('should separate storybook packages and addons', async () => {
@@ -137,40 +203,20 @@ describe('await computeStorybookMetadata', () => {
     expect(result.features).toEqual(features);
   });
 
-  test('should handle different types of builders', async () => {
-    const simpleBuilder = 'webpack4';
-    const complexBuilder = {
-      name: 'webpack5',
-      options: {
-        lazyCompilation: true,
-      },
-    };
+  test('should infer builder and renderer from framework package.json', async () => {
     expect(
-      (
-        await computeStorybookMetadata({
-          packageJson: packageJsonMock,
-          mainConfig: {
-            ...mainJsMock,
-            core: {
-              builder: complexBuilder,
-            },
-          },
-        })
-      ).builder
-    ).toEqual(complexBuilder);
-    expect(
-      (
-        await computeStorybookMetadata({
-          packageJson: packageJsonMock,
-          mainConfig: {
-            ...mainJsMock,
-            core: {
-              builder: simpleBuilder,
-            },
-          },
-        })
-      ).builder
-    ).toEqual({ name: simpleBuilder });
+      await computeStorybookMetadata({
+        packageJson: packageJsonMock,
+        mainConfig: {
+          ...mainJsMock,
+          framework: '@storybook/react-vite',
+        },
+      })
+    ).toMatchObject({
+      framework: { name: '@storybook/react-vite' },
+      renderer: '@storybook/react',
+      builder: '@storybook/builder-vite',
+    });
   });
 
   test('should return the number of refs', async () => {

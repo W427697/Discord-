@@ -1,4 +1,5 @@
-import React, { ReactNode, useState } from 'react';
+import type { ReactNode } from 'react';
+import React, { useState } from 'react';
 import { Global, styled } from '@storybook/theming';
 import { Icons, IconButton, WithTooltip, TooltipLinkList } from '@storybook/components';
 
@@ -19,7 +20,6 @@ export const baseList = [
   { name: 'protanopia', percentage: 0.59 },
   { name: 'tritanomaly', percentage: 0.01 },
   { name: 'tritanopia', percentage: 0.016 },
-  { name: 'achromatomaly', percentage: 0.00001 },
   { name: 'achromatopsia', percentage: 0.0001 },
   { name: 'grayscale' },
 ] as Option[];

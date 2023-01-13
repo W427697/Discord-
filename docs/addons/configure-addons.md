@@ -2,11 +2,11 @@
 title: 'Configure and communicate with an addon'
 ---
 
-The addon API is designed for customization. It offers addon authors different ways to configure and communicate with their users' Storybook. Let's look at what these are and their suggested uses cases.
+The addon API is designed for customization. It offers addon authors different ways to configure and communicate with their users' Storybook. Let's look at what these are and their suggested use cases.
 
 ## Preset
 
-Presets offload the burden of configuration from user to the addon. Preset options are global and are accessible from NodeJS. They're ideal for pre-configuring Webpack loaders, Babel plugins, and other library or framework-specific configurations.
+Presets offload the burden of configuration from the user to the addon. Preset options are global and are accessible from NodeJS. They're ideal for pre-configuring Webpack loaders, Babel plugins, and other library or framework-specific configurations.
 
 For example, many libraries require that the app be wrapped by a `Provider` which _provides_ data to components down the tree. Presets can describe behavior like adding wrappers automatically, without users having to do any manual configuration. If a user installs an addon that has Presets, the addon can instruct Storybook to wrap all stories in `Provider`. This allows folks to start using your library with Storybook, with just 1 line of config!
 
@@ -16,15 +16,17 @@ The mechanism for wrapping each story is referred to as a Storybook [decorator](
 
 ## Parameters
 
-Parameters are available in the browser and are great for configuring addon behaviour globally, at the component level, or at the story level.
+Parameters are available in the browser and are great for configuring addon behavior globally, at the component level, or at the story level.
 
 For example, the [Pseudo States addon](https://storybook.js.org/addons/storybook-addon-pseudo-states) uses parameters to enable the various pseudo-states. Users can provide global defaults and then override them at the story level.
 
 Use the [`useParameter`](./addons-api.md#useparameter) hook to access the parameter values within your addon.
 
 ```js
-export const Hover = () => <Button>Label</Button>;
-Hover.parameters = { pseudo: { hover: true } };
+export const Hover = {
+  render: () => <Button>Label</Button>,
+  parameters: { pseudo: { hover: true } },
+};
 ```
 
 ## Channels

@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { PropDef, hasDocgen, extractComponentProps, TypeSystem } from '@storybook/docs-tools';
+import { type PropDef, hasDocgen, extractComponentProps, TypeSystem } from '@storybook/docs-tools';
 import { enhancePropTypesProps } from './propTypes/handleProp';
 import { enhanceTypeScriptProps } from './typeScript/handleProp';
 import { isMemo } from './lib';
@@ -14,7 +14,7 @@ export interface PropDefMap {
 const propTypesMap = new Map();
 
 Object.keys(PropTypes).forEach((typeName) => {
-  // @ts-ignore
+  // @ts-expect-error (Converted from ts-ignore)
   const type = PropTypes[typeName];
 
   propTypesMap.set(type, typeName);

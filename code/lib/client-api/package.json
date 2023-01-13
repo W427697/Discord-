@@ -1,6 +1,6 @@
 {
   "name": "@storybook/client-api",
-  "version": "7.0.0-alpha.16",
+  "version": "7.0.0-beta.25",
   "description": "Storybook Client API",
   "keywords": [
     "storybook"
@@ -20,9 +20,17 @@
   },
   "license": "MIT",
   "sideEffects": false,
-  "main": "dist/cjs/index.js",
-  "module": "dist/esm/index.js",
-  "types": "dist/types/index.d.ts",
+  "exports": {
+    ".": {
+      "require": "./dist/entry.js",
+      "import": "./dist/entry.mjs",
+      "types": "./dist/entry.d.ts"
+    },
+    "./package.json": "./package.json"
+  },
+  "main": "dist/entry.js",
+  "module": "dist/entry.mjs",
+  "types": "dist/entry.d.ts",
   "files": [
     "dist/**/*",
     "README.md",
@@ -30,39 +38,21 @@
     "*.d.ts"
   ],
   "scripts": {
-    "check": "tsc --noEmit",
-    "prepare": "node ../../../scripts/prepare.js"
+    "check": "../../../scripts/node_modules/.bin/tsc --noEmit",
+    "prep": "../../../scripts/prepare/facade.ts"
   },
   "dependencies": {
-    "@storybook/addons": "7.0.0-alpha.16",
-    "@storybook/channel-postmessage": "7.0.0-alpha.16",
-    "@storybook/channels": "7.0.0-alpha.16",
-    "@storybook/client-logger": "7.0.0-alpha.16",
-    "@storybook/core-events": "7.0.0-alpha.16",
-    "@storybook/csf": "0.0.2--canary.4566f4d.1",
-    "@storybook/store": "7.0.0-alpha.16",
-    "@types/qs": "^6.9.5",
-    "@types/webpack-env": "^1.16.4",
-    "core-js": "^3.8.2",
-    "dequal": "^2.0.2",
-    "global": "^4.4.0",
-    "lodash": "^4.17.21",
-    "memoizerific": "^1.11.3",
-    "qs": "^6.10.0",
-    "store2": "^2.12.0",
-    "synchronous-promise": "^2.0.15",
-    "ts-dedent": "^2.0.0",
-    "util-deprecate": "^1.0.2"
-  },
-  "devDependencies": {
-    "typescript": "~4.6.3"
-  },
-  "peerDependencies": {
-    "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
-    "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0"
+    "@storybook/client-logger": "7.0.0-beta.25",
+    "@storybook/preview-api": "7.0.0-beta.25"
   },
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "df30e7db2b251418af106345e5722477f057ec36"
+  "bundler": {
+    "entries": [
+      "./src/entry.ts"
+    ],
+    "shim": "@storybook/preview-api/dist/client-api"
+  },
+  "gitHead": "2109ab8d7c0667e686db757abf5afcbf3d48a6ec"
 }

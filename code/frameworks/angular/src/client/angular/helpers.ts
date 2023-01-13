@@ -1,14 +1,13 @@
-// @ts-ignore
-import global from 'global';
-import { enableProdMode, NgModule, Component, NgModuleRef, Type, NgZone } from '@angular/core';
+import { global } from '@storybook/global';
+import { NgModuleRef, Type, enableProdMode, NgModule, Component, NgZone } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { BrowserModule } from '@angular/platform-browser';
-import { Observable, ReplaySubject, Subscriber } from 'rxjs';
-import type { PartialStoryFn } from '@storybook/csf';
+import { Subscriber, Observable, ReplaySubject } from 'rxjs';
+import { PartialStoryFn } from '@storybook/types';
 import { AppComponent } from './app.component';
 import { STORY } from './app.token';
-import type { NgModuleMetadata, StoryFnAngularReturnType, AngularFramework } from '../types';
+import { NgModuleMetadata, StoryFnAngularReturnType, AngularRenderer } from '../types';
 
 const { document } = global;
 
@@ -132,7 +131,7 @@ const getExistenceOfComponentInModules = (
   });
 };
 
-const initModule = (storyFn: PartialStoryFn<AngularFramework>) => {
+const initModule = (storyFn: PartialStoryFn<AngularRenderer>) => {
   const storyObj = storyFn();
   const { component, template, props, styles, moduleMetadata = {} } = storyObj;
 
@@ -168,7 +167,7 @@ const initModule = (storyFn: PartialStoryFn<AngularFramework>) => {
   );
 };
 
-const staticRoot = document.getElementById('root');
+const staticRoot = document.getElementById('storybook-root');
 const insertDynamicRoot = () => {
   const app = document.createElement('storybook-dynamic-app-root');
   staticRoot.innerHTML = '';
@@ -199,7 +198,7 @@ const draw = (newModule: DynamicComponentType): void => {
   }
 };
 
-export const renderNgApp = (storyFn: PartialStoryFn<AngularFramework>, forced: boolean) => {
+export const renderNgApp = (storyFn: PartialStoryFn<AngularRenderer>, forced: boolean) => {
   if (!forced) {
     draw(initModule(storyFn));
   } else {

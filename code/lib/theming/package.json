@@ -1,6 +1,6 @@
 {
   "name": "@storybook/theming",
-  "version": "7.0.0-alpha.16",
+  "version": "7.0.0-beta.25",
   "description": "Core Storybook Components",
   "keywords": [
     "storybook"
@@ -22,9 +22,15 @@
   "sideEffects": false,
   "exports": {
     ".": {
+      "node": "./dist/index.js",
       "require": "./dist/index.js",
       "import": "./dist/index.mjs",
       "types": "./dist/index.d.ts"
+    },
+    "./create": {
+      "require": "./dist/create.js",
+      "import": "./dist/create.mjs",
+      "types": "./dist/create.d.ts"
     },
     "./package.json": "./package.json"
   },
@@ -38,26 +44,27 @@
     "*.d.ts"
   ],
   "scripts": {
-    "check": "tsc --noEmit",
-    "prepare": "../../../scripts/prepare/bundle.ts"
+    "check": "../../../scripts/node_modules/.bin/tsc --noEmit",
+    "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/client-logger": "7.0.0-alpha.16",
-    "core-js": "^3.8.2",
+    "@emotion/use-insertion-effect-with-fallbacks": "^1.0.0",
+    "@storybook/client-logger": "7.0.0-beta.25",
+    "@storybook/global": "^5.0.0",
     "memoizerific": "^1.11.3"
   },
   "devDependencies": {
-    "@emotion/cache": "^11.7.1",
-    "@emotion/is-prop-valid": "^1.1.2",
-    "@emotion/react": "^11.8.1",
-    "@emotion/styled": "^11.8.1",
-    "@types/node": "^14.14.20 || ^16.0.0",
+    "@emotion/cache": "^11.10.3",
+    "@emotion/is-prop-valid": "^1.2.0",
+    "@emotion/react": "^11.10.4",
+    "@emotion/styled": "^11.10.4",
+    "@types/fs-extra": "^9.0.6",
+    "@types/node": "^16.0.0",
     "deep-object-diff": "^1.1.0",
-    "global": "^4.4.0",
+    "fs-extra": "^9.0.1",
     "polished": "^4.2.2",
     "ts-dedent": "^2.0.0",
-    "ts-node": "^10.4.0",
-    "typescript": "~4.6.3"
+    "typescript": "~4.9.3"
   },
   "peerDependencies": {
     "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
@@ -68,8 +75,10 @@
   },
   "bundler": {
     "entries": [
-      "./src/index.ts"
-    ]
+      "./src/index.ts",
+      "./src/create.ts"
+    ],
+    "post": "./scripts/fix-theme-type-export.ts"
   },
-  "gitHead": "df30e7db2b251418af106345e5722477f057ec36"
+  "gitHead": "2109ab8d7c0667e686db757abf5afcbf3d48a6ec"
 }
