@@ -23,11 +23,11 @@ type SourceParameters = SourceCodeProps & {
   /**
    * Where to read the source code from, see `SourceType`
    */
-  type: SourceType;
+  type?: SourceType;
   /**
    * Transform the detected source for display
    */
-  transformSource: (code: string, story: PreparedStory) => string;
+  transformSource?: (code: string, story: PreparedStory) => string;
 };
 
 type SourceProps = Omit<SourceParameters, 'transformSource'> & {
@@ -44,10 +44,10 @@ type SourceProps = Omit<SourceParameters, 'transformSource'> & {
   of?: ModuleExport;
 
   /** @deprecated use of={storyExport} instead */
-  id: string;
+  id?: string;
 
   /** @deprecated use of={storyExport} instead */
-  ids: string[];
+  ids?: string[];
 };
 
 const getSourceState = (stories: PreparedStory[]) => {
@@ -84,7 +84,6 @@ const getSnippet = (
     type === SourceType.DYNAMIC ||
     // if this is an args story and there's a snippet
     (type === SourceType.AUTO && snippet && isArgsStory);
-  console.log({ type, snippet, isArgsStory, useSnippet });
 
   const code = useSnippet ? snippet : enhanceSource(story);
 
