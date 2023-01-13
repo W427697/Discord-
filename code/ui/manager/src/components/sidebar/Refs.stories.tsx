@@ -26,7 +26,7 @@ const index = mockDataset.withRoot;
 const storyId = '1-12-121';
 
 export const simpleData = { menu, index, storyId };
-export const loadingData = { menu, stories: {} };
+export const loadingData = { menu, index: {} };
 
 const indexError: Error = (() => {
   try {
@@ -44,7 +44,7 @@ const refs: Record<string, RefType> = {
     previewInitialized: false,
     type: 'lazy',
     // @ts-expect-error (invalid input)
-    stories,
+    index,
   },
   empty: {
     id: 'empty',

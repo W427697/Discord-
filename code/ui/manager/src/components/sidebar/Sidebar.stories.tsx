@@ -1,7 +1,6 @@
 import React from 'react';
 
-import type { StoriesHash } from 'lib/manager-api/src';
-import type { API_IndexHash } from 'lib/types/src';
+import type { IndexHash } from 'lib/manager-api/src';
 import { Sidebar, DEFAULT_REF_ID } from './Sidebar';
 import { standardData as standardHeaderData } from './Heading.stories';
 import * as ExplorerStories from './Explorer.stories';
@@ -20,7 +19,7 @@ export default {
 };
 
 const { menu } = standardHeaderData;
-const index = mockDataset.withRoot as API_IndexHash;
+const index = mockDataset.withRoot as IndexHash;
 const refId = DEFAULT_REF_ID;
 const storyId = 'root-1-child-a2--grandchild-a1-1';
 
@@ -43,7 +42,7 @@ const indexError = new Error('Failed to load index');
 const refsError = {
   optimized: {
     ...refs.optimized,
-    stories: undefined as StoriesHash,
+    index: undefined as IndexHash,
     indexError,
   },
 };
