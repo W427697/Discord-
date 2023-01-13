@@ -216,17 +216,17 @@ const areDepsEqual = (deps: any[], nextDeps: any[]) =>
 const invalidHooksError = () =>
   new Error('Storybook preview hooks can only be called inside decorators and story functions.');
 
-function getHooksContextOrNull<TRenderer extends Renderer, TArgs = Args>(): HooksContext<
-  TRenderer,
-  TArgs
-> | null {
+function getHooksContextOrNull<
+  TRenderer extends Renderer,
+  TArgs extends Args = Args
+>(): HooksContext<TRenderer, TArgs> | null {
   return global.STORYBOOK_HOOKS_CONTEXT || null;
 }
 
-function getHooksContextOrThrow<TRenderer extends Renderer, TArgs = Args>(): HooksContext<
-  TRenderer,
-  TArgs
-> {
+function getHooksContextOrThrow<
+  TRenderer extends Renderer,
+  TArgs extends Args = Args
+>(): HooksContext<TRenderer, TArgs> {
   const hooks = getHooksContextOrNull<TRenderer, TArgs>();
   if (hooks == null) {
     throw invalidHooksError();
