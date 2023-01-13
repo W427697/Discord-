@@ -22,10 +22,10 @@ export default {
 };
 
 const { menu } = standardHeaderData;
-const stories = mockDataset.withRoot;
+const index = mockDataset.withRoot;
 const storyId = '1-12-121';
 
-export const simpleData = { menu, stories, storyId };
+export const simpleData = { menu, index, storyId };
 export const loadingData = { menu, stories: {} };
 
 const indexError: Error = (() => {
@@ -51,7 +51,7 @@ const refs: Record<string, RefType> = {
     title: 'It is empty because no stories were loaded',
     url: 'https://example.com',
     type: 'lazy',
-    stories: {},
+    index: {},
     previewInitialized: false,
   },
   startInjected_unknown: {
@@ -61,7 +61,7 @@ const refs: Record<string, RefType> = {
     type: 'unknown',
     previewInitialized: false,
     // @ts-expect-error (invalid input)
-    stories,
+    index,
   },
   startInjected_loading: {
     id: 'startInjected_loading',
@@ -70,7 +70,7 @@ const refs: Record<string, RefType> = {
     type: 'auto-inject',
     previewInitialized: false,
     // @ts-expect-error (invalid input)
-    stories,
+    index,
   },
   startInjected_ready: {
     id: 'startInjected_ready',
@@ -79,7 +79,7 @@ const refs: Record<string, RefType> = {
     type: 'auto-inject',
     previewInitialized: true,
     // @ts-expect-error (invalid input)
-    stories,
+    index,
   },
   versions: {
     id: 'versions',
@@ -87,7 +87,7 @@ const refs: Record<string, RefType> = {
     url: 'https://example.com',
     type: 'lazy',
     // @ts-expect-error (invalid input)
-    stories,
+    index,
     versions: { '1.0.0': 'https://example.com/v1', '2.0.0': 'https://example.com' },
     previewInitialized: true,
   },
@@ -97,7 +97,7 @@ const refs: Record<string, RefType> = {
     url: 'https://example.com',
     type: 'lazy',
     // @ts-expect-error (invalid input)
-    stories,
+    index,
     versions: { '1.0.0': 'https://example.com/v1', '2.0.0': 'https://example.com/v2' },
     previewInitialized: true,
   },
@@ -122,7 +122,7 @@ const refs: Record<string, RefType> = {
     title: 'This storybook has a very very long name for some reason',
     url: 'https://example.com',
     // @ts-expect-error (invalid input)
-    stories,
+    index,
     type: 'lazy',
     versions: {
       '111.111.888-new': 'https://example.com/new',

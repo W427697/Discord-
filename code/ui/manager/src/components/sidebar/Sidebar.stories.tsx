@@ -19,11 +19,11 @@ export default {
 };
 
 const { menu } = standardHeaderData;
-const stories = mockDataset.withRoot;
+const index = mockDataset.withRoot;
 const refId = DEFAULT_REF_ID;
 const storyId = 'root-1-child-a2--grandchild-a1-1';
 
-export const simpleData = { menu, stories, storyId };
+export const simpleData = { menu, index, storyId };
 export const loadingData = { menu };
 
 const refs: Record<string, RefType> = {
@@ -32,8 +32,7 @@ const refs: Record<string, RefType> = {
     title: 'This is a ref',
     url: 'https://example.com',
     type: 'lazy',
-    // @ts-expect-error (needs to be converted to CSF3)
-    stories,
+    index,
     previewInitialized: true,
   },
 };
@@ -52,7 +51,7 @@ export const Simple = () => (
   <Sidebar
     previewInitialized
     menu={menu}
-    stories={stories as any}
+    index={index as any}
     storyId={storyId}
     refId={refId}
     refs={{}}
@@ -64,7 +63,7 @@ export const Loading = () => (
 );
 
 export const Empty = () => (
-  <Sidebar previewInitialized menu={menu} stories={{}} storyId={storyId} refId={refId} refs={{}} />
+  <Sidebar previewInitialized menu={menu} index={{}} storyId={storyId} refId={refId} refs={{}} />
 );
 
 export const IndexError = () => (
@@ -82,7 +81,7 @@ export const WithRefs = () => (
   <Sidebar
     previewInitialized
     menu={menu}
-    stories={stories as any}
+    index={index as any}
     storyId={storyId}
     refId={refId}
     refs={refs}

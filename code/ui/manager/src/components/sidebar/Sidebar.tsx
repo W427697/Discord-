@@ -87,7 +87,7 @@ export interface SidebarProps extends API_LoadedRefData {
 export const Sidebar = React.memo(function Sidebar({
   storyId = null,
   refId = DEFAULT_REF_ID,
-  stories,
+  index,
   indexError,
   previewInitialized,
   menu,
@@ -97,8 +97,8 @@ export const Sidebar = React.memo(function Sidebar({
 }: SidebarProps) {
   const selected: Selection = useMemo(() => storyId && { storyId, refId }, [storyId, refId]);
 
-  const dataset = useCombination({ stories, indexError, previewInitialized }, refs);
-  const isLoading = !stories && !indexError;
+  const dataset = useCombination({ index, indexError, previewInitialized }, refs);
+  const isLoading = !index && !indexError;
   const lastViewedProps = useLastViewed(selected);
 
   return (
