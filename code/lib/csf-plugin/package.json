@@ -1,6 +1,6 @@
 {
   "name": "@storybook/csf-plugin",
-  "version": "7.0.0-beta.19",
+  "version": "7.0.0-beta.26",
   "description": "Enrich CSF files via static analysis",
   "keywords": [
     "storybook"
@@ -22,15 +22,16 @@
   "sideEffects": false,
   "exports": {
     ".": {
-      "require": "./dist/cjs/index.js",
-      "import": "./dist/esm/index.mjs",
-      "types": "./dist/types/index.d.ts"
+      "node": "./dist/index.js",
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.ts"
     },
     "./package.json": "./package.json"
   },
-  "main": "dist/cjs/index.js",
-  "module": "dist/esm/index.js",
-  "types": "dist/types/index.d.ts",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
   "files": [
     "dist/**/*",
     "README.md",
@@ -39,10 +40,10 @@
   ],
   "scripts": {
     "check": "../../../scripts/node_modules/.bin/tsc --noEmit",
-    "prep": "node ../../../scripts/prepare.js"
+    "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/csf-tools": "7.0.0-beta.19",
+    "@storybook/csf-tools": "7.0.0-beta.26",
     "unplugin": "^0.10.2"
   },
   "devDependencies": {
@@ -54,7 +55,14 @@
   "bundler": {
     "entries": [
       "./src/index.ts"
-    ]
+    ],
+    "externals": [
+      "webpack",
+      "vite",
+      "rollup",
+      "esbuild"
+    ],
+    "platform": "node"
   },
-  "gitHead": "da902f312eb354d20aa83bf0f0035b9744f93791"
+  "gitHead": "4d3ed5ec2eb8db3e688955e2820001def09621c1"
 }
