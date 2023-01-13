@@ -67,7 +67,7 @@ export const renderHTML = async (
   return render(templateRef, {
     title: titleRef ? `${titleRef} - Storybook` : 'Storybook',
     files: { js: jsFiles, css: cssFiles },
-    favicon,
+    favicon: await favicon,
     globals: {
       FEATURES: JSON.stringify(await features, null, 2),
       REFS: JSON.stringify(await refs, null, 2),
