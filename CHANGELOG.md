@@ -1,3 +1,13 @@
+## 7.0.0-beta.28 (January 14, 2023)
+
+#### Maintenance
+
+-  CSF: Remove deprecated ArgTypes.defaultValue [#19492](https://github.com/storybooks/storybook/pull/19492)
+
+#### Dependency Upgrades
+
+-   Addon-controls: Fix version of preview api [#20622](https://github.com/storybooks/storybook/pull/20622)
+
 ## 7.0.0-beta.27 (January 14, 2023)
 
 #### Features
