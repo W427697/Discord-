@@ -1,3 +1,27 @@
+## 7.0.0-beta.27 (January 14, 2023)
+
+#### Features
+
+-   CLI: Add "missing-babelrc" automigration [#20341](https://github.com/storybooks/storybook/pull/20341)
+
+#### Bug Fixes
+
+-   Angular: Fix isStandaloneComponent check [#20295](https://github.com/storybooks/storybook/pull/20295)
+-   Blocks: Do not copy code snippet when text inside preview is selected [#19788](https://github.com/storybooks/storybook/pull/19788)
+-   Vue: Fix type.name check in extractArgTypes [#19956](https://github.com/storybooks/storybook/pull/19956)
+-   TypeScript: Add children to CanvasProps [#20451](https://github.com/storybooks/storybook/pull/20451)
+-   CLI: Fix angular/core version in init using devDependencies [#20609](https://github.com/storybooks/storybook/pull/20609)
+
+#### Maintenance
+
+-   Svelte: don't add `svelte-loader` nor `svelte` when initializing Svelte projects [#18799](https://github.com/storybooks/storybook/pull/18799)
+-   Core: prepareMeta function similar to prepareStory [#20592](https://github.com/storybooks/storybook/pull/20592)
+
+#### Build
+
+-   Build: Enable Scorecard Github Action and Badge [#19755](https://github.com/storybooks/storybook/pull/19755)
+-   Build: Add e2e test for static JSON files [#19463](https://github.com/storybooks/storybook/pull/19463)
+
 ## 7.0.0-beta.26 (January 14, 2023)
 
 #### Features
