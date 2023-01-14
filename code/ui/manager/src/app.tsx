@@ -27,6 +27,7 @@ export interface AppProps {
   viewMode: State['viewMode'];
   layout: State['layout'];
   panelCount: number;
+  children?: React.ReactNode;
 }
 
 const App: React.FC<AppProps> = ({ viewMode, layout, panelCount }) => {
