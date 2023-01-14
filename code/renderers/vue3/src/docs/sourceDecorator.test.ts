@@ -27,32 +27,32 @@ function generateMultiComponentForArgs(args: Args, slotProps: string[] | undefin
 describe('generateSource Vue3', () => {
   test('boolean true', () => {
     expect(generateForArgs({ booleanProp: true })).toMatchInlineSnapshot(
-      `<Component :booleanProp='booleanProp'/>`
+      `<Component :boolean-prop='booleanProp'/>`
     );
   });
   test('boolean false', () => {
     expect(generateForArgs({ booleanProp: false })).toMatchInlineSnapshot(
-      `<Component :booleanProp='booleanProp'/>`
+      `<Component :boolean-prop='booleanProp'/>`
     );
   });
   test('null property', () => {
     expect(generateForArgs({ nullProp: null })).toMatchInlineSnapshot(
-      `<Component :nullProp='nullProp'/>`
+      `<Component :null-prop='nullProp'/>`
     );
   });
   test('string property', () => {
     expect(generateForArgs({ stringProp: 'mystr' })).toMatchInlineSnapshot(
-      `<Component :stringProp='stringProp'/>`
+      `<Component :string-prop='stringProp'/>`
     );
   });
   test('number property', () => {
     expect(generateForArgs({ numberProp: 42 })).toMatchInlineSnapshot(
-      `<Component :numberProp='numberProp'/>`
+      `<Component :number-prop='numberProp'/>`
     );
   });
   test('object property', () => {
     expect(generateForArgs({ objProp: { x: true } })).toMatchInlineSnapshot(
-      `<Component :objProp='objProp'/>`
+      `<Component :obj-prop='objProp'/>`
     );
   });
   test('multiple properties', () => {
@@ -60,7 +60,7 @@ describe('generateSource Vue3', () => {
   });
   test('1 slot property', () => {
     expect(generateForArgs({ content: 'xyz', myProp: 'abc' }, ['content'])).toMatchInlineSnapshot(`
-      <Component :myProp='myProp'>
+      <Component :my-prop='myProp'>
         {{ content }}
       </Component>
     `);
@@ -68,7 +68,7 @@ describe('generateSource Vue3', () => {
   test('multiple slot property with second slot value not set', () => {
     expect(generateForArgs({ content: 'xyz', myProp: 'abc' }, ['content', 'footer']))
       .toMatchInlineSnapshot(`
-      <Component :myProp='myProp'>
+      <Component :my-prop='myProp'>
         {{ content }}
       </Component>
     `);
@@ -76,7 +76,7 @@ describe('generateSource Vue3', () => {
   test('multiple slot property with second slot value is set', () => {
     expect(generateForArgs({ content: 'xyz', footer: 'foo', myProp: 'abc' }, ['content', 'footer']))
       .toMatchInlineSnapshot(`
-      <Component :myProp='myProp'>
+      <Component :my-prop='myProp'>
         <template #content>{{ content }}</template>
         <template #footer>{{ footer }}</template>
       </Component>
@@ -85,8 +85,8 @@ describe('generateSource Vue3', () => {
   // test mutil components
   test('multi component with boolean true', () => {
     expect(generateMultiComponentForArgs({ booleanProp: true })).toMatchInlineSnapshot(`
-      <Component :booleanProp='booleanProp'/>
-      <Component :booleanProp='booleanProp'/>
+      <Component :boolean-prop='booleanProp'/>
+      <Component :boolean-prop='booleanProp'/>
     `);
   });
   test('component is not set', () => {

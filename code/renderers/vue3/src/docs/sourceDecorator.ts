@@ -86,11 +86,12 @@ function generateAttributesSource(_args: Args, argTypes: ArgTypes, byRef?: boole
     })
     .filter((key, index, self) => self.indexOf(key) === index); // remove duplicated keys
   // generate the source code for each key and filter out empty strings
+  const camelCase = (str: string) => str.replace(/-([a-z])/g, (g) => g[1].toUpperCase());
   const source = argsKeys
     .map((key) =>
       generateAttributeSource(
         byRef && !key.includes(':') ? `:${key}` : key,
-        byRef && !key.includes(':') ? key : args[key],
+        byRef && !key.includes(':') ? camelCase(key) : args[key],
         argTypes[key]
       )
     )
