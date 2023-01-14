@@ -3,7 +3,7 @@
  */
 
 import { global } from '@storybook/global';
-import merge from 'lodash/merge';
+import merge from 'lodash/merge.js';
 import {
   CONFIG_ERROR,
   CURRENT_STORY_WAS_SET,
@@ -642,7 +642,7 @@ describe('PreviewWeb', () => {
       });
     });
 
-    describe('template docs entries', () => {
+    describe('CSF docs entries', () => {
       it('always renders in docs viewMode', async () => {
         document.location.search = '?id=component-one--docs';
         await createAndRenderPreview();
@@ -679,7 +679,7 @@ describe('PreviewWeb', () => {
         expect(importFn).toHaveBeenCalledWith('./src/ExtraComponentOne.stories.js');
       });
 
-      it('renders with componentStories loaded from both story files', async () => {
+      it('renders with componentStories loaded from the attached CSF file', async () => {
         document.location.search = '?id=component-one--docs&viewMode=docs';
         await createAndRenderPreview();
 
