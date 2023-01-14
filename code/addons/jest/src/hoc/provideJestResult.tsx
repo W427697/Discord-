@@ -1,7 +1,7 @@
 import type { ComponentType } from 'react';
 import React, { Component as ReactComponent } from 'react';
 import { STORY_CHANGED } from '@storybook/core-events';
-import type { API } from '@storybook/api';
+import type { API } from '@storybook/manager-api';
 import { ADD_TESTS } from '../shared';
 
 // TODO: import type from @types/jest
@@ -37,7 +37,7 @@ export interface HocState {
   tests?: Test[];
 }
 
-const provideTests = (Component: ComponentType<InjectedProps>) =>
+export const provideTests = (Component: ComponentType<InjectedProps>) =>
   class TestProvider extends ReactComponent<HocProps, HocState> {
     state: HocState = {};
 
@@ -82,5 +82,3 @@ const provideTests = (Component: ComponentType<InjectedProps>) =>
       return active ? <Component tests={tests} /> : null;
     }
   };
-
-export default provideTests;

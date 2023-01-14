@@ -1,6 +1,6 @@
 {
   "name": "@storybook/angular",
-  "version": "7.0.0-alpha.47",
+  "version": "7.0.0-beta.26",
   "description": "Storybook for Angular: Develop Angular components in isolation with hot reloading.",
   "keywords": [
     "storybook",
@@ -21,44 +21,44 @@
   },
   "license": "MIT",
   "main": "dist/index.js",
+  "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "files": [
     "dist/**/*",
     "template/**/*",
     "README.md",
     "*.js",
+    "*.mjs",
     "*.d.ts"
   ],
   "scripts": {
     "check": "../../../scripts/node_modules/.bin/tsc",
-    "prep": "rimraf dist && ../../../scripts/node_modules/.bin/tsc --project tsconfig.build.json && echo \"Preventing passing flags to tsc\""
+    "prep": "../../../scripts/prepare/tsc.ts"
   },
   "dependencies": {
-    "@storybook/addons": "7.0.0-alpha.47",
-    "@storybook/api": "7.0.0-alpha.47",
-    "@storybook/builder-webpack5": "7.0.0-alpha.47",
-    "@storybook/client-logger": "7.0.0-alpha.47",
-    "@storybook/core-client": "7.0.0-alpha.47",
-    "@storybook/core-common": "7.0.0-alpha.47",
-    "@storybook/core-events": "7.0.0-alpha.47",
-    "@storybook/core-server": "7.0.0-alpha.47",
-    "@storybook/core-webpack": "7.0.0-alpha.47",
-    "@storybook/docs-tools": "7.0.0-alpha.47",
-    "@storybook/node-logger": "7.0.0-alpha.47",
-    "@storybook/store": "7.0.0-alpha.47",
-    "@storybook/types": "7.0.0-alpha.47",
+    "@storybook/builder-webpack5": "7.0.0-beta.26",
+    "@storybook/client-logger": "7.0.0-beta.26",
+    "@storybook/core-client": "7.0.0-beta.26",
+    "@storybook/core-common": "7.0.0-beta.26",
+    "@storybook/core-events": "7.0.0-beta.26",
+    "@storybook/core-server": "7.0.0-beta.26",
+    "@storybook/core-webpack": "7.0.0-beta.26",
+    "@storybook/docs-tools": "7.0.0-beta.26",
+    "@storybook/global": "^5.0.0",
+    "@storybook/manager-api": "7.0.0-beta.26",
+    "@storybook/node-logger": "7.0.0-beta.26",
+    "@storybook/preview-api": "7.0.0-beta.26",
+    "@storybook/types": "7.0.0-beta.26",
     "@types/node": "^16.0.0",
-    "@types/react": "^16.14.23",
+    "@types/react": "^16.14.34",
     "@types/react-dom": "^16.9.14",
     "@types/semver": "^7.3.4",
+    "@types/webpack-env": "^1.18.0",
     "core-js": "^3.8.2",
     "find-up": "^5.0.0",
-    "global": "^4.4.0",
-    "react": "^16.14.0",
-    "react-dom": "^16.14.0",
     "read-pkg-up": "^7.0.1",
     "semver": "^7.3.7",
-    "telejson": "^6.0.8",
+    "telejson": "^7.0.3",
     "ts-dedent": "^2.0.0",
     "tsconfig-paths-webpack-plugin": "^3.5.2",
     "util-deprecate": "^1.0.2",
@@ -80,14 +80,14 @@
     "@types/rimraf": "^3.0.2",
     "@types/tmp": "^0.2.3",
     "cross-spawn": "^7.0.3",
-    "jest": "^27.5.1",
+    "jest": "^29.3.1",
     "jest-preset-angular": "^12.0.0",
-    "jest-specific-snapshot": "^5.0.0",
+    "jest-specific-snapshot": "^7.0.0",
     "rimraf": "^3.0.2",
     "tmp": "^0.2.1",
-    "typescript": "~4.6.3",
+    "typescript": "~4.9.3",
     "webpack": "5",
-    "zone.js": "^0.11.0"
+    "zone.js": "^0.12.0"
   },
   "peerDependencies": {
     "@angular-devkit/architect": ">=0.1300.0",
@@ -103,9 +103,11 @@
     "@angular/platform-browser-dynamic": ">=13.0.0",
     "@babel/core": "*",
     "@nrwl/workspace": "14.6.1",
+    "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
+    "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0",
     "rxjs": "^6.0.0 || ^7.4.0",
     "typescript": "^4.0.0",
-    "zone.js": "^0.8.29 || ^0.9.0 || ^0.10.0 || ^0.11.0"
+    "zone.js": "^0.8.29 || >= 0.9.0 < 1.0.0"
   },
   "peerDependenciesMeta": {
     "@angular/cli": {
@@ -116,11 +118,14 @@
     }
   },
   "engines": {
-    "node": ">=10.13.0"
+    "node": ">=16.0.0"
   },
   "publishConfig": {
     "access": "public"
   },
   "builders": "dist/builders/builders.json",
-  "gitHead": "1c706a4a778831e012343c905f86225fa71491a7"
+  "bundler": {
+    "tsConfig": "tsconfig.build.json"
+  },
+  "gitHead": "4d3ed5ec2eb8db3e688955e2820001def09621c1"
 }

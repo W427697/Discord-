@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
+import type { ComponentProps } from 'react';
 import React from 'react';
 import { Global, css } from '@storybook/theming';
 import { Source, ArgsTable, Description } from '.';
@@ -7,13 +9,14 @@ import * as Preview from './Preview.stories';
 import * as argsTable from './ArgsTable/ArgsTable.stories';
 import * as source from './Source.stories';
 import * as description from './Description.stories';
+import { Unstyled } from '../blocks/Unstyled';
 
 export default {
   component: DocsPageWrapper,
   // The goal of this decorator is to mimic some CSS reset.
   // Like Tailwind CSS or Bulma do, for example.
   decorators: [
-    (storyFn) => (
+    (storyFn: any) => (
       <>
         <Global
           styles={css`
@@ -40,7 +43,7 @@ export const Loading = () => (
     </Subtitle>
     <Description {...description.Text.args} />
     <Preview.Loading />
-    <ArgsTable {...argsTable.Loading.args} />
+    <ArgsTable {...(argsTable.Loading.args as ComponentProps<typeof ArgsTable>)} />
     <Source {...source.Loading.args} />
   </DocsPageWrapper>
 );
@@ -94,3 +97,30 @@ export const Markdown = () => (
     <Source {...source.JSX.args} />
   </DocsPageWrapper>
 );
+
+export const Html = {
+  name: 'HTML',
+  render: () => (
+    <DocsPageWrapper>
+      <h1>Heading 1</h1>
+      <h2>Heading 2</h2>
+      <a>A tag</a>
+      <pre>pre tag</pre>
+      <div>
+        <div>Div</div>
+        <a>Nested A tag</a>
+      </div>
+      <div style={{ border: '2px solid red' }}>
+        <Unstyled>
+          <h1>Unstyled content</h1>
+          <h2>Heading 2</h2>
+          <a>A tag</a>
+          <div>
+            <div>Div</div>
+            <a>Nested A tag</a>
+          </div>
+        </Unstyled>
+      </div>
+    </DocsPageWrapper>
+  ),
+};

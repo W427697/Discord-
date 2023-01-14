@@ -1,9 +1,17 @@
-import React, { Fragment, useMemo, useEffect, useRef } from 'react';
+import React, { Fragment, useMemo, useEffect, useRef, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
+import { global } from '@storybook/global';
 
-import { type API, Consumer, type Combo, merge } from '@storybook/api';
-import { SET_CURRENT_STORY } from '@storybook/core-events';
-import { addons, types, type Addon } from '@storybook/addons';
+import {
+  type API,
+  Consumer,
+  type Combo,
+  merge,
+  addons,
+  types,
+  type Addon,
+} from '@storybook/manager-api';
+import { PREVIEW_BUILDER_PROGRESS, SET_CURRENT_STORY } from '@storybook/core-events';
 
 import { Loader } from '@storybook/components';
 import { Location } from '@storybook/router';
@@ -15,6 +23,8 @@ import { ToolbarComp } from './toolbar';
 import { FramesRenderer } from './FramesRenderer';
 
 import type { PreviewProps } from './utils/types';
+
+const { FEATURES } = global;
 
 const getWrappers = (getFn: API['getElements']) => Object.values(getFn<Addon>(types.PREVIEW));
 const getTabs = (getFn: API['getElements']) => Object.values(getFn<Addon>(types.TAB));
@@ -59,9 +69,27 @@ const createCanvas = (id: string, baseUrl = 'iframe.html', withLoader = true): A
             [getElements, ...defaultWrappers]
           );
 
+          const [progress, setProgress] = useState(undefined);
+
+          useEffect(() => {
+            if (FEATURES?.storyStoreV7 && global.CONFIG_TYPE === 'DEVELOPMENT') {
+              try {
+                const channel = addons.getServerChannel();
+
+                channel.on(PREVIEW_BUILDER_PROGRESS, (options) => {
+                  setProgress(options);
+                });
+              } catch {
+                //
+              }
+            }
+          }, []);
+
+          const refLoading = !!refs[refId] && !refs[refId].ready;
+          const rootLoading = !refId && !(progress?.value === 1 || progress === undefined);
           const isLoading = entry
-            ? !!refs[refId] && !refs[refId].ready
-            : !storiesFailed && !storiesConfigured;
+            ? refLoading || rootLoading
+            : (!storiesFailed && !storiesConfigured) || rootLoading;
 
           return (
             <ZoomConsumer>
@@ -70,7 +98,7 @@ const createCanvas = (id: string, baseUrl = 'iframe.html', withLoader = true): A
                   <>
                     {withLoader && isLoading && (
                       <S.LoaderWrapper>
-                        <Loader id="preview-loader" role="progressbar" />
+                        <Loader id="preview-loader" role="progressbar" progress={progress} />
                       </S.LoaderWrapper>
                     )}
                     <ApplyWrappers

@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-highlight",
-  "version": "7.0.0-alpha.47",
+  "version": "7.0.0-beta.26",
   "description": "Highlight DOM nodes within your stories",
   "keywords": [
     "storybook-addons",
@@ -25,20 +25,31 @@
   "author": "winkerVSbecks",
   "exports": {
     ".": {
+      "node": "./dist/index.js",
       "require": "./dist/index.js",
       "import": "./dist/index.mjs",
       "types": "./dist/index.d.ts"
     },
     "./preview": {
-      "require": "./dist/highlight.js",
-      "import": "./dist/highlight.mjs",
-      "types": "./dist/highlight.d.ts"
+      "require": "./dist/preview.js",
+      "import": "./dist/preview.mjs",
+      "types": "./dist/preview.d.ts"
     },
     "./package.json": "./package.json"
   },
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
+  "typesVersions": {
+    "*": {
+      "*": [
+        "dist/index.d.ts"
+      ],
+      "preview": [
+        "dist/preview.d.ts"
+      ]
+    }
+  },
   "files": [
     "dist/**/*",
     "README.md",
@@ -50,13 +61,13 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/addons": "7.0.0-alpha.47",
-    "@storybook/core-events": "7.0.0-alpha.47",
-    "global": "^4.4.0"
+    "@storybook/core-events": "7.0.0-beta.26",
+    "@storybook/global": "^5.0.0",
+    "@storybook/preview-api": "7.0.0-beta.26"
   },
   "devDependencies": {
     "@types/webpack-env": "^1.16.0",
-    "typescript": "~4.6.3"
+    "typescript": "~4.9.3"
   },
   "publishConfig": {
     "access": "public"
@@ -64,10 +75,10 @@
   "bundler": {
     "entries": [
       "./src/index.ts",
-      "./src/highlight.ts"
+      "./src/preview.ts"
     ]
   },
-  "gitHead": "1c706a4a778831e012343c905f86225fa71491a7",
+  "gitHead": "4d3ed5ec2eb8db3e688955e2820001def09621c1",
   "sbmodern": "dist/modern/index.js",
   "storybook": {
     "displayName": "Highlight",

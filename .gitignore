@@ -3,13 +3,17 @@ node_modules
 .idea
 *.iml
 *.sw*
+!.swcrc
 dist
 *.DS_Store
 .cache
 junit.xml
+test-results
 /repros
 /sandbox
+/bench
 .verdaccio-cache
+.next
 
 # Yarn stuff
 /**/.yarn/*

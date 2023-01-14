@@ -1,6 +1,6 @@
 {
   "name": "@storybook/react",
-  "version": "7.0.0-alpha.47",
+  "version": "7.0.0-beta.26",
   "description": "Storybook React renderer",
   "keywords": [
     "storybook"
@@ -21,6 +21,7 @@
   "license": "MIT",
   "exports": {
     ".": {
+      "node": "./dist/index.js",
       "require": "./dist/index.js",
       "import": "./dist/index.mjs",
       "types": "./dist/index.d.ts"
@@ -30,11 +31,7 @@
       "import": "./dist/config.mjs",
       "types": "./dist/config.d.ts"
     },
-    "./package.json": {
-      "require": "./package.json",
-      "import": "./package.json",
-      "types": "./package.json"
-    }
+    "./package.json": "./package.json"
   },
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -42,7 +39,6 @@
   "files": [
     "dist/**/*",
     "template/**/*",
-    "types/**/*",
     "README.md",
     "*.js",
     "*.d.ts"
@@ -52,19 +48,19 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/addons": "7.0.0-alpha.47",
-    "@storybook/client-logger": "7.0.0-alpha.47",
-    "@storybook/core-client": "7.0.0-alpha.47",
-    "@storybook/docs-tools": "7.0.0-alpha.47",
-    "@storybook/store": "7.0.0-alpha.47",
-    "@storybook/types": "7.0.0-alpha.47",
+    "@storybook/client-logger": "7.0.0-beta.26",
+    "@storybook/core-client": "7.0.0-beta.26",
+    "@storybook/docs-tools": "7.0.0-beta.26",
+    "@storybook/global": "^5.0.0",
+    "@storybook/preview-api": "7.0.0-beta.26",
+    "@storybook/types": "7.0.0-beta.26",
+    "@types/escodegen": "^0.0.6",
     "@types/estree": "^0.0.51",
     "@types/node": "^16.0.0",
     "acorn": "^7.4.1",
     "acorn-jsx": "^5.3.1",
     "acorn-walk": "^7.2.0",
     "escodegen": "^2.0.0",
-    "global": "^4.4.0",
     "html-tags": "^3.1.0",
     "lodash": "^4.17.21",
     "prop-types": "^15.7.2",
@@ -74,13 +70,12 @@
     "util-deprecate": "^1.0.2"
   },
   "devDependencies": {
-    "@babel/core": "^7.11.5",
-    "@jest/globals": "^26.6.2",
+    "@babel/core": "^7.20.2",
     "@types/util-deprecate": "^1.0.0",
     "expect-type": "^0.14.2",
-    "jest-specific-snapshot": "^4.0.0",
+    "jest-specific-snapshot": "^7.0.0",
     "require-from-string": "^2.0.2",
-    "typescript": "~4.6.3"
+    "typescript": "~4.9.3"
   },
   "peerDependencies": {
     "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
@@ -92,7 +87,7 @@
     }
   },
   "engines": {
-    "node": ">=10.13.0"
+    "node": ">=16.0.0"
   },
   "publishConfig": {
     "access": "public"
@@ -104,5 +99,5 @@
     ],
     "platform": "browser"
   },
-  "gitHead": "1c706a4a778831e012343c905f86225fa71491a7"
+  "gitHead": "4d3ed5ec2eb8db3e688955e2820001def09621c1"
 }

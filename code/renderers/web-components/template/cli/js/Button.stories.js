@@ -1,11 +1,10 @@
 import { Button } from './Button';
 
-// More on default export: https://storybook.js.org/docs/web-components/writing-stories/introduction#default-export
+// More on how to set up stories at: https://storybook.js.org/docs/7.0/web-components/writing-stories/introduction
 export default {
   title: 'Example/Button',
-  // More on component templates: https://storybook.js.org/docs/web-components/writing-stories/introduction#using-args
+  tags: ['autodocs'],
   render: (args) => Button(args),
-  // More on argTypes: https://storybook.js.org/docs/web-components/api/argtypes
   argTypes: {
     backgroundColor: { control: 'color' },
     onClick: { action: 'onClick' },
@@ -16,6 +15,7 @@ export default {
   },
 };
 
+// More on writing stories with args: https://storybook.js.org/docs/7.0/web-components/writing-stories/args
 export const Primary = {
   args: {
     primary: true,

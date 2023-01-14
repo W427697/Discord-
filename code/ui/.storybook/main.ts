@@ -1,9 +1,10 @@
-import { vite as csfPlugin } from '@storybook/csf-plugin';
-import type { StorybookConfig } from '../../frameworks/react-vite/dist';
+import pluginTurbosnap from 'vite-plugin-turbosnap';
+import type { StorybookConfig } from '../../frameworks/react-vite';
 
-const isBlocksOnly = process.env.BLOCKS_ONLY === 'true';
+const isBlocksOnly = process.env.STORYBOOK_BLOCKS_ONLY === 'true';
 
 const allStories = [
+  '../../lib/cli/rendererAssets/common/Introduction.stories.mdx',
   {
     directory: '../manager/src',
     titlePrefix: '@storybook-manager',
@@ -17,7 +18,29 @@ const allStories = [
     titlePrefix: '@storybook-blocks',
   },
 ];
-const blocksOnlyStories = ['../blocks/src/**/*.stories.@(js|jsx|ts|tsx|mdx)'];
+
+/**
+ * match all stories in blocks/src/blocks, blocks/src/controls and blocks/src/examples EXCEPT blocks/src/blocks/internal
+ * Examples:
+ *
+ * src/blocks/Canvas.stories.tsx - MATCH
+ * src/blocks/internal/InternalCanvas.stories.tsx - IGNORED, internal stories
+ * src/blocks/internal/nested/InternalCanvas.stories.tsx - IGNORED, internal stories
+ *
+ * src/blocks/Canvas.tsx - IGNORED, not story
+ * src/blocks/nested/Canvas.stories.tsx - MATCH
+ * src/blocks/nested/deep/Canvas.stories.tsx - MATCH
+ *
+ * src/controls/Boolean.stories.tsx - MATCH
+ * src/controls/Boolean.tsx - IGNORED, not story
+ *
+ * src/components/ColorPalette.stories.tsx - MATCH
+ * src/components/ColorPalette.tsx - IGNORED, not story
+ */
+const blocksOnlyStories = [
+  '../blocks/src/@(blocks|controls|examples)/!(internal)/**/*.@(mdx|stories.@(tsx|ts|jsx|js))',
+  '../blocks/src/@(blocks|controls|examples)/*.@(mdx|stories.@(tsx|ts|jsx|js))',
+];
 
 const config: StorybookConfig = {
   stories: isBlocksOnly ? blocksOnlyStories : allStories,
@@ -25,6 +48,7 @@ const config: StorybookConfig = {
     '@storybook/addon-links',
     '@storybook/addon-essentials',
     '@storybook/addon-interactions',
+    '@storybook/addon-storysource',
   ],
   framework: {
     name: '@storybook/react-vite',
@@ -33,9 +57,21 @@ const config: StorybookConfig = {
   core: {
     disableTelemetry: true,
   },
-  viteFinal: (vite) => ({
-    ...vite,
-    plugins: [...(vite.plugins || []), csfPlugin({})],
+  features: {
+    interactionsDebugger: true,
+  },
+  viteFinal: (viteConfig, { configType }) => ({
+    ...viteConfig,
+    plugins: [
+      ...(viteConfig.plugins || []),
+      configType === 'PRODUCTION' ? pluginTurbosnap({ rootDir: viteConfig.root || '' }) : [],
+    ],
+    optimizeDeps: { ...viteConfig.optimizeDeps, force: true },
+    build: {
+      ...viteConfig.build,
+      // disable sourcemaps in CI to not run out of memory
+      sourcemap: process.env.CI !== 'true',
+    },
   }),
 };
 

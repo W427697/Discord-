@@ -38,10 +38,12 @@ When you are building screens in this way, it is typical that the inputs of a co
   paths={[
     'react/simple-page-implementation.js.mdx',
     'react/simple-page-implementation.ts.mdx',
-    'vue/simple-page-implementation.2.mdx',
-    'vue/simple-page-implementation.3.mdx',
+    'vue/simple-page-implementation.2.js.mdx',
+    'vue/simple-page-implementation.3.js.mdx',
     'angular/simple-page-implementation.ts.mdx',
-    'svelte/simple-page-implementation.js',
+    'web-components/simple-page-implementation.js.mdx',
+    'web-components/simple-page-implementation.ts.mdx',
+    'svelte/simple-page-implementation.js.mdx',
   ]}
 />
 
@@ -53,13 +55,13 @@ In such cases, it is natural to use [args composition](./args.md#args-compositio
 
 <CodeSnippets
   paths={[
-    'react/page-story-with-args-composition.js.mdx',
-    'react/page-story-with-args-composition.ts.mdx',
-    'vue/page-story-with-args-composition.2.js.mdx',
-    'vue/page-story-with-args-composition.3.js.mdx',
-    'angular/page-story-with-args-composition.ts.mdx',
-    'svelte/page-story-with-args-composition.js.mdx',
+    'common/page-story-with-args-composition.js.mdx',
+    'common/page-story-with-args-composition.ts.mdx',
+    'web-components/page-story-with-args-composition.js.mdx',
+    'web-components/page-story-with-args-composition.ts.mdx',
   ]}
+  usesCsf3
+  csf2Path="writing-stories/build-pages-with-storybook#snippet-page-story-with-args-composition"
 />
 
 <!-- prettier-ignore-end -->
@@ -136,6 +138,7 @@ If you're working with pure presentational screens, adding stories through [args
     'vue/document-screen-fetch.3.js.mdx',
     'angular/document-screen-fetch.ts.mdx',
     'svelte/document-screen-fetch.js.mdx',
+    'web-components/document-screen-fetch.js.mdx',
   ]}
 />
 
@@ -147,11 +150,11 @@ To test your screen with the mocked data, you could write a similar set of stori
 
 <CodeSnippets
   paths={[
-    'react/documentscreen-story-msw-rest-request.js.mdx',
-    'vue/documentscreen-story-msw-rest-request.3.js.mdx',
-    'angular/documentscreen-story-msw-rest-request.ts.mdx',
-    'svelte/documentscreen-story-msw-rest-request.js.mdx',
+    'common/documentscreen-story-msw-rest-request.js.mdx',
+    'web-components/documentscreen-story-msw-rest-request.js.mdx',
   ]}
+  usesCsf3
+  csf2Path="writing-stories/build-pages-with-storybook#snippet-documentscreen-story-msw-rest-request"
 />
 
 <!-- prettier-ignore-end -->
@@ -187,12 +190,15 @@ To test your screen with the GraphQL mocked data, you could write the following 
   paths={[
     'react/documentscreen-story-msw-graphql-query.js.mdx',
     'vue/documentscreen-story-msw-graphql-query.3.js.mdx',
+    'vue/documentscreen-story-msw-graphql-query.ts-3.ts.mdx',
     'vue/apollo-wrapper-component.with-mock-implementation-3.js.mdx',
     'angular/documentscreen-story-msw-graphql-query.ts.mdx',
     'angular/apollo-module.mock-apollo-module.ts.mdx',
     'svelte/documentscreen-story-msw-graphql-query.js.mdx',
     'svelte/apollo-wrapper-component.with-mock-implementation.js.mdx',
   ]}
+  usesCsf3
+  csf2Path="writing-stories/build-pages-with-storybook#snippet-documentscreen-story-msw-graphql-query"
 />
 
 <!-- prettier-ignore-end -->
@@ -248,11 +254,13 @@ Finally, we can set the mock values in a specific story. Let's borrow an example
 
 <CodeSnippets
   paths={[
-    'react/app-story-with-mock.js.mdx',
-    'react/app-story-with-mock.ts.mdx',
-    'vue/app-story-with-mock.js.mdx',
-    'angular/app-story-with-mock.ts.mdx',
+    'common/app-story-with-mock.js.mdx',
+    'common/app-story-with-mock.ts.mdx',
+    'web-components/app-story-with-mock.js.mdx',
+    'web-components/app-story-with-mock.ts.mdx',
   ]}
+  usesCsf3
+  csf2Path="writing-stories/build-pages-with-storybook#snippet-app-story-with-mock"
 />
 
 <!-- prettier-ignore-end -->
@@ -322,6 +330,8 @@ In the context of Storybook, instead of providing container components through c
   paths={[
     'react/mock-context-container.js.mdx',
   ]}
+  usesCsf3
+  csf2Path="writing-stories/build-pages-with-storybook#snippet-mock-context-container"
 />
 
 <!-- prettier-ignore-end -->
