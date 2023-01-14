@@ -340,7 +340,9 @@ export const addStories: Task['run'] = async (
   updateStoriesField(mainConfig, detectLanguage(packageJson) === SupportedLanguage.JAVASCRIPT);
 
   // Link in the template/components/index.js from store, the renderer and the addons
-  const rendererPath = await workspacePath('renderer', template.expected.renderer);
+  const rendererPath = template.expected.renderer.startsWith('@storybook/')
+    ? await workspacePath('renderer', template.expected.renderer)
+    : require.resolve(template.expected.renderer);
   await ensureSymlink(
     join(codeDir, rendererPath, 'template', 'components'),
     resolve(cwd, storiesPath, 'components')

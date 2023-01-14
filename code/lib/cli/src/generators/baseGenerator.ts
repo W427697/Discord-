@@ -3,7 +3,7 @@ import fse from 'fs-extra';
 import { dedent } from 'ts-dedent';
 import type { NpmOptions } from '../NpmOptions';
 import type { SupportedRenderers, SupportedFrameworks, Builder } from '../project_types';
-import { CoreBuilder } from '../project_types';
+import { externalFrameworks, CoreBuilder } from '../project_types';
 import { getBabelDependencies, copyComponents } from '../helpers';
 import { configureMain, configurePreview } from './configure';
 import type { JsPackageManager } from '../js-package-manager';
@@ -41,6 +41,19 @@ const getBuilderDetails = (builder: string) => {
   return builder;
 };
 
+const getExternalFramework = (framework: string) =>
+  externalFrameworks.find(
+    (exFramework) => exFramework.name === framework || exFramework.packageName === framework
+  );
+
+const getFrameworkPackage = (framework: string, renderer: string, builder: string) => {
+  const externalFramework = getExternalFramework(framework);
+  if (externalFramework) {
+    return externalFramework.packageName;
+  }
+  return framework ? `@storybook/${framework}` : `@storybook/${renderer}-${builder}`;
+};
+
 const wrapForPnp = (packageName: string) =>
   `%%path.dirname(require.resolve(path.join('${packageName}', 'package.json')))%%`;
 
@@ -57,9 +70,8 @@ const getFrameworkDetails = (
   renderer?: string;
   rendererId: SupportedRenderers;
 } => {
-  const frameworkPackage = framework
-    ? `@storybook/${framework}`
-    : `@storybook/${renderer}-${builder}`;
+  const frameworkPackage = getFrameworkPackage(framework, renderer, builder);
+
   const frameworkPackagePath = pnp ? wrapForPnp(frameworkPackage) : frameworkPackage;
 
   const rendererPackage = `@storybook/${renderer}`;
@@ -68,7 +80,9 @@ const getFrameworkDetails = (
   const builderPackage = getBuilderDetails(builder);
   const builderPackagePath = pnp ? wrapForPnp(builderPackage) : builderPackage;
 
-  const isKnownFramework = !!(packageVersions as Record<string, string>)[frameworkPackage];
+  const isExternalFramework = !!getExternalFramework(frameworkPackage);
+  const isKnownFramework =
+    isExternalFramework || !!(packageVersions as Record<string, string>)[frameworkPackage];
   const isKnownRenderer = !!(packageVersions as Record<string, string>)[rendererPackage];
 
   if (isKnownFramework) {
@@ -182,7 +196,7 @@ export async function baseGenerator(
 
   const packages = [
     'storybook',
-    `@storybook/${rendererId}`,
+    getExternalFramework(rendererId) ? undefined : `@storybook/${rendererId}`,
     ...frameworkPackages,
     ...addonPackages,
     ...extraPackages,

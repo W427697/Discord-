@@ -364,6 +364,16 @@ const baseTemplates = {
       builder: '@storybook/builder-vite',
     },
   },
+  'qwik-vite/default-ts': {
+    name: 'Qwik CLI (Default TS)',
+    script: 'yarn create qwik basic {{beforeDir}} --no-install',
+    inDevelopment: true,
+    expected: {
+      framework: 'storybook-framework-qwik',
+      renderer: 'storybook-framework-qwik',
+      builder: 'storybook-framework-qwik',
+    },
+  },
 } satisfies Record<string, Template>;
 
 /**

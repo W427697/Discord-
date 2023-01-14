@@ -15,8 +15,13 @@ function eqMajor(versionRange: string, major: number) {
   return validRange(versionRange) && minVersion(versionRange).major === major;
 }
 
+/** A list of all frameworks that are supported, but use a package outside the storybook monorepo */
+export const externalFrameworks: { name: SupportedFrameworks; packageName: string }[] = [
+  { name: 'qwik', packageName: 'storybook-framework-qwik' },
+];
+
 // Should match @storybook/<framework>
-export type SupportedFrameworks = 'nextjs' | 'angular' | 'sveltekit';
+export type SupportedFrameworks = 'nextjs' | 'angular' | 'sveltekit' | 'qwik';
 
 // Should match @storybook/<renderer>
 export type SupportedRenderers =
@@ -32,6 +37,7 @@ export type SupportedRenderers =
   | 'marko'
   | 'preact'
   | 'svelte'
+  | 'qwik'
   | 'rax'
   | 'aurelia'
   | 'html'
@@ -51,6 +57,7 @@ export const SUPPORTED_RENDERERS: SupportedRenderers[] = [
   'marko',
   'preact',
   'svelte',
+  'qwik',
   'rax',
   'aurelia',
 ];
@@ -75,6 +82,7 @@ export enum ProjectType {
   MARIONETTE = 'MARIONETTE',
   MARKO = 'MARKO',
   HTML = 'HTML',
+  QWIK = 'QWIK',
   RIOT = 'RIOT',
   PREACT = 'PREACT',
   SVELTE = 'SVELTE',
@@ -164,6 +172,13 @@ export const supportedTemplates: TemplateConfiguration[] = [
     dependencies: {
       next: (versionRange) => eqMajor(versionRange, 9) || gtMajor(versionRange, 9),
     },
+    matcherFunction: ({ dependencies }) => {
+      return dependencies.every(Boolean);
+    },
+  },
+  {
+    preset: ProjectType.QWIK,
+    dependencies: ['@builder.io/qwik'],
     matcherFunction: ({ dependencies }) => {
       return dependencies.every(Boolean);
     },

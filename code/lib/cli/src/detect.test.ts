@@ -90,6 +90,16 @@ const MOCK_FRAMEWORK_FILES: {
     },
   },
   {
+    name: ProjectType.QWIK,
+    files: {
+      'package.json': {
+        devDependencies: {
+          '@builder.io/qwik': '1.0.0',
+        },
+      },
+    },
+  },
+  {
     name: ProjectType.REACT_NATIVE,
     files: {
       'package.json': {
