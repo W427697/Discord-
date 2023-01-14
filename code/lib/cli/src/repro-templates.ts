@@ -1,6 +1,9 @@
+import type { StorybookConfig } from '@storybook/types';
+
 export type SkippableTask = 'smoke-test' | 'test-runner' | 'chromatic' | 'e2e-tests';
-export type TemplateKey = keyof typeof allTemplates;
+export type TemplateKey = keyof typeof baseTemplates | keyof typeof internalTemplates;
 export type Cadence = keyof typeof templatesByCadence;
+
 export type Template = {
   /**
    * Readable name for the template, which will be used for feedback and the status page
@@ -21,6 +24,16 @@ export type Template = {
     renderer: string;
     builder: string;
   };
+
+  expectedFailures?: Array<{
+    feature: string;
+    issues: string[];
+  }>;
+
+  unsupportedFeatures?: Array<{
+    feature: string;
+    issues: string[];
+  }>;
   /**
    * Some sandboxes might not work properly in specific tasks temporarily, but we might
    * still want to run the other tasks. Set the ones to skip in this property.
@@ -31,9 +44,21 @@ export type Template = {
    * NOTE: Make sure to always add a TODO comment to remove this flag in a subsequent PR.
    */
   inDevelopment?: boolean;
+  /**
+   * Some sandboxes might need extra modifications in the initialized Storybook,
+   * such as extend main.js, for setting specific feature flags like storyStoreV7, etc.
+   */
+  modifications?: {
+    mainConfig?: Partial<StorybookConfig>;
+  };
+  /**
+   * Flag to indicate that this template is a secondary template, which is used mainly to test rather specific features.
+   * This means the template might be hidden from the Storybook status page or the repro CLI command.
+   * */
+  isInternal?: boolean;
 };
 
-export const allTemplates: Record<string, Template> = {
+const baseTemplates = {
   'cra/default-js': {
     name: 'Create React App (Javascript)',
     script: 'npx create-react-app .',
@@ -235,10 +260,9 @@ export const allTemplates: Record<string, Template> = {
     },
   },
   'svelte-kit/skeleton-js': {
-    inDevelopment: true,
     name: 'Svelte Kit (JS)',
     script:
-      'yarn create svelte-with-args --name=svelte-kit/skeleton-js --directory=. --template=skeleton --types=null --no-prettier --no-eslint --no-playwright',
+      'yarn create svelte-with-args --name=svelte-kit/skeleton-js --directory=. --template=skeleton --types=null --no-prettier --no-eslint --no-playwright --no-vitest',
     expected: {
       framework: '@storybook/sveltekit',
       renderer: '@storybook/svelte',
@@ -246,10 +270,9 @@ export const allTemplates: Record<string, Template> = {
     },
   },
   'svelte-kit/skeleton-ts': {
-    inDevelopment: true,
     name: 'Svelte Kit (TS)',
     script:
-      'yarn create svelte-with-args --name=svelte-kit/skeleton-ts --directory=. --template=skeleton --types=typescript --no-prettier --no-eslint --no-playwright',
+      'yarn create svelte-with-args --name=svelte-kit/skeleton-ts --directory=. --template=skeleton --types=typescript --no-prettier --no-eslint --no-playwright --no-vitest',
     expected: {
       framework: '@storybook/sveltekit',
       renderer: '@storybook/svelte',
@@ -323,6 +346,63 @@ export const allTemplates: Record<string, Template> = {
       builder: '@storybook/builder-webpack5',
     },
   },
+  'preact-vite/default-js': {
+    name: 'Preact Vite (JS)',
+    script: 'yarn create vite . --template preact',
+    expected: {
+      framework: '@storybook/preact-vite',
+      renderer: '@storybook/preact',
+      builder: '@storybook/builder-vite',
+    },
+  },
+  'preact-vite/default-ts': {
+    name: 'Preact Vite (TS)',
+    script: 'yarn create vite . --template preact-ts',
+    expected: {
+      framework: '@storybook/preact-vite',
+      renderer: '@storybook/preact',
+      builder: '@storybook/builder-vite',
+    },
+  },
+} satisfies Record<string, Template>;
+
+/**
+ * Internal templates reuse config from other templates and add extra config on top.
+ * They must contain an id that starts with 'internal/' and contain "isInternal: true".
+ * They will be hidden by default in the Storybook status page.
+ */
+const internalTemplates = {
+  'internal/ssv6-vite': {
+    ...baseTemplates['react-vite/default-ts'],
+    name: 'StoryStore v6 (react-vite/default-ts)',
+    inDevelopment: true,
+    isInternal: true,
+    modifications: {
+      mainConfig: {
+        features: {
+          storyStoreV7: false,
+        },
+      },
+    },
+  },
+  'internal/ssv6-webpack': {
+    ...baseTemplates['react-webpack/18-ts'],
+    name: 'StoryStore v6 (react-webpack/18-ts)',
+    inDevelopment: true,
+    isInternal: true,
+    modifications: {
+      mainConfig: {
+        features: {
+          storyStoreV7: false,
+        },
+      },
+    },
+  },
+} satisfies Record<`internal/${string}`, Template & { isInternal: true }>;
+
+export const allTemplates: Record<TemplateKey, Template> = {
+  ...baseTemplates,
+  ...internalTemplates,
 };
 
 export const ci: TemplateKey[] = ['cra/default-ts', 'react-vite/default-ts'];
@@ -343,7 +423,10 @@ export const merged: TemplateKey[] = [
   'angular-cli/14-ts',
   'angular-cli/13-ts',
   'preact-webpack5/default-ts',
+  'preact-vite/default-ts',
   'html-webpack/default',
+  'internal/ssv6-vite',
+  'internal/ssv6-webpack',
 ];
 export const daily: TemplateKey[] = [
   ...merged,
@@ -355,8 +438,10 @@ export const daily: TemplateKey[] = [
   'lit-vite/default-js',
   'svelte-kit/skeleton-js',
   'svelte-vite/default-js',
+  'nextjs/12-js',
   'nextjs/default-js',
   'preact-webpack5/default-js',
+  'preact-vite/default-js',
 ];
 
 export const templatesByCadence = { ci, pr, merged, daily };

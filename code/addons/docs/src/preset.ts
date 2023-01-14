@@ -5,64 +5,43 @@ import { dedent } from 'ts-dedent';
 
 import type { IndexerOptions, StoryIndexer, DocsOptions, Options } from '@storybook/types';
 import type { CsfPluginOptions } from '@storybook/csf-plugin';
+import type { JSXOptions } from '@storybook/mdx2-csf';
 import { loadCsf } from '@storybook/csf-tools';
-
-// for frameworks that are not working with react, we need to configure
-// the jsx to transpile mdx, for now there will be a flag for that
-// for more complex solutions we can find alone that we need to add '@babel/plugin-transform-react-jsx'
-type BabelParams = {
-  mdxBabelOptions?: any;
-  configureJSX?: boolean;
-};
-function createBabelOptions({ mdxBabelOptions, configureJSX }: BabelParams) {
-  const babelPlugins = mdxBabelOptions?.plugins || [];
-
-  const filteredBabelPlugins = babelPlugins.filter((p: any) => {
-    const name = Array.isArray(p) ? p[0] : p;
-    if (typeof name === 'string') {
-      return !name.includes('plugin-transform-react-jsx');
-    }
-    return true;
-  });
-
-  const jsxPlugin = [
-    require.resolve('@babel/plugin-transform-react-jsx'),
-    { pragma: 'React.createElement', pragmaFrag: 'React.Fragment' },
-  ];
-  const plugins = configureJSX ? [...filteredBabelPlugins, jsxPlugin] : babelPlugins;
-  return {
-    // don't use the root babelrc by default (users can override this in mdxBabelOptions)
-    babelrc: false,
-    configFile: false,
-    ...mdxBabelOptions,
-    plugins,
-  };
-}
+import { ensureReactPeerDeps } from './ensure-react-peer-deps';
 
 async function webpack(
   webpackConfig: any = {},
-  options: Options &
-    BabelParams & {
-      /** @deprecated */
-      sourceLoaderOptions: any;
-      csfPluginOptions: CsfPluginOptions | null;
-      transcludeMarkdown: boolean;
-    } /* & Parameters<
+  options: Options & {
+    /**
+     * @deprecated
+     * Use `jsxOptions` to customize options used by @babel/preset-react
+     */
+    configureJsx: boolean;
+    /**
+     * @deprecated
+     * Use `jsxOptions` to customize options used by @babel/preset-react
+     */
+    mdxBabelOptions?: any;
+    /** @deprecated */
+    sourceLoaderOptions: any;
+    csfPluginOptions: CsfPluginOptions | null;
+    transcludeMarkdown: boolean;
+    jsxOptions?: JSXOptions;
+  } /* & Parameters<
       typeof createCompiler
     >[0] */
 ) {
-  const resolvedBabelLoader = await options.presets.apply('babelLoaderRef');
-
   const { module = {} } = webpackConfig;
 
   // it will reuse babel options that are already in use in storybook
   // also, these babel options are chained with other presets.
   const {
-    mdxBabelOptions,
-    configureJSX = true,
     csfPluginOptions = {},
-    sourceLoaderOptions = null,
+    jsxOptions = {},
     transcludeMarkdown = false,
+    sourceLoaderOptions = null,
+    configureJsx,
+    mdxBabelOptions,
   } = options;
 
   const mdxLoaderOptions = await options.presets.apply('mdxLoaderOptions', {
@@ -71,6 +50,7 @@ async function webpack(
       providerImportSource: '@storybook/addon-docs/mdx-react-shim',
       remarkPlugins: [remarkSlug, remarkExternalLinks],
     },
+    jsxOptions,
   });
 
   if (sourceLoaderOptions) {
@@ -83,6 +63,16 @@ async function webpack(
     `);
   }
 
+  if (mdxBabelOptions || configureJsx) {
+    throw new Error(dedent`
+      Addon-docs no longer uses configureJsx or mdxBabelOptions in 7.0.
+
+      To update your configuration, please see migration instructions here:
+
+      https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#dropped-addon-docs-manual-babel-configuration
+    `);
+  }
+
   const mdxLoader = require.resolve('@storybook/mdx2-csf/loader');
 
   let rules = module.rules || [];
@@ -92,10 +82,6 @@ async function webpack(
       {
         test: /\.md$/,
         use: [
-          {
-            loader: resolvedBabelLoader,
-            options: createBabelOptions({ mdxBabelOptions, configureJSX }),
-          },
           {
             loader: mdxLoader,
             options: mdxLoaderOptions,
@@ -121,10 +107,6 @@ async function webpack(
           test: /(stories|story)\.mdx$/,
           use: [
             {
-              loader: resolvedBabelLoader,
-              options: createBabelOptions({ mdxBabelOptions, configureJSX }),
-            },
-            {
               loader: mdxLoader,
               options: {
                 ...mdxLoaderOptions,
@@ -137,10 +119,6 @@ async function webpack(
           test: /\.mdx$/,
           exclude: /(stories|story)\.mdx$/,
           use: [
-            {
-              loader: resolvedBabelLoader,
-              options: createBabelOptions({ mdxBabelOptions, configureJSX }),
-            },
             {
               loader: mdxLoader,
               options: mdxLoaderOptions,
@@ -173,9 +151,9 @@ const storyIndexers = (indexers: StoryIndexer[] | null) => {
 const docs = (docsOptions: DocsOptions) => {
   return {
     ...docsOptions,
-    enabled: true,
+    disable: false,
     defaultName: 'Docs',
-    docsPage: true,
+    autodocs: 'tag',
   };
 };
 
@@ -186,5 +164,7 @@ const docs = (docsOptions: DocsOptions) => {
 const webpackX = webpack as any;
 const storyIndexersX = storyIndexers as any;
 const docsX = docs as any;
+
+ensureReactPeerDeps();
 
 export { webpackX as webpack, storyIndexersX as storyIndexers, docsX as docs };

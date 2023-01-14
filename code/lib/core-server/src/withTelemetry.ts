@@ -5,7 +5,7 @@ import { telemetry, getPrecedingUpgrade } from '@storybook/telemetry';
 import type { EventType } from '@storybook/telemetry';
 
 type TelemetryOptions = {
-  cliOptions?: CLIOptions;
+  cliOptions: CLIOptions;
   presetOptions?: Parameters<typeof loadAllPresets>[0];
 };
 
@@ -29,14 +29,14 @@ const promptCrashReports = async () => {
 type ErrorLevel = 'none' | 'error' | 'full';
 
 async function getErrorLevel({ cliOptions, presetOptions }: TelemetryOptions): Promise<ErrorLevel> {
-  if (cliOptions?.disableTelemetry) return 'none';
+  if (cliOptions.disableTelemetry) return 'none';
 
   // If we are running init or similar, we just have to go with true here
   if (!presetOptions) return 'full';
 
   // should we load the preset?
   const presets = await loadAllPresets({
-    corePresets: [require.resolve('./presets/common-preset')],
+    corePresets: [require.resolve('@storybook/core-server/dist/presets/common-preset')],
     overridePresets: [],
     ...presetOptions,
   });
@@ -61,9 +61,10 @@ async function getErrorLevel({ cliOptions, presetOptions }: TelemetryOptions): P
 export async function withTelemetry(
   eventType: EventType,
   options: TelemetryOptions,
-  run: () => Promise<void>
+  run: () => Promise<any>
 ) {
-  telemetry('boot', { eventType }, { stripMetadata: true });
+  if (!options.cliOptions.disableTelemetry)
+    telemetry('boot', { eventType }, { stripMetadata: true });
 
   try {
     await run();
@@ -78,7 +79,7 @@ export async function withTelemetry(
           { eventType, precedingUpgrade, error: errorLevel === 'full' ? error : undefined },
           {
             immediate: true,
-            configDir: options.cliOptions?.configDir || options.presetOptions?.configDir,
+            configDir: options.cliOptions.configDir || options.presetOptions?.configDir,
             enableCrashReports: errorLevel === 'full',
           }
         );

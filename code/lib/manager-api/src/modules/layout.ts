@@ -1,5 +1,5 @@
-import global from 'global';
-import pick from 'lodash/pick';
+import { global } from '@storybook/global';
+import pick from 'lodash/pick.js';
 import { dequal as deepEqual } from 'dequal';
 import { create } from '@storybook/theming/create';
 import { SET_CONFIG } from '@storybook/core-events';
@@ -184,7 +184,9 @@ export const init: ModuleFn = ({ store, provider, singleStory, fullAPI }) => {
       const element = document.getElementById(elementId);
       if (element) {
         element.focus();
-        if (select) element.select();
+        if (select) {
+          (element as any).select();
+        }
       }
     },
 
@@ -213,12 +215,14 @@ export const init: ModuleFn = ({ store, provider, singleStory, fullAPI }) => {
       if (options) {
         const updatedLayout = {
           ...layout,
+          ...options.layout,
           ...pick(options, Object.keys(layout)),
           ...(singleStory && { showNav: false }),
         };
 
         const updatedUi = {
           ...ui,
+          ...options.ui,
           ...pick(options, Object.keys(ui)),
         };
 
