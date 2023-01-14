@@ -58,19 +58,37 @@ function getComponentNameAndChildren(component: any): {
   };
 }
 /**
- * Transform args to props string
- * @param args
+ *
+ * @param _args
  * @param argTypes
- * @param slotProp prop used to simulate slot
+ * @param byRef
  */
-function argsToSource(args: Args, argTypes: ArgTypes, byRef?: boolean): string {
-  const argsKeys = Object.keys(args).filter(
-    (key: any) =>
-      ['props', 'events'].indexOf(argTypes[key]?.table?.category) !== -1 || !argTypes[key] // remove slots and children
-  );
+function generateAttributesSource(_args: Args, argTypes: ArgTypes, byRef?: boolean): string {
+  // create a copy of the args object to avoid modifying the original
+  const args = { ..._args };
+  // filter out keys that are children or slots, and convert event keys to the proper format
+  const argsKeys = Object.keys(args)
+    .filter(
+      (key: any) =>
+        ['children', 'slots'].indexOf(argTypes[key]?.table?.category) === -1 || !argTypes[key] // remove slots and children
+    )
+    .map((key) => {
+      const akey = key.replace(/([A-Z])/g, '-$1').toLowerCase();
+      if (
+        (typeof args[key] === 'function' && !argTypes[key]?.type) ||
+        argTypes[key]?.table?.category === 'events'
+      ) {
+        args[`:${akey}`] = '() => {}';
+        if (!akey.startsWith('on')) delete args[`:${akey}`]; // remove the event key
+        return `:${akey}`;
+      }
+      return akey;
+    })
+    .filter((key, index, self) => self.indexOf(key) === index); // remove duplicated keys
+  // generate the source code for each key and filter out empty strings
   const source = argsKeys
     .map((key) =>
-      propToDynamicSource(
+      generateAttributeSource(
         byRef && !key.includes(':') ? `:${key}` : key,
         byRef && !key.includes(':') ? key : args[key],
         argTypes[key]
@@ -82,13 +100,14 @@ function argsToSource(args: Args, argTypes: ArgTypes, byRef?: boolean): string {
   return source;
 }
 
-function propToDynamicSource(
-  key: string,
+function generateAttributeSource(
+  _key: string,
   value: Args[keyof Args],
   argType: ArgTypes[keyof ArgTypes]
 ): string {
-  // slot Args or default value
-  // default value ?
+  const toKey = (key: string) => key.replace(/([A-Z])/g, '-$1').toLowerCase();
+  const key = toKey(_key); // .replace(':on-', 'on-');
+
   if (!value) {
     return '';
   }
@@ -97,16 +116,17 @@ function propToDynamicSource(
     return key;
   }
 
+  if (typeof value === 'function' || argType?.table?.category === 'events' || argType?.action) {
+    return `:${key}='${value}'`;
+  }
+
   if (typeof value === 'string') {
     return `${key}='${value}'`;
   }
 
-  if (typeof value === 'function' || argType?.table?.category === 'events') {
-    return `@${key}='()=>{}'`;
-  }
-
   return `:${key}='${JSON.stringify(value)}'`;
 }
+
 /**
  *
  * @param args generate script setup from args
@@ -178,7 +198,7 @@ export function generateSource(
     }
 
     const argsIn = attributes ? getArgsInAttrs(args, attributes) : args; // keep only args that are in attributes
-    const props = argsToSource(argsIn, argTypes, byRef);
+    const props = generateAttributesSource(argsIn, argTypes, byRef);
     const slotArgs = Object.entries(argsIn).filter(
       ([arg]) => argTypes[arg]?.table?.category === 'slots'
     );
