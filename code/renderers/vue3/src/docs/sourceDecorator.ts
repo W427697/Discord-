@@ -65,11 +65,16 @@ function getComponentNameAndChildren(component: any): {
  */
 function argsToSource(args: Args, argTypes: ArgTypes, byRef?: boolean): string {
   const argsKeys = Object.keys(args).filter(
-    (key: any) => ['props', 'events'].indexOf(argTypes[key]?.table?.category) !== -1 // remove slots and children
+    (key: any) =>
+      ['props', 'events'].indexOf(argTypes[key]?.table?.category) !== -1 || !argTypes[key] // remove slots and children
   );
   const source = argsKeys
     .map((key) =>
-      propToDynamicSource(byRef ? `:${key}` : key, byRef ? key : args[key], argTypes[key])
+      propToDynamicSource(
+        byRef && !key.includes(':') ? `:${key}` : key,
+        byRef && !key.includes(':') ? key : args[key],
+        argTypes[key]
+      )
     )
     .filter((item) => item !== '')
     .join(' ');
@@ -111,12 +116,12 @@ function generateScriptSetup(args: Args, argTypes: ArgTypes, components: any[]):
   const scriptLines = Object.keys(args).map(
     (key: any) =>
       `const ${key} = ${
-        typeof args[key] === 'function' ? `()=>{}` : `ref(${JSON.stringify(args[key])})`
+        typeof args[key] === 'function' ? `()=>{}` : `ref(${JSON.stringify(args[key])});`
       }`
   );
-  scriptLines.unshift(`import { ref } from "vue"`);
+  scriptLines.unshift(`import { ref } from "vue";`);
 
-  return `<script setup>${scriptLines.join('\n')}</script>`;
+  return `<script lang='ts' setup>${scriptLines.join('\n')}</script>`;
 }
 /**
  * get component templates one or more
@@ -138,7 +143,7 @@ function getTemplates(renderFn: any): [] {
       ({ attrs: attributes = [], name: Name = '', children: Children = [] }) => {
         return {
           name: Name,
-          attrs: attributes?.filter((el: any) => el.name !== 'vvv-bind'),
+          attrs: attributes,
           children: Children,
         };
       }
@@ -243,6 +248,11 @@ function getArgsInAttrs(args: Args, attributes: Attribute[]) {
     );
     if (attribute) {
       acc[prop] = attribute.name === `:${prop}` ? args[prop] : attribute.value;
+    }
+    if (Object.keys(acc).length === 0) {
+      attributes?.forEach((attr: any) => {
+        acc[attr.name] = JSON.parse(JSON.stringify(attr.value));
+      });
     }
     return acc;
   }, {} as Record<string, any>);
