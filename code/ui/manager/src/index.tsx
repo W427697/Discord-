@@ -82,7 +82,7 @@ export function renderStorybookUI(domNode: HTMLElement, provider: Provider) {
     throw new Error('provider is not extended from the base Provider');
   }
 
-  const root = createRoot(domNode);
+  const root = createRoot(domNode!);
   root.render(<Root key="root" provider={provider} />);
 }
 
