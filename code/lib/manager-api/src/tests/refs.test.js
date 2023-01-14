@@ -1,9 +1,9 @@
-import global from 'global';
+import { global } from '@storybook/global';
 import { getSourceType, init as initRefs } from '../modules/refs';
 
 const { fetch } = global;
 
-jest.mock('global', () => {
+jest.mock('@storybook/global', () => {
   const globalMock = {
     fetch: jest.fn(() => Promise.resolve({})),
     REFS: {
@@ -29,7 +29,7 @@ jest.mock('global', () => {
         .mockReturnValue(lastLocation),
     },
   });
-  return globalMock;
+  return { global: globalMock };
 });
 
 const provider = {
@@ -505,6 +505,68 @@ describe('Refs API', () => {
             },
           },
         }
+      `);
+    });
+
+    it('checks refs (basic-auth)', async () => {
+      // given
+      const { api } = initRefs({ provider, store }, { runCheck: false });
+
+      setupResponses({
+        indexPrivate: {
+          ok: true,
+          response: async () => ({ v: 4, entries: {} }),
+        },
+        storiesPrivate: {
+          ok: true,
+          response: async () => ({ v: 3, stories: {} }),
+        },
+        metadata: {
+          ok: true,
+          response: async () => ({ versions: {} }),
+        },
+      });
+
+      await api.checkRef({
+        id: 'fake',
+        url: 'https://user:pass@example.com',
+        title: 'Fake',
+      });
+
+      expect(fetch.mock.calls).toMatchInlineSnapshot(`
+        Array [
+          Array [
+            "https://example.com/index.json",
+            Object {
+              "credentials": "include",
+              "headers": Object {
+                "Accept": "application/json",
+                "Authorization": "Basic dXNlcjpwYXNz",
+              },
+            },
+          ],
+          Array [
+            "https://example.com/stories.json",
+            Object {
+              "credentials": "include",
+              "headers": Object {
+                "Accept": "application/json",
+                "Authorization": "Basic dXNlcjpwYXNz",
+              },
+            },
+          ],
+          Array [
+            "https://example.com/metadata.json",
+            Object {
+              "cache": "no-cache",
+              "credentials": "include",
+              "headers": Object {
+                "Accept": "application/json",
+                "Authorization": "Basic dXNlcjpwYXNz",
+              },
+            },
+          ],
+        ]
       `);
     });
 

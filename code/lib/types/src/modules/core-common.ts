@@ -6,7 +6,7 @@ import type { TransformOptions } from '@babel/core';
 import type { Router } from 'express';
 import type { Server } from 'http';
 import type { PackageJson as PackageJsonFromTypeFest } from 'type-fest';
-import type { Parameters, Tag } from './csf';
+import type { StoriesEntry, StoryIndexer } from './storyIndex';
 
 /**
  * ⚠️ This file contains internal WIP types they MUST NOT be exported outside this package for now!
@@ -67,7 +67,7 @@ export interface Presets {
   apply(extension: 'framework', config?: {}, args?: any): Promise<Preset>;
   apply(extension: 'babel', config?: {}, args?: any): Promise<TransformOptions>;
   apply(extension: 'entries', config?: [], args?: any): Promise<unknown>;
-  apply(extension: 'stories', config?: [], args?: any): Promise<CoreCommon_StoriesEntry[]>;
+  apply(extension: 'stories', config?: [], args?: any): Promise<StoriesEntry[]>;
   apply(extension: 'managerEntries', config: [], args?: any): Promise<string[]>;
   apply(extension: 'refs', config?: [], args?: any): Promise<unknown>;
   apply(extension: 'core', config?: {}, args?: any): Promise<CoreConfig>;
@@ -156,10 +156,7 @@ export interface CLIOptions {
   quiet?: boolean;
   versionUpdates?: boolean;
   releaseNotes?: boolean;
-  dll?: boolean;
   docs?: boolean;
-  docsDll?: boolean;
-  uiDll?: boolean;
   debugWebpack?: boolean;
   webpackStatsJson?: string | boolean;
   outputDir?: string;
@@ -207,26 +204,6 @@ export interface Builder<Config, BuilderStats extends Stats = Stats> {
   overridePresets?: string[];
 }
 
-export interface CoreCommon_IndexerOptions {
-  makeTitle: (userTitle?: string) => string;
-}
-
-export interface CoreCommon_IndexedStory {
-  id: string;
-  name: string;
-  tags?: Tag[];
-  parameters?: Parameters;
-}
-export interface CoreCommon_StoryIndex {
-  meta: { title?: string; tags?: Tag[] };
-  stories: CoreCommon_IndexedStory[];
-}
-
-export interface CoreCommon_StoryIndexer {
-  test: RegExp;
-  indexer: (fileName: string, options: CoreCommon_IndexerOptions) => Promise<CoreCommon_StoryIndex>;
-}
-
 /**
  * Options for TypeScript usage within Storybook.
  */
@@ -244,33 +221,6 @@ export interface TypescriptOptions {
    */
   skipBabel: boolean;
 }
-
-interface CoreCommon_StoriesSpecifier {
-  /**
-   * When auto-titling, what to prefix all generated titles with (default: '')
-   */
-  titlePrefix?: string;
-  /**
-   * Where to start looking for story files
-   */
-  directory: string;
-  /**
-   * What does the filename of a story file look like?
-   * (a glob, relative to directory, no leading `./`)
-   * If unset, we use `** / *.stories.@(mdx|tsx|ts|jsx|js)` (no spaces)
-   */
-  files?: string;
-}
-
-export type CoreCommon_StoriesEntry = string | CoreCommon_StoriesSpecifier;
-
-export type CoreCommon_NormalizedStoriesSpecifier = Required<CoreCommon_StoriesSpecifier> & {
-  /*
-   * Match the "importPath" of a file (e.g. `./src/button/Button.stories.js')
-   * relative to the current working directory.
-   */
-  importPathMatcher: RegExp;
-};
 
 export type Preset =
   | string
@@ -292,18 +242,19 @@ type CoreCommon_StorybookRefs = Record<
 
 export type DocsOptions = {
   /**
-   * Should we generate docs entries at all under any circumstances? (i.e. can they be rendered)
+   * Should we disable generate docs entries at all under any circumstances? (i.e. can they be rendered)
    */
-  enabled?: boolean;
+  disable?: boolean;
   /**
    * What should we call the generated docs entries?
    */
   defaultName?: string;
   /**
-   * Should we generate a docs entry per CSF file with the `docsPage` tag?
-   * Set to 'automatic' to generate an entry irrespective of tag.
+   * Should we generate a docs entry per CSF file?
+   * Set to 'tag' (the default) to generate an entry for every CSF file with the
+   * 'autodocs' tag.
    */
-  docsPage?: boolean | 'automatic';
+  autodocs?: boolean | 'tag';
   /**
    * Only show doc entries in the side bar (usually set with the `--docs` CLI flag)
    */
@@ -329,11 +280,6 @@ export interface StorybookConfig {
   staticDirs?: (DirectoryMapping | string)[];
   logLevel?: string;
   features?: {
-    /**
-     * Allows to disable deprecated implicit PostCSS loader. (will be removed in 7.0)
-     */
-    postcss?: boolean;
-
     /**
      * Build stories.json automatically on start/build
      */
@@ -362,11 +308,6 @@ export interface StorybookConfig {
     interactionsDebugger?: boolean;
 
     /**
-     * Use Storybook 7.0 babel config scheme
-     */
-    babelModeV7?: boolean;
-
-    /**
      * Filter args with a "target" on the type from the render function (EXPERIMENTAL)
      */
     argTypeTargetsV7?: boolean;
@@ -383,7 +324,7 @@ export interface StorybookConfig {
    *
    * @example `['./src/*.stories.@(j|t)sx?']`
    */
-  stories: CoreCommon_StoriesEntry[];
+  stories: StoriesEntry[];
 
   /**
    * Framework, e.g. '@storybook/react', required in v7
@@ -398,7 +339,7 @@ export interface StorybookConfig {
   /**
    * References external Storybooks
    */
-  refs?: CoreCommon_StorybookRefs | ((config: any, options: Options) => CoreCommon_StorybookRefs);
+  refs?: PresetValue<CoreCommon_StorybookRefs>;
 
   /**
    * Modify or return babel config.
@@ -421,20 +362,17 @@ export interface StorybookConfig {
    *
    * @deprecated use `previewAnnotations` or `/preview.js` file instead
    */
-  config?: (entries: Entry[], options: Options) => Entry[];
+  config?: PresetValue<Entry[]>;
 
   /**
    * Add additional scripts to run in the preview a la `.storybook/preview.js`
    */
-  previewAnnotations?: (entries: Entry[], options: Options) => Entry[];
+  previewAnnotations?: PresetValue<Entry[]>;
 
   /**
    * Process CSF files for the story index.
    */
-  storyIndexers?: (
-    indexers: CoreCommon_StoryIndexer[],
-    options: Options
-  ) => CoreCommon_StoryIndexer[];
+  storyIndexers?: PresetValue<StoryIndexer[]>;
 
   /**
    * Docs related features in index generation
@@ -446,10 +384,12 @@ export interface StorybookConfig {
    * The previewHead and previewBody functions accept a string,
    * which is the existing head/body, and return a modified string.
    */
-  previewHead?: (head: string, options: Options) => string;
+  previewHead?: PresetValue<string>;
 
-  previewBody?: (body: string, options: Options) => string;
+  previewBody?: PresetValue<string>;
 }
+
+export type PresetValue<T> = T | ((config: T, options: Options) => T | Promise<T>);
 
 export type PresetProperty<K, TStorybookConfig = StorybookConfig> =
   | TStorybookConfig[K extends keyof TStorybookConfig ? K : never]

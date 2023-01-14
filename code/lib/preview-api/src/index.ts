@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/triple-slash-reference */
+/// <reference path="typings.d.ts" />
+
 /**
  * HOOKS API
  */
@@ -15,18 +18,18 @@ export {
   useStoryContext,
   applyHooks,
   HooksContext,
-} from '@storybook/addons';
+} from './addons';
 
 /**
  * DECORATORS API
  */
-export { makeDecorator } from '@storybook/addons';
+export { makeDecorator } from './addons';
 
 /**
  * ADDON API
  * @deprecated
  */
-export { addons } from '@storybook/addons';
+export { addons, mockChannel } from './addons';
 
 /**
  * DOCS API
@@ -64,14 +67,18 @@ export {
   decorateStory,
   defaultDecorateStory,
   prepareStory,
+  prepareMeta,
   normalizeStory,
   filterArgTypes,
   sanitizeStoryContextUpdate,
   setProjectAnnotations,
   inferControls,
   userOrAutoTitleFromSpecifier,
+  userOrAutoTitle,
   sortStoriesV7,
 } from './store';
+
+export type { PropDescriptor } from './store';
 
 /**
  * STORIES API

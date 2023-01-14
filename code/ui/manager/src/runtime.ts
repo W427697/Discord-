@@ -1,8 +1,8 @@
-import global from 'global';
+import { global } from '@storybook/global';
 
 import type { Channel } from '@storybook/channels';
-import type { AddonStore } from '@storybook/addons';
-import { addons } from '@storybook/addons';
+import type { AddonStore } from '@storybook/manager-api';
+import { addons } from '@storybook/manager-api';
 import type { Addon_Types, Addon_Config } from '@storybook/types';
 import * as postMessage from '@storybook/channel-postmessage';
 import * as webSocket from '@storybook/channel-websocket';
@@ -18,6 +18,7 @@ const { FEATURES, SERVER_CHANNEL_URL } = global;
 class ReactProvider extends Provider {
   private addons: AddonStore;
 
+  // @ts-expect-error Unused, possibly remove, leaving, because it could be accessed even though it is private
   private channel: Channel;
 
   private serverChannel?: Channel;

@@ -1,10 +1,17 @@
 import React, { Fragment, useMemo, useEffect, useRef, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
-import global from 'global';
+import { global } from '@storybook/global';
 
-import { type API, Consumer, type Combo, merge } from '@storybook/manager-api';
+import {
+  type API,
+  Consumer,
+  type Combo,
+  merge,
+  addons,
+  types,
+  type Addon,
+} from '@storybook/manager-api';
 import { PREVIEW_BUILDER_PROGRESS, SET_CURRENT_STORY } from '@storybook/core-events';
-import { addons, types, type Addon } from '@storybook/addons';
 
 import { Loader } from '@storybook/components';
 import { Location } from '@storybook/router';
@@ -16,6 +23,8 @@ import { ToolbarComp } from './toolbar';
 import { FramesRenderer } from './FramesRenderer';
 
 import type { PreviewProps } from './utils/types';
+
+const { FEATURES } = global;
 
 const getWrappers = (getFn: API['getElements']) => Object.values(getFn<Addon>(types.PREVIEW));
 const getTabs = (getFn: API['getElements']) => Object.values(getFn<Addon>(types.TAB));
@@ -63,12 +72,16 @@ const createCanvas = (id: string, baseUrl = 'iframe.html', withLoader = true): A
           const [progress, setProgress] = useState(undefined);
 
           useEffect(() => {
-            if (global.CONFIG_TYPE === 'DEVELOPMENT') {
-              const channel = addons.getServerChannel();
+            if (FEATURES?.storyStoreV7 && global.CONFIG_TYPE === 'DEVELOPMENT') {
+              try {
+                const channel = addons.getServerChannel();
 
-              channel.on(PREVIEW_BUILDER_PROGRESS, (options) => {
-                setProgress(options);
-              });
+                channel.on(PREVIEW_BUILDER_PROGRESS, (options) => {
+                  setProgress(options);
+                });
+              } catch {
+                //
+              }
             }
           }, []);
 

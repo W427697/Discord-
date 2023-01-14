@@ -10,6 +10,7 @@ import type {
   PresetConfig,
   Presets,
 } from '@storybook/types';
+import { join, parse } from 'path';
 import { loadCustomPresets } from './utils/load-custom-presets';
 import { safeResolve, safeResolveFrom } from './utils/safeResolve';
 import { interopRequireDefault } from './utils/interpret-require';
@@ -66,14 +67,19 @@ export const resolveAddonName = (
   const resolved = resolve(name);
 
   if (resolved) {
-    if (name.match(/\/(manager|register(-panel)?)(\.(js|ts|tsx|jsx))?$/)) {
+    const { dir: fdir, name: fname } = parse(resolved);
+
+    if (name.match(/\/(manager|register(-panel)?)(\.(js|mjs|ts|tsx|jsx))?$/)) {
       return {
         type: 'virtual',
         name,
-        managerEntries: [resolved],
+        // we remove the extension
+        // this is a bit of a hack to try to find .mjs files
+        // node can only ever resolve .js files; it does not look at the exports field in package.json
+        managerEntries: [join(fdir, fname)],
       };
     }
-    if (name.match(/\/(preset)(\.(js|ts|tsx|jsx))?$/)) {
+    if (name.match(/\/(preset)(\.(js|mjs|ts|tsx|jsx))?$/)) {
       return {
         type: 'presets',
         name: resolved,
@@ -113,11 +119,19 @@ export const resolveAddonName = (
     const managerEntries = [];
 
     if (managerFile) {
-      managerEntries.push(managerFile);
+      // we remove the extension
+      // this is a bit of a hack to try to find .mjs files
+      // node can only ever resolve .js files; it does not look at the exports field in package.json
+      const { dir: fdir, name: fname } = parse(managerFile);
+      managerEntries.push(join(fdir, fname));
     }
     // register file is the old way of registering addons
     if (!managerFile && registerFile && !presetFile) {
-      managerEntries.push(registerFile);
+      // we remove the extension
+      // this is a bit of a hack to try to find .mjs files
+      // node can only ever resolve .js files; it does not look at the exports field in package.json
+      const { dir: fdir, name: fname } = parse(registerFile);
+      managerEntries.push(join(fdir, fname));
     }
 
     return {
@@ -150,20 +164,29 @@ export const resolveAddonName = (
 const map =
   ({ configDir }: InterPresetOptions) =>
   (item: any) => {
-    const options = isObject(item) ? item.options || undefined : undefined;
-    const name = isObject(item) ? item.name : item;
+    const options = isObject(item) ? item['options'] || undefined : undefined;
+    const name = isObject(item) ? item['name'] : item;
+
+    let resolved;
+
     try {
-      const resolved = resolveAddonName(configDir, name, options);
-      return {
-        ...(options ? { options } : {}),
-        ...resolved,
-      };
+      resolved = resolveAddonName(configDir, name, options);
     } catch (err) {
       logger.error(
         `Addon value should end in /manager or /preview or /register OR it should be a valid preset https://storybook.js.org/docs/react/addons/writing-presets/\n${item}`
       );
+      return undefined;
     }
-    return undefined;
+
+    if (!resolved) {
+      logger.warn(`Could not resolve addon "${name}", skipping. Is it installed?`);
+      return undefined;
+    }
+
+    return {
+      ...(options ? { options } : {}),
+      ...resolved,
+    };
   };
 
 async function getContent(input: any) {
@@ -245,7 +268,11 @@ async function loadPresets(
   }
 
   return (
-    await Promise.all(presets.map(async (preset) => loadPreset(preset, level, storybookOptions)))
+    await Promise.all(
+      presets.map(async (preset) => {
+        return loadPreset(preset, level, storybookOptions);
+      })
+    )
   ).reduce((acc, loaded) => {
     return acc.concat(loaded);
   }, []);

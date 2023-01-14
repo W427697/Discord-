@@ -1,6 +1,6 @@
 {
   "name": "@storybook/preview-api",
-  "version": "7.0.0-alpha.53",
+  "version": "7.0.0-beta.26",
   "description": "",
   "keywords": [
     "storybook"
@@ -25,6 +25,11 @@
       "import": "./dist/index.mjs",
       "require": "./dist/index.js",
       "types": "./dist/index.d.ts"
+    },
+    "./dist/addons": {
+      "import": "./dist/addons.mjs",
+      "require": "./dist/addons.js",
+      "types": "./dist/addons.d.ts"
     },
     "./dist/store": {
       "import": "./dist/store.mjs",
@@ -62,17 +67,15 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/addons": "7.0.0-alpha.53",
-    "@storybook/channel-postmessage": "7.0.0-alpha.53",
-    "@storybook/channels": "7.0.0-alpha.53",
-    "@storybook/client-logger": "7.0.0-alpha.53",
-    "@storybook/core-events": "7.0.0-alpha.53",
+    "@storybook/channel-postmessage": "7.0.0-beta.26",
+    "@storybook/channels": "7.0.0-beta.26",
+    "@storybook/client-logger": "7.0.0-beta.26",
+    "@storybook/core-events": "7.0.0-beta.26",
     "@storybook/csf": "next",
-    "@storybook/types": "7.0.0-alpha.53",
+    "@storybook/global": "^5.0.0",
+    "@storybook/types": "7.0.0-beta.26",
     "@types/qs": "^6.9.5",
-    "@types/webpack-env": "^1.16.4",
     "dequal": "^2.0.2",
-    "global": "^4.4.0",
     "lodash": "^4.17.21",
     "memoizerific": "^1.11.3",
     "qs": "^6.10.0",
@@ -83,7 +86,9 @@
   },
   "devDependencies": {
     "@jest/globals": "^26.6.2",
-    "ansi-to-html": "^0.6.11"
+    "@storybook/core-common": "7.0.0-beta.26",
+    "ansi-to-html": "^0.6.11",
+    "react": "^16.14.0"
   },
   "publishConfig": {
     "access": "public"
@@ -91,11 +96,12 @@
   "bundler": {
     "entries": [
       "./src/index.ts",
-      "./src/store.ts",
+      "./src/addons.ts",
       "./src/client-api.ts",
       "./src/core-client.ts",
-      "./src/preview-web.ts"
+      "./src/preview-web.ts",
+      "./src/store.ts"
     ]
   },
-  "gitHead": "3ef14366115c56c1d45c0359ff681cc47ed50532"
+  "gitHead": "4d3ed5ec2eb8db3e688955e2820001def09621c1"
 }

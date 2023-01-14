@@ -3,6 +3,7 @@ node_modules
 .idea
 *.iml
 *.sw*
+!.swcrc
 dist
 *.DS_Store
 .cache
@@ -12,6 +13,7 @@ test-results
 /sandbox
 /bench
 .verdaccio-cache
+.next
 
 # Yarn stuff
 /**/.yarn/*

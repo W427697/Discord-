@@ -1,6 +1,6 @@
 {
   "name": "@storybook/preview",
-  "version": "7.0.0-alpha.53",
+  "version": "7.0.0-beta.26",
   "description": "",
   "keywords": [
     "storybook"
@@ -56,49 +56,23 @@
     "check": "../../../scripts/node_modules/.bin/tsc --noEmit",
     "prep": "../../../scripts/prepare/bundle.ts"
   },
-  "dependencies": {
-    "@types/shelljs": "^0.8.7",
-    "fs-extra": "^9.0.1",
-    "shelljs": "^0.8.5"
-  },
   "devDependencies": {
-    "@storybook/channel-postmessage": "7.0.0-alpha.53",
-    "@storybook/channel-websocket": "7.0.0-alpha.53",
-    "@storybook/channels": "7.0.0-alpha.53",
-    "@storybook/client-logger": "7.0.0-alpha.53",
-    "@storybook/core-common": "7.0.0-alpha.53",
-    "@storybook/core-events": "7.0.0-alpha.53",
-    "@storybook/csf": "next",
-    "@storybook/manager-api": "7.0.0-alpha.53",
-    "@storybook/preview-api": "7.0.0-alpha.53",
-    "@storybook/router": "7.0.0-alpha.53",
-    "@storybook/theming": "7.0.0-alpha.53",
-    "@storybook/types": "7.0.0-alpha.53",
-    "@types/qs": "^6.9.5",
-    "@types/webpack-env": "^1.16.4",
-    "ansi-to-html": "^0.6.11",
-    "dequal": "^2.0.2",
-    "global": "^4.4.0",
-    "lodash": "^4.17.21",
-    "memoizerific": "^1.11.3",
-    "qs": "^6.10.0",
-    "react": "16.14.0",
-    "slash": "^3.0.0",
-    "synchronous-promise": "^2.0.15",
-    "ts-dedent": "^2.0.0",
-    "ts-jest": "^28.0.8",
-    "typescript": "~4.6.3",
-    "util-deprecate": "^1.0.2"
+    "@storybook/channel-postmessage": "7.0.0-beta.26",
+    "@storybook/channel-websocket": "7.0.0-beta.26",
+    "@storybook/channels": "7.0.0-beta.26",
+    "@storybook/client-logger": "7.0.0-beta.26",
+    "@storybook/core-events": "7.0.0-beta.26",
+    "@storybook/preview-api": "7.0.0-beta.26",
+    "typescript": "~4.9.3"
   },
   "publishConfig": {
     "access": "public"
   },
   "bundler": {
-    "pre": "./scripts/generate-exports-file.ts",
     "entries": [
       "./src/runtime.ts",
       "./src/globals.ts"
     ]
   },
-  "gitHead": "fd1cf81615a5ddac3369e7bb567a1a43081fdc23"
+  "gitHead": "4d3ed5ec2eb8db3e688955e2820001def09621c1"
 }

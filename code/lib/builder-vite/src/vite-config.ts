@@ -7,12 +7,12 @@ import type {
   UserConfig as ViteConfig,
   InlineConfig,
 } from 'vite';
-import viteReact from '@vitejs/plugin-react';
+import { viteExternalsPlugin } from 'vite-plugin-externals';
 import { isPreservingSymlinks, getFrameworkName } from '@storybook/core-common';
-import type { Builder_EnvsRaw } from '@storybook/types';
-import { stringifyProcessEnvs } from './envs';
+import { globals } from '@storybook/preview/globals';
 import {
   codeGeneratorPlugin,
+  csfPlugin,
   injectExportOrderPlugin,
   mdxPlugin,
   stripStoryHMRBoundary,
@@ -38,10 +38,13 @@ export async function commonConfig(
   options: ExtendedOptions,
   _type: PluginConfigType
 ): Promise<ViteInlineConfig> {
-  const { presets } = options;
   const configEnv = _type === 'development' ? configEnvServe : configEnvBuild;
 
-  const { config: userConfig = {} } = (await loadConfigFromFile(configEnv)) ?? {};
+  // I destructure away the `build` property from the user's config object
+  // I do this because I can contain config that breaks storybook, such as we had in a lit project.
+  // If the user needs to configure the `build` they need to do so in the viteFinal function in main.js.
+  const { config: { build: buildProperty = undefined, ...userConfig } = {} } =
+    (await loadConfigFromFile(configEnv)) ?? {};
 
   const sbConfig: InlineConfig = {
     configFile: false,
@@ -49,7 +52,6 @@ export async function commonConfig(
     root: path.resolve(options.configDir, '..'),
     // Allow storybook deployed as subfolder.  See https://github.com/storybookjs/builder-vite/issues/238
     base: './',
-
     plugins: await pluginConfig(options),
     resolve: {
       preserveSymlinks: isPreservingSymlinks(),
@@ -64,17 +66,6 @@ export async function commonConfig(
 
   const config: ViteConfig = mergeConfig(userConfig, sbConfig);
 
-  // Sanitize environment variables if needed
-  const envsRaw = await presets.apply<Promise<Builder_EnvsRaw>>('env');
-  if (Object.keys(envsRaw).length) {
-    // Stringify env variables after getting `envPrefix` from the  config
-    const envs = stringifyProcessEnvs(envsRaw, config.envPrefix);
-    config.define = {
-      ...config.define,
-      ...envs,
-    };
-  }
-
   return config;
 }
 
@@ -83,8 +74,8 @@ export async function pluginConfig(options: ExtendedOptions) {
 
   const plugins = [
     codeGeneratorPlugin(options),
-    // sourceLoaderPlugin(options),
-    mdxPlugin(),
+    await csfPlugin(options),
+    await mdxPlugin(options),
     injectExportOrderPlugin,
     stripStoryHMRBoundary(),
     {
@@ -100,22 +91,12 @@ export async function pluginConfig(options: ExtendedOptions) {
         }
       },
     },
+    viteExternalsPlugin(globals, { useWindow: false }),
   ] as PluginOption[];
-
-  // We need the react plugin here to support MDX in non-react projects.
-  if (frameworkName !== '@storybook/react-vite') {
-    plugins.push(viteReact({ exclude: [/\.stories\.([tj])sx?$/, /node_modules/, /\.([tj])sx?$/] }));
-  }
-
-  // TODO: framework doesn't exist, should move into framework when/if built
-  if (frameworkName === '@storybook/preact-vite') {
-    // eslint-disable-next-line global-require
-    plugins.push(require('@preact/preset-vite').default());
-  }
 
   // TODO: framework doesn't exist, should move into framework when/if built
   if (frameworkName === '@storybook/glimmerx-vite') {
-    // eslint-disable-next-line global-require, import/extensions
+    // eslint-disable-next-line global-require
     const plugin = require('vite-plugin-glimmerx/index.cjs');
     plugins.push(plugin.default());
   }

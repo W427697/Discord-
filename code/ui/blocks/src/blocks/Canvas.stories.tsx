@@ -1,18 +1,18 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { Canvas } from './Canvas';
+import { Canvas, SourceState } from './Canvas';
 import { Story as StoryComponent } from './Story';
-import * as BooleanStories from '../controls/Boolean.stories';
+import * as ButtonStories from '../examples/Button.stories';
 
 const meta: Meta<typeof Canvas> = {
   component: Canvas,
   parameters: {
-    relativeCsfPaths: ['../controls/Boolean.stories'],
+    relativeCsfPaths: ['../examples/Button.stories'],
   },
   render: (args) => {
     return (
       <Canvas {...args}>
-        <StoryComponent of={BooleanStories.Undefined} />
+        <StoryComponent of={ButtonStories.Primary} />
       </Canvas>
     );
   },
@@ -25,30 +25,32 @@ export const BasicStory: Story = {};
 
 export const WithSourceOpen: Story = {
   args: {
-    withSource: 'open',
+    withSource: SourceState.OPEN,
   },
 };
 export const WithSourceClosed: Story = {
   args: {
-    withSource: 'closed',
+    withSource: SourceState.CLOSED,
   },
 };
 
-// TODO: what is the purpose of mdxSource exactly?
 export const WithMdxSource: Story = {
   name: 'With MDX Source',
   args: {
-    withSource: 'open',
-    mdxSource: `const thisIsCustomSource = true;
-if (isSyntaxHighlighted) {
-  console.log('syntax highlighting is working');
-}`,
+    withSource: SourceState.OPEN,
+    mdxSource: `<Button
+  label="Button"
+  primary
+  onClick={() => {
+    console.log('this is custom source for the source viewer')
+  }}
+/>`,
   },
 };
 
 export const WithoutSource: Story = {
   args: {
-    withSource: 'none',
+    withSource: SourceState.NONE,
   },
 };
 
@@ -64,7 +66,7 @@ export const WithAdditionalActions: Story = {
         title: 'Open in GitHub',
         onClick: () => {
           window.open(
-            'https://github.com/storybookjs/storybook/blob/next/code/ui/blocks/src/controls/Boolean.stories.tsx',
+            'https://github.com/storybookjs/storybook/blob/next/code/ui/blocks/src/examples/Button.stories.tsx',
             '_blank'
           );
         },
@@ -80,4 +82,36 @@ export const WithAdditionalActions: Story = {
       },
     ],
   },
+};
+
+const ClassNameStoryDescripition = () => (
+  <p>
+    This story sets the <code>className</code> prop on the <code>Canvas</code> to{' '}
+    <code>my-custom-classname</code>, which will propagate to the preview element. To demonstrate
+    this, it also adds a <code>style</code> tag that sets another background color for that class:
+  </p>
+);
+/**
+ * This is a comment on classname
+ */
+export const ClassName: Story = {
+  name: 'ClassName',
+  args: {
+    className: 'my-custom-classname',
+  },
+  render: (args) => (
+    <>
+      <ClassNameStoryDescripition />
+      <style>
+        {`
+          .my-custom-classname {
+            background-color: #fd5c9355;
+          }
+        `}
+      </style>
+      <Canvas {...args}>
+        <StoryComponent of={ButtonStories.Primary} />
+      </Canvas>
+    </>
+  ),
 };

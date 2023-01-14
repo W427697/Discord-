@@ -8,7 +8,7 @@ import {
 import type { NavigateOptions } from '@storybook/router';
 import { queryFromLocation, buildArgsParam } from '@storybook/router';
 import { dequal as deepEqual } from 'dequal';
-import global from 'global';
+import { global } from '@storybook/global';
 
 import type { API_Layout, API_UI } from '@storybook/types';
 import type { ModuleArgs, ModuleFn } from '../index';
@@ -88,7 +88,11 @@ export interface SubAPI {
 }
 
 export const init: ModuleFn = ({ store, navigate, state, provider, fullAPI, ...rest }) => {
-  const navigateTo = (path: string, queryParams: Record<string, string> = {}, options = {}) => {
+  const navigateTo = (
+    path: string,
+    queryParams: Record<string, string> = {},
+    options: NavigateOptions = {}
+  ) => {
     const params = Object.entries(queryParams)
       .filter(([, v]) => v)
       .sort(([a], [b]) => (a < b ? -1 : 1))

@@ -1,26 +1,45 @@
 import type { Channel } from '@storybook/channels';
 import type { Renderer, StoryContextForLoaders, StoryId, StoryName, Parameters } from './csf';
-import type { Store_ModuleExport, Store_ModuleExports, Store_Story } from './store';
+import type {
+  ModuleExport,
+  ModuleExports,
+  CSFFile,
+  PreparedStory,
+  NormalizedProjectAnnotations,
+} from './story';
 
 export type StoryRenderOptions = {
   autoplay?: boolean;
 };
 
+/**
+ * What do we know about an of={} call?
+ *
+ * Technically, the type names aren't super accurate:
+ *   - meta === `CSFFile`
+ *   - story === `PreparedStory`
+ * But these shorthands capture the idea of what is being talked about
+ */
+export type ResolvedModuleExport<TRenderer extends Renderer = Renderer> =
+  | { type: 'component'; component: TRenderer['component'] }
+  | { type: 'meta'; csfFile: CSFFile<TRenderer> }
+  | { type: 'story'; story: PreparedStory<TRenderer> };
+
 export interface DocsContextProps<TRenderer extends Renderer = Renderer> {
   /**
-   * Register the CSF file that this docs entry represents.
-   * Used by the `<Meta of={} />` block.
+   * Register a CSF file that this docs entry uses.
+   * Used by the `<Meta of={} />` block to attach, and the `<Story meta={} />` bloc to reference
    */
-  setMeta: (metaExports: Store_ModuleExports) => void;
+  referenceMeta: (metaExports: ModuleExports, attach: boolean) => void;
 
   /**
-   * Find a story's id from the direct export from the CSF file.
-   * This is primarily used by the `<Story of={} /> block.
+   * Find a component, meta or story object from the direct export(s) from the CSF file.
+   * This is the API that drives the `of={}` syntax.
    */
-  storyIdByModuleExport: (
-    storyExport: Store_ModuleExport,
-    metaExports?: Store_ModuleExports
-  ) => StoryId;
+  resolveModuleExport: (
+    moduleExport: ModuleExport | ResolvedModuleExport<TRenderer>['type']
+  ) => ResolvedModuleExport<TRenderer>;
+
   /**
    * Find a story's id from the name of the story.
    * This is primarily used by the `<Story name={} /> block.
@@ -31,26 +50,26 @@ export interface DocsContextProps<TRenderer extends Renderer = Renderer> {
    * Syncronously find a story by id (if the id is not provided, this will look up the primary
    * story in the CSF file, if such a file exists).
    */
-  storyById: (id?: StoryId) => Store_Story<TRenderer>;
+  storyById: (id?: StoryId) => PreparedStory<TRenderer>;
   /**
    * Syncronously find all stories of the component referenced by the CSF file.
    */
-  componentStories: () => Store_Story<TRenderer>[];
+  componentStories: () => PreparedStory<TRenderer>[];
 
   /**
    * Get the story context of the referenced story.
    */
-  getStoryContext: (story: Store_Story<TRenderer>) => StoryContextForLoaders<TRenderer>;
+  getStoryContext: (story: PreparedStory<TRenderer>) => StoryContextForLoaders<TRenderer>;
   /**
    * Asyncronously load an arbitrary story by id.
    */
-  loadStory: (id: StoryId) => Promise<Store_Story<TRenderer>>;
+  loadStory: (id: StoryId) => Promise<PreparedStory<TRenderer>>;
 
   /**
    * Render a story to a given HTML element and keep it up to date across context changes
    */
   renderStoryToElement: (
-    story: Store_Story<TRenderer>,
+    story: PreparedStory<TRenderer>,
     element: HTMLElement,
     options: StoryRenderOptions
   ) => () => Promise<void>;
@@ -59,6 +78,11 @@ export interface DocsContextProps<TRenderer extends Renderer = Renderer> {
    * Storybook channel -- use for low level event watching/emitting
    */
   channel: Channel;
+
+  /**
+   * Project annotations -- can be read to get the project's global annotations
+   */
+  projectAnnotations: NormalizedProjectAnnotations<TRenderer>;
 }
 
 export type DocsRenderFunction<TRenderer extends Renderer> = (

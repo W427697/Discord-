@@ -1,6 +1,6 @@
 import { dedent } from 'ts-dedent';
 import deprecate from 'util-deprecate';
-import global from 'global';
+import { global } from '@storybook/global';
 
 import type {
   Renderer,
@@ -11,18 +11,20 @@ import type {
   PlayFunction,
   PlayFunctionContext,
   StepLabel,
-  Store_NormalizedComponentAnnotations,
-  Store_NormalizedProjectAnnotations,
-  Store_NormalizedStoryAnnotations,
-  Store_Story,
+  NormalizedComponentAnnotations,
+  NormalizedProjectAnnotations,
+  NormalizedStoryAnnotations,
+  PreparedStory,
   StoryContext,
   StoryContextForEnhancers,
   StoryContextForLoaders,
   StrictArgTypes,
+  PreparedMeta,
+  ModuleExport,
 } from '@storybook/types';
 import { includeConditionalArg } from '@storybook/csf';
 
-import { applyHooks } from '@storybook/addons';
+import { applyHooks } from '../../addons';
 import { combineParameters } from '../parameters';
 import { defaultDecorateStory } from '../decorators';
 import { groupArgsByTarget, NO_TARGET_NAME } from '../args';
@@ -42,58 +44,161 @@ const argTypeDefaultValueWarning = deprecate(
 // Note that this story function is *stateless* in the sense that it does not track args or globals
 // Instead, it is expected these are tracked separately (if necessary) and are passed into each invocation.
 export function prepareStory<TRenderer extends Renderer>(
-  storyAnnotations: Store_NormalizedStoryAnnotations<TRenderer>,
-  componentAnnotations: Store_NormalizedComponentAnnotations<TRenderer>,
-  projectAnnotations: Store_NormalizedProjectAnnotations<TRenderer>
-): Store_Story<TRenderer> {
+  storyAnnotations: NormalizedStoryAnnotations<TRenderer>,
+  componentAnnotations: NormalizedComponentAnnotations<TRenderer>,
+  projectAnnotations: NormalizedProjectAnnotations<TRenderer>
+): PreparedStory<TRenderer> {
   // NOTE: in the current implementation we are doing everything once, up front, rather than doing
   // anything at render time. The assumption is that as we don't load all the stories at once, this
   // will have a limited cost. If this proves misguided, we can refactor it.
+  const { moduleExport, id, name } = storyAnnotations || {};
 
-  const { moduleExport, id, name } = storyAnnotations;
-  const { title } = componentAnnotations;
-
-  const tags = [...(storyAnnotations.tags || componentAnnotations.tags || []), 'story'];
-
-  const parameters: Parameters = combineParameters(
-    projectAnnotations.parameters,
-    componentAnnotations.parameters,
-    storyAnnotations.parameters
+  const partialAnnotations = preparePartialAnnotations(
+    storyAnnotations,
+    componentAnnotations,
+    projectAnnotations
   );
-
-  const decorators = [
-    ...(storyAnnotations.decorators || []),
-    ...(componentAnnotations.decorators || []),
-    ...(projectAnnotations.decorators || []),
-  ];
-
-  // Currently it is only possible to set these globally
-  const {
-    applyDecorators = defaultDecorateStory,
-    argTypesEnhancers = [],
-    argsEnhancers = [],
-    runStep,
-  } = projectAnnotations;
 
   const loaders = [
     ...(projectAnnotations.loaders || []),
     ...(componentAnnotations.loaders || []),
-    ...(storyAnnotations.loaders || []),
+    ...(storyAnnotations?.loaders || []),
+  ];
+  const applyLoaders = async (context: StoryContextForLoaders<TRenderer>) => {
+    const loadResults = await Promise.all(loaders.map((loader) => loader(context)));
+    const loaded = Object.assign({}, ...loadResults);
+    return { ...context, loaded };
+  };
+
+  const undecoratedStoryFn: LegacyStoryFn<TRenderer> = (context: StoryContext<TRenderer>) => {
+    const mappedArgs = Object.entries(context.args).reduce((acc, [key, val]) => {
+      const mapping = context.argTypes[key]?.mapping;
+      acc[key] = mapping && val in mapping ? mapping[val] : val;
+      return acc;
+    }, {} as Args);
+
+    const includedArgs = Object.entries(mappedArgs).reduce((acc, [key, val]) => {
+      const argType = context.argTypes[key] || {};
+      if (includeConditionalArg(argType, mappedArgs, context.globals)) acc[key] = val;
+      return acc;
+    }, {} as Args);
+
+    const includedContext = { ...context, args: includedArgs };
+    const { passArgsFirst: renderTimePassArgsFirst = true } = context.parameters;
+    return renderTimePassArgsFirst
+      ? (render as ArgsStoryFn<TRenderer>)(includedContext.args, includedContext)
+      : (render as LegacyStoryFn<TRenderer>)(includedContext);
+  };
+
+  // Currently it is only possible to set these globally
+  const { applyDecorators = defaultDecorateStory, runStep } = projectAnnotations;
+
+  const decorators = [
+    ...(storyAnnotations?.decorators || []),
+    ...(componentAnnotations.decorators || []),
+    ...(projectAnnotations.decorators || []),
   ];
 
   // The render function on annotations *has* to be an `ArgsStoryFn`, so when we normalize
   // CSFv1/2, we use a new field called `userStoryFn` so we know that it can be a LegacyStoryFn
   const render =
-    storyAnnotations.userStoryFn ||
-    storyAnnotations.render ||
+    storyAnnotations?.userStoryFn ||
+    storyAnnotations?.render ||
+    componentAnnotations.render ||
+    projectAnnotations.render;
+  if (!render) throw new Error(`No render function available for storyId '${id}'`);
+
+  const decoratedStoryFn = applyHooks<TRenderer>(applyDecorators)(undecoratedStoryFn, decorators);
+  const unboundStoryFn = (context: StoryContext<TRenderer>) => {
+    let finalContext: StoryContext<TRenderer> = context;
+    if (global.FEATURES?.argTypeTargetsV7) {
+      const argsByTarget = groupArgsByTarget(context);
+      finalContext = {
+        ...context,
+        allArgs: context.args,
+        argsByTarget,
+        args: argsByTarget[NO_TARGET_NAME] || {},
+      };
+    }
+
+    return decoratedStoryFn(finalContext);
+  };
+
+  const play = storyAnnotations?.play || componentAnnotations.play;
+
+  const playFunction =
+    play &&
+    (async (storyContext: StoryContext<TRenderer>) => {
+      const playFunctionContext: PlayFunctionContext<TRenderer> = {
+        ...storyContext,
+        // eslint-disable-next-line @typescript-eslint/no-shadow
+        step: (label: StepLabel, play: PlayFunction<TRenderer>) =>
+          // TODO: We know runStep is defined, we need a proper normalized annotations type
+          runStep!(label, play, playFunctionContext),
+      };
+      return play(playFunctionContext);
+    });
+
+  return {
+    ...partialAnnotations,
+    moduleExport,
+    id,
+    name,
+    story: name,
+    originalStoryFn: render,
+    undecoratedStoryFn,
+    unboundStoryFn,
+    applyLoaders,
+    playFunction,
+  };
+}
+
+export function prepareMeta<TRenderer extends Renderer>(
+  componentAnnotations: NormalizedComponentAnnotations<TRenderer>,
+  projectAnnotations: NormalizedProjectAnnotations<TRenderer>,
+  moduleExport: ModuleExport
+): PreparedMeta<TRenderer> {
+  return {
+    ...preparePartialAnnotations(undefined, componentAnnotations, projectAnnotations),
+    moduleExport,
+  };
+}
+
+function preparePartialAnnotations<TRenderer extends Renderer>(
+  storyAnnotations: NormalizedStoryAnnotations<TRenderer> | undefined,
+  componentAnnotations: NormalizedComponentAnnotations<TRenderer>,
+  projectAnnotations: NormalizedProjectAnnotations<TRenderer>
+): Omit<StoryContextForEnhancers<TRenderer>, 'name' | 'story'> {
+  // NOTE: in the current implementation we are doing everything once, up front, rather than doing
+  // anything at render time. The assumption is that as we don't load all the stories at once, this
+  // will have a limited cost. If this proves misguided, we can refactor it.
+
+  const id = storyAnnotations?.id || componentAnnotations.id;
+
+  const tags = [...(storyAnnotations?.tags || componentAnnotations.tags || []), 'story'];
+
+  const parameters: Parameters = combineParameters(
+    projectAnnotations.parameters,
+    componentAnnotations.parameters,
+    storyAnnotations?.parameters
+  );
+
+  // Currently it is only possible to set these globally
+  const { argTypesEnhancers = [], argsEnhancers = [] } = projectAnnotations;
+
+  // The render function on annotations *has* to be an `ArgsStoryFn`, so when we normalize
+  // CSFv1/2, we use a new field called `userStoryFn` so we know that it can be a LegacyStoryFn
+  const render =
+    storyAnnotations?.userStoryFn ||
+    storyAnnotations?.render ||
     componentAnnotations.render ||
     projectAnnotations.render;
 
-  if (!render) throw new Error(`No render function available for storyId '${id}'`);
+  if (!render) throw new Error(`No render function available for id '${id}'`);
   const passedArgTypes: StrictArgTypes = combineParameters(
     projectAnnotations.argTypes,
     componentAnnotations.argTypes,
-    storyAnnotations.argTypes
+    storyAnnotations?.argTypes
   ) as StrictArgTypes;
 
   const { passArgsFirst = true } = parameters;
@@ -104,16 +209,17 @@ export function prepareStory<TRenderer extends Renderer>(
   const passedArgs: Args = {
     ...projectAnnotations.args,
     ...componentAnnotations.args,
-    ...storyAnnotations.args,
+    ...storyAnnotations?.args,
   } as Args;
 
   const contextForEnhancers: StoryContextForEnhancers<TRenderer> = {
     componentId: componentAnnotations.id,
-    title,
-    kind: title, // Back compat
-    id,
-    name,
-    story: name, // Back compat
+    title: componentAnnotations.title,
+    kind: componentAnnotations.title, // Back compat
+    id: storyAnnotations?.id || componentAnnotations.id,
+    // if there's no story name, we create a fake one since enhancers expect a name
+    name: storyAnnotations?.name || '__meta',
+    story: storyAnnotations?.name || '__meta', // Back compat
     component: componentAnnotations.component,
     subcomponents: componentAnnotations.subcomponents,
     tags,
@@ -150,6 +256,7 @@ export function prepareStory<TRenderer extends Renderer>(
   );
 
   // Add some of our metadata into parameters as we used to do this in 6.x and users may be relying on it
+
   if (!global.FEATURES?.breakingChangesV7) {
     contextForEnhancers.parameters = {
       ...contextForEnhancers.parameters,
@@ -161,67 +268,7 @@ export function prepareStory<TRenderer extends Renderer>(
     };
   }
 
-  const applyLoaders = async (context: StoryContextForLoaders<TRenderer>) => {
-    const loadResults = await Promise.all(loaders.map((loader) => loader(context)));
-    const loaded = Object.assign({}, ...loadResults);
-    return { ...context, loaded };
-  };
+  const { name, story, ...withoutStoryIdentifiers } = contextForEnhancers;
 
-  const undecoratedStoryFn: LegacyStoryFn<TRenderer> = (context: StoryContext<TRenderer>) => {
-    const mappedArgs = Object.entries(context.args).reduce((acc, [key, val]) => {
-      const mapping = context.argTypes[key]?.mapping;
-      acc[key] = mapping && val in mapping ? mapping[val] : val;
-      return acc;
-    }, {} as Args);
-
-    const includedArgs = Object.entries(mappedArgs).reduce((acc, [key, val]) => {
-      const argType = context.argTypes[key] || {};
-      if (includeConditionalArg(argType, mappedArgs, context.globals)) acc[key] = val;
-      return acc;
-    }, {} as Args);
-
-    const includedContext = { ...context, args: includedArgs };
-    const { passArgsFirst: renderTimePassArgsFirst = true } = context.parameters;
-    return renderTimePassArgsFirst
-      ? (render as ArgsStoryFn<TRenderer>)(includedContext.args, includedContext)
-      : (render as LegacyStoryFn<TRenderer>)(includedContext);
-  };
-  const decoratedStoryFn = applyHooks<TRenderer>(applyDecorators)(undecoratedStoryFn, decorators);
-  const unboundStoryFn = (context: StoryContext<TRenderer>) => {
-    let finalContext: StoryContext<TRenderer> = context;
-    if (global.FEATURES?.argTypeTargetsV7) {
-      const argsByTarget = groupArgsByTarget(context);
-      finalContext = {
-        ...context,
-        allArgs: context.args,
-        argsByTarget,
-        args: argsByTarget[NO_TARGET_NAME] || {},
-      };
-    }
-
-    return decoratedStoryFn(finalContext);
-  };
-  const { play } = storyAnnotations;
-  const playFunction =
-    play &&
-    (async (storyContext: StoryContext<TRenderer>) => {
-      const playFunctionContext: PlayFunctionContext<TRenderer> = {
-        ...storyContext,
-        // eslint-disable-next-line @typescript-eslint/no-shadow
-        step: (label: StepLabel, play: PlayFunction<TRenderer>) =>
-          // TODO: We know runStep is defined, we need a proper normalized annotations type
-          runStep!(label, play, playFunctionContext),
-      };
-      return play(playFunctionContext);
-    });
-
-  return Object.freeze({
-    ...contextForEnhancers,
-    moduleExport,
-    originalStoryFn: render,
-    undecoratedStoryFn,
-    unboundStoryFn,
-    applyLoaders,
-    playFunction,
-  });
+  return withoutStoryIdentifiers;
 }

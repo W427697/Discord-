@@ -3,11 +3,9 @@
  */
 
 import React from 'react';
-import global from 'global';
-import type { Store_RenderContext } from '@storybook/types';
-import { addons, mockChannel as createMockChannel } from '@storybook/addons';
-
-import { expect } from '@jest/globals';
+import { global } from '@storybook/global';
+import type { RenderContext } from '@storybook/types';
+import { addons, mockChannel as createMockChannel } from '../addons';
 
 import { PreviewWeb } from './PreviewWeb';
 import { WebView } from './WebView';
@@ -30,21 +28,23 @@ jest.mock('@storybook/channel-postmessage', () => ({ createChannel: () => mockCh
 
 jest.mock('./WebView');
 
-const { window, document } = global;
-jest.mock('global', () => ({
-  ...jest.requireActual('global'),
-  history: { replaceState: jest.fn() },
-  document: {
-    ...jest.requireActual('global').document,
-    location: {
-      pathname: 'pathname',
-      search: '?id=*',
+const { document } = global;
+jest.mock('@storybook/global', () => ({
+  global: {
+    ...globalThis,
+    history: { replaceState: jest.fn() },
+    document: {
+      createElement: globalThis.document.createElement.bind(globalThis.document),
+      location: {
+        pathname: 'pathname',
+        search: '?id=*',
+      },
     },
+    FEATURES: {
+      storyStoreV7: true,
+    },
+    fetch: async () => ({ status: 200, json: async () => mockStoryIndex }),
   },
-  FEATURES: {
-    storyStoreV7: true,
-  },
-  fetch: async () => ({ status: 200, json: async () => mockStoryIndex }),
 }));
 
 beforeEach(() => {
@@ -75,8 +75,8 @@ describe('PreviewWeb', () => {
       const { DocsRenderer } = await import('@storybook/addon-docs');
       projectAnnotations.parameters.docs.renderer = () => new DocsRenderer() as any;
 
-      projectAnnotations.renderToCanvas.mockImplementationOnce(
-        ({ storyFn }: Store_RenderContext<any>) => storyFn()
+      projectAnnotations.renderToCanvas.mockImplementationOnce(({ storyFn }: RenderContext<any>) =>
+        storyFn()
       );
       document.location.search = '?id=component-one--a';
       await new PreviewWeb().initialize({ importFn, getProjectAnnotations });
@@ -94,10 +94,10 @@ describe('PreviewWeb', () => {
       document.location.search = '?id=component-one--docs&viewMode=docs';
       const preview = new PreviewWeb();
 
-      const docsRoot = window.document.createElement('div');
+      const docsRoot = document.createElement('div');
       (
         preview.view.prepareForDocs as any as jest.Mock<typeof preview.view.prepareForDocs>
-      ).mockReturnValue(docsRoot);
+      ).mockReturnValue(docsRoot as any);
       componentOneExports.default.parameters.docs.container.mockImplementationOnce(() =>
         React.createElement('div', {}, 'INSIDE')
       );
@@ -135,8 +135,8 @@ describe('PreviewWeb', () => {
       await preview.initialize({ importFn, getProjectAnnotations });
       await waitForRender();
 
-      projectAnnotations.renderToCanvas.mockImplementationOnce(
-        ({ storyFn }: Store_RenderContext<any>) => storyFn()
+      projectAnnotations.renderToCanvas.mockImplementationOnce(({ storyFn }: RenderContext<any>) =>
+        storyFn()
       );
       projectAnnotations.decorators[0].mockClear();
       mockChannel.emit.mockClear();

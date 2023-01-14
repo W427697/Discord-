@@ -2,9 +2,8 @@
  * @jest-environment jsdom
  */
 
-import { jest, jest as mockJest, it, describe, beforeEach, afterEach, expect } from '@jest/globals';
-import global from 'global';
-import merge from 'lodash/merge';
+import { global } from '@storybook/global';
+import merge from 'lodash/merge.js';
 import {
   CONFIG_ERROR,
   CURRENT_STORY_WAS_SET,
@@ -31,8 +30,8 @@ import {
   UPDATE_STORY_ARGS,
 } from '@storybook/core-events';
 import { logger } from '@storybook/client-logger';
-import { addons, mockChannel as createMockChannel } from '@storybook/addons';
-import type { Renderer, Store_ModuleImportFn, ProjectAnnotations } from '@storybook/types';
+import type { Renderer, ModuleImportFn, ProjectAnnotations } from '@storybook/types';
+import { addons, mockChannel as createMockChannel } from '../addons';
 
 import { PreviewWeb } from './PreviewWeb';
 import {
@@ -49,7 +48,7 @@ import {
   waitForQuiescence,
   waitForRenderPhase,
   docsRenderer,
-  standaloneDocsExports,
+  unattachedDocsExports,
   teardownrenderToCanvas,
 } from './PreviewWeb.mockdata';
 import { WebView } from './WebView';
@@ -59,21 +58,23 @@ const { history, document } = global;
 const mockStoryIndex = jest.fn(() => storyIndex);
 
 let mockFetchResult: any;
-jest.mock('global', () => ({
-  ...(mockJest.requireActual('global') as any),
-  history: { replaceState: mockJest.fn() },
-  document: {
-    location: {
-      pathname: 'pathname',
-      search: '?id=*',
+jest.mock('@storybook/global', () => ({
+  global: {
+    ...(jest.requireActual('@storybook/global') as any),
+    history: { replaceState: jest.fn() },
+    document: {
+      location: {
+        pathname: 'pathname',
+        search: '?id=*',
+      },
     },
+    FEATURES: {
+      storyStoreV7: true,
+      breakingChangesV7: true,
+      // xxx
+    },
+    fetch: async () => mockFetchResult,
   },
-  FEATURES: {
-    storyStoreV7: true,
-    breakingChangesV7: true,
-    // xxx
-  },
-  fetch: async () => mockFetchResult,
 }));
 
 jest.mock('@storybook/client-logger');
@@ -97,7 +98,6 @@ const createGate = (): [Promise<any | undefined>, (_?: any) => void] => {
 // a timer, so we need to first setImmediate (to get past the resolution), then run the timers
 // Probably jest modern timers do this but they aren't working for some bizarre reason.
 async function waitForSetCurrentStory() {
-  // @ts-expect-error (Argument of type '{ doNotFake: string[]; }' is not assignable to parameter of type '"modern" | "legacy" | undefined'. ts(2345)))
   jest.useFakeTimers({ doNotFake: ['setTimeout'] });
   await new Promise((r) => setTimeout(r, 0));
   jest.runAllTimers();
@@ -107,7 +107,7 @@ async function createAndRenderPreview({
   importFn: inputImportFn = importFn,
   getProjectAnnotations: inputGetProjectAnnotations = getProjectAnnotations,
 }: {
-  importFn?: Store_ModuleImportFn;
+  importFn?: ModuleImportFn;
   getProjectAnnotations?: () => ProjectAnnotations<Renderer>;
 } = {}) {
   const preview = new PreviewWeb();
@@ -138,9 +138,7 @@ beforeEach(() => {
   addons.setServerChannel(createMockChannel());
   mockFetchResult = { status: 200, json: mockStoryIndex, text: () => 'error text' };
 
-  // @ts-expect-error (Property 'mocked' does not exist on type 'Jest'. Did you mean 'mock'? ts(2551))
   jest.mocked(WebView.prototype).prepareForDocs.mockReturnValue('docs-element' as any);
-  // @ts-expect-error (Property 'mocked' does not exist on type 'Jest'. Did you mean 'mock'? ts(2551))
   jest.mocked(WebView.prototype).prepareForStory.mockReturnValue('story-element' as any);
 });
 
@@ -644,7 +642,7 @@ describe('PreviewWeb', () => {
       });
     });
 
-    describe('template docs entries', () => {
+    describe('CSF docs entries', () => {
       it('always renders in docs viewMode', async () => {
         document.location.search = '?id=component-one--docs';
         await createAndRenderPreview();
@@ -681,7 +679,7 @@ describe('PreviewWeb', () => {
         expect(importFn).toHaveBeenCalledWith('./src/ExtraComponentOne.stories.js');
       });
 
-      it('renders with componentStories loaded from both story files', async () => {
+      it('renders with componentStories loaded from the attached CSF file', async () => {
         document.location.search = '?id=component-one--docs&viewMode=docs';
         await createAndRenderPreview();
 
@@ -703,7 +701,7 @@ describe('PreviewWeb', () => {
       });
     });
 
-    describe('standalone docs entries', () => {
+    describe('mdx docs entries', () => {
       it('always renders in docs viewMode', async () => {
         document.location.search = '?id=introduction--docs';
         await createAndRenderPreview();
@@ -725,7 +723,7 @@ describe('PreviewWeb', () => {
         expect(docsRenderer.render).toHaveBeenCalledWith(
           expect.any(Object),
           expect.objectContaining({
-            page: standaloneDocsExports.default,
+            page: unattachedDocsExports.default,
             renderer: projectAnnotations.parameters.docs.renderer,
           }),
           'docs-element',
@@ -775,7 +773,7 @@ describe('PreviewWeb', () => {
 
     it('passes globals in context to renderToCanvas', async () => {
       document.location.search = '?id=component-one--a';
-      const preview = await createAndRenderPreview();
+      await createAndRenderPreview();
 
       mockChannel.emit.mockClear();
       projectAnnotations.renderToCanvas.mockClear();
@@ -1704,7 +1702,7 @@ describe('PreviewWeb', () => {
           expect(preview.view.showErrorDisplay).not.toHaveBeenCalled();
         });
 
-        it('does NOT render a second time in standalone docs mode', async () => {
+        it('does NOT render a second time in mdx docs mode', async () => {
           document.location.search = '?id=introduction--docs&viewMode=docs';
 
           const [gate, openGate] = createGate();
@@ -3100,11 +3098,11 @@ describe('PreviewWeb', () => {
       });
     });
 
-    describe('when a standalone docs file changes', () => {
-      const newStandaloneDocsExports = { default: jest.fn() };
+    describe('when a mdx docs file changes', () => {
+      const newUnattachedDocsExports = { default: jest.fn() };
 
       const newImportFn = jest.fn(async (path: string) => {
-        return path === './src/Introduction.mdx' ? newStandaloneDocsExports : importFn(path);
+        return path === './src/Introduction.mdx' ? newUnattachedDocsExports : importFn(path);
       });
 
       it('renders with the generated docs parameters', async () => {
@@ -3119,7 +3117,7 @@ describe('PreviewWeb', () => {
         expect(docsRenderer.render).toHaveBeenCalledWith(
           expect.any(Object),
           expect.objectContaining({
-            page: newStandaloneDocsExports.default,
+            page: newUnattachedDocsExports.default,
             renderer: projectAnnotations.parameters.docs.renderer,
           }),
           'docs-element',

@@ -21,9 +21,12 @@ Some components require a “harness” to render in a useful way. For instance,
     'react/your-component-with-decorator.ts.mdx',
     'react/your-component-with-decorator.story-function-ts.ts.mdx',
     'vue/your-component-with-decorator.js.mdx',
+    'vue/your-component-with-decorator.ts-2.ts.mdx',
+    'vue/your-component-with-decorator.ts-3.ts.mdx',
     'angular/your-component-with-decorator.ts.mdx',
-    'svelte/your-component-with-decorator.js.mdx',
     'web-components/your-component-with-decorator.js.mdx',
+    'web-components/your-component-with-decorator.ts.mdx',
+    'svelte/your-component-with-decorator.js.mdx',
   ]}
 />
 
@@ -87,11 +90,17 @@ To define a decorator for a single story, use the `decorators` key on a named ex
     'react/button-story-decorator.story-function.js.mdx',
     'react/button-story-decorator.ts.mdx',
     'vue/button-story-decorator.js.mdx',
+    'vue/button-story-decorator.ts-2.ts.mdx',
+    'vue/button-story-decorator.ts-3.ts.mdx',
     'angular/button-story-decorator.ts.mdx',
-    'svelte/button-story-decorator.js.mdx',
     'web-components/button-story-decorator.js.mdx',
+    'web-components/button-story-decorator.ts.mdx',
+    'svelte/button-story-decorator.js.mdx',
   ]}
+  usesCsf3
+  csf2Path="writing-stories/decorators#snippet-button-story-decorator"
 />
+
 
 <!-- prettier-ignore-end -->
 
@@ -108,9 +117,12 @@ To define a decorator for all stories of a component, use the `decorators` key o
     'react/button-story-component-decorator.js.mdx',
     'react/button-story-component-decorator.ts.mdx',
     'vue/button-story-component-decorator.js.mdx',
+    'vue/button-story-component-decorator.ts-2.ts.mdx',
+    'vue/button-story-component-decorator.ts-3.ts.mdx',
     'angular/button-story-component-decorator.ts.mdx',
-    'svelte/button-story-component-decorator.js.mdx',
     'web-components/button-story-component-decorator.js.mdx',
+    'web-components/button-story-component-decorator.ts.mdx',
+    'svelte/button-story-component-decorator.js.mdx',
   ]}
 />
 
@@ -128,8 +140,8 @@ We can also set a decorator for **all stories** via the `decorators` export of y
     'react/storybook-preview-global-decorator.story-function.js.mdx',
     'vue/storybook-preview-global-decorator.js.mdx',
     'angular/storybook-preview-global-decorator.ts.mdx',
-    'svelte/storybook-preview-global-decorator.js.mdx',
     'web-components/storybook-preview-global-decorator.js.mdx',
+    'svelte/storybook-preview-global-decorator.js.mdx',
   ]}
 />
 

@@ -1,16 +1,17 @@
 import memoize from 'memoizerific';
 import { dedent } from 'ts-dedent';
-import countBy from 'lodash/countBy';
+import countBy from 'lodash/countBy.js';
+import mapValues from 'lodash/mapValues.js';
 import { sanitize } from '@storybook/csf';
 import type {
   StoryId,
   Parameters,
   DocsOptions,
   API_Provider,
-  API_SetStoriesStoryData,
+  SetStoriesStoryData,
   API_PreparedStoryIndex,
-  API_StoryIndexV3,
-  API_IndexEntry,
+  StoryIndexV3,
+  IndexEntry,
   API_RootEntry,
   API_GroupEntry,
   API_ComponentEntry,
@@ -18,10 +19,8 @@ import type {
   API_DocsEntry,
   API_StoryEntry,
   API_HashEntry,
-  API_SetStoriesPayload,
+  SetStoriesPayload,
 } from '@storybook/types';
-
-import mapValues from 'lodash/mapValues';
 // eslint-disable-next-line import/no-cycle
 import { type API, combineParameters } from '../index';
 import merge from './merge';
@@ -32,7 +31,7 @@ export const denormalizeStoryParameters = ({
   globalParameters,
   kindParameters,
   stories,
-}: API_SetStoriesPayload): API_SetStoriesStoryData => {
+}: SetStoriesPayload): SetStoriesStoryData => {
   return mapValues(stories, (storyData) => ({
     ...storyData,
     parameters: combineParameters(
@@ -44,7 +43,7 @@ export const denormalizeStoryParameters = ({
 };
 
 export const transformSetStoriesStoryDataToStoriesHash = (
-  data: API_SetStoriesStoryData,
+  data: SetStoriesStoryData,
   { provider, docsOptions }: { provider: API_Provider<API>; docsOptions: DocsOptions }
 ) =>
   transformStoryIndexToStoriesHash(transformSetStoriesStoryDataToPreparedStoryIndex(data), {
@@ -53,7 +52,7 @@ export const transformSetStoriesStoryDataToStoriesHash = (
   });
 
 const transformSetStoriesStoryDataToPreparedStoryIndex = (
-  stories: API_SetStoriesStoryData
+  stories: SetStoriesStoryData
 ): API_PreparedStoryIndex => {
   const entries: API_PreparedStoryIndex['entries'] = Object.entries(stories).reduce(
     (acc, [id, story]) => {
@@ -69,6 +68,7 @@ const transformSetStoriesStoryDataToPreparedStoryIndex = (
       if (docsOnly) {
         acc[id] = {
           type: 'docs',
+          tags: ['stories-mdx'],
           storiesImports: [],
           ...base,
         };
@@ -91,12 +91,12 @@ const transformSetStoriesStoryDataToPreparedStoryIndex = (
   return { v: 4, entries };
 };
 
-const transformStoryIndexV3toV4 = (index: API_StoryIndexV3): API_PreparedStoryIndex => {
+const transformStoryIndexV3toV4 = (index: StoryIndexV3): API_PreparedStoryIndex => {
   const countByTitle = countBy(Object.values(index.stories), 'title');
   return {
     v: 4,
     entries: Object.values(index.stories).reduce((acc, entry) => {
-      let type: API_IndexEntry['type'] = 'story';
+      let type: IndexEntry['type'] = 'story';
       if (
         entry.parameters?.docsOnly ||
         (entry.name === 'Page' && countByTitle[entry.title] === 1)
@@ -105,7 +105,7 @@ const transformStoryIndexV3toV4 = (index: API_StoryIndexV3): API_PreparedStoryIn
       }
       acc[entry.id] = {
         type,
-        ...(type === 'docs' && { storiesImports: [] }),
+        ...(type === 'docs' && { tags: ['stories-mdx'], storiesImports: [] }),
         ...entry,
       };
       return acc;

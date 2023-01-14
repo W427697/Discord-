@@ -20,9 +20,14 @@ Loaders are helpful when you need to load story data externally (e.g., from a re
   paths={[
     'react/loader-story.js.mdx',
     'vue/loader-story.3.js.mdx',
+    'vue/loader-story.ts-3.ts.mdx',
     'angular/loader-story.ts.mdx',
+    'web-components/loader-story.js.mdx',
+    'web-components/loader-story.ts.mdx',
     'svelte/loader-story.js.mdx',
   ]}
+  usesCsf3
+  csf2Path="writing-stories/loaders#snippet-loader-story"
 />
 
 <!-- prettier-ignore-end -->

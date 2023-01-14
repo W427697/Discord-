@@ -1,5 +1,5 @@
-import type { Renderer, ProjectAnnotations, Store_StoryIndex } from '@storybook/types';
-import global from 'global';
+import type { Renderer, ProjectAnnotations, StoryIndex } from '@storybook/types';
+import { global } from '@storybook/global';
 import { expect } from '@jest/globals';
 
 import { prepareStory } from './csf/prepareStory';
@@ -15,12 +15,22 @@ jest.mock('./csf/processCSFFile', () => ({
   processCSFFile: jest.fn(jest.requireActual('./csf/processCSFFile').processCSFFile),
 }));
 
-jest.mock('global', () => ({
-  ...(jest.requireActual('global') as any),
-  FEATURES: {
-    breakingChangesV7: true,
+jest.mock('@storybook/global', () => ({
+  global: {
+    ...(jest.requireActual('@storybook/global') as any),
+    FEATURES: {
+      breakingChangesV7: true,
+    },
   },
 }));
+
+const createGate = (): [Promise<any | undefined>, (_?: any) => void] => {
+  let openGate = (_?: any) => {};
+  const gate = new Promise<any | undefined>((resolve) => {
+    openGate = resolve;
+  });
+  return [gate, openGate];
+};
 
 const componentOneExports = {
   default: { title: 'Component One' },
@@ -42,7 +52,7 @@ const projectAnnotations: ProjectAnnotations<any> = {
   render: jest.fn(),
 };
 
-const storyIndex: Store_StoryIndex = {
+const storyIndex: StoryIndex = {
   v: 4,
   entries: {
     'component-one--a': {
@@ -208,7 +218,7 @@ describe('StoryStore', () => {
       store.setProjectAnnotations(projectAnnotations);
       store.initialize({ storyIndex, importFn, cache: false });
 
-      const story = await store.loadStory({ storyId: 'component-one--a' });
+      await store.loadStory({ storyId: 'component-one--a' });
       expect(processCSFFile).toHaveBeenCalledTimes(1);
       expect(prepareStory).toHaveBeenCalledTimes(1);
 
@@ -465,6 +475,24 @@ describe('StoryStore', () => {
         './src/ComponentTwo.stories.js',
       ]);
     });
+
+    it('imports in batches', async () => {
+      const [gate, openGate] = createGate();
+      const blockedImportFn = jest.fn(async (file) => {
+        await gate;
+        return importFn(file);
+      });
+      const store = new StoryStore();
+      store.setProjectAnnotations(projectAnnotations);
+      store.initialize({ storyIndex, importFn: blockedImportFn, cache: false });
+
+      const promise = store.loadAllCSFFiles({ batchSize: 1 });
+      expect(blockedImportFn).toHaveBeenCalledTimes(1);
+
+      openGate();
+      await promise;
+      expect(blockedImportFn).toHaveBeenCalledTimes(3);
+    });
   });
 
   describe('extract', () => {
@@ -630,12 +658,11 @@ describe('StoryStore', () => {
     });
 
     it('does not include (modern) docs entries ever', async () => {
-      const docsOnlyStoryIndex: Store_StoryIndex = {
+      const unnattachedStoryIndex: StoryIndex = {
         v: 4,
         entries: {
           ...storyIndex.entries,
           'introduction--docs': {
-            standalone: true,
             type: 'docs',
             id: 'introduction--docs',
             title: 'Introduction',
@@ -648,7 +675,7 @@ describe('StoryStore', () => {
       const store = new StoryStore();
       store.setProjectAnnotations(projectAnnotations);
       store.initialize({
-        storyIndex: docsOnlyStoryIndex,
+        storyIndex: unnattachedStoryIndex,
         importFn,
         cache: false,
       });
@@ -959,10 +986,10 @@ describe('StoryStore', () => {
   describe('getStoriesJsonData', () => {
     describe('in back-compat mode', () => {
       beforeEach(() => {
-        global.FEATURES.breakingChangesV7 = false;
+        global.FEATURES!.breakingChangesV7 = false;
       });
       afterEach(() => {
-        global.FEATURES.breakingChangesV7 = true;
+        global.FEATURES!.breakingChangesV7 = true;
       });
       it('maps stories list to payload correctly', async () => {
         const store = new StoryStore();

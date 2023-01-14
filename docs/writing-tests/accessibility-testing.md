@@ -2,6 +2,8 @@
 title: 'Accessibility tests'
 ---
 
+<YouTubeCallout id="rNLL0SICr9w" title="STOP fighting accessibility | automate a11y checks" />
+
 Accessibility is the practice of making websites inclusive to all. That means supporting requirements such as: keyboard navigation, screen reader support, touch-friendly, usable color contrast, reduced motion, and zoom support.
 
 Accessibility tests audit the rendered DOM against a set of heuristics based on [WCAG](https://www.w3.org/WAI/standards-guidelines/wcag/) rules and other industry-accepted best practices. They act as the first line of QA to catch blatant accessibility violations.
@@ -65,7 +67,11 @@ Storybook's a11y addon runs [Axe](https://github.com/dequelabs/axe-core) on the 
     'vue/component-story-with-accessibility.2.js.mdx',
     'vue/component-story-with-accessibility.3.js.mdx',
     'svelte/component-story-with-accessibility.js.mdx',
+    'web-components/component-story-with-accessibility.js.mdx',
+    'web-components/component-story-with-accessibility.ts.mdx',
   ]}
+  usesCsf3
+  csf2Path="writing-tests/accessibility-testing#snippet-component-story-with-accessibility"
 />
 
 <!-- prettier-ignore-end -->
@@ -118,8 +124,13 @@ Customize the a11y ruleset at the story level by updating your story to include 
     'react/storybook-addon-a11y-story-config.ts.mdx',
     'angular/storybook-addon-a11y-story-config.ts.mdx',
     'vue/storybook-addon-a11y-story-config.js.mdx',
+    'vue/storybook-addon-a11y-story-config.ts.mdx',
     'svelte/storybook-addon-a11y-story-config.js.mdx',
+    'web-components/storybook-addon-a11y-story-config.js.mdx',
+    'web-components/storybook-addon-a11y-story-config.ts.mdx',
   ]}
+  usesCsf3
+  csf2Path="writing-tests/accessibility-testing#snippet-storybook-addon-a11y-story-config"
 />
 
 <!-- prettier-ignore-end -->
@@ -136,8 +147,13 @@ Disable accessibility testing for stories or components by adding the following 
    'react/storybook-addon-a11y-disable.ts.mdx',
    'angular/storybook-addon-a11y-disable.ts.mdx',
    'vue/storybook-addon-a11y-disable.js.mdx',
+   'vue/storybook-addon-a11y-disable.ts.mdx',
    'svelte/storybook-addon-a11y-disable.js.mdx',
+   'web-components/storybook-addon-a11y-disable.js.mdx',
+   'web-components/storybook-addon-a11y-disable.ts.mdx',
   ]}
+  usesCsf3
+  csf2Path="writing-tests/accessibility-testing#snippet-storybook-addon-a11y-disable"
 />
 
 <!-- prettier-ignore-end -->
@@ -190,6 +206,36 @@ It starts checking for issues by traversing the DOM tree starting from the story
 
 ![Accessibility testing with the test runner](./test-runner-a11y-optimized.png)
 
+### A11y config with the test runner
+
+The test runner provides [helper methods](./test-runner.md#helpers), allowing access to the story's information. You can use them to extend the test runner's configuration and provide additional options you may have for a specific story. For example:
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'common/storybook-test-runner-a11y-configure.js.mdx',
+    'common/storybook-test-runner-a11y-configure.ts.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
+
+### Disable a11y tests with the test runner
+
+Additionally, if you have already [disabled accessibility](#how-to-disable-a11y-tests) tests for any particular story, you can also configure the test runner to avoid testing it as well. For example:
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'common/storybook-test-runner-a11y-disable.js.mdx',
+    'common/storybook-test-runner-a11y-disable.ts.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
+
 ---
 
 #### What’s the difference between browser-based and linter-based accessibility tests?
@@ -202,5 +248,6 @@ Browser-based accessibility tests, like those found in Storybook, evaluate the r
 - [Visual tests](./visual-testing.md) for appearance
 - Accessibility tests for accessibility
 - [Interaction tests](./interaction-testing.md) for user behavior simulation
+- [Coverage tests](./test-coverage.md) for measuring code coverage
 - [Snapshot tests](./snapshot-testing.md) for rendering errors and warnings
 - [Import stories in other tests](./importing-stories-in-tests.md) for other tools
