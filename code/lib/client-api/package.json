@@ -54,5 +54,5 @@
     ],
     "shim": "@storybook/preview-api/dist/client-api"
   },
-  "gitHead": "4d3ed5ec2eb8db3e688955e2820001def09621c1"
+  "gitHead": "1abdc0888cba8f23b12a8b9a777f4af6ed15ffe2"
 }
