@@ -5484,7 +5484,7 @@ __metadata:
     "@storybook/core-common": 7.0.0-beta.27
     "@storybook/manager-api": 7.0.0-beta.27
     "@storybook/node-logger": 7.0.0-beta.27
-    "@storybook/preview-api": 7.0.0-beta.8
+    "@storybook/preview-api": 7.0.0-beta.27
     "@storybook/theming": 7.0.0-beta.27
     "@storybook/types": 7.0.0-beta.27
     lodash: ^4.17.21
@@ -6191,20 +6191,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@storybook/channel-postmessage@npm:7.0.0-beta.8":
-  version: 7.0.0-beta.8
-  resolution: "@storybook/channel-postmessage@npm:7.0.0-beta.8"
-  dependencies:
-    "@storybook/channels": 7.0.0-beta.8
-    "@storybook/client-logger": 7.0.0-beta.8
-    "@storybook/core-events": 7.0.0-beta.8
-    global: ^4.4.0
-    qs: ^6.10.0
-    telejson: ^7.0.3
-  checksum: d0d4488831f13372e68bb7010242762a3102d3c7c069e3a840035ea050c30ad8234af9e81c78de4b0cae8dec20077183f57ba64191229ebd0bd7dbca1f99a262
-  languageName: node
-  linkType: hard
-
 "@storybook/channel-websocket@7.0.0-beta.27, @storybook/channel-websocket@workspace:*, @storybook/channel-websocket@workspace:lib/channel-websocket":
   version: 0.0.0-use.local
   resolution: "@storybook/channel-websocket@workspace:lib/channel-websocket"
@@ -6229,13 +6215,6 @@ __metadata:
   version: 7.0.0-beta.20
   resolution: "@storybook/channels@npm:7.0.0-beta.20"
   checksum: c8789220550c273b86e49566489e1b83ad84b04d5107d9e30a38e61b0b88c2555390074651fe8431d0841abc41a6003989953bdad5d745651bb91c1ff2fb4f19
-  languageName: node
-  linkType: hard
-
-"@storybook/channels@npm:7.0.0-beta.8":
-  version: 7.0.0-beta.8
-  resolution: "@storybook/channels@npm:7.0.0-beta.8"
-  checksum: db5289e5eeddb78053d92dd19b5bf5fb245941dc1aff8b5c611483ee3cd41b1d0e68a42ad28735afbde7ec0fd5afd616944185ba6cde7f81b876061a84782824
   languageName: node
   linkType: hard
 
@@ -6315,15 +6294,6 @@ __metadata:
   dependencies:
     "@storybook/global": ^5.0.0
   checksum: ef8955ae9c2f5ba633161c9abb316163b9fb31f50f9083f781bf61b50f104eb665b33e221cbdc4f350a0356667e90c214648014b0ef5ce6a3355eac307b3beff
-  languageName: node
-  linkType: hard
-
-"@storybook/client-logger@npm:7.0.0-beta.8":
-  version: 7.0.0-beta.8
-  resolution: "@storybook/client-logger@npm:7.0.0-beta.8"
-  dependencies:
-    global: ^4.4.0
-  checksum: 122028f55597bd698c0f5e0aa4d1f211407c53c9a90797a44a28e897ca5db31143b75b2780737b3037168f7c9349304d52dea6d99b72b4603110c753d90b7a1b
   languageName: node
   linkType: hard
 
@@ -6438,13 +6408,6 @@ __metadata:
   version: 7.0.0-beta.20
   resolution: "@storybook/core-events@npm:7.0.0-beta.20"
   checksum: 1ada0fc6f413161c6f7378449fda1a35ca65895804223d424a050d6da138a219b069607cf300f103810091793b1d65f058a1d7fc14654163f4161e24dce9761a
-  languageName: node
-  linkType: hard
-
-"@storybook/core-events@npm:7.0.0-beta.8":
-  version: 7.0.0-beta.8
-  resolution: "@storybook/core-events@npm:7.0.0-beta.8"
-  checksum: 73746cac7a5b68dfac086a8f35cb960428c3dc926c4f1961245c74a58202cde2854d7af479882d15709fab0f99295f8fb2a95762a91fa611aecda9ad1ac58252
   languageName: node
   linkType: hard
 
@@ -7178,30 +7141,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@storybook/preview-api@npm:7.0.0-beta.8":
-  version: 7.0.0-beta.8
-  resolution: "@storybook/preview-api@npm:7.0.0-beta.8"
-  dependencies:
-    "@storybook/channel-postmessage": 7.0.0-beta.8
-    "@storybook/channels": 7.0.0-beta.8
-    "@storybook/client-logger": 7.0.0-beta.8
-    "@storybook/core-events": 7.0.0-beta.8
-    "@storybook/csf": next
-    "@storybook/types": 7.0.0-beta.8
-    "@types/qs": ^6.9.5
-    dequal: ^2.0.2
-    global: ^4.4.0
-    lodash: ^4.17.21
-    memoizerific: ^1.11.3
-    qs: ^6.10.0
-    slash: ^3.0.0
-    synchronous-promise: ^2.0.15
-    ts-dedent: ^2.0.0
-    util-deprecate: ^1.0.2
-  checksum: a808c059fdd7631c2d9a8aeb38a36000b6ea6a6b44041b71242e050a9622202b42ffb6b0dbc1fb35ae8e98780d07481d1b20a0de498cdcfcb0c4fb3dd8f59df5
-  languageName: node
-  linkType: hard
-
 "@storybook/preview-web@7.0.0-beta.27, @storybook/preview-web@workspace:*, @storybook/preview-web@workspace:lib/preview-web":
   version: 0.0.0-use.local
   resolution: "@storybook/preview-web@workspace:lib/preview-web"
@@ -7754,20 +7693,6 @@ __metadata:
     express: ^4.17.3
     file-system-cache: ^2.0.0
   checksum: 85525940352d1673e157822acc396c090a680a722047bd4c29bf970c85c8d21f9170fe459a2b2bdc0c4bd2b7d32e33b00f795fc6a66e91e13b618417041b841d
-  languageName: node
-  linkType: hard
-
-"@storybook/types@npm:7.0.0-beta.8":
-  version: 7.0.0-beta.8
-  resolution: "@storybook/types@npm:7.0.0-beta.8"
-  dependencies:
-    "@babel/core": ^7.12.10
-    "@storybook/channels": 7.0.0-beta.8
-    "@types/babel__core": ^7.0.0
-    "@types/express": ^4.7.0
-    express: ^4.17.3
-    file-system-cache: ^2.0.0
-  checksum: 58b6051468f2d8dabad42e1bb2d3f4da7bc2b68e44d2330894a6be29ba3d6c2ea105b5e4b04167fe388c5efddf4ddc62a55886f57ce9e39c5dbe827be9fe9768
   languageName: node
   linkType: hard
 
@@ -13847,13 +13772,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dom-walk@npm:^0.1.0":
-  version: 0.1.2
-  resolution: "dom-walk@npm:0.1.2"
-  checksum: 4d2ad9062a9423d890f8577aa202b597a6b85f9489bdde656b9443901b8b322b289655c3affefc58ec2e41931e0828dfee0a1d2db6829a607d76def5901fc5a9
-  languageName: node
-  linkType: hard
-
 "domelementtype@npm:1, domelementtype@npm:^1.3.1":
   version: 1.3.1
   resolution: "domelementtype@npm:1.3.1"
@@ -16771,16 +16689,6 @@ __metadata:
     minimatch: ^5.0.1
     once: ^1.3.0
   checksum: 07ebaf2ed83e76b10901ec4982040ebd85458b787b4386f751a0514f6c8e416ed6c9eec5a892571eb0ef00b09d1bd451f72b5d9fb7b63770efd400532486e731
-  languageName: node
-  linkType: hard
-
-"global@npm:^4.4.0":
-  version: 4.4.0
-  resolution: "global@npm:4.4.0"
-  dependencies:
-    min-document: ^2.19.0
-    process: ^0.11.10
-  checksum: 4a467aec6602c00a7c5685f310574ab04e289ad7f894f0f01c9c5763562b82f4b92d1e381ce6c5bbb12173e2a9f759c1b63dda6370cfb199970267e14d90aa91
   languageName: node
   linkType: hard
 
@@ -21509,15 +21417,6 @@ __metadata:
   version: 2.1.0
   resolution: "mimic-fn@npm:2.1.0"
   checksum: b26f5479d7ec6cc2bce275a08f146cf78f5e7b661b18114e2506dd91ec7ec47e7a25bf4360e5438094db0560bcc868079fb3b1fb3892b833c1ecbf63f80c95a4
-  languageName: node
-  linkType: hard
-
-"min-document@npm:^2.19.0":
-  version: 2.19.0
-  resolution: "min-document@npm:2.19.0"
-  dependencies:
-    dom-walk: ^0.1.0
-  checksum: 783724da716fc73a51c171865d7b29bf2b855518573f82ef61c40d214f6898d7b91b5c5419e4d22693cdb78d4615873ebc3b37d7639d3dd00ca283e5a07c7af9
   languageName: node
   linkType: hard
 
