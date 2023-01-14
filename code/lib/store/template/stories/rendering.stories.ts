@@ -1,4 +1,4 @@
-import globalThis from 'global';
+import { global as globalThis } from '@storybook/global';
 import type { PlayFunctionContext } from '@storybook/types';
 import { within, waitFor } from '@storybook/testing-library';
 import { expect } from '@storybook/jest';
@@ -11,7 +11,7 @@ export default {
 };
 
 export const ForceReRender = {
-  play: async ({ canvasElement }: PlayFunctionContext) => {
+  play: async ({ canvasElement }: PlayFunctionContext<any>) => {
     const channel = globalThis.__STORYBOOK_ADDONS_CHANNEL__;
     const button = await within(canvasElement).findByRole('button');
     await button.focus();
@@ -24,7 +24,7 @@ export const ForceReRender = {
 };
 
 export const ChangeArgs = {
-  play: async ({ canvasElement, id }: PlayFunctionContext) => {
+  play: async ({ canvasElement, id }: PlayFunctionContext<any>) => {
     const channel = globalThis.__STORYBOOK_ADDONS_CHANNEL__;
     const button = await within(canvasElement).findByRole('button');
     await button.focus();

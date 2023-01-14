@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/triple-slash-reference */
+/// <reference path="typings.d.ts" />
+
 /**
  * HOOKS API
  */
@@ -64,12 +67,14 @@ export {
   decorateStory,
   defaultDecorateStory,
   prepareStory,
+  prepareMeta,
   normalizeStory,
   filterArgTypes,
   sanitizeStoryContextUpdate,
   setProjectAnnotations,
   inferControls,
   userOrAutoTitleFromSpecifier,
+  userOrAutoTitle,
   sortStoriesV7,
 } from './store';
 

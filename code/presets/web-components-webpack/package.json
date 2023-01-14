@@ -1,6 +1,6 @@
 {
   "name": "@storybook/preset-web-components-webpack",
-  "version": "7.0.0-beta.0",
+  "version": "7.0.0-beta.26",
   "description": "Storybook for web-components: View web components snippets in isolation with Hot Reloading.",
   "keywords": [
     "lit-html",
@@ -23,20 +23,18 @@
   "license": "MIT",
   "exports": {
     ".": {
+      "node": "./dist/index.js",
       "require": "./dist/index.js",
       "import": "./dist/index.mjs",
       "types": "./dist/index.d.ts"
     },
     "./preset": {
+      "node": "./dist/index.js",
       "require": "./dist/index.js",
       "import": "./dist/index.mjs",
       "types": "./dist/index.d.ts"
     },
-    "./package.json": {
-      "require": "./package.json",
-      "import": "./package.json",
-      "types": "./package.json"
-    }
+    "./package.json": "./package.json"
   },
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -55,7 +53,7 @@
     "@babel/plugin-syntax-dynamic-import": "^7.8.3",
     "@babel/plugin-syntax-import-meta": "^7.10.4",
     "@babel/preset-env": "^7.20.2",
-    "@storybook/core-webpack": "7.0.0-beta.0",
+    "@storybook/core-webpack": "7.0.0-beta.26",
     "@types/node": "^16.0.0",
     "babel-loader": "^7.0.0 || ^8.0.0",
     "babel-plugin-bundled-import-meta": "^0.3.1"
@@ -68,7 +66,7 @@
     "lit-html": "^1.4.1 || ^2.0.0"
   },
   "engines": {
-    "node": ">=10.13.0"
+    "node": ">=16.0.0"
   },
   "publishConfig": {
     "access": "public"
@@ -79,5 +77,5 @@
     ],
     "platform": "node"
   },
-  "gitHead": "2e4ddde6a0a291266d91fe6a5ecda767bf119e70"
+  "gitHead": "4d3ed5ec2eb8db3e688955e2820001def09621c1"
 }
