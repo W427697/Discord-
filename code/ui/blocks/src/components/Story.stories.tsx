@@ -56,6 +56,7 @@ export const ForceInitialArgs = {
     forceInitialArgs: true,
     renderStoryToElement,
   },
+  // test that it ignores updated args by emitting an arg update and assert that it isn't reflected in the DOM
   play: async ({ args, canvasElement, loaded }: PlayFunctionContext<WebRenderer>) => {
     const docsContext = loaded.docsContext as DocsContextProps;
     const storyId = docsContext.storyIdByModuleExport(args.storyExport);
@@ -68,8 +69,8 @@ export const ForceInitialArgs = {
     });
     await channel.emit(UPDATE_STORY_ARGS, { storyId, updatedArgs: { label: 'Updated' } });
     await updatedPromise;
-
     await within(canvasElement).findByText(/Button/);
+
     await channel.emit(RESET_STORY_ARGS, { storyId });
     await new Promise<void>((resolve) => {
       channel.once(STORY_ARGS_UPDATED, resolve);
