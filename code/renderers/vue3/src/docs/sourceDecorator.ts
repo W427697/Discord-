@@ -102,7 +102,6 @@ function generateAttributeSource(
   value: Args[keyof Args],
   argType: ArgTypes[keyof ArgTypes]
 ): string {
-  console.log('generateAttributeSource in', _key, value, argType);
   const toKey = (key: string) => key.replace(/([A-Z])/g, '-$1').toLowerCase();
   const key = toKey(_key); // .replace(':on-', 'on-');
 
