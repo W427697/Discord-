@@ -4,6 +4,7 @@ import type { ModuleExport, ModuleExports, PreparedStory } from './story';
 
 export type StoryRenderOptions = {
   autoplay?: boolean;
+  forceInitialArgs?: boolean;
 };
 
 export interface DocsContextProps<TRenderer extends Renderer = Renderer> {

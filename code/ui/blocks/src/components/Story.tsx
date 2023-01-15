@@ -18,6 +18,7 @@ interface InlineStoryProps extends CommonProps {
   inline: true;
   height?: string;
   autoplay: boolean;
+  forceInitialArgs: boolean;
   renderStoryToElement: DocsContextProps['renderStoryToElement'];
 }
 
@@ -32,6 +33,7 @@ const InlineStory: FunctionComponent<InlineStoryProps> = ({
   story,
   height,
   autoplay,
+  forceInitialArgs,
   renderStoryToElement,
 }) => {
   const storyRef = useRef();
@@ -42,7 +44,7 @@ const InlineStory: FunctionComponent<InlineStoryProps> = ({
       return () => {};
     }
     const element = storyRef.current as HTMLElement;
-    const cleanup = renderStoryToElement(story, element, { autoplay });
+    const cleanup = renderStoryToElement(story, element, { autoplay, forceInitialArgs });
     setShowLoader(false);
     return () => {
       cleanup();

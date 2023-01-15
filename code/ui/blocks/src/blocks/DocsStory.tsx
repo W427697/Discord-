@@ -13,6 +13,7 @@ export const DocsStory: FC<DocsStoryProps> = ({
   expanded = true,
   withToolbar = false,
   parameters = {},
+  __forceInitialArgs = false,
 }) => {
   let description;
   const { docs } = parameters;
@@ -27,7 +28,7 @@ export const DocsStory: FC<DocsStoryProps> = ({
       {subheading && <Subheading>{subheading}</Subheading>}
       {description && <Description markdown={description} />}
       <Canvas withToolbar={withToolbar}>
-        <Story id={id} parameters={parameters} />
+        <Story id={id} parameters={parameters} __forceInitialArgs={__forceInitialArgs} />
       </Canvas>
     </Anchor>
   );

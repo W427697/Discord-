@@ -14,4 +14,5 @@ export interface StoryData {
 export type DocsStoryProps = StoryData & {
   expanded?: boolean;
   withToolbar?: boolean;
+  __forceInitialArgs?: boolean;
 };

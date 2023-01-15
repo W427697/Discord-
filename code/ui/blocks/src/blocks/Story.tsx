@@ -72,6 +72,10 @@ type StoryParameters = {
    * Whether to run the story's play function
    */
   autoplay?: boolean;
+  /**
+   * Internal prop to control if a story re-renders on args updates
+   */
+  __forceInitialArgs?: boolean;
 };
 
 export type StoryProps = (StoryDefProps | StoryRefProps) & StoryParameters;
@@ -131,6 +135,8 @@ export const getStoryProps = <TFramework extends Renderer>(
       inline: true,
       height,
       autoplay,
+      // eslint-disable-next-line no-underscore-dangle
+      forceInitialArgs: !!props.__forceInitialArgs,
       renderStoryToElement: context.renderStoryToElement,
     };
   }
@@ -145,7 +151,7 @@ export const getStoryProps = <TFramework extends Renderer>(
   };
 };
 
-const Story: FC<StoryProps> = (props) => {
+const Story: FC<StoryProps> = (props = { __forceInitialArgs: false }) => {
   const context = useContext(DocsContext);
   const storyId = getStoryId(props, context);
   const story = useStory(storyId, context);

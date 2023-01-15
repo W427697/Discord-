@@ -1,6 +1,10 @@
 import React from 'react';
-import type { StoryObj, Meta } from '@storybook/react';
-import type { StoryProps } from './Story';
+import type { Meta } from '@storybook/react';
+import { within } from '@storybook/testing-library';
+import type { PlayFunctionContext } from '@storybook/csf';
+import type { WebRenderer } from '@storybook/types';
+import { RESET_STORY_ARGS, STORY_ARGS_UPDATED, UPDATE_STORY_ARGS } from '@storybook/core-events';
+
 import { Story as StoryComponent, StorySkeleton } from './Story';
 import type { DocsContextProps } from '../blocks';
 import * as ButtonStories from '../examples/Button.stories';
@@ -8,26 +12,22 @@ import * as ButtonStories from '../examples/Button.stories';
 const preview = __STORYBOOK_PREVIEW__;
 const renderStoryToElement = preview.renderStoryToElement.bind(preview);
 
-// TODO: can't quite figure out types here.
-// type OverriddenStoryProps = StoryProps & {
-//   story: typeof ButtonStories.Primary;
-// };
-
-const meta: Meta<typeof StoryComponent> = {
+const meta: Meta = {
   component: StoryComponent,
   parameters: {
     relativeCsfPaths: ['../examples/Button.stories'],
   },
   args: {
     height: '100px',
-    // NOTE: the real story arg is a PreparedStory, which we'll get in the render function below
-    story: ButtonStories.Primary as any,
+    storyExport: ButtonStories.Primary,
+    autoplay: false,
+    ignoreArgsUpdates: false,
   },
   render(args, { loaded }) {
     const docsContext = loaded.docsContext as DocsContextProps;
-    const storyId = docsContext.storyIdByModuleExport(args.story);
+    const storyId = docsContext.storyIdByModuleExport(args.storyExport);
     const story = docsContext.storyById(storyId);
-    return <StoryComponent {...args} story={story} />;
+    return <StoryComponent {...(args as any)} story={story} />;
   },
 };
 export default meta;
@@ -48,9 +48,38 @@ export const IFrame = {
   },
 };
 
+export const ForceInitialArgs = {
+  args: {
+    storyExport: ButtonStories.Primary,
+    inline: true,
+    autoplay: true,
+    forceInitialArgs: true,
+    renderStoryToElement,
+  },
+  play: async ({ args, canvasElement, loaded }: PlayFunctionContext<WebRenderer>) => {
+    const docsContext = loaded.docsContext as DocsContextProps;
+    const storyId = docsContext.storyIdByModuleExport(args.storyExport);
+
+    const channel = globalThis.__STORYBOOK_ADDONS_CHANNEL__;
+    await within(canvasElement).findByText(/Button/);
+
+    const updatedPromise = new Promise<void>((resolve) => {
+      channel.once(STORY_ARGS_UPDATED, resolve);
+    });
+    await channel.emit(UPDATE_STORY_ARGS, { storyId, updatedArgs: { label: 'Updated' } });
+    await updatedPromise;
+
+    await within(canvasElement).findByText(/Button/);
+    await channel.emit(RESET_STORY_ARGS, { storyId });
+    await new Promise<void>((resolve) => {
+      channel.once(STORY_ARGS_UPDATED, resolve);
+    });
+  },
+};
+
 export const Autoplay = {
   args: {
-    story: ButtonStories.Clicking,
+    storyExport: ButtonStories.Clicking,
     inline: true,
     autoplay: true,
     renderStoryToElement,

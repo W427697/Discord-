@@ -265,7 +265,11 @@ export class Preview<TFramework extends Renderer> {
   async onUpdateArgs({ storyId, updatedArgs }: { storyId: StoryId; updatedArgs: Args }) {
     this.storyStore.args.update(storyId, updatedArgs);
 
-    await Promise.all(this.storyRenders.filter((r) => r.id === storyId).map((r) => r.rerender()));
+    await Promise.all(
+      this.storyRenders
+        .filter((r) => r.id === storyId && !r.renderOptions.forceInitialArgs)
+        .map((r) => r.rerender())
+    );
 
     this.channel.emit(STORY_ARGS_UPDATED, {
       storyId,
