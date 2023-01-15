@@ -68,22 +68,20 @@ function generateAttributesSource(_args: Args, argTypes: ArgTypes, byRef?: boole
         ['children', 'slots'].indexOf(argTypes[key]?.table?.category) === -1 || !argTypes[key] // remove slots and children
     )
     .map((key) => {
-      const akey = key.replace(/([A-Z])/g, '-$1').toLowerCase();
+      const akey =
+        argTypes[key]?.table?.category !== 'events' // is event
+          ? key
+              .replace(/([A-Z])/g, '-$1')
+              .replace(/^on-/, 'v-on:')
+              .replace(/^:/, '')
+              .toLowerCase()
+          : `v-on:${key}`;
       args[akey] = args[key];
-      if (
-        (typeof args[key] === 'function' && !argTypes[key]?.type) ||
-        argTypes[key]?.table?.category === 'events'
-      ) {
-        args[`:${akey}`] = '() => {}';
-        if (!akey.startsWith('on')) delete args[`:${akey}`]; // remove the event key
-        return `:${akey}`;
-      }
       return akey;
     })
     .filter((key, index, self) => self.indexOf(key) === index); // remove duplicated keys
-  // generate the source code for each key and filter out empty strings
-  const camelCase = (str: string) => str.replace(/-([a-z])/g, (g) => g[1].toUpperCase());
 
+  const camelCase = (str: string) => str.replace(/-([a-z])/g, (g) => g[1].toUpperCase());
   const source = argsKeys
     .map((key) =>
       generateAttributeSource(
@@ -92,20 +90,16 @@ function generateAttributesSource(_args: Args, argTypes: ArgTypes, byRef?: boole
         argTypes[key]
       )
     )
-    .filter((item) => item !== '')
     .join(' ');
 
   return source;
 }
 
 function generateAttributeSource(
-  _key: string,
+  key: string,
   value: Args[keyof Args],
   argType: ArgTypes[keyof ArgTypes]
 ): string {
-  const toKey = (key: string) => key.replace(/([A-Z])/g, '-$1').toLowerCase();
-  const key = toKey(_key); // .replace(':on-', 'on-');
-
   if (!value) {
     return '';
   }
@@ -114,8 +108,8 @@ function generateAttributeSource(
     return key;
   }
 
-  if (typeof value === 'function' || argType?.table?.category === 'events' || argType?.action) {
-    return `:${key}='${value}'`;
+  if (key.startsWith('v-on:')) {
+    return `${key}='() => {}'`;
   }
 
   if (typeof value === 'string') {
@@ -295,7 +289,7 @@ export const sourceDecorator = (storyFn: any, context: StoryContext<Renderer>) =
 
   useEffect(() => {
     if (!skip && source) {
-      channel.emit(SNIPPET_RENDERED, (context || {}).id, source, 'html');
+      channel.emit(SNIPPET_RENDERED, (context || {}).id, source, 'vue');
     }
   });
 
