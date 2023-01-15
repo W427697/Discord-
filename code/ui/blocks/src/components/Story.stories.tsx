@@ -27,10 +27,10 @@ const meta: Meta<ExtendedStoryProps> = {
   },
   render({ storyExport, ...args }, { loaded }) {
     const docsContext = loaded.docsContext as DocsContextProps;
-    const storyId = docsContext.storyIdByModuleExport(storyExport);
-    const story = docsContext.storyById(storyId);
+    const resolved = docsContext.resolveModuleExport(storyExport);
+    if (resolved.type !== 'story') throw new Error('Bad export, pass a story!');
     // @ts-expect-error getting too complex with props
-    return <StoryComponent {...args} story={story} />;
+    return <StoryComponent {...args} story={resolved.story} />;
   },
 };
 export default meta;
