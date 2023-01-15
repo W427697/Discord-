@@ -1,48 +1,59 @@
 import React from 'react';
-import type { Meta } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react';
 import { within } from '@storybook/testing-library';
 import type { PlayFunctionContext } from '@storybook/csf';
-import type { WebRenderer } from '@storybook/types';
+import type { WebRenderer, ModuleExport } from '@storybook/types';
 import { RESET_STORY_ARGS, STORY_ARGS_UPDATED, UPDATE_STORY_ARGS } from '@storybook/core-events';
 
+import type { StoryProps } from './Story';
 import { Story as StoryComponent, StorySkeleton } from './Story';
 import type { DocsContextProps } from '../blocks';
 import * as ButtonStories from '../examples/Button.stories';
 
-const preview = __STORYBOOK_PREVIEW__;
+// eslint-disable-next-line no-underscore-dangle
+const preview = (window as any).__STORYBOOK_PREVIEW__;
 const renderStoryToElement = preview.renderStoryToElement.bind(preview);
 
-const meta: Meta = {
+type ExtendedStoryProps = Omit<StoryProps, 'story'> & {
+  storyExport: ModuleExport;
+};
+
+const meta: Meta<ExtendedStoryProps> = {
+  // @ts-expect-error getting too complex with props
   component: StoryComponent,
   parameters: {
     relativeCsfPaths: ['../examples/Button.stories'],
   },
   args: {
     height: '100px',
-    storyExport: ButtonStories.Primary,
-    autoplay: false,
-    ignoreArgsUpdates: false,
+    // NOTE: the real story arg is a PreparedStory, which we'll get in the render function below
+    storyExport: ButtonStories.Primary as any,
   },
-  render(args, { loaded }) {
+  render({ storyExport, ...args }, { loaded }) {
     const docsContext = loaded.docsContext as DocsContextProps;
-    const storyId = docsContext.storyIdByModuleExport(args.storyExport);
-    const story = docsContext.storyById(storyId);
-    return <StoryComponent {...(args as any)} story={story} />;
+    const resolved = docsContext.resolveModuleExport(storyExport);
+    if (resolved.type !== 'story') throw new Error('Bad export, pass a story!');
+    // @ts-expect-error getting too complex with props
+    return <StoryComponent {...args} story={resolved.story} />;
   },
 };
 export default meta;
 
+type Story = StoryObj<typeof meta>;
+
 export const Loading = () => <StorySkeleton />;
 
-export const Inline = {
+export const Inline: Story = {
   args: {
     inline: true,
+    // @ts-expect-error getting too complex with props
     autoplay: false,
+    forceInitialArgs: false,
     renderStoryToElement,
   },
 };
 
-export const IFrame = {
+export const IFrame: Story = {
   args: {
     inline: false,
   },
@@ -59,7 +70,8 @@ export const ForceInitialArgs = {
   // test that it ignores updated args by emitting an arg update and assert that it isn't reflected in the DOM
   play: async ({ args, canvasElement, loaded }: PlayFunctionContext<WebRenderer>) => {
     const docsContext = loaded.docsContext as DocsContextProps;
-    const storyId = docsContext.storyIdByModuleExport(args.storyExport);
+    const resolved = docsContext.resolveModuleExport(args.storyExport);
+    if (resolved.type !== 'story') throw new Error('Bad export, pass a story!');
 
     const channel = globalThis.__STORYBOOK_ADDONS_CHANNEL__;
     await within(canvasElement).findByText(/Button/);
@@ -67,21 +79,25 @@ export const ForceInitialArgs = {
     const updatedPromise = new Promise<void>((resolve) => {
       channel.once(STORY_ARGS_UPDATED, resolve);
     });
-    await channel.emit(UPDATE_STORY_ARGS, { storyId, updatedArgs: { label: 'Updated' } });
+    await channel.emit(UPDATE_STORY_ARGS, {
+      storyId: resolved.story.id,
+      updatedArgs: { label: 'Updated' },
+    });
     await updatedPromise;
     await within(canvasElement).findByText(/Button/);
 
-    await channel.emit(RESET_STORY_ARGS, { storyId });
+    await channel.emit(RESET_STORY_ARGS, { storyId: resolved.story.id });
     await new Promise<void>((resolve) => {
       channel.once(STORY_ARGS_UPDATED, resolve);
     });
   },
 };
 
-export const Autoplay = {
+export const Autoplay: Story = {
   args: {
     storyExport: ButtonStories.Clicking,
     inline: true,
+    // @ts-expect-error getting too complex with props
     autoplay: true,
     renderStoryToElement,
   },
