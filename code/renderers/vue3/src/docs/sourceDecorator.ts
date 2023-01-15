@@ -4,9 +4,8 @@ import type { ArgTypes, Args, StoryContext, Renderer } from '@storybook/types';
 
 import { SourceType, SNIPPET_RENDERED } from '@storybook/docs-tools';
 
-import { format } from 'prettier';
-// import parserTypescript from 'prettier/parser-typescript';
-import parserHTML from 'prettier/parser-html.js';
+import parserHTML from 'prettier/parser-html';
+
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { isArray } from '@vue/shared';
 
@@ -16,11 +15,6 @@ type Attribute = {
   value: string;
   sourceSpan?: any;
   valueSpan?: any;
-  nameSpan?: any;
-  i18n?: any;
-  type: string;
-  namespace: any;
-  hasExplicitNamespace: boolean;
 } & Record<string, any>;
 /**
  * Check if the sourcecode should be generated.
@@ -74,6 +68,7 @@ function generateAttributesSource(_args: Args, argTypes: ArgTypes, byRef?: boole
     )
     .map((key) => {
       const akey = key.replace(/([A-Z])/g, '-$1').toLowerCase();
+      args[akey] = args[key];
       if (
         (typeof args[key] === 'function' && !argTypes[key]?.type) ||
         argTypes[key]?.table?.category === 'events'
@@ -87,6 +82,7 @@ function generateAttributesSource(_args: Args, argTypes: ArgTypes, byRef?: boole
     .filter((key, index, self) => self.indexOf(key) === index); // remove duplicated keys
   // generate the source code for each key and filter out empty strings
   const camelCase = (str: string) => str.replace(/-([a-z])/g, (g) => g[1].toUpperCase());
+
   const source = argsKeys
     .map((key) =>
       generateAttributeSource(
@@ -106,6 +102,7 @@ function generateAttributeSource(
   value: Args[keyof Args],
   argType: ArgTypes[keyof ArgTypes]
 ): string {
+  console.log('generateAttributeSource in', _key, value, argType);
   const toKey = (key: string) => key.replace(/([A-Z])/g, '-$1').toLowerCase();
   const key = toKey(_key); // .replace(':on-', 'on-');
 
@@ -284,21 +281,6 @@ function getArgsInAttrs(args: Args, attributes: Attribute[]) {
  * @param source
  */
 
-function prettierFormat(source: string): string {
-  try {
-    return format(source, {
-      vueIndentScriptAndStyle: true,
-      parser: 'vue',
-      plugins: [parserHTML],
-      singleQuote: true,
-      quoteProps: 'preserve',
-    });
-  } catch (e: any) {
-    console.error(e.toString());
-  }
-  return source;
-}
-
 /**
  *  source decorator.
  * @param storyFn Fn
@@ -313,7 +295,7 @@ export const sourceDecorator = (storyFn: any, context: StoryContext<Renderer>) =
 
   useEffect(() => {
     if (!skip && source) {
-      channel.emit(SNIPPET_RENDERED, (context || {}).id, source);
+      channel.emit(SNIPPET_RENDERED, (context || {}).id, source, 'html');
     }
   });
 
@@ -331,7 +313,7 @@ export const sourceDecorator = (storyFn: any, context: StoryContext<Renderer>) =
   const generatedTemplate = generateSource(storyComponent, args, argTypes, withScript);
 
   if (generatedTemplate) {
-    source = prettierFormat(`${generatedScript}\n <template>\n ${generatedTemplate} \n</template>`);
+    source = `${generatedScript}\n <template>\n ${generatedTemplate} \n</template>`;
   }
 
   return story;
