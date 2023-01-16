@@ -7473,7 +7473,7 @@ __metadata:
     jest-os-detection: ^1.3.1
     jest-serializer-html: ^7.1.0
     jest-watch-typeahead: ^2.2.1
-    knip: ^1.0.1
+    knip: ^1.3.0
     lerna: ^6.4.0
     lint-staged: ^10.5.4
     lodash: ^4.17.21
@@ -20370,16 +20370,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"knip@npm:^1.0.1":
-  version: 1.0.1
-  resolution: "knip@npm:1.0.1"
+"knip@npm:^1.3.0":
+  version: 1.3.0
+  resolution: "knip@npm:1.3.0"
   dependencies:
     "@esbuild-kit/esm-loader": 2.5.4
     "@npmcli/map-workspaces": 3.0.1
     "@snyk/github-codeowners": 1.1.0
     chalk: 5.2.0
     easy-table: 1.2.0
-    esbuild: 0.16.16
+    esbuild: 0.16.17
     esbuild-register: 3.4.2
     eslint: 8.31.0
     fast-glob: 3.2.12
@@ -20397,7 +20397,7 @@ __metadata:
     zod: 3.20.2
   bin:
     knip: dist/cli.js
-  checksum: d4074f3c0a7e7facb5a0f94e31f3e735f5e5312d037935a3d79d09fbdaa263bb41566c7970380b0c1aebf3e0d84b37e862cfa28bd022cd89737ed7896cb32c0a
+  checksum: 2e0a2a1563d0f45ae7ec8184394283d88c57b05ec7deedff809960646ac2755ca2b2aa7395efd56200c27b6f51c7f8da94b2f0f3b7d70a7d522225d123c967e3
   languageName: node
   linkType: hard
 
