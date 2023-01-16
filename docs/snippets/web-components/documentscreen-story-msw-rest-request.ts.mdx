@@ -1,28 +1,19 @@
-```js
-// YourPage.stories.js|jsx
+```ts
+// YourPage.stories.ts
 
-import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
+import type { Meta, StoryObj } from '@storybook/web-components';
 
-import { graphql } from 'msw';
+import { rest } from 'msw';
 
-import { DocumentScreen } from './YourPage';
+const meta: Meta = {
+  title: 'DocumentScreen',
+  component: 'demo-document-screen',
+};
 
-const mockedClient = new ApolloClient({
-  uri: 'https://your-graphql-endpoint',
-  cache: new InMemoryCache(),
-  defaultOptions: {
-    watchQuery: {
-      fetchPolicy: 'no-cache',
-      errorPolicy: 'all',
-    },
-    query: {
-      fetchPolicy: 'no-cache',
-      errorPolicy: 'all',
-    },
-  },
-});
+export default meta;
+type Story = StoryObj;
 
-//👇The mocked data that will be used in the story
+// 👇 The mocked data that will be used in the story
 const TestData = {
   user: {
     userID: 1,
@@ -71,44 +62,21 @@ const TestData = {
   ],
 };
 
-export default {
-  /* 👇 The title prop is optional.
-   * See https://storybook.js.org/docs/7.0/react/configure/overview#configure-story-loading
-   * to learn how to generate automatic titles
-   */
-  title: 'DocumentScreen',
-  component: DocumentScreen,
-  decorators: [
-    (Story) => (
-      <ApolloProvider client={mockedClient}>
-        <Story />
-      </ApolloProvider>
-    ),
-  ],
-};
-
-export const MockedSuccess = {
+export const MockedSuccess: Story = {
   parameters: {
     msw: [
-      graphql.query('AllInfoQuery', (req, res, ctx) => {
-        return res(ctx.data(TestData));
+      rest.get('https://your-restful-endpoint/', (_req, res, ctx) => {
+        return res(ctx.json(TestData));
       }),
     ],
   },
 };
 
-export const MockedError = {
+export const MockedError: Story = {
   parameters: {
     msw: [
-      graphql.query('AllInfoQuery', (req, res, ctx) => {
-        return res(
-          ctx.delay(800),
-          ctx.errors([
-            {
-              message: 'Access denied',
-            },
-          ])
-        );
+      rest.get('https://your-restful-endpoint', (_req, res, ctx) => {
+        return res(ctx.delay(800), ctx.status(403));
       }),
     ],
   },
