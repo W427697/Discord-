@@ -49,6 +49,7 @@ export const Inline: Story = {
 };
 
 export const IFrame: Story = {
+  name: 'IFrame',
   args: {
     inline: false,
   },

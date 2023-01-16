@@ -100,6 +100,7 @@ export const InlineWithHeightParameter: Story = {
 
 export const IFrameProps: Story = {
   ...Inline,
+  name: 'IFrame Props',
   args: {
     of: SimpleSizeTest,
     inline: false,
@@ -113,6 +114,7 @@ export const SimpleSizeTestWithIFrameParameter = {
 
 export const IframeWithParameter: Story = {
   ...Inline,
+  name: 'IFrame With Parameter',
   args: {
     of: SimpleSizeTestWithIFrameParameter,
   },
@@ -120,6 +122,7 @@ export const IframeWithParameter: Story = {
 
 export const IframeWithHeightProps: Story = {
   ...Inline,
+  name: 'IFrame With Height Props',
   args: {
     of: SimpleSizeTest,
     inline: false,
@@ -134,6 +137,7 @@ export const SimpleSizeTestWithIFrameAndIFrameHeightParameter = {
 
 export const IFrameWithIFrameHeightParameter: Story = {
   ...Inline,
+  name: 'IFrame With IFrame Height Parameter',
   args: {
     of: SimpleSizeTestWithIFrameAndIFrameHeightParameter,
   },
@@ -146,6 +150,7 @@ export const SimpleSizeTestWithIFrameAndHeightParameter = {
 
 export const IFrameWithHeightParameter: Story = {
   ...Inline,
+  name: 'IFrame With Height Parameter',
   args: {
     of: SimpleSizeTestWithIFrameAndHeightParameter,
   },
