@@ -1,6 +1,6 @@
 import assert from 'assert';
 import fetch from 'node-fetch';
-import { allTemplates } from '../code/lib/cli/src/repro-templates';
+import { allTemplates } from '../code/lib/cli/src/sandbox-templates';
 
 const PORT = process.env.PORT || 6007;
 

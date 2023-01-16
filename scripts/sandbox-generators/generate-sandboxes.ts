@@ -10,7 +10,7 @@ import { execaCommand } from '../utils/exec';
 
 import type { OptionValues } from '../utils/options';
 import { createOptions } from '../utils/options';
-import { allTemplates as reproTemplates } from '../../code/lib/cli/src/repro-templates';
+import { allTemplates as sandboxTemplates } from '../../code/lib/cli/src/sandbox-templates';
 import storybookVersions from '../../code/lib/cli/src/versions';
 import { JsPackageManagerFactory } from '../../code/lib/cli/src/js-package-manager/JsPackageManagerFactory';
 
@@ -30,7 +30,7 @@ const SCRIPT_TIMEOUT = 5 * 60 * 1000;
 const sbInit = async (cwd: string, flags?: string[], debug?: boolean) => {
   const sbCliBinaryPath = join(__dirname, `../../code/lib/cli/bin/index.js`);
   console.log(`🎁 Installing storybook`);
-  const env = { STORYBOOK_DISABLE_TELEMETRY: 'true', STORYBOOK_REPRO_GENERATOR: 'true' };
+  const env = { STORYBOOK_DISABLE_TELEMETRY: 'true' };
   const fullFlags = ['--yes', ...(flags || [])];
   await runCommand(`${sbCliBinaryPath} init ${fullFlags.join(' ')}`, { cwd, env }, debug);
 };
@@ -124,7 +124,7 @@ const runGenerators = async (
   localRegistry = true,
   debug = false
 ) => {
-  console.log(`🤹‍♂️ Generating repros with a concurrency of ${maxConcurrentTasks}`);
+  console.log(`🤹‍♂️ Generating sandboxes with a concurrency of ${maxConcurrentTasks}`);
 
   const limit = pLimit(maxConcurrentTasks);
 
@@ -177,8 +177,8 @@ const runGenerators = async (
         await addDocumentation(baseDir, { name, dirName });
 
         // Remove node_modules to save space and avoid GH actions failing
-        // They're not uploaded to the git repros repo anyway
-        if (process.env.CLEANUP_REPRO_NODE_MODULES) {
+        // They're not uploaded to the git sandboxes repo anyway
+        if (process.env.CLEANUP_SANDBOX_NODE_MODULES) {
           console.log(`🗑️ Removing ${join(beforeDir, 'node_modules')}`);
           await remove(join(beforeDir, 'node_modules'));
           console.log(`🗑️ Removing ${join(baseDir, AFTER_DIR_NAME, 'node_modules')}`);
@@ -200,7 +200,7 @@ export const options = createOptions({
   template: {
     type: 'string',
     description: 'Which template would you like to create?',
-    values: Object.keys(reproTemplates),
+    values: Object.keys(sandboxTemplates),
   },
   localRegistry: {
     type: 'boolean',
@@ -219,7 +219,7 @@ export const generate = async ({
   localRegistry,
   debug,
 }: OptionValues<typeof options>) => {
-  const generatorConfigs = Object.entries(reproTemplates)
+  const generatorConfigs = Object.entries(sandboxTemplates)
     .map(([dirName, configuration]) => ({
       dirName,
       ...configuration,

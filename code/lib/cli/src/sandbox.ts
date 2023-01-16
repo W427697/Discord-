@@ -6,12 +6,12 @@ import { dedent } from 'ts-dedent';
 import { downloadTemplate } from 'giget';
 
 import { existsSync, readdir } from 'fs-extra';
-import type { Template, TemplateKey } from './repro-templates';
-import { allTemplates as TEMPLATES } from './repro-templates';
+import type { Template, TemplateKey } from './sandbox-templates';
+import { allTemplates as TEMPLATES } from './sandbox-templates';
 
 const logger = console;
 
-interface ReproOptions {
+interface SandboxOptions {
   filterValue?: string;
   output?: string;
   branch?: string;
@@ -21,12 +21,12 @@ type Choice = keyof typeof TEMPLATES;
 
 const toChoices = (c: Choice): prompts.Choice => ({ title: TEMPLATES[c].name, value: c });
 
-export const reproNext = async ({
+export const sandbox = async ({
   output: outputDirectory,
   filterValue,
   branch,
   init,
-}: ReproOptions) => {
+}: SandboxOptions) => {
   // Either get a direct match when users pass a template id, or filter through all templates
   let selectedConfig: Template | undefined = TEMPLATES[filterValue as TemplateKey];
   let selectedTemplate: Choice | null = selectedConfig ? (filterValue as TemplateKey) : null;
@@ -83,7 +83,7 @@ export const reproNext = async ({
       logger.info(
         boxen(
           dedent`
-            🤗 Welcome to ${chalk.yellow('sb repro NEXT')}! 🤗
+            🤗 Welcome to ${chalk.yellow('sb sandbox')}! 🤗
 
             Create a ${chalk.green('new project')} to minimally reproduce Storybook issues.
 
@@ -108,7 +108,7 @@ export const reproNext = async ({
     selectedConfig = TEMPLATES[selectedTemplate];
 
     if (!selectedConfig) {
-      throw new Error('🚨 Repro: please specify a valid template type');
+      throw new Error('🚨 Sandbox: please specify a valid template type');
     }
   }
 
@@ -147,11 +147,11 @@ export const reproNext = async ({
 
     logger.info(`🏃 Adding ${selectedConfig.name} into ${templateDestination}`);
 
-    logger.log('📦 Downloading repro template...');
+    logger.log('📦 Downloading sandbox template...');
     try {
       const templateType = init ? 'after-storybook' : 'before-storybook';
-      // Download the repro based on subfolder "after-storybook" and selected branch
-      const gitPath = `github:storybookjs/repro-templates-temp/${selectedTemplate}/${templateType}#${branch}`;
+      // Download the sandbox based on subfolder "after-storybook" and selected branch
+      const gitPath = `github:storybookjs/sandboxes/${selectedTemplate}/${templateType}#${branch}`;
       await downloadTemplate(gitPath, {
         force: true,
         dir: templateDestination,
@@ -166,7 +166,7 @@ export const reproNext = async ({
         );
       }
     } catch (err) {
-      logger.error(`🚨 Failed to download repro template: ${err.message}`);
+      logger.error(`🚨 Failed to download sandbox template: ${err.message}`);
       throw err;
     }
 
@@ -194,7 +194,7 @@ export const reproNext = async ({
       )
     );
   } catch (error) {
-    logger.error('🚨 Failed to create repro');
+    logger.error('🚨 Failed to create sandbox');
     throw error;
   }
 };
