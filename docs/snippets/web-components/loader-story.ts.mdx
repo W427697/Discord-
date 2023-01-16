@@ -6,7 +6,7 @@ import type { Meta, StoryObj } from '@storybook/web-components';
 import fetch from 'node-fetch';
 
 const meta: Meta = {
-  title: 'Examples/Loader'
+  title: 'Examples/Loader',
   component: 'demo-todo-item',
   render: (args, { loaded: { todo } }) => TodoItem({...args, ...todo}),
 };
