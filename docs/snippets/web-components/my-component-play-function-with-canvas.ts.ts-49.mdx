@@ -1,0 +1,24 @@
+// MyComponent.stories.ts
+
+import { userEvent, within } from '@storybook/testing-library';
+
+import type { Meta, StoryObj } from '@storybook/web-components';
+
+const meta = {
+  title: 'WithCanvasElement',
+  component: 'demo-my-component'
+} satisfies Meta;
+export default meta;
+
+type Story = StoryObj;
+
+export const ExampleStory: Story = {
+  play: async ({ canvasElement }) => {
+    // Assigns canvas to the component root element
+    const canvas = within(canvasElement);
+
+    // Starts querying from the component's root element
+    await userEvent.type(canvas.getByTestId('example-element'), 'something');
+    await userEvent.click(canvas.getByRole('another-element'));
+  },
+};

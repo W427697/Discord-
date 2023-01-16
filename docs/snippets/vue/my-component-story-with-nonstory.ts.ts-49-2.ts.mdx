@@ -1,0 +1,54 @@
+// MyComponent.stories.ts
+
+import MyComponent from './MyComponent.vue';
+
+import type { Meta, StoryObj } from '@storybook/vue';
+
+import someData from './data.json';
+
+const meta = {
+  /* 👇 The title prop is optional.
+   * See https://storybook.js.org/docs/7.0/vue/configure/overview#configure-story-loading
+   * to learn how to generate automatic titles
+   */
+  title: 'MyComponent',
+
+  component: MyComponent,
+  includeStories: ['SimpleStory', 'ComplexStory'],
+
+  // 👈 Storybook ignores anything that contains Data
+  excludeStories: /.*Data$/
+} satisfies Meta<typeof MyComponent>;
+
+export const simpleData = { foo: 1, bar: 'baz' };
+export const complexData = { foo: 1, foobar: { bar: 'baz', baz: someData } };
+
+export default meta;
+type Story = StoryObj<typeof MyComponent>;
+
+/*
+ *👇 Render functions are a framework specific feature to allow you control on how the component renders.
+ * See https://storybook.js.org/docs/7.0/vue/api/csf
+ * to learn how to use render functions.
+ */
+export const SimpleStory: Story = {
+  render: (args, { argTypes }) => ({
+    components: { MyComponent },
+    props: Object.keys(argTypes),
+    template: `<MyComponent v-bind="$props"/>`,
+  }),
+  args: {
+    data: simpleData,
+  },
+};
+
+export const ComplexStory: Story = {
+  render: (args, { argTypes }) => ({
+    components: { MyComponent },
+    props: Object.keys(argTypes),
+    template: `<MyComponent v-bind="$props"/>`,
+  }),
+  args: {
+    data: complexData,
+  },
+};

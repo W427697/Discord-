@@ -1,0 +1,31 @@
+// Button.stories.ts
+
+import { componentWrapperDecorator, moduleMetadata } from '@storybook/angular';
+
+import type { Meta } from '@storybook/angular';
+
+import { Button } from './button.component';
+
+import { Parent } from './parent.component'; // Parent contains ng-content
+
+const meta = {
+  /* 👇 The title prop is optional.
+   * See https://storybook.js.org/docs/7.0/angular/configure/overview#configure-story-loading
+   * to learn how to generate automatic titles
+   */
+  title: 'Button',
+
+  component: Button,
+
+  decorators: [
+    moduleMetadata({
+      declarations: [ParentComponent],
+    }),
+    // With template
+    componentWrapperDecorator((story) => `<div style="margin: 3em">${story}</div>`),
+    // With component which contains ng-content
+    componentWrapperDecorator(Parent),
+  ]
+} satisfies Meta<Button>;
+
+export default meta;

@@ -1,0 +1,16 @@
+// List.stories.ts
+
+import type { Meta, StoryObj } from '@storybook/web-components';
+
+const meta = {
+  title: 'List',
+  component: 'demo-list'
+} satisfies Meta;
+export default meta;
+
+type Story = StoryObj;
+
+// Always an empty list, not super interesting
+export const Empty: Story = {
+  render: () => html`<demo-list></demo-list>`,
+};

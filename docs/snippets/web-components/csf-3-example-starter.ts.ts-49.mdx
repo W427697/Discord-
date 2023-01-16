@@ -1,0 +1,13 @@
+// CSF 3
+
+import type { Meta, StoryObj } from '@storybook/web-components';
+
+const meta = {
+  title: 'components/Button',
+  component: 'demo-button'
+} satisfies Meta;
+export default meta;
+
+type Story = StoryObj;
+
+export const Primary: Story = { args: { primary: true } };

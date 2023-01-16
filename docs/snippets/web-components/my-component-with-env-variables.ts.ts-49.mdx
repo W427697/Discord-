@@ -1,0 +1,17 @@
+// MyComponent.stories.ts
+
+import type { Meta, StoryObj } from '@storybook/web-components';
+
+const meta = {
+  title: 'MyComponent',
+  component: 'my-component'
+} satisfies Meta;
+
+export default meta;
+type Story = StoryObj;
+
+export const ExampleStory: Story = {
+  args: {
+    propertyA: process.env.STORYBOOK_DATA_KEY,
+  },
+};

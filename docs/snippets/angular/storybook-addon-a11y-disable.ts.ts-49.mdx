@@ -1,0 +1,27 @@
+// MyComponent.stories.ts
+
+import type { Meta, StoryObj } from '@storybook/angular';
+
+import { MyComponent } from './MyComponent.component';
+
+const meta = {
+  /* 👇 The title prop is optional.
+   * See https://storybook.js.org/docs/7.0/angular/configure/overview#configure-story-loading
+   * to learn how to generate automatic titles
+   */
+  title: 'Disable a11y addon',
+
+  component: MyComponent
+} satisfies Meta<MyComponent>;
+
+export default meta;
+type Story = StoryObj<MyComponent>;
+
+export const NonA11yStory: Story = {
+  parameters: {
+    a11y: {
+      // This option disables all a11y checks on this story
+      disabled: true,
+    },
+  },
+};
