@@ -1,12 +1,17 @@
-```js
-// Histogram.stories.js
+```ts
+// MyComponent.stories.ts
 
-export default {
+import type { Meta, StoryObj } from '@storybook/web-components';
+
+const meta: Meta = {
   title: 'Histogram',
   component: 'histogram-component',
 };
 
-export const Default = {
+export default meta;
+type Story = StoryObj;
+
+export const Default: Story = {
   args: {
     dataType: 'latency',
     showHistogramLabels: true,

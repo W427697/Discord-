@@ -1,13 +1,13 @@
-```js
-// Table.stories.js|jsx
+```ts
+// Table.stories.ts|tsx
 
-import React from 'react';
+import type { Meta, StoryObj } from '@storybook/react';
 
 import { Table } from './Table';
 import { TD } from './TableDataCell';
 import { TR } from './TableRow';
 
-export default {
+const meta: Meta<typeof Table> = {
   /* 👇 The title prop is optional.
    * See https://storybook.js.org/docs/7.0/react/configure/overview#configure-story-loading
    * to learn how to generate automatic titles
@@ -16,12 +16,10 @@ export default {
   component: Table,
 };
 
-/*
- *👇 Render functions are a framework specific feature to allow you control on how the component renders.
- * See https://storybook.js.org/docs/7.0/react/api/csf
- * to learn how to use render functions.
- */
-export const TableStory = {
+export default meta;
+type Story = StoryObj<typeof Table>;
+
+export const TableStory: Story = {
   render: ({ data, ...args }) => (
     <Table {...args}>
       {data.map((row) => (

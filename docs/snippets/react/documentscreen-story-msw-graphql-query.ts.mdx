@@ -1,5 +1,7 @@
 ```js
-// YourPage.stories.js|jsx
+// YourPage.stories.ts|tsx
+
+import type { Meta, StoryObj } from '@storybook/react';
 
 import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
 
@@ -70,8 +72,7 @@ const TestData = {
     },
   ],
 };
-
-export default {
+const meta: Meta<typeof DocumentScreen> = {
   /* 👇 The title prop is optional.
    * See https://storybook.js.org/docs/7.0/react/configure/overview#configure-story-loading
    * to learn how to generate automatic titles
@@ -87,17 +88,26 @@ export default {
   ],
 };
 
-export const MockedSuccess = {
+export default meta;
+type Story = StoryObj<typeof SampleComponent>;
+
+export const MockedSuccess: Story = {
   parameters: {
     msw: [
       graphql.query('AllInfoQuery', (req, res, ctx) => {
-        return res(ctx.data(TestData));
+        return res(
+          ctx.data({
+            allFilms: {
+              films,
+            },
+          })
+        );
       }),
     ],
   },
 };
 
-export const MockedError = {
+export const MockedError: Story = {
   parameters: {
     msw: [
       graphql.query('AllInfoQuery', (req, res, ctx) => {
