@@ -77,6 +77,8 @@
     "@angular/forms": "^15.0.4",
     "@angular/platform-browser": "^15.0.4",
     "@angular/platform-browser-dynamic": "^15.0.4",
+    "@compodoc/compodoc": "^1.1.19",
+    "@types/jest": "^29.2.5",
     "@types/rimraf": "^3.0.2",
     "@types/tmp": "^0.2.3",
     "cross-spawn": "^7.0.3",

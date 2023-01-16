@@ -1,8 +1,14 @@
+import { Component } from '@angular/core';
 import {
   Parameters as DefaultParameters,
   StoryContext as DefaultStoryContext,
   WebRenderer,
 } from '@storybook/types';
+
+export type ComponentProps = Omit<
+  Component,
+  'template' | 'styles' | 'standalone' | 'selector' | 'imports' | 'schema'
+>;
 
 export interface NgModuleMetadata {
   declarations?: any[];
@@ -23,6 +29,7 @@ export interface StoryFnAngularReturnType {
   propsMeta?: ICollection;
   moduleMetadata?: NgModuleMetadata;
   template?: string;
+  componentProps?: ComponentProps;
   styles?: string[];
   userDefinedTemplate?: boolean;
 }

@@ -15,7 +15,7 @@ export async function renderToCanvas(
     storyFn,
     showMain,
     forceRemount,
-    storyContext: { parameters, component },
+    storyContext: { component },
     id,
   }: RenderContext<AngularRenderer>,
   element: HTMLElement
@@ -27,7 +27,6 @@ export async function renderToCanvas(
   await renderer.render({
     storyFnAngular: storyFn(),
     component,
-    parameters,
     forced: !forceRemount,
     targetDOMNode: element,
   });

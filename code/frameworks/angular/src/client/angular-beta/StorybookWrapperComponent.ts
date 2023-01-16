@@ -14,7 +14,7 @@ import {
 import { Subscription, Subject } from 'rxjs';
 import { map, skip } from 'rxjs/operators';
 
-import { ICollection, NgModuleMetadata } from '../types';
+import { ComponentProps, ICollection, NgModuleMetadata } from '../types';
 import { STORY_PROPS } from './StorybookProvider';
 import {
   ComponentInputsOutputs,
@@ -51,7 +51,8 @@ export const createStorybookWrapperComponent = (
   storyComponent: Type<unknown> | undefined,
   styles: string[],
   moduleMetadata: NgModuleMetadata,
-  initialProps?: ICollection
+  initialProps?: ICollection,
+  componentProps?: ComponentProps
 ): Type<any> => {
   // In ivy, a '' selector is not allowed, therefore we need to just set it to anything if
   // storyComponent was not provided.
@@ -109,6 +110,7 @@ export const createStorybookWrapperComponent = (
     ],
     styles,
     schemas: moduleMetadata.schemas,
+    ...componentProps,
   })
   class StorybookWrapperComponent implements AfterViewInit, OnDestroy {
     private storyComponentPropsSubscription: Subscription;

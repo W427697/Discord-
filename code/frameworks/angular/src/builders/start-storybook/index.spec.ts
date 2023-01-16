@@ -8,15 +8,22 @@ const buildStaticStandaloneMock = jest.fn();
 const buildMock = {
   buildDevStandalone: buildDevStandaloneMock,
   buildStaticStandalone: buildStaticStandaloneMock,
+  withTelemetry: (_: string, __: any, fn: any) => fn(),
 };
 jest.doMock('@storybook/core-server', () => buildMock);
 jest.doMock('find-up', () => ({ sync: () => './storybook/tsconfig.ts' }));
 
-const cpSpawnMock = {
-  spawn: jest.fn(),
-};
-jest.doMock('child_process', () => cpSpawnMock);
+const mockRunScript = jest.fn();
 
+jest.mock('@storybook/cli', () => ({
+  JsPackageManagerFactory: {
+    getPackageManager: () => ({
+      runScript: mockRunScript,
+    }),
+  },
+}));
+
+// jest-preset-angular does not support jest 29 yet. Skipping the test for now.
 describe('Start Storybook Builder', () => {
   let architect: Architect;
   let architectHost: TestingArchitectHost;
@@ -54,12 +61,7 @@ describe('Start Storybook Builder', () => {
   });
 
   beforeEach(() => {
-    buildDevStandaloneMock.mockImplementation((_options: unknown) => Promise.resolve());
-    cpSpawnMock.spawn.mockImplementation(() => ({
-      stdout: { on: () => {} },
-      stderr: { on: () => {} },
-      on: (_event: string, cb: any) => cb(0),
-    }));
+    buildDevStandaloneMock.mockImplementation((_options: unknown) => Promise.resolve(_options));
   });
 
   afterEach(() => {
@@ -78,7 +80,7 @@ describe('Start Storybook Builder', () => {
     await run.stop();
 
     expect(output.success).toBeTruthy();
-    expect(cpSpawnMock.spawn).not.toHaveBeenCalledWith();
+    expect(mockRunScript).not.toHaveBeenCalledWith();
     expect(buildDevStandaloneMock).toHaveBeenCalledWith({
       angularBrowserTarget: 'angular-cli:build-2',
       angularBuilderContext: expect.any(Object),
@@ -111,7 +113,7 @@ describe('Start Storybook Builder', () => {
     await run.stop();
 
     expect(output.success).toBeTruthy();
-    expect(cpSpawnMock.spawn).not.toHaveBeenCalledWith();
+    expect(mockRunScript).not.toHaveBeenCalledWith();
     expect(buildDevStandaloneMock).toHaveBeenCalledWith({
       angularBrowserTarget: null,
       angularBuilderContext: expect.any(Object),
@@ -163,13 +165,10 @@ describe('Start Storybook Builder', () => {
     await run.stop();
 
     expect(output.success).toBeTruthy();
-    expect(cpSpawnMock.spawn).toHaveBeenCalledWith(
-      'npx',
-      ['compodoc', '-p', './storybook/tsconfig.ts', '-d', '', '-e', 'json'],
-      {
-        cwd: '',
-        shell: true,
-      }
+    expect(mockRunScript).toHaveBeenCalledWith(
+      'compodoc',
+      ['-p', './storybook/tsconfig.ts', '-d', '.', '-e', 'json'],
+      ''
     );
     expect(buildDevStandaloneMock).toHaveBeenCalledWith({
       angularBrowserTarget: 'angular-cli:build-2',
@@ -204,7 +203,7 @@ describe('Start Storybook Builder', () => {
     await run.stop();
 
     expect(output.success).toBeTruthy();
-    expect(cpSpawnMock.spawn).not.toHaveBeenCalledWith();
+    expect(mockRunScript).not.toHaveBeenCalledWith();
     expect(buildDevStandaloneMock).toHaveBeenCalledWith({
       angularBrowserTarget: null,
       angularBuilderContext: expect.any(Object),

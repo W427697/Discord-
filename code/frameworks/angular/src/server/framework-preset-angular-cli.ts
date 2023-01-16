@@ -4,7 +4,7 @@ import { BuilderContext, targetFromTargetString } from '@angular-devkit/architec
 import { sync as findUpSync } from 'find-up';
 import { dedent } from 'ts-dedent';
 
-import { JsonObject, logging } from '@angular-devkit/core';
+import { JsonObject } from '@angular-devkit/core';
 import { getWebpackConfig as getCustomWebpackConfig } from './angular-cli-webpack';
 import { moduleIsAvailable } from './utils/module-is-available';
 import { PresetOptions } from './preset-options';
@@ -17,8 +17,8 @@ export async function webpackFinal(baseConfig: webpack.Configuration, options: P
 
   checkForLegacyBuildOptions(options);
 
-  const builderContext = getBuilderContext(options);
-  const builderOptions = await getBuilderOptions(options, builderContext);
+  const builderContext = options.angularBuilderContext;
+  const builderOptions = await getBuilderOptions(options);
 
   return getCustomWebpackConfig(baseConfig, {
     builderOptions: {
@@ -30,30 +30,10 @@ export async function webpackFinal(baseConfig: webpack.Configuration, options: P
 }
 
 /**
- * Get Builder Context
- * If storybook is not start by angular builder create dumb BuilderContext
- */
-function getBuilderContext(options: PresetOptions): BuilderContext {
-  return (
-    options.angularBuilderContext ??
-    ({
-      target: { project: 'noop-project', builder: '', options: {} },
-      workspaceRoot: process.cwd(),
-      getProjectMetadata: () => ({}),
-      getTargetOptions: () => ({}),
-      logger: new logging.Logger('Storybook'),
-    } as unknown as BuilderContext)
-  );
-}
-
-/**
  * Get builder options
  * Merge target options from browser target and from storybook options
  */
-async function getBuilderOptions(
-  options: PresetOptions,
-  builderContext: BuilderContext
-): Promise<JsonObject> {
+async function getBuilderOptions(options: PresetOptions): Promise<JsonObject> {
   /**
    * Get Browser Target options
    */
@@ -66,7 +46,7 @@ async function getBuilderOptions(
         browserTarget.target
       }${browserTarget.configuration ? `:${browserTarget.configuration}` : ''}"`
     );
-    browserTargetOptions = await builderContext.getTargetOptions(browserTarget);
+    browserTargetOptions = await options.angularBuilderContext.getTargetOptions(browserTarget);
   }
 
   /**

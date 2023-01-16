@@ -83,14 +83,12 @@ export abstract class AbstractRenderer {
   public async render({
     storyFnAngular,
     forced,
-    parameters,
     component,
     targetDOMNode,
   }: {
     storyFnAngular: StoryFnAngularReturnType;
     forced: boolean;
     component?: any;
-    parameters: Parameters;
     targetDOMNode: HTMLElement;
   }) {
     const targetSelector = `${this.generateTargetSelectorFromStoryId()}`;

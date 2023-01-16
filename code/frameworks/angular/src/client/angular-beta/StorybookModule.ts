@@ -11,7 +11,7 @@ export const getApplication = ({
   component?: any;
   targetSelector: string;
 }) => {
-  const { props, styles, moduleMetadata = {} } = storyFnAngular;
+  const { props, styles, moduleMetadata = {}, componentProps } = storyFnAngular;
   let { template } = storyFnAngular;
 
   const hasTemplate = !hasNoTemplate(template);
@@ -28,7 +28,8 @@ export const getApplication = ({
     component,
     styles,
     moduleMetadata,
-    props
+    props,
+    componentProps
   );
 };
 

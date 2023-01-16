@@ -2,12 +2,17 @@ import { BuilderContext } from '@angular-devkit/architect';
 import { LoggerApi } from '@angular-devkit/core/src/logger';
 import { take } from 'rxjs/operators';
 
-const cpSpawnMock = {
-  spawn: jest.fn(),
-};
-jest.doMock('child_process', () => cpSpawnMock);
-
 const { runCompodoc } = require('./run-compodoc');
+
+const mockRunScript = jest.fn();
+
+jest.mock('@storybook/cli', () => ({
+  JsPackageManagerFactory: {
+    getPackageManager: () => ({
+      runScript: mockRunScript,
+    }),
+  },
+}));
 
 const builderContextLoggerMock: LoggerApi = {
   createChild: jest.fn(),
@@ -21,15 +26,7 @@ const builderContextLoggerMock: LoggerApi = {
 
 describe('runCompodoc', () => {
   beforeEach(() => {
-    cpSpawnMock.spawn.mockImplementation(() => ({
-      stdout: { on: () => {} },
-      stderr: { on: () => {} },
-      on: (_event: string, cb: any) => cb(0),
-    }));
-  });
-
-  afterEach(() => {
-    jest.clearAllMocks();
+    mockRunScript.mockClear();
   });
 
   it('should run compodoc with tsconfig from context', async () => {
@@ -46,13 +43,10 @@ describe('runCompodoc', () => {
       .pipe(take(1))
       .subscribe();
 
-    expect(cpSpawnMock.spawn).toHaveBeenCalledWith(
-      'npx',
-      ['compodoc', '-p', 'path/to/tsconfig.json', '-d', 'path/to/project'],
-      {
-        cwd: 'path/to/project',
-        shell: true,
-      }
+    expect(mockRunScript).toHaveBeenCalledWith(
+      'compodoc',
+      ['-p', 'path/to/tsconfig.json', '-d', 'path/to/project'],
+      'path/to/project'
     );
   });
 
@@ -70,13 +64,10 @@ describe('runCompodoc', () => {
       .pipe(take(1))
       .subscribe();
 
-    expect(cpSpawnMock.spawn).toHaveBeenCalledWith(
-      'npx',
-      ['compodoc', '-d', 'path/to/project', '-p', 'path/to/tsconfig.stories.json'],
-      {
-        cwd: 'path/to/project',
-        shell: true,
-      }
+    expect(mockRunScript).toHaveBeenCalledWith(
+      'compodoc',
+      ['-d', 'path/to/project', '-p', 'path/to/tsconfig.stories.json'],
+      'path/to/project'
     );
   });
 
@@ -94,12 +85,10 @@ describe('runCompodoc', () => {
       .pipe(take(1))
       .subscribe();
 
-    expect(cpSpawnMock.spawn).toHaveBeenCalledWith(
-      'npx',
-      ['compodoc', '-p', 'path/to/tsconfig.json', '-d', 'path/to/project'],
-      {
-        cwd: 'path/to/project',
-      }
+    expect(mockRunScript).toHaveBeenCalledWith(
+      'compodoc',
+      ['-p', 'path/to/tsconfig.json', '-d', 'path/to/project'],
+      'path/to/project'
     );
   });
 
@@ -117,12 +106,10 @@ describe('runCompodoc', () => {
       .pipe(take(1))
       .subscribe();
 
-    expect(cpSpawnMock.spawn).toHaveBeenCalledWith(
-      'npx',
-      ['compodoc', '-p', 'path/to/tsconfig.json', '--output', 'path/to/customFolder'],
-      {
-        cwd: 'path/to/project',
-      }
+    expect(mockRunScript).toHaveBeenCalledWith(
+      'compodoc',
+      ['-p', 'path/to/tsconfig.json', '--output', 'path/to/customFolder'],
+      'path/to/project'
     );
   });
 
@@ -140,12 +127,10 @@ describe('runCompodoc', () => {
       .pipe(take(1))
       .subscribe();
 
-    expect(cpSpawnMock.spawn).toHaveBeenCalledWith(
-      'npx',
-      ['compodoc', '-p', 'path/to/tsconfig.json', '-d', 'path/to/customFolder'],
-      {
-        cwd: 'path/to/project',
-      }
+    expect(mockRunScript).toHaveBeenCalledWith(
+      'compodoc',
+      ['-p', 'path/to/tsconfig.json', '-d', 'path/to/customFolder'],
+      'path/to/project'
     );
   });
 });

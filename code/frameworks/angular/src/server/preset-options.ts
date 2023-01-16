@@ -13,6 +13,6 @@ export type PresetOptions = CoreOptions & {
     stylePreprocessorOptions?: StylePreprocessorOptions;
   };
   /* Angular context from builder */
-  angularBuilderContext?: BuilderContext | null;
+  angularBuilderContext: BuilderContext;
   tsConfig?: string;
 };

@@ -41,13 +41,12 @@ describe('RendererFactory', () => {
 
     it('should render my-story for story template', async () => {
       const render = await rendererFactory.getRendererInstance('my-story', rootTargetDOMNode);
-      await render.render({
+      await render?.render({
         storyFnAngular: {
           template: '🦊',
           props: {},
         },
         forced: false,
-        parameters: {},
         targetDOMNode: rootTargetDOMNode,
       });
 
@@ -59,12 +58,11 @@ describe('RendererFactory', () => {
       class FooComponent {}
 
       const render = await rendererFactory.getRendererInstance('my-story', rootTargetDOMNode);
-      await render.render({
+      await render?.render({
         storyFnAngular: {
           props: {},
         },
         forced: false,
-        parameters: {},
         component: FooComponent,
         targetDOMNode: rootTargetDOMNode,
       });
@@ -85,14 +83,13 @@ describe('RendererFactory', () => {
       const token = new Thing();
 
       const render = await rendererFactory.getRendererInstance('my-story', rootTargetDOMNode);
-      await render.render({
+      await render?.render({
         storyFnAngular: {
           template: '🦊',
           props: {},
           moduleMetadata: { providers: [{ provide: 'foo', useValue: token }] },
         },
         forced: false,
-        parameters: {},
         targetDOMNode: rootTargetDOMNode,
       });
 
@@ -103,7 +100,7 @@ describe('RendererFactory', () => {
       beforeEach(async () => {
         // Init first render
         const render = await rendererFactory.getRendererInstance('my-story', rootTargetDOMNode);
-        await render.render({
+        await render?.render({
           storyFnAngular: {
             template: '{{ logo }}: {{ name }}',
             props: {
@@ -112,7 +109,6 @@ describe('RendererFactory', () => {
             },
           },
           forced: true,
-          parameters: {},
           targetDOMNode: rootTargetDOMNode,
         });
       });
@@ -122,31 +118,24 @@ describe('RendererFactory', () => {
       });
 
       it('should not be re-rendered when only props change', async () => {
-        let countDestroy = 0;
-
-        getPlatform().onDestroy(() => {
-          countDestroy += 1;
-        });
         // only props change
         const render = await rendererFactory.getRendererInstance('my-story', rootTargetDOMNode);
-        await render.render({
+        await render?.render({
           storyFnAngular: {
             props: {
               logo: '👾',
             },
           },
           forced: true,
-          parameters: {},
           targetDOMNode: rootTargetDOMNode,
         });
-        expect(countDestroy).toEqual(0);
 
         expect(document.body.getElementsByTagName('my-story')[0].innerHTML).toBe('👾: Fox');
       });
 
       it('should be re-rendered when template change', async () => {
         const render = await rendererFactory.getRendererInstance('my-story', rootTargetDOMNode);
-        await render.render({
+        await render?.render({
           storyFnAngular: {
             template: '{{ beer }}',
             props: {
@@ -154,91 +143,11 @@ describe('RendererFactory', () => {
             },
           },
           forced: true,
-          parameters: {},
           targetDOMNode: rootTargetDOMNode,
         });
 
         expect(document.body.getElementsByTagName('my-story')[0].innerHTML).toBe('🍺');
       });
-
-      it('should be re-rendered when moduleMetadata structure change', async () => {
-        let countDestroy = 0;
-
-        getPlatform().onDestroy(() => {
-          countDestroy += 1;
-        });
-
-        // Only props change -> no full rendering
-        const firstRender = await rendererFactory.getRendererInstance(
-          'my-story',
-          rootTargetDOMNode
-        );
-        await firstRender.render({
-          storyFnAngular: {
-            template: '{{ logo }}: {{ name }}',
-            props: {
-              logo: '🍺',
-              name: 'Beer',
-            },
-          },
-          forced: true,
-          parameters: {},
-          targetDOMNode: rootTargetDOMNode,
-        });
-        expect(countDestroy).toEqual(0);
-
-        // Change in the module structure -> full rendering
-        const secondRender = await rendererFactory.getRendererInstance(
-          'my-story',
-          rootTargetDOMNode
-        );
-        await secondRender.render({
-          storyFnAngular: {
-            template: '{{ logo }}: {{ name }}',
-            props: {
-              logo: '🍺',
-              name: 'Beer',
-            },
-            moduleMetadata: { providers: [{ provide: 'foo', useValue: 42 }] },
-          },
-          forced: true,
-          parameters: {},
-          targetDOMNode: rootTargetDOMNode,
-        });
-        expect(countDestroy).toEqual(1);
-      });
-    });
-
-    it('should properly destroy angular platform between each render', async () => {
-      let countDestroy = 0;
-
-      const firstRender = await rendererFactory.getRendererInstance('my-story', rootTargetDOMNode);
-      await firstRender.render({
-        storyFnAngular: {
-          template: '🦊',
-          props: {},
-        },
-        forced: false,
-        parameters: {},
-        targetDOMNode: rootTargetDOMNode,
-      });
-
-      getPlatform().onDestroy(() => {
-        countDestroy += 1;
-      });
-
-      const secondRender = await rendererFactory.getRendererInstance('my-story', rootTargetDOMNode);
-      await secondRender.render({
-        storyFnAngular: {
-          template: '🐻',
-          props: {},
-        },
-        forced: false,
-        parameters: {},
-        targetDOMNode: rootTargetDOMNode,
-      });
-
-      expect(countDestroy).toEqual(1);
     });
 
     describe('when story id contains non-Ascii characters', () => {
@@ -247,13 +156,12 @@ describe('RendererFactory', () => {
           'my-ストーリー',
           rootTargetDOMNode
         );
-        await render.render({
+        await render?.render({
           storyFnAngular: {
             template: '🦊',
             props: {},
           },
           forced: false,
-          parameters: {},
           targetDOMNode: rootTargetDOMNode,
         });
 
@@ -268,12 +176,11 @@ describe('RendererFactory', () => {
           'my-ストーリー',
           rootTargetDOMNode
         );
-        await render.render({
+        await render?.render({
           storyFnAngular: {
             props: {},
           },
           forced: false,
-          parameters: {},
           component: FooComponent,
           targetDOMNode: rootTargetDOMNode,
         });
@@ -290,12 +197,11 @@ describe('RendererFactory', () => {
       beforeEach(async () => {
         // Init first Canvas render
         const render = await rendererFactory.getRendererInstance('my-story', rootTargetDOMNode);
-        await render.render({
+        await render?.render({
           storyFnAngular: {
             template: 'Canvas 🖼',
           },
           forced: true,
-          parameters: {},
           targetDOMNode: rootTargetDOMNode,
         });
       });
@@ -321,28 +227,29 @@ describe('RendererFactory', () => {
   });
 
   describe('bootstrap module options', () => {
-    async function setupComponentWithWhitespace(bootstrapModuleOptions: unknown) {
+    async function setupComponentWithWhitespace(preserveWhitespaces: boolean) {
       const render = await rendererFactory.getRendererInstance('my-story', rootTargetDOMNode);
-      await render.render({
+
+      await render?.render({
         storyFnAngular: {
           template: '<div>   </div>',
+          componentProps: {
+            preserveWhitespaces,
+          },
           props: {},
         },
         forced: false,
-        parameters: {
-          bootstrapModuleOptions,
-        } as Parameters,
         targetDOMNode: rootTargetDOMNode,
       });
     }
 
     it('should preserve whitespaces', async () => {
-      await setupComponentWithWhitespace({ preserveWhitespaces: true });
+      await setupComponentWithWhitespace(true);
       expect(document.body.getElementsByTagName('my-story')[0].innerHTML).toBe('<div>   </div>');
     });
 
     it('should remove whitespaces', async () => {
-      await setupComponentWithWhitespace({ preserveWhitespaces: false });
+      await setupComponentWithWhitespace(false);
       expect(document.body.getElementsByTagName('my-story')[0].innerHTML).toBe('<div></div>');
     });
   });

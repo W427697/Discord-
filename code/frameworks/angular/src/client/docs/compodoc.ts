@@ -142,6 +142,8 @@ export const extractType = (property: Property, defaultValue: any): SBType => {
     case 'boolean':
     case 'number':
       return { name: compodocType };
+    case 'object':
+      return { name: 'object', value: undefined };
     case undefined:
     case null:
       return { name: 'other', value: 'void' };
@@ -150,7 +152,7 @@ export const extractType = (property: Property, defaultValue: any): SBType => {
       const enumValues = extractEnumValues(resolvedType);
       return enumValues
         ? { name: 'enum', value: enumValues }
-        : { name: 'other', value: 'empty-enum' };
+        : { name: 'object', value: undefined };
     }
   }
 };

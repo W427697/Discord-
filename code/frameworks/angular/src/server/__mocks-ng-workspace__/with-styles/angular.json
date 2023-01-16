@@ -7,9 +7,15 @@
       "architect": {
         "build": {
           "options": {
-            "optimization": false,
             "tsConfig": "src/tsconfig.app.json",
             "assets": []
+          }
+        },
+        "storybook": {
+          "builder": "@storybook/angular:start-storybook",
+          "options": {
+            "browserTarget": "foo-project:build",
+            "port": 6006
           }
         }
       }
