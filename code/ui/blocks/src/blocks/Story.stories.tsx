@@ -31,7 +31,7 @@ export const OfWithMeta: Story = {
 
 const blocksAwareId = `${
   import.meta.env.STORYBOOK_BLOCKS_ONLY === 'true' ? '' : 'storybook-blocks-'
-}controls-boolean--false`;
+}example-button--primary`;
 
 export const Id: Story = {
   args: {
@@ -69,6 +69,10 @@ export const SimpleSizeTest: Story = {
       </div>
     );
   },
+  parameters: {
+    // Stop *this* story from being stacked in Chromatic
+    theme: 'default',
+  },
 };
 
 export const Inline: Story = {
@@ -89,7 +93,11 @@ export const InlineWithHeightProps: Story = {
 
 export const SimpleSizeTestWithHeightParameter = {
   ...SimpleSizeTest,
-  parameters: { docs: { story: { height: '600px' } } },
+  parameters: {
+    docs: { story: { height: '600px' } },
+    // Stop *this* story from being stacked in Chromatic
+    theme: 'default',
+  },
 };
 
 export const InlineWithHeightParameter: Story = {
@@ -101,6 +109,7 @@ export const InlineWithHeightParameter: Story = {
 
 export const IFrameProps: Story = {
   ...Inline,
+  name: 'IFrame Props',
   args: {
     of: SimpleSizeTest,
     inline: false,
@@ -114,6 +123,7 @@ export const SimpleSizeTestWithIFrameParameter = {
 
 export const IframeWithParameter: Story = {
   ...Inline,
+  name: 'IFrame With Parameter',
   args: {
     of: SimpleSizeTestWithIFrameParameter,
   },
@@ -121,6 +131,7 @@ export const IframeWithParameter: Story = {
 
 export const IframeWithHeightProps: Story = {
   ...Inline,
+  name: 'IFrame With Height Props',
   args: {
     of: SimpleSizeTest,
     inline: false,
@@ -130,11 +141,16 @@ export const IframeWithHeightProps: Story = {
 
 export const SimpleSizeTestWithIFrameAndIFrameHeightParameter = {
   ...SimpleSizeTest,
-  parameters: { docs: { story: { inline: false, iframeHeight: '300px' } } },
+  parameters: {
+    docs: { story: { inline: false, iframeHeight: '300px' } },
+    // Stop *this* story from being stacked in Chromatic
+    theme: 'default',
+  },
 };
 
 export const IFrameWithIFrameHeightParameter: Story = {
   ...Inline,
+  name: 'IFrame With IFrame Height Parameter',
   args: {
     of: SimpleSizeTestWithIFrameAndIFrameHeightParameter,
   },
@@ -142,11 +158,16 @@ export const IFrameWithIFrameHeightParameter: Story = {
 
 export const SimpleSizeTestWithIFrameAndHeightParameter = {
   ...SimpleSizeTest,
-  parameters: { docs: { story: { inline: false, height: '300px' } } },
+  parameters: {
+    docs: { story: { inline: false, height: '300px' } },
+    // Stop *this* story from being stacked in Chromatic
+    theme: 'default',
+  },
 };
 
 export const IFrameWithHeightParameter: Story = {
   ...Inline,
+  name: 'IFrame With Height Parameter',
   args: {
     of: SimpleSizeTestWithIFrameAndHeightParameter,
   },
