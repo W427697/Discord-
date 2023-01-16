@@ -2,7 +2,7 @@
 import type { ComponentProps } from 'react';
 import React from 'react';
 import { Global, css } from '@storybook/theming';
-import { Source, ArgsTable, Description, EmptyBlock } from '.';
+import { Source, ArgsTable, Description } from '.';
 import { Title, Subtitle, DocsPageWrapper } from './DocsPage';
 import * as Preview from './Preview.stories';
 import * as argsTable from './ArgsTable/ArgsTable.stories';
@@ -57,14 +57,6 @@ export const WithSubtitle = () => (
     <Preview.Single />
     <ArgsTable {...argsTable.Normal.args} />
     <Source {...source.JSX.args} />
-  </DocsPageWrapper>
-);
-
-export const Empty = () => (
-  <DocsPageWrapper>
-    <EmptyBlock />
-    <ArgsTable {...argsTable.Error.args} />
-    <Source {...source.SourceUnavailable.args} />
   </DocsPageWrapper>
 );
 
