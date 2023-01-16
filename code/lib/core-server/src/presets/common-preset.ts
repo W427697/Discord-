@@ -19,7 +19,7 @@ import { join } from 'path';
 import { dedent } from 'ts-dedent';
 import { parseStaticDir } from '../utils/server-statics';
 
-const defaultFavIcon = require.resolve('@storybook/core-server/public/favicon.svg');
+const defaultFavicon = require.resolve('@storybook/core-server/public/favicon.svg');
 
 export const favicon = async (value: string, options: Options) => {
   if (value) {
@@ -71,10 +71,10 @@ export const favicon = async (value: string, options: Options) => {
         `);
     }
 
-    return flatlist[0] || defaultFavIcon;
+    return flatlist[0] || defaultFavicon;
   }
 
-  return defaultFavIcon;
+  return defaultFavicon;
 };
 
 export const babel = async (_: unknown, options: Options) => {
