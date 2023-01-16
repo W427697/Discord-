@@ -68,6 +68,10 @@ export const SimpleSizeTest: Story = {
       </div>
     );
   },
+  parameters: {
+    // Stop *this* story from being stacked in Chromatic
+    theme: 'default',
+  },
 };
 
 export const Inline: Story = {
@@ -88,7 +92,11 @@ export const InlineWithHeightProps: Story = {
 
 export const SimpleSizeTestWithHeightParameter = {
   ...SimpleSizeTest,
-  parameters: { docs: { story: { height: '600px' } } },
+  parameters: {
+    docs: { story: { height: '600px' } },
+    // Stop *this* story from being stacked in Chromatic
+    theme: 'default',
+  },
 };
 
 export const InlineWithHeightParameter: Story = {
@@ -132,7 +140,11 @@ export const IframeWithHeightProps: Story = {
 
 export const SimpleSizeTestWithIFrameAndIFrameHeightParameter = {
   ...SimpleSizeTest,
-  parameters: { docs: { story: { inline: false, iframeHeight: '300px' } } },
+  parameters: {
+    docs: { story: { inline: false, iframeHeight: '300px' } },
+    // Stop *this* story from being stacked in Chromatic
+    theme: 'default',
+  },
 };
 
 export const IFrameWithIFrameHeightParameter: Story = {
@@ -145,7 +157,11 @@ export const IFrameWithIFrameHeightParameter: Story = {
 
 export const SimpleSizeTestWithIFrameAndHeightParameter = {
   ...SimpleSizeTest,
-  parameters: { docs: { story: { inline: false, height: '300px' } } },
+  parameters: {
+    docs: { story: { inline: false, height: '300px' } },
+    // Stop *this* story from being stacked in Chromatic
+    theme: 'default',
+  },
 };
 
 export const IFrameWithHeightParameter: Story = {

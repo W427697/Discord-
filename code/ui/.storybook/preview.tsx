@@ -214,6 +214,7 @@ export const decorators = [
           </Fragment>
         );
       }
+      case 'default':
       default: {
         return (
           <ThemeProvider theme={convert(themes[theme])}>
