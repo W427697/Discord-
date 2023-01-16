@@ -49,7 +49,7 @@
     "*.d.ts"
   ],
   "scripts": {
-    "check": "../../../scripts/node_modules/.bin/tsc --noEmit",
+    "check": "knip --no-exit-code && tsc --noEmit",
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "devDependencies": {
