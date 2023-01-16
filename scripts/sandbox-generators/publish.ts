@@ -91,7 +91,7 @@ program
 program.parse(process.argv);
 
 if (!existsSync(REPROS_DIRECTORY)) {
-  throw Error("Can't find repros directory. Did you forget to run generate-repros?");
+  throw Error("Can't find repros directory. Did you forget to run generate-sandboxes?");
 }
 
 const tmpFolder = tempy.directory();

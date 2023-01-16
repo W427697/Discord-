@@ -1,7 +1,7 @@
 import { join } from 'path';
 import { move, remove } from 'fs-extra';
 // eslint-disable-next-line import/no-cycle
-import { runCommand } from '../generate-repros';
+import { runCommand } from '../generate-sandboxes';
 
 interface SetupYarnOptions {
   cwd: string;
