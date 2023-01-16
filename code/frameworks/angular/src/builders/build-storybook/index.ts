@@ -25,6 +25,7 @@ import { buildStandaloneErrorHandler } from '../utils/build-standalone-errors-ha
 export type StorybookBuilderOptions = JsonObject & {
   browserTarget?: string | null;
   tsConfig?: string;
+  docsMode: boolean;
   compodoc: boolean;
   compodocArgs: string[];
   styles?: ExtraEntryPoint[];
@@ -32,7 +33,7 @@ export type StorybookBuilderOptions = JsonObject & {
 } & Pick<
     // makes sure the option exists
     CLIOptions,
-    'outputDir' | 'configDir' | 'loglevel' | 'quiet' | 'docs' | 'webpackStatsJson'
+    'outputDir' | 'configDir' | 'loglevel' | 'quiet' | 'webpackStatsJson'
   >;
 
 export type StorybookBuilderOutput = JsonObject & BuilderOutput & {};
@@ -59,7 +60,7 @@ function commandBuilder(
         stylePreprocessorOptions,
         styles,
         configDir,
-        docs,
+        docsMode,
         loglevel,
         outputDir,
         quiet,
@@ -69,7 +70,7 @@ function commandBuilder(
       const standaloneOptions: StandaloneOptions = {
         packageJson: readUpSync({ cwd: __dirname }).packageJson,
         configDir,
-        docs,
+        docsMode,
         loglevel,
         outputDir,
         quiet,
