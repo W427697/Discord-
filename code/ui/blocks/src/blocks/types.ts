@@ -15,4 +15,5 @@ export type DocsStoryProps = StoryData & {
   expanded?: boolean;
   withToolbar?: boolean;
   __forceInitialArgs?: boolean;
+  __primary?: boolean;
 };

@@ -12,6 +12,7 @@ const BASE_URL = PREVIEW_URL || 'iframe.html';
 interface CommonProps {
   story: PreparedStory;
   inline: boolean;
+  primary: boolean;
 }
 
 interface InlineStoryProps extends CommonProps {
@@ -29,15 +30,14 @@ interface IFrameStoryProps extends CommonProps {
 
 export type StoryProps = InlineStoryProps | IFrameStoryProps;
 
-const InlineStory: FunctionComponent<InlineStoryProps> = ({
-  story,
-  height,
-  autoplay,
-  forceInitialArgs,
-  renderStoryToElement,
-}) => {
+export const storyBlockIdFromId = ({ story, primary }: StoryProps) =>
+  `story--${story.id}${primary ? '--primary' : ''}`;
+
+const InlineStory: FunctionComponent<InlineStoryProps> = (props) => {
   const storyRef = useRef();
   const [showLoader, setShowLoader] = useState(true);
+
+  const { story, height, autoplay, forceInitialArgs, renderStoryToElement } = props;
 
   useEffect(() => {
     if (!(story && storyRef.current)) {
@@ -57,7 +57,9 @@ const InlineStory: FunctionComponent<InlineStoryProps> = ({
   return (
     <>
       {height ? (
-        <style>{`#story--${story.id} { min-height: ${height}; transform: translateZ(0); overflow: auto }`}</style>
+        <style>{`${storyBlockIdFromId(
+          props
+        )} { min-height: ${height}; transform: translateZ(0); overflow: auto }`}</style>
       ) : null}
       {showLoader && <StorySkeleton />}
       <div
@@ -100,10 +102,15 @@ const IFrameStory: FunctionComponent<IFrameStoryProps> = ({ story, height = '500
  */
 const Story: FunctionComponent<StoryProps> = (props) => {
   const { inline } = props;
-  return inline ? (
-    <InlineStory {...(props as InlineStoryProps)} />
-  ) : (
-    <IFrameStory {...(props as IFrameStoryProps)} />
+
+  return (
+    <div id={storyBlockIdFromId(props)} className="sb-story">
+      {inline ? (
+        <InlineStory {...(props as InlineStoryProps)} />
+      ) : (
+        <IFrameStory {...(props as IFrameStoryProps)} />
+      )}
+    </div>
   );
 };
 

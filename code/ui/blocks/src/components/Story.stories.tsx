@@ -26,6 +26,7 @@ const meta: Meta<ExtendedStoryProps> = {
   },
   args: {
     height: '100px',
+    primary: false,
     // NOTE: the real story arg is a PreparedStory, which we'll get in the render function below
     storyExport: ButtonStories.Primary as any,
   },
