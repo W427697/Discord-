@@ -1,4 +1,4 @@
-import fs, { pathExists } from 'fs-extra';
+import { pathExists, readFile } from 'fs-extra';
 import { deprecate, logger } from '@storybook/node-logger';
 import {
   getDirectoryFromWorkingDir,
@@ -21,7 +21,10 @@ import { parseStaticDir } from '../utils/server-statics';
 
 const defaultFavicon = require.resolve('@storybook/core-server/public/favicon.svg');
 
-export const favicon = async (value: string, options: Options) => {
+export const favicon = async (
+  value: string,
+  options: Pick<Options, 'presets' | 'configDir' | 'staticDir'>
+) => {
   if (value) {
     return value;
   }
@@ -42,6 +45,7 @@ export const favicon = async (value: string, options: Options) => {
               directory: dir,
             })
           : dir;
+
         const { staticPath, targetEndpoint } = await parseStaticDir(relativeDir);
 
         if (targetEndpoint === '/') {
@@ -58,16 +62,17 @@ export const favicon = async (value: string, options: Options) => {
             results.push(path);
           }
         }
+
+        return results;
       })
     );
-
     const flatlist = lists.reduce((l1, l2) => l1.concat(l2), []);
 
     if (flatlist.length > 1) {
       logger.warn(dedent`
         Looks like multiple favicons were detected. Using the first one.
         
-        ${flatlist.map((f) => f.path).join(', ')}
+        ${flatlist.join(', ')}
         `);
     }
 
@@ -170,7 +175,7 @@ export const features = async (
 
 export const storyIndexers = async (indexers?: StoryIndexer[]) => {
   const csfIndexer = async (fileName: string, opts: IndexerOptions) => {
-    const code = (await fs.readFile(fileName, 'utf-8')).toString();
+    const code = (await readFile(fileName, 'utf-8')).toString();
     return loadCsf(code, { ...opts, fileName }).parse();
   };
   return [
