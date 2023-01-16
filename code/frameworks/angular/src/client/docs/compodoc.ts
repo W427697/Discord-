@@ -152,7 +152,7 @@ export const extractType = (property: Property, defaultValue: any): SBType => {
       const enumValues = extractEnumValues(resolvedType);
       return enumValues
         ? { name: 'enum', value: enumValues }
-        : { name: 'other', value: 'empty-enum' };
+        : { name: 'object', value: undefined };
     }
   }
 };

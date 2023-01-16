@@ -54,7 +54,7 @@ describe('Start Storybook Builder', () => {
   });
 
   beforeEach(() => {
-    buildDevStandaloneMock.mockImplementation((_options: unknown) => Promise.resolve());
+    buildDevStandaloneMock.mockImplementation((_options: unknown) => Promise.resolve(_options));
     cpSpawnMock.spawn.mockImplementation(() => ({
       stdout: { on: () => {} },
       stderr: { on: () => {} },

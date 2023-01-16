@@ -55,7 +55,7 @@ describe('Build Storybook Builder', () => {
   });
 
   beforeEach(() => {
-    buildStaticStandaloneMock.mockImplementation((_options: unknown) => Promise.resolve());
+    buildStaticStandaloneMock.mockImplementation((_options: unknown) => Promise.resolve(_options));
     cpSpawnMock.spawn.mockImplementation(() => ({
       stdout: { on: () => {} },
       stderr: { on: () => {} },
@@ -155,9 +155,8 @@ describe('Build Storybook Builder', () => {
   it('should throw error', async () => {
     buildStaticStandaloneMock.mockRejectedValue(true);
 
-    const run = await architect.scheduleBuilder('@storybook/angular:start-storybook', {
+    const run = await architect.scheduleBuilder('@storybook/angular:build-storybook', {
       browserTarget: 'angular-cli:build-2',
-      port: 4400,
       compodoc: false,
     });
 

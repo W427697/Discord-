@@ -52,8 +52,8 @@ Specify the accent-type of the button",
       },
     },
     "type": Object {
-      "name": "other",
-      "value": "empty-enum",
+      "name": "object",
+      "value": undefined,
     },
   },
   "appearance": Object {
@@ -203,8 +203,8 @@ Sets the button to a disabled state.",
       },
     },
     "type": Object {
-      "name": "other",
-      "value": "empty-enum",
+      "name": "object",
+      "value": undefined,
     },
   },
   "label": Object {
@@ -306,8 +306,8 @@ A private method.
       },
     },
     "type": Object {
-      "name": "other",
-      "value": "empty-enum",
+      "name": "object",
+      "value": undefined,
     },
   },
   "protectedMethod": Object {
@@ -384,8 +384,8 @@ Size of the button.",
       },
     },
     "type": Object {
-      "name": "other",
-      "value": "empty-enum",
+      "name": "object",
+      "value": undefined,
     },
   },
   "someDataObject": Object {
@@ -403,8 +403,8 @@ Specifies some arbitrary object",
       },
     },
     "type": Object {
-      "name": "other",
-      "value": "empty-enum",
+      "name": "object",
+      "value": undefined,
     },
   },
   "somethingYouShouldNotUse": Object {
