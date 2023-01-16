@@ -3,6 +3,7 @@
 </template>
 
 <script lang="ts" setup>
+import './button.css';
 import { computed } from 'vue';
 type Props = {
   label: string,

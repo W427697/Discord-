@@ -33,10 +33,16 @@ function editAngularAppTsConfig() {
 const generator: Generator = async (packageManager, npmOptions, options) => {
   checkForProjects();
 
-  const angularVersion = semver.coerce(
+  const angularVersionFromDependencies = semver.coerce(
     packageManager.retrievePackageJson().dependencies['@angular/core']
   )?.version;
-  const isWebpack5 = semver.gte(angularVersion, '13.0.0');
+
+  const angularVersionFromDevDependencies = semver.coerce(
+    packageManager.retrievePackageJson().devDependencies['@angular/core']
+  )?.version;
+
+  const angularVersion = angularVersionFromDependencies || angularVersionFromDevDependencies;
+  const isWebpack5 = semver.gte(angularVersion, '12.0.0');
   const updatedOptions = isWebpack5 ? { ...options, builder: CoreBuilder.Webpack5 } : options;
 
   await baseGenerator(
