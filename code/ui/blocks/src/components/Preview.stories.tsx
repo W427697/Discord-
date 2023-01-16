@@ -108,6 +108,7 @@ export const WithToolbar = (
       renderStoryToElement={renderStoryToElement}
       autoplay={false}
       forceInitialArgs={false}
+      primary={false}
       height="100px"
     />
   </Preview>
@@ -139,6 +140,7 @@ export const WithToolbarMulti = (
       renderStoryToElement={renderStoryToElement}
       autoplay={false}
       forceInitialArgs={false}
+      primary={false}
       height="100px"
     />
     <Story
@@ -147,6 +149,7 @@ export const WithToolbarMulti = (
       renderStoryToElement={renderStoryToElement}
       autoplay={false}
       forceInitialArgs={false}
+      primary={false}
       height="100px"
     />
   </Preview>
@@ -163,6 +166,7 @@ export const WithFullscreenSingle = (
       renderStoryToElement={renderStoryToElement}
       autoplay={false}
       forceInitialArgs={false}
+      primary={false}
       height="100px"
     />
   </Preview>
@@ -179,6 +183,7 @@ export const WithFullscreenMulti = (
       renderStoryToElement={renderStoryToElement}
       autoplay={false}
       forceInitialArgs={false}
+      primary={false}
       height="100px"
     />
     <Story
@@ -187,6 +192,7 @@ export const WithFullscreenMulti = (
       renderStoryToElement={renderStoryToElement}
       autoplay={false}
       forceInitialArgs={false}
+      primary={false}
       height="100px"
     />
   </Preview>
@@ -203,6 +209,7 @@ export const WithCenteredSingle = (
       renderStoryToElement={renderStoryToElement}
       autoplay={false}
       forceInitialArgs={false}
+      primary={false}
       height="100px"
     />
   </Preview>
@@ -219,6 +226,7 @@ export const WithCenteredMulti = (
       renderStoryToElement={renderStoryToElement}
       autoplay={false}
       forceInitialArgs={false}
+      primary={false}
       height="100px"
     />
     <Story
@@ -227,6 +235,7 @@ export const WithCenteredMulti = (
       renderStoryToElement={renderStoryToElement}
       autoplay={false}
       forceInitialArgs={false}
+      primary={false}
       height="100px"
     />
   </Preview>

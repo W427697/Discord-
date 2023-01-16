@@ -77,7 +77,7 @@ type StoryParameters = {
   /**
    * Internal prop if this story is the primary story
    */
-  __primary: boolean;
+  __primary?: boolean;
 };
 
 export type StoryProps = (StoryDefProps | StoryRefProps) & StoryParameters;
