@@ -73,7 +73,7 @@ In `.storybook/main.js` (or whatever your Storybook config file is named), you c
 // use `mergeConfig` to recursively merge Vite options
 import { mergeConfig } from 'vite';
 
-const config: StorybookConfig = {
+const config = {
   async viteFinal(config, { configType }) {
     // Be sure to return the customized config
     return mergeConfig(config, {
