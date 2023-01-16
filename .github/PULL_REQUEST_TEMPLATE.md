@@ -1,6 +1,5 @@
-<!-- Thank you for contributing to Storybook! If your PR is related to an issue, provide the number(s) here, e.g. #1000, #1001 -->
 Issue: #
-
+<!-- Thank you for contributing to Storybook! If your PR is related to an issue, provide the number(s) here, e.g. #1000, #1001 -->
 
 ## What I did
 
