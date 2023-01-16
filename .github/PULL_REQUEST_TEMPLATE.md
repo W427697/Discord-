@@ -1,10 +1,10 @@
 Issue: #
-<!-- Thank you for contributing to Storybook! If your PR is related to an issue, provide the number(s) here, e.g. #1000, #1001 -->
+
+<!-- Thank you for contributing to Storybook! If your PR is related to an issue, provide the number(s) above, e.g. #1000, #1001 -->
 
 ## What I did
 
 <!-- Briefly describe what your PR does -->
-
 
 ## How to test
 
@@ -16,9 +16,9 @@ Issue: #
 
 -->
 
-
 ## Checklist
-<!-- Please check (put an "X" inside the "[ ]") the applicable items below to make sure your PR is ready to be reviewed. -->
+
+<!-- Please check (put an "x" inside the "[ ]") the applicable items below to make sure your PR is ready to be reviewed. -->
 
 - [ ] Make sure your changes are tested (stories and/or unit, integration, or end-to-end tests)
 - [ ] Make sure to add/update documentation regarding your changes
@@ -26,10 +26,12 @@ Issue: #
       [MIGRATION.MD](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md)
 
 #### Maintainers
+
 - [ ] If this PR should be tested against many or all sandboxes,
       make sure to add the `ci:merged` or `ci:daily` GH label to it.
-- [ ] Make sure this PR contains the correct GH labels
-<!-- with at least one of the following `["cleanup", "BREAKING CHANGE", "feature request", "bug", "documentation", "maintenance", "dependencies", "other"]` -->
+- [ ] Make sure this PR contains **one** of the labels below.
+
+`["cleanup", "BREAKING CHANGE", "feature request", "bug", "documentation", "maintenance", "dependencies", "other"]`
 
 <!--
 
