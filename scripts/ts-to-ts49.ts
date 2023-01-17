@@ -70,7 +70,7 @@ for (const [, file] of files.entries()) {
     if (result.code === code) {
       // console.log('No changes for', file);
     } else {
-      fs.writeFileSync(file.replace('.ts', '.ts.ts-4-9'), result.code);
+      fs.writeFileSync(file.replace('.ts', '.ts-4-9'), `\`\`\`tsx\n${result.code}\`\`\`\n`);
       console.log('changed', file);
     }
   } catch (e) {
