@@ -18,10 +18,3 @@ export type StorybookConfigVite = {
 };
 
 export type BuilderOptions = {};
-
-// Using instead of `Record<string, string>` to provide better aware of used options
-type IframeOptions = {
-  title: string;
-};
-
-export type ExtendedOptions = Options & IframeOptions;
