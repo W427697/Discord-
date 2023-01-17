@@ -5,32 +5,32 @@ import type { Meta, StoryObj } from '@storybook/react';
 
 import { Button } from './Button';
 
-const meta: Meta<typeof Button> = {
+const meta = {
   /* 👇 The title prop is optional.
    * See https://storybook.js.org/docs/7.0/react/configure/overview#configure-story-loading
    * to learn how to generate automatic titles
    */
   title: 'Button',
+
   component: Button,
-};
+
+  //👇 Creates specific parameters for the story
+  parameters: {
+    myAddon: {
+      data: 'this data is passed to the addon',
+    },
+  },
+} satisfies Meta<typeof Button>;
 
 export default meta;
-type Story = StoryObj<typeof Button>;
+type Story = StoryObj<typeof meta>;
 
 /*
  *👇 Render functions are a framework specific feature to allow you control on how the component renders.
  * See https://storybook.js.org/docs/7.0/react/api/csf
  * to learn how to use render functions.
  */
-export const Primary: Story = {
-  render: () => <Button backgroundColor="#ff0" label="Button" />,
-};
-
-export const Secondary: Story = {
-  render: () => <Button backgroundColor="#ff0" label="😄👍😍💯" />,
-};
-
-export const Tertiary: Story = {
-  render: () => <Button backgroundColor="#ff0" label="📚📕📈🤓" />,
+export const Basic: Story = {
+  render: () => <Button>Hello</Button>,
 };
 ```
