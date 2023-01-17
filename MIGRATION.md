@@ -20,7 +20,7 @@
     - [Addon-backgrounds: Removed deprecated grid parameter](#addon-backgrounds-removed-deprecated-grid-parameter)
     - [Addon-a11y: Removed deprecated withA11y decorator](#addon-a11y-removed-deprecated-witha11y-decorator)
   - [Vite](#vite)
-    - [Vite builder uses vite config automatically](#vite-builder-uses-vite-config-automatically)
+    - [Vite builder uses Vite config automatically](#vite-builder-uses-vite-config-automatically)
     - [Vite cache moved to node\_modules/.cache/.vite-storybook](#vite-cache-moved-to-node_modulescachevite-storybook)
   - [Webpack](#webpack)
     - [Webpack4 support discontinued](#webpack4-support-discontinued)
@@ -265,7 +265,7 @@
 
 ## From version 6.5.x to 7.0.0
 
-A number of these changes can be made automatically by the storybook cli. To take advantage of these "automigrations", run `npx storybook@next upgrade --prerelease` or `pnpx storybook@next upgrade --prerelease`.
+A number of these changes can be made automatically by the Storybook CLI. To take advantage of these "automigrations", run `npx storybook@next upgrade --prerelease` or `pnpx storybook@next upgrade --prerelease`.
 
 ### 7.0 breaking changes
 
@@ -275,11 +275,11 @@ Storybook 7.0 requires **Node 16** or above. If you are using an older version o
 
 #### Modern browser support
 
-Starting in storybook 7.0, storybook will no longer support IE11, amongst other legacy browser versions.
+Starting in Storybook 7.0, Storybook will no longer support IE11, amongst other legacy browser versions.
 We now transpile our code with a target of `chrome >= 100` and node code is transpiled with a target of `node >= 16`.
 
 This means code-features such as (but not limited to) `async/await`, arrow-functions, `const`,`let`, etc will exist in the code at runtime, and thus the runtime environment must support it.
-Not just the runtime needs to support it, but some legacy loaders for webpack or other transpilation tools might need to be updated as well. For example, certain versions of webpack 4 had parsers that could not parse the new syntax (e.g. optional chaining).
+Not just the runtime needs to support it, but some legacy loaders for Webpack or other transpilation tools might need to be updated as well. For example, certain versions of Webpack 4 had parsers that could not parse the new syntax (e.g. optional chaining).
 
 Some addons or libraries might depended on this legacy browser support, and thus might break. You might get an error like:
 
@@ -307,7 +307,7 @@ module.exports = {
 };
 ```
 
-Here's an example PR to one of the storybook addons: https://github.com/storybookjs/addon-coverage/pull/3 doing just that.
+Here's an example PR to one of the Storybook addons: https://github.com/storybookjs/addon-coverage/pull/3 doing just that.
 
 #### React peer dependencies required
 
@@ -329,9 +329,9 @@ _Has automigration_
 
 SB6.x framework packages shipped binaries called `start-storybook` and `build-storybook`.
 
-In SB7.0, we've removed these binaries and replaced them with new commands in Storybook's CLI: `storybook dev` and `storybook build`. These commands will look for the `framework` field in your `.storybook/main.js` config--[which is now required](#framework-field-mandatory)--and use that to determine how to start/build your storybook. The benefit of this change is that it is now possible to install multiple frameworks in a project without having to worry about hoisting issues.
+In SB7.0, we've removed these binaries and replaced them with new commands in Storybook's CLI: `storybook dev` and `storybook build`. These commands will look for the `framework` field in your `.storybook/main.js` config--[which is now required](#framework-field-mandatory)--and use that to determine how to start/build your Storybook. The benefit of this change is that it is now possible to install multiple frameworks in a project without having to worry about hoisting issues.
 
-A typical storybook project includes two scripts in your projects `package.json`:
+A typical Storybook project includes two scripts in your projects `package.json`:
 
 ```json
 {
@@ -471,7 +471,7 @@ build(options).then(() => console.log('done'));
 
 #### Change of root html IDs
 
-The root ID unto which storybook renders stories is renamed from `root` to `#storybook-root` to avoid conflicts with user's code.
+The root ID unto which Storybook renders stories is renamed from `root` to `#storybook-root` to avoid conflicts with user's code.
 
 #### Stories glob matches MDX files
 
@@ -575,11 +575,11 @@ We removed the deprecated `withA11y` decorator. This was [deprecated in 6.0](#re
 
 ### Vite
 
-#### Vite builder uses vite config automatically
+#### Vite builder uses Vite config automatically
 
 When using a [Vite-based framework](#framework-field-mandatory), Storybook will automatically use your `vite.config.(ctm)js` config file starting in 7.0.  
-Some settings will be overridden by storybook so that it can function properly, and the merged settings can be modified using `viteFinal` in `.storybook/main.js` (see the [Storybook Vite configuration docs](https://storybook.js.org/docs/react/builders/vite#configuration)).  
-If you were using `viteFinal` in 6.5 to simply merge in your project's standard vite config, you can now remove it.
+Some settings will be overridden by Storybook so that it can function properly, and the merged settings can be modified using `viteFinal` in `.storybook/main.js` (see the [Storybook Vite configuration docs](https://storybook.js.org/docs/react/builders/vite#configuration)).  
+If you were using `viteFinal` in 6.5 to simply merge in your project's standard Vite config, you can now remove it.
 
 For Svelte projects this means that the `svelteOptions` property in the `main.js` config should be omitted, as it will be loaded automatically via the project's `vite.config.js`. An exception to this is when the project needs different Svelte options for Storybook than the Vite config provides for the application itself.
 
@@ -599,14 +599,14 @@ If you are running into errors, you can upgrade your project to Webpack5 or you 
 
 To upgrade:
 
-- If you're configuring webpack directly, see the Webpack5 [release announcement](https://webpack.js.org/blog/2020-10-10-webpack-5-release/) and [migration guide](https://webpack.js.org/migrate/5).
+- If you're configuring Webpack directly, see the Webpack5 [release announcement](https://webpack.js.org/blog/2020-10-10-webpack-5-release/) and [migration guide](https://webpack.js.org/migrate/5).
 - If you're using Create React App, see the [migration notes](https://github.com/facebook/create-react-app/blob/main/CHANGELOG.md#migrating-from-40x-to-500) to upgrade from V4 (Webpack4) to 5
 
 During the 7.0 dev cycle we will be updating this section with useful resources as we run across them.
 
 #### Postcss removed
 
-Storybook 6.x installed postcss by default. In 7.0 built-in support has been removed for webpack-based frameworks. If you need it, you can add it back using [`@storybook/addon-postcss`](https://github.com/storybookjs/addon-postcss).
+Storybook 6.x installed postcss by default. In 7.0 built-in support has been removed for Webpack-based frameworks. If you need it, you can add it back using [`@storybook/addon-postcss`](https://github.com/storybookjs/addon-postcss).
 
 ### Framework-specific
 
@@ -628,7 +628,7 @@ export default {
 };
 ```
 
-Also see the note in [Vite builder uses vite config automatically](#vite-builder-uses-vite-config-automatically) about removing `svelteOptions`.
+Also see the note in [Vite builder uses Vite config automatically](#vite-builder-uses-vite-config-automatically) about removing `svelteOptions`.
 
 #### Vue3: replaced app export with setup
 
@@ -676,7 +676,7 @@ The named export has been available since 6.0 or earlier, so your updated code w
 
 #### No more configuration for manager
 
-The storybook manager is no longer built with webpack. Now it's built with esbuild.
+The Storybook manager is no longer built with Webpack. Now it's built with esbuild.
 Therefore, it's no longer possible to configure the manager. Esbuild comes preconfigured to handle importing CSS, and images.
 
 If you're currently loading files other than CSS or images into the manager, you'll need to make changes so the files get converted to JS before publishing your addon.
@@ -923,11 +923,11 @@ const a = 'This is still a styled code block.';
 
 #### Dropped source loader / storiesOf static snippets
 
-In SB 6.x, Storybook Docs used a webpack loader called `source-loader` to help display static code snippets. This was configurable using the `options.sourceLoaderOptions` field.
+In SB 6.x, Storybook Docs used a Webpack loader called `source-loader` to help display static code snippets. This was configurable using the `options.sourceLoaderOptions` field.
 
 In SB 7.0, we've moved to a faster, simpler alternative called `csf-plugin` that **only supports CSF**. It is configurable using the `options.csfPluginOptions` field.
 
-If you're using `storiesOf` and want to restore the previous behavior, you can add `source-loader` by hand to your webpack config using the following snippet in `main.js`:
+If you're using `storiesOf` and want to restore the previous behavior, you can add `source-loader` by hand to your Webpack config using the following snippet in `main.js`:
 
 ```js
 module.exports = {
@@ -961,7 +961,7 @@ Addon-docs previously accepted `configureJsx` and `mdxBabelOptions` options, whi
 
 #### Dropped addon-docs manual configuration
 
-Storybook Docs 5.x shipped with instructions for how to manually configure webpack and storybook without the use of Storybook's "presets" feature. Over time, these docs went out of sync. Now in Storybook 7 we have removed support for manual configuration entirely.
+Storybook Docs 5.x shipped with instructions for how to manually configure Webpack and Storybook without the use of Storybook's "presets" feature. Over time, these docs went out of sync. Now in Storybook 7 we have removed support for manual configuration entirely.
 
 #### Autoplay in docs
 
@@ -1168,7 +1168,7 @@ SB6.5 moves framework specializations (e.g. ArgType inference, dynamic snippet r
 
 This change should not require any specific migrations on your part if you are using the docs addon as described in the documentation. However, if you are using `react-docgen` or `react-docgen-typescript` information in some custom way outside of `addon-docs`, you should be aware of this change.
 
-In SB6.4, `@storybook/react` added `react-docgen` to its babel settings and `react-docgen-typescript` to its webpack settings. In SB6.5, this only happens if you are using `addon-docs` or `addon-controls`, either directly or indirectly through `addon-essentials`. If you're not using either of those addons, but require that information for some other addon, please configure that manually in your `.storybook/main.js` configuration. You can see the docs configuration here: https://github.com/storybookjs/storybook/blob/next/code/presets/react-webpack/src/framework-preset-react-docs.ts
+In SB6.4, `@storybook/react` added `react-docgen` to its babel settings and `react-docgen-typescript` to its Webpack settings. In SB6.5, this only happens if you are using `addon-docs` or `addon-controls`, either directly or indirectly through `addon-essentials`. If you're not using either of those addons, but require that information for some other addon, please configure that manually in your `.storybook/main.js` configuration. You can see the docs configuration here: https://github.com/storybookjs/storybook/blob/next/code/presets/react-webpack/src/framework-preset-react-docs.ts
 
 ### Opt-in MDX2 support
 
@@ -1301,7 +1301,7 @@ npx sb@next automigrate
 
 ```
 
-The automigration suite also runs when you create a new project (`sb init`) or when you update storybook (`sb upgrade`).
+The automigration suite also runs when you create a new project (`sb init`) or when you update Storybook (`sb upgrade`).
 
 ### CRA5 upgrade
 
@@ -1313,7 +1313,7 @@ npx sb@next automigrate
 
 ```
 
-Or you can do the following steps manually to force Storybook to use webpack 5 for building your project:
+Or you can do the following steps manually to force Storybook to use Webpack 5 for building your project:
 
 ```shell
 yarn add @storybook/builder-webpack5 @storybook/manager-webpack5 --dev
