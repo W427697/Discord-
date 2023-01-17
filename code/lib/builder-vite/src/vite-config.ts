@@ -10,6 +10,7 @@ import type {
 import { viteExternalsPlugin } from 'vite-plugin-externals';
 import { isPreservingSymlinks, getFrameworkName } from '@storybook/core-common';
 import { globals } from '@storybook/preview/globals';
+import type { Options } from '@storybook/types';
 import {
   codeGeneratorPlugin,
   csfPlugin,
@@ -17,7 +18,6 @@ import {
   mdxPlugin,
   stripStoryHMRBoundary,
 } from './plugins';
-import type { ExtendedOptions } from './types';
 
 export type PluginConfigType = 'build' | 'development';
 
@@ -35,7 +35,7 @@ const configEnvBuild: ConfigEnv = {
 
 // Vite config that is common to development and production mode
 export async function commonConfig(
-  options: ExtendedOptions,
+  options: Options,
   _type: PluginConfigType
 ): Promise<ViteInlineConfig> {
   const configEnv = _type === 'development' ? configEnvServe : configEnvBuild;
@@ -69,7 +69,7 @@ export async function commonConfig(
   return config;
 }
 
-export async function pluginConfig(options: ExtendedOptions) {
+export async function pluginConfig(options: Options) {
   const frameworkName = await getFrameworkName(options);
 
   const plugins = [

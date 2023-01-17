@@ -20,6 +20,7 @@
     - [Webpack4 support discontinued](#webpack4-support-discontinued)
     - [Framework field mandatory](#framework-field-mandatory)
     - [frameworkOptions renamed](#frameworkoptions-renamed)
+    - [TypeScript: StorybookConfig type moved](#typescript-storybookconfig-type-moved)
     - [Framework standalone build moved](#framework-standalone-build-moved)
     - [Docs modern inline rendering by default](#docs-modern-inline-rendering-by-default)
     - [Babel mode v7 exclusively](#babel-mode-v7-exclusively)
@@ -573,6 +574,23 @@ module.exports = {
 };
 ```
 
+#### TypeScript: StorybookConfig type moved
+
+If you are using TypeScript you should import the `StorybookConfig` type from your framework package.
+
+For example:
+
+```ts
+import type { StorybookConfig } from '@storybook/react-vite';
+
+const config: StorybookConfig = {
+  framework: '@storybook/react-vite',
+  // ... your configuration
+};
+
+export default config;
+```
+
 #### Framework standalone build moved
 
 In 7.0 the location of the standalone node API has moved to `@storybook/core-server`.
@@ -746,7 +764,6 @@ If user code in `.storybook/preview.js` or stories relies on "sloppy" mode behav
 #### Removed DLL flags
 
 Earlier versions of Storybook used Webpack DLLs as a performance crutch. In 6.1, we've removed Storybook's built-in DLLs and have deprecated the command-line parameters `--no-dll` and `--ui-dll`. In 7.0 those options are removed.
-
 
 ### Docs Changes
 
