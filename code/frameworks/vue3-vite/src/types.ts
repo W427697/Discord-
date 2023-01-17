@@ -15,7 +15,7 @@ type StorybookConfigFramework = {
         name: FrameworkName;
         options: FrameworkOptions;
       };
-  core?: {
+  core?: StorybookConfigBase['core'] & {
     builder?:
       | BuilderName
       | {
