@@ -91,7 +91,7 @@ export async function pluginConfig(options: Options) {
         }
       },
     },
-    viteExternalsPlugin(globals, { useWindow: false, disableInServe: true }),
+    viteExternalsPlugin(globals, { useWindow: false }),
   ] as PluginOption[];
 
   // TODO: framework doesn't exist, should move into framework when/if built
