@@ -1,5 +1,5 @@
-import type { Builder, StorybookConfig as StorybookBaseConfig, Options } from '@storybook/types';
 import type { InlineConfig, UserConfig } from 'vite';
+import type { Builder, Options } from '@storybook/types';
 
 // Storybook's Stats are optional Webpack related property
 type ViteStats = {
@@ -13,9 +13,11 @@ export type ViteFinal = (
   options: Options
 ) => InlineConfig | Promise<InlineConfig>;
 
-export type StorybookViteConfig = StorybookBaseConfig & {
+export type StorybookConfigVite = {
   viteFinal?: ViteFinal;
 };
+
+export type BuilderOptions = {};
 
 // Using instead of `Record<string, string>` to provide better aware of used options
 type IframeOptions = {

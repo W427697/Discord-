@@ -5,24 +5,25 @@ import type { RequestHandler } from 'express';
 import type { ViteDevServer } from 'vite';
 import express from 'express';
 import { dirname, join, parse } from 'path';
+import type { StorybookConfig as StorybookBaseConfig } from '@storybook/types';
 import { transformIframeHtml } from './transform-iframe-html';
 import { createViteServer } from './vite-server';
 import { build as viteBuild } from './build';
-import type { ExtendedOptions, ViteBuilder } from './types';
+import type { ExtendedOptions, ViteBuilder, StorybookConfigVite } from './types';
 
 export { withoutVitePlugins } from './utils/without-vite-plugins';
 export { hasVitePlugins } from './utils/has-vite-plugins';
 
-export type { ViteFinal } from './types';
+export * from './types';
 
 /**
  * @deprecated
  *
- * Use `import { StorybookConfig } from '@storybook/builder-vite';`
+ * Import `StorybookConfig` from your framework, such as:
  *
- * Or better yet, import from your framework.
+ * `import type { StorybookConfig } from '@storybook/react-vite';`
  */
-export type { StorybookViteConfig } from './types';
+export type StorybookViteConfig = StorybookBaseConfig & StorybookConfigVite;
 
 function iframeMiddleware(options: ExtendedOptions, server: ViteDevServer): RequestHandler {
   return async (req, res, next) => {
