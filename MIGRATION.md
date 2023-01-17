@@ -2343,7 +2343,7 @@ In 5.3 you customized a story description with the `docs.storyDescription` param
 
 The following frameworks now render stories inline on the Docs tab by default, rather than in an iframe: `react`, `vue`, `web-components`, `html`.
 
-To disable inline rendering, set the `docs.inlineStories` parameter to `false`.
+To disable inline rendering, set the `docs.stories.inline` parameter to `false`.
 
 ### New addon presets
 
