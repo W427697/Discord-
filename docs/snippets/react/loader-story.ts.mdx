@@ -23,9 +23,7 @@ type Story = StoryObj<typeof TodoItem>;
 export const Primary: Story = {
   loaders: [
     async () => ({
-      todo: await (
-        await fetch('https://jsonplaceholder.typicode.com/todos/1')
-      ).json(),
+      todo: await (await fetch('https://jsonplaceholder.typicode.com/todos/1')).json(),
     }),
   ],
 };
