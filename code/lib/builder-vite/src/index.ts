@@ -1,37 +1,19 @@
 // noinspection JSUnusedGlobalSymbols
 
 import * as fs from 'fs-extra';
-import type { Builder, StorybookConfig as StorybookBaseConfig, Options } from '@storybook/types';
 import type { RequestHandler } from 'express';
-import type { InlineConfig, UserConfig, ViteDevServer } from 'vite';
+import type { ViteDevServer } from 'vite';
 import express from 'express';
 import { dirname, join, parse } from 'path';
 import { transformIframeHtml } from './transform-iframe-html';
 import { createViteServer } from './vite-server';
 import { build as viteBuild } from './build';
-import type { ExtendedOptions } from './types';
+import type { ExtendedOptions, ViteBuilder } from './types';
 
 export { withoutVitePlugins } from './utils/without-vite-plugins';
 export { hasVitePlugins } from './utils/has-vite-plugins';
 
-// TODO remove
-export type { TypescriptOptions } from '@storybook/types';
-
-// Storybook's Stats are optional Webpack related property
-export type ViteStats = {
-  toJson: () => any;
-};
-
-export type ViteBuilder = Builder<UserConfig, ViteStats>;
-
-export type ViteFinal = (
-  config: InlineConfig,
-  options: Options
-) => InlineConfig | Promise<InlineConfig>;
-
-export type StorybookConfig = StorybookBaseConfig & {
-  viteFinal?: ViteFinal;
-};
+export type { ViteFinal } from './types';
 
 /**
  * @deprecated
@@ -40,7 +22,7 @@ export type StorybookConfig = StorybookBaseConfig & {
  *
  * Or better yet, import from your framework.
  */
-export type StorybookViteConfig = StorybookConfig;
+export type { StorybookViteConfig } from './types';
 
 function iframeMiddleware(options: ExtendedOptions, server: ViteDevServer): RequestHandler {
   return async (req, res, next) => {
