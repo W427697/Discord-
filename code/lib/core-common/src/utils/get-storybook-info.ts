@@ -32,11 +32,33 @@ const findDependency = (
   Object.entries(peerDependencies || {}).find(predicate),
 ];
 
-const getRendererInfo = (packageJson: PackageJson) => {
+const getRendererInfo = (packageJson: PackageJson, frameworkPackage?: string) => {
   // Pull the viewlayer from dependencies in package.json
-  const [dep, devDep, peerDep] = findDependency(packageJson, ([key]) => rendererPackages[key]);
+  let [dep, devDep, peerDep] =
+    frameworkPackage && rendererPackages[frameworkPackage]
+      ? [
+          packageJson.dependencies?.[frameworkPackage]
+            ? [frameworkPackage, packageJson.dependencies?.[frameworkPackage]]
+            : undefined,
+          packageJson.devDependencies?.[frameworkPackage]
+            ? [frameworkPackage, packageJson.devDependencies?.[frameworkPackage]]
+            : undefined,
+          packageJson.peerDependencies?.[frameworkPackage]
+            ? [frameworkPackage, packageJson.peerDependencies?.[frameworkPackage]]
+            : undefined,
+        ]
+      : [undefined];
+  if (!frameworkPackage || (!dep && !devDep && !peerDep)) {
+    const [depF, devDepF, peerDepF] = findDependency(packageJson, ([key]) => rendererPackages[key]);
+    dep = depF;
+    devDep = devDepF;
+    peerDep = peerDepF;
+  }
+
   const [pkg, version] = dep || devDep || peerDep || [];
   const renderer = pkg ? rendererPackages[pkg] : undefined;
+
+  logger.info(`Found renderer "${renderer}" in package.json dependencies`);
 
   if (dep && devDep && dep[0] === devDep[0]) {
     logger.warn(
@@ -68,25 +90,29 @@ const findConfigFile = (prefix: string, configDir: string) => {
   return extension ? `${filePrefix}.${extension}` : null;
 };
 
-const getConfigInfo = (packageJson: PackageJson) => {
-  let configDir = '.storybook';
+const getConfigInfo = (packageJson: PackageJson, configDir?: string) => {
+  let storybookConfigDir = configDir ?? '.storybook';
   const storybookScript = packageJson.scripts?.['storybook'];
-  if (storybookScript) {
+  if (storybookScript && !configDir) {
     const configParam = getStorybookConfiguration(storybookScript, '-c', '--config-dir');
-    if (configParam) configDir = configParam;
+    if (configParam) storybookConfigDir = configParam;
   }
 
   return {
     configDir,
-    mainConfig: findConfigFile('main', configDir),
-    previewConfig: findConfigFile('preview', configDir),
-    managerConfig: findConfigFile('manager', configDir),
+    mainConfig: findConfigFile('main', storybookConfigDir),
+    previewConfig: findConfigFile('preview', storybookConfigDir),
+    managerConfig: findConfigFile('manager', storybookConfigDir),
   };
 };
 
-export const getStorybookInfo = (packageJson: PackageJson) => {
-  const rendererInfo = getRendererInfo(packageJson);
-  const configInfo = getConfigInfo(packageJson);
+export const getStorybookInfo = (
+  packageJson: PackageJson,
+  configDir?: string,
+  frameworkPackage?: string
+) => {
+  const rendererInfo = getRendererInfo(packageJson, frameworkPackage);
+  const configInfo = getConfigInfo(packageJson, configDir);
 
   return {
     ...rendererInfo,

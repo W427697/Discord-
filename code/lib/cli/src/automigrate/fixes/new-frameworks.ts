@@ -101,12 +101,19 @@ export const getFrameworkOptions = (framework: string, main: ConfigFile) => {
 export const newFrameworks: Fix<NewFrameworkRunOptions> = {
   id: 'newFrameworks',
 
-  async check({ packageManager }) {
+  async check({ packageManager, configDir, frameworkPackage: userDefinedFrameworkPackage }) {
     const packageJson = packageManager.retrievePackageJson();
     const allDeps = { ...packageJson.dependencies, ...packageJson.devDependencies };
 
+    if (configDir) {
+      logger.info(`📦 Storybook config directory: `, configDir);
+    }
     // FIXME: update to use renderer instead of framework
-    const { mainConfig, version: storybookVersion, framework } = getStorybookInfo(packageJson);
+    const {
+      mainConfig,
+      version: storybookVersion,
+      framework,
+    } = getStorybookInfo(packageJson, configDir, userDefinedFrameworkPackage);
     if (!mainConfig) {
       logger.warn('Unable to find storybook main.js config, skipping');
       return null;
@@ -254,12 +261,12 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
 
     if (!dryRun) {
       logger.info(`✅ Updating framework field in main.js`);
-      const currentCore = main.getFieldValue(['core']);
+      const builder = main.getFieldValue(['core', 'builder']);
       main.setFieldValue(['framework', 'name'], frameworkPackage);
       main.setFieldValue(['framework', 'options'], frameworkOptions);
 
-      if (currentCore?.builder) {
-        delete currentCore.builder;
+      if (builder) {
+        main.removeField(['core', 'builder']);
       }
 
       if (frameworkPackage === '@storybook/svelte-vite' && main.getFieldNode(['svelteOptions'])) {
@@ -271,12 +278,22 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
         main.setFieldValue(['framework', 'options', 'builder'], builderInfo.options);
       }
 
-      if (currentCore) {
-        if (Object.keys(currentCore).length === 0) {
-          main.removeField(['core']);
-        } else {
-          main.setFieldValue(['core'], currentCore);
+      try {
+        // Adding this in a try/catch because it's possible that the user has a custom main.js
+        // or for example in the case of Nx, they are importing some global config
+        // which getFieldValue cannot eval, so if fails.
+        // There's no reason to fail the whole migration if this fails.
+        const currentCore = main.getFieldValue(['core']);
+        if (currentCore) {
+          if (Object.keys(currentCore).length === 0) {
+            main.removeField(['core']);
+          } else {
+            main.setFieldValue(['core'], currentCore);
+          }
         }
+      } catch (e) {
+        logger.info(`❌ Failed to remove empty core field in main.js`);
+        logger.info(e);
       }
 
       await writeConfig(main);

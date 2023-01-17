@@ -2,12 +2,15 @@ import type { JsPackageManager } from '../js-package-manager';
 
 export interface CheckOptions {
   packageManager: JsPackageManager;
+  configDir?: string;
+  frameworkPackage?: string;
 }
 
 export interface RunOptions<ResultType> {
   packageManager: JsPackageManager;
   result: ResultType;
   dryRun?: boolean;
+  configDir?: string;
 }
 
 export interface Fix<ResultType = any> {

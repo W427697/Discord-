@@ -18,11 +18,20 @@ interface MainjsFrameworkRunOptions {
 export const mainjsFramework: Fix<MainjsFrameworkRunOptions> = {
   id: 'mainjsFramework',
 
-  async check({ packageManager }) {
+  async check({ packageManager, configDir, frameworkPackage: userDefinedFrameworkPackage }) {
     const packageJson = packageManager.retrievePackageJson();
 
+    if (configDir) {
+      logger.info(`📦 Storybook config directory: `, configDir);
+    }
+
     // FIXME: use renderer in SB7?
-    const { mainConfig, framework, version: storybookVersion } = getStorybookInfo(packageJson);
+    const {
+      mainConfig,
+      framework,
+      frameworkPackage,
+      version: storybookVersion,
+    } = getStorybookInfo(packageJson, configDir, userDefinedFrameworkPackage);
 
     if (!mainConfig) {
       logger.warn('Unable to find storybook main.js config, skipping');
@@ -46,7 +55,7 @@ export const mainjsFramework: Fix<MainjsFrameworkRunOptions> = {
     return features?.breakingChangesV7 ||
       features?.storyStoreV7 ||
       semver.gte(storybookCoerced, '7.0.0')
-      ? { main, framework: `@storybook/${framework}` }
+      ? { main, framework: frameworkPackage ?? `@storybook/${framework}` }
       : null;
   },
 
