@@ -10,7 +10,7 @@ import * as t from '@babel/types';
 
 const files = glob.sync('**/*.ts.mdx', {
   absolute: true,
-  cwd: '../docs/snippets',
+  cwd: '../docs/snippets/react',
 });
 
 for (const [, file] of files.entries()) {
@@ -20,7 +20,6 @@ for (const [, file] of files.entries()) {
     .filter((it) => !it.startsWith('```'))
     .join('\n');
 
-  // console.log(code);
   try {
     const result = transformSync(code, {
       babelrc: false,
@@ -54,6 +53,15 @@ for (const [, file] of files.entries()) {
                 type.remove();
               }
             },
+            TSTypeReference(path) {
+              const typeName = path.get('typeName');
+              const parameters = path.get('typeParameters');
+
+              if (!(typeName.isIdentifier() && typeName.node.name === 'StoryObj')) return;
+              parameters.replaceWith(
+                t.tsTypeParameterInstantiation([t.tsTypeQuery(t.identifier('meta'))])
+              );
+            },
           },
         } satisfies PluginObj,
       ],
@@ -62,7 +70,7 @@ for (const [, file] of files.entries()) {
     if (result.code === code) {
       // console.log('No changes for', file);
     } else {
-      fs.writeFileSync(file.replace('.ts', '.ts.ts-49'), result.code);
+      fs.writeFileSync(file.replace('.ts', '.ts.ts-4-9'), result.code);
       console.log('changed', file);
     }
   } catch (e) {
