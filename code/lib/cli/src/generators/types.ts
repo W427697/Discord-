@@ -10,7 +10,6 @@ export type GeneratorOptions = {
   linkable: boolean;
   pnp: boolean;
   commonJs: boolean;
-  storiesRoots: string[];
   frameworkPreviewParts?: FrameworkPreviewParts;
 };
 
