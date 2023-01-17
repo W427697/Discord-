@@ -6062,6 +6062,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/builder-vite@workspace:lib/builder-vite"
   dependencies:
+    "@storybook/channel-postmessage": 7.0.0-beta.29
+    "@storybook/channel-websocket": 7.0.0-beta.29
     "@storybook/client-logger": 7.0.0-beta.29
     "@storybook/core-common": 7.0.0-beta.29
     "@storybook/csf-plugin": 7.0.0-beta.29
