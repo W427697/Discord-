@@ -8,6 +8,7 @@
     - [start-storybook / build-storybook binaries removed](#start-storybook--build-storybook-binaries-removed)
     - [Framework field mandatory](#framework-field-mandatory)
     - [frameworkOptions renamed](#frameworkoptions-renamed)
+    - [TypeScript: StorybookConfig type moved](#typescript-storybookconfig-type-moved)
     - [Titles are statically computed](#titles-are-statically-computed)
     - [Framework standalone build moved](#framework-standalone-build-moved)
     - [Change of root html IDs](#change-of-root-html-ids)
@@ -25,6 +26,7 @@
   - [Webpack](#webpack)
     - [Webpack4 support discontinued](#webpack4-support-discontinued)
     - [Postcss removed](#postcss-removed)
+    - [Removed DLL flags](#removed-dll-flags)
   - [Framework-specific](#framework-specific)
     - [Angular: dropped support for Angular 12 and below](#angular-dropped-support-for-angular-12-and-below)
     - [SvelteKit: needs the `@storybook/sveltekit` framework](#sveltekit-needs-the-storybooksveltekit-framework)
@@ -408,6 +410,21 @@ module.exports = {
 };
 ```
 
+#### TypeScript: StorybookConfig type moved
+
+If you are using TypeScript you should import the `StorybookConfig` type from your framework package.
+
+For example:
+
+```ts
+import type { StorybookConfig } from '@storybook/react-vite';
+const config: StorybookConfig = {
+  framework: '@storybook/react-vite',
+  // ... your configuration
+};
+export default config;
+```
+
 #### Titles are statically computed
 
 Up until version 7.0, it was possible to generate the default export of a CSF story by calling a function, or mixing in variables defined in other ES Modules. For instance:
@@ -607,6 +624,10 @@ During the 7.0 dev cycle we will be updating this section with useful resources 
 #### Postcss removed
 
 Storybook 6.x installed postcss by default. In 7.0 built-in support has been removed for Webpack-based frameworks. If you need it, you can add it back using [`@storybook/addon-postcss`](https://github.com/storybookjs/addon-postcss).
+
+#### Removed DLL flags
+
+Earlier versions of Storybook used Webpack DLLs as a performance crutch. In 6.1, we've removed Storybook's built-in DLLs and have deprecated the command-line parameters `--no-dll` and `--ui-dll`. In 7.0 those options are removed.
 
 ### Framework-specific
 
