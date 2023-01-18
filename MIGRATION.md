@@ -40,6 +40,9 @@
     - [Stories glob matches MDX files](#stories-glob-matches-mdx-files)
     - [Add strict mode](#add-strict-mode)
     - [Removed DLL flags](#removed-dll-flags)
+    - [Angular: Drop support for Angular \< 14](#angular-drop-support-for-angular--14)
+    - [Angular: Drop support for calling Storybook directly](#angular-drop-support-for-calling-storybook-directly)
+    - [Angular: Removed legacy renderer](#angular-removed-legacy-renderer)
   - [Docs Changes](#docs-changes)
     - [Standalone docs files](#standalone-docs-files)
     - [Referencing stories in docs files](#referencing-stories-in-docs-files)
@@ -764,6 +767,18 @@ If user code in `.storybook/preview.js` or stories relies on "sloppy" mode behav
 #### Removed DLL flags
 
 Earlier versions of Storybook used Webpack DLLs as a performance crutch. In 6.1, we've removed Storybook's built-in DLLs and have deprecated the command-line parameters `--no-dll` and `--ui-dll`. In 7.0 those options are removed.
+
+#### Angular: Drop support for Angular < 14
+
+Starting in 7.0, we drop support for Angular < 14
+
+#### Angular: Drop support for calling Storybook directly
+
+In Storybook 6.4 we have deprecated calling Storybook directly (`npm run storybook`)  for Angular. In Storybook 7.0, we've removed it entirely. Instead you have to set up the Storybook builder in your `angular.json` and execute `ng run <your-project>:storybook` to start Storybook. Please visit https://github.com/storybookjs/storybook/tree/next/code/frameworks/angular to set up Storybook for Angular correctly.
+
+#### Angular: Removed legacy renderer
+
+The `parameters.angularLegacyRendering` option is removed. You cannot use the old legacy renderer anymore.
 
 ### Docs Changes
 
