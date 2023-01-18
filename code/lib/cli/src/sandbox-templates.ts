@@ -368,6 +368,7 @@ const baseTemplates = {
     name: 'Qwik CLI (Default TS)',
     script: 'yarn create qwik basic {{beforeDir}} --no-install',
     inDevelopment: true,
+    skipTasks: ['e2e-tests'],
     expected: {
       framework: 'storybook-framework-qwik',
       renderer: 'storybook-framework-qwik',

@@ -339,47 +339,52 @@ export const addStories: Task['run'] = async (
   const packageJson = await import(join(cwd, 'package.json'));
   updateStoriesField(mainConfig, detectLanguage(packageJson) === SupportedLanguage.JAVASCRIPT);
 
-  // Link in the template/components/index.js from store, the renderer and the addons
-  const rendererPath = template.expected.renderer.startsWith('@storybook/')
-    ? await workspacePath('renderer', template.expected.renderer)
-    : require.resolve(template.expected.renderer);
-  await ensureSymlink(
-    join(codeDir, rendererPath, 'template', 'components'),
-    resolve(cwd, storiesPath, 'components')
-  );
-  addPreviewAnnotations(mainConfig, [`.${sep}${join(storiesPath, 'components')}`]);
+  const isCoreRenderer = template.expected.renderer.startsWith('@storybook/');
+  if (isCoreRenderer) {
+    // Link in the template/components/index.js from store, the renderer and the addons
+    const rendererPath = await workspacePath('renderer', template.expected.renderer);
+    await ensureSymlink(
+      join(codeDir, rendererPath, 'template', 'components'),
+      resolve(cwd, storiesPath, 'components')
+    );
+    addPreviewAnnotations(mainConfig, [`.${sep}${join(storiesPath, 'components')}`]);
 
-  // Add stories for the renderer. NOTE: these *do* need to be processed by the framework build system
-  await linkPackageStories(rendererPath, {
-    mainConfig,
-    cwd,
-    linkInDir: resolve(cwd, storiesPath),
-  });
-
-  const frameworkPath = await workspacePath('frameworks', template.expected.framework);
-
-  // Add stories for the framework if it has one. NOTE: these *do* need to be processed by the framework build system
-  if (await pathExists(resolve(codeDir, frameworkPath, join('template', 'stories')))) {
-    await linkPackageStories(frameworkPath, {
+    // Add stories for the renderer. NOTE: these *do* need to be processed by the framework build system
+    await linkPackageStories(rendererPath, {
       mainConfig,
       cwd,
       linkInDir: resolve(cwd, storiesPath),
     });
   }
 
-  const frameworkVariant = key.split('/')[1];
-  const storiesVariantFolder = addVariantToFolder(frameworkVariant);
+  const isCoreFramework = template.expected.framework.startsWith('@storybook/');
 
-  if (await pathExists(resolve(codeDir, frameworkPath, join('template', storiesVariantFolder)))) {
-    await linkPackageStories(
-      frameworkPath,
-      {
+  if (isCoreFramework) {
+    const frameworkPath = await workspacePath('frameworks', template.expected.framework);
+
+    // Add stories for the framework if it has one. NOTE: these *do* need to be processed by the framework build system
+    if (await pathExists(resolve(codeDir, frameworkPath, join('template', 'stories')))) {
+      await linkPackageStories(frameworkPath, {
         mainConfig,
         cwd,
         linkInDir: resolve(cwd, storiesPath),
-      },
-      frameworkVariant
-    );
+      });
+    }
+
+    const frameworkVariant = key.split('/')[1];
+    const storiesVariantFolder = addVariantToFolder(frameworkVariant);
+
+    if (await pathExists(resolve(codeDir, frameworkPath, join('template', storiesVariantFolder)))) {
+      await linkPackageStories(
+        frameworkPath,
+        {
+          mainConfig,
+          cwd,
+          linkInDir: resolve(cwd, storiesPath),
+        },
+        frameworkVariant
+      );
+    }
   }
 
   // Add stories for lib/store (and addons below). NOTE: these stories will be in the
