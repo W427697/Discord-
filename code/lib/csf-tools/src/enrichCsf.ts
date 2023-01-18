@@ -17,7 +17,7 @@ export const enrichCsfStory = (csf: CsfFile, key: string, options?: EnrichCsfOpt
   const originalParameters = t.memberExpression(t.identifier(key), t.identifier('parameters'));
   parameters.push(t.spreadElement(originalParameters));
 
-  // storySource: { source: %%source%% },
+  // docs: { source: { originalSource: %%source%% } },
   if (source) {
     const optionalStorySource = t.optionalMemberExpression(
       originalParameters,
