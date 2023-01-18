@@ -201,7 +201,7 @@ export const WithInteractionsAutoplayInStory: Story = {
   },
 };
 
-export const IgnoreArgsUpdates: Story = {
+export const ForceInitialArgs: Story = {
   ...StoryComponentStories.ForceInitialArgs,
   args: {
     of: ButtonStories.Primary,
