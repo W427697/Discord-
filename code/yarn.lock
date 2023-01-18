@@ -5642,6 +5642,7 @@ __metadata:
     "@storybook/preview-api": 7.0.0-beta.29
     "@storybook/router": 7.0.0-beta.29
     "@storybook/types": 7.0.0-beta.29
+    fs-extra: ^9.0.1
     prop-types: ^15.7.2
     ts-dedent: ^2.0.0
     typescript: ~4.9.3

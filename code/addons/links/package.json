@@ -63,6 +63,9 @@
       ],
       "preview": [
         "dist/preview.d.ts"
+      ],
+      "react": [
+        "dist/react/index.d.ts"
       ]
     }
   },
@@ -89,6 +92,7 @@
     "ts-dedent": "^2.0.0"
   },
   "devDependencies": {
+    "fs-extra": "^9.0.1",
     "typescript": "~4.9.3"
   },
   "peerDependencies": {
@@ -112,7 +116,8 @@
       "./src/manager.ts",
       "./src/preview.ts",
       "./src/react/index.ts"
-    ]
+    ],
+    "post": "./scripts/fix-preview-api-reference.ts"
   },
   "gitHead": "c6b2e1a65b1a0f65c52819929344602708212a59",
   "storybook": {
