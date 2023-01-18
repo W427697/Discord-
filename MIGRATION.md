@@ -28,7 +28,9 @@
     - [Postcss removed](#postcss-removed)
     - [Removed DLL flags](#removed-dll-flags)
   - [Framework-specific](#framework-specific)
-    - [Angular: dropped support for Angular 12 and below](#angular-dropped-support-for-angular-12-and-below)
+    - [Angular: Drop support for Angular \< 14](#angular-drop-support-for-angular--14)
+    - [Angular: Drop support for calling Storybook directly](#angular-drop-support-for-calling-storybook-directly)
+    - [Angular: Removed legacy renderer](#angular-removed-legacy-renderer)
     - [SvelteKit: needs the `@storybook/sveltekit` framework](#sveltekit-needs-the-storybooksveltekit-framework)
     - [Vue3: replaced app export with setup](#vue3-replaced-app-export-with-setup)
   - [Addon authors](#addon-authors)
@@ -631,12 +633,17 @@ Earlier versions of Storybook used Webpack DLLs as a performance crutch. In 6.1,
 
 ### Framework-specific
 
-#### Angular: dropped support for Angular 12 and below
+#### Angular: Drop support for Angular < 14
 
-Official [Angular 12 LTS support ends Nov 2022](https://angular.io/guide/releases#actively-supported-versions). With that, Storybook also drops its support
-for Angular 12 and below.
+Starting in 7.0, we drop support for Angular < 14
 
-In order to use Storybook 7.0, you need to upgrade to at least Angular 13.
+#### Angular: Drop support for calling Storybook directly
+
+In Storybook 6.4 we have deprecated calling Storybook directly (`npm run storybook`) for Angular. In Storybook 7.0, we've removed it entirely. Instead you have to set up the Storybook builder in your `angular.json` and execute `ng run <your-project>:storybook` to start Storybook. Please visit https://github.com/storybookjs/storybook/tree/next/code/frameworks/angular to set up Storybook for Angular correctly.
+
+#### Angular: Removed legacy renderer
+
+The `parameters.angularLegacyRendering` option is removed. You cannot use the old legacy renderer anymore.
 
 #### SvelteKit: needs the `@storybook/sveltekit` framework
 
@@ -2350,7 +2357,7 @@ In 5.3 you customized a story description with the `docs.storyDescription` param
 
 The following frameworks now render stories inline on the Docs tab by default, rather than in an iframe: `react`, `vue`, `web-components`, `html`.
 
-To disable inline rendering, set the `docs.inlineStories` parameter to `false`.
+To disable inline rendering, set the `docs.stories.inline` parameter to `false`.
 
 ### New addon presets
 

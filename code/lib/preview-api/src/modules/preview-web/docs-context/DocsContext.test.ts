@@ -1,5 +1,5 @@
 import { Channel } from '@storybook/channels';
-import type { Renderer } from '@storybook/types';
+import type { CSFFile, Renderer } from '@storybook/types';
 import type { StoryStore } from '../../store';
 
 import { DocsContext } from './DocsContext';
@@ -7,6 +7,30 @@ import { csfFileParts } from './test-utils';
 
 const channel = new Channel();
 const renderStoryToElement = jest.fn();
+
+describe('referenceCSFFile', () => {
+  it('deals with unattached "docsOnly" csf files', () => {
+    const unattachedCsfFile = {
+      stories: {
+        'meta--page': {
+          id: 'meta--page',
+          name: 'Page',
+          parameters: { docsOnly: true },
+          moduleExport: {},
+        },
+      },
+      meta: { id: 'meta', title: 'Meta' },
+      moduleExports: {},
+    } as CSFFile;
+
+    const store = {
+      componentStoriesFromCSFFile: () => [],
+    } as unknown as StoryStore<Renderer>;
+    const context = new DocsContext(channel, store, renderStoryToElement, [unattachedCsfFile]);
+
+    expect(() => context.storyById()).toThrow(/No primary story/);
+  });
+});
 
 describe('resolveModuleExport', () => {
   const { story, csfFile, storyExport, metaExport, moduleExports, component } = csfFileParts();

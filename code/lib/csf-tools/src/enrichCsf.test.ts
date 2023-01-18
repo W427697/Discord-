@@ -132,7 +132,7 @@ describe('enrichCsf', () => {
     });
   });
 
-  describe('descriptions', () => {
+  describe('story descriptions', () => {
     it('skips inline comments', () => {
       expect(
         enrich(dedent`
@@ -290,6 +290,283 @@ describe('enrichCsf', () => {
               story: "- A bullet list\\n  - A sub-bullet\\n- A second bullet",
               ...Basic.parameters?.docs?.description
             }
+          }
+        };
+      `);
+    });
+  });
+
+  describe('meta descriptions', () => {
+    it('skips inline comments', () => {
+      expect(
+        enrich(dedent`
+        // The most basic button
+        export default {
+           title: 'Button',
+          }
+          export const Basic = () => <Button />
+        `)
+      ).toMatchInlineSnapshot(`
+        // The most basic button
+        export default {
+          title: 'Button'
+        };
+        export const Basic = () => <Button />;
+        Basic.parameters = {
+          ...Basic.parameters,
+          storySource: {
+            source: "() => <Button />",
+            ...Basic.parameters?.storySource
+          }
+        };
+      `);
+    });
+
+    it('skips blocks without jsdoc', () => {
+      expect(
+        enrich(dedent`
+          /* The most basic button */
+          export default {
+           title: 'Button',
+          }
+          export const Basic = () => <Button />
+        `)
+      ).toMatchInlineSnapshot(`
+        /* The most basic button */
+        export default {
+          title: 'Button'
+        };
+        export const Basic = () => <Button />;
+        Basic.parameters = {
+          ...Basic.parameters,
+          storySource: {
+            source: "() => <Button />",
+            ...Basic.parameters?.storySource
+          }
+        };
+      `);
+    });
+
+    it('JSDoc single-line', () => {
+      expect(
+        enrich(dedent`
+          /** The most basic button */
+          export default {
+           title: 'Button'
+          }
+          export const Basic = () => <Button />
+        `)
+      ).toMatchInlineSnapshot(`
+        /** The most basic button */
+        export default {
+          title: 'Button',
+          parameters: {
+            docs: {
+              description: {
+                component: "The most basic button"
+              }
+            }
+          }
+        };
+        export const Basic = () => <Button />;
+        Basic.parameters = {
+          ...Basic.parameters,
+          storySource: {
+            source: "() => <Button />",
+            ...Basic.parameters?.storySource
+          }
+        };
+      `);
+    });
+
+    it('JSDoc multi-line', () => {
+      expect(
+        enrich(dedent`
+          /**
+           * The most basic button
+           * 
+           * In a block!
+           */
+          export default {
+           title: 'Button',
+          }
+          export const Basic = () => <Button />
+        `)
+      ).toMatchInlineSnapshot(`
+        /**
+         * The most basic button
+         * 
+         * In a block!
+         */
+        export default {
+          title: 'Button',
+          parameters: {
+            docs: {
+              description: {
+                component: "The most basic button\\n\\nIn a block!"
+              }
+            }
+          }
+        };
+        export const Basic = () => <Button />;
+        Basic.parameters = {
+          ...Basic.parameters,
+          storySource: {
+            source: "() => <Button />",
+            ...Basic.parameters?.storySource
+          }
+        };
+      `);
+    });
+
+    it('preserves indentation', () => {
+      expect(
+        enrich(dedent`
+          /**
+           * - A bullet list
+           *   - A sub-bullet
+           * - A second bullet
+           */
+          export default {
+           title: 'Button',
+          }
+          export const Basic = () => <Button />
+        `)
+      ).toMatchInlineSnapshot(`
+        /**
+         * - A bullet list
+         *   - A sub-bullet
+         * - A second bullet
+         */
+        export default {
+          title: 'Button',
+          parameters: {
+            docs: {
+              description: {
+                component: "- A bullet list\\n  - A sub-bullet\\n- A second bullet"
+              }
+            }
+          }
+        };
+        export const Basic = () => <Button />;
+        Basic.parameters = {
+          ...Basic.parameters,
+          storySource: {
+            source: "() => <Button />",
+            ...Basic.parameters?.storySource
+          }
+        };
+      `);
+    });
+
+    it('correctly interleaves parameters', () => {
+      expect(
+        enrich(dedent`
+          /** The most basic button */
+          export default {
+            title: 'Button',
+            parameters: {
+              foo: 'bar',
+              docs: { inlineStories: true }
+            }
+          }
+          export const Basic = () => <Button />
+        `)
+      ).toMatchInlineSnapshot(`
+        /** The most basic button */
+        export default {
+          title: 'Button',
+          parameters: {
+            foo: 'bar',
+            docs: {
+              inlineStories: true,
+              description: {
+                component: "The most basic button"
+              }
+            }
+          }
+        };
+        export const Basic = () => <Button />;
+        Basic.parameters = {
+          ...Basic.parameters,
+          storySource: {
+            source: "() => <Button />",
+            ...Basic.parameters?.storySource
+          }
+        };
+      `);
+    });
+
+    it('respects user component description', () => {
+      expect(
+        enrich(dedent`
+          /** The most basic button */
+          export default {
+            title: 'Button',
+            parameters: {
+              docs: {
+                description: {
+                  component: 'hahaha'
+                }
+              }
+            }
+          }
+          export const Basic = () => <Button />
+        `)
+      ).toMatchInlineSnapshot(`
+        /** The most basic button */
+        export default {
+          title: 'Button',
+          parameters: {
+            docs: {
+              description: {
+                component: 'hahaha'
+              }
+            }
+          }
+        };
+        export const Basic = () => <Button />;
+        Basic.parameters = {
+          ...Basic.parameters,
+          storySource: {
+            source: "() => <Button />",
+            ...Basic.parameters?.storySource
+          }
+        };
+      `);
+    });
+
+    it('respects meta variables', () => {
+      expect(
+        enrich(dedent`
+        /** The most basic button */
+        const meta = {
+          title: 'Button'
+        }
+        /** This should be ignored */
+        export default meta;
+        export const Basic = () => <Button />
+        `)
+      ).toMatchInlineSnapshot(`
+        /** The most basic button */
+        const meta = {
+          title: 'Button',
+          parameters: {
+            docs: {
+              description: {
+                component: "The most basic button"
+              }
+            }
+          }
+        };
+        /** This should be ignored */
+        export default meta;
+        export const Basic = () => <Button />;
+        Basic.parameters = {
+          ...Basic.parameters,
+          storySource: {
+            source: "() => <Button />",
+            ...Basic.parameters?.storySource
           }
         };
       `);
