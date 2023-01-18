@@ -83,12 +83,12 @@ const addComponentDescription = (
   value: t.ObjectProperty
 ) => {
   if (!path.length) {
-    // make this the lowest-priority so that if the user is object-spreading on top of it,
-    // the users' code will "win"
     const hasExistingComponent = node.properties.find(
       (p) => t.isObjectProperty(p) && t.isIdentifier(p.key) && p.key.name === 'component'
     );
     if (!hasExistingComponent) {
+      // make this the lowest-priority so that if the user is object-spreading on top of it,
+      // the users' code will "win"
       node.properties.unshift(value);
     }
     return;
