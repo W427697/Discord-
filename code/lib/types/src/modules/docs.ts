@@ -6,7 +6,6 @@ import type {
   CSFFile,
   PreparedStory,
   NormalizedProjectAnnotations,
-  PreparedMeta,
 } from './story';
 
 export type StoryRenderOptions = {
