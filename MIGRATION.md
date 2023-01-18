@@ -20,6 +20,7 @@
     - [Webpack4 support discontinued](#webpack4-support-discontinued)
     - [Framework field mandatory](#framework-field-mandatory)
     - [frameworkOptions renamed](#frameworkoptions-renamed)
+    - [TypeScript: StorybookConfig type moved](#typescript-storybookconfig-type-moved)
     - [Framework standalone build moved](#framework-standalone-build-moved)
     - [Docs modern inline rendering by default](#docs-modern-inline-rendering-by-default)
     - [Babel mode v7 exclusively](#babel-mode-v7-exclusively)
@@ -38,6 +39,10 @@
     - [Addon-a11y: Removed deprecated withA11y decorator](#addon-a11y-removed-deprecated-witha11y-decorator)
     - [Stories glob matches MDX files](#stories-glob-matches-mdx-files)
     - [Add strict mode](#add-strict-mode)
+    - [Removed DLL flags](#removed-dll-flags)
+    - [Angular: Drop support for Angular \< 14](#angular-drop-support-for-angular--14)
+    - [Angular: Drop support for calling Storybook directly](#angular-drop-support-for-calling-storybook-directly)
+    - [Angular: Removed legacy renderer](#angular-removed-legacy-renderer)
   - [Docs Changes](#docs-changes)
     - [Standalone docs files](#standalone-docs-files)
     - [Referencing stories in docs files](#referencing-stories-in-docs-files)
@@ -542,6 +547,7 @@ In 7.0, frameworks also specify the builder to be used. For example, The current
 
 - `@storybook/angular`
 - `@storybook/html-webpack5`
+- `@storybook/nextjs`
 - `@storybook/preact-webpack5`
 - `@storybook/react-webpack5`
 - `@storybook/react-vite`
@@ -569,6 +575,23 @@ module.exports = {
     options: { fastRefresh: true },
   },
 };
+```
+
+#### TypeScript: StorybookConfig type moved
+
+If you are using TypeScript you should import the `StorybookConfig` type from your framework package.
+
+For example:
+
+```ts
+import type { StorybookConfig } from '@storybook/react-vite';
+
+const config: StorybookConfig = {
+  framework: '@storybook/react-vite',
+  // ... your configuration
+};
+
+export default config;
 ```
 
 #### Framework standalone build moved
@@ -740,6 +763,23 @@ export default {
 Starting in 7.0, Storybook's build tools add [`"use strict"`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode) to the compiled JS output.
 
 If user code in `.storybook/preview.js` or stories relies on "sloppy" mode behavior, it will need to be updated. As a workaround, it is sometimes possible to move the sloppy mode code inside a script tag in `.storybook/preview-head.html`.
+
+#### Removed DLL flags
+
+Earlier versions of Storybook used Webpack DLLs as a performance crutch. In 6.1, we've removed Storybook's built-in DLLs and have deprecated the command-line parameters `--no-dll` and `--ui-dll`. In 7.0 those options are removed.
+
+#### Angular: Drop support for Angular < 14
+
+Starting in 7.0, we drop support for Angular < 14
+
+#### Angular: Drop support for calling Storybook directly
+
+In Storybook 6.4 we have deprecated calling Storybook directly (`npm run storybook`) and removed support for it in Storybook 7.0 entirely. Instead you have to set up
+the Storybook builder in your `angular.json` and execute `ng run <your-project>:storybook` to start Storybook. Please visit https://github.com/storybookjs/storybook/tree/next/code/frameworks/angular to set up Storybook for Angular correctly.
+
+#### Angular: Removed legacy renderer
+
+The `parameters.angularLegacyRendering` option is removed. You cannot use the old legacy renderer anymore.
 
 ### Docs Changes
 

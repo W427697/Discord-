@@ -72,7 +72,7 @@
     "@typescript-eslint/experimental-utils": "^5.45.0",
     "@typescript-eslint/parser": "^5.45.0",
     "babel-eslint": "^10.1.0",
-    "babel-loader": "^8.3.0",
+    "babel-loader": "^9.1.2",
     "boxen": "^5.1.2",
     "chalk": "^4.1.0",
     "codecov": "^3.8.1",
