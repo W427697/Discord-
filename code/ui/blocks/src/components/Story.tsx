@@ -1,62 +1,83 @@
 import { global } from '@storybook/global';
-import type { ElementType, FunctionComponent } from 'react';
-import React, { createElement, Fragment } from 'react';
-import type { Parameters } from '@storybook/types';
+import type { FunctionComponent } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
+import type { DocsContextProps, PreparedStory } from '@storybook/types';
 import { Loader, getStoryHref } from '@storybook/components';
-// eslint-disable-next-line import/no-cycle
-import { EmptyBlock } from '.';
 import { IFrame } from './IFrame';
 import { ZoomContext } from './ZoomContext';
 
 const { PREVIEW_URL } = global;
 const BASE_URL = PREVIEW_URL || 'iframe.html';
 
-export enum StoryError {
-  NO_STORY = 'No component or story to display',
-}
-
-/** error message for Story with null storyFn
- * if the story id exists, it must be pointing to a non-existing story
- *  if there is assigned story id, the story must be empty
- */
-const MISSING_STORY = (id?: string) => (id ? `Story "${id}" doesn't exist.` : StoryError.NO_STORY);
-
 interface CommonProps {
-  title?: string;
-  height?: string;
-  id: string;
+  story: PreparedStory;
+  inline: boolean;
 }
 
 interface InlineStoryProps extends CommonProps {
-  parameters: Parameters;
-  storyFn: ElementType;
+  inline: true;
+  height?: string;
+  autoplay: boolean;
+  renderStoryToElement: DocsContextProps['renderStoryToElement'];
 }
 
-type IFrameStoryProps = CommonProps;
+interface IFrameStoryProps extends CommonProps {
+  inline: false;
+  height: string;
+}
 
-type StoryProps = InlineStoryProps | IFrameStoryProps;
+export type StoryProps = InlineStoryProps | IFrameStoryProps;
 
-const InlineStory: FunctionComponent<InlineStoryProps> = ({ storyFn, height, id }) => (
-  <Fragment>
-    {height ? (
-      <style>{`#story--${id} { min-height: ${height}; transform: translateZ(0); overflow: auto }`}</style>
-    ) : null}
-    <Fragment>
-      {storyFn ? createElement(storyFn) : <EmptyBlock>{MISSING_STORY(id)}</EmptyBlock>}
-    </Fragment>
-  </Fragment>
-);
+const InlineStory: FunctionComponent<InlineStoryProps> = ({
+  story,
+  height,
+  autoplay,
+  renderStoryToElement,
+}) => {
+  const storyRef = useRef();
+  const [showLoader, setShowLoader] = useState(true);
 
-const IFrameStory: FunctionComponent<IFrameStoryProps> = ({ id, title, height = '500px' }) => (
+  useEffect(() => {
+    if (!(story && storyRef.current)) {
+      return () => {};
+    }
+    const element = storyRef.current as HTMLElement;
+    const cleanup = renderStoryToElement(story, element, { autoplay });
+    setShowLoader(false);
+    return () => {
+      cleanup();
+    };
+  }, [autoplay, renderStoryToElement, story]);
+
+  // We do this so React doesn't complain when we replace the span in a secondary render
+  const htmlContents = `<span></span>`;
+
+  return (
+    <>
+      {height ? (
+        <style>{`#story--${story.id} { min-height: ${height}; transform: translateZ(0); overflow: auto }`}</style>
+      ) : null}
+      {showLoader && <StorySkeleton />}
+      <div
+        ref={storyRef}
+        data-name={story.name}
+        // eslint-disable-next-line react/no-danger
+        dangerouslySetInnerHTML={{ __html: htmlContents }}
+      />
+    </>
+  );
+};
+
+const IFrameStory: FunctionComponent<IFrameStoryProps> = ({ story, height = '500px' }) => (
   <div style={{ width: '100%', height }}>
     <ZoomContext.Consumer>
       {({ scale }) => {
         return (
           <IFrame
             key="iframe"
-            id={`iframe--${id}`}
-            title={title}
-            src={getStoryHref(BASE_URL, id, { viewMode: 'story' })}
+            id={`iframe--${story.id}`}
+            title={story.name}
+            src={getStoryHref(BASE_URL, story.id, { viewMode: 'story' })}
             allowFullScreen
             scale={scale}
             style={{
@@ -75,18 +96,12 @@ const IFrameStory: FunctionComponent<IFrameStoryProps> = ({ id, title, height = 
  * A story element, either rendered inline or in an iframe,
  * with configurable height.
  */
-const Story: FunctionComponent<
-  StoryProps & { inline?: boolean; error?: StoryError; children?: React.ReactNode }
-> = ({ children, error, inline, ...props }) => {
-  const { id, title, height } = props;
-
-  if (error) {
-    return <EmptyBlock>{error}</EmptyBlock>;
-  }
+const Story: FunctionComponent<StoryProps> = (props) => {
+  const { inline } = props;
   return inline ? (
     <InlineStory {...(props as InlineStoryProps)} />
   ) : (
-    <IFrameStory id={id} title={title} height={height} />
+    <IFrameStory {...(props as IFrameStoryProps)} />
   );
 };
 

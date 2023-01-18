@@ -41,6 +41,8 @@ When you are building screens in this way, it is typical that the inputs of a co
     'vue/simple-page-implementation.2.js.mdx',
     'vue/simple-page-implementation.3.js.mdx',
     'angular/simple-page-implementation.ts.mdx',
+    'web-components/simple-page-implementation.js.mdx',
+    'web-components/simple-page-implementation.ts.mdx',
     'svelte/simple-page-implementation.js.mdx',
   ]}
 />
@@ -53,14 +55,10 @@ In such cases, it is natural to use [args composition](./args.md#args-compositio
 
 <CodeSnippets
   paths={[
-    'react/page-story-with-args-composition.js.mdx',
-    'react/page-story-with-args-composition.ts.mdx',
-    'vue/page-story-with-args-composition.2.js.mdx',
-    'vue/page-story-with-args-composition.ts-2.ts.mdx',
-    'vue/page-story-with-args-composition.3.js.mdx',
-    'vue/page-story-with-args-composition.ts-3.ts.mdx',
-    'angular/page-story-with-args-composition.ts.mdx',
-    'svelte/page-story-with-args-composition.js.mdx',
+    'common/page-story-with-args-composition.js.mdx',
+    'common/page-story-with-args-composition.ts.mdx',
+    'web-components/page-story-with-args-composition.js.mdx',
+    'web-components/page-story-with-args-composition.ts.mdx',
   ]}
   usesCsf3
   csf2Path="writing-stories/build-pages-with-storybook#snippet-page-story-with-args-composition"
@@ -140,6 +138,7 @@ If you're working with pure presentational screens, adding stories through [args
     'vue/document-screen-fetch.3.js.mdx',
     'angular/document-screen-fetch.ts.mdx',
     'svelte/document-screen-fetch.js.mdx',
+    'web-components/document-screen-fetch.js.mdx',
   ]}
 />
 
@@ -151,11 +150,9 @@ To test your screen with the mocked data, you could write a similar set of stori
 
 <CodeSnippets
   paths={[
-    'react/documentscreen-story-msw-rest-request.js.mdx',
-    'vue/documentscreen-story-msw-rest-request.3.js.mdx',
-    'vue/documentscreen-story-msw-rest-request.ts-3.ts.mdx',
-    'angular/documentscreen-story-msw-rest-request.ts.mdx',
-    'svelte/documentscreen-story-msw-rest-request.js.mdx',
+    'common/documentscreen-story-msw-rest-request.js.mdx',
+    'web-components/documentscreen-story-msw-rest-request.js.mdx',
+    'web-components/documentscreen-story-msw-rest-request.ts.mdx',
   ]}
   usesCsf3
   csf2Path="writing-stories/build-pages-with-storybook#snippet-documentscreen-story-msw-rest-request"
@@ -178,7 +175,9 @@ In addition to mocking RESTful requests, the other noteworthy feature of the [MS
 <CodeSnippets
   paths={[
     'react/document-screen-with-graphql.js.mdx',
+    'react/document-screen-with-graphql.ts.mdx',
     'vue/document-screen-with-graphql.3.js.mdx',
+    'vue/document-screen-with-graphql.ts-3.ts.mdx',
     'angular/document-screen-with-graphql.ts.mdx',
     'svelte/document-screen-with-grapqhl.js.mdx',
   ]}
@@ -193,6 +192,7 @@ To test your screen with the GraphQL mocked data, you could write the following 
 <CodeSnippets
   paths={[
     'react/documentscreen-story-msw-graphql-query.js.mdx',
+    'react/documentscreen-story-msw-graphql-query.ts.mdx',
     'vue/documentscreen-story-msw-graphql-query.3.js.mdx',
     'vue/documentscreen-story-msw-graphql-query.ts-3.ts.mdx',
     'vue/apollo-wrapper-component.with-mock-implementation-3.js.mdx',
@@ -258,11 +258,10 @@ Finally, we can set the mock values in a specific story. Let's borrow an example
 
 <CodeSnippets
   paths={[
-    'react/app-story-with-mock.js.mdx',
-    'react/app-story-with-mock.ts.mdx',
-    'vue/app-story-with-mock.js.mdx',
-    'vue/app-story-with-mock.ts.mdx',
-    'angular/app-story-with-mock.ts.mdx',
+    'common/app-story-with-mock.js.mdx',
+    'common/app-story-with-mock.ts.mdx',
+    'web-components/app-story-with-mock.js.mdx',
+    'web-components/app-story-with-mock.ts.mdx',
   ]}
   usesCsf3
   csf2Path="writing-stories/build-pages-with-storybook#snippet-app-story-with-mock"
