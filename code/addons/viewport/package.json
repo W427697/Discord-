@@ -109,7 +109,7 @@
       "./src/preview.ts"
     ]
   },
-  "gitHead": "c6b2e1a65b1a0f65c52819929344602708212a59",
+  "gitHead": "633f95bec79fb65524a7bcae867448b351920831",
   "storybook": {
     "displayName": "Viewport",
     "icon": "https://user-images.githubusercontent.com/263385/101991678-48cdf300-3c7c-11eb-9764-f8af293c1b28.png",
