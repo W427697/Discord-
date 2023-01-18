@@ -1,17 +1,13 @@
 import path from 'node:path';
 import { parseArgs } from 'node:util';
-import { z } from 'zod';
 import { isMatch } from 'picomatch';
-import type { ConfigurationValidator } from 'knip/dist/configuration-validator';
-
-// TODO: Import this type directly from Knip once it's available (and get rid of zod dependency here)
-type Configuration = z.infer<typeof ConfigurationValidator>;
+import type { KnipConfig } from 'knip';
 
 const baseDir = process.cwd();
 const { values } = parseArgs({ strict: false, options: { workspace: { type: 'string' } } });
 const wsArg = values.workspace;
 
-const baseConfig: Configuration = {
+const baseConfig: KnipConfig = {
   ignore: '**/*.d.ts',
   ignoreBinaries: ['echo'],
   workspaces: {
@@ -51,7 +47,7 @@ const baseConfig: Configuration = {
 };
 
 // Adds package.json#bundler.entries to each workspace config `entry: []`
-export const addBundlerEntries = async (config: Configuration) => {
+export const addBundlerEntries = async (config: KnipConfig) => {
   const wsKeys = config.workspaces ? Object.keys(config.workspaces) : ['.'];
   const wsMatches = wsArg ? wsKeys.filter((wsKey) => isMatch(wsArg, wsKey)) : wsKeys;
   wsMatches.forEach((wsKey) => {

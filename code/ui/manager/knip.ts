@@ -1,11 +1,7 @@
-import { z } from 'zod';
-import type { ConfigurationValidator } from 'knip/dist/configuration-validator';
 import { addBundlerEntries } from '../../knip';
+import type { KnipConfig } from 'knip';
 
-// TODO: Import this type directly from Knip once it's available (and get rid of zod dependency here)
-type Configuration = z.infer<typeof ConfigurationValidator>;
-
-const baseConfig: Configuration = {
+const baseConfig: KnipConfig = {
   entry: ['scripts/generate-exports-file.ts'],
   project: '{scripts,src}/**/*.{js,ts,tsx}',
 };
