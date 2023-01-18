@@ -10,7 +10,6 @@ import { DocsContext } from './DocsContext';
 import type { SourceContextProps, SourceItem } from './SourceContainer';
 import { SourceContext } from './SourceContainer';
 
-import { enhanceSource } from './enhanceSource';
 import { useStories } from './useStory';
 
 export enum SourceState {
@@ -28,9 +27,15 @@ type SourceParameters = SourceCodeProps & {
    * Transform the detected source for display
    */
   transformSource?: (code: string, story: PreparedStory) => string;
+  /**
+   * Internal: set by our CSF loader (`enrichCsf` in `@storybook/csf-tools`).
+   */
+  storySource?: {
+    source?: string;
+  };
 };
 
-type SourceProps = Omit<SourceParameters, 'transformSource'> & {
+type SourceProps = Omit<SourceParameters, 'transformSource' | 'storySource'> & {
   /**
    * Pass the export defining a story to render its source
    *
@@ -85,7 +90,7 @@ const getSnippet = (
     // if this is an args story and there's a snippet
     (type === SourceType.AUTO && snippet && isArgsStory);
 
-  const code = useSnippet ? snippet : enhanceSource(story);
+  const code = useSnippet ? snippet : sourceParameters.storySource?.source || '';
 
   return sourceParameters.transformSource?.(code, story) || code;
 };
