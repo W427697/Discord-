@@ -451,6 +451,7 @@ export const daily: TemplateKey[] = [
   'svelte-vite/default-js',
   'nextjs/12-js',
   'nextjs/default-js',
+  'qwik-vite/default-ts',
   'preact-webpack5/default-js',
   'preact-vite/default-js',
 ];
