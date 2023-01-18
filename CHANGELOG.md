@@ -1,3 +1,28 @@
+## 7.0.0-beta.29 (January 17, 2023)
+
+#### Features
+
+-   CLI: Add codemod to upgrade deprecated types [#20618](https://github.com/storybooks/storybook/pull/20618)
+-   CLI: overhaul `storybook repro` command and rename it to `storybook sandbox` [#20507](https://github.com/storybooks/storybook/pull/20507)
+-   Vue3: Add source decorator vue template and setup script + supports of multi slots  [#20498](https://github.com/storybooks/storybook/pull/20498)
+
+#### Bug Fixes
+
+-   Angular: Fix handling of docsMode option in angular builder  [#20608](https://github.com/storybooks/storybook/pull/20608)
+-   UI: Bring back support for `favicon.ico` [#20612](https://github.com/storybooks/storybook/pull/20612)
+-   CLI: Fix missing css import on Vue3 button [#20470](https://github.com/storybooks/storybook/pull/20470)
+-   Codemods: Fix `csf-2-to-3` ignores Typescript types [#20273](https://github.com/storybooks/storybook/pull/20273)
+-   NextJS: Fix image loader [#20615](https://github.com/storybooks/storybook/pull/20615)
+-   Storyshots: Fix transpilation [#20630](https://github.com/storybooks/storybook/pull/20630)
+
+#### Maintenance
+
+-   React: Change deprecated `React.VFC` to `React.FC` [#20619](https://github.com/storybooks/storybook/pull/20619)
+
+#### Dependency Upgrades
+
+-   Upgrade babel-loader to ^9.0.0 [#20577](https://github.com/storybooks/storybook/pull/20577)
+
 ## 7.0.0-beta.28 (January 14, 2023)
 
 #### Maintenance

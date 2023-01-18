@@ -1,26 +1,66 @@
-import React, { useState } from 'react';
-import { Button } from '@storybook/components';
-import { Story, StorySkeleton, StoryError } from './Story';
+import React from 'react';
+import type { Meta, StoryObj } from '@storybook/react';
+import type { ModuleExport } from '@storybook/types';
+import type { StoryProps } from './Story';
+import { Story as StoryComponent, StorySkeleton } from './Story';
+import type { DocsContextProps } from '../blocks';
+import * as ButtonStories from '../examples/Button.stories';
 
-export default {
-  component: Story,
+// eslint-disable-next-line no-underscore-dangle
+const preview = (window as any).__STORYBOOK_PREVIEW__;
+const renderStoryToElement = preview.renderStoryToElement.bind(preview);
+
+type ExtendedStoryProps = Omit<StoryProps, 'story'> & {
+  storyExport: ModuleExport;
 };
 
-const buttonFn = () => <Button secondary>Inline story</Button>;
-
-const buttonHookFn = () => {
-  const [count, setCount] = useState(0);
-  return (
-    <Button secondary onClick={() => setCount(count + 1)}>
-      {`count: ${count}`}
-    </Button>
-  );
+const meta: Meta<ExtendedStoryProps> = {
+  // @ts-expect-error getting too complex with props
+  component: StoryComponent,
+  parameters: {
+    relativeCsfPaths: ['../examples/Button.stories'],
+  },
+  args: {
+    height: '100px',
+    // NOTE: the real story arg is a PreparedStory, which we'll get in the render function below
+    storyExport: ButtonStories.Primary as any,
+  },
+  render({ storyExport, ...args }, { loaded }) {
+    const docsContext = loaded.docsContext as DocsContextProps;
+    const resolved = docsContext.resolveModuleExport(storyExport);
+    if (resolved.type !== 'story') throw new Error('Bad export, pass a story!');
+    // @ts-expect-error getting too complex with props
+    return <StoryComponent {...args} story={resolved.story} />;
+  },
 };
+export default meta;
+
+type Story = StoryObj<typeof meta>;
 
 export const Loading = () => <StorySkeleton />;
 
-export const Inline = () => <Story id="id" inline storyFn={buttonFn} title="hello button" />;
+export const Inline: Story = {
+  args: {
+    inline: true,
+    // @ts-expect-error getting too complex with props
+    autoplay: false,
+    renderStoryToElement,
+  },
+};
 
-export const Error = () => <Story id="id" error={StoryError.NO_STORY} />;
+export const IFrame: Story = {
+  name: 'IFrame',
+  args: {
+    inline: false,
+  },
+};
 
-export const ReactHook = () => <Story id="id" inline storyFn={buttonHookFn} title="hello button" />;
+export const Autoplay: Story = {
+  args: {
+    storyExport: ButtonStories.Clicking,
+    inline: true,
+    // @ts-expect-error getting too complex with props
+    autoplay: true,
+    renderStoryToElement,
+  },
+};
