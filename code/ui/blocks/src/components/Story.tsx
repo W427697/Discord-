@@ -64,6 +64,7 @@ const InlineStory: FunctionComponent<InlineStoryProps> = (props) => {
       {showLoader && <StorySkeleton />}
       <div
         ref={storyRef}
+        id={`${storyBlockIdFromId(props)}-inner`}
         data-name={story.name}
         // eslint-disable-next-line react/no-danger
         dangerouslySetInnerHTML={{ __html: htmlContents }}

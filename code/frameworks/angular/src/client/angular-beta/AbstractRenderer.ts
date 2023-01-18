@@ -93,7 +93,7 @@ export abstract class AbstractRenderer {
     parameters: Parameters;
     targetDOMNode: HTMLElement;
   }) {
-    const targetSelector = `${this.generateTargetSelectorFromStoryId()}`;
+    const targetSelector = this.generateTargetSelectorFromStoryId(targetDOMNode.id);
 
     const newStoryProps$ = new BehaviorSubject<ICollection>(storyFnAngular.props);
 
@@ -142,12 +142,10 @@ export abstract class AbstractRenderer {
    * @protected
    * @memberof AbstractRenderer
    */
-  protected generateTargetSelectorFromStoryId() {
+  protected generateTargetSelectorFromStoryId(id: string) {
     const invalidHtmlTag = /[^A-Za-z0-9-]/g;
-    const storyIdIsInvalidHtmlTagName = invalidHtmlTag.test(this.storyId);
-    return storyIdIsInvalidHtmlTagName
-      ? `sb-${this.storyId.replace(invalidHtmlTag, '')}-component`
-      : this.storyId;
+    const storyIdIsInvalidHtmlTagName = invalidHtmlTag.test(id);
+    return storyIdIsInvalidHtmlTagName ? `sb-${id.replace(invalidHtmlTag, '')}-component` : id;
   }
 
   protected initAngularRootElement(targetDOMNode: HTMLElement, targetSelector: string) {
