@@ -20,8 +20,6 @@ type ArgTypesParameters = {
 type ArgTypesProps = ArgTypesParameters & {
   of: Renderer['component'] | ModuleExports;
 };
-
-// TODO: generalize
 function extractComponentArgTypes(
   component: Renderer['component'],
   parameters: Parameters
