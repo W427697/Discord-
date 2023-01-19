@@ -111,9 +111,7 @@ export const useSourceProps = (
   // The check didn't actually change the type.
   let stories: PreparedStory[] = storiesFromIds as PreparedStory[];
   if (props.of) {
-    const resolved = docsContext.resolveModuleExport(props.of);
-    if (resolved.type !== 'story')
-      throw new Error(`Invalid value passed to the 'of' prop, it should be a story export.`);
+    const resolved = docsContext.resolveOf(props.of, ['story']);
     stories = [resolved.story];
   } else if (stories.length === 0) {
     stories = [docsContext.storyById()];
