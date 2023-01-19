@@ -174,7 +174,7 @@ export class StoryIndexGenerator {
     // files may use the `<Meta of={XStories} />` syntax, which requires
     // that the story file that contains the meta be processed first.
     await this.updateExtracted(async (specifier, absolutePath) =>
-      this.isStoryFile(absolutePath) ? this.extractStories(specifier, absolutePath): false
+      this.isStoryFile(absolutePath) ? this.extractStories(specifier, absolutePath) : false
     );
 
     if (!this.options.docs.disable) {
