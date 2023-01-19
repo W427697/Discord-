@@ -1,7 +1,10 @@
-```js
-// .storybook/main.js
+```ts
+// .storybook/main.ts
 
-module.exports = {
+// Replace your-framework with the framework you are using (e.g., react-webpack5, vue3-webpack5)
+import type { StorybookConfig } from '@storybook/your-framework';
+
+const config: StorybookConfig = {
   stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|ts|tsx)'],
   addons: [
     '@storybook/addon-links',
@@ -17,4 +20,6 @@ module.exports = {
     EXAMPLE_VAR: 'An environment variable configured in Storybook',
   }),
 };
+
+export default config;
 ```
