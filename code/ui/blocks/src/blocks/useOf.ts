@@ -3,6 +3,7 @@ import { prepareMeta } from '@storybook/preview-api';
 import { useContext } from 'react';
 import { DocsContext } from './DocsContext';
 
+export type Of = Parameters<DocsContextProps['resolveOf']>[0];
 /**
  * A hook to resolve the `of` prop passed to a block.
  * will return the resolved module
