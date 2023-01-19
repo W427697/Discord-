@@ -23,7 +23,7 @@ type ControlsParameters = {
 };
 
 type ControlsProps = ControlsParameters & {
-  of: Renderer['component'] | ModuleExports;
+  of?: Renderer['component'] | ModuleExports;
 };
 
 const useArgs = (
