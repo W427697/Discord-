@@ -318,6 +318,12 @@ export class ConfigFile {
       });
     }
 
+    if (!value) {
+      throw new Error(
+        `The given node must be a string literal or an object expression with a "${fallbackProperty}" property that is a string literal.`
+      );
+    }
+
     return value;
   }
 

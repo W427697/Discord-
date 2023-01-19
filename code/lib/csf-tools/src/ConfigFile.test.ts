@@ -768,7 +768,7 @@ describe('ConfigFile', () => {
           import type { StorybookConfig } from '@storybook/react-webpack5';
 
           const config: StorybookConfig = {
-            framework: { name: 'foo', options: {} },
+            framework: { name: 'foo', options: { bar: require('baz') } },
           }
           export default config;
         `;
@@ -776,7 +776,7 @@ describe('ConfigFile', () => {
         expect(config.getNameFromPath(['framework'])).toEqual('foo');
       });
 
-      it(`returns undefined with unexpected node value`, () => {
+      it(`throws an error with unexpected node value`, () => {
         const source = dedent`
           import type { StorybookConfig } from '@storybook/react-webpack5';
 
@@ -786,7 +786,9 @@ describe('ConfigFile', () => {
           export default config;
         `;
         const config = loadConfig(source).parse();
-        expect(config.getNameFromPath(['framework'])).toBeUndefined();
+        expect(() => config.getNameFromPath(['framework'])).toThrowError(
+          `The given node must be a string literal or an object expression with a "name" property that is a string literal.`
+        );
       });
     });
 
