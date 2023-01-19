@@ -22,11 +22,6 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-/**
- * This is the primary mode for the button
- *
- * _this description was written as a comment above the story_
- */
 export const NoParameters: Story = {
   argTypes: {
     // @ts-expect-error Story type is trying to force us to use real props as args
