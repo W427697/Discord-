@@ -14,12 +14,6 @@ import { getStoryId, Story } from './Story';
 
 export { DeprecatedSourceState as SourceState };
 
-const sourceStateMap: Record<CanvasProps['sourceState'], SourceState> = {
-  shown: SourceState.OPEN,
-  hidden: SourceState.CLOSED,
-  none: SourceState.NONE,
-};
-
 type DeprecatedCanvasProps = Omit<
   PurePreviewProps,
   'isExpanded' | 'isLoading' | 'withToolbar' | 'additionalActions' | 'className'
@@ -94,7 +88,6 @@ export const Canvas: FC<CanvasProps & DeprecatedCanvasProps> = (props) => {
     {
       ...source,
       of,
-      state: sourceStateMap[sourceState],
     },
     docsContext,
     sourceContext
