@@ -48,7 +48,6 @@ Additionally, you can also provide additional feature flags to your Storybook co
 | --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
 | `storyStoreV7`        | Configures Storybook to load stories [on demand](#on-demand-story-loading), rather than during boot up. <br/> `features: { storyStoreV7: true }` |
 | `buildStoriesJson`    | Generates a `stories.json` file to help story loading with the on demand mode. <br/> `features: { buildStoriesJson: true }`                      |
-| `babelModeV7`         | Enables the new [Babel configuration](./babel.md#v7-mode) mode for Storybook. <br/> `features: { babelModeV7: true }`                            |
 
 ## Configure story loading
 
