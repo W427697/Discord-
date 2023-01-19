@@ -25,6 +25,23 @@ describe('inject-decorator', () => {
         )
       );
     });
+
+    it('includes storySource parameter in the default exported variable', () => {
+      const mockFilePath = './__mocks__/inject-decorator.ts.csf-meta-var.txt';
+      const source = fs.readFileSync(mockFilePath, 'utf-8');
+      const result = injectDecorator(source, path.resolve(__dirname, mockFilePath), {
+        parser: 'typescript',
+      });
+
+      expect(result.source).toMatchSpecificSnapshot(
+        path.join(snapshotDir, `inject-decorator.csf-meta-var.test.js.${SNAPSHOT_OS}.snapshot`)
+      );
+      expect(result.source).toEqual(
+        expect.stringContaining(
+          'const meta = {parameters: {"storySource":{"source":"import React from'
+        )
+      );
+    });
   });
 
   describe('injectStoryParameters - ts - csf', () => {
