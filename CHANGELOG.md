@@ -1,3 +1,37 @@
+## 7.0.0-beta.30 (January 18, 2023)
+
+#### Features
+
+-   UI: Add Sun, Moon, Sidebyside, and stacked icons [#20621](https://github.com/storybooks/storybook/pull/20621)
+-   Angular: Add multi-project setup for ng workspaces [#20559](https://github.com/storybooks/storybook/pull/20559)
+-   Addon-docs: Support @deprecated jsdoc tag [#20154](https://github.com/storybooks/storybook/pull/20154)
+-   Csf-plugin: Support meta description comments [#20632](https://github.com/storybooks/storybook/pull/20632)
+
+#### Bug Fixes
+
+-   Core: Fix `core` preset default value [#20646](https://github.com/storybooks/storybook/pull/20646)
+-   Addon-docs: Fix issue with unattached `.mdx` files [#20661](https://github.com/storybooks/storybook/pull/20661)
+-   Webpack: aAd error catching when template is not set [#20669](https://github.com/storybooks/storybook/pull/20669)
+-   Addons: Fix Viewport resetting shortcut key not working [#20167](https://github.com/storybooks/storybook/pull/20167)
+-   Core: Show "booting" progress until story is specified or errors [#20425](https://github.com/storybooks/storybook/pull/20425)
+-   Vue: Update events binding in Vue render [#19860](https://github.com/storybooks/storybook/pull/19860)
+-   Addon-actions: Fix webpack hot reload code in manager bundle [#20649](https://github.com/storybooks/storybook/pull/20649)
+-   UI: Fix HMR issue in Manager UI [#20654](https://github.com/storybooks/storybook/pull/20654)
+
+#### Maintenance
+
+-   Docs: Refactor props of Story block [#20530](https://github.com/storybooks/storybook/pull/20530)
+-   Vite: TypeScript type cleanup [#20642](https://github.com/storybooks/storybook/pull/20642)
+
+#### Build
+
+-   Add required jobs to daily workflow [#20263](https://github.com/storybooks/storybook/pull/20263)
+-   Fix typings files to ensure this the check command succeeds [#20598](https://github.com/storybooks/storybook/pull/20598)
+
+#### Dependency Upgrades
+
+-   Svelte: Remove babel/core peer dep [#20650](https://github.com/storybooks/storybook/pull/20650)
+
 ## 7.0.0-beta.29 (January 17, 2023)
 
 #### Features

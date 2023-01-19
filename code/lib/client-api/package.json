@@ -1,6 +1,6 @@
 {
   "name": "@storybook/client-api",
-  "version": "7.0.0-beta.29",
+  "version": "7.0.0-beta.30",
   "description": "Storybook Client API",
   "keywords": [
     "storybook"
@@ -42,8 +42,8 @@
     "prep": "../../../scripts/prepare/facade.ts"
   },
   "dependencies": {
-    "@storybook/client-logger": "7.0.0-beta.29",
-    "@storybook/preview-api": "7.0.0-beta.29"
+    "@storybook/client-logger": "7.0.0-beta.30",
+    "@storybook/preview-api": "7.0.0-beta.30"
   },
   "publishConfig": {
     "access": "public"
@@ -54,5 +54,5 @@
     ],
     "shim": "@storybook/preview-api/dist/client-api"
   },
-  "gitHead": "c6b2e1a65b1a0f65c52819929344602708212a59"
+  "gitHead": "633f95bec79fb65524a7bcae867448b351920831"
 }
