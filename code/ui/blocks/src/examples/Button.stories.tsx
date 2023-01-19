@@ -12,13 +12,6 @@ const meta = {
   tags: ['autodocs'],
   argTypes: {
     backgroundColor: { control: 'color' },
-    // @ts-expect-error Meta type is trying to force us to use real props as args
-    extraMetaArgType: {
-      type: { name: 'string' },
-      name: 'Extra Meta',
-      description: 'An extra argtype added at the meta level',
-      table: { defaultValue: { summary: "'a default value'" } },
-    },
   },
   parameters: {
     // Stop *this* story from being stacked in Chromatic
@@ -42,15 +35,6 @@ export const Primary: Story = {
   args: {
     primary: true,
     label: 'Button',
-  },
-  argTypes: {
-    // @ts-expect-error Story type is trying to force us to use real props as args
-    extraStoryArgType: {
-      type: { name: 'string' },
-      name: 'Extra Story',
-      description: 'An extra argtype added at the story level',
-      table: { defaultValue: { summary: "'a default value'" } },
-    },
   },
 };
 

@@ -1,14 +1,13 @@
-import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 
 import { ArgTypes } from './ArgTypes';
-import * as ButtonStories from '../examples/Button.stories';
+import * as ExampleStories from '../examples/ArgTypesParameters.stories';
 
 const meta: Meta<typeof ArgTypes> = {
   title: 'Blocks/ArgTypes',
   component: ArgTypes,
   parameters: {
-    relativeCsfPaths: ['../examples/Button.stories', '../blocks/ArgTypes.stories'],
+    relativeCsfPaths: ['../examples/ArgTypesParameters.stories'],
   },
 };
 export default meta;
@@ -19,19 +18,19 @@ export const Default: Story = {};
 
 export const OfComponent: Story = {
   args: {
-    of: ButtonStories.default.component,
+    of: ExampleStories.default.component,
   },
 };
 
 export const OfMeta: Story = {
   args: {
-    of: ButtonStories.default,
+    of: ExampleStories.default,
   },
 };
 
 export const OfStory: Story = {
   args: {
-    of: ButtonStories.Primary,
+    of: ExampleStories.NoParameters,
   },
 };
 
@@ -39,68 +38,45 @@ export const OfStory: Story = {
 export const OfStoryUnattached: Story = {
   parameters: { attached: false },
   args: {
-    of: ButtonStories.Primary,
-  },
-};
-
-export const Simple = {
-  render: () => <div>Story for reference</div>,
-  argTypes: {
-    a: { type: { name: 'string' }, name: 'A', description: 'a' },
-    b: { type: { name: 'string', required: true }, name: 'B', description: 'b' },
+    of: ExampleStories.NoParameters,
   },
 };
 
 export const IncludeProp: Story = {
   args: {
-    of: Simple,
-    include: ['A'],
+    of: ExampleStories.NoParameters,
+    include: ['a'],
   },
-};
-
-export const SimpleInclude = {
-  ...Simple,
-  parameters: { docs: { argTypes: { include: ['A'] } } },
 };
 
 export const IncludeParameter: Story = {
   args: {
-    of: SimpleInclude,
+    of: ExampleStories.Include,
   },
 };
 
 export const ExcludeProp: Story = {
   args: {
-    of: Simple,
-    exclude: ['A'],
+    of: ExampleStories.NoParameters,
+    exclude: ['a'],
   },
-};
-
-export const SimpleExclude = {
-  ...Simple,
-  parameters: { docs: { argTypes: { exclude: ['A'] } } },
 };
 
 export const ExcludeParameter: Story = {
   args: {
-    of: SimpleExclude,
+    of: ExampleStories.Exclude,
   },
 };
 
 export const SortProp: Story = {
   args: {
-    of: Simple,
-    sort: 'requiredFirst',
+    of: ExampleStories.NoParameters,
+    sort: 'alpha',
   },
-};
-
-export const SimpleSort = {
-  ...Simple,
-  parameters: { docs: { argTypes: { sort: 'requiredFirst' } } },
 };
 
 export const SortParameter: Story = {
   args: {
-    of: SimpleSort,
+    of: ExampleStories.Sort,
   },
 };
