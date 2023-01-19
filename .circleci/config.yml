@@ -404,6 +404,7 @@ jobs:
       - run:
           name: Building Sandboxes
           command: yarn task --task build --template $(yarn get-template << pipeline.parameters.workflow >> build) --no-link --start-from=never --junit
+      - run: ls -la sandbox/*/storybook-static
       - run:
           name: Verifying Telemetry
           command: yarn ts-node ./event-log-checker build $(yarn get-template << pipeline.parameters.workflow >> build)
@@ -450,6 +451,7 @@ jobs:
       - checkout
       - attach_workspace:
           at: .
+      - run: ls -la sandbox/*/storybook-static
       - run:
           name: Running Chromatic
           command: yarn task --task chromatic --template $(yarn get-template << pipeline.parameters.workflow >> chromatic) --no-link --start-from=never --junit
