@@ -747,4 +747,65 @@ describe('ConfigFile', () => {
       });
     });
   });
+
+  describe('config helpers', () => {
+    describe('getNameFromPath', () => {
+      it(`supports string literal node`, () => {
+        const source = dedent`
+          import type { StorybookConfig } from '@storybook/react-webpack5';
+
+          const config: StorybookConfig = {
+            framework: 'foo',
+          }
+          export default config;
+        `;
+        const config = loadConfig(source).parse();
+        expect(config.getNameFromPath(['framework'])).toEqual('foo');
+      });
+
+      it(`supports object expression node with name property`, () => {
+        const source = dedent`
+          import type { StorybookConfig } from '@storybook/react-webpack5';
+
+          const config: StorybookConfig = {
+            framework: { name: 'foo', options: {} },
+          }
+          export default config;
+        `;
+        const config = loadConfig(source).parse();
+        expect(config.getNameFromPath(['framework'])).toEqual('foo');
+      });
+
+      it(`returns undefined with unexpected node value`, () => {
+        const source = dedent`
+          import type { StorybookConfig } from '@storybook/react-webpack5';
+
+          const config: StorybookConfig = {
+            framework: makesNoSense(),
+          }
+          export default config;
+        `;
+        const config = loadConfig(source).parse();
+        expect(config.getNameFromPath(['framework'])).toBeUndefined();
+      });
+    });
+
+    describe('getNamesFromPath', () => {
+      it(`supports an array with string literal and object expression with name property`, () => {
+        const source = dedent`
+          import type { StorybookConfig } from '@storybook/react-webpack5';
+
+          const config: StorybookConfig = {
+            addons: [
+              'foo',
+              { name: 'bar', options: {} },
+            ]
+          }
+          export default config;
+        `;
+        const config = loadConfig(source).parse();
+        expect(config.getNamesFromPath(['addons'])).toEqual(['foo', 'bar']);
+      });
+    });
+  });
 });
