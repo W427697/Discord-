@@ -62,9 +62,10 @@ const getSourceState = (stories: PreparedStory[]) => {
 
 const getStorySource = (storyId: StoryId, sourceContext: SourceContextProps): SourceItem => {
   const { sources } = sourceContext;
+  console.log(storyId, sources);
   // source rendering is async so source is unavailable at the start of the render cycle,
   // so we fail gracefully here without warning
-  return sources?.[storyId] || { code: '', format: false };
+  return sources?.[storyId] || { code: '' };
 };
 
 const getSnippet = (
@@ -131,7 +132,7 @@ export const useSourceProps = (
         const source = getStorySource(story.id, sourceContext);
         if (index === 0) {
           // Take the format from the first story
-          format = source.format;
+          format = source.format ?? story.parameters.docs?.source?.format ?? false;
         }
         return getSnippet(source.code, story, props.type);
       })
