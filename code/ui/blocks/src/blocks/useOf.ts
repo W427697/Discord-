@@ -1,4 +1,4 @@
-import type { DocsContextProps, ResolvedModuleExport } from '@storybook/types';
+import type { DocsContextProps } from '@storybook/types';
 import { prepareMeta } from '@storybook/preview-api';
 import { useContext } from 'react';
 import { DocsContext } from './DocsContext';
