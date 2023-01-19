@@ -90,7 +90,9 @@ Run the following commands to install MSW, the addon, and generate a mock servic
   paths={[
     'common/storybook-msw-install.yarn.js.mdx',
     'common/storybook-msw-install.npm.js.mdx',
+    'common/storybook-msw-install.pnpm.js.mdx',
     'common/storybook-msw-generate.msw.js.mdx',
+    'common/storybook-msw-generate.msw-pnpm.js.mdx',
   ]}
 />
 
