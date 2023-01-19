@@ -4,6 +4,7 @@ import { within } from '@storybook/testing-library';
 import type { PlayFunctionContext } from '@storybook/csf';
 import type { WebRenderer, ModuleExport } from '@storybook/types';
 import { RESET_STORY_ARGS, STORY_ARGS_UPDATED, UPDATE_STORY_ARGS } from '@storybook/core-events';
+import { global as globalThis } from '@storybook/global';
 
 import type { StoryProps } from './Story';
 import { Story as StoryComponent, StorySkeleton } from './Story';
