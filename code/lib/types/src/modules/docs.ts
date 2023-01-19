@@ -10,6 +10,7 @@ import type {
 
 export type StoryRenderOptions = {
   autoplay?: boolean;
+  forceInitialArgs?: boolean;
 };
 
 /**

@@ -107,6 +107,8 @@ export const WithToolbar = (
       story={getPreparedStory(docsContext, ButtonStories.Primary)}
       renderStoryToElement={renderStoryToElement}
       autoplay={false}
+      forceInitialArgs={false}
+      primary={false}
       height="100px"
     />
   </Preview>
@@ -137,6 +139,8 @@ export const WithToolbarMulti = (
       story={getPreparedStory(docsContext, ButtonStories.Primary)}
       renderStoryToElement={renderStoryToElement}
       autoplay={false}
+      forceInitialArgs={false}
+      primary={false}
       height="100px"
     />
     <Story
@@ -144,6 +148,8 @@ export const WithToolbarMulti = (
       story={getPreparedStory(docsContext, ButtonStories.Primary)}
       renderStoryToElement={renderStoryToElement}
       autoplay={false}
+      forceInitialArgs={false}
+      primary={false}
       height="100px"
     />
   </Preview>
@@ -159,6 +165,8 @@ export const WithFullscreenSingle = (
       story={getPreparedStory(docsContext, ButtonStories.Primary)}
       renderStoryToElement={renderStoryToElement}
       autoplay={false}
+      forceInitialArgs={false}
+      primary={false}
       height="100px"
     />
   </Preview>
@@ -174,6 +182,8 @@ export const WithFullscreenMulti = (
       story={getPreparedStory(docsContext, ButtonStories.Primary)}
       renderStoryToElement={renderStoryToElement}
       autoplay={false}
+      forceInitialArgs={false}
+      primary={false}
       height="100px"
     />
     <Story
@@ -181,6 +191,8 @@ export const WithFullscreenMulti = (
       story={getPreparedStory(docsContext, ButtonStories.Primary)}
       renderStoryToElement={renderStoryToElement}
       autoplay={false}
+      forceInitialArgs={false}
+      primary={false}
       height="100px"
     />
   </Preview>
@@ -196,6 +208,8 @@ export const WithCenteredSingle = (
       story={getPreparedStory(docsContext, ButtonStories.Primary)}
       renderStoryToElement={renderStoryToElement}
       autoplay={false}
+      forceInitialArgs={false}
+      primary={false}
       height="100px"
     />
   </Preview>
@@ -211,6 +225,8 @@ export const WithCenteredMulti = (
       story={getPreparedStory(docsContext, ButtonStories.Primary)}
       renderStoryToElement={renderStoryToElement}
       autoplay={false}
+      forceInitialArgs={false}
+      primary={false}
       height="100px"
     />
     <Story
@@ -218,6 +234,8 @@ export const WithCenteredMulti = (
       story={getPreparedStory(docsContext, ButtonStories.Primary)}
       renderStoryToElement={renderStoryToElement}
       autoplay={false}
+      forceInitialArgs={false}
+      primary={false}
       height="100px"
     />
   </Preview>
