@@ -18,6 +18,7 @@ import {
   mdxPlugin,
   stripStoryHMRBoundary,
 } from './plugins';
+import { externalsPlugin } from './plugins/externals-plugin';
 
 export type PluginConfigType = 'build' | 'development';
 
@@ -91,7 +92,7 @@ export async function pluginConfig(options: Options) {
         }
       },
     },
-    viteExternalsPlugin(globals, { useWindow: false, disableInServe: true }),
+    await externalsPlugin(),
   ] as PluginOption[];
 
   // TODO: framework doesn't exist, should move into framework when/if built
