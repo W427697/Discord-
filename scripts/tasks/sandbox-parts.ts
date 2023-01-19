@@ -1,8 +1,16 @@
 // This file requires many imports from `../code`, which requires both an install and bootstrap of
 // the repo to work properly. So we load it async in the task runner *after* those steps.
 
-/* eslint-disable no-restricted-syntax, no-await-in-loop */
-import { copy, ensureSymlink, ensureDir, existsSync, pathExists } from 'fs-extra';
+/* eslint-disable no-restricted-syntax, no-await-in-loop, no-param-reassign */
+import {
+  copy,
+  ensureSymlink,
+  ensureDir,
+  existsSync,
+  pathExists,
+  readJson,
+  writeJson,
+} from 'fs-extra';
 import { join, resolve, sep } from 'path';
 
 import type { Task } from '../task';
@@ -71,7 +79,6 @@ export const create: Task['run'] = async (
 
 export const install: Task['run'] = async ({ sandboxDir, template }, { link, dryRun, debug }) => {
   const cwd = sandboxDir;
-
   await installYarn2({ cwd, dryRun, debug });
 
   if (link) {
@@ -110,21 +117,19 @@ export const install: Task['run'] = async ({ sandboxDir, template }, { link, dry
     debug,
   });
 
-  const mainConfig = await readMainConfig({ cwd });
-  // Enable or disable Storybook features
-  mainConfig.setFieldValue(['features'], {
-    interactionsDebugger: true,
-  });
-
-  if (template.expected.builder === '@storybook/builder-vite') setSandboxViteFinal(mainConfig);
-  await writeConfig(mainConfig);
-
   logger.info(`🔢 Adding package scripts:`);
   await updatePackageScripts({
     cwd,
     prefix:
       'NODE_OPTIONS="--preserve-symlinks --preserve-symlinks-main" STORYBOOK_TELEMETRY_URL="http://localhost:6007/event-log"',
   });
+
+  switch (template.expected.framework) {
+    case '@storybook/angular':
+      await prepareAngularSandbox(cwd);
+      break;
+    default:
+  }
 };
 
 // Ensure that sandboxes can refer to story files defined in `code/`.
@@ -428,3 +433,50 @@ export const addStories: Task['run'] = async (
 
   await writeConfig(mainConfig);
 };
+
+export const extendMain: Task['run'] = async ({ template, sandboxDir }) => {
+  logger.log('📝 Extending main.js');
+  const mainConfig = await readMainConfig({ cwd: sandboxDir });
+  const templateConfig = template.modifications?.mainConfig || {};
+  const configToAdd = {
+    ...templateConfig,
+    features: {
+      interactionsDebugger: true,
+      ...templateConfig.features,
+    },
+  };
+
+  Object.entries(configToAdd).forEach(([field, value]) => mainConfig.setFieldValue([field], value));
+
+  if (template.expected.builder === '@storybook/builder-vite') setSandboxViteFinal(mainConfig);
+  await writeConfig(mainConfig);
+};
+
+/**
+ * Sets compodoc option in angular.json projects to false. We have to generate compodoc
+ * manually to avoid symlink issues related to the template-stories folder.
+ * In a second step a docs:json script is placed into the package.json to generate the
+ * Compodoc documentation.json, which respects symlinks
+ * */
+async function prepareAngularSandbox(cwd: string) {
+  const angularJson = await readJson(join(cwd, 'angular.json'));
+
+  Object.keys(angularJson.projects).forEach((projectName: string) => {
+    angularJson.projects[projectName].architect.storybook.options.compodoc = false;
+    angularJson.projects[projectName].architect['build-storybook'].options.compodoc = false;
+  });
+
+  await writeJson(join(cwd, 'angular.json'), angularJson, { spaces: 2 });
+
+  const packageJsonPath = join(cwd, 'package.json');
+  const packageJson = await readJson(packageJsonPath);
+
+  packageJson.scripts = {
+    ...packageJson.scripts,
+    'docs:json': 'DIR=$PWD; cd ../../scripts; yarn ts-node combine-compodoc $DIR',
+    storybook: `yarn docs:json && ${packageJson.scripts.storybook}`,
+    'build-storybook': `yarn docs:json && ${packageJson.scripts['build-storybook']}`,
+  };
+
+  await writeJson(packageJsonPath, packageJson, { spaces: 2 });
+}

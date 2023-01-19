@@ -77,8 +77,8 @@ const Main: FC<{ provider: Provider }> = ({ provider }) => {
             const { state, api } = combo;
             const story = api.getData(state.storyId, state.refId);
             const isLoading = story
-              ? !!state.refs[state.refId] && !state.refs[state.refId].ready
-              : !state.storiesFailed && !state.storiesConfigured;
+              ? !!state.refs[state.refId] && !state.refs[state.refId].previewInitialized
+              : !state.previewInitialized;
 
             return (
               <CacheProvider value={emotionCache}>

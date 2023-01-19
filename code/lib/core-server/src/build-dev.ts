@@ -28,7 +28,9 @@ import { updateCheck } from './utils/update-check';
 import { getServerPort, getServerChannelUrl } from './utils/server-address';
 import { getManagerBuilder, getPreviewBuilder } from './utils/get-builders';
 
-export async function buildDevStandalone(options: CLIOptions & LoadOptions & BuilderOptions) {
+export async function buildDevStandalone(
+  options: CLIOptions & LoadOptions & BuilderOptions
+): Promise<{ port: number }> {
   const { packageJson, versionUpdates, releaseNotes } = options;
   const { version } = packageJson;
 
@@ -86,10 +88,7 @@ export async function buildDevStandalone(options: CLIOptions & LoadOptions & Bui
     ...options,
   });
 
-  const { renderer, builder, disableTelemetry } = await presets.apply<CoreConfig>(
-    'core',
-    undefined
-  );
+  const { renderer, builder, disableTelemetry } = await presets.apply<CoreConfig>('core', {});
 
   if (!options.disableTelemetry && !disableTelemetry) {
     if (versionCheck.success && !versionCheck.cached) {
@@ -156,21 +155,21 @@ export async function buildDevStandalone(options: CLIOptions & LoadOptions & Bui
     // eslint-disable-next-line no-console
     console.log(problems.map((p) => p.stack));
     process.exit(problems.length > 0 ? 1 : 0);
-    return;
+  } else {
+    const name =
+      frameworkName.split('@storybook/').length > 1
+        ? frameworkName.split('@storybook/')[1]
+        : frameworkName;
+
+    outputStartupInformation({
+      updateInfo: versionCheck,
+      version,
+      name,
+      address,
+      networkAddress,
+      managerTotalTime,
+      previewTotalTime,
+    });
   }
-
-  const name =
-    frameworkName.split('@storybook/').length > 1
-      ? frameworkName.split('@storybook/')[1]
-      : frameworkName;
-
-  outputStartupInformation({
-    updateInfo: versionCheck,
-    version,
-    name,
-    address,
-    networkAddress,
-    managerTotalTime,
-    previewTotalTime,
-  });
+  return { port };
 }

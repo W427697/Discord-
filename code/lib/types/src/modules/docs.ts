@@ -1,23 +1,60 @@
 import type { Channel } from '@storybook/channels';
 import type { Renderer, StoryContextForLoaders, StoryId, StoryName, Parameters } from './csf';
-import type { ModuleExport, ModuleExports, PreparedStory } from './story';
+import type {
+  ModuleExport,
+  ModuleExports,
+  CSFFile,
+  PreparedStory,
+  NormalizedProjectAnnotations,
+} from './story';
 
 export type StoryRenderOptions = {
   autoplay?: boolean;
+  forceInitialArgs?: boolean;
 };
+
+export type ResolvedModuleExportType = 'component' | 'meta' | 'story';
+
+export type ResolvedModuleExportFromType<
+  TType extends ResolvedModuleExportType,
+  TRenderer extends Renderer = Renderer
+> = TType extends 'component'
+  ? { type: 'component'; component: TRenderer['component'] }
+  : TType extends 'meta'
+  ? { type: 'meta'; csfFile: CSFFile<TRenderer> }
+  : { type: 'story'; story: PreparedStory<TRenderer> };
+/**
+ * What do we know about an of={} call?
+ *
+ * Technically, the type names aren't super accurate:
+ *   - meta === `CSFFile`
+ *   - story === `PreparedStory`
+ * But these shorthands capture the idea of what is being talked about
+ */
+export type ResolvedModuleExport<TRenderer extends Renderer = Renderer> = {
+  type: ResolvedModuleExportType;
+} & (
+  | ResolvedModuleExportFromType<'component', TRenderer>
+  | ResolvedModuleExportFromType<'meta', TRenderer>
+  | ResolvedModuleExportFromType<'story', TRenderer>
+);
 
 export interface DocsContextProps<TRenderer extends Renderer = Renderer> {
   /**
-   * Register the CSF file that this docs entry represents.
-   * Used by the `<Meta of={} />` block.
+   * Register a CSF file that this docs entry uses.
+   * Used by the `<Meta of={} />` block to attach, and the `<Story meta={} />` bloc to reference
    */
-  setMeta: (metaExports: ModuleExports) => void;
+  referenceMeta: (metaExports: ModuleExports, attach: boolean) => void;
 
   /**
-   * Find a story's id from the direct export from the CSF file.
-   * This is primarily used by the `<Story of={} /> block.
+   * Find a component, meta or story object from the direct export(s) from the CSF file.
+   * This is the API that drives the `of={}` syntax.
    */
-  storyIdByModuleExport: (storyExport: ModuleExport, metaExports?: ModuleExports) => StoryId;
+  resolveOf<TType extends ResolvedModuleExportType>(
+    moduleExportOrType: ModuleExport | TType,
+    validTypes?: TType[]
+  ): ResolvedModuleExportFromType<TType, TRenderer>;
+
   /**
    * Find a story's id from the name of the story.
    * This is primarily used by the `<Story name={} /> block.
@@ -56,6 +93,11 @@ export interface DocsContextProps<TRenderer extends Renderer = Renderer> {
    * Storybook channel -- use for low level event watching/emitting
    */
   channel: Channel;
+
+  /**
+   * Project annotations -- can be read to get the project's global annotations
+   */
+  projectAnnotations: NormalizedProjectAnnotations<TRenderer>;
 }
 
 export type DocsRenderFunction<TRenderer extends Renderer> = (

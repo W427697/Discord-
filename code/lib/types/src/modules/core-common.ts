@@ -156,10 +156,7 @@ export interface CLIOptions {
   quiet?: boolean;
   versionUpdates?: boolean;
   releaseNotes?: boolean;
-  dll?: boolean;
   docs?: boolean;
-  docsDll?: boolean;
-  uiDll?: boolean;
   debugWebpack?: boolean;
   webpackStatsJson?: string | boolean;
   outputDir?: string;
@@ -167,10 +164,10 @@ export interface CLIOptions {
 
 export interface BuilderOptions {
   configType?: 'DEVELOPMENT' | 'PRODUCTION';
-  ignorePreview: boolean;
-  cache: FileSystemCache;
+  ignorePreview?: boolean;
+  cache?: FileSystemCache;
   configDir: string;
-  docsMode: boolean;
+  docsMode?: boolean;
   features?: StorybookConfig['features'];
   versionCheck?: VersionCheck;
   releaseNotesData?: ReleaseNotesData;

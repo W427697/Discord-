@@ -34,9 +34,11 @@ import { extractStorybookMetadata } from './utils/metadata';
 import { StoryIndexGenerator } from './utils/StoryIndexGenerator';
 import { summarizeIndex } from './utils/summarizeIndex';
 
-export async function buildStaticStandalone(
-  options: CLIOptions & LoadOptions & BuilderOptions & { outputDir: string }
-) {
+export type BuildStaticStandaloneOptions = CLIOptions &
+  LoadOptions &
+  BuilderOptions & { outputDir: string };
+
+export async function buildStaticStandalone(options: BuildStaticStandaloneOptions) {
   /* eslint-disable no-param-reassign */
   options.configType = 'PRODUCTION';
 
@@ -82,7 +84,7 @@ export async function buildStaticStandalone(
   });
 
   const [previewBuilder, managerBuilder] = await getBuilders({ ...options, presets });
-  const { renderer } = await presets.apply<CoreConfig>('core', undefined);
+  const { renderer } = await presets.apply<CoreConfig>('core', {});
 
   presets = await loadAllPresets({
     corePresets: [
@@ -172,23 +174,6 @@ export async function buildStaticStandalone(
     );
   }
 
-  if (!core?.disableTelemetry) {
-    effects.push(
-      initializedStoryIndexGenerator.then(async (generator) => {
-        const storyIndex = await generator?.getIndex();
-        const payload = {
-          precedingUpgrade: await getPrecedingUpgrade(),
-        };
-        if (storyIndex) {
-          Object.assign(payload, {
-            storyIndex: summarizeIndex(storyIndex),
-          });
-        }
-        await telemetry('build', payload, { configDir: options.configDir });
-      })
-    );
-  }
-
   if (!core?.disableProjectJson) {
     effects.push(
       extractStorybookMetadata(join(options.outputDir, 'project.json'), options.configDir)
@@ -222,6 +207,24 @@ export async function buildStaticStandalone(
         ]),
     ...effects,
   ]);
+
+  // Now the code has successfully built, we can count this as a 'dev' event.
+  if (!core?.disableTelemetry) {
+    effects.push(
+      initializedStoryIndexGenerator.then(async (generator) => {
+        const storyIndex = await generator?.getIndex();
+        const payload = {
+          precedingUpgrade: await getPrecedingUpgrade(),
+        };
+        if (storyIndex) {
+          Object.assign(payload, {
+            storyIndex: summarizeIndex(storyIndex),
+          });
+        }
+        await telemetry('build', payload, { configDir: options.configDir });
+      })
+    );
+  }
 
   logger.info(`=> Output directory: ${options.outputDir}`);
 }

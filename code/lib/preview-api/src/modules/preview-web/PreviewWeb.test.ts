@@ -642,7 +642,7 @@ describe('PreviewWeb', () => {
       });
     });
 
-    describe('template docs entries', () => {
+    describe('CSF docs entries', () => {
       it('always renders in docs viewMode', async () => {
         document.location.search = '?id=component-one--docs';
         await createAndRenderPreview();
@@ -679,7 +679,7 @@ describe('PreviewWeb', () => {
         expect(importFn).toHaveBeenCalledWith('./src/ExtraComponentOne.stories.js');
       });
 
-      it('renders with componentStories loaded from both story files', async () => {
+      it('renders with componentStories loaded from the attached CSF file', async () => {
         document.location.search = '?id=component-one--docs&viewMode=docs';
         await createAndRenderPreview();
 
@@ -1130,6 +1130,39 @@ describe('PreviewWeb', () => {
             }),
             'story-element'
           );
+        });
+
+        it('does not re-render the story when forceInitialArgs=true', async () => {
+          document.location.search = '?id=component-one--docs&viewMode=docs';
+
+          const preview = await createAndRenderPreview();
+          await waitForRender();
+
+          mockChannel.emit.mockClear();
+          const story = await preview.storyStore.loadStory({ storyId: 'component-one--a' });
+          preview.renderStoryToElement(story, 'story-element' as any, { forceInitialArgs: true });
+          await waitForRender();
+
+          expect(projectAnnotations.renderToCanvas).toHaveBeenCalledWith(
+            expect.objectContaining({
+              storyContext: expect.objectContaining({
+                args: { foo: 'a' },
+              }),
+            }),
+            'story-element'
+          );
+
+          docsRenderer.render.mockClear();
+          mockChannel.emit.mockClear();
+          emitter.emit(UPDATE_STORY_ARGS, {
+            storyId: 'component-one--a',
+            updatedArgs: { new: 'arg' },
+          });
+          await waitForEvents([STORY_ARGS_UPDATED]);
+
+          // We don't re-render the story
+          await expect(waitForRender).rejects.toThrow();
+          expect(projectAnnotations.renderToCanvas).toHaveBeenCalledTimes(1);
         });
       });
     });

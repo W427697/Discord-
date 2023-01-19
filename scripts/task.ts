@@ -27,7 +27,7 @@ import {
   allTemplates as TEMPLATES,
   type TemplateKey,
   type Template,
-} from '../code/lib/cli/src/repro-templates';
+} from '../code/lib/cli/src/sandbox-templates';
 
 import { version } from '../code/package.json';
 
@@ -324,6 +324,7 @@ async function run() {
   const finalTask = tasks[taskKey];
   const { template: templateKey } = optionValues;
   const template = TEMPLATES[templateKey];
+
   const templateSandboxDir = templateKey && join(sandboxDir, templateKey.replace('/', '-'));
   const details = {
     key: templateKey,
