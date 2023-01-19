@@ -47,14 +47,9 @@ function getArgTypesFromResolved(resolved: ReturnType<typeof useOf>, props: ArgT
 
   if (resolved.type === 'meta') {
     const {
-      preparedMeta: { component, argTypes, parameters },
+      preparedMeta: { argTypes, parameters },
     } = resolved;
-    const componentArgTypes = component && extractComponentArgTypes(component, parameters);
-    const metaArgTypes = filterArgTypes(argTypes, props.include, props.exclude);
-    return {
-      argTypes: combineParameters(componentArgTypes, metaArgTypes) as StrictArgTypes,
-      parameters,
-    };
+    return { argTypes, parameters };
   }
 
   // In the case of the story, the enhanceArgs argTypeEnhancer has already added the extracted
