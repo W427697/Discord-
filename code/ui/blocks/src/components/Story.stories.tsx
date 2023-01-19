@@ -35,8 +35,7 @@ const meta: Meta<ExtendedStoryProps> = {
   },
   render({ storyExport, ...args }, { loaded }) {
     const docsContext = loaded.docsContext as DocsContextProps;
-    const resolved = docsContext.resolveModuleExport(storyExport);
-    if (resolved.type !== 'story') throw new Error('Bad export, pass a story!');
+    const resolved = docsContext.resolveOf(storyExport, ['story']);
     // @ts-expect-error getting too complex with props
     return <StoryComponent {...args} story={resolved.story} />;
   },

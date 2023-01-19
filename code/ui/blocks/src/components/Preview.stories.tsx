@@ -21,9 +21,7 @@ const preview = (window as any).__STORYBOOK_PREVIEW__;
 const renderStoryToElement = preview.renderStoryToElement.bind(preview);
 
 const getPreparedStory = (docsContext: DocsContextProps, moduleExport: ModuleExport) => {
-  const resolved = docsContext.resolveModuleExport(moduleExport);
-  if (resolved.type !== 'story') throw new Error('Bad export, pass a story!');
-  return resolved.story;
+  return docsContext.resolveOf(moduleExport, ['story']).story;
 };
 
 export const Loading = () => <PreviewSkeleton />;
