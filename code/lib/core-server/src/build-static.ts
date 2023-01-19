@@ -84,7 +84,7 @@ export async function buildStaticStandalone(options: BuildStaticStandaloneOption
   });
 
   const [previewBuilder, managerBuilder] = await getBuilders({ ...options, presets });
-  const { renderer } = await presets.apply<CoreConfig>('core', undefined);
+  const { renderer } = await presets.apply<CoreConfig>('core', {});
 
   presets = await loadAllPresets({
     corePresets: [

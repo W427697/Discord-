@@ -623,6 +623,12 @@ workflows:
       equal: [daily, << pipeline.parameters.workflow >>]
     jobs:
       - build
+      - lint:
+          requires:
+            - build
+      - unit-tests:
+          requires:
+            - build
       - create-sandboxes:
           parallelism: 27
           requires:
