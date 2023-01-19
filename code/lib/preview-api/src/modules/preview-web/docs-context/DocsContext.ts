@@ -59,11 +59,9 @@ export class DocsContext<TRenderer extends Renderer> implements DocsContextProps
 
     const stories = this.store.componentStoriesFromCSFFile({ csfFile });
 
-    Object.values(csfFile.stories).forEach((annotation) => {
+    stories.forEach((story) => {
+      const annotation = csfFile.stories[story.id];
       this.storyIdToCSFFile.set(annotation.id, csfFile);
-      const story = stories.find((s) => s.id === annotation.id);
-      if (!story)
-        throw new Error(`Unexpected missing story ${annotation.id} from referenced CSF file.`);
       this.exportToStory.set(annotation.moduleExport, story);
     });
   }
