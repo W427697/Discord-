@@ -32,7 +32,7 @@ export const WithToolbar: Story = {
     withToolbar: true,
   },
 };
-export const WithAdditionalActions: Story = {
+export const AdditionalActions: Story = {
   args: {
     of: ButtonStories.Primary,
     additionalActions: [
@@ -79,10 +79,30 @@ export const SourceStateNone: Story = {
   },
 };
 
-export const WithSourceProps: Story = {
+export const LayoutFullscreen: Story = {
   args: {
     of: ButtonStories.Primary,
-    sourceState: 'shown',
+    layout: 'fullscreen',
+  },
+};
+
+export const LayoutCentered: Story = {
+  args: {
+    of: ButtonStories.Primary,
+    layout: 'centered',
+  },
+};
+
+export const LayoutPadded: Story = {
+  args: {
+    of: ButtonStories.Primary,
+    layout: 'padded',
+  },
+};
+
+export const SourceProps: Story = {
+  args: {
+    of: ButtonStories.Primary,
     source: {
       language: 'html',
       code: '<button>           Button          </button>', // spaces should be removed by the prettier formatter
@@ -91,14 +111,14 @@ export const WithSourceProps: Story = {
   },
 };
 
-export const WithInlineStoryProps: Story = {
+export const InlineStoryProps: Story = {
   args: {
     of: ButtonStories.Primary,
     story: { inline: false, height: '200px' },
   },
 };
 
-export const WithAutoplayingStory: Story = {
+export const AutoplayingStory: Story = {
   args: {
     of: ButtonStories.Clicking,
     story: { autoplay: true },

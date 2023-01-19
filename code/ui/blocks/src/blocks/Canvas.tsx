@@ -35,6 +35,7 @@ type CanvasProps = Pick<PurePreviewProps, 'withToolbar' | 'additionalActions' | 
   sourceState?: 'hidden' | 'shown' | 'none';
   source?: Omit<SourceProps, 'dark'>;
   story?: Pick<StoryProps, 'inline' | 'height' | 'autoplay'>;
+  layout?: 'padded' | 'centered' | 'fullscreen';
 };
 
 const useDeprecatedPreviewProps = (
@@ -80,6 +81,7 @@ export const Canvas: FC<CanvasProps & DeprecatedCanvasProps> = (props) => {
     of,
     story: storyProps,
     sourceState = 'hidden',
+    layout: layoutProp,
     source,
     withToolbar,
     additionalActions,
@@ -101,6 +103,10 @@ export const Canvas: FC<CanvasProps & DeprecatedCanvasProps> = (props) => {
 
   if (of) {
     // TODO: loading?
+
+    const layout =
+      layoutProp || of.parameters?.layout || of.parameters?.docs?.canvas?.layout || 'padded';
+
     return (
       <PurePreview
         withSource={sourceState === 'none' ? undefined : sourceProps}
@@ -109,7 +115,19 @@ export const Canvas: FC<CanvasProps & DeprecatedCanvasProps> = (props) => {
         additionalActions={additionalActions}
         className={className}
       >
-        <Story of={of} {...storyProps} />
+        <Story
+          of={of}
+          {...storyProps}
+          parameters={
+            /**
+             * this is a hack, Story v2 doesn't read from the 2parameters" prop
+             * But PurePreview determines the layout from it's first child's "parameters.layout" prop
+             * So by passing the layout as a parameter, we can force the layout
+             * TODO: remove this pattern once all the deprecated features can be removed
+             */
+            { layout }
+          }
+        />
       </PurePreview>
     );
   }
