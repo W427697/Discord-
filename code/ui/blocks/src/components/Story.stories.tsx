@@ -1,10 +1,11 @@
 import React from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, ReactRenderer, StoryObj } from '@storybook/react';
 import { within } from '@storybook/testing-library';
 import type { PlayFunctionContext } from '@storybook/csf';
 import type { WebRenderer, ModuleExport } from '@storybook/types';
 import { RESET_STORY_ARGS, STORY_ARGS_UPDATED, UPDATE_STORY_ARGS } from '@storybook/core-events';
-import { global as globalThis } from '@storybook/global';
+import type { PreviewWeb } from '@storybook/preview-api';
+import type { Channel } from '@storybook/channels';
 
 import type { StoryProps } from './Story';
 import { Story as StoryComponent, StorySkeleton } from './Story';
@@ -12,7 +13,8 @@ import type { DocsContextProps } from '../blocks';
 import * as ButtonStories from '../examples/Button.stories';
 
 // eslint-disable-next-line no-underscore-dangle
-const preview = (window as any).__STORYBOOK_PREVIEW__;
+const preview = (window as any).__STORYBOOK_PREVIEW__ as PreviewWeb<ReactRenderer>;
+const channel = (window as any).__STORYBOOK_ADDONS_CHANNEL__ as Channel;
 const renderStoryToElement = preview.renderStoryToElement.bind(preview);
 
 type ExtendedStoryProps = Omit<StoryProps, 'story'> & {
@@ -76,7 +78,6 @@ export const ForceInitialArgs = {
     const resolved = docsContext.resolveModuleExport(args.storyExport);
     if (resolved.type !== 'story') throw new Error('Bad export, pass a story!');
 
-    const channel = globalThis.__STORYBOOK_ADDONS_CHANNEL__;
     await within(canvasElement).findByText(/Button/);
 
     const updatedPromise = new Promise<void>((resolve) => {
