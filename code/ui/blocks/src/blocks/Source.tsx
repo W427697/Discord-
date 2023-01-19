@@ -30,9 +30,7 @@ type SourceParameters = SourceCodeProps & {
   /**
    * Internal: set by our CSF loader (`enrichCsf` in `@storybook/csf-tools`).
    */
-  storySource?: {
-    source?: string;
-  };
+  originalSource?: string;
 };
 
 type SourceProps = Omit<SourceParameters, 'transformSource' | 'storySource'> & {
@@ -90,7 +88,7 @@ const getSnippet = (
     // if this is an args story and there's a snippet
     (type === SourceType.AUTO && snippet && isArgsStory);
 
-  const code = useSnippet ? snippet : sourceParameters.storySource?.source || '';
+  const code = useSnippet ? snippet : sourceParameters.originalSource || '';
 
   return sourceParameters.transformSource?.(code, story) || code;
 };
