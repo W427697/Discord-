@@ -26,6 +26,7 @@ Run the following command to install the addon.
   paths={[
     'common/storybook-a11y-install.yarn.js.mdx',
     'common/storybook-a11y-install.npm.js.mdx',
+    'common/storybook-a11y-install.pnpm.js.mdx',
   ]}
 />
 
@@ -178,6 +179,7 @@ Run the following command to install the required dependencies.
   paths={[
     'common/storybook-test-runner-axe-playwright.yarn.js.mdx',
     'common/storybook-test-runner-axe-playwright.npm.js.mdx',
+    'common/storybook-test-runner-axe-playwright.pnpm.js.mdx',
   ]}
 />
 

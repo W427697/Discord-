@@ -12,12 +12,14 @@ const BASE_URL = PREVIEW_URL || 'iframe.html';
 interface CommonProps {
   story: PreparedStory;
   inline: boolean;
+  primary: boolean;
 }
 
 interface InlineStoryProps extends CommonProps {
   inline: true;
   height?: string;
   autoplay: boolean;
+  forceInitialArgs: boolean;
   renderStoryToElement: DocsContextProps['renderStoryToElement'];
 }
 
@@ -28,21 +30,21 @@ interface IFrameStoryProps extends CommonProps {
 
 export type StoryProps = InlineStoryProps | IFrameStoryProps;
 
-const InlineStory: FunctionComponent<InlineStoryProps> = ({
-  story,
-  height,
-  autoplay,
-  renderStoryToElement,
-}) => {
+export const storyBlockIdFromId = ({ story, primary }: StoryProps) =>
+  `story--${story.id}${primary ? '--primary' : ''}`;
+
+const InlineStory: FunctionComponent<InlineStoryProps> = (props) => {
   const storyRef = useRef();
   const [showLoader, setShowLoader] = useState(true);
+
+  const { story, height, autoplay, forceInitialArgs, renderStoryToElement } = props;
 
   useEffect(() => {
     if (!(story && storyRef.current)) {
       return () => {};
     }
     const element = storyRef.current as HTMLElement;
-    const cleanup = renderStoryToElement(story, element, { autoplay });
+    const cleanup = renderStoryToElement(story, element, { autoplay, forceInitialArgs });
     setShowLoader(false);
     return () => {
       cleanup();
@@ -55,11 +57,14 @@ const InlineStory: FunctionComponent<InlineStoryProps> = ({
   return (
     <>
       {height ? (
-        <style>{`#story--${story.id} { min-height: ${height}; transform: translateZ(0); overflow: auto }`}</style>
+        <style>{`${storyBlockIdFromId(
+          props
+        )} { min-height: ${height}; transform: translateZ(0); overflow: auto }`}</style>
       ) : null}
       {showLoader && <StorySkeleton />}
       <div
         ref={storyRef}
+        id={`${storyBlockIdFromId(props)}-inner`}
         data-name={story.name}
         // eslint-disable-next-line react/no-danger
         dangerouslySetInnerHTML={{ __html: htmlContents }}
@@ -98,10 +103,15 @@ const IFrameStory: FunctionComponent<IFrameStoryProps> = ({ story, height = '500
  */
 const Story: FunctionComponent<StoryProps> = (props) => {
   const { inline } = props;
-  return inline ? (
-    <InlineStory {...(props as InlineStoryProps)} />
-  ) : (
-    <IFrameStory {...(props as IFrameStoryProps)} />
+
+  return (
+    <div id={storyBlockIdFromId(props)} className="sb-story">
+      {inline ? (
+        <InlineStory {...(props as InlineStoryProps)} />
+      ) : (
+        <IFrameStory {...(props as IFrameStoryProps)} />
+      )}
+    </div>
   );
 };
 
