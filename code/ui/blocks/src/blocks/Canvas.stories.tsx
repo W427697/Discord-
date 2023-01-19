@@ -20,7 +20,7 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {
+export const DefaultAttached: Story = {
   args: {
     of: ButtonStories.Primary,
   },
@@ -88,6 +88,20 @@ export const WithSourceProps: Story = {
       code: '<button>           Button          </button>', // spaces should be removed by the prettier formatter
       format: 'html',
     },
+  },
+};
+
+export const WithInlineStoryProps: Story = {
+  args: {
+    of: ButtonStories.Primary,
+    story: { inline: false, height: '200px' },
+  },
+};
+
+export const WithAutoplayingStory: Story = {
+  args: {
+    of: ButtonStories.Clicking,
+    story: { autoplay: true },
   },
 };
 

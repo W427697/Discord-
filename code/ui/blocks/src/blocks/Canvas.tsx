@@ -10,6 +10,7 @@ import { SourceContext } from './SourceContainer';
 import type { SourceProps } from './Source';
 import { useSourceProps, SourceState as DeprecatedSourceState, SourceState } from './Source';
 import { useStories } from './useStory';
+import type { StoryProps } from './Story';
 import { getStoryId, Story } from './Story';
 
 export { DeprecatedSourceState as SourceState };
@@ -33,7 +34,7 @@ type CanvasProps = Pick<PurePreviewProps, 'withToolbar' | 'additionalActions' | 
   of: ModuleExport;
   sourceState?: 'hidden' | 'shown' | 'none';
   source?: Omit<SourceProps, 'dark'>;
-  story?: any; // TODO: get from Story component (and or block) when that is ready
+  story?: Pick<StoryProps, 'inline' | 'height' | 'autoplay'>;
 };
 
 const useDeprecatedPreviewProps = (
