@@ -1,14 +1,20 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { Canvas } from './Canvas';
-import { Story as StoryComponent } from './Story';
+import SourceStoriesMeta from './Source.stories';
 import * as ButtonStories from '../examples/Button.stories';
 
 const meta: Meta<typeof Canvas> = {
   component: Canvas,
   parameters: {
     relativeCsfPaths: ['../examples/Button.stories'],
+    snippets: {
+      'storybook-blocks-example-button--primary': {
+        code: `const emitted = 'source';`,
+      },
+    },
   },
+  decorators: SourceStoriesMeta.decorators,
 };
 export default meta;
 
@@ -56,6 +62,32 @@ export const SourceStateShown: Story = {
   args: {
     of: ButtonStories.Primary,
     sourceState: 'shown',
+  },
+};
+
+export const SourceStateHidden: Story = {
+  args: {
+    of: ButtonStories.Primary,
+    sourceState: 'hidden',
+  },
+};
+
+export const SourceStateNone: Story = {
+  args: {
+    of: ButtonStories.Primary,
+    sourceState: 'none',
+  },
+};
+
+export const WithSourceProps: Story = {
+  args: {
+    of: ButtonStories.Primary,
+    sourceState: 'shown',
+    source: {
+      language: 'html',
+      code: '<button>           Button          </button>', // spaces should be removed by the prettier formatter
+      format: 'html',
+    },
   },
 };
 

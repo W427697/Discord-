@@ -33,7 +33,7 @@ type SourceParameters = SourceCodeProps & {
   originalSource?: string;
 };
 
-type SourceProps = Omit<SourceParameters, 'transformSource' | 'storySource'> & {
+export type SourceProps = Omit<SourceParameters, 'transformSource' | 'storySource'> & {
   /**
    * Pass the export defining a story to render its source
    *
@@ -112,14 +112,13 @@ export const useSourceProps = (
   // The check didn't actually change the type.
   let stories: PreparedStory[] = storiesFromIds as PreparedStory[];
   if (props.of) {
-    const resolved = docsContext.resolveModuleExport(props.of);
+    const resolved = docsContext.resolveOf(props.of);
     if (resolved.type !== 'story')
       throw new Error(`Invalid value passed to the 'of' prop, it should be a story export.`);
     stories = [resolved.story];
   } else if (stories.length === 0) {
     stories = [docsContext.storyById()];
   }
-
   const sourceParameters = (stories[0].parameters.docs?.source || {}) as SourceParameters;
   let { code } = props; // We will fall back to `sourceParameters.code`, but per story below
   let format = props.format ?? sourceParameters.format;
@@ -140,7 +139,6 @@ export const useSourceProps = (
   }
 
   const state = getSourceState(stories as PreparedStory[]);
-
   return code
     ? {
         code,

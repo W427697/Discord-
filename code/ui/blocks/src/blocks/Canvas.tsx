@@ -7,6 +7,7 @@ import type { DocsContextProps } from './DocsContext';
 import { DocsContext } from './DocsContext';
 import type { SourceContextProps } from './SourceContainer';
 import { SourceContext } from './SourceContainer';
+import type { SourceProps } from './Source';
 import { useSourceProps, SourceState as DeprecatedSourceState, SourceState } from './Source';
 import { useStories } from './useStory';
 import { getStoryId, Story } from './Story';
@@ -37,7 +38,7 @@ type DeprecatedCanvasProps = Omit<
 type CanvasProps = Pick<PurePreviewProps, 'withToolbar' | 'additionalActions' | 'className'> & {
   of: ModuleExport;
   sourceState?: 'hidden' | 'shown' | 'none';
-  source?: any; // TODO: get from Source component (and or block) when that is ready
+  source?: Omit<SourceProps, 'dark'>;
   story?: any; // TODO: get from Story component (and or block) when that is ready
 };
 
@@ -100,11 +101,16 @@ export const Canvas: FC<CanvasProps & DeprecatedCanvasProps> = (props) => {
   );
   const { isLoading, previewProps } = useDeprecatedPreviewProps(props, docsContext, sourceContext);
 
+  if (!of && !children) {
+    throw new Error('No story passed to the Canvas block. Did you forget to pass the `of` prop?');
+  }
+
   if (of) {
     // TODO: loading?
     return (
       <PurePreview
-        withSource={sourceProps}
+        withSource={sourceState === 'none' ? undefined : sourceProps}
+        isExpanded={sourceState === 'shown'}
         withToolbar={withToolbar}
         additionalActions={additionalActions}
         className={className}
@@ -112,9 +118,6 @@ export const Canvas: FC<CanvasProps & DeprecatedCanvasProps> = (props) => {
         <Story of={of} {...storyProps} />
       </PurePreview>
     );
-  }
-  if (!of && !children) {
-    throw new Error('No story passed to the Canvas block. Did you forget to pass the `of` prop?');
   }
 
   if (isLoading) return <PreviewSkeleton />;
