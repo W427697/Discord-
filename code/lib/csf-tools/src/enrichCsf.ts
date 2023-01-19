@@ -24,7 +24,7 @@ export const enrichCsfStory = (csf: CsfFile, key: string, options?: EnrichCsfOpt
   );
   const extraDocsParameters = [];
 
-  // docs: { source: { source: %%source%% } },
+  // docs: { source: { originalSource: %%source%% } },
   if (source) {
     const optionalSource = t.optionalMemberExpression(
       optionalDocs,
