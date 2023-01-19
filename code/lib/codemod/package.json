@@ -1,6 +1,6 @@
 {
   "name": "@storybook/codemod",
-  "version": "7.0.0-beta.28",
+  "version": "7.0.0-beta.30",
   "description": "A collection of codemod scripts written with JSCodeshift",
   "keywords": [
     "storybook"
@@ -34,6 +34,7 @@
     "./dist/transforms/storiesof-to-csf.js": "./dist/transforms/storiesof-to-csf.js",
     "./dist/transforms/update-addon-info.js": "./dist/transforms/update-addon-info.js",
     "./dist/transforms/update-organisation-name.js": "./dist/transforms/update-organisation-name.js",
+    "./dist/transforms/upgrade-deprecated-types.js": "./dist/transforms/upgrade-deprecated-types.js",
     "./dist/transforms/upgrade-hierarchy-separators.js": "./dist/transforms/upgrade-hierarchy-separators.js",
     "./package.json": "./package.json"
   },
@@ -49,9 +50,9 @@
     "@babel/preset-env": "^7.20.2",
     "@babel/types": "^7.20.7",
     "@storybook/csf": "next",
-    "@storybook/csf-tools": "7.0.0-beta.28",
-    "@storybook/node-logger": "7.0.0-beta.28",
-    "@storybook/types": "7.0.0-beta.28",
+    "@storybook/csf-tools": "7.0.0-beta.30",
+    "@storybook/node-logger": "7.0.0-beta.30",
+    "@storybook/types": "7.0.0-beta.30",
     "cross-spawn": "^7.0.3",
     "globby": "^11.0.2",
     "jscodeshift": "^0.13.1",
@@ -81,8 +82,9 @@
       "./src/transforms/storiesof-to-csf.js",
       "./src/transforms/update-addon-info.js",
       "./src/transforms/update-organisation-name.js",
+      "./src/transforms/upgrade-deprecated-types.ts",
       "./src/transforms/upgrade-hierarchy-separators.js"
     ]
   },
-  "gitHead": "05179df2dcf366ea1e61b0809e7778afbec094de"
+  "gitHead": "633f95bec79fb65524a7bcae867448b351920831"
 }

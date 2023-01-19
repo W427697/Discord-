@@ -13,7 +13,6 @@ import { Source } from '.';
 import { getBlockBackgroundStyle } from './BlockBackgroundStyles';
 import { Toolbar } from './Toolbar';
 import { ZoomContext } from './ZoomContext';
-// eslint-disable-next-line import/no-cycle
 import { StorySkeleton } from './Story';
 
 export interface PreviewProps {
