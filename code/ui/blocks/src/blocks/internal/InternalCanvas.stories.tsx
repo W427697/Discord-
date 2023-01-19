@@ -4,7 +4,7 @@ import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { userEvent, within } from '@storybook/testing-library';
 import { expect } from '@storybook/jest';
-import { Canvas } from '../Canvas';
+import { Canvas, SourceState } from '../Canvas';
 import { Story as StoryComponent } from '../Story';
 import * as ButtonStories from '../../examples/Button.stories';
 
@@ -43,6 +43,39 @@ const expectAmountOfStoriesInSource =
     const booleanControlNodes = await canvas.findAllByText(`label`);
     await expect(booleanControlNodes).toHaveLength(amount);
   };
+
+export const BasicStoryChild: Story = {};
+
+export const WithSourceOpen: Story = {
+  args: {
+    withSource: SourceState.OPEN,
+  },
+};
+export const WithSourceClosed: Story = {
+  args: {
+    withSource: SourceState.CLOSED,
+  },
+};
+
+export const WithMdxSource: Story = {
+  name: 'With MDX Source',
+  args: {
+    withSource: SourceState.OPEN,
+    mdxSource: `<Button
+  label="Button"
+  primary
+  onClick={() => {
+    console.log('this is custom source for the source viewer')
+  }}
+/>`,
+  },
+};
+
+export const WithoutSource: Story = {
+  args: {
+    withSource: SourceState.NONE,
+  },
+};
 
 export const MultipleChildren: Story = {
   render: (args) => {

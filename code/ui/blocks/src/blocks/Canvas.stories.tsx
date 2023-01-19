@@ -1,6 +1,6 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { Canvas, SourceState } from './Canvas';
+import { Canvas } from './Canvas';
 import { Story as StoryComponent } from './Story';
 import * as ButtonStories from '../examples/Button.stories';
 
@@ -9,58 +9,26 @@ const meta: Meta<typeof Canvas> = {
   parameters: {
     relativeCsfPaths: ['../examples/Button.stories'],
   },
-  render: (args) => {
-    return (
-      <Canvas {...args}>
-        <StoryComponent of={ButtonStories.Primary} />
-      </Canvas>
-    );
-  },
 };
 export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-export const BasicStory: Story = {};
-
-export const WithSourceOpen: Story = {
+export const Default: Story = {
   args: {
-    withSource: SourceState.OPEN,
-  },
-};
-export const WithSourceClosed: Story = {
-  args: {
-    withSource: SourceState.CLOSED,
-  },
-};
-
-export const WithMdxSource: Story = {
-  name: 'With MDX Source',
-  args: {
-    withSource: SourceState.OPEN,
-    mdxSource: `<Button
-  label="Button"
-  primary
-  onClick={() => {
-    console.log('this is custom source for the source viewer')
-  }}
-/>`,
-  },
-};
-
-export const WithoutSource: Story = {
-  args: {
-    withSource: SourceState.NONE,
+    of: ButtonStories.Primary,
   },
 };
 
 export const WithToolbar: Story = {
   args: {
+    of: ButtonStories.Primary,
     withToolbar: true,
   },
 };
 export const WithAdditionalActions: Story = {
   args: {
+    of: ButtonStories.Primary,
     additionalActions: [
       {
         title: 'Open in GitHub',
@@ -84,7 +52,14 @@ export const WithAdditionalActions: Story = {
   },
 };
 
-const ClassNameStoryDescripition = () => (
+export const SourceStateShown: Story = {
+  args: {
+    of: ButtonStories.Primary,
+    sourceState: 'shown',
+  },
+};
+
+const ClassNameStoryDescription = () => (
   <p>
     This story sets the <code>className</code> prop on the <code>Canvas</code> to{' '}
     <code>my-custom-classname</code>, which will propagate to the preview element. To demonstrate
@@ -97,11 +72,12 @@ const ClassNameStoryDescripition = () => (
 export const ClassName: Story = {
   name: 'ClassName',
   args: {
+    of: ButtonStories.Primary,
     className: 'my-custom-classname',
   },
   render: (args) => (
     <>
-      <ClassNameStoryDescripition />
+      <ClassNameStoryDescription />
       <style>
         {`
           .my-custom-classname {
@@ -109,9 +85,7 @@ export const ClassName: Story = {
           }
         `}
       </style>
-      <Canvas {...args}>
-        <StoryComponent of={ButtonStories.Primary} />
-      </Canvas>
+      <Canvas {...args} />
     </>
   ),
 };

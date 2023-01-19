@@ -1,26 +1,48 @@
 import React, { Children, useContext } from 'react';
 import type { FC, ReactElement, ReactNode } from 'react';
-import type { Renderer } from '@storybook/types';
+import type { ModuleExport, Renderer } from '@storybook/types';
 import type { PreviewProps as PurePreviewProps } from '../components';
 import { Preview as PurePreview, PreviewSkeleton } from '../components';
 import type { DocsContextProps } from './DocsContext';
 import { DocsContext } from './DocsContext';
 import type { SourceContextProps } from './SourceContainer';
 import { SourceContext } from './SourceContainer';
-import { useSourceProps, SourceState } from './Source';
+import { useSourceProps, SourceState as DeprecatedSourceState, SourceState } from './Source';
 import { useStories } from './useStory';
-import { getStoryId } from './Story';
+import { getStoryId, Story } from './Story';
 
-export { SourceState };
+export { DeprecatedSourceState as SourceState };
 
-type CanvasProps = Omit<PurePreviewProps, 'isExpanded' | 'isLoading'> & {
-  withSource?: SourceState;
+const sourceStateMap: Record<CanvasProps['sourceState'], SourceState> = {
+  shown: SourceState.OPEN,
+  hidden: SourceState.CLOSED,
+  none: SourceState.NONE,
+};
+
+type DeprecatedCanvasProps = Omit<
+  PurePreviewProps,
+  'isExpanded' | 'isLoading' | 'withToolbar' | 'additionalActions' | 'className'
+> & {
+  /**
+   * @deprecated use `sourceState` instead
+   */
+  withSource?: DeprecatedSourceState;
+  /**
+   * @deprecated use `source.code` instead
+   */
   mdxSource?: string;
   children?: ReactNode;
 };
 
-const usePreviewProps = (
-  { withSource, mdxSource, children, ...props }: CanvasProps,
+type CanvasProps = Pick<PurePreviewProps, 'withToolbar' | 'additionalActions' | 'className'> & {
+  of: ModuleExport;
+  sourceState?: 'hidden' | 'shown' | 'none';
+  source?: any; // TODO: get from Source component (and or block) when that is ready
+  story?: any; // TODO: get from Story component (and or block) when that is ready
+};
+
+const useDeprecatedPreviewProps = (
+  { withSource, mdxSource, children, ...props }: DeprecatedCanvasProps,
   docsContext: DocsContextProps<Renderer>,
   sourceContext: SourceContextProps
 ) => {
@@ -54,11 +76,46 @@ const usePreviewProps = (
   };
 };
 
-export const Canvas: FC<CanvasProps> = (props) => {
+export const Canvas: FC<CanvasProps & DeprecatedCanvasProps> = (props) => {
   const docsContext = useContext(DocsContext);
   const sourceContext = useContext(SourceContext);
-  const { isLoading, previewProps } = usePreviewProps(props, docsContext, sourceContext);
-  const { children } = props;
+  const {
+    children,
+    of,
+    story: storyProps,
+    sourceState = 'hidden',
+    source,
+    withToolbar,
+    additionalActions,
+    className,
+  } = props;
+  const sourceProps = useSourceProps(
+    {
+      ...source,
+      of,
+      state: sourceStateMap[sourceState],
+    },
+    docsContext,
+    sourceContext
+  );
+  const { isLoading, previewProps } = useDeprecatedPreviewProps(props, docsContext, sourceContext);
+
+  if (of) {
+    // TODO: loading?
+    return (
+      <PurePreview
+        withSource={sourceProps}
+        withToolbar={withToolbar}
+        additionalActions={additionalActions}
+        className={className}
+      >
+        <Story of={of} {...storyProps} />
+      </PurePreview>
+    );
+  }
+  if (!of && !children) {
+    throw new Error('No story passed to the Canvas block. Did you forget to pass the `of` prop?');
+  }
 
   if (isLoading) return <PreviewSkeleton />;
 
