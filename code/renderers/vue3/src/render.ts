@@ -1,5 +1,5 @@
 import { dedent } from 'ts-dedent';
-import { createApp, h } from 'vue';
+import { createApp, h, reactive } from 'vue';
 import type { RenderContext, ArgsStoryFn } from '@storybook/types';
 
 import type { Args, StoryContext } from '@storybook/csf';
@@ -21,26 +21,24 @@ export const setup = (fn: (app: any) => void) => {
   setupFunction = fn;
 };
 
-const map = new Map<VueRenderer['canvasElement'], ReturnType<typeof createApp>>();
+const map = new Map<string, { vueApp: ReturnType<typeof createApp>; reactiveArgs: any }>();
 
 export function renderToCanvas(
-  { title, name, storyFn, showMain, showError, showException }: RenderContext<VueRenderer>,
+  {
+    storyFn,
+    name,
+    showMain,
+    showError,
+    showException,
+    id,
+    title,
+    forceRemount,
+    storyContext,
+  }: RenderContext<VueRenderer>,
   canvasElement: VueRenderer['canvasElement']
 ) {
   // TODO: explain cyclical nature of these app => story => mount
-  let element: StoryFnVueReturnType;
-  const storybookApp = createApp({
-    unmounted() {
-      map.delete(canvasElement);
-    },
-    render() {
-      map.set(canvasElement, storybookApp);
-      setupFunction(storybookApp);
-      return h(element);
-    },
-  });
-  storybookApp.config.errorHandler = (e: unknown) => showException(e as Error);
-  element = storyFn();
+  const element: StoryFnVueReturnType = storyFn();
 
   if (!element) {
     showError({
@@ -52,13 +50,34 @@ export function renderToCanvas(
     });
     return;
   }
+  const { args: storyArgs, viewMode } = storyContext;
+
+  const storyID = `${id}--${viewMode}`;
+  const existingApp = map.get(storyID);
+
+  if (existingApp && !forceRemount) {
+    updateArgs(existingApp.reactiveArgs, storyArgs);
+    return;
+  }
+
+  clearVueApps(viewMode, id);
+
+  const reactiveArgs = storyArgs ? reactive(storyArgs) : storyArgs;
+
+  const storybookApp = createApp({
+    render() {
+      map.set(storyID, { vueApp: storybookApp, reactiveArgs });
+      return h(element, reactiveArgs);
+    },
+  });
+
+  storybookApp.config.errorHandler = (e: unknown) => showException(e as Error);
+  setupFunction(storybookApp);
+  storybookApp.mount(canvasElement);
 
   showMain();
-
-  map.get(canvasElement)?.unmount();
-
-  storybookApp.mount(canvasElement);
 }
+
 /**
  * get the slots as functions to be rendered
  * @param props
@@ -72,4 +91,37 @@ function getSlots(props: Args, context: StoryContext<VueRenderer, Args>) {
     .map(([key, value]) => [key, () => h('span', JSON.stringify(value))]);
 
   return Object.fromEntries(slots);
+}
+
+/**
+ *  update the reactive args
+ * @param reactiveArgs
+ * @param nextArgs
+ * @returns
+ */
+function updateArgs(reactiveArgs: Args, nextArgs: Args) {
+  if (!nextArgs) return;
+  // use spread operator to merge new args with the existing args
+  Object.assign(reactiveArgs, nextArgs);
+}
+/**
+ * clear vue apps
+ * @param viewMode
+ * @param id
+ * @returns
+ */
+
+function clearVueApps(viewMode: string, id: string) {
+  const [idPrefix, idSuffix] = id.split('--');
+  map.forEach((value, key) => {
+    const [keyPrefix, keySuffix, keyViewMode] = key.split('--');
+    if (
+      keyViewMode !== viewMode ||
+      idPrefix !== keyPrefix ||
+      (idSuffix !== keySuffix && viewMode !== 'docs')
+    ) {
+      value.vueApp.unmount();
+      map.delete(key);
+    }
+  });
 }
