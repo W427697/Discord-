@@ -35,13 +35,13 @@ const useArgs = (
 
   const [args, setArgs] = useState(storyContext.args);
   useEffect(() => {
-    const cb = (changed: { storyId: string; args: Args }) => {
+    const onArgsUpdated = (changed: { storyId: string; args: Args }) => {
       if (changed.storyId === storyId) {
         setArgs(changed.args);
       }
     };
-    context.channel.on(STORY_ARGS_UPDATED, cb);
-    return () => context.channel.off(STORY_ARGS_UPDATED, cb);
+    context.channel.on(STORY_ARGS_UPDATED, onArgsUpdated);
+    return () => context.channel.off(STORY_ARGS_UPDATED, onArgsUpdated);
   }, [storyId, context.channel]);
   const updateArgs = useCallback(
     (updatedArgs) => context.channel.emit(UPDATE_STORY_ARGS, { storyId, updatedArgs }),
@@ -59,11 +59,11 @@ const useGlobals = (story: PreparedStory, context: DocsContextProps): [Globals] 
 
   const [globals, setGlobals] = useState(storyContext.globals);
   useEffect(() => {
-    const cb = (changed: { globals: Globals }) => {
+    const onGlobalsUpdated = (changed: { globals: Globals }) => {
       setGlobals(changed.globals);
     };
-    context.channel.on(GLOBALS_UPDATED, cb);
-    return () => context.channel.off(GLOBALS_UPDATED, cb);
+    context.channel.on(GLOBALS_UPDATED, onGlobalsUpdated);
+    return () => context.channel.off(GLOBALS_UPDATED, onGlobalsUpdated);
   }, [context.channel]);
 
   return [globals];
