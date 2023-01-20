@@ -1,4 +1,5 @@
 import { dedent } from 'ts-dedent';
+import type { App } from 'vue';
 import { createApp, h, reactive } from 'vue';
 import type { RenderContext, ArgsStoryFn } from '@storybook/types';
 
@@ -48,20 +49,21 @@ export function renderToCanvas(
       Use "() => ({ template: '<my-comp></my-comp>' })" or "() => ({ components: MyComp, template: '<my-comp></my-comp>' })" when defining the story.
       `,
     });
-    return;
+    return () => {};
   }
   const { args: storyArgs, viewMode } = storyContext;
 
   const storyID = `${id}--${viewMode}`;
   const existingApp = map.get(storyID);
-  console.log('---------- storyID ', storyID, ' name', name);
 
   if (existingApp && !forceRemount) {
     updateArgs(existingApp.reactiveArgs, storyArgs);
-    return;
+    return () => {
+      teardown(existingApp.vueApp, storyID);
+    };
   }
 
-  clearVueApps(viewMode, id);
+  // clearVueApps(viewMode, id);
 
   const reactiveArgs = storyArgs ? reactive(storyArgs) : storyArgs;
 
@@ -77,6 +79,9 @@ export function renderToCanvas(
   storybookApp.mount(canvasElement);
 
   showMain();
+  return () => {
+    teardown(storybookApp, storyID);
+  };
 }
 
 /**
@@ -105,28 +110,8 @@ function updateArgs(reactiveArgs: Args, nextArgs: Args) {
   // use spread operator to merge new args with the existing args
   Object.assign(reactiveArgs, nextArgs);
 }
-/**
- * clear vue apps
- * @param viewMode
- * @param id
- * @returns
- */
 
-function clearVueApps(viewMode: string, id: string) {
-  const [idPrefix, idSuffix] = id.split('--');
-  // console.log(' map to start clearing ', map);
-  console.log('map start looping ---------------  size ', map.size);
-  map.forEach((value, key) => {
-    const [keyPrefix, keySuffix, keyViewMode] = key.split('--');
-    console.log('key ', key);
-    if (
-      keyViewMode !== viewMode ||
-      idPrefix !== keyPrefix ||
-      (idSuffix !== keySuffix && viewMode !== 'docs')
-    ) {
-      console.log('unmounting - ', key);
-      value.vueApp.unmount();
-      map.delete(key);
-    }
-  });
+function teardown(storybookApp: App<Element>, storyID: string) {
+  storybookApp.unmount();
+  if (map.has(storyID)) map.delete(storyID);
 }
