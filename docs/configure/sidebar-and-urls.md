@@ -139,7 +139,7 @@ For CSF, it is either auto generated or retrieved from the meta configuration.
 
 <CodeSnippets
   paths={[
-    'common/csf-3-example-title.js.mdx',
+    'common/csf-3-example-title.ts.mdx',
   ]}
 />
 
@@ -157,7 +157,7 @@ While for "Docs Only" pages, that title resides in the `title` attribute of the 
 
 <!-- prettier-ignore-end -->
 
-Typically Storybook provides indexing capabilities for files that end with `.story|stories.js|ts|jsx|tsx` and `.stories.mdx`. If you feel the need to include stories that have different naming convention, e.g. [`20478`](https://github.com/storybookjs/storybook/issues/20478), you will need to introduce a new story indexer.
+Typically Storybook provides indexing capabilities for files that end with `.(story|stories).@(js|ts|jsx|tsx|mdx)`. If you feel the need to include stories that have different naming convention, e.g. [`20478`](https://github.com/storybookjs/storybook/issues/20478), you will need to introduce a new story indexer.
 
 <!-- prettier-ignore-start -->
 
@@ -169,13 +169,13 @@ Typically Storybook provides indexing capabilities for files that end with `.sto
 
 <!-- prettier-ignore-end -->
 
-Another example for indexing `.stories|story.mdx` files is here as well.
+Another example listed below for indexing `.md` & `.html` files which is already implemented by one of our community addons [`Markdown Docs`](https://storybook.js.org/addons/@sheriffmoose/storybook-md/).
 
 <!-- prettier-ignore-start -->
 
 <CodeSnippets
   paths={[
-    'common/storybook-main-mdx-indexer.js.mdx',
+    'common/storybook-main-md-html-indexer.js.mdx',
   ]}
 />
 
