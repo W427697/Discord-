@@ -55,7 +55,7 @@ const useDeprecatedPreviewProps = (
   const stories = useStories(storyIds, docsContext);
   const isLoading = stories.some((s) => !s);
   const sourceProps = useSourceProps(
-    mdxSource ? { code: decodeURI(mdxSource) } : { ids: storyIds },
+    mdxSource ? { code: decodeURI(mdxSource), of: props.of } : { ids: storyIds, of: props.of },
     docsContext,
     sourceContext
   );

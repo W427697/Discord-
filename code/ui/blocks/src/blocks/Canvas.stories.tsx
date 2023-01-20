@@ -1,20 +1,14 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { Canvas } from './Canvas';
-import SourceStoriesMeta from './Source.stories';
 import * as ButtonStories from '../examples/Button.stories';
+import * as ParameterStories from '../examples/CanvasParameters.stories';
 
 const meta: Meta<typeof Canvas> = {
   component: Canvas,
   parameters: {
-    relativeCsfPaths: ['../examples/Button.stories'],
-    // snippets: {
-    //   'storybook-blocks-example-button--primary': {
-    //     code: `const emitted = 'source';`,
-    //   },
-    // },
+    relativeCsfPaths: ['../examples/Button.stories', '../examples/CanvasParameters.stories'],
   },
-  // decorators: SourceStoriesMeta.decorators,
 };
 export default meta;
 
@@ -33,13 +27,13 @@ export const DefaultUnattached: Story = {
   parameters: { attached: false },
 };
 
-export const WithToolbar: Story = {
+export const PropWithToolbar: Story = {
   args: {
     of: ButtonStories.Primary,
     withToolbar: true,
   },
 };
-export const AdditionalActions: Story = {
+export const PropAdditionalActions: Story = {
   args: {
     of: ButtonStories.Primary,
     additionalActions: [
@@ -65,49 +59,91 @@ export const AdditionalActions: Story = {
   },
 };
 
-export const SourceStateShown: Story = {
+export const PropSourceStateShown: Story = {
   args: {
     of: ButtonStories.Primary,
     sourceState: 'shown',
   },
 };
 
-export const SourceStateHidden: Story = {
+export const PropSourceStateHidden: Story = {
   args: {
     of: ButtonStories.Primary,
     sourceState: 'hidden',
   },
 };
 
-export const SourceStateNone: Story = {
+export const PropSourceStateNone: Story = {
   args: {
     of: ButtonStories.Primary,
     sourceState: 'none',
   },
 };
 
-export const LayoutFullscreen: Story = {
+export const PropLayoutFullscreen: Story = {
   args: {
     of: ButtonStories.Primary,
     layout: 'fullscreen',
   },
 };
 
-export const LayoutCentered: Story = {
+export const PropLayoutCentered: Story = {
   args: {
     of: ButtonStories.Primary,
     layout: 'centered',
   },
 };
 
-export const LayoutPadded: Story = {
+export const PropLayoutPadded: Story = {
   args: {
     of: ButtonStories.Primary,
     layout: 'padded',
   },
 };
 
-export const SourceProps: Story = {
+export const ParameterDocsCanvasLayoutFullscreen: Story = {
+  name: 'parameters.docs.canvas.layout = fullscreen',
+  args: {
+    of: ParameterStories.DocsCanvasLayoutFullscreen,
+  },
+};
+
+export const ParameterDocsCanvasLayoutCentered: Story = {
+  name: 'parameters.docs.canvas.layout = centered',
+  args: {
+    of: ParameterStories.DocsCanvasLayoutCentered,
+  },
+};
+
+export const ParameterDocsCanvasLayoutPadded: Story = {
+  name: 'parameters.docs.canvas.layout = padded',
+  args: {
+    of: ParameterStories.DocsCanvasLayoutPadded,
+  },
+};
+
+export const ParameterLayoutFullscreen: Story = {
+  name: 'parameters.layout = fullscreen',
+  args: {
+    of: ParameterStories.LayoutFullscreen,
+  },
+};
+
+export const ParameterLayoutCentered: Story = {
+  name: 'parameters.layout = centered',
+  args: {
+    of: ParameterStories.LayoutCentered,
+  },
+};
+
+export const ParameterLayoutPadded: Story = {
+  name: 'parameters.layout = padded',
+  args: {
+    of: ParameterStories.LayoutPadded,
+  },
+};
+
+export const PropSource: Story = {
   args: {
     of: ButtonStories.Primary,
     source: {
@@ -118,14 +154,14 @@ export const SourceProps: Story = {
   },
 };
 
-export const InlineStoryProps: Story = {
+export const PropInlineStory: Story = {
   args: {
     of: ButtonStories.Primary,
     story: { inline: false, height: '200px' },
   },
 };
 
-export const AutoplayingStory: Story = {
+export const PropAutoplayingStory: Story = {
   args: {
     of: ButtonStories.Clicking,
     story: { autoplay: true },
@@ -142,8 +178,8 @@ const ClassNameStoryDescription = () => (
 /**
  * This is a comment on classname
  */
-export const ClassName: Story = {
-  name: 'ClassName',
+export const PropClassName: Story = {
+  name: 'Prop ClassName',
   args: {
     of: ButtonStories.Primary,
     className: 'my-custom-classname',
