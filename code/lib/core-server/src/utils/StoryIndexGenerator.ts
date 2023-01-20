@@ -431,6 +431,9 @@ export class StoryIndexGenerator {
   async sortStories(storiesList: IndexEntry[]) {
     const entries: StoryIndex['entries'] = {};
 
+    console.log('pre-sorted');
+    console.log(storiesList.map((s) => s.id).indexOf('addons-controls-basics--defined'));
+
     storiesList.forEach((entry) => {
       const existing = entries[entry.id];
       if (existing) {
@@ -449,6 +452,9 @@ export class StoryIndexGenerator {
       const fileNameOrder = this.storyFileNames();
       sortStoriesV7(sortableStories, storySortParameter, fileNameOrder);
     }
+
+    console.log('sorted');
+    console.log(storiesList.map((s) => s.id).indexOf('addons-controls-basics--defined'));
 
     return sortableStories.reduce((acc, item) => {
       acc[item.id] = item;
