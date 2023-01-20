@@ -8,7 +8,7 @@ import type {
   InlineConfig,
 } from 'vite';
 import { viteExternalsPlugin } from 'vite-plugin-externals';
-import { isPreservingSymlinks, getFrameworkName } from '@storybook/core-common';
+import { isPreservingSymlinks, getFrameworkName, getBuilderOptions } from '@storybook/core-common';
 import { globals } from '@storybook/preview/globals';
 import type { Options } from '@storybook/types';
 import {
@@ -18,6 +18,7 @@ import {
   mdxPlugin,
   stripStoryHMRBoundary,
 } from './plugins';
+import type { BuilderOptions } from './types';
 
 export type PluginConfigType = 'build' | 'development';
 
@@ -39,12 +40,13 @@ export async function commonConfig(
   _type: PluginConfigType
 ): Promise<ViteInlineConfig> {
   const configEnv = _type === 'development' ? configEnvServe : configEnvBuild;
+  const { viteConfigPath } = await getBuilderOptions<BuilderOptions>(options);
 
   // I destructure away the `build` property from the user's config object
   // I do this because I can contain config that breaks storybook, such as we had in a lit project.
   // If the user needs to configure the `build` they need to do so in the viteFinal function in main.js.
   const { config: { build: buildProperty = undefined, ...userConfig } = {} } =
-    (await loadConfigFromFile(configEnv)) ?? {};
+    (await loadConfigFromFile(configEnv, viteConfigPath)) ?? {};
 
   const sbConfig: InlineConfig = {
     configFile: false,

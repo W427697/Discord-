@@ -28,7 +28,11 @@ export const runCompodoc = (
     const packageManager = JsPackageManagerFactory.getPackageManager();
 
     try {
-      const stdout = packageManager.runScript('compodoc', finalCompodocArgs, context.workspaceRoot);
+      const stdout = packageManager.runPackageCommand(
+        'compodoc',
+        finalCompodocArgs,
+        context.workspaceRoot
+      );
 
       context.logger.info(stdout);
       observer.next();

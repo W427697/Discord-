@@ -26,6 +26,7 @@ import webComponentsGenerator from './generators/WEB-COMPONENTS';
 import riotGenerator from './generators/RIOT';
 import preactGenerator from './generators/PREACT';
 import svelteGenerator from './generators/SVELTE';
+import qwikGenerator from './generators/QWIK';
 import svelteKitGenerator from './generators/SVELTEKIT';
 import raxGenerator from './generators/RAX';
 import serverGenerator from './generators/SERVER';
@@ -92,6 +93,12 @@ const installStorybook = <Project extends ProjectType>(
         )
           .then(({ server }) => reactNativeGenerator(packageManager, npmOptions, server))
           .then(commandLog('Adding Storybook support to your "React Native" app\n'));
+      }
+
+      case ProjectType.QWIK: {
+        return qwikGenerator(packageManager, npmOptions, generatorOptions).then(
+          commandLog('Adding Storybook support to your "Qwik" app\n')
+        );
       }
 
       case ProjectType.WEBPACK_REACT:
