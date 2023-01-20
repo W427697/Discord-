@@ -2,11 +2,12 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { Story as StoryComponent } from './Story';
+import { Story as StoryBlock } from './Story';
 import * as ButtonStories from '../examples/Button.stories';
+import * as StoryComponentStories from '../components/Story.stories';
 
-const meta: Meta<typeof StoryComponent> = {
-  component: StoryComponent,
+const meta: Meta<typeof StoryBlock> = {
+  component: StoryBlock,
   parameters: {
     relativeCsfPaths: ['../examples/Button.stories', '../blocks/Story.stories'],
   },
@@ -198,4 +199,13 @@ export const WithInteractionsAutoplayInStory: Story = {
   parameters: {
     chromatic: { delay: 500 },
   },
+};
+
+export const ForceInitialArgs: Story = {
+  ...StoryComponentStories.ForceInitialArgs,
+  args: {
+    of: ButtonStories.Primary,
+    storyExport: ButtonStories.Primary,
+    __forceInitialArgs: true,
+  } as any,
 };

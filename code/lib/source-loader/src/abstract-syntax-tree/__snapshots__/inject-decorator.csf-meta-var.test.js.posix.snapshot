@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`inject-decorator positive - ts - csf includes storySource parameter in the default exported variable 1`] = `
+"import React from \\"react\\";
+import { action } from \\"@storybook/addon-actions\\";
+import { Button } from \\"@storybook/react/demo\\";
+
+const meta = {parameters: {\\"storySource\\":{\\"source\\":\\"import React from \\\\\\"react\\\\\\";\\\\nimport { action } from \\\\\\"@storybook/addon-actions\\\\\\";\\\\nimport { Button } from \\\\\\"@storybook/react/demo\\\\\\";\\\\n\\\\nconst meta = {\\\\n  title: \\\\\\"Button\\\\\\",\\\\n  excludeStories: [\\\\\\"text\\\\\\"],\\\\n  includeStories: /emoji.*/\\\\n};\\\\n\\\\nexport default meta;\\\\n\\\\nexport const text = () => (\\\\n  <Button onClick={action(\\\\\\"clicked\\\\\\")}>Hello Button</Button>\\\\n);\\\\n\\",\\"locationsMap\\":{\\"text\\":{\\"startLoc\\":{\\"col\\":20,\\"line\\":13},\\"endLoc\\":{\\"col\\":1,\\"line\\":15},\\"startBody\\":{\\"col\\":20,\\"line\\":13},\\"endBody\\":{\\"col\\":1,\\"line\\":15}}}},},
+  title: \\"Button\\",
+  excludeStories: [\\"text\\"],
+  includeStories: /emoji.*/
+};
+
+export default meta;
+
+export const text = () => (
+  <Button onClick={action(\\"clicked\\")}>Hello Button</Button>
+);
+"
+`;
