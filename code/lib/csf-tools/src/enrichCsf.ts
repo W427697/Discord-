@@ -16,22 +16,29 @@ export const enrichCsfStory = (csf: CsfFile, key: string, options?: EnrichCsfOpt
   const parameters = [];
   const originalParameters = t.memberExpression(t.identifier(key), t.identifier('parameters'));
   parameters.push(t.spreadElement(originalParameters));
+  const optionalDocs = t.optionalMemberExpression(
+    originalParameters,
+    t.identifier('docs'),
+    false,
+    true
+  );
+  const extraDocsParameters = [];
 
-  // storySource: { source: %%source%% },
+  // docs: { source: { originalSource: %%source%% } },
   if (source) {
-    const optionalStorySource = t.optionalMemberExpression(
-      originalParameters,
-      t.identifier('storySource'),
+    const optionalSource = t.optionalMemberExpression(
+      optionalDocs,
+      t.identifier('source'),
       false,
       true
     );
 
-    parameters.push(
+    extraDocsParameters.push(
       t.objectProperty(
-        t.identifier('storySource'),
+        t.identifier('source'),
         t.objectExpression([
-          t.objectProperty(t.identifier('source'), t.stringLiteral(source)),
-          t.spreadElement(optionalStorySource),
+          t.objectProperty(t.identifier('originalSource'), t.stringLiteral(source)),
+          t.spreadElement(optionalSource),
         ])
       )
     );
@@ -39,37 +46,30 @@ export const enrichCsfStory = (csf: CsfFile, key: string, options?: EnrichCsfOpt
 
   // docs: { description: { story: %%description%% } },
   if (description) {
-    const optionalDocs = t.optionalMemberExpression(
-      originalParameters,
-      t.identifier('docs'),
-      false,
-      true
-    );
-
     const optionalDescription = t.optionalMemberExpression(
       optionalDocs,
       t.identifier('description'),
       false,
       true
     );
-
-    parameters.push(
+    extraDocsParameters.push(
       t.objectProperty(
-        t.identifier('docs'),
+        t.identifier('description'),
         t.objectExpression([
-          t.spreadElement(optionalDocs),
-          t.objectProperty(
-            t.identifier('description'),
-            t.objectExpression([
-              t.objectProperty(t.identifier('story'), t.stringLiteral(description)),
-              t.spreadElement(optionalDescription),
-            ])
-          ),
+          t.objectProperty(t.identifier('story'), t.stringLiteral(description)),
+          t.spreadElement(optionalDescription),
         ])
       )
     );
   }
-  if (parameters.length > 1) {
+
+  if (extraDocsParameters.length > 0) {
+    parameters.push(
+      t.objectProperty(
+        t.identifier('docs'),
+        t.objectExpression([t.spreadElement(optionalDocs), ...extraDocsParameters])
+      )
+    );
     const addParameter = t.expressionStatement(
       t.assignmentExpression('=', originalParameters, t.objectExpression(parameters))
     );
