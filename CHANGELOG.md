@@ -1,3 +1,27 @@
+## 7.0.0-beta.31 (January 20, 2023)
+
+#### Features
+
+-   Docs: Added source stories and updated API [#20603](https://github.com/storybooks/storybook/pull/20603)
+-   Docs: Implement Controls block [#20683](https://github.com/storybooks/storybook/pull/20683)
+-   Docs: Created `ArgTypes` component and stories [#20664](https://github.com/storybooks/storybook/pull/20664)
+-   Docs: Show primary story description and headline in autodocs [#20604](https://github.com/storybooks/storybook/pull/20604)
+
+#### Bug Fixes
+
+-   Source-loader: Fix export default variable references [#20688](https://github.com/storybooks/storybook/pull/20688)
+
+#### Maintenance
+
+-   CLI: Make missing-babelrc an automatic migration [#20689](https://github.com/storybooks/storybook/pull/20689)
+-   Addon-docs: Update story index generator glob [#20679](https://github.com/storybooks/storybook/pull/20679)
+-   Docs: Move validation logic into `context.resolveOf` [#20662](https://github.com/storybooks/storybook/pull/20662)
+-   Csf-plugin: Move source to docs.source.originalSource [#20665](https://github.com/storybooks/storybook/pull/20665)
+
+#### Build
+
+-   Fix ui example story [#20692](https://github.com/storybooks/storybook/pull/20692)
+
 ## 7.0.0-beta.30 (January 18, 2023)
 
 #### Features
