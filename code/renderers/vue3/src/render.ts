@@ -63,8 +63,6 @@ export function renderToCanvas(
     };
   }
 
-  // clearVueApps(viewMode, id);
-
   const reactiveArgs = storyArgs ? reactive(storyArgs) : storyArgs;
 
   const storybookApp = createApp({
@@ -112,6 +110,6 @@ function updateArgs(reactiveArgs: Args, nextArgs: Args) {
 }
 
 function teardown(storybookApp: App<Element>, storyID: string) {
-  storybookApp.unmount();
+  storybookApp?.unmount();
   if (map.has(storyID)) map.delete(storyID);
 }
