@@ -50,20 +50,23 @@ const PlaceholderClock: FC<{ color: string }> = ({ color, children }) => {
 };
 
 const MockSidebar: FC<any> = (props) => (
-  <PlaceholderClock color="hotpink">
+  <PlaceholderClock color="#F6F9FC">
     <pre>{JSON.stringify(props, null, 2)}</pre>
   </PlaceholderClock>
 );
+
 const MockPreview: FC<any> = (props) => (
-  <PlaceholderClock color="deepskyblue">
+  <PlaceholderClock color="#FFFFFF">
     <pre>{JSON.stringify(props, null, 2)}</pre>
   </PlaceholderClock>
 );
+
 const MockPanel: FC<any> = (props) => (
-  <PlaceholderClock color="orangered">
+  <PlaceholderClock color="#DDE0E2">
     <pre>{JSON.stringify(props, null, 2)}</pre>
   </PlaceholderClock>
 );
+
 const MockPage: FC<any> = (props) => (
   <PlaceholderClock color="cyan">
     <pre>{JSON.stringify(props, null, 2)}</pre>

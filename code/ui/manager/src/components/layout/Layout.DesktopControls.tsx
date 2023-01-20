@@ -16,20 +16,20 @@ export const DesktopControls = ({
   return (
     <>
       <div
-        className="sb-sizer sb-sHorizontal"
+        className="sb-sizer sb-horizontalDrag"
         ref={sHorizontalRef}
         hidden={!(state.panelPosition === 'right' && state.viewMode === 'story')}
       >
         <div className="sb-shade" />
       </div>
       <div
-        className="sb-sizer sb-sVertical"
+        className="sb-sizer sb-verticalDrag"
         ref={sVerticalRef}
         hidden={!(state.panelPosition === 'bottom' && state.viewMode === 'story')}
       >
         <div className="sb-shade" />
       </div>
-      <div className="sb-sizer sb-sSidebar" ref={sSidebarRef}>
+      <div className="sb-sizer sb-sidebarDrag" ref={sSidebarRef}>
         <div className="sb-shade" />
       </div>
 
@@ -118,7 +118,7 @@ function useDragging(
         return;
       }
       if (draggedElement === sVertical) {
-        const value = 100 - Math.round((e.clientY / e.view.innerHeight) * 100);
+        const value = 100 - ((e.clientY / e.view.innerHeight) * 100);
         if (value > 70) {
           return;
         }

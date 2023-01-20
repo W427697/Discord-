@@ -39,22 +39,22 @@ export const DESKTOP = `
 }
 
 .sb-sidebar { 
-  grid-area: a;
+  grid-area: sidebar;
   position: relative;
   z-index: 3;
 }
 .sb-content { 
-  grid-area: c;
+  grid-area: content;
   position: relative;
   z-index: 1;
 }
 .sb-custom { 
-  grid-area: o;
+  grid-area: other;
   position: relative;
   z-index: 1;
 }
 .sb-panel { 
-  grid-area: b;
+  grid-area: panel;
   position: relative;
   z-index: 2;
 }
@@ -79,19 +79,19 @@ export const DESKTOP = `
   display: none;
 }
 
-.sb-sHorizontal {
-  grid-area: sHorizontal;
+.sb-horizontalDrag {
+  grid-area: horizontalDrag;
   width: ${MARGIN * 2}px;
   margin-left: -${MARGIN}px;
   cursor: col-resize;
   top: 100px;
   bottom: 100px;
 }
-.sb-sHorizontal .sb-shade {
+.sb-horizontalDrag .sb-shade {
   transform: rotate(180deg);
   left: 0;
 }
-.sb-sVertical .sb-shade {
+.sb-verticalDrag .sb-shade {
   // transform: rotate(90deg);
   left: 0;
   width: 100%;
@@ -102,16 +102,16 @@ export const DESKTOP = `
 
 }
 
-.sb-sVertical {
-  grid-area: sVertical;
+.sb-verticalDrag {
+  grid-area: verticalDrag;
   height: ${MARGIN * 2}px;
     margin-top: -${MARGIN}px;
   cursor: row-resize;
   left: 100px;
   right: 100px;
 }
-.sb-sSidebar {
-  grid-area: sSidebar;
+.sb-sidebarDrag {
+  grid-area: sidebarDrag;
   width: ${MARGIN * 2}px;
   margin-left: -${MARGIN}px;
   cursor: col-resize;
@@ -125,7 +125,7 @@ export const DESKTOP = `
   bottom: 0;
   top: 0;
   width: ${MARGIN}px;
-  background: radial-gradient(at center center,rgba(0,0,0,1) 0%,transparent 70%,transparent 100%);
+  background: radial-gradient(at center center, #ff4785 0%,transparent 50%,transparent 100%);
   background-size: ${MARGIN * 2}px 100%;
   background-position: ${MARGIN}px 50%;
   opacity: 0;
@@ -218,9 +218,9 @@ export function getGridTemplate({ panelPosition, viewMode }: LayoutState) {
     return `
     .sb-layout {
       grid-template-areas: 
-        "a sSidebar o o o"
-        "a sSidebar o o o"
-        "a sSidebar o o o"; 
+        "sidebar sidebarDrag other other other"
+        "sidebar sidebarDrag other other other"
+        "sidebar sidebarDrag other other other"; 
     }`;
   }
 
@@ -228,9 +228,9 @@ export function getGridTemplate({ panelPosition, viewMode }: LayoutState) {
     return `
     .sb-layout {
       grid-template-areas: 
-        "a sSidebar c c c"
-        "a sSidebar c c c"
-        "a sSidebar c c c"; 
+        "sidebar sidebarDrag content content content"
+        "sidebar sidebarDrag content content content"
+        "sidebar sidebarDrag content content content"; 
     }`;
   }
 
@@ -238,17 +238,17 @@ export function getGridTemplate({ panelPosition, viewMode }: LayoutState) {
     return `
     .sb-layout {
       grid-template-areas: 
-        "a sSidebar c sHorizontal b"
-        "a sSidebar c sHorizontal b"
-        "a sSidebar c sHorizontal b"; 
+        "sidebar sidebarDrag content horizontalDrag panel"
+        "sidebar sidebarDrag content horizontalDrag panel"
+        "sidebar sidebarDrag content horizontalDrag panel"; 
     }`;
   }
 
   return `
     .sb-layout {
       grid-template-areas: 
-        "a sSidebar c c c"
-        "a sSidebar sVertical sVertical sVertical"
-        "a sSidebar b b b"; 
+        "sidebar sidebarDrag content content content"
+        "sidebar sidebarDrag verticalDrag verticalDrag verticalDrag"
+        "sidebar sidebarDrag panel panel panel"; 
     }`;
 }
