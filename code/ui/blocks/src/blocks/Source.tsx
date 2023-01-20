@@ -62,7 +62,6 @@ const getSourceState = (stories: PreparedStory[]) => {
 
 const getStorySource = (storyId: StoryId, sourceContext: SourceContextProps): SourceItem => {
   const { sources } = sourceContext;
-  console.log(storyId, sources);
   // source rendering is async so source is unavailable at the start of the render cycle,
   // so we fail gracefully here without warning
   return sources?.[storyId] || { code: '' };
@@ -112,9 +111,7 @@ export const useSourceProps = (
   // The check didn't actually change the type.
   let stories: PreparedStory[] = storiesFromIds as PreparedStory[];
   if (props.of) {
-    const resolved = docsContext.resolveOf(props.of);
-    if (resolved.type !== 'story')
-      throw new Error(`Invalid value passed to the 'of' prop, it should be a story export.`);
+    const resolved = docsContext.resolveOf(props.of, ['story']);
     stories = [resolved.story];
   } else if (stories.length === 0) {
     stories = [docsContext.storyById()];
