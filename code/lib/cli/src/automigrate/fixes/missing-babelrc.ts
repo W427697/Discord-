@@ -50,9 +50,14 @@ export const missingBabelRc: Fix<MissingBabelRcOptions> = {
 
     const addons = main.getNamesFromPath(['addons']);
 
-    const hasCraPreset = addons.find((addon) => addon === '@storybook/preset-create-react-app');
+    const hasCraPreset =
+      addons && addons.find((addon) => addon === '@storybook/preset-create-react-app');
 
-    if (frameworksThatNeedBabelConfig.includes(frameworkPackage) && !hasCraPreset) {
+    if (
+      frameworkPackage &&
+      frameworksThatNeedBabelConfig.includes(frameworkPackage) &&
+      !hasCraPreset
+    ) {
       const config = await loadPartialConfigAsync({
         babelrc: true,
         filename: '__fake__.js', // somehow needed to detect .babelrc.* files
