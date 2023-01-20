@@ -17,7 +17,6 @@ const frameworksThatNeedBabelConfig = [
   '@storybook/react-webpack5',
   '@storybook/vue-webpack5',
   '@storybook/vue3-webpack5',
-  '@storybook/preact-webpack5',
   '@storybook/html-webpack5',
 ];
 
