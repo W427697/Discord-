@@ -155,9 +155,13 @@ export function generateSourcesInExportedParameters(source, ast, additionalParam
   const { splicedSource, parametersSliceOfCode, indexWhereToAppend, foundParametersProperty } =
     popParametersObjectFromDefaultExport(source, ast);
   if (indexWhereToAppend !== -1) {
-    const additionalParametersAsJson = JSON.stringify({
-      storySource: transformLocationMapToIds(additionalParameters),
-    }).slice(0, -1);
+    const additionalParametersAsJson = JSON.stringify(
+      {
+        storySource: transformLocationMapToIds(additionalParameters),
+      },
+      null,
+      2
+    ).slice(0, -1);
     const propertyDeclaration = foundParametersProperty ? '' : 'parameters: ';
     const comma = foundParametersProperty ? '' : ',';
     const newParameters = `${propertyDeclaration}${additionalParametersAsJson},${parametersSliceOfCode.substring(
