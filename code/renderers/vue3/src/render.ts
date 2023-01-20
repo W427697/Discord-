@@ -54,6 +54,7 @@ export function renderToCanvas(
 
   const storyID = `${id}--${viewMode}`;
   const existingApp = map.get(storyID);
+  console.log('---------- storyID ', storyID, ' name', name);
 
   if (existingApp && !forceRemount) {
     updateArgs(existingApp.reactiveArgs, storyArgs);
@@ -113,13 +114,17 @@ function updateArgs(reactiveArgs: Args, nextArgs: Args) {
 
 function clearVueApps(viewMode: string, id: string) {
   const [idPrefix, idSuffix] = id.split('--');
+  // console.log(' map to start clearing ', map);
+  console.log('map start looping ---------------  size ', map.size);
   map.forEach((value, key) => {
     const [keyPrefix, keySuffix, keyViewMode] = key.split('--');
+    console.log('key ', key);
     if (
       keyViewMode !== viewMode ||
       idPrefix !== keyPrefix ||
       (idSuffix !== keySuffix && viewMode !== 'docs')
     ) {
+      console.log('unmounting - ', key);
       value.vueApp.unmount();
       map.delete(key);
     }
