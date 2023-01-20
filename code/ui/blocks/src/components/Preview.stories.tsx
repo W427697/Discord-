@@ -21,9 +21,7 @@ const preview = (window as any).__STORYBOOK_PREVIEW__;
 const renderStoryToElement = preview.renderStoryToElement.bind(preview);
 
 const getPreparedStory = (docsContext: DocsContextProps, moduleExport: ModuleExport) => {
-  const resolved = docsContext.resolveModuleExport(moduleExport);
-  if (resolved.type !== 'story') throw new Error('Bad export, pass a story!');
-  return resolved.story;
+  return docsContext.resolveOf(moduleExport, ['story']).story;
 };
 
 export const Loading = () => <PreviewSkeleton />;
@@ -107,6 +105,8 @@ export const WithToolbar = (
       story={getPreparedStory(docsContext, ButtonStories.Primary)}
       renderStoryToElement={renderStoryToElement}
       autoplay={false}
+      forceInitialArgs={false}
+      primary={false}
       height="100px"
     />
   </Preview>
@@ -137,6 +137,8 @@ export const WithToolbarMulti = (
       story={getPreparedStory(docsContext, ButtonStories.Primary)}
       renderStoryToElement={renderStoryToElement}
       autoplay={false}
+      forceInitialArgs={false}
+      primary={false}
       height="100px"
     />
     <Story
@@ -144,6 +146,8 @@ export const WithToolbarMulti = (
       story={getPreparedStory(docsContext, ButtonStories.Primary)}
       renderStoryToElement={renderStoryToElement}
       autoplay={false}
+      forceInitialArgs={false}
+      primary={false}
       height="100px"
     />
   </Preview>
@@ -159,6 +163,8 @@ export const WithFullscreenSingle = (
       story={getPreparedStory(docsContext, ButtonStories.Primary)}
       renderStoryToElement={renderStoryToElement}
       autoplay={false}
+      forceInitialArgs={false}
+      primary={false}
       height="100px"
     />
   </Preview>
@@ -174,6 +180,8 @@ export const WithFullscreenMulti = (
       story={getPreparedStory(docsContext, ButtonStories.Primary)}
       renderStoryToElement={renderStoryToElement}
       autoplay={false}
+      forceInitialArgs={false}
+      primary={false}
       height="100px"
     />
     <Story
@@ -181,6 +189,8 @@ export const WithFullscreenMulti = (
       story={getPreparedStory(docsContext, ButtonStories.Primary)}
       renderStoryToElement={renderStoryToElement}
       autoplay={false}
+      forceInitialArgs={false}
+      primary={false}
       height="100px"
     />
   </Preview>
@@ -196,6 +206,8 @@ export const WithCenteredSingle = (
       story={getPreparedStory(docsContext, ButtonStories.Primary)}
       renderStoryToElement={renderStoryToElement}
       autoplay={false}
+      forceInitialArgs={false}
+      primary={false}
       height="100px"
     />
   </Preview>
@@ -211,6 +223,8 @@ export const WithCenteredMulti = (
       story={getPreparedStory(docsContext, ButtonStories.Primary)}
       renderStoryToElement={renderStoryToElement}
       autoplay={false}
+      forceInitialArgs={false}
+      primary={false}
       height="100px"
     />
     <Story
@@ -218,6 +232,8 @@ export const WithCenteredMulti = (
       story={getPreparedStory(docsContext, ButtonStories.Primary)}
       renderStoryToElement={renderStoryToElement}
       autoplay={false}
+      forceInitialArgs={false}
+      primary={false}
       height="100px"
     />
   </Preview>
