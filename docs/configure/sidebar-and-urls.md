@@ -37,6 +37,7 @@ Consider the following story:
 <CodeSnippets
   paths={[
     'common/foo-bar-baz-story.js.mdx',
+    'common/foo-bar-baz-story.ts.mdx',
   ]}
   usesCsf3
   csf2Path="configure/sidebar-and-urls#snippet-foo-bar-baz-story"
@@ -53,6 +54,7 @@ It is possible to manually set the story's id, which is helpful if you want to r
 <CodeSnippets
   paths={[
     'common/other-foo-bar-story.js.mdx',
+    'common/other-foo-bar-story.ts.mdx',
   ]}
   usesCsf3
   csf2Path="configure/sidebar-and-urls#snippet-other-foo-bar-story"
@@ -71,7 +73,9 @@ Storybook 6.4 introduced [CSF 3.0](https://storybook.js.org/blog/component-story
 <CodeSnippets
   paths={[
     'common/storybook-main-configuration-src-dir.main-js.js.mdx',
+    'common/storybook-main-configuration-src-dir.main-ts.ts.mdx',
     'common/component-story-auto-title.csf3-story.js.mdx',
+    'common/component-story-auto-title.csf3-story-ts.ts.mdx',
   ]}
 />
 
@@ -107,6 +111,7 @@ If you need to preserve the naming scheme, you can add the `title` element to th
 <CodeSnippets
   paths={[
     'common/storybook-csf-3-auto-title-redundant.js.mdx',
+    'common/storybook-csf-3-auto-title-redundant.ts.mdx',
   ]}
   usesCsf3
 />
@@ -122,6 +127,7 @@ Additionally, if you customize your Storybook to load your stories based on a [c
 <CodeSnippets
   paths={[
     'common/storybook-main-auto-title-custom.js.mdx',
+    'common/storybook-main-auto-title-custom.ts.mdx',
   ]}
 />
 
