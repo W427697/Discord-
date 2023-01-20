@@ -297,7 +297,9 @@ async function linkPackageStories(
 
   await ensureSymlink(source, target);
 
-  if (!linkInDir) addStoriesEntry(mainConfig, packageDir);
+  if (!linkInDir) {
+    addStoriesEntry(mainConfig, packageDir);
+  }
 
   // Add `previewAnnotation` entries of the form
   //   './template-stories/lib/store/preview.[tj]s'
@@ -402,12 +404,14 @@ export const addStories: Task['run'] = async (
     }
   }
 
-  // Add stories for lib/store (and addons below). NOTE: these stories will be in the
-  // template-stories folder and *not* processed by the framework build config (instead by esbuild-loader)
-  await linkPackageStories(await workspacePath('core package', '@storybook/store'), {
-    mainConfig,
-    cwd,
-  });
+  if (isCoreRenderer) {
+    // Add stories for lib/store (and addons below). NOTE: these stories will be in the
+    // template-stories folder and *not* processed by the framework build config (instead by esbuild-loader)
+    await linkPackageStories(await workspacePath('core package', '@storybook/store'), {
+      mainConfig,
+      cwd,
+    });
+  }
 
   const mainAddons = mainConfig.getFieldValue(['addons']).reduce((acc: string[], addon: any) => {
     const name = typeof addon === 'string' ? addon : addon.name;
@@ -426,14 +430,17 @@ export const addStories: Task['run'] = async (
     )
   );
 
-  const existingStories = await filterExistsInCodeDir(addonDirs, join('template', 'stories'));
-  await Promise.all(
-    existingStories.map(async (packageDir) => linkPackageStories(packageDir, { mainConfig, cwd }))
-  );
+  if (isCoreRenderer) {
+    const existingStories = await filterExistsInCodeDir(addonDirs, join('template', 'stories'));
+    await Promise.all(
+      existingStories.map(async (packageDir) => linkPackageStories(packageDir, { mainConfig, cwd }))
+    );
 
-  // Add some extra settings (see above for what these do)
-  if (template.expected.builder === '@storybook/builder-webpack5')
-    addEsbuildLoaderToStories(mainConfig);
+    // Add some extra settings (see above for what these do)
+    if (template.expected.builder === '@storybook/builder-webpack5') {
+      addEsbuildLoaderToStories(mainConfig);
+    }
+  }
 
   // Some addon stories require extra dependencies
   addExtraDependencies({ cwd, dryRun, debug });
