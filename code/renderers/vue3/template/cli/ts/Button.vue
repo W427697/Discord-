@@ -1,10 +1,10 @@
 <template>
-  <button type="button" :class="classes" @click="onClick" :style="style">{{ label }} </button>
+  <button type="button" :class="classes" @click="onClick" :style="style">{{ label }} {{ counter || '' }}</button>
 </template>
 
 <script lang="ts" setup>
 import './button.css';
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 
 const props = withDefaults(defineProps<{
   /**
@@ -41,8 +41,16 @@ const style = computed(() => ({
   backgroundColor: props.backgroundColor
 }));
 
+
+const counter = ref(0);
+
 const onClick = () => {
   emit("click", 1)
+  updateCounter();
+};
+
+const updateCounter = () => {
+  counter.value += 1;
 };
 
 </script>
