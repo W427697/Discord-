@@ -12,7 +12,7 @@ module.exports = {
       code = await compile(code, {});
       return loadCsf(code, { ...opts, fileName }).parse();
     };
-    
+
     return [
       {
         test: /(stories|story)\.mdx$/,
