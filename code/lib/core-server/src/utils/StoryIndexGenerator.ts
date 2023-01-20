@@ -136,6 +136,17 @@ export class StoryIndexGenerator {
       })
     );
 
+    const entryOrder = this.specifiers.flatMap((specifier) => {
+      const cache = this.specifierToCache.get(specifier);
+      return Object.keys(cache);
+    });
+    const searchPath = path.resolve(
+      this.options.workingDir,
+      './template-stories/addons/controls/basics.stories.ts'
+    );
+    console.log('entry position');
+    console.log(entryOrder.indexOf(searchPath));
+
     // Extract stories for each file
     await this.ensureExtracted();
   }
