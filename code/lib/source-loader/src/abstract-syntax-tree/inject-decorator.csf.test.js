@@ -3,7 +3,7 @@ import path from 'path';
 import 'jest-specific-snapshot';
 import injectDecorator from './inject-decorator';
 
-const { SNAPSHOT_OS } = global;
+const regex = /\r\n|\r|\n/g;
 
 describe('inject-decorator', () => {
   const snapshotDir = path.join(__dirname, '__snapshots__');
@@ -16,8 +16,8 @@ describe('inject-decorator', () => {
         parser: 'typescript',
       });
 
-      expect(result.source).toMatchSpecificSnapshot(
-        path.join(snapshotDir, `inject-decorator.csf.test.js.${SNAPSHOT_OS}.snapshot`)
+      expect(result.source.replace(regex, '\n')).toMatchSpecificSnapshot(
+        path.join(snapshotDir, `inject-decorator.csf.test.js.snapshot`)
       );
       expect(result.source).toEqual(expect.stringContaining('"source": "import React from'));
     });
@@ -29,8 +29,8 @@ describe('inject-decorator', () => {
         parser: 'typescript',
       });
 
-      expect(result.source).toMatchSpecificSnapshot(
-        path.join(snapshotDir, `inject-decorator.csf-meta-var.test.js.${SNAPSHOT_OS}.snapshot`)
+      expect(result.source.replace(regex, '\n')).toMatchSpecificSnapshot(
+        path.join(snapshotDir, `inject-decorator.csf-meta-var.test.js.snapshot`)
       );
       expect(result.source).toEqual(expect.stringContaining('"source": "import React from'));
     });
@@ -44,11 +44,8 @@ describe('inject-decorator', () => {
         injectStoryParameters: true,
         parser: 'typescript',
       });
-      expect(result.source).toMatchSpecificSnapshot(
-        path.join(
-          snapshotDir,
-          `inject-decorator.csf.test.js.injectStoryParameters-${SNAPSHOT_OS}.snapshot`
-        )
+      expect(result.source.replace(regex, '\n')).toMatchSpecificSnapshot(
+        path.join(snapshotDir, `inject-decorator.csf.test.js.injectStoryParameters.snapshot`)
       );
     });
   });
