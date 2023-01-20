@@ -7,6 +7,7 @@ import { expect } from '@storybook/jest';
 import { Canvas, SourceState } from '../Canvas';
 import { Story as StoryComponent } from '../Story';
 import * as ButtonStories from '../../examples/Button.stories';
+import SourceStoriesMeta from '../Source.stories';
 
 const meta: Meta<typeof Canvas> = {
   title: 'Blocks/Internal/Canvas',
@@ -14,7 +15,13 @@ const meta: Meta<typeof Canvas> = {
   parameters: {
     theme: 'light',
     relativeCsfPaths: ['../examples/Button.stories'],
+    //   snippets: {
+    //     'storybook-blocks-example-button--primary': {
+    //       code: `const emitted = 'source';`,
   },
+  // },
+  // },
+  // decorators: SourceStoriesMeta.decorators,
   render: (args) => {
     return (
       <Canvas {...args}>
@@ -40,8 +47,8 @@ const expectAmountOfStoriesInSource =
     await userEvent.click(showCodeButton);
 
     // Assert - check that the correct amount of stories' source is shown
-    const booleanControlNodes = await canvas.findAllByText(`label`);
-    await expect(booleanControlNodes).toHaveLength(amount);
+    const buttonNodes = await canvas.findAllByText(`label`);
+    await expect(buttonNodes).toHaveLength(amount);
   };
 
 export const BasicStoryChild: Story = {};

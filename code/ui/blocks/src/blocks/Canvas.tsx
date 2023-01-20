@@ -39,7 +39,7 @@ type CanvasProps = Pick<PurePreviewProps, 'withToolbar' | 'additionalActions' | 
 };
 
 const useDeprecatedPreviewProps = (
-  { withSource, mdxSource, children, ...props }: DeprecatedCanvasProps,
+  { withSource, mdxSource, children, ...props }: DeprecatedCanvasProps & { of: ModuleExport },
   docsContext: DocsContextProps<Renderer>,
   sourceContext: SourceContextProps
 ) => {

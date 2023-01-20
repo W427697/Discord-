@@ -8,13 +8,13 @@ const meta: Meta<typeof Canvas> = {
   component: Canvas,
   parameters: {
     relativeCsfPaths: ['../examples/Button.stories'],
-    snippets: {
-      'storybook-blocks-example-button--primary': {
-        code: `const emitted = 'source';`,
-      },
-    },
+    // snippets: {
+    //   'storybook-blocks-example-button--primary': {
+    //     code: `const emitted = 'source';`,
+    //   },
+    // },
   },
-  decorators: SourceStoriesMeta.decorators,
+  // decorators: SourceStoriesMeta.decorators,
 };
 export default meta;
 
@@ -24,6 +24,13 @@ export const DefaultAttached: Story = {
   args: {
     of: ButtonStories.Primary,
   },
+};
+
+export const DefaultUnattached: Story = {
+  args: {
+    of: ButtonStories.Primary,
+  },
+  parameters: { attached: false },
 };
 
 export const WithToolbar: Story = {
