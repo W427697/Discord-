@@ -1,3 +1,4 @@
+/* eslint-disable react/destructuring-assignment */
 import React, { Children, useContext } from 'react';
 import type { FC, ReactElement, ReactNode } from 'react';
 import type { ModuleExport, Renderer } from '@storybook/types';
@@ -76,25 +77,8 @@ const useDeprecatedPreviewProps = (
 export const Canvas: FC<CanvasProps & DeprecatedCanvasProps> = (props) => {
   const docsContext = useContext(DocsContext);
   const sourceContext = useContext(SourceContext);
-  const {
-    children,
-    of,
-    story: storyProps,
-    sourceState = 'hidden',
-    layout: layoutProp,
-    source,
-    withToolbar,
-    additionalActions,
-    className,
-  } = props;
-  const sourceProps = useSourceProps(
-    {
-      ...source,
-      of,
-    },
-    docsContext,
-    sourceContext
-  );
+  const { children, of, source } = props;
+  const sourceProps = useSourceProps({ ...source, of }, docsContext, sourceContext);
   const { isLoading, previewProps } = useDeprecatedPreviewProps(props, docsContext, sourceContext);
 
   if (!of && !children) {
@@ -105,7 +89,12 @@ export const Canvas: FC<CanvasProps & DeprecatedCanvasProps> = (props) => {
     // TODO: loading?
 
     const layout =
-      layoutProp || of.parameters?.layout || of.parameters?.docs?.canvas?.layout || 'padded';
+      props.layout ?? of.parameters?.layout ?? of.parameters?.docs?.canvas?.layout ?? 'padded';
+    const withToolbar = props.withToolbar ?? of.parameters?.docs?.canvas?.withToolbar ?? false;
+    const additionalActions =
+      props.additionalActions ?? of.parameters?.docs?.canvas?.additionalActions;
+    const sourceState = props.sourceState ?? of.parameters?.docs?.canvas?.sourceState ?? 'hidden';
+    const className = props.className ?? of.parameters?.docs?.canvas?.className;
 
     return (
       <PurePreview
@@ -117,10 +106,10 @@ export const Canvas: FC<CanvasProps & DeprecatedCanvasProps> = (props) => {
       >
         <Story
           of={of}
-          {...storyProps}
+          {...props.story}
           parameters={
             /**
-             * this is a hack, Story v2 doesn't read from the 2parameters" prop
+             * this is a hack, Story v2 doesn't read from the "parameters" prop
              * But PurePreview determines the layout from it's first child's "parameters.layout" prop
              * So by passing the layout as a parameter, we can force the layout
              * TODO: remove this pattern once all the deprecated features can be removed
