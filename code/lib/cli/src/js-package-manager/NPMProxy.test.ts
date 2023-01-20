@@ -59,14 +59,14 @@ describe('NPM Proxy', () => {
 
   describe('runScript', () => {
     describe('npm6', () => {
-      it('should execute script `npm run compodoc -- -e json -d .`', () => {
+      it('should execute script `npm exec -- compodoc -e json -d .`', () => {
         const executeCommandSpy = jest.spyOn(npmProxy, 'executeCommand').mockReturnValue('6.0.0');
 
-        npmProxy.runScript('compodoc', ['-e', 'json', '-d', '.']);
+        npmProxy.runPackageCommand('compodoc', ['-e', 'json', '-d', '.']);
 
         expect(executeCommandSpy).toHaveBeenLastCalledWith(
           'npm',
-          ['run', 'compodoc', '--', '-e', 'json', '-d', '.'],
+          ['exec', '--', 'compodoc', '-e', 'json', '-d', '.'],
           undefined,
           undefined
         );
@@ -76,11 +76,11 @@ describe('NPM Proxy', () => {
       it('should execute script `npm run compodoc -- -e json -d .`', () => {
         const executeCommandSpy = jest.spyOn(npmProxy, 'executeCommand').mockReturnValue('7.1.0');
 
-        npmProxy.runScript('compodoc', ['-e', 'json', '-d', '.']);
+        npmProxy.runPackageCommand('compodoc', ['-e', 'json', '-d', '.']);
 
         expect(executeCommandSpy).toHaveBeenLastCalledWith(
           'npm',
-          ['run', 'compodoc', '--', '-e', 'json', '-d', '.'],
+          ['exec', '--', 'compodoc', '-e', 'json', '-d', '.'],
           undefined,
           undefined
         );

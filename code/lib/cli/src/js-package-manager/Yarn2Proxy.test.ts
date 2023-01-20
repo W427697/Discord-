@@ -35,7 +35,7 @@ describe('Yarn 2 Proxy', () => {
     it('should execute script `yarn compodoc -- -e json -d .`', () => {
       const executeCommandSpy = jest.spyOn(yarn2Proxy, 'executeCommand').mockReturnValue('7.1.0');
 
-      yarn2Proxy.runScript('compodoc', ['-e', 'json', '-d', '.']);
+      yarn2Proxy.runPackageCommand('compodoc', ['-e', 'json', '-d', '.']);
 
       expect(executeCommandSpy).toHaveBeenLastCalledWith(
         'yarn',
