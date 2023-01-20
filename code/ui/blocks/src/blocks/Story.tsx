@@ -15,8 +15,6 @@ import type { DocsContextProps } from './DocsContext';
 import { DocsContext } from './DocsContext';
 import { useStory } from './useStory';
 
-export const storyBlockIdFromId = (storyId: string) => `story--${storyId}`;
-
 type PureStoryProps = ComponentProps<typeof PureStory>;
 
 /**
@@ -72,6 +70,14 @@ type StoryParameters = {
    * Whether to run the story's play function
    */
   autoplay?: boolean;
+  /**
+   * Internal prop to control if a story re-renders on args updates
+   */
+  __forceInitialArgs?: boolean;
+  /**
+   * Internal prop if this story is the primary story
+   */
+  __primary?: boolean;
 };
 
 export type StoryProps = (StoryDefProps | StoryRefProps) & StoryParameters;
@@ -81,10 +87,7 @@ export const getStoryId = (props: StoryProps, context: DocsContextProps): StoryI
 
   if (of) {
     if (meta) context.referenceMeta(meta, false);
-    const resolved = context.resolveModuleExport(of);
-    if (resolved.type !== 'story') {
-      throw new Error('Unexpected component/module/meta exports passed to `Story` block.');
-    }
+    const resolved = context.resolveOf(of, ['story']);
     return resolved.story.id;
   }
 
@@ -136,6 +139,10 @@ export const getStoryProps = <TFramework extends Renderer>(
       inline: true,
       height,
       autoplay,
+      // eslint-disable-next-line no-underscore-dangle
+      forceInitialArgs: !!props.__forceInitialArgs,
+      // eslint-disable-next-line no-underscore-dangle
+      primary: !!props.__primary,
       renderStoryToElement: context.renderStoryToElement,
     };
   }
@@ -147,10 +154,12 @@ export const getStoryProps = <TFramework extends Renderer>(
     story,
     inline: false,
     height,
+    // eslint-disable-next-line no-underscore-dangle
+    primary: !!props.__primary,
   };
 };
 
-const Story: FC<StoryProps> = (props) => {
+const Story: FC<StoryProps> = (props = { __forceInitialArgs: false, __primary: false }) => {
   const context = useContext(DocsContext);
   const storyId = getStoryId(props, context);
   const story = useStory(storyId, context);
@@ -164,11 +173,7 @@ const Story: FC<StoryProps> = (props) => {
     return null;
   }
 
-  return (
-    <div id={storyBlockIdFromId(story.id)} className="sb-story">
-      <PureStory {...storyProps} />
-    </div>
-  );
+  return <PureStory {...storyProps} />;
 };
 
 export { Story };

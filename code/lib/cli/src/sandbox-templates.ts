@@ -249,16 +249,6 @@ const baseTemplates = {
       builder: '@storybook/builder-webpack5',
     },
   },
-  'angular-cli/13-ts': {
-    name: 'Angular CLI (Version 13)',
-    script:
-      'npx -p @angular/cli@13 ng new angular-v13 --directory . --routing=true --minimal=true --style=scss --strict --skip-git --skip-install --package-manager=yarn',
-    expected: {
-      framework: '@storybook/angular',
-      renderer: '@storybook/angular',
-      builder: '@storybook/builder-webpack5',
-    },
-  },
   'svelte-kit/skeleton-js': {
     name: 'Svelte Kit (JS)',
     script:
@@ -364,6 +354,17 @@ const baseTemplates = {
       builder: '@storybook/builder-vite',
     },
   },
+  'qwik-vite/default-ts': {
+    name: 'Qwik CLI (Default TS)',
+    script: 'yarn create qwik basic {{beforeDir}} --no-install',
+    inDevelopment: true,
+    skipTasks: ['e2e-tests'],
+    expected: {
+      framework: 'storybook-framework-qwik',
+      renderer: 'storybook-framework-qwik',
+      builder: 'storybook-framework-qwik',
+    },
+  },
 } satisfies Record<string, Template>;
 
 /**
@@ -421,7 +422,6 @@ export const merged: TemplateKey[] = [
   'react-webpack/18-ts',
   'react-webpack/17-ts',
   'angular-cli/14-ts',
-  'angular-cli/13-ts',
   'preact-webpack5/default-ts',
   'preact-vite/default-ts',
   'html-webpack/default',
@@ -440,6 +440,7 @@ export const daily: TemplateKey[] = [
   'svelte-vite/default-js',
   'nextjs/12-js',
   'nextjs/default-js',
+  'qwik-vite/default-ts',
   'preact-webpack5/default-js',
   'preact-vite/default-js',
 ];
