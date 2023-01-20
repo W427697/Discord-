@@ -10,7 +10,7 @@ module.exports = {
       const code = readFileSync(fileName, { encoding: 'utf-8' });
       return loadCsf(code, { ...opts, fileName }).parse();
     };
-    
+
     return [
       {
         test: /(stories|story)\.[tj]sx?$/,
