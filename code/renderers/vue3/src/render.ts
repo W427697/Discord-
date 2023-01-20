@@ -22,7 +22,10 @@ export const setup = (fn: (app: any) => void) => {
   setupFunction = fn;
 };
 
-const map = new Map<string, { vueApp: ReturnType<typeof createApp>; reactiveArgs: any }>();
+const map = new Map<
+  VueRenderer['canvasElement'],
+  { vueApp: ReturnType<typeof createApp>; reactiveArgs: any }
+>();
 
 export function renderToCanvas(
   {
@@ -51,15 +54,14 @@ export function renderToCanvas(
     });
     return () => {};
   }
-  const { args: storyArgs, viewMode } = storyContext;
+  const { args: storyArgs } = storyContext;
 
-  const storyID = `${id}--${viewMode}`;
-  const existingApp = map.get(storyID);
+  const existingApp = map.get(canvasElement);
 
   if (existingApp && !forceRemount) {
     updateArgs(existingApp.reactiveArgs, storyArgs);
     return () => {
-      teardown(existingApp.vueApp, storyID);
+      teardown(existingApp.vueApp, canvasElement);
     };
   }
 
@@ -67,7 +69,7 @@ export function renderToCanvas(
 
   const storybookApp = createApp({
     render() {
-      map.set(storyID, { vueApp: storybookApp, reactiveArgs });
+      map.set(canvasElement, { vueApp: storybookApp, reactiveArgs });
       return h(element, reactiveArgs);
     },
   });
@@ -78,7 +80,7 @@ export function renderToCanvas(
 
   showMain();
   return () => {
-    teardown(storybookApp, storyID);
+    teardown(storybookApp, canvasElement);
   };
 }
 
@@ -109,7 +111,7 @@ function updateArgs(reactiveArgs: Args, nextArgs: Args) {
   Object.assign(reactiveArgs, nextArgs);
 }
 
-function teardown(storybookApp: App<Element>, storyID: string) {
+function teardown(storybookApp: App<Element>, canvasElement: VueRenderer['canvasElement']) {
   storybookApp?.unmount();
-  if (map.has(storyID)) map.delete(storyID);
+  if (map.has(canvasElement)) map.delete(canvasElement);
 }
