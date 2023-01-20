@@ -266,8 +266,13 @@ export class ConfigFile {
    * // 2. { framework: { name: 'framework-name', options: {} }
    * getNameFromPath(['framework']) // => 'framework-name'
    */
-  getNameFromPath(path: string[]) {
-    return this._getPresetValue(this.getFieldNode(path), 'name');
+  getNameFromPath(path: string[]): string | undefined {
+    const node = this.getFieldNode(path);
+    if (!node) {
+      return undefined;
+    }
+
+    return this._getPresetValue(node, 'name');
   }
 
   /**
@@ -283,8 +288,12 @@ export class ConfigFile {
    * getNamesFromPath(['addons'])
    *
    */
-  getNamesFromPath(path: string[]) {
+  getNamesFromPath(path: string[]): string[] | undefined {
     const node = this.getFieldNode(path);
+    if (!node) {
+      return undefined;
+    }
+
     const pathNames: string[] = [];
     if (t.isArrayExpression(node)) {
       node.elements.forEach((element) => {

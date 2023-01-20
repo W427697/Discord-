@@ -776,7 +776,18 @@ describe('ConfigFile', () => {
         expect(config.getNameFromPath(['framework'])).toEqual('foo');
       });
 
-      it(`throws an error with unexpected node value`, () => {
+      it(`returns undefined when accessing a field that does not exist`, () => {
+        const source = dedent`
+          import type { StorybookConfig } from '@storybook/react-webpack5';
+
+          const config: StorybookConfig = { }
+          export default config;
+        `;
+        const config = loadConfig(source).parse();
+        expect(config.getNameFromPath(['framework'])).toBeUndefined();
+      });
+
+      it(`throws an error when node is of unexpected type`, () => {
         const source = dedent`
           import type { StorybookConfig } from '@storybook/react-webpack5';
 
@@ -808,6 +819,17 @@ describe('ConfigFile', () => {
         const config = loadConfig(source).parse();
         expect(config.getNamesFromPath(['addons'])).toEqual(['foo', 'bar']);
       });
+    });
+
+    it(`returns undefined when accessing a field that does not exist`, () => {
+      const source = dedent`
+        import type { StorybookConfig } from '@storybook/react-webpack5';
+
+        const config: StorybookConfig = { }
+        export default config;
+      `;
+      const config = loadConfig(source).parse();
+      expect(config.getNamesFromPath(['addons'])).toBeUndefined();
     });
   });
 });
