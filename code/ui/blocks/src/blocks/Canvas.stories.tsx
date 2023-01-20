@@ -1,6 +1,8 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
+import dedent from 'ts-dedent';
 import { Canvas } from './Canvas';
+import SourceStoriesMeta from './Source.stories';
 import * as ButtonStories from '../examples/Button.stories';
 import * as ParameterStories from '../examples/CanvasParameters.stories';
 import * as SourceParameterStories from '../examples/SourceParameters.stories';
@@ -13,7 +15,18 @@ const meta: Meta<typeof Canvas> = {
       '../examples/CanvasParameters.stories',
       '../examples/SourceParameters.stories',
     ],
+    snippets: {
+      'storybook-blocks-example-button--primary': {
+        code: dedent`
+          <Button
+            label="Button"
+            onClick={() => {}}
+            primary={true}
+          />`,
+      },
+    },
   },
+  decorators: SourceStoriesMeta.decorators,
 };
 export default meta;
 
@@ -38,12 +51,7 @@ export const PropWithToolbar: Story = {
     withToolbar: true,
   },
 };
-export const ParameterWithToolbar: Story = {
-  name: 'parameters.docs.canvas.withToolbar = true',
-  args: {
-    of: ParameterStories.WithToolbar,
-  },
-};
+
 export const PropAdditionalActions: Story = {
   args: {
     of: ButtonStories.Primary,
@@ -69,12 +77,6 @@ export const PropAdditionalActions: Story = {
     ],
   },
 };
-export const ParameterAdditionalActions: Story = {
-  name: 'parameters.docs.canvas.additionalActions = [ ... ]',
-  args: {
-    of: ParameterStories.AdditionalActions,
-  },
-};
 
 export const PropSourceStateShown: Story = {
   args: {
@@ -96,26 +98,6 @@ export const PropSourceStateNone: Story = {
     sourceState: 'none',
   },
 };
-export const ParametersSourceStateShown: Story = {
-  name: 'parameters.docs.canvas.sourceState = shown',
-  args: {
-    of: ParameterStories.SourceStateShown,
-  },
-};
-
-export const ParametersSourceStateHidden: Story = {
-  name: 'parameters.docs.canvas.sourceState = hidden',
-  args: {
-    of: ParameterStories.SourceStateHidden,
-  },
-};
-
-export const ParametersSourceStateNone: Story = {
-  name: 'parameters.docs.canvas.sourceState = none',
-  args: {
-    of: ParameterStories.SourceStateNone,
-  },
-};
 
 export const PropLayoutFullscreen: Story = {
   args: {
@@ -135,6 +117,114 @@ export const PropLayoutPadded: Story = {
   args: {
     of: ButtonStories.Primary,
     layout: 'padded',
+  },
+};
+
+export const PropSource: Story = {
+  args: {
+    of: ButtonStories.Primary,
+    source: {
+      language: 'html',
+      code: '<button>           Button          </button>', // spaces should be removed by the prettier formatter
+      format: 'html',
+    },
+  },
+};
+
+export const PropInlineStory: Story = {
+  args: {
+    of: ButtonStories.Primary,
+    story: { inline: false, height: '200px' },
+  },
+};
+
+export const PropAutoplayingStory: Story = {
+  args: {
+    of: ButtonStories.Clicking,
+    story: { autoplay: true },
+  },
+};
+
+const ClassNameStoryDescription = () => (
+  <p>
+    This story sets the <code>className</code> prop on the <code>Canvas</code> to{' '}
+    <code>my-custom-classname</code>, which will propagate to the preview element. To demonstrate
+    this, it also adds a <code>style</code> tag that sets another background color for that class:
+  </p>
+);
+export const PropClassName: Story = {
+  name: 'Prop ClassName',
+  args: {
+    of: ButtonStories.Primary,
+    className: 'my-custom-classname',
+  },
+  render: (args) => (
+    <>
+      <ClassNameStoryDescription />
+      <style>
+        {`
+          .my-custom-classname {
+            background-color: #fd5c9355;
+          }
+        `}
+      </style>
+      <Canvas {...args} />
+    </>
+  ),
+};
+
+export const ParameterWithToolbar: Story = {
+  name: 'parameters.docs.canvas.withToolbar = true',
+  args: {
+    of: ParameterStories.WithToolbar,
+  },
+};
+
+export const ParameterAdditionalActions: Story = {
+  name: 'parameters.docs.canvas.additionalActions = [ ... ]',
+  args: {
+    of: ParameterStories.AdditionalActions,
+  },
+};
+
+export const ParameterClassName: Story = {
+  name: 'parameters.docs.canvas.className = my-custom-classname',
+  args: {
+    of: ParameterStories.ClassName,
+  },
+  render: (args) => (
+    <>
+      <ClassNameStoryDescription />
+      <style>
+        {`
+          .my-custom-classname {
+            background-color: #fd5c9355;
+          }
+        `}
+      </style>
+      <Canvas {...args} />
+    </>
+  ),
+};
+
+export const ParametersSourceStateShown: Story = {
+  name: 'parameters.docs.canvas.sourceState = shown',
+  args: {
+    of: ParameterStories.SourceStateShown,
+  },
+};
+
+export const ParametersSourceStateHidden: Story = {
+  name: 'parameters.docs.canvas.sourceState = hidden',
+  args: {
+    of: ParameterStories.SourceStateHidden,
+  },
+};
+
+export const ParametersSourceStateNone: Story = {
+  name: 'parameters.docs.canvas.sourceState = none',
+  args: {
+    of: ParameterStories.SourceStateNone,
   },
 };
 
@@ -180,86 +270,16 @@ export const ParameterLayoutPadded: Story = {
   },
 };
 
-export const PropSource: Story = {
-  args: {
-    of: ButtonStories.Primary,
-    source: {
-      language: 'html',
-      code: '<button>           Button          </button>', // spaces should be removed by the prettier formatter
-      format: 'html',
-    },
-  },
-};
-
 export const ParameterSource: Story = {
+  name: 'parameters.docs.source',
   args: {
     of: SourceParameterStories.CodeLanguage,
   },
 };
 
-export const PropInlineStory: Story = {
-  args: {
-    of: ButtonStories.Primary,
-    story: { inline: false, height: '200px' },
-  },
-};
-
-export const PropAutoplayingStory: Story = {
-  args: {
-    of: ButtonStories.Clicking,
-    story: { autoplay: true },
-  },
-};
-
 export const ParameterStory: Story = {
+  name: 'parameters.docs.story',
   args: {
     of: ParameterStories.StoryParameters,
   },
-};
-const ClassNameStoryDescription = () => (
-  <p>
-    This story sets the <code>className</code> prop on the <code>Canvas</code> to{' '}
-    <code>my-custom-classname</code>, which will propagate to the preview element. To demonstrate
-    this, it also adds a <code>style</code> tag that sets another background color for that class:
-  </p>
-);
-export const PropClassName: Story = {
-  name: 'Prop ClassName',
-  args: {
-    of: ButtonStories.Primary,
-    className: 'my-custom-classname',
-  },
-  render: (args) => (
-    <>
-      <ClassNameStoryDescription />
-      <style>
-        {`
-          .my-custom-classname {
-            background-color: #fd5c9355;
-          }
-        `}
-      </style>
-      <Canvas {...args} />
-    </>
-  ),
-};
-
-export const ParameterClassName: Story = {
-  name: 'Parameter ClassName',
-  args: {
-    of: ParameterStories.ClassName,
-  },
-  render: (args) => (
-    <>
-      <ClassNameStoryDescription />
-      <style>
-        {`
-          .my-custom-classname {
-            background-color: #fd5c9355;
-          }
-        `}
-      </style>
-      <Canvas {...args} />
-    </>
-  ),
 };

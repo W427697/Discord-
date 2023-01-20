@@ -1,7 +1,7 @@
 /* eslint-disable react/destructuring-assignment */
 import React, { Children, useContext } from 'react';
 import type { FC, ReactElement, ReactNode } from 'react';
-import type { ModuleExport, Renderer } from '@storybook/types';
+import type { ModuleExport, ModuleExports, Renderer } from '@storybook/types';
 import type { PreviewProps as PurePreviewProps } from '../components';
 import { Preview as PurePreview, PreviewSkeleton } from '../components';
 import type { DocsContextProps } from './DocsContext';
@@ -33,6 +33,7 @@ type DeprecatedCanvasProps = Omit<
 
 type CanvasProps = Pick<PurePreviewProps, 'withToolbar' | 'additionalActions' | 'className'> & {
   of: ModuleExport;
+  meta?: ModuleExports;
   sourceState?: 'hidden' | 'shown' | 'none';
   source?: Omit<SourceProps, 'dark'>;
   story?: Pick<StoryProps, 'inline' | 'height' | 'autoplay'>;
@@ -106,6 +107,7 @@ export const Canvas: FC<CanvasProps & DeprecatedCanvasProps> = (props) => {
       >
         <Story
           of={of}
+          meta={props.meta}
           {...props.story}
           parameters={
             /**
