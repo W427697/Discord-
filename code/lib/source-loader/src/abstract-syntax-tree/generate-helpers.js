@@ -12,7 +12,8 @@ import {
 import { extractSource } from '../extract-source';
 
 export function sanitizeSource(source) {
-  return JSON.stringify(source)
+  return JSON.stringify(source, null, 2)
+    .trim()
     .replace(/\u2028/g, '\\u2028')
     .replace(/\u2029/g, '\\u2029');
 }
@@ -161,7 +162,9 @@ export function generateSourcesInExportedParameters(source, ast, additionalParam
       },
       null,
       2
-    ).slice(0, -1);
+    )
+      .trim()
+      .slice(0, -1);
     const propertyDeclaration = foundParametersProperty ? '' : 'parameters: ';
     const comma = foundParametersProperty ? '' : ',';
     const newParameters = `${propertyDeclaration}${additionalParametersAsJson},${parametersSliceOfCode.substring(
