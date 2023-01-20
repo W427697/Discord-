@@ -10,6 +10,7 @@ import type {
 } from '@storybook/types';
 import { deprecate } from '@storybook/client-logger';
 
+import dedent from 'ts-dedent';
 import { Story as PureStory, StorySkeleton } from '../components';
 import type { DocsContextProps } from './DocsContext';
 import { DocsContext } from './DocsContext';
@@ -84,6 +85,12 @@ export type StoryProps = (StoryDefProps | StoryRefProps) & StoryParameters;
 
 export const getStoryId = (props: StoryProps, context: DocsContextProps): StoryId => {
   const { id, of, meta } = props as StoryRefProps;
+  if (id) {
+    deprecate(dedent`Referencing stories by \`id\` is deprecated, please use \`of\` instead. 
+    
+      Please refer to the migration guide: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#story-block'
+    `);
+  }
 
   if (of) {
     if (meta) context.referenceMeta(meta, false);
@@ -92,6 +99,12 @@ export const getStoryId = (props: StoryProps, context: DocsContextProps): StoryI
   }
 
   const { name } = props as StoryDefProps;
+  if (name) {
+    deprecate(dedent`Referencing stories by \`name\` is deprecated, please use \`of\` instead. 
+    
+      Please refer to the migration guide: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#story-block'
+    `);
+  }
   return id || context.storyIdByName(name);
 };
 
@@ -122,14 +135,20 @@ export const getStoryProps = <TFramework extends Renderer>(
     iframeHeight?: string;
     autoplay?: boolean;
   };
-  if (typeof inlineStories !== 'undefined')
-    deprecate('The `docs.inlineStories` parameter is deprecated, use `docs.story.inline` instead');
+  if (typeof inlineStories !== 'undefined') {
+    deprecate(dedent`The \`docs.inlineStories\` parameter is deprecated, use \`docs.story.inline\` instead. 
+    
+      Please refer to the migration guide: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#autodocs-changes'
+    `);
+  }
   const inline = getProp(props.inline, storyParameters.inline, inlineStories) || false;
 
-  if (typeof iframeHeight !== 'undefined')
-    deprecate(
-      'The `docs.iframeHeight` parameter is deprecated, use `docs.story.iframeHeight` instead'
-    );
+  if (typeof iframeHeight !== 'undefined') {
+    deprecate(dedent`The \`docs.iframeHeight\` parameter is deprecated, use \`docs.story.iframeHeight\` instead. 
+    
+      Please refer to the migration guide: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#autodocs-changes'
+    `);
+  }
 
   if (inline) {
     const height = getProp(props.height, storyParameters.height);
