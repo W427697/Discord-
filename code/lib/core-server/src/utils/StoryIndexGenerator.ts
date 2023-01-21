@@ -435,7 +435,7 @@ export class StoryIndexGenerator {
     return betterEntry;
   }
 
-  async sortStories(storiesList: IndexEntry[]) {
+  sortStories(storiesList: IndexEntry[]) {
     const entries: StoryIndex['entries'] = {};
 
     storiesList.forEach((entry) => {
@@ -469,7 +469,7 @@ export class StoryIndexGenerator {
     // Extract any entries that are currently missing
     // Pull out each file's stories into a list of stories, to be composed and sorted
     const storiesList = await this.ensureExtracted();
-    const sorted = await this.sortStories(storiesList);
+    const sorted = this.sortStories(storiesList);
 
     let compat = sorted;
     if (this.options.storiesV2Compatibility) {

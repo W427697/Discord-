@@ -91,12 +91,9 @@ const ThemedSetRoot = () => {
   return null;
 };
 
-// Fix a case when preview.tsx is being imported using `serverRequire` #20718
-window = window || global || ({} as any);
-
 // eslint-disable-next-line no-underscore-dangle
-const preview = (window as any).__STORYBOOK_PREVIEW__ as PreviewWeb<ReactRenderer>;
-const channel = (window as any).__STORYBOOK_ADDONS_CHANNEL__ as Channel;
+const preview = global.__STORYBOOK_PREVIEW__ as PreviewWeb<ReactRenderer>;
+const channel = global.__STORYBOOK_ADDONS_CHANNEL__ as Channel;
 export const loaders = [
   /**
    * This loader adds a DocsContext to the story, which is required for the most Blocks to work.
