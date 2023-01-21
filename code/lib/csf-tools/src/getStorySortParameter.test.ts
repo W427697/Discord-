@@ -1,42 +1,40 @@
+import type { IndexEntry } from '@storybook/types';
 import { dedent } from 'ts-dedent';
 import { getStorySortParameter } from './getStorySortParameter';
 
 describe('getStorySortParameter', () => {
   describe('supported', () => {
     it('no parameters', () => {
-      expect(
-        getStorySortParameter(dedent`
-          export const decorators = [];
-        `)
-      ).toBeUndefined();
+      expect(getStorySortParameter({ decorators: [] } as any)).toBeUndefined();
     });
 
     it('no storySort parameter', () => {
       expect(
-        getStorySortParameter(dedent`
-          export const parameters = {
+        getStorySortParameter({
+          parameters: {
             layout: 'fullscreen',
-          };
-        `)
+          },
+        } as any)
       ).toBeUndefined();
     });
 
     it('with wildcards', () => {
       expect(
-        getStorySortParameter(dedent`
-          export const parameters = {
+        getStorySortParameter({
+          parameters: {
             options: {
               storySort: [
-                "Intro",
-                "Pages",
-                ["Home", "Login", "Admin"],
-                "Components",
-                "*",
-                "WIP",    
-              ]
-            }
-          };
-        `)
+                //
+                'Intro',
+                'Pages',
+                ['Home', 'Login', 'Admin'],
+                'Components',
+                '*',
+                'WIP',
+              ],
+            },
+          },
+        } as any)
       ).toMatchInlineSnapshot(`
         Array [
           "Intro",
@@ -55,48 +53,48 @@ describe('getStorySortParameter', () => {
 
     it('arrow function', () => {
       expect(
-        getStorySortParameter(dedent`
-          export const parameters = {
+        getStorySortParameter({
+          parameters: {
             options: {
-              storySort: (a, b) =>
+              storySort: (a: any, b: any) =>
                 a[1].kind === b[1].kind
                   ? 0
                   : a[1].id.localeCompare(b[1].id, undefined, { numeric: true }),
             },
-          };
-        `)
+          },
+        })
       ).toMatchInlineSnapshot(`[Function]`);
     });
 
     it('function', () => {
       expect(
-        getStorySortParameter(dedent`
-          export const parameters = {
+        getStorySortParameter({
+          parameters: {
             options: {
-              storySort: function sortStories(a, b) {
+              storySort: function sortStories(a: any, b: any) {
                 return a[1].kind === b[1].kind
                   ? 0
                   : a[1].id.localeCompare(b[1].id, undefined, { numeric: true });
               },
             },
-          };
-        `)
+          },
+        })
       ).toMatchInlineSnapshot(`[Function]`);
     });
 
     it('empty sort', () => {
       expect(
-        getStorySortParameter(dedent`
-          export const parameters = {
+        getStorySortParameter({
+          parameters: {
             options: {
               storySort: {
-                method: "",
+                method: '' as any,
                 order: [],
-                locales: "",
+                locales: '',
               },
             },
-          };
-        `)
+          },
+        })
       ).toMatchInlineSnapshot(`
         Object {
           "locales": "",
@@ -108,17 +106,17 @@ describe('getStorySortParameter', () => {
 
     it('parameters typescript', () => {
       expect(
-        getStorySortParameter(dedent`
-          export const parameters = {
+        getStorySortParameter({
+          parameters: {
             options: {
               storySort: {
-                method: "",
+                method: '' as any,
                 order: [],
-                locales: "",
+                locales: '',
               },
             },
-          } as Parameters;
-        `)
+          },
+        })
       ).toMatchInlineSnapshot(`
         Object {
           "locales": "",
@@ -127,83 +125,10 @@ describe('getStorySortParameter', () => {
         }
       `);
     });
-  });
-
-  describe('unsupported', () => {
     it('invalid parameters', () => {
-      expect(() =>
-        getStorySortParameter(dedent`
-          export const parameters = [];
-        `)
-      ).toThrowErrorMatchingInlineSnapshot(`
+      expect(() => getStorySortParameter({ parameters: [] as any }))
+        .toThrowErrorMatchingInlineSnapshot(`
         "Unexpected 'parameters'. Parameter 'options.storySort' should be defined inline e.g.:
-
-        export const parameters = {
-          options: {
-            storySort: <array | object | function>
-          }
-        }"
-      `);
-    });
-
-    it('parameters var', () => {
-      expect(
-        getStorySortParameter(dedent`
-          const parameters = {
-            options: {
-              storySort: {
-                method: "",
-                order: [],
-                locales: "",
-              },
-            },
-          };
-          export { parameters };
-      `)
-      ).toBeUndefined();
-    });
-
-    it('options var', () => {
-      expect(() =>
-        getStorySortParameter(dedent`
-          const options = {
-            storySort: {
-              method: "",
-              order: [],
-              locales: "",
-            },
-          };
-          export const parameters = {
-            options,
-          };
-      `)
-      ).toThrowErrorMatchingInlineSnapshot(`
-        "Unexpected 'options'. Parameter 'options.storySort' should be defined inline e.g.:
-
-        export const parameters = {
-          options: {
-            storySort: <array | object | function>
-          }
-        }"
-      `);
-    });
-
-    it('storySort var', () => {
-      expect(() =>
-        getStorySortParameter(dedent`
-          const storySort = {
-            method: "",
-            order: [],
-            locales: "",
-          };
-          export const parameters = {
-            options: {
-              storySort,
-            },
-          };
-      `)
-      ).toThrowErrorMatchingInlineSnapshot(`
-        "Unexpected 'storySort'. Parameter 'options.storySort' should be defined inline e.g.:
 
         export const parameters = {
           options: {

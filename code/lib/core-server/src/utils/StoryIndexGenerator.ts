@@ -19,7 +19,7 @@ import type {
   StoryName,
 } from '@storybook/types';
 import { userOrAutoTitleFromSpecifier, sortStoriesV7 } from '@storybook/preview-api';
-import { normalizeStoryPath } from '@storybook/core-common';
+import { normalizeStoryPath, serverRequire } from '@storybook/core-common';
 import { logger } from '@storybook/node-logger';
 import { getStorySortParameter, NoMetaError } from '@storybook/csf-tools';
 import { toId } from '@storybook/csf';
@@ -542,14 +542,11 @@ export class StoryIndexGenerator {
     this.lastIndex = null;
   }
 
-  async getStorySortParameter() {
-    const previewFile = ['js', 'jsx', 'ts', 'tsx']
-      .map((ext) => path.join(this.options.configDir, `preview.${ext}`))
-      .find((fname) => fs.existsSync(fname));
+  getStorySortParameter() {
+    const previewFile = serverRequire(path.join(this.options.configDir, 'preview'));
     let storySortParameter;
     if (previewFile) {
-      const previewCode = (await fs.readFile(previewFile, 'utf-8')).toString();
-      storySortParameter = await getStorySortParameter(previewCode);
+      storySortParameter = getStorySortParameter(previewFile);
     }
 
     return storySortParameter;
