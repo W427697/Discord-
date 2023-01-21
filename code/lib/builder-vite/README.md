@@ -66,8 +66,26 @@ For other details about the differences between vite and webpack projects, be su
 ### Customize Vite config
 
 The builder _will_ read your `vite.config.js` file, though it may change some of the options in order to work correctly.
+It looks for the Vite config in the CWD. If your config is located elsewhere, specify the path using the `viteConfigPath` builder option:
 
-In `.storybook/main.js` (or whatever your Storybook config file is named), you can override the merged Vite config:
+```javascript
+// .storybook/main.mjs
+
+const config = {
+  framework: {
+    name: '@storybook/react-vite', // Your framework name here.
+    options: {
+      builder: {
+        viteConfigPath: '.storybook/customViteConfig.js',
+      },
+    },
+  },
+};
+
+export default config;
+```
+
+You can also override the merged Vite config:
 
 ```javascript
 // use `mergeConfig` to recursively merge Vite options
