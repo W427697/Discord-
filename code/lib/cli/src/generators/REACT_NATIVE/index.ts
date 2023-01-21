@@ -1,54 +1,33 @@
 import { join } from 'path';
-import chalk from 'chalk';
-import shell from 'shelljs';
-import { getBabelDependencies, paddedLog, copyTemplate } from '../../helpers';
+import { getBabelDependencies, copyTemplate } from '../../helpers';
 import { getCliDir } from '../../dirs';
 import type { JsPackageManager } from '../../js-package-manager';
 import type { NpmOptions } from '../../NpmOptions';
 
 const generator = async (
   packageManager: JsPackageManager,
-  npmOptions: NpmOptions,
-  installServer: boolean
+  npmOptions: NpmOptions
 ): Promise<void> => {
-  // set correct project name on entry files if possible
-  const dirname = shell.ls('-d', 'ios/*.xcodeproj').stdout;
-
-  // Only notify about app name if running in React Native vanilla (Expo projects do not have ios directory)
-  if (dirname) {
-    const projectName = dirname.slice('ios/'.length, dirname.length - '.xcodeproj'.length - 1);
-
-    if (projectName) {
-      shell.sed('-i', '%APP_NAME%', projectName, 'storybook/index.js');
-    } else {
-      paddedLog(
-        chalk.red(
-          'ERR: Could not determine project name, to fix: https://github.com/storybookjs/storybook/issues/1277'
-        )
-      );
-    }
-  }
-
   const packageJson = packageManager.retrievePackageJson();
 
   const missingReactDom =
     !packageJson.dependencies['react-dom'] && !packageJson.devDependencies['react-dom'];
   const reactVersion = packageJson.dependencies.react;
 
-  // should resolve to latest 5.3 version, this is required until react-native storybook supports v6
-  const webAddonsV5 = [
-    '@storybook/addon-links@^5.3',
-    '@storybook/addon-knobs@^5.3',
-    '@storybook/addon-actions@^5.3',
+  const addonsWithPeerDeps = [
+    // addon-ondevice-controls peer deps
+    'react-native-safe-area-context',
+    '@react-native-async-storage/async-storage',
+    '@react-native-community/datetimepicker',
+    '@react-native-community/slider',
+    // other base storybook addons needed
+    '@storybook/addon-actions',
+    // native addons, change these to remove the version once v6 stable is released
+    '@storybook/addon-ondevice-controls@6.0.1-beta.11',
+    '@storybook/addon-ondevice-actions@6.0.1-beta.11',
   ];
 
-  const nativeAddons = ['@storybook/addon-ondevice-knobs', '@storybook/addon-ondevice-actions'];
-
-  const packagesToResolve = [
-    ...nativeAddons,
-    '@storybook/react-native',
-    installServer && '@storybook/react-native-server',
-  ].filter(Boolean);
+  const packagesToResolve = [...addonsWithPeerDeps, '@storybook/react-native@6.0.1-beta.11'];
 
   const resolvedPackages = await packageManager.getVersionedPackages(packagesToResolve);
 
@@ -57,17 +36,10 @@ const generator = async (
   const packages = [
     ...babelDependencies,
     ...resolvedPackages,
-    ...webAddonsV5,
     missingReactDom && reactVersion && `react-dom@${reactVersion}`,
   ].filter(Boolean);
 
   packageManager.addDependencies({ ...npmOptions, packageJson }, packages);
-
-  if (installServer) {
-    packageManager.addStorybookCommandInScripts({
-      port: 7007,
-    });
-  }
 
   const templateDir = join(getCliDir(), 'templates', 'react-native');
   copyTemplate(templateDir);

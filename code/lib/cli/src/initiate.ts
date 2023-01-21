@@ -78,21 +78,9 @@ const installStorybook = <Project extends ProjectType>(
         );
 
       case ProjectType.REACT_NATIVE: {
-        return (
-          options.yes
-            ? Promise.resolve({ server: true })
-            : (prompts([
-                {
-                  type: 'confirm',
-                  name: 'server',
-                  message:
-                    'Do you want to install dependencies necessary to run Storybook server? You can manually do it later by install @storybook/react-native-server',
-                  initial: false,
-                },
-              ]) as Promise<{ server: boolean }>)
-        )
-          .then(({ server }) => reactNativeGenerator(packageManager, npmOptions, server))
-          .then(commandLog('Adding Storybook support to your "React Native" app\n'));
+        return reactNativeGenerator(packageManager, npmOptions).then(
+          commandLog('Adding Storybook support to your "React Native" app\n')
+        );
       }
 
       case ProjectType.QWIK: {
@@ -360,7 +348,7 @@ async function doInitiate(options: CommandOptions, pkg: PackageJson): Promise<vo
     const REACT_NATIVE_REPO = 'https://github.com/storybookjs/react-native';
 
     logger.log();
-    logger.log(chalk.red('NOTE: installation is not 100% automated.'));
+    logger.log(chalk.yellow('NOTE: installation is not 100% automated.\n'));
     logger.log(`To quickly run Storybook, replace contents of your app entry with:\n`);
     codeLog(["export {default} from './storybook';"]);
     logger.log('\n For more in information, see the github readme:\n');
