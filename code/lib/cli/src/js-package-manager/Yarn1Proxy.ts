@@ -16,7 +16,7 @@ export class Yarn1Proxy extends JsPackageManager {
     return `yarn ${command}`;
   }
 
-  runScript(command: string, args: string[], cwd?: string): string {
+  runPackageCommand(command: string, args: string[], cwd?: string): string {
     return this.executeCommand(`yarn`, [command, ...args], undefined, cwd);
   }
 

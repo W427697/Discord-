@@ -74,8 +74,7 @@ export const ForceInitialArgs = {
   // test that it ignores updated args by emitting an arg update and assert that it isn't reflected in the DOM
   play: async ({ args, canvasElement, loaded }: PlayFunctionContext<WebRenderer>) => {
     const docsContext = loaded.docsContext as DocsContextProps;
-    const resolved = docsContext.resolveOf(args.storyExport);
-    if (resolved.type !== 'story') throw new Error('Bad export, pass a story!');
+    const resolved = docsContext.resolveOf(args.storyExport, ['story']);
 
     await within(canvasElement).findByText(/Button/);
 
