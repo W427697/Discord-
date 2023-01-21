@@ -1,5 +1,3 @@
-import type { IndexEntry } from '@storybook/types';
-import { dedent } from 'ts-dedent';
 import { getStorySortParameter } from './getStorySortParameter';
 
 describe('getStorySortParameter', () => {
