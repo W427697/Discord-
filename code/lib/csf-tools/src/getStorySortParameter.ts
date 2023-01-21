@@ -2,6 +2,7 @@ import type {
   Addon_OptionsParameterV7,
   Addon_StorySortComparatorV7,
   Addon_StorySortObjectParameter,
+  Addon_StorySortParameterV7,
 } from '@storybook/types';
 
 import { dedent } from 'ts-dedent';
@@ -45,7 +46,7 @@ const isStorySortObject = (variable: any): variable is Addon_StorySortObjectPara
 
 export const getStorySortParameter = (preview: {
   parameters: { options: Addon_OptionsParameterV7 };
-}) => {
+}): Addon_StorySortParameterV7 => {
   const { parameters } = preview;
   if (!parameters) return undefined;
 
@@ -70,5 +71,6 @@ export const getStorySortParameter = (preview: {
     return storySort;
   }
 
-  return unsupported('storySort', true);
+  unsupported('storySort', true);
+  return undefined;
 };

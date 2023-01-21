@@ -17,6 +17,7 @@ import type {
   V2CompatIndexEntry,
   StoryId,
   StoryName,
+  Addon_StorySortParameterV7,
 } from '@storybook/types';
 import { userOrAutoTitleFromSpecifier, sortStoriesV7 } from '@storybook/preview-api';
 import { normalizeStoryPath, serverRequire } from '@storybook/core-common';
@@ -544,7 +545,7 @@ export class StoryIndexGenerator {
 
   getStorySortParameter() {
     const previewFile = serverRequire(path.join(this.options.configDir, 'preview'));
-    let storySortParameter;
+    let storySortParameter: Addon_StorySortParameterV7;
     if (previewFile) {
       storySortParameter = getStorySortParameter(previewFile);
     }
