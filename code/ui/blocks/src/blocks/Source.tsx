@@ -116,6 +116,7 @@ export const useSourceProps = (
   } else if (stories.length === 0) {
     stories = [docsContext.storyById()];
   }
+
   const sourceParameters = (stories[0].parameters.docs?.source || {}) as SourceParameters;
   let { code } = props; // We will fall back to `sourceParameters.code`, but per story below
   let format = props.format ?? sourceParameters.format;
@@ -136,6 +137,7 @@ export const useSourceProps = (
   }
 
   const state = getSourceState(stories as PreparedStory[]);
+
   return code
     ? {
         code,
