@@ -27,7 +27,7 @@ export interface PreviewProps {
   children?: ReactNode;
 }
 
-type Layout = 'padded' | 'fullscreen' | 'centered';
+export type Layout = 'padded' | 'fullscreen' | 'centered';
 
 const ChildrenContainer = styled.div<PreviewProps & { layout: Layout }>(
   ({ isColumn, columns, layout }) => ({
