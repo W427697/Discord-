@@ -32,11 +32,11 @@ type DeprecatedCanvasProps = Omit<
 };
 
 type CanvasProps = Pick<PurePreviewProps, 'withToolbar' | 'additionalActions' | 'className'> & {
-  of: ModuleExport;
+  of?: ModuleExport;
   meta?: ModuleExports;
   sourceState?: 'hidden' | 'shown' | 'none';
   source?: Omit<SourceProps, 'dark'>;
-  story?: Pick<StoryProps, 'inline' | 'height' | 'autoplay'>;
+  story?: Pick<StoryProps, 'inline' | 'height' | 'autoplay' | '__forceInitialArgs' | '__primary'>;
   layout?: 'padded' | 'centered' | 'fullscreen';
 };
 
