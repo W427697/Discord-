@@ -54,7 +54,8 @@ export function renderToCanvas(
     });
     return () => {};
   }
-  const { args: storyArgs } = storyContext;
+
+  const storyArgs = element.props || (element as any).render?.().props || storyContext.args || {};
 
   const existingApp = map.get(canvasElement);
 
@@ -65,8 +66,7 @@ export function renderToCanvas(
     };
   }
 
-  const reactiveArgs = storyArgs ? reactive(storyArgs) : storyArgs;
-
+  const reactiveArgs = reactive(storyArgs) as Args;
   const storybookApp = createApp({
     render() {
       map.set(canvasElement, { vueApp: storybookApp, reactiveArgs });

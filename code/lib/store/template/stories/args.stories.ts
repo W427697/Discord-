@@ -16,6 +16,7 @@ export default {
   },
   // Compose the set of  args into `object`, so the pre component only needs a single prop
   //   (selecting only the args specified on parameters.argNames if set)
+
   decorators: [
     (storyFn: PartialStoryFn, context: StoryContext) => {
       const { argNames } = context.parameters;
@@ -35,9 +36,12 @@ export const Inheritance = {
   play: async ({ canvasElement }: PlayFunctionContext<any>) => {
     // NOTE: these stories don't test project-level args inheritance as it is too problematic
     // to have an arg floating around that will apply too *all* other stories in our sandboxes.
-    console.log('JSON ', JSON.parse(within(canvasElement).getByTestId('pre').innerText));
     await expect(JSON.parse(within(canvasElement).getByTestId('pre').innerText)).toEqual({
-      a: 'story',
+      componentArg: 'componentArg',
+      storyArg: 'storyArg',
+      object: {
+        a: 'story',
+      },
     });
   },
 };
@@ -54,8 +58,7 @@ export const Targets = {
   play: async ({ canvasElement }: PlayFunctionContext<any>) => {
     // Check that `a` doesn't end up set
     await expect(JSON.parse(within(canvasElement).getByTestId('pre').innerText)).toEqual({
-      a: 'component',
-      b: 'component',
+      b: 'b',
     });
   },
 };
