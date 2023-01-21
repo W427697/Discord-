@@ -1,11 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/vue3';
 import { UPDATE_STORY_ARGS } from '@storybook/core-events';
-import type { Channel } from '@storybook/channels';
 import { within } from '@storybook/testing-library';
 
+import type { PlayFunctionContext } from '@storybook/csf';
 import Button from './Button.vue';
-
-const channel = (window as any).__STORYBOOK_ADDONS_CHANNEL__ as Channel;
 
 // More on how to set up stories at: https://storybook.js.org/docs/7.0/vue/writing-stories/introduction
 const meta = {
@@ -59,10 +57,10 @@ export const Small: Story = {
 export const Reactive: Story = {
   args: {
     label: 'Button',
-    primary: true,
   },
   // test that args are updated correctly in rective mode
-  play: async ({ args, canvasElement, loaded }: any) => {
+  play: async ({ canvasElement, id }: PlayFunctionContext<any>) => {
+    const channel = globalThis.__STORYBOOK_ADDONS_CHANNEL__;
     const canvas = within(canvasElement);
     const reactiveButton = await canvas.getByRole('button');
 
