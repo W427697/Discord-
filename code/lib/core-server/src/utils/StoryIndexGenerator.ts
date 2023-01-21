@@ -451,7 +451,7 @@ export class StoryIndexGenerator {
     // Skip sorting if we're in v6 mode because we don't have
     // all the info we need here
     if (this.options.storyStoreV7) {
-      const storySortParameter = await this.getStorySortParameter();
+      const storySortParameter = this.getStorySortParameter();
       const fileNameOrder = this.storyFileNames();
       sortStoriesV7(sortableStories, storySortParameter, fileNameOrder);
     }
