@@ -128,10 +128,17 @@ export const Canvas: FC<CanvasProps & DeprecatedCanvasProps> = (props) => {
   const docsContext = useContext(DocsContext);
   const sourceContext = useContext(SourceContext);
   const { children, of, source } = props;
-  const sourceProps = useSourceProps({ ...source, of }, docsContext, sourceContext);
   const { isLoading, previewProps } = useDeprecatedPreviewProps(props, docsContext, sourceContext);
-
-  const { story } = useOf(of || 'story', ['story']);
+  let story;
+  let sourceProps;
+  try {
+    ({ story } = useOf(of || 'story', ['story']));
+    sourceProps = useSourceProps({ ...source, of }, docsContext, sourceContext);
+  } catch (error) {
+    if (!children) {
+      throw error;
+    }
+  }
 
   if (props.withSource) {
     deprecate(dedent`Setting source state with \`withSource\` is deprecated, please use \`sourceState\` with 'hidden', 'shown' or 'none' instead. 

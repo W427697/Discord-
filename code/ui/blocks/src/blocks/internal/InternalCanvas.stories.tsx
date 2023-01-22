@@ -46,6 +46,10 @@ const expectAmountOfStoriesInSource =
 
 export const BasicStoryChild: Story = {};
 
+export const BasicStoryChildUnattached: Story = {
+  parameters: { attached: false },
+};
+
 export const WithSourceOpen: Story = {
   args: {
     withSource: SourceState.OPEN,
