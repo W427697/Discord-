@@ -2,8 +2,8 @@
   <button type="button" @click="onClick" :class="classes" :style="style">{{ label }} {{ counter }}</button>
 </template>
 
-<script lang="typescript">
-import { h, computed, ref } from 'vue';
+<script lang="ts">
+import { computed, ref } from 'vue';
 
 export default {
   name: 'reactive-args',
@@ -18,7 +18,6 @@ export default {
     },
   },
 
-  // @ts-expect-error (Converted from ts-ignore)
   setup(props, { emit }) {
     const classes = {
       'storybook-button': true,
