@@ -1,10 +1,10 @@
 /* eslint-disable react/no-danger */
-import type { Dispatch, MutableRefObject, Reducer } from 'react';
-import React, { useReducer, useEffect, useRef } from 'react';
-import { styled } from '@storybook/theming';
+import type { Reducer } from 'react';
+import React, { useReducer, useRef } from 'react';
+import { styled, themes } from '@storybook/theming';
 import { useUpstreamState } from '../../hooks';
 import { DESKTOP, getGridTemplate, MOBILE, SHARED } from './Layout.styles';
-import type { Props, LayoutState, ExposedLayoutState } from './Layout.types';
+import type { Props, LayoutState } from './Layout.types';
 import { MobileControls } from './Layout.MobileControls';
 import { DesktopControls } from './Layout.DesktopControls';
 
@@ -69,10 +69,13 @@ export const Layout = ({ state: incomingState, persistence, setState, ...slots }
       <style dangerouslySetInnerHTML={{ __html: SHARED }} />
       <style media="(min-width: 600px)" dangerouslySetInnerHTML={{ __html: DESKTOP }} />
       <style media="(max-width: 599px)" dangerouslySetInnerHTML={{ __html: MOBILE }} />
+
       {incomingState.panelPosition && (
         <style
           media="(min-width: 600px)"
-          dangerouslySetInnerHTML={{ __html: getGridTemplate({...state, panelPosition: incomingState.panelPosition}) }}
+          dangerouslySetInnerHTML={{
+            __html: getGridTemplate({ ...state, panelPosition: incomingState.panelPosition }),
+          }}
         />
       )}
       <div
@@ -101,7 +104,12 @@ export const Layout = ({ state: incomingState, persistence, setState, ...slots }
         </SidebarContainer>
         <PanelContainer
           className="sb-panel"
-          position={incomingState.panelPosition}
+          style={{
+            borderTop:
+              incomingState.panelPosition === 'bottom'
+                ? `1px solid ${themes.normal.appBorderColor}`
+                : 'none',
+          }}
           hidden={
             state.viewMode !== 'story' ||
             (state.panelPosition === 'bottom' && state.panelHeight === 0) ||
@@ -111,24 +119,26 @@ export const Layout = ({ state: incomingState, persistence, setState, ...slots }
         >
           {slots.slotPanel}
         </PanelContainer>
-
-        <DesktopControls {...{ state, stateRef, updateState }} />
+        <DesktopControls
+          state={{...state, panelPosition: incomingState.panelPosition }} 
+          stateRef={stateRef}
+          updateState={updateState}
+        />
         <MobileControls updateState={updateState} state={state} />
       </div>
     </>
   );
 };
 
-const PanelContainer = styled.div(({ theme, position }) => ({
+const PanelContainer = styled.div(({ theme }) => ({
   backgroundColor: theme.background.app,
   borderLeft: `1px solid ${theme.color.border}`,
-  borderTop: `1px solid ${position === 'bottom' ? theme.color.border : 'transparent'}`,
   boxShadow: '0 1px 5px 0 rgba(0, 0, 0, 0.1)',
 }));
 
 const SidebarContainer = styled.div(({ theme }) => ({ backgroundColor: theme.background.app }));
 
-const ContentContainer = styled.div(({ theme }) => ({ 
-  backgroundColor: theme.background.content, 
+const ContentContainer = styled.div(({ theme }) => ({
+  backgroundColor: theme.background.content,
   borderLeft: `1px solid ${theme.color.border}`,
 }));

@@ -1,4 +1,6 @@
-import React from "react"
+import type { Dispatch, MutableRefObject } from 'react';
+import React from 'react';
+import type { ExposedLayoutState, LayoutState } from '../components/layout/Layout.types';
 
 const useUpstreamState = (
   stateRef: MutableRefObject<LayoutState>,
@@ -57,6 +59,6 @@ const useUpstreamState = (
       });
     }
   }, [updateState, showPanel, panelPosition, showSidebar, stateRef]);
-}
+};
 
-export default useUpstreamState
+export default useUpstreamState;
