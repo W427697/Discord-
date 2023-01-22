@@ -125,7 +125,7 @@ export const DESKTOP = `
   bottom: 0;
   top: 0;
   width: ${MARGIN}px;
-  background: radial-gradient(at center center, #1EA7FD 0%,transparent 50%,transparent 100%);
+  background: radial-gradient(at center center, #1EA7FD40 0%,transparent 50%,transparent 100%);
   background-size: ${MARGIN * 2}px 100%;
   background-position: ${MARGIN}px 50%;
   opacity: 0;
