@@ -12,7 +12,7 @@ export default {
   },
 };
 
-export const Reactive = {
+export const ReactiveTest = {
   args: {
     label: 'Button',
   },
