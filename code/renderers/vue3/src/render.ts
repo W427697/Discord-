@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 import { dedent } from 'ts-dedent';
 import { createApp, h, reactive } from 'vue';
 import type { RenderContext, ArgsStoryFn } from '@storybook/types';
@@ -106,7 +107,9 @@ function getSlots(props: Args, context: StoryContext<VueRenderer, Args>) {
  */
 function updateArgs(reactiveArgs: Args, nextArgs: Args) {
   if (!nextArgs) return;
-  // use spread operator to merge new args with the existing args
+  Object.keys(reactiveArgs).forEach((key) => {
+    delete reactiveArgs[key];
+  });
   Object.assign(reactiveArgs, nextArgs);
 }
 
