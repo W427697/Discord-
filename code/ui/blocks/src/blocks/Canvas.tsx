@@ -1,7 +1,7 @@
 /* eslint-disable react/destructuring-assignment */
 import React, { Children, useContext } from 'react';
 import type { FC, ReactElement, ReactNode } from 'react';
-import type { ModuleExport, ModuleExports, Renderer } from '@storybook/types';
+import type { ModuleExport, ModuleExports, PreparedStory, Renderer } from '@storybook/types';
 import { deprecate } from '@storybook/client-logger';
 import dedent from 'ts-dedent';
 import type { Layout, PreviewProps as PurePreviewProps } from '../components';
@@ -15,6 +15,7 @@ import { useSourceProps, SourceState as DeprecatedSourceState, SourceState } fro
 import { useStories } from './useStory';
 import type { StoryProps } from './Story';
 import { getStoryId, Story } from './Story';
+import { useOf } from './useOf';
 
 export { DeprecatedSourceState as SourceState };
 
@@ -130,73 +131,68 @@ export const Canvas: FC<CanvasProps & DeprecatedCanvasProps> = (props) => {
   const sourceProps = useSourceProps({ ...source, of }, docsContext, sourceContext);
   const { isLoading, previewProps } = useDeprecatedPreviewProps(props, docsContext, sourceContext);
 
-  if (!of && !children) {
-    throw new Error('No story passed to the Canvas block. Did you forget to pass the `of` prop?');
-  }
+  const { story } = useOf(of || 'story', ['story']) as { type: 'story'; story: PreparedStory };
 
-  if (children) {
-    deprecate(dedent`Passing children to Canvas is deprecated, please use the \`of\` prop instead to reference a story. 
-    
-    Please refer to the migration guide: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#canvas-block'
-  `);
-  }
   if (props.withSource) {
     deprecate(dedent`Setting source state with \`withSource\` is deprecated, please use \`sourceState\` with 'hidden', 'shown' or 'none' instead. 
     
     Please refer to the migration guide: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#canvas-block'
-  `);
+    `);
   }
   if (props.mdxSource) {
     deprecate(dedent`Setting source code with \`mdxSource\` is deprecated, please use source={{code: '...'}} instead. 
     
     Please refer to the migration guide: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#canvas-block'
-  `);
+    `);
   }
   if (props.isColumn !== undefined || props.columns !== undefined) {
     deprecate(dedent`\`isColumn\` and \`columns\` props are deprecated as the Canvas block now only supports showing a single story. 
     
     Please refer to the migration guide: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#canvas-block'
-  `);
+    `);
   }
-
-  if (of) {
-    // TODO: loading?
-
-    const layout =
-      props.layout ?? of.parameters?.layout ?? of.parameters?.docs?.canvas?.layout ?? 'padded';
-    const withToolbar = props.withToolbar ?? of.parameters?.docs?.canvas?.withToolbar ?? false;
-    const additionalActions =
-      props.additionalActions ?? of.parameters?.docs?.canvas?.additionalActions;
-    const sourceState = props.sourceState ?? of.parameters?.docs?.canvas?.sourceState ?? 'hidden';
-    const className = props.className ?? of.parameters?.docs?.canvas?.className;
-
-    return (
-      <PurePreview
-        withSource={sourceState === 'none' ? undefined : sourceProps}
-        isExpanded={sourceState === 'shown'}
-        withToolbar={withToolbar}
-        additionalActions={additionalActions}
-        className={className}
-      >
-        <Story
-          of={of}
-          meta={props.meta}
-          {...props.story}
-          parameters={
-            /**
-             * this is a hack, Story v2 doesn't read from the "parameters" prop
-             * But PurePreview determines the layout from it's first child's "parameters.layout" prop
-             * So by passing the layout as a parameter, we can force the layout
-             * TODO: remove this pattern once all the deprecated features can be removed
-             */
-            { layout }
-          }
-        />
-      </PurePreview>
+  if (children) {
+    deprecate(dedent`Passing children to Canvas is deprecated, please use the \`of\` prop instead to reference a story. 
+    
+    Please refer to the migration guide: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#canvas-block'
+  `);
+    return isLoading ? (
+      <PreviewSkeleton />
+    ) : (
+      <PurePreview {...previewProps}>{children}</PurePreview>
     );
   }
 
-  if (isLoading) return <PreviewSkeleton />;
+  const layout =
+    props.layout ?? story.parameters?.layout ?? story.parameters?.docs?.canvas?.layout ?? 'padded';
+  const withToolbar = props.withToolbar ?? story.parameters?.docs?.canvas?.withToolbar ?? false;
+  const additionalActions =
+    props.additionalActions ?? story.parameters?.docs?.canvas?.additionalActions;
+  const sourceState = props.sourceState ?? story.parameters?.docs?.canvas?.sourceState ?? 'hidden';
+  const className = props.className ?? story.parameters?.docs?.canvas?.className;
 
-  return <PurePreview {...previewProps}>{children}</PurePreview>;
+  return (
+    <PurePreview
+      withSource={sourceState === 'none' ? undefined : sourceProps}
+      isExpanded={sourceState === 'shown'}
+      withToolbar={withToolbar}
+      additionalActions={additionalActions}
+      className={className}
+    >
+      <Story
+        of={of || story.moduleExport}
+        meta={props.meta}
+        {...props.story}
+        parameters={
+          /**
+           * this is a hack, Story v2 doesn't read from the "parameters" prop
+           * But PurePreview determines the layout from it's first child's "parameters.layout" prop
+           * So by passing the layout as a parameter, we can force the layout
+           * TODO: remove this pattern once all the deprecated features can be removed
+           */
+          { layout }
+        }
+      />
+    </PurePreview>
+  );
 };
