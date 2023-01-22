@@ -1,5 +1,5 @@
 <template>
-  <button type="button" :class="classes" :style="style">{{ label }} {{ counter }}</button>
+  <button type="button" @click="onClick" :class="classes" :style="style">{{ label }} {{ counter }}</button>
 </template>
 
 <script lang="typescript">
@@ -35,7 +35,7 @@ export default {
     };
 
     // Notice that `icon` prop component is still passed through even though it isn't mapped
-    return { classes, style, counter }
+    return { classes, style, counter, onClick }
   },
 };
 </script>
