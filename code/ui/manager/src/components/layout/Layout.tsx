@@ -1,3 +1,4 @@
+/* eslint-disable react/no-danger */
 import type { Dispatch, MutableRefObject, Reducer } from 'react';
 import React, { useReducer, useEffect, useRef } from 'react';
 import { styled } from '@storybook/theming';
@@ -68,10 +69,10 @@ export const Layout = ({ state: incomingState, persistence, setState, ...slots }
       <style dangerouslySetInnerHTML={{ __html: SHARED }} />
       <style media="(min-width: 600px)" dangerouslySetInnerHTML={{ __html: DESKTOP }} />
       <style media="(max-width: 599px)" dangerouslySetInnerHTML={{ __html: MOBILE }} />
-      <style
+      {incomingState.panelPosition && <style
         media="(min-width: 600px)"
-        dangerouslySetInnerHTML={{ __html: getGridTemplate(state) }}
-      />
+        dangerouslySetInnerHTML={{ __html: getGridTemplate(incomingState) }}
+      />}
       <div
         className="sb-layout"
         style={{
