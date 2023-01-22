@@ -132,6 +132,12 @@ export const Canvas: FC<CanvasProps & DeprecatedCanvasProps> = (props) => {
   let story;
   let sourceProps;
   try {
+    /**
+     * useOf and useSourceProps will throw if they can't find the story, in the scenario where
+     * the doc is unattached (no primary story) and 'of' is undefined.
+     * That scenario is valid in the deprecated API, where children is used as story refs rather than 'of'.
+     * So if children is passed we allow the error to be swallowed and we'll use them instead.
+     */
     ({ story } = useOf(of || 'story', ['story']));
     sourceProps = useSourceProps({ ...source, of }, docsContext, sourceContext);
   } catch (error) {
