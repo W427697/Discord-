@@ -1,7 +1,7 @@
 /* eslint-disable react/destructuring-assignment */
 import React, { Children, useContext } from 'react';
 import type { FC, ReactElement, ReactNode } from 'react';
-import type { ModuleExport, ModuleExports, PreparedStory, Renderer } from '@storybook/types';
+import type { ModuleExport, ModuleExports, Renderer } from '@storybook/types';
 import { deprecate } from '@storybook/client-logger';
 import dedent from 'ts-dedent';
 import type { Layout, PreviewProps as PurePreviewProps } from '../components';
