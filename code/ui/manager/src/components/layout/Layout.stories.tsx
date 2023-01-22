@@ -56,13 +56,13 @@ const MockSidebar: FC<any> = (props) => (
 );
 
 const MockPreview: FC<any> = (props) => (
-  <PlaceholderClock color="#FFFFFF">
+  <PlaceholderClock color="#E6E9EC">
     <pre>{JSON.stringify(props, null, 2)}</pre>
   </PlaceholderClock>
 );
 
 const MockPanel: FC<any> = (props) => (
-  <PlaceholderClock color="#DDE0E2">
+  <PlaceholderClock color="#FFFFFF">
     <pre>{JSON.stringify(props, null, 2)}</pre>
   </PlaceholderClock>
 );

@@ -69,10 +69,12 @@ export const Layout = ({ state: incomingState, persistence, setState, ...slots }
       <style dangerouslySetInnerHTML={{ __html: SHARED }} />
       <style media="(min-width: 600px)" dangerouslySetInnerHTML={{ __html: DESKTOP }} />
       <style media="(max-width: 599px)" dangerouslySetInnerHTML={{ __html: MOBILE }} />
-      {incomingState.panelPosition && <style
-        media="(min-width: 600px)"
-        dangerouslySetInnerHTML={{ __html: getGridTemplate(incomingState) }}
-      />}
+      {incomingState.panelPosition && (
+        <style
+          media="(min-width: 600px)"
+          dangerouslySetInnerHTML={{ __html: getGridTemplate({...state, panelPosition: incomingState.panelPosition}) }}
+        />
+      )}
       <div
         className="sb-layout"
         style={{
@@ -99,6 +101,7 @@ export const Layout = ({ state: incomingState, persistence, setState, ...slots }
         </SidebarContainer>
         <PanelContainer
           className="sb-panel"
+          position={incomingState.panelPosition}
           hidden={
             state.viewMode !== 'story' ||
             (state.panelPosition === 'bottom' && state.panelHeight === 0) ||
@@ -116,6 +119,16 @@ export const Layout = ({ state: incomingState, persistence, setState, ...slots }
   );
 };
 
-const PanelContainer = styled.div(({ theme }) => ({ backgroundColor: theme.background.app }));
+const PanelContainer = styled.div(({ theme, position }) => ({
+  backgroundColor: theme.background.app,
+  borderLeft: `1px solid ${theme.color.border}`,
+  borderTop: `1px solid ${position === 'bottom' ? theme.color.border : 'transparent'}`,
+  boxShadow: '0 1px 5px 0 rgba(0, 0, 0, 0.1)',
+}));
+
 const SidebarContainer = styled.div(({ theme }) => ({ backgroundColor: theme.background.app }));
-const ContentContainer = styled.div(({ theme }) => ({ backgroundColor: theme.background.content }));
+
+const ContentContainer = styled.div(({ theme }) => ({ 
+  backgroundColor: theme.background.content, 
+  borderLeft: `1px solid ${theme.color.border}`,
+}));
