@@ -1,6 +1,5 @@
 import type { FC } from 'react';
 import React from 'react';
-import type { PreparedStory } from '@storybook/types';
 import { Subheading } from './Subheading';
 import type { DocsStoryProps } from './types';
 import { Anchor } from './Anchor';
@@ -15,7 +14,7 @@ export const DocsStory: FC<DocsStoryProps> = ({
   __forceInitialArgs = false,
   __primary = false,
 }) => {
-  const { story } = useOf(of, ['story']) as { type: 'story'; story: PreparedStory };
+  const { story } = useOf(of || 'story', ['story']);
   const description = story.parameters?.docs?.description?.story;
 
   return (
