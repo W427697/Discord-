@@ -1,7 +1,7 @@
 import { expect } from '@storybook/jest';
 import { global as globalThis } from '@storybook/global';
 import { within, userEvent } from '@storybook/testing-library';
-import { UPDATE_STORY_ARGS, STORY_ARGS_UPDATED } from '@storybook/core-events';
+import { UPDATE_STORY_ARGS, STORY_ARGS_UPDATED, RESET_STORY_ARGS } from '@storybook/core-events';
 import ReactiveArgs from './ReactiveArgs.vue';
 
 export default {
@@ -38,5 +38,10 @@ export const ReactiveTest = {
 
     await userEvent.click(reactiveButton); // click to update the label to increment the count + 1
     await expect(reactiveButton).toHaveTextContent('updated 2');
+
+    await channel.emit(RESET_STORY_ARGS, { storyId: id });
+    await new Promise((resolve) => {
+      channel.once(STORY_ARGS_UPDATED, resolve);
+    });
   },
 };

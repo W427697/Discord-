@@ -51,6 +51,5 @@
     "*.js": "javascriptreact"
   },
   "prettier.ignorePath": "./code/.prettierignore",
-  "typescript.tsdk": "./code/node_modules/typescript/lib",
-  "npm-scripts.showStartNotification": false
+  "typescript.tsdk": "./code/node_modules/typescript/lib"
 }
