@@ -1,5 +1,4 @@
 import { dedent } from 'ts-dedent';
-import type { App } from 'vue';
 import { createApp, h, reactive } from 'vue';
 import type { RenderContext, ArgsStoryFn } from '@storybook/types';
 
@@ -111,7 +110,10 @@ function updateArgs(reactiveArgs: Args, nextArgs: Args) {
   Object.assign(reactiveArgs, nextArgs);
 }
 
-function teardown(storybookApp: App<Element>, canvasElement: VueRenderer['canvasElement']) {
+function teardown(
+  storybookApp: ReturnType<typeof createApp>,
+  canvasElement: VueRenderer['canvasElement']
+) {
   storybookApp?.unmount();
   if (map.has(canvasElement)) map.delete(canvasElement);
 }
