@@ -3,7 +3,7 @@
 </template>
 
 <script lang="typescript">
-import { h, computed, reactive } from 'vue';
+import { h, computed, ref } from 'vue';
 
 export default {
   name: 'reactive-args',
