@@ -83,7 +83,7 @@ function useDragging(
       }
 
       if (draggedElement === sSidebar) {
-        const value = Math.round((e.clientX / e.view.innerWidth) * 100);
+        const value = (e.clientX / e.view.innerWidth) * 100;
         if (value + stateRef.current.panelWidth > 70) {
           // preserve space for content
           return;
@@ -102,7 +102,7 @@ function useDragging(
         return;
       }
       if (draggedElement === sHorizontal) {
-        const value = 100 - Math.round((e.clientX / e.view.innerWidth) * 100);
+        const value = 100 - (e.clientX / e.view.innerWidth) * 100;
         if (value + stateRef.current.sidebarWidth > 70) {
           // preserve space for content
           return;
@@ -118,7 +118,7 @@ function useDragging(
         return;
       }
       if (draggedElement === sVertical) {
-        const value = 100 - ((e.clientY / e.view.innerHeight) * 100);
+        const value = 100 - (e.clientY / e.view.innerHeight) * 100;
         if (value > 70) {
           return;
         }
