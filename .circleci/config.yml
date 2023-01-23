@@ -401,6 +401,7 @@ jobs:
           command: yarn ts-node ./event-log-collector.ts
           working_directory: scripts
           background: true
+      - run: cat sandbox/*/.storybook/main.*
       - run:
           name: Building Sandboxes
           command: yarn task --task build --template $(yarn get-template << pipeline.parameters.workflow >> build) --no-link --start-from=never --junit
