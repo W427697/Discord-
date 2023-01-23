@@ -165,11 +165,7 @@ const baseTemplates = {
   },
   'vue2-vite/2.7-js': {
     name: 'Vue2 Vite (vue 2.7 JS)',
-    // TODO: convert this to an `npm create` script, use that instead.
-    // We don't really want to maintain weird custom scripts like this,
-    // preferring community bootstrap scripts / generators instead.
-    script:
-      'yarn create vite . --template vanilla && yarn add --dev @vitejs/plugin-vue2 vue-template-compiler vue@2 && echo "import vue2 from \'@vitejs/plugin-vue2\';\n\nexport default {\n\tplugins: [vue2()]\n};" > vite.config.js',
+    script: 'npx create-vue@2 {{beforeDir}} --default',
     // Re-enable once https://github.com/storybookjs/storybook/issues/19351 is fixed.
     skipTasks: ['smoke-test'],
     expected: {
