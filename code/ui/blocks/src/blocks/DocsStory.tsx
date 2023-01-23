@@ -15,14 +15,13 @@ export const DocsStory: FC<DocsStoryProps> = ({
   __primary = false,
 }) => {
   const { story } = useOf(of || 'story', ['story']);
-  const description = story.parameters?.docs?.description?.story;
 
   return (
     <Anchor storyId={story.id}>
       {expanded && (
         <>
           <Subheading>{story.name}</Subheading>
-          {description !== undefined && <Description markdown={description} />}
+          <Description of={of} />
         </>
       )}
       <Canvas of={of} withToolbar={withToolbar} story={{ __forceInitialArgs, __primary }} />

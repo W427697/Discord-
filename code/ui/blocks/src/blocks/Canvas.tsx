@@ -36,6 +36,9 @@ type DeprecatedCanvasProps = {
    * @deprecated use `source.code` instead
    */
   mdxSource?: string;
+  /**
+   * @deprecated reference stories with the `of` prop instead
+   */
   children?: ReactNode;
 };
 
@@ -184,12 +187,12 @@ export const Canvas: FC<CanvasProps & DeprecatedCanvasProps> = (props) => {
   }
 
   const layout =
-    props.layout ?? story.parameters?.layout ?? story.parameters?.docs?.canvas?.layout ?? 'padded';
-  const withToolbar = props.withToolbar ?? story.parameters?.docs?.canvas?.withToolbar ?? false;
+    props.layout ?? story.parameters.layout ?? story.parameters.docs?.canvas?.layout ?? 'padded';
+  const withToolbar = props.withToolbar ?? story.parameters.docs?.canvas?.withToolbar ?? false;
   const additionalActions =
-    props.additionalActions ?? story.parameters?.docs?.canvas?.additionalActions;
-  const sourceState = props.sourceState ?? story.parameters?.docs?.canvas?.sourceState ?? 'hidden';
-  const className = props.className ?? story.parameters?.docs?.canvas?.className;
+    props.additionalActions ?? story.parameters.docs?.canvas?.additionalActions;
+  const sourceState = props.sourceState ?? story.parameters.docs?.canvas?.sourceState ?? 'hidden';
+  const className = props.className ?? story.parameters.docs?.canvas?.className;
 
   return (
     <PurePreview
