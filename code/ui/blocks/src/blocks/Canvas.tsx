@@ -131,14 +131,21 @@ export const Canvas: FC<CanvasProps & DeprecatedCanvasProps> = (props) => {
   const { isLoading, previewProps } = useDeprecatedPreviewProps(props, docsContext, sourceContext);
   let story;
   let sourceProps;
+  /**
+   * useOf and useSourceProps will throw if they can't find the story, in the scenario where
+   * the doc is unattached (no primary story) and 'of' is undefined.
+   * That scenario is valid in the deprecated API, where children is used as story refs rather than 'of'.
+   * So if children is passed we allow the error to be swallowed and we'll use them instead.
+   * We use two separate try blocks to not break the rules of hooks.
+   */
   try {
-    /**
-     * useOf and useSourceProps will throw if they can't find the story, in the scenario where
-     * the doc is unattached (no primary story) and 'of' is undefined.
-     * That scenario is valid in the deprecated API, where children is used as story refs rather than 'of'.
-     * So if children is passed we allow the error to be swallowed and we'll use them instead.
-     */
     ({ story } = useOf(of || 'story', ['story']));
+  } catch (error) {
+    if (!children) {
+      throw error;
+    }
+  }
+  try {
     sourceProps = useSourceProps({ ...source, of }, docsContext, sourceContext);
   } catch (error) {
     if (!children) {
