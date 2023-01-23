@@ -14,7 +14,7 @@ const code = `query HeroNameAndFriends($episode: Episode) {
 `;
 
 const meta = {
-  title: 'example/SourceParameters',
+  title: 'Example/SourceParameters',
   component: EmptyExample,
 } satisfies Meta<typeof EmptyExample>;
 export default meta;
