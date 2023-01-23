@@ -28,6 +28,7 @@ export async function getStoryIndexGenerator(
     const stories = options.presets.apply('stories');
     const storyIndexers = options.presets.apply('storyIndexers', []);
     const docsOptions = options.presets.apply<DocsOptions>('docs', {});
+    console.log(await stories);
     const normalizedStories = normalizeStories(await stories, directories);
 
     const generator = new StoryIndexGenerator(normalizedStories, {
