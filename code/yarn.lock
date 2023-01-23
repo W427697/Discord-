@@ -4950,7 +4950,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@popperjs/core@npm:^2.5.4, @popperjs/core@npm:^2.6.0":
+"@popperjs/core@npm:^2.11.5, @popperjs/core@npm:^2.6.0":
   version: 2.11.6
   resolution: "@popperjs/core@npm:2.11.6"
   checksum: 90b1361ab1a19cd351e482a88cb6cf13cf25973e20797bf9b97223e64b87bde8d9668ab2f33be24475e2a092d362ac256c361b16ea4e4ab5b21f2aeaef5f9bb7
@@ -6066,7 +6066,7 @@ __metadata:
     overlayscrollbars: ^1.13.1
     polished: ^4.2.2
     prettier: ^2.8.0
-    react-popper-tooltip: ^3.1.1
+    react-popper-tooltip: ^4.4.2
     react-syntax-highlighter: ^15.4.5
     react-textarea-autosize: ^8.3.0
     ts-dedent: ^2.0.0
@@ -23808,21 +23808,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-popper-tooltip@npm:^3.1.1":
-  version: 3.1.1
-  resolution: "react-popper-tooltip@npm:3.1.1"
+"react-popper-tooltip@npm:^4.4.2":
+  version: 4.4.2
+  resolution: "react-popper-tooltip@npm:4.4.2"
   dependencies:
-    "@babel/runtime": ^7.12.5
-    "@popperjs/core": ^2.5.4
-    react-popper: ^2.2.4
+    "@babel/runtime": ^7.18.3
+    "@popperjs/core": ^2.11.5
+    react-popper: ^2.3.0
   peerDependencies:
-    react: ^16.6.0 || ^17.0.0
-    react-dom: ^16.6.0 || ^17.0.0
-  checksum: 782a7a4a066251dd794a790b83e9764a97dbb616a16b0fe501020b0cf7a9fec6804449e7b9b7714bfc4bb5eeba073550b850483aea25245e32317b9ead23c9ec
+    react: ">=16.6.0"
+    react-dom: ">=16.6.0"
+  checksum: 1a080d30027dd702b225cbad35194bea942b3f73324a838021fef415c1717be9548552a13b6862f423475407fdd58e2b5bc406af9638d297b974d2e222eb8ff2
   languageName: node
   linkType: hard
 
-"react-popper@npm:^2.2.4":
+"react-popper@npm:^2.3.0":
   version: 2.3.0
   resolution: "react-popper@npm:2.3.0"
   dependencies:
