@@ -37,6 +37,14 @@ const getNonInputsOutputsProps = (
   return Object.keys(props).filter((k) => ![...inputs, ...outputs].includes(k));
 };
 
+const flattenArray = (arr: any[]) => {
+  return arr
+    .map((item: any): any | any[] => {
+      return item instanceof Array ? flattenArray(item) : item;
+    })
+    .flat();
+};
+
 export const componentNgModules = new Map<any, Type<any>>();
 
 /**
@@ -68,45 +76,44 @@ export const createStorybookWrapperComponent = (
     ) &&
     !isStandalone;
 
-  const providersNgModules = (moduleMetadata.providers ?? []).map((provider) => {
-    if (!componentNgModules.get(provider)) {
-      @NgModule({
-        providers: [provider],
-      })
-      class ProviderModule {}
+  const modules = flattenArray([
+    CommonModule,
+    ...(moduleMetadata.imports ?? []),
+    ...(isStandalone ? [storyComponent] : []),
+  ]);
+  const modulesWithProviders = modules.filter((moduleDef) => !!moduleDef?.providers);
+  const modulesWithoutPorviders = modules.filter(
+    (moduleDef) => !modulesWithProviders.includes(moduleDef)
+  );
 
-      componentNgModules.set(provider, ProviderModule);
-    }
+  const declarations = [
+    ...(requiresComponentDeclaration ? [storyComponent] : []),
+    ...(moduleMetadata.declarations ?? []),
+  ];
 
-    return componentNgModules.get(provider);
-  });
+  const imports = [
+    ...modulesWithoutPorviders,
+    modulesWithProviders.map((moduleDef) => moduleDef.ngModule),
+  ];
 
-  if (!componentNgModules.get(storyComponent)) {
-    const declarations = [
-      ...(requiresComponentDeclaration ? [storyComponent] : []),
-      ...(moduleMetadata.declarations ?? []),
-    ];
+  const providers = [
+    modulesWithProviders.map((moduleDef) => moduleDef.providers),
+    ...(moduleMetadata.providers ?? []),
+  ];
 
-    @NgModule({
-      declarations,
-      imports: [CommonModule, ...(moduleMetadata.imports ?? [])],
-      exports: [...declarations, ...(moduleMetadata.imports ?? [])],
-    })
-    class StorybookComponentModule {}
-
-    componentNgModules.set(storyComponent, StorybookComponentModule);
-  }
+  @NgModule({
+    declarations,
+    imports,
+    providers,
+    exports: [...declarations, ...imports],
+  })
+  class StorybookComponentModule {}
 
   @Component({
     selector,
     template,
     standalone: true,
-    imports: [
-      CommonModule,
-      componentNgModules.get(storyComponent),
-      ...providersNgModules,
-      ...(isStandalone ? [storyComponent] : []),
-    ],
+    imports: [StorybookComponentModule],
     styles,
     schemas: moduleMetadata.schemas,
   })
