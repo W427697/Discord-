@@ -5253,7 +5253,7 @@ __metadata:
     ts-dedent: ^2.0.0
     typescript: ~4.9.3
   peerDependencies:
-    "@storybook/mdx1-csf": 0.0.5--canary.19.e834b59.0
+    "@storybook/mdx1-csf": 0.0.5--canary.19.89e7fd1.0
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
   peerDependenciesMeta:
