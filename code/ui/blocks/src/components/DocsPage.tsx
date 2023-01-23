@@ -30,6 +30,7 @@ const UNSTYLED_SELECTORS = [
   '.docblock-icongallery',
   '.docblock-emptyblock',
   '.docblock-typeset',
+  '.docblock-colorpalette',
 ].join(', ');
 const toGlobalSelector = (element: string): string =>
   `& :where(${element}:not(${UNSTYLED_SELECTORS}, :where(${UNSTYLED_SELECTORS}) ${element}))`;
