@@ -112,6 +112,13 @@ export class StoryIndexGenerator {
   }
 
   async initialize() {
+    const searchSpecifier = this.specifiers.find(
+      (s) =>
+        s.directory === path.resolve(this.options.workingDir, './template-stories/addons/controls')
+    );
+    console.log('specifier position');
+    console.log(this.specifiers.indexOf(searchSpecifier));
+
     // Find all matching paths for each specifier
     const specifiersAndCaches = await Promise.all(
       this.specifiers.map(async (specifier) => {
