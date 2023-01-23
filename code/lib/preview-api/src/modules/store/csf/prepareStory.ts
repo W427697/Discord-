@@ -1,5 +1,3 @@
-import { dedent } from 'ts-dedent';
-import deprecate from 'util-deprecate';
 import { global } from '@storybook/global';
 
 import type {
@@ -28,15 +26,6 @@ import { applyHooks } from '../../addons';
 import { combineParameters } from '../parameters';
 import { defaultDecorateStory } from '../decorators';
 import { groupArgsByTarget, NO_TARGET_NAME } from '../args';
-import { getValuesFromArgTypes } from './getValuesFromArgTypes';
-
-const argTypeDefaultValueWarning = deprecate(
-  () => {},
-  dedent`
-  \`argType.defaultValue\` is deprecated and will be removed in Storybook 7.0.
-
-  https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#no-longer-inferring-default-values-of-args`
-);
 
 // Combine all the metadata about a story (both direct and inherited from the component/global scope)
 // into a "renderable" story function, with all decorators applied, parameters passed as context etc
@@ -241,15 +230,7 @@ function preparePartialAnnotations<TRenderer extends Renderer>(
     contextForEnhancers.argTypes
   );
 
-  // Add argTypes[X].defaultValue to initial args (note this deprecated)
-  // We need to do this *after* the argTypesEnhancers as they may add defaultValues
-  const defaultArgs = getValuesFromArgTypes(contextForEnhancers.argTypes);
-
-  if (Object.keys(defaultArgs).length > 0) {
-    argTypeDefaultValueWarning();
-  }
-
-  const initialArgsBeforeEnhancers = { ...defaultArgs, ...passedArgs };
+  const initialArgsBeforeEnhancers = { ...passedArgs };
 
   contextForEnhancers.initialArgs = argsEnhancers.reduce(
     (accumulatedArgs: Args, enhancer) => ({
