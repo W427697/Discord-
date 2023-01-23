@@ -32,7 +32,14 @@ export async function externalsPlugin() {
         }
       });
 
-      return src.toString();
+      return {
+        code: src.toString(),
+        map: src.generateMap({
+          source: id,
+          includeContent: true,
+          hires: true,
+        }),
+      };
     },
   };
 }
