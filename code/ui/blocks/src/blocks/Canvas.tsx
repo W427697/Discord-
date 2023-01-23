@@ -93,7 +93,13 @@ type CanvasProps = Pick<PurePreviewProps, 'withToolbar' | 'additionalActions' | 
 };
 
 const useDeprecatedPreviewProps = (
-  { withSource, mdxSource, children, ...props }: DeprecatedCanvasProps & { of?: ModuleExport },
+  {
+    withSource,
+    mdxSource,
+    children,
+    layout: layoutProp,
+    ...props
+  }: DeprecatedCanvasProps & { of?: ModuleExport; layout?: Layout },
   docsContext: DocsContextProps<Renderer>,
   sourceContext: SourceContextProps
 ) => {
@@ -117,10 +123,28 @@ const useDeprecatedPreviewProps = (
     return { isLoading, previewProps: props };
   }
 
+  // if the user has specified a layout prop, use that...
+  let layout = layoutProp;
+  // ...otherwise, try to infer it from the children 'parameters' prop
+  Children.forEach(children, (child) => {
+    if (layout) {
+      return;
+    }
+    layout = (child as ReactElement)?.props?.parameters?.layout;
+  });
+  // ...otherwise, try to infer it from the story parameters
+  stories.forEach((story) => {
+    if (layout || !story) {
+      return;
+    }
+    layout = story?.parameters.layout ?? story.parameters.docs?.canvas?.layout;
+  });
+
   return {
     isLoading,
     previewProps: {
       ...props, // pass through columns etc.
+      layout: layout ?? 'padded',
       withSource: sourceProps,
       isExpanded: (withSource || sourceProps.state) === SourceState.OPEN,
     },
@@ -132,6 +156,7 @@ export const Canvas: FC<CanvasProps & DeprecatedCanvasProps> = (props) => {
   const sourceContext = useContext(SourceContext);
   const { children, of, source } = props;
   const { isLoading, previewProps } = useDeprecatedPreviewProps(props, docsContext, sourceContext);
+
   let story;
   let sourceProps;
   /**
@@ -201,21 +226,9 @@ export const Canvas: FC<CanvasProps & DeprecatedCanvasProps> = (props) => {
       withToolbar={withToolbar}
       additionalActions={additionalActions}
       className={className}
+      layout={layout}
     >
-      <Story
-        of={of || story.moduleExport}
-        meta={props.meta}
-        {...props.story}
-        parameters={
-          /**
-           * this is a hack, Story v2 doesn't read from the "parameters" prop
-           * But PurePreview determines the layout from it's first child's "parameters.layout" prop
-           * So by passing the layout as a parameter, we can force the layout
-           * TODO: remove this pattern once all the deprecated features can be removed
-           */
-          { layout }
-        }
-      />
+      <Story of={of || story.moduleExport} meta={props.meta} {...props.story} />
     </PurePreview>
   );
 };

@@ -7,13 +7,14 @@ import { expect } from '@storybook/jest';
 import { Canvas, SourceState } from '../Canvas';
 import { Story as StoryComponent } from '../Story';
 import * as ButtonStories from '../../examples/Button.stories';
+import * as CanvasParameterStories from '../../examples/CanvasParameters.stories';
 
 const meta: Meta<typeof Canvas> = {
   title: 'Blocks/Internal/Canvas',
   component: Canvas,
   parameters: {
     theme: 'light',
-    relativeCsfPaths: ['../examples/Button.stories'],
+    relativeCsfPaths: ['../examples/Button.stories', '../examples/CanvasParameters.stories'],
   },
   render: (args) => {
     return (
@@ -78,6 +79,46 @@ export const WithMdxSource: Story = {
 export const WithoutSource: Story = {
   args: {
     withSource: SourceState.NONE,
+  },
+};
+
+export const LayoutProp: Story = {
+  args: {
+    layout: 'fullscreen',
+  },
+};
+
+export const LayoutAsChildProp: Story = {
+  render: (args) => {
+    return (
+      <Canvas {...args}>
+        <StoryComponent of={ButtonStories.Primary} parameters={{ layout: 'fullscreen' }} />
+      </Canvas>
+    );
+  },
+};
+
+export const LayoutAsChildPropMultiple: Story = {
+  args: { isColumn: true },
+  render: (args) => {
+    return (
+      <Canvas {...args}>
+        <h1>Fullscreen</h1>
+        <StoryComponent of={ButtonStories.Secondary} />
+        <StoryComponent of={ButtonStories.Large} parameters={{ layout: 'fullscreen' }} />
+        <StoryComponent of={ButtonStories.Primary} />
+      </Canvas>
+    );
+  },
+};
+
+export const LayoutAsParameter: Story = {
+  render: (args) => {
+    return (
+      <Canvas {...args}>
+        <StoryComponent of={CanvasParameterStories.LayoutFullscreen} />
+      </Canvas>
+    );
   },
 };
 
