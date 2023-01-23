@@ -71,23 +71,10 @@ export function prepareStory<TRenderer extends Renderer>(
   };
 
   const undecoratedStoryFn: LegacyStoryFn<TRenderer> = (context: StoryContext<TRenderer>) => {
-    const mappedArgs = Object.entries(context.args).reduce((acc, [key, val]) => {
-      const mapping = context.argTypes[key]?.mapping;
-      acc[key] = mapping && val in mapping ? mapping[val] : val;
-      return acc;
-    }, {} as Args);
-
-    const includedArgs = Object.entries(mappedArgs).reduce((acc, [key, val]) => {
-      const argType = context.argTypes[key] || {};
-      if (includeConditionalArg(argType, mappedArgs, context.globals)) acc[key] = val;
-      return acc;
-    }, {} as Args);
-
-    const includedContext = { ...context, args: includedArgs };
     const { passArgsFirst: renderTimePassArgsFirst = true } = context.parameters;
     return renderTimePassArgsFirst
-      ? (render as ArgsStoryFn<TRenderer>)(includedContext.args, includedContext)
-      : (render as LegacyStoryFn<TRenderer>)(includedContext);
+      ? (render as ArgsStoryFn<TRenderer>)(context.args, context)
+      : (render as LegacyStoryFn<TRenderer>)(context);
   };
 
   // Currently it is only possible to set these globally
@@ -109,8 +96,15 @@ export function prepareStory<TRenderer extends Renderer>(
   if (!render) throw new Error(`No render function available for storyId '${id}'`);
 
   const decoratedStoryFn = applyHooks<TRenderer>(applyDecorators)(undecoratedStoryFn, decorators);
-  const unboundStoryFn = (context: StoryContext<TRenderer>) => {
+  const unboundStoryFn = (context: StoryContext<TRenderer>) => decoratedStoryFn(context);
+
+  // prepareContext is invoked at StoryRender.render()
+  // the context is prepared before invoking the render function, instead of here directly
+  // to ensure args don't loose there special properties set by the renderer
+  // eg. reactive proxies set by frameworks like SolidJS or Vue
+  const prepareContext = (context: StoryContext<TRenderer>) => {
     let finalContext: StoryContext<TRenderer> = context;
+
     if (global.FEATURES?.argTypeTargetsV7) {
       const argsByTarget = groupArgsByTarget(context);
       finalContext = {
@@ -121,7 +115,19 @@ export function prepareStory<TRenderer extends Renderer>(
       };
     }
 
-    return decoratedStoryFn(finalContext);
+    const mappedArgs = Object.entries(finalContext.args).reduce((acc, [key, val]) => {
+      const mapping = finalContext.argTypes[key]?.mapping;
+      acc[key] = mapping && val in mapping ? mapping[val] : val;
+      return acc;
+    }, {} as Args);
+
+    const includedArgs = Object.entries(mappedArgs).reduce((acc, [key, val]) => {
+      const argType = finalContext.argTypes[key] || {};
+      if (includeConditionalArg(argType, mappedArgs, finalContext.globals)) acc[key] = val;
+      return acc;
+    }, {} as Args);
+
+    return { ...finalContext, args: includedArgs };
   };
 
   const play = storyAnnotations?.play || componentAnnotations.play;
@@ -150,6 +156,7 @@ export function prepareStory<TRenderer extends Renderer>(
     unboundStoryFn,
     applyLoaders,
     playFunction,
+    prepareContext,
   };
 }
 

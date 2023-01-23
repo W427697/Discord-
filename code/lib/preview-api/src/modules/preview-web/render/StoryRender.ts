@@ -154,8 +154,17 @@ export class StoryRender<TRenderer extends Renderer> implements Render<TRenderer
     if (!this.story) throw new Error('cannot render when not prepared');
     if (!canvasElement) throw new Error('cannot render when canvasElement is unset');
 
-    const { id, componentId, title, name, tags, applyLoaders, unboundStoryFn, playFunction } =
-      this.story;
+    const {
+      id,
+      componentId,
+      title,
+      name,
+      tags,
+      applyLoaders,
+      unboundStoryFn,
+      playFunction,
+      prepareContext,
+    } = this.story;
 
     if (forceRemount && !initial) {
       // NOTE: we don't check the cancel actually worked here, so the previous
@@ -181,7 +190,7 @@ export class StoryRender<TRenderer extends Renderer> implements Render<TRenderer
         return;
       }
 
-      const renderStoryContext: StoryContext<TRenderer> = {
+      const renderStoryContext: StoryContext<TRenderer> = prepareContext({
         ...loadedContext!,
         // By this stage, it is possible that new args/globals have been received for this story
         // and we need to ensure we render it with the new values
@@ -189,7 +198,7 @@ export class StoryRender<TRenderer extends Renderer> implements Render<TRenderer
         abortSignal,
         // We should consider parameterizing the story types with TRenderer['canvasElement'] in the future
         canvasElement: canvasElement as any,
-      };
+      });
       const renderContext: RenderContext<TRenderer> = {
         componentId,
         title,
