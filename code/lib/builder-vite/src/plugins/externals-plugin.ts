@@ -25,7 +25,7 @@ export async function externalsPlugin() {
             src
               .slice(startPosition, endPosition)
               .replace('import ', 'const ')
-              .replace(' as ', ': ')
+              .replaceAll(' as ', ': ')
               .replace(' from ', ' = ')
               .replace(packageAndDelimiters, globals[packageName])
           );
