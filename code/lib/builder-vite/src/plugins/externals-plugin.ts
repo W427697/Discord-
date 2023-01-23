@@ -74,8 +74,10 @@ export async function externalsPlugin() {
             src
               .slice(startPosition, endPosition)
               .replace('import ', 'const ')
+              .replace('import{', 'const {')
               .replaceAll(' as ', ': ')
               .replace(' from ', ' = ')
+              .replace('}from', '} = ')
               .replace(packageAndDelimiters, globals[packageName])
           );
         }
