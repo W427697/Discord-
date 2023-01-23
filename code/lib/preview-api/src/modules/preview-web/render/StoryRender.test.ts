@@ -114,6 +114,7 @@ describe('StoryRender', () => {
       applyLoaders: jest.fn(),
       unboundStoryFn: jest.fn(),
       playFunction: jest.fn(),
+      prepareContext: jest.fn((ctx) => ctx),
     };
 
     const renderToScreen = jest.fn();
