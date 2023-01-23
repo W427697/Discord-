@@ -7,10 +7,12 @@ import type {
   StoryContextForLoaders,
   StoryId,
   StoryName,
+  ResolvedModuleExportType,
+  ResolvedModuleExportFromType,
 } from '@storybook/types';
 import type { Channel } from '@storybook/channels';
-import type { StoryStore } from '../../store';
 
+import type { StoryStore } from '../../store';
 import type { DocsContextProps } from './DocsContextProps';
 
 export class DocsContext<TRenderer extends Renderer> implements DocsContextProps<TRenderer> {
@@ -18,9 +20,13 @@ export class DocsContext<TRenderer extends Renderer> implements DocsContextProps
 
   private storyIdToCSFFile: Map<StoryId, CSFFile<TRenderer>>;
 
-  private exportToStoryId: Map<ModuleExport, StoryId>;
+  private exportToStory: Map<ModuleExport, PreparedStory<TRenderer>>;
+
+  private exportsToCSFFile: Map<ModuleExports, CSFFile<TRenderer>>;
 
   private nameToStoryId: Map<StoryName, StoryId>;
+
+  private attachedCSFFile?: CSFFile<TRenderer>;
 
   private primaryStory?: PreparedStory<TRenderer>;
 
@@ -29,46 +35,137 @@ export class DocsContext<TRenderer extends Renderer> implements DocsContextProps
     protected store: StoryStore<TRenderer>,
     public renderStoryToElement: DocsContextProps['renderStoryToElement'],
     /** The CSF files known (via the index) to be refererenced by this docs file */
-    csfFiles: CSFFile<TRenderer>[],
-    componentStoriesFromAllCsfFiles = true
+    csfFiles: CSFFile<TRenderer>[]
   ) {
     this.storyIdToCSFFile = new Map();
-    this.exportToStoryId = new Map();
+    this.exportToStory = new Map();
+    this.exportsToCSFFile = new Map();
     this.nameToStoryId = new Map();
     this.componentStoriesValue = [];
 
     csfFiles.forEach((csfFile, index) => {
-      this.referenceCSFFile(csfFile, componentStoriesFromAllCsfFiles || index === 0);
+      this.referenceCSFFile(csfFile);
     });
   }
 
   // This docs entry references this CSF file and can syncronously load the stories, as well
   // as reference them by module export. If the CSF is part of the "component" stories, they
   // can also be referenced by name and are in the componentStories list.
-  referenceCSFFile(csfFile: CSFFile<TRenderer>, addToComponentStories: boolean) {
-    Object.values(csfFile.stories).forEach((annotation) => {
+  referenceCSFFile(csfFile: CSFFile<TRenderer>) {
+    this.exportsToCSFFile.set(csfFile.moduleExports, csfFile);
+    // Also set the default export as the component's exports,
+    // to allow `import ButtonStories from './Button.stories'`
+    this.exportsToCSFFile.set(csfFile.moduleExports.default, csfFile);
+
+    const stories = this.store.componentStoriesFromCSFFile({ csfFile });
+
+    stories.forEach((story) => {
+      const annotation = csfFile.stories[story.id];
       this.storyIdToCSFFile.set(annotation.id, csfFile);
-      this.exportToStoryId.set(annotation.moduleExport, annotation.id);
+      this.exportToStory.set(annotation.moduleExport, story);
     });
+  }
 
-    if (addToComponentStories) {
-      this.store.componentStoriesFromCSFFile({ csfFile }).forEach((story) => {
-        this.nameToStoryId.set(story.name, story.id);
-        this.componentStoriesValue.push(story);
-        if (!this.primaryStory) this.primaryStory = story;
-      });
+  attachCSFFile(csfFile: CSFFile<TRenderer>) {
+    if (!this.exportsToCSFFile.has(csfFile.moduleExports)) {
+      throw new Error('Cannot attach a CSF file that has not been referenced');
     }
+
+    this.attachedCSFFile = csfFile;
+
+    const stories = this.store.componentStoriesFromCSFFile({ csfFile });
+    stories.forEach((story) => {
+      this.nameToStoryId.set(story.name, story.id);
+      this.componentStoriesValue.push(story);
+      if (!this.primaryStory) this.primaryStory = story;
+    });
   }
 
-  setMeta(metaExports: ModuleExports) {
-    // Do nothing (this is really only used by external docs)
+  referenceMeta(metaExports: ModuleExports, attach: boolean) {
+    const resolved = this.resolveModuleExport(metaExports);
+    if (resolved.type !== 'meta')
+      throw new Error('Cannot reference a non-meta or module export in <Meta of={} />');
+
+    if (attach) this.attachCSFFile(resolved.csfFile);
   }
 
-  storyIdByModuleExport(storyExport: ModuleExport, metaExports?: ModuleExports) {
-    const storyId = this.exportToStoryId.get(storyExport);
-    if (storyId) return storyId;
+  get projectAnnotations() {
+    const { projectAnnotations } = this.store;
+    if (!projectAnnotations) {
+      throw new Error("Can't get projectAnnotations from DocsContext before they are initialized");
+    }
+    return projectAnnotations;
+  }
 
-    throw new Error(`No story found with that export: ${storyExport}`);
+  private resolveAttachedModuleExportType<TType extends ResolvedModuleExportType>(
+    moduleExportType: TType
+  ): ResolvedModuleExportFromType<TType, TRenderer> {
+    type TResolvedExport = ResolvedModuleExportFromType<TType, TRenderer>;
+
+    if (moduleExportType === 'story') {
+      // If passed a type, we return the attached file, component or primary story
+      if (!this.primaryStory)
+        throw new Error(
+          `No primary story attached to this docs file, did you forget to use <Meta of={} />?`
+        );
+
+      return { type: 'story', story: this.primaryStory } as TResolvedExport;
+    }
+
+    if (!this.attachedCSFFile)
+      throw new Error(
+        `No CSF file attached to this docs file, did you forget to use <Meta of={} />?`
+      );
+
+    if (moduleExportType === 'meta')
+      return { type: 'meta', csfFile: this.attachedCSFFile } as TResolvedExport;
+
+    const { component } = this.attachedCSFFile.meta;
+    if (!component)
+      throw new Error(
+        `Attached CSF file does not defined a component, did you forget to export one?`
+      );
+    return { type: 'component', component } as TResolvedExport;
+  }
+
+  private resolveModuleExport<TType extends ResolvedModuleExportType>(
+    moduleExportOrType: ModuleExport
+  ): ResolvedModuleExportFromType<TType, TRenderer> {
+    type TResolvedExport = ResolvedModuleExportFromType<TType, TRenderer>;
+
+    const csfFile = this.exportsToCSFFile.get(moduleExportOrType);
+    if (csfFile) return { type: 'meta', csfFile } as TResolvedExport;
+
+    const story = this.exportToStory.get(moduleExportOrType);
+    if (story) return { type: 'story', story } as TResolvedExport;
+
+    // If the export isn't a module, default or story export, we assume it is a component
+    return { type: 'component', component: moduleExportOrType } as TResolvedExport;
+  }
+
+  resolveOf<TType extends ResolvedModuleExportType>(
+    moduleExportOrType: ModuleExport | TType,
+    validTypes: TType[] = []
+  ): ResolvedModuleExportFromType<TType, TRenderer> {
+    type TResolvedExport = ResolvedModuleExportFromType<TType, TRenderer>;
+
+    let resolved: TResolvedExport;
+    if (['component', 'meta', 'story'].includes(moduleExportOrType)) {
+      const type = moduleExportOrType as TType;
+      resolved = this.resolveAttachedModuleExportType(type);
+    } else {
+      resolved = this.resolveModuleExport(moduleExportOrType);
+    }
+
+    if (validTypes.length && !validTypes.includes(resolved.type as TType)) {
+      const prettyType = resolved.type === 'component' ? 'component or unknown' : resolved.type;
+      throw new Error(
+        `Invalid value passed to the 'of' prop. The value was resolved to a '${prettyType}' type but the only types for this block are: ${validTypes.join(
+          ', '
+        )}`
+      );
+    }
+    return resolved;
   }
 
   storyIdByName = (storyName: StoryName) => {

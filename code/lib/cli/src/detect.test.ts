@@ -90,6 +90,16 @@ const MOCK_FRAMEWORK_FILES: {
     },
   },
   {
+    name: ProjectType.QWIK,
+    files: {
+      'package.json': {
+        devDependencies: {
+          '@builder.io/qwik': '1.0.0',
+        },
+      },
+    },
+  },
+  {
     name: ProjectType.REACT_NATIVE,
     files: {
       'package.json': {
@@ -296,22 +306,19 @@ describe('Detect', () => {
 
   it(`should return language typescript if the dependency is >TS4.9`, () => {
     expect(detectLanguage({ dependencies: { typescript: '4.9.1' } })).toBe(
-      // TODO: switch to TYPESCRIPT once csf-tools and eslint-plugin-storybook support `satisfies` operator
-      SupportedLanguage.TYPESCRIPT_LEGACY
+      SupportedLanguage.TYPESCRIPT
     );
   });
 
   it(`should return language typescript if the dependency is =TS4.9`, () => {
     expect(detectLanguage({ dependencies: { typescript: '4.9.0' } })).toBe(
-      // TODO: switch to TYPESCRIPT once csf-tools and eslint-plugin-storybook support `satisfies` operator
-      SupportedLanguage.TYPESCRIPT_LEGACY
+      SupportedLanguage.TYPESCRIPT
     );
   });
 
   it(`should return language typescript if the dependency is =TS4.9beta`, () => {
     expect(detectLanguage({ dependencies: { typescript: '^4.9.0-beta' } })).toBe(
-      // TODO: switch to TYPESCRIPT once csf-tools and eslint-plugin-storybook support `satisfies` operator
-      SupportedLanguage.TYPESCRIPT_LEGACY
+      SupportedLanguage.TYPESCRIPT
     );
   });
 
@@ -346,14 +353,6 @@ describe('Detect', () => {
           true
         )
       ).toBe(false);
-    });
-
-    it('ALREADY_HAS_STORYBOOK if lib is present', () => {
-      expect(
-        isStorybookInstalled({
-          devDependencies: { '@storybook/react': '4.0.0-alpha.21' },
-        })
-      ).toBe(ProjectType.ALREADY_HAS_STORYBOOK);
     });
   });
 

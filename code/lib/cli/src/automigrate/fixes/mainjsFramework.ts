@@ -31,15 +31,14 @@ export const mainjsFramework: Fix<MainjsFrameworkRunOptions> = {
 
     const storybookCoerced = storybookVersion && semver.coerce(storybookVersion)?.version;
     if (!storybookCoerced) {
-      logger.warn(dedent`
-        ❌ Unable to determine storybook version, skipping ${chalk.cyan('mainjsFramework')} fix.
+      throw new Error(dedent`
+        ❌ Unable to determine storybook version.
         🤔 Are you running automigrate from your project directory?
       `);
-      return null;
     }
 
     const main = await readConfig(mainConfig);
-    const currentFramework = main.getFieldValue(['framework']);
+    const currentFramework = main.getFieldNode(['framework']);
     const features = main.getFieldValue(['features']);
 
     if (currentFramework) return null;

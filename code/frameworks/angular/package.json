@@ -1,6 +1,6 @@
 {
   "name": "@storybook/angular",
-  "version": "7.0.0-alpha.56",
+  "version": "7.0.0-beta.31",
   "description": "Storybook for Angular: Develop Angular components in isolation with hot reloading.",
   "keywords": [
     "storybook",
@@ -21,31 +21,35 @@
   },
   "license": "MIT",
   "main": "dist/index.js",
+  "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "files": [
     "dist/**/*",
     "template/**/*",
     "README.md",
     "*.js",
+    "*.mjs",
     "*.d.ts"
   ],
   "scripts": {
     "check": "../../../scripts/node_modules/.bin/tsc",
-    "prep": "rimraf dist && ../../../scripts/node_modules/.bin/tsc --project tsconfig.build.json && echo \"Preventing passing flags to tsc\""
+    "prep": "../../../scripts/prepare/tsc.ts"
   },
   "dependencies": {
-    "@storybook/builder-webpack5": "7.0.0-alpha.56",
-    "@storybook/client-logger": "7.0.0-alpha.56",
-    "@storybook/core-client": "7.0.0-alpha.56",
-    "@storybook/core-common": "7.0.0-alpha.56",
-    "@storybook/core-events": "7.0.0-alpha.56",
-    "@storybook/core-server": "7.0.0-alpha.56",
-    "@storybook/core-webpack": "7.0.0-alpha.56",
-    "@storybook/docs-tools": "7.0.0-alpha.56",
-    "@storybook/manager-api": "7.0.0-alpha.56",
-    "@storybook/node-logger": "7.0.0-alpha.56",
-    "@storybook/preview-api": "7.0.0-alpha.56",
-    "@storybook/types": "7.0.0-alpha.56",
+    "@storybook/builder-webpack5": "7.0.0-beta.31",
+    "@storybook/cli": "7.0.0-beta.31",
+    "@storybook/client-logger": "7.0.0-beta.31",
+    "@storybook/core-client": "7.0.0-beta.31",
+    "@storybook/core-common": "7.0.0-beta.31",
+    "@storybook/core-events": "7.0.0-beta.31",
+    "@storybook/core-server": "7.0.0-beta.31",
+    "@storybook/core-webpack": "7.0.0-beta.31",
+    "@storybook/docs-tools": "7.0.0-beta.31",
+    "@storybook/global": "^5.0.0",
+    "@storybook/manager-api": "7.0.0-beta.31",
+    "@storybook/node-logger": "7.0.0-beta.31",
+    "@storybook/preview-api": "7.0.0-beta.31",
+    "@storybook/types": "7.0.0-beta.31",
     "@types/node": "^16.0.0",
     "@types/react": "^16.14.34",
     "@types/react-dom": "^16.9.14",
@@ -53,9 +57,6 @@
     "@types/webpack-env": "^1.18.0",
     "core-js": "^3.8.2",
     "find-up": "^5.0.0",
-    "global": "^4.4.0",
-    "react": "^16.14.0",
-    "react-dom": "^16.14.0",
     "read-pkg-up": "^7.0.1",
     "semver": "^7.3.7",
     "telejson": "^7.0.3",
@@ -65,62 +66,62 @@
     "webpack": "5"
   },
   "devDependencies": {
-    "@angular-devkit/architect": "^0.1303.5",
-    "@angular-devkit/build-angular": "^13.3.5",
-    "@angular-devkit/core": "^13.3.5",
-    "@angular/cli": "^13.3.5",
-    "@angular/common": "^13.3.6",
-    "@angular/compiler": "^13.3.6",
-    "@angular/compiler-cli": "^13.3.6",
-    "@angular/core": "^13.3.6",
-    "@angular/forms": "^13.3.6",
-    "@angular/platform-browser": "^13.3.6",
-    "@angular/platform-browser-dynamic": "^13.3.6",
-    "@nrwl/workspace": "14.6.1",
+    "@angular-devkit/architect": "^0.1500.4",
+    "@angular-devkit/build-angular": "^15.0.4",
+    "@angular-devkit/core": "^15.0.4",
+    "@angular/cli": "^15.0.4",
+    "@angular/common": "^15.0.4",
+    "@angular/compiler": "^15.0.4",
+    "@angular/compiler-cli": "^15.0.4",
+    "@angular/core": "^15.0.4",
+    "@angular/forms": "^15.0.4",
+    "@angular/platform-browser": "^15.0.4",
+    "@angular/platform-browser-dynamic": "^15.0.4",
     "@types/rimraf": "^3.0.2",
     "@types/tmp": "^0.2.3",
     "cross-spawn": "^7.0.3",
     "jest": "^29.3.1",
-    "jest-preset-angular": "^12.0.0",
+    "jest-preset-angular": "^12.2.3",
     "jest-specific-snapshot": "^7.0.0",
     "rimraf": "^3.0.2",
     "tmp": "^0.2.1",
-    "typescript": "^4.9.3",
+    "typescript": "~4.9.3",
     "webpack": "5",
-    "zone.js": "^0.11.0"
+    "zone.js": "^0.12.0"
   },
   "peerDependencies": {
-    "@angular-devkit/architect": ">=0.1300.0",
-    "@angular-devkit/build-angular": ">=13.0.0",
-    "@angular-devkit/core": ">=13.0.0",
-    "@angular/cli": ">=13.0.0",
-    "@angular/common": ">=13.0.0",
-    "@angular/compiler": ">=13.0.0",
-    "@angular/compiler-cli": ">=13.0.0",
-    "@angular/core": ">=13.0.0",
-    "@angular/forms": ">=13.0.0",
-    "@angular/platform-browser": ">=13.0.0",
-    "@angular/platform-browser-dynamic": ">=13.0.0",
+    "@angular-devkit/architect": ">=0.1400.0",
+    "@angular-devkit/build-angular": ">=14.0.0",
+    "@angular-devkit/core": ">=14.0.0",
+    "@angular/cli": ">=14.0.0",
+    "@angular/common": ">=14.0.0",
+    "@angular/compiler": ">=14.0.0",
+    "@angular/compiler-cli": ">=14.0.0",
+    "@angular/core": ">=14.0.0",
+    "@angular/forms": ">=14.0.0",
+    "@angular/platform-browser": ">=14.0.0",
+    "@angular/platform-browser-dynamic": ">=14.0.0",
     "@babel/core": "*",
-    "@nrwl/workspace": "14.6.1",
+    "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
+    "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0",
     "rxjs": "^6.0.0 || ^7.4.0",
     "typescript": "^4.0.0",
-    "zone.js": "^0.8.29 || ^0.9.0 || ^0.10.0 || ^0.11.0"
+    "zone.js": "^0.8.29 || >= 0.9.0 < 1.0.0"
   },
   "peerDependenciesMeta": {
     "@angular/cli": {
       "optional": true
-    },
-    "@nrwl/workspace": {
-      "optional": true
     }
   },
   "engines": {
-    "node": ">=10.13.0"
+    "node": ">=16.0.0"
   },
   "publishConfig": {
     "access": "public"
   },
   "builders": "dist/builders/builders.json",
-  "gitHead": "c8e9a862bb83c4a0d6b5975e795b4ca7f7ff7bc2"
+  "bundler": {
+    "tsConfig": "tsconfig.build.json"
+  },
+  "gitHead": "6d1ea7647fce605b2029077cbd02f655cafe1807"
 }

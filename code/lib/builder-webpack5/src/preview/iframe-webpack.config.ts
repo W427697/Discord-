@@ -7,6 +7,7 @@ import CaseSensitivePathsPlugin from 'case-sensitive-paths-webpack-plugin';
 import TerserWebpackPlugin from 'terser-webpack-plugin';
 import VirtualModulePlugin from 'webpack-virtual-modules';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
+import slash from 'slash';
 
 import type { Options, CoreConfig, DocsOptions, PreviewAnnotation } from '@storybook/types';
 import { globals } from '@storybook/preview/globals';
@@ -21,16 +22,18 @@ import {
   isPreservingSymlinks,
 } from '@storybook/core-common';
 import { toRequireContextString, toImportFn } from '@storybook/core-webpack';
+import { dedent } from 'ts-dedent';
 import type { BuilderOptions, TypescriptOptions } from '../types';
 import { createBabelLoader } from './babel-loader-preview';
 
 const storybookPaths: Record<string, string> = {
-  global: dirname(require.resolve(`global/package.json`)),
+  global: dirname(require.resolve('@storybook/global/package.json')),
   ...[
     // these packages are not pre-bundled because of react dependencies
     'api',
-    'manager-api',
     'components',
+    'global',
+    'manager-api',
     'router',
     'theming',
   ].reduce(
@@ -107,7 +110,7 @@ export default async (
         if (typeof entry === 'object') {
           return entry.absolute;
         }
-        return entry;
+        return slash(entry);
       }
     ),
     loadPreviewOrConfigFile(options),
@@ -147,8 +150,6 @@ export default async (
 
     previewAnnotations.forEach((previewAnnotationFilename: string | undefined) => {
       if (!previewAnnotationFilename) return;
-      const previewApi = storybookPaths['@storybook/preview-api'];
-      const clientLogger = storybookPaths['@storybook/client-logger'];
 
       // Ensure that relative paths end up mapped to a filename in the cwd, so a later import
       // of the `previewAnnotationFilename` in the template works.
@@ -159,8 +160,6 @@ export default async (
       // file, see https://github.com/storybookjs/storybook/pull/16727#issuecomment-986485173
       virtualModuleMapping[entryFilename] = interpolate(entryTemplate, {
         previewAnnotationFilename,
-        previewApi,
-        clientLogger,
       });
       entries.push(entryFilename);
     });
@@ -192,6 +191,15 @@ export default async (
         }
       : {};
 
+  if (!template) {
+    throw new Error(dedent`
+      Storybook's Webpack5 builder requires a template to be specified.
+      Somehow you've ended up with a falsy value for the template option.
+
+      Please file an issue at https://github.com/storybookjs/storybook with a reproduction.
+    `);
+  }
+
   return {
     name: 'preview',
     mode: isProd ? 'production' : 'development',
@@ -214,6 +222,9 @@ export default async (
     ignoreWarnings: [
       {
         message: /export '\S+' was not found in 'global'/,
+      },
+      {
+        message: /export '\S+' was not found in '@storybook\/global'/,
       },
     ],
     plugins: [

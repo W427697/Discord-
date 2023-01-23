@@ -9,7 +9,7 @@ import React, {
   useMemo,
   useRef,
 } from 'react';
-import mergeWith from 'lodash/mergeWith';
+import mergeWith from 'lodash/mergeWith.js';
 import type {
   Args,
   ArgTypes,
@@ -18,13 +18,13 @@ import type {
   API_DocsEntry,
   API_GroupEntry,
   API_HashEntry,
+  API_IndexHash,
   API_LeafEntry,
   API_OptionsData,
   API_ProviderData,
   API_Refs,
   API_RootEntry,
   API_StateMerger,
-  API_StoriesHash,
   API_StoryEntry,
   Parameters,
   StoryId,
@@ -326,7 +326,9 @@ export function useStorybookApi(): API {
 }
 
 export type {
-  API_StoriesHash as StoriesHash,
+  /** @deprecated now IndexHash */
+  API_IndexHash as StoriesHash,
+  API_IndexHash as IndexHash,
   API_RootEntry as RootEntry,
   API_GroupEntry as GroupEntry,
   API_ComponentEntry as ComponentEntry,

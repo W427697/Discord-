@@ -20,12 +20,15 @@ Let’s start with the `Button` component. A story is a function that describes 
     'vue/button-story.js.mdx',
     'vue/button-story.ts-2.ts.mdx', 
     'vue/button-story.ts-3.ts.mdx', 
-    'svelte/button-story.js.mdx',
     'web-components/button-story.js.mdx',
+    'web-components/button-story.ts.mdx',
+    'svelte/button-story.js.mdx',
     'html/button-story.js.mdx',
     'html/button-story.ts.mdx',
     'preact/button-story.js.mdx',
   ]}
+  usesCsf3
+  csf2Path="get-started/whats-a-story#snippet-button-story"
 />
 
 <!-- prettier-ignore-end -->
@@ -48,11 +51,14 @@ The above story definition can be further improved to take advantage of [Storybo
     'vue/button-story-with-args.ts-3.ts.mdx',
     'angular/button-story-with-args.ts.mdx',
     'web-components/button-story-with-args.js.mdx',
+    'web-components/button-story-with-args.ts.mdx',
     'svelte/button-story-with-args.js.mdx',
     'html/button-story-with-args.js.mdx',
     'html/button-story-with-args.ts.mdx',
     'preact/button-story-with-args.js.mdx',
   ]}
+  usesCsf3
+  csf2Path="get-started/whats-a-story#snippet-button-story-with-args"
 />
 
 <!-- prettier-ignore-end -->

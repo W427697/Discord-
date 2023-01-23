@@ -69,6 +69,7 @@ Run the following command to install the addon.
   paths={[
     'common/storybook-figma-addon-install.yarn.js.mdx',
     'common/storybook-figma-addon-install.npm.js.mdx',
+    'common/storybook-figma-addon-install.pnpm.js.mdx',
   ]}
 />
 
@@ -106,7 +107,11 @@ In Storybook, add a new [parameter](../writing-stories/parameters.md) named `des
     'vue/component-story-figma-integration.ts.mdx',
     'angular/component-story-figma-integration.ts.mdx',
     'svelte/component-story-figma-integration.js.mdx',
+    'web-components/component-story-figma-integration.js.mdx',
+    'web-components/component-story-figma-integration.ts.mdx',
   ]}
+  usesCsf3
+  csf2Path="sharing/design-integrations#snippet-component-story-figma-integration"
 />
 
 <!-- prettier-ignore-end -->

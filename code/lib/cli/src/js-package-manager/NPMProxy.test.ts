@@ -47,15 +47,42 @@ describe('NPM Proxy', () => {
       });
     });
     describe('npm7', () => {
-      it('should run `npm install --legacy-peer-deps`', () => {
+      it('should run `npm install`', () => {
         const executeCommandSpy = jest.spyOn(npmProxy, 'executeCommand').mockReturnValue('7.1.0');
 
         npmProxy.installDependencies();
 
+        expect(executeCommandSpy).toHaveBeenLastCalledWith('npm', ['install'], expect.any(String));
+      });
+    });
+  });
+
+  describe('runScript', () => {
+    describe('npm6', () => {
+      it('should execute script `npm exec -- compodoc -e json -d .`', () => {
+        const executeCommandSpy = jest.spyOn(npmProxy, 'executeCommand').mockReturnValue('6.0.0');
+
+        npmProxy.runPackageCommand('compodoc', ['-e', 'json', '-d', '.']);
+
         expect(executeCommandSpy).toHaveBeenLastCalledWith(
           'npm',
-          ['install', '--legacy-peer-deps'],
-          expect.any(String)
+          ['exec', '--', 'compodoc', '-e', 'json', '-d', '.'],
+          undefined,
+          undefined
+        );
+      });
+    });
+    describe('npm7', () => {
+      it('should execute script `npm run compodoc -- -e json -d .`', () => {
+        const executeCommandSpy = jest.spyOn(npmProxy, 'executeCommand').mockReturnValue('7.1.0');
+
+        npmProxy.runPackageCommand('compodoc', ['-e', 'json', '-d', '.']);
+
+        expect(executeCommandSpy).toHaveBeenLastCalledWith(
+          'npm',
+          ['exec', '--', 'compodoc', '-e', 'json', '-d', '.'],
+          undefined,
+          undefined
         );
       });
     });
@@ -83,7 +110,7 @@ describe('NPM Proxy', () => {
 
         expect(executeCommandSpy).toHaveBeenLastCalledWith(
           'npm',
-          ['install', '--legacy-peer-deps', '-D', '@storybook/preview-api'],
+          ['install', '-D', '@storybook/preview-api'],
           expect.any(String)
         );
       });
@@ -112,7 +139,7 @@ describe('NPM Proxy', () => {
 
         expect(executeCommandSpy).toHaveBeenLastCalledWith(
           'npm',
-          ['uninstall', '--legacy-peer-deps', '@storybook/preview-api'],
+          ['uninstall', '@storybook/preview-api'],
           expect.any(String)
         );
       });

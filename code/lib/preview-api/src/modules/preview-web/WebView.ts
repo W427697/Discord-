@@ -1,5 +1,4 @@
-/* eslint-disable import/no-extraneous-dependencies */
-import global from 'global';
+import { global } from '@storybook/global';
 import { logger } from '@storybook/client-logger';
 import AnsiToHtml from 'ansi-to-html';
 import { dedent } from 'ts-dedent';
@@ -78,7 +77,7 @@ export class WebView implements View<HTMLElement> {
   }
 
   storyRoot(): HTMLElement {
-    return document.getElementById('storybook-root');
+    return document.getElementById('storybook-root')!;
   }
 
   prepareForDocs() {
@@ -89,12 +88,12 @@ export class WebView implements View<HTMLElement> {
   }
 
   docsRoot(): HTMLElement {
-    return document.getElementById('storybook-docs');
+    return document.getElementById('storybook-docs')!;
   }
 
   applyLayout(layout: Layout = 'padded') {
     if (layout === 'none') {
-      document.body.classList.remove(this.currentLayoutClass);
+      document.body.classList.remove(this.currentLayoutClass!);
       this.currentLayoutClass = null;
       return;
     }
@@ -103,7 +102,7 @@ export class WebView implements View<HTMLElement> {
 
     const layoutClass = layoutClassMap[layout];
 
-    document.body.classList.remove(this.currentLayoutClass);
+    document.body.classList.remove(this.currentLayoutClass!);
     document.body.classList.add(layoutClass);
     this.currentLayoutClass = layoutClass;
   }
@@ -137,8 +136,8 @@ export class WebView implements View<HTMLElement> {
       detail = parts.slice(1).join('\n');
     }
 
-    document.getElementById('error-message').innerHTML = ansiConverter.toHtml(header);
-    document.getElementById('error-stack').innerHTML = ansiConverter.toHtml(detail);
+    document.getElementById('error-message')!.innerHTML = ansiConverter.toHtml(header);
+    document.getElementById('error-stack')!.innerHTML = ansiConverter.toHtml(detail);
 
     this.showMode(Mode.ERROR);
   }
@@ -166,9 +165,13 @@ export class WebView implements View<HTMLElement> {
     }
   }
 
-  showPreparingDocs() {
+  showPreparingDocs({ immediate = false } = {}) {
     clearTimeout(this.preparingTimeout);
-    this.preparingTimeout = setTimeout(() => this.showMode(Mode.PREPARING_DOCS), PREPARING_DELAY);
+    if (immediate) {
+      this.showMode(Mode.PREPARING_DOCS);
+    } else {
+      this.preparingTimeout = setTimeout(() => this.showMode(Mode.PREPARING_DOCS), PREPARING_DELAY);
+    }
   }
 
   showMain() {

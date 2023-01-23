@@ -2,10 +2,10 @@ import chalk from 'chalk';
 import { copy, emptyDir, ensureDir } from 'fs-extra';
 import { dirname, isAbsolute, join, resolve } from 'path';
 import { dedent } from 'ts-dedent';
-import global from 'global';
+import { global } from '@storybook/global';
 
 import { logger } from '@storybook/node-logger';
-import { telemetry } from '@storybook/telemetry';
+import { telemetry, getPrecedingUpgrade } from '@storybook/telemetry';
 import type {
   BuilderOptions,
   CLIOptions,
@@ -35,9 +35,11 @@ import { StoryIndexGenerator } from './utils/StoryIndexGenerator';
 import { writeModulesJson } from './utils/modules-json';
 import { summarizeIndex } from './utils/summarizeIndex';
 
-export async function buildStaticStandalone(
-  options: CLIOptions & LoadOptions & BuilderOptions & { outputDir: string }
-) {
+export type BuildStaticStandaloneOptions = CLIOptions &
+  LoadOptions &
+  BuilderOptions & { outputDir: string };
+
+export async function buildStaticStandalone(options: BuildStaticStandaloneOptions) {
   /* eslint-disable no-param-reassign */
   options.configType = 'PRODUCTION';
 
@@ -74,22 +76,25 @@ export async function buildStaticStandalone(
 
   logger.info('=> Loading presets');
   let presets = await loadAllPresets({
-    corePresets: [require.resolve('./presets/common-preset'), ...corePresets],
+    corePresets: [
+      require.resolve('@storybook/core-server/dist/presets/common-preset'),
+      ...corePresets,
+    ],
     overridePresets: [],
     ...options,
   });
 
   const [previewBuilder, managerBuilder] = await getBuilders({ ...options, presets });
-  const { renderer } = await presets.apply<CoreConfig>('core', undefined);
+  const { renderer } = await presets.apply<CoreConfig>('core', {});
 
   presets = await loadAllPresets({
     corePresets: [
-      require.resolve('./presets/common-preset'),
+      require.resolve('@storybook/core-server/dist/presets/common-preset'),
       ...(managerBuilder.corePresets || []),
       ...(previewBuilder.corePresets || []),
       ...(renderer ? [resolveAddonName(options.configDir, renderer, options)] : []),
       ...corePresets,
-      require.resolve('./presets/babel-cache-preset'),
+      require.resolve('@storybook/core-server/dist/presets/babel-cache-preset'),
     ],
     overridePresets: previewBuilder.overridePresets || [],
     ...options,
@@ -170,20 +175,6 @@ export async function buildStaticStandalone(
     );
   }
 
-  if (!core?.disableTelemetry) {
-    effects.push(
-      initializedStoryIndexGenerator.then(async (generator) => {
-        const storyIndex = await generator?.getIndex();
-        const payload = storyIndex
-          ? {
-              storyIndex: summarizeIndex(storyIndex),
-            }
-          : undefined;
-        await telemetry('build', payload, { configDir: options.configDir });
-      })
-    );
-  }
-
   if (!core?.disableProjectJson) {
     effects.push(
       extractStorybookMetadata(join(options.outputDir, 'project.json'), options.configDir)
@@ -222,6 +213,24 @@ export async function buildStaticStandalone(
         ]),
     ...effects,
   ]);
+
+  // Now the code has successfully built, we can count this as a 'dev' event.
+  if (!core?.disableTelemetry) {
+    effects.push(
+      initializedStoryIndexGenerator.then(async (generator) => {
+        const storyIndex = await generator?.getIndex();
+        const payload = {
+          precedingUpgrade: await getPrecedingUpgrade(),
+        };
+        if (storyIndex) {
+          Object.assign(payload, {
+            storyIndex: summarizeIndex(storyIndex),
+          });
+        }
+        await telemetry('build', payload, { configDir: options.configDir });
+      })
+    );
+  }
 
   logger.info(`=> Output directory: ${options.outputDir}`);
 }

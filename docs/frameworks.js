@@ -1,6 +1,6 @@
 module.exports = {
   coreFrameworks: ['react', 'vue', 'angular', 'web-components'],
-  communityFrameworks: ['ember', 'html', 'svelte', 'preact'],
+  communityFrameworks: ['ember', 'html', 'svelte', 'preact', 'qwik'],
   featureGroups: [
     {
       name: 'Essentials',
@@ -88,7 +88,7 @@ module.exports = {
         {
           name: 'Storyshots',
           unsupported: ['ember'],
-          path: 'workflows/unit-testing',
+          path: 'writing-tests/snapshot-testing',
         },
         {
           name: 'storysource',

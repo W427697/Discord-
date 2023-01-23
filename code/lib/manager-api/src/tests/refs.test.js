@@ -1,9 +1,9 @@
-import global from 'global';
+import { global } from '@storybook/global';
 import { getSourceType, init as initRefs } from '../modules/refs';
 
 const { fetch } = global;
 
-jest.mock('global', () => {
+jest.mock('@storybook/global', () => {
   const globalMock = {
     fetch: jest.fn(() => Promise.resolve({})),
     REFS: {
@@ -29,7 +29,7 @@ jest.mock('global', () => {
         .mockReturnValue(lastLocation),
     },
   });
-  return globalMock;
+  return { global: globalMock };
 });
 
 const provider = {
@@ -252,7 +252,9 @@ describe('Refs API', () => {
         Object {
           "refs": Object {
             "fake": Object {
-              "error": Object {
+              "id": "fake",
+              "index": undefined,
+              "indexError": Object {
                 "message": "Error: Loading of ref failed
           at fetch (lib/api/src/modules/refs.ts)
 
@@ -263,9 +265,6 @@ describe('Refs API', () => {
 
         Please check your dev-tools network tab.",
               },
-              "id": "fake",
-              "ready": false,
-              "stories": undefined,
               "title": "Fake",
               "type": "auto-inject",
               "url": "https://example.com",
@@ -340,8 +339,7 @@ describe('Refs API', () => {
           "refs": Object {
             "fake": Object {
               "id": "fake",
-              "ready": false,
-              "stories": Object {},
+              "index": Object {},
               "title": "Fake",
               "type": "lazy",
               "url": "https://example.com",
@@ -418,8 +416,7 @@ describe('Refs API', () => {
           "refs": Object {
             "fake": Object {
               "id": "fake",
-              "ready": false,
-              "stories": Object {},
+              "index": Object {},
               "title": "Fake",
               "type": "lazy",
               "url": "https://example.com",
@@ -496,15 +493,76 @@ describe('Refs API', () => {
           "refs": Object {
             "fake": Object {
               "id": "fake",
+              "index": undefined,
               "loginUrl": "https://example.com/login",
-              "ready": false,
-              "stories": undefined,
               "title": "Fake",
               "type": "auto-inject",
               "url": "https://example.com",
             },
           },
         }
+      `);
+    });
+
+    it('checks refs (basic-auth)', async () => {
+      // given
+      const { api } = initRefs({ provider, store }, { runCheck: false });
+
+      setupResponses({
+        indexPrivate: {
+          ok: true,
+          response: async () => ({ v: 4, entries: {} }),
+        },
+        storiesPrivate: {
+          ok: true,
+          response: async () => ({ v: 3, stories: {} }),
+        },
+        metadata: {
+          ok: true,
+          response: async () => ({ versions: {} }),
+        },
+      });
+
+      await api.checkRef({
+        id: 'fake',
+        url: 'https://user:pass@example.com',
+        title: 'Fake',
+      });
+
+      expect(fetch.mock.calls).toMatchInlineSnapshot(`
+        Array [
+          Array [
+            "https://example.com/index.json",
+            Object {
+              "credentials": "include",
+              "headers": Object {
+                "Accept": "application/json",
+                "Authorization": "Basic dXNlcjpwYXNz",
+              },
+            },
+          ],
+          Array [
+            "https://example.com/stories.json",
+            Object {
+              "credentials": "include",
+              "headers": Object {
+                "Accept": "application/json",
+                "Authorization": "Basic dXNlcjpwYXNz",
+              },
+            },
+          ],
+          Array [
+            "https://example.com/metadata.json",
+            Object {
+              "cache": "no-cache",
+              "credentials": "include",
+              "headers": Object {
+                "Accept": "application/json",
+                "Authorization": "Basic dXNlcjpwYXNz",
+              },
+            },
+          ],
+        ]
       `);
     });
 
@@ -576,9 +634,8 @@ describe('Refs API', () => {
           "refs": Object {
             "fake": Object {
               "id": "fake",
+              "index": undefined,
               "loginUrl": "https://example.com/login",
-              "ready": false,
-              "stories": undefined,
               "title": "Fake",
               "type": "auto-inject",
               "url": "https://example.com",
@@ -658,8 +715,7 @@ describe('Refs API', () => {
           "refs": Object {
             "fake": Object {
               "id": "fake",
-              "ready": false,
-              "stories": Object {},
+              "index": Object {},
               "title": "Fake",
               "type": "lazy",
               "url": "https://example.com",
@@ -736,8 +792,7 @@ describe('Refs API', () => {
           "refs": Object {
             "fake": Object {
               "id": "fake",
-              "ready": false,
-              "stories": Object {},
+              "index": Object {},
               "title": "Fake",
               "type": "lazy",
               "url": "https://example.com",
@@ -804,7 +859,7 @@ describe('Refs API', () => {
         });
 
         const { refs } = store.setState.mock.calls[0][0];
-        const hash = refs.fake.stories;
+        const hash = refs.fake.index;
 
         // We need exact key ordering, even if in theory JS doesn't guarantee it
         expect(Object.keys(hash)).toEqual([
@@ -860,7 +915,7 @@ describe('Refs API', () => {
         });
 
         const { refs } = store.setState.mock.calls[0][0];
-        const hash = refs.fake.stories;
+        const hash = refs.fake.index;
 
         // We need exact key ordering, even if in theory JS doesn't guarantee it
         expect(Object.keys(hash)).toEqual(['component-a', 'component-a--docs']);

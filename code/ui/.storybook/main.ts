@@ -1,10 +1,12 @@
-import { vite as csfPlugin } from '@storybook/csf-plugin';
+import path from 'path';
 import pluginTurbosnap from 'vite-plugin-turbosnap';
-import type { StorybookConfig } from '../../frameworks/react-vite/dist';
+import { mergeConfig } from 'vite';
+import type { StorybookConfig } from '../../frameworks/react-vite';
 
 const isBlocksOnly = process.env.STORYBOOK_BLOCKS_ONLY === 'true';
 
 const allStories = [
+  '../../lib/cli/rendererAssets/common/Introduction.stories.mdx',
   {
     directory: '../manager/src',
     titlePrefix: '@storybook-manager',
@@ -20,7 +22,7 @@ const allStories = [
 ];
 
 /**
- * match all stories in blocks/src/blocks and blocks/src/controls EXCEPT blocks/src/blocks/internal
+ * match all stories in blocks/src/blocks, blocks/src/controls and blocks/src/examples EXCEPT blocks/src/blocks/internal
  * Examples:
  *
  * src/blocks/Canvas.stories.tsx - MATCH
@@ -38,8 +40,8 @@ const allStories = [
  * src/components/ColorPalette.tsx - IGNORED, not story
  */
 const blocksOnlyStories = [
-  '../blocks/src/@(blocks|controls)/!(internal)/**/*.@(mdx|stories.@(tsx|ts|jsx|js))',
-  '../blocks/src/@(blocks|controls)/*.@(mdx|stories.@(tsx|ts|jsx|js))',
+  '../blocks/src/@(blocks|controls|examples)/!(internal)/**/*.@(mdx|stories.@(tsx|ts|jsx|js))',
+  '../blocks/src/@(blocks|controls|examples)/*.@(mdx|stories.@(tsx|ts|jsx|js))',
 ];
 
 const config: StorybookConfig = {
@@ -60,20 +62,25 @@ const config: StorybookConfig = {
   features: {
     interactionsDebugger: true,
   },
-  viteFinal: (viteConfig, { configType }) => ({
-    ...viteConfig,
-    plugins: [
-      ...(viteConfig.plugins || []),
-      csfPlugin({}),
-      configType === 'PRODUCTION' ? pluginTurbosnap({ rootDir: viteConfig.root || '' }) : [],
-    ],
-    optimizeDeps: { ...viteConfig.optimizeDeps, force: true },
-    build: {
-      ...viteConfig.build,
-      // disable sourcemaps in CI to not run out of memory
-      sourcemap: process.env.CI !== 'true',
-    },
-  }),
+  viteFinal: (viteConfig, { configType }) =>
+    mergeConfig(viteConfig, {
+      resolve: {
+        alias: {
+          ...(configType === 'DEVELOPMENT'
+            ? { '@storybook/components': path.resolve(__dirname, '../components/src') }
+            : {}),
+        },
+      },
+      plugins: [
+        configType === 'PRODUCTION' ? pluginTurbosnap({ rootDir: viteConfig.root || '' }) : [],
+      ],
+      optimizeDeps: { force: true },
+      build: {
+        // disable sourcemaps in CI to not run out of memory
+        sourcemap: process.env.CI !== 'true',
+      },
+    }),
+  logLevel: 'debug',
 };
 
 export default config;

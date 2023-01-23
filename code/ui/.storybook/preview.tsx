@@ -1,4 +1,4 @@
-import global from 'global';
+import { global } from '@storybook/global';
 import React, { Fragment, useEffect } from 'react';
 import isChromatic from 'chromatic/isChromatic';
 import {
@@ -10,13 +10,15 @@ import {
   styled,
   useTheme,
 } from '@storybook/theming';
-import { useArgs, DocsContext } from '@storybook/preview-api';
+import { useArgs, DocsContext as DocsContextProps } from '@storybook/preview-api';
 import { Symbols } from '@storybook/components';
 import type { PreviewWeb } from '@storybook/preview-api';
 import type { ReactRenderer } from '@storybook/react';
 import type { Channel } from '@storybook/channels';
 
-import { DocsContainer } from '../blocks/src/blocks/DocsContainer';
+import { DocsContext } from '@storybook/blocks';
+
+import { DocsContent, DocsWrapper } from '../blocks/src/components';
 
 const { document } = global;
 
@@ -101,7 +103,7 @@ export const loaders = [
    * }
    * The DocsContext will then be added via the decorator below.
    */
-  async ({ parameters: { relativeCsfPaths } }) => {
+  async ({ parameters: { relativeCsfPaths, attached = true } }) => {
     if (!relativeCsfPaths) return {};
     const csfFiles = await Promise.all(
       (relativeCsfPaths as string[]).map(async (blocksRelativePath) => {
@@ -120,15 +122,16 @@ export const loaders = [
         return preview.storyStore.loadCSFFileByStoryId(entry.id);
       })
     );
-    return {
-      docsContext: new DocsContext(
-        channel,
-        preview.storyStore,
-        preview.renderStoryToElement.bind(preview),
-        csfFiles,
-        false
-      ),
-    };
+    const docsContext = new DocsContextProps(
+      channel,
+      preview.storyStore,
+      preview.renderStoryToElement.bind(preview),
+      csfFiles
+    );
+    if (attached && csfFiles[0]) {
+      docsContext.attachCSFFile(csfFiles[0]);
+    }
+    return { docsContext };
   },
 ];
 
@@ -136,9 +139,22 @@ export const decorators = [
   // This decorator adds the DocsContext created in the loader above
   (Story, { loaded: { docsContext } }) =>
     docsContext ? (
-      <DocsContainer context={docsContext}>
+      <DocsContext.Provider value={docsContext}>
         <Story />
-      </DocsContainer>
+      </DocsContext.Provider>
+    ) : (
+      <Story />
+    ),
+  /**
+   * This decorator adds wrappers that contains global styles for stories to be targeted by.
+   * Activated with parameters.docsStyles = true
+   */ (Story, { parameters: { docsStyles } }) =>
+    docsStyles ? (
+      <DocsWrapper className="sbdocs sbdocs-wrapper">
+        <DocsContent className="sbdocs sbdocs-content">
+          <Story />
+        </DocsContent>
+      </DocsWrapper>
     ) : (
       <Story />
     ),
@@ -198,6 +214,7 @@ export const decorators = [
           </Fragment>
         );
       }
+      case 'default':
       default: {
         return (
           <ThemeProvider theme={convert(themes[theme])}>

@@ -1,6 +1,6 @@
 {
   "name": "@storybook/core-common",
-  "version": "7.0.0-alpha.56",
+  "version": "7.0.0-beta.31",
   "description": "Storybook framework-agnostic API",
   "keywords": [
     "storybook"
@@ -21,23 +21,20 @@
   "license": "MIT",
   "exports": {
     ".": {
+      "node": "./dist/index.js",
       "require": "./dist/index.js",
       "import": "./dist/index.mjs",
       "types": "./dist/index.d.ts"
     },
-    "./package.json": {
-      "require": "./package.json",
-      "import": "./package.json",
-      "types": "./package.json"
-    }
+    "./package.json": "./package.json"
   },
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "files": [
     "dist/**/*",
-    "types/**/*",
     "templates/**/*",
+    "README.md",
     "*.js",
     "*.d.ts"
   ],
@@ -47,16 +44,16 @@
   },
   "dependencies": {
     "@babel/core": "^7.20.2",
-    "@storybook/node-logger": "7.0.0-alpha.56",
-    "@storybook/types": "7.0.0-alpha.56",
+    "@storybook/node-logger": "7.0.0-beta.31",
+    "@storybook/types": "7.0.0-beta.31",
     "@types/babel__core": "^7.1.20",
     "@types/express": "^4.7.0",
     "@types/node": "^16.0.0",
     "@types/pretty-hrtime": "^1.0.0",
     "chalk": "^4.1.0",
-    "esbuild": "^0.14.48",
+    "esbuild": "^0.16.4",
     "esbuild-register": "^3.3.3",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "file-system-cache": "^2.0.0",
     "find-up": "^5.0.0",
     "fs-extra": "^9.0.1",
@@ -75,16 +72,7 @@
     "@types/picomatch": "^2.3.0",
     "mock-fs": "^5.2.0",
     "type-fest": "^2.19.0",
-    "typescript": "^4.9.3"
-  },
-  "peerDependencies": {
-    "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
-    "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0"
-  },
-  "peerDependenciesMeta": {
-    "typescript": {
-      "optional": true
-    }
+    "typescript": "~4.9.3"
   },
   "publishConfig": {
     "access": "public"
@@ -95,5 +83,5 @@
     ],
     "platform": "node"
   },
-  "gitHead": "c8e9a862bb83c4a0d6b5975e795b4ca7f7ff7bc2"
+  "gitHead": "6d1ea7647fce605b2029077cbd02f655cafe1807"
 }

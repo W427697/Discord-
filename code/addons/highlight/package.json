@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-highlight",
-  "version": "7.0.0-alpha.56",
+  "version": "7.0.0-beta.31",
   "description": "Highlight DOM nodes within your stories",
   "keywords": [
     "storybook-addons",
@@ -25,6 +25,7 @@
   "author": "winkerVSbecks",
   "exports": {
     ".": {
+      "node": "./dist/index.js",
       "require": "./dist/index.js",
       "import": "./dist/index.mjs",
       "types": "./dist/index.d.ts"
@@ -60,13 +61,13 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/core-events": "7.0.0-alpha.56",
-    "@storybook/preview-api": "7.0.0-alpha.56",
-    "global": "^4.4.0"
+    "@storybook/core-events": "7.0.0-beta.31",
+    "@storybook/global": "^5.0.0",
+    "@storybook/preview-api": "7.0.0-beta.31"
   },
   "devDependencies": {
     "@types/webpack-env": "^1.16.0",
-    "typescript": "^4.9.3"
+    "typescript": "~4.9.3"
   },
   "publishConfig": {
     "access": "public"
@@ -77,7 +78,7 @@
       "./src/preview.ts"
     ]
   },
-  "gitHead": "c8e9a862bb83c4a0d6b5975e795b4ca7f7ff7bc2",
+  "gitHead": "6d1ea7647fce605b2029077cbd02f655cafe1807",
   "sbmodern": "dist/modern/index.js",
   "storybook": {
     "displayName": "Highlight",

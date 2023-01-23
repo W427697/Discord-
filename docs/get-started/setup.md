@@ -17,12 +17,15 @@ Pick a simple component from your project, like a Button, and write a `.stories.
     'vue/your-component.ts-2.ts.mdx',
     'vue/your-component.3.js.mdx',
     'vue/your-component.ts-3.ts.mdx',
-    'svelte/your-component.js.mdx',
     'web-components/your-component.js.mdx',
+    'web-components/your-component.ts.mdx',
+    'svelte/your-component.js.mdx',
     'html/your-component.js.mdx',
     'html/your-component.ts.mdx',
     'preact/your-component.js.mdx',
   ]}
+  usesCsf3
+  csf2Path="get-started/setup#snippet-your-component"
 />
 
 <!-- prettier-ignore-end -->
@@ -51,7 +54,7 @@ If you see errors on the CLI when you run the `yarn storybook` command, you like
 <details>
 <summary>Runtime configuration</summary>
 
-If Storybook builds but you see an error immediately when connecting to it in the browser, in that case, chances are one of your input files is not compiling/transpiling correctly to be interpreted by the browser. Storybook supports modern browsers and IE11, but you may need to check the Babel and Webpack settings (see above) to ensure your component code works correctly.
+If Storybook builds but you see an error immediately when connecting to it in the browser, in that case, chances are one of your input files is not compiling/transpiling correctly to be interpreted by the browser. Storybook supports evergreen browsers, but you may need to check the Babel and Webpack settings (see above) to ensure your component code works correctly.
 
 </details>
 
@@ -62,7 +65,7 @@ If a particular story has a problem rendering, often it means your component exp
 
 A common frontend pattern is for components to assume that they render in a specific “context” with parent components higher up the rendering hierarchy (for instance, theme providers).
 
-Use [decorators](../writing-stories/decorators.md) to “wrap” every story in the necessary context providers. The [`.storybook/preview.js`](../configure/overview.md#configure-story-rendering) file allows you to customize how components render in Canvas, the preview iframe. See how you can wrap every component rendered in Storybook with [Styled Components](https://styled-components.com/) `ThemeProvider`, [Vue's Fortawesome](https://github.com/FortAwesome/vue-fontawesome), or with an Angular theme provider component in the example below.
+Use [decorators](../writing-stories/decorators.md) to “wrap” every story in the necessary context providers. The [`.storybook/preview.js`](../configure/overview.md#configure-story-rendering) file allows you to customize how components render in Canvas, the preview iframe. See how you can wrap every component rendered in Storybook with [Styled Components](https://styled-components.com/) `ThemeProvider`, [Vue's Fontawesome](https://github.com/FortAwesome/vue-fontawesome), or with an Angular theme provider component in the example below.
 
 <!-- prettier-ignore-start -->
 
@@ -75,7 +78,6 @@ Use [decorators](../writing-stories/decorators.md) to “wrap” every story in 
     'vue/storybook-preview-with-hoc-component-decorator.2-component.js.mdx',
     'vue/storybook-preview-with-hoc-component-decorator.3-component.js.mdx',
     'vue/storybook-preview-with-mixin-decorator.2-mixin.js.mdx',
-    'vue/storybook-preview-with-mixin-decorator.3-mixin.js.mdx',
     'angular/storybook-preview-with-styled-components-decorator.ts.mdx'
   ]}
 />

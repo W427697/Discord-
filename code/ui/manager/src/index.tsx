@@ -1,4 +1,4 @@
-import global from 'global';
+import { global } from '@storybook/global';
 import type { FC } from 'react';
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -32,13 +32,11 @@ export interface RootProps {
 }
 
 export const Root: FC<RootProps> = ({ provider }) => (
-  <React.StrictMode key="container">
-    <HelmetProvider key="helmet.Provider">
-      <LocationProvider key="location.provider">
-        <Main provider={provider} />
-      </LocationProvider>
-    </HelmetProvider>
-  </React.StrictMode>
+  <HelmetProvider key="helmet.Provider">
+    <LocationProvider key="location.provider">
+      <Main provider={provider} />
+    </LocationProvider>
+  </HelmetProvider>
 );
 
 const Main: FC<{ provider: Provider }> = ({ provider }) => {
@@ -57,8 +55,8 @@ const Main: FC<{ provider: Provider }> = ({ provider }) => {
             const panelCount = Object.keys(api.getPanels()).length;
             const story = api.getData(state.storyId, state.refId);
             const isLoading = story
-              ? !!state.refs[state.refId] && !state.refs[state.refId].ready
-              : !state.storiesFailed && !state.storiesConfigured;
+              ? !!state.refs[state.refId] && !state.refs[state.refId].previewInitialized
+              : !state.previewInitialized;
 
             return (
               <CacheProvider value={emotionCache}>

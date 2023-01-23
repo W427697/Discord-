@@ -1,6 +1,7 @@
 import memoize from 'memoizerific';
 import { dedent } from 'ts-dedent';
-import countBy from 'lodash/countBy';
+import countBy from 'lodash/countBy.js';
+import mapValues from 'lodash/mapValues.js';
 import { sanitize } from '@storybook/csf';
 import type {
   StoryId,
@@ -14,14 +15,12 @@ import type {
   API_RootEntry,
   API_GroupEntry,
   API_ComponentEntry,
-  API_StoriesHash,
+  API_IndexHash,
   API_DocsEntry,
   API_StoryEntry,
   API_HashEntry,
   SetStoriesPayload,
 } from '@storybook/types';
-
-import mapValues from 'lodash/mapValues';
 // eslint-disable-next-line import/no-cycle
 import { type API, combineParameters } from '../index';
 import merge from './merge';
@@ -69,7 +68,7 @@ const transformSetStoriesStoryDataToPreparedStoryIndex = (
       if (docsOnly) {
         acc[id] = {
           type: 'docs',
-          standalone: false,
+          tags: ['stories-mdx'],
           storiesImports: [],
           ...base,
         };
@@ -106,7 +105,7 @@ const transformStoryIndexV3toV4 = (index: StoryIndexV3): API_PreparedStoryIndex 
       }
       acc[entry.id] = {
         type,
-        ...(type === 'docs' && { standalone: false, storiesImports: [] }),
+        ...(type === 'docs' && { tags: ['stories-mdx'], storiesImports: [] }),
         ...entry,
       };
       return acc;
@@ -123,7 +122,7 @@ export const transformStoryIndexToStoriesHash = (
     provider: API_Provider<API>;
     docsOptions: DocsOptions;
   }
-): API_StoriesHash => {
+): API_IndexHash => {
   if (!index.v) throw new Error('Composition: Missing stories.json version');
 
   const v4Index = index.v === 4 ? index : transformStoryIndexV3toV4(index as any);
@@ -242,10 +241,10 @@ export const transformStoryIndexToStoriesHash = (
     } as API_DocsEntry | API_StoryEntry;
 
     return acc;
-  }, {} as API_StoriesHash);
+  }, {} as API_IndexHash);
 
   // This function adds a "root" or "orphan" and all of its descendents to the hash.
-  function addItem(acc: API_StoriesHash, item: API_HashEntry) {
+  function addItem(acc: API_IndexHash, item: API_HashEntry) {
     // If we were already inserted as part of a group, that's great.
     if (acc[item.id]) {
       return acc;
@@ -269,7 +268,7 @@ export const transformStoryIndexToStoriesHash = (
     .reduce(addItem, orphanHash);
 };
 
-export const addPreparedStories = (newHash: API_StoriesHash, oldHash?: API_StoriesHash) => {
+export const addPreparedStories = (newHash: API_IndexHash, oldHash?: API_IndexHash) => {
   if (!oldHash) return newHash;
 
   return Object.fromEntries(
@@ -284,7 +283,7 @@ export const addPreparedStories = (newHash: API_StoriesHash, oldHash?: API_Stori
   );
 };
 
-export const getComponentLookupList = memoize(1)((hash: API_StoriesHash) => {
+export const getComponentLookupList = memoize(1)((hash: API_IndexHash) => {
   return Object.entries(hash).reduce((acc, i) => {
     const value = i[1];
     if (value.type === 'component') {
@@ -294,6 +293,6 @@ export const getComponentLookupList = memoize(1)((hash: API_StoriesHash) => {
   }, [] as StoryId[][]);
 });
 
-export const getStoriesLookupList = memoize(1)((hash: API_StoriesHash) => {
+export const getStoriesLookupList = memoize(1)((hash: API_IndexHash) => {
   return Object.keys(hash).filter((k) => ['story', 'docs'].includes(hash[k].type));
 });

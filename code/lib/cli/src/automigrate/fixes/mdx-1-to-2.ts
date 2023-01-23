@@ -5,11 +5,28 @@ import fse from 'fs-extra';
 import globby from 'globby';
 import type { Fix } from '../types';
 
-const MDX1_SCRIPT_START = /<style>{`/g;
-const MDX1_SCRIPT_END = /`}<\/style>/g;
+const MDX1_STYLE_START = /<style>{`/g;
+const MDX1_STYLE_END = /`}<\/style>/g;
+const MDX1_COMMENT = /<!--(.+)-->/g;
+const MDX1_CODEBLOCK = /(?:\n~~~(?:\n|.)*?\n~~~)|(?:\n```(?:\n|.)*?\n```)/g;
 
-export const fixMdxScript = (mdx: string) => {
-  return mdx.replace(MDX1_SCRIPT_START, '<style>\n  {`').replace(MDX1_SCRIPT_END, '  `}\n</style>');
+export const fixMdxStyleTags = (mdx: string) => {
+  return mdx.replace(MDX1_STYLE_START, '<style>\n  {`').replace(MDX1_STYLE_END, '  `}\n</style>');
+};
+
+export const fixMdxComments = (mdx: string) => {
+  const codeblocks = mdx.matchAll(MDX1_CODEBLOCK);
+
+  // separate the mdx into sections without codeblocks & replace html comments NOT in codeblocks
+  const sections = mdx
+    .split(MDX1_CODEBLOCK)
+    .map((v) => v.replace(MDX1_COMMENT, (original, group) => `{/*${group}*/}`));
+
+  // interleave the original codeblocks with the replaced sections
+  return sections.reduce((acc, item, i) => {
+    const next = codeblocks.next();
+    return next.done ? acc + item : acc + item + next.value[0];
+  }, '');
 };
 
 const logger = console;
@@ -38,20 +55,18 @@ export const mdx1to2: Fix<Mdx1to2Options> = {
       We've found ${chalk.yellow(storiesMdxFiles.length)} '.stories.mdx' files in your project.
       
       Storybook has upgraded to MDX2 (https://mdxjs.com/blog/v2/), which contains breaking changes from V1.
-
       We can try to automatically upgrade your MDX files to MDX2 format using some common patterns.
       
-      For a full guide for how to manually upgrade your files, see the MDX2 migration guide:
-      
-      ${chalk.cyan('https://mdxjs.com/migrating/v2/#update-mdx-files')}
+      Some steps might require manual intervention. You can find a full guide for how to manually upgrade your files here:
+      ${chalk.cyan('https://storybook.js.org/docs/7.0/react/writing-docs/mdx#breaking-changes')}
     `;
   },
 
   async run({ result: { storiesMdxFiles }, dryRun }) {
-    await Promise.all(
-      storiesMdxFiles.map(async (fname) => {
+    await Promise.all([
+      ...storiesMdxFiles.map(async (fname) => {
         const contents = await fse.readFile(fname, 'utf-8');
-        const updated = fixMdxScript(contents);
+        const updated = fixMdxComments(fixMdxStyleTags(contents));
         if (updated === contents) {
           logger.info(`🆗 Unmodified ${basename(fname)}`);
         } else {
@@ -60,7 +75,7 @@ export const mdx1to2: Fix<Mdx1to2Options> = {
             await fse.writeFile(fname, updated);
           }
         }
-      })
-    );
+      }),
+    ]);
   },
 };

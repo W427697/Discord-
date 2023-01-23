@@ -1,6 +1,6 @@
 {
   "name": "@storybook/components",
-  "version": "7.0.0-alpha.56",
+  "version": "7.0.0-beta.31",
   "description": "Core Storybook Components",
   "keywords": [
     "storybook"
@@ -22,6 +22,7 @@
   "sideEffects": false,
   "exports": {
     ".": {
+      "node": "./dist/index.js",
       "require": "./dist/index.js",
       "import": "./dist/index.mjs",
       "types": "./dist/index.d.ts"
@@ -31,11 +32,7 @@
       "import": "./dist/html.mjs",
       "types": "./dist/html.d.ts"
     },
-    "./package.json": {
-      "require": "./package.json",
-      "import": "./package.json",
-      "types": "./package.json"
-    }
+    "./package.json": "./package.json"
   },
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -51,10 +48,11 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/client-logger": "7.0.0-alpha.56",
+    "@storybook/client-logger": "7.0.0-beta.31",
     "@storybook/csf": "next",
-    "@storybook/theming": "7.0.0-alpha.56",
-    "@storybook/types": "7.0.0-alpha.56",
+    "@storybook/global": "^5.0.0",
+    "@storybook/theming": "7.0.0-beta.31",
+    "@storybook/types": "7.0.0-beta.31",
     "memoizerific": "^1.11.3",
     "util-deprecate": "^1.0.2"
   },
@@ -64,7 +62,6 @@
     "@types/react-syntax-highlighter": "11.0.5",
     "@types/util-deprecate": "^1.0.0",
     "css": "^3.0.0",
-    "global": "^4.4.0",
     "overlayscrollbars": "^1.13.1",
     "polished": "^4.2.2",
     "prettier": "^2.8.0",
@@ -72,7 +69,7 @@
     "react-syntax-highlighter": "^15.4.5",
     "react-textarea-autosize": "^8.3.0",
     "ts-dedent": "^2.0.0",
-    "typescript": "^4.9.3"
+    "typescript": "~4.9.3"
   },
   "peerDependencies": {
     "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
@@ -87,5 +84,5 @@
     ],
     "platform": "neutral"
   },
-  "gitHead": "c8e9a862bb83c4a0d6b5975e795b4ca7f7ff7bc2"
+  "gitHead": "6d1ea7647fce605b2029077cbd02f655cafe1807"
 }

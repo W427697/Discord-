@@ -1,6 +1,6 @@
 {
   "name": "@storybook/nextjs",
-  "version": "7.0.0-alpha.56",
+  "version": "7.0.0-beta.31",
   "description": "Storybook for Next.js",
   "keywords": [
     "storybook",
@@ -22,6 +22,7 @@
   "license": "MIT",
   "exports": {
     ".": {
+      "node": "./dist/index.js",
       "require": "./dist/index.js",
       "import": "./dist/index.mjs",
       "types": "./dist/index.d.ts"
@@ -49,7 +50,6 @@
   "files": [
     "dist/**/*",
     "template/**/*",
-    "types/**/*",
     "README.md",
     "*.js",
     "*.d.ts"
@@ -59,12 +59,14 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/builder-webpack5": "7.0.0-alpha.56",
-    "@storybook/core-common": "7.0.0-alpha.56",
-    "@storybook/node-logger": "7.0.0-alpha.56",
-    "@storybook/preset-react-webpack": "7.0.0-alpha.56",
-    "@storybook/preview-api": "7.0.0-alpha.56",
-    "@storybook/react": "7.0.0-alpha.56",
+    "@next/font": "^13.0.7",
+    "@storybook/addon-actions": "7.0.0-beta.31",
+    "@storybook/builder-webpack5": "7.0.0-beta.31",
+    "@storybook/core-common": "7.0.0-beta.31",
+    "@storybook/node-logger": "7.0.0-beta.31",
+    "@storybook/preset-react-webpack": "7.0.0-beta.31",
+    "@storybook/preview-api": "7.0.0-beta.31",
+    "@storybook/react": "7.0.0-beta.31",
     "@types/node": "^16.0.0",
     "find-up": "^5.0.0",
     "fs-extra": "^9.0.1",
@@ -80,14 +82,15 @@
     "tsconfig-paths-webpack-plugin": "^3.5.2"
   },
   "devDependencies": {
-    "@storybook/addon-actions": "7.0.0-alpha.56",
+    "@babel/core": "^7.20.5",
+    "@babel/types": "^7.20.5",
+    "@types/babel__core": "^7",
     "next": "^13.0.5",
     "typescript": "^4.9.3",
     "webpack": "^5.65.0"
   },
   "peerDependencies": {
     "@babel/core": "^7.11.5",
-    "@storybook/addon-actions": "7.0.0-alpha.43",
     "next": "^9.0.0 || ^10.0.0 || ^11.0.0 || ^12.0.0 || ^13.0.0",
     "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
     "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0",
@@ -105,7 +108,7 @@
     }
   },
   "engines": {
-    "node": ">=10.13.0"
+    "node": ">=16.0.0"
   },
   "publishConfig": {
     "access": "public"
@@ -115,9 +118,10 @@
       "./src/index.ts",
       "./src/preset.ts",
       "./src/preview.tsx",
-      "./src/next-image-loader-stub.ts"
+      "./src/next-image-loader-stub.ts",
+      "./src/font/webpack/loader/storybook-nextjs-font-loader.ts"
     ],
     "platform": "node"
   },
-  "gitHead": "c8e9a862bb83c4a0d6b5975e795b4ca7f7ff7bc2"
+  "gitHead": "6d1ea7647fce605b2029077cbd02f655cafe1807"
 }

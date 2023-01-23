@@ -2,13 +2,14 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { Story as StoryComponent } from './Story';
-import * as BooleanStories from '../controls/Boolean.stories';
+import { Story as StoryBlock } from './Story';
+import * as ButtonStories from '../examples/Button.stories';
+import * as StoryComponentStories from '../components/Story.stories';
 
-const meta: Meta<typeof StoryComponent> = {
-  component: StoryComponent,
+const meta: Meta<typeof StoryBlock> = {
+  component: StoryBlock,
   parameters: {
-    relativeCsfPaths: ['../controls/Boolean.stories', '../blocks/Story.stories'],
+    relativeCsfPaths: ['../examples/Button.stories', '../blocks/Story.stories'],
   },
 };
 export default meta;
@@ -17,20 +18,20 @@ type Story = StoryObj<typeof meta>;
 
 export const Of: Story = {
   args: {
-    of: BooleanStories.Undefined,
+    of: ButtonStories.Primary,
   },
 };
 
 export const OfWithMeta: Story = {
   args: {
-    of: BooleanStories.True,
-    meta: BooleanStories.default,
+    of: ButtonStories.Secondary,
+    meta: ButtonStories.default,
   },
 };
 
 const blocksAwareId = `${
   import.meta.env.STORYBOOK_BLOCKS_ONLY === 'true' ? '' : 'storybook-blocks-'
-}controls-boolean--false`;
+}example-button--primary`;
 
 export const Id: Story = {
   args: {
@@ -40,7 +41,7 @@ export const Id: Story = {
 
 export const Name: Story = {
   args: {
-    name: 'True',
+    name: 'Secondary',
   },
 };
 
@@ -51,7 +52,7 @@ export const SimpleSizeTest: Story = {
         style={{
           background: '#fd5c9355',
           padding: '3rem',
-          height: '1000px',
+          height: '500px',
           width: '800px',
           // a global decorator is applying a default padding that we want to negate here
           margin: '-4rem -20px',
@@ -62,11 +63,15 @@ export const SimpleSizeTest: Story = {
           conditions (inline/iframe/fixed height) when used in a <code>{'<Story />'}</code> block.
         </p>
         <p>
-          It has a fixed <code>height</code> of <code>1000px</code> and a fixed <code>width</code>{' '}
-          of <code>800px</code>
+          It has a fixed <code>height</code> of <code>500px</code> and a fixed <code>width</code> of{' '}
+          <code>800px</code>
         </p>
       </div>
     );
+  },
+  parameters: {
+    // Stop *this* story from being stacked in Chromatic
+    theme: 'default',
   },
 };
 
@@ -76,47 +81,131 @@ export const Inline: Story = {
     inline: true,
   },
 };
-export const InlineWithHeight: Story = {
+
+export const InlineWithHeightProps: Story = {
   ...Inline,
   args: {
     of: SimpleSizeTest,
     inline: true,
-    height: '300px',
+    height: '600px',
   },
 };
-export const Iframe: Story = {
+
+export const SimpleSizeTestWithHeightParameter = {
+  ...SimpleSizeTest,
+  parameters: {
+    docs: { story: { height: '600px' } },
+    // Stop *this* story from being stacked in Chromatic
+    theme: 'default',
+  },
+};
+
+export const InlineWithHeightParameter: Story = {
   ...Inline,
+  args: {
+    of: SimpleSizeTestWithHeightParameter,
+  },
+};
+
+export const IFrameProps: Story = {
+  ...Inline,
+  name: 'IFrame Props',
   args: {
     of: SimpleSizeTest,
     inline: false,
   },
 };
-export const IframeWithHeight: Story = {
+
+export const SimpleSizeTestWithIFrameParameter = {
+  ...SimpleSizeTest,
+  parameters: { docs: { story: { inline: false } } },
+};
+
+export const IframeWithParameter: Story = {
   ...Inline,
+  name: 'IFrame With Parameter',
+  args: {
+    of: SimpleSizeTestWithIFrameParameter,
+  },
+};
+
+export const IframeWithHeightProps: Story = {
+  ...Inline,
+  name: 'IFrame With Height Props',
   args: {
     of: SimpleSizeTest,
     inline: false,
     height: '300px',
+  },
+};
+
+export const SimpleSizeTestWithIFrameAndIFrameHeightParameter = {
+  ...SimpleSizeTest,
+  parameters: {
+    docs: { story: { inline: false, iframeHeight: '300px' } },
+    // Stop *this* story from being stacked in Chromatic
+    theme: 'default',
+  },
+};
+
+export const IFrameWithIFrameHeightParameter: Story = {
+  ...Inline,
+  name: 'IFrame With IFrame Height Parameter',
+  args: {
+    of: SimpleSizeTestWithIFrameAndIFrameHeightParameter,
+  },
+};
+
+export const SimpleSizeTestWithIFrameAndHeightParameter = {
+  ...SimpleSizeTest,
+  parameters: {
+    docs: { story: { inline: false, height: '300px' } },
+    // Stop *this* story from being stacked in Chromatic
+    theme: 'default',
+  },
+};
+
+export const IFrameWithHeightParameter: Story = {
+  ...Inline,
+  name: 'IFrame With Height Parameter',
+  args: {
+    of: SimpleSizeTestWithIFrameAndHeightParameter,
   },
 };
 
 export const WithDefaultInteractions: Story = {
   args: {
-    of: BooleanStories.Toggling,
-  },
-  parameters: {
-    chromatic: { delay: 500 },
-  },
-};
-export const WithInteractionsAutoplayInStory: Story = {
-  args: {
-    of: BooleanStories.TogglingInDocs,
+    of: ButtonStories.Clicking,
   },
   parameters: {
     chromatic: { delay: 500 },
   },
 };
 
-// TODO: types suggest that <Story /> can take ProjectAnnotations, but it doesn't seem to do anything with them
-// Such as parameters, decorators, etc.
-// they seem to be taken from the story itself, and not from the <Story /> call
+export const WithInteractionsAutoplayInProps: Story = {
+  args: {
+    of: ButtonStories.Clicking,
+    autoplay: true,
+  },
+  parameters: {
+    chromatic: { delay: 500 },
+  },
+};
+
+export const WithInteractionsAutoplayInStory: Story = {
+  args: {
+    of: ButtonStories.ClickingInDocs,
+  },
+  parameters: {
+    chromatic: { delay: 500 },
+  },
+};
+
+export const ForceInitialArgs: Story = {
+  ...StoryComponentStories.ForceInitialArgs,
+  args: {
+    of: ButtonStories.Primary,
+    storyExport: ButtonStories.Primary,
+    __forceInitialArgs: true,
+  } as any,
+};

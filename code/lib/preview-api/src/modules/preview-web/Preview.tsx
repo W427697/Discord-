@@ -1,5 +1,5 @@
 import { dedent } from 'ts-dedent';
-import global from 'global';
+import { global } from '@storybook/global';
 import { SynchronousPromise } from 'synchronous-promise';
 import {
   CONFIG_ERROR,
@@ -32,8 +32,8 @@ import { addons } from '../addons';
 import { StoryStore } from '../../store';
 
 import { StoryRender } from './render/StoryRender';
-import type { TemplateDocsRender } from './render/TemplateDocsRender';
-import type { StandaloneDocsRender } from './render/StandaloneDocsRender';
+import type { CsfDocsRender } from './render/CsfDocsRender';
+import type { MdxDocsRender } from './render/MdxDocsRender';
 
 const { fetch } = global;
 
@@ -174,7 +174,9 @@ export class Preview<TFramework extends Renderer> {
 
   async getStoryIndexFromServer() {
     const result = await fetch(STORY_INDEX_PATH);
-    if (result.status === 200) return result.json() as StoryIndex;
+    if (result.status === 200) {
+      return result.json() as any as StoryIndex;
+    }
 
     throw new Error(await result.text());
   }
@@ -263,7 +265,11 @@ export class Preview<TFramework extends Renderer> {
   async onUpdateArgs({ storyId, updatedArgs }: { storyId: StoryId; updatedArgs: Args }) {
     this.storyStore.args.update(storyId, updatedArgs);
 
-    await Promise.all(this.storyRenders.filter((r) => r.id === storyId).map((r) => r.rerender()));
+    await Promise.all(
+      this.storyRenders
+        .filter((r) => r.id === storyId && !r.renderOptions.forceInitialArgs)
+        .map((r) => r.rerender())
+    );
 
     this.channel.emit(STORY_ARGS_UPDATED, {
       storyId,
@@ -304,7 +310,7 @@ export class Preview<TFramework extends Renderer> {
     await Promise.all(this.storyRenders.filter((r) => r.id === storyId).map((r) => r.remount()));
   }
 
-  // Used by docs' modernInlineRender to render a story to a given element
+  // Used by docs to render a story to a given element
   // Note this short-circuits the `prepare()` phase of the StoryRender,
   // main to be consistent with the previous behaviour. In the future,
   // we will change it to go ahead and load the story, which will end up being
@@ -337,10 +343,7 @@ export class Preview<TFramework extends Renderer> {
   }
 
   async teardownRender(
-    render:
-      | StoryRender<TFramework>
-      | TemplateDocsRender<TFramework>
-      | StandaloneDocsRender<TFramework>,
+    render: StoryRender<TFramework> | CsfDocsRender<TFramework> | MdxDocsRender<TFramework>,
     { viewModeChanged }: { viewModeChanged?: boolean } = {}
   ) {
     this.storyRenders = this.storyRenders.filter((r) => r !== render);

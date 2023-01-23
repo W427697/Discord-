@@ -5,7 +5,7 @@ import type { DownshiftState, StateChangeOptions } from 'downshift';
 import Downshift from 'downshift';
 import type { FuseOptions } from 'fuse.js';
 import Fuse from 'fuse.js';
-import global from 'global';
+import { global } from '@storybook/global';
 import React, { useMemo, useRef, useState, useCallback } from 'react';
 
 // eslint-disable-next-line import/no-cycle
@@ -176,9 +176,9 @@ export const Search = React.memo<{
   );
 
   const list: SearchItem[] = useMemo(() => {
-    return dataset.entries.reduce((acc: SearchItem[], [refId, { stories }]) => {
-      if (stories) {
-        acc.push(...Object.values(stories).map((item) => searchItem(item, dataset.hash[refId])));
+    return dataset.entries.reduce((acc: SearchItem[], [refId, { index }]) => {
+      if (index) {
+        acc.push(...Object.values(index).map((item) => searchItem(item, dataset.hash[refId])));
       }
       return acc;
     }, []);
@@ -314,9 +314,9 @@ export const Search = React.memo<{
         if (lastViewed && lastViewed.length) {
           results = lastViewed.reduce((acc, { storyId, refId }) => {
             const data = dataset.hash[refId];
-            if (data && data.stories && data.stories[storyId]) {
-              const story = data.stories[storyId];
-              const item = story.type === 'story' ? data.stories[story.parent] : story;
+            if (data && data.index && data.index[storyId]) {
+              const story = data.index[storyId];
+              const item = story.type === 'story' ? data.index[story.parent] : story;
               // prevent duplicates
               if (!acc.some((res) => res.item.refId === refId && res.item.id === item.id)) {
                 acc.push({ item: searchItem(item, dataset.hash[refId]), matches: [], score: 0 });

@@ -1,10 +1,9 @@
 import { getRendererName } from '@storybook/core-common';
-import type { PreviewAnnotation } from '@storybook/types';
+import type { Options, PreviewAnnotation } from '@storybook/types';
 import { virtualPreviewFile, virtualStoriesFile } from './virtual-file-names';
-import type { ExtendedOptions } from './types';
 import { processPreviewAnnotation } from './utils/process-preview-annotation';
 
-export async function generateIframeScriptCode(options: ExtendedOptions) {
+export async function generateIframeScriptCode(options: Options) {
   const { presets } = options;
   const rendererName = await getRendererName(options);
 
@@ -30,7 +29,7 @@ export async function generateIframeScriptCode(options: ExtendedOptions) {
     import { configure } from '${rendererName}';
 
     import { logger } from '@storybook/client-logger';
-    import * as clientApi from "@storybook/preview-api";
+    import * as previewApi from "@storybook/preview-api";
     ${filesToImport(configEntries, 'config')}
 
     import * as preview from '${virtualPreviewFile}';

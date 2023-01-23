@@ -1,12 +1,17 @@
-import globalThis from 'global';
+import { global as globalThis } from '@storybook/global';
 
 export default {
   component: globalThis.Components.Button,
-  tags: ['docsPage'],
+  tags: ['autodocs'],
   args: { label: 'Rendered in iframe' },
   parameters: {
     chromatic: { disable: true },
-    docs: { iframeHeight: 120, inlineStories: true },
+    docs: {
+      story: {
+        iframeHeight: '120px',
+        inline: true,
+      },
+    },
   },
 };
 

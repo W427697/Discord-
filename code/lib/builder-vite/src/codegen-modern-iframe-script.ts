@@ -1,10 +1,9 @@
 import { loadPreviewOrConfigFile, getFrameworkName } from '@storybook/core-common';
-import type { PreviewAnnotation } from '@storybook/types';
+import type { Options, PreviewAnnotation } from '@storybook/types';
 import { virtualStoriesFile, virtualAddonSetupFile } from './virtual-file-names';
-import type { ExtendedOptions } from './types';
 import { processPreviewAnnotation } from './utils/process-preview-annotation';
 
-export async function generateModernIframeScriptCode(options: ExtendedOptions) {
+export async function generateModernIframeScriptCode(options: Options) {
   const { presets, configDir } = options;
   const frameworkName = await getFrameworkName(options);
 
@@ -32,7 +31,7 @@ export async function generateModernIframeScriptCode(options: ExtendedOptions) {
     if (import.meta.hot) {
       import.meta.hot.accept('${virtualStoriesFile}', (newModule) => {
       // importFn has changed so we need to patch the new one in
-      preview.onStoriesChanged({ importFn: newModule.importFn });
+      window.__STORYBOOK_PREVIEW__.onStoriesChanged({ importFn: newModule.importFn });
       });
 
     import.meta.hot.accept(${JSON.stringify(
@@ -41,7 +40,7 @@ export async function generateModernIframeScriptCode(options: ExtendedOptions) {
       const newGetProjectAnnotations =  () => composeConfigs(newConfigEntries);
 
       // getProjectAnnotations has changed so we need to patch the new one in
-      preview.onGetProjectAnnotationsChanged({ getProjectAnnotations: newGetProjectAnnotations });
+      window.__STORYBOOK_PREVIEW__.onGetProjectAnnotationsChanged({ getProjectAnnotations: newGetProjectAnnotations });
     });
   }`.trim();
   };
@@ -64,13 +63,12 @@ export async function generateModernIframeScriptCode(options: ExtendedOptions) {
       return composeConfigs(configs);
     }
 
-    const preview = new PreviewWeb();
 
-    window.__STORYBOOK_PREVIEW__ = preview;
-    window.__STORYBOOK_STORY_STORE__ = preview.storyStore;
-    window.__STORYBOOK_CLIENT_API__ = new ClientApi({ storyStore: preview.storyStore });
-
-    preview.initialize({ importFn, getProjectAnnotations });
+    window.__STORYBOOK_PREVIEW__ = window.__STORYBOOK_PREVIEW__ || new PreviewWeb();
+    
+    window.__STORYBOOK_STORY_STORE__ = window.__STORYBOOK_STORY_STORE__ || window.__STORYBOOK_PREVIEW__.storyStore;
+    window.__STORYBOOK_CLIENT_API__ = window.__STORYBOOK_CLIENT_API__ || new ClientApi({ storyStore: window.__STORYBOOK_PREVIEW__.storyStore });
+    window.__STORYBOOK_PREVIEW__.initialize({ importFn, getProjectAnnotations });
     
     ${generateHMRHandler(frameworkName)};
     `.trim();

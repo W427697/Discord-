@@ -2,9 +2,9 @@
 import fs from 'fs-extra';
 
 import * as t from '@babel/types';
-// eslint-disable-next-line import/no-extraneous-dependencies
+
 import * as generate from '@babel/generator';
-// eslint-disable-next-line import/no-extraneous-dependencies
+
 import * as traverse from '@babel/traverse';
 import { babelParse } from './babelParse';
 
@@ -26,6 +26,27 @@ const _getPath = (path: string[], node: t.Node): t.Node | undefined => {
     const field = node.properties.find((p: t.ObjectProperty) => propKey(p) === first);
     if (field) {
       return _getPath(rest, (field as t.ObjectProperty).value);
+    }
+  }
+  return undefined;
+};
+
+// eslint-disable-next-line @typescript-eslint/naming-convention
+const _getPathProperties = (path: string[], node: t.Node): t.ObjectProperty[] | undefined => {
+  if (path.length === 0) {
+    if (t.isObjectExpression(node)) {
+      return node.properties as t.ObjectProperty[];
+    }
+    throw new Error('Expected object expression');
+  }
+  if (t.isObjectExpression(node)) {
+    const [first, ...rest] = path;
+    const field = node.properties.find((p: t.ObjectProperty) => propKey(p) === first);
+    if (field) {
+      // FXIME handle spread etc.
+      if (rest.length === 0) return node.properties as t.ObjectProperty[];
+
+      return _getPathProperties(rest, (field as t.ObjectProperty).value);
     }
   }
   return undefined;
@@ -196,6 +217,13 @@ export class ConfigFile {
     return _getPath(rest, exported);
   }
 
+  getFieldProperties(path: string[]) {
+    const [root, ...rest] = path;
+    const exported = this._exports[root];
+    if (!exported) return undefined;
+    return _getPathProperties(rest, exported);
+  }
+
   getFieldValue(path: string[]) {
     const node = this.getFieldNode(path);
     if (node) {
@@ -223,6 +251,145 @@ export class ConfigFile {
       );
       this._exports[first] = exportObj;
       this._ast.program.body.push(newExport);
+    }
+  }
+
+  /**
+   * Returns the name of a node in a given path, supporting the following formats:
+   * 1. { framework: 'value' }
+   * 2. { framework: { name: 'value', options: {} } }
+   */
+  /**
+   * Returns the name of a node in a given path, supporting the following formats:
+   * @example
+   * // 1. { framework: 'framework-name' }
+   * // 2. { framework: { name: 'framework-name', options: {} }
+   * getNameFromPath(['framework']) // => 'framework-name'
+   */
+  getNameFromPath(path: string[]): string | undefined {
+    const node = this.getFieldNode(path);
+    if (!node) {
+      return undefined;
+    }
+
+    return this._getPresetValue(node, 'name');
+  }
+
+  /**
+   * Returns an array of names of a node in a given path, supporting the following formats:
+   * @example
+   * const config = {
+   *   addons: [
+   *     'first-addon',
+   *     { name: 'second-addon', options: {} }
+   *   ]
+   * }
+   * // => ['first-addon', 'second-addon']
+   * getNamesFromPath(['addons'])
+   *
+   */
+  getNamesFromPath(path: string[]): string[] | undefined {
+    const node = this.getFieldNode(path);
+    if (!node) {
+      return undefined;
+    }
+
+    const pathNames: string[] = [];
+    if (t.isArrayExpression(node)) {
+      node.elements.forEach((element) => {
+        pathNames.push(this._getPresetValue(element, 'name'));
+      });
+    }
+
+    return pathNames;
+  }
+
+  /**
+   * Given a node and a fallback property, returns a **non-evaluated** string value of the node.
+   * 1. { node: 'value' }
+   * 2. { node: { fallbackProperty: 'value' } }
+   */
+  _getPresetValue(node: t.Node, fallbackProperty: string) {
+    let value;
+    if (t.isStringLiteral(node)) {
+      value = node.value;
+    } else if (t.isObjectExpression(node)) {
+      node.properties.forEach((prop) => {
+        if (
+          t.isObjectProperty(prop) &&
+          t.isIdentifier(prop.key) &&
+          prop.key.name === fallbackProperty
+        ) {
+          if (t.isStringLiteral(prop.value)) {
+            value = prop.value.value;
+          }
+        }
+      });
+    }
+
+    if (!value) {
+      throw new Error(
+        `The given node must be a string literal or an object expression with a "${fallbackProperty}" property that is a string literal.`
+      );
+    }
+
+    return value;
+  }
+
+  removeField(path: string[]) {
+    const removeProperty = (properties: t.ObjectProperty[], prop: string) => {
+      const index = properties.findIndex(
+        (p) =>
+          (t.isIdentifier(p.key) && p.key.name === prop) ||
+          (t.isStringLiteral(p.key) && p.key.value === prop)
+      );
+      if (index >= 0) {
+        properties.splice(index, 1);
+      }
+    };
+    // the structure of this._exports doesn't work for this use case
+    // so we have to manually bypass it here
+    if (path.length === 1) {
+      let removedRootProperty = false;
+      // removing the root export
+      this._ast.program.body.forEach((node) => {
+        // named export
+        if (t.isExportNamedDeclaration(node) && t.isVariableDeclaration(node.declaration)) {
+          const decl = node.declaration.declarations[0];
+          if (t.isIdentifier(decl.id) && decl.id.name === path[0]) {
+            this._ast.program.body.splice(this._ast.program.body.indexOf(node), 1);
+            removedRootProperty = true;
+          }
+        }
+        // default export
+        if (t.isExportDefaultDeclaration(node) && t.isObjectExpression(node.declaration)) {
+          const properties = node.declaration.properties as t.ObjectProperty[];
+          removeProperty(properties, path[0]);
+          removedRootProperty = true;
+        }
+        // module.exports
+        if (
+          t.isExpressionStatement(node) &&
+          t.isAssignmentExpression(node.expression) &&
+          t.isMemberExpression(node.expression.left) &&
+          t.isIdentifier(node.expression.left.object) &&
+          node.expression.left.object.name === 'module' &&
+          t.isIdentifier(node.expression.left.property) &&
+          node.expression.left.property.name === 'exports' &&
+          t.isObjectExpression(node.expression.right)
+        ) {
+          const properties = node.expression.right.properties as t.ObjectProperty[];
+          removeProperty(properties, path[0]);
+          removedRootProperty = true;
+        }
+      });
+      if (removedRootProperty) return;
+    }
+
+    const properties = this.getFieldProperties(path) as t.ObjectProperty[];
+    if (properties) {
+      const lastPath = path.at(-1);
+      removeProperty(properties, lastPath);
     }
   }
 

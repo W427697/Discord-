@@ -2,6 +2,8 @@
 title: 'Accessibility tests'
 ---
 
+<YouTubeCallout id="rNLL0SICr9w" title="STOP fighting accessibility | automate a11y checks" />
+
 Accessibility is the practice of making websites inclusive to all. That means supporting requirements such as: keyboard navigation, screen reader support, touch-friendly, usable color contrast, reduced motion, and zoom support.
 
 Accessibility tests audit the rendered DOM against a set of heuristics based on [WCAG](https://www.w3.org/WAI/standards-guidelines/wcag/) rules and other industry-accepted best practices. They act as the first line of QA to catch blatant accessibility violations.
@@ -24,6 +26,7 @@ Run the following command to install the addon.
   paths={[
     'common/storybook-a11y-install.yarn.js.mdx',
     'common/storybook-a11y-install.npm.js.mdx',
+    'common/storybook-a11y-install.pnpm.js.mdx',
   ]}
 />
 
@@ -63,9 +66,15 @@ Storybook's a11y addon runs [Axe](https://github.com/dequelabs/axe-core) on the 
     'react/component-story-with-accessibility.ts.mdx',
     'angular/component-story-with-accessibility.ts.mdx',
     'vue/component-story-with-accessibility.2.js.mdx',
+    'vue/component-story-with-accessibility.ts-2.ts.mdx',
     'vue/component-story-with-accessibility.3.js.mdx',
+    'vue/component-story-with-accessibility.ts-3.ts.mdx',
     'svelte/component-story-with-accessibility.js.mdx',
+    'web-components/component-story-with-accessibility.js.mdx',
+    'web-components/component-story-with-accessibility.ts.mdx',
   ]}
+  usesCsf3
+  csf2Path="writing-tests/accessibility-testing#snippet-component-story-with-accessibility"
 />
 
 <!-- prettier-ignore-end -->
@@ -118,8 +127,13 @@ Customize the a11y ruleset at the story level by updating your story to include 
     'react/storybook-addon-a11y-story-config.ts.mdx',
     'angular/storybook-addon-a11y-story-config.ts.mdx',
     'vue/storybook-addon-a11y-story-config.js.mdx',
+    'vue/storybook-addon-a11y-story-config.ts.mdx',
     'svelte/storybook-addon-a11y-story-config.js.mdx',
+    'web-components/storybook-addon-a11y-story-config.js.mdx',
+    'web-components/storybook-addon-a11y-story-config.ts.mdx',
   ]}
+  usesCsf3
+  csf2Path="writing-tests/accessibility-testing#snippet-storybook-addon-a11y-story-config"
 />
 
 <!-- prettier-ignore-end -->
@@ -136,8 +150,13 @@ Disable accessibility testing for stories or components by adding the following 
    'react/storybook-addon-a11y-disable.ts.mdx',
    'angular/storybook-addon-a11y-disable.ts.mdx',
    'vue/storybook-addon-a11y-disable.js.mdx',
+   'vue/storybook-addon-a11y-disable.ts.mdx',
    'svelte/storybook-addon-a11y-disable.js.mdx',
+   'web-components/storybook-addon-a11y-disable.js.mdx',
+   'web-components/storybook-addon-a11y-disable.ts.mdx',
   ]}
+  usesCsf3
+  csf2Path="writing-tests/accessibility-testing#snippet-storybook-addon-a11y-disable"
 />
 
 <!-- prettier-ignore-end -->
@@ -160,6 +179,7 @@ Run the following command to install the required dependencies.
   paths={[
     'common/storybook-test-runner-axe-playwright.yarn.js.mdx',
     'common/storybook-test-runner-axe-playwright.npm.js.mdx',
+    'common/storybook-test-runner-axe-playwright.pnpm.js.mdx',
   ]}
 />
 

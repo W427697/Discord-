@@ -55,6 +55,8 @@ For instance, suppose you have a `variant` arg on your story that should be `pri
     'common/button-story-controls-primary-variant.js.mdx',
     'common/button-story-controls-primary-variant.ts.mdx',
   ]}
+  usesCsf3
+  csf2Path="essentials/controls#snippet-button-story-controls-primary-variant"
 />
 
 <!-- prettier-ignore-end -->
@@ -121,12 +123,17 @@ Until now, we only used auto-generated controls based on the component we're wri
 <CodeSnippets
   paths={[
     'react/table-story-fully-customize-controls.js.mdx',
+    'react/table-story-fully-customize-controls.ts.mdx',
     'vue/table-story-fully-customize-controls.2.js.mdx',
     'vue/table-story-fully-customize-controls.ts-2.ts.mdx',
     'vue/table-story-fully-customize-controls.3.js.mdx',
     'vue/table-story-fully-customize-controls.ts-3.ts.mdx',
     'angular/table-story-fully-customize-controls.ts.mdx',
+    'web-components/table-story-fully-customize-controls.js.mdx',
+    'web-components/table-story-fully-customize-controls.ts.mdx',
   ]}
+  usesCsf3
+  csf2Path="essentials/controls#snippet-table-story-fully-customize-controls"
 />
 
 <!-- prettier-ignore-end -->
@@ -155,7 +162,11 @@ One way to deal with this is to use primitive values (e.g., strings) as arg valu
     'vue/component-story-custom-args-complex.ts-3.ts.mdx',
     'angular/component-story-custom-args-complex.ts.mdx',
     'svelte/component-story-custom-args-complex.js.mdx',
+    'web-components/component-story-custom-args-complex.js.mdx',
+    'web-components/component-story-custom-args-complex.ts.mdx',
   ]}
+  usesCsf3
+  csf2Path="essentials/controls#snippet-component-story-custom-args-complex"
 />
 
 <!-- prettier-ignore-end -->
@@ -368,6 +379,8 @@ If you don't plan to handle the control args inside your Story, you can remove t
    'common/button-story-hide-nocontrols-warning.js.mdx',
    'common/button-story-hide-nocontrols-warning.ts.mdx',
   ]}
+  usesCsf3
+  csf2Path="essentials/controls#snippet-button-story-hide-nocontrols-warning"
 />
 
 <!-- prettier-ignore-end -->
@@ -387,6 +400,8 @@ Consider the following story snippets:
     'common/component-story-disable-controls-regex.js.mdx',
     'common/component-story-disable-controls-regex.ts.mdx',
   ]}
+  usesCsf3
+  csf2Path="essentials/controls#snippet-component-story-disable-controls-regex"
 />
 
 <!-- prettier-ignore-end -->

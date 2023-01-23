@@ -20,9 +20,13 @@ This is extremely useful, but it can be further expanded. Additional information
     'react/button-component-with-proptypes.js.mdx',
     'react/button-component-with-proptypes.ts.mdx',
     'angular/button-component-with-proptypes.ts.mdx',
-    'vue/button-component-with-proptypes.2.mdx',
-    'vue/button-component-with-proptypes.3.mdx',
+    'vue/button-component-with-proptypes.2.js.mdx',
+    'vue/button-component-with-proptypes.ts-2.ts.mdx',
+    'vue/button-component-with-proptypes.3.js.mdx',
+    'vue/button-component-with-proptypes.ts-3.ts.mdx',
     'svelte/button-component-with-proptypes.js.mdx',
+    'web-components/button-component-with-proptypes.js.mdx',
+    'web-components/button-component-with-proptypes.ts.mdx',
   ]}
 />
 
@@ -30,9 +34,9 @@ This is extremely useful, but it can be further expanded. Additional information
 
 The args tables will be updated accordingly by including the additional information (e.g., JSDocs comments), offering a richer experience for any stakeholders involved.
 
-## Working with the DocsPage
+## Working with Automatic Docs
 
-To use the `ArgsTable` in [DocsPage](./docs-page.md#component-parameter), export a component property on your stories metadata:
+To use the `ArgsTable` Doc Block with Storybook's automatically generated documentation ([AutoDocs](./docs-page.md) for short), export a component property on your stories metadata:
 
 <!-- prettier-ignore-start -->
 
@@ -123,9 +127,13 @@ You can also extend the ArgsTable's customization by grouping related `argTypes`
     'react/button-implementation.js.mdx',
     'react/button-implementation.ts.mdx',
     'angular/button-implementation.ts.mdx',
-    'vue/button-implementation.2.mdx',
-    'vue/button-implementation.3.mdx',
+    'vue/button-implementation.2.js.mdx',
+    'vue/button-implementation.ts-2.ts.mdx',
+    'vue/button-implementation.3.js.mdx',
+    'vue/button-implementation.ts-3.ts.mdx',
     'svelte/button-implementation.js.mdx',
+    'web-components/button-implementation.js.mdx',
+    'web-components/button-implementation.ts.mdx',
   ]}
 />
 

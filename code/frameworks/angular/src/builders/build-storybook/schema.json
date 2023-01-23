@@ -53,7 +53,7 @@
       }
     },
     "webpackStatsJson": {
-      "type": "boolean",
+      "type": ["boolean", "string"],
       "description": "Write Webpack Stats JSON to disk",
       "default": false
     },
@@ -61,7 +61,7 @@
       "type": "array",
       "description": "Global styles to be included in the build.",
       "items": {
-        "$ref": "#/definitions/extraEntryPoint"
+        "$ref": "#/definitions/styleElement"
       },
       "default": ""
     },
@@ -83,7 +83,7 @@
   },
   "additionalProperties": false,
   "definitions": {
-    "extraEntryPoint": {
+    "styleElement": {
       "oneOf": [
         {
           "type": "object",

@@ -10,6 +10,7 @@ import aliasPlugin from 'esbuild-plugin-alias';
 
 import { getTemplatePath, renderHTML } from './utils/template';
 import { definitions } from './utils/globals';
+import { wrapManagerEntries } from './utils/managerEntries';
 import type {
   BuilderBuildResult,
   BuilderFunction,
@@ -34,13 +35,18 @@ export const getConfig: ManagerBuilder['getConfig'] = async (options) => {
     getTemplatePath('addon.tsconfig.json'),
   ]);
 
+  const entryPoints = customManagerEntryPoint
+    ? [...addonsEntryPoints, customManagerEntryPoint]
+    : addonsEntryPoints;
+
+  const realEntryPoints = await wrapManagerEntries(entryPoints);
+
   return {
-    entryPoints: customManagerEntryPoint
-      ? [...addonsEntryPoints, customManagerEntryPoint]
-      : addonsEntryPoints,
+    entryPoints: realEntryPoints,
     outdir: join(options.outputDir || './', 'sb-addons'),
     format: 'esm',
     write: false,
+    resolveExtensions: ['.ts', '.tsx', '.mjs', '.js', '.jsx'],
     outExtension: { '.js': '.mjs' },
     loader: {
       '.js': 'jsx',
@@ -55,8 +61,9 @@ export const getConfig: ManagerBuilder['getConfig'] = async (options) => {
     target: ['chrome100'],
     platform: 'browser',
     bundle: true,
-    minify: false,
+    minify: true,
     sourcemap: true,
+    conditions: ['browser', 'module', 'default'],
 
     jsxFactory: 'React.createElement',
     jsxFragment: 'React.Fragment',
@@ -75,6 +82,14 @@ export const getConfig: ManagerBuilder['getConfig'] = async (options) => {
       globalExternals(definitions),
       pnpPlugin(),
     ],
+
+    banner: {
+      js: 'try{',
+    },
+    footer: {
+      js: '}catch(e){ console.error("[Storybook] One of your manager-entries failed: " + import.meta.url, e); }',
+    },
+
     define: {
       'process.env.NODE_ENV': "'production'",
       'process.env': '{}',
@@ -104,8 +119,18 @@ const starter: StarterFunction = async function* starterGeneratorFn({
 }) {
   logger.info('=> Starting manager..');
 
-  const { config, customHead, features, instance, refs, template, title, logLevel, docsOptions } =
-    await getData(options);
+  const {
+    config,
+    favicon,
+    customHead,
+    features,
+    instance,
+    refs,
+    template,
+    title,
+    logLevel,
+    docsOptions,
+  } = await getData(options);
 
   yield;
 
@@ -135,6 +160,7 @@ const starter: StarterFunction = async function* starterGeneratorFn({
   const html = await renderHTML(
     template,
     title,
+    favicon,
     customHead,
     cssFiles,
     jsFiles,
@@ -175,8 +201,18 @@ const builder: BuilderFunction = async function* builderGeneratorFn({ startTime,
     throw new Error('outputDir is required');
   }
   logger.info('=> Building manager..');
-  const { config, customHead, features, instance, refs, template, title, logLevel, docsOptions } =
-    await getData(options);
+  const {
+    config,
+    customHead,
+    favicon,
+    features,
+    instance,
+    refs,
+    template,
+    title,
+    logLevel,
+    docsOptions,
+  } = await getData(options);
   yield;
 
   const addonsDir = config.outdir;
@@ -208,6 +244,7 @@ const builder: BuilderFunction = async function* builderGeneratorFn({ startTime,
   const html = await renderHTML(
     template,
     title,
+    favicon,
     customHead,
     cssFiles,
     jsFiles,

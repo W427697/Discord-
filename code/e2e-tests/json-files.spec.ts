@@ -9,25 +9,23 @@ test.describe('JSON files', () => {
   });
 
   test('should have index.json', async ({ page }) => {
-    // eslint-disable-next-line jest/valid-expect-in-promise
     const json = await page.evaluate(() => fetch('/index.json').then((res) => res.json()));
 
     expect(json).toEqual({
       v: expect.any(Number),
       entries: expect.objectContaining({
-        'example-button--primary': {
+        'example-button--primary': expect.objectContaining({
           id: 'example-button--primary',
-          importPath: expect.stringMatching(/\/Button\.stories\.[tj]sx?$/),
+          importPath: expect.stringContaining('Button.stories'),
           name: 'Primary',
           title: 'Example/Button',
           type: 'story',
-        },
+        }),
       }),
     });
   });
 
   test('should have modules.json', async ({ page }) => {
-    // eslint-disable-next-line jest/valid-expect-in-promise
     const json = await page.evaluate(() => fetch('/modules.json').then((res) => res.json()));
 
     expect(json).toEqual({

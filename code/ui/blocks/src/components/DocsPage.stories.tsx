@@ -1,13 +1,14 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import type { ComponentProps } from 'react';
 import React from 'react';
 import { Global, css } from '@storybook/theming';
 import { Source, ArgsTable, Description } from '.';
 import { Title, Subtitle, DocsPageWrapper } from './DocsPage';
-import * as Story from './Story.stories';
 import * as Preview from './Preview.stories';
 import * as argsTable from './ArgsTable/ArgsTable.stories';
 import * as source from './Source.stories';
 import * as description from './Description.stories';
+import { Unstyled } from '../blocks/Unstyled';
 
 export default {
   component: DocsPageWrapper,
@@ -59,14 +60,6 @@ export const WithSubtitle = () => (
   </DocsPageWrapper>
 );
 
-export const Empty = () => (
-  <DocsPageWrapper>
-    <Story.Error />
-    <ArgsTable {...argsTable.Error.args} />
-    <Source {...source.SourceUnavailable.args} />
-  </DocsPageWrapper>
-);
-
 export const NoText = () => (
   <DocsPageWrapper>
     <Title>no text</Title>
@@ -95,3 +88,30 @@ export const Markdown = () => (
     <Source {...source.JSX.args} />
   </DocsPageWrapper>
 );
+
+export const Html = {
+  name: 'HTML',
+  render: () => (
+    <DocsPageWrapper>
+      <h1>Heading 1</h1>
+      <h2>Heading 2</h2>
+      <a>A tag</a>
+      <pre>pre tag</pre>
+      <div>
+        <div>Div</div>
+        <a>Nested A tag</a>
+      </div>
+      <div style={{ border: '2px solid red' }}>
+        <Unstyled>
+          <h1>Unstyled content</h1>
+          <h2>Heading 2</h2>
+          <a>A tag</a>
+          <div>
+            <div>Div</div>
+            <a>Nested A tag</a>
+          </div>
+        </Unstyled>
+      </div>
+    </DocsPageWrapper>
+  ),
+};

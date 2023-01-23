@@ -13,8 +13,7 @@ import { add } from './add';
 import { migrate } from './migrate';
 import { extract } from './extract';
 import { upgrade, type UpgradeOptions } from './upgrade';
-import { repro } from './repro';
-import { reproNext } from './repro-next';
+import { sandbox } from './sandbox';
 import { link } from './link';
 import { automigrate } from './automigrate';
 import { generateStorybookBabelConfigInCWD } from './babel-config';
@@ -25,14 +24,15 @@ import { parseList, getEnvConfig } from './utils';
 const pkg = readUpSync({ cwd: __dirname }).packageJson;
 const consoleLogger = console;
 
-program.option(
-  '--disable-telemetry',
-  'disable sending telemetry data',
-  // default value is false, but if the user sets STORYBOOK_DISABLE_TELEMETRY, it can be true
-  process.env.STORYBOOK_DISABLE_TELEMETRY && process.env.STORYBOOK_DISABLE_TELEMETRY !== 'false'
-);
-
-program.option('--enable-crash-reports', 'enable sending crash reports to telemetry data');
+program
+  .option(
+    '--disable-telemetry',
+    'disable sending telemetry data',
+    // default value is false, but if the user sets STORYBOOK_DISABLE_TELEMETRY, it can be true
+    process.env.STORYBOOK_DISABLE_TELEMETRY && process.env.STORYBOOK_DISABLE_TELEMETRY !== 'false'
+  )
+  .option('--debug', 'Get more logs in debug mode', false)
+  .option('--enable-crash-reports', 'enable sending crash reports to telemetry data');
 
 program
   .command('init')
@@ -80,6 +80,7 @@ program
   .option('-N --use-npm', 'Use NPM to install dependencies (deprecated)')
   .option('-y --yes', 'Skip prompting the user')
   .option('-n --dry-run', 'Only check for upgrades, do not install')
+  .option('-t --tag <tag>', 'Upgrade to a certain npm dist-tag (e.g. next, prerelease)')
   .option('-p --prerelease', 'Upgrade to the pre-release packages')
   .option('-s --skip-check', 'Skip postinstall version and automigration checks')
   .action((options: UpgradeOptions) => upgrade(options));
@@ -140,31 +141,14 @@ program
   );
 
 program
-  .command('repro [outputDirectory]')
-  .description('Create a reproduction from a set of possible templates')
-  .option('-f --renderer <renderer>', 'Filter on given renderer')
-  .option('-t --template <template>', 'Use the given template')
-  .option('-l --list', 'List available templates')
-  .option('-g --generator <generator>', 'Use custom generator command')
-  .option('--registry <registry>', 'which registry to use for storybook packages')
-  .option('--pnp', "Use Yarn Plug'n'Play mode instead of node_modules one")
-  .option('--local', "use storybook's local packages instead of yarn's registry")
-  .option('--e2e', 'Used in e2e context')
-  .action((outputDirectory, { renderer, template, list, e2e, generator, pnp, local }) =>
-    repro({ outputDirectory, renderer, template, list, e2e, local, generator, pnp }).catch((e) => {
-      logger.error(e);
-      process.exit(1);
-    })
-  );
-
-program
-  .command('repro-next [filterValue]')
-  .description('Create a reproduction from a set of possible templates')
+  .command('sandbox [filterValue]')
+  .alias('repro') // for retrocompatibility purposes
+  .description('Create a sandbox from a set of possible templates')
   .option('-o --output <outDir>', 'Define an output directory')
   .option('-b --branch <branch>', 'Define the branch to download from', 'next')
   .option('--no-init', 'Whether to download a template without an initialized Storybook', false)
   .action((filterValue, options) =>
-    reproNext({ filterValue, ...options }).catch((e) => {
+    sandbox({ filterValue, ...options }).catch((e) => {
       logger.error(e);
       process.exit(1);
     })
@@ -189,12 +173,13 @@ program
   .option('-n --dry-run', 'Only check for fixes, do not actually run them')
   .option('--package-manager <npm|pnpm|yarn1|yarn2>', 'Force package manager')
   .option('-N --use-npm', 'Use npm as package manager (deprecated)')
-  .action((fixId, options) =>
-    automigrate({ fixId, ...options }).catch((e) => {
+  .option('-l --list', 'List available migrations')
+  .action(async (fixId, options) => {
+    await automigrate({ fixId, ...options }).catch((e) => {
       logger.error(e);
       process.exit(1);
-    })
-  );
+    });
+  });
 
 program
   .command('dev')

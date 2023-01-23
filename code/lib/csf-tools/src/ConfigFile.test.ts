@@ -19,6 +19,12 @@ const setField = (path: string[], value: any, source: string) => {
   return formatConfig(config);
 };
 
+const removeField = (path: string[], source: string) => {
+  const config = loadConfig(source).parse();
+  config.removeField(path);
+  return formatConfig(config);
+};
+
 describe('ConfigFile', () => {
   describe('getField', () => {
     describe('named exports', () => {
@@ -430,6 +436,400 @@ describe('ConfigFile', () => {
           };
         `);
       });
+    });
+  });
+
+  describe('removeField', () => {
+    describe('named exports', () => {
+      it('missing export', () => {
+        expect(
+          removeField(
+            ['core', 'builder'],
+            dedent`
+              export const addons = [];
+            `
+          )
+        ).toMatchInlineSnapshot(`export const addons = [];`);
+      });
+      it('missing field', () => {
+        expect(
+          removeField(
+            ['core', 'builder'],
+            dedent`
+              export const core = { foo: 'bar' };
+            `
+          )
+        ).toMatchInlineSnapshot(`
+          export const core = {
+            foo: 'bar'
+          };
+        `);
+      });
+      it('found scalar', () => {
+        expect(
+          removeField(
+            ['core', 'builder'],
+            dedent`
+              export const core = { builder: 'webpack4' };
+            `
+          )
+        ).toMatchInlineSnapshot(`export const core = {};`);
+      });
+      it('found object', () => {
+        expect(
+          removeField(
+            ['core', 'builder'],
+            dedent`
+              export const core = { builder: { name: 'webpack4' } };
+            `
+          )
+        ).toMatchInlineSnapshot(`export const core = {};`);
+      });
+      it('nested object', () => {
+        expect(
+          removeField(
+            ['core', 'builder', 'name'],
+            dedent`
+              export const core = { builder: { name: 'webpack4' } };
+            `
+          )
+        ).toMatchInlineSnapshot(`
+          export const core = {
+            builder: {}
+          };
+        `);
+      });
+      it('string literal key', () => {
+        expect(
+          removeField(
+            ['core', 'builder'],
+            dedent`
+              export const core = { 'builder': 'webpack4' };
+            `
+          )
+        ).toMatchInlineSnapshot(`export const core = {};`);
+      });
+      it('variable export', () => {
+        expect(
+          removeField(
+            ['core', 'builder'],
+            dedent`
+            const coreVar = { builder: 'webpack4' };
+            export const core = coreVar;
+            `
+          )
+        ).toMatchInlineSnapshot(`
+          const coreVar = {};
+          export const core = coreVar;
+        `);
+      });
+      it('root export variable', () => {
+        expect(
+          removeField(
+            ['core'],
+            dedent`
+              export const core = { builder: { name: 'webpack4' } };
+
+              export const addons = [];
+            `
+          )
+        ).toMatchInlineSnapshot(`export const addons = [];`);
+      });
+    });
+
+    describe('module exports', () => {
+      it('missing export', () => {
+        expect(
+          removeField(
+            ['core', 'builder'],
+            dedent`
+              module.exports = { addons: [] };
+            `
+          )
+        ).toMatchInlineSnapshot(`
+          module.exports = {
+            addons: []
+          };
+        `);
+      });
+      it('missing field', () => {
+        expect(
+          removeField(
+            ['core', 'builder'],
+            dedent`
+              module.exports = { core: { foo: 'bar' }};
+            `
+          )
+        ).toMatchInlineSnapshot(`
+          module.exports = {
+            core: {
+              foo: 'bar'
+            }
+          };
+        `);
+      });
+      it('found scalar', () => {
+        expect(
+          removeField(
+            ['core', 'builder'],
+            dedent`
+              module.exports = { core: { builder: 'webpack4' } };
+            `
+          )
+        ).toMatchInlineSnapshot(`
+          module.exports = {
+            core: {}
+          };
+        `);
+      });
+      it('nested scalar', () => {
+        expect(
+          removeField(
+            ['core', 'builder', 'name'],
+            dedent`
+              module.exports = { core: { builder: { name: 'webpack4' } } };
+            `
+          )
+        ).toMatchInlineSnapshot(`
+          module.exports = {
+            core: {
+              builder: {}
+            }
+          };
+        `);
+      });
+      it('string literal key', () => {
+        expect(
+          removeField(
+            ['core', 'builder'],
+            dedent`
+              module.exports = { 'core': { 'builder': 'webpack4' } };
+            `
+          )
+        ).toMatchInlineSnapshot(`
+          module.exports = {
+            'core': {}
+          };
+        `);
+      });
+      it('root property', () => {
+        expect(
+          removeField(
+            ['core'],
+            dedent`
+              module.exports = { core: { builder: { name: 'webpack4' } }, addons: [] };
+            `
+          )
+        ).toMatchInlineSnapshot(`
+          module.exports = {
+            addons: []
+          };
+        `);
+      });
+    });
+
+    describe('default export', () => {
+      it('missing export', () => {
+        expect(
+          removeField(
+            ['core', 'builder'],
+            dedent`
+              export default { addons: [] };
+            `
+          )
+        ).toMatchInlineSnapshot(`
+          export default {
+            addons: []
+          };
+        `);
+      });
+      it('missing field', () => {
+        expect(
+          removeField(
+            ['core', 'builder'],
+            dedent`
+              export default { core: { foo: 'bar' }};
+            `
+          )
+        ).toMatchInlineSnapshot(`
+          export default {
+            core: {
+              foo: 'bar'
+            }
+          };
+        `);
+      });
+      it('found scalar', () => {
+        expect(
+          removeField(
+            ['core', 'builder'],
+            dedent`
+              export default { core: { builder: 'webpack4' } };
+            `
+          )
+        ).toMatchInlineSnapshot(`
+          export default {
+            core: {}
+          };
+        `);
+      });
+      it('nested scalar', () => {
+        expect(
+          removeField(
+            ['core', 'builder', 'name'],
+            dedent`
+              export default { core: { builder: { name: 'webpack4' } } };
+            `
+          )
+        ).toMatchInlineSnapshot(`
+          export default {
+            core: {
+              builder: {}
+            }
+          };
+        `);
+      });
+      it('string literal key', () => {
+        expect(
+          removeField(
+            ['core', 'builder'],
+            dedent`
+              export default { 'core': { 'builder': 'webpack4' } };
+            `
+          )
+        ).toMatchInlineSnapshot(`
+          export default {
+            'core': {}
+          };
+        `);
+      });
+      it('root property', () => {
+        expect(
+          removeField(
+            ['core'],
+            dedent`
+              export default { core: { builder: { name: 'webpack4' } }, addons: [] };
+            `
+          )
+        ).toMatchInlineSnapshot(`
+          export default {
+            addons: []
+          };
+        `);
+      });
+    });
+
+    describe('quotes', () => {
+      it('no quotes', () => {
+        expect(setField(['foo', 'bar'], 'baz', '')).toMatchInlineSnapshot(`
+          export const foo = {
+            bar: "baz"
+          };
+        `);
+      });
+      it('more single quotes', () => {
+        expect(setField(['foo', 'bar'], 'baz', `export const stories = ['a', 'b', "c"]`))
+          .toMatchInlineSnapshot(`
+          export const stories = ['a', 'b', "c"];
+          export const foo = {
+            bar: 'baz'
+          };
+        `);
+      });
+      it('more double quotes', () => {
+        expect(setField(['foo', 'bar'], 'baz', `export const stories = ['a', "b", "c"]`))
+          .toMatchInlineSnapshot(`
+          export const stories = ['a', "b", "c"];
+          export const foo = {
+            bar: "baz"
+          };
+        `);
+      });
+    });
+  });
+
+  describe('config helpers', () => {
+    describe('getNameFromPath', () => {
+      it(`supports string literal node`, () => {
+        const source = dedent`
+          import type { StorybookConfig } from '@storybook/react-webpack5';
+
+          const config: StorybookConfig = {
+            framework: 'foo',
+          }
+          export default config;
+        `;
+        const config = loadConfig(source).parse();
+        expect(config.getNameFromPath(['framework'])).toEqual('foo');
+      });
+
+      it(`supports object expression node with name property`, () => {
+        const source = dedent`
+          import type { StorybookConfig } from '@storybook/react-webpack5';
+
+          const config: StorybookConfig = {
+            framework: { name: 'foo', options: { bar: require('baz') } },
+          }
+          export default config;
+        `;
+        const config = loadConfig(source).parse();
+        expect(config.getNameFromPath(['framework'])).toEqual('foo');
+      });
+
+      it(`returns undefined when accessing a field that does not exist`, () => {
+        const source = dedent`
+          import type { StorybookConfig } from '@storybook/react-webpack5';
+
+          const config: StorybookConfig = { }
+          export default config;
+        `;
+        const config = loadConfig(source).parse();
+        expect(config.getNameFromPath(['framework'])).toBeUndefined();
+      });
+
+      it(`throws an error when node is of unexpected type`, () => {
+        const source = dedent`
+          import type { StorybookConfig } from '@storybook/react-webpack5';
+
+          const config: StorybookConfig = {
+            framework: makesNoSense(),
+          }
+          export default config;
+        `;
+        const config = loadConfig(source).parse();
+        expect(() => config.getNameFromPath(['framework'])).toThrowError(
+          `The given node must be a string literal or an object expression with a "name" property that is a string literal.`
+        );
+      });
+    });
+
+    describe('getNamesFromPath', () => {
+      it(`supports an array with string literal and object expression with name property`, () => {
+        const source = dedent`
+          import type { StorybookConfig } from '@storybook/react-webpack5';
+
+          const config: StorybookConfig = {
+            addons: [
+              'foo',
+              { name: 'bar', options: {} },
+            ]
+          }
+          export default config;
+        `;
+        const config = loadConfig(source).parse();
+        expect(config.getNamesFromPath(['addons'])).toEqual(['foo', 'bar']);
+      });
+    });
+
+    it(`returns undefined when accessing a field that does not exist`, () => {
+      const source = dedent`
+        import type { StorybookConfig } from '@storybook/react-webpack5';
+
+        const config: StorybookConfig = { }
+        export default config;
+      `;
+      const config = loadConfig(source).parse();
+      expect(config.getNamesFromPath(['addons'])).toBeUndefined();
     });
   });
 });

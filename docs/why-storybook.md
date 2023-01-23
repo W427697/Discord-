@@ -48,10 +48,13 @@ You write stories for granular UI component variation and then use those stories
     'vue/histogram-story.ts-3.ts.mdx',
     'svelte/histogram-story.js.mdx',
     'web-components/histogram-story.js.mdx',
+    'web-components/histogram-story.ts.mdx',
     'preact/histogram-story.js.mdx',
     'html/histogram-story.js.mdx',
     'html/histogram-story.ts.mdx',
   ]}
+  usesCsf3
+  csf2Path="why-storybook#snippet-histogram-story"
 />
 
 <!-- prettier-ignore-end -->
