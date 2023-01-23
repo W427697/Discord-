@@ -166,6 +166,7 @@ const baseTemplates = {
   'vue2-vite/2.7-js': {
     name: 'Vue2 Vite (vue 2.7 JS)',
     script: 'npx create-vue@2 {{beforeDir}} --default',
+    inDevelopment: true,
     // Re-enable once https://github.com/storybookjs/storybook/issues/19351 is fixed.
     skipTasks: ['smoke-test'],
     expected: {
