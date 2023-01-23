@@ -1,12 +1,21 @@
 import { join } from 'node:path';
 import { init, parse } from 'es-module-lexer';
 import MagicString from 'magic-string';
-import { emptyDirSync, ensureDir, ensureFile, writeFile } from 'fs-extra';
+import { emptyDir, ensureDir, ensureFile, writeFile } from 'fs-extra';
 import { mergeAlias } from 'vite';
 import type { Alias, Plugin } from 'vite';
 import { globals } from '@storybook/preview/globals';
 
 type SingleGlobalName = keyof typeof globals;
+type Globals = typeof globals & Record<string, string>;
+
+const replacementMap = new Map([
+  ['import ', 'const '],
+  ['import{', 'const {'],
+  [' as ', ': '],
+  [' from ', ' = '],
+  ['}from', '} ='],
+]);
 
 /**
  * This plugin swaps out imports of pre-bundled storybook preview modules for destructures from global
@@ -25,7 +34,7 @@ type SingleGlobalName = keyof typeof globals;
  * ```
  *
  * It is based on existing plugins like https://github.com/crcong/vite-plugin-externals
- * and https://github.com/eight04/rollup-plugin-external-globals, but simplified to meet our meager needs.
+ * and https://github.com/eight04/rollup-plugin-external-globals, but simplified to meet our simple needs.
  */
 export async function externalsPlugin() {
   await init;
@@ -41,15 +50,15 @@ export async function externalsPlugin() {
 
       const cachePath = join(process.cwd(), 'node_modules', '.cache', 'vite-plugin-externals');
       await ensureDir(cachePath);
-      await emptyDirSync(cachePath);
-
-      // eslint-disable-next-line no-restricted-syntax
-      for await (const externalKey of Object.keys(globals) as Array<keyof typeof globals>) {
-        const externalCachePath = join(cachePath, `${externalKey}.js`);
-        newAlias.push({ find: new RegExp(`^${externalKey}$`), replacement: externalCachePath });
-        await ensureFile(externalCachePath);
-        await writeFile(externalCachePath, `module.exports = ${globals[externalKey]};`);
-      }
+      await emptyDir(cachePath);
+      await Promise.all(
+        (Object.keys(globals) as Array<keyof typeof globals>).map(async (externalKey) => {
+          const externalCachePath = join(cachePath, `${externalKey}.js`);
+          newAlias.push({ find: new RegExp(`^${externalKey}$`), replacement: externalCachePath });
+          await ensureFile(externalCachePath);
+          await writeFile(externalCachePath, `module.exports = ${globals[externalKey]};`);
+        })
+      );
 
       return {
         resolve: {
@@ -66,20 +75,10 @@ export async function externalsPlugin() {
       const src = new MagicString(code);
       imports.forEach(({ n: path, ss: startPosition, se: endPosition }) => {
         const packageName = path as SingleGlobalName | undefined;
-        const packageAndDelimiters = new RegExp(`.${packageName}.`);
         if (packageName && globalsList.includes(packageName)) {
-          src.update(
-            startPosition,
-            endPosition,
-            src
-              .slice(startPosition, endPosition)
-              .replace('import ', 'const ')
-              .replace('import{', 'const {')
-              .replaceAll(' as ', ': ')
-              .replace(' from ', ' = ')
-              .replace('}from', '} = ')
-              .replace(packageAndDelimiters, globals[packageName])
-          );
+          const importStatement = src.slice(startPosition, endPosition);
+          const transformedImport = rewriteImport(importStatement, globals, packageName);
+          src.update(startPosition, endPosition, transformedImport);
         }
       });
 
@@ -93,4 +92,21 @@ export async function externalsPlugin() {
       };
     },
   } satisfies Plugin;
+}
+
+export function rewriteImport<T = true>(
+  importStatement: string,
+  globs: T extends true ? Globals : Record<string, string>,
+  packageName: keyof typeof globs & string
+): string {
+  const lookup = [
+    ...replacementMap.keys(),
+    `.${packageName}.`,
+    `await import\\(.${packageName}.\\)`,
+  ];
+  const search = new RegExp(`(${lookup.join('|')})`, 'g');
+  return importStatement.replace(
+    search,
+    (match) => replacementMap.get(match) ?? globs[packageName]
+  );
 }
