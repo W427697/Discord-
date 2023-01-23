@@ -1,6 +1,6 @@
 import { stringifyStream } from '@discoveryjs/json-ext';
 import { logger } from '@storybook/node-logger';
-import type { Stats } from '@storybook/core-common';
+import type { Stats } from '@storybook/types';
 import chalk from 'chalk';
 import fs from 'fs-extra';
 import path from 'path';
@@ -17,8 +17,12 @@ interface WebpackStats {
 }
 
 interface Module {
+  type: 'stories' | 'source';
   reasons: Set<string>;
 }
+
+// Only StoryStore v7+ is supported
+const ENTRY_MODULE_REGEXP = /\/storybook-stories\.js$/;
 
 // Sometimes webpack paths have a URL parameter appended to them, such as ?ngResource.
 // Those should be stripped.
@@ -28,39 +32,64 @@ const normalize = (id: string) => {
   return URL_PARAM_REGEX.test(id) && !CSF_REGEX.test(id) ? id.replace(URL_PARAM_REGEX, '') : id;
 };
 
-export const webpackStatsToModulesJson = (stats: Stats) => {
+export const webpackStatsToModulesJson = (stats: Stats): Map<string, Module> => {
   const { modules } = stats.toJson() as WebpackStats;
   const modulesById = new Map(modules.map((m) => [normalize(m.id || m.name), m]));
 
-  const data = new Map<string, Module>();
-  const add = ({ id, modules, reasons }: WebpackModule) => {
-    if (modules?.length) {
-      modules.forEach(add);
+  const traced: Record<string, Omit<Module, 'type'> & { type: 'entry' | 'glob' | 'source' }> = {};
+  const trace = (module: WebpackModule) => {
+    if (module.modules?.length) {
+      // Bundles are "unpacked" and not traced themselves
+      module.modules.forEach(trace);
       return;
     }
 
-    const identifier = normalize(id);
+    const identifier = normalize(module.id);
     if (!identifier || identifier.startsWith('webpack/')) {
       return;
     }
 
-    const item = data.get(identifier) || { reasons: new Set() };
-    reasons?.forEach(({ moduleId }) => {
-      const reason = modulesById.get(normalize(moduleId));
+    const item = traced[identifier] || {
+      type: ENTRY_MODULE_REGEXP.test(module.id) ? 'entry' : 'source',
+      reasons: new Set(),
+    };
+
+    module.reasons?.forEach(({ moduleId }) => {
+      const reasonId = normalize(moduleId);
+      const reason = modulesById.get(reasonId);
       if (!reason) return;
+
+      if (ENTRY_MODULE_REGEXP.test(moduleId)) {
+        // CSF globs have the entry point as their "parent" reason
+        item.type = 'glob';
+      }
+
       if (reason.modules?.length) {
+        // If reason is a bundle, unpack it
         reason.modules.forEach((mod) => {
           const id = normalize(mod.id);
+          // Ignore self-references where a module imports its own bundle
           if (id !== identifier) item.reasons.add(id);
         });
       } else {
         item.reasons.add(normalize(reason.id));
       }
     });
-    data.set(identifier, item);
+
+    traced[identifier] = item;
   };
-  modules.forEach(add);
-  return data;
+
+  modules.forEach(trace);
+
+  return new Map(
+    // Omit entry file, CSF globs and unlinked files, and mark the rest as stories or source
+    Object.entries(traced).reduce((acc, [id, { type, reasons }]) => {
+      if (['entry', 'glob'].includes(type) || !reasons.size) return acc;
+      const isStoriesFile = Array.from(reasons).some((r) => traced[r].type === 'glob');
+      acc.push([id, { type: isStoriesFile ? 'stories' : 'source', reasons }]);
+      return acc;
+    }, [])
+  );
 };
 
 const replacer = (key: any, value: any) => {
