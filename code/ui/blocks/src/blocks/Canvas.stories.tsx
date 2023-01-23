@@ -48,6 +48,7 @@ export const DefaultUnattached: Story = {
 export const UndefinedOf: Story = {};
 
 export const PropWithToolbar: Story = {
+  name: 'Prop withToolbar = true',
   args: {
     of: ButtonStories.Primary,
     withToolbar: true,
@@ -55,6 +56,7 @@ export const PropWithToolbar: Story = {
 };
 
 export const PropAdditionalActions: Story = {
+  name: 'Prop additionalActions = [ ... ]',
   args: {
     of: ButtonStories.Primary,
     additionalActions: [
@@ -81,6 +83,7 @@ export const PropAdditionalActions: Story = {
 };
 
 export const PropSourceStateShown: Story = {
+  name: 'Prop sourceState = shown',
   args: {
     of: ButtonStories.Primary,
     sourceState: 'shown',
@@ -88,6 +91,7 @@ export const PropSourceStateShown: Story = {
 };
 
 export const PropSourceStateHidden: Story = {
+  name: 'Prop sourceState = hidden',
   args: {
     of: ButtonStories.Primary,
     sourceState: 'hidden',
@@ -95,6 +99,7 @@ export const PropSourceStateHidden: Story = {
 };
 
 export const PropSourceStateNone: Story = {
+  name: 'Prop sourceState = none',
   args: {
     of: ButtonStories.Primary,
     sourceState: 'none',
@@ -102,6 +107,7 @@ export const PropSourceStateNone: Story = {
 };
 
 export const PropLayoutFullscreen: Story = {
+  name: 'Prop layout = fullscreen',
   args: {
     of: ButtonStories.Primary,
     layout: 'fullscreen',
@@ -109,6 +115,7 @@ export const PropLayoutFullscreen: Story = {
 };
 
 export const PropLayoutCentered: Story = {
+  name: 'Prop layout = centered',
   args: {
     of: ButtonStories.Primary,
     layout: 'centered',
@@ -116,6 +123,7 @@ export const PropLayoutCentered: Story = {
 };
 
 export const PropLayoutPadded: Story = {
+  name: 'Prop layout = padded',
   args: {
     of: ButtonStories.Primary,
     layout: 'padded',
@@ -123,6 +131,7 @@ export const PropLayoutPadded: Story = {
 };
 
 export const PropSource: Story = {
+  name: 'Prop source = { ... }',
   args: {
     of: ButtonStories.Primary,
     source: {
@@ -134,6 +143,7 @@ export const PropSource: Story = {
 };
 
 export const PropInlineStory: Story = {
+  name: 'Prop story = { ..., inline: true }',
   args: {
     of: ButtonStories.Primary,
     story: { inline: false, height: '200px' },
@@ -141,6 +151,7 @@ export const PropInlineStory: Story = {
 };
 
 export const PropAutoplayingStory: Story = {
+  name: 'Prop story = { ..., autoplay: true}',
   args: {
     of: ButtonStories.Clicking,
     story: { autoplay: true },
@@ -155,7 +166,7 @@ const ClassNameStoryDescription = () => (
   </p>
 );
 export const PropClassName: Story = {
-  name: 'Prop ClassName',
+  name: 'Prop className = my-custom-classname',
   args: {
     of: ButtonStories.Primary,
     className: 'my-custom-classname',
