@@ -8,11 +8,31 @@ import { globals } from '@storybook/preview/globals';
 
 type SingleGlobalName = keyof typeof globals;
 
+/**
+ * This plugin swaps out imports of pre-bundled storybook preview modules for destructures from global
+ * variables that are added in runtime.mjs.
+ *
+ * For instance:
+ *
+ * ```js
+ * import { useMemo as useMemo2, useEffect as useEffect2 } from "@storybook/preview-api";
+ * ```
+ *
+ * becomes
+ *
+ * ```js
+ * const { useMemo: useMemo2, useEffect: useEffect2 } = __STORYBOOK_MODULE_PREVIEW_API__;
+ * ```
+ *
+ * It is based on existing plugins like https://github.com/crcong/vite-plugin-externals
+ * and https://github.com/eight04/rollup-plugin-external-globals, but simplified to meet our meager needs.
+ */
 export async function externalsPlugin() {
   await init;
   return {
     name: 'storybook:externals-plugin',
     enforce: 'post',
+    // In dev (serve), we set up aliases to files that we write into node_modules/.cache.
     async config(config, { command }) {
       if (command !== 'serve') {
         return undefined;
@@ -37,6 +57,7 @@ export async function externalsPlugin() {
         },
       };
     },
+    // Replace imports with variables destructured from global scope
     async transform(code: string, id: string) {
       const globalsList = Object.keys(globals) as SingleGlobalName[];
       if (globalsList.every((glob) => !code.includes(glob))) return undefined;
