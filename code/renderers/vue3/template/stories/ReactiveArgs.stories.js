@@ -21,10 +21,10 @@ export const ReactiveTest = {
     const channel = globalThis.__STORYBOOK_ADDONS_CHANNEL__;
     const canvas = within(canvasElement);
 
-    const updatedPromise = new Promise((resolve) => {
+    await channel.emit(RESET_STORY_ARGS, { storyId: id });
+    await new Promise((resolve) => {
       channel.once(STORY_ARGS_UPDATED, resolve);
     });
-
     const reactiveButton = await canvas.getByRole('button');
     await expect(reactiveButton).toHaveTextContent('Button 0');
 
@@ -33,15 +33,12 @@ export const ReactiveTest = {
       storyId: id,
       updatedArgs: { label: 'updated' },
     });
-    await updatedPromise;
+    await new Promise((resolve) => {
+      channel.once(STORY_ARGS_UPDATED, resolve);
+    });
     await expect(canvas.getByRole('button')).toHaveTextContent('updated 1');
 
     await userEvent.click(reactiveButton); // click to update the label to increment the count + 1
     await expect(reactiveButton).toHaveTextContent('updated 2');
-
-    await channel.emit(RESET_STORY_ARGS, { storyId: id });
-    await new Promise((resolve) => {
-      channel.once(STORY_ARGS_UPDATED, resolve);
-    });
   },
 };
