@@ -7,9 +7,7 @@ import type {
   UserConfig as ViteConfig,
   InlineConfig,
 } from 'vite';
-import { viteExternalsPlugin } from 'vite-plugin-externals';
 import { isPreservingSymlinks, getFrameworkName, getBuilderOptions } from '@storybook/core-common';
-import { globals } from '@storybook/preview/globals';
 import type { Options } from '@storybook/types';
 import {
   codeGeneratorPlugin,
