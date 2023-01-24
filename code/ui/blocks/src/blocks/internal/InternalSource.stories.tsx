@@ -3,7 +3,6 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { Source } from '../Source';
 
 const meta: Meta<typeof Source> = {
-  title: 'Blocks/Internal/Source',
   component: Source,
   parameters: {
     relativeCsfPaths: ['../examples/Button.stories'],
