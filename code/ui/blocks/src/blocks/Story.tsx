@@ -110,11 +110,6 @@ export const getStoryId = (props: StoryProps, context: DocsContextProps): StoryI
   return resolved.story.id;
 };
 
-// Find the first option that isn't undefined
-function getProp<T>(...options: (T | undefined)[]) {
-  return options.find((option) => typeof option !== 'undefined');
-}
-
 export const getStoryProps = <TFramework extends Renderer>(
   props: StoryParameters,
   story: PreparedStory<TFramework>,
@@ -139,7 +134,7 @@ export const getStoryProps = <TFramework extends Renderer>(
   };
   if (typeof inlineStories !== 'undefined')
     deprecate('The `docs.inlineStories` parameter is deprecated, use `docs.story.inline` instead');
-  const inline = getProp(props.inline, storyParameters.inline, inlineStories) || false;
+  const inline = props.inline ?? storyParameters.inline ?? inlineStories ?? false;
 
   if (typeof iframeHeight !== 'undefined')
     deprecate(
@@ -147,8 +142,8 @@ export const getStoryProps = <TFramework extends Renderer>(
     );
 
   if (inline) {
-    const height = getProp(props.height, storyParameters.height);
-    const autoplay = getProp(props.autoplay, storyParameters.autoplay) || false;
+    const height = props.height ?? storyParameters.height;
+    const autoplay = props.autoplay ?? storyParameters.autoplay ?? false;
     return {
       story,
       inline: true,
@@ -163,7 +158,10 @@ export const getStoryProps = <TFramework extends Renderer>(
   }
 
   const height =
-    getProp(props.height, storyParameters.height, storyParameters.iframeHeight, iframeHeight) ||
+    props.height ??
+    storyParameters.height ??
+    storyParameters.iframeHeight ??
+    iframeHeight ??
     '100px';
   return {
     story,
