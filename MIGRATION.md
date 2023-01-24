@@ -1,4 +1,4 @@
-<h1>Migration</h1>
+<h1>Migrations</h1>
 
 - [From version 6.5.x to 7.0.0](#from-version-65x-to-700)
   - [7.0 breaking changes](#70-breaking-changes)
