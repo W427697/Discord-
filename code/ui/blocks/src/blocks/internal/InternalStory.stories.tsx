@@ -1,3 +1,4 @@
+/// <reference types="vite/client" />
 import type { Meta, StoryObj } from '@storybook/react';
 
 import { Story as StoryBlock } from '../Story';
@@ -16,5 +17,21 @@ type Story = StoryObj<typeof meta>;
 export const StoryExport: Story = {
   args: {
     story: ButtonStories.Primary,
+  },
+};
+
+const blocksAwareId = `${
+  import.meta.env.STORYBOOK_BLOCKS_ONLY === 'true' ? '' : 'storybook-blocks-'
+}examples-button--primary`;
+
+export const Id: Story = {
+  args: {
+    id: blocksAwareId,
+  },
+};
+
+export const Name: Story = {
+  args: {
+    name: 'Secondary',
   },
 };
