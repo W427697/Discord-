@@ -1,4 +1,5 @@
 import { join } from 'node:path';
+import { hrtime } from 'node:process';
 import { init, parse } from 'es-module-lexer';
 import MagicString from 'magic-string';
 import { emptyDir, ensureDir, ensureFile, writeFile } from 'fs-extra';
@@ -38,11 +39,14 @@ const replacementMap = new Map([
  */
 export async function externalsPlugin() {
   await init;
+  let configTiming = BigInt(0);
+  let transformTiming = BigInt(0);
   return {
     name: 'storybook:externals-plugin',
     enforce: 'post',
     // In dev (serve), we set up aliases to files that we write into node_modules/.cache.
     async config(config, { command }) {
+      const startTime = hrtime.bigint();
       if (command !== 'serve') {
         return undefined;
       }
@@ -59,6 +63,8 @@ export async function externalsPlugin() {
           await writeFile(externalCachePath, `module.exports = ${globals[externalKey]};`);
         })
       );
+      const endTime = hrtime.bigint();
+      configTiming += endTime - startTime;
 
       return {
         resolve: {
@@ -68,6 +74,8 @@ export async function externalsPlugin() {
     },
     // Replace imports with variables destructured from global scope
     async transform(code: string, id: string) {
+      const startTime = hrtime.bigint();
+
       const globalsList = Object.keys(globals) as SingleGlobalName[];
       if (globalsList.every((glob) => !code.includes(glob))) return undefined;
 
@@ -82,6 +90,9 @@ export async function externalsPlugin() {
         }
       });
 
+      const endTime = hrtime.bigint();
+      transformTiming += endTime - startTime;
+
       return {
         code: src.toString(),
         map: src.generateMap({
@@ -90,6 +101,16 @@ export async function externalsPlugin() {
           hires: true,
         }),
       };
+    },
+    configResolved() {
+      console.log({
+        configTiming: `${Number(configTiming) / 1000000000} sec`,
+      });
+    },
+    buildEnd() {
+      console.log({
+        transformTiming: `${Number(transformTiming) / 1000000000} sec`,
+      });
     },
   } satisfies Plugin;
 }
