@@ -929,7 +929,9 @@ export default {
 }
 ```
 
-This only affects `.(stories|story).mdx` files. Notably, if you want to use Storybook 7's "pure" `.mdx` format, you'll need to use MDX2 for that.
+NOTE: This only affects `.(stories|story).mdx` files. Notably, if you want to use Storybook 7's "pure" `.mdx` format, you'll need to use MDX2 for that.
+
+NOTE: Legacy MDX1 support is only for Webpack projects. There is currently no legacy support for Vite.
 
 #### Default docs styles will leak into non-story user components
 
