@@ -7,6 +7,7 @@ import { stringify } from 'telejson';
 import { ICollection, Parameters, StoryFnAngularReturnType } from '../types';
 import { getApplication } from './StorybookModule';
 import { storyPropsProvider } from './StorybookProvider';
+import { componentNgModules } from './StorybookWrapperComponent';
 
 type StoryRenderInfo = {
   storyFnAngular: StoryFnAngularReturnType;
@@ -20,6 +21,7 @@ export abstract class AbstractRenderer {
    * Wait and destroy the platform
    */
   public static resetApplications() {
+    componentNgModules.clear();
     applicationRefs.forEach((appRef) => {
       if (!appRef.destroyed) {
         appRef.destroy();
