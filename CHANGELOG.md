@@ -1,3 +1,26 @@
+## 7.0.0-beta.33 (January 24, 2023)
+
+#### Features
+
+-   Addon-docs: Allow `<Story/>` to reference the first story [#20765](https://github.com/storybooks/storybook/pull/20765)
+
+#### Bug Fixes
+
+-   Angular: Fix issue if BrowserAnimationsModule is imported [#20709](https://github.com/storybooks/storybook/pull/20709)
+-   Core: Fix issue with inconsistent CSF ordering in sandboxes [#20705](https://github.com/storybooks/storybook/pull/20705)
+-   Fixed paths in generated main.cjs for the default sandbox on Windows [#20724](https://github.com/storybooks/storybook/pull/20724)
+-   Blocks: Ignore known blocks with global CSS selector [#20757](https://github.com/storybooks/storybook/pull/20757)
+
+#### Maintenance
+
+-   Docs: Make reference stories consistent [#20759](https://github.com/storybooks/storybook/pull/20759)
+-   Blocks: New Canvas API [#20723](https://github.com/storybooks/storybook/pull/20723)
+
+#### Build
+
+-   Fix vue sandbox: remove the lang=ts in a file, that should remain agnostic [#20768](https://github.com/storybooks/storybook/pull/20768)
+-   Build: do not treat check as a cache-able operation && cleanup [#20762](https://github.com/storybooks/storybook/pull/20762)
+
 ## 7.0.0-beta.32 (January 24, 2023)
 
 #### Features
