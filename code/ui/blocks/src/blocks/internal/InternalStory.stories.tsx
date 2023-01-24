@@ -14,15 +14,9 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-export const StoryExport: Story = {
-  args: {
-    story: ButtonStories.Primary,
-  },
-};
-
 const blocksAwareId = `${
   import.meta.env.STORYBOOK_BLOCKS_ONLY === 'true' ? '' : 'storybook-blocks-'
-}examples-button--primary`;
+}example-button--primary`;
 
 export const Id: Story = {
   args: {
@@ -33,5 +27,12 @@ export const Id: Story = {
 export const Name: Story = {
   args: {
     name: 'Secondary',
+  },
+};
+
+export const StoryProp: Story = {
+  name: 'Story',
+  args: {
+    story: ButtonStories.Primary,
   },
 };
