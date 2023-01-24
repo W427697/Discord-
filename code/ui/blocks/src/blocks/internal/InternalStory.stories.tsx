@@ -1,3 +1,4 @@
+/// <reference types="vite/client" />
 import type { Meta, StoryObj } from '@storybook/react';
 
 import { Story as StoryBlock } from '../Story';
