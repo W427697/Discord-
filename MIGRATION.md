@@ -911,7 +911,7 @@ Unfortunately, the set of changes from MDX1 to MDX2 is vast, and many changes ar
 
 #### Legacy MDX1 support
 
-If you get stuck with the [MDX2 upgrade](#mdx2-upgrade), we also provide opt-in legacy MDX1 support. This is intended as a temporary solution while you upgrade your Storybook and will be discontinued in Storybook 8.0. The MDX1 library is no longer maintained and installing it results in npm audit security warnings.
+If you get stuck with the [MDX2 upgrade](#mdx2-upgrade), we also provide opt-in legacy MDX1 support. This is intended as a temporary solution while you upgrade your Storybook; MDX1 will be discontinued in Storybook 8.0. The MDX1 library is no longer maintained and installing it results in `npm audit` security warnings.
 
 To process your `.stories.mdx` files with MDX1, first install the `@storybook/mdx1-csf` package in your project:
 
