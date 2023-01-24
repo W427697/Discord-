@@ -1,3 +1,27 @@
+## 7.0.0-beta.32 (January 24, 2023)
+
+#### Features
+
+-   CLI: Add init support for qwik projects [#20411](https://github.com/storybooks/storybook/pull/20411)
+
+#### Bug Fixes
+
+-   Vue3: Fix reactive args + many vue app creation issue  [#20712](https://github.com/storybooks/storybook/pull/20712)
+-   Docs: Allow "declaring" stories with `story={}` [#20702](https://github.com/storybooks/storybook/pull/20702)
+-   Addon-links: Fix the d.ts file, deprecate LinkTo [#20671](https://github.com/storybooks/storybook/pull/20671)
+-   CLI: Fix package execution for npm package manager [#20708](https://github.com/storybooks/storybook/pull/20708)
+
+#### Maintenance
+
+-   Upgrade react-popper-tooltip [#20736](https://github.com/storybooks/storybook/pull/20736)
+-   CLI: Upgrade automigrations to use new safe helpers [#20693](https://github.com/storybooks/storybook/pull/20693)
+-   Csf-tools: Add helpers to get name from node path [#20691](https://github.com/storybooks/storybook/pull/20691)
+-   Build: remove preact-webpack5 from babelrc automigration [#20706](https://github.com/storybooks/storybook/pull/20706)
+
+#### Build
+
+-   Fix windows snapshot [#20707](https://github.com/storybooks/storybook/pull/20707)
+
 ## 7.0.0-beta.31 (January 20, 2023)
 
 #### Features
