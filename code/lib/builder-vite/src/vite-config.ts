@@ -7,9 +7,7 @@ import type {
   UserConfig as ViteConfig,
   InlineConfig,
 } from 'vite';
-import { viteExternalsPlugin } from 'vite-plugin-externals';
 import { isPreservingSymlinks, getFrameworkName, getBuilderOptions } from '@storybook/core-common';
-import { globals } from '@storybook/preview/globals';
 import type { Options } from '@storybook/types';
 import {
   codeGeneratorPlugin,
@@ -17,6 +15,7 @@ import {
   injectExportOrderPlugin,
   mdxPlugin,
   stripStoryHMRBoundary,
+  externalsGlobalsPlugin,
 } from './plugins';
 import type { BuilderOptions } from './types';
 
@@ -93,7 +92,7 @@ export async function pluginConfig(options: Options) {
         }
       },
     },
-    viteExternalsPlugin(globals, { useWindow: false, disableInServe: true }),
+    externalsGlobalsPlugin(),
   ] as PluginOption[];
 
   // TODO: framework doesn't exist, should move into framework when/if built
