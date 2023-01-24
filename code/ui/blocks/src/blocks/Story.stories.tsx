@@ -16,8 +16,6 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-export const DefaultAttached: Story = {};
-
 export const Of: Story = {
   args: {
     of: ButtonStories.Primary,
@@ -25,14 +23,6 @@ export const Of: Story = {
 };
 
 export const OfWithMeta: Story = {
-  args: {
-    of: ButtonStories.Secondary,
-    meta: ButtonStories.default,
-  },
-};
-
-export const OfWithMetaUnattached: Story = {
-  parameters: { attached: false },
   args: {
     of: ButtonStories.Secondary,
     meta: ButtonStories.default,

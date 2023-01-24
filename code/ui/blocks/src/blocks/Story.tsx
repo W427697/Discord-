@@ -89,11 +89,6 @@ export type StoryProps = (StoryDefProps | StoryRefProps) & StoryParameters;
 export const getStoryId = (props: StoryProps, context: DocsContextProps): StoryId => {
   const { id, of, meta, story } = props as StoryRefProps;
 
-  if (id) return id;
-
-  const { name } = props as StoryDefProps;
-  if (name) return context.storyIdByName(name);
-
   // The `story={moduleExports}` prop is a legacy prop for stories defined in CSF files, but
   // "declared" in MDX files (the CSF file has no meta export or doesn't match the stories glob).
   // In this case, the `.stories.mdx` file will have actually ended up declaring the story
@@ -105,9 +100,14 @@ export const getStoryId = (props: StoryProps, context: DocsContextProps): StoryI
     );
   }
 
-  if (meta) context.referenceMeta(meta, false);
-  const resolved = context.resolveOf(of || story || 'story', ['story']);
-  return resolved.story.id;
+  if (of || story) {
+    if (meta) context.referenceMeta(meta, false);
+    const resolved = context.resolveOf(of || story, ['story']);
+    return resolved.story.id;
+  }
+
+  const { name } = props as StoryDefProps;
+  return id || context.storyIdByName(name);
 };
 
 // Find the first option that isn't undefined
