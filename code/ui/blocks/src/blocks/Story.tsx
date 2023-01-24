@@ -34,6 +34,10 @@ type StoryRefProps = {
    */
   id?: string;
   /**
+   * @deprecated Use of={storyExport} and define the story in the CSF file
+   */
+  story?: StoryAnnotations;
+  /**
    * Pass the export defining a story to render that story
    *
    * ```jsx
@@ -84,17 +88,27 @@ type StoryParameters = {
 export type StoryProps = (StoryDefProps | StoryRefProps) & StoryParameters;
 
 export const getStoryId = (props: StoryProps, context: DocsContextProps): StoryId => {
-  const { id, of, meta } = props as StoryRefProps;
+  const { id, of, meta, story } = props as StoryRefProps;
   if (id) {
     deprecate(dedent`Referencing stories by \`id\` is deprecated, please use \`of\` instead. 
     
-      Please refer to the migration guide: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#story-block'
-    `);
+      Please refer to the migration guide: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#story-block'`);
   }
 
-  if (of) {
+  // The `story={moduleExports}` prop is a legacy prop for stories defined in CSF files, but
+  // "declared" in MDX files (the CSF file has no meta export or doesn't match the stories glob).
+  // In this case, the `.stories.mdx` file will have actually ended up declaring the story
+  // so we can reference the story just the same as an `of={moduleExports}` would have.
+  // See https://github.com/storybookjs/mdx2-csf/issues/3
+  if (story) {
+    deprecate(dedent`The \`story\` prop is deprecated, please export your stories from CSF files and reference them with \`of={}\`.
+
+      Please refer to the migration guide: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#story-block'`);
+  }
+
+  if (of || story) {
     if (meta) context.referenceMeta(meta, false);
-    const resolved = context.resolveOf(of, ['story']);
+    const resolved = context.resolveOf(of || story, ['story']);
     return resolved.story.id;
   }
 
@@ -102,8 +116,7 @@ export const getStoryId = (props: StoryProps, context: DocsContextProps): StoryI
   if (name) {
     deprecate(dedent`Referencing stories by \`name\` is deprecated, please use \`of\` instead. 
     
-      Please refer to the migration guide: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#story-block'
-    `);
+      Please refer to the migration guide: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#story-block'`);
   }
   return id || context.storyIdByName(name);
 };

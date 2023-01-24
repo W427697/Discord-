@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
 import { Story as StoryBlock } from '../Story';
+import * as ButtonStories from '../../examples/Button.stories';
 
 const meta: Meta<typeof StoryBlock> = {
   component: StoryBlock,
@@ -25,5 +26,12 @@ export const Id: Story = {
 export const Name: Story = {
   args: {
     name: 'Secondary',
+  },
+};
+
+export const StoryProp: Story = {
+  name: 'Story',
+  args: {
+    story: ButtonStories.Primary,
   },
 };

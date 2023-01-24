@@ -17,4 +17,9 @@ export type StorybookConfigVite = {
   viteFinal?: ViteFinal;
 };
 
-export type BuilderOptions = {};
+export type BuilderOptions = {
+  /**
+   * Path to vite.config file, relative to CWD.
+   */
+  viteConfigPath?: string;
+};
