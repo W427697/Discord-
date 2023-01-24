@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { EmptyExample } from './EmptyExample';
 
 const meta = {
-  title: 'example/CanvasParameters',
+  title: 'examples/Stories for the Canvas Block',
   component: EmptyExample,
 } satisfies Meta<typeof EmptyExample>;
 export default meta;

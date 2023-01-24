@@ -31,7 +31,7 @@ export const OfWithMeta: Story = {
 
 const blocksAwareId = `${
   import.meta.env.STORYBOOK_BLOCKS_ONLY === 'true' ? '' : 'storybook-blocks-'
-}example-button--primary`;
+}examples-button--primary`;
 
 export const Id: Story = {
   args: {
