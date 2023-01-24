@@ -93,6 +93,15 @@ export const getStoryId = (props: StoryProps, context: DocsContextProps): StoryI
     deprecate(dedent`Referencing stories by \`id\` is deprecated, please use \`of\` instead. 
     
       Please refer to the migration guide: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#story-block'`);
+    return id;
+  }
+
+  const { name } = props as StoryDefProps;
+  if (name) {
+    deprecate(dedent`Referencing stories by \`name\` is deprecated, please use \`of\` instead. 
+    
+      Please refer to the migration guide: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#story-block'`);
+    return context.storyIdByName(name);
   }
 
   // The `story={moduleExports}` prop is a legacy prop for stories defined in CSF files, but
@@ -106,19 +115,9 @@ export const getStoryId = (props: StoryProps, context: DocsContextProps): StoryI
       Please refer to the migration guide: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#story-block'`);
   }
 
-  if (of || story) {
-    if (meta) context.referenceMeta(meta, false);
-    const resolved = context.resolveOf(of || story, ['story']);
-    return resolved.story.id;
-  }
-
-  const { name } = props as StoryDefProps;
-  if (name) {
-    deprecate(dedent`Referencing stories by \`name\` is deprecated, please use \`of\` instead. 
-    
-      Please refer to the migration guide: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#story-block'`);
-  }
-  return id || context.storyIdByName(name);
+  if (meta) context.referenceMeta(meta, false);
+  const resolved = context.resolveOf(of || story || 'story', ['story']);
+  return resolved.story.id;
 };
 
 export const getStoryProps = <TFramework extends Renderer>(
