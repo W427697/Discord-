@@ -180,10 +180,11 @@ export class StoryRender<TRenderer extends Renderer> implements Render<TRenderer
     const abortSignal = (this.abortController as AbortController).signal;
 
     try {
-      const getCurrentContext = () => ({
-        ...this.storyContext(),
-        ...(this.renderOptions.forceInitialArgs && { args: initialArgs }),
-      });
+      const getCurrentContext = () =>
+        prepareContext({
+          ...this.storyContext(),
+          ...(this.renderOptions.forceInitialArgs && { args: initialArgs }),
+        } as StoryContext);
 
       let loadedContext: Awaited<ReturnType<typeof applyLoaders>>;
       await this.runPhase(abortSignal, 'loading', async () => {
@@ -196,7 +197,7 @@ export class StoryRender<TRenderer extends Renderer> implements Render<TRenderer
         return;
       }
 
-      const renderStoryContext: StoryContext<TRenderer> = prepareContext({
+      const renderStoryContext: StoryContext<TRenderer> = {
         ...loadedContext!,
         // By this stage, it is possible that new args/globals have been received for this story
         // and we need to ensure we render it with the new values
@@ -204,7 +205,7 @@ export class StoryRender<TRenderer extends Renderer> implements Render<TRenderer
         abortSignal,
         // We should consider parameterizing the story types with TRenderer['canvasElement'] in the future
         canvasElement: canvasElement as any,
-      });
+      };
       const renderContext: RenderContext<TRenderer> = {
         componentId,
         title,
