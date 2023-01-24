@@ -10,7 +10,6 @@ import * as ButtonStories from '../../examples/Button.stories';
 import * as CanvasParameterStories from '../../examples/CanvasParameters.stories';
 
 const meta: Meta<typeof Canvas> = {
-  title: 'Blocks/Internal/Canvas',
   component: Canvas,
   parameters: {
     theme: 'light',
