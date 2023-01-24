@@ -90,16 +90,16 @@ export type StoryProps = (StoryDefProps | StoryRefProps) & StoryParameters;
 export const getStoryId = (props: StoryProps, context: DocsContextProps): StoryId => {
   const { id, of, meta, story } = props as StoryRefProps;
   if (id) {
-    deprecate(dedent`Referencing stories by \`id\` is deprecated, please use \`of\` instead. 
-    
+    deprecate(dedent`Referencing stories by \`id\` is deprecated, please use \`of\` instead.
+
       Please refer to the migration guide: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#story-block'`);
     return id;
   }
 
   const { name } = props as StoryDefProps;
   if (name) {
-    deprecate(dedent`Referencing stories by \`name\` is deprecated, please use \`of\` instead. 
-    
+    deprecate(dedent`Referencing stories by \`name\` is deprecated, please use \`of\` instead.
+
       Please refer to the migration guide: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#story-block'`);
     return context.storyIdByName(name);
   }
@@ -143,15 +143,15 @@ export const getStoryProps = <TFramework extends Renderer>(
     autoplay?: boolean;
   };
   if (typeof inlineStories !== 'undefined')
-    deprecate(dedent`The \`docs.inlineStories\` parameter is deprecated, use \`docs.story.inline\` instead. 
-    
+    deprecate(dedent`The \`docs.inlineStories\` parameter is deprecated, use \`docs.story.inline\` instead.
+
       Please refer to the migration guide: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#autodocs-changes'
     `);
   const inline = props.inline ?? storyParameters.inline ?? inlineStories ?? false;
 
   if (typeof iframeHeight !== 'undefined') {
-    deprecate(dedent`The \`docs.iframeHeight\` parameter is deprecated, use \`docs.story.iframeHeight\` instead. 
-    
+    deprecate(dedent`The \`docs.iframeHeight\` parameter is deprecated, use \`docs.story.iframeHeight\` instead.
+
       Please refer to the migration guide: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#autodocs-changes'
     `);
   }
@@ -177,7 +177,7 @@ export const getStoryProps = <TFramework extends Renderer>(
     storyParameters.height ??
     storyParameters.iframeHeight ??
     iframeHeight ??
-    '100px';
+    '100%';
   return {
     story,
     inline: false,
