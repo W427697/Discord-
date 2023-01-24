@@ -433,9 +433,9 @@ export const addStories: Task['run'] = async (
 
   if (isCoreRenderer) {
     const existingStories = await filterExistsInCodeDir(addonDirs, join('template', 'stories'));
-    await Promise.all(
-      existingStories.map(async (packageDir) => linkPackageStories(packageDir, { mainConfig, cwd }))
-    );
+    for (const packageDir of existingStories) {
+      await linkPackageStories(packageDir, { mainConfig, cwd });
+    }
 
     // Add some extra settings (see above for what these do)
     if (template.expected.builder === '@storybook/builder-webpack5') {
