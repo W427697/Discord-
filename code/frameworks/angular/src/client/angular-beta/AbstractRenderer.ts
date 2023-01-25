@@ -1,10 +1,10 @@
-import { NgModule, enableProdMode, Type, ApplicationRef } from '@angular/core';
+import { ApplicationRef, enableProdMode, NgModule } from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
 import { provideAnimations, BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { Subject, BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { stringify } from 'telejson';
-import { ICollection, StoryFnAngularReturnType, Parameters } from '../types';
+import { ICollection, Parameters, StoryFnAngularReturnType } from '../types';
 import { getApplication } from './StorybookModule';
 import { storyPropsProvider } from './StorybookProvider';
 import { componentNgModules } from './StorybookWrapperComponent';
@@ -134,8 +134,8 @@ export abstract class AbstractRenderer {
 
     const applicationRef = await bootstrapApplication(application, {
       providers: [
-        storyPropsProvider(newStoryProps$),
         ...(hasAnimationsDefined ? [provideAnimations()] : []),
+        storyPropsProvider(newStoryProps$),
       ],
     });
 
