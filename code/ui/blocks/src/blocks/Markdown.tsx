@@ -1,15 +1,11 @@
 /* eslint-disable react/destructuring-assignment */
 import React from 'react';
 import PureMarkdown from 'markdown-to-jsx';
-import { components } from '@storybook/components';
 import dedent from 'ts-dedent';
+import { AnchorMdx, CodeOrSourceMdx, HeadersMdx } from './mdx';
 
 // mirror props from markdown-to-jsx. From https://react-typescript-cheatsheet.netlify.app/docs/advanced/patterns_by_usecase#wrappingmirroring-a-component
-type MarkdownProps = typeof PureMarkdown extends React.ComponentType<infer Props>
-  ? Props extends object
-    ? Props
-    : never
-  : never;
+type MarkdownProps = typeof PureMarkdown extends React.ComponentType<infer Props> ? Props : never;
 
 export const Markdown = (props: MarkdownProps) => {
   if (!props.children) {
@@ -42,9 +38,9 @@ export const Markdown = (props: MarkdownProps) => {
       options={{
         forceBlock: true,
         overrides: {
-          code: components.code,
-          pre: components.pre,
-          a: components.a,
+          code: CodeOrSourceMdx,
+          a: AnchorMdx,
+          ...HeadersMdx,
           ...props?.options?.overrides,
         },
         ...props?.options,
