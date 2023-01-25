@@ -2,7 +2,7 @@
   <button type="button" @click="onClick" :class="classes" :style="style">{{ label }} {{ counter }}</button>
 </template>
 
-<script lang="ts">
+<script>
 import { computed, ref } from 'vue';
 
 export default {
