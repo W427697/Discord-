@@ -8,7 +8,8 @@
 
 -   CLI: Fix global flag corner case [#20776](https://github.com/storybooks/storybook/pull/20776)
 -   Csf-tools: Fix ConfigFile string literal property handling [#20785](https://github.com/storybooks/storybook/pull/20785)
--   Core: Ensure Angular docsMode flag has effect [#20711](https://github.com/storybooks/storybook/pull/20711)
+-   Angular: Ensure docsMode flag has effect [#20711](https://github.com/storybooks/storybook/pull/20711)
+-   Angular: Use Providers in boostrapApplication option [#20746](https://github.com/storybooks/storybook/pull/20746)
 -   WebComponents: Fix Button type error [#20722](https://github.com/storybooks/storybook/pull/20722)
 
 #### Build
