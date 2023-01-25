@@ -113,7 +113,7 @@ export class StoryIndexGenerator {
 
   async initialize() {
     // Find all matching paths for each specifier
-    await Promise.all(
+    const specifiersAndCaches = await Promise.all(
       this.specifiers.map(async (specifier) => {
         const pathToSubIndex = {} as SpecifierStoriesCache;
 
@@ -132,8 +132,14 @@ export class StoryIndexGenerator {
           pathToSubIndex[absolutePath] = false;
         });
 
-        this.specifierToCache.set(specifier, pathToSubIndex);
+        return [specifier, pathToSubIndex] as const;
       })
+    );
+
+    // We do this in a second step to avoid timing issues with the Promise.all above -- to ensure
+    // the keys in the `specifierToCache` object are consistent with the order of specifiers.
+    specifiersAndCaches.forEach(([specifier, cache]) =>
+      this.specifierToCache.set(specifier, cache)
     );
 
     // Extract stories for each file
@@ -164,8 +170,8 @@ export class StoryIndexGenerator {
     );
   }
 
-  isDocsMdx(absolutePath: Path) {
-    return /(?<!\.stories)\.mdx$/i.test(absolutePath);
+  isStoryFile(absolutePath: Path) {
+    return /(\.(js|jsx|ts|tsx)|\.stories\.mdx)$/i.test(absolutePath);
   }
 
   async ensureExtracted(): Promise<IndexEntry[]> {
@@ -174,7 +180,7 @@ export class StoryIndexGenerator {
     // files may use the `<Meta of={XStories} />` syntax, which requires
     // that the story file that contains the meta be processed first.
     await this.updateExtracted(async (specifier, absolutePath) =>
-      this.isDocsMdx(absolutePath) ? false : this.extractStories(specifier, absolutePath)
+      this.isStoryFile(absolutePath) ? this.extractStories(specifier, absolutePath) : false
     );
 
     if (!this.options.docs.disable) {
