@@ -7,6 +7,7 @@ import { auto } from '@popperjs/core';
 interface BarButtonProps
   extends DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement> {
   href?: void;
+  target?: void;
 }
 interface BarLinkProps
   extends DetailedHTMLProps<AnchorHTMLAttributes<HTMLAnchorElement>, HTMLAnchorElement> {
