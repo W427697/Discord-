@@ -40,12 +40,17 @@
     - [Icons API changed](#icons-api-changed)
     - [Removed global client APIs](#removed-global-client-apis)
   - [Docs Changes](#docs-changes)
-    - [Standalone docs files](#standalone-docs-files)
-    - [Referencing stories in docs files](#referencing-stories-in-docs-files)
-    - [Description block, `parameters.notes` and `parameters.info`](#description-block-parametersnotes-and-parametersinfo)
-    - [Autodocs](#autodocs)
-    - [Configuring the Docs Container](#configuring-the-docs-container)
-    - [External Docs](#external-docs)
+    - [Autodocs changes](#autodocs-changes)
+    - [MDX docs files](#mdx-docs-files)
+    - [Unattached docs files](#unattached-docs-files)
+    - [Doc Blocks](#doc-blocks)
+      - [Meta block](#meta-block)
+      - [Description block, `parameters.notes` and `parameters.info`](#description-block-parametersnotes-and-parametersinfo)
+      - [Story block](#story-block)
+      - [Source block](#source-block)
+    - [Canvas block](#canvas-block)
+      - [ArgsTable block](#argstable-block)
+    - [Configuring Autodocs](#configuring-autodocs)
     - [MDX2 upgrade](#mdx2-upgrade)
     - [Legacy MDX1 support](#legacy-mdx1-support)
     - [Default docs styles will leak into non-story user components](#default-docs-styles-will-leak-into-non-story-user-components)
@@ -744,68 +749,11 @@ Instead, use `export const parameters = {};` and `export const decorators = [];`
 
 ### Docs Changes
 
-The information hierarchy of docs in Storybook has changed in 7.0. The main difference is that each docs is listed in the sidebar as a separate entry, rather than attached to individual stories.
+The information hierarchy of docs in Storybook has changed in 7.0. The main difference is that each docs is listed in the sidebar as a separate entry underneath the component, rather than attached to individual stories. You can also opt-in to a Autodocs entry rather than having one for every component (previously stories).
 
-These changes are encapsulated in the following:
+We've also modernized the API for all the doc blocks (the MDX components you use to write custom docs pages), which we'll describe below.
 
-#### Standalone docs files
-
-In Storybook 6.x, to create a standalone docs MDX file, you'd have to create a `.stories.mdx` file, and describe its location with the `Meta` doc block:
-
-```mdx
-import { Meta } from '@storybook/addon-docs';
-
-<Meta title="Introduction" />
-```
-
-In 7.0, things are a little simpler -- you should call the file `.mdx` (drop the `.stories`). This will mean behind the scenes there is no story attached to this entry. You may also drop the `title` and use autotitle (and leave the `Meta` component out entirely).
-
-Additionally, you can attach a standalone docs entry to a component, using the new `of={}` syntax on the `Meta` component:
-
-```mdx
-import { Meta } from '@storybook/blocks';
-import * as ComponentStories from './some-component.stories';
-
-<Meta of={ComponentStories} />
-```
-
-You can create as many docs entries as you like for a given component. Note that if you attach a docs entry to a component it will replace the automatically generated entry from `DocsPage` (See below).
-
-By default docs entries are listed first for the component. You can sort them using story sorting.
-
-#### Referencing stories in docs files
-
-To reference a story in a MDX file, you should reference it with `of`:
-
-```mdx
-import { Meta, Story } from '@storybook/blocks';
-import * as ComponentStories from './some-component.stories';
-
-<Meta of={ComponentStories} />
-
-<Story of={ComponentStories.standard} />
-```
-
-You can also reference a story from a different component:
-
-```mdx
-import { Meta, Story } from '@storybook/blocks';
-import * as ComponentStories from './some-component.stories';
-import * as SecondComponentStories from './second-component.stories';
-
-<Meta of={ComponentStories} />
-
-<Story of={SecondComponentStories.standard} meta={SecondComponentStories} />
-```
-
-#### Description block, `parameters.notes` and `parameters.info`
-
-In 6.5 the Description doc block accepted a range of different props, `markdown`, `type` and `children` as a way to customize the content.
-The props have been simplified and the block now only accepts an `of` prop, which can be a reference to either a CSF file, a default export (meta) or a story export, depending on which description you want to be shown. See TDB DOCS LINK for a deeper explanation of the new prop.
-
-`parameters.notes` and `parameters.info` have been deprecated as a way to specify descriptions. Instead use JSDoc comments above the default export or story export, or use `parameters.docs.description.story | component` directly. See TDB DOCS LINK for a deeper explanation on how to write descriptions.
-
-#### Autodocs
+#### Autodocs changes
 
 In 7.0, rather than rendering each story in "docs view mode", Autodocs (formerly known as "Docs Page") operates by adding additional sidebar entries for each component. By default it uses the same template as was used in 6.x, and the entries are entitled `Docs`.
 
@@ -830,11 +778,159 @@ export default {
 }
 ```
 
-You can also set `autodocs: false` to opt-out of Autodocs entirely.
+You can also set `autodocs: false` to opt-out of Autodocs entirely. Further configuration of Autodocs is described below.
 
-You can change the default template in the same way as in 6.x, using the `docs.page` parameter.
+**Parameter changes**
 
-#### Configuring the Docs Container
+We've renamed many of the parameters that control docs rendering for consistency with the blocks (see below). The old parameters are now deprecated and will be removed in 8.0. Here is a full list of changes:
+
+- `docs.inlineStories` has been renamed `docs.story.inline`
+- `docs.iframeHeight` has been renamed `docs.story.iframeHeight`
+- `notes` and `info` are no longer supported, instead use `docs.description.story | component`
+
+#### MDX docs files
+
+Previously `.stories.mdx` files were used to both define and document stories. In 7.0, we have deprecated defining stories in MDX files, and consequently have changed the suffix to simply `.mdx`. Our default `stories` glob in `main.js` will now match such files -- if you want to write MDX files that do not appear in Storybook, you may need to adjust the glob accordingly.
+
+If you were using `.stories.mdx` files to write stories, we encourage you to move the stories to a CSF file, and _attach_ an `.mdx` file to that CSF file to document them. You can use the `Meta` block to attach a MDX file to a CSF file, and the `Story` block to render the stories:
+
+```mdx
+import { Meta, Story } from '@storybook/blocks';
+import * as ComponentStories from './some-component.stories';
+
+<Meta of={ComponentStories} />
+
+<Story of={ComponentStories.Primary} />
+```
+
+You can create as many docs entries as you like for a given component. Note that if you attach a docs entry to a component it will replace the automatically generated entry from Autodocs.
+
+By default docs entries are listed first for the component. You can sort them using story sorting.
+
+#### Unattached docs files
+
+In Storybook 6.x, to create a unattached docs MDX file (that is, one not attached to story or a CSF file), you'd have to create a `.stories.mdx` file, and describe its location with the `Meta` doc block:
+
+```mdx
+import { Meta } from '@storybook/addon-docs';
+
+<Meta title="Introduction" />
+```
+
+In 7.0, things are a little simpler -- you should call the file `.mdx` (drop the `.stories`). This will mean behind the scenes there is no story attached to this entry. You may also drop the `title` and use autotitle (and leave the `Meta` component out entirely, potentially).
+
+#### Doc Blocks
+
+Additionally to changing the docs information architecture, we've updated the API of the doc blocks themselves to be more consistent and future proof.
+
+**General changes**
+
+- Each block now uses `of={}` as a primary API -- where the argument to the `of` prop is a CSF or story _export_.
+
+- When you've attached to a CSF file (with the `Meta` block, or in Autodocs), you can drop the `of` and the block will reference the first story or the CSF file as a whole.
+
+- Most other props controlling rendering of blocks now correspond precisely to the parameters for that block [defined for autodocs above](#autodocs-changes).
+
+##### Meta block
+
+The primary change of the `Meta` block is the ability to attach to CSF files with `<Meta of={}>` as described above.
+
+##### Description block, `parameters.notes` and `parameters.info`
+
+In 6.5 the Description doc block accepted a range of different props, `markdown`, `type` and `children` as a way to customize the content.
+The props have been simplified and the block now only accepts an `of` prop, which can be a reference to either a CSF file, a default export (meta) or a story export, depending on which description you want to be shown. See TDB DOCS LINK for a deeper explanation of the new prop.
+
+`parameters.notes` and `parameters.info` have been deprecated as a way to specify descriptions. Instead use JSDoc comments above the default export or story export, or use `parameters.docs.description.story | component` directly. See TDB DOCS LINK for a deeper explanation on how to write descriptions.
+
+##### Story block
+
+To reference a story in a MDX file, you should reference it with `of`:
+
+```mdx
+import { Meta, Story } from '@storybook/blocks';
+import * as ComponentStories from './some-component.stories';
+
+<Meta of={ComponentStories} />
+
+<Story of={ComponentStories.standard} />
+```
+
+You can also reference a story from a different component:
+
+```mdx
+import { Meta, Story } from '@storybook/blocks';
+import * as ComponentStories from './some-component.stories';
+import * as SecondComponentStories from './second-component.stories';
+
+<Meta of={ComponentStories} />
+
+<Story of={SecondComponentStories.standard} meta={SecondComponentStories} />
+```
+
+Referencing stories by `id="xyz--abc"` is deprecated and should be replaced with `of={}` as above.
+
+##### Source block
+
+The source block now references a single story, the component, or a CSF file itself via the `of={}` parameter.
+
+Referencing stories by `id="xyz--abc"` is deprecated and should be replaced with `of={}` as above. Referencing multiple stories via `ids={["xyz--abc"]}` is now deprecated and should be avoided (instead use two source blocks).
+
+#### Canvas block
+
+The Canvas block follows the same changes as [the Story block described above](#story-block).
+
+Previously the Canvas block accepted children (Story blocks) as a way to reference stories. That has now been replaced with the `of={}` prop that accepts a reference to _a story_.
+That also means the Canvas block no longer supports containing multiple stories or elements, and thus the props related to that - `isColumn` and `columns` - have also been deprecated.
+
+- To pass props to the inner Story block use the `story={{ }}` prop
+- Similarly, to pass props to the inner Source block use the `source={{ }}` prop.
+- The `mdxSource` prop has been deprecated in favor of using `source={{ code: '...' }}`
+- The `withSource` prop has been renamed to `sourceState`
+
+Here's a full example of the new API:
+
+```mdx
+import { Meta, Canvas } from '@storybook/blocks';
+import * as ComponentStories from './some-component.stories';
+
+<Meta of={ComponentStories} />
+
+<Canvas
+  of={ComponentStories.standard}
+  story={{
+    inline: false,
+    height: '200px'
+  }}
+  source={{
+    language: 'html',
+    code: 'custom code...'
+  }}
+  withToolbar={true}
+  additionalActions={[...]}
+  layout="fullscreen"
+  className="custom-class"
+/>
+```
+
+##### ArgsTable block
+
+The `ArgsTable` block is now deprecated, and two new blocks: `ArgsTypes` and `Controls` should be preferred.
+
+- `<ArgTypes of={storyExports OR metaExports OR component} />` will render a readonly table of args/props descriptions for a story, CSF file or component. If `of` ommitted and the MDX file is attached it will render the arg types defined at the CSF file level.
+
+- `<Controls of={storyExports} />` will render the controls for a story (or the primary story if `of` is omitted and the MDX file is attached).
+
+The following props are not supported in the new blocks:
+
+- `components` - to render more than one component in a single table
+- `showComponent` to show the component's props as well as the story's args
+- the `subcomponents` annotation to show more components on the table.
+- `of="^"` to reference the meta (just omit `of` in that case, for `ArgTypes`).
+- `story="^"` to reference the primary story (just omit `of` in that case, for `Controls`).
+- `story="."` to reference the current story (this no longer makes sense in Docs 2).
+- `story="name"` to reference a story (use `of={}`).
+
+#### Configuring Autodocs
 
 As in 6.x, you can override the docs container to configure docs further. This is the container that each docs entry is rendered inside:
 
@@ -847,6 +943,8 @@ export const parameters = {
   }
 }
 ```
+
+Note that the container must be implemented as a _React component_.
 
 You likely want to use the `DocsContainer` component exported by `@storybook/blocks` and consider the following examples:
 
@@ -876,28 +974,6 @@ export const MyDocsContainer = (props) => (
 ```
 
 **_NOTE_**: due to breaking changes in MDX2, such override will _only_ apply to elements you create via the MDX syntax, not pure HTML -- ie. `## content` not `<h2>content</h2>`.
-
-#### External Docs
-
-Storybook 7.0 can be used in the above way in externally created projects (i.e. custom docs sites). Your `.mdx` files defined as above should be portable to other contexts. You simply need to render them in an `ExternalDocs` component:
-
-```js
-// In your project somewhere:
-import { ExternalDocs } from '@storybook/blocks';
-
-// Import all the preview entries from addons that need to operate in your external docs,
-// at a minimum likely your project's and your renderer's.
-import * as reactAnnotations from '@storybook/react/preview';
-import * as previewAnnotations from '../.storybook/preview';
-
-export default function App({ Component, pageProps }) {
-  return (
-    <ExternalDocs projectAnnotationsList={[reactAnnotations, previewAnnotations]}>
-      <Component {...pageProps} />
-    </ExternalDocs>
-  );
-}
-```
 
 #### MDX2 upgrade
 
