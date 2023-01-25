@@ -9,7 +9,7 @@ interface WebpackModule {
   id: string;
   name: string;
   modules?: WebpackModule[];
-  reasons?: { moduleId: string }[];
+  reasons?: { moduleId: string; moduleName: string }[];
 }
 
 interface WebpackStats {
@@ -21,45 +21,43 @@ interface Module {
   reasons: Set<string>;
 }
 
-// Only StoryStore v7+ is supported
-const ENTRY_MODULE_REGEXP = /\/storybook-stories\.js$/;
+const URL_PARAM_REGEX = /(\?[a-z].*)/gi;
+const ENTRY_MODULE_REGEXP = /\/storybook-stories\.js$/; // Only StoryStore v7+ is supported
 
-// Sometimes webpack paths have a URL parameter appended to them, such as ?ngResource.
-// Those should be stripped.
 const normalize = (id: string) => {
-  const CSF_REGEX = /\s+sync\s+/g;
-  const URL_PARAM_REGEX = /(\?.*)/g;
-  return URL_PARAM_REGEX.test(id) && !CSF_REGEX.test(id) ? id.replace(URL_PARAM_REGEX, '') : id;
+  // Ignore Webpack internals and external modules
+  if (!id || id.startsWith('webpack/') || id.startsWith('external ')) return null;
+  // Strip URL parameters (e.g. `?ngResource`) which may be appended to Webpack paths.
+  return URL_PARAM_REGEX.test(id) ? id.replace(URL_PARAM_REGEX, '') : id;
 };
 
 export const webpackStatsToModulesJson = (stats: Stats): Map<string, Module> => {
   const { modules } = stats.toJson() as WebpackStats;
-  const modulesById = new Map(modules.map((m) => [normalize(m.id || m.name), m]));
 
-  const traced: Record<string, Omit<Module, 'type'> & { type: 'entry' | 'glob' | 'source' }> = {};
+  const modulesById = new Map<string, WebpackModule>();
+  const add = (module: WebpackModule) => {
+    const id = normalize(module.id || module.name);
+    if (id) modulesById.set(id, module);
+    if (module.modules?.length) module.modules.forEach(add); // Traverse to unpack bundles
+  };
+  modules.forEach(add);
+
+  const traced: Record<string, Omit<Module, 'type'> & { type?: 'entry' | 'glob' }> = {};
   const trace = (module: WebpackModule) => {
-    if (module.modules?.length) {
-      // Bundles are "unpacked" and not traced themselves
-      module.modules.forEach(trace);
-      return;
-    }
-
-    const identifier = normalize(module.id);
-    if (!identifier || identifier.startsWith('webpack/')) {
-      return;
-    }
+    const identifier = normalize(module.id || module.name);
+    if (!identifier) return;
 
     const item = traced[identifier] || {
-      type: ENTRY_MODULE_REGEXP.test(module.id) ? 'entry' : 'source',
+      type: ENTRY_MODULE_REGEXP.test(identifier) ? 'entry' : undefined,
       reasons: new Set(),
     };
 
-    module.reasons?.forEach(({ moduleId }) => {
-      const reasonId = normalize(moduleId);
+    module.reasons?.forEach(({ moduleId, moduleName }) => {
+      const reasonId = normalize(moduleId || moduleName);
       const reason = modulesById.get(reasonId);
       if (!reason) return;
 
-      if (ENTRY_MODULE_REGEXP.test(moduleId)) {
+      if (ENTRY_MODULE_REGEXP.test(reasonId)) {
         // CSF globs have the entry point as their "parent" reason
         item.type = 'glob';
       }
@@ -67,12 +65,12 @@ export const webpackStatsToModulesJson = (stats: Stats): Map<string, Module> => 
       if (reason.modules?.length) {
         // If reason is a bundle, unpack it
         reason.modules.forEach((mod) => {
-          const id = normalize(mod.id);
+          const id = normalize(mod.id || mod.name);
           // Ignore self-references where a module imports its own bundle
-          if (id !== identifier) item.reasons.add(id);
+          if (id && id !== identifier) item.reasons.add(id);
         });
       } else {
-        item.reasons.add(normalize(reason.id));
+        item.reasons.add(reasonId);
       }
     });
 
@@ -85,7 +83,7 @@ export const webpackStatsToModulesJson = (stats: Stats): Map<string, Module> => 
     // Omit entry file, CSF globs and unlinked files, and mark the rest as stories or source
     Object.entries(traced).reduce((acc, [id, { type, reasons }]) => {
       if (['entry', 'glob'].includes(type) || !reasons.size) return acc;
-      const isStoriesFile = Array.from(reasons).some((r) => traced[r].type === 'glob');
+      const isStoriesFile = Array.from(reasons).some((r) => traced[r]?.type === 'glob');
       acc.push([id, { type: isStoriesFile ? 'stories' : 'source', reasons }]);
       return acc;
     }, [])
