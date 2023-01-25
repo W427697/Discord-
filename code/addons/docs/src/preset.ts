@@ -25,7 +25,6 @@ async function webpack(
     /** @deprecated */
     sourceLoaderOptions: any;
     csfPluginOptions: CsfPluginOptions | null;
-    transcludeMarkdown: boolean;
     jsxOptions?: JSXOptions;
   } /* & Parameters<
       typeof createCompiler
@@ -38,7 +37,6 @@ async function webpack(
   const {
     csfPluginOptions = {},
     jsxOptions = {},
-    transcludeMarkdown = false,
     sourceLoaderOptions = null,
     configureJsx,
     mdxBabelOptions,
@@ -75,22 +73,6 @@ async function webpack(
 
   const mdxLoader = require.resolve('@storybook/mdx2-csf/loader');
 
-  let rules = module.rules || [];
-  if (transcludeMarkdown) {
-    rules = [
-      ...rules.filter((rule: any) => rule.test?.toString() !== '/\\.md$/'),
-      {
-        test: /\.md$/,
-        use: [
-          {
-            loader: mdxLoader,
-            options: mdxLoaderOptions,
-          },
-        ],
-      },
-    ];
-  }
-
   const result = {
     ...webpackConfig,
     plugins: [
@@ -102,7 +84,7 @@ async function webpack(
     module: {
       ...module,
       rules: [
-        ...rules,
+        ...module.rules,
         {
           test: /(stories|story)\.mdx$/,
           use: [
