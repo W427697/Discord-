@@ -4852,15 +4852,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@playwright/test@npm:1.29.1":
-  version: 1.29.1
-  resolution: "@playwright/test@npm:1.29.1"
+"@playwright/test@npm:1.30.0":
+  version: 1.30.0
+  resolution: "@playwright/test@npm:1.30.0"
   dependencies:
     "@types/node": "*"
-    playwright-core: 1.29.1
+    playwright-core: 1.30.0
   bin:
     playwright: cli.js
-  checksum: a0ae293b92b6a2591938ec45a4eb78c84b066fcb2c772859b8cbf2e60dc733cb0bb5cf772fe99d624c41c94c7d039cba37dc073815b2d294ab278fbf3bd9d5ff
+  checksum: 4022492dacfd57d2d9a6a7ade7753660f9f47199d0a47b110b0ecf21f167fb9c5a017a9a1fdf89b97810545ac86620218cabd6f4717cd468af030c5bd9128059
   languageName: node
   linkType: hard
 
@@ -6961,7 +6961,7 @@ __metadata:
     "@nrwl/cli": ^15.4.5
     "@nrwl/nx-cloud": ^15.0.2
     "@nrwl/workspace": ^15.4.5
-    "@playwright/test": 1.29.1
+    "@playwright/test": 1.30.0
     "@storybook/addon-a11y": "workspace:*"
     "@storybook/addon-actions": "workspace:*"
     "@storybook/addon-backgrounds": "workspace:*"
@@ -7105,7 +7105,7 @@ __metadata:
     lodash: ^4.17.21
     node-gyp: ^8.4.0
     nx: ^15.4.5
-    playwright: 1.29.1
+    playwright: 1.30.0
     prettier: 2.8.0
     process: ^0.11.10
     raf: ^3.4.1
@@ -22597,23 +22597,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"playwright-core@npm:1.29.1":
-  version: 1.29.1
-  resolution: "playwright-core@npm:1.29.1"
+"playwright-core@npm:1.30.0":
+  version: 1.30.0
+  resolution: "playwright-core@npm:1.30.0"
   bin:
     playwright: cli.js
-  checksum: b4c0c93f9b12d540296b262da574f83708f68c2434d9f6622045b9a9eeb61b694c5a1616cce78e70887ab7559d0604fae8ef17f9fa38272d8400669ea7f4794e
+  checksum: cad74ca8ff028f4e65336323f7eec54497e344810c2f2e9c1ffaf836dcc20eb15c073aae6c5e994eaf800b75ea0f0817ffb60ff7ecaadc59229df54779d5f429
   languageName: node
   linkType: hard
 
-"playwright@npm:1.29.1":
-  version: 1.29.1
-  resolution: "playwright@npm:1.29.1"
+"playwright@npm:1.30.0":
+  version: 1.30.0
+  resolution: "playwright@npm:1.30.0"
   dependencies:
-    playwright-core: 1.29.1
+    playwright-core: 1.30.0
   bin:
     playwright: cli.js
-  checksum: db049c6f72fe329d1c5b5daf2b4f212fbe1f57dba075bdffc4b71a473149bf20af36528cc3819c250bbef1f0366c105b3c63e66fb82524310061a1cca99437ae
+  checksum: 49bbae502f45cdc7d5977d073080b6eb1aa871a14fa1aab23a23f331bdbc95bcc5a0dac00c01c4589231a8bb3fd4b7c154bfc1a47d80ea82c6aeb155275760be
   languageName: node
   linkType: hard
 
