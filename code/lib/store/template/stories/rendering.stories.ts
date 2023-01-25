@@ -12,13 +12,13 @@ export default {
 };
 
 export const ForceRemount = {
-  play: async ({ canvasElement }: PlayFunctionContext<any>) => {
+  play: async ({ canvasElement, id }: PlayFunctionContext<any>) => {
     const channel = globalThis.__STORYBOOK_ADDONS_CHANNEL__;
     const button = await within(canvasElement).findByRole('button');
     await button.focus();
     await expect(button).toHaveFocus();
     // By forcing the component to remount, we reset the focus state
-    await channel.emit(FORCE_REMOUNT);
+    await channel.emit(FORCE_REMOUNT, { storyId: id });
     await waitFor(() => expect(button).not.toHaveFocus());
   },
 };
