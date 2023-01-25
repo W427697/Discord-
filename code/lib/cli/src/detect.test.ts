@@ -298,27 +298,36 @@ describe('Detect', () => {
     expect(detect(undefined)).toBe(ProjectType.UNDETECTED);
   });
 
-  it(`should return language legacy typescript if the dependency is present`, () => {
+  it(`should return language javascript if the TS dependency is present but less than minimum supported`, () => {
     expect(detectLanguage({ dependencies: { typescript: '1.0.0' } })).toBe(
-      SupportedLanguage.TYPESCRIPT_LEGACY
+      SupportedLanguage.JAVASCRIPT
     );
   });
 
-  it(`should return language typescript if the dependency is >TS4.9`, () => {
+  it(`should return language typescript-3-8 if the TS dependency is >=3.8 and <4.9`, () => {
+    expect(detectLanguage({ dependencies: { typescript: '3.8.0' } })).toBe(
+      SupportedLanguage.TYPESCRIPT_3_8
+    );
+    expect(detectLanguage({ dependencies: { typescript: '4.8.0' } })).toBe(
+      SupportedLanguage.TYPESCRIPT_3_8
+    );
+  });
+
+  it(`should return language typescript-4-9 if the dependency is >TS4.9`, () => {
     expect(detectLanguage({ dependencies: { typescript: '4.9.1' } })).toBe(
-      SupportedLanguage.TYPESCRIPT
+      SupportedLanguage.TYPESCRIPT_4_9
     );
   });
 
   it(`should return language typescript if the dependency is =TS4.9`, () => {
     expect(detectLanguage({ dependencies: { typescript: '4.9.0' } })).toBe(
-      SupportedLanguage.TYPESCRIPT
+      SupportedLanguage.TYPESCRIPT_4_9
     );
   });
 
   it(`should return language typescript if the dependency is =TS4.9beta`, () => {
     expect(detectLanguage({ dependencies: { typescript: '^4.9.0-beta' } })).toBe(
-      SupportedLanguage.TYPESCRIPT
+      SupportedLanguage.TYPESCRIPT_4_9
     );
   });
 
