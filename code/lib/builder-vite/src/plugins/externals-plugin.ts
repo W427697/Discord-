@@ -6,7 +6,6 @@ import { mergeAlias } from 'vite';
 import type { Alias, Plugin } from 'vite';
 import { globals } from '@storybook/preview/globals';
 
-type SingleGlobalName = keyof typeof globals;
 type Globals = typeof globals & Record<string, string>;
 
 const replacementMap = new Map([
@@ -39,7 +38,7 @@ const replacementMap = new Map([
 export async function externalsPlugin() {
   await init;
   return {
-    name: 'storybook:externals-plugin',
+    name: 'storybook:external-globals-plugin',
     enforce: 'post',
     // In dev (serve), we set up aliases to files that we write into node_modules/.cache.
     async config(config, { command }) {
@@ -68,13 +67,13 @@ export async function externalsPlugin() {
     },
     // Replace imports with variables destructured from global scope
     async transform(code: string, id: string) {
-      const globalsList = Object.keys(globals) as SingleGlobalName[];
+      const globalsList = Object.keys(globals);
       if (globalsList.every((glob) => !code.includes(glob))) return undefined;
 
       const [imports] = parse(code);
       const src = new MagicString(code);
       imports.forEach(({ n: path, ss: startPosition, se: endPosition }) => {
-        const packageName = path as SingleGlobalName | undefined;
+        const packageName = path;
         if (packageName && globalsList.includes(packageName)) {
           const importStatement = src.slice(startPosition, endPosition);
           const transformedImport = rewriteImport(importStatement, globals, packageName);
