@@ -1,6 +1,6 @@
 {
   "name": "@storybook/api",
-  "version": "7.0.0-beta.33",
+  "version": "7.0.0-beta.34",
   "description": "Storybook Manager API (facade)",
   "keywords": [
     "storybook"
@@ -42,8 +42,8 @@
     "prep": "../../../scripts/prepare/facade.ts"
   },
   "dependencies": {
-    "@storybook/client-logger": "7.0.0-beta.33",
-    "@storybook/manager-api": "7.0.0-beta.33"
+    "@storybook/client-logger": "7.0.0-beta.34",
+    "@storybook/manager-api": "7.0.0-beta.34"
   },
   "publishConfig": {
     "access": "public"
