@@ -17,8 +17,6 @@ const uniqueArray = (arr: any[]) => {
  *
  * - If ModuleWithProviders (e.g. forRoot() & forChild() ) is used, the ngModule is extracted without providers.
  *
- * @param {NgModuleMetadata} metadata - NG Module Metadata
- * @returns {*} Array of imports
  */
 export const extractImports = (metadata: NgModuleMetadata) => {
   const imports = [CommonModule];
@@ -43,8 +41,6 @@ export const extractImports = (metadata: NgModuleMetadata) => {
  *
  * - Use this in combination with extractImports to get all providers for a specific module
  *
- * @param {NgModuleMetadata} metadata - NG Module Metadata
- * @returns {*} Array of providers
  */
 export const extractProviders = (metadata: NgModuleMetadata): Provider[] => {
   const providers = (metadata.providers || []) as Provider[];
@@ -65,9 +61,6 @@ export const extractProviders = (metadata: NgModuleMetadata): Provider[] => {
  *    - It is not already declared
  *    - It is not a standalone component
  *
- * @param {NgModuleMetadata} metadata
- * @param {?*} storyComponent
- * @returns {*} Array of declarations
  */
 export const extractDeclarations = (metadata: NgModuleMetadata, storyComponent?: any) => {
   const declarations = metadata.declarations || [];
