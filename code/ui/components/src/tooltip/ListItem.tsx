@@ -23,7 +23,7 @@ const Title = styled(({ active, loading, disabled, ...rest }: TitleProps) => <sp
   ({ active, theme }) =>
     active
       ? {
-          color: theme.color.primary,
+          color: theme.color.secondary,
           fontWeight: theme.typography.weight.bold,
         }
       : {},
@@ -97,7 +97,7 @@ const CenterText = styled.span<CenterTextProps>(
   ({ active, theme }) =>
     active
       ? {
-          color: theme.color.primary,
+          color: theme.color.secondary,
         }
       : {},
   ({ theme, disabled }) =>

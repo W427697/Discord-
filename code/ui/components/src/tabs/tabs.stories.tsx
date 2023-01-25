@@ -1,8 +1,9 @@
-import type { ComponentProps, Key } from 'react';
+import type { Key } from 'react';
 import React, { Fragment } from 'react';
 import { action } from '@storybook/addon-actions';
 import { logger } from '@storybook/client-logger';
-import type { Meta } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react';
+import { within, fireEvent, waitFor, screen, getByText } from '@storybook/testing-library';
 import { Tabs, TabsState, TabWrapper } from './tabs';
 
 const colours = Array.from(new Array(15), (val, index) => index).map((i) =>
@@ -67,7 +68,7 @@ const panels: Panels = {
     ),
   },
   test3: {
-    title: 'Tab with scroll!',
+    title: 'Tab title #3',
     render: ({ active, key }) =>
       active ? (
         <div id="test3" key={key}>
@@ -133,10 +134,15 @@ export default {
       </div>
     ),
   ],
-} as Meta;
+  args: {
+    menuName: 'Addons',
+  },
+} satisfies Meta<typeof TabsState>;
+
+type Story = StoryObj<typeof TabsState>;
 
 export const StatefulStatic = {
-  render: (args: ComponentProps<typeof TabsState>) => (
+  render: (args) => (
     <TabsState initial="test2" {...args}>
       <div id="test1" title="With a function">
         {({ active, selected }: { active: boolean; selected: string }) =>
@@ -148,10 +154,10 @@ export const StatefulStatic = {
       </div>
     </TabsState>
   ),
-};
+} satisfies Story;
 
 export const StatefulStaticWithSetButtonTextColors = {
-  render: (args: ComponentProps<typeof TabsState>) => (
+  render: (args) => (
     <div>
       <TabsState initial="test2" {...args}>
         <div id="test1" title="With a function" color="#e00000">
@@ -165,9 +171,10 @@ export const StatefulStaticWithSetButtonTextColors = {
       </TabsState>
     </div>
   ),
-};
+} satisfies Story;
+
 export const StatefulStaticWithSetBackgroundColor = {
-  render: (args: ComponentProps<typeof TabsState>) => (
+  render: (args) => (
     <div>
       <TabsState initial="test2" backgroundColor="rgba(0,0,0,.05)" {...args}>
         <div id="test1" title="With a function" color="#e00000">
@@ -181,11 +188,28 @@ export const StatefulStaticWithSetBackgroundColor = {
       </TabsState>
     </div>
   ),
-};
+} satisfies Story;
 
-export const StatefulDynamic = {
-  render: (args: ComponentProps<typeof TabsState>) => (
-    <TabsState initial="test3" {...args}>
+export const StatefulDynamicWithOpenTooltip = {
+  parameters: {
+    viewport: {
+      defaultViewport: 'mobile2',
+    },
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await new Promise((res) =>
+      // The timeout is necessary to wait for Storybook to adjust the viewport
+      setTimeout(async () => {
+        const addonsTab = canvas.getByText('Addons');
+        fireEvent(addonsTab, new MouseEvent('mouseenter', { bubbles: true }));
+        await waitFor(() => screen.getByTestId('tooltip'));
+        res(undefined);
+      }, 500)
+    );
+  },
+  render: (args) => (
+    <TabsState initial="test1" {...args}>
       {Object.entries(panels).map(([k, v]) => (
         <div key={k} id={k} title={v.title}>
           {v.render}
@@ -193,16 +217,47 @@ export const StatefulDynamic = {
       ))}
     </TabsState>
   ),
-};
+} satisfies Story;
+
+export const StatefulDynamicWithSelectedAddon = {
+  parameters: {
+    viewport: {
+      defaultViewport: 'mobile2',
+    },
+  },
+  play: async (context) => {
+    await StatefulDynamicWithOpenTooltip.play(context);
+
+    const popperContainer = screen.getByTestId('tooltip');
+    const tab4 = getByText(popperContainer, 'Tab title #4', {});
+    fireEvent(tab4, new MouseEvent('click', { bubbles: true }));
+    await waitFor(() => screen.getByText('CONTENT 4'));
+
+    // reopen the tooltip
+    await StatefulDynamicWithOpenTooltip.play(context);
+  },
+  render: (args) => (
+    <TabsState initial="test1" {...args}>
+      {Object.entries(panels).map(([k, v]) => (
+        <div key={k} id={k} title={v.title}>
+          {v.render}
+        </div>
+      ))}
+    </TabsState>
+  ),
+} satisfies Story;
+
 export const StatefulNoInitial = {
-  render: (args: ComponentProps<typeof TabsState>) => <TabsState {...args}>{content}</TabsState>,
-};
+  render: (args) => <TabsState {...args}>{content}</TabsState>,
+} satisfies Story;
+
 export const StatelessBordered = {
-  render: (args: ComponentProps<typeof TabsState>) => (
+  render: (args) => (
     <Tabs
       bordered
       absolute={false}
       selected="test3"
+      menuName="Addons"
       actions={{
         onSelect,
       }}
@@ -211,11 +266,13 @@ export const StatelessBordered = {
       {content}
     </Tabs>
   ),
-};
+} satisfies Story;
+
 export const StatelessWithTools = {
-  render: (args: ComponentProps<typeof TabsState>) => (
+  render: (args) => (
     <Tabs
       selected="test3"
+      menuName="Addons"
       actions={{
         onSelect,
       }}
@@ -234,12 +291,14 @@ export const StatelessWithTools = {
       {content}
     </Tabs>
   ),
-};
+} satisfies Story;
+
 export const StatelessAbsolute = {
-  render: (args: ComponentProps<typeof TabsState>) => (
+  render: (args) => (
     <Tabs
       absolute
       selected="test3"
+      menuName="Addons"
       actions={{
         onSelect,
       }}
@@ -248,12 +307,14 @@ export const StatelessAbsolute = {
       {content}
     </Tabs>
   ),
-};
+} satisfies Story;
+
 export const StatelessAbsoluteBordered = {
-  render: (args: ComponentProps<typeof TabsState>) => (
+  render: (args) => (
     <Tabs
       absolute
       bordered
+      menuName="Addons"
       selected="test3"
       actions={{
         onSelect,
@@ -263,16 +324,18 @@ export const StatelessAbsoluteBordered = {
       {content}
     </Tabs>
   ),
-};
+} satisfies Story;
+
 export const StatelessEmpty = {
-  render: (args: ComponentProps<typeof TabsState>) => (
+  render: (args) => (
     <Tabs
       actions={{
         onSelect,
       }}
       bordered
+      menuName="Addons"
       absolute
       {...args}
     />
   ),
-};
+} satisfies Story;

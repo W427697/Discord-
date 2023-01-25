@@ -9,7 +9,7 @@ export interface SideProps {
   right?: boolean;
 }
 
-const Side = styled.div<SideProps>(
+export const Side = styled.div<SideProps>(
   {
     display: 'flex',
     whiteSpace: 'nowrap',

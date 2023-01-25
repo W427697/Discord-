@@ -67,6 +67,7 @@ const AddonPanel = React.memo<{
     <Tabs
       absolute={absolute}
       {...(selectedPanel ? { selected: selectedPanel } : {})}
+      menuName="Addons"
       actions={actions}
       tools={
         <Fragment>

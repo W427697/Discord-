@@ -1,11 +1,14 @@
-import type { FC, MouseEvent, ReactElement, ReactNode } from 'react';
-import React, { Children, Component, Fragment, memo } from 'react';
+import type { FC, MouseEvent, ReactNode } from 'react';
+import React, { useMemo, Component, Fragment, memo } from 'react';
 import { styled } from '@storybook/theming';
 import { sanitize } from '@storybook/csf';
 
 import { Placeholder } from '../placeholder/placeholder';
-import { FlexBar } from '../bar/bar';
 import { TabButton } from '../bar/button';
+import { Side } from '../bar/bar';
+import type { ChildrenList } from './tabs.helpers';
+import { childrenToList, VisuallyHidden } from './tabs.helpers';
+import { useList } from './tabs.hooks';
 
 export interface WrapperProps {
   bordered?: boolean;
@@ -37,8 +40,19 @@ const Wrapper = styled.div<WrapperProps>(
         }
 );
 
+const WrapperChildren = styled.div<{ backgroundColor: string }>(({ theme, backgroundColor }) => ({
+  color: theme.barTextColor,
+  display: 'flex',
+  width: '100%',
+  height: 40,
+  boxShadow: `${theme.appBorderColor}  0 -1px 0 0 inset`,
+  background: backgroundColor ?? theme.barBg,
+}));
+
 export const TabBar = styled.div({
   overflow: 'hidden',
+  whiteSpace: 'nowrap',
+  flexGrow: 1,
 
   '&:first-of-type': {
     marginLeft: -3,
@@ -89,14 +103,6 @@ const Content = styled.div<ContentProps>(
       : {}
 );
 
-export interface VisuallyHiddenProps {
-  active?: boolean;
-}
-
-const VisuallyHidden = styled.div<VisuallyHiddenProps>(({ active }) =>
-  active ? { display: 'block' } : { display: 'none' }
-);
-
 export interface TabWrapperProps {
   active: boolean;
   render?: () => JSX.Element;
@@ -109,27 +115,6 @@ export const TabWrapper: FC<TabWrapperProps> = ({ active, render, children }) =>
 
 export const panelProps = {};
 
-const childrenToList = (children: any, selected: string) =>
-  Children.toArray(children).map(
-    ({ props: { title, id, color, children: childrenOfChild } }: ReactElement, index) => {
-      const content = Array.isArray(childrenOfChild) ? childrenOfChild[0] : childrenOfChild;
-      return {
-        active: selected ? id === selected : index === 0,
-        title,
-        id,
-        color,
-        render:
-          typeof content === 'function'
-            ? content
-            : ({ active, key }: any) => (
-                <VisuallyHidden key={key} active={active} role="tabpanel">
-                  {content}
-                </VisuallyHidden>
-              ),
-      };
-    }
-  );
-
 export interface TabsProps {
   children?: FuncChildren[] | ReactNode;
   id?: string;
@@ -141,21 +126,41 @@ export interface TabsProps {
   backgroundColor?: string;
   absolute?: boolean;
   bordered?: boolean;
+  menuName: string;
 }
 
 export const Tabs: FC<TabsProps> = memo(
-  ({ children, selected, actions, absolute, bordered, tools, backgroundColor, id: htmlId }) => {
-    const list = childrenToList(children, selected);
+  ({
+    children,
+    selected,
+    actions,
+    absolute,
+    bordered,
+    tools,
+    backgroundColor,
+    id: htmlId,
+    menuName,
+  }) => {
+    const list = useMemo<ChildrenList>(
+      () => childrenToList(children, selected),
+      [children, selected]
+    );
+
+    const { visibleList, tabBarRef, tabRefs, AddonTab } = useList(list);
 
     return list.length ? (
       <Wrapper absolute={absolute} bordered={bordered} id={htmlId}>
-        <FlexBar border backgroundColor={backgroundColor}>
-          <TabBar role="tablist">
-            {list.map(({ title, id, active, color }) => {
+        <WrapperChildren backgroundColor={backgroundColor}>
+          <TabBar ref={tabBarRef} role="tablist">
+            {visibleList.map(({ title, id, active, color }, index) => {
               const tabTitle = typeof title === 'function' ? title() : title;
+
               return (
                 <TabButton
                   id={`tabbutton-${sanitize(tabTitle)}`}
+                  ref={(ref: HTMLButtonElement) => {
+                    tabRefs.current.set(tabTitle, ref);
+                  }}
                   className={`tabbutton ${active ? 'tabbutton-active' : ''}`}
                   type="button"
                   key={id}
@@ -171,9 +176,10 @@ export const Tabs: FC<TabsProps> = memo(
                 </TabButton>
               );
             })}
+            <AddonTab menuName={menuName} actions={actions} />
           </TabBar>
-          {tools ? <Fragment>{tools}</Fragment> : null}
-        </FlexBar>
+          {tools ? <Side right>{tools}</Side> : null}
+        </WrapperChildren>
         <Content id="panel-tab-content" bordered={bordered} absolute={absolute}>
           {list.map(({ id, active, render }) => render({ key: id, active }))}
         </Content>
@@ -203,6 +209,7 @@ export interface TabsStateProps {
   absolute: boolean;
   bordered: boolean;
   backgroundColor: string;
+  menuName: string;
 }
 
 export interface TabsStateState {
@@ -216,6 +223,7 @@ export class TabsState extends Component<TabsStateProps, TabsStateState> {
     absolute: false,
     bordered: false,
     backgroundColor: '',
+    menuName: undefined,
   };
 
   constructor(props: TabsStateProps) {
@@ -231,7 +239,7 @@ export class TabsState extends Component<TabsStateProps, TabsStateState> {
   };
 
   render() {
-    const { bordered = false, absolute = false, children, backgroundColor } = this.props;
+    const { bordered = false, absolute = false, children, backgroundColor, menuName } = this.props;
     const { selected } = this.state;
     return (
       <Tabs
@@ -239,6 +247,7 @@ export class TabsState extends Component<TabsStateProps, TabsStateState> {
         absolute={absolute}
         selected={selected}
         backgroundColor={backgroundColor}
+        menuName={menuName}
         actions={this.handlers}
       >
         {children}
