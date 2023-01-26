@@ -20,7 +20,6 @@ module.exports = {
       },
     ],
     'eslint-comments/disable-enable-pair': ['error', { allowWholeFile: true }],
-    'import/no-unresolved': ['error', { ignore: ['\\?raw$'] }],
   },
   overrides: [
     {
