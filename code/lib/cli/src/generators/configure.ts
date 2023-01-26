@@ -1,5 +1,6 @@
 import fse from 'fs-extra';
 import { dedent } from 'ts-dedent';
+import { SupportedLanguage } from '../project_types';
 
 interface ConfigureMainOptions {
   addons: string[];
@@ -33,31 +34,36 @@ export async function configureMain({
   extensions = ['js', 'jsx', 'ts', 'tsx'],
   commonJs = false,
   storybookConfigFolder,
+  language,
   ...custom
 }: ConfigureMainOptions) {
   const prefix = (await fse.pathExists('./src')) ? '../src' : '../stories';
-
   const config = {
     stories: [`${prefix}/**/*.mdx`, `${prefix}/**/*.stories.@(${extensions.join('|')})`],
     addons,
     ...custom,
   };
 
-  // replace escaped values and delimiters
-  const stringified = `module.exports = ${JSON.stringify(config, null, 2)
-    .replace(/\\"/g, '"')
-    .replace(/['"]%%/g, '')
-    .replace(/%%['"]/g, '')
-    .replace(/\\n/g, '\r\n')}`;
-  // main.js isn't actually JSON, but we used JSON.stringify to convert the runtime-object into code.
-  // un-stringify the value for referencing packages by string
-  // .replaceAll(/"(path\.dirname\(require\.resolve\(path\.join\('.*\))"/g, (_, a) => a)}`;
+  const isTypescript =
+    language === SupportedLanguage.TYPESCRIPT || language === SupportedLanguage.TYPESCRIPT_LEGACY;
+
+  const tsTemplate = dedent`<<import>>const config<<type>> = <<mainContents>>;
+  export default config;`;
+
+  const jsTemplate = dedent`const config = <<mainContents>>
+  export default config;`;
+
+  const finalTemplate = isTypescript ? tsTemplate : jsTemplate;
+
+  const mainJsContents = finalTemplate
+    .replace('<<import>>', `import { StorybookConfig } from '${custom.framework.name}';\n\n`)
+    .replace('<<type>>', ': StorybookConfig')
+    .replace('<<mainContents>>', JSON.stringify(config, null, 2));
 
   await fse.writeFile(
-    `./${storybookConfigFolder}/main.${commonJs ? 'cjs' : 'js'}`,
+    `./${storybookConfigFolder}/main.${isTypescript ? 'ts' : 'js'}`,
     dedent`
-      const path = require('path');
-      ${stringified}
+      ${mainJsContents}
     `,
     { encoding: 'utf8' }
   );

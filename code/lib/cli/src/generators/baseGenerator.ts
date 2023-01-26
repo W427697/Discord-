@@ -229,6 +229,7 @@ export async function baseGenerator(
       docs: { autodocs: 'tag' },
       addons: pnp ? addons.map(wrapForPnp) : addons,
       extensions,
+      language,
       commonJs,
       ...(staticDir ? { staticDirs: [path.join('..', staticDir)] } : null),
       ...extraMain,
