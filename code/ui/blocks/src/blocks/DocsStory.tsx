@@ -17,9 +17,9 @@ export const DocsStory: FC<DocsStoryProps> = ({
 
   // use withToolbar from parameters or default to true in autodocs
   const withToolbar =
-    story.parameters.docs?.canvas?.withToolbar === undefined
-      ? true
-      : story.parameters.docs.canvas.withToolbar;
+    story.parameters.docs?.canvas?.withToolbar !== undefined
+      ? story.parameters.docs.canvas.withToolbar
+      : true;
 
   return (
     <Anchor storyId={story.id}>
