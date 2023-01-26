@@ -53,10 +53,6 @@ export const TabBar = styled.div({
   overflow: 'hidden',
   whiteSpace: 'nowrap',
   flexGrow: 1,
-
-  '&:first-of-type': {
-    marginLeft: -3,
-  },
 });
 
 export interface ContentProps {
