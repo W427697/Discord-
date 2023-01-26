@@ -8,6 +8,7 @@ interface ConfigureMainOptions {
   commonJs?: boolean;
   staticDirs?: string[];
   storybookConfigFolder: string;
+  language: SupportedLanguage;
   /**
    * Extra values for main.js
    *
@@ -27,6 +28,7 @@ export interface FrameworkPreviewParts {
 interface ConfigurePreviewOptions {
   frameworkPreviewParts?: FrameworkPreviewParts;
   storybookConfigFolder: string;
+  language: SupportedLanguage;
 }
 
 export async function configureMain({
@@ -70,8 +72,12 @@ export async function configureMain({
 }
 
 export async function configurePreview(options: ConfigurePreviewOptions) {
-  const { prefix = '' } = options?.frameworkPreviewParts || {};
-  const previewPath = `./${options.storybookConfigFolder}/preview.js`;
+  const { prefix = '' } = options.frameworkPreviewParts || {};
+  const isTypescript =
+    options.language === SupportedLanguage.TYPESCRIPT ||
+    options.language === SupportedLanguage.TYPESCRIPT_LEGACY;
+
+  const previewPath = `./${options.storybookConfigFolder}/preview.${isTypescript ? 'ts' : 'js'}`;
 
   // If the framework template included a preview then we have nothing to do
   if (await fse.pathExists(previewPath)) {
