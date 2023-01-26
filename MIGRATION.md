@@ -547,14 +547,15 @@ This will create a `.babelrc.json` file. This file includes a bunch of babel plu
 
 The `transcludeMarkdown` option in `addon-docs` have been removed, and the automatic handling of `.md` files in Vite projects have also been disabled.
 
-Instead `.md` files can be imported as plain strings by adding the `?raw` suffix to the import. In an MDX file that would look like this:
+Instead `.md` files can be imported as plain strings by adding the `?raw` suffix to the import, and then passed to the new `Markdown` block. In an MDX file that would look like this:
 
 ```
+import { Markdown } from '@storybook/blocks';
 import ReadMe from './README.md?raw';
 
 ...
 
-{ReadMe}
+<Markdown>{ReadMe}</Markdown>
 
 ```
 
@@ -858,6 +859,20 @@ The props have been simplified and the block now only accepts an `of` prop, whic
 
 `parameters.notes` and `parameters.info` have been deprecated as a way to specify descriptions. Instead use JSDoc comments above the default export or story export, or use `parameters.docs.description.story | component` directly. See TDB DOCS LINK for a deeper explanation on how to write descriptions.
 
+If you were previously using the `Description` block to render plain markdown in your docs, that behavior can now be achieved with the new `Markdown` block instead like this:
+
+```
+import { Markdown } from '@storybook/blocks';
+import ReadMe from './README.md?raw';
+
+...
+
+<Markdown>{ReadMe}</Markdown>
+
+```
+
+Notice the `?raw` suffix in the markdown import is needed for this to work.
+
 ##### Story block
 
 To reference a story in a MDX file, you should reference it with `of`:
@@ -1017,8 +1032,8 @@ Then enable the `legacyMdx1` feature flag in your `.storybook/main.js` file:
 export default {
   features: {
     legacyMdx1: true,
-  }
-}
+  },
+};
 ```
 
 NOTE: This only affects `.(stories|story).mdx` files. Notably, if you want to use Storybook 7's "pure" `.mdx` format, you'll need to use MDX2 for that.
