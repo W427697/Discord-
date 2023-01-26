@@ -15,6 +15,7 @@
     - [Stories glob matches MDX files](#stories-glob-matches-mdx-files)
     - [Add strict mode](#add-strict-mode)
     - [Babel mode v7 exclusively](#babel-mode-v7-exclusively)
+    - [Importing plain markdown files with `transcludeMarkdown` has changed](#importing-plain-markdown-files-with-transcludemarkdown-has-changed)
     - [7.0 feature flags removed](#70-feature-flags-removed)
   - [Core addons](#core-addons)
     - [Removed auto injection of @storybook/addon-actions decorator](#removed-auto-injection-of-storybookaddon-actions-decorator)
@@ -48,9 +49,11 @@
       - [Description block, `parameters.notes` and `parameters.info`](#description-block-parametersnotes-and-parametersinfo)
       - [Story block](#story-block)
       - [Source block](#source-block)
+    - [Canvas block](#canvas-block)
       - [ArgsTable block](#argstable-block)
     - [Configuring Autodocs](#configuring-autodocs)
     - [MDX2 upgrade](#mdx2-upgrade)
+    - [Legacy MDX1 support](#legacy-mdx1-support)
     - [Default docs styles will leak into non-story user components](#default-docs-styles-will-leak-into-non-story-user-components)
     - [Explicit `<code>` elements are no longer syntax highlighted](#explicit-code-elements-are-no-longer-syntax-highlighted)
     - [Dropped source loader / storiesOf static snippets](#dropped-source-loader--storiesof-static-snippets)
@@ -540,6 +543,21 @@ npx sb@next babelrc
 
 This will create a `.babelrc.json` file. This file includes a bunch of babel plugins, so you may need to add new package devDependencies accordingly.
 
+#### Importing plain markdown files with `transcludeMarkdown` has changed
+
+The `transcludeMarkdown` option in `addon-docs` have been removed, and the automatic handling of `.md` files in Vite projects have also been disabled.
+
+Instead `.md` files can be imported as plain strings by adding the `?raw` suffix to the import. In an MDX file that would look like this:
+
+```
+import ReadMe from './README.md?raw';
+
+...
+
+{ReadMe}
+
+```
+
 #### 7.0 feature flags removed
 
 Storybook uses temporary feature flags to opt-in to future breaking changes or opt-in to legacy behaviors. For example:
@@ -790,7 +808,7 @@ We've renamed many of the parameters that control docs rendering for consistency
 
 Previously `.stories.mdx` files were used to both define and document stories. In 7.0, we have deprecated defining stories in MDX files, and consequently have changed the suffix to simply `.mdx`. Our default `stories` glob in `main.js` will now match such files -- if you want to write MDX files that do not appear in Storybook, you may need to adjust the glob accordingly.
 
-If you were using `.stories.mdx` files to write stories, we encourage you to move the stories to a CSF file, and *attach* an `.mdx` file to that CSF file to document them. You can use the `Meta` block to attach a MDX file to a CSF file, and the `Story` block to render the stories:
+If you were using `.stories.mdx` files to write stories, we encourage you to move the stories to a CSF file, and _attach_ an `.mdx` file to that CSF file to document them. You can use the `Meta` block to attach a MDX file to a CSF file, and the `Story` block to render the stories:
 
 ```mdx
 import { Meta, Story } from '@storybook/blocks';
@@ -805,7 +823,6 @@ You can create as many docs entries as you like for a given component. Note that
 
 By default docs entries are listed first for the component. You can sort them using story sorting.
 
-
 #### Unattached docs files
 
 In Storybook 6.x, to create a unattached docs MDX file (that is, one not attached to story or a CSF file), you'd have to create a `.stories.mdx` file, and describe its location with the `Meta` doc block:
@@ -818,14 +835,13 @@ import { Meta } from '@storybook/addon-docs';
 
 In 7.0, things are a little simpler -- you should call the file `.mdx` (drop the `.stories`). This will mean behind the scenes there is no story attached to this entry. You may also drop the `title` and use autotitle (and leave the `Meta` component out entirely, potentially).
 
-
 #### Doc Blocks
 
 Additionally to changing the docs information architecture, we've updated the API of the doc blocks themselves to be more consistent and future proof.
 
 **General changes**
 
-- Each block now uses `of={}` as a primary API -- where the argument to the `of` prop is a CSF or story *export*.
+- Each block now uses `of={}` as a primary API -- where the argument to the `of` prop is a CSF or story _export_.
 
 - When you've attached to a CSF file (with the `Meta` block, or in Autodocs), you can drop the `of` and the block will reference the first story or the CSF file as a whole.
 
@@ -871,9 +887,46 @@ Referencing stories by `id="xyz--abc"` is deprecated and should be replaced with
 
 ##### Source block
 
-The source block now references a single story, the component, or a CSF file itself via the `of={}` parameter. 
+The source block now references a single story, the component, or a CSF file itself via the `of={}` parameter.
 
 Referencing stories by `id="xyz--abc"` is deprecated and should be replaced with `of={}` as above. Referencing multiple stories via `ids={["xyz--abc"]}` is now deprecated and should be avoided (instead use two source blocks).
+
+#### Canvas block
+
+The Canvas block follows the same changes as [the Story block described above](#story-block).
+
+Previously the Canvas block accepted children (Story blocks) as a way to reference stories. That has now been replaced with the `of={}` prop that accepts a reference to _a story_.
+That also means the Canvas block no longer supports containing multiple stories or elements, and thus the props related to that - `isColumn` and `columns` - have also been deprecated.
+
+- To pass props to the inner Story block use the `story={{ }}` prop
+- Similarly, to pass props to the inner Source block use the `source={{ }}` prop.
+- The `mdxSource` prop has been deprecated in favor of using `source={{ code: '...' }}`
+- The `withSource` prop has been renamed to `sourceState`
+
+Here's a full example of the new API:
+
+```mdx
+import { Meta, Canvas } from '@storybook/blocks';
+import * as ComponentStories from './some-component.stories';
+
+<Meta of={ComponentStories} />
+
+<Canvas
+  of={ComponentStories.standard}
+  story={{
+    inline: false,
+    height: '200px'
+  }}
+  source={{
+    language: 'html',
+    code: 'custom code...'
+  }}
+  withToolbar={true}
+  additionalActions={[...]}
+  layout="fullscreen"
+  className="custom-class"
+/>
+```
 
 ##### ArgsTable block
 
@@ -884,6 +937,7 @@ The `ArgsTable` block is now deprecated, and two new blocks: `ArgsTypes` and `Co
 - `<Controls of={storyExports} />` will render the controls for a story (or the primary story if `of` is omitted and the MDX file is attached).
 
 The following props are not supported in the new blocks:
+
 - `components` - to render more than one component in a single table
 - `showComponent` to show the component's props as well as the story's args
 - the `subcomponents` annotation to show more components on the table.
@@ -891,7 +945,6 @@ The following props are not supported in the new blocks:
 - `story="^"` to reference the primary story (just omit `of` in that case, for `Controls`).
 - `story="."` to reference the current story (this no longer makes sense in Docs 2).
 - `story="name"` to reference a story (use `of={}`).
-
 
 #### Configuring Autodocs
 
@@ -907,7 +960,7 @@ export const parameters = {
 }
 ```
 
-Note that the container must be implemented as a *React component*.
+Note that the container must be implemented as a _React component_.
 
 You likely want to use the `DocsContainer` component exported by `@storybook/blocks` and consider the following examples:
 
@@ -942,11 +995,35 @@ export const MyDocsContainer = (props) => (
 
 Storybook 7 Docs uses MDXv2 instead of MDXv1. This means an improved syntax, support for inline JS expression, and improved performance among [other benefits](https://mdxjs.com/blog/v2/).
 
-If you use `.stories.mdx` files in your project, you may need to edit them since MDX2 contains [breaking changes](https://mdxjs.com/migrating/v2/#update-mdx-files).
+If you use `.stories.mdx` files in your project, you'll probably need to edit them since MDX2 contains [breaking changes](https://mdxjs.com/migrating/v2/#update-mdx-files). In general, MDX2 is stricter and more structured than MDX1.
 
-We will update this section with specific pointers based on user feedback during the prerelease period and probably add an codemod to help streamline the upgrade before final 7.0 release.
+We've provided an automigration, `mdx1to2` that makes a few of these changes automatically. For example, `mdx1to2` automatically converts MDX1-style HTML comments into MDX2-style JSX comments to save you time.
 
-As part of the upgrade we deleted the codemod `mdx-to-csf` and will be replacing it with a more sophisticated version prior to release.
+Unfortunately, the set of changes from MDX1 to MDX2 is vast, and many changes are subtle, so the bulk of the migration will be manual. You can use the [MDX Playground](https://mdxjs.com/playground/) to try out snippets interactively.
+
+#### Legacy MDX1 support
+
+If you get stuck with the [MDX2 upgrade](#mdx2-upgrade), we also provide opt-in legacy MDX1 support. This is intended as a temporary solution while you upgrade your Storybook; MDX1 will be discontinued in Storybook 8.0. The MDX1 library is no longer maintained and installing it results in `npm audit` security warnings.
+
+To process your `.stories.mdx` files with MDX1, first install the `@storybook/mdx1-csf` package in your project:
+
+```
+yarn add -D @storybook/mdx1-csf@next
+```
+
+Then enable the `legacyMdx1` feature flag in your `.storybook/main.js` file:
+
+```js
+export default {
+  features: {
+    legacyMdx1: true,
+  }
+}
+```
+
+NOTE: This only affects `.(stories|story).mdx` files. Notably, if you want to use Storybook 7's "pure" `.mdx` format, you'll need to use MDX2 for that.
+
+NOTE: Legacy MDX1 support is only for Webpack projects. There is currently no legacy support for Vite.
 
 #### Default docs styles will leak into non-story user components
 
