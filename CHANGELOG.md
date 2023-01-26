@@ -1,3 +1,14 @@
+## 6.5.16-alpha.0 (January 11, 2023)
+
+
+#### Bug Fixes
+
+-   Angular: Fix webpackStatsJson types in angular-builder [#20296](https://github.com/storybooks/storybook/pull/20296)
+
+#### Dependency Upgrades
+
+-   Security: Upgrade json5 dependency [#20526](https://github.com/storybooks/storybook/pull/20526)
+
 ## 6.5.15 (December 20, 2022)
 
 #### Bug Fixes

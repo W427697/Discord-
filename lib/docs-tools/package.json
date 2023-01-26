@@ -1,6 +1,6 @@
 {
   "name": "@storybook/docs-tools",
-  "version": "6.5.15",
+  "version": "6.5.16-alpha.0",
   "description": "Shared utility functions for frameworks to implement docs",
   "keywords": [
     "storybook"
@@ -42,7 +42,7 @@
   "dependencies": {
     "@babel/core": "^7.12.10",
     "@storybook/csf": "0.0.2--canary.4566f4d.1",
-    "@storybook/store": "6.5.15",
+    "@storybook/store": "6.5.16-alpha.0",
     "core-js": "^3.8.2",
     "doctrine": "^3.0.0",
     "lodash": "^4.17.21",
@@ -55,6 +55,6 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "feab19dad03201d094000c656bcb4559294b3914",
+  "gitHead": "1b48a7af6f154076a9c77b3890c2baeba4d724a1",
   "sbmodern": "dist/modern/index.js"
 }

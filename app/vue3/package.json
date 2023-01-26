@@ -1,6 +1,6 @@
 {
   "name": "@storybook/vue3",
-  "version": "6.5.15",
+  "version": "6.5.16-alpha.0",
   "description": "Storybook for Vue 3: Develop Vue 3 Components in isolation with Hot Reloading.",
   "keywords": [
     "storybook"
@@ -45,12 +45,12 @@
     "prepare": "node ../../scripts/prepare.js"
   },
   "dependencies": {
-    "@storybook/addons": "6.5.15",
-    "@storybook/core": "6.5.15",
-    "@storybook/core-common": "6.5.15",
+    "@storybook/addons": "6.5.16-alpha.0",
+    "@storybook/core": "6.5.16-alpha.0",
+    "@storybook/core-common": "6.5.16-alpha.0",
     "@storybook/csf": "0.0.2--canary.4566f4d.1",
-    "@storybook/docs-tools": "6.5.15",
-    "@storybook/store": "6.5.15",
+    "@storybook/docs-tools": "6.5.16-alpha.0",
+    "@storybook/store": "6.5.16-alpha.0",
     "@types/node": "^14.14.20 || ^16.0.0",
     "@types/webpack-env": "^1.16.0",
     "core-js": "^3.8.2",
@@ -83,6 +83,6 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "feab19dad03201d094000c656bcb4559294b3914",
+  "gitHead": "1b48a7af6f154076a9c77b3890c2baeba4d724a1",
   "sbmodern": "dist/modern/client/index.js"
 }
