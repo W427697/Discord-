@@ -114,10 +114,16 @@ export const useSourceProps = (
     const resolved = docsContext.resolveOf(props.of, ['story']);
     stories = [resolved.story];
   } else if (stories.length === 0) {
-    stories = [docsContext.storyById()];
+    try {
+      const primaryStory = docsContext.storyById();
+      stories = [primaryStory];
+    } catch (error) {
+      // if it fails to get the primary story it's most likely because the doc is unattached
+      stories = [];
+    }
   }
 
-  const sourceParameters = (stories[0].parameters.docs?.source || {}) as SourceParameters;
+  const sourceParameters = (stories[0]?.parameters.docs?.source || {}) as SourceParameters;
   let { code } = props; // We will fall back to `sourceParameters.code`, but per story below
   let format = props.format ?? sourceParameters.format;
   const language = props.language ?? sourceParameters.language ?? 'jsx';
