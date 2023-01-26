@@ -1,5 +1,5 @@
 import * as fs from 'fs';
-
+import { logger } from '@storybook/node-logger';
 import { getBowerJson } from './helpers';
 import { detect, detectFrameworkPreset, detectLanguage, isStorybookInstalled } from './detect';
 import { ProjectType, SUPPORTED_RENDERERS, SupportedLanguage } from './project_types';
@@ -20,6 +20,8 @@ jest.mock('path', () => ({
   // make it return just the second path, for easier testing
   join: jest.fn((_, p) => p),
 }));
+
+jest.mock('@storybook/node-logger');
 
 const MOCK_FRAMEWORK_FILES: {
   name: string;
@@ -299,8 +301,12 @@ describe('Detect', () => {
   });
 
   it(`should return language javascript if the TS dependency is present but less than minimum supported`, () => {
+    (logger.warn as jest.MockedFunction<typeof logger.warn>).mockClear();
     expect(detectLanguage({ dependencies: { typescript: '1.0.0' } })).toBe(
       SupportedLanguage.JAVASCRIPT
+    );
+    expect(logger.warn).toHaveBeenCalledWith(
+      'Detected TypeScript < 3.8, populating with JavaScript examples'
     );
   });
 

@@ -2,6 +2,7 @@ import path from 'path';
 import fs from 'fs';
 import findUp from 'find-up';
 import semver from 'semver';
+import { logger } from '@storybook/node-logger';
 
 import type { TemplateConfiguration, TemplateMatcher } from './project_types';
 import {
@@ -188,7 +189,7 @@ export function detectLanguage(packageJson?: PackageJson) {
       semver.lt(semver.coerce(version), '3.8.0')
     )
   ) {
-    console.warn('Detected TypeScript < 3.8, populating with JavaScript examples');
+    logger.warn('Detected TypeScript < 3.8, populating with JavaScript examples');
   }
 
   return language;
