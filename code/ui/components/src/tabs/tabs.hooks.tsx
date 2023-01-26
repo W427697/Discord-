@@ -105,7 +105,7 @@ export function useList(list: ChildrenList) {
                 style={{ visibility: 'hidden' }}
                 tabIndex={-1}
                 ref={(ref: HTMLButtonElement) => {
-                  tabRefs.current.set(title, ref);
+                  tabRefs.current.set(id, ref);
                 }}
                 className="tabbutton"
                 type="button"
@@ -134,8 +134,8 @@ export function useList(list: ChildrenList) {
     let widthSum = 0;
 
     const newInvisibleList = list.filter((item) => {
-      const { title } = item;
-      const tabButton = tabRefs.current.get(title);
+      const { id } = item;
+      const tabButton = tabRefs.current.get(id);
 
       if (!tabButton) {
         return false;

@@ -152,12 +152,12 @@ export const Tabs: FC<TabsProps> = memo(
       <Wrapper absolute={absolute} bordered={bordered} id={htmlId}>
         <WrapperChildren backgroundColor={backgroundColor}>
           <TabBar ref={tabBarRef} role="tablist">
-            {visibleList.map(({ title, id, active, color }, index) => {
+            {visibleList.map(({ title, id, active, color }) => {
               return (
                 <TabButton
                   id={`tabbutton-${sanitize(title)}`}
                   ref={(ref: HTMLButtonElement) => {
-                    tabRefs.current.set(title, ref);
+                    tabRefs.current.set(id, ref);
                   }}
                   className={`tabbutton ${active ? 'tabbutton-active' : ''}`}
                   type="button"
