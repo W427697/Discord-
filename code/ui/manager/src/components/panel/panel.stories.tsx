@@ -13,7 +13,7 @@ export default {
 };
 
 export const Default = () => {
-  const [selectedPanel, setSelectedPanel] = useState('test10');
+  const [selectedPanel, setSelectedPanel] = useState('test2');
   return (
     <Panel
       absolute={false}
