@@ -49,9 +49,11 @@
       - [Description block, `parameters.notes` and `parameters.info`](#description-block-parametersnotes-and-parametersinfo)
       - [Story block](#story-block)
       - [Source block](#source-block)
+    - [Canvas block](#canvas-block)
       - [ArgsTable block](#argstable-block)
     - [Configuring Autodocs](#configuring-autodocs)
     - [MDX2 upgrade](#mdx2-upgrade)
+    - [Legacy MDX1 support](#legacy-mdx1-support)
     - [Default docs styles will leak into non-story user components](#default-docs-styles-will-leak-into-non-story-user-components)
     - [Explicit `<code>` elements are no longer syntax highlighted](#explicit-code-elements-are-no-longer-syntax-highlighted)
     - [Dropped source loader / storiesOf static snippets](#dropped-source-loader--storiesof-static-snippets)
@@ -889,6 +891,43 @@ The source block now references a single story, the component, or a CSF file its
 
 Referencing stories by `id="xyz--abc"` is deprecated and should be replaced with `of={}` as above. Referencing multiple stories via `ids={["xyz--abc"]}` is now deprecated and should be avoided (instead use two source blocks).
 
+#### Canvas block
+
+The Canvas block follows the same changes as [the Story block described above](#story-block).
+
+Previously the Canvas block accepted children (Story blocks) as a way to reference stories. That has now been replaced with the `of={}` prop that accepts a reference to _a story_.
+That also means the Canvas block no longer supports containing multiple stories or elements, and thus the props related to that - `isColumn` and `columns` - have also been deprecated.
+
+- To pass props to the inner Story block use the `story={{ }}` prop
+- Similarly, to pass props to the inner Source block use the `source={{ }}` prop.
+- The `mdxSource` prop has been deprecated in favor of using `source={{ code: '...' }}`
+- The `withSource` prop has been renamed to `sourceState`
+
+Here's a full example of the new API:
+
+```mdx
+import { Meta, Canvas } from '@storybook/blocks';
+import * as ComponentStories from './some-component.stories';
+
+<Meta of={ComponentStories} />
+
+<Canvas
+  of={ComponentStories.standard}
+  story={{
+    inline: false,
+    height: '200px'
+  }}
+  source={{
+    language: 'html',
+    code: 'custom code...'
+  }}
+  withToolbar={true}
+  additionalActions={[...]}
+  layout="fullscreen"
+  className="custom-class"
+/>
+```
+
 ##### ArgsTable block
 
 The `ArgsTable` block is now deprecated, and two new blocks: `ArgsTypes` and `Controls` should be preferred.
@@ -956,11 +995,35 @@ export const MyDocsContainer = (props) => (
 
 Storybook 7 Docs uses MDXv2 instead of MDXv1. This means an improved syntax, support for inline JS expression, and improved performance among [other benefits](https://mdxjs.com/blog/v2/).
 
-If you use `.stories.mdx` files in your project, you may need to edit them since MDX2 contains [breaking changes](https://mdxjs.com/migrating/v2/#update-mdx-files).
+If you use `.stories.mdx` files in your project, you'll probably need to edit them since MDX2 contains [breaking changes](https://mdxjs.com/migrating/v2/#update-mdx-files). In general, MDX2 is stricter and more structured than MDX1.
 
-We will update this section with specific pointers based on user feedback during the prerelease period and probably add an codemod to help streamline the upgrade before final 7.0 release.
+We've provided an automigration, `mdx1to2` that makes a few of these changes automatically. For example, `mdx1to2` automatically converts MDX1-style HTML comments into MDX2-style JSX comments to save you time.
 
-As part of the upgrade we deleted the codemod `mdx-to-csf` and will be replacing it with a more sophisticated version prior to release.
+Unfortunately, the set of changes from MDX1 to MDX2 is vast, and many changes are subtle, so the bulk of the migration will be manual. You can use the [MDX Playground](https://mdxjs.com/playground/) to try out snippets interactively.
+
+#### Legacy MDX1 support
+
+If you get stuck with the [MDX2 upgrade](#mdx2-upgrade), we also provide opt-in legacy MDX1 support. This is intended as a temporary solution while you upgrade your Storybook; MDX1 will be discontinued in Storybook 8.0. The MDX1 library is no longer maintained and installing it results in `npm audit` security warnings.
+
+To process your `.stories.mdx` files with MDX1, first install the `@storybook/mdx1-csf` package in your project:
+
+```
+yarn add -D @storybook/mdx1-csf@next
+```
+
+Then enable the `legacyMdx1` feature flag in your `.storybook/main.js` file:
+
+```js
+export default {
+  features: {
+    legacyMdx1: true,
+  }
+}
+```
+
+NOTE: This only affects `.(stories|story).mdx` files. Notably, if you want to use Storybook 7's "pure" `.mdx` format, you'll need to use MDX2 for that.
+
+NOTE: Legacy MDX1 support is only for Webpack projects. There is currently no legacy support for Vite.
 
 #### Default docs styles will leak into non-story user components
 

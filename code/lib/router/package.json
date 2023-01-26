@@ -1,6 +1,6 @@
 {
   "name": "@storybook/router",
-  "version": "7.0.0-beta.33",
+  "version": "7.0.0-beta.34",
   "description": "Core Storybook Router",
   "keywords": [
     "storybook"
@@ -48,7 +48,7 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/client-logger": "7.0.0-beta.33",
+    "@storybook/client-logger": "7.0.0-beta.34",
     "memoizerific": "^1.11.3",
     "qs": "^6.10.0"
   },
@@ -74,5 +74,5 @@
       "./src/utils.ts"
     ]
   },
-  "gitHead": "7b662c444875d3890ee935878fb1b2b45fbfdfb7"
+  "gitHead": "b8c17b23e92257c5a09b592dc6b557ba7b94ccea"
 }

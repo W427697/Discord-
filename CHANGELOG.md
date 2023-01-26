@@ -1,3 +1,27 @@
+## 7.0.0-beta.34 (January 26, 2023)
+
+#### Features
+
+-   Addon-docs: Add legacy transitional support for MDX1 [#20747](https://github.com/storybooks/storybook/pull/20747)
+
+#### Bug Fixes
+
+-   CLI: Fix global flag corner case [#20776](https://github.com/storybooks/storybook/pull/20776)
+-   Csf-tools: Fix ConfigFile string literal property handling [#20785](https://github.com/storybooks/storybook/pull/20785)
+-   Angular: Ensure docsMode flag has effect [#20711](https://github.com/storybooks/storybook/pull/20711)
+-   Angular: Use Providers in boostrapApplication option [#20746](https://github.com/storybooks/storybook/pull/20746)
+-   WebComponents: Fix Button type error [#20722](https://github.com/storybooks/storybook/pull/20722)
+
+#### Build
+
+-   Verify consistency of anonymous id [#20781](https://github.com/storybooks/storybook/pull/20781)
+-   Build: fix playwright unsynced version in CI [#20778](https://github.com/storybooks/storybook/pull/20778)
+-   Upgrade playwright [#20777](https://github.com/storybooks/storybook/pull/20777)
+
+#### Dependency Upgrades
+
+-   Deps: Upgrade fs-extra to 11.1.0 [#20772](https://github.com/storybooks/storybook/pull/20772)
+
 ## 7.0.0-beta.33 (January 24, 2023)
 
 #### Features
