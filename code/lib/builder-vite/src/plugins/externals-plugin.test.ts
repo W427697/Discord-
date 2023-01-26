@@ -38,6 +38,6 @@ const cases = [
 
 test('rewriteImport', () => {
   cases.forEach(({ input, output, globals: caseGlobals, packageName: casePackage }) => {
-    expect(rewriteImport<false>(input, caseGlobals, casePackage)).toStrictEqual(output);
+    expect(rewriteImport(input, caseGlobals, casePackage)).toStrictEqual(output);
   });
 });

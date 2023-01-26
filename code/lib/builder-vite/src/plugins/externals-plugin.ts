@@ -4,9 +4,6 @@ import MagicString from 'magic-string';
 import { emptyDir, ensureDir, ensureFile, writeFile } from 'fs-extra';
 import { mergeAlias } from 'vite';
 import type { Alias, Plugin } from 'vite';
-import { globals } from '@storybook/preview/globals';
-
-type Globals = typeof globals & Record<string, string>;
 
 const escapeKeys = (key: string) => key.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
 const defaultImportRegExp = 'import ([^*{}]+) from';
@@ -38,7 +35,7 @@ const replacementMap = new Map([
  * It is based on existing plugins like https://github.com/crcong/vite-plugin-externals
  * and https://github.com/eight04/rollup-plugin-external-globals, but simplified to meet our simple needs.
  */
-export async function externalsPlugin() {
+export async function externalsPlugin(externals: Record<string, string>) {
   await init;
   return {
     name: 'storybook:external-globals-plugin',
@@ -54,11 +51,11 @@ export async function externalsPlugin() {
       await ensureDir(cachePath);
       await emptyDir(cachePath);
       await Promise.all(
-        (Object.keys(globals) as Array<keyof typeof globals>).map(async (externalKey) => {
+        (Object.keys(externals) as Array<keyof typeof externals>).map(async (externalKey) => {
           const externalCachePath = join(cachePath, `${externalKey}.js`);
           newAlias.push({ find: new RegExp(`^${externalKey}$`), replacement: externalCachePath });
           await ensureFile(externalCachePath);
-          await writeFile(externalCachePath, `module.exports = ${globals[externalKey]};`);
+          await writeFile(externalCachePath, `module.exports = ${externals[externalKey]};`);
         })
       );
 
@@ -70,7 +67,7 @@ export async function externalsPlugin() {
     },
     // Replace imports with variables destructured from global scope
     async transform(code: string, id: string) {
-      const globalsList = Object.keys(globals);
+      const globalsList = Object.keys(externals);
       if (globalsList.every((glob) => !code.includes(glob))) return undefined;
 
       const [imports] = parse(code);
@@ -79,7 +76,7 @@ export async function externalsPlugin() {
         const packageName = path;
         if (packageName && globalsList.includes(packageName)) {
           const importStatement = src.slice(startPosition, endPosition);
-          const transformedImport = rewriteImport(importStatement, globals, packageName);
+          const transformedImport = rewriteImport(importStatement, externals, packageName);
           src.update(startPosition, endPosition, transformedImport);
         }
       });
@@ -109,10 +106,10 @@ function getSearchRegExp(packageName: string) {
   return new RegExp(`(${lookup.join('|')})`, 'g');
 }
 
-export function rewriteImport<T = true>(
+export function rewriteImport(
   importStatement: string,
-  globs: T extends true ? Globals : Record<string, string>,
-  packageName: keyof typeof globs & string
+  globs: Record<string, string>,
+  packageName: string
 ): string {
   const search = getSearchRegExp(packageName);
   return importStatement.replace(

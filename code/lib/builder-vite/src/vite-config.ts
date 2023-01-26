@@ -8,6 +8,7 @@ import type {
   InlineConfig,
 } from 'vite';
 import { isPreservingSymlinks, getFrameworkName, getBuilderOptions } from '@storybook/core-common';
+import { globals } from '@storybook/preview/globals';
 import type { Options } from '@storybook/types';
 import {
   codeGeneratorPlugin,
@@ -93,7 +94,7 @@ export async function pluginConfig(options: Options) {
         }
       },
     },
-    await externalsPlugin(),
+    await externalsPlugin(globals),
   ] as PluginOption[];
 
   // TODO: framework doesn't exist, should move into framework when/if built
