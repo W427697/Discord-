@@ -15,6 +15,7 @@
     - [Stories glob matches MDX files](#stories-glob-matches-mdx-files)
     - [Add strict mode](#add-strict-mode)
     - [Babel mode v7 exclusively](#babel-mode-v7-exclusively)
+    - [Importing plain markdown files with `transcludeMarkdown` has changed](#importing-plain-markdown-files-with-transcludemarkdown-has-changed)
     - [7.0 feature flags removed](#70-feature-flags-removed)
   - [Core addons](#core-addons)
     - [Removed auto injection of @storybook/addon-actions decorator](#removed-auto-injection-of-storybookaddon-actions-decorator)
@@ -540,6 +541,21 @@ npx sb@next babelrc
 
 This will create a `.babelrc.json` file. This file includes a bunch of babel plugins, so you may need to add new package devDependencies accordingly.
 
+#### Importing plain markdown files with `transcludeMarkdown` has changed
+
+The `transcludeMarkdown` option in `addon-docs` have been removed, and the automatic handling of `.md` files in Vite projects have also been disabled.
+
+Instead `.md` files can be imported as plain strings by adding the `?raw` suffix to the import. In an MDX file that would look like this:
+
+```
+import ReadMe from './README.md?raw';
+
+...
+
+{ReadMe}
+
+```
+
 #### 7.0 feature flags removed
 
 Storybook uses temporary feature flags to opt-in to future breaking changes or opt-in to legacy behaviors. For example:
@@ -790,7 +806,7 @@ We've renamed many of the parameters that control docs rendering for consistency
 
 Previously `.stories.mdx` files were used to both define and document stories. In 7.0, we have deprecated defining stories in MDX files, and consequently have changed the suffix to simply `.mdx`. Our default `stories` glob in `main.js` will now match such files -- if you want to write MDX files that do not appear in Storybook, you may need to adjust the glob accordingly.
 
-If you were using `.stories.mdx` files to write stories, we encourage you to move the stories to a CSF file, and *attach* an `.mdx` file to that CSF file to document them. You can use the `Meta` block to attach a MDX file to a CSF file, and the `Story` block to render the stories:
+If you were using `.stories.mdx` files to write stories, we encourage you to move the stories to a CSF file, and _attach_ an `.mdx` file to that CSF file to document them. You can use the `Meta` block to attach a MDX file to a CSF file, and the `Story` block to render the stories:
 
 ```mdx
 import { Meta, Story } from '@storybook/blocks';
@@ -805,7 +821,6 @@ You can create as many docs entries as you like for a given component. Note that
 
 By default docs entries are listed first for the component. You can sort them using story sorting.
 
-
 #### Unattached docs files
 
 In Storybook 6.x, to create a unattached docs MDX file (that is, one not attached to story or a CSF file), you'd have to create a `.stories.mdx` file, and describe its location with the `Meta` doc block:
@@ -818,14 +833,13 @@ import { Meta } from '@storybook/addon-docs';
 
 In 7.0, things are a little simpler -- you should call the file `.mdx` (drop the `.stories`). This will mean behind the scenes there is no story attached to this entry. You may also drop the `title` and use autotitle (and leave the `Meta` component out entirely, potentially).
 
-
 #### Doc Blocks
 
 Additionally to changing the docs information architecture, we've updated the API of the doc blocks themselves to be more consistent and future proof.
 
 **General changes**
 
-- Each block now uses `of={}` as a primary API -- where the argument to the `of` prop is a CSF or story *export*.
+- Each block now uses `of={}` as a primary API -- where the argument to the `of` prop is a CSF or story _export_.
 
 - When you've attached to a CSF file (with the `Meta` block, or in Autodocs), you can drop the `of` and the block will reference the first story or the CSF file as a whole.
 
@@ -871,7 +885,7 @@ Referencing stories by `id="xyz--abc"` is deprecated and should be replaced with
 
 ##### Source block
 
-The source block now references a single story, the component, or a CSF file itself via the `of={}` parameter. 
+The source block now references a single story, the component, or a CSF file itself via the `of={}` parameter.
 
 Referencing stories by `id="xyz--abc"` is deprecated and should be replaced with `of={}` as above. Referencing multiple stories via `ids={["xyz--abc"]}` is now deprecated and should be avoided (instead use two source blocks).
 
@@ -884,6 +898,7 @@ The `ArgsTable` block is now deprecated, and two new blocks: `ArgsTypes` and `Co
 - `<Controls of={storyExports} />` will render the controls for a story (or the primary story if `of` is omitted and the MDX file is attached).
 
 The following props are not supported in the new blocks:
+
 - `components` - to render more than one component in a single table
 - `showComponent` to show the component's props as well as the story's args
 - the `subcomponents` annotation to show more components on the table.
@@ -891,7 +906,6 @@ The following props are not supported in the new blocks:
 - `story="^"` to reference the primary story (just omit `of` in that case, for `Controls`).
 - `story="."` to reference the current story (this no longer makes sense in Docs 2).
 - `story="name"` to reference a story (use `of={}`).
-
 
 #### Configuring Autodocs
 
@@ -907,7 +921,7 @@ export const parameters = {
 }
 ```
 
-Note that the container must be implemented as a *React component*.
+Note that the container must be implemented as a _React component_.
 
 You likely want to use the `DocsContainer` component exported by `@storybook/blocks` and consider the following examples:
 
