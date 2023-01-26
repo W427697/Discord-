@@ -120,7 +120,7 @@ export const Layout = ({ state: incomingState, persistence, setState, ...slots }
           {slots.slotPanel}
         </PanelContainer>
         <DesktopControls
-          state={{...state, panelPosition: incomingState.panelPosition }} 
+          state={{ ...state, panelPosition: incomingState.panelPosition }}
           stateRef={stateRef}
           updateState={updateState}
         />

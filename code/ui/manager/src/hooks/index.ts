@@ -1,3 +1,3 @@
-import useUpstreamState from "./useUpstreamState"
+import useUpstreamState from './useUpstreamState';
 
-export { useUpstreamState }
+export { useUpstreamState };
