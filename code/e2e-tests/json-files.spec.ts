@@ -29,7 +29,9 @@ test.describe('JSON files', () => {
   test('should have modules.json', async ({ page }) => {
     test.skip(
       // eslint-disable-next-line jest/valid-title
-      templateName.includes('Vite') || templateName.includes('Qwik'),
+      templateName.includes('Vite') ||
+        templateName.includes('Qwik') ||
+        templateName.includes('Svelte'),
       'Only run this test for Webpack'
     );
 
