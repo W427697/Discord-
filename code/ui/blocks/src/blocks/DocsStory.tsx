@@ -10,11 +10,16 @@ import { useOf } from './useOf';
 export const DocsStory: FC<DocsStoryProps> = ({
   of,
   expanded = true,
-  withToolbar = false,
   __forceInitialArgs = false,
   __primary = false,
 }) => {
   const { story } = useOf(of || 'story', ['story']);
+
+  // use withToolbar from parameters or default to true in autodocs
+  const withToolbar =
+    story.parameters.docs?.canvas?.withToolbar === undefined
+      ? true
+      : story.parameters.docs.canvas.withToolbar;
 
   return (
     <Anchor storyId={story.id}>
