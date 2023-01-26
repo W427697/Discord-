@@ -63,6 +63,7 @@ function commandBuilder(
         loglevel,
         outputDir,
         quiet,
+        modulesJson,
         webpackStatsJson,
         disableTelemetry,
       } = options;
@@ -82,6 +83,7 @@ function commandBuilder(
           ...(styles ? { styles } : {}),
         },
         tsConfig,
+        modulesJson,
         webpackStatsJson,
       };
 

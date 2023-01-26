@@ -91,6 +91,7 @@ describe('Build Storybook Builder', () => {
       packageJson: expect.any(Object),
       mode: 'static',
       tsConfig: './storybook/tsconfig.ts',
+      modulesJson: false,
       webpackStatsJson: false,
     });
   });
