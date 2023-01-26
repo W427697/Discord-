@@ -2,6 +2,7 @@ import { test, expect } from '@playwright/test';
 import process from 'process';
 
 const storybookUrl = process.env.STORYBOOK_URL || 'http://localhost:8001';
+const templateName = process.env.STORYBOOK_TEMPLATE_NAME;
 
 test.describe('JSON files', () => {
   test.beforeEach(async ({ page }) => {
@@ -26,6 +27,12 @@ test.describe('JSON files', () => {
   });
 
   test('should have modules.json', async ({ page }) => {
+    test.skip(
+      // eslint-disable-next-line jest/valid-title
+      templateName.includes('Vite') || templateName.includes('Qwik'),
+      'Only run this test for Webpack'
+    );
+
     const json = await page.evaluate(() => fetch('/modules.json').then((res) => res.json()));
 
     expect(json).toEqual({
