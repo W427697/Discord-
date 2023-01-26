@@ -30,7 +30,13 @@ export type StorybookBuilderOptions = JsonObject & {
 } & Pick<
     // makes sure the option exists
     CLIOptions,
-    'outputDir' | 'configDir' | 'loglevel' | 'quiet' | 'webpackStatsJson' | 'disableTelemetry'
+    | 'outputDir'
+    | 'configDir'
+    | 'loglevel'
+    | 'quiet'
+    | 'modulesJson'
+    | 'webpackStatsJson'
+    | 'disableTelemetry'
   >;
 
 export type StorybookBuilderOutput = JsonObject & BuilderOutput & {};
