@@ -25,7 +25,6 @@ const defaultOptions: FrameworkOptions = {
   framework: undefined,
   extensions: undefined,
   componentsDestinationPath: undefined,
-  commonJs: false,
   storybookConfigFolder: '.storybook',
 };
 
@@ -123,13 +122,7 @@ const hasFrameworkTemplates = (framework?: SupportedFrameworks) =>
 export async function baseGenerator(
   packageManager: JsPackageManager,
   npmOptions: NpmOptions,
-  {
-    language,
-    builder = CoreBuilder.Webpack5,
-    pnp,
-    commonJs,
-    frameworkPreviewParts,
-  }: GeneratorOptions,
+  { language, builder = CoreBuilder.Webpack5, pnp, frameworkPreviewParts }: GeneratorOptions,
   renderer: SupportedRenderers,
   options: FrameworkOptions = defaultOptions,
   framework?: SupportedFrameworks
@@ -230,7 +223,6 @@ export async function baseGenerator(
       addons: pnp ? addons.map(wrapForPnp) : addons,
       extensions,
       language,
-      commonJs,
       ...(staticDir ? { staticDirs: [path.join('..', staticDir)] } : null),
       ...extraMain,
       ...(type !== 'framework'

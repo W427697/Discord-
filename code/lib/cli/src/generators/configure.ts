@@ -5,7 +5,6 @@ import { SupportedLanguage } from '../project_types';
 interface ConfigureMainOptions {
   addons: string[];
   extensions?: string[];
-  commonJs?: boolean;
   staticDirs?: string[];
   storybookConfigFolder: string;
   language: SupportedLanguage;
@@ -34,7 +33,6 @@ interface ConfigurePreviewOptions {
 export async function configureMain({
   addons,
   extensions = ['js', 'jsx', 'ts', 'tsx'],
-  commonJs = false,
   storybookConfigFolder,
   language,
   ...custom
