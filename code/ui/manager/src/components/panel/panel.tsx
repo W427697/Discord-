@@ -90,7 +90,7 @@ const AddonPanel = React.memo<{
       id="storybook-panel-root"
     >
       {Object.entries(panels).map(([k, v]) => (
-        <SafeTab key={k} id={k} title={v.title}>
+        <SafeTab key={k} id={k} title={typeof v.title === 'function' ? v.title() : v.title}>
           {v.render}
         </SafeTab>
       ))}

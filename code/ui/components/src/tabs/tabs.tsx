@@ -153,13 +153,11 @@ export const Tabs: FC<TabsProps> = memo(
         <WrapperChildren backgroundColor={backgroundColor}>
           <TabBar ref={tabBarRef} role="tablist">
             {visibleList.map(({ title, id, active, color }, index) => {
-              const tabTitle = typeof title === 'function' ? title() : title;
-
               return (
                 <TabButton
-                  id={`tabbutton-${sanitize(tabTitle)}`}
+                  id={`tabbutton-${sanitize(title)}`}
                   ref={(ref: HTMLButtonElement) => {
-                    tabRefs.current.set(tabTitle, ref);
+                    tabRefs.current.set(title, ref);
                   }}
                   className={`tabbutton ${active ? 'tabbutton-active' : ''}`}
                   type="button"
@@ -172,7 +170,7 @@ export const Tabs: FC<TabsProps> = memo(
                   }}
                   role="tab"
                 >
-                  {tabTitle}
+                  {title}
                 </TabButton>
               );
             })}

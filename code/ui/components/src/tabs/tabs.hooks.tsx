@@ -1,8 +1,8 @@
 import React, { useCallback, useLayoutEffect, useRef, useState } from 'react';
 import { sanitize } from '@storybook/csf';
 import { styled } from '@storybook/theming';
+import useResizeObserver from 'use-resize-observer';
 import { TabButton } from '../bar/button';
-import { useOnWindowResize } from '../hooks/useOnWindowResize';
 import { TooltipLinkList } from '../tooltip/TooltipLinkList';
 import { WithTooltip } from '../tooltip/WithTooltip';
 import type { ChildrenList } from './tabs.helpers';
@@ -36,6 +36,9 @@ export function useList(list: ChildrenList) {
   const tabBarRef = useRef<HTMLDivElement>();
   const addonsRef = useRef<HTMLButtonElement>();
   const tabRefs = useRef(new Map<string, HTMLButtonElement>());
+  const { width: tabBarWidth = 1 } = useResizeObserver<HTMLDivElement>({
+    ref: tabBarRef,
+  });
 
   const [visibleList, setVisibleList] = useState(list);
   const [invisibleList, setInvisibleList] = useState<ChildrenList>([]);
@@ -60,14 +63,14 @@ export function useList(list: ChildrenList) {
             withArrows={false}
             visible={isTooltipVisible}
             onVisibleChange={setTooltipVisible}
+            placement="bottom"
             delayHide={100}
             tooltip={
               <TooltipLinkList
                 links={invisibleList.map(({ title, id, color, active }) => {
-                  const tabTitle = typeof title === 'function' ? title() : title;
                   return {
                     id,
-                    title: tabTitle,
+                    title,
                     color,
                     active,
                     onClick: (e) => {
@@ -96,14 +99,13 @@ export function useList(list: ChildrenList) {
             </AddonButton>
           </WithTooltip>
           {invisibleList.map(({ title, id, color }) => {
-            const tabTitle = typeof title === 'function' ? title() : title;
             return (
               <TabButton
-                id={`tabbutton-${sanitize(tabTitle)}`}
+                id={`tabbutton-${sanitize(title)}`}
                 style={{ visibility: 'hidden' }}
                 tabIndex={-1}
                 ref={(ref: HTMLButtonElement) => {
-                  tabRefs.current.set(tabTitle, ref);
+                  tabRefs.current.set(title, ref);
                 }}
                 className="tabbutton"
                 type="button"
@@ -111,7 +113,7 @@ export function useList(list: ChildrenList) {
                 textColor={color}
                 role="tab"
               >
-                {tabTitle}
+                {title}
               </TabButton>
             );
           })}
@@ -133,8 +135,7 @@ export function useList(list: ChildrenList) {
 
     const newInvisibleList = list.filter((item) => {
       const { title } = item;
-      const tabTitle = typeof title === 'function' ? title() : title;
-      const tabButton = tabRefs.current.get(tabTitle);
+      const tabButton = tabRefs.current.get(title);
 
       if (!tabButton) {
         return false;
@@ -159,9 +160,7 @@ export function useList(list: ChildrenList) {
     }
   }, [invisibleList.length, list, visibleList]);
 
-  useOnWindowResize(setTabLists);
-
-  useLayoutEffect(setTabLists, [setTabLists]);
+  useLayoutEffect(setTabLists, [setTabLists, tabBarWidth]);
 
   return {
     tabRefs,
