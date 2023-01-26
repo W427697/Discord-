@@ -5,7 +5,7 @@ import { expect } from '@jest/globals';
 import type { Renderer, ArgsEnhancer, PlayFunctionContext, SBScalarType } from '@storybook/types';
 import { addons, HooksContext } from '../../addons';
 
-import { NO_TARGET_NAME } from '../args';
+import { UNTARGETED } from '../args';
 import { prepareStory, prepareMeta } from './prepareStory';
 
 jest.mock('@storybook/global', () => ({
@@ -595,7 +595,7 @@ describe('prepareStory', () => {
       firstStory.unboundStoryFn(context);
       expect(renderMock).toHaveBeenCalledWith(
         { a: 1 },
-        expect.objectContaining({ argsByTarget: { [NO_TARGET_NAME]: { a: 1 }, foo: { b: 2 } } })
+        expect.objectContaining({ argsByTarget: { [UNTARGETED]: { a: 1 }, foo: { b: 2 } } })
       );
     });
 

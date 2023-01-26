@@ -25,7 +25,7 @@ import { includeConditionalArg } from '@storybook/csf';
 import { applyHooks } from '../../addons';
 import { combineParameters } from '../parameters';
 import { defaultDecorateStory } from '../decorators';
-import { groupArgsByTarget, NO_TARGET_NAME } from '../args';
+import { groupArgsByTarget, UNTARGETED } from '../args';
 
 // Combine all the metadata about a story (both direct and inherited from the component/global scope)
 // into a "renderable" story function, with all decorators applied, parameters passed as context etc
@@ -100,7 +100,7 @@ export function prepareStory<TRenderer extends Renderer>(
         ...context,
         allArgs: context.args,
         argsByTarget,
-        args: argsByTarget[NO_TARGET_NAME] || {},
+        args: argsByTarget[UNTARGETED] || {},
       };
     }
 

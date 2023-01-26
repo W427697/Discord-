@@ -1,7 +1,7 @@
 import type { ActionOptions } from '../models';
 
 export const config: ActionOptions = {
-  depth: 6,
+  depth: 10,
   clearOnStoryChange: true,
   limit: 50,
 };
