@@ -50,8 +50,7 @@ export async function configureMain({
   const tsTemplate = dedent`<<import>>const config<<type>> = <<mainContents>>;
   export default config;`;
 
-  const jsTemplate = dedent`const config = <<mainContents>>
-  export default config;`;
+  const jsTemplate = dedent`export default <<mainContents>>;`;
 
   const finalTemplate = isTypescript ? tsTemplate : jsTemplate;
 
@@ -62,9 +61,7 @@ export async function configureMain({
 
   await fse.writeFile(
     `./${storybookConfigFolder}/main.${isTypescript ? 'ts' : 'js'}`,
-    dedent`
-      ${mainJsContents}
-    `,
+    dedent(mainJsContents),
     { encoding: 'utf8' }
   );
 }
