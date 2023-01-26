@@ -33,7 +33,7 @@ type SourceParameters = SourceCodeProps & {
   originalSource?: string;
 };
 
-type SourceProps = Omit<SourceParameters, 'transformSource' | 'storySource'> & {
+export type SourceProps = Omit<SourceParameters, 'transformSource' | 'storySource'> & {
   /**
    * Pass the export defining a story to render its source
    *
