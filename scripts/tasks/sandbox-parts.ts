@@ -13,6 +13,7 @@ import {
 } from 'fs-extra';
 import { join, resolve, sep } from 'path';
 
+import slash from 'slash';
 import type { Task } from '../task';
 import { executeCLIStep, steps } from '../utils/cli-step';
 import { installYarn2, configureYarn2ForVerdaccio, addPackageResolutions } from '../utils/yarn';
@@ -262,8 +263,8 @@ function addStoriesEntry(mainConfig: ConfigFile, path: string) {
   const stories = mainConfig.getFieldValue(['stories']) as string[];
 
   const entry = {
-    directory: join('../template-stories', path),
-    titlePrefix: path,
+    directory: slash(join('../template-stories', path)),
+    titlePrefix: slash(path),
     files: '**/*.@(mdx|stories.@(js|jsx|ts|tsx))',
   };
 
@@ -297,7 +298,9 @@ async function linkPackageStories(
 
   await ensureSymlink(source, target);
 
-  if (!linkInDir) addStoriesEntry(mainConfig, packageDir);
+  if (!linkInDir) {
+    addStoriesEntry(mainConfig, packageDir);
+  }
 
   // Add `previewAnnotation` entries of the form
   //   './template-stories/lib/store/preview.[tj]s'
@@ -354,53 +357,62 @@ export const addStories: Task['run'] = async (
   const packageJson = await import(join(cwd, 'package.json'));
   updateStoriesField(mainConfig, detectLanguage(packageJson) === SupportedLanguage.JAVASCRIPT);
 
-  // Link in the template/components/index.js from store, the renderer and the addons
-  const rendererPath = await workspacePath('renderer', template.expected.renderer);
-  await ensureSymlink(
-    join(codeDir, rendererPath, 'template', 'components'),
-    resolve(cwd, storiesPath, 'components')
-  );
-  addPreviewAnnotations(mainConfig, [`.${sep}${join(storiesPath, 'components')}`]);
+  const isCoreRenderer = template.expected.renderer.startsWith('@storybook/');
+  if (isCoreRenderer) {
+    // Link in the template/components/index.js from store, the renderer and the addons
+    const rendererPath = await workspacePath('renderer', template.expected.renderer);
+    await ensureSymlink(
+      join(codeDir, rendererPath, 'template', 'components'),
+      resolve(cwd, storiesPath, 'components')
+    );
+    addPreviewAnnotations(mainConfig, [`.${sep}${join(storiesPath, 'components')}`]);
 
-  // Add stories for the renderer. NOTE: these *do* need to be processed by the framework build system
-  await linkPackageStories(rendererPath, {
-    mainConfig,
-    cwd,
-    linkInDir: resolve(cwd, storiesPath),
-  });
-
-  const frameworkPath = await workspacePath('frameworks', template.expected.framework);
-
-  // Add stories for the framework if it has one. NOTE: these *do* need to be processed by the framework build system
-  if (await pathExists(resolve(codeDir, frameworkPath, join('template', 'stories')))) {
-    await linkPackageStories(frameworkPath, {
+    // Add stories for the renderer. NOTE: these *do* need to be processed by the framework build system
+    await linkPackageStories(rendererPath, {
       mainConfig,
       cwd,
       linkInDir: resolve(cwd, storiesPath),
     });
   }
 
-  const frameworkVariant = key.split('/')[1];
-  const storiesVariantFolder = addVariantToFolder(frameworkVariant);
+  const isCoreFramework = template.expected.framework.startsWith('@storybook/');
 
-  if (await pathExists(resolve(codeDir, frameworkPath, join('template', storiesVariantFolder)))) {
-    await linkPackageStories(
-      frameworkPath,
-      {
+  if (isCoreFramework) {
+    const frameworkPath = await workspacePath('frameworks', template.expected.framework);
+
+    // Add stories for the framework if it has one. NOTE: these *do* need to be processed by the framework build system
+    if (await pathExists(resolve(codeDir, frameworkPath, join('template', 'stories')))) {
+      await linkPackageStories(frameworkPath, {
         mainConfig,
         cwd,
         linkInDir: resolve(cwd, storiesPath),
-      },
-      frameworkVariant
-    );
+      });
+    }
+
+    const frameworkVariant = key.split('/')[1];
+    const storiesVariantFolder = addVariantToFolder(frameworkVariant);
+
+    if (await pathExists(resolve(codeDir, frameworkPath, join('template', storiesVariantFolder)))) {
+      await linkPackageStories(
+        frameworkPath,
+        {
+          mainConfig,
+          cwd,
+          linkInDir: resolve(cwd, storiesPath),
+        },
+        frameworkVariant
+      );
+    }
   }
 
-  // Add stories for lib/store (and addons below). NOTE: these stories will be in the
-  // template-stories folder and *not* processed by the framework build config (instead by esbuild-loader)
-  await linkPackageStories(await workspacePath('core package', '@storybook/store'), {
-    mainConfig,
-    cwd,
-  });
+  if (isCoreRenderer) {
+    // Add stories for lib/store (and addons below). NOTE: these stories will be in the
+    // template-stories folder and *not* processed by the framework build config (instead by esbuild-loader)
+    await linkPackageStories(await workspacePath('core package', '@storybook/store'), {
+      mainConfig,
+      cwd,
+    });
+  }
 
   const mainAddons = mainConfig.getFieldValue(['addons']).reduce((acc: string[], addon: any) => {
     const name = typeof addon === 'string' ? addon : addon.name;
@@ -419,14 +431,17 @@ export const addStories: Task['run'] = async (
     )
   );
 
-  const existingStories = await filterExistsInCodeDir(addonDirs, join('template', 'stories'));
-  await Promise.all(
-    existingStories.map(async (packageDir) => linkPackageStories(packageDir, { mainConfig, cwd }))
-  );
+  if (isCoreRenderer) {
+    const existingStories = await filterExistsInCodeDir(addonDirs, join('template', 'stories'));
+    for (const packageDir of existingStories) {
+      await linkPackageStories(packageDir, { mainConfig, cwd });
+    }
 
-  // Add some extra settings (see above for what these do)
-  if (template.expected.builder === '@storybook/builder-webpack5')
-    addEsbuildLoaderToStories(mainConfig);
+    // Add some extra settings (see above for what these do)
+    if (template.expected.builder === '@storybook/builder-webpack5') {
+      addEsbuildLoaderToStories(mainConfig);
+    }
+  }
 
   // Some addon stories require extra dependencies
   addExtraDependencies({ cwd, dryRun, debug });
