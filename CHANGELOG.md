@@ -1,3 +1,13 @@
+## 6.5.16 (January 26, 2023)
+
+#### Bug Fixes
+
+-   Angular: Fix handling of docsMode option in angular builder  [#20608](https://github.com/storybooks/storybook/pull/20608)
+-   Angular: Fix webpackStatsJson types in angular-builder [#20296](https://github.com/storybooks/storybook/pull/20296)
+#### Dependency Upgrades
+
+-   Security: Upgrade json5 dependency [#20526](https://github.com/storybooks/storybook/pull/20526)
+
 ## 6.5.16-alpha.0 (January 11, 2023)
 
 
