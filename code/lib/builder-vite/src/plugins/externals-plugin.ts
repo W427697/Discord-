@@ -8,9 +8,12 @@ import { globals } from '@storybook/preview/globals';
 
 type Globals = typeof globals & Record<string, string>;
 
+const escapeKeys = (key: string) => key.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
+const defaultImportRegExp = 'import ([^*{}]+) from';
 const replacementMap = new Map([
   ['import ', 'const '],
   ['import{', 'const {'],
+  ['* as ', ''],
   [' as ', ': '],
   [' from ', ' = '],
   ['}from', '} ='],
@@ -93,19 +96,27 @@ export async function externalsPlugin() {
   } satisfies Plugin;
 }
 
+function getDefaultImportReplacement(match: string) {
+  const matched = match.match(defaultImportRegExp);
+  return matched && `const {default: ${matched[1]}} =`;
+}
+
+function getSearchRegExp(packageName: string) {
+  const staticKeys = [...replacementMap.keys()].map(escapeKeys);
+  const packageNameLiteral = `.${packageName}.`;
+  const dynamicImportExpression = `await import\\(.${packageName}.\\)`;
+  const lookup = [defaultImportRegExp, ...staticKeys, packageNameLiteral, dynamicImportExpression];
+  return new RegExp(`(${lookup.join('|')})`, 'g');
+}
+
 export function rewriteImport<T = true>(
   importStatement: string,
   globs: T extends true ? Globals : Record<string, string>,
   packageName: keyof typeof globs & string
 ): string {
-  const lookup = [
-    ...replacementMap.keys(),
-    `.${packageName}.`,
-    `await import\\(.${packageName}.\\)`,
-  ];
-  const search = new RegExp(`(${lookup.join('|')})`, 'g');
+  const search = getSearchRegExp(packageName);
   return importStatement.replace(
     search,
-    (match) => replacementMap.get(match) ?? globs[packageName]
+    (match) => replacementMap.get(match) ?? getDefaultImportReplacement(match) ?? globs[packageName]
   );
 }
