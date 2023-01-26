@@ -1,31 +1,35 @@
 import path from 'path';
 import findUp from 'find-up';
 
-export const getProjectRoot = () => {
-  let result;
-  try {
-    const found = findUp.sync('.git', { type: 'directory' });
-    if (found) {
-      result = result || path.join(found, '..');
-    }
-  } catch (e) {
-    //
+// Try and figure out what the root folder of the project is.  This is used to generate some configuration.
+export const getProjectRoot = (): string => {
+  // Allow manual override in cases where the auto-detect doesn't work
+  if (process.env.STORYBOOK_PROJECT_ROOT) {
+    return process.env.STORYBOOK_PROJECT_ROOT;
   }
-  try {
-    const found = findUp.sync('.svn', { type: 'directory' });
-    if (found) {
-      result = result || path.join(found, '..');
-    }
-  } catch (e) {
-    //
-  }
-  try {
-    result = result || __dirname.split('node_modules')[0];
-  } catch (e) {
-    //
+  // Assume the innermost git/svn/hg folder is the project root
+  const foundVcsMetaDir = ['.git', '.svn', '.hg']
+    .map((dir) => findUp.sync(dir, { type: 'directory' }))
+    .filter(Boolean)[0];
+  if (foundVcsMetaDir) {
+    return path.join(foundVcsMetaDir, '..');
   }
 
-  return result || process.cwd();
+  // Walk upwards out of any node_modules or .yarn folders.  We have ot keep going up multiple steps
+  // because node_modules is commonly nested instead other node_modules or inside the .yarn cache folder
+  let projectRoot = process.cwd();
+  for (;;) {
+    const cwd = projectRoot;
+    const foundNodeModulesDir = ['node_modules', '.yarn']
+      .map((dir) => findUp.sync(dir, { cwd, type: 'directory' }))
+      .filter(Boolean)[0];
+    if (foundNodeModulesDir) {
+      projectRoot = path.join(foundNodeModulesDir, '..');
+    } else {
+      break;
+    }
+  }
+  return projectRoot;
 };
 
 export const nodePathsToArray = (nodePath: string) =>
