@@ -125,6 +125,9 @@ export function useList(list: ChildrenList) {
 
   const setTabLists = useCallback(() => {
     // get x and width from tabBarRef div
+    if (!tabBarRef.current || !addonsRef.current) {
+      return;
+    }
     const { x, width } = tabBarRef.current.getBoundingClientRect();
     const { width: widthAddonsTab } = addonsRef.current.getBoundingClientRect();
     const rightBorder = invisibleList.length ? x + width - widthAddonsTab : x + width;
