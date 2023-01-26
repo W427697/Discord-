@@ -67,10 +67,18 @@ describe('webpackStatsToModulesJson', () => {
         type: 'stories',
         reasons: new Set([CSF_GLOB]),
       },
+      [CSF_GLOB]: {
+        type: 'glob',
+        reasons: new Set(['./storybook-stories.js']),
+      },
+      './storybook-stories.js': {
+        type: 'entry',
+        reasons: new Set(),
+      },
     });
   });
 
-  it('omits Storybook entry file, CSF globs and modules without reason', async () => {
+  it('marks each module with a "type"', async () => {
     const modules = webpackStatsToModulesJson(
       stats([
         {
@@ -94,6 +102,10 @@ describe('webpackStatsToModulesJson', () => {
           reasons: [{ moduleId: './storybook-config-entry.js' }],
         },
         {
+          id: './.storybook/preview.js',
+          reasons: [{ moduleId: './storybook-config-entry.js' }],
+        },
+        {
           id: './storybook-config-entry.js',
           reasons: [{ moduleId: null }],
         },
@@ -101,6 +113,10 @@ describe('webpackStatsToModulesJson', () => {
     );
 
     expect(Object.fromEntries(modules)).toEqual({
+      './src/some-random-file.ts': {
+        type: 'source',
+        reasons: new Set(),
+      },
       './src/foo.component.ts': {
         type: 'source',
         reasons: new Set(['./src/foo.stories.ts']),
@@ -108,6 +124,22 @@ describe('webpackStatsToModulesJson', () => {
       './src/foo.stories.ts': {
         type: 'stories',
         reasons: new Set([CSF_GLOB]),
+      },
+      [CSF_GLOB]: {
+        type: 'glob',
+        reasons: new Set(['./storybook-stories.js']),
+      },
+      './.storybook/preview.js': {
+        type: 'config',
+        reasons: new Set(['./storybook-config-entry.js']),
+      },
+      './storybook-stories.js': {
+        type: 'entry',
+        reasons: new Set(['./storybook-config-entry.js']),
+      },
+      './storybook-config-entry.js': {
+        type: 'entry',
+        reasons: new Set(),
       },
     });
   });
@@ -118,6 +150,10 @@ describe('webpackStatsToModulesJson', () => {
         {
           id: './storybook-config-entry.js',
           reasons: [{ moduleId: null }],
+        },
+        {
+          id: './.storybook/preview.js',
+          reasons: [{ moduleId: './storybook-config-entry.js' }],
         },
         {
           id: './storybook-stories.js',
@@ -135,10 +171,18 @@ describe('webpackStatsToModulesJson', () => {
           id: './src/foo.component.ts',
           reasons: [{ moduleId: './src/foo.stories.ts' }],
         },
+        {
+          id: './src/some-random-file.ts',
+          reasons: [],
+        },
       ])
     );
 
     expect(Object.fromEntries(modules)).toEqual({
+      './src/some-random-file.ts': {
+        type: 'source',
+        reasons: new Set(),
+      },
       './src/foo.component.ts': {
         type: 'source',
         reasons: new Set(['./src/foo.stories.ts']),
@@ -146,6 +190,22 @@ describe('webpackStatsToModulesJson', () => {
       './src/foo.stories.ts': {
         type: 'stories',
         reasons: new Set([CSF_GLOB]),
+      },
+      [CSF_GLOB]: {
+        type: 'glob',
+        reasons: new Set(['./storybook-stories.js']),
+      },
+      './.storybook/preview.js': {
+        type: 'config',
+        reasons: new Set(['./storybook-config-entry.js']),
+      },
+      './storybook-stories.js': {
+        type: 'entry',
+        reasons: new Set(['./storybook-config-entry.js']),
+      },
+      './storybook-config-entry.js': {
+        type: 'entry',
+        reasons: new Set(),
       },
     });
   });
@@ -210,6 +270,14 @@ describe('webpackStatsToModulesJson', () => {
         type: 'stories',
         reasons: new Set([CSF_GLOB]),
       },
+      [CSF_GLOB]: {
+        type: 'glob',
+        reasons: new Set(['./storybook-stories.js']),
+      },
+      './storybook-stories.js': {
+        type: 'entry',
+        reasons: new Set(),
+      },
     });
   });
 
@@ -252,6 +320,76 @@ describe('webpackStatsToModulesJson', () => {
         type: 'stories',
         reasons: new Set([CSF_GLOB]),
       },
+      [CSF_GLOB]: {
+        type: 'glob',
+        reasons: new Set(['./storybook-stories.js']),
+      },
+      './storybook-stories.js': {
+        type: 'entry',
+        reasons: new Set(),
+      },
+    });
+  });
+
+  it('should properly parse full webpack stats file', async () => {
+    const data = (await import('./__mockdata__/preview-stats.json')) as any;
+    const modules = webpackStatsToModulesJson(stats(data.modules));
+
+    expect(modules.get('./src/stories/button.css')).toEqual({
+      type: 'source',
+      reasons: new Set(['./src/stories/Button.tsx']),
+    });
+
+    expect(modules.get('./src/stories/Button.tsx')).toEqual({
+      type: 'source',
+      reasons: new Set(['./src/stories/Button.stories.ts', './src/stories/Header.tsx']),
+    });
+
+    expect(modules.get('./src/stories/Header.tsx')).toEqual({
+      type: 'source',
+      reasons: new Set([
+        './src/stories/Header.stories.ts',
+        './src/stories/Page.tsx',
+        './src/stories/Page.stories.ts',
+      ]),
+    });
+
+    expect(modules.get('./src/stories/Button.stories.ts')).toEqual({
+      type: 'stories',
+      reasons: new Set([
+        './src/stories lazy recursive ^\\.\\/.*$ include: (?:\\/src\\/stories\\/(?%21\\.)(?=.)[^/]*?\\.stories\\.(js%7Cjsx%7Cts%7Ctsx))$',
+      ]),
+    });
+
+    expect(modules.get('./src/stories/Header.stories.ts')).toEqual({
+      type: 'stories',
+      reasons: new Set([
+        './src/stories lazy recursive ^\\.\\/.*$ include: (?:\\/src\\/stories\\/(?%21\\.)(?=.)[^/]*?\\.stories\\.(js%7Cjsx%7Cts%7Ctsx))$',
+      ]),
+    });
+
+    expect(
+      modules.get(
+        './src/stories lazy recursive ^\\.\\/.*$ include: (?:\\/src\\/stories\\/(?%21\\.)(?=.)[^/]*?\\.stories\\.(js%7Cjsx%7Cts%7Ctsx))$'
+      )
+    ).toEqual({
+      type: 'glob',
+      reasons: new Set(['./storybook-config-entry.js', './storybook-stories.js']),
+    });
+
+    expect(modules.get('./storybook-stories.js')).toEqual({
+      type: 'entry',
+      reasons: new Set(['./storybook-config-entry.js']),
+    });
+
+    expect(modules.get('./storybook-config-entry.js')).toEqual({
+      type: 'entry',
+      reasons: new Set(),
+    });
+
+    expect(modules.get('./node_modules/react/index.js')).toEqual({
+      type: 'source',
+      reasons: expect.any(Set),
     });
   });
 });
