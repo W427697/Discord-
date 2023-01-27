@@ -120,7 +120,20 @@ const content = Object.entries(panels).map(([k, v]) => (
 
 export default {
   title: 'Tabs',
-  decorators: [(story) => <div>{story()}</div>],
+  decorators: [
+    (story) => (
+      <div
+        style={{
+          position: 'relative',
+          height: 'calc(100vh - 20px)',
+          width: 'calc(100vw - 20px)',
+          margin: 10,
+        }}
+      >
+        {story()}
+      </div>
+    ),
+  ],
   args: {
     menuName: 'Addons',
   },
