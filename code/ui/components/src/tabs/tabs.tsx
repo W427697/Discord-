@@ -51,9 +51,22 @@ const WrapperChildren = styled.div<{ backgroundColor: string }>(({ theme, backgr
 
 export const TabBar = styled.div({
   overflow: 'hidden',
+
+  '&:first-of-type': {
+    marginLeft: -3,
+  },
+
   whiteSpace: 'nowrap',
   flexGrow: 1,
 });
+
+const TabBarSide = styled(Side)({
+  flexGrow: 1,
+  flexShrink: 1,
+  maxWidth: '100%',
+});
+
+TabBar.displayName = 'TabBar';
 
 export interface ContentProps {
   absolute?: boolean;
@@ -147,31 +160,33 @@ export const Tabs: FC<TabsProps> = memo(
     return list.length ? (
       <Wrapper absolute={absolute} bordered={bordered} id={htmlId}>
         <WrapperChildren backgroundColor={backgroundColor}>
-          <TabBar ref={tabBarRef} role="tablist">
-            {visibleList.map(({ title, id, active, color }) => {
-              return (
-                <TabButton
-                  id={`tabbutton-${sanitize(title)}`}
-                  ref={(ref: HTMLButtonElement) => {
-                    tabRefs.current.set(id, ref);
-                  }}
-                  className={`tabbutton ${active ? 'tabbutton-active' : ''}`}
-                  type="button"
-                  key={id}
-                  active={active}
-                  textColor={color}
-                  onClick={(e: MouseEvent) => {
-                    e.preventDefault();
-                    actions.onSelect(id);
-                  }}
-                  role="tab"
-                >
-                  {title}
-                </TabButton>
-              );
-            })}
-            <AddonTab menuName={menuName} actions={actions} />
-          </TabBar>
+          <TabBarSide left>
+            <TabBar ref={tabBarRef} role="tablist">
+              {visibleList.map(({ title, id, active, color }) => {
+                return (
+                  <TabButton
+                    id={`tabbutton-${sanitize(title)}`}
+                    ref={(ref: HTMLButtonElement) => {
+                      tabRefs.current.set(id, ref);
+                    }}
+                    className={`tabbutton ${active ? 'tabbutton-active' : ''}`}
+                    type="button"
+                    key={id}
+                    active={active}
+                    textColor={color}
+                    onClick={(e: MouseEvent) => {
+                      e.preventDefault();
+                      actions.onSelect(id);
+                    }}
+                    role="tab"
+                  >
+                    {title}
+                  </TabButton>
+                );
+              })}
+              <AddonTab menuName={menuName} actions={actions} />
+            </TabBar>
+          </TabBarSide>
           {tools ? <Side right>{tools}</Side> : null}
         </WrapperChildren>
         <Content id="panel-tab-content" bordered={bordered} absolute={absolute}>
