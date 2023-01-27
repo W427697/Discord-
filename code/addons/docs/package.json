@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-docs",
-  "version": "7.0.0-beta.33",
+  "version": "7.0.0-beta.35",
   "description": "Document component usage and properties in Markdown",
   "keywords": [
     "addon",
@@ -103,19 +103,19 @@
     "@babel/plugin-transform-react-jsx": "^7.19.0",
     "@jest/transform": "^29.3.1",
     "@mdx-js/react": "^2.1.5",
-    "@storybook/blocks": "7.0.0-beta.33",
-    "@storybook/client-logger": "7.0.0-beta.33",
-    "@storybook/components": "7.0.0-beta.33",
-    "@storybook/csf-plugin": "7.0.0-beta.33",
-    "@storybook/csf-tools": "7.0.0-beta.33",
+    "@storybook/blocks": "7.0.0-beta.35",
+    "@storybook/client-logger": "7.0.0-beta.35",
+    "@storybook/components": "7.0.0-beta.35",
+    "@storybook/csf-plugin": "7.0.0-beta.35",
+    "@storybook/csf-tools": "7.0.0-beta.35",
     "@storybook/global": "^5.0.0",
     "@storybook/mdx2-csf": "next",
-    "@storybook/node-logger": "7.0.0-beta.33",
-    "@storybook/postinstall": "7.0.0-beta.33",
-    "@storybook/preview-api": "7.0.0-beta.33",
-    "@storybook/theming": "7.0.0-beta.33",
-    "@storybook/types": "7.0.0-beta.33",
-    "fs-extra": "^9.0.1",
+    "@storybook/node-logger": "7.0.0-beta.35",
+    "@storybook/postinstall": "7.0.0-beta.35",
+    "@storybook/preview-api": "7.0.0-beta.35",
+    "@storybook/theming": "7.0.0-beta.35",
+    "@storybook/types": "7.0.0-beta.35",
+    "fs-extra": "^11.1.0",
     "remark-external-links": "^8.0.0",
     "remark-slug": "^6.0.0",
     "ts-dedent": "^2.0.0"
@@ -126,8 +126,14 @@
     "typescript": "~4.9.3"
   },
   "peerDependencies": {
+    "@storybook/mdx1-csf": ">=1.0.0-0",
     "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
     "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0"
+  },
+  "peerDependenciesMeta": {
+    "@storybook/mdx1-csf": {
+      "optional": true
+    }
   },
   "publishConfig": {
     "access": "public"
@@ -141,7 +147,7 @@
       "./src/shims/mdx-react-shim.ts"
     ]
   },
-  "gitHead": "7b662c444875d3890ee935878fb1b2b45fbfdfb7",
+  "gitHead": "e6d5c50c88bc67468a815efc1048b36ebc2d4bdd",
   "storybook": {
     "displayName": "Docs",
     "icon": "https://user-images.githubusercontent.com/263385/101991672-48355c80-3c7c-11eb-82d9-95fa12438f64.png",
