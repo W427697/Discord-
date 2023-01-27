@@ -139,30 +139,6 @@ When Storybook generates the titles for all matching stories, they'll retain the
 
 Story Indexers are usually responsible of crawling through your filesystem on your given glob path, and retrieve the stories that match that glob, afterwards Storybook analyzes these stories and create entries for these stories in the `index.json` (formerly `stories.json`). This `index.json` is used to populate the sidebar links based on the `title` retrieved for each story from the story file.
 
-For CSF, it is either auto generated or retrieved from the meta configuration.
-
-<!-- prettier-ignore-start -->
-
-<CodeSnippets
-  paths={[
-    'common/csf-3-example-title.ts.mdx',
-  ]}
-/>
-
-<!-- prettier-ignore-end -->
-
-While for "Docs Only" pages, that title resides in the `title` attribute of the `Meta` tag. If the `title` attribute does not exist, Storybook indexer will be looking for the `of` attribute to retrieve a CSF story and get the title from there.
-
-<!-- prettier-ignore-start -->
-
-<CodeSnippets
-  paths={[
-    'common/storybook-auto-docs-mdx-docs-docs-only-page.mdx.mdx',
-  ]}
-/>
-
-<!-- prettier-ignore-end -->
-
 Typically Storybook provides indexing capabilities for files that end with `.(story|stories).@(js|ts|jsx|tsx|mdx)`. If you feel the need to include stories that have different naming convention, e.g. [`20478`](https://github.com/storybookjs/storybook/issues/20478), you will need to introduce a new story indexer.
 
 <!-- prettier-ignore-start -->
@@ -175,14 +151,43 @@ Typically Storybook provides indexing capabilities for files that end with `.(st
 
 <!-- prettier-ignore-end -->
 
-Another example listed below for indexing `.md` & `.html` files which is already implemented by one of our community addons [`Markdown Docs`](https://storybook.js.org/addons/@sheriffmoose/storybook-md/).
+### Custom Titles Processing
+
+As discussed above, Storybook relies on `Auto Title` to generate the `title` for CSF 3.0 stories. To recap, the following patterns are used to retrieve the title for a given story/container:
+
+| Pattern           | Precedence                                                                                                                     | Description                                                   | Example |
+| ----------------- | ------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------- | ------- |
+| `titlePrefix`     | If the `main.js\|ts` file has a `titlePrefix` attribute associated with the stories glob, it will be used as the title prefix. | `  stories: [{ directory: '../src', titlePrefix: 'Custom' }]` |
+| `title`           | If the `Meta` has a `title` attribute, it will be used as the title.                                                           | `export default { title: 'My Title' }`                        |
+| `component`       | If the `Meta` has a `component` attribute, it will be used as the title.                                                       | `export default { component: MyComponent }`                   |
+| \*\* File Name    | used if `component` does not exist and `title` does not exist                                                                  |
+| `name`            | If the Story definition has a `name` attribute, it will be used as the title. This was formerly `storyName`                    | `export const Primary: Story = { name: 'My Title' }`          |
+| \*\* Story Export | used if `name` does not exist                                                                                                  |
+| `title`           | If the `Meta` tag has a `title` attribute, it will be used as the title.                                                       | `<Meta title="My Title" />`                                   |
+| `of`              | If the `Meta` tag has a `of` attribute, it will be used to retrieve the title from the referenced story file.                  | `<Meta of={MyComponentStories} />`                            |
+| `name`            | If the `Story` tag has a `name` attribute, it will be used as the title.                                                       | `<Story name="My Story Title" />`                             |
 
 <!-- prettier-ignore-start -->
 
 <CodeSnippets
   paths={[
-    'common/storybook-main-md-html-indexer.js.mdx',
+    'common/csf-3-example-title.ts.mdx',
+    'common/csf-3-example-title.mdx.mdx',
   ]}
 />
 
 <!-- prettier-ignore-end -->
+
+Storybook provides capability for customizing the title generation process. This is done by providing a `makeTitle` function to the `loadCsf` method in the `storyIndexer`.
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'common/storybook-main-story-indexer-main.js.mdx'
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
+
+A good example of this is the [`@storybook-extras/markdown` ](https://storybook.js.org/addons/@storybook-extras/markdown/) addon which uses the `makeTitle` to generate the title for the `DocsPage` component. It uses the `makeTitle` to generate the title based on few rules related to the `.md` & `.html` files: `\<title\>` tag, `\<meta\>` tag, `{/**/}` markdown comment, custom file names or even a predfined list of titles in the `main.js` file.

@@ -1,8 +1,21 @@
 ```ts
-// CSF 3
+// src/components/Button/Button.stories.tsx
+
 const meta: Meta<Button> = {
+  // Precedence: 1
   title: 'components/Button',
+  // Precedence: 2
   component: Button,
 };
 export default meta;
+
+// Precedence: 2
+const Primary: Story = {
+  // Precedence: 1
+  name: 'Primary',
+  args: {
+    label: 'Button',
+  },
+}
+
 ```
