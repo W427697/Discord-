@@ -12,14 +12,28 @@ export default {
 };
 
 export const ForceRemount = {
+  /**
+   * This play function runs in an infinite loop, because the final FORCE_REMOUNT event retriggers the function
+   * To test that this works, the function first waits 3 seconds,
+   * so you manually can see the button doesn't have focus. Then the button gets focus for 3 seconds, and we remount and start over.
+   * Now the button should have lost focus. and wait 3 seconds more, etc.
+   * If the button ALWAYS stays focused it means the renderer didn't correctly remount the tree at the FORCE_REMOUNT event
+   *
+   * This infinite loop means it's disabled in Chromatic
+   */
+  parameters: { chromatic: { disableSnapshot: true } },
   play: async ({ canvasElement, id }: PlayFunctionContext<any>) => {
     const channel = globalThis.__STORYBOOK_ADDONS_CHANNEL__;
     const button = await within(canvasElement).findByRole('button');
+
+    await waitFor(() => expect(button).not.toHaveFocus());
+    await new Promise((resolve) => setTimeout(resolve, 3000));
+
     await button.focus();
     await expect(button).toHaveFocus();
+    await new Promise((resolve) => setTimeout(resolve, 3000));
     // By forcing the component to remount, we reset the focus state
     await channel.emit(FORCE_REMOUNT, { storyId: id });
-    await waitFor(() => expect(button).not.toHaveFocus());
   },
 };
 
