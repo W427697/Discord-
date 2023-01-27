@@ -15,6 +15,7 @@
     - [Stories glob matches MDX files](#stories-glob-matches-mdx-files)
     - [Add strict mode](#add-strict-mode)
     - [Babel mode v7 exclusively](#babel-mode-v7-exclusively)
+    - [Importing plain markdown files with `transcludeMarkdown` has changed](#importing-plain-markdown-files-with-transcludemarkdown-has-changed)
     - [7.0 feature flags removed](#70-feature-flags-removed)
   - [Core addons](#core-addons)
     - [Removed auto injection of @storybook/addon-actions decorator](#removed-auto-injection-of-storybookaddon-actions-decorator)
@@ -547,6 +548,21 @@ npx sb@next babelrc
 ```
 
 This will create a `.babelrc.json` file. This file includes a bunch of babel plugins, so you may need to add new package devDependencies accordingly.
+
+#### Importing plain markdown files with `transcludeMarkdown` has changed
+
+The `transcludeMarkdown` option in `addon-docs` have been removed, and the automatic handling of `.md` files in Vite projects have also been disabled.
+
+Instead `.md` files can be imported as plain strings by adding the `?raw` suffix to the import. In an MDX file that would look like this:
+
+```
+import ReadMe from './README.md?raw';
+
+...
+
+{ReadMe}
+
+```
 
 #### 7.0 feature flags removed
 

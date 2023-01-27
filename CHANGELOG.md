@@ -1,3 +1,11 @@
+## 7.0.0-beta.35 (January 27, 2023)
+
+#### Bug Fixes
+
+-   Storysource: Support CSF3 object exports, co-exist with addon-docs [#20799](https://github.com/storybooks/storybook/pull/20799)
+-   Vite: Do not pre-bundle @vitejs/plugin-vue [#20787](https://github.com/storybooks/storybook/pull/20787)
+-   CLI: Fix new-frameworks automigration in angular projects [#20788](https://github.com/storybooks/storybook/pull/20788)
+
 ## 7.0.0-beta.34 (January 26, 2023)
 
 #### Features
