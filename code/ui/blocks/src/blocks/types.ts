@@ -10,6 +10,6 @@ export type DocsStoryProps = {
   of: ModuleExport;
   expanded?: boolean;
   withToolbar?: boolean;
-  __forceInitial?: boolean;
+  __forceInitialArgs?: boolean;
   __primary?: boolean;
 };

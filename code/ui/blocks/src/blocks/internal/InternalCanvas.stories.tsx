@@ -2,19 +2,12 @@
 /// <reference types="@testing-library/jest-dom" />;
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { userEvent, waitFor, within } from '@storybook/testing-library';
+import { userEvent, within } from '@storybook/testing-library';
 import { expect } from '@storybook/jest';
-import type { PlayFunctionContext, WebRenderer } from '@storybook/types';
-import { STORY_ARGS_UPDATED, UPDATE_STORY_ARGS, RESET_STORY_ARGS } from '@storybook/core-events';
-import type { Channel } from '@storybook/channels';
 import { Canvas, SourceState } from '../Canvas';
 import { Story as StoryComponent } from '../Story';
 import * as ButtonStories from '../../examples/Button.stories';
 import * as CanvasParameterStories from '../../examples/CanvasParameters.stories';
-import type { DocsContextProps } from '../DocsContext';
-import { SourceContainer } from '../SourceContainer';
-
-const channel = (window as any).__STORYBOOK_ADDONS_CHANNEL__ as Channel;
 
 const meta: Meta<typeof Canvas> = {
   component: Canvas,
@@ -22,13 +15,6 @@ const meta: Meta<typeof Canvas> = {
     theme: 'light',
     relativeCsfPaths: ['../examples/Button.stories', '../examples/CanvasParameters.stories'],
   },
-  decorators: [
-    (Story) => (
-      <SourceContainer channel={channel}>
-        <Story />
-      </SourceContainer>
-    ),
-  ],
   render: (args) => {
     return (
       <Canvas {...args}>
@@ -220,41 +206,5 @@ export const MixedChildrenStories: Story = {
 
     // Assert - only find two headlines, those in the story, and none in the source code
     expect(canvas.queryAllByText(/Headline for /i)).toHaveLength(2);
-  },
-};
-
-export const ForceInitial: Story = {
-  args: {
-    of: ButtonStories.Primary,
-    __forceInitial: true,
-    sourceState: 'shown',
-  },
-  render: (args) => <Canvas {...args} />,
-  // test that it ignores updated args by emitting an arg update and assert that it isn't reflected in the story nor source
-  play: async ({ args, canvasElement, loaded }: PlayFunctionContext<WebRenderer>) => {
-    const docsContext = loaded.docsContext as DocsContextProps;
-    const {
-      story: { id: storyId },
-    } = docsContext.resolveOf(args.of, ['story']);
-
-    // expect Button once in story, twice in Source, and 'true' in source
-    await waitFor(() => expect(within(canvasElement).getAllByText('Button')).toHaveLength(3));
-
-    const updatedPromise = new Promise<void>((resolve) => {
-      channel.once(STORY_ARGS_UPDATED, resolve);
-    });
-    await channel.emit(UPDATE_STORY_ARGS, {
-      storyId,
-      updatedArgs: { label: 'Updated' },
-    });
-    await updatedPromise;
-
-    // expect no changes
-    await waitFor(() => expect(within(canvasElement).getAllByText('Button')).toHaveLength(3));
-
-    await channel.emit(RESET_STORY_ARGS, { storyId });
-    await new Promise<void>((resolve) => {
-      channel.once(STORY_ARGS_UPDATED, resolve);
-    });
   },
 };

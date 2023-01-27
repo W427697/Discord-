@@ -24,7 +24,7 @@ export const Stories: FC<StoriesProps> = ({ title, includePrimary = true }) => {
       <Heading>{title}</Heading>
       {stories.map(
         (story) =>
-          story && <DocsStory key={story.id} of={story.moduleExport} expanded __forceInitial />
+          story && <DocsStory key={story.id} of={story.moduleExport} expanded __forceInitialArgs />
       )}
     </>
   );

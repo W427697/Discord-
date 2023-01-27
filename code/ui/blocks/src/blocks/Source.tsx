@@ -64,7 +64,7 @@ const getStorySource = (storyId: StoryId, sourceContext: SourceContextProps): So
   const { sources } = sourceContext;
   // source rendering is async so source is unavailable at the start of the render cycle,
   // so we fail gracefully here without warning
-  return sources?.[storyId] || { code: '', initialCode: '' };
+  return sources?.[storyId] || { code: '' };
 };
 
 const getSnippet = (
@@ -97,17 +97,11 @@ const getSnippet = (
 type SourceStateProps = { state: SourceState };
 type PureSourceProps = ComponentProps<typeof PureSource>;
 
-export const useSourceProps = ({
-  props,
-  docsContext,
-  sourceContext,
-  __forceInitialCode = false,
-}: {
-  props: SourceProps;
-  docsContext: DocsContextProps<any>;
-  sourceContext: SourceContextProps;
-  __forceInitialCode?: boolean;
-}): PureSourceProps & SourceStateProps => {
+export const useSourceProps = (
+  props: SourceProps,
+  docsContext: DocsContextProps<any>,
+  sourceContext: SourceContextProps
+): PureSourceProps & SourceStateProps => {
   const storyIds = props.ids || (props.id ? [props.id] : []);
   const storiesFromIds = useStories(storyIds, docsContext);
   if (!storiesFromIds.every(Boolean)) {
@@ -143,7 +137,7 @@ export const useSourceProps = ({
           // Take the format from the first story
           format = source.format ?? story.parameters.docs?.source?.format ?? false;
         }
-        return getSnippet(__forceInitialCode ? source.initialCode : source.code, story, props.type);
+        return getSnippet(source.code, story, props.type);
       })
       .join('\n\n');
   }
@@ -170,6 +164,6 @@ export const useSourceProps = ({
 export const Source: FC<SourceProps> = (props) => {
   const sourceContext = useContext(SourceContext);
   const docsContext = useContext(DocsContext);
-  const { state, ...sourceProps } = useSourceProps({ props, docsContext, sourceContext });
+  const { state, ...sourceProps } = useSourceProps(props, docsContext, sourceContext);
   return <PureSource {...sourceProps} />;
 };
