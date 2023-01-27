@@ -332,45 +332,45 @@ describe('webpackStatsToModulesJson', () => {
   });
 
   it('should properly parse full webpack stats file', async () => {
-    const data = (await import('./__mockdata__/preview-stats.json')) as any;
+    const data = (await import('./__mockdata__/preview-stats.min.json')) as any;
     const modules = webpackStatsToModulesJson(stats(data.modules));
 
-    expect(modules.get('./src/stories/button.css')).toEqual({
+    expect(modules.get('./stories/button.css')).toEqual({
       type: 'source',
-      reasons: new Set(['./src/stories/Button.tsx']),
+      reasons: new Set(['./stories/Button.jsx']),
     });
 
-    expect(modules.get('./src/stories/Button.tsx')).toEqual({
+    expect(modules.get('./stories/Button.jsx')).toEqual({
       type: 'source',
-      reasons: new Set(['./src/stories/Button.stories.ts', './src/stories/Header.tsx']),
+      reasons: new Set(['./stories/Button.stories.js', './stories/Header.jsx']),
     });
 
-    expect(modules.get('./src/stories/Header.tsx')).toEqual({
+    expect(modules.get('./stories/Header.jsx')).toEqual({
       type: 'source',
       reasons: new Set([
-        './src/stories/Header.stories.ts',
-        './src/stories/Page.tsx',
-        './src/stories/Page.stories.ts',
+        './stories/Header.stories.js',
+        './stories/Page.jsx',
+        './stories/Page.stories.js',
       ]),
     });
 
-    expect(modules.get('./src/stories/Button.stories.ts')).toEqual({
+    expect(modules.get('./stories/Button.stories.js')).toEqual({
       type: 'stories',
       reasons: new Set([
-        './src/stories lazy recursive ^\\.\\/.*$ include: (?:\\/src\\/stories\\/(?%21\\.)(?=.)[^/]*?\\.stories\\.(js%7Cjsx%7Cts%7Ctsx))$',
+        './stories lazy recursive ^\\.\\/.*$ include: (?:\\/stories(?:\\/(?%21\\.)(?:(?:(?%21(?:^%7C\\/)\\.).)*?)\\/%7C\\/%7C$)(?%21\\.)(?=.)[^/]*?\\.stories\\.(js%7Cjsx%7Cts%7Ctsx))$',
       ]),
     });
 
-    expect(modules.get('./src/stories/Header.stories.ts')).toEqual({
+    expect(modules.get('./stories/Header.stories.js')).toEqual({
       type: 'stories',
       reasons: new Set([
-        './src/stories lazy recursive ^\\.\\/.*$ include: (?:\\/src\\/stories\\/(?%21\\.)(?=.)[^/]*?\\.stories\\.(js%7Cjsx%7Cts%7Ctsx))$',
+        './stories lazy recursive ^\\.\\/.*$ include: (?:\\/stories(?:\\/(?%21\\.)(?:(?:(?%21(?:^%7C\\/)\\.).)*?)\\/%7C\\/%7C$)(?%21\\.)(?=.)[^/]*?\\.stories\\.(js%7Cjsx%7Cts%7Ctsx))$',
       ]),
     });
 
     expect(
       modules.get(
-        './src/stories lazy recursive ^\\.\\/.*$ include: (?:\\/src\\/stories\\/(?%21\\.)(?=.)[^/]*?\\.stories\\.(js%7Cjsx%7Cts%7Ctsx))$'
+        './stories lazy recursive ^\\.\\/.*$ include: (?:\\/stories(?:\\/(?%21\\.)(?:(?:(?%21(?:^%7C\\/)\\.).)*?)\\/%7C\\/%7C$)(?%21\\.)(?=.)[^/]*?\\.stories\\.(js%7Cjsx%7Cts%7Ctsx))$'
       )
     ).toEqual({
       type: 'glob',
