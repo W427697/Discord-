@@ -22,5 +22,7 @@ export const Primary: FC<PrimaryProps> = ({ name }) => {
   }
   const storyId = name && docsContext.storyIdByName(name);
   const story = docsContext.storyById(storyId);
-  return story ? <DocsStory of={story.moduleExport} expanded={false} __primary /> : null;
+  return story ? (
+    <DocsStory of={story.moduleExport} expanded={false} __primary withToolbar />
+  ) : null;
 };

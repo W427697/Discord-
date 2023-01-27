@@ -14,7 +14,13 @@ export const Default: Story = {
     relativeCsfPaths: ['../examples/Button.stories'],
   },
 };
-export const WithoutToolbar: Story = {
+export const WithoutPrimary: Story = {
+  args: { includePrimary: false },
+  parameters: {
+    relativeCsfPaths: ['../examples/Button.stories'],
+  },
+};
+export const DifferentToolbars: Story = {
   parameters: {
     relativeCsfPaths: ['../examples/StoriesParameters.stories'],
   },

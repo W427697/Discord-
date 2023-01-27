@@ -14,5 +14,7 @@ export const WithoutToolbar: Story = {
   parameters: { docs: { canvas: { withToolbar: false } } },
 };
 
-export const SecondStory: Story = {};
+export const WithToolbar: Story = {
+  parameters: { docs: { canvas: { withToolbar: true } } },
+};
 export const ThirdStory: Story = {};
