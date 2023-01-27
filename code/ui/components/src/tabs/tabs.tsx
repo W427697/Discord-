@@ -5,7 +5,7 @@ import { sanitize } from '@storybook/csf';
 
 import { Placeholder } from '../placeholder/placeholder';
 import { TabButton } from '../bar/button';
-import { Side } from '../bar/bar';
+import { FlexBar, Side } from '../bar/bar';
 import type { ChildrenList } from './tabs.helpers';
 import { childrenToList, VisuallyHidden } from './tabs.helpers';
 import { useList } from './tabs.hooks';
@@ -40,15 +40,6 @@ const Wrapper = styled.div<WrapperProps>(
         }
 );
 
-const WrapperChildren = styled.div<{ backgroundColor: string }>(({ theme, backgroundColor }) => ({
-  color: theme.barTextColor,
-  display: 'flex',
-  width: '100%',
-  height: 40,
-  boxShadow: `${theme.appBorderColor}  0 -1px 0 0 inset`,
-  background: backgroundColor ?? theme.barBg,
-}));
-
 export const TabBar = styled.div({
   overflow: 'hidden',
 
@@ -58,12 +49,6 @@ export const TabBar = styled.div({
 
   whiteSpace: 'nowrap',
   flexGrow: 1,
-});
-
-const TabBarSide = styled(Side)({
-  flexGrow: 1,
-  flexShrink: 1,
-  maxWidth: '100%',
 });
 
 TabBar.displayName = 'TabBar';
@@ -159,36 +144,34 @@ export const Tabs: FC<TabsProps> = memo(
 
     return list.length ? (
       <Wrapper absolute={absolute} bordered={bordered} id={htmlId}>
-        <WrapperChildren backgroundColor={backgroundColor}>
-          <TabBarSide left>
-            <TabBar ref={tabBarRef} role="tablist">
-              {visibleList.map(({ title, id, active, color }) => {
-                return (
-                  <TabButton
-                    id={`tabbutton-${sanitize(title)}`}
-                    ref={(ref: HTMLButtonElement) => {
-                      tabRefs.current.set(id, ref);
-                    }}
-                    className={`tabbutton ${active ? 'tabbutton-active' : ''}`}
-                    type="button"
-                    key={id}
-                    active={active}
-                    textColor={color}
-                    onClick={(e: MouseEvent) => {
-                      e.preventDefault();
-                      actions.onSelect(id);
-                    }}
-                    role="tab"
-                  >
-                    {title}
-                  </TabButton>
-                );
-              })}
-              <AddonTab menuName={menuName} actions={actions} />
-            </TabBar>
-          </TabBarSide>
+        <FlexBar scrollable={false} border backgroundColor={backgroundColor}>
+          <TabBar style={{ whiteSpace: 'normal' }} ref={tabBarRef} role="tablist">
+            {visibleList.map(({ title, id, active, color }) => {
+              return (
+                <TabButton
+                  id={`tabbutton-${sanitize(title)}`}
+                  ref={(ref: HTMLButtonElement) => {
+                    tabRefs.current.set(id, ref);
+                  }}
+                  className={`tabbutton ${active ? 'tabbutton-active' : ''}`}
+                  type="button"
+                  key={id}
+                  active={active}
+                  textColor={color}
+                  onClick={(e: MouseEvent) => {
+                    e.preventDefault();
+                    actions.onSelect(id);
+                  }}
+                  role="tab"
+                >
+                  {title}
+                </TabButton>
+              );
+            })}
+            <AddonTab menuName={menuName} actions={actions} />
+          </TabBar>
           {tools ? <Side right>{tools}</Side> : null}
-        </WrapperChildren>
+        </FlexBar>
         <Content id="panel-tab-content" bordered={bordered} absolute={absolute}>
           {list.map(({ id, active, render }) => render({ key: id, active }))}
         </Content>
