@@ -1,4 +1,4 @@
-import { rewriteImport } from './externals-plugin';
+import { rewriteImport } from './external-globals-plugin';
 
 const packageName = '@storybook/package';
 const globals = { [packageName]: '_STORYBOOK_PACKAGE_' };

@@ -16,9 +16,9 @@ import {
   injectExportOrderPlugin,
   mdxPlugin,
   stripStoryHMRBoundary,
+  externalGlobalsPlugin,
 } from './plugins';
 
-import { externalsPlugin } from './plugins/externals-plugin';
 import type { BuilderOptions } from './types';
 
 export type PluginConfigType = 'build' | 'development';
@@ -94,7 +94,7 @@ export async function pluginConfig(options: Options) {
         }
       },
     },
-    await externalsPlugin(globals),
+    await externalGlobalsPlugin(globals),
   ] as PluginOption[];
 
   // TODO: framework doesn't exist, should move into framework when/if built

@@ -35,7 +35,7 @@ const replacementMap = new Map([
  * It is based on existing plugins like https://github.com/crcong/vite-plugin-externals
  * and https://github.com/eight04/rollup-plugin-external-globals, but simplified to meet our simple needs.
  */
-export async function externalsPlugin(externals: Record<string, string>) {
+export async function externalGlobalsPlugin(externals: Record<string, string>) {
   await init;
   return {
     name: 'storybook:external-globals-plugin',
