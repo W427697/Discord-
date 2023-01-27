@@ -270,10 +270,12 @@ export async function baseGenerator(
   if (isNewFolder) {
     await generateStorybookBabelConfigInCWD();
   }
-  packageManager.addDependencies({ ...npmOptions, packageJson }, [
-    ...versionedPackages,
-    ...babelDependencies,
-  ]);
+
+  const depsToInstall = [...versionedPackages, ...babelDependencies];
+
+  if (depsToInstall.length > 0) {
+    packageManager.addDependencies({ ...npmOptions, packageJson }, depsToInstall);
+  }
 
   if (addScripts) {
     packageManager.addStorybookCommandInScripts({
