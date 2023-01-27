@@ -11,7 +11,7 @@ export const DocsStory: FC<DocsStoryProps> = ({
   of,
   expanded = true,
   withToolbar: withToolbarProp = false,
-  __forceInitialArgs = false,
+  __forceInitial = false,
   __primary = false,
 }) => {
   const { story } = useOf(of || 'story', ['story']);
@@ -27,7 +27,12 @@ export const DocsStory: FC<DocsStoryProps> = ({
           <Description of={of} />
         </>
       )}
-      <Canvas of={of} withToolbar={withToolbar} story={{ __forceInitialArgs, __primary }} />
+      <Canvas
+        of={of}
+        withToolbar={withToolbar}
+        __forceInitial={__forceInitial}
+        story={{ __primary }}
+      />
     </Anchor>
   );
 };

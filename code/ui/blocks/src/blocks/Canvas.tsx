@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable react/destructuring-assignment */
 import React, { Children, useContext } from 'react';
 import type { FC, ReactElement, ReactNode } from 'react';
@@ -89,7 +90,11 @@ type CanvasProps = Pick<PurePreviewProps, 'withToolbar' | 'additionalActions' | 
   /**
    * @see {StoryProps}
    */
-  story?: Pick<StoryProps, 'inline' | 'height' | 'autoplay' | '__forceInitialArgs' | '__primary'>;
+  story?: Pick<StoryProps, 'inline' | 'height' | 'autoplay' | '__primary'>;
+  /**
+   * @see {StoryProps['__forceInitialArgs']}
+   */
+  __forceInitial?: StoryProps['__forceInitialArgs'];
 };
 
 const useDeprecatedPreviewProps = (
@@ -114,11 +119,13 @@ const useDeprecatedPreviewProps = (
 
   const stories = useStories(storyIds, docsContext);
   const isLoading = stories.some((s) => !s);
-  const sourceProps = useSourceProps(
-    mdxSource ? { code: decodeURI(mdxSource), of: props.of } : { ids: storyIds, of: props.of },
+  const sourceProps = useSourceProps({
+    props: mdxSource
+      ? { code: decodeURI(mdxSource), of: props.of }
+      : { ids: storyIds, of: props.of },
     docsContext,
-    sourceContext
-  );
+    sourceContext,
+  });
   if (withSource === SourceState.NONE) {
     return { isLoading, previewProps: props };
   }
@@ -175,7 +182,12 @@ export const Canvas: FC<CanvasProps & DeprecatedCanvasProps> = (props) => {
     }
   }
   try {
-    sourceProps = useSourceProps({ ...source, of }, docsContext, sourceContext);
+    sourceProps = useSourceProps({
+      props: { ...source, of },
+      docsContext,
+      sourceContext,
+      __forceInitialCode: props.__forceInitial,
+    });
   } catch (error) {
     if (!children) {
       hookError = error;
@@ -232,7 +244,12 @@ export const Canvas: FC<CanvasProps & DeprecatedCanvasProps> = (props) => {
       className={className}
       layout={layout}
     >
-      <Story of={of || story.moduleExport} meta={props.meta} {...props.story} />
+      <Story
+        of={of || story.moduleExport}
+        meta={props.meta}
+        {...props.story}
+        __forceInitialArgs={props.__forceInitial}
+      />
     </PurePreview>
   );
 };

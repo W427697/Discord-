@@ -11,6 +11,7 @@ import type { StoryId } from '@storybook/types';
 export interface SourceItem {
   code: string;
   format?: SyntaxHighlighterFormatTypes;
+  initialCode: string;
 }
 export type StorySources = Record<StoryId, SourceItem>;
 
@@ -27,18 +28,18 @@ export const SourceContainer: FC<{ channel: Channel }> = ({ children, channel })
   useEffect(() => {
     const handleSnippetRendered = (
       id: StoryId,
-      newSource: string,
+      newCode: string,
       format: SyntaxHighlighterFormatTypes = false
     ) => {
       // optimization: if the source is the same, ignore the incoming event
-      if (sources[id] && sources[id].code === newSource) {
+      if (sources[id] && sources[id].code === newCode) {
         return;
       }
 
       setSources((current) => {
         const newSources = {
           ...current,
-          [id]: { code: newSource, format },
+          [id]: { code: newCode, format, initialCode: current[id]?.initialCode || newCode },
         };
 
         if (!deepEqual(current, newSources)) {
