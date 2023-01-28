@@ -7,7 +7,7 @@ import outlineCSS from './outlineCSS';
 
 export const withOutline = (StoryFn: StoryFunction<Renderer>, context: StoryContext<Renderer>) => {
   const { globals } = context;
-  const isActive = globals[PARAM_KEY] === true;
+  const isActive = globals[PARAM_KEY] || false;
   const isInDocs = context.viewMode === 'docs';
 
   const outlineStyles = useMemo(() => {
