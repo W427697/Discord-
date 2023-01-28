@@ -19,10 +19,13 @@ export const ForceRemount = {
    * Now the button should have lost focus. and wait 3 seconds more, etc.
    * If the button ALWAYS stays focused it means the renderer didn't correctly remount the tree at the FORCE_REMOUNT event
    *
-   * This infinite loop means it's disabled in Chromatic
+   * This infinite loop means it's disabled in Chromatic and the test runner
    */
   parameters: { chromatic: { disableSnapshot: true } },
   play: async ({ canvasElement, id }: PlayFunctionContext<any>) => {
+    if (window?.navigator.userAgent.match(/StorybookTestRunner/)) {
+      return;
+    }
     const channel = globalThis.__STORYBOOK_ADDONS_CHANNEL__;
     const button = await within(canvasElement).findByRole('button');
 
