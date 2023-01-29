@@ -15,6 +15,7 @@
     - [Stories glob matches MDX files](#stories-glob-matches-mdx-files)
     - [Add strict mode](#add-strict-mode)
     - [Babel mode v7 exclusively](#babel-mode-v7-exclusively)
+    - [Importing plain markdown files with `transcludeMarkdown` has changed](#importing-plain-markdown-files-with-transcludemarkdown-has-changed)
     - [7.0 feature flags removed](#70-feature-flags-removed)
   - [Core addons](#core-addons)
     - [Removed auto injection of @storybook/addon-actions decorator](#removed-auto-injection-of-storybookaddon-actions-decorator)
@@ -22,7 +23,7 @@
     - [Addon-a11y: Removed deprecated withA11y decorator](#addon-a11y-removed-deprecated-witha11y-decorator)
   - [Vite](#vite)
     - [Vite builder uses Vite config automatically](#vite-builder-uses-vite-config-automatically)
-    - [Vite cache moved to node\_modules/.cache/.vite-storybook](#vite-cache-moved-to-node_modulescachevite-storybook)
+    - [Vite cache moved to node_modules/.cache/.vite-storybook](#vite-cache-moved-to-node_modulescachevite-storybook)
   - [Webpack](#webpack)
     - [Webpack4 support discontinued](#webpack4-support-discontinued)
     - [Postcss removed](#postcss-removed)
@@ -61,7 +62,7 @@
     - [Dropped addon-docs manual babel configuration](#dropped-addon-docs-manual-babel-configuration)
     - [Dropped addon-docs manual configuration](#dropped-addon-docs-manual-configuration)
     - [Autoplay in docs](#autoplay-in-docs)
-    - [Removed STORYBOOK\_REACT\_CLASSES global](#removed-storybook_react_classes-global)
+    - [Removed STORYBOOK_REACT_CLASSES global](#removed-storybook_react_classes-global)
   - [7.0 Deprecations and default changes](#70-deprecations-and-default-changes)
     - [storyStoreV7 enabled by default](#storystorev7-enabled-by-default)
     - [`Story` type deprecated](#story-type-deprecated)
@@ -278,6 +279,12 @@
 A number of these changes can be made automatically by the Storybook CLI. To take advantage of these "automigrations", run `npx storybook@next upgrade --prerelease` or `pnpx storybook@next upgrade --prerelease`.
 
 ### 7.0 breaking changes
+
+#### Story context is prepared before for supporting fine grained updates
+
+This change modifies the way Storybook prepares stories to avoid reactive args to get lost for fine-grained updates JS frameworks as `SolidJS` or `Vue`. That's because those frameworks handle args/props as proxies behind the scenes to make reactivity work. So when `argType` mapping was done in `prepareStory` the Proxies were destroyed and args becomes a plain object again, losing the reactivity.
+
+For avoiding that, this change passes the mapped args instead of raw args at `renderToCanvas` so that the proxies stay intact. Also decorators will benefit from this as well by receiving mapped args instead of raw args.
 
 #### Dropped support for Node 15 and below
 
@@ -541,6 +548,22 @@ npx sb@next babelrc
 ```
 
 This will create a `.babelrc.json` file. This file includes a bunch of babel plugins, so you may need to add new package devDependencies accordingly.
+
+#### Importing plain markdown files with `transcludeMarkdown` has changed
+
+The `transcludeMarkdown` option in `addon-docs` have been removed, and the automatic handling of `.md` files in Vite projects have also been disabled.
+
+Instead `.md` files can be imported as plain strings by adding the `?raw` suffix to the import, and then passed to the new `Markdown` block. In an MDX file that would look like this:
+
+```
+import { Markdown } from '@storybook/blocks';
+import ReadMe from './README.md?raw';
+
+...
+
+<Markdown>{ReadMe}</Markdown>
+
+```
 
 #### 7.0 feature flags removed
 
@@ -842,6 +865,20 @@ The props have been simplified and the block now only accepts an `of` prop, whic
 
 `parameters.notes` and `parameters.info` have been deprecated as a way to specify descriptions. Instead use JSDoc comments above the default export or story export, or use `parameters.docs.description.story | component` directly. See TDB DOCS LINK for a deeper explanation on how to write descriptions.
 
+If you were previously using the `Description` block to render plain markdown in your docs, that behavior can now be achieved with the new `Markdown` block instead like this:
+
+```
+import { Markdown } from '@storybook/blocks';
+import ReadMe from './README.md?raw';
+
+...
+
+<Markdown>{ReadMe}</Markdown>
+
+```
+
+Notice the `?raw` suffix in the markdown import is needed for this to work.
+
 ##### Story block
 
 To reference a story in a MDX file, you should reference it with `of`:
@@ -1001,8 +1038,8 @@ Then enable the `legacyMdx1` feature flag in your `.storybook/main.js` file:
 export default {
   features: {
     legacyMdx1: true,
-  }
-}
+  },
+};
 ```
 
 NOTE: This only affects `.(stories|story).mdx` files. Notably, if you want to use Storybook 7's "pure" `.mdx` format, you'll need to use MDX2 for that.
