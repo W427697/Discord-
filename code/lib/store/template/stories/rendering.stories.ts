@@ -14,12 +14,9 @@ export default {
 export const ForceRemount = {
   /**
    * This play function runs in an infinite loop, because the final FORCE_REMOUNT event retriggers the function
-   * To test that this works, the function first waits 3 seconds,
-   * so you manually can see the button doesn't have focus. Then the button gets focus for 3 seconds, and we remount and start over.
-   * Now the button should have lost focus. and wait 3 seconds more, etc.
-   * If the button ALWAYS stays focused it means the renderer didn't correctly remount the tree at the FORCE_REMOUNT event
-   *
-   * This infinite loop means it's disabled in Chromatic and the test runner
+   * Because of this, it is disabled in both Chromatic and the test runner.
+   * To test it manually, inspect that the button alternates being focused and blurred every 3 seconds.
+   * If the button ALWAYS has focus it means the renderer didn't correctly remount the tree at the FORCE_REMOUNT event
    */
   parameters: { chromatic: { disableSnapshot: true } },
   play: async ({ canvasElement, id }: PlayFunctionContext<any>) => {
