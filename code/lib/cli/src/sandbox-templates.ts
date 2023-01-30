@@ -166,6 +166,7 @@ const baseTemplates = {
   'vue2-vite/2.7-js': {
     name: 'Vue2 Vite (vue 2.7 JS)',
     script: 'npx create-vue@2 {{beforeDir}} --default',
+    // TODO: reenable this once sandbox is available
     inDevelopment: true,
     // Re-enable once https://github.com/storybookjs/storybook/issues/19351 is fixed.
     skipTasks: ['smoke-test'],
@@ -354,6 +355,7 @@ const baseTemplates = {
   'qwik-vite/default-ts': {
     name: 'Qwik CLI (Default TS)',
     script: 'yarn create qwik basic {{beforeDir}} --no-install',
+    // TODO: reenable this once sandbox is available
     inDevelopment: true,
     skipTasks: ['e2e-tests'],
     expected: {
@@ -373,6 +375,7 @@ const internalTemplates = {
   'internal/ssv6-vite': {
     ...baseTemplates['react-vite/default-ts'],
     name: 'StoryStore v6 (react-vite/default-ts)',
+    // TODO: reenable this once sandbox is available
     inDevelopment: true,
     isInternal: true,
     modifications: {
@@ -386,6 +389,7 @@ const internalTemplates = {
   'internal/ssv6-webpack': {
     ...baseTemplates['react-webpack/18-ts'],
     name: 'StoryStore v6 (react-webpack/18-ts)',
+    // TODO: reenable this once sandbox is available
     inDevelopment: true,
     isInternal: true,
     modifications: {
