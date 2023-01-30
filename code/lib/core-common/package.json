@@ -59,7 +59,7 @@
     "fs-extra": "^11.1.0",
     "glob": "^7.1.6",
     "handlebars": "^4.7.7",
-    "lazy-universal-dotenv": "^3.0.1",
+    "lazy-universal-dotenv": "^4.0.0",
     "picomatch": "^2.3.0",
     "pkg-dir": "^5.0.0",
     "pretty-hrtime": "^1.0.3",

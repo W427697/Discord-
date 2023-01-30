@@ -10,10 +10,10 @@ import { RefIndicator } from './RefIndicator';
 // eslint-disable-next-line import/no-cycle
 import { Tree } from './Tree';
 import { CollapseIcon } from './TreeNode';
-// eslint-disable-next-line import/no-cycle
+
 import { DEFAULT_REF_ID } from './Sidebar';
 import type { Highlight, RefType } from './types';
-// eslint-disable-next-line import/no-cycle
+
 import { getStateType } from './utils';
 
 export interface RefProps {
