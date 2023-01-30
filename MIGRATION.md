@@ -2,6 +2,7 @@
 
 - [From version 6.5.x to 7.0.0](#from-version-65x-to-700)
   - [7.0 breaking changes](#70-breaking-changes)
+    - [Story context is prepared before for supporting fine grained updates](#story-context-is-prepared-before-for-supporting-fine-grained-updates)
     - [Dropped support for Node 15 and below](#dropped-support-for-node-15-and-below)
     - [Modern browser support](#modern-browser-support)
     - [React peer dependencies required](#react-peer-dependencies-required)
@@ -1043,8 +1044,6 @@ export default {
 ```
 
 NOTE: This only affects `.(stories|story).mdx` files. Notably, if you want to use Storybook 7's "pure" `.mdx` format, you'll need to use MDX2 for that.
-
-NOTE: Legacy MDX1 support is only for Webpack projects. There is currently no legacy support for Vite.
 
 #### Default docs styles will leak into non-story user components
 

@@ -15,7 +15,8 @@ const isStorybookMdx = (id: string) => id.endsWith('stories.mdx') || id.endsWith
 export async function mdxPlugin(options: Options): Promise<Plugin> {
   const include = /\.mdx$/;
   const filter = createFilter(include);
-  const addons = await options.presets.apply<StorybookConfig['addons']>('addons', []);
+  const { features, presets } = options;
+  const addons = await presets.apply<StorybookConfig['addons']>('addons', []);
   const docsOptions =
     // @ts-expect-error - not sure what type to use here
     addons.find((a) => [a, a.name].includes('@storybook/addon-docs'))?.options ?? {};
@@ -26,7 +27,9 @@ export async function mdxPlugin(options: Options): Promise<Plugin> {
     async transform(src, id) {
       if (!filter(id)) return undefined;
 
-      const { compile } = await import('@storybook/mdx2-csf');
+      const { compile } = features?.legacyMdx1
+        ? await import('@storybook/mdx1-csf')
+        : await import('@storybook/mdx2-csf');
 
       const mdxLoaderOptions = await options.presets.apply('mdxLoaderOptions', {
         mdxCompileOptions: {
