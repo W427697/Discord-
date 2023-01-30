@@ -52,7 +52,7 @@
     "@storybook/core-common": "7.0.0-beta.36",
     "@storybook/core-server": "7.0.0-beta.36",
     "@storybook/vue": "7.0.0-beta.36",
-    "magic-string": "^0.26.1",
+    "magic-string": "^0.27.0",
     "vue-docgen-api": "^4.40.0"
   },
   "devDependencies": {

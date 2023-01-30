@@ -52,7 +52,7 @@
     "@storybook/core-server": "7.0.0-beta.36",
     "@storybook/node-logger": "7.0.0-beta.36",
     "@storybook/web-components": "7.0.0-beta.36",
-    "magic-string": "^0.26.1"
+    "magic-string": "^0.27.0"
   },
   "devDependencies": {
     "@types/node": "^16.0.0",
