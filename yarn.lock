@@ -8370,6 +8370,7 @@ __metadata:
     react-refresh: ^0.11.0
     read-pkg-up: ^7.0.1
     regenerator-runtime: ^0.13.7
+    require-from-string: ^2.0.2
     ts-dedent: ^2.0.0
     util-deprecate: ^1.0.2
     webpack: 4
@@ -8377,7 +8378,6 @@ __metadata:
     "@babel/core": ^7.11.5
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
-    require-from-string: ^2.0.2
   peerDependenciesMeta:
     "@babel/core":
       optional: true
