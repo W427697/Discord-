@@ -68,7 +68,7 @@ const Right = styled.span<RightProps>(
             opacity: 1,
           },
           '& path': {
-            fill: theme.color.primary,
+            fill: theme.color.secondary,
           },
         }
       : {}
