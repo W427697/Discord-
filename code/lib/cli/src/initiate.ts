@@ -332,28 +332,28 @@ async function doInitiate(options: CommandOptions, pkg: PackageJson): Promise<vo
     telemetry('init', { projectType });
   }
 
-  await automigrate({ yes: options.yes || process.env.CI === 'true', packageManager: pkgMgr });
-
-  logger.log('\nTo run your Storybook, type:\n');
-
-  if (projectType === ProjectType.ANGULAR) {
-    codeLog([`ng run ${installResult.projectName}:storybook`]);
-  } else {
-    codeLog([packageManager.getRunStorybookCommand()]);
+  if (projectType !== ProjectType.REACT_NATIVE) {
+    await automigrate({ yes: options.yes || process.env.CI === 'true', packageManager: pkgMgr });
   }
 
   logger.log('\nFor more information visit:', chalk.cyan('https://storybook.js.org'));
 
-  if (projectType === ProjectType.REACT_NATIVE) {
-    const REACT_NATIVE_REPO = 'https://github.com/storybookjs/react-native';
-
+  if (projectType === ProjectType.ANGULAR) {
+    logger.log('\nTo run your Storybook, type:\n');
+    codeLog([`ng run ${installResult.projectName}:storybook`]);
+  } else if (projectType === ProjectType.REACT_NATIVE) {
     logger.log();
     logger.log(chalk.yellow('NOTE: installation is not 100% automated.\n'));
     logger.log(`To quickly run Storybook, replace contents of your app entry with:\n`);
-    codeLog(["export {default} from './storybook';"]);
+    codeLog(["export {default} from './.storybook';"]);
+    logger.log('\n Then to run your Storybook, type:\n');
+    codeLog([packageManager.getRunCommand('start')]);
     logger.log('\n For more in information, see the github readme:\n');
-    logger.log(chalk.cyan(REACT_NATIVE_REPO));
+    logger.log(chalk.cyan('https://github.com/storybookjs/react-native'));
     logger.log();
+  } else {
+    logger.log('\nTo run your Storybook, type:\n');
+    codeLog([packageManager.getRunStorybookCommand()]);
   }
 
   // Add a new line for the clear visibility.

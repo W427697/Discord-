@@ -16,6 +16,16 @@ import { argsEnhancers } from '@storybook/addon-actions/dist/modern/preset/addAr
 // eslint-disable-next-line import/named
 import { decorators, parameters } from './preview';
 
+global.STORIES = [
+  {
+    titlePrefix: '',
+    directory: './.storybook/stories',
+    files: '**/*.stories.?(ts|tsx|js|jsx)',
+    importPathMatcher:
+      '^\\.[\\\\/](?:\\.storybook\\/stories(?:\\/(?!\\.)(?:(?:(?!(?:^|\\/)\\.).)*?)\\/|\\/|$)(?!\\.)(?=.)[^/]*?\\.stories\\.(?:ts|tsx|js|jsx)?)$',
+  },
+];
+
 if (decorators) {
   // eslint-disable-next-line no-undef
   if (__DEV__) {
@@ -40,7 +50,9 @@ try {
 }
 
 const getStories = () => {
-  return [require('../stories/Button.stories.tsx')];
+  return {
+    './.storybook/stories/Button/Button.stories.js': require('./stories/Button/Button.stories.js'),
+  };
 };
 
 configure(getStories, module, false);
