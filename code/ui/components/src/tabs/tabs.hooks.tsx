@@ -87,6 +87,7 @@ export function useList(list: ChildrenList) {
               active={isAddonsActive}
               preActive={isTooltipVisible}
               style={{ visibility: invisibleList.length ? 'visible' : 'hidden' }}
+              aria-hidden={!invisibleList.length}
               className="tabbutton"
               type="button"
               role="tab"
@@ -103,6 +104,7 @@ export function useList(list: ChildrenList) {
               <TabButton
                 id={`tabbutton-${sanitize(title)}`}
                 style={{ visibility: 'hidden' }}
+                aria-hidden
                 tabIndex={-1}
                 ref={(ref: HTMLButtonElement) => {
                   tabRefs.current.set(id, ref);

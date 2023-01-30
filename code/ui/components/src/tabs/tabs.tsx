@@ -5,7 +5,7 @@ import { sanitize } from '@storybook/csf';
 
 import { Placeholder } from '../placeholder/placeholder';
 import { TabButton } from '../bar/button';
-import { FlexBar, Side } from '../bar/bar';
+import { FlexBar } from '../bar/bar';
 import type { ChildrenList } from './tabs.helpers';
 import { childrenToList, VisuallyHidden } from './tabs.helpers';
 import { useList } from './tabs.hooks';
@@ -170,7 +170,7 @@ export const Tabs: FC<TabsProps> = memo(
             })}
             <AddonTab menuName={menuName} actions={actions} />
           </TabBar>
-          {tools ? <Side right>{tools}</Side> : null}
+          {tools}
         </FlexBar>
         <Content id="panel-tab-content" bordered={bordered} absolute={absolute}>
           {list.map(({ id, active, render }) => render({ key: id, active }))}
