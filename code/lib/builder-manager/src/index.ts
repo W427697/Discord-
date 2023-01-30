@@ -7,7 +7,9 @@ import { logger } from '@storybook/node-logger';
 import { globalExternals } from '@fal-works/esbuild-plugin-global-externals';
 import { pnpPlugin } from '@yarnpkg/esbuild-plugin-pnp';
 import aliasPlugin from 'esbuild-plugin-alias';
+import { environmentPlugin } from 'esbuild-plugin-environment';
 
+import { stringifyProcessEnvs } from '@storybook/core-common';
 import { getTemplatePath, renderHTML } from './utils/template';
 import { definitions } from './utils/globals';
 import { wrapManagerEntries } from './utils/managerEntries';
@@ -29,10 +31,11 @@ let compilation: Compilation;
 let asyncIterator: ReturnType<StarterFunction> | ReturnType<BuilderFunction>;
 
 export const getConfig: ManagerBuilder['getConfig'] = async (options) => {
-  const [addonsEntryPoints, customManagerEntryPoint, tsconfigPath] = await Promise.all([
+  const [addonsEntryPoints, customManagerEntryPoint, tsconfigPath, envs] = await Promise.all([
     options.presets.apply('managerEntries', []),
     safeResolve(join(options.configDir, 'manager')),
     getTemplatePath('addon.tsconfig.json'),
+    options.presets.apply<Record<string, string>>('env'),
   ]);
 
   const entryPoints = customManagerEntryPoint
@@ -81,6 +84,10 @@ export const getConfig: ManagerBuilder['getConfig'] = async (options) => {
       }),
       globalExternals(definitions),
       pnpPlugin(),
+      environmentPlugin({
+        ...stringifyProcessEnvs(envs),
+        NODE_ENV: JSON.stringify(process.env.NODE_ENV),
+      }),
     ],
 
     banner: {

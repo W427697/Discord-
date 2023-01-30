@@ -5729,6 +5729,7 @@ __metadata:
     ejs: ^3.1.8
     esbuild: ^0.16.4
     esbuild-plugin-alias: ^0.2.1
+    esbuild-plugin-environment: ^0.2.2
     express: ^4.17.3
     find-cache-dir: ^3.0.0
     fs-extra: ^11.1.0
@@ -9494,6 +9495,16 @@ __metadata:
     "@webassemblyjs/ast": 1.11.1
     "@xtuc/long": 4.2.2
   checksum: cede13c53a176198f949e7f0edf921047c524472b2e4c99edfe829d20e168b4037395479325635b4a3662ea7b4b59be4555ea3bb6050c61b823c68abdb435c74
+  languageName: node
+  linkType: hard
+
+"@webdeveric/utils@npm:^0.25.1":
+  version: 0.25.1
+  resolution: "@webdeveric/utils@npm:0.25.1"
+  dependencies:
+    lodash.clonedeep: ^4.5.0
+    lodash.escaperegexp: ^4.1.2
+  checksum: 3ffbc93d36a5856436716b0275d6c56eb43910c5d0e22c6627414521794d180689b8956aea3800aa7ee72b59899143f1b5d09f3410a1a8f756b9c3d28877f91c
   languageName: node
   linkType: hard
 
@@ -14083,6 +14094,28 @@ __metadata:
   version: 0.2.1
   resolution: "esbuild-plugin-alias@npm:0.2.1"
   checksum: a67bc6bc2744fc8637f7321f00c1f00e4fae86c182662421738ebfabf3ad344967b9c667185c6c34d9edd5b289807d34bfdceef94620e94e0a45683534af69e0
+  languageName: node
+  linkType: hard
+
+"esbuild-plugin-define@npm:^0.2.3":
+  version: 0.2.3
+  resolution: "esbuild-plugin-define@npm:0.2.3"
+  dependencies:
+    "@webdeveric/utils": ^0.25.1
+  peerDependencies:
+    esbuild: ">=0.15"
+  checksum: 9dd913004550a1b129fac8c11ad1b6907940952488fe5fd772299942405235f40892e038c23f6e43df62589d951e6f23fe724dc7243e7d03aab26e9491f7c696
+  languageName: node
+  linkType: hard
+
+"esbuild-plugin-environment@npm:^0.2.2":
+  version: 0.2.2
+  resolution: "esbuild-plugin-environment@npm:0.2.2"
+  dependencies:
+    esbuild-plugin-define: ^0.2.3
+  peerDependencies:
+    esbuild: ">=0.15"
+  checksum: 90c7d6db9400856572eebcaa4c9bf115ceccc31cae0a659368e20cddc041275e7ba95d1f9dfd446cc5b6f60c8b5fa515313263209c69e4fe5b5811d46835741a
   languageName: node
   linkType: hard
 
@@ -19769,6 +19802,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"lodash.clonedeep@npm:^4.5.0":
+  version: 4.5.0
+  resolution: "lodash.clonedeep@npm:4.5.0"
+  checksum: 2caf0e4808f319d761d2939ee0642fa6867a4bbf2cfce43276698828380756b99d4c4fa226d881655e6ac298dd453fe12a5ec8ba49861777759494c534936985
+  languageName: node
+  linkType: hard
+
 "lodash.debounce@npm:^4.0.8":
   version: 4.0.8
   resolution: "lodash.debounce@npm:4.0.8"
@@ -19780,6 +19820,13 @@ __metadata:
   version: 4.0.1
   resolution: "lodash.escape@npm:4.0.1"
   checksum: 90ade409cec05b6869090476952fdfb84d4d87b1ff4a0e03ebd590f980d9a1248d93ba14579f10d80c6429e4d6af13ba137c28db64cae6dadb71442e54a3ad2b
+  languageName: node
+  linkType: hard
+
+"lodash.escaperegexp@npm:^4.1.2":
+  version: 4.1.2
+  resolution: "lodash.escaperegexp@npm:4.1.2"
+  checksum: 484ad4067fa9119bb0f7c19a36ab143d0173a081314993fe977bd00cf2a3c6a487ce417a10f6bac598d968364f992153315f0dbe25c9e38e3eb7581dd333e087
   languageName: node
   linkType: hard
 
