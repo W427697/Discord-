@@ -83,6 +83,10 @@ export const CodeUnattached: Story = {
   parameters: { attached: false },
 };
 
+export const EmptyUnattached: Story = {
+  parameters: { attached: false },
+};
+
 export const CodeParameters: Story = {
   args: { of: ParametersStories.Code },
 };
