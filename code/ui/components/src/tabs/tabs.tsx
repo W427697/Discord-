@@ -120,7 +120,7 @@ export interface TabsProps {
   backgroundColor?: string;
   absolute?: boolean;
   bordered?: boolean;
-  menuName: string;
+  menuName?: string;
 }
 
 export const Tabs: FC<TabsProps> = memo(
@@ -184,13 +184,14 @@ export const Tabs: FC<TabsProps> = memo(
   }
 );
 Tabs.displayName = 'Tabs';
-(Tabs as any).defaultProps = {
+Tabs.defaultProps = {
   id: null,
   children: null,
   tools: null,
   selected: null,
   absolute: false,
   bordered: false,
+  menuName: 'Tabs',
 };
 
 type FuncChildren = ({ active }: { active: boolean }) => JSX.Element;
