@@ -8,7 +8,6 @@ export type GeneratorOptions = {
   builder: Builder;
   linkable: boolean;
   pnp: boolean;
-  commonJs: boolean;
   frameworkPreviewParts?: FrameworkPreviewParts;
 };
 
@@ -24,7 +23,6 @@ export interface FrameworkOptions {
   extraMain?: any;
   extensions?: string[];
   framework?: Record<string, any>;
-  commonJs?: boolean;
   storybookConfigFolder?: string;
   componentsDestinationPath?: string;
 }
@@ -49,7 +47,6 @@ export type CommandOptions = {
   yes?: boolean;
   builder?: Builder;
   linkable?: boolean;
-  commonJs?: boolean;
   disableTelemetry?: boolean;
   enableCrashReports?: boolean;
   debug?: boolean;

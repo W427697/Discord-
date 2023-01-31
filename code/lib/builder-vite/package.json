@@ -59,7 +59,7 @@
     "fs-extra": "^11.1.0",
     "glob": "^7.2.0",
     "glob-promise": "^4.2.0",
-    "magic-string": "^0.26.1",
+    "magic-string": "^0.27.0",
     "rollup": "^2.25.0 || ^3.3.0",
     "slash": "^3.0.0"
   },
