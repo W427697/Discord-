@@ -28,18 +28,21 @@ const map = new Map<
 >();
 
 export function renderToCanvas(
-  renderStoryContext: RenderContext<VueRenderer>,
+  {
+    storyFn,
+    forceRemount,
+    showMain,
+    showError,
+    showException,
+    name,
+    title,
+    storyContext,
+  }: RenderContext<VueRenderer>,
   canvasElement: VueRenderer['canvasElement']
 ) {
-  // TODO: explain cyclical nature of these app => story => mount
-  const { storyFn, forceRemount, showMain, showError, showException, name, title, storyContext } =
-    renderStoryContext;
-  const state = reactive(storyContext.args || {});
-  storyContext.args = toRefs(state);
-
+  const { reactiveArgs } = useReactive(storyContext);
+  // fetch the story with the updated context (with reactive args)
   const element: StoryFnVueReturnType = storyFn(storyContext);
-
-  const reactiveArgs = state;
 
   if (!element) {
     showError({
@@ -115,11 +118,14 @@ function teardown(
   if (map.has(canvasElement)) map.delete(canvasElement);
 }
 
-function reactiveC(props: Args) {
-  // using ref instead of reactive to avoid the need to call `toRefs` in the template
-  const reactiveArgs: Args[keyof Args] = {};
-  Object.keys(props).forEach((key) => {
-    reactiveArgs[key] = ref(props[key]);
-  });
-  return reactiveArgs;
+/**
+ *  create a reactive args and return it and the refs to avoid losing reactivity when passing it to the story
+ * @param storyContext
+ * @returns
+ */
+
+function useReactive(storyContext: StoryContext<VueRenderer, Args>) {
+  const reactiveArgs = reactive(storyContext.args || {});
+  storyContext.args = toRefs(reactiveArgs);
+  return { reactiveArgs, refsArgs: storyContext.args };
 }
