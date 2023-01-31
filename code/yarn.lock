@@ -6062,6 +6062,7 @@ __metadata:
   resolution: "@storybook/core-common@workspace:lib/core-common"
   dependencies:
     "@babel/core": ^7.20.2
+    "@storybook/csf-tools": 7.0.0-beta.38
     "@storybook/node-logger": 7.0.0-beta.38
     "@storybook/types": 7.0.0-beta.38
     "@types/babel__core": ^7.1.20
@@ -6077,7 +6078,7 @@ __metadata:
     file-system-cache: ^2.0.0
     find-up: ^5.0.0
     fs-extra: ^11.1.0
-    glob: ^7.1.6
+    glob-promise: ^4.2.0
     handlebars: ^4.7.7
     lazy-universal-dotenv: ^4.0.0
     mock-fs: ^5.2.0
