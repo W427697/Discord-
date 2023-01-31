@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign */
 import { dedent } from 'ts-dedent';
-import { createApp, h, ref, reactive, toRefs } from 'vue';
+import { createApp, h, reactive, toRefs } from 'vue';
 import type { RenderContext, ArgsStoryFn } from '@storybook/types';
 
 import type { Args, StoryContext } from '@storybook/csf';
