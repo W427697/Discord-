@@ -1,3 +1,23 @@
+## 7.0.0-beta.38 (January 31, 2023)
+
+#### Features
+
+-   CLI: Generate main config with default exports [#20797](https://github.com/storybooks/storybook/pull/20797)
+
+#### Bug Fixes
+
+-   CLI: Only add dependencies on sb init if they do not exist [#20811](https://github.com/storybooks/storybook/pull/20811)
+-   CLI: Install prerelease of @storybook/testing-library in CLI starters [#20819](https://github.com/storybooks/storybook/pull/20819)
+
+#### Dependency Upgrades
+
+-   Update lazy-universal-dotenv & regen lockfile [#20832](https://github.com/storybooks/storybook/pull/20832)
+-   Instrumenter: Remove unused core-js dependency [#20831](https://github.com/storybooks/storybook/pull/20831)
+
+## 7.0.0-beta.37 (January 31, 2023)
+
+Failed publish 
+
 ## 7.0.0-beta.36 (January 28, 2023)
 
 #### Features
