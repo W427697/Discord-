@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign */
 import { dedent } from 'ts-dedent';
-import { createApp, h, reactive } from 'vue';
+import { createApp, h, ref, reactive, toRefs } from 'vue';
 import type { RenderContext, ArgsStoryFn } from '@storybook/types';
 
 import type { Args, StoryContext } from '@storybook/csf';
@@ -28,21 +28,18 @@ const map = new Map<
 >();
 
 export function renderToCanvas(
-  {
-    storyFn,
-    name,
-    showMain,
-    showError,
-    showException,
-    id,
-    title,
-    forceRemount,
-    storyContext,
-  }: RenderContext<VueRenderer>,
+  renderStoryContext: RenderContext<VueRenderer>,
   canvasElement: VueRenderer['canvasElement']
 ) {
   // TODO: explain cyclical nature of these app => story => mount
-  const element: StoryFnVueReturnType = storyFn();
+  const { storyFn, forceRemount, showMain, showError, showException, name, title, storyContext } =
+    renderStoryContext;
+  const state = reactive(storyContext.args || {});
+  storyContext.args = toRefs(state);
+
+  const element: StoryFnVueReturnType = storyFn(storyContext);
+
+  const reactiveArgs = state;
 
   if (!element) {
     showError({
@@ -55,18 +52,15 @@ export function renderToCanvas(
     return () => {};
   }
 
-  const storyArgs = element.props || (element as any).render?.().props || storyContext.args || {};
-
   const existingApp = map.get(canvasElement);
 
   if (existingApp && !forceRemount) {
-    updateArgs(existingApp.reactiveArgs, storyArgs);
+    updateArgs(existingApp.reactiveArgs, reactiveArgs);
     return () => {
       teardown(existingApp.vueApp, canvasElement);
     };
   }
 
-  const reactiveArgs = reactive(storyArgs) as Args;
   const storybookApp = createApp({
     render() {
       map.set(canvasElement, { vueApp: storybookApp, reactiveArgs });
@@ -119,4 +113,13 @@ function teardown(
 ) {
   storybookApp?.unmount();
   if (map.has(canvasElement)) map.delete(canvasElement);
+}
+
+function reactiveC(props: Args) {
+  // using ref instead of reactive to avoid the need to call `toRefs` in the template
+  const reactiveArgs: Args[keyof Args] = {};
+  Object.keys(props).forEach((key) => {
+    reactiveArgs[key] = ref(props[key]);
+  });
+  return reactiveArgs;
 }
