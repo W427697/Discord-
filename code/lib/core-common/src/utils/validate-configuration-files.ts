@@ -1,5 +1,5 @@
 import { dedent } from 'ts-dedent';
-import glob from 'glob';
+import { promise as glob } from 'glob-promise';
 import path from 'path';
 import { readConfig } from '@storybook/csf-tools';
 import { once } from '@storybook/node-logger';
@@ -8,9 +8,16 @@ import { boost } from './interpret-files';
 
 export async function validateConfigurationFiles(configDir: string) {
   const extensionsPattern = `{${Array.from(boost).join(',')}}`;
-  const mainConfigMatches = glob.sync(path.resolve(configDir, `main${extensionsPattern}`));
+  const mainConfigMatches = await glob(path.resolve(configDir, `main${extensionsPattern}`));
 
   const [mainConfigPath] = mainConfigMatches;
+
+  if (mainConfigMatches.length > 1) {
+    once.warn(dedent`
+      Multiple main files found in your configDir (${path.resolve(configDir)}).
+      Storybook will use the first one found and ignore the others. Please remove the extra files.
+    `);
+  }
 
   if (!mainConfigPath) {
     throw new Error(dedent`
