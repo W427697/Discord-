@@ -6,3 +6,6 @@ addons.setConfig({
     renderLabel: ({ name, type }) => (type === 'story' ? name : startCase(name)),
   },
 });
+
+console.log(process.env.STORYBOOK_FOO);
+console.log(process.env);
