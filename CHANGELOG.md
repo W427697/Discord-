@@ -1,4 +1,4 @@
-## 7.0.0-beta.37 (January 31, 2023)
+## 7.0.0-beta.38 (January 31, 2023)
 
 #### Features
 
@@ -13,6 +13,10 @@
 
 -   Update lazy-universal-dotenv & regen lockfile [#20832](https://github.com/storybooks/storybook/pull/20832)
 -   Instrumenter: Remove unused core-js dependency [#20831](https://github.com/storybooks/storybook/pull/20831)
+
+## 7.0.0-beta.37 (January 31, 2023)
+
+Failed publish 
 
 ## 7.0.0-beta.36 (January 28, 2023)
 
