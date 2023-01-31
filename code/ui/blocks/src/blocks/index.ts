@@ -15,6 +15,7 @@ export * from './DocsStory';
 export * from './external/ExternalDocs';
 export * from './external/ExternalDocsContainer';
 export * from './Heading';
+export * from './Markdown';
 export * from './Meta';
 export * from './Primary';
 // eslint-disable-next-line import/export
