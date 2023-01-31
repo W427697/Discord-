@@ -3,33 +3,29 @@ import findUp from 'find-up';
 
 // Try and figure out what the root folder of the project is.  This is used to generate some configuration.
 export const getProjectRoot = (): string => {
-  // Allow manual override in cases where the auto-detect doesn't work
+  // Allow manual override in cases where auto-detect doesn't work
   if (process.env.STORYBOOK_PROJECT_ROOT) {
     return process.env.STORYBOOK_PROJECT_ROOT;
   }
-  // Assume the innermost git/svn/hg folder is the project root
-  const foundVcsMetaDir = ['.git', '.svn', '.hg']
-    .map((dir) => findUp.sync(dir, { type: 'directory' }))
-    .filter(Boolean)[0];
-  if (foundVcsMetaDir) {
-    return path.join(foundVcsMetaDir, '..');
-  }
 
-  // Walk upwards out of any node_modules or .yarn folders.  We have ot keep going up multiple steps
-  // because node_modules is commonly nested instead other node_modules or inside the .yarn cache folder
-  let projectRoot = process.cwd();
-  for (;;) {
-    const cwd = projectRoot;
-    const foundNodeModulesDir = ['node_modules', '.yarn']
-      .map((dir) => findUp.sync(dir, { cwd, type: 'directory' }))
-      .filter(Boolean)[0];
-    if (foundNodeModulesDir) {
-      projectRoot = path.join(foundNodeModulesDir, '..');
-    } else {
-      break;
+  // Check if the working directory or a parent contains a folder that is normally only in a project root
+  const dirnames = ['.git', '.svn', '.hg', '.yarn'];
+  for (let i = 0; i < dirnames.length; i += 1) {
+    const name = dirnames[i];
+    const foundDir = findUp.sync(name, { type: 'directory' });
+    if (foundDir) {
+      return path.join(foundDir, '..');
     }
   }
-  return projectRoot;
+
+  // If a folder containing this file is named .yarn or node_modules, assume the containing folder is the project root
+  const split = __dirname.split(/[/\\](.yarn|node_modules)/);
+  if (split.length > 1) {
+    return split[0];
+  }
+
+  // If none of the above yield a result, just go with the current working directory
+  return process.cwd();
 };
 
 export const nodePathsToArray = (nodePath: string) =>
