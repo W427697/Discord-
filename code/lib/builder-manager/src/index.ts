@@ -7,7 +7,6 @@ import { logger } from '@storybook/node-logger';
 import { globalExternals } from '@fal-works/esbuild-plugin-global-externals';
 import { pnpPlugin } from '@yarnpkg/esbuild-plugin-pnp';
 import aliasPlugin from 'esbuild-plugin-alias';
-import { environmentPlugin } from 'esbuild-plugin-environment';
 
 import { stringifyProcessEnvs } from '@storybook/core-common';
 import { getTemplatePath, renderHTML } from './utils/template';
@@ -84,10 +83,6 @@ export const getConfig: ManagerBuilder['getConfig'] = async (options) => {
       }),
       globalExternals(definitions),
       pnpPlugin(),
-      environmentPlugin({
-        ...stringifyProcessEnvs(envs),
-        NODE_ENV: JSON.stringify(process.env.NODE_ENV),
-      }),
     ],
 
     banner: {
@@ -98,8 +93,8 @@ export const getConfig: ManagerBuilder['getConfig'] = async (options) => {
     },
 
     define: {
-      'process.env.NODE_ENV': "'production'",
-      'process.env': '{}',
+      'process.env': JSON.stringify(envs),
+      ...stringifyProcessEnvs(envs),
       global: 'window',
       module: '{}',
     },
