@@ -46,15 +46,32 @@ const getBuilderDetails = (builder: string) => {
 
 const getExternalFramework = (framework: string) =>
   externalFrameworks.find(
-    (exFramework) => exFramework.name === framework || exFramework.packageName === framework
+    (exFramework) =>
+      framework !== undefined &&
+      (exFramework.name === framework ||
+        exFramework.packageName === framework ||
+        exFramework?.frameworks?.some?.((item) => item === framework))
   );
 
 const getFrameworkPackage = (framework: string, renderer: string, builder: string) => {
   const externalFramework = getExternalFramework(framework);
-  if (externalFramework) {
-    return externalFramework.packageName;
+
+  if (externalFramework === undefined) {
+    return framework ? `@storybook/${framework}` : `@storybook/${renderer}-${builder}`;
   }
-  return framework ? `@storybook/${framework}` : `@storybook/${renderer}-${builder}`;
+
+  if (externalFramework.frameworks !== undefined) {
+    return externalFramework.frameworks.find((item) => item.match(new RegExp(`-${builder}`)));
+  }
+
+  return externalFramework.packageName;
+};
+
+const getRendererPackage = (framework: string, renderer: string) => {
+  const externalFramework = getExternalFramework(framework);
+  if (externalFramework !== undefined) return externalFramework.renderer;
+
+  return `@storybook/${renderer}`;
 };
 
 const wrapForPnp = (packageName: string) =>
@@ -77,7 +94,7 @@ const getFrameworkDetails = (
 
   const frameworkPackagePath = pnp ? wrapForPnp(frameworkPackage) : frameworkPackage;
 
-  const rendererPackage = `@storybook/${renderer}`;
+  const rendererPackage = getRendererPackage(framework, renderer);
   const rendererPackagePath = pnp ? wrapForPnp(rendererPackage) : rendererPackage;
 
   const builderPackage = getBuilderDetails(builder);
@@ -90,7 +107,7 @@ const getFrameworkDetails = (
 
   if (isKnownFramework) {
     return {
-      packages: [frameworkPackage],
+      packages: [rendererPackage, frameworkPackage],
       framework: frameworkPackagePath,
       rendererId: renderer,
       type: 'framework',

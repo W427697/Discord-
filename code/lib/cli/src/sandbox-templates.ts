@@ -145,6 +145,17 @@ const baseTemplates = {
       builder: '@storybook/builder-webpack5',
     },
   },
+  'solid-vite/default-ts': {
+    name: 'SolidJS Vite (TS)',
+    script: 'npx degit solidjs/templates/ts .',
+    expected: {
+      framework: 'storybook-solidjs-vite',
+      renderer: 'storybook-solidjs',
+      builder: '@storybook/builder-vite',
+    },
+    // TODO: remove this once solid-vite framework is released
+    inDevelopment: true,
+  },
   'vue3-vite/default-js': {
     name: 'Vue3 Vite (JS)',
     script: 'yarn create vite . --template vue',
