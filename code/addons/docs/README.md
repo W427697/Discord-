@@ -99,9 +99,9 @@ yarn add -D react
 Then add the following to your `.storybook/main.js`:
 
 ```js
-module.exports = {
+export default {
   stories: [
-    '../src/**/*.mdx)', // 👈 Add this, to match your project's structure
+    '../src/**/*.mdx', // 👈 Add this, to match your project's structure
     '../src/**/*.stories.@(js|jsx|ts|tsx)',
   ],
   addons: [
@@ -138,7 +138,7 @@ Add the following to your Jest configuration:
 The `addon-docs` preset has a few configuration options that can be used to configure its babel/webpack loading behavior. Here's an example of how to use the preset with options:
 
 ```js
-module.exports = {
+export default {
   addons: [
     {
       name: '@storybook/addon-docs',
