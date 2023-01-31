@@ -1,6 +1,6 @@
 {
   "name": "@storybook/svelte-vite",
-  "version": "7.0.0-beta.35",
+  "version": "7.0.0-beta.38",
   "description": "Storybook for Svelte and Vite: Develop Svelte components in isolation with Hot Reloading.",
   "keywords": [
     "storybook"
@@ -48,11 +48,11 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/builder-vite": "7.0.0-beta.35",
-    "@storybook/node-logger": "7.0.0-beta.35",
-    "@storybook/svelte": "7.0.0-beta.35",
+    "@storybook/builder-vite": "7.0.0-beta.38",
+    "@storybook/node-logger": "7.0.0-beta.38",
+    "@storybook/svelte": "7.0.0-beta.38",
     "@sveltejs/vite-plugin-svelte": "^2.0.0",
-    "magic-string": "^0.26.1",
+    "magic-string": "^0.27.0",
     "svelte": "^3.0.0",
     "sveltedoc-parser": "^4.2.1",
     "ts-dedent": "^2.2.0"
@@ -80,5 +80,5 @@
     ],
     "platform": "node"
   },
-  "gitHead": "e6d5c50c88bc67468a815efc1048b36ebc2d4bdd"
+  "gitHead": "91302a6818a7794e1e8bbff01c68513b8516cb53"
 }
