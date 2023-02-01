@@ -20,8 +20,7 @@ function prepare(
   innerStory?: ConcreteComponent
 ): Component | null {
   const story = rawStory as ComponentOptions;
-  console.log('rawStory', story);
-  console.log('  >innerStory', innerStory);
+
   if (story == null) {
     return null;
   }
