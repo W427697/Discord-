@@ -55,7 +55,8 @@ export function renderToCanvas(
     return () => {};
   }
   // getting the props from the render function
-  if ((element as any).render?.().props) reactiveArgs = reactive((element as any).render?.().props);
+  const props = (element as any).render?.().props;
+  if (props) reactiveArgs = reactive(props);
   const existingApp = map.get(canvasElement);
 
   if (existingApp && !forceRemount) {
