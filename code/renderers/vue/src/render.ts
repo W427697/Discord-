@@ -82,7 +82,7 @@ export const render: ArgsStoryFn<VueRenderer> = (args, context) => {
     .map((argType) => argType.name);
 
   if (eventProps.length) {
-    eventsBinding = eventProps.map((name) => `@${name}="$props.${camelCase(name)}"`).join(' ');
+    eventsBinding = eventProps.map((name) => `@${name}="$props['${name}"']`).join(' ');
     eventsBinding = `${eventsBinding} `;
   }
 
