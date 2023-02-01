@@ -1,6 +1,11 @@
 import { ApplicationRef, enableProdMode, NgModule } from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
-import { provideAnimations, BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {
+  provideAnimations,
+  BrowserAnimationsModule,
+  provideNoopAnimations,
+  NoopAnimationsModule,
+} from '@angular/platform-browser/animations';
 
 import { BehaviorSubject, Subject } from 'rxjs';
 import { stringify } from 'telejson';
@@ -101,12 +106,8 @@ export abstract class AbstractRenderer {
     const hasAnimationsDefined =
       !!storyFnAngular.moduleMetadata?.imports?.includes(BrowserAnimationsModule);
 
-    if (hasAnimationsDefined && storyFnAngular?.moduleMetadata?.imports) {
-      // eslint-disable-next-line no-param-reassign
-      storyFnAngular.moduleMetadata.imports = storyFnAngular.moduleMetadata.imports.filter(
-        (importedModule) => importedModule !== BrowserAnimationsModule
-      );
-    }
+    const hasNoopAnimationsDefined =
+      !!storyFnAngular.moduleMetadata?.imports?.includes(NoopAnimationsModule);
 
     if (
       !this.fullRendererRequired({
@@ -135,6 +136,7 @@ export abstract class AbstractRenderer {
     const applicationRef = await bootstrapApplication(application, {
       providers: [
         ...(hasAnimationsDefined ? [provideAnimations()] : []),
+        ...(hasNoopAnimationsDefined ? [provideNoopAnimations()] : []),
         storyPropsProvider(newStoryProps$),
       ],
     });

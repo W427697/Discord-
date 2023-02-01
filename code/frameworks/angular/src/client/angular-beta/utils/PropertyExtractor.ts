@@ -1,5 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Provider } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import {
+  BrowserAnimationsModule,
+  NoopAnimationsModule,
+} from '@angular/platform-browser/animations';
 import { NgModuleMetadata } from '../../types';
 import { isDeclarable, isStandaloneComponent } from './NgComponentAnalyzer';
 import { isComponentAlreadyDeclared } from './NgModulesAnalyzer';
@@ -7,6 +12,28 @@ import { isComponentAlreadyDeclared } from './NgModulesAnalyzer';
 const uniqueArray = (arr: any[]) => {
   return arr.flat(Number.MAX_VALUE).filter((value, index, self) => self.indexOf(value) === index);
 };
+
+/** Restricted Imports */
+const RESTRICTED_IMPORTS = [
+  /**
+   * BrowserAnimationsModule imports BrowserModule, which is restricted,
+   * because bootstrapApplication API, which mounts the component to the DOM,
+   * automatically imports BrowserModule
+   */
+  BrowserAnimationsModule,
+  /**
+   * NoopAnimationsModule imports BrowserModule, which is restricted,
+   * because bootstrapApplication API, which mounts the component to the DOM,
+   * automatically imports BrowserModule
+   */
+  NoopAnimationsModule,
+  /**
+   * BrowserModule is restricted,
+   * because bootstrapApplication API, which mounts the component to the DOM,
+   * automatically imports BrowserModule
+   */
+  BrowserModule,
+];
 
 /**
  * Extract Imports from NgModule
@@ -21,7 +48,10 @@ const uniqueArray = (arr: any[]) => {
 export const extractImports = (metadata: NgModuleMetadata) => {
   const imports = [CommonModule];
 
-  const modules = (metadata.imports || []).flat(Number.MAX_VALUE);
+  const modules = (metadata.imports || [])
+    .flat(Number.MAX_VALUE)
+    .filter((importedModule) => !RESTRICTED_IMPORTS.includes(importedModule));
+
   const withProviders = modules.filter((moduleDef) => !!moduleDef?.ngModule);
   const withoutProviders = modules.filter((moduleDef) => !withProviders.includes(moduleDef));
 
