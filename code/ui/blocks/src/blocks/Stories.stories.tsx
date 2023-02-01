@@ -3,6 +3,7 @@ import { Stories } from './Stories';
 
 const meta = {
   component: Stories,
+  parameters: { docsStyles: true },
 } satisfies Meta<typeof Stories>;
 
 export default meta;

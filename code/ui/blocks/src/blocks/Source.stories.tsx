@@ -18,6 +18,7 @@ const meta: Meta<typeof Source> = {
         code: `const emitted = 'source';`,
       },
     },
+    docsStyles: true,
   },
   decorators: [
     (Story, { parameters: { snippets = {} } }) => (

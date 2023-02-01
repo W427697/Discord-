@@ -14,6 +14,7 @@ const meta: Meta<typeof Canvas> = {
   parameters: {
     theme: 'light',
     relativeCsfPaths: ['../examples/Button.stories', '../examples/CanvasParameters.stories'],
+    docsStyles: true,
   },
   render: (args) => {
     return (

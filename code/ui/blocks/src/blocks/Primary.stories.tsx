@@ -3,6 +3,9 @@ import { Primary } from './Primary';
 
 const meta = {
   component: Primary,
+  parameters: {
+    docsStyles: true,
+  },
 } satisfies Meta<typeof Primary>;
 
 export default meta;
