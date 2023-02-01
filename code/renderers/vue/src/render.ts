@@ -49,7 +49,6 @@ const getRoot = (canvasElement: VueRenderer['canvasElement']): Instance => {
   return instance;
 };
 
-const camelCase = (str: string) => str.replace(/-([a-z])/g, (g) => g[1].toUpperCase());
 
 export const render: ArgsStoryFn<VueRenderer> = (args, context) => {
   const { id, component: Component, argTypes } = context;
