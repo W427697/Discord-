@@ -118,8 +118,7 @@ export const useSourceProps = (
       // Always fall back to the primary story for source parameters, even if code is set.
       stories = [docsContext.storyById()];
     } catch (err) {
-      // You are allowed to use <Story code="..." /> unattached.
-      if (!props.code) throw err;
+      // You are allowed to use <Source code="..." /> and <Canvas /> unattached.
     }
   }
 
