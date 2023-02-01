@@ -51,7 +51,7 @@
       - [Description block, `parameters.notes` and `parameters.info`](#description-block-parametersnotes-and-parametersinfo)
       - [Story block](#story-block)
       - [Source block](#source-block)
-    - [Canvas block](#canvas-block)
+      - [Canvas block](#canvas-block)
       - [ArgsTable block](#argstable-block)
     - [Configuring Autodocs](#configuring-autodocs)
     - [MDX2 upgrade](#mdx2-upgrade)
@@ -956,7 +956,7 @@ The source block now references a single story, the component, or a CSF file its
 
 Referencing stories by `id="xyz--abc"` is deprecated and should be replaced with `of={}` as above. Referencing multiple stories via `ids={["xyz--abc"]}` is now deprecated and should be avoided (instead use two source blocks).
 
-#### Canvas block
+##### Canvas block
 
 The Canvas block follows the same changes as [the Story block described above](#story-block).
 
