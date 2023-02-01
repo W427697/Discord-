@@ -12,6 +12,7 @@ import slash from 'slash';
 import type { Options, CoreConfig, DocsOptions, PreviewAnnotation } from '@storybook/types';
 import { globals } from '@storybook/preview/globals';
 import {
+  getBuilderOptions,
   getRendererName,
   stringifyProcessEnvs,
   handlebars,
@@ -95,10 +96,7 @@ export default async (
     workingDir,
   });
 
-  const builderOptions: BuilderOptions =
-    typeof coreOptions.builder === 'string'
-      ? {}
-      : coreOptions.builder?.options || ({} as BuilderOptions);
+  const builderOptions = await getBuilderOptions<BuilderOptions>(options);
 
   const previewAnnotations = [
     ...(await presets.apply<PreviewAnnotation[]>('previewAnnotations', [], options)).map(
