@@ -15,7 +15,7 @@ yarn add -D @storybook/addon-links
 within `.storybook/main.js`:
 
 ```js
-module.exports = {
+export default {
   addons: ['@storybook/addon-links'],
 };
 ```
