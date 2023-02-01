@@ -72,7 +72,6 @@ export class DocButtonComponent<T> {
 
   /** Test null default value. */
   @Input()
-  // @ts-expect-error intentionally undefined
   public anUndefinedValue;
 
   /** Test numeric default value. */

@@ -211,7 +211,6 @@ export class CsfFile {
         if (p.key.name === 'title') {
           meta.title = this._parseTitle(p.value);
         } else if (['includeStories', 'excludeStories'].includes(p.key.name)) {
-          // @ts-expect-error (Converted from ts-ignore)
           meta[p.key.name] = parseIncludeExclude(p.value);
         } else if (p.key.name === 'component') {
           const { code } = generate.default(p.value, {});
@@ -476,7 +475,7 @@ export class CsfFile {
     // default export can come at any point in the file, so we do this post processing last
     const entries = Object.entries(self._stories);
     self._meta.title = this._makeTitle(self._meta.title);
-    if (self._metaAnnotations.play) {
+    if (self._metaAnnotations['play']) {
       self._meta.tags = [...(self._meta.tags || []), 'play-fn'];
     }
     self._stories = entries.reduce((acc, [key, story]) => {
@@ -488,7 +487,7 @@ export class CsfFile {
           key === '__page' &&
           (entries.length === 1 || (Array.isArray(includeStories) && includeStories.length === 1))
         ) {
-          parameters.docsOnly = true;
+          parameters['docsOnly'] = true;
         }
         acc[key] = { ...story, id, parameters };
         const { tags, play } = self._storyAnnotations[key];

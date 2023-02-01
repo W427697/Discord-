@@ -106,8 +106,8 @@ export const createStorybookWrapperComponent = (
         // All props are added as component properties
         Object.assign(this, storyProps);
 
-        this.changeDetectorRef.detectChanges();
-        this.changeDetectorRef.markForCheck();
+        this.changeDetectorRef?.detectChanges();
+        this.changeDetectorRef?.markForCheck();
       });
     }
 
@@ -126,7 +126,7 @@ export const createStorybookWrapperComponent = (
         // `markForCheck` the component in case this uses changeDetection: OnPush
         // And then forces the `detectChanges`
         this.storyComponentViewContainerRef.injector.get(ChangeDetectorRef).markForCheck();
-        this.changeDetectorRef.detectChanges();
+        this.changeDetectorRef?.detectChanges();
 
         // Once target component has been initialized, the storyProps$ observable keeps target component properties than are not Input|Output up to date
         this.storyComponentPropsSubscription = this.storyProps$
@@ -144,7 +144,7 @@ export const createStorybookWrapperComponent = (
             // `markForCheck` the component in case this uses changeDetection: OnPush
             // And then forces the `detectChanges`
             this.storyComponentViewContainerRef.injector.get(ChangeDetectorRef).markForCheck();
-            this.changeDetectorRef.detectChanges();
+            this.changeDetectorRef?.detectChanges();
           });
       }
     }
