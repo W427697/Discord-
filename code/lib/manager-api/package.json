@@ -1,6 +1,6 @@
 {
   "name": "@storybook/manager-api",
-  "version": "7.0.0-beta.38",
+  "version": "7.0.0-beta.39",
   "description": "Core Storybook API & Context",
   "keywords": [
     "storybook"
@@ -42,14 +42,14 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/channels": "7.0.0-beta.38",
-    "@storybook/client-logger": "7.0.0-beta.38",
-    "@storybook/core-events": "7.0.0-beta.38",
+    "@storybook/channels": "7.0.0-beta.39",
+    "@storybook/client-logger": "7.0.0-beta.39",
+    "@storybook/core-events": "7.0.0-beta.39",
     "@storybook/csf": "next",
     "@storybook/global": "^5.0.0",
-    "@storybook/router": "7.0.0-beta.38",
-    "@storybook/theming": "7.0.0-beta.38",
-    "@storybook/types": "7.0.0-beta.38",
+    "@storybook/router": "7.0.0-beta.39",
+    "@storybook/theming": "7.0.0-beta.39",
+    "@storybook/types": "7.0.0-beta.39",
     "dequal": "^2.0.2",
     "lodash": "^4.17.21",
     "memoizerific": "^1.11.3",
@@ -78,5 +78,5 @@
       "./src/index.tsx"
     ]
   },
-  "gitHead": "91302a6818a7794e1e8bbff01c68513b8516cb53"
+  "gitHead": "96d484511811e3154ff18c55814a1f4688946335"
 }
