@@ -44,7 +44,7 @@ export interface DocsPageProps {
 export const Title = styled.h1(withReset, ({ theme }) => ({
   color: theme.color.defaultText,
   fontSize: theme.typography.size.m3,
-  fontWeight: theme.typography.weight.black,
+  fontWeight: theme.typography.weight.bold,
   lineHeight: '32px',
 
   [`@media (min-width: ${breakpoint}px)`]: {
@@ -197,7 +197,7 @@ export const DocsContent = styled.div(({ theme }) => {
       ...reset,
       ...headers,
       fontSize: `${theme.typography.size.l1}px`,
-      fontWeight: theme.typography.weight.black,
+      fontWeight: theme.typography.weight.bold,
     },
     [toGlobalSelector('h2')]: {
       ...reset,
