@@ -327,10 +327,14 @@ jobs:
       - attach_workspace:
           at: .
       - run:
-          name: Running Chromatic
+          name: Run Chromatic - UI
           command: |
             cd code
             yarn storybook:ui:chromatic
+      - run:
+          name: Run Chromatic - Blocks
+          command: |
+            cd code
             yarn storybook:blocks:chromatic
       - report-workflow-on-failure
       - store_test_results:
