@@ -52,7 +52,7 @@ export default {
 };
 ```
 
-To customize the `source-loader`, pass `loaderOptions`. Valid configurations are documented in the [`source-loader` README](https://github.com/storybookjs/storybook/tree/main/lib/source-loader/README.md#options).
+To customize the `source-loader`, pass `loaderOptions`. Valid configurations are documented in the [`source-loader` README](https://github.com/storybookjs/storybook/tree/next/code/lib/source-loader/README.md#options).
 
 ## Theming
 

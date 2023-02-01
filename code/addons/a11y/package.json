@@ -11,7 +11,7 @@
     "verify",
     "test"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/main/addons/a11y",
+  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/addons/a11y",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },

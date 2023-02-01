@@ -12,7 +12,7 @@
     "storybook-addon",
     "style"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/main/addons/outline",
+  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/addons/outline",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },

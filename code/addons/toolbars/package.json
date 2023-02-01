@@ -11,7 +11,7 @@
     "test",
     "essentials"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/next/addons/toolbars",
+  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/addons/toolbars",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },

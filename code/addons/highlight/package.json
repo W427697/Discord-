@@ -8,7 +8,7 @@
     "style",
     "appearance"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/main/addons/highlight",
+  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/addons/highlight",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },

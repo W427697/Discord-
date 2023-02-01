@@ -9,7 +9,7 @@
     "CSS",
     "design"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/main/addons/measure",
+  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/addons/measure",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },

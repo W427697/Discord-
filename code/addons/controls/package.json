@@ -11,7 +11,7 @@
     "essentials",
     "data-state"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/next/addons/controls",
+  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/addons/controls",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },
