@@ -1,3 +1,24 @@
+## 7.0.0-beta.39 (February 1, 2023)
+
+#### Features
+
+-   Core: return address of dev server from buildDevStandalone [#20820](https://github.com/storybooks/storybook/pull/20820)
+-   Addons: Fix env variables not available inside addons [#20834](https://github.com/storybooks/storybook/pull/20834)
+-   CLI: Add warning when main config does not use default exports [#20802](https://github.com/storybooks/storybook/pull/20802)
+
+#### Bug Fixes
+
+-   SvelteKit: Disable failing `vite-plugin-sveltekit-guard` [#20870](https://github.com/storybooks/storybook/pull/20870)
+
+#### Maintenance
+
+-   Core: Remove core-js as a dependency [#20833](https://github.com/storybooks/storybook/pull/20833)
+
+#### Build
+
+-   Build: cleanup CI config [#20853](https://github.com/storybooks/storybook/pull/20853)
+-   Change forceReRender story to forceRemount [#20752](https://github.com/storybooks/storybook/pull/20752)
+
 ## 7.0.0-beta.38 (January 31, 2023)
 
 #### Features
