@@ -2,6 +2,7 @@
 
 - [From version 6.5.x to 7.0.0](#from-version-65x-to-700)
   - [7.0 breaking changes](#70-breaking-changes)
+    - [Story context is prepared before for supporting fine grained updates](#story-context-is-prepared-before-for-supporting-fine-grained-updates)
     - [Dropped support for Node 15 and below](#dropped-support-for-node-15-and-below)
     - [ESM format in Main.js](#esm-format-in-mainjs)
     - [Modern browser support](#modern-browser-support)
@@ -627,6 +628,14 @@ In 7.0 we've removed the following feature flags:
 | `emotionAlias`      | This flag is no longer needed and should be deleted.        |
 | `breakingChangesV7` | This flag is no longer needed and should be deleted.        |
 | `babelModeV7`       | See [Babel mode v7 exclusively](#babel-mode-v7-exclusively) |
+
+#### Dark mode detection
+
+Storybook 7 uses `prefers-color-scheme` to detects your system's dark mode preference if a theme is not set.
+
+Earlier versions used the light theme by default, so if you don't set a theme and your system's settings are in dark mode, this could surprise you.
+
+To manually set a theme, see [the theming docs](https://storybook.js.org/docs/react/configure/theming).
 
 ### Core addons
 
