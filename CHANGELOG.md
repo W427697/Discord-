@@ -1,3 +1,16 @@
+## 7.0.0-beta.40 (February 2, 2023)
+
+#### Features
+
+-   Addo-docs: Turn on autodocs for CSF with attached meta [#20867](https://github.com/storybooks/storybook/pull/20867)
+
+#### Bug Fixes
+
+-   Vue3: Fix args losing reactivity when using decorators [#20854](https://github.com/storybooks/storybook/pull/20854)
+-   Doc Blocks: Fix styling and parameter bugs [#20803](https://github.com/storybooks/storybook/pull/20803)
+-   Addon-docs: Export controls from doc blocks [#20806](https://github.com/storybooks/storybook/pull/20806)
+-   Webpack: Support builder options from framework [#20842](https://github.com/storybooks/storybook/pull/20842)
+
 ## 7.0.0-beta.39 (February 1, 2023)
 
 #### Features
