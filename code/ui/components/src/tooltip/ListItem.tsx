@@ -23,7 +23,7 @@ const Title = styled(({ active, loading, disabled, ...rest }: TitleProps) => <sp
   ({ active, theme }) =>
     active
       ? {
-          color: theme.color.secondary,
+          color: theme.color.primary,
           fontWeight: theme.typography.weight.bold,
         }
       : {},
@@ -68,7 +68,7 @@ const Right = styled.span<RightProps>(
             opacity: 1,
           },
           '& path': {
-            fill: theme.color.secondary,
+            fill: theme.color.primary,
           },
         }
       : {}
@@ -97,7 +97,7 @@ const CenterText = styled.span<CenterTextProps>(
   ({ active, theme }) =>
     active
       ? {
-          color: theme.color.secondary,
+          color: theme.color.primary,
         }
       : {},
   ({ theme, disabled }) =>
@@ -119,7 +119,7 @@ const Left = styled.span<LeftProps>(({ active, theme }) =>
           opacity: 1,
         },
         '& path': {
-          fill: theme.color.secondary,
+          fill: theme.color.primary,
         },
       }
     : {}
