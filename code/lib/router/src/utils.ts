@@ -1,6 +1,5 @@
 import { once } from '@storybook/client-logger';
 import { dequal as deepEqual } from 'dequal';
-import isPlainObject from 'lodash/isPlainObject.js';
 import memoize from 'memoizerific';
 import type { IStringifyOptions } from 'qs';
 import qs from 'qs';
@@ -13,6 +12,10 @@ export interface StoryData {
 }
 
 const splitPathRegex = /\/([^/]+)\/(?:(.*)_)?([^/]+)?/;
+
+function isPlainObject(value: any): boolean {
+  return Object.getPrototypeOf(value) === null || Object === value.constructor;
+}
 
 export const parsePath: (path: string | undefined) => StoryData = memoize(1000)(
   (path: string | undefined | null) => {

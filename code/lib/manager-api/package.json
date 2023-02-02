@@ -51,7 +51,7 @@
     "@storybook/theming": "7.0.0-beta.40",
     "@storybook/types": "7.0.0-beta.40",
     "dequal": "^2.0.2",
-    "lodash": "^4.17.21",
+    "lodash-es": "^4.17.21",
     "memoizerific": "^1.11.3",
     "semver": "^7.3.7",
     "store2": "^2.14.2",
@@ -60,7 +60,7 @@
   },
   "devDependencies": {
     "@jest/globals": "^29.3.1",
-    "@types/lodash": "^4.14.167",
+    "@types/lodash-es": "^4.17.6",
     "@types/qs": "^6",
     "flush-promises": "^1.0.2",
     "qs": "^6.10.0",

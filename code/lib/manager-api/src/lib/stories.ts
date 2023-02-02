@@ -1,7 +1,6 @@
 import memoize from 'memoizerific';
 import { dedent } from 'ts-dedent';
-import countBy from 'lodash/countBy.js';
-import mapValues from 'lodash/mapValues.js';
+import { countBy, mapValues } from 'lodash-es';
 import { sanitize } from '@storybook/csf';
 import type {
   StoryId,
