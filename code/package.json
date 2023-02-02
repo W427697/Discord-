@@ -48,7 +48,7 @@
     "storybook:blocks:chromatic": "STORYBOOK_BLOCKS_ONLY=true yarn storybook:ui:chromatic --project-token=${CHROMATIC_TOKEN_STORYBOOK_BLOCKS:-MISSING_PROJECT_TOKEN}",
     "storybook:ui": "NODE_OPTIONS=\"--preserve-symlinks --preserve-symlinks-main\" ./lib/cli/bin/index.js dev --port 6006 --config-dir ./ui/.storybook --no-manager-cache",
     "storybook:ui:build": "NODE_OPTIONS=\"--preserve-symlinks --preserve-symlinks-main\" ./lib/cli/bin/index.js build --config-dir ./ui/.storybook",
-    "storybook:ui:chromatic": "yarn chromatic --build-script-name storybook:ui:build --storybook-config-dir ./ui/.storybook --storybook-base-dir '.' --project-token=${CHROMATIC_TOKEN_STORYBOOK_UI:-MISSING_PROJECT_TOKEN} --only-changed --exit-zero-on-changes --exit-once-uploaded --debug",
+    "storybook:ui:chromatic": "yarn chromatic --build-script-name storybook:ui:build --storybook-config-dir ./ui/.storybook --storybook-base-dir './code/ui' --project-token=${CHROMATIC_TOKEN_STORYBOOK_UI:-MISSING_PROJECT_TOKEN} --only-changed --exit-zero-on-changes --exit-once-uploaded --debug",
     "task": "cd .. && yarn task",
     "test": "NODE_OPTIONS=--max_old_space_size=4096 jest --config ./jest.config.js",
     "test:cli": "npm --prefix lib/cli run test"
