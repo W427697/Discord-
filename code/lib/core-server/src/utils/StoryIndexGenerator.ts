@@ -18,7 +18,7 @@ import type {
   StoryId,
   StoryName,
 } from '@storybook/types';
-import { userOrAutoTitleFromSpecifier, sortStoriesV7 } from '@storybook/preview-api';
+import { userOrAutoTitleFromSpecifier, sortStoriesV7 } from '@storybook/preview-api'; // eslint-disable-line import/no-extraneous-dependencies
 import { normalizeStoryPath } from '@storybook/core-common';
 import { logger } from '@storybook/node-logger';
 import { getStorySortParameter, NoMetaError } from '@storybook/csf-tools';
