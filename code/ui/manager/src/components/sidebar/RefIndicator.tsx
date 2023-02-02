@@ -1,20 +1,20 @@
 import { global } from '@storybook/global';
-import type { FC, ComponentProps } from 'react';
+import type { FC } from 'react';
 import React, { useMemo, useCallback, forwardRef } from 'react';
 
+import type { TooltipLinkListLink } from '@storybook/components';
 import { Icons, WithTooltip, Spaced, TooltipLinkList } from '@storybook/components';
 import { styled } from '@storybook/theming';
 import { transparentize } from 'polished';
 import { useStorybookApi } from '@storybook/manager-api';
 
-import { MenuItemIcon } from './Menu';
 import type { RefType } from './types';
 
 import type { getStateType } from './utils';
 
 const { document, window: globalWindow } = global;
 
-export type ClickHandler = ComponentProps<typeof TooltipLinkList>['links'][number]['onClick'];
+export type ClickHandler = TooltipLinkListLink['onClick'];
 export interface IndicatorIconProps {
   type: ReturnType<typeof getStateType>;
 }
@@ -222,7 +222,7 @@ export const RefIndicator = React.memo(
               tooltip={
                 <TooltipLinkList
                   links={Object.entries(ref.versions).map(([id, href]) => ({
-                    left: href === ref.url ? <MenuItemIcon icon="check" /> : <span />,
+                    icon: href === ref.url ? 'check' : undefined,
                     id,
                     title: id,
                     href,
