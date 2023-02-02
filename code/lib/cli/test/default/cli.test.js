@@ -1,9 +1,3 @@
-jest.mock('lodash-es', () => {
-  const x = jest.requireActual('lodash');
-
-  console.log({ x });
-});
-
 const run = require('../helpers');
 
 describe('Default behavior', () => {
