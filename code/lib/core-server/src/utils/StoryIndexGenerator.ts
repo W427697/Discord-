@@ -175,6 +175,10 @@ export class StoryIndexGenerator {
     return /(\.(js|jsx|ts|tsx)|\.stories\.mdx)$/i.test(absolutePath);
   }
 
+  isDocsFile(absolutePath: Path) {
+    return /\.mdx$/i.test(absolutePath);
+  }
+
   async ensureExtracted(): Promise<IndexEntry[]> {
     // First process all the story files. Then, in a second pass,
     // process the docs files. The reason for this is that the docs
@@ -186,7 +190,7 @@ export class StoryIndexGenerator {
 
     if (!this.options.docs.disable) {
       await this.updateExtracted(async (specifier, absolutePath) =>
-        this.extractDocs(specifier, absolutePath)
+        this.isDocsFile(absolutePath) ? this.extractDocs(specifier, absolutePath) : false
       );
     }
 
