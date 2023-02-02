@@ -2,7 +2,7 @@ import { global as globalThis } from '@storybook/global';
 import type { PartialStoryFn, PlayFunctionContext, StoryContext } from '@storybook/types';
 import { within } from '@storybook/testing-library';
 import { expect } from '@storybook/jest';
-import { pick } from 'lodash';
+import { pick } from 'lodash-es';
 
 export default {
   component: globalThis.Components.Pre,

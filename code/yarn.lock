@@ -6798,10 +6798,11 @@ __metadata:
     "@storybook/csf": next
     "@storybook/global": ^5.0.0
     "@storybook/types": 7.0.0-beta.40
+    "@types/lodash-es": ^4.17.6
     "@types/qs": ^6.9.5
     ansi-to-html: ^0.6.11
     dequal: ^2.0.2
-    lodash: ^4.17.21
+    lodash-es: ^4.17.21
     memoizerific: ^1.11.3
     qs: ^6.10.0
     react: ^16.14.0

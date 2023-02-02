@@ -42,6 +42,7 @@ const INCLUDE_CANDIDATES = [
   'isobject',
   'jest-mock',
   'loader-utils',
+  'lodash-es',
   'lodash/cloneDeep',
   'lodash/isFunction',
   'lodash/isPlainObject',
