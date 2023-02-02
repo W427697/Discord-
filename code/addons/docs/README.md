@@ -145,6 +145,7 @@ export default {
       options: {
         jsxOptions: {},
         csfPluginOptions: null,
+        mdxPluginOptions: {},
         transcludeMarkdown: true,
       },
     },
