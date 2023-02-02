@@ -1,9 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Provider } from '@angular/core';
+import { Component, InjectionToken, NgModule, Provider } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import {
   BrowserAnimationsModule,
   NoopAnimationsModule,
+  provideAnimations,
+  provideNoopAnimations,
 } from '@angular/platform-browser/animations';
 import { NgModuleMetadata } from '../../types';
 import { isDeclarable, isStandaloneComponent } from './NgComponentAnalyzer';
@@ -13,53 +15,108 @@ const uniqueArray = (arr: any[]) => {
   return arr.flat(Number.MAX_VALUE).filter((value, index, self) => self.indexOf(value) === index);
 };
 
-/** Restricted Imports */
-const RESTRICTED_IMPORTS = [
-  /**
-   * BrowserAnimationsModule imports BrowserModule, which is restricted,
-   * because bootstrapApplication API, which mounts the component to the DOM,
-   * automatically imports BrowserModule
-   */
-  BrowserAnimationsModule,
-  /**
-   * NoopAnimationsModule imports BrowserModule, which is restricted,
-   * because bootstrapApplication API, which mounts the component to the DOM,
-   * automatically imports BrowserModule
-   */
-  NoopAnimationsModule,
+const analyzeRestricted = (ngModule: NgModule) => {
   /**
    * BrowserModule is restricted,
    * because bootstrapApplication API, which mounts the component to the DOM,
    * automatically imports BrowserModule
    */
-  BrowserModule,
-];
+  if (ngModule === BrowserModule) {
+    return [true];
+  }
+  /**
+   * BrowserAnimationsModule imports BrowserModule, which is restricted,
+   * because bootstrapApplication API, which mounts the component to the DOM,
+   * automatically imports BrowserModule
+   */
+  if (ngModule === BrowserAnimationsModule) {
+    return [true, provideAnimations()];
+  }
+  /**
+   * NoopAnimationsModule imports BrowserModule, which is restricted,
+   * because bootstrapApplication API, which mounts the component to the DOM,
+   * automatically imports BrowserModule
+   */
+  if (ngModule === NoopAnimationsModule) {
+    return [true, provideNoopAnimations()];
+  }
+
+  return [false];
+};
+
+const REMOVED_MODULES = new InjectionToken('REMOVED_MODULES');
+
+/**
+ * Analyze NgModule Metadata
+ *
+ * - Removes Restricted Imports
+ * - Extracts providers from ModuleWithProviders
+ * - Flattens imports
+ * - Returns a new NgModuleMetadata object
+ *
+ *
+ */
+const analyzeMetadata = (metadata: NgModuleMetadata) => {
+  const declarations = [...(metadata?.declarations || [])];
+  const providers = [...(metadata?.providers || [])];
+  const singletons: any[] = [];
+  const imports = [...(metadata?.imports || [])]
+    .reduce((acc, ngModule) => {
+      // remove ngModule and use only its providers if it is restricted
+      // (e.g. BrowserModule, BrowserAnimationsModule, NoopAnimationsModule, ...etc)
+      const [isRestricted, restrictedProviders] = analyzeRestricted(ngModule);
+      if (isRestricted) {
+        singletons.unshift(restrictedProviders || []);
+        return acc;
+      }
+
+      // destructure into ngModule & providers if it is a ModuleWithProviders
+      if (ngModule?.providers) {
+        providers.unshift(ngModule.providers || []);
+        // eslint-disable-next-line no-param-reassign
+        ngModule = ngModule.ngModule;
+      }
+
+      // include Angular official modules as-is
+      if (ngModule.ɵmod) {
+        acc.push(ngModule);
+        return acc;
+      }
+
+      // extract providers, declarations, singletons from ngModule
+      // eslint-disable-next-line no-underscore-dangle
+      const ngMetadata = ngModule?.__annotations__?.[0];
+      if (ngMetadata) {
+        const newMetadata = analyzeMetadata(ngMetadata);
+        acc.unshift(...newMetadata.imports);
+        providers.unshift(...newMetadata.providers);
+        singletons.unshift(...newMetadata.singletons);
+        declarations.unshift(...newMetadata.declarations);
+
+        if (ngMetadata.standalone === true) {
+          acc.push(ngModule);
+        }
+        // keeping a copy of the removed module
+        providers.push({ provide: REMOVED_MODULES, useValue: ngModule, multi: true });
+      }
+      return acc;
+    }, [])
+    .flat(Number.MAX_VALUE);
+
+  return { ...metadata, imports, providers, singletons, declarations };
+};
 
 /**
  * Extract Imports from NgModule
  *
  * CommonModule is always imported
- *
- * metadata.imports are flattened deeply and extracted into a new array
- *
- * - If ModuleWithProviders (e.g. forRoot() & forChild() ) is used, the ngModule is extracted without providers.
+ * Only standalone components are imported
  *
  */
 export const extractImports = (metadata: NgModuleMetadata) => {
-  const imports = [CommonModule];
+  const { imports } = analyzeMetadata(metadata);
 
-  const modules = (metadata.imports || [])
-    .flat(Number.MAX_VALUE)
-    .filter((importedModule) => !RESTRICTED_IMPORTS.includes(importedModule));
-
-  const withProviders = modules.filter((moduleDef) => !!moduleDef?.ngModule);
-  const withoutProviders = modules.filter((moduleDef) => !withProviders.includes(moduleDef));
-
-  return uniqueArray([
-    imports,
-    withoutProviders,
-    withProviders.map((moduleDef) => moduleDef.ngModule),
-  ]);
+  return uniqueArray([CommonModule, imports]);
 };
 
 /**
@@ -69,18 +126,18 @@ export const extractImports = (metadata: NgModuleMetadata) => {
  *   - metadata.providers
  *   - providers from each **ModuleWithProviders** (e.g. forRoot() & forChild() )
  *
- * - Use this in combination with extractImports to get all providers for a specific module
  *
  */
 export const extractProviders = (metadata: NgModuleMetadata): Provider[] => {
-  const providers = (metadata.providers || []) as Provider[];
+  const { providers } = analyzeMetadata(metadata);
 
-  const moduleProviders: Provider[] = (metadata.imports || [])
-    .flat(Number.MAX_VALUE)
-    .filter((moduleDef) => !!moduleDef?.ngModule)
-    .map((moduleDef) => moduleDef.providers || []);
+  return uniqueArray(providers);
+};
 
-  return uniqueArray([].concat(moduleProviders, providers));
+export const extractSingletons = (metadata: NgModuleMetadata): Provider[] => {
+  const { singletons } = analyzeMetadata(metadata);
+
+  return uniqueArray(singletons);
 };
 
 /**
@@ -93,7 +150,8 @@ export const extractProviders = (metadata: NgModuleMetadata): Provider[] => {
  *
  */
 export const extractDeclarations = (metadata: NgModuleMetadata, storyComponent?: any) => {
-  const declarations = metadata.declarations || [];
+  const { declarations } = analyzeMetadata(metadata);
+
   if (storyComponent) {
     const isStandalone = isStandaloneComponent(storyComponent);
     const isDeclared = isComponentAlreadyDeclared(storyComponent, declarations, metadata.imports);
@@ -104,5 +162,6 @@ export const extractDeclarations = (metadata: NgModuleMetadata, storyComponent?:
       declarations.push(storyComponent);
     }
   }
+
   return uniqueArray(declarations);
 };

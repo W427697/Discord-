@@ -1,11 +1,5 @@
 import { ApplicationRef, enableProdMode, NgModule } from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
-import {
-  provideAnimations,
-  BrowserAnimationsModule,
-  provideNoopAnimations,
-  NoopAnimationsModule,
-} from '@angular/platform-browser/animations';
 
 import { BehaviorSubject, Subject } from 'rxjs';
 import { stringify } from 'telejson';
@@ -13,6 +7,7 @@ import { ICollection, Parameters, StoryFnAngularReturnType } from '../types';
 import { getApplication } from './StorybookModule';
 import { storyPropsProvider } from './StorybookProvider';
 import { componentNgModules } from './StorybookWrapperComponent';
+import { extractSingletons } from './utils/PropertyExtractor';
 
 type StoryRenderInfo = {
   storyFnAngular: StoryFnAngularReturnType;
@@ -103,12 +98,6 @@ export abstract class AbstractRenderer {
 
     const newStoryProps$ = new BehaviorSubject<ICollection>(storyFnAngular.props);
 
-    const hasAnimationsDefined =
-      !!storyFnAngular.moduleMetadata?.imports?.includes(BrowserAnimationsModule);
-
-    const hasNoopAnimationsDefined =
-      !!storyFnAngular.moduleMetadata?.imports?.includes(NoopAnimationsModule);
-
     if (
       !this.fullRendererRequired({
         storyFnAngular,
@@ -131,15 +120,15 @@ export abstract class AbstractRenderer {
 
     this.initAngularRootElement(targetDOMNode, targetSelector);
 
+    const providers = [
+      // Providers for BrowserAnimations & NoopAnimationsModule
+      extractSingletons(storyFnAngular.moduleMetadata),
+      storyPropsProvider(newStoryProps$),
+    ];
+
     const application = getApplication({ storyFnAngular, component, targetSelector });
 
-    const applicationRef = await bootstrapApplication(application, {
-      providers: [
-        ...(hasAnimationsDefined ? [provideAnimations()] : []),
-        ...(hasNoopAnimationsDefined ? [provideNoopAnimations()] : []),
-        storyPropsProvider(newStoryProps$),
-      ],
-    });
+    const applicationRef = await bootstrapApplication(application, { providers });
 
     applicationRefs.add(applicationRef);
 
