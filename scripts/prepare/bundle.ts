@@ -5,13 +5,11 @@ import path, { dirname, join, relative } from 'path';
 import type { Options } from 'tsup';
 import type { PackageJson } from 'type-fest';
 import { build } from 'tsup';
-import aliasPlugin from 'esbuild-plugin-alias';
 import dedent from 'ts-dedent';
 import slash from 'slash';
 import { exec } from '../utils/exec';
 
 /* TYPES */
-
 type Formats = 'esm' | 'cjs';
 type BundlerConfig = {
   entries: string[];
@@ -27,7 +25,6 @@ type PackageJsonWithBundlerConfig = PackageJson & {
 type DtsConfigSection = Pick<Options, 'dts' | 'tsconfig'>;
 
 /* MAIN */
-
 const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
   const {
     name,
@@ -75,26 +72,24 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
   if (formats.includes('esm')) {
     tasks.push(
       build({
+        treeshake: true,
         silent: true,
         entry: allEntries,
         watch,
         outDir,
+        env: {
+          NODE_ENV: 'production',
+        },
         format: ['esm'],
         target: 'chrome100',
         clean: !watch,
         ...(dtsBuild === 'esm' ? dtsConfig : {}),
         platform: platform || 'browser',
-        esbuildPlugins: [
-          aliasPlugin({
-            process: path.resolve('../node_modules/process/browser.js'),
-            util: path.resolve('../node_modules/util/util.js'),
-          }),
-        ],
         external: externals,
 
         esbuildOptions: (c) => {
           /* eslint-disable no-param-reassign */
-          c.conditions = ['module'];
+          c.conditions = [platform || 'browser', 'import', 'module'];
           c.platform = platform || 'browser';
           Object.assign(c, getESBuildOptions(optimized));
           /* eslint-enable no-param-reassign */
@@ -106,10 +101,14 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
   if (formats.includes('cjs')) {
     tasks.push(
       build({
+        treeshake: true,
         silent: true,
         entry: allEntries,
         watch,
         outDir,
+        env: {
+          NODE_ENV: 'production',
+        },
         format: ['cjs'],
         target: 'node16',
         ...(dtsBuild === 'cjs' ? dtsConfig : {}),
@@ -120,6 +119,7 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
         esbuildOptions: (c) => {
           /* eslint-disable no-param-reassign */
           c.platform = 'node';
+          c.conditions = ['node', 'module'];
           Object.assign(c, getESBuildOptions(optimized));
           /* eslint-enable no-param-reassign */
         },
@@ -145,7 +145,6 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
 };
 
 /* UTILS */
-
 async function getDTSConfigs({
   formats,
   entries,
@@ -202,7 +201,6 @@ async function generateDTSMapperFile(file: string) {
 const hasFlag = (flags: string[], name: string) => !!flags.find((s) => s.startsWith(`--${name}`));
 
 /* SELF EXECUTION */
-
 const flags = process.argv.slice(2);
 const cwd = process.cwd();
 
