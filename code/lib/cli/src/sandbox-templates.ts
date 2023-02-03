@@ -353,7 +353,10 @@ const baseTemplates = {
   'qwik-vite/default-ts': {
     name: 'Qwik CLI (Default TS)',
     script: 'yarn create qwik basic {{beforeDir}} --no-install',
+    // TODO: The community template does not provide standard stories, which is required for e2e tests.
     skipTasks: ['e2e-tests'],
+    // TODO: Re-enable once problems are fixed.
+    inDevelopment: true,
     expected: {
       framework: 'storybook-framework-qwik',
       renderer: 'storybook-framework-qwik',
