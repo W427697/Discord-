@@ -24,28 +24,26 @@
     ".": {
       "node": "./dist/index.js",
       "require": "./dist/index.js",
-      "import": "./dist/index.mjs",
       "types": "./dist/index.d.ts"
     },
     "./preset": {
+      "node": "./dist/preset.js",
       "require": "./dist/preset.js",
-      "import": "./dist/preset.mjs",
       "types": "./dist/preset.d.ts"
     },
     "./preview.js": {
+      "node": "./dist/preview.js",
       "require": "./dist/preview.js",
-      "import": "./dist/preview.mjs",
       "types": "./dist/preview.d.ts"
     },
     "./next-image-loader-stub.js": {
+      "node": "./dist/next-image-loader-stub.js",
       "require": "./dist/next-image-loader-stub.js",
-      "import": "./dist/next-image-loader-stub.mjs",
       "types": "./dist/next-image-loader-stub.d.ts"
     },
     "./package.json": "./package.json"
   },
   "main": "dist/index.js",
-  "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "files": [
     "dist/**/*",
@@ -121,7 +119,10 @@
       "./src/next-image-loader-stub.ts",
       "./src/font/webpack/loader/storybook-nextjs-font-loader.ts"
     ],
-    "platform": "node"
+    "platform": "node",
+    "formats": [
+      "cjs"
+    ]
   },
   "gitHead": "9c68cc3a66e996e91ccd520d9d0adf0fa7094ad4"
 }

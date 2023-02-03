@@ -163,8 +163,7 @@
       "./src/outline/manager.ts",
       "./src/toolbars/manager.ts",
       "./src/viewport/manager.ts"
-    ],
-    "platform": "node"
+    ]
   },
   "gitHead": "9c68cc3a66e996e91ccd520d9d0adf0fa7094ad4"
 }
