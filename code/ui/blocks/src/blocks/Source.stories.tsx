@@ -18,6 +18,7 @@ const meta: Meta<typeof Source> = {
         code: `const emitted = 'source';`,
       },
     },
+    docsStyles: true,
   },
   decorators: [
     (Story, { parameters: { snippets = {} } }) => (
@@ -76,6 +77,15 @@ export const OfUnattached: Story = {
 
 export const Code: Story = {
   args: { code },
+};
+
+export const CodeUnattached: Story = {
+  args: { code },
+  parameters: { attached: false },
+};
+
+export const EmptyUnattached: Story = {
+  parameters: { attached: false },
 };
 
 export const CodeParameters: Story = {
