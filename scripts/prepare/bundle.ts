@@ -105,7 +105,6 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
   if (formats.includes('esm')) {
     tasks.push(
       build({
-        metafile: true,
         treeshake: true,
         silent: true,
         entry: allEntries,
@@ -127,7 +126,7 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
           }),
           lodashTransformer({
             outLodashPackage: 'lodash-es',
-            filter: /node_modules\/(react-resize-detector|@storybook\/csf)\/.*/,
+            filter: /node_modules\/(react-resize-detector)\/.*/,
           }),
         ],
 
