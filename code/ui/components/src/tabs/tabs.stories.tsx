@@ -191,18 +191,29 @@ export const StatefulStaticWithSetBackgroundColor = {
   ),
 } satisfies Story;
 
+const customViewports = {
+  chromatic: {
+    name: 'Chromatic',
+    styles: {
+      width: '380px',
+      height: '963px',
+    },
+  },
+};
+
 export const StatefulDynamicWithOpenTooltip = {
   parameters: {
     viewport: {
-      defaultViewport: 'mobile2',
+      defaultViewport: 'chromatic',
+      viewports: customViewports,
     },
-    chromatic: { viewports: [414] },
+    chromatic: { viewports: [380] },
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
 
     await waitFor(async () => {
-      await expect(canvas.getAllByRole('tab')).toHaveLength(4);
+      await expect(canvas.getAllByRole('tab')).toHaveLength(3);
       await expect(canvas.getByRole('tab', { name: /Addons/ })).toBeInTheDocument();
     });
 
@@ -228,9 +239,10 @@ export const StatefulDynamicWithOpenTooltip = {
 export const StatefulDynamicWithSelectedAddon = {
   parameters: {
     viewport: {
-      defaultViewport: 'mobile2',
+      defaultViewport: 'chromatic',
+      viewports: customViewports,
     },
-    chromatic: { viewports: [414] },
+    chromatic: { viewports: [380] },
   },
   play: async (context) => {
     await StatefulDynamicWithOpenTooltip.play(context);
