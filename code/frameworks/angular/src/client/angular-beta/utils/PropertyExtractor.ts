@@ -44,7 +44,7 @@ const analyzeRestricted = (ngModule: NgModule) => {
   return [false];
 };
 
-const REMOVED_MODULES = new InjectionToken('REMOVED_MODULES');
+export const REMOVED_MODULES = new InjectionToken('REMOVED_MODULES');
 
 /**
  * Analyze NgModule Metadata
@@ -56,7 +56,7 @@ const REMOVED_MODULES = new InjectionToken('REMOVED_MODULES');
  *
  *
  */
-const analyzeMetadata = (metadata: NgModuleMetadata) => {
+export const analyzeMetadata = (metadata: NgModuleMetadata) => {
   const declarations = [...(metadata?.declarations || [])];
   const providers = [...(metadata?.providers || [])];
   const singletons: any[] = [];
@@ -77,12 +77,6 @@ const analyzeMetadata = (metadata: NgModuleMetadata) => {
         ngModule = ngModule.ngModule;
       }
 
-      // include Angular official modules as-is
-      if (ngModule.ɵmod) {
-        acc.push(ngModule);
-        return acc;
-      }
-
       // extract providers, declarations, singletons from ngModule
       // eslint-disable-next-line no-underscore-dangle
       const ngMetadata = ngModule?.__annotations__?.[0];
@@ -98,7 +92,15 @@ const analyzeMetadata = (metadata: NgModuleMetadata) => {
         }
         // keeping a copy of the removed module
         providers.push({ provide: REMOVED_MODULES, useValue: ngModule, multi: true });
+        return acc;
       }
+
+      // include Angular official modules as-is
+      if (ngModule.ɵmod) {
+        acc.push(ngModule);
+        return acc;
+      }
+
       return acc;
     }, [])
     .flat(Number.MAX_VALUE);
