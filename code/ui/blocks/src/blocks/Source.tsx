@@ -1,6 +1,6 @@
 import type { ComponentProps, FC } from 'react';
 import React, { useContext } from 'react';
-import type { StoryId, PreparedStory, ModuleExport } from '@storybook/types';
+import type { StoryId, PreparedStory, ModuleExport, Args } from '@storybook/types';
 import { SourceType } from '@storybook/docs-tools';
 
 import { deprecate } from '@storybook/client-logger';
@@ -10,7 +10,7 @@ import { Source as PureSource, SourceError } from '../components/Source';
 import type { DocsContextProps } from './DocsContext';
 import { DocsContext } from './DocsContext';
 import type { SourceContextProps, SourceItem } from './SourceContainer';
-import { SourceContext } from './SourceContainer';
+import { argsHash, SourceContext } from './SourceContainer';
 
 import { useStories } from './useStory';
 
@@ -53,6 +53,11 @@ export type SourceProps = Omit<SourceParameters, 'transformSource' | 'storySourc
 
   /** @deprecated use of={storyExport} instead */
   ids?: string[];
+
+  /**
+   * Internal prop to control if a story re-renders on args updates
+   */
+  __forceInitialArgs?: boolean;
 };
 
 const getSourceState = (stories: PreparedStory[]) => {
@@ -62,11 +67,15 @@ const getSourceState = (stories: PreparedStory[]) => {
   return states[0];
 };
 
-const getStorySource = (storyId: StoryId, sourceContext: SourceContextProps): SourceItem => {
+const getStorySource = (
+  storyId: StoryId,
+  args: Args,
+  sourceContext: SourceContextProps
+): SourceItem => {
   const { sources } = sourceContext;
   // source rendering is async so source is unavailable at the start of the render cycle,
   // so we fail gracefully here without warning
-  return sources?.[storyId] || { code: '' };
+  return sources?.[storyId]?.[argsHash(args)] || { code: '' };
 };
 
 const getSnippet = (
@@ -133,7 +142,13 @@ export const useSourceProps = (
   if (!code) {
     code = stories
       .map((story, index) => {
-        const source = getStorySource(story.id, sourceContext);
+        const { args, initialArgs } = docsContext.getStoryContext(story);
+        const source = getStorySource(
+          story.id,
+          // eslint-disable-next-line no-underscore-dangle
+          props.__forceInitialArgs ? initialArgs : args,
+          sourceContext
+        );
         if (index === 0) {
           // Take the format from the first story
           format = source.format ?? story.parameters.docs?.source?.format ?? false;

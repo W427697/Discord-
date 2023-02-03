@@ -6,13 +6,21 @@ import type { Channel } from '@storybook/channels';
 
 import { SNIPPET_RENDERED } from '@storybook/docs-tools';
 import type { SyntaxHighlighterFormatTypes } from '@storybook/components';
-import type { StoryId } from '@storybook/types';
+import type { StoryId, Args } from '@storybook/types';
+
+import { stringify } from 'telejson';
+
+type ArgsHash = string;
+export function argsHash(args: Args): ArgsHash {
+  return stringify(args);
+}
 
 export interface SourceItem {
   code: string;
   format?: SyntaxHighlighterFormatTypes;
 }
-export type StorySources = Record<StoryId, SourceItem>;
+
+export type StorySources = Record<StoryId, Record<ArgsHash, SourceItem>>;
 
 export interface SourceContextProps {
   sources: StorySources;
@@ -28,17 +36,23 @@ export const SourceContainer: FC<{ channel: Channel }> = ({ children, channel })
     const handleSnippetRendered = (
       id: StoryId,
       newSource: string,
-      format: SyntaxHighlighterFormatTypes = false
+      format: SyntaxHighlighterFormatTypes = false,
+      args: Args
     ) => {
+      const hash = args ? argsHash(args) : '--default--';
+
       // optimization: if the source is the same, ignore the incoming event
-      if (sources[id] && sources[id].code === newSource) {
+      if (sources[id] && sources[id][hash] && sources[id][hash].code === newSource) {
         return;
       }
 
       setSources((current) => {
         const newSources = {
           ...current,
-          [id]: { code: newSource, format },
+          [id]: {
+            ...current[id],
+            [hash]: { code: newSource, format },
+          },
         };
 
         if (!deepEqual(current, newSources)) {
