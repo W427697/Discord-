@@ -1,6 +1,6 @@
 {
   "name": "@storybook/csf-plugin",
-  "version": "7.0.0-beta.40",
+  "version": "7.0.0-beta.41",
   "description": "Enrich CSF files via static analysis",
   "keywords": [
     "storybook"
@@ -42,7 +42,7 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/csf-tools": "7.0.0-beta.40",
+    "@storybook/csf-tools": "7.0.0-beta.41",
     "unplugin": "^0.10.2"
   },
   "devDependencies": {
@@ -63,5 +63,5 @@
     ],
     "platform": "node"
   },
-  "gitHead": "9c68cc3a66e996e91ccd520d9d0adf0fa7094ad4"
+  "gitHead": "b73df3011fe6ccda407ebb6ed15b80e0d01d4230"
 }
