@@ -10,7 +10,7 @@ const loadConfigFromFileMock = jest.mocked(loadConfigFromFile);
 
 const dummyOptions: Options = {
   configType: 'DEVELOPMENT',
-  configDir: '/tmp',
+  configDir: '',
   packageJson: {},
   presets: {
     apply: async (key: string) =>
@@ -22,6 +22,7 @@ const dummyOptions: Options = {
         core: {
           builder: {},
         },
+        options: {},
       }[key]),
   } as Presets,
   presetsList: [],
