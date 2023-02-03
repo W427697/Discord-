@@ -101,7 +101,6 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
   if (formats.includes('cjs')) {
     tasks.push(
       build({
-        treeshake: true,
         silent: true,
         entry: allEntries,
         watch,
