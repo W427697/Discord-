@@ -52,7 +52,7 @@
   "lib/core-server": 41733,
   "lib/core-webpack": 4454,
   "lib/csf-plugin": 719,
-  "lib/csf-tools": 746610,
+  "lib/csf-tools": 746789,
   "lib/docs-tools": 14515,
   "lib/instrumenter": 12543,
   "lib/manager-api-shim": 53,
@@ -86,5 +86,5 @@
   "renderers/web-components": 7502,
   "ui/blocks": 136164,
   "ui/components": 2936826,
-  "ui/manager": 1971934
+  "ui/manager": 1971665
 }
