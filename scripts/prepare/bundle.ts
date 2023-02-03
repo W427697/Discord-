@@ -135,8 +135,8 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
           c.alias = {
             lodash: 'lodash-es',
           };
-          c.conditions = [platform || 'browser', 'import', 'module'];
           c.platform = platform || 'browser';
+          c.conditions = [platform || 'browser', 'import', 'module'];
           Object.assign(c, getESBuildOptions(optimized));
           /* eslint-enable no-param-reassign */
         },
@@ -165,6 +165,9 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
 
         esbuildOptions: (c) => {
           /* eslint-disable no-param-reassign */
+          c.alias = {
+            'lodash-es': 'lodash',
+          };
           c.platform = 'node';
           c.conditions = ['node', 'require'];
           Object.assign(c, getESBuildOptions(optimized));
