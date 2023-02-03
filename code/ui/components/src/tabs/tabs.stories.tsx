@@ -1,3 +1,4 @@
+import { expect } from '@storybook/jest';
 import type { Key } from 'react';
 import React, { Fragment } from 'react';
 import { action } from '@storybook/addon-actions';
@@ -199,15 +200,19 @@ export const StatefulDynamicWithOpenTooltip = {
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    await new Promise((res) =>
-      // The timeout is necessary to wait for Storybook to adjust the viewport
-      setTimeout(async () => {
-        const addonsTab = canvas.getByText('Addons');
-        fireEvent(addonsTab, new MouseEvent('mouseenter', { bubbles: true }));
-        await waitFor(() => screen.getByTestId('tooltip'));
-        res(undefined);
-      }, 500)
-    );
+
+    await waitFor(async () => {
+      await expect(canvas.getAllByRole('tab')).toHaveLength(3);
+      await expect(canvas.getByRole('tab', { name: /Addons/ })).toBeInTheDocument();
+    });
+
+    const addonsTab = await canvas.findByRole('tab', { name: /Addons/ });
+
+    await waitFor(async () => {
+      await fireEvent(addonsTab, new MouseEvent('mouseenter', { bubbles: true }));
+      const tooltip = await screen.getByTestId('tooltip');
+      await expect(tooltip).toBeInTheDocument();
+    });
   },
   render: (args) => (
     <TabsState initial="test1" {...args}>
