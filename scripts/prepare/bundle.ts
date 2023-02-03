@@ -132,6 +132,7 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
 
         esbuildOptions: (c) => {
           /* eslint-disable no-param-reassign */
+          c.absWorkingDir = cwd;
           c.alias = {
             lodash: 'lodash-es',
           };
@@ -157,14 +158,23 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
         platform: 'node',
         clean: !watch,
         external: externals,
+        plugins: [
+          {
+            name: 'lodash',
+            async renderChunk(code) {
+              return { code: code.replaceAll('lodash-es', 'lodash') };
+            },
+          },
+        ],
         esbuildPlugins: [
           esbuildAliasPlugin({
-            'lodash-es': 'lodash',
+            'lodash-es': require.resolve('lodash'),
           }),
         ],
 
         esbuildOptions: (c) => {
           /* eslint-disable no-param-reassign */
+          c.absWorkingDir = cwd;
           c.alias = {
             'lodash-es': 'lodash',
           };
