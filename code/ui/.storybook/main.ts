@@ -72,7 +72,8 @@ const config: StorybookConfig = {
         },
       },
       plugins: [
-        configType === 'PRODUCTION' ? pluginTurbosnap({ rootDir: './' }) : [],
+        configType === 'PRODUCTION' ? pluginTurbosnap({ rootDir: path.resolve(__dirname, '../..') })
+        : [],
       ],
       optimizeDeps: { force: true },
       build: {
