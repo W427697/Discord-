@@ -54,7 +54,7 @@ export async function configureMain({
     .replace(
       '<<import>>',
       isTypescript
-        ? `import { StorybookConfig } from '${custom.framework.name}';\n\n`
+        ? `import type { StorybookConfig } from '${custom.framework.name}';\n\n`
         : `/** @type { import('${custom.framework.name}').StorybookConfig } */\n`
     )
     .replace('<<type>>', isTypescript ? ': StorybookConfig' : '')

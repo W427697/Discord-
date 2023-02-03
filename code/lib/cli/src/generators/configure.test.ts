@@ -55,7 +55,7 @@ describe('configureMain', () => {
 
     expect(mainConfigPath).toEqual('./.storybook/main.ts');
     expect(mainConfigContent).toMatchInlineSnapshot(`
-      "import { StorybookConfig } from '@storybook/react-vite';
+      "import type { StorybookConfig } from '@storybook/react-vite';
 
       const config: StorybookConfig = {
         \\"stories\\": [
