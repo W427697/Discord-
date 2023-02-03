@@ -51,7 +51,7 @@
     "file-system-cache": "^2.0.0"
   },
   "devDependencies": {
-    "@storybook/csf": "next",
+    "@storybook/csf": "0.0.2--canary.62.9cd6451.0",
     "@types/node": "^16.0.0",
     "typescript": "~4.9.3"
   },

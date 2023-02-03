@@ -7,6 +7,9 @@ import type { PackageJson } from 'type-fest';
 import { build } from 'tsup';
 import dedent from 'ts-dedent';
 import slash from 'slash';
+/* @ts-expect-error (has no typings) */
+import lodashTransformer from 'esbuild-plugin-lodash';
+import esbuildAliasPlugin from 'esbuild-plugin-alias';
 import { exec } from '../utils/exec';
 
 /* TYPES */
@@ -102,6 +105,7 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
   if (formats.includes('esm')) {
     tasks.push(
       build({
+        metafile: true,
         treeshake: true,
         silent: true,
         entry: allEntries,
@@ -117,8 +121,21 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
         platform: platform || 'browser',
         external: externals,
 
+        esbuildPlugins: [
+          esbuildAliasPlugin({
+            lodash: 'lodash-es',
+          }),
+          lodashTransformer({
+            outLodashPackage: 'lodash-es',
+            filter: /node_modules\/(react-resize-detector|@storybook\/csf)\/.*/,
+          }),
+        ],
+
         esbuildOptions: (c) => {
           /* eslint-disable no-param-reassign */
+          c.alias = {
+            lodash: 'lodash-es',
+          };
           c.conditions = [platform || 'browser', 'import', 'module'];
           c.platform = platform || 'browser';
           Object.assign(c, getESBuildOptions(optimized));

@@ -39,7 +39,7 @@
   "lib/postinstall": 1488,
   "lib/preview-api": 157448,
   "lib/preview-web": 70,
-  "lib/preview": 365317,
+  "lib/preview": 316667,
   "lib/router": 20141,
   "lib/store": 64,
   "lib/theming": 75562,
@@ -54,5 +54,5 @@
   "renderers/web-components": 7502,
   "ui/blocks": 136059,
   "ui/components": 2936826,
-  "ui/manager": 1983971
+  "ui/manager": 1935714
 }

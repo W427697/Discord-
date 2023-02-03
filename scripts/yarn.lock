@@ -2811,6 +2811,7 @@ __metadata:
     ejs-lint: ^2.0.0
     esbuild: ^0.16.4
     esbuild-plugin-alias: ^0.2.1
+    esbuild-plugin-lodash: ^1.2.0
     esbuild-register: ^3.4.1
     eslint: ^8.28.0
     eslint-plugin-import: ^2.26.0
@@ -6355,6 +6356,13 @@ __metadata:
   version: 0.2.1
   resolution: "esbuild-plugin-alias@npm:0.2.1"
   checksum: a67bc6bc2744fc8637f7321f00c1f00e4fae86c182662421738ebfabf3ad344967b9c667185c6c34d9edd5b289807d34bfdceef94620e94e0a45683534af69e0
+  languageName: node
+  linkType: hard
+
+"esbuild-plugin-lodash@npm:^1.2.0":
+  version: 1.2.0
+  resolution: "esbuild-plugin-lodash@npm:1.2.0"
+  checksum: a8ef389dd9ae98b7ecaa36cff98ea9c532614436aed011ef0f86d23bc626ac32e8c1926287c2d954c0b2164c534691397743b3f0cd9864403daa57f07240a2fe
   languageName: node
   linkType: hard
 
