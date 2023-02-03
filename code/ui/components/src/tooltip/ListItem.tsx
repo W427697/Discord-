@@ -23,7 +23,7 @@ const Title = styled(({ active, loading, disabled, ...rest }: TitleProps) => <sp
   ({ active, theme }) =>
     active
       ? {
-          color: theme.color.secondary,
+          color: theme.color.primary,
           fontWeight: theme.typography.weight.bold,
         }
       : {},
