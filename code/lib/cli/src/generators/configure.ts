@@ -47,16 +47,17 @@ export async function configureMain({
   const isTypescript =
     language === SupportedLanguage.TYPESCRIPT || language === SupportedLanguage.TYPESCRIPT_LEGACY;
 
-  const tsTemplate = dedent`<<import>>const config<<type>> = <<mainContents>>;
+  const mainConfigTemplate = dedent`<<import>>const config<<type>> = <<mainContents>>;
   export default config;`;
 
-  const jsTemplate = dedent`export default <<mainContents>>;`;
-
-  const finalTemplate = isTypescript ? tsTemplate : jsTemplate;
-
-  const mainJsContents = finalTemplate
-    .replace('<<import>>', `import { StorybookConfig } from '${custom.framework.name}';\n\n`)
-    .replace('<<type>>', ': StorybookConfig')
+  const mainJsContents = mainConfigTemplate
+    .replace(
+      '<<import>>',
+      isTypescript
+        ? `import { StorybookConfig } from '${custom.framework.name}';\n\n`
+        : `/** @type { import('${custom.framework.name}').StorybookConfig } */\n`
+    )
+    .replace('<<type>>', isTypescript ? ': StorybookConfig' : '')
     .replace('<<mainContents>>', JSON.stringify(config, null, 2));
 
   await fse.writeFile(
