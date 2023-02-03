@@ -52,7 +52,6 @@
     "entries": [
       "./src/entry.ts"
     ],
-    "platform": "node",
     "shim": "@storybook/preview-api/dist/store"
   },
   "gitHead": "9c68cc3a66e996e91ccd520d9d0adf0fa7094ad4"

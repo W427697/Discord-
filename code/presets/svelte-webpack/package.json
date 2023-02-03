@@ -23,34 +23,31 @@
     ".": {
       "node": "./dist/index.js",
       "require": "./dist/index.js",
-      "import": "./dist/index.mjs",
       "types": "./dist/index.d.ts"
     },
     "./preset": {
       "node": "./dist/index.js",
       "require": "./dist/index.js",
-      "import": "./dist/index.mjs",
       "types": "./dist/index.d.ts"
     },
     "./dist/framework-preset-svelte-docs": {
+      "node": "./dist/framework-preset-svelte-docs.js",
       "require": "./dist/framework-preset-svelte-docs.js",
-      "import": "./dist/framework-preset-svelte-docs.mjs",
       "types": "./dist/framework-preset-svelte-docs.d.ts"
     },
     "./dist/framework-preset-svelte": {
+      "node": "./dist/framework-preset-svelte.js",
       "require": "./dist/framework-preset-svelte.js",
-      "import": "./dist/framework-preset-svelte.mjs",
       "types": "./dist/framework-preset-svelte.d.ts"
     },
     "./dist/svelte-docgen-loader": {
+      "node": "./dist/svelte-docgen-loader.js",
       "require": "./dist/svelte-docgen-loader.js",
-      "import": "./dist/svelte-docgen-loader.mjs",
       "types": "./dist/svelte-docgen-loader.d.ts"
     },
     "./package.json": "./package.json"
   },
   "main": "dist/index.js",
-  "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "files": [
     "dist/**/*",
@@ -91,7 +88,10 @@
       "./src/framework-preset-svelte.ts",
       "./src/svelte-docgen-loader.ts"
     ],
-    "platform": "node"
+    "platform": "node",
+    "formats": [
+      "cjs"
+    ]
   },
   "gitHead": "9c68cc3a66e996e91ccd520d9d0adf0fa7094ad4"
 }

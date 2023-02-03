@@ -24,7 +24,6 @@
     ".": {
       "node": "./dist/index.js",
       "require": "./dist/index.js",
-      "import": "./dist/index.mjs",
       "types": "./dist/index.d.ts"
     },
     "./dist/transforms/add-component-parameters.js": "./dist/transforms/add-component-parameters.js",
@@ -39,7 +38,6 @@
     "./package.json": "./package.json"
   },
   "main": "dist/index.js",
-  "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "scripts": {
     "check": "../../../scripts/node_modules/.bin/tsc --noEmit",
@@ -84,6 +82,9 @@
       "./src/transforms/update-organisation-name.js",
       "./src/transforms/upgrade-deprecated-types.ts",
       "./src/transforms/upgrade-hierarchy-separators.js"
+    ],
+    "formats": [
+      "cjs"
     ]
   },
   "gitHead": "9c68cc3a66e996e91ccd520d9d0adf0fa7094ad4"
