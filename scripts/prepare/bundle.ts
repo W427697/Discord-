@@ -157,11 +157,16 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
         platform: 'node',
         clean: !watch,
         external: externals,
+        esbuildPlugins: [
+          esbuildAliasPlugin({
+            'lodash-es': 'lodash',
+          }),
+        ],
 
         esbuildOptions: (c) => {
           /* eslint-disable no-param-reassign */
           c.platform = 'node';
-          c.conditions = ['node', 'module'];
+          c.conditions = ['node', 'require'];
           Object.assign(c, getESBuildOptions(optimized));
           /* eslint-enable no-param-reassign */
         },
