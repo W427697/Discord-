@@ -202,7 +202,7 @@ export const StatefulDynamicWithOpenTooltip = {
     const canvas = within(canvasElement);
 
     await waitFor(async () => {
-      await expect(canvas.getAllByRole('tab')).toHaveLength(3);
+      await expect(canvas.getAllByRole('tab')).toHaveLength(4);
       await expect(canvas.getByRole('tab', { name: /Addons/ })).toBeInTheDocument();
     });
 
