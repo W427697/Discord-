@@ -171,8 +171,8 @@ export class StoryIndexGenerator {
     );
   }
 
-  isStoryFile(absolutePath: Path) {
-    return /(\.(js|jsx|ts|tsx)|\.stories\.mdx)$/i.test(absolutePath);
+  isDocsMdx(absolutePath: Path) {
+    return /(?<!\.stories)\.mdx$/i.test(absolutePath);
   }
 
   async ensureExtracted(): Promise<IndexEntry[]> {
@@ -181,7 +181,7 @@ export class StoryIndexGenerator {
     // files may use the `<Meta of={XStories} />` syntax, which requires
     // that the story file that contains the meta be processed first.
     await this.updateExtracted(async (specifier, absolutePath) =>
-      this.isStoryFile(absolutePath) ? this.extractStories(specifier, absolutePath) : false
+      this.isDocsMdx(absolutePath) ? false : this.extractStories(specifier, absolutePath)
     );
 
     if (!this.options.docs.disable) {
