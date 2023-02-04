@@ -1,6 +1,7 @@
 import { dedent } from 'ts-dedent';
 import { promise as glob } from 'glob-promise';
 import path from 'path';
+import slash from 'slash';
 import { readConfig } from '@storybook/csf-tools';
 import { once } from '@storybook/node-logger';
 
@@ -8,7 +9,7 @@ import { boost } from './interpret-files';
 
 export async function validateConfigurationFiles(configDir: string) {
   const extensionsPattern = `{${Array.from(boost).join(',')}}`;
-  const mainConfigMatches = await glob(path.resolve(configDir, `main${extensionsPattern}`));
+  const mainConfigMatches = await glob(slash(path.resolve(configDir, `main${extensionsPattern}`)));
 
   const [mainConfigPath] = mainConfigMatches;
 
