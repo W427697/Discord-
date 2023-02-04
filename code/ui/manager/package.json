@@ -1,6 +1,6 @@
 {
   "name": "@storybook/manager",
-  "version": "7.0.0-beta.35",
+  "version": "7.0.0-beta.42",
   "description": "Core Storybook UI",
   "keywords": [
     "storybook"
@@ -44,6 +44,7 @@
   "types": "dist/index.d.ts",
   "files": [
     "dist/**/*",
+    "static/**/*",
     "README.md",
     "*.js",
     "*.d.ts"
@@ -54,19 +55,19 @@
   },
   "devDependencies": {
     "@fal-works/esbuild-plugin-global-externals": "^2.1.2",
-    "@storybook/addons": "7.0.0-beta.35",
-    "@storybook/api": "7.0.0-beta.35",
-    "@storybook/channel-postmessage": "7.0.0-beta.35",
-    "@storybook/channel-websocket": "7.0.0-beta.35",
-    "@storybook/channels": "7.0.0-beta.35",
-    "@storybook/client-logger": "7.0.0-beta.35",
-    "@storybook/components": "7.0.0-beta.35",
-    "@storybook/core-events": "7.0.0-beta.35",
+    "@storybook/addons": "7.0.0-beta.42",
+    "@storybook/api": "7.0.0-beta.42",
+    "@storybook/channel-postmessage": "7.0.0-beta.42",
+    "@storybook/channel-websocket": "7.0.0-beta.42",
+    "@storybook/channels": "7.0.0-beta.42",
+    "@storybook/client-logger": "7.0.0-beta.42",
+    "@storybook/components": "7.0.0-beta.42",
+    "@storybook/core-events": "7.0.0-beta.42",
     "@storybook/global": "^5.0.0",
-    "@storybook/manager-api": "7.0.0-beta.35",
-    "@storybook/router": "7.0.0-beta.35",
-    "@storybook/theming": "7.0.0-beta.35",
-    "@storybook/types": "7.0.0-beta.35",
+    "@storybook/manager-api": "7.0.0-beta.42",
+    "@storybook/router": "7.0.0-beta.42",
+    "@storybook/theming": "7.0.0-beta.42",
+    "@storybook/types": "7.0.0-beta.42",
     "@testing-library/react": "^11.2.2",
     "@types/semver": "^7.3.4",
     "copy-to-clipboard": "^3.3.1",
@@ -74,7 +75,7 @@
     "fs-extra": "^11.1.0",
     "fuse.js": "^3.6.1",
     "lodash": "^4.17.21",
-    "markdown-to-jsx": "^7.1.3",
+    "markdown-to-jsx": "^7.1.8",
     "memoizerific": "^1.11.3",
     "polished": "^4.2.2",
     "qs": "^6.10.0",
@@ -100,5 +101,5 @@
       "./src/runtime.ts"
     ]
   },
-  "gitHead": "e6d5c50c88bc67468a815efc1048b36ebc2d4bdd"
+  "gitHead": "0b8d11c61742ba9283a6889d0bdac9ac5a8a508f"
 }
