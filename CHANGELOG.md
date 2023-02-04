@@ -1,3 +1,10 @@
+## 7.0.0-beta.43 (February 4, 2023)
+
+#### Bug Fixes
+
+-   Core: Fix globs on windows [#20929](https://github.com/storybooks/storybook/pull/20929)
+-   Revert addon-docs: update story index generator [#20809](https://github.com/storybooks/storybook/pull/20809)
+
 ## 7.0.0-beta.42 (February 4, 2023)
 
 #### Features
