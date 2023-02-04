@@ -108,7 +108,7 @@
       "./src/preview.tsx"
     ]
   },
-  "gitHead": "0b8d11c61742ba9283a6889d0bdac9ac5a8a508f",
+  "gitHead": "b1b7c2bc998decc21eb8352fcccd3c939048df02",
   "storybook": {
     "displayName": "Measure",
     "unsupportedFrameworks": [
