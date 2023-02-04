@@ -36,7 +36,10 @@ const parseValue = (expr: t.Expression): any => {
     // @ts-expect-error (Converted from ts-ignore)
     return expr.value;
   }
-  return unsupported(expr.type, true);
+  if (t.isIdentifier(expr)) {
+    return unsupported(expr.name, true);
+  }
+  throw new Error(`Unknown node type ${expr.type}`);
 };
 
 const unsupported = (unexpectedVar: string, isError: boolean) => {
