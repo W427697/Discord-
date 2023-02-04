@@ -1,6 +1,6 @@
 {
   "name": "@storybook/nextjs",
-  "version": "7.0.0-beta.41",
+  "version": "7.0.0-beta.43",
   "description": "Storybook for Next.js",
   "keywords": [
     "storybook",
@@ -58,13 +58,13 @@
   },
   "dependencies": {
     "@next/font": "^13.0.7",
-    "@storybook/addon-actions": "7.0.0-beta.41",
-    "@storybook/builder-webpack5": "7.0.0-beta.41",
-    "@storybook/core-common": "7.0.0-beta.41",
-    "@storybook/node-logger": "7.0.0-beta.41",
-    "@storybook/preset-react-webpack": "7.0.0-beta.41",
-    "@storybook/preview-api": "7.0.0-beta.41",
-    "@storybook/react": "7.0.0-beta.41",
+    "@storybook/addon-actions": "7.0.0-beta.43",
+    "@storybook/builder-webpack5": "7.0.0-beta.43",
+    "@storybook/core-common": "7.0.0-beta.43",
+    "@storybook/node-logger": "7.0.0-beta.43",
+    "@storybook/preset-react-webpack": "7.0.0-beta.43",
+    "@storybook/preview-api": "7.0.0-beta.43",
+    "@storybook/react": "7.0.0-beta.43",
     "@types/node": "^16.0.0",
     "find-up": "^5.0.0",
     "fs-extra": "^11.1.0",
@@ -124,5 +124,5 @@
       "cjs"
     ]
   },
-  "gitHead": "b73df3011fe6ccda407ebb6ed15b80e0d01d4230"
+  "gitHead": "b1b7c2bc998decc21eb8352fcccd3c939048df02"
 }
