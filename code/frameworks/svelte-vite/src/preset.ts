@@ -1,4 +1,3 @@
-import { hasVitePlugins } from '@storybook/builder-vite';
 import type { PresetProperty } from '@storybook/types';
 import type { StorybookConfig } from './types';
 import { handleSvelteKit } from './utils';
