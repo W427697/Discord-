@@ -13,18 +13,8 @@ export const viteFinal: NonNullable<StorybookConfig['viteFinal']> = async (confi
   const { plugins = [] } = config;
   // TODO: set up eslint import to use typescript resolver
   // eslint-disable-next-line import/no-unresolved
-  const { svelte, loadSvelteConfig } = await import('@sveltejs/vite-plugin-svelte');
-  const svelteOptions: Record<string, any> = await options.presets.apply(
-    'svelteOptions',
-    {},
-    options
-  );
-  const svelteConfig = { ...(await loadSvelteConfig()), ...svelteOptions };
-
-  // Add svelte plugin if not present
-  if (!(await hasVitePlugins(plugins, ['vite-plugin-svelte']))) {
-    plugins.push(svelte());
-  }
+  const { loadSvelteConfig } = await import('@sveltejs/vite-plugin-svelte');
+  const svelteConfig = await loadSvelteConfig();
 
   // Add docgen plugin
   plugins.push(svelteDocgen(svelteConfig));
