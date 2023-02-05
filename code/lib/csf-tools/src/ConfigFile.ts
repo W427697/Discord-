@@ -134,17 +134,17 @@ export class ConfigFile {
       ExportDefaultDeclaration: {
         enter({ node, parent }) {
           self.hasDefaultExport = true;
-          const decl =
+          let decl =
             t.isIdentifier(node.declaration) && t.isProgram(parent)
               ? _findVarInitialization(node.declaration.name, parent)
               : node.declaration;
+          if (t.isTSAsExpression(decl) || t.isTSSatisfiesExpression(decl)) {
+            decl = decl.expression;
+          }
 
-          if (t.isObjectExpression(decl) || t.isTSSatisfiesExpression(decl)) {
-            const expression = t.isTSSatisfiesExpression(decl)
-              ? (decl.expression as Extract<t.Expression, t.ObjectExpression>)
-              : decl;
-            self._exportsObject = expression;
-            expression.properties.forEach((p: t.ObjectProperty) => {
+          if (t.isObjectExpression(decl)) {
+            self._exportsObject = decl;
+            decl.properties.forEach((p: t.ObjectProperty) => {
               const exportName = propKey(p);
               if (exportName) {
                 let exportVal = p.value;
