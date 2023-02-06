@@ -75,6 +75,7 @@
     "find-up": "^5.0.0",
     "fs-extra": "^11.1.0",
     "get-port": "^5.1.1",
+    "get-tsconfig": "^4.4.0",
     "giget": "^1.0.0",
     "globby": "^11.0.2",
     "jscodeshift": "^0.14.0",

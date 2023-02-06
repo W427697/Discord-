@@ -1,5 +1,6 @@
 import fs from 'fs';
 import findUp from 'find-up';
+import { getTsconfig } from 'get-tsconfig'
 import semver from 'semver';
 
 import type { TemplateConfiguration, TemplateMatcher } from './project_types';
@@ -150,7 +151,7 @@ export function isStorybookInstalled(
 export function detectLanguage(packageJson?: PackageJson) {
   let language = SupportedLanguage.JAVASCRIPT;
 
-  if (!packageJson || fs.existsSync('jsconfig.json')) {
+  if (!packageJson || getTsconfig('.', 'jsconfig.json')) {
     return language;
   }
 

@@ -5949,6 +5949,7 @@ __metadata:
     find-up: ^5.0.0
     fs-extra: ^11.1.0
     get-port: ^5.1.1
+    get-tsconfig: ^4.4.0
     giget: ^1.0.0
     globby: ^11.0.2
     jscodeshift: ^0.14.0
@@ -15991,6 +15992,13 @@ __metadata:
   version: 4.3.0
   resolution: "get-tsconfig@npm:4.3.0"
   checksum: f8da3d7794d8780db644ee12345045ec079b40d009c4147b95b6c391fa93edee79b651e5fc2548f63ebd234af14793aa51077db15813e480ad19b25b52c4daf2
+  languageName: node
+  linkType: hard
+
+"get-tsconfig@npm:^4.4.0":
+  version: 4.4.0
+  resolution: "get-tsconfig@npm:4.4.0"
+  checksum: 671cdf7a72bdf43d235de5f70247824d3d6fb9ecf26b0e528e25132b66981463a4c5892118a9e77f613d07d539f52e351a5581c9b7f8c1330e5b647ce8b98ac5
   languageName: node
   linkType: hard
 
