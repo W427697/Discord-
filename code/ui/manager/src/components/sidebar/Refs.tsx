@@ -32,7 +32,7 @@ const Wrapper = styled.div<{ isMain: boolean }>(({ isMain }) => ({
 }));
 
 const RefHead = styled.div(({ theme }) => ({
-  fontWeight: theme.typography.weight.black,
+  fontWeight: theme.typography.weight.bold,
   fontSize: theme.typography.size.s2 - 1,
 
   // Similar to ListItem.tsx
