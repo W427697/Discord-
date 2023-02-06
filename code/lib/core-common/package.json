@@ -58,7 +58,7 @@
     "find-up": "^5.0.0",
     "fs-extra": "^11.1.0",
     "glob": "^8.1.0",
-    "glob-promise": "^4.2.0",
+    "glob-promise": "^6.0.2",
     "handlebars": "^4.7.7",
     "lazy-universal-dotenv": "^4.0.0",
     "picomatch": "^2.3.0",
