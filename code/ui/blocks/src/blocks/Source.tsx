@@ -10,7 +10,7 @@ import { Source as PureSource, SourceError } from '../components/Source';
 import type { DocsContextProps } from './DocsContext';
 import { DocsContext } from './DocsContext';
 import type { SourceContextProps, SourceItem } from './SourceContainer';
-import { argsHash, SourceContext } from './SourceContainer';
+import { unknownArgsHash, argsHash, SourceContext } from './SourceContainer';
 
 import { useStories } from './useStory';
 import { useArgsList } from './useArgs';
@@ -74,10 +74,16 @@ const getStorySource = (
   sourceContext: SourceContextProps
 ): SourceItem => {
   const { sources } = sourceContext;
-  console.log(storyId, sources, argsHash(args));
+
+  const sourceMap = sources?.[storyId];
+  // If the source decorator hasn't provided args, we fallback to the "unknown args"
+  // version of the source (which means if you render a story >1 time with different args
+  // you'll get the same source value both times).
+  const source = sourceMap?.[argsHash(args)] || sourceMap?.[unknownArgsHash];
+
   // source rendering is async so source is unavailable at the start of the render cycle,
   // so we fail gracefully here without warning
-  return sources?.[storyId]?.[argsHash(args)] || { code: '' };
+  return source || { code: '' };
 };
 
 const getSnippet = (
