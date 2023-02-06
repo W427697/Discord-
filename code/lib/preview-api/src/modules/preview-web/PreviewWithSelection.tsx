@@ -30,6 +30,7 @@ import type {
   DocsIndexEntry,
 } from '@storybook/types';
 
+import cloneDeep from 'lodash/cloneDeep';
 import type { MaybePromise } from './Preview';
 import { Preview } from './Preview';
 
@@ -46,6 +47,23 @@ const globalWindow = globalThis;
 function focusInInput(event: Event) {
   const target = event.target as Element;
   return /input|textarea/i.test(target.tagName) || target.getAttribute('contenteditable') !== null;
+}
+
+function convertStringBooleanToBoolean(args: Args, argTypes: any) {
+  if (Object.keys(argTypes).length === 0 || Object.keys(args).length === 0) {
+    return args;
+  }
+
+  const result = cloneDeep(args);
+  Object.keys(result).forEach((name) => {
+    const targetTypeIsBoolean = argTypes[name].control?.type === 'boolean';
+
+    if (targetTypeIsBoolean) {
+      result[name] = Boolean(args[name]);
+    }
+  });
+
+  return result;
 }
 
 export const AUTODOCS_TAG = 'autodocs';
@@ -334,7 +352,11 @@ export class PreviewWithSelection<TFramework extends Renderer> extends Preview<T
 
     if (persistedArgs && isStoryRender(render)) {
       if (!render.story) throw new Error('Render has not been prepared!');
-      this.storyStore.args.updateFromPersisted(render.story, persistedArgs);
+      const { argTypes } = this.storyStore.getStoryContext(render.story);
+      this.storyStore.args.updateFromPersisted(
+        render.story,
+        convertStringBooleanToBoolean(persistedArgs, argTypes)
+      );
     }
 
     // Don't re-render the story if nothing has changed to justify it
