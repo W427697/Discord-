@@ -40,9 +40,11 @@ export function renderToCanvas(
   }: RenderContext<VueRenderer>,
   canvasElement: VueRenderer['canvasElement']
 ) {
-  let { reactiveArgs } = useReactive(storyContext);
   // fetch the story with the updated context (with reactive args)
-  const element: StoryFnVueReturnType = storyFn(storyContext);
+
+  const element: StoryFnVueReturnType = storyFn();
+
+  const reactiveArgs = reactive((element as any).render?.().props ?? storyContext.args);
 
   if (!element) {
     showError({
@@ -54,9 +56,6 @@ export function renderToCanvas(
     });
     return () => {};
   }
-  // getting the props from the render function
-  const props = (element as any).render?.().props;
-  if (props) reactiveArgs = reactive(props);
 
   const existingApp = map.get(canvasElement);
 
@@ -70,7 +69,8 @@ export function renderToCanvas(
   const storybookApp = createApp({
     render() {
       map.set(canvasElement, { vueApp: storybookApp, reactiveArgs });
-      return h(element, reactiveArgs);
+      const story = storyFn();
+      return h(story, reactiveArgs);
     },
   });
 
