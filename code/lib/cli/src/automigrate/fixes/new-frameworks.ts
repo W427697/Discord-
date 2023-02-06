@@ -62,12 +62,15 @@ interface NewFrameworkRunOptions {
   };
 }
 
-export const getBuilder = (builder: string | { name: string }) => {
-  if (typeof builder === 'string') {
-    return builder.includes('vite') ? 'vite' : 'webpack5';
+const getBuilder = (builder: string | { name: string }, frameworkPackage: string) => {
+  const name = typeof builder === 'string' ? builder : builder?.name;
+  if (name?.includes('webpack')) {
+    return 'webpack5';
   }
-
-  return builder?.name.includes('vite') ? 'vite' : 'webpack5';
+  if (name?.includes('vite')) {
+    return 'vite';
+  }
+  return frameworkPackage.includes('svelte') || frameworkPackage.includes('vue3') ? 'vite' : 'webpack5';
 };
 
 export const getFrameworkOptions = (framework: string, main: ConfigFile) => {
@@ -140,13 +143,11 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
     }
 
     const builderInfo = {
-      name: getBuilder(builder),
+      name: getBuilder(builder, frameworkPackage),
       options: main.getFieldValue(['core', 'builder', 'options']) || {},
     } as const;
 
     const newFrameworkPackage = packagesMap[frameworkPackage][builderInfo.name];
-
-    // not all frameworks support vite yet e.g. Svelte
     if (!newFrameworkPackage) {
       return null;
     }
