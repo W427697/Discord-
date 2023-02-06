@@ -13,7 +13,7 @@ export const render: ArgsStoryFn<VueRenderer> = (props, context) => {
       `Unable to render story ${id} as the component annotation is missing from the default export`
     );
   }
-
+  console.log('---render props :', props);
   return h(Component, props, getSlots(props, context));
 };
 
@@ -40,8 +40,6 @@ export function renderToCanvas(
   }: RenderContext<VueRenderer>,
   canvasElement: VueRenderer['canvasElement']
 ) {
-  // fetch the story with the updated context (with reactive args)
-
   const element: StoryFnVueReturnType = storyFn();
 
   const reactiveArgs = reactive((element as any).render?.().props ?? storyContext.args);
