@@ -150,6 +150,8 @@ export function isStorybookInstalled(
 export function detectLanguage(packageJson?: PackageJson) {
   let language = SupportedLanguage.JAVASCRIPT;
 
+  // TODO: we may need to also detect whether a jsconfig.json file is present
+  // in a monorepo root directory
   if (!packageJson || fs.existsSync('jsconfig.json')) {
     return language;
   }
