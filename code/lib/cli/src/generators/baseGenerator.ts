@@ -131,7 +131,7 @@ const getFrameworkDetails = (
 const stripVersions = (addons: string[]) => addons.map((addon) => getPackageDetails(addon)[0]);
 
 const hasInteractiveStories = (rendererId: SupportedRenderers) =>
-  ['react', 'angular', 'preact', 'svelte', 'vue', 'vue3', 'html'].includes(rendererId);
+  ['react', 'angular', 'preact', 'svelte', 'vue', 'vue3', 'html', 'solid'].includes(rendererId);
 
 const hasFrameworkTemplates = (framework?: SupportedFrameworks) =>
   ['angular', 'nextjs'].includes(framework);
@@ -258,9 +258,15 @@ export async function baseGenerator(
   await configurePreview({ frameworkPreviewParts, storybookConfigFolder, language });
 
   // FIXME: temporary workaround for https://github.com/storybookjs/storybook/issues/17516
+  // Vite workaround regex for internal and external frameworks as f.e:
+  // Internal: @storybook/xxxxx-vite
+  // External: storybook-xxxxx-vite
   if (
     frameworkPackages.find(
-      (pkg) => pkg.match(/^@storybook\/.*-vite$/) || pkg === '@storybook/sveltekit'
+      (pkg) =>
+        pkg.match(/^(@storybook\/|storybook).*-vite$/) ||
+        pkg === '@storybook/sveltekit' ||
+        pkg === ''
     )
   ) {
     const previewHead = dedent`
