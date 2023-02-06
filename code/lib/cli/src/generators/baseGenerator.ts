@@ -25,7 +25,6 @@ const defaultOptions: FrameworkOptions = {
   framework: undefined,
   extensions: undefined,
   componentsDestinationPath: undefined,
-  commonJs: false,
   storybookConfigFolder: '.storybook',
 };
 
@@ -140,13 +139,7 @@ const hasFrameworkTemplates = (framework?: SupportedFrameworks) =>
 export async function baseGenerator(
   packageManager: JsPackageManager,
   npmOptions: NpmOptions,
-  {
-    language,
-    builder = CoreBuilder.Webpack5,
-    pnp,
-    commonJs,
-    frameworkPreviewParts,
-  }: GeneratorOptions,
+  { language, builder = CoreBuilder.Webpack5, pnp, frameworkPreviewParts }: GeneratorOptions,
   renderer: SupportedRenderers,
   options: FrameworkOptions = defaultOptions,
   framework?: SupportedFrameworks
@@ -249,7 +242,7 @@ export async function baseGenerator(
       docs: { autodocs: 'tag' },
       addons: pnp ? addons.map(wrapForPnp) : addons,
       extensions,
-      commonJs,
+      language,
       ...(staticDir ? { staticDirs: [path.join('..', staticDir)] } : null),
       ...extraMain,
       ...(type !== 'framework'
@@ -262,7 +255,7 @@ export async function baseGenerator(
     });
   }
 
-  await configurePreview({ frameworkPreviewParts, storybookConfigFolder });
+  await configurePreview({ frameworkPreviewParts, storybookConfigFolder, language });
 
   // FIXME: temporary workaround for https://github.com/storybookjs/storybook/issues/17516
   if (
@@ -290,10 +283,12 @@ export async function baseGenerator(
   if (isNewFolder) {
     await generateStorybookBabelConfigInCWD();
   }
-  packageManager.addDependencies({ ...npmOptions, packageJson }, [
-    ...versionedPackages,
-    ...babelDependencies,
-  ]);
+
+  const depsToInstall = [...versionedPackages, ...babelDependencies];
+
+  if (depsToInstall.length > 0) {
+    packageManager.addDependencies({ ...npmOptions, packageJson }, depsToInstall);
+  }
 
   if (addScripts) {
     packageManager.addStorybookCommandInScripts({
