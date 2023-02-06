@@ -136,9 +136,6 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
         entry: allEntries,
         watch,
         outDir,
-        env: {
-          NODE_ENV: 'production',
-        },
         format: ['cjs'],
         target: 'node16',
         ...(dtsBuild === 'cjs' ? dtsConfig : {}),
