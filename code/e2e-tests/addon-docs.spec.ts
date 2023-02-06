@@ -41,6 +41,42 @@ test.describe('addon-docs', () => {
     }
   });
 
+  test('source snippet should not change in stories block', async ({ page }) => {
+    // templateName is e.g. 'Vue-CLI (Default JS)'
+    test.skip(
+      // eslint-disable-next-line jest/valid-title
+      /^(vue3|vue-cli|preact)/i.test(`${templateName}`),
+      `Skipping ${templateName}, which does not support dynamic source snippets`
+    );
+
+    const sbPage = new SbPage(page);
+    await sbPage.navigateToStory('addons/docs/docspage/basic', 'docs');
+    const root = sbPage.previewRoot();
+    const toggles = root.locator('.docblock-code-toggle');
+
+    // Open up the first and second code toggle (i.e the "Basic" story outside and inside the Stories block)
+    await (await toggles.nth(0)).click({ force: true });
+    await (await toggles.nth(1)).click({ force: true });
+
+    // Check they both say "Basic"
+    const codes = root.locator('pre.prismjs');
+    const primaryCode = await codes.nth(0);
+    const storiesCode = await codes.nth(1);
+    await expect(await primaryCode.innerText()).toMatch(/Basic/);
+    await expect(await storiesCode.innerText()).toMatch(/Basic/);
+
+    const labelControl = root.locator('textarea[name=label]');
+    labelControl.fill('Changed');
+    labelControl.blur();
+
+    await page.waitForTimeout(300);
+
+    // Check the Primary one has changed
+    await expect(await primaryCode.innerText()).toMatch(/Changed/);
+    // Check the stories one still says "Basic"
+    await expect(await storiesCode.innerText()).toMatch(/Basic/);
+  });
+
   test('should not run autoplay stories without parameter', async ({ page }) => {
     const sbPage = new SbPage(page);
     await sbPage.navigateToStory('addons/docs/docspage/autoplay', 'docs');
