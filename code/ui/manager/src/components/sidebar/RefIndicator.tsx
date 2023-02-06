@@ -190,7 +190,6 @@ export const RefIndicator = React.memo(
         <IndicatorPlacement ref={forwardedRef}>
           <WithTooltip
             placement="bottom-start"
-            trigger="click"
             tooltip={
               <MessageWrapper>
                 <Spaced row={0}>
@@ -218,7 +217,6 @@ export const RefIndicator = React.memo(
           {ref.versions && Object.keys(ref.versions).length ? (
             <WithTooltip
               placement="bottom-start"
-              trigger="click"
               tooltip={
                 <TooltipLinkList
                   links={Object.entries(ref.versions).map(([id, href]) => ({

@@ -107,7 +107,6 @@ export const SidebarMenu: FC<{
   return (
     <WithTooltip
       placement="top"
-      trigger="click"
       closeOnOutsideClick
       tooltip={({ onHide }) => <SidebarMenuList onHide={onHide} menu={menu} />}
     >
@@ -124,7 +123,6 @@ export const ToolbarMenu: FC<{
   return (
     <WithTooltip
       placement="bottom"
-      trigger="click"
       closeOnOutsideClick
       modifiers={[
         {
