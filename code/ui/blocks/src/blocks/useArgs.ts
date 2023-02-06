@@ -40,10 +40,9 @@ export const useArgsIfDefined = (
   return story && [args, updateArgs, resetArgs];
 };
 
-export function useStoriesAndArgs<TRenderer extends Renderer = Renderer>(
-  storyIds: StoryId[],
+export function useArgsList<TRenderer extends Renderer = Renderer>(
+  stories: (PreparedStory<TRenderer> | void)[],
   context: DocsContextProps<TRenderer>
 ) {
-  const stories = useStories(storyIds, context);
-  return stories.map((story) => useArgs(story, context));
+  return stories.map((story) => useArgsIfDefined(story, context));
 }

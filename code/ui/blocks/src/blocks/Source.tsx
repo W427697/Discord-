@@ -13,6 +13,7 @@ import type { SourceContextProps, SourceItem } from './SourceContainer';
 import { argsHash, SourceContext } from './SourceContainer';
 
 import { useStories } from './useStory';
+import { useArgsList } from './useArgs';
 
 export enum SourceState {
   OPEN = 'open',
@@ -115,9 +116,6 @@ export const useSourceProps = (
 ): PureSourceProps & SourceStateProps => {
   const storyIds = props.ids || (props.id ? [props.id] : []);
   const storiesFromIds = useStories(storyIds, docsContext);
-  if (!storiesFromIds.every(Boolean)) {
-    return { error: SourceError.SOURCE_UNAVAILABLE, state: SourceState.NONE };
-  }
 
   // The check didn't actually change the type.
   let stories: PreparedStory[] = storiesFromIds as PreparedStory[];
@@ -132,6 +130,11 @@ export const useSourceProps = (
       // You are allowed to use <Source code="..." /> and <Canvas /> unattached.
     }
   }
+  const argsFromStories = useArgsList(stories, docsContext);
+
+  if (!storiesFromIds.every(Boolean)) {
+    return { error: SourceError.SOURCE_UNAVAILABLE, state: SourceState.NONE };
+  }
 
   const sourceParameters = (stories[0]?.parameters?.docs?.source || {}) as SourceParameters;
   let { code } = props; // We will fall back to `sourceParameters.code`, but per story below
@@ -142,13 +145,18 @@ export const useSourceProps = (
   if (!code) {
     code = stories
       .map((story, index) => {
-        const { args, initialArgs } = docsContext.getStoryContext(story);
-        const source = getStorySource(
-          story.id,
-          // eslint-disable-next-line no-underscore-dangle
-          props.__forceInitialArgs ? initialArgs : args,
-          sourceContext
-        );
+        // In theory you can use a storyId from a different CSF file that hasn't loaded yet.
+        if (!story) return '';
+
+        // NOTE: args *does* have to be defined here due to the null check on story above
+        const [args] = argsFromStories[index] || [];
+
+        // eslint-disable-next-line no-underscore-dangle
+        const argsForSource = props.__forceInitialArgs
+          ? docsContext.getStoryContext(story).initialArgs
+          : args;
+
+        const source = getStorySource(story.id, argsForSource, sourceContext);
         if (index === 0) {
           // Take the format from the first story
           format = source.format ?? story.parameters.docs?.source?.format ?? false;
