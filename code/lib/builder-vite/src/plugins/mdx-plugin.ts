@@ -1,4 +1,4 @@
-import type { Options, StorybookConfig } from '@storybook/types';
+import type { Options } from '@storybook/types';
 import type { Plugin } from 'vite';
 import { createFilter } from 'vite';
 
@@ -16,10 +16,10 @@ export async function mdxPlugin(options: Options): Promise<Plugin> {
   const include = /\.mdx$/;
   const filter = createFilter(include);
   const { features, presets } = options;
-  const addons = await presets.apply<StorybookConfig['addons']>('addons', []);
-  const docsOptions =
-    // @ts-expect-error - not sure what type to use here
-    addons.find((a) => [a, a.name].includes('@storybook/addon-docs'))?.options ?? {};
+  const { mdxPluginOptions, jsxOptions } = await presets.apply<Record<string, any>>(
+    'options',
+    {}
+  );
 
   return {
     name: 'storybook:mdx-plugin',
@@ -32,10 +32,12 @@ export async function mdxPlugin(options: Options): Promise<Plugin> {
         : await import('@storybook/mdx2-csf');
 
       const mdxLoaderOptions = await options.presets.apply('mdxLoaderOptions', {
+        ...mdxPluginOptions,
         mdxCompileOptions: {
           providerImportSource: '@storybook/addon-docs/mdx-react-shim',
+          ...mdxPluginOptions?.mdxCompileOptions,
         },
-        jsxOptions: docsOptions.jsxOptions,
+        jsxOptions,
       });
 
       const code = String(
