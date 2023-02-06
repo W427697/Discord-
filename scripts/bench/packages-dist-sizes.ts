@@ -11,11 +11,11 @@ const run = async ({ cwd, flags }: { cwd: string; flags: string[] }) => {
     files.map(async (file) => {
       const { dir } = parse(file);
       const { size } = await stat(file);
-      return [dir.replace(`${cwd}/`, '').replace('/dist', ''), size];
+      return [dir.replace(`${cwd}/`, '').replace('/dist', ''), size] as [string, number];
     })
   );
 
-  const totals = sizes.reduce(
+  const totals = sizes.reduce<Record<string, number>>(
     (acc, [dir, size]) => Object.assign(acc, { [dir]: size + (acc[dir] || 0) }),
     {}
   );
