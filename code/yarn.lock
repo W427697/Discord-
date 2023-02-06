@@ -5913,7 +5913,7 @@ __metadata:
     express: ^4.17.3
     fs-extra: ^11.1.0
     glob: ^8.1.0
-    glob-promise: ^4.2.0
+    glob-promise: ^6.0.2
     magic-string: ^0.27.0
     rollup: ^3.0.0
     slash: ^3.0.0
@@ -6222,7 +6222,7 @@ __metadata:
     find-up: ^5.0.0
     fs-extra: ^11.1.0
     glob: ^8.1.0
-    glob-promise: ^4.2.0
+    glob-promise: ^6.0.2
     handlebars: ^4.7.7
     lazy-universal-dotenv: ^4.0.0
     mock-fs: ^5.2.0
@@ -8276,6 +8276,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/glob@npm:^8.0.0":
+  version: 8.0.1
+  resolution: "@types/glob@npm:8.0.1"
+  dependencies:
+    "@types/minimatch": ^5.1.2
+    "@types/node": "*"
+  checksum: 6540d3bc86ec81da4247dc8f5b639b80267b4eae6320b250cca1d71b7c57cff88bb790c7299a58bcbad33f4bbf437c35ceea58041cbb630311fc2ee86286a6c6
+  languageName: node
+  linkType: hard
+
 "@types/graceful-fs@npm:^4.1.3":
   version: 4.1.6
   resolution: "@types/graceful-fs@npm:4.1.6"
@@ -8473,7 +8483,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/minimatch@npm:*":
+"@types/minimatch@npm:*, @types/minimatch@npm:^5.1.2":
   version: 5.1.2
   resolution: "@types/minimatch@npm:5.1.2"
   checksum: 83cf1c11748891b714e129de0585af4c55dd4c2cafb1f1d5233d79246e5e1e19d1b5ad9e8db449667b3ffa2b6c80125c429dbee1054e9efb45758dbc4e118562
@@ -16359,6 +16369,17 @@ __metadata:
   peerDependencies:
     glob: ^7.1.6
   checksum: 3eb01bed2901539365df6a4d27800afb8788840647d01f9bf3500b3de756597f2ff4b8c823971ace34db228c83159beca459dc42a70968d4e9c8200ed2cc96bd
+  languageName: node
+  linkType: hard
+
+"glob-promise@npm:^6.0.2":
+  version: 6.0.2
+  resolution: "glob-promise@npm:6.0.2"
+  dependencies:
+    "@types/glob": ^8.0.0
+  peerDependencies:
+    glob: ^8.0.3
+  checksum: fa08c8beb32b87d9313d7f24d17b2eebeed6e77fcfe0e4b743f94e9621663292cf5e665f671502dcf925683aea1086d3a756032bef08c87d7dc05014aef71c5a
   languageName: node
   linkType: hard
 
