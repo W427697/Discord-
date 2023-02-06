@@ -16,10 +16,7 @@ export async function mdxPlugin(options: Options): Promise<Plugin> {
   const include = /\.mdx$/;
   const filter = createFilter(include);
   const { features, presets } = options;
-  const { mdxPluginOptions, jsxOptions } = await presets.apply<Record<string, any>>(
-    'options',
-    {}
-  );
+  const { mdxPluginOptions, jsxOptions } = await presets.apply<Record<string, any>>('options', {});
 
   return {
     name: 'storybook:mdx-plugin',
