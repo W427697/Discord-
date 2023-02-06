@@ -29,20 +29,39 @@ export interface SourceContextProps {
 
 export const SourceContext: Context<SourceContextProps> = createContext({ sources: {} });
 
+type SnippetRenderedEvent = {
+  id: StoryId;
+  source: string;
+  args?: Args;
+  format?: SyntaxHighlighterFormatTypes;
+};
+
 export const SourceContainer: FC<{ channel: Channel }> = ({ children, channel }) => {
   const [sources, setSources] = useState<StorySources>({});
 
   useEffect(() => {
     const handleSnippetRendered = (
-      id: StoryId,
-      newSource: string,
-      format: SyntaxHighlighterFormatTypes = false,
-      args: Args
+      idOrEvent: StoryId | SnippetRenderedEvent,
+      inputSource: string = null,
+      inputFormat: SyntaxHighlighterFormatTypes = false
     ) => {
-      const hash = args ? argsHash(args) : '--default--';
+      const {
+        id,
+        args = undefined,
+        source,
+        format,
+      } = typeof idOrEvent === 'string'
+        ? {
+            id: idOrEvent,
+            source: inputSource,
+            format: inputFormat,
+          }
+        : idOrEvent;
+
+      const hash = args ? argsHash(args) : '--unknown--';
 
       // optimization: if the source is the same, ignore the incoming event
-      if (sources[id] && sources[id][hash] && sources[id][hash].code === newSource) {
+      if (sources[id] && sources[id][hash] && sources[id][hash].code === source) {
         return;
       }
 
@@ -51,7 +70,7 @@ export const SourceContainer: FC<{ channel: Channel }> = ({ children, channel })
           ...current,
           [id]: {
             ...current[id],
-            [hash]: { code: newSource, format },
+            [hash]: { code: source, format },
           },
         };
 

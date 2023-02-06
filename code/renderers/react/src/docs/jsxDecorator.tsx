@@ -190,8 +190,12 @@ export const jsxDecorator = (
 
   useEffect(() => {
     if (!skip) {
-      const { id, args } = context || {};
-      channel.emit(SNIPPET_RENDERED, id, jsx, false, args);
+      const { id, args } = context;
+      channel.emit(SNIPPET_RENDERED, {
+        id,
+        source: jsx,
+        args,
+      });
     }
   });
 
