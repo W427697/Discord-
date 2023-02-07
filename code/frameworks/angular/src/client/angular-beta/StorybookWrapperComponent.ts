@@ -97,7 +97,7 @@ export const createStorybookWrapperComponent = (
 
     constructor(
       @Inject(STORY_PROPS) private storyProps$: Subject<ICollection | undefined>,
-      private changeDetectorRef: ChangeDetectorRef
+      @Inject(ChangeDetectorRef) private changeDetectorRef: ChangeDetectorRef
     ) {}
 
     ngOnInit(): void {
