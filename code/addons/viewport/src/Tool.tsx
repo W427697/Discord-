@@ -180,7 +180,6 @@ export const ViewportTool: FC = memo(
       <Fragment>
         <WithTooltip
           placement="top"
-          trigger="click"
           tooltip={({ onHide }) => (
             <TooltipLinkList links={toLinks(list, item, setState, state, onHide)} />
           )}
