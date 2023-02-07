@@ -55,5 +55,5 @@
     "platform": "node",
     "shim": "@storybook/preview-api/dist/store"
   },
-  "gitHead": "b1b7c2bc998decc21eb8352fcccd3c939048df02"
+  "gitHead": "cb3de6c33a80b366011c8081867b59985c27a666"
 }
