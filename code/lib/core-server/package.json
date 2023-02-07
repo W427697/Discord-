@@ -65,6 +65,7 @@
     "@storybook/csf-tools": "7.0.0-beta.43",
     "@storybook/docs-mdx": "next",
     "@storybook/global": "^5.0.0",
+    "@storybook/manager": "7.0.0-beta.43",
     "@storybook/node-logger": "7.0.0-beta.43",
     "@storybook/preview-api": "7.0.0-beta.43",
     "@storybook/telemetry": "7.0.0-beta.43",
