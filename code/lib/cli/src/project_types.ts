@@ -296,6 +296,13 @@ export const supportedTemplates: TemplateConfiguration[] = [
       return dependencies.every(Boolean);
     },
   },
+  {
+    preset: ProjectType.SOLID,
+    dependencies: ['solid-js'],
+    matcherFunction: ({ dependencies }) => {
+      return dependencies.every(Boolean);
+    },
+  },
   // DO NOT MOVE ANY TEMPLATES BELOW THIS LINE
   // React is part of every Template, after Storybook is initialized once
   {
@@ -308,13 +315,6 @@ export const supportedTemplates: TemplateConfiguration[] = [
   {
     preset: ProjectType.REACT,
     dependencies: ['react'],
-    matcherFunction: ({ dependencies }) => {
-      return dependencies.every(Boolean);
-    },
-  },
-  {
-    preset: ProjectType.SOLID,
-    dependencies: ['solid-js'],
     matcherFunction: ({ dependencies }) => {
       return dependencies.every(Boolean);
     },
