@@ -81,7 +81,6 @@ function getSlots(props: Args, context: StoryContext<VueRenderer, Args>) {
  * @returns
  */
 function updateArgs(reactiveArgs: Args, nextArgs: Args) {
-  console.log('updateArgs', reactiveArgs, nextArgs);
   if (!nextArgs) return;
   Object.keys(reactiveArgs).forEach((key) => {
     delete reactiveArgs[key];
