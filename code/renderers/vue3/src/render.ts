@@ -1,6 +1,5 @@
 /* eslint-disable no-param-reassign */
-import { dedent } from 'ts-dedent';
-import { createApp, h, reactive, toRefs } from 'vue';
+import { createApp, h } from 'vue';
 import type { RenderContext, ArgsStoryFn } from '@storybook/types';
 
 import type { Args, StoryContext } from '@storybook/csf';
@@ -13,7 +12,7 @@ export const render: ArgsStoryFn<VueRenderer> = (props, context) => {
       `Unable to render story ${id} as the component annotation is missing from the default export`
     );
   }
-  console.log('---render props :', props);
+
   return h(Component, props, getSlots(props, context));
 };
 
@@ -40,25 +39,10 @@ export function renderToCanvas(
   }: RenderContext<VueRenderer>,
   canvasElement: VueRenderer['canvasElement']
 ) {
-  const element: StoryFnVueReturnType = storyFn();
-
-  const reactiveArgs = reactive((element as any).render?.().props ?? storyContext.args);
-
-  if (!element) {
-    showError({
-      title: `Expecting a Vue component from the story: "${name}" of "${title}".`,
-      description: dedent`
-      Did you forget to return the Vue component from the story?
-      Use "() => ({ template: '<my-comp></my-comp>' })" or "() => ({ components: MyComp, template: '<my-comp></my-comp>' })" when defining the story.
-      `,
-    });
-    return () => {};
-  }
-
   const existingApp = map.get(canvasElement);
 
   if (existingApp && !forceRemount) {
-    updateArgs(existingApp.reactiveArgs, reactiveArgs);
+    updateArgs(existingApp.reactiveArgs, storyContext.args);
     return () => {
       teardown(existingApp.vueApp, canvasElement);
     };
@@ -66,9 +50,10 @@ export function renderToCanvas(
 
   const storybookApp = createApp({
     render() {
-      map.set(canvasElement, { vueApp: storybookApp, reactiveArgs });
-      const story = storyFn();
-      return h(story, reactiveArgs);
+      const story: any = storyFn();
+      const props = story.render?.().props ?? storyContext.args;
+      map.set(canvasElement, { vueApp: storybookApp, reactiveArgs: props });
+      return h(story, props);
     },
   });
 
@@ -117,16 +102,4 @@ function teardown(
 ) {
   storybookApp?.unmount();
   if (map.has(canvasElement)) map.delete(canvasElement);
-}
-
-/**
- *  create a reactive args and return it and the refs to avoid losing reactivity when passing it to the story
- * @param storyContext
- * @returns
- */
-
-function useReactive(storyContext: StoryContext<VueRenderer, Args>) {
-  const reactiveArgs = reactive(storyContext.args || {});
-  storyContext.args = toRefs(reactiveArgs);
-  return { reactiveArgs, refsArgs: storyContext.args };
 }
