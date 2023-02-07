@@ -85,6 +85,9 @@ describe('configurePreview', () => {
     expect(previewConfigPath).toEqual('./.storybook/preview.js');
     expect(previewConfigContent).toMatchInlineSnapshot(`
       "export const parameters = {
+        backgrounds: {
+          default: 'light',
+        },
         actions: { argTypesRegex: \\"^on[A-Z].*\\" },
         controls: {
           matchers: {
@@ -108,6 +111,9 @@ describe('configurePreview', () => {
     expect(previewConfigPath).toEqual('./.storybook/preview.ts');
     expect(previewConfigContent).toMatchInlineSnapshot(`
       "export const parameters = {
+        backgrounds: {
+          default: 'light',
+        },
         actions: { argTypesRegex: \\"^on[A-Z].*\\" },
         controls: {
           matchers: {
@@ -150,6 +156,9 @@ describe('configurePreview', () => {
       import docJson from \\"../documentation.json\\";
       setCompodocJson(docJson);
       export const parameters = {
+        backgrounds: {
+          default: 'light',
+        },
         actions: { argTypesRegex: \\"^on[A-Z].*\\" },
         controls: {
           matchers: {
