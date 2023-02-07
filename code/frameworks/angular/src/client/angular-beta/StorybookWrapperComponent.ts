@@ -52,7 +52,7 @@ export const createStorybookWrapperComponent = (
   // storyComponent was not provided.
   const viewChildSelector = storyComponent ?? '__storybook-noop';
 
-  const imports = extractImports(moduleMetadata);
+  const imports = extractImports(moduleMetadata, storyComponent);
   const declarations = extractDeclarations(moduleMetadata, storyComponent);
   const providers = extractProviders(moduleMetadata);
 
