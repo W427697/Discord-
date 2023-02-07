@@ -147,6 +147,7 @@ export interface StaticMeta
     ComponentAnnotations,
     'id' | 'title' | 'includeStories' | 'excludeStories' | 'tags'
   > {
+  [key: string]: string | string[] | RegExp;
   component?: string;
 }
 
@@ -211,7 +212,6 @@ export class CsfFile {
         if (p.key.name === 'title') {
           meta.title = this._parseTitle(p.value);
         } else if (['includeStories', 'excludeStories'].includes(p.key.name)) {
-          // @ts-expect-error (Converted from ts-ignore)
           meta[p.key.name] = parseIncludeExclude(p.value);
         } else if (p.key.name === 'component') {
           const { code } = generate.default(p.value, {});
