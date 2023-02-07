@@ -7180,7 +7180,6 @@ __metadata:
     "@storybook/client-logger": 7.0.0-beta.43
     "@storybook/global": ^5.0.0
     dequal: ^2.0.2
-    lodash: ^4.17.21
     memoizerific: ^1.11.3
     qs: ^6.10.0
     react-router-dom: 6.0.2
