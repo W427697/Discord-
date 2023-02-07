@@ -126,7 +126,7 @@ export function detectBuilder(packageManager: JsPackageManager) {
 }
 
 export function detectPnp() {
-  const found = findUp.sync('.pnp.js');
+  const found = findUp.sync('.pnp.cjs');
 
   return !!found;
 }
