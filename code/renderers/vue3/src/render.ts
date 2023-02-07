@@ -1,9 +1,9 @@
 /* eslint-disable no-param-reassign */
-import { createApp, h } from 'vue';
+import { createApp, h, reactive } from 'vue';
 import type { RenderContext, ArgsStoryFn } from '@storybook/types';
 
 import type { Args, StoryContext } from '@storybook/csf';
-import type { StoryFnVueReturnType, VueRenderer } from './types';
+import type { VueRenderer } from './types';
 
 export const render: ArgsStoryFn<VueRenderer> = (props, context) => {
   const { id, component: Component } = context;
@@ -27,16 +27,7 @@ const map = new Map<
 >();
 
 export function renderToCanvas(
-  {
-    storyFn,
-    forceRemount,
-    showMain,
-    showError,
-    showException,
-    name,
-    title,
-    storyContext,
-  }: RenderContext<VueRenderer>,
+  { storyFn, forceRemount, showMain, showException, storyContext }: RenderContext<VueRenderer>,
   canvasElement: VueRenderer['canvasElement']
 ) {
   const existingApp = map.get(canvasElement);
@@ -50,8 +41,9 @@ export function renderToCanvas(
 
   const storybookApp = createApp({
     render() {
+      storyContext.args = map.get(canvasElement)?.reactiveArgs ?? storyContext.args;
       const story: any = storyFn();
-      const props = story.render?.().props ?? storyContext.args;
+      const props = reactive(story.render?.().props ?? storyContext.args);
       map.set(canvasElement, { vueApp: storybookApp, reactiveArgs: props });
       return h(story, props);
     },
@@ -89,6 +81,7 @@ function getSlots(props: Args, context: StoryContext<VueRenderer, Args>) {
  * @returns
  */
 function updateArgs(reactiveArgs: Args, nextArgs: Args) {
+  console.log('updateArgs', reactiveArgs, nextArgs);
   if (!nextArgs) return;
   Object.keys(reactiveArgs).forEach((key) => {
     delete reactiveArgs[key];
