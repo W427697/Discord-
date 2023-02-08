@@ -143,7 +143,7 @@ Story Indexers are a set of heuristics used by Storybook to crawl your filesyste
 
 <CodeSnippets
   paths={[
-    'common/storybook-main-csf-indexer.js.mdx',
+    'common/storybook-main-csf-indexer.ts.mdx',
   ]}
 />
 
@@ -178,7 +178,7 @@ Out of the box, Storybook automatically infers the story's title based on a set 
 
 <CodeSnippets
   paths={[
-    'common/storybook-main-story-indexer-main.js.mdx'
+    'common/storybook-main-story-indexer-main.ts.mdx'
   ]}
 />
 
