@@ -13,7 +13,7 @@ import {
 } from './project_types';
 import { getBowerJson, paddedLog } from './helpers';
 import type { JsPackageManager, PackageJson, PackageJsonWithMaybeDeps } from './js-package-manager';
-import { detectNextJS } from './detect-nextjs';
+import { detectWebpack } from './detect-webpack';
 
 const viteConfigFiles = ['vite.config.ts', 'vite.config.js', 'vite.config.mjs'];
 
@@ -106,23 +106,29 @@ export function detectFrameworkPreset(
  *
  * @returns CoreBuilder
  */
-export function detectBuilder(packageManager: JsPackageManager) {
+export function detectBuilder(packageManager: JsPackageManager, projectType: ProjectType) {
   const viteConfig = findUp.sync(viteConfigFiles);
-
   if (viteConfig) {
     paddedLog('Detected vite project, setting builder to @storybook/builder-vite');
     return CoreBuilder.Vite;
   }
 
-  const nextJSVersion = detectNextJS(packageManager);
-  if (nextJSVersion) {
-    if (nextJSVersion >= 11) {
-      return CoreBuilder.Webpack5;
-    }
+  if (detectWebpack(packageManager)) {
+    paddedLog('Detected webpack project, setting builder to webpack');
+    return CoreBuilder.Webpack5;
   }
 
-  // Fallback to webpack5
-  return CoreBuilder.Webpack5;
+  // Fallback to Vite or Webpack based on project type
+  switch (projectType) {
+    case ProjectType.SVELTE:
+    case ProjectType.SVELTEKIT:
+    case ProjectType.VUE:
+    case ProjectType.VUE3:
+    case ProjectType.SFC_VUE:
+      return CoreBuilder.Vite;
+    default:
+      return CoreBuilder.Webpack5;
+  }
 }
 
 export function isStorybookInstalled(

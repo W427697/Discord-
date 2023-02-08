@@ -59,7 +59,7 @@ const installStorybook = <Project extends ProjectType>(
 
   const generatorOptions = {
     language,
-    builder: options.builder || detectBuilder(packageManager),
+    builder: options.builder || detectBuilder(packageManager, projectType),
     linkable: !!options.linkable,
     pnp: options.usePnp,
   };
