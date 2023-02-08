@@ -42,9 +42,10 @@ test.describe('addon-docs', () => {
   });
 
   test('source snippet should not change in stories block', async ({ page }) => {
-    // templateName is e.g. 'Vue-CLI (Default JS)'
+    // NextJS snippets are broken, see: https://github.com/storybookjs/storybook/issues/20356
+    // Note SSv7 does not render stories in the correct order in our sandboxes
     test.skip(
-      /^(vue3|vue-cli|preact|nextjs)/i.test(`${templateName}`),
+      /^(vue3|vue-cli|preact|nextjs|ssv6)/i.test(`${templateName}`),
       `Skipping ${templateName}, which does not support dynamic source snippets`
     );
 
