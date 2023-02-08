@@ -3,7 +3,7 @@ import { createApp, h, reactive } from 'vue';
 import type { RenderContext, ArgsStoryFn } from '@storybook/types';
 
 import type { Args, StoryContext } from '@storybook/csf';
-import type { VueRenderer } from './types';
+import type { StoryFnVueReturnType, VueRenderer } from './types';
 
 export const render: ArgsStoryFn<VueRenderer> = (props, context) => {
   const { id, component: Component } = context;
@@ -26,11 +26,15 @@ const map = new Map<
   { vueApp: ReturnType<typeof createApp>; reactiveArgs: any }
 >();
 
+let element: StoryFnVueReturnType;
+
 export function renderToCanvas(
   { storyFn, forceRemount, showMain, showException, storyContext }: RenderContext<VueRenderer>,
   canvasElement: VueRenderer['canvasElement']
 ) {
   const existingApp = map.get(canvasElement);
+  element = storyFn();
+  const reactiveArgs = reactive((element as any).render?.().props ?? storyContext.args);
 
   if (existingApp && !forceRemount) {
     updateArgs(existingApp.reactiveArgs, storyContext.args);
@@ -41,11 +45,8 @@ export function renderToCanvas(
 
   const storybookApp = createApp({
     render() {
-      storyContext.args = map.get(canvasElement)?.reactiveArgs ?? storyContext.args;
-      const story: any = storyFn();
-      const props = reactive(story.render?.().props ?? storyContext.args);
-      map.set(canvasElement, { vueApp: storybookApp, reactiveArgs: props });
-      return h(story, props);
+      map.set(canvasElement, { vueApp: storybookApp, reactiveArgs });
+      return h(element, reactiveArgs);
     },
   });
 
