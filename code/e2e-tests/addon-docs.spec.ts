@@ -44,7 +44,6 @@ test.describe('addon-docs', () => {
   test('source snippet should not change in stories block', async ({ page }) => {
     // templateName is e.g. 'Vue-CLI (Default JS)'
     test.skip(
-      // eslint-disable-next-line jest/valid-title
       /^(vue3|vue-cli|preact)/i.test(`${templateName}`),
       `Skipping ${templateName}, which does not support dynamic source snippets`
     );
