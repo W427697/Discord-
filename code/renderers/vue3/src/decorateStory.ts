@@ -47,9 +47,8 @@ export function decorateStory(
   return decorators.reduce(
     (decorated: LegacyStoryFn<VueRenderer>, decorator) => (context: StoryContext<VueRenderer>) => {
       let story: VueRenderer['storyResult'] | undefined;
-      if (!isReactive(context.args)) {
-        context.args = reactive(context.args);
-      }
+      if (!isReactive(context.args)) context.args = reactive(context.args);
+
       const decoratedStory: VueRenderer['storyResult'] = decorator((update) => {
         const updatedArgs = update;
         story = decorated({
@@ -70,8 +69,9 @@ export function decorateStory(
       return prepare(decoratedStory, story) as VueRenderer['storyResult'];
     },
     (context) => {
-      const story = storyFn(context).props ? h(storyFn(context), context.args) : storyFn(context);
-      return prepare(story) as LegacyStoryFn<VueRenderer>;
+      const story = storyFn(context);
+      const storyPrep = story.props ? h(story, context.args) : story;
+      return prepare(storyPrep) as LegacyStoryFn<VueRenderer>;
     }
   );
 }
