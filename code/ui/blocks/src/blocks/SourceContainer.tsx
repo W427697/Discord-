@@ -36,7 +36,7 @@ type SnippetRenderedEvent = {
   format?: SyntaxHighlighterFormatTypes;
 };
 
-export const unknownArgsHash = '--unknown--';
+export const UNKNOWN_ARGS_HASH = '--unknown--';
 
 export const SourceContainer: FC<{ channel: Channel }> = ({ children, channel }) => {
   const [sources, setSources] = useState<StorySources>({});
@@ -60,7 +60,7 @@ export const SourceContainer: FC<{ channel: Channel }> = ({ children, channel })
           }
         : idOrEvent;
 
-      const hash = args ? argsHash(args) : unknownArgsHash;
+      const hash = args ? argsHash(args) : UNKNOWN_ARGS_HASH;
 
       // optimization: if the source is the same, ignore the incoming event
       if (sources[id] && sources[id][hash] && sources[id][hash].code === source) {
