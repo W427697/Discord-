@@ -1,3 +1,38 @@
+## 7.0.0-beta.44 (February 7, 2023)
+
+#### Features
+
+-   Feature: Add woff2 support for builder-manager [#20962](https://github.com/storybooks/storybook/pull/20962)
+-   Feature: Add super early node version check [#20964](https://github.com/storybooks/storybook/pull/20964)
+-   Csf-tools: Add `satisfies` support to ConfigFile [#20936](https://github.com/storybooks/storybook/pull/20936)
+
+#### Bug Fixes
+
+-   Angular: Fix changeDetectorRef should be defined [#20984](https://github.com/storybooks/storybook/pull/20984)
+-   Angular: Fix standalone components to be included in the imports array [#20983](https://github.com/storybooks/storybook/pull/20983)
+-   CLI: Fix Introduction MDX for Next.js and Typescript [#20798](https://github.com/storybooks/storybook/pull/20798)
+-   CLI: Fix detection of JS projects with type checking [#20944](https://github.com/storybooks/storybook/pull/20944)
+-   UI: Fix fonts missing/warnings [#20957](https://github.com/storybooks/storybook/pull/20957)
+-   Core: Undo AST main.js check in validateConfigFile [#20952](https://github.com/storybooks/storybook/pull/20952)
+-   Csf-tools: Fix error handling for storySort variable references [#20930](https://github.com/storybooks/storybook/pull/20930)
+
+#### Maintenance
+
+-   Core: Fix missing dependency for core-server [#20989](https://github.com/storybooks/storybook/pull/20989)
+-   CLI: Add a default background to newly initialized storybooks [#20982](https://github.com/storybooks/storybook/pull/20982)
+-   Svelte/Vite: Remove `svelte-options` [#20942](https://github.com/storybooks/storybook/pull/20942)
+-   Vite: Correctly preserve existing vite envPrefix config [#20918](https://github.com/storybooks/storybook/pull/20918)
+
+#### Dependencies
+
+-   Deps: Upgrade glob-promise [#20959](https://github.com/storybooks/storybook/pull/20959)
+-   Deps: Update glob for storyshots [#20954](https://github.com/storybooks/storybook/pull/20954)
+
+#### Build
+
+-   Build: upgrade yarn [#20986](https://github.com/storybooks/storybook/pull/20986)
+-   Build: add more sandboxes to CI tests [#20892](https://github.com/storybooks/storybook/pull/20892)
+
 ## 7.0.0-beta.43 (February 4, 2023)
 
 #### Bug Fixes

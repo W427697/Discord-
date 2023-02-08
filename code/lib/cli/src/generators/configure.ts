@@ -83,6 +83,9 @@ export async function configurePreview(options: ConfigurePreviewOptions) {
   const preview = dedent`
     ${prefix}
     export const parameters = {
+      backgrounds: {
+        default: 'light',
+      },
       actions: { argTypesRegex: "^on[A-Z].*" },
       controls: {
         matchers: {
