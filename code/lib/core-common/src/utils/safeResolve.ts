@@ -3,7 +3,7 @@ import findUp from 'find-up';
 
 const pnpAPICache: Record<string, any> = {};
 
-const loadUsingPnpAPI = (request: string, cwd: string) => {
+const resolveUsingPnpAPI = (request: string, cwd: string) => {
   const pnpFile = findUp.sync('.pnp.cjs', { cwd, type: 'file' });
   if (pnpFile) {
     pnpAPICache[pnpFile] = pnpAPICache[pnpFile] || require(pnpFile); // eslint-disable-line import/no-dynamic-require, global-require
@@ -20,11 +20,11 @@ export const safeResolveFrom = (path: string, file: string) => {
     return resolveFrom(path, file);
   } catch (e) {
     try {
-      loadUsingPnpAPI(file, path);
+      const fromPnp = resolveUsingPnpAPI(file, path);
+      return fromPnp;
     } catch (er) {
       return undefined;
     }
-    return undefined;
   }
 };
 
@@ -34,17 +34,10 @@ export const safeResolve = (file: string) => {
     return require.resolve(file);
   } catch (e) {
     try {
-      const pnpFile = findUp.sync('.pnp.cjs', { cwd, type: 'file' });
-      if (pnpFile) {
-        const pnpAPI = require(pnpFile); // eslint-disable-line import/no-dynamic-require, global-require
-        const pnpPath = pnpAPI.resolveRequest(file, cwd);
-        if (pnpPath) {
-          return pnpPath;
-        }
-      }
+      const fromPnp = resolveUsingPnpAPI(file, cwd);
+      return fromPnp;
     } catch (er) {
       return undefined;
     }
-    return undefined;
   }
 };
