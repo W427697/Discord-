@@ -56,9 +56,6 @@ const getFrameworkPackage = (framework: string, renderer: string, builder: strin
   return framework ? `@storybook/${framework}` : `@storybook/${renderer}-${builder}`;
 };
 
-const wrapForPnp = (packageName: string) =>
-  `%%path.dirname(require.resolve(path.join('${packageName}', 'package.json')))%%`;
-
 const getFrameworkDetails = (
   renderer: SupportedRenderers,
   builder: Builder,
