@@ -191,7 +191,7 @@ const addAdditionalFiles = async ({ additionalFiles, cwd }: Options) => {
   );
 };
 
-const initStorybook = async ({ cwd, autoDetect = true, name, e2e, pnp }: Options) => {
+const initStorybook = async ({ cwd, autoDetect = true, name, e2e }: Options) => {
   const flags = ['--yes'];
 
   if (!autoDetect) {
@@ -199,9 +199,6 @@ const initStorybook = async ({ cwd, autoDetect = true, name, e2e, pnp }: Options
   }
   if (e2e) {
     flags.push('--linkable');
-  }
-  if (pnp) {
-    flags.push('--use-pnp');
   }
 
   // This is bundled into a single javascript file.
@@ -286,7 +283,7 @@ const registryUrlYarn = (url: string) => {
 export const createAndInit = async (
   cwd: string,
   { name, version, ...rest }: Parameters,
-  { e2e, pnp, local, registry }: Configuration
+  { e2e, local, registry }: Configuration
 ) => {
   const options: Options = {
     name,
@@ -295,7 +292,6 @@ export const createAndInit = async (
     creationPath: path.join(cwd, '..'),
     cwd,
     e2e,
-    pnp,
     ...rest,
   };
 

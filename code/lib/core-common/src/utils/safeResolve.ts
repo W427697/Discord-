@@ -15,12 +15,21 @@ const resolveUsingPnpAPI = (request: string, cwd: string) => {
   return undefined;
 };
 
-export const safeResolveFrom = (path: string, file: string) => {
+export const safeResolveFrom = (request: string, directory: string) => {
   try {
-    return resolveFrom(path, file);
+    const y = require.resolve(request, { paths: [directory] });
+    if (y) {
+      return y;
+    }
+    const x = resolveFrom(directory, request);
+    if (x) {
+      return x;
+    }
+
+    return resolveUsingPnpAPI(request, directory);
   } catch (e) {
     try {
-      const fromPnp = resolveUsingPnpAPI(file, path);
+      const fromPnp = resolveUsingPnpAPI(request, directory);
       return fromPnp;
     } catch (er) {
       return undefined;

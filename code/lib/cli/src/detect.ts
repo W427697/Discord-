@@ -125,12 +125,6 @@ export function detectBuilder(packageManager: JsPackageManager) {
   return CoreBuilder.Webpack5;
 }
 
-export function detectPnp() {
-  const found = findUp.sync('.pnp.cjs');
-
-  return !!found;
-}
-
 export function isStorybookInstalled(
   dependencies: Pick<PackageJson, 'devDependencies'> | false,
   force?: boolean

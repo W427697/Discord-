@@ -62,7 +62,6 @@ const wrapForPnp = (packageName: string) =>
 const getFrameworkDetails = (
   renderer: SupportedRenderers,
   builder: Builder,
-  pnp: boolean,
   framework?: SupportedFrameworks
 ): {
   type: 'framework' | 'renderer';
@@ -74,13 +73,13 @@ const getFrameworkDetails = (
 } => {
   const frameworkPackage = getFrameworkPackage(framework, renderer, builder);
 
-  const frameworkPackagePath = pnp ? wrapForPnp(frameworkPackage) : frameworkPackage;
+  const frameworkPackagePath = frameworkPackage;
 
   const rendererPackage = `@storybook/${renderer}`;
-  const rendererPackagePath = pnp ? wrapForPnp(rendererPackage) : rendererPackage;
+  const rendererPackagePath = rendererPackage;
 
   const builderPackage = getBuilderDetails(builder);
-  const builderPackagePath = pnp ? wrapForPnp(builderPackage) : builderPackage;
+  const builderPackagePath = builderPackage;
 
   const isExternalFramework = !!getExternalFramework(frameworkPackage);
   const isKnownFramework =
@@ -122,7 +121,7 @@ const hasFrameworkTemplates = (framework?: SupportedFrameworks) =>
 export async function baseGenerator(
   packageManager: JsPackageManager,
   npmOptions: NpmOptions,
-  { language, builder = CoreBuilder.Webpack5, pnp, frameworkPreviewParts }: GeneratorOptions,
+  { language, builder = CoreBuilder.Webpack5, frameworkPreviewParts }: GeneratorOptions,
   renderer: SupportedRenderers,
   options: FrameworkOptions = defaultOptions,
   framework?: SupportedFrameworks
@@ -151,7 +150,7 @@ export async function baseGenerator(
     rendererId,
     framework: frameworkInclude,
     builder: builderInclude,
-  } = getFrameworkDetails(renderer, builder, pnp, framework);
+  } = getFrameworkDetails(renderer, builder, framework);
 
   // added to main.js
   const addons = [
@@ -223,7 +222,7 @@ export async function baseGenerator(
       framework: { name: frameworkInclude, options: options.framework || {} },
       storybookConfigFolder,
       docs: { autodocs: 'tag' },
-      addons: pnp ? addons.map(wrapForPnp) : addons,
+      addons,
       extensions,
       language,
       ...(staticDir ? { staticDirs: [path.join('..', staticDir)] } : null),

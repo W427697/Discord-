@@ -7,7 +7,6 @@ export type GeneratorOptions = {
   language: SupportedLanguage;
   builder: Builder;
   linkable: boolean;
-  pnp: boolean;
   frameworkPreviewParts?: FrameworkPreviewParts;
 };
 

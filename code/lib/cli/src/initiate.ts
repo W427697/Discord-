@@ -56,13 +56,11 @@ const installStorybook = <Project extends ProjectType>(
   }
 
   const language = detectLanguage(packageJson);
-  const pnp = detectPnp();
 
   const generatorOptions = {
     language,
     builder: options.builder || detectBuilder(packageManager),
     linkable: !!options.linkable,
-    pnp: options.usePnp ?? pnp,
   };
 
   const runGenerator: () => Promise<any> = async () => {
