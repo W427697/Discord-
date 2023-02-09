@@ -11,6 +11,12 @@ const logger = console;
 
 const fixId = 'bare-mdx-stories-glob';
 
+export interface BareMdxStoriesGlobRunOptions {
+  main: ConfigFile;
+  existingStoriesEntries: StoriesEntry[];
+  nextStoriesEntries: StoriesEntry[];
+}
+
 const getNextGlobs = (glob: string) => {
   const nextGlobs: string[] = [];
   const regexMatch = glob.match(/(.*)\.stories\.@\(.*mdx.*\)$/i);
@@ -27,7 +33,7 @@ const getNextGlobs = (glob: string) => {
   return nextGlobs;
 };
 
-export const bareMdxStoriesGlob: Fix = {
+export const bareMdxStoriesGlob: Fix<BareMdxStoriesGlobRunOptions> = {
   id: fixId,
   async check({ packageManager }) {
     const packageJson = packageManager.retrievePackageJson();
@@ -50,9 +56,9 @@ export const bareMdxStoriesGlob: Fix = {
       return null;
     }
 
-    const existingStoriesEntries = (await readConfig(mainConfig)).getFieldValue([
-      'stories',
-    ]) as StoriesEntry[];
+    const main = await readConfig(mainConfig);
+
+    const existingStoriesEntries = main.getFieldValue(['stories']) as StoriesEntry[];
 
     if (!existingStoriesEntries) {
       logger.warn(dedent`
@@ -61,9 +67,6 @@ export const bareMdxStoriesGlob: Fix = {
     `);
       return null;
     }
-
-    console.log('LOG: existing');
-    console.dir(existingStoriesEntries, { depth: 5 });
 
     const nextStoriesEntries: StoriesEntry[] = [];
 
@@ -85,17 +88,56 @@ export const bareMdxStoriesGlob: Fix = {
       }
     });
 
-    console.log('LOG: next');
-    console.dir(nextStoriesEntries, { depth: 5 });
+    // bails if there are no changes
+    if (
+      existingStoriesEntries.length === nextStoriesEntries.length &&
+      existingStoriesEntries.every((entry, index) => {
+        const nextEntry = nextStoriesEntries[index];
+        if (typeof entry === 'string') {
+          return entry === nextEntry;
+        }
+        if (typeof nextEntry === 'string') {
+          return false;
+        }
+        return entry.files === nextEntry.files;
+      })
+    ) {
+      return null;
+    }
 
-    return { existingStoriesEntries, nextStoriesEntries };
-
-    // show existing globs
-    // show how we plan to change them
-    // show what the existing target matches
-    // show what the new target will match
+    return { existingStoriesEntries, nextStoriesEntries, main };
   },
-  prompt() {
-    return 'yay';
+
+  prompt({ existingStoriesEntries, nextStoriesEntries }) {
+    const prettyExistingStoriesEntries = existingStoriesEntries
+      .map((entry) => JSON.stringify(entry, null, 2))
+      .join('\n');
+    const prettyNextStoriesEntries = nextStoriesEntries
+      .map((entry) => JSON.stringify(entry, null, 2))
+      .join('\n');
+    return dedent`
+    We've detected your project has one or more globs in your 'stories' config that matches .stories.mdx files:
+      ${chalk.cyan(prettyExistingStoriesEntries)}
+    
+    In Storybook 7, we have deprecated defining stories in MDX files, and consequently have changed the suffix to simply .mdx.
+
+    We can automatically migrate your 'stories' config to include any .mdx file instead of just .stories.mdx.
+    That would result in the following 'stories' config:
+      ${chalk.cyan(prettyNextStoriesEntries)}
+
+    To learn more about this change, see: ${chalk.yellow(
+      'https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#mdx-docs-files'
+    )}
+  `;
+  },
+
+  async run({ dryRun, result: { nextStoriesEntries, main } }) {
+    logger.info(dedent`✅ Setting 'stories' config:
+      ${JSON.stringify(nextStoriesEntries, null, 2)}`);
+
+    main.setFieldValue(['stories'], nextStoriesEntries);
+    if (!dryRun) {
+      await writeConfig(main);
+    }
   },
 };
