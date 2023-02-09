@@ -10,7 +10,7 @@ import type {
   PresetConfig,
   Presets,
 } from '@storybook/types';
-import { join, parse } from 'path';
+import { dirname, join, parse } from 'path';
 import { loadCustomPresets } from './utils/load-custom-presets';
 import { safeResolve, safeResolveFrom } from './utils/safeResolve';
 import { interopRequireDefault } from './utils/interpret-require';
@@ -65,10 +65,12 @@ export const resolveAddonName = (
 ): CoreCommon_ResolvedAddonPreset | CoreCommon_ResolvedAddonVirtual | undefined => {
   const resolve = name.startsWith('/') ? safeResolve : safeResolveFrom.bind(null, configDir);
   const resolved = resolve(name);
+  const resolvedPkg = resolve(join(name, 'package.json'));
+
+  const root = resolvedPkg ? dirname(resolvedPkg) : name;
 
   if (resolved) {
     const { dir: fdir, name: fname } = parse(resolved);
-
     if (name.match(/\/(manager|register(-panel)?)(\.(js|mjs|ts|tsx|jsx))?$/)) {
       return {
         type: 'virtual',
@@ -88,7 +90,9 @@ export const resolveAddonName = (
   }
 
   const checkExists = (exportName: string) => {
-    if (resolve(`${name}${exportName}`)) return `${name}${exportName}`;
+    if (resolve(join(root, exportName))) {
+      return join(root, exportName);
+    }
     return undefined;
   };
 
@@ -99,14 +103,14 @@ export const resolveAddonName = (
   // Vite will be broken in such cases, because it does not process absolute paths,
   // and it will try to import from the bare import, breaking in pnp/pnpm.
   const absolutizeExport = (exportName: string) => {
-    return resolve(`${name}${exportName}`);
+    return resolve(join(name, exportName));
   };
 
-  const managerFile = absolutizeExport(`/manager`);
-  const registerFile = absolutizeExport(`/register`) || absolutizeExport(`/register-panel`);
-  const previewFile = checkExists(`/preview`);
-  const previewFileAbsolute = absolutizeExport('/preview');
-  const presetFile = absolutizeExport(`/preset`);
+  const managerFile = absolutizeExport(`manager`);
+  const registerFile = absolutizeExport(`register`) || absolutizeExport(`register-panel`);
+  const previewFile = checkExists(`preview`);
+  const previewFileAbsolute = absolutizeExport('preview');
+  const presetFile = absolutizeExport(`preset`);
 
   if (!(managerFile || previewFile) && presetFile) {
     return {
@@ -154,7 +158,7 @@ export const resolveAddonName = (
   if (resolved) {
     return {
       type: 'presets',
-      name: resolved,
+      name: root,
     };
   }
 

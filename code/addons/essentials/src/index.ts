@@ -1,4 +1,4 @@
-import path from 'path';
+import path, { dirname, join } from 'path';
 import { logger } from '@storybook/node-logger';
 import { serverRequire } from '@storybook/core-common';
 
@@ -52,6 +52,6 @@ export function addons(options: PresetOptions) {
     .filter((addon) => !checkInstalled(addon, main))
     .map((addon) => {
       // We point to the re-export from addon-essentials to support yarn pnp and pnpm.
-      return `@storybook/addon-essentials/${addon}`;
+      return join(dirname(require.resolve(`@storybook/addon-essentials/package.json`)), addon);
     });
 }

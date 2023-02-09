@@ -13,7 +13,7 @@ export function getRendererDir(renderer: SupportedFrameworks | SupportedRenderer
   const isExternal = externalFramework?.packageName;
   const frameworkPackageName = isExternal ?? `@storybook/${renderer}`;
 
-  const found = safeResolveFrom(`${frameworkPackageName}/package.json`, process.cwd());
+  const found = safeResolveFrom(process.cwd(), `${frameworkPackageName}/package.json`);
 
   if (found) {
     return dirname(found);
