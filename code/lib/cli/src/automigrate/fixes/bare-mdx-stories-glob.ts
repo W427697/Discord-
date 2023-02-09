@@ -58,14 +58,30 @@ export const bareMdxStoriesGlob: Fix<BareMdxStoriesGlobRunOptions> = {
 
     const main = await readConfig(mainConfig);
 
-    const existingStoriesEntries = main.getFieldValue(['stories']) as StoriesEntry[];
+    let existingStoriesEntries;
+
+    try {
+      existingStoriesEntries = main.getFieldValue(['stories']) as StoriesEntry[];
+    } catch (e) {
+      throw new Error(dedent`
+      ❌ Unable to determine Storybook stories globs, skipping ${chalk.cyan(fixId)} fix.
+      
+      In Storybook 7, we have deprecated defining stories in MDX files, and consequently have changed the suffix to simply .mdx.
+
+      We were unable to automatically migrate your 'stories' config to include any .mdx file instead of just .stories.mdx.
+      We suggest you make this change manually.
+
+      To learn more about this change, see: ${chalk.yellow(
+        'https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#mdx-docs-files'
+      )}
+      `);
+    }
 
     if (!existingStoriesEntries) {
-      logger.warn(dedent`
+      throw new Error(dedent`
       ❌ Unable to determine Storybook stories globs, skipping ${chalk.cyan(fixId)} fix.
       🤔 Are you running automigrate from your project directory?
     `);
-      return null;
     }
 
     const nextStoriesEntries: StoriesEntry[] = [];
