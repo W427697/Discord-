@@ -1,3 +1,328 @@
+## 7.0.0-beta.45 (February 9, 2023)
+
+#### Features
+
+-   UI: Menu design upgrade [#20898](https://github.com/storybooks/storybook/pull/20898)
+
+#### Bug Fixes
+
+-   Vite: Use posix paths for glob [#21013](https://github.com/storybooks/storybook/pull/21013)
+
+#### Maintenance
+
+-   Telemetry: Hash error messages [#20990](https://github.com/storybooks/storybook/pull/20990)
+
+## 7.0.0-beta.44 (February 7, 2023)
+
+#### Features
+
+-   Feature: Add woff2 support for builder-manager [#20962](https://github.com/storybooks/storybook/pull/20962)
+-   Feature: Add super early node version check [#20964](https://github.com/storybooks/storybook/pull/20964)
+-   Csf-tools: Add `satisfies` support to ConfigFile [#20936](https://github.com/storybooks/storybook/pull/20936)
+
+#### Bug Fixes
+
+-   Angular: Fix changeDetectorRef should be defined [#20984](https://github.com/storybooks/storybook/pull/20984)
+-   Angular: Fix standalone components to be included in the imports array [#20983](https://github.com/storybooks/storybook/pull/20983)
+-   CLI: Fix Introduction MDX for Next.js and Typescript [#20798](https://github.com/storybooks/storybook/pull/20798)
+-   CLI: Fix detection of JS projects with type checking [#20944](https://github.com/storybooks/storybook/pull/20944)
+-   UI: Fix fonts missing/warnings [#20957](https://github.com/storybooks/storybook/pull/20957)
+-   Core: Undo AST main.js check in validateConfigFile [#20952](https://github.com/storybooks/storybook/pull/20952)
+-   Csf-tools: Fix error handling for storySort variable references [#20930](https://github.com/storybooks/storybook/pull/20930)
+
+#### Maintenance
+
+-   Core: Fix missing dependency for core-server [#20989](https://github.com/storybooks/storybook/pull/20989)
+-   CLI: Add a default background to newly initialized storybooks [#20982](https://github.com/storybooks/storybook/pull/20982)
+-   Svelte/Vite: Remove `svelte-options` [#20942](https://github.com/storybooks/storybook/pull/20942)
+-   Vite: Correctly preserve existing vite envPrefix config [#20918](https://github.com/storybooks/storybook/pull/20918)
+
+#### Dependencies
+
+-   Deps: Upgrade glob-promise [#20959](https://github.com/storybooks/storybook/pull/20959)
+-   Deps: Update glob for storyshots [#20954](https://github.com/storybooks/storybook/pull/20954)
+
+#### Build
+
+-   Build: upgrade yarn [#20986](https://github.com/storybooks/storybook/pull/20986)
+-   Build: add more sandboxes to CI tests [#20892](https://github.com/storybooks/storybook/pull/20892)
+
+## 7.0.0-beta.43 (February 4, 2023)
+
+#### Bug Fixes
+
+-   Core: Fix globs on windows [#20929](https://github.com/storybooks/storybook/pull/20929)
+-   Revert addon-docs: update story index generator [#20809](https://github.com/storybooks/storybook/pull/20809)
+
+## 7.0.0-beta.42 (February 4, 2023)
+
+#### Features
+
+-   CLI: Add type annotations in javascript main config files [#20887](https://github.com/storybooks/storybook/pull/20887)
+-   UI: Tab Improvements [#20783](https://github.com/storybooks/storybook/pull/20783)
+
+#### Build
+
+-   Build: fix next [#20924](https://github.com/storybooks/storybook/pull/20924)
+
+#### Dependency Upgrades
+
+-   Upgrade jscodeshift to 0.14.0 [#20925](https://github.com/storybooks/storybook/pull/20925)
+-   Upgrade glob to 8.1.0 [#20927](https://github.com/storybooks/storybook/pull/20927)
+
+## 7.0.0-beta.41 (February 3, 2023)
+
+#### Features
+
+-   UI: Add nunito sans font [#20846](https://github.com/storybooks/storybook/pull/20846)
+
+#### Bug Fixes
+
+-   Vite/Addon-docs: Fix customization of MDX plugins [#20116](https://github.com/storybooks/storybook/pull/20116)
+-   Angular: Support NoopAnimationsModule [#20868](https://github.com/storybooks/storybook/pull/20868)
+-   Core: Fix index error handling [#20906](https://github.com/storybooks/storybook/pull/20906)
+-   Outline: Fix outline initial state [#20818](https://github.com/storybooks/storybook/pull/20818)
+
+#### Maintenance
+
+-   CLI: Remove the deprecated `--no-manager-cache` flag [#20895](https://github.com/storybooks/storybook/pull/20895)
+
+#### Build
+
+-   Build: Change `rootDir` in TS plugin [#20911](https://github.com/storybooks/storybook/pull/20911)
+-   Build: Improve task log and error messages for event log [#20902](https://github.com/storybooks/storybook/pull/20902)
+-   Build: minor fixes [#20894](https://github.com/storybooks/storybook/pull/20894)
+
+## 7.0.0-beta.40 (February 2, 2023)
+
+#### Features
+
+-   Addo-docs: Turn on autodocs for CSF with attached meta [#20867](https://github.com/storybooks/storybook/pull/20867)
+
+#### Bug Fixes
+
+-   Vue3: Fix args losing reactivity when using decorators [#20854](https://github.com/storybooks/storybook/pull/20854)
+-   Doc Blocks: Fix styling and parameter bugs [#20803](https://github.com/storybooks/storybook/pull/20803)
+-   Addon-docs: Export controls from doc blocks [#20806](https://github.com/storybooks/storybook/pull/20806)
+-   Webpack: Support builder options from framework [#20842](https://github.com/storybooks/storybook/pull/20842)
+
+## 7.0.0-beta.39 (February 1, 2023)
+
+#### Features
+
+-   Core: return address of dev server from buildDevStandalone [#20820](https://github.com/storybooks/storybook/pull/20820)
+-   Addons: Fix env variables not available inside addons [#20834](https://github.com/storybooks/storybook/pull/20834)
+-   CLI: Add warning when main config does not use default exports [#20802](https://github.com/storybooks/storybook/pull/20802)
+
+#### Bug Fixes
+
+-   SvelteKit: Disable failing `vite-plugin-sveltekit-guard` [#20870](https://github.com/storybooks/storybook/pull/20870)
+
+#### Maintenance
+
+-   Core: Remove core-js as a dependency [#20833](https://github.com/storybooks/storybook/pull/20833)
+
+#### Build
+
+-   Build: cleanup CI config [#20853](https://github.com/storybooks/storybook/pull/20853)
+-   Change forceReRender story to forceRemount [#20752](https://github.com/storybooks/storybook/pull/20752)
+
+## 7.0.0-beta.38 (January 31, 2023)
+
+#### Features
+
+-   CLI: Generate main config with default exports [#20797](https://github.com/storybooks/storybook/pull/20797)
+
+#### Bug Fixes
+
+-   CLI: Only add dependencies on sb init if they do not exist [#20811](https://github.com/storybooks/storybook/pull/20811)
+-   CLI: Install prerelease of @storybook/testing-library in CLI starters [#20819](https://github.com/storybooks/storybook/pull/20819)
+
+#### Dependency Upgrades
+
+-   Update lazy-universal-dotenv & regen lockfile [#20832](https://github.com/storybooks/storybook/pull/20832)
+-   Instrumenter: Remove unused core-js dependency [#20831](https://github.com/storybooks/storybook/pull/20831)
+
+## 7.0.0-beta.37 (January 31, 2023)
+
+Failed publish 
+
+## 7.0.0-beta.36 (January 28, 2023)
+
+#### Features
+
+-   Core: Story context is prepared before for supporting fine grained updates [#20755](https://github.com/storybooks/storybook/pull/20755)
+-   Addon-docs: New Markdown block [#20796](https://github.com/storybooks/storybook/pull/20796)
+-   Addon-docs: Disable Markdown transclusion and support ?raw .md files [#20790](https://github.com/storybooks/storybook/pull/20790)
+
+#### Bug Fixes
+
+-   Addon-docs: Allow using `<Source code=".." />` unattached. [#20807](https://github.com/storybooks/storybook/pull/20807)
+-   Vite: Replace vite-plugin-externals with custom plugin [#20698](https://github.com/storybooks/storybook/pull/20698)
+-   Sveltekit: Ensure SSR is disabled [#20804](https://github.com/storybooks/storybook/pull/20804)
+
+## 7.0.0-beta.35 (January 27, 2023)
+
+#### Bug Fixes
+
+-   Storysource: Support CSF3 object exports, co-exist with addon-docs [#20799](https://github.com/storybooks/storybook/pull/20799)
+-   Vite: Do not pre-bundle @vitejs/plugin-vue [#20787](https://github.com/storybooks/storybook/pull/20787)
+-   CLI: Fix new-frameworks automigration in angular projects [#20788](https://github.com/storybooks/storybook/pull/20788)
+
+## 7.0.0-beta.34 (January 26, 2023)
+
+#### Features
+
+-   Addon-docs: Add legacy transitional support for MDX1 [#20747](https://github.com/storybooks/storybook/pull/20747)
+
+#### Bug Fixes
+
+-   CLI: Fix global flag corner case [#20776](https://github.com/storybooks/storybook/pull/20776)
+-   Csf-tools: Fix ConfigFile string literal property handling [#20785](https://github.com/storybooks/storybook/pull/20785)
+-   Angular: Ensure docsMode flag has effect [#20711](https://github.com/storybooks/storybook/pull/20711)
+-   Angular: Use Providers in boostrapApplication option [#20746](https://github.com/storybooks/storybook/pull/20746)
+-   WebComponents: Fix Button type error [#20722](https://github.com/storybooks/storybook/pull/20722)
+
+#### Build
+
+-   Verify consistency of anonymous id [#20781](https://github.com/storybooks/storybook/pull/20781)
+-   Build: fix playwright unsynced version in CI [#20778](https://github.com/storybooks/storybook/pull/20778)
+-   Upgrade playwright [#20777](https://github.com/storybooks/storybook/pull/20777)
+
+#### Dependency Upgrades
+
+-   Deps: Upgrade fs-extra to 11.1.0 [#20772](https://github.com/storybooks/storybook/pull/20772)
+
+## 7.0.0-beta.33 (January 24, 2023)
+
+#### Features
+
+-   Addon-docs: Allow `<Story/>` to reference the first story [#20765](https://github.com/storybooks/storybook/pull/20765)
+
+#### Bug Fixes
+
+-   Angular: Fix issue if BrowserAnimationsModule is imported [#20709](https://github.com/storybooks/storybook/pull/20709)
+-   Core: Fix issue with inconsistent CSF ordering in sandboxes [#20705](https://github.com/storybooks/storybook/pull/20705)
+-   Fixed paths in generated main.cjs for the default sandbox on Windows [#20724](https://github.com/storybooks/storybook/pull/20724)
+-   Blocks: Ignore known blocks with global CSS selector [#20757](https://github.com/storybooks/storybook/pull/20757)
+
+#### Maintenance
+
+-   Docs: Make reference stories consistent [#20759](https://github.com/storybooks/storybook/pull/20759)
+-   Blocks: New Canvas API [#20723](https://github.com/storybooks/storybook/pull/20723)
+
+#### Build
+
+-   Fix vue sandbox: remove the lang=ts in a file, that should remain agnostic [#20768](https://github.com/storybooks/storybook/pull/20768)
+-   Build: do not treat check as a cache-able operation && cleanup [#20762](https://github.com/storybooks/storybook/pull/20762)
+
+## 7.0.0-beta.32 (January 24, 2023)
+
+#### Features
+
+-   CLI: Add init support for qwik projects [#20411](https://github.com/storybooks/storybook/pull/20411)
+
+#### Bug Fixes
+
+-   Vue3: Fix reactive args + many vue app creation issue  [#20712](https://github.com/storybooks/storybook/pull/20712)
+-   Docs: Allow "declaring" stories with `story={}` [#20702](https://github.com/storybooks/storybook/pull/20702)
+-   Addon-links: Fix the d.ts file, deprecate LinkTo [#20671](https://github.com/storybooks/storybook/pull/20671)
+-   CLI: Fix package execution for npm package manager [#20708](https://github.com/storybooks/storybook/pull/20708)
+
+#### Maintenance
+
+-   Upgrade react-popper-tooltip [#20736](https://github.com/storybooks/storybook/pull/20736)
+-   CLI: Upgrade automigrations to use new safe helpers [#20693](https://github.com/storybooks/storybook/pull/20693)
+-   Csf-tools: Add helpers to get name from node path [#20691](https://github.com/storybooks/storybook/pull/20691)
+-   Build: remove preact-webpack5 from babelrc automigration [#20706](https://github.com/storybooks/storybook/pull/20706)
+
+#### Build
+
+-   Fix windows snapshot [#20707](https://github.com/storybooks/storybook/pull/20707)
+
+## 7.0.0-beta.31 (January 20, 2023)
+
+#### Features
+
+-   Docs: Added source stories and updated API [#20603](https://github.com/storybooks/storybook/pull/20603)
+-   Docs: Implement Controls block [#20683](https://github.com/storybooks/storybook/pull/20683)
+-   Docs: Created `ArgTypes` component and stories [#20664](https://github.com/storybooks/storybook/pull/20664)
+-   Docs: Show primary story description and headline in autodocs [#20604](https://github.com/storybooks/storybook/pull/20604)
+
+#### Bug Fixes
+
+-   Source-loader: Fix export default variable references [#20688](https://github.com/storybooks/storybook/pull/20688)
+
+#### Maintenance
+
+-   CLI: Make missing-babelrc an automatic migration [#20689](https://github.com/storybooks/storybook/pull/20689)
+-   Addon-docs: Update story index generator glob [#20679](https://github.com/storybooks/storybook/pull/20679)
+-   Docs: Move validation logic into `context.resolveOf` [#20662](https://github.com/storybooks/storybook/pull/20662)
+-   Csf-plugin: Move source to docs.source.originalSource [#20665](https://github.com/storybooks/storybook/pull/20665)
+
+#### Build
+
+-   Fix ui example story [#20692](https://github.com/storybooks/storybook/pull/20692)
+
+## 7.0.0-beta.30 (January 18, 2023)
+
+#### Features
+
+-   UI: Add Sun, Moon, Sidebyside, and stacked icons [#20621](https://github.com/storybooks/storybook/pull/20621)
+-   Angular: Add multi-project setup for ng workspaces [#20559](https://github.com/storybooks/storybook/pull/20559)
+-   Addon-docs: Support @deprecated jsdoc tag [#20154](https://github.com/storybooks/storybook/pull/20154)
+-   Csf-plugin: Support meta description comments [#20632](https://github.com/storybooks/storybook/pull/20632)
+
+#### Bug Fixes
+
+-   Core: Fix `core` preset default value [#20646](https://github.com/storybooks/storybook/pull/20646)
+-   Addon-docs: Fix issue with unattached `.mdx` files [#20661](https://github.com/storybooks/storybook/pull/20661)
+-   Webpack: aAd error catching when template is not set [#20669](https://github.com/storybooks/storybook/pull/20669)
+-   Addons: Fix Viewport resetting shortcut key not working [#20167](https://github.com/storybooks/storybook/pull/20167)
+-   Core: Show "booting" progress until story is specified or errors [#20425](https://github.com/storybooks/storybook/pull/20425)
+-   Vue: Update events binding in Vue render [#19860](https://github.com/storybooks/storybook/pull/19860)
+-   Addon-actions: Fix webpack hot reload code in manager bundle [#20649](https://github.com/storybooks/storybook/pull/20649)
+-   UI: Fix HMR issue in Manager UI [#20654](https://github.com/storybooks/storybook/pull/20654)
+
+#### Maintenance
+
+-   Docs: Refactor props of Story block [#20530](https://github.com/storybooks/storybook/pull/20530)
+-   Vite: TypeScript type cleanup [#20642](https://github.com/storybooks/storybook/pull/20642)
+
+#### Build
+
+-   Add required jobs to daily workflow [#20263](https://github.com/storybooks/storybook/pull/20263)
+-   Fix typings files to ensure this the check command succeeds [#20598](https://github.com/storybooks/storybook/pull/20598)
+
+#### Dependency Upgrades
+
+-   Svelte: Remove babel/core peer dep [#20650](https://github.com/storybooks/storybook/pull/20650)
+
+## 7.0.0-beta.29 (January 17, 2023)
+
+#### Features
+
+-   CLI: Add codemod to upgrade deprecated types [#20618](https://github.com/storybooks/storybook/pull/20618)
+-   CLI: overhaul `storybook repro` command and rename it to `storybook sandbox` [#20507](https://github.com/storybooks/storybook/pull/20507)
+-   Vue3: Add source decorator vue template and setup script + supports of multi slots  [#20498](https://github.com/storybooks/storybook/pull/20498)
+
+#### Bug Fixes
+
+-   Angular: Fix handling of docsMode option in angular builder  [#20608](https://github.com/storybooks/storybook/pull/20608)
+-   UI: Bring back support for `favicon.ico` [#20612](https://github.com/storybooks/storybook/pull/20612)
+-   CLI: Fix missing css import on Vue3 button [#20470](https://github.com/storybooks/storybook/pull/20470)
+-   Codemods: Fix `csf-2-to-3` ignores Typescript types [#20273](https://github.com/storybooks/storybook/pull/20273)
+-   NextJS: Fix image loader [#20615](https://github.com/storybooks/storybook/pull/20615)
+-   Storyshots: Fix transpilation [#20630](https://github.com/storybooks/storybook/pull/20630)
+
+#### Maintenance
+
+-   React: Change deprecated `React.VFC` to `React.FC` [#20619](https://github.com/storybooks/storybook/pull/20619)
+
+#### Dependency Upgrades
+
+-   Upgrade babel-loader to ^9.0.0 [#20577](https://github.com/storybooks/storybook/pull/20577)
+
 ## 7.0.0-beta.28 (January 14, 2023)
 
 #### Maintenance

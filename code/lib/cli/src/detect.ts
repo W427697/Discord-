@@ -1,4 +1,3 @@
-import path from 'path';
 import fs from 'fs';
 import findUp from 'find-up';
 import semver from 'semver';
@@ -85,7 +84,7 @@ const getFrameworkPreset = (
   }
 
   if (Array.isArray(files) && files.length > 0) {
-    matcher.files = files.map((name) => fs.existsSync(path.join(process.cwd(), name)));
+    matcher.files = files.map((name) => fs.existsSync(name));
   }
 
   return matcherFunction(matcher) ? preset : null;
@@ -142,7 +141,7 @@ export function isStorybookInstalled(
         false
       )
     ) {
-      return ProjectType.ALREADY_HAS_STORYBOOK;
+      return true;
     }
   }
   return false;
@@ -151,7 +150,9 @@ export function isStorybookInstalled(
 export function detectLanguage(packageJson?: PackageJson) {
   let language = SupportedLanguage.JAVASCRIPT;
 
-  if (!packageJson) {
+  // TODO: we may need to also detect whether a jsconfig.json file is present
+  // in a monorepo root directory
+  if (!packageJson || fs.existsSync('jsconfig.json')) {
     return language;
   }
 
@@ -194,9 +195,8 @@ export function detect(
     return ProjectType.UNDETECTED;
   }
 
-  const storyBookInstalled = isStorybookInstalled(packageJson, options.force);
-  if (storyBookInstalled) {
-    return storyBookInstalled;
+  if (isNxProject(packageJson)) {
+    return ProjectType.NX;
   }
 
   if (options.html) {
@@ -204,4 +204,8 @@ export function detect(
   }
 
   return detectFrameworkPreset(packageJson || bowerJson);
+}
+
+function isNxProject(packageJSON: PackageJson) {
+  return !!packageJSON.devDependencies?.nx || fs.existsSync('nx.json');
 }

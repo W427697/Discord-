@@ -24,7 +24,7 @@ yarn add -D @storybook/addon-docs@next
 Then add the following to your `.storybook/main.js` addons:
 
 ```js
-module.exports = {
+export default {
   addons: ['@storybook/addon-docs'],
 };
 ```
@@ -87,7 +87,7 @@ yarn add -D react
 Then update your `.storybook/main.js` to make sure you load MDX files:
 
 ```js
-module.exports = {
+export default {
   stories: ['../src/stories/**/*.stories.@(js|mdx)'],
 };
 ```
@@ -125,7 +125,7 @@ Storybook Docs renders all Ember stories inside `iframe`s, with a default height
 To update the global default, modify `.storybook/preview.js`:
 
 ```ts
-export const parameters = { docs: { iframeHeight: 400 } };
+export const parameters = { docs: { story: { iframeHeight: '400px' } } };
 ```
 
 For `DocsPage`, you need to update the parameter locally in a story:
@@ -133,7 +133,7 @@ For `DocsPage`, you need to update the parameter locally in a story:
 ```ts
 export const basic = () => ...
 basic.parameters = {
-  docs: { iframeHeight: 400 }
+  docs: { story: { iframeHeight: '400px' } }
 }
 ```
 

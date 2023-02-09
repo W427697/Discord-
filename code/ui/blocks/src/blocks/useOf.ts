@@ -1,9 +1,28 @@
-import type { DocsContextProps, ResolvedModuleExport } from '@storybook/types';
+import type {
+  DocsContextProps,
+  ModuleExport,
+  NormalizedProjectAnnotations,
+  PreparedMeta,
+  Renderer,
+  ResolvedModuleExportFromType,
+  ResolvedModuleExportType,
+} from '@storybook/types';
 import { prepareMeta } from '@storybook/preview-api';
 import { useContext } from 'react';
 import { DocsContext } from './DocsContext';
 
-export type Of = Parameters<DocsContextProps['resolveModuleExport']>[0];
+export type Of = Parameters<DocsContextProps['resolveOf']>[0];
+
+export type EnhancedResolvedModuleExportType<
+  TType extends ResolvedModuleExportType,
+  TRenderer extends Renderer = Renderer
+> = TType extends 'component'
+  ? ResolvedModuleExportFromType<TType, TRenderer> & {
+      projectAnnotations: NormalizedProjectAnnotations<Renderer>;
+    }
+  : TType extends 'meta'
+  ? ResolvedModuleExportFromType<TType, TRenderer> & { preparedMeta: PreparedMeta }
+  : ResolvedModuleExportFromType<TType, TRenderer>;
 
 /**
  * A hook to resolve the `of` prop passed to a block.
@@ -11,21 +30,22 @@ export type Of = Parameters<DocsContextProps['resolveModuleExport']>[0];
  * if the resolved module is a meta it will include a preparedMeta property similar to a preparedStory
  * if the resolved module is a component it will include the project annotations
  */
-export const useOf = (of: Of, validTypes: ResolvedModuleExport['type'][] = []) => {
+export const useOf = <
+  TType extends ResolvedModuleExportType,
+  TRenderer extends Renderer = Renderer
+>(
+  moduleExportOrType: ModuleExport | TType,
+  validTypes?: TType[]
+): EnhancedResolvedModuleExportType<TType, TRenderer> => {
   const context = useContext(DocsContext);
-  const resolved = context.resolveModuleExport(of);
+  const resolved = context.resolveOf(moduleExportOrType, validTypes);
 
-  if (validTypes.length && !validTypes.includes(resolved.type)) {
-    const prettyType = resolved.type === 'component' ? 'component or unknown' : resolved.type;
-    throw new Error(
-      `Invalid value passed to the 'of' prop. The value was resolved to a '${prettyType}' type but the only types for this block are: ${validTypes.join(
-        ', '
-      )}`
-    );
-  }
   switch (resolved.type) {
     case 'component': {
-      return { ...resolved, projectAnnotations: context.projectAnnotations };
+      return {
+        ...resolved,
+        projectAnnotations: context.projectAnnotations,
+      } as EnhancedResolvedModuleExportType<TType, TRenderer>;
     }
     case 'meta': {
       return {
@@ -35,11 +55,11 @@ export const useOf = (of: Of, validTypes: ResolvedModuleExport['type'][] = []) =
           context.projectAnnotations,
           resolved.csfFile.moduleExports.default
         ),
-      };
+      } as EnhancedResolvedModuleExportType<TType, TRenderer>;
     }
     case 'story':
     default: {
-      return resolved;
+      return resolved as EnhancedResolvedModuleExportType<TType, TRenderer>;
     }
   }
 };

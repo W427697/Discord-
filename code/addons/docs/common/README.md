@@ -21,7 +21,7 @@ yarn add -D @storybook/addon-docs@next
 Then add the following to your `.storybook/main.js` addons:
 
 ```js
-module.exports = {
+export default {
   addons: ['@storybook/addon-docs'],
 };
 ```
@@ -43,7 +43,7 @@ yarn add -D react
 Then update your `.storybook/main.js` to make sure you load MDX files:
 
 ```js
-module.exports = {
+export default {
   stories: ['../src/stories/**/*.stories.@(js|mdx)'],
 };
 ```
@@ -71,9 +71,7 @@ In the "common" setup, Storybook Docs renders stories inside `iframe`s, with a d
 To update the global default, modify `.storybook/preview.js`:
 
 ```ts
-import { addParameters } from '@storybook/ember';
-
-addParameters({ docs: { iframeHeight: 400 } });
+export const parameters = { docs: { story: { iframeHeight: '400px' } } };
 ```
 
 For `DocsPage`, you need to update the parameter locally in a story:
@@ -81,7 +79,7 @@ For `DocsPage`, you need to update the parameter locally in a story:
 ```ts
 export const basic = () => ...
 basic.parameters = {
-  docs: { iframeHeight: 400 }
+  docs: { story: { iframeHeight: '400px' } }
 }
 ```
 

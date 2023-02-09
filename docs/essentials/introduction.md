@@ -25,6 +25,7 @@ If you're upgrading from a previous Storybook version, you'll need to run the fo
   paths={[
     'common/storybook-addon-essentials-install.yarn.js.mdx',
     'common/storybook-addon-essentials-install.npm.js.mdx',
+    'common/storybook-addon-essentials-install.pnpm.js.mdx',
   ]}
 />
 
@@ -37,6 +38,7 @@ Update your Storybook configuration (in [`.storybook/main.js`](../configure/over
 <CodeSnippets
   paths={[
     'common/storybook-main-register-essentials-addon.js.mdx',
+    'common/storybook-main-register-essentials-addon.ts.mdx',
   ]}
 />
 
@@ -54,6 +56,7 @@ If you need to reconfigure any of the [individual Essentials addons](https://sto
   paths={[
     'common/storybook-addon-actions-install.yarn.js.mdx',
     'common/storybook-addon-actions-install.npm.js.mdx',
+    'common/storybook-addon-actions-install.pnpm.js.mdx',
   ]}
 />
 
@@ -64,6 +67,7 @@ If you need to reconfigure any of the [individual Essentials addons](https://sto
 <CodeSnippets
   paths={[
     'common/storybook-main-register-individual-actions-addon.js.mdx',
+    'common/storybook-main-register-individual-actions-addon.ts.mdx',
   ]}
 />
 
@@ -76,18 +80,20 @@ Below is an abridged configuration and table with all the available options for 
 <CodeSnippets
   paths={[
     'common/storybook-main-full-individual-essentials-config.js.mdx',
+    'common/storybook-main-full-individual-essentials-config.ts.mdx',
   ]}
 />
 
 <!-- prettier-ignore-end -->
 
 | Addon                          | Configuration element | Description                                                                                                                                      |
-| ------------------------------ | --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| ------------------------------ |-----------------------|--------------------------------------------------------------------------------------------------------------------------------------------------|
 | `@storybook/addon-actions`     | N/A                   | N/A                                                                                                                                              |
 | `@storybook/addon-viewport`    | N/A                   | N/A                                                                                                                                              |
 | `@storybook/addon-docs`        | `configureJSX`        | Enables JSX support in MDX for projects that aren't configured to handle the format. <br/> `configureJSX: true`                                  |
 |                                | `babelOptions`        | Provides additional Babel configurations for file transpilation. <br/> `babelOptions: { plugins: [], presets: []}` <br/> Extends `configureJSX`. |
 |                                | `csfPluginOptions`    | Provides additional configuration for Storybook's CSF plugin. Can be disabled with `null`                                                        |
+|                                | `mdxPluginOptions`    | Provides additional configuration for Storybook's MDX plugin.                                                   |
 |                                | `transcludeMarkdown`  | Enables Markdown file support into MDX and render them as components. <br/> `transcludeMarkdown: true`                                           |
 | `@storybook/addon-controls`    | N/A                   | N/A                                                                                                                                              |
 | `@storybook/addon-backgrounds` | N/A                   | N/A                                                                                                                                              |
@@ -107,6 +113,7 @@ For example, if you wanted to disable the [backgrounds addon](./backgrounds.md),
 <CodeSnippets
   paths={[
     'common/storybook-main-disable-addon.js.mdx',
+    'common/storybook-main-disable-addon.ts.mdx',
   ]}
 />
 

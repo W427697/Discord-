@@ -1,6 +1,6 @@
 {
   "name": "@storybook/cli",
-  "version": "7.0.0-beta.28",
+  "version": "7.0.0-beta.45",
   "description": "Storybook's CLI - easiest method of adding storybook to your projects",
   "keywords": [
     "cli",
@@ -22,6 +22,19 @@
   },
   "license": "MIT",
   "author": "Storybook Team",
+  "exports": {
+    ".": {
+      "node": "./dist/index.js",
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.ts"
+    },
+    "./package.json": "./package.json",
+    "./bin/index": "./bin/index.js"
+  },
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
   "bin": {
     "getstorybook": "./bin/index.js",
     "sb": "./bin/index.js"
@@ -43,13 +56,13 @@
   "dependencies": {
     "@babel/core": "^7.20.2",
     "@babel/preset-env": "^7.20.2",
-    "@storybook/codemod": "7.0.0-beta.28",
-    "@storybook/core-common": "7.0.0-beta.28",
-    "@storybook/core-server": "7.0.0-beta.28",
-    "@storybook/csf-tools": "7.0.0-beta.28",
-    "@storybook/node-logger": "7.0.0-beta.28",
-    "@storybook/telemetry": "7.0.0-beta.28",
-    "@storybook/types": "7.0.0-beta.28",
+    "@storybook/codemod": "7.0.0-beta.45",
+    "@storybook/core-common": "7.0.0-beta.45",
+    "@storybook/core-server": "7.0.0-beta.45",
+    "@storybook/csf-tools": "7.0.0-beta.45",
+    "@storybook/node-logger": "7.0.0-beta.45",
+    "@storybook/telemetry": "7.0.0-beta.45",
+    "@storybook/types": "7.0.0-beta.45",
     "@types/semver": "^7.3.4",
     "boxen": "^5.1.2",
     "chalk": "^4.1.0",
@@ -60,11 +73,11 @@
     "execa": "^5.0.0",
     "express": "^4.17.3",
     "find-up": "^5.0.0",
-    "fs-extra": "^9.0.1",
+    "fs-extra": "^11.1.0",
     "get-port": "^5.1.1",
     "giget": "^1.0.0",
     "globby": "^11.0.2",
-    "jscodeshift": "^0.13.1",
+    "jscodeshift": "^0.14.0",
     "leven": "^3.1.0",
     "prompts": "^2.4.0",
     "puppeteer-core": "^2.1.1",
@@ -78,7 +91,7 @@
     "util-deprecate": "^1.0.2"
   },
   "devDependencies": {
-    "@storybook/client-api": "7.0.0-beta.28",
+    "@storybook/client-api": "7.0.0-beta.45",
     "@types/cross-spawn": "^6.0.2",
     "@types/prompts": "^2.0.9",
     "@types/puppeteer-core": "^2.1.0",
@@ -93,9 +106,10 @@
   },
   "bundler": {
     "entries": [
-      "./src/generate.ts"
+      "./src/generate.ts",
+      "./src/index.ts"
     ],
     "platform": "node"
   },
-  "gitHead": "05179df2dcf366ea1e61b0809e7778afbec094de"
+  "gitHead": "c7fdb03a408aff39160d1977f906e1780ccfbc50"
 }

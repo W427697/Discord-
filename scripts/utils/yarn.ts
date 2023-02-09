@@ -20,14 +20,18 @@ export const addPackageResolutions = async ({ cwd, dryRun }: YarnOptions) => {
 
   const packageJsonPath = path.join(cwd, 'package.json');
   const packageJson = await readJSON(packageJsonPath);
-  packageJson.resolutions = { ...storybookVersions, 'enhanced-resolve': '~5.10.0' };
+  packageJson.resolutions = {
+    ...storybookVersions,
+    'enhanced-resolve': '~5.10.0', // TODO, remove this
+    playwright: '1.30.0', // this is for our CI test, ensure we use the same version as docker image, it should match version specified in `./code/package.json` and `.circleci/config.yml`
+  };
   await writeJSON(packageJsonPath, packageJson, { spaces: 2 });
 };
 
 export const installYarn2 = async ({ cwd, dryRun, debug }: YarnOptions) => {
   const command = [
     touch('yarn.lock'),
-    touch('yarnrc.yml'),
+    touch('.yarnrc.yml'),
     `yarn set version berry`,
     // Use the global cache so we aren't re-caching dependencies each time we run sandbox
     `yarn config set enableGlobalCache true`,

@@ -119,6 +119,8 @@ export class ConfigFile {
 
   fileName?: string;
 
+  hasDefaultExport = false;
+
   constructor(ast: t.File, code: string, fileName?: string) {
     this._ast = ast;
     this._code = code;
@@ -131,10 +133,14 @@ export class ConfigFile {
     traverse.default(this._ast, {
       ExportDefaultDeclaration: {
         enter({ node, parent }) {
-          const decl =
+          self.hasDefaultExport = true;
+          let decl =
             t.isIdentifier(node.declaration) && t.isProgram(parent)
               ? _findVarInitialization(node.declaration.name, parent)
               : node.declaration;
+          if (t.isTSAsExpression(decl) || t.isTSSatisfiesExpression(decl)) {
+            decl = decl.expression;
+          }
 
           if (t.isObjectExpression(decl)) {
             self._exportsObject = decl;
@@ -253,6 +259,99 @@ export class ConfigFile {
       this._exports[first] = exportObj;
       this._ast.program.body.push(newExport);
     }
+  }
+
+  /**
+   * Returns the name of a node in a given path, supporting the following formats:
+   * 1. { framework: 'value' }
+   * 2. { framework: { name: 'value', options: {} } }
+   */
+  /**
+   * Returns the name of a node in a given path, supporting the following formats:
+   * @example
+   * // 1. { framework: 'framework-name' }
+   * // 2. { framework: { name: 'framework-name', options: {} }
+   * getNameFromPath(['framework']) // => 'framework-name'
+   */
+  getNameFromPath(path: string[]): string | undefined {
+    const node = this.getFieldNode(path);
+    if (!node) {
+      return undefined;
+    }
+
+    return this._getPresetValue(node, 'name');
+  }
+
+  /**
+   * Returns an array of names of a node in a given path, supporting the following formats:
+   * @example
+   * const config = {
+   *   addons: [
+   *     'first-addon',
+   *     { name: 'second-addon', options: {} }
+   *   ]
+   * }
+   * // => ['first-addon', 'second-addon']
+   * getNamesFromPath(['addons'])
+   *
+   */
+  getNamesFromPath(path: string[]): string[] | undefined {
+    const node = this.getFieldNode(path);
+    if (!node) {
+      return undefined;
+    }
+
+    const pathNames: string[] = [];
+    if (t.isArrayExpression(node)) {
+      node.elements.forEach((element) => {
+        pathNames.push(this._getPresetValue(element, 'name'));
+      });
+    }
+
+    return pathNames;
+  }
+
+  /**
+   * Given a node and a fallback property, returns a **non-evaluated** string value of the node.
+   * 1. { node: 'value' }
+   * 2. { node: { fallbackProperty: 'value' } }
+   */
+  _getPresetValue(node: t.Node, fallbackProperty: string) {
+    let value;
+    if (t.isStringLiteral(node)) {
+      value = node.value;
+    } else if (t.isObjectExpression(node)) {
+      node.properties.forEach((prop) => {
+        // { framework: { name: 'value' } }
+        if (
+          t.isObjectProperty(prop) &&
+          t.isIdentifier(prop.key) &&
+          prop.key.name === fallbackProperty
+        ) {
+          if (t.isStringLiteral(prop.value)) {
+            value = prop.value.value;
+          }
+        }
+
+        // { "framework": { "name": "value" } }
+        if (
+          t.isObjectProperty(prop) &&
+          t.isStringLiteral(prop.key) &&
+          prop.key.value === 'name' &&
+          t.isStringLiteral(prop.value)
+        ) {
+          value = prop.value.value;
+        }
+      });
+    }
+
+    if (!value) {
+      throw new Error(
+        `The given node must be a string literal or an object expression with a "${fallbackProperty}" property that is a string literal.`
+      );
+    }
+
+    return value;
   }
 
   removeField(path: string[]) {

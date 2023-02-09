@@ -169,8 +169,6 @@ export const ErrorBlock: FC<{ error: Error }> = ({ error }) => (
         Oh no! Something went wrong loading this Storybook.
         <br />
         <WithTooltip
-          trigger="click"
-          closeOnClick={false}
           tooltip={
             <ErrorDisplay>
               <ErrorFormatter error={error} />

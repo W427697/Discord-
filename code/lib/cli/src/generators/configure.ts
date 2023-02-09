@@ -1,12 +1,13 @@
 import fse from 'fs-extra';
 import { dedent } from 'ts-dedent';
-import type { SupportedRenderers, SupportedFrameworks } from '../project_types';
+import { SupportedLanguage } from '../project_types';
 
 interface ConfigureMainOptions {
   addons: string[];
   extensions?: string[];
-  commonJs?: boolean;
   staticDirs?: string[];
+  storybookConfigFolder: string;
+  language: SupportedLanguage;
   /**
    * Extra values for main.js
    *
@@ -19,54 +20,60 @@ interface ConfigureMainOptions {
   [key: string]: any;
 }
 
+export interface FrameworkPreviewParts {
+  prefix: string;
+}
+
+interface ConfigurePreviewOptions {
+  frameworkPreviewParts?: FrameworkPreviewParts;
+  storybookConfigFolder: string;
+  language: SupportedLanguage;
+}
+
 export async function configureMain({
   addons,
   extensions = ['js', 'jsx', 'ts', 'tsx'],
-  commonJs = false,
+  storybookConfigFolder,
+  language,
   ...custom
 }: ConfigureMainOptions) {
   const prefix = (await fse.pathExists('./src')) ? '../src' : '../stories';
-
   const config = {
     stories: [`${prefix}/**/*.mdx`, `${prefix}/**/*.stories.@(${extensions.join('|')})`],
     addons,
     ...custom,
   };
 
-  // replace escaped values and delimiters
-  const stringified = `module.exports = ${JSON.stringify(config, null, 2)
-    .replace(/\\"/g, '"')
-    .replace(/['"]%%/g, '')
-    .replace(/%%['"]/g, '')
-    .replace(/\\n/g, '\r\n')}`;
-  // main.js isn't actually JSON, but we used JSON.stringify to convert the runtime-object into code.
-  // un-stringify the value for referencing packages by string
-  // .replaceAll(/"(path\.dirname\(require\.resolve\(path\.join\('.*\))"/g, (_, a) => a)}`;
+  const isTypescript =
+    language === SupportedLanguage.TYPESCRIPT || language === SupportedLanguage.TYPESCRIPT_LEGACY;
+
+  const mainConfigTemplate = dedent`<<import>>const config<<type>> = <<mainContents>>;
+  export default config;`;
+
+  const mainJsContents = mainConfigTemplate
+    .replace(
+      '<<import>>',
+      isTypescript
+        ? `import type { StorybookConfig } from '${custom.framework.name}';\n\n`
+        : `/** @type { import('${custom.framework.name}').StorybookConfig } */\n`
+    )
+    .replace('<<type>>', isTypescript ? ': StorybookConfig' : '')
+    .replace('<<mainContents>>', JSON.stringify(config, null, 2));
 
   await fse.writeFile(
-    `./.storybook/main.${commonJs ? 'cjs' : 'js'}`,
-    dedent`
-      const path = require('path');
-      ${stringified}
-    `,
+    `./${storybookConfigFolder}/main.${isTypescript ? 'ts' : 'js'}`,
+    dedent(mainJsContents),
     { encoding: 'utf8' }
   );
 }
 
-const frameworkToPreviewParts: Partial<Record<SupportedFrameworks | SupportedRenderers, any>> = {
-  angular: {
-    prefix: dedent`
-      import { setCompodocJson } from "@storybook/addon-docs/angular";
-      import docJson from "../documentation.json";
-      setCompodocJson(docJson);
-      
-      `.trimStart(),
-  },
-};
+export async function configurePreview(options: ConfigurePreviewOptions) {
+  const { prefix = '' } = options.frameworkPreviewParts || {};
+  const isTypescript =
+    options.language === SupportedLanguage.TYPESCRIPT ||
+    options.language === SupportedLanguage.TYPESCRIPT_LEGACY;
 
-export async function configurePreview(framework: SupportedFrameworks | SupportedRenderers) {
-  const { prefix = '', extraParameters = '' } = frameworkToPreviewParts[framework] || {};
-  const previewPath = `./.storybook/preview.js`;
+  const previewPath = `./${options.storybookConfigFolder}/preview.${isTypescript ? 'ts' : 'js'}`;
 
   // If the framework template included a preview then we have nothing to do
   if (await fse.pathExists(previewPath)) {
@@ -76,6 +83,9 @@ export async function configurePreview(framework: SupportedFrameworks | Supporte
   const preview = dedent`
     ${prefix}
     export const parameters = {
+      backgrounds: {
+        default: 'light',
+      },
       actions: { argTypesRegex: "^on[A-Z].*" },
       controls: {
         matchers: {
@@ -83,7 +93,6 @@ export async function configurePreview(framework: SupportedFrameworks | Supporte
           date: /Date$/,
         },
       },
-      ${extraParameters}
     }`
     .replace('  \n', '')
     .trim();

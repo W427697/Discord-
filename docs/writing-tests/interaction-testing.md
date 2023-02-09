@@ -31,6 +31,7 @@ Run the following command to install the interactions addon and related dependen
   paths={[
     'common/storybook-addon-interactions-addon-full-install.yarn.js.mdx',
     'common/storybook-addon-interactions-addon-full-install.npm.js.mdx',
+    'common/storybook-addon-interactions-addon-full-install.pnpm.js.mdx',
   ]}
 />
 
@@ -60,7 +61,11 @@ The test itself is defined inside a `play` function connected to a story. Here's
     'react/login-form-with-play-function.ts.mdx',
     'angular/login-form-with-play-function.ts.mdx',
     'vue/login-form-with-play-function.2.js.mdx',
+    'vue/login-form-with-play-function.ts-2.ts.mdx',
     'vue/login-form-with-play-function.3.js.mdx',
+    'vue/login-form-with-play-function.ts-3.ts.mdx',
+    'web-components/login-form-with-play-function.js.mdx',
+    'web-components/login-form-with-play-function.ts.mdx',
     'svelte/login-form-with-play-function.js.mdx',
   ]}
   usesCsf3
@@ -147,6 +152,7 @@ Storybook only runs the interaction test when you're viewing a story. Therefore,
   paths={[
     'common/storybook-test-runner-execute.yarn.js.mdx',
     'common/storybook-test-runner-execute.npm.js.mdx',
+    'common/storybook-test-runner-execute.pnpm.js.mdx',
   ]}
 />
 

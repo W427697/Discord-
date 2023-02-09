@@ -7,13 +7,15 @@ import React from 'react';
 import { Button } from './Button';
 
 const meta = {
-  title: 'Example/Button',
+  title: 'examples/Button',
   component: Button,
   tags: ['autodocs'],
   argTypes: {
     backgroundColor: { control: 'color' },
   },
   parameters: {
+    // Stop *this* story from being stacked in Chromatic
+    theme: 'default',
     // these are to test the deprecated features of the Description block
     notes: 'These are notes for the Button stories',
     info: 'This is info for the Button stories',
@@ -114,9 +116,5 @@ export const Clicking: Story = {
 
 export const ClickingInDocs: Story = {
   ...Clicking,
-  parameters: {
-    docs: {
-      autoplay: true,
-    },
-  },
+  parameters: { docs: { story: { autoplay: true } } },
 };

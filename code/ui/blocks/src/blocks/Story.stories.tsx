@@ -1,19 +1,22 @@
-/// <reference types="vite/client" />
-import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { Story as StoryComponent } from './Story';
+import { Story as StoryBlock } from './Story';
 import * as ButtonStories from '../examples/Button.stories';
+import * as StoryComponentStories from '../components/Story.stories';
+import * as StoryParametersStories from '../examples/StoryParameters.stories';
 
-const meta: Meta<typeof StoryComponent> = {
-  component: StoryComponent,
+const meta: Meta<typeof StoryBlock> = {
+  component: StoryBlock,
   parameters: {
-    relativeCsfPaths: ['../examples/Button.stories', '../blocks/Story.stories'],
+    relativeCsfPaths: ['../examples/Button.stories', '../examples/StoryParameters.stories'],
+    docsStyles: true,
   },
 };
 export default meta;
 
 type Story = StoryObj<typeof meta>;
+
+export const DefaultAttached: Story = {};
 
 export const Of: Story = {
   args: {
@@ -28,75 +31,77 @@ export const OfWithMeta: Story = {
   },
 };
 
-const blocksAwareId = `${
-  import.meta.env.STORYBOOK_BLOCKS_ONLY === 'true' ? '' : 'storybook-blocks-'
-}controls-boolean--false`;
-
-export const Id: Story = {
+export const OfWithMetaUnattached: Story = {
+  parameters: { attached: false },
   args: {
-    id: blocksAwareId,
-  },
-};
-
-export const Name: Story = {
-  args: {
-    name: 'Secondary',
-  },
-};
-
-export const SimpleSizeTest: Story = {
-  render: () => {
-    return (
-      <div
-        style={{
-          background: '#fd5c9355',
-          padding: '3rem',
-          height: '1000px',
-          width: '800px',
-          // a global decorator is applying a default padding that we want to negate here
-          margin: '-4rem -20px',
-        }}
-      >
-        <p>
-          This story does nothing. Its only purpose is to show how its size renders in different
-          conditions (inline/iframe/fixed height) when used in a <code>{'<Story />'}</code> block.
-        </p>
-        <p>
-          It has a fixed <code>height</code> of <code>1000px</code> and a fixed <code>width</code>{' '}
-          of <code>800px</code>
-        </p>
-      </div>
-    );
+    of: ButtonStories.Secondary,
+    meta: ButtonStories.default,
   },
 };
 
 export const Inline: Story = {
   args: {
-    of: SimpleSizeTest,
+    of: StoryParametersStories.NoParameters,
     inline: true,
   },
 };
-export const InlineWithHeight: Story = {
+
+export const InlineWithHeightProps: Story = {
   ...Inline,
   args: {
-    of: SimpleSizeTest,
+    of: StoryParametersStories.NoParameters,
     inline: true,
-    height: '300px',
+    height: '600px',
   },
 };
-export const Iframe: Story = {
+
+export const InlineWithHeightParameter: Story = {
   ...Inline,
   args: {
-    of: SimpleSizeTest,
+    of: StoryParametersStories.Height,
+  },
+};
+
+export const IFrameProps: Story = {
+  ...Inline,
+  name: 'IFrame Props',
+  args: {
+    of: StoryParametersStories.NoParameters,
     inline: false,
   },
 };
-export const IframeWithHeight: Story = {
+
+export const IFrameWithParameter: Story = {
   ...Inline,
+  name: 'IFrame With Parameter',
   args: {
-    of: SimpleSizeTest,
+    of: StoryParametersStories.InlineFalse,
+  },
+};
+
+export const IFrameWithHeightProps: Story = {
+  ...Inline,
+  name: 'IFrame With Height Props',
+  args: {
+    of: StoryParametersStories.NoParameters,
     inline: false,
     height: '300px',
+  },
+};
+
+export const IFrameWithHeightParameter: Story = {
+  ...Inline,
+  name: 'IFrame With Height Parameter',
+  args: {
+    of: StoryParametersStories.InlineFalseWithHeight,
+  },
+};
+
+export const IFrameWithIFrameHeightParameter: Story = {
+  ...Inline,
+  name: 'IFrame With IFrame Height Parameter',
+  args: {
+    of: StoryParametersStories.InlineFalseWithIframeHeight,
   },
 };
 
@@ -108,11 +113,31 @@ export const WithDefaultInteractions: Story = {
     chromatic: { delay: 500 },
   },
 };
-export const WithInteractionsAutoplayInStory: Story = {
+
+export const WithInteractionsAutoplayInProps: Story = {
+  args: {
+    of: ButtonStories.Clicking,
+    autoplay: true,
+  },
+  parameters: {
+    chromatic: { delay: 500 },
+  },
+};
+
+export const WithInteractionsAutoplayInParameters: Story = {
   args: {
     of: ButtonStories.ClickingInDocs,
   },
   parameters: {
     chromatic: { delay: 500 },
   },
+};
+
+export const ForceInitialArgs: Story = {
+  ...StoryComponentStories.ForceInitialArgs,
+  args: {
+    of: ButtonStories.Primary,
+    storyExport: ButtonStories.Primary,
+    __forceInitialArgs: true,
+  } as any,
 };

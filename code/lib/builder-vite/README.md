@@ -66,8 +66,26 @@ For other details about the differences between vite and webpack projects, be su
 ### Customize Vite config
 
 The builder _will_ read your `vite.config.js` file, though it may change some of the options in order to work correctly.
+It looks for the Vite config in the CWD. If your config is located elsewhere, specify the path using the `viteConfigPath` builder option:
 
-In `.storybook/main.js` (or whatever your Storybook config file is named), you can override the merged Vite config:
+```javascript
+// .storybook/main.mjs
+
+const config = {
+  framework: {
+    name: '@storybook/react-vite', // Your framework name here.
+    options: {
+      builder: {
+        viteConfigPath: '.storybook/customViteConfig.js',
+      },
+    },
+  },
+};
+
+export default config;
+```
+
+You can also override the merged Vite config:
 
 ```javascript
 // use `mergeConfig` to recursively merge Vite options
@@ -116,16 +134,6 @@ const config: StorybookConfig = {
 export default config;
 ```
 
-Or alternatively, you can use named exports:
-
-```typescript
-import type { ViteFinal } from '@storybook/builder-vite';
-
-export const viteFinal: ViteFinal = async (config, options) => {
-  // modify and return config
-};
-```
-
 See [Customize Vite config](#customize-vite-config) for details about using `viteFinal`.
 
 ### React Docgen
@@ -133,7 +141,7 @@ See [Customize Vite config](#customize-vite-config) for details about using `vit
 Docgen is used in Storybook to populate the props table in docs view, the controls panel, and for several other addons. Docgen is supported in Svelte, Vue, and React, and there are two docgen options when using react, `react-docgen` and `react-docgen-typescript`. You can learn more about the pros/cons of each in [this gist](https://gist.github.com/shilman/036313ffa3af52ca986b375d90ea46b0). By default, if we find a `typescript` dependency in your `package.json` file, we will assume you're using typescript and will choose `react-docgen-typescript`. You can change this by setting the `typescript.reactDocgen` option in your `.storybook/main.js` file:
 
 ```javascript
-module.exports = {
+export default {
   typescript: {
     reactDocgen: 'react-docgen`
   }

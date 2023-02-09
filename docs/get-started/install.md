@@ -14,6 +14,7 @@ title: 'Install Storybook'
    'get-started/installation-command-section/svelte.mdx',
    'get-started/installation-command-section/vue.mdx',
    'get-started/installation-command-section/web-components.mdx',
+   'get-started/installation-command-section/qwik.mdx',
   ]}
 />
 
@@ -53,6 +54,7 @@ Depending on your framework, first, build your app and then check that everythin
     'angular/storybook-run-dev.with-builder.js.mdx',
     'common/storybook-run-dev.npm.js.mdx',
     'common/storybook-run-dev.yarn.js.mdx',
+    'common/storybook-run-dev.pnpm.js.mdx',
   ]}
 />
 
@@ -85,6 +87,7 @@ Below are some of the most common installation issues and instructions on how to
    'get-started/installation-problems/svelte.mdx',
    'get-started/installation-problems/vue.mdx',
    'get-started/installation-problems/web-components.mdx',
+   'get-started/installation-problems/qwik.mdx',
   ]}
 />
 

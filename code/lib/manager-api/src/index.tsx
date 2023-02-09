@@ -18,13 +18,13 @@ import type {
   API_DocsEntry,
   API_GroupEntry,
   API_HashEntry,
+  API_IndexHash,
   API_LeafEntry,
   API_OptionsData,
   API_ProviderData,
   API_Refs,
   API_RootEntry,
   API_StateMerger,
-  API_StoriesHash,
   API_StoryEntry,
   Parameters,
   StoryId,
@@ -55,14 +55,14 @@ import * as settings from './modules/settings';
 import * as releaseNotes from './modules/release-notes';
 // eslint-disable-next-line import/no-cycle
 import * as stories from './modules/stories';
-// eslint-disable-next-line import/no-cycle
+
 import * as refs from './modules/refs';
 import * as layout from './modules/layout';
 import * as shortcuts from './modules/shortcuts';
 
 import * as url from './modules/url';
 import * as version from './modules/versions';
-// eslint-disable-next-line import/no-cycle
+
 import * as globals from './modules/globals';
 
 export * from './lib/shortcut';
@@ -326,7 +326,9 @@ export function useStorybookApi(): API {
 }
 
 export type {
-  API_StoriesHash as StoriesHash,
+  /** @deprecated now IndexHash */
+  API_IndexHash as StoriesHash,
+  API_IndexHash as IndexHash,
   API_RootEntry as RootEntry,
   API_GroupEntry as GroupEntry,
   API_ComponentEntry as ComponentEntry,

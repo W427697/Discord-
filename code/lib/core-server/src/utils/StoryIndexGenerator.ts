@@ -1,4 +1,5 @@
 import path from 'path';
+import chalk from 'chalk';
 import fs from 'fs-extra';
 import glob from 'globby';
 import slash from 'slash';
@@ -24,6 +25,7 @@ import { logger } from '@storybook/node-logger';
 import { getStorySortParameter, NoMetaError } from '@storybook/csf-tools';
 import { toId } from '@storybook/csf';
 import { analyze } from '@storybook/docs-mdx';
+import { autoName } from './autoName';
 
 /** A .mdx file will produce a docs entry */
 type DocsCacheEntry = DocsIndexEntry;
@@ -113,7 +115,7 @@ export class StoryIndexGenerator {
 
   async initialize() {
     // Find all matching paths for each specifier
-    await Promise.all(
+    const specifiersAndCaches = await Promise.all(
       this.specifiers.map(async (specifier) => {
         const pathToSubIndex = {} as SpecifierStoriesCache;
 
@@ -132,8 +134,14 @@ export class StoryIndexGenerator {
           pathToSubIndex[absolutePath] = false;
         });
 
-        this.specifierToCache.set(specifier, pathToSubIndex);
+        return [specifier, pathToSubIndex] as const;
       })
+    );
+
+    // We do this in a second step to avoid timing issues with the Promise.all above -- to ensure
+    // the keys in the `specifierToCache` object are consistent with the order of specifiers.
+    specifiersAndCaches.forEach(([specifier, cache]) =>
+      this.specifierToCache.set(specifier, cache)
     );
 
     // Extract stories for each file
@@ -317,24 +325,24 @@ export class StoryIndexGenerator {
 
       // Also, if `result.of` is set, it means that we're using the `<Meta of={XStories} />` syntax,
       // so find the `title` defined the file that `meta` points to.
-      let ofTitle: string;
+      let csfEntry: StoryIndexEntry;
       if (result.of) {
         const absoluteOf = makeAbsolute(result.of, normalizedPath, this.options.workingDir);
         dependencies.forEach((dep) => {
           if (dep.entries.length > 0) {
-            const first = dep.entries[0];
+            const first = dep.entries.find((e) => e.type !== 'docs') as StoryIndexEntry;
 
             if (
               path
                 .normalize(path.resolve(this.options.workingDir, first.importPath))
                 .startsWith(path.normalize(absoluteOf))
             ) {
-              ofTitle = first.title;
+              csfEntry = first;
             }
           }
         });
 
-        if (!ofTitle)
+        if (!csfEntry)
           throw new Error(`Could not find "${result.of}" for docs file "${relativePath}".`);
       }
 
@@ -343,8 +351,12 @@ export class StoryIndexGenerator {
         dep.dependents.push(absolutePath);
       });
 
-      const title = ofTitle || userOrAutoTitleFromSpecifier(importPath, specifier, result.title);
-      const name = result.name || this.options.docs.defaultName;
+      const title =
+        csfEntry?.title || userOrAutoTitleFromSpecifier(importPath, specifier, result.title);
+      const { defaultName } = this.options.docs;
+      const name =
+        result.name ||
+        (csfEntry ? autoName(importPath, csfEntry.importPath, defaultName) : defaultName);
       const id = toId(title, name);
 
       const docsEntry: DocsCacheEntry = {
@@ -358,7 +370,14 @@ export class StoryIndexGenerator {
       };
       return docsEntry;
     } catch (err) {
-      logger.warn(`🚨 Extraction error on ${relativePath}: ${err}`);
+      logger.warn(`🚨 Extraction error on ${chalk.blue(relativePath)}: ${err}`);
+      if (err.source?.match(/mdast-util-mdx-jsx/g)) {
+        logger.warn(
+          `💡 This seems to be an MDX2 syntax error. Please refer to the MDX section in the following resource for assistance on how to fix this: ${chalk.yellow(
+            'https://storybook.js.org/migration-guides/7.0'
+          )}`
+        );
+      }
       throw err;
     }
   }

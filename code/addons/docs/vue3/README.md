@@ -29,7 +29,7 @@ yarn add -D @storybook/addon-docs@next
 Then add the following to your `.storybook/main.js` addons:
 
 ```js
-module.exports = {
+export default {
   addons: ['@storybook/addon-docs'],
 };
 ```
@@ -39,9 +39,9 @@ module.exports = {
 The `addon-docs` preset for Vue has a configuration option that can be used to configure [`vue-docgen-api`](https://github.com/vue-styleguidist/vue-styleguidist/tree/dev/packages/vue-docgen-api), a tool which extracts information from Vue components. Here's an example of how to use the preset with options for Vue app:
 
 ```js
-const path = require('path');
+import * as path from 'path';
 
-module.exports = {
+export default {
   addons: [
     {
       name: '@storybook/addon-docs',
@@ -102,7 +102,7 @@ yarn add -D react
 Then update your `.storybook/main.js` to make sure you load MDX files:
 
 ```js
-module.exports = {
+export default {
   stories: ['../src/stories/**/*.stories.@(js|mdx)'],
 };
 ```
@@ -135,12 +135,12 @@ Yes, it's redundant to declare `component` twice. [Coming soon](https://github.c
 
 Storybook Docs renders all Vue stories inline by default.
 
-However, you can render stories in an iframe, with a default height of `60px` (configurable using the `docs.iframeHeight` story parameter), by using the `docs.inlineStories` parameter.
+However, you can render stories in an iframe, with a default height of `60px` (configurable using the `docs.story.iframeHeight` story parameter), by using the `docs.stories.inline` parameter.
 
 To do so for all stories, update `.storybook/preview.js`:
 
 ```js
-export const parameters = { docs: { inlineStories: false } };
+export const parameters = { docs: { story: { inline: false } } };
 ```
 
 ## More resources

@@ -23,7 +23,13 @@ const UNSTYLED_SELECTORS = [
   '.sbdocs-pre',
   '.sb-story',
   '.docblock-source',
-  '.sb-anchor',
+  '.docblock-argstable',
+  '.sbdocs-title',
+  '.sbdocs-subtitle',
+  '.docblock-icongallery',
+  '.docblock-emptyblock',
+  '.docblock-typeset',
+  '.docblock-colorpalette',
 ].join(', ');
 const toGlobalSelector = (element: string): string =>
   `& :where(${element}:not(${UNSTYLED_SELECTORS}, :where(${UNSTYLED_SELECTORS}) ${element}))`;
@@ -38,7 +44,7 @@ export interface DocsPageProps {
 export const Title = styled.h1(withReset, ({ theme }) => ({
   color: theme.color.defaultText,
   fontSize: theme.typography.size.m3,
-  fontWeight: theme.typography.weight.black,
+  fontWeight: theme.typography.weight.bold,
   lineHeight: '32px',
 
   [`@media (min-width: ${breakpoint}px)`]: {
@@ -64,6 +70,7 @@ export const Subtitle = styled.h2(withReset, ({ theme }) => ({
   color: transparentize(0.25, theme.color.defaultText),
 }));
 
+// @ts-expect-error don't know why it doesn't accept our returned styles. if we add `...{}` anywhere to the returned object it stops erroring
 export const DocsContent = styled.div(({ theme }) => {
   const reset = {
     fontFamily: theme.typography.fonts.base,
@@ -115,8 +122,6 @@ export const DocsContent = styled.div(({ theme }) => {
   return {
     maxWidth: 1000,
     width: '100%',
-
-    ...reset,
     [toGlobalSelector('a')]: {
       ...reset,
       fontSize: 'inherit',
@@ -191,7 +196,7 @@ export const DocsContent = styled.div(({ theme }) => {
       ...reset,
       ...headers,
       fontSize: `${theme.typography.size.l1}px`,
-      fontWeight: theme.typography.weight.black,
+      fontWeight: theme.typography.weight.bold,
     },
     [toGlobalSelector('h2')]: {
       ...reset,

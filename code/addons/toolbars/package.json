@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-toolbars",
-  "version": "7.0.0-beta.28",
+  "version": "7.0.0-beta.45",
   "description": "Create your own toolbar items that control story rendering",
   "keywords": [
     "addon",
@@ -11,7 +11,7 @@
     "test",
     "essentials"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/next/addons/toolbars",
+  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/addons/toolbars",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },
@@ -68,11 +68,11 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/client-logger": "7.0.0-beta.28",
-    "@storybook/components": "7.0.0-beta.28",
-    "@storybook/manager-api": "7.0.0-beta.28",
-    "@storybook/preview-api": "7.0.0-beta.28",
-    "@storybook/theming": "7.0.0-beta.28"
+    "@storybook/client-logger": "7.0.0-beta.45",
+    "@storybook/components": "7.0.0-beta.45",
+    "@storybook/manager-api": "7.0.0-beta.45",
+    "@storybook/preview-api": "7.0.0-beta.45",
+    "@storybook/theming": "7.0.0-beta.45"
   },
   "devDependencies": {
     "typescript": "~4.9.3"
@@ -99,7 +99,7 @@
     ],
     "platform": "browser"
   },
-  "gitHead": "05179df2dcf366ea1e61b0809e7778afbec094de",
+  "gitHead": "c7fdb03a408aff39160d1977f906e1780ccfbc50",
   "storybook": {
     "displayName": "Toolbars",
     "icon": "https://user-images.githubusercontent.com/263385/101991677-48cdf300-3c7c-11eb-93b4-19b0e3366959.png",

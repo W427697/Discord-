@@ -12,6 +12,7 @@ import slash from 'slash';
 import type { Options, CoreConfig, DocsOptions, PreviewAnnotation } from '@storybook/types';
 import { globals } from '@storybook/preview/globals';
 import {
+  getBuilderOptions,
   getRendererName,
   stringifyProcessEnvs,
   handlebars,
@@ -22,6 +23,7 @@ import {
   isPreservingSymlinks,
 } from '@storybook/core-common';
 import { toRequireContextString, toImportFn } from '@storybook/core-webpack';
+import { dedent } from 'ts-dedent';
 import type { BuilderOptions, TypescriptOptions } from '../types';
 import { createBabelLoader } from './babel-loader-preview';
 
@@ -76,6 +78,7 @@ export default async (
     docsOptions,
     entries,
     nonNormalizedStories,
+    modulesCount = 1000,
   ] = await Promise.all([
     presets.apply<CoreConfig>('core'),
     presets.apply('frameworkOptions'),
@@ -85,8 +88,9 @@ export default async (
     presets.apply('previewBody'),
     presets.apply<string>('previewMainTemplate'),
     presets.apply<DocsOptions>('docs'),
-    presets.apply<string[]>('entries', [], options),
-    presets.apply('stories', [], options),
+    presets.apply<string[]>('entries', []),
+    presets.apply('stories', []),
+    options.cache?.get('modulesCount').catch(() => {}),
   ]);
 
   const stories = normalizeStories(nonNormalizedStories, {
@@ -94,10 +98,7 @@ export default async (
     workingDir,
   });
 
-  const builderOptions: BuilderOptions =
-    typeof coreOptions.builder === 'string'
-      ? {}
-      : coreOptions.builder?.options || ({} as BuilderOptions);
+  const builderOptions = await getBuilderOptions<BuilderOptions>(options);
 
   const previewAnnotations = [
     ...(await presets.apply<PreviewAnnotation[]>('previewAnnotations', [], options)).map(
@@ -190,6 +191,15 @@ export default async (
         }
       : {};
 
+  if (!template) {
+    throw new Error(dedent`
+      Storybook's Webpack5 builder requires a template to be specified.
+      Somehow you've ended up with a falsy value for the template option.
+
+      Please file an issue at https://github.com/storybookjs/storybook with a reproduction.
+    `);
+  }
+
   return {
     name: 'preview',
     mode: isProd ? 'production' : 'development',
@@ -263,7 +273,7 @@ export default async (
       new ProvidePlugin({ process: require.resolve('process/browser.js') }),
       isProd ? null : new HotModuleReplacementPlugin(),
       new CaseSensitivePathsPlugin(),
-      quiet ? null : new ProgressPlugin({}),
+      quiet ? null : new ProgressPlugin({ modulesCount }),
       shouldCheckTs ? new ForkTsCheckerWebpackPlugin(tsCheckOptions) : null,
     ].filter(Boolean),
     module: {
