@@ -63,6 +63,10 @@ export const bareMdxStoriesGlob: Fix<BareMdxStoriesGlobRunOptions> = {
     try {
       existingStoriesEntries = main.getFieldValue(['stories']) as StoriesEntry[];
     } catch (e) {
+      // throws in next null check below
+    }
+
+    if (!existingStoriesEntries) {
       throw new Error(dedent`
       ❌ Unable to determine Storybook stories globs, skipping ${chalk.cyan(fixId)} fix.
       
@@ -75,13 +79,6 @@ export const bareMdxStoriesGlob: Fix<BareMdxStoriesGlobRunOptions> = {
         'https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#mdx-docs-files'
       )}
       `);
-    }
-
-    if (!existingStoriesEntries) {
-      throw new Error(dedent`
-      ❌ Unable to determine Storybook stories globs, skipping ${chalk.cyan(fixId)} fix.
-      🤔 Are you running automigrate from your project directory?
-    `);
     }
 
     const nextStoriesEntries: StoriesEntry[] = [];
