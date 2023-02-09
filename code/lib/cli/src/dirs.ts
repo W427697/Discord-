@@ -1,4 +1,6 @@
+import { safeResolveFrom } from '@storybook/core-common';
 import { dirname } from 'path';
+import dedent from 'ts-dedent';
 import type { SupportedFrameworks, SupportedRenderers } from './project_types';
 import { externalFrameworks } from './project_types';
 
@@ -8,10 +10,16 @@ export function getCliDir() {
 
 export function getRendererDir(renderer: SupportedFrameworks | SupportedRenderers) {
   const externalFramework = externalFrameworks.find((framework) => framework.name === renderer);
-  const frameworkPackageName = externalFramework?.packageName ?? `@storybook/${renderer}`;
-  return dirname(
-    require.resolve(`${frameworkPackageName}/package.json`, {
-      paths: [process.cwd()],
-    })
-  );
+  const isExternal = externalFramework?.packageName;
+  const frameworkPackageName = isExternal ?? `@storybook/${renderer}`;
+
+  const found = safeResolveFrom(`${frameworkPackageName}/package.json`, process.cwd());
+
+  if (found) {
+    return dirname(found);
+  }
+
+  throw new Error(dedent`
+    Unable to find ${frameworkPackageName}, are you sure it's installed?
+  `);
 }

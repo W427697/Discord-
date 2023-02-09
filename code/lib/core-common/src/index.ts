@@ -17,6 +17,7 @@ export * from './utils/handlebars';
 export * from './utils/interpolate';
 export * from './utils/interpret-files';
 export * from './utils/interpret-require';
+export * from './utils/safeResolve';
 export * from './utils/load-custom-presets';
 export * from './utils/load-main-config';
 export * from './utils/load-manager-or-addons-file';

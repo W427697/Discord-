@@ -1,5 +1,6 @@
 import path from 'path';
 import fse from 'fs-extra';
+
 import type { CoreCommon_StorybookInfo, PackageJson } from '@storybook/types';
 import { getStorybookConfiguration } from './get-storybook-configuration';
 
