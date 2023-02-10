@@ -1,6 +1,6 @@
 {
   "name": "@storybook/codemod",
-  "version": "7.0.0-beta.45",
+  "version": "7.0.0-beta.46",
   "description": "A collection of codemod scripts written with JSCodeshift",
   "keywords": [
     "storybook"
@@ -50,9 +50,9 @@
     "@babel/preset-env": "^7.20.2",
     "@babel/types": "^7.20.7",
     "@storybook/csf": "next",
-    "@storybook/csf-tools": "7.0.0-beta.45",
-    "@storybook/node-logger": "7.0.0-beta.45",
-    "@storybook/types": "7.0.0-beta.45",
+    "@storybook/csf-tools": "7.0.0-beta.46",
+    "@storybook/node-logger": "7.0.0-beta.46",
+    "@storybook/types": "7.0.0-beta.46",
     "cross-spawn": "^7.0.3",
     "globby": "^11.0.2",
     "jscodeshift": "^0.14.0",

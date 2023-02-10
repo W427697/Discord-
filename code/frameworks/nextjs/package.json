@@ -1,6 +1,6 @@
 {
   "name": "@storybook/nextjs",
-  "version": "7.0.0-beta.45",
+  "version": "7.0.0-beta.46",
   "description": "Storybook for Next.js",
   "keywords": [
     "storybook",
@@ -60,13 +60,13 @@
   },
   "dependencies": {
     "@next/font": "^13.0.7",
-    "@storybook/addon-actions": "7.0.0-beta.45",
-    "@storybook/builder-webpack5": "7.0.0-beta.45",
-    "@storybook/core-common": "7.0.0-beta.45",
-    "@storybook/node-logger": "7.0.0-beta.45",
-    "@storybook/preset-react-webpack": "7.0.0-beta.45",
-    "@storybook/preview-api": "7.0.0-beta.45",
-    "@storybook/react": "7.0.0-beta.45",
+    "@storybook/addon-actions": "7.0.0-beta.46",
+    "@storybook/builder-webpack5": "7.0.0-beta.46",
+    "@storybook/core-common": "7.0.0-beta.46",
+    "@storybook/node-logger": "7.0.0-beta.46",
+    "@storybook/preset-react-webpack": "7.0.0-beta.46",
+    "@storybook/preview-api": "7.0.0-beta.46",
+    "@storybook/react": "7.0.0-beta.46",
     "@types/node": "^16.0.0",
     "find-up": "^5.0.0",
     "fs-extra": "^11.1.0",
