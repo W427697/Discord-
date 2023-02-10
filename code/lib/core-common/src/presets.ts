@@ -158,7 +158,7 @@ export const resolveAddonName = (
   if (resolved) {
     return {
       type: 'presets',
-      name: root,
+      name: resolved,
     };
   }
 
