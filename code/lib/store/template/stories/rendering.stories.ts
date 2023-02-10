@@ -55,8 +55,6 @@ export const ChangeArgs = {
     await button.focus();
     await expect(button).toHaveFocus();
 
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-
     // Web-components: https://github.com/storybookjs/storybook/issues/19415
     // Preact: https://github.com/storybookjs/storybook/issues/19504
 
@@ -64,9 +62,7 @@ export const ChangeArgs = {
 
     // When we change the args to the button, it should not remount
     await channel.emit(UPDATE_STORY_ARGS, { storyId: id, updatedArgs: { label: 'New Text' } });
-    await new Promise((resolve) => {
-      channel.once(STORY_ARGS_UPDATED, resolve);
-    });
+
     await within(canvasElement).findByText(/New Text/);
     await expect(button).toHaveFocus();
   },

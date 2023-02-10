@@ -1,6 +1,5 @@
 /* eslint-disable no-param-reassign */
-import { dedent } from 'ts-dedent';
-import { createApp, h, reactive, toRefs } from 'vue';
+import { createApp, h, reactive } from 'vue';
 import type { RenderContext, ArgsStoryFn } from '@storybook/types';
 import type { Args, StoryContext } from '@storybook/csf';
 import type { StoryFnVueReturnType, VueRenderer } from './types';
@@ -12,7 +11,7 @@ export const render: ArgsStoryFn<VueRenderer> = (props, context) => {
       `Unable to render story ${id} as the component annotation is missing from the default export`
     );
   }
-  console.log(' -*****- render props', props, context);
+
   return h(Component, props, getSlots(props, context));
 };
 
@@ -40,16 +39,13 @@ export function renderToCanvas(
   }: RenderContext<VueRenderer>,
   canvasElement: VueRenderer['canvasElement']
 ) {
-  let reactiveArgs = reactive(storyContext.args); // useReactive(storyContext);
   // fetch the story with the updated context (with reactive args)
-  storyContext.args = reactiveArgs;
+  storyContext.args = reactive(storyContext.args);
   const element: StoryFnVueReturnType = storyFn();
-  reactiveArgs = storyContext.args;
   elementMap.set(canvasElement, element);
 
-  // getting the props from the render function
   const props = (element as any).render?.().props;
-  if (props) reactiveArgs = reactive(props);
+  const reactiveArgs = props ? reactive(props) : storyContext.args;
 
   const existingApp = map.get(canvasElement);
   if (existingApp && !forceRemount) {
@@ -63,8 +59,8 @@ export function renderToCanvas(
 
   const storybookApp = createApp({
     render() {
-      const currentElement: any = elementMap.get(canvasElement);
-      const current = currentElement && currentElement.template ? currentElement : element; // elementMap.get(canvasElement) ??
+      const renderedElement: any = elementMap.get(canvasElement);
+      const current = renderedElement && renderedElement.template ? renderedElement : element;
       map.set(canvasElement, { vueApp: storybookApp, reactiveArgs });
       return h(current, reactiveArgs);
     },
