@@ -1,7 +1,6 @@
 /* eslint-disable no-param-reassign */
 import { createApp, h, reactive } from 'vue';
 import type { RenderContext, ArgsStoryFn } from '@storybook/types';
-
 import type { Args, StoryContext } from '@storybook/csf';
 import type { StoryFnVueReturnType, VueRenderer } from './types';
 
@@ -26,16 +25,21 @@ const map = new Map<
   { vueApp: ReturnType<typeof createApp>; reactiveArgs: any }
 >();
 
-let element: StoryFnVueReturnType;
+const elementMap = new Map<VueRenderer['canvasElement'], StoryFnVueReturnType>();
 
 export function renderToCanvas(
   { storyFn, forceRemount, showMain, showException, storyContext }: RenderContext<VueRenderer>,
   canvasElement: VueRenderer['canvasElement']
 ) {
-  const existingApp = map.get(canvasElement);
-  element = storyFn();
-  const reactiveArgs = reactive((element as any).render?.().props ?? storyContext.args);
+  // fetch the story with the updated context (with reactive args)
+  storyContext.args = reactive(storyContext.args);
+  const element: StoryFnVueReturnType = storyFn();
+  elementMap.set(canvasElement, element);
 
+  const props = (element as any).render?.().props;
+  const reactiveArgs = props ? reactive(props) : storyContext.args;
+
+  const existingApp = map.get(canvasElement);
   if (existingApp && !forceRemount) {
     updateArgs(existingApp.reactiveArgs, storyContext.args);
     return () => {
@@ -43,10 +47,14 @@ export function renderToCanvas(
     };
   }
 
+  if (existingApp && forceRemount) teardown(existingApp.vueApp, canvasElement);
+
   const storybookApp = createApp({
     render() {
+      const renderedElement: any = elementMap.get(canvasElement);
+      const current = renderedElement && renderedElement.template ? renderedElement : element;
       map.set(canvasElement, { vueApp: storybookApp, reactiveArgs });
-      return h(element, reactiveArgs);
+      return h(current, reactiveArgs);
     },
   });
 

@@ -1,5 +1,5 @@
 import type { ConcreteComponent, Component, ComponentOptions } from 'vue';
-import { h, isReactive, reactive } from 'vue';
+import { h } from 'vue';
 import type { DecoratorFunction, StoryContext, LegacyStoryFn } from '@storybook/types';
 import { sanitizeStoryContextUpdate } from '@storybook/preview-api';
 
@@ -47,13 +47,11 @@ export function decorateStory(
   return decorators.reduce(
     (decorated: LegacyStoryFn<VueRenderer>, decorator) => (context: StoryContext<VueRenderer>) => {
       let story: VueRenderer['storyResult'] | undefined;
-      if (!isReactive(context.args)) context.args = reactive(context.args);
 
       const decoratedStory: VueRenderer['storyResult'] = decorator((update) => {
-        const updatedArgs = update;
         story = decorated({
           ...context,
-          ...sanitizeStoryContextUpdate(updatedArgs),
+          ...sanitizeStoryContextUpdate(update),
         });
         return story;
       }, context);
@@ -66,12 +64,8 @@ export function decorateStory(
         return story;
       }
 
-      return prepare(decoratedStory, story) as VueRenderer['storyResult'];
+      return prepare(decoratedStory, h(story, context.args)) as VueRenderer['storyResult'];
     },
-    (context) => {
-      const story = storyFn(context);
-      const storyPrep = story.props ? h(story, context.args) : story;
-      return prepare(storyPrep) as LegacyStoryFn<VueRenderer>;
-    }
+    (context) => prepare(storyFn(context)) as LegacyStoryFn<VueRenderer>
   );
 }
