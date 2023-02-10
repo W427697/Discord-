@@ -22,6 +22,7 @@ const skipOnWindows = [
   'lib/csf-tools/src/enrichCsf.test.ts',
 ];
 
+/** @type { import('jest').Config } */
 module.exports = {
   cacheDirectory: path.resolve('.cache/jest'),
   clearMocks: true,
