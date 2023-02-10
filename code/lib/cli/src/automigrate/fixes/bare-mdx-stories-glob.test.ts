@@ -4,6 +4,7 @@
 import type { StorybookConfig } from '@storybook/types';
 import path from 'path';
 import type { JsPackageManager, PackageJson } from '../../js-package-manager';
+import { ansiRegex } from '../helpers/cleanLog';
 import type { BareMdxStoriesGlobRunOptions } from './bare-mdx-stories-glob';
 import { bareMdxStoriesGlob } from './bare-mdx-stories-glob';
 
@@ -179,26 +180,26 @@ describe('bare-mdx fix', () => {
         ],
       } as BareMdxStoriesGlobRunOptions);
 
-      expect(result).toMatchInlineSnapshot(`
+      expect(result.replaceAll(ansiRegex(), '')).toMatchInlineSnapshot(`
         "We've detected your project has one or more globs in your 'stories' config that matches .stories.mdx files:
-          [36m\\"../src/**/*.stories.@(js|jsx|mdx|ts|tsx)\\"[39m
-          [36m{[39m
-          [36m  \\"directory\\": \\"../src/**\\",[39m
-          [36m  \\"files\\": \\"*.stories.mdx\\"[39m
-          [36m}[39m
+          \\"../src/**/*.stories.@(js|jsx|mdx|ts|tsx)\\"
+          {
+            \\"directory\\": \\"../src/**\\",
+            \\"files\\": \\"*.stories.mdx\\"
+          }
 
         In Storybook 7, we have deprecated defining stories in MDX files, and consequently have changed the suffix to simply .mdx.
 
         We can automatically migrate your 'stories' config to include any .mdx file instead of just .stories.mdx.
         That would result in the following 'stories' config:
-          [36m\\"../src/**/*.mdx\\"[39m
-          [36m\\"../src/**/*.stories.@(js|jsx|ts|tsx)\\"[39m
-          [36m{[39m
-          [36m  \\"directory\\": \\"../src/**\\",[39m
-          [36m  \\"files\\": \\"*.mdx\\"[39m
-          [36m}[39m
+          \\"../src/**/*.mdx\\"
+          \\"../src/**/*.stories.@(js|jsx|ts|tsx)\\"
+          {
+            \\"directory\\": \\"../src/**\\",
+            \\"files\\": \\"*.mdx\\"
+          }
 
-        To learn more about this change, see: [33mhttps://github.com/storybookjs/storybook/blob/next/MIGRATION.md#mdx-docs-files[39m"
+        To learn more about this change, see: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#mdx-docs-files"
       `);
     });
   });
