@@ -1,9 +1,9 @@
 import path from 'path';
-import { readJSON, writeJSON, outputFile } from 'fs-extra';
+import { readJSON, writeJSON, outputFile, pathExists } from 'fs-extra';
 import type { ExecOptions } from 'shelljs';
 import shell from 'shelljs';
 import chalk from 'chalk';
-import { command } from 'execa';
+import { command as execaCommand } from 'execa';
 import { cra, cra_typescript } from './configs';
 import storybookVersions from '../versions';
 
@@ -51,7 +51,6 @@ export interface Options extends Parameters {
 }
 
 export const exec = async (
-  // eslint-disable-next-line @typescript-eslint/no-shadow
   command: string,
   options: ExecOptions = {},
   {
@@ -106,11 +105,9 @@ const addLocalPackageResolutions = async ({ cwd }: Options) => {
   const packageJsonPath = path.join(cwd, 'package.json');
   const packageJson = await readJSON(packageJsonPath);
   const workspaceDir = path.join(__dirname, '..', '..', '..', '..', '..');
-  const { stdout } = await command('yarn workspaces list --json', { cwd: workspaceDir });
+  const { stdout } = await execaCommand('yarn workspaces list --json', { cwd: workspaceDir });
 
-  console.log({ stdout, workspaceDir });
   const workspaces = JSON.parse(`[${stdout.split('\n').join(',')}]`);
-  console.log({ workspaces });
 
   packageJson.resolutions = Object.keys(storybookVersions).reduce((acc, key) => {
     return {
@@ -122,12 +119,17 @@ const addLocalPackageResolutions = async ({ cwd }: Options) => {
 };
 
 const installYarn2 = async ({ cwd, pnp, name }: Options) => {
-  // eslint-disable-next-line @typescript-eslint/no-shadow
-  const command = [
-    `yarn set version berry`,
-    `yarn config set enableGlobalCache true`,
-    `yarn config set nodeLinker ${pnp ? 'pnp' : 'node-modules'}`,
-  ];
+  const { stdout } = await execaCommand(`yarn config --json`, { cwd });
+  const pnpApiExists = await pathExists(path.join(cwd, '.pnp.cjs'));
+
+  const data = JSON.parse(`[${stdout.replaceAll('\n', ',')}]`);
+  const nodeLinkerConfig = data.find((d: any) => d.key === 'nodeLinker');
+
+  const command = [`yarn set version berry`, `yarn config set enableGlobalCache true`];
+
+  if (!nodeLinkerConfig.source && !pnpApiExists) {
+    command.push(`yarn config set nodeLinker node-modules`);
+  }
 
   // FIXME: Some dependencies used by CRA aren't listed in its package.json
   // Next line is a hack to remove as soon as CRA will have added these missing deps
@@ -146,7 +148,6 @@ const installYarn2 = async ({ cwd, pnp, name }: Options) => {
 };
 
 const configureYarn2ForE2E = async ({ cwd }: Options) => {
-  // eslint-disable-next-line @typescript-eslint/no-shadow
   const command = [
     // ⚠️ Need to set registry because Yarn 2 is not using the conf of Yarn 1 (URL is hardcoded in CircleCI config.yml)
     `yarn config set npmScopes --json '{ "storybook": { "npmRegistryServer": "http://localhost:6001/" } }'`,
@@ -168,7 +169,6 @@ const configureYarn2ForE2E = async ({ cwd }: Options) => {
 };
 
 const generate = async ({ cwd, name, appName, version, generator, envs }: Options) => {
-  // eslint-disable-next-line @typescript-eslint/no-shadow
   const command = generator.replace(/{{appName}}/g, appName).replace(/{{version}}/g, version);
 
   await exec(
@@ -204,7 +204,6 @@ const initStorybook = async ({ cwd, autoDetect = true, name, e2e }: Options) => 
   // This is bundled into a single javascript file.
   const sbCLICommand = `node ${__filename}`;
 
-  // eslint-disable-next-line @typescript-eslint/no-shadow
   const command = `${sbCLICommand} init ${flags.join(' ')}`;
 
   await exec(
@@ -221,7 +220,6 @@ const addRequiredDeps = async ({ cwd, additionalDeps }: Options) => {
   // Remove any lockfile generated without Yarn 2
   shell.rm('-f', path.join(cwd, 'package-lock.json'), path.join(cwd, 'yarn.lock'));
 
-  // eslint-disable-next-line @typescript-eslint/no-shadow
   const command =
     additionalDeps && additionalDeps.length > 0
       ? `yarn add -D ${additionalDeps.join(' ')}`
@@ -307,7 +305,9 @@ export const createAndInit = async (
   if (local) {
     await doTask(addLocalPackageResolutions, options);
   }
+
   await doTask(installYarn2, options);
+
   if (e2e) {
     await doTask(configureYarn2ForE2E, options, e2e);
   }
