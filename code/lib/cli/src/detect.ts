@@ -101,20 +101,20 @@ export function detectFrameworkPreset(
 }
 
 /**
- * Attempts to detect which builder to use, by searching for a vite config file.  If one is found, the vite builder
- * will be used, otherwise, webpack5 is the default.
+ * Attempts to detect which builder to use, by searching for a vite config file or webpack installation.
+ * If neither are found it will choose the default builder based on the project type.
  *
  * @returns CoreBuilder
  */
 export function detectBuilder(packageManager: JsPackageManager, projectType: ProjectType) {
   const viteConfig = findUp.sync(viteConfigFiles);
   if (viteConfig) {
-    paddedLog('Detected vite project, setting builder to @storybook/builder-vite');
+    paddedLog('Detected Vite project. Setting builder to Vite');
     return CoreBuilder.Vite;
   }
 
   if (detectWebpack(packageManager)) {
-    paddedLog('Detected webpack project, setting builder to webpack');
+    paddedLog('Detected webpack project. Setting builder to webpack');
     return CoreBuilder.Webpack5;
   }
 
