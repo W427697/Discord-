@@ -48,6 +48,7 @@
     "@types/node": "^16.0.0",
     "@types/pretty-hrtime": "^1.0.0",
     "chalk": "^4.1.0",
+    "esbuild": "^0.16.4",
     "esbuild-register": "^3.3.3",
     "file-system-cache": "^2.0.0",
     "find-up": "^5.0.0",
