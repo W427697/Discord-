@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, InjectionToken, NgModule, Provider } from '@angular/core';
+import { HttpClientModule, provideHttpClient } from '@angular/common/http';
+import { InjectionToken, NgModule, Provider } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import {
   BrowserAnimationsModule,
@@ -39,6 +40,13 @@ const analyzeRestricted = (ngModule: NgModule) => {
    */
   if (ngModule === NoopAnimationsModule) {
     return [true, provideNoopAnimations()];
+  }
+
+  /**
+   * HttpClient has to be provided manually as a singleton
+   */
+  if (ngModule === HttpClientModule) {
+    return [true, provideHttpClient()];
   }
 
   return [false];
