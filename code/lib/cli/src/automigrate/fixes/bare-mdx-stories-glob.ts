@@ -17,20 +17,21 @@ export interface BareMdxStoriesGlobRunOptions {
   nextStoriesEntries: StoriesEntry[];
 }
 
-const getNextGlobs = (glob: string) => {
-  const nextGlobs: string[] = [];
-  const regexMatch = glob.match(/(.*)\.stories\.@\(.*mdx.*\)$/i);
-  if (regexMatch) {
-    nextGlobs.push(glob.replaceAll('mdx|', '').replaceAll('|mdx', ''));
-    nextGlobs.push(`${regexMatch[1]}.mdx`);
-    return nextGlobs;
+const getNextGlob = (glob: string) => {
+  // '../src/**/*.stories.@(mdx|js|jsx|ts|tsx)' -> '../src/**/*.@(mdx|stories.@(js|jsx|ts|tsx))'
+  const extGlobsRegex = new RegExp(/(.*\.)(stories\.@.*)(\|mdx|mdx\|)(.*)$/i);
+  if (glob.match(extGlobsRegex)) {
+    return glob.replace(extGlobsRegex, '$1@(mdx|$2$4)');
   }
-  nextGlobs.push(glob.replaceAll('.stories.mdx', '.mdx'));
-  if (glob.includes('.stories.*')) {
-    // add a second entry similar to the existing *.stories.*, but for *.mdx
-    nextGlobs.push(glob.replaceAll('.stories.*', '.mdx'));
+
+  // '../src/**/*.stories.*' -> '../src/**/*.@(mdx|stories.*)'
+  const allStoriesExtensionsRegex = new RegExp(/(.*\.)(stories\.\*)$/i);
+  if (glob.match(allStoriesExtensionsRegex)) {
+    return glob.replace(allStoriesExtensionsRegex, '$1@(mdx|$2)');
   }
-  return nextGlobs;
+
+  // '../src/**/*.stories.mdx' -> '../src/**/*.mdx'
+  return glob.replaceAll('.stories.mdx', '.mdx');
 };
 
 export const bareMdxStoriesGlob: Fix<BareMdxStoriesGlobRunOptions> = {
@@ -81,24 +82,17 @@ export const bareMdxStoriesGlob: Fix<BareMdxStoriesGlobRunOptions> = {
       `);
     }
 
-    const nextStoriesEntries: StoriesEntry[] = [];
-
-    existingStoriesEntries.forEach((entry) => {
+    const nextStoriesEntries = existingStoriesEntries.map((entry) => {
       const isSpecifier = typeof entry !== 'string';
       const glob = isSpecifier ? entry.files : entry;
 
       if (!glob) {
         // storySpecifier without the 'files' property. Just add the existing to the next list
-        nextStoriesEntries.push(entry);
-        return;
+        return entry;
       }
 
-      const nextGlobs = getNextGlobs(glob);
-      if (isSpecifier) {
-        nextStoriesEntries.push(...nextGlobs.map((nextGlob) => ({ ...entry, files: nextGlob })));
-      } else {
-        nextStoriesEntries.push(...nextGlobs);
-      }
+      const nextGlob = getNextGlob(glob);
+      return isSpecifier ? { ...entry, files: nextGlob } : nextGlob;
     });
 
     // bails if there are no changes

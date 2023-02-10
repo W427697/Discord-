@@ -101,19 +101,19 @@ describe('bare-mdx fix', () => {
       },
       {
         existingStoriesEntries: ['../src/**/*.stories.*'],
-        expectedStoriesEntries: ['../src/**/*.stories.*', '../src/**/*.mdx'],
+        expectedStoriesEntries: ['../src/**/*.@(mdx|stories.*)'],
       },
       {
         existingStoriesEntries: ['../src/**/*.stories.@(mdx|js|jsx|ts|tsx)'],
-        expectedStoriesEntries: ['../src/**/*.stories.@(js|jsx|ts|tsx)', '../src/**/*.mdx'],
+        expectedStoriesEntries: ['../src/**/*.@(mdx|stories.@(js|jsx|ts|tsx))'],
       },
       {
         existingStoriesEntries: ['../src/**/*.stories.@(js|jsx|mdx|ts|tsx)'],
-        expectedStoriesEntries: ['../src/**/*.stories.@(js|jsx|ts|tsx)', '../src/**/*.mdx'],
+        expectedStoriesEntries: ['../src/**/*.@(mdx|stories.@(js|jsx|ts|tsx))'],
       },
       {
         existingStoriesEntries: ['../src/**/*.stories.@(js|jsx|ts|tsx|mdx)'],
-        expectedStoriesEntries: ['../src/**/*.stories.@(js|jsx|ts|tsx)', '../src/**/*.mdx'],
+        expectedStoriesEntries: ['../src/**/*.@(mdx|stories.@(js|jsx|ts|tsx))'],
       },
     ])(
       'strings: $existingStoriesEntries',
@@ -137,18 +137,14 @@ describe('bare-mdx fix', () => {
       },
       {
         existingStoriesEntries: [{ directory: '../src/**', files: '*.stories.*' }],
-        expectedStoriesEntries: [
-          { directory: '../src/**', files: '*.stories.*' },
-          { directory: '../src/**', files: '*.mdx' },
-        ],
+        expectedStoriesEntries: [{ directory: '../src/**', files: '*.@(mdx|stories.*)' }],
       },
       {
         existingStoriesEntries: [
           { directory: '../src/**', files: '*.stories.@(js|jsx|ts|tsx|mdx)' },
         ],
         expectedStoriesEntries: [
-          { directory: '../src/**', files: '*.stories.@(js|jsx|ts|tsx)' },
-          { directory: '../src/**', files: '*.mdx' },
+          { directory: '../src/**', files: '*.@(mdx|stories.@(js|jsx|ts|tsx))' },
         ],
       },
     ])(
