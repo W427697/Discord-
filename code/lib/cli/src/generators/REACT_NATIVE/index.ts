@@ -1,8 +1,7 @@
-import { join } from 'path';
-import { getBabelDependencies, copyTemplate } from '../../helpers';
-import { getCliDir } from '../../dirs';
+import { copyTemplateFiles, getBabelDependencies } from '../../helpers';
 import type { JsPackageManager } from '../../js-package-manager';
 import type { NpmOptions } from '../../NpmOptions';
+import { SupportedLanguage } from '../../project_types';
 
 const generator = async (
   packageManager: JsPackageManager,
@@ -48,8 +47,14 @@ const generator = async (
     'storybook-watch': 'sb-rn-watcher',
   });
 
-  const templateDir = join(getCliDir(), 'templates', 'react-native');
-  copyTemplate(templateDir);
+  const storybookConfigFolder = '.storybook';
+
+  await copyTemplateFiles({
+    renderer: 'react-native',
+    language: SupportedLanguage.JAVASCRIPT,
+    destination: storybookConfigFolder,
+    includeCommonAssets: false,
+  });
 };
 
 export default generator;

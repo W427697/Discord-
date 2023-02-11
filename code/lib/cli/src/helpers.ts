@@ -186,17 +186,25 @@ export function copyTemplate(templateRoot: string, destination = '.') {
   fse.copySync(templateDir, destination, { overwrite: true });
 }
 
-export async function copyComponents(
-  renderer: SupportedFrameworks | SupportedRenderers,
-  language: SupportedLanguage,
-  destination?: string
-) {
+type CopyComponentsOptions = {
+  renderer: SupportedFrameworks | SupportedRenderers;
+  language: SupportedLanguage;
+  includeCommonAssets?: boolean;
+  destination?: string;
+};
+
+export async function copyTemplateFiles({
+  renderer,
+  language,
+  destination,
+  includeCommonAssets = true,
+}: CopyComponentsOptions) {
   const languageFolderMapping: Record<SupportedLanguage, string> = {
     [SupportedLanguage.JAVASCRIPT]: 'js',
     [SupportedLanguage.TYPESCRIPT]: 'ts',
     [SupportedLanguage.TYPESCRIPT_LEGACY]: 'ts-legacy',
   };
-  const componentsPath = async () => {
+  const templatePath = async () => {
     const baseDir = getRendererDir(renderer);
     const assetsDir = join(baseDir, 'template/cli');
 
@@ -234,10 +242,12 @@ export async function copyComponents(
   };
 
   const destinationPath = destination ?? (await targetPath());
-  await fse.copy(join(getCliDir(), 'rendererAssets/common'), destinationPath, {
-    overwrite: true,
-  });
-  await fse.copy(await componentsPath(), destinationPath, { overwrite: true });
+  if (includeCommonAssets) {
+    await fse.copy(join(getCliDir(), 'rendererAssets/common'), destinationPath, {
+      overwrite: true,
+    });
+  }
+  await fse.copy(await templatePath(), destinationPath, { overwrite: true });
 }
 
 // Given a package.json, finds any official storybook package within it
