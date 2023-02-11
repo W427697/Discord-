@@ -7,7 +7,7 @@ import { ICollection, Parameters, StoryFnAngularReturnType } from '../types';
 import { getApplication } from './StorybookModule';
 import { storyPropsProvider } from './StorybookProvider';
 import { componentNgModules } from './StorybookWrapperComponent';
-import { extractSingletons } from './utils/PropertyExtractor';
+import { PropertyExtractor } from './utils/PropertyExtractor';
 
 type StoryRenderInfo = {
   storyFnAngular: StoryFnAngularReturnType;
@@ -120,9 +120,12 @@ export abstract class AbstractRenderer {
 
     this.initAngularRootElement(targetDOMNode, targetSelector);
 
+    const analyzedMetadata = new PropertyExtractor(storyFnAngular.moduleMetadata, component);
     const providers = [
       // Providers for BrowserAnimations & NoopAnimationsModule
-      extractSingletons(storyFnAngular.moduleMetadata),
+      analyzedMetadata.singletons,
+      analyzedMetadata.providers,
+      analyzedMetadata.dependencies,
       storyPropsProvider(newStoryProps$),
     ];
 

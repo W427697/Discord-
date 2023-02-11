@@ -10,6 +10,8 @@ export interface NgModuleMetadata {
   imports?: any[];
   schemas?: any[];
   providers?: any[];
+  singletons?: any[];
+  dependencies?: any[];
 }
 export interface ICollection {
   [p: string]: any;

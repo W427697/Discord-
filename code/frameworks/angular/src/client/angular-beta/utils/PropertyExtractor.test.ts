@@ -7,15 +7,9 @@ import {
   provideAnimations,
   provideNoopAnimations,
 } from '@angular/platform-browser/animations';
-import { HttpClientModule } from '@angular/common/http';
-import {
-  analyzeMetadata,
-  extractDeclarations,
-  extractImports,
-  extractProviders,
-  extractSingletons,
-  REMOVED_MODULES,
-} from './PropertyExtractor';
+import { provideHttpClient } from '@angular/common/http';
+import { NgModuleMetadata } from '../../types';
+import { PropertyExtractor, REMOVED_MODULES } from './PropertyExtractor';
 import { WithAnimationsModule, WithOfficialModule } from '../__testfixtures__/test.module';
 
 const TEST_TOKEN = new InjectionToken('testToken');
@@ -31,6 +25,26 @@ const TestModuleWithImportsAndProviders = NgModule({
   providers: [TestTokenProvider],
 })(class {});
 
+const analyzeMetadata = (metadata: NgModuleMetadata, component?: any) => {
+  return new PropertyExtractor(metadata, component);
+};
+const extractImports = (metadata: NgModuleMetadata, component?: any) => {
+  const { imports } = new PropertyExtractor(metadata, component);
+  return imports;
+};
+const extractDeclarations = (metadata: NgModuleMetadata, component?: any) => {
+  const { declarations } = new PropertyExtractor(metadata, component);
+  return declarations;
+};
+const extractProviders = (metadata: NgModuleMetadata, component?: any) => {
+  const { providers } = new PropertyExtractor(metadata, component);
+  return providers;
+};
+const extractSingletons = (metadata: NgModuleMetadata, component?: any) => {
+  const { singletons } = new PropertyExtractor(metadata, component);
+  return singletons;
+};
+
 describe('PropertyExtractor', () => {
   describe('analyzeMetadata', () => {
     it('should remove BrowserModule', () => {
@@ -38,7 +52,7 @@ describe('PropertyExtractor', () => {
         imports: [BrowserModule],
       };
       const { imports, providers, singletons } = analyzeMetadata(metadata);
-      expect(imports.flat(Number.MAX_VALUE)).toEqual([]);
+      expect(imports.flat(Number.MAX_VALUE)).toEqual([CommonModule]);
       expect(providers.flat(Number.MAX_VALUE)).toEqual([]);
       expect(singletons.flat(Number.MAX_VALUE)).toEqual([]);
     });
@@ -48,7 +62,7 @@ describe('PropertyExtractor', () => {
         imports: [BrowserAnimationsModule],
       };
       const { imports, providers, singletons } = analyzeMetadata(metadata);
-      expect(imports.flat(Number.MAX_VALUE)).toEqual([]);
+      expect(imports.flat(Number.MAX_VALUE)).toEqual([CommonModule]);
       expect(providers.flat(Number.MAX_VALUE)).toEqual([]);
       expect(singletons.flat(Number.MAX_VALUE)).toEqual(provideAnimations());
     });
@@ -58,7 +72,7 @@ describe('PropertyExtractor', () => {
         imports: [NoopAnimationsModule],
       };
       const { imports, providers, singletons } = analyzeMetadata(metadata);
-      expect(imports.flat(Number.MAX_VALUE)).toEqual([]);
+      expect(imports.flat(Number.MAX_VALUE)).toEqual([CommonModule]);
       expect(providers.flat(Number.MAX_VALUE)).toEqual([]);
       expect(singletons.flat(Number.MAX_VALUE)).toEqual(provideNoopAnimations());
     });
@@ -68,7 +82,7 @@ describe('PropertyExtractor', () => {
         imports: [WithAnimationsModule],
       };
       const { imports, providers, singletons } = analyzeMetadata(metadata);
-      expect(imports.flat(Number.MAX_VALUE)).toEqual([]);
+      expect(imports.flat(Number.MAX_VALUE)).toEqual([CommonModule]);
       expect(providers.flat(Number.MAX_VALUE)).toEqual([
         { provide: REMOVED_MODULES, useValue: WithAnimationsModule, multi: true },
       ]);
@@ -80,11 +94,11 @@ describe('PropertyExtractor', () => {
         imports: [WithOfficialModule],
       };
       const { imports, providers, singletons } = analyzeMetadata(metadata);
-      expect(imports.flat(Number.MAX_VALUE)).toEqual([CommonModule, HttpClientModule]);
+      expect(imports.flat(Number.MAX_VALUE)).toEqual([CommonModule]);
       expect(providers.flat(Number.MAX_VALUE)).toEqual([
         { provide: REMOVED_MODULES, useValue: WithOfficialModule, multi: true },
       ]);
-      expect(singletons.flat(Number.MAX_VALUE)).toEqual([]);
+      expect(singletons.flat(Number.MAX_VALUE)).toEqual([provideHttpClient()]);
     });
   });
 
