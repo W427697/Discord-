@@ -41,7 +41,7 @@ export function renderToCanvas(
 
   const existingApp = map.get(canvasElement);
   if (existingApp && !forceRemount) {
-    updateArgs(existingApp.reactiveArgs, storyContext.args);
+    updateArgs(existingApp.reactiveArgs, reactiveArgs);
     return () => {
       teardown(existingApp.vueApp, canvasElement);
     };
