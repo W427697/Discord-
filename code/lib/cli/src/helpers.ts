@@ -186,7 +186,7 @@ export function copyTemplate(templateRoot: string, destination = '.') {
   fse.copySync(templateDir, destination, { overwrite: true });
 }
 
-type CopyComponentsOptions = {
+type CopyTemplateFilesOptions = {
   renderer: SupportedFrameworks | SupportedRenderers;
   language: SupportedLanguage;
   includeCommonAssets?: boolean;
@@ -198,7 +198,7 @@ export async function copyTemplateFiles({
   language,
   destination,
   includeCommonAssets = true,
-}: CopyComponentsOptions) {
+}: CopyTemplateFilesOptions) {
   const languageFolderMapping: Record<SupportedLanguage, string> = {
     [SupportedLanguage.JAVASCRIPT]: 'js',
     [SupportedLanguage.TYPESCRIPT]: 'ts',
