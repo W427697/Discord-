@@ -25,9 +25,9 @@ const generator = async (
   const packagesWithFixedVersion = [
     '@storybook/addon-actions@^6.5.14',
     '@storybook/addon-controls@^6.5.14',
-    '@storybook/addon-ondevice-controls@6.0.1-beta.12',
-    '@storybook/addon-ondevice-actions@6.0.1-beta.12',
-    '@storybook/react-native@6.0.1-beta.12',
+    '@storybook/addon-ondevice-controls@6.5.0-rc.0',
+    '@storybook/addon-ondevice-actions@6.5.0-rc.0',
+    '@storybook/react-native@6.5.0-rc.0',
   ];
 
   const resolvedPackages = await packageManager.getVersionedPackages(packagesToResolve);
