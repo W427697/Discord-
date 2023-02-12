@@ -1,12 +1,13 @@
-import { NgModule, enableProdMode, Type, ApplicationRef } from '@angular/core';
+import { ApplicationRef, enableProdMode, NgModule } from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
 
-import { Subject, BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { stringify } from 'telejson';
-import { ICollection, StoryFnAngularReturnType, Parameters } from '../types';
+import { ICollection, Parameters, StoryFnAngularReturnType } from '../types';
 import { getApplication } from './StorybookModule';
 import { storyPropsProvider } from './StorybookProvider';
 import { componentNgModules } from './StorybookWrapperComponent';
+import { extractSingletons } from './utils/PropertyExtractor';
 
 type StoryRenderInfo = {
   storyFnAngular: StoryFnAngularReturnType;
@@ -119,11 +120,15 @@ export abstract class AbstractRenderer {
 
     this.initAngularRootElement(targetDOMNode, targetSelector);
 
+    const providers = [
+      // Providers for BrowserAnimations & NoopAnimationsModule
+      extractSingletons(storyFnAngular.moduleMetadata),
+      storyPropsProvider(newStoryProps$),
+    ];
+
     const application = getApplication({ storyFnAngular, component, targetSelector });
 
-    const applicationRef = await bootstrapApplication(application, {
-      providers: [storyPropsProvider(newStoryProps$)],
-    });
+    const applicationRef = await bootstrapApplication(application, { providers });
 
     applicationRefs.add(applicationRef);
 

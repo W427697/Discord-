@@ -119,6 +119,8 @@ export class ConfigFile {
 
   fileName?: string;
 
+  hasDefaultExport = false;
+
   constructor(ast: t.File, code: string, fileName?: string) {
     this._ast = ast;
     this._code = code;
@@ -131,10 +133,14 @@ export class ConfigFile {
     traverse.default(this._ast, {
       ExportDefaultDeclaration: {
         enter({ node, parent }) {
-          const decl =
+          self.hasDefaultExport = true;
+          let decl =
             t.isIdentifier(node.declaration) && t.isProgram(parent)
               ? _findVarInitialization(node.declaration.name, parent)
               : node.declaration;
+          if (t.isTSAsExpression(decl) || t.isTSSatisfiesExpression(decl)) {
+            decl = decl.expression;
+          }
 
           if (t.isObjectExpression(decl)) {
             self._exportsObject = decl;
@@ -315,6 +321,7 @@ export class ConfigFile {
       value = node.value;
     } else if (t.isObjectExpression(node)) {
       node.properties.forEach((prop) => {
+        // { framework: { name: 'value' } }
         if (
           t.isObjectProperty(prop) &&
           t.isIdentifier(prop.key) &&
@@ -323,6 +330,16 @@ export class ConfigFile {
           if (t.isStringLiteral(prop.value)) {
             value = prop.value.value;
           }
+        }
+
+        // { "framework": { "name": "value" } }
+        if (
+          t.isObjectProperty(prop) &&
+          t.isStringLiteral(prop.key) &&
+          prop.key.value === 'name' &&
+          t.isStringLiteral(prop.value)
+        ) {
+          value = prop.value.value;
         }
       });
     }

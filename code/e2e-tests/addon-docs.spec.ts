@@ -1,3 +1,4 @@
+/* eslint-disable jest/valid-title */
 /* eslint-disable jest/no-disabled-tests */
 /* eslint-disable no-await-in-loop */
 import { test, expect } from '@playwright/test';
@@ -16,7 +17,6 @@ test.describe('addon-docs', () => {
   test('should provide source snippet', async ({ page }) => {
     // templateName is e.g. 'Vue-CLI (Default JS)'
     test.skip(
-      // eslint-disable-next-line jest/valid-title
       /^(vue3|vue-cli|preact)/i.test(`${templateName}`),
       `Skipping ${templateName}, which does not support dynamic source snippets`
     );
@@ -54,16 +54,23 @@ test.describe('addon-docs', () => {
   });
 
   test('should order entries correctly', async ({ page }) => {
+    // TODO: This is broken in SSV6 Webpack. Context: https://github.com/storybookjs/storybook/issues/20941
+    test.skip(
+      templateName.includes('ssv6-webpack'),
+      `${templateName} fails because of a known issue: https://github.com/storybookjs/storybook/issues/20941`
+    );
+
     const sbPage = new SbPage(page);
     await sbPage.navigateToStory('addons/docs/docspage/basic', 'docs');
 
     // The `<Primary>` block should render the "Basic" story, and the `<Stories/>` block should
     // render both the "Basic" and "Another" story
     const root = sbPage.previewRoot();
-    const stories = root.locator('.sbdocs-h3');
+    const stories = root.locator('.sb-story button');
 
-    await expect(await stories.count()).toBe(2);
+    await expect(await stories.count()).toBe(3);
     await expect(stories.first()).toHaveText('Basic');
+    await expect(stories.nth(1)).toHaveText('Basic');
     await expect(stories.last()).toHaveText('Another');
   });
 });

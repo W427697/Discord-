@@ -7,7 +7,6 @@ import type {
   UserConfig as ViteConfig,
   InlineConfig,
 } from 'vite';
-import { viteExternalsPlugin } from 'vite-plugin-externals';
 import { isPreservingSymlinks, getFrameworkName, getBuilderOptions } from '@storybook/core-common';
 import { globals } from '@storybook/preview/globals';
 import type { Options } from '@storybook/types';
@@ -17,7 +16,9 @@ import {
   injectExportOrderPlugin,
   mdxPlugin,
   stripStoryHMRBoundary,
+  externalGlobalsPlugin,
 } from './plugins';
+
 import type { BuilderOptions } from './types';
 
 export type PluginConfigType = 'build' | 'development';
@@ -63,7 +64,7 @@ export async function commonConfig(
     },
     // If an envPrefix is specified in the vite config, add STORYBOOK_ to it,
     // otherwise, add VITE_ and STORYBOOK_ so that vite doesn't lose its default.
-    envPrefix: userConfig.envPrefix ? 'STORYBOOK_' : ['VITE_', 'STORYBOOK_'],
+    envPrefix: userConfig.envPrefix ? ['STORYBOOK_'] : ['VITE_', 'STORYBOOK_'],
   };
 
   const config: ViteConfig = mergeConfig(userConfig, sbConfig);
@@ -93,7 +94,7 @@ export async function pluginConfig(options: Options) {
         }
       },
     },
-    viteExternalsPlugin(globals, { useWindow: false, disableInServe: true }),
+    await externalGlobalsPlugin(globals),
   ] as PluginOption[];
 
   // TODO: framework doesn't exist, should move into framework when/if built
