@@ -250,6 +250,13 @@ export class ConfigFile {
       this._exports[path[0]] = expr;
     } else if (exportNode && t.isObjectExpression(exportNode) && rest.length > 0) {
       _updateExportNode(rest, expr, exportNode);
+    } else if (this.hasDefaultExport) {
+      // This means the main.js of the user has a default export that is not an object expression, therefore we can't change the AST.
+      throw new Error(
+        `Could not set the "${path.join(
+          '.'
+        )}" field as the default export is not an object in this file.`
+      );
     } else {
       // create a new named export and add it to the top level
       const exportObj = _makeObjectExpression(rest, expr);
