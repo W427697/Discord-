@@ -1,13 +1,14 @@
 import chalk from 'chalk';
 import dedent from 'ts-dedent';
 import semver from 'semver';
-import type { ConfigFile } from '@storybook/csf-tools';
 import { readConfig, writeConfig } from '@storybook/csf-tools';
-import { getStorybookInfo } from '@storybook/core-common';
+import type { Preset } from '@storybook/types';
+import { getStorybookInfo, loadMainConfig, rendererPackages } from '@storybook/core-common';
 
 import type { Fix } from '../types';
 import type { PackageJsonWithDepsAndDevDeps } from '../../js-package-manager';
 import { getStorybookVersionSpecifier } from '../../helpers';
+import { detectRenderer } from '../helpers/detectRenderer';
 
 const logger = console;
 
@@ -23,13 +24,15 @@ const packagesMap: Record<string, { webpack5?: string; vite?: string }> = {
   '@storybook/server': {
     webpack5: '@storybook/server-webpack5',
   },
+  '@storybook/ember': {
+    webpack5: '@storybook/ember',
+  },
   '@storybook/angular': {
     webpack5: '@storybook/angular',
   },
   '@storybook/vue': {
     webpack5: '@storybook/vue-webpack5',
-    // TODO: bring this back if we ever want to support vue 2 + vite. Else delete this!
-    // vite: '@storybook/vue-vite',
+    vite: '@storybook/vue-vite',
   },
   '@storybook/vue3': {
     webpack5: '@storybook/vue3-webpack5',
@@ -50,11 +53,13 @@ const packagesMap: Record<string, { webpack5?: string; vite?: string }> = {
 };
 
 interface NewFrameworkRunOptions {
-  main: ConfigFile;
+  mainConfigPath: string;
   packageJson: PackageJsonWithDepsAndDevDeps;
   dependenciesToAdd: string[];
   dependenciesToRemove: string[];
+  hasFrameworkInMainConfig: boolean;
   frameworkPackage: string;
+  renderer: string;
   frameworkOptions: Record<string, any>;
   builderInfo: {
     name: string;
@@ -62,62 +67,49 @@ interface NewFrameworkRunOptions {
   };
 }
 
-export const getBuilder = (builder: string | { name: string }) => {
+export const getBuilderInfo = (
+  builder: string | Preset
+): { name: 'vite' | 'webpack5'; options: any } => {
   if (typeof builder === 'string') {
-    return builder.includes('vite') ? 'vite' : 'webpack5';
+    return {
+      name: builder.includes('vite') ? 'vite' : 'webpack5',
+      options: {},
+    };
   }
 
-  return builder?.name.includes('vite') ? 'vite' : 'webpack5';
-};
-
-export const getFrameworkOptions = (framework: string, main: ConfigFile) => {
-  let frameworkOptions = {};
-  try {
-    frameworkOptions = main.getFieldValue([`${framework}Options`]);
-  } catch (e) {
-    logger.warn(dedent`
-      Unable to get the ${framework}Options field.
-      
-      Please review the changes made to your main.js config and make any necessary changes.
-      The ${framework}Options should be moved to the framework.options field.
-
-      The following error occurred when we tried to get the ${framework}Options field:
-    `);
-    console.log(e);
-  }
-  return frameworkOptions || {};
+  return {
+    name: builder?.name.includes('vite') ? 'vite' : 'webpack5',
+    options: builder?.options || {},
+  };
 };
 
 /**
- * Does the user have separate framework and builders (e.g. @storybook/react + core.builder -> webpack5?
+ * Does the user have separate framework and builders (e.g. @storybook/react + core.builder -> webpack5)?
  *
  * If so:
  * - Remove the dependencies (@storybook/react + @storybook/builder-webpack5 + @storybook/manager-webpack5)
  * - Install the correct new package e.g. (@storybook/react-webpack5)
  * - Update the main config to use the new framework
  * -- moving core.builder into framework.options.builder
- * -- moving frameworkOptions (e.g. reactOptions) into framework.options
+ * -- moving renderer options (e.g. reactOptions) into framework.options
+ * -- removing the now unnecessary fields in main.js
  */
 export const newFrameworks: Fix<NewFrameworkRunOptions> = {
   id: 'newFrameworks',
 
-  async check({ packageManager, configDir, frameworkPackage: userDefinedFrameworkPackage }) {
+  async check({
+    packageManager,
+    configDir: userDefinedConfigDir,
+    rendererPackage: userDefinedRendererPackage,
+  }) {
     const packageJson = packageManager.retrievePackageJson();
     const allDeps = { ...packageJson.dependencies, ...packageJson.devDependencies };
 
-    if (configDir) {
-      logger.info(`📦 Storybook config directory: `, configDir);
-    }
-    // FIXME: update to use renderer instead of framework
     const {
-      mainConfig,
+      mainConfig: mainConfigPath,
       version: storybookVersion,
-      framework,
-    } = getStorybookInfo(packageJson, configDir, userDefinedFrameworkPackage);
-    if (!mainConfig) {
-      logger.warn('Unable to find storybook main.js config, skipping');
-      return null;
-    }
+      configDir: configDirFromScript,
+    } = getStorybookInfo(packageJson, userDefinedConfigDir);
 
     const storybookCoerced = storybookVersion && semver.coerce(storybookVersion)?.version;
     if (!storybookCoerced) {
@@ -131,36 +123,54 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
       return null;
     }
 
-    // If in the future the eslint plugin has a framework option, using main to extract the framework field will be very useful
-    const main = await readConfig(mainConfig);
-
-    const frameworkPackage = main.getNameFromPath(['framework']) as keyof typeof packagesMap;
-    const builder = main.getFieldValue(['core', 'builder']);
-
-    if (!frameworkPackage) {
-      return null;
+    const configDir = userDefinedConfigDir || configDirFromScript;
+    let mainConfig;
+    try {
+      mainConfig = await loadMainConfig({ configDir });
+    } catch (err) {
+      throw new Error(
+        dedent`Unable to find or evaluate ${chalk.blue(mainConfigPath)}: ${err.message}`
+      );
     }
 
+    const frameworkPackage =
+      typeof mainConfig.framework === 'string' ? mainConfig.framework : mainConfig.framework?.name;
+
+    const hasFrameworkInMainConfig = !!frameworkPackage;
+
+    // if --renderer is passed to the command, just use it.
+    // Useful for monorepo projects to automate the script without getting prompts
+    let rendererPackage = userDefinedRendererPackage;
+    if (!rendererPackage) {
+      // at some point in 6.4 we introduced a framework field, but filled with a renderer package
+      if (frameworkPackage && Object.keys(rendererPackages).includes(frameworkPackage)) {
+        rendererPackage = frameworkPackage;
+      } else {
+        // detect the renderer package from the user's dependencies, and if multiple are there (monorepo), prompt the user to choose
+        rendererPackage = await detectRenderer(packageJson);
+      }
+    }
+
+    const builder = mainConfig.core?.builder;
+
+    // bail if we can't detect an official renderer
     const supportedPackages = Object.keys(packagesMap);
-    if (!supportedPackages.includes(frameworkPackage)) {
+    if (!supportedPackages.includes(rendererPackage)) {
       return null;
     }
 
-    const builderInfo = {
-      name: getBuilder(builder),
-      options: main.getFieldValue(['core', 'builder', 'options']) || {},
-    } as const;
+    const builderInfo = getBuilderInfo(builder);
 
-    const newFrameworkPackage = packagesMap[frameworkPackage][builderInfo.name];
+    const newFrameworkPackage = packagesMap[rendererPackage][builderInfo.name];
 
-    // not all frameworks support vite yet e.g. Svelte
+    // bail if there is no framework that matches the renderer + builder
     if (!newFrameworkPackage) {
       return null;
     }
 
-    const frameworkOptions =
-      // svelte-vite doesn't support svelteOptions so there's no need to move them
-      newFrameworkPackage === '@storybook/svelte-vite' ? {} : getFrameworkOptions(framework, main);
+    const renderer = rendererPackages[rendererPackage];
+    // @ts-expect-error account for renderer options for packages that supported it: reactOptions, angularOptions, svelteOptions
+    const frameworkOptions = mainConfig[`${renderer}Options`];
 
     const dependenciesToRemove = [
       '@storybook/builder-webpack5',
@@ -174,8 +184,18 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
     const dependenciesToAdd = [];
 
     // some frameworks didn't change e.g. Angular, Ember
-    if (newFrameworkPackage !== frameworkPackage) {
+    if (newFrameworkPackage !== frameworkPackage && !allDeps[newFrameworkPackage]) {
       dependenciesToAdd.push(newFrameworkPackage);
+    }
+
+    const isProjectAlreadyCorrect =
+      hasFrameworkInMainConfig &&
+      !frameworkOptions &&
+      !dependenciesToRemove.length &&
+      !dependenciesToAdd.length;
+
+    if (isProjectAlreadyCorrect) {
+      return null;
     }
 
     if (allDeps.vite && semver.lt(semver.coerce(allDeps.vite).version, '3.0.0')) {
@@ -190,47 +210,85 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
       `);
     }
 
-    if (!dependenciesToRemove.length && !dependenciesToAdd.length) {
-      return null;
-    }
-
     return {
-      main,
+      mainConfigPath,
       dependenciesToAdd,
       dependenciesToRemove,
       frameworkPackage: newFrameworkPackage,
+      hasFrameworkInMainConfig,
       frameworkOptions,
       builderInfo,
       packageJson,
+      renderer,
+      builder,
     };
   },
 
-  prompt({ frameworkPackage, dependenciesToRemove }) {
+  prompt({
+    dependenciesToRemove,
+    dependenciesToAdd,
+    hasFrameworkInMainConfig,
+    mainConfigPath,
+    frameworkPackage,
+    frameworkOptions,
+    renderer,
+  }) {
+    let disclaimer = '';
+    let migrationSteps = `- Set up the ${chalk.magenta(frameworkPackage)} framework\n`;
+
+    if (dependenciesToRemove.length > 0) {
+      migrationSteps += `- Remove the following dependencies: ${chalk.yellow(
+        dependenciesToRemove.join(', ')
+      )}\n`;
+    }
+
+    if (dependenciesToAdd.length > 0) {
+      migrationSteps += `- Add the following dependencies: ${chalk.yellow(
+        dependenciesToAdd.join(', ')
+      )}\n`;
+    }
+
+    if (!hasFrameworkInMainConfig) {
+      migrationSteps += `- Specify a ${chalk.yellow('framework')} field in ${chalk.blue(
+        mainConfigPath
+      )}, which is a requirement in SB7.0 and above.\n`;
+    }
+
+    if (frameworkOptions) {
+      migrationSteps += `- Move the ${chalk.yellow(`${renderer}Options`)} field from ${chalk.blue(
+        mainConfigPath
+      )} to the ${chalk.yellow('framework.options')} field.
+      More info: ${chalk.yellow(
+        'https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#frameworkoptions-renamed'
+      )}\n`;
+    }
+
+    if (
+      dependenciesToRemove.includes('@storybook/builder-webpack4') ||
+      dependenciesToRemove.includes('@storybook/manager-webpack4')
+    ) {
+      disclaimer = dedent`\n\n\n${chalk.underline(chalk.bold(chalk.cyan('Webpack4 users')))}
+
+      Unless you're using Storybook's Vite builder, this automigration will install a Webpack5-based framework.
+      
+      Given you were using Storybook's Webpack4 builder (default in 6.x, discontinued in 7.0), this could be a breaking change -- especially if your project has a custom webpack configuration.
+      
+      To learn more about migrating from Webpack4, see: ${chalk.yellow(
+        'https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#webpack4-support-discontinued'
+      )}`;
+    }
+
     return dedent`
       We've detected you are using an older format of Storybook frameworks and builders.
 
       In Storybook 7, frameworks also specify the builder to be used.
 
-      We can remove the dependencies that are no longer needed: ${chalk.yellow(
-        dependenciesToRemove.join(', ')
-      )}
-      
-      And set up the ${chalk.magenta(frameworkPackage)} framework that already includes the builder.
+      Here are the steps we'll take to migrate your project:
+      ${migrationSteps}
 
-      To learn more about the framework field, see: ${chalk.yellow(
+      To learn more about the new framework format, see: ${chalk.yellow(
         'https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#framework-field-mandatory'
-      )}
-
-      ${chalk.underline(chalk.bold(chalk.cyan('Webpack4 users')))}
-
-      Unless you're using Storybook's Vite builder, this automigration will install a Webpack5-based framework.
-      
-      If you were using Storybook's Webpack4 builder (default in 6.x, discontinued in 7.0), this could be a breaking
-      change -- especially if your project has a custom webpack configuration.
-      
-      To learn more about migrating from Webpack4, see: ${chalk.yellow(
-        'https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#webpack4-support-discontinued'
-      )}
+      )}${disclaimer}
     `;
   },
 
@@ -238,22 +296,26 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
     result: {
       dependenciesToAdd,
       dependenciesToRemove,
-      main,
+      mainConfigPath,
       frameworkPackage,
       frameworkOptions,
       builderInfo,
       packageJson,
+      renderer,
     },
     packageManager,
     dryRun,
   }) {
-    logger.info(`✅ Removing legacy dependencies: ${dependenciesToRemove.join(', ')}`);
-    if (!dryRun) {
-      packageManager.removeDependencies(
-        { skipInstall: dependenciesToAdd.length > 0, packageJson },
-        dependenciesToRemove
-      );
+    if (dependenciesToRemove.length > 0) {
+      logger.info(`✅ Removing dependencies: ${dependenciesToRemove.join(', ')}`);
+      if (!dryRun) {
+        packageManager.removeDependencies(
+          { skipInstall: dependenciesToAdd.length > 0, packageJson },
+          dependenciesToRemove
+        );
+      }
     }
+
     if (dependenciesToAdd.length > 0) {
       logger.info(`✅ Installing new dependencies: ${dependenciesToAdd.join(', ')}`);
       if (!dryRun) {
@@ -264,29 +326,31 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
     }
 
     if (!dryRun) {
-      logger.info(`✅ Updating framework field in main.js`);
-      const builder = main.getFieldValue(['core', 'builder']);
-      main.setFieldValue(['framework', 'name'], frameworkPackage);
-      main.setFieldValue(['framework', 'options'], frameworkOptions);
-
-      if (builder) {
-        main.removeField(['core', 'builder']);
-      }
-
-      if (frameworkPackage === '@storybook/svelte-vite' && main.getFieldNode(['svelteOptions'])) {
-        logger.info(`✅ Removing svelteOptions field in main.js`);
-        main.removeField(['svelteOptions']);
-      }
-
-      if (Object.keys(builderInfo.options).length > 0) {
-        main.setFieldValue(['framework', 'options', 'builder'], builderInfo.options);
-      }
-
       try {
-        // Adding this in a try/catch because it's possible that the user has a custom main.js
-        // or for example in the case of Nx, they are importing some global config
-        // which getFieldValue cannot eval, so if fails.
-        // There's no reason to fail the whole migration if this fails.
+        logger.info(`✅ Updating framework field in main.js`);
+        const main = await readConfig(mainConfigPath);
+
+        main.setFieldValue(['framework', 'name'], frameworkPackage);
+
+        if (frameworkOptions) {
+          main.setFieldValue(['framework', 'options'], frameworkOptions);
+          main.removeField([`${renderer}Options`]);
+        }
+
+        const builder = main.getFieldNode(['core', 'builder']);
+        if (builder) {
+          main.removeField(['core', 'builder']);
+        }
+
+        if (frameworkPackage === '@storybook/svelte-vite' && main.getFieldNode(['svelteOptions'])) {
+          logger.info(`✅ Removing svelteOptions field in main.js`);
+          main.removeField(['svelteOptions']);
+        }
+
+        if (Object.keys(builderInfo.options).length > 0) {
+          main.setFieldValue(['framework', 'options', 'builder'], builderInfo.options);
+        }
+
         const currentCore = main.getFieldValue(['core']);
         if (currentCore) {
           if (Object.keys(currentCore).length === 0) {
@@ -295,12 +359,15 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
             main.setFieldValue(['core'], currentCore);
           }
         }
-      } catch (e) {
-        logger.info(`❌ Failed to remove empty core field in main.js`);
-        logger.info(e);
-      }
 
-      await writeConfig(main);
+        await writeConfig(main);
+      } catch (e) {
+        logger.info(
+          `❌ The "${this.id}" migration failed to update your ${chalk.blue(
+            mainConfigPath
+          )} on your behalf. Please follow the instructions given previously and update the file manually.`
+        );
+      }
     }
   },
 };

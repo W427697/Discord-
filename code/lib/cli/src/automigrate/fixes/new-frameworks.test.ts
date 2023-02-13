@@ -1,8 +1,18 @@
 /* eslint-disable no-underscore-dangle */
 import * as path from 'path';
 import type { StorybookConfig } from '@storybook/types';
+import * as coreCommon from '@storybook/core-common';
 import type { JsPackageManager, PackageJson } from '../../js-package-manager';
+import { detectRenderer } from '../helpers/detectRenderer';
+
 import { newFrameworks } from './new-frameworks';
+
+jest.mock('@storybook/core-common', () => ({
+  ...jest.requireActual('@storybook/core-common'),
+  loadMainConfig: jest.fn(),
+}));
+
+jest.mock('../helpers/detectRenderer');
 
 // eslint-disable-next-line global-require, jest/no-mocks-import
 jest.mock('fs-extra', () => require('../../../../../__mocks__/fs-extra'));
@@ -15,10 +25,18 @@ const checkNewFrameworks = async ({
   main: Partial<StorybookConfig> & Record<string, unknown>;
 }) => {
   if (main) {
+    jest.spyOn(coreCommon, 'loadMainConfig').mockReturnValue(Promise.resolve(main) as any);
     // eslint-disable-next-line global-require
     require('fs-extra').__setMockFiles({
-      [path.join('.storybook', 'main.js')]: `module.exports = ${JSON.stringify(main)};`,
+      [path.join('.storybook', 'main.js')]: `
+        const config = ${JSON.stringify(main)};
+        export default config;
+      `,
     });
+  } else {
+    jest
+      .spyOn(coreCommon, 'loadMainConfig')
+      .mockReturnValue(Promise.reject(new Error('could not find main.js!')));
   }
   const packageManager = {
     retrievePackageJson: () => ({ dependencies: {}, devDependencies: {}, ...packageJson }),
@@ -50,12 +68,19 @@ describe('new-frameworks fix', () => {
 
     it('in sb 7 with no framework field in main', async () => {
       const packageJson = { dependencies: { '@storybook/vue': '^7.0.0' } };
+      (detectRenderer as jest.Mock).mockReturnValueOnce(Promise.resolve('@storybook/vue'));
       await expect(
         checkNewFrameworks({
           packageJson,
           main: {},
         })
-      ).resolves.toBeFalsy();
+      ).resolves.toEqual(
+        expect.objectContaining({
+          frameworkPackage: '@storybook/vue-webpack5',
+          dependenciesToAdd: ['@storybook/vue-webpack5'],
+          hasFrameworkInMainConfig: false,
+        })
+      );
     });
 
     it('in sb 7 with no builder', async () => {
@@ -103,27 +128,6 @@ describe('new-frameworks fix', () => {
       ).resolves.toBeFalsy();
     });
 
-    // TODO: once we have a @storybook/vue-vite framework, we should remove this test
-    it('in sb 7 with vue and vite', async () => {
-      const packageJson = {
-        dependencies: {
-          '@storybook/vue': '^7.0.0',
-          '@storybook/builder-vite': 'x.y.z',
-        },
-      };
-      await expect(
-        checkNewFrameworks({
-          packageJson,
-          main: {
-            framework: '@storybook/vue',
-            core: {
-              builder: '@storybook/builder-vite',
-            },
-          },
-        })
-      ).resolves.toBeFalsy();
-    });
-
     it('in sb 7 with vite < 3', async () => {
       const packageJson = {
         dependencies: {
@@ -143,6 +147,33 @@ describe('new-frameworks fix', () => {
           },
         })
       ).rejects.toBeTruthy();
+    });
+
+    it('should prompt when there are multiple renderer packages', async () => {
+      const packageJson = {
+        dependencies: {
+          '@storybook/react': '^7.0.0',
+          '@storybook/angular': '^7.0.0',
+          '@storybook/builder-vite': 'x.y.z',
+        },
+      };
+      // there should be a prompt, which we mock the response
+      (detectRenderer as jest.Mock).mockReturnValueOnce(Promise.resolve('@storybook/react'));
+      await expect(
+        checkNewFrameworks({
+          packageJson,
+          main: {
+            core: {
+              builder: '@storybook/builder-vite',
+            },
+          },
+        })
+      ).resolves.toEqual(
+        expect.objectContaining({
+          frameworkPackage: '@storybook/react-vite',
+        })
+      );
+      expect(detectRenderer).toHaveBeenCalled();
     });
   });
 
