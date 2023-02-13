@@ -76,7 +76,7 @@ describe('Helpers', () => {
         (filePath) =>
           componentsDirectory.includes(filePath) || filePath === '@storybook/react/template/cli'
       );
-      await helpers.copyComponents('react', language);
+      await helpers.copyTemplateFiles({ renderer: 'react', language });
 
       const copySpy = jest.spyOn(fse, 'copy');
       expect(copySpy).toHaveBeenNthCalledWith(
@@ -95,7 +95,7 @@ describe('Helpers', () => {
     (fse.pathExists as jest.Mock).mockImplementation((filePath) => {
       return filePath === '@storybook/react/template/cli' || filePath === './src';
     });
-    await helpers.copyComponents('react', SupportedLanguage.JAVASCRIPT);
+    await helpers.copyTemplateFiles({ renderer: 'react', language: SupportedLanguage.JAVASCRIPT });
     expect(fse.copy).toHaveBeenCalledWith(expect.anything(), './src/stories', expect.anything());
   });
 
@@ -103,7 +103,7 @@ describe('Helpers', () => {
     (fse.pathExists as jest.Mock).mockImplementation((filePath) => {
       return filePath === '@storybook/react/template/cli';
     });
-    await helpers.copyComponents('react', SupportedLanguage.JAVASCRIPT);
+    await helpers.copyTemplateFiles({ renderer: 'react', language: SupportedLanguage.JAVASCRIPT });
     expect(fse.copy).toHaveBeenCalledWith(expect.anything(), './stories', expect.anything());
   });
 
@@ -111,7 +111,7 @@ describe('Helpers', () => {
     const renderer = 'unknown renderer' as SupportedRenderers;
     const expectedMessage = `Unsupported renderer: ${renderer}`;
     await expect(
-      helpers.copyComponents(renderer, SupportedLanguage.JAVASCRIPT)
+      helpers.copyTemplateFiles({ renderer, language: SupportedLanguage.JAVASCRIPT })
     ).rejects.toThrowError(expectedMessage);
   });
 
