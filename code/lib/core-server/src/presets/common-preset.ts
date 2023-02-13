@@ -22,13 +22,15 @@ import { parseStaticDir } from '../utils/server-statics';
 
 const defaultFavicon = require.resolve('@storybook/core-server/public/favicon.svg');
 
-export const defaultStaticDirs = {
-  from: join(dirname(require.resolve('@storybook/manager/package.json')), 'static'),
-  to: '/sb-common-assets',
-};
+export const defaultStaticDirs = [
+  {
+    from: join(dirname(require.resolve('@storybook/manager/package.json')), 'static'),
+    to: '/sb-common-assets',
+  },
+];
 
 export const staticDirs: PresetPropertyFn<'staticDirs'> = async (values = []) => [
-  { ...defaultStaticDirs },
+  ...defaultStaticDirs,
   ...values,
 ];
 

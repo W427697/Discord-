@@ -4,16 +4,24 @@ import { getDirectoryFromWorkingDir } from '@storybook/core-common';
 import chalk from 'chalk';
 import express from 'express';
 import { pathExists } from 'fs-extra';
-import path from 'path';
+import path, { dirname, join } from 'path';
 import favicon from 'serve-favicon';
+import isEqual from 'lodash/isEqual.js';
 
 import { dedent } from 'ts-dedent';
+
+const defaultStaticDirs = [
+  {
+    from: join(dirname(require.resolve('@storybook/manager/package.json')), 'static'),
+    to: '/sb-common-assets',
+  },
+];
 
 export async function useStatics(router: any, options: Options) {
   const staticDirs = await options.presets.apply<StorybookConfig['staticDirs']>('staticDirs');
   const faviconPath = await options.presets.apply<string>('favicon');
 
-  if (staticDirs && options.staticDir) {
+  if (staticDirs && options.staticDir && !isEqual(staticDirs, defaultStaticDirs)) {
     throw new Error(dedent`
       Conflict when trying to read staticDirs:
       * Storybook's configuration option: 'staticDirs'
@@ -23,9 +31,10 @@ export async function useStatics(router: any, options: Options) {
     `);
   }
 
-  const statics = staticDirs
-    ? staticDirs.map((dir) => (typeof dir === 'string' ? dir : `${dir.from}:${dir.to}`))
-    : options.staticDir;
+  const statics =
+    staticDirs && !isEqual(staticDirs, defaultStaticDirs)
+      ? staticDirs.map((dir) => (typeof dir === 'string' ? dir : `${dir.from}:${dir.to}`))
+      : options.staticDir;
 
   if (statics && statics.length > 0) {
     await Promise.all(
