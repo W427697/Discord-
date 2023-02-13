@@ -3,7 +3,7 @@ import type { JsPackageManager } from '../js-package-manager';
 export interface CheckOptions {
   packageManager: JsPackageManager;
   configDir?: string;
-  frameworkPackage?: string;
+  rendererPackage?: string;
 }
 
 export interface RunOptions<ResultType> {
