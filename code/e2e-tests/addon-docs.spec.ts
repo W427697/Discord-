@@ -42,10 +42,26 @@ test.describe('addon-docs', () => {
   });
 
   test('source snippet should not change in stories block', async ({ page }) => {
-    // NextJS snippets are broken, see: https://github.com/storybookjs/storybook/issues/20356
-    // Note SSv7 does not render stories in the correct order in our sandboxes
+    const skipped = [
+      'vue3',
+      'vue-cli',
+      'preact',
+      // NextJS snippets are broken, see: https://github.com/storybookjs/storybook/issues/20356
+      'nextjs',
+      // SSv6 does not render stories in the correct order in our sandboxes
+      'internal\\/ssv6',
+      // Angular bug: https://github.com/storybookjs/storybook/issues/21066
+      'angular',
+      // Lit seems to render incorrectly for our template-stories but not real stories
+      //   - template: https://638db567ed97c3fb3e21cc22-ulhjwkqzzj.chromatic.com/?path=/docs/addons-docs-docspage-basic--docs
+      //   - real: https://638db567ed97c3fb3e21cc22-ulhjwkqzzj.chromatic.com/?path=/docs/example-button--docs
+      'lit-vite',
+      // Vue doesn't update when you change args, apparently fixed by this:
+      //   https://github.com/storybookjs/storybook/pull/20995
+      'vue2-vite',
+    ];
     test.skip(
-      /^(vue3|vue-cli|preact|nextjs|ssv6)/i.test(`${templateName}`),
+      new RegExp(`^${skipped.join('|')}`, 'i').test(`${templateName}`),
       `Skipping ${templateName}, which does not support dynamic source snippets`
     );
 
