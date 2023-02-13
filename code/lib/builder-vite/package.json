@@ -64,6 +64,7 @@
     "slash": "^3.0.0"
   },
   "devDependencies": {
+    "@storybook/mdx1-csf": "next",
     "@types/express": "^4.17.13",
     "@types/node": "^16.0.0",
     "rollup": "^3.0.0",
@@ -72,12 +73,16 @@
   },
   "peerDependencies": {
     "@preact/preset-vite": "*",
+    "@storybook/mdx1-csf": "*",
     "typescript": ">= 4.3.x",
     "vite": "^3.0.0 || ^4.0.0",
     "vite-plugin-glimmerx": "*"
   },
   "peerDependenciesMeta": {
     "@preact/preset-vite": {
+      "optional": true
+    },
+    "@storybook/mdx1-csf": {
       "optional": true
     },
     "typescript": {
