@@ -1,25 +1,8 @@
-import { dirname } from 'node:path';
 import type { Options } from '@storybook/types';
 import type { Plugin } from 'vite';
 import { createFilter } from 'vite';
 
 const isStorybookMdx = (id: string) => id.endsWith('stories.mdx') || id.endsWith('story.mdx');
-
-// Grab the mdx compiler from the @mdx-js/react that comes with @storybook/mdx1-csf,
-// and add it to the top of the code.
-// Equivilent to https://github.com/storybookjs/mdx1-csf/blob/d58cb032a8902b3f24ad487b6a7aae11ba8b33f6/loader.js#L12-L16
-function injectRenderer(code: string) {
-  const mdxReactPackage = dirname(
-    require.resolve('@mdx-js/react/package.json', {
-      paths: [dirname(require.resolve('@storybook/mdx1-csf/package.json'))],
-    })
-  );
-
-  return `
-    import { mdx } from '${mdxReactPackage}';
-    ${code}
-    `;
-}
 
 /**
  * Storybook uses two different loaders when dealing with MDX:
@@ -54,14 +37,12 @@ export async function mdxPlugin(options: Options): Promise<Plugin> {
         jsxOptions,
       });
 
-      const mdxCode = String(
+      const code = String(
         await compile(src, {
           skipCsf: !isStorybookMdx(id),
           ...mdxLoaderOptions,
         })
       );
-
-      const code = features?.legacyMdx1 ? injectRenderer(mdxCode) : mdxCode;
 
       return {
         code,
