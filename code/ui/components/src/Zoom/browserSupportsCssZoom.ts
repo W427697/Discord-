@@ -1,5 +1,3 @@
-import { global } from '@storybook/global';
-
 export function browserSupportsCssZoom(): boolean {
   try {
     // Checks if safari or firefox is being used.
