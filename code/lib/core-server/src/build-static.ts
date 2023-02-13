@@ -117,7 +117,7 @@ export async function buildStaticStandalone(options: BuildStaticStandaloneOption
     features,
   };
 
-  if (staticDirs && options.staticDir && !isEqual(options.staticDir, defaultStaticDirs)) {
+  if (staticDirs && options.staticDir && !isEqual(staticDirs, defaultStaticDirs)) {
     throw new Error(dedent`
       Conflict when trying to read staticDirs:
       * Storybook's configuration option: 'staticDirs'
@@ -133,13 +133,17 @@ export async function buildStaticStandalone(options: BuildStaticStandaloneOption
 
   await managerBuilder.build({ startTime: process.hrtime(), options: fullOptions });
 
-  if (staticDirs) {
+  if (staticDirs && !isEqual(staticDirs, defaultStaticDirs)) {
     effects.push(
       copyAllStaticFilesRelativeToMain(staticDirs, options.outputDir, options.configDir)
     );
-  }
-  if (options.staticDir) {
+  } else if (options.staticDir) {
     effects.push(copyAllStaticFiles(options.staticDir, options.outputDir));
+  } else {
+    throw new Error(dedent`
+      Error when trying to read staticDirs, recommend to use
+      * Storybook's configuration option: 'staticDirs' in the main configuration file.
+    `);
   }
 
   const coreServerPublicDir = join(
