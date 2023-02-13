@@ -1,3 +1,21 @@
+## 7.0.0-beta.47 (February 14, 2023)
+
+#### Features
+
+-   Vite: Support legacyMdx1 fallback flag [#20823](https://github.com/storybooks/storybook/pull/20823)
+-   CLI: Automigration to update `mdx` stories config [#21035](https://github.com/storybooks/storybook/pull/21035)
+
+#### Bug Fixes
+
+-   Vue3: Fix CSF2 support with decorators [#20995](https://github.com/storybooks/storybook/pull/20995)
+-   CLI: Do not use modern TS assets in legacy TS projects [#20458](https://github.com/storybooks/storybook/pull/20458)
+-   fix: conflicts static dirs. [#21064](https://github.com/storybooks/storybook/pull/21064)
+
+#### Maintenance
+
+-   CLI: Update init script for react-native v6.5 [#20719](https://github.com/storybooks/storybook/pull/20719)
+-   CLI: Re-enable vue-vite in new-frameworks automigration [#20970](https://github.com/storybooks/storybook/pull/20970)
+
 ## 7.0.0-beta.46 (February 10, 2023)
 
 #### Features
