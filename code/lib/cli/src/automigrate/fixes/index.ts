@@ -4,7 +4,6 @@ import { cra5 } from './cra5';
 import { webpack5 } from './webpack5';
 import { angular12 } from './angular12';
 import { vue3 } from './vue3';
-import { mainjsFramework } from './mainjsFramework';
 import { eslintPlugin } from './eslint-plugin';
 import { builderVite } from './builder-vite';
 import { sbScripts } from './sb-scripts';
@@ -27,7 +26,6 @@ export const fixes: Fix[] = [
   webpack5,
   angular12,
   vue3,
-  mainjsFramework,
   eslintPlugin,
   sveltekitFramework,
   builderVite,
