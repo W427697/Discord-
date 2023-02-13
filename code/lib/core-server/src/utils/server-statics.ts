@@ -4,18 +4,12 @@ import { getDirectoryFromWorkingDir } from '@storybook/core-common';
 import chalk from 'chalk';
 import express from 'express';
 import { pathExists } from 'fs-extra';
-import path, { dirname, join } from 'path';
+import path from 'path';
 import favicon from 'serve-favicon';
 import isEqual from 'lodash/isEqual.js';
 
 import { dedent } from 'ts-dedent';
-
-const defaultStaticDirs = [
-  {
-    from: join(dirname(require.resolve('@storybook/manager/package.json')), 'static'),
-    to: '/sb-common-assets',
-  },
-];
+import { defaultStaticDirs } from './constants';
 
 export async function useStatics(router: any, options: Options) {
   const staticDirs = await options.presets.apply<StorybookConfig['staticDirs']>('staticDirs');

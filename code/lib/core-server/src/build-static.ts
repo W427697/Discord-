@@ -23,8 +23,6 @@ import {
   resolveAddonName,
 } from '@storybook/core-common';
 
-import isEqual from 'lodash/isEqual.js';
-
 import { outputStats } from './utils/output-stats';
 import {
   copyAllStaticFiles,
@@ -35,7 +33,6 @@ import { extractStoriesJson, convertToIndexV3 } from './utils/stories-json';
 import { extractStorybookMetadata } from './utils/metadata';
 import { StoryIndexGenerator } from './utils/StoryIndexGenerator';
 import { summarizeIndex } from './utils/summarizeIndex';
-import { defaultStaticDirs } from './presets/common-preset';
 
 export type BuildStaticStandaloneOptions = CLIOptions &
   LoadOptions &
@@ -117,7 +114,7 @@ export async function buildStaticStandalone(options: BuildStaticStandaloneOption
     features,
   };
 
-  if (staticDirs && options.staticDir && !isEqual(staticDirs, defaultStaticDirs)) {
+  if (staticDirs && options.staticDir) {
     throw new Error(dedent`
       Conflict when trying to read staticDirs:
       * Storybook's configuration option: 'staticDirs'
@@ -133,17 +130,13 @@ export async function buildStaticStandalone(options: BuildStaticStandaloneOption
 
   await managerBuilder.build({ startTime: process.hrtime(), options: fullOptions });
 
-  if (staticDirs && !isEqual(staticDirs, defaultStaticDirs)) {
+  if (staticDirs) {
     effects.push(
       copyAllStaticFilesRelativeToMain(staticDirs, options.outputDir, options.configDir)
     );
-  } else if (options.staticDir) {
+  }
+  if (options.staticDir) {
     effects.push(copyAllStaticFiles(options.staticDir, options.outputDir));
-  } else {
-    throw new Error(dedent`
-      Error when trying to read staticDirs, recommend to use
-      * Storybook's configuration option: 'staticDirs' in the main configuration file.
-    `);
   }
 
   const coreServerPublicDir = join(
