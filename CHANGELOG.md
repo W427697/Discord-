@@ -9,7 +9,7 @@
 
 -   Vue3: Fix CSF2 support with decorators [#20995](https://github.com/storybooks/storybook/pull/20995)
 -   CLI: Do not use modern TS assets in legacy TS projects [#20458](https://github.com/storybooks/storybook/pull/20458)
--   fix: conflicts static dirs. [#21064](https://github.com/storybooks/storybook/pull/21064)
+-   CLI: Fix conflicts in static dirs [#21064](https://github.com/storybooks/storybook/pull/21064)
 
 #### Maintenance
 
