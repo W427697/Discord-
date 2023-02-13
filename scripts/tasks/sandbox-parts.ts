@@ -456,7 +456,6 @@ export const extendMain: Task['run'] = async ({ template, sandboxDir }) => {
   const configToAdd = {
     ...templateConfig,
     features: {
-      interactionsDebugger: true,
       ...templateConfig.features,
     },
   };
