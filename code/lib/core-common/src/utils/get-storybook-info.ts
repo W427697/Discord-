@@ -3,7 +3,7 @@ import fse from 'fs-extra';
 import type { CoreCommon_StorybookInfo, PackageJson } from '@storybook/types';
 import { getStorybookConfiguration } from './get-storybook-configuration';
 
-const rendererPackages: Record<string, string> = {
+export const rendererPackages: Record<string, string> = {
   '@storybook/react': 'react',
   '@storybook/vue': 'vue',
   '@storybook/vue3': 'vue3',
@@ -17,9 +17,34 @@ const rendererPackages: Record<string, string> = {
   '@storybook/riot': 'riot',
   '@storybook/svelte': 'svelte',
   '@storybook/preact': 'preact',
-  'storybook-framework-qwik': 'qwik',
   '@storybook/rax': 'rax',
   '@storybook/server': 'server',
+  // community (outside of monorepo)
+  'storybook-framework-qwik': 'qwik',
+};
+
+export const frameworkPackages: Record<string, string> = {
+  '@storybook/angular': 'angular',
+  '@storybook/ember': 'ember',
+  '@storybook/html-vite': 'html-vite',
+  '@storybook/html-webpack5': 'html-webpack5',
+  '@storybook/nextjs': 'nextjs',
+  '@storybook/preact-vite': 'preact-vite',
+  '@storybook/preact-webpack5': 'preact-webpack5',
+  '@storybook/react-vite': 'react-vite',
+  '@storybook/react-webpack5': 'react-webpack5',
+  '@storybook/server-webpack5': 'server-webpack5',
+  '@storybook/svelte-vite': 'svelte-vite',
+  '@storybook/svelte-webpack5': 'svelte-webpack5',
+  '@storybook/sveltekit': 'sveltekit',
+  '@storybook/vue3-vite': 'vue3-vite',
+  '@storybook/vue3-webpack5': 'vue3-webpack5',
+  '@storybook/vue-vite': 'vue-vite',
+  '@storybook/vue-webpack5': 'vue-webpack5',
+  '@storybook/web-components-vite': 'web-components-vite',
+  '@storybook/web-components-webpack5': 'web-components-webpack5',
+  // community (outside of monorepo)
+  'storybook-framework-qwik': 'qwik',
 };
 
 const logger = console;
@@ -33,33 +58,11 @@ const findDependency = (
   Object.entries(peerDependencies || {}).find(predicate),
 ];
 
-const getRendererInfo = (packageJson: PackageJson, frameworkPackage?: string) => {
+const getRendererInfo = (packageJson: PackageJson) => {
   // Pull the viewlayer from dependencies in package.json
-  let [dep, devDep, peerDep] =
-    frameworkPackage && rendererPackages[frameworkPackage]
-      ? [
-          packageJson.dependencies?.[frameworkPackage]
-            ? [frameworkPackage, packageJson.dependencies?.[frameworkPackage]]
-            : undefined,
-          packageJson.devDependencies?.[frameworkPackage]
-            ? [frameworkPackage, packageJson.devDependencies?.[frameworkPackage]]
-            : undefined,
-          packageJson.peerDependencies?.[frameworkPackage]
-            ? [frameworkPackage, packageJson.peerDependencies?.[frameworkPackage]]
-            : undefined,
-        ]
-      : [undefined];
-  if (!frameworkPackage || (!dep && !devDep && !peerDep)) {
-    const [depF, devDepF, peerDepF] = findDependency(packageJson, ([key]) => rendererPackages[key]);
-    dep = depF;
-    devDep = devDepF;
-    peerDep = peerDepF;
-  }
-
+  const [dep, devDep, peerDep] = findDependency(packageJson, ([key]) => rendererPackages[key]);
   const [pkg, version] = dep || devDep || peerDep || [];
   const renderer = pkg ? rendererPackages[pkg] : undefined;
-
-  logger.info(`Found renderer "${renderer}" in package.json dependencies`);
 
   if (dep && devDep && dep[0] === devDep[0]) {
     logger.warn(
@@ -107,12 +110,8 @@ const getConfigInfo = (packageJson: PackageJson, configDir?: string) => {
   };
 };
 
-export const getStorybookInfo = (
-  packageJson: PackageJson,
-  configDir?: string,
-  frameworkPackage?: string
-) => {
-  const rendererInfo = getRendererInfo(packageJson, frameworkPackage);
+export const getStorybookInfo = (packageJson: PackageJson, configDir?: string) => {
+  const rendererInfo = getRendererInfo(packageJson);
   const configInfo = getConfigInfo(packageJson, configDir);
 
   return {
