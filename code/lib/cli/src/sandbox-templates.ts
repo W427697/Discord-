@@ -421,6 +421,13 @@ const internalTemplates = {
     ...baseTemplates['react-webpack/18-ts'],
     name: 'PNP (react-webpack/18-ts)',
     script: 'yarn create react-app . --use-pnp',
+    skipTasks: [
+      'e2e-tests',
+      // Re-enable once https://github.com/storybookjs/storybook/issues/19351 is fixed.
+      'smoke-test',
+      'test-runner',
+    ],
+
     isInternal: true,
     inDevelopment: true,
   },
@@ -470,6 +477,7 @@ export const daily: TemplateKey[] = [
   'preact-webpack5/default-js',
   'preact-vite/default-js',
   'html-vite/default-js',
+  'internal/pnp',
 ];
 
 export const templatesByCadence = { ci, pr, merged, daily };
