@@ -89,6 +89,14 @@ export const INITIAL_VIEWPORTS: ViewportMap = {
     },
     type: 'mobile',
   },
+  iphone14promax: {
+    name: 'iPhone 14 Pro Max',
+    styles: {
+      height: '932px',
+      width: '430px',
+    },
+    type: 'mobile',
+  },
   ipad: {
     name: 'iPad',
     styles: {
