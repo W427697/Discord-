@@ -60,12 +60,15 @@ describe('Helpers', () => {
   });
 
   it.each`
-    language        | exists          | expected
-    ${'javascript'} | ${['js', 'ts']} | ${'/js'}
-    ${'typescript'} | ${['js', 'ts']} | ${'/ts'}
-    ${'typescript'} | ${['js']}       | ${'/js'}
-    ${'javascript'} | ${[]}           | ${''}
-    ${'typescript'} | ${[]}           | ${''}
+    language            | exists                        | expected
+    ${'javascript'}     | ${['js', 'ts-4-9']}           | ${'/js'}
+    ${'typescript-4-9'} | ${['js', 'ts-4-9']}           | ${'/ts-4-9'}
+    ${'typescript-4-9'} | ${['js', 'ts-3-8']}           | ${'/ts-3-8'}
+    ${'typescript-3-8'} | ${['js', 'ts-3-8', 'ts-4-9']} | ${'/ts-3-8'}
+    ${'typescript-3-8'} | ${['js', 'ts-4-9']}           | ${'/js'}
+    ${'typescript-4-9'} | ${['js']}                     | ${'/js'}
+    ${'javascript'}     | ${[]}                         | ${''}
+    ${'typescript-4-9'} | ${[]}                         | ${''}
   `(
     `should copy $expected when folder $exists exists for language $language`,
     async ({ language, exists, expected }) => {
@@ -76,7 +79,7 @@ describe('Helpers', () => {
         (filePath) =>
           componentsDirectory.includes(filePath) || filePath === '@storybook/react/template/cli'
       );
-      await helpers.copyComponents('react', language);
+      await helpers.copyTemplateFiles({ renderer: 'react', language });
 
       const copySpy = jest.spyOn(fse, 'copy');
       expect(copySpy).toHaveBeenNthCalledWith(
@@ -95,7 +98,7 @@ describe('Helpers', () => {
     (fse.pathExists as jest.Mock).mockImplementation((filePath) => {
       return filePath === '@storybook/react/template/cli' || filePath === './src';
     });
-    await helpers.copyComponents('react', SupportedLanguage.JAVASCRIPT);
+    await helpers.copyTemplateFiles({ renderer: 'react', language: SupportedLanguage.JAVASCRIPT });
     expect(fse.copy).toHaveBeenCalledWith(expect.anything(), './src/stories', expect.anything());
   });
 
@@ -103,7 +106,7 @@ describe('Helpers', () => {
     (fse.pathExists as jest.Mock).mockImplementation((filePath) => {
       return filePath === '@storybook/react/template/cli';
     });
-    await helpers.copyComponents('react', SupportedLanguage.JAVASCRIPT);
+    await helpers.copyTemplateFiles({ renderer: 'react', language: SupportedLanguage.JAVASCRIPT });
     expect(fse.copy).toHaveBeenCalledWith(expect.anything(), './stories', expect.anything());
   });
 
@@ -111,7 +114,7 @@ describe('Helpers', () => {
     const renderer = 'unknown renderer' as SupportedRenderers;
     const expectedMessage = `Unsupported renderer: ${renderer}`;
     await expect(
-      helpers.copyComponents(renderer, SupportedLanguage.JAVASCRIPT)
+      helpers.copyTemplateFiles({ renderer, language: SupportedLanguage.JAVASCRIPT })
     ).rejects.toThrowError(expectedMessage);
   });
 

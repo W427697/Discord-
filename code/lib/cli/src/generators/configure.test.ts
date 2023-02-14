@@ -42,7 +42,7 @@ describe('configureMain', () => {
 
   test('should generate main.ts', async () => {
     await configureMain({
-      language: SupportedLanguage.TYPESCRIPT,
+      language: SupportedLanguage.TYPESCRIPT_4_9,
       addons: [],
       storybookConfigFolder: '.storybook',
       framework: {
@@ -65,6 +65,46 @@ describe('configureMain', () => {
         \\"addons\\": [],
         \\"framework\\": {
           \\"name\\": \\"@storybook/react-vite\\"
+        }
+      };
+      export default config;"
+    `);
+  });
+
+  test('should handle resolved paths in pnp', async () => {
+    await configureMain({
+      language: SupportedLanguage.JAVASCRIPT,
+      addons: [
+        "%%path.dirname(require.resolve(path.join('@storybook/addon-links', 'package.json')))%%",
+        "%%path.dirname(require.resolve(path.join('@storybook/addon-essentials', 'package.json')))%%",
+        "%%path.dirname(require.resolve(path.join('@storybook/preset-create-react-app', 'package.json')))%%",
+        "%%path.dirname(require.resolve(path.join('@storybook/addon-interactions', 'package.json')))%%",
+      ],
+      storybookConfigFolder: '.storybook',
+      framework: {
+        name: "%%path.dirname(require.resolve(path.join('@storybook/react-webpack5', 'package.json')))%%",
+      },
+    });
+
+    const { calls } = (fse.writeFile as unknown as jest.Mock).mock;
+    const [mainConfigPath, mainConfigContent] = calls[0];
+
+    expect(mainConfigPath).toEqual('./.storybook/main.js');
+    expect(mainConfigContent).toMatchInlineSnapshot(`
+      "/** @type { import('@storybook/react-webpack5').StorybookConfig } */
+      const config = {
+        \\"stories\\": [
+          \\"../stories/**/*.mdx\\",
+          \\"../stories/**/*.stories.@(js|jsx|ts|tsx)\\"
+        ],
+        \\"addons\\": [
+          path.dirname(require.resolve(path.join('@storybook/addon-links', 'package.json'))),
+          path.dirname(require.resolve(path.join('@storybook/addon-essentials', 'package.json'))),
+          path.dirname(require.resolve(path.join('@storybook/preset-create-react-app', 'package.json'))),
+          path.dirname(require.resolve(path.join('@storybook/addon-interactions', 'package.json')))
+        ],
+        \\"framework\\": {
+          \\"name\\": path.dirname(require.resolve(path.join('@storybook/react-webpack5', 'package.json')))
         }
       };
       export default config;"
@@ -101,7 +141,7 @@ describe('configurePreview', () => {
 
   test('should generate preview.ts', async () => {
     await configurePreview({
-      language: SupportedLanguage.TYPESCRIPT,
+      language: SupportedLanguage.TYPESCRIPT_4_9,
       storybookConfigFolder: '.storybook',
     });
 
@@ -128,7 +168,7 @@ describe('configurePreview', () => {
   test('should not do anything if the framework template already included a preview', async () => {
     (fse.pathExists as unknown as jest.Mock).mockReturnValueOnce(true);
     await configurePreview({
-      language: SupportedLanguage.TYPESCRIPT,
+      language: SupportedLanguage.TYPESCRIPT_4_9,
       storybookConfigFolder: '.storybook',
     });
     expect(fse.writeFile).not.toHaveBeenCalled();
@@ -136,7 +176,7 @@ describe('configurePreview', () => {
 
   test('should add prefix if frameworkParts are passed', async () => {
     await configurePreview({
-      language: SupportedLanguage.TYPESCRIPT,
+      language: SupportedLanguage.TYPESCRIPT_4_9,
       storybookConfigFolder: '.storybook',
       frameworkPreviewParts: {
         prefix: dedent`

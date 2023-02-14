@@ -16,17 +16,15 @@ import type {
   PresetPropertyFn,
 } from '@storybook/types';
 import { loadCsf } from '@storybook/csf-tools';
-import { dirname, join } from 'path';
+import { join } from 'path';
 import { dedent } from 'ts-dedent';
 import { parseStaticDir } from '../utils/server-statics';
+import { defaultStaticDirs } from '../utils/constants';
 
 const defaultFavicon = require.resolve('@storybook/core-server/public/favicon.svg');
 
 export const staticDirs: PresetPropertyFn<'staticDirs'> = async (values = []) => [
-  {
-    from: join(dirname(require.resolve('@storybook/manager/package.json')), 'static'),
-    to: '/sb-common-assets',
-  },
+  ...defaultStaticDirs,
   ...values,
 ];
 
