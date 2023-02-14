@@ -428,6 +428,9 @@ const internalTemplates = {
      * https://github.com/storybookjs/storybook/pull/21046#issuecomment-1430169313
      * I hope that whatever makes it not work will be fixed soon.
      * It might be a bug in yarn.
+     *
+     * An limitation of the sandbox script is that it cannot modify the main.js file because it contains non-string values.
+     * So script trying to add stories and addons fail, and are thus skipped.
      */
     ...baseTemplates['react-webpack/18-ts'],
     name: 'PNP (react-webpack/18-ts)',
