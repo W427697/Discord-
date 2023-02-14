@@ -7,22 +7,11 @@ import {
   useParameter,
   useStorybookState,
 } from '@storybook/manager-api';
-import {
-  PureArgsTable as ArgsTable,
-  NoControlsWarning,
-  type PresetColor,
-  type SortType,
-} from '@storybook/blocks';
+import { PureArgsTable as ArgsTable, NoControlsWarning } from '@storybook/blocks';
 
 import type { ArgTypes } from '@storybook/types';
 import { PARAM_KEY } from './constants';
-
-interface ControlsParameters {
-  sort?: SortType;
-  expanded?: boolean;
-  presetColors?: PresetColor[];
-  hideNoControlsWarning?: boolean;
-}
+import type { ControlsParameters } from './controls-parameters';
 
 export const ControlsPanel: FC = () => {
   const [args, updateArgs, resetArgs] = useArgs();
@@ -34,6 +23,7 @@ export const ControlsPanel: FC = () => {
     sort,
     presetColors,
     hideNoControlsWarning = false,
+    visibleCategories,
   } = useParameter<ControlsParameters>(PARAM_KEY, {});
   const { path } = useStorybookState();
 
@@ -41,6 +31,9 @@ export const ControlsPanel: FC = () => {
   const showWarning = !(hasControls && isArgsStory) && !hideNoControlsWarning;
 
   const withPresetColors = Object.entries(rows).reduce((acc, [key, arg]) => {
+    if (visibleCategories && !visibleCategories.includes(arg.table?.category)) {
+      return acc;
+    }
     if (arg?.control?.type !== 'color' || arg?.control?.presetColors) acc[key] = arg;
     else acc[key] = { ...arg, control: { ...arg.control, presetColors } };
     return acc;
