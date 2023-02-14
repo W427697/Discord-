@@ -418,6 +418,17 @@ const internalTemplates = {
     },
   },
   'internal/pnp': {
+    /* This sandbox does not currently work, but it's close.
+     * You can generate the sandbox, but after to get it to run you need to:
+     * 1. open the yarn.lock file and remove it's contents
+     * 2. run `yarn install` in the sandbox
+     * 3. run `yarn storybook` in the sandbox
+     *
+     * This -as of this writing- does not produce a working sandbox, but it's close.
+     * https://github.com/storybookjs/storybook/pull/21046#issuecomment-1430169313
+     * I hope that whatever makes it not work will be fixed soon.
+     * It might be a bug in yarn.
+     */
     ...baseTemplates['react-webpack/18-ts'],
     name: 'PNP (react-webpack/18-ts)',
     script: 'yarn create react-app . --use-pnp',
