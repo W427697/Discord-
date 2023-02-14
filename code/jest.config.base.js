@@ -1,5 +1,11 @@
 const os = require('os');
+const fs = require('fs');
 const path = require('path');
+
+const swcrc = JSON.parse(fs.readFileSync('.swcrc', 'utf8'));
+
+// This is needed for proper jest mocking, see https://github.com/swc-project/swc/discussions/5151#discussioncomment-3149154
+((swcrc.jsc ??= {}).experimental ??= {}).plugins = [['jest_workaround', {}]];
 
 /**
  * TODO: Some windows related tasks are still commented out, because they are behaving differently on
@@ -27,7 +33,7 @@ module.exports = {
     '\\.(md)$': path.resolve('./__mocks__/htmlMock.js'),
   },
   transform: {
-    '^.+\\.(t|j)sx?$': '@swc/jest',
+    '^.+\\.(t|j)sx?$': ['@swc/jest', swcrc],
     '^.+\\.mdx$': '@storybook/addon-docs/jest-transform-mdx',
   },
   transformIgnorePatterns: ['/node_modules/(?!@angular|rxjs|nanoid|uuid|lit-html|@mdx-js)'],
