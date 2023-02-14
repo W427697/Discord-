@@ -2,55 +2,17 @@ import chalk from 'chalk';
 import dedent from 'ts-dedent';
 import semver from 'semver';
 import { readConfig, writeConfig } from '@storybook/csf-tools';
-import type { Preset } from '@storybook/types';
 import { getStorybookInfo, loadMainConfig, rendererPackages } from '@storybook/core-common';
 
-import type { Fix } from '../types';
-import type { PackageJsonWithDepsAndDevDeps } from '../../js-package-manager';
-import { getStorybookVersionSpecifier } from '../../helpers';
-import { detectRenderer } from '../helpers/detectRenderer';
+import type { Fix } from '../../types';
+import type { PackageJsonWithDepsAndDevDeps } from '../../../js-package-manager';
+import { getStorybookVersionSpecifier } from '../../../helpers';
+import { detectRenderer } from '../../helpers/detectRenderer';
+import type { Addon } from './utils';
+import { getNextjsAddonOptions, getBuilderInfo, packagesMap } from './utils';
+import { detectFramework } from '../../helpers/detectFramework';
 
 const logger = console;
-
-const packagesMap: Record<string, { webpack5?: string; vite?: string }> = {
-  '@storybook/react': {
-    webpack5: '@storybook/react-webpack5',
-    vite: '@storybook/react-vite',
-  },
-  '@storybook/preact': {
-    webpack5: '@storybook/preact-webpack5',
-    vite: '@storybook/preact-vite',
-  },
-  '@storybook/server': {
-    webpack5: '@storybook/server-webpack5',
-  },
-  '@storybook/ember': {
-    webpack5: '@storybook/ember',
-  },
-  '@storybook/angular': {
-    webpack5: '@storybook/angular',
-  },
-  '@storybook/vue': {
-    webpack5: '@storybook/vue-webpack5',
-    vite: '@storybook/vue-vite',
-  },
-  '@storybook/vue3': {
-    webpack5: '@storybook/vue3-webpack5',
-    vite: '@storybook/vue3-vite',
-  },
-  '@storybook/svelte': {
-    webpack5: '@storybook/svelte-webpack5',
-    vite: '@storybook/svelte-vite',
-  },
-  '@storybook/web-components': {
-    webpack5: '@storybook/web-components-webpack5',
-    vite: '@storybook/web-components-vite',
-  },
-  '@storybook/html': {
-    webpack5: '@storybook/html-webpack5',
-    vite: '@storybook/html-vite',
-  },
-};
 
 interface NewFrameworkRunOptions {
   mainConfigPath: string;
@@ -60,28 +22,16 @@ interface NewFrameworkRunOptions {
   hasFrameworkInMainConfig: boolean;
   frameworkPackage: string;
   renderer: string;
+  addonsToRemove: string[];
   frameworkOptions: Record<string, any>;
+  rendererOptions: Record<string, any>;
+  addonOptions: Record<string, any>;
+  builderConfig: string | Record<string, any>;
   builderInfo: {
     name: string;
     options: Record<string, any>;
   };
 }
-
-export const getBuilderInfo = (
-  builder: string | Preset
-): { name: 'vite' | 'webpack5'; options: any } => {
-  if (typeof builder === 'string') {
-    return {
-      name: builder.includes('vite') ? 'vite' : 'webpack5',
-      options: {},
-    };
-  }
-
-  return {
-    name: builder?.name.includes('vite') ? 'vite' : 'webpack5',
-    options: builder?.options || {},
-  };
-};
 
 /**
  * Does the user have separate framework and builders (e.g. @storybook/react + core.builder -> webpack5)?
@@ -133,10 +83,18 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
       );
     }
 
-    const frameworkPackage =
+    let frameworkPackage =
       typeof mainConfig.framework === 'string' ? mainConfig.framework : mainConfig.framework?.name;
-
     const hasFrameworkInMainConfig = !!frameworkPackage;
+
+    if (!hasFrameworkInMainConfig) {
+      frameworkPackage = await detectFramework(packageJson);
+      // This scenario will only happen when user's have things properly set up for SB 7
+      // but do not contain a framework field in main.js
+      if (frameworkPackage) {
+        mainConfig.framework = frameworkPackage;
+      }
+    }
 
     // if --renderer is passed to the command, just use it.
     // Useful for monorepo projects to automate the script without getting prompts
@@ -151,7 +109,7 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
       }
     }
 
-    const builder = mainConfig.core?.builder;
+    const builderConfig = mainConfig.core?.builder;
 
     // bail if we can't detect an official renderer
     const supportedPackages = Object.keys(packagesMap);
@@ -159,9 +117,9 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
       return null;
     }
 
-    const builderInfo = getBuilderInfo(builder);
+    const builderInfo = getBuilderInfo(mainConfig);
 
-    const newFrameworkPackage = packagesMap[rendererPackage][builderInfo.name];
+    let newFrameworkPackage = packagesMap[rendererPackage][builderInfo.name];
 
     // bail if there is no framework that matches the renderer + builder
     if (!newFrameworkPackage) {
@@ -170,27 +128,66 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
 
     const renderer = rendererPackages[rendererPackage];
     // @ts-expect-error account for renderer options for packages that supported it: reactOptions, angularOptions, svelteOptions
-    const frameworkOptions = mainConfig[`${renderer}Options`];
+    const rendererOptions = mainConfig[`${renderer}Options`] || {};
 
-    const dependenciesToRemove = [
+    let frameworkOptions =
+      typeof mainConfig.framework === 'string' ? {} : mainConfig.framework?.options;
+
+    frameworkOptions = {
+      ...frameworkOptions,
+      ...rendererOptions,
+    };
+
+    let dependenciesToRemove = [
       '@storybook/builder-webpack5',
       '@storybook/manager-webpack5',
       '@storybook/builder-webpack4',
       '@storybook/manager-webpack4',
       '@storybook/builder-vite',
       'storybook-builder-vite',
-    ].filter((dep) => allDeps[dep]);
+    ];
 
-    const dependenciesToAdd = [];
+    let dependenciesToAdd: string[] = [];
+    let addonsToRemove: string[] = [];
+    let addonOptions = {};
+
+    // Next.js specific automigrations
+    if (allDeps.next) {
+      if (newFrameworkPackage === '@storybook/react-webpack5') {
+        newFrameworkPackage = '@storybook/nextjs';
+        addonOptions = getNextjsAddonOptions(mainConfig.addons);
+        frameworkOptions = {
+          ...frameworkOptions,
+          ...addonOptions,
+        };
+
+        addonsToRemove = ['storybook-addon-next', 'storybook-addon-next-router'].filter(
+          (dep) => allDeps[dep]
+        );
+
+        dependenciesToRemove.push(
+          // in case users are coming from a properly set up @storybook/webpack5 project
+          '@storybook/react-webpack5',
+          'storybook-addon-next',
+          'storybook-addon-next-router'
+        );
+      }
+    }
 
     // some frameworks didn't change e.g. Angular, Ember
     if (newFrameworkPackage !== frameworkPackage && !allDeps[newFrameworkPackage]) {
       dependenciesToAdd.push(newFrameworkPackage);
     }
 
+    // only install what's not already installed
+    dependenciesToAdd = dependenciesToAdd.filter((dep) => !allDeps[dep]);
+    // only uninstall what's installed
+    dependenciesToRemove = dependenciesToRemove.filter((dep) => allDeps[dep]);
+
     const isProjectAlreadyCorrect =
       hasFrameworkInMainConfig &&
-      !frameworkOptions &&
+      !Object.keys(rendererOptions).length &&
+      !Object.keys(addonOptions).length &&
       !dependenciesToRemove.length &&
       !dependenciesToAdd.length;
 
@@ -217,10 +214,13 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
       frameworkPackage: newFrameworkPackage,
       hasFrameworkInMainConfig,
       frameworkOptions,
+      rendererOptions,
+      addonOptions,
+      addonsToRemove,
       builderInfo,
       packageJson,
       renderer,
-      builder,
+      builderConfig,
     };
   },
 
@@ -230,44 +230,75 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
     hasFrameworkInMainConfig,
     mainConfigPath,
     frameworkPackage,
-    frameworkOptions,
+    addonOptions,
     renderer,
+    rendererOptions,
+    builderConfig,
+    addonsToRemove,
+    packageJson,
   }) {
     let disclaimer = '';
-    let migrationSteps = `- Set up the ${chalk.magenta(frameworkPackage)} framework\n`;
+    let migrationSteps = '';
 
     if (dependenciesToRemove.length > 0) {
-      migrationSteps += `- Remove the following dependencies: ${chalk.yellow(
-        dependenciesToRemove.join(', ')
-      )}\n`;
+      migrationSteps += `- Remove the following dependencies:
+      ${dependenciesToRemove.map((dep) => `- * ${chalk.cyan(dep)}`).join('\n')}\n`;
     }
 
     if (dependenciesToAdd.length > 0) {
-      migrationSteps += `- Add the following dependencies: ${chalk.yellow(
-        dependenciesToAdd.join(', ')
-      )}\n`;
+      migrationSteps += `- Add the following dependencies: 
+      ${dependenciesToAdd.map((dep) => `- * ${chalk.cyan(dep)}`).join('\n')}\n`;
     }
 
     if (!hasFrameworkInMainConfig) {
       migrationSteps += `- Specify a ${chalk.yellow('framework')} field in ${chalk.blue(
         mainConfigPath
-      )}, which is a requirement in SB7.0 and above.\n`;
+      )} with the value of "${chalk.cyan(frameworkPackage)}".\n`;
     }
 
-    if (frameworkOptions) {
-      migrationSteps += `- Move the ${chalk.yellow(`${renderer}Options`)} field from ${chalk.blue(
+    if (Object.keys(rendererOptions).length > 0) {
+      migrationSteps += `- Move the ${chalk.yellow(`${renderer}Options`)} field in ${chalk.blue(
         mainConfigPath
-      )} to the ${chalk.yellow('framework.options')} field.
+      )} to ${chalk.yellow('framework.options')}, and remove that field entirely.
       More info: ${chalk.yellow(
         'https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#frameworkoptions-renamed'
       )}\n`;
+    }
+
+    if (addonsToRemove.length > 0) {
+      migrationSteps += `- Remove the following addons from your ${chalk.blue(
+        mainConfigPath
+      )}, as the new framework also supports features provided by them:
+      ${addonsToRemove.map((dep) => `- * ${chalk.cyan(dep)}`).join('\n')}
+      `;
+    }
+
+    if (Object.keys(addonOptions).length > 0) {
+      migrationSteps += `- Move the addon options "${chalk.yellow(
+        Object.keys(addonOptions).join(', ')
+      )}" in ${chalk.blue(mainConfigPath)} to the ${chalk.yellow('framework.options')} field.\n`;
+    }
+
+    if (builderConfig) {
+      if (typeof builderConfig === 'string') {
+        migrationSteps += `- Remove the ${chalk.yellow('core.builder')} field in ${chalk.blue(
+          mainConfigPath
+        )}.\n`;
+      } else if (Object.keys(builderConfig.options).length > 0) {
+        migrationSteps += `- Move the ${chalk.yellow('core.builder.options')} field in ${chalk.blue(
+          mainConfigPath
+        )} to ${chalk.yellow('framework.options.builder')} and remove the ${chalk.yellow(
+          'core.builder'
+        )} field.\n`;
+      }
     }
 
     if (
       dependenciesToRemove.includes('@storybook/builder-webpack4') ||
       dependenciesToRemove.includes('@storybook/manager-webpack4')
     ) {
-      disclaimer = dedent`\n\n\n${chalk.underline(chalk.bold(chalk.cyan('Webpack4 users')))}
+      disclaimer = dedent`\n\n
+      ${chalk.underline(chalk.bold(chalk.cyan('Webpack4 users')))}
 
       Unless you're using Storybook's Vite builder, this automigration will install a Webpack5-based framework.
       
@@ -278,10 +309,50 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
       )}`;
     }
 
-    return dedent`
-      We've detected you are using an older format of Storybook frameworks and builders.
+    if (packageJson.devDependencies?.next || packageJson.dependencies?.next) {
+      if (dependenciesToRemove.includes('storybook-addon-next-router')) {
+        migrationSteps += `- Migrate the usage of the ${chalk.cyan(
+          'storybook-addon-next-router'
+        )} addon to use the APIs from the ${chalk.magenta(
+          '@storybook/nextjs'
+        )} framework package instead. Follow the instructions below.`;
+      }
 
-      In Storybook 7, frameworks also specify the builder to be used.
+      if (frameworkPackage === '@storybook/react-vite') {
+        disclaimer = dedent`\n\n
+          ${chalk.bold('Important')}: We've detected you are using Storybook in a Next.js project.
+  
+          This migration is set to update your project to use the ${chalk.magenta(
+            '@storybook/react-vite'
+          )} framework, but Storybook provides a framework package specifically for Next.js projects: ${chalk.magenta(
+          '@storybook/nextjs'
+        )}.
+  
+          This package provides a better experience for Next.js users, however it is only compatible with the Webpack 5 builder, so we can't automigrate for you, as you are using the Vite builder.
+          
+          If you are interested in using this package, see: ${chalk.yellow(
+            'https://github.com/storybookjs/storybook/blob/next/code/frameworks/nextjs/README.md'
+          )}
+        `;
+      } else {
+        disclaimer = dedent`\n\n
+        The ${chalk.magenta(
+          '@storybook/nextjs'
+        )} package provides great user experience for Next.js users, and we highly recommend you to read more about it at ${chalk.yellow(
+          'https://github.com/storybookjs/storybook/blob/next/code/frameworks/nextjs/README.md'
+        )}
+        `;
+      }
+    }
+
+    return dedent`
+      We've detected you are using an older format of Storybook renderers and builders.
+
+      Storybook 7 introduced the concept of frameworks, which abstracts configuration for renderers (e.g. React, Vue), builders (e.g. Webpack, Vite) and defaults to make integrations easier.
+
+      Your project should be updated to use Storybook's framework: ${chalk.magenta(
+        frameworkPackage
+      )}.
 
       Here are the steps we'll take to migrate your project:
       ${migrationSteps}
@@ -302,6 +373,7 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
       builderInfo,
       packageJson,
       renderer,
+      addonsToRemove,
     },
     packageManager,
     dryRun,
@@ -327,24 +399,22 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
 
     if (!dryRun) {
       try {
-        logger.info(`✅ Updating framework field in main.js`);
+        logger.info(`✅ Updating main.js`);
         const main = await readConfig(mainConfigPath);
 
         main.setFieldValue(['framework', 'name'], frameworkPackage);
 
         if (frameworkOptions) {
           main.setFieldValue(['framework', 'options'], frameworkOptions);
-          main.removeField([`${renderer}Options`]);
+
+          if (main.getFieldNode([`${renderer}Options`])) {
+            main.removeField([`${renderer}Options`]);
+          }
         }
 
         const builder = main.getFieldNode(['core', 'builder']);
         if (builder) {
           main.removeField(['core', 'builder']);
-        }
-
-        if (frameworkPackage === '@storybook/svelte-vite' && main.getFieldNode(['svelteOptions'])) {
-          logger.info(`✅ Removing svelteOptions field in main.js`);
-          main.removeField(['svelteOptions']);
         }
 
         if (Object.keys(builderInfo.options).length > 0) {
@@ -360,12 +430,30 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
           }
         }
 
+        const existingAddons = main.getFieldValue(['addons']) as Addon[];
+        const updatedAddons = existingAddons.filter((addon) => {
+          if (typeof addon === 'string') {
+            return !addonsToRemove.includes(addon);
+          }
+
+          if (addon.name) {
+            return !addonsToRemove.includes(addon.name);
+          }
+
+          return false;
+        });
+        main.setFieldValue(['addons'], updatedAddons);
+
         await writeConfig(main);
       } catch (e) {
         logger.info(
           `❌ The "${this.id}" migration failed to update your ${chalk.blue(
             mainConfigPath
-          )} on your behalf. Please follow the instructions given previously and update the file manually.`
+          )} on your behalf because of the following error:
+          ${e}`
+        );
+        logger.info(
+          `Storybook automigrations are based on AST parsing and it's possible that your main.js file contains a non-standard format or that there was an error when parsing dynamic values. Please follow the instructions given previously and update the file manually.`
         );
       }
     }
