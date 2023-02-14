@@ -78,20 +78,17 @@ test.describe('addon-docs', () => {
     const codes = root.locator('pre.prismjs');
     const primaryCode = await codes.nth(0);
     const storiesCode = await codes.nth(1);
-    await expect(await primaryCode.innerText()).toMatch(/Basic/);
-    await expect(await storiesCode.innerText()).toMatch(/Basic/);
+    await expect(primaryCode).toContainText('Basic');
+    await expect(storiesCode).toContainText('Basic');
 
     const labelControl = root.locator('textarea[name=label]');
     labelControl.fill('Changed');
     labelControl.blur();
 
-    // Wait for the change to make it's way to the stories
-    await page.waitForTimeout(500);
-
     // Check the Primary one has changed
-    await expect(await primaryCode.innerText()).toMatch(/Changed/);
+    await expect(primaryCode).toContainText('Changed');
     // Check the stories one still says "Basic"
-    await expect(await storiesCode.innerText()).toMatch(/Basic/);
+    await expect(storiesCode).toContainText('Basic');
   });
 
   test('should not run autoplay stories without parameter', async ({ page }) => {
