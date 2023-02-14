@@ -1,7 +1,7 @@
-import { readJSON, writeJSON } from 'fs-extra';
+import { pathExists, readJSON, writeJSON } from 'fs-extra';
 import path from 'path';
 
-import { exec } from './exec';
+import { exec, execaCommand } from './exec';
 // TODO -- should we generate this file a second time outside of CLI?
 import storybookVersions from '../../code/lib/cli/src/versions';
 import touch from './touch';
@@ -29,14 +29,26 @@ export const addPackageResolutions = async ({ cwd, dryRun }: YarnOptions) => {
 };
 
 export const installYarn2 = async ({ cwd, dryRun, debug }: YarnOptions) => {
+  const { stdout } = await execaCommand(`yarn config --json`, { cwd }).catch(() => ({
+    stdout: '',
+  }));
+  const pnpApiExists = await pathExists(path.join(cwd, '.pnp.cjs'));
+
+  const data = JSON.parse(`[${stdout.replaceAll('\n', ',')}]`);
+  const nodeLinkerConfig = data.find((d: any) => d.key === 'nodeLinker');
+
   const command = [
     touch('yarn.lock'),
     touch('.yarnrc.yml'),
     `yarn set version berry`,
     // Use the global cache so we aren't re-caching dependencies each time we run sandbox
     `yarn config set enableGlobalCache true`,
-    `yarn config set nodeLinker node-modules`,
+    `yarn config set checksumBehavior ignore`,
   ];
+
+  if (!nodeLinkerConfig?.source && !pnpApiExists) {
+    command.push(`yarn config set nodeLinker node-modules`);
+  }
 
   await exec(
     command,

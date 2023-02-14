@@ -2,6 +2,7 @@ import fs from 'fs';
 import fse from 'fs-extra';
 
 import * as helpers from './helpers';
+import type { JsPackageManager } from './js-package-manager';
 import type { SupportedRenderers } from './project_types';
 import { SupportedLanguage } from './project_types';
 
@@ -9,7 +10,7 @@ jest.mock('fs', () => ({
   existsSync: jest.fn(),
 }));
 jest.mock('./dirs', () => ({
-  getRendererDir: (renderer: string) => `@storybook/${renderer}`,
+  getRendererDir: (_: JsPackageManager, renderer: string) => `@storybook/${renderer}`,
   getCliDir: () => '@storybook/cli',
 }));
 
