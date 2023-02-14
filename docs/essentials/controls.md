@@ -320,6 +320,17 @@ The previous example also removed the prop documentation from the table. In some
 
 </div>
 
+### Hide control groups
+
+In some environments the controls are grouped by a category like properties, methods, inputs, outputs and so on. Sometimes only some categories are relevant.
+In this case the following sample demonstrates the filter of categories.
+
+<CodeSnippets
+paths={[
+'common/component-story-hide-control-groups.js.mdx',
+]}
+/>
+
 ### Conditional controls
 
 In some cases, it's useful to be able to conditionally exclude a control based on the value of another control. Controls supports basic versions of these use cases with the `if`, which can takes a simple query object to determine whether to include the control.
