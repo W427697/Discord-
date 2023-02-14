@@ -85,7 +85,8 @@ test.describe('addon-docs', () => {
     labelControl.fill('Changed');
     labelControl.blur();
 
-    await page.waitForTimeout(300);
+    // Wait for the change to make it's way to the stories
+    await page.waitForTimeout(500);
 
     // Check the Primary one has changed
     await expect(await primaryCode.innerText()).toMatch(/Changed/);
