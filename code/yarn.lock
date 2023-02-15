@@ -6053,6 +6053,7 @@ __metadata:
     "@storybook/react-docgen-typescript-plugin": canary
     "@storybook/types": 7.0.0-beta.48
     "@types/babel__core": ^7.1.7
+    "@types/node": ^16.0.0
     "@types/semver": ^7.3.6
     babel-plugin-react-docgen: ^4.1.0
     pnp-webpack-plugin: ^1.7.0

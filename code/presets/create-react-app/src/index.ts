@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import { join, relative, dirname } from 'path';
 import type { Configuration, RuleSetRule } from 'webpack';
 import semver from 'semver';
@@ -32,25 +33,19 @@ const resolveLoader: ResolveLoader = {
 
 // TODO: Replace with exported type from Storybook.
 
-export const core = (existing: { disableWebpackDefaults: boolean }) => ({
+const core = (existing: { disableWebpackDefaults: boolean }) => ({
   ...existing,
   disableWebpackDefaults: true,
 });
 
 // Don't use Storybook's default Babel config.
-export const babelDefault = (): Record<string, (string | [string, object])[]> => ({
+const babelDefault = (): Record<string, (string | [string, object])[]> => ({
   presets: [],
   plugins: [],
 });
 
-// Ensure that loaders are resolved from react-scripts.
-export const managerWebpack = (webpackConfig: Configuration = {}): Configuration => ({
-  ...webpackConfig,
-  resolveLoader,
-});
-
 // Update the core Webpack config.
-export const webpack = async (
+const webpack = async (
   webpackConfig: Configuration = {},
   options: PluginOptions
 ): Promise<Configuration> => {
@@ -155,3 +150,10 @@ export const webpack = async (
     resolveLoader,
   } as Configuration;
 };
+
+// we do not care of the typings exported from this package
+const exportedCore = core as any;
+const exportedWebpack = webpack as any;
+const exportedBabelDefault = babelDefault as any;
+
+export { exportedCore as core, exportedWebpack as webpack, exportedBabelDefault as babelDefault };
