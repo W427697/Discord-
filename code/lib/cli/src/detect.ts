@@ -3,6 +3,8 @@ import findUp from 'find-up';
 import semver from 'semver';
 import { logger } from '@storybook/node-logger';
 
+import { pathExistsSync } from 'fs-extra';
+import { join } from 'path';
 import type { TemplateConfiguration, TemplateMatcher } from './project_types';
 import {
   ProjectType,
@@ -146,6 +148,10 @@ export function isStorybookInstalled(
     }
   }
   return false;
+}
+
+export function detectPnp() {
+  return pathExistsSync(join(process.cwd(), '.pnp.cjs'));
 }
 
 export function detectLanguage(packageJson?: PackageJson) {

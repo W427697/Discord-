@@ -5,7 +5,7 @@ import { telemetry } from '@storybook/telemetry';
 import { withTelemetry } from '@storybook/core-server';
 
 import { installableProjectTypes, ProjectType } from './project_types';
-import { detect, isStorybookInstalled, detectLanguage, detectBuilder } from './detect';
+import { detect, isStorybookInstalled, detectLanguage, detectBuilder, detectPnp } from './detect';
 import { commandLog, codeLog, paddedLog } from './helpers';
 import angularGenerator from './generators/ANGULAR';
 import aureliaGenerator from './generators/AURELIA';
@@ -57,12 +57,13 @@ const installStorybook = <Project extends ProjectType>(
   }
 
   const language = detectLanguage(packageJson);
+  const pnp = detectPnp();
 
   const generatorOptions = {
     language,
     builder: options.builder || detectBuilder(packageManager),
     linkable: !!options.linkable,
-    pnp: options.usePnp,
+    pnp: pnp || options.usePnp,
   };
 
   const runGenerator: () => Promise<any> = async () => {
