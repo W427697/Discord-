@@ -1,6 +1,6 @@
 {
   "name": "@storybook/preact-vite",
-  "version": "7.0.0-beta.43",
+  "version": "7.0.0-beta.48",
   "description": "Storybook for Preact and Vite: Develop Preact components in isolation with Hot Reloading.",
   "keywords": [
     "storybook"
@@ -47,8 +47,8 @@
   },
   "dependencies": {
     "@preact/preset-vite": "^2.0.0",
-    "@storybook/builder-vite": "7.0.0-beta.43",
-    "@storybook/preact": "7.0.0-beta.43"
+    "@storybook/builder-vite": "7.0.0-beta.48",
+    "@storybook/preact": "7.0.0-beta.48"
   },
   "devDependencies": {
     "@types/node": "^16.0.0",
@@ -75,5 +75,5 @@
       "cjs"
     ]
   },
-  "gitHead": "b1b7c2bc998decc21eb8352fcccd3c939048df02"
+  "gitHead": "8c9765f9cd204fc63b928526941d8d8bffaf7c38"
 }
