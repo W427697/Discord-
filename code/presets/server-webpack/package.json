@@ -23,24 +23,21 @@
     ".": {
       "node": "./dist/index.js",
       "require": "./dist/index.js",
-      "import": "./dist/index.mjs",
       "types": "./dist/index.d.ts"
     },
     "./preset": {
       "node": "./dist/index.js",
       "require": "./dist/index.js",
-      "import": "./dist/index.mjs",
       "types": "./dist/index.d.ts"
     },
     "./dist/loader": {
+      "node": "./dist/loader.js",
       "require": "./dist/loader.js",
-      "import": "./dist/loader.mjs",
       "types": "./dist/loader.d.ts"
     },
     "./package.json": "./package.json"
   },
   "main": "dist/index.js",
-  "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "files": [
     "dist/**/*",
@@ -79,7 +76,10 @@
       "./src/index.ts",
       "./src/loader.ts"
     ],
-    "platform": "node"
+    "platform": "node",
+    "formats": [
+      "cjs"
+    ]
   },
   "gitHead": "8c9765f9cd204fc63b928526941d8d8bffaf7c38"
 }

@@ -37,7 +37,6 @@
     "./package.json": "./package.json"
   },
   "main": "dist/index.js",
-  "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "files": [
     "dist/**/*",
@@ -74,7 +73,10 @@
       "./src/index.ts",
       "./src/preset.ts"
     ],
-    "platform": "node"
+    "platform": "node",
+    "formats": [
+      "cjs"
+    ]
   },
   "gitHead": "8c9765f9cd204fc63b928526941d8d8bffaf7c38"
 }

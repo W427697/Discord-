@@ -23,29 +23,26 @@
     ".": {
       "node": "./dist/index.js",
       "require": "./dist/index.js",
-      "import": "./dist/index.mjs",
       "types": "./dist/index.d.ts"
     },
     "./preset": {
       "node": "./dist/index.js",
       "require": "./dist/index.js",
-      "import": "./dist/index.mjs",
       "types": "./dist/index.d.ts"
     },
     "./dist/framework-preset-vue-docs": {
+      "node": "./dist/framework-preset-vue-docs.js",
       "require": "./dist/framework-preset-vue-docs.js",
-      "import": "./dist/framework-preset-vue-docs.mjs",
       "types": "./dist/framework-preset-vue-docs.d.ts"
     },
     "./dist/framework-preset-vue": {
+      "node": "./dist/framework-preset-vue.js",
       "require": "./dist/framework-preset-vue.js",
-      "import": "./dist/framework-preset-vue.mjs",
       "types": "./dist/framework-preset-vue.d.ts"
     },
     "./package.json": "./package.json"
   },
   "main": "dist/index.js",
-  "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "files": [
     "dist/**/*",
@@ -93,7 +90,10 @@
       "./src/framework-preset-vue-docs.ts",
       "./src/framework-preset-vue.ts"
     ],
-    "platform": "node"
+    "platform": "node",
+    "formats": [
+      "cjs"
+    ]
   },
   "gitHead": "8c9765f9cd204fc63b928526941d8d8bffaf7c38"
 }

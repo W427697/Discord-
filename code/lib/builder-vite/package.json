@@ -21,7 +21,6 @@
     ".": {
       "node": "./dist/index.js",
       "require": "./dist/index.js",
-      "import": "./dist/index.mjs",
       "types": "./dist/index.d.ts"
     },
     "./input/iframe.html": "./input/iframe.html",
@@ -29,7 +28,6 @@
     "./package.json": "./package.json"
   },
   "main": "dist/index.js",
-  "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "files": [
     "dist/**/*",
@@ -100,7 +98,10 @@
     "entries": [
       "./src/index.ts"
     ],
-    "platform": "node"
+    "platform": "node",
+    "formats": [
+      "cjs"
+    ]
   },
   "gitHead": "8c9765f9cd204fc63b928526941d8d8bffaf7c38"
 }

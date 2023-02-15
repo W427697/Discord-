@@ -4,7 +4,6 @@ import type { ArgTypes, Args, StoryContext, Renderer } from '@storybook/types';
 
 import { SourceType, SNIPPET_RENDERED } from '@storybook/docs-tools';
 
-// eslint-disable-next-line import/no-extraneous-dependencies
 import parserHTML from 'prettier/parser-html';
 
 // eslint-disable-next-line import/no-extraneous-dependencies

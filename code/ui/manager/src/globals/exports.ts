@@ -261,6 +261,6 @@ export default {
     'useStorybookApi',
     'useStorybookState',
   ],
-  '@storybook/addons': ['addons', 'types', 'mockChannel'],
+  '@storybook/addons': ['addons', 'mockChannel', 'types'],
   '@storybook/client-logger': ['deprecate', 'logger', 'once', 'pretty'],
 } as const;

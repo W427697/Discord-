@@ -23,39 +23,36 @@
     ".": {
       "node": "./dist/index.js",
       "require": "./dist/index.js",
-      "import": "./dist/index.mjs",
       "types": "./dist/index.d.ts"
     },
     "./preset": {
       "node": "./dist/index.js",
       "require": "./dist/index.js",
-      "import": "./dist/index.mjs",
       "types": "./dist/index.d.ts"
     },
     "./dist/framework-preset-cra": {
+      "node": "./dist/framework-preset-cra.js",
       "require": "./dist/framework-preset-cra.js",
-      "import": "./dist/framework-preset-cra.mjs",
       "types": "./dist/framework-preset-cra.d.ts"
     },
     "./dist/framework-preset-react-docs": {
+      "node": "./dist/framework-preset-react-docs.js",
       "require": "./dist/framework-preset-react-docs.js",
-      "import": "./dist/framework-preset-react-docs.mjs",
       "types": "./dist/framework-preset-react-docs.d.ts"
     },
     "./dist/framework-preset-react-dom-hack": {
+      "node": "./dist/framework-preset-react-dom-hack.js",
       "require": "./dist/framework-preset-react-dom-hack.js",
-      "import": "./dist/framework-preset-react-dom-hack.mjs",
       "types": "./dist/framework-preset-react-dom-hack.d.ts"
     },
     "./dist/framework-preset-react": {
+      "node": "./dist/framework-preset-react.js",
       "require": "./dist/framework-preset-react.js",
-      "import": "./dist/framework-preset-react.mjs",
       "types": "./dist/framework-preset-react.d.ts"
     },
     "./package.json": "./package.json"
   },
   "main": "dist/index.js",
-  "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "files": [
     "dist/**/*",
@@ -115,7 +112,10 @@
       "./src/framework-preset-react-dom-hack.ts",
       "./src/framework-preset-react.ts"
     ],
-    "platform": "node"
+    "platform": "node",
+    "formats": [
+      "cjs"
+    ]
   },
   "gitHead": "8c9765f9cd204fc63b928526941d8d8bffaf7c38"
 }

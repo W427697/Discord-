@@ -30,7 +30,7 @@ async function generate(text: string) {
 
 const run = async () => {
   const data = Object.entries(values).reduce<Record<string, string[]>>((acc, [key, value]) => {
-    acc[key] = Object.keys(value).filter(removeDefault);
+    acc[key] = Object.keys(value).filter(removeDefault).sort();
     return acc;
   }, {});
 
