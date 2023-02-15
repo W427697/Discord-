@@ -52,6 +52,7 @@
     "@storybook/node-logger": "7.0.0-beta.47",
     "@storybook/preview": "7.0.0-beta.47",
     "@storybook/preview-api": "7.0.0-beta.47",
+    "@storybook/source-loader": "7.0.0-beta.47",
     "@storybook/types": "7.0.0-beta.47",
     "browser-assert": "^1.2.1",
     "es-module-lexer": "^0.9.3",
