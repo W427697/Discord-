@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import { logger } from '@storybook/node-logger';
 import betterOpn from 'better-opn'; // betterOpn alias used because also loading open
 import open from 'open';

@@ -19,11 +19,9 @@ const resolveUsingBranchInstall = async (packageManager: JsPackageManager, reque
   const name = request as keyof typeof versions;
 
   // FIXME: this might not be the right version for community packages
-  const { dependencies, peerDependencies, devDependencies } = packageManager.readPackageJson();
-  const all = { ...dependencies, ...peerDependencies, ...devDependencies };
   const version = versions[name] || (await packageManager.latestVersion(request));
 
-  const url = getNpmTarballUrl(request, version, { registryUrl: packageManager.getRegistryURL() });
+  const url = getNpmTarballUrl(request, version, { registry: packageManager.getRegistryURL() });
 
   // this unzips the tarball into the temp directory
   await downloadTarball({ url, dir: tempDirectory });
