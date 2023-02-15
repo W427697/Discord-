@@ -6072,7 +6072,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/preset-create-react-app@workspace:presets/create-react-app":
+"@storybook/preset-create-react-app@workspace:*, @storybook/preset-create-react-app@workspace:presets/create-react-app":
   version: 0.0.0-use.local
   resolution: "@storybook/preset-create-react-app@workspace:presets/create-react-app"
   dependencies:
@@ -6509,6 +6509,7 @@ __metadata:
     "@storybook/preact": "workspace:*"
     "@storybook/preact-vite": "workspace:*"
     "@storybook/preact-webpack5": "workspace:*"
+    "@storybook/preset-create-react-app": "workspace:*"
     "@storybook/preset-html-webpack": "workspace:*"
     "@storybook/preset-preact-webpack": "workspace:*"
     "@storybook/preset-react-webpack": "workspace:*"
