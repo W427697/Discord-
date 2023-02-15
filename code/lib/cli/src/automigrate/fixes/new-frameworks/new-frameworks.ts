@@ -295,17 +295,18 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
     }
 
     if (builderConfig) {
-      if (typeof builderConfig === 'string') {
-        migrationSteps += `- Remove the ${chalk.yellow('core.builder')} field in ${chalk.blue(
-          mainConfigPath
-        )}.\n`;
-      } else if (Object.keys(builderConfig.options).length > 0) {
+      if (
+        typeof builderConfig === 'object' &&
+        Object.keys(builderConfig.options || {}).length > 0
+      ) {
         migrationSteps += `- Move the ${chalk.yellow('core.builder.options')} field in ${chalk.blue(
           mainConfigPath
-        )} to ${chalk.yellow('framework.options.builder')} and remove the ${chalk.yellow(
-          'core.builder'
-        )} field.\n`;
+        )} to ${chalk.yellow('framework.options.builder')}\n`;
       }
+
+      migrationSteps += `- Remove the ${chalk.yellow('core.builder')} field in ${chalk.blue(
+        mainConfigPath
+      )}.\n`;
     }
 
     if (
