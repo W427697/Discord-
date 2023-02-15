@@ -261,7 +261,7 @@ function setSandboxViteFinal(mainConfig: ConfigFile) {
 // Update the stories field to ensure that no TS files
 // that are linked from the renderer are picked up in non-TS projects
 function updateStoriesField(mainConfig: ConfigFile, isJs: boolean) {
-  const stories = (mainConfig.getFieldValue(['stories']) || []) as string[];
+  const stories = mainConfig.getFieldValue(['stories']) as string[];
 
   // If the project is a JS project, let's make sure any linked in TS stories from the
   // renderer inside src|stories are simply ignored.
@@ -274,7 +274,7 @@ function updateStoriesField(mainConfig: ConfigFile, isJs: boolean) {
 
 // Add a stories field entry for the passed symlink
 function addStoriesEntry(mainConfig: ConfigFile, path: string) {
-  const stories = (mainConfig.getFieldValue(['stories']) ||[]) as string[];
+  const stories = mainConfig.getFieldValue(['stories']) as string[];
 
   const entry = {
     directory: slash(join('../template-stories', path)),
@@ -429,16 +429,19 @@ export const addStories: Task['run'] = async (
     });
   }
 
-  const mainAddons = (mainConfig.getFieldValue(['addons']) || []).reduce((acc: string[], addon: any) => {
-    const name = typeof addon === 'string' ? addon : addon.name;
-    const match = /@storybook\/addon-(.*)/.exec(name);
-    if (!match) return acc;
-    const suffix = match[1];
-    if (suffix === 'essentials') {
-      return [...acc, ...essentialsAddons];
-    }
-    return [...acc, suffix];
-  }, []);
+  const mainAddons = (mainConfig.getSafeFieldValue(['addons']) || []).reduce(
+    (acc: string[], addon: any) => {
+      const name = typeof addon === 'string' ? addon : addon.name;
+      const match = /@storybook\/addon-(.*)/.exec(name);
+      if (!match) return acc;
+      const suffix = match[1];
+      if (suffix === 'essentials') {
+        return [...acc, ...essentialsAddons];
+      }
+      return [...acc, suffix];
+    },
+    []
+  );
 
   const addonDirs = await Promise.all(
     [...mainAddons, ...extraAddons].map(async (addon) =>
