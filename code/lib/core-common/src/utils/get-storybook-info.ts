@@ -21,6 +21,7 @@ export const rendererPackages: Record<string, string> = {
   '@storybook/server': 'server',
   // community (outside of monorepo)
   'storybook-framework-qwik': 'qwik',
+  'storybook-solidjs': 'solid',
 };
 
 export const frameworkPackages: Record<string, string> = {
@@ -45,6 +46,7 @@ export const frameworkPackages: Record<string, string> = {
   '@storybook/web-components-webpack5': 'web-components-webpack5',
   // community (outside of monorepo)
   'storybook-framework-qwik': 'qwik',
+  'storybook-solidjs': 'solid',
 };
 
 const logger = console;

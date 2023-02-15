@@ -1,6 +1,6 @@
 {
   "name": "@storybook/components",
-  "version": "7.0.0-beta.45",
+  "version": "7.0.0-beta.47",
   "description": "Core Storybook Components",
   "keywords": [
     "storybook"
@@ -48,11 +48,11 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/client-logger": "7.0.0-beta.45",
+    "@storybook/client-logger": "7.0.0-beta.47",
     "@storybook/csf": "next",
     "@storybook/global": "^5.0.0",
-    "@storybook/theming": "7.0.0-beta.45",
-    "@storybook/types": "7.0.0-beta.45",
+    "@storybook/theming": "7.0.0-beta.47",
+    "@storybook/types": "7.0.0-beta.47",
     "memoizerific": "^1.11.3",
     "use-resize-observer": "^9.1.0",
     "util-deprecate": "^1.0.2"
@@ -85,5 +85,5 @@
     ],
     "platform": "neutral"
   },
-  "gitHead": "c7fdb03a408aff39160d1977f906e1780ccfbc50"
+  "gitHead": "a591d8eb579e68b26c277ab8ebdcafc2611530a5"
 }

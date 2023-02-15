@@ -15,6 +15,7 @@ import { autodocsTrue } from './autodocs-true';
 import { addReact } from './add-react';
 import { nodeJsRequirement } from './nodejs-requirement';
 import { missingBabelRc } from './missing-babelrc';
+import { bareMdxStoriesGlob } from './bare-mdx-stories-glob';
 
 export * from '../types';
 
@@ -31,6 +32,7 @@ export const fixes: Fix[] = [
   newFrameworks,
   removedGlobalClientAPIs,
   mdx1to2,
+  bareMdxStoriesGlob,
   autodocsTrue,
   addReact,
   missingBabelRc,

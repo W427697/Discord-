@@ -1,6 +1,6 @@
 {
   "name": "@storybook/channel-postmessage",
-  "version": "7.0.0-beta.45",
+  "version": "7.0.0-beta.47",
   "description": "",
   "keywords": [
     "storybook"
@@ -43,9 +43,9 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/channels": "7.0.0-beta.45",
-    "@storybook/client-logger": "7.0.0-beta.45",
-    "@storybook/core-events": "7.0.0-beta.45",
+    "@storybook/channels": "7.0.0-beta.47",
+    "@storybook/client-logger": "7.0.0-beta.47",
+    "@storybook/core-events": "7.0.0-beta.47",
     "@storybook/global": "^5.0.0",
     "qs": "^6.10.0",
     "telejson": "^7.0.3"
@@ -61,5 +61,5 @@
       "./src/index.ts"
     ]
   },
-  "gitHead": "c7fdb03a408aff39160d1977f906e1780ccfbc50"
+  "gitHead": "a591d8eb579e68b26c277ab8ebdcafc2611530a5"
 }
