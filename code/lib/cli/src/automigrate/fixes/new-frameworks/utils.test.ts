@@ -1,4 +1,4 @@
-import { getBuilderInfo as _getBuilderInfo } from './utils';
+import { getBuilderInfo as _getBuilderInfo, getNextjsAddonOptions } from './utils';
 
 type GetBuilderInfoParams = Parameters<typeof _getBuilderInfo>[0];
 
@@ -11,27 +11,20 @@ describe('getBuilderInfo', () => {
       getBuilderInfo({
         core: { builder: '@storybook/builder-webpack5' },
       })
-    ).toEqual({
-      name: 'webpack5',
-      options: {},
-    });
+    ).toEqual({ name: 'webpack5', options: {} });
 
     expect(
       getBuilderInfo({
         core: {
           builder: {
             name: '@storybook/builder-webpack5',
-            options: {
-              lazyCompilation: true,
-            },
+            options: { lazyCompilation: true },
           },
         },
       })
     ).toEqual({
       name: 'webpack5',
-      options: {
-        lazyCompilation: true,
-      },
+      options: { lazyCompilation: true },
     });
   });
 
@@ -40,10 +33,7 @@ describe('getBuilderInfo', () => {
       getBuilderInfo({
         framework: '@storybook/react-webpack5',
       })
-    ).toEqual({
-      name: 'webpack5',
-      options: {},
-    });
+    ).toEqual({ name: 'webpack5', options: {} });
 
     expect(
       getBuilderInfo({
@@ -58,9 +48,7 @@ describe('getBuilderInfo', () => {
       })
     ).toEqual({
       name: 'webpack5',
-      options: {
-        lazyCompilation: true,
-      },
+      options: { lazyCompilation: true },
     });
   });
 
@@ -69,27 +57,20 @@ describe('getBuilderInfo', () => {
       getBuilderInfo({
         core: { builder: '@storybook/builder-vite' },
       })
-    ).toEqual({
-      name: 'vite',
-      options: {},
-    });
+    ).toEqual({ name: 'vite', options: {} });
 
     expect(
       getBuilderInfo({
         core: {
           builder: {
             name: '@storybook/builder-vite',
-            options: {
-              foo: 'bar',
-            },
+            options: { foo: 'bar' },
           },
         },
       })
     ).toEqual({
       name: 'vite',
-      options: {
-        foo: 'bar',
-      },
+      options: { foo: 'bar' },
     });
   });
 
@@ -98,27 +79,40 @@ describe('getBuilderInfo', () => {
       getBuilderInfo({
         framework: '@storybook/react-vite',
       })
-    ).toEqual({
-      name: 'vite',
-      options: {},
-    });
+    ).toEqual({ name: 'vite', options: {} });
 
     expect(
       getBuilderInfo({
         framework: {
           name: '@storybook/react-vite',
-          options: {
-            builder: {
-              foo: 'bar',
-            },
-          },
+          options: { builder: { foo: 'bar' } },
         },
       })
     ).toEqual({
       name: 'vite',
-      options: {
-        foo: 'bar',
-      },
+      options: { foo: 'bar' },
     });
+  });
+});
+
+describe('getNextjsAddonOptions', () => {
+  it('should find storybook-addon-next and extract its options', () => {
+    expect(getNextjsAddonOptions(['foo', 'bar'])).toEqual({});
+    expect(getNextjsAddonOptions(['foo', 'storybook-addon-next'])).toEqual({});
+    expect(getNextjsAddonOptions(['foo', { name: 'storybook-addon-next' }])).toEqual({});
+    expect(getNextjsAddonOptions(['foo', { name: 'storybook-addon-next', options: {} }])).toEqual(
+      {}
+    );
+    expect(
+      getNextjsAddonOptions([
+        'foo',
+        {
+          name: 'storybook-addon-next',
+          options: {
+            nextConfigPath: 'foo/bar',
+          },
+        },
+      ])
+    ).toEqual({ nextConfigPath: 'foo/bar' });
   });
 });
