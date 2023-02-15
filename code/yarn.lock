@@ -6233,7 +6233,7 @@ __metadata:
     lit-html: 2.0.2
     typescript: ~4.9.3
   peerDependencies:
-    lit-html: ^1.4.1 || ^2.0.0
+    lit-html: ^2.0.0
   languageName: unknown
   linkType: soft
 
@@ -6990,7 +6990,7 @@ __metadata:
     lit-html: 2.0.2
     typescript: ~4.9.3
   peerDependencies:
-    lit-html: ^1.4.1 || ^2.0.0
+    lit-html: ^2.0.0
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
   languageName: unknown
@@ -7016,7 +7016,7 @@ __metadata:
     typescript: ~4.9.3
     web-component-analyzer: ^1.1.6
   peerDependencies:
-    lit-html: ^1.4.1 || ^2.0.0
+    lit-html: ^2.0.0
   languageName: unknown
   linkType: soft
 
