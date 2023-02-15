@@ -2,7 +2,12 @@ import chalk from 'chalk';
 import dedent from 'ts-dedent';
 import semver from 'semver';
 import { readConfig, writeConfig } from '@storybook/csf-tools';
-import { getStorybookInfo, loadMainConfig, rendererPackages } from '@storybook/core-common';
+import {
+  frameworkPackages,
+  getStorybookInfo,
+  loadMainConfig,
+  rendererPackages,
+} from '@storybook/core-common';
 
 import type { Fix } from '../../types';
 import type { PackageJsonWithDepsAndDevDeps } from '../../../js-package-manager';
@@ -124,7 +129,15 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
 
     const builderInfo = getBuilderInfo(mainConfig, allDependencies);
 
-    let newFrameworkPackage = packagesMap[rendererPackage][builderInfo.name];
+    // if the user has a new framework already, use it
+    let newFrameworkPackage = Object.keys(frameworkPackages).find(
+      (pkg) => pkg === frameworkPackage
+    );
+
+    if (!newFrameworkPackage) {
+      newFrameworkPackage =
+        packagesMap[rendererPackage] && packagesMap[rendererPackage][builderInfo.name];
+    }
 
     // bail if there is no framework that matches the renderer + builder
     if (!newFrameworkPackage) {
@@ -184,14 +197,20 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
     }
 
     // some frameworks didn't change e.g. Angular, Ember
-    if (newFrameworkPackage !== frameworkPackage && !allDependencies[newFrameworkPackage]) {
+    if (
+      newFrameworkPackage &&
+      newFrameworkPackage !== frameworkPackage &&
+      !allDependencies[newFrameworkPackage]
+    ) {
       dependenciesToAdd.push(newFrameworkPackage);
     }
 
     // only install what's not already installed
-    dependenciesToAdd = dependenciesToAdd.filter((dep) => !allDependencies[dep]);
+    dependenciesToAdd = dependenciesToAdd.filter((dep) => !allDependencies[dep]).filter(Boolean);
     // only uninstall what's installed
-    dependenciesToRemove = dependenciesToRemove.filter((dep) => allDependencies[dep]);
+    dependenciesToRemove = dependenciesToRemove
+      .filter((dep) => allDependencies[dep])
+      .filter(Boolean);
 
     const isProjectAlreadyCorrect =
       hasFrameworkInMainConfig &&

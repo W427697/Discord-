@@ -55,7 +55,7 @@ export const getBuilderInfo = (
 ): { name: BuilderType; options: any } => {
   let builderOptions = {};
   let builderName: BuilderType;
-  let builderOrFrameworkName = '';
+  let builderOrFrameworkName;
 
   const { core = {}, framework } = mainConfig;
   const { builder } = core;
@@ -79,14 +79,14 @@ export const getBuilderInfo = (
   }
 
   if (
-    builderOrFrameworkName.includes('vite') ||
+    builderOrFrameworkName?.includes('vite') ||
     dependencies['@storybook/builder-vite'] ||
     dependencies['storybook-builder-vite'] ||
     communityFrameworks.vite.includes(builderOrFrameworkName)
   ) {
     builderName = 'vite';
   } else if (
-    builderOrFrameworkName.includes('webpack') ||
+    builderOrFrameworkName?.includes('webpack') ||
     dependencies['@storybook/builder-webpack5'] ||
     dependencies['@storybook/manager-webpack5'] ||
     dependencies['@storybook/builder-webpack4'] ||
@@ -96,14 +96,8 @@ export const getBuilderInfo = (
     builderName = 'webpack5';
   }
 
-  if (builderName === undefined) {
-    logger.info(
-      `Builder couldn't be extracted from ${builderOrFrameworkName}. Please report a bug on Github!`
-    );
-  }
-
   return {
-    name: builderName || 'webpack5',
+    name: builderName,
     options: builderOptions,
   };
 };

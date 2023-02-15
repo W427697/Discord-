@@ -113,16 +113,6 @@ describe('getBuilderInfo', () => {
       options: { foo: 'bar' },
     });
   });
-
-  it('should log in case builder is not detected', () => {
-    const logSpy = jest.spyOn(console, 'info');
-    getBuilderInfo({
-      framework: 'storybook-framework-foo',
-    });
-    expect(logSpy).toHaveBeenCalledWith(
-      `Builder couldn't be extracted from storybook-framework-foo. Please report a bug on Github!`
-    );
-  });
 });
 
 describe('getNextjsAddonOptions', () => {
