@@ -150,6 +150,7 @@ export function transform(
     if (child.type === 'mdxFlowExpression') {
       const expression = babelParseExpression(child.value);
 
+      // Recreating those liness: https://github.com/storybookjs/mdx1-csf/blob/f408fc97e9a63097ca1ee577df9315a3cccca975/src/sb-mdx-plugin.ts#L185-L198
       const BIND_REGEX = /\.bind\(.*\)/;
       if (BIND_REGEX.test(child.value)) {
         return expression;
