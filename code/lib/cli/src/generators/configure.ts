@@ -74,18 +74,26 @@ export async function configureMain({
     logger.warn('Could not find framework package name');
   }
 
-  const mainJsContents = mainConfigTemplate
-    .replace(
-      '<<import>>',
-      isTypescript
-        ? `import type { StorybookConfig } from '${frameworkPackage}';\n\n`
-        : `/** @type { import('${frameworkPackage}').StorybookConfig } */\n`
-    )
-    .replace('<<type>>', isTypescript ? ': StorybookConfig' : '')
-    .replace('<<mainContents>>', JSON.stringify(config, null, 2))
+  const mainContents = JSON.stringify(config, null, 2)
     .replace(/['"]%%/g, '')
     .replace(/%%['"]/g, '');
 
+  const imports = [];
+
+  if (custom.framework?.name.includes('path.dirname(')) {
+    imports.push(`import path from 'path';`);
+  }
+
+  if (isTypescript) {
+    imports.push(`import type { StorybookConfig } from '${frameworkPackage}';`);
+  } else {
+    imports.push(`/** @type { import('${frameworkPackage}').StorybookConfig } */`);
+  }
+
+  const mainJsContents = mainConfigTemplate
+    .replace('<<import>>', `${imports.join('\n\n')}\n`)
+    .replace('<<type>>', isTypescript ? ': StorybookConfig' : '')
+    .replace('<<mainContents>>', mainContents);
   await fse.writeFile(
     `./${storybookConfigFolder}/main.${isTypescript ? 'ts' : 'js'}`,
     dedent(mainJsContents),
