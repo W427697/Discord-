@@ -46,10 +46,7 @@ export const essentialsAddons = [
   'viewport',
 ];
 
-export const create: Task['run'] = async (
-  { key, template, sandboxDir },
-  { addon: addons, dryRun, debug, skipTemplateStories }
-) => {
+export const create: Task['run'] = async ({ key, template, sandboxDir }, { dryRun, debug }) => {
   const parentDir = resolve(sandboxDir, '..');
   await ensureDir(parentDir);
 
@@ -68,17 +65,12 @@ export const create: Task['run'] = async (
       debug,
     });
   }
-
-  const cwd = sandboxDir;
-  if (!skipTemplateStories) {
-    for (const addon of addons) {
-      const addonName = `@storybook/addon-${addon}`;
-      await executeCLIStep(steps.add, { argument: addonName, cwd, dryRun, debug });
-    }
-  }
 };
 
-export const install: Task['run'] = async ({ sandboxDir, template }, { link, dryRun, debug }) => {
+export const install: Task['run'] = async (
+  { sandboxDir, template },
+  { link, dryRun, debug, addon: addons, skipTemplateStories }
+) => {
   const cwd = sandboxDir;
   await installYarn2({ cwd, dryRun, debug });
 
@@ -130,6 +122,13 @@ export const install: Task['run'] = async ({ sandboxDir, template }, { link, dry
       await prepareAngularSandbox(cwd);
       break;
     default:
+  }
+
+  if (!skipTemplateStories) {
+    for (const addon of addons) {
+      const addonName = `@storybook/addon-${addon}`;
+      await executeCLIStep(steps.add, { argument: addonName, cwd, dryRun, debug });
+    }
   }
 };
 
