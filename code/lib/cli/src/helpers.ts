@@ -187,6 +187,7 @@ export function copyTemplate(templateRoot: string, destination = '.') {
 }
 
 type CopyTemplateFilesOptions = {
+  packageManager?: JsPackageManager;
   renderer: SupportedFrameworks | SupportedRenderers;
   language: SupportedLanguage;
   includeCommonAssets?: boolean;
@@ -194,6 +195,7 @@ type CopyTemplateFilesOptions = {
 };
 
 export async function copyTemplateFiles({
+  packageManager,
   renderer,
   language,
   destination,
@@ -205,7 +207,7 @@ export async function copyTemplateFiles({
     [SupportedLanguage.TYPESCRIPT_4_9]: 'ts-4-9',
   };
   const templatePath = async () => {
-    const baseDir = getRendererDir(renderer);
+    const baseDir = await getRendererDir(packageManager, renderer);
     const assetsDir = join(baseDir, 'template/cli');
 
     const assetsLanguage = join(assetsDir, languageFolderMapping[language]);
@@ -228,7 +230,7 @@ export async function copyTemplateFiles({
     if (await fse.pathExists(assetsDir)) {
       return assetsDir;
     }
-    throw new Error(`Unsupported renderer: ${renderer}`);
+    throw new Error(`Unsupported renderer: ${renderer} (${baseDir})`);
   };
 
   const targetPath = async () => {

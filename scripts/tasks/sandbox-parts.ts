@@ -111,10 +111,24 @@ export const install: Task['run'] = async (
   });
 
   logger.info(`🔢 Adding package scripts:`);
+
+  const nodeOptions = [
+    ...(process.env.NODE_OPTIONS || '').split(' '),
+    '--preserve-symlinks',
+    '--preserve-symlinks-main',
+  ].filter(Boolean);
+
+  const pnp = await pathExists(join(cwd, '.pnp.cjs')).catch(() => {});
+  if (pnp && !nodeOptions.find((s) => s.includes('--require'))) {
+    nodeOptions.push('--require ./.pnp.cjs');
+  }
+
+  const nodeOptionsString = nodeOptions.join(' ');
+  const prefix = `NODE_OPTIONS="${nodeOptionsString}" STORYBOOK_TELEMETRY_URL="http://localhost:6007/event-log"`;
+
   await updatePackageScripts({
     cwd,
-    prefix:
-      'NODE_OPTIONS="--preserve-symlinks --preserve-symlinks-main" STORYBOOK_TELEMETRY_URL="http://localhost:6007/event-log"',
+    prefix,
   });
 
   switch (template.expected.framework) {
@@ -347,6 +361,7 @@ export const addStories: Task['run'] = async (
   { sandboxDir, template, key },
   { addon: extraAddons, dryRun, debug }
 ) => {
+  logger.log('💃 adding stories');
   const cwd = sandboxDir;
   const storiesPath = await findFirstPath([join('src', 'stories'), 'stories'], { cwd });
 
@@ -413,16 +428,19 @@ export const addStories: Task['run'] = async (
     });
   }
 
-  const mainAddons = mainConfig.getFieldValue(['addons']).reduce((acc: string[], addon: any) => {
-    const name = typeof addon === 'string' ? addon : addon.name;
-    const match = /@storybook\/addon-(.*)/.exec(name);
-    if (!match) return acc;
-    const suffix = match[1];
-    if (suffix === 'essentials') {
-      return [...acc, ...essentialsAddons];
-    }
-    return [...acc, suffix];
-  }, []);
+  const mainAddons = (mainConfig.getSafeFieldValue(['addons']) || []).reduce(
+    (acc: string[], addon: any) => {
+      const name = typeof addon === 'string' ? addon : addon.name;
+      const match = /@storybook\/addon-(.*)/.exec(name);
+      if (!match) return acc;
+      const suffix = match[1];
+      if (suffix === 'essentials') {
+        return [...acc, ...essentialsAddons];
+      }
+      return [...acc, suffix];
+    },
+    []
+  );
 
   const addonDirs = await Promise.all(
     [...mainAddons, ...extraAddons].map(async (addon) =>

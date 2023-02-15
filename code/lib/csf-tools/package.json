@@ -24,13 +24,11 @@
     ".": {
       "node": "./dist/index.js",
       "require": "./dist/index.js",
-      "import": "./dist/index.mjs",
       "types": "./dist/index.d.ts"
     },
     "./package.json": "./package.json"
   },
   "main": "dist/index.js",
-  "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "files": [
     "dist/**/*",
@@ -65,6 +63,9 @@
   "bundler": {
     "entries": [
       "./src/index.ts"
+    ],
+    "formats": [
+      "cjs"
     ]
   },
   "gitHead": "a591d8eb579e68b26c277ab8ebdcafc2611530a5"
