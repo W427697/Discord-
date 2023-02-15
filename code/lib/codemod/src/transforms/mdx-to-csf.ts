@@ -122,14 +122,14 @@ export function transform(
   const file = getEsmAst(root);
   addStoriesImport(root, baseName);
 
-  // remove exports from csf file
   file.path.traverse({
+    // remove mdx imports from csf
     ImportDeclaration(path) {
-      // remove mdx imports from csf
       if (path.node.source.value === '@storybook/blocks') {
         path.remove();
       }
     },
+    // remove exports from csf file
     ExportNamedDeclaration(path) {
       path.replaceWith(path.node.declaration);
     },
@@ -220,7 +220,6 @@ export function transform(
 }
 
 function getEsmAst(root: Root) {
-  // rewrite imports
   const esm: string[] = [];
   visit(root, ['mdxjsEsm'], (node: MdxjsEsm) => {
     esm.push(node.value);
