@@ -50,6 +50,7 @@
   "dependencies": {
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.1",
     "@storybook/react-docgen-typescript-plugin": "canary",
+    "@storybook/types": "7.0.0-beta.48",
     "@types/babel__core": "^7.1.7",
     "babel-plugin-react-docgen": "^4.1.0",
     "pnp-webpack-plugin": "^1.7.0",
@@ -57,14 +58,11 @@
   },
   "devDependencies": {
     "@storybook/node-logger": "7.0.0-beta.48",
-    "@storybook/types": "7.0.0-beta.48",
     "@types/semver": "^7.3.6",
     "typescript": "~4.9.3"
   },
   "peerDependencies": {
     "@babel/core": "*",
-    "@storybook/node-logger": "*",
-    "@storybook/react": "7.0.0-beta.48",
     "react-scripts": ">=5.0.0"
   },
   "publishConfig": {
@@ -74,7 +72,9 @@
     "entries": [
       "./src/index.ts"
     ],
-    "platform": "node"
+    "formats": [
+      "cjs"
+    ]
   },
   "gitHead": "8c9765f9cd204fc63b928526941d8d8bffaf7c38"
 }

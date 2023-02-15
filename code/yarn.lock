@@ -6088,8 +6088,6 @@ __metadata:
     typescript: ~4.9.3
   peerDependencies:
     "@babel/core": "*"
-    "@storybook/node-logger": "*"
-    "@storybook/react": 7.0.0-beta.48
     react-scripts: ">=5.0.0"
   languageName: unknown
   linkType: soft
