@@ -1,6 +1,6 @@
 {
   "name": "@storybook/preset-preact-webpack",
-  "version": "7.0.0-beta.47",
+  "version": "7.0.0-beta.48",
   "description": "Storybook for Preact: Develop Preact Component in isolation.",
   "keywords": [
     "storybook"
@@ -49,7 +49,7 @@
   },
   "dependencies": {
     "@babel/plugin-transform-react-jsx": "^7.19.0",
-    "@storybook/core-webpack": "7.0.0-beta.47",
+    "@storybook/core-webpack": "7.0.0-beta.48",
     "@types/node": "^16.0.0"
   },
   "devDependencies": {
@@ -72,5 +72,5 @@
     ],
     "platform": "node"
   },
-  "gitHead": "a591d8eb579e68b26c277ab8ebdcafc2611530a5"
+  "gitHead": "8c9765f9cd204fc63b928526941d8d8bffaf7c38"
 }
