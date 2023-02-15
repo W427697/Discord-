@@ -2,7 +2,6 @@
 
 - [From version 6.5.x to 7.0.0](#from-version-65x-to-700)
   - [7.0 breaking changes](#70-breaking-changes)
-    - [Story context is prepared before for supporting fine grained updates](#story-context-is-prepared-before-for-supporting-fine-grained-updates)
     - [Dropped support for Node 15 and below](#dropped-support-for-node-15-and-below)
     - [ESM format in Main.js](#esm-format-in-mainjs)
     - [Modern browser support](#modern-browser-support)
@@ -37,6 +36,7 @@
     - [Angular: Removed legacy renderer](#angular-removed-legacy-renderer)
     - [SvelteKit: needs the `@storybook/sveltekit` framework](#sveltekit-needs-the-storybooksveltekit-framework)
     - [Vue3: replaced app export with setup](#vue3-replaced-app-export-with-setup)
+    - [Web-components: dropped lit-html v1 support](#web-components-dropped-lit-html-v1-support)
   - [Addon authors](#addon-authors)
     - [register.js removed](#registerjs-removed)
     - [No more default export from `@storybook/addons`](#no-more-default-export-from-storybookaddons)
@@ -755,6 +755,10 @@ setup((app) => {
   app.component('GlobalButton', Button);
 });
 ```
+
+#### Web-components: dropped lit-html v1 support
+
+In v6.x `@storybook/web-components` had a peer dependency on `lit-html` v1 or v2. In 7.0 we've dropped support for `lit-html` v1. Please upgrade your project's `lit-html` dependency if you're still on 1.x.
 
 ### Addon authors
 
