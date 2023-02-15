@@ -231,14 +231,19 @@ export class ConfigFile {
   }
 
   getFieldValue(path: string[]) {
+    const node = this.getFieldNode(path);
+    if (node) {
+      const { code } = generate.default(node, {});
+      // eslint-disable-next-line no-eval
+      const value = (0, eval)(`(() => (${code}))()`);
+      return value;
+    }
+    return undefined;
+  }
+
+  getSafeFieldValue(path: string[]) {
     try {
-      const node = this.getFieldNode(path);
-      if (node) {
-        const { code } = generate.default(node, {});
-        // eslint-disable-next-line no-eval
-        const value = (0, eval)(`(() => (${code}))()`);
-        return value;
-      }
+      return this.getFieldValue(path);
     } catch (e) {
       //
     }
