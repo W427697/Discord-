@@ -125,12 +125,13 @@ export const ViewportTool: FC = memo(
   withTheme(({ theme }: { theme: Theme }) => {
     const {
       viewports = MINIMAL_VIEWPORTS,
+      defaultOrientation = 'portrait',
       defaultViewport = responsiveViewport.id,
       disable,
     } = useParameter<ViewportAddonParameter>(PARAM_KEY, {});
     const [state, setState] = useAddonState<ViewportToolState>(ADDON_ID, {
       selected: defaultViewport,
-      isRotated: false,
+      isRotated: defaultOrientation === 'landscape',
     });
 
     const list = toList(viewports);
@@ -178,11 +179,10 @@ export const ViewportTool: FC = memo(
       <Fragment>
         <WithTooltip
           placement="top"
-          trigger="click"
           tooltip={({ onHide }) => (
             <TooltipLinkList links={toLinks(list, item, setState, state, onHide)} />
           )}
-          closeOnClick
+          closeOnOutsideClick
         >
           <IconButtonWithLabel
             key="viewport"

@@ -119,6 +119,8 @@ export class ConfigFile {
 
   fileName?: string;
 
+  hasDefaultExport = false;
+
   constructor(ast: t.File, code: string, fileName?: string) {
     this._ast = ast;
     this._code = code;
@@ -131,10 +133,14 @@ export class ConfigFile {
     traverse.default(this._ast, {
       ExportDefaultDeclaration: {
         enter({ node, parent }) {
-          const decl =
+          self.hasDefaultExport = true;
+          let decl =
             t.isIdentifier(node.declaration) && t.isProgram(parent)
               ? _findVarInitialization(node.declaration.name, parent)
               : node.declaration;
+          if (t.isTSAsExpression(decl) || t.isTSSatisfiesExpression(decl)) {
+            decl = decl.expression;
+          }
 
           if (t.isObjectExpression(decl)) {
             self._exportsObject = decl;
@@ -231,6 +237,15 @@ export class ConfigFile {
       // eslint-disable-next-line no-eval
       const value = (0, eval)(`(() => (${code}))()`);
       return value;
+    }
+    return undefined;
+  }
+
+  getSafeFieldValue(path: string[]) {
+    try {
+      return this.getFieldValue(path);
+    } catch (e) {
+      //
     }
     return undefined;
   }

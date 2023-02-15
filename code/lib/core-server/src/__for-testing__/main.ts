@@ -14,7 +14,6 @@ const config: StorybookConfig = {
     {
       name: '@storybook/addon-docs',
       options: {
-        transcludeMarkdown: true,
         sourceLoaderOptions: null,
       },
     },
@@ -31,7 +30,6 @@ const config: StorybookConfig = {
   },
   logLevel: 'debug',
   features: {
-    interactionsDebugger: true,
     breakingChangesV7: false,
     storyStoreV7: false,
   },

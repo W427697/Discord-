@@ -49,7 +49,10 @@ export function decorateStory(
       let story: VueRenderer['storyResult'] | undefined;
 
       const decoratedStory: VueRenderer['storyResult'] = decorator((update) => {
-        story = decorated({ ...context, ...sanitizeStoryContextUpdate(update) });
+        story = decorated({
+          ...context,
+          ...sanitizeStoryContextUpdate(update),
+        });
         return story;
       }, context);
 
@@ -61,7 +64,7 @@ export function decorateStory(
         return story;
       }
 
-      return prepare(decoratedStory, story) as VueRenderer['storyResult'];
+      return prepare(decoratedStory, h(story, context.args)) as VueRenderer['storyResult'];
     },
     (context) => prepare(storyFn(context)) as LegacyStoryFn<VueRenderer>
   );

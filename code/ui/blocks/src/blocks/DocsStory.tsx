@@ -10,11 +10,14 @@ import { useOf } from './useOf';
 export const DocsStory: FC<DocsStoryProps> = ({
   of,
   expanded = true,
-  withToolbar = false,
+  withToolbar: withToolbarProp = false,
   __forceInitialArgs = false,
   __primary = false,
 }) => {
   const { story } = useOf(of || 'story', ['story']);
+
+  // use withToolbar from parameters or default to true in autodocs
+  const withToolbar = story.parameters.docs?.canvas?.withToolbar ?? withToolbarProp;
 
   return (
     <Anchor storyId={story.id}>
@@ -24,7 +27,12 @@ export const DocsStory: FC<DocsStoryProps> = ({
           <Description of={of} />
         </>
       )}
-      <Canvas of={of} withToolbar={withToolbar} story={{ __forceInitialArgs, __primary }} />
+      <Canvas
+        of={of}
+        withToolbar={withToolbar}
+        story={{ __forceInitialArgs, __primary }}
+        source={{ __forceInitialArgs }}
+      />
     </Anchor>
   );
 };

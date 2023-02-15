@@ -1,29 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { action } from '@storybook/addon-actions';
-import type { State } from '@storybook/manager-api';
 import type { Addon_Collection } from '@storybook/types';
-import { AddonPanel } from './Panel';
-
-const shortcuts: State['shortcuts'] = {
-  fullScreen: ['F'],
-  togglePanel: ['A'],
-  panelPosition: ['D'],
-  toggleNav: ['S'],
-  toolbar: ['T'],
-  search: ['/'],
-  focusNav: ['1'],
-  focusIframe: ['2'],
-  focusPanel: ['3'],
-  prevComponent: ['alt', 'ArrowUp'],
-  nextComponent: ['alt', 'ArrowDown'],
-  prevStory: ['alt', 'ArrowLeft'],
-  nextStory: ['alt', 'ArrowRight'],
-  shortcutsPage: ['ctrl', 'shift', ','],
-  aboutPage: [','],
-  escape: ['escape'],
-  collapseAll: ['ctrl', 'shift', 'ArrowUp'],
-  expandAll: ['ctrl', 'shift', 'ArrowDown'],
-};
+import { AddonPanel as Panel } from './Panel';
+import { defaultShortcuts } from '../../settings/defaultShortcuts';
 
 const panels: Addon_Collection = {
   test1: {
@@ -45,29 +24,33 @@ const panels: Addon_Collection = {
       ) : null,
   },
 };
+
 const onSelect = action('onSelect');
 const toggleVisibility = action('toggleVisibility');
 const togglePosition = action('togglePosition');
 
 export default {
   title: 'Panel',
-  component: AddonPanel,
+  component: Panel,
 };
 
-export const Default = () => (
-  <AddonPanel
-    absolute={false}
-    panels={panels}
-    actions={{ onSelect, toggleVisibility, togglePosition }}
-    selectedPanel="test2"
-    shortcuts={shortcuts}
-  />
-);
+export const Default = () => {
+  const [selectedPanel, setSelectedPanel] = useState('test2');
+  return (
+    <Panel
+      absolute={false}
+      panels={panels}
+      actions={{ onSelect: setSelectedPanel, toggleVisibility, togglePosition }}
+      selectedPanel={selectedPanel}
+      shortcuts={defaultShortcuts}
+    />
+  );
+};
 
 export const NoPanels = () => (
-  <AddonPanel
+  <Panel
     panels={{}}
     actions={{ onSelect, toggleVisibility, togglePosition }}
-    shortcuts={shortcuts}
+    shortcuts={defaultShortcuts}
   />
 );
