@@ -168,9 +168,7 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
           'storybook-addon-next-router'
         );
       }
-    }
-
-    if (
+    } else if (
       allDependencies['@sveltejs/kit'] &&
       semver.gte(semver.coerce(allDependencies['@sveltejs/kit']).version, '1.0.0')
     ) {
@@ -197,6 +195,7 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
 
     const isProjectAlreadyCorrect =
       hasFrameworkInMainConfig &&
+      !builderConfig &&
       !Object.keys(rendererOptions).length &&
       !Object.keys(addonOptions).length &&
       !dependenciesToRemove.length &&
@@ -401,9 +400,9 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
 
       Your project should be updated to use Storybook's framework: ${chalk.magenta(
         frameworkPackage
-      )}.
+      )}. We can attempt to do this for you automatically.
 
-      Here are the steps we'll take to migrate your project:
+      Here are the steps this migration will do to migrate your project:
       ${migrationSteps}
 
       To learn more about the new framework format, see: ${chalk.yellow(
@@ -446,67 +445,84 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
       }
     }
 
-    if (!dryRun) {
-      try {
-        logger.info(`✅ Updating main.js`);
-        const main = await readConfig(mainConfigPath);
+    try {
+      const main = await readConfig(mainConfigPath);
+      logger.info(`✅ Updating main.js`);
 
+      logger.info(`✅ Updating "framework" field`);
+      if (!dryRun) {
         main.setFieldValue(['framework', 'name'], frameworkPackage);
+      }
 
-        if (frameworkOptions) {
-          main.setFieldValue(['framework', 'options'], frameworkOptions);
+      if (Object.keys(frameworkOptions).length > 0) {
+        main.setFieldValue(['framework', 'options'], frameworkOptions);
 
-          if (main.getFieldNode([`${renderer}Options`])) {
+        if (main.getFieldNode([`${renderer}Options`])) {
+          logger.info(`✅ Moving "${renderer}Options" to "framework.options"`);
+          if (!dryRun) {
             main.removeField([`${renderer}Options`]);
           }
         }
+      }
 
-        const builder = main.getFieldNode(['core', 'builder']);
-        if (builder) {
+      const builder = main.getFieldNode(['core', 'builder']);
+      if (builder) {
+        logger.info(`✅ Removing "core.builder" field`);
+        if (!dryRun) {
           main.removeField(['core', 'builder']);
         }
+      }
 
-        if (Object.keys(builderInfo.options).length > 0) {
+      if (Object.keys(builderInfo.options).length > 0) {
+        logger.info(`✅ Moving "core.builder.options" into "framework.options.builder"`);
+        if (!dryRun) {
           main.setFieldValue(['framework', 'options', 'builder'], builderInfo.options);
         }
+      }
 
-        const currentCore = main.getFieldValue(['core']);
-        if (currentCore) {
-          if (Object.keys(currentCore).length === 0) {
+      const currentCore = main.getFieldValue(['core']);
+      if (currentCore) {
+        if (Object.keys(currentCore).length === 0) {
+          logger.info(`✅ Removing "core" field`);
+          if (!dryRun) {
             main.removeField(['core']);
-          } else {
-            main.setFieldValue(['core'], currentCore);
           }
         }
+      }
 
+      if (addonsToRemove.length > 0) {
         const existingAddons = main.getFieldValue(['addons']) as Addon[];
         const updatedAddons = existingAddons.filter((addon) => {
           if (typeof addon === 'string') {
             return !addonsToRemove.includes(addon);
           }
-
           if (addon.name) {
             return !addonsToRemove.includes(addon.name);
           }
 
           return false;
         });
-        main.setFieldValue(['addons'], updatedAddons);
-
-        await writeConfig(main);
-      } catch (e) {
-        logger.info(
-          `❌ The "${this.id}" migration failed to update your ${chalk.blue(
-            mainConfigPath
-          )} on your behalf because of the following error:
-          ${e}`
-        );
-        logger.info(
-          `⚠️ Storybook automigrations are based on AST parsing and it's possible that your ${chalk.blue(
-            mainConfigPath
-          )} file contains a non-standard format or that there was an error when parsing dynamic values (e.g. "require" calls, or usage of environment variables). Please follow the instructions given previously and update the file manually.`
-        );
+        logger.info(`✅ Removing unnecessary addons`);
+        if (!dryRun) {
+          main.setFieldValue(['addons'], updatedAddons);
+        }
       }
+
+      if (!dryRun) {
+        await writeConfig(main);
+      }
+    } catch (e) {
+      logger.info(
+        `❌ The "${this.id}" migration failed to update your ${chalk.blue(
+          mainConfigPath
+        )} on your behalf because of the following error:
+          ${e}`
+      );
+      logger.info(
+        `⚠️ Storybook automigrations are based on AST parsing and it's possible that your ${chalk.blue(
+          mainConfigPath
+        )} file contains a non-standard format or that there was an error when parsing dynamic values (e.g. "require" calls, or usage of environment variables). Please follow the instructions given previously and update the file manually.`
+      );
     }
   },
 };
