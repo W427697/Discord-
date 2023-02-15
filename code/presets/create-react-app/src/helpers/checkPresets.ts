@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import { logger } from '@storybook/node-logger';
 import type { PluginOptions } from '../types';
 
