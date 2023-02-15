@@ -254,7 +254,7 @@ export class StoryIndexGenerator {
         }
       });
 
-      if (!this.options.docs.disable && csf.stories.length) {
+      if (csf.stories.length) {
         const { autodocs } = this.options.docs;
         const componentAutodocs = componentTags.includes(AUTODOCS_TAG);
         const autodocsOptedIn = autodocs === true || (autodocs === 'tag' && componentAutodocs);
