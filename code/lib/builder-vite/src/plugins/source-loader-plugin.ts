@@ -1,7 +1,7 @@
 import type { Plugin } from 'vite';
 import sourceLoaderTransform from '@storybook/source-loader';
 import MagicString from 'magic-string';
-import type { ExtendedOptions } from '../types';
+import type { Options } from '@storybook/types';
 
 const storyPattern = /\.stories\.[jt]sx?$/;
 const storySourcePattern = /var __STORY__ = "(.*)"/;
@@ -20,8 +20,8 @@ const replaceAll = (str: string, search: string, replacement: string) => {
   return str.split(search).join(replacement);
 };
 
-export function sourceLoaderPlugin(config: ExtendedOptions): Plugin | Plugin[] {
-  if (config.configType === 'DEVELOPMENT') {
+export function sourceLoaderPlugin(options: Options): Plugin | Plugin[] {
+  if (options.configType === 'DEVELOPMENT') {
     return {
       name: 'storybook:source-loader-plugin',
       enforce: 'pre',
@@ -43,14 +43,14 @@ export function sourceLoaderPlugin(config: ExtendedOptions): Plugin | Plugin[] {
   }
 
   // In production, we need to be fancier, to avoid vite:define plugin from replacing values inside the `__STORY__` string
-  const storySources = new WeakMap<ExtendedOptions, Map<string, string>>();
+  const storySources = new WeakMap<Options, Map<string, string>>();
 
   return [
     {
       name: 'storybook-vite-source-loader-plugin',
       enforce: 'pre',
       buildStart() {
-        storySources.set(config, new Map());
+        storySources.set(options, new Map());
       },
       async transform(src: string, id: string) {
         if (id.match(storyPattern)) {
@@ -58,7 +58,7 @@ export function sourceLoaderPlugin(config: ExtendedOptions): Plugin | Plugin[] {
           // eslint-disable-next-line @typescript-eslint/naming-convention
           const [_, sourceString] = code.match(storySourcePattern) ?? [null, null];
           if (sourceString) {
-            const map = storySources.get(config);
+            const map = storySources.get(options);
             map?.set(id, sourceString);
 
             // Remove story source so that it is not processed by vite:define plugin
@@ -81,12 +81,12 @@ export function sourceLoaderPlugin(config: ExtendedOptions): Plugin | Plugin[] {
       name: 'storybook-vite-source-loader-plugin-post',
       enforce: 'post',
       buildStart() {
-        storySources.set(config, new Map());
+        storySources.set(options, new Map());
       },
       async transform(src: string, id: string) {
         if (id.match(storyPattern)) {
           const s = new MagicString(src);
-          const map = storySources.get(config);
+          const map = storySources.get(options);
           const storySourceStatement = map?.get(id);
           // Put the previously-extracted source back in
           if (storySourceStatement) {
