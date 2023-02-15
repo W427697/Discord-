@@ -176,7 +176,7 @@ export const features = async (
   buildStoriesJson: false,
   storyStoreV7: true,
   breakingChangesV7: true,
-  interactionsDebugger: false,
+  interactionsDebugger: true,
   argTypeTargetsV7: true,
 });
 
