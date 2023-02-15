@@ -69,7 +69,7 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
     const storybookCoerced = storybookVersion && semver.coerce(storybookVersion)?.version;
     if (!storybookCoerced) {
       throw new Error(dedent`
-        ❌ Unable to determine storybook version.
+        ❌ Unable to determine Storybook version.
         🤔 Are you running automigrate from your project directory?
       `);
     }
@@ -122,7 +122,7 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
       return null;
     }
 
-    const builderInfo = getBuilderInfo(mainConfig);
+    const builderInfo = getBuilderInfo(mainConfig, allDependencies);
 
     let newFrameworkPackage = packagesMap[rendererPackage][builderInfo.name];
 
@@ -149,7 +149,7 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
 
     let dependenciesToAdd: string[] = [];
     let addonsToRemove: string[] = [];
-    let addonOptions = {};
+    let addonOptions: Record<string, any> = {};
 
     // Next.js specific automigrations
     if (allDependencies.next && semver.gte(semver.coerce(allDependencies.next).version, '12.0.0')) {
@@ -314,11 +314,11 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
       dependenciesToRemove.includes('@storybook/manager-webpack4')
     ) {
       disclaimer = dedent`\n\n
-      ${chalk.underline(chalk.bold(chalk.cyan('Webpack4 users')))}
+      ${chalk.underline(chalk.bold(chalk.cyan('Webpack 4 users')))}
 
-      Unless you're using Storybook's Vite builder, this automigration will install a Webpack5-based framework.
+      Unless you're using Storybook's Vite builder, this automigration will install a Webpack 5 based framework.
       
-      Given you were using Storybook's Webpack4 builder (default in 6.x, discontinued in 7.0), this could be a breaking change -- especially if your project has a custom webpack configuration.
+      Given you were using Storybook's Webpack 4 builder (default in 6.x, discontinued in 7.0), this could be a breaking change -- especially if your project has a custom webpack configuration.
       
       To learn more about migrating from Webpack4, see: ${chalk.yellow(
         'https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#webpack4-support-discontinued'

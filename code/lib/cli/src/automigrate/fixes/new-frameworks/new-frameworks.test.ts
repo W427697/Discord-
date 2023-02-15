@@ -263,7 +263,9 @@ describe('new-frameworks fix', () => {
     });
 
     it('should update correctly when there is no builder', async () => {
-      const packageJson = { dependencies: { '@storybook/vue': '^7.0.0' } };
+      const packageJson = {
+        dependencies: { '@storybook/vue': '^7.0.0', '@storybook/builder-webpack5': '^7.0.0' },
+      };
       await expect(
         checkNewFrameworks({
           packageJson,
@@ -275,14 +277,15 @@ describe('new-frameworks fix', () => {
         expect.objectContaining({
           frameworkPackage: '@storybook/vue-webpack5',
           dependenciesToAdd: ['@storybook/vue-webpack5'],
-          dependenciesToRemove: [],
+          dependenciesToRemove: ['@storybook/builder-webpack5'],
         })
       );
     });
 
     it('in sb 7 with no framework field in main', async () => {
-      const packageJson = { dependencies: { '@storybook/vue': '^7.0.0' } };
-      // (detectRenderer as jest.Mock).mockReturnValueOnce(Promise.resolve('@storybook/vue'));
+      const packageJson = {
+        dependencies: { '@storybook/vue': '^7.0.0', '@storybook/manager-webpack5': '^7.0.0' },
+      };
       await expect(
         checkNewFrameworks({
           packageJson,
@@ -292,6 +295,7 @@ describe('new-frameworks fix', () => {
         expect.objectContaining({
           frameworkPackage: '@storybook/vue-webpack5',
           dependenciesToAdd: ['@storybook/vue-webpack5'],
+          dependenciesToRemove: ['@storybook/manager-webpack5'],
           hasFrameworkInMainConfig: false,
         })
       );

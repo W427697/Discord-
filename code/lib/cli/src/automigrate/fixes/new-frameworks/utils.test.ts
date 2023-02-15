@@ -93,6 +93,36 @@ describe('getBuilderInfo', () => {
       options: { foo: 'bar' },
     });
   });
+
+  it('should infer vite info from community framework', () => {
+    expect(
+      getBuilderInfo({
+        framework: 'storybook-framework-qwik',
+      })
+    ).toEqual({ name: 'vite', options: {} });
+
+    expect(
+      getBuilderInfo({
+        framework: {
+          name: 'storybook-solidjs-vite',
+          options: { builder: { foo: 'bar' } },
+        },
+      })
+    ).toEqual({
+      name: 'vite',
+      options: { foo: 'bar' },
+    });
+  });
+
+  it('should log in case builder is not detected', () => {
+    const logSpy = jest.spyOn(console, 'info');
+    getBuilderInfo({
+      framework: 'storybook-framework-foo',
+    });
+    expect(logSpy).toHaveBeenCalledWith(
+      `Builder couldn't be extracted from storybook-framework-foo. Please report a bug on Github!`
+    );
+  });
 });
 
 describe('getNextjsAddonOptions', () => {
