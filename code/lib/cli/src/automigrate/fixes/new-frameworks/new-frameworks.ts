@@ -17,6 +17,7 @@ const logger = console;
 interface NewFrameworkRunOptions {
   mainConfigPath: string;
   packageJson: PackageJsonWithDepsAndDevDeps;
+  allDependencies: Record<string, string>;
   dependenciesToAdd: string[];
   dependenciesToRemove: string[];
   hasFrameworkInMainConfig: boolean;
@@ -53,7 +54,11 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
     rendererPackage: userDefinedRendererPackage,
   }) {
     const packageJson = packageManager.retrievePackageJson();
-    const allDeps = { ...packageJson.dependencies, ...packageJson.devDependencies };
+    const allDependencies = {
+      ...packageJson.dependencies,
+      ...packageJson.devDependencies,
+      ...packageJson.peerDependencies,
+    };
 
     const {
       mainConfig: mainConfigPath,
@@ -127,16 +132,11 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
     }
 
     const renderer = rendererPackages[rendererPackage];
-    // @ts-expect-error account for renderer options for packages that supported it: reactOptions, angularOptions, svelteOptions
-    const rendererOptions = mainConfig[`${renderer}Options`] || {};
+    // @ts-expect-error account for renderer options for packages that supported it: reactOptions, angularOptions. (svelteOptions got removed)
+    let rendererOptions = mainConfig[`${renderer}Options`] || {};
 
-    let frameworkOptions =
+    const frameworkOptions =
       typeof mainConfig.framework === 'string' ? {} : mainConfig.framework?.options;
-
-    frameworkOptions = {
-      ...frameworkOptions,
-      ...rendererOptions,
-    };
 
     let dependenciesToRemove = [
       '@storybook/builder-webpack5',
@@ -152,17 +152,13 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
     let addonOptions = {};
 
     // Next.js specific automigrations
-    if (allDeps.next) {
+    if (allDependencies.next && semver.gte(semver.coerce(allDependencies.next).version, '12.0.0')) {
       if (newFrameworkPackage === '@storybook/react-webpack5') {
         newFrameworkPackage = '@storybook/nextjs';
         addonOptions = getNextjsAddonOptions(mainConfig.addons);
-        frameworkOptions = {
-          ...frameworkOptions,
-          ...addonOptions,
-        };
 
         addonsToRemove = ['storybook-addon-next', 'storybook-addon-next-router'].filter(
-          (dep) => allDeps[dep]
+          (dep) => allDependencies[dep]
         );
 
         dependenciesToRemove.push(
@@ -174,15 +170,30 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
       }
     }
 
+    if (
+      allDependencies['@sveltejs/kit'] &&
+      semver.gte(semver.coerce(allDependencies['@sveltejs/kit']).version, '1.0.0')
+    ) {
+      if (newFrameworkPackage === '@storybook/svelte-vite') {
+        newFrameworkPackage = '@storybook/svelte-kit';
+        // in case svelteOptions are set, we remove them as they are not needed in svelte-kit
+        rendererOptions = {};
+        dependenciesToRemove.push(
+          // in case users are coming from a properly set up @storybook/webpack5 project
+          '@storybook/svelte-vite'
+        );
+      }
+    }
+
     // some frameworks didn't change e.g. Angular, Ember
-    if (newFrameworkPackage !== frameworkPackage && !allDeps[newFrameworkPackage]) {
+    if (newFrameworkPackage !== frameworkPackage && !allDependencies[newFrameworkPackage]) {
       dependenciesToAdd.push(newFrameworkPackage);
     }
 
     // only install what's not already installed
-    dependenciesToAdd = dependenciesToAdd.filter((dep) => !allDeps[dep]);
+    dependenciesToAdd = dependenciesToAdd.filter((dep) => !allDependencies[dep]);
     // only uninstall what's installed
-    dependenciesToRemove = dependenciesToRemove.filter((dep) => allDeps[dep]);
+    dependenciesToRemove = dependenciesToRemove.filter((dep) => allDependencies[dep]);
 
     const isProjectAlreadyCorrect =
       hasFrameworkInMainConfig &&
@@ -195,12 +206,12 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
       return null;
     }
 
-    if (allDeps.vite && semver.lt(semver.coerce(allDeps.vite).version, '3.0.0')) {
+    if (allDependencies.vite && semver.lt(semver.coerce(allDependencies.vite).version, '3.0.0')) {
       throw new Error(dedent`
         ❌ Your project should be upgraded to use the framework package ${chalk.bold(
           newFrameworkPackage
         )}, but we detected that you are using Vite ${chalk.bold(
-        allDeps.vite
+        allDependencies.vite
       )}, which is unsupported in ${chalk.bold(
         'Storybook 7.0'
       )}. Please upgrade Vite to ${chalk.bold('3.0.0 or higher')} and rerun this migration.
@@ -213,7 +224,11 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
       dependenciesToRemove,
       frameworkPackage: newFrameworkPackage,
       hasFrameworkInMainConfig,
-      frameworkOptions,
+      frameworkOptions: {
+        ...frameworkOptions,
+        ...rendererOptions,
+        ...addonOptions,
+      },
       rendererOptions,
       addonOptions,
       addonsToRemove,
@@ -221,6 +236,7 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
       packageJson,
       renderer,
       builderConfig,
+      allDependencies,
     };
   },
 
@@ -235,7 +251,7 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
     rendererOptions,
     builderConfig,
     addonsToRemove,
-    packageJson,
+    allDependencies,
   }) {
     let disclaimer = '';
     let migrationSteps = '';
@@ -309,7 +325,7 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
       )}`;
     }
 
-    if (packageJson.devDependencies?.next || packageJson.dependencies?.next) {
+    if (allDependencies.next && semver.gte(semver.coerce(allDependencies.next).version, '12.0.0')) {
       if (dependenciesToRemove.includes('storybook-addon-next-router')) {
         migrationSteps += `- Migrate the usage of the ${chalk.cyan(
           'storybook-addon-next-router'
@@ -340,6 +356,39 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
           '@storybook/nextjs'
         )} package provides great user experience for Next.js users, and we highly recommend you to read more about it at ${chalk.yellow(
           'https://github.com/storybookjs/storybook/blob/next/code/frameworks/nextjs/README.md'
+        )}
+        `;
+      }
+    }
+
+    if (
+      allDependencies['@sveltejs/kit'] &&
+      semver.gte(semver.coerce(allDependencies['@sveltejs/kit']).version, '1.0.0')
+    ) {
+      if (frameworkPackage === '@storybook/svelte-webpack5') {
+        disclaimer = dedent`\n\n
+          ${chalk.bold(
+            'Important'
+          )}: We've detected you are using Storybook in a Svelte kit project.
+  
+          This migration is set to update your project to use the ${chalk.magenta(
+            '@storybook/svelte-webpack5'
+          )} framework, but Storybook provides a framework package specifically for Svelte kit projects: ${chalk.magenta(
+          '@storybook/sveltekit'
+        )}.
+  
+          This package provides a better experience for Svelte kit users, however it is only compatible with the Vite builder, so we can't automigrate for you, as you are using the Webpack builder.
+          
+          If you are interested in using this package, see: ${chalk.yellow(
+            'https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#sveltekit-needs-the-storybooksveltekit-framework'
+          )}
+        `;
+      } else {
+        disclaimer = dedent`\n\n
+        The ${chalk.magenta(
+          '@storybook/sveltekit'
+        )} package provides great user experience for Svelte kit users, and we highly recommend you to read more about it at ${chalk.yellow(
+          'https://github.com/storybookjs/storybook/blob/next/code/frameworks/sveltekit/README.md'
         )}
         `;
       }
@@ -453,7 +502,9 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
           ${e}`
         );
         logger.info(
-          `Storybook automigrations are based on AST parsing and it's possible that your main.js file contains a non-standard format or that there was an error when parsing dynamic values. Please follow the instructions given previously and update the file manually.`
+          `⚠️ Storybook automigrations are based on AST parsing and it's possible that your ${chalk.blue(
+            mainConfigPath
+          )} file contains a non-standard format or that there was an error when parsing dynamic values (e.g. "require" calls, or usage of environment variables). Please follow the instructions given previously and update the file manually.`
         );
       }
     }

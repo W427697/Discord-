@@ -12,7 +12,6 @@ import { newFrameworks } from './new-frameworks/new-frameworks';
 import { removedGlobalClientAPIs } from './remove-global-client-apis';
 import { mdx1to2 } from './mdx-1-to-2';
 import { autodocsTrue } from './autodocs-true';
-import { sveltekitFramework } from './sveltekit-framework';
 import { addReact } from './add-react';
 import { nodeJsRequirement } from './nodejs-requirement';
 import { missingBabelRc } from './missing-babelrc';
@@ -26,7 +25,6 @@ export const fixes: Fix[] = [
   angular12,
   vue3,
   eslintPlugin,
-  sveltekitFramework,
   builderVite,
   sbBinary,
   sbScripts,
