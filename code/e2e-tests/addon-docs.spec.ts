@@ -46,8 +46,6 @@ test.describe('addon-docs', () => {
       'vue3',
       'vue-cli',
       'preact',
-      // NextJS snippets are broken, see: https://github.com/storybookjs/storybook/issues/20356
-      'nextjs',
       // SSv6 does not render stories in the correct order in our sandboxes
       'internal\\/ssv6',
       // Angular bug: https://github.com/storybookjs/storybook/issues/21066
