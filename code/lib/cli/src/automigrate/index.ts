@@ -7,6 +7,7 @@ import tempy from 'tempy';
 import dedent from 'ts-dedent';
 
 import { join } from 'path';
+import { getStorybookInfo } from '@storybook/core-common';
 import {
   JsPackageManagerFactory,
   useNpmWarning,
@@ -237,6 +238,20 @@ export const automigrate = async ({
   logger.info();
   logger.info(getMigrationSummary(fixResults, fixSummary, LOG_FILE_PATH));
   logger.info();
+
+  // TODO: Improve this logic. Essentially it's for users in monorepos that run automigrate at the root level.
+  const hasOnlyFailures = Object.values(fixResults).every(
+    (r) => r === FixStatus.FAILED || r === FixStatus.CHECK_FAILED || r === FixStatus.UNNECESSARY
+  );
+
+  if (hasOnlyFailures) {
+    const config = getStorybookInfo(packageManager.retrievePackageJson());
+    if (!config.configDir) {
+      logger.info(
+        `Hint: You might be running this command in a monorepo or a non-standard project structure. If you are, you can specify the path to your Storybook config directory by using the --config-dir option to point to the correct location.`
+      );
+    }
+  }
 
   cleanup();
 
