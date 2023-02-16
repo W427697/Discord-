@@ -4283,7 +4283,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@pmmmwh/react-refresh-webpack-plugin@npm:^0.5.5":
+"@pmmmwh/react-refresh-webpack-plugin@npm:^0.5.1, @pmmmwh/react-refresh-webpack-plugin@npm:^0.5.5":
   version: 0.5.10
   resolution: "@pmmmwh/react-refresh-webpack-plugin@npm:0.5.10"
   dependencies:
@@ -6043,6 +6043,27 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@storybook/preset-create-react-app@workspace:*, @storybook/preset-create-react-app@workspace:presets/create-react-app":
+  version: 0.0.0-use.local
+  resolution: "@storybook/preset-create-react-app@workspace:presets/create-react-app"
+  dependencies:
+    "@pmmmwh/react-refresh-webpack-plugin": ^0.5.1
+    "@storybook/node-logger": 7.0.0-beta.48
+    "@storybook/react-docgen-typescript-plugin": canary
+    "@storybook/types": 7.0.0-beta.48
+    "@types/babel__core": ^7.1.7
+    "@types/node": ^16.0.0
+    "@types/semver": ^7.3.6
+    babel-plugin-react-docgen: ^4.1.0
+    pnp-webpack-plugin: ^1.7.0
+    semver: ^7.3.5
+    typescript: ~4.9.3
+  peerDependencies:
+    "@babel/core": "*"
+    react-scripts: ">=5.0.0"
+  languageName: unknown
+  linkType: soft
+
 "@storybook/preset-html-webpack@7.0.0-beta.48, @storybook/preset-html-webpack@workspace:*, @storybook/preset-html-webpack@workspace:presets/html-webpack":
   version: 0.0.0-use.local
   resolution: "@storybook/preset-html-webpack@workspace:presets/html-webpack"
@@ -6258,6 +6279,24 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@storybook/react-docgen-typescript-plugin@npm:canary":
+  version: 1.0.2--canary.7.391457fcf6c823971cf02d8e74dbf8e242872b26.0
+  resolution: "@storybook/react-docgen-typescript-plugin@npm:1.0.2--canary.7.391457fcf6c823971cf02d8e74dbf8e242872b26.0"
+  dependencies:
+    debug: ^4.1.1
+    endent: ^2.0.1
+    find-cache-dir: ^3.3.1
+    flat-cache: ^3.0.4
+    micromatch: ^4.0.2
+    react-docgen-typescript: ^2.1.1
+    tslib: ^2.0.0
+  peerDependencies:
+    typescript: ">= 3.x"
+    webpack: ">= 4"
+  checksum: 18af6348c61ce3384e281c481e56aad3ee7451e493bd6e1f24e2261b0a73684f77cfb5c825ac3171000c66076f7f4f46c8e1b92a7d380ff3c6728174959937e8
+  languageName: node
+  linkType: hard
+
 "@storybook/react-vite@workspace:*, @storybook/react-vite@workspace:frameworks/react-vite":
   version: 0.0.0-use.local
   resolution: "@storybook/react-vite@workspace:frameworks/react-vite"
@@ -6416,6 +6455,7 @@ __metadata:
     "@storybook/preact": "workspace:*"
     "@storybook/preact-vite": "workspace:*"
     "@storybook/preact-webpack5": "workspace:*"
+    "@storybook/preset-create-react-app": "workspace:*"
     "@storybook/preset-html-webpack": "workspace:*"
     "@storybook/preset-preact-webpack": "workspace:*"
     "@storybook/preset-react-webpack": "workspace:*"
@@ -7234,7 +7274,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/babel__core@npm:^7, @types/babel__core@npm:^7.0.0, @types/babel__core@npm:^7.1.14":
+"@types/babel__core@npm:^7, @types/babel__core@npm:^7.0.0, @types/babel__core@npm:^7.1.14, @types/babel__core@npm:^7.1.7":
   version: 7.20.0
   resolution: "@types/babel__core@npm:7.20.0"
   dependencies:
@@ -7981,7 +8021,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/semver@npm:^7.3.12, @types/semver@npm:^7.3.4":
+"@types/semver@npm:^7.3.12, @types/semver@npm:^7.3.4, @types/semver@npm:^7.3.6":
   version: 7.3.13
   resolution: "@types/semver@npm:7.3.13"
   checksum: 73295bb1fee46f8c76c7a759feeae5a3022f5bedfdc17d16982092e4b33af17560234fb94861560c20992a702a1e1b9a173bb623a96f95f80892105f5e7d25e3
@@ -10067,7 +10107,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"babel-plugin-react-docgen@npm:^4.2.1":
+"babel-plugin-react-docgen@npm:^4.1.0, babel-plugin-react-docgen@npm:^4.2.1":
   version: 4.2.1
   resolution: "babel-plugin-react-docgen@npm:4.2.1"
   dependencies:
@@ -23853,7 +23893,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-docgen-typescript@npm:^2.2.2":
+"react-docgen-typescript@npm:^2.1.1, react-docgen-typescript@npm:^2.2.2":
   version: 2.2.2
   resolution: "react-docgen-typescript@npm:2.2.2"
   peerDependencies:
