@@ -1,4 +1,4 @@
-import { ApplicationRef, enableProdMode, NgModule } from '@angular/core';
+import { ApplicationRef, enableProdMode, importProvidersFrom, NgModule } from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
 
 import { BehaviorSubject, Subject } from 'rxjs';
@@ -125,9 +125,9 @@ export abstract class AbstractRenderer {
       // Providers for BrowserAnimations & NoopAnimationsModule
       analyzedMetadata.singletons,
       analyzedMetadata.providers,
-      analyzedMetadata.dependencies,
+      importProvidersFrom(...analyzedMetadata.imports),
       storyPropsProvider(newStoryProps$),
-    ];
+    ].filter(Boolean);
 
     const application = getApplication({ storyFnAngular, component, targetSelector });
 

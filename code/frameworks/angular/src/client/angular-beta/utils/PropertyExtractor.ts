@@ -37,7 +37,6 @@ export class PropertyExtractor implements NgModuleMetadata {
   imports?: any[];
   providers?: Provider[];
   singletons?: Provider[];
-  dependencies?: Provider[];
   /* eslint-enable @typescript-eslint/lines-between-class-members */
 
   constructor(private metadata: NgModuleMetadata, private component?: any) {
@@ -65,16 +64,6 @@ export class PropertyExtractor implements NgModuleMetadata {
         this.declarations.push(this.component);
       }
     }
-
-    this.dependencies = uniqueArray(
-      this.declarations.map((dec) => {
-        const params = dec?.ctorParameters;
-        if (params) {
-          return params().map((p: any) => p?.type);
-        }
-        return null;
-      })
-    );
   }
 
   /**
@@ -91,7 +80,6 @@ export class PropertyExtractor implements NgModuleMetadata {
     const declarations = [...(metadata?.declarations || [])];
     const providers = [...(metadata?.providers || [])];
     const singletons: any[] = [...(metadata?.singletons || [])];
-    const dependencies: any[] = [...(metadata?.dependencies || [])];
     const imports = [...(metadata?.imports || [])].reduce((acc, imported) => {
       // remove ngModule and use only its providers if it is restricted
       // (e.g. BrowserModule, BrowserAnimationsModule, NoopAnimationsModule, ...etc)
@@ -101,42 +89,12 @@ export class PropertyExtractor implements NgModuleMetadata {
         return acc;
       }
 
-      // destructure into ngModule & providers if it is a ModuleWithProviders
-      if (imported?.providers) {
-        providers.unshift(imported.providers || []);
-        // eslint-disable-next-line no-param-reassign
-        imported = imported.ngModule;
-      }
-
-      // extract providers, declarations, singletons from ngModule
-      // eslint-disable-next-line no-underscore-dangle
-      const ngMetadata = imported?.__annotations__?.[0];
-      if (ngMetadata) {
-        const newMetadata = this.analyzeMetadata(ngMetadata);
-        acc.unshift(...newMetadata.imports);
-        providers.unshift(...newMetadata.providers);
-        singletons.unshift(...newMetadata.singletons);
-        dependencies.unshift(...newMetadata.dependencies);
-        declarations.unshift(...newMetadata.declarations);
-
-        if (ngMetadata.standalone === true) {
-          acc.push(imported);
-        }
-        // keeping a copy of the removed module
-        providers.push({ provide: REMOVED_MODULES, useValue: imported, multi: true });
-        return acc;
-      }
-
-      // include Angular official modules as-is
-      if (imported.ɵmod) {
-        acc.push(imported);
-        return acc;
-      }
+      acc.push(imported);
 
       return acc;
     }, []);
 
-    return { ...metadata, imports, providers, singletons, dependencies, declarations };
+    return { ...metadata, imports, providers, singletons, declarations };
   };
 
   static analyzeRestricted = (ngModule: NgModule) => {
