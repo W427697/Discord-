@@ -1,5 +1,5 @@
-import { html } from 'lit-html';
-import { styleMap } from 'lit-html/directives/style-map.js';
+import { html } from 'lit';
+import { styleMap } from 'lit/directives/style-map.js';
 import { addons, useEffect } from '@storybook/preview-api';
 import { SNIPPET_RENDERED } from '@storybook/docs-tools';
 import type { StoryContext } from '../types';
