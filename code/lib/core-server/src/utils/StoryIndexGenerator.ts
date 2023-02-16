@@ -35,7 +35,11 @@ type StoriesCacheEntry = {
   dependents: Path[];
   type: 'stories';
 };
-type CacheEntry = false | StoriesCacheEntry | DocsCacheEntry;
+type ErrorEntry = {
+  type: 'error';
+  err: Error;
+};
+type CacheEntry = false | StoriesCacheEntry | DocsCacheEntry | ErrorEntry;
 type SpecifierStoriesCache = Record<Path, CacheEntry>;
 
 export const AUTODOCS_TAG = 'autodocs';
@@ -165,7 +169,12 @@ export class StoryIndexGenerator {
         return Promise.all(
           Object.keys(entry).map(async (absolutePath) => {
             if (entry[absolutePath] && !overwrite) return;
-            entry[absolutePath] = await updater(specifier, absolutePath, entry[absolutePath]);
+
+            try {
+              entry[absolutePath] = await updater(specifier, absolutePath, entry[absolutePath]);
+            } catch (err) {
+              entry[absolutePath] = { type: 'error', err };
+            }
           })
         );
       })
@@ -176,7 +185,7 @@ export class StoryIndexGenerator {
     return /(?<!\.stories)\.mdx$/i.test(absolutePath);
   }
 
-  async ensureExtracted(): Promise<IndexEntry[]> {
+  async ensureExtracted(): Promise<(IndexEntry | ErrorEntry)[]> {
     // First process all the story files. Then, in a second pass,
     // process the docs files. The reason for this is that the docs
     // files may use the `<Meta of={XStories} />` syntax, which requires
@@ -193,9 +202,10 @@ export class StoryIndexGenerator {
 
     return this.specifiers.flatMap((specifier) => {
       const cache = this.specifierToCache.get(specifier);
-      return Object.values(cache).flatMap((entry): IndexEntry[] => {
+      return Object.values(cache).flatMap((entry): (IndexEntry | ErrorEntry)[] => {
         if (!entry) return [];
         if (entry.type === 'docs') return [entry];
+        if (entry.type === 'error') return [entry];
         return entry.entries;
       });
     });
@@ -481,7 +491,11 @@ export class StoryIndexGenerator {
     // Extract any entries that are currently missing
     // Pull out each file's stories into a list of stories, to be composed and sorted
     const storiesList = await this.ensureExtracted();
-    const sorted = await this.sortStories(storiesList);
+
+    const firstError = storiesList.find((entry) => entry.type === 'error');
+    if (firstError) throw (firstError as ErrorEntry).err;
+
+    const sorted = await this.sortStories(storiesList as IndexEntry[]);
 
     let compat = sorted;
     if (this.options.storiesV2Compatibility) {

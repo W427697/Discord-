@@ -956,7 +956,8 @@ describe('StoryIndexGenerator', () => {
           [normalizeStoriesEntry('./src/docs2/MetaOf.mdx', options)],
           options
         );
-        await expect(() => generator.initialize()).rejects.toThrowError(
+        await generator.initialize();
+        await expect(() => generator.getIndex()).rejects.toThrowError(
           /Could not find "..\/A.stories" for docs file/
         );
       });
