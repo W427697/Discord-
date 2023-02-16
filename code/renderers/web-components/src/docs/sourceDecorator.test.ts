@@ -43,11 +43,11 @@ describe('sourceDecorator', () => {
     const context = makeContext('args', { __isArgsStory: true }, {});
     sourceDecorator(storyFn, context);
     await tick();
-    expect(mockChannel.emit).toHaveBeenCalledWith(
-      SNIPPET_RENDERED,
-      'lit-test--args',
-      '<div>args story</div>'
-    );
+    expect(mockChannel.emit).toHaveBeenCalledWith(SNIPPET_RENDERED, {
+      id: 'lit-test--args',
+      args: {},
+      source: '<div>args story</div>',
+    });
   });
 
   it('should skip dynamic rendering for no-args stories', async () => {
@@ -78,11 +78,11 @@ describe('sourceDecorator', () => {
     );
     sourceDecorator(decoratedStoryFn, context);
     await tick();
-    expect(mockChannel.emit).toHaveBeenCalledWith(
-      SNIPPET_RENDERED,
-      'lit-test--args',
-      '<div>args story</div>'
-    );
+    expect(mockChannel.emit).toHaveBeenCalledWith(SNIPPET_RENDERED, {
+      id: 'lit-test--args',
+      args: {},
+      source: '<div>args story</div>',
+    });
   });
 
   it('allows the snippet output to be modified by transformSource', async () => {
@@ -92,11 +92,11 @@ describe('sourceDecorator', () => {
     const context = makeContext('args', { __isArgsStory: true, docs }, {});
     sourceDecorator(storyFn, context);
     await tick();
-    expect(mockChannel.emit).toHaveBeenCalledWith(
-      SNIPPET_RENDERED,
-      'lit-test--args',
-      '<p><div>args story</div></p>'
-    );
+    expect(mockChannel.emit).toHaveBeenCalledWith(SNIPPET_RENDERED, {
+      id: 'lit-test--args',
+      args: {},
+      source: '<p><div>args story</div></p>',
+    });
   });
 
   it('provides the story context to transformSource', () => {
@@ -120,10 +120,10 @@ describe('sourceDecorator', () => {
     const boundStoryFn = storyFn.bind(null, context.args);
     sourceDecorator(boundStoryFn, context);
     await tick();
-    expect(mockChannel.emit).toHaveBeenCalledWith(
-      SNIPPET_RENDERED,
-      'lit-test--args',
-      '<div>some content</div>'
-    );
+    expect(mockChannel.emit).toHaveBeenCalledWith(SNIPPET_RENDERED, {
+      id: 'lit-test--args',
+      args: { slot: 'some content' },
+      source: '<div>some content</div>',
+    });
   });
 });
