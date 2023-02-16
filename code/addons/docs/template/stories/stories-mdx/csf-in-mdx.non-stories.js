@@ -1,4 +1,3 @@
-/* eslint-disable storybook/default-exports */
 // NOTE: commented out default since these stories are re-exported
 // in the primary file './csf-docs-with-mdx-docs.stories.mdx'
 //
