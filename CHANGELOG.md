@@ -1,3 +1,23 @@
+## 7.0.0-beta.49 (February 17, 2023)
+
+#### Bug Fixes
+
+-   NextJS: Fix static dirs lookup [#21119](https://github.com/storybooks/storybook/pull/21119)
+-   Svelte/Vue: Use Vite by default [#21002](https://github.com/storybooks/storybook/pull/21002)
+-   Storyshots: Fix issue with default export in main.js [#21097](https://github.com/storybooks/storybook/pull/21097)
+-   Args: Fix boolean arg types parsing and encoding [#21102](https://github.com/storybooks/storybook/pull/21102)
+
+#### Maintenance
+
+-   CRA: Add CRA preset to monorepo [#21107](https://github.com/storybooks/storybook/pull/21107)
+-   Web-components: Drop lit1 support [#21106](https://github.com/storybooks/storybook/pull/21106)
+-   NextJS: Fix some dependency warnings [#21117](https://github.com/storybooks/storybook/pull/21117)
+-   Types: Remove unnecessary dependencies [#20993](https://github.com/storybooks/storybook/pull/20993)
+
+#### Build
+
+-   Build: regen lockfiles [#21126](https://github.com/storybooks/storybook/pull/21126)
+
 ## 7.0.0-beta.48 (February 15, 2023)
 
 #### Features
