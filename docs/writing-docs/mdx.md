@@ -307,16 +307,6 @@ Additionally, if you're working with VSCode, you can add the [MDX extension](htt
 
 ```json
 {
-  "workbench.startupEditor": "newUntitledFile",
-  "workbench.iconTheme": "vscode-icons",
-  "editor.minimap.enabled": false,
-  "editor.formatOnSave": true,
-  "editor.formatOnType": true,
-  "editor.formatOnPaste": true,
-  "editor.inlineSuggest.enabled": true,
-  "editor.bracketPairColorization.enabled": true,
-  "editor.guides.bracketPairs": "active",
-  "editor.stickyScroll.enabled": true,
   "mdx.experimentalLanguageServer": true
 }
 ```
