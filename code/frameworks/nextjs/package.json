@@ -73,7 +73,8 @@
     "image-size": "^1.0.0",
     "loader-utils": "^3.2.0",
     "pnp-webpack-plugin": "^1.7.0",
-    "postcss-loader": "^6.2.1",
+    "postcss": "^8.4.21",
+    "postcss-loader": "^7.0.2",
     "resolve-url-loader": "^5.0.0",
     "sass-loader": "^12.4.0",
     "semver": "^7.3.5",
@@ -104,6 +105,9 @@
       "optional": true
     },
     "typescript": {
+      "optional": true
+    },
+    "webpack": {
       "optional": true
     }
   },
