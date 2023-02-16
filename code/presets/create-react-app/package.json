@@ -1,27 +1,32 @@
 {
-  "name": "@storybook/types",
+  "name": "@storybook/preset-create-react-app",
   "version": "7.0.0-beta.48",
-  "description": "Core Storybook Types",
+  "description": "Create React App preset for Storybook",
   "keywords": [
     "storybook"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/main/code/lib/types",
+  "homepage": "https://github.com/storybookjs/storybook/tree/main/presets/html-webpack",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/storybookjs/storybook.git",
-    "directory": "code/lib/types"
+    "directory": "presets/html-webpack"
   },
   "funding": {
     "type": "opencollective",
     "url": "https://opencollective.com/storybook"
   },
   "license": "MIT",
-  "sideEffects": false,
   "exports": {
     ".": {
+      "node": "./dist/index.js",
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.ts"
+    },
+    "./preset": {
       "node": "./dist/index.js",
       "require": "./dist/index.js",
       "import": "./dist/index.mjs",
@@ -43,15 +48,23 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/channels": "7.0.0-beta.48",
-    "@types/babel__core": "^7.0.0",
-    "@types/express": "^4.7.0",
-    "file-system-cache": "^2.0.0"
+    "@pmmmwh/react-refresh-webpack-plugin": "^0.5.1",
+    "@storybook/react-docgen-typescript-plugin": "canary",
+    "@storybook/types": "7.0.0-beta.48",
+    "@types/babel__core": "^7.1.7",
+    "babel-plugin-react-docgen": "^4.1.0",
+    "pnp-webpack-plugin": "^1.7.0",
+    "semver": "^7.3.5"
   },
   "devDependencies": {
-    "@storybook/csf": "next",
+    "@storybook/node-logger": "7.0.0-beta.48",
     "@types/node": "^16.0.0",
+    "@types/semver": "^7.3.6",
     "typescript": "~4.9.3"
+  },
+  "peerDependencies": {
+    "@babel/core": "*",
+    "react-scripts": ">=5.0.0"
   },
   "publishConfig": {
     "access": "public"
@@ -59,6 +72,9 @@
   "bundler": {
     "entries": [
       "./src/index.ts"
+    ],
+    "formats": [
+      "cjs"
     ]
   },
   "gitHead": "8c9765f9cd204fc63b928526941d8d8bffaf7c38"
