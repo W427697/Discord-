@@ -17,6 +17,7 @@ export const detectRenderer = async (packageJson: PackageJson) => {
       {
         type: 'select',
         name: 'rendererPackage',
+        hint: '> - Use arrow-keys. Return to submit. To automate this next time, you can pass the renderer to the CLI via the --renderer flag',
         message:
           'Tried to detect a Storybook renderer in your project but found multiple. This could happen in monorepos, when projects contain multiple Storybook packages in package.json. Please select the correct one:',
         choices: matches.map((type) => ({

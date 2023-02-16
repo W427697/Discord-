@@ -1,117 +1,204 @@
-import { getBuilderInfo as _getBuilderInfo, getNextjsAddonOptions } from './utils';
+import * as findUp from 'find-up';
+import { detectBuilderInfo as _getBuilderInfo, getNextjsAddonOptions } from './utils';
 
-type GetBuilderInfoParams = Parameters<typeof _getBuilderInfo>[0];
+jest.mock('find-up');
 
-const getBuilderInfo = (mainConfig: Partial<GetBuilderInfoParams>) =>
-  _getBuilderInfo(mainConfig as GetBuilderInfoParams);
+type GetBuilderInfoParams = Parameters<typeof _getBuilderInfo>[0]['mainConfig'];
+
+const getBuilderInfo = async ({
+  mainConfig = {},
+  packageDependencies = {},
+  configDir = '.storybook',
+}: {
+  mainConfig: Partial<GetBuilderInfoParams>;
+  packageDependencies?: Record<string, string>;
+  configDir?: string;
+}) => {
+  return _getBuilderInfo({
+    mainConfig: mainConfig as any,
+    configDir,
+    packageDependencies,
+  });
+};
 
 describe('getBuilderInfo', () => {
-  it('should infer webpack5 info from builder', () => {
-    expect(
+  it('should infer webpack5 info from builder', async () => {
+    await expect(
       getBuilderInfo({
-        core: { builder: '@storybook/builder-webpack5' },
-      })
-    ).toEqual({ name: 'webpack5', options: {} });
-
-    expect(
-      getBuilderInfo({
-        core: {
-          builder: {
-            name: '@storybook/builder-webpack5',
-            options: { lazyCompilation: true },
-          },
+        mainConfig: {
+          core: { builder: '@storybook/builder-webpack5' },
         },
       })
-    ).toEqual({
-      name: 'webpack5',
-      options: { lazyCompilation: true },
-    });
-  });
+    ).resolves.toEqual({ name: 'webpack5', options: {} });
 
-  it('should infer webpack5 info from framework', () => {
-    expect(
+    await expect(
       getBuilderInfo({
-        framework: '@storybook/react-webpack5',
-      })
-    ).toEqual({ name: 'webpack5', options: {} });
-
-    expect(
-      getBuilderInfo({
-        framework: {
-          name: '@storybook/react-webpack5',
-          options: {
+        mainConfig: {
+          core: {
             builder: {
-              lazyCompilation: true,
+              name: '@storybook/builder-webpack5',
+              options: { lazyCompilation: true },
             },
           },
         },
       })
-    ).toEqual({
+    ).resolves.toEqual({
       name: 'webpack5',
       options: { lazyCompilation: true },
     });
   });
 
-  it('should infer vite info from builder', () => {
-    expect(
+  it('should infer webpack5 info from framework', async () => {
+    await expect(
       getBuilderInfo({
-        core: { builder: '@storybook/builder-vite' },
+        mainConfig: {
+          framework: '@storybook/react-webpack5',
+        },
       })
-    ).toEqual({ name: 'vite', options: {} });
+    ).resolves.toEqual({ name: 'webpack5', options: {} });
 
-    expect(
+    await expect(
       getBuilderInfo({
-        core: {
-          builder: {
-            name: '@storybook/builder-vite',
-            options: { foo: 'bar' },
+        mainConfig: {
+          framework: {
+            name: '@storybook/react-webpack5',
+            options: {
+              builder: {
+                lazyCompilation: true,
+              },
+            },
           },
         },
       })
-    ).toEqual({
+    ).resolves.toEqual({
+      name: 'webpack5',
+      options: { lazyCompilation: true },
+    });
+  });
+
+  it('should infer vite info from builder', async () => {
+    await expect(
+      getBuilderInfo({
+        mainConfig: {
+          core: { builder: '@storybook/builder-vite' },
+        },
+      })
+    ).resolves.toEqual({ name: 'vite', options: {} });
+
+    await expect(
+      getBuilderInfo({
+        mainConfig: {
+          core: {
+            builder: {
+              name: '@storybook/builder-vite',
+              options: { foo: 'bar' },
+            },
+          },
+        },
+      })
+    ).resolves.toEqual({
       name: 'vite',
       options: { foo: 'bar' },
     });
   });
 
-  it('should infer vite info from framework', () => {
-    expect(
+  it('should infer vite info from framework', async () => {
+    await expect(
       getBuilderInfo({
-        framework: '@storybook/react-vite',
-      })
-    ).toEqual({ name: 'vite', options: {} });
-
-    expect(
-      getBuilderInfo({
-        framework: {
-          name: '@storybook/react-vite',
-          options: { builder: { foo: 'bar' } },
+        mainConfig: {
+          framework: '@storybook/react-vite',
         },
       })
-    ).toEqual({
+    ).resolves.toEqual({ name: 'vite', options: {} });
+
+    await expect(
+      getBuilderInfo({
+        mainConfig: {
+          framework: {
+            name: '@storybook/react-vite',
+            options: { builder: { foo: 'bar' } },
+          },
+        },
+      })
+    ).resolves.toEqual({
       name: 'vite',
       options: { foo: 'bar' },
     });
   });
 
-  it('should infer vite info from community framework', () => {
-    expect(
+  it('should infer vite info from community framework', async () => {
+    await expect(
       getBuilderInfo({
-        framework: 'storybook-framework-qwik',
-      })
-    ).toEqual({ name: 'vite', options: {} });
-
-    expect(
-      getBuilderInfo({
-        framework: {
-          name: 'storybook-solidjs-vite',
-          options: { builder: { foo: 'bar' } },
+        mainConfig: {
+          framework: 'storybook-framework-qwik',
         },
       })
-    ).toEqual({
+    ).resolves.toEqual({ name: 'vite', options: {} });
+
+    await expect(
+      getBuilderInfo({
+        mainConfig: {
+          framework: {
+            name: 'storybook-solidjs-vite',
+            options: { builder: { foo: 'bar' } },
+          },
+        },
+      })
+    ).resolves.toEqual({
       name: 'vite',
       options: { foo: 'bar' },
     });
+  });
+
+  it('when main.js has no builder or framework, it should infer vite info from vite config file', async () => {
+    const findUpSpy = jest
+      .spyOn(findUp, 'default')
+      .mockReturnValueOnce(Promise.resolve('vite.config.js'));
+    await expect(getBuilderInfo({ mainConfig: {} })).resolves.toEqual({
+      name: 'vite',
+      options: {},
+    });
+    expect(findUpSpy).toHaveBeenCalledTimes(1);
+  });
+
+  it('when main.js has no builder or framework, it should infer webpack info from webpack config file', async () => {
+    const findUpSpy = jest
+      .spyOn(findUp, 'default')
+      .mockReturnValueOnce(Promise.resolve(undefined))
+      .mockReturnValueOnce(Promise.resolve('webpack.config.js'));
+    await expect(getBuilderInfo({ mainConfig: {} })).resolves.toEqual({
+      name: 'webpack5',
+      options: {},
+    });
+    expect(findUpSpy).toHaveBeenCalledTimes(2);
+  });
+
+  it('when main.js has no builder or framework, and there is no vite or webpack config, infer vite from dependencies', async () => {
+    const findUpSpy = jest.spyOn(findUp, 'default').mockReturnValue(Promise.resolve(undefined));
+    await expect(
+      getBuilderInfo({
+        mainConfig: {},
+        packageDependencies: { '@storybook/builder-vite': '^7.0.0' },
+      })
+    ).resolves.toEqual({
+      name: 'vite',
+      options: {},
+    });
+    expect(findUpSpy).toHaveBeenCalledTimes(2);
+  });
+
+  it('when main.js has no builder or framework, and there is no vite or webpack config, infer webpack from dependencies', async () => {
+    const findUpSpy = jest.spyOn(findUp, 'default').mockReturnValue(Promise.resolve(undefined));
+    await expect(
+      getBuilderInfo({
+        mainConfig: {},
+        packageDependencies: { '@storybook/builder-webpack5': '^7.0.0' },
+      })
+    ).resolves.toEqual({
+      name: 'webpack5',
+      options: {},
+    });
+    expect(findUpSpy).toHaveBeenCalledTimes(2);
   });
 });
 

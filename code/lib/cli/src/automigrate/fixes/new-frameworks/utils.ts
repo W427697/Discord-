@@ -1,4 +1,7 @@
 import type { Preset, StorybookConfig } from '@storybook/types';
+import findUp from 'find-up';
+
+const logger = console;
 
 export const packagesMap: Record<string, { webpack5?: string; vite?: string }> = {
   '@storybook/react': {
@@ -45,12 +48,25 @@ const communityFrameworks: { vite: string[]; webpack5: string[] } = {
   webpack5: [],
 };
 
+const viteConfigFiles = ['vite.config.js', 'vite.config.cjs', 'vite.config.mjs', 'vite.config.ts'];
+const webpackConfigFiles = [
+  'webpack.config.js',
+  'webpack.config.cjs',
+  'webpack.config.mjs',
+  'webpack.config.ts',
+];
+
 type BuilderType = 'vite' | 'webpack5';
 
-export const getBuilderInfo = (
-  mainConfig: StorybookConfig & { builder?: string | Preset },
-  dependencies: Record<string, string> = {}
-): { name: BuilderType; options: any } => {
+export const detectBuilderInfo = async ({
+  mainConfig,
+  configDir,
+  packageDependencies,
+}: {
+  mainConfig: StorybookConfig & { builder?: string | Preset };
+  configDir: string;
+  packageDependencies: Record<string, string>;
+}): Promise<{ name: BuilderType; options: any }> => {
   let builderOptions = {};
   let builderName: BuilderType;
   let builderOrFrameworkName;
@@ -76,21 +92,54 @@ export const getBuilderInfo = (
     }
   }
 
+  // if there is no builder or framework field, we look for config files instead
+  if (!builderOrFrameworkName) {
+    const viteConfigFile = await findUp(viteConfigFiles, { cwd: configDir });
+    if (viteConfigFile) {
+      logger.info(
+        `No builder or framework field, detected Storybook builder via: ${viteConfigFile}`
+      );
+      builderOrFrameworkName = 'vite';
+    } else {
+      const webpackConfigFile = await findUp(webpackConfigFiles, { cwd: configDir });
+      if (webpackConfigFile) {
+        logger.info(
+          `No builder or framework field, detected Storybook builder via: ${webpackConfigFile}`
+        );
+        builderOrFrameworkName = 'webpack5';
+      }
+    }
+  }
+
+  // if builder is still not detected, rely on package dependencies
+  if (!builderOrFrameworkName) {
+    if (
+      packageDependencies['@storybook/builder-vite'] ||
+      packageDependencies['storybook-builder-vite']
+    ) {
+      builderOrFrameworkName = 'vite';
+    } else if (
+      packageDependencies['@storybook/builder-webpack5'] ||
+      packageDependencies['@storybook/manager-webpack5']
+    ) {
+      builderOrFrameworkName = 'webpack5';
+    }
+  }
+
   if (
     builderOrFrameworkName?.includes('vite') ||
-    dependencies['@storybook/builder-vite'] ||
-    dependencies['storybook-builder-vite'] ||
     communityFrameworks.vite.includes(builderOrFrameworkName)
   ) {
     builderName = 'vite';
   } else if (
     builderOrFrameworkName?.includes('webpack') ||
-    dependencies['@storybook/builder-webpack5'] ||
-    dependencies['@storybook/manager-webpack5'] ||
-    dependencies['@storybook/builder-webpack4'] ||
-    dependencies['@storybook/manager-webpack4'] ||
     communityFrameworks.webpack5.includes(builderOrFrameworkName)
   ) {
+    builderName = 'webpack5';
+  } else {
+    // we've exhausted all options, default to webpack5.
+    // reason to default to webpack5 is that whoever comes from SB 6.5, if they
+    // don't have a builder field or any vite config file or dependency, they are most likely using webpack5
     builderName = 'webpack5';
   }
 

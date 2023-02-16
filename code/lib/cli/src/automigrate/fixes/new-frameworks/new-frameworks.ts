@@ -1,5 +1,6 @@
 import chalk from 'chalk';
 import dedent from 'ts-dedent';
+import findUp from 'find-up';
 import semver from 'semver';
 import { readConfig, writeConfig } from '@storybook/csf-tools';
 import {
@@ -14,11 +15,16 @@ import type { PackageJsonWithDepsAndDevDeps } from '../../../js-package-manager'
 import { getStorybookVersionSpecifier } from '../../../helpers';
 import { detectRenderer } from '../../helpers/detectRenderer';
 import type { Addon } from './utils';
-import { getNextjsAddonOptions, getBuilderInfo, packagesMap } from './utils';
-import { detectFramework } from '../../helpers/detectFramework';
+import { getNextjsAddonOptions, detectBuilderInfo, packagesMap } from './utils';
 
 const logger = console;
 
+const nextJsConfigFiles = [
+  'next.config.js',
+  'next.config.cjs',
+  'next.config.mjs',
+  'next.config.ts',
+];
 interface NewFrameworkRunOptions {
   mainConfigPath: string;
   packageJson: PackageJsonWithDepsAndDevDeps;
@@ -27,6 +33,7 @@ interface NewFrameworkRunOptions {
   dependenciesToRemove: string[];
   hasFrameworkInMainConfig: boolean;
   frameworkPackage: string;
+  metaFramework: string;
   renderer: string;
   addonsToRemove: string[];
   frameworkOptions: Record<string, any>;
@@ -49,9 +56,13 @@ interface NewFrameworkRunOptions {
  * -- moving core.builder into framework.options.builder
  * -- moving renderer options (e.g. reactOptions) into framework.options
  * -- removing the now unnecessary fields in main.js
+ *
+ * Extra step:
+ * -- after figuring out a candidate framework, e.g. @storybook/react-webpack5, check if the user has a supported metaframework (e.g. Next.js or SvelteKit)
+ * -- if so, override the framework with the supporting metaframework package e.g. @storybook/nextjs
  */
 export const newFrameworks: Fix<NewFrameworkRunOptions> = {
-  id: 'newFrameworks',
+  id: 'new-frameworks',
 
   async check({
     packageManager,
@@ -83,7 +94,7 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
       return null;
     }
 
-    const configDir = userDefinedConfigDir || configDirFromScript;
+    const configDir = userDefinedConfigDir || configDirFromScript || '.storybook';
     let mainConfig;
     try {
       mainConfig = await loadMainConfig({ configDir });
@@ -93,18 +104,9 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
       );
     }
 
-    let frameworkPackage =
+    const frameworkPackage =
       typeof mainConfig.framework === 'string' ? mainConfig.framework : mainConfig.framework?.name;
     const hasFrameworkInMainConfig = !!frameworkPackage;
-
-    if (!hasFrameworkInMainConfig) {
-      frameworkPackage = await detectFramework(packageJson);
-      // This scenario will only happen when user's have things properly set up for SB 7
-      // but do not contain a framework field in main.js
-      if (frameworkPackage) {
-        mainConfig.framework = frameworkPackage;
-      }
-    }
 
     // if --renderer is passed to the command, just use it.
     // Useful for monorepo projects to automate the script without getting prompts
@@ -127,7 +129,11 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
       return null;
     }
 
-    const builderInfo = getBuilderInfo(mainConfig, allDependencies);
+    const builderInfo = await detectBuilderInfo({
+      mainConfig,
+      configDir,
+      packageDependencies: allDependencies,
+    });
 
     // if the user has a new framework already, use it
     let newFrameworkPackage = Object.keys(frameworkPackages).find(
@@ -160,31 +166,40 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
       'storybook-builder-vite',
     ];
 
-    let dependenciesToAdd: string[] = [];
     let addonsToRemove: string[] = [];
     let addonOptions: Record<string, any> = {};
+    let metaFramework: string | undefined;
 
-    // Next.js specific automigrations
-    if (allDependencies.next && semver.gte(semver.coerce(allDependencies.next).version, '12.0.0')) {
-      if (newFrameworkPackage === '@storybook/react-webpack5') {
-        newFrameworkPackage = '@storybook/nextjs';
-        addonOptions = getNextjsAddonOptions(mainConfig.addons);
+    if (rendererPackage === '@storybook/react' && allDependencies.next) {
+      const nextConfigFile = await findUp(nextJsConfigFiles, { cwd: configDir });
+      const nextAddonOptions = getNextjsAddonOptions(mainConfig.addons);
+      const isNextJsCandidate =
+        (semver.gte(semver.coerce(allDependencies.next).version, '12.0.0') && nextConfigFile) ||
+        Object.keys(nextAddonOptions).length > 0;
 
-        addonsToRemove = ['storybook-addon-next', 'storybook-addon-next-router'].filter(
-          (dep) => allDependencies[dep]
-        );
+      if (isNextJsCandidate) {
+        metaFramework = 'nextjs';
+        if (newFrameworkPackage === '@storybook/react-webpack5') {
+          newFrameworkPackage = '@storybook/nextjs';
+          addonsToRemove = ['storybook-addon-next', 'storybook-addon-next-router'].filter(
+            (dep) => allDependencies[dep]
+          );
+          addonOptions = getNextjsAddonOptions(mainConfig.addons);
 
-        dependenciesToRemove.push(
-          // in case users are coming from a properly set up @storybook/webpack5 project
-          '@storybook/react-webpack5',
-          'storybook-addon-next',
-          'storybook-addon-next-router'
-        );
+          dependenciesToRemove.push(
+            // in case users are coming from a properly set up @storybook/webpack5 project
+            '@storybook/react-webpack5',
+            'storybook-addon-next',
+            'storybook-addon-next-router'
+          );
+        }
       }
     } else if (
+      rendererPackage === '@storybook/svelte' &&
       allDependencies['@sveltejs/kit'] &&
       semver.gte(semver.coerce(allDependencies['@sveltejs/kit']).version, '1.0.0')
     ) {
+      metaFramework = 'svelte-kit';
       if (newFrameworkPackage === '@storybook/svelte-vite') {
         newFrameworkPackage = '@storybook/svelte-kit';
         // in case svelteOptions are set, we remove them as they are not needed in svelte-kit
@@ -196,17 +211,10 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
       }
     }
 
-    // some frameworks didn't change e.g. Angular, Ember
-    if (
-      newFrameworkPackage &&
-      newFrameworkPackage !== frameworkPackage &&
-      !allDependencies[newFrameworkPackage]
-    ) {
-      dependenciesToAdd.push(newFrameworkPackage);
-    }
-
     // only install what's not already installed
-    dependenciesToAdd = dependenciesToAdd.filter((dep) => !allDependencies[dep]).filter(Boolean);
+    const dependenciesToAdd = [newFrameworkPackage]
+      .filter((dep) => !allDependencies[dep])
+      .filter(Boolean);
     // only uninstall what's installed
     dependenciesToRemove = dependenciesToRemove
       .filter((dep) => allDependencies[dep])
@@ -255,6 +263,7 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
       renderer,
       builderConfig,
       allDependencies,
+      metaFramework,
     };
   },
 
@@ -270,6 +279,7 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
     builderConfig,
     addonsToRemove,
     allDependencies,
+    metaFramework,
   }) {
     let disclaimer = '';
     let migrationSteps = '';
@@ -344,7 +354,7 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
       )}`;
     }
 
-    if (allDependencies.next && semver.gte(semver.coerce(allDependencies.next).version, '12.0.0')) {
+    if (metaFramework === 'nextjs') {
       if (dependenciesToRemove.includes('storybook-addon-next-router')) {
         migrationSteps += `- Migrate the usage of the ${chalk.cyan(
           'storybook-addon-next-router'
@@ -363,13 +373,13 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
           '@storybook/nextjs'
         )}.
   
-          This package provides a better experience for Next.js users, however it is only compatible with the Webpack 5 builder, so we can't automigrate for you, as you are using the Vite builder.
+          This package provides a better, out of the box experience for Next.js users, however it is only compatible with the Webpack 5 builder, so we can't automigrate for you, as you are using the Vite builder. If you switch this project to use Webpack 5 and rerun this migration, we can update your project.
           
           If you are interested in using this package, see: ${chalk.yellow(
             'https://github.com/storybookjs/storybook/blob/next/code/frameworks/nextjs/README.md'
           )}
         `;
-      } else {
+      } else if (frameworkPackage === '@storybook/nextjs') {
         disclaimer = dedent`\n\n
         The ${chalk.magenta(
           '@storybook/nextjs'
@@ -380,10 +390,7 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
       }
     }
 
-    if (
-      allDependencies['@sveltejs/kit'] &&
-      semver.gte(semver.coerce(allDependencies['@sveltejs/kit']).version, '1.0.0')
-    ) {
+    if (metaFramework === 'svelte-kit') {
       if (frameworkPackage === '@storybook/svelte-webpack5') {
         disclaimer = dedent`\n\n
           ${chalk.bold(
