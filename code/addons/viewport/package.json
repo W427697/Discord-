@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-viewport",
-  "version": "7.0.0-beta.34",
+  "version": "7.0.0-beta.49",
   "description": "Build responsive components by adjusting Storybook’s viewport size and orientation",
   "keywords": [
     "addon",
@@ -8,7 +8,7 @@
     "style",
     "essentials"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/main/addons/viewport",
+  "homepage": "https://github.com/storybookjs/storybook/tree/next/code/addons/viewport",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },
@@ -73,13 +73,13 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/client-logger": "7.0.0-beta.34",
-    "@storybook/components": "7.0.0-beta.34",
-    "@storybook/core-events": "7.0.0-beta.34",
+    "@storybook/client-logger": "7.0.0-beta.49",
+    "@storybook/components": "7.0.0-beta.49",
+    "@storybook/core-events": "7.0.0-beta.49",
     "@storybook/global": "^5.0.0",
-    "@storybook/manager-api": "7.0.0-beta.34",
-    "@storybook/preview-api": "7.0.0-beta.34",
-    "@storybook/theming": "7.0.0-beta.34",
+    "@storybook/manager-api": "7.0.0-beta.49",
+    "@storybook/preview-api": "7.0.0-beta.49",
+    "@storybook/theming": "7.0.0-beta.49",
     "memoizerific": "^1.11.3",
     "prop-types": "^15.7.2"
   },
@@ -109,7 +109,7 @@
       "./src/preview.ts"
     ]
   },
-  "gitHead": "b8c17b23e92257c5a09b592dc6b557ba7b94ccea",
+  "gitHead": "a2b4f0b42ee2b071390794bbdf99d0366fa32472",
   "storybook": {
     "displayName": "Viewport",
     "icon": "https://user-images.githubusercontent.com/263385/101991678-48cdf300-3c7c-11eb-9764-f8af293c1b28.png",

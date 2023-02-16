@@ -4,20 +4,25 @@ import type { Meta, StoryObj } from '@storybook/react';
 
 import { Source } from './Source';
 import * as ParametersStories from '../examples/SourceParameters.stories';
-import { SourceContext } from './SourceContainer';
+import { argsHash, SourceContext } from './SourceContainer';
 
 const meta: Meta<typeof Source> = {
   component: Source,
   parameters: {
     relativeCsfPaths: ['../examples/SourceParameters.stories'],
     snippets: {
-      'storybook-blocks-example-sourceparameters--no-parameters': {
-        code: `const emitted = 'source';`,
+      'storybook-blocks-examples-stories-for-the-source-block--no-parameters': {
+        [argsHash({})]: {
+          code: `const emitted = 'source';`,
+        },
       },
-      'storybook-blocks-example-sourceparameters--type-dynamic': {
-        code: `const emitted = 'source';`,
+      'storybook-blocks-examples-stories-for-the-source-block--type-dynamic': {
+        [argsHash({})]: {
+          code: `const emitted = 'source';`,
+        },
       },
     },
+    docsStyles: true,
   },
   decorators: [
     (Story, { parameters: { snippets = {} } }) => (
@@ -76,6 +81,15 @@ export const OfUnattached: Story = {
 
 export const Code: Story = {
   args: { code },
+};
+
+export const CodeUnattached: Story = {
+  args: { code },
+  parameters: { attached: false },
+};
+
+export const EmptyUnattached: Story = {
+  parameters: { attached: false },
 };
 
 export const CodeParameters: Story = {

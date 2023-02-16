@@ -28,8 +28,7 @@ const packagesMap: Record<string, { webpack5?: string; vite?: string }> = {
   },
   '@storybook/vue': {
     webpack5: '@storybook/vue-webpack5',
-    // TODO: bring this back if we ever want to support vue 2 + vite. Else delete this!
-    // vite: '@storybook/vue-vite',
+    vite: '@storybook/vue-vite',
   },
   '@storybook/vue3': {
     webpack5: '@storybook/vue3-webpack5',
@@ -181,6 +180,10 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
         'Storybook 7.0'
       )}. Please upgrade Vite to ${chalk.bold('3.0.0 or higher')} and rerun this migration.
       `);
+    }
+
+    if (!dependenciesToRemove.length && !dependenciesToAdd.length) {
+      return null;
     }
 
     return {
