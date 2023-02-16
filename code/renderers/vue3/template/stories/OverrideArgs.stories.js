@@ -22,6 +22,9 @@ export default {
       },
     },
   },
+};
+
+export const ArgsTest = {
   render: (args) => {
     // Individual properties can be overridden by spreading the args
     // and the replacing the key-values that need to be updated
@@ -39,4 +42,11 @@ export default {
   },
 };
 
-export const TestOne = {};
+export const ArgsCSF2Test = (args) => ({
+  components: { OverrideArgs },
+  args: { ...args, icon: icons[args.icon || 'Primary'] },
+  template: '<override-args v-bind="$props" />',
+});
+ArgsCSF2Test.args = {
+  icon: icons['Primary'],
+};

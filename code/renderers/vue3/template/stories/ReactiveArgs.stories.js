@@ -42,3 +42,35 @@ export const ReactiveTest = {
     await expect(reactiveButton).toHaveTextContent('updated 2');
   },
 };
+
+export const DecoratedReactive = {
+  components: { ReactiveArgs },
+  args: { ...ReactiveTest.args },
+  decorators: [
+    () => ({
+      template: `
+        <div style="border: 5px solid red;">
+          <story/>
+        </div>
+        `,
+    }),
+  ],
+  play: ReactiveTest.play,
+};
+
+// test reactive args story for CSF2
+export const ReactiveCSF2 = (args) => ({
+  components: { ReactiveArgs },
+  template: '<ReactiveArgs v-bind="$props" />',
+});
+ReactiveCSF2.args = ReactiveTest.args;
+ReactiveCSF2.play = ReactiveTest.play;
+
+// test reactive args story with decorator CSF2
+export const DecoratedReactiveCSF2 = (args) => ({
+  components: { ReactiveArgs },
+  template: '<ReactiveArgs v-bind="$props" />',
+});
+DecoratedReactiveCSF2.args = ReactiveTest.args;
+DecoratedReactiveCSF2.play = ReactiveTest.play;
+DecoratedReactiveCSF2.decorators = DecoratedReactive.decorators;
