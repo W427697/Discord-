@@ -246,7 +246,7 @@ Out of the box, Storybook has a set of components that you can use to customize 
 
 Out of the box, Storybook's AutoDocs feature is built to generate documentation for your stories automatically. Nevertheless, if you're working with a monorepo setup (e.g., [`Yarn Workspaces`](https://yarnpkg.com/features/workspaces), [`pnpm Workspaces`](https://pnpm.io/workspaces)), you may run into issues where part of the documentation may not be generated for you. To help you troubleshoot those issues, we've prepared some recommendations that might help you.
 
-Update your imports statement to reference the component directly instead of the package's root. For example:
+Update your import statements to reference the component directly instead of the package's root. For example:
 
 <!-- prettier-ignore-start -->
 
