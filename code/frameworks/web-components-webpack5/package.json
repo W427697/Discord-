@@ -3,6 +3,7 @@
   "version": "7.0.0-beta.48",
   "description": "Storybook for web-components: View web components snippets in isolation with Hot Reloading.",
   "keywords": [
+    "lit",
     "lit-html",
     "storybook",
     "web-components"
@@ -58,11 +59,11 @@
     "@types/node": "^16.0.0"
   },
   "devDependencies": {
-    "lit-html": "2.0.2",
+    "lit": "2.3.1",
     "typescript": "~4.9.3"
   },
   "peerDependencies": {
-    "lit-html": "^2.0.0",
+    "lit": "^2.0.0",
     "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
     "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0"
   },

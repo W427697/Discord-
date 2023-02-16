@@ -30,7 +30,7 @@ module.exports = {
     '^.+\\.(t|j)sx?$': '@swc/jest',
     '^.+\\.mdx$': '@storybook/addon-docs/jest-transform-mdx',
   },
-  transformIgnorePatterns: ['/node_modules/(?!@angular|rxjs|nanoid|uuid|lit-html|@mdx-js)'],
+  transformIgnorePatterns: ['/node_modules/(?!@angular|rxjs|nanoid|uuid|lit-html|lit|@mdx-js)'],
   testMatch: ['**/__tests__/**/*.[jt]s?(x)', '**/?(*.)+(spec|test).[jt]s?(x)'],
   testPathIgnorePatterns: [
     '/storybook-static/',

@@ -6230,10 +6230,10 @@ __metadata:
     "@types/node": ^16.0.0
     babel-loader: ^7.0.0 || ^8.0.0 || ^9.0.0
     babel-plugin-bundled-import-meta: ^0.3.1
-    lit-html: 2.0.2
+    lit: 2.3.1
     typescript: ~4.9.3
   peerDependencies:
-    lit-html: ^2.0.0
+    lit: ^2.0.0
   languageName: unknown
   linkType: soft
 
@@ -6987,10 +6987,10 @@ __metadata:
     "@storybook/preset-web-components-webpack": 7.0.0-beta.48
     "@storybook/web-components": 7.0.0-beta.48
     "@types/node": ^16.0.0
-    lit-html: 2.0.2
+    lit: 2.3.1
     typescript: ~4.9.3
   peerDependencies:
-    lit-html: ^2.0.0
+    lit: ^2.0.0
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
   languageName: unknown
@@ -7011,12 +7011,11 @@ __metadata:
     "@types/node": ^16.0.0
     cross-spawn: ^7.0.3
     lit: 2.3.1
-    lit-html: 2.0.2
     ts-dedent: ^2.0.0
     typescript: ~4.9.3
     web-component-analyzer: ^1.1.6
   peerDependencies:
-    lit-html: ^2.0.0
+    lit: ^2.0.0
   languageName: unknown
   linkType: soft
 
@@ -19639,15 +19638,6 @@ __metadata:
     "@lit/reactive-element": ^1.3.0
     lit-html: ^2.2.0
   checksum: 516897ef91838a77bbf80473ff05e4f39e768c383786910acd44717510e71d1a582435fdbae28ae54bd6f62c613917bbeb9a30aacd020a75270ea897b24c1cf8
-  languageName: node
-  linkType: hard
-
-"lit-html@npm:2.0.2":
-  version: 2.0.2
-  resolution: "lit-html@npm:2.0.2"
-  dependencies:
-    "@types/trusted-types": ^2.0.2
-  checksum: 3a199fdc8a2a914cae0f4bcb61582d15ca671a84e34db387651d4009be9c41951c8d29381a8d858c2037efb4fce6f4eccf51d4da545d9dd419651b0b42b1b88b
   languageName: node
   linkType: hard
 

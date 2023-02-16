@@ -758,7 +758,7 @@ setup((app) => {
 
 #### Web-components: dropped lit-html v1 support
 
-In v6.x `@storybook/web-components` had a peer dependency on `lit-html` v1 or v2. In 7.0 we've dropped support for `lit-html` v1. Please upgrade your project's `lit-html` dependency if you're still on 1.x.
+In v6.x `@storybook/web-components` had a peer dependency on `lit-html` v1 or v2. In 7.0 we've dropped support for `lit-html` v1 and now uses `lit` v2 instead. Please upgrade your project's `lit-html` dependency if you're still on 1.x.
 
 ### Addon authors
 
