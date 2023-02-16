@@ -40,7 +40,8 @@ export const sbBinary: Fix<SbBinaryRunOptions> = {
       `);
     }
 
-    if (semver.lt(storybookCoerced, '7.0.0')) {
+    // Nx provides their own binary, so we don't need to do anything
+    if (allDeps['@nrwl/storybook'] || semver.lt(storybookCoerced, '7.0.0')) {
       return null;
     }
 
