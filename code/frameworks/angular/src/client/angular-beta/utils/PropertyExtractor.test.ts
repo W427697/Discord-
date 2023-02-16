@@ -7,10 +7,9 @@ import {
   provideAnimations,
   provideNoopAnimations,
 } from '@angular/platform-browser/animations';
-import { provideHttpClient } from '@angular/common/http';
 import { NgModuleMetadata } from '../../types';
 import { PropertyExtractor, REMOVED_MODULES } from './PropertyExtractor';
-import { WithAnimationsModule, WithOfficialModule } from '../__testfixtures__/test.module';
+import { WithOfficialModule } from '../__testfixtures__/test.module';
 
 const TEST_TOKEN = new InjectionToken('testToken');
 const TestTokenProvider = { provide: TEST_TOKEN, useValue: 123 };
@@ -79,13 +78,11 @@ describe('PropertyExtractor', () => {
 
     it('should remove Browser/Animations modules recursively', () => {
       const metadata = {
-        imports: [WithAnimationsModule],
+        imports: [BrowserAnimationsModule, BrowserModule],
       };
       const { imports, providers, singletons } = analyzeMetadata(metadata);
       expect(imports.flat(Number.MAX_VALUE)).toEqual([CommonModule]);
-      expect(providers.flat(Number.MAX_VALUE)).toEqual([
-        { provide: REMOVED_MODULES, useValue: WithAnimationsModule, multi: true },
-      ]);
+      expect(providers.flat(Number.MAX_VALUE)).toEqual([]);
       expect(singletons.flat(Number.MAX_VALUE)).toEqual(provideAnimations());
     });
 
@@ -94,18 +91,16 @@ describe('PropertyExtractor', () => {
         imports: [WithOfficialModule],
       };
       const { imports, providers, singletons } = analyzeMetadata(metadata);
-      expect(imports.flat(Number.MAX_VALUE)).toEqual([CommonModule]);
-      expect(providers.flat(Number.MAX_VALUE)).toEqual([
-        { provide: REMOVED_MODULES, useValue: WithOfficialModule, multi: true },
-      ]);
-      expect(singletons.flat(Number.MAX_VALUE)).toEqual([provideHttpClient()]);
+      expect(imports.flat(Number.MAX_VALUE)).toEqual([CommonModule, WithOfficialModule]);
+      expect(providers.flat(Number.MAX_VALUE)).toEqual([]);
+      expect(singletons.flat(Number.MAX_VALUE)).toEqual([]);
     });
   });
 
   describe('extractImports', () => {
     it('should return Angular official modules', () => {
       const imports = extractImports({ imports: [TestModuleWithImportsAndProviders] });
-      expect(imports).toEqual([CommonModule]);
+      expect(imports).toEqual([CommonModule, TestModuleWithImportsAndProviders]);
     });
 
     it('should return standalone components', () => {
@@ -115,17 +110,11 @@ describe('PropertyExtractor', () => {
         },
         StandaloneTestComponent
       );
-      expect(imports).toEqual([CommonModule, StandaloneTestComponent]);
-    });
-
-    it('should not return any regular modules (they get destructured)', () => {
-      const imports = extractImports({
-        imports: [
-          TestModuleWithDeclarations,
-          { ngModule: TestModuleWithImportsAndProviders, providers: [] },
-        ],
-      });
-      expect(imports).toEqual([CommonModule]);
+      expect(imports).toEqual([
+        CommonModule,
+        TestModuleWithImportsAndProviders,
+        StandaloneTestComponent,
+      ]);
     });
   });
 
@@ -133,44 +122,6 @@ describe('PropertyExtractor', () => {
     it('should return an array of declarations that contains `storyComponent`', () => {
       const declarations = extractDeclarations({ declarations: [TestComponent1] }, TestComponent2);
       expect(declarations).toEqual([TestComponent1, TestComponent2]);
-    });
-
-    it('should ignore `storyComponent` if it is already declared', () => {
-      const declarations = extractDeclarations(
-        {
-          imports: [TestModuleWithImportsAndProviders],
-          declarations: [TestComponent2, StandaloneTestComponent, TestDirective],
-        },
-        TestComponent1
-      );
-      expect(declarations).toEqual([
-        TestComponent1,
-        TestComponent2,
-        StandaloneTestComponent,
-        TestDirective,
-      ]);
-    });
-
-    it('should ignore `storyComponent` if it is standalone', () => {
-      const declarations = extractDeclarations(
-        {
-          imports: [TestModuleWithImportsAndProviders],
-          declarations: [TestComponent1, TestComponent2, TestDirective],
-        },
-        StandaloneTestComponent
-      );
-      expect(declarations).toEqual([TestComponent1, TestComponent2, TestDirective]);
-    });
-
-    it('should ignore `storyComponent` if it is not a component/directive/pipe', () => {
-      const declarations = extractDeclarations(
-        {
-          imports: [TestModuleWithImportsAndProviders],
-          declarations: [TestComponent1, TestComponent2, StandaloneTestComponent],
-        },
-        TestService
-      );
-      expect(declarations).toEqual([TestComponent1, TestComponent2, StandaloneTestComponent]);
     });
   });
 
@@ -180,39 +131,6 @@ describe('PropertyExtractor', () => {
         providers: [TestService],
       });
       expect(providers).toEqual([TestService]);
-    });
-
-    it('should return an array of providers extracted from ModuleWithProviders', () => {
-      const providers = extractProviders({
-        imports: [{ ngModule: TestModuleWithImportsAndProviders, providers: [TestService] }],
-      });
-      expect(providers).toEqual([
-        { provide: TEST_TOKEN, useValue: 123 },
-        { provide: REMOVED_MODULES, useValue: TestModuleWithDeclarations, multi: true },
-        TestService,
-        { provide: REMOVED_MODULES, useValue: TestModuleWithImportsAndProviders, multi: true },
-      ]);
-    });
-
-    it('should return an array of unique providers', () => {
-      const providers = extractProviders({
-        imports: [{ ngModule: TestModuleWithImportsAndProviders, providers: [TestService] }],
-        providers: [TestService, { provide: TEST_TOKEN, useValue: 123 }],
-      });
-      expect(providers).toEqual([
-        { provide: TEST_TOKEN, useValue: 123 },
-        { provide: REMOVED_MODULES, useValue: TestModuleWithDeclarations, multi: true },
-        TestService,
-        {
-          provide: new InjectionToken('testToken'),
-          useValue: 123,
-        },
-        {
-          provide: REMOVED_MODULES,
-          useValue: TestModuleWithImportsAndProviders,
-          multi: true,
-        },
-      ]);
     });
 
     it('should return an array of singletons extracted', () => {

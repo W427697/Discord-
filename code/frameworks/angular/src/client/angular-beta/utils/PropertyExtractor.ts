@@ -1,5 +1,4 @@
 import { CommonModule } from '@angular/common';
-import { HttpClientModule, provideHttpClient } from '@angular/common/http';
 import {
   Component,
   Directive,
@@ -122,13 +121,6 @@ export class PropertyExtractor implements NgModuleMetadata {
      */
     if (ngModule === NoopAnimationsModule) {
       return [true, provideNoopAnimations()];
-    }
-
-    /**
-     * HttpClient has to be provided manually as a singleton
-     */
-    if (ngModule === HttpClientModule) {
-      return [true, provideHttpClient()];
     }
 
     return [false];
