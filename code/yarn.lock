@@ -5119,6 +5119,14 @@ __metadata:
   dependencies:
     "@storybook/client-logger": 7.0.0-beta.48
     "@storybook/manager-api": 7.0.0-beta.48
+  peerDependencies:
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0
+    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
+  peerDependenciesMeta:
+    react:
+      optional: true
+    react-dom:
+      optional: true
   languageName: unknown
   linkType: soft
 
@@ -5972,7 +5980,8 @@ __metadata:
     loader-utils: ^3.2.0
     next: ^13.0.5
     pnp-webpack-plugin: ^1.7.0
-    postcss-loader: ^6.2.1
+    postcss: ^8.4.21
+    postcss-loader: ^7.0.2
     resolve-url-loader: ^5.0.0
     sass-loader: ^12.4.0
     semver: ^7.3.5
@@ -5993,6 +6002,8 @@ __metadata:
     "@storybook/addon-actions":
       optional: true
     typescript:
+      optional: true
+    webpack:
       optional: true
   languageName: unknown
   linkType: soft
@@ -22970,7 +22981,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"postcss-loader@npm:7.0.2":
+"postcss-loader@npm:7.0.2, postcss-loader@npm:^7.0.2":
   version: 7.0.2
   resolution: "postcss-loader@npm:7.0.2"
   dependencies:
@@ -22981,20 +22992,6 @@ __metadata:
     postcss: ^7.0.0 || ^8.0.1
     webpack: ^5.0.0
   checksum: deba84029de33f9bc7a5ad3f908acdf93a385e17bbb03a200a10ed5a2be8f20a2ae6ff3b5d81b857618305c5f7dd4da224b4e8373a8e29ff39bbf4708ea7c857
-  languageName: node
-  linkType: hard
-
-"postcss-loader@npm:^6.2.1":
-  version: 6.2.1
-  resolution: "postcss-loader@npm:6.2.1"
-  dependencies:
-    cosmiconfig: ^7.0.0
-    klona: ^2.0.5
-    semver: ^7.3.5
-  peerDependencies:
-    postcss: ^7.0.0 || ^8.0.1
-    webpack: ^5.0.0
-  checksum: 736a1bf43a3e09e2351b5cc97cc26790a1c3261412c9dee063f3f6f2969a6ff7d8d194d9adcad01cee1afd1de071482318d9699e6157b67d46b3dccf3be1b58b
   languageName: node
   linkType: hard
 
