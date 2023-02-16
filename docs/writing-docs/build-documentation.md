@@ -52,6 +52,6 @@ You can use any hosting provider to deploy your documentation, for instance:
 
 #### Learn more about Storybook documentation
 
-- [Docs](./docs-page.md) for creating documentation for your stories
+- [AutoDocs](./autodocs.md) for creating documentation for your stories
 - [MDX](./mdx.md) for customizing your documentation
 - Publishing docs to automate the process of publishing your documentation

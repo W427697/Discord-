@@ -111,8 +111,8 @@ module.exports = {
           type: 'link',
         },
         {
-          pathSegment: 'docs-page',
-          title: 'Docs',
+          pathSegment: 'autodocs',
+          title: 'AutoDocs',
           type: 'link',
         },
         {
@@ -383,6 +383,11 @@ module.exports = {
               type: 'link',
             },
             {
+              pathSegment: 'frameworks-feature-support',
+              title: 'Feature support for frameworks',
+              type: 'link',
+            },
+            {
               pathSegment: 'babel',
               title: 'Babel',
               type: 'link',
@@ -505,11 +510,6 @@ module.exports = {
         {
           pathSegment: 'cli-options',
           title: 'CLI options',
-          type: 'link',
-        },
-        {
-          pathSegment: 'frameworks-feature-support',
-          title: 'Feature support for frameworks',
           type: 'link',
         },
       ],

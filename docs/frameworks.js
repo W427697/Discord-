@@ -1,5 +1,5 @@
 module.exports = {
-  coreFrameworks: ['react', 'vue', 'angular', 'web-components'],
+  coreFrameworks: ['react', 'vue', 'angular', 'web-components', 'nextjs'],
   communityFrameworks: ['ember', 'html', 'svelte', 'preact', 'qwik'],
   featureGroups: [
     {
@@ -48,6 +48,50 @@ module.exports = {
         {
           name: 'a11y',
           unsupported: [],
+        },
+        {
+          name: 'interactions',
+          supported: [
+            'react',
+            'vue',
+            'angular',
+            'web-components',
+            'nextjs',
+            'html',
+            'svelte',
+            'preact',
+          ],
+          unsupported: ['ember', 'qwik'],
+        },
+        {
+          name: 'test-runner',
+          supported: [
+            'react',
+            'vue',
+            'angular',
+            'web-components',
+            'nextjs',
+            'html',
+            'svelte',
+            'preact',
+          ],
+          unsupported: ['ember'],
+          path: 'writing-tests/test-runner',
+        },
+        {
+          name: 'test coverage',
+          supported: [
+            'react',
+            'vue',
+            'angular',
+            'web-components',
+            'nextjs',
+            'html',
+            'svelte',
+            'preact',
+          ],
+          unsupported: ['ember'],
+          path: 'writing-tests/test-coverage',
         },
         {
           name: 'cssresources',
@@ -100,44 +144,121 @@ module.exports = {
       name: 'Docs',
       features: [
         {
-          name: 'MDX Stories',
-          unsupported: [],
-          path: 'api/mdx',
-        },
-        {
           name: 'CSF Stories',
           unsupported: [],
           path: 'api/csf',
         },
         {
+          name: 'AutoDocs',
+          supported: [
+            'react',
+            'vue',
+            'angular',
+            'web-components',
+            'nextjs',
+            'html',
+            'svelte',
+            'preact',
+          ],
+        },
+        {
+          name: 'Doc Blocks - ArgTypes',
+          unsupported: [],
+          path: 'api/doc-block-argtypes',
+        },
+        {
+          name: 'Doc Blocks - Canvas',
+          unsupported: [],
+          path: 'api/doc-block-canvas',
+        },
+        {
+          name: 'Doc Blocks - Controls',
+          unsupported: [],
+          path: 'api/doc-block-controls',
+        },
+        {
+          name: 'Doc Blocks - Description',
+          unsupported: [],
+          path: 'api/doc-block-description',
+        },
+        {
+          name: 'Doc Blocks - IconGallery',
+          unsupported: [],
+          path: 'api/doc-block-icongallery',
+        },
+        {
+          name: 'Doc Blocks - Markdown',
+          unsupported: ['ember'],
+          path: 'api/doc-block-markdown',
+        },
+        {
+          name: 'Doc Blocks - Meta',
+
+          unsupported: ['ember'],
+          path: 'api/doc-block-meta',
+        },
+        {
+          name: 'Doc Blocks - Primary',
+
+          unsupported: ['ember'],
+          path: 'api/doc-block-primary',
+        },
+        {
+          name: 'Doc Blocks - Source',
+          unsupported: [],
+          path: 'api/doc-block-source',
+        },
+        {
+          name: 'Doc Blocks - Story',
+          unsupported: [],
+          path: 'api/doc-block-story',
+        },
+        {
+          name: 'Doc Blocks - Subtitle',
+          unsupported: [],
+          path: 'api/doc-block-sutitle',
+        },
+        {
+          name: 'Doc Blocks - Title',
+          unsupported: [],
+          path: 'api/doc-block-title',
+        },
+        {
+          name: 'Doc Blocks - Typeset',
+          unsupported: [],
+          path: 'api/doc-block-typeset',
+        },
+        {
+          name: 'Doc Blocks - Unstyled',
+          unsupported: [],
+          path: 'writing-docs/doc-block-unstyled',
+        },
+        {
+          name: 'Doc Blocks - UseOf',
+          unsupported: [],
+          path: 'writing-docs/doc-block-useof',
+        },
+        {
           name: 'storiesOf stories',
-          unsupported: [],
+          unsupported: [
+            'react',
+            'vue',
+            'angular',
+            'svelte',
+            'web-components',
+            'nextjs',
+            'html',
+            'ember',
+            'html',
+            'svelte',
+            'preact',
+            'qwik',
+          ],
           repoPath: 'lib/core/docs/storiesOf.md',
-        },
-        {
-          name: 'Source',
-          unsupported: [],
-          path: 'writing-docs/doc-block-source',
-        },
-        {
-          name: 'Dynamic source',
-          supported: ['react', 'vue', 'angular', 'svelte', 'web-components', 'html'],
-          path: 'writing-docs/doc-block-source',
-        },
-        {
-          name: 'Args Table',
-          supported: ['react', 'vue', 'angular', 'html', 'ember', 'web-components', 'svelte'],
-          path: 'writing-docs/doc-block-argstable',
-        },
-        {
-          name: 'Description',
-          supported: ['react', 'vue', 'angular', 'ember', 'web-components'],
-          path: 'writing-docs/doc-block-description',
         },
         {
           name: 'Inline stories',
           supported: ['react', 'vue', 'web-components', 'html', 'svelte', 'angular'],
-          path: 'writing-docs/docs-page#inline-stories-vs-iframe-stories',
         },
       ],
     },
