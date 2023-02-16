@@ -1,7 +1,10 @@
 import fs from 'fs';
 import findUp from 'find-up';
 import semver from 'semver';
+import { logger } from '@storybook/node-logger';
 
+import { pathExistsSync } from 'fs-extra';
+import { join } from 'path';
 import type { TemplateConfiguration, TemplateMatcher } from './project_types';
 import {
   ProjectType,
@@ -147,6 +150,10 @@ export function isStorybookInstalled(
   return false;
 }
 
+export function detectPnp() {
+  return pathExistsSync(join(process.cwd(), '.pnp.cjs'));
+}
+
 export function detectLanguage(packageJson?: PackageJson) {
   let language = SupportedLanguage.JAVASCRIPT;
 
@@ -177,9 +184,19 @@ export function detectLanguage(packageJson?: PackageJson) {
         semver.gte(semver.coerce(version), '0.6.8')
       ))
   ) {
-    language = SupportedLanguage.TYPESCRIPT;
-  } else if (hasDependency(packageJson, 'typescript')) {
-    language = SupportedLanguage.TYPESCRIPT_LEGACY;
+    language = SupportedLanguage.TYPESCRIPT_4_9;
+  } else if (
+    hasDependency(packageJson, 'typescript', (version) =>
+      semver.gte(semver.coerce(version), '3.8.0')
+    )
+  ) {
+    language = SupportedLanguage.TYPESCRIPT_3_8;
+  } else if (
+    hasDependency(packageJson, 'typescript', (version) =>
+      semver.lt(semver.coerce(version), '3.8.0')
+    )
+  ) {
+    logger.warn('Detected TypeScript < 3.8, populating with JavaScript examples');
   }
 
   return language;
