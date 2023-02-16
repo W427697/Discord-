@@ -1,19 +1,21 @@
 export class IndexingError extends Error {
-  absolutePaths: string[];
+  importPaths: string[];
 
-  constructor(message: string, stack: string, absolutePaths: string[]) {
+  constructor(message: string, importPaths: string[], stack?: string) {
     super();
     this.message = message;
-    this.stack = stack;
-    this.absolutePaths = absolutePaths;
+    this.importPaths = importPaths;
+    if (stack) {
+      this.stack = stack;
+    }
   }
 
   pathsString() {
-    if (this.absolutePaths.length === 1) {
-      return `${this.absolutePaths[0]}`;
+    if (this.importPaths.length === 1) {
+      return `${this.importPaths[0]}`;
     }
 
-    return `${this.absolutePaths}`;
+    return `${this.importPaths}`;
   }
 
   toString() {
@@ -21,13 +23,27 @@ export class IndexingError extends Error {
   }
 }
 
-export function formatIndexingErrors(errors: IndexingError[]) {
-  if (errors.length === 0) throw new Error('Unexpected empty error list');
+export class MultipleIndexingError extends Error {
+  constructor(public indexingErrors: IndexingError[]) {
+    super();
 
-  if (errors.length === 1) {
-    const [err] = errors;
-    return `🚨 Unable to index ${err.pathsString()}: \n  ${err.stack}`;
+    if (this.indexingErrors.length === 0) throw new Error('Unexpected empty error list');
+
+    if (this.indexingErrors.length === 1) {
+      const [err] = this.indexingErrors;
+      this.message = `Unable to index ${err.pathsString()}`;
+    } else {
+      this.message = `Unable to index files:\n${this.indexingErrors
+        .map((err) => `- ${err}`)
+        .join('\n')}`;
+    }
   }
 
-  return `🚨 Unable to index files:\n${errors.map((err) => `- ${err}`).join('\n')}`;
+  toString() {
+    if (this.indexingErrors.length === 1) {
+      return `${this.message}:\n  ${this.indexingErrors[0].stack}`;
+    }
+
+    return this.message;
+  }
 }
