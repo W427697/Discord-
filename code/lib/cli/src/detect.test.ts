@@ -16,6 +16,10 @@ jest.mock('fs', () => ({
   access: jest.fn(),
 }));
 
+jest.mock('fs-extra', () => ({
+  pathExistsSync: jest.fn(() => true),
+}));
+
 jest.mock('path', () => ({
   // make it return just the second path, for easier testing
   join: jest.fn((_, p) => p),

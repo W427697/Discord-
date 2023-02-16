@@ -1,6 +1,6 @@
 {
   "name": "@storybook/core-webpack",
-  "version": "7.0.0-beta.47",
+  "version": "7.0.0-beta.49",
   "description": "Storybook framework-agnostic API",
   "keywords": [
     "storybook"
@@ -43,9 +43,9 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/core-common": "7.0.0-beta.47",
-    "@storybook/node-logger": "7.0.0-beta.47",
-    "@storybook/types": "7.0.0-beta.47",
+    "@storybook/core-common": "7.0.0-beta.49",
+    "@storybook/node-logger": "7.0.0-beta.49",
+    "@storybook/types": "7.0.0-beta.49",
     "@types/node": "^16.0.0",
     "ts-dedent": "^2.0.0"
   },
@@ -62,5 +62,5 @@
     ],
     "platform": "node"
   },
-  "gitHead": "a591d8eb579e68b26c277ab8ebdcafc2611530a5"
+  "gitHead": "a2b4f0b42ee2b071390794bbdf99d0366fa32472"
 }

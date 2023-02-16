@@ -1,6 +1,6 @@
 {
   "name": "sb",
-  "version": "7.0.0-beta.47",
+  "version": "7.0.0-beta.49",
   "description": "Storybook CLI",
   "keywords": [
     "storybook"
@@ -21,10 +21,10 @@
   "license": "MIT",
   "bin": "./index.js",
   "dependencies": {
-    "@storybook/cli": "7.0.0-beta.47"
+    "@storybook/cli": "7.0.0-beta.49"
   },
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "a591d8eb579e68b26c277ab8ebdcafc2611530a5"
+  "gitHead": "a2b4f0b42ee2b071390794bbdf99d0366fa32472"
 }

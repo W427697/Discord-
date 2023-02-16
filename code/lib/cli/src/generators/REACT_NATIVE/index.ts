@@ -50,6 +50,7 @@ const generator = async (
   const storybookConfigFolder = '.storybook';
 
   await copyTemplateFiles({
+    packageManager,
     renderer: 'react-native',
     language: SupportedLanguage.JAVASCRIPT,
     destination: storybookConfigFolder,
