@@ -145,6 +145,28 @@ const baseTemplates = {
       builder: '@storybook/builder-webpack5',
     },
   },
+  'solid-vite/default-js': {
+    name: 'SolidJS Vite (JS)',
+    script: 'npx degit solidjs/templates/js .',
+    expected: {
+      framework: 'storybook-solidjs-vite',
+      renderer: 'storybook-solidjs',
+      builder: '@storybook/builder-vite',
+    },
+    // TODO: remove this once solid-vite framework is released
+    inDevelopment: true,
+  },
+  'solid-vite/default-ts': {
+    name: 'SolidJS Vite (TS)',
+    script: 'npx degit solidjs/templates/ts .',
+    expected: {
+      framework: 'storybook-solidjs-vite',
+      renderer: 'storybook-solidjs',
+      builder: '@storybook/builder-vite',
+    },
+    // TODO: remove this once solid-vite framework is released
+    inDevelopment: true,
+  },
   'vue3-vite/default-js': {
     name: 'Vue3 Vite (JS)',
     script: 'yarn create vite . --template vue',
@@ -394,6 +416,13 @@ const internalTemplates = {
         },
       },
     },
+  },
+  'internal/pnp': {
+    ...baseTemplates['react-webpack/18-ts'],
+    name: 'PNP (react-webpack/18-ts)',
+    script: 'yarn create react-app . --use-pnp',
+    isInternal: true,
+    inDevelopment: true,
   },
 } satisfies Record<`internal/${string}`, Template & { isInternal: true }>;
 
