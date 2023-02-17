@@ -138,11 +138,6 @@ export class PropertyExtractor implements NgModuleMetadata {
     return { isDeclarable };
   };
 
-  static getDecoratorByType = (component: any, type: string) => {
-    const decorators = reflectionCapabilities.annotations(component);
-    return decorators.find((d) => this.isDecoratorInstanceOf(d, type));
-  };
-
   static isDecoratorInstanceOf = (decorator: any, name: string) => {
     let factory;
     switch (name) {
