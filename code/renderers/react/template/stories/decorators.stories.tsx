@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 import React from 'react';
-import type { StoryObj, Meta } from '@storybook/react';
+import type { StoryObj, Meta, StoryFn } from '@storybook/react';
 
 const Component: FC = () => <p>Story</p>;
 
@@ -26,3 +26,6 @@ export const All: StoryObj<typeof Component> = {
     ),
   ],
 };
+
+export const CSF2All: StoryFn = (args) => <Component {...args} />;
+CSF2All.decorators = All.decorators;
