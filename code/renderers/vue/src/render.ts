@@ -50,7 +50,7 @@ const getRoot = (canvasElement: VueRenderer['canvasElement']): Instance => {
 };
 
 export const render: ArgsStoryFn<VueRenderer> = (args, context) => {
-  const { id, component: Component, argTypes, initialArgs } = context;
+  const { id, component: Component, argTypes } = context;
   const component = Component as VueRenderer['component'] & {
     __docgenInfo?: { displayName: string };
     props: Record<string, any>;
@@ -80,28 +80,17 @@ export const render: ArgsStoryFn<VueRenderer> = (args, context) => {
     .filter((argType) => argType?.table?.category === 'events')
     .map((argType) => argType.name);
 
+  const camelCase = (str: string) => str.replace(/-([a-z])/g, (g) => g[1].toUpperCase());
+
   if (eventProps.length) {
-    eventsBinding = eventProps
-      .map((name) => `@${name}="useEventMethod('${name}', $event)"`)
-      .join(' ');
+    eventsBinding = eventProps.map((name) => `@${name}="$props['${camelCase(name)}']"`).join(' ');
   }
 
   return {
     props: Object.keys(argTypes),
     components: { [componentName]: component },
     template: `<${componentName} ${eventsBinding} v-bind="filterOutEventProps($props)" />`,
-    data() {
-      return {
-        initialArgs,
-      };
-    },
     methods: {
-      useEventMethod(eventKey: string, eventPayload: any) {
-        if (eventKey in this.$props && typeof this.$props[eventKey] === 'function')
-          this.$props[eventKey](eventPayload);
-        else if (eventKey in initialArgs && typeof initialArgs[eventKey] === 'function')
-          initialArgs[eventKey](eventPayload);
-      },
       filterOutEventProps(props: object) {
         return Object.fromEntries(
           Object.entries(props).filter(([key]) => !eventProps.includes(key))
