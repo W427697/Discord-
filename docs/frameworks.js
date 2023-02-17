@@ -172,6 +172,11 @@ module.exports = {
           path: 'api/doc-block-canvas',
         },
         {
+          name: 'Doc Blocks - ColorPalette',
+          unsupported: [],
+          path: 'api/doc-block-colorpalette',
+        },
+        {
           name: 'Doc Blocks - Controls',
           unsupported: [],
           path: 'api/doc-block-controls',
@@ -188,19 +193,19 @@ module.exports = {
         },
         {
           name: 'Doc Blocks - Markdown',
-          unsupported: ['ember'],
+          unsupported: [''],
           path: 'api/doc-block-markdown',
         },
         {
           name: 'Doc Blocks - Meta',
 
-          unsupported: ['ember'],
+          unsupported: [''],
           path: 'api/doc-block-meta',
         },
         {
           name: 'Doc Blocks - Primary',
 
-          unsupported: ['ember'],
+          unsupported: [''],
           path: 'api/doc-block-primary',
         },
         {
@@ -214,9 +219,14 @@ module.exports = {
           path: 'api/doc-block-story',
         },
         {
+          name: 'Doc Blocks - Stories',
+          unsupported: [],
+          path: 'api/doc-block-stories',
+        },
+        {
           name: 'Doc Blocks - Subtitle',
           unsupported: [],
-          path: 'api/doc-block-sutitle',
+          path: 'api/doc-block-subtitle',
         },
         {
           name: 'Doc Blocks - Title',
@@ -231,12 +241,12 @@ module.exports = {
         {
           name: 'Doc Blocks - Unstyled',
           unsupported: [],
-          path: 'writing-docs/doc-block-unstyled',
+          path: 'api/doc-block-unstyled',
         },
         {
           name: 'Doc Blocks - UseOf',
           unsupported: [],
-          path: 'writing-docs/doc-block-useof',
+          path: 'api/doc-block-useof',
         },
         {
           name: 'storiesOf stories',

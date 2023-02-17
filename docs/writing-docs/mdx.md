@@ -303,7 +303,7 @@ npx @hipster/mdx2-issue-checker
 
 When it finishes, it will output the list of files causing issues. You can then use this information to fix the problems manually.
 
-Additionally, if you're working with VSCode, you can add the [MDX extension](https://marketplace.visualstudio.com/items?itemName=unifiedjs.vscode-mdx) and enable MDX experimental support by adding the following to your user settings:
+Additionally, if you're working with VSCode, you can add the [MDX extension](https://marketplace.visualstudio.com/items?itemName=unifiedjs.vscode-mdx) and enable MDX experimental support for linting, type checking, and auto completion by adding the following to your user settings:
 
 ```json
 {
