@@ -41,10 +41,7 @@ export async function useStatics(router: any, options: Options) {
                 directory: dir,
               })
             : dir;
-          const { staticDir, staticPath, targetEndpoint } = await parseStaticDir(relativeDir);
-          logger.info(
-            chalk`=> Serving static files from {cyan ${staticDir}} at {cyan ${targetEndpoint}}`
-          );
+          const { staticPath, targetEndpoint } = await parseStaticDir(relativeDir);
           router.use(targetEndpoint, express.static(staticPath, { index: false }));
         } catch (e) {
           logger.warn(e.message);
