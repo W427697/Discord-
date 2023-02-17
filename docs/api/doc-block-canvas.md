@@ -132,7 +132,7 @@ import * as HeaderStories from './Header.stories';
 
 Type: Story export
 
-Specifies which story's source is displayed.
+Specifies which story is displayed.
 
 ##### `source`
 
