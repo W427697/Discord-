@@ -64,7 +64,7 @@ Set a minimum height (note for an iframe this is the actual height) when renderi
 
 Type: `boolean`
 
-Default: `true`, for [supported frameworks](./frameworks-feature-support.md)
+Default: `true`, for [supported frameworks](../configure/frameworks-feature-support.md)
 
 Determines whether the story is rendered `inline` (in the same browser frame as the other docs content) or in an iframe.
 
@@ -154,11 +154,5 @@ Defining and configuring stories in MDX is deprecated. See the [Migration guide]
 ##### `storyName` (deprecated)
 
 Type: `StoryName`
-
-Defining and configuring stories in MDX is deprecated. See the [Migration guide](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#mdx-docs-files) for details.
-
-##### `tags` (deprecated)
-
-Type: `Tag[]`
 
 Defining and configuring stories in MDX is deprecated. See the [Migration guide](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#mdx-docs-files) for details.

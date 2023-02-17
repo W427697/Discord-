@@ -12,9 +12,9 @@ ArgTypes are a first-class feature in Storybook for specifying the behaviour of 
 
 You can also use argTypes to “annotate” args with information used by addons that make use of those args. For instance, to instruct the controls addon to render a color, you could choose a string-valued arg.
 
-The most concrete realization of argTypes is the [Args Table](../writing-docs/doc-block-argstable.md) doc block. Each row in the table corresponds to a single argType and the current value of that arg.
+The most concrete realization of argTypes is the [`ArgTypes` doc block](./doc-block-argtypes.md) ([`Controls`](./doc-block-controls.md) is similar). Each row in the table corresponds to a single argType and the current value of that arg.
 
-![Storybook inferring automatically the argType](./argstable.png)
+![Storybook inferring automatically the argType](./argstable.png)<!--TK-->
 
 ## Automatic argType inference
 
@@ -109,7 +109,7 @@ Here's an explanation of each available property:
 
 ### Grouping
 
-You can also extend the ArgsTable's customization by grouping related `argTypes` into categories or even subcategories. Based on the following component implementation:
+You can also manually specify groups to organize related `argTypes` into categories or even subcategories. Based on the following component implementation:
 
 <!-- prettier-ignore-start -->
 

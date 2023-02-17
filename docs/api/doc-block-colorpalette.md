@@ -49,7 +49,7 @@ import { ColorItem } from '@storybook/blocks';
 
 Type: `string[] | { [key: string]: string }`
 
-Provides the list of colors to be displayed.
+Provides the list of colors to be displayed. Accepts any valid CSS color format (hex, RGB, HSL, etc.). When an object is provided, the keys will be displayed above the values.
 
 ##### `subtitle` (required)
 

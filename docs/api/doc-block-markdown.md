@@ -6,6 +6,8 @@ The `Markdown` block allows you to import and include plain markdown in your MD
 
 ![Screenshot of Markdown block](TK)
 
+When importing markdown files, it’s important to use the ?raw suffix on the import path to ensure the content is imported as-is, and isn’t being evaluated:
+
 <!-- prettier-ignore-start -->
 ```md
 // DON'T do this, will error

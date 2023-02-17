@@ -138,7 +138,7 @@ Specifies which story is displayed.
 
 Type: `Omit<SourceProps, 'dark'>`
 
-See [SourceProps](./doc-block-source.md#sourceprops).
+Specifies props passed to the inner `Source` block. See [SourceProps](./doc-block-source.md#sourceprops).
 
 <div class="aside">
 
@@ -162,7 +162,7 @@ Specifies the initial state of the source panel.
 
 Type: `Pick<StoryProps, 'inline' | 'height' | 'autoplay'>`
 
-Specifies props to pass to the inner `Story` block. See [StoryProps](./doc-block-story.md#storyprops).
+Specifies props passed to the inner `Story` block. See [StoryProps](./doc-block-story.md#storyprops).
 
 ##### `withToolbar`
 
