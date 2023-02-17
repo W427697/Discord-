@@ -1,5 +1,5 @@
 /* eslint-disable no-param-reassign,@typescript-eslint/no-shadow */
-import type { API, FileInfo } from 'jscodeshift';
+import type { FileInfo } from 'jscodeshift';
 import { babelParse, babelParseExpression } from '@storybook/csf-tools';
 import { remark } from 'remark';
 import type { Root } from 'remark-mdx';
@@ -7,10 +7,10 @@ import remarkMdx from 'remark-mdx';
 import { SKIP, visit } from 'unist-util-visit';
 import { is } from 'unist-util-is';
 import type {
-  MdxJsxFlowElement,
-  MdxJsxTextElement,
   MdxJsxAttribute,
   MdxJsxExpressionAttribute,
+  MdxJsxFlowElement,
+  MdxJsxTextElement,
 } from 'mdast-util-mdx-jsx';
 import type { MdxjsEsm } from 'mdast-util-mdxjs-esm';
 import * as t from '@babel/types';
@@ -19,40 +19,46 @@ import * as babel from '@babel/core';
 import * as recast from 'recast';
 import * as path from 'node:path';
 import { dedent } from 'ts-dedent';
-import { capitalize } from 'lodash';
 import prettier from 'prettier';
-import { writeFileSync } from 'node:fs';
+import * as fs from 'node:fs';
+import camelCase from 'lodash/camelCase';
 
 const mdxProcessor = remark().use(remarkMdx) as ReturnType<typeof remark>;
 
-export default function jscodeshift(info: FileInfo, api: API, options: { parser?: string }) {
-  const fileName = path.basename(info.path);
-  const [mdx, csf, newFileName] = transform(info.source, fileName);
-  writeFileSync(path.join(path.dirname(info.path), newFileName), csf);
+export default function jscodeshift(info: FileInfo) {
+  const parsed = path.parse(info.path);
 
-  // TODO how to rename the mdx file in jscodeshift?
+  let baseName = path.join(
+    parsed.dir,
+    parsed.name.replace('.mdx', '').replace('.stories', '').replace('.story', '')
+  );
+
+  // make sure the new csf file we are going to create exists
+  while (fs.existsSync(`${baseName}.stories.js`)) {
+    baseName += '_';
+  }
+
+  const [mdx, csf] = transform(info.source, baseName);
+
+  fs.writeFileSync(`${baseName}.stories.js`, csf);
 
   return mdx;
 }
 
-export function transform(
-  source: string,
-  filename: string
-): [mdx: string, csf: string, newFileName: string] {
+export function transform(source: string, baseName: string): [mdx: string, csf: string] {
   const root = mdxProcessor.parse(source);
-  const baseName = filename
-    .replace('.stories.mdx', '')
-    .replace('story.mdx', '')
-    .replace('.mdx', '');
 
-  const stories: (MdxJsxFlowElement | MdxJsxTextElement)[] = [];
   const metaAttributes: Array<MdxJsxAttribute | MdxJsxExpressionAttribute> = [];
   const storiesMap = new Map<
     string,
-    {
-      attributes: Array<MdxJsxAttribute | MdxJsxExpressionAttribute>;
-      children: (MdxJsxFlowElement | MdxJsxTextElement)['children'];
-    }
+    | {
+        type: 'value';
+        attributes: Array<MdxJsxAttribute | MdxJsxExpressionAttribute>;
+        children: (MdxJsxFlowElement | MdxJsxTextElement)['children'];
+      }
+    | {
+        type: 'reference';
+      }
   >();
 
   // rewrite addon docs import
@@ -78,13 +84,25 @@ export function transform(
         ];
       }
       if (is(node, { name: 'Story' })) {
-        const storyNode = node.attributes.find((it) =>
+        const nameAttribute = node.attributes.find((it) =>
           it.type === 'mdxJsxAttribute' ? it.name === 'name' : false
         );
 
-        if (typeof storyNode?.value === 'string') {
-          const name = capitalize(storyNode.value);
-          storiesMap.set(name, { attributes: node.attributes, children: node.children });
+        const idAttribute = node.attributes.find((it) =>
+          it.type === 'mdxJsxAttribute' ? it.name === 'id' : false
+        );
+
+        const storyAttribute = node.attributes.find((it) =>
+          it.type === 'mdxJsxAttribute' ? it.name === 'story' : false
+        );
+
+        if (typeof nameAttribute?.value === 'string') {
+          const name = nameToValidExport(nameAttribute.value);
+          storiesMap.set(name, {
+            type: 'value',
+            attributes: node.attributes,
+            children: node.children,
+          });
           node.attributes = [
             {
               type: 'mdxJsxAttribute',
@@ -95,8 +113,31 @@ export function transform(
               },
             },
           ];
-          stories.push(node);
           node.children = [];
+        } else if (idAttribute?.value) {
+          // leave the node as is, e.g.: <Story id="button--primary" />
+          // it is hard to find out where the definition of such a string id is located
+        } else if (
+          storyAttribute?.type === 'mdxJsxAttribute' &&
+          typeof storyAttribute.value === 'object' &&
+          storyAttribute.value.type === 'mdxJsxAttributeValueExpression'
+        ) {
+          // e.g. <Story story={Primary} />
+
+          const name = storyAttribute.value.value;
+          node.attributes = [
+            {
+              type: 'mdxJsxAttribute',
+              name: 'of',
+              value: {
+                type: 'mdxJsxAttributeValueExpression',
+                value: `${baseName}Stories.${name}`,
+              },
+            },
+          ];
+          node.children = [];
+
+          storiesMap.set(name, { type: 'reference' });
         } else {
           parent.children.splice(index, 1);
           // Do not traverse `node`, continue at the node *now* at `index`.
@@ -135,9 +176,9 @@ export function transform(
     },
   });
 
-  const newStatements: t.Statement[] = [];
-
-  newStatements.push(t.exportDefaultDeclaration(t.objectExpression(metaProperties)));
+  const newStatements: t.Statement[] = [
+    t.exportDefaultDeclaration(t.objectExpression(metaProperties)),
+  ];
 
   function mapChildrenToRender(children: (MdxJsxFlowElement | MdxJsxTextElement)['children']) {
     const child = children[0];
@@ -150,7 +191,7 @@ export function transform(
     if (child.type === 'mdxFlowExpression') {
       const expression = babelParseExpression(child.value);
 
-      // Recreating those liness: https://github.com/storybookjs/mdx1-csf/blob/f408fc97e9a63097ca1ee577df9315a3cccca975/src/sb-mdx-plugin.ts#L185-L198
+      // Recreating those lines: https://github.com/storybookjs/mdx1-csf/blob/f408fc97e9a63097ca1ee577df9315a3cccca975/src/sb-mdx-plugin.ts#L185-L198
       const BIND_REGEX = /\.bind\(.*\)/;
       if (BIND_REGEX.test(child.value)) {
         return expression;
@@ -170,35 +211,40 @@ export function transform(
     return t.arrowFunctionExpression([], expression);
   }
 
-  storiesMap.forEach((value, key) => {
-    const renderProperty = mapChildrenToRender(value.children);
-    const newObject = t.objectExpression([
-      ...(renderProperty
-        ? [t.objectProperty(t.identifier('render'), mapChildrenToRender(value.children))]
-        : []),
-      ...value.attributes.flatMap((attribute) => {
-        if (attribute.type === 'mdxJsxAttribute') {
-          if (typeof attribute.value === 'string') {
+  newStatements.push(
+    ...[...storiesMap].map(([key, value]) => {
+      if (value.type === 'reference') {
+        return t.exportNamedDeclaration(null, [
+          t.exportSpecifier(t.identifier(key), t.identifier(key)),
+        ]);
+      }
+      const renderProperty = mapChildrenToRender(value.children);
+      const newObject = t.objectExpression([
+        ...(renderProperty
+          ? [t.objectProperty(t.identifier('render'), mapChildrenToRender(value.children))]
+          : []),
+        ...value.attributes.flatMap((attribute) => {
+          if (attribute.type === 'mdxJsxAttribute') {
+            if (typeof attribute.value === 'string') {
+              return [
+                t.objectProperty(t.identifier(attribute.name), t.stringLiteral(attribute.value)),
+              ];
+            }
             return [
-              t.objectProperty(t.identifier(attribute.name), t.stringLiteral(attribute.value)),
+              t.objectProperty(
+                t.identifier(attribute.name),
+                babelParseExpression(attribute.value.value)
+              ),
             ];
           }
-          return [
-            t.objectProperty(
-              t.identifier(attribute.name),
-              babelParseExpression(attribute.value.value)
-            ),
-          ];
-        }
-        return [];
-      }),
-    ]);
-    newStatements.push(
-      t.exportNamedDeclaration(
+          return [];
+        }),
+      ]);
+      return t.exportNamedDeclaration(
         t.variableDeclaration('const', [t.variableDeclarator(t.identifier(key), newObject)])
-      )
-    );
-  });
+      );
+    })
+  );
 
   file.path.node.body = [...file.path.node.body, ...newStatements];
 
@@ -213,10 +259,9 @@ export function transform(
     singleQuote: true,
   };
 
-  const newFileName = `${baseName}.stories.tsx`;
+  output = prettier.format(output, { ...prettierConfig, filepath: `file.jsx` });
 
-  output = prettier.format(output, { ...prettierConfig, filepath: newFileName });
-  return [newMdx, output, newFileName];
+  return [newMdx, output];
 }
 
 function getEsmAst(root: Root) {
@@ -246,4 +291,10 @@ function addStoriesImport(root: Root, baseName: string): void {
       found = true;
     }
   });
+}
+
+export function nameToValidExport(name: string) {
+  const [first, ...rest] = Array.from(camelCase(name));
+
+  return `${first.match(/[a-zA-Z_$]/) ? first.toUpperCase() : `$${first}`}${rest.join('')}`;
 }
