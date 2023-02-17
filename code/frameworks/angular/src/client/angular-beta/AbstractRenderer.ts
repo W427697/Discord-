@@ -130,10 +130,10 @@ export abstract class AbstractRenderer {
     const providers = [
       // Providers for BrowserAnimations & NoopAnimationsModule
       analyzedMetadata.singletons,
-      analyzedMetadata.providers,
       importProvidersFrom(
         ...analyzedMetadata.imports.filter((imported) => !isStandalone(imported))
       ),
+      analyzedMetadata.providers,
       storyPropsProvider(newStoryProps$),
     ].filter(Boolean);
 
