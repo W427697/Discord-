@@ -71,7 +71,7 @@ However there are small syntactical differences between plain Markdown and MDX2.
 ```
 <!-- prettier-ignore-end -->
 
-Furthermore MDX2 wraps all strings on newlines in p tags or similar, meaning that content would render different between a plain .md file and an .mdx file.
+Furthermore MDX2 wraps all strings on newlines in `p` tags or similar, meaning that content would render different between a plain .md file and an .mdx file.
 
 <!-- prettier-ignore-start -->
 ```md
