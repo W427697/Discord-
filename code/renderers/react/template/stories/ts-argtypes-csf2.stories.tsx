@@ -8,7 +8,7 @@ import { ThemeProvider, themes, convert } from '@storybook/theming';
 import { component as TsFunctionComponentComponent } from './docgen-components/ts-function-component/input';
 import { component as TsFunctionComponentInlineDefaultsComponent } from './docgen-components/ts-function-component-inline-defaults/input';
 import { component as TsReactFcGenericsComponent } from './docgen-components/8143-ts-react-fc-generics/input';
-import { component as TsImportedTypesComponent } from './docgen-components/8143-ts-imported-types/input';
+
 import { component as TsMultiPropsComponent } from './docgen-components/8740-ts-multi-props/input';
 import { component as TsReactDefaultExportsComponent } from './docgen-components/9556-ts-react-default-exports/input';
 import { component as TsImportTypesComponent } from './docgen-components/9591-ts-import-types/input';
