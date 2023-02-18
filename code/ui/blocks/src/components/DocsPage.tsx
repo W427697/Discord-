@@ -1,6 +1,5 @@
 import { withReset } from '@storybook/components';
-import type { CSSObject } from '@storybook/theming';
-import type { GlobalProps } from '@emotion/react';
+import type { CSSObject, StorybookTheme } from '@storybook/theming';
 import { Global, styled } from '@storybook/theming';
 import { transparentize } from 'polished';
 import type { FC } from 'react';
@@ -54,8 +53,7 @@ export const Subtitle = styled.h2(withReset, ({ theme }) => ({
   color: transparentize(0.25, theme.color.defaultText),
 }));
 
-// @ts-expect-error Emotion types are hard...
-export const globalDocsStyles: GlobalProps['styles'] = (theme) => {
+export const globalDocsStyles = (theme: StorybookTheme) => {
   const reset = {
     fontFamily: theme.typography.fonts.base,
     fontSize: theme.typography.size.s3,
