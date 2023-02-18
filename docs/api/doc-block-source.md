@@ -18,27 +18,46 @@ import * as ButtonStories from './Button.stories';
 ```
 <!-- prettier-ignore-end -->
 
-## API
-
-### Source
+## Source
 
 ```js
 import { Source } from '@storybook/blocks';
 ```
 
-`Source` is a React component which accepts props of type `SourceProps`.
+<details>
+<summary>Configuring with props <strong>and</strong> parameters</summary>
 
-<div class="aside">
+ℹ️ Like most blocks, the `Source` block is configured with props in MDX. Many of those props derive their default value from a corresponding [parameter](../writing-stories/parameters.md) in the block's namespace, `parameters.docs.source`.
 
-ℹ️ Like most blocks, the `Source` block can both be configured via props when using it directly in MDX, or with properties in `parameters.docs.source`.
+The following `language` configurations are equivalent:
 
-</div>
+```js
+// Button.stories.js
+export const Basic {
+  parameters: {
+    docs: {
+      source: { language: 'tsx' },
+    },
+  },
+};
+```
 
-#### `SourceProps`
+<!-- prettier-ignore-start -->
+```md
+{/* ButtonDocs.mdx */}
+<Source of={ButtonStories.Basic} language="tsx" />
+```
+<!-- prettier-ignore-end -->
 
-##### `code`
+The example above applied the parameter at the [story](../writing-stories/parameters.md#story-parameters) level, but it could also be applied at the [component](../writing-stories/parameters.md#component-parameters) (or meta) level or [project](../writing-stories/parameters.md#global-parameters) level.
+
+</details>
+
+### `code`
 
 Type: `string`
+
+Default: `parameters.docs.source.code`
 
 Provides the source code to be rendered.
 
@@ -57,59 +76,73 @@ if (isSyntaxHighlighted) {
 ```
 <!-- prettier-ignore-end -->
 
-##### `dark`
+### `dark`
 
 Type: `boolean`
 
+Default: `parameters.docs.source.dark`
+
 Determines if snippet is rendered in dark mode.
 
-##### `format`
+<div class="aside">
+
+💡 Light mode is only supported when the `Source` block is rendered independently. When rendered as part of a [`Canvas` block](./doc-block-canvas.md)—like it is in [autodocs](../writing-docs/autodocs.md)—it will always use dark mode.
+
+</div>
+
+### `format`
 
 Type: `boolean | 'dedent' | BuiltInParserName`
 
-Default: `true`
+Default: `parameters.docs.source.format` or `true`
 
 Specifies the formatting used on source code. Supports all valid [prettier parser names](https://prettier.io/docs/en/configuration.html#setting-the-parserdocsenoptionshtmlparser-option).
 
-##### `language`
+### `language`
 
-Type: `'jsextra' | 'jsx' | 'json' | 'yml' | 'md' | 'bash' | 'css' | 'html' | 'tsx' | 'typescript' | 'graphql'`
+Type:
 
-Default: `'jsx'`
+<!-- prettier-ignore-start -->
+```ts
+'jsextra' | 'jsx' | 'json' | 'yml' | 'md' | 'bash' | 'css' | 'html' | 'tsx' | 'typescript' | 'graphql'
+```
+<!-- prettier-ignore-end -->
+
+Default: `parameters.docs.source.language` or `'jsx'`
 
 Specifies the language used for syntax highlighting.
 
-##### `of`
+### `of`
 
 Type: Story export
 
 Specifies which story's source is rendered.
 
-##### `type`
+### `type`
 
 Type: `'auto' | 'code' | 'dynamic'`
 
-Default: `'auto'`
+Default: `parameters.docs.source.type` or `'auto'`
 
 Specifies how the source code is rendered.
 
-- **auto**: Same as `dynamic`, if supported by the framework in use; otherwise same as `code`
-- **code**: Renders the value of `code` prop, otherwise renders static story source
+- **auto**: Same as **dynamic**, if supported by the framework in use; otherwise same as **code**
+- **code**: Renders the value of [`code` prop](#code), otherwise renders static story source
 - **dynamic**: Renders the story source with dynamically updated arg values
 
 <div class="aside">
 
-💡 Note that dynamic snippets will only work if the Story block for the story is also rendered.
+💡 Note that dynamic snippets will only work if the story uses [`args`](../writing-stories/args.md) and the [`Story` block](./doc-block-story.md) for that story is rendered along with the `Source` block.
 
 </div>
 
-##### `id` (deprecated)
+### `id` (deprecated)
 
 Type: `string`
 
 Specifies the story id for which to render the source code. Referencing a story this way is no longer supported; use the [`of` prop](#of), instead.
 
-##### `ids` (deprecated)
+### `ids` (deprecated)
 
 Type: `string[]`
 

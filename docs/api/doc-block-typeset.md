@@ -16,37 +16,33 @@ The `Typeset` block helps document the fonts used throughout your project.
 
 <!-- prettier-ignore-end -->
 
-## API
-
-### Typeset
+## Typeset
 
 ```js
 import { Typeset } from '@storybook/blocks';
 ```
 
-`Typeset` is a React component which accepts props of type `TypesetProps`.
+`Typeset` is configured with the following props:
 
-#### `TypesetProps`
-
-##### `fontFamily`
+### `fontFamily`
 
 Type: `string`
 
 Provides a font family to be displayed.
 
-##### `fontSizes`
+### `fontSizes`
 
 Type: `number[]`
 
 Provides a list of available font sizes (in `px`).
 
-##### `fontWeight`
+### `fontWeight`
 
 Type: `number`
 
 Specifies the weight of the font to be displayed.
 
-##### `sampleText`
+### `sampleText`
 
 Type: `string`
 

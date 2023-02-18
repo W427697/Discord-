@@ -6,19 +6,15 @@ The `Primary` block displays the primary (first defined in the stories file) sto
 
 ![Screenshot of Primary block](TK)
 
-## API
-
-### Primary
+## Primary
 
 ```js
 import { Primary } from '@storybook/blocks';
 ```
 
-`Primary` is a React component which accepts props of type `PrimaryProps`.
+`Primary` is configured with the following props:
 
-#### `PrimaryProps`
-
-##### `name` (deprecated)
+### `name` (deprecated)
 
 Type: `string`
 

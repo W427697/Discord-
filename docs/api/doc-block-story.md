@@ -26,27 +26,46 @@ import * as ButtonStories from './Button.stories';
 ```
 <!-- prettier-ignore-end -->
 
-## API
-
-### Story
+## Story
 
 ```js
 import { Story } from '@storybook/blocks';
 ```
 
-`Story` is a React component which accepts props of type `StoryProps`.
+<details>
+<summary>Configuring with props <strong>and</strong> parameters</summary>
 
-<div class="aside">
+ℹ️ Like most blocks, the `Story` block is configured with props in MDX. Many of those props derive their default value from a corresponding [parameter](../writing-stories/parameters.md) in the block's namespace, `parameters.docs.story`.
 
-ℹ️ Like most blocks, the `Story` block can both be configured via props when using it directly in MDX, or with properties in `parameters.docs.story`.
+The following `autoplay` configurations are equivalent:
 
-</div>
+```js
+// Button.stories.js
+export const Basic {
+  parameters: {
+    docs: {
+      story: { autoplay: true },
+    },
+  },
+};
+```
 
-#### `StoryProps`
+<!-- prettier-ignore-start -->
+```md
+{/* ButtonDocs.mdx */}
+<Story of={ButtonStories.Basic} autoplay />
+```
+<!-- prettier-ignore-end -->
 
-##### `autoplay`
+The example above applied the parameter at the [story](../writing-stories/parameters.md#story-parameters) level, but it could also be applied at the [component](../writing-stories/parameters.md#component-parameters) (or meta) level or [project](../writing-stories/parameters.md#global-parameters) level.
+
+</details>
+
+### `autoplay`
 
 Type: `boolean`
+
+Default: `parameters.docs.story.autoplay`
 
 Determines whether a story's play function runs.
 
@@ -54,21 +73,23 @@ Because all stories render simultaneously in docs entries, play functions can pe
 
 However, if you know your play function is “safe” to run in docs, you can use this prop to run it automatically.
 
-##### `height`
+### `height`
 
 Type: `string`
 
+Default: `parameters.docs.story.height`
+
 Set a minimum height (note for an iframe this is the actual height) when rendering a story in an iframe or inline. This overrides `parameters.docs.story.iframeHeight` for iframes.
 
-##### `inline`
+### `inline`
 
 Type: `boolean`
 
-Default: `true`, for [supported frameworks](../configure/frameworks-feature-support.md)
+Default: `parameters.docs.story.inline` or `true` (for [supported frameworks](../configure/frameworks-feature-support.md))
 
 Determines whether the story is rendered `inline` (in the same browser frame as the other docs content) or in an iframe.
 
-##### `meta`
+### `meta`
 
 Type: CSF file exports
 
@@ -91,67 +112,67 @@ import * as HeaderStories from './Header.stories';
 ```
 <!-- prettier-ignore-end -->
 
-##### `of`
+### `of`
 
 Type: Story export
 
 Specifies which story is rendered by the `Story` block. If no `of` is defined and the MDX file is [attached](./doc-block-meta.md#attached-vs-unattached), the primary (first) story will be rendered.
 
-##### `args` (deprecated)
+### `args` (deprecated)
 
 Type: `Partial<TArgs>`
 
 Defining and configuring stories in MDX is deprecated. See the [Migration guide](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#mdx-docs-files) for details.
 
-##### `argTypes` (deprecated)
+### `argTypes` (deprecated)
 
 Type: `Partial<ArgTypes<TArgs>>`
 
 Defining and configuring stories in MDX is deprecated. See the [Migration guide](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#mdx-docs-files) for details.
 
-##### `decorators` (deprecated)
+### `decorators` (deprecated)
 
 Type: `DecoratorFunction<TRenderer, TArgs>[]`
 
 Defining and configuring stories in MDX is deprecated. See the [Migration guide](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#mdx-docs-files) for details.
 
-##### `loaders` (deprecated)
+### `loaders` (deprecated)
 
 Type: `LoaderFunction<TRenderer, TArgs>[]`
 
 Defining and configuring stories in MDX is deprecated. See the [Migration guide](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#mdx-docs-files) for details.
 
-##### `name` (deprecated)
+### `name` (deprecated)
 
 Type: `StoryName`
 
 Defining and configuring stories in MDX is deprecated. See the [Migration guide](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#mdx-docs-files) for details.
 
-##### `parameters` (deprecated)
+### `parameters` (deprecated)
 
 Type: `Parameters`
 
 Defining and configuring stories in MDX is deprecated. See the [Migration guide](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#mdx-docs-files) for details.
 
-##### `play` (deprecated)
+### `play` (deprecated)
 
 Type: `PlayFunction<TRenderer, TArgs>`
 
 Defining and configuring stories in MDX is deprecated. See the [Migration guide](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#mdx-docs-files) for details.
 
-##### `render` (deprecated)
+### `render` (deprecated)
 
 Type: `ArgsStoryFn<TRenderer, TArgs>`
 
 Defining and configuring stories in MDX is deprecated. See the [Migration guide](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#mdx-docs-files) for details.
 
-##### `story` (deprecated)
+### `story` (deprecated)
 
 Type: `Omit<StoryAnnotations<TRenderer, TArgs>, 'story'>`
 
 Defining and configuring stories in MDX is deprecated. See the [Migration guide](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#mdx-docs-files) for details.
 
-##### `storyName` (deprecated)
+### `storyName` (deprecated)
 
 Type: `StoryName`
 

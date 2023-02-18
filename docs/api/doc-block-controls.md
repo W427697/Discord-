@@ -24,50 +24,72 @@ import * as ButtonStories from './Button.stories'
 ```
 <!-- prettier-ignore-end -->
 
-## API
-
-### Controls
+## Controls
 
 ```js
 import { Controls } from '@storybook/blocks';
 ```
 
-`Controls` is a React component which accepts props of type `ControlsProps`.
+<details>
+<summary>Configuring with props <strong>and</strong> parameters</summary>
 
-<div class="aside">
+ℹ️ Like most blocks, the `ArgTypes` block is configured with props in MDX. Many of those props derive their default value from a corresponding [parameter](../writing-stories/parameters.md) in the block's namespace, `parameters.docs.argTypes`.
 
-ℹ️ Like most blocks, the `Controls` block can both be configured via props when using it directly in MDX, or with properties in `parameters.docs.controls`.
+The following `include` configurations are equivalent:
 
-</div>
+```js
+// Button.stories.js
+export default {
+  component: Button,
+  parameters: {
+    docs: {
+      argTypes: { include: 'color' },
+    },
+  },
+};
+```
 
-#### `ControlsProps`
+<!-- prettier-ignore-start -->
+```md
+{/* ButtonDocs.mdx */}
+<ArgTypes of={ButtonStories} include="color" />
+```
+<!-- prettier-ignore-end -->
 
-##### `exclude`
+The example above applied the parameter at the [component](../writing-stories/parameters.md#component-parameters) (or meta) level, but it could also be applied at the [project](../writing-stories/parameters.md#global-parameters) or [story](../writing-stories/parameters.md#story-parameters) level.
+
+</details>
+
+### `exclude`
 
 Type: `string[] | RegExp`
 
-Specifies which args to exclude from table. Any args whose name matches the regex or is part of the array will be left out.
+Default: `parameters.docs.controls.exclude`
 
-##### `include`
+Specifies which controls to exclude from table. Any controls whose name matches the regex or is part of the array will be left out.
+
+### `include`
 
 Type: `string[] | RegExp`
 
-Specifies which args to include in the table. Any args whose name doesn’t match the regex or is not part of the array will be left out.
+Default: `parameters.docs.controls.include`
 
-##### `of`
+Specifies which controls to include in the table. Any controls whose name doesn’t match the regex or is not part of the array will be left out.
 
-Type: Story export
+### `of`
 
-Specifies which story to get the args from.
+Type: Story export or CSF file exports
 
-##### `sort`
+Specifies which story to get the controls from. If a CSF file exports is provided, it will use the primary (first) story in the file.
+
+### `sort`
 
 Type: `'none' | 'alpha' | 'requiredFirst'`
 
-Default: `'none'`
+Default: `parameters.docs.controls.sort` or `'none'`
 
 Specifies how the controls are sorted.
 
-- **none**: Unsorted, displayed in the same order the args are processed in
-- **alpha**: Sorted alphabetically, by the arg's name
-- **requiredFirst**: Same as `alpha`, with any required args displayed first
+- **none**: Unsorted, displayed in the same order the controls are processed in
+- **alpha**: Sorted alphabetically, by the arg type's name
+- **requiredFirst**: Same as `alpha`, with any required controls displayed first

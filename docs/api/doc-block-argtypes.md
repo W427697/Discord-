@@ -22,47 +22,69 @@ import * as ButtonStories from './Button.stories';
 ```
 <!-- prettier-ignore-end -->
 
-## API
-
-### ArgTypes
+## ArgTypes
 
 ```js
 import { ArgTypes } from '@storybook/blocks';
 ```
 
-`ArgTypes` is a React component which accepts props of type `ArgTypesProps`.
+<details>
+<summary>Configuring with props <strong>and</strong> parameters</summary>
 
-<div class="aside">
+ℹ️ Like most blocks, the `ArgTypes` block is configured with props in MDX. Many of those props derive their default value from a corresponding [parameter](../writing-stories/parameters.md) in the block's namespace, `parameters.docs.argTypes`.
 
-ℹ️ Like most blocks, the `ArgTypes` block can both be configured via props when using it directly in MDX, or with properties in `parameters.docs.argTypes`.
+The following `include` configurations are equivalent:
 
-</div>
+```js
+// Button.stories.js
+export default {
+  component: Button,
+  parameters: {
+    docs: {
+      argTypes: { include: 'color' },
+    },
+  },
+};
+```
 
-#### `ArgTypesProps`
+<!-- prettier-ignore-start -->
+```md
+{/* ButtonDocs.mdx */}
+<ArgTypes of={ButtonStories} include="color" />
+```
+<!-- prettier-ignore-end -->
 
-##### `exclude`
+The example above applied the parameter at the [component](../writing-stories/parameters.md#component-parameters) (or meta) level, but it could also be applied at the [project](../writing-stories/parameters.md#global-parameters) or [story](../writing-stories/parameters.md#story-parameters) level.
+
+</details>
+
+### `exclude`
 
 Type: `string[] | RegExp`
+
+Default: `parameters.docs.argTypes.exclude`
 
 Specifies which arg types to exclude from table. Any arg types whose name matches the regex or is part of the array will be left out.
 
-##### `include`
+### `include`
 
 Type: `string[] | RegExp`
 
+Default: `parameters.docs.argTypes.include`
+
 Specifies which arg types to include in the table. Any arg types whose name doesn’t match the regex or is not part of the array will be left out.
 
-##### `of`
+### `of`
 
 Type: Story export or CSF file exports
 
 Specifies which story to get the arg types from. If a CSF file exports is provided, it will use the primary (first) story in the file.
 
-##### `sort`
+### `sort`
 
 Type: `'none' | 'alpha' | 'requiredFirst'`
 
-Default: `'none'`
+Default: `parameters.docs.argTypes.sort` or `'none'`
 
 Specifies how the arg types are sorted.
 

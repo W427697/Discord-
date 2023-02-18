@@ -6,20 +6,18 @@ The `Subtitle` block can serve as a secondary heading for your docs entry.
 
 ![Screenshot of Subtitle block](TK)
 
-## API
-
-### Subtitle
+## Subtitle
 
 ```js
 import { Subtitle } from '@storybook/blocks';
 ```
 
-`Subtitle` is a React component which accepts props of type `SubtitleProps`.
+`Subtitle` is configured with the following props:
 
-#### `SubtitleProps`
-
-##### `children`
+### `children`
 
 Type: `JSX.Element | string`
 
-Provides the content. Falls back to value of `parameters.componentSubtitle`.
+Default: `parameters.componentSubtitle`
+
+Provides the content.

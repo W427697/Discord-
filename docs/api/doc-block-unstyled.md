@@ -49,19 +49,15 @@ Yields:
 
 </div>
 
-## API
-
-### Unstyled
+## Unstyled
 
 ```js
 import { Unstyled } from '@storybook/blocks';
 ```
 
-`Unstyled` is a React component which accepts props of type `UnstyledProps`.
+`Unstyled` is configured with the following props:
 
-#### `UnstyledProps`
-
-##### `children`
+### `children`
 
 Type: `React.ReactNode`
 

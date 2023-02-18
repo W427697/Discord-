@@ -6,20 +6,16 @@ The `Title` block serves as the primary heading for your docs entry. It is typic
 
 ![Screenshot of Title block](TK)
 
-## API
-
-### Title
+## Title
 
 ```js
 import { Title } from '@storybook/blocks';
 ```
 
-`Title` is a React component which accepts props of type `TitleProps`.
+`Title` is configured with the following props:
 
-#### `TitleProps`
-
-##### `children`
+### `children`
 
 Type: `JSX.Element | string`
 
-Provides the content. Falls back to value of `meta.title` (or value derived from [autotitle](../configure/sidebar-and-urls.md#csf-30-auto-titles)), trimmed to the last segment. For example, if the title value is `'path/to/components/Button'`, the default content is `'Button'`.
+Provides the content. Falls back to value of `title` in an [attached](./doc-block-meta.md#attached-vs-unattached) CSF file (or value derived from [autotitle](../configure/sidebar-and-urls.md#csf-30-auto-titles)), trimmed to the last segment. For example, if the title value is `'path/to/components/Button'`, the default content is `'Button'`.

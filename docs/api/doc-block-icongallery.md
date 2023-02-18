@@ -16,41 +16,35 @@ The `IconGallery` block enables you to easily document all icons associated with
 
 <!-- prettier-ignore-end -->
 
-## API
-
-### IconGallery
+## IconGallery
 
 ```js
 import { IconGallery } from '@storybook/blocks';
 ```
 
-`IconGallery` is a React component which accepts props of type `IconGalleryProps`.
+`IconGallery` is configured with the following props:
 
-#### `IconGalleryProps`
-
-##### `children`
+### `children`
 
 Type: `React.ReactNode`
 
 `IconGallery` expects only `IconItem` children.
 
-### IconItem
+## IconItem
 
 ```js
 import { IconItem } from '@storybook/blocks';
 ```
 
-`IconItem` is a React component which accepts props of type `IconItemProps`.
+`IconItem` is configured with the following props:
 
-#### `IconItemProps`
-
-##### `children`
+### `children`
 
 Type: `React.ReactNode`
 
 Provides the icon to be displayed.
 
-##### `name` (required)
+### `name` (required)
 
 Type: `string`
 

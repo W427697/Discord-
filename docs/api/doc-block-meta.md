@@ -2,7 +2,7 @@
 title: 'Meta'
 ---
 
-The `Meta` block is used to **attach** a custom MDX docs page alongside a component’s list of stories. It doesn’t render any content, but serves two purposes in an MDX file:
+The `Meta` block is used to [attach](#attached-vs-unattached) a custom MDX docs page alongside a component’s list of stories. It doesn’t render any content, but serves two purposes in an MDX file:
 
 - Attaches the MDX file to a component and its stories, or
 - Controls the location of the unattached docs entry in the sidebar.
@@ -13,23 +13,19 @@ The `Meta` block is used to **attach** a custom MDX docs page alongside a compon
 
 </div>
 
-## API
-
-### Meta
+## Meta
 
 ```js
 import { Meta } from '@storybook/blocks';
 ```
 
-`Meta` is a React component which accepts props of type `MetaProps`.
+`Meta` is configured with the following props:
 
-#### `MetaProps`
-
-##### `name`
+### `name`
 
 Type: `string`
 
-Sets the name of the attached doc entry. You can attach more than one MDX file to the same component in the sidebar by setting different names for each file's `Meta`.
+Sets the name of the [attached](#attached-vs-unattached) doc entry. You can attach more than one MDX file to the same component in the sidebar by setting different names for each file's `Meta`.
 
 <!-- prettier-ignore-start -->
 ```md
@@ -42,7 +38,7 @@ import * as ComponentStories from './component.stories';
 ```
 <!-- prettier-ignore-end -->
 
-##### `of`
+### `of`
 
 Type: CSF file exports
 
@@ -69,11 +65,11 @@ Attaching an MDX file to a component’s stories with the `of` prop serves two p
 
 </div >
 
-##### `title`
+### `title`
 
 Type: `string`
 
-Sets the title of an unattached MDX file.
+Sets the title of an [unattached](#attached-vs-unattached) MDX file.
 
 <!-- prettier-ignore-start -->
 ```md

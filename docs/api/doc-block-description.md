@@ -16,25 +16,15 @@ import * as ButtonStories from './Button.stories';
 ```
 <!-- prettier-ignore-end -->
 
-## API
-
-### Description
+## Description
 
 ```js
 import { Description } from '@storybook/blocks';
 ```
 
-`Description` is a React component which accepts props of type `DescriptionProps`.
+`Description` is configured with the following props:
 
-<div class="aside">
-
-ℹ️ Like most blocks, the `Description` block can both be configured via props when using it directly in MDX, or with properties in `parameters.docs.description`.
-
-</div>
-
-#### `DescriptionProps`
-
-##### `of`
+### `of`
 
 Type: Story export or CSF file exports
 
@@ -42,21 +32,21 @@ Specifies where to pull the description from. It can either point to a story or 
 
 Descriptions are pulled from the JSDoc comments or parameters, and they are rendered as markdown. See [Writing descriptions](#writing-descriptions) for more details.
 
-##### `children` (deprecated)
+### `children` (deprecated)
 
 Type: `string`
 
 See [Migration guide](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#description-block-parametersnotes-and-parametersinfo).
 
-##### `markdown` (deprecated)
+### `markdown` (deprecated)
 
 Type: `string`
 
 See [Migration guide](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#description-block-parametersnotes-and-parametersinfo).
 
-##### `type` (deprecated)
+### `type` (deprecated)
 
-Type: `DescriptionType`
+Type: `'info' | 'notes' | 'docgen' | 'auto'`
 
 See [Migration guide](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#description-block-parametersnotes-and-parametersinfo).
 
@@ -64,7 +54,7 @@ See [Migration guide](https://github.com/storybookjs/storybook/blob/next/MIGRATI
 
 There are multiple places to write the description of a component/story, depending on what you want to achieve. Descriptions can be written at the story level to describe each story of a component, or they can be written at the meta or component level to describe the component in general.
 
-Descriptions can be written as [JSDoc comments](https://jsdoc.app/about-getting-started.html) above stories, meta, or components. Alternatively it can also be added to `parameters`. To describe a story via parameters instead of comments, add it to `parameters.docs.description.story`; to describe meta/component, add it to `parameters.docs.description.component`.
+Descriptions can be written as [JSDoc comments](https://jsdoc.app/about-getting-started.html) above stories, meta, or components. Alternatively they can also be specified in [`parameters`](../writing-stories/parameters.md). To describe a story via parameters instead of comments, add it to `parameters.docs.description.story`; to describe meta/component, add it to `parameters.docs.description.component`.
 
 We recommend using JSDoc comments for descriptions, and only use the `parameters.docs.description.X` properties in situations where comments are not possible to write for some reason, or where you want the description shown in Storybook to be different from the comments. Comments provide a better writing experience as you don’t have to worry about indentation, and they are more discoverable for other developers that are exploring the story/component sources.
 

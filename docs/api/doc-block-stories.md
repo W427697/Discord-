@@ -6,25 +6,15 @@ The `Stories` block renders the full collection of stories in a stories file.
 
 ![Screenshot of Stories block](TK)
 
-## API
-
-### Stories
+## Stories
 
 ```js
 import { Stories } from '@storybook/blocks';
 ```
 
-`Stories` is a React component which accepts props of type `StoriesProps`.
+`Stories` is configured with the following props:
 
-<div class="aside">
-
-ℹ️ Like most blocks, the `Stories` block can both be configured via props when using it directly in MDX, or with properties in `parameters.docs.stories`.
-
-</div>
-
-#### `StoriesProps`
-
-##### `includePrimary`
+### `includePrimary`
 
 Type: `boolean`
 
@@ -38,7 +28,7 @@ Determines if the collection of stories includes the primary (first) story.
 
 </div>
 
-##### `title`
+### `title`
 
 Type: `string`
 

@@ -53,11 +53,9 @@ import * as ButtonStories from './Button.stories';
 ```
 <!-- prettier-ignore-end -->
 
-## API
+## useOf
 
-### useOf
-
-#### Signature
+## Signature
 
 ```ts
 useOf = (
@@ -66,9 +64,9 @@ useOf = (
 ): EnhancedResolvedModuleExportType
 ```
 
-#### Parameters
+## Parameters
 
-##### `moduleExportOrType` (required)
+### `moduleExportOrType` (required)
 
 Type: `ModuleExport | 'story' | 'meta' | 'component'`
 
@@ -80,29 +78,29 @@ When the custom block is in an [attached doc](./doc-block-meta.md#attached-vs-un
 - `useOf('meta')` returns the annotated meta in attached mode, error in unattached mode
 - `useOf('component')` returns the annotated component specified in the meta in attached mode, error in unattached mode
 
-##### `validTypes`
+### `validTypes`
 
 Type: `Array<'story' | 'meta' | 'component'>`
 
 Optionally specify an array of valid types that your block accepts. Ie. the Canvas block only accepts references to stories, not meta or component, so it has `useOf(of, ['story'])` . If anything else than the valid types are passed in, an error will be thrown.
 
-#### Return
+## Return
 
 The return value depends on the matched type:
 
-##### `EnhancedResolvedModuleExportType['type'] === 'story'`
+### `EnhancedResolvedModuleExportType['type'] === 'story'`
 
 Type: `{ type: 'story', story: PreparedStory }`
 
 For stories, annotated stories are returned as is. They are prepared, meaning that they are already merged with project and meta annotations.
 
-##### `EnhancedResolvedModuleExportType['type'] === 'meta'`
+### `EnhancedResolvedModuleExportType['type'] === 'meta'`
 
 Type: `{ type: 'meta', csfFile: CSFFile, preparedMeta: PreparedMeta }`
 
 For meta, the parsed CSF file is returned, along with prepared annotated meta. That is, project annotations merged with meta annotations, but no story annotations.
 
-##### `EnhancedResolvedModuleExportType['type'] === 'component'`
+### `EnhancedResolvedModuleExportType['type'] === 'component'`
 
 Type: `{ type: 'component', component: Component, projectAnnotations: NormalizedProjectAnnotations }`
 

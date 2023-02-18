@@ -26,25 +26,42 @@ import * as ButtonStories from './Button.stories';
 
 </div>
 
-## API
-
-### Canvas
+## Canvas
 
 ```js
 import { Canvas } from '@storybook/blocks';
 ```
 
-`Canvas` is a React component which accepts props of type `CanvasProps`.
+<details>
+<summary>Configuring with props <strong>and</strong> parameters</summary>
 
-<div class="aside">
+ℹ️ Like most blocks, the `Canvas` block is configured with props in MDX. Many of those props derive their default value from a corresponding [parameter](../writing-stories/parameters.md) in the block's namespace, `parameters.docs.canvas`.
 
-ℹ️ Like most blocks, the `Canvas` block can both be configured via props when using it directly in MDX, or with properties in `parameters.docs.canvas`.
+The following `sourceState` configurations are equivalent:
 
-</div>
+```js
+// Button.stories.js
+export const Basic {
+  parameters: {
+    docs: {
+      canvas: { sourceState: 'shown' },
+    },
+  },
+};
+```
 
-#### `CanvasProps`
+<!-- prettier-ignore-start -->
+```md
+{/* ButtonDocs.mdx */}
+<Canvas of={ButtonStories.Basic} sourceState="shown" />
+```
+<!-- prettier-ignore-end -->
 
-##### `additionalActions`
+The example above applied the parameter at the [story](../writing-stories/parameters.md#story-parameters) level, but it could also be applied at the [component](../writing-stories/parameters.md#component-parameters) (or meta) level or [project](../writing-stories/parameters.md#global-parameters) level.
+
+</details>
+
+### `additionalActions`
 
 Type:
 
@@ -54,8 +71,10 @@ Array<{
   className?: string;
   onClick: () => void;
   disabled?: boolean;
-}>
+}>;
 ```
+
+Default: `parameters.docs.canvas.additionalActions`
 
 Provides any additional custom actions to show in the bottom right corner. These are simple buttons that do anything you specify in the `onClick` function.
 
@@ -85,17 +104,19 @@ import * as ButtonStories from './Button.stories';
 ```
 <!-- prettier-ignore-end -->
 
-##### `className`
+### `className`
 
 Type: `string`
 
+Default: `parameters.docs.canvas.className`
+
 Provides HTML class(es) to the preview element, for custom styling.
 
-##### `layout`
+### `layout`
 
 Type: `'padded' | 'centered' | 'fullscreen'`
 
-Default: `'padded'`
+Default: `parameters.layout` or `parameters.docs.canvas.layout` or `'padded'`
 
 Specifies how the canvas should layout the story.
 
@@ -103,9 +124,9 @@ Specifies how the canvas should layout the story.
 - **centered**: Center the story within the canvas
 - **fullscreen**: Show the story as-is, without padding
 
-The canvas in docs will respect the `parameters.layout` value that defines how a story is laid out in the regular story view, but that can also be overridden with this prop.
+In addition to the `parameters.docs.canvas.layout` property or the `layout` prop, the `Canvas` block will respect the `parameters.layout` value that defines [how a story is laid out](../configure/story-layout.md) in the regular story view.
 
-##### `meta`
+### `meta`
 
 Type: CSF file exports
 
@@ -128,15 +149,15 @@ import * as HeaderStories from './Header.stories';
 ```
 <!-- prettier-ignore-end -->
 
-##### `of`
+### `of`
 
 Type: Story export
 
 Specifies which story is displayed.
 
-##### `source`
+### `source`
 
-Type: `Omit<SourceProps, 'dark'>`
+Type: `'code' | 'format' | 'language' | 'type'`
 
 Specifies props passed to the inner `Source` block. See [SourceProps](./doc-block-source.md#sourceprops).
 
@@ -146,11 +167,11 @@ Specifies props passed to the inner `Source` block. See [SourceProps](./doc-bloc
 
 </div>
 
-##### `sourceState`
+### `sourceState`
 
 Type: `'hidden' | 'shown' | 'none'`
 
-Default: `'hidden'`
+Default: `parameters.docs.canvas.sourceState` or `'hidden'`
 
 Specifies the initial state of the source panel.
 
@@ -158,49 +179,51 @@ Specifies the initial state of the source panel.
 - **shown**: the source panel is shown by default
 - **none**: the source panel is not available and the button to show it is not rendered
 
-##### `story`
+### `story`
 
-Type: `Pick<StoryProps, 'inline' | 'height' | 'autoplay'>`
+Type: `'inline' | 'height' | 'autoplay'`
 
 Specifies props passed to the inner `Story` block. See [StoryProps](./doc-block-story.md#storyprops).
 
-##### `withToolbar`
+### `withToolbar`
 
 Type: `boolean`
 
+Default: `parameters.docs.canvas.withToolbar`
+
 Determines whether to render a toolbar containing tools to interact with the story.
 
-##### `children` (deprecated)
+### `children` (deprecated)
 
-Type: `ReactNode`
+Type: `React.ReactNode`
 
 Expects only [Story](./doc-block-story.md) children. Reference the story with the `of` prop instead.
 
-##### `columns` (deprecated)
+### `columns` (deprecated)
 
 Type: `number`
 
 Splits the stories based on the number of defined columns. Multiple stories are not supported.
 
-##### `isColumn` (deprecated)
+### `isColumn` (deprecated)
 
 Type: `boolean`
 
 Displays the stories one above the other. Multiple stories are not supported.
 
-##### `mdxSource` (deprecated)
+### `mdxSource` (deprecated)
 
 Type: `string`
 
 Provides source to display. Use [`source.code`](#source) instead.
 
-##### `withSource` (deprecated)
+### `withSource` (deprecated)
 
-Type: `DeprecatedSourceState`
+Type: `'open' | 'closed' | 'none'`
 
 Controls the source code block visibility. Use [`sourceState`](#sourcestate) instead.
 
-##### `withToolbar` (deprecated)
+### `withToolbar` (deprecated)
 
 Type: `boolean`
 

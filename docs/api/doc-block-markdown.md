@@ -23,25 +23,21 @@ import { Markdown } from '@storybook/blocks';
 ```
 <!-- prettier-ignore-end -->
 
-## API
-
-### Markdown
+## Markdown
 
 ```js
 import { Markdown } from '@storybook/blocks';
 ```
 
-`Markdown` is a React component which accepts props of type `MarkdownProps`.
+`Markdown` is configured with the following props:
 
-#### `MarkdownProps`
-
-##### `children`
+### `children`
 
 Type: `string`
 
 Provides the markdown-formatted string to parse and display.
 
-##### `options`
+### `options`
 
 Specifies the options passed to the underlying [`markdown-to-jsx` library](https://github.com/probablyup/markdown-to-jsx/blob/main/README.md).
 

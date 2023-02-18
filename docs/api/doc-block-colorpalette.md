@@ -17,47 +17,41 @@ The `ColorPalette` block allows you to document all color-related items (e.g., s
 
 <!-- prettier-ignore-end -->
 
-## API
-
-### ColorPalette
+## ColorPalette
 
 ```js
 import { ColorPalette } from '@storybook/blocks';
 ```
 
-`ColorPalette` is a React component which accepts props of type `ColorPaletteProps`.
+`ColorPalette` is configured with the following props:
 
-#### `ColorPaletteProps`
-
-##### `children`
+### `children`
 
 Type: `React.ReactNode`
 
 `ColorPalette` expects only `ColorItem` children.
 
-### ColorItem
+## ColorItem
 
 ```js
 import { ColorItem } from '@storybook/blocks';
 ```
 
-`ColorItem` is a React component which accepts props of type `ColorItemProps`.
+`ColorItem` is configured with the following props:
 
-#### `ColorItemProps`
-
-##### `colors` (required)
+### `colors` (required)
 
 Type: `string[] | { [key: string]: string }`
 
 Provides the list of colors to be displayed. Accepts any valid CSS color format (hex, RGB, HSL, etc.). When an object is provided, the keys will be displayed above the values.
 
-##### `subtitle` (required)
+### `subtitle` (required)
 
 Type: `string`
 
 Provides an additional description to the color.
 
-##### `title` (required)
+### `title` (required)
 
 Type: `string`
 
