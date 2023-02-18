@@ -33,10 +33,10 @@ export function renderToCanvas(
   const existingApp = map.get(canvasElement);
 
   storyContext.args = reactive(storyContext.args);
-  const rootStoryComp = !existingApp ? storyFn() : existingApp.rootComponent;
+  const rootComponent: any = storyFn(); // !existingApp ? storyFn() : existingApp.rootComponent();
 
-  const props = typeof rootStoryComp === 'function' ? rootStoryComp(storyContext.args).props : {};
-  const reactiveArgs = Object.keys(props).length > 0 ? reactive(props) : storyContext.args;
+  const appProps = rootComponent.props ?? rootComponent().props;
+  const reactiveArgs = Object.keys(appProps).length > 0 ? reactive(appProps) : storyContext.args;
 
   if (existingApp && !forceRemount) {
     updateArgs(existingApp.reactiveArgs, reactiveArgs);
@@ -49,8 +49,8 @@ export function renderToCanvas(
 
   const storybookApp = createApp({
     render() {
-      map.set(canvasElement, { vueApp: storybookApp, reactiveArgs, rootComponent: rootStoryComp });
-      return h(rootStoryComp, reactiveArgs);
+      map.set(canvasElement, { vueApp: storybookApp, reactiveArgs, rootComponent });
+      return h(rootComponent, reactiveArgs);
     },
   });
 
@@ -85,11 +85,10 @@ function getSlots(props: Args, context: StoryContext<VueRenderer, Args>) {
  * @param nextArgs
  * @returns
  */
-function updateArgs(reactiveArgs: Args, nextArgs: Args) {
+export function updateArgs(reactiveArgs: Args, nextArgs: Args) {
   if (!nextArgs) return;
-  Object.keys(reactiveArgs).forEach((key) => {
-    delete reactiveArgs[key];
-  });
+
+  Object.keys(reactiveArgs).forEach((key) => delete reactiveArgs[key]);
   Object.assign(reactiveArgs, nextArgs);
 }
 
