@@ -15,6 +15,7 @@ title: 'Install Storybook'
    'get-started/installation-command-section/vue.mdx',
    'get-started/installation-command-section/web-components.mdx',
    'get-started/installation-command-section/qwik.mdx',
+   'get-started/installation-command-section/solid.mdx',
   ]}
 />
 
@@ -88,6 +89,7 @@ Below are some of the most common installation issues and instructions on how to
    'get-started/installation-problems/vue.mdx',
    'get-started/installation-problems/web-components.mdx',
    'get-started/installation-problems/qwik.mdx',
+   'get-started/installation-problems/solid.mdx',
   ]}
 />
 
