@@ -212,9 +212,11 @@ command('dev')
     logger.setLevel(program.loglevel);
     consoleLogger.log(chalk.bold(`${pkg.name} v${pkg.version}`) + chalk.reset('\n'));
 
-    // The key is the field created in `program` variable for
+    const appliedOptions = { ...options };
+
+    // The key is the field created in `appliedOptions` variable for
     // each command line argument. Value is the env variable.
-    getEnvConfig(program, {
+    getEnvConfig(appliedOptions, {
       port: 'SBCONFIG_PORT',
       host: 'SBCONFIG_HOSTNAME',
       staticDir: 'SBCONFIG_STATIC_DIR',
@@ -222,11 +224,11 @@ command('dev')
       ci: 'CI',
     });
 
-    if (typeof program.port === 'string' && program.port.length > 0) {
-      program.port = parseInt(program.port, 10);
+    if (typeof appliedOptions.port === 'string' && appliedOptions.port.length > 0) {
+      appliedOptions.port = parseInt(appliedOptions.port, 10);
     }
 
-    dev({ ...options, packageJson: pkg });
+    dev({ ...appliedOptions, packageJson: pkg });
   });
 
 command('build')
@@ -248,15 +250,17 @@ command('build')
     logger.setLevel(program.loglevel);
     consoleLogger.log(chalk.bold(`${pkg.name} v${pkg.version}\n`));
 
-    // The key is the field created in `program` variable for
+    const appliedOptions = { ...options };
+
+    // The key is the field created in `appliedOptions` variable for
     // each command line argument. Value is the env variable.
-    getEnvConfig(program, {
+    getEnvConfig(appliedOptions, {
       staticDir: 'SBCONFIG_STATIC_DIR',
       outputDir: 'SBCONFIG_OUTPUT_DIR',
       configDir: 'SBCONFIG_CONFIG_DIR',
     });
 
-    build({ ...options, packageJson: pkg });
+    build({ ...appliedOptions, packageJson: pkg });
   });
 
 program.on('command:*', ([invalidCmd]) => {
