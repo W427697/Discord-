@@ -53,7 +53,7 @@ export const Subtitle = styled.h2(withReset, ({ theme }) => ({
   color: transparentize(0.25, theme.color.defaultText),
 }));
 
-export const globalDocsStyles = (theme: StorybookTheme) => {
+export const globalDocsStyles = (theme: StorybookTheme): any => {
   const reset = {
     fontFamily: theme.typography.fonts.base,
     fontSize: theme.typography.size.s3,
