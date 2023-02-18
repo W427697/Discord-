@@ -35,3 +35,12 @@ export const StoryContainsUnrenderable = {
     </div>
   ),
 };
+
+export const CSF2StoryIsUnrenderable = () => badOutput;
+
+export const CSF2StoryContainsUnrenderable = () => (
+  <div>
+    {/* @ts-expect-error we're doing it wrong here on purpose */}
+    <BadComponent />
+  </div>
+);

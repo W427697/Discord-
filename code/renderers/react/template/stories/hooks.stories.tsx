@@ -1,3 +1,4 @@
+import type { Args } from '@storybook/csf';
 import type { FC } from 'react';
 import React, { useState } from 'react';
 
@@ -15,3 +16,5 @@ export default {
 };
 
 export const Basic = {};
+
+export const CSF2Basic = (args: Args) => <ButtonWithState {...args} />;
