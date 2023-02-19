@@ -56,6 +56,7 @@ interface FixOptions {
   packageManager?: PackageManagerName;
   configDir?: string;
   renderer?: string;
+  skipInstall?: boolean;
 }
 
 enum PreCheckFailure {
@@ -95,6 +96,7 @@ export const automigrate = async ({
   list,
   configDir: userSpecifiedConfigDir,
   renderer: rendererPackage,
+  skipInstall,
 }: FixOptions = {}) => {
   if (list) {
     logAvailableMigrations();
@@ -260,6 +262,7 @@ export const automigrate = async ({
               packageManager,
               dryRun,
               mainConfigPath,
+              skipInstall,
             });
             logger.info(`✅ ran ${chalk.cyan(f.id)} migration`);
 

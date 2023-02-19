@@ -83,13 +83,19 @@ export const sbBinary: Fix<SbBinaryRunOptions> = {
       `;
   },
 
-  async run({ result: { packageJson, hasSbBinary, hasStorybookBinary }, packageManager, dryRun }) {
+  async run({
+    result: { packageJson, hasSbBinary, hasStorybookBinary },
+    packageManager,
+    dryRun,
+    skipInstall,
+  }) {
     if (hasSbBinary) {
       logger.info(`✅ Removing 'sb' dependency`);
       if (!dryRun) {
-        packageManager.removeDependencies({ skipInstall: !hasStorybookBinary, packageJson }, [
-          'sb',
-        ]);
+        packageManager.removeDependencies(
+          { skipInstall: skipInstall || !hasStorybookBinary, packageJson },
+          ['sb']
+        );
       }
     }
 
@@ -99,9 +105,10 @@ export const sbBinary: Fix<SbBinaryRunOptions> = {
       logger.log();
       if (!dryRun) {
         const versionToInstall = getStorybookVersionSpecifier(packageJson);
-        packageManager.addDependencies({ installAsDevDependencies: true }, [
-          `storybook@${versionToInstall}`,
-        ]);
+        packageManager.addDependencies(
+          { installAsDevDependencies: true, packageJson, skipInstall },
+          [`storybook@${versionToInstall}`]
+        );
       }
     }
   },

@@ -98,7 +98,28 @@ export abstract class JsPackageManager {
   }
 
   writePackageJson(packageJson: PackageJson) {
-    const content = `${JSON.stringify(packageJson, null, 2)}\n`;
+    const packageJsonToWrite = { ...packageJson };
+    // make sure to not accidentally add empty fields
+    if (
+      packageJsonToWrite.dependencies &&
+      Object.keys(packageJsonToWrite.dependencies).length === 0
+    ) {
+      delete packageJsonToWrite.dependencies;
+    }
+    if (
+      packageJsonToWrite.devDependencies &&
+      Object.keys(packageJsonToWrite.devDependencies).length === 0
+    ) {
+      delete packageJsonToWrite.devDependencies;
+    }
+    if (
+      packageJsonToWrite.dependencies &&
+      Object.keys(packageJsonToWrite.peerDependencies).length === 0
+    ) {
+      delete packageJsonToWrite.peerDependencies;
+    }
+
+    const content = `${JSON.stringify(packageJsonToWrite, null, 2)}\n`;
     fs.writeFileSync(this.packageJsonPath(), content, 'utf8');
   }
 
@@ -175,7 +196,6 @@ export abstract class JsPackageManager {
           ...dependenciesMap,
         };
       }
-
       this.writePackageJson(packageJson);
     } else {
       try {

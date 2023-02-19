@@ -168,6 +168,7 @@ command('automigrate [fixId]')
   .option('-N --use-npm', 'Use npm as package manager (deprecated)')
   .option('-l --list', 'List available migrations')
   .option('-c, --config-dir <dir-name>', 'Directory of Storybook configurations to migrate')
+  .option('-s --skip-install', 'Skip installing deps')
   .option(
     '--renderer <renderer-pkg-name>',
     'The renderer package for the framework Storybook is using.'

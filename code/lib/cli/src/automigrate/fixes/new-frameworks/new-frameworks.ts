@@ -150,12 +150,20 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
 
       if (isNextJsCandidate) {
         metaFramework = 'nextjs';
-        if (newFrameworkPackage === '@storybook/react-webpack5') {
+        if (
+          newFrameworkPackage === '@storybook/react-webpack5' ||
+          // when framework is already set up but maybe legacy addons are still installed
+          newFrameworkPackage === '@storybook/nextjs'
+        ) {
           newFrameworkPackage = '@storybook/nextjs';
           addonsToRemove = ['storybook-addon-next', 'storybook-addon-next-router'].filter(
-            (dep) => allDependencies[dep]
+            (dep) =>
+              allDependencies[dep] ||
+              mainConfig.addons?.find((addon) =>
+                typeof addon === 'string' ? dep === addon : dep === addon.name
+              )
           );
-          addonOptions = getNextjsAddonOptions(mainConfig.addons);
+          addonOptions = nextAddonOptions;
 
           dependenciesToRemove.push(
             // in case users are coming from a properly set up @storybook/webpack5 project
@@ -421,12 +429,13 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
     packageManager,
     dryRun,
     mainConfigPath,
+    skipInstall,
   }) {
     if (dependenciesToRemove.length > 0) {
       logger.info(`✅ Removing dependencies: ${dependenciesToRemove.join(', ')}`);
       if (!dryRun) {
         packageManager.removeDependencies(
-          { skipInstall: dependenciesToAdd.length > 0, packageJson },
+          { skipInstall: skipInstall || dependenciesToAdd.length > 0, packageJson },
           dependenciesToRemove
         );
       }
@@ -437,7 +446,10 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
       if (!dryRun) {
         const versionToInstall = getStorybookVersionSpecifier(packageJson);
         const depsToAdd = dependenciesToAdd.map((dep) => `${dep}@${versionToInstall}`);
-        packageManager.addDependencies({ installAsDevDependencies: true }, depsToAdd);
+        packageManager.addDependencies(
+          { installAsDevDependencies: true, skipInstall, packageJson },
+          depsToAdd
+        );
       }
     }
 
@@ -449,14 +461,14 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
         main.setFieldValue(['framework', 'name'], frameworkPackage);
       }
 
-      if (Object.keys(frameworkOptions).length > 0) {
+      if (!dryRun) {
         main.setFieldValue(['framework', 'options'], frameworkOptions);
+      }
 
-        if (main.getFieldNode([`${renderer}Options`])) {
-          logger.info(`✅ Moving "${renderer}Options" to "framework.options"`);
-          if (!dryRun) {
-            main.removeField([`${renderer}Options`]);
-          }
+      if (main.getFieldNode([`${renderer}Options`])) {
+        logger.info(`✅ Moving "${renderer}Options" to "framework.options"`);
+        if (!dryRun) {
+          main.removeField([`${renderer}Options`]);
         }
       }
 

@@ -11,6 +11,7 @@ export interface RunOptions<ResultType> {
   result: ResultType;
   dryRun?: boolean;
   mainConfigPath?: string;
+  skipInstall?: boolean;
 }
 
 export interface Fix<ResultType = any> {
