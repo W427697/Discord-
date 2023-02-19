@@ -119,6 +119,17 @@ export abstract class JsPackageManager {
       ...packageJson,
       dependencies: { ...packageJson.dependencies },
       devDependencies: { ...packageJson.devDependencies },
+      peerDependencies: { ...packageJson.peerDependencies },
+    };
+  }
+
+  public getAllDependencies(): Record<string, string> {
+    const { dependencies, devDependencies, peerDependencies } = this.retrievePackageJson();
+
+    return {
+      ...dependencies,
+      ...devDependencies,
+      ...peerDependencies,
     };
   }
 

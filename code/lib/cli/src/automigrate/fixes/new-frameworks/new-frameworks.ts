@@ -2,13 +2,7 @@ import chalk from 'chalk';
 import dedent from 'ts-dedent';
 import findUp from 'find-up';
 import semver from 'semver';
-import { readConfig, writeConfig } from '@storybook/csf-tools';
-import {
-  frameworkPackages,
-  getStorybookInfo,
-  loadMainConfig,
-  rendererPackages,
-} from '@storybook/core-common';
+import { frameworkPackages, rendererPackages } from '@storybook/core-common';
 
 import type { Fix } from '../../types';
 import type { PackageJsonWithDepsAndDevDeps } from '../../../js-package-manager';
@@ -16,6 +10,7 @@ import { getStorybookVersionSpecifier } from '../../../helpers';
 import { detectRenderer } from '../../helpers/detectRenderer';
 import type { Addon } from './utils';
 import { getNextjsAddonOptions, detectBuilderInfo, packagesMap } from './utils';
+import { getStorybookData, updateMainConfig } from '../../helpers/mainConfigFile';
 
 const logger = console;
 
@@ -28,7 +23,6 @@ const nextJsConfigFiles = [
 interface NewFrameworkRunOptions {
   mainConfigPath: string;
   packageJson: PackageJsonWithDepsAndDevDeps;
-  allDependencies: Record<string, string>;
   dependenciesToAdd: string[];
   dependenciesToRemove: string[];
   hasFrameworkInMainConfig: boolean;
@@ -65,43 +59,18 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
   id: 'new-frameworks',
 
   async check({
-    packageManager,
-    configDir: userDefinedConfigDir,
     rendererPackage: userDefinedRendererPackage,
+    configDir: userDefinedConfigDir,
+    packageManager,
   }) {
     const packageJson = packageManager.retrievePackageJson();
-    const allDependencies = {
-      ...packageJson.dependencies,
-      ...packageJson.devDependencies,
-      ...packageJson.peerDependencies,
-    };
+    const { storybookVersion, mainConfig, mainConfigPath, configDir } = await getStorybookData({
+      packageManager,
+      configDir: userDefinedConfigDir,
+    });
 
-    const {
-      mainConfig: mainConfigPath,
-      version: storybookVersion,
-      configDir: configDirFromScript,
-    } = getStorybookInfo(packageJson, userDefinedConfigDir);
-
-    const storybookCoerced = storybookVersion && semver.coerce(storybookVersion)?.version;
-    if (!storybookCoerced) {
-      throw new Error(dedent`
-        ❌ Unable to determine Storybook version.
-        🤔 Are you running automigrate from your project directory? Please specify your Storybook config directory with the --config-dir flag.
-      `);
-    }
-
-    if (!semver.gte(storybookCoerced, '7.0.0')) {
+    if (!semver.gte(storybookVersion, '7.0.0')) {
       return null;
-    }
-
-    const configDir = userDefinedConfigDir || configDirFromScript || '.storybook';
-    let mainConfig;
-    try {
-      mainConfig = await loadMainConfig({ configDir });
-    } catch (err) {
-      throw new Error(
-        dedent`Unable to find or evaluate ${chalk.blue(mainConfigPath)}: ${err.message}`
-      );
     }
 
     const frameworkPackage =
@@ -128,6 +97,8 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
     if (!supportedPackages.includes(rendererPackage)) {
       return null;
     }
+
+    const allDependencies = packageManager.getAllDependencies();
 
     const builderInfo = await detectBuilderInfo({
       mainConfig,
@@ -262,7 +233,6 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
       packageJson,
       renderer,
       builderConfig,
-      allDependencies,
       metaFramework,
     };
   },
@@ -278,7 +248,6 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
     rendererOptions,
     builderConfig,
     addonsToRemove,
-    allDependencies,
     metaFramework,
   }) {
     let disclaimer = '';
@@ -421,7 +390,7 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
     }
 
     return dedent`
-      We've detected you are using an older format of Storybook renderers and builders.
+      We've detected your project is not fully setup with Storybook's 7 new framework format.
 
       Storybook 7 introduced the concept of frameworks, which abstracts configuration for renderers (e.g. React, Vue), builders (e.g. Webpack, Vite) and defaults to make integrations easier.
 
@@ -442,7 +411,6 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
     result: {
       dependenciesToAdd,
       dependenciesToRemove,
-      mainConfigPath,
       frameworkPackage,
       frameworkOptions,
       builderInfo,
@@ -452,6 +420,7 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
     },
     packageManager,
     dryRun,
+    mainConfigPath,
   }) {
     if (dependenciesToRemove.length > 0) {
       logger.info(`✅ Removing dependencies: ${dependenciesToRemove.join(', ')}`);
@@ -472,8 +441,7 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
       }
     }
 
-    try {
-      const main = await readConfig(mainConfigPath);
+    await updateMainConfig({ mainConfigPath, dryRun }, async (main) => {
       logger.info(`✅ Updating main.js`);
 
       logger.info(`✅ Updating "framework" field`);
@@ -534,22 +502,6 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
           main.setFieldValue(['addons'], updatedAddons);
         }
       }
-
-      if (!dryRun) {
-        await writeConfig(main);
-      }
-    } catch (e) {
-      logger.info(
-        `❌ The "${this.id}" migration failed to update your ${chalk.blue(
-          mainConfigPath
-        )} on your behalf because of the following error:
-          ${e}`
-      );
-      logger.info(
-        `⚠️ Storybook automigrations are based on AST parsing and it's possible that your ${chalk.blue(
-          mainConfigPath
-        )} file contains a non-standard format or that there was an error when parsing dynamic values (e.g. "require" calls, or usage of environment variables). Please follow the instructions given previously and update the file manually.`
-      );
-    }
+    });
   },
 };

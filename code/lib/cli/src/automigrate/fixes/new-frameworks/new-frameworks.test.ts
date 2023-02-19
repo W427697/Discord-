@@ -1,47 +1,27 @@
-/* eslint-disable no-underscore-dangle */
-import * as path from 'path';
 import type { StorybookConfig } from '@storybook/types';
-import * as coreCommon from '@storybook/core-common';
 import * as findUp from 'find-up';
-import type { JsPackageManager, PackageJson } from '../../../js-package-manager';
+import type { PackageJson } from '../../../js-package-manager';
 import * as rendererHelpers from '../../helpers/detectRenderer';
 import { newFrameworks } from './new-frameworks';
+import { makePackageManager, mockStorybookData } from '../../helpers/testing-helpers';
 
 jest.mock('find-up');
 
-jest.mock('@storybook/core-common', () => ({
-  ...jest.requireActual('@storybook/core-common'),
-  loadMainConfig: jest.fn(),
-}));
-
-// eslint-disable-next-line global-require, jest/no-mocks-import
-jest.mock('fs-extra', () => require('../../../../../../__mocks__/fs-extra'));
-
 const checkNewFrameworks = async ({
   packageJson,
-  main,
+  main: mainConfig,
+  storybookVersion = '7.0.0',
 }: {
   packageJson: PackageJson;
   main: Partial<StorybookConfig> & Record<string, unknown>;
+  storybookVersion?: string;
 }) => {
-  if (main) {
-    jest.spyOn(coreCommon, 'loadMainConfig').mockReturnValue(Promise.resolve(main) as any);
-    // eslint-disable-next-line global-require
-    require('fs-extra').__setMockFiles({
-      [path.join('.storybook', 'main.js')]: `
-        const config = ${JSON.stringify(main)};
-        export default config;
-      `,
-    });
-  } else {
-    jest
-      .spyOn(coreCommon, 'loadMainConfig')
-      .mockReturnValue(Promise.reject(new Error('could not find main.js!')));
-  }
-  const packageManager = {
-    retrievePackageJson: () => ({ dependencies: {}, devDependencies: {}, ...packageJson }),
-  } as JsPackageManager;
-  return newFrameworks.check({ packageManager });
+  mockStorybookData({ mainConfig, storybookVersion });
+
+  return newFrameworks.check({
+    packageManager: makePackageManager(packageJson),
+    configDir: '',
+  });
 };
 
 describe('new-frameworks fix', () => {
@@ -52,6 +32,7 @@ describe('new-frameworks fix', () => {
         checkNewFrameworks({
           packageJson,
           main: {},
+          storybookVersion: '6.2.0',
         })
       ).resolves.toBeFalsy();
     });
