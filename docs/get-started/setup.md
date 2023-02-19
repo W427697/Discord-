@@ -23,6 +23,8 @@ Pick a simple component from your project, like a Button, and write a `.stories.
     'html/your-component.js.mdx',
     'html/your-component.ts.mdx',
     'preact/your-component.js.mdx',
+    'solid/your-component.js.mdx',
+    'solid/your-component.ts.mdx',
   ]}
   usesCsf3
   csf2Path="get-started/setup#snippet-your-component"
@@ -78,7 +80,9 @@ Use [decorators](../writing-stories/decorators.md) to “wrap” every story in 
     'vue/storybook-preview-with-hoc-component-decorator.2-component.js.mdx',
     'vue/storybook-preview-with-hoc-component-decorator.3-component.js.mdx',
     'vue/storybook-preview-with-mixin-decorator.2-mixin.js.mdx',
-    'angular/storybook-preview-with-styled-components-decorator.ts.mdx'
+    'angular/storybook-preview-with-styled-components-decorator.ts.mdx',
+    'solid/storybook-preview-with-styled-components-decorator.js.mdx',
+    'solid/storybook-preview-with-styled-components-decorator.story-function.js.mdx',
   ]}
 />
 
