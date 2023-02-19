@@ -21,7 +21,6 @@ export default {
     (storyFn: PartialStoryFn, context: StoryContext) => {
       const { argNames } = context.parameters;
       const object = argNames ? pick(context.args, argNames) : context.args;
-      console.log('storyFn()', object);
       return storyFn({ args: { object } });
     },
   ],
