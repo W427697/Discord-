@@ -182,11 +182,13 @@ test('convert story nodes with spaces', () => {
 test('extract esm into csf head code', () => {
   const input = dedent`
       import { Meta, Story } from '@storybook/addon-docs';
+      import { Button } from './Button';
 
       # hello
 
       export const args = { bla: 1 };
-      
+      export const Template = (args) => <Button {...args} />;
+
       <Meta title="foobar" />
 
       world {2 + 1}
@@ -207,11 +209,13 @@ test('extract esm into csf head code', () => {
 
   expect(mdx).toMatchInlineSnapshot(`
     import { Meta, Story } from '@storybook/blocks';
+    import { Button } from './Button';
     import * as FoobarStories from './Foobar.stories';
 
     # hello
 
     export const args = { bla: 1 };
+    export const Template = (args) => <Button {...args} />;
 
     <Meta of={FoobarStories} />
 
@@ -226,28 +230,31 @@ test('extract esm into csf head code', () => {
   const [csfFileName, csf] = fs.writeFileSync.mock.calls[0];
   expect(csfFileName).toMatchInlineSnapshot(`Foobar.stories.js`);
   expect(csf).toMatchInlineSnapshot(`
-      const args = { bla: 1 };
+    import { Button } from './Button';
 
-      export default {
-        title: 'foobar',
-      };
+    const args = { bla: 1 };
+    const Template = (args) => <Button {...args} />;
 
-      export const Foo = {
-        render: () => 'bar',
-        name: 'foo',
-      };
+    export default {
+      title: 'foobar',
+    };
 
-      export const Unchecked = {
-        render: Template.bind({}),
-        name: 'Unchecked',
+    export const Foo = {
+      render: () => 'bar',
+      name: 'foo',
+    };
 
-        args: {
-          ...args,
-          label: 'Unchecked',
-        },
-      };
+    export const Unchecked = {
+      render: Template.bind({}),
+      name: 'Unchecked',
 
-    `);
+      args: {
+        ...args,
+        label: 'Unchecked',
+      },
+    };
+
+  `);
 });
 
 test('extract all meta parameters', () => {
@@ -284,8 +291,10 @@ test('extract all meta parameters', () => {
 test('extract all story attributes', () => {
   const input = dedent`
       import { Meta, Story } from '@storybook/addon-docs';
+      import { Button } from './Button';
 
       export const args = { bla: 1 };
+      export const Template = (args) => <Button {...args} />;
       
       <Meta title="foobar" />
 
@@ -306,28 +315,31 @@ test('extract all story attributes', () => {
   const [, csf] = fs.writeFileSync.mock.calls[0];
 
   expect(csf).toMatchInlineSnapshot(`
-      const args = { bla: 1 };
+    import { Button } from './Button';
 
-      export default {
-        title: 'foobar',
-      };
+    const args = { bla: 1 };
+    const Template = (args) => <Button {...args} />;
 
-      export const Foo = {
-        render: () => 'bar',
-        name: 'foo',
-      };
+    export default {
+      title: 'foobar',
+    };
 
-      export const Unchecked = {
-        render: Template.bind({}),
-        name: 'Unchecked',
+    export const Foo = {
+      render: () => 'bar',
+      name: 'foo',
+    };
 
-        args: {
-          ...args,
-          label: 'Unchecked',
-        },
-      };
+    export const Unchecked = {
+      render: Template.bind({}),
+      name: 'Unchecked',
 
-    `);
+      args: {
+        ...args,
+        label: 'Unchecked',
+      },
+    };
+
+  `);
 });
 
 test('story child is jsx', () => {
