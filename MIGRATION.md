@@ -9,6 +9,7 @@
     - [start-storybook / build-storybook binaries removed](#start-storybook--build-storybook-binaries-removed)
     - [Framework field mandatory](#framework-field-mandatory)
     - [frameworkOptions renamed](#frameworkoptions-renamed)
+    - [framework parameter renamed to renderer](#framework-parameter-renamed-to-renderer)
     - [TypeScript: StorybookConfig type moved](#typescript-storybookconfig-type-moved)
     - [Titles are statically computed](#titles-are-statically-computed)
     - [Framework standalone build moved](#framework-standalone-build-moved)
@@ -463,6 +464,13 @@ module.exports = {
   },
 };
 ```
+
+#### framework parameter renamed to renderer
+
+All SB6.x frameworks injected a parameter called `framework` indicating to addons which framework is running. 
+For example, the framework value of `@storybook/react` would be `react`, `@storybook/vue` would be `vue`, etc.
+Now those packages are called renderers in SB7, so the renderer information is now available in the `renderer`
+parameter.
 
 #### TypeScript: StorybookConfig type moved
 
