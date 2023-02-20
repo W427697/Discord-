@@ -1,16 +1,15 @@
 import { withReset } from '@storybook/components';
-import type { CSSObject, StorybookTheme } from '@storybook/theming';
-import { Global, styled } from '@storybook/theming';
+import type { CSSObject } from '@storybook/theming';
+import { styled } from '@storybook/theming';
 import { transparentize } from 'polished';
 import type { FC } from 'react';
 import React from 'react';
 
 /**
  * This selector styles all raw elements inside the DocsPage like this example with a `<div/>`:
- * :where(.sbdocs-content div:not(.sb-unstyled, .sb-anchor, .sb-unstyled div, .sb-unstyled div))
+ * :where(div:not(.sb-unstyled, .sb-anchor, .sb-unstyled div, .sb-unstyled div))
  *
  * 1. ':where': ensures this has a specificity of 0, making it easier to override.
- * 2. '.sbdocs-content': anything in DocsContent
  * 3. 'div:not(...)': selects all div elements that are not...
  * 4. '.sb-anchor': Ensures anchors are not styled, which would have led to inheritable styles bleeding all the way down to stories
  * 5. '.sb-unstyled, .sb-unstyled div': any element with sb-unstyled class, or descendants thereof
@@ -20,7 +19,7 @@ import React from 'react';
  * Most Storybook doc blocks has the sb-unstyled class to opt-out of the default styles.
  */
 const toGlobalSelector = (element: string): string =>
-  `:where(.sbdocs-content ${element}:not(.sb-anchor, .sb-unstyled, .sb-unstyled ${element}))`;
+  `& :where(${element}:not(.sb-anchor, .sb-unstyled, .sb-unstyled ${element}))`;
 
 const breakpoint = 600;
 
@@ -53,7 +52,7 @@ export const Subtitle = styled.h2(withReset, ({ theme }) => ({
   color: transparentize(0.25, theme.color.defaultText),
 }));
 
-export const globalDocsStyles = (theme: StorybookTheme): any => {
+export const DocsContent = styled.div(({ theme }) => {
   const reset = {
     fontFamily: theme.typography.fonts.base,
     fontSize: theme.typography.size.s3,
@@ -102,330 +101,322 @@ export const globalDocsStyles = (theme: StorybookTheme): any => {
   };
 
   return {
-    // use a CSS Cascade Layer to make the style even less specific, and easier to override
-    '@layer sb-docs': {
-      [toGlobalSelector('a')]: {
-        ...reset,
-        fontSize: 'inherit',
-        lineHeight: '24px',
-
-        color: theme.color.secondary,
-        textDecoration: 'none',
-        '&.absent': {
-          color: '#cc0000',
-        },
-        '&.anchor': {
-          display: 'block',
-          paddingLeft: 30,
-          marginLeft: -30,
-          cursor: 'pointer',
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          bottom: 0,
-        },
-      },
-      [toGlobalSelector('blockquote')]: {
-        ...reset,
-        margin: '16px 0',
-        borderLeft: `4px solid ${theme.color.medium}`,
-        padding: '0 15px',
-        color: theme.color.dark,
-        '& > :first-of-type': {
-          marginTop: 0,
-        },
-        '& > :last-child': {
-          marginBottom: 0,
-        },
-      },
-      [toGlobalSelector('div')]: reset,
-      [toGlobalSelector('dl')]: {
-        ...reset,
-        margin: '16px 0',
-        padding: 0,
-        '& dt': {
-          fontSize: '14px',
-          fontWeight: 'bold',
-          fontStyle: 'italic',
-          padding: 0,
-          margin: '16px 0 4px',
-        },
-        '& dt:first-of-type': {
-          padding: 0,
-        },
-        '& dt > :first-of-type': {
-          marginTop: 0,
-        },
-
-        '& dt > :last-child': {
-          marginBottom: 0,
-        },
-
-        '& dd': {
-          margin: '0 0 16px',
-          padding: '0 15px',
-        },
-
-        '& dd > :first-of-type': {
-          marginTop: 0,
-        },
-
-        '& dd > :last-child': {
-          marginBottom: 0,
-        },
-      },
-      [toGlobalSelector('h1')]: {
-        ...reset,
-        ...headers,
-        fontSize: `${theme.typography.size.l1}px`,
-        fontWeight: theme.typography.weight.bold,
-      },
-      [toGlobalSelector('h2')]: {
-        ...reset,
-        ...headers,
-        fontSize: `${theme.typography.size.m2}px`,
-        paddingBottom: 4,
-        borderBottom: `1px solid ${theme.appBorderColor}`,
-      },
-      [toGlobalSelector('h3')]: {
-        ...reset,
-        ...headers,
-        fontSize: `${theme.typography.size.m1}px`,
-      },
-      [toGlobalSelector('h4')]: {
-        ...reset,
-        ...headers,
-        fontSize: `${theme.typography.size.s3}px`,
-      },
-      [toGlobalSelector('h5')]: {
-        ...reset,
-        ...headers,
-        fontSize: `${theme.typography.size.s2}px`,
-      },
-      [toGlobalSelector('h6')]: {
-        ...reset,
-        ...headers,
-        fontSize: `${theme.typography.size.s2}px`,
-        color: theme.color.dark,
-      },
-      [toGlobalSelector('hr')]: {
-        border: '0 none',
-        borderTop: `1px solid ${theme.appBorderColor}`,
-        height: 4,
-        padding: 0,
-      },
-      [toGlobalSelector('img')]: {
-        maxWidth: '100%',
-      },
-      [toGlobalSelector('li')]: {
-        ...reset,
-        fontSize: theme.typography.size.s2,
-        color: theme.color.defaultText,
-        lineHeight: '24px',
-        '& + li': {
-          marginTop: '.25em',
-        },
-        '& ul, & ol': {
-          marginTop: '.25em',
-          marginBottom: 0,
-        },
-        '& code': code,
-      },
-      [toGlobalSelector('ol')]: {
-        ...reset,
-        margin: '16px 0',
-        paddingLeft: 30,
-        '& :first-of-type': {
-          marginTop: 0,
-        },
-        '& :last-child': {
-          marginBottom: 0,
-        },
-      },
-      [toGlobalSelector('p')]: {
-        ...reset,
-        margin: '16px 0',
-        fontSize: theme.typography.size.s2,
-        lineHeight: '24px',
-        color: theme.color.defaultText,
-        '& code': code,
-      },
-      [toGlobalSelector('pre')]: {
-        ...reset,
-        // reset
-        fontFamily: theme.typography.fonts.mono,
-        WebkitFontSmoothing: 'antialiased',
-        MozOsxFontSmoothing: 'grayscale',
-        lineHeight: '18px',
-        padding: '11px 1rem',
-        whiteSpace: 'pre-wrap',
-        color: 'inherit',
-        borderRadius: 3,
-        margin: '1rem 0',
-
-        '&:not(.prismjs)': {
-          background: 'transparent',
-          border: 'none',
-          borderRadius: 0,
-          padding: 0,
-          margin: 0,
-        },
-        '& pre, &.prismjs': {
-          padding: 15,
-          margin: 0,
-          whiteSpace: 'pre-wrap',
-          color: 'inherit',
-          fontSize: '13px',
-          lineHeight: '19px',
-          code: {
-            color: 'inherit',
-            fontSize: 'inherit',
-          },
-        },
-        '& code': {
-          whiteSpace: 'pre',
-        },
-        '& code, & tt': {
-          border: 'none',
-        },
-      },
-      [toGlobalSelector('span')]: {
-        ...reset,
-        '&.frame': {
-          display: 'block',
-          overflow: 'hidden',
-
-          '& > span': {
-            border: `1px solid ${theme.color.medium}`,
-            display: 'block',
-            float: 'left',
-            overflow: 'hidden',
-            margin: '13px 0 0',
-            padding: 7,
-            width: 'auto',
-          },
-          '& span img': {
-            display: 'block',
-            float: 'left',
-          },
-          '& span span': {
-            clear: 'both',
-            color: theme.color.darkest,
-            display: 'block',
-            padding: '5px 0 0',
-          },
-        },
-        '&.align-center': {
-          display: 'block',
-          overflow: 'hidden',
-          clear: 'both',
-
-          '& > span': {
-            display: 'block',
-            overflow: 'hidden',
-            margin: '13px auto 0',
-            textAlign: 'center',
-          },
-          '& span img': {
-            margin: '0 auto',
-            textAlign: 'center',
-          },
-        },
-        '&.align-right': {
-          display: 'block',
-          overflow: 'hidden',
-          clear: 'both',
-
-          '& > span': {
-            display: 'block',
-            overflow: 'hidden',
-            margin: '13px 0 0',
-            textAlign: 'right',
-          },
-          '& span img': {
-            margin: 0,
-            textAlign: 'right',
-          },
-        },
-        '&.float-left': {
-          display: 'block',
-          marginRight: 13,
-          overflow: 'hidden',
-          float: 'left',
-          '& span': {
-            margin: '13px 0 0',
-          },
-        },
-        '&.float-right': {
-          display: 'block',
-          marginLeft: 13,
-          overflow: 'hidden',
-          float: 'right',
-
-          '& > span': {
-            display: 'block',
-            overflow: 'hidden',
-            margin: '13px auto 0',
-            textAlign: 'right',
-          },
-        },
-      },
-      [toGlobalSelector('table')]: {
-        ...reset,
-        margin: '16px 0',
-        fontSize: theme.typography.size.s2,
-        lineHeight: '24px',
-        padding: 0,
-        borderCollapse: 'collapse',
-        '& tr': {
-          borderTop: `1px solid ${theme.appBorderColor}`,
-          backgroundColor: theme.appContentBg,
-          margin: 0,
-          padding: 0,
-        },
-        '& tr:nth-of-type(2n)': {
-          backgroundColor: theme.base === 'dark' ? theme.color.darker : theme.color.lighter,
-        },
-        '& tr th': {
-          fontWeight: 'bold',
-          color: theme.color.defaultText,
-          border: `1px solid ${theme.appBorderColor}`,
-          margin: 0,
-          padding: '6px 13px',
-        },
-        '& tr td': {
-          border: `1px solid ${theme.appBorderColor}`,
-          color: theme.color.defaultText,
-          margin: 0,
-          padding: '6px 13px',
-        },
-        '& tr th :first-of-type, & tr td :first-of-type': {
-          marginTop: 0,
-        },
-        '& tr th :last-child, & tr td :last-child': {
-          marginBottom: 0,
-        },
-      },
-      [toGlobalSelector('ul')]: {
-        ...reset,
-        margin: '16px 0',
-        paddingLeft: 30,
-        '& :first-of-type': {
-          marginTop: 0,
-        },
-        '& :last-child': {
-          marginBottom: 0,
-        },
-        listStyle: 'disc',
-      },
-    },
-  };
-};
-
-export const DocsContent = styled.div(({ theme }) => {
-  return {
     maxWidth: 1000,
     width: '100%',
+    [toGlobalSelector('a')]: {
+      ...reset,
+      fontSize: 'inherit',
+      lineHeight: '24px',
+
+      color: theme.color.secondary,
+      textDecoration: 'none',
+      '&.absent': {
+        color: '#cc0000',
+      },
+      '&.anchor': {
+        display: 'block',
+        paddingLeft: 30,
+        marginLeft: -30,
+        cursor: 'pointer',
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        bottom: 0,
+      },
+    },
+    [toGlobalSelector('blockquote')]: {
+      ...reset,
+      margin: '16px 0',
+      borderLeft: `4px solid ${theme.color.medium}`,
+      padding: '0 15px',
+      color: theme.color.dark,
+      '& > :first-of-type': {
+        marginTop: 0,
+      },
+      '& > :last-child': {
+        marginBottom: 0,
+      },
+    },
+    [toGlobalSelector('div')]: reset,
+    [toGlobalSelector('dl')]: {
+      ...reset,
+      margin: '16px 0',
+      padding: 0,
+      '& dt': {
+        fontSize: '14px',
+        fontWeight: 'bold',
+        fontStyle: 'italic',
+        padding: 0,
+        margin: '16px 0 4px',
+      },
+      '& dt:first-of-type': {
+        padding: 0,
+      },
+      '& dt > :first-of-type': {
+        marginTop: 0,
+      },
+
+      '& dt > :last-child': {
+        marginBottom: 0,
+      },
+
+      '& dd': {
+        margin: '0 0 16px',
+        padding: '0 15px',
+      },
+
+      '& dd > :first-of-type': {
+        marginTop: 0,
+      },
+
+      '& dd > :last-child': {
+        marginBottom: 0,
+      },
+    },
+    [toGlobalSelector('h1')]: {
+      ...reset,
+      ...headers,
+      fontSize: `${theme.typography.size.l1}px`,
+      fontWeight: theme.typography.weight.bold,
+    },
+    [toGlobalSelector('h2')]: {
+      ...reset,
+      ...headers,
+      fontSize: `${theme.typography.size.m2}px`,
+      paddingBottom: 4,
+      borderBottom: `1px solid ${theme.appBorderColor}`,
+    },
+    [toGlobalSelector('h3')]: {
+      ...reset,
+      ...headers,
+      fontSize: `${theme.typography.size.m1}px`,
+    },
+    [toGlobalSelector('h4')]: {
+      ...reset,
+      ...headers,
+      fontSize: `${theme.typography.size.s3}px`,
+    },
+    [toGlobalSelector('h5')]: {
+      ...reset,
+      ...headers,
+      fontSize: `${theme.typography.size.s2}px`,
+    },
+    [toGlobalSelector('h6')]: {
+      ...reset,
+      ...headers,
+      fontSize: `${theme.typography.size.s2}px`,
+      color: theme.color.dark,
+    },
+    [toGlobalSelector('hr')]: {
+      border: '0 none',
+      borderTop: `1px solid ${theme.appBorderColor}`,
+      height: 4,
+      padding: 0,
+    },
+    [toGlobalSelector('img')]: {
+      maxWidth: '100%',
+    },
+    [toGlobalSelector('li')]: {
+      ...reset,
+      fontSize: theme.typography.size.s2,
+      color: theme.color.defaultText,
+      lineHeight: '24px',
+      '& + li': {
+        marginTop: '.25em',
+      },
+      '& ul, & ol': {
+        marginTop: '.25em',
+        marginBottom: 0,
+      },
+      '& code': code,
+    },
+    [toGlobalSelector('ol')]: {
+      ...reset,
+      margin: '16px 0',
+      paddingLeft: 30,
+      '& :first-of-type': {
+        marginTop: 0,
+      },
+      '& :last-child': {
+        marginBottom: 0,
+      },
+    },
+    [toGlobalSelector('p')]: {
+      ...reset,
+      margin: '16px 0',
+      fontSize: theme.typography.size.s2,
+      lineHeight: '24px',
+      color: theme.color.defaultText,
+      '& code': code,
+    },
+    [toGlobalSelector('pre')]: {
+      ...reset,
+      // reset
+      fontFamily: theme.typography.fonts.mono,
+      WebkitFontSmoothing: 'antialiased',
+      MozOsxFontSmoothing: 'grayscale',
+      lineHeight: '18px',
+      padding: '11px 1rem',
+      whiteSpace: 'pre-wrap',
+      color: 'inherit',
+      borderRadius: 3,
+      margin: '1rem 0',
+
+      '&:not(.prismjs)': {
+        background: 'transparent',
+        border: 'none',
+        borderRadius: 0,
+        padding: 0,
+        margin: 0,
+      },
+      '& pre, &.prismjs': {
+        padding: 15,
+        margin: 0,
+        whiteSpace: 'pre-wrap',
+        color: 'inherit',
+        fontSize: '13px',
+        lineHeight: '19px',
+        code: {
+          color: 'inherit',
+          fontSize: 'inherit',
+        },
+      },
+      '& code': {
+        whiteSpace: 'pre',
+      },
+      '& code, & tt': {
+        border: 'none',
+      },
+    },
+    [toGlobalSelector('span')]: {
+      ...reset,
+      '&.frame': {
+        display: 'block',
+        overflow: 'hidden',
+
+        '& > span': {
+          border: `1px solid ${theme.color.medium}`,
+          display: 'block',
+          float: 'left',
+          overflow: 'hidden',
+          margin: '13px 0 0',
+          padding: 7,
+          width: 'auto',
+        },
+        '& span img': {
+          display: 'block',
+          float: 'left',
+        },
+        '& span span': {
+          clear: 'both',
+          color: theme.color.darkest,
+          display: 'block',
+          padding: '5px 0 0',
+        },
+      },
+      '&.align-center': {
+        display: 'block',
+        overflow: 'hidden',
+        clear: 'both',
+
+        '& > span': {
+          display: 'block',
+          overflow: 'hidden',
+          margin: '13px auto 0',
+          textAlign: 'center',
+        },
+        '& span img': {
+          margin: '0 auto',
+          textAlign: 'center',
+        },
+      },
+      '&.align-right': {
+        display: 'block',
+        overflow: 'hidden',
+        clear: 'both',
+
+        '& > span': {
+          display: 'block',
+          overflow: 'hidden',
+          margin: '13px 0 0',
+          textAlign: 'right',
+        },
+        '& span img': {
+          margin: 0,
+          textAlign: 'right',
+        },
+      },
+      '&.float-left': {
+        display: 'block',
+        marginRight: 13,
+        overflow: 'hidden',
+        float: 'left',
+        '& span': {
+          margin: '13px 0 0',
+        },
+      },
+      '&.float-right': {
+        display: 'block',
+        marginLeft: 13,
+        overflow: 'hidden',
+        float: 'right',
+
+        '& > span': {
+          display: 'block',
+          overflow: 'hidden',
+          margin: '13px auto 0',
+          textAlign: 'right',
+        },
+      },
+    },
+    [toGlobalSelector('table')]: {
+      ...reset,
+      margin: '16px 0',
+      fontSize: theme.typography.size.s2,
+      lineHeight: '24px',
+      padding: 0,
+      borderCollapse: 'collapse',
+      '& tr': {
+        borderTop: `1px solid ${theme.appBorderColor}`,
+        backgroundColor: theme.appContentBg,
+        margin: 0,
+        padding: 0,
+      },
+      '& tr:nth-of-type(2n)': {
+        backgroundColor: theme.base === 'dark' ? theme.color.darker : theme.color.lighter,
+      },
+      '& tr th': {
+        fontWeight: 'bold',
+        color: theme.color.defaultText,
+        border: `1px solid ${theme.appBorderColor}`,
+        margin: 0,
+        padding: '6px 13px',
+      },
+      '& tr td': {
+        border: `1px solid ${theme.appBorderColor}`,
+        color: theme.color.defaultText,
+        margin: 0,
+        padding: '6px 13px',
+      },
+      '& tr th :first-of-type, & tr td :first-of-type': {
+        marginTop: 0,
+      },
+      '& tr th :last-child, & tr td :last-child': {
+        marginBottom: 0,
+      },
+    },
+    [toGlobalSelector('ul')]: {
+      ...reset,
+      margin: '16px 0',
+      paddingLeft: 30,
+      '& :first-of-type': {
+        marginTop: 0,
+      },
+      '& :last-child': {
+        marginBottom: 0,
+      },
+      listStyle: 'disc',
+    },
   };
 });
 
@@ -446,7 +437,6 @@ interface DocsPageWrapperProps {
 
 export const DocsPageWrapper: FC<DocsPageWrapperProps> = ({ children }) => (
   <DocsWrapper className="sbdocs sbdocs-wrapper">
-    <Global styles={globalDocsStyles} />
     <DocsContent className="sbdocs sbdocs-content">{children}</DocsContent>
   </DocsWrapper>
 );
