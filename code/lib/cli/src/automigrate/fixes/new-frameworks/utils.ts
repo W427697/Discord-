@@ -149,9 +149,7 @@ export const detectBuilderInfo = async ({
   };
 };
 
-export type Addon = string | { name: string; options?: Record<string, any> };
-
-export const getNextjsAddonOptions = (addons: Addon[]) => {
+export const getNextjsAddonOptions = (addons: Preset[]) => {
   const nextjsAddon = addons?.find((addon) =>
     typeof addon === 'string'
       ? addon === 'storybook-addon-next'
