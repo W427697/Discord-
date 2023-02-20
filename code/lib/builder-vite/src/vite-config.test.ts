@@ -12,6 +12,7 @@ const dummyOptions: Options = {
   configType: 'DEVELOPMENT',
   configDir: '',
   packageJson: {},
+  env: {},
   presets: {
     apply: async (key: string) =>
       ({
