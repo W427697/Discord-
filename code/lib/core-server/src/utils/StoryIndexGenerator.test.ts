@@ -13,7 +13,7 @@ import { loadCsf, getStorySortParameter } from '@storybook/csf-tools';
 import { toId } from '@storybook/csf';
 import { logger } from '@storybook/node-logger';
 
-import { StoryIndexGenerator, DuplicateEntriesError } from './StoryIndexGenerator';
+import { StoryIndexGenerator } from './StoryIndexGenerator';
 
 jest.mock('@storybook/csf-tools');
 jest.mock('@storybook/csf', () => {
