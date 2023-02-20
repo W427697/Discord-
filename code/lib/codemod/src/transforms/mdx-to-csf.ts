@@ -87,18 +87,15 @@ export function transform(source: string, baseName: string): [mdx: string, csf: 
         ];
       }
       if (is(node, { name: 'Story' })) {
-        const nameAttribute = node.attributes.find((it) =>
-          it.type === 'mdxJsxAttribute' ? it.name === 'name' : false
+        const nameAttribute = node.attributes.find(
+          (it) => it.type === 'mdxJsxAttribute' && it.name === 'name'
         );
-
-        const idAttribute = node.attributes.find((it) =>
-          it.type === 'mdxJsxAttribute' ? it.name === 'id' : false
+        const idAttribute = node.attributes.find(
+          (it) => it.type === 'mdxJsxAttribute' && it.name === 'id'
         );
-
-        const storyAttribute = node.attributes.find((it) =>
-          it.type === 'mdxJsxAttribute' ? it.name === 'story' : false
+        const storyAttribute = node.attributes.find(
+          (it) => it.type === 'mdxJsxAttribute' && it.name === 'story'
         );
-
         if (typeof nameAttribute?.value === 'string') {
           const name = nameToValidExport(nameAttribute.value);
           storiesMap.set(name, {
