@@ -49,7 +49,7 @@ export const bareMdxStoriesGlob: Fix<BareMdxStoriesGlobRunOptions> = {
     if (!sbVersionCoerced) {
       throw new Error(dedent`
         ❌ Unable to determine storybook version.
-        🤔 Are you running automigrate from your project directory?
+        🤔 Are you running automigrate from your project directory? Please specify your Storybook config directory with the --config-dir flag.
       `);
     }
 
