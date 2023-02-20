@@ -76,6 +76,7 @@ To replace the default documentation template used by Storybook, you can extend 
 <!-- prettier-ignore-end -->
 
 <div class="aside">
+
 💡 Internally, Storybook uses a similar implementation to generate the default template. See the Doc Blocks API reference if you want to learn more about how Doc Blocks work.
 
 </div>
@@ -97,6 +98,18 @@ However, you're not restricted to defining a function to generate the documentat
   paths={[
     'common/storybook-preview-auto-docs-custom-template.js.mdx',
     'common/storybook-preview-auto-docs-template.mdx.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
+
+Nevertheless, not all projects are built by adopting a single convention. There may be some situations where the `src` directory is unavailable. In that case, you can customize the template by adding the [`Meta`](../api/doc-block-meta.md) Doc Block and supplying the `isTemplate` property to tell Storybook to treat this file as a documentation template. For example:
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'common/storybook-mdx-template-with-prop.mdx.mdx',
   ]}
 />
 
@@ -160,7 +173,7 @@ However, providing the `Meta` Doc Block may not be required for certain use case
 
 </div>
 
-Once the custom MDX documentation is loaded, Storybook will infer the title and location and render it in the sidebar as a `Docs` entry.
+Once the custom MDX documentation is loaded, Storybook will infer the title and location using the same heuristic rules used to generate [auto-title stories](../configure/sidebar-and-urls.md#csf-30-auto-titles) and render it in the sidebar as a `Docs` entry.
 
 ### Fully control custom documentation
 
