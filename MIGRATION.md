@@ -7,8 +7,11 @@
     - [Modern browser support](#modern-browser-support)
     - [React peer dependencies required](#react-peer-dependencies-required)
     - [start-storybook / build-storybook binaries removed](#start-storybook--build-storybook-binaries-removed)
-    - [Framework field mandatory](#framework-field-mandatory)
-    - [frameworkOptions renamed](#frameworkoptions-renamed)
+    - [New Framework API](#new-framework-api)
+      - [Available framework packages](#available-framework-packages)
+      - [Framework field mandatory](#framework-field-mandatory)
+      - [frameworkOptions renamed](#frameworkoptions-renamed)
+      - [builderOptions renamed](#builderoptions-renamed)
     - [TypeScript: StorybookConfig type moved](#typescript-storybookconfig-type-moved)
     - [Titles are statically computed](#titles-are-statically-computed)
     - [Framework standalone build moved](#framework-standalone-build-moved)
@@ -25,7 +28,7 @@
     - [Addon-a11y: Removed deprecated withA11y decorator](#addon-a11y-removed-deprecated-witha11y-decorator)
   - [Vite](#vite)
     - [Vite builder uses Vite config automatically](#vite-builder-uses-vite-config-automatically)
-    - [Vite cache moved to node\_modules/.cache/.vite-storybook](#vite-cache-moved-to-node_modulescachevite-storybook)
+    - [Vite cache moved to node_modules/.cache/.vite-storybook](#vite-cache-moved-to-node_modulescachevite-storybook)
   - [Webpack](#webpack)
     - [Webpack4 support discontinued](#webpack4-support-discontinued)
     - [Postcss removed](#postcss-removed)
@@ -34,6 +37,7 @@
     - [Angular: Drop support for Angular \< 14](#angular-drop-support-for-angular--14)
     - [Angular: Drop support for calling Storybook directly](#angular-drop-support-for-calling-storybook-directly)
     - [Angular: Removed legacy renderer](#angular-removed-legacy-renderer)
+    - [Next.js: use the `@storybook/nextjs` framework](#nextjs-use-the-storybooknextjs-framework)
     - [SvelteKit: needs the `@storybook/sveltekit` framework](#sveltekit-needs-the-storybooksveltekit-framework)
     - [Vue3: replaced app export with setup](#vue3-replaced-app-export-with-setup)
     - [Web-components: dropped lit-html v1 support](#web-components-dropped-lit-html-v1-support)
@@ -65,7 +69,7 @@
     - [Dropped addon-docs manual babel configuration](#dropped-addon-docs-manual-babel-configuration)
     - [Dropped addon-docs manual configuration](#dropped-addon-docs-manual-configuration)
     - [Autoplay in docs](#autoplay-in-docs)
-    - [Removed STORYBOOK\_REACT\_CLASSES global](#removed-storybook_react_classes-global)
+    - [Removed STORYBOOK_REACT_CLASSES global](#removed-storybook_react_classes-global)
   - [7.0 Deprecations and default changes](#70-deprecations-and-default-changes)
     - [storyStoreV7 enabled by default](#storystorev7-enabled-by-default)
     - [`Story` type deprecated](#story-type-deprecated)
@@ -418,26 +422,34 @@ The new CLI commands remove the following flags:
 | -------- | --------------------------------------------------------------------------------------------- |
 | --modern | No migration needed. [All ESM code is modern in SB7](#modern-esm--ie11-support-discontinued). |
 
-#### Framework field mandatory
+#### New Framework API
 
 _Has automigration_
 
-In 6.4 we introduced a new `main.js` field called [`framework`](#mainjs-framework-field). Starting in 7.0, this field is mandatory.
-The value of the `framework` field has also changed.
+Storybook 7 introduces the concept of `frameworks`, which abstracts configuration for `renderers` (e.g. React, Vue), `builders` (e.g. Webpack, Vite) and defaults to make integrations easier. This requires quite a few changes, depending on what your project is using. **We recommend you to use the automigrations**, but in case the command fails or you'd like to do the changes manually, here's a guide:
 
-In 6.4, valid values included `@storybook/react`, `@storybook/vue`, etc.
+> Note:
+> All of the following changes can be done automatically either via `npx storybook@next upgrade --prerelease` or via the `npx storybook@next automigrate` command. It's highly recommended to use these commands, which will tell you exactly what to do.
 
-In 7.0, frameworks also specify the builder to be used. For example, The current list of frameworks include:
+##### Available framework packages
 
-- `@storybook/angular`
-- `@storybook/ember`
+In 7.0, `frameworks` combine a `renderer` and a `builder`, with the exception of a few packages that do not contain multiple builders, such as `@storybook/angular`, which only has Webpack 5 support.
+
+You have to pick which framework you want to use from the list below, which will depend on your project configuration. If you're using a framework that has multiple builders, you'll have to pick one. For example, if you're using `@storybook/react`, you'll have to pick between `@storybook/react-vite` and `@storybook/react-webpack5`. If you're using a framework that only has one builder (and therefore hasn't changed), you can just use that.
+
+Additionally, there are framework packages which are specific to meta-frameworks, like Next.js and SvelteKit. If you pick them, make sure to also see [this section]().
+
+The current list of frameworks include:
+
+- `@storybook/angular` (did not change)
+- `@storybook/ember` (did not change)
 - `@storybook/html-vite`
 - `@storybook/html-webpack5`
-- `@storybook/nextjs`
 - `@storybook/preact-vite`
 - `@storybook/preact-webpack5`
 - `@storybook/react-vite`
 - `@storybook/react-webpack5`
+- `@storybook/nextjs`
 - `@storybook/server-webpack5`
 - `@storybook/svelte-vite`
 - `@storybook/svelte-webpack5`
@@ -449,20 +461,127 @@ In 7.0, frameworks also specify the builder to be used. For example, The current
 - `@storybook/web-components-vite`
 - `@storybook/web-components-webpack5`
 
-We will be expanding this list over the course of the 7.0 development cycle. More info on the rationale here: [Frameworks RFC](https://www.notion.so/chromatic-ui/Frameworks-RFC-89f8aafe3f0941ceb4c24683859ed65c).
+You can find more info on the rationale here: [Frameworks RFC](https://chromatic-ui.notion.site/Frameworks-RFC-89f8aafe3f0941ceb4c24683859ed65c).
 
-#### frameworkOptions renamed
+**After picking your framework, you'll need to install it as a dev dependency.**
 
-In 7.0, the `main.js` fields `reactOptions` and `angularOptions` have been renamed. They are now options on the `framework` field:
+Because the new framework package will include the builder as well, you can remove any of the builder packages you were using before:
 
 ```js
-module.exports = {
+'@storybook/builder-webpack5',
+'@storybook/manager-webpack5',
+'@storybook/builder-webpack4',
+'@storybook/manager-webpack4',
+'@storybook/builder-vite',
+'storybook-builder-vite',
+```
+
+> Note:
+> if your project is still using Webpack 4, you'll have to upgrade to Webpack 5 as [Webpack 4 support was discontinued](#webpack4-support-discontinued)
+
+##### Framework field mandatory
+
+In 6.4 we introduced a new `main.js` field called [`framework`](#mainjs-framework-field). Starting in 7.0, the `main.js` file has to include a `framework` field and it should be of the package you picked in earlier steps.
+
+Here's an example, in case you picked `@storybook/react-vite`:
+
+```js
+// .storybook/main.js
+export default {
+  // ... your configuration
+  framework: {
+    name: '@storybook/react-vite',
+    options: {},
+  },
+};
+```
+
+##### frameworkOptions renamed
+
+In 7.0, the `main.js` fields `reactOptions` and `angularOptions` have been renamed. They are now options on the `framework` field.
+
+For React, what used to be:
+
+```js
+export default {
+  reactOptions: { fastRefresh: true },
+  framework: {
+    name: '@storybook/react-webpack5',
+    options: {},
+  },
+};
+```
+
+Becomes:
+
+```js
+export default {
   framework: {
     name: '@storybook/react-webpack5',
     options: { fastRefresh: true },
   },
 };
 ```
+
+For Angular, what used to be:
+
+```js
+export default {
+  angularOptions: { enableIvy: true },
+  framework: {
+    name: '@storybook/angular',
+    options: {},
+  },
+};
+```
+
+Becomes:
+
+```js
+export default {
+  framework: {
+    name: '@storybook/angular',
+    options: { enableIvy: true },
+  },
+};
+```
+
+##### builderOptions renamed
+
+In 7.0, the `main.js` fields `core.builder` are now removed, in favor of the new frameworks api. The builder is defined as part of the framework package you pick, e.g. `@storybook/vue3-vite`. If you had options for your builder, they are now options on the `framework.builder` field.
+
+What used to be:
+
+```js
+export default {
+  core: {
+    builder: {
+      name: 'webpack5',
+      options: { lazyCompilation: true }
+    },
+  }
+  framework: {
+    name: '@storybook/react-webpack5',
+    options: {},
+  },
+};
+```
+
+Becomes:
+
+```js
+export default {
+  framework: {
+    name: '@storybook/react-webpack5',
+    options: {
+      builder: { lazyCompilation: true },
+    },
+  },
+};
+```
+
+> Note:
+> If after making this change, your `main.js` `core` field is empty, just delete it.
 
 #### TypeScript: StorybookConfig type moved
 
@@ -719,9 +838,15 @@ In Storybook 6.4 we have deprecated calling Storybook directly (`npm run storybo
 
 The `parameters.angularLegacyRendering` option is removed. You cannot use the old legacy renderer anymore.
 
+#### Next.js: use the `@storybook/nextjs` framework
+
+In Storybook 7.0 we introduced a convenient package that provides an out of the box experience for Next.js projects: `@storybook/nextjs`. Please see the [following resource](./code/frameworks/nextjs/README.md#getting-started) to get started with it.
+
 #### SvelteKit: needs the `@storybook/sveltekit` framework
 
-SvelteKit projects need to use the `@storybook/sveltekit` framework in the `main.js` file. Previously it was enough to just setup Storybook with Svelte+Vite, but that is no longer the case.
+In Storybook 7.0 we introduced a convenient package that provides an out of the box experience for SvelteKit projects: `@storybook/sveltekit`. Please see the [following resource](./code/frameworks/sveltekit/README.md#getting-started) to get started with it.
+
+For existing users, SvelteKit projects need to use the `@storybook/sveltekit` framework in the `main.js` file. Previously it was enough to just setup Storybook with Svelte+Vite, but that is no longer the case.
 
 ```js
 // .storybook/main.js

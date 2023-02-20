@@ -383,7 +383,7 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
           This package provides a better experience for Svelte kit users, however it is only compatible with the Vite builder, so we can't automigrate for you, as you are using the Webpack builder.
           
           If you are interested in using this package, see: ${chalk.yellow(
-            'https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#sveltekit-needs-the-storybooksveltekit-framework'
+            'https://github.com/storybookjs/storybook/blob/next/code/frameworks/sveltekit/README.md'
           )}
         `;
       } else {
@@ -410,7 +410,7 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
       ${migrationSteps}
 
       To learn more about the new framework format, see: ${chalk.yellow(
-        'https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#framework-field-mandatory'
+        'https://github.com/storybookjs/storybook/blob/next/MIGRATION.md##new-framework-api'
       )}${disclaimer}
     `;
   },
