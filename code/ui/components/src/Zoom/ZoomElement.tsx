@@ -1,6 +1,7 @@
 /* global MutationObserver */
 import type { ReactElement, RefObject } from 'react';
 import React, { useEffect, useRef, useState, useCallback } from 'react';
+import useResizeObserver from 'use-resize-observer';
 import { styled } from '@storybook/theming';
 import { browserSupportsCssZoom } from './browserSupportsCssZoom';
 
@@ -62,6 +63,12 @@ export function ZoomElement({ scale, children }: ZoomProps) {
     setElementHeight(componentWrapperRef.current.getBoundingClientRect().height);
   }, []);
 
+  const onResize = useCallback(({height}) => {
+    if (height) {
+      setElementHeight(height);
+    }
+  }, []);
+
   useEffect(() => {
     if (componentWrapperRef.current) {
       setElementHeight(componentWrapperRef.current.getBoundingClientRect().height);
@@ -72,6 +79,11 @@ export function ZoomElement({ scale, children }: ZoomProps) {
     element: componentWrapperRef,
     options: mutationObserverOptions,
     callback: handleMutations,
+  });
+
+  useResizeObserver({
+    ref: componentWrapperRef,
+    onResize,
   });
 
   return (
