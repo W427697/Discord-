@@ -24,7 +24,6 @@ test('rewrite import', () => {
 
   expect(mdx).toMatchInlineSnapshot(`
     import { Meta, Story } from '@storybook/blocks';
-    import * as FoobarStories from './Foobar.stories';
 
   `);
 });

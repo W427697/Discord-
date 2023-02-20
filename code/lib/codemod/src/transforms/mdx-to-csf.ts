@@ -48,6 +48,7 @@ export default function jscodeshift(info: FileInfo) {
 export function transform(source: string, baseName: string): [mdx: string, csf: string] {
   const root = mdxProcessor.parse(source);
 
+  let containsMeta = false;
   const metaAttributes: Array<MdxJsxAttribute | MdxJsxExpressionAttribute> = [];
   const storiesMap = new Map<
     string,
@@ -71,6 +72,7 @@ export function transform(source: string, baseName: string): [mdx: string, csf: 
     ['mdxJsxFlowElement', 'mdxJsxTextElement'],
     (node: MdxJsxFlowElement | MdxJsxTextElement, index, parent) => {
       if (is(node, { name: 'Meta' })) {
+        containsMeta = true;
         metaAttributes.push(...node.attributes);
         node.attributes = [
           {
@@ -161,7 +163,10 @@ export function transform(source: string, baseName: string): [mdx: string, csf: 
   });
 
   const file = getEsmAst(root);
-  addStoriesImport(root, baseName);
+
+  if (containsMeta || storiesMap.size > 0) {
+    addStoriesImport(root, baseName);
+  }
 
   file.path.traverse({
     // remove mdx imports from csf
