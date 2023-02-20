@@ -8,6 +8,7 @@ Here are some answers to frequently asked questions. If you have a question, you
 - [How can I opt-out of Angular ngcc?](#how-can-i-opt-out-of-angular-ngcc)
 - [How can I run coverage tests with Create React App and leave out stories?](#how-can-i-run-coverage-tests-with-create-react-app-and-leave-out-stories)
 - [I see `ReferenceError: React is not defined` when using Storybook with Next.js](#i-see-referenceerror-react-is-not-defined-when-using-storybook-with-nextjs)
+- [How do I fix module resolutions while using pnpm Plug-n-Play](#how-do-i-fix-module-resolution-while-using-pnpm-plug-n-play)
 - [How do I setup Storybook to share Webpack configuration with Next.js?](#how-do-i-setup-storybook-to-share-webpack-configuration-with-nextjs)
 - [How do I setup React Fast Refresh with Storybook?](#how-do-i-setup-react-fast-refresh-with-storybook)
 - [How do I setup the new React Context Root API with Storybook?](#how-do-i-setup-the-new-react-context-root-api-with-storybook)
@@ -96,6 +97,38 @@ Next automatically defines `React` for all of your files via a babel plugin. In 
 
 1.  Adding `import React from 'react'` to your component files.
 2.  Adding a `.babelrc` that includes [`babel-plugin-react-require`](https://www.npmjs.com/package/babel-plugin-react-require)
+
+### How do I fix module resolution while using pnpm Plug-n-Play?
+
+In case you are using [pnpm](https://pnpm.io/) you might run into issues with module resolution similar to this:
+
+```text
+WARN   Failed to load preset: "@storybook/react-webpack5/preset"`
+Required package: @storybook/react-webpack5 (via "@storybook/react-webpack5/preset")
+```
+
+To fix this, you can wrap the package name like this:
+
+```ts
+const path = require('path');
+
+const wrapForPnp = (packageName: string) => path.dirname(require.resolve(path.join(packageName, 'package.json')));
+
+export default {
+  stories: [
+    /* ... */
+  ],
+  "addons": [
+    wrapForPnp("@storybook/addon-essentials"),
+    /* ... */
+  ],
+  "framework": {
+    /* Replace react-webpack5 with the current framework */
+    "name": wrapForPnp("@storybook/react-webpack5"),
+    "options": {}
+  }
+};
+```
 
 ### How do I setup Storybook to share Webpack configuration with Next.js?
 
