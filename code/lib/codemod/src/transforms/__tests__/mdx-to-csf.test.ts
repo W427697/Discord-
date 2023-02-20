@@ -129,6 +129,19 @@ test('convert correct story nodes', () => {
     <Story of={FoobarStories.Primary} />
 
   `);
+
+  const [, csf] = fs.writeFileSync.mock.calls[0];
+  expect(csf).toMatchInlineSnapshot(`
+    export default {
+      title: 'Foobar',
+    };
+
+    export const Primary = {
+      render: () => 'Story',
+      name: 'Primary',
+    };
+
+  `);
 });
 
 test('convert story nodes with spaces', () => {
