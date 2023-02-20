@@ -152,7 +152,7 @@ describe('start', () => {
                 "__id": "component-a--story-one",
                 "__isArgsStory": false,
                 "fileName": "file1",
-                "framework": "test",
+                "renderer": "test",
               },
               "tags": Array [
                 "story",
@@ -172,7 +172,7 @@ describe('start', () => {
                 "__id": "component-a--story-two",
                 "__isArgsStory": false,
                 "fileName": "file1",
-                "framework": "test",
+                "renderer": "test",
               },
               "tags": Array [
                 "story",
@@ -192,7 +192,7 @@ describe('start', () => {
                 "__id": "component-b--story-three",
                 "__isArgsStory": false,
                 "fileName": "file2",
-                "framework": "test",
+                "renderer": "test",
               },
               "tags": Array [
                 "story",
@@ -438,7 +438,7 @@ describe('start', () => {
                 "__id": "component-a--default",
                 "__isArgsStory": false,
                 "fileName": "file1",
-                "framework": "test",
+                "renderer": "test",
               },
               "tags": Array [
                 "story",
@@ -458,7 +458,7 @@ describe('start', () => {
                 "__id": "component-a--new",
                 "__isArgsStory": false,
                 "fileName": "file1",
-                "framework": "test",
+                "renderer": "test",
               },
               "tags": Array [
                 "story",
@@ -509,7 +509,7 @@ describe('start', () => {
                 "__id": "component-a--default",
                 "__isArgsStory": false,
                 "fileName": "file1",
-                "framework": "test",
+                "renderer": "test",
               },
               "tags": Array [
                 "story",
@@ -529,7 +529,7 @@ describe('start', () => {
                 "__id": "component-b--default",
                 "__isArgsStory": false,
                 "fileName": "file2",
-                "framework": "test",
+                "renderer": "test",
               },
               "tags": Array [
                 "story",
@@ -561,7 +561,7 @@ describe('start', () => {
                 "__id": "component-a--default",
                 "__isArgsStory": false,
                 "fileName": "file1",
-                "framework": "test",
+                "renderer": "test",
               },
               "tags": Array [
                 "story",
@@ -610,7 +610,7 @@ describe('start', () => {
               "parameters": Object {
                 "__isArgsStory": false,
                 "fileName": "exports-map-0",
-                "framework": "test",
+                "renderer": "test",
               },
               "tags": Array [
                 "story-tag",
@@ -629,7 +629,7 @@ describe('start', () => {
               "parameters": Object {
                 "__isArgsStory": false,
                 "fileName": "exports-map-0",
-                "framework": "test",
+                "renderer": "test",
               },
               "tags": Array [
                 "component-tag",
@@ -731,7 +731,7 @@ describe('start', () => {
               "parameters": Object {
                 "__isArgsStory": false,
                 "fileName": "exports-map-0",
-                "framework": "test",
+                "renderer": "test",
               },
               "tags": Array [
                 "story-tag",
@@ -750,7 +750,7 @@ describe('start', () => {
               "parameters": Object {
                 "__isArgsStory": false,
                 "fileName": "exports-map-0",
-                "framework": "test",
+                "renderer": "test",
               },
               "tags": Array [
                 "component-tag",
@@ -770,7 +770,7 @@ describe('start', () => {
               "parameters": Object {
                 "__isArgsStory": false,
                 "fileName": "exports-map-0",
-                "framework": "test",
+                "renderer": "test",
               },
               "tags": Array [
                 "component-tag",
@@ -822,7 +822,7 @@ describe('start', () => {
               "parameters": Object {
                 "__isArgsStory": false,
                 "fileName": "exports-map-0",
-                "framework": "test",
+                "renderer": "test",
               },
               "tags": Array [
                 "story-tag",
@@ -841,7 +841,7 @@ describe('start', () => {
               "parameters": Object {
                 "__isArgsStory": false,
                 "fileName": "exports-map-0",
-                "framework": "test",
+                "renderer": "test",
               },
               "tags": Array [
                 "component-tag",
@@ -861,7 +861,7 @@ describe('start', () => {
               "parameters": Object {
                 "__isArgsStory": false,
                 "fileName": "exports-map-1",
-                "framework": "test",
+                "renderer": "test",
               },
               "tags": Array [
                 "story",
@@ -894,7 +894,7 @@ describe('start', () => {
               "parameters": Object {
                 "__isArgsStory": false,
                 "fileName": "exports-map-0",
-                "framework": "test",
+                "renderer": "test",
               },
               "tags": Array [
                 "story-tag",
@@ -913,7 +913,7 @@ describe('start', () => {
               "parameters": Object {
                 "__isArgsStory": false,
                 "fileName": "exports-map-0",
-                "framework": "test",
+                "renderer": "test",
               },
               "tags": Array [
                 "component-tag",
@@ -1042,7 +1042,7 @@ describe('start', () => {
                 "__id": "component-a--story-one",
                 "__isArgsStory": false,
                 "fileName": "file1",
-                "framework": "test",
+                "renderer": "test",
               },
               "tags": Array [
                 "story",
@@ -1062,7 +1062,7 @@ describe('start', () => {
                 "__id": "component-a--story-two",
                 "__isArgsStory": false,
                 "fileName": "file1",
-                "framework": "test",
+                "renderer": "test",
               },
               "tags": Array [
                 "story",
@@ -1082,7 +1082,7 @@ describe('start', () => {
                 "__id": "component-b--story-three",
                 "__isArgsStory": false,
                 "fileName": "file2",
-                "framework": "test",
+                "renderer": "test",
               },
               "tags": Array [
                 "story",
@@ -1100,7 +1100,7 @@ describe('start', () => {
               "parameters": Object {
                 "__isArgsStory": false,
                 "fileName": "exports-map-0",
-                "framework": "test",
+                "renderer": "test",
               },
               "tags": Array [
                 "story-tag",
@@ -1119,7 +1119,7 @@ describe('start', () => {
               "parameters": Object {
                 "__isArgsStory": false,
                 "fileName": "exports-map-0",
-                "framework": "test",
+                "renderer": "test",
               },
               "tags": Array [
                 "component-tag",
@@ -1185,7 +1185,7 @@ describe('start', () => {
                   "__id": "component-a--story-one",
                   "__isArgsStory": false,
                   "fileName": "file1",
-                  "framework": "test",
+                  "renderer": "test",
                 },
                 "tags": Array [
                   "story",
@@ -1205,7 +1205,7 @@ describe('start', () => {
                   "__id": "component-a--story-two",
                   "__isArgsStory": false,
                   "fileName": "file1",
-                  "framework": "test",
+                  "renderer": "test",
                 },
                 "tags": Array [
                   "story",
@@ -1238,7 +1238,7 @@ describe('start', () => {
                   "__id": "component-b--story-three",
                   "__isArgsStory": false,
                   "fileName": "file2",
-                  "framework": "test",
+                  "renderer": "test",
                 },
                 "tags": Array [
                   "autodocs",
@@ -1270,7 +1270,7 @@ describe('start', () => {
                 "parameters": Object {
                   "__isArgsStory": false,
                   "fileName": "exports-map-0",
-                  "framework": "test",
+                  "renderer": "test",
                 },
                 "tags": Array [
                   "story-tag",
@@ -1289,7 +1289,7 @@ describe('start', () => {
                 "parameters": Object {
                   "__isArgsStory": false,
                   "fileName": "exports-map-0",
-                  "framework": "test",
+                  "renderer": "test",
                 },
                 "tags": Array [
                   "component-tag",
@@ -1377,7 +1377,7 @@ describe('start', () => {
               "parameters": Object {
                 "__isArgsStory": false,
                 "fileName": "exports-map-0",
-                "framework": "test",
+                "renderer": "test",
               },
               "tags": Array [
                 "story",

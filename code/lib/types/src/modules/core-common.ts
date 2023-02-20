@@ -323,7 +323,7 @@ export interface StorybookConfig {
   stories: StoriesEntry[];
 
   /**
-   * Framework, e.g. '@storybook/react', required in v7
+   * Framework, e.g. '@storybook/react-vite', required in v7
    */
   framework?: Preset;
 

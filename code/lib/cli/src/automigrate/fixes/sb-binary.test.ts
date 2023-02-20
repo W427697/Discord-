@@ -23,6 +23,17 @@ describe('storybook-binary fix', () => {
   });
 
   describe('sb >= 7.0', () => {
+    it('should no-op in NX projects', async () => {
+      const packageJson = {
+        dependencies: { '@storybook/react': '^7.0.0', '@nrwl/storybook': '^15.7.1' },
+      };
+      await expect(
+        checkStorybookBinary({
+          packageJson,
+        })
+      ).resolves.toBeFalsy();
+    });
+
     it('should add storybook dependency if not present', async () => {
       const packageJson = {
         dependencies: {
