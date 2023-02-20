@@ -375,6 +375,34 @@ test('story child is jsx', () => {
     `);
 });
 
+test('story child is CSF3', () => {
+  const input = dedent`
+      import { Story } from '@storybook/addon-docs';
+      import { Button } from './button';
+             
+      <Story name="Primary" render={(args) => <Button {...args}></Button> } args={{label: 'Hello' }} />
+    `;
+
+  jscodeshift({ source: input, path: 'Foobar.stories.mdx' });
+
+  const [, csf] = fs.writeFileSync.mock.calls[0];
+
+  expect(csf).toMatchInlineSnapshot(`
+    import { Button } from './button';
+    export default {};
+
+    export const Primary = {
+      name: 'Primary',
+      render: (args) => <Button {...args}></Button>,
+
+      args: {
+        label: 'Hello',
+      },
+    };
+
+  `);
+});
+
 test('story child is arrow function', () => {
   const input = dedent`
       import { Canvas, Meta, Story } from '@storybook/addon-docs';
