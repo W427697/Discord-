@@ -36,11 +36,12 @@ export const sbBinary: Fix<SbBinaryRunOptions> = {
     if (!storybookCoerced) {
       throw new Error(dedent`
         ❌ Unable to determine storybook version.
-        🤔 Are you running automigrate from your project directory?
+        🤔 Are you running automigrate from your project directory? Please specify your Storybook config directory with the --config-dir flag.
       `);
     }
 
-    if (semver.lt(storybookCoerced, '7.0.0')) {
+    // Nx provides their own binary, so we don't need to do anything
+    if (allDeps['@nrwl/storybook'] || semver.lt(storybookCoerced, '7.0.0')) {
       return null;
     }
 
@@ -82,13 +83,19 @@ export const sbBinary: Fix<SbBinaryRunOptions> = {
       `;
   },
 
-  async run({ result: { packageJson, hasSbBinary, hasStorybookBinary }, packageManager, dryRun }) {
+  async run({
+    result: { packageJson, hasSbBinary, hasStorybookBinary },
+    packageManager,
+    dryRun,
+    skipInstall,
+  }) {
     if (hasSbBinary) {
       logger.info(`✅ Removing 'sb' dependency`);
       if (!dryRun) {
-        packageManager.removeDependencies({ skipInstall: !hasStorybookBinary, packageJson }, [
-          'sb',
-        ]);
+        packageManager.removeDependencies(
+          { skipInstall: skipInstall || !hasStorybookBinary, packageJson },
+          ['sb']
+        );
       }
     }
 
@@ -98,9 +105,10 @@ export const sbBinary: Fix<SbBinaryRunOptions> = {
       logger.log();
       if (!dryRun) {
         const versionToInstall = getStorybookVersionSpecifier(packageJson);
-        packageManager.addDependencies({ installAsDevDependencies: true }, [
-          `storybook@${versionToInstall}`,
-        ]);
+        packageManager.addDependencies(
+          { installAsDevDependencies: true, packageJson, skipInstall },
+          [`storybook@${versionToInstall}`]
+        );
       }
     }
   },
