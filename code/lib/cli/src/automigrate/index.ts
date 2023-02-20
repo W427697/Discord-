@@ -7,6 +7,8 @@ import tempy from 'tempy';
 import dedent from 'ts-dedent';
 
 import { join } from 'path';
+import { getStorybookInfo, loadMainConfig } from '@storybook/core-common';
+import semver from 'semver';
 import {
   JsPackageManagerFactory,
   useNpmWarning,
@@ -52,6 +54,15 @@ interface FixOptions {
   dryRun?: boolean;
   useNpm?: boolean;
   packageManager?: PackageManagerName;
+  configDir?: string;
+  renderer?: string;
+  skipInstall?: boolean;
+}
+
+enum PreCheckFailure {
+  UNDETECTED_SB_VERSION = 'undetected_sb_version',
+  MAINJS_NOT_FOUND = 'mainjs_not_found',
+  MAINJS_EVALUATION = 'mainjs_evaluation_error',
 }
 
 enum FixStatus {
@@ -83,6 +94,9 @@ export const automigrate = async ({
   useNpm,
   packageManager: pkgMgr,
   list,
+  configDir: userSpecifiedConfigDir,
+  renderer: rendererPackage,
+  skipInstall,
 }: FixOptions = {}) => {
   if (list) {
     logAvailableMigrations();
@@ -107,6 +121,49 @@ export const automigrate = async ({
 
   const packageManager = JsPackageManagerFactory.getPackageManager({ force: pkgMgr });
 
+  const {
+    configDir: inferredConfigDir,
+    mainConfig: mainConfigPath,
+    version: storybookVersion,
+  } = getStorybookInfo(packageManager.retrievePackageJson(), userSpecifiedConfigDir);
+
+  const sbVersionCoerced = storybookVersion && semver.coerce(storybookVersion)?.version;
+  if (!sbVersionCoerced) {
+    logger.info(dedent`
+      [Storybook automigrate] ❌ Unable to determine storybook version  so the automigrations will be skipped.
+        🤔 Are you running automigrate from your project directory? Please specify your Storybook config directory with the --config-dir flag.
+      `);
+    return {
+      preCheckFailure: PreCheckFailure.UNDETECTED_SB_VERSION,
+    };
+  }
+
+  const configDir = userSpecifiedConfigDir || inferredConfigDir || '.storybook';
+  try {
+    await loadMainConfig({ configDir });
+  } catch (err) {
+    if (err.message.includes('No configuration files have been found')) {
+      logger.info(
+        dedent`[Storybook automigrate] Could not find or evaluate your Storybook main.js config directory at ${chalk.blue(
+          configDir
+        )} so the automigrations will be skipped. You might be running this command in a monorepo or a non-standard project structure. If that is the case, please rerun this command by specifying the path to your Storybook config directory via the --config-dir option.`
+      );
+      return {
+        preCheckFailure: PreCheckFailure.MAINJS_NOT_FOUND,
+      };
+    }
+    logger.info(
+      dedent`[Storybook automigrate] ❌ Failed trying to evaluate ${chalk.blue(
+        mainConfigPath
+      )} with the following error: ${err.message}`
+    );
+    logger.info('Please fix the error and try again.');
+
+    return {
+      preCheckFailure: PreCheckFailure.MAINJS_EVALUATION,
+    };
+  }
+
   logger.info('🔎 checking possible migrations..');
   const fixResults = {} as Record<FixId, FixStatus>;
   const fixSummary: FixSummary = { succeeded: [], failed: {}, manual: [], skipped: [] };
@@ -116,7 +173,11 @@ export const automigrate = async ({
     let result;
 
     try {
-      result = await f.check({ packageManager });
+      result = await f.check({
+        packageManager,
+        configDir,
+        rendererPackage,
+      });
     } catch (error) {
       logger.info(`⚠️  failed to check fix ${chalk.bold(f.id)}`);
       logger.error(`\n${error.stack}`);
@@ -196,7 +257,13 @@ export const automigrate = async ({
       if (!f.promptOnly) {
         if (runAnswer.fix) {
           try {
-            await f.run({ result, packageManager, dryRun });
+            await f.run({
+              result,
+              packageManager,
+              dryRun,
+              mainConfigPath,
+              skipInstall,
+            });
             logger.info(`✅ ran ${chalk.cyan(f.id)} migration`);
 
             fixResults[f.id] = FixStatus.SUCCEEDED;

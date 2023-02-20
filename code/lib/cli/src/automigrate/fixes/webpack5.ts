@@ -41,7 +41,7 @@ export const webpack5: Fix<Webpack5RunOptions> & CheckBuilder = {
     if (!storybookCoerced) {
       throw new Error(dedent`
         ❌ Unable to determine storybook version.
-        🤔 Are you running automigrate from your project directory?
+        🤔 Are you running automigrate from your project directory? Please specify your Storybook config directory with the --config-dir flag.
       `);
     }
 
