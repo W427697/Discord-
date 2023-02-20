@@ -5,7 +5,6 @@ import {
   Injectable,
   InjectionToken,
   Input,
-  isStandalone,
   NgModule,
   Output,
   Pipe,
@@ -51,14 +50,14 @@ export class PropertyExtractor implements NgModuleMetadata {
     this.declarations = uniqueArray(analyzed.declarations);
 
     if (this.component) {
-      const { isDeclarable } = PropertyExtractor.analyzeDecorators(this.component);
+      const { isDeclarable, isStandalone } = PropertyExtractor.analyzeDecorators(this.component);
       const isDeclared = isComponentAlreadyDeclared(
         this.component,
         analyzed.declarations,
         this.imports
       );
 
-      if (isStandalone(this.component)) {
+      if (isStandalone) {
         this.imports.push(this.component);
       } else if (isDeclarable && !isDeclared) {
         this.declarations.push(this.component);
@@ -134,8 +133,9 @@ export class PropertyExtractor implements NgModuleMetadata {
     const isPipe = decorators.some((d) => this.isDecoratorInstanceOf(d, 'Pipe'));
 
     const isDeclarable = isComponent || isDirective || isPipe;
+    const isStandalone = isComponent && decorators.some((d) => d.standalone);
 
-    return { isDeclarable };
+    return { isDeclarable, isStandalone };
   };
 
   static isDecoratorInstanceOf = (decorator: any, name: string) => {
