@@ -1,19 +1,23 @@
 ```tsx
-// Button.stories.ts|tsx
+// List.stories.ts|tsx
 
 import type { Meta, StoryObj } from 'storybook-solidjs';
 
-import { Button } from './Button';
+import { List } from './List';
+import { ListItem } from './ListItem';
+
+//👇 All ListItem stories are imported
+import * as ListItemStories from './ListItemStories';
 
 const meta = {
   /* 👇 The title prop is optional.
    * See https://storybook.js.org/docs/7.0/solid/configure/overview#configure-story-loading
    * to learn how to generate automatic titles
    */
-  title: 'Button',
+  title: 'List',
 
-  component: Button,
-} satisfies Meta<typeof Button>;
+  component: List,
+} satisfies Meta<typeof List>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
@@ -23,7 +27,13 @@ type Story = StoryObj<typeof meta>;
  * See https://storybook.js.org/docs/7.0/solid/api/csf
  * to learn how to use render functions.
  */
-export const Primary: Story = {
-  render: () => <Button primary label="Button" />,
+export const ManyItems: Story = {
+  render: (args) => (
+    <List {...args}>
+      <ListItem {...Selected.args} />
+      <ListItem {...Unselected.args} />
+      <ListItem {...Unselected.args} />
+    </List>
+  ),
 };
 ```

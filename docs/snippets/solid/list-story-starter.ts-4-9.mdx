@@ -1,27 +1,23 @@
 ```tsx
-// Button.stories.ts|tsx
+// List.stories.ts|tsx
 
 import type { Meta, StoryObj } from 'storybook-solidjs';
 
-import { Button, ButtonProps } from './Button';
+import { List } from './List';
 
 const meta = {
   /* 👇 The title prop is optional.
    * See https://storybook.js.org/docs/7.0/solid/configure/overview#configure-story-loading
    * to learn how to generate automatic titles
    */
-  title: 'Button',
+  title: 'List',
 
-  component: Button,
-} satisfies Meta<typeof Button>;
+  component: List,
+} satisfies Meta<typeof List>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Primary: Story = {
-  args: {
-    primary: true,
-    label: 'Button',
-  },
-};
+//👇 Always an empty list, not super interesting
+export const Empty: Story = {};
 ```
