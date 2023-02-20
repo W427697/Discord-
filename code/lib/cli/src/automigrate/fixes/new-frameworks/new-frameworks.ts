@@ -75,15 +75,21 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
 
     const frameworkPackage =
       typeof mainConfig.framework === 'string' ? mainConfig.framework : mainConfig.framework?.name;
-    const hasFrameworkInMainConfig = !!frameworkPackage;
+    let hasFrameworkInMainConfig = !!frameworkPackage;
 
     // if --renderer is passed to the command, just use it.
     // Useful for monorepo projects to automate the script without getting prompts
     let rendererPackage = userDefinedRendererPackage;
     if (!rendererPackage) {
-      // at some point in 6.4 we introduced a framework field, but filled with a renderer package
       if (frameworkPackage && Object.keys(rendererPackages).includes(frameworkPackage)) {
+        // at some point in 6.4 we introduced a framework field, but filled with a renderer package
         rendererPackage = frameworkPackage;
+      } else if (frameworkPackage && Object.values(rendererPackages).includes(frameworkPackage)) {
+        // for scenarios where the value is e.g. "react" instead of "@storybook/react"
+        rendererPackage = Object.keys(rendererPackages).find(
+          (k) => rendererPackages[k] === frameworkPackage
+        );
+        hasFrameworkInMainConfig = false;
       } else {
         // detect the renderer package from the user's dependencies, and if multiple are there (monorepo), prompt the user to choose
         rendererPackage = await detectRenderer(packageJson);
@@ -272,7 +278,7 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
     }
 
     if (!hasFrameworkInMainConfig) {
-      migrationSteps += `- Specify a ${chalk.yellow('framework')} field in ${chalk.blue(
+      migrationSteps += `- Update or specify the ${chalk.yellow('framework')} field in ${chalk.blue(
         mainConfigPath
       )} with the value of "${chalk.cyan(frameworkPackage)}".\n`;
     }

@@ -264,7 +264,7 @@ describe('new-frameworks fix', () => {
       );
     });
 
-    it('in sb 7 with no framework field in main', async () => {
+    it('should update when there is no framework field in main', async () => {
       const packageJson = {
         dependencies: { '@storybook/vue': '^7.0.0', '@storybook/manager-webpack5': '^7.0.0' },
       };
@@ -272,6 +272,27 @@ describe('new-frameworks fix', () => {
         checkNewFrameworks({
           packageJson,
           main: {},
+        })
+      ).resolves.toEqual(
+        expect.objectContaining({
+          frameworkPackage: '@storybook/vue-webpack5',
+          dependenciesToAdd: ['@storybook/vue-webpack5'],
+          dependenciesToRemove: ['@storybook/manager-webpack5'],
+          hasFrameworkInMainConfig: false,
+        })
+      );
+    });
+
+    it('should update when the framework field has a legacy value', async () => {
+      const packageJson = {
+        dependencies: { '@storybook/vue': '^7.0.0', '@storybook/manager-webpack5': '^7.0.0' },
+      };
+      await expect(
+        checkNewFrameworks({
+          packageJson,
+          main: {
+            framework: 'vue',
+          },
         })
       ).resolves.toEqual(
         expect.objectContaining({
