@@ -1,6 +1,6 @@
 {
   "name": "@storybook/root",
-  "version": "7.0.0-beta.48",
+  "version": "7.0.0-beta.51",
   "private": true,
   "homepage": "https://storybook.js.org/",
   "repository": {
@@ -157,6 +157,7 @@
     "@storybook/preact": "workspace:*",
     "@storybook/preact-vite": "workspace:*",
     "@storybook/preact-webpack5": "workspace:*",
+    "@storybook/preset-create-react-app": "workspace:*",
     "@storybook/preset-html-webpack": "workspace:*",
     "@storybook/preset-preact-webpack": "workspace:*",
     "@storybook/preset-react-webpack": "workspace:*",
@@ -236,6 +237,7 @@
     "jest-os-detection": "^1.3.1",
     "jest-serializer-html": "^7.1.0",
     "jest-watch-typeahead": "^2.2.1",
+    "jest_workaround": "^0.1.14",
     "lerna": "^6.4.0",
     "lint-staged": "^10.5.4",
     "lodash": "^4.17.21",

@@ -53,7 +53,7 @@ const options = {
   ] as StoryIndexer[],
   storiesV2Compatibility: false,
   storyStoreV7: true,
-  docs: { disable: false, defaultName: 'docs', autodocs: false },
+  docs: { defaultName: 'docs', autodocs: false },
 };
 
 describe('StoryIndexGenerator', () => {
@@ -263,37 +263,6 @@ describe('StoryIndexGenerator', () => {
                   "story",
                 ],
                 "title": "Page",
-                "type": "story",
-              },
-            },
-            "v": 4,
-          }
-        `);
-      });
-      it('does not add docs entry with docs disabled', async () => {
-        const specifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
-          './src/A.stories.js',
-          options
-        );
-
-        const generator = new StoryIndexGenerator([specifier], {
-          ...options,
-          docs: { disable: true },
-        });
-        await generator.initialize();
-
-        expect(await generator.getIndex()).toMatchInlineSnapshot(`
-          Object {
-            "entries": Object {
-              "a--story-one": Object {
-                "id": "a--story-one",
-                "importPath": "./src/A.stories.js",
-                "name": "Story One",
-                "tags": Array [
-                  "story-tag",
-                  "story",
-                ],
-                "title": "A",
                 "type": "story",
               },
             },
@@ -838,36 +807,6 @@ describe('StoryIndexGenerator', () => {
             "A",
             "titlePrefix/docs2/Yabbadabbadooo",
           ]
-        `);
-      });
-
-      it('generates no docs entries when docs are disabled', async () => {
-        const generator = new StoryIndexGenerator([storiesSpecifier, docsSpecifier], {
-          ...options,
-          docs: {
-            ...options.docs,
-            disable: true,
-          },
-        });
-        await generator.initialize();
-
-        expect(await generator.getIndex()).toMatchInlineSnapshot(`
-          Object {
-            "entries": Object {
-              "a--story-one": Object {
-                "id": "a--story-one",
-                "importPath": "./src/A.stories.js",
-                "name": "Story One",
-                "tags": Array [
-                  "story-tag",
-                  "story",
-                ],
-                "title": "A",
-                "type": "story",
-              },
-            },
-            "v": 4,
-          }
         `);
       });
 

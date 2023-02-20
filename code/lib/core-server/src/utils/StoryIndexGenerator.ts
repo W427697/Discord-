@@ -196,11 +196,9 @@ export class StoryIndexGenerator {
       this.isDocsMdx(absolutePath) ? false : this.extractStories(specifier, absolutePath)
     );
 
-    if (!this.options.docs.disable) {
-      await this.updateExtracted(async (specifier, absolutePath) =>
-        this.extractDocs(specifier, absolutePath)
-      );
-    }
+    await this.updateExtracted(async (specifier, absolutePath) =>
+      this.extractDocs(specifier, absolutePath)
+    );
 
     return this.specifiers.flatMap((specifier) => {
       const cache = this.specifierToCache.get(specifier);
@@ -265,7 +263,7 @@ export class StoryIndexGenerator {
       }
     });
 
-    if (!this.options.docs.disable && csf.stories.length) {
+    if (csf.stories.length) {
       const { autodocs } = this.options.docs;
       const componentAutodocs = componentTags.includes(AUTODOCS_TAG);
       const autodocsOptedIn = autodocs === true || (autodocs === 'tag' && componentAutodocs);
