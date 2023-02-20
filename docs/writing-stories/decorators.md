@@ -27,6 +27,10 @@ Some components require a “harness” to render in a useful way. For instance,
     'web-components/your-component-with-decorator.js.mdx',
     'web-components/your-component-with-decorator.ts.mdx',
     'svelte/your-component-with-decorator.js.mdx',
+    'solid/your-component-with-decorator.js.mdx',
+    'solid/your-component-with-decorator.story-function-js.js.mdx',
+    'solid/your-component-with-decorator.ts.mdx',
+    'solid/your-component-with-decorator.story-function-ts.ts.mdx',
   ]}
 />
 
@@ -53,6 +57,8 @@ For example, if you're working with React's Styled Components and your component
     'vue/storybook-preview-with-mixin-decorator.2-mixin.js.mdx',
     'angular/add-localize-package-to-polyfills.ts.mdx',
     'angular/storybook-preview-with-angular-polyfills.js.mdx',
+    'solid/storybook-preview-with-styled-components-decorator.js.mdx',
+    'solid/storybook-preview-with-styled-components-decorator.story-function.js.mdx',
   ]}
 />
 
@@ -95,6 +101,9 @@ To define a decorator for a single story, use the `decorators` key on a named ex
     'web-components/button-story-decorator.js.mdx',
     'web-components/button-story-decorator.ts.mdx',
     'svelte/button-story-decorator.js.mdx',
+    'solid/button-story-decorator.js.mdx',
+    'solid/button-story-decorator.story-function.js.mdx',
+    'solid/button-story-decorator.ts.mdx',
   ]}
   usesCsf3
   csf2Path="writing-stories/decorators#snippet-button-story-decorator"
@@ -122,6 +131,8 @@ To define a decorator for all stories of a component, use the `decorators` key o
     'web-components/button-story-component-decorator.js.mdx',
     'web-components/button-story-component-decorator.ts.mdx',
     'svelte/button-story-component-decorator.js.mdx',
+    'solid/button-story-component-decorator.js.mdx',
+    'solid/button-story-component-decorator.ts.mdx',
   ]}
 />
 
@@ -141,6 +152,8 @@ We can also set a decorator for **all stories** via the `decorators` export of y
     'angular/storybook-preview-global-decorator.ts.mdx',
     'web-components/storybook-preview-global-decorator.js.mdx',
     'svelte/storybook-preview-global-decorator.js.mdx',
+    'solid/storybook-preview-global-decorator.js.mdx',
+    'solid/storybook-preview-global-decorator.story-function.js.mdx',
   ]}
 />
 
