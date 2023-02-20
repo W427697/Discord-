@@ -22,18 +22,18 @@
     - [Importing plain markdown files with `transcludeMarkdown` has changed](#importing-plain-markdown-files-with-transcludemarkdown-has-changed)
     - [7.0 feature flags removed](#70-feature-flags-removed)
     - [Story context is prepared before for supporting fine grained updates](#story-context-is-prepared-before-for-supporting-fine-grained-updates)
-  - [Core addons](#core-addons)
+  - [7.0 core addons changes](#70-core-addons-changes)
     - [Removed auto injection of @storybook/addon-actions decorator](#removed-auto-injection-of-storybookaddon-actions-decorator)
     - [Addon-backgrounds: Removed deprecated grid parameter](#addon-backgrounds-removed-deprecated-grid-parameter)
     - [Addon-a11y: Removed deprecated withA11y decorator](#addon-a11y-removed-deprecated-witha11y-decorator)
-  - [Vite](#vite)
+  - [7.0 Vite changes](#70-vite-changes)
     - [Vite builder uses Vite config automatically](#vite-builder-uses-vite-config-automatically)
     - [Vite cache moved to node_modules/.cache/.vite-storybook](#vite-cache-moved-to-node_modulescachevite-storybook)
-  - [Webpack](#webpack)
+  - [7.0 Webpack changes](#70-webpack-changes)
     - [Webpack4 support discontinued](#webpack4-support-discontinued)
     - [Postcss removed](#postcss-removed)
     - [Removed DLL flags](#removed-dll-flags)
-  - [Framework-specific](#framework-specific)
+  - [7.0 Framework-specific changes](#70-framework-specific-changes)
     - [Angular: Drop support for Angular \< 14](#angular-drop-support-for-angular--14)
     - [Angular: Drop support for calling Storybook directly](#angular-drop-support-for-calling-storybook-directly)
     - [Angular: Removed legacy renderer](#angular-removed-legacy-renderer)
@@ -41,13 +41,14 @@
     - [SvelteKit: needs the `@storybook/sveltekit` framework](#sveltekit-needs-the-storybooksveltekit-framework)
     - [Vue3: replaced app export with setup](#vue3-replaced-app-export-with-setup)
     - [Web-components: dropped lit-html v1 support](#web-components-dropped-lit-html-v1-support)
-  - [Addon authors](#addon-authors)
+  - [7.0 Addon authors changes](#70-addon-authors-changes)
     - [register.js removed](#registerjs-removed)
     - [No more default export from `@storybook/addons`](#no-more-default-export-from-storybookaddons)
     - [No more configuration for manager](#no-more-configuration-for-manager)
     - [Icons API changed](#icons-api-changed)
     - [Removed global client APIs](#removed-global-client-apis)
-  - [Docs Changes](#docs-changes)
+    - [framework parameter renamed to renderer](#framework-parameter-renamed-to-renderer)
+  - [7.0 Docs changes](#70-docs-changes)
     - [Autodocs changes](#autodocs-changes)
     - [MDX docs files](#mdx-docs-files)
     - [Unattached docs files](#unattached-docs-files)
@@ -749,7 +750,7 @@ This change modifies the way Storybook prepares stories to avoid reactive args t
 
 For avoiding that, this change passes the mapped args instead of raw args at `renderToCanvas` so that the proxies stay intact. Also decorators will benefit from this as well by receiving mapped args instead of raw args.
 
-### Core addons
+### 7.0 core addons changes
 
 #### Removed auto injection of @storybook/addon-actions decorator
 
@@ -785,7 +786,7 @@ Starting in 7.0 the `grid.cellSize` parameter should now be `backgrounds.grid.ce
 
 We removed the deprecated `withA11y` decorator. This was [deprecated in 6.0](#removed-witha11y-decorator)
 
-### Vite
+### 7.0 Vite changes
 
 #### Vite builder uses Vite config automatically
 
@@ -799,7 +800,7 @@ For Svelte projects this means that the `svelteOptions` property in the `main.js
 
 Previously, Storybook's Vite builder placed cache files in node_modules/.vite-storybook. However, it's more common for tools to place cached files into `node_modules/.cache`, and putting them there makes it quick and easy to clear the cache for multiple tools at once. We don't expect this change will cause any problems, but it's something that users of Storybook Vite projects should know about. It can be configured by setting `cacheDir` in `viteFinal` within `.storybook/main.js` [Storybook Vite configuration docs](https://storybook.js.org/docs/react/builders/vite#configuration)).
 
-### Webpack
+### 7.0 Webpack changes
 
 #### Webpack4 support discontinued
 
@@ -824,7 +825,7 @@ Storybook 6.x installed postcss by default. In 7.0 built-in support has been rem
 
 Earlier versions of Storybook used Webpack DLLs as a performance crutch. In 6.1, we've removed Storybook's built-in DLLs and have deprecated the command-line parameters `--no-dll` and `--ui-dll`. In 7.0 those options are removed.
 
-### Framework-specific
+### 7.0 Framework-specific changes
 
 #### Angular: Drop support for Angular < 14
 
@@ -885,7 +886,7 @@ setup((app) => {
 
 In v6.x `@storybook/web-components` had a peer dependency on `lit-html` v1 or v2. In 7.0 we've dropped support for `lit-html` v1 and now uses `lit` v2 instead. Please upgrade your project's `lit-html` dependency if you're still on 1.x.
 
-### Addon authors
+### 7.0 Addon authors changes
 
 #### register.js removed
 
@@ -944,7 +945,14 @@ The `addParameters` and `addDecorator` APIs to add global decorators and paramet
 
 Instead, use `export const parameters = {};` and `export const decorators = [];` in your `.storybook/preview.js`. Addon authors similarly should use such an export in a preview entry file (see [Preview entries](https://github.com/storybookjs/storybook/blob/next/docs/addons/writing-presets.md#preview-entries)).
 
-### Docs Changes
+#### framework parameter renamed to renderer
+
+All SB6.x frameworks injected a parameter called `framework` indicating to addons which framework is running. 
+For example, the framework value of `@storybook/react` would be `react`, `@storybook/vue` would be `vue`, etc.
+Now those packages are called renderers in SB7, so the renderer information is now available in the `renderer`
+parameter.
+
+### 7.0 Docs changes
 
 The information hierarchy of docs in Storybook has changed in 7.0. The main difference is that each docs is listed in the sidebar as a separate entry underneath the component, rather than attached to individual stories. You can also opt-in to a Autodocs entry rather than having one for every component (previously stories).
 
