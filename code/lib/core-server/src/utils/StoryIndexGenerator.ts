@@ -35,7 +35,11 @@ type StoriesCacheEntry = {
   dependents: Path[];
   type: 'stories';
 };
-type CacheEntry = false | StoriesCacheEntry | DocsCacheEntry;
+type ErrorEntry = {
+  type: 'error';
+  err: Error;
+};
+type CacheEntry = false | StoriesCacheEntry | DocsCacheEntry | ErrorEntry;
 type SpecifierStoriesCache = Record<Path, CacheEntry>;
 
 export const AUTODOCS_TAG = 'autodocs';
@@ -98,6 +102,9 @@ export class StoryIndexGenerator {
   //  - any file changes, including deletions
   //  - the preview changes [not yet implemented]
   private lastIndex?: StoryIndex;
+
+  // Same as the above but for the error case
+  private lastError?: Error;
 
   constructor(
     public readonly specifiers: NormalizedStoriesSpecifier[],
@@ -165,7 +172,12 @@ export class StoryIndexGenerator {
         return Promise.all(
           Object.keys(entry).map(async (absolutePath) => {
             if (entry[absolutePath] && !overwrite) return;
-            entry[absolutePath] = await updater(specifier, absolutePath, entry[absolutePath]);
+
+            try {
+              entry[absolutePath] = await updater(specifier, absolutePath, entry[absolutePath]);
+            } catch (err) {
+              entry[absolutePath] = { type: 'error', err };
+            }
           })
         );
       })
@@ -176,7 +188,7 @@ export class StoryIndexGenerator {
     return /(?<!\.stories)\.mdx$/i.test(absolutePath);
   }
 
-  async ensureExtracted(): Promise<IndexEntry[]> {
+  async ensureExtracted(): Promise<(IndexEntry | ErrorEntry)[]> {
     // First process all the story files. Then, in a second pass,
     // process the docs files. The reason for this is that the docs
     // files may use the `<Meta of={XStories} />` syntax, which requires
@@ -191,9 +203,10 @@ export class StoryIndexGenerator {
 
     return this.specifiers.flatMap((specifier) => {
       const cache = this.specifierToCache.get(specifier);
-      return Object.values(cache).flatMap((entry): IndexEntry[] => {
+      return Object.values(cache).flatMap((entry): (IndexEntry | ErrorEntry)[] => {
         if (!entry) return [];
         if (entry.type === 'docs') return [entry];
+        if (entry.type === 'error') return [entry];
         return entry.entries;
       });
     });
@@ -475,44 +488,56 @@ export class StoryIndexGenerator {
 
   async getIndex() {
     if (this.lastIndex) return this.lastIndex;
+    if (this.lastError) throw this.lastError;
 
     // Extract any entries that are currently missing
     // Pull out each file's stories into a list of stories, to be composed and sorted
     const storiesList = await this.ensureExtracted();
-    const sorted = await this.sortStories(storiesList);
 
-    let compat = sorted;
-    if (this.options.storiesV2Compatibility) {
-      const titleToStoryCount = Object.values(sorted).reduce((acc, story) => {
-        acc[story.title] = (acc[story.title] || 0) + 1;
-        return acc;
-      }, {} as Record<ComponentTitle, number>);
+    try {
+      const firstError = storiesList.find((entry) => entry.type === 'error');
+      if (firstError) throw (firstError as ErrorEntry).err;
 
-      // @ts-expect-error (Converted from ts-ignore)
-      compat = Object.entries(sorted).reduce((acc, entry) => {
-        const [id, story] = entry;
-        if (story.type === 'docs') return acc;
+      const sorted = await this.sortStories(storiesList as IndexEntry[]);
 
-        acc[id] = {
-          ...story,
-          kind: story.title,
-          story: story.name,
-          parameters: {
-            __id: story.id,
-            docsOnly: titleToStoryCount[story.title] === 1 && story.name === 'Page',
-            fileName: story.importPath,
-          },
-        };
-        return acc;
-      }, {} as Record<StoryId, V2CompatIndexEntry>);
+      let compat = sorted;
+      if (this.options.storiesV2Compatibility) {
+        const titleToStoryCount = Object.values(sorted).reduce((acc, story) => {
+          acc[story.title] = (acc[story.title] || 0) + 1;
+          return acc;
+        }, {} as Record<ComponentTitle, number>);
+
+        // @ts-expect-error (Converted from ts-ignore)
+        compat = Object.entries(sorted).reduce((acc, entry) => {
+          const [id, story] = entry;
+          if (story.type === 'docs') return acc;
+
+          acc[id] = {
+            ...story,
+            kind: story.title,
+            story: story.name,
+            parameters: {
+              __id: story.id,
+              docsOnly: titleToStoryCount[story.title] === 1 && story.name === 'Page',
+              fileName: story.importPath,
+            },
+          };
+          return acc;
+        }, {} as Record<StoryId, V2CompatIndexEntry>);
+      }
+
+      this.lastIndex = {
+        v: 4,
+        entries: compat,
+      };
+
+      return this.lastIndex;
+    } catch (err) {
+      this.lastError = err;
+      logger.warn(`🚨 Couldn't fetch index`);
+      logger.warn(this.lastError.stack);
+      throw this.lastError;
     }
-
-    this.lastIndex = {
-      v: 4,
-      entries: compat,
-    };
-
-    return this.lastIndex;
   }
 
   invalidate(specifier: NormalizedStoriesSpecifier, importPath: Path, removed: boolean) {
@@ -551,6 +576,7 @@ export class StoryIndexGenerator {
       cache[absolutePath] = false;
     }
     this.lastIndex = null;
+    this.lastError = null;
   }
 
   async getStorySortParameter() {
