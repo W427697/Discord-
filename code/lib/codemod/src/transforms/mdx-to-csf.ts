@@ -122,7 +122,10 @@ export function transform(source: string, baseName: string): [mdx: string, csf: 
             type: 'mdxFlowExpression',
             value: `/* ${nodeString} is deprecated, please migrate it to <Story of={referenceToStory} /> */`,
           };
-          parent.children[index] = newNode;
+          parent.children.splice(index, 0, newNode);
+          // current index is the new comment, and index + 1 is current node
+          // SKIP traversing current node, and continue with the node after that
+          return [SKIP, index + 2];
         } else if (
           storyAttribute?.type === 'mdxJsxAttribute' &&
           typeof storyAttribute.value === 'object' &&

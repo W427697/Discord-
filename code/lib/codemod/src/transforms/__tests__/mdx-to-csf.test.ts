@@ -106,6 +106,8 @@ test('Comment out story nodes with id', () => {
 
     {/* <Story id="button--primary" /> is deprecated, please migrate it to <Story of={referenceToStory} /> */}
 
+    <Story id="button--primary" />
+
   `);
 });
 
