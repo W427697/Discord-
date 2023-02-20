@@ -1,4 +1,10 @@
-import { ApplicationRef, enableProdMode, NgModule } from '@angular/core';
+import {
+  ApplicationRef,
+  enableProdMode,
+  importProvidersFrom,
+  isStandalone,
+  NgModule,
+} from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
 
 import { BehaviorSubject, Subject } from 'rxjs';
@@ -7,7 +13,7 @@ import { ICollection, Parameters, StoryFnAngularReturnType } from '../types';
 import { getApplication } from './StorybookModule';
 import { storyPropsProvider } from './StorybookProvider';
 import { componentNgModules } from './StorybookWrapperComponent';
-import { extractSingletons } from './utils/PropertyExtractor';
+import { PropertyExtractor } from './utils/PropertyExtractor';
 
 type StoryRenderInfo = {
   storyFnAngular: StoryFnAngularReturnType;
@@ -120,11 +126,16 @@ export abstract class AbstractRenderer {
 
     this.initAngularRootElement(targetDOMNode, targetSelector);
 
+    const analyzedMetadata = new PropertyExtractor(storyFnAngular.moduleMetadata, component);
     const providers = [
       // Providers for BrowserAnimations & NoopAnimationsModule
-      extractSingletons(storyFnAngular.moduleMetadata),
+      analyzedMetadata.singletons,
+      importProvidersFrom(
+        ...analyzedMetadata.imports.filter((imported) => !isStandalone(imported))
+      ),
+      analyzedMetadata.providers,
       storyPropsProvider(newStoryProps$),
-    ];
+    ].filter(Boolean);
 
     const application = getApplication({ storyFnAngular, component, targetSelector });
 

@@ -3383,6 +3383,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@ngxs/store@npm:^3.7.6":
+  version: 3.7.6
+  resolution: "@ngxs/store@npm:3.7.6"
+  dependencies:
+    tslib: ^1.9.0
+  peerDependencies:
+    "@angular/core": ">=6.1.0 <16.0.0"
+    rxjs: ">=6.5.5"
+  checksum: 38e9c0e9830712e9dfa0de6c0226e16fd5cf0cf9960d0eb1ebf67f35228225685536be12c920c0755298cc0e95f2eb673ede91f23ed78d8f0cdde04ae3c51cdd
+  languageName: node
+  linkType: hard
+
 "@nodelib/fs.scandir@npm:2.1.5":
   version: 2.1.5
   resolution: "@nodelib/fs.scandir@npm:2.1.5"
@@ -5053,6 +5065,7 @@ __metadata:
     "@angular/forms": ^15.1.1
     "@angular/platform-browser": ^15.1.1
     "@angular/platform-browser-dynamic": ^15.1.1
+    "@ngxs/store": ^3.7.6
     "@storybook/builder-webpack5": 7.0.0-beta.51
     "@storybook/cli": 7.0.0-beta.51
     "@storybook/client-logger": 7.0.0-beta.51
@@ -5972,6 +5985,7 @@ __metadata:
     "@storybook/react": 7.0.0-beta.51
     "@types/babel__core": ^7
     "@types/node": ^16.0.0
+    css-loader: ^6.7.3
     find-up: ^5.0.0
     fs-extra: ^11.1.0
     image-size: ^1.0.0
@@ -5983,6 +5997,7 @@ __metadata:
     resolve-url-loader: ^5.0.0
     sass-loader: ^12.4.0
     semver: ^7.3.5
+    style-loader: ^3.3.1
     ts-dedent: ^2.0.0
     tsconfig-paths: ^4.0.0
     tsconfig-paths-webpack-plugin: ^3.5.2
@@ -12208,7 +12223,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"css-loader@npm:6.7.3, css-loader@npm:^6.7.1":
+"css-loader@npm:6.7.3, css-loader@npm:^6.7.1, css-loader@npm:^6.7.3":
   version: 6.7.3
   resolution: "css-loader@npm:6.7.3"
   dependencies:
