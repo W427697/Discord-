@@ -52,6 +52,7 @@ export const Subtitle = styled.h2(withReset, ({ theme }) => ({
   color: transparentize(0.25, theme.color.defaultText),
 }));
 
+// @ts-expect-error don't know why it doesn't accept our returned styles. if we add `...{}` anywhere to the returned object it stops erroring
 export const DocsContent = styled.div(({ theme }) => {
   const reset = {
     fontFamily: theme.typography.fonts.base,
