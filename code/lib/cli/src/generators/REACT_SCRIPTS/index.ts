@@ -2,6 +2,7 @@ import path from 'path';
 import fs from 'fs';
 import semver from 'semver';
 
+import dedent from 'ts-dedent';
 import { baseGenerator } from '../baseGenerator';
 import type { Generator } from '../types';
 import { CoreBuilder } from '../../project_types';
@@ -27,11 +28,11 @@ const generator: Generator = async (packageManager, npmOptions, options) => {
   const craVersion = semver.coerce(
     packageManager.retrievePackageJson().dependencies['react-scripts']
   )?.version;
-  const isCra5 = craVersion && semver.gte(craVersion, '5.0.0');
-  const updatedOptions = isCra5 ? { ...options, builder: CoreBuilder.Webpack5 } : options;
+  const isCra5OrHigher = craVersion && semver.gte(craVersion, '5.0.0');
+  const updatedOptions = isCra5OrHigher ? { ...options, builder: CoreBuilder.Webpack5 } : options;
 
   const extraPackages = [];
-  if (isCra5) {
+  if (isCra5OrHigher) {
     extraPackages.push('webpack');
     // Miscellaneous dependency used in `babel-preset-react-app` but not listed as dep there
     extraPackages.push('babel-plugin-named-exports-order');
@@ -41,6 +42,12 @@ const generator: Generator = async (packageManager, npmOptions, options) => {
 
   const version = versions['@storybook/preset-create-react-app'];
   const extraAddons = [`@storybook/preset-create-react-app@${version}`];
+
+  if (!isCra5OrHigher) {
+    throw new Error(dedent`
+      Storybook 7.0 doesn't support react-scripts@<5.0.0.
+    `);
+  }
 
   await baseGenerator(packageManager, npmOptions, updatedOptions, 'react', {
     extraAddons,
