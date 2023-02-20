@@ -958,7 +958,7 @@ describe('StoryIndexGenerator', () => {
         );
         await generator.initialize();
         await expect(() => generator.getIndex()).rejects.toThrowErrorMatchingInlineSnapshot(
-          `"Unable to index src/docs2/MetaOf.mdx"`
+          `"Unable to index ./src/docs2/MetaOf.mdx"`
         );
       });
     });

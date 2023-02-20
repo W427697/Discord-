@@ -167,7 +167,11 @@ export class StoryIndexGenerator {
             try {
               entry[absolutePath] = await updater(specifier, absolutePath, entry[absolutePath]);
             } catch (err) {
-              const relativePath = path.relative(this.options.workingDir, absolutePath);
+              const relativePath = `.${path.sep}${path.relative(
+                this.options.workingDir,
+                absolutePath
+              )}`;
+
               entry[absolutePath] = {
                 type: 'error',
                 err: new IndexingError(err.message, [relativePath], err.stack),

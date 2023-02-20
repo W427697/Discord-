@@ -1,3 +1,5 @@
+import slash from 'slash';
+
 export class IndexingError extends Error {
   importPaths: string[];
 
@@ -12,10 +14,10 @@ export class IndexingError extends Error {
 
   pathsString() {
     if (this.importPaths.length === 1) {
-      return `${this.importPaths[0]}`;
+      return `${slash(this.importPaths[0])}`;
     }
 
-    return `${this.importPaths}`;
+    return `${this.importPaths.map(slash).join(',')}`;
   }
 
   toString() {

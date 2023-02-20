@@ -655,11 +655,11 @@ describe('useStoriesJson', () => {
       expect(send).toHaveBeenCalledTimes(1);
       expect(send.mock.calls[0][0]).toMatchInlineSnapshot(`
         "Unable to index files:
-        - src/docs2/MetaOf.mdx: You cannot use \`.mdx\` files without using \`storyStoreV7\`.
-        - src/docs2/NoTitle.mdx: You cannot use \`.mdx\` files without using \`storyStoreV7\`.
-        - src/docs2/SecondMetaOf.mdx: You cannot use \`.mdx\` files without using \`storyStoreV7\`.
-        - src/docs2/Template.mdx: You cannot use \`.mdx\` files without using \`storyStoreV7\`.
-        - src/docs2/Title.mdx: You cannot use \`.mdx\` files without using \`storyStoreV7\`."
+        - ./src/docs2/MetaOf.mdx: You cannot use \`.mdx\` files without using \`storyStoreV7\`.
+        - ./src/docs2/NoTitle.mdx: You cannot use \`.mdx\` files without using \`storyStoreV7\`.
+        - ./src/docs2/SecondMetaOf.mdx: You cannot use \`.mdx\` files without using \`storyStoreV7\`.
+        - ./src/docs2/Template.mdx: You cannot use \`.mdx\` files without using \`storyStoreV7\`.
+        - ./src/docs2/Title.mdx: You cannot use \`.mdx\` files without using \`storyStoreV7\`."
       `);
     });
 
