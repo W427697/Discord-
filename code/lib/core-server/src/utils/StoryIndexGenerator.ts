@@ -185,11 +185,9 @@ export class StoryIndexGenerator {
       this.isDocsMdx(absolutePath) ? false : this.extractStories(specifier, absolutePath)
     );
 
-    if (!this.options.docs.disable) {
-      await this.updateExtracted(async (specifier, absolutePath) =>
-        this.extractDocs(specifier, absolutePath)
-      );
-    }
+    await this.updateExtracted(async (specifier, absolutePath) =>
+      this.extractDocs(specifier, absolutePath)
+    );
 
     return this.specifiers.flatMap((specifier) => {
       const cache = this.specifierToCache.get(specifier);
