@@ -87,7 +87,7 @@ test('convert story re-definition', () => {
   `);
 });
 
-test('Keep story nodes with id', () => {
+test('Comment out story nodes with id', () => {
   const input = dedent`
       import { Meta, Story } from '@storybook/addon-docs';
 
@@ -104,7 +104,7 @@ test('Keep story nodes with id', () => {
 
     <Meta of={FoobarStories} />
 
-    <Story id="button--primary" />
+    {/* <Story id="button--primary" /> is deprecated, please migrate it to <Story of={referenceToStory} /> */}
 
   `);
 });

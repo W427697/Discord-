@@ -22,6 +22,7 @@ import { dedent } from 'ts-dedent';
 import prettier from 'prettier';
 import * as fs from 'node:fs';
 import camelCase from 'lodash/camelCase';
+import type { MdxFlowExpression } from 'mdast-util-mdx-expression';
 
 const mdxProcessor = remark().use(remarkMdx) as ReturnType<typeof remark>;
 
@@ -117,8 +118,14 @@ export function transform(source: string, baseName: string): [mdx: string, csf: 
           ];
           node.children = [];
         } else if (idAttribute?.value) {
-          // leave the node as is, e.g.: <Story id="button--primary" />
-          // it is hard to find out where the definition of such a string id is located
+          // e.g. <Story id="button--primary" />
+          // should be migrated manually as it is very hard to find out where the definition of such a string id is located
+          const nodeString = mdxProcessor.stringify({ type: 'root', children: [node] }).trim();
+          const newNode: MdxFlowExpression = {
+            type: 'mdxFlowExpression',
+            value: `/* ${nodeString} is deprecated, please migrate it to <Story of={referenceToStory} /> */`,
+          };
+          parent.children[index] = newNode;
         } else if (
           storyAttribute?.type === 'mdxJsxAttribute' &&
           typeof storyAttribute.value === 'object' &&
