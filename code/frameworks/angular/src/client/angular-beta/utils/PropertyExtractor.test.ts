@@ -125,6 +125,18 @@ describe('PropertyExtractor', () => {
     });
   });
 
+  describe('analyzeDecorators', () => {
+    it('isStandalone should be false', () => {
+      const { isStandalone } = PropertyExtractor.analyzeDecorators(TestComponent1);
+      expect(isStandalone).toBe(false);
+    });
+
+    it('isStandalone should be true', () => {
+      const { isStandalone } = PropertyExtractor.analyzeDecorators(StandaloneTestComponent);
+      expect(isStandalone).toBe(true);
+    });
+  });
+
   describe('extractProviders', () => {
     it('should return an array of providers', () => {
       const providers = extractProviders({

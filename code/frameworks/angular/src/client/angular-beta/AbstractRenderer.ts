@@ -1,10 +1,4 @@
-import {
-  ApplicationRef,
-  enableProdMode,
-  importProvidersFrom,
-  isStandalone,
-  NgModule,
-} from '@angular/core';
+import { ApplicationRef, enableProdMode, importProvidersFrom, NgModule } from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
 
 import { BehaviorSubject, Subject } from 'rxjs';
@@ -127,11 +121,15 @@ export abstract class AbstractRenderer {
     this.initAngularRootElement(targetDOMNode, targetSelector);
 
     const analyzedMetadata = new PropertyExtractor(storyFnAngular.moduleMetadata, component);
+
     const providers = [
       // Providers for BrowserAnimations & NoopAnimationsModule
       analyzedMetadata.singletons,
       importProvidersFrom(
-        ...analyzedMetadata.imports.filter((imported) => !isStandalone(imported))
+        ...analyzedMetadata.imports.filter((imported) => {
+          const { isStandalone } = PropertyExtractor.analyzeDecorators(component);
+          return !isStandalone;
+        })
       ),
       analyzedMetadata.providers,
       storyPropsProvider(newStoryProps$),
