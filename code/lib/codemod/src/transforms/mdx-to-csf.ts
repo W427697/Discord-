@@ -234,6 +234,17 @@ export function transform(source: string, baseName: string): [mdx: string, csf: 
     return t.arrowFunctionExpression([], expression);
   }
 
+  function variableNameExists(name: string) {
+    let found = false;
+    file.path.traverse({
+      VariableDeclarator: (path) => {
+        const lVal = path.node.id;
+        if (t.isIdentifier(lVal) && lVal.name === name) found = true;
+      },
+    });
+    return found;
+  }
+
   newStatements.push(
     ...[...storiesMap].map(([key, value]) => {
       if (value.type === 'reference') {
@@ -263,8 +274,16 @@ export function transform(source: string, baseName: string): [mdx: string, csf: 
           return [];
         }),
       ]);
+
+      let newExportName = key;
+      while (variableNameExists(newExportName)) {
+        newExportName += '_';
+      }
+
       return t.exportNamedDeclaration(
-        t.variableDeclaration('const', [t.variableDeclarator(t.identifier(key), newObject)])
+        t.variableDeclaration('const', [
+          t.variableDeclarator(t.identifier(newExportName), newObject),
+        ])
       );
     })
   );

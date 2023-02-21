@@ -352,6 +352,49 @@ test('extract all story attributes', () => {
   `);
 });
 
+test('duplicate story name', () => {
+  const input = dedent`
+      import { Meta, Story } from '@storybook/addon-docs';
+      import { Button } from './Button';
+
+      export const Default = (args) => <Button {...args} />;
+      
+      <Meta title="Button" />
+
+      <Story name="Default">    
+        {Default.bind({})}
+      </Story>
+      
+      <Story name="Second">{Default.bind({})}</Story>
+      
+    `;
+
+  jscodeshift({ source: input, path: 'Foobar.stories.mdx' });
+
+  const [, csf] = fs.writeFileSync.mock.calls[0];
+
+  expect(csf).toMatchInlineSnapshot(`
+    import { Button } from './Button';
+
+    const Default = (args) => <Button {...args} />;
+
+    export default {
+      title: 'Button',
+    };
+
+    export const Default_ = {
+      render: Default.bind({}),
+      name: 'Default',
+    };
+
+    export const Second = {
+      render: Default.bind({}),
+      name: 'Second',
+    };
+
+  `);
+});
+
 test('story child is jsx', () => {
   const input = dedent`
       import { Canvas, Meta, Story } from '@storybook/addon-docs';
