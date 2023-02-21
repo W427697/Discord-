@@ -5,12 +5,16 @@ import semver from 'semver';
 import { frameworkPackages, rendererPackages } from '@storybook/core-common';
 
 import type { Preset } from '@storybook/types';
-import type { Fix } from '../../types';
-import type { PackageJsonWithDepsAndDevDeps } from '../../../js-package-manager';
-import { getStorybookVersionSpecifier } from '../../../helpers';
-import { detectRenderer } from '../../helpers/detectRenderer';
-import { getNextjsAddonOptions, detectBuilderInfo, packagesMap } from './utils';
-import { getStorybookData, updateMainConfig } from '../../helpers/mainConfigFile';
+import type { Fix } from '../types';
+import type { PackageJsonWithDepsAndDevDeps } from '../../js-package-manager';
+import { getStorybookVersionSpecifier } from '../../helpers';
+import { detectRenderer } from '../helpers/detectRenderer';
+import {
+  getNextjsAddonOptions,
+  detectBuilderInfo,
+  packagesMap,
+} from '../helpers/new-frameworks-utils';
+import { getStorybookData, updateMainConfig } from '../helpers/mainConfigFile';
 
 const logger = console;
 

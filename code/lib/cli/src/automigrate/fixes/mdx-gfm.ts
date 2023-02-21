@@ -1,5 +1,6 @@
 import type { Preset } from '@storybook/types';
 import { dedent } from 'ts-dedent';
+import semver from 'semver';
 import { getStorybookData, updateMainConfig } from '../helpers/mainConfigFile';
 import type { Fix } from '../types';
 
@@ -11,27 +12,33 @@ interface Options {
 
 /**
  */
-export const vue3: Fix<Options> = {
+export const mdxgfm: Fix<Options> = {
   id: 'gfm',
 
   async check({ configDir, packageManager }) {
-    const { mainConfig } = await getStorybookData({ packageManager, configDir });
+    const { mainConfig, storybookVersion } = await getStorybookData({ packageManager, configDir });
 
-    // detect if the GFM remark plugin is already setup
-    const alreadyExists = !!mainConfig.addons.find((item) => {
-      if (item === '@storybook/addon-gfm') {
-        return true;
-      }
-      if (typeof item === 'string') {
+    if (!semver.gte(storybookVersion, '7.0.0')) {
+      return null;
+    }
+
+    const usesMDX1 = mainConfig?.features?.legacyMdx1 === true || false;
+    const skip =
+      usesMDX1 ||
+      !!mainConfig.addons?.find((item) => {
+        if (item === '@storybook/addon-gfm') {
+          return true;
+        }
+        if (typeof item === 'string') {
+          return false;
+        }
+        if (item.name === '@storybook/addon-docs') {
+          return item.options?.mdxPluginOptions?.mdxCompileOptions?.remarkPlugins?.length > 0;
+        }
         return false;
-      }
-      if (item.name === '@storybook/addon-docs') {
-        return item.options?.mdxPluginOptions?.mdxCompileOptions?.remarkPlugins?.length > 0;
-      }
-      return false;
-    });
+      });
 
-    if (alreadyExists) {
+    if (skip) {
       return null;
     }
 
@@ -53,7 +60,9 @@ export const vue3: Fix<Options> = {
 
   async run({ packageManager, dryRun, mainConfigPath }) {
     if (!dryRun) {
-      packageManager.addDependencies({ installAsDevDependencies: true }, ['@storybook/addon-gfm']);
+      await packageManager.addDependencies({ installAsDevDependencies: true }, [
+        '@storybook/addon-gfm',
+      ]);
 
       await updateMainConfig({ mainConfigPath, dryRun }, async (main) => {
         const addonsToAdd = ['@storybook/addon-gfm'];

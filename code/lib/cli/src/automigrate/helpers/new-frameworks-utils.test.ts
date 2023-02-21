@@ -1,5 +1,8 @@
 import * as findUp from 'find-up';
-import { detectBuilderInfo as _getBuilderInfo, getNextjsAddonOptions } from './utils';
+import {
+  detectBuilderInfo as _getBuilderInfo,
+  getNextjsAddonOptions,
+} from './new-frameworks-utils';
 
 jest.mock('find-up');
 
