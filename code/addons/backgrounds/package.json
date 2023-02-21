@@ -112,7 +112,7 @@
       "./src/preview.tsx"
     ]
   },
-  "gitHead": "92ae17be35e8e19be160d4d8acb9b56e40064be2",
+  "gitHead": "1f559ed69a4fdd8eeb88e4190b16a8932104908e",
   "storybook": {
     "displayName": "Backgrounds",
     "icon": "https://user-images.githubusercontent.com/263385/101991667-479cc600-3c7c-11eb-96d3-410e936252e7.png",
