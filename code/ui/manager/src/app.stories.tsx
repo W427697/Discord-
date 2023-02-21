@@ -29,7 +29,7 @@ export default {
 const ThemeStack = styled.div(
   {
     position: 'relative',
-    minHeight: '50vh',
+    minHeight: '100vh',
     height: '100%',
   },
   ({ theme }) => ({
