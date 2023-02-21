@@ -35,7 +35,8 @@ export function renderToCanvas(
   storyContext.args = reactive(storyContext.args);
   const rootComponent: any = storyFn(); // !existingApp ? storyFn() : existingApp.rootComponent();
 
-  const appProps = rootComponent.props ?? rootComponent().props;
+  const appProps =
+    rootComponent.props ?? (typeof rootComponent === 'function' ? rootComponent().props : {});
   const reactiveArgs = Object.keys(appProps).length > 0 ? reactive(appProps) : storyContext.args;
 
   if (existingApp && !forceRemount) {
