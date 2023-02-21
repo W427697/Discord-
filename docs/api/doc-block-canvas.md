@@ -40,17 +40,17 @@ import { Canvas } from '@storybook/blocks';
 
 The following `sourceState` configurations are equivalent:
 
-```js
-// Button.stories.js
+<!-- prettier-ignore-start -->
 
-export const Basic {
-  parameters: {
-    docs: {
-      canvas: { sourceState: 'shown' },
-    },
-  },
-};
-```
+<CodeSnippets
+  paths={[
+    'common/api-doc-block-canvas-parameter.js.mdx',
+    'common/api-doc-block-canvas-parameter.ts.mdx',
+    'common/api-doc-block-canvas-parameter.ts-4-9.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
 
 <!-- prettier-ignore-start -->
 ```md

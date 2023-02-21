@@ -36,28 +36,27 @@ import { Controls } from '@storybook/blocks';
 <details>
 <summary>Configuring with props <strong>and</strong> parameters</summary>
 
-ℹ️ Like most blocks, the `ArgTypes` block is configured with props in MDX. Many of those props derive their default value from a corresponding [parameter](../writing-stories/parameters.md) in the block's namespace, `parameters.docs.argTypes`.
+ℹ️ Like most blocks, the `Controls` block is configured with props in MDX. Many of those props derive their default value from a corresponding [parameter](../writing-stories/parameters.md) in the block's namespace, `parameters.docs.controls`.
 
 The following `include` configurations are equivalent:
 
-```js
-// Button.stories.js
+<!-- prettier-ignore-start -->
 
-export default {
-  component: Button,
-  parameters: {
-    docs: {
-      argTypes: { include: 'color' },
-    },
-  },
-};
-```
+<CodeSnippets
+  paths={[
+    'common/api-doc-block-controls-parameter.js.mdx',
+    'common/api-doc-block-controls-parameter.ts.mdx',
+    'common/api-doc-block-controls-parameter.ts-4-9.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
 
 <!-- prettier-ignore-start -->
 ```md
 {/* ButtonDocs.mdx */}
 
-<ArgTypes of={ButtonStories} include="color" />
+<Controls of={ButtonStories} include="color" />
 ```
 <!-- prettier-ignore-end -->
 

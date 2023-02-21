@@ -7,14 +7,50 @@ The `IconGallery` block enables you to easily document all icons associated with
 ![Screenshot of IconGallery and IconItem blocks](./doc-block-icon-gallery-optimized.png)<!-- TK -->
 
 <!-- prettier-ignore-start -->
+```md
+{/* Iconography.mdx */}
 
-<!--TK-->
-<CodeSnippets
-  paths={[
-    'common/icongallery-doc-block.mdx.mdx',
-  ]}
-/>
+import { Meta, Title, IconGallery, IconItem } from '@storybook/blocks';
 
+import { Icon as IconExample } from './Icon';
+
+<Meta title="Iconography" />
+
+# Iconography
+
+<IconGallery>
+  <IconItem name="mobile">
+    <IconExample name="mobile" />
+  </IconItem>
+  <IconItem name="user">
+    <IconExample name="user" />
+  </IconItem>
+  <IconItem name="browser">
+    <IconExample name="browser" />
+  </IconItem>
+  <IconItem name="component">
+    <IconExample name="component" />
+  </IconItem>
+  <IconItem name="calendar">
+    <IconExample name="calendar" />
+  </IconItem>
+   <IconItem name="paintbrush">
+    <IconExample name="paintbrush" />
+  </IconItem>
+   <IconItem name="add">
+    <IconExample name="add" />
+  </IconItem>
+  <IconItem name="subtract">
+    <IconExample name="subtract" />
+  </IconItem>
+   <IconItem name="document">
+    <IconExample name="document" />
+  </IconItem>
+  <IconItem name="graphline">
+    <IconExample name="graphline" />
+  </IconItem>
+</IconGallery>
+```
 <!-- prettier-ignore-end -->
 
 ## IconGallery

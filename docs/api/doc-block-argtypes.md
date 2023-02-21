@@ -38,18 +38,17 @@ import { ArgTypes } from '@storybook/blocks';
 
 The following `include` configurations are equivalent:
 
-```js
-// Button.stories.js
+<!-- prettier-ignore-start -->
 
-export default {
-  component: Button,
-  parameters: {
-    docs: {
-      argTypes: { include: 'color' },
-    },
-  },
-};
-```
+<CodeSnippets
+  paths={[
+    'common/api-doc-block-argtypes-parameter.js.mdx',
+    'common/api-doc-block-argtypes-parameter.ts.mdx',
+    'common/api-doc-block-argtypes-parameter.ts-4-9.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
 
 <!-- prettier-ignore-start -->
 ```md

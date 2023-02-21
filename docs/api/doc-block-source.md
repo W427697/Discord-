@@ -32,17 +32,17 @@ import { Source } from '@storybook/blocks';
 
 The following `language` configurations are equivalent:
 
-```js
-// Button.stories.js
+<!-- prettier-ignore-start -->
 
-export const Basic {
-  parameters: {
-    docs: {
-      source: { language: 'tsx' },
-    },
-  },
-};
-```
+<CodeSnippets
+  paths={[
+    'common/api-doc-block-source-parameter.js.mdx',
+    'common/api-doc-block-source-parameter.ts.mdx',
+    'common/api-doc-block-source-parameter.ts-4-9.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
 
 <!-- prettier-ignore-start -->
 ```md

@@ -84,40 +84,17 @@ This flow gives you powerful ways to override the description for each scenario.
 export const Button = () => <button>Click me</button>;
 ```
 
-```js
-// Button.stories.jsx
+<!-- prettier-ignore-start -->
 
-import { Button } from './button.jsx';
+<CodeSnippets
+  paths={[
+    'common/api-doc-block-description-example.js.mdx',
+    'common/api-doc-block-description-example.ts.mdx',
+    'common/api-doc-block-description-example.ts-4-9.mdx',
+  ]}
+/>
 
-/**
- * # Button stories
- * These stories showcases the button
- */
-export default {
-  component: Button
-  parameters: {
-    docs: {
-      description: {
-        component: "another description, overriding the comments"
-      }
-    }
-  }
-}
-
-/**
- * # Primary Button
- * This is the primary button
- */
-export const Primary = {
-  parameters: {
-    docs: {
-      description: {
-        story: "another description on the story, overriding the comments"
-      }
-    }
-  }
-}
-```
+<!-- prettier-ignore-end -->
 
 <!-- prettier-ignore-start -->
 ```md

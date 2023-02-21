@@ -7,15 +7,41 @@ The `ColorPalette` block allows you to document all color-related items (e.g., s
 ![Screenshot of ColorPalette and ColorItem blocks](./doc-block-colorpalette-optimized.png)<!-- TK -->
 
 <!-- prettier-ignore-start -->
+```md
+{/* Colors.mdx */}
 
-<!--TK-->
-<CodeSnippets
-  paths={[
-    'common/colorpalette-doc-block.starter-example.mdx.mdx',
-    'common/colopalette-doc-block.advanced-example.mdx.mdx',
-  ]}
-/>
+import { Meta, ColorPalette, ColorItem } from '@storybook/blocks';
 
+<Meta title="Colors" />
+
+<ColorPalette>
+  <ColorItem
+    title="theme.color.greyscale"
+    subtitle="Some of the greys"
+    colors={{ White: '#FFFFFF', Alabaster: '#F8F8F8', Concrete: '#F3F3F3' }}
+  />
+  <ColorItem 
+    title="theme.color.primary" 
+    subtitle="Coral" 
+    colors={{ WildWatermelon: '#FF4785' }} 
+  />
+  <ColorItem 
+    title="theme.color.secondary" 
+    subtitle="Ocean" 
+    colors={{ DodgerBlue: '#1EA7FD' }} 
+  />
+  <ColorItem
+    title="theme.color.positive"
+    subtitle="Green"
+    colors={{
+      Apple: 'rgba(102,191,60,1)',
+      Apple80: 'rgba(102,191,60,.8)',
+      Apple60: 'rgba(102,191,60,.6)',
+      Apple30: 'rgba(102,191,60,.3)',
+    }}
+  />
+</ColorPalette>
+```
 <!-- prettier-ignore-end -->
 
 ## ColorPalette
