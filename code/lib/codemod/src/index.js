@@ -55,12 +55,17 @@ export async function runCodemod(codemod, { glob, logger, dryRun, rename, parser
 
   const files = await globby([glob, '!**/node_modules', '!**/dist']);
   logger.log(`=> Applying ${codemod}: ${files.length} files`);
-  if (!dryRun) {
+  if (files.length === 0) {
+    logger.log(`=> No matching files for glob: ${glob}`);
+    return;
+  }
+
+  if (!dryRun && files.length > 0) {
     const parserArgs = inferredParser ? ['--parser', inferredParser] : [];
     spawnSync(
-      'npx',
+      'node',
       [
-        'jscodeshift',
+        require.resolve('jscodeshift/bin/jscodeshift'),
         // this makes sure codeshift doesn't transform our own source code with babel
         // which is faster, and also makes sure the user won't see babel messages such as:
         // [BABEL] Note: The code generator has deoptimised the styling of repo/node_modules/prettier/index.js as it exceeds the max of 500KB.
