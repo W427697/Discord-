@@ -26,7 +26,7 @@ export const mdxgfm: Fix<Options> = {
     const skip =
       usesMDX1 ||
       !!mainConfig.addons?.find((item) => {
-        if (item === '@storybook/addon-gfm') {
+        if (item === '@storybook/addon-mdx-gfm') {
           return true;
         }
         if (typeof item === 'string') {
@@ -62,12 +62,12 @@ export const mdxgfm: Fix<Options> = {
     if (!dryRun) {
       if (!skipInstall) {
         await packageManager.addDependencies({ installAsDevDependencies: true }, [
-          '@storybook/addon-gfm',
+          '@storybook/addon-mdx-gfm',
         ]);
       }
 
       await updateMainConfig({ mainConfigPath, dryRun }, async (main) => {
-        const addonsToAdd = ['@storybook/addon-gfm'];
+        const addonsToAdd = ['@storybook/addon-mdx-gfm'];
 
         const existingAddons = main.getFieldValue(['addons']) as Preset[];
         const updatedAddons = [...existingAddons, ...addonsToAdd];

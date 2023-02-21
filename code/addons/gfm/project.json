@@ -1,5 +1,5 @@
 {
-  "name": "@storybook/addon-gfm",
+  "name": "@storybook/addon-mdx-gfm",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "implicitDependencies": [],
   "type": "library"

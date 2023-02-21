@@ -75,7 +75,7 @@ describe('no-ops', () => {
       check({
         packageJson,
         main: {
-          addons: ['@storybook/addon-gfm'],
+          addons: ['@storybook/addon-mdx-gfm'],
         },
       })
     ).resolves.toBeFalsy();
