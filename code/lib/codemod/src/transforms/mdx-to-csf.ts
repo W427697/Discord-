@@ -18,7 +18,6 @@ import type { BabelFile } from '@babel/core';
 import * as babel from '@babel/core';
 import * as recast from 'recast';
 import * as path from 'node:path';
-import { dedent } from 'ts-dedent';
 import prettier from 'prettier';
 import * as fs from 'node:fs';
 import camelCase from 'lodash/camelCase';
@@ -39,7 +38,7 @@ export default function jscodeshift(info: FileInfo) {
     baseName += '_';
   }
 
-  const [mdx, csf] = transform(info.source, baseName);
+  const [mdx, csf] = transform(info.source, path.basename(baseName));
 
   fs.writeFileSync(`${baseName}.stories.js`, csf);
 
@@ -296,10 +295,7 @@ function addStoriesImport(root: Root, baseName: string): void {
 
   visit(root, ['mdxjsEsm'], (node: MdxjsEsm) => {
     if (!found) {
-      node.value += '\n';
-      node.value += dedent`
-        import * as ${baseName}Stories from './${baseName}.stories';
-      `;
+      node.value += `\nimport * as ${baseName}Stories from './${baseName}.stories';`;
       found = true;
     }
   });

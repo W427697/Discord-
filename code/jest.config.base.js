@@ -34,6 +34,7 @@ const modulesToTransform = [
   '@mdx-js',
   'remark',
   'unified',
+  'vfile',
   'vfile-message',
   'mdast',
   'micromark',

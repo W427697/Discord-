@@ -41,6 +41,9 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
+    "@babel/generator": "^7.20.4",
+    "@babel/parser": "^7.20.3",
+    "@babel/traverse": "^7.20.1",
     "@babel/types": "^7.20.2",
     "@storybook/csf": "next",
     "@storybook/types": "7.0.0-beta.52",
@@ -49,9 +52,6 @@
     "ts-dedent": "^2.0.0"
   },
   "devDependencies": {
-    "@babel/generator": "^7.20.4",
-    "@babel/parser": "^7.20.3",
-    "@babel/traverse": "^7.20.1",
     "@types/fs-extra": "^11.0.1",
     "@types/js-yaml": "^3.12.6",
     "js-yaml": "^3.14.1",
