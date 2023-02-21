@@ -127,7 +127,7 @@ export abstract class AbstractRenderer {
       analyzedMetadata.singletons,
       importProvidersFrom(
         ...analyzedMetadata.imports.filter((imported) => {
-          const { isStandalone } = PropertyExtractor.analyzeDecorators(component);
+          const { isStandalone } = PropertyExtractor.analyzeDecorators(imported);
           return !isStandalone;
         })
       ),
