@@ -1,4 +1,4 @@
-/* eslint-disable no-param-reassign,@typescript-eslint/no-shadow */
+/* eslint-disable no-param-reassign,@typescript-eslint/no-shadow,consistent-return */
 import type { FileInfo } from 'jscodeshift';
 import { babelParse, babelParseExpression } from '@storybook/csf-tools';
 import { remark } from 'remark';
@@ -38,7 +38,14 @@ export default function jscodeshift(info: FileInfo) {
     baseName += '_';
   }
 
-  const [mdx, csf] = transform(info.source, path.basename(baseName));
+  const result = transform(info.source, path.basename(baseName));
+
+  if (result == null) {
+    // We can not make a valid migration.
+    return;
+  }
+
+  const [mdx, csf] = result;
 
   fs.writeFileSync(`${baseName}.stories.js`, csf);
 
@@ -186,6 +193,11 @@ export function transform(source: string, baseName: string): [mdx: string, csf: 
       path.replaceWith(path.node.declaration);
     },
   });
+
+  if (storiesMap.size === 0) {
+    // A CSF file must have at least one story, so skip migrating if this is the case.
+    return null;
+  }
 
   const newStatements: t.Statement[] = [
     t.exportDefaultDeclaration(t.objectExpression(metaProperties)),
