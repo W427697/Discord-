@@ -4271,15 +4271,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@playwright/test@npm:1.30.0":
-  version: 1.30.0
-  resolution: "@playwright/test@npm:1.30.0"
+"@playwright/test@npm:1.31.0":
+  version: 1.31.0
+  resolution: "@playwright/test@npm:1.31.0"
   dependencies:
     "@types/node": "*"
-    playwright-core: 1.30.0
+    fsevents: 2.3.2
+    playwright-core: 1.31.0
+  dependenciesMeta:
+    fsevents:
+      optional: true
   bin:
     playwright: cli.js
-  checksum: 4022492dacfd57d2d9a6a7ade7753660f9f47199d0a47b110b0ecf21f167fb9c5a017a9a1fdf89b97810545ac86620218cabd6f4717cd468af030c5bd9128059
+  checksum: 0bf8c5cecf600c04465b34a965c71d575a70ea2caab77b41ae4eaf7146f494d86a10f54256ac5280c1c8b9b00a77859ea18c81a224d71e66cab656896906ecf4
   languageName: node
   linkType: hard
 
@@ -6458,7 +6462,7 @@ __metadata:
     "@nrwl/cli": ^15.4.5
     "@nrwl/nx-cloud": ^15.0.2
     "@nrwl/workspace": ^15.4.5
-    "@playwright/test": 1.30.0
+    "@playwright/test": 1.31.0
     "@storybook/addon-a11y": "workspace:*"
     "@storybook/addon-actions": "workspace:*"
     "@storybook/addon-backgrounds": "workspace:*"
@@ -6603,7 +6607,7 @@ __metadata:
     lodash: ^4.17.21
     node-gyp: ^8.4.0
     nx: ^15.4.5
-    playwright: 1.30.0
+    playwright: 1.31.0
     prettier: 2.8.0
     process: ^0.11.10
     raf: ^3.4.1
@@ -15485,7 +15489,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fsevents@npm:^2.3.2, fsevents@npm:~2.3.2":
+"fsevents@npm:2.3.2, fsevents@npm:^2.3.2, fsevents@npm:~2.3.2":
   version: 2.3.2
   resolution: "fsevents@npm:2.3.2"
   dependencies:
@@ -15495,7 +15499,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fsevents@patch:fsevents@^2.3.2#~builtin<compat/fsevents>, fsevents@patch:fsevents@~2.3.2#~builtin<compat/fsevents>":
+"fsevents@patch:fsevents@2.3.2#~builtin<compat/fsevents>, fsevents@patch:fsevents@^2.3.2#~builtin<compat/fsevents>, fsevents@patch:fsevents@~2.3.2#~builtin<compat/fsevents>":
   version: 2.3.2
   resolution: "fsevents@patch:fsevents@npm%3A2.3.2#~builtin<compat/fsevents>::version=2.3.2&hash=df0bf1"
   dependencies:
@@ -22921,23 +22925,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"playwright-core@npm:1.30.0":
-  version: 1.30.0
-  resolution: "playwright-core@npm:1.30.0"
+"playwright-core@npm:1.31.0":
+  version: 1.31.0
+  resolution: "playwright-core@npm:1.31.0"
   bin:
     playwright: cli.js
-  checksum: cad74ca8ff028f4e65336323f7eec54497e344810c2f2e9c1ffaf836dcc20eb15c073aae6c5e994eaf800b75ea0f0817ffb60ff7ecaadc59229df54779d5f429
+  checksum: 9c95e030e08de6cc93f26c0592d16b3da679a9e37153e2a5f42a83f46da54915059e6643bafe2d29d0f0cb73e0d5b97a4b595e5e44f041e8ffea426ecfd190c8
   languageName: node
   linkType: hard
 
-"playwright@npm:1.30.0":
-  version: 1.30.0
-  resolution: "playwright@npm:1.30.0"
+"playwright@npm:1.31.0":
+  version: 1.31.0
+  resolution: "playwright@npm:1.31.0"
   dependencies:
-    playwright-core: 1.30.0
+    playwright-core: 1.31.0
   bin:
     playwright: cli.js
-  checksum: 49bbae502f45cdc7d5977d073080b6eb1aa871a14fa1aab23a23f331bdbc95bcc5a0dac00c01c4589231a8bb3fd4b7c154bfc1a47d80ea82c6aeb155275760be
+  checksum: 3b419a47eabf35de5726bad160fbae10dc6bd44b0ed6587c75d5c8fc3f7e0ed6bd6ace96ddaeca39a37604999f704116c9b14bf3e1d4a5b0f56c47d6c10ab937
   languageName: node
   linkType: hard
 
