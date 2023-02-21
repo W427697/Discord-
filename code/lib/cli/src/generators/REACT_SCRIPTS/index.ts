@@ -45,7 +45,9 @@ const generator: Generator = async (packageManager, npmOptions, options) => {
 
   if (!isCra5OrHigher) {
     throw new Error(dedent`
-      Storybook 7.0 doesn't support react-scripts@<5.0.0.
+      Storybook 7.0+ doesn't support react-scripts@<5.0.0.
+
+      https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#create-react-app-dropped-cra4-support
     `);
   }
 
