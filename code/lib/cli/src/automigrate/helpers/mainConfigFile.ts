@@ -1,4 +1,5 @@
 import { getStorybookInfo, loadMainConfig } from '@storybook/core-common';
+import type { StorybookConfig } from '@storybook/types';
 import type { ConfigFile } from '@storybook/csf-tools';
 import { readConfig, writeConfig as writeConfigFile } from '@storybook/csf-tools';
 import chalk from 'chalk';
@@ -20,13 +21,14 @@ export const getStorybookData = async ({
     mainConfig: mainConfigPath,
     version: storybookVersionSpecifier,
     configDir: configDirFromScript,
+    previewConfig: previewConfigPath,
   } = getStorybookInfo(packageJson, userDefinedConfigDir);
   const storybookVersion =
     storybookVersionSpecifier && semver.coerce(storybookVersionSpecifier)?.version;
 
   const configDir = userDefinedConfigDir || configDirFromScript || '.storybook';
 
-  let mainConfig;
+  let mainConfig: StorybookConfig;
   try {
     mainConfig = await loadMainConfig({ configDir });
   } catch (err) {
@@ -41,6 +43,7 @@ export const getStorybookData = async ({
     storybookVersionSpecifier,
     storybookVersion,
     mainConfigPath,
+    previewConfigPath,
   };
 };
 export type GetStorybookData = typeof getStorybookData;

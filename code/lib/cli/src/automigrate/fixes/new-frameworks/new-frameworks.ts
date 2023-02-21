@@ -4,11 +4,11 @@ import findUp from 'find-up';
 import semver from 'semver';
 import { frameworkPackages, rendererPackages } from '@storybook/core-common';
 
+import type { Preset } from '@storybook/types';
 import type { Fix } from '../../types';
 import type { PackageJsonWithDepsAndDevDeps } from '../../../js-package-manager';
 import { getStorybookVersionSpecifier } from '../../../helpers';
 import { detectRenderer } from '../../helpers/detectRenderer';
-import type { Addon } from './utils';
 import { getNextjsAddonOptions, detectBuilderInfo, packagesMap } from './utils';
 import { getStorybookData, updateMainConfig } from '../../helpers/mainConfigFile';
 
@@ -165,7 +165,7 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
           addonsToRemove = ['storybook-addon-next', 'storybook-addon-next-router'].filter(
             (dep) =>
               allDependencies[dep] ||
-              mainConfig.addons?.find((addon) =>
+              mainConfig.addons?.find((addon: Preset) =>
                 typeof addon === 'string' ? dep === addon : dep === addon.name
               )
           );
@@ -504,7 +504,7 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
       }
 
       if (addonsToRemove.length > 0) {
-        const existingAddons = main.getFieldValue(['addons']) as Addon[];
+        const existingAddons = main.getFieldValue(['addons']) as Preset[];
         const updatedAddons = existingAddons.filter((addon) => {
           if (typeof addon === 'string') {
             return !addonsToRemove.includes(addon);

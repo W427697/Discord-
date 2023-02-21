@@ -41,6 +41,7 @@
     - [SvelteKit: needs the `@storybook/sveltekit` framework](#sveltekit-needs-the-storybooksveltekit-framework)
     - [Vue3: replaced app export with setup](#vue3-replaced-app-export-with-setup)
     - [Web-components: dropped lit-html v1 support](#web-components-dropped-lit-html-v1-support)
+    - [Create React App: dropped CRA4 support](#create-react-app-dropped-cra4-support)
   - [7.0 Addon authors changes](#70-addon-authors-changes)
     - [register.js removed](#registerjs-removed)
     - [No more default export from `@storybook/addons`](#no-more-default-export-from-storybookaddons)
@@ -885,6 +886,10 @@ setup((app) => {
 #### Web-components: dropped lit-html v1 support
 
 In v6.x `@storybook/web-components` had a peer dependency on `lit-html` v1 or v2. In 7.0 we've dropped support for `lit-html` v1 and now uses `lit` v2 instead. Please upgrade your project's `lit-html` dependency if you're still on 1.x.
+
+#### Create React App: dropped CRA4 support
+
+Since v7 [drops webpack4 support](#webpack4-support-discontinued), it longer supports Create React App < 5.0. If you're using an earlier version of CRA, please upgrade or stay on Storybook 6.x.
 
 ### 7.0 Addon authors changes
 
