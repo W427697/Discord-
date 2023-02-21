@@ -68,11 +68,16 @@ export function transform(source: string, baseName: string): [mdx: string, csf: 
     | {
         type: 'reference';
       }
+    | {
+        type: 'id';
+      }
   >();
 
   // rewrite addon docs import
   visit(root, ['mdxjsEsm'], (node: MdxjsEsm) => {
-    node.value = node.value.replace('@storybook/addon-docs', '@storybook/blocks');
+    node.value = node.value
+      .replaceAll('@storybook/addon-docs', '@storybook/blocks')
+      .replaceAll('@storybook/addon-docs/blocks', '@storybook/blocks');
   });
 
   visit(
@@ -129,6 +134,7 @@ export function transform(source: string, baseName: string): [mdx: string, csf: 
             type: 'mdxFlowExpression',
             value: `/* ${nodeString} is deprecated, please migrate it to <Story of={referenceToStory} /> */`,
           };
+          storiesMap.set(idAttribute.value as string, { type: 'id' });
           parent.children.splice(index, 0, newNode);
           // current index is the new comment, and index + 1 is current node
           // SKIP traversing current node, and continue with the node after that
@@ -247,11 +253,12 @@ export function transform(source: string, baseName: string): [mdx: string, csf: 
   }
 
   newStatements.push(
-    ...[...storiesMap].map(([key, value]) => {
+    ...[...storiesMap].flatMap(([key, value]) => {
+      if (value.type === 'id') return [];
       if (value.type === 'reference') {
-        return t.exportNamedDeclaration(null, [
-          t.exportSpecifier(t.identifier(key), t.identifier(key)),
-        ]);
+        return [
+          t.exportNamedDeclaration(null, [t.exportSpecifier(t.identifier(key), t.identifier(key))]),
+        ];
       }
       const renderProperty = mapChildrenToRender(value.children);
       const newObject = t.objectExpression([
@@ -281,11 +288,13 @@ export function transform(source: string, baseName: string): [mdx: string, csf: 
         newExportName += '_';
       }
 
-      return t.exportNamedDeclaration(
-        t.variableDeclaration('const', [
-          t.variableDeclarator(t.identifier(newExportName), newObject),
-        ])
-      );
+      return [
+        t.exportNamedDeclaration(
+          t.variableDeclaration('const', [
+            t.variableDeclarator(t.identifier(newExportName), newObject),
+          ])
+        ),
+      ];
     })
   );
 

@@ -15,19 +15,6 @@ beforeEach(() => {
   fs.existsSync.mockImplementation(() => false);
 });
 
-test('rewrite import', () => {
-  const input = dedent`
-      import { Meta, Story } from '@storybook/addon-docs';
-    `;
-
-  const mdx = jscodeshift({ source: input, path: 'Foobar.stories.mdx' });
-
-  expect(mdx).toMatchInlineSnapshot(`
-    import { Meta, Story } from '@storybook/blocks';
-
-  `);
-});
-
 test('drop invalid story nodes', () => {
   const input = dedent`
       import { Meta } from '@storybook/addon-docs';
@@ -35,16 +22,21 @@ test('drop invalid story nodes', () => {
       <Meta title="Foobar" />
       
       <Story>No name!</Story>  
+      
+      <Story name="Primary">Story</Story>
+     
     `;
 
   const mdx = jscodeshift({ source: input, path: 'Foobar.stories.mdx' });
 
   expect(mdx).toMatchInlineSnapshot(`
-    import { Meta } from '@storybook/blocks';
-    import * as FoobarStories from './Foobar.stories';
+    import { Meta } from '@storybook/addon-docs';
 
     <Meta of={FoobarStories} />
 
+
+
+    <Story of={FoobarStories.Primary} />
 
   `);
 });
@@ -66,11 +58,11 @@ test('convert story re-definition', () => {
   expect(mdx).toMatchInlineSnapshot(`
     import { Meta, Story } from '@storybook/blocks';
     import { Primary } from './Foobar.stories';
-    import * as Foobar_Stories from './Foobar_.stories';
+    import * as FoobarStories from './Foobar_.stories';
 
-    <Meta of={Foobar_Stories} />
+    <Meta of={FoobarStories} />
 
-    <Story of={Foobar_Stories.Primary} />
+    <Story of={FoobarStories.Primary} />
 
   `);
   const [csfFileName, csf] = fs.writeFileSync.mock.calls[0];
@@ -261,11 +253,13 @@ test('extract esm into csf head code', () => {
 
 test('extract all meta parameters', () => {
   const input = dedent`
-      import { Meta } from '@storybook/addon-docs';
+      import { Meta, Story } from '@storybook/addon-docs';
 
       export const args = { bla: 1 };
       
       <Meta title="foobar" args={{...args}} parameters={{a: '1'}} />
+      
+      <Story name="foo">bar</Story>
     `;
 
   jscodeshift({ source: input, path: 'Foobar.stories.mdx' });
@@ -273,21 +267,26 @@ test('extract all meta parameters', () => {
   const [, csf] = fs.writeFileSync.mock.calls[0];
 
   expect(csf).toMatchInlineSnapshot(`
-      const args = { bla: 1 };
+    const args = { bla: 1 };
 
-      export default {
-        title: 'foobar',
+    export default {
+      title: 'foobar',
 
-        args: {
-          ...args,
-        },
+      args: {
+        ...args,
+      },
 
-        parameters: {
-          a: '1',
-        },
-      };
+      parameters: {
+        a: '1',
+      },
+    };
 
-    `);
+    export const Foo = {
+      render: () => 'bar',
+      name: 'foo',
+    };
+
+  `);
 });
 
 test('extract all story attributes', () => {
