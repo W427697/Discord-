@@ -262,6 +262,17 @@ describe('ConfigFile', () => {
           };
         `);
       });
+      it('found top-level scalar', () => {
+        expect(
+          setField(
+            ['foo'],
+            'baz',
+            dedent`
+              export const foo = 'bar';
+            `
+          )
+        ).toMatchInlineSnapshot(`export const foo = 'baz';`);
+      });
       it('found object', () => {
         expect(
           setField(
