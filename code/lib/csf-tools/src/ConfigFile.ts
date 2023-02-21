@@ -138,6 +138,7 @@ export class ConfigFile {
             t.isIdentifier(node.declaration) && t.isProgram(parent)
               ? _findVarInitialization(node.declaration.name, parent)
               : node.declaration;
+
           if (t.isTSAsExpression(decl) || t.isTSSatisfiesExpression(decl)) {
             decl = decl.expression;
           }
@@ -193,6 +194,11 @@ export class ConfigFile {
               if (t.isIdentifier(right)) {
                 exportObject = _findVarInitialization(right.name, parent as t.Program) as any;
               }
+
+              if (t.isTSAsExpression(exportObject) || t.isTSSatisfiesExpression(exportObject)) {
+                exportObject = exportObject.expression;
+              }
+
               if (t.isObjectExpression(exportObject)) {
                 self._exportsObject = exportObject;
                 (exportObject.properties as t.ObjectProperty[]).forEach((p) => {
