@@ -58,11 +58,13 @@ export const mdxgfm: Fix<Options> = {
     `;
   },
 
-  async run({ packageManager, dryRun, mainConfigPath }) {
+  async run({ packageManager, dryRun, mainConfigPath, skipInstall }) {
     if (!dryRun) {
-      await packageManager.addDependencies({ installAsDevDependencies: true }, [
-        '@storybook/addon-gfm',
-      ]);
+      if (!skipInstall) {
+        await packageManager.addDependencies({ installAsDevDependencies: true }, [
+          '@storybook/addon-gfm',
+        ]);
+      }
 
       await updateMainConfig({ mainConfigPath, dryRun }, async (main) => {
         const addonsToAdd = ['@storybook/addon-gfm'];
