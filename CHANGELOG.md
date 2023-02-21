@@ -1,3 +1,58 @@
+## 7.0.0-beta.52 (February 21, 2023)
+
+#### Features
+
+-   Core: Coalesce multiple indexing errors into one [#21114](https://github.com/storybooks/storybook/pull/21114)
+-   Core: Don't crash when there are errors indexing [#21112](https://github.com/storybooks/storybook/pull/21112)
+
+#### Bug Fixes
+
+-   CLI: Fix CRA init, ensure the new version of the preset [#21166](https://github.com/storybooks/storybook/pull/21166)
+-   Angular: Fix 'isStandalone' function not available error [#21167](https://github.com/storybooks/storybook/pull/21167)
+-   Angular: Fix constructor dependencies [#21059](https://github.com/storybooks/storybook/pull/21059)
+-   NextJS: Add missing dependencies to fix pnpm [#21162](https://github.com/storybooks/storybook/pull/21162)
+
+## 7.0.0-beta.51 (February 20, 2023)
+
+#### Features
+
+-   CLI: Improve monorepo support in `automigrate` and revamp framework-related migrations [#20647](https://github.com/storybooks/storybook/pull/20647)
+
+#### Bug Fixes
+
+-   UI: Correctly detect Safari in browser supports CSS Zoom [#21163](https://github.com/storybooks/storybook/pull/21163)
+-   Web-components: Fix StorybookConfig of webcomponents-webpack5 [#21144](https://github.com/storybooks/storybook/pull/21144)
+-   Storysource: Fallback to the `docs.source.originalSource` parameter [#21159](https://github.com/storybooks/storybook/pull/21159)
+-   UI: Fix skip to canvas link style [#21021](https://github.com/storybooks/storybook/pull/21021)
+-   Vue2: Fix events to use bracket notation [#20754](https://github.com/storybooks/storybook/pull/20754)
+
+### Maintenance
+
+-   Maintenance: Fix type errors on automigrate `check` step [#21164](https://github.com/storybooks/storybook/pull/21164)
+-   Core: Rename `framework` parameter to `renderer` [#21108](https://github.com/storybooks/storybook/pull/21108)
+-   Docs: Remove `DocsOptions.disable` [#21098](https://github.com/storybooks/storybook/pull/21098)
+
+## 7.0.0-beta.50 (February 18, 2023)
+
+#### Bug Fixes
+
+-   Revert upgrade to react-docgen-typescript-plugin [#21147](https://github.com/storybooks/storybook/pull/21147)
+-   Revert Vite fix storysource addon support [#21146](https://github.com/storybooks/storybook/pull/21146)
+-   UI: Fix Canvas zoom height [#21138](https://github.com/storybooks/storybook/pull/21138)
+-   Addon-interaction: Fix tooltips don't disappear correctly [#21105](https://github.com/storybooks/storybook/pull/21105)
+-   UI: Fix CSS zoom in Safari [#21069](https://github.com/storybooks/storybook/pull/21069)
+
+#### Maintenance
+
+-   Storysource: Rename "Story" tab to "Code" [#21132](https://github.com/storybooks/storybook/pull/21132)
+-   TypeScript: Fix `@ts-expect-error` strict types [#20981](https://github.com/storybooks/storybook/pull/20981)
+-   UI: Update border color to match Design System proposal [#20660](https://github.com/storybooks/storybook/pull/20660)
+-   CLI: Don't render issue template reproduction section with shell [#21128](https://github.com/storybooks/storybook/pull/21128)
+
+#### Dependency Upgrades
+
+-   Vite: Update dep range for @storybook/mdx1-csf [#21123](https://github.com/storybooks/storybook/pull/21123)
+
 ## 7.0.0-beta.49 (February 17, 2023)
 
 #### Bug Fixes
