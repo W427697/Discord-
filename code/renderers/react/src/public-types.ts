@@ -9,6 +9,7 @@ import type {
   StoryAnnotations,
   StoryContext as GenericStoryContext,
   StrictArgs,
+  ProjectAnnotations,
 } from '@storybook/types';
 import type { ComponentProps, ComponentType, JSXElementConstructor } from 'react';
 import type { SetOptional, Simplify } from 'type-fest';
@@ -18,6 +19,13 @@ export type { Args, ArgTypes, Parameters, StrictArgs } from '@storybook/types';
 export type { ReactRenderer };
 
 type JSXElement = keyof JSX.IntrinsicElements | JSXElementConstructor<any>;
+
+/**
+ * Metadata to control the way stories are rendered and add global decorators, parameters, args, etc.
+ *
+ * @see [Configure story rendering](https://storybook.js.org/docs/react/configure/overview#configure-story-rendering)
+ */
+export type Preview = ProjectAnnotations<ReactRenderer>;
 
 /**
  * Metadata to configure the stories for a component.
