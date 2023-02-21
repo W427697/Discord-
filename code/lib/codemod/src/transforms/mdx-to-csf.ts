@@ -54,6 +54,7 @@ export default function jscodeshift(info: FileInfo) {
 
 export function transform(source: string, baseName: string): [mdx: string, csf: string] {
   const root = mdxProcessor.parse(source);
+  const storyNamespaceName = nameToValidExport(`${baseName}Stories`);
 
   let containsMeta = false;
   const metaAttributes: Array<MdxJsxAttribute | MdxJsxExpressionAttribute> = [];
@@ -87,7 +88,7 @@ export function transform(source: string, baseName: string): [mdx: string, csf: 
             name: 'of',
             value: {
               type: 'mdxJsxAttributeValueExpression',
-              value: `${baseName}Stories`,
+              value: storyNamespaceName,
             },
           },
         ];
@@ -115,7 +116,7 @@ export function transform(source: string, baseName: string): [mdx: string, csf: 
               name: 'of',
               value: {
                 type: 'mdxJsxAttributeValueExpression',
-                value: `${baseName}Stories.${name}`,
+                value: `${storyNamespaceName}.${name}`,
               },
             },
           ];
@@ -146,7 +147,7 @@ export function transform(source: string, baseName: string): [mdx: string, csf: 
               name: 'of',
               value: {
                 type: 'mdxJsxAttributeValueExpression',
-                value: `${baseName}Stories.${name}`,
+                value: `${storyNamespaceName}.${name}`,
               },
             },
           ];
@@ -178,7 +179,7 @@ export function transform(source: string, baseName: string): [mdx: string, csf: 
   const file = getEsmAst(root);
 
   if (containsMeta || storiesMap.size > 0) {
-    addStoriesImport(root, baseName);
+    addStoriesImport(root, baseName, storyNamespaceName);
   }
 
   file.path.traverse({
@@ -321,12 +322,12 @@ function getEsmAst(root: Root) {
   return file;
 }
 
-function addStoriesImport(root: Root, baseName: string): void {
+function addStoriesImport(root: Root, baseName: string, storyNamespaceName: string): void {
   let found = false;
 
   visit(root, ['mdxjsEsm'], (node: MdxjsEsm) => {
     if (!found) {
-      node.value += `\nimport * as ${baseName}Stories from './${baseName}.stories';`;
+      node.value += `\nimport * as ${storyNamespaceName} from './${baseName}.stories';`;
       found = true;
     }
   });

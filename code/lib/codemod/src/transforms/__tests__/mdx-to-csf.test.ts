@@ -395,6 +395,64 @@ test('duplicate story name', () => {
   `);
 });
 
+test('kebab case file name', () => {
+  const input = dedent`
+      import { Meta, Story } from '@storybook/addon-docs';
+      import { Kebab } from './my-component/some-kebab-case';
+
+      export const Template = (args) => <Kebab {...args} />;
+      
+      <Meta title="Kebab" />
+
+      <Story name="Much-Kebab">    
+        {Template.bind({})}
+      </Story>
+      
+      <Story name="Really-Much-Kebab">{Template.bind({})}</Story>
+      
+    `;
+
+  const mdx = jscodeshift({ source: input, path: 'some-kebab-case.stories.mdx' });
+
+  expect(mdx).toMatchInlineSnapshot(`
+    import { Meta, Story } from '@storybook/blocks';
+    import { Kebab } from './my-component/some-kebab-case';
+    import * as SomeKebabCaseStories from './some-kebab-case.stories';
+
+    export const Template = (args) => <Kebab {...args} />;
+
+    <Meta of={SomeKebabCaseStories} />
+
+    <Story of={SomeKebabCaseStories.MuchKebab} />
+
+    <Story of={SomeKebabCaseStories.ReallyMuchKebab} />
+
+  `);
+
+  const [, csf] = fs.writeFileSync.mock.calls[0];
+
+  expect(csf).toMatchInlineSnapshot(`
+    import { Kebab } from './my-component/some-kebab-case';
+
+    const Template = (args) => <Kebab {...args} />;
+
+    export default {
+      title: 'Kebab',
+    };
+
+    export const MuchKebab = {
+      render: Template.bind({}),
+      name: 'Much-Kebab',
+    };
+
+    export const ReallyMuchKebab = {
+      render: Template.bind({}),
+      name: 'Really-Much-Kebab',
+    };
+
+  `);
+});
+
 test('story child is jsx', () => {
   const input = dedent`
       import { Canvas, Meta, Story } from '@storybook/addon-docs';
