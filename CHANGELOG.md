@@ -1,3 +1,17 @@
+## 7.0.0-beta.52 (February 21, 2023)
+
+#### Features
+
+-   Core: Coalesce multiple indexing errors into one [#21114](https://github.com/storybooks/storybook/pull/21114)
+-   Core: Don't crash when there are errors indexing [#21112](https://github.com/storybooks/storybook/pull/21112)
+
+#### Bug Fixes
+
+-   CLI: Fix CRA init, ensure the new version of the preset [#21166](https://github.com/storybooks/storybook/pull/21166)
+-   Angular: Fix 'isStandalone' function not available error [#21167](https://github.com/storybooks/storybook/pull/21167)
+-   Angular: Fix constructor dependencies [#21059](https://github.com/storybooks/storybook/pull/21059)
+-   NextJS: Add missing dependencies to fix pnpm [#21162](https://github.com/storybooks/storybook/pull/21162)
+
 ## 7.0.0-beta.51 (February 20, 2023)
 
 #### Features
