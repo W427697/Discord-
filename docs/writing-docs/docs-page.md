@@ -26,6 +26,8 @@ To enable auto-generated documentation for your stories, you'll need to add the 
     'svelte/button-story-auto-docs.js.mdx',
     'web-components/button-story-auto-docs.js.mdx',
     'web-components/button-story-auto-docs.ts.mdx',
+    'solid/button-story-auto-docs.js.mdx',
+    'solid/button-story-auto-docs.ts.mdx',
   ]}
 />
 
