@@ -1,10 +1,10 @@
 import chalk from 'chalk';
 import { dedent } from 'ts-dedent';
 import semver from 'semver';
-import { getStorybookInfo } from '@storybook/core-common';
 import type { Fix } from '../types';
 import { getStorybookVersionSpecifier } from '../../helpers';
 import type { PackageJsonWithDepsAndDevDeps } from '../../js-package-manager';
+import { getStorybookData } from '../helpers/mainConfigFile';
 
 interface SbBinaryRunOptions {
   storybookVersion: string;
@@ -25,28 +25,18 @@ const logger = console;
 export const sbBinary: Fix<SbBinaryRunOptions> = {
   id: 'storybook-binary',
 
-  async check({ packageManager }) {
+  async check({ packageManager, configDir }) {
     const packageJson = packageManager.retrievePackageJson();
-    const { devDependencies, dependencies } = packageJson;
-    const { version: storybookVersion } = getStorybookInfo(packageJson);
-
-    const allDeps = { ...dependencies, ...devDependencies };
-
-    const storybookCoerced = storybookVersion && semver.coerce(storybookVersion)?.version;
-    if (!storybookCoerced) {
-      throw new Error(dedent`
-        ❌ Unable to determine storybook version.
-        🤔 Are you running automigrate from your project directory? Please specify your Storybook config directory with the --config-dir flag.
-      `);
-    }
+    const allDependencies = packageManager.getAllDependencies();
+    const { storybookVersion } = await getStorybookData({ packageManager, configDir });
 
     // Nx provides their own binary, so we don't need to do anything
-    if (allDeps['@nrwl/storybook'] || semver.lt(storybookCoerced, '7.0.0')) {
+    if (allDependencies['@nrwl/storybook'] || semver.lt(storybookVersion, '7.0.0')) {
       return null;
     }
 
-    const hasSbBinary = !!allDeps.sb;
-    const hasStorybookBinary = !!allDeps.storybook;
+    const hasSbBinary = !!allDependencies.sb;
+    const hasStorybookBinary = !!allDependencies.storybook;
 
     if (!hasSbBinary && hasStorybookBinary) {
       return null;
