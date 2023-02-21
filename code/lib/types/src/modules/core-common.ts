@@ -168,7 +168,7 @@ export interface BuilderOptions {
   cache?: FileSystemCache;
   configDir: string;
   docsMode?: boolean;
-  env: Record<string, string>;
+  env?: (envs: Record<string, string>) => Record<string, string>;
   features?: StorybookConfig['features'];
   versionCheck?: VersionCheck;
   releaseNotesData?: ReleaseNotesData;
