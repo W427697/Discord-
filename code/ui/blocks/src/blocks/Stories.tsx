@@ -7,12 +7,21 @@ import { Heading } from './Heading';
 interface StoriesProps {
   title?: JSX.Element | string;
   includePrimary?: boolean;
+  ignoreWhenOnlyPrimary?: boolean;
 }
 
-export const Stories: FC<StoriesProps> = ({ title, includePrimary = true }) => {
+export const Stories: FC<StoriesProps> = ({
+  title,
+  includePrimary = true,
+  ignoreWhenOnlyPrimary = true,
+}) => {
   const { componentStories } = useContext(DocsContext);
 
   let stories = componentStories().filter((story) => !story.parameters?.docs?.disable);
+
+  if (ignoreWhenOnlyPrimary && stories.length <= 1) {
+    return null;
+  }
 
   if (!includePrimary) stories = stories.slice(1);
 

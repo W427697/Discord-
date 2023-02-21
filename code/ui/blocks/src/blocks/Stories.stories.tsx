@@ -21,6 +21,18 @@ export const WithoutPrimary: Story = {
     relativeCsfPaths: ['../examples/Button.stories'],
   },
 };
+export const IgnoreWhenOnlyPrimary: Story = {
+  args: { ignoreWhenOnlyPrimary: true },
+  parameters: {
+    relativeCsfPaths: ['../examples/StoriesPrimaryOnly.stories'],
+  },
+};
+export const KeepWhenOnlyPrimary: Story = {
+  args: { ignoreWhenOnlyPrimary: false },
+  parameters: {
+    relativeCsfPaths: ['../examples/StoriesPrimaryOnly.stories'],
+  },
+};
 export const DifferentToolbars: Story = {
   parameters: {
     relativeCsfPaths: ['../examples/StoriesParameters.stories'],
