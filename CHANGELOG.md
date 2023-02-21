@@ -1,3 +1,23 @@
+## 7.0.0-beta.53 (February 22, 2023)
+
+#### Features
+
+-   Codemod: Convert `.stories.mdx` to MDX and CSF [#21073](https://github.com/storybooks/storybook/pull/21073)
+
+#### Bug Fixes
+
+-   Csf Tools: Fix overriding scalar named export values [#21190](https://github.com/storybooks/storybook/pull/21190)
+-   Csf Tools: Support satisfies and as TS operator with module.exports [#21188](https://github.com/storybooks/storybook/pull/21188)
+-   Core: try harder to resolve `.mjs` files for the browser entries [#21161](https://github.com/storybooks/storybook/pull/21161)
+-   CLI: Fix jscodeshift error: env: node\r: No such file or directory [#21180](https://github.com/storybooks/storybook/pull/21180)
+-   Angular: Fix NG0800 error [#21181](https://github.com/storybooks/storybook/pull/21181)
+-   Addon-docs: Fix style bleeding [#21150](https://github.com/storybooks/storybook/pull/21150)
+-   CLI: Improve how automigrations read `main.js` [#21168](https://github.com/storybooks/storybook/pull/21168)
+
+#### Build
+
+-   Build: Add check step to `ci:daily` workflow [#21169](https://github.com/storybooks/storybook/pull/21169)
+
 ## 7.0.0-beta.52 (February 21, 2023)
 
 #### Features
