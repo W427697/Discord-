@@ -5,14 +5,14 @@
   "keywords": [
     "storybook"
   ],
-  "homepage": "https://github.com/storybookjs/storybook/tree/main/presets/html-webpack",
+  "homepage": "https://github.com/storybookjs/storybook/tree/main/presets/create-react-app",
   "bugs": {
     "url": "https://github.com/storybookjs/storybook/issues"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/storybookjs/storybook.git",
-    "directory": "presets/html-webpack"
+    "directory": "presets/create-react-app"
   },
   "funding": {
     "type": "opencollective",
