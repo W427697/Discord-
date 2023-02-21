@@ -11,6 +11,7 @@ When using the Canvas block in MDX, it references a story with the `of` prop:
 <!-- prettier-ignore-start -->
 ```md
 {/* ButtonDocs.mdx */}
+
 import { Meta, Story, Canvas } from '@storybook/blocks';
 import * as ButtonStories from './Button.stories';
 
@@ -41,6 +42,7 @@ The following `sourceState` configurations are equivalent:
 
 ```js
 // Button.stories.js
+
 export const Basic {
   parameters: {
     docs: {
@@ -53,6 +55,7 @@ export const Basic {
 <!-- prettier-ignore-start -->
 ```md
 {/* ButtonDocs.mdx */}
+
 <Canvas of={ButtonStories.Basic} sourceState="shown" />
 ```
 <!-- prettier-ignore-end -->
@@ -71,7 +74,7 @@ Array<{
   className?: string;
   onClick: () => void;
   disabled?: boolean;
-}>;
+}>
 ```
 
 Default: `parameters.docs.canvas.additionalActions`
@@ -81,6 +84,7 @@ Provides any additional custom actions to show in the bottom right corner. These
 <!-- prettier-ignore-start -->
 ```md
 {/* ButtonDocs.mdx */}
+
 import { Meta, Story, Canvas, SourceState } from '@storybook/blocks';
 import * as ButtonStories from './Button.stories';
 
@@ -137,6 +141,7 @@ You can render a story from a CSF file that you haven’t attached to the MDX fi
 <!-- prettier-ignore-start -->
 ```md
 {/* ButtonDocs.mdx */}
+
 import { Meta, Canvas } from '@storybook/blocks';
 import * as ButtonStories from './Button.stories';
 import * as HeaderStories from './Header.stories';
@@ -153,7 +158,7 @@ import * as HeaderStories from './Header.stories';
 
 Type: Story export
 
-Specifies which story is displayed.
+Specifies which story's source is displayed.
 
 ### `source`
 

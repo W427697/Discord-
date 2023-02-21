@@ -15,10 +15,13 @@ The `ArgTypes` block can be used to show a static table of [arg types](./argtype
 <!-- prettier-ignore-start -->
 ```md
 {/* ButtonDocs.mdx */}
-import { ArgTypes } from '@storybook/blocks';
+
+import { Meta, ArgTypes } from '@storybook/blocks';
 import * as ButtonStories from './Button.stories';
 
-<ArgTypes of={ButtonStories} />;
+<Meta of={ButtonStories} />
+
+<ArgTypes of={ButtonStories} />
 ```
 <!-- prettier-ignore-end -->
 
@@ -37,6 +40,7 @@ The following `include` configurations are equivalent:
 
 ```js
 // Button.stories.js
+
 export default {
   component: Button,
   parameters: {
@@ -50,6 +54,7 @@ export default {
 <!-- prettier-ignore-start -->
 ```md
 {/* ButtonDocs.mdx */}
+
 <ArgTypes of={ButtonStories} include="color" />
 ```
 <!-- prettier-ignore-end -->
@@ -64,7 +69,7 @@ Type: `string[] | RegExp`
 
 Default: `parameters.docs.argTypes.exclude`
 
-Specifies which arg types to exclude from table. Any arg types whose name matches the regex or is part of the array will be left out.
+Specifies which arg types to exclude from the args table. Any arg types whose names match the regex or are part of the array will be left out.
 
 ### `include`
 
@@ -72,7 +77,7 @@ Type: `string[] | RegExp`
 
 Default: `parameters.docs.argTypes.include`
 
-Specifies which arg types to include in the table. Any arg types whose name doesn’t match the regex or is not part of the array will be left out.
+Specifies which arg types to include in the args table. Any arg types whose names don’t match the regex or are not part of the array will be left out.
 
 ### `of`
 

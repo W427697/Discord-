@@ -8,6 +8,7 @@ The `Typeset` block helps document the fonts used throughout your project.
 
 <!-- prettier-ignore-start -->
 
+<!--TK-->
 <CodeSnippets
   paths={[
     'common/typeset-doc.block.mdx.mdx',

@@ -8,6 +8,7 @@ The `ColorPalette` block allows you to document all color-related items (e.g., s
 
 <!-- prettier-ignore-start -->
 
+<!--TK-->
 <CodeSnippets
   paths={[
     'common/colorpalette-doc-block.starter-example.mdx.mdx',
@@ -49,7 +50,7 @@ Provides the list of colors to be displayed. Accepts any valid CSS color format 
 
 Type: `string`
 
-Provides an additional description to the color.
+Provides an additional description of the color.
 
 ### `title` (required)
 

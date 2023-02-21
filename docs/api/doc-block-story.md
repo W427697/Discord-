@@ -17,6 +17,7 @@ Typically you want to use the [`Canvas` block](./doc-block-canvas.md) to render 
 <!-- prettier-ignore-start -->
 ```md
 {/* ButtonDocs.mdx */}
+
 import { Meta, Story } from '@storybook/blocks';
 import * as ButtonStories from './Button.stories';
 
@@ -41,6 +42,7 @@ The following `autoplay` configurations are equivalent:
 
 ```js
 // Button.stories.js
+
 export const Basic {
   parameters: {
     docs: {
@@ -53,6 +55,7 @@ export const Basic {
 <!-- prettier-ignore-start -->
 ```md
 {/* ButtonDocs.mdx */}
+
 <Story of={ButtonStories.Basic} autoplay />
 ```
 <!-- prettier-ignore-end -->
@@ -100,6 +103,7 @@ You can render a story from a CSF file that you haven’t attached to the MDX fi
 <!-- prettier-ignore-start -->
 ```md
 {/* ButtonDocs.mdx */}
+
 import { Meta, Story } from '@storybook/blocks';
 import * as ButtonStories from './Button.stories';
 import * as HeaderStories from './Header.stories';

@@ -36,6 +36,7 @@ export const StoryName = ({ of }) => {
 <!-- prettier-ignore-start -->
 ```md
 {/* ButtonDocs.mdx */}
+
 import { Meta } from '@storybook/blocks';
 import { StoryName } from '../.storybook/blocks/StoryName';
 import * as ButtonStories from './Button.stories';
@@ -70,19 +71,19 @@ useOf = (
 
 Type: `ModuleExport | 'story' | 'meta' | 'component'`
 
-Provides the story export, meta export, component export, or CSF file exports that you want to get annotations from.
+Provides the story export, meta export, component export, or CSF file exports from which you get annotations.
 
 When the custom block is in an [attached doc](./doc-block-meta.md#attached-vs-unattached), it’s also possible to get the primary (first) story, meta, or component by passing in a string instead. This is useful as a fallback, so the `of` prop can be omitted in your block. The most common pattern is using this as `useOf(props.of || 'story')` which will fall back to the primary story if no `of` prop is defined.
 
-- `useOf('story')` returns the annotated primary story in attached mode, error in unattached mode
-- `useOf('meta')` returns the annotated meta in attached mode, error in unattached mode
-- `useOf('component')` returns the annotated component specified in the meta in attached mode, error in unattached mode
+- `useOf('story')` returns the annotated primary story in attached mode; error in unattached mode
+- `useOf('meta')` returns the annotated meta in attached mode; error in unattached mode
+- `useOf('component')` returns the annotated component specified in the meta in attached mode; error in unattached mode
 
 ### `validTypes`
 
 Type: `Array<'story' | 'meta' | 'component'>`
 
-Optionally specify an array of valid types that your block accepts. Ie. the Canvas block only accepts references to stories, not meta or component, so it has `useOf(of, ['story'])` . If anything else than the valid types are passed in, an error will be thrown.
+Optionally specify an array of valid types that your block accepts. Passing anything other than the valid type(s) will result in an error. For example, the [`Canvas`](./doc-block-canvas.md) block uses `useOf(of, ['story'])`, which ensures it only accepts a reference to a story, not a meta or component.
 
 ## Return
 

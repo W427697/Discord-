@@ -7,6 +7,17 @@ The `Meta` block is used to [attach](#attached-vs-unattached) a custom MDX docs 
 - Attaches the MDX file to a component and its stories, or
 - Controls the location of the unattached docs entry in the sidebar.
 
+<!-- prettier-ignore-start -->
+```md
+{/* ButtonDocs.mdx */}
+
+import { Meta } from '@storybook/blocks';
+import * as ButtonStories from './Button.stories';
+
+<Meta of={ButtonStories} />
+```
+<!-- prettier-ignore-end -->
+
 <div class="aside">
 
 💡 The Meta block doesn’t render anything visible.
@@ -30,6 +41,7 @@ Sets the name of the [attached](#attached-vs-unattached) doc entry. You can atta
 <!-- prettier-ignore-start -->
 ```md
 {/* Component.mdx */}
+
 import { Meta } from '@storybook/blocks';
 import * as ComponentStories from './component.stories';
 
@@ -42,11 +54,12 @@ import * as ComponentStories from './component.stories';
 
 Type: CSF file exports
 
-Specificies which CSF file is [attached](#attached-vs-unattached) to this MDX file. Pass the **full set of exports** from the CSF file (not the default export!).
+Specifies which CSF file is [attached](#attached-vs-unattached) to this MDX file. Pass the **full set of exports** from the CSF file (not the default export!).
 
 <!-- prettier-ignore-start -->
 ```md
 {/* ButtonDocs.mdx */}
+
 import { Meta, Story } from '@storybook/blocks';
 import * as ButtonStories from './Button.stories';
 
@@ -74,6 +87,7 @@ Sets the title of an [unattached](#attached-vs-unattached) MDX file.
 <!-- prettier-ignore-start -->
 ```md
 {/* Introduction.mdx */}
+
 import { Meta } from '@storybook/blocks';
 
 {/* Override the docs entry's location in the sidebar with title */}

@@ -6,7 +6,7 @@ The `Markdown` block allows you to import and include plain markdown in your MD
 
 ![Screenshot of Markdown block](TK)
 
-When importing markdown files, it’s important to use the ?raw suffix on the import path to ensure the content is imported as-is, and isn’t being evaluated:
+When importing markdown files, it’s important to use the `?raw` suffix on the import path to ensure the content is imported as-is, and isn’t being evaluated:
 
 <!-- prettier-ignore-start -->
 ```md
@@ -57,19 +57,19 @@ import ReadMe from './README.md';
 ```
 <!-- prettier-ignore-end -->
 
-However there are small syntactical differences between plain Markdown and MDX2. MDX2 is more strict and will interpret certain content as JSX expressions. Here’s an example of a perfectly valid Markdown file, that would break if it was handled directly by MDX2:
+However, there are small syntactical differences between plain markdown and MDX2. MDX2 is more strict and will interpret certain content as JSX expressions. Here’s an example of a perfectly valid markdown file, that would break if it was handled directly by MDX2:
 
 <!-- prettier-ignore-start -->
 ```md
 # A header
 
-{ this is valid in a plain Markdown file, but MDX2 will try to evaluate this as an expression }
+{ this is valid in a plain markdown file, but MDX2 will try to evaluate this as an expression }
 
 <This is also valid, but MDX2 thinks this is a JSX component />
 ```
 <!-- prettier-ignore-end -->
 
-Furthermore MDX2 wraps all strings on newlines in `p` tags or similar, meaning that content would render different between a plain .md file and an .mdx file.
+Furthermore, MDX2 wraps all strings on newlines in `p` tags or similar, meaning that content would render differently between a plain `.md` file and an `.mdx` file.
 
 <!-- prettier-ignore-start -->
 ```md
@@ -79,7 +79,7 @@ Furthermore MDX2 wraps all strings on newlines in `p` tags or similar, meaning t
   Some text
 </div>
 
-The example above will remain as-is in plain Markdown, but MDX2 will compile it to:
+The example above will remain as-is in plain markdown, but MDX2 will compile it to:
 
 # A header
 

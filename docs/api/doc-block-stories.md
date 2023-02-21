@@ -6,6 +6,19 @@ The `Stories` block renders the full collection of stories in a stories file.
 
 ![Screenshot of Stories block](TK)
 
+<!-- prettier-ignore-start -->
+```md
+{/* ButtonDocs.mdx */}
+
+import { Meta, Stories } from '@storybook/blocks';
+import * as ButtonStories from './Button.stories';
+
+<Meta of={ButtonStories} />
+
+<Stories />
+```
+<!-- prettier-ignore-end -->
+
 ## Stories
 
 ```js

@@ -6,6 +6,16 @@ The `Title` block serves as the primary heading for your docs entry. It is typic
 
 ![Screenshot of Title block](TK)
 
+<!-- prettier-ignore-start -->
+```md
+{/* ButtonDocs.mdx */}
+
+import { Title } from '@storybook/blocks';
+
+<Title>Button</Title>
+```
+<!-- prettier-ignore-end -->
+
 ## Title
 
 ```js

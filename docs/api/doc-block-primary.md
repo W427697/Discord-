@@ -6,6 +6,19 @@ The `Primary` block displays the primary (first defined in the stories file) sto
 
 ![Screenshot of Primary block](TK)
 
+<!-- prettier-ignore-start -->
+```md
+{/* ButtonDocs.mdx */}
+
+import { Meta, Primary } from '@storybook/blocks';
+import * as ButtonStories from './Button.stories';
+
+<Meta of={ButtonStories} />
+
+<Primary />
+```
+<!-- prettier-ignore-end -->
+
 ## Primary
 
 ```js

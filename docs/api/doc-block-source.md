@@ -9,6 +9,7 @@ The `Source` block is used to render a snippet of source code directly.
 <!-- prettier-ignore-start -->
 ```md
 {/* ButtonDocs.mdx */}
+
 import { Meta, Source } from '@storybook/blocks';
 import * as ButtonStories from './Button.stories';
 
@@ -33,6 +34,7 @@ The following `language` configurations are equivalent:
 
 ```js
 // Button.stories.js
+
 export const Basic {
   parameters: {
     docs: {
@@ -45,6 +47,7 @@ export const Basic {
 <!-- prettier-ignore-start -->
 ```md
 {/* ButtonDocs.mdx */}
+
 <Source of={ButtonStories.Basic} language="tsx" />
 ```
 <!-- prettier-ignore-end -->
@@ -64,6 +67,7 @@ Provides the source code to be rendered.
 <!-- prettier-ignore-start -->
 ```md
 {/* ButtonDocs.mdx */}
+
 import { Meta, Source } from '@storybook/blocks';
 import * as ButtonStories from './Button.stories';
 
@@ -82,7 +86,7 @@ Type: `boolean`
 
 Default: `parameters.docs.source.dark`
 
-Determines if snippet is rendered in dark mode.
+Determines if the snippet is rendered in dark mode.
 
 <div class="aside">
 
@@ -146,4 +150,4 @@ Specifies the story id for which to render the source code. Referencing a story 
 
 Type: `string[]`
 
-Specifies the story ids for which to render source code. Multiple stories are no longer supported; to render a single story's source, use use the [`of` prop](#of).
+Specifies the story ids for which to render source code. Multiple stories are no longer supported; to render a single story's source, use the [`of` prop](#of).

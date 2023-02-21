@@ -8,6 +8,7 @@ The `IconGallery` block enables you to easily document all icons associated with
 
 <!-- prettier-ignore-start -->
 
+<!--TK-->
 <CodeSnippets
   paths={[
     'common/icongallery-doc-block.mdx.mdx',

@@ -9,8 +9,11 @@ The `Description` block displays the description for a component, story, or meta
 <!-- prettier-ignore-start -->
 ```md
 {/* ButtonDocs.mdx */}
-import { Description } from '@storybook/blocks';
+
+import { Meta, Description } from '@storybook/blocks';
 import * as ButtonStories from './Button.stories';
+
+<Meta of={ButtonStories} />
 
 <Description of={ButtonStories.Primary} />
 ```
@@ -83,6 +86,7 @@ export const Button = () => <button>Click me</button>;
 
 ```js
 // Button.stories.jsx
+
 import { Button } from './button.jsx';
 
 /**
@@ -118,6 +122,7 @@ export const Primary = {
 <!-- prettier-ignore-start -->
 ```md
 {/* ButtonDocs.mdx */}
+
 import { Meta, Description } from '@storybook/blocks';
 import * as ButtonStories from './Button.stories';
 
