@@ -199,7 +199,7 @@ export function transform(source: string, baseName: string): [mdx: string, csf: 
     if (child.type === 'text') {
       return t.arrowFunctionExpression([], t.stringLiteral(child.value));
     }
-    if (child.type === 'mdxFlowExpression') {
+    if (child.type === 'mdxFlowExpression' || child.type === 'mdxTextExpression') {
       const expression = babelParseExpression(child.value);
 
       // Recreating those lines: https://github.com/storybookjs/mdx1-csf/blob/f408fc97e9a63097ca1ee577df9315a3cccca975/src/sb-mdx-plugin.ts#L185-L198

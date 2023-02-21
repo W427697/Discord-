@@ -310,6 +310,9 @@ test('extract all story attributes', () => {
         }}>    
         {Template.bind({})}
       </Story>
+      
+      <Story name="Second">{Template.bind({})}</Story>
+      
     `;
 
   jscodeshift({ source: input, path: 'Foobar.stories.mdx' });
@@ -339,6 +342,11 @@ test('extract all story attributes', () => {
         ...args,
         label: 'Unchecked',
       },
+    };
+
+    export const Second = {
+      render: Template.bind({}),
+      name: 'Second',
     };
 
   `);
