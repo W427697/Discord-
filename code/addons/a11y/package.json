@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-a11y",
-  "version": "7.0.0-beta.52",
+  "version": "7.0.0-beta.53",
   "description": "Test component compliance with web accessibility standards",
   "keywords": [
     "a11y",
@@ -63,16 +63,16 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/addon-highlight": "7.0.0-beta.52",
-    "@storybook/channels": "7.0.0-beta.52",
-    "@storybook/client-logger": "7.0.0-beta.52",
-    "@storybook/components": "7.0.0-beta.52",
-    "@storybook/core-events": "7.0.0-beta.52",
+    "@storybook/addon-highlight": "7.0.0-beta.53",
+    "@storybook/channels": "7.0.0-beta.53",
+    "@storybook/client-logger": "7.0.0-beta.53",
+    "@storybook/components": "7.0.0-beta.53",
+    "@storybook/core-events": "7.0.0-beta.53",
     "@storybook/global": "^5.0.0",
-    "@storybook/manager-api": "7.0.0-beta.52",
-    "@storybook/preview-api": "7.0.0-beta.52",
-    "@storybook/theming": "7.0.0-beta.52",
-    "@storybook/types": "7.0.0-beta.52",
+    "@storybook/manager-api": "7.0.0-beta.53",
+    "@storybook/preview-api": "7.0.0-beta.53",
+    "@storybook/theming": "7.0.0-beta.53",
+    "@storybook/types": "7.0.0-beta.53",
     "axe-core": "^4.2.0",
     "lodash": "^4.17.21",
     "react-resize-detector": "^7.1.2"
