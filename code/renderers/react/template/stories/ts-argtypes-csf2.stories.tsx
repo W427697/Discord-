@@ -40,88 +40,66 @@ const ArgsStory = ({ parameters }: { parameters: Parameters }) => {
     </ThemeProvider>
   );
 };
-
+function getTemplate(_: Args, parameters: Parameters) {
+  return <ArgsStory parameters={parameters} />;
+}
 export const TsFunctionComponent = (_: Args, { parameters }: StoryContext) => (
   <ArgsStory parameters={parameters} />
 );
 TsFunctionComponent.parameters = { component: TsFunctionComponentComponent };
 
-export const TsFunctionComponentInlineDefaults = TsFunctionComponent;
+export const TsFunctionComponentInlineDefaults = (_: Args, { parameters }: StoryContext) =>
+  getTemplate(_, parameters);
 TsFunctionComponentInlineDefaults.parameters = {
   component: TsFunctionComponentInlineDefaultsComponent,
 };
 
-export const TsReactFcGenerics = (_: Args, { parameters }: StoryContext) => (
-  <ArgsStory parameters={parameters} />
-);
+export const TsReactFcGenerics = (_: Args, { parameters }: StoryContext) =>
+  getTemplate(_, parameters);
 TsReactFcGenerics.parameters = { component: TsReactFcGenericsComponent };
 
-export const TsMultiProps = (_: Args, { parameters }: StoryContext) => (
-  <ArgsStory parameters={parameters} />
-);
+export const TsMultiProps = (_: Args, { parameters }: StoryContext) => getTemplate(_, parameters);
 TsMultiProps.parameters = { component: TsMultiPropsComponent };
 
-export const TsReactDefaultExports = (_: Args, { parameters }: StoryContext) => (
-  <ArgsStory parameters={parameters} />
-);
+export const TsReactDefaultExports = (_: Args, { parameters }: StoryContext) =>
+  getTemplate(_, parameters);
 TsReactDefaultExports.parameters = { component: TsReactDefaultExportsComponent };
 
-export const TsImportTypes = (_: Args, { parameters }: StoryContext) => (
-  <ArgsStory parameters={parameters} />
-);
+export const TsImportTypes = (_: Args, { parameters }: StoryContext) => getTemplate(_, parameters);
 TsImportTypes.parameters = { component: TsImportTypesComponent };
 
-export const TsDeprecatedJsdoc = (_: Args, { parameters }: StoryContext) => (
-  <ArgsStory parameters={parameters} />
-);
+export const TsDeprecatedJsdoc = (_: Args, { parameters }: StoryContext) =>
+  getTemplate(_, parameters);
 TsDeprecatedJsdoc.parameters = { component: TsDeprecatedJsdocComponent };
 
-export const TsDefaultValues = (_: Args, { parameters }: StoryContext) => (
-  <ArgsStory parameters={parameters} />
-);
+export const TsDefaultValues = (_: Args, { parameters }: StoryContext) =>
+  getTemplate(_, parameters);
 TsDefaultValues.parameters = { component: TsDefaultValuesComponent };
 
-export const TsCamelCase = (_: Args, { parameters }: StoryContext) => (
-  <ArgsStory parameters={parameters} />
-);
+export const TsCamelCase = (_: Args, { parameters }: StoryContext) => getTemplate(_, parameters);
 TsCamelCase.parameters = { component: TsCamelCaseComponent };
 
-export const TsDisplayName = (_: Args, { parameters }: StoryContext) => (
-  <ArgsStory parameters={parameters} />
-);
+export const TsDisplayName = (_: Args, { parameters }: StoryContext) => getTemplate(_, parameters);
 TsDisplayName.parameters = { component: TsDisplayNameComponent };
 
-export const TsForwardRef = (_: Args, { parameters }: StoryContext) => (
-  <ArgsStory parameters={parameters} />
-);
+export const TsForwardRef = (_: Args, { parameters }: StoryContext) => getTemplate(_, parameters);
 TsForwardRef.parameters = { component: TsForwardRefComponent };
 
-export const TsTypeProps = (_: Args, { parameters }: StoryContext) => (
-  <ArgsStory parameters={parameters} />
-);
+export const TsTypeProps = (_: Args, { parameters }: StoryContext) => getTemplate(_, parameters);
 TsTypeProps.parameters = { component: TsTypePropsComponent };
 
-export const TsExtendProps = (_: Args, { parameters }: StoryContext) => (
-  <ArgsStory parameters={parameters} />
-);
+export const TsExtendProps = (_: Args, { parameters }: StoryContext) => getTemplate(_, parameters);
 TsExtendProps.parameters = { component: TsExtendPropsComponent };
 
-export const TsComponentProps = (_: Args, { parameters }: StoryContext) => (
-  <ArgsStory parameters={parameters} />
-);
+export const TsComponentProps = (_: Args, { parameters }: StoryContext) =>
+  getTemplate(_, parameters);
 TsComponentProps.parameters = { component: TsComponentPropsComponent };
 
-export const TsJsdoc = (_: Args, { parameters }: StoryContext) => (
-  <ArgsStory parameters={parameters} />
-);
+export const TsJsdoc = (_: Args, { parameters }: StoryContext) => getTemplate(_, parameters);
 TsJsdoc.parameters = { component: TsJsdocComponent };
 
-export const TsTypes = (_: Args, { parameters }: StoryContext) => (
-  <ArgsStory parameters={parameters} />
-);
+export const TsTypes = (_: Args, { parameters }: StoryContext) => getTemplate(_, parameters);
 TsTypes.parameters = { component: TsTypesComponent };
 
-export const TsHtml = (_: Args, { parameters }: StoryContext) => (
-  <ArgsStory parameters={parameters} />
-);
+export const TsHtml = (_: Args, { parameters }: StoryContext) => getTemplate(_, parameters);
 TsHtml.parameters = { component: TsHtmlComponent };

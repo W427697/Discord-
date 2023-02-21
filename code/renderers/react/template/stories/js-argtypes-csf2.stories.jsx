@@ -34,8 +34,6 @@ export default {
   },
 };
 
-const Template = (_, { parameters }) => <ArgsStory parameters={parameters} />;
-
 const ArgsStory = ({ parameters }) => {
   const argTypes = parameters.docs.extractArgTypes(parameters.component);
   const rows = inferControls({ argTypes, parameters: { __isArgsStory: true } });
@@ -57,6 +55,8 @@ ArgsStory.propTypes = {
     }).isRequired,
   }).isRequired,
 };
+
+const Template = (_, { parameters }) => <ArgsStory parameters={parameters} />;
 
 export const JsClassComponent = Template.bind({});
 JsClassComponent.parameters = { component: JsClassComponentComponent };
