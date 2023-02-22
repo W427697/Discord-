@@ -11,7 +11,7 @@ import { DocumentList } from './DocumentList';
 function useFetchData() {
   const [status, setStatus] = createSignal('idle');
   const [data, setData] = createSignal([]);
-  
+
   setStatus('loading');
   fetch('https://your-restful-endpoint')
     .then((res) => {

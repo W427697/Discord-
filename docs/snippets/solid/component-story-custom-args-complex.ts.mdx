@@ -35,11 +35,11 @@ const someFunction = (valuePropertyA, valuePropertyB) => {
 export const ExampleStory: Story = {
   render: (args) => {
     const [someFunctionResult, setSomeFunctionResult] = createSignal();
-    
+
     //👇 Assigns the function result to a signal
     createEffect(() => {
-      setSomeFunctionResult(someFunction(args.propertyA, args.propertyB))
-    })
+      setSomeFunctionResult(someFunction(args.propertyA, args.propertyB));
+    });
 
     return <YourComponent {...args} someProperty={someFunctionResult()} />;
   },
