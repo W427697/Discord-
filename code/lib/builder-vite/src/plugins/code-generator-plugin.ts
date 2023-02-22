@@ -65,21 +65,6 @@ export function codeGeneratorPlugin(options: Options): Plugin {
           input: iframePath,
         };
       }
-
-      // Detect if react 18 is installed.  If not, alias it to a virtual placeholder file.
-      try {
-        require.resolve('react-dom/client', { paths: [config.root || process.cwd()] });
-      } catch (e) {
-        if (isNodeError(e) && e.code === 'MODULE_NOT_FOUND') {
-          config.resolve = mergeConfig(config.resolve ?? {}, {
-            alias: {
-              'react-dom/client': require.resolve(
-                '@storybook/builder-vite/input/react-dom-client-placeholder.js'
-              ),
-            },
-          });
-        }
-      }
     },
     configResolved(config) {
       iframeId = `${config.root}/iframe.html`;
