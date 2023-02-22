@@ -239,6 +239,8 @@ Let's say you've got a story like this:
     'svelte/button-story-with-addon-example.js.mdx',
     'web-components/button-story-with-addon-example.js.mdx',
     'web-components/button-story-with-addon-example.ts.mdx',
+    'solid/button-story-with-addon-example.js.mdx',
+    'solid/button-story-with-addon-example.ts.mdx',
   ]}
   usesCsf3
   csf2Path="addons/addons-api#snippet-button-story-with-addon-example"
