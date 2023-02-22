@@ -38,7 +38,7 @@ import { Controls } from '@storybook/blocks';
 
 ℹ️ Like most blocks, the `Controls` block is configured with props in MDX. Many of those props derive their default value from a corresponding [parameter](../writing-stories/parameters.md) in the block's namespace, `parameters.docs.controls`.
 
-The following `include` configurations are equivalent:
+The following `exclude` configurations are equivalent:
 
 <!-- prettier-ignore-start -->
 
@@ -56,7 +56,7 @@ The following `include` configurations are equivalent:
 ```md
 {/* ButtonDocs.mdx */}
 
-<Controls of={ButtonStories} include="color" />
+<Controls of={ButtonStories} exclude={['style']} />
 ```
 <!-- prettier-ignore-end -->
 

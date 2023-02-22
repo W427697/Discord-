@@ -36,7 +36,7 @@ import { ArgTypes } from '@storybook/blocks';
 
 ℹ️ Like most blocks, the `ArgTypes` block is configured with props in MDX. Many of those props derive their default value from a corresponding [parameter](../writing-stories/parameters.md) in the block's namespace, `parameters.docs.argTypes`.
 
-The following `include` configurations are equivalent:
+The following `exclude` configurations are equivalent:
 
 <!-- prettier-ignore-start -->
 
@@ -54,7 +54,7 @@ The following `include` configurations are equivalent:
 ```md
 {/* ButtonDocs.mdx */}
 
-<ArgTypes of={ButtonStories} include="color" />
+<ArgTypes of={ButtonStories} exclude={['style']} />
 ```
 <!-- prettier-ignore-end -->
 
