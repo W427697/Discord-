@@ -395,6 +395,12 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
           )}
         `;
       } else {
+        migrationSteps += `- Remove the ${chalk.yellow(
+          `${renderer}Options`
+        )} field from ${chalk.blue(mainConfigPath)}.
+        More info: ${chalk.yellow(
+          'https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#vite-builder-uses-vite-config-automatically'
+        )}\n`;
         disclaimer = dedent`\n\n
         The ${chalk.magenta(
           '@storybook/sveltekit'
