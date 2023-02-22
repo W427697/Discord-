@@ -2,7 +2,7 @@ import path from 'path';
 import { logger } from '@storybook/node-logger';
 import { serverRequire } from '@storybook/core-common';
 
-interface PresetOptions {
+export interface PresetOptions {
   configDir: string;
   docs?: boolean;
   controls?: boolean;
