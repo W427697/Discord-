@@ -32,6 +32,12 @@ import { Meta } from '@storybook/blocks';
 
 `Meta` is configured with the following props:
 
+### `isTemplate`
+
+Type: `boolean`
+
+Determines whether the MDX file serves as an [automatic docs template](../writing-docs/autodocs.md#with-mdx). When true, the MDX file is not indexed as it normally would be.
+
 ### `name`
 
 Type: `string`
