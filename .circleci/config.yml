@@ -626,6 +626,9 @@ workflows:
       - lint:
           requires:
             - build
+      - check:
+          requires:
+            - build
       - unit-tests:
           requires:
             - build
