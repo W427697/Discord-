@@ -1,9 +1,9 @@
 import type { StorybookConfig } from '@storybook/types';
 import * as findUp from 'find-up';
-import type { PackageJson } from '../../../js-package-manager';
-import * as rendererHelpers from '../../helpers/detectRenderer';
+import type { PackageJson } from '../../js-package-manager';
+import * as rendererHelpers from '../helpers/detectRenderer';
 import { newFrameworks } from './new-frameworks';
-import { makePackageManager, mockStorybookData } from '../../helpers/testing-helpers';
+import { makePackageManager, mockStorybookData } from '../helpers/testing-helpers';
 
 jest.mock('find-up');
 

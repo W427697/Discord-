@@ -110,6 +110,7 @@
     "@storybook/addon-interactions": "workspace:*",
     "@storybook/addon-jest": "workspace:*",
     "@storybook/addon-links": "workspace:*",
+    "@storybook/addon-mdx-gfm": "workspace:*",
     "@storybook/addon-measure": "workspace:*",
     "@storybook/addon-outline": "workspace:*",
     "@storybook/addon-storyshots": "workspace:*",
