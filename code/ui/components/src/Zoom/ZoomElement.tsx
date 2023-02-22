@@ -1,5 +1,4 @@
-/* global MutationObserver */
-import type { ReactElement, RefObject } from 'react';
+import type { ReactElement } from 'react';
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import useResizeObserver from 'use-resize-observer';
 import { styled } from '@storybook/theming';
@@ -22,34 +21,6 @@ const ZoomElementWrapper = styled.div<{ scale: number; elementHeight: number }>(
         }
 );
 
-const useMutationObserver = ({
-  element,
-  options = {},
-  callback,
-}: {
-  element: RefObject<Element>;
-  options: MutationObserverInit;
-  callback: MutationCallback;
-}): void => {
-  const observer = useRef<MutationObserver>();
-
-  useEffect(() => {
-    if (!observer.current) {
-      observer.current = new MutationObserver((mutationRecord, mutationObserver) => {
-        callback(mutationRecord, mutationObserver);
-      });
-    }
-
-    if (element?.current) {
-      observer.current.observe(element.current, options);
-    }
-
-    return () => observer.current.disconnect();
-  }, [callback, element, observer, options]);
-};
-
-const mutationObserverOptions = { subtree: true, childList: true };
-
 type ZoomProps = {
   scale: number;
   children: ReactElement | ReactElement[];
@@ -58,10 +29,6 @@ type ZoomProps = {
 export function ZoomElement({ scale, children }: ZoomProps) {
   const componentWrapperRef = useRef<HTMLDivElement>(null);
   const [elementHeight, setElementHeight] = useState(0);
-
-  const handleMutations = useCallback(() => {
-    setElementHeight(componentWrapperRef.current.getBoundingClientRect().height);
-  }, []);
 
   const onResize = useCallback(({height}) => {
     if (height) {
@@ -74,12 +41,6 @@ export function ZoomElement({ scale, children }: ZoomProps) {
       setElementHeight(componentWrapperRef.current.getBoundingClientRect().height);
     }
   }, [scale]);
-
-  useMutationObserver({
-    element: componentWrapperRef,
-    options: mutationObserverOptions,
-    callback: handleMutations,
-  });
 
   useResizeObserver({
     ref: componentWrapperRef,
