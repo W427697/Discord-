@@ -20,7 +20,7 @@ import { bareMdxStoriesGlob } from './bare-mdx-stories-glob';
 
 export * from '../types';
 
-export const fixes: Fix[] = [
+export const allFixes: Fix[] = [
   nodeJsRequirement,
   cra5,
   webpack5,
@@ -39,3 +39,5 @@ export const fixes: Fix[] = [
   addReact,
   missingBabelRc,
 ];
+
+export const initFixes: Fix[] = [missingBabelRc];
