@@ -3,6 +3,7 @@ import { dedent } from 'ts-dedent';
 import semver from 'semver';
 import { getStorybookData, updateMainConfig } from '../helpers/mainConfigFile';
 import type { Fix } from '../types';
+import { getStorybookVersionSpecifier } from '../../helpers';
 
 const logger = console;
 
@@ -13,7 +14,7 @@ interface Options {
 /**
  */
 export const mdxgfm: Fix<Options> = {
-  id: 'gfm',
+  id: 'github-flavored-markdown-mdx',
 
   async check({ configDir, packageManager }) {
     const { mainConfig, storybookVersion } = await getStorybookData({ packageManager, configDir });
@@ -47,7 +48,7 @@ export const mdxgfm: Fix<Options> = {
 
   prompt() {
     return dedent`
-      In MDX1 you had the option of using GitHub formatted markdown.
+      In MDX1 you had the option of using GitHub flavored markdown.
 
       Storybook 7.0 uses MDX2 for compiling MDX, and thus no longer supports GFM out of the box.
       Because of this you need to explicitly add the GFM plugin in the addon-docs options:
@@ -60,18 +61,17 @@ export const mdxgfm: Fix<Options> = {
 
   async run({ packageManager, dryRun, mainConfigPath, skipInstall }) {
     if (!dryRun) {
-      if (!skipInstall) {
-        await packageManager.addDependencies({ installAsDevDependencies: true }, [
-          '@storybook/addon-mdx-gfm',
-        ]);
-      }
+      const versionToInstall = getStorybookVersionSpecifier(packageManager.retrievePackageJson());
+      await packageManager.addDependencies({ installAsDevDependencies: true, skipInstall }, [
+        `@storybook/addon-mdx-gfm@${versionToInstall}`,
+      ]);
 
       await updateMainConfig({ mainConfigPath, dryRun }, async (main) => {
         const addonsToAdd = ['@storybook/addon-mdx-gfm'];
 
         const existingAddons = main.getFieldValue(['addons']) as Preset[];
         const updatedAddons = [...existingAddons, ...addonsToAdd];
-        logger.info(`✅ Adding addon`);
+        logger.info(`✅ Adding "@storybook/addon-mdx-gfm" addon`);
         if (!dryRun) {
           main.setFieldValue(['addons'], updatedAddons);
         }

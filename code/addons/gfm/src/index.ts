@@ -11,9 +11,9 @@ export const mdxLoaderOptions = async (config: any) => {
 };
 
 deprecate(dedent`
-  This addon is meant as a migration assistant for Storybook 7.0; and will likely be removed in a future version.
+  The "@storybook/addon-mdx-gfm" addon is meant as a migration assistant for Storybook 7.0; and will likely be removed in a future version.
   It's recommended you read this document:
   https://storybook.js.org/docs/7.0/react/writing-docs/mdx#lack-of-github-flavored-markdown-gfm
 
-  Once you've made the necessary changes, you can remove this addon from your package.json and storybook config.
+  Once you've made the necessary changes, you can remove the addon from your package.json and storybook config.
 `);
