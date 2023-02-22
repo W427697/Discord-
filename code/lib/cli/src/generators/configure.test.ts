@@ -140,7 +140,9 @@ describe('configurePreview', () => {
             },
           },
         },
-      };"
+      };
+
+      export default preview;"
     `);
   });
 
@@ -171,7 +173,9 @@ describe('configurePreview', () => {
             },
           },
         },
-      };"
+      };
+
+      export default preview;"
     `);
   });
 
@@ -222,7 +226,9 @@ describe('configurePreview', () => {
             },
           },
         },
-      };"
+      };
+
+      export default preview;"
     `);
   });
 });

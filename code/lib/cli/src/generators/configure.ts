@@ -140,6 +140,8 @@ export async function configurePreview(options: ConfigurePreviewOptions) {
         },
       },
     };
+    
+    export default preview;
     `
     .replace('  \n', '')
     .trim();
