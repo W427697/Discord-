@@ -29,7 +29,6 @@ export type {
   PartialStoryFn,
   PlayFunction,
   PlayFunctionContext,
-  ProjectAnnotations,
   Renderer,
   SBArrayType,
   SBEnumType,
