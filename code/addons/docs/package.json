@@ -142,6 +142,7 @@
   "bundler": {
     "entries": [
       "./src/index.ts",
+      "./src/preset.ts",
       "./src/preview.ts",
       "./src/blocks.ts",
       "./src/shims/mdx-react-shim.ts"
