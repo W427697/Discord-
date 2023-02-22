@@ -27,7 +27,7 @@ export const viteFinal = async (config: any, options: Options) => {
   );
 
   const isReact18 = version.startsWith('18') || version.startsWith('0.0.0');
-  const useReact17 = legacyRootApi ?? !isReact18;
+  const useReact17 = legacyRootApi || !isReact18;
   if (useReact17) return config;
 
   return {
