@@ -42,11 +42,6 @@
       "import": "./dist/framework-preset-react-docs.mjs",
       "types": "./dist/framework-preset-react-docs.d.ts"
     },
-    "./dist/framework-preset-react-dom-hack": {
-      "require": "./dist/framework-preset-react-dom-hack.js",
-      "import": "./dist/framework-preset-react-dom-hack.mjs",
-      "types": "./dist/framework-preset-react-dom-hack.d.ts"
-    },
     "./dist/framework-preset-react": {
       "require": "./dist/framework-preset-react.js",
       "import": "./dist/framework-preset-react.mjs",
@@ -112,7 +107,6 @@
       "./src/index.ts",
       "./src/framework-preset-cra.ts",
       "./src/framework-preset-react-docs.ts",
-      "./src/framework-preset-react-dom-hack.ts",
       "./src/framework-preset-react.ts"
     ],
     "platform": "node"

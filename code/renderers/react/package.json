@@ -31,6 +31,11 @@
       "import": "./dist/config.mjs",
       "types": "./dist/config.d.ts"
     },
+    "./dist/preset": {
+      "require": "./dist/preset.js",
+      "import": "./dist/preset.mjs",
+      "types": "./dist/preset.d.ts"
+    },
     "./package.json": "./package.json"
   },
   "main": "dist/index.js",
@@ -53,6 +58,7 @@
     "@storybook/docs-tools": "7.0.0-beta.53",
     "@storybook/global": "^5.0.0",
     "@storybook/preview-api": "7.0.0-beta.53",
+    "@storybook/react-dom-shim": "7.0.0-beta.53",
     "@storybook/types": "7.0.0-beta.53",
     "@types/escodegen": "^0.0.6",
     "@types/estree": "^0.0.51",
@@ -95,7 +101,8 @@
   "bundler": {
     "entries": [
       "./src/index.ts",
-      "./src/config.ts"
+      "./src/config.ts",
+      "./src/preset.ts"
     ],
     "platform": "browser"
   },

@@ -254,6 +254,7 @@ export async function loadPreset(
       ${input} is not a valid preset
     `);
   } catch (e: any) {
+    console.log(e);
     const warning =
       level > 0
         ? `  Failed to load preset: ${JSON.stringify(input)} on level ${level}`
