@@ -126,7 +126,7 @@ export async function configurePreview(options: ConfigurePreviewOptions) {
     ${prefix}${prefix.length > 0 ? '\n' : ''}
     ${
       !isTypescript ? `/** @type { import('@storybook/${options.rendererId}').Preview } */\n` : ''
-    }export const preview${isTypescript ? ': Preview' : ''} = {
+    }const preview${isTypescript ? ': Preview' : ''} = {
       parameters: {
         backgrounds: {
           default: 'light',

@@ -127,7 +127,7 @@ describe('configurePreview', () => {
     expect(previewConfigPath).toEqual('./.storybook/preview.js');
     expect(previewConfigContent).toMatchInlineSnapshot(`
       "/** @type { import('@storybook/react').Preview } */
-      export const preview = {
+      const preview = {
         parameters: {
           backgrounds: {
             default: 'light',
@@ -160,7 +160,7 @@ describe('configurePreview', () => {
     expect(previewConfigContent).toMatchInlineSnapshot(`
       "import type { Preview } from '@storybook/react'
 
-      export const preview: Preview = {
+      const preview: Preview = {
         parameters: {
           backgrounds: {
             default: 'light',
@@ -213,7 +213,7 @@ describe('configurePreview', () => {
       import docJson from \\"../documentation.json\\";
       setCompodocJson(docJson);
 
-      export const preview: Preview = {
+      const preview: Preview = {
         parameters: {
           backgrounds: {
             default: 'light',
