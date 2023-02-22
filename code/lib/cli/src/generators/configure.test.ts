@@ -118,6 +118,7 @@ describe('configurePreview', () => {
     await configurePreview({
       language: SupportedLanguage.JAVASCRIPT,
       storybookConfigFolder: '.storybook',
+      rendererId: 'react',
     });
 
     const { calls } = (fse.writeFile as unknown as jest.Mock).mock;
@@ -125,18 +126,21 @@ describe('configurePreview', () => {
 
     expect(previewConfigPath).toEqual('./.storybook/preview.js');
     expect(previewConfigContent).toMatchInlineSnapshot(`
-      "export const parameters = {
-        backgrounds: {
-          default: 'light',
-        },
-        actions: { argTypesRegex: \\"^on[A-Z].*\\" },
-        controls: {
-          matchers: {
-            color: /(background|color)$/i,
-            date: /Date$/,
+      "/** @type { import('@storybook/react').Preview } */
+      export const preview = {
+        parameters: {
+          backgrounds: {
+            default: 'light',
+          },
+          actions: { argTypesRegex: '^on[A-Z].*' },
+          controls: {
+            matchers: {
+             color: /(background|color)$/i,
+             date: /Date$/,
+            },
           },
         },
-      }"
+      };"
     `);
   });
 
@@ -144,6 +148,7 @@ describe('configurePreview', () => {
     await configurePreview({
       language: SupportedLanguage.TYPESCRIPT_4_9,
       storybookConfigFolder: '.storybook',
+      rendererId: 'react',
     });
 
     const { calls } = (fse.writeFile as unknown as jest.Mock).mock;
@@ -151,18 +156,22 @@ describe('configurePreview', () => {
 
     expect(previewConfigPath).toEqual('./.storybook/preview.ts');
     expect(previewConfigContent).toMatchInlineSnapshot(`
-      "export const parameters = {
-        backgrounds: {
-          default: 'light',
-        },
-        actions: { argTypesRegex: \\"^on[A-Z].*\\" },
-        controls: {
-          matchers: {
-            color: /(background|color)$/i,
-            date: /Date$/,
+      "import type { Preview } from '@storybook/react'
+
+      export const preview: Preview = {
+        parameters: {
+          backgrounds: {
+            default: 'light',
+          },
+          actions: { argTypesRegex: '^on[A-Z].*' },
+          controls: {
+            matchers: {
+             color: /(background|color)$/i,
+             date: /Date$/,
+            },
           },
         },
-      }"
+      };"
     `);
   });
 
@@ -171,6 +180,7 @@ describe('configurePreview', () => {
     await configurePreview({
       language: SupportedLanguage.TYPESCRIPT_4_9,
       storybookConfigFolder: '.storybook',
+      rendererId: 'react',
     });
     expect(fse.writeFile).not.toHaveBeenCalled();
   });
@@ -179,6 +189,7 @@ describe('configurePreview', () => {
     await configurePreview({
       language: SupportedLanguage.TYPESCRIPT_4_9,
       storybookConfigFolder: '.storybook',
+      rendererId: 'angular',
       frameworkPreviewParts: {
         prefix: dedent`
         import { setCompodocJson } from "@storybook/addon-docs/angular";
@@ -193,21 +204,25 @@ describe('configurePreview', () => {
 
     expect(previewConfigPath).toEqual('./.storybook/preview.ts');
     expect(previewConfigContent).toMatchInlineSnapshot(`
-      "import { setCompodocJson } from \\"@storybook/addon-docs/angular\\";
+      "import type { Preview } from '@storybook/angular'
+      import { setCompodocJson } from \\"@storybook/addon-docs/angular\\";
       import docJson from \\"../documentation.json\\";
       setCompodocJson(docJson);
-      export const parameters = {
-        backgrounds: {
-          default: 'light',
-        },
-        actions: { argTypesRegex: \\"^on[A-Z].*\\" },
-        controls: {
-          matchers: {
-            color: /(background|color)$/i,
-            date: /Date$/,
+
+      export const preview: Preview = {
+        parameters: {
+          backgrounds: {
+            default: 'light',
+          },
+          actions: { argTypesRegex: '^on[A-Z].*' },
+          controls: {
+            matchers: {
+             color: /(background|color)$/i,
+             date: /Date$/,
+            },
           },
         },
-      }"
+      };"
     `);
   });
 });

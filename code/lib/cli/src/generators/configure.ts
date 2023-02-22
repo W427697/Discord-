@@ -28,6 +28,7 @@ interface ConfigurePreviewOptions {
   frameworkPreviewParts?: FrameworkPreviewParts;
   storybookConfigFolder: string;
   language: SupportedLanguage;
+  rendererId: string;
 }
 
 const logger = console;
@@ -102,7 +103,7 @@ export async function configureMain({
 }
 
 export async function configurePreview(options: ConfigurePreviewOptions) {
-  const { prefix = '' } = options.frameworkPreviewParts || {};
+  const { prefix: frameworkPrefix = '' } = options.frameworkPreviewParts || {};
   const isTypescript =
     options.language === SupportedLanguage.TYPESCRIPT_4_9 ||
     options.language === SupportedLanguage.TYPESCRIPT_3_8;
@@ -114,20 +115,32 @@ export async function configurePreview(options: ConfigurePreviewOptions) {
     return;
   }
 
+  const prefix = [
+    isTypescript ? `import type { Preview } from '@storybook/${options.rendererId}'` : '',
+    frameworkPrefix,
+  ]
+    .filter(Boolean)
+    .join('\n');
+
   const preview = dedent`
-    ${prefix}
-    export const parameters = {
-      backgrounds: {
-        default: 'light',
-      },
-      actions: { argTypesRegex: "^on[A-Z].*" },
-      controls: {
-        matchers: {
-          color: /(background|color)$/i,
-          date: /Date$/,
+    ${prefix}${prefix.length > 0 ? '\n' : ''}
+    ${
+      !isTypescript ? `/** @type { import('@storybook/${options.rendererId}').Preview } */\n` : ''
+    }export const preview${isTypescript ? ': Preview' : ''} = {
+      parameters: {
+        backgrounds: {
+          default: 'light',
+        },
+        actions: { argTypesRegex: '^on[A-Z].*' },
+        controls: {
+          matchers: {
+           color: /(background|color)$/i,
+           date: /Date$/,
+          },
         },
       },
-    }`
+    };
+    `
     .replace('  \n', '')
     .trim();
 
