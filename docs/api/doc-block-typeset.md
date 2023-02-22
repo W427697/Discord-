@@ -4,7 +4,7 @@ title: 'Typeset'
 
 The `Typeset` block helps document the fonts used throughout your project.
 
-![Screenshot of Typeset block](./doc-block-typeset-optimized.png)<!-- TK -->
+![Screenshot of Typeset block](./doc-block-typeset.png)
 
 <!-- prettier-ignore-start -->
 

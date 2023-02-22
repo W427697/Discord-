@@ -8,7 +8,10 @@ By default, most elements (like `h1`, `p`, etc.) in docs have a few default styl
 
 <!-- prettier-ignore-start -->
 ```md
-import { Unstyled } from '@storybook/blocks';
+import { Meta, Unstyled } from "@storybook/blocks";
+import { Header } from "./Header.tsx";
+
+<Meta title="Unstyled" />
 
 > This block quote will be styled
 
@@ -17,15 +20,17 @@ import { Unstyled } from '@storybook/blocks';
 <Unstyled>
   > This block quote will not be styled
 
-  ... neither will this paragraph, nor the following component:
-  <MyCustomComponent />
+  ... neither will this paragraph, nor the following component (which contains an \<h1\>):
+
+  <Header />
+
 </Unstyled>
 ```
 <!-- prettier-ignore-end -->
 
 Yields:
 
-![Screenshot of Unstyled Doc Block](TK)
+![Screenshot of Unstyled Doc Block](./doc-block-unstyled.png)
 
 <div class="aside">
 

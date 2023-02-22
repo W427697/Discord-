@@ -10,7 +10,7 @@ The `Controls` block can be used to show a dynamic table of args for a given sto
 
 </div>
 
-![Screenshot of Controls block](TK)
+![Screenshot of Controls block](./doc-block-controls.png)
 
 <!-- prettier-ignore-start -->
 ```md

@@ -4,7 +4,7 @@ title: 'IconGallery'
 
 The `IconGallery` block enables you to easily document all icons associated with your project, displayed in a neat grid.
 
-![Screenshot of IconGallery and IconItem blocks](./doc-block-icon-gallery-optimized.png)<!-- TK -->
+![Screenshot of IconGallery and IconItem blocks](./doc-block-icongallery.png)
 
 <!-- prettier-ignore-start -->
 ```md

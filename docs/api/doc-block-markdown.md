@@ -4,9 +4,23 @@ title: 'Markdown'
 
 The `Markdown` block allows you to import and include plain markdown in your MDX files.
 
-![Screenshot of Markdown block](TK)
+![Screenshot of Markdown block](./doc-block-markdown.png)
 
 When importing markdown files, it’s important to use the `?raw` suffix on the import path to ensure the content is imported as-is, and isn’t being evaluated:
+
+<!-- prettier-ignore-start -->
+````md
+<!-- README.md -->
+
+# Button
+
+Primary UI component for user interaction
+
+```js
+import { Button } from "@storybook/design-system";
+```
+````
+<!-- prettier-ignore-end -->
 
 <!-- prettier-ignore-start -->
 ```md

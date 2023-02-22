@@ -10,7 +10,7 @@ The `ArgTypes` block can be used to show a static table of [arg types](./argtype
 
 </div>
 
-![Screenshot of ArgTypes block](TK)
+![Screenshot of ArgTypes block](./doc-block-argtypes.png)
 
 <!-- prettier-ignore-start -->
 ```md

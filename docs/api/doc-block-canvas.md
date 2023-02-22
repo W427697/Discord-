@@ -12,7 +12,7 @@ When using the Canvas block in MDX, it references a story with the `of` prop:
 ```md
 {/* ButtonDocs.mdx */}
 
-import { Meta, Story, Canvas } from '@storybook/blocks';
+import { Meta, Canvas } from '@storybook/blocks';
 import * as ButtonStories from './Button.stories';
 
 <Meta of={ButtonStories} />

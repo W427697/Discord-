@@ -4,7 +4,7 @@ title: 'Stories'
 
 The `Stories` block renders the full collection of stories in a stories file.
 
-![Screenshot of Stories block](TK)
+![Screenshot of Stories block](./doc-block-stories.png)
 
 <!-- prettier-ignore-start -->
 ```md

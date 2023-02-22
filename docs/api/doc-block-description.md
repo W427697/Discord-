@@ -4,7 +4,7 @@ title: 'Description'
 
 The `Description` block displays the description for a component, story, or meta, obtained from their respective JSDoc comments.
 
-![Screenshot of Description block](./doc-block-description.png)<!-- TK -->
+![Screenshot of Description block](./doc-block-title-subtitle-description.png)
 
 <!-- prettier-ignore-start -->
 ```md

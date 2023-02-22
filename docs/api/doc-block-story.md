@@ -12,7 +12,7 @@ Typically you want to use the [`Canvas` block](./doc-block-canvas.md) to render 
 
 </div>
 
-![Screenshot of Story block](TK)
+![Screenshot of Story block](./doc-block-story.png)
 
 <!-- prettier-ignore-start -->
 ```md

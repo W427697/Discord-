@@ -4,7 +4,7 @@ title: 'Primary'
 
 The `Primary` block displays the primary (first defined in the stories file) story, in a [`Story`](./doc-block-story.md) block. It is typically rendered immediately under the title in a docs entry.
 
-![Screenshot of Primary block](TK)
+![Screenshot of Primary block](./doc-block-primary.png)
 
 <!-- prettier-ignore-start -->
 ```md

@@ -14,7 +14,7 @@ You can also use argTypes to “annotate” args with information used by addons
 
 The most concrete realization of argTypes is the [`ArgTypes` doc block](./doc-block-argtypes.md) ([`Controls`](./doc-block-controls.md) is similar). Each row in the table corresponds to a single argType and the current value of that arg.
 
-![Storybook inferring automatically the argType](./argstable.png)<!--TK-->
+![Storybook inferring automatically the argType](./doc-block-argtypes.png)
 
 ## Automatic argType inference
 

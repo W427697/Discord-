@@ -4,7 +4,7 @@ title: 'Source'
 
 The `Source` block is used to render a snippet of source code directly.
 
-![Screenshot of Source block](TK)
+![Screenshot of Source block](./doc-block-source.png)
 
 <!-- prettier-ignore-start -->
 ```md

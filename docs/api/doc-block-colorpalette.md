@@ -4,7 +4,7 @@ title: 'ColorPalette'
 
 The `ColorPalette` block allows you to document all color-related items (e.g., swatches) used throughout your project.
 
-![Screenshot of ColorPalette and ColorItem blocks](./doc-block-colorpalette-optimized.png)<!-- TK -->
+![Screenshot of ColorPalette and ColorItem blocks](./doc-block-colorpalette.png)
 
 <!-- prettier-ignore-start -->
 ```md
