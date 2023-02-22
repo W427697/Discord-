@@ -24,6 +24,14 @@ git checkout -b code-snippets-for-framework
 
 Before adding your snippets, open the `docs` folder with your editor of choice. Get familiarized with the documentation, including how the snippets are organized and their contents.
 
+Then change your current directory path to the docs folder. Synchronize the documentation file changes with the Storybook website by running the script `sync.js`.
+
+```shell
+cd docs && node sync.js
+```
+
+It will prompt to type the absolute path of your `frontpage` project folder, like this `/absolute/path/to/frontpage`.
+
 ### Add your first snippet
 
 Now that you're familiar with how the documentation is structured, it's time to add the code snippets. First, go to the `docs/snippets/` folder and create a new directory for your framework of choice (e.g., `ember`).
@@ -99,10 +107,10 @@ Navigate to the `frontpage` directory and install the required dependencies with
 yarn
 ```
 
-Next, you'll need a way to get the documentation linked to the website. Execute the following:
+Next, you'll need a way to extract the monorepo docs to the website. Execute the following:
 
 ```shell
-yarn link-monorepo-docs  ./path-to-your-local-storybook
+yarn extract-monorepo-docs $branch
 ```
 
 And run the Storybook website with the following command:
