@@ -32,9 +32,9 @@ export function ZoomElement({ scale, children }: ZoomProps) {
 
   const onResize = useCallback(({height}) => {
     if (height) {
-      setElementHeight(height);
+      setElementHeight(height/scale);
     }
-  }, []);
+  }, [scale]);
 
   useEffect(() => {
     if (componentWrapperRef.current) {
