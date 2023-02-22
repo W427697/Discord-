@@ -12,7 +12,7 @@ const checkDependencies = async () => {
 
   if (!existsSync(join(scriptsPath, 'node_modules'))) {
     tasks.push(
-      spawn('yarn', ['install'], {
+      spawn('pnpm', ['install'], {
         cwd: scriptsPath,
         stdio: ['inherit', 'inherit', 'inherit'],
       })
