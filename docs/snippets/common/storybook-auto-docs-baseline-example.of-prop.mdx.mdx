@@ -2,13 +2,13 @@
 ```mdx
 {/* Button.mdx */}
 
-import { Meta } from '@storybook/blocks';
+import { Meta, Controls } from '@storybook/blocks';
 
 import * as ButtonStories from './Button.stories';
 
 <Meta of={ButtonStories} />
 
-# Button
+# Definition
 
 Button is a clickable interactive element that triggers a response.
 
@@ -24,9 +24,5 @@ The component comes in different variants such as `primary`, `secondary`, `large
 
 Button has the following properties:
 
-- `primary` - If `true`, the button will have a primary style.
-- `size` - The size of the button.
-- `label` - The label of the button.
-- `backgroundColor` - The background color of the button.
-- `onClick` - Callback function when clicked.
+<Controls />
 ```

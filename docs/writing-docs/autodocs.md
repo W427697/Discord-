@@ -2,13 +2,7 @@
 title: 'Automatic documentation and Storybook'
 ---
 
-Documentation is an essential part of modern UI development, as it serves as a reference for developers who may need to understand or integrate your components into their own projects. Well-written documentation can help to promote the project and make it more accessible to a broader audience. Overall, the importance of writing documentation cannot be overstated, as it is a key factor in the success of any project.
-
-In Storybook, this workflow happens automatically. When you write stories for your components, you create living, interactive, sustainable documentation.
-
-## How does documentation work in Storybook?
-
-You start by writing a [**story**](../writing-stories/introduction) for your component to define the different states it can be in. Then generate the baseline **documentation** for your story via `tags`. Finally, customize the documentation with [MDX](./mdx.md) or optionally with Storybook's **Doc Blocks** to fully control how the content gets rendered.
+Storybook AutoDocs is a powerful tool that can help you quickly generate comprehensive documentation for your UI components. By leveraging AutoDocs, you're transforming your stories into living documentation which can be further extended with [MDX](./mdx.md) and [Doc Blocks](./doc-blocks.md) to provide a clear and concise understanding of your components' functionality.
 
 ## Setup automated documentation
 
@@ -55,15 +49,14 @@ By default, Storybook offers zero-config support for documentation and automatic
 
 <!-- prettier-ignore-end -->
 
-| Option        | Description                                                                                                                          |
-| ------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
-| `disable`     | Toggles support for all documentation pages <br/> `docs: { disable:true }`                                                           |
-| `autodocs`    | Configures auto-generated documentation pages. Available options: `true`, `false`,`tags` (default) <br/> `docs: { autodocs: false }` |
-| `defaultName` | Renames the auto-generated documentation page<br/> `docs: { defaultName: 'Documentation' }`                                          |
+| Option        | Description                                                                                                                         |
+| ------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| `autodocs`    | Configures auto-generated documentation pages. Available options: `true`, `false`,`tag` (default) <br/> `docs: { autodocs: false }` |
+| `defaultName` | Renames the auto-generated documentation page<br/> `docs: { defaultName: 'Documentation' }`                                         |
 
 ### Write a custom template
 
-To replace the default documentation template used by Storybook, you can extend your UI configuration file (i.e., `.storybook/preview.js`) and introduce a `docs` [parameter](../writing-stories/parameters.md#global-parameters). This parameter accepts a `page` function that returns a React component, which you can use to generate the required template. For example:
+To replace the default documentation template used by Storybook, you can extend your UI configuration file (i.e., `.storybook/preview.js`) and introduce a `docs` [parameter](./doc-blocks.md#customizing-the-automatic-docs-page). This parameter accepts a `page` function that returns a React component, which you can use to generate the required template. For example:
 
 <!-- prettier-ignore-start -->
 
@@ -77,7 +70,7 @@ To replace the default documentation template used by Storybook, you can extend 
 
 <div class="aside">
 
-💡 Internally, Storybook uses a similar implementation to generate the default template. See the Doc Blocks API reference if you want to learn more about how Doc Blocks work.
+💡 Internally, Storybook uses a similar implementation to generate the default template. See the Doc Blocks [API reference](./doc-blocks.md#available-blocks) if you want to learn more about how Doc Blocks work.
 
 </div>
 
@@ -90,20 +83,7 @@ Going over the code snippet in more detail. When Storybook starts up, it will ov
 
 #### With MDX
 
-However, you're not restricted to defining a function to generate the documentation template. The `docs` [parameter](../writing-stories/parameters.md#global-parameters) also accepts a reference to a template written in MDX, but this comes with a caveat, depending on where you place the file in your project, it may inadvertently get picked up by Storybook's auto-generated documentation. We recommend placing the file in a custom directory outside the `src` directory to avoid this issue. For example:
-
-<!-- prettier-ignore-start -->
-
-<CodeSnippets
-  paths={[
-    'common/storybook-preview-auto-docs-custom-template.js.mdx',
-    'common/storybook-preview-auto-docs-template.mdx.mdx',
-  ]}
-/>
-
-<!-- prettier-ignore-end -->
-
-Nevertheless, not all projects are built by adopting a single convention. There may be some situations where the `src` directory is unavailable. In that case, you can customize the template by adding the [`Meta`](../api/doc-block-meta.md) Doc Block and supplying the `isTemplate` property to tell Storybook to treat this file as a documentation template. For example:
+Nevertheless, not all projects are built by adopting a single convention. There may be some situations where you want to use MDX to generate the documentation template. In that case, you can customize the template by adding the [`Meta`](../api/doc-block-meta.md) Doc Block and supplying the `isTemplate` property to tell Storybook to treat this file as a documentation template. For example:
 
 <!-- prettier-ignore-start -->
 
@@ -121,87 +101,9 @@ Nevertheless, not all projects are built by adopting a single convention. There 
 
 </div>
 
-## Setup custom documentation
+### Customize component documentation
 
-Storybook provides support for MDX 2, an open standard markup language, combining two other ones: Markdown, which is used for formatting text, and JSX, which is used for rendering dynamic elements on a page. To enable custom documentation for your stories with this format, start by updating your Storybook configuration file (i.e., `.storybook/main.js|ts|cjs`).
-
-<!-- prettier-ignore-start -->
-
-<CodeSnippets
-  paths={[
-    'common/storybook-auto-docs-main-mdx-config.js.mdx',
-    'common/storybook-auto-docs-main-mdx-config.ts.mdx',
-  ]}
-/>
-
-<!-- prettier-ignore-end -->
-
-Create an MDX file to add your custom documentation. Depending on how you want your documentation to render in the UI, you'll need to consider the following use cases.
-
-### Using the `Meta` Doc Block
-
-If you need to match the component documentation to an existing story, you can use the `Meta` Doc Block and configure it to control how the documentation gets rendered. Out of the box, it allows you to define a custom title or a reference to the story you need to document (i.e., via the `of` prop). For example:
-
-<!-- prettier-ignore-start -->
-
-<CodeSnippets
-  paths={[
-    'common/storybook-auto-docs-baseline-example.custom-title.mdx.mdx',
-    'common/storybook-auto-docs-baseline-example.of-prop.mdx.mdx',
-  ]}
-/>
-
-<!-- prettier-ignore-end -->
-
-### Using the File System
-
-However, providing the `Meta` Doc Block may not be required for certain use cases, such as standalone pages or even as guidelines for testing your components. In that case, you can safely omit it. Storybook will instead rely on the file's physical location to place the documentation in the sidebar, overriding any pre-existent auto-generated documentation with your own. For example:
-
-<!-- prettier-ignore-start -->
-
-<CodeSnippets
-  paths={[
-    'common/storybook-auto-docs-custom-file.mdx.mdx',
-  ]}
-/>
-
-<!-- prettier-ignore-end -->
-
-<div class="aside">
-
-💡 If you're overriding an existing auto-generated documentation page enabled via [`tags`](#setup-automated-docs) configuration property, we recommend removing it to avoid errors.
-
-</div>
-
-Once the custom MDX documentation is loaded, Storybook will infer the title and location using the same heuristic rules used to generate [auto-title stories](../configure/sidebar-and-urls.md#csf-30-auto-titles) and render it in the sidebar as a `Docs` entry.
-
-### Fully control custom documentation
-
-Documentation can be expensive to maintain and keep up to date when applied to every project component. To help simplify this process, Storybook provides a set of useful UI components (i.e., Doc Blocks) to help cover more advanced cases. If you need additional content, use them to help create your custom documentation.
-
-<!-- prettier-ignore-start -->
-
-<CodeSnippets
-  paths={[
-    'common/storybook-auto-docs-starter-example.mdx.mdx',
-  ]}
-/>
-
-<!-- prettier-ignore-end -->
-
-### Working with multiple components
-
-If you need to document multiple components in a single documentation page, you can reference them directly inside your MDX file. Internally, Storybook looks for the story metadata and composes it alongside your existing documentation. For example:
-
-<!-- prettier-ignore-start -->
-
-<CodeSnippets
-  paths={[
-    'common/storybook-auto-docs-mdx-file.mdx.mdx',
-  ]}
-/>
-
-<!-- prettier-ignore-end -->
+Creating automated documentation with Storybook's AutoDocs provides you with the starting point to build a sustainable documentation pattern. Nevertheless, it may not be suited for every case, and you may want to extend it and provide additional information. We recommend combining [MDX](./mdx.md) alongside Storybook's [Doc Blocks](./doc-blocks.md) for such cases to author your documentation.
 
 ## Advanced configuration
 
@@ -293,4 +195,5 @@ If you're still encountering issues, we recommend reaching out to the maintainer
 
 - AutoDocs for creating documentation for your stories
 - [MDX](./mdx.md) for customizing your documentation
+- [Doc Blocks](./doc-blocks.md) for authoring your documentation
 - [Publishing docs](./build-documentation.md) to automate the process of publishing your documentation
