@@ -5,7 +5,7 @@
 import type { StorybookConfig } from '@storybook/your-framework';
 
 const config: StorybookConfig = {
-  stories: ['../src/**/*.stories.@(js|ts)'],
+  stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|ts)'],
   addons: [
     '@storybook/addon-links',
     '@storybook/addon-essentials',
@@ -16,10 +16,11 @@ const config: StorybookConfig = {
     name: '@storybook/your-framework',
     options: {},
   },
-  docs: {
-    //👇 See the table below for the list of supported options
-    autodocs: 'tag',
-    defaultName: 'Documentation',
+  typescript: {
+    // Overrides the default Typescript configuration to allow multi-package components to be documented via AutoDocs.
+    reactDocgen: 'react-docgen',
+    skipBabel: true,
+    check: false,
   },
 };
 

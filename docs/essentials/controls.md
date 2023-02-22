@@ -140,7 +140,7 @@ Until now, we only used auto-generated controls based on the component we're wri
 
 By default, Storybook will add controls for all args that:
 
-- It infers from the component definition [if your framework supports it](../api/frameworks-feature-support.md).
+- It infers from the component definition [if your framework supports it](../configure/frameworks-feature-support.md).
 
 - Appear in the list of args for your story.
 

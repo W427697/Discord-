@@ -5,21 +5,19 @@
 import type { StorybookConfig } from '@storybook/your-framework';
 
 const config: StorybookConfig = {
-  stories: ['../src/**/*.stories.@(js|ts)'],
+  stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|ts|tsx)'],
   addons: [
     '@storybook/addon-links',
     '@storybook/addon-essentials',
     '@storybook/addon-interactions',
+    '@storybook/preset-create-react-app',
   ],
   framework: {
-    // The name of the framework you want to use goes here
-    name: '@storybook/your-framework',
+    name: '@storybook/react-webpack5',
     options: {},
   },
-  docs: {
-    //👇 See the table below for the list of supported options
-    autodocs: 'tag',
-    defaultName: 'Documentation',
+  features: {
+    legacyMdx1: true, // 👈 Enables MDX v1 support
   },
 };
 
