@@ -22,6 +22,31 @@ const skipOnWindows = [
   'lib/csf-tools/src/enrichCsf.test.ts',
 ];
 
+const modulesToTransform = [
+  '@angular',
+  'ccount',
+  'rxjs',
+  'nanoid',
+  'uuid',
+  'lit-html',
+  'lit',
+  '@lit',
+  '@mdx-js',
+  'remark',
+  'unified',
+  'vfile',
+  'vfile-message',
+  'mdast',
+  'micromark',
+  'unist',
+  'estree',
+  'decode-named-character-reference',
+  'character-entities',
+  'zwitch',
+  'stringify-entities',
+];
+
+/** @type { import('jest').Config } */
 module.exports = {
   cacheDirectory: path.resolve('.cache/jest'),
   clearMocks: true,
@@ -36,9 +61,7 @@ module.exports = {
     '^.+\\.(t|j)sx?$': ['@swc/jest', swcrc],
     '^.+\\.mdx$': '@storybook/addon-docs/jest-transform-mdx',
   },
-  transformIgnorePatterns: [
-    '/node_modules/(?!@angular|rxjs|nanoid|uuid|lit-html|lit|@mdx-js|@lit)',
-  ],
+  transformIgnorePatterns: [`(?<!node_modules.+)node_modules/(?!${modulesToTransform.join('|')})`],
   testMatch: ['**/__tests__/**/*.[jt]s?(x)', '**/?(*.)+(spec|test).[jt]s?(x)'],
   testPathIgnorePatterns: [
     '/storybook-static/',
