@@ -40,4 +40,4 @@ export const allFixes: Fix[] = [
   missingBabelRc,
 ];
 
-export const initFixes: Fix[] = [missingBabelRc];
+export const initFixes: Fix[] = [missingBabelRc, eslintPlugin];
