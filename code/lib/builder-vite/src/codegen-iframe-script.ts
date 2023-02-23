@@ -53,7 +53,7 @@ export async function generateIframeScriptCode(options: Options) {
 
     configs.forEach(config => {
       Object.keys(config).forEach((key) => {
-        const value = config[key];
+        const value = config.default?.[key] ?? config[key];
         switch (key) {
           case 'args': {
             return addArgs(value);

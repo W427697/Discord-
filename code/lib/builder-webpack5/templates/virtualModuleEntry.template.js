@@ -13,7 +13,7 @@ import {
 import * as previewAnnotations from '{{previewAnnotationFilename}}';
 
 Object.keys(previewAnnotations).forEach((key) => {
-  const value = previewAnnotations[key];
+  const value = previewAnnotations.default?.[key] ?? previewAnnotations[key];
   switch (key) {
     case 'args': {
       return addArgs(value);
