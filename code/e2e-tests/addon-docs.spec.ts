@@ -14,6 +14,16 @@ test.describe('addon-docs', () => {
     await new SbPage(page).waitUntilLoaded();
   });
 
+  test('should render errors', async ({ page }) => {
+    // templateName is e.g. 'Vue-CLI (Default JS)'
+    const sbPage = new SbPage(page);
+    await sbPage.navigateToStory('addons/docs/docspage/error', 'docs');
+    const root = sbPage.previewRoot();
+
+    const autoplayPre = root.locator('#story--addons-docs-docspage-error--error-story pre');
+    await expect(autoplayPre).toContainText('Story did something wrong');
+  });
+
   test('should provide source snippet', async ({ page }) => {
     // templateName is e.g. 'Vue-CLI (Default JS)'
     test.skip(

@@ -66,7 +66,7 @@ const InlineStory: FunctionComponent<InlineStoryProps> = (props) => {
   const htmlContents = `<span></span>`;
 
   if (error) {
-    return <pre>{error.stack}</pre>;
+    return <pre>{`${error.message}\n\n${error.stack}`}</pre>;
   }
 
   return (
