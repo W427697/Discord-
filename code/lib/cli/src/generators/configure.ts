@@ -1,7 +1,7 @@
 import fse from 'fs-extra';
 import { dedent } from 'ts-dedent';
 import prettier from 'prettier';
-import { SupportedLanguage } from '../project_types';
+import { externalFrameworks, SupportedLanguage } from '../project_types';
 
 interface ConfigureMainOptions {
   addons: string[];
@@ -111,6 +111,12 @@ export async function configurePreview(options: ConfigurePreviewOptions) {
     options.language === SupportedLanguage.TYPESCRIPT_4_9 ||
     options.language === SupportedLanguage.TYPESCRIPT_3_8;
 
+  const rendererPackage =
+    options.rendererId &&
+    !externalFrameworks.map(({ name }) => name as string).includes(options.rendererId)
+      ? `@storybook/${options.rendererId}`
+      : null;
+
   const previewPath = `./${options.storybookConfigFolder}/preview.${isTypescript ? 'ts' : 'js'}`;
 
   // If the framework template included a preview then we have nothing to do
@@ -119,7 +125,7 @@ export async function configurePreview(options: ConfigurePreviewOptions) {
   }
 
   const prefix = [
-    isTypescript ? `import type { Preview } from '@storybook/${options.rendererId}'` : '',
+    isTypescript && rendererPackage ? `import type { Preview } from '${rendererPackage}'` : '',
     frameworkPrefix,
   ]
     .filter(Boolean)
@@ -128,7 +134,9 @@ export async function configurePreview(options: ConfigurePreviewOptions) {
   const preview = dedent`
     ${prefix}${prefix.length > 0 ? '\n' : ''}
     ${
-      !isTypescript ? `/** @type { import('@storybook/${options.rendererId}').Preview } */\n` : ''
+      !isTypescript && rendererPackage
+        ? `/** @type { import('${rendererPackage}').Preview } */\n`
+        : ''
     }const preview${isTypescript ? ': Preview' : ''} = {
       parameters: {
         backgrounds: {
