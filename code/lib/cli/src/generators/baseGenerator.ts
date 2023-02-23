@@ -256,7 +256,7 @@ export async function baseGenerator(
     });
   }
 
-  await configurePreview({ frameworkPreviewParts, storybookConfigFolder, language, rendererId });
+  await configurePreview({ frameworkPreviewParts, storybookConfigFolder, language });
 
   // FIXME: temporary workaround for https://github.com/storybookjs/storybook/issues/17516
   // Vite workaround regex for internal and external frameworks as f.e:
