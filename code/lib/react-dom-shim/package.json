@@ -54,6 +54,7 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "devDependencies": {
+    "@storybook/types": "7.0.0-beta.53",
     "typescript": "~4.9.3"
   },
   "peerDependencies": {
