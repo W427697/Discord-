@@ -30,11 +30,14 @@ export function ZoomElement({ scale, children }: ZoomProps) {
   const componentWrapperRef = useRef<HTMLDivElement>(null);
   const [elementHeight, setElementHeight] = useState(0);
 
-  const onResize = useCallback(({height}) => {
-    if (height) {
-      setElementHeight(height/scale);
-    }
-  }, [scale]);
+  const onResize = useCallback(
+    ({ height }) => {
+      if (height) {
+        setElementHeight(height / scale);
+      }
+    },
+    [scale]
+  );
 
   useEffect(() => {
     if (componentWrapperRef.current) {
