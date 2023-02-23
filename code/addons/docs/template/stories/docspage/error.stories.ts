@@ -5,18 +5,18 @@ export default {
   tags: ['autodocs'],
   args: { label: 'Click Me!' },
   parameters: { chromatic: { disable: true } },
-  decorators: [
-    // Skip errors if we are running in the test runner
-    (storyFn: any) =>
-      window?.navigator?.userAgent?.match(/StorybookTestRunner/) ? 'skip' : storyFn(),
-  ],
 };
 
 /**
  * A story that throws
  */
 export const ErrorStory = {
-  render: () => {
-    throw new Error('Story did something wrong');
-  },
+  decorators: [
+    (storyFn) => {
+      // Don't throw in the test runner; there's no easy way to skip (yet)
+      if (window?.navigator?.userAgent?.match(/StorybookTestRunner/)) return storyFn();
+
+      throw new Error('Story did something wrong');
+    },
+  ],
 };
