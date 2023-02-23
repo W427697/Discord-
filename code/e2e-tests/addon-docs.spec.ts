@@ -15,7 +15,6 @@ test.describe('addon-docs', () => {
   });
 
   test('should render errors', async ({ page }) => {
-    // templateName is e.g. 'Vue-CLI (Default JS)'
     const sbPage = new SbPage(page);
     await sbPage.navigateToStory('addons/docs/docspage/error', 'docs');
     const root = sbPage.previewRoot();
