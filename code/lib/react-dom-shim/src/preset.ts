@@ -1,4 +1,5 @@
-import type { Options, StorybookConfig } from '@storybook/types';
+import type { Options } from '@storybook/types';
+// @ts-expect-error react-dom doesn't have this in export maps in v16, messing up TS
 import { version } from 'react-dom/package.json';
 
 export const webpackFinal = async (config: any, options: Options) => {
