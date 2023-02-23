@@ -7,10 +7,13 @@ const LoggingComponent = () => {
       console.log('unmounted');
     };
   }, []);
+
+  return 'Component';
 };
 
 export default {
   component: LoggingComponent,
+  tags: ['autodocs'],
   parameters: {
     storyshots: { disable: true },
     chromatic: { disable: true },
