@@ -2,7 +2,6 @@ import fs from 'fs-extra';
 import remarkSlug from 'remark-slug';
 import remarkExternalLinks from 'remark-external-links';
 import { dedent } from 'ts-dedent';
-import { dirname } from 'path';
 
 import type {
   IndexerOptions,
@@ -161,7 +160,7 @@ const docs = (docsOptions: DocsOptions) => {
 };
 
 export const addons: StorybookConfig['addons'] = [
-  dirname(require.resolve('@storybook/react-dom-shim/package.json')),
+  require.resolve('@storybook/react-dom-shim/dist/preset'),
 ];
 
 /*
