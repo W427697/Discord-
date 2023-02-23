@@ -188,13 +188,13 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
       allDependencies['@sveltejs/kit'] &&
       semver.gte(semver.coerce(allDependencies['@sveltejs/kit']).version, '1.0.0')
     ) {
-      metaFramework = 'svelte-kit';
+      metaFramework = 'sveltekit';
       if (newFrameworkPackage === '@storybook/svelte-vite') {
-        newFrameworkPackage = '@storybook/svelte-kit';
-        // in case svelteOptions are set, we remove them as they are not needed in svelte-kit
+        newFrameworkPackage = '@storybook/sveltekit';
+        // in case svelteOptions are set, we remove them as they are not needed in sveltekit
         rendererOptions = {};
         dependenciesToRemove.push(
-          // in case users are coming from a properly set up @storybook/webpack5 project
+          // in case users are coming from a properly set up @storybook/vite project
           '@storybook/svelte-vite'
         );
       }
@@ -377,30 +377,34 @@ export const newFrameworks: Fix<NewFrameworkRunOptions> = {
       }
     }
 
-    if (metaFramework === 'svelte-kit') {
+    if (metaFramework === 'sveltekit') {
       if (frameworkPackage === '@storybook/svelte-webpack5') {
         disclaimer = dedent`\n\n
-          ${chalk.bold(
-            'Important'
-          )}: We've detected you are using Storybook in a Svelte kit project.
+          ${chalk.bold('Important')}: We've detected you are using Storybook in a SvelteKit project.
   
           This migration is set to update your project to use the ${chalk.magenta(
             '@storybook/svelte-webpack5'
-          )} framework, but Storybook provides a framework package specifically for Svelte kit projects: ${chalk.magenta(
+          )} framework, but Storybook provides a framework package specifically for SvelteKit projects: ${chalk.magenta(
           '@storybook/sveltekit'
         )}.
   
-          This package provides a better experience for Svelte kit users, however it is only compatible with the Vite builder, so we can't automigrate for you, as you are using the Webpack builder.
+          This package provides a better experience for SvelteKit users, however it is only compatible with the Vite builder, so we can't automigrate for you, as you are using the Webpack builder.
           
           If you are interested in using this package, see: ${chalk.yellow(
             'https://github.com/storybookjs/storybook/blob/next/code/frameworks/sveltekit/README.md'
           )}
         `;
       } else {
+        migrationSteps += `- Remove the ${chalk.yellow(
+          `${renderer}Options`
+        )} field from ${chalk.blue(mainConfigPath)}.
+        More info: ${chalk.yellow(
+          'https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#vite-builder-uses-vite-config-automatically'
+        )}\n`;
         disclaimer = dedent`\n\n
         The ${chalk.magenta(
           '@storybook/sveltekit'
-        )} package provides great user experience for Svelte kit users, and we highly recommend you to read more about it at ${chalk.yellow(
+        )} package provides great user experience for SvelteKit users, and we highly recommend you to read more about it at ${chalk.yellow(
           'https://github.com/storybookjs/storybook/blob/next/code/frameworks/sveltekit/README.md'
         )}
         `;
