@@ -142,7 +142,7 @@ Until now, we only used auto-generated controls based on the component we're wri
 
 By default, Storybook will add controls for all args that:
 
-- It infers from the component definition [if your framework supports it](../api/frameworks-feature-support.md).
+- It infers from the component definition [if your framework supports it](../configure/frameworks-feature-support.md).
 
 - Appear in the list of args for your story.
 
@@ -245,7 +245,7 @@ Controls supports the following configuration [parameters](../writing-stories/pa
 
 ## Show full documentation for each property
 
-Since Controls is built on the same engine as Storybook Docs, it can also show property documentation alongside your controls using the expanded parameter (defaults to false). This means you embed a complete [ArgsTable](../writing-docs/doc-block-argstable.md) doc block in the controls panel. The description and default value rendering can be [customized](#fully-custom-args) in the same way as the doc block.
+Since Controls is built on the same engine as Storybook Docs, it can also show property documentation alongside your controls using the expanded parameter (defaults to false). This means you embed a complete [`Controls`](../api/doc-block-controls.md) doc block in the controls panel. The description and default value rendering can be [customized](#fully-custom-args) in the same way as the doc block.
 
 To enable expanded mode globally, add the following to [`.storybook/preview.js`](../configure/overview.md#configure-story-rendering):
 
