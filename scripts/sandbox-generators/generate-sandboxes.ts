@@ -219,7 +219,7 @@ export const options = createOptions({
 export const generate = async ({
   template,
   localRegistry,
-  debug,
+  debug = process.env.ACTIONS_RUNNER_DEBUG === 'true',
 }: OptionValues<typeof options>) => {
   const generatorConfigs = Object.entries(sandboxTemplates)
     .map(([dirName, configuration]) => ({
