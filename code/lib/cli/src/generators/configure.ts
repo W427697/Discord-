@@ -111,6 +111,8 @@ export async function configurePreview(options: ConfigurePreviewOptions) {
     options.language === SupportedLanguage.TYPESCRIPT_4_9 ||
     options.language === SupportedLanguage.TYPESCRIPT_3_8;
 
+  // We filter out community packages here, as we are not certain if they export a Preview type.
+  // Let's make this configurable in the future.
   const rendererPackage =
     options.rendererId &&
     !externalFrameworks.map(({ name }) => name as string).includes(options.rendererId)
