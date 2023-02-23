@@ -5,6 +5,10 @@ export default {
   tags: ['autodocs'],
   args: { label: 'Click Me!' },
   parameters: { chromatic: { disable: true } },
+  decorators: [
+    // Skip errors if we are running in the test runner
+    (storyFn: any) => window?.navigator?.userAgent?.match(/StorybookTestRunner/) || storyFn(),
+  ],
 };
 
 /**
