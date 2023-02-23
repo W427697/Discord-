@@ -1,14 +1,24 @@
+/* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable no-underscore-dangle */
 import { addons, useEffect } from '@storybook/preview-api';
 import type { ArgTypes, Args, StoryContext, Renderer } from '@storybook/types';
 
 import { SourceType, SNIPPET_RENDERED } from '@storybook/docs-tools';
 
-// eslint-disable-next-line import/no-extraneous-dependencies
-import parserHTML from 'prettier/parser-html';
-
-// eslint-disable-next-line import/no-extraneous-dependencies
-import { isArray } from '@vue/shared';
+import type {
+  TemplateChildNode,
+  ElementNode,
+  AttributeNode,
+  DirectiveNode,
+  TextNode,
+  InterpolationNode,
+} from '@vue/compiler-core';
+import {
+  baseParse,
+  // ExpressionNode,
+  NodeTypes,
+} from '@vue/compiler-core';
+import { h } from 'vue';
 
 type ArgEntries = [string, any][];
 type Attribute = {
@@ -58,41 +68,14 @@ function getComponentNameAndChildren(component: any): {
  * @param argTypes
  * @param byRef
  */
-function generateAttributesSource(_args: Args, argTypes: ArgTypes, byRef?: boolean): string {
-  // create a copy of the args object to avoid modifying the original
-  const args = { ..._args };
-  // filter out keys that are children or slots, and convert event keys to the proper format
-  const argsKeys = Object.keys(args)
-    .filter(
-      (key: any) =>
-        ['children', 'slots'].indexOf(argTypes[key]?.table?.category) === -1 || !argTypes[key] // remove slots and children
-    )
-    .map((key) => {
-      const akey =
-        argTypes[key]?.table?.category !== 'events' // is event
-          ? key
-              .replace(/([A-Z])/g, '-$1')
-              .replace(/^on-/, 'v-on:')
-              .replace(/^:/, '')
-              .toLowerCase()
-          : `v-on:${key}`;
-      args[akey] = args[key];
-      return akey;
-    })
-    .filter((key, index, self) => self.indexOf(key) === index); // remove duplicated keys
-
-  const camelCase = (str: string) => str.replace(/-([a-z])/g, (g) => g[1].toUpperCase());
-  const source = argsKeys
-    .map((key) =>
-      generateAttributeSource(
-        byRef && !key.includes(':') ? `:${key}` : key,
-        byRef && !key.includes(':') ? camelCase(key) : args[key],
-        argTypes[key]
-      )
-    )
+function generateAttributesSource(
+  args: (AttributeNode | DirectiveNode)[],
+  argTypes: ArgTypes,
+  byRef?: boolean
+): string {
+  return Object.keys(args)
+    .map((key: any) => args[key].loc.source)
     .join(' ');
-
-  return source;
 }
 
 function generateAttributeSource(
@@ -139,32 +122,18 @@ function generateScriptSetup(args: Args, argTypes: ArgTypes, components: any[]):
  * get component templates one or more
  * @param renderFn
  */
-function getTemplates(renderFn: any): [] {
+function getTemplates(renderFn: any): TemplateChildNode[] {
   try {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    const ast = parserHTML.parsers.vue.parse(renderFn.toString());
-    let components = ast.children?.filter(
-      ({ name: _name = '', type: _type = '' }) =>
-        _name && !['template', 'script', 'style', 'slot'].includes(_name) && _type === 'element'
-    );
-    if (!isArray(components)) {
-      return [];
-    }
-    components = components.map(
-      ({ attrs: attributes = [], name: Name = '', children: Children = [] }) => {
-        return {
-          name: Name,
-          attrs: attributes,
-          children: Children,
-        };
-      }
-    );
+    const { template } = renderFn();
+    const ast = baseParse(template);
+    const components = ast?.children;
+    if (!components) return [];
     return components;
   } catch (e) {
-    console.error(e);
+    // console.error(e);
+    console.log(' no template ');
+    return [];
   }
-  return [];
 }
 
 /**
@@ -176,61 +145,90 @@ function getTemplates(renderFn: any): [] {
  * @param slotProp Prop used to simulate a slot
  */
 export function generateSource(
-  compOrComps: any,
+  componentOrNode: TemplateChildNode[],
   args: Args,
   argTypes: ArgTypes,
   byRef?: boolean | undefined
 ): string | null {
-  if (!compOrComps) return null;
-  const generateComponentSource = (component: any): string | null => {
-    const { name, children, attributes } = getComponentNameAndChildren(component);
+  const generateComponentSource = (component: TemplateChildNode) => {
+    // const { name, children, attributes } = getComponentNameAndChildren(component);
 
-    if (!name) {
-      return '';
+    let attributes;
+    let name;
+    let children;
+    let content;
+    if (component.type === 1) {
+      const child = component as ElementNode;
+      attributes = child.props;
+      name = child.tag;
+      children = child.children;
+    }
+    if (component.type === 5) {
+      const child = component as InterpolationNode;
+      content = child.content;
     }
 
-    const argsIn = attributes ? getArgsInAttrs(args, attributes) : args; // keep only args that are in attributes
+    if (component.type === 2) {
+      const child = component as TextNode;
+      content = child.content;
+    }
+
+    if (typeof (component as any).render === 'function') {
+      // children = child.children;
+      const vnode = h(component, args);
+      if (vnode.props) {
+        const { props } = vnode;
+        const attributesNode = mapAttributesAndDirectives(props);
+
+        attributes = attributesNode;
+      }
+      name = vnode.type.__docgenInfo.displayName;
+    }
+
+    let source = '';
+    const argsIn = attributes ?? []; // keep only args that are in attributes
     const props = generateAttributesSource(argsIn, argTypes, byRef);
-    const slotArgs = Object.entries(argsIn).filter(
-      ([arg]) => argTypes[arg]?.table?.category === 'slots'
-    );
-    const slotProps = Object.entries(argTypes).filter(
-      ([arg]) => argTypes[arg]?.table?.category === 'slots'
-    );
-    if (slotArgs && slotArgs.length > 0) {
-      const namedSlotContents = createNamedSlots(slotArgs, slotProps, byRef);
-      return `<${name} ${props}>\n${namedSlotContents}\n</${name}>`;
+    if (name) source += `<${name} ${props} >`;
+
+    if (children) {
+      source += children.map((node: TemplateChildNode) => generateComponentSource(node)).concat('');
     }
-
-    if (children && children.length > 0) {
-      const childrenSource = children.map((child: any) => {
-        return generateSource(
-          typeof child.value === 'string' ? getTemplates(child.value) : child.value,
-          args,
-          argTypes,
-          byRef
-        );
-      });
-
-      if (childrenSource.join('').trim() === '') return `<${name} ${props}/>`;
-
-      const isNativeTag =
-        name.includes('template') ||
-        name.match(/^[a-z]/) ||
-        (name === 'Fragment' && !name.includes('-'));
-
-      return `<${name} ${isNativeTag ? '' : props}>\n${childrenSource}\n</${name}>`;
+    if (content) {
+      if (typeof content !== 'string') content = args[content.content.toString().split('.')[1]];
+      source += content;
     }
-
-    return `<${name} ${props}/>`;
+    if (name) source += `</${name}>`;
+    return source;
   };
-  // get one component or multiple
-  const components = isArray(compOrComps) ? compOrComps : [compOrComps];
 
-  const source = Object.keys(components)
-    .map((key: any) => `${generateComponentSource(components[key])}`)
-    .join(`\n`);
+  const source = Object.keys(componentOrNode)
+    .map((key: any) => generateComponentSource(componentOrNode[key]))
+    .join(' ');
+
   return source;
+}
+
+function mapAttributesAndDirectives(props: Args) {
+  const eventDirective = (key: string, value: unknown) =>
+    typeof value === 'function'
+      ? `${key.replace(/on([A-Z][a-z]+)/g, '@$1').toLowerCase()}='()=>{}'`
+      : `${key}='${value}'`;
+
+  const source = (key: string, value: unknown) =>
+    ['boolean', 'number', 'object'].includes(typeof value)
+      ? `:${key}='${value}'`
+      : eventDirective(key, value);
+
+  return Object.keys(props)
+    .map((key) => ({
+      name: key,
+      type: ['v-', '@', 'v-on'].includes(key) ? 7 : 6,
+      arg: { content: key, loc: { source: key } },
+      loc: { source: source(key, props[key]) },
+      exp: { isStatic: false, loc: { source: props[key] } },
+      modifiers: [''],
+    }))
+    .concat();
 }
 
 /**
@@ -299,13 +297,15 @@ export const sourceDecorator = (storyFn: any, context: StoryContext<Renderer>) =
   }
 
   const { args = {}, component: ctxtComponent, argTypes = {} } = context || {};
+
   const components = getTemplates(context?.originalStoryFn);
 
-  const storyComponent = components.length ? components : ctxtComponent;
+  const storyComponent = components.length ? components : [ctxtComponent as TemplateChildNode];
 
   const withScript = context?.parameters?.docs?.source?.withScriptSetup || false;
   const generatedScript = withScript ? generateScriptSetup(args, argTypes, components) : '';
   const generatedTemplate = generateSource(storyComponent, args, argTypes, withScript);
+  console.log(' generatedTemplate ', generatedTemplate);
 
   if (generatedTemplate) {
     source = `${generatedScript}\n <template>\n ${generatedTemplate} \n</template>`;

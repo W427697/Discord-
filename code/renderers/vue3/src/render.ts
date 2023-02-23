@@ -2,7 +2,7 @@
 import { createApp, h, reactive } from 'vue';
 import type { RenderContext, ArgsStoryFn } from '@storybook/types';
 import type { Args, StoryContext } from '@storybook/csf';
-import type { StoryFnVueReturnType, VueRenderer } from './types';
+import type { VueRenderer } from './types';
 
 export const render: ArgsStoryFn<VueRenderer> = (props, context) => {
   const { id, component: Component } = context;
@@ -22,24 +22,23 @@ export const setup = (fn: (app: any) => void) => {
 
 const map = new Map<
   VueRenderer['canvasElement'],
-  { vueApp: ReturnType<typeof createApp>; reactiveArgs: any }
+  { vueApp: ReturnType<typeof createApp>; reactiveArgs: any; rootComponent: any }
 >();
-
-const elementMap = new Map<VueRenderer['canvasElement'], StoryFnVueReturnType>();
 
 export function renderToCanvas(
   { storyFn, forceRemount, showMain, showException, storyContext }: RenderContext<VueRenderer>,
   canvasElement: VueRenderer['canvasElement']
 ) {
   // fetch the story with the updated context (with reactive args)
-  storyContext.args = reactive(storyContext.args);
-  const element: StoryFnVueReturnType = storyFn();
-  elementMap.set(canvasElement, element);
-
-  const props = (element as any).render?.().props;
-  const reactiveArgs = props ? reactive(props) : storyContext.args;
-
   const existingApp = map.get(canvasElement);
+
+  storyContext.args = reactive(storyContext.args);
+  const rootComponent: any = storyFn(); // !existingApp ? storyFn() : existingApp.rootComponent();
+
+  const appProps =
+    rootComponent.props ?? (typeof rootComponent === 'function' ? rootComponent().props : {});
+  const reactiveArgs = Object.keys(appProps).length > 0 ? reactive(appProps) : storyContext.args;
+
   if (existingApp && !forceRemount) {
     updateArgs(existingApp.reactiveArgs, reactiveArgs);
     return () => {
@@ -51,10 +50,8 @@ export function renderToCanvas(
 
   const storybookApp = createApp({
     render() {
-      const renderedElement: any = elementMap.get(canvasElement);
-      const current = renderedElement && renderedElement.template ? renderedElement : element;
-      map.set(canvasElement, { vueApp: storybookApp, reactiveArgs });
-      return h(current, reactiveArgs);
+      map.set(canvasElement, { vueApp: storybookApp, reactiveArgs, rootComponent });
+      return h(rootComponent, reactiveArgs);
     },
   });
 
@@ -89,11 +86,10 @@ function getSlots(props: Args, context: StoryContext<VueRenderer, Args>) {
  * @param nextArgs
  * @returns
  */
-function updateArgs(reactiveArgs: Args, nextArgs: Args) {
+export function updateArgs(reactiveArgs: Args, nextArgs: Args) {
   if (!nextArgs) return;
-  Object.keys(reactiveArgs).forEach((key) => {
-    delete reactiveArgs[key];
-  });
+
+  Object.keys(reactiveArgs).forEach((key) => delete reactiveArgs[key]);
   Object.assign(reactiveArgs, nextArgs);
 }
 
