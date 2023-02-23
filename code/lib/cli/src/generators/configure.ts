@@ -1,5 +1,6 @@
 import fse from 'fs-extra';
 import { dedent } from 'ts-dedent';
+import prettier from 'prettier';
 import { SupportedLanguage } from '../project_types';
 
 interface ConfigureMainOptions {
@@ -95,11 +96,13 @@ export async function configureMain({
     .replace('<<import>>', `${imports.join('\n\n')}\n`)
     .replace('<<type>>', isTypescript ? ': StorybookConfig' : '')
     .replace('<<mainContents>>', mainContents);
-  await fse.writeFile(
-    `./${storybookConfigFolder}/main.${isTypescript ? 'ts' : 'js'}`,
-    dedent(mainJsContents),
-    { encoding: 'utf8' }
-  );
+
+  const mainPath = `./${storybookConfigFolder}/main.${isTypescript ? 'ts' : 'js'}`;
+  const prettyMain = prettier.format(dedent(mainJsContents), {
+    ...prettier.resolveConfig.sync(process.cwd()),
+    filepath: mainPath,
+  });
+  await fse.writeFile(mainPath, prettyMain, { encoding: 'utf8' });
 }
 
 export async function configurePreview(options: ConfigurePreviewOptions) {
@@ -146,5 +149,9 @@ export async function configurePreview(options: ConfigurePreviewOptions) {
     .replace('  \n', '')
     .trim();
 
-  await fse.writeFile(previewPath, preview, { encoding: 'utf8' });
+  const prettyPreview = prettier.format(preview, {
+    ...prettier.resolveConfig.sync(process.cwd()),
+    filepath: previewPath,
+  });
+  await fse.writeFile(previewPath, prettyPreview, { encoding: 'utf8' });
 }
