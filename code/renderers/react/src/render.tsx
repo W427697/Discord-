@@ -1,3 +1,4 @@
+import { global } from '@storybook/global';
 import type { FC } from 'react';
 import React, { Component as ReactComponent, StrictMode, Fragment } from 'react';
 import { renderElement, unmountElement } from '@storybook/react-dom-shim';
@@ -5,6 +6,8 @@ import { renderElement, unmountElement } from '@storybook/react-dom-shim';
 import type { RenderContext, ArgsStoryFn } from '@storybook/types';
 
 import type { ReactRenderer, StoryContext } from './types';
+
+const { FRAMEWORK_OPTIONS } = global;
 
 export const render: ArgsStoryFn<ReactRenderer> = (args, context) => {
   const { id, component: Component } = context;

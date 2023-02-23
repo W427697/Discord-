@@ -1,7 +1,6 @@
 /* eslint-disable no-param-reassign */
 
 import * as fs from 'fs';
-import { mergeConfig } from 'vite';
 import type { Plugin } from 'vite';
 import type { Options } from '@storybook/types';
 import { transformIframeHtml } from '../transform-iframe-html';
@@ -129,6 +128,3 @@ export function codeGeneratorPlugin(options: Options): Plugin {
     },
   };
 }
-
-// Refines an error received from 'catch' to be a NodeJS exception
-const isNodeError = (error: unknown): error is NodeJS.ErrnoException => error instanceof Error;
