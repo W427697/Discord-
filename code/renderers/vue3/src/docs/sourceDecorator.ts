@@ -13,11 +13,7 @@ import type {
   TextNode,
   InterpolationNode,
 } from '@vue/compiler-core';
-import {
-  baseParse,
-  // ExpressionNode,
-  NodeTypes,
-} from '@vue/compiler-core';
+import { baseParse } from '@vue/compiler-core';
 import { h } from 'vue';
 
 type ArgEntries = [string, any][];
@@ -47,59 +43,27 @@ const skipSourceRender = (context: StoryContext<Renderer>) => {
 };
 
 /**
- * Extract a component name.
- *
- * @param component Component
- */
-function getComponentNameAndChildren(component: any): {
-  name: string | null;
-  children: any;
-  attributes: any;
-} {
-  return {
-    name: component?.name || component?.__name || component?.__docgenInfo?.__name || null,
-    children: component?.children || null,
-    attributes: component?.attributes || component?.attrs || null,
-  };
-}
-/**
  *
  * @param _args
  * @param argTypes
  * @param byRef
  */
 function generateAttributesSource(
-  args: (AttributeNode | DirectiveNode)[],
+  tempArgs: (AttributeNode | DirectiveNode)[],
+  args: Args,
   argTypes: ArgTypes,
   byRef?: boolean
 ): string {
-  return Object.keys(args)
-    .map((key: any) => args[key].loc.source)
+  return Object.keys(tempArgs)
+    .map((key: any) => {
+      const arg = tempArgs[key];
+      console.log(`---- arg ${key} `, arg);
+      const storyArg = args[arg.arg.content];
+      console.log(`---- arg.name ${arg.arg.content} `, args);
+      console.log(`---- storyArg ${arg.arg} `, storyArg);
+      return tempArgs[key].loc.source;
+    })
     .join(' ');
-}
-
-function generateAttributeSource(
-  key: string,
-  value: Args[keyof Args],
-  argType: ArgTypes[keyof ArgTypes]
-): string {
-  if (!value) {
-    return '';
-  }
-
-  if (value === true) {
-    return key;
-  }
-
-  if (key.startsWith('v-on:')) {
-    return `${key}='() => {}'`;
-  }
-
-  if (typeof value === 'string') {
-    return `${key}='${value}'`;
-  }
-
-  return `:${key}='${JSON.stringify(value)}'`;
 }
 
 /**
@@ -131,7 +95,6 @@ function getTemplates(renderFn: any): TemplateChildNode[] {
     return components;
   } catch (e) {
     // console.error(e);
-    console.log(' no template ');
     return [];
   }
 }
@@ -151,8 +114,6 @@ export function generateSource(
   byRef?: boolean | undefined
 ): string | null {
   const generateComponentSource = (component: TemplateChildNode) => {
-    // const { name, children, attributes } = getComponentNameAndChildren(component);
-
     let attributes;
     let name;
     let children;
@@ -172,9 +133,8 @@ export function generateSource(
       const child = component as TextNode;
       content = child.content;
     }
-
-    if (typeof (component as any).render === 'function') {
-      // children = child.children;
+    const concreteComponent = component as any;
+    if (typeof concreteComponent.render === 'function') {
       const vnode = h(component, args);
       if (vnode.props) {
         const { props } = vnode;
@@ -182,12 +142,12 @@ export function generateSource(
 
         attributes = attributesNode;
       }
-      name = vnode.type.__docgenInfo.displayName;
+      name = concreteComponent.tag || concreteComponent.name || concreteComponent.__name;
     }
 
     let source = '';
-    const argsIn = attributes ?? []; // keep only args that are in attributes
-    const props = generateAttributesSource(argsIn, argTypes, byRef);
+    const templateAttrs = attributes ?? []; // keep only args that are in attributes
+    const props = generateAttributesSource(templateAttrs, args, argTypes, byRef);
     if (name) source += `<${name} ${props} >`;
 
     if (children) {
@@ -219,16 +179,17 @@ function mapAttributesAndDirectives(props: Args) {
       ? `:${key}='${value}'`
       : eventDirective(key, value);
 
-  return Object.keys(props)
-    .map((key) => ({
-      name: key,
-      type: ['v-', '@', 'v-on'].includes(key) ? 7 : 6,
-      arg: { content: key, loc: { source: key } },
-      loc: { source: source(key, props[key]) },
-      exp: { isStatic: false, loc: { source: props[key] } },
-      modifiers: [''],
-    }))
-    .concat();
+  return Object.keys(props).map(
+    (key) =>
+      ({
+        name: 'bind',
+        type: ['v-', '@', 'v-on'].includes(key) ? 7 : 6,
+        arg: { content: key, loc: { source: key } },
+        loc: { source: source(key, props[key]) },
+        exp: { isStatic: false, loc: { source: props[key] } },
+        modifiers: [''],
+      } as unknown as AttributeNode)
+  );
 }
 
 /**
