@@ -103,9 +103,9 @@ export default (api: any, options: NextBabelPresetOptions = {}): BabelPreset => 
   return {
     sourceType: 'unambiguous',
     presets: [
-      [require('next/dist/compiled/babel/preset-env'), presetEnvConfig],
+      [require('@babel/preset-env'), presetEnvConfig],
       [
-        require('next/dist/compiled/babel/preset-react'),
+        require('@babel/preset-react'),
         {
           // This adds @babel/plugin-transform-react-jsx-source and
           // @babel/plugin-transform-react-jsx-self automatically in development
@@ -115,7 +115,7 @@ export default (api: any, options: NextBabelPresetOptions = {}): BabelPreset => 
         },
       ],
       [
-        require('next/dist/compiled/babel/preset-typescript'),
+        require('@babel/preset-typescript'),
         { allowNamespaces: true, ...options['preset-typescript'] },
       ],
     ],
@@ -139,28 +139,25 @@ export default (api: any, options: NextBabelPresetOptions = {}): BabelPreset => 
           lib: true,
         },
       ],
-      require('next/dist/compiled/babel/plugin-syntax-dynamic-import'),
-      require('next/dist/compiled/babel/plugin-syntax-import-assertions'),
+      require('@babel/plugin-syntax-dynamic-import'),
+      require('@babel/plugin-syntax-import-assertions'),
       require('./plugins/react-loadable-plugin'),
+      [require('@babel/plugin-proposal-class-properties'), options['class-properties'] || {}],
       [
-        require('next/dist/compiled/babel/plugin-proposal-class-properties'),
-        options['class-properties'] || {},
-      ],
-      [
-        require('next/dist/compiled/babel/plugin-proposal-object-rest-spread'),
+        require('@babel/plugin-proposal-object-rest-spread'),
         {
           useBuiltIns: true,
         },
       ],
       !isServer && [
-        require('next/dist/compiled/babel/plugin-transform-runtime'),
+        require('@babel/plugin-transform-runtime'),
         {
           corejs: false,
           helpers: true,
           regenerator: true,
           useESModules: supportsESM && presetEnvConfig.modules !== 'commonjs',
           absoluteRuntime: isBabelLoader
-            ? dirname(require.resolve('next/dist/compiled/@babel/runtime/package.json'))
+            ? dirname(require.resolve('@babel/runtime/package.json'))
             : undefined,
           ...options['transform-runtime'],
         },
@@ -172,11 +169,11 @@ export default (api: any, options: NextBabelPresetOptions = {}): BabelPreset => 
         styledJsxOptions(options['styled-jsx']),
       ],
       require('./plugins/amp-attributes'),
-      isServer && require('next/dist/compiled/babel/plugin-syntax-bigint'),
+      isServer && require('@babel/plugin-syntax-bigint'),
       // Always compile numeric separator because the resulting number is
       // smaller.
-      require('next/dist/compiled/babel/plugin-proposal-numeric-separator'),
-      require('next/dist/compiled/babel/plugin-proposal-export-namespace-from'),
+      require('@babel/plugin-proposal-numeric-separator'),
+      require('@babel/plugin-proposal-export-namespace-from'),
     ].filter(Boolean),
   };
 };
