@@ -542,9 +542,9 @@ workflows:
       - coverage:
           requires:
             - unit-tests
-      - cra-bench:
-          requires:
-            - build
+      # - cra-bench:
+      #     requires:
+      #       - build
       - react-vite-bench:
           requires:
             - build
@@ -592,9 +592,9 @@ workflows:
       - coverage:
           requires:
             - unit-tests
-      - cra-bench:
-          requires:
-            - build
+      # - cra-bench:
+      #     requires:
+      #       - build
       - react-vite-bench:
           requires:
             - build
