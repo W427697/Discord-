@@ -5617,9 +5617,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@storybook/bench@npm:next":
-  version: 1.0.0-next.6
-  resolution: "@storybook/bench@npm:1.0.0-next.6"
+"@storybook/bench@npm:0.7.6--canary.19.891f0cd.0":
+  version: 0.7.6--canary.19.891f0cd.0
+  resolution: "@storybook/bench@npm:0.7.6--canary.19.891f0cd.0"
   dependencies:
     "@google-cloud/bigquery": ^5.2.0
     "@hapi/hapi": ^20.2.2
@@ -5638,7 +5638,7 @@ __metadata:
   bin:
     sb-bench: bin/index.js
     sb-upload: bin/upload.js
-  checksum: 4f8d054359a9240a0b0badb847f630ec339e2d77dae03703e21d4ca6a07cfba465e6f469416c58f55a7554bbe9383ce27f516e10197d8e5a8befbc0b1fc783a0
+  checksum: 4276ef96c2fdad01d03201ddd5cff05f4eecb3859da31de26beeb580116e366be35d33e05800df07b41c41c2dafc596b8b403bedf2aac304b5d1ce88116c12da
   languageName: node
   linkType: hard
 
@@ -7040,7 +7040,7 @@ __metadata:
     "@storybook/angular": "workspace:*"
     "@storybook/api": "workspace:*"
     "@storybook/babel-plugin-require-context-hook": 1.0.1
-    "@storybook/bench": next
+    "@storybook/bench": 0.7.6--canary.19.891f0cd.0
     "@storybook/blocks": "workspace:*"
     "@storybook/builder-manager": "workspace:*"
     "@storybook/builder-vite": "workspace:*"
