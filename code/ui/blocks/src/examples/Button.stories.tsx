@@ -130,4 +130,7 @@ export const ErrorStory: Story = {
     throw err;
   },
   args: { label: 'Button' },
+  parameters: {
+    chromatic: { disable: true },
+  },
 };
