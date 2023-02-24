@@ -323,12 +323,25 @@ const config = {
 export default config;
 ```
 
-For Typescript users, we introduced types for that default export, so you can import it in your main.ts file. The `StorybookConfig` type will come from the Storybook package for the framework you are using, which relates to the package in the "framework" field you have in your main.ts file. For example, if you are using React Vite, you will import it from `@storybook/react-vite`:
+Additionally, we introduced typings for that default export (StorybookConfig), so you can import it in your config file. If you're using Typescript, make sure to rename your file to be `main.ts`.
+
+The `StorybookConfig` type will come from the Storybook package for the framework you are using, which relates to the package in the "framework" field you have in your main.ts file. For example, if you are using React Vite, you will import it from `@storybook/react-vite`:
 
 ```ts
 import { StorybookConfig } from '@storybook/react-vite';
 
 const config: StorybookConfig = {
+  stories: ['../stories/**/*.stories.mdx', '../stories/**/*.stories.@(js|jsx|ts|tsx)'],
+  framework: { name: '@storybook/react-vite' },
+};
+export default config;
+```
+
+In JavaScript projects using `main.js`, it's also possible to use the `StorybookConfig` type (for autocompletion, not type safety), via the JSDoc @type tag:
+
+```ts
+/** @type { import('@storybook/react-vite').StorybookConfig } */
+const config = {
   stories: ['../stories/**/*.stories.mdx', '../stories/**/*.stories.@(js|jsx|ts|tsx)'],
   framework: { name: '@storybook/react-vite' },
 };
