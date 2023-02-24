@@ -19,7 +19,7 @@ test.describe('addon-docs', () => {
     await sbPage.navigateToStory('addons/docs/docspage/error', 'docs');
     const root = sbPage.previewRoot();
 
-    const autoplayPre = root.locator('#story--addons-docs-docspage-error--error-story pre');
+    const autoplayPre = root.locator('#story--addons-docs-docspage-error--error-story');
     await expect(autoplayPre).toContainText('Story did something wrong');
   });
 
