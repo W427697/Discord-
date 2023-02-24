@@ -2,7 +2,7 @@ import type { FC } from 'react';
 import React from 'react';
 import pickBy from 'lodash/pickBy.js';
 import { styled } from '@storybook/theming';
-import { opacify, transparentize, darken, lighten } from 'polished';
+import { transparentize } from 'polished';
 import { includeConditionalArg } from '@storybook/csf';
 import { once } from '@storybook/client-logger';
 import { IconButton, Icons, Link, ResetWrapper } from '@storybook/components';
@@ -103,34 +103,15 @@ export const TableWrapper = styled.table<{
         },
       },
 
-      // Table "block" styling
-      // Emphasize tbody's background and set borderRadius
-      // Calling out because styling tables is finicky
-
       // Makes border alignment consistent w/other DocBlocks
       marginLeft: inAddonPanel ? 0 : 1,
       marginRight: inAddonPanel ? 0 : 1,
 
-      [`tr:first-child`]: {
-        [`td:first-child, th:first-child`]: {
-          borderTopLeftRadius: inAddonPanel ? 0 : theme.appBorderRadius,
-        },
-        [`td:last-child, th:last-child`]: {
-          borderTopRightRadius: inAddonPanel ? 0 : theme.appBorderRadius,
-        },
-      },
-
-      [`tr:last-child`]: {
-        [`td:first-child, th:first-child`]: {
-          borderBottomLeftRadius: inAddonPanel ? 0 : theme.appBorderRadius,
-        },
-        [`td:last-child, th:last-child`]: {
-          borderBottomRightRadius: inAddonPanel ? 0 : theme.appBorderRadius,
-        },
-      },
-
       tbody: {
-        // slightly different than the other DocBlock shadows to account for table styling gymnastics
+        // Safari doesn't love shadows on tbody so we need to use a shadow filter. In order to do this,
+        // the table cells all need to be solid so they have a background color applied.
+        // I wasn't sure what kinds of content go in these tables so I was extra specific with selectors
+        // to avoid unexpected surprises.
         ...(inAddonPanel
           ? null
           : {
@@ -145,6 +126,7 @@ export const TableWrapper = styled.table<{
           borderTop: `1px solid ${theme.appBorderColor}`,
         },
 
+        // This works and I don't know why. :)
         '> tr:first-of-type > *': {
           borderBlockStart: `1px solid ${theme.appBorderColor}`,
         },
@@ -158,6 +140,7 @@ export const TableWrapper = styled.table<{
           borderInlineEnd: `1px solid ${theme.appBorderColor}`,
         },
 
+        // Thank you, Safari, for making me write code like this.
         '> tr:first-of-type > td:first-of-type': {
           borderTopLeftRadius: theme.appBorderRadius,
         },
@@ -170,24 +153,8 @@ export const TableWrapper = styled.table<{
         '> tr:last-of-type > td:last-of-type': {
           borderBottomRightRadius: theme.appBorderRadius,
         },
-
-        tr: {
-          // borderTopWidth: 1,
-          // borderTopStyle: 'solid',
-          // borderTopColor:
-          //   theme.base === 'light'
-          //     ? darken(0.1, theme.background.content)
-          //     : lighten(0.05, theme.background.content),
-          // overflow: 'hidden',
-          // ['&:first-child']: {
-          //   borderTop: 'none',
-          // }
-        },
-        // td: {
-        //   border: '1px solid red',
-        // },
       },
-      // End finicky table styling
+      // End awesome table styling
     },
   }),
   ({ isLoading, theme }) =>
