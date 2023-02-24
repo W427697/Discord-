@@ -66,7 +66,11 @@ const InlineStory: FunctionComponent<InlineStoryProps> = (props) => {
   const htmlContents = `<span></span>`;
 
   if (error) {
-    return <ErrorFormatter error={error} />;
+    return (
+      <pre>
+        <ErrorFormatter error={error} />
+      </pre>
+    );
   }
 
   return (

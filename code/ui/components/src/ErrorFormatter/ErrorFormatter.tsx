@@ -17,7 +17,10 @@ const ErrorDetail = styled.em(({ theme }) => ({
 }));
 
 const firstLineRegex = /(Error): (.*)\n/;
-const linesRegex = /at (?:(.*) )?\(?(.+)\)?/;
+// const linesRegex = /at (?:(.*) )?\(?(.+)\)?/;
+const linesRegexChromium = /at (?:(.*) )?\(?(.+)\)?/;
+const linesRegexFirefox = /([^@]+)?(?:\/<)?@(.+)?/;
+const linesRegexSafari = /([^@]+)?@(.+)?/;
 export const ErrorFormatter: FC<{ error: Error }> = ({ error }) => {
   if (!error) {
     return <Fragment>This error has no stack or message</Fragment>;
@@ -26,7 +29,12 @@ export const ErrorFormatter: FC<{ error: Error }> = ({ error }) => {
     return <Fragment>{error.message || 'This error has no stack or message'}</Fragment>;
   }
 
-  const input = error.stack.toString();
+  let input = error.stack.toString();
+
+  if (input && error.message && !input.includes(error.message)) {
+    input = `Error: ${error.message}\n\n${input}`;
+  }
+
   const match = input.match(firstLineRegex);
 
   if (!match) {
@@ -35,12 +43,22 @@ export const ErrorFormatter: FC<{ error: Error }> = ({ error }) => {
 
   const [, type, name] = match;
 
+  // [Log] http://localhost:6006 – {r: ["@[native code]", "[native", "code]"]} (ErrorFormatter.tsx, line 79)
   const rawLines = input.split(/\n/).slice(1);
   const [, ...lines] = rawLines
     .map((line) => {
-      const r = line.match(linesRegex);
+      const result =
+        line.match(linesRegexChromium) ||
+        line.match(linesRegexFirefox) ||
+        line.match(linesRegexSafari);
+      if (result) {
+        return {
+          name: result[1].replace('/<', ''),
+          location: result[2].replace(document.location.origin, ''),
+        };
+      }
 
-      return r ? { name: r[1], location: r[2].replace(document.location.origin, '') } : null;
+      return null;
     })
     .filter(Boolean);
 
