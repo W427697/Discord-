@@ -2,7 +2,7 @@ import { global } from '@storybook/global';
 import type { FunctionComponent } from 'react';
 import React, { useRef, useEffect, useState } from 'react';
 import type { DocsContextProps, PreparedStory } from '@storybook/types';
-import { Loader, getStoryHref } from '@storybook/components';
+import { Loader, getStoryHref, ErrorFormatter } from '@storybook/components';
 import { IFrame } from './IFrame';
 import { ZoomContext } from './ZoomContext';
 
@@ -66,7 +66,7 @@ const InlineStory: FunctionComponent<InlineStoryProps> = (props) => {
   const htmlContents = `<span></span>`;
 
   if (error) {
-    return <pre>{`${error.message}\n\n${error.stack}`}</pre>;
+    return <ErrorFormatter error={error} />;
   }
 
   return (

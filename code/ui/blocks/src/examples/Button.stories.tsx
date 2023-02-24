@@ -123,17 +123,17 @@ export const ErrorStory: Story = {
   render: () => {
     const err = new Error('Rendering problem');
     // force stack for consistency in capture
-    err.stack = `Error: Rendering problem
-    at render (http://localhost:6010/blocks/src/examples/Button.stories.tsx?t=1677124831161:147:11)
-    at undecoratedStoryFn (http://localhost:6010/sb-preview/runtime.mjs:8255:38)
-    at http://localhost:6010/sb-preview/runtime.mjs:7286:21
-    at http://localhost:6010/sb-preview/runtime.mjs:8225:12
-    at jsxDecorator (http://localhost:6010/node_modules/.cache/.vite-storybook/deps/@storybook_react_preview.js?v=0fc15c2d:1892:17)
-    at http://localhost:6010/sb-preview/runtime.mjs:7286:21
-    at http://localhost:6010/sb-preview/runtime.mjs:8200:23
-    at http://localhost:6010/sb-preview/runtime.mjs:8225:12
-    at wrapper (http://localhost:6010/node_modules/.cache/.vite-storybook/deps/@storybook_addon-links_preview.js?v=0fc15c2d:66:12)
-    at http://localhost:6010/sb-preview/runtime.mjs:11942:12`;
+    // err.stack = `Error: Rendering problem
+    // at render (http://localhost:6010/blocks/src/examples/Button.stories.tsx?t=1677124831161:147:11)
+    // at undecoratedStoryFn (http://localhost:6010/sb-preview/runtime.mjs:8255:38)
+    // at http://localhost:6010/sb-preview/runtime.mjs:7286:21
+    // at http://localhost:6010/sb-preview/runtime.mjs:8225:12
+    // at jsxDecorator (http://localhost:6010/node_modules/.cache/.vite-storybook/deps/@storybook_react_preview.js?v=0fc15c2d:1892:17)
+    // at http://localhost:6010/sb-preview/runtime.mjs:7286:21
+    // at http://localhost:6010/sb-preview/runtime.mjs:8200:23
+    // at http://localhost:6010/sb-preview/runtime.mjs:8225:12
+    // at wrapper (http://localhost:6010/node_modules/.cache/.vite-storybook/deps/@storybook_addon-links_preview.js?v=0fc15c2d:66:12)
+    // at http://localhost:6010/sb-preview/runtime.mjs:11942:12`;
     throw err;
   },
   args: { label: 'Button' },
