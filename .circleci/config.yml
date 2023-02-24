@@ -549,23 +549,23 @@ workflows:
           requires:
             - build
       - create-sandboxes:
-          parallelism: 8
+          parallelism: 9
           requires:
             - build
       - build-sandboxes:
-          parallelism: 8
+          parallelism: 9
           requires:
             - create-sandboxes
       - test-runner-sandboxes:
-          parallelism: 8
+          parallelism: 9
           requires:
             - build-sandboxes
       - chromatic-sandboxes:
-          parallelism: 8
+          parallelism: 9
           requires:
             - build-sandboxes
       - e2e-sandboxes:
-          parallelism: 8
+          parallelism: 9
           requires:
             - build-sandboxes
   merged:
@@ -599,23 +599,23 @@ workflows:
           requires:
             - build
       - create-sandboxes:
-          parallelism: 17
+          parallelism: 18
           requires:
             - build
       - build-sandboxes:
-          parallelism: 17
+          parallelism: 18
           requires:
             - create-sandboxes
       - test-runner-sandboxes:
-          parallelism: 17
+          parallelism: 18
           requires:
             - build-sandboxes
       - chromatic-sandboxes:
-          parallelism: 17
+          parallelism: 18
           requires:
             - build-sandboxes
       - e2e-sandboxes:
-          parallelism: 17
+          parallelism: 18
           requires:
             - build-sandboxes
   daily:
@@ -633,25 +633,25 @@ workflows:
           requires:
             - build
       - create-sandboxes:
-          parallelism: 29
+          parallelism: 31
           requires:
             - build
       # - smoke-test-sandboxes: # disabled for now
       #     requires:
       #       - create-sandboxes
       - build-sandboxes:
-          parallelism: 29
+          parallelism: 31
           requires:
             - create-sandboxes
       - test-runner-sandboxes:
-          parallelism: 29
+          parallelism: 31
           requires:
             - build-sandboxes
       - chromatic-sandboxes:
-          parallelism: 29
+          parallelism: 31
           requires:
             - build-sandboxes
       - e2e-sandboxes:
-          parallelism: 29
+          parallelism: 31
           requires:
             - build-sandboxes
