@@ -6,7 +6,7 @@ import {
   getFontAxes,
   getUrl,
   validateData,
-} from '@next/font/dist/google/utils';
+} from 'next/font/dist/google/utils';
 
 import type { LoaderOptions } from '../types';
 
