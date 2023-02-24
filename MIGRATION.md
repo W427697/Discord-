@@ -795,7 +795,7 @@ When using a [Vite-based framework](#framework-field-mandatory), Storybook will 
 Some settings will be overridden by Storybook so that it can function properly, and the merged settings can be modified using `viteFinal` in `.storybook/main.js` (see the [Storybook Vite configuration docs](https://storybook.js.org/docs/react/builders/vite#configuration)).  
 If you were using `viteFinal` in 6.5 to simply merge in your project's standard Vite config, you can now remove it.
 
-For Svelte projects this means that the `svelteOptions` property in the `main.js` config should be omitted, as it will be loaded automatically via the project's `vite.config.js`. An exception to this is when the project needs different Svelte options for Storybook than the Vite config provides for the application itself.
+For Svelte projects this means that the `svelteOptions` property in the `main.js` config should be omitted, as it will be loaded automatically via the project's `vite.config.js`.
 
 #### Vite cache moved to node_modules/.cache/.vite-storybook
 
@@ -952,7 +952,7 @@ Instead, use `export const parameters = {};` and `export const decorators = [];`
 
 #### framework parameter renamed to renderer
 
-All SB6.x frameworks injected a parameter called `framework` indicating to addons which framework is running. 
+All SB6.x frameworks injected a parameter called `framework` indicating to addons which framework is running.
 For example, the framework value of `@storybook/react` would be `react`, `@storybook/vue` would be `vue`, etc.
 Now those packages are called renderers in SB7, so the renderer information is now available in the `renderer`
 parameter.
