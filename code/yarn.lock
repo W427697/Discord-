@@ -7159,7 +7159,6 @@ __metadata:
     jest-os-detection: ^1.3.1
     jest-serializer-html: ^7.1.0
     jest-watch-typeahead: ^2.2.1
-    jest_workaround: ^0.1.14
     lerna: ^6.4.0
     lint-staged: ^10.5.4
     lodash: ^4.17.21
@@ -19661,16 +19660,6 @@ __metadata:
   bin:
     jest: bin/jest.js
   checksum: 57a677678b1f9394adf41543a284919fc78e147ccd1dd6c21b263d69127e069331500dbe81d5214daa9facff4a3363e0621fc4786dc0bf568d88533581dc5f65
-  languageName: node
-  linkType: hard
-
-"jest_workaround@npm:^0.1.14":
-  version: 0.1.14
-  resolution: "jest_workaround@npm:0.1.14"
-  peerDependencies:
-    "@swc/core": ^1.3.3
-    "@swc/jest": ^0.2.22
-  checksum: 98f02ade07d2d2befdac5ca27e0b3ea70b86c9b9fa54d21a1b41dee4672333df5d880ccc851771e43c16575f081d02a10d1de06cc90b33bcff7e5822e901815a
   languageName: node
   linkType: hard
 
