@@ -150,7 +150,7 @@ jobs:
             - .verdaccio-cache
   cra-bench:
     executor:
-      class: medium
+      class: large
       name: sb_playwright
     working_directory: /tmp/storybook
     steps:
@@ -180,7 +180,7 @@ jobs:
             cd bench/cra-default-ts
             rm -rf node_modules
             mkdir node_modules
-            npx -p @storybook/bench@0.7.6--canary.19.891f0cd.0 sb-bench 'yarn install' --label cra
+            ../../code/node_modules/.bin/sb-bench 'yarn install' --label cra
       - report-workflow-on-failure
       - run:
           name: prep artifacts
@@ -221,7 +221,7 @@ jobs:
             cd bench/react-vite-default-ts
             rm -rf node_modules
             mkdir node_modules
-            npx -p @storybook/bench@0.7.6--canary.19.891f0cd.0 sb-bench 'yarn install' --label react-vite
+            ../../code/node_modules/.bin/sb-bench 'yarn install' --label react-vite
       - report-workflow-on-failure
       - run:
           name: prep artifacts
