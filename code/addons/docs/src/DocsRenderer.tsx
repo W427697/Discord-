@@ -1,5 +1,5 @@
 import React from 'react';
-import { renderElement, unmountElement } from '@storybook/react-dom-shim';
+import ReactDOM from 'react-dom';
 import type { Renderer, Parameters, DocsContextProps, DocsRenderFunction } from '@storybook/types';
 import { Docs, CodeOrSourceMdx, AnchorMdx, HeadersMdx } from '@storybook/blocks';
 
@@ -27,20 +27,19 @@ export class DocsRenderer<TRenderer extends Renderer> {
         ...docsParameter?.components,
       };
 
-      import('@mdx-js/react')
-        .then(({ MDXProvider }) =>
-          renderElement(
-            <MDXProvider components={components}>
-              <Docs context={context} docsParameter={docsParameter} />
-            </MDXProvider>,
-            element
-          )
-        )
-        .then(callback);
+      import('@mdx-js/react').then(({ MDXProvider }) => {
+        ReactDOM.render(
+          <MDXProvider components={components}>
+            <Docs context={context} docsParameter={docsParameter} />
+          </MDXProvider>,
+          element,
+          callback
+        );
+      });
     };
 
     this.unmount = (element: HTMLElement) => {
-      unmountElement(element);
+      ReactDOM.unmountComponentAtNode(element);
     };
   }
 }

@@ -113,7 +113,6 @@
     "@storybook/node-logger": "7.0.0-beta.53",
     "@storybook/postinstall": "7.0.0-beta.53",
     "@storybook/preview-api": "7.0.0-beta.53",
-    "@storybook/react-dom-shim": "7.0.0-beta.53",
     "@storybook/theming": "7.0.0-beta.53",
     "@storybook/types": "7.0.0-beta.53",
     "fs-extra": "^11.1.0",

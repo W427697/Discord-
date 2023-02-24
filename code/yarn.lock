@@ -5110,7 +5110,6 @@ __metadata:
     "@storybook/node-logger": 7.0.0-beta.53
     "@storybook/postinstall": 7.0.0-beta.53
     "@storybook/preview-api": 7.0.0-beta.53
-    "@storybook/react-dom-shim": 7.0.0-beta.53
     "@storybook/theming": 7.0.0-beta.53
     "@storybook/types": 7.0.0-beta.53
     fs-extra: ^11.1.0
@@ -6902,18 +6901,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@storybook/react-dom-shim@7.0.0-beta.53, @storybook/react-dom-shim@workspace:lib/react-dom-shim":
-  version: 0.0.0-use.local
-  resolution: "@storybook/react-dom-shim@workspace:lib/react-dom-shim"
-  dependencies:
-    "@storybook/types": 7.0.0-beta.53
-    typescript: ~4.9.3
-  peerDependencies:
-    react: ^16.8.0 || ^17.0.0 || ^18.0.0
-    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
-  languageName: unknown
-  linkType: soft
-
 "@storybook/react-vite@workspace:*, @storybook/react-vite@workspace:frameworks/react-vite":
   version: 0.0.0-use.local
   resolution: "@storybook/react-vite@workspace:frameworks/react-vite"
@@ -6968,7 +6955,6 @@ __metadata:
     "@storybook/docs-tools": 7.0.0-beta.53
     "@storybook/global": ^5.0.0
     "@storybook/preview-api": 7.0.0-beta.53
-    "@storybook/react-dom-shim": 7.0.0-beta.53
     "@storybook/types": 7.0.0-beta.53
     "@types/escodegen": ^0.0.6
     "@types/estree": ^0.0.51

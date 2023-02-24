@@ -25,6 +25,7 @@
       "types": "./dist/index.d.ts"
     },
     "./input/iframe.html": "./input/iframe.html",
+    "./input/react-dom-client-placeholder.js": "./input/react-dom-client-placeholder.js",
     "./package.json": "./package.json"
   },
   "main": "dist/index.js",
