@@ -53,7 +53,7 @@ export const ErrorFormatter: FC<{ error: Error }> = ({ error }) => {
         line.match(linesRegexSafari);
       if (result) {
         return {
-          name: result[1].replace('/<', ''),
+          name: (result[1] || '').replace('/<', ''),
           location: result[2].replace(document.location.origin, ''),
         };
       }

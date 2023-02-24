@@ -1,3 +1,4 @@
+import React from 'react';
 import type { StoryObj, Meta } from '@storybook/react';
 import dedent from 'ts-dedent';
 
@@ -5,6 +6,13 @@ import { ErrorFormatter } from './ErrorFormatter';
 
 const meta: Meta<typeof ErrorFormatter> = {
   component: ErrorFormatter,
+  decorators: [
+    (Story) => (
+      <pre>
+        <Story />
+      </pre>
+    ),
+  ],
 };
 
 export default meta;
