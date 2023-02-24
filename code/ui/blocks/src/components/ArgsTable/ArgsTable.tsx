@@ -21,7 +21,6 @@ export const TableWrapper = styled.table<{
   ({ theme, compact, inAddonPanel }) => ({
     '&&': {
       // Resets for cascading/system styles
-      borderCollapse: 'collapse',
       borderSpacing: 0,
       color: theme.color.defaultText,
 
@@ -132,61 +131,61 @@ export const TableWrapper = styled.table<{
 
       tbody: {
         // slightly different than the other DocBlock shadows to account for table styling gymnastics
-        boxShadow:
-          !inAddonPanel &&
-          (theme.base === 'light'
-            ? `rgba(0, 0, 0, 0.10) 0 1px 3px 1px,
-          ${transparentize(0.035, theme.appBorderColor)} 0 0 0 1px`
-            : `rgba(0, 0, 0, 0.20) 0 2px 5px 1px,
-          ${opacify(0.05, theme.appBorderColor)} 0 0 0 1px`),
-        borderRadius: theme.appBorderRadius,
-
-        // for safari only
-        // CSS hack courtesy of https://stackoverflow.com/questions/16348489/is-there-a-css-hack-for-safari-only-not-chrome
-        '@media not all and (min-resolution:.001dpcm)': {
-          '@supports (-webkit-appearance:none)': {
-            borderWidth: 1,
-            borderStyle: 'solid',
-            ...(inAddonPanel && {
-              borderColor: 'transparent',
-            }),
-
-            ...(!inAddonPanel && {
-              borderColor:
+        ...(inAddonPanel
+          ? null
+          : {
+              filter:
                 theme.base === 'light'
-                  ? transparentize(0.035, theme.appBorderColor)
-                  : opacify(0.05, theme.appBorderColor),
+                  ? `drop-shadow(0px 1px 3px rgba(0, 0, 0, 0.10))`
+                  : `drop-shadow(0px 1px 3px rgba(0, 0, 0, 0.20))`,
             }),
-          },
+
+        '> tr > *': {
+          background: theme.background.content,
+          borderTop: `1px solid ${theme.appBorderColor}`,
+        },
+
+        '> tr:first-of-type > *': {
+          borderBlockStart: `1px solid ${theme.appBorderColor}`,
+        },
+        '> tr:last-of-type > *': {
+          borderBlockEnd: `1px solid ${theme.appBorderColor}`,
+        },
+        '> tr > *:first-of-type': {
+          borderInlineStart: `1px solid ${theme.appBorderColor}`,
+        },
+        '> tr > *:last-of-type': {
+          borderInlineEnd: `1px solid ${theme.appBorderColor}`,
+        },
+
+        '> tr:first-of-type > td:first-of-type': {
+          borderTopLeftRadius: theme.appBorderRadius,
+        },
+        '> tr:first-of-type > td:last-of-type': {
+          borderTopRightRadius: theme.appBorderRadius,
+        },
+        '> tr:last-of-type > td:first-of-type': {
+          borderBottomLeftRadius: theme.appBorderRadius,
+        },
+        '> tr:last-of-type > td:last-of-type': {
+          borderBottomRightRadius: theme.appBorderRadius,
         },
 
         tr: {
-          background: 'transparent',
-          overflow: 'hidden',
-          ...(inAddonPanel
-            ? {
-                borderTopWidth: 1,
-                borderTopStyle: 'solid',
-                borderTopColor:
-                  theme.base === 'light'
-                    ? darken(0.1, theme.background.content)
-                    : lighten(0.05, theme.background.content),
-              }
-            : {
-                [`&:not(:first-child)`]: {
-                  borderTopWidth: 1,
-                  borderTopStyle: 'solid',
-                  borderTopColor:
-                    theme.base === 'light'
-                      ? darken(0.1, theme.background.content)
-                      : lighten(0.05, theme.background.content),
-                },
-              }),
+          // borderTopWidth: 1,
+          // borderTopStyle: 'solid',
+          // borderTopColor:
+          //   theme.base === 'light'
+          //     ? darken(0.1, theme.background.content)
+          //     : lighten(0.05, theme.background.content),
+          // overflow: 'hidden',
+          // ['&:first-child']: {
+          //   borderTop: 'none',
+          // }
         },
-
-        td: {
-          background: theme.background.content,
-        },
+        // td: {
+        //   border: '1px solid red',
+        // },
       },
       // End finicky table styling
     },
