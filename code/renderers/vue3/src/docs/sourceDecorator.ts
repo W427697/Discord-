@@ -3,7 +3,7 @@
 import { addons, useEffect } from '@storybook/preview-api';
 import type { ArgTypes, Args, StoryContext, Renderer } from '@storybook/types';
 
-import { DocgenInfo, getDocgenSection, SourceType, SNIPPET_RENDERED } from '@storybook/docs-tools';
+import { getDocgenSection, SourceType, SNIPPET_RENDERED } from '@storybook/docs-tools';
 
 import type {
   ElementNode,
