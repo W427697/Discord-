@@ -11,7 +11,7 @@ export const render: ArgsStoryFn<VueRenderer> = (props, context) => {
       `Unable to render story ${id} as the component annotation is missing from the default export`
     );
   }
-
+  console.log(' props ', props);
   return h(Component, props, getSlots(props, context));
 };
 
@@ -33,7 +33,7 @@ export function renderToCanvas(
   const existingApp = map.get(canvasElement);
 
   storyContext.args = reactive(storyContext.args);
-  const rootComponent: any = storyFn(); // !existingApp ? storyFn() : existingApp.rootComponent();
+  const rootComponent: any = !existingApp ? storyFn() : existingApp.rootComponent;
 
   const appProps =
     rootComponent.props ?? (typeof rootComponent === 'function' ? rootComponent().props : {});

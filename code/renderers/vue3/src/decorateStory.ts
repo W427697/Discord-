@@ -33,11 +33,7 @@ function prepare(
     };
   }
 
-  return {
-    render() {
-      return h(story);
-    },
-  };
+  return () => h(story);
 }
 
 export function decorateStory(

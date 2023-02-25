@@ -3,7 +3,7 @@
 import { addons, useEffect } from '@storybook/preview-api';
 import type { ArgTypes, Args, StoryContext, Renderer } from '@storybook/types';
 
-import { SourceType, SNIPPET_RENDERED } from '@storybook/docs-tools';
+import { DocgenInfo, getDocgenSection, SourceType, SNIPPET_RENDERED } from '@storybook/docs-tools';
 
 import type {
   ElementNode,
@@ -15,8 +15,8 @@ import type {
 } from '@vue/compiler-core';
 import { baseParse } from '@vue/compiler-core';
 import type { Component } from 'vue';
-import { h } from 'vue';
-import { kebabCase } from 'lodash';
+import { toDisplayString, h } from 'vue';
+import { camelCase, kebabCase } from 'lodash';
 
 /**
  * Check if the sourcecode should be generated.
@@ -37,14 +37,25 @@ const skipSourceRender = (context: StoryContext<Renderer>) => {
   return !isArgsStory || sourceParams?.code || sourceParams?.type === SourceType.CODE;
 };
 
+const displayObject = (obj: Args) => {
+  const a = Object.keys(obj).map((key) => `${key}:"${obj[key]}"`);
+  return `{${a.join(',')}}`;
+};
+const htmlEventAttributeToVueEventAttribute = (key: string) => {
+  return /^on[A-Za-z]/.test(key) ? key.replace(/^on/, 'v-on:').toLowerCase() : key;
+};
+// html event attribute to vue event attribute
+// is html event attribute
+
 const directiveSource = (key: string, value: unknown) =>
-  typeof value === 'function'
-    ? `${key.replace(/on([A-Z][a-z]+)/g, '@$1').toLowerCase()}='()=>{}'`
+  key.includes('on')
+    ? `${htmlEventAttributeToVueEventAttribute(key)}='()=>({})'`
     : `${key}='${value}'`;
 
 const attributeSource = (key: string, value: unknown) =>
+  // convert html event key to vue event key
   ['boolean', 'number', 'object'].includes(typeof value)
-    ? `:${key}='${JSON.stringify(value)}'`
+    ? `:${key}='${value && typeof value === 'object' ? displayObject(value) : value}'`
     : directiveSource(key, value);
 /**
  *
@@ -61,14 +72,17 @@ export function generateAttributesSource(
   return Object.keys(tempArgs)
     .map((key: any) => {
       const arg = tempArgs[key];
+      console.log('------> arg:', arg);
       if (arg.type === 7) {
         const { exp, arg: argName } = arg;
         const argKey = argName?.content;
         const argExpValue = exp?.content;
-        const argValue = argKey ? args[argKey] : JSON.stringify(args);
+        const propValue = args[camelCase(argKey)];
+        console.log('-->argKey', argKey, 'argExpValue :', argExpValue, 'propValue :', propValue);
+        const argValue = argKey ? propValue : toDisplayString(args);
         return argKey
           ? attributeSource(argKey, argValue)
-          : tempArgs[key].loc.source.replace(`"${argExpValue}"`, `'${argValue}'`);
+          : toDisplayString(tempArgs[key].loc.source); // tempArgs[key].loc.source.replace(`"${argExpValue}"`, `'${argValue}'`);
       }
       return tempArgs[key].loc.source;
     })
@@ -96,12 +110,16 @@ function generateScriptSetup(args: Args, argTypes: ArgTypes, components: any[]):
  * @param renderFn
  */
 function getComponentsFromRenderFn(renderFn: any): TemplateChildNode[] {
-  const { template } = renderFn();
-  if (!template) return [];
-  return getComponentsFromTemplate(template);
+  try {
+    const { template } = renderFn();
+    if (!template) return [];
+    return getComponentsFromTemplate(template);
+  } catch (e) {
+    return [];
+  }
 }
 
-export function getComponentsFromTemplate(template: string): TemplateChildNode[] {
+function getComponentsFromTemplate(template: string): TemplateChildNode[] {
   try {
     const ast = baseParse(template);
     const components = ast?.children;
@@ -149,15 +167,35 @@ export function generateSource(
         content = child.content;
       }
     }
-    const concreteComponent = component as Component & { render: any };
+    const concreteComponent = component as Component & {
+      render: any;
+      props: any;
+      slots: any;
+      tag?: string;
+      name?: string;
+      __name?: string;
+    };
     if (typeof concreteComponent.render === 'function') {
       const vnode = h(component, args);
       if (vnode.props) {
         const { props } = vnode;
-        attributes = mapAttributesAndDirectives(props);
+        concreteComponent.slots = getDocgenSection(concreteComponent, 'slots');
+        const slotsProps = {} as Args;
+        const attrsProps = { ...props } as Args;
+        Object.keys(props).forEach((prop: any) => {
+          const isSlot = concreteComponent.slots.find(
+            ({ name: slotName }: { name: string }) => slotName === prop
+          );
+          if (isSlot?.name) {
+            slotsProps[prop] = props[prop];
+            delete attrsProps[prop];
+          }
+        });
+
+        attributes = mapAttributesAndDirectives(attrsProps);
+        children = mapSlots(slotsProps);
       }
-      name =
-        vnode.type || concreteComponent.tag || concreteComponent.name || concreteComponent.__name;
+      name = concreteComponent.tag || concreteComponent.name || concreteComponent.__name;
     }
 
     let source = '';
@@ -166,10 +204,11 @@ export function generateSource(
     if (name) source += `<${name} ${props} >`;
 
     if (children) {
-      source += children.map((node: TemplateChildNode) => generateComponentSource(node)).join(' ');
+      source += children.map((node: TemplateChildNode) => generateComponentSource(node)).join('');
     }
     if (content) {
-      if (typeof content !== 'string') content = args[content.content.toString().split('.')[1]];
+      // eslint-disable-next-line no-eval
+      if (typeof content !== 'string') content = eval(content.loc.source); // it's a binding safe to eval
       source += content;
     }
     if (name) source += `</${name}>`;
@@ -183,14 +222,15 @@ export function generateSource(
   return null;
 }
 
-export function mapAttributesAndDirectives(props: Args) {
+function mapAttributesAndDirectives(props: Args) {
+  const tranformKey = (key: string) => (key.startsWith('on') ? key : kebabCase(key));
   return Object.keys(props).map(
     (key) =>
       ({
         name: 'bind',
         type: ['v-', '@', 'v-on'].includes(key) ? 7 : 6, // 6 is attribute, 7 is directive
-        arg: { content: kebabCase(key), loc: { source: kebabCase(key) } }, // attribute name or directive name (v-bind, v-on, v-model)
-        loc: { source: attributeSource(kebabCase(key), props[key]) }, // attribute value or directive value
+        arg: { content: tranformKey(key), loc: { source: tranformKey(key) } }, // attribute name or directive name (v-bind, v-on, v-model)
+        loc: { source: attributeSource(tranformKey(key), props[key]) }, // attribute value or directive value
         exp: { isStatic: false, loc: { source: props[key] } }, // directive expression
         modifiers: [''],
       } as unknown as AttributeNode)
@@ -238,3 +278,37 @@ export const sourceDecorator = (storyFn: any, context: StoryContext<Renderer>) =
 
   return story;
 };
+// export local function for testing purpose
+export {
+  generateScriptSetup,
+  getComponentsFromRenderFn,
+  getComponentsFromTemplate,
+  mapAttributesAndDirectives,
+  attributeSource,
+  htmlEventAttributeToVueEventAttribute,
+};
+
+function mapSlots(slotsProps: Args): TextNode[] {
+  return Object.keys(slotsProps).map((key) => {
+    const slot = slotsProps[key];
+    let slotContent = '';
+    if (typeof slot === 'function') slotContent = `<template #${key}>${slot()}</template>`;
+    if (key === 'default') {
+      slotContent = JSON.stringify(slot);
+    }
+    slotContent = `<template #${key}>${JSON.stringify(slot)}</template>`;
+
+    const txt: TextNode = {
+      type: 2,
+      content: slotContent,
+      loc: {
+        source: slotContent,
+        start: { offset: 0, line: 1, column: 0 },
+        end: { offset: 0, line: 1, column: 0 },
+      },
+    };
+    return txt;
+  });
+
+  // TODO: handle other cases (array, object, html,etc)
+}
