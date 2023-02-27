@@ -120,8 +120,6 @@
   },
   "bundler": {
     "entries": [
-      "./src/main.ts",
-      "./src/index.ts",
       "./src/commands/add.ts",
       "./src/commands/automigrate.ts",
       "./src/commands/babel-config.ts",
@@ -132,7 +130,9 @@
       "./src/commands/link.ts",
       "./src/commands/migrate.ts",
       "./src/commands/sandbox.ts",
-      "./src/commands/upgrade.ts"
+      "./src/commands/upgrade.ts",
+      "./src/main.ts",
+      "./src/index.ts"
     ],
     "formats": [
       "cjs"

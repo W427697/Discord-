@@ -1,5 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
-
 import program from 'commander';
 import path from 'path';
 import chalk from 'chalk';
@@ -40,7 +38,9 @@ command('init')
   .option('-b --builder <webpack5 | vite>', 'Builder library')
   .option('-l --linkable', 'Prepare installation for link (contributor helper)')
   .action(async (options: CommandOptions) => {
-    const { initiate } = await import('@storybook/cli/dist/commands/initiate');
+    const { initiate } = (await import(
+      '@storybook/cli/dist/commands/initiate' as any
+    )) as typeof import('./commands/initiate');
     await initiate(options, pkg).catch((err) => {
       logger.error(err);
       process.exit(1);
@@ -56,16 +56,18 @@ command('add <addon>')
   .option('-N --use-npm', 'Use NPM to install dependencies (deprecated)')
   .option('-s --skip-postinstall', 'Skip package specific postinstall config modifications')
   .action(async (addonName: string, options: any) => {
-    const { add } = await import('@storybook/cli/dist/commands/add');
+    const { add } = (await import(
+      '@storybook/cli/dist/commands/add' as any
+    )) as typeof import('./commands/add');
     await add(addonName, options);
   });
 
 command('babelrc')
   .description('generate the default storybook babel config into your current working directory')
   .action(async () => {
-    const { generateStorybookBabelConfigInCWD } = await import(
-      '@storybook/cli/dist/commands/babel-config'
-    );
+    const { generateStorybookBabelConfigInCWD } = (await import(
+      '@storybook/cli/dist/commands/babel-config' as any
+    )) as typeof import('./commands/babel-config');
     await generateStorybookBabelConfigInCWD();
   });
 
@@ -83,7 +85,9 @@ command('upgrade')
   .option('-s --skip-check', 'Skip postinstall version and automigration checks')
   .option('-c, --config-dir <dir-name>', 'Directory where to load Storybook configurations from')
   .action(async (options: UpgradeOptions) => {
-    const { upgrade } = await import('@storybook/cli/dist/commands/upgrade');
+    const { upgrade } = (await import(
+      '@storybook/cli/dist/commands/upgrade' as any
+    )) as typeof import('./commands/upgrade');
     await upgrade(options);
   });
 
@@ -118,7 +122,9 @@ command('migrate [migration]')
     'Rename suffix of matching files after codemod has been applied, e.g. ".js:.ts"'
   )
   .action(async (migration, { configDir, glob, dryRun, list, rename, parser }) => {
-    const { migrate } = await import('@storybook/cli/dist/commands/migrate');
+    const { migrate } = (await import(
+      '@storybook/cli/dist/commands/migrate' as any
+    )) as typeof import('./commands/migrate');
     await migrate(migration, {
       configDir,
       glob,
@@ -136,7 +142,9 @@ command('migrate [migration]')
 command('extract [location] [output]')
   .description('extract stories.json from a built version')
   .action(async (location = 'storybook-static', output = path.join(location, 'stories.json')) => {
-    const { extract } = await import('@storybook/cli/dist/commands/extract');
+    const { extract } = (await import(
+      '@storybook/cli/dist/commands/extract' as any
+    )) as typeof import('./commands/extract');
     await extract(location, output).catch((e) => {
       logger.error(e);
       process.exit(1);
@@ -150,7 +158,9 @@ command('sandbox [filterValue]')
   .option('-b --branch <branch>', 'Define the branch to download from', 'next')
   .option('--no-init', 'Whether to download a template without an initialized Storybook', false)
   .action(async (filterValue, options) => {
-    const { sandbox } = await import('@storybook/cli/dist/commands/sandbox');
+    const { sandbox } = (await import(
+      '@storybook/cli/dist/commands/sandbox' as any
+    )) as typeof import('./commands/sandbox');
     await sandbox({ filterValue, ...options }).catch((e) => {
       logger.error(e);
       process.exit(1);
@@ -162,7 +172,9 @@ command('link <repo-url-or-directory>')
   .option('--local', 'Link a local directory already in your file system')
   .option('--no-start', 'Start the storybook', true)
   .action(async (target, { local, start }) => {
-    const { link } = await import('@storybook/cli/dist/commands/link');
+    const { link } = (await import(
+      '@storybook/cli/dist/commands/link' as any
+    )) as typeof import('./commands/link');
     await link({ target, local, start }).catch((e) => {
       logger.error(e);
       process.exit(1);
@@ -183,7 +195,9 @@ command('automigrate [fixId]')
     'The renderer package for the framework Storybook is using.'
   )
   .action(async (fixId, options) => {
-    const { automigrate } = await import('@storybook/cli/dist/commands/automigrate');
+    const { automigrate } = (await import(
+      '@storybook/cli/dist/commands/automigrate' as any
+    )) as typeof import('./commands/automigrate');
     await automigrate({ fixId, ...options }).catch((e) => {
       logger.error(e);
       process.exit(1);
@@ -231,7 +245,7 @@ command('dev')
 
     const [{ getEnvConfig }, { dev }] = await Promise.all([
       import('./utils'),
-      import('@storybook/cli/dist/commands/dev'),
+      import('@storybook/cli/dist/commands/dev' as any) as Promise<typeof import('./commands/dev')>,
     ]);
 
     // The key is the field created in `program` variable for
@@ -272,7 +286,9 @@ command('build')
 
     const [{ getEnvConfig }, { build }] = await Promise.all([
       import('./utils'),
-      import('@storybook/cli/dist/commands/build'),
+      import('@storybook/cli/dist/commands/build' as any) as Promise<
+        typeof import('./commands/build')
+      >,
     ]);
 
     // The key is the field created in `program` variable for
