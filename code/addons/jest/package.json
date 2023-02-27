@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-jest",
-  "version": "7.0.0-beta.48",
+  "version": "7.0.0-beta.54",
   "description": "React storybook addon that show component jest report",
   "keywords": [
     "addon",
@@ -70,13 +70,13 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/client-logger": "7.0.0-beta.48",
-    "@storybook/components": "7.0.0-beta.48",
-    "@storybook/core-events": "7.0.0-beta.48",
+    "@storybook/client-logger": "7.0.0-beta.54",
+    "@storybook/components": "7.0.0-beta.54",
+    "@storybook/core-events": "7.0.0-beta.54",
     "@storybook/global": "^5.0.0",
-    "@storybook/manager-api": "7.0.0-beta.48",
-    "@storybook/preview-api": "7.0.0-beta.48",
-    "@storybook/theming": "7.0.0-beta.48",
+    "@storybook/manager-api": "7.0.0-beta.54",
+    "@storybook/preview-api": "7.0.0-beta.54",
+    "@storybook/theming": "7.0.0-beta.54",
     "react-resize-detector": "^7.1.2",
     "upath": "^1.2.0"
   },
@@ -105,7 +105,7 @@
     ],
     "platform": "browser"
   },
-  "gitHead": "8c9765f9cd204fc63b928526941d8d8bffaf7c38",
+  "gitHead": "dbdaa1b77a1f00ea90d6c1f018bf0c772d7b9afd",
   "storybook": {
     "displayName": "Jest",
     "icon": "https://pbs.twimg.com/profile_images/821713465245102080/mMtKIMax_400x400.jpg",

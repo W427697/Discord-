@@ -1,5 +1,8 @@
 const os = require('os');
+const fs = require('fs');
 const path = require('path');
+
+const swcrc = JSON.parse(fs.readFileSync('.swcrc', 'utf8'));
 
 /**
  * TODO: Some windows related tasks are still commented out, because they are behaving differently on
@@ -16,6 +19,32 @@ const skipOnWindows = [
   'lib/csf-tools/src/enrichCsf.test.ts',
 ];
 
+const modulesToTransform = [
+  '@angular',
+  '@lit',
+  '@mdx-js',
+  'ccount',
+  'character-entities',
+  'decode-named-character-reference',
+  'estree',
+  'lit-html',
+  'lit',
+  'lodash-es',
+  'mdast',
+  'micromark',
+  'nanoid',
+  'remark',
+  'rxjs',
+  'stringify-entities',
+  'unified',
+  'unist',
+  'uuid',
+  'vfile-message',
+  'vfile',
+  'zwitch',
+];
+
+/** @type { import('jest').Config } */
 module.exports = {
   cacheDirectory: path.resolve('.cache/jest'),
   clearMocks: true,
@@ -27,12 +56,10 @@ module.exports = {
     '\\.(md)$': path.resolve('./__mocks__/htmlMock.js'),
   },
   transform: {
-    '^.+\\.(t|j)sx?$': '@swc/jest',
+    '^.+\\.(t|j)sx?$': ['@swc/jest', swcrc],
     '^.+\\.mdx$': '@storybook/addon-docs/jest-transform-mdx',
   },
-  transformIgnorePatterns: [
-    '/node_modules/(?!@angular|rxjs|nanoid|uuid|lit-html|@mdx-js|lodash-es)',
-  ],
+  transformIgnorePatterns: [`(?<!node_modules.+)node_modules/(?!${modulesToTransform.join('|')})`],
   testMatch: ['**/__tests__/**/*.[jt]s?(x)', '**/?(*.)+(spec|test).[jt]s?(x)'],
   testPathIgnorePatterns: [
     '/storybook-static/',

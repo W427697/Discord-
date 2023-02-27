@@ -6,7 +6,13 @@ import type {
   CSFFile,
   PreparedStory,
   NormalizedProjectAnnotations,
+  RenderContext,
 } from './story';
+
+export type RenderContextCallbacks<TRenderer extends Renderer> = Pick<
+  RenderContext<TRenderer>,
+  'showMain' | 'showError' | 'showException'
+>;
 
 export type StoryRenderOptions = {
   autoplay?: boolean;
@@ -86,6 +92,7 @@ export interface DocsContextProps<TRenderer extends Renderer = Renderer> {
   renderStoryToElement: (
     story: PreparedStory<TRenderer>,
     element: HTMLElement,
+    callbacks: RenderContextCallbacks<TRenderer>,
     options: StoryRenderOptions
   ) => () => Promise<void>;
 
