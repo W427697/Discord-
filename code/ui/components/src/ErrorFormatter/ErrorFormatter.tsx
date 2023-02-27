@@ -17,7 +17,6 @@ const ErrorDetail = styled.em(({ theme }) => ({
 }));
 
 const firstLineRegex = /(Error): (.*)\n/;
-// const linesRegex = /at (?:(.*) )?\(?(.+)\)?/;
 const linesRegexChromium = /at (?:(.*) )?\(?(.+)\)?/;
 const linesRegexFirefox = /([^@]+)?(?:\/<)?@(.+)?/;
 const linesRegexSafari = /([^@]+)?@(.+)?/;
@@ -43,7 +42,6 @@ export const ErrorFormatter: FC<{ error: Error }> = ({ error }) => {
 
   const [, type, name] = match;
 
-  // [Log] http://localhost:6006 – {r: ["@[native code]", "[native", "code]"]} (ErrorFormatter.tsx, line 79)
   const rawLines = input.split(/\n/).slice(1);
   const [, ...lines] = rawLines
     .map((line) => {
