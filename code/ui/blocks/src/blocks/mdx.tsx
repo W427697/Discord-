@@ -1,7 +1,7 @@
 import type { FC, SyntheticEvent } from 'react';
 import React, { useContext } from 'react';
 import { NAVIGATE_URL } from '@storybook/core-events';
-import { Code, components, nameSpaceClassNames } from '@storybook/components';
+import { Code, components, Icons, nameSpaceClassNames } from '@storybook/components';
 import { global } from '@storybook/global';
 import { styled } from '@storybook/theming';
 import { Source } from '../components';
@@ -127,8 +127,9 @@ const OcticonHeaders = SUPPORTED_MDX_HEADERS.reduce(
     ...acc,
     [headerType]: styled(headerType)({
       '& svg': {
+        position: 'relative',
+        top: '-0.1em',
         visibility: 'hidden',
-        marginTop: 'calc(1em - 14px)',
       },
       '&:hover svg': {
         visibility: 'visible',
@@ -179,16 +180,7 @@ const HeaderWithOcticonAnchor: FC<HeaderWithOcticonAnchorProps> = ({
           }
         }}
       >
-        <svg viewBox="0 0 14 14" width="14px" height="14px">
-          <path
-            fill="currentColor"
-            d="M11.84 2.16a2.25 2.25 0 0 0-3.18 0l-2.5 2.5c-.88.88-.88 2.3 0 3.18a.5.5 0 0 1-.7.7 3.25 3.25 0 0 1 0-4.59l2.5-2.5a3.25 3.25 0 0 1 4.59 4.6L10.48 8.1c.04-.44.01-.89-.09-1.32l1.45-1.45c.88-.88.88-2.3 0-3.18Z"
-          />
-          <path
-            fill="currentColor"
-            d="M3.6 7.2c-.1-.42-.12-.87-.08-1.31L1.45 7.95a3.25 3.25 0 1 0 4.6 4.6l2.5-2.5a3.25 3.25 0 0 0 0-4.6.5.5 0 0 0-.7.7c.87.89.87 2.31 0 3.2l-2.5 2.5a2.25 2.25 0 1 1-3.2-3.2l1.46-1.44Z"
-          />
-        </svg>
+        <Icons icon="link" />
       </OcticonAnchor>
       {children}
     </OcticonHeader>
