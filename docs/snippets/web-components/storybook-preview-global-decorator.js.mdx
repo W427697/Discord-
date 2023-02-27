@@ -1,7 +1,9 @@
 ```js
 // .storybook/preview.js
 
-import { html } from 'lit-html';
+import { html } from 'lit';
 
-export const decorators = [(story) => html`<div style="margin: 3em">${story()}</div>`],
+export default {
+  decorators: [(story) => html`<div style="margin: 3em">${story()}</div>`],
+};
 ```
