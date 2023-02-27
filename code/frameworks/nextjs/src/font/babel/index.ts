@@ -42,7 +42,7 @@ export default function TransformFontImports({ types }: Babel): BabelCoreNamespa
         const { source } = node;
         const { filename = '' } = state;
 
-        if (source.value === 'next/font/local') {
+        if (source.value === 'next/font/local' || source.value === '@next/font/local') {
           const { specifiers } = node;
 
           // next/font/local only provides a default export
@@ -60,7 +60,7 @@ export default function TransformFontImports({ types }: Babel): BabelCoreNamespa
           replaceImportWithParamterImport(path, types, source, variableMetas, filename);
         }
 
-        if (source.value === 'next/font/google') {
+        if (source.value === 'next/font/google' || source.value === '@next/font/google') {
           const { specifiers } = node;
 
           const variableMetas = specifiers
