@@ -169,7 +169,7 @@ We have a badge! Link it to your live Storybook example.
 
 If you're looking for material to use in your Storybook presentation, such as logos, video material, and the colors we use, you can find it all on our [brand repo](https://github.com/storybookjs/brand).
 
-## Community
+## Our Community
 
 - Tweeting via [@storybookjs](https://twitter.com/storybookjs)
 - Blogging at [storybook.js.org](https://storybook.js.org/blog/) and [Medium](https://medium.com/storybookjs)
@@ -215,7 +215,7 @@ Storybook is organized as a monorepo using [Lerna](https://lerna.js.org/). Usefu
 
 - `yarn run test --core --watch` - will run core tests in watch-mode
 
-### Sponsors
+### Our Sponsors
 
 Become a sponsor to have your logo and website URL on our README on Github. \[[Become a sponsor](https://opencollective.com/storybook#sponsor)]
 
