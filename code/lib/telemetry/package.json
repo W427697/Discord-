@@ -1,6 +1,6 @@
 {
   "name": "@storybook/telemetry",
-  "version": "7.0.0-beta.49",
+  "version": "7.0.0-beta.54",
   "description": "Telemetry logging for crash reports and usage statistics",
   "keywords": [
     "storybook"
@@ -41,8 +41,8 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/client-logger": "7.0.0-beta.49",
-    "@storybook/core-common": "7.0.0-beta.49",
+    "@storybook/client-logger": "7.0.0-beta.54",
+    "@storybook/core-common": "7.0.0-beta.54",
     "chalk": "^4.1.0",
     "detect-package-manager": "^2.0.1",
     "fetch-retry": "^5.0.2",
@@ -66,5 +66,5 @@
       "cjs"
     ]
   },
-  "gitHead": "a2b4f0b42ee2b071390794bbdf99d0366fa32472"
+  "gitHead": "dbdaa1b77a1f00ea90d6c1f018bf0c772d7b9afd"
 }

@@ -1,6 +1,6 @@
 {
   "name": "@storybook/nextjs",
-  "version": "7.0.0-beta.49",
+  "version": "7.0.0-beta.54",
   "description": "Storybook for Next.js",
   "keywords": [
     "storybook",
@@ -58,14 +58,15 @@
   },
   "dependencies": {
     "@next/font": "^13.0.7",
-    "@storybook/addon-actions": "7.0.0-beta.49",
-    "@storybook/builder-webpack5": "7.0.0-beta.49",
-    "@storybook/core-common": "7.0.0-beta.49",
-    "@storybook/node-logger": "7.0.0-beta.49",
-    "@storybook/preset-react-webpack": "7.0.0-beta.49",
-    "@storybook/preview-api": "7.0.0-beta.49",
-    "@storybook/react": "7.0.0-beta.49",
+    "@storybook/addon-actions": "7.0.0-beta.54",
+    "@storybook/builder-webpack5": "7.0.0-beta.54",
+    "@storybook/core-common": "7.0.0-beta.54",
+    "@storybook/node-logger": "7.0.0-beta.54",
+    "@storybook/preset-react-webpack": "7.0.0-beta.54",
+    "@storybook/preview-api": "7.0.0-beta.54",
+    "@storybook/react": "7.0.0-beta.54",
     "@types/node": "^16.0.0",
+    "css-loader": "^6.7.3",
     "find-up": "^5.0.0",
     "fs-extra": "^11.1.0",
     "image-size": "^1.0.0",
@@ -76,6 +77,7 @@
     "resolve-url-loader": "^5.0.0",
     "sass-loader": "^12.4.0",
     "semver": "^7.3.5",
+    "style-loader": "^3.3.1",
     "ts-dedent": "^2.0.0",
     "tsconfig-paths": "^4.0.0",
     "tsconfig-paths-webpack-plugin": "^3.5.2"
@@ -128,5 +130,5 @@
       "cjs"
     ]
   },
-  "gitHead": "a2b4f0b42ee2b071390794bbdf99d0366fa32472"
+  "gitHead": "dbdaa1b77a1f00ea90d6c1f018bf0c772d7b9afd"
 }
