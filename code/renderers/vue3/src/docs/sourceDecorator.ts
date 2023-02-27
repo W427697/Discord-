@@ -75,7 +75,7 @@ export function generateAttributesSource(
 
       if (arg.type === 7) {
         const { arg: argName } = arg;
-        const argKey = argName?.content;
+        const argKey = argName?.loc.source;
         // const argExpValue = exp?.content;
         const propValue = args[camelCase(argKey)];
 

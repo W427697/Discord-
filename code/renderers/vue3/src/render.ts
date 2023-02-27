@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 import { createApp, h, isReactive, reactive } from 'vue';
 import type { RenderContext, ArgsStoryFn } from '@storybook/types';
 import type { Args, StoryContext } from '@storybook/csf';
@@ -42,14 +43,13 @@ export function renderToCanvas(
   // create vue app for the story
   const vueStoryApp = createApp({
     setup() {
-      let { args } = storyContext;
-      args = reactive(reactiveArgs);
-      const rootComponent = storyFn(args);
+      storyContext.args = reactive(reactiveArgs);
+      const rootComponent = storyFn();
       map.set(canvasElement, {
         vueApp: vueStoryApp,
         reactiveArgs,
       });
-      return () => h(rootComponent, args);
+      return () => h(rootComponent, reactiveArgs);
     },
     onMounted() {
       map.set(canvasElement, {
@@ -58,10 +58,10 @@ export function renderToCanvas(
       });
     },
     renderTracked(event) {
-      console.log('--renderTracked ', event);
+      console.log('vueApp--renderTracked ', event);
     },
     renderTriggered(event) {
-      console.log('--renderTriggered ', event);
+      console.log('vueApp--renderTriggered ', event);
     },
   });
   vueStoryApp.config.errorHandler = (e: unknown) => showException(e as Error);
