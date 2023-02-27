@@ -191,6 +191,7 @@ export const DocsContent = styled.div(({ theme }) => {
       ...reset,
       ...headers,
       fontSize: `${theme.typography.size.m1}px`,
+      fontWeight: theme.typography.weight.bold,
     },
     [toGlobalSelector('h4')]: {
       ...reset,

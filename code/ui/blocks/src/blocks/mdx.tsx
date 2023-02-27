@@ -128,6 +128,7 @@ const OcticonHeaders = SUPPORTED_MDX_HEADERS.reduce(
     [headerType]: styled(headerType)({
       '& svg': {
         visibility: 'hidden',
+        marginTop: 'calc(1em - 14px)',
       },
       '&:hover svg': {
         visibility: 'visible',
@@ -139,8 +140,9 @@ const OcticonHeaders = SUPPORTED_MDX_HEADERS.reduce(
 
 const OcticonAnchor = styled.a(() => ({
   float: 'left',
-  paddingRight: '4px',
-  marginLeft: '-20px',
+  lineHeight: 'inherit',
+  paddingRight: '10px',
+  marginLeft: '-24px',
   // Allow the theme's text color to override the default link color.
   color: 'inherit',
 }));
@@ -177,17 +179,14 @@ const HeaderWithOcticonAnchor: FC<HeaderWithOcticonAnchorProps> = ({
           }
         }}
       >
-        <svg
-          viewBox="0 0 16 16"
-          version="1.1"
-          width="16"
-          height="16"
-          aria-hidden="true"
-          fill="currentColor"
-        >
+        <svg viewBox="0 0 14 14" width="14px" height="14px">
           <path
-            fillRule="evenodd"
-            d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"
+            fill="currentColor"
+            d="M11.84 2.16a2.25 2.25 0 0 0-3.18 0l-2.5 2.5c-.88.88-.88 2.3 0 3.18a.5.5 0 0 1-.7.7 3.25 3.25 0 0 1 0-4.59l2.5-2.5a3.25 3.25 0 0 1 4.59 4.6L10.48 8.1c.04-.44.01-.89-.09-1.32l1.45-1.45c.88-.88.88-2.3 0-3.18Z"
+          />
+          <path
+            fill="currentColor"
+            d="M3.6 7.2c-.1-.42-.12-.87-.08-1.31L1.45 7.95a3.25 3.25 0 1 0 4.6 4.6l2.5-2.5a3.25 3.25 0 0 0 0-4.6.5.5 0 0 0-.7.7c.87.89.87 2.31 0 3.2l-2.5 2.5a2.25 2.25 0 1 1-3.2-3.2l1.46-1.44Z"
           />
         </svg>
       </OcticonAnchor>
