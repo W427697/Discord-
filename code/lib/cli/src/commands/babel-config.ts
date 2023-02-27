@@ -3,7 +3,7 @@ import { logger } from '@storybook/node-logger';
 import path from 'path';
 import prompts from 'prompts';
 import chalk from 'chalk';
-import { JsPackageManagerFactory } from './js-package-manager';
+import { JsPackageManagerFactory } from '../js-package-manager';
 
 export const generateStorybookBabelConfigInCWD = async () => {
   const target = process.cwd();

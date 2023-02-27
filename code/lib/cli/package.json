@@ -30,6 +30,17 @@
       "types": "./dist/index.d.ts"
     },
     "./package.json": "./package.json",
+    "./dist/commands/add": "./dist/commands/add.js",
+    "./dist/commands/automigrate": "./dist/commands/automigrate.js",
+    "./dist/commands/babel-config": "t/commands/babel-config.js",
+    "./dist/commands/build": "./dist/commands/build.js",
+    "./dist/commands/dev": "./dist/commands/dev.js",
+    "./dist/commands/extract": "./dist/commands/extract.js",
+    "./dist/commands/initiate": "./dist/commands/initiate.js",
+    "./dist/commands/link": "./dist/commands/link.js",
+    "./dist/commands/migrate": "./dist/commands/migrate.js",
+    "./dist/commands/sandbox": "./dist/commands/sandbox.js",
+    "./dist/commands/upgrade": "./dist/commands/upgrade.js",
     "./bin/index": "./bin/index.js"
   },
   "main": "dist/index.js",
@@ -109,10 +120,24 @@
   },
   "bundler": {
     "entries": [
-      "./src/generate.ts",
-      "./src/index.ts"
+      "./src/main.ts",
+      "./src/index.ts",
+      "./src/commands/add.ts",
+      "./src/commands/automigrate.ts",
+      "./src/commands/babel-config.ts",
+      "./src/commands/build.ts",
+      "./src/commands/dev.ts",
+      "./src/commands/extract.ts",
+      "./src/commands/initiate.ts",
+      "./src/commands/link.ts",
+      "./src/commands/migrate.ts",
+      "./src/commands/sandbox.ts",
+      "./src/commands/upgrade.ts"
     ],
-    "platform": "node"
+    "formats": [
+      "cjs"
+    ],
+    "plaform": "node"
   },
   "gitHead": "dbdaa1b77a1f00ea90d6c1f018bf0c772d7b9afd"
 }

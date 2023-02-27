@@ -6,4 +6,4 @@ if (majorNodeVersion < 16) {
   process.exit(1);
 }
 
-require('../dist/generate.js');
+require('../dist/main.js');

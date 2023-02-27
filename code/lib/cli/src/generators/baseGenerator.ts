@@ -8,7 +8,7 @@ import { getBabelDependencies, copyTemplateFiles } from '../helpers';
 import { configureMain, configurePreview } from './configure';
 import type { JsPackageManager } from '../js-package-manager';
 import { getPackageDetails } from '../js-package-manager';
-import { generateStorybookBabelConfigInCWD } from '../babel-config';
+import { generateStorybookBabelConfigInCWD } from '../commands/babel-config';
 import packageVersions from '../versions';
 import type { FrameworkOptions, GeneratorOptions } from './types';
 

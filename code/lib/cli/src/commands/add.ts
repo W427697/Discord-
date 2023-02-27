@@ -5,12 +5,12 @@ import { sync as spawnSync } from 'cross-spawn';
 import { getStorybookInfo } from '@storybook/core-common';
 import { readConfig, writeConfig } from '@storybook/csf-tools';
 
-import { commandLog } from './helpers';
+import { commandLog } from '../helpers';
 import {
   JsPackageManagerFactory,
   useNpmWarning,
   type PackageManagerName,
-} from './js-package-manager';
+} from '../js-package-manager';
 
 const logger = console;
 

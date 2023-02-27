@@ -4,10 +4,10 @@ import semver from 'semver';
 import { logger } from '@storybook/node-logger';
 import { withTelemetry } from '@storybook/core-server';
 
-import type { PackageJsonWithMaybeDeps, PackageManagerName } from './js-package-manager';
-import { getPackageDetails, JsPackageManagerFactory, useNpmWarning } from './js-package-manager';
-import { commandLog } from './helpers';
-import { automigrate } from './automigrate';
+import type { PackageJsonWithMaybeDeps, PackageManagerName } from '../js-package-manager';
+import { getPackageDetails, JsPackageManagerFactory, useNpmWarning } from '../js-package-manager';
+import { commandLog } from '../helpers';
+import { automigrate } from '../automigrate';
 
 type Package = {
   package: string;

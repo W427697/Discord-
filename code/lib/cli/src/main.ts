@@ -1,25 +1,16 @@
+/* eslint-disable import/no-extraneous-dependencies */
+
 import program from 'commander';
 import path from 'path';
 import chalk from 'chalk';
-import envinfo from 'envinfo';
 import leven from 'leven';
 import { sync as readUpSync } from 'read-pkg-up';
 
 import { logger } from '@storybook/node-logger';
 
+import type { UpgradeOptions } from './commands/upgrade';
 import type { CommandOptions } from './generators/types';
-import { initiate } from './initiate';
-import { add } from './add';
-import { migrate } from './migrate';
-import { extract } from './extract';
-import { upgrade, type UpgradeOptions } from './upgrade';
-import { sandbox } from './sandbox';
-import { link } from './link';
-import { automigrate } from './automigrate';
-import { generateStorybookBabelConfigInCWD } from './babel-config';
-import { dev } from './dev';
-import { build } from './build';
-import { parseList, getEnvConfig } from './utils';
+import { parseList } from './utils';
 
 const pkg = readUpSync({ cwd: __dirname }).packageJson;
 const consoleLogger = console;
@@ -48,8 +39,9 @@ command('init')
   .option('-y --yes', 'Answer yes to all prompts')
   .option('-b --builder <webpack5 | vite>', 'Builder library')
   .option('-l --linkable', 'Prepare installation for link (contributor helper)')
-  .action((options: CommandOptions) => {
-    initiate(options, pkg).catch((err) => {
+  .action(async (options: CommandOptions) => {
+    const { initiate } = await import('@storybook/cli/dist/commands/initiate');
+    await initiate(options, pkg).catch((err) => {
       logger.error(err);
       process.exit(1);
     });
@@ -63,11 +55,19 @@ command('add <addon>')
   )
   .option('-N --use-npm', 'Use NPM to install dependencies (deprecated)')
   .option('-s --skip-postinstall', 'Skip package specific postinstall config modifications')
-  .action((addonName: string, options: any) => add(addonName, options));
+  .action(async (addonName: string, options: any) => {
+    const { add } = await import('@storybook/cli/dist/commands/add');
+    await add(addonName, options);
+  });
 
 command('babelrc')
   .description('generate the default storybook babel config into your current working directory')
-  .action(() => generateStorybookBabelConfigInCWD());
+  .action(async () => {
+    const { generateStorybookBabelConfigInCWD } = await import(
+      '@storybook/cli/dist/commands/babel-config'
+    );
+    await generateStorybookBabelConfigInCWD();
+  });
 
 command('upgrade')
   .description('Upgrade your Storybook packages to the latest')
@@ -82,13 +82,18 @@ command('upgrade')
   .option('-p --prerelease', 'Upgrade to the pre-release packages')
   .option('-s --skip-check', 'Skip postinstall version and automigration checks')
   .option('-c, --config-dir <dir-name>', 'Directory where to load Storybook configurations from')
-  .action((options: UpgradeOptions) => upgrade(options));
+  .action(async (options: UpgradeOptions) => {
+    const { upgrade } = await import('@storybook/cli/dist/commands/upgrade');
+    await upgrade(options);
+  });
 
 command('info')
   .description('Prints debugging information about the local environment')
-  .action(() => {
+  .action(async () => {
     consoleLogger.log(chalk.bold('\nEnvironment Info:'));
-    envinfo
+    const { default: envinfo } = await import('envinfo');
+
+    await envinfo
       .run({
         System: ['OS', 'CPU'],
         Binaries: ['Node', 'Yarn', 'npm'],
@@ -112,8 +117,9 @@ command('migrate [migration]')
     '-r --rename <from-to>',
     'Rename suffix of matching files after codemod has been applied, e.g. ".js:.ts"'
   )
-  .action((migration, { configDir, glob, dryRun, list, rename, parser }) => {
-    migrate(migration, {
+  .action(async (migration, { configDir, glob, dryRun, list, rename, parser }) => {
+    const { migrate } = await import('@storybook/cli/dist/commands/migrate');
+    await migrate(migration, {
       configDir,
       glob,
       dryRun,
@@ -129,12 +135,13 @@ command('migrate [migration]')
 
 command('extract [location] [output]')
   .description('extract stories.json from a built version')
-  .action((location = 'storybook-static', output = path.join(location, 'stories.json')) =>
-    extract(location, output).catch((e) => {
+  .action(async (location = 'storybook-static', output = path.join(location, 'stories.json')) => {
+    const { extract } = await import('@storybook/cli/dist/commands/extract');
+    await extract(location, output).catch((e) => {
       logger.error(e);
       process.exit(1);
-    })
-  );
+    });
+  });
 
 command('sandbox [filterValue]')
   .alias('repro') // for retrocompatibility purposes
@@ -142,23 +149,25 @@ command('sandbox [filterValue]')
   .option('-o --output <outDir>', 'Define an output directory')
   .option('-b --branch <branch>', 'Define the branch to download from', 'next')
   .option('--no-init', 'Whether to download a template without an initialized Storybook', false)
-  .action((filterValue, options) =>
-    sandbox({ filterValue, ...options }).catch((e) => {
+  .action(async (filterValue, options) => {
+    const { sandbox } = await import('@storybook/cli/dist/commands/sandbox');
+    await sandbox({ filterValue, ...options }).catch((e) => {
       logger.error(e);
       process.exit(1);
-    })
-  );
+    });
+  });
 
 command('link <repo-url-or-directory>')
   .description('Pull down a repro from a URL (or a local directory), link it, and run storybook')
   .option('--local', 'Link a local directory already in your file system')
   .option('--no-start', 'Start the storybook', true)
-  .action((target, { local, start }) =>
-    link({ target, local, start }).catch((e) => {
+  .action(async (target, { local, start }) => {
+    const { link } = await import('@storybook/cli/dist/commands/link');
+    await link({ target, local, start }).catch((e) => {
       logger.error(e);
       process.exit(1);
-    })
-  );
+    });
+  });
 
 command('automigrate [fixId]')
   .description('Check storybook for known problems or migrations and apply fixes')
@@ -174,6 +183,7 @@ command('automigrate [fixId]')
     'The renderer package for the framework Storybook is using.'
   )
   .action(async (fixId, options) => {
+    const { automigrate } = await import('@storybook/cli/dist/commands/automigrate');
     await automigrate({ fixId, ...options }).catch((e) => {
       logger.error(e);
       process.exit(1);
@@ -215,9 +225,14 @@ command('dev')
   )
   .option('--force-build-preview', 'Build the preview iframe even if you are using --preview-url')
   .option('--docs', 'Build a documentation-only site using addon-docs')
-  .action((options) => {
+  .action(async (options) => {
     logger.setLevel(program.loglevel);
     consoleLogger.log(chalk.bold(`${pkg.name} v${pkg.version}`) + chalk.reset('\n'));
+
+    const [{ getEnvConfig }, { dev }] = await Promise.all([
+      import('./utils'),
+      import('@storybook/cli/dist/commands/dev'),
+    ]);
 
     // The key is the field created in `program` variable for
     // each command line argument. Value is the env variable.
@@ -233,7 +248,7 @@ command('dev')
       program.port = parseInt(program.port, 10);
     }
 
-    dev({ ...options, packageJson: pkg });
+    await dev({ ...options, packageJson: pkg });
   });
 
 command('build')
@@ -250,10 +265,15 @@ command('build')
   )
   .option('--force-build-preview', 'Build the preview iframe even if you are using --preview-url')
   .option('--docs', 'Build a documentation-only site using addon-docs')
-  .action((options) => {
+  .action(async (options) => {
     process.env.NODE_ENV = process.env.NODE_ENV || 'production';
     logger.setLevel(program.loglevel);
     consoleLogger.log(chalk.bold(`${pkg.name} v${pkg.version}\n`));
+
+    const [{ getEnvConfig }, { build }] = await Promise.all([
+      import('./utils'),
+      import('@storybook/cli/dist/commands/build'),
+    ]);
 
     // The key is the field created in `program` variable for
     // each command line argument. Value is the env variable.
@@ -263,7 +283,7 @@ command('build')
       configDir: 'SBCONFIG_CONFIG_DIR',
     });
 
-    build({ ...options, packageJson: pkg });
+    await build({ ...options, packageJson: pkg });
   });
 
 program.on('command:*', ([invalidCmd]) => {
