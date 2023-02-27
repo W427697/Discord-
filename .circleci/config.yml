@@ -150,7 +150,7 @@ jobs:
             - .verdaccio-cache
   cra-bench:
     executor:
-      class: medium
+      class: large
       name: sb_playwright
     working_directory: /tmp/storybook
     steps:
