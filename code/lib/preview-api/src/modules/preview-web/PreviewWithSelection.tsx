@@ -437,15 +437,6 @@ export class PreviewWithSelection<TFramework extends Renderer> extends Preview<T
     };
   }
 
-  inlineStoryCallbacks(storyId: StoryId) {
-    return {
-      showMain: () => {},
-      showError: (err: { title: string; description: string }) =>
-        logger.error(`Error rendering docs story (${storyId})`, err),
-      showException: (err: Error) => logger.error(`Error rendering docs story (${storyId})`, err),
-    };
-  }
-
   renderPreviewEntryError(reason: string, err: Error) {
     super.renderPreviewEntryError(reason, err);
     this.view.showErrorDisplay(err);

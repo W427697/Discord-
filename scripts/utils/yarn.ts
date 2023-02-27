@@ -1,4 +1,4 @@
-import { readJSON, writeJSON } from 'fs-extra';
+import { pathExists, readJSON, writeJSON } from 'fs-extra';
 import path from 'path';
 
 import { exec } from './exec';
@@ -23,20 +23,28 @@ export const addPackageResolutions = async ({ cwd, dryRun }: YarnOptions) => {
   packageJson.resolutions = {
     ...storybookVersions,
     'enhanced-resolve': '~5.10.0', // TODO, remove this
-    playwright: '1.30.0', // this is for our CI test, ensure we use the same version as docker image, it should match version specified in `./code/package.json` and `.circleci/config.yml`
+    // this is for our CI test, ensure we use the same version as docker image, it should match version specified in `./code/package.json` and `.circleci/config.yml`
+    '@playwright/test': '1.31.1',
+    playwright: '1.31.1',
   };
   await writeJSON(packageJsonPath, packageJson, { spaces: 2 });
 };
 
 export const installYarn2 = async ({ cwd, dryRun, debug }: YarnOptions) => {
+  const pnpApiExists = await pathExists(path.join(cwd, '.pnp.cjs'));
+
   const command = [
     touch('yarn.lock'),
     touch('.yarnrc.yml'),
     `yarn set version berry`,
     // Use the global cache so we aren't re-caching dependencies each time we run sandbox
     `yarn config set enableGlobalCache true`,
-    `yarn config set nodeLinker node-modules`,
+    `yarn config set checksumBehavior ignore`,
   ];
+
+  if (!pnpApiExists) {
+    command.push(`yarn config set nodeLinker node-modules`);
+  }
 
   await exec(
     command,

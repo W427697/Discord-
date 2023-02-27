@@ -1,7 +1,7 @@
 import prompts from 'prompts';
 import type { CLIOptions, CoreConfig } from '@storybook/types';
 import { loadAllPresets, cache } from '@storybook/core-common';
-import { telemetry, getPrecedingUpgrade } from '@storybook/telemetry';
+import { telemetry, getPrecedingUpgrade, oneWayHash } from '@storybook/telemetry';
 import type { EventType } from '@storybook/telemetry';
 
 type TelemetryOptions = {
@@ -58,6 +58,36 @@ async function getErrorLevel({ cliOptions, presetOptions }: TelemetryOptions): P
   return 'full';
 }
 
+export async function sendTelemetryError(
+  error: Error,
+  eventType: EventType,
+  options: TelemetryOptions
+) {
+  try {
+    const errorLevel = await getErrorLevel(options);
+    if (errorLevel !== 'none') {
+      const precedingUpgrade = await getPrecedingUpgrade();
+
+      await telemetry(
+        'error',
+        {
+          eventType,
+          precedingUpgrade,
+          error: errorLevel === 'full' ? error : undefined,
+          errorHash: oneWayHash(error.message),
+        },
+        {
+          immediate: true,
+          configDir: options.cliOptions.configDir || options.presetOptions?.configDir,
+          enableCrashReports: errorLevel === 'full',
+        }
+      );
+    }
+  } catch (err) {
+    // if this throws an error, we just move on
+  }
+}
+
 export async function withTelemetry(
   eventType: EventType,
   options: TelemetryOptions,
@@ -69,25 +99,7 @@ export async function withTelemetry(
   try {
     await run();
   } catch (error) {
-    try {
-      const errorLevel = await getErrorLevel(options);
-      if (errorLevel !== 'none') {
-        const precedingUpgrade = await getPrecedingUpgrade();
-
-        await telemetry(
-          'error',
-          { eventType, precedingUpgrade, error: errorLevel === 'full' ? error : undefined },
-          {
-            immediate: true,
-            configDir: options.cliOptions.configDir || options.presetOptions?.configDir,
-            enableCrashReports: errorLevel === 'full',
-          }
-        );
-      }
-    } catch (err) {
-      // if this throws an error, we just move on
-    }
-
+    await sendTelemetryError(error, eventType, options);
     throw error;
   }
 }

@@ -242,10 +242,6 @@ type CoreCommon_StorybookRefs = Record<
 
 export type DocsOptions = {
   /**
-   * Should we disable generate docs entries at all under any circumstances? (i.e. can they be rendered)
-   */
-  disable?: boolean;
-  /**
    * What should we call the generated docs entries?
    */
   defaultName?: string;
@@ -303,11 +299,6 @@ export interface StorybookConfig {
     breakingChangesV7?: boolean;
 
     /**
-     * Enable the step debugger functionality in Addon-interactions.
-     */
-    interactionsDebugger?: boolean;
-
-    /**
      * Filter args with a "target" on the type from the render function (EXPERIMENTAL)
      */
     argTypeTargetsV7?: boolean;
@@ -332,7 +323,7 @@ export interface StorybookConfig {
   stories: StoriesEntry[];
 
   /**
-   * Framework, e.g. '@storybook/react', required in v7
+   * Framework, e.g. '@storybook/react-vite', required in v7
    */
   framework?: Preset;
 
