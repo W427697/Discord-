@@ -1,5 +1,4 @@
-/* eslint-disable no-param-reassign */
-import { createApp, h, reactive } from 'vue';
+import { createApp, h, isReactive, reactive } from 'vue';
 import type { RenderContext, ArgsStoryFn } from '@storybook/types';
 import type { Args, StoryContext } from '@storybook/csf';
 import type { VueRenderer } from './types';
@@ -11,7 +10,7 @@ export const render: ArgsStoryFn<VueRenderer> = (props, context) => {
       `Unable to render story ${id} as the component annotation is missing from the default export`
     );
   }
-  console.log(' props ', props);
+
   return h(Component, props, getSlots(props, context));
 };
 
@@ -22,46 +21,56 @@ export const setup = (fn: (app: any) => void) => {
 
 const map = new Map<
   VueRenderer['canvasElement'],
-  { vueApp: ReturnType<typeof createApp>; reactiveArgs: any; rootComponent: any }
+  { vueApp: ReturnType<typeof createApp>; reactiveArgs: any }
 >();
 
 export function renderToCanvas(
   { storyFn, forceRemount, showMain, showException, storyContext }: RenderContext<VueRenderer>,
   canvasElement: VueRenderer['canvasElement']
 ) {
-  // fetch the story with the updated context (with reactive args)
   const existingApp = map.get(canvasElement);
-
-  storyContext.args = reactive(storyContext.args);
-  const rootComponent: any = !existingApp ? storyFn() : existingApp.rootComponent;
-
-  const appProps =
-    rootComponent.props ?? (typeof rootComponent === 'function' ? rootComponent().props : {});
-  const reactiveArgs = Object.keys(appProps).length > 0 ? reactive(appProps) : storyContext.args;
-
+  const reactiveArgs: Args = existingApp?.reactiveArgs ?? reactive(storyContext.args); // get reference to reactiveArgs or create a new one;
+  // if the story is already rendered and we are not forcing a remount, we just update the reactive args
   if (existingApp && !forceRemount) {
-    updateArgs(existingApp.reactiveArgs, reactiveArgs);
+    updateArgs(existingApp.reactiveArgs, storyContext.args);
     return () => {
       teardown(existingApp.vueApp, canvasElement);
     };
   }
-
   if (existingApp && forceRemount) teardown(existingApp.vueApp, canvasElement);
 
-  const storybookApp = createApp({
-    render() {
-      map.set(canvasElement, { vueApp: storybookApp, reactiveArgs, rootComponent });
-      return h(rootComponent, reactiveArgs);
+  // create vue app for the story
+  const vueStoryApp = createApp({
+    setup() {
+      let { args } = storyContext;
+      args = reactive(reactiveArgs);
+      const rootComponent = storyFn(args);
+      map.set(canvasElement, {
+        vueApp: vueStoryApp,
+        reactiveArgs,
+      });
+      return () => h(rootComponent, args);
+    },
+    onMounted() {
+      map.set(canvasElement, {
+        vueApp: vueStoryApp,
+        reactiveArgs,
+      });
+    },
+    renderTracked(event) {
+      console.log('--renderTracked ', event);
+    },
+    renderTriggered(event) {
+      console.log('--renderTriggered ', event);
     },
   });
-
-  storybookApp.config.errorHandler = (e: unknown) => showException(e as Error);
-  setupFunction(storybookApp);
-  storybookApp.mount(canvasElement);
+  vueStoryApp.config.errorHandler = (e: unknown) => showException(e as Error);
+  setupFunction(vueStoryApp);
+  vueStoryApp.mount(canvasElement);
 
   showMain();
   return () => {
-    teardown(storybookApp, canvasElement);
+    teardown(vueStoryApp, canvasElement);
   };
 }
 
@@ -87,10 +96,10 @@ function getSlots(props: Args, context: StoryContext<VueRenderer, Args>) {
  * @returns
  */
 export function updateArgs(reactiveArgs: Args, nextArgs: Args) {
-  if (!nextArgs) return;
-
-  Object.keys(reactiveArgs).forEach((key) => delete reactiveArgs[key]);
-  Object.assign(reactiveArgs, nextArgs);
+  const currentArgs = isReactive(reactiveArgs) ? reactiveArgs : reactive(reactiveArgs);
+  Object.entries(nextArgs).forEach(([key, value]) => {
+    currentArgs[key] = value;
+  });
 }
 
 function teardown(

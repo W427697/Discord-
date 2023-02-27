@@ -72,13 +72,13 @@ export function generateAttributesSource(
   return Object.keys(tempArgs)
     .map((key: any) => {
       const arg = tempArgs[key];
-      console.log('------> arg:', arg);
+
       if (arg.type === 7) {
-        const { exp, arg: argName } = arg;
+        const { arg: argName } = arg;
         const argKey = argName?.content;
-        const argExpValue = exp?.content;
+        // const argExpValue = exp?.content;
         const propValue = args[camelCase(argKey)];
-        console.log('-->argKey', argKey, 'argExpValue :', argExpValue, 'propValue :', propValue);
+
         const argValue = argKey ? propValue : toDisplayString(args);
         return argKey
           ? attributeSource(argKey, argValue)

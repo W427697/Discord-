@@ -30,10 +30,26 @@ function prepare(
       // Normalize so we can always spread an object
       ...normalizeFunctionalComponent(story),
       components: { ...(story.components || {}), story: innerStory },
+      renderTracked(event) {
+        console.log('innerStory renderTracked', event);
+      },
+      renderTriggered(event) {
+        console.log('innerStory renderTriggered', event);
+      },
     };
   }
 
-  return () => h(story);
+  return {
+    render() {
+      return h(story, this.$props);
+    },
+    renderTracked(event) {
+      console.log('story renderTracked', event);
+    },
+    renderTriggered(event) {
+      console.log('story renderTriggered', event);
+    },
+  };
 }
 
 export function decorateStory(
@@ -60,7 +76,7 @@ export function decorateStory(
         return story;
       }
 
-      return prepare(decoratedStory, h(story, context.args)) as VueRenderer['storyResult'];
+      return prepare(decoratedStory, story) as VueRenderer['storyResult'];
     },
     (context) => prepare(storyFn(context)) as LegacyStoryFn<VueRenderer>
   );
