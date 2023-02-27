@@ -126,33 +126,37 @@ export const TableWrapper = styled.table<{
           borderTop: `1px solid ${theme.appBorderColor}`,
         },
 
-        // This works and I don't know why. :)
-        '> tr:first-of-type > *': {
-          borderBlockStart: `1px solid ${theme.appBorderColor}`,
-        },
-        '> tr:last-of-type > *': {
-          borderBlockEnd: `1px solid ${theme.appBorderColor}`,
-        },
-        '> tr > *:first-of-type': {
-          borderInlineStart: `1px solid ${theme.appBorderColor}`,
-        },
-        '> tr > *:last-of-type': {
-          borderInlineEnd: `1px solid ${theme.appBorderColor}`,
-        },
+        ...(inAddonPanel
+          ? null
+          : {
+              // This works and I don't know why. :)
+              '> tr:first-of-type > *': {
+                borderBlockStart: `1px solid ${theme.appBorderColor}`,
+              },
+              '> tr:last-of-type > *': {
+                borderBlockEnd: `1px solid ${theme.appBorderColor}`,
+              },
+              '> tr > *:first-of-type': {
+                borderInlineStart: `1px solid ${theme.appBorderColor}`,
+              },
+              '> tr > *:last-of-type': {
+                borderInlineEnd: `1px solid ${theme.appBorderColor}`,
+              },
 
-        // Thank you, Safari, for making me write code like this.
-        '> tr:first-of-type > td:first-of-type': {
-          borderTopLeftRadius: theme.appBorderRadius,
-        },
-        '> tr:first-of-type > td:last-of-type': {
-          borderTopRightRadius: theme.appBorderRadius,
-        },
-        '> tr:last-of-type > td:first-of-type': {
-          borderBottomLeftRadius: theme.appBorderRadius,
-        },
-        '> tr:last-of-type > td:last-of-type': {
-          borderBottomRightRadius: theme.appBorderRadius,
-        },
+              // Thank you, Safari, for making me write code like this.
+              '> tr:first-of-type > td:first-of-type': {
+                borderTopLeftRadius: theme.appBorderRadius,
+              },
+              '> tr:first-of-type > td:last-of-type': {
+                borderTopRightRadius: theme.appBorderRadius,
+              },
+              '> tr:last-of-type > td:first-of-type': {
+                borderBottomLeftRadius: theme.appBorderRadius,
+              },
+              '> tr:last-of-type > td:last-of-type': {
+                borderBottomRightRadius: theme.appBorderRadius,
+              },
+            }),
       },
       // End awesome table styling
     },
