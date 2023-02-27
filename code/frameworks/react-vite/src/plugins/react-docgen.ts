@@ -2,9 +2,9 @@ import path from 'path';
 import { createFilter } from '@rollup/pluginutils';
 import {
   parse,
-  handlers as docgenHandlers,
-  resolver as docgenResolver,
-  importers as docgenImporters,
+  builtinHandlers as docgenHandlers,
+  builtinResolvers as docgenResolver,
+  builtinImporters as docgenImporters,
 } from 'react-docgen';
 import type { DocumentationObject } from 'react-docgen/dist/Documentation';
 import MagicString from 'magic-string';
@@ -15,8 +15,8 @@ type DocObj = DocumentationObject & { actualName: string };
 
 // TODO: None of these are able to be overridden, so `default` is aspirational here.
 const defaultHandlers = Object.values(docgenHandlers).map((handler) => handler);
-const defaultResolver = docgenResolver.findAllExportedComponentDefinitions;
-const defaultImporter = docgenImporters.makeFsImporter();
+const defaultResolver = new docgenResolver.FindExportedDefinitionsResolver();
+const defaultImporter = docgenImporters.fsImporter;
 const handlers = [...defaultHandlers, actualNameHandler];
 
 type Options = {
