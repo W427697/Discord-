@@ -30,6 +30,7 @@ export function renderToCanvas(
   canvasElement: VueRenderer['canvasElement']
 ) {
   const existingApp = map.get(canvasElement);
+
   const reactiveArgs: Args = existingApp?.reactiveArgs ?? reactive(storyContext.args); // get reference to reactiveArgs or create a new one;
   // if the story is already rendered and we are not forcing a remount, we just update the reactive args
   if (existingApp && !forceRemount) {
@@ -41,19 +42,19 @@ export function renderToCanvas(
   if (existingApp && forceRemount) teardown(existingApp.vueApp, canvasElement);
 
   // create vue app for the story
-  const vueStoryApp = createApp({
+  const vueApp = createApp({
     setup() {
       storyContext.args = reactive(reactiveArgs);
-      const rootComponent = storyFn();
+      const rootElement = storyFn();
       map.set(canvasElement, {
-        vueApp: vueStoryApp,
+        vueApp,
         reactiveArgs,
       });
-      return () => h(rootComponent, reactiveArgs);
+      return () => h(rootElement, reactiveArgs);
     },
     onMounted() {
       map.set(canvasElement, {
-        vueApp: vueStoryApp,
+        vueApp,
         reactiveArgs,
       });
     },
@@ -64,13 +65,13 @@ export function renderToCanvas(
       console.log('vueApp--renderTriggered ', event);
     },
   });
-  vueStoryApp.config.errorHandler = (e: unknown) => showException(e as Error);
-  setupFunction(vueStoryApp);
-  vueStoryApp.mount(canvasElement);
+  vueApp.config.errorHandler = (e: unknown) => showException(e as Error);
+  setupFunction(vueApp);
+  vueApp.mount(canvasElement);
 
   showMain();
   return () => {
-    teardown(vueStoryApp, canvasElement);
+    teardown(vueApp, canvasElement);
   };
 }
 
