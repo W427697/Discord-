@@ -75,7 +75,7 @@ export function generateAttributesSource(
 
       if (arg.type === 7) {
         const { arg: argName } = arg;
-        const argKey = argName?.loc.source;
+        const argKey = argName?.loc.source ?? (argName as any).content;
         // const argExpValue = exp?.content;
         const propValue = args[camelCase(argKey)];
 
@@ -180,17 +180,17 @@ export function generateSource(
       if (vnode.props) {
         const { props } = vnode;
         concreteComponent.slots = getDocgenSection(concreteComponent, 'slots');
+        const { slots } = concreteComponent;
         const slotsProps = {} as Args;
         const attrsProps = { ...props } as Args;
-        Object.keys(props).forEach((prop: any) => {
-          const isSlot = concreteComponent.slots.find(
-            ({ name: slotName }: { name: string }) => slotName === prop
-          );
-          if (isSlot?.name) {
-            slotsProps[prop] = props[prop];
-            delete attrsProps[prop];
-          }
-        });
+        if (slots)
+          Object.keys(props).forEach((prop: any) => {
+            const isSlot = slots.find(({ name: slotName }: { name: string }) => slotName === prop);
+            if (isSlot?.name) {
+              slotsProps[prop] = props[prop];
+              delete attrsProps[prop];
+            }
+          });
 
         attributes = mapAttributesAndDirectives(attrsProps);
         children = mapSlots(slotsProps);
