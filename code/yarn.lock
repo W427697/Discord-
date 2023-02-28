@@ -5898,7 +5898,7 @@ __metadata:
   dependencies:
     "@babel/core": ^7.20.2
     "@babel/preset-env": ^7.20.2
-    "@babel/types": ^7.20.7
+    "@babel/types": ^7.21.2
     "@storybook/csf": next
     "@storybook/csf-tools": 7.0.0-beta.55
     "@storybook/node-logger": 7.0.0-beta.55
