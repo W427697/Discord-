@@ -38,7 +38,9 @@ Update your Storybook configuration (in `.storybook/main.js|ts`) to include the 
 
 ## Configuration
 
-Out of the box, Storybook's Vite builder includes a set of configuration defaults for the supported frameworks, merged with your `vite.config.js` configuration file. We recommend keeping your Storybook Vite configuration the same as your app Vite configuration by only making changes to your `vite.config.js`. But you can also fine-tune the configuration specifically for Storybook by adjusting your Storybook configuration file (`.storybook/main.js|ts`) and providing the following:
+Out of the box, Storybook's Vite builder includes a set of configuration defaults for the supported frameworks, which are merged alongside your existing configuration file. For an optimal experience when using the Vite builder, we recommend applying any configuration directly inside Vite's configuration file (i.e., [`vite.config.js`](https://vitejs.dev/config/)).
+
+When Storybook loads, it automatically merges the configuration into its own. However, not all projects have the same requirements, and you may need to provide a custom configuration created specifically for Storybook. In that case, you can adjust your configuration file (.storybook/main.js|ts) and add the `viteFinal` configuration function as follows:
 
 <!-- prettier-ignore-start -->
 
