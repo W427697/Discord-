@@ -298,9 +298,9 @@ Storybook 7.0 requires **Node 16** or above. If you are using an older version o
 
 #### Default export in Preview.js
 
-Storybook 7.0 supports a default export in `.storybook/preview.js`, which will be the recommended way going forward.
+Storybook 7.0 supports a default export in `.storybook/preview.js` that should contain all of its annotations. The previous format is still compatible, but **the default export will be the recommended way going forward**.
 
-If your preview.js file looks like this:
+If your `preview.js` file looks like this:
 
 ```js
 export const parameters = {
@@ -308,7 +308,7 @@ export const parameters = {
 };
 ```
 
-Please migrate it to a default exported instead:
+Please migrate it to use a default export instead:
 
 ```js
 const preview = {
@@ -327,7 +327,9 @@ The `Preview` type will come from the Storybook package for the **renderer** you
 import { Preview } from '@storybook/react';
 
 const preview: Preview = {
-  actions: { argTypesRegex: '^on[A-Z].*' },
+  parameters: {
+    actions: { argTypesRegex: '^on[A-Z].*' },
+  },
 };
 export default preview;
 ```
@@ -337,14 +339,16 @@ In JavaScript projects using `preview.js`, it's also possible to use the `Previe
 ```ts
 /** @type { import('@storybook/react').Preview } */
 const preview: Preview = {
-  actions: { argTypesRegex: '^on[A-Z].*' },
+  parameters: {
+    actions: { argTypesRegex: '^on[A-Z].*' },
+  },
 };
 export default preview;
 ```
 
 #### ESM format in Main.js
 
-Storybook 7.0 supports ESM in `.storybook/main.js`, and the configurations can be part of a default export. The default export will be the recommended way going forward.
+It's now possible to use ESM in `.storybook/main.js` out of the box. Storybook 7.0 supports a default export in `.storybook/main.js` that should contain all of its configurations. The previous format is still compatible, but **the default export will be the recommended way going forward**.
 
 If your main.js file looks like this:
 
@@ -362,7 +366,7 @@ export const stories = ['../stories/**/*.stories.mdx', '../stories/**/*.stories.
 export const framework = { name: '@storybook/react-vite' };
 ```
 
-Please migrate them to be default exported instead:
+Please migrate it to use a default export instead:
 
 ```js
 const config = {
