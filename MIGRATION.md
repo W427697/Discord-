@@ -327,7 +327,9 @@ The `Preview` type will come from the Storybook package for the **renderer** you
 import { Preview } from '@storybook/react';
 
 const preview: Preview = {
-  actions: { argTypesRegex: '^on[A-Z].*' },
+  parameters: {
+    actions: { argTypesRegex: '^on[A-Z].*' },
+  },
 };
 export default preview;
 ```
@@ -337,7 +339,9 @@ In JavaScript projects using `preview.js`, it's also possible to use the `Previe
 ```ts
 /** @type { import('@storybook/react').Preview } */
 const preview: Preview = {
-  actions: { argTypesRegex: '^on[A-Z].*' },
+  parameters: {
+    actions: { argTypesRegex: '^on[A-Z].*' },
+  },
 };
 export default preview;
 ```
