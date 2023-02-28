@@ -50,7 +50,7 @@ Out of the box, Storybook's Vite builder includes a set of configuration default
 
 <!-- prettier-ignore-end -->
 
-The asynchronous function`viteFinal` receives a `config` object with the default builder configuration and returns the updated configuration.
+The asynchronous function `viteFinal` receives a `config` object with the default builder configuration and returns the updated configuration.
 
 You can also override the builder's configuration based on the environment. For instance, if you need to provide a custom configuration for development purposes and another for production, you can extend the default configuration as follows:
 
