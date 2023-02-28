@@ -108,7 +108,7 @@ const Wrapper = styled.div<WrapperProps>(
             drop-shadow(0px 5px 5px rgba(0,0,0,0.05))
             drop-shadow(0 1px 3px rgba(0,0,0,0.1))
           `,
-          borderRadius: theme.appBorderRadius * 2,
+          borderRadius: theme.appBorderRadius,
           fontSize: theme.typography.size.s1,
         }
       : {}
@@ -121,13 +121,17 @@ export interface TooltipProps {
   arrowProps?: any;
   placement?: string;
   color?: keyof Color;
+  withArrows?: boolean;
 }
 
 export const Tooltip = React.forwardRef<HTMLDivElement, TooltipProps>(
-  ({ placement, hasChrome, children, arrowProps, tooltipRef, color, ...props }, ref) => {
+  (
+    { placement, hasChrome, children, arrowProps, tooltipRef, color, withArrows, ...props },
+    ref
+  ) => {
     return (
-      <Wrapper hasChrome={hasChrome} ref={ref} {...props} color={color}>
-        {hasChrome && <Arrow placement={placement} {...arrowProps} color={color} />}
+      <Wrapper data-testid="tooltip" hasChrome={hasChrome} ref={ref} {...props} color={color}>
+        {hasChrome && withArrows && <Arrow placement={placement} {...arrowProps} color={color} />}
         {children}
       </Wrapper>
     );

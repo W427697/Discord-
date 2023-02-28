@@ -27,7 +27,7 @@ export const color = {
   darkest: '#2E3438',
 
   // For borders
-  border: 'hsla(203, 50%, 30%, 0.2)',
+  border: 'hsla(203, 50%, 30%, 0.15)',
 
   // Status
   positive: '#66BF3C',
@@ -87,7 +87,6 @@ export const typography = {
   weight: {
     regular: 400,
     bold: 700,
-    black: 900,
   },
   size: {
     s1: 12,

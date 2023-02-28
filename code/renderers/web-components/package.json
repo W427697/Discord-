@@ -1,8 +1,9 @@
 {
   "name": "@storybook/web-components",
-  "version": "7.0.0-beta.40",
+  "version": "7.0.0-beta.55",
   "description": "Storybook web-components renderer",
   "keywords": [
+    "lit",
     "lit-html",
     "storybook",
     "web-components"
@@ -50,13 +51,13 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/client-logger": "7.0.0-beta.40",
-    "@storybook/core-client": "7.0.0-beta.40",
-    "@storybook/docs-tools": "7.0.0-beta.40",
+    "@storybook/client-logger": "7.0.0-beta.55",
+    "@storybook/core-client": "7.0.0-beta.55",
+    "@storybook/docs-tools": "7.0.0-beta.55",
     "@storybook/global": "^5.0.0",
-    "@storybook/manager-api": "7.0.0-beta.40",
-    "@storybook/preview-api": "7.0.0-beta.40",
-    "@storybook/types": "7.0.0-beta.40",
+    "@storybook/manager-api": "7.0.0-beta.55",
+    "@storybook/preview-api": "7.0.0-beta.55",
+    "@storybook/types": "7.0.0-beta.55",
     "ts-dedent": "^2.0.0"
   },
   "devDependencies": {
@@ -64,12 +65,11 @@
     "@types/node": "^16.0.0",
     "cross-spawn": "^7.0.3",
     "lit": "2.3.1",
-    "lit-html": "2.0.2",
     "typescript": "~4.9.3",
     "web-component-analyzer": "^1.1.6"
   },
   "peerDependencies": {
-    "lit-html": "^1.4.1 || ^2.0.0"
+    "lit": "^2.0.0"
   },
   "engines": {
     "node": ">=16.0.0"
@@ -84,5 +84,5 @@
     ],
     "platform": "browser"
   },
-  "gitHead": "9c68cc3a66e996e91ccd520d9d0adf0fa7094ad4"
+  "gitHead": "fcabbb3d1837b193348cbdb7935d497049cd5243"
 }

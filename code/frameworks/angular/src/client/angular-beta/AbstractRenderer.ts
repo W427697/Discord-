@@ -1,6 +1,5 @@
-import { ApplicationRef, enableProdMode, NgModule } from '@angular/core';
+import { ApplicationRef, enableProdMode, importProvidersFrom, NgModule } from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
-import { provideAnimations, BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { BehaviorSubject, Subject } from 'rxjs';
 import { stringify } from 'telejson';
@@ -8,6 +7,7 @@ import { ICollection, Parameters, StoryFnAngularReturnType } from '../types';
 import { getApplication } from './StorybookModule';
 import { storyPropsProvider } from './StorybookProvider';
 import { componentNgModules } from './StorybookWrapperComponent';
+import { PropertyExtractor } from './utils/PropertyExtractor';
 
 type StoryRenderInfo = {
   storyFnAngular: StoryFnAngularReturnType;
@@ -98,16 +98,6 @@ export abstract class AbstractRenderer {
 
     const newStoryProps$ = new BehaviorSubject<ICollection>(storyFnAngular.props);
 
-    const hasAnimationsDefined =
-      !!storyFnAngular.moduleMetadata?.imports?.includes(BrowserAnimationsModule);
-
-    if (hasAnimationsDefined && storyFnAngular?.moduleMetadata?.imports) {
-      // eslint-disable-next-line no-param-reassign
-      storyFnAngular.moduleMetadata.imports = storyFnAngular.moduleMetadata.imports.filter(
-        (importedModule) => importedModule !== BrowserAnimationsModule
-      );
-    }
-
     if (
       !this.fullRendererRequired({
         storyFnAngular,
@@ -122,6 +112,8 @@ export abstract class AbstractRenderer {
       return;
     }
 
+    await this.beforeFullRender();
+
     // Complete last BehaviorSubject and set a new one for the current module
     if (this.storyProps$) {
       this.storyProps$.complete();
@@ -130,14 +122,24 @@ export abstract class AbstractRenderer {
 
     this.initAngularRootElement(targetDOMNode, targetSelector);
 
+    const analyzedMetadata = new PropertyExtractor(storyFnAngular.moduleMetadata, component);
+
+    const providers = [
+      // Providers for BrowserAnimations & NoopAnimationsModule
+      analyzedMetadata.singletons,
+      importProvidersFrom(
+        ...analyzedMetadata.imports.filter((imported) => {
+          const { isStandalone } = PropertyExtractor.analyzeDecorators(imported);
+          return !isStandalone;
+        })
+      ),
+      analyzedMetadata.providers,
+      storyPropsProvider(newStoryProps$),
+    ].filter(Boolean);
+
     const application = getApplication({ storyFnAngular, component, targetSelector });
 
-    const applicationRef = await bootstrapApplication(application, {
-      providers: [
-        ...(hasAnimationsDefined ? [provideAnimations()] : []),
-        storyPropsProvider(newStoryProps$),
-      ],
-    });
+    const applicationRef = await bootstrapApplication(application, { providers });
 
     applicationRefs.add(applicationRef);
 

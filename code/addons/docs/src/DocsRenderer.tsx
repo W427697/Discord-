@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { renderElement, unmountElement } from '@storybook/react-dom-shim';
 import type { Renderer, Parameters, DocsContextProps, DocsRenderFunction } from '@storybook/types';
 import { Docs, CodeOrSourceMdx, AnchorMdx, HeadersMdx } from '@storybook/blocks';
 
@@ -22,27 +22,25 @@ export class DocsRenderer<TRenderer extends Renderer> {
       element: HTMLElement,
       callback: () => void
     ): void => {
-      // Use a random key to force the container to re-render each time we call `renderDocs`
-      //   TODO: do we still need this? It was needed for angular (legacy) inline rendering:
-      //   https://github.com/storybookjs/storybook/pull/16149
       const components = {
         ...defaultComponents,
         ...docsParameter?.components,
       };
 
-      import('@mdx-js/react').then(({ MDXProvider }) => {
-        ReactDOM.render(
-          <MDXProvider components={components}>
-            <Docs key={Math.random()} context={context} docsParameter={docsParameter} />
-          </MDXProvider>,
-          element,
-          callback
-        );
-      });
+      import('@mdx-js/react')
+        .then(({ MDXProvider }) =>
+          renderElement(
+            <MDXProvider components={components}>
+              <Docs context={context} docsParameter={docsParameter} />
+            </MDXProvider>,
+            element
+          )
+        )
+        .then(callback);
     };
 
     this.unmount = (element: HTMLElement) => {
-      ReactDOM.unmountComponentAtNode(element);
+      unmountElement(element);
     };
   }
 }

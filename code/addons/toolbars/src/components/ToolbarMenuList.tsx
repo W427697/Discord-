@@ -57,7 +57,6 @@ export const ToolbarMenuList: FC<ToolbarMenuListProps> = withKeyboardCycle(
     return (
       <WithTooltip
         placement="top"
-        trigger="click"
         tooltip={({ onHide }) => {
           const links = items
             // Special case handling for various "type" variants
@@ -84,7 +83,7 @@ export const ToolbarMenuList: FC<ToolbarMenuListProps> = withKeyboardCycle(
             });
           return <TooltipLinkList links={links} />;
         }}
-        closeOnClick
+        closeOnOutsideClick
       >
         <ToolbarMenuButton
           active={hasGlobalValue}

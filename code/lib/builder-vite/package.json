@@ -1,6 +1,6 @@
 {
   "name": "@storybook/builder-vite",
-  "version": "7.0.0-beta.40",
+  "version": "7.0.0-beta.55",
   "description": "A plugin to run and build Storybooks with Vite",
   "homepage": "https://github.com/storybookjs/storybook/tree/main/code/lib/builder-vite/#readme",
   "bugs": {
@@ -25,7 +25,6 @@
       "types": "./dist/index.d.ts"
     },
     "./input/iframe.html": "./input/iframe.html",
-    "./input/react-dom-client-placeholder.js": "./input/react-dom-client-placeholder.js",
     "./package.json": "./package.json"
   },
   "main": "dist/index.js",
@@ -43,27 +42,28 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/channel-postmessage": "7.0.0-beta.40",
-    "@storybook/channel-websocket": "7.0.0-beta.40",
-    "@storybook/client-logger": "7.0.0-beta.40",
-    "@storybook/core-common": "7.0.0-beta.40",
-    "@storybook/csf-plugin": "7.0.0-beta.40",
+    "@storybook/channel-postmessage": "7.0.0-beta.55",
+    "@storybook/channel-websocket": "7.0.0-beta.55",
+    "@storybook/client-logger": "7.0.0-beta.55",
+    "@storybook/core-common": "7.0.0-beta.55",
+    "@storybook/csf-plugin": "7.0.0-beta.55",
     "@storybook/mdx2-csf": "next",
-    "@storybook/node-logger": "7.0.0-beta.40",
-    "@storybook/preview": "7.0.0-beta.40",
-    "@storybook/preview-api": "7.0.0-beta.40",
-    "@storybook/types": "7.0.0-beta.40",
+    "@storybook/node-logger": "7.0.0-beta.55",
+    "@storybook/preview": "7.0.0-beta.55",
+    "@storybook/preview-api": "7.0.0-beta.55",
+    "@storybook/types": "7.0.0-beta.55",
     "browser-assert": "^1.2.1",
     "es-module-lexer": "^0.9.3",
     "express": "^4.17.3",
     "fs-extra": "^11.1.0",
-    "glob": "^7.2.0",
-    "glob-promise": "^4.2.0",
+    "glob": "^8.1.0",
+    "glob-promise": "^6.0.2",
     "magic-string": "^0.27.0",
     "rollup": "^2.25.0 || ^3.3.0",
     "slash": "^3.0.0"
   },
   "devDependencies": {
+    "@storybook/mdx1-csf": ">=1.0.0-next.1",
     "@types/express": "^4.17.13",
     "@types/node": "^16.0.0",
     "rollup": "^3.0.0",
@@ -72,12 +72,16 @@
   },
   "peerDependencies": {
     "@preact/preset-vite": "*",
+    "@storybook/mdx1-csf": ">=1.0.0-next.1",
     "typescript": ">= 4.3.x",
     "vite": "^3.0.0 || ^4.0.0",
     "vite-plugin-glimmerx": "*"
   },
   "peerDependenciesMeta": {
     "@preact/preset-vite": {
+      "optional": true
+    },
+    "@storybook/mdx1-csf": {
       "optional": true
     },
     "typescript": {
@@ -96,5 +100,5 @@
     ],
     "platform": "node"
   },
-  "gitHead": "9c68cc3a66e996e91ccd520d9d0adf0fa7094ad4"
+  "gitHead": "fcabbb3d1837b193348cbdb7935d497049cd5243"
 }

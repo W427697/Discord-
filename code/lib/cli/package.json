@@ -1,6 +1,6 @@
 {
   "name": "@storybook/cli",
-  "version": "7.0.0-beta.40",
+  "version": "7.0.0-beta.55",
   "description": "Storybook's CLI - easiest method of adding storybook to your projects",
   "keywords": [
     "cli",
@@ -56,29 +56,32 @@
   "dependencies": {
     "@babel/core": "^7.20.2",
     "@babel/preset-env": "^7.20.2",
-    "@storybook/codemod": "7.0.0-beta.40",
-    "@storybook/core-common": "7.0.0-beta.40",
-    "@storybook/core-server": "7.0.0-beta.40",
-    "@storybook/csf-tools": "7.0.0-beta.40",
-    "@storybook/node-logger": "7.0.0-beta.40",
-    "@storybook/telemetry": "7.0.0-beta.40",
-    "@storybook/types": "7.0.0-beta.40",
+    "@storybook/codemod": "7.0.0-beta.55",
+    "@storybook/core-common": "7.0.0-beta.55",
+    "@storybook/core-server": "7.0.0-beta.55",
+    "@storybook/csf-tools": "7.0.0-beta.55",
+    "@storybook/node-logger": "7.0.0-beta.55",
+    "@storybook/telemetry": "7.0.0-beta.55",
+    "@storybook/types": "7.0.0-beta.55",
     "@types/semver": "^7.3.4",
     "boxen": "^5.1.2",
     "chalk": "^4.1.0",
     "commander": "^6.2.1",
     "cross-spawn": "^7.0.3",
     "detect-indent": "^6.1.0",
+    "download-tarball": "^2.0.0",
     "envinfo": "^7.7.3",
     "execa": "^5.0.0",
     "express": "^4.17.3",
     "find-up": "^5.0.0",
     "fs-extra": "^11.1.0",
+    "get-npm-tarball-url": "^2.0.3",
     "get-port": "^5.1.1",
     "giget": "^1.0.0",
     "globby": "^11.0.2",
-    "jscodeshift": "^0.13.1",
+    "jscodeshift": "^0.14.0",
     "leven": "^3.1.0",
+    "prettier": "^2.8.0",
     "prompts": "^2.4.0",
     "puppeteer-core": "^2.1.1",
     "read-pkg-up": "^7.0.1",
@@ -91,7 +94,7 @@
     "util-deprecate": "^1.0.2"
   },
   "devDependencies": {
-    "@storybook/client-api": "7.0.0-beta.40",
+    "@storybook/client-api": "7.0.0-beta.55",
     "@types/cross-spawn": "^6.0.2",
     "@types/prompts": "^2.0.9",
     "@types/puppeteer-core": "^2.1.0",
@@ -111,5 +114,5 @@
     ],
     "platform": "node"
   },
-  "gitHead": "9c68cc3a66e996e91ccd520d9d0adf0fa7094ad4"
+  "gitHead": "fcabbb3d1837b193348cbdb7935d497049cd5243"
 }
