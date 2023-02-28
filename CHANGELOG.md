@@ -1,3 +1,21 @@
+## 7.0.0-beta.56 (March 1, 2023)
+
+#### Bug Fixes
+
+-   Core: Improve framework field validation [#21299](https://github.com/storybooks/storybook/pull/21299)
+-   SvelteKit: Only disable SSR when building, not serving [#21290](https://github.com/storybooks/storybook/pull/21290)
+-   CLI: Account for legacy framework values in automigration [#21184](https://github.com/storybooks/storybook/pull/21184)
+-   TypeScript: Add `env` type to BuilderOptions [#21173](https://github.com/storybooks/storybook/pull/21173)
+-   Core: Reverse order of project decorators [#21182](https://github.com/storybooks/storybook/pull/21182)
+
+#### Maintenance
+
+-   React-webpack: Fix dependencies to remove peerDep warnings [#21278](https://github.com/storybooks/storybook/pull/21278)
+
+#### Build
+
+-   Build: Improve sandbox task logs [#21296](https://github.com/storybooks/storybook/pull/21296)
+
 ## 7.0.0-beta.55 (February 27, 2023)
 
 #### Bug Fixes
