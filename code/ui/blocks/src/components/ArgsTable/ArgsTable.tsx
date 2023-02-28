@@ -122,6 +122,7 @@ export const TableWrapper = styled.table<{
             }),
 
         '> tr > *': {
+          // For filter to work properly, the table cells all need to be opaque.
           background: theme.background.content,
           borderTop: `1px solid ${theme.appBorderColor}`,
         },
