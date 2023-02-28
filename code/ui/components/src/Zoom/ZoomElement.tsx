@@ -2,23 +2,13 @@
 import type { ReactElement, RefObject } from 'react';
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { styled } from '@storybook/theming';
-import { browserSupportsCssZoom } from './browserSupportsCssZoom';
-
-const hasBrowserSupportForCssZoom = browserSupportsCssZoom();
 
 const ZoomElementWrapper = styled.div<{ scale: number; elementHeight: number }>(
-  ({ scale = 1, elementHeight }) =>
-    hasBrowserSupportForCssZoom
-      ? {
-          '> *': {
-            zoom: 1 / scale,
-          },
-        }
-      : {
-          height: elementHeight || 'auto',
-          transformOrigin: 'top left',
-          transform: `scale(${1 / scale})`,
-        }
+  ({ scale = 1, elementHeight }) => ({
+    height: elementHeight || 'auto',
+    transformOrigin: 'top left',
+    transform: `scale(${1 / scale})`,
+  })
 );
 
 const useMutationObserver = ({
