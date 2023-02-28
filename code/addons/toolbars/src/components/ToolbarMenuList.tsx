@@ -17,6 +17,7 @@ export const ToolbarMenuList: FC<ToolbarMenuListProps> = withKeyboardCycle(
     id,
     name,
     description,
+    defaultValue,
     toolbar: { icon: _icon, items, title: _title, showName, preventDynamicIcon, dynamicTitle },
   }) => {
     const [globals, updateGlobals] = useGlobals();
@@ -86,7 +87,7 @@ export const ToolbarMenuList: FC<ToolbarMenuListProps> = withKeyboardCycle(
         closeOnOutsideClick
       >
         <ToolbarMenuButton
-          active={hasGlobalValue}
+          active={hasGlobalValue && defaultValue !== currentValue}
           description={description || ''}
           icon={icon}
           title={title || ''}
