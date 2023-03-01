@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-storysource",
-  "version": "7.0.0-beta.56",
+  "version": "7.0.0-beta.57",
   "description": "View a story’s source code to see how it works and paste into your app",
   "keywords": [
     "addon",
@@ -54,13 +54,13 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/client-logger": "7.0.0-beta.56",
-    "@storybook/components": "7.0.0-beta.56",
-    "@storybook/manager-api": "7.0.0-beta.56",
-    "@storybook/preview-api": "7.0.0-beta.56",
-    "@storybook/router": "7.0.0-beta.56",
-    "@storybook/source-loader": "7.0.0-beta.56",
-    "@storybook/theming": "7.0.0-beta.56",
+    "@storybook/client-logger": "7.0.0-beta.57",
+    "@storybook/components": "7.0.0-beta.57",
+    "@storybook/manager-api": "7.0.0-beta.57",
+    "@storybook/preview-api": "7.0.0-beta.57",
+    "@storybook/router": "7.0.0-beta.57",
+    "@storybook/source-loader": "7.0.0-beta.57",
+    "@storybook/theming": "7.0.0-beta.57",
     "estraverse": "^5.2.0",
     "prop-types": "^15.7.2",
     "react-syntax-highlighter": "^15.5.0"
@@ -92,7 +92,7 @@
       "./src/preset.ts"
     ]
   },
-  "gitHead": "26815b0ea07f3800cc514cccd242c8ab1f428b8c",
+  "gitHead": "40424e73ad881740b16d5017507f7790fe8d27c5",
   "storybook": {
     "displayName": "Storysource",
     "icon": "https://user-images.githubusercontent.com/263385/101991675-48cdf300-3c7c-11eb-9400-58de5ac6daa7.png",
