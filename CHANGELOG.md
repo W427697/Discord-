@@ -1,3 +1,10 @@
+## 7.0.0-beta.57 (March 1, 2023)
+
+#### Bug Fixes
+
+-   CSF-tools/Codemods: Pre-bundle all babel related packages [#21301](https://github.com/storybooks/storybook/pull/21301)
+-   UI: Fix height adjustment in ZoomElement in Safari [#21174](https://github.com/storybooks/storybook/pull/21174)
+
 ## 7.0.0-beta.56 (March 1, 2023)
 
 #### Bug Fixes
