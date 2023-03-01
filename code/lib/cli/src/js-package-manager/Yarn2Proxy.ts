@@ -71,13 +71,13 @@ export class Yarn2Proxy extends JsPackageManager {
       args = ['-D', ...args];
     }
 
-    this.executeCommand('yarn', ['add', ...args, ...this.getInstallArgs()], 'inherit');
+    this.executeCommand('yarn', ['add', ...this.getInstallArgs(), ...args], 'inherit');
   }
 
   protected runRemoveDeps(dependencies: string[]): void {
     const args = [...dependencies];
 
-    this.executeCommand('yarn', ['remove', ...args, ...this.getInstallArgs()], 'inherit');
+    this.executeCommand('yarn', ['remove', ...this.getInstallArgs(), ...args], 'inherit');
   }
 
   protected runGetVersions<T extends boolean>(

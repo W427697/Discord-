@@ -8,30 +8,9 @@ export class Yarn1Proxy extends JsPackageManager {
 
   getInstallArgs(): string[] {
     if (!this.installArgs) {
-      this.installArgs = [];
-
-      if (this.detectWorkspaceRoot()) {
-        this.installArgs.push('-W');
-      }
+      this.installArgs = ['--ignore-workspace-root-check'];
     }
     return this.installArgs;
-  }
-
-  detectWorkspaceRoot() {
-    const { workspaces } = this.readPackageJson();
-
-    if (Array.isArray(workspaces)) {
-      return workspaces.length > 0;
-    }
-
-    if (workspaces && typeof workspaces === 'object') {
-      if (workspaces.packages) {
-        return workspaces.packages.length > 0;
-      }
-      return false;
-    }
-
-    return false;
   }
 
   initPackageJson() {
@@ -64,19 +43,19 @@ export class Yarn1Proxy extends JsPackageManager {
   }
 
   protected runAddDeps(dependencies: string[], installAsDevDependencies: boolean): void {
-    let args = ['--ignore-workspace-root-check', ...dependencies];
+    let args = [...dependencies];
 
     if (installAsDevDependencies) {
       args = ['-D', ...args];
     }
 
-    this.executeCommand('yarn', ['add', ...args, ...this.getInstallArgs()], 'inherit');
+    this.executeCommand('yarn', ['add', ...this.getInstallArgs(), ...args], 'inherit');
   }
 
   protected runRemoveDeps(dependencies: string[]): void {
-    const args = ['--ignore-workspace-root-check', ...dependencies];
+    const args = [...dependencies];
 
-    this.executeCommand('yarn', ['remove', ...args, ...this.getInstallArgs()], 'inherit');
+    this.executeCommand('yarn', ['remove', ...this.getInstallArgs(), ...args], 'inherit');
   }
 
   protected runGetVersions<T extends boolean>(
