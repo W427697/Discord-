@@ -1,3 +1,17 @@
+## 7.0.0-beta.58 (March 1, 2023)
+
+#### Bug Fixes
+
+-   UI: Fix enableShortcuts, exclude it from being persisted [#21291](https://github.com/storybooks/storybook/pull/21291)
+-   NextJS: Fix type references in Next.js >= 13.2.0 [#21304](https://github.com/storybooks/storybook/pull/21304)
+-   CLI: Fix formatting of autodocs-true automigration [#21314](https://github.com/storybooks/storybook/pull/21314)
+-   Docs: Remove warning when browsing away in React [#21214](https://github.com/storybooks/storybook/pull/21214)
+
+#### Maintenance
+
+-   CLI: Fix security report around `download-tarball` package [#21201](https://github.com/storybooks/storybook/pull/21201)
+-   CSF-Tools/Codemods: Un-bundle babel, limit semver range of babel packages [#21326](https://github.com/storybooks/storybook/pull/21326)
+
 ## 7.0.0-beta.57 (March 1, 2023)
 
 #### Bug Fixes
