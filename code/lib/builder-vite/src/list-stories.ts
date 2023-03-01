@@ -14,12 +14,9 @@ export async function listStories(options: Options) {
       }).map(({ directory, files }) => {
         const pattern = slash(path.join(directory, files));
 
-        return glob(
-          path.isAbsolute(pattern) ? pattern : path.join(options.configDir, pattern),
-          {
-            follow: true,
-          }
-        );
+        return glob(path.isAbsolute(pattern) ? pattern : path.join(options.configDir, pattern), {
+          follow: true,
+        });
       })
     )
   ).reduce((carry, stories) => carry.concat(stories), []);
