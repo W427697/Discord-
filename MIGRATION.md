@@ -3,6 +3,7 @@
 - [From version 6.5.x to 7.0.0](#from-version-65x-to-700)
   - [7.0 breaking changes](#70-breaking-changes)
     - [Dropped support for Node 15 and below](#dropped-support-for-node-15-and-below)
+    - [Default export in Preview.js](#default-export-in-previewjs)
     - [ESM format in Main.js](#esm-format-in-mainjs)
     - [Modern browser support](#modern-browser-support)
     - [React peer dependencies required](#react-peer-dependencies-required)
@@ -20,15 +21,17 @@
     - [Add strict mode](#add-strict-mode)
     - [Babel mode v7 exclusively](#babel-mode-v7-exclusively)
     - [Importing plain markdown files with `transcludeMarkdown` has changed](#importing-plain-markdown-files-with-transcludemarkdown-has-changed)
+  - [7.0 Core changes](#70-core-changes)
     - [7.0 feature flags removed](#70-feature-flags-removed)
     - [Story context is prepared before for supporting fine grained updates](#story-context-is-prepared-before-for-supporting-fine-grained-updates)
+    - [Changed decorator order between preview.js and addons/frameworks](#changed-decorator-order-between-previewjs-and-addonsframeworks)
   - [7.0 core addons changes](#70-core-addons-changes)
     - [Removed auto injection of @storybook/addon-actions decorator](#removed-auto-injection-of-storybookaddon-actions-decorator)
     - [Addon-backgrounds: Removed deprecated grid parameter](#addon-backgrounds-removed-deprecated-grid-parameter)
     - [Addon-a11y: Removed deprecated withA11y decorator](#addon-a11y-removed-deprecated-witha11y-decorator)
   - [7.0 Vite changes](#70-vite-changes)
     - [Vite builder uses Vite config automatically](#vite-builder-uses-vite-config-automatically)
-    - [Vite cache moved to node_modules/.cache/.vite-storybook](#vite-cache-moved-to-node_modulescachevite-storybook)
+    - [Vite cache moved to node\_modules/.cache/.vite-storybook](#vite-cache-moved-to-node_modulescachevite-storybook)
   - [7.0 Webpack changes](#70-webpack-changes)
     - [Webpack4 support discontinued](#webpack4-support-discontinued)
     - [Postcss removed](#postcss-removed)
@@ -71,7 +74,7 @@
     - [Dropped addon-docs manual babel configuration](#dropped-addon-docs-manual-babel-configuration)
     - [Dropped addon-docs manual configuration](#dropped-addon-docs-manual-configuration)
     - [Autoplay in docs](#autoplay-in-docs)
-    - [Removed STORYBOOK_REACT_CLASSES global](#removed-storybook_react_classes-global)
+    - [Removed STORYBOOK\_REACT\_CLASSES global](#removed-storybook_react_classes-global)
   - [7.0 Deprecations and default changes](#70-deprecations-and-default-changes)
     - [storyStoreV7 enabled by default](#storystorev7-enabled-by-default)
     - [`Story` type deprecated](#story-type-deprecated)
@@ -293,9 +296,59 @@ A number of these changes can be made automatically by the Storybook CLI. To tak
 
 Storybook 7.0 requires **Node 16** or above. If you are using an older version of Node, you will need to upgrade or keep using Storybook 6 in the meantime.
 
+#### Default export in Preview.js
+
+Storybook 7.0 supports a default export in `.storybook/preview.js` that should contain all of its annotations. The previous format is still compatible, but **the default export will be the recommended way going forward**.
+
+If your `preview.js` file looks like this:
+
+```js
+export const parameters = {
+  actions: { argTypesRegex: '^on[A-Z].*' },
+};
+```
+
+Please migrate it to use a default export instead:
+
+```js
+const preview = {
+  parameters: {
+    actions: { argTypesRegex: '^on[A-Z].*' },
+  },
+};
+export default preview;
+```
+
+Additionally, we introduced typings for that default export (Preview), so you can import it in your config file. If you're using Typescript, make sure to rename your file to be `preview.ts`.
+
+The `Preview` type will come from the Storybook package for the **renderer** you are using. For example, if you are using Angular, you will import it from `@storybook/angular`, or if you're using Vue3, you will import it from `@storybook/vue3`:
+
+```ts
+import { Preview } from '@storybook/react';
+
+const preview: Preview = {
+  parameters: {
+    actions: { argTypesRegex: '^on[A-Z].*' },
+  },
+};
+export default preview;
+```
+
+In JavaScript projects using `preview.js`, it's also possible to use the `Preview` type (for autocompletion, not type safety), via the JSDoc @type tag:
+
+```ts
+/** @type { import('@storybook/react').Preview } */
+const preview: Preview = {
+  parameters: {
+    actions: { argTypesRegex: '^on[A-Z].*' },
+  },
+};
+export default preview;
+```
+
 #### ESM format in Main.js
 
-Storybook 7.0 supports ESM in `.storybook/main.js`, and the configurations can be part of a default export. The default export will be the recommended way going forward.
+It's now possible to use ESM in `.storybook/main.js` out of the box. Storybook 7.0 supports a default export in `.storybook/main.js` that should contain all of its configurations. The previous format is still compatible, but **the default export will be the recommended way going forward**.
 
 If your main.js file looks like this:
 
@@ -313,7 +366,7 @@ export const stories = ['../stories/**/*.stories.mdx', '../stories/**/*.stories.
 export const framework = { name: '@storybook/react-vite' };
 ```
 
-Please migrate them to be default exported instead:
+Please migrate it to use a default export instead:
 
 ```js
 const config = {
@@ -323,12 +376,25 @@ const config = {
 export default config;
 ```
 
-For Typescript users, we introduced types for that default export, so you can import it in your main.ts file. The `StorybookConfig` type will come from the Storybook package for the framework you are using, which relates to the package in the "framework" field you have in your main.ts file. For example, if you are using React Vite, you will import it from `@storybook/react-vite`:
+Additionally, we introduced typings for that default export (StorybookConfig), so you can import it in your config file. If you're using Typescript, make sure to rename your file to be `main.ts`.
+
+The `StorybookConfig` type will come from the Storybook package for the **framework** you are using, which relates to the package in the "framework" field you have in your main.ts file. For example, if you are using React Vite, you will import it from `@storybook/react-vite`:
 
 ```ts
 import { StorybookConfig } from '@storybook/react-vite';
 
 const config: StorybookConfig = {
+  stories: ['../stories/**/*.stories.mdx', '../stories/**/*.stories.@(js|jsx|ts|tsx)'],
+  framework: { name: '@storybook/react-vite' },
+};
+export default config;
+```
+
+In JavaScript projects using `main.js`, it's also possible to use the `StorybookConfig` type (for autocompletion, not type safety), via the JSDoc @type tag:
+
+```ts
+/** @type { import('@storybook/react-vite').StorybookConfig } */
+const config = {
   stories: ['../stories/**/*.stories.mdx', '../stories/**/*.stories.@(js|jsx|ts|tsx)'],
   framework: { name: '@storybook/react-vite' },
 };
@@ -725,6 +791,8 @@ import ReadMe from './README.md?raw';
 
 ```
 
+### 7.0 Core changes
+
 #### 7.0 feature flags removed
 
 Storybook uses temporary feature flags to opt-in to future breaking changes or opt-in to legacy behaviors. For example:
@@ -750,6 +818,19 @@ In 7.0 we've removed the following feature flags:
 This change modifies the way Storybook prepares stories to avoid reactive args to get lost for fine-grained updates JS frameworks as `SolidJS` or `Vue`. That's because those frameworks handle args/props as proxies behind the scenes to make reactivity work. So when `argType` mapping was done in `prepareStory` the Proxies were destroyed and args becomes a plain object again, losing the reactivity.
 
 For avoiding that, this change passes the mapped args instead of raw args at `renderToCanvas` so that the proxies stay intact. Also decorators will benefit from this as well by receiving mapped args instead of raw args.
+
+#### Changed decorator order between preview.js and addons/frameworks
+
+In Storybook 7.0 we have changed the order of decorators being applied to allow you to access context information added by decorators defined in addons/frameworks from decorators defined in `preview.js`. To revert the order to the previous behavior, you can set the `features.legacyDecoratorFileOrder` flag to `true` in your `main.js` file:
+
+```js
+// main.js
+export default {
+  features: {
+    legacyDecoratorFileOrder: true,
+  },
+};
+```
 
 ### 7.0 core addons changes
 
@@ -795,7 +876,7 @@ When using a [Vite-based framework](#framework-field-mandatory), Storybook will 
 Some settings will be overridden by Storybook so that it can function properly, and the merged settings can be modified using `viteFinal` in `.storybook/main.js` (see the [Storybook Vite configuration docs](https://storybook.js.org/docs/react/builders/vite#configuration)).  
 If you were using `viteFinal` in 6.5 to simply merge in your project's standard Vite config, you can now remove it.
 
-For Svelte projects this means that the `svelteOptions` property in the `main.js` config should be omitted, as it will be loaded automatically via the project's `vite.config.js`. An exception to this is when the project needs different Svelte options for Storybook than the Vite config provides for the application itself.
+For Svelte projects this means that the `svelteOptions` property in the `main.js` config should be omitted, as it will be loaded automatically via the project's `vite.config.js`.
 
 #### Vite cache moved to node_modules/.cache/.vite-storybook
 
@@ -952,7 +1033,7 @@ Instead, use `export const parameters = {};` and `export const decorators = [];`
 
 #### framework parameter renamed to renderer
 
-All SB6.x frameworks injected a parameter called `framework` indicating to addons which framework is running. 
+All SB6.x frameworks injected a parameter called `framework` indicating to addons which framework is running.
 For example, the framework value of `@storybook/react` would be `react`, `@storybook/vue` would be `vue`, etc.
 Now those packages are called renderers in SB7, so the renderer information is now available in the `renderer`
 parameter.

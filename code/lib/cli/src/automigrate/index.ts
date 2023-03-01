@@ -16,7 +16,7 @@ import {
 } from '../js-package-manager';
 
 import type { Fix } from './fixes';
-import { fixes as allFixes } from './fixes';
+import { allFixes } from './fixes';
 import { cleanLog } from './helpers/cleanLog';
 
 const logger = console;
@@ -50,6 +50,7 @@ type FixId = string;
 interface FixOptions {
   fixId?: FixId;
   list?: boolean;
+  fixes?: Fix[];
   yes?: boolean;
   dryRun?: boolean;
   useNpm?: boolean;
@@ -89,6 +90,7 @@ const logAvailableMigrations = () => {
 
 export const automigrate = async ({
   fixId,
+  fixes: inputFixes,
   dryRun,
   yes,
   useNpm,
@@ -109,7 +111,8 @@ export const automigrate = async ({
     pkgMgr = 'npm';
   }
 
-  const fixes = fixId ? allFixes.filter((f) => f.id === fixId) : allFixes;
+  const selectedFixes = inputFixes || allFixes;
+  const fixes = fixId ? selectedFixes.filter((f) => f.id === fixId) : selectedFixes;
 
   if (fixId && fixes.length === 0) {
     logger.info(`📭 No migrations found for ${chalk.magenta(fixId)}.`);
