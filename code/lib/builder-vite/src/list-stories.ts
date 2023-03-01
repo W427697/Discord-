@@ -12,11 +12,12 @@ export async function listStories(options: Options) {
         configDir: options.configDir,
         workingDir: options.configDir,
       }).map(({ directory, files }) => {
-        const pattern = slash(path.join(directory, files));
+        const pattern = path.join(directory, files);
+        const absolutePattern = path.isAbsolute(pattern)
+          ? pattern
+          : path.join(options.configDir, pattern);
 
-        return glob(path.isAbsolute(pattern) ? pattern : path.join(options.configDir, pattern), {
-          follow: true,
-        });
+        return glob(slash(absolutePattern), { follow: true });
       })
     )
   ).reduce((carry, stories) => carry.concat(stories), []);
