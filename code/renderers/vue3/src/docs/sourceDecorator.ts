@@ -109,9 +109,12 @@ function generateScriptSetup(args: Args, argTypes: ArgTypes, components: any[]):
  * get component templates one or more
  * @param renderFn
  */
-function getComponentsFromRenderFn(renderFn: any): TemplateChildNode[] {
+function getComponentsFromRenderFn(
+  renderFn: any,
+  context?: StoryContext<Renderer>
+): TemplateChildNode[] {
   try {
-    const { template } = renderFn();
+    const { template } = context ? renderFn(context.args, context) : renderFn();
     if (!template) return [];
     return getComponentsFromTemplate(template);
   } catch (e) {
@@ -266,7 +269,7 @@ export const sourceDecorator = (storyFn: any, context: StoryContext<Renderer>) =
 
   const { args = {}, component: ctxtComponent, argTypes = {} } = context || {};
 
-  const components = getComponentsFromRenderFn(context?.originalStoryFn);
+  const components = getComponentsFromRenderFn(context?.originalStoryFn, context);
 
   const storyComponent = components.length ? components : (ctxtComponent as TemplateChildNode);
 
