@@ -75,7 +75,7 @@ export function generateAttributesSource(
 
       if (arg.type === 7) {
         const { arg: argName } = arg;
-        const argKey = argName?.loc.source ?? (argName as any).content;
+        const argKey = argName?.loc.source ?? (argName as any)?.content;
         // const argExpValue = exp?.content;
         const propValue = args[camelCase(argKey)];
 
@@ -139,7 +139,10 @@ function getComponentsFromTemplate(template: string): TemplateChildNode[] {
  * @param slotProp Prop used to simulate a slot
  */
 export function generateSource(
-  componentOrNode: (TemplateChildNode | (Component & { type?: number }))[],
+  componentOrNode:
+    | (TemplateChildNode | (Component & { type?: number }))[]
+    | TemplateChildNode
+    | (Component & { type?: number }),
   args: Args,
   argTypes: ArgTypes,
   byRef?: boolean | undefined
@@ -151,22 +154,23 @@ export function generateSource(
     let name;
     let children;
     let content;
-    if (component) {
-      if (component.type === 1) {
-        const child = component as ElementNode;
-        attributes = child.props;
-        name = child.tag;
-        children = child.children;
-      }
-      if (component.type === 5) {
-        const child = component as InterpolationNode;
-        content = child.content;
-      }
-      if (component.type === 2) {
-        const child = component as TextNode;
-        content = child.content;
-      }
+    if (!component) return null;
+
+    if (component.type === 1) {
+      const child = component as ElementNode;
+      attributes = child.props;
+      name = child.tag;
+      children = child.children;
     }
+    if (component.type === 5) {
+      const child = component as InterpolationNode;
+      content = child.content;
+    }
+    if (component.type === 2) {
+      const child = component as TextNode;
+      content = child.content;
+    }
+
     const concreteComponent = component as Component & {
       render: any;
       props: any;
@@ -214,8 +218,9 @@ export function generateSource(
     if (name) source += `</${name}>`;
     return source;
   };
-
-  if (Array.isArray(componentOrNode)) {
+  if (componentOrNode && !Array.isArray(componentOrNode))
+    return generateComponentSource(componentOrNode);
+  if (componentOrNode && componentOrNode.length) {
     return componentOrNode.map((node) => generateComponentSource(node)).join(' ');
   }
 
@@ -263,7 +268,7 @@ export const sourceDecorator = (storyFn: any, context: StoryContext<Renderer>) =
 
   const components = getComponentsFromRenderFn(context?.originalStoryFn);
 
-  const storyComponent = components.length ? components : [ctxtComponent as TemplateChildNode];
+  const storyComponent = components.length ? components : (ctxtComponent as TemplateChildNode);
 
   const withScript = context?.parameters?.docs?.source?.withScriptSetup || false;
   const generatedScript = withScript ? generateScriptSetup(args, argTypes, components) : '';
