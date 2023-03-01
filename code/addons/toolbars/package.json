@@ -99,7 +99,7 @@
     ],
     "platform": "browser"
   },
-  "gitHead": "26815b0ea07f3800cc514cccd242c8ab1f428b8c",
+  "gitHead": "40424e73ad881740b16d5017507f7790fe8d27c5",
   "storybook": {
     "displayName": "Toolbars",
     "icon": "https://user-images.githubusercontent.com/263385/101991677-48cdf300-3c7c-11eb-93b4-19b0e3366959.png",
