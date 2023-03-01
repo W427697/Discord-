@@ -31,7 +31,8 @@ export function renderToCanvas(
 ) {
   const existingApp = map.get(canvasElement);
 
-  const reactiveArgs: Args = existingApp?.reactiveArgs ?? reactive(storyContext.args); // get reference to reactiveArgs or create a new one;
+  const reactiveArgs = existingApp?.reactiveArgs ?? reactive(storyContext.args); // get reference to reactiveArgs or create a new one;
+  // updateArgs(reactiveArgs, storyContext.initialArgs); // update the reactiveArgs with the latest args
   // if the story is already rendered and we are not forcing a remount, we just update the reactive args
   if (existingApp && !forceRemount) {
     updateArgs(existingApp.reactiveArgs, storyContext.args);
@@ -44,25 +45,21 @@ export function renderToCanvas(
   // create vue app for the story
   const vueApp = createApp({
     setup() {
-      storyContext.args = reactive(reactiveArgs);
+      storyContext.args = reactiveArgs;
       const rootElement = storyFn();
-      map.set(canvasElement, {
-        vueApp,
-        reactiveArgs,
-      });
       return () => h(rootElement, reactiveArgs);
     },
-    onMounted() {
+    mounted() {
       map.set(canvasElement, {
         vueApp,
         reactiveArgs,
       });
     },
     renderTracked(event) {
-      console.log('vueApp--renderTracked ', event);
+      // console.log('vueApp--renderTracked ', event);
     },
     renderTriggered(event) {
-      console.log('vueApp--renderTriggered ', event);
+      // console.log('vueApp--renderTriggered ', event);
     },
   });
   vueApp.config.errorHandler = (e: unknown) => showException(e as Error);
@@ -98,8 +95,16 @@ function getSlots(props: Args, context: StoryContext<VueRenderer, Args>) {
  */
 export function updateArgs(reactiveArgs: Args, nextArgs: Args) {
   const currentArgs = isReactive(reactiveArgs) ? reactiveArgs : reactive(reactiveArgs);
-  Object.entries(nextArgs).forEach(([key, value]) => {
-    currentArgs[key] = value;
+
+  Object.keys(currentArgs).forEach((key) => {
+    const componentArg = currentArgs[key];
+    if (typeof componentArg === 'object') {
+      Object.keys(componentArg).forEach((key2) => {
+        componentArg[key2] = nextArgs[key2];
+      });
+    } else {
+      currentArgs[key] = nextArgs[key];
+    }
   });
 }
 

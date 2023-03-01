@@ -73,6 +73,7 @@ export const Events = {
     await within(canvasElement).findByText(/initial/);
 
     await channel.emit(UPDATE_STORY_ARGS, { storyId: id, updatedArgs: { test: 'updated' } });
+    await new Promise((resolve) => channel.once(STORY_ARGS_UPDATED, resolve));
     await within(canvasElement).findByText(/updated/);
 
     await channel.emit(RESET_STORY_ARGS, { storyId: id });

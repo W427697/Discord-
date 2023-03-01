@@ -263,29 +263,17 @@ export const sourceDecorator = (storyFn: any, context: StoryContext<Renderer>) =
 
   const components = getComponentsFromRenderFn(context?.originalStoryFn);
 
-  console.log(' components ', components);
-
   const storyComponent = components.length ? components : [ctxtComponent as TemplateChildNode];
 
   const withScript = context?.parameters?.docs?.source?.withScriptSetup || false;
   const generatedScript = withScript ? generateScriptSetup(args, argTypes, components) : '';
   const generatedTemplate = generateSource(storyComponent, args, argTypes, withScript);
-  console.log(' generatedTemplate ', generatedTemplate);
 
   if (generatedTemplate) {
     source = `${generatedScript}\n <template>\n ${generatedTemplate} \n</template>`;
   }
 
   return story;
-};
-// export local function for testing purpose
-export {
-  generateScriptSetup,
-  getComponentsFromRenderFn,
-  getComponentsFromTemplate,
-  mapAttributesAndDirectives,
-  attributeSource,
-  htmlEventAttributeToVueEventAttribute,
 };
 
 function mapSlots(slotsProps: Args): TextNode[] {
@@ -298,7 +286,7 @@ function mapSlots(slotsProps: Args): TextNode[] {
     }
     slotContent = `<template #${key}>${JSON.stringify(slot)}</template>`;
 
-    const txt: TextNode = {
+    return {
       type: 2,
       content: slotContent,
       loc: {
@@ -307,8 +295,16 @@ function mapSlots(slotsProps: Args): TextNode[] {
         end: { offset: 0, line: 1, column: 0 },
       },
     };
-    return txt;
   });
-
   // TODO: handle other cases (array, object, html,etc)
 }
+
+// export local function for testing purpose
+export {
+  generateScriptSetup,
+  getComponentsFromRenderFn,
+  getComponentsFromTemplate,
+  mapAttributesAndDirectives,
+  attributeSource,
+  htmlEventAttributeToVueEventAttribute,
+};

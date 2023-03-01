@@ -31,10 +31,10 @@ function prepare(
       ...normalizeFunctionalComponent(story),
       components: { ...(story.components || {}), story: innerStory },
       renderTracked(event) {
-        console.log('innerStory renderTracked', event);
+        // console.log('innerStory renderTracked', event);
       },
       renderTriggered(event) {
-        console.log('innerStory renderTriggered', event);
+        // console.log('innerStory renderTriggered', event);
       },
     };
   }
@@ -44,10 +44,10 @@ function prepare(
       return h(story, this.$props);
     },
     renderTracked(event) {
-      console.log('story renderTracked', event);
+      // console.log('story renderTracked', event);
     },
     renderTriggered(event) {
-      console.log('story renderTriggered', event);
+      // console.log('story renderTriggered', event);
     },
   };
 }
@@ -61,6 +61,9 @@ export function decorateStory(
       let story: VueRenderer['storyResult'] | undefined;
 
       const decoratedStory: VueRenderer['storyResult'] = decorator((update) => {
+        // we should update the context with the update object from the decorator in reactive way
+        // so that the story will be re-rendered with the new context
+        updateReactiveContext(context, update);
         story = decorated({
           ...context,
           ...sanitizeStoryContextUpdate(update),
@@ -80,4 +83,24 @@ export function decorateStory(
     },
     (context) => prepare(storyFn(context)) as LegacyStoryFn<VueRenderer>
   );
+}
+
+function updateReactiveContext(
+  context: StoryContext<VueRenderer>,
+  update:
+    | import('@storybook/csf').StoryContextUpdate<Partial<import('@storybook/csf').Args>>
+    | undefined
+) {
+  if (update) {
+    const { args, argTypes } = update;
+    if (args && !argTypes) {
+      const deepCopy = JSON.parse(JSON.stringify(args));
+      Object.keys(context.args).forEach((key) => {
+        delete context.args[key];
+      });
+      Object.keys(args).forEach((key) => {
+        context.args[key] = deepCopy[key];
+      });
+    }
+  }
 }
