@@ -140,7 +140,7 @@ export default function transform(info: FileInfo, api: API, options: { parser?: 
       // Remove the render function when we can hoist the template
       // const Template = (args) => <Cat {...args} />;
       // export const A = Template.bind({});
-      let storyFn = template && csf._templates[template];
+      let storyFn: t.Expression = template && (csf._templates[template] as any as t.Expression);
       if (!storyFn) {
         storyFn = init;
       }
@@ -163,20 +163,24 @@ export default function transform(info: FileInfo, api: API, options: { parser?: 
   importHelper.removeDeprecatedStoryImport();
 
   csf._ast.program.body = csf._ast.program.body.reduce((acc, stmt) => {
+    const statement = stmt as t.Statement;
     // remove story annotations & template declarations
-    if (isStoryAnnotation(stmt, objectExports) || isTemplateDeclaration(stmt, csf._templates)) {
+    if (
+      isStoryAnnotation(statement, objectExports) ||
+      isTemplateDeclaration(statement, csf._templates)
+    ) {
       return acc;
     }
 
     // replace story exports with new object exports
-    const newExport = getNewExport(stmt, objectExports);
+    const newExport = getNewExport(statement, objectExports);
     if (newExport) {
       acc.push(newExport);
       return acc;
     }
 
     // include unknown statements
-    acc.push(stmt);
+    acc.push(statement);
     return acc;
   }, []);
 
