@@ -225,7 +225,11 @@ class StorybookImportHelper {
         if (source.startsWith('@storybook/csf') || !source.startsWith('@storybook')) return;
         const isRendererImport = path.get('specifiers').some((specifier) => {
           if (specifier.isImportNamespaceSpecifier()) {
-            throw path.buildCodeFrameError(
+            // throw path.buildCodeFrameError(
+            //   `This codemod does not support namespace imports for a ${path.node.source.value} package.\n` +
+            //     'Replace the namespace import with named imports and try again.'
+            // );
+            throw new Error(
               `This codemod does not support namespace imports for a ${path.node.source.value} package.\n` +
                 'Replace the namespace import with named imports and try again.'
             );
