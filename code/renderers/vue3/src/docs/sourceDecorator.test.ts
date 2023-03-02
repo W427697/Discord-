@@ -303,7 +303,7 @@ describe('Vue3: generateSource() snippet', () => {
         [] as ArgsType<Args>,
         `<Component :camel-case-string-arg="args.camelCaseStringArg" ></Component>`
       )
-    ).toMatchInlineSnapshot(`<Component camel-case-string-arg='foo' ></Component>`);
+    ).toMatchInlineSnapshot(`<Component camel-case-string-arg='foo'></Component>`);
   });
 
   test('template component camelCase bool Arg', () => {
@@ -315,7 +315,7 @@ describe('Vue3: generateSource() snippet', () => {
         [] as ArgsType<Args>,
         `<Component :camel-case-boolean-arg="args.camelCaseBooleanArg" ></Component>`
       )
-    ).toMatchInlineSnapshot(`<Component :camel-case-boolean-arg='true' ></Component>`);
+    ).toMatchInlineSnapshot(`<Component :camel-case-boolean-arg='true'></Component>`);
   });
 
   test('template component camelCase bool, string Arg', () => {
@@ -329,7 +329,7 @@ describe('Vue3: generateSource() snippet', () => {
         `<Component :camel-case-boolean-arg="args.camelCaseBooleanArg" :camel-case-string-arg="args.camelCaseStringArg" ></Component>`
       )
     ).toMatchInlineSnapshot(
-      `<Component :camel-case-boolean-arg='true' camel-case-string-arg='foo' ></Component>`
+      `<Component :camel-case-boolean-arg='true' camel-case-string-arg='foo'></Component>`
     );
   });
 
@@ -342,7 +342,7 @@ describe('Vue3: generateSource() snippet', () => {
         [] as ArgsType<Args>,
         `<Component :camel-case-object-arg="args.camelCaseObjectArg" ></Component>`
       )
-    ).toMatchInlineSnapshot(`<Component :camel-case-object-arg='{foo:"bar"}' ></Component>`);
+    ).toMatchInlineSnapshot(`<Component :camel-case-object-arg='{foo:"bar"}'></Component>`);
   });
 
   test('template component camelCase object Arg and Slot', () => {
@@ -352,9 +352,9 @@ describe('Vue3: generateSource() snippet', () => {
           camelCaseObjectArg: { foo: 'bar' },
         },
         [] as ArgsType<Args>,
-        `<Component :camel-case-object-arg="args.camelCaseObjectArg" > SLOT </Component>`
+        `<Component :camel-case-object-arg="args.camelCaseObjectArg"> SLOT </Component>`
       )
-    ).toMatchInlineSnapshot(`<Component :camel-case-object-arg='{foo:"bar"}' > SLOT </Component>`);
+    ).toMatchInlineSnapshot(`<Component :camel-case-object-arg='{foo:"bar"}'> SLOT </Component>`);
   });
 
   test('template component camelCase object Arg and dynamic Slot content', () => {
@@ -365,10 +365,10 @@ describe('Vue3: generateSource() snippet', () => {
           camelCaseStringSlotArg: 'foo',
         },
         [] as ArgsType<Args>,
-        `<Component :camel-case-object-arg="args.camelCaseObjectArg" > SLOT {{args.camelCaseStringSlotArg}}</Component>`
+        `<Component :camel-case-object-arg="args.camelCaseObjectArg"> SLOT {{args.camelCaseStringSlotArg}}</Component>`
       )
     ).toMatchInlineSnapshot(
-      `<Component :camel-case-object-arg='{foo:"bar"}' > SLOT foo</Component>`
+      `<Component :camel-case-object-arg='{foo:"bar"}'> SLOT foo</Component>`
     );
   });
 });
@@ -380,7 +380,7 @@ describe('Vue3: sourceDecorator->attributeSoure()', () => {
 
   test('html event attribute should convert to vue event directive', () => {
     expect(attributeSource('onClick', () => {})).toMatchInlineSnapshot(`v-on:click='()=>({})'`);
-    expect(attributeSource('onClick', () => {})).toMatchInlineSnapshot(`v-on:click='()=>({})'`);
+    expect(attributeSource('onclick', () => {})).toMatchInlineSnapshot(`v-on:click='()=>({})'`);
   });
   test('normal html attribute should not convert to vue event directive', () => {
     expect(attributeSource('on-click', () => {})).toMatchInlineSnapshot(`on-click='()=>({})'`);

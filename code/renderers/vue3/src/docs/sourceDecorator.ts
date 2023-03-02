@@ -154,7 +154,7 @@ function getComponentsFromTemplate(template: string): TemplateChildNode[] {
  * @param slotProp Prop used to simulate a slot
  */
 
-function generateSource(
+export function generateSource(
   componentOrNodes: (StoryVueComponent | TemplateChildNode)[] | TemplateChildNode,
   args: Args,
   argTypes: ArgTypes,
