@@ -10,29 +10,8 @@ export class Yarn2Proxy extends JsPackageManager {
   getInstallArgs(): string[] {
     if (!this.installArgs) {
       this.installArgs = [];
-
-      if (this.detectWorkspaceRoot()) {
-        this.installArgs.push('-W');
-      }
     }
     return this.installArgs;
-  }
-
-  detectWorkspaceRoot() {
-    const { workspaces } = this.readPackageJson();
-
-    if (Array.isArray(workspaces)) {
-      return workspaces.length > 0;
-    }
-
-    if (workspaces && typeof workspaces === 'object') {
-      if (workspaces.packages) {
-        return workspaces.packages.length > 0;
-      }
-      return false;
-    }
-
-    return false;
   }
 
   initPackageJson() {
