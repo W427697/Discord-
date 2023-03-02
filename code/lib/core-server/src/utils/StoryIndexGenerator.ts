@@ -216,7 +216,9 @@ export class StoryIndexGenerator {
     const foundImports = new Set();
     this.specifierToCache.forEach((cache) => {
       const fileNames = Object.keys(cache).filter((fileName) => {
-        const foundImport = absoluteImports.find((storyImport) => fileName.startsWith(storyImport));
+        const foundImport = absoluteImports.find((storyImport) =>
+          fileName.startsWith(`${storyImport}.`)
+        );
         if (foundImport) foundImports.add(foundImport);
         return !!foundImport;
       });
@@ -225,7 +227,9 @@ export class StoryIndexGenerator {
         if (cacheEntry && cacheEntry.type === 'stories') {
           dependencies.push(cacheEntry);
         } else {
-          throw new Error(`Unexpected dependency: ${cacheEntry}`);
+          // If we found a match in the cache that's still null or not a stories file,
+          // it is a docs file and it isn't a dependency / storiesImport.
+          // See https://github.com/storybookjs/storybook/issues/20958
         }
       });
     });
