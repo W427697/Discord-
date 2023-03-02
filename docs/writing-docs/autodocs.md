@@ -83,13 +83,25 @@ Going over the code snippet in more detail. When Storybook starts up, it will ov
 
 #### With MDX
 
-Nevertheless, not all projects are built by adopting a single convention. There may be some situations where you want to use MDX to generate the documentation template. In that case, you can customize the template by adding the [`Meta`](../api/doc-block-meta.md) Doc Block and supplying the `isTemplate` property to tell Storybook to treat this file as a documentation template. For example:
+You can also use MDX to generate the documentation template. This is useful in non-React projects where JSX-handling is not configured. Normally, when you create an MDX file in your project, it is treated as normal documentation. To indicate that an MDX file is a documentation template, supply an the `isTemplate` property to its [`Meta`](../api/doc-block-meta.md) Doc Block. For example:
 
 <!-- prettier-ignore-start -->
 
 <CodeSnippets
   paths={[
     'common/storybook-mdx-template-with-prop.mdx.mdx',
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
+
+Then you can use it in your `.storybook/preview.js` or an individual story file by importing it:
+
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'common/storybook-preview-auto-docs-custom-mdx-template.js.mdx',
   ]}
 />
 
