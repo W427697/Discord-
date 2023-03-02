@@ -212,35 +212,21 @@ export class StoryIndexGenerator {
   }
 
   findDependencies(absoluteImports: Path[]) {
-    const dependencies = [] as StoriesCacheEntry[];
-    const foundImports = new Set();
-    this.specifierToCache.forEach((cache) => {
-      const fileNames = Object.keys(cache).filter((fileName) => {
-        const foundImport = absoluteImports.find((storyImport) =>
-          fileName.match(new RegExp(`^${storyImport}\\.[^.]+$`))
-        );
-        if (foundImport) foundImports.add(foundImport);
-        return !!foundImport;
-      });
-      fileNames.forEach((fileName) => {
-        const cacheEntry = cache[fileName];
-        if (cacheEntry && cacheEntry.type === 'stories') {
-          dependencies.push(cacheEntry);
-        } else {
+    return [...this.specifierToCache.values()].flatMap((cache: SpecifierStoriesCache) =>
+      Object.entries(cache)
+        .filter(([fileName, cacheEntry]) => {
+          // We are only interested in stories cache entries (and assume they've been processed already)
           // If we found a match in the cache that's still null or not a stories file,
           // it is a docs file and it isn't a dependency / storiesImport.
           // See https://github.com/storybookjs/storybook/issues/20958
-        }
-      });
-    });
+          if (!cacheEntry || cacheEntry.type !== 'stories') return false;
 
-    // imports can include non-story imports, so it's ok if
-    // there are fewer foundImports than absoluteImports
-    // if (absoluteImports.length !== foundImports.size) {
-    //   throw new Error(`Missing dependencies: ${absoluteImports.filter((p) => !foundImports.has(p))}`));
-    // }
-
-    return dependencies;
+          return !!absoluteImports.find((storyImport) =>
+            fileName.match(new RegExp(`^${storyImport}\\.[^.]+$`))
+          );
+        })
+        .map(([_, cacheEntry]) => cacheEntry as StoriesCacheEntry)
+    );
   }
 
   async extractStories(specifier: NormalizedStoriesSpecifier, absolutePath: Path) {
