@@ -1,3 +1,11 @@
+## 7.0.0-beta.59 (March 2, 2023)
+
+#### Bug Fixes
+
+-   CLI: Improve yarn/pnpm workspaces support for adding dependencies in CLI [#21331](https://github.com/storybooks/storybook/pull/21331)
+-   Core: Fix `manager.js` ignored when `sideEffects:false` in `package.json` [#21335](https://github.com/storybooks/storybook/pull/21335)
+-   Vite: Fix glob path creation for Windows [#21305](https://github.com/storybookjs/storybook/pull/21305)
+
 ## 7.0.0-beta.58 (March 1, 2023)
 
 #### Bug Fixes
