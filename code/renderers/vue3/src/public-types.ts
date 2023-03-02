@@ -11,7 +11,7 @@ import type {
   StrictArgs,
   ProjectAnnotations,
 } from '@storybook/types';
-import type { SetOptional, Simplify } from 'type-fest';
+import type { SetOptional, Simplify, RemoveIndexSignature } from 'type-fest';
 import type { ComponentOptions, ConcreteComponent, FunctionalComponent } from 'vue';
 import type { VueRenderer } from './types';
 
@@ -59,8 +59,12 @@ export type StoryObj<TMetaOrCmpOrArgs = Args> = TMetaOrCmpOrArgs extends {
     : never
   : StoryAnnotations<VueRenderer, ComponentPropsOrProps<TMetaOrCmpOrArgs>>;
 
-type ComponentProps<C> = C extends ComponentOptions<infer P>
-  ? P
+type ExtractSlots<C> = C extends new (...args: any[]) => { $slots: infer T }
+  ? Partial<RemoveIndexSignature<T>>
+  : unknown;
+
+export type ComponentProps<C> = C extends ComponentOptions<infer P>
+  ? P & ExtractSlots<C>
   : C extends FunctionalComponent<infer P>
   ? P
   : unknown;

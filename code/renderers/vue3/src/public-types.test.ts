@@ -6,6 +6,7 @@ import type { ComponentOptions, FunctionalComponent } from 'vue';
 import { h } from 'vue';
 import type { Decorator, Meta, StoryObj } from './public-types';
 import type { VueRenderer } from './types';
+import BaseLayout from './__tests__/BaseLayout.vue';
 import Button from './__tests__/Button.vue';
 import DecoratorTsVue from './__tests__/Decorator.vue';
 import Decorator2TsVue from './__tests__/Decorator2.vue';
@@ -187,4 +188,29 @@ describe('Story args can be inferred', () => {
     type Expected = StoryAnnotations<VueRenderer, Props, SetOptional<Props, 'disabled'>>;
     expectTypeOf(Basic).toEqualTypeOf<Expected>();
   });
+});
+
+test('Infer type of slots', () => {
+  const meta = {
+    component: BaseLayout,
+  } satisfies Meta<typeof BaseLayout>;
+
+  const Basic: StoryObj<typeof meta> = {
+    args: {
+      otherProp: true,
+      default: () => 'Default',
+      footer: () => 'Footer',
+      header: ({ title }) => `Some title: ${title}`,
+    },
+  };
+
+  type Props = {
+    readonly otherProp: boolean;
+    header?: (headerProps: { title: string }) => any;
+    default?: (defaultProps: {}) => any;
+    footer?: (footerProps: {}) => any;
+  };
+
+  type Expected = StoryAnnotations<VueRenderer, Props, Props>;
+  expectTypeOf(Basic).toEqualTypeOf<Expected>();
 });
