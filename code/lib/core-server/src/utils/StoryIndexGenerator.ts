@@ -25,6 +25,7 @@ import { logger } from '@storybook/node-logger';
 import { getStorySortParameter } from '@storybook/csf-tools';
 import { toId } from '@storybook/csf';
 import { analyze } from '@storybook/docs-mdx';
+import dedent from 'ts-dedent';
 import { autoName } from './autoName';
 import { IndexingError, MultipleIndexingError } from './IndexingError';
 
@@ -345,7 +346,13 @@ export class StoryIndexGenerator {
         });
 
         if (!csfEntry)
-          throw new Error(`Could not find "${result.of}" for docs file "${relativePath}".`);
+          throw new Error(
+            dedent`Could not find CSF file at path "${result.of}" referenced by \`of={}\` in docs file "${relativePath}".
+            
+              - Does that file exist?
+              - If so, is it a CSF file (\`.stories.*\`)?
+              - If so, is it matched by the \`stories\` glob in \`main.js\`?`
+          );
       }
 
       // Track that we depend on this for easy invalidation later.
