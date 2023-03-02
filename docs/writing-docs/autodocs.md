@@ -83,7 +83,7 @@ Going over the code snippet in more detail. When Storybook starts up, it will ov
 
 #### With MDX
 
-You can also use MDX to generate the documentation template. This is useful in non-React projects where JSX-handling is not configured. Normally, when you create an MDX file in your project, it is treated as normal documentation. To indicate that an MDX file is a documentation template, supply an the `isTemplate` property to its [`Meta`](../api/doc-block-meta.md) Doc Block. For example:
+You can also use MDX to generate the documentation template. This is useful in non-React projects where JSX-handling is not configured. Normally, when you create an MDX file in your project, it is treated as normal documentation. To indicate that an MDX file is a documentation template, supply the `isTemplate` property to its [`Meta`](../api/doc-block-meta.md) Doc Block. For example:
 
 <!-- prettier-ignore-start -->
 
