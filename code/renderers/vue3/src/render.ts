@@ -32,7 +32,6 @@ export function renderToCanvas(
   const existingApp = map.get(canvasElement);
 
   const reactiveArgs = existingApp?.reactiveArgs ?? reactive(storyContext.args); // get reference to reactiveArgs or create a new one;
-
   // if the story is already rendered and we are not forcing a remount, we just update the reactive args
   if (existingApp && !forceRemount) {
     updateArgs(existingApp.reactiveArgs, storyContext.args);

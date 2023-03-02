@@ -14,10 +14,22 @@ import type {
   TemplateChildNode,
 } from '@vue/compiler-core';
 import { baseParse } from '@vue/compiler-core';
-import type { Component } from 'vue';
+import type { Component, VNodeProps } from 'vue';
 import { toDisplayString, h } from 'vue';
 import { camelCase, kebabCase } from 'lodash';
 
+type StoryVueComponent = Component & {
+  render: any;
+  props: VNodeProps;
+  slots: any;
+  tag?: string;
+  name?: string;
+  __name?: string;
+  __file?: string;
+  __docs?: any;
+  __docsGen?: any;
+  __docsExtracted?: any;
+};
 /**
  * Check if the sourcecode should be generated.
  *
@@ -75,7 +87,7 @@ export function generateAttributesSource(
 
       if (arg.type === 7) {
         const { arg: argName } = arg;
-        const argKey = argName?.loc.source ?? (argName as any)?.content;
+        const argKey = argName ? argName?.loc.source : undefined; // (argName as any)?.content;
         // const argExpValue = exp?.content;
         const propValue = args[camelCase(argKey)];
 
@@ -141,93 +153,67 @@ function getComponentsFromTemplate(template: string): TemplateChildNode[] {
  * @param argTypes ArgTypes
  * @param slotProp Prop used to simulate a slot
  */
-export function generateSource(
-  componentOrNode:
-    | (TemplateChildNode | (Component & { type?: number }))[]
-    | TemplateChildNode
-    | (Component & { type?: number }),
+
+function generateSource(
+  componentOrNodes: (StoryVueComponent | TemplateChildNode)[] | TemplateChildNode,
   args: Args,
   argTypes: ArgTypes,
-  byRef?: boolean | undefined
-): string | null {
-  const generateComponentSource = (
-    component: TemplateChildNode | (Component & { type?: number })
-  ) => {
-    let attributes;
-    let name;
-    let children;
-    let content;
-    if (!component) return null;
+  byRef = false
+) {
+  const isComponent = (component: any) => component && typeof component.render === 'function';
+  const isElementNode = (node: any) => node && node.type === 1;
+  const isInterpolationNode = (node: any) => node && node.type === 5;
+  const isTextNode = (node: any) => node && node.type === 2;
 
-    if (component.type === 1) {
-      const child = component as ElementNode;
-      attributes = child.props;
-      name = child.tag;
-      children = child.children;
-    }
-    if (component.type === 5) {
-      const child = component as InterpolationNode;
-      content = child.content;
-    }
-    if (component.type === 2) {
-      const child = component as TextNode;
-      content = child.content;
+  const generateComponentSource = (componentOrNode: StoryVueComponent | TemplateChildNode) => {
+    if (isElementNode(componentOrNode)) {
+      const { tag: name, props: attributes, children } = componentOrNode as ElementNode;
+      const childSources: string = children
+        .map((child: TemplateChildNode) => generateComponentSource(child))
+        .join('');
+      const props = generateAttributesSource(attributes, args, argTypes, byRef);
+      return `<${name} ${props}>${childSources}</${name}>`;
     }
 
-    const concreteComponent = component as Component & {
-      render: any;
-      props: any;
-      slots: any;
-      tag?: string;
-      name?: string;
-      __name?: string;
-    };
-    if (typeof concreteComponent.render === 'function') {
-      const vnode = h(component, args);
-      if (vnode.props) {
-        const { props } = vnode;
-        concreteComponent.slots = getDocgenSection(concreteComponent, 'slots');
-        const { slots } = concreteComponent;
-        const slotsProps = {} as Args;
-        const attrsProps = { ...props } as Args;
-        if (slots)
-          Object.keys(props).forEach((prop: any) => {
-            const isSlot = slots.find(({ name: slotName }: { name: string }) => slotName === prop);
-            if (isSlot?.name) {
-              slotsProps[prop] = props[prop];
-              delete attrsProps[prop];
-            }
-          });
-
-        attributes = mapAttributesAndDirectives(attrsProps);
-        children = mapSlots(slotsProps);
-      }
-      name = concreteComponent.tag || concreteComponent.name || concreteComponent.__name;
-    }
-
-    let source = '';
-    const templateAttrs = attributes ?? []; // keep only args that are in attributes
-    const props = generateAttributesSource(templateAttrs, args, argTypes, byRef);
-    if (name) source += `<${name} ${props} >`;
-
-    if (children) {
-      source += children.map((node: TemplateChildNode) => generateComponentSource(node)).join('');
-    }
-    if (content) {
+    if (isInterpolationNode(componentOrNode) || isTextNode(componentOrNode)) {
+      const { content } = componentOrNode as InterpolationNode | TextNode;
       // eslint-disable-next-line no-eval
-      if (typeof content !== 'string') content = eval(content.loc.source); // it's a binding safe to eval
-      source += content;
+      if (typeof content !== 'string') return eval(content.loc.source); // it's a binding safe to eval
+      return content;
     }
-    if (name) source += `</${name}>`;
-    return source;
-  };
-  if (componentOrNode && !Array.isArray(componentOrNode))
-    return generateComponentSource(componentOrNode);
-  if (componentOrNode && componentOrNode.length) {
-    return componentOrNode.map((node) => generateComponentSource(node)).join(' ');
-  }
 
-  return null;
+    if (isComponent(componentOrNode)) {
+      const concreteComponent = componentOrNode as StoryVueComponent;
+      const vnode = h(componentOrNode, args);
+      const { props } = vnode;
+      const { slots } = getDocgenSection(concreteComponent, 'slots') || {};
+      const slotsProps = {} as Args;
+      const attrsProps = { ...props };
+      if (slots && props)
+        Object.keys(props).forEach((prop: any) => {
+          const isSlot = slots.find(({ name: slotName }: { name: string }) => slotName === prop);
+          if (isSlot?.name) {
+            slotsProps[prop] = props[prop];
+            delete attrsProps[prop];
+          }
+        });
+      const attributes = mapAttributesAndDirectives(attrsProps);
+      const childSources: string = mapSlots(slotsProps)
+        .map((child) => generateComponentSource(child))
+        .join('');
+      const name = concreteComponent.tag || concreteComponent.name || concreteComponent.__name;
+      const propsSource = generateAttributesSource(attributes, args, argTypes, byRef);
+      return `<${name} ${propsSource}>${childSources}</${name}>`;
+    }
+
+    return null;
+  };
+
+  const componentsOrNodes = Array.isArray(componentOrNodes) ? componentOrNodes : [componentOrNodes];
+  const source = componentsOrNodes
+    .map((componentOrNode) => generateComponentSource(componentOrNode))
+    .join(' ');
+  return source || null;
 }
 
 function mapAttributesAndDirectives(props: Args) {
@@ -289,10 +275,10 @@ function mapSlots(slotsProps: Args): TextNode[] {
     const slot = slotsProps[key];
     let slotContent = '';
     if (typeof slot === 'function') slotContent = `<template #${key}>${slot()}</template>`;
+    slotContent = `<template #${key}>${JSON.stringify(slot)}</template>`;
     if (key === 'default') {
       slotContent = JSON.stringify(slot);
     }
-    slotContent = `<template #${key}>${JSON.stringify(slot)}</template>`;
 
     return {
       type: 2,
