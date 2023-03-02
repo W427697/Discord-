@@ -43,6 +43,7 @@ Another option is to use a global parameter to match all [argTypes](../api/argty
 <CodeSnippets
   paths={[
     'common/storybook-preview-matching-argtypes.js.mdx',
+    'common/storybook-preview-matching-argtypes.ts.mdx',
   ]}
 />
 

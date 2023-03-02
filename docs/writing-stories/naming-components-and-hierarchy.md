@@ -103,6 +103,7 @@ The most powerful method of sorting is to provide a function to `storySort`. Any
 <CodeSnippets
   paths={[
     'common/storybook-preview-sort-function.js.mdx',
+    'common/storybook-preview-sort-function.ts.mdx',
   ]}
 />
 
@@ -115,6 +116,7 @@ The `storySort` can also accept a configuration object.
 <CodeSnippets
   paths={[
     'common/storybook-preview-empty-sort-object.js.mdx',
+    'common/storybook-preview-empty-sort-object.ts.mdx',
   ]}
 />
 
@@ -136,6 +138,7 @@ The `order` array can accept a nested array in order to sort 2nd-level story kin
 <CodeSnippets
   paths={[
     'common/storybook-preview-with-ordered-pages.js.mdx',
+    'common/storybook-preview-with-ordered-pages.ts.mdx',
   ]}
 />
 
@@ -159,6 +162,7 @@ If you want certain categories to sort to the end of the list, you can insert a 
 <CodeSnippets
   paths={[
     'common/storybook-preview-with-ordered-pages-and-wildcard.js.mdx',
+    'common/storybook-preview-with-ordered-pages-and-wildcard.ts.mdx',
   ]}
 />
 

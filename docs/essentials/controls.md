@@ -109,6 +109,7 @@ If you haven't used the CLI to setup the configuration, or if you want to define
 <CodeSnippets
   paths={[
     'common/storybook-addon-controls-custom-matchers.js.mdx',
+    'common/storybook-addon-controls-custom-matchers.ts.mdx',
   ]}
 />
 
@@ -124,10 +125,12 @@ Until now, we only used auto-generated controls based on the component we're wri
   paths={[
     'react/table-story-fully-customize-controls.js.mdx',
     'react/table-story-fully-customize-controls.ts.mdx',
-    'vue/table-story-fully-customize-controls.2.js.mdx',
-    'vue/table-story-fully-customize-controls.ts-2.ts.mdx',
-    'vue/table-story-fully-customize-controls.3.js.mdx',
-    'vue/table-story-fully-customize-controls.ts-3.ts.mdx',
+    'vue/table-story-fully-customize-controls.v2-js.js.mdx',
+    'vue/table-story-fully-customize-controls.v2-ts.ts.mdx',
+    'vue/table-story-fully-customize-controls.v2-ts-4-9.ts.mdx',
+    'vue/table-story-fully-customize-controls.v3-js.js.mdx',
+    'vue/table-story-fully-customize-controls.v3-ts.ts.mdx',
+    'vue/table-story-fully-customize-controls.v3-ts-4-9.ts.mdx',
     'angular/table-story-fully-customize-controls.ts.mdx',
     'web-components/table-story-fully-customize-controls.js.mdx',
     'web-components/table-story-fully-customize-controls.ts.mdx',
@@ -158,8 +161,8 @@ One way to deal with this is to use primitive values (e.g., strings) as arg valu
   paths={[
     'react/component-story-custom-args-complex.js.mdx',
     'react/component-story-custom-args-complex.ts.mdx',
-    'vue/component-story-custom-args-complex.3.js.mdx',
-    'vue/component-story-custom-args-complex.ts-3.ts.mdx',
+    'vue/component-story-custom-args-complex.js.mdx',
+    'vue/component-story-custom-args-complex.ts.mdx',
     'angular/component-story-custom-args-complex.ts.mdx',
     'svelte/component-story-custom-args-complex.js.mdx',
     'web-components/component-story-custom-args-complex.js.mdx',
@@ -250,6 +253,7 @@ To enable expanded mode globally, add the following to [`.storybook/preview.js`]
 <CodeSnippets
   paths={[
     'common/storybook-preview-expanded-controls.js.mdx',
+    'common/storybook-preview-expanded-controls.ts.mdx',
   ]}
 />
 
@@ -268,6 +272,7 @@ For `color` controls, you can specify an array of `presetColors`, either on the 
 <CodeSnippets
   paths={[
     'common/storybook-preview-parameters-color-swatches.js.mdx',
+    'common/storybook-preview-parameters-color-swatches.ts.mdx',
   ]}
 />
 

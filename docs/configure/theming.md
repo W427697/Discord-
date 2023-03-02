@@ -24,6 +24,12 @@ Make sure you have installed [`@storybook/addons`](https://www.npmjs.com/package
 
 <!-- prettier-ignore-end -->
 
+<div class="aside">
+
+ℹ️ Installing the package with `@next` will install the cutting-edge version of it. Be advised prerelease versions are subject to breaking changes and are not recommended for production use. Use at your own risk.
+
+</div>
+
 As an example, you can tell Storybook to use the "dark" theme by modifying [`.storybook/manager.js`](./overview.md#configure-story-rendering):
 
 <!-- prettier-ignore-start -->
@@ -60,6 +66,7 @@ Here's how you'd specify the same theme for docs in [`.storybook/preview.js`](./
 
 <CodeSnippets
   paths={[
+    'common/storybook-preview-docs-dark-theme.js.mdx',
     'common/storybook-preview-docs-dark-theme.js.mdx',
   ]}
 />
@@ -164,6 +171,7 @@ Here's how you might insert a custom code renderer for `code` blocks on the page
 <CodeSnippets
   paths={[
     'common/storybook-preview-custom-code-renderer.js.mdx',
+    'common/storybook-preview-custom-code-renderer.ts.mdx',
   ]}
 />
 
@@ -178,6 +186,7 @@ Here's how you might insert a custom `<Canvas />` block:
 <CodeSnippets
   paths={[
     'common/storybook-preview-custom-canvas.js.mdx',
+    'common/storybook-preview-custom-canvas.ts.mdx',
   ]}
 />
 

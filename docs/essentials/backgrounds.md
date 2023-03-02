@@ -22,6 +22,7 @@ But you're not restricted to these backgrounds, you can configure your own set o
 <CodeSnippets
   paths={[
     'common/storybook-preview-configure-background-colors.js.mdx',
+    'common/storybook-preview-configure-background-colors.ts.mdx',
   ]}
 />
 

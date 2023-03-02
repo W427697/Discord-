@@ -12,7 +12,8 @@ You can add the parameter to your [`./storybook/preview.js`](./overview.md#confi
 
 <CodeSnippets
   paths={[
-    'common/storybook-preview-layout-param.js.mdx'
+    'common/storybook-preview-layout-param.js.mdx',
+    'common/storybook-preview-layout-param.ts.mdx',
   ]}
 />
 

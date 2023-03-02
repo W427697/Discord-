@@ -111,6 +111,7 @@ Update your `.storybook/preview.js` file and enable the addon via a [global deco
 <CodeSnippets
   paths={[
     'common/storybook-preview-register-msw-addon.js.mdx',
+    'common/storybook-preview-register-msw-addon.ts.mdx',
   ]}
 />
 
@@ -197,11 +198,11 @@ To test your screen with the GraphQL mocked data, you could write the following 
   paths={[
     'react/documentscreen-story-msw-graphql-query.js.mdx',
     'react/documentscreen-story-msw-graphql-query.ts.mdx',
-    'vue/documentscreen-story-msw-graphql-query.3.js.mdx',
-    'vue/documentscreen-story-msw-graphql-query.ts-3.ts.mdx',
     'vue/apollo-wrapper-component.with-mock-implementation-3.js.mdx',
-    'angular/documentscreen-story-msw-graphql-query.ts.mdx',
+    'vue/documentscreen-story-msw-graphql-query.js.mdx',
+    'vue/documentscreen-story-msw-graphql-query.ts.mdx',
     'angular/apollo-module.mock-apollo-module.ts.mdx',
+    'angular/documentscreen-story-msw-graphql-query.ts.mdx',
     'svelte/documentscreen-story-msw-graphql-query.js.mdx',
     'svelte/apollo-wrapper-component.with-mock-implementation.js.mdx',
   ]}
@@ -251,6 +252,7 @@ Add the decorator you've just implemented to your [storybook/preview.js](../conf
 <CodeSnippets
   paths={[
     'common/storybook-preview-with-mock-decorator.js.mdx',
+    'common/storybook-preview-with-mock-decorator.ts.mdx',
   ]}
 />
 
@@ -375,6 +377,7 @@ If you’ve set up `GlobalContainerContext`, you’ll need to set up a decorator
 <CodeSnippets
   paths={[
     'react/mock-context-container-global.js.mdx',
+    'react/mock-context-container-global.ts.mdx',
   ]}
 />
 
