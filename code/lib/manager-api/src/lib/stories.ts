@@ -140,7 +140,7 @@ export const transformStoryIndexToStoriesHash = (
 
     // First, split the title into a set of names, separated by '/' and trimmed.
     // @ts-expect-error (this is to support stories.json v2)
-    const title = item.title || item.kind;
+    const title: string = item.title || item.kind;
     const groups = title.trim().split(TITLE_PATH_SEPARATOR);
     const root = (!setShowRoots || showRoots) && groups.length > 1 ? [groups.shift()] : [];
     const names = [...root, ...groups];
