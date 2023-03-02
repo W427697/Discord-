@@ -217,7 +217,7 @@ export class StoryIndexGenerator {
     this.specifierToCache.forEach((cache) => {
       const fileNames = Object.keys(cache).filter((fileName) => {
         const foundImport = absoluteImports.find((storyImport) =>
-          fileName.startsWith(`${storyImport}.`)
+          fileName.match(new RegExp(`^${storyImport}\\.[^.]+$`))
         );
         if (foundImport) foundImports.add(foundImport);
         return !!foundImport;
