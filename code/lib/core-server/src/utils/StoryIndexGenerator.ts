@@ -222,7 +222,7 @@ export class StoryIndexGenerator {
           if (!cacheEntry || cacheEntry.type !== 'stories') return false;
 
           return !!absoluteImports.find((storyImport) =>
-            fileName.match(new RegExp(`^${storyImport}\\.[^.]+$`))
+            fileName.match(new RegExp(`^${storyImport}(\\.[^.]+)?$`))
           );
         })
         .map(([_, cacheEntry]) => cacheEntry as StoriesCacheEntry)
