@@ -82,6 +82,7 @@ const AppRouterProvider: React.FC<AppRouterProviderProps> = ({ children, action,
             childNodes: new Map(),
             tree: [pathname, { children: getParallelRoutes([...segments]) }],
             url: pathname,
+            headRenderedAboveThisLevel: true,
           }}
         >
           <PathnameContext.Provider value={pathname}>{children}</PathnameContext.Provider>
