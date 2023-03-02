@@ -5,6 +5,7 @@ import * as traverse from '@babel/traverse';
 import * as generate from '@babel/generator';
 import { dedent } from 'ts-dedent';
 import { babelParse } from './babelParse';
+import { findVarInitialization } from './findVarInitialization';
 
 const logger = console;
 
@@ -59,6 +60,37 @@ const unsupported = (unexpectedVar: string, isError: boolean) => {
   }
 };
 
+const stripTSModifiers = (expr: t.Expression): t.Expression =>
+  t.isTSAsExpression(expr) || t.isTSSatisfiesExpression(expr) ? expr.expression : expr;
+
+const parseParameters = (params: t.Expression): t.Expression | undefined => {
+  const paramsObject = stripTSModifiers(params);
+  if (t.isObjectExpression(paramsObject)) {
+    const options = getValue(paramsObject, 'options');
+    if (options) {
+      if (t.isObjectExpression(options)) {
+        return getValue(options, 'storySort');
+      }
+      unsupported('options', true);
+    }
+  } else {
+    unsupported('parameters', true);
+  }
+  return undefined;
+};
+
+const parseDefault = (defaultExpr: t.Expression): t.Expression | undefined => {
+  const defaultObj = stripTSModifiers(defaultExpr);
+  if (t.isObjectExpression(defaultObj)) {
+    const params = getValue(defaultObj, 'parameters');
+    if (params) {
+      return parseParameters(params);
+    }
+  }
+  unsupported('default', true);
+  return undefined;
+};
+
 export const getStorySortParameter = (previewCode: string) => {
   let storySort: t.Expression | undefined;
   const ast = babelParse(previewCode);
@@ -70,21 +102,8 @@ export const getStorySortParameter = (previewCode: string) => {
             if (t.isVariableDeclarator(decl) && t.isIdentifier(decl.id)) {
               const { name: exportName } = decl.id;
               if (exportName === 'parameters') {
-                const paramsObject = t.isTSAsExpression(decl.init)
-                  ? decl.init.expression
-                  : decl.init;
-                if (t.isObjectExpression(paramsObject)) {
-                  const options = getValue(paramsObject, 'options');
-                  if (options) {
-                    if (t.isObjectExpression(options)) {
-                      storySort = getValue(options, 'storySort');
-                    } else {
-                      unsupported('options', true);
-                    }
-                  }
-                } else {
-                  unsupported('parameters', true);
-                }
+                const paramsObject = stripTSModifiers(decl.init);
+                storySort = parseParameters(paramsObject);
               }
             }
           });
@@ -94,6 +113,20 @@ export const getStorySortParameter = (previewCode: string) => {
               unsupported('parameters', false);
             }
           });
+        }
+      },
+    },
+    ExportDefaultDeclaration: {
+      enter({ node }) {
+        let defaultObj = node.declaration as t.Expression;
+        if (t.isIdentifier(defaultObj)) {
+          defaultObj = findVarInitialization(defaultObj.name, ast.program);
+        }
+        defaultObj = stripTSModifiers(defaultObj);
+        if (t.isObjectExpression(defaultObj)) {
+          storySort = parseDefault(defaultObj);
+        } else {
+          unsupported('default', false);
         }
       },
     },
