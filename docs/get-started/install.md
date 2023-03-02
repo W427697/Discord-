@@ -2,23 +2,33 @@
 title: 'Install Storybook'
 ---
 
+Use the Storybook CLI to install it in a single command. Run this inside your _existing project’s_ root directory:
+
 <!-- prettier-ignore-start -->
 
-<FeatureSnippets
+<CodeSnippets
   paths={[
-   'get-started/installation-command-section/angular.mdx',
-   'get-started/installation-command-section/ember.mdx',
-   'get-started/installation-command-section/html.mdx',
-   'get-started/installation-command-section/preact.mdx',
-   'get-started/installation-command-section/react.mdx',
-   'get-started/installation-command-section/svelte.mdx',
-   'get-started/installation-command-section/vue.mdx',
-   'get-started/installation-command-section/web-components.mdx',
-   'get-started/installation-command-section/qwik.mdx',
+   'angular/init-command.npx.mdx',
+   'html/init-command.npx.mdx',
+   'html/init-command.pnpm.mdx',
+   'preact/init-command.npx.mdx',
+   'preact/init-command.pnpm.mdx',
+   'qwik/init-command.npx.mdx',
+   'qwik/init-command.pnpm.mdx',
+   'react/init-command.npx.mdx',
+   'react/init-command.pnpm.mdx',
+   'svelte/init-command.npx.mdx',
+   'svelte/init-command.pnpm.mdx',
+   'vue/init-command.npx.mdx',
+   'vue/init-command.pnpm.mdx',
+   'web-components/init-command.npx.mdx',
+   'web-components/init-command.pnpm.mdx',
   ]}
 />
 
 <!-- prettier-ignore-end -->
+
+If you run into issues with the installation, check the [Troubleshooting section](#troubleshooting) below for guidance on how to solve it.
 
 <details>
 
