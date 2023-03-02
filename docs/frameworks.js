@@ -149,7 +149,7 @@ module.exports = {
           path: 'api/csf',
         },
         {
-          name: 'AutoDocs',
+          name: 'Autodocs',
           supported: [
             'react',
             'vue',
