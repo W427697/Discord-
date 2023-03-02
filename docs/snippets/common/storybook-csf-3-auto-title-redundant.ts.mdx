@@ -1,13 +1,13 @@
 ```ts
 // components/MyComponent/MyComponent.stories.js|jsx
 
-import { MyComponent } from './MyComponent.js';
-
 // Replace your-framework with the name of your framework
 import type { Meta, StoryObj } from '@storybook/your-framework';
 
+import { MyComponent } from './MyComponent';
+
 // To apply a set of backgrounds to all stories of Button:
-const meta: Meta<typeof Foo> = {
+const meta: Meta<typeof MyComponent> = {
   /* 👇 The title prop is optional.
    * See https://storybook.js.org/docs/7.0/react/configure/overview#configure-story-loading
    * to learn how to generate automatic titles
@@ -17,7 +17,7 @@ const meta: Meta<typeof Foo> = {
 };
 
 export default meta;
-type Story = StoryObj<typeof Foo>;
+type Story = StoryObj<typeof MyComponent>;
 
 export const Default: Story = {
   args: {
