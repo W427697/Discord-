@@ -8,21 +8,8 @@ Use the Storybook CLI to install it in a single command. Run this inside your _e
 
 <CodeSnippets
   paths={[
-   'angular/init-command.npx.mdx',
-   'html/init-command.npx.mdx',
-   'html/init-command.pnpm.mdx',
-   'preact/init-command.npx.mdx',
-   'preact/init-command.pnpm.mdx',
-   'qwik/init-command.npx.mdx',
-   'qwik/init-command.pnpm.mdx',
-   'react/init-command.npx.mdx',
-   'react/init-command.pnpm.mdx',
-   'svelte/init-command.npx.mdx',
-   'svelte/init-command.pnpm.mdx',
-   'vue/init-command.npx.mdx',
-   'vue/init-command.pnpm.mdx',
-   'web-components/init-command.npx.mdx',
-   'web-components/init-command.pnpm.mdx',
+   'common/init-command.npx.mdx',
+   'common/init-command.pnpm.mdx',
   ]}
 />
 
