@@ -264,7 +264,7 @@ module.exports = {
             'preact',
             'qwik',
           ],
-          repoPath: 'lib/core/docs/storiesOf.md',
+          repoPath: 'lib/core/preview-api/storiesOf.md',
         },
         {
           name: 'Inline stories',
