@@ -1,25 +1,22 @@
 module.exports = {
   toc: [
-    {
-      title: '📕 Why Storybook?',
-      pathSegment: 'why-storybook',
-      type: 'link',
-    },
+    
     {
       title: '🚀 Get started',
       pathSegment: 'get-started',
       type: 'menu',
       children: [
         {
-          pathSegment: 'introduction',
-          title: 'Introduction',
-          type: 'bullet-link',
-        },
-        {
           pathSegment: 'install',
           title: 'Install',
           type: 'bullet-link',
           description: 'Install the Storybook package in your project',
+        },
+        {
+          pathSegment: 'why-storybook',
+          title: 'Why Storybook?',
+          type: 'bullet-link',
+          description: 'Learn why Storybook can help you build better UIs',
         },
         {
           pathSegment: 'whats-a-story',
