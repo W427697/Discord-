@@ -305,9 +305,19 @@ export class PreviewWithSelection<TFramework extends Renderer> extends Preview<T
         'story'
       );
     } else if (isMdxEntry(entry)) {
-      render = new MdxDocsRender<TFramework>(this.channel, this.storyStore, entry);
+      render = new MdxDocsRender<TFramework>(
+        this.channel,
+        this.storyStore,
+        entry,
+        this.mainStoryCallbacks(storyId)
+      );
     } else {
-      render = new CsfDocsRender<TFramework>(this.channel, this.storyStore, entry);
+      render = new CsfDocsRender<TFramework>(
+        this.channel,
+        this.storyStore,
+        entry,
+        this.mainStoryCallbacks(storyId)
+      );
     }
 
     // We need to store this right away, so if the story changes during

@@ -677,8 +677,7 @@ describe('PreviewWeb', () => {
             page: componentOneExports.default.parameters.docs.page,
             renderer: projectAnnotations.parameters.docs.renderer,
           }),
-          'docs-element',
-          expect.any(Function)
+          'docs-element'
         );
       });
 
@@ -736,8 +735,7 @@ describe('PreviewWeb', () => {
             page: unattachedDocsExports.default,
             renderer: projectAnnotations.parameters.docs.renderer,
           }),
-          'docs-element',
-          expect.any(Function)
+          'docs-element'
         );
       });
 
@@ -3200,8 +3198,7 @@ describe('PreviewWeb', () => {
             page: newUnattachedDocsExports.default,
             renderer: projectAnnotations.parameters.docs.renderer,
           }),
-          'docs-element',
-          expect.any(Function)
+          'docs-element'
         );
       });
 
