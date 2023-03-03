@@ -9,10 +9,12 @@ import type {
   StoryName,
   ResolvedModuleExportType,
   ResolvedModuleExportFromType,
+  EnhancedResolvedModuleExportType,
 } from '@storybook/types';
 import type { Channel } from '@storybook/channels';
 
 import type { StoryStore } from '../../store';
+import { prepareMeta } from '../../store';
 import type { DocsContextProps } from './DocsContextProps';
 
 export class DocsContext<TRenderer extends Renderer> implements DocsContextProps<TRenderer> {
@@ -165,7 +167,29 @@ export class DocsContext<TRenderer extends Renderer> implements DocsContextProps
         )}`
       );
     }
-    return resolved;
+
+    switch (resolved.type) {
+      case 'component': {
+        return {
+          ...resolved,
+          projectAnnotations: this.projectAnnotations,
+        } as EnhancedResolvedModuleExportType<TType, TRenderer>;
+      }
+      case 'meta': {
+        return {
+          ...resolved,
+          preparedMeta: prepareMeta(
+            resolved.csfFile.meta,
+            this.projectAnnotations,
+            resolved.csfFile.moduleExports.default
+          ),
+        } as EnhancedResolvedModuleExportType<TType, TRenderer>;
+      }
+      case 'story':
+      default: {
+        return resolved as EnhancedResolvedModuleExportType<TType, TRenderer>;
+      }
+    }
   }
 
   storyIdByName = (storyName: StoryName) => {
