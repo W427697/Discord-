@@ -128,11 +128,14 @@ export abstract class AbstractRenderer {
       // Providers for BrowserAnimations & NoopAnimationsModule
       analyzedMetadata.singletons,
       importProvidersFrom(
-        ...analyzedMetadata.imports.filter((imported) => {
-          const { isStandalone } = PropertyExtractor.analyzeDecorators(imported);
-          return !isStandalone;
-        })
+        ...analyzedMetadata.imports
+          .filter((imported) => {
+            const { isStandalone } = PropertyExtractor.analyzeDecorators(imported);
+            return !isStandalone;
+          })
+          .map((imported) => imported.ngModule || imported)
       ),
+      ...analyzedMetadata.imports.flatMap((imported) => imported.providers).filter(Boolean),
       analyzedMetadata.providers,
       storyPropsProvider(newStoryProps$),
     ].filter(Boolean);
