@@ -65,7 +65,6 @@ export const createStorybookWrapperComponent = (
       declarations,
       imports,
       exports: [...declarations, ...imports],
-      providers,
     })
     class StorybookComponentModule {}
 
@@ -78,6 +77,7 @@ export const createStorybookWrapperComponent = (
     template,
     standalone: true,
     imports: [ngModule],
+    providers,
     styles,
     schemas: moduleMetadata.schemas,
   })
