@@ -2,8 +2,8 @@ import { satisfies } from '@storybook/core-common';
 import type { ComponentAnnotations, StoryAnnotations } from '@storybook/types';
 import { expectTypeOf } from 'expect-type';
 import type { SetOptional } from 'type-fest';
-import type { ComponentOptions, FunctionalComponent } from 'vue';
 import { h } from 'vue';
+import type { ComponentOptions, FunctionalComponent, VNodeChild } from 'vue';
 import type { Decorator, Meta, StoryObj } from './public-types';
 import type { VueRenderer } from './types';
 import BaseLayout from './__tests__/BaseLayout.vue';
@@ -204,15 +204,15 @@ test('Infer type of slots', () => {
           template: `<Button :primary='true' label='${title}'></Button>`,
         }),
       default: 'default slot',
-      footer: h(Button, { primary: true, label: 'footer' }),
+      footer: h(Button, { disabled: true, label: 'footer' }),
     },
   };
 
   type Props = {
     readonly otherProp: boolean;
-    header?: (headerProps: { title: string }) => any;
-    default?: (defaultProps: {}) => any;
-    footer?: (footerProps: {}) => any;
+    header?: ((headerProps: { title: string }) => any) | VNodeChild;
+    default?: ((defaultProps: {}) => any) | VNodeChild;
+    footer?: ((footerProps: {}) => any) | VNodeChild;
   };
 
   type Expected = StoryAnnotations<VueRenderer, Props, Props>;

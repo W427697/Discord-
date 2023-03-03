@@ -60,7 +60,7 @@ export type StoryObj<TMetaOrCmpOrArgs = Args> = TMetaOrCmpOrArgs extends {
   : StoryAnnotations<VueRenderer, ComponentPropsOrProps<TMetaOrCmpOrArgs>>;
 
 type ExtractSlots<C> = C extends new (...args: any[]) => { $slots: infer T }
-  ? Partial<RemoveIndexSignature<T>>
+  ? AllowNonFunctionSlots<Partial<RemoveIndexSignature<T>>>
   : unknown;
 
 type AllowNonFunctionSlots<Slots> = {
@@ -68,7 +68,7 @@ type AllowNonFunctionSlots<Slots> = {
 };
 
 export type ComponentProps<C> = C extends ComponentOptions<infer P>
-  ? P & AllowNonFunctionSlots<ExtractSlots<C>>
+  ? P & ExtractSlots<C>
   : C extends FunctionalComponent<infer P>
   ? P
   : unknown;
