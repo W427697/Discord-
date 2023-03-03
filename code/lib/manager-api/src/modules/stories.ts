@@ -16,7 +16,7 @@ import {
   CURRENT_STORY_WAS_SET,
   STORY_MISSING,
 } from '@storybook/core-events';
-import { deprecate, logger } from '@storybook/client-logger';
+import { logger } from '@storybook/client-logger';
 
 import type {
   StoryId,
@@ -544,20 +544,6 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
       viewMode: initialViewMode,
       hasCalledSetOptions: false,
       previewInitialized: false,
-
-      // deprecated fields for back-compat
-      get storiesHash() {
-        deprecate('state.storiesHash is deprecated, please use state.index');
-        return this.index || {};
-      },
-      get storiesConfigured() {
-        deprecate('state.storiesConfigured is deprecated, please use state.previewInitialized');
-        return this.previewInitialized;
-      },
-      get storiesFailed() {
-        deprecate('state.storiesFailed is deprecated, please use state.indexError');
-        return this.indexError;
-      },
     },
     init: initModule,
   };
