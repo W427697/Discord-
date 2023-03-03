@@ -81,10 +81,7 @@ function getSlots(props: Args, context: StoryContext<VueRenderer, Args>) {
   const { argTypes } = context;
   const slots = Object.entries(props)
     .filter(([key, value]) => argTypes[key]?.table?.category === 'slots')
-    .map(([key, value]) => [
-      key,
-      () => h('template', typeof value === 'object' ? JSON.stringify(value) : value),
-    ]);
+    .map(([key, value]) => [key, typeof value === 'function' ? value : () => value]);
 
   return Object.fromEntries(slots);
 }
