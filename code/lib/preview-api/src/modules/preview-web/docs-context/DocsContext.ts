@@ -9,7 +9,6 @@ import type {
   StoryName,
   ResolvedModuleExportType,
   ResolvedModuleExportFromType,
-  EnhancedResolvedModuleExportType,
 } from '@storybook/types';
 import type { Channel } from '@storybook/channels';
 
@@ -173,7 +172,7 @@ export class DocsContext<TRenderer extends Renderer> implements DocsContextProps
         return {
           ...resolved,
           projectAnnotations: this.projectAnnotations,
-        } as EnhancedResolvedModuleExportType<TType, TRenderer>;
+        };
       }
       case 'meta': {
         return {
@@ -183,11 +182,11 @@ export class DocsContext<TRenderer extends Renderer> implements DocsContextProps
             this.projectAnnotations,
             resolved.csfFile.moduleExports.default
           ),
-        } as EnhancedResolvedModuleExportType<TType, TRenderer>;
+        };
       }
       case 'story':
       default: {
-        return resolved as EnhancedResolvedModuleExportType<TType, TRenderer>;
+        return resolved;
       }
     }
   }
