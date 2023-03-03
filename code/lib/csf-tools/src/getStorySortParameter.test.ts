@@ -159,14 +159,16 @@ describe('getStorySortParameter', () => {
           export const parameters = [];
         `)
         ).toThrowErrorMatchingInlineSnapshot(`
-        "Unexpected 'parameters'. Parameter 'options.storySort' should be defined inline e.g.:
+          "Unexpected 'parameters'. Parameter 'options.storySort' should be defined inline e.g.:
 
-        export const parameters = {
-          options: {
-            storySort: <array | object | function>
-          }
-        }"
-      `);
+          export default {
+            parameters = {
+              options: {
+                storySort: <array | object | function>
+              },
+            },
+          };"
+        `);
       });
 
       it('parameters var', () => {
@@ -201,14 +203,16 @@ describe('getStorySortParameter', () => {
           };
       `)
         ).toThrowErrorMatchingInlineSnapshot(`
-        "Unexpected 'options'. Parameter 'options.storySort' should be defined inline e.g.:
+          "Unexpected 'options'. Parameter 'options.storySort' should be defined inline e.g.:
 
-        export const parameters = {
-          options: {
-            storySort: <array | object | function>
-          }
-        }"
-      `);
+          export default {
+            parameters = {
+              options: {
+                storySort: <array | object | function>
+              },
+            },
+          };"
+        `);
       });
 
       it('storySort var', () => {
@@ -226,14 +230,16 @@ describe('getStorySortParameter', () => {
           };
       `)
         ).toThrowErrorMatchingInlineSnapshot(`
-        "Unexpected 'storySort'. Parameter 'options.storySort' should be defined inline e.g.:
+          "Unexpected 'storySort'. Parameter 'options.storySort' should be defined inline e.g.:
 
-        export const parameters = {
-          options: {
-            storySort: <array | object | function>
-          }
-        }"
-      `);
+          export default {
+            parameters = {
+              options: {
+                storySort: <array | object | function>
+              },
+            },
+          };"
+        `);
       });
 
       it('order var', () => {
@@ -251,14 +257,16 @@ describe('getStorySortParameter', () => {
           };
       `)
         ).toThrowErrorMatchingInlineSnapshot(`
-        "Unexpected 'order'. Parameter 'options.storySort' should be defined inline e.g.:
+          "Unexpected 'order'. Parameter 'options.storySort' should be defined inline e.g.:
 
-        export const parameters = {
-          options: {
-            storySort: <array | object | function>
-          }
-        }"
-      `);
+          export default {
+            parameters = {
+              options: {
+                storySort: <array | object | function>
+              },
+            },
+          };"
+        `);
       });
     });
   });
@@ -287,6 +295,24 @@ describe('getStorySortParameter', () => {
           "WIP",
         ]
       `);
+      });
+
+      it('no storysort', () => {
+        expect(
+          getStorySortParameter(dedent`
+          const config = {
+            actions: { argTypesRegex: '^on[A-Z].*' },
+            controls: {
+              matchers: {
+                color: /(background|color)$/i,
+                date: /Date$/,
+              },
+            },
+          }
+          
+          export default config
+        `)
+        ).toBeUndefined();
       });
 
       it('inline typescript', () => {
@@ -389,7 +415,7 @@ describe('getStorySortParameter', () => {
       });
     });
     describe('unsupported', () => {
-      it('bad default epxort', () => {
+      it('bad default export', () => {
         expect(
           getStorySortParameter(dedent`
           export default 'foo';
