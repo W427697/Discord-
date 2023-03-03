@@ -24,9 +24,9 @@ describe.each([
 describe.each([
   ['@storybook/react', true],
   ['@storybook/node-logger', true],
-  ['@storybook/addon-info', true],
-  ['@storybook/something-random', true],
-  ['@storybook/preset-create-react-app', false],
+  ['@storybook/addon-info', false],
+  ['@storybook/something-random', false],
+  ['@storybook/preset-create-react-app', true],
   ['@storybook/linter-config', false],
   ['@storybook/design-system', false],
 ])('isCorePackage', (input, output) => {

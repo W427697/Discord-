@@ -8,6 +8,7 @@ import type { PackageJsonWithMaybeDeps, PackageManagerName } from './js-package-
 import { getPackageDetails, JsPackageManagerFactory, useNpmWarning } from './js-package-manager';
 import { commandLog } from './helpers';
 import { automigrate } from './automigrate';
+import coreVersions from './versions';
 
 type Package = {
   package: string;
@@ -25,32 +26,8 @@ export const getStorybookVersion = (line: string) => {
   };
 };
 
-const excludeList = [
-  '@storybook/addon-bench',
-  '@storybook/addon-console',
-  '@storybook/addon-postcss',
-  '@storybook/babel-plugin-require-context-hook',
-  '@storybook/bench',
-  '@storybook/builder-vite',
-  '@storybook/csf',
-  '@storybook/design-system',
-  '@storybook/ember-cli-storybook',
-  '@storybook/eslint-config-storybook',
-  '@storybook/expect',
-  '@storybook/jest',
-  '@storybook/linter-config',
-  '@storybook/mdx1-csf',
-  '@storybook/mdx2-csf',
-  '@storybook/react-docgen-typescript-plugin',
-  '@storybook/storybook-deployer',
-  '@storybook/test-runner',
-  '@storybook/testing-library',
-  '@storybook/testing-react',
-];
 export const isCorePackage = (pkg: string) =>
-  pkg.startsWith('@storybook/') &&
-  !pkg.startsWith('@storybook/preset-') &&
-  !excludeList.includes(pkg);
+  coreVersions[pkg as keyof typeof coreVersions] !== undefined;
 
 const deprecatedPackages = [
   {
