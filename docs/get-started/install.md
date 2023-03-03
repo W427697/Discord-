@@ -15,7 +15,11 @@ Use the Storybook CLI to install it in a single command. Run this inside your _e
 
 <!-- prettier-ignore-end -->
 
+<div class="aside">
+
 If you run into issues with the installation, check the [Troubleshooting section](#troubleshooting) below for guidance on how to solve it.
+
+</div>
 
 <details>
 
