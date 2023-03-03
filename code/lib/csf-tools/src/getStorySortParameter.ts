@@ -47,11 +47,13 @@ const unsupported = (unexpectedVar: string, isError: boolean) => {
   const message = dedent`
     Unexpected '${unexpectedVar}'. Parameter 'options.storySort' should be defined inline e.g.:
 
-    export const parameters = {
-      options: {
-        storySort: <array | object | function>
-      }
-    }
+    export default {
+      parameters = {
+        options: {
+          storySort: <array | object | function>
+        },
+      },
+    };
   `;
   if (isError) {
     throw new Error(message);
@@ -86,8 +88,9 @@ const parseDefault = (defaultExpr: t.Expression): t.Expression | undefined => {
     if (params) {
       return parseParameters(params);
     }
+  } else {
+    unsupported('default', true);
   }
-  unsupported('default', true);
   return undefined;
 };
 
