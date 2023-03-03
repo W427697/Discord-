@@ -1,9 +1,4 @@
-import type {
-  DocsContextProps,
-  ModuleExport,
-  Renderer,
-  ResolvedModuleExportType,
-} from '@storybook/types';
+import type { DocsContextProps, ModuleExport, ResolvedModuleExportType } from '@storybook/types';
 import { useContext } from 'react';
 import { DocsContext } from './DocsContext';
 
