@@ -1,11 +1,4 @@
-import type {
-  IndexEntry,
-  Renderer,
-  CSFFile,
-  ModuleExports,
-  StoryId,
-  RenderContextCallbacks,
-} from '@storybook/types';
+import type { IndexEntry, Renderer, CSFFile, ModuleExports, StoryId } from '@storybook/types';
 import type { Channel } from '@storybook/channels';
 import { DOCS_RENDERED } from '@storybook/core-events';
 import type { StoryStore } from '../../store';
@@ -48,8 +41,7 @@ export class MdxDocsRender<TRenderer extends Renderer> implements Render<TRender
   constructor(
     protected channel: Channel,
     protected store: StoryStore<TRenderer>,
-    public entry: IndexEntry,
-    private callbacks: RenderContextCallbacks<TRenderer>
+    public entry: IndexEntry
   ) {
     this.id = entry.id;
   }
@@ -109,13 +101,11 @@ export class MdxDocsRender<TRenderer extends Renderer> implements Render<TRender
     const renderer = await docs.renderer();
     const { render } = renderer as { render: DocsRenderFunction<TRenderer> };
     const renderDocs = async () => {
-      try {
+      await new Promise<void>((r) =>
         // NOTE: it isn't currently possible to use a docs renderer outside of "web" mode.
-        await render(docsContext, docsParameter, canvasElement as any);
-        this.channel.emit(DOCS_RENDERED, this.id);
-      } catch (err) {
-        this.callbacks.showException(err as Error);
-      }
+        render(docsContext, docsParameter, canvasElement as any, r)
+      );
+      this.channel.emit(DOCS_RENDERED, this.id);
     };
 
     this.rerender = async () => renderDocs();
