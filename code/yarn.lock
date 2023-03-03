@@ -6328,6 +6328,7 @@ __metadata:
     "@storybook/preact": 7.0.0-beta.57
     "@types/node": ^16.0.0
     typescript: ~4.9.3
+    unplugin: ^1.1.0
     vite: ^4.0.0
   peerDependencies:
     preact: ">=10"
@@ -9545,7 +9546,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"acorn@npm:^8.0.0, acorn@npm:^8.1.0, acorn@npm:^8.4.1, acorn@npm:^8.5.0, acorn@npm:^8.6.0, acorn@npm:^8.7.1, acorn@npm:^8.8.0, acorn@npm:^8.8.1":
+"acorn@npm:^8.0.0, acorn@npm:^8.1.0, acorn@npm:^8.4.1, acorn@npm:^8.5.0, acorn@npm:^8.6.0, acorn@npm:^8.7.1, acorn@npm:^8.8.0, acorn@npm:^8.8.1, acorn@npm:^8.8.2":
   version: 8.8.2
   resolution: "acorn@npm:8.8.2"
   bin:
@@ -29830,6 +29831,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"unplugin@npm:^1.1.0":
+  version: 1.1.0
+  resolution: "unplugin@npm:1.1.0"
+  dependencies:
+    acorn: ^8.8.2
+    chokidar: ^3.5.3
+    webpack-sources: ^3.2.3
+    webpack-virtual-modules: ^0.5.0
+  checksum: 4da76fd0fe1cf1e8d5b7f613abd3ed004602ca6ebd009e535fe0aa4ee55b691372319816b0eab7ee975ea10ae940fd574d6f0daefa285c85a87c1176a42e78a1
+  languageName: node
+  linkType: hard
+
 "unset-value@npm:^1.0.0":
   version: 1.0.0
   resolution: "unset-value@npm:1.0.0"
@@ -30847,6 +30860,13 @@ __metadata:
   version: 0.4.6
   resolution: "webpack-virtual-modules@npm:0.4.6"
   checksum: d3ecd680289e04f6fac70f09a682385b176303cfdc69ad08f11fce6fa031f9c054b3e728cb54967da48f051cd2ebe3f0d0d02bf78d3dfc8a3a9be91ea7544bbb
+  languageName: node
+  linkType: hard
+
+"webpack-virtual-modules@npm:^0.5.0":
+  version: 0.5.0
+  resolution: "webpack-virtual-modules@npm:0.5.0"
+  checksum: 0742e069cd49d91ccd0b59431b3666903d321582c1b1062fa6bdae005c3538af55ff8787ea5eafbf72662f3496d3a879e2c705d55ca0af8283548a925be18484
   languageName: node
   linkType: hard
 

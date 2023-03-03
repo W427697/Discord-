@@ -2,6 +2,7 @@ import { hasVitePlugins } from '@storybook/builder-vite';
 import type { PresetProperty } from '@storybook/types';
 import preact from '@preact/preset-vite';
 import type { StorybookConfig } from './types';
+import { vite } from './type-annotation';
 
 export const core: PresetProperty<'core', StorybookConfig> = {
   builder: '@storybook/builder-vite',
@@ -16,7 +17,7 @@ export const viteFinal: StorybookConfig['viteFinal'] = async (config) => {
     plugins.push(preact());
   }
 
-  // TODO: Add docgen plugin per issue https://github.com/storybookjs/storybook/issues/19739
+  plugins.push(vite());
 
   return config;
 };

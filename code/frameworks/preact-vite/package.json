@@ -30,6 +30,11 @@
       "import": "./dist/preset.mjs",
       "types": "./dist/preset.d.ts"
     },
+    "./worker": {
+      "require": "./dist/type-annotation/worker.js",
+      "import": "./dist/type-annotation/worker.mjs",
+      "types": "./dist/type-annotation/worker.d.ts"
+    },
     "./package.json": "./package.json"
   },
   "main": "dist/index.js",
@@ -49,7 +54,8 @@
   "dependencies": {
     "@preact/preset-vite": "^2.0.0",
     "@storybook/builder-vite": "7.0.0-beta.57",
-    "@storybook/preact": "7.0.0-beta.57"
+    "@storybook/preact": "7.0.0-beta.57",
+    "unplugin": "^1.1.0"
   },
   "devDependencies": {
     "@types/node": "^16.0.0",
@@ -69,7 +75,8 @@
   "bundler": {
     "entries": [
       "./src/index.ts",
-      "./src/preset.ts"
+      "./src/preset.ts",
+      "./src/type-annotation/worker.ts"
     ],
     "platform": "node"
   },
