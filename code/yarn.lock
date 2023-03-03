@@ -6383,7 +6383,7 @@ __metadata:
   dependencies:
     "@pmmmwh/react-refresh-webpack-plugin": ^0.5.1
     "@storybook/node-logger": 7.0.0-beta.60
-    "@storybook/react-docgen-typescript-plugin": canary
+    "@storybook/react-docgen-typescript-plugin": 1.0.6--canary.9.cd77847.0
     "@storybook/types": 7.0.0-beta.60
     "@types/babel__core": ^7.1.7
     "@types/node": ^16.0.0
@@ -6439,7 +6439,7 @@ __metadata:
     "@storybook/docs-tools": 7.0.0-beta.60
     "@storybook/node-logger": 7.0.0-beta.60
     "@storybook/react": 7.0.0-beta.60
-    "@storybook/react-docgen-typescript-plugin": 1.0.2-canary.6.9d540b91e815f8fc2f8829189deb00553559ff63.0
+    "@storybook/react-docgen-typescript-plugin": 1.0.6--canary.9.cd77847.0
     "@types/node": ^16.0.0
     "@types/semver": ^7.3.4
     babel-plugin-add-react-displayname: ^0.0.5
@@ -6638,39 +6638,21 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@storybook/react-docgen-typescript-plugin@npm:1.0.2-canary.6.9d540b91e815f8fc2f8829189deb00553559ff63.0":
-  version: 1.0.2-canary.6.9d540b91e815f8fc2f8829189deb00553559ff63.0
-  resolution: "@storybook/react-docgen-typescript-plugin@npm:1.0.2-canary.6.9d540b91e815f8fc2f8829189deb00553559ff63.0"
+"@storybook/react-docgen-typescript-plugin@npm:1.0.6--canary.9.cd77847.0":
+  version: 1.0.6--canary.9.cd77847.0
+  resolution: "@storybook/react-docgen-typescript-plugin@npm:1.0.6--canary.9.cd77847.0"
   dependencies:
     debug: ^4.1.1
     endent: ^2.0.1
     find-cache-dir: ^3.3.1
     flat-cache: ^3.0.4
     micromatch: ^4.0.2
-    react-docgen-typescript: ^2.1.1
+    react-docgen-typescript: ^2.2.2
     tslib: ^2.0.0
   peerDependencies:
-    typescript: ">= 3.x"
+    typescript: ">= 4.x"
     webpack: ">= 4"
-  checksum: 2d3ab49e4858d5f28f36b5bd0e30f3d3450bc7d9865cd4fbe65a35085ae63feff9556a3265b594a2c84b03c66f009dc8b057802f3ca0f76b961d51536835cb8f
-  languageName: node
-  linkType: hard
-
-"@storybook/react-docgen-typescript-plugin@npm:canary":
-  version: 1.0.2--canary.7.391457fcf6c823971cf02d8e74dbf8e242872b26.0
-  resolution: "@storybook/react-docgen-typescript-plugin@npm:1.0.2--canary.7.391457fcf6c823971cf02d8e74dbf8e242872b26.0"
-  dependencies:
-    debug: ^4.1.1
-    endent: ^2.0.1
-    find-cache-dir: ^3.3.1
-    flat-cache: ^3.0.4
-    micromatch: ^4.0.2
-    react-docgen-typescript: ^2.1.1
-    tslib: ^2.0.0
-  peerDependencies:
-    typescript: ">= 3.x"
-    webpack: ">= 4"
-  checksum: 18af6348c61ce3384e281c481e56aad3ee7451e493bd6e1f24e2261b0a73684f77cfb5c825ac3171000c66076f7f4f46c8e1b92a7d380ff3c6728174959937e8
+  checksum: 608517ea6f19b24267292cfde67b23f03148eeb45c196eec73a61265e7d36f9364549eec37a146479756ed94f6a549e3628a75c040a3bf2b92d9ddda0c7096d1
   languageName: node
   linkType: hard
 
@@ -24977,7 +24959,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-docgen-typescript@npm:^2.1.1, react-docgen-typescript@npm:^2.2.2":
+"react-docgen-typescript@npm:^2.2.2":
   version: 2.2.2
   resolution: "react-docgen-typescript@npm:2.2.2"
   peerDependencies:

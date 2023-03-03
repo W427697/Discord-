@@ -49,7 +49,7 @@
   },
   "dependencies": {
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.1",
-    "@storybook/react-docgen-typescript-plugin": "canary",
+    "@storybook/react-docgen-typescript-plugin": "1.0.6--canary.9.cd77847.0",
     "@storybook/types": "7.0.0-beta.60",
     "@types/babel__core": "^7.1.7",
     "babel-plugin-react-docgen": "^4.1.0",
