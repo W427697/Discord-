@@ -12,7 +12,7 @@ import type {
   ProjectAnnotations,
 } from '@storybook/types';
 import type { SetOptional, Simplify, RemoveIndexSignature } from 'type-fest';
-import type { ComponentOptions, ConcreteComponent, FunctionalComponent } from 'vue';
+import type { ComponentOptions, ConcreteComponent, FunctionalComponent, VNodeChild } from 'vue';
 import type { VueRenderer } from './types';
 
 export type { Args, ArgTypes, Parameters, StrictArgs } from '@storybook/types';
@@ -63,8 +63,12 @@ type ExtractSlots<C> = C extends new (...args: any[]) => { $slots: infer T }
   ? Partial<RemoveIndexSignature<T>>
   : unknown;
 
+type AllowNonFunctionSlots<Slots> = {
+  [K in keyof Slots]: Slots[K] | VNodeChild;
+};
+
 export type ComponentProps<C> = C extends ComponentOptions<infer P>
-  ? P & ExtractSlots<C>
+  ? P & AllowNonFunctionSlots<ExtractSlots<C>>
   : C extends FunctionalComponent<infer P>
   ? P
   : unknown;

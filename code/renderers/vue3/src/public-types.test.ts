@@ -198,9 +198,13 @@ test('Infer type of slots', () => {
   const Basic: StoryObj<typeof meta> = {
     args: {
       otherProp: true,
-      default: () => 'Default',
-      footer: () => 'Footer',
-      header: ({ title }) => `Some title: ${title}`,
+      header: ({ title }) =>
+        h({
+          components: { Button },
+          template: `<Button :primary='true' label='${title}'></Button>`,
+        }),
+      default: 'default slot',
+      footer: h(Button, { primary: true, label: 'footer' }),
     },
   };
 
