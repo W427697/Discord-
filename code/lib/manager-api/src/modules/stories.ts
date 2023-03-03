@@ -56,19 +56,6 @@ type StoryUpdate = Pick<API_StoryEntry, 'parameters' | 'initialArgs' | 'argTypes
 export interface SubState extends API_LoadedRefData {
   storyId: StoryId;
   viewMode: ViewMode;
-
-  /**
-   * @deprecated use index
-   */
-  storiesHash: API_IndexHash;
-  /**
-   * @deprecated use previewInitialized
-   */
-  storiesConfigured: boolean;
-  /**
-   * @deprecated use indexError
-   */
-  storiesFailed?: Error;
 }
 
 export interface SubAPI {

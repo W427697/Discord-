@@ -96,6 +96,7 @@ export type State = layout.SubState &
   globals.SubState &
   RouterData &
   API_OptionsData &
+  DeprecatedState &
   Other;
 
 export type API = addons.SubAPI &
@@ -112,6 +113,21 @@ export type API = addons.SubAPI &
   version.SubAPI &
   url.SubAPI &
   Other;
+
+interface DeprecatedState {
+  /**
+   * @deprecated use index
+   */
+  storiesHash: API_IndexHash;
+  /**
+   * @deprecated use previewInitialized
+   */
+  storiesConfigured: boolean;
+  /**
+   * @deprecated use indexError
+   */
+  storiesFailed?: Error;
+}
 
 interface Other {
   [key: string]: any;
