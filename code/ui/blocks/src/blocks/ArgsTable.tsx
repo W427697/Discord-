@@ -219,14 +219,17 @@ export const ArgsTable: FC<ArgsTableProps> = (props) => {
   `);
   const context = useContext(DocsContext);
 
-  let primaryStory;
+  let parameters: Parameters;
+  let component: any;
+  let subcomponents: Record<string, any>;
   try {
-    primaryStory = context.storyById();
+    ({ parameters, component, subcomponents } = context.storyById());
   } catch (err) {
-    // It is OK to use the ArgsTable unattached, we don't have this information
+    const { of } = props as OfProps;
+    ({
+      projectAnnotations: { parameters },
+    } = context.resolveOf(of, ['component']));
   }
-
-  const { parameters, component, subcomponents } = primaryStory || { parameters: {} as Parameters };
 
   const { include, exclude, components, sort: sortProp } = props as ComponentsProps;
   const { story: storyName } = props as StoryProps;
