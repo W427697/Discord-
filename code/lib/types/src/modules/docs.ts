@@ -110,6 +110,5 @@ export interface DocsContextProps<TRenderer extends Renderer = Renderer> {
 export type DocsRenderFunction<TRenderer extends Renderer> = (
   docsContext: DocsContextProps<TRenderer>,
   docsParameters: Parameters,
-  element: HTMLElement,
-  callback: () => void
-) => void;
+  element: HTMLElement
+) => Promise<void>;
