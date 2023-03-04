@@ -27,7 +27,10 @@ const map = new Map<
     reactiveArgs: Args;
   }
 >();
-let reactiveState: { globals: Globals };
+let reactiveState: {
+  [x: string]: StoryFnVueReturnType;
+  globals: Globals;
+};
 export function renderToCanvas(
   { storyFn, forceRemount, showMain, showException, storyContext }: RenderContext<VueRenderer>,
   canvasElement: VueRenderer['canvasElement']
@@ -35,12 +38,11 @@ export function renderToCanvas(
   const existingApp = map.get(canvasElement);
 
   const reactiveArgs = existingApp?.reactiveArgs ?? reactive(storyContext.args); // get reference to reactiveArgs or create a new one;
-  if (!reactiveState) reactiveState = shallowReactive({ globals: storyContext.globals });
 
-  // updateArgs(reactiveState.globals, storyContext.globals);
   // if the story is already rendered and we are not forcing a remount, we just update the reactive args
   if (existingApp && !forceRemount) {
-    reactiveState.globals = storyContext.globals;
+    if (reactiveState) reactiveState.globals = storyContext.globals;
+
     updateArgs(existingApp.reactiveArgs, storyContext.args);
     return () => {
       teardown(existingApp.vueApp, canvasElement);
@@ -52,23 +54,18 @@ export function renderToCanvas(
   const vueApp = createApp({
     setup() {
       storyContext.args = reactiveArgs;
-
-      let rootElement: StoryFnVueReturnType;
+      const rootElement: StoryFnVueReturnType = storyFn();
+      reactiveState = reactive({ globals: storyContext.globals, rootElement });
       watch(
-        reactiveState,
+        () => reactiveState.globals,
         (newVal) => {
-          console.log('watching reactiveState ', reactiveState.globals);
-          rootElement = storyFn(storyContext);
-          // storyContext.globals = reactiveState.globals;
-          console.log('reactiveState newVaue ', newVal);
-        },
-        { immediate: true }
+          reactiveState.rootElement = storyFn();
+          // run decorator functions
+        }
       );
 
       return () => {
-        console.log('rerendering reactiveState', reactiveState);
-        console.log('rerendering storyContext.globals', storyContext.globals);
-        return h(rootElement, reactiveArgs);
+        return h(reactiveState.rootElement, reactiveArgs);
       };
     },
     mounted() {
