@@ -1,8 +1,11 @@
 /* eslint-disable no-param-reassign */
-import { createApp, h, isReactive, reactive, shallowReactive, watch } from 'vue';
+import { createApp, h, isReactive, reactive, watch } from 'vue';
 import type { RenderContext, ArgsStoryFn } from '@storybook/types';
 import type { Globals, Args, StoryContext } from '@storybook/csf';
+import { global as globalThis } from '@storybook/global';
 import type { StoryFnVueReturnType, VueRenderer } from './types';
+
+const channel = globalThis.__STORYBOOK_ADDONS_CHANNEL__;
 
 export const render: ArgsStoryFn<VueRenderer> = (props, context) => {
   const { id, component: Component } = context;
@@ -32,7 +35,7 @@ let reactiveState: {
   globals: Globals;
 };
 export function renderToCanvas(
-  { storyFn, forceRemount, showMain, showException, storyContext }: RenderContext<VueRenderer>,
+  { storyFn, forceRemount, showMain, showException, storyContext, id }: RenderContext<VueRenderer>,
   canvasElement: VueRenderer['canvasElement']
 ) {
   const existingApp = map.get(canvasElement);
@@ -59,8 +62,9 @@ export function renderToCanvas(
       watch(
         () => reactiveState.globals,
         (newVal) => {
-          reactiveState.rootElement = storyFn();
+          // reactiveState.rootElement = storyFn();
           // run decorator functions
+          channel.emit('forceRemount', { storyId: id });
         }
       );
 

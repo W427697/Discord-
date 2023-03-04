@@ -3,6 +3,7 @@ import { reactive, h } from 'vue';
 import type { DecoratorFunction, StoryContext, LegacyStoryFn } from '@storybook/types';
 import { sanitizeStoryContextUpdate } from '@storybook/preview-api';
 
+import type { Args, StoryContextUpdate } from '@storybook/csf';
 import type { VueRenderer } from './types';
 
 /*
@@ -89,9 +90,7 @@ export function decorateStory(
 
 function updateReactiveContext(
   context: StoryContext<VueRenderer>,
-  update:
-    | import('@storybook/csf').StoryContextUpdate<Partial<import('@storybook/csf').Args>>
-    | undefined
+  update: StoryContextUpdate<Partial<Args>> | undefined
 ) {
   context.args = reactive(context.args);
   if (update) {
