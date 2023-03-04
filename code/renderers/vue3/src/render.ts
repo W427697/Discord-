@@ -29,7 +29,6 @@ const map = new Map<
   }
 >();
 let reactiveState: {
-  [x: string]: StoryFnVueReturnType;
   globals: Globals;
 };
 export function renderToCanvas(
@@ -55,20 +54,19 @@ export function renderToCanvas(
   const vueApp = createApp({
     setup() {
       storyContext.args = reactiveArgs;
+      reactiveState = reactive({ globals: storyContext.globals });
       const rootElement: StoryFnVueReturnType = storyFn();
-      reactiveState = reactive({ globals: storyContext.globals, rootElement });
+
       watch(
         () => reactiveState.globals,
         (newVal) => {
-          // reactiveState.rootElement = storyFn();
-          // run decorator functions
           const channel = globalThis.__STORYBOOK_ADDONS_CHANNEL__;
           channel.emit('forceRemount', { storyId: id });
         }
       );
 
       return () => {
-        return h(reactiveState.rootElement, reactiveArgs);
+        return h(rootElement, reactiveArgs);
       };
     },
     mounted() {
@@ -76,12 +74,6 @@ export function renderToCanvas(
         vueApp,
         reactiveArgs,
       });
-    },
-    renderTracked(event) {
-      // console.log('vueApp--renderTracked ', event);
-    },
-    renderTriggered(event) {
-      // console.log('vueApp--renderTriggered ', event);
     },
   });
   vueApp.config.errorHandler = (e: unknown) => showException(e as Error);
@@ -120,11 +112,10 @@ export function updateArgs(reactiveArgs: Args, nextArgs: Args, argNames?: string
 
   Object.keys(currentArgs).forEach((key) => {
     const componentArg = currentArgs[key];
-
+    // if the arg is an object, we need to update the object
     if (typeof componentArg === 'object') {
       Object.keys(componentArg).forEach((key2) => {
         if (nextArgs[key2] && (argNames?.includes(key2) || !argNames)) {
-          console.log(`-----${key2}:${currentArgs[key][key2]} => ${nextArgs[key2]}`);
           currentArgs[key][key2] = nextArgs[key2];
         }
       });
@@ -133,12 +124,18 @@ export function updateArgs(reactiveArgs: Args, nextArgs: Args, argNames?: string
           currentArgs[key2] = nextArgs[key2];
         }
       });
-      // console.log('updateArgs', key, currentArgs[key]);
     } else {
       currentArgs[key] = nextArgs[key];
     }
   });
 }
+/**
+ * unmount the vue app
+ * @param storybookApp
+ * @param canvasElement
+ * @returns void
+ * @private
+ * */
 
 function teardown(
   storybookApp: ReturnType<typeof createApp>,
