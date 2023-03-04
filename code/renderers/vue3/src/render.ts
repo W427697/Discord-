@@ -5,8 +5,6 @@ import type { Globals, Args, StoryContext } from '@storybook/csf';
 import { global as globalThis } from '@storybook/global';
 import type { StoryFnVueReturnType, VueRenderer } from './types';
 
-const channel = globalThis.__STORYBOOK_ADDONS_CHANNEL__;
-
 export const render: ArgsStoryFn<VueRenderer> = (props, context) => {
   const { id, component: Component } = context;
   if (!Component) {
@@ -64,6 +62,7 @@ export function renderToCanvas(
         (newVal) => {
           // reactiveState.rootElement = storyFn();
           // run decorator functions
+          const channel = globalThis.__STORYBOOK_ADDONS_CHANNEL__;
           channel.emit('forceRemount', { storyId: id });
         }
       );
