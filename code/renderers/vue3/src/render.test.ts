@@ -15,7 +15,7 @@ describe('Render Story', () => {
     expect(reactiveArgs).toEqual(newArgs);
   });
 
-  test('update reactive Args component new arg updateArgs()', () => {
+  test('update reactive Args component inherit objectArg updateArgs()', () => {
     const reactiveArgs = reactive({ objectArg: { argFoo: 'foo', argBar: 'bar' } }); // get reference to reactiveArgs or create a new one;
     expectTypeOf(reactiveArgs).toMatchTypeOf<Record<string, any>>();
     expectTypeOf(reactiveArgs).toEqualTypeOf<{ objectArg: { argFoo: string; argBar: string } }>();
@@ -23,7 +23,17 @@ describe('Render Story', () => {
     const newArgs = { argFoo: 'foo2', argBar: 'bar2' };
     updateArgs(reactiveArgs, newArgs);
     expectTypeOf(reactiveArgs).toEqualTypeOf<{ objectArg: { argFoo: string; argBar: string } }>();
-    expect(reactiveArgs).toEqual({ objectArg: newArgs });
+    expect(reactiveArgs).toEqual({ objectArg: { argFoo: 'foo2', argBar: 'bar2' } });
+  });
+
+  test('update reactive Args component inherit objectArg only argName argName()', () => {
+    const reactiveArgs = reactive({ objectArg: { argFoo: 'foo' } }); // get reference to reactiveArgs or create a new one;
+    expectTypeOf(reactiveArgs).toMatchTypeOf<Record<string, any>>();
+    expectTypeOf(reactiveArgs).toEqualTypeOf<{ objectArg: { argFoo: string } }>();
+
+    const newArgs = { argFoo: 'foo2', argBar: 'bar2' };
+    updateArgs(reactiveArgs, newArgs, ['argFoo']);
+    expect(reactiveArgs).toEqual({ objectArg: { argFoo: 'foo2' }, argBar: 'bar2' });
   });
 
   test('update reactive Args component 2 args updateArgs()', () => {
@@ -39,13 +49,12 @@ describe('Render Story', () => {
 
     const newArgs = { argFoo: 'foo2', argBar: 'bar2' };
     updateArgs(reactiveArgs, newArgs);
-    expectTypeOf(reactiveArgs).toEqualTypeOf<{
-      objectArg: { argFoo: string };
-      objectArg2: { argBar: string };
-    }>();
+
     expect(reactiveArgs).toEqual({
-      objectArg: { argFoo: newArgs.argFoo },
-      objectArg2: { argBar: newArgs.argBar },
+      objectArg: { argFoo: 'foo2' },
+      objectArg2: { argBar: 'bar2' },
+      argFoo: 'foo2',
+      argBar: 'bar2',
     });
   });
 });

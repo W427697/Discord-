@@ -1,5 +1,5 @@
 import type { ConcreteComponent, Component, ComponentOptions } from 'vue';
-import { h } from 'vue';
+import { reactive, h } from 'vue';
 import type { DecoratorFunction, StoryContext, LegacyStoryFn } from '@storybook/types';
 import { sanitizeStoryContextUpdate } from '@storybook/preview-api';
 
@@ -19,21 +19,22 @@ function prepare(
   rawStory: VueRenderer['storyResult'],
   innerStory?: ConcreteComponent
 ): Component | null {
-  const story = rawStory as ComponentOptions;
+  const story = normalizeFunctionalComponent(rawStory as ComponentOptions);
 
   if (story == null) {
     return null;
   }
 
   if (innerStory) {
+    // console.log('innerStory', innerStory);
     return {
       // Normalize so we can always spread an object
       ...normalizeFunctionalComponent(story),
       components: { ...(story.components || {}), story: innerStory },
-      renderTracked(event) {
+      renderTracked() {
         // console.log('innerStory renderTracked', event);
       },
-      renderTriggered(event) {
+      renderTriggered() {
         // console.log('innerStory renderTriggered', event);
       },
     };
@@ -41,13 +42,13 @@ function prepare(
 
   return {
     render() {
-      return h(story, this.$props);
+      return h(story);
     },
     renderTracked(event) {
-      // console.log('story renderTracked', event);
+      console.log('story renderTracked', event);
     },
     renderTriggered(event) {
-      // console.log('story renderTriggered', event);
+      console.log('story renderTriggered', event);
     },
   };
 }
@@ -63,11 +64,11 @@ export function decorateStory(
       const decoratedStory: VueRenderer['storyResult'] = decorator((update) => {
         // we should update the context with the update object from the decorator in reactive way
         // so that the story will be re-rendered with the new context
-        updateReactiveContext(context, update);
         story = decorated({
           ...context,
           ...sanitizeStoryContextUpdate(update),
         });
+        if (update) updateReactiveContext(context, update);
         return story;
       }, context);
 
@@ -79,7 +80,8 @@ export function decorateStory(
         return story;
       }
 
-      return prepare(decoratedStory, story) as VueRenderer['storyResult'];
+      const storyFuntion = () => h(story ?? 'story', context.args);
+      return prepare(decoratedStory, storyFuntion) as VueRenderer['storyResult'];
     },
     (context) => prepare(storyFn(context)) as LegacyStoryFn<VueRenderer>
   );
@@ -91,16 +93,19 @@ function updateReactiveContext(
     | import('@storybook/csf').StoryContextUpdate<Partial<import('@storybook/csf').Args>>
     | undefined
 ) {
+  context.args = reactive(context.args);
   if (update) {
     const { args, argTypes } = update;
     if (args && !argTypes) {
       const deepCopy = JSON.parse(JSON.stringify(args));
-      Object.keys(context.args).forEach((key) => {
-        delete context.args[key];
-      });
+      console.log(' updated Args ', deepCopy);
+      // Object.keys(context.args).forEach((key) => {
+      //   delete context.args[key];
+      // });
       Object.keys(args).forEach((key) => {
         context.args[key] = deepCopy[key];
       });
+      console.log(' updated context.args ', context.args);
     }
   }
 }
