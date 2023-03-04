@@ -97,14 +97,12 @@ function updateReactiveContext(
     const { args, argTypes } = update;
     if (args && !argTypes) {
       const deepCopy = JSON.parse(JSON.stringify(args));
-      console.log(' updated Args ', deepCopy);
-      // Object.keys(context.args).forEach((key) => {
-      //   delete context.args[key];
-      // });
+      Object.keys(context.args).forEach((key) => {
+        delete context.args[key];
+      });
       Object.keys(args).forEach((key) => {
         context.args[key] = deepCopy[key];
       });
-      console.log(' updated context.args ', context.args);
     }
   }
 }

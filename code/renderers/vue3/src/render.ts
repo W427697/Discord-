@@ -60,7 +60,7 @@ export function renderToCanvas(
       watch(
         () => reactiveState.globals,
         (newVal) => {
-          const channel = globalThis.__STORYBOOK_ADDONS_CHANNEL__;
+          const channel = (globalThis as any).__STORYBOOK_ADDONS_CHANNEL__;
           channel.emit('forceRemount', { storyId: id });
         }
       );
@@ -119,14 +119,14 @@ export function updateArgs(reactiveArgs: Args, nextArgs: Args, argNames?: string
           currentArgs[key][key2] = nextArgs[key2];
         }
       });
-      Object.keys(nextArgs).forEach((key2) => {
-        if (currentArgs[key][key2] === undefined) {
-          currentArgs[key2] = nextArgs[key2];
-        }
-      });
     } else {
       currentArgs[key] = nextArgs[key];
     }
+    Object.keys(nextArgs).forEach((key2) => {
+      if (currentArgs[key][key2] === undefined) {
+        currentArgs[key2] = nextArgs[key2];
+      }
+    });
   });
 }
 /**
