@@ -25,6 +25,15 @@ type StorybookConfigFramework = {
   };
 };
 
+export type TypescriptOptions = StorybookConfigBase['typescript'] & {
+  /**
+   * Sets the type of Docgen when working with React and TypeScript
+   *
+   * @default `'react-docgen-typescript'`
+   */
+  reactDocgen: 'react-docgen-typescript' | 'react-docgen' | false;
+};
+
 /**
  * The interface for Storybook configuration in `main.ts` files.
  */
@@ -33,4 +42,5 @@ export type StorybookConfig = Omit<
   keyof StorybookConfigVite | keyof StorybookConfigFramework
 > &
   StorybookConfigVite &
-  StorybookConfigFramework;
+  StorybookConfigFramework &
+  TypescriptOptions;
