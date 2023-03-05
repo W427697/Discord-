@@ -27,16 +27,15 @@ function prepare(
   }
 
   if (innerStory) {
-    // console.log('innerStory', innerStory);
     return {
       // Normalize so we can always spread an object
       ...normalizeFunctionalComponent(story),
       components: { ...(story.components || {}), story: innerStory },
-      renderTracked() {
-        // console.log('innerStory renderTracked', event);
+      renderTracked(event) {
+        console.log('innerStory renderTracked', event); // this works only in dev mode
       },
-      renderTriggered() {
-        // console.log('innerStory renderTriggered', event);
+      renderTriggered(event) {
+        console.log('innerStory renderTriggered', event);
       },
     };
   }
@@ -46,7 +45,7 @@ function prepare(
       return h(story);
     },
     renderTracked(event) {
-      console.log('story renderTracked', event);
+      console.log('story renderTracked', event); // this works only in dev mode
     },
     renderTriggered(event) {
       console.log('story renderTriggered', event);
@@ -87,16 +86,20 @@ export function decorateStory(
     (context) => prepare(storyFn(context)) as LegacyStoryFn<VueRenderer>
   );
 }
-
+/**
+ * update the context with the update object from the decorator in reactive way
+ * @param context
+ * @param update
+ */
 function updateReactiveContext(
   context: StoryContext<VueRenderer>,
   update: StoryContextUpdate<Partial<Args>> | undefined
 ) {
-  context.args = reactive(context.args);
+  context.args = reactive(context.args); // get reference to reactiveArgs or create a new one; in case was destructured by decorator
   if (update) {
     const { args, argTypes } = update;
     if (args && !argTypes) {
-      const deepCopy = JSON.parse(JSON.stringify(args));
+      const deepCopy = JSON.parse(JSON.stringify(args)); // avoid reference to args
       Object.keys(context.args).forEach((key) => {
         delete context.args[key];
       });

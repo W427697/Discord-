@@ -1,5 +1,5 @@
 import type { StoryContext as StoryContextBase, WebRenderer } from '@storybook/types';
-import type { ConcreteComponent } from 'vue';
+import type { ConcreteComponent, Slots, VNodeProps } from 'vue';
 
 export type { RenderContext } from '@storybook/types';
 
@@ -11,6 +11,15 @@ export interface ShowErrorArgs {
 export type StoryFnVueReturnType = ConcreteComponent<any>;
 
 export type StoryContext = StoryContextBase<VueRenderer>;
+
+export type VueStoryComponent = ConcreteComponent & {
+  render: (h: any) => any;
+  props: VNodeProps;
+  slots: Slots;
+  tag?: string;
+  name?: string;
+  __name?: string;
+};
 
 /**
  * @deprecated Use `VueRenderer` instead.

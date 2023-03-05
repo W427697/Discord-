@@ -12,7 +12,7 @@ describe('Render Story', () => {
     const newArgs = { argFoo: 'foo2', argBar: 'bar2' };
     updateArgs(reactiveArgs, newArgs);
     expectTypeOf(reactiveArgs).toEqualTypeOf<{ argFoo: string; argBar: string }>();
-    expect(reactiveArgs).toEqual(newArgs);
+    expect(reactiveArgs).toEqual({ argFoo: 'foo2', argBar: 'bar2' });
   });
 
   test('update reactive Args component inherit objectArg updateArgs()', () => {
@@ -36,7 +36,7 @@ describe('Render Story', () => {
     expect(reactiveArgs).toEqual({ objectArg: { argFoo: 'foo2' }, argBar: 'bar2' });
   });
 
-  test('update reactive Args component 2 args updateArgs()', () => {
+  test('update reactive Args component 2 object args  ->  updateArgs()', () => {
     const reactiveArgs = reactive({
       objectArg: { argFoo: 'foo' },
       objectArg2: { argBar: 'bar' },
@@ -53,8 +53,34 @@ describe('Render Story', () => {
     expect(reactiveArgs).toEqual({
       objectArg: { argFoo: 'foo2' },
       objectArg2: { argBar: 'bar2' },
-      argFoo: 'foo2',
-      argBar: 'bar2',
     });
+  });
+
+  test('update reactive Args component object with object  ->  updateArgs()', () => {
+    const reactiveArgs = reactive({
+      objectArg: { argFoo: 'foo' },
+    }); // get reference to reactiveArgs or create a new one;
+    expectTypeOf(reactiveArgs).toMatchTypeOf<Record<string, any>>();
+    expectTypeOf(reactiveArgs).toEqualTypeOf<{
+      objectArg: { argFoo: string };
+    }>();
+
+    const newArgs = { objectArg: { argFoo: 'bar' } };
+    updateArgs(reactiveArgs, newArgs);
+
+    expect(reactiveArgs).toEqual({ objectArg: { argFoo: 'bar' } });
+  });
+
+  test('update reactive Args component no arg with all args -> updateArgs()', () => {
+    const reactiveArgs = reactive({ objectArg: { argFoo: 'foo' } }); // get reference to reactiveArgs or create a new one;
+    expectTypeOf(reactiveArgs).toMatchTypeOf<Record<string, any>>();
+    expectTypeOf(reactiveArgs).toEqualTypeOf<{
+      objectArg: { argFoo: string };
+    }>();
+
+    const newArgs = { objectArg: { argFoo: 'bar' } };
+    updateArgs(reactiveArgs, newArgs);
+
+    expect(reactiveArgs).toEqual({ objectArg: { argFoo: 'bar' } });
   });
 });

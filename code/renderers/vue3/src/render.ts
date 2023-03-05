@@ -1,9 +1,10 @@
 /* eslint-disable no-param-reassign */
 import { createApp, h, isReactive, reactive, watch } from 'vue';
 import type { RenderContext, ArgsStoryFn } from '@storybook/types';
-import type { Globals, Args, StoryContext } from '@storybook/csf';
+import type { Globals, Args, StoryContext, Renderer } from '@storybook/csf';
 import { global as globalThis } from '@storybook/global';
 import type { StoryFnVueReturnType, VueRenderer } from './types';
+import { getTemplateSource as generateTemplateSource } from './docs/sourceDecorator';
 
 export const render: ArgsStoryFn<VueRenderer> = (props, context) => {
   const { id, component: Component } = context;
@@ -44,6 +45,7 @@ export function renderToCanvas(
     if (reactiveState) reactiveState.globals = storyContext.globals;
 
     updateArgs(existingApp.reactiveArgs, storyContext.args);
+    generateTemplateSource(storyContext as StoryContext<Renderer, Args>);
     return () => {
       teardown(existingApp.vueApp, canvasElement);
     };
@@ -109,26 +111,26 @@ function getSlots(props: Args, context: StoryContext<VueRenderer, Args>) {
  */
 export function updateArgs(reactiveArgs: Args, nextArgs: Args, argNames?: string[]) {
   const currentArgs = isReactive(reactiveArgs) ? reactiveArgs : reactive(reactiveArgs);
-
+  const notMappedArgs = { ...nextArgs };
   Object.keys(currentArgs).forEach((key) => {
     const componentArg = currentArgs[key];
     // if the arg is an object, we need to update the object
     if (typeof componentArg === 'object') {
-      Object.keys(componentArg).forEach((key2) => {
-        if (nextArgs[key2] && (argNames?.includes(key2) || !argNames)) {
-          currentArgs[key][key2] = nextArgs[key2];
+      Object.keys(componentArg).forEach((aKey) => {
+        if (nextArgs[aKey] && (argNames?.includes(aKey) || !argNames)) {
+          currentArgs[key][aKey] = nextArgs[aKey];
+          delete notMappedArgs[aKey];
         }
       });
     } else {
       currentArgs[key] = nextArgs[key];
     }
-    Object.keys(nextArgs).forEach((key2) => {
-      if (currentArgs[key][key2] === undefined) {
-        currentArgs[key2] = nextArgs[key2];
-      }
-    });
+  });
+  Object.keys(notMappedArgs).forEach((key) => {
+    currentArgs[key] = notMappedArgs[key];
   });
 }
+
 /**
  * unmount the vue app
  * @param storybookApp
