@@ -6,3 +6,4 @@ export default {
 
 export const Story1 = () => <div>Component 2 - Story 1</div>;
 export const Story2 = () => <div>Component 2 - Story 2</div>;
+export const Story3 = () => <div>Component 3 - Story 3</div>;
