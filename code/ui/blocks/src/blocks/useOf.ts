@@ -1,4 +1,9 @@
-import type { DocsContextProps, ModuleExport, ResolvedModuleExportType } from '@storybook/types';
+import type {
+  DocsContextProps,
+  ModuleExport,
+  ResolvedModuleExportType,
+  ResolvedModuleExportFromType,
+} from '@storybook/types';
 import { useContext } from 'react';
 import { DocsContext } from './DocsContext';
 
@@ -13,7 +18,7 @@ export type Of = Parameters<DocsContextProps['resolveOf']>[0];
 export const useOf = <TType extends ResolvedModuleExportType>(
   moduleExportOrType: ModuleExport | TType,
   validTypes?: TType[]
-): ReturnType<DocsContextProps['resolveOf']> => {
+): ResolvedModuleExportFromType<TType> => {
   const context = useContext(DocsContext);
   return context.resolveOf(moduleExportOrType, validTypes);
 };
