@@ -57,6 +57,7 @@ export interface API_Shortcuts {
   escape: API_KeyCollection;
   collapseAll: API_KeyCollection;
   expandAll: API_KeyCollection;
+  remount: API_KeyCollection;
 }
 
 export type API_Action = keyof API_Shortcuts;
@@ -91,6 +92,7 @@ export const defaultShortcuts: API_Shortcuts = Object.freeze({
   escape: ['escape'], // This one is not customizable
   collapseAll: [controlOrMetaKey(), 'shift', 'ArrowUp'],
   expandAll: [controlOrMetaKey(), 'shift', 'ArrowDown'],
+  remount: ['alt', 'R'],
 });
 
 const addonsShortcuts: API_AddonShortcuts = {};
@@ -318,6 +320,10 @@ export const init: ModuleFn = ({ store, fullAPI }) => {
         }
         case 'expandAll': {
           fullAPI.expandAll();
+          break;
+        }
+        case 'remount': {
+          fullAPI.remount();
           break;
         }
         default:

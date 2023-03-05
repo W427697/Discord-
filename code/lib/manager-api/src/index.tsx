@@ -55,6 +55,7 @@ import * as settings from './modules/settings';
 import * as releaseNotes from './modules/release-notes';
 // eslint-disable-next-line import/no-cycle
 import * as stories from './modules/stories';
+import * as toolbar from './modules/toolbar';
 
 import * as refs from './modules/refs';
 import * as layout from './modules/layout';
@@ -91,6 +92,7 @@ export type State = layout.SubState &
   url.SubState &
   shortcuts.SubState &
   releaseNotes.SubState &
+  toolbar.SubState &
   settings.SubState &
   globals.SubState &
   RouterData &
@@ -107,6 +109,7 @@ export type API = addons.SubAPI &
   notifications.SubAPI &
   shortcuts.SubAPI &
   releaseNotes.SubAPI &
+  toolbar.SubAPI &
   settings.SubAPI &
   version.SubAPI &
   url.SubAPI &
@@ -198,6 +201,7 @@ class ManagerProvider extends Component<ManagerProviderProps, State> {
       releaseNotes,
       shortcuts,
       stories,
+      toolbar,
       refs,
       globals,
       url,
