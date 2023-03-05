@@ -95,7 +95,7 @@ export function generateAttributesSource(
 
         return argKey
           ? attributeSource(argKey, argValue)
-          : tempArgs[key].loc.source.replace(`"${argExpValue}"`, `"${argValue}"`) ??
+          : tempArgs[key].loc.source.replace(`${argExpValue}`, `${argValue}`) ??
               toDisplayString(argExpValue);
       }
 
