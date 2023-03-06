@@ -68,7 +68,7 @@ export async function sendTelemetryError(
     try {
       errorLevel = await getErrorLevel(options);
     } catch (err) {
-      // If this throws, eg. due to main.js breaking, we fall back to 'full'
+      // If this throws, eg. due to main.js breaking, we fall back to 'error'
     }
     if (errorLevel !== 'none') {
       const precedingUpgrade = await getPrecedingUpgrade();
