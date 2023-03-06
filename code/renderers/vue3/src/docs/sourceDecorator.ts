@@ -14,9 +14,8 @@ import type {
   TemplateChildNode,
 } from '@vue/compiler-core';
 import { baseParse } from '@vue/compiler-core';
-import { h, toDisplayString } from 'vue';
+import { h } from 'vue';
 import { camelCase, kebabCase } from 'lodash';
-
 import type { VueStoryComponent } from '../types';
 
 /**
@@ -41,11 +40,13 @@ const skipSourceRender = (context: StoryContext<Renderer>) => {
 const omitEvent = (args: Args): Args =>
   Object.fromEntries(Object.entries(args).filter(([key, value]) => !key.startsWith('on')));
 
-const displayObject = (obj: any) => {
-  if (typeof obj === 'object' && obj !== null && (obj as { [key: string]: unknown })) {
-    const a = Object.keys(obj).map((key) => `${key}:'${obj[key]}'`);
-    return `{${a.join(',')}}`;
+const displayObject = (obj: any): string => {
+  if (typeof obj === 'object') {
+    return `{${Object.keys(obj)
+      .map((key) => `${key}:${displayObject(obj[key])}`)
+      .join(',')}}`;
   }
+  if (typeof obj === 'string') return `'${obj}'`;
   return obj;
 };
 const htmlEventAttributeToVueEventAttribute = (key: string) => {
@@ -59,7 +60,8 @@ const directiveSource = (key: string, value: unknown) =>
 
 const attributeSource = (key: string, value: unknown, dynamic?: boolean) =>
   // convert html event key to vue event key
-  ['boolean', 'number', 'object'].includes(typeof value) || dynamic
+  ['boolean', 'number', 'object'].includes(typeof value) || // dynamic value
+  (dynamic && ['style', 'class'].includes(key)) // dynamic style or class
     ? `:${key}="${displayObject(value)}"`
     : directiveSource(key, value);
 
