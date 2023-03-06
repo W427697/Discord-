@@ -3,10 +3,12 @@ import type { CLIOptions, CoreConfig } from '@storybook/types';
 import { loadAllPresets, cache } from '@storybook/core-common';
 import { telemetry, getPrecedingUpgrade, oneWayHash } from '@storybook/telemetry';
 import type { EventType } from '@storybook/telemetry';
+import { logger } from '@storybook/node-logger';
 
 type TelemetryOptions = {
   cliOptions: CLIOptions;
   presetOptions?: Parameters<typeof loadAllPresets>[0];
+  printError?: (err: any) => void;
 };
 
 const promptCrashReports = async () => {
@@ -99,6 +101,9 @@ export async function withTelemetry(
   try {
     await run();
   } catch (error) {
+    const { printError = logger.error } = options;
+    printError(error);
+
     await sendTelemetryError(error, eventType, options);
     throw error;
   }
