@@ -41,9 +41,12 @@ const skipSourceRender = (context: StoryContext<Renderer>) => {
 const omitEvent = (args: Args): Args =>
   Object.fromEntries(Object.entries(args).filter(([key, value]) => !key.startsWith('on')));
 
-const displayObject = (obj: Args) => {
-  const a = Object.keys(obj).map((key) => `${key}:'${obj[key]}'`);
-  return `{${a.join(',')}}`;
+const displayObject = (obj: any) => {
+  if (typeof obj === 'object' && obj !== null && (obj as { [key: string]: unknown })) {
+    const a = Object.keys(obj).map((key) => `${key}:'${obj[key]}'`);
+    return `{${a.join(',')}}`;
+  }
+  return obj;
 };
 const htmlEventAttributeToVueEventAttribute = (key: string) => {
   return /^on[A-Za-z]/.test(key) ? key.replace(/^on/, 'v-on:').toLowerCase() : key;
@@ -52,12 +55,12 @@ const htmlEventAttributeToVueEventAttribute = (key: string) => {
 const directiveSource = (key: string, value: unknown) =>
   key.includes('on')
     ? `${htmlEventAttributeToVueEventAttribute(key)}='()=>({})'`
-    : `${key}='${value}'`;
+    : `${key}="${value}"`;
 
 const attributeSource = (key: string, value: unknown) =>
   // convert html event key to vue event key
   ['boolean', 'number', 'object'].includes(typeof value)
-    ? `:${key}='${value && typeof value === 'object' ? displayObject(value) : value}'`
+    ? `:${key}="${displayObject(value)}"`
     : directiveSource(key, value);
 
 /**
@@ -82,21 +85,11 @@ export function generateAttributesSource(
         const argKey = argName ? argName?.loc.source : undefined;
         const argExpValue = exp?.loc.source ?? (exp as any).content;
         const propValue = args[camelCase(argKey)];
-        const argValue = argKey ? propValue ?? argExpValue : displayObject(omitEvent(args));
+        const argValue = argKey
+          ? propValue ?? evalExp(argExpValue, args)
+          : displayObject(omitEvent(args));
 
-        if (argKey === 'style') {
-          let style = argValue;
-          Object.keys(args).forEach((akey) => {
-            const regex = new RegExp(`(\\w+)\\.${akey}`, 'g');
-            style = style.replace(regex, args[akey]);
-          });
-          return `:style="${style}"`;
-        }
-
-        return argKey
-          ? attributeSource(argKey, argValue)
-          : tempArgs[key].loc.source.replace(`${argExpValue}`, `${argValue}`) ??
-              toDisplayString(argExpValue);
+        return argKey ? attributeSource(argKey, argValue) : `v-bind="${argValue}"`;
       }
 
       return tempArgs[key].loc.source;
@@ -293,7 +286,7 @@ export const sourceDecorator = (storyFn: any, context: StoryContext<Renderer>) =
   const withScript = context?.parameters?.docs?.source?.withScriptSetup || false;
   const generatedScript = withScript ? generateScriptSetup(args, argTypes, components) : '';
   const generatedTemplate = generateSource(storyComponent, args, argTypes, withScript);
-
+  console.log('generatedTemplate -------\r\n\n\n', generatedTemplate, '\n\n');
   if (generatedTemplate) {
     source = `${generatedScript}\n <template>\n ${generatedTemplate} \n</template>`;
   }
@@ -323,3 +316,12 @@ export {
   attributeSource,
   htmlEventAttributeToVueEventAttribute,
 };
+
+function evalExp(argExpValue: any, args: Args): any {
+  let evalVal = argExpValue;
+  Object.keys(args).forEach((akey) => {
+    const regex = new RegExp(`(\\w+)\\.${akey}`, 'g');
+    evalVal = evalVal.replace(regex, args[akey]);
+  });
+  return evalVal;
+}
