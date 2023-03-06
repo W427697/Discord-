@@ -10,8 +10,10 @@ import versions from '../../versions';
 
 const generator: Generator = async (packageManager, npmOptions, options) => {
   const monorepoRootPath = path.join(__dirname, '..', '..', '..', '..', '..', '..');
+  const typescript = { reactDocgen: false };
   const extraMain = options.linkable
     ? {
+        typescript,
         webpackFinal: `%%(config) => {
       // add monorepo root as a valid directory to import modules from
       config.resolve.plugins.forEach((p) => {
@@ -23,7 +25,7 @@ const generator: Generator = async (packageManager, npmOptions, options) => {
           }
     %%`,
       }
-    : {};
+    : { typescript };
 
   const craVersion = semver.coerce(
     packageManager.retrievePackageJson().dependencies['react-scripts']
