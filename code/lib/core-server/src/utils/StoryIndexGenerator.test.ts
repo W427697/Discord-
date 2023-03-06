@@ -1029,8 +1029,43 @@ describe('StoryIndexGenerator', () => {
           type: 'story',
         };
         expect(() => {
-          generator.chooseDuplicate(mockEntry, mockEntry);
+          generator.chooseDuplicate(mockEntry, { ...mockEntry, importPath: 'DifferentPath' });
         }).toThrowErrorMatchingInlineSnapshot(`"Duplicate stories with id: StoryId"`);
+      });
+
+      it('DOES NOT warns when the same MDX file matches two specifiers', async () => {
+        const generator = new StoryIndexGenerator(
+          [storiesSpecifier, docsSpecifier, docsSpecifier],
+          options
+        );
+        await generator.initialize();
+
+        expect(Object.keys((await generator.getIndex()).entries)).toMatchInlineSnapshot(`
+          Array [
+            "a--story-one",
+            "componentreference--docs",
+            "a--metaof",
+            "notitle--docs",
+            "a--second-docs",
+            "docs2-yabbadabbadooo--docs",
+          ]
+        `);
+
+        expect(logger.warn).not.toHaveBeenCalled();
+      });
+
+      it('DOES NOT throw when the same CSF file matches two specifiers', async () => {
+        const generator = new StoryIndexGenerator([storiesSpecifier, storiesSpecifier], {
+          ...options,
+        });
+        await generator.initialize();
+        expect(Object.keys((await generator.getIndex()).entries)).toMatchInlineSnapshot(`
+          Array [
+            "a--story-one",
+          ]
+        `);
+
+        expect(logger.warn).not.toHaveBeenCalled();
       });
     });
   });
