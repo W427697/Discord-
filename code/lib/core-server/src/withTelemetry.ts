@@ -79,7 +79,7 @@ export async function sendTelemetryError(
           eventType,
           precedingUpgrade,
           error: errorLevel === 'full' ? error : undefined,
-          errorHash: oneWayHash(error.message || 'No error message'),
+          errorHash: oneWayHash(error.message || ''),
         },
         {
           immediate: true,
