@@ -19,7 +19,7 @@ const run = async () => {
   logger.log(`Generating versions.ts with v${updatedVersion}`);
 
   const storybookPackagesPaths = await globby(
-    `${rootDirectory}/@(frameworks|addons|lib|renderers|presets)/**/package.json`,
+    `${rootDirectory}/@(frameworks|addons|lib|renderers|presets|ui)/**/package.json`,
     {
       ignore: '**/node_modules/**/*',
     }
