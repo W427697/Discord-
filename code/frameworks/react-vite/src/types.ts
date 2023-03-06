@@ -39,7 +39,7 @@ type TypescriptOptions = TypescriptOptionsBase & {
   /**
    * Configures `@joshwooding/vite-plugin-react-docgen-typescript`
    */
-  reactDocgenTypescriptOptions: Parameters<typeof docgenTypescript>;
+  reactDocgenTypescriptOptions: Parameters<typeof docgenTypescript>[0];
 };
 
 /**
