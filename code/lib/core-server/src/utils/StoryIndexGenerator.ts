@@ -381,6 +381,11 @@ export class StoryIndexGenerator {
   }
 
   chooseDuplicate(firstEntry: IndexEntry, secondEntry: IndexEntry): IndexEntry {
+    // NOTE: it is possible for the same entry to show up twice (if it matches >1 glob). That's OK.
+    if (firstEntry.importPath === secondEntry.importPath) {
+      return firstEntry;
+    }
+
     let firstIsBetter = true;
     if (secondEntry.type === 'story') {
       firstIsBetter = false;
