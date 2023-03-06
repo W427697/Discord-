@@ -57,9 +57,9 @@ const directiveSource = (key: string, value: unknown) =>
     ? `${htmlEventAttributeToVueEventAttribute(key)}='()=>({})'`
     : `${key}="${value}"`;
 
-const attributeSource = (key: string, value: unknown) =>
+const attributeSource = (key: string, value: unknown, dynamic?: boolean) =>
   // convert html event key to vue event key
-  ['boolean', 'number', 'object'].includes(typeof value)
+  ['boolean', 'number', 'object'].includes(typeof value) || dynamic
     ? `:${key}="${displayObject(value)}"`
     : directiveSource(key, value);
 
@@ -89,7 +89,7 @@ export function generateAttributesSource(
           ? propValue ?? evalExp(argExpValue, args)
           : displayObject(omitEvent(args));
 
-        return argKey ? attributeSource(argKey, argValue) : `v-bind="${argValue}"`;
+        return argKey ? attributeSource(argKey, argValue, true) : `v-bind="${argValue}"`;
       }
 
       return tempArgs[key].loc.source;
@@ -286,7 +286,7 @@ export const sourceDecorator = (storyFn: any, context: StoryContext<Renderer>) =
   const withScript = context?.parameters?.docs?.source?.withScriptSetup || false;
   const generatedScript = withScript ? generateScriptSetup(args, argTypes, components) : '';
   const generatedTemplate = generateSource(storyComponent, args, argTypes, withScript);
-  console.log('generatedTemplate -------\r\n\n\n', generatedTemplate, '\n\n');
+
   if (generatedTemplate) {
     source = `${generatedScript}\n <template>\n ${generatedTemplate} \n</template>`;
   }
