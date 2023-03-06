@@ -1,3 +1,24 @@
+## 7.0.0-beta.61 (March 4, 2023)
+
+#### Features
+
+-   Docs: Show MDX errors using our error overlay [#21369](https://github.com/storybooks/storybook/pull/21369)
+
+#### Bug Fixes
+
+-   Core: Remove state deprecation warnings by default [#21367](https://github.com/storybooks/storybook/pull/21367)
+-   Core: Fix default export storySort handling [#21389](https://github.com/storybooks/storybook/pull/21389)
+-   Vue3: Add slot TS types  [#21359](https://github.com/storybooks/storybook/pull/21359)
+-   Docs: Fix issue with referencing non-story files with names similar or equal to docs files [#21348](https://github.com/storybooks/storybook/pull/21348)
+
+#### Maintenance
+
+-   Docs: Update invalid `<Meta of={}>` error to be more helpful. [#21365](https://github.com/storybooks/storybook/pull/21365)
+
+#### Dependency Upgrades
+
+-   Upgrade react-docgen-typescript-plugin for TS4.8 [#21380](https://github.com/storybooks/storybook/pull/21380)
+
 ## 7.0.0-beta.60 (March 3, 2023)
 
 #### Bug Fixes
