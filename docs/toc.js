@@ -7,16 +7,16 @@ module.exports = {
       type: 'menu',
       children: [
         {
-          pathSegment: 'install',
-          title: 'Install',
-          type: 'bullet-link',
-          description: 'Install the Storybook package in your project',
-        },
-        {
           pathSegment: 'why-storybook',
           title: 'Why Storybook?',
           type: 'bullet-link',
           description: 'Learn why Storybook can help you build better UIs',
+        },
+        {
+          pathSegment: 'install',
+          title: 'Install',
+          type: 'bullet-link',
+          description: 'Install the Storybook package in your project',
         },
         {
           pathSegment: 'whats-a-story',
