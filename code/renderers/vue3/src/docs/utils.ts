@@ -1,5 +1,9 @@
 import type { Args } from '@storybook/types';
 
+/**
+ *  omit event args
+ * @param args
+ */
 const omitEvent = (args: Args): Args =>
   Object.fromEntries(Object.entries(args).filter(([key, value]) => !key.startsWith('on')));
 
