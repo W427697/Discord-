@@ -1,5 +1,4 @@
 import { parentPort } from 'node:worker_threads';
-import { Response } from './interfaces';
 import type { Asynced, RequestMessage, ResponseError, ResponseSuccess } from './interfaces';
 
 const analyzer = {
@@ -16,12 +15,12 @@ export type WorkerAPI = Asynced<typeof analyzer>;
 const init = async () => {};
 
 const replySuccess = <T>(id: number, result: T) => {
-  const response: ResponseSuccess<T> = { id, kind: Response.Success, result };
+  const response: ResponseSuccess<T> = { id, kind: 'success', result };
   parentPort.postMessage(response);
 };
 
 const replyError = <T>(id: number, error: T) => {
-  const response: ResponseError<T> = { id, kind: Response.Error, error };
+  const response: ResponseError<T> = { id, kind: 'error', error };
   parentPort.postMessage(response);
 };
 

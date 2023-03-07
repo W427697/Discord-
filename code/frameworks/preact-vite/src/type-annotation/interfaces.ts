@@ -15,18 +15,15 @@ export interface RequestMessage extends Serial {
   args: unknown;
 }
 
-export enum Response {
-  Success,
-  Error,
-}
+export type ResponseKind = 'success' | 'error';
 
 export interface ResponseSuccess<T = unknown> extends Serial {
-  kind: Response.Success;
+  kind: 'success';
   result: T;
 }
 
 export interface ResponseError<E = unknown> extends Serial {
-  kind: Response.Error;
+  kind: 'error';
   error: E;
 }
 

@@ -1,5 +1,4 @@
 import type { Worker } from 'node:worker_threads';
-import { Response } from './interfaces';
 import type { RequestMessage, ResponseMessage } from './interfaces';
 import type { WorkerAPI } from './worker';
 
@@ -37,7 +36,7 @@ export const createService = (worker: Worker): WorkerAPI => {
     }
     const { resolve, reject } = activeRequests.get(message.id);
     activeRequests.delete(message.id);
-    if (message.kind === Response.Success) {
+    if (message.kind === 'success') {
       resolve(message.result);
     } else {
       reject(message.error);
