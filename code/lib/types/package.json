@@ -1,7 +1,7 @@
 {
   "name": "@storybook/types",
   "version": "7.0.0-beta.62",
-  "description": "Core Storybook Types",
+  "description": "Core Storybook TS Types",
   "keywords": [
     "storybook"
   ],
