@@ -27,7 +27,7 @@ describe('Yarn 2 Proxy', () => {
 
       yarn2Proxy.installDependencies();
 
-      expect(executeCommandSpy).toHaveBeenCalledWith('yarn', ['install', '-W'], expect.any(String));
+      expect(executeCommandSpy).toHaveBeenCalledWith('yarn', ['install'], expect.any(String));
     });
   });
 
@@ -69,7 +69,7 @@ describe('Yarn 2 Proxy', () => {
 
       expect(executeCommandSpy).toHaveBeenCalledWith(
         'yarn',
-        ['add', '-W', '-D', '@storybook/preview-api'],
+        ['add', '-D', '@storybook/preview-api'],
         expect.any(String)
       );
     });
@@ -83,7 +83,7 @@ describe('Yarn 2 Proxy', () => {
 
       expect(executeCommandSpy).toHaveBeenCalledWith(
         'yarn',
-        ['remove', '-W', '@storybook/preview-api'],
+        ['remove', '@storybook/preview-api'],
         expect.any(String)
       );
     });

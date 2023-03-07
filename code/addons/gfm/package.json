@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-mdx-gfm",
-  "version": "7.0.0-beta.59",
+  "version": "7.0.0-beta.62",
   "description": "GitHub Flavored Markdown in Storybook",
   "keywords": [
     "addon",
@@ -69,5 +69,5 @@
       "cjs"
     ]
   },
-  "gitHead": "c808723218b9a07aa5c92a440babb23c0411db99"
+  "gitHead": "f70dcdb599363bfd6e6d2b63f8fadd02e9cbe00a"
 }

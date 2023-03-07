@@ -1,3 +1,55 @@
+## 7.0.0-beta.62 (March 6, 2023)
+
+#### Bug Fixes
+
+-   Vite: Add react docgen types [#21338](https://github.com/storybooks/storybook/pull/21338)
+-   Core: Print errors in `withTelemetry` before prompting [#21407](https://github.com/storybooks/storybook/pull/21407)
+-   Add Angular Builder Codemods [#21409](https://github.com/storybooks/storybook/pull/21409)
+-   Docs: Use async import rather than require in docs [#21402](https://github.com/storybooks/storybook/pull/21402)
+-   Docs: Don't warn if we find the same entry twice [#21403](https://github.com/storybooks/storybook/pull/21403)
+-   Telemetry: Ensure we report errors even when unexpected things happen [#21416](https://github.com/storybooks/storybook/pull/21416)
+-   CLI: Fix versions.ts to install latest prerelease packages [#21418](https://github.com/storybooks/storybook/pull/21418)
+-   Core: Remove pointless `module.hot.decline()` in addons [#21421](https://github.com/storybooks/storybook/pull/21421)
+-   Docs: Allow ArgTable usage unattached [#21371](https://github.com/storybooks/storybook/pull/21371)
+
+#### Maintenance
+
+-   Addon-docs: Polish styling for 7.0 [#21255](https://github.com/storybooks/storybook/pull/21255)
+
+## 7.0.0-beta.61 (March 4, 2023)
+
+#### Features
+
+-   Docs: Show MDX errors using our error overlay [#21369](https://github.com/storybooks/storybook/pull/21369)
+
+#### Bug Fixes
+
+-   Core: Remove state deprecation warnings by default [#21367](https://github.com/storybooks/storybook/pull/21367)
+-   Core: Fix default export storySort handling [#21389](https://github.com/storybooks/storybook/pull/21389)
+-   Vue3: Add slot TS types  [#21359](https://github.com/storybooks/storybook/pull/21359)
+-   Docs: Fix issue with referencing non-story files with names similar or equal to docs files [#21348](https://github.com/storybooks/storybook/pull/21348)
+
+#### Maintenance
+
+-   Docs: Update invalid `<Meta of={}>` error to be more helpful. [#21365](https://github.com/storybooks/storybook/pull/21365)
+
+#### Dependency Upgrades
+
+-   Upgrade react-docgen-typescript-plugin for TS4.8 [#21380](https://github.com/storybooks/storybook/pull/21380)
+
+## 7.0.0-beta.60 (March 3, 2023)
+
+#### Bug Fixes
+
+-   Core: Fix storySort parsing in preview.js with default export [#21353](https://github.com/storybooks/storybook/pull/21353)
+-   CLI: Remove the workspace root flag from the install command for yarn2 [#21356](https://github.com/storybooks/storybook/pull/21356)
+-   Svelte/Vite: Prevent crash when no svelte.config file [#21339](https://github.com/storybooks/storybook/pull/21339)
+-   Use stable Next.js v13.2.0 next/font [#21247](https://github.com/storybooks/storybook/pull/21247)
+
+#### Dependency Upgrades
+
+-   Bump version of get-tarball [#21355](https://github.com/storybooks/storybook/pull/21355)
+
 ## 7.0.0-beta.59 (March 2, 2023)
 
 #### Bug Fixes

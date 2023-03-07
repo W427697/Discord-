@@ -264,7 +264,7 @@ Storybook also provides a [`useOf` hook](../api/doc-block-useof.md) to make it e
 
 #### Learn more about Storybook documentation
 
-- [AutoDocs](./autodocs.md) for creating documentation for your stories
+- [Autodocs](./autodocs.md) for creating documentation for your stories
 - [MDX](./mdx.md) for customizing your documentation
 - Doc Blocks for authoring your documentation
 - [Publishing docs](./build-documentation.md) to automate the process of publishing your documentation
