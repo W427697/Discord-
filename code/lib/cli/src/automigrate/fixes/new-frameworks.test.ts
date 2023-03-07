@@ -1,11 +1,14 @@
 import type { StorybookConfig } from '@storybook/types';
 import * as findUp from 'find-up';
 import type { PackageJson } from '../../js-package-manager';
+import { makePackageManager, mockStorybookData } from '../helpers/testing-helpers';
 import * as rendererHelpers from '../helpers/detectRenderer';
 import { newFrameworks } from './new-frameworks';
-import { makePackageManager, mockStorybookData } from '../helpers/testing-helpers';
 
 jest.mock('find-up');
+jest.mock('../helpers/detectRenderer', () => ({
+  detectRenderer: jest.fn(jest.requireActual('../helpers/detectRenderer').detectRenderer),
+}));
 
 const checkNewFrameworks = async ({
   packageJson,
@@ -568,8 +571,8 @@ describe('new-frameworks fix', () => {
     });
   });
 
-  describe('Svelte kit migration', () => {
-    it('skips in non-Svelte kit projects', async () => {
+  describe('SvelteKit migration', () => {
+    it('skips in non-SvelteKit projects', async () => {
       const packageJson = {
         dependencies: {
           svelte: '^3.53.1',
@@ -583,7 +586,7 @@ describe('new-frameworks fix', () => {
       await expect(checkNewFrameworks({ packageJson, main })).resolves.toBeFalsy();
     });
 
-    it('skips if project uses Svelte kit < 1.0.0', async () => {
+    it('skips if project uses SvelteKit < 1.0.0', async () => {
       const packageJson = {
         dependencies: {
           '@storybook/svelte': '^7.0.0',
@@ -597,12 +600,12 @@ describe('new-frameworks fix', () => {
       await expect(checkNewFrameworks({ packageJson, main })).resolves.toBeFalsy();
     });
 
-    it('skips if project already has @storybook/svelte-kit set up', async () => {
+    it('skips if project already has @storybook/sveltekit set up', async () => {
       const packageJson = {
         dependencies: {
           '@storybook/svelte': '^7.0.0',
-          '@storybook/svelte-kit': '^7.0.0',
-          '@sveltejs/kit': '^1.0.0-next.571',
+          '@storybook/sveltekit': '^7.0.0',
+          '@sveltejs/kit': '^1.0.0',
         },
       };
       const main = {
@@ -616,7 +619,7 @@ describe('new-frameworks fix', () => {
         dependencies: {
           '@storybook/svelte': '^7.0.0',
           '@storybook/svelte-vite': '^7.0.0',
-          '@sveltejs/kit': '^1.0.0-next.571',
+          '@sveltejs/kit': '^1.0.0',
         },
       };
       const main = {
@@ -624,9 +627,9 @@ describe('new-frameworks fix', () => {
       };
       await expect(checkNewFrameworks({ packageJson, main })).resolves.toEqual(
         expect.objectContaining({
-          dependenciesToAdd: ['@storybook/svelte-kit'],
+          dependenciesToAdd: ['@storybook/sveltekit'],
           dependenciesToRemove: ['@storybook/svelte-vite'],
-          frameworkPackage: '@storybook/svelte-kit',
+          frameworkPackage: '@storybook/sveltekit',
         })
       );
     });
@@ -636,7 +639,7 @@ describe('new-frameworks fix', () => {
         dependencies: {
           '@storybook/svelte': '^7.0.0',
           '@storybook/builder-vite': '^7.0.0',
-          '@sveltejs/kit': '^1.0.0-next.571',
+          '@sveltejs/kit': '^1.0.0',
         },
       };
       const main = {
@@ -645,9 +648,9 @@ describe('new-frameworks fix', () => {
       };
       await expect(checkNewFrameworks({ packageJson, main })).resolves.toEqual(
         expect.objectContaining({
-          dependenciesToAdd: ['@storybook/svelte-kit'],
+          dependenciesToAdd: ['@storybook/sveltekit'],
           dependenciesToRemove: ['@storybook/builder-vite'],
-          frameworkPackage: '@storybook/svelte-kit',
+          frameworkPackage: '@storybook/sveltekit',
         })
       );
     });
@@ -657,7 +660,7 @@ describe('new-frameworks fix', () => {
         dependencies: {
           '@storybook/svelte': '^7.0.0',
           'storybook-builder-vite': '^0.2.5',
-          '@sveltejs/kit': '^1.0.0-next.571',
+          '@sveltejs/kit': '^1.0.0',
         },
       };
       const main = {
@@ -666,9 +669,9 @@ describe('new-frameworks fix', () => {
       };
       await expect(checkNewFrameworks({ packageJson, main })).resolves.toEqual(
         expect.objectContaining({
-          dependenciesToAdd: ['@storybook/svelte-kit'],
+          dependenciesToAdd: ['@storybook/sveltekit'],
           dependenciesToRemove: ['storybook-builder-vite'],
-          frameworkPackage: '@storybook/svelte-kit',
+          frameworkPackage: '@storybook/sveltekit',
         })
       );
     });
@@ -678,7 +681,7 @@ describe('new-frameworks fix', () => {
         dependencies: {
           '@storybook/svelte': '^7.0.0',
           'storybook-builder-vite': '^0.2.5',
-          '@sveltejs/kit': '^1.0.0-next.571',
+          '@sveltejs/kit': '^1.0.0',
         },
       };
       const main = {
@@ -688,20 +691,20 @@ describe('new-frameworks fix', () => {
       };
       await expect(checkNewFrameworks({ packageJson, main })).resolves.toEqual(
         expect.objectContaining({
-          dependenciesToAdd: ['@storybook/svelte-kit'],
+          dependenciesToAdd: ['@storybook/sveltekit'],
           dependenciesToRemove: ['storybook-builder-vite'],
-          frameworkPackage: '@storybook/svelte-kit',
+          frameworkPackage: '@storybook/sveltekit',
           rendererOptions: {},
         })
       );
     });
 
-    it('should migrate to @storybook/svelte-webpack5 in Svelte kit project that uses Webpack5 builder', async () => {
+    it('should migrate to @storybook/svelte-webpack5 in SvelteKit project that uses Webpack5 builder', async () => {
       const packageJson = {
         dependencies: {
           '@storybook/svelte': '^7.0.0-alpha.0',
           '@storybook/builder-webpack5': '^7.0.0-alpha.0',
-          '@sveltejs/kit': '^1.0.0-next.571',
+          '@sveltejs/kit': '^1.0.0',
         },
       };
       await expect(

@@ -187,7 +187,7 @@ export function copyTemplate(templateRoot: string, destination = '.') {
 }
 
 type CopyTemplateFilesOptions = {
-  packageManager?: JsPackageManager;
+  packageManager: JsPackageManager;
   renderer: SupportedFrameworks | SupportedRenderers;
   language: SupportedLanguage;
   includeCommonAssets?: boolean;
@@ -264,4 +264,8 @@ export function getStorybookVersionSpecifier(packageJson: PackageJsonWithDepsAnd
   }
 
   return allDeps[storybookPackage];
+}
+
+export function isNxProject(packageJSON: PackageJson) {
+  return !!packageJSON.devDependencies?.nx || fs.existsSync('nx.json');
 }

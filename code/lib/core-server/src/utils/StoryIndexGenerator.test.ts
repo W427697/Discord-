@@ -755,6 +755,17 @@ describe('StoryIndexGenerator', () => {
                 "title": "A",
                 "type": "story",
               },
+              "componentreference--docs": Object {
+                "id": "componentreference--docs",
+                "importPath": "./src/docs2/ComponentReference.mdx",
+                "name": "docs",
+                "storiesImports": Array [],
+                "tags": Array [
+                  "docs",
+                ],
+                "title": "ComponentReference",
+                "type": "docs",
+              },
               "docs2-yabbadabbadooo--docs": Object {
                 "id": "docs2-yabbadabbadooo--docs",
                 "importPath": "./src/docs2/Title.mdx",
@@ -802,6 +813,7 @@ describe('StoryIndexGenerator', () => {
           .toMatchInlineSnapshot(`
           Array [
             "A",
+            "titlePrefix/ComponentReference",
             "A",
             "titlePrefix/NoTitle",
             "A",
@@ -859,6 +871,17 @@ describe('StoryIndexGenerator', () => {
                 ],
                 "title": "A",
                 "type": "story",
+              },
+              "componentreference--info": Object {
+                "id": "componentreference--info",
+                "importPath": "./src/docs2/ComponentReference.mdx",
+                "name": "Info",
+                "storiesImports": Array [],
+                "tags": Array [
+                  "docs",
+                ],
+                "title": "ComponentReference",
+                "type": "docs",
               },
               "docs2-yabbadabbadooo--info": Object {
                 "id": "docs2-yabbadabbadooo--info",
@@ -918,6 +941,7 @@ describe('StoryIndexGenerator', () => {
         expect(Object.keys((await generator.getIndex()).entries)).toMatchInlineSnapshot(`
           Array [
             "a--story-one",
+            "componentreference--docs",
             "a--metaof",
             "notitle--docs",
             "a--second-docs",
@@ -947,6 +971,7 @@ describe('StoryIndexGenerator', () => {
         expect(Object.keys((await generator.getIndex()).entries)).toMatchInlineSnapshot(`
           Array [
             "a--story-one",
+            "componentreference--docs",
             "a--metaof",
             "notitle--docs",
             "a--second-docs",
@@ -978,6 +1003,7 @@ describe('StoryIndexGenerator', () => {
         expect(Object.keys((await generator.getIndex()).entries)).toMatchInlineSnapshot(`
           Array [
             "a--story-one",
+            "componentreference--story-one",
             "a--metaof",
             "notitle--story-one",
             "a--second-docs",
@@ -1003,8 +1029,43 @@ describe('StoryIndexGenerator', () => {
           type: 'story',
         };
         expect(() => {
-          generator.chooseDuplicate(mockEntry, mockEntry);
+          generator.chooseDuplicate(mockEntry, { ...mockEntry, importPath: 'DifferentPath' });
         }).toThrowErrorMatchingInlineSnapshot(`"Duplicate stories with id: StoryId"`);
+      });
+
+      it('DOES NOT warns when the same MDX file matches two specifiers', async () => {
+        const generator = new StoryIndexGenerator(
+          [storiesSpecifier, docsSpecifier, docsSpecifier],
+          options
+        );
+        await generator.initialize();
+
+        expect(Object.keys((await generator.getIndex()).entries)).toMatchInlineSnapshot(`
+          Array [
+            "a--story-one",
+            "componentreference--docs",
+            "a--metaof",
+            "notitle--docs",
+            "a--second-docs",
+            "docs2-yabbadabbadooo--docs",
+          ]
+        `);
+
+        expect(logger.warn).not.toHaveBeenCalled();
+      });
+
+      it('DOES NOT throw when the same CSF file matches two specifiers', async () => {
+        const generator = new StoryIndexGenerator([storiesSpecifier, storiesSpecifier], {
+          ...options,
+        });
+        await generator.initialize();
+        expect(Object.keys((await generator.getIndex()).entries)).toMatchInlineSnapshot(`
+          Array [
+            "a--story-one",
+          ]
+        `);
+
+        expect(logger.warn).not.toHaveBeenCalled();
       });
     });
   });
@@ -1037,6 +1098,7 @@ describe('StoryIndexGenerator', () => {
           "a--second-docs",
           "a--story-one",
           "second-nested-g--story-one",
+          "componentreference--docs",
           "notitle--docs",
           "first-nested-deeply-f--story-one",
         ]
@@ -1076,7 +1138,7 @@ describe('StoryIndexGenerator', () => {
         const generator = new StoryIndexGenerator([storiesSpecifier, docsSpecifier], options);
         await generator.initialize();
         await generator.getIndex();
-        expect(toId).toHaveBeenCalledTimes(5);
+        expect(toId).toHaveBeenCalledTimes(6);
 
         toIdMock.mockClear();
         await generator.getIndex();
@@ -1135,7 +1197,7 @@ describe('StoryIndexGenerator', () => {
         const generator = new StoryIndexGenerator([storiesSpecifier, docsSpecifier], options);
         await generator.initialize();
         await generator.getIndex();
-        expect(toId).toHaveBeenCalledTimes(5);
+        expect(toId).toHaveBeenCalledTimes(6);
 
         generator.invalidate(docsSpecifier, './src/docs2/Title.mdx', false);
 
@@ -1157,7 +1219,7 @@ describe('StoryIndexGenerator', () => {
         const generator = new StoryIndexGenerator([storiesSpecifier, docsSpecifier], options);
         await generator.initialize();
         await generator.getIndex();
-        expect(toId).toHaveBeenCalledTimes(5);
+        expect(toId).toHaveBeenCalledTimes(6);
 
         generator.invalidate(storiesSpecifier, './src/A.stories.js', false);
 
@@ -1257,7 +1319,7 @@ describe('StoryIndexGenerator', () => {
         const generator = new StoryIndexGenerator([docsSpecifier, storiesSpecifier], options);
         await generator.initialize();
         await generator.getIndex();
-        expect(toId).toHaveBeenCalledTimes(5);
+        expect(toId).toHaveBeenCalledTimes(6);
 
         expect(Object.keys((await generator.getIndex()).entries)).toContain('notitle--docs');
 
@@ -1279,7 +1341,7 @@ describe('StoryIndexGenerator', () => {
         const generator = new StoryIndexGenerator([docsSpecifier, storiesSpecifier], options);
         await generator.initialize();
         await generator.getIndex();
-        expect(toId).toHaveBeenCalledTimes(5);
+        expect(toId).toHaveBeenCalledTimes(6);
 
         expect(Object.keys((await generator.getIndex()).entries)).toContain('a--metaof');
 

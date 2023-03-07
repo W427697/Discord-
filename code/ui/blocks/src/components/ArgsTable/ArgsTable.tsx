@@ -2,7 +2,7 @@ import type { FC } from 'react';
 import React from 'react';
 import pickBy from 'lodash/pickBy.js';
 import { styled, ignoreSsrWarning } from '@storybook/theming';
-import { opacify, transparentize, darken, lighten } from 'polished';
+import { transparentize, darken, lighten } from 'polished';
 import { includeConditionalArg } from '@storybook/csf';
 import { once } from '@storybook/client-logger';
 import { IconButton, Icons, Link, ResetWrapper } from '@storybook/components';
@@ -21,7 +21,6 @@ export const TableWrapper = styled.table<{
   ({ theme, compact, inAddonPanel }) => ({
     '&&': {
       // Resets for cascading/system styles
-      borderCollapse: 'collapse',
       borderSpacing: 0,
       color: theme.color.defaultText,
 
@@ -104,10 +103,6 @@ export const TableWrapper = styled.table<{
         },
       },
 
-      // Table "block" styling
-      // Emphasize tbody's background and set borderRadius
-      // Calling out because styling tables is finicky
-
       // Makes border alignment consistent w/other DocBlocks
       marginLeft: inAddonPanel ? 0 : 1,
       marginRight: inAddonPanel ? 0 : 1,
@@ -131,34 +126,18 @@ export const TableWrapper = styled.table<{
       },
 
       tbody: {
-        // slightly different than the other DocBlock shadows to account for table styling gymnastics
-        boxShadow:
-          !inAddonPanel &&
-          (theme.base === 'light'
-            ? `rgba(0, 0, 0, 0.10) 0 1px 3px 1px,
-          ${transparentize(0.035, theme.appBorderColor)} 0 0 0 1px`
-            : `rgba(0, 0, 0, 0.20) 0 2px 5px 1px,
-          ${opacify(0.05, theme.appBorderColor)} 0 0 0 1px`),
-        borderRadius: theme.appBorderRadius,
-
-        // for safari only
-        // CSS hack courtesy of https://stackoverflow.com/questions/16348489/is-there-a-css-hack-for-safari-only-not-chrome
-        '@media not all and (min-resolution:.001dpcm)': {
-          '@supports (-webkit-appearance:none)': {
-            borderWidth: 1,
-            borderStyle: 'solid',
-            ...(inAddonPanel && {
-              borderColor: 'transparent',
-            }),
-
-            ...(!inAddonPanel && {
-              borderColor:
+        // Safari doesn't love shadows on tbody so we need to use a shadow filter. In order to do this,
+        // the table cells all need to be solid so they have a background color applied.
+        // I wasn't sure what kinds of content go in these tables so I was extra specific with selectors
+        // to avoid unexpected surprises.
+        ...(inAddonPanel
+          ? null
+          : {
+              filter:
                 theme.base === 'light'
-                  ? transparentize(0.035, theme.appBorderColor)
-                  : opacify(0.05, theme.appBorderColor),
+                  ? `drop-shadow(0px 1px 3px rgba(0, 0, 0, 0.10))`
+                  : `drop-shadow(0px 1px 3px rgba(0, 0, 0, 0.20))`,
             }),
-          },
-        },
 
         tr: {
           background: 'transparent',
@@ -186,9 +165,42 @@ export const TableWrapper = styled.table<{
 
         td: {
           background: theme.background.content,
+          borderTop: `1px solid ${theme.appBorderColor}`,
         },
+
+        ...(inAddonPanel
+          ? null
+          : {
+              // This works and I don't know why. :)
+              '> tr:first-of-type > *': {
+                borderBlockStart: `1px solid ${theme.appBorderColor}`,
+              },
+              '> tr:last-of-type > *': {
+                borderBlockEnd: `1px solid ${theme.appBorderColor}`,
+              },
+              '> tr > *:first-of-type': {
+                borderInlineStart: `1px solid ${theme.appBorderColor}`,
+              },
+              '> tr > *:last-of-type': {
+                borderInlineEnd: `1px solid ${theme.appBorderColor}`,
+              },
+
+              // Thank you, Safari, for making me write code like this.
+              '> tr:first-of-type > td:first-of-type': {
+                borderTopLeftRadius: theme.appBorderRadius,
+              },
+              '> tr:first-of-type > td:last-of-type': {
+                borderTopRightRadius: theme.appBorderRadius,
+              },
+              '> tr:last-of-type > td:first-of-type': {
+                borderBottomLeftRadius: theme.appBorderRadius,
+              },
+              '> tr:last-of-type > td:last-of-type': {
+                borderBottomRightRadius: theme.appBorderRadius,
+              },
+            }),
       },
-      // End finicky table styling
+      // End awesome table styling
     },
   }),
   ({ isLoading, theme }) =>

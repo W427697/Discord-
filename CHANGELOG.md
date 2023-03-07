@@ -1,3 +1,148 @@
+## 7.0.0-beta.62 (March 6, 2023)
+
+#### Bug Fixes
+
+-   Vite: Add react docgen types [#21338](https://github.com/storybooks/storybook/pull/21338)
+-   Core: Print errors in `withTelemetry` before prompting [#21407](https://github.com/storybooks/storybook/pull/21407)
+-   Add Angular Builder Codemods [#21409](https://github.com/storybooks/storybook/pull/21409)
+-   Docs: Use async import rather than require in docs [#21402](https://github.com/storybooks/storybook/pull/21402)
+-   Docs: Don't warn if we find the same entry twice [#21403](https://github.com/storybooks/storybook/pull/21403)
+-   Telemetry: Ensure we report errors even when unexpected things happen [#21416](https://github.com/storybooks/storybook/pull/21416)
+-   CLI: Fix versions.ts to install latest prerelease packages [#21418](https://github.com/storybooks/storybook/pull/21418)
+-   Core: Remove pointless `module.hot.decline()` in addons [#21421](https://github.com/storybooks/storybook/pull/21421)
+-   Docs: Allow ArgTable usage unattached [#21371](https://github.com/storybooks/storybook/pull/21371)
+
+#### Maintenance
+
+-   Addon-docs: Polish styling for 7.0 [#21255](https://github.com/storybooks/storybook/pull/21255)
+
+## 7.0.0-beta.61 (March 4, 2023)
+
+#### Features
+
+-   Docs: Show MDX errors using our error overlay [#21369](https://github.com/storybooks/storybook/pull/21369)
+
+#### Bug Fixes
+
+-   Core: Remove state deprecation warnings by default [#21367](https://github.com/storybooks/storybook/pull/21367)
+-   Core: Fix default export storySort handling [#21389](https://github.com/storybooks/storybook/pull/21389)
+-   Vue3: Add slot TS types  [#21359](https://github.com/storybooks/storybook/pull/21359)
+-   Docs: Fix issue with referencing non-story files with names similar or equal to docs files [#21348](https://github.com/storybooks/storybook/pull/21348)
+
+#### Maintenance
+
+-   Docs: Update invalid `<Meta of={}>` error to be more helpful. [#21365](https://github.com/storybooks/storybook/pull/21365)
+
+#### Dependency Upgrades
+
+-   Upgrade react-docgen-typescript-plugin for TS4.8 [#21380](https://github.com/storybooks/storybook/pull/21380)
+
+## 7.0.0-beta.60 (March 3, 2023)
+
+#### Bug Fixes
+
+-   Core: Fix storySort parsing in preview.js with default export [#21353](https://github.com/storybooks/storybook/pull/21353)
+-   CLI: Remove the workspace root flag from the install command for yarn2 [#21356](https://github.com/storybooks/storybook/pull/21356)
+-   Svelte/Vite: Prevent crash when no svelte.config file [#21339](https://github.com/storybooks/storybook/pull/21339)
+-   Use stable Next.js v13.2.0 next/font [#21247](https://github.com/storybooks/storybook/pull/21247)
+
+#### Dependency Upgrades
+
+-   Bump version of get-tarball [#21355](https://github.com/storybooks/storybook/pull/21355)
+
+## 7.0.0-beta.59 (March 2, 2023)
+
+#### Bug Fixes
+
+-   CLI: Improve yarn/pnpm workspaces support for adding dependencies in CLI [#21331](https://github.com/storybooks/storybook/pull/21331)
+-   Core: Fix `manager.js` ignored when `sideEffects:false` in `package.json` [#21335](https://github.com/storybooks/storybook/pull/21335)
+-   Vite: Fix glob path creation for Windows [#21305](https://github.com/storybookjs/storybook/pull/21305)
+
+## 7.0.0-beta.58 (March 1, 2023)
+
+#### Bug Fixes
+
+-   UI: Fix enableShortcuts, exclude it from being persisted [#21291](https://github.com/storybooks/storybook/pull/21291)
+-   NextJS: Fix type references in Next.js >= 13.2.0 [#21304](https://github.com/storybooks/storybook/pull/21304)
+-   CLI: Fix formatting of autodocs-true automigration [#21314](https://github.com/storybooks/storybook/pull/21314)
+-   Docs: Remove warning when browsing away in React [#21214](https://github.com/storybooks/storybook/pull/21214)
+
+#### Maintenance
+
+-   CLI: Fix security report around `download-tarball` package [#21201](https://github.com/storybooks/storybook/pull/21201)
+-   CSF-Tools/Codemods: Un-bundle babel, limit semver range of babel packages [#21326](https://github.com/storybooks/storybook/pull/21326)
+
+## 7.0.0-beta.57 (March 1, 2023)
+
+#### Bug Fixes
+
+-   CSF-tools/Codemods: Pre-bundle all babel related packages [#21301](https://github.com/storybooks/storybook/pull/21301)
+-   UI: Fix height adjustment in ZoomElement in Safari [#21174](https://github.com/storybooks/storybook/pull/21174)
+
+## 7.0.0-beta.56 (March 1, 2023)
+
+#### Bug Fixes
+
+-   Core: Improve framework field validation [#21299](https://github.com/storybooks/storybook/pull/21299)
+-   SvelteKit: Only disable SSR when building, not serving [#21290](https://github.com/storybooks/storybook/pull/21290)
+-   CLI: Account for legacy framework values in automigration [#21184](https://github.com/storybooks/storybook/pull/21184)
+-   TypeScript: Add `env` type to BuilderOptions [#21173](https://github.com/storybooks/storybook/pull/21173)
+-   Core: Reverse order of project decorators [#21182](https://github.com/storybooks/storybook/pull/21182)
+
+#### Maintenance
+
+-   React-webpack: Fix dependencies to remove peerDep warnings [#21278](https://github.com/storybooks/storybook/pull/21278)
+
+#### Build
+
+-   Build: Improve sandbox task logs [#21296](https://github.com/storybooks/storybook/pull/21296)
+
+## 7.0.0-beta.55 (February 27, 2023)
+
+#### Bug Fixes
+
+-   NextJS: Fix next/babel preset [#21104](https://github.com/storybooks/storybook/pull/21104)
+-   CLI: Pass config dir from upgrade to automigration [#21270](https://github.com/storybooks/storybook/pull/21270)
+-   Docs: Show errors when stories throw in docs [#21212](https://github.com/storybooks/storybook/pull/21212)
+-   CLI: Fix performance regression of storybook dev [#21269](https://github.com/storybooks/storybook/pull/21269)
+
+#### Build
+
+-   Build: Remove jest_workaround swc package by adding extra jest.mock functions [#21249](https://github.com/storybooks/storybook/pull/21249)
+-   Build: Upgrade playwright & re-enable bench [#21241](https://github.com/storybooks/storybook/pull/21241)
+
+## 7.0.0-beta.54 (February 24, 2023)
+
+#### Features
+
+-   Core: Add `preview.js` default export support [#21227](https://github.com/storybooks/storybook/pull/21227)
+-   TypeScript: Add preview type and update CLI template [#21205](https://github.com/storybooks/storybook/pull/21205)
+-   Autodocs: Hide Stories block when only primary story exists [#21178](https://github.com/storybooks/storybook/pull/21178)
+-   CLI: Add automigration for GFM in MDX [#21186](https://github.com/storybooks/storybook/pull/21186)
+
+#### Bug Fixes
+
+-   Docs: Remove `react-dom@18` warning in docs [#21197](https://github.com/storybooks/storybook/pull/21197)
+-   mdx-to-csf codemod: Fix wrong export referenced in generated mdx [#21226](https://github.com/storybooks/storybook/pull/21226)
+-   Preact: Enable ts plugin by default [#21225](https://github.com/storybooks/storybook/pull/21225)
+-   pnpm: Fix run command for pnpm API [#21165](https://github.com/storybooks/storybook/pull/21165)
+-   Angular: Properly destroy component when switching to another Story [#21219](https://github.com/storybooks/storybook/pull/21219)
+-   CLI: Fix SvelteKit automigration package name [#21210](https://github.com/storybooks/storybook/pull/21210)
+-   Angular: Initialize .storybook without references to root in sub projects [#21202](https://github.com/storybooks/storybook/pull/21202)
+
+#### Maintenance
+
+-   CLI: Only run useful automigrations on init [#21203](https://github.com/storybooks/storybook/pull/21203)
+
+#### Build
+
+-   Build: Disable broken cra-bench [#21238](https://github.com/storybooks/storybook/pull/21238)
+-   Revert "Remove vue-cli as sandbox template is currently busted" [#21237](https://github.com/storybooks/storybook/pull/21237)
+-   Build: Add mixed exports test case to composeConfigs [#21230](https://github.com/storybooks/storybook/pull/21230)
+-   Build: pass debug option to sandbox generate task [#21200](https://github.com/storybooks/storybook/pull/21200)
+-   Build: add @storybook/bench [#21199](https://github.com/storybooks/storybook/pull/21199)
+-   Build: Fix Playwright to v1.30.0 [#21194](https://github.com/storybooks/storybook/pull/21194)
+
 ## 7.0.0-beta.53 (February 22, 2023)
 
 #### Features

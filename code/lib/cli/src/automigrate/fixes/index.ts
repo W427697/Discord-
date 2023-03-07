@@ -17,10 +17,12 @@ import { addReact } from './add-react';
 import { nodeJsRequirement } from './nodejs-requirement';
 import { missingBabelRc } from './missing-babelrc';
 import { bareMdxStoriesGlob } from './bare-mdx-stories-glob';
+import { angularBuilders } from './angular-builders';
+import { angularBuildersMultiproject } from './angular-builders-multiproject';
 
 export * from '../types';
 
-export const fixes: Fix[] = [
+export const allFixes: Fix[] = [
   nodeJsRequirement,
   cra5,
   webpack5,
@@ -38,4 +40,8 @@ export const fixes: Fix[] = [
   autodocsTrue,
   addReact,
   missingBabelRc,
+  angularBuildersMultiproject,
+  angularBuilders,
 ];
+
+export const initFixes: Fix[] = [missingBabelRc, eslintPlugin];

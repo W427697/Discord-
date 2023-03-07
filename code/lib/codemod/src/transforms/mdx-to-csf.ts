@@ -56,7 +56,6 @@ export function transform(source: string, baseName: string): [mdx: string, csf: 
   const root = mdxProcessor.parse(source);
   const storyNamespaceName = nameToValidExport(`${baseName}Stories`);
 
-  let containsMeta = false;
   const metaAttributes: Array<MdxJsxAttribute | MdxJsxExpressionAttribute> = [];
   const storiesMap = new Map<
     string,
@@ -80,12 +79,14 @@ export function transform(source: string, baseName: string): [mdx: string, csf: 
       .replaceAll('@storybook/addon-docs/blocks', '@storybook/blocks');
   });
 
+  const file = getEsmAst(root);
+  addStoriesImport(root, baseName, storyNamespaceName);
+
   visit(
     root,
     ['mdxJsxFlowElement', 'mdxJsxTextElement'],
     (node: MdxJsxFlowElement | MdxJsxTextElement, index, parent) => {
       if (is(node, { name: 'Meta' })) {
-        containsMeta = true;
         metaAttributes.push(...node.attributes);
         node.attributes = [
           {
@@ -109,7 +110,9 @@ export function transform(source: string, baseName: string): [mdx: string, csf: 
           (it) => it.type === 'mdxJsxAttribute' && it.name === 'story'
         );
         if (typeof nameAttribute?.value === 'string') {
-          const name = nameToValidExport(nameAttribute.value);
+          let name = nameToValidExport(nameAttribute.value);
+          while (variableNameExists(name)) name += '_';
+
           storiesMap.set(name, {
             type: 'value',
             attributes: node.attributes,
@@ -176,17 +179,14 @@ export function transform(source: string, baseName: string): [mdx: string, csf: 
         return [t.objectProperty(t.identifier(attribute.name), t.stringLiteral(attribute.value))];
       }
       return [
-        t.objectProperty(t.identifier(attribute.name), babelParseExpression(attribute.value.value)),
+        t.objectProperty(
+          t.identifier(attribute.name),
+          babelParseExpression(attribute.value.value) as any as t.Expression
+        ),
       ];
     }
     return [];
   });
-
-  const file = getEsmAst(root);
-
-  if (containsMeta || storiesMap.size > 0) {
-    addStoriesImport(root, baseName, storyNamespaceName);
-  }
 
   file.path.traverse({
     // remove mdx imports from csf
@@ -219,7 +219,7 @@ export function transform(source: string, baseName: string): [mdx: string, csf: 
       return t.arrowFunctionExpression([], t.stringLiteral(child.value));
     }
     if (child.type === 'mdxFlowExpression' || child.type === 'mdxTextExpression') {
-      const expression = babelParseExpression(child.value);
+      const expression = babelParseExpression(child.value) as any as t.Expression;
 
       // Recreating those lines: https://github.com/storybookjs/mdx1-csf/blob/f408fc97e9a63097ca1ee577df9315a3cccca975/src/sb-mdx-plugin.ts#L185-L198
       const BIND_REGEX = /\.bind\(.*\)/;
@@ -237,7 +237,7 @@ export function transform(source: string, baseName: string): [mdx: string, csf: 
 
     const expression = babelParseExpression(
       mdxProcessor.stringify({ type: 'root', children: [child] })
-    );
+    ) as any as t.Expression;
     return t.arrowFunctionExpression([], expression);
   }
 
@@ -275,7 +275,7 @@ export function transform(source: string, baseName: string): [mdx: string, csf: 
             return [
               t.objectProperty(
                 t.identifier(attribute.name),
-                babelParseExpression(attribute.value.value)
+                babelParseExpression(attribute.value.value) as any as t.Expression
               ),
             ];
           }
@@ -283,16 +283,9 @@ export function transform(source: string, baseName: string): [mdx: string, csf: 
         }),
       ]);
 
-      let newExportName = key;
-      while (variableNameExists(newExportName)) {
-        newExportName += '_';
-      }
-
       return [
         t.exportNamedDeclaration(
-          t.variableDeclaration('const', [
-            t.variableDeclarator(t.identifier(newExportName), newObject),
-          ])
+          t.variableDeclaration('const', [t.variableDeclarator(t.identifier(key), newObject)])
         ),
       ];
     })
