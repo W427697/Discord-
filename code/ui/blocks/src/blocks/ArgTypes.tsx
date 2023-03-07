@@ -70,5 +70,7 @@ export const ArgTypes: FC<ArgTypesProps> = (props) => {
 
   const filteredArgTypes = filterArgTypes(argTypes, include, exclude);
 
+  if ('of' in props && !props.of) throw new Error('Unexpected `of={}` with undefined prop');
+
   return <PureArgsTable rows={filteredArgTypes} sort={sort} />;
 };
