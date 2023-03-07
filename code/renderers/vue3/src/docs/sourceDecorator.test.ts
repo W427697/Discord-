@@ -3,7 +3,7 @@ import type { Args } from '@storybook/types';
 
 import type { ArgsType } from 'jest-mock';
 import {
-  generateSource,
+  generateTemplateSource,
   getComponentsFromTemplate,
   mapAttributesAndDirectives,
   generateAttributesSource,
@@ -28,7 +28,7 @@ function generateForArgs(
   template = '<Component />'
 ) {
   const components = getComponentsFromTemplate(template);
-  return generateSource(components, args, generateArgTypes(args, slotProps), true);
+  return generateTemplateSource(components, args, generateArgTypes(args, slotProps), true);
 }
 
 describe('Vue3: sourceDecorator->mapAttributesAndDirective()', () => {

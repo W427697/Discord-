@@ -1,6 +1,6 @@
 /* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable no-underscore-dangle */
-import { addons, useEffect } from '@storybook/preview-api';
+import { addons } from '@storybook/preview-api';
 import type { ArgTypes, Args, StoryContext, Renderer } from '@storybook/types';
 
 import { getDocgenSection, SourceType, SNIPPET_RENDERED } from '@storybook/docs-tools';
@@ -14,7 +14,7 @@ import type {
   TemplateChildNode,
 } from '@vue/compiler-core';
 import { baseParse } from '@vue/compiler-core';
-import { h } from 'vue';
+import { h, watch } from 'vue';
 import { camelCase, kebabCase } from 'lodash';
 import {
   attributeSource,
@@ -138,23 +138,23 @@ function generateScriptSetup(args: Args, argTypes: ArgTypes, components: any[]):
   return `<script lang='ts' setup>${scriptLines.join('\n')}</script>`;
 }
 /**
- * get component templates one or more
+ * get template components one or more
  * @param renderFn
  */
-function getComponentsFromRenderFn(
+function getTemplateComponents(
   renderFn: any,
   context?: StoryContext<Renderer>
 ): TemplateChildNode[] {
   try {
     const { template } = context ? renderFn(context.args, context) : renderFn();
     if (!template) return [];
-    return getComponentsFromTemplate(template);
+    return getComponents(template);
   } catch (e) {
     return [];
   }
 }
 
-function getComponentsFromTemplate(template: string): TemplateChildNode[] {
+function getComponents(template: string): TemplateChildNode[] {
   const ast = baseParse(template);
   const components = ast?.children;
   if (!components) return [];
@@ -170,7 +170,7 @@ function getComponentsFromTemplate(template: string): TemplateChildNode[] {
  * @param slotProp Prop used to simulate a slot
  */
 
-export function generateSource(
+export function generateTemplateSource(
   componentOrNodes: (VueStoryComponent | TemplateChildNode)[] | TemplateChildNode,
   args: Args,
   argTypes: ArgTypes,
@@ -226,7 +226,6 @@ export function generateSource(
         ? `<${name} ${propsSource}/>`
         : `<${name} ${propsSource}>${childSources}</${name}>`;
     }
-
     return null;
   };
 
@@ -243,46 +242,31 @@ export function generateSource(
  * @param context  StoryContext
  */
 export const sourceDecorator = (storyFn: any, context: StoryContext<Renderer>) => {
-  const channel = addons.getChannel();
   const skip = skipSourceRender(context);
   const story = storyFn();
-  let source: string;
-  useEffect(() => {
-    if (!skip && source) {
-      const { id, args } = context;
-      channel.emit(SNIPPET_RENDERED, { id, args, source, format: 'vue' });
-    }
-  });
+  watch(
+    () => context.args,
+    () => {
+      if (!skip) {
+        generateSource(context);
+      }
+    },
+    { immediate: true, deep: true }
+  );
+  return story;
+};
 
-  if (skip) {
-    return story;
-  }
-
-  const { args = {}, component: ctxtComponent, argTypes = {} } = context || {};
-
-  const components = getComponentsFromRenderFn(context?.originalStoryFn, context);
-
+export function generateSource(context: StoryContext<Renderer>) {
+  const channel = addons.getChannel();
+  const { args = {}, component: ctxtComponent, argTypes = {}, id } = context || {};
+  const components = getTemplateComponents(context?.originalStoryFn, context);
   const storyComponent = components.length ? components : (ctxtComponent as TemplateChildNode);
 
   const withScript = context?.parameters?.docs?.source?.withScriptSetup || false;
   const generatedScript = withScript ? generateScriptSetup(args, argTypes, components) : '';
-  const generatedTemplate = generateSource(storyComponent, args, argTypes, withScript);
-
+  const generatedTemplate = generateTemplateSource(storyComponent, context.args, context.argTypes);
   if (generatedTemplate) {
-    source = `${generatedScript}\n <template>\n ${generatedTemplate} \n</template>`;
-  }
-
-  return story;
-};
-
-export function getTemplateSource(context: StoryContext<Renderer>) {
-  const channel = addons.getChannel();
-  const components = getComponentsFromRenderFn(context?.originalStoryFn, context);
-  const storyComponent = components.length ? components : (context.component as TemplateChildNode);
-  const generatedTemplate = generateSource(storyComponent, context.args, context.argTypes);
-  if (generatedTemplate) {
-    const source = `<template>\n ${generatedTemplate} \n</template>`;
-    const { id, args } = context;
+    const source = `${generatedScript}\n <template>\n ${generatedTemplate} \n</template>`;
     channel.emit(SNIPPET_RENDERED, { id, args, source, format: 'vue' });
     return source;
   }
@@ -291,8 +275,8 @@ export function getTemplateSource(context: StoryContext<Renderer>) {
 // export local function for testing purpose
 export {
   generateScriptSetup,
-  getComponentsFromRenderFn,
-  getComponentsFromTemplate,
+  getTemplateComponents as getComponentsFromRenderFn,
+  getComponents as getComponentsFromTemplate,
   mapAttributesAndDirectives,
   attributeSource,
   htmlEventAttributeToVueEventAttribute,

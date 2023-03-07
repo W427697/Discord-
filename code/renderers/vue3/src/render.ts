@@ -1,10 +1,9 @@
 /* eslint-disable no-param-reassign */
 import { createApp, h, isReactive, reactive, watch } from 'vue';
 import type { RenderContext, ArgsStoryFn } from '@storybook/types';
-import type { Globals, Args, StoryContext, Renderer } from '@storybook/csf';
+import type { Globals, Args, StoryContext } from '@storybook/csf';
 import { global as globalThis } from '@storybook/global';
 import type { StoryFnVueReturnType, VueRenderer } from './types';
-import { getTemplateSource as generateTemplateSource } from './docs/sourceDecorator';
 
 export const render: ArgsStoryFn<VueRenderer> = (props, context) => {
   const { id, component: Component } = context;
@@ -43,9 +42,7 @@ export function renderToCanvas(
   // if the story is already rendered and we are not forcing a remount, we just update the reactive args
   if (existingApp && !forceRemount) {
     if (reactiveState) reactiveState.globals = storyContext.globals;
-
     updateArgs(existingApp.reactiveArgs, storyContext.args);
-    generateTemplateSource(storyContext as StoryContext<Renderer, Args>);
     return () => {
       teardown(existingApp.vueApp, canvasElement);
     };
