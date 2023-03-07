@@ -4181,7 +4181,7 @@ We're sorry if this inconveniences you, we have tried via this document and prov
 
 Storybook will now use webpack 2 (and only webpack 2).
 If you are using a custom `webpack.config.js` you need to change this to be compatible.
-You can find the guide to upgrading your webpack config [on webpack.js.org](https://webpack.js.org/guides/migrating/).
+You can find the guide to upgrading your webpack config on [webpack.js.org](https://webpack.js.org/migrate/5/).
 
 ### Packages renaming
 
