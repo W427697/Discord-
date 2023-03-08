@@ -49,7 +49,7 @@ export const addReact: Fix<AddReactOptions> = {
     return dedent`
       We've detected that you're using ${dependentsFormatted}.
       
-      Starting in Storybook 7, we now require these peer dependencies to render MDX docs:
+      Starting in Storybook 7, we now require these peer dependencies to render docs:
 
       ${additionalDependenciesFormatted}
 
