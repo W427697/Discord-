@@ -8,7 +8,7 @@ const omitEvent = (args: Args): Args =>
   Object.fromEntries(Object.entries(args).filter(([key, value]) => !key.startsWith('on')));
 
 const displayObject = (obj: any): string | boolean | number => {
-  if (typeof obj === 'object') {
+  if (obj && typeof obj === 'object') {
     return `{${Object.keys(obj)
       .map((key) => `${key}:${displayObject(obj[key])}`)
       .join(',')}}`;

@@ -1,5 +1,5 @@
 /* eslint-disable no-param-reassign */
-import { createApp, h, isReactive, reactive, watch } from 'vue';
+import { createApp, h, isReactive, isVNode, reactive, watch } from 'vue';
 import type { RenderContext, ArgsStoryFn } from '@storybook/types';
 import type { Globals, Args, StoryContext } from '@storybook/csf';
 import { global as globalThis } from '@storybook/global';
@@ -76,10 +76,10 @@ export function renderToCanvas(
       });
     },
     renderTracked(event) {
-      console.log('vueApp renderTracked', event); // this works only in dev mode
+      // console.log('vueApp renderTracked', event); // this works only in dev mode
     },
     renderTriggered(event) {
-      console.log('vueApp renderTriggered', event); // this works only in dev mode
+      // console.log('vueApp renderTriggered', event); // this works only in dev mode
     },
   });
   vueApp.config.errorHandler = (e: unknown) => showException(e as Error);
@@ -99,7 +99,9 @@ function getSlots(context: StoryContext<VueRenderer, Args>) {
     .map(([key, value]) => [
       key,
       () => {
-        if (typeof context.args[key] === 'function') return h(context.args[key]);
+        if (typeof context.args[key] === 'function' || isVNode(context.args[key]))
+          return h(context.args[key]);
+        if (Array.isArray(context.args[key])) return context.args[key].map((item: any) => h(item));
         if (typeof context.args[key] === 'object') return JSON.stringify(context.args[key]);
         if (typeof context.args[key] === 'string') return context.args[key];
         return context.args[key];

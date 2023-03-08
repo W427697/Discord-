@@ -32,24 +32,24 @@ function prepare(
       ...normalizeFunctionalComponent(story),
       components: { ...(story.components || {}), story: innerStory },
       renderTracked(event) {
-        console.log('innerStory renderTracked', event); // this works only in dev mode
+        // console.log('innerStory renderTracked', event); // this works only in dev mode
       },
       renderTriggered(event) {
-        console.log('innerStory renderTriggered', event);
+        // console.log('innerStory renderTriggered', event);
       },
     };
   }
 
   return {
     render() {
-      console.log('story render', story, this.$slots);
+      // console.log('story render', story, this.$slots);
       return h(story);
     },
     renderTracked(event) {
-      console.log('story renderTracked', event); // this works only in dev mode
+      // console.log('story renderTracked', event); // this works only in dev mode
     },
     renderTriggered(event) {
-      console.log('story renderTriggered', event);
+      // console.log('story renderTriggered', event);
     },
   };
 }
