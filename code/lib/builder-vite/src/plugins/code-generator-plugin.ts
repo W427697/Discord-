@@ -44,7 +44,7 @@ export function codeGeneratorPlugin(options: Options): Plugin {
 
       server.watcher.on('add', (path) => {
         // TODO maybe use the stories declaration in main
-        if (/\.stories\.([tj])sx?$/.test(path) || /\.(story|stories).mdx$/.test(path)) {
+        if (/\.stories\.([tj])sx?$/.test(path) || /\.mdx$/.test(path)) {
           // We need to emit a change event to trigger HMR
           server.watcher.emit('change', virtualStoriesFile);
         }
