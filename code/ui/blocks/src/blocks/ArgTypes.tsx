@@ -60,6 +60,9 @@ function getArgTypesFromResolved(resolved: ReturnType<typeof useOf>, props: ArgT
 
 export const ArgTypes: FC<ArgTypesProps> = (props) => {
   const { of } = props;
+  if ('of' in props && of === undefined) {
+    throw new Error('Unexpected `of={undefined}`, did you mistype a CSF file reference?');
+  }
   const resolved = useOf(of || 'meta');
   const { argTypes, parameters } = getArgTypesFromResolved(resolved, props);
   const argTypesParameters = parameters.docs?.argTypes || ({} as ArgTypesParameters);
@@ -69,8 +72,6 @@ export const ArgTypes: FC<ArgTypesProps> = (props) => {
   const sort = props.sort ?? argTypesParameters.sort;
 
   const filteredArgTypes = filterArgTypes(argTypes, include, exclude);
-
-  if ('of' in props && !props.of) throw new Error('Unexpected `of={}` with undefined prop');
 
   return <PureArgsTable rows={filteredArgTypes} sort={sort} />;
 };
