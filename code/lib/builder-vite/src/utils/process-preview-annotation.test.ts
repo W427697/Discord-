@@ -41,15 +41,27 @@ describe('processPreviewAnnotation()', () => {
     expect(url).toBe('storybook-addon/preview');
   });
 
-  it('should convert relative paths outside the root into absolute', () => {
+  it.skipWindows('should convert relative paths outside the root into absolute', () => {
     const annotation = '../parent.js';
     const url = processPreviewAnnotation(annotation, '/Users/foo/storybook/');
     expect(url).toBe('/Users/foo/parent.js');
   });
 
-  it('should not change absolute paths outside of the project root', () => {
+  it.onWindows('should convert relative paths outside the root into absolute on Windows', () => {
+    const annotation = '../parent.js';
+    const url = processPreviewAnnotation(annotation, 'C:/Users/foo/storybook/');
+    expect(url).toBe('C:/Users/foo/parent.js');
+  });
+
+  it.skipWindows('should not change absolute paths outside of the project root', () => {
     const annotation = '/Users/foo/parent.js';
     const url = processPreviewAnnotation(annotation, '/Users/foo/storybook/');
+    expect(url).toBe(annotation);
+  });
+
+  it.onWindows('should not change Windows absolute paths outside of the project root', () => {
+    const annotation = 'D:/Users/foo/parent.js';
+    const url = processPreviewAnnotation(annotation, 'D:/Users/foo/storybook/');
     expect(url).toBe(annotation);
   });
 });
