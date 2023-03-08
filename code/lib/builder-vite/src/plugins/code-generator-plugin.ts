@@ -110,7 +110,7 @@ export function codeGeneratorPlugin(options: Options): Plugin {
         if (storyStoreV7) {
           return generateModernIframeScriptCode(options, projectRoot);
         }
-        return generateIframeScriptCode(options);
+        return generateIframeScriptCode(options, projectRoot);
       }
 
       if (id === iframeId) {
