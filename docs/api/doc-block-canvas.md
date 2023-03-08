@@ -49,7 +49,6 @@ The following `sourceState` configurations are equivalent:
     'web-components/api-doc-block-canvas-parameter.ts.mdx',
     'common/api-doc-block-canvas-parameter.js.mdx',
     'common/api-doc-block-canvas-parameter.ts.mdx',
-    'common/api-doc-block-canvas-parameter.ts-4-9.mdx',
   ]}
 />
 

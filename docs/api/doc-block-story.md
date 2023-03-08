@@ -49,7 +49,6 @@ The following `autoplay` configurations are equivalent:
     'web-components/api-doc-block-story-parameter.ts.mdx',
     'common/api-doc-block-story-parameter.js.mdx',
     'common/api-doc-block-story-parameter.ts.mdx',
-    'common/api-doc-block-story-parameter.ts-4-9.mdx',
   ]}
 />
 

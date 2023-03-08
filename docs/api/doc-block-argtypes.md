@@ -48,7 +48,6 @@ The following `exclude` configurations are equivalent:
     'web-components/api-doc-block-argtypes-parameter.ts.mdx',
     'common/api-doc-block-argtypes-parameter.js.mdx',
     'common/api-doc-block-argtypes-parameter.ts.mdx',
-    'common/api-doc-block-argtypes-parameter.ts-4-9.mdx',
   ]}
 />
 
