@@ -55,10 +55,11 @@ In such cases, it is natural to use [args composition](./args.md#args-compositio
 
 <CodeSnippets
   paths={[
-    'common/page-story-with-args-composition.js.mdx',
-    'common/page-story-with-args-composition.ts.mdx',
+    'angular/page-story-with-args-composition.ts.mdx',
     'web-components/page-story-with-args-composition.js.mdx',
     'web-components/page-story-with-args-composition.ts.mdx',
+    'common/page-story-with-args-composition.js.mdx',
+    'common/page-story-with-args-composition.ts.mdx',
   ]}
   usesCsf3
   csf2Path="writing-stories/build-pages-with-storybook#snippet-page-story-with-args-composition"
@@ -154,10 +155,11 @@ To test your screen with the mocked data, you could write a similar set of stori
 
 <CodeSnippets
   paths={[
-    'common/documentscreen-story-msw-rest-request.js.mdx',
-    'common/documentscreen-story-msw-rest-request.ts.mdx',
+    'angular/documentscreen-story-msw-rest-request.ts.mdx',
     'web-components/documentscreen-story-msw-rest-request.js.mdx',
     'web-components/documentscreen-story-msw-rest-request.ts.mdx',
+    'common/documentscreen-story-msw-rest-request.js.mdx',
+    'common/documentscreen-story-msw-rest-request.ts.mdx',
   ]}
   usesCsf3
   csf2Path="writing-stories/build-pages-with-storybook#snippet-documentscreen-story-msw-rest-request"
@@ -264,10 +266,11 @@ Finally, we can set the mock values in a specific story. Let's borrow an example
 
 <CodeSnippets
   paths={[
-    'common/app-story-with-mock.js.mdx',
-    'common/app-story-with-mock.ts.mdx',
+    'angular/app-story-with-mock.ts.mdx',
     'web-components/app-story-with-mock.js.mdx',
     'web-components/app-story-with-mock.ts.mdx',
+    'common/app-story-with-mock.js.mdx',
+    'common/app-story-with-mock.ts.mdx',
   ]}
   usesCsf3
   csf2Path="writing-stories/build-pages-with-storybook#snippet-app-story-with-mock"

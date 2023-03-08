@@ -82,6 +82,8 @@ Storybook provides zero-config TypeScript support, allowing you to write stories
 
 <CodeSnippets
   paths={[
+    'angular/button-story-baseline.ts.mdx',
+    'web-components/button-story-baseline.ts.mdx',
     'common/button-story-baseline.ts.mdx',
   ]}
 />

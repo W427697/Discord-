@@ -93,6 +93,9 @@ When Storybook loads, it will enable you to access them in your stories similar 
 
 <CodeSnippets
   paths={[
+    'angular/my-component-env-var-config.ts.mdx',
+    'web-components/my-component-env-var-config.js.mdx',
+    'web-components/my-component-env-var-config.ts.mdx',
     'common/my-component-env-var-config.js.mdx',
     'common/my-component-env-var-config.ts.mdx',
   ]}

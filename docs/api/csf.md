@@ -26,6 +26,9 @@ The `component` field is required and used by addons for automatic prop table ge
 
 <CodeSnippets
   paths={[
+    'angular/my-component-story-mandatory-export.ts.mdx',
+    'web-components/my-component-story-mandatory-export.js.mdx',
+    'web-components/my-component-story-mandatory-export.ts.mdx',
     'common/my-component-story-mandatory-export.js.mdx',
     'common/my-component-story-mandatory-export.ts.mdx',
   ]}
@@ -78,6 +81,9 @@ Storybook's `name` configuration element is helpful in specific circumstances. C
 
 <CodeSnippets
   paths={[
+    'angular/my-component-story-with-storyname.ts.mdx',
+    'web-components/my-component-story-with-storyname.js.mdx',
+    'web-components/my-component-story-with-storyname.ts.mdx',
     'common/my-component-story-with-storyname.js.mdx',
     'common/my-component-story-with-storyname.ts.mdx',
   ]}

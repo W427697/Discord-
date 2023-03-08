@@ -13,9 +13,8 @@ const meta = {
    */
   title: 'Path/To/MyComponent',
   component: MyComponent,
-  parameters: {
-    myAddon: { disable: true }, // Disables the addon
-  },
+  decorators: [ ... ],
+  parameters: { ... },
 } satisfies Meta<typeof MyComponent>;
 
 export default meta;

@@ -50,10 +50,11 @@ These args will only apply to the story for which they are attached, although yo
 
 <CodeSnippets
   paths={[
-    'common/button-story-primary-long-name.js.mdx',
-    'common/button-story-primary-long-name.ts.mdx',
+    'angular/button-story-primary-long-name.ts.mdx',
     'web-components/button-story-primary-long-name.js.mdx',
     'web-components/button-story-primary-long-name.ts.mdx',
+    'common/button-story-primary-long-name.js.mdx',
+    'common/button-story-primary-long-name.ts.mdx',
   ]}
   usesCsf3
   csf2Path="writing-stories/args#snippet-button-story-primary-long-name"
@@ -109,10 +110,11 @@ You can separate the arguments to a story to compose in other stories. Here's ho
 
 <CodeSnippets
   paths={[
-    'common/button-story-primary-composition.js.mdx',
-    'common/button-story-primary-composition.ts.mdx',
+    'angular/button-story-primary-composition.ts.mdx',
     'web-components/button-story-primary-composition.js.mdx',
     'web-components/button-story-primary-composition.ts.mdx',
+    'common/button-story-primary-composition.js.mdx',
+    'common/button-story-primary-composition.ts.mdx',
   ]}
   usesCsf3
   csf2Path="writing-stories/args#snippet-button-story-primary-composition"
@@ -211,10 +213,11 @@ Complex values such as JSX elements cannot be serialized to the manager (e.g., t
 
 <CodeSnippets
   paths={[
-    'common/my-component-argtypes-with-mapping.js.mdx',
-    'common/my-component-argtypes-with-mapping.ts.mdx',
+    'angular/my-component-argtypes-with-mapping.ts.mdx',
     'web-components/my-component-argtypes-with-mapping.js.mdx',
     'web-components/my-component-argtypes-with-mapping.ts.mdx',
+    'common/my-component-argtypes-with-mapping.js.mdx',
+    'common/my-component-argtypes-with-mapping.ts.mdx',
   ]}
 />
 

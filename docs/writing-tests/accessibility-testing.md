@@ -118,7 +118,11 @@ You can also customize your own set of rules for all stories of a component. Upd
 
 <CodeSnippets
   paths={[
+    'angular/storybook-addon-a11y-component-config.ts.mdx',
+    'web-components/storybook-addon-a11y-component-config.js.mdx',
+    'web-components/storybook-addon-a11y-component-config.ts.mdx',
     'common/storybook-addon-a11y-component-config.js.mdx',
+    'common/storybook-addon-a11y-component-config.ts.mdx',
   ]}
 />
 

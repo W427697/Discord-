@@ -114,6 +114,9 @@ For complex flows, it can be worthwhile to group sets of related interactions to
 
 <CodeSnippets
   paths={[
+    'angular/storybook-interactions-step-function.ts.mdx',
+    'web-components/storybook-interactions-step-function.js.mdx',
+    'web-components/storybook-interactions-step-function.ts.mdx',
     'common/storybook-interactions-step-function.js.mdx',
     'common/storybook-interactions-step-function.ts.mdx',
   ]}
