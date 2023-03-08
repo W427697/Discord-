@@ -28,15 +28,23 @@ export const viteFinal: StorybookConfig['viteFinal'] = async (config, { presets 
 
   plugins.push(vueDocgen());
 
+  const alias =
+    config?.resolve?.alias && Array.isArray(config?.resolve?.alias)
+      ? config.resolve.alias.concat({
+          find: /^vue$/,
+          replacement: 'vue/dist/vue.esm.js',
+        })
+      : {
+          ...config.resolve?.alias,
+          vue: 'vue/dist/vue.esm.js',
+        };
+
   const updated = {
     ...config,
     plugins,
     resolve: {
       ...config.resolve,
-      alias: {
-        ...config.resolve?.alias,
-        vue: 'vue/dist/vue.esm.js',
-      },
+      alias,
     },
   };
   return updated;
