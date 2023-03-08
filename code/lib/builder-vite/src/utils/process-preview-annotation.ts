@@ -34,20 +34,19 @@ export function processPreviewAnnotation(path: PreviewAnnotation | undefined, pr
   }
 
   // resolve absolute paths relative to project root
-  if (isAbsolute(path)) {
-    return slash(`/${relative(projectRoot, path)}`);
-  }
+  const relativePath = isAbsolute(path) ? slash(relative(projectRoot, path)) : path;
 
   // resolve relative paths into absolute urls
   // note: this only works if vite's projectRoot === cwd.
-  if (path?.startsWith('./')) {
-    return slash(path.replace(/^\.\//, '/'));
+  if (relativePath.startsWith('./')) {
+    return slash(relativePath.replace(/^\.\//, '/'));
   }
 
   // If something is outside of root, convert to absolute.  Uncommon?
-  if (path?.startsWith('../')) {
-    return slash(resolve(path));
+  if (relativePath.startsWith('../')) {
+    return slash(resolve(relativePath));
   }
 
-  return slash(path);
+  // At this point, it must be relative to the root but not start with a ./ or ../
+  return slash(`/${relativePath}`);
 }
