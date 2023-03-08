@@ -138,6 +138,30 @@ test('convert correct story nodes', () => {
   `);
 });
 
+test('convert addon-docs imports', () => {
+  const input = dedent`
+      import { Meta } from '@storybook/addon-docs';
+      import { Story } from '@storybook/addon-docs/blocks';
+
+      <Meta title="Foobar" />
+      
+      <Story name="Primary">Story</Story>
+    `;
+
+  const mdx = jscodeshift({ source: input, path: 'Foobar.stories.mdx' });
+
+  expect(mdx).toMatchInlineSnapshot(`
+    import { Meta } from '@storybook/blocks';
+    import { Story } from '@storybook/blocks';
+    import * as FoobarStories from './Foobar.stories';
+
+    <Meta of={FoobarStories} />
+
+    <Story of={FoobarStories.Primary} />
+
+  `);
+});
+
 test('convert story nodes with spaces', () => {
   const input = dedent`
       import { Meta, Story } from '@storybook/addon-docs';

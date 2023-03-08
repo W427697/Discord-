@@ -75,8 +75,8 @@ export function transform(source: string, baseName: string): [mdx: string, csf: 
   // rewrite addon docs import
   visit(root, ['mdxjsEsm'], (node: MdxjsEsm) => {
     node.value = node.value
-      .replaceAll('@storybook/addon-docs', '@storybook/blocks')
-      .replaceAll('@storybook/addon-docs/blocks', '@storybook/blocks');
+      .replaceAll('@storybook/addon-docs/blocks', '@storybook/blocks')
+      .replaceAll('@storybook/addon-docs', '@storybook/blocks');
   });
 
   const file = getEsmAst(root);
