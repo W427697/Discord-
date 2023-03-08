@@ -7,12 +7,15 @@ const STORY_MATCHER = /\.(story|stories)\.[jt]sx?$/;
 
 const defaultStoryMatcher = (id: string) => STORY_MATCHER.test(id);
 
-interface PluginOptions {
+export interface PluginOptions {
   storyMatcher?: (name: string) => boolean;
+  rootDir: string;
 }
 
-const plugin = createUnplugin((options: PluginOptions) => {
-  const worker = new Worker(join(__dirname, 'type-annotation/worker.js'));
+const plugin = createUnplugin<PluginOptions>((options) => {
+  const worker = new Worker(join(__dirname, 'type-annotation/worker.js'), {
+    workerData: { options },
+  });
   const service = createService(worker);
 
   return {
@@ -21,7 +24,10 @@ const plugin = createUnplugin((options: PluginOptions) => {
       return (options?.storyMatcher ?? defaultStoryMatcher)(id);
     },
     async transform(code, id) {
-      return `${code};\nconsole.warn(${await service.string()});`;
+      const components = await service.analyze(id);
+      return `${code};
+console.warn(${JSON.stringify(components, null, 2)});
+`;
     },
   };
 });

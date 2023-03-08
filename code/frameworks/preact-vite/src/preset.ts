@@ -17,7 +17,11 @@ export const viteFinal: StorybookConfig['viteFinal'] = async (config) => {
     plugins.push(preact());
   }
 
-  plugins.push(vite());
+  plugins.push(
+    vite({
+      rootDir: config.root ?? process.cwd(),
+    })
+  );
 
   return config;
 };

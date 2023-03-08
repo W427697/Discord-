@@ -69,7 +69,6 @@ export const createService = (worker: Worker): WorkerAPI => {
   });
 
   return {
-    reply: (name) => call('reply', name),
-    string: () => call('string'),
+    analyze: (fileName) => call('analyze', fileName),
   };
 };
