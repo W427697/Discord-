@@ -1,7 +1,7 @@
 /* eslint-disable react/destructuring-assignment */
 import React, { Children, useContext } from 'react';
 import type { FC, ReactElement, ReactNode } from 'react';
-import type { ModuleExport, ModuleExports, Renderer } from '@storybook/types';
+import type { ModuleExport, ModuleExports, PreparedStory, Renderer } from '@storybook/types';
 import { deprecate } from '@storybook/client-logger';
 import dedent from 'ts-dedent';
 import type { Layout, PreviewProps as PurePreviewProps } from '../components';
@@ -157,7 +157,7 @@ export const Canvas: FC<CanvasProps & DeprecatedCanvasProps> = (props) => {
   const { children, of, source } = props;
   const { isLoading, previewProps } = useDeprecatedPreviewProps(props, docsContext, sourceContext);
 
-  let story;
+  let story: PreparedStory;
   let sourceProps;
   /**
    * useOf and useSourceProps will throw if they can't find the story, in the scenario where

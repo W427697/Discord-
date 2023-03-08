@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { renderElement, unmountElement } from '@storybook/react-dom-shim';
 import type { Renderer, Parameters, DocsContextProps, DocsRenderFunction } from '@storybook/types';
 import { Docs, CodeOrSourceMdx, AnchorMdx, HeadersMdx } from '@storybook/blocks';
@@ -10,33 +10,59 @@ export const defaultComponents: Record<string, any> = {
   ...HeadersMdx,
 };
 
+class ErrorBoundary extends Component<{
+  showException: (err: Error) => void;
+}> {
+  state = { hasError: false };
+
+  static getDerivedStateFromError() {
+    return { hasError: true };
+  }
+
+  componentDidCatch(err: Error) {
+    const { showException } = this.props;
+    showException(err);
+  }
+
+  render() {
+    const { hasError } = this.state;
+    const { children } = this.props;
+
+    return hasError ? null : children;
+  }
+}
+
 export class DocsRenderer<TRenderer extends Renderer> {
   public render: DocsRenderFunction<TRenderer>;
 
   public unmount: (element: HTMLElement) => void;
 
   constructor() {
-    this.render = (
+    this.render = async (
       context: DocsContextProps<TRenderer>,
       docsParameter: Parameters,
-      element: HTMLElement,
-      callback: () => void
-    ): void => {
+      element: HTMLElement
+    ): Promise<void> => {
       const components = {
         ...defaultComponents,
         ...docsParameter?.components,
       };
 
-      import('@mdx-js/react')
-        .then(({ MDXProvider }) =>
-          renderElement(
-            <MDXProvider components={components}>
-              <Docs context={context} docsParameter={docsParameter} />
-            </MDXProvider>,
-            element
+      return new Promise((resolve, reject) => {
+        import('@mdx-js/react')
+          .then(({ MDXProvider }) =>
+            // We use a `key={}` here to reset the `hasError` state each time we render ErrorBoundary
+            renderElement(
+              <ErrorBoundary showException={reject} key={Math.random()}>
+                <MDXProvider components={components}>
+                  <Docs context={context} docsParameter={docsParameter} />
+                </MDXProvider>
+              </ErrorBoundary>,
+              element
+            )
           )
-        )
-        .then(callback);
+          .then(resolve);
+      });
     };
 
     this.unmount = (element: HTMLElement) => {
