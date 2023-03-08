@@ -12,7 +12,7 @@ To complicate matters further, those UIs are painful to debug because they’re 
 
 The breadth of modern frontends overwhelm existing workflows. Developers must consider countless UI variations, yet aren’t equipped to develop or organize them all. You end up in a situation where UIs are tougher to build, less satisfying to work on, and brittle.
 
-![UI multiverse](../misc-docs-assets/why-storybook/multiverse.png)
+![UI multiverse](./multiverse.png)
 
 ## The solution
 
@@ -24,7 +24,7 @@ Storybook is packaged as a small, development-only, [workshop](https://bradfrost
 
 <video autoPlay muted playsInline loop>
   <source
-    src="../misc-docs-assets/why-storybook/whats-a-story.mp4"
+    src="./whats-a-story.mp4"
     type="video/mp4"
   />
 </video>
@@ -65,7 +65,7 @@ Storybook is an interactive directory of your UI components and their stories. I
 
 <video autoPlay muted playsInline loop>
   <source
-    src="../misc-docs-assets/why-storybook/7.0-storybook-hero-video.mp4"
+    src="./7.0-storybook-hero-video.mp4"
     type="video/mp4"
   />
 </video>
