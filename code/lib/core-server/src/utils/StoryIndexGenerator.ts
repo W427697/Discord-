@@ -15,7 +15,7 @@ import type {
   Path,
   Tag,
   StoryIndex,
-  V2CompatIndexEntry,
+  V3CompatIndexEntry,
   StoryId,
   StoryName,
 } from '@storybook/types';
@@ -531,7 +531,7 @@ export class StoryIndexGenerator {
             },
           };
           return acc;
-        }, {} as Record<StoryId, V2CompatIndexEntry>);
+        }, {} as Record<StoryId, V3CompatIndexEntry>);
       }
 
       this.lastIndex = {
