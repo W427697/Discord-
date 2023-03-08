@@ -44,7 +44,7 @@ export function processPreviewAnnotation(path: PreviewAnnotation | undefined, pr
 
   // If something is outside of root, convert to absolute.  Uncommon?
   if (relativePath.startsWith('../')) {
-    return slash(resolve(relativePath));
+    return slash(resolve(projectRoot, relativePath));
   }
 
   // At this point, it must be relative to the root but not start with a ./ or ../

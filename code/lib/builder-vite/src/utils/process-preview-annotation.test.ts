@@ -7,7 +7,7 @@ describe('processPreviewAnnotation()', () => {
       bare: '@storybook/addon-links/preview',
       absolute: '/Users/foo/storybook/node_modules/@storybook/addon-links/dist/preview.mjs',
     };
-    const url = processPreviewAnnotation(annotation, '/Users/foo/storybook');
+    const url = processPreviewAnnotation(annotation, '/Users/foo/storybook/');
     expect(url).toBe('@storybook/addon-links/preview');
   });
 
@@ -15,7 +15,7 @@ describe('processPreviewAnnotation()', () => {
     'should convert absolute filesystem paths into urls relative to project root',
     () => {
       const annotation = '/Users/foo/storybook/.storybook/preview.js';
-      const url = processPreviewAnnotation(annotation, '/Users/foo/storybook');
+      const url = processPreviewAnnotation(annotation, '/Users/foo/storybook/');
       expect(url).toBe('/.storybook/preview.js');
     }
   );
@@ -31,13 +31,25 @@ describe('processPreviewAnnotation()', () => {
 
   it('should convert relative paths into urls', () => {
     const annotation = './src/stories/components';
-    const url = processPreviewAnnotation(annotation, '/Users/foo/storybook');
+    const url = processPreviewAnnotation(annotation, '/Users/foo/storybook/');
     expect(url).toBe('/src/stories/components');
   });
 
   it('should convert node_modules into bare paths', () => {
     const annotation = '/Users/foo/storybook/node_modules/storybook-addon/preview';
-    const url = processPreviewAnnotation(annotation, '/Users/foo/storybook');
+    const url = processPreviewAnnotation(annotation, '/Users/foo/storybook/');
     expect(url).toBe('storybook-addon/preview');
+  });
+
+  it('should convert relative paths outside the root into absolute', () => {
+    const annotation = '../parent.js';
+    const url = processPreviewAnnotation(annotation, '/Users/foo/storybook/');
+    expect(url).toBe('/Users/foo/parent.js');
+  });
+
+  it('should not change absolute paths outside of the project root', () => {
+    const annotation = '/Users/foo/parent.js';
+    const url = processPreviewAnnotation(annotation, '/Users/foo/storybook/');
+    expect(url).toBe(annotation);
   });
 });
