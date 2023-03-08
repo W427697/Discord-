@@ -13,7 +13,8 @@ export const render: ArgsStoryFn<VueRenderer> = (props, context) => {
     );
   }
 
-  return h(Component, props, getSlots(props, context));
+  const slots = getSlots(context);
+  return h(Component, props, slots);
 };
 
 let setupFunction = (_app: any) => {};
@@ -74,6 +75,12 @@ export function renderToCanvas(
         reactiveArgs,
       });
     },
+    renderTracked(event) {
+      console.log('vueApp renderTracked', event); // this works only in dev mode
+    },
+    renderTriggered(event) {
+      console.log('vueApp renderTriggered', event); // this works only in dev mode
+    },
   });
   vueApp.config.errorHandler = (e: unknown) => showException(e as Error);
   setupFunction(vueApp);
@@ -85,19 +92,21 @@ export function renderToCanvas(
   };
 }
 
-/**
- * get the slots as functions to be rendered
- * @param props
- * @param context
- */
-
-function getSlots(props: Args, context: StoryContext<VueRenderer, Args>) {
+function getSlots(context: StoryContext<VueRenderer, Args>) {
   const { argTypes } = context;
-  const slots = Object.entries(props)
+  const slots = Object.entries(argTypes)
     .filter(([key, value]) => argTypes[key]?.table?.category === 'slots')
-    .map(([key, value]) => [key, typeof value === 'function' ? value : () => value]);
+    .map(([key, value]) => [
+      key,
+      () => {
+        if (typeof context.args[key] === 'function') return h(context.args[key]);
+        if (typeof context.args[key] === 'object') return JSON.stringify(context.args[key]);
+        if (typeof context.args[key] === 'string') return context.args[key];
+        return context.args[key];
+      },
+    ]);
 
-  return Object.fromEntries(slots);
+  return reactive(Object.fromEntries(slots));
 }
 
 /**

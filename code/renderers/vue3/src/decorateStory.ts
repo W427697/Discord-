@@ -42,6 +42,7 @@ function prepare(
 
   return {
     render() {
+      console.log('story render', story, this.$slots);
       return h(story);
     },
     renderTracked(event) {
