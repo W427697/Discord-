@@ -556,7 +556,7 @@ describe('CsfFile', () => {
         `,
           true
         )
-      ).toThrow('CSF: unexpected storiesOf call');
+      ).toThrow('Unexpected `storiesOf` usage:');
     });
 
     it('function exports', () => {

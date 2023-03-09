@@ -11,7 +11,7 @@ import { normalizeStoriesEntry } from '@storybook/core-common';
 import type { NormalizedStoriesSpecifier, StoryIndexer, StoryIndexEntry } from '@storybook/types';
 import { loadCsf, getStorySortParameter } from '@storybook/csf-tools';
 import { toId } from '@storybook/csf';
-import { logger } from '@storybook/node-logger';
+import { logger, once } from '@storybook/node-logger';
 
 import { StoryIndexGenerator } from './StoryIndexGenerator';
 
@@ -61,6 +61,7 @@ describe('StoryIndexGenerator', () => {
     const actual = jest.requireActual('@storybook/csf-tools');
     loadCsfMock.mockImplementation(actual.loadCsf);
     jest.mocked(logger.warn).mockClear();
+    jest.mocked(once.warn).mockClear();
   });
   describe('extraction', () => {
     const storiesSpecifier: NormalizedStoriesSpecifier = normalizeStoriesEntry(
@@ -922,6 +923,21 @@ describe('StoryIndexGenerator', () => {
         await expect(() => generator.getIndex()).rejects.toThrowErrorMatchingInlineSnapshot(
           `"Unable to index ./src/docs2/MetaOf.mdx"`
         );
+      });
+    });
+
+    describe('warnings', () => {
+      it('when entries do not match any files', async () => {
+        const generator = new StoryIndexGenerator(
+          [normalizeStoriesEntry('./src/docs2/wrong.js', options)],
+          options
+        );
+        await generator.initialize();
+        await generator.getIndex();
+
+        expect(once.warn).toHaveBeenCalledTimes(1);
+        const logMessage = jest.mocked(once.warn).mock.calls[0][0];
+        expect(logMessage).toContain(`No story files found for the specified pattern`);
       });
     });
 

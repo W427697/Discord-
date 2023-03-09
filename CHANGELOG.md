@@ -1,3 +1,20 @@
+## 7.0.0-beta.63 (March 9, 2023)
+
+#### Bug Fixes
+
+-   Story Index: Fix storySort parsing for parameters variable [#21481](https://github.com/storybooks/storybook/pull/21481)
+-   React/Vite: Add some missing types [#21449](https://github.com/storybooks/storybook/pull/21449)
+-   Docs: Cleanup with Promise instead of setTimeout [#21476](https://github.com/storybooks/storybook/pull/21476)
+-   Docs: Re-render MDX files when you fix a thrown error [#21454](https://github.com/storybooks/storybook/pull/21454)
+-   CLI: Fix mdx-to-csf codemod blocks imports [#21448](https://github.com/storybooks/storybook/pull/21448)
+
+#### Maintenance
+
+-   CLI: Copy tweaks for automigrations [#21475](https://github.com/storybooks/storybook/pull/21475)
+-   CLI: Warn the user when stories glob does not match any file [#21392](https://github.com/storybooks/storybook/pull/21392)
+-   Docs: Use `Of` type in `useOf` argument [#21442](https://github.com/storybooks/storybook/pull/21442)
+-   Telemetry: Is interactive shell [#21436](https://github.com/storybooks/storybook/pull/21436)
+
 ## 7.0.0-beta.62 (March 6, 2023)
 
 #### Bug Fixes

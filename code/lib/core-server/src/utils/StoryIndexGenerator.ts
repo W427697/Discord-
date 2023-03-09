@@ -15,13 +15,13 @@ import type {
   Path,
   Tag,
   StoryIndex,
-  V2CompatIndexEntry,
+  V3CompatIndexEntry,
   StoryId,
   StoryName,
 } from '@storybook/types';
 import { userOrAutoTitleFromSpecifier, sortStoriesV7 } from '@storybook/preview-api';
 import { normalizeStoryPath } from '@storybook/core-common';
-import { logger } from '@storybook/node-logger';
+import { logger, once } from '@storybook/node-logger';
 import { getStorySortParameter } from '@storybook/csf-tools';
 import { toId } from '@storybook/csf';
 import { analyze } from '@storybook/docs-mdx';
@@ -122,6 +122,15 @@ export class StoryIndexGenerator {
           path.join(this.options.workingDir, specifier.directory, specifier.files)
         );
         const files = await glob(fullGlob);
+
+        if (files.length === 0) {
+          once.warn(
+            `No story files found for the specified pattern: ${chalk.blue(
+              path.join(specifier.directory, specifier.files)
+            )}`
+          );
+        }
+
         files.sort().forEach((absolutePath: Path) => {
           const ext = path.extname(absolutePath);
           if (ext === '.storyshot') {
@@ -522,7 +531,7 @@ export class StoryIndexGenerator {
             },
           };
           return acc;
-        }, {} as Record<StoryId, V2CompatIndexEntry>);
+        }, {} as Record<StoryId, V3CompatIndexEntry>);
       }
 
       this.lastIndex = {
