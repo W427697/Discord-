@@ -75,8 +75,6 @@ const parseParameters = (params: t.Expression): t.Expression | undefined => {
       }
       unsupported('options', true);
     }
-  } else {
-    console.log({ paramsObject });
   }
   return undefined;
 };
