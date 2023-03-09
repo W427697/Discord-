@@ -12,6 +12,7 @@ import type { VueRenderer } from './types';
   The concept is taken from Vue 3's `defineComponent` but changed from creating a `setup`
   method on the ComponentOptions so end-users don't need to specify a "thunk" as a decorator.
  */
+
 function normalizeFunctionalComponent(options: ConcreteComponent): ComponentOptions {
   return typeof options === 'function' ? { render: options, name: options.name } : options;
 }
@@ -92,7 +93,7 @@ export function decorateStory(
  * @param context
  * @param update
  */
-function updateReactiveContext(
+export function updateReactiveContext(
   context: StoryContext<VueRenderer>,
   update: StoryContextUpdate<Partial<Args>> | undefined
 ) {

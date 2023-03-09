@@ -1,9 +1,16 @@
 /* eslint-disable no-param-reassign */
 import { createApp, h, isReactive, isVNode, reactive, watch } from 'vue';
 import type { RenderContext, ArgsStoryFn } from '@storybook/types';
-import type { Globals, Args, StoryContext } from '@storybook/csf';
-import { global as globalThis } from '@storybook/global';
+import type {
+  Globals,
+  Args,
+  StoryContext,
+  DecoratorFunction,
+  PartialStoryFn,
+} from '@storybook/csf';
+
 import type { StoryFnVueReturnType, VueRenderer } from './types';
+import { updateReactiveContext } from './decorateStory';
 
 export const render: ArgsStoryFn<VueRenderer> = (props, context) => {
   const { id, component: Component } = context;
@@ -13,7 +20,7 @@ export const render: ArgsStoryFn<VueRenderer> = (props, context) => {
     );
   }
 
-  const slots = getSlots(context);
+  const slots = generateSlots(context);
   return h(Component, props, slots);
 };
 
@@ -31,6 +38,7 @@ const map = new Map<
 >();
 let reactiveState: {
   globals: Globals;
+  changed: boolean;
 };
 export function renderToCanvas(
   { storyFn, forceRemount, showMain, showException, storyContext, id }: RenderContext<VueRenderer>,
@@ -42,7 +50,8 @@ export function renderToCanvas(
 
   // if the story is already rendered and we are not forcing a remount, we just update the reactive args
   if (existingApp && !forceRemount) {
-    if (reactiveState) reactiveState.globals = storyContext.globals;
+    updateGlobals(storyContext);
+    updateContextDecorator(storyFn, storyContext);
     updateArgs(existingApp.reactiveArgs, storyContext.args);
     return () => {
       teardown(existingApp.vueApp, canvasElement);
@@ -54,18 +63,19 @@ export function renderToCanvas(
   const vueApp = createApp({
     setup() {
       storyContext.args = reactiveArgs;
-      reactiveState = reactive({ globals: storyContext.globals });
-      const rootElement: StoryFnVueReturnType = storyFn();
+      reactiveState = reactive({ globals: storyContext.globals, changed: false });
+      let rootElement: StoryFnVueReturnType = storyFn();
 
       watch(
         () => reactiveState.globals,
-        (newVal) => {
-          const channel = (globalThis as any).__STORYBOOK_ADDONS_CHANNEL__;
-          channel.emit('forceRemount', { storyId: id });
+        () => {
+          reactiveState.changed = true;
         }
       );
 
       return () => {
+        storyContext.globals = reactiveState.globals;
+        rootElement = reactiveState.changed ? storyFn() : rootElement;
         return h(rootElement, reactiveArgs);
       };
     },
@@ -92,7 +102,12 @@ export function renderToCanvas(
   };
 }
 
-function getSlots(context: StoryContext<VueRenderer, Args>) {
+/**
+ * generate slots for default story without render function template
+ * @param context
+ */
+
+function generateSlots(context: StoryContext<VueRenderer, Args>) {
   const { argTypes } = context;
   const slots = Object.entries(argTypes)
     .filter(([key, value]) => argTypes[key]?.table?.category === 'slots')
@@ -110,6 +125,39 @@ function getSlots(context: StoryContext<VueRenderer, Args>) {
 
   return reactive(Object.fromEntries(slots));
 }
+/**
+ * update vue reactive state for globals to be able to dectect changes and re-render the story
+ * @param storyContext
+ */
+function updateGlobals(storyContext: StoryContext<VueRenderer>) {
+  if (reactiveState) {
+    reactiveState.changed = false;
+    reactiveState.globals = storyContext.globals;
+  }
+}
+
+/**
+ *  update the context args in case of decorators that change args
+ * @param storyFn
+ * @param storyContext
+ */
+
+function updateContextDecorator(
+  storyFn: PartialStoryFn<VueRenderer>,
+  storyContext: StoryContext<VueRenderer>
+) {
+  const storyDecorators = storyContext.moduleExport?.decorators;
+  if (storyDecorators && storyDecorators.length > 0) {
+    storyDecorators.forEach((decorator: DecoratorFunction<VueRenderer>) => {
+      if (typeof decorator === 'function') {
+        decorator((update) => {
+          if (update) updateReactiveContext(storyContext, update);
+          return storyFn();
+        }, storyContext);
+      }
+    });
+  }
+}
 
 /**
  *  update the reactive args
@@ -118,8 +166,10 @@ function getSlots(context: StoryContext<VueRenderer, Args>) {
  * @returns
  */
 export function updateArgs(reactiveArgs: Args, nextArgs: Args, argNames?: string[]) {
+  if (Object.keys(nextArgs).length === 0) return;
   const currentArgs = isReactive(reactiveArgs) ? reactiveArgs : reactive(reactiveArgs);
   const notMappedArgs = { ...nextArgs };
+
   Object.keys(currentArgs).forEach((key) => {
     const componentArg = currentArgs[key];
     // if the arg is an object, we need to update the object
@@ -128,6 +178,7 @@ export function updateArgs(reactiveArgs: Args, nextArgs: Args, argNames?: string
         if (nextArgs[aKey] && (argNames?.includes(aKey) || !argNames)) {
           currentArgs[key][aKey] = nextArgs[aKey];
           delete notMappedArgs[aKey];
+          delete notMappedArgs[key];
         }
       });
     } else {
