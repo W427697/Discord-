@@ -226,6 +226,9 @@ export const ArgsTable: FC<ArgsTableProps> = (props) => {
     ({ parameters, component, subcomponents } = context.storyById());
   } catch (err) {
     const { of } = props as OfProps;
+    if ('of' in props && of === undefined) {
+      throw new Error('Unexpected `of={undefined}`, did you mistype a CSF file reference?');
+    }
     ({
       projectAnnotations: { parameters },
     } = context.resolveOf(of, ['component']));
