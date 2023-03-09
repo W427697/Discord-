@@ -418,19 +418,22 @@ export class StoryIndexGenerator {
         ? `component docs page`
         : `automatically generated docs page`;
       if (betterEntry.name === this.options.docs.defaultName) {
-        logger.warn(
-          `🚨 You have a story for ${betterEntry.title} with the same name as your default docs entry name (${betterEntry.name}), so the docs page is being dropped. Consider changing the story name.`
+        throw new IndexingError(
+          `You have a story for ${betterEntry.title} with the same name as your default docs entry name (${betterEntry.name}), so the docs page is being dropped. Consider changing the story name.`,
+          [firstEntry.importPath, secondEntry.importPath]
         );
       } else {
-        logger.warn(
-          `🚨 You have a story for ${betterEntry.title} with the same name as your ${worseDescriptor} (${worseEntry.name}), so the docs page is being dropped. ${changeDocsName}`
+        throw new IndexingError(
+          `You have a story for ${betterEntry.title} with the same name as your ${worseDescriptor} (${worseEntry.name}), so the docs page is being dropped. ${changeDocsName}`,
+          [firstEntry.importPath, secondEntry.importPath]
         );
       }
     } else if (isMdxEntry(betterEntry)) {
       // Both entries are MDX but pointing at the same place
       if (isMdxEntry(worseEntry)) {
-        logger.warn(
-          `🚨 You have two component docs pages with the same name ${betterEntry.title}:${betterEntry.name}. ${changeDocsName}`
+        throw new IndexingError(
+          `You have two component docs pages with the same name ${betterEntry.title}:${betterEntry.name}. ${changeDocsName}`,
+          [firstEntry.importPath, secondEntry.importPath]
         );
       }
 
