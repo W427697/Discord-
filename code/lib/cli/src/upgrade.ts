@@ -124,6 +124,8 @@ export interface UpgradeOptions {
   configDir?: string;
 }
 
+export const NON_CANARY_REGEX = /^(\^|~|>|>=)?([0-9]+)\.([0-9]+)\.([0-9]+)(-([a-z]+\.)?[0-9]+)?$/;
+
 export const doUpgrade = async ({
   tag,
   prerelease,
@@ -152,17 +154,19 @@ export const doUpgrade = async ({
     );
   }
 
+  let flags = [];
   let target = 'latest';
   if (prerelease) {
     // '@next' is storybook's convention for the latest prerelease tag.
-    // This used to be 'greatest', but that was not reliable and could pick canaries, etc.
-    // and random releases of other packages with storybook in their name.
-    target = '@next';
+    // However it doesn't upgrade other storybook-related packages like
+    // storybook-addon-designs. 'greatest' does, but we filter out canaries
+    // to try to eliminate the junk
+    target = 'greatest';
+    flags.push(`--filterVersion "${NON_CANARY_REGEX.toString()}"`);
   } else if (tag) {
     target = `@${tag}`;
   }
 
-  let flags = [];
   if (!dryRun) flags.push('--upgrade');
   flags.push('--target');
   flags.push(target);
