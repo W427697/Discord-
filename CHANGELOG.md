@@ -1,3 +1,12 @@
+## 7.0.0-beta.64 (March 9, 2023)
+
+#### Bug Fixes
+
+-   Vite: Fix HMR of preview.js [#21485](https://github.com/storybooks/storybook/pull/21485)
+-   Vite: Make sure we update the vite import map when .mdx is added [#21490](https://github.com/storybooks/storybook/pull/21490)
+-   Docs: Don't allow passing `of={}` with undefined prop [#21452](https://github.com/storybooks/storybook/pull/21452)
+-   Composition: Restore support for v2 stories.json [#21354](https://github.com/storybooks/storybook/pull/21354)
+
 ## 7.0.0-beta.63 (March 9, 2023)
 
 #### Bug Fixes
