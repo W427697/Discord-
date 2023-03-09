@@ -119,7 +119,7 @@
     ],
     "post": "./scripts/fix-preview-api-reference.ts"
   },
-  "gitHead": "f33337d997ae5db03f3b7681cffe0a154e1798f3",
+  "gitHead": "6d1bcb2579203a3075467a2ba83738d854545053",
   "storybook": {
     "displayName": "Links",
     "icon": "https://user-images.githubusercontent.com/263385/101991673-48355c80-3c7c-11eb-9b6e-b627c96a75f6.png",
