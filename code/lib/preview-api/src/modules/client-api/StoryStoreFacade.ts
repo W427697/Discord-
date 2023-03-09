@@ -141,7 +141,7 @@ export class StoryStoreFacade<TRenderer extends Renderer> {
   // NOTE: we could potentially share some of this code with the stories.json generation
   addStoriesFromExports(fileName: Path, fileExports: ModuleExports) {
     if (fileName.match(/\.mdx$/) && !fileName.match(/\.stories\.mdx$/)) {
-      if (FEATURES?.storyStoreV7MdxErrors !== false) {
+      if (global.FEATURES?.storyStoreV7MdxErrors !== false) {
         throw new Error(dedent`
         Cannot index \`.mdx\` file (\`${fileName}\`) in \`storyStoreV7: false\` mode.
 
