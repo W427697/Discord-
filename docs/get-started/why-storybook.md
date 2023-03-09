@@ -12,7 +12,7 @@ To complicate matters further, those UIs are painful to debug because they’re 
 
 The breadth of modern frontends overwhelm existing workflows. Developers must consider countless UI variations, yet aren’t equipped to develop or organize them all. You end up in a situation where UIs are tougher to build, less satisfying to work on, and brittle.
 
-![UI multiverse](./misc-docs-assets/why-storybook/multiverse.png)
+![UI multiverse](./multiverse.png)
 
 ## The solution
 
@@ -24,7 +24,7 @@ Storybook is packaged as a small, development-only, [workshop](https://bradfrost
 
 <video autoPlay muted playsInline loop>
   <source
-    src="./misc-docs-assets/why-storybook/whats-a-story.mp4"
+    src="./whats-a-story.mp4"
     type="video/mp4"
   />
 </video>
@@ -42,12 +42,10 @@ You write stories for granular UI component variation and then use those stories
     'react/histogram-story.js.mdx',
     'react/histogram-story.ts.mdx',
     'angular/histogram-story.ts.mdx',
-    'vue/histogram-story.v2-js.js.mdx',
-    'vue/histogram-story.v2-ts.ts.mdx',
-    'vue/histogram-story.v2-ts-4-9.ts.mdx',
-    'vue/histogram-story.v3-js.js.mdx',
-    'vue/histogram-story.v3-ts.ts.mdx',
-    'vue/histogram-story.v3-ts-4-9.ts.mdx',
+    'vue/histogram-story.2.js.mdx',
+    'vue/histogram-story.ts-2.ts.mdx',
+    'vue/histogram-story.3.js.mdx',
+    'vue/histogram-story.ts-3.ts.mdx',
     'svelte/histogram-story.js.mdx',
     'web-components/histogram-story.js.mdx',
     'web-components/histogram-story.ts.mdx',
@@ -67,7 +65,7 @@ Storybook is an interactive directory of your UI components and their stories. I
 
 <video autoPlay muted playsInline loop>
   <source
-    src="./misc-docs-assets/why-storybook/7.0-storybook-hero-video.mp4"
+    src="./7.0-storybook-hero-video.mp4"
     type="video/mp4"
   />
 </video>
@@ -75,7 +73,7 @@ Storybook is an interactive directory of your UI components and their stories. I
 <details>
 <summary>Where does Storybook fit into my project?</summary>
 
-Storybook is packaged as a small, development-only, [workshop](https://bradfrost.com/blog/post/a-frontend-workshop-environment/) that lives alongside your app. Install it by [running a command](./get-started/install.md).
+Storybook is packaged as a small, development-only, [workshop](https://bradfrost.com/blog/post/a-frontend-workshop-environment/) that lives alongside your app. Install it by [running a command](../get-started/install.md).
 
 During development, run it in a separate node process. If you’re working on UI in isolation, the only thing you’ll need to run is Storybook.
 
@@ -86,7 +84,7 @@ During development, run it in a separate node process. If you’re working on UI
 
 Storybook aims to integrate with industry-standard tools and platforms to simplify setup. Thanks to our ambitious developer community, we’ve made significant progress. There are hundreds of [addons](https://storybook.js.org/addons/) and tutorials that walk through how to set up Storybook in all types of projects.
 
-If you’re using a niche framework or a recently launched tool, we might not have an integration for it yet. Consider creating a [proof of concept](./addons/writing-addons.md) yourself first to lead the way for the rest of the community.
+If you’re using a niche framework or a recently launched tool, we might not have an integration for it yet. Consider creating a [proof of concept](../addons/writing-addons.md) yourself first to lead the way for the rest of the community.
 
 </details>
 
@@ -110,19 +108,19 @@ When you write stories for components, you get a bunch of additional benefits fo
 
 #### 📝 Develop UIs that are more durable
 
-Isolate components and pages and track their use cases as [stories](./writing-stories/introduction.md). Verify hard-to-reach edge cases of UI. Use addons to mock everything a component needs—context, API requests, device features, etc.
+Isolate components and pages and track their use cases as [stories](../writing-stories/introduction.md). Verify hard-to-reach edge cases of UI. Use addons to mock everything a component needs—context, API requests, device features, etc.
 
 #### ✅ Test UIs with less effort and no flakes
 
-Stories are a pragmatic, reproducible way of tracking UI states. Use them to spot-test the UI during development. Storybook offers built-in workflows for automated [Accessibility](./writing-tests/accessibility-testing.md), [Interaction](./writing-tests/interaction-testing.md), and [Visual](./writing-tests/visual-testing.md) testing. Or use stories as test cases by importing them into other JavaScript testing tools.
+Stories are a pragmatic, reproducible way of tracking UI states. Use them to spot-test the UI during development. Storybook offers built-in workflows for automated [Accessibility](../writing-tests/accessibility-testing.md), [Interaction](../writing-tests/interaction-testing.md), and [Visual](../writing-tests/visual-testing.md) testing. Or use stories as test cases by importing them into other JavaScript testing tools.
 
 #### 📚 Document UI for your team to reuse
 
-Storybook is the single source of truth for your UI. Stories index all your components and their various states, making it easy for your team to find and reuse existing UI patterns. Storybook also auto-generates [documentation](./writing-docs/introduction.md) from those stories.
+Storybook is the single source of truth for your UI. Stories index all your components and their various states, making it easy for your team to find and reuse existing UI patterns. Storybook also auto-generates [documentation](../writing-docs/introduction.md) from those stories.
 
 #### 📤 Share how the UI actually works
 
-Stories show how UIs actually work, not just a picture of how they're supposed to work. That keeps everyone aligned on what's currently in production. [Publish Storybook](./sharing/publish-storybook.md) to get sign-off from teammates. Or [embed](./sharing/embed.md) them in wikis, Markdown, and Figma to streamline collaboration.
+Stories show how UIs actually work, not just a picture of how they're supposed to work. That keeps everyone aligned on what's currently in production. [Publish Storybook](../sharing/publish-storybook.md) to get sign-off from teammates. Or [embed](../sharing/embed.md) them in wikis, Markdown, and Figma to streamline collaboration.
 
 #### 🚦Automate UI workflows
 
