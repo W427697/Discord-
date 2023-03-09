@@ -55,7 +55,7 @@ export async function sendTelemetry(
     if (options.immediate) {
       await Promise.all(tasks);
     } else {
-      console.log(await request);
+      await request;
     }
 
     await saveToCache(eventType, body);
