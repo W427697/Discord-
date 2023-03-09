@@ -149,11 +149,18 @@ function updateContextDecorator(
   const storyDecorators = storyContext.moduleExport?.decorators;
   if (storyDecorators && storyDecorators.length > 0) {
     storyDecorators.forEach((decorator: DecoratorFunction<VueRenderer>) => {
-      if (typeof decorator === 'function') {
-        decorator((update) => {
-          if (update) updateReactiveContext(storyContext, update);
-          return storyFn();
-        }, storyContext);
+      try {
+        if (typeof decorator === 'function') {
+          decorator((update) => {
+            if (update) updateReactiveContext(storyContext, update);
+            return storyFn();
+          }, storyContext);
+        }
+      } catch (e) {
+        console.error(e);
+        // in case the decorator throws an error, we need to re-render the story
+        // mostly because of react hooks that are not allowed to be called conditionally
+        reactiveState.changed = true;
       }
     });
   }
