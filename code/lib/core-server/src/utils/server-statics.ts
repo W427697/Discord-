@@ -44,7 +44,7 @@ export async function useStatics(router: any, options: Options) {
           const { staticDir, staticPath, targetEndpoint } = await parseStaticDir(relativeDir);
 
           // Don't log for the internal static dir
-          if (!targetEndpoint.startsWith('sb-')) {
+          if (!targetEndpoint.startsWith('/sb-')) {
             logger.info(
               chalk`=> Serving static files from {cyan ${staticDir}} at {cyan ${targetEndpoint}}`
             );
