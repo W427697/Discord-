@@ -99,11 +99,10 @@
   "devDependencies": {
     "@babel/core": "^7.20.5",
     "@babel/types": "^7.20.5",
-    "@next/font": "^13.2.0",
     "@types/babel__core": "^7",
     "@types/babel__plugin-transform-runtime": "^7",
     "@types/babel__preset-env": "^7",
-    "next": "^13.2.0",
+    "next": "^13.2.4",
     "typescript": "^4.9.3",
     "webpack": "^5.65.0"
   },
