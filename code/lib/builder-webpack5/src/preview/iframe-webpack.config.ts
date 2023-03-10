@@ -27,10 +27,8 @@ import { dedent } from 'ts-dedent';
 import type { BuilderOptions, TypescriptOptions } from '../types';
 import { createBabelLoader } from './babel-loader-preview';
 
-const wrapForPnP = (input: string) => dirname(require.resolve(join(input, 'package.json')));
-
 const storybookPaths: Record<string, string> = {
-  global: wrapForPnP('@storybook/global'),
+  global: dirname(require.resolve('@storybook/global/package.json')),
   ...[
     // these packages are not pre-bundled because of react dependencies
     'api',
@@ -42,12 +40,12 @@ const storybookPaths: Record<string, string> = {
   ].reduce(
     (acc, sbPackage) => ({
       ...acc,
-      [`@storybook/${sbPackage}`]: wrapForPnP(`@storybook/${sbPackage}`),
+      [`@storybook/${sbPackage}`]: dirname(require.resolve(`@storybook/${sbPackage}/package.json`)),
     }),
     {}
   ),
   // deprecated, remove in 8.0
-  [`@storybook/api`]: wrapForPnP(`@storybook/manager-api`),
+  [`@storybook/api`]: dirname(require.resolve(`@storybook/manager-api/package.json`)),
 };
 
 export default async (
