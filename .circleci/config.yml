@@ -454,7 +454,7 @@ jobs:
           template: $(yarn get-template << pipeline.parameters.workflow >> chromatic)
       - store_test_results:
           path: test-results
-  e2e-sandboxes:
+  e2e-production:
     parameters:
       parallelism:
         type: integer
@@ -473,6 +473,30 @@ jobs:
           command: yarn task --task e2e-tests --template $(yarn get-template << pipeline.parameters.workflow >> e2e-tests) --no-link --start-from=never --junit
       - report-workflow-on-failure:
           template: $(yarn get-template << pipeline.parameters.workflow >> e2e-tests)
+      - store_test_results:
+          path: test-results
+      - store_artifacts: # this is where playwright puts more complex stuff
+          path: code/playwright-results/
+          destination: playwright
+  e2e-dev:
+    parameters:
+      parallelism:
+        type: integer
+        default: 2
+    executor:
+      class: medium
+      name: sb_playwright
+    parallelism: << parameters.parallelism >>
+    steps:
+      - git-shallow-clone/checkout_advanced:
+          clone_options: '--depth 1 --verbose'
+      - attach_workspace:
+          at: .
+      - run:
+          name: Running E2E Tests
+          command: yarn task --task e2e-tests-dev --template $(yarn get-template << pipeline.parameters.workflow >> e2e-tests-dev) --no-link --start-from=never --junit
+      - report-workflow-on-failure:
+          template: $(yarn get-template << pipeline.parameters.workflow >> e2e-tests-dev)
       - store_test_results:
           path: test-results
       - store_artifacts: # this is where playwright puts more complex stuff
@@ -512,9 +536,12 @@ workflows:
       - chromatic-sandboxes:
           requires:
             - build-sandboxes
-      - e2e-sandboxes:
+      - e2e-production:
           requires:
             - build-sandboxes
+      - e2e-dev:
+          requires:
+            - create-sandboxes
   pr:
     when:
       equal: [pr, << pipeline.parameters.workflow >>]
@@ -561,10 +588,14 @@ workflows:
           parallelism: 9
           requires:
             - build-sandboxes
-      - e2e-sandboxes:
+      - e2e-production:
           parallelism: 9
           requires:
             - build-sandboxes
+      - e2e-dev:
+          parallelism: 9
+          requires:
+            - create-sandboxes
   merged:
     when:
       equal: [merged, << pipeline.parameters.workflow >>]
@@ -611,7 +642,7 @@ workflows:
           parallelism: 18
           requires:
             - build-sandboxes
-      - e2e-sandboxes:
+      - e2e-production:
           parallelism: 18
           requires:
             - build-sandboxes
@@ -648,7 +679,7 @@ workflows:
           parallelism: 30
           requires:
             - build-sandboxes
-      - e2e-sandboxes:
+      - e2e-production:
           parallelism: 30
           requires:
             - build-sandboxes
