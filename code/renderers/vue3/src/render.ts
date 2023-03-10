@@ -38,7 +38,6 @@ const map = new Map<
 >();
 let reactiveState: {
   globals: Globals;
-  changed: boolean;
 };
 export function renderToCanvas(
   { storyFn, forceRemount, showMain, showException, storyContext, id }: RenderContext<VueRenderer>,
@@ -63,20 +62,18 @@ export function renderToCanvas(
   const vueApp = createApp({
     setup() {
       storyContext.args = reactiveArgs;
-      reactiveState = reactive({ globals: storyContext.globals, changed: false });
+      reactiveState = reactive({ globals: storyContext.globals });
       let rootElement: StoryFnVueReturnType = storyFn();
 
       watch(
         () => reactiveState.globals,
         () => {
-          reactiveState.changed = true;
+          storyContext.globals = reactiveState.globals;
+          rootElement = storyFn();
         }
       );
 
       return () => {
-        storyContext.globals = reactiveState.globals;
-        console.log('---******---- render', reactiveState.changed, rootElement);
-        rootElement = reactiveState.changed ? storyFn() : rootElement;
         return h(rootElement, reactiveArgs);
       };
     },
@@ -132,7 +129,6 @@ function generateSlots(context: StoryContext<VueRenderer, Args>) {
  */
 function updateGlobals(storyContext: StoryContext<VueRenderer>) {
   if (reactiveState) {
-    reactiveState.changed = false;
     reactiveState.globals = storyContext.globals;
   }
 }
@@ -161,7 +157,7 @@ function updateContextDecorator(
         console.error(e);
         // in case the decorator throws an error, we need to re-render the story
         // mostly because of react hooks that are not allowed to be called conditionally
-        reactiveState.changed = true;
+        reactiveState.globals = { ...storyContext.globals, change: Math.random() };
       }
     });
   }
