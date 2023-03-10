@@ -1,3 +1,11 @@
+## 7.0.0-rc.1 (March 10, 2023)
+
+#### Bug Fixes
+
+-   Revert "Merge pull request #21486 from storybookjs/norbert/wrap-for-pnp" [#21532](https://github.com/storybooks/storybook/pull/21532)
+-   Revert "Merge pull request #21497 from storybookjs/tom/21432-replace-… [#21526](https://github.com/storybooks/storybook/pull/21526)
+-   Csf-tools: Update babelParse to use legacy decorator syntax [#21506](https://github.com/storybooks/storybook/pull/21506)
+
 ## 7.0.0-rc.0 (March 10, 2023)
 
 #### Bug Fixes
