@@ -1,5 +1,5 @@
 import { storyNameFromExport, sanitize } from '@storybook/csf';
-import mapKeys from 'lodash/mapKeys.js';
+import mapKeys from 'lodash/mapKeys';
 import { patchNode } from './parse-helpers';
 import getParser from './parsers';
 import {

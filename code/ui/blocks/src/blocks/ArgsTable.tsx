@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 import React, { useContext, useEffect, useState, useCallback } from 'react';
-import mapValues from 'lodash/mapValues.js';
+import mapValues from 'lodash/mapValues';
 import type { ArgTypesExtractor } from '@storybook/docs-tools';
 import type { PropDescriptor } from '@storybook/preview-api';
 import { filterArgTypes } from '@storybook/preview-api';
@@ -214,7 +214,7 @@ export const ComponentsTable: FC<ComponentsProps> = (props) => {
 
 export const ArgsTable: FC<ArgsTableProps> = (props) => {
   deprecate(dedent`The ArgsTable doc block is deprecated. Instead use the ArgTypes doc block for static tables or the Controls doc block for tables with controls.
-    
+
   Please refer to the migration guide: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#argstable-block
   `);
   const context = useContext(DocsContext);

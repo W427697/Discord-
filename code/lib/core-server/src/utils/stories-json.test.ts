@@ -4,7 +4,7 @@ import fs from 'fs-extra';
 import type { Router, Request, Response } from 'express';
 import Watchpack from 'watchpack';
 import path from 'path';
-import debounce from 'lodash/debounce.js';
+import debounce from 'lodash/debounce';
 import { STORY_INDEX_INVALIDATED } from '@storybook/core-events';
 import type { StoryIndex, StoryIndexer } from '@storybook/types';
 import { loadCsf } from '@storybook/csf-tools';

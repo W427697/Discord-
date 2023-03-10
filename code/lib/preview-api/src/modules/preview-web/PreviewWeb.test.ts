@@ -3,7 +3,7 @@
  */
 
 import { global } from '@storybook/global';
-import merge from 'lodash/merge.js';
+import merge from 'lodash/merge';
 import {
   CONFIG_ERROR,
   CURRENT_STORY_WAS_SET,

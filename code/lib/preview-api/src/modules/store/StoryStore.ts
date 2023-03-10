@@ -21,8 +21,8 @@ import type {
   StoryContextForLoaders,
   StoryId,
 } from '@storybook/types';
-import mapValues from 'lodash/mapValues.js';
-import pick from 'lodash/pick.js';
+import mapValues from 'lodash/mapValues';
+import pick from 'lodash/pick';
 import { SynchronousPromise } from 'synchronous-promise';
 
 import { HooksContext } from '../addons';

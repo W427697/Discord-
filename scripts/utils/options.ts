@@ -7,7 +7,7 @@ import type { PromptObject, Falsy, PrevCaller, PromptType } from 'prompts';
 import program from 'commander';
 import dedent from 'ts-dedent';
 import chalk from 'chalk';
-import kebabCase from 'lodash/kebabCase.js';
+import kebabCase from 'lodash/kebabCase';
 
 // Option types
 
@@ -140,7 +140,7 @@ export function getOptions<TOptions extends OptionSpecifier>(
           const possibleOptions = chalk.cyan(option.values.join(', '));
           throw new Error(
             dedent`Unexpected value '${chalk.yellow(raw)}' for option '${chalk.magenta(key)}'.
-            
+
             These are the possible options: ${possibleOptions}\n\n`
           );
         }

@@ -1,7 +1,7 @@
 import memoize from 'memoizerific';
 import { dedent } from 'ts-dedent';
-import countBy from 'lodash/countBy.js';
-import mapValues from 'lodash/mapValues.js';
+import countBy from 'lodash/countBy';
+import mapValues from 'lodash/mapValues';
 import { sanitize } from '@storybook/csf';
 import type {
   StoryId,
@@ -178,7 +178,7 @@ export const transformStoryIndexToStoriesHash = (
         throw new Error(
           dedent`
           Invalid part '${name}', leading to id === parentId ('${id}'), inside title '${title}'
-          
+
           Did you create a path that uses the separator char accidentally, such as 'Vue <docs/>' where '/' is a separator char? See https://github.com/storybookjs/storybook/issues/6128
           `
         );
