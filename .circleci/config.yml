@@ -649,6 +649,10 @@ workflows:
           parallelism: 18
           requires:
             - build-sandboxes
+      - e2e-dev:
+          parallelism: 18
+          requires:
+            - create-sandboxes
   daily:
     when:
       equal: [daily, << pipeline.parameters.workflow >>]
@@ -686,3 +690,7 @@ workflows:
           parallelism: 30
           requires:
             - build-sandboxes
+      - e2e-dev:
+          parallelism: 31
+          requires:
+            - create-sandboxes
