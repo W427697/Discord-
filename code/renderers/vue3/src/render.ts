@@ -75,6 +75,7 @@ export function renderToCanvas(
 
       return () => {
         storyContext.globals = reactiveState.globals;
+        console.log('---******---- render', reactiveState.changed, rootElement);
         rootElement = reactiveState.changed ? storyFn() : rootElement;
         return h(rootElement, reactiveArgs);
       };
