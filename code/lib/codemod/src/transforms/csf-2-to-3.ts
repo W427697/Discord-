@@ -38,12 +38,6 @@ const isStoryAnnotation = (stmt: t.Statement, objectExports: Record<string, any>
   t.isIdentifier(stmt.expression.left.object) &&
   objectExports[stmt.expression.left.object.name];
 
-const isTemplateDeclaration = (stmt: t.Statement, templates: Record<string, any>) =>
-  t.isVariableDeclaration(stmt) &&
-  stmt.declarations.length === 1 &&
-  t.isIdentifier(stmt.declarations[0].id) &&
-  templates[stmt.declarations[0].id.name];
-
 const getNewExport = (stmt: t.Statement, objectExports: Record<string, any>) => {
   if (
     t.isExportNamedDeclaration(stmt) &&
@@ -137,15 +131,18 @@ export default function transform(info: FileInfo, api: API, options: { parser?: 
         return;
       }
 
-      // Remove the render function when we can hoist the template
-      // const Template = (args) => <Cat {...args} />;
-      // export const A = Template.bind({});
-      let storyFn: t.Expression = template && (csf._templates[template] as any as t.Expression);
+      let storyFn: t.Expression = template && t.identifier(template);
       if (!storyFn) {
         storyFn = init;
       }
 
-      const renderAnnotation = isReactGlobalRenderFn(csf, storyFn)
+      // Remove the render function when we can hoist the template
+      // const Template = (args) => <Cat {...args} />;
+      // export const A = Template.bind({});
+      const renderAnnotation = isReactGlobalRenderFn(
+        csf,
+        template ? csf._templates[template] : storyFn
+      )
         ? []
         : [t.objectProperty(t.identifier('render'), storyFn)];
 
@@ -165,10 +162,7 @@ export default function transform(info: FileInfo, api: API, options: { parser?: 
   csf._ast.program.body = csf._ast.program.body.reduce((acc, stmt) => {
     const statement = stmt as t.Statement;
     // remove story annotations & template declarations
-    if (
-      isStoryAnnotation(statement, objectExports) ||
-      isTemplateDeclaration(statement, csf._templates)
-    ) {
+    if (isStoryAnnotation(statement, objectExports)) {
       return acc;
     }
 
