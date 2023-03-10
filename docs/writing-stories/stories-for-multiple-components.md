@@ -73,6 +73,12 @@ One way we improve that situation is by pulling the rendered subcomponent out in
   paths={[
     'react/list-story-with-unchecked-children.js.mdx',
     'react/list-story-with-unchecked-children.ts.mdx',
+    'vue/list-story-with-unchecked-children.v2-js.js.mdx',
+    'vue/list-story-with-unchecked-children.v2-ts.ts.mdx',
+    'vue/list-story-with-unchecked-children.v2-ts-4-9.ts.mdx',
+    'vue/list-story-with-unchecked-children.v3-js.js.mdx',
+    'vue/list-story-with-unchecked-children.v3-ts.ts.mdx',
+    'vue/list-story-with-unchecked-children.v3-4-9.ts.mdx'
   ]}
   usesCsf3
   csf2Path="writing-stories/stories-for-multiple-components#snippet-list-story-with-unchecked-children"
