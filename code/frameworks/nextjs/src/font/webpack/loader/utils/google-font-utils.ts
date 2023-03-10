@@ -58,8 +58,12 @@ try {
   } catch (__) {
     // Support next/font since v13.2.4
     try {
-      validateData =
-        require('next/dist/compiled/@next/font/dist/google/validate-google-font-function-call').validateGoogleFontFunctionCall;
+      validateData = (functionName, fontData, config) =>
+        require('next/dist/compiled/@next/font/dist/google/validate-google-font-function-call').validateGoogleFontFunctionCall(
+          functionName,
+          fontData[0],
+          config
+        );
       getUrl =
         require('next/dist/compiled/@next/font/dist/google/get-google-fonts-url').getGoogleFontsUrl;
       getFontAxes = require('next/dist/compiled/@next/font/dist/google/get-font-axes').getFontAxes;
