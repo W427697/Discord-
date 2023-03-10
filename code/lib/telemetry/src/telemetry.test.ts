@@ -1,12 +1,12 @@
 /// <reference types="@types/jest" />;
 
-import fetch from 'node-fetch';
+import fetch from 'isomorphic-unfetch';
 
 import { sendTelemetry } from './telemetry';
 
-jest.mock('node-fetch');
+jest.mock('isomorphic-unfetch');
 
-const fetchMock = fetch as any as jest.Mock;
+const fetchMock = fetch as jest.Mock;
 
 beforeEach(() => {
   fetchMock.mockResolvedValue({ status: 200 });
