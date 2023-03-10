@@ -524,6 +524,9 @@ workflows:
       - script-unit-tests:
           requires:
             - build
+      - chromatic-internal-storybooks:
+          requires:
+            - build
       - create-sandboxes:
           requires:
             - build
