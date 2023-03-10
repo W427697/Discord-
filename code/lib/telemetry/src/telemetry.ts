@@ -1,4 +1,4 @@
-import originalFetch from 'node-fetch';
+import originalFetch from 'isomorphic-unfetch';
 import retry from 'fetch-retry';
 import { nanoid } from 'nanoid';
 import type { Options, TelemetryData } from './types';
@@ -7,7 +7,7 @@ import { set as saveToCache } from './event-cache';
 
 const URL = process.env.STORYBOOK_TELEMETRY_URL || 'https://storybook.js.org/event-log';
 
-const fetch = retry(originalFetch as any);
+const fetch = retry(originalFetch);
 
 let tasks: Promise<any>[] = [];
 
