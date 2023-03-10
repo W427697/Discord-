@@ -3,7 +3,7 @@
 import { addons } from '@storybook/preview-api';
 import type { ArgTypes, Args, StoryContext, Renderer } from '@storybook/types';
 
-import { getDocgenSection, SourceType, SNIPPET_RENDERED } from '@storybook/docs-tools';
+import { SourceType, SNIPPET_RENDERED } from '@storybook/docs-tools';
 
 import type {
   ElementNode,
@@ -14,7 +14,8 @@ import type {
   TemplateChildNode,
 } from '@vue/compiler-core';
 import { baseParse } from '@vue/compiler-core';
-import { h, watch } from 'vue';
+import type { ConcreteComponent, FunctionalComponent, VNode } from 'vue';
+import { h, isVNode, watch } from 'vue';
 import { camelCase, kebabCase } from 'lodash';
 import {
   attributeSource,
@@ -23,7 +24,6 @@ import {
   displayObject,
   evalExp,
 } from './utils';
-import type { VueStoryComponent } from '../types';
 
 /**
  * Check if the sourcecode should be generated.
@@ -99,15 +99,27 @@ function mapAttributesAndDirectives(props: Args) {
  *  map slots
  * @param slotsProps
  */
-function mapSlots(slotsProps: Args): TextNode[] {
+function mapSlots(slotsProps: Args, generateComponentSource: (v: VNode) => string): TextNode[] {
   return Object.keys(slotsProps).map((key) => {
     const slot = slotsProps[key];
     let slotContent = '';
-    if (typeof slot === 'function') slotContent = `<template #${key}>${slot()}</template>`;
-    slotContent = `<template #${key}>${JSON.stringify(slot)}</template>`;
-    if (key === 'default') {
+
+    if (typeof slot === 'function') {
+      const slotVNode = slot();
+      if (isVNode(slotVNode)) {
+        slotContent = generateComponentSource(h(slotVNode));
+      }
+    }
+
+    if (typeof slot === 'object' && !isVNode(slot)) {
       slotContent = JSON.stringify(slot);
     }
+
+    if (typeof slot === 'string') {
+      slotContent = slot;
+    }
+
+    slotContent = slot && slotContent.trim() ? `<template #${key}>${slotContent}</template>` : ``;
 
     return {
       type: 2,
@@ -144,17 +156,20 @@ function generateScriptSetup(args: Args, argTypes: ArgTypes, components: any[]):
 function getTemplateComponents(
   renderFn: any,
   context?: StoryContext<Renderer>
-): TemplateChildNode[] {
+): (TemplateChildNode | VNode)[] {
   try {
-    const { template } = context ? renderFn(context.args, context) : renderFn();
-    if (!template) return [];
+    const originalStoryFn = renderFn;
+    const story = originalStoryFn ? originalStoryFn(context?.args, context) : context?.component;
+    const { template } = story;
+
+    if (!template) return [h(story, context?.args)];
     return getComponents(template);
   } catch (e) {
     return [];
   }
 }
 
-function getComponents(template: string): TemplateChildNode[] {
+function getComponents(template: string): (TemplateChildNode | VNode)[] {
   const ast = baseParse(template);
   const components = ast?.children;
   if (!components) return [];
@@ -171,22 +186,24 @@ function getComponents(template: string): TemplateChildNode[] {
  */
 
 export function generateTemplateSource(
-  componentOrNodes: (VueStoryComponent | TemplateChildNode)[] | TemplateChildNode,
+  componentOrNodes: (ConcreteComponent | TemplateChildNode)[] | TemplateChildNode | VNode,
   args: Args,
   argTypes: ArgTypes,
   byRef = false
 ) {
-  const isComponent = (component: any) => component && typeof component.render === 'function';
   const isElementNode = (node: any) => node && node.type === 1;
   const isInterpolationNode = (node: any) => node && node.type === 5;
   const isTextNode = (node: any) => node && node.type === 2;
 
-  const generateComponentSource = (componentOrNode: VueStoryComponent | TemplateChildNode) => {
+  const generateComponentSource = (
+    componentOrNode: ConcreteComponent | TemplateChildNode | VNode
+  ) => {
     if (isElementNode(componentOrNode)) {
       const { tag: name, props: attributes, children } = componentOrNode as ElementNode;
-      const childSources: string = children
-        .map((child: TemplateChildNode) => generateComponentSource(child))
-        .join('');
+      const childSources: string =
+        typeof children === 'string'
+          ? children
+          : children.map((child: TemplateChildNode) => generateComponentSource(child)).join('');
       const props = generateAttributesSource(attributes, args, argTypes, byRef);
 
       return childSources === ''
@@ -197,35 +214,39 @@ export function generateTemplateSource(
     if (isInterpolationNode(componentOrNode) || isTextNode(componentOrNode)) {
       const { content } = componentOrNode as InterpolationNode | TextNode;
       // eslint-disable-next-line no-eval
-      if (typeof content !== 'string') return eval(content.loc.source); // it's a binding safe to eval
+      if (content && typeof content !== 'string') return eval(content.loc.source); // it's a binding safe to eval
       return content;
     }
-
-    if (isComponent(componentOrNode)) {
-      const concreteComponent = componentOrNode as VueStoryComponent;
-      const vnode = h(componentOrNode, args);
-      const { props } = vnode;
-      const { slots } = getDocgenSection(concreteComponent, 'slots') || {};
-      const slotsProps = {} as Args;
-      const attrsProps = { ...props };
-      if (slots && props)
-        Object.keys(props).forEach((prop: any) => {
-          const isSlot = slots.find(({ name: slotName }: { name: string }) => slotName === prop);
-          if (isSlot?.name) {
-            slotsProps[prop] = props[prop];
-            delete attrsProps[prop];
-          }
-        });
-      const attributes = mapAttributesAndDirectives(attrsProps);
-      const childSources: string = mapSlots(slotsProps)
-        .map((child) => generateComponentSource(child))
-        .join('');
-      const name = concreteComponent.tag || concreteComponent.name || concreteComponent.__name;
+    if (isVNode(componentOrNode)) {
+      const vnode = componentOrNode as VNode;
+      const { props, type, children } = vnode;
+      const slotsProps = typeof children === 'string' ? undefined : (children as Args);
+      const attrsProps = slotsProps
+        ? Object.fromEntries(
+            Object.entries(props ?? {})
+              .filter(([key, value]) => !slotsProps[key] && !['class', 'style'].includes(key))
+              .map(([key, value]) => [key, value])
+          )
+        : props;
+      const attributes = mapAttributesAndDirectives(attrsProps ?? {});
+      // eslint-disable-next-line no-nested-ternary
+      const childSources: string = children
+        ? typeof children === 'string'
+          ? children
+          : mapSlots(children as Args, generateComponentSource)
+              .map((child) => child.content)
+              .join('')
+        : '';
+      const name =
+        typeof type === 'string'
+          ? type
+          : (type as FunctionalComponent).name || (type as ConcreteComponent).__name;
       const propsSource = generateAttributesSource(attributes, args, argTypes, byRef);
       return childSources.trim() === ''
         ? `<${name} ${propsSource}/>`
         : `<${name} ${propsSource}>${childSources}</${name}>`;
     }
+
     return null;
   };
 
@@ -244,6 +265,7 @@ export function generateTemplateSource(
 export const sourceDecorator = (storyFn: any, context: StoryContext<Renderer>) => {
   const skip = skipSourceRender(context);
   const story = storyFn();
+  generateSource(context);
   watch(
     () => context.args,
     () => {
@@ -251,20 +273,20 @@ export const sourceDecorator = (storyFn: any, context: StoryContext<Renderer>) =
         generateSource(context);
       }
     },
-    { immediate: true, deep: true }
+    { deep: true }
   );
   return story;
 };
 
 export function generateSource(context: StoryContext<Renderer>) {
   const channel = addons.getChannel();
-  const { args = {}, component: ctxtComponent, argTypes = {}, id } = context || {};
-  const components = getTemplateComponents(context?.originalStoryFn, context);
-  const storyComponent = components.length ? components : (ctxtComponent as TemplateChildNode);
+  const { args = {}, argTypes = {}, id } = context || {};
+  const storyComponents = getTemplateComponents(context?.originalStoryFn, context);
 
   const withScript = context?.parameters?.docs?.source?.withScriptSetup || false;
-  const generatedScript = withScript ? generateScriptSetup(args, argTypes, components) : '';
-  const generatedTemplate = generateTemplateSource(storyComponent, context.args, context.argTypes);
+  const generatedScript = withScript ? generateScriptSetup(args, argTypes, storyComponents) : '';
+  const generatedTemplate = generateTemplateSource(storyComponents, context.args, context.argTypes);
+
   if (generatedTemplate) {
     const source = `${generatedScript}\n <template>\n ${generatedTemplate} \n</template>`;
     channel.emit(SNIPPET_RENDERED, { id, args, source, format: 'vue' });
