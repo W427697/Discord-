@@ -21,7 +21,8 @@ import { build } from './tasks/build';
 import { serve } from './tasks/serve';
 import { testRunner } from './tasks/test-runner';
 import { chromatic } from './tasks/chromatic';
-import { e2eTests } from './tasks/e2e-tests';
+import { e2eTestsBuild } from './tasks/e2e-tests-build';
+import { e2eTestsDev } from './tasks/e2e-tests-dev';
 
 import {
   allTemplates as TEMPLATES,
@@ -100,7 +101,8 @@ export const tasks = {
   serve,
   'test-runner': testRunner,
   chromatic,
-  'e2e-tests': e2eTests,
+  'e2e-tests': e2eTestsBuild,
+  'e2e-tests-dev': e2eTestsDev,
 };
 type TaskKey = keyof typeof tasks;
 
@@ -316,10 +318,15 @@ async function runTask(task: Task, details: TemplateDetails, optionValues: Passe
   }
 }
 
+const controllers: AbortController[] = [];
+
 async function run() {
   const allOptionValues = await getOptionsOrPrompt('yarn task', options);
 
   const { task: taskKey, startFrom, junit, ...optionValues } = allOptionValues;
+
+  // In case other tasks need to know
+  process.env.SELECTED_TASK = taskKey;
 
   const finalTask = tasks[taskKey];
   const { template: templateKey } = optionValues;
@@ -417,7 +424,6 @@ async function run() {
     setUnready(startFromTask);
   }
 
-  const controllers: AbortController[] = [];
   for (let i = 0; i < sortedTasks.length; i += 1) {
     const task = sortedTasks[i];
     const status = statuses.get(task);
@@ -439,7 +445,6 @@ async function run() {
           // Always debug the final task so we can see it's output fully
           debug: task === finalTask ? true : optionValues.debug,
         });
-
         if (controller) controllers.push(controller);
       } catch (err) {
         logger.error(`Error running task ${getTaskKey(task)}:`);
@@ -484,11 +489,16 @@ async function run() {
       }
     }
   }
+
+  return 0;
+}
+
+process.on('exit', () => {
+  // Make sure to kill any running tasks 🎉
   controllers.forEach((controller) => {
     controller.abort();
   });
-  return 0;
-}
+});
 
 if (require.main === module) {
   run()
