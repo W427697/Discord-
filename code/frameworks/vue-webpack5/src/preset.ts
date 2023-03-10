@@ -1,11 +1,9 @@
-import { dirname, join } from 'path';
+import path from 'path';
 import type { PresetProperty } from '@storybook/types';
 import type { StorybookConfig } from './types';
 
-const wrapForPnP = (input: string) => dirname(require.resolve(join(input, 'package.json')));
-
 export const addons: PresetProperty<'addons', StorybookConfig> = [
-  wrapForPnP('@storybook/preset-vue-webpack'),
+  path.dirname(require.resolve(path.join('@storybook/preset-vue-webpack', 'package.json'))),
 ];
 
 export const core: PresetProperty<'core', StorybookConfig> = async (config, options) => {
@@ -14,10 +12,12 @@ export const core: PresetProperty<'core', StorybookConfig> = async (config, opti
   return {
     ...config,
     builder: {
-      name: wrapForPnP('@storybook/builder-webpack5') as '@storybook/builder-webpack5',
+      name: path.dirname(
+        require.resolve(path.join('@storybook/builder-webpack5', 'package.json'))
+      ) as '@storybook/builder-webpack5',
       options: typeof framework === 'string' ? {} : framework.options.builder || {},
     },
-    renderer: wrapForPnP('@storybook/vue'),
+    renderer: path.dirname(require.resolve(path.join('@storybook/vue', 'package.json'))),
   };
 };
 
