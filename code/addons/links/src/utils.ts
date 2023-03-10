@@ -43,7 +43,11 @@ export const hrefTo = (title: ComponentTitle, name: StoryName): Promise<string> 
     // @ts-expect-error (Converted from ts-ignore)
     const titleToLink = title || existingId.split('--', 2)[0];
     const id = toId(titleToLink, name);
-    const url = `${location.origin + location.pathname}?${Object.entries({ ...query, id })
+    const path = `/story/${id}`;
+
+    // Drop the `iframe.html` from the preview path
+    const sbPath = location.pathname.replace(/iframe\.html$/, '');
+    const url = `${location.origin + sbPath}?${Object.entries({ path })
       .map((item) => `${item[0]}=${item[1]}`)
       .join('&')}`;
 
