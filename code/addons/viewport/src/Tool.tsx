@@ -154,9 +154,9 @@ export const ViewportTool: FC = memo(
       setState({
         selected:
           defaultViewport || (viewports[state.selected] ? state.selected : responsiveViewport.id),
-        isRotated: state.isRotated,
+        isRotated: defaultOrientation === 'landscape',
       });
-    }, [defaultViewport]);
+    }, [defaultViewport, defaultOrientation]);
 
     const { selected, isRotated } = state;
     const item =
