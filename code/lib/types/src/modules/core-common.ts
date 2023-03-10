@@ -330,7 +330,7 @@ export interface StorybookConfig {
   /**
    * Tells Storybook where to find stories.
    *
-   * @example `['./src/*.stories.@(j|t)sx?']`
+   * @example `['./src/*.stories.@(j|t)sx?']` or `async () => [...(await myCustomStoriesEntryBuilderFunc())]`
    */
   stories: StoriesEntry[] | ((list?: StoriesEntry[]) => Promise<StoriesEntry[]>);
 
