@@ -2,8 +2,9 @@
 import chalk from 'chalk';
 import assert from 'assert';
 import fetch from 'node-fetch';
-import { allTemplates } from '../code/lib/cli/src/sandbox-templates';
+import { allTemplates, type TemplateKey } from '../code/lib/cli/src/sandbox-templates';
 import { oneWayHash } from '../code/lib/telemetry/src/one-way-hash';
+import { shouldSkipTask } from './nx-affected-templates';
 
 const PORT = process.env.PORT || 6007;
 
@@ -12,7 +13,13 @@ const eventTypeExpectations = {
 };
 
 async function run() {
-  const [eventType, templateName] = process.argv.slice(2);
+  const [eventType, templateName] = process.argv.slice(2) as [string, TemplateKey];
+
+  if (await shouldSkipTask(templateName)) {
+    console.log(`Skipping checks for "${templateName}" as it was not affected by the changes`);
+    return;
+  }
+
   let testMessage = '';
 
   // very simple jest-like test fn for better error readability
@@ -24,7 +31,7 @@ async function run() {
   try {
     if (!eventType || !templateName) {
       throw new Error(
-        `Need eventType and templateName; call with ./event-log-checker <eventType> <templateName>`
+        `Need eventType and templateKey; call with ./event-log-checker <eventType> <templateKey>`
       );
     }
 

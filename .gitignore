@@ -14,6 +14,7 @@ test-results
 /bench
 .verdaccio-cache
 .next
+affected-templates.json
 
 # Yarn stuff
 /**/.yarn/*

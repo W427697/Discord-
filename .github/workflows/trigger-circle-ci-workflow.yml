@@ -44,7 +44,8 @@ jobs:
             -d '{
                   "branch": "'"$BRANCH"'",
                   "parameters": {
-                    "workflow": "ci"
+                    "workflow": "ci",
+                    "target-branch": "${{ github.base_ref }}"
                   }
                 }'
         env:
@@ -63,7 +64,8 @@ jobs:
             -d '{
                   "branch": "'"$BRANCH"'",
                   "parameters": {
-                    "workflow": "pr"
+                    "workflow": "pr",
+                    "target-branch": "${{ github.base_ref }}"
                   }
                 }'
         env:
@@ -82,7 +84,8 @@ jobs:
             -d '{
                   "branch": "'"$BRANCH"'",
                   "parameters": {
-                    "workflow": "merged"
+                    "workflow": "merged",
+                    "target-branch": "${{ github.base_ref }}"
                   }
                 }'
         env:
@@ -101,7 +104,8 @@ jobs:
             -d '{
                   "branch": "'"$BRANCH"'",
                   "parameters": {
-                    "workflow": "daily"
+                    "workflow": "daily",
+                    "target-branch": "${{ github.base_ref }}"
                   }
                 }'
         env:

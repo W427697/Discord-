@@ -1,7 +1,7 @@
 /* eslint-disable no-await-in-loop */
 import type { TestCase } from 'junit-xml';
 import { getJunitXml } from 'junit-xml';
-import { outputFile, readFile, pathExists } from 'fs-extra';
+import { outputFile, readFile, pathExists, readJson } from 'fs-extra';
 import { join, resolve } from 'path';
 import { prompt } from 'prompts';
 import { dedent } from 'ts-dedent';
@@ -28,6 +28,7 @@ import {
   type TemplateKey,
   type Template,
 } from '../code/lib/cli/src/sandbox-templates';
+import { shouldSkipTask } from './nx-affected-templates';
 
 import { version } from '../code/package.json';
 
@@ -323,6 +324,14 @@ async function run() {
 
   const finalTask = tasks[taskKey];
   const { template: templateKey } = optionValues;
+
+  if (process.env.CI && templateKey && (await shouldSkipTask(templateKey))) {
+    logger.info(
+      `Skipping tasks up to "${taskKey}" for "${templateKey}" as it was not affected by the changes`
+    );
+    return 0;
+  }
+
   const template = TEMPLATES[templateKey];
 
   const templateSandboxDir = templateKey && join(sandboxDir, templateKey.replace('/', '-'));
