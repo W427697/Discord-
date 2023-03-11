@@ -19,7 +19,8 @@ import { dev } from './tasks/dev';
 import { smokeTest } from './tasks/smoke-test';
 import { build } from './tasks/build';
 import { serve } from './tasks/serve';
-import { testRunner } from './tasks/test-runner';
+import { testRunnerBuild } from './tasks/test-runner-build';
+import { testRunnerDev } from './tasks/test-runner-dev';
 import { chromatic } from './tasks/chromatic';
 import { e2eTestsBuild } from './tasks/e2e-tests-build';
 import { e2eTestsDev } from './tasks/e2e-tests-dev';
@@ -99,7 +100,8 @@ export const tasks = {
   'smoke-test': smokeTest,
   build,
   serve,
-  'test-runner': testRunner,
+  'test-runner': testRunnerBuild,
+  'test-runner-dev': testRunnerDev,
   chromatic,
   'e2e-tests': e2eTestsBuild,
   'e2e-tests-dev': e2eTestsDev,
