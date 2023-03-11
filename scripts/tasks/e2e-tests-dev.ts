@@ -1,41 +1,9 @@
-import dedent from 'ts-dedent';
-import type { Task } from '../task';
-import { exec } from '../utils/exec';
 import { PORT } from './dev';
+import { e2eTestsBuild } from './e2e-tests-build';
 
-export const e2eTestsDev: Task = {
+export const e2eTestsDev: typeof e2eTestsBuild = {
+  ...e2eTestsBuild,
   description: 'Run e2e tests against a sandbox in dev mode',
   dependsOn: ['dev'],
-  junit: true,
-  async ready() {
-    return false;
-  },
-  async run({ codeDir, junitFilename, key }, { dryRun, debug }) {
-    if (process.env.DEBUG) {
-      // eslint-disable-next-line no-console
-      console.log(dedent`
-        Running e2e tests in Playwright debug mode for chromium only.
-        You can change the browser by changing the --project flag in the e2e-tests-dev.ts file.
-      `);
-    }
-
-    const playwrightCommand = process.env.DEBUG
-      ? 'PWDEBUG=1 yarn playwright test --project=chromium'
-      : 'yarn playwright test';
-
-    await exec(
-      playwrightCommand,
-      {
-        env: {
-          STORYBOOK_URL: `http://localhost:${PORT}`,
-          STORYBOOK_TEMPLATE_NAME: key,
-          ...(junitFilename && {
-            PLAYWRIGHT_JUNIT_OUTPUT_NAME: junitFilename,
-          }),
-        },
-        cwd: codeDir,
-      },
-      { dryRun, debug }
-    );
-  },
+  port: PORT,
 };

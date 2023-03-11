@@ -3,10 +3,11 @@ import type { Task } from '../task';
 import { exec } from '../utils/exec';
 import { PORT } from './serve';
 
-export const e2eTestsBuild: Task = {
+export const e2eTestsBuild: Task & { port: number } = {
   description: 'Run e2e tests against a sandbox in prod mode',
   dependsOn: ['serve'],
   junit: true,
+  port: PORT,
   async ready() {
     return false;
   },
@@ -15,7 +16,7 @@ export const e2eTestsBuild: Task = {
       // eslint-disable-next-line no-console
       console.log(dedent`
         Running e2e tests in Playwright debug mode for chromium only.
-        You can change the browser by changing the --project flag in the e2e-tests-build.ts file.
+        You can change the browser by changing the --project flag in the e2e-tests task file.
       `);
     }
 
@@ -27,7 +28,7 @@ export const e2eTestsBuild: Task = {
       playwrightCommand,
       {
         env: {
-          STORYBOOK_URL: `http://localhost:${PORT}`,
+          STORYBOOK_URL: `http://localhost:${this.port}`,
           STORYBOOK_TEMPLATE_NAME: key,
           ...(junitFilename && {
             PLAYWRIGHT_JUNIT_OUTPUT_NAME: junitFilename,
