@@ -42,6 +42,7 @@ export const extraAddons = ['a11y', 'storysource'];
 export type Path = string;
 export type TemplateDetails = {
   key: TemplateKey;
+  selectedTask: TaskKey;
   template: Template;
   codeDir: Path;
   sandboxDir: Path;
@@ -327,18 +328,16 @@ async function run() {
 
   const { task: taskKey, startFrom, junit, ...optionValues } = allOptionValues;
 
-  // In case other tasks need to know
-  process.env.SELECTED_TASK = taskKey;
-
   const finalTask = tasks[taskKey];
   const { template: templateKey } = optionValues;
   const template = TEMPLATES[templateKey];
 
   const templateSandboxDir = templateKey && join(sandboxDir, templateKey.replace('/', '-'));
-  const details = {
+  const details: TemplateDetails = {
     key: templateKey,
     template,
     codeDir,
+    selectedTask: taskKey,
     sandboxDir: templateSandboxDir,
     builtSandboxDir: templateKey && join(templateSandboxDir, 'storybook-static'),
     junitFilename: junit && getJunitFilename(taskKey),
