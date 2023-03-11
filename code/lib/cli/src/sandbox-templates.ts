@@ -429,8 +429,8 @@ const internalTemplates = {
     },
   },
   'internal/ssv6-webpack': {
-    ...baseTemplates['react-webpack/18-ts'],
-    name: 'StoryStore v6 (react-webpack/18-ts)',
+    ...baseTemplates['cra/default-ts'],
+    name: 'StoryStore v6 (cra/default-ts)',
     isInternal: true,
     modifications: {
       mainConfig: {
@@ -442,8 +442,8 @@ const internalTemplates = {
     },
   },
   'internal/pnp': {
-    ...baseTemplates['react-webpack/18-ts'],
-    name: 'PNP (react-webpack/18-ts)',
+    ...baseTemplates['cra/default-ts'],
+    name: 'PNP (cra/default-ts)',
     script: 'yarn create react-app . --use-pnp',
     isInternal: true,
     inDevelopment: true,
