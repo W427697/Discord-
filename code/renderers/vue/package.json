@@ -1,6 +1,6 @@
 {
   "name": "@storybook/vue",
-  "version": "7.0.0-rc.2",
+  "version": "7.0.0-rc.3",
   "description": "Storybook Vue renderer",
   "keywords": [
     "storybook"
@@ -48,12 +48,12 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/client-logger": "7.0.0-rc.2",
-    "@storybook/core-client": "7.0.0-rc.2",
-    "@storybook/docs-tools": "7.0.0-rc.2",
+    "@storybook/client-logger": "7.0.0-rc.3",
+    "@storybook/core-client": "7.0.0-rc.3",
+    "@storybook/docs-tools": "7.0.0-rc.3",
     "@storybook/global": "^5.0.0",
-    "@storybook/preview-api": "7.0.0-rc.2",
-    "@storybook/types": "7.0.0-rc.2",
+    "@storybook/preview-api": "7.0.0-rc.3",
+    "@storybook/types": "7.0.0-rc.3",
     "ts-dedent": "^2.0.0",
     "type-fest": "2.19.0"
   },
@@ -86,5 +86,5 @@
     ],
     "platform": "browser"
   },
-  "gitHead": "ef4cfd4483670ad30dfea190c843e5571db06886"
+  "gitHead": "94e99533b214c24691cc9edb3a026d04f20154b6"
 }
