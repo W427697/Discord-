@@ -1,5 +1,5 @@
 import type { StoryContext as StoryContextBase, WebRenderer } from '@storybook/types';
-import type { ConcreteComponent, Slots, VNodeProps } from 'vue';
+import type { ConcreteComponent } from 'vue';
 
 export type { RenderContext } from '@storybook/types';
 
