@@ -12,7 +12,7 @@ export default {
     backgroundColor: { control: 'color' },
     label: { defaultValue: 'Button' },
   },
-} as Meta;
+} as Meta<typeof Button>;
 
 const Template: CSF2Story<ButtonProps> = (args) => <Button {...args} />;
 
