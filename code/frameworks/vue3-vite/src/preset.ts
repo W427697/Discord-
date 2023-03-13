@@ -1,5 +1,6 @@
 import { hasVitePlugins } from '@storybook/builder-vite';
 import type { PresetProperty } from '@storybook/types';
+import { mergeConfig } from 'vite';
 import type { StorybookConfig } from './types';
 import { vueDocgen } from './plugins/vue-docgen';
 
@@ -20,23 +21,12 @@ export const viteFinal: StorybookConfig['viteFinal'] = async (config, { presets 
   // Add docgen plugin
   plugins.push(vueDocgen());
 
-  const alias = Array.isArray(config.resolve?.alias)
-    ? config.resolve.alias.concat({
-        find: /^vue$/,
-        replacement: 'vue/dist/vue.esm-bundler.js',
-      })
-    : {
-        ...config.resolve?.alias,
-        vue: 'vue/dist/vue.esm-bundler.js',
-      };
-
-  const updated = {
-    ...config,
+  return mergeConfig(config, {
     plugins,
     resolve: {
-      ...config.resolve,
-      alias,
+      alias: {
+        vue: 'vue/dist/vue.esm-bundler.js',
+      },
     },
-  };
-  return updated;
+  });
 };
