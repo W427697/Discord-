@@ -56,7 +56,7 @@ Options include:
 Compiles your Storybook instance so it can be [deployed](../sharing/publish-storybook.md). Should be run from the root of your project.
 
 ```shell
-storybook build
+storybook build [options]
 ```
 
 Options include:
