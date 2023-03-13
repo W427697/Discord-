@@ -4,6 +4,12 @@ title: 'CLI options'
 
 The Storybook command line interface (CLI) is the main tool you use to build and develop Storybook.
 
+<div class="aside">
+
+Storybook collects completely anonymous data to help us improve user experience. Participation is optional, and you may [opt-out](../configure/telemetry.md#how-to-opt-out) if you'd not like to share any information.
+
+</div>
+
 ## API commands
 
 All of the following documentation is available in the CLI by running `storybook --help`.
