@@ -9,8 +9,8 @@ import type {
   PartialStoryFn,
 } from '@storybook/csf';
 
+import type { HooksContext } from 'lib/preview-api/src';
 import type { StoryFnVueReturnType, VueRenderer } from './types';
-import { updateReactiveContext } from './decorateStory';
 
 export const render: ArgsStoryFn<VueRenderer> = (props, context) => {
   const { id, component: Component } = context;
@@ -20,8 +20,7 @@ export const render: ArgsStoryFn<VueRenderer> = (props, context) => {
     );
   }
 
-  const slots = generateSlots(context);
-  return h(Component, props, slots);
+  return h(Component, props, generateSlots(context));
 };
 
 let setupFunction = (_app: any) => {};
@@ -49,7 +48,6 @@ export function renderToCanvas(
 
   // if the story is already rendered and we are not forcing a remount, we just update the reactive args
   if (existingApp && !forceRemount) {
-    updateGlobals(storyContext);
     updateContextDecorator(storyFn, storyContext);
     updateArgs(existingApp.reactiveArgs, storyContext.args);
     return () => {
@@ -112,25 +110,16 @@ function generateSlots(context: StoryContext<VueRenderer, Args>) {
     .map(([key, value]) => [
       key,
       () => {
-        if (typeof context.args[key] === 'function' || isVNode(context.args[key]))
-          return h(context.args[key]);
-        if (Array.isArray(context.args[key])) return context.args[key].map((item: any) => h(item));
-        if (typeof context.args[key] === 'object') return JSON.stringify(context.args[key]);
-        if (typeof context.args[key] === 'string') return context.args[key];
-        return context.args[key];
+        const slotValue = context.args[key];
+        if (typeof slotValue === 'function' || isVNode(slotValue)) return h(slotValue);
+        if (Array.isArray(slotValue)) return slotValue.map((item: any) => h(item));
+        if (typeof slotValue === 'object') return JSON.stringify(slotValue);
+        if (typeof slotValue === 'string') return slotValue;
+        return slotValue;
       },
     ]);
 
   return reactive(Object.fromEntries(slots));
-}
-/**
- * update vue reactive state for globals to be able to dectect changes and re-render the story
- * @param storyContext
- */
-function updateGlobals(storyContext: StoryContext<VueRenderer>) {
-  if (reactiveState) {
-    reactiveState.globals = storyContext.globals;
-  }
 }
 
 /**
@@ -143,21 +132,24 @@ function updateContextDecorator(
   storyFn: PartialStoryFn<VueRenderer>,
   storyContext: StoryContext<VueRenderer>
 ) {
-  const storyDecorators = storyContext.moduleExport?.decorators;
-  if (storyDecorators && storyDecorators.length > 0) {
+  const storyDecorators: Set<DecoratorFunction<VueRenderer>> = (
+    storyContext.hooks as HooksContext<VueRenderer>
+  ).mountedDecorators;
+
+  if (storyDecorators && storyDecorators.size > 0) {
     storyDecorators.forEach((decorator: DecoratorFunction<VueRenderer>) => {
       try {
         if (typeof decorator === 'function') {
-          decorator((update) => {
-            if (update) updateReactiveContext(storyContext, update);
-            return storyFn();
+          decorator((u) => {
+            if (u && u.args && !u.globals) return storyFn();
+            return () => {};
           }, storyContext);
         }
       } catch (e) {
-        console.error(e);
+        console.log(' issue with decorator ', decorator.name);
         // in case the decorator throws an error, we need to re-render the story
         // mostly because of react hooks that are not allowed to be called conditionally
-        reactiveState.globals = { ...storyContext.globals, change: Math.random() };
+        reactiveState.globals = storyContext.globals; // { ...storyContext.globals };
       }
     });
   }
@@ -169,29 +161,10 @@ function updateContextDecorator(
  * @param nextArgs
  * @returns
  */
-export function updateArgs(reactiveArgs: Args, nextArgs: Args, argNames?: string[]) {
+export function updateArgs(reactiveArgs: Args, nextArgs: Args) {
   if (Object.keys(nextArgs).length === 0) return;
   const currentArgs = isReactive(reactiveArgs) ? reactiveArgs : reactive(reactiveArgs);
-  const notMappedArgs = { ...nextArgs };
-
-  Object.keys(currentArgs).forEach((key) => {
-    const componentArg = currentArgs[key];
-    // if the arg is an object, we need to update the object
-    if (typeof componentArg === 'object') {
-      Object.keys(componentArg).forEach((aKey) => {
-        if (nextArgs[aKey] && (argNames?.includes(aKey) || !argNames)) {
-          currentArgs[key][aKey] = nextArgs[aKey];
-          delete notMappedArgs[aKey];
-          delete notMappedArgs[key];
-        }
-      });
-    } else {
-      currentArgs[key] = nextArgs[key];
-    }
-  });
-  Object.keys(notMappedArgs).forEach((key) => {
-    currentArgs[key] = notMappedArgs[key];
-  });
+  Object.assign(currentArgs, nextArgs);
 }
 
 /**

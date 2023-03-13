@@ -16,12 +16,11 @@ import type {
 import { baseParse } from '@vue/compiler-core';
 import type { ConcreteComponent, FunctionalComponent, VNode } from 'vue';
 import { h, isVNode, watch } from 'vue';
-import { camelCase, kebabCase } from 'lodash';
+import { kebabCase } from 'lodash';
 import {
   attributeSource,
   htmlEventAttributeToVueEventAttribute,
   omitEvent,
-  displayObject,
   evalExp,
 } from './utils';
 
@@ -58,22 +57,7 @@ export function generateAttributesSource(
 ): string {
   return Object.keys(tempArgs)
     .map((key: any) => {
-      const arg = tempArgs[key];
-
-      if (arg.type === 7) {
-        // AttributeNode binding type
-        const { exp, arg: argName } = arg;
-        const argKey = argName ? argName?.loc.source : undefined;
-        const argExpValue = exp?.loc.source ?? (exp as any).content;
-        const propValue = args[camelCase(argKey)];
-        const argValue = argKey
-          ? propValue ?? evalExp(argExpValue, args)
-          : displayObject(omitEvent(args));
-
-        return argKey ? attributeSource(argKey, argValue, true) : `v-bind="${argValue}"`;
-      }
-
-      return tempArgs[key].loc.source;
+      return evalExp(tempArgs[key].loc.source.replace(/\$props/g, 'args'), omitEvent(args));
     })
     .join(' ');
 }

@@ -5,7 +5,9 @@ import type { Args } from '@storybook/types';
  * @param args
  */
 const omitEvent = (args: Args): Args =>
-  Object.fromEntries(Object.entries(args).filter(([key, value]) => !key.startsWith('on')));
+  args
+    ? Object.fromEntries(Object.entries(args).filter(([key, value]) => !key.startsWith('on')))
+    : {};
 
 const displayObject = (obj: any): string | boolean | number => {
   if (obj && typeof obj === 'object') {
@@ -34,12 +36,16 @@ const attributeSource = (key: string, value: unknown, dynamic?: boolean) =>
 
 const evalExp = (argExpValue: any, args: Args): any => {
   let evalVal = argExpValue;
+  if (/v-bind="(\w+)"/.test(evalVal))
+    return evalVal.replace(/"(\w+)"/g, `"${displayObject(args)}"`);
   Object.keys(args).forEach((akey) => {
     const regex = new RegExp(`(\\w+)\\.${akey}`, 'g');
-    evalVal = evalVal.replace(regex, args[akey]);
+    evalVal = evalVal.replace(regex, displayObject(args[akey]));
   });
   return evalVal;
 };
+
+// regExp match a word without dots with double quotes expression (e.g. "args")
 
 export {
   omitEvent,
