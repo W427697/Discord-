@@ -50,7 +50,7 @@ Options include:
 Compiles your Storybook instance so it can be [deployed](../sharing/publish-storybook.md). Should be run from the root of your project.
 
 ```shell
-storybook dev
+storybook build
 ```
 
 Options include:
