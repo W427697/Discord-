@@ -153,6 +153,13 @@ function updateContextDecorator(
 export function updateArgs(reactiveArgs: Args, nextArgs: Args) {
   if (Object.keys(nextArgs).length === 0) return;
   const currentArgs = isReactive(reactiveArgs) ? reactiveArgs : reactive(reactiveArgs);
+  // delete all args in currentArgs that are not in nextArgs
+  Object.keys(currentArgs).forEach((key) => {
+    if (!(key in nextArgs)) {
+      delete currentArgs[key];
+    }
+  });
+  // update currentArgs with nextArgs
   Object.assign(currentArgs, nextArgs);
 }
 
