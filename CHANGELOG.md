@@ -1,3 +1,15 @@
+## 7.0.0-rc.3 (March 14, 2023)
+
+#### Bug Fixes
+
+-   Revert "CLI: Upgrade non-core storybook packages better" [#21583](https://github.com/storybooks/storybook/pull/21583)
+-   CLI: Fix loading main.cjs files in automigration [#21582](https://github.com/storybooks/storybook/pull/21582)
+-   Outline: Fixed a typo [#21515](https://github.com/storybooks/storybook/pull/21515)
+
+#### Maintenance
+
+-   CLI: Improve MDX codemod message regarding Story.id deprecation [#21541](https://github.com/storybooks/storybook/pull/21541)
+
 ## 7.0.0-rc.2 (March 13, 2023)
 
 #### Bug Fixes
