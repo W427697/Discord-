@@ -32,24 +32,12 @@ function prepare(
       // Normalize so we can always spread an object
       ...normalizeFunctionalComponent(story),
       components: { ...(story.components || {}), story: innerStory },
-      renderTracked(event) {
-        // console.log('innerStory renderTracked', event); // this works only in dev mode
-      },
-      renderTriggered(event) {
-        // console.log('innerStory renderTriggered', event);
-      },
     };
   }
 
   return {
     render() {
       return h(story);
-    },
-    renderTracked(event) {
-      // console.log('story renderTracked', event); // this works only in dev mode
-    },
-    renderTriggered(event) {
-      // console.log('story renderTriggered', event);
     },
   };
 }
@@ -99,7 +87,7 @@ export function updateReactiveContext(
   if (update) {
     const { args, argTypes } = update;
     if (args && !argTypes) {
-      const deepCopy = JSON.parse(JSON.stringify(args)); // avoid reference to args
+      const deepCopy = JSON.parse(JSON.stringify(args)); // avoid reference to args we assume it's serializable
       Object.keys(context.args).forEach((key) => {
         delete context.args[key];
       });

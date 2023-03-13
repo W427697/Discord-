@@ -81,12 +81,6 @@ export function renderToCanvas(
         reactiveArgs,
       });
     },
-    renderTracked(event) {
-      // console.log('vueApp renderTracked', event); // this works only in dev mode
-    },
-    renderTriggered(event) {
-      // console.log('vueApp renderTriggered', event); // this works only in dev mode
-    },
   });
   vueApp.config.errorHandler = (e: unknown) => showException(e as Error);
   setupFunction(vueApp);
