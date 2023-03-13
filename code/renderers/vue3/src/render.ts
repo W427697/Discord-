@@ -1,5 +1,5 @@
 /* eslint-disable no-param-reassign */
-import { createApp, h, isReactive, isVNode, reactive, watch } from 'vue';
+import { createApp, h, isReactive, reactive, watch } from 'vue';
 import type { RenderContext, ArgsStoryFn } from '@storybook/types';
 import type {
   Globals,
@@ -105,11 +105,7 @@ function generateSlots(context: StoryContext<VueRenderer, Args>) {
       key,
       () => {
         const slotValue = context.args[key];
-        if (typeof slotValue === 'function' || isVNode(slotValue)) return h(slotValue);
-        if (Array.isArray(slotValue)) return slotValue.map((item: any) => h(item));
-        if (typeof slotValue === 'object') return JSON.stringify(slotValue);
-        if (typeof slotValue === 'string') return slotValue;
-        return slotValue;
+        return typeof slotValue === 'function' ? h(slotValue) : slotValue;
       },
     ]);
 
