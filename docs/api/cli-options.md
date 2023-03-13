@@ -6,7 +6,7 @@ The Storybook command line interface (CLI) is the main tool you use to build and
 
 ## API commands
 
-All the following documentation is available in the CLI by running `storybook --help`.
+All of the following documentation is available in the CLI by running `storybook --help`.
 
 ### `dev`
 
