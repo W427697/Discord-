@@ -12,7 +12,7 @@ interface ParamsId {
 }
 interface ParamsCombo {
   kind?: StoryKind;
-  title: ComponentTitle;
+  title?: ComponentTitle;
   story?: StoryName;
   name?: StoryName;
 }
