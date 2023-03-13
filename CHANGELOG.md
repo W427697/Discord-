@@ -1,3 +1,14 @@
+## 7.0.0-rc.2 (March 13, 2023)
+
+#### Bug Fixes
+
+-   CLI: Fix MDX codemod to update imports even when no stories are extracted [#21549](https://github.com/storybooks/storybook/pull/21549)
+-   NextJS: Support next/font in Next v13.2.4 [#21560](https://github.com/storybooks/storybook/pull/21560)
+
+#### Build
+
+-   Fix 'yarn build' command on windows systems [#21531](https://github.com/storybooks/storybook/pull/21531)
+
 ## 7.0.0-rc.1 (March 10, 2023)
 
 #### Bug Fixes
