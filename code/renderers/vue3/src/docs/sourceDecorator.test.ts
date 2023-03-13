@@ -303,7 +303,7 @@ describe('Vue3: generateSource() snippet', () => {
         [] as ArgsType<Args>,
         `<Component :camel-case-string-arg="args.camelCaseStringArg" ></Component>`
       )
-    ).toMatchInlineSnapshot(`<Component camel-case-string-arg="foo" />`);
+    ).toMatchInlineSnapshot(`<Component :camel-case-string-arg="'foo'" />`);
   });
 
   test('template component camelCase bool Arg', () => {
@@ -329,7 +329,7 @@ describe('Vue3: generateSource() snippet', () => {
         `<Component :camel-case-boolean-arg="args.camelCaseBooleanArg" :camel-case-string-arg="args.camelCaseStringArg" ></Component>`
       )
     ).toMatchInlineSnapshot(
-      `<Component :camel-case-boolean-arg="true" camel-case-string-arg="foo" />`
+      `<Component :camel-case-boolean-arg="true" :camel-case-string-arg="'foo'" />`
     );
   });
 

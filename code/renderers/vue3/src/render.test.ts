@@ -23,17 +23,21 @@ describe('Render Story', () => {
     const newArgs = { argFoo: 'foo2', argBar: 'bar2' };
     updateArgs(reactiveArgs, newArgs);
     expectTypeOf(reactiveArgs).toEqualTypeOf<{ objectArg: { argFoo: string; argBar: string } }>();
-    expect(reactiveArgs).toEqual({ objectArg: { argFoo: 'foo2', argBar: 'bar2' } });
+    expect(reactiveArgs).toEqual({
+      objectArg: { argFoo: 'foo', argBar: 'bar' },
+      argFoo: 'foo2',
+      argBar: 'bar2',
+    });
   });
 
-  test('update reactive Args component inherit objectArg only argName argName()', () => {
+  test('update reactive Args component inherit objectArg', () => {
     const reactiveArgs = reactive({ objectArg: { argFoo: 'foo' } }); // get reference to reactiveArgs or create a new one;
     expectTypeOf(reactiveArgs).toMatchTypeOf<Record<string, any>>();
     expectTypeOf(reactiveArgs).toEqualTypeOf<{ objectArg: { argFoo: string } }>();
 
     const newArgs = { argFoo: 'foo2', argBar: 'bar2' };
-    updateArgs(reactiveArgs, newArgs, ['argFoo']);
-    expect(reactiveArgs).toEqual({ objectArg: { argFoo: 'foo2' }, argBar: 'bar2' });
+    updateArgs(reactiveArgs, newArgs);
+    expect(reactiveArgs).toEqual({ objectArg: { argFoo: 'foo' }, argFoo: 'foo2', argBar: 'bar2' });
   });
 
   test('update reactive Args component 2 object args  ->  updateArgs()', () => {
@@ -51,8 +55,10 @@ describe('Render Story', () => {
     updateArgs(reactiveArgs, newArgs);
 
     expect(reactiveArgs).toEqual({
-      objectArg: { argFoo: 'foo2' },
-      objectArg2: { argBar: 'bar2' },
+      argFoo: 'foo2',
+      argBar: 'bar2',
+      objectArg: { argFoo: 'foo' },
+      objectArg2: { argBar: 'bar' },
     });
   });
 
