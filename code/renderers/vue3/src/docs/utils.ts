@@ -45,8 +45,6 @@ const evalExp = (argExpValue: any, args: Args): any => {
   return evalVal;
 };
 
-// regExp match a word without dots with double quotes expression (e.g. "args")
-
 export {
   omitEvent,
   displayObject,

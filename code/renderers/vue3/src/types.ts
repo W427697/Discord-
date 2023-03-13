@@ -12,15 +12,6 @@ export type StoryFnVueReturnType = ConcreteComponent<any>;
 
 export type StoryContext = StoryContextBase<VueRenderer>;
 
-export type VueStoryComponent = ConcreteComponent & {
-  render: (h: any) => any;
-  props: VNodeProps;
-  slots: Slots;
-  tag?: string;
-  name?: string;
-  __name?: string;
-};
-
 /**
  * @deprecated Use `VueRenderer` instead.
  */
