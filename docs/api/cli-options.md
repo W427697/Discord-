@@ -13,7 +13,7 @@ All of the following documentation is available in the CLI by running `storybook
 Compiles and serves a development build of your Storybook that reflects your source code changes in the browser in real time. Should be run from the root of your project.
 
 ```shell
-storybook dev
+storybook dev [options]
 ```
 
 Options include:
