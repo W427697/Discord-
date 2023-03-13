@@ -24,7 +24,6 @@ describe('Render Story', () => {
     updateArgs(reactiveArgs, newArgs);
     expectTypeOf(reactiveArgs).toEqualTypeOf<{ objectArg: { argFoo: string; argBar: string } }>();
     expect(reactiveArgs).toEqual({
-      objectArg: { argFoo: 'foo', argBar: 'bar' },
       argFoo: 'foo2',
       argBar: 'bar2',
     });
@@ -37,7 +36,7 @@ describe('Render Story', () => {
 
     const newArgs = { argFoo: 'foo2', argBar: 'bar2' };
     updateArgs(reactiveArgs, newArgs);
-    expect(reactiveArgs).toEqual({ objectArg: { argFoo: 'foo' }, argFoo: 'foo2', argBar: 'bar2' });
+    expect(reactiveArgs).toEqual({ argFoo: 'foo2', argBar: 'bar2' });
   });
 
   test('update reactive Args component 2 object args  ->  updateArgs()', () => {
@@ -57,8 +56,6 @@ describe('Render Story', () => {
     expect(reactiveArgs).toEqual({
       argFoo: 'foo2',
       argBar: 'bar2',
-      objectArg: { argFoo: 'foo' },
-      objectArg2: { argBar: 'bar' },
     });
   });
 
