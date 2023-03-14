@@ -138,7 +138,7 @@ function updateContextDecorator(
       } catch (e) {
         // in case the decorator throws an error, we need to re-render the story
         // mostly because of react hooks that are not allowed to be called conditionally
-        reactiveState.globals = storyContext.globals; // { ...storyContext.globals };
+        reactiveState.globals = { ...storyContext.globals, update: !decorator.name }; // { ...storyContext.globals };
       }
     });
   }
