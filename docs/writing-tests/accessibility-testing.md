@@ -10,7 +10,7 @@ Accessibility tests audit the rendered DOM against a set of heuristics based on 
 
 <video autoPlay muted playsInline loop>
   <source
-    src="component-accessibility-testing-optimized.mp4"
+    src="component-accessibility-testing.mp4"
     type="video/mp4"
   />
 </video>
