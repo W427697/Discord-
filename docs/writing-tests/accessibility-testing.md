@@ -89,7 +89,7 @@ Storybook's a11y addon runs [Axe](https://github.com/dequelabs/axe-core) on the 
 
 Cycling through both stories, you will see that the `Inaccessible` story contains some issues that need fixing. Opening the violations tab in the accessibility panel provides a clear description of the accessibility issue and guidelines for solving it.
 
-![Storybook accessibility addon running](./storybook-a11y-addon-unoptimized.png)
+![Storybook accessibility addon running](./storybook-a11y-addon-optimized.png)
 
 ### Configure
 
