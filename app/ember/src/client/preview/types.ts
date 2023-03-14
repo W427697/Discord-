@@ -16,11 +16,6 @@ export type EmberFramework = {
   storyResult: OptionsArgs;
 };
 
-export interface ShowErrorArgs {
-  title: string;
-  description: string;
-}
-
 export interface IStorybookStory {
   name: string;
   render: (context: any) => any;

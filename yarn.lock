@@ -7850,6 +7850,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@storybook/ember@workspace:app/ember"
   dependencies:
+    "@storybook/addons": 6.5.16
     "@storybook/core": 6.5.16
     "@storybook/core-common": 6.5.16
     "@storybook/docs-tools": 6.5.16
