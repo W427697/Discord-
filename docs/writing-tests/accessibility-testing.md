@@ -8,7 +8,12 @@ Accessibility is the practice of making websites inclusive to all. That means su
 
 Accessibility tests audit the rendered DOM against a set of heuristics based on [WCAG](https://www.w3.org/WAI/standards-guidelines/wcag/) rules and other industry-accepted best practices. They act as the first line of QA to catch blatant accessibility violations.
 
-![Accessibility testing](./accessibility-testing-storybook.gif)
+<video autoPlay muted playsInline loop>
+  <source
+    src="component-accessibility-testing-optimized.mp4"
+    type="video/mp4"
+  />
+</video>
 
 ## Accessibility checks with a11y addon
 
@@ -53,12 +58,7 @@ Update your Storybook configuration (in `.storybook/main.js|ts`) to include the 
 
 Start your Storybook, and you will see some noticeable differences in the UI. A new toolbar icon and the accessibility panel where you can inspect the results of the tests.
 
-<video autoPlay muted playsInline loop>
-  <source
-    src="storybook-a11y-starter-setup-optimized.mp4"
-    type="video/mp4"
-  />
-</video>
+![Storybook accessibility addon running](./storybook-a11y-addon-optimized.png)
 
 ### How it works
 
