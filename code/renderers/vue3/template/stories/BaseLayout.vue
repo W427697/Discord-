@@ -4,13 +4,13 @@ defineProps<{ otherProp: boolean; }>();
 
 <template>
   <div>
-    <header>
+    <header data-testid="header-slot">
       <slot name="header" title="Some title"></slot>
     </header>
-    <main>
+    <main data-testid="default-slot">
       <slot></slot>
     </main>
-    <footer>
+    <footer data-testid="footer-slot">
       <slot name="footer"></slot>
     </footer>
   </div>
