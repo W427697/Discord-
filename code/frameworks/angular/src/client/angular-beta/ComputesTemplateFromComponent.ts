@@ -73,19 +73,19 @@ const createAngularInputProperty = ({
   value: any;
   argType?: ArgTypes[string];
 }) => {
-  const { name: type = null } = (typeof argType?.type === 'object' && argType?.type) || {};
-  let templateValue = type === 'enum' && value;
-
-  const actualType = type === 'enum' && typeof value;
-  const requiresBrackets = ['object', 'any', 'boolean', 'enum', 'number'].includes(actualType);
-
-  if (typeof value === 'object') {
-    templateValue = propertyName;
+  let templateValue;
+  switch (typeof value) {
+    case 'string':
+      templateValue = `'${value}'`;
+      break;
+    case 'object':
+      templateValue = JSON.stringify(value).replace(/"/g, "'");
+      break;
+    default:
+      templateValue = value;
   }
 
-  return `${requiresBrackets ? '[' : ''}${propertyName}${
-    requiresBrackets ? ']' : ''
-  }="${templateValue}"`;
+  return `[${propertyName}]="${templateValue}"`;
 };
 
 /**
