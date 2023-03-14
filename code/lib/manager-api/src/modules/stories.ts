@@ -134,6 +134,9 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
     },
     resolveStory: (storyId, refId) => {
       const { refs, index } = store.getState();
+      if (refId && !refs[refId]) {
+        return null;
+      }
       if (refId) {
         return refs[refId].index ? refs[refId].index[storyId] : undefined;
       }
