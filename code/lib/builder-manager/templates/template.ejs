@@ -16,6 +16,13 @@
     <link rel="preload" href="./sb-common-assets/nunito-sans-bold.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="stylesheet" href="./sb-common-assets/fonts.css" />
 
+    <link href="./sb-manager/runtime.mjs" rel="modulepreload" as="script" />
+
+    <% files.js.forEach(file => { %>
+      <link href="<%= file %>" rel="modulepreload" as="script" />
+    <% }); %>
+
+
     <% if (typeof head !== 'undefined') { %> <%- head %> <% } %>
 
     <style>
@@ -49,6 +56,6 @@
       <% }); %>
     </script>
 
-    <link href="./sb-preview/runtime.mjs" rel="preload" as="script" />
+    <link href="./sb-preview/runtime.mjs" rel="prefetch" as="script" />
   </body>
 </html>
