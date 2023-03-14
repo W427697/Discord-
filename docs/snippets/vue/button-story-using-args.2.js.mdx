@@ -42,14 +42,14 @@ export const Secondary = {
 };
 
 export const Tertiary = {
-  args: {
-    ...Primary.args,
-    label: '📚📕📈🤓',
-  },
   render: (args, { argTypes }) => ({
     components: { Button },
     props: Object.keys(argTypes),
     template: '<Button v-bind="$props" />',
   }),
+  args: {
+    ...Primary.args,
+    label: '📚📕📈🤓',
+  },
 };
 ```

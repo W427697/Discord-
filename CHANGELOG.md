@@ -1,3 +1,80 @@
+## 7.0.0-rc.3 (March 14, 2023)
+
+#### Bug Fixes
+
+-   Revert "CLI: Upgrade non-core storybook packages better" [#21583](https://github.com/storybooks/storybook/pull/21583)
+-   CLI: Fix loading main.cjs files in automigration [#21582](https://github.com/storybooks/storybook/pull/21582)
+-   Outline: Fixed a typo [#21515](https://github.com/storybooks/storybook/pull/21515)
+
+#### Maintenance
+
+-   CLI: Improve MDX codemod message regarding Story.id deprecation [#21541](https://github.com/storybooks/storybook/pull/21541)
+
+## 7.0.0-rc.2 (March 13, 2023)
+
+#### Bug Fixes
+
+-   CLI: Fix MDX codemod to update imports even when no stories are extracted [#21549](https://github.com/storybooks/storybook/pull/21549)
+-   NextJS: Support next/font in Next v13.2.4 [#21560](https://github.com/storybooks/storybook/pull/21560)
+
+#### Build
+
+-   Fix 'yarn build' command on windows systems [#21531](https://github.com/storybooks/storybook/pull/21531)
+
+## 7.0.0-rc.1 (March 10, 2023)
+
+#### Bug Fixes
+
+-   Revert "Merge pull request #21486 from storybookjs/norbert/wrap-for-pnp" [#21532](https://github.com/storybooks/storybook/pull/21532)
+-   Revert "Merge pull request #21497 from storybookjs/tom/21432-replace-… [#21526](https://github.com/storybooks/storybook/pull/21526)
+-   Csf-tools: Update babelParse to use legacy decorator syntax [#21506](https://github.com/storybooks/storybook/pull/21506)
+
+## 7.0.0-rc.0 (March 10, 2023)
+
+#### Bug Fixes
+
+-   CLI: Upgrade non-core storybook packages better [#21508](https://github.com/storybooks/storybook/pull/21508)
+-   Svelte: Pass all arguments to configure through to fix StoryStoreV6 [#21491](https://github.com/storybooks/storybook/pull/21491)
+-   Core: Fix project root detection in yarn PnP without git [#21461](https://github.com/storybooks/storybook/pull/21461)
+-   Telemetry: Replace isomorphic-unfetch with node-fetch in telemetry [#21497](https://github.com/storybooks/storybook/pull/21497)
+-   Core: Fix builders/renderer PnP support [#21486](https://github.com/storybooks/storybook/pull/21486)
+-   CLI: Require main.js without cache in automigrations [#21498](https://github.com/storybooks/storybook/pull/21498)
+
+#### Maintenance
+
+-   CLI: Filter out internal static dir logging [#21137](https://github.com/storybooks/storybook/pull/21137)
+-   Docs: Error if you try to index an MDX file in ssv6 [#21495](https://github.com/storybooks/storybook/pull/21495)
+
+#### Build
+
+-   Build: add slash to fix windows test [#21518](https://github.com/storybooks/storybook/pull/21518)
+
+## 7.0.0-beta.64 (March 9, 2023)
+
+#### Bug Fixes
+
+-   Vite: Fix HMR of preview.js [#21485](https://github.com/storybooks/storybook/pull/21485)
+-   Vite: Make sure we update the vite import map when .mdx is added [#21490](https://github.com/storybooks/storybook/pull/21490)
+-   Docs: Don't allow passing `of={}` with undefined prop [#21452](https://github.com/storybooks/storybook/pull/21452)
+-   Composition: Restore support for v2 stories.json [#21354](https://github.com/storybooks/storybook/pull/21354)
+
+## 7.0.0-beta.63 (March 9, 2023)
+
+#### Bug Fixes
+
+-   Story Index: Fix storySort parsing for parameters variable [#21481](https://github.com/storybooks/storybook/pull/21481)
+-   React/Vite: Add some missing types [#21449](https://github.com/storybooks/storybook/pull/21449)
+-   Docs: Cleanup with Promise instead of setTimeout [#21476](https://github.com/storybooks/storybook/pull/21476)
+-   Docs: Re-render MDX files when you fix a thrown error [#21454](https://github.com/storybooks/storybook/pull/21454)
+-   CLI: Fix mdx-to-csf codemod blocks imports [#21448](https://github.com/storybooks/storybook/pull/21448)
+
+#### Maintenance
+
+-   CLI: Copy tweaks for automigrations [#21475](https://github.com/storybooks/storybook/pull/21475)
+-   CLI: Warn the user when stories glob does not match any file [#21392](https://github.com/storybooks/storybook/pull/21392)
+-   Docs: Use `Of` type in `useOf` argument [#21442](https://github.com/storybooks/storybook/pull/21442)
+-   Telemetry: Is interactive shell [#21436](https://github.com/storybooks/storybook/pull/21436)
+
 ## 7.0.0-beta.62 (March 6, 2023)
 
 #### Bug Fixes

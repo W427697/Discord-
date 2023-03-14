@@ -1,6 +1,8 @@
 ```js
 // MyComponent.stories.js
 
+import MyComponent from './MyComponent.vue';
+
 import imageFile from './static/image.png';
 
 export default {
@@ -9,6 +11,7 @@ export default {
    * to learn how to generate automatic titles
    */
   title: 'img',
+  component: MyComponent,
 };
 
 const image = {

@@ -60,7 +60,11 @@ If you want more control over the args table or any other aspect of using argTyp
 
 <CodeSnippets
   paths={[
+    'angular/storybook-customize-argtypes.ts.mdx',
+    'web-components/storybook-customize-argtypes.js.mdx',
+    'web-components/storybook-customize-argtypes.ts.mdx',
     'common/storybook-customize-argtypes.js.mdx',
+    'common/storybook-customize-argtypes.ts.mdx',
   ]}
 />
 
@@ -119,9 +123,9 @@ You can also manually specify groups to organize related `argTypes` into categor
     'react/button-implementation.ts.mdx',
     'angular/button-implementation.ts.mdx',
     'vue/button-implementation.2.js.mdx',
-    'vue/button-implementation.ts-2.ts.mdx',
+    'vue/button-implementation.2.ts.mdx',
     'vue/button-implementation.3.js.mdx',
-    'vue/button-implementation.ts-3.ts.mdx',
+    'vue/button-implementation.3.ts.mdx',
     'svelte/button-implementation.js.mdx',
     'web-components/button-implementation.js.mdx',
     'web-components/button-implementation.ts.mdx',
@@ -146,7 +150,11 @@ Results in the following change into your story and UI.
 
 <CodeSnippets
   paths={[
-    'common/button-story-argtypes-with-categories.js.mdx'
+    'angular/button-story-argtypes-with-categories.ts.mdx',
+    'web-components/button-story-argtypes-with-categories.js.mdx',
+    'web-components/button-story-argtypes-with-categories.ts.mdx',
+    'common/button-story-argtypes-with-categories.js.mdx',
+    'common/button-story-argtypes-with-categories.ts.mdx',
   ]}
 />
 
@@ -168,7 +176,11 @@ You can also extend the formula above and introduce subcategories, allowing bett
 
 <CodeSnippets
   paths={[
-    'common/button-story-argtypes-with-subcategories.js.mdx'
+    'angular/button-story-argtypes-with-subcategories.ts.mdx',
+    'web-components/button-story-argtypes-with-subcategories.js.mdx',
+    'web-components/button-story-argtypes-with-subcategories.ts.mdx',
+    'common/button-story-argtypes-with-subcategories.js.mdx',
+    'common/button-story-argtypes-with-subcategories.ts.mdx',
   ]}
 />
 
@@ -185,6 +197,7 @@ You can also define arg types at the global level; they will apply to every comp
 <CodeSnippets
   paths={[
     'common/button-story-project-args-theme.js.mdx',
+    'common/button-story-project-args-theme.ts.mdx',
   ]}
 />
 
