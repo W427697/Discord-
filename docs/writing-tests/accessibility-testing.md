@@ -71,12 +71,10 @@ Storybook's a11y addon runs [Axe](https://github.com/dequelabs/axe-core) on the 
     'react/component-story-with-accessibility.js.mdx',
     'react/component-story-with-accessibility.ts.mdx',
     'angular/component-story-with-accessibility.ts.mdx',
-    'vue/component-story-with-accessibility.v2-js.js.mdx',
-    'vue/component-story-with-accessibility.v2-ts.ts.mdx',
-    'vue/component-story-with-accessibility.v2-ts-4-9.ts.mdx',
-    'vue/component-story-with-accessibility.v3-js.js.mdx',
-    'vue/component-story-with-accessibility.v3-ts.ts.mdx',
-    'vue/component-story-with-accessibility.v3-ts-4-9.ts.mdx',
+    'vue/component-story-with-accessibility.2.js.mdx',
+    'vue/component-story-with-accessibility.2.ts.mdx',
+    'vue/component-story-with-accessibility.3.js.mdx',
+    'vue/component-story-with-accessibility.3.ts.mdx',
     'svelte/component-story-with-accessibility.js.mdx',
     'web-components/component-story-with-accessibility.js.mdx',
     'web-components/component-story-with-accessibility.ts.mdx',
@@ -89,7 +87,7 @@ Storybook's a11y addon runs [Axe](https://github.com/dequelabs/axe-core) on the 
 
 Cycling through both stories, you will see that the `Inaccessible` story contains some issues that need fixing. Opening the violations tab in the accessibility panel provides a clear description of the accessibility issue and guidelines for solving it.
 
-![Storybook accessibility addon running](./storybook-a11y-addon-unoptimized.png)
+![Storybook accessibility addon running](./storybook-a11y-addon-optimized.png)
 
 ### Configure
 
