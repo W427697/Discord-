@@ -8,7 +8,12 @@ Test coverage is the practice of measuring whether existing tests fully cover yo
 
 Coverage tests examine the instrumented code against a set of industry-accepted best practices. They act as the last line of QA to improve the quality of your test suite.
 
-![Test coverage](./test-coverage-storybook.gif)
+<video autoPlay muted playsInline loop>
+  <source
+    src="component-test-coverage-whitebg.mp4"
+    type="video/mp4"
+  />
+</video>
 
 ## Code instrumentation with the coverage addon
 
