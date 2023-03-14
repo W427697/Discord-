@@ -85,7 +85,9 @@ export class DocsContext<TRenderer extends Renderer> implements DocsContextProps
   referenceMeta(metaExports: ModuleExports, attach: boolean) {
     const resolved = this.resolveModuleExport(metaExports);
     if (resolved.type !== 'meta')
-      throw new Error('Cannot reference a non-meta or module export in <Meta of={} />');
+      throw new Error(
+        '<Meta of={} /> must reference a CSF file module export or meta export. Did you mistakenly reference your component instead of your CSF file?'
+      );
 
     if (attach) this.attachCSFFile(resolved.csfFile);
   }
@@ -163,7 +165,10 @@ export class DocsContext<TRenderer extends Renderer> implements DocsContextProps
       throw new Error(
         `Invalid value passed to the 'of' prop. The value was resolved to a '${prettyType}' type but the only types for this block are: ${validTypes.join(
           ', '
-        )}`
+        )}.
+  - Did you pass a component to the 'of' prop when the block only supports a story or a meta?
+  - ... or vice versa?
+  - Did you pass a story, CSF file or meta to the 'of' prop that is not indexed, ie. is not targeted by the 'stories' globs in the main configuration?`
       );
     }
 
