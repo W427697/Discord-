@@ -125,7 +125,7 @@ For this example, we'll modify Storybook's UI.
 
 ### Add a panel
 
-Now let’s add a panel to Storybook. Inside the `src` directory, create a new file called `register.js` and add the following:
+Now let’s add a panel to Storybook. Inside the `src` directory, create a new file called `manager.js` and add the following:
 
 <!-- prettier-ignore-start -->
 
