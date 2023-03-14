@@ -42,12 +42,7 @@ Storybook ships with time-saving tools built-in. The toolbar contains tools that
 
 The [“Docs”](../writing-docs/introduction.md) page displays auto-generated documentation for components (inferred from the source code). Usage documentation is helpful when sharing reusable components with your team, for example, in an application.
 
-<video autoPlay muted playsInline loop>
-  <source
-    src="docspage-optimized.mp4"
-    type="video/mp4"
-  />
-</video>
+![Storybook keyboard shortcuts examples](./mdx-example.png)
 
 The toolbar is customizable. You can use [globals](../essentials/toolbars-and-globals.md) to quickly toggle themes and languages. Or install Storybook toolbar [addons](../configure/storybook-addons.md) from the community to enable advanced workflows.
 
