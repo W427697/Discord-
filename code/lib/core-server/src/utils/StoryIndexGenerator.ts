@@ -118,9 +118,20 @@ export class StoryIndexGenerator {
       this.specifiers.map(async (specifier) => {
         const pathToSubIndex = {} as SpecifierStoriesCache;
 
-        const fullGlob = slash(
-          path.join(this.options.workingDir, specifier.directory, specifier.files)
-        );
+        const fullGlob = [
+          slash(path.join(this.options.workingDir, specifier.directory, specifier.files)),
+        ];
+
+        if (fullGlob[0].includes('node_modules')) {
+          once.warn(
+            `The specified pattern: ${chalk.blue(
+              path.join(specifier.directory, specifier.files)
+            )} includes stories from node_modules.`
+          );
+        } else {
+          fullGlob.push('!**/node_modules');
+        }
+
         const files = await glob(fullGlob);
 
         if (files.length === 0) {
