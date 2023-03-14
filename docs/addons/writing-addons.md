@@ -234,7 +234,7 @@ Before publishing the addon, we'll need to make one last change. In the root dir
 
 <!-- prettier-ignore-end -->
 
-This auto-registers the addon without any additional configuration from the user. Storybook looks for either a `preset.js` or a `register.js` file located at the root level.
+This auto-registers the addon without any additional configuration from the user. Storybook looks for either a `preset.js` or a `manager.js` file located at the root level.
 
 ### Packaging and publishing
 
