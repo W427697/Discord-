@@ -1,4 +1,6 @@
 import React from 'react';
+import type { API } from '@storybook/manager-api';
+import { ManagerContext } from '@storybook/manager-api';
 import { action } from '@storybook/addon-actions';
 
 import { index } from './mockdata.large';
@@ -57,3 +59,21 @@ export const ShortcutsDisabled = () => (
     {() => null}
   </Search>
 );
+
+export const CustomShortcuts = () => <Search {...baseProps}>{() => null}</Search>;
+
+CustomShortcuts.decorators = [
+  (storyFn: any) => (
+    <ManagerContext.Provider
+      value={
+        {
+          api: {
+            getShortcutKeys: () => ({ search: ['control', 'shift', 's'] }),
+          } as API,
+        } as any
+      }
+    >
+      {storyFn()}
+    </ManagerContext.Provider>
+  ),
+];

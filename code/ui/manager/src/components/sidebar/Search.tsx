@@ -166,7 +166,7 @@ export const Search = React.memo<{
   const inputRef = useRef<HTMLInputElement>(null);
   const [inputPlaceholder, setPlaceholder] = useState('Find components');
   const [allComponents, showAllComponents] = useState(false);
-  const searchShortcut = shortcutToHumanString(api.getShortcutKeys().search);
+  const searchShortcut = api ? shortcutToHumanString(api.getShortcutKeys().search) : '/';
 
   const selectStory = useCallback(
     (id: string, refId: string) => {
