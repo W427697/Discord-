@@ -8,7 +8,7 @@ Storybook Controls gives you a graphical UI to interact with a component's argum
 
 <video autoPlay muted playsInline loop>
   <source
-    src="addon-controls-optimized.mp4"
+    src="addon-controls-demo-optimized.mp4"
     type="video/mp4"
   />
 </video>
@@ -314,7 +314,7 @@ Resulting in the following change in Storybook UI:
 
 <video autoPlay muted playsInline loop>
   <source
-    src="addon-controls-disable-specific-prop.mp4"
+    src="addon-controls-disable-specific-prop-optimized.mp4"
     type="video/mp4"
   />
 </video>
