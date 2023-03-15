@@ -8,7 +8,12 @@ Accessibility is the practice of making websites inclusive to all. That means su
 
 Accessibility tests audit the rendered DOM against a set of heuristics based on [WCAG](https://www.w3.org/WAI/standards-guidelines/wcag/) rules and other industry-accepted best practices. They act as the first line of QA to catch blatant accessibility violations.
 
-![Accessibility testing](./accessibility-testing-storybook.gif)
+<video autoPlay muted playsInline loop>
+  <source
+    src="component-accessibility-testing.mp4"
+    type="video/mp4"
+  />
+</video>
 
 ## Accessibility checks with a11y addon
 
@@ -53,12 +58,7 @@ Update your Storybook configuration (in `.storybook/main.js|ts`) to include the 
 
 Start your Storybook, and you will see some noticeable differences in the UI. A new toolbar icon and the accessibility panel where you can inspect the results of the tests.
 
-<video autoPlay muted playsInline loop>
-  <source
-    src="storybook-a11y-starter-setup-optimized.mp4"
-    type="video/mp4"
-  />
-</video>
+![Storybook accessibility addon running](./storybook-a11y-addon-optimized.png)
 
 ### How it works
 
@@ -87,7 +87,7 @@ Storybook's a11y addon runs [Axe](https://github.com/dequelabs/axe-core) on the 
 
 Cycling through both stories, you will see that the `Inaccessible` story contains some issues that need fixing. Opening the violations tab in the accessibility panel provides a clear description of the accessibility issue and guidelines for solving it.
 
-![Storybook accessibility addon running](./storybook-a11y-addon-unoptimized.png)
+![Storybook accessibility addon running](./storybook-a11y-addon-optimized.png)
 
 ### Configure
 
