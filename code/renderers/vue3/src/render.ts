@@ -1,16 +1,9 @@
 /* eslint-disable no-param-reassign */
 import { createApp, h, isReactive, reactive, watch } from 'vue';
 import type { RenderContext, ArgsStoryFn } from '@storybook/types';
-import type {
-  Globals,
-  Args,
-  StoryContext,
-  DecoratorFunction,
-  PartialStoryFn,
-} from '@storybook/csf';
+import type { Globals, Args, StoryContext } from '@storybook/csf';
 
-import type { HooksContext } from 'lib/preview-api/src';
-import type { StoryFnVueReturnType, VueRenderer } from './types';
+import type { VueRenderer } from './types';
 
 export const render: ArgsStoryFn<VueRenderer> = (props, context) => {
   const { id, component: Component } = context;
@@ -33,7 +26,6 @@ const map = new Map<
   {
     vueApp: ReturnType<typeof createApp>;
     reactiveArgs: Args;
-    rootElement: StoryFnVueReturnType;
   }
 >();
 let reactiveState: {
@@ -60,11 +52,10 @@ export function renderToCanvas(
     setup() {
       reactiveState = reactive({ globals: storyContext.globals });
       storyContext.args = reactive(storyContext.args);
-      const rootElement = storyFn();
+      let rootElement = storyFn();
       const appState = {
         vueApp,
         reactiveArgs: reactive(rootElement.props ?? storyContext.args),
-        rootElement,
       };
       map.set(canvasElement, appState);
 
@@ -72,12 +63,12 @@ export function renderToCanvas(
         () => reactiveState.globals,
         () => {
           storyContext.globals = reactiveState.globals;
-          appState.rootElement = storyFn();
+          rootElement = storyFn();
         }
       );
 
       return () => {
-        return h(appState.rootElement, appState.reactiveArgs);
+        return h(rootElement, appState.reactiveArgs);
       };
     },
   });

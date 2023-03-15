@@ -1,9 +1,8 @@
 import type { ConcreteComponent, Component, ComponentOptions } from 'vue';
-import { h } from 'vue';
+import { isVNode, h } from 'vue';
 import type { DecoratorFunction, StoryContext, LegacyStoryFn } from '@storybook/types';
 import { sanitizeStoryContextUpdate } from '@storybook/preview-api';
 
-import type { Args, StoryContextUpdate } from '@storybook/csf';
 import type { VueRenderer } from './types';
 
 /*
@@ -48,8 +47,7 @@ export function decorateStory(
 ): LegacyStoryFn<VueRenderer> {
   return decorators.reduce(
     (decorated: LegacyStoryFn<VueRenderer>, decorator) => (context: StoryContext<VueRenderer>) => {
-      let story: VueRenderer['storyResult'] | undefined;
-
+      let story: VueRenderer['storyResult'] = { isNull: true };
       const decoratedStory: VueRenderer['storyResult'] = decorator((update) => {
         // we should update the context with the update object from the decorator in reactive way
         // so that the story will be re-rendered with the new context
@@ -57,20 +55,20 @@ export function decorateStory(
           ...context,
           ...sanitizeStoryContextUpdate(update),
         });
-        if (update && update.args && update.args !== context.args) story = h(story, update.args);
 
+        if (update && update.args && !isVNode(story)) {
+          story = h(story, update.args);
+        }
         return story;
       }, context);
 
-      if (!story) {
-        story = decorated(context);
-      }
+      if (story.isNull) story = decorated(context);
 
       if (decoratedStory === story) {
         return story;
       }
-
-      const innerStory = () => (story?.props ? story : h(story!, context.args));
+      const props = story.props ?? context.args;
+      const innerStory = () => h(story, props);
       return prepare(decoratedStory, innerStory) as VueRenderer['storyResult'];
     },
     (context) => prepare(storyFn(context)) as LegacyStoryFn<VueRenderer>
