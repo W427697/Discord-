@@ -57,7 +57,8 @@ export function decorateStory(
           ...context,
           ...sanitizeStoryContextUpdate(update),
         });
-        if (update) updateReactiveContext(context, update);
+        if (update && update.args && update.args !== context.args) story = h(story, update.args);
+
         return story;
       }, context);
 
@@ -69,31 +70,9 @@ export function decorateStory(
         return story;
       }
 
-      const innerStory = () => (story ? h(story, context.args) : null);
+      const innerStory = () => (story?.props ? story : h(story!, context.args));
       return prepare(decoratedStory, innerStory) as VueRenderer['storyResult'];
     },
     (context) => prepare(storyFn(context)) as LegacyStoryFn<VueRenderer>
   );
-}
-/**
- * update the context with the update object from the decorator in reactive way
- * @param context
- * @param update
- */
-export function updateReactiveContext(
-  context: StoryContext<VueRenderer>,
-  update: StoryContextUpdate<Partial<Args>> | undefined
-) {
-  if (update) {
-    const { args, argTypes } = update;
-    if (args && !argTypes) {
-      const deepCopy = JSON.parse(JSON.stringify(args)); // avoid reference to args we assume it's serializable
-      Object.keys(context.args).forEach((key) => {
-        delete context.args[key];
-      });
-      Object.keys(args).forEach((key) => {
-        context.args[key] = deepCopy[key];
-      });
-    }
-  }
 }

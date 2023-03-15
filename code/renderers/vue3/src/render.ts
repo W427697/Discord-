@@ -33,6 +33,7 @@ const map = new Map<
   {
     vueApp: ReturnType<typeof createApp>;
     reactiveArgs: Args;
+    rootElement: StoryFnVueReturnType;
   }
 >();
 let reactiveState: {
@@ -44,12 +45,10 @@ export function renderToCanvas(
 ) {
   const existingApp = map.get(canvasElement);
 
-  const reactiveArgs = existingApp?.reactiveArgs ?? reactive(storyContext.args); // get reference to reactiveArgs or create a new one;
-
   // if the story is already rendered and we are not forcing a remount, we just update the reactive args
   if (existingApp && !forceRemount) {
-    updateContextDecorator(storyFn, storyContext);
-    updateArgs(existingApp.reactiveArgs, storyContext.args);
+    const element = storyFn();
+    updateArgs(existingApp.reactiveArgs, element.props ?? storyContext.args);
     return () => {
       teardown(existingApp.vueApp, canvasElement);
     };
@@ -59,27 +58,27 @@ export function renderToCanvas(
   // create vue app for the story
   const vueApp = createApp({
     setup() {
-      storyContext.args = reactiveArgs;
       reactiveState = reactive({ globals: storyContext.globals });
-      let rootElement: StoryFnVueReturnType = storyFn();
+      storyContext.args = reactive(storyContext.args);
+      const rootElement: StoryFnVueReturnType = storyFn();
+      const appState = {
+        vueApp,
+        reactiveArgs: reactive(rootElement.props ?? storyContext.args),
+        rootElement,
+      };
+      map.set(canvasElement, appState);
 
       watch(
         () => reactiveState.globals,
         () => {
           storyContext.globals = reactiveState.globals;
-          rootElement = storyFn();
+          //  rootElement = storyFn();
         }
       );
 
       return () => {
-        return h(rootElement, reactiveArgs);
+        return h(rootElement, appState.reactiveArgs);
       };
-    },
-    mounted() {
-      map.set(canvasElement, {
-        vueApp,
-        reactiveArgs,
-      });
     },
   });
   vueApp.config.errorHandler = (e: unknown) => showException(e as Error);
@@ -110,38 +109,6 @@ function generateSlots(context: StoryContext<VueRenderer, Args>) {
     ]);
 
   return reactive(Object.fromEntries(slots));
-}
-
-/**
- *  update the context args in case of decorators that change args
- * @param storyFn
- * @param storyContext
- */
-
-function updateContextDecorator(
-  storyFn: PartialStoryFn<VueRenderer>,
-  storyContext: StoryContext<VueRenderer>
-) {
-  const storyDecorators: Set<DecoratorFunction<VueRenderer>> = (
-    storyContext.hooks as HooksContext<VueRenderer>
-  ).mountedDecorators;
-
-  if (storyDecorators && storyDecorators.size > 0) {
-    storyDecorators.forEach((decorator: DecoratorFunction<VueRenderer>) => {
-      try {
-        if (typeof decorator === 'function') {
-          decorator((u) => {
-            if (u && u.args && !u.globals) return storyFn();
-            return () => {};
-          }, storyContext);
-        }
-      } catch (e) {
-        // in case the decorator throws an error, we need to re-render the story
-        // mostly because of react hooks that are not allowed to be called conditionally
-        reactiveState.globals = { ...storyContext.globals, update: !decorator.name }; // { ...storyContext.globals };
-      }
-    });
-  }
 }
 
 /**
