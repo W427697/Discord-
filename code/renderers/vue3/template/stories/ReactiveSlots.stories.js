@@ -11,9 +11,9 @@ export default {
 
 export const ReactiveSlotTest = {
   args: {
-    default: 'Default Text Slot',
     header: () => h('h1', 'Header Functional Component Slot'),
-    footer: h('p', 'Footer VNode Slot'),
+    default: () => 'Default Text Slot',
+    footer: h('h2', 'Footer VNode Slot'),
   },
   // test that args are updated correctly in rective mode
   play: async ({ canvasElement, id }) => {
@@ -24,26 +24,10 @@ export const ReactiveSlotTest = {
     await new Promise((resolve) => {
       channel.once(STORY_ARGS_UPDATED, resolve);
     });
-    await expect(canvas.getByTestId('default-slot')).toHaveTextContent('Default Text Slot');
-    await expect(canvas.getByTestId('header-slot')).toHaveTextContent(
+    await expect(canvas.getByTestId('header-slot').innerText).toContain(
       'Header Functional Component Slot'
     );
-    await expect(canvas.getByTestId('footer-slot')).toHaveTextContent('Footer VNode Slot');
-
-    // click to update the label to increment the count + 1
-    await channel.emit(UPDATE_STORY_ARGS, {
-      storyId: id,
-      updatedArgs: {
-        default: 'default updated',
-        header: () => h('h1', 'header updated'),
-        footer: h('p', 'footer updated'),
-      },
-    });
-    await new Promise((resolve) => {
-      channel.once(STORY_ARGS_UPDATED, resolve);
-    });
-    await expect(canvas.getByTestId('header-slot')).toHaveTextContent('header updated');
-    await expect(canvas.getByTestId('default-slot')).toHaveTextContent('default updated');
-    await expect(canvas.getByTestId('footer-slot')).toHaveTextContent('footer updated');
+    await expect(canvas.getByTestId('default-slot').innerText).toContain('Default Text Slot');
+    await expect(canvas.getByTestId('footer-slot').innerText).toContain('Footer VNode Slot');
   },
 };

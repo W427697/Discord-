@@ -197,8 +197,8 @@ export function generateTemplateSource(
 
     if (isInterpolationNode(componentOrNode) || isTextNode(componentOrNode)) {
       const { content } = componentOrNode as InterpolationNode | TextNode;
-      // eslint-disable-next-line no-eval
-      if (content && typeof content !== 'string') return eval(content.loc.source); // it's a binding safe to eval
+
+      if (content && typeof content !== 'string') return content.loc.source; // it's a binding safe to eval
       return content;
     }
     if (isVNode(componentOrNode)) {

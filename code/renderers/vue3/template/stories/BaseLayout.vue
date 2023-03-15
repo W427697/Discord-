@@ -1,11 +1,7 @@
-<script setup lang="ts">
-
-</script>
-
 <template>
   <div>
     <header data-testid="header-slot">
-      <slot name="header" title="Some title"></slot>
+      <slot name="header"></slot>
     </header>
     <main data-testid="default-slot">
       <slot></slot>

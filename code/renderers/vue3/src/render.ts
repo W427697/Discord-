@@ -39,10 +39,7 @@ export function renderToCanvas(
 
   // if the story is already rendered and we are not forcing a remount, we just update the reactive args
   if (existingApp && !forceRemount) {
-    console.log('-------------------------');
-    console.log('updating args', storyContext.args);
     const element = storyFn();
-    console.log('element props', element.props);
     updateArgs(existingApp.reactiveArgs, element.props ?? storyContext.args);
     return () => {
       teardown(existingApp.vueApp, canvasElement);
@@ -94,13 +91,10 @@ function generateSlots(context: StoryContext<VueRenderer, Args>) {
   const { argTypes } = context;
   const slots = Object.entries(argTypes)
     .filter(([key, value]) => argTypes[key]?.table?.category === 'slots')
-    .map(([key, value]) => [
-      key,
-      () => {
-        const slotValue = context.args[key];
-        return typeof slotValue === 'function' ? h(slotValue) : slotValue;
-      },
-    ]);
+    .map(([key, value]) => {
+      const slotValue = context.args[key];
+      return [key, typeof slotValue === 'function' ? slotValue : () => slotValue];
+    });
 
   return reactive(Object.fromEntries(slots));
 }
