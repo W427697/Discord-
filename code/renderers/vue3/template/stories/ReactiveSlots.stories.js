@@ -11,6 +11,7 @@ export default {
 
 export const ReactiveSlotTest = {
   args: {
+    label: 'Storybook Day',
     header: () => h('h1', 'Header Functional Component Slot'),
     default: () => 'Default Text Slot',
     footer: h('h2', 'Footer VNode Slot'),
@@ -29,5 +30,15 @@ export const ReactiveSlotTest = {
     );
     await expect(canvas.getByTestId('default-slot').innerText).toContain('Default Text Slot');
     await expect(canvas.getByTestId('footer-slot').innerText).toContain('Footer VNode Slot');
+
+    await channel.emit(UPDATE_STORY_ARGS, {
+      storyId: id,
+      updatedArgs: {
+        label: 'Storybook Day updated',
+        header: () => h('h1', 'Header updated'),
+        default: () => 'Default updated',
+        footer: h('h2', 'Footer updated'),
+      },
+    });
   },
 };
