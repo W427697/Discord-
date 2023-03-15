@@ -39,7 +39,10 @@ export function renderToCanvas(
 
   // if the story is already rendered and we are not forcing a remount, we just update the reactive args
   if (existingApp && !forceRemount) {
+    console.log('-------------------------');
+    console.log('updating args', storyContext.args);
     const element = storyFn();
+    console.log('element props', element.props);
     updateArgs(existingApp.reactiveArgs, element.props ?? storyContext.args);
     return () => {
       teardown(existingApp.vueApp, canvasElement);

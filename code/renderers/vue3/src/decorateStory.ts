@@ -49,14 +49,16 @@ export function decorateStory(
     (decorated: LegacyStoryFn<VueRenderer>, decorator) => (context: StoryContext<VueRenderer>) => {
       let story: VueRenderer['storyResult'] = { isNull: true };
       const decoratedStory: VueRenderer['storyResult'] = decorator((update) => {
-        // we should update the context with the update object from the decorator in reactive way
-        // so that the story will be re-rendered with the new context
         story = decorated({
           ...context,
           ...sanitizeStoryContextUpdate(update),
         });
-
-        if (update && update.args && !isVNode(story)) {
+        const argsChanged =
+          update && update.args && Object.keys(update).length === 1 && !isVNode(story);
+        // TODO: this is a hack to avoid re-rendering the story when the args are not changed
+        // we should find a better way to do this
+        // i should get only update = { args: { ...context.args, text:... } } from the decorator and not the whole context
+        if (argsChanged) {
           story = h(story, update.args);
         }
         return story;
