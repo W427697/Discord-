@@ -60,7 +60,7 @@ export function renderToCanvas(
     setup() {
       reactiveState = reactive({ globals: storyContext.globals });
       storyContext.args = reactive(storyContext.args);
-      const rootElement: StoryFnVueReturnType = storyFn();
+      const rootElement = storyFn();
       const appState = {
         vueApp,
         reactiveArgs: reactive(rootElement.props ?? storyContext.args),
@@ -72,12 +72,12 @@ export function renderToCanvas(
         () => reactiveState.globals,
         () => {
           storyContext.globals = reactiveState.globals;
-          //  rootElement = storyFn();
+          appState.rootElement = storyFn();
         }
       );
 
       return () => {
-        return h(rootElement, appState.reactiveArgs);
+        return h(appState.rootElement, appState.reactiveArgs);
       };
     },
   });
