@@ -79,7 +79,13 @@ const createAngularInputProperty = ({
       templateValue = `'${value}'`;
       break;
     case 'object':
-      templateValue = JSON.stringify(value).replace(/"/g, "'");
+      templateValue = JSON.stringify(value)
+        .replace(/'/g, '\u2019')
+        .replace(/\\"/g, '\u201D')
+        .replace(/"([^-"]+)":/g, '$1: ')
+        .replace(/"/g, "'")
+        .replace(/\u2019/g, "\\'")
+        .replace(/\u201D/g, "\\'");
       break;
     default:
       templateValue = value;

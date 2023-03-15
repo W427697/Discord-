@@ -383,7 +383,7 @@ describe('angular source decorator', () => {
       // Ideally we should stringify the object, but that could cause the story to break because of unescaped values in the JSON object.
       // This will have to do for now
       expect(source).toEqual(
-        `<doc-button [isDisabled]="false" [label]="'Hello world'" [someDataObject]="{'one':'Hello world','two':true,'three':['One','Two','Three']}"></doc-button>`
+        `<doc-button [isDisabled]="false" [label]="'Hello world'" [someDataObject]="{one: 'Hello world',two: true,three: ['One','Two','Three']}"></doc-button>`
       );
     });
   });
