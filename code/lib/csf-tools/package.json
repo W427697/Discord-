@@ -1,7 +1,7 @@
 {
   "name": "@storybook/csf-tools",
-  "version": "7.0.0-beta.49",
-  "description": "",
+  "version": "7.0.0-rc.3",
+  "description": "Parse and manipulate CSF and Storybook config files",
   "keywords": [
     "storybook"
   ],
@@ -41,17 +41,17 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@babel/types": "^7.20.2",
+    "@babel/generator": "~7.21.1",
+    "@babel/parser": "~7.21.2",
+    "@babel/traverse": "~7.21.2",
+    "@babel/types": "~7.21.2",
     "@storybook/csf": "next",
-    "@storybook/types": "7.0.0-beta.49",
+    "@storybook/types": "7.0.0-rc.3",
     "fs-extra": "^11.1.0",
     "recast": "^0.23.1",
     "ts-dedent": "^2.0.0"
   },
   "devDependencies": {
-    "@babel/generator": "^7.20.4",
-    "@babel/parser": "^7.20.3",
-    "@babel/traverse": "^7.20.1",
     "@types/fs-extra": "^11.0.1",
     "@types/js-yaml": "^3.12.6",
     "js-yaml": "^3.14.1",
@@ -68,5 +68,5 @@
       "cjs"
     ]
   },
-  "gitHead": "a2b4f0b42ee2b071390794bbdf99d0366fa32472"
+  "gitHead": "94e99533b214c24691cc9edb3a026d04f20154b6"
 }

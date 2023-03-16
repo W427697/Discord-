@@ -1,17 +1,14 @@
 import chalk from 'chalk';
 import { dedent } from 'ts-dedent';
 
-import type { ConfigFile } from '@storybook/csf-tools';
-import { readConfig, writeConfig } from '@storybook/csf-tools';
-import { getStorybookInfo } from '@storybook/core-common';
 import type { StorybookConfig } from '@storybook/types';
 
 import type { Fix } from '../types';
+import { getStorybookData, updateMainConfig } from '../helpers/mainConfigFile';
 
 const logger = console;
 
 interface AutodocsTrueFrameworkRunOptions {
-  main: ConfigFile;
   value?: StorybookConfig['docs']['autodocs'];
 }
 
@@ -21,39 +18,39 @@ interface AutodocsTrueFrameworkRunOptions {
 export const autodocsTrue: Fix<AutodocsTrueFrameworkRunOptions> = {
   id: 'autodocsTrue',
 
-  async check({ packageManager }) {
-    const packageJson = packageManager.retrievePackageJson();
+  async check({ packageManager, configDir }) {
+    const { mainConfig } = await getStorybookData({ packageManager, configDir });
 
-    const { mainConfig } = getStorybookInfo(packageJson);
-
-    if (!mainConfig) {
-      logger.warn('Unable to find storybook main.js config, skipping');
-      return null;
-    }
-
-    const main = await readConfig(mainConfig);
-    const docs = main.getFieldValue(['docs']);
+    const { docs } = mainConfig;
 
     const docsPageToAutodocsMapping = {
       true: 'tag' as const,
       automatic: true,
       false: false,
     };
+
+    // @ts-expect-error docsPage does not exist anymore but we need to account for legacy code
     if (docs?.docsPage) {
+      // @ts-expect-error same as above
       const oldValue = docs?.docsPage.toString();
-      if (!(oldValue in docsPageToAutodocsMapping))
+      if (!(oldValue in docsPageToAutodocsMapping)) {
         throw new Error(`Unexpected value for docs.docsPage: ${oldValue}`);
+      }
+
       return {
-        main,
         value: docsPageToAutodocsMapping[oldValue as keyof typeof docsPageToAutodocsMapping],
       };
     }
 
-    return docs?.autodocs === undefined ? { main } : null;
+    return docs?.autodocs === undefined ? { value: true } : null;
   },
 
   prompt({ value }) {
     const autodocsFormatted = chalk.cyan(`docs: { autodocs: ${JSON.stringify(value ?? true)} }`);
+    const tagWarning = dedent`
+      NOTE: if you're upgrading from an older 7.0-beta using the 'docsPage' tag,
+      please update your story files to use the 'autodocs' tag instead.
+    `;
 
     if (value) {
       return dedent`
@@ -65,14 +62,9 @@ export const autodocsTrue: Fix<AutodocsTrueFrameworkRunOptions> = {
       Based on your prior configuration,  we can set the \`docs.autodocs\` to keep your old behaviour:
 
       ${autodocsFormatted}
-
-      ${
-        value === 'tag' &&
-        `NOTE: it is important you change all CSF files to use the 'autodocs' tag rather than the 'docsPage' tag.`
-      }
-
+      ${value === 'tag' ? tagWarning : ''}
       More info: ${chalk.yellow(
-        'https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#autodocs'
+        'https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#autodocs-changes'
       )}
     `;
     }
@@ -85,17 +77,18 @@ export const autodocsTrue: Fix<AutodocsTrueFrameworkRunOptions> = {
       ${autodocsFormatted}
 
       More info: ${chalk.yellow(
-        'https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#autodocs'
+        'https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#autodocs-changes'
       )}
     `;
   },
 
-  async run({ result: { main, value }, dryRun }) {
+  async run({ result: { value }, dryRun, mainConfigPath }) {
     logger.info(`✅ Setting 'docs.autodocs' to true in main.js`);
     if (!dryRun) {
-      main.removeField(['docs', 'docsPage']);
-      main.setFieldValue(['docs', 'autodocs'], value ?? true);
-      await writeConfig(main);
+      await updateMainConfig({ mainConfigPath, dryRun }, async (main) => {
+        main.removeField(['docs', 'docsPage']);
+        main.setFieldValue(['docs', 'autodocs'], value ?? true);
+      });
     }
   },
 };

@@ -1,6 +1,6 @@
 {
   "name": "@storybook/react",
-  "version": "7.0.0-beta.49",
+  "version": "7.0.0-rc.3",
   "description": "Storybook React renderer",
   "keywords": [
     "storybook"
@@ -31,6 +31,11 @@
       "import": "./dist/config.mjs",
       "types": "./dist/config.d.ts"
     },
+    "./dist/preset": {
+      "require": "./dist/preset.js",
+      "import": "./dist/preset.mjs",
+      "types": "./dist/preset.d.ts"
+    },
     "./package.json": "./package.json"
   },
   "main": "dist/index.js",
@@ -48,12 +53,13 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/client-logger": "7.0.0-beta.49",
-    "@storybook/core-client": "7.0.0-beta.49",
-    "@storybook/docs-tools": "7.0.0-beta.49",
+    "@storybook/client-logger": "7.0.0-rc.3",
+    "@storybook/core-client": "7.0.0-rc.3",
+    "@storybook/docs-tools": "7.0.0-rc.3",
     "@storybook/global": "^5.0.0",
-    "@storybook/preview-api": "7.0.0-beta.49",
-    "@storybook/types": "7.0.0-beta.49",
+    "@storybook/preview-api": "7.0.0-rc.3",
+    "@storybook/react-dom-shim": "7.0.0-rc.3",
+    "@storybook/types": "7.0.0-rc.3",
     "@types/escodegen": "^0.0.6",
     "@types/estree": "^0.0.51",
     "@types/node": "^16.0.0",
@@ -95,9 +101,10 @@
   "bundler": {
     "entries": [
       "./src/index.ts",
-      "./src/config.ts"
+      "./src/config.ts",
+      "./src/preset.ts"
     ],
     "platform": "browser"
   },
-  "gitHead": "a2b4f0b42ee2b071390794bbdf99d0366fa32472"
+  "gitHead": "94e99533b214c24691cc9edb3a026d04f20154b6"
 }

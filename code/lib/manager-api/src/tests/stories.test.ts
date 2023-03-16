@@ -85,10 +85,6 @@ function createMockStore(initialState = {}) {
 function initStoriesAndSetState({ store, ...options }: any) {
   const { state, ...result } = initStories({ store, ...options } as any);
 
-  // Remove deprecated fields (which would trigger warnings)
-  delete state.storiesHash;
-  delete state.storiesConfigured;
-  delete state.storiesFailed;
   store?.setState(state);
 
   return { state, ...result };
@@ -119,11 +115,6 @@ describe('stories API', () => {
       storyId: 'id',
       viewMode: 'story',
     } as ModuleArgs);
-
-    // Remove deprecated fields (which would trigger warnings)
-    delete state.storiesHash;
-    delete state.storiesConfigured;
-    delete state.storiesFailed;
 
     expect(state).toEqual({
       previewInitialized: false,
@@ -627,6 +618,48 @@ describe('stories API', () => {
       // Let the promise/await chain resolve
       await new Promise((r) => setTimeout(r, 0));
       const { index } = store.getState();
+
+      expect(Object.keys(index)).toEqual(['component-a', 'component-a--story-1']);
+    });
+
+    it('clears 500 errors when invalidated', async () => {
+      const navigate = jest.fn();
+      const store = createMockStore();
+      const fullAPI = Object.assign(new EventEmitter(), {
+        setIndex: jest.fn(),
+      });
+
+      (global.fetch as jest.Mock<ReturnType<typeof global.fetch>>).mockReturnValueOnce(
+        Promise.resolve({
+          status: 500,
+          text: async () => new Error('sorting error'),
+        } as any as Response)
+      );
+      const { api, init } = initStoriesAndSetState({ store, navigate, provider, fullAPI } as any);
+      Object.assign(fullAPI, api);
+
+      await init();
+
+      const { indexError } = store.getState();
+      expect(indexError).toBeDefined();
+
+      (global.fetch as jest.Mock<ReturnType<typeof global.fetch>>).mockClear();
+      mockGetEntries.mockReturnValueOnce({
+        'component-a--story-1': {
+          type: 'story',
+          id: 'component-a--story-1',
+          title: 'Component A',
+          name: 'Story 1',
+          importPath: './path/to/component-a.ts',
+        },
+      });
+      provider.serverChannel.emit(STORY_INDEX_INVALIDATED);
+      expect(global.fetch).toHaveBeenCalledTimes(1);
+
+      // Let the promise/await chain resolve
+      await new Promise((r) => setTimeout(r, 0));
+      const { index, indexError: newIndexError } = store.getState();
+      expect(newIndexError).not.toBeDefined();
 
       expect(Object.keys(index)).toEqual(['component-a', 'component-a--story-1']);
     });

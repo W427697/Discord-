@@ -24,13 +24,20 @@ Run the following command to install the addon and the required dependencies.
 
 <!-- prettier-ignore-end -->
 
-Update your Storybook configuration (in `.storybook/main.js`) to include the interactions addon.
+<div class="aside">
+
+ℹ️ Installing the package with `@next` will install the cutting-edge version of it. Be advised prerelease versions are subject to breaking changes and are not recommended for production use. Use at your own risk.
+
+</div>
+
+Update your Storybook configuration (in `.storybook/main.js|ts`) to include the interactions addon.
 
 <!-- prettier-ignore-start -->
 
 <CodeSnippets
   paths={[
-   'common/storybook-addon-interaction-registration.js.mdx',
+   'common/storybook-interactions-addon-registration.js.mdx',
+   'common/storybook-interactions-addon-registration.ts.mdx',
   ]}
 />
 
@@ -44,10 +51,11 @@ Storybook's `play` functions are small code snippets that run once the story fin
 
 <CodeSnippets
   paths={[
-   'common/register-component-with-play-function.js.mdx',
-   'common/register-component-with-play-function.ts.mdx',
+   'angular/register-component-with-play-function.ts.mdx',
    'web-components/register-component-with-play-function.js.mdx',
    'web-components/register-component-with-play-function.ts.mdx',
+   'common/register-component-with-play-function.js.mdx',
+   'common/register-component-with-play-function.ts.mdx',
   ]}
   usesCsf3
   csf2Path="writing-stories/play-function#snippet-register-component-with-play-function"
@@ -71,10 +79,11 @@ Thanks to the [Component Story Format](../api/csf.md), an ES6 module based file 
 
 <CodeSnippets
   paths={[
-   'common/my-component-play-function-composition.js.mdx',
-   'common/my-component-play-function-composition.ts.mdx',
+   'angular/my-component-play-function-composition.ts.mdx',
    'web-components/my-component-play-function-composition.js.mdx',
    'web-components/my-component-play-function-composition.ts.mdx',
+   'common/my-component-play-function-composition.js.mdx',
+   'common/my-component-play-function-composition.ts.mdx',
   ]}
   usesCsf3
   csf2Path="writing-stories/play-function#snippet-my-component-play-function-composition"
@@ -94,10 +103,11 @@ A common type of component interaction is a button click. If you need to reprodu
 
 <CodeSnippets
   paths={[
-   'common/my-component-play-function-with-clickevent.js.mdx',
-   'common/my-component-play-function-with-clickevent.ts.mdx',
+   'angular/my-component-play-function-with-clickevent.ts.mdx',
    'web-components/my-component-play-function-with-clickevent.js.mdx',
    'web-components/my-component-play-function-with-clickevent.ts.mdx',
+   'common/my-component-play-function-with-clickevent.js.mdx',
+   'common/my-component-play-function-with-clickevent.ts.mdx',
   ]}
   usesCsf3
   csf2Path="writing-stories/play-function#snippet-my-component-play-function-with-clickevent"
@@ -113,10 +123,11 @@ Asides from click events, you can also script additional events with the `play` 
 
 <CodeSnippets
   paths={[
-   'common/my-component-play-function-with-selectevent.js.mdx',
-   'common/my-component-play-function-with-selectevent.ts.mdx',
+   'angular/my-component-play-function-with-selectevent.ts.mdx',
    'web-components/my-component-play-function-with-selectevent.js.mdx',
    'web-components/my-component-play-function-with-selectevent.ts.mdx',
+   'common/my-component-play-function-with-selectevent.js.mdx',
+   'common/my-component-play-function-with-selectevent.ts.mdx',
   ]}
   usesCsf3
   csf2Path="writing-stories/play-function#snippet-my-component-play-function-with-selectevent"
@@ -130,10 +141,11 @@ In addition to events, you can also create interactions with the `play` function
 
 <CodeSnippets
   paths={[
-   'common/my-component-play-function-with-delay.js.mdx',
-   'common/my-component-play-function-with-delay.ts.mdx',
+   'angular/my-component-play-function-with-delay.ts.mdx',
    'web-components/my-component-play-function-with-delay.js.mdx',
    'web-components/my-component-play-function-with-delay.ts.mdx',
+   'common/my-component-play-function-with-delay.js.mdx',
+   'common/my-component-play-function-with-delay.ts.mdx',
   ]}
   usesCsf3
   csf2Path="writing-stories/play-function#snippet-my-component-play-function-with-delay"
@@ -149,10 +161,11 @@ You can also use the `play` function to verify the existence of an element based
 
 <CodeSnippets
   paths={[
-   'common/my-component-play-function-waitfor.js.mdx',
-   'common/my-component-play-function-waitfor.ts.mdx',
+   'angular/my-component-play-function-waitfor.ts.mdx',
    'web-components/my-component-play-function-waitfor.js.mdx',
    'web-components/my-component-play-function-waitfor.ts.mdx',
+   'common/my-component-play-function-waitfor.js.mdx',
+   'common/my-component-play-function-waitfor.ts.mdx',
   ]}
   usesCsf3
   csf2Path="writing-stories/play-function#snippet-my-component-play-function-waitfor"
@@ -168,10 +181,11 @@ If you need, you can also adjust your `play` function to find elements based on 
 
 <CodeSnippets
   paths={[
-   'common/my-component-play-function-alt-queries.js.mdx',
-   'common/my-component-play-function-alt-queries.ts.mdx',
+   'angular/my-component-play-function-alt-queries.ts.mdx',
    'web-components/my-component-play-function-alt-queries.js.mdx',
    'web-components/my-component-play-function-alt-queries.ts.mdx',
+   'common/my-component-play-function-alt-queries.js.mdx',
+   'common/my-component-play-function-alt-queries.ts.mdx',
   ]}
   usesCsf3
   csf2Path="writing-stories/play-function#snippet-my-component-play-function-alt-queries"
@@ -191,10 +205,11 @@ Otherwise, if the component is not immediately available, for instance, due to a
 
 <CodeSnippets
   paths={[
-   'common/my-component-play-function-query-findby.js.mdx',
-   'common/my-component-play-function-query-findby.ts.mdx',
+   'angular/my-component-play-function-query-findby.ts.mdx',
    'web-components/my-component-play-function-query-findby.js.mdx',
    'web-components/my-component-play-function-query-findby.ts.mdx',
+   'common/my-component-play-function-query-findby.js.mdx',
+   'common/my-component-play-function-query-findby.ts.mdx',
   ]}
   usesCsf3
   csf2Path="writing-stories/play-function#snippet-my-component-play-function-query-findby"
@@ -210,10 +225,11 @@ By default, each interaction you write inside your `play` function will be execu
 
 <CodeSnippets
   paths={[
-   'common/my-component-play-function-with-canvas.js.mdx',
-   'common/my-component-play-function-with-canvas.ts.mdx',
+   'angular/my-component-play-function-with-canvas.ts.mdx',
    'web-components/my-component-play-function-with-canvas.js.mdx',
    'web-components/my-component-play-function-with-canvas.ts.mdx',
+   'common/my-component-play-function-with-canvas.js.mdx',
+   'common/my-component-play-function-with-canvas.ts.mdx',
   ]}
   usesCsf3
   csf2Path="writing-stories/play-function#snippet-my-component-play-function-with-canvas"
