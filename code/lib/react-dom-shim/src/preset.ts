@@ -4,7 +4,7 @@ import { version } from 'react-dom/package.json';
 
 export const webpackFinal = async (config: any, options: Options) => {
   const { legacyRootApi } =
-    (await options.presets.apply<{ legacyRootApi?: boolean }>('frameworkOptions')) || {};
+    (await options.presets.apply<{ legacyRootApi?: boolean } | null>('frameworkOptions')) || {};
 
   const isReact18 = version.startsWith('18') || version.startsWith('0.0.0');
   const useReact17 = legacyRootApi ?? !isReact18;
@@ -24,7 +24,7 @@ export const webpackFinal = async (config: any, options: Options) => {
 
 export const viteFinal = async (config: any, options: Options) => {
   const { legacyRootApi } =
-    (await options.presets.apply<{ legacyRootApi?: boolean }>('frameworkOptions')) || {};
+    (await options.presets.apply<{ legacyRootApi?: boolean } | null>('frameworkOptions')) || {};
 
   const isReact18 = version.startsWith('18') || version.startsWith('0.0.0');
   const useReact17 = legacyRootApi || !isReact18;
