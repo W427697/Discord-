@@ -95,6 +95,11 @@ describe('ComposeStories types', () => {
 
     expectTypeOf({
       ...stories,
+      default: stories.default as Meta<typeof Button>,
+    }).toMatchTypeOf<ComposeStoriesParam>();
+
+    expectTypeOf({
+      ...stories,
       default: stories.default satisfies Meta<typeof Button>,
     }).toMatchTypeOf<ComposeStoriesParam>();
   });
