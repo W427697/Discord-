@@ -3,10 +3,12 @@ import type { CLIOptions, CoreConfig } from '@storybook/types';
 import { loadAllPresets, cache } from '@storybook/core-common';
 import { telemetry, getPrecedingUpgrade, oneWayHash } from '@storybook/telemetry';
 import type { EventType } from '@storybook/telemetry';
+import { logger } from '@storybook/node-logger';
 
 type TelemetryOptions = {
   cliOptions: CLIOptions;
   presetOptions?: Parameters<typeof loadAllPresets>[0];
+  printError?: (err: any) => void;
 };
 
 const promptCrashReports = async () => {
@@ -17,7 +19,7 @@ const promptCrashReports = async () => {
   const { enableCrashReports } = await prompts({
     type: 'confirm',
     name: 'enableCrashReports',
-    message: `Would you like to send crash reports to Storybook?`,
+    message: `Would you like to help improve Storybook by sending anonymous crash reports?`,
     initial: true,
   });
 
@@ -58,41 +60,56 @@ async function getErrorLevel({ cliOptions, presetOptions }: TelemetryOptions): P
   return 'full';
 }
 
-export async function withTelemetry(
+export async function sendTelemetryError(
+  error: Error,
+  eventType: EventType,
+  options: TelemetryOptions
+) {
+  try {
+    let errorLevel = 'error';
+    try {
+      errorLevel = await getErrorLevel(options);
+    } catch (err) {
+      // If this throws, eg. due to main.js breaking, we fall back to 'error'
+    }
+    if (errorLevel !== 'none') {
+      const precedingUpgrade = await getPrecedingUpgrade();
+
+      await telemetry(
+        'error',
+        {
+          eventType,
+          precedingUpgrade,
+          error: errorLevel === 'full' ? error : undefined,
+          errorHash: oneWayHash(error.message || ''),
+        },
+        {
+          immediate: true,
+          configDir: options.cliOptions.configDir || options.presetOptions?.configDir,
+          enableCrashReports: errorLevel === 'full',
+        }
+      );
+    }
+  } catch (err) {
+    // if this throws an error, we just move on
+  }
+}
+
+export async function withTelemetry<T>(
   eventType: EventType,
   options: TelemetryOptions,
-  run: () => Promise<any>
-) {
+  run: () => Promise<T>
+): Promise<T> {
   if (!options.cliOptions.disableTelemetry)
     telemetry('boot', { eventType }, { stripMetadata: true });
 
   try {
-    await run();
+    return await run();
   } catch (error) {
-    try {
-      const errorLevel = await getErrorLevel(options);
-      if (errorLevel !== 'none') {
-        const precedingUpgrade = await getPrecedingUpgrade();
+    const { printError = logger.error } = options;
+    printError(error);
 
-        await telemetry(
-          'error',
-          {
-            eventType,
-            precedingUpgrade,
-            error: errorLevel === 'full' ? error : undefined,
-            errorHash: oneWayHash(error.message),
-          },
-          {
-            immediate: true,
-            configDir: options.cliOptions.configDir || options.presetOptions?.configDir,
-            enableCrashReports: errorLevel === 'full',
-          }
-        );
-      }
-    } catch (err) {
-      // if this throws an error, we just move on
-    }
-
+    await sendTelemetryError(error, eventType, options);
     throw error;
   }
 }

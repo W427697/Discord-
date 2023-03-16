@@ -49,10 +49,7 @@ command('init')
   .option('-b --builder <webpack5 | vite>', 'Builder library')
   .option('-l --linkable', 'Prepare installation for link (contributor helper)')
   .action((options: CommandOptions) => {
-    initiate(options, pkg).catch((err) => {
-      logger.error(err);
-      process.exit(1);
-    });
+    initiate(options, pkg).catch(() => process.exit(1));
   });
 
 command('add <addon>')
@@ -81,7 +78,8 @@ command('upgrade')
   .option('-t --tag <tag>', 'Upgrade to a certain npm dist-tag (e.g. next, prerelease)')
   .option('-p --prerelease', 'Upgrade to the pre-release packages')
   .option('-s --skip-check', 'Skip postinstall version and automigration checks')
-  .action((options: UpgradeOptions) => upgrade(options));
+  .option('-c, --config-dir <dir-name>', 'Directory where to load Storybook configurations from')
+  .action(async (options: UpgradeOptions) => upgrade(options).catch(() => process.exit(1)));
 
 command('info')
   .description('Prints debugging information about the local environment')
@@ -166,6 +164,12 @@ command('automigrate [fixId]')
   .option('--package-manager <npm|pnpm|yarn1|yarn2>', 'Force package manager')
   .option('-N --use-npm', 'Use npm as package manager (deprecated)')
   .option('-l --list', 'List available migrations')
+  .option('-c, --config-dir <dir-name>', 'Directory of Storybook configurations to migrate')
+  .option('-s --skip-install', 'Skip installing deps')
+  .option(
+    '--renderer <renderer-pkg-name>',
+    'The renderer package for the framework Storybook is using.'
+  )
   .action(async (fixId, options) => {
     await automigrate({ fixId, ...options }).catch((e) => {
       logger.error(e);
@@ -208,7 +212,7 @@ command('dev')
   )
   .option('--force-build-preview', 'Build the preview iframe even if you are using --preview-url')
   .option('--docs', 'Build a documentation-only site using addon-docs')
-  .action((options) => {
+  .action(async (options) => {
     logger.setLevel(program.loglevel);
     consoleLogger.log(chalk.bold(`${pkg.name} v${pkg.version}`) + chalk.reset('\n'));
 
@@ -226,7 +230,7 @@ command('dev')
       program.port = parseInt(program.port, 10);
     }
 
-    dev({ ...options, packageJson: pkg });
+    await dev({ ...options, packageJson: pkg }).catch(() => process.exit(1));
   });
 
 command('build')
@@ -243,7 +247,7 @@ command('build')
   )
   .option('--force-build-preview', 'Build the preview iframe even if you are using --preview-url')
   .option('--docs', 'Build a documentation-only site using addon-docs')
-  .action((options) => {
+  .action(async (options) => {
     process.env.NODE_ENV = process.env.NODE_ENV || 'production';
     logger.setLevel(program.loglevel);
     consoleLogger.log(chalk.bold(`${pkg.name} v${pkg.version}\n`));
@@ -256,7 +260,7 @@ command('build')
       configDir: 'SBCONFIG_CONFIG_DIR',
     });
 
-    build({ ...options, packageJson: pkg });
+    await build({ ...options, packageJson: pkg }).catch(() => process.exit(1));
   });
 
 program.on('command:*', ([invalidCmd]) => {

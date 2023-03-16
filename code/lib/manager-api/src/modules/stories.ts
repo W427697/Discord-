@@ -16,7 +16,7 @@ import {
   CURRENT_STORY_WAS_SET,
   STORY_MISSING,
 } from '@storybook/core-events';
-import { deprecate, logger } from '@storybook/client-logger';
+import { logger } from '@storybook/client-logger';
 
 import type {
   StoryId,
@@ -56,19 +56,6 @@ type StoryUpdate = Pick<API_StoryEntry, 'parameters' | 'initialArgs' | 'argTypes
 export interface SubState extends API_LoadedRefData {
   storyId: StoryId;
   viewMode: ViewMode;
-
-  /**
-   * @deprecated use index
-   */
-  storiesHash: API_IndexHash;
-  /**
-   * @deprecated use previewInitialized
-   */
-  storiesConfigured: boolean;
-  /**
-   * @deprecated use indexError
-   */
-  storiesFailed?: Error;
 }
 
 export interface SubAPI {
@@ -147,6 +134,9 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
     },
     resolveStory: (storyId, refId) => {
       const { refs, index } = store.getState();
+      if (refId && !refs[refId]) {
+        return null;
+      }
       if (refId) {
         return refs[refId].index ? refs[refId].index[storyId] : undefined;
       }
@@ -354,7 +344,7 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
       // Now we need to patch in the existing prepared stories
       const oldHash = store.getState().index;
 
-      await store.setState({ index: addPreparedStories(newHash, oldHash) });
+      await store.setState({ index: addPreparedStories(newHash, oldHash), indexError: undefined });
     },
     updateStory: async (
       storyId: StoryId,
@@ -544,20 +534,6 @@ export const init: ModuleFn<SubAPI, SubState, true> = ({
       viewMode: initialViewMode,
       hasCalledSetOptions: false,
       previewInitialized: false,
-
-      // deprecated fields for back-compat
-      get storiesHash() {
-        deprecate('state.storiesHash is deprecated, please use state.index');
-        return this.index || {};
-      },
-      get storiesConfigured() {
-        deprecate('state.storiesConfigured is deprecated, please use state.previewInitialized');
-        return this.previewInitialized;
-      },
-      get storiesFailed() {
-        deprecate('state.storiesFailed is deprecated, please use state.indexError');
-        return this.indexError;
-      },
     },
     init: initModule,
   };

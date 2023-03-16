@@ -6,7 +6,14 @@ import type {
   CSFFile,
   PreparedStory,
   NormalizedProjectAnnotations,
+  RenderContext,
+  PreparedMeta,
 } from './story';
+
+export type RenderContextCallbacks<TRenderer extends Renderer> = Pick<
+  RenderContext<TRenderer>,
+  'showMain' | 'showError' | 'showException'
+>;
 
 export type StoryRenderOptions = {
   autoplay?: boolean;
@@ -15,14 +22,6 @@ export type StoryRenderOptions = {
 
 export type ResolvedModuleExportType = 'component' | 'meta' | 'story';
 
-export type ResolvedModuleExportFromType<
-  TType extends ResolvedModuleExportType,
-  TRenderer extends Renderer = Renderer
-> = TType extends 'component'
-  ? { type: 'component'; component: TRenderer['component'] }
-  : TType extends 'meta'
-  ? { type: 'meta'; csfFile: CSFFile<TRenderer> }
-  : { type: 'story'; story: PreparedStory<TRenderer> };
 /**
  * What do we know about an of={} call?
  *
@@ -31,6 +30,19 @@ export type ResolvedModuleExportFromType<
  *   - story === `PreparedStory`
  * But these shorthands capture the idea of what is being talked about
  */
+export type ResolvedModuleExportFromType<
+  TType extends ResolvedModuleExportType,
+  TRenderer extends Renderer = Renderer
+> = TType extends 'component'
+  ? {
+      type: 'component';
+      component: TRenderer['component'];
+      projectAnnotations: NormalizedProjectAnnotations<Renderer>;
+    }
+  : TType extends 'meta'
+  ? { type: 'meta'; csfFile: CSFFile<TRenderer>; preparedMeta: PreparedMeta }
+  : { type: 'story'; story: PreparedStory<TRenderer> };
+
 export type ResolvedModuleExport<TRenderer extends Renderer = Renderer> = {
   type: ResolvedModuleExportType;
 } & (
@@ -86,6 +98,7 @@ export interface DocsContextProps<TRenderer extends Renderer = Renderer> {
   renderStoryToElement: (
     story: PreparedStory<TRenderer>,
     element: HTMLElement,
+    callbacks: RenderContextCallbacks<TRenderer>,
     options: StoryRenderOptions
   ) => () => Promise<void>;
 
@@ -103,6 +116,5 @@ export interface DocsContextProps<TRenderer extends Renderer = Renderer> {
 export type DocsRenderFunction<TRenderer extends Renderer> = (
   docsContext: DocsContextProps<TRenderer>,
   docsParameters: Parameters,
-  element: HTMLElement,
-  callback: () => void
-) => void;
+  element: HTMLElement
+) => Promise<void>;
