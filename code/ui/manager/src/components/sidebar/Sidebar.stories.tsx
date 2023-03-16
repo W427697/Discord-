@@ -1,6 +1,6 @@
 import React from 'react';
 
-import type { IndexHash } from 'lib/manager-api/src';
+import type { IndexHash } from '../../api';
 import { Sidebar, DEFAULT_REF_ID } from './Sidebar';
 import { standardData as standardHeaderData } from './Heading.stories';
 import * as ExplorerStories from './Explorer.stories';

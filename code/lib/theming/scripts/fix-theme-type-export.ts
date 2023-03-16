@@ -3,9 +3,11 @@ import { readFile, writeFile } from 'fs-extra';
 import { dedent } from 'ts-dedent';
 import { join } from 'path';
 
+const EXTENSION_REGEX = /(from '.*)\.js';/g;
+
 const run = async () => {
   const target = join(process.cwd(), 'dist', 'index.d.ts');
-  const contents = await readFile(target, 'utf8');
+  let contents = await readFile(target, 'utf8');
 
   const footer = contents.includes('// devmode')
     ? `export { StorybookTheme as Theme } from '../src/index';`
@@ -14,12 +16,13 @@ const run = async () => {
         export type { Theme };
       `;
 
-  const newContents = dedent`
+  contents = contents.replace(EXTENSION_REGEX, `$1';`);
+  contents = dedent`
     ${contents}
     ${footer}
   `;
 
-  await writeFile(target, newContents);
+  await writeFile(target, contents);
 };
 
 run().catch((e) => {
