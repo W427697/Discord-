@@ -11,13 +11,42 @@ export const core: PresetProperty<'core', StorybookConfig> = {
   renderer: wrapForPnP('@storybook/react'),
 };
 
-export const viteFinal: StorybookConfig['viteFinal'] = async (config, { presets }) => {
+function getFastRefresh(isDevelopment: boolean, framework: unknown): boolean | undefined {
+  if (!isDevelopment) return false;
+
+  const fastRefresh: boolean | undefined =
+    framework != null &&
+    typeof framework === 'object' &&
+    'options' in framework &&
+    framework.options != null &&
+    typeof framework.options === 'object' &&
+    'fastRefresh' in framework.options &&
+    typeof framework.options.fastRefresh === 'boolean'
+      ? framework.options.fastRefresh
+      : undefined;
+
+  if (typeof fastRefresh === 'boolean') return fastRefresh;
+  if (process.env.FAST_REFRESH === 'true') return true;
+  if (process.env.FAST_REFRESH === 'false') return false;
+
+  return undefined;
+}
+
+export const viteFinal: StorybookConfig['viteFinal'] = async (config, options) => {
+  const { presets } = options;
   const { plugins = [] } = config;
 
   // Add react plugin if not present
   if (!(await hasVitePlugins(plugins, ['vite:react-babel', 'vite:react-swc']))) {
     const { default: react } = await import('@vitejs/plugin-react');
-    plugins.push(react());
+
+    const framework = await presets.apply('framework');
+
+    plugins.push(
+      react({
+        fastRefresh: getFastRefresh(options.configType === 'DEVELOPMENT', framework),
+      })
+    );
   }
 
   // Add docgen plugin

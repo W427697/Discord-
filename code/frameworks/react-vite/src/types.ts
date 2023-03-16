@@ -9,6 +9,7 @@ type FrameworkName = '@storybook/react-vite';
 type BuilderName = '@storybook/builder-vite';
 
 export type FrameworkOptions = {
+  fastRefresh?: boolean;
   builder?: BuilderOptions;
   strictMode?: boolean;
   /**
