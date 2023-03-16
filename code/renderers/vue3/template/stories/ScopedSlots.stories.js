@@ -96,3 +96,41 @@ export const FunctionScopedSlot = {
     );
   },
 };
+// test story without render function
+export const BasicScopedSlot = {
+  args: {
+    label: 'Storybook Day',
+    year: 2022,
+    default: ({ text, year }) => {
+      return `${text} , ${year}`;
+    },
+  },
+
+  // test that args are updated correctly in rective mode
+  play: async ({ canvasElement, id }) => {
+    const channel = globalThis.__STORYBOOK_ADDONS_CHANNEL__;
+    const canvas = within(canvasElement);
+
+    await channel.emit(RESET_STORY_ARGS, { storyId: id });
+    await new Promise((resolve) => {
+      channel.once(STORY_ARGS_UPDATED, resolve);
+    });
+    await expect(canvas.getByTestId('scoped-slot')).toHaveTextContent(
+      'Hello Storybook Day from the slot , 2022'
+    );
+
+    await channel.emit(UPDATE_STORY_ARGS, {
+      storyId: id,
+      updatedArgs: {
+        label: 'Storybook Day updated',
+        year: 2023,
+      },
+    });
+    await new Promise((resolve) => {
+      channel.once(STORY_ARGS_UPDATED, resolve);
+    });
+    await expect(canvas.getByTestId('scoped-slot')).toHaveTextContent(
+      'Hello Storybook Day updated from the slot , 2023'
+    );
+  },
+};

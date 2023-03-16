@@ -18,7 +18,6 @@ import { getStoryIndexGenerator } from './utils/getStoryIndexGenerator';
 import { doTelemetry } from './utils/doTelemetry';
 import { router } from './utils/router';
 import { getAccessControlMiddleware } from './utils/getAccessControlMiddleware';
-import { getCachingMiddleware } from './utils/get-caching-middleware';
 
 export async function storybookDevServer(options: Options) {
   const app = express();
@@ -49,7 +48,6 @@ export async function storybookDevServer(options: Options) {
   }
 
   app.use(getAccessControlMiddleware(core?.crossOriginIsolated));
-  app.use(getCachingMiddleware());
 
   getMiddleware(options.configDir)(router);
 

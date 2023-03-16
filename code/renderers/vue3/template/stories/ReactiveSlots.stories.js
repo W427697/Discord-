@@ -9,10 +9,10 @@ export default {
   component: BaseLayout,
 };
 
-export const ReactiveSlotTest = {
+export const NamedSlotTest = {
   args: {
     label: 'Storybook Day',
-    header: () => h('h1', 'Header Functional Component Slot'),
+    header: ({ title }) => h('h1', title),
     default: () => 'Default Text Slot',
     footer: h('h2', 'Footer VNode Slot'),
   },
@@ -26,7 +26,7 @@ export const ReactiveSlotTest = {
       channel.once(STORY_ARGS_UPDATED, resolve);
     });
     await expect(canvas.getByTestId('header-slot').innerText).toContain(
-      'Header Functional Component Slot'
+      'Header title from the slot'
     );
     await expect(canvas.getByTestId('default-slot').innerText).toContain('Default Text Slot');
     await expect(canvas.getByTestId('footer-slot').innerText).toContain('Footer VNode Slot');

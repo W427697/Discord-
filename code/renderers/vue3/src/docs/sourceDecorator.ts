@@ -32,6 +32,7 @@ import {
 const skipSourceRender = (context: StoryContext<Renderer>) => {
   const sourceParams = context?.parameters.docs?.source;
   const isArgsStory = context?.parameters.__isArgsStory;
+  const isDocsViewMode = context?.viewMode === 'docs';
 
   // always render if the user forces it
   if (sourceParams?.type === SourceType.DYNAMIC) {
@@ -40,7 +41,9 @@ const skipSourceRender = (context: StoryContext<Renderer>) => {
 
   // never render if the user is forcing the block to render code, or
   // if the user provides code, or if it's not an args story.
-  return !isArgsStory || sourceParams?.code || sourceParams?.type === SourceType.CODE;
+  return (
+    !isDocsViewMode || !isArgsStory || sourceParams?.code || sourceParams?.type === SourceType.CODE
+  );
 };
 
 /**
@@ -249,7 +252,7 @@ export function generateTemplateSource(
 export const sourceDecorator = (storyFn: any, context: StoryContext<Renderer>) => {
   const skip = skipSourceRender(context);
   const story = storyFn();
-  generateSource(context);
+
   watch(
     () => context.args,
     () => {
@@ -257,7 +260,7 @@ export const sourceDecorator = (storyFn: any, context: StoryContext<Renderer>) =
         generateSource(context);
       }
     },
-    { deep: true }
+    { immediate: true, deep: true }
   );
   return story;
 };
