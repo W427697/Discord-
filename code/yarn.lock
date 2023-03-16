@@ -5593,7 +5593,7 @@ __metadata:
   resolution: "@storybook/api@workspace:lib/manager-api-shim"
   dependencies:
     "@storybook/client-logger": 7.0.0-rc.3
-    "@storybook/manager-api": 7.0.0-rc.3
+    "@storybook/manager": 7.0.0-rc.3
   peerDependencies:
     react: ^16.8.0 || ^17.0.0 || ^18.0.0
     react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0

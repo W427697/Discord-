@@ -43,7 +43,7 @@
   },
   "dependencies": {
     "@storybook/client-logger": "7.0.0-rc.3",
-    "@storybook/manager-api": "7.0.0-rc.3"
+    "@storybook/manager": "7.0.0-rc.3"
   },
   "peerDependencies": {
     "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
@@ -64,7 +64,7 @@
     "entries": [
       "./src/entry.ts"
     ],
-    "shim": "@storybook/manager-api"
+    "shim": "@storybook/manager/dist/api"
   },
   "gitHead": "94e99533b214c24691cc9edb3a026d04f20154b6"
 }

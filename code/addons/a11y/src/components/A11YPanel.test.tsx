@@ -1,3 +1,4 @@
+/* eslint-disable import/namespace */
 import React from 'react';
 import { render, waitFor, fireEvent, act } from '@testing-library/react';
 

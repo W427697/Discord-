@@ -1,3 +1,4 @@
+/* eslint-disable import/namespace */
 import * as React from 'react';
 import type { AxeResults } from 'axe-core';
 import { render, act } from '@testing-library/react';

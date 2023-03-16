@@ -1,3 +1,4 @@
+/* eslint-disable import/namespace */
 import * as api from '@storybook/manager-api';
 import { PANEL_ID } from './constants';
 import './manager';
