@@ -1,11 +1,9 @@
 <!-- <MyComponent> template -->
-<script setup>
-
+<script setup lang="ts">
 const props = defineProps({
   label: String,
   year: Number,
-})
-
+});
 </script>
 <template>
   <div data-testid="scoped-slot">
