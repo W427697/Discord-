@@ -251,7 +251,6 @@ command('build')
     logger.setLevel(program.loglevel);
     consoleLogger.log(chalk.bold(`${pkg.name} v${pkg.version}\n`));
 
-
     // The key is the field created in `options` variable for
     // each command line argument. Value is the env variable.
     getEnvConfig(options, {
