@@ -1,4 +1,4 @@
-/// <reference types="webpack" />
+/// <reference types="node" />
 
 function webpack(
   webpackConfig = { module: { rules: [] as Array<unknown> } },

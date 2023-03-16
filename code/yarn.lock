@@ -5426,6 +5426,7 @@ __metadata:
     "@storybook/router": 7.0.0-rc.3
     "@storybook/source-loader": 7.0.0-rc.3
     "@storybook/theming": 7.0.0-rc.3
+    "@types/node": ^16.0.0
     "@types/react": ^16.14.34
     "@types/react-syntax-highlighter": 11.0.5
     estraverse: ^5.2.0
