@@ -1,5 +1,4 @@
 /* eslint-disable import/no-cycle */
-import { useStorybookApi } from '@storybook/manager-api';
 import { styled } from '@storybook/theming';
 import { Icons } from '@storybook/components';
 import type { DownshiftState, StateChangeOptions } from 'downshift';
@@ -8,6 +7,7 @@ import type { FuseOptions } from 'fuse.js';
 import Fuse from 'fuse.js';
 import { global } from '@storybook/global';
 import React, { useMemo, useRef, useState, useCallback } from 'react';
+import { useStorybookApi } from '../../api';
 
 import { DEFAULT_REF_ID } from './Sidebar';
 import type {

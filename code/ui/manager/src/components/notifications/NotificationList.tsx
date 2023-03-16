@@ -1,8 +1,8 @@
 import type { FC } from 'react';
 import React from 'react';
-import type { State } from '@storybook/manager-api';
 import { styled } from '@storybook/theming';
 import type { CSSObject } from '@storybook/theming';
+import type { State } from '../../api';
 import NotificationItem from './NotificationItem';
 
 const List = styled.div<{ placement?: CSSObject }>(

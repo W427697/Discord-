@@ -1,8 +1,8 @@
 import { global } from '@storybook/global';
 import React from 'react';
 
-import type { Combo, StoriesHash } from '@storybook/manager-api';
-import { Consumer } from '@storybook/manager-api';
+import type { Combo, StoriesHash } from '../api';
+import { Consumer } from '../api';
 
 import { Preview } from '../components/preview/preview';
 

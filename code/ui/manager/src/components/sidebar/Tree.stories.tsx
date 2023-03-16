@@ -1,8 +1,8 @@
 /* eslint-disable storybook/use-storybook-testing-library */
 // @TODO: use addon-interactions and remove the rule disable above
 import React from 'react';
-import type { ComponentEntry, IndexHash } from '@storybook/manager-api';
 import { screen } from '@testing-library/dom';
+import type { ComponentEntry, IndexHash } from '../../api';
 
 import { Tree } from './Tree';
 import { index } from './mockdata.large';

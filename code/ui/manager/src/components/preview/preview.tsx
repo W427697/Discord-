@@ -2,19 +2,11 @@ import React, { Fragment, useMemo, useEffect, useRef, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { global } from '@storybook/global';
 
-import {
-  type API,
-  Consumer,
-  type Combo,
-  merge,
-  addons,
-  types,
-  type Addon,
-} from '@storybook/manager-api';
 import { PREVIEW_BUILDER_PROGRESS, SET_CURRENT_STORY } from '@storybook/core-events';
 
 import { Loader } from '@storybook/components';
 import { Location } from '@storybook/router';
+import { type API, Consumer, type Combo, merge, addons, types, type Addon } from '../../api';
 
 import * as S from './utils/components';
 import { ZoomProvider, ZoomConsumer } from './tools/zoom';

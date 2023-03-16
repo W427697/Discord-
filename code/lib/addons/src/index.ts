@@ -2,7 +2,7 @@ import { type Addon_Type, Addon_TypesEnum } from '@storybook/types';
 
 export { type Addon_Type as Addon, Addon_TypesEnum as types };
 
-export { addons, type AddonStore, mockChannel } from '@storybook/manager-api';
+export { addons, type AddonStore, mockChannel } from '@storybook/manager/dist/api';
 
 export {
   type EventMap,

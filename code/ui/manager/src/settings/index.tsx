@@ -1,10 +1,10 @@
-import { useStorybookApi, useStorybookState } from '@storybook/manager-api';
 import { IconButton, Icons, FlexBar, TabBar, TabButton, ScrollArea } from '@storybook/components';
 import { Location, Route } from '@storybook/router';
 import { styled } from '@storybook/theming';
 import { global } from '@storybook/global';
 import type { FC, SyntheticEvent } from 'react';
 import React, { Fragment } from 'react';
+import { useStorybookApi, useStorybookState } from '../api';
 
 import { AboutPage } from './about_page';
 import { ReleaseNotesPage } from './release_notes_page';

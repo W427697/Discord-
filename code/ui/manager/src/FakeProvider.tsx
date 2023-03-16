@@ -1,6 +1,6 @@
 import React from 'react';
 import { styled } from '@storybook/theming';
-import { addons } from '@storybook/manager-api';
+import { addons } from './api';
 import Provider from './provider';
 
 export class FakeProvider extends Provider {

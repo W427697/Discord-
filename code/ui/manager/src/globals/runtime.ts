@@ -6,8 +6,8 @@ import * as STORYBOOKCHANNELS from '@storybook/channels';
 import * as STORYBOOKEVENTS from '@storybook/core-events';
 import * as STORYBOOKROUTER from '@storybook/router';
 import * as STORYBOOKTHEMING from '@storybook/theming';
-import * as STORYBOOKMANAGERAPI from '@storybook/manager-api';
 import * as STORYBOOKCLIENTLOGGER from '@storybook/client-logger';
+import * as STORYBOOKMANAGERAPI from '../api';
 
 import type { Keys } from './types';
 

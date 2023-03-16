@@ -1,10 +1,10 @@
 import type { FC } from 'react';
 import React, { Fragment, useMemo, useEffect, useState } from 'react';
-import type { Combo } from '@storybook/manager-api';
-import { Consumer } from '@storybook/manager-api';
 import { Button, getStoryHref } from '@storybook/components';
 import { Global, styled } from '@storybook/theming';
 import type { CSSObject } from '@storybook/theming';
+import { Consumer } from '../../api';
+import type { Combo } from '../../api';
 import { IFrame } from './iframe';
 import type { FramesRendererProps } from './utils/types';
 import { stringifyQueryParams } from './utils/stringifyQueryParams';

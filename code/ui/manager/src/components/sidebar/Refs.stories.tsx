@@ -1,5 +1,5 @@
 import React from 'react';
-import { ManagerContext } from '@storybook/manager-api';
+import { ManagerContext } from '../../api';
 
 import { Ref } from './Refs';
 import { standardData as standardHeaderData } from './Heading.stories';

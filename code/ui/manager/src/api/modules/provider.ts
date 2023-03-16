@@ -5,6 +5,7 @@ export interface SubAPI {
   renderPreview?: API_Provider<API>['renderPreview'];
 }
 
+// eslint-disable-next-line @typescript-eslint/ban-types
 export const init: ModuleFn<SubAPI, {}, true> = ({ provider, fullAPI }) => {
   return {
     api: provider.renderPreview ? { renderPreview: provider.renderPreview } : {},

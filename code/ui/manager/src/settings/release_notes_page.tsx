@@ -1,6 +1,6 @@
-import { useStorybookApi } from '@storybook/manager-api';
 import type { FC } from 'react';
 import React, { useEffect } from 'react';
+import { useStorybookApi } from '../api';
 
 import { ReleaseNotesScreen } from './release_notes';
 

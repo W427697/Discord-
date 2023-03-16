@@ -2,10 +2,10 @@ import type { FC } from 'react';
 import React, { useCallback, useMemo } from 'react';
 
 import { Badge, Icons } from '@storybook/components';
-import type { API } from '@storybook/manager-api';
 import { styled, useTheme } from '@storybook/theming';
+import type { API } from '../api';
 
-import { shortcutToHumanString } from '@storybook/manager-api';
+import { shortcutToHumanString } from '../api';
 
 const focusableUIElements = {
   storySearchField: 'storybook-explorer-searchfield',

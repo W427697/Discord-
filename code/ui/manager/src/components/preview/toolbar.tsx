@@ -4,6 +4,7 @@ import React, { Fragment, useMemo } from 'react';
 import { styled } from '@storybook/theming';
 
 import { FlexBar, IconButton, Icons, Separator, TabButton, TabBar } from '@storybook/components';
+import { Location, type RenderData } from '@storybook/router';
 import {
   shortcutToHumanString,
   Consumer,
@@ -15,9 +16,8 @@ import {
   addons,
   type Addon,
   types,
-} from '@storybook/manager-api';
+} from '../../api';
 
-import { Location, type RenderData } from '@storybook/router';
 import { zoomTool } from './tools/zoom';
 
 import * as S from './utils/components';

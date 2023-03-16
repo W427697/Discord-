@@ -5,8 +5,8 @@ import type { FC, MouseEventHandler, ReactNode } from 'react';
 import React, { useCallback, useEffect } from 'react';
 import type { ControllerStateAndHelpers } from 'downshift';
 
-import { useStorybookApi } from '@storybook/manager-api';
 import { PRELOAD_ENTRIES } from '@storybook/core-events';
+import { useStorybookApi } from '../../api';
 import { ComponentNode, DocumentNode, Path, RootNode, StoryNode } from './TreeNode';
 import type { Match, DownshiftItem, SearchResult } from './types';
 import { isCloseType, isClearType, isExpandType } from './types';

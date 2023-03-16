@@ -296,7 +296,8 @@ const EffectOnMount: FC<{
   children: ReactElement;
   effect: () => void;
 }> = ({ children, effect }) => {
-  React.useEffect(effect, []);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(effect, []);
   return children;
 };
 
@@ -324,12 +325,14 @@ function ManagerConsumer<P = Combo>({
 
   const l = useMemo(() => {
     return [...Object.entries(data).reduce((acc, keyval) => acc.concat(keyval), [])];
+    // eslint-disable-next-line react/destructuring-assignment, react-hooks/exhaustive-deps
   }, [c.state]);
 
   return useMemo(() => {
     const Child = renderer.current as FC<P>;
 
     return <Child {...data} />;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, l);
 }
 
@@ -392,6 +395,7 @@ export const useChannel = (eventMap: API_EventMap, deps: any[] = []) => {
     return () => {
       Object.entries(eventMap).forEach(([type, listener]) => api.off(type, listener));
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, deps);
 
   return api.emit;
@@ -465,6 +469,7 @@ export function useSharedState<S>(stateId: string, defaultState?: S) {
       ...stateChangeHandlers,
       ...stateInitializationHandlers,
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [stateId]);
 
   const emit = useChannel(allListeners);

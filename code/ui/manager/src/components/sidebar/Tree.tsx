@@ -1,5 +1,3 @@
-import { useStorybookApi } from '@storybook/manager-api';
-import type { StoriesHash, GroupEntry, ComponentEntry, StoryEntry } from '@storybook/manager-api';
 import { styled } from '@storybook/theming';
 import { Button, Icons } from '@storybook/components';
 import { transparentize } from 'polished';
@@ -7,6 +5,8 @@ import type { MutableRefObject } from 'react';
 import React, { useCallback, useMemo, useRef } from 'react';
 
 import { PRELOAD_ENTRIES } from '@storybook/core-events';
+import type { StoriesHash, GroupEntry, ComponentEntry, StoryEntry } from '../../api';
+import { useStorybookApi } from '../../api';
 import {
   ComponentNode,
   DocumentNode,

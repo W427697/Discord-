@@ -1,10 +1,10 @@
 import React from 'react';
 
-import type { API } from '@storybook/manager-api';
-import { Consumer, Provider as ManagerProvider } from '@storybook/manager-api';
 import { LocationProvider } from '@storybook/router';
 import { HelmetProvider } from 'react-helmet-async';
 import { styled } from '@storybook/theming';
+import { Consumer, Provider as ManagerProvider } from './api';
+import type { API } from './api';
 import App from './app';
 import { PrettyFakeProvider, FakeProvider } from './FakeProvider';
 
