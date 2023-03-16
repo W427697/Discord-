@@ -15,16 +15,17 @@ import type {
   Path,
   Tag,
   StoryIndex,
-  V2CompatIndexEntry,
+  V3CompatIndexEntry,
   StoryId,
   StoryName,
 } from '@storybook/types';
 import { userOrAutoTitleFromSpecifier, sortStoriesV7 } from '@storybook/preview-api';
 import { normalizeStoryPath } from '@storybook/core-common';
-import { logger } from '@storybook/node-logger';
+import { logger, once } from '@storybook/node-logger';
 import { getStorySortParameter } from '@storybook/csf-tools';
 import { toId } from '@storybook/csf';
 import { analyze } from '@storybook/docs-mdx';
+import dedent from 'ts-dedent';
 import { autoName } from './autoName';
 import { IndexingError, MultipleIndexingError } from './IndexingError';
 
@@ -121,6 +122,15 @@ export class StoryIndexGenerator {
           path.join(this.options.workingDir, specifier.directory, specifier.files)
         );
         const files = await glob(fullGlob);
+
+        if (files.length === 0) {
+          once.warn(
+            `No story files found for the specified pattern: ${chalk.blue(
+              path.join(specifier.directory, specifier.files)
+            )}`
+          );
+        }
+
         files.sort().forEach((absolutePath: Path) => {
           const ext = path.extname(absolutePath);
           if (ext === '.storyshot') {
@@ -212,31 +222,21 @@ export class StoryIndexGenerator {
   }
 
   findDependencies(absoluteImports: Path[]) {
-    const dependencies = [] as StoriesCacheEntry[];
-    const foundImports = new Set();
-    this.specifierToCache.forEach((cache) => {
-      const fileNames = Object.keys(cache).filter((fileName) => {
-        const foundImport = absoluteImports.find((storyImport) => fileName.startsWith(storyImport));
-        if (foundImport) foundImports.add(foundImport);
-        return !!foundImport;
-      });
-      fileNames.forEach((fileName) => {
-        const cacheEntry = cache[fileName];
-        if (cacheEntry && cacheEntry.type === 'stories') {
-          dependencies.push(cacheEntry);
-        } else {
-          throw new Error(`Unexpected dependency: ${cacheEntry}`);
-        }
-      });
-    });
+    return [...this.specifierToCache.values()].flatMap((cache: SpecifierStoriesCache) =>
+      Object.entries(cache)
+        .filter(([fileName, cacheEntry]) => {
+          // We are only interested in stories cache entries (and assume they've been processed already)
+          // If we found a match in the cache that's still null or not a stories file,
+          // it is a docs file and it isn't a dependency / storiesImport.
+          // See https://github.com/storybookjs/storybook/issues/20958
+          if (!cacheEntry || cacheEntry.type !== 'stories') return false;
 
-    // imports can include non-story imports, so it's ok if
-    // there are fewer foundImports than absoluteImports
-    // if (absoluteImports.length !== foundImports.size) {
-    //   throw new Error(`Missing dependencies: ${absoluteImports.filter((p) => !foundImports.has(p))}`));
-    // }
-
-    return dependencies;
+          return !!absoluteImports.find((storyImport) =>
+            fileName.match(new RegExp(`^${storyImport}(\\.[^.]+)?$`))
+          );
+        })
+        .map(([_, cacheEntry]) => cacheEntry as StoriesCacheEntry)
+    );
   }
 
   async extractStories(specifier: NormalizedStoriesSpecifier, absolutePath: Path) {
@@ -345,7 +345,13 @@ export class StoryIndexGenerator {
         });
 
         if (!csfEntry)
-          throw new Error(`Could not find "${result.of}" for docs file "${relativePath}".`);
+          throw new Error(
+            dedent`Could not find CSF file at path "${result.of}" referenced by \`of={}\` in docs file "${relativePath}".
+            
+              - Does that file exist?
+              - If so, is it a CSF file (\`.stories.*\`)?
+              - If so, is it matched by the \`stories\` glob in \`main.js\`?`
+          );
       }
 
       // Track that we depend on this for easy invalidation later.
@@ -384,6 +390,11 @@ export class StoryIndexGenerator {
   }
 
   chooseDuplicate(firstEntry: IndexEntry, secondEntry: IndexEntry): IndexEntry {
+    // NOTE: it is possible for the same entry to show up twice (if it matches >1 glob). That's OK.
+    if (firstEntry.importPath === secondEntry.importPath) {
+      return firstEntry;
+    }
+
     let firstIsBetter = true;
     if (secondEntry.type === 'story') {
       firstIsBetter = false;
@@ -407,19 +418,22 @@ export class StoryIndexGenerator {
         ? `component docs page`
         : `automatically generated docs page`;
       if (betterEntry.name === this.options.docs.defaultName) {
-        logger.warn(
-          `🚨 You have a story for ${betterEntry.title} with the same name as your default docs entry name (${betterEntry.name}), so the docs page is being dropped. Consider changing the story name.`
+        throw new IndexingError(
+          `You have a story for ${betterEntry.title} with the same name as your default docs entry name (${betterEntry.name}), so the docs page is being dropped. Consider changing the story name.`,
+          [firstEntry.importPath, secondEntry.importPath]
         );
       } else {
-        logger.warn(
-          `🚨 You have a story for ${betterEntry.title} with the same name as your ${worseDescriptor} (${worseEntry.name}), so the docs page is being dropped. ${changeDocsName}`
+        throw new IndexingError(
+          `You have a story for ${betterEntry.title} with the same name as your ${worseDescriptor} (${worseEntry.name}), so the docs page is being dropped. ${changeDocsName}`,
+          [firstEntry.importPath, secondEntry.importPath]
         );
       }
     } else if (isMdxEntry(betterEntry)) {
       // Both entries are MDX but pointing at the same place
       if (isMdxEntry(worseEntry)) {
-        logger.warn(
-          `🚨 You have two component docs pages with the same name ${betterEntry.title}:${betterEntry.name}. ${changeDocsName}`
+        throw new IndexingError(
+          `You have two component docs pages with the same name ${betterEntry.title}:${betterEntry.name}. ${changeDocsName}`,
+          [firstEntry.importPath, secondEntry.importPath]
         );
       }
 
@@ -520,7 +534,7 @@ export class StoryIndexGenerator {
             },
           };
           return acc;
-        }, {} as Record<StoryId, V2CompatIndexEntry>);
+        }, {} as Record<StoryId, V3CompatIndexEntry>);
       }
 
       this.lastIndex = {

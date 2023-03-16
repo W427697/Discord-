@@ -32,14 +32,21 @@ export const viteFinal = async (config: any, options: Options) => {
   const useReact17 = legacyRootApi || !isReact18;
   if (useReact17) return config;
 
+  const alias = Array.isArray(config.resolve?.alias)
+    ? config.resolve.alias.concat({
+        find: /^@storybook\/react-dom-shim$/,
+        replacement: '@storybook/react-dom-shim/dist/react-18',
+      })
+    : {
+        ...config.resolve?.alias,
+        '@storybook/react-dom-shim': '@storybook/react-dom-shim/dist/react-18',
+      };
+
   return {
     ...config,
     resolve: {
       ...config.resolve,
-      alias: {
-        ...config.resolve.alias,
-        '@storybook/react-dom-shim': '@storybook/react-dom-shim/dist/react-18',
-      },
+      alias,
     },
   };
 };

@@ -8,7 +8,12 @@ Test coverage is the practice of measuring whether existing tests fully cover yo
 
 Coverage tests examine the instrumented code against a set of industry-accepted best practices. They act as the last line of QA to improve the quality of your test suite.
 
-![Test coverage](./test-coverage-storybook.gif)
+<video autoPlay muted playsInline loop>
+  <source
+    src="component-test-coverage-whitebg.mp4"
+    type="video/mp4"
+  />
+</video>
 
 ## Code instrumentation with the coverage addon
 
@@ -31,6 +36,12 @@ Run the following command to install the addon.
 />
 
 <!-- prettier-ignore-end -->
+
+<div class="aside">
+
+ℹ️ Installing the package with `@next` will install the cutting-edge version of it. Be advised prerelease versions are subject to breaking changes and are not recommended for production use. Use at your own risk.
+
+</div>
 
 Update your Storybook configuration (in `.storybook/main.js|ts`) to include the coverage addon.
 

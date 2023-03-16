@@ -58,7 +58,9 @@ const InlineStory: FunctionComponent<InlineStoryProps> = (props) => {
     );
     setShowLoader(false);
     return () => {
-      cleanup();
+      // It seems like you are supposed to unmount components outside of `useEffect`:
+      //   https://github.com/facebook/react/issues/25675#issuecomment-1363957941
+      Promise.resolve().then(() => cleanup());
     };
   }, [autoplay, renderStoryToElement, story]);
 
