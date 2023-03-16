@@ -85,7 +85,9 @@ const createAngularInputProperty = ({
         .replace(/"([^-"]+)":/g, '$1: ')
         .replace(/"/g, "'")
         .replace(/\u2019/g, "\\'")
-        .replace(/\u201D/g, "\\'");
+        .replace(/\u201D/g, "\\'")
+        .split(',')
+        .join(', ');
       break;
     default:
       templateValue = value;
