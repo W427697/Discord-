@@ -26,6 +26,11 @@
       "import": "./dist/index.mjs",
       "types": "./dist/index.d.ts"
     },
+    "./dist/api": {
+      "require": "./dist/api.js",
+      "import": "./dist/api.mjs",
+      "types": "./dist/api.d.ts"
+    },
     "./dist/runtime": {
       "require": "./dist/runtime.js",
       "import": "./dist/runtime.mjs",
