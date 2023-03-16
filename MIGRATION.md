@@ -1097,6 +1097,8 @@ import * as ComponentStories from './some-component.stories';
 <Story of={ComponentStories.Primary} />
 ```
 
+(Note the `of` prop is only supported if you change your MDX files to plain `.mdx`, it's not supported in `.stories.mdx` files)
+
 You can create as many docs entries as you like for a given component. By default the docs entry will be named the same as the `.mdx` file (e.g. `Introduction.mdx` becomes `Introduction`). If the docs file is named the same as the component (e.g. `Button.mdx`, it will use the default autodocs name (`"Docs"`) and override autodocs).
 
 By default docs entries are listed first for the component. You can sort them using story sorting.
@@ -1119,7 +1121,7 @@ Additionally to changing the docs information architecture, we've updated the AP
 
 **General changes**
 
-- Each block now uses `of={}` as a primary API -- where the argument to the `of` prop is a CSF or story _export_.
+- Each block now uses `of={}` as a primary API -- where the argument to the `of` prop is a CSF or story _export_. The `of` prop is only supported in plain `.mdx` files and not `.stories.mdx` files.
 
 - When you've attached to a CSF file (with the `Meta` block, or in Autodocs), you can drop the `of` and the block will reference the first story or the CSF file as a whole.
 
