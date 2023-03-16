@@ -168,6 +168,7 @@ export interface BuilderOptions {
   cache?: FileSystemCache;
   configDir: string;
   docsMode?: boolean;
+  env?: (envs: Record<string, string>) => Record<string, string>;
   features?: StorybookConfig['features'];
   versionCheck?: VersionCheck;
   releaseNotesData?: ReleaseNotesData;
@@ -242,10 +243,6 @@ type CoreCommon_StorybookRefs = Record<
 
 export type DocsOptions = {
   /**
-   * Should we disable generate docs entries at all under any circumstances? (i.e. can they be rendered)
-   */
-  disable?: boolean;
-  /**
    * What should we call the generated docs entries?
    */
   defaultName?: string;
@@ -298,6 +295,12 @@ export interface StorybookConfig {
     storyStoreV7?: boolean;
 
     /**
+     * Do not throw errors if using `.mdx` files in SSv7
+     * (for internal use in sandboxes)
+     */
+    storyStoreV7MdxErrors?: boolean;
+
+    /**
      * Enable a set of planned breaking changes for SB7.0
      */
     breakingChangesV7?: boolean;
@@ -317,6 +320,11 @@ export interface StorybookConfig {
      * Use legacy MDX1, to help smooth migration to 7.0
      */
     legacyMdx1?: boolean;
+
+    /**
+     * Apply decorators from preview.js before decorators from addons or frameworks
+     */
+    legacyDecoratorFileOrder?: boolean;
   };
 
   /**
@@ -327,7 +335,7 @@ export interface StorybookConfig {
   stories: StoriesEntry[];
 
   /**
-   * Framework, e.g. '@storybook/react', required in v7
+   * Framework, e.g. '@storybook/react-vite', required in v7
    */
   framework?: Preset;
 

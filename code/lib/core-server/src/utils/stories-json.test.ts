@@ -16,6 +16,7 @@ import { StoryIndexGenerator } from './StoryIndexGenerator';
 
 jest.mock('watchpack');
 jest.mock('lodash/debounce');
+jest.mock('@storybook/node-logger');
 
 const workingDir = path.join(__dirname, '__mockdata__');
 const normalizedStories = [
@@ -62,7 +63,7 @@ const getInitializedStoryIndexGenerator = async (
     workingDir,
     storiesV2Compatibility: false,
     storyStoreV7: true,
-    docs: { disable: false, defaultName: 'docs', autodocs: false },
+    docs: { defaultName: 'docs', autodocs: false },
     ...overrides,
   });
   await generator.initialize();
@@ -175,6 +176,17 @@ describe('useStoriesJson', () => {
               ],
               "title": "D",
               "type": "story",
+            },
+            "docs2-componentreference--docs": Object {
+              "id": "docs2-componentreference--docs",
+              "importPath": "./src/docs2/ComponentReference.mdx",
+              "name": "docs",
+              "storiesImports": Array [],
+              "tags": Array [
+                "docs",
+              ],
+              "title": "docs2/ComponentReference",
+              "type": "docs",
             },
             "docs2-notitle--docs": Object {
               "id": "docs2-notitle--docs",
@@ -365,6 +377,23 @@ describe('useStoriesJson', () => {
                 "story",
               ],
               "title": "D",
+            },
+            "docs2-componentreference--docs": Object {
+              "id": "docs2-componentreference--docs",
+              "importPath": "./src/docs2/ComponentReference.mdx",
+              "kind": "docs2/ComponentReference",
+              "name": "docs",
+              "parameters": Object {
+                "__id": "docs2-componentreference--docs",
+                "docsOnly": true,
+                "fileName": "./src/docs2/ComponentReference.mdx",
+              },
+              "storiesImports": Array [],
+              "story": "docs",
+              "tags": Array [
+                "docs",
+              ],
+              "title": "docs2/ComponentReference",
             },
             "docs2-notitle--docs": Object {
               "id": "docs2-notitle--docs",
@@ -652,9 +681,15 @@ describe('useStoriesJson', () => {
       await route(request, response);
 
       expect(send).toHaveBeenCalledTimes(1);
-      expect(send.mock.calls[0][0]).toEqual(
-        'You cannot use `.mdx` files without using `storyStoreV7`.'
-      );
+      expect(send.mock.calls[0][0]).toMatchInlineSnapshot(`
+        "Unable to index files:
+        - ./src/docs2/ComponentReference.mdx: You cannot use \`.mdx\` files without using \`storyStoreV7\`.
+        - ./src/docs2/MetaOf.mdx: You cannot use \`.mdx\` files without using \`storyStoreV7\`.
+        - ./src/docs2/NoTitle.mdx: You cannot use \`.mdx\` files without using \`storyStoreV7\`.
+        - ./src/docs2/SecondMetaOf.mdx: You cannot use \`.mdx\` files without using \`storyStoreV7\`.
+        - ./src/docs2/Template.mdx: You cannot use \`.mdx\` files without using \`storyStoreV7\`.
+        - ./src/docs2/Title.mdx: You cannot use \`.mdx\` files without using \`storyStoreV7\`."
+      `);
     });
 
     it('allows disabling storyStoreV7 if no .mdx files are used', async () => {

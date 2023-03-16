@@ -1,5 +1,5 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React, { Component } from 'react';
+import { renderElement, unmountElement } from '@storybook/react-dom-shim';
 import type { Renderer, Parameters, DocsContextProps, DocsRenderFunction } from '@storybook/types';
 import { Docs, CodeOrSourceMdx, AnchorMdx, HeadersMdx } from '@storybook/blocks';
 
@@ -10,39 +10,63 @@ export const defaultComponents: Record<string, any> = {
   ...HeadersMdx,
 };
 
+class ErrorBoundary extends Component<{
+  showException: (err: Error) => void;
+}> {
+  state = { hasError: false };
+
+  static getDerivedStateFromError() {
+    return { hasError: true };
+  }
+
+  componentDidCatch(err: Error) {
+    const { showException } = this.props;
+    showException(err);
+  }
+
+  render() {
+    const { hasError } = this.state;
+    const { children } = this.props;
+
+    return hasError ? null : children;
+  }
+}
+
 export class DocsRenderer<TRenderer extends Renderer> {
   public render: DocsRenderFunction<TRenderer>;
 
   public unmount: (element: HTMLElement) => void;
 
   constructor() {
-    this.render = (
+    this.render = async (
       context: DocsContextProps<TRenderer>,
       docsParameter: Parameters,
-      element: HTMLElement,
-      callback: () => void
-    ): void => {
-      // Use a random key to force the container to re-render each time we call `renderDocs`
-      //   TODO: do we still need this? It was needed for angular (legacy) inline rendering:
-      //   https://github.com/storybookjs/storybook/pull/16149
+      element: HTMLElement
+    ): Promise<void> => {
       const components = {
         ...defaultComponents,
         ...docsParameter?.components,
       };
 
-      import('@mdx-js/react').then(({ MDXProvider }) => {
-        ReactDOM.render(
-          <MDXProvider components={components}>
-            <Docs key={Math.random()} context={context} docsParameter={docsParameter} />
-          </MDXProvider>,
-          element,
-          callback
-        );
+      return new Promise((resolve, reject) => {
+        import('@mdx-js/react')
+          .then(({ MDXProvider }) =>
+            // We use a `key={}` here to reset the `hasError` state each time we render ErrorBoundary
+            renderElement(
+              <ErrorBoundary showException={reject} key={Math.random()}>
+                <MDXProvider components={components}>
+                  <Docs context={context} docsParameter={docsParameter} />
+                </MDXProvider>
+              </ErrorBoundary>,
+              element
+            )
+          )
+          .then(resolve);
       });
     };
 
     this.unmount = (element: HTMLElement) => {
-      ReactDOM.unmountComponentAtNode(element);
+      unmountElement(element);
     };
   }
 }
