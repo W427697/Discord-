@@ -52,6 +52,7 @@ orbs:
   git-shallow-clone: guitarrapc/git-shallow-clone@2.4.1
   browser-tools: circleci/browser-tools@1.4.0
   discord: antonioned/discord@0.1.0
+  codecov: codecov/codecov@3.2.4
 
 commands:
   cancel-workflow-on-failure:
@@ -309,11 +310,7 @@ jobs:
           clone_options: '--depth 1 --verbose'
       - attach_workspace:
           at: .
-      - run:
-          name: Upload coverage
-          command: |
-            cd code
-            yarn coverage
+      - codecov/upload
       - report-workflow-on-failure
   chromatic-internal-storybooks:
     executor:

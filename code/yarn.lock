@@ -7120,7 +7120,6 @@ __metadata:
     babel-eslint: ^10.1.0
     babel-loader: ^9.1.2
     chromatic: 6.11.2
-    codecov: ^3.8.1
     concurrently: ^5.3.0
     cross-env: ^7.0.3
     danger: ^10.6.2
@@ -10110,13 +10109,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"argv@npm:0.0.2":
-  version: 0.0.2
-  resolution: "argv@npm:0.0.2"
-  checksum: 13b7a94bf690b8cf04dcaac0c70b631df10de8a1eeb701f31c85abe46a60db449c1e3330e92ef00ffe2a709a5b35baf815e52cc4b8cbe495829c90ceb3e3e30f
-  languageName: node
-  linkType: hard
-
 "aria-query@npm:^4.2.2":
   version: 4.2.2
   resolution: "aria-query@npm:4.2.2"
@@ -12157,21 +12149,6 @@ __metadata:
   version: 4.6.0
   resolution: "co@npm:4.6.0"
   checksum: c0e85ea0ca8bf0a50cbdca82efc5af0301240ca88ebe3644a6ffb8ffe911f34d40f8fbcf8f1d52c5ddd66706abd4d3bfcd64259f1e8e2371d4f47573b0dc8c28
-  languageName: node
-  linkType: hard
-
-"codecov@npm:^3.8.1":
-  version: 3.8.2
-  resolution: "codecov@npm:3.8.2"
-  dependencies:
-    argv: 0.0.2
-    ignore-walk: 3.0.3
-    js-yaml: 3.14.1
-    teeny-request: 7.0.1
-    urlgrey: 0.4.4
-  bin:
-    codecov: bin/codecov
-  checksum: 8b58aa507d0f7843cdf28cfc0724d43951619d262486a15d71f3d8c703937a37624b2e3f8551c05929704d4f45c8d4c0bf05cf2b17287bb7403a74b073e1e546
   languageName: node
   linkType: hard
 
@@ -17463,7 +17440,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"http-proxy-agent@npm:^4.0.0, http-proxy-agent@npm:^4.0.1":
+"http-proxy-agent@npm:^4.0.1":
   version: 4.0.1
   resolution: "http-proxy-agent@npm:4.0.1"
   dependencies:
@@ -17670,15 +17647,6 @@ __metadata:
   version: 1.2.1
   resolution: "ieee754@npm:1.2.1"
   checksum: b0782ef5e0935b9f12883a2e2aa37baa75da6e66ce6515c168697b42160807d9330de9a32ec1ed73149aea02e0d822e572bca6f1e22bdcbd2149e13b050b17bb
-  languageName: node
-  linkType: hard
-
-"ignore-walk@npm:3.0.3":
-  version: 3.0.3
-  resolution: "ignore-walk@npm:3.0.3"
-  dependencies:
-    minimatch: ^3.0.4
-  checksum: 80d8a223fa82609188033581212b0e3906ddb996c35e2a8693a17f2f03f5f2e411bc877db3dca3aaf407b4220fa83cab33f5d5cb91c4a42cda8dc7cf3eb63915
   languageName: node
   linkType: hard
 
@@ -19543,18 +19511,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"js-yaml@npm:3.14.1, js-yaml@npm:^3.10.0, js-yaml@npm:^3.13.1, js-yaml@npm:^3.14.1, js-yaml@npm:^3.6.1":
-  version: 3.14.1
-  resolution: "js-yaml@npm:3.14.1"
-  dependencies:
-    argparse: ^1.0.7
-    esprima: ^4.0.0
-  bin:
-    js-yaml: bin/js-yaml.js
-  checksum: 6746baaaeac312c4db8e75fa22331d9a04cccb7792d126ed8ce6a0bbcfef0cedaddd0c5098fade53db067c09fe00aa1c957674b4765610a8b06a5a189e46433b
-  languageName: node
-  linkType: hard
-
 "js-yaml@npm:4.1.0, js-yaml@npm:^4.1.0":
   version: 4.1.0
   resolution: "js-yaml@npm:4.1.0"
@@ -19563,6 +19519,18 @@ __metadata:
   bin:
     js-yaml: bin/js-yaml.js
   checksum: 184a24b4eaacfce40ad9074c64fd42ac83cf74d8c8cd137718d456ced75051229e5061b8633c3366b8aada17945a7a356b337828c19da92b51ae62126575018f
+  languageName: node
+  linkType: hard
+
+"js-yaml@npm:^3.10.0, js-yaml@npm:^3.13.1, js-yaml@npm:^3.14.1, js-yaml@npm:^3.6.1":
+  version: 3.14.1
+  resolution: "js-yaml@npm:3.14.1"
+  dependencies:
+    argparse: ^1.0.7
+    esprima: ^4.0.0
+  bin:
+    js-yaml: bin/js-yaml.js
+  checksum: 6746baaaeac312c4db8e75fa22331d9a04cccb7792d126ed8ce6a0bbcfef0cedaddd0c5098fade53db067c09fe00aa1c957674b4765610a8b06a5a189e46433b
   languageName: node
   linkType: hard
 
@@ -28468,19 +28436,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"teeny-request@npm:7.0.1":
-  version: 7.0.1
-  resolution: "teeny-request@npm:7.0.1"
-  dependencies:
-    http-proxy-agent: ^4.0.0
-    https-proxy-agent: ^5.0.0
-    node-fetch: ^2.6.1
-    stream-events: ^1.0.5
-    uuid: ^8.0.0
-  checksum: 49e75a9925b9e52bfd858abe784c7104f26c64e931c9e26f202b182d66b7e91f2badc5a140d1dc80993fe5d0fac070e956c86d4a12575a1c8f61a2ec319fc2bd
-  languageName: node
-  linkType: hard
-
 "teeny-request@npm:^7.0.0":
   version: 7.2.0
   resolution: "teeny-request@npm:7.2.0"
@@ -29849,13 +29804,6 @@ __metadata:
     querystringify: ^2.1.1
     requires-port: ^1.0.0
   checksum: bd5aa9389f896974beb851c112f63b466505a04b4807cea2e5a3b7092f6fbb75316f0491ea84e44f66fed55f1b440df5195d7e3a8203f64fcefa19d182f5be87
-  languageName: node
-  linkType: hard
-
-"urlgrey@npm:0.4.4":
-  version: 0.4.4
-  resolution: "urlgrey@npm:0.4.4"
-  checksum: e8e32031f538dc94ea795c5cd8c02ee67aade4d7837a6259faec7b09f6872c6d41f8431c9bace5f1d188c641677bacfde9b96568c23cd5c061329ce53768b762
   languageName: node
   linkType: hard
 
