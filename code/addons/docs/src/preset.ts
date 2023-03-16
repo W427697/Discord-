@@ -59,6 +59,7 @@ async function webpack(
       visit(tree, 'element', (node: any) => {
         const metastring = node.data?.meta;
         if (node.tagName === 'code' && metastring) {
+          // eslint-disable-next-line no-param-reassign
           node.properties = {
             ...node.properties,
             metastring,
