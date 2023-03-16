@@ -2,6 +2,8 @@ import fs from 'fs-extra';
 import remarkSlug from 'remark-slug';
 import remarkExternalLinks from 'remark-external-links';
 import { dedent } from 'ts-dedent';
+import type { Root } from 'remark-mdx';
+import { visit } from 'unist-util-visit';
 
 import type {
   IndexerOptions,
@@ -52,15 +54,36 @@ async function webpack(
     mdxPluginOptions = {},
   } = options;
 
+  const rehypeFencedCode = function () {
+    return (tree: Root) => {
+      visit(tree, 'element', (node: any) => {
+        const metastring = node.data?.meta;
+        if (node.tagName === 'code' && metastring) {
+          node.properties = {
+            ...node.properties,
+            metastring,
+            dark: metastring.includes('dark'),
+          };
+        }
+      });
+    };
+  };
+
   const mdxLoaderOptions: CompileOptions = await options.presets.apply('mdxLoaderOptions', {
     skipCsf: true,
     ...mdxPluginOptions,
     mdxCompileOptions: {
       providerImportSource: '@storybook/addon-docs/mdx-react-shim',
       ...mdxPluginOptions.mdxCompileOptions,
-      remarkPlugins: [remarkSlug, remarkExternalLinks].concat(
-        mdxPluginOptions?.mdxCompileOptions?.remarkPlugins ?? []
-      ),
+      remarkPlugins: [
+        remarkSlug,
+        remarkExternalLinks,
+        ...(mdxPluginOptions?.mdxCompileOptions?.remarkPlugins ?? []),
+      ],
+      rehypePlugins: [
+        rehypeFencedCode,
+        ...(mdxPluginOptions?.mdxCompileOptions?.rehypePlugins ?? []),
+      ],
     },
     jsxOptions,
   });
