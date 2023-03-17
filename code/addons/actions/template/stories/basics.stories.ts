@@ -71,7 +71,7 @@ export const Cyclical = {
       action('onClick')(
         (() => {
           const cyclical: Record<string, any> = {};
-          cyclical.cyclical = cyclical;
+          cyclical['cyclical'] = cyclical;
           return cyclical;
         })()
       ),

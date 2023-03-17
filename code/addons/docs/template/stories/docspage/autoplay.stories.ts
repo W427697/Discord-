@@ -1,6 +1,7 @@
 import { global as globalThis } from '@storybook/global';
 import { expect } from '@storybook/jest';
 import { within } from '@storybook/testing-library';
+import type { PlayFunctionContext } from '@storybook/types';
 
 export default {
   component: globalThis.Components.Pre,
@@ -11,7 +12,7 @@ export default {
 
 // Should not autoplay
 export const NoAutoplay = {
-  play: async ({ viewMode, canvasElement }) => {
+  play: async ({ viewMode, canvasElement }: PlayFunctionContext<any>) => {
     const pre = await within(canvasElement).findByText('Play has not run');
     if (viewMode === 'docs') {
       pre.innerText = 'Play should not have run!';
@@ -26,7 +27,7 @@ export const NoAutoplay = {
 // Should autoplay
 export const Autoplay = {
   parameters: { docs: { story: { autoplay: true } } },
-  play: async ({ canvasElement }) => {
+  play: async ({ canvasElement }: PlayFunctionContext<any>) => {
     const pre = await within(canvasElement).findByText('Play has not run');
     pre.innerText = 'Play has run';
   },

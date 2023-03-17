@@ -23,7 +23,9 @@ export default {
     (storyFn: PartialStoryFn, { globals }: StoryContext) => {
       const object = {
         ...globals,
-        caption: `Locale is '${globals.locale}', so I say: ${greetingForLocale(globals.locale)}`,
+        caption: `Locale is '${globals['locale']}', so I say: ${greetingForLocale(
+          globals['locale']
+        )}`,
       };
       return storyFn({ args: { object } });
     },

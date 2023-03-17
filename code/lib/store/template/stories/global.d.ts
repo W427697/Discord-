@@ -6,6 +6,7 @@ declare global {
   var __STORYBOOK_ADDONS_CHANNEL__: {
     emit: any;
     on: any;
+    once: any;
   };
   var storybookRenderer: string;
 }

@@ -1,4 +1,5 @@
 import { global as globalThis } from '@storybook/global';
+import type { Args, PartialStoryFn } from '@storybook/types';
 
 export default {
   component: globalThis.Components.Button,
@@ -12,7 +13,7 @@ export default {
  */
 export const ErrorStory = {
   decorators: [
-    (storyFn) => {
+    (storyFn: PartialStoryFn<any, Args>) => {
       // Don't throw in the test runner; there's no easy way to skip (yet)
       if (window?.navigator?.userAgent?.match(/StorybookTestRunner/)) return storyFn();
 
