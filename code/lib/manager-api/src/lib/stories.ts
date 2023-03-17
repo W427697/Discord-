@@ -137,7 +137,7 @@ export const transformStoryIndexV3toV4 = (index: StoryIndexV3): API_PreparedStor
 };
 
 export const transformStoryIndexToStoriesHash = (
-  index: API_PreparedStoryIndex | StoryIndexV2 | StoryIndexV3,
+  input: API_PreparedStoryIndex | StoryIndexV2 | StoryIndexV3,
   {
     provider,
     docsOptions,
@@ -146,18 +146,16 @@ export const transformStoryIndexToStoriesHash = (
     docsOptions: DocsOptions;
   }
 ): API_IndexHash => {
-  if (!index.v) {
+  if (!input.v) {
     throw new Error('Composition: Missing stories.json version');
   }
 
-  let v4Index = index;
+  let index = input;
+  index = index.v === 2 ? transformStoryIndexV2toV3(index as any) : index;
+  index = index.v === 3 ? transformStoryIndexV3toV4(index as any) : index;
+  index = index as API_PreparedStoryIndex;
 
-  v4Index = v4Index.v === 2 ? transformStoryIndexV2toV3(v4Index as any) : v4Index;
-  v4Index = v4Index.v === 3 ? transformStoryIndexV3toV4(v4Index as any) : v4Index;
-
-  const finalIndex = v4Index as API_PreparedStoryIndex;
-
-  const entryValues = Object.values(finalIndex.entries);
+  const entryValues = Object.values(index.entries);
   const { sidebar = {} } = provider.getConfig();
   const { showRoots, collapsedRoots = [], renderLabel } = sidebar;
 
