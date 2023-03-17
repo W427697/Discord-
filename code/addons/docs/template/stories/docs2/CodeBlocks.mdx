@@ -1,0 +1,35 @@
+import { Meta, Source } from '@storybook/addon-docs';
+
+<Meta title="Code Blocks" />
+
+### Fenced Code
+
+~~~md
+```js
+let foo;
+```
+~~~
+
+### Fenced Code with dark theme
+
+~~~md dark
+```js dark
+let foo;
+```
+~~~
+
+### Source Block
+
+<Source language="jsx" code={`
+  <Source language="jsx" code={snippet}></Source>
+`}>
+</Source>
+
+### Source Block with dark theme
+
+<Source language="jsx" dark code={`
+  <Source language="jsx" dark code={snippet}></Source>
+`}>
+</Source>
+
+
