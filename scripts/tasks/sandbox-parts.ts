@@ -174,53 +174,17 @@ function addEsbuildLoaderToStories(mainConfig: ConfigFile) {
             target: 'es2015',
           },
         },
-        // Handle MDX files per the addon-docs presets (ish)
-        {
-          test: [/\\/template-stories\\//],
-          include: [/\\.stories\\.mdx$/],
-          use: [
-            {
-              loader: '${babelLoaderPath}',
-              options: {
-                babelrc: false,
-                configFile: false,
-                plugins: ['${jsxPluginPath}'],
-              }
-            },
-            {
-              loader: '${storiesMdxLoaderPath}',
-              options: {
-                skipCsf: false,
-              }
-            }
-          ],
-        },
-        {
-          test: [/\\/template-stories\\//],
-          include: [/\\.mdx$/],
-          exclude: [/\\.stories\\.mdx$/],
-          use: [
-            {
-              loader: '${babelLoaderPath}',
-              options: {
-                babelrc: false,
-                configFile: false,
-                plugins: ['${jsxPluginPath}'],
-              }
-            },
-            {
-              loader: '${storiesMdxLoaderPath}',
-              options: {
-                skipCsf: true,
-              }
-            }
-          ],
-        },
         // Ensure no other loaders from the framework apply
-        ...config.module.rules.map(rule => ({
-          ...rule,
-          exclude: [/\\/template-stories\\//].concat(rule.exclude || []),
-        })),
+        ...config.module.rules.map((rule: any) => {
+          if (rule?.test?.toString().includes('mdx')) {
+            return rule;
+          } else {
+            return { 
+              ...rule,
+              exclude: [/\/template-stories\//].concat(rule.exclude || [])
+            };
+          }
+        }),
       ],
     },
   })`;
