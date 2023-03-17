@@ -1,6 +1,6 @@
 {
   "name": "@storybook/manager-api",
-  "version": "7.0.0-rc.3",
+  "version": "7.0.0-rc.4",
   "description": "Core Storybook Manager API & Context",
   "keywords": [
     "storybook"
@@ -42,7 +42,7 @@
     "prep": "../../../scripts/prepare/facade.ts"
   },
   "dependencies": {
-    "@storybook/manager": "7.0.0-rc.3"
+    "@storybook/manager": "7.0.0-rc.4"
   },
   "devDependencies": {
     "typescript": "~4.9.3"
@@ -56,5 +56,5 @@
     ],
     "shim": "@storybook/manager/dist/api"
   },
-  "gitHead": "94e99533b214c24691cc9edb3a026d04f20154b6"
+  "gitHead": "6fb713a2ca980fa241f82a076579889fcdf47ecc"
 }
