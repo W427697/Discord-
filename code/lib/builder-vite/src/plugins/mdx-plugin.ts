@@ -1,8 +1,26 @@
 import type { Options } from '@storybook/types';
 import type { Plugin } from 'vite';
 import { createFilter } from 'vite';
+import type { Root } from 'remark-mdx';
+import { visit } from 'unist-util-visit';
 
 const isStorybookMdx = (id: string) => id.endsWith('stories.mdx') || id.endsWith('story.mdx');
+
+const rehypeFencedCode = function () {
+  return (tree: Root) => {
+    visit(tree, 'element', (node: any) => {
+      const metastring = node.data?.meta;
+      if (node.tagName === 'code' && metastring) {
+        // eslint-disable-next-line no-param-reassign
+        node.properties = {
+          ...node.properties,
+          metastring,
+          dark: metastring.includes('dark'),
+        };
+      }
+    });
+  };
+};
 
 /**
  * Storybook uses two different loaders when dealing with MDX:
@@ -33,6 +51,10 @@ export async function mdxPlugin(options: Options): Promise<Plugin> {
         mdxCompileOptions: {
           providerImportSource: '@storybook/addon-docs/mdx-react-shim',
           ...mdxPluginOptions?.mdxCompileOptions,
+          rehypePlugins: [
+            rehypeFencedCode,
+            ...(mdxPluginOptions?.mdxCompileOptions?.rehypePlugins ?? []),
+          ],
         },
         jsxOptions,
       });
