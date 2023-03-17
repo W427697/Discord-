@@ -41,10 +41,17 @@ addons.getChannel().on(RESET_STORY_ARGS, ({ storyId }) => {
 });
 
 export function renderToCanvas(
-  renderContext: RenderContext<SvelteRenderer>,
+  {
+    storyFn,
+    kind,
+    name,
+    showMain,
+    showError,
+    storyContext,
+    forceRemount,
+  }: RenderContext<SvelteRenderer>,
   canvasElement: SvelteRenderer['canvasElement']
 ) {
-  const { storyFn, kind, name, showMain, showError, storyContext, forceRemount } = renderContext;
   const existingComponent = componentsByDomElement.get(canvasElement);
 
   let remount = forceRemount;
