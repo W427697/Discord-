@@ -337,9 +337,9 @@ export default preview;
 
 In JavaScript projects using `preview.js`, it's also possible to use the `Preview` type (for autocompletion, not type safety), via the JSDoc @type tag:
 
-```ts
+```js
 /** @type { import('@storybook/react').Preview } */
-const preview: Preview = {
+const preview = {
   parameters: {
     actions: { argTypesRegex: '^on[A-Z].*' },
   },
