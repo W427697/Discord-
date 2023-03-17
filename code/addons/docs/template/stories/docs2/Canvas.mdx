@@ -1,0 +1,34 @@
+import { Meta, Canvas, Story } from '@storybook/addon-docs';
+import * as ButtonStories from './button.stories.ts';
+
+<Meta of={ButtonStories} />
+
+### Canvas with deprecated props
+<Canvas withSource="open" mdxSource={`
+    <Canvas withSource="open" mdxSource={\`\`}>
+      <Story name="Basic"/>
+</Canvas>
+`}>
+  <Story name="Basic"/>
+</Canvas>
+
+### Canvas with new props
+
+<Canvas of={ButtonStories.One}
+   sourceState="shown"
+   source={{ code: `
+      <Canvas of={ButtonStories.One}
+        sourceState="shown"
+        source={{ code: \`\`, language: 'jsx', dark: true }}
+/>
+   `}}
+/>
+
+### Canvas with mixed props
+<Canvas withSource="open" source={{code:`
+    <Canvas withSource="open" source={{code:\`\`}}>
+      <Story name="Basic"/>
+</Canvas>
+`}}>
+  <Story name="Basic"/>
+</Canvas>

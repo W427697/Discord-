@@ -99,10 +99,26 @@ const useDeprecatedPreviewProps = (
     children,
     layout: layoutProp,
     ...props
-  }: DeprecatedCanvasProps & { of?: ModuleExport; layout?: Layout },
+  }: DeprecatedCanvasProps & CanvasProps,
   docsContext: DocsContextProps<Renderer>,
   sourceContext: SourceContextProps
 ) => {
+  /* eslint-disable no-param-reassign */
+  mdxSource = mdxSource || props?.source?.code;
+  withSource =
+    withSource ||
+    (() => {
+      switch (props.sourceState) {
+        case 'none':
+          return SourceState.NONE;
+        case 'shown':
+          return SourceState.OPEN;
+        default:
+          return SourceState.CLOSED;
+      }
+    })();
+  /* eslint-enable no-param-reassign */
+
   /*
   get all story IDs by traversing through the children,
   filter out any non-story children (e.g. text nodes)
