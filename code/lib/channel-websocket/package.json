@@ -1,6 +1,6 @@
 {
   "name": "@storybook/channel-websocket",
-  "version": "7.0.0-rc.3",
+  "version": "7.0.0-rc.4",
   "description": "",
   "keywords": [
     "storybook"
@@ -43,8 +43,8 @@
     "prep": "../../../scripts/prepare/bundle.ts"
   },
   "dependencies": {
-    "@storybook/channels": "7.0.0-rc.3",
-    "@storybook/client-logger": "7.0.0-rc.3",
+    "@storybook/channels": "7.0.0-rc.4",
+    "@storybook/client-logger": "7.0.0-rc.4",
     "@storybook/global": "^5.0.0",
     "telejson": "^7.0.3"
   },
