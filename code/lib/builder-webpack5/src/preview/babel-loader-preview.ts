@@ -10,6 +10,7 @@ export const createBabelLoader = (options: any, typescriptOptions: TypescriptOpt
         options,
       },
     ],
+    resourceQuery: { not: [/raw/] },
     include: [getProjectRoot()],
     exclude: /node_modules/,
   };
