@@ -29,6 +29,7 @@ export const withGrid = (StoryFn: StoryFunction<Renderer>, context: StoryContext
     ].join(', ');
 
     return `
+      /** this ensures the we fill the whole space **/
       html {
         height: 100%;
       }
@@ -38,6 +39,7 @@ export const withGrid = (StoryFn: StoryFunction<Renderer>, context: StoryContext
         height: 100%;
       }
 
+      /** display the grid as a pseudo-element so it's on top of the background, if set **/
       ${selector}::before {
         content: '';
         position: absolute;
