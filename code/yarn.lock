@@ -5104,7 +5104,7 @@ __metadata:
     "@storybook/theming": 7.0.0-rc.5
     "@storybook/types": 7.0.0-rc.5
     fs-extra: ^11.1.0
-    react: ^16.14.0
+    react: ^18.2.0
     react-dom: ^16.8.0
     remark-external-links: ^8.0.0
     remark-slug: ^6.0.0
@@ -5533,8 +5533,8 @@ __metadata:
     "@storybook/preview-api": 7.0.0-rc.5
     "@storybook/types": 7.0.0-rc.5
     "@types/node": ^16.0.0
-    "@types/react": ^16.14.34
-    "@types/react-dom": ^16.9.14
+    "@types/react": ^18.0.28
+    "@types/react-dom": ^18.0.11
     "@types/rimraf": ^3.0.2
     "@types/semver": ^7.3.4
     "@types/tmp": ^0.2.3
@@ -6426,7 +6426,7 @@ __metadata:
     memoizerific: ^1.11.3
     polished: ^4.2.2
     qs: ^6.10.0
-    react: ^16.14.0
+    react: ^18.2.0
     react-dom: ^16.8.0
     react-draggable: ^4.4.3
     react-helmet-async: ^1.0.7
@@ -6818,7 +6818,7 @@ __metadata:
     lodash: ^4.17.21
     memoizerific: ^1.11.3
     qs: ^6.10.0
-    react: ^16.14.0
+    react: ^18.2.0
     slash: ^3.0.0
     synchronous-promise: ^2.0.15
     ts-dedent: ^2.0.0
@@ -7102,14 +7102,14 @@ __metadata:
     "@swc/jest": ^0.2.24
     "@testing-library/dom": ^7.29.4
     "@testing-library/jest-dom": ^5.11.9
-    "@testing-library/react": ^11.2.2
+    "@testing-library/react": ^14.0.0
     "@testing-library/user-event": ^13.2.1
     "@types/express": ^4.17.11
     "@types/fs-extra": ^11.0.1
     "@types/lodash": ^4.14.167
     "@types/node": ^16.0.0
-    "@types/react": ^16.14.34
-    "@types/react-dom": ^16.9.14
+    "@types/react": ^18.0.28
+    "@types/react-dom": ^18.0.11
     "@types/semver": ^7.3.4
     "@types/serve-static": ^1.13.8
     "@typescript-eslint/eslint-plugin": ^5.45.0
@@ -7152,7 +7152,8 @@ __metadata:
     prettier: 2.8.0
     process: ^0.11.10
     raf: ^3.4.1
-    react: ^16.14.0
+    react: ^18.2.0
+    react-dom: ^18.2.0
     semver: ^7.3.7
     serve-static: ^1.14.1
     trash: ^7.0.0
@@ -7764,7 +7765,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@testing-library/dom@npm:^7.28.1, @testing-library/dom@npm:^7.29.4":
+"@testing-library/dom@npm:^7.29.4":
   version: 7.31.2
   resolution: "@testing-library/dom@npm:7.31.2"
   dependencies:
@@ -7796,6 +7797,22 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@testing-library/dom@npm:^9.0.0":
+  version: 9.0.1
+  resolution: "@testing-library/dom@npm:9.0.1"
+  dependencies:
+    "@babel/code-frame": ^7.10.4
+    "@babel/runtime": ^7.12.5
+    "@types/aria-query": ^5.0.1
+    aria-query: ^5.0.0
+    chalk: ^4.1.0
+    dom-accessibility-api: ^0.5.9
+    lz-string: ^1.5.0
+    pretty-format: ^27.0.2
+  checksum: 3efda47807a9000dcbdc138eb70a7b25d5c107442bdb2261a2fe2736c957a80de4d8fa764c51ff6edc119bd5211e42981e6b27ccc1f850d0be4f8973b309147c
+  languageName: node
+  linkType: hard
+
 "@testing-library/jest-dom@npm:^5.11.9, @testing-library/jest-dom@npm:^5.16.2":
   version: 5.16.5
   resolution: "@testing-library/jest-dom@npm:5.16.5"
@@ -7813,16 +7830,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@testing-library/react@npm:^11.2.2":
-  version: 11.2.7
-  resolution: "@testing-library/react@npm:11.2.7"
+"@testing-library/react@npm:^14.0.0":
+  version: 14.0.0
+  resolution: "@testing-library/react@npm:14.0.0"
   dependencies:
     "@babel/runtime": ^7.12.5
-    "@testing-library/dom": ^7.28.1
+    "@testing-library/dom": ^9.0.0
+    "@types/react-dom": ^18.0.0
   peerDependencies:
-    react: "*"
-    react-dom: "*"
-  checksum: 5c97aa5fb28a867d674e292e9e556b0890385e729972f8e0c3386001903e5975f6798632a038558750101fc1ff20d5faf7a0fb4d382ee3afe28d0118e9bd2f36
+    react: ^18.0.0
+    react-dom: ^18.0.0
+  checksum: 81035913024faf18ba7e163418af517b2c3b85aef496fbd6334bda38f6f6dd4072678c6b76c41148b46b7fc846764f875e1156cbfc7643ffa1b62ee069d78951
   languageName: node
   linkType: hard
 
@@ -8607,12 +8625,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react-dom@npm:^16.9.14":
-  version: 16.9.18
-  resolution: "@types/react-dom@npm:16.9.18"
+"@types/react-dom@npm:^18.0.0, @types/react-dom@npm:^18.0.11":
+  version: 18.0.11
+  resolution: "@types/react-dom@npm:18.0.11"
   dependencies:
-    "@types/react": ^16
-  checksum: 1a08887a339be7b63dd5cad8952bc484dd5ade7c21f101a7971b516a16be62340d0518eb5c5f3459c55dedc436623e67d9645a92304b11a172630c0b6ed0726c
+    "@types/react": "*"
+  checksum: 8bf1e3f710221a937613df4d192f3b9e5a30e5c3103cac52c5210fb56b79f7a8cc66137d3bc5c9d92d375165a97fae53284724191bc01cb9898564fa02595569
   languageName: node
   linkType: hard
 
@@ -8625,7 +8643,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:*, @types/react@npm:>=16, @types/react@npm:^16, @types/react@npm:^16.14.34":
+"@types/react@npm:*, @types/react@npm:>=16":
   version: 16.14.35
   resolution: "@types/react@npm:16.14.35"
   dependencies:
@@ -8633,6 +8651,17 @@ __metadata:
     "@types/scheduler": "*"
     csstype: ^3.0.2
   checksum: 40cd975725250f16eacb0a47c39866d7eed89449a6ba52ded1e53cfa1def44483365a7b92616130d1ec6cd3edd798a87dac1920202b48629d40af0fe8ed60853
+  languageName: node
+  linkType: hard
+
+"@types/react@npm:^18.0.28":
+  version: 18.0.28
+  resolution: "@types/react@npm:18.0.28"
+  dependencies:
+    "@types/prop-types": "*"
+    "@types/scheduler": "*"
+    csstype: ^3.0.2
+  checksum: 6d94ec25c18b39aac687814b3a717e767f2fba3289c3b682caa4d0182160a72a9816a612b5a207c8ea73f1d288019f56f3d08742ac7cfff91719abb77da9d11a
   languageName: node
   linkType: hard
 
@@ -20807,7 +20836,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lz-string@npm:^1.4.4":
+"lz-string@npm:^1.4.4, lz-string@npm:^1.5.0":
   version: 1.5.0
   resolution: "lz-string@npm:1.5.0"
   bin:
@@ -25283,6 +25312,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-dom@npm:^18.2.0":
+  version: 18.2.0
+  resolution: "react-dom@npm:18.2.0"
+  dependencies:
+    loose-envify: ^1.1.0
+    scheduler: ^0.23.0
+  peerDependencies:
+    react: ^18.2.0
+  checksum: 66dfc5f93e13d0674e78ef41f92ed21dfb80f9c4ac4ac25a4b51046d41d4d2186abc915b897f69d3d0ebbffe6184e7c5876f2af26bfa956f179225d921be713a
+  languageName: node
+  linkType: hard
+
 "react-draggable@npm:^4.4.3":
   version: 4.4.5
   resolution: "react-draggable@npm:4.4.5"
@@ -25504,14 +25545,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react@npm:^16.14.0":
-  version: 16.14.0
-  resolution: "react@npm:16.14.0"
+"react@npm:^18.2.0":
+  version: 18.2.0
+  resolution: "react@npm:18.2.0"
   dependencies:
     loose-envify: ^1.1.0
-    object-assign: ^4.1.1
-    prop-types: ^15.6.2
-  checksum: df8faae43e01387013900e8f8fb3c4ce9935b7edbcbaa77e12999c913eb958000a0a8750bf9a0886dae0ad768dd4a4ee983752d5bade8d840adbe0ce890a2438
+  checksum: b562d9b569b0cb315e44b48099f7712283d93df36b19a39a67c254c6686479d3980b7f013dc931f4a5a3ae7645eae6386b4aa5eea933baa54ecd0f9acb0902b8
   languageName: node
   linkType: hard
 
@@ -26897,6 +26936,15 @@ __metadata:
     loose-envify: ^1.1.0
     object-assign: ^4.1.1
   checksum: 9658932a73148a93d791c064b331d9690ddfecc4de25bcd6c9b89f5f1166e3d23d9c31c1595d66565e5ffbb34d47035cb14841aba6444bc266bfcd215cefe9c0
+  languageName: node
+  linkType: hard
+
+"scheduler@npm:^0.23.0":
+  version: 0.23.0
+  resolution: "scheduler@npm:0.23.0"
+  dependencies:
+    loose-envify: ^1.1.0
+  checksum: b777f7ca0115e6d93e126ac490dbd82642d14983b3079f58f35519d992fa46260be7d6e6cede433a92db70306310c6f5f06e144f0e40c484199e09c1f7be53dd
   languageName: node
   linkType: hard
 
