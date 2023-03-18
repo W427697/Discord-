@@ -65,6 +65,17 @@ export const ArgControl: FC<ArgControlProps> = ({ row, arg, updateArgs }) => {
 
   if (!control || control.disable) return <NoControl />;
 
+  // if the value is undefined and there is a default value, use it
+  let value = boxedValue?.value;
+  const defaultValue = row.table?.defaultValue;
+  if (value === undefined && defaultValue?.summary !== undefined) {
+    try {
+      value = JSON.parse(defaultValue.summary);
+    } catch {
+      value = defaultValue.summary;
+    }
+  }
+
   // row.name is a display name and not a suitable DOM input id or name - i might contain whitespace etc.
   // row.key is a hash key and therefore a much safer choice
   const props = { name: key, argType: row, value: boxedValue.value, onChange, onBlur, onFocus };
