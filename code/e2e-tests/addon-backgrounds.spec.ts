@@ -25,6 +25,8 @@ test.describe('addon-backgrounds', () => {
     await sbPage.navigateToStory('example/button', 'primary');
     await sbPage.selectToolbar('[title="Apply a grid to the preview"]');
 
-    await expect(sbPage.getCanvasBodyElement()).toHaveCSS('background-image', /linear-gradient/);
+    const root = sbPage.previewRoot();
+    const gridPseudoElement = root.locator('#addon-backgrounds-grid');
+    await expect(gridPseudoElement).toContainText('.sb-show-main::before');
   });
 });
