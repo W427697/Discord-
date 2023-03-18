@@ -29,7 +29,22 @@ export const withGrid = (StoryFn: StoryFunction<Renderer>, context: StoryContext
     ].join(', ');
 
     return `
+      html {
+        height: 100%;
+      }
+
       ${selector} {
+        position: relative;
+        height: 100%;
+      }
+
+      ${selector}::before {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
         background-size: ${backgroundSize} !important;
         background-position: ${offsetX}px ${offsetY}px, ${offsetX}px ${offsetY}px, ${offsetX}px ${offsetY}px, ${offsetX}px ${offsetY}px !important;
         background-blend-mode: difference !important;
