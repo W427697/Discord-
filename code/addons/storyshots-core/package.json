@@ -63,8 +63,6 @@
     "@storybook/vue": "7.0.0-rc.5",
     "@storybook/vue3": "7.0.0-rc.5",
     "babel-loader": "^9.1.2",
-    "enzyme": "^3.11.0",
-    "enzyme-adapter-react-16": "^1.15.5",
     "enzyme-to-json": "^3.6.1",
     "jest-preset-angular": "^12.2.3",
     "jest-vue-preprocessor": "^1.7.1",
