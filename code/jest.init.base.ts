@@ -34,6 +34,8 @@ const ignoreList = [
     error.stack.includes('addons/knobs/src/components/__tests__/Options.js'),
   // Storyshots blows up if your project includes a (non stories.) mdx file.
   (error: any) => error.message.match(/Unexpected error while loading .*(?<!stories)\.mdx/),
+  // PreviewWeb.integration.test.ts still calls React 17 ReactDOM.render
+  (error: any) => error.message.match(/ReactDOM.render is no longer supported/),
 ];
 
 const throwMessage = (type: any, message: any) => {
