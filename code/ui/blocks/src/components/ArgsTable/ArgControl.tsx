@@ -70,7 +70,8 @@ export const ArgControl: FC<ArgControlProps> = ({ row, arg, updateArgs }) => {
   const defaultValue = row.table?.defaultValue;
   if (value === undefined && defaultValue?.summary !== undefined) {
     try {
-      value = JSON.parse(defaultValue.summary);
+      // eslint-disable-next-line @typescript-eslint/no-implied-eval
+      value = Function(...[], `return ${defaultValue.summary}`)();
     } catch {
       value = defaultValue.summary;
     }
@@ -78,7 +79,7 @@ export const ArgControl: FC<ArgControlProps> = ({ row, arg, updateArgs }) => {
 
   // row.name is a display name and not a suitable DOM input id or name - i might contain whitespace etc.
   // row.key is a hash key and therefore a much safer choice
-  const props = { name: key, argType: row, value: boxedValue.value, onChange, onBlur, onFocus };
+  const props = { name: key, argType: row, value, onChange, onBlur, onFocus };
   const Control = Controls[control.type] || NoControl;
   return <Control {...props} {...control} controlType={control.type} />;
 };
