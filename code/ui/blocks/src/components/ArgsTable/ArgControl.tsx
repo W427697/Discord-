@@ -71,7 +71,7 @@ export const ArgControl: FC<ArgControlProps> = ({ row, arg, updateArgs }) => {
   if (value === undefined && defaultValue?.summary !== undefined) {
     try {
       // eslint-disable-next-line @typescript-eslint/no-implied-eval
-      value = Function(...[], `return ${defaultValue.summary}`)();
+      value = Function(`return ${defaultValue.summary}`)();
     } catch {
       value = defaultValue.summary;
     }
