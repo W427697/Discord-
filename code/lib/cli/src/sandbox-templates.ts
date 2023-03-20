@@ -117,6 +117,7 @@ const baseTemplates = {
       renderer: '@storybook/react',
       builder: '@storybook/builder-webpack5',
     },
+    skipTasks: ['e2e-tests-dev', 'test-runner-dev'],
   },
   'react-vite/default-js': {
     name: 'React Vite (JS)',

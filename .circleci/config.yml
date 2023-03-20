@@ -413,7 +413,7 @@ jobs:
           root: .
           paths:
             - sandbox/*/storybook-static
-  test-runner-sandboxes:
+  test-runner-production:
     parameters:
       parallelism:
         type: integer
@@ -432,6 +432,27 @@ jobs:
           command: yarn task --task test-runner --template $(yarn get-template << pipeline.parameters.workflow >> test-runner) --no-link --start-from=never --junit
       - report-workflow-on-failure:
           template: $(yarn get-template << pipeline.parameters.workflow >> test-runner)
+      - store_test_results:
+          path: test-results
+  test-runner-dev:
+    parameters:
+      parallelism:
+        type: integer
+        default: 2
+    executor:
+      class: medium
+      name: sb_playwright
+    parallelism: << parameters.parallelism >>
+    steps:
+      - git-shallow-clone/checkout_advanced:
+          clone_options: '--depth 1 --verbose'
+      - attach_workspace:
+          at: .
+      - run:
+          name: Running Test Runner in Dev mode
+          command: yarn task --task test-runner-dev --template $(yarn get-template << pipeline.parameters.workflow >> test-runner-dev) --no-link --start-from=never --junit
+      - report-workflow-on-failure:
+          template: $(yarn get-template << pipeline.parameters.workflow >> test-runner-dev)
       - store_test_results:
           path: test-results
   chromatic-sandboxes:
@@ -533,9 +554,6 @@ workflows:
       - build-sandboxes:
           requires:
             - create-sandboxes
-      - test-runner-sandboxes:
-          requires:
-            - build-sandboxes
       - chromatic-sandboxes:
           requires:
             - build-sandboxes
@@ -543,6 +561,12 @@ workflows:
           requires:
             - build-sandboxes
       - e2e-dev:
+          requires:
+            - create-sandboxes
+      - test-runner-production:
+          requires:
+            - build-sandboxes
+      - test-runner-dev:
           requires:
             - create-sandboxes
   pr:
@@ -583,10 +607,6 @@ workflows:
           parallelism: 9
           requires:
             - create-sandboxes
-      - test-runner-sandboxes:
-          parallelism: 9
-          requires:
-            - build-sandboxes
       - chromatic-sandboxes:
           parallelism: 9
           requires:
@@ -596,7 +616,13 @@ workflows:
           requires:
             - build-sandboxes
       - e2e-dev:
+          requires:
+            - create-sandboxes
+      - test-runner-production:
           parallelism: 9
+          requires:
+            - build-sandboxes
+      - test-runner-dev:
           requires:
             - create-sandboxes
   merged:
@@ -637,10 +663,6 @@ workflows:
           parallelism: 18
           requires:
             - create-sandboxes
-      - test-runner-sandboxes:
-          parallelism: 18
-          requires:
-            - build-sandboxes
       - chromatic-sandboxes:
           parallelism: 18
           requires:
@@ -650,9 +672,17 @@ workflows:
           requires:
             - build-sandboxes
       - e2e-dev:
-          parallelism: 18
+          parallelism: 4
           requires:
             - create-sandboxes
+      - test-runner-production:
+          parallelism: 18
+          requires:
+            - build-sandboxes
+      - test-runner-dev:
+          parallelism: 4
+          requires:
+            - build-sandboxes
   daily:
     when:
       equal: [daily, << pipeline.parameters.workflow >>]
@@ -678,10 +708,6 @@ workflows:
           parallelism: 30
           requires:
             - create-sandboxes
-      - test-runner-sandboxes:
-          parallelism: 30
-          requires:
-            - build-sandboxes
       - chromatic-sandboxes:
           parallelism: 30
           requires:
@@ -691,6 +717,14 @@ workflows:
           requires:
             - build-sandboxes
       - e2e-dev:
-          parallelism: 31
+          parallelism: 4
           requires:
             - create-sandboxes
+      - test-runner-production:
+          parallelism: 30
+          requires:
+            - build-sandboxes
+      - test-runner-dev:
+          parallelism: 4
+          requires:
+            - build-sandboxes
