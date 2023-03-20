@@ -3,6 +3,7 @@
 - [From version 6.5.x to 7.0.0](#from-version-65x-to-700)
   - [7.0 breaking changes](#70-breaking-changes)
     - [Dropped support for Node 15 and below](#dropped-support-for-node-15-and-below)
+    - [Default export in Preview.js](#default-export-in-previewjs)
     - [ESM format in Main.js](#esm-format-in-mainjs)
     - [Modern browser support](#modern-browser-support)
     - [React peer dependencies required](#react-peer-dependencies-required)
@@ -18,10 +19,12 @@
     - [Change of root html IDs](#change-of-root-html-ids)
     - [Stories glob matches MDX files](#stories-glob-matches-mdx-files)
     - [Add strict mode](#add-strict-mode)
-    - [Babel mode v7 exclusively](#babel-mode-v7-exclusively)
     - [Importing plain markdown files with `transcludeMarkdown` has changed](#importing-plain-markdown-files-with-transcludemarkdown-has-changed)
+    - [Stories field in .storybook/main.js is mandatory](#stories-field-in-storybookmainjs-is-mandatory)
+  - [7.0 Core changes](#70-core-changes)
     - [7.0 feature flags removed](#70-feature-flags-removed)
     - [Story context is prepared before for supporting fine grained updates](#story-context-is-prepared-before-for-supporting-fine-grained-updates)
+    - [Changed decorator order between preview.js and addons/frameworks](#changed-decorator-order-between-previewjs-and-addonsframeworks)
   - [7.0 core addons changes](#70-core-addons-changes)
     - [Removed auto injection of @storybook/addon-actions decorator](#removed-auto-injection-of-storybookaddon-actions-decorator)
     - [Addon-backgrounds: Removed deprecated grid parameter](#addon-backgrounds-removed-deprecated-grid-parameter)
@@ -31,6 +34,7 @@
     - [Vite cache moved to node_modules/.cache/.vite-storybook](#vite-cache-moved-to-node_modulescachevite-storybook)
   - [7.0 Webpack changes](#70-webpack-changes)
     - [Webpack4 support discontinued](#webpack4-support-discontinued)
+    - [Babel mode v7 exclusively](#babel-mode-v7-exclusively)
     - [Postcss removed](#postcss-removed)
     - [Removed DLL flags](#removed-dll-flags)
   - [7.0 Framework-specific changes](#70-framework-specific-changes)
@@ -293,9 +297,59 @@ A number of these changes can be made automatically by the Storybook CLI. To tak
 
 Storybook 7.0 requires **Node 16** or above. If you are using an older version of Node, you will need to upgrade or keep using Storybook 6 in the meantime.
 
+#### Default export in Preview.js
+
+Storybook 7.0 supports a default export in `.storybook/preview.js` that should contain all of its annotations. The previous format is still compatible, but **the default export will be the recommended way going forward**.
+
+If your `preview.js` file looks like this:
+
+```js
+export const parameters = {
+  actions: { argTypesRegex: '^on[A-Z].*' },
+};
+```
+
+Please migrate it to use a default export instead:
+
+```js
+const preview = {
+  parameters: {
+    actions: { argTypesRegex: '^on[A-Z].*' },
+  },
+};
+export default preview;
+```
+
+Additionally, we introduced typings for that default export (Preview), so you can import it in your config file. If you're using Typescript, make sure to rename your file to be `preview.ts`.
+
+The `Preview` type will come from the Storybook package for the **renderer** you are using. For example, if you are using Angular, you will import it from `@storybook/angular`, or if you're using Vue3, you will import it from `@storybook/vue3`:
+
+```ts
+import { Preview } from '@storybook/react';
+
+const preview: Preview = {
+  parameters: {
+    actions: { argTypesRegex: '^on[A-Z].*' },
+  },
+};
+export default preview;
+```
+
+In JavaScript projects using `preview.js`, it's also possible to use the `Preview` type (for autocompletion, not type safety), via the JSDoc @type tag:
+
+```js
+/** @type { import('@storybook/react').Preview } */
+const preview = {
+  parameters: {
+    actions: { argTypesRegex: '^on[A-Z].*' },
+  },
+};
+export default preview;
+```
+
 #### ESM format in Main.js
 
-Storybook 7.0 supports ESM in `.storybook/main.js`, and the configurations can be part of a default export. The default export will be the recommended way going forward.
+It's now possible to use ESM in `.storybook/main.js` out of the box. Storybook 7.0 supports a default export in `.storybook/main.js` that should contain all of its configurations. The previous format is still compatible, but **the default export will be the recommended way going forward**.
 
 If your main.js file looks like this:
 
@@ -313,7 +367,7 @@ export const stories = ['../stories/**/*.stories.mdx', '../stories/**/*.stories.
 export const framework = { name: '@storybook/react-vite' };
 ```
 
-Please migrate them to be default exported instead:
+Please migrate it to use a default export instead:
 
 ```js
 const config = {
@@ -323,12 +377,25 @@ const config = {
 export default config;
 ```
 
-For Typescript users, we introduced types for that default export, so you can import it in your main.ts file. The `StorybookConfig` type will come from the Storybook package for the framework you are using, which relates to the package in the "framework" field you have in your main.ts file. For example, if you are using React Vite, you will import it from `@storybook/react-vite`:
+Additionally, we introduced typings for that default export (StorybookConfig), so you can import it in your config file. If you're using Typescript, make sure to rename your file to be `main.ts`.
+
+The `StorybookConfig` type will come from the Storybook package for the **framework** you are using, which relates to the package in the "framework" field you have in your main.ts file. For example, if you are using React Vite, you will import it from `@storybook/react-vite`:
 
 ```ts
 import { StorybookConfig } from '@storybook/react-vite';
 
 const config: StorybookConfig = {
+  stories: ['../stories/**/*.stories.mdx', '../stories/**/*.stories.@(js|jsx|ts|tsx)'],
+  framework: { name: '@storybook/react-vite' },
+};
+export default config;
+```
+
+In JavaScript projects using `main.js`, it's also possible to use the `StorybookConfig` type (for autocompletion, not type safety), via the JSDoc @type tag:
+
+```ts
+/** @type { import('@storybook/react-vite').StorybookConfig } */
+const config = {
   stories: ['../stories/**/*.stories.mdx', '../stories/**/*.stories.@(js|jsx|ts|tsx)'],
   framework: { name: '@storybook/react-vite' },
 };
@@ -695,20 +762,6 @@ Starting in 7.0, Storybook's build tools add [`"use strict"`](https://developer.
 
 If user code in `.storybook/preview.js` or stories relies on "sloppy" mode behavior, it will need to be updated. As a workaround, it is sometimes possible to move the sloppy mode code inside a script tag in `.storybook/preview-head.html`.
 
-#### Babel mode v7 exclusively
-
-_Has automigration_
-
-Storybook now uses [Babel mode v7](#babel-mode-v7) exclusively. In 6.x, Storybook provided its own babel settings out of the box. Now, Storybook's uses your project's babel settings (`.babelrc`, `babel.config.js`, etc.) instead.
-
-In the new mode, Storybook expects you to provide a configuration file. If you want a configuration file that's equivalent to the 6.x default, you can run the following command in your project directory:
-
-```sh
-npx sb@next babelrc
-```
-
-This will create a `.babelrc.json` file. This file includes a bunch of babel plugins, so you may need to add new package devDependencies accordingly.
-
 #### Importing plain markdown files with `transcludeMarkdown` has changed
 
 The `transcludeMarkdown` option in `addon-docs` have been removed, and the automatic handling of `.md` files in Vite projects have also been disabled.
@@ -724,6 +777,13 @@ import ReadMe from './README.md?raw';
 <Markdown>{ReadMe}</Markdown>
 
 ```
+
+#### Stories field in .storybook/main.js is mandatory
+
+In 6.x, the `stories` key field in `.storybook/main.js` was optional. In 7.0, it is mandatory.
+Please follow up the [Configure your Storybook project](https://storybook.js.org/docs/react/configure/overview#configure-your-storybook-project) section to configure your Storybook project.
+
+### 7.0 Core changes
 
 #### 7.0 feature flags removed
 
@@ -750,6 +810,19 @@ In 7.0 we've removed the following feature flags:
 This change modifies the way Storybook prepares stories to avoid reactive args to get lost for fine-grained updates JS frameworks as `SolidJS` or `Vue`. That's because those frameworks handle args/props as proxies behind the scenes to make reactivity work. So when `argType` mapping was done in `prepareStory` the Proxies were destroyed and args becomes a plain object again, losing the reactivity.
 
 For avoiding that, this change passes the mapped args instead of raw args at `renderToCanvas` so that the proxies stay intact. Also decorators will benefit from this as well by receiving mapped args instead of raw args.
+
+#### Changed decorator order between preview.js and addons/frameworks
+
+In Storybook 7.0 we have changed the order of decorators being applied to allow you to access context information added by decorators defined in addons/frameworks from decorators defined in `preview.js`. To revert the order to the previous behavior, you can set the `features.legacyDecoratorFileOrder` flag to `true` in your `main.js` file:
+
+```js
+// main.js
+export default {
+  features: {
+    legacyDecoratorFileOrder: true,
+  },
+};
+```
 
 ### 7.0 core addons changes
 
@@ -817,6 +890,23 @@ To upgrade:
 - If you're using Create React App, see the [migration notes](https://github.com/facebook/create-react-app/blob/main/CHANGELOG.md#migrating-from-40x-to-500) to upgrade from V4 (Webpack4) to 5
 
 During the 7.0 dev cycle we will be updating this section with useful resources as we run across them.
+
+#### Babel mode v7 exclusively
+
+_Has automigration_
+
+Storybook now uses [Babel mode v7](#babel-mode-v7) exclusively. In 6.x, Storybook provided its own babel settings out of the box. Now, Storybook's uses your project's babel settings (`.babelrc`, `babel.config.js`, etc.) instead.
+
+> Note:
+> If you are using @storybook/react-webpack5 with the @storybook/preset-create-react-app package, you don't need to do anything. The preset already provides the babel configuration you need.
+
+In the new mode, Storybook expects you to provide a configuration file. Depending on the complexity your project, Storybook will fail to run without a babel configuration. If you want a configuration file that's equivalent to the 6.x default, you can run the following command in your project directory:
+
+```sh
+npx storybook@next babelrc
+```
+
+This command will create a `.babelrc.json` file in your project, containing a few babel plugins which will be installed as dev dependencies.
 
 #### Postcss removed
 
@@ -1013,6 +1103,8 @@ import * as ComponentStories from './some-component.stories';
 <Story of={ComponentStories.Primary} />
 ```
 
+(Note the `of` prop is only supported if you change your MDX files to plain `.mdx`, it's not supported in `.stories.mdx` files)
+
 You can create as many docs entries as you like for a given component. By default the docs entry will be named the same as the `.mdx` file (e.g. `Introduction.mdx` becomes `Introduction`). If the docs file is named the same as the component (e.g. `Button.mdx`, it will use the default autodocs name (`"Docs"`) and override autodocs).
 
 By default docs entries are listed first for the component. You can sort them using story sorting.
@@ -1035,7 +1127,7 @@ Additionally to changing the docs information architecture, we've updated the AP
 
 **General changes**
 
-- Each block now uses `of={}` as a primary API -- where the argument to the `of` prop is a CSF or story _export_.
+- Each block now uses `of={}` as a primary API -- where the argument to the `of` prop is a CSF or story _export_. The `of` prop is only supported in plain `.mdx` files and not `.stories.mdx` files.
 
 - When you've attached to a CSF file (with the `Meta` block, or in Autodocs), you can drop the `of` and the block will reference the first story or the CSF file as a whole.
 
@@ -1140,7 +1232,7 @@ import * as ComponentStories from './some-component.stories';
 
 The `ArgsTable` block is now deprecated, and two new blocks: `ArgTypes` and `Controls` should be preferred.
 
-- `<ArgTypes of={storyExports OR metaExports OR component} />` will render a readonly table of args/props descriptions for a story, CSF file or component. If `of` ommitted and the MDX file is attached it will render the arg types defined at the CSF file level.
+- `<ArgTypes of={storyExports OR metaExports OR component} />` will render a readonly table of args/props descriptions for a story, CSF file or component. If `of` omitted and the MDX file is attached it will render the arg types defined at the CSF file level.
 
 - `<Controls of={storyExports} />` will render the controls for a story (or the primary story if `of` is omitted and the MDX file is attached).
 

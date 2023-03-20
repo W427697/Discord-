@@ -34,6 +34,9 @@ This MDX file references a story file, `Checkbox.stories.js|ts`, that is written
 
 <CodeSnippets
   paths={[
+    'angular/checkbox-story-csf.ts.mdx',
+    'web-components/checkbox-story-csf.js.mdx',
+    'web-components/checkbox-story-csf.ts.mdx',
     'common/checkbox-story-csf.js.mdx',
     'common/checkbox-story-csf.ts.mdx',
   ]}
@@ -325,7 +328,6 @@ However, cross-linking documentation isn't restricted to documentation pages. Yo
 
 <!--You can also use anchors to target a specific section of a page: -->
 
-![MDX anchor example](./mdx-anchor.webp)
 
 <div class="aside">
 💡 By applying this pattern with the Controls addon, all anchors will be ignored in Canvas based on how Storybook handles URLs to track the args values.
@@ -428,7 +430,7 @@ Update your Storybook configuration (in `.storybook/main.js|ts`), and provide th
 
 #### Learn more about Storybook documentation
 
-- [AutoDocs](./autodocs.md) for creating documentation for your stories
+- [Autodocs](./autodocs.md) for creating documentation for your stories
 - MDX for customizing your documentation
 - [Doc Blocks](./doc-blocks.md) for authoring your documentation
 - [Publishing docs](./build-documentation.md) to automate the process of publishing your documentation

@@ -1,6 +1,6 @@
 import fse from 'fs-extra';
+import path from 'path';
 import { dedent } from 'ts-dedent';
-import prettier from 'prettier';
 import { externalFrameworks, SupportedLanguage } from '../project_types';
 
 interface ConfigureMainOptions {
@@ -56,7 +56,8 @@ export async function configureMain({
   language,
   ...custom
 }: ConfigureMainOptions) {
-  const prefix = (await fse.pathExists('./src')) ? '../src' : '../stories';
+  const srcPath = path.resolve(storybookConfigFolder, '../src');
+  const prefix = (await fse.pathExists(srcPath)) ? '../src' : '../stories';
   const config = {
     stories: [`${prefix}/**/*.mdx`, `${prefix}/**/*.stories.@(${extensions.join('|')})`],
     addons,
@@ -96,6 +97,8 @@ export async function configureMain({
     .replace('<<import>>', `${imports.join('\n\n')}\n`)
     .replace('<<type>>', isTypescript ? ': StorybookConfig' : '')
     .replace('<<mainContents>>', mainContents);
+
+  const prettier = (await import('prettier')).default;
 
   const mainPath = `./${storybookConfigFolder}/main.${isTypescript ? 'ts' : 'js'}`;
   const prettyMain = prettier.format(dedent(mainJsContents), {
@@ -141,9 +144,6 @@ export async function configurePreview(options: ConfigurePreviewOptions) {
         : ''
     }const preview${isTypescript ? ': Preview' : ''} = {
       parameters: {
-        backgrounds: {
-          default: 'light',
-        },
         actions: { argTypesRegex: '^on[A-Z].*' },
         controls: {
           matchers: {
@@ -158,6 +158,8 @@ export async function configurePreview(options: ConfigurePreviewOptions) {
     `
     .replace('  \n', '')
     .trim();
+
+  const prettier = (await import('prettier')).default;
 
   const prettyPreview = prettier.format(preview, {
     ...prettier.resolveConfig.sync(process.cwd()),
