@@ -67,7 +67,9 @@ type ResponseKeys =
 
 function respond(result: ResponseResult): Promise<Response> {
   const { err, ok, response } = result;
-  if (err) Promise.reject(err);
+  if (err) {
+    return Promise.reject(err);
+  }
 
   return Promise.resolve({
     ok: ok ?? !!response,
@@ -286,22 +288,16 @@ describe('Refs API', () => {
       `);
     });
 
-    it('checks refs (all 404)', async () => {
+    it('checks refs (all throw)', async () => {
       // given
       const { api } = initRefs({ provider, store } as any, { runCheck: false });
 
       setupResponses({
         indexPrivate: {
-          ok: false,
-          response: async () => {
-            throw new Error('Failed to fetch');
-          },
+          err: new Error('TypeError: Failed to fetch'),
         },
         storiesPrivate: {
-          ok: false,
-          response: async () => {
-            throw new Error('Failed to fetch');
-          },
+          err: new Error('TypeError: Failed to fetch'),
         },
       });
 
@@ -360,22 +356,23 @@ describe('Refs API', () => {
       `);
     });
 
-    it('checks refs (index 404)', async () => {
+    it('checks refs (index throws)', async () => {
       // given
       const { api } = initRefs({ provider, store } as any, { runCheck: false });
 
       setupResponses({
         indexPrivate: {
-          ok: false,
-          response: async () => {
-            throw new Error('Failed to fetch');
-          },
+          err: new Error('TypeError: Failed to fetch'),
         },
         storiesPrivate: {
-          ok: false,
-          response: async () => {
-            throw new Error('Failed to fetch');
-          },
+          ok: true,
+          response: async () => ({ v: 3, stories: {} }),
+        },
+        metadata: {
+          ok: true,
+          response: async () => ({
+            versions: {},
+          }),
         },
       });
 
@@ -405,6 +402,74 @@ describe('Refs API', () => {
               },
             },
           ],
+          Array [
+            "https://example.com/metadata.json",
+            Object {
+              "cache": "no-cache",
+              "credentials": "include",
+              "headers": Object {
+                "Accept": "application/json",
+              },
+            },
+          ],
+        ]
+      `);
+    });
+
+    it('checks refs (metadata throws)', async () => {
+      // given
+      const { api } = initRefs({ provider, store } as any, { runCheck: false });
+
+      setupResponses({
+        indexPrivate: {
+          ok: true,
+          response: async () => ({ v: 4, entries: {} }),
+        },
+        storiesPrivate: {
+          ok: true,
+          response: async () => ({ v: 3, stories: {} }),
+        },
+        metadata: {
+          err: new Error('TypeError: Failed to fetch'),
+        },
+      });
+
+      await api.checkRef({
+        id: 'fake',
+        url: 'https://example.com',
+        title: 'Fake',
+      });
+
+      expect(fetchMock.mock.calls).toMatchInlineSnapshot(`
+        Array [
+          Array [
+            "https://example.com/index.json",
+            Object {
+              "credentials": "include",
+              "headers": Object {
+                "Accept": "application/json",
+              },
+            },
+          ],
+          Array [
+            "https://example.com/stories.json",
+            Object {
+              "credentials": "include",
+              "headers": Object {
+                "Accept": "application/json",
+              },
+            },
+          ],
+          Array [
+            "https://example.com/metadata.json",
+            Object {
+              "cache": "no-cache",
+              "credentials": "include",
+              "headers": Object {
+                "Accept": "application/json",
+              },
+            },
+          ],
         ]
       `);
 
@@ -413,20 +478,23 @@ describe('Refs API', () => {
           "refs": Object {
             "fake": Object {
               "id": "fake",
-              "index": undefined,
-              "indexError": Object {
-                "message": "Error: Loading of ref failed
-          at fetch (lib/api/src/modules/refs.ts)
-
-        URL: https://example.com
-
-        We weren't able to load the above URL,
-        it's possible a CORS error happened.
-
-        Please check your dev-tools network tab.",
-              },
+              "index": Object {},
               "title": "Fake",
-              "type": "auto-inject",
+              "type": "lazy",
+              "url": "https://example.com",
+            },
+          },
+        }
+      `);
+
+      expect(store.setState.mock.calls[0][0]).toMatchInlineSnapshot(`
+        Object {
+          "refs": Object {
+            "fake": Object {
+              "id": "fake",
+              "index": Object {},
+              "title": "Fake",
+              "type": "lazy",
               "url": "https://example.com",
             },
           },
