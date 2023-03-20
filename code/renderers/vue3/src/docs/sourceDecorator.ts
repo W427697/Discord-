@@ -22,6 +22,7 @@ import {
   htmlEventAttributeToVueEventAttribute,
   omitEvent,
   evalExp,
+  generateExpression,
 } from './utils';
 
 /**
@@ -208,7 +209,6 @@ export function generateTemplateSource(
     }
     if (isInterpolationNode(componentOrNode)) {
       const { content } = componentOrNode as InterpolationNode;
-      console.log('content', content);
       return `{{${content.loc.source}}}`;
     }
     if (isVNode(componentOrNode)) {
@@ -289,8 +289,6 @@ export function generateSource(context: StoryContext<Renderer>) {
   const { args = {}, argTypes = {}, id } = context || {};
   const storyComponents = getTemplateComponents(context?.originalStoryFn, context);
 
-  console.log('story context', context);
-
   const withScript = context?.parameters?.docs?.source?.withScriptSetup || false;
   const generatedScript = withScript ? generateScriptSetup(args, argTypes, storyComponents) : '';
   const generatedTemplate = generateTemplateSource(storyComponents, context);
@@ -311,19 +309,3 @@ export {
   attributeSource,
   htmlEventAttributeToVueEventAttribute,
 };
-
-/**
- *
- * replace function curly brackets and return with empty string ex: () => { return `${text} , ${year}` } => `${text} , ${year}`
- *
- * @param slot
- * @returns
- *  */
-
-function generateExpression(slot: FunctionalComponent): string {
-  let body = slot.toString().split('=>')[1].trim().replace('return', '').trim();
-  if (body.startsWith('{') && body.endsWith('}')) {
-    body = body.substring(1, body.length - 1).trim();
-  }
-  return `{{${body}}}`;
-}
