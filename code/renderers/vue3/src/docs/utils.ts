@@ -1,4 +1,5 @@
 import type { Args } from '@storybook/types';
+import type { FunctionalComponent } from 'vue';
 
 /**
  *  omit event args
@@ -45,6 +46,22 @@ const evalExp = (argExpValue: any, args: Args): any => {
   return evalVal;
 };
 
+/**
+ *
+ * replace function curly brackets and return with empty string ex: () => { return `${text} , ${year}` } => `${text} , ${year}`
+ *
+ * @param slot
+ * @returns
+ *  */
+
+function generateExpression(slot: FunctionalComponent): string {
+  let body = slot.toString().split('=>')[1].trim().replace('return', '').trim();
+  if (body.startsWith('{') && body.endsWith('}')) {
+    body = body.substring(1, body.length - 1).trim();
+  }
+  return `{{${body}}}`;
+}
+
 export {
   omitEvent,
   displayObject,
@@ -52,4 +69,5 @@ export {
   directiveSource,
   attributeSource,
   evalExp,
+  generateExpression,
 };
