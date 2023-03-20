@@ -1232,7 +1232,7 @@ import * as ComponentStories from './some-component.stories';
 
 The `ArgsTable` block is now deprecated, and two new blocks: `ArgTypes` and `Controls` should be preferred.
 
-- `<ArgTypes of={storyExports OR metaExports OR component} />` will render a readonly table of args/props descriptions for a story, CSF file or component. If `of` ommitted and the MDX file is attached it will render the arg types defined at the CSF file level.
+- `<ArgTypes of={storyExports OR metaExports OR component} />` will render a readonly table of args/props descriptions for a story, CSF file or component. If `of` omitted and the MDX file is attached it will render the arg types defined at the CSF file level.
 
 - `<Controls of={storyExports} />` will render the controls for a story (or the primary story if `of` is omitted and the MDX file is attached).
 
