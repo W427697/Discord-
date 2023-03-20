@@ -1,4 +1,3 @@
-/* eslint-disable no-eval */
 /* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable no-underscore-dangle */
 import { addons } from '@storybook/preview-api';
@@ -85,29 +84,34 @@ function mapAttributesAndDirectives(props: Args) {
 }
 /**
  *  map slots
- * @param slotsProps
+ * @param slotsArgs
  */
-function mapSlots(slotsProps: Args, generateComponentSource: (v: VNode) => string): TextNode[] {
-  return Object.keys(slotsProps).map((key) => {
-    const slot = slotsProps[key];
+function mapSlots(
+  slotsArgs: Args,
+  generateComponentSource: any,
+  slots: { name: string; scoped?: boolean; bindings?: { name: string }[] }[]
+): TextNode[] {
+  return Object.keys(slotsArgs).map((key) => {
+    const slot = slotsArgs[key];
     let slotContent = '';
 
+    const scropedArgs = slots
+      .find((s) => s.name === key && s.scoped)
+      ?.bindings?.map((b) => b.name)
+      .join(',');
+    console.log('slot', slot);
     if (typeof slot === 'function') {
-      const slotVNode = slot();
-      if (isVNode(slotVNode)) {
-        slotContent = generateComponentSource(h(slotVNode));
-      }
+      slotContent = generateExpression(slot);
+    }
+    if (isVNode(slot)) {
+      slotContent = generateComponentSource(slot);
     }
 
     if (typeof slot === 'object' && !isVNode(slot)) {
       slotContent = JSON.stringify(slot);
     }
-
-    if (typeof slot === 'string') {
-      slotContent = slot;
-    }
-
-    slotContent = slot && slotContent.trim() ? `<template #${key}>${slotContent}</template>` : ``;
+    const bindingsString = scropedArgs ? `="{${scropedArgs}}"` : '';
+    slotContent = slot ? `<template #${key}${bindingsString}>${slotContent}</template>` : ``;
 
     return {
       type: 2,
@@ -175,8 +179,7 @@ function getComponents(template: string): (TemplateChildNode | VNode)[] {
 
 export function generateTemplateSource(
   componentOrNodes: (ConcreteComponent | TemplateChildNode)[] | TemplateChildNode | VNode,
-  args: Args,
-  argTypes: ArgTypes,
+  context: StoryContext<Renderer>,
   byRef = false
 ) {
   const isElementNode = (node: any) => node && node.type === 1;
@@ -192,23 +195,28 @@ export function generateTemplateSource(
         typeof children === 'string'
           ? children
           : children.map((child: TemplateChildNode) => generateComponentSource(child)).join('');
-      const props = generateAttributesSource(attributes, args, argTypes, byRef);
+      const props = generateAttributesSource(attributes, context.args, context.argTypes, byRef);
 
       return childSources === ''
         ? `<${name} ${props} />`
         : `<${name} ${props}>${childSources}</${name}>`;
     }
 
-    if (isInterpolationNode(componentOrNode) || isTextNode(componentOrNode)) {
-      const { content } = componentOrNode as InterpolationNode | TextNode;
-
-      if (content && typeof content !== 'string') return eval(content.loc.source); // it's a binding safe to eval
+    if (isTextNode(componentOrNode)) {
+      const { content } = componentOrNode as TextNode;
       return content;
+    }
+    if (isInterpolationNode(componentOrNode)) {
+      const { content } = componentOrNode as InterpolationNode;
+      console.log('content', content);
+      return `{{${content.loc.source}}}`;
     }
     if (isVNode(componentOrNode)) {
       const vnode = componentOrNode as VNode;
       const { props, type, children } = vnode;
       const slotsProps = typeof children === 'string' ? undefined : (children as Args);
+      const componentSlots = (type as any)?.__docgenInfo?.slots;
+
       const attrsProps = slotsProps
         ? Object.fromEntries(
             Object.entries(props ?? {})
@@ -217,19 +225,29 @@ export function generateTemplateSource(
           )
         : props;
       const attributes = mapAttributesAndDirectives(attrsProps ?? {});
+      const slotArgs = Object.fromEntries(
+        Object.entries(props ?? {}).filter(([key, value]) => slotsProps?.[key])
+      );
       // eslint-disable-next-line no-nested-ternary
       const childSources: string = children
         ? typeof children === 'string'
           ? children
-          : mapSlots(children as Args, generateComponentSource)
+          : mapSlots(slotArgs as Args, generateComponentSource, componentSlots ?? [])
               .map((child) => child.content)
               .join('')
         : '';
       const name =
         typeof type === 'string'
           ? type
-          : (type as FunctionalComponent).name || (type as ConcreteComponent).__name;
-      const propsSource = generateAttributesSource(attributes, args, argTypes, byRef);
+          : (type as FunctionalComponent).name ||
+            (type as ConcreteComponent).__name ||
+            (type as any).__docgenInfo?.displayName;
+      const propsSource = generateAttributesSource(
+        attributes,
+        context.args,
+        context.argTypes,
+        byRef
+      );
       return childSources.trim() === ''
         ? `<${name} ${propsSource}/>`
         : `<${name} ${propsSource}>${childSources}</${name}>`;
@@ -271,9 +289,11 @@ export function generateSource(context: StoryContext<Renderer>) {
   const { args = {}, argTypes = {}, id } = context || {};
   const storyComponents = getTemplateComponents(context?.originalStoryFn, context);
 
+  console.log('story context', context);
+
   const withScript = context?.parameters?.docs?.source?.withScriptSetup || false;
   const generatedScript = withScript ? generateScriptSetup(args, argTypes, storyComponents) : '';
-  const generatedTemplate = generateTemplateSource(storyComponents, context.args, context.argTypes);
+  const generatedTemplate = generateTemplateSource(storyComponents, context);
 
   if (generatedTemplate) {
     const source = `${generatedScript}\n <template>\n ${generatedTemplate} \n</template>`;
@@ -291,3 +311,19 @@ export {
   attributeSource,
   htmlEventAttributeToVueEventAttribute,
 };
+
+/**
+ *
+ * replace function curly brackets and return with empty string ex: () => { return `${text} , ${year}` } => `${text} , ${year}`
+ *
+ * @param slot
+ * @returns
+ *  */
+
+function generateExpression(slot: FunctionalComponent): string {
+  let body = slot.toString().split('=>')[1].trim().replace('return', '').trim();
+  if (body.startsWith('{') && body.endsWith('}')) {
+    body = body.substring(1, body.length - 1).trim();
+  }
+  return `{{${body}}}`;
+}

@@ -7,6 +7,7 @@ import MySlotComponent from './MySlotComponent.vue';
 
 export default {
   component: MySlotComponent,
+  tags: ['autodocs'],
 };
 
 export const ReactiveScopedSlot = {
@@ -106,7 +107,7 @@ export const BasicScopedSlot = {
     },
   },
 
-  // test that args are updated correctly in rective mode
+  // test that args with default slot are updated correctly in rective mode
   play: async ({ canvasElement, id }) => {
     const channel = globalThis.__STORYBOOK_ADDONS_CHANNEL__;
     const canvas = within(canvasElement);
