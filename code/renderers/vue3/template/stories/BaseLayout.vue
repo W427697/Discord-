@@ -1,3 +1,8 @@
+<script setup lang="ts">
+defineProps({
+  label: String,
+});
+</script>
 <template>
   <div>
     <header data-testid="header-slot">

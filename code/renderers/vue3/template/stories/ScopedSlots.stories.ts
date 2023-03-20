@@ -1,10 +1,16 @@
 import { expect } from '@storybook/jest';
 import { global as globalThis } from '@storybook/global';
+import type { Channel } from '@storybook/channels';
 import { within } from '@storybook/testing-library';
 import { UPDATE_STORY_ARGS, STORY_ARGS_UPDATED, RESET_STORY_ARGS } from '@storybook/core-events';
 
 import type { Meta, StoryObj } from '@storybook/vue3';
 import MySlotComponent from './MySlotComponent.vue';
+
+declare global {
+  // eslint-disable-next-line no-var,vars-on-top,@typescript-eslint/naming-convention
+  var __STORYBOOK_ADDONS_CHANNEL__: Channel;
+}
 
 const meta = {
   component: MySlotComponent,

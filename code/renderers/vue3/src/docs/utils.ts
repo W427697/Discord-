@@ -11,13 +11,14 @@ const omitEvent = (args: Args): Args =>
     : {};
 
 const displayObject = (obj: any): string | boolean | number => {
+  console.log(obj);
   if (obj && typeof obj === 'object') {
     return `{${Object.keys(obj)
       .map((key) => `${key}:${displayObject(obj[key])}`)
       .join(',')}}`;
   }
   if (typeof obj === 'string') return `'${obj}'`;
-  return obj.toString();
+  return obj?.toString();
 };
 const htmlEventAttributeToVueEventAttribute = (key: string) => {
   return /^on[A-Za-z]/.test(key) ? key.replace(/^on/, 'v-on:').toLowerCase() : key;
