@@ -1,3 +1,4 @@
+/* eslint-disable no-eval */
 /* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable no-underscore-dangle */
 import { addons } from '@storybook/preview-api';
@@ -100,7 +101,7 @@ function mapSlots(
       .find((s) => s.name === key && s.scoped)
       ?.bindings?.map((b) => b.name)
       .join(',');
-    console.log('slot', slot);
+
     if (typeof slot === 'function') {
       slotContent = generateExpression(slot);
     }
@@ -180,7 +181,7 @@ function getComponents(template: string): (TemplateChildNode | VNode)[] {
 
 export function generateTemplateSource(
   componentOrNodes: (ConcreteComponent | TemplateChildNode)[] | TemplateChildNode | VNode,
-  context: StoryContext<Renderer>,
+  { args, argTypes }: { args: Args; argTypes: ArgTypes },
   byRef = false
 ) {
   const isElementNode = (node: any) => node && node.type === 1;
@@ -196,7 +197,7 @@ export function generateTemplateSource(
         typeof children === 'string'
           ? children
           : children.map((child: TemplateChildNode) => generateComponentSource(child)).join('');
-      const props = generateAttributesSource(attributes, context.args, context.argTypes, byRef);
+      const props = generateAttributesSource(attributes, args, argTypes, byRef);
 
       return childSources === ''
         ? `<${name} ${props} />`
@@ -209,6 +210,7 @@ export function generateTemplateSource(
     }
     if (isInterpolationNode(componentOrNode)) {
       const { content } = componentOrNode as InterpolationNode;
+      if (content.loc.source.startsWith('args')) return eval(content.loc.source);
       return `{{${content.loc.source}}}`;
     }
     if (isVNode(componentOrNode)) {
@@ -242,12 +244,7 @@ export function generateTemplateSource(
           : (type as FunctionalComponent).name ||
             (type as ConcreteComponent).__name ||
             (type as any).__docgenInfo?.displayName;
-      const propsSource = generateAttributesSource(
-        attributes,
-        context.args,
-        context.argTypes,
-        byRef
-      );
+      const propsSource = generateAttributesSource(attributes, args, argTypes, byRef);
       return childSources.trim() === ''
         ? `<${name} ${propsSource}/>`
         : `<${name} ${propsSource}>${childSources}</${name}>`;

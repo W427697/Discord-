@@ -49,15 +49,31 @@ export const NamedSlotTest = {
     );
     await expect(canvas.getByTestId('default-slot').innerText).toContain('Default Text Slot');
     await expect(canvas.getByTestId('footer-slot').innerText).toContain('Footer VNode Slot');
+  },
+};
 
-    await channel.emit(UPDATE_STORY_ARGS, {
-      storyId: id,
-      updatedArgs: {
-        label: 'Storybook Day updated',
-        header: () => h('h1', 'Header updated'),
-        default: () => 'Default updated',
-        footer: h('h2', 'Footer updated'),
-      },
+export const SlotWithRenderFn = {
+  args: {
+    label: 'Storybook Day',
+    default: () => 'Default Text Slot',
+  },
+  render: (args) => ({
+    components: { BaseLayout },
+    setup() {
+      return { args };
+    },
+    template: `<BaseLayout :label="args.label" data-testid="layout">
+  	            {{args.default()}}
+              </BaseLayout>`,
+  }),
+  play: async ({ canvasElement, id }) => {
+    const channel = globalThis.__STORYBOOK_ADDONS_CHANNEL__;
+    const canvas = within(canvasElement);
+
+    await channel.emit(RESET_STORY_ARGS, { storyId: id });
+    await new Promise((resolve) => {
+      channel.once(STORY_ARGS_UPDATED, resolve);
     });
+    await expect(canvas.getByTestId('layout').innerText).toContain('Default Text Slot');
   },
 };

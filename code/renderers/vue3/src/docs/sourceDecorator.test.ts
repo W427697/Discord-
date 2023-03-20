@@ -28,7 +28,11 @@ function generateForArgs(
   template = '<Component />'
 ) {
   const components = getComponentsFromTemplate(template);
-  return generateTemplateSource(components, args, generateArgTypes(args, slotProps), true);
+  return generateTemplateSource(
+    components,
+    { args, argTypes: generateArgTypes(args, slotProps) },
+    true
+  );
 }
 
 describe('Vue3: sourceDecorator->mapAttributesAndDirective()', () => {
