@@ -2,6 +2,8 @@
 title: 'Install Storybook'
 ---
 
+import { Sandboxes } from '../../../components/screens/DocsScreen/sandboxes';
+
 Use the Storybook CLI to install it in a single command. Run this inside your _existing project’s_ root directory:
 
 <!-- prettier-ignore-start -->
@@ -35,6 +37,16 @@ Storybook needs to be installed into a project that is already set up with a fra
 - Or any other tooling available.
 
 </details>
+
+## Cloud sandboxes
+
+If you would rather explore Storybook in a ready-to-go environment, you can use one of the following sandboxes:
+
+<Sandboxes />
+
+Don't see the sandbox you're looking for? We also have a [list of all available sandboxes](https://storybook.new).
+
+## What does the CLI do?
 
 Storybook will look into your project's dependencies during its install process and provide you with the best configuration available.
 
