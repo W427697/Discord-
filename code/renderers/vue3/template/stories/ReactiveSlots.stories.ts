@@ -1,20 +1,29 @@
 import { expect } from '@storybook/jest';
 import { global as globalThis } from '@storybook/global';
-import { within, userEvent } from '@storybook/testing-library';
-import { UPDATE_STORY_ARGS, STORY_ARGS_UPDATED, RESET_STORY_ARGS } from '@storybook/core-events';
+import { within } from '@storybook/testing-library';
+import { STORY_ARGS_UPDATED, RESET_STORY_ARGS, UPDATE_STORY_ARGS } from '@storybook/core-events';
 import { h } from 'vue';
+import type { Meta, StoryObj } from '@storybook/vue3';
 import BaseLayout from './BaseLayout.vue';
 
-export default {
+const meta = {
   component: BaseLayout,
+  args: {
+    label: 'Storybook Day',
+    year: 2022,
+    default: ({ text, year }: { text: string; year: number }) => `${text}, ${year}`,
+  },
   tags: ['autodocs'],
-};
+} satisfies Meta<typeof BaseLayout>;
 
-export const SimpleSlotTest = {
+export default meta;
+type Story = StoryObj<typeof meta>;
+
+export const SimpleSlotTest: Story = {
   args: {
     label: 'Storybook Day',
     default: () => 'Default Text Slot',
-    footer: h('h2', 'Footer VNode Slot'),
+    footer: h('p', 'Footer VNode Slot'),
   },
   play: async ({ canvasElement, id }) => {
     const channel = globalThis.__STORYBOOK_ADDONS_CHANNEL__;
@@ -25,10 +34,23 @@ export const SimpleSlotTest = {
       channel.once(STORY_ARGS_UPDATED, resolve);
     });
     await expect(canvas.getByTestId('footer-slot').innerText).toContain('Footer VNode Slot');
+
+    // await channel.emit(UPDATE_STORY_ARGS, {
+    //   storyId: id,
+    //   updatedArgs: {
+    //     label: 'Storybook Day updated',
+    //     footer: () => 'Foot Slot updated',
+    //   },
+    // });
+    // await new Promise((resolve) => {
+    //   channel.once(STORY_ARGS_UPDATED, resolve);
+    // });
+
+    // await expect(canvas.getByTestId('footer-slot').innerText).toContain('Foot Slot updated');
   },
 };
 
-export const NamedSlotTest = {
+export const NamedSlotTest: Story = {
   args: {
     label: 'Storybook Day',
     header: ({ title }) => h('h1', title),
@@ -52,7 +74,7 @@ export const NamedSlotTest = {
   },
 };
 
-export const SlotWithRenderFn = {
+export const SlotWithRenderFn: Story = {
   args: {
     label: 'Storybook Day',
     default: () => 'Default Text Slot',

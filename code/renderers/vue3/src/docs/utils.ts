@@ -17,7 +17,7 @@ const displayObject = (obj: any): string | boolean | number => {
       .join(',')}}`;
   }
   if (typeof obj === 'string') return `'${obj}'`;
-  return obj;
+  return obj.toString();
 };
 const htmlEventAttributeToVueEventAttribute = (key: string) => {
   return /^on[A-Za-z]/.test(key) ? key.replace(/^on/, 'v-on:').toLowerCase() : key;
@@ -39,10 +39,13 @@ const evalExp = (argExpValue: any, args: Args): any => {
   let evalVal = argExpValue;
   if (/v-bind="(\w+)"/.test(evalVal))
     return evalVal.replace(/"(\w+)"/g, `"${displayObject(args)}"`);
+
   Object.keys(args).forEach((akey) => {
-    const regex = new RegExp(`(\\w+)\\.${akey}`, 'g');
-    evalVal = evalVal.replace(regex, displayObject(args[akey]));
+    const regexMatch = new RegExp(`(\\w+)\\.${akey}\\(?`, 'g');
+    const regexTarget = new RegExp(`(\\w+)\\.${akey}`, 'g');
+    if (regexMatch.test(evalVal)) evalVal = evalVal.replace(regexTarget, displayObject(args[akey]));
   });
+
   return evalVal;
 };
 

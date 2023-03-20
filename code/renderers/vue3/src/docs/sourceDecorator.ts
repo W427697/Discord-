@@ -1,4 +1,3 @@
-/* eslint-disable no-eval */
 /* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable no-underscore-dangle */
 import { addons } from '@storybook/preview-api';
@@ -210,8 +209,8 @@ export function generateTemplateSource(
     }
     if (isInterpolationNode(componentOrNode)) {
       const { content } = componentOrNode as InterpolationNode;
-      if (content.loc.source.startsWith('args')) return eval(content.loc.source);
-      return `{{${content.loc.source}}}`;
+      const expValue = evalExp(content.loc.source, args);
+      if (expValue) return `{{${expValue}}}`;
     }
     if (isVNode(componentOrNode)) {
       const vnode = componentOrNode as VNode;
