@@ -1,7 +1,7 @@
 {
   "name": "@storybook/preset-react-webpack",
   "version": "7.0.0-rc.5",
-  "description": "Storybook for React: Develop React Component in isolation with Hot Reloading.",
+  "description": "Storybook for React: Develop React Component in isolation with Hot Reloading",
   "keywords": [
     "storybook"
   ],
