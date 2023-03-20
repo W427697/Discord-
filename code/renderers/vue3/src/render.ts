@@ -36,7 +36,6 @@ export function renderToCanvas(
   canvasElement: VueRenderer['canvasElement']
 ) {
   const existingApp = map.get(canvasElement);
-  console.log('--renderToCanvas', id, storyContext.args);
   // if the story is already rendered and we are not forcing a remount, we just update the reactive args
   if (existingApp && !forceRemount) {
     // normally storyFn should be call once only in setup function,but because the nature of react and how storybook rendering the decorators
