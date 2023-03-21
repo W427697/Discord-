@@ -517,8 +517,15 @@ export const loadCsf = (code: string, options: CsfOptions) => {
   return new CsfFile(ast, options);
 };
 
-export const formatCsf = (csf: CsfFile) => {
-  const { code } = generate.default(csf._ast, {});
+interface FormatOptions {
+  sourceMaps?: boolean;
+}
+export const formatCsf = (csf: CsfFile, options: FormatOptions = { sourceMaps: false }) => {
+  const result = generate.default(csf._ast, options);
+  if (options.sourceMaps) {
+    return result;
+  }
+  const { code } = result;
   return code;
 };
 
