@@ -1,9 +1,8 @@
 import { parentPort, workerData } from 'node:worker_threads';
 import type { Asynced, RequestMessage, ResponseError, ResponseSuccess } from './interfaces';
-import type { PluginOptions } from './index';
 import { create as createAnalyzer } from './analyzer';
 
-const options: Pick<PluginOptions, 'rootDir'> = workerData.options ?? {};
+const options: { rootDir: string } = workerData ?? {};
 
 const { analyzer, init } = createAnalyzer(options);
 

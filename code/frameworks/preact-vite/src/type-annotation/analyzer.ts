@@ -6,24 +6,42 @@ import { createTypeAnalyzer } from '@previewjs/type-analyzer';
 import type { Reader } from '@previewjs/vfs';
 import { createFileSystemReader } from '@previewjs/vfs';
 import type { SBType } from '@storybook/types';
-import type { PluginOptions } from '.';
 import { convertToStorybook } from './conversion';
 
-export const create = (options: Pick<PluginOptions, 'rootDir'>) => {
+export const create = (options: { rootDir: string }) => {
   const analyzer = {
     async analyze(fileName: string): Promise<{ name: string; args: SBType }[]> {
+      // eslint-disable-next-line no-console
+      console.log(`Analysing ${fileName}`);
       const components = await frameworkPlugin.detectComponents(reader, typeAnalyzer, [fileName]);
       const results: { name: string; args: any }[] = [];
       // eslint-disable-next-line no-restricted-syntax
       for (const component of components) {
+        // eslint-disable-next-line no-console
+        console.log(`  => Analysing ${component.name}`);
         if (component.info.kind === 'story') {
           // eslint-disable-next-line no-await-in-loop
-          const detectedType = (await component.info.associatedComponent?.analyze())?.propsType;
+          const detectedType = (await component.info?.associatedComponent?.analyze())?.propsType;
           if (detectedType) {
             results.push({
               name: component.name,
               args: convertToStorybook(detectedType),
             });
+          } else {
+            // eslint-disable-next-line no-console
+            console.log(`    => Did not detect types for story ${component.name}`);
+          }
+        } else {
+          // eslint-disable-next-line no-await-in-loop
+          const detectedType = (await component.info?.analyze())?.propsType;
+          if (detectedType) {
+            results.push({
+              name: component.name,
+              args: convertToStorybook(detectedType),
+            });
+          } else {
+            // eslint-disable-next-line no-console
+            console.log(`    => Did not detect types for component ${component.name}`);
           }
         }
       }

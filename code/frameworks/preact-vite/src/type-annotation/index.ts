@@ -8,7 +8,7 @@ const STORY_MATCHER = /\.(story|stories)\.[jt]sx?$/;
 
 const defaultStoryMatcher = (id: string) => STORY_MATCHER.test(id);
 
-export interface PluginOptions {
+interface PluginOptions {
   storyMatcher?: (name: string) => boolean;
   rootDir: string;
 }
@@ -21,8 +21,8 @@ ${name}.argTypes = {
 `;
 
 const plugin = createUnplugin<PluginOptions>((options) => {
-  const worker = new Worker(join(__dirname, 'type-annotation/worker.js'), {
-    workerData: { options },
+  const worker = new Worker(join(__dirname, 'type-annotation/worker.mjs'), {
+    workerData: { rootDir: options.rootDir },
   });
   const service = createService(worker);
 

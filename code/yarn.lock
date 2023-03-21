@@ -4625,119 +4625,120 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@previewjs/api@npm:^8.0.0":
-  version: 8.0.0
-  resolution: "@previewjs/api@npm:8.0.0"
+"@previewjs/api@npm:^9.0.3":
+  version: 9.0.3
+  resolution: "@previewjs/api@npm:9.0.3"
   dependencies:
-    "@previewjs/serializable-values": ^3.2.3
-    "@previewjs/type-analyzer": ^4.1.5
+    "@previewjs/serializable-values": ^5.0.2
+    "@previewjs/type-analyzer": ^6.0.5
     axios: ^1.3.4
-  checksum: a68a058fce6e4a2baec283ba2c0df77264ffc9e3781a66e377172de5cefff110caa252ae678c85f91e58fc4de00767815f532c6973d71a04cbfa4198223ef120
+  checksum: 82e7a423d6d6773ea788852d6d46316fe2005c66d2095effff20a360513150188538bbeb32040b05ffa53853ed5a4dc72da95a6b1bdbe035907526d87043cf96
   languageName: node
   linkType: hard
 
-"@previewjs/config@npm:^4.0.3":
-  version: 4.0.3
-  resolution: "@previewjs/config@npm:4.0.3"
-  checksum: d983174634278ab7d4b90825bd6f95366d5bb1f74d16323e848f324bae89f70382fac3ffde3da051cdb45073fe5c2bd234dc8b0d3e0b4ef5c9cd275b7d13a5ae
+"@previewjs/config@npm:^4.9.6":
+  version: 4.9.6
+  resolution: "@previewjs/config@npm:4.9.6"
+  checksum: c31943703c088f3f6f264abb1290e0db4d62e5a5259069da05be1de86de07ed97826dc15864ae1f2a5fe7fb6709ddde75245cfda71a4309eefe85f2679347454
   languageName: node
   linkType: hard
 
-"@previewjs/core@npm:^17.0.0":
-  version: 17.0.0
-  resolution: "@previewjs/core@npm:17.0.0"
+"@previewjs/core@npm:^19.0.2":
+  version: 19.0.2
+  resolution: "@previewjs/core@npm:19.0.2"
   dependencies:
-    "@previewjs/api": ^8.0.0
-    "@previewjs/config": ^4.0.3
-    "@previewjs/iframe": ^6.0.0
-    "@previewjs/serializable-values": ^3.2.3
-    "@previewjs/type-analyzer": ^4.1.5
-    "@previewjs/vfs": ^1.2.16
+    "@previewjs/api": ^9.0.3
+    "@previewjs/config": ^4.9.6
+    "@previewjs/iframe": ^8.0.2
+    "@previewjs/serializable-values": ^5.0.2
+    "@previewjs/type-analyzer": ^6.0.5
+    "@previewjs/vfs": ^2.0.2
     acorn: ^8.8.2
     assert-never: ^1.2.1
     axios: ^1.3.4
     exclusive-promises: ^1.0.3
     express: ^4.18.2
     fs-extra: ^11.1.0
-    get-port: ^5.1.1
-    globby: ^11.1.0
+    get-port: ^6.1.2
+    globby: ^13.1.3
+    html-escaper: ^3.0.3
     http-terminator: ^3.2.0
     recrawl: ^2.2.1
     rollup-plugin-friendly-type-imports: ^1.0.3
     ts-node: ^10.9.1
     tsconfig-paths: ^4.1.2
     typescript: ^4.9.5
-    vite: ^4.1.4
+    vite: ^4.2.0
     vite-tsconfig-paths: ^3.6.0
-  checksum: 3444fd5d89aa61a1d2b03f9a82225e7080871db655c31199289fa049f59156b3671fd58ebb669ba74966b3d324dea6797bc60f105c318fe5b97a1de30301a119
+  checksum: 686d033d97f2f2dbed3dcb30c2483ceee337320be195bda80b370732124ca93201bbfed17ba1ac7cce6a5a097eaa9c5e77e0f82c46f0384f59b42dd421a1b7e0
   languageName: node
   linkType: hard
 
-"@previewjs/csf3@npm:^3.1.6":
-  version: 3.1.6
-  resolution: "@previewjs/csf3@npm:3.1.6"
+"@previewjs/iframe@npm:^8.0.2":
+  version: 8.0.2
+  resolution: "@previewjs/iframe@npm:8.0.2"
+  checksum: 988aad2219eae3adcbdf2042947b453b78cb28fd1fcf793c917dd3128e7212c28257f84522f42e36c7eaf3dc29c773c52c3e32b002f1683fbb2c0cc6c84b6ed2
+  languageName: node
+  linkType: hard
+
+"@previewjs/plugin-preact@npm:^3.1.4":
+  version: 3.1.4
+  resolution: "@previewjs/plugin-preact@npm:3.1.4"
   dependencies:
-    "@previewjs/core": ^17.0.0
-    "@previewjs/serializable-values": ^3.2.3
-    "@previewjs/type-analyzer": ^4.1.5
+    "@previewjs/serializable-values": ^5.0.2
+    "@previewjs/storybook-helpers": ^1.0.4
+    "@previewjs/type-analyzer": ^6.0.5
+    "@previewjs/vfs": ^2.0.2
     typescript: ^4.9.5
-  checksum: d1cd09307628125ae10c5134fd0a167a921955be1c519445b731b155b87c6c0775a54d7c91dea4a6b547666521957e38b65aa0729f931009a80fed85d9b50d87
+  checksum: 5defcd54609eef9bc6bdb9d230a4db01194c0b96e96f80654a2e9ba54819f35caf3a686cf4608b7f1fe5ec8aa488a70654faab7fae81b46b22e01ba9b0123482
   languageName: node
   linkType: hard
 
-"@previewjs/iframe@npm:^6.0.0":
-  version: 6.0.0
-  resolution: "@previewjs/iframe@npm:6.0.0"
-  checksum: c3742819b76b198f6450b4b90b08f793e4d8d3e9797406a1d99f14f37cf50757600a13a8301b3f770475b38fd7555eb6bab5b36ca3128c0772a514200965a613
-  languageName: node
-  linkType: hard
-
-"@previewjs/plugin-preact@npm:^2.0.5":
-  version: 2.0.5
-  resolution: "@previewjs/plugin-preact@npm:2.0.5"
-  dependencies:
-    "@previewjs/csf3": ^3.1.6
-    "@previewjs/serializable-values": ^3.2.3
-    "@previewjs/type-analyzer": ^4.1.5
-    "@previewjs/vfs": ^1.2.16
-    typescript: ^4.9.5
-  checksum: 79082c8c85490299a29aa2b60c80ba40090a9b9c0567281a198cf3c85270f5c83cb720923f0480960daf02aabdcac7a6d78c0b249b0b5ce8550b5d9725998494
-  languageName: node
-  linkType: hard
-
-"@previewjs/serializable-values@npm:^3.2.3":
-  version: 3.2.3
-  resolution: "@previewjs/serializable-values@npm:3.2.3"
+"@previewjs/serializable-values@npm:^5.0.2":
+  version: 5.1.0
+  resolution: "@previewjs/serializable-values@npm:5.1.0"
   dependencies:
     "@faker-js/faker": ^7.6.0
-    "@previewjs/type-analyzer": ^4.1.5
+    "@previewjs/type-analyzer": ^6.0.6
     assert-never: ^1.2.1
-    prettier: ^2.8.4
+    prettier: ^2.8.5
     typescript: ^4.9.5
-  checksum: cff9a1de66b0c471d1f2f2be5fb31233e46b65994bd61c7f25bc0ed3d92ef7f9ca69aae88307a1c3633bb272aad84dd94a30c085114781421bb71c5c28a464b9
+  checksum: c738e04f81240d47db98634b06ceb3e78d5b8700952534cd9d016ab81c09018c2648e58178c2db7409cdd5cd820fee1e086921f0c9a3fe67d12e0e76336e1fdc
   languageName: node
   linkType: hard
 
-"@previewjs/type-analyzer@npm:^4.1.5":
-  version: 4.1.5
-  resolution: "@previewjs/type-analyzer@npm:4.1.5"
+"@previewjs/storybook-helpers@npm:^1.0.4":
+  version: 1.0.4
+  resolution: "@previewjs/storybook-helpers@npm:1.0.4"
   dependencies:
-    "@previewjs/vfs": ^1.2.16
-    assert-never: ^1.2.1
-    prettier: ^2.8.4
+    "@previewjs/core": ^19.0.2
+    "@previewjs/serializable-values": ^5.0.2
+    "@previewjs/type-analyzer": ^6.0.5
     typescript: ^4.9.5
-  checksum: 3117dba8ca0fba9efccc2d867f722ce0764212f2bb130d5b3e38b8c62e904633bd9d8715467b3fdfb83eb2bba1535f29591bff7d80c17ba6c61bd68137640f29
+  checksum: 6de543dc62091f8430f012be3b591b76be227a37f9da7f6e857c148b3b677d3d677725d8046dcc456c0b32d6d917f19a1b3966853ddf5a9a3eca71a7b195127e
   languageName: node
   linkType: hard
 
-"@previewjs/vfs@npm:^1.2.16":
-  version: 1.2.16
-  resolution: "@previewjs/vfs@npm:1.2.16"
+"@previewjs/type-analyzer@npm:^6.0.5, @previewjs/type-analyzer@npm:^6.0.6":
+  version: 6.0.6
+  resolution: "@previewjs/type-analyzer@npm:6.0.6"
+  dependencies:
+    "@previewjs/vfs": ^2.0.2
+    assert-never: ^1.2.1
+    prettier: ^2.8.5
+    typescript: ^4.9.5
+  checksum: 02392d9ffb4982eacc9dcc17d236634b13a605f5b02147295b311f2d8c2613a3e7d4dc20cf1668ed07e5285210762090d2cfe1cb7d45d18d7bc78a712e86db48
+  languageName: node
+  linkType: hard
+
+"@previewjs/vfs@npm:^2.0.2":
+  version: 2.0.2
+  resolution: "@previewjs/vfs@npm:2.0.2"
   dependencies:
     assert-never: ^1.2.1
     chokidar: ^3.5.3
     fs-extra: ^11.1.0
-  checksum: 2cafadfd933c0a2d71b10ef3a142038678fefd4894a282ccc49858b23653592145c3c2c328a49880700b3c3435410d30310f9f29de80eebaf60befd3bafafadc
+  checksum: d9b33791b0ecad8b5f6028bbc4c26d16e99467f569b8e234ba61794cd395991148bc98026e2a0d8a41e3a741847e1969ca01b7fed7ae1833d44be7fe35ebf47f
   languageName: node
   linkType: hard
 
@@ -6461,10 +6462,10 @@ __metadata:
   resolution: "@storybook/preact-vite@workspace:frameworks/preact-vite"
   dependencies:
     "@preact/preset-vite": ^2.0.0
-    "@previewjs/core": ^17.0.0
-    "@previewjs/plugin-preact": ^2.0.5
-    "@previewjs/type-analyzer": ^4.1.5
-    "@previewjs/vfs": ^1.2.16
+    "@previewjs/core": ^19.0.2
+    "@previewjs/plugin-preact": ^3.1.4
+    "@previewjs/type-analyzer": ^6.0.6
+    "@previewjs/vfs": ^2.0.2
     "@storybook/builder-vite": 7.0.0-beta.60
     "@storybook/preact": 7.0.0-beta.60
     "@types/node": ^16.0.0
@@ -16343,6 +16344,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"get-port@npm:^6.1.2":
+  version: 6.1.2
+  resolution: "get-port@npm:6.1.2"
+  checksum: cac5f0c600691aed72fdcfacd394b8046080b5208898c3a6b9d10f999466297f162d7907bc6ecbc62d109a904dab7af7cdc0d7933ce2bcecfc5c1fedf7fcfab1
+  languageName: node
+  linkType: hard
+
 "get-stdin@npm:^5.0.1":
   version: 5.0.1
   resolution: "get-stdin@npm:5.0.1"
@@ -16744,7 +16752,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"globby@npm:^13.1.1, globby@npm:^13.1.2":
+"globby@npm:^13.1.1, globby@npm:^13.1.2, globby@npm:^13.1.3":
   version: 13.1.3
   resolution: "globby@npm:13.1.3"
   dependencies:
@@ -17313,6 +17321,13 @@ __metadata:
   version: 2.0.2
   resolution: "html-escaper@npm:2.0.2"
   checksum: 208e8a12de1a6569edbb14544f4567e6ce8ecc30b9394fcaa4e7bb1e60c12a7c9a1ed27e31290817157e8626f3a4f29e76c8747030822eb84a6abb15c255f0a0
+  languageName: node
+  linkType: hard
+
+"html-escaper@npm:^3.0.3":
+  version: 3.0.3
+  resolution: "html-escaper@npm:3.0.3"
+  checksum: a042fa4139127ff7546513e90ea39cc9161a1938ce90122dbc4260d4b7252c9aa8452f4509c0c2889901b8ae9a8699179150f1f99d3f80bcf7317573c5f08f4e
   languageName: node
   linkType: hard
 
@@ -24615,12 +24630,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prettier@npm:^1.18.2 || ^2.0.0, prettier@npm:^2.8.0, prettier@npm:^2.8.4":
+"prettier@npm:^1.18.2 || ^2.0.0, prettier@npm:^2.8.0":
   version: 2.8.4
   resolution: "prettier@npm:2.8.4"
   bin:
     prettier: bin-prettier.js
   checksum: d272cbd842d466fbd10e7efc22fd99ebdbfb78c06c0fe8ffdaa86d50883e7b3d3fba822a86fd8a1c851ca91ec5dfc867e612071c9c54d0e29954f20954262dcb
+  languageName: node
+  linkType: hard
+
+"prettier@npm:^2.8.5":
+  version: 2.8.6
+  resolution: "prettier@npm:2.8.6"
+  bin:
+    prettier: bin-prettier.js
+  checksum: 64d27fcf1923b6119ee279bb01bfcf4e232bce87ed49d431366f9aff1f601ced8ef83ada45d90e19a2cb61b6d2af1de2e748d15f56a9ac8fd40995cad82695a8
   languageName: node
   linkType: hard
 
@@ -26762,6 +26786,20 @@ __metadata:
   bin:
     rollup: dist/bin/rollup
   checksum: b6121a92a29e5304fa38b44739d97ce77e1d75d30381b2b8514a3b134a627777b4ab51bce3a71e245099814dd35a3bd38ae9fb98c2c095c74255ea587cb68abc
+  languageName: node
+  linkType: hard
+
+"rollup@npm:^3.18.0":
+  version: 3.20.0
+  resolution: "rollup@npm:3.20.0"
+  dependencies:
+    fsevents: ~2.3.2
+  dependenciesMeta:
+    fsevents:
+      optional: true
+  bin:
+    rollup: dist/bin/rollup
+  checksum: 18977cb98a79cb933860bb750aeba4f6c30731c8b1ffc933b0ec20f90e91b9c24c3b6c0a495db20c02b14425761767ae9b2e4e74c34ed5952b4a278fbf8ab2ab
   languageName: node
   linkType: hard
 
@@ -30333,15 +30371,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vite@npm:^4.1.4":
-  version: 4.1.4
-  resolution: "vite@npm:4.1.4"
+"vite@npm:^4.2.0":
+  version: 4.2.1
+  resolution: "vite@npm:4.2.1"
   dependencies:
-    esbuild: ^0.16.14
+    esbuild: ^0.17.5
     fsevents: ~2.3.2
     postcss: ^8.4.21
     resolve: ^1.22.1
-    rollup: ^3.10.0
+    rollup: ^3.18.0
   peerDependencies:
     "@types/node": ">= 14"
     less: "*"
@@ -30367,7 +30405,7 @@ __metadata:
       optional: true
   bin:
     vite: bin/vite.js
-  checksum: 300618519501cebeaf095b8794202b89a4a4c75baae5e0690dd324ed8cb6bd27f6971959f5883b13e711fb6f473acbec81b2161f148299843936568c931a033b
+  checksum: a64e3a1563b9584d1fd1ca45e06ee3c9fa4956320e6d4e9d83bf09fc8e64bb9d3ef62f664b6f740141eee16643690e8a41ffdb3030f4f2e170c57894df1f9a5d
   languageName: node
   linkType: hard
 
