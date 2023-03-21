@@ -11,11 +11,15 @@ const formatMoney = (amount: number): string =>
 
 interface Props {
   name: string;
-  email: string;
-  credits: number;
+  email?: string;
+  credits?: number;
 }
 
-const Typed: FunctionalComponent<Props> = ({ name, email, credits }) => (
+export const Typed: FunctionalComponent<Props> = ({
+  name,
+  email = 'john@doe.com',
+  credits = 0,
+}) => (
   <table>
     <tr>
       <th>Name</th>
@@ -33,5 +37,3 @@ const Typed: FunctionalComponent<Props> = ({ name, email, credits }) => (
     </tr>
   </table>
 );
-
-export default Typed;

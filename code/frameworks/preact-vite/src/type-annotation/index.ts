@@ -1,7 +1,7 @@
 import { createUnplugin } from 'unplugin';
 import { Worker } from 'node:worker_threads';
 import { join } from 'node:path';
-import type { SBType } from '@storybook/types';
+import type { ArgTypes, SBObjectType, SBType } from '@storybook/types';
 import { createService } from './rpc';
 
 const STORY_MATCHER = /\.(story|stories)\.[jt]sx?$/;
@@ -13,12 +13,30 @@ interface PluginOptions {
   rootDir: string;
 }
 
-const formatArgTypes = ({ name, args }: { name: string; args: SBType }) => `
+const formatArgTypes = ({ name, args }: { name: string; args: SBType }) => {
+  const { value } = args as SBObjectType;
+  if (!value) return '';
+  const argTypes: ArgTypes = {};
+  // eslint-disable-next-line no-restricted-syntax
+  for (const [propName, type] of Object.entries(value)) {
+    // mapping as per https://storybook.js.org/docs/7.0/react/essentials/controls#annotation
+    if (type.name === 'boolean') {
+      argTypes[propName] = { name: propName, type: 'boolean', control: 'boolean' };
+    } else if (type.name === 'number') {
+      argTypes[propName] = { name: propName, type: 'number', control: { type: 'number' } };
+    } else if (type.name === 'string') {
+      argTypes[propName] = { name: propName, type: 'string', control: { type: 'text' } };
+    } else {
+      argTypes[propName] = { name: propName, control: 'object' };
+    }
+  }
+  return `
 ${name}.argTypes = {
-  ...${JSON.stringify(args ?? {}, null, 2)},
+  ...${JSON.stringify(argTypes, null, 2)},
   ...(${name}.argTypes ?? {})
 };
 `;
+};
 
 const plugin = createUnplugin<PluginOptions>((options) => {
   const worker = new Worker(join(__dirname, 'type-annotation/worker.mjs'), {
