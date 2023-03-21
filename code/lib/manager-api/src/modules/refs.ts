@@ -36,7 +36,7 @@ export interface SubAPI {
   changeRefState: (id: string, previewInitialized: boolean) => void;
 }
 
-export const getSourceType = (source: string, refId: string) => {
+export const getSourceType = (source: string, refId?: string) => {
   const { origin: localOrigin, pathname: localPathname } = location;
   const { origin: sourceOrigin, pathname: sourcePathname } = new URL(source);
 
@@ -69,12 +69,8 @@ async function handleRequest(
 
   try {
     const response = await request;
-    if (response === false || response === true) {
-      return {};
-    }
-    if (!response.ok) {
-      return {};
-    }
+    if (response === false || response === true) throw new Error('Unexpected boolean response');
+    if (!response.ok) throw new Error(`Unexpected response not OK: ${response.statusText}`);
 
     const json = await response.json();
 
@@ -180,28 +176,30 @@ export const init: ModuleFn<SubAPI, SubState, void> = (
         });
       }
 
-      const [indexFetch, storiesFetch] = await Promise.all(
+      const [indexResult, storiesResult] = await Promise.all(
         ['index.json', 'stories.json'].map(async (file) =>
-          fetch(`${urlParseResult.url}/${file}${query}`, {
-            headers,
-            credentials,
-          })
+          handleRequest(
+            fetch(`${urlParseResult.url}/${file}${query}`, {
+              headers,
+              credentials,
+            })
+          )
         )
       );
 
-      if (indexFetch.ok || storiesFetch.ok) {
-        const [index, metadata] = await Promise.all([
-          indexFetch.ok ? handleRequest(indexFetch) : handleRequest(storiesFetch),
-          handleRequest(
-            fetch(`${urlParseResult.url}/metadata.json${query}`, {
-              headers,
-              credentials,
-              cache: 'no-cache',
-            }).catch(() => false)
-          ),
-        ]);
+      if (!indexResult.indexError || !storiesResult.indexError) {
+        const metadata = await handleRequest(
+          fetch(`${urlParseResult.url}/metadata.json${query}`, {
+            headers,
+            credentials,
+            cache: 'no-cache',
+          }).catch(() => false)
+        );
 
-        Object.assign(loadedData, { ...index, ...metadata });
+        Object.assign(loadedData, {
+          ...(indexResult.indexError ? storiesResult : indexResult),
+          ...(!metadata.indexError && metadata),
+        });
       } else if (!isPublic) {
         // In theory the `/iframe.html` could be private and the `stories.json` could not exist, but in practice
         // the only private servers we know about (Chromatic) always include `stories.json`. So we can tell
