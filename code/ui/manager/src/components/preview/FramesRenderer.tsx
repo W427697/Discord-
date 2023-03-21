@@ -1,5 +1,5 @@
 import type { FC } from 'react';
-import React, { Fragment, useMemo, useEffect, useState } from 'react';
+import React, { useRef, Fragment, useMemo, useEffect, useState } from 'react';
 import type { Combo } from '@storybook/manager-api';
 import { Consumer } from '@storybook/manager-api';
 import { Button, getStoryHref } from '@storybook/components';
@@ -51,6 +51,8 @@ export const FramesRenderer: FC<FramesRendererProps> = ({
   storyId = '*',
 }) => {
   const version = refs[refId]?.version;
+  const storyIdRef = useRef(storyId);
+  const viewModeRef = useRef(viewMode);
   const stringifiedQueryParams = stringifyQueryParams({
     ...queryParams,
     ...(version && { version }),
@@ -73,7 +75,7 @@ export const FramesRenderer: FC<FramesRendererProps> = ({
     'storybook-preview-iframe': getStoryHref(baseUrl, storyId, {
       ...queryParams,
       ...(version && { version }),
-      viewMode,
+      viewModeRef,
     }),
   });
 
@@ -95,12 +97,12 @@ export const FramesRenderer: FC<FramesRendererProps> = ({
       .reduce((acc, r) => {
         return {
           ...acc,
-          [`storybook-ref-${r.id}`]: `${r.url}/iframe.html?id=${storyId}&viewMode=${viewMode}&refId=${r.id}${stringifiedQueryParams}`,
+          [`storybook-ref-${r.id}`]: `${r.url}/iframe.html?id=${storyIdRef}&viewMode=${viewModeRef}&refId=${r.id}${stringifiedQueryParams}`,
         };
       }, frames);
 
     setFrames(newFrames);
-  }, [storyId, entry, refs]);
+  }, [entry, ...Object.values(refs).map((r) => r.id)]);
 
   return (
     <Fragment>
@@ -117,19 +119,22 @@ export const FramesRenderer: FC<FramesRendererProps> = ({
           return null;
         }}
       </Consumer>
-      {Object.entries(frames).map(([id, src]) => (
-        <Fragment key={id}>
-          <IFrame
-            active={id === active}
-            key={refs[id] ? refs[id].url : id}
-            id={id}
-            title={id}
-            src={src}
-            allowFullScreen
-            scale={scale}
-          />
-        </Fragment>
-      ))}
+      {Object.entries(frames).map(([id, src]) => {
+        const [key] = refs[id] ? refs[id].url.split('?') : [id];
+        return (
+          <Fragment key={id}>
+            <IFrame
+              active={id === active}
+              key={key}
+              id={id}
+              title={id}
+              src={src}
+              allowFullScreen
+              scale={scale}
+            />
+          </Fragment>
+        );
+      })}
     </Fragment>
   );
 };
