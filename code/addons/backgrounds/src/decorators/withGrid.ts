@@ -1,7 +1,7 @@
 import { useMemo, useEffect } from '@storybook/preview-api';
 import type { Renderer, PartialStoryFn as StoryFunction, StoryContext } from '@storybook/types';
 
-import { clearStyles, addGridStyle } from '../helpers';
+import { clearStyles, addGridElement, getParentElement } from '../helpers';
 import { PARAM_KEY as BACKGROUNDS_PARAM_KEY } from '../constants';
 
 export const withGrid = (StoryFn: StoryFunction<Renderer>, context: StoryContext<Renderer>) => {
@@ -18,9 +18,6 @@ export const withGrid = (StoryFn: StoryFunction<Renderer>, context: StoryContext
   const offsetY = gridParameters.offsetY ?? (isInDocs ? 20 : defaultOffset);
 
   const gridStyles = useMemo(() => {
-    const selector =
-      context.viewMode === 'docs' ? `#anchor--${context.id} .docs-story` : '.sb-show-main';
-
     const backgroundSize = [
       `${cellSize * cellAmount}px ${cellSize * cellAmount}px`,
       `${cellSize * cellAmount}px ${cellSize * cellAmount}px`,
@@ -28,20 +25,30 @@ export const withGrid = (StoryFn: StoryFunction<Renderer>, context: StoryContext
       `${cellSize}px ${cellSize}px`,
     ].join(', ');
 
+    const parentSelector =
+      context.viewMode === 'docs' ? `#anchor--${context.id} .docs-story` : '.sb-show-main';
+
+    const contentSelector = context.viewMode === 'docs' ? '#storybook-docs' : '#storybook-root';
     return `
       /** this ensures the we fill the whole space **/
       html {
         height: 100%;
       }
 
-      ${selector} {
+      ${parentSelector} {
         position: relative;
         height: 100%;
       }
 
-      /** display the grid as a pseudo-element so it's on top of the background, if set **/
-      ${selector}::before {
-        content: '';
+      /** adds z-index to the canvas so it's always on top if grid is enabled **/
+      ${contentSelector} {
+        position: relative;
+        z-index: 1;
+      }
+
+      /** append the grid into the parent selector, with z-index: 0 to ensure it's behind the canvas **/
+      ${parentSelector} .grid {
+        z-index: 0;
         position: absolute;
         width: 100%;
         height: 100%;
@@ -70,7 +77,8 @@ export const withGrid = (StoryFn: StoryFunction<Renderer>, context: StoryContext
       return;
     }
 
-    addGridStyle(selectorId, gridStyles);
+    const parentElement = getParentElement(context.viewMode, context.id);
+    addGridElement(selectorId, gridStyles, parentElement);
   }, [isActive, gridStyles, context]);
 
   return StoryFn();

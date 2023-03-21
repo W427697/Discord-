@@ -25,10 +25,9 @@ test.describe('addon-backgrounds', () => {
     await sbPage.navigateToStory('example/button', 'primary');
     await sbPage.selectToolbar('[title="Apply a grid to the preview"]');
 
-    const root = sbPage.previewIframe();
-    const gridPseudoElement = root.locator('#addon-backgrounds-grid');
-    const innerHTML = await gridPseudoElement.innerHTML();
+    const root = sbPage.previewRoot();
+    const gridElement = await root.locator('#addon-backgrounds-grid');
 
-    await expect(innerHTML).toContain('.sb-show-main::before');
+    await expect(gridElement).toBeVisible();
   });
 });
