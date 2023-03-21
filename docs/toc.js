@@ -1,6 +1,5 @@
 module.exports = {
   toc: [
-    
     {
       title: '🚀 Get started',
       pathSegment: 'get-started',
@@ -608,6 +607,11 @@ module.exports = {
     {
       title: '❓ FAQ',
       pathSegment: 'faq',
+      type: 'link',
+    },
+    {
+      title: '↗️ Upgrade',
+      pathSegment: 'upgrade',
       type: 'link',
     },
   ],
