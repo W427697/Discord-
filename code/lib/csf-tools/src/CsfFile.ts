@@ -537,5 +537,5 @@ export const readCsf = async (fileName: string, options: CsfOptions) => {
 export const writeCsf = async (csf: CsfFile, fileName?: string) => {
   const fname = fileName || csf._fileName;
   if (!fname) throw new Error('Please specify a fileName for writeCsf');
-  await fs.writeFile(fileName as string, await formatCsf(csf));
+  await fs.writeFile(fileName as string, (await formatCsf(csf)) as string);
 };
