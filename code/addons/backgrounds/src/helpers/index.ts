@@ -59,7 +59,8 @@ const clearStyle = (selector: string) => {
 
 export const getParentElement = (viewMode: ViewMode, contextId: string) => {
   if (viewMode === 'docs') {
-    return document.getElementById(`anchor--${contextId}`);
+    const rootElement = document.getElementById(`anchor--${contextId}`);
+    return rootElement.getElementsByClassName('docs-story').item(0) as HTMLElement;
   }
   return document.getElementsByTagName('body').item(0);
 };

@@ -28,7 +28,6 @@ export const withGrid = (StoryFn: StoryFunction<Renderer>, context: StoryContext
     const parentSelector =
       context.viewMode === 'docs' ? `#anchor--${context.id} .docs-story` : '.sb-show-main';
 
-    const contentSelector = context.viewMode === 'docs' ? '#storybook-docs' : '#storybook-root';
     return `
       /** this ensures the we fill the whole space **/
       html {
@@ -41,7 +40,8 @@ export const withGrid = (StoryFn: StoryFunction<Renderer>, context: StoryContext
       }
 
       /** adds z-index to the canvas so it's always on top if grid is enabled **/
-      ${contentSelector} {
+      #storybook-root:not([hidden]),
+      .docs-story > div:first-child {
         position: relative;
         z-index: 1;
       }
