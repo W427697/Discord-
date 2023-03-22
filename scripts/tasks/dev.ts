@@ -26,7 +26,11 @@ export const dev: Task = {
       // If aborted, we want to make sure the rejection is handled.
       if (!err.killed) throw err;
     });
-    await exec(`yarn wait-on http://localhost:${PORT}`, { cwd: codeDir }, { dryRun, debug });
+    await exec(
+      `yarn wait-on http://localhost:${PORT}/iframe.html`,
+      { cwd: codeDir },
+      { dryRun, debug }
+    );
 
     return controller;
   },
