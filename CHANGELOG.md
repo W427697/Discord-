@@ -1,3 +1,21 @@
+## 7.0.0-rc.6 (March 23, 2023)
+
+#### Bug Fixes
+
+-   CLI: Fix sb add / mdx-gfm for addons with non-serializable values [#21731](https://github.com/storybooks/storybook/pull/21731)
+-   CSF-plugin: Fix sourcemaps [#21704](https://github.com/storybooks/storybook/pull/21704)
+-   React: Fix TS docgen for Functional Components [#21693](https://github.com/storybooks/storybook/pull/21693)
+-   TypeScript: Add previewMainTemplate option to StorybookConfig [#21620](https://github.com/storybooks/storybook/pull/21620)
+-   UI: Fix titles for addons/controls/panel tabs to support render fns and JSX elements [#21650](https://github.com/storybooks/storybook/pull/21650)
+-   UI: Fix active state for menu iconbutton [#21666](https://github.com/storybooks/storybook/pull/21666)
+-   CLI: Update renderer templates to provide correct typescript examples [#21647](https://github.com/storybooks/storybook/pull/21647)
+-   Composition: Fix various CORS issues [#21682](https://github.com/storybooks/storybook/pull/21682)
+-   Composition: Fix version switcher [#21621](https://github.com/storybooks/storybook/pull/21621)
+
+#### Dependency Upgrades
+
+-   Pin rollup version to 3.19.1 [#21723](https://github.com/storybooks/storybook/pull/21723)
+
 ## 7.0.0-rc.5 (March 20, 2023)
 
 #### Bug Fixes
