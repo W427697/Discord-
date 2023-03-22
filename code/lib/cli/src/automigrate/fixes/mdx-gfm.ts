@@ -1,4 +1,3 @@
-import type { Preset } from '@storybook/types';
 import { dedent } from 'ts-dedent';
 import semver from 'semver';
 import { getStorybookData, updateMainConfig } from '../helpers/mainConfigFile';
