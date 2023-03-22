@@ -53,7 +53,6 @@ export class DocsRenderer<TRenderer extends Renderer> {
           .then(({ MDXProvider }) =>
             // We use a `key={}` here to reset the `hasError` state each time we render ErrorBoundary
             renderElement(
-              // @ts-expect-error TODO: remove this, we shouldn't have to ignore it
               <ErrorBoundary showException={reject} key={Math.random()}>
                 <MDXProvider components={components}>
                   <Docs context={context} docsParameter={docsParameter} />
