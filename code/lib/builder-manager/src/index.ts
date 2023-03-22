@@ -280,15 +280,6 @@ export const bail: ManagerBuilder['bail'] = async () => {
       //
     }
   }
-
-  if (compilation && compilation.stop) {
-    try {
-      compilation.stop();
-      logger.warn('Force closed manager build');
-    } catch (err) {
-      logger.warn('Unable to close manager build!');
-    }
-  }
 };
 
 export const start = async (options: BuilderStartOptions) => {
