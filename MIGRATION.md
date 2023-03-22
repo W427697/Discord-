@@ -31,7 +31,7 @@
     - [Addon-a11y: Removed deprecated withA11y decorator](#addon-a11y-removed-deprecated-witha11y-decorator)
   - [7.0 Vite changes](#70-vite-changes)
     - [Vite builder uses Vite config automatically](#vite-builder-uses-vite-config-automatically)
-    - [Vite cache moved to node_modules/.cache/.vite-storybook](#vite-cache-moved-to-node_modulescachevite-storybook)
+    - [Vite cache moved to node\_modules/.cache/.vite-storybook](#vite-cache-moved-to-node_modulescachevite-storybook)
   - [7.0 Webpack changes](#70-webpack-changes)
     - [Webpack4 support discontinued](#webpack4-support-discontinued)
     - [Babel mode v7 exclusively](#babel-mode-v7-exclusively)
@@ -75,7 +75,8 @@
     - [Dropped addon-docs manual babel configuration](#dropped-addon-docs-manual-babel-configuration)
     - [Dropped addon-docs manual configuration](#dropped-addon-docs-manual-configuration)
     - [Autoplay in docs](#autoplay-in-docs)
-    - [Removed STORYBOOK_REACT_CLASSES global](#removed-storybook_react_classes-global)
+    - [Removed STORYBOOK\_REACT\_CLASSES global](#removed-storybook_react_classes-global)
+    - [parameters.docs.source.excludeDecorators defaults to true](#parametersdocssourceexcludedecorators-defaults-to-true)
   - [7.0 Deprecations and default changes](#70-deprecations-and-default-changes)
     - [storyStoreV7 enabled by default](#storystorev7-enabled-by-default)
     - [`Story` type deprecated](#story-type-deprecated)
@@ -1415,6 +1416,11 @@ If your story depends on a play function to render correctly, _and_ you are conf
 #### Removed STORYBOOK_REACT_CLASSES global
 
 This was a legacy global variable from the early days of react docgen. If you were using this variable, you can instead use docgen information which is added directly to components using `.__docgenInfo`.
+
+#### parameters.docs.source.excludeDecorators defaults to true
+
+By default we don't render decorators in the Source/Canvas blocks. If you want to render decorators, you can set the parameter to `false`.
+
 
 ### 7.0 Deprecations and default changes
 
