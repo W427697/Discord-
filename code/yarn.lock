@@ -7312,6 +7312,7 @@ __metadata:
   dependencies:
     "@storybook/client-logger": 7.0.0-rc.6
     "@storybook/core-client": 7.0.0-rc.6
+    "@storybook/core-events": 7.0.0-rc.6
     "@storybook/docs-tools": 7.0.0-rc.6
     "@storybook/global": ^5.0.0
     "@storybook/preview-api": 7.0.0-rc.6
