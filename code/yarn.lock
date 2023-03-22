@@ -5719,7 +5719,7 @@ __metadata:
     glob: ^8.1.0
     glob-promise: ^6.0.2
     magic-string: ^0.27.0
-    rollup: ^3.0.0
+    rollup: 3.19.1
     slash: ^3.0.0
     typescript: ~4.9.3
     vite: ^4.0.4
@@ -26596,7 +26596,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rollup@npm:^3.0.0, rollup@npm:^3.18.0":
+"rollup@npm:3.19.1":
+  version: 3.19.1
+  resolution: "rollup@npm:3.19.1"
+  dependencies:
+    fsevents: ~2.3.2
+  dependenciesMeta:
+    fsevents:
+      optional: true
+  bin:
+    rollup: dist/bin/rollup
+  checksum: 1bfb191c2d0d84263f9de9ff7c73d41c65cf74920f3222be4324c88fe11a5a2c87b286cd1791b4977758265ac174d6ba94a0eab3c32ca05a7320ee043a1bc3e9
+  languageName: node
+  linkType: hard
+
+"rollup@npm:^3.18.0":
   version: 3.20.0
   resolution: "rollup@npm:3.20.0"
   dependencies:
