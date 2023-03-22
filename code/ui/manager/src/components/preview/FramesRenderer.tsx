@@ -1,5 +1,5 @@
 import type { FC } from 'react';
-import React, { useRef, Fragment, useMemo, useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import type { Combo } from '@storybook/manager-api';
 import { Consumer } from '@storybook/manager-api';
 import { Button, getStoryHref } from '@storybook/components';
@@ -40,9 +40,17 @@ const whenSidebarIsVisible = ({ state }: Combo) => ({
   selectedStoryId: state.storyId,
 });
 
+const styles: CSSObject = {
+  '#root [data-is-storybook="false"]': {
+    display: 'none',
+  },
+  '#root [data-is-storybook="true"]': {
+    display: 'block',
+  },
+};
+
 export const FramesRenderer: FC<FramesRendererProps> = ({
   refs,
-  entry,
   scale,
   viewMode = 'story',
   refId,
@@ -51,58 +59,38 @@ export const FramesRenderer: FC<FramesRendererProps> = ({
   storyId = '*',
 }) => {
   const version = refs[refId]?.version;
-  const storyIdRef = useRef(storyId);
-  const viewModeRef = useRef(viewMode);
   const stringifiedQueryParams = stringifyQueryParams({
     ...queryParams,
     ...(version && { version }),
   });
   const active = getActive(refId, refs);
 
-  const styles = useMemo<CSSObject>(() => {
-    // add #root to make the selector high enough in specificity
-    return {
-      '#root [data-is-storybook="false"]': {
-        display: 'none',
-      },
-      '#root [data-is-storybook="true"]': {
-        display: 'block',
-      },
-    };
-  }, []);
-
+  const selectedRef = refs[refId];
   const [frames, setFrames] = useState<Record<string, string>>({
     'storybook-preview-iframe': getStoryHref(baseUrl, storyId, {
       ...queryParams,
       ...(version && { version }),
-      viewModeRef,
+      viewMode,
     }),
+    ...(selectedRef
+      ? {
+          [`storybook-ref-${selectedRef.id}`]: `${selectedRef.url}/iframe.html?id=${storyId}&viewMode=${viewMode}&refId=${selectedRef.id}${stringifiedQueryParams}`,
+        }
+      : {}),
   });
 
+  const refExists = !!frames[`storybook-ref-${selectedRef?.id}`];
+
   useEffect(() => {
-    const newFrames = Object.values(refs)
-      .filter((r) => {
-        if (r.indexError) {
-          return false;
-        }
-        if (r.type === 'auto-inject') {
-          return true;
-        }
-        if (entry && r.id === entry.refId) {
-          return true;
-        }
-
-        return false;
-      })
-      .reduce((acc, r) => {
+    if (selectedRef && !refExists) {
+      setFrames((values) => {
         return {
-          ...acc,
-          [`storybook-ref-${r.id}`]: `${r.url}/iframe.html?id=${storyIdRef}&viewMode=${viewModeRef}&refId=${r.id}${stringifiedQueryParams}`,
+          ...values,
+          [`storybook-ref-${selectedRef.id}`]: `${selectedRef.url}/iframe.html?id=${storyId}&viewMode=${viewMode}&refId=${selectedRef.id}${stringifiedQueryParams}`,
         };
-      }, frames);
-
-    setFrames(newFrames);
-  }, [entry, ...Object.values(refs).map((r) => r.id)]);
+      });
+    }
+  }, [selectedRef, refExists, refId, storyId, stringifiedQueryParams, viewMode]);
 
   return (
     <Fragment>
@@ -120,7 +108,7 @@ export const FramesRenderer: FC<FramesRendererProps> = ({
         }}
       </Consumer>
       {Object.entries(frames).map(([id, src]) => {
-        const [key] = refs[id] ? refs[id].url.split('?') : [id];
+        const [key] = frames[id] ? frames[id].split('?') : [id];
         return (
           <Fragment key={id}>
             <IFrame
