@@ -147,7 +147,6 @@ const starter: StarterFunction = async function* starterGeneratorFn({
 
   compilation = await instance({
     ...config,
-    watch: true,
   });
 
   yield;
@@ -223,11 +222,11 @@ const builder: BuilderFunction = async function* builderGeneratorFn({ startTime,
   const coreDirOrigin = join(dirname(require.resolve('@storybook/manager/package.json')), 'dist');
   const coreDirTarget = join(options.outputDir, `sb-manager`);
 
+  // TODO: this doesn't watch, we should change this to use the esbuild watch API: https://esbuild.github.io/api/#watch
   compilation = await instance({
     ...config,
 
     minify: true,
-    watch: false,
   });
 
   yield;
