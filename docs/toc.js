@@ -610,8 +610,8 @@ module.exports = {
       type: 'link',
     },
     {
-      title: '↗️ Upgrade',
-      pathSegment: 'upgrade',
+      title: '↗️ Migrate to 7.0',
+      pathSegment: 'migration-guide',
       type: 'link',
     },
   ],
