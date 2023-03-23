@@ -6,7 +6,7 @@ Storybook 7 is our first major release in over 2 years. A lot has changed during
 
 ## Major breaking changes
 
-The frontend ecosystem moves quickly, so we’ve accumulated a lot of breaking changes in Storybook 7. The rest of this guide is intended to help you migrate successfully. However, there are a few major breaking changes that you should know about before you go further:
+The rest of this guide will help you upgrade successfully, either automatically or manually. But first, we’ve accumulated a lot of breaking changes in Storybook 7. Here are the most impactful changes you should know about before you go further:
 
 - [Webpack4 support discontinued](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#webpack4-support-discontinued)
 - [IE11 support discontinued](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#modern-browser-support)
@@ -18,9 +18,16 @@ If any of these apply to your project, please read through the [full migration n
 
 To upgrade your Storybook:
 
-```sh
-npx storybook@next upgrade --prerelease
-```
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'common/storybook-upgrade-prerelease.npm.js.mdx',
+    'common/storybook-upgrade-prerelease.pnpm.js.mdx'
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
 
 This will:
 
@@ -32,9 +39,16 @@ This will:
 
 To add Storybook to a project that isn’t currently using Storybook:
 
-```sh
-npx storybook@next init
-```
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'common/init-command.npx.js.mdx',
+    'common/init-command.pnpm.js.mdx'
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
 
 This will:
 
@@ -84,13 +98,16 @@ To use MDX1:
 1. Install `@storybook/mdx1-csf@next` as a dev dependency
 2. Add the `legacyMdx1` feature flag to your `.storybook/main.js`:
 
-```js
-export default {
-  features: {
-    legacyMdx1: true,
-  },
-};
-```
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'common/storybook-main-fallback-mdx.js.mdx',
+    'common/storybook-main-fallback-mdx.ts.mdx'
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
 
 ### storiesOf support discontinued by default
 
@@ -98,17 +115,20 @@ If you use Storybook’s legacy `storiesOf` API, it is no longer supported by de
 
 We recommend you upgrade your `storiesOf` stories to [Component Story Format (CSF)](https://storybook.js.org/blog/storybook-csf3-is-here/). To do so, please see our [optional migration instructions below](#storiesof-to-csf).
 
-If you can’t upgrade to CSF, or want to get your project working with Storybook 7 before putting in the time to upgrade, you can opt-in to legacy support. Legacy mode has a variety of performance implications, but is a convenient stop-gap solution.
+If you can’t upgrade to CSF, or want to get your project working with Storybook 7 before putting in the time to upgrade, you can opt out of on-demand story loading. This legacy mode has a variety of performance implications, but is a convenient stop-gap solution.
 
-To opt-in, add the `storyStoreV7` feature flag in `.storybook/main.js`:
+To opt out, add the `storyStoreV7` feature flag in `.storybook/main.js`:
 
-```js
-export default {
-  features: {
-    storyStoreV7: false,
-  },
-};
-```
+<!-- prettier-ignore-start -->
+
+<CodeSnippets
+  paths={[
+    'common/storybook-on-demand-story-loading.js.mdx',
+    'common/storybook-on-demand-story-loading.ts.mdx'
+  ]}
+/>
+
+<!-- prettier-ignore-end -->
 
 For more information on this change, see the [migration notes](https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#storystorev7-enabled-by-default).
 
@@ -234,7 +254,7 @@ export default {
 };
 ```
 
-Finally, you’ll to add the MDX files to `.storybook/main.js` so that they are indexed:
+Finally, you’ll need to add the MDX files to `.storybook/main.js` so that they are indexed:
 
 ```js
 // .storybook/main.js
