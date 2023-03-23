@@ -1,5 +1,5 @@
 import type { FC } from 'react';
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { useRef, Fragment } from 'react';
 import type { Combo } from '@storybook/manager-api';
 import { Consumer } from '@storybook/manager-api';
 import { Button, getStoryHref } from '@storybook/components';
@@ -64,43 +64,35 @@ export const FramesRenderer: FC<FramesRendererProps> = ({
     ...(version && { version }),
   });
   const active = getActive(refId, refs);
+  const { current: frames } = useRef<Record<string, string>>({});
 
   const autoInjectedRefs = Object.values(refs).filter((ref) => {
     return ref.type === 'auto-inject';
   }, {});
 
   const selectedRef = refs[refId];
-  const [frames, setFrames] = useState<Record<string, string>>({
-    'storybook-preview-iframe': getStoryHref(baseUrl, storyId, {
+
+  if (!frames['storybook-preview-iframe']) {
+    frames['storybook-preview-iframe'] = getStoryHref(baseUrl, storyId, {
       ...queryParams,
       ...(version && { version }),
       viewMode,
-    }),
-    ...(selectedRef
-      ? {
-          [`storybook-ref-${selectedRef.id}`]: `${selectedRef.url}/iframe.html?id=${storyId}&viewMode=${viewMode}&refId=${selectedRef.id}${stringifiedQueryParams}`,
-        }
-      : {}),
-    ...autoInjectedRefs.reduce((acc, ref) => {
-      return {
-        ...acc,
-        [`storybook-ref-${ref.id}`]: `${ref.url}/iframe.html?id=${storyId}&viewMode=${viewMode}&refId=${ref.id}${stringifiedQueryParams}`,
-      };
-    }, {}),
-  });
+    });
+  }
 
-  const refExists = !!frames[`storybook-ref-${selectedRef?.id}`];
+  if (selectedRef && !frames[`storybook-ref-${selectedRef.id}`]) {
+    frames[
+      `storybook-ref-${selectedRef.id}`
+    ] = `${selectedRef.url}/iframe.html?id=${storyId}&viewMode=${viewMode}&refId=${selectedRef.id}${stringifiedQueryParams}`;
+  }
 
-  useEffect(() => {
-    if (selectedRef && !refExists) {
-      setFrames((values) => {
-        return {
-          ...values,
-          [`storybook-ref-${selectedRef.id}`]: `${selectedRef.url}/iframe.html?id=${storyId}&viewMode=${viewMode}&refId=${selectedRef.id}${stringifiedQueryParams}`,
-        };
-      });
+  autoInjectedRefs.forEach((ref) => {
+    if (!frames[`storybook-ref-${ref.id}`]) {
+      frames[
+        `storybook-ref-${ref.id}`
+      ] = `${ref.url}/iframe.html?id=${storyId}&viewMode=${viewMode}&refId=${ref.id}${stringifiedQueryParams}`;
     }
-  }, [selectedRef, refExists, refId, storyId, stringifiedQueryParams, viewMode]);
+  });
 
   return (
     <Fragment>
