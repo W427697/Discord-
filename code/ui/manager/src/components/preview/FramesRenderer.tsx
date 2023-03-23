@@ -66,11 +66,9 @@ export const FramesRenderer: FC<FramesRendererProps> = ({
   const active = getActive(refId, refs);
   const { current: frames } = useRef<Record<string, string>>({});
 
-  const autoInjectedRefs = Object.values(refs).filter((ref) => {
-    return ref.type === 'auto-inject';
+  const refsToLoad = Object.values(refs).filter((ref) => {
+    return ref.type === 'auto-inject' || ref.id === refId;
   }, {});
-
-  const selectedRef = refs[refId];
 
   if (!frames['storybook-preview-iframe']) {
     frames['storybook-preview-iframe'] = getStoryHref(baseUrl, storyId, {
@@ -80,17 +78,12 @@ export const FramesRenderer: FC<FramesRendererProps> = ({
     });
   }
 
-  if (selectedRef && !frames[`storybook-ref-${selectedRef.id}`]) {
-    frames[
-      `storybook-ref-${selectedRef.id}`
-    ] = `${selectedRef.url}/iframe.html?id=${storyId}&viewMode=${viewMode}&refId=${selectedRef.id}${stringifiedQueryParams}`;
-  }
-
-  autoInjectedRefs.forEach((ref) => {
-    if (!frames[`storybook-ref-${ref.id}`]) {
-      frames[
-        `storybook-ref-${ref.id}`
-      ] = `${ref.url}/iframe.html?id=${storyId}&viewMode=${viewMode}&refId=${ref.id}${stringifiedQueryParams}`;
+  refsToLoad.forEach((ref) => {
+    const id = `storybook-ref-${ref.id}`;
+    const existingUrl = frames[id]?.split('/iframe.html')[0];
+    if (!existingUrl || ref.url !== existingUrl) {
+      const newUrl = `${ref.url}/iframe.html?id=${storyId}&viewMode=${viewMode}&refId=${ref.id}${stringifiedQueryParams}`;
+      frames[id] = newUrl;
     }
   });
 
@@ -110,12 +103,11 @@ export const FramesRenderer: FC<FramesRendererProps> = ({
         }}
       </Consumer>
       {Object.entries(frames).map(([id, src]) => {
-        const [key] = frames[id] ? frames[id].split('?') : [id];
         return (
           <Fragment key={id}>
             <IFrame
               active={id === active}
-              key={key}
+              key={id}
               id={id}
               title={id}
               src={src}
