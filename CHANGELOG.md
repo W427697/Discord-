@@ -1,3 +1,14 @@
+## 7.0.0-rc.7 (March 23, 2023)
+
+#### Bug Fixes
+
+-   Svelte: Remount when resetting args in controls [#21659](https://github.com/storybooks/storybook/pull/21659)
+-   CLI: Fix support for env vars when running `dev`/`build` commands [#21152](https://github.com/storybooks/storybook/pull/21152)
+
+#### Maintenance
+
+-   Core: upgrade esbuild, remove watch option from options [#21727](https://github.com/storybooks/storybook/pull/21727)
+
 ## 7.0.0-rc.6 (March 23, 2023)
 
 #### Bug Fixes
