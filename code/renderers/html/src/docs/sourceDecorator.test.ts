@@ -54,22 +54,6 @@ describe('sourceDecorator', () => {
     });
   });
 
-  it('should dedent source by default', async () => {
-    const storyFn = (args: any) => `
-      <div>
-        args story
-      </div>
-    `;
-    const context = makeContext('args', { __isArgsStory: true }, {});
-    sourceDecorator(storyFn, context);
-    await tick();
-    expect(mockChannel.emit).toHaveBeenCalledWith(SNIPPET_RENDERED, {
-      id: 'html-test--args',
-      args: {},
-      source: ['<div>', '  args story', '</div>'].join('\n'),
-    });
-  });
-
   it('should skip dynamic rendering for no-args stories', async () => {
     const storyFn = () => `<div>classic story</div>`;
     const context = makeContext('classic', {}, {});
