@@ -36,9 +36,10 @@ export function sourceDecorator(
   storyFn: PartialStoryFn<WebComponentsRenderer>,
   context: StoryContext<WebComponentsRenderer>
 ): WebComponentsRenderer['storyResult'] {
-  const story = context?.parameters.docs?.source?.excludeDecorators
+  const story = storyFn();
+  const renderedForSource = context?.parameters.docs?.source?.excludeDecorators
     ? (context.originalStoryFn as ArgsStoryFn<WebComponentsRenderer>)(context.args, context)
-    : storyFn();
+    : story;
 
   let source: string;
 
@@ -48,7 +49,7 @@ export function sourceDecorator(
   });
   if (!skipSourceRender(context)) {
     const container = window.document.createElement('div');
-    render(story, container);
+    render(renderedForSource, container);
     source = applyTransformSource(
       container.innerHTML.replace(LIT_EXPRESSION_COMMENTS, ''),
       context
