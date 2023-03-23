@@ -133,12 +133,19 @@ const getSnippet = ({
     Please refer to the migration guide: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#source-block
   `);
   }
+  if (story.parameters.jsx?.transformSource) {
+    deprecate(dedent`The \`transformSource\` parameter at \`parameters.jsx.transformSource\` is deprecated, please use the \`parameters.docs.source.transform\` instead. 
+    
+    Please refer to the migration guide: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#source-block
+  `);
+  }
 
   const transformer =
     transformFromProps ??
     sourceParameters.transform ??
     sourceParameters.transformSource ?? // deprecated
-    story.parameters.docs?.transformSource; // deprecated
+    story.parameters.docs?.transformSource ?? // deprecated
+    story.parameters.jsx?.transformSource; // deprecated - used to be implemented in the React renderer's jsxDecorator
 
   return transformer?.(code, story) || code;
 };
