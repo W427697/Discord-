@@ -1,3 +1,9 @@
+## 6.5.17-alpha.0 (March 23, 2023)
+
+#### Bug Fixes
+
+-   Fix TypeScript 5.0 support in 6.5 [#21745](https://github.com/storybooks/storybook/pull/21745)
+
 ## 6.5.16 (January 26, 2023)
 
 #### Bug Fixes
