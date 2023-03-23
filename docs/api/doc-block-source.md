@@ -102,7 +102,7 @@ Type: `boolean | 'dedent' | BuiltInParserName`
 
 Default: `parameters.docs.source.format` or `true`
 
-Specifies the formatting used on source code. `true` and `dedent` both does the same thing, removing any extraonous indentation. Supports all valid [prettier parser names](https://prettier.io/docs/en/configuration.html#setting-the-parserdocsenoptionshtmlparser-option).
+Specifies the formatting used on source code. `true` and `'dedent'` both does the same thing, removing any extraonous indentation. Supports all valid [prettier parser names](https://prettier.io/docs/en/configuration.html#setting-the-parserdocsenoptionshtmlparser-option).
 
 ### `transform`
 
