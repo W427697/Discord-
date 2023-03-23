@@ -41,3 +41,9 @@ export const DocsTransformSourceParameter: Story = {
     of: ParametersStories.DocsTransformSource,
   },
 };
+
+export const JsxTransformSourceParameter: Story = {
+  args: {
+    of: ParametersStories.JsxTransformSource,
+  },
+};

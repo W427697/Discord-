@@ -77,6 +77,20 @@ export const DocsTransformSource = {
   },
 };
 
+// deprecated
+export const JsxTransformSource = {
+  parameters: {
+    jsx: {
+      transformSource: (
+        src: string,
+        story: PreparedStory
+      ) => dedent`// this comment has been added via parameters.jsx.transformSource!
+  // this is the story id: ${story.id}
+  ${src}`,
+    },
+  },
+};
+
 export const Code = {
   parameters: { docs: { source: { code } } },
 };

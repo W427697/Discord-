@@ -122,19 +122,19 @@ const getSnippet = ({
   const code = useSnippet ? snippet : sourceParameters.originalSource || '';
 
   if (sourceParameters.transformSource) {
-    deprecate(dedent`The \`transformSource\` parameter at \`parameters.docs.source.transformSource\` is deprecated, please use the \`parameters.docs.source.transform\` instead. 
+    deprecate(dedent`The \`transformSource\` parameter at \`parameters.docs.source.transformSource\` is deprecated, please use \`parameters.docs.source.transform\` instead. 
     
     Please refer to the migration guide: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#source-block
   `);
   }
   if (story.parameters.docs?.transformSource) {
-    deprecate(dedent`The \`transformSource\` parameter at \`parameters.docs.transformSource\` is deprecated, please use the \`parameters.docs.source.transform\` instead. 
+    deprecate(dedent`The \`transformSource\` parameter at \`parameters.docs.transformSource\` is deprecated, please use \`parameters.docs.source.transform\` instead. 
     
     Please refer to the migration guide: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#source-block
   `);
   }
   if (story.parameters.jsx?.transformSource) {
-    deprecate(dedent`The \`transformSource\` parameter at \`parameters.jsx.transformSource\` is deprecated, please use the \`parameters.docs.source.transform\` instead. 
+    deprecate(dedent`The \`transformSource\` parameter at \`parameters.jsx.transformSource\` is deprecated, please use \`parameters.docs.source.transform\` instead. 
     
     Please refer to the migration guide: https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#source-block
   `);
